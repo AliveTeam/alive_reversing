@@ -8,7 +8,7 @@
 #include "ObjectIds.hpp"
 #include "stdlib.hpp"
 
-EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, int tlvInfo)
+EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5440D4);
@@ -34,7 +34,7 @@ EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, int tlvInfo)
     return this;
 }
 
-int CC LiftMover::CreateFromSaveState_40D180(const BYTE* pData)
+s32 CC LiftMover::CreateFromSaveState_40D180(const BYTE* pData)
 {
     auto pState = reinterpret_cast<const LiftMover_State*>(pData);
 
@@ -65,7 +65,7 @@ void LiftMover::VUpdate()
     vUpdate_40CE20();
 }
 
-int LiftMover::VGetSaveState(BYTE* pSaveBuffer)
+s32 LiftMover::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_40D240(reinterpret_cast<LiftMover_State*>(pSaveBuffer));
 }
@@ -236,7 +236,7 @@ LiftMover* LiftMover::vdtor_40CD70(s32 flags)
     return this;
 }
 
-int LiftMover::vGetSaveState_40D240(LiftMover_State* pState)
+s32 LiftMover::vGetSaveState_40D240(LiftMover_State* pState)
 {
     pState->field_0_type = 9; // TODO: Types
     pState->field_4_tlvInfo = field_24_tlvInfo;
@@ -246,7 +246,7 @@ int LiftMover::vGetSaveState_40D240(LiftMover_State* pState)
 
 LiftPoint* LiftMover::GetLiftPoint_40D0F0()
 {
-    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)

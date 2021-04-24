@@ -47,7 +47,7 @@ struct BirdPortal_State
     AETypes field_0_type;
     BYTE field_2_state;
     BYTE field_3_mud_count;
-    int field_4_tlvInfo;
+    s32 field_4_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
 
@@ -68,7 +68,7 @@ class OrbWhirlWind;
 class BirdPortal : public BaseGameObject
 {
 public:
-    EXPORT BaseGameObject* ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo);
+    EXPORT BaseGameObject* ctor_497E00(Path_BirdPortal* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
@@ -90,7 +90,7 @@ public:
     virtual void VKillPortalClipper_499A20();
     virtual void VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
 
-    EXPORT static int CC CreateFromSaveState_499C90(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_499C90(const BYTE* pBuffer);
 
 
 private:
@@ -123,7 +123,7 @@ private:
     EXPORT s16 GetEvent_499A70();
 
 private:
-    int field_20_tlvInfo;
+    s32 field_20_tlvInfo;
 public:
     PortalType field_24_portal_type;
     PortalSide field_26_side;
@@ -165,18 +165,18 @@ public:
 public:
     FP field_3C_YPos;
 private:
-    int field_40_throwable_indicator_id;
-    int field_44_dove_ids[6];
-    int field_5C_timer;
+    s32 field_40_throwable_indicator_id;
+    s32 field_44_dove_ids[6];
+    s32 field_5C_timer;
     FP field_60_scale;
     s16 field_64_movie_id;
     s16 field_66_delete_id;
     s16 field_68_doves_exist;
     s16 field_6A_pad;
-    int field_6C_terminator_id;
-    int field_70_terminator_id;
-    int field_74_screen_clipper_id;
-    int field_78_screen_clipper_id;
+    s32 field_6C_terminator_id;
+    s32 field_70_terminator_id;
+    s32 field_74_screen_clipper_id;
+    s32 field_78_screen_clipper_id;
     LevelIds field_7C_dest_level;
     s16 field_7E_dest_path;
     s16 field_80_dest_camera;
@@ -186,33 +186,33 @@ private:
     OrbWhirlWind* field_88_pWhirlWind;
     LevelIds field_8C_level;
     s16 field_8E_path;
-    int field_90_sfx_ret;
-    int field_94;
-    int field_98;
-    int field_9C;
-    int field_A0;
-    int field_A4;
-    int field_A8;
-    int field_AC;
-    int field_B0;
-    int field_B4;
-    int field_B8;
-    int field_BC;
-    int field_C0;
-    int field_C4;
-    int field_C8;
-    int field_CC;
-    int field_D0;
-    int field_D4;
-    int field_D8;
-    int field_DC;
-    int field_E0;
-    int field_E4;
-    int field_E8;
-    int field_EC;
-    int field_F0;
-    int field_F4;
-    int field_F8;
-    int field_FC;
+    s32 field_90_sfx_ret;
+    s32 field_94;
+    s32 field_98;
+    s32 field_9C;
+    s32 field_A0;
+    s32 field_A4;
+    s32 field_A8;
+    s32 field_AC;
+    s32 field_B0;
+    s32 field_B4;
+    s32 field_B8;
+    s32 field_BC;
+    s32 field_C0;
+    s32 field_C4;
+    s32 field_C8;
+    s32 field_CC;
+    s32 field_D0;
+    s32 field_D4;
+    s32 field_D8;
+    s32 field_DC;
+    s32 field_E0;
+    s32 field_E4;
+    s32 field_E8;
+    s32 field_EC;
+    s32 field_F0;
+    s32 field_F4;
+    s32 field_F8;
+    s32 field_FC;
 };
 ALIVE_ASSERT_SIZEOF(BirdPortal, 0x100);

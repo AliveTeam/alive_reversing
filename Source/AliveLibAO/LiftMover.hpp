@@ -21,7 +21,7 @@ class LiftPoint;
 class LiftMover : public BaseGameObject
 {
 public:
-    EXPORT LiftMover* ctor_4054E0(Path_LiftMover* pTlv, int tlvInfo);
+    EXPORT LiftMover* ctor_4054E0(Path_LiftMover* pTlv, s32 tlvInfo);
     EXPORT BaseGameObject* dtor_405550();
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
@@ -35,7 +35,7 @@ public:
 
     u16 field_10_enabled_by_switch_id;
     s16 field_12_target_lift_point_id;
-    int field_14_tlvInfo;
+    s32 field_14_tlvInfo;
     BaseGameObject* field_18_pLiftPoint; // TODO: LiftPoint* or actually no because it can be a platform as well?
     FP field_1C_speed;
     s16 field_20_state;

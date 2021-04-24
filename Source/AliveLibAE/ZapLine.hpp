@@ -44,7 +44,7 @@ private:
     EXPORT void CalculateThickSpriteSegmentPositions_4CCD50();
     EXPORT void CalculateThinSpriteSegmentPositions_4CD110();
     EXPORT void CalculateZapPoints_4CD340();
-    EXPORT void CalculateSpritePositionsInner_4CD400(int idx1, int idx2, int idx3, s16 idx4);
+    EXPORT void CalculateSpritePositionsInner_4CD400(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
     EXPORT void UpdateSpriteVertexPositions_4CD650();
     EXPORT void CalculateSpritePositionsOuter_4CD5D0();
     EXPORT void vUpdate_4CD790();

@@ -5,7 +5,7 @@
 
 void Compression_ForceLink() { }
 
-static bool Expand3To4Bytes(int& remainingCount, PtrStream& stream, BYTE* ret, DWORD& dstPos)
+static bool Expand3To4Bytes(s32& remainingCount, PtrStream& stream, BYTE* ret, DWORD& dstPos)
 {
     if (!remainingCount)
     {
@@ -32,13 +32,13 @@ EXPORT void CC CompressionType2_Decompress_40AA50(const BYTE* pSrc, BYTE* pDst, 
 {
     PtrStream stream(&pSrc);
 
-    int dwords_left = dataSize / 4;
-    int remainder = dataSize % 4;
+    s32 dwords_left = dataSize / 4;
+    s32 remainder = dataSize % 4;
 
     DWORD dstPos = 0;
     while (dwords_left)
     {
-        for (int i = 0; i < 4; i++)
+        for (s32 i = 0; i < 4; i++)
         {
             if (!Expand3To4Bytes(dwords_left, stream, pDst, dstPos))
             {
@@ -56,7 +56,7 @@ EXPORT void CC CompressionType2_Decompress_40AA50(const BYTE* pSrc, BYTE* pDst, 
 }
 
 template<typename T>
-static void ReadNextSource(PtrStream& stream, int& control_byte, T& dstIndex)
+static void ReadNextSource(PtrStream& stream, s32& control_byte, T& dstIndex)
 {
     if (control_byte)
     {
@@ -78,18 +78,18 @@ EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const BYTE* pData, BYTE* de
 {
     PtrStream stream(&pData);
 
-    int dstPos = 0;
-    int control_byte = 0;
+    s32 dstPos = 0;
+    s32 control_byte = 0;
 
-    int width = stream.ReadU16();
-    int height = stream.ReadU16();
+    s32 width = stream.ReadU16();
+    s32 height = stream.ReadU16();
 
     if (height > 0)
     {
         u32 dstIndex = 0;
         do
         {
-            int columnNumber = 0;
+            s32 columnNumber = 0;
             while (columnNumber < width)
             {
                 ReadNextSource(stream, control_byte, dstIndex);
@@ -97,9 +97,9 @@ EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const BYTE* pData, BYTE* de
                 const u8 blackBytes = dstIndex & 0x3F;
                 u32 srcByte = dstIndex >> 6;
 
-                const int bytesToWrite = blackBytes + columnNumber;
+                const s32 bytesToWrite = blackBytes + columnNumber;
 
-                for (int i = 0; i < blackBytes; i++)
+                for (s32 i = 0; i < blackBytes; i++)
                 {
                     decompressedData[dstPos++] = 0;
                 }
@@ -112,7 +112,7 @@ EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const BYTE* pData, BYTE* de
                 columnNumber = bytes + bytesToWrite;
                 if (bytes > 0)
                 {
-                    int byteCount = bytes;
+                    s32 byteCount = bytes;
                     do
                     {
                         ReadNextSource(stream, control_byte, dstIndex);
@@ -174,7 +174,7 @@ EXPORT void CC CompressionType_4Or5_Decompress_4ABAB0(const BYTE* pData, BYTE* d
         else
         {
             // Here the value is the number of literals to copy
-            for (int i = 0; i < c + 1; i++)
+            for (s32 i = 0; i < c + 1; i++)
             {
                 decompressedData[dstPos++] = stream.ReadU8();
             }
@@ -205,16 +205,16 @@ EXPORT void CC CompressionType6Ae_Decompress_40A8A0(const BYTE* pSrc, BYTE* pDst
     bool bSkip = false;
     DWORD dstPos = 0;
 
-    const int w = stream.ReadU16();
-    const int h = stream.ReadU16();
+    const s32 w = stream.ReadU16();
+    const s32 h = stream.ReadU16();
 
     if (h > 0)
     {
         BYTE srcByte = 0;
-        int heightCounter = h;
+        s32 heightCounter = h;
         do
         {
-            int widthCounter = 0;
+            s32 widthCounter = 0;
             while (widthCounter < w)
             {
                 BYTE nibble = NextNibble(stream, bNibbleToRead, srcByte);

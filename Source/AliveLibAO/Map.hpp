@@ -85,7 +85,7 @@ struct Path_TLV
     char field_1_unknown;
     s16 field_2_length;
     TlvTypes32 field_4_type;
-    int field_8; // only ever used as some sort of hacky memory overwrite check, always 0 in the Path data
+    s32 field_8; // only ever used as some sort of hacky memory overwrite check, always 0 in the Path data
     PSX_Point field_C_sound_pos; // a completely pointless copy of field_10_top_left, the data is always the same in all released Paths
     PSX_Point field_10_top_left;
     PSX_Point field_14_bottom_right;
@@ -189,13 +189,13 @@ public:
 
     EXPORT void Create_FG1s_4447D0();
 
-    EXPORT Camera* Create_Camera_445BE0(s16 xpos, s16 ypos, int a4);
+    EXPORT Camera* Create_Camera_445BE0(s16 xpos, s16 ypos, s32 a4);
 
     EXPORT void RestoreBlyData_446A90(const BYTE* pSaveData);
 
     EXPORT void Load_Path_Items_445DA0(Camera* pCamera, s16 kZero);
 
-    EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, int camX);
+    EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, s32 camX);
 
     EXPORT Path_TLV* TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind);
 
@@ -203,23 +203,23 @@ public:
 
     EXPORT void sub_447430(u16 pathNum);
 
-    CameraPos GetDirection(LevelIds level, int path, FP xpos, FP ypos)
+    CameraPos GetDirection(LevelIds level, s32 path, FP xpos, FP ypos)
     {
-        return GetDirection_444A40(static_cast<int>(level), path, xpos, ypos);
+        return GetDirection_444A40(static_cast<s32>(level), path, xpos, ypos);
     }
 
-    EXPORT CameraPos GetDirection_444A40(int level, int path, FP xpos, FP ypos);
+    EXPORT CameraPos GetDirection_444A40(s32 level, s32 path, FP xpos, FP ypos);
 
     EXPORT CameraPos Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, s16 width);
 
     EXPORT s16 Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect);
 
-    s16 Is_Point_In_Current_Camera_4449C0(LevelIds level, int path, FP xpos, FP ypos, s16 width)
+    s16 Is_Point_In_Current_Camera_4449C0(LevelIds level, s32 path, FP xpos, FP ypos, s16 width)
     {
-        return Is_Point_In_Current_Camera_4449C0(static_cast<int>(level), path, xpos, ypos, width);
+        return Is_Point_In_Current_Camera_4449C0(static_cast<s32>(level), path, xpos, ypos, width);
     }
 
-    EXPORT s16 Is_Point_In_Current_Camera_4449C0(int level, int path, FP xpos, FP ypos, s16 width);
+    EXPORT s16 Is_Point_In_Current_Camera_4449C0(s32 level, s32 path, FP xpos, FP ypos, s16 width);
 
     EXPORT s16 SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect);
 
@@ -277,7 +277,7 @@ ALIVE_VAR_EXTERN(short, sMap_bDoPurpleLightEffect_507C9C);
 ALIVE_VAR_EXTERN(OverlayRecords, sOverlayTable_4C5AA8);
 ALIVE_VAR_EXTERN(Camera*, sCameraBeingLoaded_507C98);
 
-EXPORT int CC MaxGridBlocks_41FA10(FP scale);
+EXPORT s32 CC MaxGridBlocks_41FA10(FP scale);
 
 }
 

@@ -20,7 +20,7 @@
 namespace AO {
 
 // TODO: Index is always >=1 so first entry is redundant ??
-const int dword_4C5054[11] = { 0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
+const s32 dword_4C5054[11] = { 0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
 
 ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
 {
@@ -80,7 +80,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     field_124_code1 = pTlv->field_1C_code1;
 
-    int code2 = pTlv->field_1E_code2;
+    s32 code2 = pTlv->field_1E_code2;
     if (code2)
     {
         field_120_max_idx = 0;
@@ -92,7 +92,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
     }
 
     field_120_max_idx = 0;
-    for (int i = 0; i < 10; i++)
+    for (s32 i = 0; i < 10; i++)
     {
         if (!(field_124_code1 / dword_4C5054[field_120_max_idx + 1]))
         {
@@ -578,7 +578,7 @@ void ChimeLock::VUpdate_40AEF0()
             return;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) >= field_12C_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_12C_timer)
         {
             SetTargetBellIfSpace(field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10);
             field_12C_timer = gnFrameCount_507670 + 15;
@@ -637,7 +637,7 @@ void ChimeLock::VUpdate_40AEF0()
 
 void ChimeLock::SetTargetBellIfSpace(s16 targetNum)
 {
-    int magic = 0;
+    s32 magic = 0;
     auto pChimeLock_num = &field_164_ChimeLock_num[0];
 
     // looks like it's just doing: field_164_ChimeLock_num[0] = static_cast<BellPositions>(targetNum);

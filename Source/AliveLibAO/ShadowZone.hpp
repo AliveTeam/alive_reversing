@@ -33,7 +33,7 @@ enum class LevelIds : s16;
 class ShadowZone : public BaseGameObject
 {
 public:
-    EXPORT ShadowZone* ctor_435D30(Path_ShadowZone* pTlv, Map* pMap, int tlvInfo);
+    EXPORT ShadowZone* ctor_435D30(Path_ShadowZone* pTlv, Map* pMap, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_435F10();
 
@@ -51,12 +51,12 @@ public:
 
     EXPORT void VUpdate_435F80();
 
-    EXPORT static void CC ShadowZones_Calculate_Colour_435FF0(int xpos, int ypos, s16 scale, short* r, short* g, short* b);
+    EXPORT static void CC ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, short* r, short* g, short* b);
 
     // Note: Completely inlined in AO
     s16 ApplysToScale(s16 scale);
 
-    int field_10_tlvInfo;
+    s32 field_10_tlvInfo;
     LevelIds field_14_level;
     s16 field_16_path;
     s16 field_18_centre_x;

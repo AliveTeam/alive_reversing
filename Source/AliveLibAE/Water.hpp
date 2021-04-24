@@ -40,7 +40,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Water, 0x1C);
 class Water : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Water* ctor_4E02C0(Path_Water* pTlv, int tlvInfo);
+    EXPORT Water* ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo);
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -78,7 +78,7 @@ private:
     s16 field_10C_particle_count;
     s16 field_10E_current_particle_idx;
     s16 field_110_current_drops;
-    int field_114_tlvInfo;
+    s32 field_114_tlvInfo;
     FP field_118_radius;
     FP field_11C_centre;
     s16 field_120_frame_width;
@@ -87,9 +87,9 @@ private:
     FP field_130_splash_x_vel;
     FP field_134_emit_x_vel;
     s16 field_138_splash_time;
-    int field_13C_not_in_camera_count;
-    int field_140_water_duration;
-    int field_144_sound_channels;
+    s32 field_13C_not_in_camera_count;
+    s32 field_140_water_duration;
+    s32 field_144_sound_channels;
     s16 field_148_bHitTimeout;
 };
 ALIVE_ASSERT_SIZEOF(Water, 0x14C);

@@ -81,7 +81,7 @@ struct SoundBlockInfo
 {
     const char *field_0_vab_header_name;
     const char *field_4_vab_body_name;
-    int field_8_vab_id;
+    s32 field_8_vab_id;
     BYTE* field_C_pVabHeader;
 };
 
@@ -96,11 +96,11 @@ struct PathRoot
     const char* field_14_lvl_name;
     s16 field_18_num_paths;
     s16 field_1A_unused; // message to display to change cd ??
-    int field_1C_padding;
+    s32 field_1C_padding;
     const char* field_20_lvl_name_cd;
-    int field_24_padding;
+    s32 field_24_padding;
     const char* field_28_ovl_name_cd;
-    int field_2C_padding;
+    s32 field_2C_padding;
     const char* field_30_mov_name_cd;
     const char* field_34_idx_name;
     const char* field_38_bnd_name;
@@ -125,7 +125,7 @@ struct PerLvlData
 struct OpenSeqHandle
 {
     const char* field_0_mBsqName;
-    int field_4_generated_res_id; // A hash of the named which matches the resource Id
+    s32 field_4_generated_res_id; // A hash of the named which matches the resource Id
     char field_8_sound_block_idx;
     char field_9_volume;
     s16 field_A_id_seqOpenId;

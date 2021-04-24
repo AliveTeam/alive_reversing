@@ -14,7 +14,7 @@
 
 namespace AO {
 
-EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, s16 a9)
+EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 a7, FP scale, s16 a9)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA328);
@@ -280,7 +280,7 @@ BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
     }
 
     BaseAliveGameObject* pObjectToShoot = nullptr;
-    for (int idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
     {
         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(idx);
         if (!pObjIter)

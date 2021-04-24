@@ -33,7 +33,7 @@ const TintEntry sPullRingRopeTints_55FD1C[18] =
 };
 
 
-PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
+PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546A00);
@@ -203,12 +203,12 @@ void PullRingRope::vUpdate_49B720()
             field_F4_stay_in_state_ticks = 3;
             field_20_animation.Set_Animation_Data_409C80(3092, 0);
 
-            const int oldSwitchValue = SwitchStates_Get_466020(field_102_id);
+            const s32 oldSwitchValue = SwitchStates_Get_466020(field_102_id);
             SwitchStates_Do_Operation_465F00(field_102_id, field_104_target_action);
             if (oldSwitchValue != SwitchStates_Get_466020(field_102_id))
             {
-                int leftVol = 0;
-                int rightVol = 0;
+                s32 leftVol = 0;
+                s32 rightVol = 0;
                 if (field_10A_sound_direction == PullRingSoundDirection::eLeft_1)
                 {
                     leftVol = 1;

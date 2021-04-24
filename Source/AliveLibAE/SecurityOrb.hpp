@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x14);
 class SecurityOrb : public BaseAliveGameObject
 {
 public:
-    EXPORT SecurityOrb* ctor_466350(Path_SecurityOrb* pTlv, int tlvInfo);
+    EXPORT SecurityOrb* ctor_466350(Path_SecurityOrb* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override
     {
@@ -61,10 +61,10 @@ private:
     EXPORT void vUpdate_4665A0();
 
 private:
-    int field_118_tlvInfo;
+    s32 field_118_tlvInfo;
     s16 field_11C_state;
     //s16 field_11E_pad;
-    int field_120_timer;
-    int field_124_sound_channels_mask;
+    s32 field_120_timer;
+    s32 field_124_sound_channels_mask;
 };
 ALIVE_ASSERT_SIZEOF(SecurityOrb, 0x128);

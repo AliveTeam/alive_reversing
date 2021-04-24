@@ -194,7 +194,7 @@ public:
             anim.field_14.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
             // TODO: clean this up
-            const int rndLayer = static_cast<int>(field_20_animation.field_C_render_layer) + Math_RandomRange_496AB0(-1, 1);
+            const s32 rndLayer = static_cast<s32>(field_20_animation.field_C_render_layer) + Math_RandomRange_496AB0(-1, 1);
             anim.field_14.field_C_render_layer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = field_CC_sprite_scale;
 
@@ -366,7 +366,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(FlameSparks, 0x418);
 
-DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
+DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5459BC);

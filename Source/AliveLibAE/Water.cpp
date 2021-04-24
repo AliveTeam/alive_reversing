@@ -12,7 +12,7 @@
 #include "PsxDisplay.hpp"
 #include "stdlib.hpp"
 
-Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
+Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -102,13 +102,13 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
             const BYTE u1 = pFrameHeader->field_4_width + u0 - 1;
             const BYTE v1 = pFrameHeader->field_5_height + v0 - 1;
 
-            const int tPage = PSX_getTPage_4F60E0(
+            const s32 tPage = PSX_getTPage_4F60E0(
                 field_FE_texture_mode,
                 TPageAbr::eBlend_3,
                 field_20_animation.field_84_vram_rect.x,
                 field_20_animation.field_84_vram_rect.y);
 
-            for (int i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
+            for (s32 i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
             {
                 field_F8_pWaterRes[i].field_18_enabled = 0;
                 // HACK/OG BUG: PC only uses first poly ??
@@ -118,7 +118,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
                 Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, TRUE);
                 Poly_Set_Blending_4F8A20(&pPoly->mBase.header, TRUE);
 
-                const int clut = PSX_getClut_4F6350(
+                const s32 clut = PSX_getClut_4F6350(
                     field_20_animation.field_8C_pal_vram_xy.field_0_x,
                     field_20_animation.field_8C_pal_vram_xy.field_2_y);
 
@@ -358,7 +358,7 @@ void Water::vUpdate_4E0B50()
 
                 if (field_110_current_drops < (s16)(field_124_tlv_data.field_10_max_drops >> 5))
                 {
-                    for (int i = 0; i < field_110_current_drops; i++)
+                    for (s32 i = 0; i < field_110_current_drops; i++)
                     {
                         if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
                         {
@@ -381,7 +381,7 @@ void Water::vUpdate_4E0B50()
                     field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
                 }
 
-                for (int i = 0; i < field_110_current_drops; i++)
+                for (s32 i = 0; i < field_110_current_drops; i++)
                 {
                     if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
                     {
@@ -396,7 +396,7 @@ void Water::vUpdate_4E0B50()
                     field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
                 }
 
-                if (field_124_tlv_data.field_1A_water_duration && static_cast<int>(sGnFrame_5C1B84) >= field_140_water_duration)
+                if (field_124_tlv_data.field_1A_water_duration && static_cast<s32>(sGnFrame_5C1B84) >= field_140_water_duration)
                 {
                     field_148_bHitTimeout |= 1u;
                     field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
@@ -411,7 +411,7 @@ void Water::vUpdate_4E0B50()
                 }
                 if (field_110_current_drops > 0)
                 {
-                    for (int i = 0; i < field_110_current_drops; i++)
+                    for (s32 i = 0; i < field_110_current_drops; i++)
                     {
                         if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
                         {
@@ -439,7 +439,7 @@ void Water::vUpdate_4E0B50()
                     else
                     {
                         bool allParticlesDead = true;
-                        for (int i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
+                        for (s32 i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
                         {
                             if (field_F8_pWaterRes[i].field_18_enabled)
                             {
@@ -558,7 +558,7 @@ void Water::vRender_4E1440(PrimHeader** ppOt)
         short yMin = 32767;
         short hMax = -32767;
 
-        for (int i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
+        for (s32 i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
         {
             Water_Res* pWaterRes = &field_F8_pWaterRes[i];
             if (pWaterRes->field_18_enabled)
@@ -574,7 +574,7 @@ void Water::vRender_4E1440(PrimHeader** ppOt)
                 }
                 else
                 {
-                    int frame_height;
+                    s32 frame_height;
                     FP dy;
                     if (pWaterRes->field_10_delta_y <= FP_FromInteger(0))
                     {

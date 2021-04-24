@@ -14,10 +14,10 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4C30A8, int, gNextDoorLightUpdate_4C30A8, -1);
-ALIVE_VAR(1, 0x4FC8A4, int, gDoorLightUpdateTimer_4FC8A4, 0);
+ALIVE_VAR(1, 0x4C30A8, s32, gNextDoorLightUpdate_4C30A8, -1);
+ALIVE_VAR(1, 0x4FC8A4, s32, gDoorLightUpdateTimer_4FC8A4, 0);
 
-DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, int tlvInfo)
+DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
 
@@ -32,7 +32,7 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, int tlvInfo)
     field_F0_id = pTlv->field_1C_id;
     field_EE_switch_value = SwitchStates_Get(pTlv->field_1C_id);
 
-    int xOff = 0;
+    s32 xOff = 0;
     switch (pTlv->field_18_type)
     {
     case Path_LightEffect::Type::RedGlow_1:
@@ -151,7 +151,7 @@ void DoorLight::VUpdate()
 
 void DoorLight::VUpdate_4060A0()
 {
-    if (static_cast<int>(gnFrameCount_507670) > gDoorLightUpdateTimer_4FC8A4)
+    if (static_cast<s32>(gnFrameCount_507670) > gDoorLightUpdateTimer_4FC8A4)
     {
         gNextDoorLightUpdate_4C30A8 = gnFrameCount_507670 + Math_RandomRange_450F20(6, 20);
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
@@ -159,14 +159,14 @@ void DoorLight::VUpdate_4060A0()
         field_C2_g = 32;
         field_C4_b = 32;
     }
-    else if (static_cast<int>(gnFrameCount_507670) >= gNextDoorLightUpdate_4C30A8)
+    else if (static_cast<s32>(gnFrameCount_507670) >= gNextDoorLightUpdate_4C30A8)
     {
         const FP lightAngle = (
             FP_FromInteger(128) * FP_FromInteger(gnFrameCount_507670 - gNextDoorLightUpdate_4C30A8) /
             FP_FromInteger(gDoorLightUpdateTimer_4FC8A4 - gNextDoorLightUpdate_4C30A8));
 
         const FP lightAngleCosine = -Math_Cosine_4510A0(FP_GetExponent(lightAngle) & 0xFF);
-        const int rgbVal = FP_GetExponent(FP_FromInteger(255) * lightAngleCosine) + 32;
+        const s32 rgbVal = FP_GetExponent(FP_FromInteger(255) * lightAngleCosine) + 32;
 
         BYTE rgb = 0;
         if (rgbVal <= 255)

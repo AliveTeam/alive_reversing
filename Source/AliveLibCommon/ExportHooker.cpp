@@ -249,11 +249,11 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
     info.mIsImplemented = false;
     info.mExportedFunctionName = exportedFunctionName;
 
-    // 4 nops, int 3, 4 nops
+    // 4 nops, s32 3, 4 nops
     const static BYTE kPatternToFind[] = { 0x90, 0x90, 0x90, 0x90, 0xCC, 0x90, 0x90, 0x90, 0x90 };
     BYTE codeBuffer[256] = {};
     memcpy(codeBuffer, pExportedFunctionAddress, sizeof(codeBuffer));
-    for (int i = 0; i < sizeof(codeBuffer) - sizeof(kPatternToFind); i++)
+    for (s32 i = 0; i < sizeof(codeBuffer) - sizeof(kPatternToFind); i++)
     {
         if (codeBuffer[i] == kPatternToFind[0])
         {
@@ -317,7 +317,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
     auto underScorePos = exportedFunctionName.find_first_of('_');
     while (underScorePos != std::string::npos)
     {
-        int hexNumLen = 0;
+        s32 hexNumLen = 0;
         for (size_t i = underScorePos + 1; i < exportedFunctionName.length(); i++)
         {
             if (IsHexDigit(exportedFunctionName[i]))
@@ -370,7 +370,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                     mRealStubs[addr] = (DWORD)pCode;
                     if (!RunningAsInjectedDll())
                     {
-                        // Disable the int 3/break point in the real stub in standalone
+                        // Disable the s32 3/break point in the real stub in standalone
                         GetExportInformation(pCode, exportedFunctionName);
 
                         LOG_WARNING("Stub to real function for " << exportedFunctionName);

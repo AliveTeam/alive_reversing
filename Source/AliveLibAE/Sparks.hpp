@@ -16,7 +16,7 @@ private:
     EXPORT void dtor_416550();
     EXPORT Sparks* vdtor_416520(s32 flags);
 private:
-    int field_F4_padding;
+    s32 field_F4_padding;
     s16 field_F8_padding;
     s16 field_FA_16_random;
 };

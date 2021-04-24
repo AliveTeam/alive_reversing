@@ -14,7 +14,7 @@ public:
     // TODO: New virtuals
 
 protected:
-    EXPORT void AddDynamicCollision_4971C0(int maxW, int maxH, u16 frameTableOffset, BYTE** ppAnimData, Path_TLV* pTlv, Map* pMap, int tlvInfo);
+    EXPORT void AddDynamicCollision_4971C0(s32 maxW, s32 maxH, u16 frameTableOffset, BYTE** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
 
     EXPORT void dtor_4973E0();
 
@@ -26,12 +26,12 @@ private:
     EXPORT PlatformBase* vdtor_4974B0(s32 flags);
 
 protected:
-    int field_118_count;
+    s32 field_118_count;
     s16 field_11C_x_offset;
     s16 field_11E_width_offset;
     s16 field_120_y_offset;
     s16 field_122_height_offset;
     PathLine* field_124_pCollisionLine;
-    int field_128_tlvInfo;
+    s32 field_128_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(PlatformBase, 0x12C);

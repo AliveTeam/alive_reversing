@@ -51,7 +51,7 @@ public:
     };
 
 
-    EXPORT static int CC Create_47FC40();
+    EXPORT static s32 CC Create_47FC40();
     EXPORT static void CC SetBaseTimeStamp_47FD00();
     EXPORT static void CC Shutdown_47FD20();
     EXPORT static void CC UpdateMusicTime_47F8B0();
@@ -86,7 +86,7 @@ private:
     WORD field_22_vol;
     LevelIds field_24_currentLevelID;
     s16 field_26_padding;
-    int field_28_object_id;
+    s32 field_28_object_id;
     s16 field_2C_flags_and_seq_idx;
     s16 field_2E_padding;
     DWORD field_30_music_time;
@@ -95,7 +95,7 @@ private:
     DWORD field_3C_unused;
     s16 field_40_flags_and_idx;
     MusicTypes field_42_type;
-    int field_44;
+    s32 field_44;
     DWORD field_48_last_music_frame;
     WORD field_4C_state;
     WORD field_4E_starting_volume;

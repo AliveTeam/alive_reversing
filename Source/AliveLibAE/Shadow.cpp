@@ -55,7 +55,7 @@ void Shadow::Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP
             objY = ypos;
         }
 
-        const int lineType = scale != 0 ? 0xF : 0xF0;
+        const s32 lineType = scale != 0 ? 0xF : 0xF0;
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;

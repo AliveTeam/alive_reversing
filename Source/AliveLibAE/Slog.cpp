@@ -164,7 +164,7 @@ Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chas
     return this;
 }
 
-Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
+Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, s32 tlvInfo)
 {
     ctor_408240(5);
     field_134_last_event_index = -1;
@@ -251,7 +251,7 @@ void Slog::VOnThrowableHit(BaseGameObject* pFrom)
     vOnThrowableHit_4C4B50(pFrom);
 }
 
-int Slog::VGetSaveState(BYTE* pSaveBuffer)
+s32 Slog::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4C78F0(reinterpret_cast<Slog_State*>(pSaveBuffer));
 }
@@ -287,7 +287,7 @@ const AnimId sSlogFrameOffsetTable_5609D8[24] =
 
 ALIVE_VAR(1, 0xBAF7F0, BYTE, sSlogRandomIdx_BAF7F0, 0);
 
-int CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
+s32 CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const Slog_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slog*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_40_tlvInfo));
@@ -396,7 +396,7 @@ int CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
     return sizeof(Slog_State);
 }
 
-int Slog::vGetSaveState_4C78F0(Slog_State* pState)
+s32 Slog::vGetSaveState_4C78F0(Slog_State* pState)
 {
     if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
@@ -1044,9 +1044,9 @@ void Slog::M_Sleeping_15_4C6D60()
     }
 
     bool createParticle = false;
-    if (static_cast<int>(sGnFrame_5C1B84) % 60)
+    if (static_cast<s32>(sGnFrame_5C1B84) % 60)
     {
-        if (!(static_cast<int>((sGnFrame_5C1B84 - 20)) % 60))
+        if (!(static_cast<s32>((sGnFrame_5C1B84 - 20)) % 60))
         {
             Sfx_4C7D30(SlogSound::YawnEnd_11);
             createParticle = true;
@@ -1099,7 +1099,7 @@ void Slog::M_MoveHeadDownwards_16_4C70D0()
 
 void Slog::M_Bark_17_4C7000()
 {
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -1275,7 +1275,7 @@ void Slog::M_Eating_20_4C75F0()
     {
         if (Math_RandomRange_496AB0(0, 100) < 85)
         {
-            if (static_cast<int>(sGnFrame_5C1B84) > field_150_growl_timer && Math_RandomRange_496AB0(0, 100) < 60)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_150_growl_timer && Math_RandomRange_496AB0(0, 100) < 60)
             {
                 field_150_growl_timer = sGnFrame_5C1B84 + 16;
                 Sfx_4C7D30(SlogSound::IdleGrrr_3);
@@ -1329,7 +1329,7 @@ void Slog::M_Growl_23_4C7170()
         }
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) > field_150_growl_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) > field_150_growl_timer)
     {
         field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
     }
@@ -1410,7 +1410,7 @@ s16 Slog::AI_ListeningToSlig_0_4C3790()
 
 s16 Slog::AI_ListeningToSlig_State_6_Responding()
 {
-    if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
     {
         return field_122_brain_state_result;
     }
@@ -1431,7 +1431,7 @@ s16 Slog::AI_ListeningToSlig_State_6_Responding()
 
 s16 Slog::AI_ListeningToSlig_State_5_Waiting()
 {
-    if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
     {
         return field_122_brain_state_result;
     }
@@ -1534,7 +1534,7 @@ s16 Slog::AI_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseAliv
 
     case GameSpeakEvents::Slig_Hi_27:
         field_13C_waiting_counter++;
-        if (static_cast<int>(sGnFrame_5C1B84) % 2)
+        if (static_cast<s32>(sGnFrame_5C1B84) % 2)
         {
             field_13C_waiting_counter++;
         }
@@ -1665,7 +1665,7 @@ s16 Slog::AI_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead)
         return field_122_brain_state_result;
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
     {
         return field_122_brain_state_result;
     }
@@ -1746,7 +1746,7 @@ s16 Slog::AI_Idle_1_4C2830()
             field_142_anger_level += Slog_NextRandom() % 8 + 15;
         }
 
-        if (!(static_cast<int>(sGnFrame_5C1B84) % 16))
+        if (!(static_cast<s32>(sGnFrame_5C1B84) % 16))
         {
             // Calm down a bit
             if (field_142_anger_level > 0)
@@ -1799,7 +1799,7 @@ s16 Slog::AI_Idle_1_4C2830()
             field_142_anger_level += Slog_NextRandom() % 8 + 15;
         }
 
-        if (!(static_cast<int>(sGnFrame_5C1B84) % 32))
+        if (!(static_cast<s32>(sGnFrame_5C1B84) % 32))
         {
             if (field_142_anger_level)
             {
@@ -1821,7 +1821,7 @@ s16 Slog::AI_Idle_1_4C2830()
             return field_122_brain_state_result;
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_150_growl_timer && field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_150_growl_timer && field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
         {
             field_150_growl_timer = Math_NextRandom() % 32 + sGnFrame_5C1B84 + 60;
             field_106_current_motion = eSlogMotions::M_Growl_23_4C7170;
@@ -1829,7 +1829,7 @@ s16 Slog::AI_Idle_1_4C2830()
             sGnFrame_5C1B84 = sGnFrame_5C1B84;
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_14C_scratch_timer && field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_14C_scratch_timer && field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
         {
             field_14C_scratch_timer = Math_NextRandom() % 32 + sGnFrame_5C1B84 + 120;
             field_106_current_motion = eSlogMotions::M_Scratch_22_4C7120;
@@ -1862,7 +1862,7 @@ s16 Slog::AI_Idle_1_4C2830()
             field_142_anger_level += Math_NextRandom() % 8 + 15;
         }
 
-        if (!(static_cast<int>(sGnFrame_5C1B84) % 2))
+        if (!(static_cast<s32>(sGnFrame_5C1B84) % 2))
         {
             if (field_142_anger_level > 0)
             {
@@ -2055,7 +2055,7 @@ s16 Slog::AI_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget)
         }
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
     {
         return field_122_brain_state_result;
     }
@@ -2224,7 +2224,7 @@ s16 Slog::AI_ChasingAbe_State_13_EatingBone()
                 field_108_next_motion = eSlogMotions::M_Eating_20_4C75F0;
             }
 
-            if (field_124_timer > static_cast<int>(sGnFrame_5C1B84))
+            if (field_124_timer > static_cast<s32>(sGnFrame_5C1B84))
             {
                 return field_122_brain_state_result;
             }
@@ -2418,14 +2418,14 @@ s16 Slog::AI_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget)
         }
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) > field_150_growl_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) > field_150_growl_timer)
     {
         field_150_growl_timer = Math_NextRandom() % 32 + sGnFrame_5C1B84 + 60;
         field_106_current_motion = eSlogMotions::M_Growl_23_4C7170;
         field_108_next_motion = eSlogMotions::M_Idle_0_4C5F90;
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) <= field_14C_scratch_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) <= field_14C_scratch_timer)
     {
         return field_122_brain_state_result;
     }
@@ -2443,7 +2443,7 @@ s16 Slog::AI_ChasingAbe_State_10_HungryForBone()
         field_108_next_motion = eSlogMotions::M_JumpUpwards_19_4C7470;
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
     {
         auto pBone = FindBone_4C25B0();
         if (pBone)
@@ -2501,7 +2501,7 @@ s16 Slog::AI_ChasingAbe_State_8_ToIdle()
 
 s16 Slog::AI_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget)
 {
-    if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer && pTarget->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer && pTarget->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
         {
@@ -2571,14 +2571,14 @@ s16 Slog::AI_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget)
 
     if (Slog_NextRandom() % 64)
     {
-        if (static_cast<int>(sGnFrame_5C1B84) > field_150_growl_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_150_growl_timer)
         {
             field_150_growl_timer = Math_NextRandom() % 32 + sGnFrame_5C1B84 + 60;
             field_106_current_motion = eSlogMotions::M_Growl_23_4C7170;
             field_108_next_motion = eSlogMotions::M_Idle_0_4C5F90;
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_14C_scratch_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_14C_scratch_timer)
         {
             field_14C_scratch_timer = Math_NextRandom() % 32 + sGnFrame_5C1B84 + 120;
             field_106_current_motion = eSlogMotions::M_Scratch_22_4C7120;
@@ -2738,7 +2738,7 @@ s16 Slog::AI_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
 
 s16 Slog::AI_ChasingAbe_State_1_Waiting()
 {
-    if (field_124_timer > static_cast<int>(sGnFrame_5C1B84))
+    if (field_124_timer > static_cast<s32>(sGnFrame_5C1B84))
     {
         return field_122_brain_state_result;
     }
@@ -2761,7 +2761,7 @@ s16 Slog::AI_Death_3_4C3250()
     field_138_listening_to_slig_id = -1;
     field_118_target_id = -1;
 
-    if (field_124_timer < static_cast<int>(sGnFrame_5C1B84 + 80))
+    if (field_124_timer < static_cast<s32>(sGnFrame_5C1B84 + 80))
     {
         field_CC_sprite_scale -= FP_FromDouble(0.023);
         field_D0_r -= 2;
@@ -2769,7 +2769,7 @@ s16 Slog::AI_Death_3_4C3250()
         field_D4_b -= 2;
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) < field_124_timer - 24 && !(sGnFrame_5C1B84 % 5))
+    if (static_cast<s32>(sGnFrame_5C1B84) < field_124_timer - 24 && !(sGnFrame_5C1B84 % 5))
     {
         New_Smoke_Particles_426C70(
             (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
@@ -3052,7 +3052,7 @@ void Slog::ToIdle_4C5C10()
 
 const SfxDefinition getSfxDef(SlogSound effectId)
 {
-    return sSlogSFXList_560B00[static_cast<int>(effectId)];
+    return sSlogSFXList_560B00[static_cast<s32>(effectId)];
 }
 
 void Slog::Sfx_4C7D30(SlogSound effectId)
@@ -3246,7 +3246,7 @@ void Slog::MoveOnLine_4C5DA0()
 
 Bone* Slog::FindBone_4C25B0()
 {
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -3301,10 +3301,10 @@ BaseAliveGameObject* Slog::FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp)
     BaseAliveGameObject* pBestObj = nullptr;
     BaseAliveGameObject* pLastFoundObj = nullptr;
 
-    int array_idx = 0;
-    int local_array[10] = {};
+    s32 array_idx = 0;
+    s32 local_array[10] = {};
 
-    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)
@@ -3351,7 +3351,7 @@ BaseAliveGameObject* Slog::FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp)
                         const FP xDelta = FP_Abs(field_B8_xpos - pObj->field_B8_xpos);
                         if (xDelta < distanceToLastFoundObj)
                         {
-                            int array_idx_iter = 0;
+                            s32 array_idx_iter = 0;
                             if (array_idx)
                             {
                                 // Something to do with finding who is the last attacker
@@ -3577,7 +3577,7 @@ s16 Slog::PlayerOrNakedSligNear_4C26A0()
         return 1;
     }
 
-    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)

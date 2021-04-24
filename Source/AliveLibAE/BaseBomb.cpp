@@ -24,7 +24,7 @@ BaseGameObject* BaseBomb::VDestructor(s32 flags)
     return vdtor_424130(flags);
 }
 
-BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
+BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, s32 /*unused*/, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544C54);
@@ -86,7 +86,7 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
     DealDamageRect_4247A0(&damageRect);
 
     // alternate between Explosion1 and Explosion2 on each call
-    static int staticIdFlip = 0;
+    static s32 staticIdFlip = 0;
     const short explosionSeqId = static_cast<short>(staticIdFlip ? SeqId::Explosion1_14 : SeqId::Explosion2_15);
     SND_SEQ_PlaySeq_4CA960(explosionSeqId, 1, 1);
     staticIdFlip = !staticIdFlip;

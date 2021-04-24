@@ -16,7 +16,7 @@ void DeathBirdParticle::VUpdate()
     Update_43EE70();
 }
 
-DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, int start, s16 bPlaySound, FP scale)
+DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, s32 start, s16 bPlaySound, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -62,7 +62,7 @@ void DeathBirdParticle::Update_43EE70()
     switch (field_F5_state)
     {
     case States::eAnimateDeathFlares_0:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_F8_start)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_start)
         {
             // Death "star"
             field_20_animation.Set_Animation_Data_409C80(9912, 0);

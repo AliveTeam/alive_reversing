@@ -116,12 +116,12 @@ void EvilFart::VPossessed_408F70()
     vOnPossesed_423DA0();
 }
 
-int EvilFart::VGetSaveState(BYTE* pSaveBuffer)
+s32 EvilFart::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4283F0(reinterpret_cast<EvilFart_State*>(pSaveBuffer));
 }
 
-int CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
+s32 CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const EvilFart_State*>(pBuffer);
 
@@ -173,7 +173,7 @@ int CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
     return sizeof(EvilFart_State);
 }
 
-int EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
+s32 EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
 {
     pState->field_0_type = AETypes::eEvilFart_45;
 
@@ -347,7 +347,7 @@ void EvilFart::vUpdate_423100()
         }
     }
 
-    if (field_118_bBlowUp && static_cast<int>(sGnFrame_5C1B84) > field_12C_back_to_abe_timer)
+    if (field_118_bBlowUp && static_cast<s32>(sGnFrame_5C1B84) > field_12C_back_to_abe_timer)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -568,7 +568,7 @@ void EvilFart::vUpdate_423100()
                 Layer::eLayer_0);
         }
 
-        if (!field_118_bBlowUp && static_cast<int>(sGnFrame_5C1B84) > field_128_timer)
+        if (!field_118_bBlowUp && static_cast<s32>(sGnFrame_5C1B84) > field_128_timer)
         {
             BlowUp();
 

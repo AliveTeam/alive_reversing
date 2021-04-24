@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF(Path_IdSplitter, 0x24);
 class IdSplitter : public BaseGameObject
 {
 public:
-    EXPORT IdSplitter* ctor_479B40(Path_IdSplitter* pTlv, int tlvInfo);
+    EXPORT IdSplitter* ctor_479B40(Path_IdSplitter* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_479BE0();
 
@@ -47,9 +47,9 @@ public:
     };
     State field_12_state;
     s16 field_14_ids[4];
-    int field_1C_tlvInfo;
-    int field_20_delay_timer;
-    int field_24_delay;
+    s32 field_1C_tlvInfo;
+    s32 field_20_delay_timer;
+    s32 field_24_delay;
     s16 field_28_source_switch_value;
     s16 field_2A_pad;
 };

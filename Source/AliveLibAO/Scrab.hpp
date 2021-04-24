@@ -42,7 +42,7 @@ namespace AO {
     ENTRY(State_29_DeathBegin_45FFA0)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eScrabStates : int
+enum eScrabStates : s32
 {
     SCRAB_STATES_ENUM(MAKE_ENUM)
 };
@@ -78,7 +78,7 @@ enum class ScrabSounds : u8
 class Scrab : public BaseAliveGameObject
 {
 public:
-    EXPORT Scrab* ctor_45B5F0(Path_Scrab* pTlv, int tlvInfo);
+    EXPORT Scrab* ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_45BA50();
 
@@ -124,7 +124,7 @@ public:
 
     void ToStand();
 
-    EXPORT int Scrab_SFX_460B80(ScrabSounds soundId, int vol, int pitch, s16 applyDirection);
+    EXPORT s32 Scrab_SFX_460B80(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
 
     EXPORT void ToJump_45E340();
 
@@ -201,23 +201,23 @@ public:
     s16 field_112;
     s16 field_114_attack_delay;
     s16 field_116_patrol_type;
-    int field_118_timer;
+    s32 field_118_timer;
     Scrab* field_11C_pFight_target;
     BaseAliveGameObject* field_120_pTarget;
-    int field_124;
+    s32 field_124;
     FP field_128;
     FP field_12C;
     s16 field_130;
     s16 field_132_res_block_idx;
-    int field_134_tlvInfo;
-    int field_138_attack_duration;
-    int field_13C_attack_timer;
-    int field_140_last_shriek_timer;
+    s32 field_134_tlvInfo;
+    s32 field_138_attack_duration;
+    s32 field_13C_attack_timer;
+    s32 field_140_last_shriek_timer;
     s16 field_144_left_min_delay;
     s16 field_146_left_max_delay;
     s16 field_148_right_min_delay;
     s16 field_14A_right_max_delay;
-    int field_14C;
+    s32 field_14C;
     BYTE** field_150_resources[14];
     s16 field_188_flags;
     s16 field_18A;

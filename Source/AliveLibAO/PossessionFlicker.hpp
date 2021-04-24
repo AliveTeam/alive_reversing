@@ -10,7 +10,7 @@ class BaseAliveGameObject;
 class PossessionFlicker : public BaseGameObject
 {
 public:
-    EXPORT PossessionFlicker* ctor_41A8C0(BaseAliveGameObject* pToApplyFlicker, int duration, s16 r, s16 g, s16 b);
+    EXPORT PossessionFlicker* ctor_41A8C0(BaseAliveGameObject* pToApplyFlicker, s32 duration, s16 r, s16 g, s16 b);
 
     EXPORT BaseGameObject* dtor_41A940();
 
@@ -27,7 +27,7 @@ public:
     EXPORT void VUpdate_41A9B0();
 
     BaseAliveGameObject* field_10_pObj;
-    int field_14_time_to_flicker;
+    s32 field_14_time_to_flicker;
 
     s16 field_18_r;
     s16 field_1A_g;

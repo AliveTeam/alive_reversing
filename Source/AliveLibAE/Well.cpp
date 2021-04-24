@@ -10,7 +10,7 @@
 
 ALIVE_VAR(1, 0x563aa0, DWORD, sWellRndSeed_563AA0, 4);
 
-Well* Well::ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo)
+Well* Well::ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547FE8); // vTbl_ExpressWell_547FE8
@@ -74,7 +74,7 @@ void Well::WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
         }
         else
         {
-            const int pos = (PsxToPCX(pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x) / 2) + pTlv->field_8_top_left.field_0_x;
+            const s32 pos = (PsxToPCX(pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x) / 2) + pTlv->field_8_top_left.field_0_x;
             field_34_leaf_xpos = FP_FromInteger(pos);
         }
 
@@ -116,7 +116,7 @@ void Well::WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         }
         else
         {
-            const int pos = (PsxToPCX(pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x) / 2) + pTlv->field_8_top_left.field_0_x;
+            const s32 pos = (PsxToPCX(pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x) / 2) + pTlv->field_8_top_left.field_0_x;
             field_34_leaf_xpos = FP_FromInteger(pos);
         }
 

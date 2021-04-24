@@ -30,7 +30,7 @@ EXPORT u32  CC Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2)
 {
     u32 op1a; // ecx
     u32 op2a; // esi
-    int result; // eax
+    s32 result; // eax
 
     op1a = op1;
     if (op1 < 0)
@@ -52,8 +52,8 @@ EXPORT u32 CC Math_FixedPoint_Divide_496B70(s32 op1, s32 op2)
     u32 op1b; // edi
     u32 op2a; // ecx
     u32 v5; // esi
-    int v6; // edi
-    int result; // eax
+    s32 v6; // edi
+    s32 result; // eax
 
     op1a = op1;
     op1b = op1;
@@ -99,11 +99,11 @@ EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
     }
 
     short result = tempMin;
-    const int rangeSize = tempMax - tempMin;
+    const s32 rangeSize = tempMax - tempMin;
 
     if (rangeSize >= 256)
     {
-        const int randByte = (257 * sRandomBytes_546744[sRandomSeed_5D1E10]);
+        const s32 randByte = (257 * sRandomBytes_546744[sRandomSeed_5D1E10]);
         sRandomSeed_5D1E10 += 2;
         result = static_cast<short>(result + randByte % (rangeSize + 1));
     }
@@ -182,15 +182,15 @@ EXPORT FP CC Math_Sine_496DD0(BYTE v)
     return Math_Cosine_496CD0(v - 64);
 }
 
-int CC Math_Distance_496EB0(int x1, int y1, int x2, int y2)
+s32 CC Math_Distance_496EB0(s32 x1, s32 y1, s32 x2, s32 y2)
 {
-    int dx = x1 - x2;
+    s32 dx = x1 - x2;
     if (dx < 0)
     {
         dx = x2 - x1;
     }
 
-    int dy = y1 - y2;
+    s32 dy = y1 - y2;
     if (y1 - y2 < 0)
     {
         dy = y2 - y1;
@@ -210,7 +210,7 @@ EXPORT FP CC Math_Tan_496F70(const FP value1, const FP value2)
 {
     FP value1abs = FP_Abs(value1);
     FP value2abs = FP_Abs(value2);
-    int switchScenario = 0;
+    s32 switchScenario = 0;
     if (value1 < FP_FromInteger(0))
     {
         switchScenario += 4;

@@ -21,7 +21,7 @@ void PossessionFlicker::VScreenChanged()
     vScreenChanged_431C80();
 }
 
-PossessionFlicker* PossessionFlicker::ctor_4319E0(BaseAliveGameObject* pToApplyFlicker, int duration, s16 r, s16 g, s16 b)
+PossessionFlicker* PossessionFlicker::ctor_4319E0(BaseAliveGameObject* pToApplyFlicker, s32 duration, s16 r, s16 g, s16 b)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x544FC8); // vTbl_PossessionFlicker_544FC8
@@ -30,7 +30,7 @@ PossessionFlicker* PossessionFlicker::ctor_4319E0(BaseAliveGameObject* pToApplyF
     field_30_obj_id = pToApplyFlicker->field_8_object_id;
 
     // Check if another PossessionFlicker is already applying flicker to pToApplyFlicker
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -63,7 +63,7 @@ PossessionFlicker* PossessionFlicker::ctor_4319E0(BaseAliveGameObject* pToApplyF
     return this;
 }
 
-int PossessionFlicker::ObjectId() const
+s32 PossessionFlicker::ObjectId() const
 {
     return field_30_obj_id;
 }
@@ -106,7 +106,7 @@ void PossessionFlicker::vScreenChanged_431C80()
 void PossessionFlicker::vUpdate_431BC0()
 {
     BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_30_obj_id));
-    if (!pToApplyFlicker || static_cast<int>(sGnFrame_5C1B84) > field_20_time_to_flicker)
+    if (!pToApplyFlicker || static_cast<s32>(sGnFrame_5C1B84) > field_20_time_to_flicker)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;

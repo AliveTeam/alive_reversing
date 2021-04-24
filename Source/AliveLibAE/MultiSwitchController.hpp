@@ -45,10 +45,10 @@ private:
     u16 field_2A_id6;
     u16 field_2C_id;
     SwitchOp field_2E_operation;
-    int field_30_tlvInfo;
-    int field_34_last_switch_on_time;
-    int field_38_all_switches_on_or_off_time;
-    int field_3C_delay;
+    s32 field_30_tlvInfo;
+    s32 field_34_last_switch_on_time;
+    s32 field_38_all_switches_on_or_off_time;
+    s32 field_3C_delay;
     enum Flags_40
     {
         eBit1_is_on = 0x1,

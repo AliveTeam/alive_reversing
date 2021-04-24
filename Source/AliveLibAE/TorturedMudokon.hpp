@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TorturedMudokon, 0x14);
 class TorturedMudokon : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT TorturedMudokon* ctor_47BC60(Path_TorturedMudokon* pTlv, int tlvInfo);
+    EXPORT TorturedMudokon* ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tlvInfo);
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
@@ -38,10 +38,10 @@ private:
     Animation field_F4_tears_animation;
     Animation field_18C_zap_animation;
     BYTE** field_224_ppRes;
-    int field_228_padding;
-    int field_22C_padding;
-    int field_230_tlvInfo;
-    int field_234_flash_colour_timer;
+    s32 field_228_padding;
+    s32 field_22C_padding;
+    s32 field_230_tlvInfo;
+    s32 field_234_flash_colour_timer;
     s16 field_238_flash_colour_counter;
     s16 field_23A_speed_id;
     s16 field_23C_release_id;

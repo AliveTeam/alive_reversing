@@ -6,7 +6,7 @@
 class Particle : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Particle* ctor_4CC4C0(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData);
+    EXPORT Particle* ctor_4CC4C0(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, BYTE** ppAnimData);
     EXPORT void vUpdate_4CC620();
     EXPORT BaseGameObject* vdtor_4CC5D0(s32 flags);
 

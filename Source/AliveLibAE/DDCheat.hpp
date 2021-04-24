@@ -10,7 +10,7 @@
 
 void DDCheat_ForceLink();
 
-enum class DDCheatValueType : int
+enum class DDCheatValueType : s32
 {
     eShort_1 = 1,
     eInt_2 = 2,
@@ -20,7 +20,7 @@ enum class DDCheatValueType : int
 
 union DDCheatValue
 {
-    int* pInt;
+    s32* pInt;
     short* pShort;
     FP* pFixedPoint;
 
@@ -29,7 +29,7 @@ union DDCheatValue
         pInt = nullptr;
     }
 
-    DDCheatValue(int* v)
+    DDCheatValue(s32* v)
     {
         pInt = v;
     }
@@ -95,15 +95,15 @@ public:
 public:
     EXPORT void Update_415780();
 public:
-    int field_20;
+    s32 field_20;
     s16 field_24_fn_idx;
     s16 field_26_next_fn_idx;
-    int field_28;
-    int field_2C;
+    s32 field_28;
+    s32 field_2C;
     s16 field_30;
     s16 field_32;
-    int field_34;
-    int field_38_input_pressed;
+    s32 field_34;
+    s32 field_38_input_pressed;
     BitField16<Flags_3C> field_3C_flags;
     s16 field_3E;
 };
@@ -115,8 +115,8 @@ ALIVE_VAR_EXTERN(bool, sDDCheat_FlyingEnabled_5C2C08);
 ALIVE_VAR_EXTERN(s16, sRescuedMudokons_5C1BC2);
 ALIVE_VAR_EXTERN(s16, sKilledMudokons_5C1BC0);
 
-ALIVE_VAR_EXTERN(int, sTweakX_5C1BD0);
-ALIVE_VAR_EXTERN(int, sTweakY_5C1BD4);
+ALIVE_VAR_EXTERN(s32, sTweakX_5C1BD0);
+ALIVE_VAR_EXTERN(s32, sTweakY_5C1BD4);
 
 ALIVE_VAR_EXTERN(s16, sVisitedBonewerks_5C1C02);
 ALIVE_VAR_EXTERN(s16, sVisitedBarracks_5C1C04);

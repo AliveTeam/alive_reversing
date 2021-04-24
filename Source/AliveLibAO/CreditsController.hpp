@@ -13,12 +13,12 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
 
-    EXPORT CreditsController* ctor_40CFC0(Path_TLV* pTlv, int tlvInfo);
+    EXPORT CreditsController* ctor_40CFC0(Path_TLV* pTlv, s32 tlvInfo);
     EXPORT BaseGameObject* dtor_40D000();
     EXPORT CreditsController* Vdtor_40D090(s32 flags);
     EXPORT void VUpdate_40D020();
 
-    int field_10_next_cam_frame;
+    s32 field_10_next_cam_frame;
     s16 field_14_camera_number;
     s16 field_16_pad;
 };

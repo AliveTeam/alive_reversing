@@ -6,7 +6,7 @@
 
 namespace AO {
 
-const int dword_4CFFCC[11] =
+const s32 dword_4CFFCC[11] =
 {
     0,
     1,
@@ -32,7 +32,7 @@ s16 CC Code_Length_475FD0(u32 code)
     return i;
 }
 
-int CC Code_Convert_476000(u16 code1, u16 code2)
+s32 CC Code_Convert_476000(u16 code1, u16 code2)
 {
     if (code2)
     {
@@ -134,7 +134,7 @@ void GameSpeak::VUpdate_40FA20()
     }
 }
 
-short CC GameSpeak::sub_40FA60(int code, BYTE* pBuffer)
+short CC GameSpeak::sub_40FA60(s32 code, BYTE* pBuffer)
 {
     const s16 len = Code_Length_475FD0(code);
     for (short idx = 0; idx < len; ++idx)

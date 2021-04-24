@@ -18,7 +18,7 @@ class BeeSwarm;
 class HoneySack : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT HoneySack* ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo);
+    EXPORT HoneySack* ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     
@@ -38,8 +38,8 @@ public:
 
     EXPORT void VUpdate_42BFE0();
 
-    int field_D4_padding[4];
-    int field_E4_tlvInfo;
+    s32 field_D4_padding[4];
+    s32 field_E4_tlvInfo;
     enum class State : s16
     {
         eDripHoney_0 = 0,
@@ -49,7 +49,7 @@ public:
     };
     State field_E8_state;
     s16 field_EA_bHit_ground;
-    int field_EC_timer;
+    s32 field_EC_timer;
     BeeSwarm* field_F0_pBee;
     FP field_F4_drip_target_x;
     FP field_F8_drip_target_y;

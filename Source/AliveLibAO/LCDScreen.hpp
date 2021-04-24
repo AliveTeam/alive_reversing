@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF(Path_LCDScreen, 0x20);
 class LCDScreen : public BaseGameObject
 {
 public:
-    EXPORT LCDScreen* ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo);
+    EXPORT LCDScreen* ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_434100();
 
@@ -46,14 +46,14 @@ public:
     PSX_RECT field_98_pal_rect;
     char* field_A0_message;
     const char* field_A4_message_cutoff_ptr;
-    int field_A8;
+    s32 field_A8;
     char field_AC_message_buffer[512];
-    int field_2AC_message_1_id;
-    int field_2B0_x_offset;
-    int field_2B4_character_width;
-    int field_2B8_tlv_item_info;
+    s32 field_2AC_message_1_id;
+    s32 field_2B0_x_offset;
+    s32 field_2B4_character_width;
+    s32 field_2B8_tlv_item_info;
     Path_TLV field_2BC_tlv;
-    int field_2D4;
+    s32 field_2D4;
     short field_2D8_message_rand_min;
     short pad_2DA;
     short field_2DC_message_rand_max;

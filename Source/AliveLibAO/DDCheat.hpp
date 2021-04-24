@@ -6,7 +6,7 @@
 
 namespace AO {
 
-enum class DDCheatValueType : int
+enum class DDCheatValueType : s32
 {
     eShort_1 = 1,
     eInt_2 = 2,
@@ -16,7 +16,7 @@ enum class DDCheatValueType : int
 
 union DDCheatValue
 {
-    int* pInt;
+    s32* pInt;
     short* pShort;
     FP* pFixedPoint;
 
@@ -25,7 +25,7 @@ union DDCheatValue
         pInt = nullptr;
     }
 
-    DDCheatValue(int* v)
+    DDCheatValue(s32* v)
     {
         pInt = v;
     }
@@ -76,21 +76,21 @@ public:
 
     EXPORT void Misc_409E90();
 
-    EXPORT static int DebugFont_Printf_498B40(int idx, const char* formatStr, ...);
+    EXPORT static s32 DebugFont_Printf_498B40(s32 idx, const char* formatStr, ...);
 
-    EXPORT static int DebugStr_495990(const char* pStr, ...);
+    EXPORT static s32 DebugStr_495990(const char* pStr, ...);
 
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24_input;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    s32 field_24_input;
 };
 ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
 
-ALIVE_VAR_EXTERN(int, gTweak_X_5076D8);
-ALIVE_VAR_EXTERN(int, gTweak_Y_5076DC);
+ALIVE_VAR_EXTERN(s32, gTweak_X_5076D8);
+ALIVE_VAR_EXTERN(s32, gTweak_Y_5076DC);
 
 ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
 ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);

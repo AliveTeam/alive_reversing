@@ -24,9 +24,9 @@ struct DDCheatProperties
 };
 ALIVE_VAR(1, 0x4FF7D8, DDCheatProperties, DDCheatProperties_4FF7D8, {});
 
-ALIVE_VAR(1, 0x5076FC, int, gDoorsOpen_5076FC, 0);
-ALIVE_VAR(1, 0x5076D8, int, gTweak_X_5076D8, 0);
-ALIVE_VAR(1, 0x5076DC, int, gTweak_Y_5076DC, 0);
+ALIVE_VAR(1, 0x5076FC, s32, gDoorsOpen_5076FC, 0);
+ALIVE_VAR(1, 0x5076D8, s32, gTweak_X_5076D8, 0);
+ALIVE_VAR(1, 0x5076DC, s32, gTweak_Y_5076DC, 0);
 
 ALIVE_VAR(1, 0x5076C0, short, sRescuedMudokons_5076C0, 0);
 ALIVE_VAR(1, 0x5076BC, short, sKilledMudokons_5076BC, 0);
@@ -153,7 +153,7 @@ void DDCheat::ScreenShot_409720()
         PSX_StoreImage_496320(&rect, pixelBuffer);
         PSX_DrawSync_496750(0);
 
-        for (int i = 0; i < 640 * gPsxDisplay_504C78.field_2_height; i++)
+        for (s32 i = 0; i < 640 * gPsxDisplay_504C78.field_2_height; i++)
         {
             const WORD pixel = pixelBuffer[i];
             pixelBuffer[i] = ((pixel >> 10) & 0x1F) + (32 * (32 * (pixel & 0x1F) + ((pixel >> 5) & 0x1F)));
@@ -163,11 +163,11 @@ void DDCheat::ScreenShot_409720()
             char  idlength = 0;
             char  colourmaptype = 0;
             char  datatypecode = 2;
-            short int colourmaporigin = 0;
-            short int colourmaplength = 0;
+            s16 colourmaporigin = 0;
+            s16 colourmaplength = 0;
             char  colourmapdepth = 0;
-            short int x_origin = 0;
-            short int y_origin = 0;
+            s16 x_origin = 0;
+            s16 y_origin = 0;
             short width = 640;
             short height = 480;
             char  bitsperpixel = 16;
@@ -188,8 +188,8 @@ void DDCheat::ScreenShot_409720()
         writeHeaderElement(headerTGA.bitsperpixel, fileHandle);
 
         u8 *rowOfPixels = reinterpret_cast<u8*>(pixelBuffer + 640 * 239);
-        const int rowNum = 240;
-        for(int i = 0; i < rowNum; i++)
+        const s32 rowNum = 240;
+        for(s32 i = 0; i < rowNum; i++)
         {
             fwrite(rowOfPixels, 1, 640 * sizeof(WORD), fileHandle);
             fwrite(rowOfPixels, 1, 640 * sizeof(WORD), fileHandle);
@@ -200,7 +200,7 @@ void DDCheat::ScreenShot_409720()
     }
 }
 
-EXPORT int CC sub_49AD50(int /*a1*/)
+EXPORT s32 CC sub_49AD50(s32 /*a1*/)
 {
     return 0;
 }
@@ -211,7 +211,7 @@ void DDCheat::VUpdate_4098C0()
     {
         const InputObject::PadIndex otherController = Input().CurrentController() == InputObject::PadIndex::First ? InputObject::PadIndex::Second : InputObject::PadIndex::First;
         Abe* pObj = sActiveHero_507678;
-        int cheat_enabled = 0;
+        s32 cheat_enabled = 0;
 
         if (word_4FF868)
         {
@@ -319,7 +319,7 @@ void DDCheat::VUpdate_4098C0()
             {
                 DebugStr_495990(
                     "\n%sP%dC%d %6d",
-                    gMapData_4CAB58.paths[static_cast<int>(gMap_507BA8.field_0_current_level)].field_14_lvl_name,
+                    gMapData_4CAB58.paths[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_14_lvl_name,
                     gMap_507BA8.field_2_current_path,
                     gMap_507BA8.field_4_current_camera,
                     gnFrameCount_507670);
@@ -431,7 +431,7 @@ void DDCheat::Teleport_409CE0()
     DebugStr_495990("Path    (Up/Down):   %d \n", path_4C3160);
     DebugStr_495990("Camera (Left/Right): %d \n", static_cast<u16>(camera_4C3164));
     DebugStr_495990("Teleport = [] Reset = O\n"); //TODO don't display PSX buttons
-    int input = field_24_input;
+    s32 input = field_24_input;
     field_10 = 6;
     if (input &  InputCommands::eSneak)
     {
@@ -580,7 +580,7 @@ void DDCheat::Misc_409E90()
 
 
 
-int DDCheat::DebugFont_Printf_498B40(int idx, const char* formatStr, ...)
+s32 DDCheat::DebugFont_Printf_498B40(s32 idx, const char* formatStr, ...)
 {
     AE_IMPLEMENTED();
 
@@ -597,7 +597,7 @@ int DDCheat::DebugFont_Printf_498B40(int idx, const char* formatStr, ...)
     return ::DebugFont_Printf_4F8B60(idx, buffer);
 }
 
-int DDCheat::DebugStr_495990(const char* pStr, ...)
+s32 DDCheat::DebugStr_495990(const char* pStr, ...)
 {
     va_list va;
     va_start(va, pStr);

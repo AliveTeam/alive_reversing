@@ -33,7 +33,7 @@ enum class MeatSawStates : s16
 class MeatSaw : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MeatSaw* ctor_439570(Path_MeatSaw* pTlv, int tlvInfo);
+    EXPORT MeatSaw* ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_4398F0();
 
@@ -55,7 +55,7 @@ public:
 
     EXPORT void VRender_439F50(PrimHeader** ppOt);
 
-    int field_D4_padding[4];
+    s32 field_D4_padding[4];
     MeatSawStates field_E4_state;
     u16 field_E6_max_rise_time;
     s16 field_E8_speed2;
@@ -70,10 +70,10 @@ public:
     s16 field_FA_min_time_off2;
     s16 field_FC_max_time_off2;
     s16 field_FE_padding;
-    int field_100_tlvInfo;
-    int field_104_idle_timer;
-    int field_108_SFX_timer;
-    int field_10C_FrameCount;
+    s32 field_100_tlvInfo;
+    s32 field_104_idle_timer;
+    s32 field_108_SFX_timer;
+    s32 field_10C_FrameCount;
     Animation field_110_anim;
     u16 field_1A8_flags;
     s16 field_1AA_padding;

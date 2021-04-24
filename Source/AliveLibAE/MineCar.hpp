@@ -44,7 +44,7 @@ struct MineCar_SaveState
     s16 field_1E_g;
     s16 field_20_b;
     s16 field_22_xFlip;
-    int field_24_frame_table;
+    s32 field_24_frame_table;
     s16 field_28_current_motion;
     s16 field_2A_current_anim_frame;
     s16 field_2C_frame_change_counter;
@@ -55,7 +55,7 @@ struct MineCar_SaveState
     s16 field_32; // TODO: Remove because it's the same as field_22_xFlip.
     s16 field_34; // TODO: Remove because it's the same as field_2A_current_anim_frame.
     s16 field_36; // TODO: Remove because it's the same as field_2C_frame_change_counter.
-    int field_38_frame_table_offset2;
+    s32 field_38_frame_table_offset2;
     FP field_3C_health;
     s16 field_40_current_motion;
     s16 field_42_next_motion;
@@ -63,14 +63,14 @@ struct MineCar_SaveState
     s16 field_46_collision_line_type;
     s16 field_48_padding;
     s16 field_4A_padding;
-    int field_4C_tlvInfo;
+    s32 field_4C_tlvInfo;
     MineCarStates field_50_state;
     MineCarDirs field_52_turn_direction;
     s16 field_54_unused; // TODO: These two save and restore two other variables, that are unused, field_1BE and field_1C0. -- Nemin (5/7/2020)
     s16 field_56_unused;
     s16 field_58_falling_counter;
     s16 field_5A_bAbeInCar;
-    int field_5C_frame_mod_16;
+    s32 field_5C_frame_mod_16;
     s16 field_60_spawned_path;
     s16 field_62_spanwed_camera;
     s16 field_64_throw_item_key1;
@@ -81,17 +81,17 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(MineCar_SaveState, 0x68);
 class MineCar : public BaseAliveGameObject
 {
 public:
-    EXPORT MineCar* ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int a4, int a5, int a6);
+    EXPORT MineCar* ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 a4, s32 a5, s32 a6);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    EXPORT static int CC CreateFromSaveState_467740(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_467740(const BYTE* pBuffer);
 
 private:
     EXPORT void LoadAnimation_46BF80(Animation* pAnim);
@@ -106,12 +106,12 @@ private:
     EXPORT void vRender_46E760(PrimHeader** ppOt);
     EXPORT void Stop_46E570();
     EXPORT void Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs dir, char bChangeDirection);
-    EXPORT s16 IsBlocked_46F4A0(s16 a2, int a3);
+    EXPORT s16 IsBlocked_46F4A0(s16 a2, s32 a3);
     EXPORT s16 FollowDirection_46EA00();
     EXPORT void RunThingsOver_46F380();
     EXPORT s16 vTakeDamage_46F7D0(BaseGameObject* pFrom);
 
-    EXPORT int vGetSaveState_467E10(MineCar_SaveState* pState);
+    EXPORT s32 vGetSaveState_467E10(MineCar_SaveState* pState);
 
     void State_0_ParkedWithoutAbe();
     void State_1_ParkedWithAbe();
@@ -122,10 +122,10 @@ private:
     void HandleUpDown();
 
     using mineCarFPFunc = BOOL (MineCar::*)(FP, FP);
-    bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, unsigned short moveArgument1, MineCarDirs moveArgument2, const char changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const int ModelMask1, const int ModelMask2, FP moveX, FP moveY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond);
+    bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, unsigned short moveArgument1, MineCarDirs moveArgument2, const char changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const s32 ModelMask1, const s32 ModelMask2, FP moveX, FP moveY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond);
 
 private:
-    int field_118_tlvInfo;
+    s32 field_118_tlvInfo;
 public:
     MineCarStates field_11C_state;
 private:
@@ -141,10 +141,10 @@ private:
     s16 field_1C2_falling_counter;
     s16 field_1C4_velx_index;
     s16 field_1C6_padding;
-    int field_1C8_frame_mod_16;
+    s32 field_1C8_frame_mod_16;
     s16 field_1CC_spawned_path;
     s16 field_1CE_spawned_camera;
-    int field_1D0_sound_channels_mask;
+    s32 field_1D0_sound_channels_mask;
     s16 field_1D4_previous_input; //TODO change to InputCommands::Enum type when we can drop sizeof assert
     s16 field_1D6_continue_move_input; //TODO change to InputCommands::Enum type when we can drop sizeof assert
 };

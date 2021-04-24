@@ -4,7 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "Layer.hpp"
 
-ALIVE_VAR_EXTERN(int, gDeathGasCount_5BD24C);
+ALIVE_VAR_EXTERN(s32, gDeathGasCount_5BD24C);
 
 class DeathGas : public BaseGameObject
 {

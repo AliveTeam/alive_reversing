@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF(Path_MeatSack, 0x24);
 class MeatSack : public BaseAliveGameObject
 {
 public:
-    EXPORT MeatSack* ctor_4390F0(Path_MeatSack* pTlv, int tlvInfo);
+    EXPORT MeatSack* ctor_4390F0(Path_MeatSack* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -38,7 +38,7 @@ public:
 
     EXPORT void VUpdate_4392C0();
 
-    int field_10C_tlvInfo;
+    s32 field_10C_tlvInfo;
     s16 field_110;
     s16 field_112_num_items;
     s16 field_114;
@@ -104,8 +104,8 @@ public:
     s16 field_112;
     FP field_114_xpos;
     FP field_118_ypos;
-    int field_11C_timer;
-    int field_120_deadtimer;
+    s32 field_11C_timer;
+    s32 field_120_deadtimer;
     PathLine* field_124_pLine;
 };
 ALIVE_ASSERT_SIZEOF(Meat, 0x128);

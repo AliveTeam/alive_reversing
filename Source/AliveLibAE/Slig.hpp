@@ -59,7 +59,7 @@
     ENTRY(M_Beat_51_4B6C00)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eSligMotions : int
+enum eSligMotions : s32
 {
     SLIG_MOTIONS_ENUM(MAKE_ENUM)
 };
@@ -192,14 +192,14 @@ struct Slig_State
     s16 field_42_ai_sub_state;
     s16 field_44_pitch_min;
     s16 field_46_padding;
-    int field_48_timer;
+    s32 field_48_timer;
     s16 field_4C_return_to_previous_motion;
     s16 field_4E_checked_if_off_screen;
     s16 field_50_input;
     s16 field_52_padding;
-    int field_54_timer;
+    s32 field_54_timer;
     FP field_58_falling_velx_scale_factor;
-    int field_5C_tlvInfo;
+    s32 field_5C_tlvInfo;
     s16 field_60_res_idx;
     s16 field_62_shot_motion;
     PSX_RECT field_64_zone_rect;
@@ -209,16 +209,16 @@ struct Slig_State
     LevelIds field_72_level;
     s16 field_74_path;
     s16 field_76_camera;
-    int field_78_death_by_being_shot_timer;
-    int field_7C_explode_timer;
-    int field_80_brain_state_idx;
+    s32 field_78_death_by_being_shot_timer;
+    s32 field_7C_explode_timer;
+    s32 field_80_brain_state_idx;
     s16 field_84_padding;
     s16 field_86_padding;
-    int field_88_unused;
-    int field_8C_num_times_to_shoot;
+    s32 field_88_unused;
+    s32 field_8C_num_times_to_shoot;
     s16 field_90_force_alive_state;
     s16 field_92_spotted_possessed_slig;
-    int field_94_glukkon_id;
+    s32 field_94_glukkon_id;
     s16 field_98_state_after_speak;
     s16 field_9A_attention_timeout;
     s16 field_9C_unused;
@@ -243,7 +243,7 @@ class LiftPoint;
 class Slig : public BaseAliveGameObject
 {
 public:
-    EXPORT Slig* ctor_4B1370(Path_Slig* pTlv, int tlvInfo);
+    EXPORT Slig* ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -267,14 +267,14 @@ public:
 
     virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
-    EXPORT static int CC CreateFromSaveState_4B3B50(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4B3B50(const BYTE* pBuffer);
 
     EXPORT static s16 CCSTD IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
 
 private:
-    EXPORT int vGetSaveState_4BFB10(Slig_State* pState);
+    EXPORT s32 vGetSaveState_4BFB10(Slig_State* pState);
 
 public:
     EXPORT void M_StandIdle_0_4B4EC0();
@@ -455,7 +455,7 @@ private:
 
     EXPORT s16 HandlePlayerControlled_4B7800();
 
-    EXPORT s16 GetNextMotionIncGameSpeak_4B5080(int input);
+    EXPORT s16 GetNextMotionIncGameSpeak_4B5080(s32 input);
 
     EXPORT void WaitOrWalk_4BE870();
 
@@ -481,7 +481,7 @@ private:
 
     EXPORT void GoAlertedOrSayWhat_4BF140();
 
-    EXPORT static int CCSTD IsFacingEffectiveLeft_4BB780(Slig* pSlig);
+    EXPORT static s32 CCSTD IsFacingEffectiveLeft_4BB780(Slig* pSlig);
 
     EXPORT void MoveOnLine_4B4C40();
 
@@ -497,7 +497,7 @@ private:
 
     EXPORT void ToChase_4BCFF0();
 
-    EXPORT s16 HandleEnemyStopper_4BBA00(int gridBlocks);
+    EXPORT s16 HandleEnemyStopper_4BBA00(s32 gridBlocks);
 
     EXPORT void ToPanicYelling_4BCBA0();
 
@@ -509,9 +509,9 @@ private:
 
     EXPORT void PlayerControlRunningSlideStopOrTurnFrame4_4B85D0();
 
-    EXPORT BaseAliveGameObject* FindBeatTarget_4BD070(int a2, int gridBlocks);
+    EXPORT BaseAliveGameObject* FindBeatTarget_4BD070(s32 a2, s32 gridBlocks);
 
-    EXPORT void TurnOrWalk_4BD6A0(int a2);
+    EXPORT void TurnOrWalk_4BD6A0(s32 a2);
 
     EXPORT void ToPanicRunning_4BCA30();
 
@@ -542,16 +542,16 @@ public:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);
 private:
-    int field_118_tlvInfo;
+    s32 field_118_tlvInfo;
 public:
     s16 field_11C_ai_sub_state;
 private:
     s16 field_11E_pitch_min;
-    int field_120_timer;
+    s32 field_120_timer;
     s16 field_124_return_to_previous_motion;
     s16 field_126_checked_if_off_screen;
-    int field_128_input;
-    int field_12C_timer;
+    s32 field_128_input;
+    s32 field_12C_timer;
     FP field_130_falling_velx_scale_factor;
     s16 field_134_res_idx;
     s16 field_136_shot_motion;
@@ -563,15 +563,15 @@ public:
     LevelIds field_146_level;
     s16 field_148_path;
     s16 field_14A_camera;
-    int field_14C_death_by_being_shot_timer;
-    int field_150_explode_timer;
+    s32 field_14C_death_by_being_shot_timer;
+    s32 field_150_explode_timer;
 private:
     TSligAIFn field_154_brain_state;
     s16 field_158_num_times_to_shoot;
     s16 field_15A_unused;
     s16 field_15C_force_alive_state;
     s16 field_15E_spotted_possessed_slig;
-    int field_160_last_event_index;
+    s32 field_160_last_event_index;
     s16 field_164_padding;
     s16 field_166_padding;
     s16 field_168_padding;
@@ -588,7 +588,7 @@ private:
     s16 field_202_green;
     s16 field_204_blue;
     s16 field_206_padding;
-    int field_208_glukkon_obj_id;
+    s32 field_208_glukkon_obj_id;
     s16 field_20C_state_after_speak;
     s16 field_20E_attention_timeout;
     s16 field_210_unused;
@@ -609,11 +609,11 @@ private:
     PSX_Point field_268_points[10];
     s16 field_290_points_count;
     s16 field_292_prevent_depossession;
-    int field_294_next_gamespeak_motion;
+    s32 field_294_next_gamespeak_motion;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x298);
 
-EXPORT int CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData);
+EXPORT s32 CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData);
 EXPORT void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj);
 
 void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPalAlloc, s16 palSize, PSX_RECT* palRect,

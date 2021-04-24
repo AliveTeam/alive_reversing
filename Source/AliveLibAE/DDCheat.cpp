@@ -13,8 +13,8 @@
 void DDCheat_ForceLink() { }
 
 ALIVE_VAR(1, 0x5c1be6, s16, sDoorsOpen_5C1BE6, 0);
-ALIVE_VAR(1, 0x5c1bd0, int, sTweakX_5C1BD0, 0);
-ALIVE_VAR(1, 0x5c1bd4, int, sTweakY_5C1BD4, 0);
+ALIVE_VAR(1, 0x5c1bd0, s32, sTweakX_5C1BD0, 0);
+ALIVE_VAR(1, 0x5c1bd4, s32, sTweakY_5C1BD4, 0);
 ALIVE_VAR(1, 0x5c1bc2, s16, sRescuedMudokons_5C1BC2, 0);
 ALIVE_VAR(1, 0x5c1bc0, s16, sKilledMudokons_5C1BC0, 0);
 
@@ -29,9 +29,9 @@ ALIVE_VAR(1, 0x550f60, u16, sTeleport_Cam_550F60, 0);
 ALIVE_VAR(1, 0x5c2c08, bool, sDDCheat_FlyingEnabled_5C2C08, false);
 ALIVE_VAR(1, 0x5c1bd8, bool, sDDCheat_ShowAI_Info_5C1BD8, false);
 ALIVE_VAR(1, 0x5bc000, bool, sDDCheat_AlwaysShow_5BC000, false);
-ALIVE_VAR(1, 0x5bc004, int, sDDCheat_Unknown_5BC004, 0);
+ALIVE_VAR(1, 0x5bc004, s32, sDDCheat_Unknown_5BC004, 0);
 ALIVE_VAR(1, 0x5bbff4, DWORD, sDDCheat_PrevDebugInput_5BBFF4, 0);
-ALIVE_VAR(1, 0x550fa8, int, sDDCheat_DebugInputDelay_550FA8, 0);
+ALIVE_VAR(1, 0x550fa8, s32, sDDCheat_DebugInputDelay_550FA8, 0);
 
 using TDDCheatMenu = decltype(&DDCheat::Menu_Teleport_415E20);
 
@@ -42,8 +42,8 @@ ALIVE_ARY(1, 0x550f50, TDDCheatMenu, DDCHEAT_MENU_COUNT, sDDCheat_FnTable_550F50
 });
 
 ALIVE_VAR(1, 0x5bc008, s16, sScreenshotOnNextFrame_5BC008, 0);
-ALIVE_VAR(1, 0xab49fc, int, sDDCheat_Unused2_AB49FC, 0);
-ALIVE_VAR(1, 0xab4a00, int, sDDCheat_Unused1_AB4A00, 0);
+ALIVE_VAR(1, 0xab49fc, s32, sDDCheat_Unused2_AB49FC, 0);
+ALIVE_VAR(1, 0xab4a00, s32, sDDCheat_Unused1_AB4A00, 0);
 
 ALIVE_VAR(1, 0x5BBFF0, s16, sDDCheat_MovieSelectIdx_5BBFF0, 0);
 ALIVE_VAR_EXTERN(DWORD, sLevelId_dword_5CA408);
@@ -96,7 +96,7 @@ void DDCheat::Menu_Teleport_415E20()
     }
     else if (field_38_input_pressed & InputCommands::Enum::eGameSpeak2)
     {
-        if (sTeleport_Level_550F5C < static_cast<int>(LevelIds::eCredits_16))
+        if (sTeleport_Level_550F5C < static_cast<s32>(LevelIds::eCredits_16))
         {
             ++sTeleport_Level_550F5C;
         }
@@ -125,7 +125,7 @@ void DDCheat::Menu_Teleport_415E20()
     }
     else if (field_38_input_pressed & InputCommands::Enum::eSneak)
     {
-        sTeleport_Level_550F5C = static_cast<int>(gMap_5C3030.field_0_current_level);
+        sTeleport_Level_550F5C = static_cast<s32>(gMap_5C3030.field_0_current_level);
         sTeleport_Path_550F5E = gMap_5C3030.field_2_current_path;
         sTeleport_Cam_550F60 = gMap_5C3030.field_4_current_camera;
     }
@@ -163,7 +163,7 @@ void DDCheat::Menu_Movies_416000()
         FmvInfo *movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0);
         DWORD pos = 0;
         Get_fmvs_sectors_494460(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
-        sLevelId_dword_5CA408 = static_cast<int>(gMap_5C3030.field_0_current_level);
+        sLevelId_dword_5CA408 = static_cast<s32>(gMap_5C3030.field_0_current_level);
         auto movieToPlay = ae_new<Movie>();
         if (movieToPlay != nullptr)
         {
@@ -176,7 +176,7 @@ void DDCheat::Menu_Movies_416000()
             );
         }
     }
-    FmvInfo* fmvInfo = &sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_pFmvArray[sDDCheat_MovieSelectIdx_5BBFF0];
+    FmvInfo* fmvInfo = &sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_4_pFmvArray[sDDCheat_MovieSelectIdx_5BBFF0];
     DDCheat::DebugStr_4F5560("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx_5BBFF0, fmvInfo->field_4_id, fmvInfo->field_0_pName);
     field_20 += 6;
 }
@@ -337,7 +337,7 @@ void DDCheat::Update_415780()
         //if (!(sGnFrame_5C1B84 % 10))
         //{
         //    sDDCheat_Unknown_5BC004 = 0;
-        //    for (int i = 0; i < 24; i++)
+        //    for (s32 i = 0; i < 24; i++)
         //    {
         //        if (sub_4FA7C0()) // Always returns 0
         //            ++sDDCheat_Unknown_5BC004;
@@ -348,7 +348,7 @@ void DDCheat::Update_415780()
         {
             DebugStr_4F5560(
                 "\n%sP%dC%d gnframe=%5d",
-                sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
+                sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
                 gMap_5C3030.field_2_current_path,
                 gMap_5C3030.field_4_current_camera,
                 sGnFrame_5C1B84);

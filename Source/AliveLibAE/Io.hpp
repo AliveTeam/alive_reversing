@@ -15,10 +15,10 @@ using IO_FileHandleType = struct FILE*;
 
 struct IO_Handle
 {
-    int field_0_flags;
-    int field_4;
+    s32 field_0_flags;
+    s32 field_4;
     IO_FileHandleType field_8_hFile;
-    int field_C_last_api_result;
+    s32 field_C_last_api_result;
     std::atomic<bool> field_10_bDone; // Note: OG bug - appears to be no thread sync on this
     HANDLE field_14_hThread;
     HANDLE field_18_hEvent;
@@ -39,18 +39,18 @@ struct IO_Movie_Handle
 ALIVE_ASSERT_SIZEOF(IO_Movie_Handle, 0x20);
 
 
-EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag);
+EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, s32 modeFlag);
 EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile);
-EXPORT int CC IO_Seek_4F2490(IO_Handle* hFile, int offset, int origin);
+EXPORT s32 CC IO_Seek_4F2490(IO_Handle* hFile, s32 offset, s32 origin);
 EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile);
 EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID lpThreadParameter);
-EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, void* readBuffer, size_t bytesToRead, int /*notUsed1*/, int /*notUsed2*/, int /*notUsed3*/);
-EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount);
+EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, s32 always3, void* readBuffer, size_t bytesToRead, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 /*notUsed3*/);
+EXPORT s32 CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount);
 EXPORT void IO_Init_494230();
 
 IO_FileHandleType IO_Open(const char* fileName, const char * mode);
-int IO_Seek(IO_FileHandleType pHandle, int offset, int origin);
-int IO_Close(IO_FileHandleType pHandle);
+s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin);
+s32 IO_Close(IO_FileHandleType pHandle);
 size_t IO_Read(IO_FileHandleType pHandle, void *ptr, size_t size, size_t maxnum);
 
 

@@ -26,8 +26,8 @@ enum class TimerTriggerStates : s16
 struct TimerTrigger_State
 {
     AETypes field_0_type;
-    int field_4_tlvInfo;
-    int field_8_delay_timer_base;
+    s32 field_4_tlvInfo;
+    s32 field_8_delay_timer_base;
     TimerTriggerStates field_C_state;
     s16 field_E_starting_switch_state;
 };
@@ -36,12 +36,12 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTrigger_State, 0x10);
 class TimerTrigger : public BaseGameObject
 {
 public:
-    EXPORT TimerTrigger* ctor_4CDC20(Path_TimerTrigger* pTlv, int tlvInfo);
+    EXPORT TimerTrigger* ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
     EXPORT static s32 CC CreateFromSaveState_4CDF70(const BYTE* pData);
 
@@ -51,15 +51,15 @@ private:
     EXPORT void vUpdate_4CDDB0();
     EXPORT void ToggleAllIds_4CDEC0();
     EXPORT void vScreenChanged_4CDF00();
-    EXPORT int vGetSaveState_4CE030(TimerTrigger_State* pState);
+    EXPORT s32 vGetSaveState_4CE030(TimerTrigger_State* pState);
 
 private:
     s16 field_20_id;
     TimerTriggerStates field_22_state;
     s16 field_24_ids[4];
-    int field_2C_tlvInfo;
-    int field_30_trigger_delay_timer;
-    int field_34_trigger_delay;
+    s32 field_2C_tlvInfo;
+    s32 field_30_trigger_delay_timer;
+    s32 field_34_trigger_delay;
     s16 field_38_starting_switch_state;
 };
 ALIVE_ASSERT_SIZEOF(TimerTrigger, 0x3C);

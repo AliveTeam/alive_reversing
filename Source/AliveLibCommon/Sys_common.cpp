@@ -71,7 +71,7 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* m
         data.flags = SDL_MESSAGEBOX_ERROR;
     }
 
-    int button = 0;
+    s32 button = 0;
     if (SDL_ShowMessageBox(&data, &button) == 0)
     {
         if (type == MessageBoxType::eQuestion)
@@ -102,7 +102,7 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* m
         w32type = MB_YESNO | MB_ICONQUESTION;
         break;
     }
-    const int button = ::MessageBoxA(windowHandle, message, title, w32type);
+    const s32 button = ::MessageBoxA(windowHandle, message, title, w32type);
     switch (button)
     {
     case IDNO:

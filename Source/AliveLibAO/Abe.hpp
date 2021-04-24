@@ -420,7 +420,7 @@ class Abe : public BaseAliveGameObject
 public:
     BOOL Is_Celling_Above();
 
-    EXPORT Abe* ctor_420770(int frameTableOffset, int a3, int a4, int a5);
+    EXPORT Abe* ctor_420770(s32 frameTableOffset, s32 a3, s32 a4, s32 a5);
 
     EXPORT BaseGameObject* dtor_420C80();
 
@@ -486,7 +486,7 @@ public:
 
     EXPORT void SyncToElum_42D850(s16 elumMotion);
 
-    EXPORT void PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, s16 bStandToCrouch);
+    EXPORT void PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch);
 
     EXPORT void CrouchingGameSpeak_427F90();
 
@@ -508,7 +508,7 @@ public:
 
     EXPORT void LoadMountElumResources_42E690();
 
-    EXPORT void ElumKnockForward_42E780(int not_used);
+    EXPORT void ElumKnockForward_42E780(s32 not_used);
 
     EXPORT s16 TryMountElum_42E600();
 
@@ -701,17 +701,17 @@ public:
     s16 field_10E_released_buttons;
     AllInternalStates field_110_state;
     s16 field_112_prev_motion;
-    int field_114_gnFrame;
-    int field_118_timer;
-    int field_11C_regen_health_timer;
+    s32 field_114_gnFrame;
+    s32 field_118_timer;
+    s32 field_11C_regen_health_timer;
     FP field_120_x_vel_slow_by;
-    int field_124_unused;
+    s32 field_124_unused;
     s16 field_128_resource_idx;
     s16 field_12A_unused;
-    int field_12C_timer;
+    s32 field_12C_timer;
     s16 field_130_say;
     s16 field_132_padding;
-    int field_134_auto_say_timer;
+    s32 field_134_auto_say_timer;
     PSX_Point field_138_zone_top_left;
     PSX_Point field_13C_zone_bottom_right;
     s16 field_140_saved_camera;
@@ -721,14 +721,14 @@ public:
     s16 field_148_clear_from_id;
     s16 field_14A_clear_to_id;
     FP field_14C_saved_sprite_scale;
-    int field_150_saved_ring_timer; // todo: check
+    s32 field_150_saved_ring_timer; // todo: check
     s16 field_154_bSavedHaveShrykull;
     s16 field_156_padding;
     DeathFadeOut* field_158_pDeathFadeout;
     BaseThrowable* field_15C_pThrowable;
     PullRingRope* field_160_pRope;
     CircularFade* field_164_pCircularFade;
-    int field_168_ring_pulse_timer;
+    s32 field_168_ring_pulse_timer;
     s16 field_16C_bHaveShrykull;
     s16 field_16E_cameraIdx;
     TlvTypes32 field_170_hand_stone_type;
@@ -748,7 +748,7 @@ public:
     BitField16<Flags_2A8> field_2A8_flags;
     BitField16<Flags_2AA> field_2AA_flags;
     SaveData* field_2AC_pSaveData;
-    int field_2B0_padding;
+    s32 field_2B0_padding;
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x2B4);
 
@@ -757,10 +757,10 @@ ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
 ALIVE_VAR_EXTERN(short, gAbeInvulnerableCheat_5076E4);
 ALIVE_VAR_EXTERN(short, gAbeInvisibleCheat_5076F8);
 
-EXPORT int CC Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, int pitchMin, BaseAliveGameObject* pAliveObj);
+EXPORT s32 CC Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 
-EXPORT int CC Mudokon_SFX_42A4D0(MudSounds idx, int volume, int pitch, BaseAliveGameObject* pHero);
+EXPORT s32 CC Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero);
 
-EXPORT int CC XGrid_Index_To_XPos_41FA60(FP scale, int xGridIndex);
+EXPORT s32 CC XGrid_Index_To_XPos_41FA60(FP scale, s32 xGridIndex);
 
 }

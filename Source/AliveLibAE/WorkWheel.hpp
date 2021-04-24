@@ -15,7 +15,7 @@ struct WorkWheel_SaveState
 {
     AETypes field_0_id;
     // pad
-    int field_4_tlvInfo;
+    s32 field_4_tlvInfo;
     s16 field_8_snd_counter;
     // pad
     WheelStates field_C_state;
@@ -40,24 +40,24 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VStartTurning();
     virtual void VStopTurning(s16 bResetSwitch);
 
-    EXPORT WorkWheel* ctor_4E35D0(Path_WorkWheel* pTlv, int tlvInfo);
+    EXPORT WorkWheel* ctor_4E35D0(Path_WorkWheel* pTlv, s32 tlvInfo);
 private:
     EXPORT void dtor_4E3850();
     EXPORT WorkWheel* vdtor_4E3820(s32 flags);
 public:
-    EXPORT static int CC CreateFromSaveState_4E3B10(const BYTE* pState);
+    EXPORT static s32 CC CreateFromSaveState_4E3B10(const BYTE* pState);
 private:
-    EXPORT int vGetSaveState_4E3C40(WorkWheel_SaveState* pState);
+    EXPORT s32 vGetSaveState_4E3C40(WorkWheel_SaveState* pState);
     EXPORT void vUpdate_4E38E0();
     EXPORT void vScreenChanged_4E3AD0();
     EXPORT void vStartTurning_4E3A20();
     EXPORT void vStopTurning_4E3A60(s16 bResetSwitch);
 private:
-    int field_F4_tlv_info;
+    s32 field_F4_tlv_info;
     s16 field_F8_id;
     s16 field_FA_padding;
     WheelStates field_FC_state;

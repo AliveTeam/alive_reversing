@@ -14,10 +14,10 @@
 
 struct Door_Info
 {
-    int field_0_frameTableOffset_closed;
-    int field_4_frameTableOffset_open;
-    int field_8_maxW;
-    int field_C_maxH;
+    s32 field_0_frameTableOffset_closed;
+    s32 field_4_frameTableOffset_open;
+    s32 field_8_maxW;
+    s32 field_C_maxH;
 };
 ALIVE_ASSERT_SIZEOF(Door_Info, 0x10);
 
@@ -42,7 +42,7 @@ const AnimId sDoorFrameTable[16][2] =
 };
 
 
-Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
+Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -209,8 +209,8 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
         field_102_hub_ids[7] = pTlvData->field_22_hub8;
     }
 
-    const AnimRecord& rec_open = AnimRec(sDoorFrameTable[static_cast<int>(gMap_5C3030.field_0_current_level)][0]);
-    const AnimRecord& rec_closed = AnimRec(sDoorFrameTable[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
+    const AnimRecord& rec_open = AnimRec(sDoorFrameTable[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
+    const AnimRecord& rec_closed = AnimRec(sDoorFrameTable[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID);
     if (!ppRes || rec_closed.mFrameTableOffset == 0)
     {
@@ -454,7 +454,7 @@ void Door::vUpdate_41EBE0()
                 }
                 else
                 {
-                    const AnimRecord& animRec = AnimRec(sDoorFrameTable[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
+                    const AnimRecord& animRec = AnimRec(sDoorFrameTable[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
                     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 }
 
@@ -477,7 +477,7 @@ void Door::vUpdate_41EBE0()
                 }
                 else
                 {
-                    const AnimRecord& animRec = AnimRec(sDoorFrameTable[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
+                    const AnimRecord& animRec = AnimRec(sDoorFrameTable[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
                     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 }
 
@@ -535,7 +535,7 @@ BaseGameObject* Door::VDestructor(s32 flags)
 ALIVE_VAR(1, 0xBB4AA0, FP, sTrainDoorXPos_BB4AA0, {});
 ALIVE_VAR(1, 0xBB4AA4, FP, sTrainDoorYPos_BB4AA4, {});
 
-TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, int tlvInfo)
+TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, s32 tlvInfo)
 {
     // Note: Useless intermediate base ctor omitted
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);

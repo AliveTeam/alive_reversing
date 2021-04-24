@@ -296,7 +296,7 @@ void Gibs::dtor_410170()
 {
     SetVTable(this, 0x544248); // vTbl_Gibs_544248
 
-    for (int i = 0; i < field_5D4_parts_used_count; i++)
+    for (s32 i = 0; i < field_5D4_parts_used_count; i++)
     {
         field_104_parts[i].field_18_anim.vCleanUp_40C630();
     }
@@ -329,7 +329,7 @@ void Gibs::vUpdate_410210()
         field_F8_z += dz;
     }
 
-    for (int i = 0; i < field_5D4_parts_used_count; i++)
+    for (s32 i = 0; i < field_5D4_parts_used_count; i++)
     {
         field_104_parts[i].field_0_x += field_104_parts[i].field_C_dx;
         field_104_parts[i].field_4_y += field_104_parts[i].field_10_dy;
@@ -345,7 +345,7 @@ void Gibs::vUpdate_410210()
         }
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) > field_100_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -372,7 +372,7 @@ EXPORT void Gibs::vRender_4103A0(PrimHeader** ppOt)
     const FP camXPos = pCamPos->field_0_x;
     const FP camYPos = pCamPos->field_4_y;
 
-    for (int i = 0; i < field_5D4_parts_used_count; i++)
+    for (s32 i = 0; i < field_5D4_parts_used_count; i++)
     {
         // Part is within camera X?
         if (field_104_parts[i].field_0_x >= camXPos &&
@@ -400,8 +400,8 @@ EXPORT void Gibs::vRender_4103A0(PrimHeader** ppOt)
 
                 if (field_104_parts[i].field_18_anim.field_14_scale <= FP_FromInteger(1))
                 {
-                    const int xpos = FP_GetExponent(field_104_parts[i].field_0_x - camXPos);
-                    const int ypos = FP_GetExponent(field_104_parts[i].field_4_y - camYPos);
+                    const s32 xpos = FP_GetExponent(field_104_parts[i].field_0_x - camXPos);
+                    const s32 ypos = FP_GetExponent(field_104_parts[i].field_4_y - camYPos);
 
                     field_104_parts[i].field_18_anim.vRender_40B820(xpos, ypos, ppOt, 0, 0);
 

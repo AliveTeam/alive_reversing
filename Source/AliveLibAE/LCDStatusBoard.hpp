@@ -11,7 +11,7 @@ struct Path_LCDStatusBoard : public Path_TLV
 {
     s16 field_10_number_of_muds;
     s16 field_12_zulag_number;
-    int field_14_hidden;
+    s32 field_14_hidden;
 };
 
 class LCDStatusBoard : public BaseGameObject
@@ -33,7 +33,7 @@ public:
     Alive::Font field_58_font2;
     Alive::Font field_90_font3;
     Alive::Font field_C8_font4;
-    int field_100_objectId;
+    s32 field_100_objectId;
     s16 field_104_position_x;
     s16 field_106_position_y;
     s16 field_108_is_hidden;

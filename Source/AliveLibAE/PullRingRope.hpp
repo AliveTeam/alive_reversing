@@ -37,7 +37,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PullRingRope, 0x20);
 class PullRingRope : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT PullRingRope* ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo);
+    EXPORT PullRingRope* ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
@@ -54,9 +54,9 @@ private:
     EXPORT BOOL vIsNotBeingPulled_49BC90();
     EXPORT void vMarkAsPulled_49B610();
 private:
-    int field_F4_stay_in_state_ticks;
-    int field_F8_rope_id;
-    int field_FC_ring_puller_id;
+    s32 field_F4_stay_in_state_ticks;
+    s32 field_F8_rope_id;
+    s32 field_FC_ring_puller_id;
     enum class States : s16
     {
         eIdle_0 = 0,
@@ -70,7 +70,7 @@ private:
     PullRingSwitchSound field_106_on_sound;
     PullRingSwitchSound field_108_off_sound;
     PullRingSoundDirection field_10A_sound_direction;
-    int field_10C_is_pulled;
-    int field_110_tlvInfo;
+    s32 field_10C_is_pulled;
+    s32 field_110_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(PullRingRope, 0x114);

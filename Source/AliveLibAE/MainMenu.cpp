@@ -29,7 +29,7 @@
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
-ALIVE_VAR(1, 0xbb4400, int, sMainMenuObjectCounter_BB4400, 0);
+ALIVE_VAR(1, 0xbb4400, s32, sMainMenuObjectCounter_BB4400, 0);
 ALIVE_VAR(1, 0x5c1b92, s16, sMainMenuFontLoaded_5C1B92, 0);
 
 u8 pal_560F80[] =
@@ -1126,9 +1126,9 @@ void MainMenuController::ParamiteSpeak_Load_4D3B70()
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
 
-static int DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const char* text, s16 x, s16 y, BYTE r, BYTE g, BYTE b, int& polyOffset)
+static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const char* text, s16 x, s16 y, BYTE r, BYTE g, BYTE b, s32& polyOffset)
 {
-    int polyOff = polyOffset;
+    s32 polyOff = polyOffset;
     polyOff = field_120_font.DrawString_4337D0(
         ppOt,
         text,
@@ -1171,13 +1171,13 @@ ALIVE_VAR(1, 0xBB43F0, FP, sTextYPos_BB43F0, {});
 ALIVE_VAR(1, 0xBB43E4, FP, dword_BB43E4, {});
 
 static void RenderScrollableTextEntries(
-    PrimHeader** ot, int& targetEntry, int& selectedEntry, int totalItemsCount,
-    FP& TextYPos, FP& TextYPos2, const char* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, int& polyOffset
+    PrimHeader** ot, s32& targetEntry, s32& selectedEntry, s32 totalItemsCount,
+    FP& TextYPos, FP& TextYPos2, const char* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, s32& polyOffset
 )
 {
-    int i_start = 0;
-    int i_end = 0;
-    int entryPicker = selectedEntry;
+    s32 i_start = 0;
+    s32 i_end = 0;
+    s32 entryPicker = selectedEntry;
 
     if (selectedEntry != targetEntry && TextYPos > FP_FromInteger(0))
     {
@@ -1247,13 +1247,13 @@ static void RenderScrollableTextEntries(
         i_end = 3;
     }
 
-    for (int i = i_start; i <= i_end; i++)
+    for (s32 i = i_start; i <= i_end; i++)
     {
-        int v9 = entryPicker + i;
+        s32 v9 = entryPicker + i;
         if (v9 >= 0 && v9 < totalItemsCount)
         {
             field_234_pStr = stringList[v9].field_0_fileName;
-            int currEntryWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+            s32 currEntryWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
 
             //Entry X alignment (of questionable quality) for long words
             s16 x = currEntryWidth >= 336 ? 16 : (368 - static_cast<s16>(currEntryWidth)) / 2;
@@ -1287,16 +1287,16 @@ const SaveFileRec aKeyboard_1[2] = //used SaveFileRec as workaround for RenderSc
     { "Game Pad", 0 }
 };
 
-ALIVE_VAR(1, 0xBB43D8, int, sControllerEntryToSelect_BB43D8, 0);
-ALIVE_VAR(1, 0xBB43F4, int, sSelectedControllerEntry_BB43F4, 0);
-ALIVE_VAR(1, 0x55E838, int, sControllerCount_55E838, ALIVE_COUNTOF(aKeyboard_1));
+ALIVE_VAR(1, 0xBB43D8, s32, sControllerEntryToSelect_BB43D8, 0);
+ALIVE_VAR(1, 0xBB43F4, s32, sSelectedControllerEntry_BB43F4, 0);
+ALIVE_VAR(1, 0x55E838, s32, sControllerCount_55E838, ALIVE_COUNTOF(aKeyboard_1));
 
 void MainMenuController::ControllerMenu_Render_Text_4D26C0(PrimHeader ** ot)
 {
-    int polyOffset = 0;
+    s32 polyOffset = 0;
     RenderScrollableTextEntries(ot, sControllerEntryToSelect_BB43D8, sSelectedControllerEntry_BB43F4, sControllerCount_55E838, sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, aKeyboard_1, field_120_font, polyOffset);
 
-    for (int i = 0; i < ALIVE_COUNTOF(sControllerMenuButtonCaptions_Text_562628); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(sControllerMenuButtonCaptions_Text_562628); i++)
     {
         MainMenuController::DrawMenuText_4D20D0(&sControllerMenuButtonCaptions_Text_562628[i], ot, &field_120_font, &polyOffset, 1);
     }
@@ -1378,20 +1378,20 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
         { 331, 204, "esc", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u }
     };
 
-    int polyIndex = 0;
+    s32 polyIndex = 0;
     for (const MainMenuText& text : stru_5625F8)
     {
         DrawMenuText_4D20D0(&text, ppOt, &field_120_font, &polyIndex, 1);
     }
 
-    int loopCount = -2;
+    s32 loopCount = -2;
     do
     {
-        int idx = field_230_target_entry_index + loopCount;
+        s32 idx = field_230_target_entry_index + loopCount;
         if (idx >= 0 && idx <= sMenuItemCount_561538 - 1)
         {
             field_234_pStr = pDemosOrFmvs_BB4414.mDemoRec[idx].field_0_display_name;
-            int textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+            s32 textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
             short nextTextXPos = 0;
             if (textWidth >= 336)
             {
@@ -1439,7 +1439,7 @@ void MainMenuController::t_Load_AbeSpeak_Res_4D4A20()
     field_25E_Inside_CheatLevelSelect_Screen = 0;
 }
 
-ALIVE_VAR(1, 0x55C128, int, dword_55C128, 0);
+ALIVE_VAR(1, 0x55C128, s32, dword_55C128, 0);
 
 MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
 {
@@ -1452,7 +1452,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_hel
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
 
-    int inputToUse = 0;
+    s32 inputToUse = 0;
     if (field_204_prev_pressed && field_204_prev_pressed == sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
     {
         field_202_input_hold_down_timer--;
@@ -1595,11 +1595,11 @@ MainMenuText sLoadButtonGraphics[2] =
     { 331, 204, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u }
 };
 
-ALIVE_VAR(1, 0xBB43E8, int, sSelectedSavedGameIdx_BB43E8, 0);
+ALIVE_VAR(1, 0xBB43E8, s32, sSelectedSavedGameIdx_BB43E8, 0);
 
 void MainMenuController::tLoadGame_Render_4D44D0(PrimHeader** ot)
 {
-    int polyOffset = 0;
+    s32 polyOffset = 0;
     RenderScrollableTextEntries(
         ot, sSavedGameToLoadIdx_BB43FC, sSelectedSavedGameIdx_BB43E8, sTotalSaveFilesCount_BB43E0,
         sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, sSaveFileRecords_BB31D8, field_120_font, polyOffset
@@ -1651,11 +1651,11 @@ MainMenuNextCam MainMenuController::Gamespeak_Update_4D1FC0(DWORD input_held)
     }
 }
 
-void MainMenuController::RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, int count, char isSingleChar)
+void MainMenuController::RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, s32 count, char isSingleChar)
 {
-    int polyIndex = 0;
+    s32 polyIndex = 0;
 
-    for (int i = 0; i < count; i++)
+    for (s32 i = 0; i < count; i++)
     {
         MainMenuController::DrawMenuText_4D20D0(&menuTextArray[i], ot, &field_120_font, &polyIndex, isSingleChar);
     }
@@ -1788,7 +1788,7 @@ void MainMenuController::Page_Front_Render_4D24B0(PrimHeader** ot)
 }
 
 ALIVE_VAR(1, 0xbb43dc, short, word_BB43DC, 0);
-ALIVE_VAR(1, 0x5c1b88, int, sGameStartedFrame_5C1B88, 0);
+ALIVE_VAR(1, 0x5c1b88, s32, sGameStartedFrame_5C1B88, 0);
 
 MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
 {
@@ -2112,7 +2112,7 @@ ALIVE_VAR(1, 0x5C1B9C, short, gIsDemoStartedManually_5C1B9C, FALSE);
 ALIVE_VAR(1, 0x5C1BA2, BYTE, sCurrentDemoIdForIdlingDemoPlayback_5C1BA2, 0);
 MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(DWORD)
 {
-    const int maxDemoId = ALIVE_COUNTOF(sDemos_5617F0);
+    const s32 maxDemoId = ALIVE_COUNTOF(sDemos_5617F0);
 
     if (field_23C_T80.Get(Flags::eBit18_Loading))
     {
@@ -2125,7 +2125,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(DWORD)
         {
             demoId = 0;
         }
-        int levelId = static_cast<int>(sDemos_5617F0[demoId].field_4_level);
+        s32 levelId = static_cast<s32>(sDemos_5617F0[demoId].field_4_level);
         char lvFilename[256] = {};
         strcpy(lvFilename, "ATTRACT");
         memset(&lvFilename[8], 0, 0xF8u);
@@ -2231,7 +2231,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
     gAttract_5C1BA0 = 0;
     gIsDemoStartedManually_5C1B9C = FALSE;
 
-    int input_or_field_204 = input;
+    s32 input_or_field_204 = input;
     if (field_204_prev_pressed && field_204_prev_pressed == sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
     {
         field_202_input_hold_down_timer--;
@@ -2544,8 +2544,8 @@ MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(DWORD i
     return MainMenuNextCam(MainMenuCams::eNoChange);
 }
 
-ALIVE_VAR(1, 0xBB43F8, int, dword_BB43F8, 0);
-ALIVE_VAR(1, 0xBB43EC, int, sButtonToRemapIdx_BB43EC, 0);
+ALIVE_VAR(1, 0xBB43F8, s32, dword_BB43F8, 0);
+ALIVE_VAR(1, 0xBB43EC, s32, sButtonToRemapIdx_BB43EC, 0);
 
 void MainMenuController::RemapInput_Load_4D17E0()
 {
@@ -2589,7 +2589,7 @@ const MainMenuText stru_5626A0[10] =
 
 void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
 {
-    int polyIndex = 0;
+    s32 polyIndex = 0;
     if (dword_BB43F8 == 3)
     {
         if (sJoystickEnabled_5C9F70)
@@ -2601,8 +2601,8 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
             field_234_pStr = "Press key to use";
         }
 
-        int textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
-        int nextTextXPos = 0;
+        s32 textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+        s32 nextTextXPos = 0;
         if (textWidth >= 336)
         {
             nextTextXPos = 16;
@@ -2947,7 +2947,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
         return;
     }
 
-    if (field_1F4_credits_next_frame <= static_cast<int>(sGnFrame_5C1B84))
+    if (field_1F4_credits_next_frame <= static_cast<s32>(sGnFrame_5C1B84))
     {
         const auto currentCam = field_240_credits_current_cam + 1;
         field_240_credits_current_cam = currentCam;
@@ -3161,9 +3161,9 @@ void MainMenuController::Update_4CF010()
     }
 }
 
-int CCSTD MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
+s32 CCSTD MainMenuController::GetPageIndexFromCam_4D05A0(s32 camId)
 {
-    for (int i = 0; i < 24; i++)
+    for (s32 i = 0; i < 24; i++)
     {
         if (camId == sMainMenuPages_561960[i].field_0_cam_id)
         {
@@ -3265,7 +3265,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 strcat(buffer, "movies");
             }
 
-            int i = 0;
+            s32 i = 0;
             for (;;) // TODO: Switch to using the len/size of sCdRomDrives_5CA488 when reversed
             {
                 if (!sCdRomDrives_5CA488[i])
@@ -3551,7 +3551,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
         switch (field_220_frame_table_idx)
         {
         case AnimIds::eAbe_Idle:
-            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(2, 0);
                 field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
@@ -3617,7 +3617,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             break;
 
         case AnimIds::eGlukkon_Idle:
-            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(28); // ??
                 field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
@@ -3625,7 +3625,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             break;
 
         case AnimIds::eScrab_Idle:
-            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(38); // ??
                 field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
@@ -3633,7 +3633,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             break;
 
         case AnimIds::eParamite_Idle:
-            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(42); // ??
                 field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
@@ -3650,7 +3650,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
     {
         if (field_220_frame_table_idx != eParamite_Idle && field_220_frame_table_idx != eParamite_Idle2)
         {
-            int doSpeakSoundFrame = 0;
+            s32 doSpeakSoundFrame = 0;
             switch (field_220_frame_table_idx)
             {
             case eParamite_Attack:
@@ -3819,7 +3819,7 @@ void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
             ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, TRUE, FALSE);
 }
 
-void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, Alive::Font* font, int* polyIndex, char op2)
+void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, Alive::Font* font, s32* polyIndex, char op2)
 {
     const bool bSpeak1 = strstr(array->field_8_text, kSpeak1) != 0;
     const bool bSpeak2 = strstr(array->field_8_text, kSpeak2) != 0;
@@ -3857,8 +3857,8 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
         fontScale = FP_FromDouble(array->field_10_scale);
     }
 
-    const int array_field_x = array->field_0_x;
-    const int array_field_y = array->field_4_y;
+    const s32 array_field_x = array->field_0_x;
+    const s32 array_field_y = array->field_4_y;
 
     short text_xpos = 0;
     if (array->field_C_align == 1)
@@ -3867,8 +3867,8 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
     }
     else
     {
-        int fontWidth = font->MeasureWidth_4336C0(textBuffer, fontScale);
-        int halfFontWidth = fontWidth / -2;
+        s32 fontWidth = font->MeasureWidth_4336C0(textBuffer, fontScale);
+        s32 halfFontWidth = fontWidth / -2;
         if (array->field_C_align == 2)
         {
             halfFontWidth = -fontWidth;

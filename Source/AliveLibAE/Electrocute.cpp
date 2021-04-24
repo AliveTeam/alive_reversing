@@ -122,7 +122,7 @@ private:
     PSX_Point field_20_pal_xy;
     short field_24_pal_colours_count;
     // pad
-    int field_28_not_used[36]; // TODO: Probably something used in PSX but not PC?
+    s32 field_28_not_used[36]; // TODO: Probably something used in PSX but not PC?
     s16 field_B8_palBuffer[8];
     s16 field_C8_pal_x_index;
     s16 field_CA_pal_w;
@@ -152,7 +152,7 @@ void Electrocute::VStop_4E6150()
     vStop_4E6150();
 }
 
-int Electrocute::VSub_4E6630()
+s32 Electrocute::VSub_4E6630()
 {
     return vSub_4E6630();
 }
@@ -403,9 +403,9 @@ void Electrocute::vStop_4E6150()
 
 }
 
-int Electrocute::vSub_4E6630()
+s32 Electrocute::vSub_4E6630()
 {
-    int counter = field_2E_overwriter_count - 1;
+    s32 counter = field_2E_overwriter_count - 1;
     if (counter < 0)
     {
         return 0;

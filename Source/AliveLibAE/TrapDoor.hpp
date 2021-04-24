@@ -29,8 +29,8 @@ struct TrapDoor_State
 {
     AETypes field_0_type;
     TrapDoorState field_2_state;
-    int field_4_open_time;
-    int field_8_tlvInfo;
+    s32 field_4_open_time;
+    s32 field_8_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
 
@@ -41,13 +41,13 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
-    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx) override;
 
     virtual void VAdd(BaseAliveGameObject* pObj) override;
     virtual void VRemove(BaseAliveGameObject* pObj) override;
 
-    EXPORT TrapDoor* ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvInfo);
+    EXPORT TrapDoor* ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
     EXPORT static s32 CC CreateFromSaveState_4DDED0(const BYTE* pData);
 
 private:
@@ -55,8 +55,8 @@ private:
     EXPORT void vUpdate_4DDA90();
     EXPORT void vRender_4DDDD0(PrimHeader** ppOt);
     EXPORT void vScreenChanged_4DDE40();
-    EXPORT int vGetSaveState_4DE050(TrapDoor_State* pState);
-    EXPORT PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, int /*not_used*/);
+    EXPORT s32 vGetSaveState_4DE050(TrapDoor_State* pState);
+    EXPORT PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, s32 /*not_used*/);
 
 private:
 
@@ -72,7 +72,7 @@ private:
 private:
     s16 field_12C_unused;
     s16 field_12E_padding;
-    int field_130_stay_open_time2;
+    s32 field_130_stay_open_time2;
     s16 field_134_switch_idx;
     TrapDoorState field_136_state;
     s16 field_138_switch_state;

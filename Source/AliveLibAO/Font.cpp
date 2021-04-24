@@ -297,7 +297,7 @@ void FontContext::dtor_41C110()
     }
 }
 
-AliveFont* AliveFont::ctor_41C170(int maxCharLength, const BYTE* palette, FontContext* fontContext)
+AliveFont* AliveFont::ctor_41C170(s32 maxCharLength, const BYTE* palette, FontContext* fontContext)
 {
     field_34_font_context = fontContext;
 
@@ -326,12 +326,12 @@ AliveFont* AliveFont::ctor_41C170(int maxCharLength, const BYTE* palette, FontCo
 
 EXPORT u32 AliveFont::MeasureWidth_41C2B0(const char* text)
 {
-    int result = 0;
+    s32 result = 0;
 
     for (u32 i = 0; i < strlen(text); i++)
     {
         const char c = text[i];
-        int charIndex = 0;
+        s32 charIndex = 0;
 
         if (c <= 32 || static_cast<const u8>(c) > 175)
         {
@@ -363,10 +363,10 @@ EXPORT u32 AliveFont::MeasureWidth_41C2B0(const char* text)
     return result;
 }
 
-EXPORT int AliveFont::MeasureWidth_41C200(char character)
+EXPORT s32 AliveFont::MeasureWidth_41C200(char character)
 {
-    int result = 0;
-    int charIndex = 0;
+    s32 result = 0;
+    s32 charIndex = 0;
 
     if (character <= 32 || character > 175)
     {
@@ -384,34 +384,34 @@ EXPORT int AliveFont::MeasureWidth_41C200(char character)
 
     if (!sFontDrawScreenSpace_508BF4)
     {
-        result = static_cast<int>(result * 0.575);
+        result = static_cast<s32>(result * 0.575);
     }
 
     return result;
 }
 
 
-int AliveFont::MeasureWidth_41C280(const char* text, FP scale)
+s32 AliveFont::MeasureWidth_41C280(const char* text, FP scale)
 {
     const FP width = FP_FromInteger(MeasureWidth_41C2B0(text));
     return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
 }
 
-EXPORT int AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, s16 x, s16 y, TPageAbr abr, int bSemiTrans, int blendMode, Layer layer, u8 r, u8 g, u8 b, int polyOffset, FP scale, int maxRenderWidth, int colorRandomRange)
+EXPORT s32 AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s32 colorRandomRange)
 {
     if (!sFontDrawScreenSpace_508BF4)
     {
         x = PsxToPCX(x, 11);
     }
 
-    int characterRenderCount = 0;
-    const int maxRenderX = PsxToPCX(maxRenderWidth, 11);
+    s32 characterRenderCount = 0;
+    const s32 maxRenderX = PsxToPCX(maxRenderWidth, 11);
     short offsetX = x;
-    int charInfoIndex = 0;
+    s32 charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_504C78.field_A_buffer_index + (2 * polyOffset)];
 
-    const int tpage = PSX_getTPage_4965D0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & ~63, field_34_font_context->field_0_rect.y);
-    const int clut = PSX_getClut_496840(field_28_palette_rect.x, field_28_palette_rect.y);
+    const s32 tpage = PSX_getTPage_4965D0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & ~63, field_34_font_context->field_0_rect.y);
+    const s32 clut = PSX_getClut_496840(field_28_palette_rect.x, field_28_palette_rect.y);
 
     for (u32 i = 0; i < strlen(text); i++)
     {
@@ -506,10 +506,10 @@ void AliveFont::dtor_41C130()
     ResourceManager::FreeResource_455550(field_20_fnt_poly_block_ptr);
 }
 
-const char* AliveFont::SliceText_41C6C0(const char* text, int left, FP scale, int right)
+const char* AliveFont::SliceText_41C6C0(const char* text, s32 left, FP scale, s32 right)
 {
-    int xOff = 0;
-    int rightWorldSpace = PsxToPCX(right, 11);
+    s32 xOff = 0;
+    s32 rightWorldSpace = PsxToPCX(right, 11);
 
     if (sFontDrawScreenSpace_508BF4)
     {
@@ -522,7 +522,7 @@ const char* AliveFont::SliceText_41C6C0(const char* text, int left, FP scale, in
 
     for (const char* strPtr = text; *strPtr; strPtr++)
     {
-        int atlasIdx = 0;
+        s32 atlasIdx = 0;
         char character = *strPtr;
         if (xOff >= rightWorldSpace)
             break;

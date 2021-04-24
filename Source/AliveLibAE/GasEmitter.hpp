@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasEmitter, 0x14);
 class GasEmitter : public BaseGameObject
 {
 public:
-    EXPORT GasEmitter* ctor_43CAA0(Path_GasEmitter* pTlv, int tlvInfo);
+    EXPORT GasEmitter* ctor_43CAA0(Path_GasEmitter* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
@@ -38,8 +38,8 @@ private:
     EXPORT void vUpdate_43CB70();
 
 private:
-    int field_20_tlvInfo;
-    int field_24_emit_power;
+    s32 field_20_tlvInfo;
+    s32 field_24_emit_power;
     s16 field_28_draw_flipper;
     s16 field_2A_switch_id;
     GasColour field_2C_gas_colour;

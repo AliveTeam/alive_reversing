@@ -47,7 +47,7 @@
     ENTRY(M_DeathBegin_39_4AA190)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eScrabMotions : int
+enum eScrabMotions : s32
 {
     SCRAB_MOTIONS_ENUM(MAKE_ENUM)
 };
@@ -98,7 +98,7 @@ struct Scrab_State
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    int field_4_obj_id;
+    s32 field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -125,30 +125,30 @@ struct Scrab_State
     char field_40_bIsControlled;
     char field_41_padding;
     s16 field_42_padding;
-    int field_44_tlvInfo;
-    int field_48_ai_idx;
+    s32 field_44_tlvInfo;
+    s32 field_48_ai_idx;
     s16 field_4C_padding;
     s16 field_4E_padding;
     s16 field_50_sub_state;
     s16 field_52_padding;
-    int field_54_obj_id;
-    int field_58_target_obj_id;
-    int field_5C_timer;
-    int field_60_depossession_timer;
+    s32 field_54_obj_id;
+    s32 field_58_target_obj_id;
+    s32 field_5C_timer;
+    s32 field_60_depossession_timer;
     FP field_64_falling_velx_scale_factor;
     s16 field_68_motion_resource_block_index;
     s16 field_6A_padding;
-    int field_6C_spotting_abe_timer;
-    int field_70_attack_delay_timer;
-    int field_74_movement_timer;
-    int field_78_sfx_bitmask;
+    s32 field_6C_spotting_abe_timer;
+    s32 field_70_attack_delay_timer;
+    s32 field_74_movement_timer;
+    s32 field_78_sfx_bitmask;
     s16 field_7C_prevent_depossession;
     LevelIds field_7E_level;
     s16 field_80_path;
     s16 field_82_camera;
     s16 field_84_input;
     s16 field_86_padding;
-    int field_88_unused;
+    s32 field_88_unused;
     s16 field_8C_shred_power_active;
     GameSpeakEvents field_8E_speak;
     FP field_90_max_xpos;
@@ -177,7 +177,7 @@ using TScrabMotionFn = void (Scrab::*)();
 class Scrab : public BaseAliveGameObject
 {
 public:
-    EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, ScrabSpawnDirection spawnDirection);
+    EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection);
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
 
@@ -206,7 +206,7 @@ public:
         return vOn_TLV_Collision_4A4B80(pTlv);
     }
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override
     {
         return vGetSaveState_4AB020(reinterpret_cast<Scrab_State*>(pSaveBuffer));
     }
@@ -221,10 +221,10 @@ public:
         vOnTrapDoorOpen_4A7ED0();
     }
 
-    EXPORT static int CC CreateFromSaveState_4A70A0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4A70A0(const BYTE* pBuffer);
 
 private:
-    EXPORT int vGetSaveState_4AB020(Scrab_State* pState);
+    EXPORT s32 vGetSaveState_4AB020(Scrab_State* pState);
 
 
 
@@ -335,7 +335,7 @@ private:
 
     EXPORT void KnockBack_4AA530();
 
-    EXPORT int Scrab_SFX_4AADB0(ScrabSounds soundId, int vol, int pitch, s16 applyDirection);
+    EXPORT s32 Scrab_SFX_4AADB0(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
 
     EXPORT void KillTarget_4A7F20(BaseAliveGameObject* pTarget);
 
@@ -355,38 +355,38 @@ private:
     TScrabAIFn field_118_brain_state;
     s16 field_11C_sub_state;
     s16 field_11E_return_to_previous_motion;
-    int field_120_obj_id;
-    int field_124_fight_target_obj_id;
+    s32 field_120_obj_id;
+    s32 field_124_fight_target_obj_id;
     s16 field_128_attack_delay;
     s16 field_12A_patrol_type_run_or_walk_chance;
-    int field_12C_timer;
-    int field_130_depossession_timer;
+    s32 field_12C_timer;
+    s32 field_130_depossession_timer;
     FP field_134_falling_velx_scale_factor;
     FP field_138_unused;
     FP field_13C_last_ypos;
     s16 field_140_motion_resource_block_index;
     s16 field_142_padding;
-    int field_144_tlvInfo;
-    int field_148_spotting_abe_delay;
-    int field_14C_spotting_abe_timer;
-    int field_150_attack_delay_timer;
-    int field_154_movement_timer;
+    s32 field_144_tlvInfo;
+    s32 field_148_spotting_abe_delay;
+    s32 field_14C_spotting_abe_timer;
+    s32 field_150_attack_delay_timer;
+    s32 field_154_movement_timer;
     s16 field_158_left_min_delay;
     s16 field_15A_left_max_delay;
     s16 field_15C_right_min_delay;
     s16 field_15E_right_max_delay;
-    int field_160_sfx_bitmask;
+    s32 field_160_sfx_bitmask;
     s16 field_164_prevent_depossession;
     LevelIds field_166_level;
     s16 field_168_path;
     s16 field_16A_camera;
-    int field_16C_input;
-    int field_170_unused;
+    s32 field_16C_input;
+    s32 field_170_unused;
     s16 field_174_whirl_attack_duration;
     s16 field_176_unused;
     s16 field_178_shred_power_active;
     s16 field_17A_padding;
-    int field_17C_last_event;
+    s32 field_17C_last_event;
     s16 field_180_padding;
     s16 field_182_padding;
     s16 field_184_padding;

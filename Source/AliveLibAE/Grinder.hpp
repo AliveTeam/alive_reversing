@@ -47,9 +47,9 @@ struct Grinder_State
 {
     s16 field_0;
     //s16 field_2_padding;
-    int field_4;
-    int field_8_tlvInfo;
-    int field_C_off_timer;
+    s32 field_4;
+    s32 field_8_tlvInfo;
+    s32 field_C_off_timer;
     GrinderStates field_10_state;
     s16 field_12_xyoff;
 };
@@ -72,7 +72,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
     EXPORT static s32 CC CreateFromSaveState_421600(const BYTE* pData);
 private:
@@ -82,7 +82,7 @@ private:
     EXPORT void vScreenChanged_4214B0();
     EXPORT void vRender_4213D0(PrimHeader** ppOt);
     EXPORT void vStopAudio_4215C0();
-    EXPORT int vGetSaveState_4217B0(BYTE* /*pSaveBuffer*/);
+    EXPORT s32 vGetSaveState_4217B0(BYTE* /*pSaveBuffer*/);
     EXPORT void EmitSparks_4206D0();
     EXPORT s16 DamageTouchingObjects_421060();
 private:
@@ -95,8 +95,8 @@ private:
     s16 field_100_min_off_time_speed_change;
     s16 field_102_max_off_time_speed_change;
     DWORD field_104_tlv;
-    int field_108_off_timer;
-    int field_10C_audio_channels_mask;
+    s32 field_108_off_timer;
+    s32 field_10C_audio_channels_mask;
     FP field_110_xPos;
     FP field_114_yPos;
     FP field_118_speed;

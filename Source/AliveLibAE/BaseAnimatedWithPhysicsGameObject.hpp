@@ -47,11 +47,11 @@ public:
     EXPORT void Update_424AB0();
     EXPORT void Render_424B90(PrimHeader** ppOt);
 
-    EXPORT void Animation_Init_424E10(int frameTableOffset, int maxW, u16 maxH, BYTE **ppAnimData, s16 a6, u8 a7);
+    EXPORT void Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, BYTE **ppAnimData, s16 a6, u8 a7);
 
-    virtual void vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
+    virtual void vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
     // TODO: Just return by value - this is odd optimization the compiler does
-    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
+    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx);
     virtual s16 vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj);
     virtual s16 vIsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pObj);
     virtual s16 vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther);
@@ -61,7 +61,7 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
 private:
-    EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
+    EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx);
     EXPORT s16 IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj);
     EXPORT s16 IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther);
     EXPORT s16 IsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther);
@@ -73,7 +73,7 @@ private:
 public:
     EXPORT CameraPos Is_In_Current_Camera_424A70();
     EXPORT void DealDamageRect_4247A0(const PSX_RECT *pRect);
-    EXPORT void OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
+    EXPORT void OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
     EXPORT void SetTint_425600(const TintEntry* pTintArray, LevelIds level_id);
 
 protected:

@@ -26,7 +26,7 @@ void Camera::dtor_444700()
 {
     ResourceManager::FreeResource_455550(field_C_ppBits);
 
-    for (int i = 0; i < field_0_array.Size(); i++)
+    for (s32 i = 0; i < field_0_array.Size(); i++)
     {
         BYTE** ppRes = field_0_array.ItemAt(i);
         if (!ppRes)
@@ -99,7 +99,7 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
     }
 }
 
-void ScreenManager::InvalidateRect_406CC0(int x, int y, s32 width, s32 height)
+void ScreenManager::InvalidateRect_406CC0(s32 x, s32 y, s32 width, s32 height)
 {
     InvalidateRect_406E40(x, y, width, height, field_2E_idx);
 }
@@ -138,7 +138,7 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
 
     short xpos = 0;
     short ypos = 0;
-    for (int i = 0; i < 300; i++)
+    for (s32 i = 0; i < 300; i++)
     {
         SprtTPage* pItem = &field_18_screen_sprites[i];
         Sprt_Init(&pItem->mSprt);
@@ -148,9 +148,9 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
         pItem->mSprt.field_14_w = 32;
         pItem->mSprt.field_16_h = 16;
 
-        int u0 = field_20_upos + 32 * (i % 20);
-        int v0 = field_22_vpos + 16 * (i / 20);
-        int tpage = ScreenManager::GetTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, &u0, &v0);
+        s32 u0 = field_20_upos + 32 * (i % 20);
+        s32 v0 = field_22_vpos + 16 * (i / 20);
+        s32 tpage = ScreenManager::GetTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, &u0, &v0);
 
         tpage |= 0x8000;
 
@@ -166,7 +166,7 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
         }
     }
 
-    for (int i = 0; i < 6; i++)
+    for (s32 i = 0; i < 6; i++)
     {
         memset(&field_58_20x16_dirty_bits[i], 0, sizeof(field_58_20x16_dirty_bits[0]));
     }
@@ -187,7 +187,7 @@ void ScreenManager::UnsetDirtyBits_FG1_406EF0()
     memset(&field_58_20x16_dirty_bits[5], 0, sizeof(this->field_58_20x16_dirty_bits[5]));
 }
 
-void ScreenManager::InvalidateRect_406E40(int x, int y, s32 width, s32 height, int idx)
+void ScreenManager::InvalidateRect_406E40(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
     x = std::max(x, 0);
     y = std::max(y, 0);
@@ -195,22 +195,22 @@ void ScreenManager::InvalidateRect_406E40(int x, int y, s32 width, s32 height, i
     width = std::min(width, 639);
     height = std::min(height, 239);
 
-    for (int tileX = x / 32; tileX <= width / 32; tileX++)
+    for (s32 tileX = x / 32; tileX <= width / 32; tileX++)
     {
-        for (int tileY = y / 16; tileY <= height / 16; tileY++)
+        for (s32 tileY = y / 16; tileY <= height / 16; tileY++)
         {
             field_58_20x16_dirty_bits[idx].SetTile(tileX, tileY, true);
         }
     }
 }
 
-void ScreenManager::InvalidateRect_Layer3_406F20(int x, int y, int width, int height)
+void ScreenManager::InvalidateRect_Layer3_406F20(s32 x, s32 y, s32 width, s32 height)
 {
     InvalidateRect_406E40(x, y, width, height, 3);
 }
 
 
-void ScreenManager::InvalidateRect_406D80(int x, int y, s32 width, s32 height, int idx)
+void ScreenManager::InvalidateRect_406D80(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
     InvalidateRect_406E40(x, y, width, height, idx + 4);
 }
@@ -226,7 +226,7 @@ void ScreenManager::VUpdate()
 }
 
 
-int ScreenManager::GetTPage(TPageMode tp, TPageAbr abr, int* xpos, int* ypos)
+s32 ScreenManager::GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
 {
     const short clampedYPos = *ypos & 0xFF00;
     const short clampedXPos = *xpos & 0xFFC0;
@@ -258,12 +258,12 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
 
     PSX_DrawSync_496750(0);
 
-    for (int i = 0; i < 300; i++)
+    for (s32 i = 0; i < 300; i++)
     {
         SprtTPage* pSpriteTPage = &field_18_screen_sprites[i];
 
-        const int spriteX = pSpriteTPage->mSprt.mBase.vert.x;
-        const int spriteY = pSpriteTPage->mSprt.mBase.vert.y;
+        const s32 spriteX = pSpriteTPage->mSprt.mBase.vert.x;
+        const s32 spriteY = pSpriteTPage->mSprt.mBase.vert.y;
 
         Layer layer = Layer::eLayer_0;
         if (field_58_20x16_dirty_bits[4].GetTile(spriteX / 32, spriteY / 16))
@@ -305,7 +305,7 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
 
     sub_406FF0();
 
-    for (int i = 0; i < 20; i++)
+    for (s32 i = 0; i < 20; i++)
     {
         field_58_20x16_dirty_bits[field_32_x_idx].mData[i] |= field_58_20x16_dirty_bits[3].mData[i];
     }

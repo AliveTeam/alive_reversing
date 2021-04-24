@@ -110,8 +110,8 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
 
     for (auto& sparkOffs : kSparkOffs_563988)
     {
-        int sparkX = 0;
-        int sparkY = 0;
+        s32 sparkX = 0;
+        s32 sparkY = 0;
         if (pTlvData->field_1C_scale != Scale_short::eFull_0)
         {
             sparkX = xOrg + (sparkOffs.field_0_x / 2);

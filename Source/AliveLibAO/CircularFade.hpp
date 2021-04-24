@@ -26,9 +26,9 @@ public:
     // New virtuals
     virtual EXPORT char VFadeIn_479FE0(u8 direction, char destroyOnDone);
 
-    virtual EXPORT int VDone_47A4C0();
+    virtual EXPORT s32 VDone_47A4C0();
 
-    int field_D4[4];
+    s32 field_D4[4];
     enum Flags
     {
         eBit1_FadeIn = 0x1,

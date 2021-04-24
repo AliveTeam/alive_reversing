@@ -15,7 +15,7 @@ struct Path_LCDStatusBoard : public Path_TLV
 class LCDStatusBoard : public BaseGameObject
 {
 public:
-    EXPORT LCDStatusBoard* ctor_4418E0(Path_LCDStatusBoard* pTlv, int tlvInfo);
+    EXPORT LCDStatusBoard* ctor_4418E0(Path_LCDStatusBoard* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_4419E0();
 
@@ -39,7 +39,7 @@ public:
     AliveFont field_20_font1;
     AliveFont field_58_font2;
     AliveFont field_90_font3;
-    int field_C8_tlv;
+    s32 field_C8_tlv;
     s16 field_CC_xpos;
     s16 field_CE_ypos;
 };

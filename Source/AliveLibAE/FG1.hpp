@@ -8,12 +8,12 @@
 struct Fg1Block
 {
     Poly_FT4 field_0_polys[2];
-    int field_58_padding;
-    int field_5C_padding;
-    int field_60_padding;
+    s32 field_58_padding;
+    s32 field_5C_padding;
+    s32 field_60_padding;
     s16 field_64_padding;
     Layer field_66_mapped_layer;
-    int field_68_array_of_height[16];
+    s32 field_68_array_of_height[16];
 };
 ALIVE_ASSERT_SIZEOF(Fg1Block, 0xA8);
 
@@ -36,7 +36,7 @@ public:
     EXPORT void dtor_49A540();
     EXPORT s16 Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
-    int field_20_unused;
+    s32 field_20_unused;
     LevelIds field_24_level_id;
     s16 field_26_path_id;
     s16 field_28_render_block_count;

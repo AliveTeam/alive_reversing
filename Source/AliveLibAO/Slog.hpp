@@ -51,7 +51,7 @@ ALIVE_ASSERT_SIZEOF(Path_Slog, 0x2C);
     ENTRY(State_24_Growl_475590)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eSlogStates : int
+enum eSlogStates : s32
 {
     SLOG_STATES_ENUM(MAKE_ENUM)
 };
@@ -59,13 +59,13 @@ enum eSlogStates : int
 class Slog : public BaseAliveGameObject
 {
 public:
-    EXPORT Slog* ctor_472EE0(Path_Slog* pTlv, int tlvInfo);
+    EXPORT Slog* ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo);
     EXPORT Slog* ctor_473050(FP xpos, FP ypos, FP scale);
     EXPORT BaseGameObject* dtor_473370();
 
     EXPORT s16 HandleEnemyStopper_473BD0();
     EXPORT void ToJump_473FB0();
-    EXPORT void Sfx_475BD0(int idx);
+    EXPORT void Sfx_475BD0(s32 idx);
     EXPORT s16 IsPlayerNear_471930();
     EXPORT BaseAliveGameObject* FindAbeMudOrSlig_4722F0();
     EXPORT void Init_473130();
@@ -144,21 +144,21 @@ public:
     s16 field_116_brain_state;
     s16 field_118;
     s16 field_11A;
-    int field_11C_timer;
-    int field_120;
+    s32 field_11C_timer;
+    s32 field_120;
     s16 field_124;
     s16 field_126_movedOffScreen;
-    int field_128;
+    s32 field_128;
     FP field_12C;
-    int field_130;
+    s32 field_130;
     s16 field_134;
     s16 field_136;
-    int field_138_tlvInfo;
+    s32 field_138_tlvInfo;
     s16 field_13C_res_idx;
     s16 field_13E;
-    int field_140;
-    int field_144;
-    int field_148;
+    s32 field_140;
+    s32 field_144;
+    s32 field_148;
     BaseAliveGameObject* field_14C_pSlig;
     s16 field_150_waiting_counter;
     s16 field_152_response_index;
@@ -168,8 +168,8 @@ public:
     s16 field_15A;
     s16 field_15C;
     s16 field_15E;
-    int field_160;
-    int field_164_timer;
+    s32 field_160;
+    s32 field_164_timer;
     s16 field_168_anger_switch_id;
     s16 field_16A;
     BaseAliveGameObject* field_16C;

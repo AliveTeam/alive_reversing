@@ -18,9 +18,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x18);
 class Dove : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Dove* ctor_41F430(int frameTableOffset, int maxW, u16 maxH, int resourceID, int tlvInfo, FP scale);
+    EXPORT Dove* ctor_41F430(s32 frameTableOffset, s32 maxW, u16 maxH, s32 resourceID, s32 tlvInfo, FP scale);
 
-    EXPORT Dove* ctor_41F660(int frameTableOffset, int maxW, s16 maxH, int resourceID, FP xpos, FP ypos, FP scale);
+    EXPORT Dove* ctor_41F660(s32 frameTableOffset, s32 maxW, s16 maxH, s32 resourceID, FP xpos, FP ypos, FP scale);
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -41,7 +41,7 @@ private:
 private:
     s16 field_F4_counter;
     s16 field_F6_padding;
-    int field_F8_tlvInfo;
+    s32 field_F8_tlvInfo;
     s16 field_FC_keepInGlobalArray;
     enum class State : s16
     {
@@ -54,7 +54,7 @@ private:
     State field_FE_state;
     FP field_100_xJoin;
     FP field_104_yJoin;
-    int field_108_timer;
+    s32 field_108_timer;
     char field_10C_angle;
     // 3 byte pad
     FP field_110_prevX;

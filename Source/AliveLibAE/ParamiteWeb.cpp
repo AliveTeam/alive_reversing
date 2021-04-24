@@ -53,7 +53,7 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, s16 bottom, s16 top, FP scale)
     field_FC_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Web, 0, sizeof(AnimationUnknown) * (field_F4_number_of_segments));
     field_100_pRes = reinterpret_cast<AnimationUnknown*>(*field_FC_ppRes);
 
-    for (int i = 0; i < field_F4_number_of_segments; i++)
+    for (s32 i = 0; i < field_F4_number_of_segments; i++)
     {
         AnimationUnknown* pSegment = &field_100_pRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
@@ -171,7 +171,7 @@ void ParamiteWeb::vRender_4E1BA0(PrimHeader** ppOt)
 
             if (y_start >= minY)
             {
-                for (int idx = 0; idx < field_F4_number_of_segments; ++idx)
+                for (s32 idx = 0; idx < field_F4_number_of_segments; ++idx)
                 {
                     short r = 128;
                     short g = 128;

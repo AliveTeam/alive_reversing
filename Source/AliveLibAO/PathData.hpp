@@ -144,7 +144,7 @@ enum class TlvTypes : s16
 struct Path_TLV;
 class Map;
 
-using TTempFn = int(CC*)();
+using TTempFn = s32(CC*)();
 
 struct PathData
 {
@@ -157,8 +157,8 @@ struct PathData
     s16 field_E_grid_height;
     s16 field_10;
     s16 field_12;
-    int field_14_object_offset;
-    int field_18_object_index_table_offset;
+    s32 field_14_object_offset;
+    s32 field_18_object_index_table_offset;
     PathFunctionTable field_1C_object_funcs;
 };
 
@@ -203,7 +203,7 @@ struct SoundBlockInfo
 {
     const char* field_0_vab_header_name;
     const char* field_4_vab_body_name;
-    int field_8_vab_id;
+    s32 field_8_vab_id;
     BYTE* field_C_pVabHeader;
 };
 
@@ -218,11 +218,11 @@ struct PathRoot
     const char* field_14_lvl_name;
     s16 field_18_num_paths;
     s16 field_1A_unused; // message to display to change cd ??
-    int field_1C_overlay_idx;
+    s32 field_1C_overlay_idx;
     const char* field_20_lvl_name_cd;
-    int field_24;
+    s32 field_24;
     const char* field_28_ovl_name_cd;
-    int field_2C;
+    s32 field_2C;
     const char* field_30_mov_name_cd;
     const char* field_34_idx_name;
     const char* field_38_bnd_name;
@@ -237,7 +237,7 @@ EXPORT const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, u16 path)
 
 EXPORT FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId);
 
-EXPORT int CC Path_Format_CameraName_4346B0(char* pNameBuffer, LevelIds level, s16 path, s16 camera);
+EXPORT s32 CC Path_Format_CameraName_4346B0(char* pNameBuffer, LevelIds level, s16 path, s16 camera);
 
 extern PathRootContainer gMapData_4CAB58;
 

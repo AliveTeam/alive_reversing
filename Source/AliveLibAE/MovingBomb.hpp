@@ -27,7 +27,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBombStopper, 0x14);
 class MovingBomb : public BaseAliveGameObject
 {
 public:
-    EXPORT MovingBomb* ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo);
+    EXPORT MovingBomb* ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
@@ -61,14 +61,14 @@ private:
     };
     States field_118_state;
     s16 field_11A_padding;
-    int field_11C_tlvInfo;
-    int field_120_timer;
+    s32 field_11C_tlvInfo;
+    s32 field_120_timer;
     FP field_124_speed;
     s16 field_128_switch_id;
     s16 field_12A_min;
     s16 field_12C_max;
     s16 field_12E_padding;
-    int field_130_sound_channels;
+    s32 field_130_sound_channels;
     s16 field_134_disable_resources;
     s16 field_136_persist_offscreen;
 };

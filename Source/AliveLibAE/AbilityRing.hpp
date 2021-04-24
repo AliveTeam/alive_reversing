@@ -41,9 +41,9 @@ struct AbilityRing_State
     RingTypes field_C_ring_type;
     s16 field_E;
     FP field_10_scale;
-    int field_14_obj_id;
+    s32 field_14_obj_id;
     FP field_18_right;
-    int field_1C_count;
+    s32 field_1C_count;
     s16 field_20_r;
     s16 field_22_g;
     s16 field_24_b;
@@ -64,12 +64,12 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
     // New virtuals
     virtual void VSetTarget(BaseGameObject* pTarget);
 
-    static EXPORT int CC CreateFromSaveState_49DF90(const BYTE* pBuffer);
+    static EXPORT s32 CC CreateFromSaveState_49DF90(const BYTE* pBuffer);
 
 private:
     EXPORT void vSetTarget_49D140(BaseGameObject* pTarget);
@@ -79,7 +79,7 @@ private:
     EXPORT void CollideWithObjects_49D5E0(s16 bDealDamage);
     EXPORT void vRender_49D790(PrimHeader** ppOt);
     EXPORT void vScreenChanged_49DE70();
-    EXPORT int vGetSaveState_49E070(AbilityRing_State* pSaveState);
+    EXPORT s32 vGetSaveState_49E070(AbilityRing_State* pSaveState);
 
 private:
     Layer field_20_layer;
@@ -111,8 +111,8 @@ private:
     s16 field_282_path;
     RingTypes field_284_ring_type;
     //s16 field_286_pad;
-    int field_288_target_obj_id;
-    int field_28C_count;
+    s32 field_288_target_obj_id;
+    s32 field_28C_count;
     s16 field_290_bFindingTarget;
     // s16 field_292_pad;
 };

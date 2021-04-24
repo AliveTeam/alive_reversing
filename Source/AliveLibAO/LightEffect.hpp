@@ -8,7 +8,7 @@ namespace AO {
 class LightEffect : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT LightEffect* ctor_4064C0(Path_LightEffect* pTlv, int tlvInfo);
+    EXPORT LightEffect* ctor_4064C0(Path_LightEffect* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_406770();
 
@@ -28,18 +28,18 @@ public:
 
     EXPORT void VUpdate_406610();
 
-    int field_D4;
-    int field_D8;
-    int field_DC;
-    int field_E0;
+    s32 field_D4;
+    s32 field_D8;
+    s32 field_DC;
+    s32 field_E0;
 
-    int field_E4_tlvInfo;
+    s32 field_E4_tlvInfo;
     s16 field_E8;
     s16 field_EA;
-    int field_EC_rnd1;
-    int field_F0_rnd2;
-    int field_F4_rnd3;
-    int field_F8_rnd4;
+    s32 field_EC_rnd1;
+    s32 field_F0_rnd2;
+    s32 field_F4_rnd3;
+    s32 field_F8_rnd4;
 };
 ALIVE_ASSERT_SIZEOF(LightEffect, 0xFC);
 

@@ -126,7 +126,7 @@ void CheatController::Update_421C70()
             for (auto& cheatEntry : sCheatArray_5515F8)
             {
                 // Bit shift current level for level mask.
-                if ((1 << static_cast<int>(gMap_5C3030.field_0_current_level)) & cheatEntry.field_0_level_mask)
+                if ((1 << static_cast<s32>(gMap_5C3030.field_0_current_level)) & cheatEntry.field_0_level_mask)
                 {
                     if (held == cheatEntry.field_8_cheat_code_ary[cheatEntry.field_C_success_idx])
                     {

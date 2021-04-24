@@ -9,7 +9,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507684, s16, gCreditsControllerExists_507684, false);
 
-constexpr int kShowCreditScreenForTicks = 60;
+constexpr s32 kShowCreditScreenForTicks = 60;
 
 void CreditsController::VUpdate()
 {
@@ -21,7 +21,7 @@ BaseGameObject* CreditsController::VDestructor(s32 flags)
     return Vdtor_40D090(flags);
 }
 
-CreditsController* CreditsController::ctor_40CFC0(Path_TLV* /*pTlv*/, int /*tlvInfo*/)
+CreditsController* CreditsController::ctor_40CFC0(Path_TLV* /*pTlv*/, s32 /*tlvInfo*/)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA458);
@@ -53,7 +53,7 @@ CreditsController* CreditsController::Vdtor_40D090(s32 flags)
 
 void CreditsController::VUpdate_40D020()
 {
-    if (field_10_next_cam_frame <= static_cast<int>(gnFrameCount_507670))
+    if (field_10_next_cam_frame <= static_cast<s32>(gnFrameCount_507670))
     {
         field_14_camera_number++;
         if (field_14_camera_number > 24u)

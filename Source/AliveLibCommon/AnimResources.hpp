@@ -592,17 +592,17 @@ struct PalRecord
 {
     PalId mId;
     const char* mBanName;
-    int mResourceId;
+    s32 mResourceId;
 };
 
 struct AnimRecord
 {
     AnimId mId;
     const char* mBanName;
-    int mFrameTableOffset;
+    s32 mFrameTableOffset;
     short mMaxW;
     short mMaxH;
-    int mResourceId;
+    s32 mResourceId;
     PalId mPalOverride;
 };
 

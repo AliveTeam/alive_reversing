@@ -165,7 +165,7 @@ public:
 
     Types field_4_typeId;
     BitField16<Options> field_6_flags;
-    int field_8_update_delay;
+    s32 field_8_update_delay;
     char field_C_refCount;
     char field_D; // pad ?
     s16 field_E; // ??

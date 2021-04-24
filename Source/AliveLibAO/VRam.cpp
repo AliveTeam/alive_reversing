@@ -75,7 +75,7 @@ s16 CC vram_alloc_450B20(u16 width, s16 height, u16 colourDepth, PSX_RECT* pRect
     return Vram_alloc_4956C0(width, height, colourDepth, pRect);
 }
 
-EXPORT int CC vram_alloc_450860(s16 width, s16 height, PSX_RECT* pRect)
+EXPORT s32 CC vram_alloc_450860(s16 width, s16 height, PSX_RECT* pRect)
 {
     AE_IMPLEMENTED();
     return Vram_alloc_4956C0(width, height, 16, pRect);

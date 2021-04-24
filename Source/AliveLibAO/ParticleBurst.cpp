@@ -43,7 +43,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
     if (field_E4_ppRes)
     {
         field_E8_pRes = reinterpret_cast<ParticleBurst_Item*>(*field_E4_ppRes);
-        for (int i = 0; i < particleCount; i++)
+        for (s32 i = 0; i < particleCount; i++)
         {
             // Placement new each element
             new (&field_E8_pRes[i]) ParticleBurst_Item();
@@ -118,7 +118,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
             field_A8_xpos = xpos;
             field_AC_ypos = ypos;
 
-            for (int i = 0; i < particleCount; i++)
+            for (s32 i = 0; i < particleCount; i++)
             {
                 field_E8_pRes[i].field_18_anim.field_68_anim_ptr = &field_10_anim;
                 field_E8_pRes[i].field_18_anim.field_C_layer = field_10_anim.field_C_layer;
@@ -198,7 +198,7 @@ void ParticleBurst::VUpdate()
 
 void ParticleBurst::VUpdate_40D600()
 {
-    for (int i = 0; i < field_EC_count; i++)
+    for (s32 i = 0; i < field_EC_count; i++)
     {
         ParticleBurst_Item* pItem = &field_E8_pRes[i];
 
@@ -253,7 +253,7 @@ void ParticleBurst::VUpdate_40D600()
         }
     }
 
-    if (static_cast<int>(gnFrameCount_507670) > field_F0_timer)
+    if (static_cast<s32>(gnFrameCount_507670) > field_F0_timer)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -286,7 +286,7 @@ void ParticleBurst::VRender_40D7F0(PrimHeader** ppOt)
     const FP screen_bottom = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
     
     bool bFirst = true;
-    for (int i = 0; i < field_EC_count; i++)
+    for (s32 i = 0; i < field_EC_count; i++)
     {
         ParticleBurst_Item* pItem = &field_E8_pRes[i];
         if (pItem->field_0_x >= screen_left && pItem->field_0_x <= screen_right)

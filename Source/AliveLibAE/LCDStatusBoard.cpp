@@ -70,8 +70,8 @@ LCDStatusBoard* LCDStatusBoard::ctor_47B600(Path_LCDStatusBoard* params, TlvItem
 
     field_6_flags.Set(eDrawable_Bit4);
     gObjList_drawables_5C1124->Push_Back_40CAF0(this);
-    field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<int>(params->field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-    field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<int>(params->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+    field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
+    field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
     field_108_is_hidden = static_cast<s16 >(params->field_14_hidden);
     sStatsSignCurrentArea_5C1A20 = static_cast<char>(params->field_12_zulag_number);
@@ -121,8 +121,8 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
     if (!field_108_is_hidden)
     {
         char text[12] = {};
-        sprintf(text, "%3d", sMudsInLevelCount_55CFAC[static_cast<int>(gMap_5C3030.field_0_current_level)]);
-        int maxWidth = field_90_font3.MeasureWidth_433700(text);
+        sprintf(text, "%3d", sMudsInLevelCount_55CFAC[static_cast<s32>(gMap_5C3030.field_0_current_level)]);
+        s32 maxWidth = field_90_font3.MeasureWidth_433700(text);
 
         s16 flickerAmount = 50; // ax
         if (sDisableFontFlicker_5C9304)
@@ -152,7 +152,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
 
         // Muds in this Area
         sprintf(text, "%3d", mudsLeftInArea);
-        const int font4Width = field_C8_font4.MeasureWidth_433700(text);
+        const s32 font4Width = field_C8_font4.MeasureWidth_433700(text);
         field_C8_font4.DrawString_4337D0(
             ppOt,
             text,
@@ -173,7 +173,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
 
         // Saved Mudokons
         sprintf(text, "%3d", sRescuedMudokons_5C1BC2);
-        const int font2Width = field_58_font2.MeasureWidth_433700(text);
+        const s32 font2Width = field_58_font2.MeasureWidth_433700(text);
         field_58_font2.DrawString_4337D0(
             ppOt,
             text,
@@ -194,7 +194,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
 
         // Killed mudokons
         sprintf(text, "%3d", sKilledMudokons_5C1BC0);
-        const int font1Width = field_20_font1.MeasureWidth_433700(text);
+        const s32 font1Width = field_20_font1.MeasureWidth_433700(text);
         field_20_font1.DrawString_4337D0(
             ppOt,
             text,
@@ -214,9 +214,9 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
         maxWidth = std::max(font1Width, maxWidth);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
-            static_cast<int>(field_104_position_x / 0.575f),
+            static_cast<s32>(field_104_position_x / 0.575f),
             field_106_position_y,
-            static_cast<int>(maxWidth / 0.575f),
+            static_cast<s32>(maxWidth / 0.575f),
             64,
             pScreenManager_5BB5F4->field_3A_idx);
     }

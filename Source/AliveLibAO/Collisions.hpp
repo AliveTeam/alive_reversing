@@ -25,8 +25,8 @@ public:
     char field_9_pad;
     char field_A_pad;
     char field_B_pad;
-    int field_C_previous;
-    int field_10_next;
+    s32 field_C_previous;
+    s32 field_10_next;
 
     EXPORT PathLine* MoveOnLine_40CA20(FP* pXPos, FP* pYPos, const FP distToMove);
 };
@@ -53,8 +53,8 @@ public:
 
     PathLine* field_0_pArray;
     WORD field_4_current_item_count;
-    int field_8_item_count;
-    int field_C_max_count;
+    s32 field_8_item_count;
+    s32 field_C_max_count;
 };
 ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 

@@ -20,7 +20,7 @@ ALIVE_VAR(1, 0x9F0E48, DWORD, sManagedMemoryUsedSize_9F0E48, 0);
 ALIVE_VAR(1, 0x9F0E4C, DWORD, sPeakedManagedMemUsage_9F0E4C, 0);
 
 ALIVE_VAR(1, 0x5076A0, short, bHideLoadingIcon_5076A0, 0);
-ALIVE_VAR(1, 0x5076A4, int, loading_ticks_5076A4, 0);
+ALIVE_VAR(1, 0x5076A4, s32, loading_ticks_5076A4, 0);
 ALIVE_VAR(1, 0x9F0E38, short, sResources_Pending_Loading_9F0E38, 0);
 ALIVE_VAR(1, 0x9F0E50, short, sAllocationFailed_9F0E50, 0);
 
@@ -45,14 +45,14 @@ EXPORT void CC Odd_Sleep_48DD90(DWORD /*dwMilliseconds*/)
     NOT_IMPLEMENTED();
 }
 
-ALIVE_VAR(1, 0x507714, int, gFilesPending_507714, 0);
+ALIVE_VAR(1, 0x507714, s32, gFilesPending_507714, 0);
 ALIVE_VAR(1, 0x50768C, short, bLoadingAFile_50768C, 0);
 
 // TODO: Rename to "LoadingFile"
 class ResourceManager_FileRecord_Unknown : public BaseGameObject
 {
 public:
-    EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(int pos, int size, TLoaderFn pFn, void* fnArg, Camera* pArray)
+    EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(s32 pos, s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)
     {
         ctor_487E10(1);
         
@@ -140,7 +140,7 @@ public:
             if (PSX_CD_File_Read_49B8B0(field_10_size, field_24_readBuffer))
             {
                 field_28_state = 3;
-                const int ioRet = PSX_CD_FileIOWait_49B900(1);
+                const s32 ioRet = PSX_CD_FileIOWait_49B900(1);
                 if (ioRet <= 0)
                 {
                     field_28_state = ioRet != -1 ? 4 : 1;
@@ -151,7 +151,7 @@ public:
 
         case 3:
         {
-            const int ioRet = PSX_CD_FileIOWait_49B900(1);
+            const s32 ioRet = PSX_CD_FileIOWait_49B900(1);
             if (ioRet <= 0)
             {
                 field_28_state = ioRet != -1 ? 4 : 1;
@@ -207,7 +207,7 @@ public:
         return this;
     }
 
-    int field_10_size;
+    s32 field_10_size;
     TLoaderFn field_14_fn;
     void* field_18_fn_arg;
     Camera* field_1C_pCamera;
@@ -266,7 +266,7 @@ void CC Game_ShowLoadingIcon_445EB0()
 
 void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
 {
-    for (int i=0; i< pLoaded->field_10_file_sections_dArray.Size(); i++)
+    for (s32 i=0; i< pLoaded->field_10_file_sections_dArray.Size(); i++)
     {
         ResourceManager_FilePartRecord* pFilePart = pLoaded->field_10_file_sections_dArray.ItemAt(i);
         if (!pFilePart)
@@ -315,7 +315,7 @@ void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, 
 
     if (loadMode == LoadMode::Mode_1)
     {
-        for (int i = 0; i < ObjList_5009E0->Size(); i++)
+        for (s32 i = 0; i < ObjList_5009E0->Size(); i++)
         {
             ResourceManager_FileRecord* pExistingFileRec = ObjList_5009E0->ItemAt(i);
             if (!pExistingFileRec)
@@ -329,7 +329,7 @@ void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, 
             {
                 if (pListToLoad->field_0_count > 0)
                 {
-                    for (int j = 0; j < pListToLoad->field_0_count; j++)
+                    for (s32 j = 0; j < pListToLoad->field_0_count; j++)
                     {
                         if (type == pListToLoad->field_4_items[j].field_0_type && resourceId == pListToLoad->field_4_items[j].field_4_res_id)
                         {
@@ -401,7 +401,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, Res
 
     // Check if all resources are already loaded
     bool allResourcesLoaded = true;
-    for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
+    for (s32 i = 0; i < pTypeAndIdList->field_0_count; i++)
     {
         while (!ResourceManager::GetLoadedResource_4554F0(
             pTypeAndIdList->field_4_items[i].field_0_type,
@@ -418,7 +418,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, Res
     // All resources that we required are already loaded
     if (allResourcesLoaded)
     {
-        for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
+        for (s32 i = 0; i < pTypeAndIdList->field_0_count; i++)
         {
             sCameraBeingLoaded_507C98->field_0_array.Push_Back(GetLoadedResource_4554F0(
                 pTypeAndIdList->field_4_items[i].field_0_type,
@@ -431,7 +431,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, Res
 
     if (loadMode == LoadMode::Mode_1)
     {
-        for (int i = 0; i < ObjList_5009E0->Size(); i++)
+        for (s32 i = 0; i < ObjList_5009E0->Size(); i++)
         {
             ResourceManager_FileRecord* pFileRec = ObjList_5009E0->ItemAt(i);
             if (!pFileRec)
@@ -446,7 +446,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, Res
                     return;
                 }
 
-                for (int j = 0; j < pTypeAndIdList->field_0_count; j++)
+                for (s32 j = 0; j < pTypeAndIdList->field_0_count; j++)
                 {
                     auto pPart = ao_new<ResourceManager_FilePartRecord>();
                     pPart->field_0_type = pTypeAndIdList->field_4_items[j].field_0_type;
@@ -472,7 +472,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, Res
         // Check if all resources are already loaded
         if ((pTypeAndIdList->field_0_count & ~0x80000000))
         {
-            for (int j = 0; j < pTypeAndIdList->field_0_count; j++)
+            for (s32 j = 0; j < pTypeAndIdList->field_0_count; j++)
             {
                 auto pNewFilePart = ao_new<ResourceManager_FilePartRecord>();
                 pNewFilePart->field_0_type = pTypeAndIdList->field_4_items[j].field_0_type;
@@ -491,7 +491,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, Res
     else if (loadMode == LoadMode::Mode_2)
     {
         ResourceManager::LoadResourceFile_455270(pFileName, nullptr);
-        for (int j = 0; j < pTypeAndIdList->field_0_count; j++)
+        for (s32 j = 0; j < pTypeAndIdList->field_0_count; j++)
         {
             BYTE** ppLoadedRes = ResourceManager::GetLoadedResource_4554F0(
                 pTypeAndIdList->field_4_items[j].field_0_type,
@@ -509,7 +509,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, Res
 
 void CC ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
 {
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObjIter)
@@ -542,7 +542,7 @@ EXPORT void CC ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
     {
         SYS_EventsPump_44FF90();
 
-        for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
             if (!pObjIter)
@@ -583,7 +583,7 @@ EXPORT void CC ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
 
 void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
 {
-    for (int i = 0; i < ObjList_5009E0->Size(); i++)
+    for (s32 i = 0; i < ObjList_5009E0->Size(); i++)
     {
         ResourceManager_FileRecord* pObjIter = ObjList_5009E0->ItemAt(i);
         if (!pObjIter)
@@ -595,7 +595,7 @@ void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
         {
             // Remove/free file parts that belong to the cameraa
             auto pFileSecsArray = &pObjIter->field_10_file_sections_dArray;
-            for (int j = 0; j < pFileSecsArray->Size(); j++)
+            for (s32 j = 0; j < pFileSecsArray->Size(); j++)
             {
                 ResourceManager_FilePartRecord* pFilePartRecord = pFileSecsArray->ItemAt(j);
                 if (!pFilePartRecord)
@@ -633,7 +633,7 @@ void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
     }
 }
 
-int CC ResourceManager::SEQ_HashName_454EA0(const char* seqFileName)
+s32 CC ResourceManager::SEQ_HashName_454EA0(const char* seqFileName)
 {
     // Clamp max len
     size_t seqFileNameLength = strlen(seqFileName) - 1;
@@ -674,7 +674,7 @@ int CC ResourceManager::SEQ_HashName_454EA0(const char* seqFileName)
 
 void CC ResourceManager::Init_454DA0()
 {
-    for (int i = 1; i < kLinkedListArraySize - 1; i++)
+    for (s32 i = 1; i < kLinkedListArraySize - 1; i++)
     {
         sResourceLinkedList_50E270[i].field_0_ptr = nullptr;
         sResourceLinkedList_50E270[i].field_4_pNext = &sResourceLinkedList_50E270[i + 1];
@@ -711,7 +711,7 @@ void ResourceManager::Pop_List_Item(ResourceHeapItem* pListItem)
     sSecondLinkedListItem_50EE28 = pListItem; // set current to old
 }
 
-ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager::ResourceHeapItem* pItem, int size)
+ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager::ResourceHeapItem* pItem, s32 size)
 {
     Header* pToSplit = Get_Header_455620(&pItem->field_0_ptr);
     const u32 sizeForNewRes = pToSplit->field_0_size - size;
@@ -904,7 +904,7 @@ EXPORT s16 CC ResourceManager::LoadResourceFile_455270(const char* filename, Cam
         return 0;
     }
     
-    const int size = pFileRec->field_10_num_sectors << 11;
+    const s32 size = pFileRec->field_10_num_sectors << 11;
     BYTE** ppRes = ResourceManager::Allocate_New_Block_454FE0(size, allocMethod);
     if (!ppRes)
     {
@@ -1196,7 +1196,7 @@ void CC ResourceManager::Clear_Header_Flags_4557F0(BYTE** ppRes, s16 flags)
     Get_Header_455620(ppRes)->field_6_flags &= ~flags;
 }
 
-int CC ResourceManager::Is_Resources_Pending_4557C0()
+s32 CC ResourceManager::Is_Resources_Pending_4557C0()
 {
     return sResources_Pending_Loading_9F0E38 > 0 ? 1 : 0;
 }

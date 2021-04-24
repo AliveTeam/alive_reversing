@@ -6,7 +6,7 @@ void SwitchStates_ForceLink();
 
 EXPORT void CC SwitchStates_SetRange_465FA0(u16 start, u16 end);
 EXPORT void CC SwitchStates_Set_465FF0(u16 idx, char value);
-EXPORT int CC SwitchStates_Get_466020(u16 idx);
+EXPORT s32 CC SwitchStates_Get_466020(u16 idx);
 EXPORT void CC SwitchStates_Add_466060(u16 idx, char value);
 
 enum class SwitchOp : s16

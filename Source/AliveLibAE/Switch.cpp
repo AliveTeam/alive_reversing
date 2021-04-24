@@ -191,13 +191,13 @@ void Switch::vUpdate_4D5C00()
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
 
-            const int switch_state = SwitchStates_Get_466020(field_F4_trigger_id);
+            const s32 switch_state = SwitchStates_Get_466020(field_F4_trigger_id);
             SwitchStates_Do_Operation_465F00(field_F4_trigger_id, field_102_target_action);
-            const int switch_state_after_op = SwitchStates_Get_466020(field_F4_trigger_id);
+            const s32 switch_state_after_op = SwitchStates_Get_466020(field_F4_trigger_id);
             if (switch_state != switch_state_after_op)
             {
-                int volLeft = 0;
-                int volRight = 0;
+                s32 volLeft = 0;
+                s32 volRight = 0;
 
                 if (field_108_sound_direction == SwitchSoundDirection::eLeft_1)
                 {

@@ -33,7 +33,7 @@ enum Event : s16
 
 EXPORT BaseGameObject* CC Event_Get_417250(s16 eventType);
 
-EXPORT void CC Event_Broadcast_417220(int eventType, BaseGameObject* pObject);
+EXPORT void CC Event_Broadcast_417220(s32 eventType, BaseGameObject* pObject);
 
 EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(s16 eventType, FP xpos, FP ypos, FP scale);
 

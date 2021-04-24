@@ -14,7 +14,7 @@ struct BeeSwarmParticle
     char field_8_angle;
     char field_9_angle_speed;
     s16 field_A_pad;
-    int field_C_timer;
+    s32 field_C_timer;
     AnimationUnknown field_10_anim;
 };
 ALIVE_ASSERT_SIZEOF(BeeSwarmParticle, 0x80);
@@ -30,7 +30,7 @@ class BeeSwarm : public BaseAnimatedWithPhysicsGameObject
 {
 public:
 
-    EXPORT BeeSwarm* ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, int chaseTicks);
+    EXPORT BeeSwarm* ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks);
 
     EXPORT BaseGameObject* dtor_47FDF0();
 
@@ -56,7 +56,7 @@ public:
 
     EXPORT void VRender_480AC0(PrimHeader** ppOt);
 
-    int field_D4[4];
+    s32 field_D4[4];
     BeeSwarmParticles field_E4_bees;
     s16 field_D64_num_bees;
     s16 field_D66_bee_count;
@@ -78,7 +78,7 @@ public:
 
     s16 field_D82_pad;
 
-    int field_D84_chaseTicks;
+    s32 field_D84_chaseTicks;
 
     // TODO: Might be a rect
     FP field_D88_rect_x;
@@ -87,9 +87,9 @@ public:
     FP field_D94_rect_h;
 
     BaseAliveGameObject* field_D98_pChaseTarget;
-    int field_D9C_alive_timer;
-    int field_DA0_do_damage_or_pain_sound_timer;
-    int field_DA4_update_chase_timer;
+    s32 field_D9C_alive_timer;
+    s32 field_DA0_do_damage_or_pain_sound_timer;
+    s32 field_DA4_update_chase_timer;
     PathLine* field_DA8_pLine;
     FP field_DAC_line_follow_speed;
 };

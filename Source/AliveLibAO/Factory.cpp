@@ -80,7 +80,7 @@ namespace AO {
 template<size_t arraySize>
 struct CompileTimeResourceList
 {
-    int field_0_count = arraySize;
+    s32 field_0_count = arraySize;
     ResourceManager::ResourcesToLoadList_Entry field_4_items[arraySize];
 
     CompileTimeResourceList(std::initializer_list<ResourceManager::ResourcesToLoadList_Entry> elements)
@@ -295,7 +295,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
     }
     else
     {
-        for (int idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
+        for (s32 idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(idx);
             if (!pObjIter)
@@ -432,7 +432,7 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
         const short width = pDoveTlv->field_14_bottom_right.field_0_x - pDoveTlv->field_10_top_left.field_0_x;
         const short height = pDoveTlv->field_14_bottom_right.field_2_y - pDoveTlv->field_10_top_left.field_2_y;
 
-        for (int i = 0; i < pDoveTlv->field_18_dove_count; i++)
+        for (s32 i = 0; i < pDoveTlv->field_18_dove_count; i++)
         {
             auto pDove = ao_new<Dove>();
             if (pDove)
@@ -2259,7 +2259,7 @@ EXPORT void Factory_MenuController_481AC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
 
 EXPORT void Factory_481FB0(Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
-    LOG_ERROR("lvl = " << static_cast<int>(pMap->field_0_current_level) << " path = " << pMap->field_2_current_path << " camera = " << pMap->field_4_current_camera);
+    LOG_ERROR("lvl = " << static_cast<s32>(pMap->field_0_current_level) << " path = " << pMap->field_2_current_path << " camera = " << pMap->field_4_current_camera);
     ALIVE_FATAL("Didn't expect Factory_481FB0 to ever be used, please post the log in #oddworld_dev on discord");
 }
 

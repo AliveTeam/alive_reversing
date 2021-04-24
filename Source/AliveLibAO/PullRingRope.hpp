@@ -25,7 +25,7 @@ class Rope;
 class PullRingRope : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT PullRingRope* ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo);
+    EXPORT PullRingRope* ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_454910();
 
@@ -45,9 +45,9 @@ public:
 
     EXPORT void VUpdate_4549A0();
 
-    int field_D4_padding[4];
-    int field_E4_stay_in_state_ticks;
-    int field_E8_tlv_info;
+    s32 field_D4_padding[4];
+    s32 field_E4_stay_in_state_ticks;
+    s32 field_E8_tlv_info;
     enum class States : s16
     {
         eIdle_0 = 0,

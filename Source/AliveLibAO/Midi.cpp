@@ -26,7 +26,7 @@
 
 namespace AO {
 
-const int kSeqTableSizeAO = 164;
+const s32 kSeqTableSizeAO = 164;
 
 ALIVE_VAR(1, 0x9F12D8, SeqIds, sSeq_Ids_word_9F12D8, {});
 ALIVE_VAR(1, 0x9F1DC4, WORD, sSnd_ReloadAbeResources_9F1DC4, 0);
@@ -83,7 +83,7 @@ public:
         return reinterpret_cast<::SoundBlockInfo&>(sMonkVh_Vb_4D0008);
     }
 
-    virtual int MidiTableSize() override
+    virtual s32 MidiTableSize() override
     {
         return kSeqTableSizeAO;
     }
@@ -142,13 +142,13 @@ ALIVE_VAR(1, 0xA9B8A0, ConvertedVagTable, sConvertedVagTable_A9B8A0, {});
 ALIVE_VAR(1, 0xA928A0, SoundEntryTable, sSoundEntryTable16_A928A0, {});
 ALIVE_VAR(1, 0xAC07C0, MidiChannels, sMidi_Channels_AC07C0, {});
 ALIVE_VAR(1, 0xABFB40, MidiSeqSongsTable, sMidiSeqSongs_ABFB40, {});
-ALIVE_VAR(1, 0xA89198, int, sMidi_Inited_dword_A89198, 0);
+ALIVE_VAR(1, 0xA89198, s32, sMidi_Inited_dword_A89198, 0);
 ALIVE_VAR(1, 0xA89194, u32, sMidiTime_A89194, 0);
 ALIVE_VAR(1, 0xA89190, char, sbDisableSeqs_A89190, 0);
 ALIVE_VAR(1, 0x4E8FD8, DWORD, sLastTime_4E8FD8, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xA8919C, BYTE, sControllerValue_A8919C, 0);
 
-EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(int idx);
+EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx);
 EXPORT void CC SsUtKeyOffV_49EE50(s16 idx);
 
 class AOPsxSpuApiVars : public IPsxSpuApiVars
@@ -199,7 +199,7 @@ public:
         return sMidi_Channels_AC07C0;
     }
 
-    virtual MIDI_SeqSong& sMidiSeqSongs(int idx) override
+    virtual MIDI_SeqSong& sMidiSeqSongs(s32 idx) override
     {
         if (idx < 0 || idx >= 32)
         {
@@ -208,7 +208,7 @@ public:
         return sMidiSeqSongs_ABFB40.table[idx];
     }
 
-    virtual int& sMidi_Inited_dword() override
+    virtual s32& sMidi_Inited_dword() override
     {
         return sMidi_Inited_dword_A89198;
     }
@@ -250,12 +250,12 @@ public:
         return sControllerValue_A8919C;
     }
 
-    virtual void MIDI_ParseMidiMessage(int idx) override
+    virtual void MIDI_ParseMidiMessage(s32 idx) override
     {
         MIDI_ParseMidiMessage_49DD30(idx);
     }
 
-    virtual void SsUtKeyOffV(int idx) override
+    virtual void SsUtKeyOffV(s32 idx) override
     {
         SsUtKeyOffV_49EE50(static_cast<short>(idx));
     }
@@ -271,7 +271,7 @@ EXPORT void CC SND_Reset_476BA0()
     SND_Reset_4C9FB0();
 }
 
-EXPORT void CC SsUtAllKeyOff_49EDE0(int mode)
+EXPORT void CC SsUtAllKeyOff_49EDE0(s32 mode)
 {
     SsUtAllKeyOff_4FDFE0(mode);
 }
@@ -286,12 +286,12 @@ EXPORT void CC SsSeqCalledTbyT_49E9F0()
     SsSeqCalledTbyT_4FDC80();
 }
 
-EXPORT s32 CC SND_New_492790(SoundEntry* pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo)
+EXPORT s32 CC SND_New_492790(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo)
 {
     return SND_New_4EEFF0(pSnd, sampleLength, sampleRate, bitsPerSample, isStereo);
 }
 
-EXPORT int CC SND_Load_492F40(SoundEntry* pSnd, const void* pWaveData, int waveDataLen)
+EXPORT s32 CC SND_Load_492F40(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen)
 {
     return SND_Load_4EF680(pSnd, pWaveData, waveDataLen);
 }
@@ -301,12 +301,12 @@ EXPORT s16 CC SsVabOpenHead_49CFB0(VabHeader* pVabHeader)
     return SsVabOpenHead_4FC620(pVabHeader);
 }
 
-EXPORT void CC SND_Stop_Channels_Mask_4774A0(int mask)
+EXPORT void CC SND_Stop_Channels_Mask_4774A0(s32 mask)
 {
     SND_Stop_Channels_Mask_4CA810(mask);
 }
 
-EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, int repeatCount, s16 bDontStop)
+EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop)
 {
     return SND_SEQ_PlaySeq_4CA960(static_cast<u16>(idx), static_cast<short>(repeatCount), bDontStop);
 }
@@ -320,24 +320,24 @@ EXPORT s16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
     return static_cast<s16>(SND_SsIsEos_DeInlined_4CACD0(static_cast<u16>(idx)));
 }
 
-EXPORT int CC SND_PlayEx_493040(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Channel* pMidiStru, int playFlags, int priority)
+EXPORT s32 CC SND_PlayEx_493040(const SoundEntry* pSnd, s32 panLeft, s32 panRight, float freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
 {
     return SND_PlayEx_4EF740(pSnd, panLeft, panRight, freq, pMidiStru, playFlags, priority);
 }
 
-EXPORT int CC SND_Get_Buffer_Status_491D40(int idx)
+EXPORT s32 CC SND_Get_Buffer_Status_491D40(s32 idx)
 {
     return SND_Get_Buffer_Status_4EE8F0(idx);
 }
 
 // TODO: Check correct one
-EXPORT int CC SND_Buffer_Set_Frequency_493820(int idx, float freq)
+EXPORT s32 CC SND_Buffer_Set_Frequency_493820(s32 idx, float freq)
 {
     return SND_Buffer_Set_Frequency_4EFC00(idx, freq);
 }
 
 // TODO: Check is 2nd one
-EXPORT int CC SND_Buffer_Set_Frequency_493790(int idx, float freq)
+EXPORT s32 CC SND_Buffer_Set_Frequency_493790(s32 idx, float freq)
 {
     return SND_Buffer_Set_Frequency_4EFC00(idx, freq);
 }
@@ -352,13 +352,13 @@ EXPORT void CC MIDI_SetTempo_49E8F0(s16 idx, s16 kZero, s16 tempo)
     MIDI_SetTempo_4FDB80(idx, kZero, tempo);
 }
 
-EXPORT s32 CC MIDI_Allocate_Channel_49D660(int not_used, int priority)
+EXPORT s32 CC MIDI_Allocate_Channel_49D660(s32 not_used, s32 priority)
 {
     return MIDI_Allocate_Channel_4FCA50(not_used, priority);
 }
 
 // NOTE: Impl is not the same as AE
-EXPORT int CC MIDI_PlayerPlayMidiNote_49D730(int vabId, int program, int note, int leftVolume, int rightVolume, int volume)
+EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s32 leftVolume, s32 rightVolume, s32 volume)
 {
     auto vabId_ = vabId;
     auto leftVolume_ = leftVolume;
@@ -370,7 +370,7 @@ EXPORT int CC MIDI_PlayerPlayMidiNote_49D730(int vabId, int program, int note, i
 
     if (GetSpuApiVars()->sVagCounts()[v7])
     {
-        for (int i = 0; i < 24; i++)
+        for (s32 i = 0; i < 24; i++)
         {
             auto pAdsr = &GetSpuApiVars()->sMidi_Channels().channels[i].field_1C_adsr;
             if (!pAdsr->field_3_state
@@ -535,7 +535,7 @@ EXPORT int CC MIDI_PlayerPlayMidiNote_49D730(int vabId, int program, int note, i
     return 0;
 }
 
-EXPORT int CC MIDI_PlayerPlayMidiNote_49DAD0(int vabId, int program, int note, int leftVol, s32 rightVol, int volume)
+EXPORT s32 CC MIDI_PlayerPlayMidiNote_49DAD0(s32 vabId, s32 program, s32 note, s32 leftVol, s32 rightVol, s32 volume)
 {
     if (rightVol >= 64)
     {
@@ -548,7 +548,7 @@ EXPORT int CC MIDI_PlayerPlayMidiNote_49DAD0(int vabId, int program, int note, i
 }
 
 
-EXPORT int CC SND_Stop_Sample_At_Idx_493570(int idx)
+EXPORT s32 CC SND_Stop_Sample_At_Idx_493570(s32 idx)
 {
     return SND_Stop_Sample_At_Idx_4EFA90(idx);
 }
@@ -590,7 +590,7 @@ enum MidiEvent
     OtherCommands_F0 = 0xF0
 };
 
-EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(int idx)
+EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
 {
     MIDI_SeqSong* pCtx = &GetSpuApiVars()->sMidiSeqSongs(idx);
     BYTE** ppSeqData = &pCtx->field_0_seq_data;
@@ -643,8 +643,8 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(int idx)
                 {
                     // Cant see how the ADSR compare would ever be true, the logic makes no sense
                     const BYTE program = pCtx->field_32_progVols[data.Channel()].field_0_program;
-                    const int programShifted = ((int)program >> 8);
-                    const int vab_id = (pCtx->field_seq_idx << 8) | (programShifted & 0x1F);
+                    const s32 programShifted = ((s32)program >> 8);
+                    const s32 vab_id = (pCtx->field_seq_idx << 8) | (programShifted & 0x1F);
                     if (GetSpuApiVars()->sVagCounts()[vab_id])
                     {
                         for (short i = 0; i < 24; i++)
@@ -712,7 +712,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(int idx)
                             auto pFn = pCtx->field_20_fn_ptr;
                             if (pFn)
                             {
-                                //((void(__cdecl*)(int, _DWORD, _DWORD))pFn)(idx, 0, BYTE2(cmd));
+                                //((void(__cdecl*)(s32, _DWORD, _DWORD))pFn)(idx, 0, BYTE2(cmd));
                                 GetSpuApiVars()->sControllerValue() = 0;
                             }
                             break;
@@ -739,12 +739,12 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(int idx)
 
                 case MidiEvent::PitchBend_E0:
                 {
-                    const int prog_num = pCtx->field_32_progVols[data.Channel()].field_0_program;
+                    const s32 prog_num = pCtx->field_32_progVols[data.Channel()].field_0_program;
 
                     // Inlined MIDI_PitchBend
                     const float freq_conv = (float)pow(1.059463094359, (double)(s16)(((data.param1) - 0x4000) >> 4) * 0.0078125);
 
-                    for (int i = 0; i < 24; i++)
+                    for (s32 i = 0; i < 24; i++)
                     {
                         MIDI_Channel* pChannel = &GetSpuApiVars()->sMidi_Channels().channels[i];
                         if (pChannel->field_1C_adsr.field_1_program == prog_num)
@@ -762,7 +762,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(int idx)
             }
             else if (curMidiByte == MidiEvent::OtherCommands_F0 || curMidiByte == 0xF7)
             {
-                const int lenToSkip = MIDI_Read_Var_Len_4FD0D0(pCtx);
+                const s32 lenToSkip = MIDI_Read_Var_Len_4FD0D0(pCtx);
                 MIDI_SkipBytes_4FD6C0(pCtx, lenToSkip);
             }
             else if (curMidiByte == 0xFF)  // Sysex len
@@ -785,15 +785,15 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(int idx)
                 }
                 else
                 {
-                    const int tempoChange = MIDI_Read_Var_Len_4FD0D0(pCtx);
+                    const s32 tempoChange = MIDI_Read_Var_Len_4FD0D0(pCtx);
                     if (tempoChange)
                     {
                         if (metaEvent == 0x51)       // Tempo in microseconds per quarter note (24-bit value)
                         {
-                            const int tempoByte3 = MIDI_ReadByte_4FD6B0(pCtx) << 16;
-                            const int tempoByte2 = MIDI_ReadByte_4FD6B0(pCtx) << 8;
+                            const s32 tempoByte3 = MIDI_ReadByte_4FD6B0(pCtx) << 16;
+                            const s32 tempoByte2 = MIDI_ReadByte_4FD6B0(pCtx) << 8;
                             // TODO: Argument is truncated
-                            const int fullTempo = tempoByte3 | tempoByte2 | MIDI_ReadByte_4FD6B0(pCtx);
+                            const s32 fullTempo = tempoByte3 | tempoByte2 | MIDI_ReadByte_4FD6B0(pCtx);
                             MIDI_SetTempo_49E8F0(static_cast<short>(idx), 0, static_cast<short>(fullTempo));
                         }
                         else
@@ -804,7 +804,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(int idx)
                 }
             }
 
-            const int timeStamp = MIDI_Read_Var_Len_4FD0D0(pCtx);
+            const s32 timeStamp = MIDI_Read_Var_Len_4FD0D0(pCtx);
             if (timeStamp)
             {
                 pCtx->field_4_time = timeStamp * pCtx->field_14_tempo / 1000 + pCtx->field_4_time;
@@ -828,9 +828,9 @@ EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
     SND_SEQ_SetVol_4CAD20(static_cast<u16>(idx), volLeft, volRight);
 }
 
-static VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, int i_3)
+static VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, s32 i_3)
 {
-    for (int i = 0; i < i_3; i++)
+    for (s32 i = 0; i < i_3; i++)
     {
         ret = (VabBodyRecord*)((char*)ret
             + ret->field_0_length_or_duration
@@ -848,9 +848,9 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
     }
 
     VabHeader* pVabHeader = GetSpuApiVars()->spVabHeaders()[vabId];
-    const int vagCount = GetSpuApiVars()->sVagCounts()[vabId];
+    const s32 vagCount = GetSpuApiVars()->sVagCounts()[vabId];
 
-    for (int i = 0; i < vagCount; i++)
+    for (s32 i = 0; i < vagCount; i++)
     {
         SoundEntry* pEntry = &GetSpuApiVars()->sSoundEntryTable16().table[vabId][i];
 
@@ -861,7 +861,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
 
         memset(pEntry, 0, sizeof(SoundEntry));
 
-        int sampleLen = -1;
+        s32 sampleLen = -1;
         if (pVabHeader && i >= 0)
         {
             sampleLen = (8 * IterateVBRecords(pVabBody, i)->field_0_length_or_duration) / 16;
@@ -876,9 +876,9 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
             }
 
             const BYTE unused_field = v10->field_4_unused >= 0 ? 0 : 4;
-            for (int prog = 0; prog < 128; prog++)
+            for (s32 prog = 0; prog < 128; prog++)
             {
-                for (int tone = 0; tone < 16; tone++)
+                for (s32 tone = 0; tone < 16; tone++)
                 {
                     auto pVag = &GetSpuApiVars()->sConvertedVagTable().table[vabId][prog][tone];
                     if (pVag->field_10_vag == i)
@@ -904,13 +904,13 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
                         pSrcVB = &IterateVBRecords(pVabBody, i)->field_8_fileOffset;
                     }
 
-                    int sampleLen2 = -1;
+                    s32 sampleLen2 = -1;
                     if (pVabHeader && i >= 0)
                     {
                         sampleLen2 = (8 * IterateVBRecords(pVabBody, i)->field_0_length_or_duration) / 16;
                     }
 
-                    const int len = (16 * sampleLen2) / 8;
+                    const s32 len = (16 * sampleLen2) / 8;
                     memcpy(pTempBuffer, pSrcVB, len);
 
                     if (sampleLen2)
@@ -936,7 +936,7 @@ EXPORT s16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
     // Find the VH file record
     LvlFileRecord* pVabHeaderFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_0_vab_header_name);
 
-    int headerSize = pVabHeaderFile->field_10_num_sectors << 11;
+    s32 headerSize = pVabHeaderFile->field_10_num_sectors << 11;
 
     BYTE** ppVabHeader = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_VabHeader, vabId, headerSize);
 
@@ -951,7 +951,7 @@ EXPORT s16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
         return 0;
     }
 
-    int vabBodySize = pVabBodyFile->field_10_num_sectors << 11;
+    s32 vabBodySize = pVabBodyFile->field_10_num_sectors << 11;
 
     // Load the VB file data
     BYTE** ppVabBody = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VabBody, vabId, vabBodySize);
@@ -985,7 +985,7 @@ EXPORT s16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
     return 1;
 }
 
-EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, int reverb)
+EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     GetMidiVars()->sSnd_ReloadAbeResources() = FALSE;
@@ -1027,7 +1027,7 @@ EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqF
         bsqFileName);
 }
 
-EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, s16 volLeft, s16 volRight)
+EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight)
 {
     const auto ret = SND_SEQ_PlaySeq_4CA960(static_cast<u16>(idx), static_cast<short>(repeatCount), 1); // TODO ??
 
@@ -1080,13 +1080,13 @@ static ::SfxDefinition ToAeSfxDef(const SfxDefinition* sfxDef)
     return aeDef;
 }
 
-EXPORT int CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, short volLeft, short volRight, short pitch_min, s16 pitch_max)
+EXPORT s32 CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, short volLeft, short volRight, short pitch_min, s16 pitch_max)
 {
     const ::SfxDefinition aeDef = ToAeSfxDef(sfxDef);
     return SFX_SfxDefinition_Play_4CA700(&aeDef, volLeft, volRight, pitch_min, pitch_max);
 }
 
-EXPORT int CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, int vol, int pitch_min, int pitch_max)
+EXPORT s32 CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol, s32 pitch_min, s32 pitch_max)
 {
     const ::SfxDefinition aeDef = ToAeSfxDef(sfxDef);
     return SFX_SfxDefinition_Play_4CA420(&aeDef, static_cast<short>(vol), static_cast<short>(pitch_min), static_cast<short>(pitch_max));
@@ -1126,7 +1126,7 @@ EXPORT void CC SND_StopAll_4762D0()
     SND_Reset_Ambiance_4765E0();
     SND_Stop_All_Seqs_4774D0();
 
-    for (int i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObj)

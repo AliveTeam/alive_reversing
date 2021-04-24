@@ -13,10 +13,10 @@ namespace AO {
 
 struct TrapDoor_Data
 {
-    int field_0;
-    int field_4_maxW;
-    int field_8;
-    int field_C;
+    s32 field_0;
+    s32 field_4_maxW;
+    s32 field_8;
+    s32 field_C;
     s16 field_10_maxH;
     s16 field_12_frame_table_offset;
 };
@@ -100,13 +100,13 @@ void TrapDoor::VScreenChanged()
     VScreenChanged_488740();
 }
 
-PSX_RECT* TrapDoor::VGetBoundingRect_4887B0(PSX_RECT* pRect, int /*pointIdx*/)
+PSX_RECT* TrapDoor::VGetBoundingRect_4887B0(PSX_RECT* pRect, s32 /*pointIdx*/)
 {
     *pRect = field_148_bounding_rect;
     return pRect;
 }
 
-PSX_RECT* TrapDoor::VGetBoundingRect(PSX_RECT* pRect, int pointIdx)
+PSX_RECT* TrapDoor::VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx)
 {
     return VGetBoundingRect_4887B0(pRect, pointIdx);
 }
@@ -135,7 +135,7 @@ BaseGameObject* TrapDoor::dtor_4882A0()
 
 void TrapDoor::Open()
 {
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObj)
@@ -166,7 +166,7 @@ void TrapDoor::Open()
     ObjListPlatforms_50766C->Remove_Item(this);
 }
 
-TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, int tlvInfo)
+TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 {
     ctor_401090();
     field_12C_flag &= ~1u;
@@ -176,9 +176,9 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, int tlvInfo)
     field_134_switch_idx = pTlv->field_18_id;
     field_138_switch_state = pTlv->field_1A_start_state;
 
-    const int cur_lvl = static_cast<int>(gMap_507BA8.field_0_current_level);
+    const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
-    int frame_table_offset_1 = 0;
+    s32 frame_table_offset_1 = 0;
     if (field_138_switch_state == SwitchStates_Get(pTlv->field_18_id))
     {
         field_136_state = 2;
@@ -264,7 +264,7 @@ void TrapDoor::VUpdate_4883E0()
             Open();
             field_136_state = 1;
 
-            const int cur_lvl = static_cast<int>(gMap_507BA8.field_0_current_level);
+            const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
             field_10_anim.Set_Animation_Data_402A40(
                 sTrapDoorData_4BD4A0[cur_lvl].field_8,
                 0);
@@ -294,7 +294,7 @@ void TrapDoor::VUpdate_4883E0()
         if ((field_13C_set_switch_on_dead && !field_130_stay_open_time) ||
             SwitchStates_Get(field_134_switch_idx) != SwitchStates_Get(field_138_switch_state))
         {
-            const int cur_lvl = static_cast<int>(gMap_507BA8.field_0_current_level);
+            const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
             field_10_anim.Set_Animation_Data_402A40(
                 sTrapDoorData_4BD4A0[cur_lvl].field_C,

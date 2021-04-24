@@ -57,15 +57,15 @@ FP CC Math_Cosine_4510A0(BYTE v)
 }
 
 
-int CC Math_Distance_451270(int x1, int y1, int x2, int y2)
+s32 CC Math_Distance_451270(s32 x1, s32 y1, s32 x2, s32 y2)
 {
-    int dx = x1 - x2;
+    s32 dx = x1 - x2;
     if (dx < 0)
     {
         dx = x2 - x1;
     }
 
-    int dy = y1 - y2;
+    s32 dy = y1 - y2;
     if (y1 - y2 < 0)
     {
         dy = y2 - y1;
@@ -81,7 +81,7 @@ int CC Math_Distance_451270(int x1, int y1, int x2, int y2)
     }
 }
 
-int CC Math_SquareRoot_Int_4511B0(int a1)
+s32 CC Math_SquareRoot_Int_4511B0(s32 a1)
 {
     AE_IMPLEMENTED();
     return Math_SquareRoot_Int_496E70(a1);
@@ -100,7 +100,7 @@ FP CC Math_SquareRoot_FP_451210(FP v)
     }
 
     FP v2 = v / FP_FromInteger(2);
-    for (int i = 6; i > 0; i--)
+    for (s32 i = 6; i > 0; i--)
     {
         FP v4 = v / v2;
         v2 = (v2 + v4) / FP_FromInteger(2);

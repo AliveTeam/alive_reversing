@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "Slig.hpp"
 
-SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, int tlvInfo)
+SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x545ED8);
@@ -72,7 +72,7 @@ void SligGetPantsAndWings::vUpdate_465DD0()
             break;
 
         case State::eActive_1:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_FC_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_FC_timer)
             {
                 field_F4_state = State::eFinished_2;
                 SFX_Play_46FA90(SoundEffect::NakedSligTransformEnd_92, 0);

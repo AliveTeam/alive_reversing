@@ -131,7 +131,7 @@ void Slurg::VUpdate()
     vUpdate_4C8790();
 }
 
-int Slurg::VGetSaveState(BYTE* pSaveBuffer)
+s32 Slurg::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vSaveState_4C8FC0(reinterpret_cast<Slurg_State*>(pSaveBuffer));
 }
@@ -255,9 +255,9 @@ void Slurg::vUpdate_4C8790()
 
     if (field_11C_state != Slurg_States::State_2_Burst)
     {
-        const int idx = sSlurg_Step_Watch_Points_Idx_5C1C08 == 0;
-        const int max_count = sSlurg_Step_Watch_Points_Count_5BD4DC[idx];
-        for (int i = 0; i < max_count; i++)
+        const s32 idx = sSlurg_Step_Watch_Points_Idx_5C1C08 == 0;
+        const s32 max_count = sSlurg_Step_Watch_Points_Count_5BD4DC[idx];
+        for (s32 i = 0; i < max_count; i++)
         {
             const Slurg_Step_Watch_Point* pPoint = &sSlurg_Step_Watch_Points_5C1B28[idx].field_0_points[i];
             if (pPoint->field_0_xPos > bRect.x - 2 &&

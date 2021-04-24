@@ -23,14 +23,14 @@ BaseGameObject* HoistParticle::VDestructor(s32 flags)
     return this;
 }
 
-HoistParticle* HoistParticle::ctor_431B00(FP xpos, FP ypos, FP scale, int frameTableOffset)
+HoistParticle* HoistParticle::ctor_431B00(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB288);
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHoistRocks, 1, 0);
-    int maxH = 7;
+    s32 maxH = 7;
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {
         maxH = 5;
@@ -133,7 +133,7 @@ BaseGameObject* HoistRocksEffect::dtor_431A90()
     return dtor_487DF0();
 }
 
-HoistRocksEffect* HoistRocksEffect::ctor_431820(Path_Hoist* pTlv, int tlvInfo)
+HoistRocksEffect* HoistRocksEffect::ctor_431820(Path_Hoist* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BB270);
@@ -153,7 +153,7 @@ void HoistRocksEffect::VUpdate_431860()
             auto pHoistParticle = ao_new<HoistParticle>();
             if (pHoistParticle)
             {
-                int frameTableOffset = 176;
+                s32 frameTableOffset = 176;
                 if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
                 {
                     frameTableOffset = 260;
@@ -171,7 +171,7 @@ void HoistRocksEffect::VUpdate_431860()
             auto pHoistParticle = ao_new<HoistParticle>();
             if (pHoistParticle)
             {
-                int frameTableOffset = 188;
+                s32 frameTableOffset = 188;
                 if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
                 {
                     frameTableOffset = 276;
@@ -190,7 +190,7 @@ void HoistRocksEffect::VUpdate_431860()
         auto pHoistParticle = ao_new<HoistParticle>();
         if (pHoistParticle)
         {
-            int frameTableOffset = 164;
+            s32 frameTableOffset = 164;
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
             {
                 frameTableOffset = 240;

@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GlukkonSwitch, 0x1C);
 class GlukkonSwitch : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT GlukkonSwitch* ctor_444E60(Path_GlukkonSwitch* pTlv, int tlvInfo);
+    EXPORT GlukkonSwitch* ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -43,12 +43,12 @@ private:
     EXPORT void vUpdate_445200();
 
 private:
-    int field_F4_tlvInfo;
+    s32 field_F4_tlvInfo;
     s16 field_F8_state;
     s16 field_FA_ok_id;
     s16 field_FC_fail_id;
     s16 field_FE;
-    int field_100_last_event_idx;
+    s32 field_100_last_event_idx;
     s16 field_104;
     s16 field_106;
     s16 field_108;
@@ -61,6 +61,6 @@ private:
     s16 field_116;
     PSX_Point field_118_top_left;
     PSX_Point field_11C_bottom_right;
-    int field_120_timer;
+    s32 field_120_timer;
 };
 ALIVE_ASSERT_SIZEOF(GlukkonSwitch, 0x124);

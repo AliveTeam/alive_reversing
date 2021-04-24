@@ -18,9 +18,9 @@ void CreditsController::VUpdate()
     Update_418AC0();
 }
 
-constexpr int kShowCreditScreenForTicks = 160;
+constexpr s32 kShowCreditScreenForTicks = 160;
 
-CreditsController * CreditsController::ctor_418A10(Path_TLV* /*pTlv*/, int /*tlvInfo*/)
+CreditsController * CreditsController::ctor_418A10(Path_TLV* /*pTlv*/, s32 /*tlvInfo*/)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544618);
@@ -51,7 +51,7 @@ BaseGameObject* CreditsController::vdtor_418A60(s32 flags)
 
 void CreditsController::Update_418AC0()
 {
-    if (field_20_next_cam_frame <= static_cast<int>(sGnFrame_5C1B84))
+    if (field_20_next_cam_frame <= static_cast<s32>(sGnFrame_5C1B84))
     {
         field_24_camera_number++;
         field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;

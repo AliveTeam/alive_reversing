@@ -16,7 +16,7 @@ struct Meat_SaveState
 {
     AETypes field_0_type;
     s16 field_2_pad;
-    int field_4_obj_id;
+    s32 field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -33,14 +33,14 @@ struct Meat_SaveState
     };
     BitField16<MeatStateFlags> field_20_flags;
     s16 field_22_pad;
-    int field_24_base_id;
+    s32 field_24_base_id;
     s16 field_28_line_type;
     s16 field_2A_count;
     MeatStates field_2C_state;
     s16 field_2E_pad;
     FP field_30_xpos;
     FP field_34_ypos;
-    int field_38_savedfield12C; // TODO: Figure out what field_12C is. -- Nemin (5/7/2020)
+    s32 field_38_savedfield12C; // TODO: Figure out what field_12C is. -- Nemin (5/7/2020)
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Meat_SaveState, 60);
 
@@ -59,9 +59,9 @@ public:
     virtual void VTimeToExplodeRandom_411490() override;
     virtual s16 VGetCount_448080() override;
     virtual BOOL VCanEatMe_4696A0();
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
-    EXPORT static int CC CreateFromSaveState_46A9E0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_46A9E0(const BYTE* pBuffer);
 
 
 private:
@@ -77,7 +77,7 @@ private:
     EXPORT void InTheAir_4697E0();
     EXPORT s16 OnCollision_469FF0(BaseGameObject* pHit);
     EXPORT void vUpdate_469BA0();
-    EXPORT int vGetSaveState_46AC40(Meat_SaveState* pState);
+    EXPORT s32 vGetSaveState_46AC40(Meat_SaveState* pState);
     EXPORT BOOL vCanEatMe_4696A0();
 
 private:
@@ -85,8 +85,8 @@ private:
     s16 field_11E;
     FP field_120_xpos;
     FP field_124_ypos;
-    int field_128_timer;
-    int field_12C_deadtimer;
+    s32 field_128_timer;
+    s32 field_12C_deadtimer;
 public:
     PathLine* field_130_pLine;
 };
@@ -106,7 +106,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x1C);
 class MeatSack : public BaseAliveGameObject
 {
 public:
-    EXPORT MeatSack* ctor_46A410(Path_MeatSack* pTlv, int tlvInfo);
+    EXPORT MeatSack* ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo);
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
@@ -119,7 +119,7 @@ private:
 
 
 private:
-    int field_118_tlvInfo;
+    s32 field_118_tlvInfo;
     s16 field_11C;
     s16 field_11E_meat_amount;
     s16 field_120;

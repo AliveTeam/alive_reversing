@@ -23,7 +23,7 @@ public:
     virtual EXPORT void VRender_48C430(PrimHeader** ppOt);
 
     // NOTE: inlined
-    int IsActive();
+    s32 IsActive();
 
     // NOTE: inlined
     void ToStop();
@@ -32,7 +32,7 @@ public:
 
     void Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
 
-    int field_4_flags;
+    s32 field_4_flags;
     Animation field_8_anim;
     FP field_A0_xpos_render_offset;
     FP field_A4_ypos_render_offset;
@@ -51,7 +51,7 @@ public:
     State field_B4_state;
 
     s16 field_B6_unused;
-    int field_B8_render_angle;
+    s32 field_B8_render_angle;
     s16 field_BC_counter;
     s16 field_BE_max;
     FP field_C0_current_scale;
@@ -61,7 +61,7 @@ public:
     FP field_D0_ypos_mid;
     FP field_D4_radiusX;
     FP field_D8_radiosY;
-    int field_DC_position_timer;
+    s32 field_DC_position_timer;
     FP field_E0_yMove;
     BaseAliveGameObject* field_E4_pObj;
     FP field_E8_xpos;

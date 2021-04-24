@@ -59,7 +59,7 @@ BaseGameObject* Claw::Vdtor(s32 flags)
     return this;
 }
 
-SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, int tlvInfo)
+SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BAAA8);
@@ -144,7 +144,7 @@ BaseGameObject* SecurityClaw::dtor_418CE0()
 
     if (field_13C_pArray)
     {
-        for (int i = 0; i < field_13C_pArray->Size(); i++)
+        for (s32 i = 0; i < field_13C_pArray->Size(); i++)
         {
             auto pObjIter = field_13C_pArray->ItemAt(i);
 
@@ -311,7 +311,7 @@ void SecurityClaw::VUpdate_418DE0()
 
     if (field_13C_pArray)
     {
-        for (int i = 0; i < field_13C_pArray->Size(); i++)
+        for (s32 i = 0; i < field_13C_pArray->Size(); i++)
         {
             MotionDetector* pObj = field_13C_pArray->ItemAt(i);
             if (!pObj)
@@ -327,7 +327,7 @@ void SecurityClaw::VUpdate_418DE0()
     switch (field_110_state)
     {
     case SecurityClawStates::eCamSwap_0:
-        for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
             if (!pObjIter)
@@ -382,7 +382,7 @@ void SecurityClaw::VUpdate_418DE0()
         break;
 
     case SecurityClawStates::eDoZapEffects_2:
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             PSX_RECT rect = {};
             sActiveHero_507678->VGetBoundingRect(&rect, 1);
@@ -447,7 +447,7 @@ void SecurityClaw::VUpdate_418DE0()
                 pSpark2->field_C0_r = 255;
             }
 
-            for (int i = 0; i < 9; i++)
+            for (s32 i = 0; i < 9; i++)
             {
                 auto pSpark3 = ao_new<Sparks>();
                 if (pSpark3)
@@ -468,7 +468,7 @@ void SecurityClaw::VUpdate_418DE0()
         break;
 
     case SecurityClawStates::eAnimateClaw_DoFlashAndSound_3:
-        if (static_cast<int>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<int>(gnFrameCount_507670) == field_114_timer - 1)
+        if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<s32>(gnFrameCount_507670) == field_114_timer - 1)
         {
             auto pFlash = ao_new<Flash>();
             if (pFlash)
@@ -477,7 +477,7 @@ void SecurityClaw::VUpdate_418DE0()
             }
         }
 
-        if (static_cast<int>(gnFrameCount_507670) == field_114_timer - 4)
+        if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 4)
         {
             auto pFlash = ao_new<Flash>();
             if (pFlash)
@@ -495,7 +495,7 @@ void SecurityClaw::VUpdate_418DE0()
             SFX_Play_43AD70(58u, 0, 0);
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             field_110_state = SecurityClawStates::eIdle_1;
             field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(22568, nullptr);

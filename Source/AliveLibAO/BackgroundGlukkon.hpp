@@ -18,7 +18,7 @@ ALIVE_ASSERT_SIZEOF(Path_Glukkon, 0x20);
 class BackgroundGlukkon : public BaseAliveGameObject
 {
 public:
-    EXPORT BackgroundGlukkon* ctor_41DBD0(Path_Glukkon* pTlv, int tlvInfo);
+    EXPORT BackgroundGlukkon* ctor_41DBD0(Path_Glukkon* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_41DCE0();
 
@@ -38,12 +38,12 @@ public:
 
     EXPORT void VUpdate_41DD60();
 
-    int field_10C_tlvInfo;
+    s32 field_10C_tlvInfo;
     s16 field_110_state;
     s16 field_112_pad;
-    int field_114_timer2;
-    int field_118_timer1;
-    int field_11C_voice_adjust;
+    s32 field_114_timer2;
+    s32 field_118_timer1;
+    s32 field_11C_voice_adjust;
     s16 field_120_target_id;
     s16 field_122_padding;
 };

@@ -8,7 +8,7 @@
 #include "Map.hpp"
 #include "ScreenManager.hpp"
 
-const static int dword_5556E0[4] = { 204, 180, 192, 204 };
+const static s32 dword_5556E0[4] = { 204, 180, 192, 204 };
 const static s16 word_5556F0[12] = { 5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0 };
 
 BaseGameObject* HoistRocksEffect::VDestructor(s32 flags)
@@ -31,7 +31,7 @@ void HoistRocksEffect::VScreenChanged()
     vScreenChanged_45D790();
 }
 
-HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, int tlvInfo)
+HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
 
@@ -127,9 +127,9 @@ void HoistRocksEffect::dtor_45D6D0()
 
 void HoistRocksEffect::Update_45D460()
 {
-    if (field_28_timer <= static_cast<int>(sGnFrame_5C1B84))
+    if (field_28_timer <= static_cast<s32>(sGnFrame_5C1B84))
     {
-        int idx = 0;
+        s32 idx = 0;
         while (field_30_rocks[idx].field_0_state != 0)
         {
             if (++idx >= 4)
@@ -140,7 +140,7 @@ void HoistRocksEffect::Update_45D460()
 
         if (idx < 4)
         {
-            int randomXScaled = 0;
+            s32 randomXScaled = 0;
             if (field_2C_scale == FP_FromDouble(1.0))
             {
                 randomXScaled = Math_RandomRange_496AB0(-8, 8);
@@ -156,7 +156,7 @@ void HoistRocksEffect::Update_45D460()
             field_30_rocks[idx].field_C_yVel = FP_FromInteger(0);
             field_30_rocks[idx].field_0_state = 1;
 
-            const int randomAnimAndUpdate = 2 * Math_RandomRange_496AB0(0, 3);
+            const s32 randomAnimAndUpdate = 2 * Math_RandomRange_496AB0(0, 3);
             field_30_rocks[idx].field_10_mAnim.Set_Animation_Data_409C80(dword_5556E0[randomAnimAndUpdate / 2], nullptr);
             field_28_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(word_5556F0[randomAnimAndUpdate], 2 * word_5556F0[randomAnimAndUpdate]);
         }

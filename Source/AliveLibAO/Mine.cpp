@@ -13,7 +13,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
 
-Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
+Mine* Mine::ctor_43A330(Path_Mine* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BBA08);
@@ -301,7 +301,7 @@ void Mine::vUpdate_43A7F0()
 
     if (field_10C_detonating)
     {
-        if (field_10C_detonating == 1 && static_cast<int>(gnFrameCount_507670) >= field_114_gnframe)
+        if (field_10C_detonating == 1 && static_cast<s32>(gnFrameCount_507670) >= field_114_gnframe)
         {
             auto pBaseBomb = ao_new<BaseBomb>();
             if (pBaseBomb)
@@ -351,7 +351,7 @@ s16 Mine::IsColliding_43AA60()
     PSX_RECT bRect = {};
     VGetBoundingRect(&bRect, 1);
 
-    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pObj)

@@ -107,7 +107,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
     expandedRect.y += FP_GetExponent(field_BC_ypos);
     expandedRect.h += FP_GetExponent(field_BC_ypos);
 
-    for (int idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(idx);
         if (!pObj)

@@ -7,10 +7,10 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 
-ALIVE_VAR(1, 0x5BC030, int, bCreated_5BC030, FALSE);
-ALIVE_VAR(1, 0x5C1BFC, int, sTimerValue_5C1BFC, 0);
+ALIVE_VAR(1, 0x5BC030, s32, bCreated_5BC030, FALSE);
+ALIVE_VAR(1, 0x5C1BFC, s32, sTimerValue_5C1BFC, 0);
 
-void CC MinesAlarm::Create_4177F0(int timer)
+void CC MinesAlarm::Create_4177F0(s32 timer)
 {
     if (!bCreated_5BC030)
     {
@@ -22,7 +22,7 @@ void CC MinesAlarm::Create_4177F0(int timer)
     }
 }
 
-int CC MinesAlarm::CreateFromSaveState_417740(const BYTE* pBuffer)
+s32 CC MinesAlarm::CreateFromSaveState_417740(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const MinesAlarm_State*>(pBuffer);
     auto pMinesAlarm = ae_new<MinesAlarm>();
@@ -33,7 +33,7 @@ int CC MinesAlarm::CreateFromSaveState_417740(const BYTE* pBuffer)
     return sizeof(MinesAlarm_State);
 }
 
-BaseGameObject* MinesAlarm::ctor_417870(int timer)
+BaseGameObject* MinesAlarm::ctor_417870(s32 timer)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5445FC);
@@ -57,12 +57,12 @@ void MinesAlarm::VUpdate()
     vUpdate_417910();
 }
 
-int MinesAlarm::VGetSaveState(BYTE* pSaveBuffer)
+s32 MinesAlarm::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4177C0(reinterpret_cast<MinesAlarm_State*>(pSaveBuffer));
 }
 
-int MinesAlarm::vGetSaveState_4177C0(MinesAlarm_State* pState)
+s32 MinesAlarm::vGetSaveState_4177C0(MinesAlarm_State* pState)
 {
     pState->field_0_type = AETypes::eMinesAlarm_25;
     pState->field_4_timer = sTimerValue_5C1BFC;

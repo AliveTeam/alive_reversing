@@ -54,7 +54,7 @@ typedef const DSBUFFERDESC *LPCDSBUFFERDESC;
 #endif
 
 #ifndef _HRESULT_DEFINED
-typedef int HRESULT;
+typedef s32 HRESULT;
 
 #define S_OK                            ((HRESULT)0L)
 #endif
@@ -79,56 +79,56 @@ ALIVE_VAR_EXTERN(LPDIRECTSOUND, sDSound_BBC344);
 
 struct SoundEntry
 {
-    int field_0_tableIdx;
+    s32 field_0_tableIdx;
     TSoundBufferType* field_4_pDSoundBuffer;
     BYTE* field_8_pSoundBuffer;
-    int field_C_buffer_size_bytes;
-    int field_10;
-    int field_14_buffer_size_bytes;
-    int field_18_sampleRate;
+    s32 field_C_buffer_size_bytes;
+    s32 field_10;
+    s32 field_14_buffer_size_bytes;
+    s32 field_18_sampleRate;
     char field_1C_bitsPerSample;
     u8 field_1D_blockAlign;
     char field_1E;
     char field_1F;
-    int field_20_isStereo;
+    s32 field_20_isStereo;
 };
 ALIVE_ASSERT_SIZEOF(SoundEntry, 0x24);
 
 struct SoundBuffer
 {
     TSoundBufferType * field_0_pDSoundBuffer;
-    int field_4;
-    int field_8_sample_idx;
-    int field_C;
-    int field_10;
+    s32 field_4;
+    s32 field_8_sample_idx;
+    s32 field_C;
+    s32 field_10;
 };
 ALIVE_ASSERT_SIZEOF(SoundBuffer, 0x14);
 
 EXPORT u32 CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry);
-EXPORT int CC SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size);
+EXPORT s32 CC SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size);
 EXPORT void CC SND_SsQuit_4EFD50();
-EXPORT s32 CC SND_CreateDS_4EEAA0(u32 sampleRate, int bitsPerSample, int isStereo);
-EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, int sampleRate, u8 bitsPerSample, int isStereo);
-EXPORT s32 CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo);
-EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveDataLen);
+EXPORT s32 CC SND_CreateDS_4EEAA0(u32 sampleRate, s32 bitsPerSample, s32 isStereo);
+EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, s32 sampleRate, u8 bitsPerSample, s32 isStereo);
+EXPORT s32 CC SND_New_4EEFF0(SoundEntry *pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo);
+EXPORT s32 CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen);
 EXPORT const char* CC SND_HR_Err_To_String_4EEC70(HRESULT hr);
 EXPORT s32 CC SND_Free_4EFA30(SoundEntry* pSnd);
 EXPORT void CC SND_Restart_4CB0E0();
-EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPerSample, u8 isStereo);
+EXPORT s32 CC SND_SetPrimarySoundBufferFormat_4EE990(s32 sampleRate, s32 bitsPerSample, u8 isStereo);
 EXPORT void CC SND_InitVolumeTable_4EEF60();
-EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int sampleRate, int bitsPerSample, int isStereo);
+EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSample, s32 isStereo);
 EXPORT s32 CC SND_Renew_4EEDD0(SoundEntry *pSnd);
-EXPORT int CC SND_Get_Buffer_Status_4EE8F0(int idx);
-EXPORT s32 CC SND_Stop_Sample_At_Idx_4EFA90(int idx);
-EXPORT s32 CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol);
-EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int sampleIdx, int field10);
-EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq);
-EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq);
+EXPORT s32 CC SND_Get_Buffer_Status_4EE8F0(s32 idx);
+EXPORT s32 CC SND_Stop_Sample_At_Idx_4EFA90(s32 idx);
+EXPORT s32 CC SND_Buffer_Set_Volume_4EFAD0(s32 idx, s32 vol);
+EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(s32 sampleIdx, s32 field10);
+EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC90(s32 idx, float hzChangeFreq);
+EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC00(s32 idx, float freq);
 EXPORT s32 CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount);
-EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, int /*a3*/);
+EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/);
 
 struct MIDI_Channel;
-EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Channel* pMidiStru, int playFlags, int priority);
+EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, float freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority);
 
 struct SoundApi
 {
@@ -165,9 +165,9 @@ struct SoundApi
 EXPORT SoundApi& GetSoundAPI();
 
 // Vars used only by other sound driver impls
-ALIVE_ARY_EXTERN(int, 127, sVolumeTable_BBBD38);
+ALIVE_ARY_EXTERN(s32, 127, sVolumeTable_BBBD38);
 ALIVE_ARY_EXTERN(SoundEntry*, 256, sSoundSamples_BBBF38);
 ALIVE_ARY_EXTERN(SoundBuffer, 32, sSoundBuffers_BBBAB8);
 
-ALIVE_VAR_EXTERN(int, sLoadedSoundsCount_BBC394);
-ALIVE_VAR_EXTERN(int, sLastNotePlayTime_BBC33C);
+ALIVE_VAR_EXTERN(s32, sLoadedSoundsCount_BBC394);
+ALIVE_VAR_EXTERN(s32, sLastNotePlayTime_BBC33C);

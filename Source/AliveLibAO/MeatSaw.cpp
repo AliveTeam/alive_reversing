@@ -53,7 +53,7 @@ BaseGameObject* MeatSaw::dtor_4398F0()
     return dtor_417D10();
 }
 
-MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
+MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB990);
@@ -240,7 +240,7 @@ void MeatSaw::VUpdate_4399D0()
     switch (field_E4_state)
     {
     case MeatSawStates::eIdle_0:
-        if ((field_104_idle_timer <= static_cast<int>(gnFrameCount_507670) || (field_1A8_flags & 2)) &&
+        if ((field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670) || (field_1A8_flags & 2)) &&
             ((!(field_1A8_flags & 1)) ||  SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
         {
             field_E4_state = MeatSawStates::eGoingDown_1;
@@ -257,7 +257,7 @@ void MeatSaw::VUpdate_4399D0()
                 {
                     if (field_EC_off_speed)
                     {
-                        if (field_104_idle_timer <= static_cast<int>(gnFrameCount_507670))
+                        if (field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670))
                         {
                             field_E4_state = MeatSawStates::eGoingDown_1;
                             field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
@@ -330,7 +330,7 @@ void MeatSaw::GrindUpObjects_439CD0()
     ourRect.y += field_C8_yOffset;
     ourRect.h += field_C8_yOffset;
 
-    for (int i=0; i< gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i=0; i< gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pObjIter)

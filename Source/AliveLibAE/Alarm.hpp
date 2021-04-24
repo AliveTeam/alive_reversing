@@ -13,7 +13,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT Alarm* ctor_409300(Path_Alarm* pTlv, int tlvInfo);
+    EXPORT Alarm* ctor_409300(Path_Alarm* pTlv, s32 tlvInfo);
     EXPORT Alarm* ctor_4091F0(s16 durationOffset, s16 switchId, s16 timerOffset, Layer layer);
 private:
     EXPORT void dtor_409380();
@@ -23,12 +23,12 @@ private:
 private:
     s16 field_78_r_value;
     s16 field_7A_padding;
-    int field_7C_15_timer;
-    int field_80_duration_timer;
-    int field_84_tlvOffsetLevelPathCamId;
+    s32 field_7C_15_timer;
+    s32 field_80_duration_timer;
+    s32 field_84_tlvOffsetLevelPathCamId;
     s16 field_88_switch_id;
     WORD field_8A_duration;
-    int field_8C_padding;
+    s32 field_8C_padding;
     enum class States : s16
     {
         eWaitForSwitchEnable_0 = 0,
@@ -44,4 +44,4 @@ private:
 ALIVE_ASSERT_SIZEOF(Alarm, 0x94);
 
 ALIVE_VAR_EXTERN(short, alarmInstanceCount_5C1BB4);
-ALIVE_VAR_EXTERN(int, sAlarmObjId_550D70);
+ALIVE_VAR_EXTERN(s32, sAlarmObjId_550D70);

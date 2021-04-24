@@ -8,7 +8,7 @@ namespace AO {
 class Particle : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Particle* ctor_478880(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData);
+    EXPORT Particle* ctor_478880(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, BYTE** ppAnimData);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -16,7 +16,7 @@ public:
 
     EXPORT void VUpdate_478930();
 
-    int field_D4[4];
+    s32 field_D4[4];
     FP field_E4_scale_amount;
 };
 ALIVE_ASSERT_SIZEOF(Particle, 0xE8);

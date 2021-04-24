@@ -51,7 +51,7 @@
     ENTRY(M_Attack_43_48DB70)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eParamiteMotions : int
+enum eParamiteMotions : s32
 {
     PARAMITE_MOTIONS_ENUM(MAKE_ENUM)
 };
@@ -136,20 +136,20 @@ struct Paramite_State
     s16 field_36_line_type;
     s16 field_38_padding;
     s16 field_3A_padding;
-    int field_3C_tlvInfo;
-    int field_40_meat_id;
-    int field_44_web_id;
-    int field_48_obj_id;
-    int field_4C_pull_ring_rope_id;
-    int field_50_ai_idx;
+    s32 field_3C_tlvInfo;
+    s32 field_40_meat_id;
+    s32 field_44_web_id;
+    s32 field_48_obj_id;
+    s32 field_4C_pull_ring_rope_id;
+    s32 field_50_ai_idx;
     s16 field_54_padding;
     s16 field_56_padding;
     s16 field_58_brain_ret;
     s16 field_5A_padding;
-    int field_5C_timer;
-    int field_60_depossession_timer;
+    s32 field_5C_timer;
+    s32 field_60_depossession_timer;
     FP field_64_velx_offset;
-    int field_68_timer;
+    s32 field_68_timer;
     LevelIds field_6C_return_level;
     s16 field_6E_return_path;
     s16 field_70_return_camera;
@@ -174,7 +174,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Paramite_State, 0x78);
 class Paramite : public BaseAliveGameObject
 {
 public:
-    EXPORT Paramite* ctor_4879B0(Path_Paramite* pTlv, int tlvInfo);
+    EXPORT Paramite* ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -215,16 +215,16 @@ public:
         vOnTrapDoorOpen_489F60();
     }
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override
     {
         return vGetSaveState_48F220(reinterpret_cast<Paramite_State*>(pSaveBuffer));
     }
 
 
-    EXPORT static int CC CreateFromSaveState_4855A0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4855A0(const BYTE* pBuffer);
 
 private:
-    EXPORT int vGetSaveState_48F220(Paramite_State* pState);
+    EXPORT s32 vGetSaveState_48F220(Paramite_State* pState);
 
 
 public:
@@ -423,31 +423,31 @@ private:
 
 
 private:
-    int field_118_meat_id;
-    int field_11C_web_id;
-    int field_120_obj_id;
-    int field_124_pull_ring_rope_id;
+    s32 field_118_meat_id;
+    s32 field_11C_web_id;
+    s32 field_120_obj_id;
+    s32 field_124_pull_ring_rope_id;
     TParamiteAIFn field_128_fn_brainState;
     s16 field_12C_brain_ret;
     s16 field_12E_surprise_web_delay_timer;
-    int field_130_timer;
+    s32 field_130_timer;
     s16 field_134_meat_eating_time;
     s16 field_136_alone_wait_before_chase_timer;
-    int field_138_depossession_timer;
+    s32 field_138_depossession_timer;
     FP field_13C_velx_offset;
-    int field_140_tlvInfo;
-    int field_144_group_wait_before_chase_timer;
-    int field_148_timer;
+    s32 field_140_tlvInfo;
+    s32 field_144_group_wait_before_chase_timer;
+    s32 field_148_timer;
     s16 field_14C_id;
     LevelIds field_14E_return_level;
     s16 field_150_return_path;
     s16 field_152_return_camera;
-    int field_154_input;
+    s32 field_154_input;
     s16 field_158_next_brain_ret;
     s16 field_15A_paramite_next_motion;
     s16 field_15C_paramite_xOffset;
     s16 field_15E_padding;
-    int field_160_last_event_index;
+    s32 field_160_last_event_index;
     s16 field_164_padding;
     s16 field_166_padding;
     s16 field_168_padding;

@@ -21,7 +21,7 @@ public:
 
     DynamicArrayT<BYTE*> field_0_array;
     BYTE** field_C_ppBits;
-    int field_10_resId;
+    s32 field_10_resId;
     s16 field_14_cam_x;
     s16 field_16_cam_y;
     s16 field_18_path;
@@ -38,12 +38,12 @@ struct DirtyBits
 {
     WORD mData[20]; // 20 Columns
 
-    bool GetTile(int x, int y)
+    bool GetTile(s32 x, s32 y)
     {
         return mData[x] & (1 << y) ? true : false;
     }
 
-    void SetTile(int x, int y, bool b)
+    void SetTile(s32 x, s32 y, bool b)
     {
         if (b)
         {
@@ -76,23 +76,23 @@ public:
 
     EXPORT void MoveImage_406C40();
 
-    EXPORT void InvalidateRect_406CC0(int x, int y, s32 width, s32 height);
+    EXPORT void InvalidateRect_406CC0(s32 x, s32 y, s32 width, s32 height);
 
     EXPORT void DecompressCameraToVRam_407110(u16** ppBits);
 
     EXPORT void UnsetDirtyBits_FG1_406EF0();
 
-    EXPORT void InvalidateRect_406E40(int x, int y, s32 width, s32 height, int idx);
+    EXPORT void InvalidateRect_406E40(s32 x, s32 y, s32 width, s32 height, s32 idx);
 
-    EXPORT void InvalidateRect_Layer3_406F20(int x, int y, int width, int height);
+    EXPORT void InvalidateRect_Layer3_406F20(s32 x, s32 y, s32 width, s32 height);
 
-    EXPORT void InvalidateRect_406D80(int x, int y, s32 width, s32 height, int idx);
+    EXPORT void InvalidateRect_406D80(s32 x, s32 y, s32 width, s32 height, s32 idx);
 
     virtual void VScreenChanged() override;
 
     virtual void VUpdate() override;
 
-    int GetTPage(TPageMode tp, TPageAbr abr, int* xpos, int* ypos);
+    s32 GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);
 
     virtual void VRender(PrimHeader** ppOt) override;
 
@@ -104,26 +104,26 @@ public:
     s16 field_14_xpos;
     u16 field_16_ypos;
     SprtTPage* field_18_screen_sprites;
-    int field_1C;
+    s32 field_1C;
     s16 field_20_upos;
     s16 field_22_vpos;
     short field_24_cam_width;
     short field_26_cam_height;
-    int field_28;
+    s32 field_28;
     s16 field_2C;
     u16 field_2E_idx;
     u16 field_30_y_idx;
     u16 field_32_x_idx;
     s16 field_34;
     s16 field_36_flags;
-    int field_38;
-    int field_3C;
-    int field_40;
-    int field_44;
-    int field_48;
-    int field_4C;
-    int field_50;
-    int field_54;
+    s32 field_38;
+    s32 field_3C;
+    s32 field_40;
+    s32 field_44;
+    s32 field_48;
+    s32 field_4C;
+    s32 field_50;
+    s32 field_54;
     DirtyBits field_58_20x16_dirty_bits[6];
 };
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x148);

@@ -77,7 +77,7 @@ s32 UXB::IsColliding_4DF630()
     PSX_RECT uxbBound = {};
     vGetBoundingRect_424FD0(&uxbBound, 1);
 
-    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
 
@@ -91,8 +91,8 @@ s32 UXB::IsColliding_4DF630()
             PSX_RECT objBound = {};
             pObj->vGetBoundingRect_424FD0(&objBound, 1);
 
-            const int objX = FP_GetExponent(pObj->field_B8_xpos);
-            const int objY = FP_GetExponent(pObj->field_BC_ypos);
+            const s32 objX = FP_GetExponent(pObj->field_B8_xpos);
+            const s32 objY = FP_GetExponent(pObj->field_BC_ypos);
 
             if (objX > uxbBound.x &&
                 objX < uxbBound.w &&
@@ -171,7 +171,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
     field_1C2_pattern_index = 0;
     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
-    field_1C6_red_blink_count = (field_1C4_pattern / static_cast<int>(pow(10, field_1C0_pattern_length - 1))) % 10;
+    field_1C6_red_blink_count = (field_1C4_pattern / static_cast<s32>(pow(10, field_1C0_pattern_length - 1))) % 10;
 
     if (tlv_params->field_14_scale != Scale_short::eFull_0)
     {
@@ -460,7 +460,7 @@ void UXB::Update_4DF030()
                     }
 
                     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
-                    field_1C6_red_blink_count = (field_1C4_pattern / static_cast<int>(pow(10, field_1C0_pattern_length - field_1C2_pattern_index - 1))) % 10;
+                    field_1C6_red_blink_count = (field_1C4_pattern / static_cast<s32>(pow(10, field_1C0_pattern_length - field_1C2_pattern_index - 1))) % 10;
                 }
 
                 field_128_animation.Set_Animation_Data_409C80(544, 0);
@@ -579,7 +579,7 @@ void UXB::ScreenChanged_4DF9C0()
     }
 }
 
-int UXB::GetSaveState_4DFD40(BYTE* __pSaveBuffer)
+s32 UXB::GetSaveState_4DFD40(BYTE* __pSaveBuffer)
 {
     SaveState_UXB* pSaveState = reinterpret_cast<SaveState_UXB*>(__pSaveBuffer);
 
@@ -596,7 +596,7 @@ int UXB::GetSaveState_4DFD40(BYTE* __pSaveBuffer)
     return sizeof(SaveState_UXB);
 }
 
-EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
+EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
 {
     const SaveState_UXB* pSaveState = reinterpret_cast<const SaveState_UXB*>(__pSaveState);
 
@@ -650,7 +650,7 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     return sizeof(SaveState_UXB); // 24
 }
 
-int UXB::VGetSaveState(BYTE* __pSaveBuffer)
+s32 UXB::VGetSaveState(BYTE* __pSaveBuffer)
 {
     return GetSaveState_4DFD40(__pSaveBuffer);
 }

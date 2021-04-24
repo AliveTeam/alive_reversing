@@ -28,7 +28,7 @@ struct Path_UXB : public Path_TLV
     s16 field_12_pattern;
     Scale_short field_14_scale;
     StartState field_16_start_state;
-    int field_18_disabled_resources;
+    s32 field_18_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x1c);
 
@@ -60,13 +60,13 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VOnPickUpOrSlapped() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
     EXPORT UXB* ctor_4DE9A0(Path_UXB* params, TlvItemInfoUnion itemInfo);
-    EXPORT static int CC CreateFromSaveState_4DFAE0(const BYTE*);
+    EXPORT static s32 CC CreateFromSaveState_4DFAE0(const BYTE*);
 private:
     EXPORT void vOnPickUpOrSlapped_4DF540();
     EXPORT void vOnThrowableHit_4DF7B0(BaseGameObject* pFrom);
@@ -76,7 +76,7 @@ private:
     EXPORT void Update_4DF030();
     EXPORT void Render_4DF3D0(PrimHeader** ppOt);
     EXPORT void ScreenChanged_4DF9C0();
-    EXPORT int GetSaveState_4DFD40(BYTE* pSaveBuffer);
+    EXPORT s32 GetSaveState_4DFD40(BYTE* pSaveBuffer);
     EXPORT void InitBlinkAnim_4DEED0(Animation* pAnimation);
     EXPORT void PlaySFX_4DE930(u8 sfxIdx);
     EXPORT s32 IsColliding_4DF630();

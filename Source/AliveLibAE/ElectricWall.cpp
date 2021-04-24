@@ -13,7 +13,7 @@
 
 const s16 sElecticWallFrames_55165C[6] = { 0, 6, 10, 18, 22, 0 };
 
-ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, int tlvInfo)
+ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544B60);
@@ -142,7 +142,7 @@ void ElectricWall::vUpdate_422030()
         }
 
         // Play sound every so often
-        if (static_cast<int>(sGnFrame_5C1B84) >= field_FC_sound_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) >= field_FC_sound_timer)
         {
             SFX_Play_46FC20(SoundEffect::BirdPortalSpark_41, 45, soundDirection, field_CC_sprite_scale);
             field_FC_sound_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(24, 40);
@@ -157,7 +157,7 @@ void ElectricWall::vUpdate_422030()
         bRectBigger.w = FP_GetExponent(field_B8_xpos + FP_FromInteger(4));
         bRectBigger.h = static_cast<short>(bRect.h + 5);
 
-        for (int i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
             if (!pObj)

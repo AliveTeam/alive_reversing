@@ -54,25 +54,25 @@ public:
 class AliveFont
 {
 public:
-    EXPORT AliveFont* ctor_41C170(int maxCharLength, const BYTE* palette, FontContext* fontContext);
+    EXPORT AliveFont* ctor_41C170(s32 maxCharLength, const BYTE* palette, FontContext* fontContext);
 
     EXPORT u32 MeasureWidth_41C2B0(const char* character);
 
-    EXPORT int MeasureWidth_41C200(char character);
+    EXPORT s32 MeasureWidth_41C200(char character);
 
-    EXPORT int MeasureWidth_41C280(const char* text, FP scale);
+    EXPORT s32 MeasureWidth_41C280(const char* text, FP scale);
 
-    EXPORT int DrawString_41C360(PrimHeader** ppOt, const char* text, s16 x, s16 y, TPageAbr abr, int bSemiTrans, int a2, Layer otLayer, u8 r, u8 g, u8 b, int polyOffset, FP scale, int a15, int colorRandomRange);
+    EXPORT s32 DrawString_41C360(PrimHeader** ppOt, const char* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 a2, Layer otLayer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 a15, s32 colorRandomRange);
 
     EXPORT void dtor_41C130();
 
-    EXPORT const char* SliceText_41C6C0(const char* text, int left, FP scale, int right);
+    EXPORT const char* SliceText_41C6C0(const char* text, s32 left, FP scale, s32 right);
 
     BYTE gap0[32];
     BYTE** field_20_fnt_poly_block_ptr;
     Poly_FT4* field_24_fnt_poly_array;
     PSX_RECT field_28_palette_rect;
-    int field_30_poly_count;
+    s32 field_30_poly_count;
     FontContext* field_34_font_context;
 };
 ALIVE_ASSERT_SIZEOF(AliveFont, 0x38);

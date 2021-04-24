@@ -60,9 +60,9 @@ ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, DWOR
     return this;
 }
 
-EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_463CE0(int xpos, int ypos, s16 scale, short* r, short* g, short* b)
+EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypos, s16 scale, short* r, short* g, short* b)
 {
-    for (int idx = 0; idx < sShadowZone_dArray_5C1B80->Size(); idx++)
+    for (s32 idx = 0; idx < sShadowZone_dArray_5C1B80->Size(); idx++)
     {
         ShadowZone* pShadow = sShadowZone_dArray_5C1B80->ItemAt(idx);
         if (!pShadow)
@@ -171,8 +171,8 @@ void ShadowZone::vUpdate_463C40()
 
 FP* ShadowZone::GetColourAmount_463AA0(FP* pOut, s16 xpos, s16 ypos)
 {
-    const int deltaX = abs(xpos - field_28_centre_x);
-    const int deltaY = abs(ypos - field_2A_center_y);
+    const s32 deltaX = abs(xpos - field_28_centre_x);
+    const s32 deltaY = abs(ypos - field_2A_center_y);
 
     if (deltaX > field_30_mid_x || deltaY > field_32_mid_y)
     {

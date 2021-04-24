@@ -51,7 +51,7 @@ struct Fleech_State
 {
     AETypes field_0_type;
     s16 field_2;
-    int field_4_obj_id;
+    s32 field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -73,9 +73,9 @@ struct Fleech_State
     s16 field_36_next_motion;
     s16 field_38_lastLineYPos;
     s16 field_3A_line_type;
-    int field_3C_id;
-    int field_40_tlvInfo;
-    int field_44_obj_id;
+    s32 field_3C_id;
+    s32 field_40_tlvInfo;
+    s32 field_44_obj_id;
     s16 field_48_unused; //TODO: Saves and sets another unused field, field_120 -- Nemin (7/5/2020)
     s16 field_4A_save_tongue_state;
     s16 field_4C_save_tongue_sub_state;
@@ -91,11 +91,11 @@ struct Fleech_State
     s16 field_5E_brain_state;
     s16 field_60_state;
     s16 field_62;
-    int field_64;
+    s32 field_64;
     char field_68_fleech_random_idx;
     char field_69;
     s16 field_6A;
-    int field_6C;
+    s32 field_6C;
     FP field_70;
     s16 field_74;
     s16 field_76_current_anger;
@@ -122,8 +122,8 @@ struct Fleech_State
     char field_9F;
     FP field_A0;
     FP field_A4;
-    int field_A8;
-    int field_AC_obj_id;
+    s32 field_A8;
+    s32 field_AC_obj_id;
 
     enum Flags_B0
     {
@@ -148,7 +148,7 @@ using TFleechMotionFn = void (Fleech::*)();
 class Fleech : public BaseAliveGameObject
 {
 public:
-    EXPORT Fleech* ctor_429DC0(Path_Fleech* pTlv, int tlvInfo);
+    EXPORT Fleech* ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -166,12 +166,12 @@ public:
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
-    EXPORT static int CC CreateFromSaveState_42DD50(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_42DD50(const BYTE* pBuffer);
 
 private:
-    EXPORT int vGetSaveState_42FF80(Fleech_State* pState);
+    EXPORT s32 vGetSaveState_42FF80(Fleech_State* pState);
 
 
 public:
@@ -271,15 +271,15 @@ private:
 
     EXPORT void ToIdle_42E520();
 
-    EXPORT int Sound_430520(FleechSound soundId);
+    EXPORT s32 Sound_430520(FleechSound soundId);
 
-    EXPORT BYTE** ResBlockForMotion_42A530(int motion);
+    EXPORT BYTE** ResBlockForMotion_42A530(s32 motion);
 
     EXPORT s16 CanMove_42E3E0();
 
-    EXPORT s16 HandleEnemyStopperOrSlamDoor_42ADC0(int velX);
+    EXPORT s16 HandleEnemyStopperOrSlamDoor_42ADC0(s32 velX);
 
-    EXPORT int UpdateWakeUpSwitchValue_4308B0();
+    EXPORT s32 UpdateWakeUpSwitchValue_4308B0();
 
     EXPORT s16 vTakeDamage_42A5C0(BaseGameObject* pFrom);
 
@@ -293,7 +293,7 @@ private:
 
     EXPORT s16 InRange_4307C0(BaseAliveGameObject* pObj);
 
-    EXPORT int TongueActive_42B8A0();
+    EXPORT s32 TongueActive_42B8A0();
 
     EXPORT void PullTargetIn_42BAF0();
 
@@ -311,25 +311,25 @@ private:
 
     EXPORT BOOL Collision_42B290(s16 alwaysOne);
 
-    EXPORT Path_Hoist* TryGetHoist_42AFD0(int xDistance, s16 bIgnoreDirection);
+    EXPORT Path_Hoist* TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection);
 
 
 public:
     EXPORT void vOnFrame_42BC50(s16* pData);
 
 private:
-    int field_118_tlvInfo;
-    int field_11C_obj_id;
+    s32 field_118_tlvInfo;
+    s32 field_11C_obj_id;
     s16 field_120_unused;
     s16 field_122;
     s16 field_124_brain_state;
     u16 field_126_state;
     s16 field_128;
     s16 field_12A;
-    int field_12C;
+    s32 field_12C;
     s16 field_130;
     s16 field_132;
-    int field_134;
+    s32 field_134;
     FP field_138;
     s16 field_13C;
     s16 field_13E_current_anger;
@@ -356,7 +356,7 @@ private:
     char field_167;
     FP field_168;
     FP field_16C;
-    int field_170_danger_obj;
+    s32 field_170_danger_obj;
     enum Flags_174 : s16
     {
         eBit1_bHoistDone = 0x1,
@@ -404,4 +404,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Fleech, 0x42C);
 
-EXPORT int CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData);
+EXPORT s32 CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData);

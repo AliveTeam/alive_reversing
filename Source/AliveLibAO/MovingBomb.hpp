@@ -29,7 +29,7 @@ struct Path_MovingBombStopper : public Path_TLV
 class MovingBomb : public BaseAliveGameObject
 {
 public:
-    EXPORT MovingBomb* ctor_43AFE0(Path_MovingBomb* pTlv, int tlvInfo);
+    EXPORT MovingBomb* ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_43B2C0();
 
@@ -74,14 +74,14 @@ public:
     };
     States field_10C_state;
     s16 field_10E_pad;
-    int field_110_tlvInfo;
-    int field_114_timer;
+    s32 field_110_tlvInfo;
+    s32 field_114_timer;
     FP field_118_speed;
     u16 field_11C_id;
     s16 field_11E_max;
     s16 field_120_min;
     s16 field_122_pad;
-    int field_124_sound_channels;
+    s32 field_124_sound_channels;
     s16 field_128_disabled_resources;
     s16 field_12A_persist_offscreen;
 };

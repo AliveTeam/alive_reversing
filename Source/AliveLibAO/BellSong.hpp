@@ -23,10 +23,10 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
 
-    int field_10_code_idx;
+    s32 field_10_code_idx;
     s16 field_14_bDone;
     BellsongTypes field_16_type;
-    int field_18_code;
+    s32 field_18_code;
     s16 field_1C_code_len;
     s16 field_1E;
 };

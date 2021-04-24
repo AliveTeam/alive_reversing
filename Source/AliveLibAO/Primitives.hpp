@@ -6,7 +6,7 @@
 
 namespace AO {
 
-EXPORT void CC Init_SetTPage_495FB0(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage);
+EXPORT void CC Init_SetTPage_495FB0(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage);
 
 
 enum class TPageMode : char
@@ -24,16 +24,16 @@ enum class TPageAbr : char
     eBlend_3 = 3,
 };
 
-inline int CC PSX_getTPage_4965D0(TPageMode tp, TPageAbr abr, int x, s16 y)
+inline s32 CC PSX_getTPage_4965D0(TPageMode tp, TPageAbr abr, s32 x, s16 y)
 {
     return ((((static_cast<char>(tp)) & 0x3) << 7) | (((static_cast<char>(abr)) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
 }
 
-EXPORT void CC Poly_Set_Blending_498A00(PrimHeader* pPrim, int bBlending);
+EXPORT void CC Poly_Set_Blending_498A00(PrimHeader* pPrim, s32 bBlending);
 
-EXPORT int CC PSX_getClut_496840(int x, int y);
+EXPORT s32 CC PSX_getClut_496840(s32 x, s32 y);
 
-EXPORT void CC Poly_Set_SemiTrans_498A40(PrimHeader* pPrim, int bSemiTrans);
+EXPORT void CC Poly_Set_SemiTrans_498A40(PrimHeader* pPrim, s32 bSemiTrans);
 
 void CC Sprt_Init(Prim_Sprt* pPrim);
 

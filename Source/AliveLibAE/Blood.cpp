@@ -101,9 +101,9 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-        for (int i = 0; i < field_126_total_count; i++)
+        for (s32 i = 0; i < field_126_total_count; i++)
         {
-            for (int j = 0; j < 2; j++)
+            for (s32 j = 0; j < 2; j++)
             {
                 BloodParticle* pParticle = &field_F8_pResBuf[i];
                 Prim_Sprt* pSprt = &pParticle->field_10_prims[j];
@@ -134,7 +134,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
 
         // Has its own random seed based on the frame counter.. no idea why
         field_124_rand_seed = static_cast<BYTE>(sGnFrame_5C1B84);
-        for (int i = 0; i < field_122_to_render_count; i++)
+        for (s32 i = 0; i < field_122_to_render_count; i++)
         {
             field_F8_pResBuf[i].field_0_x = FP_FromInteger(field_11E_xpos);
             field_F8_pResBuf[i].field_4_y = FP_FromInteger(field_120_ypos);
@@ -192,7 +192,7 @@ void Blood::vUpdate_40F650()
             return;
         }
 
-        for (int i=0; i<field_122_to_render_count; i++)
+        for (s32 i=0; i<field_122_to_render_count; i++)
         {
             field_F8_pResBuf[i].field_C_offy += FP_FromDouble(1.8);
 
@@ -219,7 +219,7 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
         PSX_Point xy = { 32767, 32767 };
         PSX_Point wh = { -32767, -32767 };
 
-        for (int i = 0; i < field_122_to_render_count; i++)
+        for (s32 i = 0; i < field_122_to_render_count; i++)
         {
             BloodParticle* pParticle = &field_F8_pResBuf[i];
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay_5C1130.field_C_buffer_index];
@@ -262,7 +262,7 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
             wh.field_2_y = std::max(y0, wh.field_2_y);
         }
         
-        const int tpage = PSX_getTPage_4F60E0(
+        const s32 tpage = PSX_getTPage_4F60E0(
             field_11C_texture_mode,
             TPageAbr::eBlend_0,
             field_20_animation.field_84_vram_rect.x,

@@ -14,13 +14,13 @@
 
 struct LiftPointData
 {
-    int field_0_maxW_platform;
-    int field_4_maxH_platform;
-    int field_8_platfom_frame_table_offset;
-    int field_C_lift_wheel_frame_table_offset;
-    int field_10_pulley_frame_table_offset;
-    int field_14_maxW_lift_wheel_and_pulley;
-    int field_18_maxH_lift_wheel_and_pulley;
+    s32 field_0_maxW_platform;
+    s32 field_4_maxH_platform;
+    s32 field_8_platfom_frame_table_offset;
+    s32 field_C_lift_wheel_frame_table_offset;
+    s32 field_10_pulley_frame_table_offset;
+    s32 field_14_maxW_lift_wheel_and_pulley;
+    s32 field_18_maxH_lift_wheel_and_pulley;
 };
 ALIVE_ASSERT_SIZEOF(LiftPointData, 0x1C);
 
@@ -68,7 +68,7 @@ const TintEntry sLiftTints_55BF50[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
+LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(&field_13C_lift_wheel, 0x544290); // gVtbl_animation_2a_544290;
@@ -126,7 +126,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
 
 
     BYTE** ppPulleyAnim = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
-    const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<int>(gMap_5C3030.field_0_current_level)];
+    const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<s32>(gMap_5C3030.field_0_current_level)];
     if (field_13C_lift_wheel.Init_40A030(
         rLiftWheelData.field_C_lift_wheel_frame_table_offset,
         gObjList_animations_5C1A24,
@@ -266,7 +266,7 @@ void LiftPoint::VScreenChanged()
     vScreenChanged_463020();
 }
 
-int LiftPoint::VGetSaveState(BYTE* pSaveBuffer)
+s32 LiftPoint::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4637D0(reinterpret_cast<LiftPoint_State*>(pSaveBuffer));
 }
@@ -283,7 +283,7 @@ static void LoadLiftResourceBans(const char* pRopeBanName, const char* pLiftBanN
     }
 }
 
-int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
+s32 CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
 {
     const LiftPoint_State* pState = reinterpret_cast<const LiftPoint_State*>(pData);
 
@@ -430,7 +430,7 @@ BOOL LiftPoint::vMovingToFloorLevel_4619B0()
     return field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel);
 }
 
-EXPORT void LiftPoint::vMove_4626A0(FP xSpeed, FP ySpeed, int /*not_used*/)
+EXPORT void LiftPoint::vMove_4626A0(FP xSpeed, FP ySpeed, s32 /*not_used*/)
 {
     field_C4_velx = xSpeed * field_CC_sprite_scale;
     field_C8_vely = ySpeed * field_CC_sprite_scale;
@@ -849,7 +849,7 @@ void LiftPoint::vUpdate_461AE0()
 
 void LiftPoint::MoveObjectsOnLift_497600(FP xVelocity)
 {
-    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)
@@ -989,7 +989,7 @@ void LiftPoint::CreatePulleyIfExists_462C80()
     field_26E_pulley_ypos = pFound->field_8_top_left.field_2_y;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
-    const LiftPointData& data = sLiftPointData_545AC8[static_cast<int>(gMap_5C3030.field_0_current_level)];
+    const LiftPointData& data = sLiftPointData_545AC8[static_cast<s32>(gMap_5C3030.field_0_current_level)];
     field_1D4_pulley_anim.Init_40A030(
         data.field_10_pulley_frame_table_offset,
         gObjList_animations_5C1A24,

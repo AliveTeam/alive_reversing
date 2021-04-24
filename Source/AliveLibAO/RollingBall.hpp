@@ -24,7 +24,7 @@ class PathLine;
 class RollingBall : public BaseAliveGameObject
 {
 public:
-    EXPORT RollingBall* ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo);
+    EXPORT RollingBall* ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_458230();
 
@@ -40,7 +40,7 @@ public:
 
     EXPORT void CrushThingsInTheWay_458310();
 
-    int field_10C_tlvInfo;
+    s32 field_10C_tlvInfo;
     u16 field_110_release_switch_id;
     enum class States : s16
     {
@@ -55,8 +55,8 @@ public:
     FP field_118_speed;
     FP field_11C_acceleration;
     PathLine* field_120_pCollisionLine;
-    int field_124_padding;
-    int field_128_padding;
+    s32 field_124_padding;
+    s32 field_128_padding;
 };
 ALIVE_ASSERT_SIZEOF(RollingBall, 0x12C);
 

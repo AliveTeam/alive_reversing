@@ -20,7 +20,7 @@ public:
 
     BaseGameObject* VDestructor(s32 flags) override;
 
-    int field_D4[4];
+    s32 field_D4[4];
     s16 field_E4_bHitSomething;
     s16 field_E6;
 };

@@ -11,13 +11,13 @@ namespace AO {
 
 struct Switch_Data
 {
-    int field_0_frameTableOffset;
-    int field_4_maxW;
-    int field_8_maxH;
-    int field_C_frameTable;
-    int field_10_frameTable2;
-    int field_14_frameTable;
-    int field_18_frameTable3;
+    s32 field_0_frameTableOffset;
+    s32 field_4_maxW;
+    s32 field_8_maxH;
+    s32 field_C_frameTable;
+    s32 field_10_frameTable2;
+    s32 field_14_frameTable;
+    s32 field_18_frameTable3;
 };
 ALIVE_ASSERT_SIZEOF(Switch_Data, 0x1C);
 
@@ -41,7 +41,7 @@ const Switch_Data gSwitchData_4BCF40[16] =
     { 16272, 66, 41, 16284, 16336, 16372, 16424 }
 };
 
-int Switch::VPull(s16 a2)
+s32 Switch::VPull(s16 a2)
 {
     return vPull_481640(a2);
 }
@@ -64,7 +64,7 @@ void Switch::VUpdate_4812D0()
         {
             Event_Broadcast_417220(kEventNoise_0, this);
             Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-            const int lvl_idx = static_cast<int>(gMap_507BA8.field_0_current_level);
+            const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1
                 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12
                 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
@@ -73,7 +73,7 @@ void Switch::VUpdate_4812D0()
             }
             field_E8_state = 2;
 
-            int frameTable = 0;
+            s32 frameTable = 0;
             if (field_F0 == 0)
             {
                 frameTable = gSwitchData_4BCF40[lvl_idx].field_18_frameTable3;
@@ -91,8 +91,8 @@ void Switch::VUpdate_4812D0()
 
             if (oldSwitchState != newSwitchState)
             {
-                int leftVol = 0;
-                int rightVol = 0;
+                s32 leftVol = 0;
+                s32 rightVol = 0;
 
                 if (field_F8_sound_direction == 1)
                 {
@@ -160,7 +160,7 @@ void Switch::VUpdate_4812D0()
         {
             field_E8_state = 0;
             field_10_anim.Set_Animation_Data_402A40(
-                gSwitchData_4BCF40[static_cast<int>(gMap_507BA8.field_0_current_level)].field_0_frameTableOffset,
+                gSwitchData_4BCF40[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0_frameTableOffset,
                 nullptr);
         }
     }
@@ -203,7 +203,7 @@ BaseGameObject* Switch::dtor_481260()
     return dtor_417D10(); // Note: intermediate base skipped
 }
 
-Switch* Switch::ctor_481110(Path_Switch* pTlv, int tlvInfo)
+Switch* Switch::ctor_481110(Path_Switch* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BD100);
@@ -211,7 +211,7 @@ Switch* Switch::ctor_481110(Path_Switch* pTlv, int tlvInfo)
     field_4_typeId = Types::eLever_97;
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSwitchResID, 1, 0);
 
-    const int idx = static_cast<int>(gMap_507BA8.field_0_current_level);
+    const s32 idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
     Animation_Init_417FD0(
         gSwitchData_4BCF40[idx].field_0_frameTableOffset,
         gSwitchData_4BCF40[idx].field_4_maxW,
@@ -252,11 +252,11 @@ Switch* Switch::ctor_481110(Path_Switch* pTlv, int tlvInfo)
     return this;
 }
 
-int Switch::vPull_481640(s16 a2)
+s32 Switch::vPull_481640(s16 a2)
 {
     if (field_E8_state == 0)
     {
-        const int lvl_idx = static_cast<int>(gMap_507BA8.field_0_current_level);
+        const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
         field_E8_state = 1;
         if (a2)
         {

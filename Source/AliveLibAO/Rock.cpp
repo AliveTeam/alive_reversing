@@ -143,7 +143,7 @@ BaseGameObject* RockSack::dtor_457580()
     return dtor_401000();
 }
 
-RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, int tlvInfo)
+RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BC120);
@@ -336,7 +336,7 @@ void Rock::VUpdate_456EC0()
         else
         {
             const short x_exp = FP_GetExponent(field_A8_xpos);
-            const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
             if (abs(xSnapped - x_exp) > 1)
             {
                 field_114_pLine = field_114_pLine->MoveOnLine_40CA20(
@@ -367,7 +367,7 @@ void Rock::VUpdate_456EC0()
         break;
 
     case States::eOnGround_3:
-        if (static_cast<int>(gnFrameCount_507670) > field_124)
+        if (static_cast<s32>(gnFrameCount_507670) > field_124)
         {
             New_Shiny_Particle_4199A0(
                 (field_BC_sprite_scale * FP_FromInteger(1)) + field_A8_xpos,
@@ -511,7 +511,7 @@ void Rock::InTheAir_456B60()
                         field_AC_ypos = hitY;
                         field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
                         field_B4_velx = (field_B4_velx / FP_FromInteger(2));
-                        int vol = 20 * (4 - field_118_vol);
+                        s32 vol = 20 * (4 - field_118_vol);
                         if (vol < 40)
                         {
                             vol = 40;
@@ -549,7 +549,7 @@ void Rock::InTheAir_456B60()
                 field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
-                int vol = 20 * (4 - field_118_vol);
+                s32 vol = 20 * (4 - field_118_vol);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -567,7 +567,7 @@ void Rock::InTheAir_456B60()
                 field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
-                int vol = 20 * (4 - field_118_vol);
+                s32 vol = 20 * (4 - field_118_vol);
                 if (vol < 40)
                 {
                     vol = 40;

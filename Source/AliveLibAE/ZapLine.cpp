@@ -83,11 +83,11 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
     const BYTE frameW = pFrameHeader->field_4_width;
     const BYTE frameH = pFrameHeader->field_5_height;
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j = 0; j < field_12E_number_of_segments; j++)
+        for (s32 j = 0; j < field_12E_number_of_segments; j++)
         {
-            for (int k = 0; k < field_130_number_of_pieces_per_segment; k++)
+            for (s32 k = 0; k < field_130_number_of_pieces_per_segment; k++)
             {
                 Prim_Sprt* pSprt = &field_134_pSprites[(j * field_130_number_of_pieces_per_segment) + k].field_0_sprts[i];
                 Sprt_Init_4F8910(pSprt);
@@ -181,10 +181,10 @@ void ZapLine::vScreenChanged_4CDBE0()
 void ZapLine::CalculateThickSpriteSegmentPositions_4CCD50()
 {
     // TODO: Convert bit operations to something more readable.
-    int v1 = 0;
+    s32 v1 = 0;
     if (field_126_alive_timer >= 8)
     {
-        const int remainingAliveTime = field_128_max_alive_time - field_126_alive_timer;
+        const s32 remainingAliveTime = field_128_max_alive_time - field_126_alive_timer;
         if (remainingAliveTime >= 8)
         {
             v1 = 4;
@@ -199,8 +199,8 @@ void ZapLine::CalculateThickSpriteSegmentPositions_4CCD50()
         v1 = field_126_alive_timer / 4 + 3;
     }
 
-    int v5 = 1 << v1;
-    int v6 = 1 << (v1 - 1);
+    s32 v5 = 1 << v1;
+    s32 v6 = 1 << (v1 - 1);
 
     field_140_sprite_segment_positions[0].field_0_x = FP_FromInteger(field_11C_x_position_source);
     field_140_sprite_segment_positions[0].field_4_y = FP_FromInteger(field_11E_y_position_source);
@@ -208,7 +208,7 @@ void ZapLine::CalculateThickSpriteSegmentPositions_4CCD50()
     field_140_sprite_segment_positions[field_12E_number_of_segments - 1].field_0_x = FP_FromInteger(field_120_x_position_destination);
     field_140_sprite_segment_positions[field_12E_number_of_segments - 1].field_4_y = FP_FromInteger(field_122_y_position_destination);
 
-    int angExtra = 0;
+    s32 angExtra = 0;
     if ((sGnFrame_5C1B84 / 8) & 1)
     {
         angExtra = 0;
@@ -226,7 +226,7 @@ void ZapLine::CalculateThickSpriteSegmentPositions_4CCD50()
 
 
     // First and last done above.
-    for (int i = 1; i < field_12E_number_of_segments - 1; i++)
+    for (s32 i = 1; i < field_12E_number_of_segments - 1; i++)
     {
         const BYTE ang = static_cast<BYTE>(angExtra + 18 * i);
         field_140_sprite_segment_positions[i].field_0_x =
@@ -260,7 +260,7 @@ void ZapLine::CalculateThinSpriteSegmentPositions_4CD110()
     const FP y2DiffDiv = -y2Diff * FP_FromDouble(0.1);
     const FP x2DiffDiv = x2Diff * FP_FromDouble(0.1);
 
-    for (int i = 1; i < field_12E_number_of_segments - 1; i++)
+    for (s32 i = 1; i < field_12E_number_of_segments - 1; i++)
     {
         const FP rnd = FP_FromInteger(Math_NextRandom() % 32 - 16);
         field_140_sprite_segment_positions[i].field_0_x = (y2DiffDiv * rnd) + FP_FromInteger(field_11C_x_position_source) + (FP_FromInteger(i) * x2Diff);
@@ -272,7 +272,7 @@ void ZapLine::CalculateZapPoints_4CD340()
 {
     FP acc = FP_FromInteger(0);
     const FP delta = FP_FromInteger(1) / FP_FromInteger(field_130_number_of_pieces_per_segment);
-    for (int i = 0; i < field_130_number_of_pieces_per_segment; i++)
+    for (s32 i = 0; i < field_130_number_of_pieces_per_segment; i++)
     {
         const FP accSqrd = (acc * acc);
         field_13C_zap_points[i].field_0_part_1 = accSqrd - FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
@@ -282,7 +282,7 @@ void ZapLine::CalculateZapPoints_4CD340()
     }
 }
 
-void ZapLine::CalculateSpritePositionsInner_4CD400(int idx1, int idx2, int idx3, s16 idx4)
+void ZapLine::CalculateSpritePositionsInner_4CD400(s32 idx1, s32 idx2, s32 idx3, s16 idx4)
 {
     const FP x1 = field_140_sprite_segment_positions[idx1].field_0_x;
     const FP y1 = field_140_sprite_segment_positions[idx1].field_4_y;
@@ -293,7 +293,7 @@ void ZapLine::CalculateSpritePositionsInner_4CD400(int idx1, int idx2, int idx3,
     const FP x3 = field_140_sprite_segment_positions[idx3].field_0_x;
     const FP y3 = field_140_sprite_segment_positions[idx3].field_4_y;
 
-    for (int i = 0; i < field_130_number_of_pieces_per_segment; i++)
+    for (s32 i = 0; i < field_130_number_of_pieces_per_segment; i++)
     {
         auto pItem = &field_138_sprite_positions[i + (idx4 * field_130_number_of_pieces_per_segment)];
 
@@ -313,9 +313,9 @@ void ZapLine::CalculateSpritePositionsInner_4CD400(int idx1, int idx2, int idx3,
 
 void ZapLine::UpdateSpriteVertexPositions_4CD650()
 {
-    for (int i = 0; i < field_12E_number_of_segments; i++)
+    for (s32 i = 0; i < field_12E_number_of_segments; i++)
     {
-        for (int j = 0; j < field_130_number_of_pieces_per_segment; j++)
+        for (s32 j = 0; j < field_130_number_of_pieces_per_segment; j++)
         {
             const auto pPoint = &field_138_sprite_positions[j + (i * field_130_number_of_pieces_per_segment)];
             Prim_Sprt* pSprt = &field_134_pSprites->field_0_sprts[j + (i * field_130_number_of_pieces_per_segment)];
@@ -418,16 +418,16 @@ void ZapLine::vRender_4CD8C0(PrimHeader** ppOt)
     {
         const auto bufferIdx = gPsxDisplay_5C1130.field_C_buffer_index;
 
-        for (int i = 0; i < field_12E_number_of_segments; i++)
+        for (s32 i = 0; i < field_12E_number_of_segments; i++)
         {
-            for (int j = 0; j < field_130_number_of_pieces_per_segment; j++)
+            for (s32 j = 0; j < field_130_number_of_pieces_per_segment; j++)
             {
                 Prim_Sprt* pSprt = &field_134_pSprites->field_0_sprts[j + (i * field_130_number_of_pieces_per_segment)];
                 OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pSprt[bufferIdx].mBase.header);
             }
         }
 
-        const int calcTPage = PSX_getTPage_4F60E0(
+        const s32 calcTPage = PSX_getTPage_4F60E0(
             field_124_tPageMode,
             field_12C_tPageAbr,
             field_20_animation.field_84_vram_rect.x,
@@ -443,10 +443,10 @@ void ZapLine::vRender_4CD8C0(PrimHeader** ppOt)
         pRect->y = 32767;
         pRect->h = -32767;
 
-        for (int i = 0; i < field_12E_number_of_segments; i++)
+        for (s32 i = 0; i < field_12E_number_of_segments; i++)
         {
             const PSX_Point* pPoint = &field_138_sprite_positions[i * field_130_number_of_pieces_per_segment];
-            for (int j = 0; j < field_130_number_of_pieces_per_segment; j++)
+            for (s32 j = 0; j < field_130_number_of_pieces_per_segment; j++)
             {
                 if (pPoint->field_0_x < pRect->x)
                 {

@@ -5,7 +5,7 @@
 
 void GameSpeak_ForceLink() { }
 
-const int code_base_560F0C[12] =
+const s32 code_base_560F0C[12] =
 {
     0,
     1,
@@ -31,7 +31,7 @@ s16 CC Code_Length_4C9DB0(u32 code)
     return i;
 }
 
-int CC Code_Convert_4C9DF0(u16 code1, u16 code2)
+s32 CC Code_Convert_4C9DF0(u16 code1, u16 code2)
 {
     if (code2)
     {
@@ -137,7 +137,7 @@ GameSpeakMatch GameSpeak::MatchBuffer_4219E0(BYTE* pBuffer, s16 max_idx, s16 src
     }
 }
 
-int CC GameSpeak::FillBuffer_421970(int code, BYTE* pBufffer)
+s32 CC GameSpeak::FillBuffer_421970(s32 code, BYTE* pBufffer)
 {
     const s16 len = Code_Length_4C9DB0(code);
     for (short idx = 0; idx < len; idx++)

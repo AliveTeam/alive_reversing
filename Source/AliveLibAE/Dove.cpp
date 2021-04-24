@@ -36,7 +36,7 @@ EXPORT void CC Dove_static_ctor_41F3A0()
     atexit(Dove_static_dtor_41F400);
 }
 
-Dove* Dove::ctor_41F430(int frameTableOffset, int /*maxW*/, u16 /*maxH*/, int /*resourceID*/, int tlvInfo, FP scale)
+Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 /*maxW*/, u16 /*maxH*/, s32 /*resourceID*/, s32 tlvInfo, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90);
@@ -93,7 +93,7 @@ Dove* Dove::ctor_41F430(int frameTableOffset, int /*maxW*/, u16 /*maxH*/, int /*
     return this;
 }
 
-Dove* Dove::ctor_41F660(int frameTableOffset, int /*maxW*/, s16 /*maxH*/, int /*resourceID*/, FP xpos, FP ypos, FP scale)
+Dove* Dove::ctor_41F660(s32 frameTableOffset, s32 /*maxW*/, s16 /*maxH*/, s32 /*resourceID*/, FP xpos, FP ypos, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90); // vTbl_Dove_544A90
@@ -250,9 +250,9 @@ void Dove::FlyAway_420020(BOOL spookedInstantly)
     }
 }
 
-ALIVE_VAR(1, 0x5BC10C, int, bExtraSeqStarted_5BC10C, 0);
+ALIVE_VAR(1, 0x5BC10C, s32, bExtraSeqStarted_5BC10C, 0);
 
-static int sAbePortalTimer_5BC114 = 0;
+static s32 sAbePortalTimer_5BC114 = 0;
 static short sAbePortalDirection_551546 = 0;
 static short sAbePortalWidth_551544 = 0;
 
@@ -331,7 +331,7 @@ void Dove::vUpdate_41FAE0()
 
     case State::State_2_Join:
     {
-        if (static_cast<int>(sGnFrame_5C1B84) > field_108_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_108_timer)
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -365,7 +365,7 @@ void Dove::vUpdate_41FAE0()
         return;
 
     case State::State_4_AlmostACircle:
-        if (sAbePortalTimer_5BC114 != static_cast<int>(sGnFrame_5C1B84))
+        if (sAbePortalTimer_5BC114 != static_cast<s32>(sGnFrame_5C1B84))
         {
             // increase or decrease the width of the Abe portal
             sAbePortalWidth_551544 += sAbePortalDirection_551546;
@@ -407,7 +407,7 @@ void Dove::vUpdate_41FAE0()
 
 void CC Dove::All_FlyAway_41FA60(BOOL spookedInstantly)
 {
-    for (int i = 0; i < gDovesArray_5BC100.Size(); i++)
+    for (s32 i = 0; i < gDovesArray_5BC100.Size(); i++)
     {
         Dove* pDove = gDovesArray_5BC100.ItemAt(i);
         if (!pDove)

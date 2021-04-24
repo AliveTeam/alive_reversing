@@ -9,9 +9,9 @@ void CheatController_ForceLink();
 struct CheatEntry
 {
     u32 field_0_level_mask;
-    int field_4_cheat_code_length;
+    s32 field_4_cheat_code_length;
     const InputCommands::Enum *field_8_cheat_code_ary;
-    int field_C_success_idx;
+    s32 field_C_success_idx;
     void(*field_10_callback)(void);
 };
 ALIVE_ASSERT_SIZEOF(CheatEntry, 0x14);
@@ -33,13 +33,13 @@ public:
 public:
     s16 field_20;
     s16 field_22;
-    int field_24;
-    int field_28;
-    int field_2C;
-    int field_30;
-    int field_34;
-    int field_38;
-    int field_3C;
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
+    s32 field_30;
+    s32 field_34;
+    s32 field_38;
+    s32 field_3C;
 };
 ALIVE_ASSERT_SIZEOF(CheatController, 0x40);
 

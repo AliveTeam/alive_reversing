@@ -40,7 +40,7 @@ const TintEntry sSecurityOrbTints_55C1EC[18] =
 };
 
 
-SecurityOrb* SecurityOrb::ctor_466350(Path_SecurityOrb* pTlv, int tlvInfo)
+SecurityOrb* SecurityOrb::ctor_466350(Path_SecurityOrb* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x545F3C);
@@ -165,12 +165,12 @@ void SecurityOrb::vUpdate_4665A0()
     // TODO: untangle
     if (field_11C_state)
     {
-        const int stateM1 = field_11C_state - 1;
+        const s32 stateM1 = field_11C_state - 1;
         if (stateM1)
         {
             if (stateM1 == 1)
             {
-                if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 5 || static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 1)
+                if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer - 5 || static_cast<s32>(sGnFrame_5C1B84) == field_120_timer - 1)
                 {
                     auto pFlash1 = ae_new<Flash>();
                     if (pFlash1)
@@ -178,7 +178,7 @@ void SecurityOrb::vUpdate_4665A0()
                         pFlash1->ctor_428570(Layer::eLayer_39, 255, 0, 0, 1, TPageAbr::eBlend_3, 1);
                     }
                 }
-                if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 4)
+                if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer - 4)
                 {
                     auto pFlash2 = ae_new<Flash>();
                     if (pFlash2)
@@ -187,7 +187,7 @@ void SecurityOrb::vUpdate_4665A0()
                     }
                 }
 
-                const int timerFrame = field_120_timer - sGnFrame_5C1B84;
+                const s32 timerFrame = field_120_timer - sGnFrame_5C1B84;
                 if (timerFrame == 4)
                 {
                     SFX_Play_46FA90(SoundEffect::Zap1_49, 0, field_CC_sprite_scale);
@@ -197,13 +197,13 @@ void SecurityOrb::vUpdate_4665A0()
                     SFX_Play_46FA90(SoundEffect::Zap2_50, 0, field_CC_sprite_scale);
                 }
 
-                if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
+                if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
                 {
                     field_11C_state = 0;
                 }
             }
         }
-        else if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
+        else if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
         {
             PSX_RECT bRect = {};
             sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
@@ -264,7 +264,7 @@ void SecurityOrb::vUpdate_4665A0()
                 pSpark2->field_D0_r = 255;
             }
 
-            for (int i = 0; i < 9; i++)
+            for (s32 i = 0; i < 9; i++)
             {
                 auto pSpark3 = ae_new<Sparks>();
                 if (pSpark3)

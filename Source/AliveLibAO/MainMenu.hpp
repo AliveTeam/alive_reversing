@@ -22,7 +22,7 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    int field_D4[4];
+    s32 field_D4[4];
     s16 field_E4;
     s16 field_E6;
     s16 field_E8_bDestroyOnDone;
@@ -87,7 +87,7 @@ enum class LevelIds : s16;
 class Menu : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Menu* ctor_47A6F0(Path_TLV* pTlv, int tlvInfo);
+    EXPORT Menu* ctor_47A6F0(Path_TLV* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_47AAB0();
 
@@ -159,7 +159,7 @@ public:
     EXPORT void Load_Update_47D760();
     void CycleGameSpeakIdleAnims();
 
-    EXPORT static int CC StringsEqual_47DA20(const void* pStr1, const void* pStr2);
+    EXPORT static s32 CC StringsEqual_47DA20(const void* pStr1, const void* pStr2);
 
     // Compared via address
     EXPORT void ToggleMotions_Update_47C800();
@@ -196,9 +196,9 @@ public:
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
-    EXPORT static void CC RenderElement_47A4E0(int xpos, int ypos, int input_command, PrimHeader** ot, AliveFont* pFont, int* pPolyOffset);
+    EXPORT static void CC RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset);
 
-    int field_D4[4];
+    s32 field_D4[4];
     BYTE** field_E4_res_array[6];
     AliveFont field_FC_font;
     Animation field_134_anim;
@@ -211,9 +211,9 @@ public:
 
     TRenderFn field_1D0_fn_render;
 
-    int field_1D4_tlvInfo;
-    int field_1D8_timer;
-    int field_1DC_idle_input_counter;
+    s32 field_1D4_tlvInfo;
+    s32 field_1D8_timer;
+    s32 field_1DC_idle_input_counter;
     s16 field_1E0_selected_index;
     s16 field_1E2_rgb;
     s16 field_1E4_colour_counter;
@@ -230,7 +230,7 @@ public:
     s16 field_202;
     s16 field_204_flags;
     s16 field_206;
-    int field_208_camera;
+    s32 field_208_camera;
     s16 field_20C_bStartInSpecificMap;
     LevelIds field_20E_level;
     s16 field_210_path;
@@ -245,11 +245,11 @@ public:
     s16 field_226_bToLevelSelect;
     FP field_228;
     FP field_22C;
-    int field_230_bGoBack;
+    s32 field_230_bGoBack;
 };
 ALIVE_ASSERT_SIZEOF(Menu, 0x234);
 
-ALIVE_VAR_EXTERN(int, gMainMenuInstanceCount_9F2DE0);
+ALIVE_VAR_EXTERN(s32, gMainMenuInstanceCount_9F2DE0);
 ALIVE_VAR_EXTERN(BYTE, sJoyResId_50769C);
 
 }

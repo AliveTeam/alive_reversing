@@ -383,7 +383,7 @@ void DumpMenus()
         std::stringstream menuAddr;
         menuAddr << std::hex << a.address;
 
-        int count = 0;
+        s32 count = 0;
         PauseMenuPageEntry* c = reinterpret_cast<PauseMenuPageEntry*>(a.address);
 
         while (c->field_8_text)
@@ -421,9 +421,9 @@ void DumpMenus()
             output << e->field_4_y << ", ";
             output << e->field_6_unknown << ", ";
             output << "\"" << EscapeUnknownCharacters(e->field_8_text) << "\"" << ", ";
-            output << (int)e->field_C_r << ", ";
-            output << (int)e->field_D_g << ", ";
-            output << (int)e->field_E_b << ", ";
+            output << (s32)e->field_C_r << ", ";
+            output << (s32)e->field_D_g << ", ";
+            output << (s32)e->field_E_b << ", ";
             output << alignment;
             output << " },\n";
 
@@ -620,12 +620,12 @@ public:
             scrollDownIndex = 0;
         }
 
-        int o = 0;
-        int size = 0;
+        s32 o = 0;
+        s32 size = 0;
         if (entries != nullptr)
         {
-            size = static_cast<int>(entries->size());
-            for (int i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
+            size = static_cast<s32>(entries->size());
+            for (s32 i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
             {
                 const auto item = (*entries)[i];
                 compiledEntries.push_back({ 0, 184, (short)(57 + (22 * o)), 0, (char*)item.text, 0x80, 0x10, 0xFF, Centre });
@@ -670,7 +670,7 @@ public:
         auto input = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
         if (input & InputCommands::Enum::eDown)
         {
-            if (++index >= static_cast<int>(entries->size()))
+            if (++index >= static_cast<s32>(entries->size()))
             {
                 index = 0;
             }
@@ -682,7 +682,7 @@ public:
         {
             if (--index < 0)
             {
-                index = static_cast<int>(entries->size()) - 1;
+                index = static_cast<s32>(entries->size()) - 1;
             }
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
 
@@ -726,9 +726,9 @@ public:
 
 public:
     std::vector<CustomPauseMenuItem>* entries;
-    int index = 0;
-    int scrollDownIndex = 0;
-    int maxScrollDown = 5;
+    s32 index = 0;
+    s32 scrollDownIndex = 0;
+    s32 maxScrollDown = 5;
     std::string title;
     std::vector<PauseMenuPageEntry> compiledEntries;
     PauseMenu::PauseMenuPage mMenuPage;
@@ -778,7 +778,7 @@ CustomPauseMenu devTeleportMenu(&devTeleportMenuItems, "Level Select");
 
 void DestroyAliveObjects()
 {
-    for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+    for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
     {
         BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
         if (!pObj || pObj == pPauseMenu_5C9300 || pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) == false)
@@ -797,7 +797,7 @@ void DestroyAliveObjects()
 
 void DestroyAllObjects()
 {
-    for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+    for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
     {
         BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
         if (!pObj || pObj == pPauseMenu_5C9300)
@@ -872,7 +872,7 @@ void PauseMenu_ForceLink() {
 
     devTeleportMenuItems.clear();
 
-    for (int i = 0; i < 17; i++)
+    for (s32 i = 0; i < 17; i++)
     {
         devTeleportMenuItems.push_back({ gPerLvlData_561700[i].field_0_display_name, [](CustomPauseMenu* pm) {
             const auto levelSelectEntry = gPerLvlData_561700[pm->index];
@@ -908,7 +908,7 @@ void PauseMenu_ForceLink() {
 
 void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPage* mp)
 {
-    int i = 0;
+    s32 i = 0;
     PauseMenuPageEntry* e = &mp->field_8_menu_items[i];
 
     while (e->field_8_text)
@@ -1135,7 +1135,7 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
 
     if (sInputObject_5BD4E0.isHeld(0x100000))
     {
-        const int prev = ++field_138_control_action_page_index;
+        const s32 prev = ++field_138_control_action_page_index;
         if (prev < 6)
         {
             field_144_active_menu.field_8_menu_items = sControlActionsPages_55DE40[prev];
@@ -1493,8 +1493,8 @@ void PauseMenu::Page_Load_Update_490D50()
 
 void PauseMenu::Page_Load_Render_4910A0(PrimHeader** ot, PauseMenuPage* mp)
 {
-    int saveIdx = sSavedGameToLoadIdx_BB43FC - 2;
-    for (int i = 0; i < 6; i++)
+    s32 saveIdx = sSavedGameToLoadIdx_BB43FC - 2;
+    for (s32 i = 0; i < 6; i++)
     {
         if (saveIdx < 0 || saveIdx >= sTotalSaveFilesCount_BB43E0)
         {
@@ -1685,7 +1685,7 @@ void PauseMenu::Update_48FD80()
 
                         SYS_EventsPump_494580();
 
-                        for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+                        for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
                         {
                             BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
                             if (!pObj)

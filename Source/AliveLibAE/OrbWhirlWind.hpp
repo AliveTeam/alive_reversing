@@ -28,7 +28,7 @@ private:
     EXPORT void dtor_4E3D80();
     EXPORT OrbWhirlWind* vdtor_4E3D50(s32 flags);
 private:
-    int field_20_particle_spawn_counter;
+    s32 field_20_particle_spawn_counter;
     ParticlesState field_24_particles_state;
     s16 field_26_is_mudokon_spirit;
     s16 field_28_particleIdx;

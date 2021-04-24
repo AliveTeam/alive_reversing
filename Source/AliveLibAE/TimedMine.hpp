@@ -13,7 +13,7 @@ struct Path_TimedMine : public Path_TLV
     s16 field_12_state;
     s16 field_14_scale;
     s16 field_16_timeout;
-    int field_18_disabled_resources;
+    s32 field_18_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF(Path_TimedMine, 0x1C);
 

@@ -11,7 +11,7 @@
 #include "SwitchStates.hpp"
 #include "GameSpeak.hpp"
 
-GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, int tlvInfo)
+GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     field_100_last_event_idx = -1;
@@ -143,7 +143,7 @@ void GlukkonSwitch::vUpdate_445200()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    const int lastEventIdx = pEventSystem_5BC11C->field_28_last_event_index;
+    const s32 lastEventIdx = pEventSystem_5BC11C->field_28_last_event_index;
     GameSpeakEvents lastEventIdx2 = GameSpeakEvents::eNone_m1;
     if (field_100_last_event_idx == lastEventIdx)
     {
@@ -165,7 +165,7 @@ void GlukkonSwitch::vUpdate_445200()
     switch (field_F8_state)
     {
     case 0:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_120_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_120_timer)
         {
             return;
         }
@@ -182,11 +182,11 @@ void GlukkonSwitch::vUpdate_445200()
         return;
 
     case 1:
-        if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer)
         {
             SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
         }
-        else if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer && !PlayerNearMe_445180())
+        else if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer && !PlayerNearMe_445180())
         {
             field_F8_state = 0;
         }
@@ -211,7 +211,7 @@ void GlukkonSwitch::vUpdate_445200()
 
         if (lastEventIdx2 == GameSpeakEvents::eNone_m1 || lastEventIdx2 == GameSpeakEvents::eSameAsLast_m2)
         {
-            if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
             {
                 field_F8_state = 0;
             }
@@ -231,7 +231,7 @@ void GlukkonSwitch::vUpdate_445200()
                     field_120_timer = sGnFrame_5C1B84 + 30;
                 }
 
-                if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
+                if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
                 {
                     field_F8_state = 0;
                 }
@@ -241,7 +241,7 @@ void GlukkonSwitch::vUpdate_445200()
 
     case 4:
     {
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_120_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_120_timer)
         {
             return;
         }
@@ -257,7 +257,7 @@ void GlukkonSwitch::vUpdate_445200()
         {
             if (lastEventIdx2 == GameSpeakEvents::eNone_m1 || lastEventIdx2 == GameSpeakEvents::eSameAsLast_m2)
             {
-                if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
+                if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
                 {
                     field_F8_state = 7;
                     field_120_timer = sGnFrame_5C1B84 + 15;
@@ -288,7 +288,7 @@ void GlukkonSwitch::vUpdate_445200()
 
     case 6:
     {
-        if (static_cast<int>(sGnFrame_5C1B84) != field_120_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) != field_120_timer)
         {
             return;
         }
@@ -303,7 +303,7 @@ void GlukkonSwitch::vUpdate_445200()
     }
     case 7:
     {
-        if (static_cast<int>(sGnFrame_5C1B84) != field_120_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) != field_120_timer)
         {
             return;
         }
@@ -316,7 +316,7 @@ void GlukkonSwitch::vUpdate_445200()
     }
     case 8:
     {
-        if (static_cast<int>(sGnFrame_5C1B84) != field_120_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) != field_120_timer)
         {
             return;
         }

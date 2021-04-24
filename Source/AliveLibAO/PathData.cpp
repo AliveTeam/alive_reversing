@@ -10,7 +10,7 @@ const SoundBlockInfo knullptrSoundBlockInfo = {};
 const FmvInfo knullptrFmvInfo = {};
 
 
-EXPORT int sub_402560() { return 0; }
+EXPORT s32 sub_402560() { return 0; }
 
 const PathData g_S1_Paths_4E4AF0[] =
 {
@@ -826,17 +826,17 @@ PathRootContainer gMapData_4CAB58 =
 
 const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, u16 path)
 {
-    return &gMapData_4CAB58.paths[static_cast<int>(level)].field_0_pBlyArrayPtr[path];
+    return &gMapData_4CAB58.paths[static_cast<s32>(level)].field_0_pBlyArrayPtr[path];
 }
 
 FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId)
 {
-    return &gMapData_4CAB58.paths[static_cast<int>(levelId)].field_4_pFmvArray[fmvId];
+    return &gMapData_4CAB58.paths[static_cast<s32>(levelId)].field_4_pFmvArray[fmvId];
 }
 
-int CC Path_Format_CameraName_4346B0(char* pNameBuffer, LevelIds level, s16 path, s16 camera)
+s32 CC Path_Format_CameraName_4346B0(char* pNameBuffer, LevelIds level, s16 path, s16 camera)
 {
-    return sprintf(pNameBuffer, "%sP%02dC%02d.CAM", gMapData_4CAB58.paths[static_cast<int>(level)].field_14_lvl_name, path, camera);
+    return sprintf(pNameBuffer, "%sP%02dC%02d.CAM", gMapData_4CAB58.paths[static_cast<s32>(level)].field_14_lvl_name, path, camera);
 }
 
 }

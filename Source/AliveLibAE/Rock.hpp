@@ -19,7 +19,7 @@ struct RockSaveState
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    int field_4_obj_id;
+    s32 field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -36,7 +36,7 @@ struct RockSaveState
     };
     BitField16<RockStateFlags> field_20_flags;
     s16 field_22_padding;
-    int field_24_id;
+    s32 field_24_id;
     s16 field_28_line_type;
     s16 field_2A_count;
     RockStates field_2C_state;
@@ -54,17 +54,17 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VThrow_49E460(FP velX, FP velY) override;
     virtual BOOL VCanThrow_49E350() override;
     virtual BOOL VIsFalling_49E330() override;
     virtual void VTimeToExplodeRandom_411490() override;
 
-    static int CC CreateFromSaveState_49F720(const BYTE* pData);
+    static s32 CC CreateFromSaveState_49F720(const BYTE* pData);
 
 private:
     EXPORT void vScreenChanged_49F030();
-    EXPORT int vGetSaveState_49F9A0(RockSaveState* pState);
+    EXPORT s32 vGetSaveState_49F9A0(RockSaveState* pState);
     EXPORT BOOL vIsFalling_49E330();
     EXPORT BOOL vCanThrow_49E350();
     EXPORT Rock* vdtor_49E370(s32 flags);
@@ -79,6 +79,6 @@ private:
     s16 field_11E_volume;
     FP field_120_xpos;
     FP field_124_ypos;
-    int field_128_shimmer_timer;
+    s32 field_128_shimmer_timer;
 };
 ALIVE_ASSERT_SIZEOF(Rock, 0x12C);

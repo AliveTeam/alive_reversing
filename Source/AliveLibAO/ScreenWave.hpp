@@ -43,7 +43,7 @@ public:
     FP field_1C_ypos;
     FP field_20_fp1;
     FP field_24_fp1;
-    int field_28;
+    s32 field_28;
     FP field_2C;
     FP field_30_speed;
     s16 field_34_max_radius;

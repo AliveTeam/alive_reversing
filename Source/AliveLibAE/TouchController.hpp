@@ -46,7 +46,7 @@ public:
     void Update();
     void Render();
 
-    int GetGamePadData(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons);
+    s32 GetGamePadData(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons);
 
 private:
 

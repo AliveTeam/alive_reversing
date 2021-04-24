@@ -85,10 +85,10 @@ void ForceLinks()
 }
 
 
-ALIVE_VAR(1, 0x9F7734, int, sExitCode_9F7734, 0);
+ALIVE_VAR(1, 0x9F7734, s32, sExitCode_9F7734, 0);
 ALIVE_VAR(1, 0x9F7784, HINSTANCE, sPrevInstance_9F7784, 0);
 
-EXPORT int CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+EXPORT s32 CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("Main enter");
     ForceLinks();

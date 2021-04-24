@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RockSack, 0x1C);
 class RockSack : public BaseAliveGameObject
 {
 public:
-    EXPORT RockSack* ctor_49F100(Path_RockSack* pTlv, int tlvInfo);
+    EXPORT RockSack* ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
@@ -30,7 +30,7 @@ private:
     EXPORT void vUpdate_49F3A0();
 
 private:
-    int field_118_tlvInfo;
+    s32 field_118_tlvInfo;
     s16 field_11C_has_been_hit;
     s16 field_11E_rock_amount;
     s16 field_120_can_play_wobble_sound;

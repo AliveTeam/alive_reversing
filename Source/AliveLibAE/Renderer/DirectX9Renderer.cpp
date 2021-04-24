@@ -21,7 +21,7 @@ void DirectX9Renderer::Destroy()
 bool DirectX9Renderer::Create(TWindowHandleType window)
 {
     // Find the directx9 driver
-    const int numDrivers = SDL_GetNumRenderDrivers();
+    const s32 numDrivers = SDL_GetNumRenderDrivers();
     if (numDrivers < 0)
     {
         LOG_ERROR("Failed to get driver count " << SDL_GetError());
@@ -29,8 +29,8 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
     LOG_INFO("Got " << numDrivers << " drivers");
 
-    int index = -1;
-    for (int i = 0; i < numDrivers; i++)
+    s32 index = -1;
+    for (s32 i = 0; i < numDrivers; i++)
     {
         SDL_RendererInfo info = {};
         if (SDL_GetRenderDriverInfo(i, &info) < 0)
@@ -78,7 +78,7 @@ void DirectX9Renderer::Clear(BYTE r, BYTE g, BYTE b)
     mDevice->Clear(0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(r, g, b), 1.0f, 0);
 }
 
-void DirectX9Renderer::StartFrame(int /*xOff*/, int /*yOff*/)
+void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
 
 }
@@ -93,17 +93,17 @@ void DirectX9Renderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Re
 
 }
 
-void DirectX9Renderer::OutputSize(int* w, int* h)
+void DirectX9Renderer::OutputSize(s32* w, s32* h)
 {
     SDL_GetRendererOutputSize(mRenderer, w, h);
 }
 
-bool DirectX9Renderer::UpdateBackBuffer(const void* /*pPixels*/, int /*pitch*/)
+bool DirectX9Renderer::UpdateBackBuffer(const void* /*pPixels*/, s32 /*pitch*/)
 {
     return true;
 }
 
-void DirectX9Renderer::CreateBackBuffer(bool /*filter*/, int /*format*/, int /*w*/, int /*h*/)
+void DirectX9Renderer::CreateBackBuffer(bool /*filter*/, s32 /*format*/, s32 /*w*/, s32 /*h*/)
 {
 
 }

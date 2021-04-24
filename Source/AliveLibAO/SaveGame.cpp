@@ -12,7 +12,7 @@
 
 namespace AO {
 
-ALIVE_VAR_EXTERN(int, sGasTimer_507700);
+ALIVE_VAR_EXTERN(s32, sGasTimer_507700);
 ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
 ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
 ALIVE_VAR(1, 0x4CF2B0, Save_PSX_Header, sSaveHeader2_4CF2B0, {});
@@ -28,9 +28,9 @@ EXPORT void Kill_Objects_451720()
 {
     ResourceManager::LoadingLoop_41EAD0(0);
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j=0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
+        for (s32 j=0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(j);
             if (!pObj)
@@ -52,12 +52,12 @@ EXPORT void Kill_Objects_451720()
     }
 }
 
-void SaveGame::LoadFromMemory_459970(SaveData* pData, int bKillObjects)
+void SaveGame::LoadFromMemory_459970(SaveData* pData, s32 bKillObjects)
 {
     TRACE_ENTRYEXIT;
 
     // Never actually used
-    //const int hash = Hash(pData);
+    //const s32 hash = Hash(pData);
 
     if (bKillObjects)
     {
@@ -315,7 +315,7 @@ short SaveGame::GetPathId(short pathToFind, short* outFoundPathRow)
     short path_id = -1;
     for (short i = 0; i < 4; i++)
     {
-        for (int j = 0; j < 8; j++)
+        for (s32 j = 0; j < 8; j++)
         {
             const auto path = word_4BC670[i][j];
             if (!path)
@@ -349,7 +349,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
 
     pSaveData->field_0_header = *pHeaderToUse;
 
-    auto lvName = rawLevelNames[static_cast<int>(gMap_507BA8.field_0_current_level)];
+    auto lvName = rawLevelNames[static_cast<s32>(gMap_507BA8.field_0_current_level)];
     if (lvName != nullptr)
     {
         memcpy(
@@ -409,7 +409,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     pSaveData->field_22C_ah_health = sActiveHero_507678->field_100_health;
     pSaveData->field_23C_ah_flipX = sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
     pSaveData->field_230_ah_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
-    pSaveData->field_244_stone_state = static_cast<int>(sActiveHero_507678->field_110_state.raw);
+    pSaveData->field_244_stone_state = static_cast<s32>(sActiveHero_507678->field_110_state.raw);
     pSaveData->field_248_gnFrame = sActiveHero_507678->field_114_gnFrame;
     pSaveData->field_24C_field_118 = sActiveHero_507678->field_118_timer;
     pSaveData->field_250_throwable_count = sActiveHero_507678->field_19C_throwable_count;
@@ -467,11 +467,11 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     pSaveData->field_200_hashValue = Hash(pSaveData);
 }
 
-int SaveGame::Hash(SaveData* sData)
+s32 SaveGame::Hash(SaveData* sData)
 {
-    auto table = reinterpret_cast<int*>(&sData->field_204_zone_number);
-    int counter = 0;
-    for (int hashIter = 1919; hashIter > 0; hashIter--)
+    auto table = reinterpret_cast<s32*>(&sData->field_204_zone_number);
+    s32 counter = 0;
+    for (s32 hashIter = 1919; hashIter > 0; hashIter--)
     {
         counter += *table;
         table++;

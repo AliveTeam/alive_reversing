@@ -60,7 +60,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
             objY = ypos;
         }
 
-        const int lineType = spriteScale != FP_FromDouble(0.5) ? 7 : 0x70;
+        const s32 lineType = spriteScale != FP_FromDouble(0.5) ? 7 : 0x70;
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};

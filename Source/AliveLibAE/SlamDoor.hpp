@@ -31,19 +31,19 @@ class SlamDoor : public BaseAliveGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VUpdate() override;
 
     virtual void VOnThrowableHit(BaseGameObject*) override {}
 
     EXPORT SlamDoor* ctor_4AF700(Path_SlamDoor* tlv_params, TlvItemInfoUnion tlvInfo);
-    EXPORT static int CC CreateFromSaveState_4C08B0(const BYTE*);
+    EXPORT static s32 CC CreateFromSaveState_4C08B0(const BYTE*);
 
 private:
     EXPORT void dtor_4B0620();
     EXPORT SlamDoor* vdtor_4AFD20(s32 flags);
     EXPORT void vUpdate_4AFD50();
-    EXPORT int vGetSaveState_4C09D0(BYTE* pSaveBuffer);
+    EXPORT s32 vGetSaveState_4C09D0(BYTE* pSaveBuffer);
     EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPosition, s16 width);
 
 private:
@@ -56,6 +56,6 @@ private:
     s16 field_128_switch_id;
     s16 field_12A_padding;
     TlvItemInfoUnion field_12C_tlvInfo;
-    int field_130_padding;
+    s32 field_130_padding;
 };
 ALIVE_ASSERT_SIZEOF(SlamDoor, 0x134);

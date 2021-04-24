@@ -7,11 +7,11 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x9F30A0, int, gOrbWhirlWind_instace_count_9F30A0, 0);
+ALIVE_VAR(1, 0x9F30A0, s32, gOrbWhirlWind_instace_count_9F30A0, 0);
 
 void OrbWhirlWind::ToSpin_48BAD0(FP xpos, FP ypos, BaseAliveGameObject* pObj)
 {
-    for (int i = 0; i < field_16_particleIdx; i++)
+    for (s32 i = 0; i < field_16_particleIdx; i++)
     {
         if (field_18_particles[i])
         {
@@ -26,7 +26,7 @@ void OrbWhirlWind::ToSpin_48BAD0(FP xpos, FP ypos, BaseAliveGameObject* pObj)
 
 void OrbWhirlWind::VRender_48BA90(PrimHeader** ppOt)
 {
-    for (int i = 0; i < field_16_particleIdx; i++)
+    for (s32 i = 0; i < field_16_particleIdx; i++)
     {
         if (field_18_particles[i])
         {
@@ -69,7 +69,7 @@ void OrbWhirlWind::VUpdate_48B990()
     else if (field_14_particles_state == ParticlesState::eActive)
     {
         bool unknown = false;
-        for (int i = 0; i < field_16_particleIdx; i++)
+        for (s32 i = 0; i < field_16_particleIdx; i++)
         {
             if (field_18_particles[i])
             {
@@ -87,7 +87,7 @@ void OrbWhirlWind::VUpdate_48B990()
         }
     }
 
-    for (int i = 0; i < field_16_particleIdx; i++)
+    for (s32 i = 0; i < field_16_particleIdx; i++)
     {
         if (field_18_particles[i])
         {
@@ -164,7 +164,7 @@ OrbWhirlWind* OrbWhirlWind::ctor_48B870(FP xpos, FP ypos, FP scale)
 
 void OrbWhirlWind::ToStop_48BBB0()
 {
-    for (int i = 0; i < field_16_particleIdx; i++)
+    for (s32 i = 0; i < field_16_particleIdx; i++)
     {
         if (field_18_particles[i])
         {

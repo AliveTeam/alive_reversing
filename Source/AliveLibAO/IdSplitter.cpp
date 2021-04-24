@@ -52,7 +52,7 @@ BaseGameObject* IdSplitter::dtor_479BE0()
     return dtor_487DF0();
 }
 
-IdSplitter* IdSplitter::ctor_479B40(Path_IdSplitter* pTlv, int tlvInfo)
+IdSplitter* IdSplitter::ctor_479B40(Path_IdSplitter* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     field_1C_tlvInfo = tlvInfo;
@@ -94,7 +94,7 @@ void IdSplitter::VUpdate_479C40()
         break;
 
     case State::eState_1:
-        if (field_20_delay_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_20_delay_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             for (const auto& id : field_14_ids)
             {
@@ -116,7 +116,7 @@ void IdSplitter::VUpdate_479C40()
         break;
 
     case State::eState_3:
-        if (field_20_delay_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_20_delay_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             for (const auto& id : field_14_ids)
             {

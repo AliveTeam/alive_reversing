@@ -10,7 +10,7 @@
 
 namespace AO {
 
-BeeSwarmHole* BeeSwarmHole::ctor_4782B0(Path_BeeSwarmHole* pTlv, int tlvInfo)
+BeeSwarmHole* BeeSwarmHole::ctor_4782B0(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BCD60);
@@ -50,15 +50,15 @@ void BeeSwarmHole::VUpdate_478320()
         gMap_507BA8.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
     }
 
-    if (static_cast<int>(gnFrameCount_507670) < field_1C_interval_timer)
+    if (static_cast<s32>(gnFrameCount_507670) < field_1C_interval_timer)
     {
         return;
     }
 
-    field_1C_interval_timer = static_cast<int>(gnFrameCount_507670) + field_20_interval;
+    field_1C_interval_timer = static_cast<s32>(gnFrameCount_507670) + field_20_interval;
     
     bool bBallFillingHole = false;
-    for (int idx= 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
+    for (s32 idx= 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
     {
         BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(idx);
         if (!pObjIter)

@@ -62,7 +62,7 @@ private:
     s16 field_F4_trigger_id;
     s16 field_F6_padding;
     SwitchState field_F8_state;
-    int field_FC_tlvInfo;
+    s32 field_FC_tlvInfo;
     enum Flags_100
     {
         eBit1_switch_anim_left_direction = 0x1,

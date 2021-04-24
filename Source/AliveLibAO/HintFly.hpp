@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF(Path_HintFly, 0x1C);
 class HintFly : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT HintFly* ctor_42A820(Path_HintFly* pTlv, int tlvInfo);
+    EXPORT HintFly* ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo);
 
     void InitParticle(HintFlyParticle* pParticle);
 
@@ -46,11 +46,11 @@ public:
 
     EXPORT void VRender_42BAD0(PrimHeader** ppOt);
 
-    int field_D4[4];
+    s32 field_D4[4];
     BYTE** field_E4_ppRes;
     HintFlyParticle* field_E8_pRes;
     Prim_SetTPage field_EC_tPages[2];
-    int field_10C_timer;
+    s32 field_10C_timer;
     TPageMode field_110_bitMode;
     // pad
 
@@ -73,7 +73,7 @@ public:
     s16 field_11E_msg_idx;
     s16 field_120_idx;
     s16 field_122_target_count;
-    int field_124_tlvInfo;
+    s32 field_124_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(HintFly, 0x128);
 

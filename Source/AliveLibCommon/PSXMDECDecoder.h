@@ -81,12 +81,12 @@ private:
     static const uint8_t RL_ZSCAN_MATRIX[DCT_BLOCK_SIZE];
 
     uint8_t BSRoundTable[256 * 3];
-    int IQTable[DCT_BLOCK_SIZE];
+    s32 IQTable[DCT_BLOCK_SIZE];
 
     void BSRoundTableInit();
     void IQTableInit();
    
-    void YUVfunction1(uint8_t arg_image[][4], int index, int r0, int g0, int b0, int y);
+    void YUVfunction1(uint8_t arg_image[][4], s32 index, s32 r0, s32 g0, s32 b0, s32 y);
     void YUV2BGRA32(int16_t *arg_blk,
         uint8_t arg_image[][4]);
 

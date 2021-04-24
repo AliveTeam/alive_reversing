@@ -5,25 +5,25 @@
 
 namespace AO {
 
-void CC Init_SetTPage_495FB0(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage)
+void CC Init_SetTPage_495FB0(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage)
 {
     SetUnknown(&pPrim->mBase);
     SetCode(&pPrim->mBase, PrimTypeCodes::eSetTPage);
     pPrim->field_C_tpage = tpage;
 }
 
-void CC Poly_Set_Blending_498A00(PrimHeader* pPrim, int bBlending)
+void CC Poly_Set_Blending_498A00(PrimHeader* pPrim, s32 bBlending)
 {
     AE_IMPLEMENTED();
     Poly_Set_Blending_4F8A20(pPrim, bBlending);
 }
 
-int CC PSX_getClut_496840(int x, int y)
+s32 CC PSX_getClut_496840(s32 x, s32 y)
 {
     return (y << 6) | ((x >> 4) & 63);
 }
 
-void CC Poly_Set_SemiTrans_498A40(PrimHeader* pPrim, int bSemiTrans)
+void CC Poly_Set_SemiTrans_498A40(PrimHeader* pPrim, s32 bSemiTrans)
 {
     AE_IMPLEMENTED();
     Poly_Set_SemiTrans_4F8A60(pPrim, bSemiTrans);

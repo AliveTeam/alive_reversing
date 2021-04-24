@@ -108,7 +108,7 @@ void Map::ScreenChange_480B80()
 
     PSX_DrawSync_4F6280(0);
 
-    for (int i = 0; i < 2; i++) // Not sure why this is done twice?
+    for (s32 i = 0; i < 2; i++) // Not sure why this is done twice?
     {
         DynamicArrayIter iter = {};
         iter.field_4_idx = 0;
@@ -178,7 +178,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
     pPurpleLightArray->ctor_40CA60(16);
 
     bool bAddedALight = false;
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -225,12 +225,12 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
     {
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
 
-        for (int counter = 0; counter < 12; counter++)
+        for (s32 counter = 0; counter < 12; counter++)
         {
             if (bMakeInvisible && counter == 4)
             {
                 // Make all the objects that have lights invisible now that the lights have been rendered for a few frames
-                for (int i = 0; i < pObjectsWithLightsArray->Size(); i++)
+                for (s32 i = 0; i < pObjectsWithLightsArray->Size(); i++)
                 {
                     BaseAnimatedWithPhysicsGameObject* pObj = pObjectsWithLightsArray->ItemAt(i);
                     if (!pObj)
@@ -241,7 +241,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
                 }
             }
 
-            for (int i = 0; i < pPurpleLightArray->Size(); i++)
+            for (s32 i = 0; i < pPurpleLightArray->Size(); i++)
             {
                 Particle* pLight = pPurpleLightArray->ItemAt(i);
                 if (!pLight)
@@ -256,7 +256,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
             }
 
             // TODO/HACK what is the point of the double loop? Why not do both in 1 iteration ??
-            for (int i = 0; i < pPurpleLightArray->Size(); i++)
+            for (s32 i = 0; i < pPurpleLightArray->Size(); i++)
             {
                 Particle* pLight = pPurpleLightArray->ItemAt(i);
                 if (!pLight)
@@ -270,7 +270,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
                 }
             }
 
-            for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+            for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
             {
                 BaseGameObject* pDrawable = gObjList_drawables_5C1124->ItemAt(i);
                 if (!pDrawable)
@@ -298,7 +298,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
         if (bMakeInvisible)
         {
             // Make all the objects that had lights visible again
-            for (int i = 0; i < pObjectsWithLightsArray->Size(); i++)
+            for (s32 i = 0; i < pObjectsWithLightsArray->Size(); i++)
             {
                 BaseAnimatedWithPhysicsGameObject* pObj = pObjectsWithLightsArray->ItemAt(i);
                 if (!pObj)
@@ -365,7 +365,7 @@ void Map::Handle_PathTransition_481610()
             break;
 
         default:
-            LOG_ERROR("Invalid scale " << (int)pPathChangeTLV->field_1A_scale);
+            LOG_ERROR("Invalid scale " << (s32)pPathChangeTLV->field_1A_scale);
             break;
         }
 
@@ -428,9 +428,9 @@ void Map::Handle_PathTransition_481610()
     }
 }
 
-CameraPos Map::GetDirection_4811A0(int level, int path, FP xpos, FP ypos)
+CameraPos Map::GetDirection_4811A0(s32 level, s32 path, FP xpos, FP ypos)
 {
-    if (level != static_cast<int>(field_0_current_level))
+    if (level != static_cast<s32>(field_0_current_level))
     {
         return CameraPos::eCamInvalid_m1;
     }
@@ -528,7 +528,7 @@ void Map::Shutdown_4804E0()
     stru_5C3110.Free_433130();
 
     // Free Path resources
-    for (int i = 0; i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs); i++)
     {
         if (field_54_path_res_array.field_0_pPathRecs[i])
         {
@@ -538,7 +538,7 @@ void Map::Shutdown_4804E0()
     }
 
     // Free cameras
-    for (int i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
     {
         if (field_2C_camera_array[i])
         {
@@ -564,13 +564,13 @@ void Map::Shutdown_4804E0()
 
 void Map::Reset_4805D0()
 {
-    for (int i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
     {
         field_2C_camera_array[i] = nullptr;
     }
     field_2C_camera_array[0] = nullptr;
 
-    for (int i = 0; i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs); i++)
     {
         field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
     }
@@ -594,7 +594,7 @@ void Map::GoTo_Camera_481890()
         {
             SYS_EventsPump_494580();
 
-            for (int i=0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i=0; i < gBaseGameObject_list_BB47C4->Size(); i++)
             {
                 BaseGameObject* pBaseGameObj = gBaseGameObject_list_BB47C4->ItemAt(i);
                 if (!pBaseGameObj)
@@ -649,7 +649,7 @@ void Map::GoTo_Camera_481890()
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
         
         // Free all cameras
-        for (int i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
+        for (s32 i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
         {
             if (field_2C_camera_array[i])
             {
@@ -666,7 +666,7 @@ void Map::GoTo_Camera_481890()
             stru_5C3110.Free_433130();
 
             // Free all but the first ?
-            for (int i = 1; i <= sPathData_559660.paths[static_cast<int>(field_0_current_level)].field_18_num_paths; ++i)
+            for (s32 i = 1; i <= sPathData_559660.paths[static_cast<s32>(field_0_current_level)].field_18_num_paths; ++i)
             {
                 ResourceManager::FreeResource_49C330(field_54_path_res_array.field_0_pPathRecs[i]);
                 field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
@@ -684,7 +684,7 @@ void Map::GoTo_Camera_481890()
 
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
 
-        const PathRoot& pathData = sPathData_559660.paths[static_cast<int>(field_A_level)];
+        const PathRoot& pathData = sPathData_559660.paths[static_cast<s32>(field_A_level)];
 
         // Open LVL
         while (!sLvlArchive_5BC520.Open_Archive_432E80(pathData.field_20_lvl_name_cd))
@@ -707,7 +707,7 @@ void Map::GoTo_Camera_481890()
         ResourceManager::LoadResourceFile_49C170(pathData.field_38_bnd_name, 0);
 
         // Get pointer to each PATH
-        for (int i = 1; i <= pathData.field_18_num_paths; ++i)
+        for (s32 i = 1; i <= pathData.field_18_num_paths; ++i)
         {
             field_54_path_res_array.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
         }
@@ -822,7 +822,7 @@ void Map::GoTo_Camera_481890()
     }
 
     // Copy camera array and blank out the source
-    for (int i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
     {
         field_40_stru_5[i] = field_2C_camera_array[i];
         field_2C_camera_array[i] = nullptr;
@@ -835,7 +835,7 @@ void Map::GoTo_Camera_481890()
     field_2C_camera_array[2] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx + 1,     0);
  
     // Free resources for each camera
-    for (int i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
     {
         if (field_40_stru_5[i])
         {
@@ -846,7 +846,7 @@ void Map::GoTo_Camera_481890()
     pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
 
     // Free each camera itself
-    for (int i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
     {
         if (field_40_stru_5[i])
         {
@@ -962,7 +962,7 @@ void Map::GoTo_Camera_481890()
 
 Camera* Map::GetCamera(CameraPos pos)
 {
-    return field_2C_camera_array[static_cast<int>(pos)];
+    return field_2C_camera_array[static_cast<s32>(pos)];
 }
 
 void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
@@ -1011,7 +1011,7 @@ void Map::Create_FG1s_480F10()
     pScreenManager_5BB5F4->UnsetDirtyBits_FG1_40ED70();
 
     Camera* pCamera = field_2C_camera_array[0];
-    for (int i = 0; i < pCamera->field_0.Size(); i++)
+    for (s32 i = 0; i < pCamera->field_0.Size(); i++)
     {
         BYTE** ppRes = pCamera->field_0.ItemAt(i);
         if (!ppRes)
@@ -1038,7 +1038,7 @@ s16 Map::Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect)
         return 0;
     }
 
-    Camera* pCamera = field_2C_camera_array[static_cast<int>(camIdx)];
+    Camera* pCamera = field_2C_camera_array[static_cast<s32>(camIdx)];
     if (!pCamera)
     {
         return 0;
@@ -1059,7 +1059,7 @@ s16 Map::Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect)
     return 1;
 }
 
-s16 Map::Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP ypos, s16 width)
+s16 Map::Is_Point_In_Current_Camera_4810D0(s32 level, s32 path, FP xpos, FP ypos, s16 width)
 {
     const FP calculated_width = (width != 0) ? FP_FromInteger(6) : FP_FromInteger(0);
     if (static_cast<LevelIds>(level) != field_0_current_level || path != field_2_current_path) // TODO: Remove when 100%
@@ -1083,8 +1083,8 @@ EXPORT CameraPos Map::Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* p
         return CameraPos::eCamNone_5;
     }
 
-    const int camX = FP_GetExponent(field_24_camera_offset.field_0_x);
-    const int camY = FP_GetExponent(field_24_camera_offset.field_4_y);
+    const s32 camX = FP_GetExponent(field_24_camera_offset.field_0_x);
+    const s32 camY = FP_GetExponent(field_24_camera_offset.field_4_y);
 
     if (pRect->x > (camX + 368))
     {
@@ -1146,7 +1146,7 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, Level
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id / 10000);
         FmvInfo* pFmvRec2 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id / 100 % 100);
         FmvInfo* pFmvRec3 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id % 100);
-        sLevelId_dword_5CA408 = static_cast<int>(lvlId); // TODO: Strongly type this, but it hasn't got the same underlaying type as the enum grr..
+        sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // TODO: Strongly type this, but it hasn't got the same underlaying type as the enum grr..
         DWORD pos1 = 0;
         DWORD pos2 = 0;
         DWORD pos3 = 0;
@@ -1188,7 +1188,7 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, Level
         DWORD cdPos1 = 0;
         DWORD cdPos2 = 0;
         Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
-        sLevelId_dword_5CA408 = static_cast<int>(lvlId); // HACK
+        sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // HACK
         auto pSwapper = ae_new<CameraSwapper>();
         return pSwapper->ctor_4E4DC0(
             ppBits,
@@ -1211,7 +1211,7 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, Level
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id);
         DWORD cdPos = 0;
         Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, 0, 0, &cdPos, 0, 0);
-        sLevelId_dword_5CA408 = static_cast<int>(lvlId); // HACK
+        sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // HACK
         auto pSwapper = ae_new<CameraSwapper>();
         return pSwapper->ctor_4E4CA0(
             ppBits,
@@ -1223,7 +1223,7 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, Level
     }
 }
 
-Camera* Map::Create_Camera_4829E0(s16 xpos, s16 ypos, int /*a4*/)
+Camera* Map::Create_Camera_4829E0(s16 xpos, s16 ypos, s32 /*a4*/)
 {
     // Check min bound
     if (xpos < 0 || ypos < 0)
@@ -1238,7 +1238,7 @@ Camera* Map::Create_Camera_4829E0(s16 xpos, s16 ypos, int /*a4*/)
     }
 
     // Return existing camera if we already have one
-    for (int i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
     {
         if (field_40_stru_5[i]
             && field_40_stru_5[i]->field_1A_level == field_0_current_level
@@ -1325,7 +1325,7 @@ void CCSTD Map::Load_Path_Items_482C10(Camera* pCamera, s16 loadMode)
     }
 }
 
-void CC Map::LoadResource_4DBE00(const char* pFileName, int type, int resourceId, LoadMode loadMode, s16 bDontLoad)
+void CC Map::LoadResource_4DBE00(const char* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad)
 {
     if (!bDontLoad)
     {

@@ -29,9 +29,9 @@ ALIVE_VAR(1, 0xBD0BF9, char, sVGA_bpp_BD0BF9, 0);
 ALIVE_VAR(1, 0xBD0BEC, WORD, sVGA_height_BD0BEC, 0);
 ALIVE_VAR(1, 0xBD0BC4, WORD, sVGA_width_BD0BC4, 0);
 
-ALIVE_VAR(1, 0xBD0BF0, int, sbVga_LockedType_BD0BF0, 0); // TODO: Enum
+ALIVE_VAR(1, 0xBD0BF0, s32, sbVga_LockedType_BD0BF0, 0); // TODO: Enum
 ALIVE_VAR(1, 0xBD0BC8, HDC, sVga_HDC_BD0BC8, 0);
-ALIVE_VAR(1, 0xBD0BC0, int, sVga_LockPType_BD0BC0, 0);
+ALIVE_VAR(1, 0xBD0BC0, s32, sVga_LockPType_BD0BC0, 0);
 ALIVE_VAR(1, 0xBD0BF4, LPVOID, sVgaLockBuffer_BD0BF4, 0);
 
 bool s_VGA_KeepAspectRatio = true;
@@ -90,12 +90,12 @@ EXPORT Bitmap* VGA_GetBitmap_4F3F00()
     return &sVGA_bmp_primary_BD2A20;
 }
 
-EXPORT int VGA_GetPixelFormat_4F3EE0()
+EXPORT s32 VGA_GetPixelFormat_4F3EE0()
 {
     return sVGA_bmp_primary_BD2A20.field_15_pixel_format;
 }
 
-EXPORT int CC VGA_Convert_Colour_4F4DB0(int r, int g, int b)
+EXPORT s32 CC VGA_Convert_Colour_4F4DB0(s32 r, s32 g, s32 b)
 {
     return Bmp_Convert_Colour_4F17D0(VGA_GetBitmap_4F3F00(), r, g, b);
 }
@@ -105,7 +105,7 @@ EXPORT s32 CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
     return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
 
-EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMode*/)
+EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMode*/)
 {
     SDL_Rect copyRect = {};
     if (pRect)
@@ -126,8 +126,8 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
         IRenderer::GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
 
         static bool prevFilterScreenValue = !s_VGA_FilterScreen;
-        static int prevWidth = pBmp->field_0_pSurface->w;
-        static int prevHeight = pBmp->field_0_pSurface->h;
+        static s32 prevWidth = pBmp->field_0_pSurface->w;
+        static s32 prevHeight = pBmp->field_0_pSurface->h;
 
         if (prevFilterScreenValue != s_VGA_FilterScreen || prevWidth != pBmp->field_0_pSurface->w || prevHeight != pBmp->field_0_pSurface->h)
         {
@@ -143,12 +143,12 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
             SDL_Rect* pDst = nullptr;
             SDL_Rect dst = {};
 
-            int w = 0;
-            int h = 0;
+            s32 w = 0;
+            s32 h = 0;
             IRenderer::GetRenderer()->OutputSize(&w, &h);
 
-            int renderedWidth = w;
-            int renderedHeight = h;
+            s32 renderedWidth = w;
+            s32 renderedHeight = h;
 
             if (s_VGA_KeepAspectRatio)
             {
@@ -165,8 +165,8 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
             if (pCopyRect)
             {
                 // Make sure our screen shake also sizes with the window.
-                int screenShakeOffsetX = static_cast<int>(sScreenXOffSet_BD30E4 * (renderedWidth / 640.0f));
-                int screenShakeOffsetY = static_cast<int>(sScreenYOffset_BD30A4 * (renderedHeight / 480.0f));
+                s32 screenShakeOffsetX = static_cast<s32>(sScreenXOffSet_BD30E4 * (renderedWidth / 640.0f));
+                s32 screenShakeOffsetY = static_cast<s32>(sScreenYOffset_BD30A4 * (renderedHeight / 480.0f));
 
                 dst.x = screenShakeOffsetX + ((w - renderedWidth) / 2);
                 dst.y = screenShakeOffsetY + ((h - renderedHeight) / 2);
@@ -331,7 +331,7 @@ EXPORT void VGA_BuffUnlockPtr_4F2FB0()
     // TODO
 }
 
-EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(int /*always3*/)
+EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(s32 /*always3*/)
 {
     // TODO
     return nullptr;
@@ -385,12 +385,12 @@ EXPORT Bitmap* VGA_GetBitmap_4F3F00()
     return &sVGA_bmp_primary_BD2A20;
 }
 
-EXPORT int VGA_GetPixelFormat_4F3EE0()
+EXPORT s32 VGA_GetPixelFormat_4F3EE0()
 {
     return sVGA_bmp_primary_BD2A20.field_15_pixel_format;
 }
 
-EXPORT int CC VGA_Convert_Colour_4F4DB0(int r, int g, int b)
+EXPORT s32 CC VGA_Convert_Colour_4F4DB0(s32 r, s32 g, s32 b)
 {
     return Bmp_Convert_Colour_4F17D0(VGA_GetBitmap_4F3F00(), r, g, b);
 }
@@ -400,19 +400,19 @@ EXPORT s32 CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
     return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
 
-EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
+EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
 {
     Bitmap *pBitmapToUse; // ebp
-    int srcWidth; // ebx
+    s32 srcWidth; // ebx
     char bpp; // cl
-    int v7 = 0; // eax
+    s32 v7 = 0; // eax
     u16 *v22; // esi
     char *v23; // edx
-    int v24; // ecx
+    s32 v24; // ecx
     char *v25; // eax
     u32 v26; // edi
     u16 v27; // ax
-    int v28; // ebx
+    s32 v28; // ebx
     char v29; // bp
     char v30; // bl
     u32 v31; // edi
@@ -421,13 +421,13 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
     char v35; // [esp+10h] [ebp-438h]
     char v37; // [esp+14h] [ebp-434h]
     char v38; // [esp+14h] [ebp-434h]
-    int v40; // [esp+18h] [ebp-430h]
-    int srcWidth2; // [esp+1Ch] [ebp-42Ch]
-    int v45; // [esp+20h] [ebp-428h]
+    s32 v40; // [esp+18h] [ebp-430h]
+    s32 srcWidth2; // [esp+1Ch] [ebp-42Ch]
+    s32 v45; // [esp+20h] [ebp-428h]
     LONG srcX; // [esp+24h] [ebp-424h]
     char v47; // [esp+24h] [ebp-424h]
-    int height; // [esp+28h] [ebp-420h]
-    int v50; // [esp+2Ch] [ebp-41Ch]
+    s32 height; // [esp+28h] [ebp-420h]
+    s32 v50; // [esp+2Ch] [ebp-41Ch]
     char *v52; // [esp+30h] [ebp-418h]
     LONG srcY; // [esp+34h] [ebp-414h]
     RECT rect; // [esp+38h] [ebp-410h]
@@ -846,7 +846,7 @@ EXPORT void VGA_BuffUnlockPtr_4F2FB0()
 }
 
 
-EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(int always3)
+EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(s32 always3)
 {
     LPVOID pLockedBuffer = sVgaLockBuffer_BD0BF4;
     if (!pLockedBuffer)

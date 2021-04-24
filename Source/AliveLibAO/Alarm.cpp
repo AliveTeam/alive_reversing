@@ -99,7 +99,7 @@ void Alarm::VUpdate_402660()
 
     if (field_10_path_id != gMap_507BA8.field_2_current_path ||
         field_12_level_id != gMap_507BA8.field_0_current_level ||
-        static_cast<int>(gnFrameCount_507670) > field_70_duration_timer)
+        static_cast<s32>(gnFrameCount_507670) > field_70_duration_timer)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
@@ -114,7 +114,7 @@ void Alarm::VUpdate_402660()
             return;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_6C_15_timer)
         {
             field_6A_state = States::eEnabling_1;
 
@@ -140,7 +140,7 @@ void Alarm::VUpdate_402660()
         break;
 
     case States::eOnFlash_2:
-        if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_6C_15_timer)
         {
             field_6A_state = States::eDisabling_3;
         }
@@ -164,7 +164,7 @@ void Alarm::VUpdate_402660()
             return;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_6C_15_timer)
         {
             field_6A_state = States::eEnabling_1;
             SFX_Play_43AD70(SoundEffect::Alarm_45, 0, 0);

@@ -19,7 +19,7 @@ static s8 Signed4bit(u8 number)
     }
 }
 
-static int MinMax(int number, int min, int max)
+static s32 MinMax(s32 number, s32 min, s32 max)
 {
     if (number < min)
     {
@@ -46,17 +46,17 @@ static void DecodeBlock(
     f64& older)
 {
     // 4 blocks for each nibble, so 8 blocks total
-    const int shift = (u8)(12 - (parameters[4 + block * 2 + nibble] & 0xF));
-    const int filter = (s8)((parameters[4 + block * 2 + nibble] & 0x30) >> 4);
+    const s32 shift = (u8)(12 - (parameters[4 + block * 2 + nibble] & 0xF));
+    const s32 filter = (s8)((parameters[4 + block * 2 + nibble] & 0x30) >> 4);
 
-    const int f0 = pos_adpcm_table[filter];
-    const int f1 = neg_adpcm_table[filter];
+    const s32 f0 = pos_adpcm_table[filter];
+    const s32 f1 = neg_adpcm_table[filter];
 
-    for (int d = 0; d < 28; d++)
+    for (s32 d = 0; d < 28; d++)
     {
         const u8 value = samples[block + d * 4];
-        const int t = Signed4bit((u8)((value >> (nibble * 4)) & 0xF));
-        int s = (short)((t << shift) + ((old * f0 + older * f1 + 32) / 64));
+        const s32 t = Signed4bit((u8)((value >> (nibble * 4)) & 0xF));
+        s32 s = (short)((t << shift) + ((old * f0 + older * f1 + 32) / 64));
         s = static_cast<u16>(MinMax(s, -32768, 32767));
 
 
@@ -79,7 +79,7 @@ static void Decode(const PSXADPCMDecoder::SoundFrame& sf, T& out)
     static f64 oldRight = 0;
     static f64 olderRight = 0;
 
-    for (int i = 0; i < 18; i++)
+    for (s32 i = 0; i < 18; i++)
     {
         const PSXADPCMDecoder::SoundFrame::SoundGroup& sg = sf.sound_groups[i];
         for (u8 b = 0; b < 4; b++)

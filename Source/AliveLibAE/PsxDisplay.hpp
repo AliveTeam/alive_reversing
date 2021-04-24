@@ -7,7 +7,7 @@
 // This seems to convert from PSX coordinate space to PC coordinate space
 // anywhere you see this calc replace it with this function
 template<class T>
-inline T PsxToPCX(T x, int addToX = 0)
+inline T PsxToPCX(T x, s32 addToX = 0)
 {
     return static_cast<T>(((40 * x) + static_cast<T>(addToX)) / 23);
 }
@@ -19,7 +19,7 @@ inline FP PsxToPCX(FP x, FP addToX = FP_FromInteger(0))
 
 // 640 * 23 / 40 =  368
 template<class T>
-inline T PCToPsxX(T x, int addX = 0)
+inline T PCToPsxX(T x, s32 addX = 0)
 {
     return (((x) * 23 + static_cast<T>(addX)) / 40);
 }
@@ -57,11 +57,11 @@ public:
 ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay_5C1130);
 ALIVE_VAR_EXTERN(bool, sCommandLine_NoFrameSkip_5CA4D1);
 ALIVE_VAR_EXTERN(short, sbDebugFontLoaded_BB4A24);
-ALIVE_VAR_EXTERN(int, sbDisplayRenderFrame_55EF8C);
+ALIVE_VAR_EXTERN(s32, sbDisplayRenderFrame_55EF8C);
 
 EXPORT void CC DebugFont_Flush_4DD050();
-EXPORT int CC DebugFont_Printf_4F8B60(int idx, const char* formatStr, ...);
-EXPORT int CC DebugFont_Init_4DCF40();
+EXPORT s32 CC DebugFont_Printf_4F8B60(s32 idx, const char* formatStr, ...);
+EXPORT s32 CC DebugFont_Init_4DCF40();
 
 void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect);
 

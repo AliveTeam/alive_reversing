@@ -17,7 +17,7 @@ const BYTE byte_5543D0[32] =
 ALIVE_VAR(1, 0x5c1bfa, BYTE, gTotalMeterBars_5C1BFA, 0);
 ALIVE_VAR(1, 0x5c1bf8, WORD, gbDrawMeterCountDown_5C1BF8, 0);
 
-ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, int tlvInfo)
+ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5451EC);
@@ -262,7 +262,7 @@ void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
     {
         char text[12] = {};
         sprintf(text, "%01d:%02d", sTimerValue_5C1BFC / 1800u, sTimerValue_5C1BFC / 30u % 60);
-        const int textWidth = field_30_font.MeasureWidth_433700(text);
+        const s32 textWidth = field_30_font.MeasureWidth_433700(text);
 
         short colourRand = 50;
         if (sDisableFontFlicker_5C9304)

@@ -51,7 +51,7 @@ class Door : public BaseAnimatedWithPhysicsGameObject
 {
 public:
 
-    EXPORT Door* ctor_40E010(Path_Door* pTlv, int tlvInfo);
+    EXPORT Door* ctor_40E010(Path_Door* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_40E710();
 
@@ -79,8 +79,8 @@ public:
 
     EXPORT void VUpdate_40E870();
 
-    int field_D4[4];
-    int field_E4_tlvInfo;
+    s32 field_D4[4];
+    s32 field_E4_tlvInfo;
     DoorStates field_E8_start_state;
     s16 field_EA_door_number;
     DoorStates field_EC_current_state;

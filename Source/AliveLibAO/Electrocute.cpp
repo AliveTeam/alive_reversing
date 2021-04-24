@@ -122,7 +122,7 @@ public:
     PSX_Point field_10_pal_xy;
     short field_14_pal_colours_count;
     // pad
-    int field_18_not_used[36]; // TODO: Probably something used in PSX but not PC?
+    s32 field_18_not_used[36]; // TODO: Probably something used in PSX but not PC?
     s16 field_A8_palBuffer[8];
     s16 field_B8_pal_x_index;
     s16 field_BA_pal_w;

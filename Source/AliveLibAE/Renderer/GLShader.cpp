@@ -32,8 +32,8 @@ void printProgramLog(GLuint program)
     if (glIsProgram(program))
     {
         //Program log length
-        int infoLogLength = 0;
-        int maxLength = infoLogLength;
+        s32 infoLogLength = 0;
+        s32 maxLength = infoLogLength;
 
         //Get info string length
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
@@ -156,8 +156,8 @@ void printShaderLog(GLuint shader)
     if (glIsShader(shader))
     {
         //Shader log length
-        int infoLogLength = 0;
-        int maxLength = infoLogLength;
+        s32 infoLogLength = 0;
+        s32 maxLength = infoLogLength;
 
         //Get info string length
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
@@ -261,11 +261,11 @@ uniform sampler2D m_Sprite;
 uniform sampler2D m_Palette;
 
 uniform bool m_PaletteEnabled = true;
-uniform int m_PaletteDepth = 0;
+uniform s32 m_PaletteDepth = 0;
 uniform bool m_Textured = true;
 uniform bool m_Dithered = false;
-uniform int m_DitherWidth = 0;
-uniform int m_DitherHeight = 0;
+uniform s32 m_DitherWidth = 0;
+uniform s32 m_DitherHeight = 0;
 uniform bool m_Debug = false;
 uniform bool m_FG1 = false;
 uniform vec4 m_FG1Size;

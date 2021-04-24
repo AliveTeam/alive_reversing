@@ -214,37 +214,37 @@ public:
     virtual void VRender(PrimHeader** pOrderingTable);
     virtual void VScreenChanged();
     virtual void VStopAudio();
-    virtual int VGetSaveState(BYTE* pSaveBuffer);
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer);
 
     EXPORT void ScreenChanged_4DC0A0();
 
-    EXPORT BYTE** Add_Resource_4DC130(DWORD type, int resourceID);
+    EXPORT BYTE** Add_Resource_4DC130(DWORD type, s32 resourceID);
     EXPORT void BaseGameObject_ctor_4DBFA0(s16 bAddToObjectList, s16 resourceArraySize);
     EXPORT void BaseGameObject_dtor_4DBEC0();
 
-    EXPORT static int CCSTD Find_Flags_4DC170(int objectId);
+    EXPORT static s32 CCSTD Find_Flags_4DC170(s32 objectId);
 
 protected:
     // Helper to check if a timer has expired
     template<class T>
     static inline bool Expired(const T& value)
     {
-        return static_cast<int>(sGnFrame_5C1B84) > value;
+        return static_cast<s32>(sGnFrame_5C1B84) > value;
     }
 
     template<class T>
-    static int MakeTimer(const T value)
+    static s32 MakeTimer(const T value)
     {
-        return static_cast<int>(sGnFrame_5C1B84) + value;
+        return static_cast<s32>(sGnFrame_5C1B84) + value;
     }
 
 public:
     AETypes field_4_typeId;
     BitField16<Options> field_6_flags;
-    int field_8_object_id;
+    s32 field_8_object_id;
     s32 field_C_objectId;
     DynamicArrayT<BYTE*> field_10_resources_array;
-    int field_1C_update_delay;
+    s32 field_1C_update_delay;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x20);
 

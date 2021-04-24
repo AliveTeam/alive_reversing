@@ -21,7 +21,7 @@ void SoftwareRenderer::Clear(BYTE r, BYTE g, BYTE b)
     SDL_RenderClear(mRenderer);
 }
 
-void SoftwareRenderer::StartFrame(int xOff, int yOff)
+void SoftwareRenderer::StartFrame(s32 xOff, s32 yOff)
 {
     if (!mFrameStarted)
     {
@@ -70,12 +70,12 @@ void SoftwareRenderer::BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* 
     SDL_RenderCopy(mRenderer, mBackBufferTexture, pCopyRect, pDst);
 }
 
-void SoftwareRenderer::OutputSize(int* w, int* h)
+void SoftwareRenderer::OutputSize(s32* w, s32* h)
 {
     SDL_GetRendererOutputSize(mRenderer, w, h);
 }
 
-bool SoftwareRenderer::UpdateBackBuffer(const void* pPixels, int pitch)
+bool SoftwareRenderer::UpdateBackBuffer(const void* pPixels, s32 pitch)
 {
     if (!mBackBufferTexture)
     {
@@ -85,7 +85,7 @@ bool SoftwareRenderer::UpdateBackBuffer(const void* pPixels, int pitch)
     return true;
 }
 
-void SoftwareRenderer::CreateBackBuffer(bool filter, int format, int w, int h)
+void SoftwareRenderer::CreateBackBuffer(bool filter, s32 format, s32 w, s32 h)
 {
     if (!mBackBufferTexture || mLastW != w || mLastH != h)
     {

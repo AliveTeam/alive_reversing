@@ -43,9 +43,9 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
+    virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
 
-    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, int pointIdx);
+    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx);
 
     virtual s16 VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj);
 
@@ -67,7 +67,7 @@ public:
 
     EXPORT CameraPos Is_In_Current_Camera_417CC0();
 
-    EXPORT void Animation_Init_417FD0(int frameTableOffset, int maxW, int maxH, BYTE** ppAnimData, s16 a6);
+    EXPORT void Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, BYTE** ppAnimData, s16 a6);
 
 protected:
     // Note inlined in AO everywhere
@@ -84,7 +84,7 @@ protected:
 
     EXPORT BetweenCamPos BetweenCameras_418500();
 
-    EXPORT s16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, int palId);
+    EXPORT s16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, s32 palId);
 
 private:
 
@@ -100,9 +100,9 @@ private:
 
     EXPORT s16 VIsObjNearby_418330(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj);
 
-    EXPORT void VOnCollisionWith_418080(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
+    EXPORT void VOnCollisionWith_418080(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
 
-    EXPORT PSX_RECT* VGetBoundingRect_418120(PSX_RECT* pRect, int pointIdx);
+    EXPORT PSX_RECT* VGetBoundingRect_418120(PSX_RECT* pRect, s32 pointIdx);
 
     EXPORT void VStackOnObjectsOfType_418930(Types typeToFind);
 

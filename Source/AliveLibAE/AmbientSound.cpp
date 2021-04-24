@@ -10,8 +10,8 @@
 
 struct Sound_Ambiance
 {
-    int field_0;
-    int field_4;
+    s32 field_0;
+    s32 field_4;
     ScopedSeq* field_8_pScopedSeq;
 };
 ALIVE_ASSERT_SIZEOF(Sound_Ambiance, 0xC);

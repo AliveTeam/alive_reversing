@@ -39,12 +39,12 @@ public:
     virtual void Destroy() = 0;
     virtual bool Create(TWindowHandleType window) = 0;
     virtual void Clear(BYTE r, BYTE g, BYTE b) = 0;
-    virtual void StartFrame(int xOff, int yOff) = 0;
+    virtual void StartFrame(s32 xOff, s32 yOff) = 0;
     virtual void EndFrame() = 0;
     virtual void BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst) = 0;
-    virtual void OutputSize(int* w, int* h) = 0;
-    virtual bool UpdateBackBuffer(const void* pPixels, int pitch) = 0;
-    virtual void CreateBackBuffer(bool filter, int format, int w, int h) = 0;
+    virtual void OutputSize(s32* w, s32* h) = 0;
+    virtual bool UpdateBackBuffer(const void* pPixels, s32 pitch) = 0;
+    virtual void CreateBackBuffer(bool filter, s32 format, s32 w, s32 h) = 0;
 
     virtual void SetTPage(short tPage) = 0;
 

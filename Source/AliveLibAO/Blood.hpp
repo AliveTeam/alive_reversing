@@ -43,7 +43,7 @@ public:
 
     EXPORT void VRender_407810(PrimHeader** ppOt);
 
-    int field_D4_not_used[4];
+    s32 field_D4_not_used[4];
     BYTE** field_E4_ppResBuf;
     BloodParticle* field_E8_pResBuf;
     Prim_SetTPage field_EC_tPages[2];
@@ -55,7 +55,7 @@ public:
     BYTE field_114_rand_seed;
     char field_115_pad;
     s16 field_116_total_count;
-    int field_118_timer;
+    s32 field_118_timer;
     Layer field_11C_render_layer;
     s16 field_11E_pad;
 };

@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF(Path_RockSack, 0x24);
 class RockSack : public BaseAliveGameObject
 {
 public:
-    EXPORT RockSack* ctor_4573F0(Path_RockSack* pTlv, int tlvInfo);
+    EXPORT RockSack* ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_457580();
 
@@ -37,7 +37,7 @@ public:
 
     EXPORT void VScreenChanged_457890();
 
-    int field_10C_tlvInfo;
+    s32 field_10C_tlvInfo;
     s16 field_110;
     s16 field_112_num_rocks;
     s16 field_114_can_play_wobble_sound;
@@ -98,7 +98,7 @@ public:
     s16 field_11A;
     FP field_11C_xpos;
     FP field_120_ypos;
-    int field_124;
+    s32 field_124;
 };
 ALIVE_ASSERT_SIZEOF(Rock, 0x128);
 

@@ -10,7 +10,7 @@
 #include "Sound/Midi.hpp"
 #include "SwitchStates.hpp"
 
-SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, int tlvInfo)
+SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     field_104_event_idx = -1;
@@ -155,7 +155,7 @@ void SecurityDoor::vUpdate_4AC380()
     switch (field_F8_state)
     {
     case SecurityDoorStates::eInactive_0:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
         }
@@ -172,7 +172,7 @@ void SecurityDoor::vUpdate_4AC380()
         return;
 
     case SecurityDoorStates::eSuccessChime_1:
-        if (static_cast<int>(sGnFrame_5C1B84) == field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) == field_124_timer)
         {
             SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
         }
@@ -207,14 +207,14 @@ void SecurityDoor::vUpdate_4AC380()
             }
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
         {
             field_F8_state = SecurityDoorStates::eInactive_0;
         }
         return;
 
     case SecurityDoorStates::eWaitingToSayPassword_4:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
         {
             field_F8_state = SecurityDoorStates::ePreparingToSayPassword_5;
         }
@@ -260,14 +260,14 @@ void SecurityDoor::vUpdate_4AC380()
     }
 
     case SecurityDoorStates::ePausing_7:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
         {
             field_F8_state = SecurityDoorStates::eSayingPassword_6;
         }
         return;
 
     case SecurityDoorStates::eListeningForPassword_9:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
         {
             if (field_104_event_idx != pEventSystem_5BC11C->field_28_last_event_index)
             {
@@ -317,7 +317,7 @@ void SecurityDoor::vUpdate_4AC380()
     }
 
     case SecurityDoorStates::eSuccess_11:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
         }
@@ -330,7 +330,7 @@ void SecurityDoor::vUpdate_4AC380()
         return;
 
     case SecurityDoorStates::eFailure_12:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
         }
@@ -340,7 +340,7 @@ void SecurityDoor::vUpdate_4AC380()
         return;
 
     case SecurityDoorStates::eLaughAtFailure_13:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
         }

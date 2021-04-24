@@ -67,12 +67,12 @@ namespace Alive
     {
     }
 
-    Font::Font(int maxCharLength, const BYTE *palette, Font_Context *fontContext)
+    Font::Font(s32 maxCharLength, const BYTE *palette, Font_Context *fontContext)
     {
         ctor_433590(maxCharLength, palette, fontContext);
     }
 
-    void Font::ctor_433590(int maxCharLength, const BYTE *palette, Font_Context *fontContext)
+    void Font::ctor_433590(s32 maxCharLength, const BYTE *palette, Font_Context *fontContext)
     {
         field_34_font_context = fontContext;
 
@@ -114,21 +114,21 @@ namespace Alive
 #endif
     }
 
-    int Font::DrawString_4337D0(PrimHeader **ppOt, const char *text, int x, s16 y, TPageAbr abr, int bSemiTrans, int blendMode, Layer layer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int maxRenderWidth, s16 colorRandomRange)
+    s32 Font::DrawString_4337D0(PrimHeader **ppOt, const char *text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, BYTE r, BYTE g, BYTE b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
     {
         if (!sFontDrawScreenSpace_5CA4B4)
         {
-            x = static_cast<int>(x / 0.575); // 368 to 640. Convert world space to screen space coords.
+            x = static_cast<s32>(x / 0.575); // 368 to 640. Convert world space to screen space coords.
         }
 
-        int characterRenderCount = 0;
-        const int maxRenderX = static_cast<int>(maxRenderWidth / 0.575);
+        s32 characterRenderCount = 0;
+        const s32 maxRenderX = static_cast<s32>(maxRenderWidth / 0.575);
         short offsetX = static_cast<short>(x);
-        int charInfoIndex = 0;
+        s32 charInfoIndex = 0;
         auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
 
-        int tpage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
-        int clut = PSX_getClut_4F6350(field_28_palette_rect.x, field_28_palette_rect.y);
+        s32 tpage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
+        s32 clut = PSX_getClut_4F6350(field_28_palette_rect.x, field_28_palette_rect.y);
 
         for (u32 i = 0; i < strlen(text); i++)
         {
@@ -212,14 +212,14 @@ namespace Alive
         return polyOffset + characterRenderCount;
     }
 
-    int Font::MeasureWidth_433700(const char * text)
+    s32 Font::MeasureWidth_433700(const char * text)
     {
-        int result = 0;
+        s32 result = 0;
 
         for (u32 i = 0; i < strlen(text); i++)
         {
             const char c = text[i];
-            int charIndex = 0;
+            s32 charIndex = 0;
 
             if (c <= 32 || static_cast<const u8>(c) > 175)
             {
@@ -244,24 +244,24 @@ namespace Alive
 
         if (!sFontDrawScreenSpace_5CA4B4)
         {
-            result = static_cast<int>(result * 0.575); // Convert screen space to world space.
+            result = static_cast<s32>(result * 0.575); // Convert screen space to world space.
         }
 
         return result;
     }
 
     // Measures the width of a string with scale applied.
-    int Font::MeasureWidth_4336C0(const char * text, FP scale)
+    s32 Font::MeasureWidth_4336C0(const char * text, FP scale)
     {
         FP ret = (FP_FromInteger(MeasureWidth_433700(text)) * scale) + FP_FromDouble(0.5);
         return FP_GetExponent(ret);
     }
 
     // Measures the width of a single character.
-    int Font::MeasureWidth_433630(u8 character)
+    s32 Font::MeasureWidth_433630(u8 character)
     {
-        int result = 0;
-        int charIndex = 0;
+        s32 result = 0;
+        s32 charIndex = 0;
 
         if (character <= 32u || character > 175u)
         {
@@ -279,17 +279,17 @@ namespace Alive
 
         if (!sFontDrawScreenSpace_5CA4B4)
         {
-            result = static_cast<int>(result * 0.575); // Convert screen space to world space.
+            result = static_cast<s32>(result * 0.575); // Convert screen space to world space.
         }
 
         return result;
     }
 
     // Wasn't too sure what to call this. Returns the char offset of where the text is cut off. (left and right region)
-    const char * Font::SliceText_433BD0(const char * text, int left, FP scale, int right)
+    const char * Font::SliceText_433BD0(const char * text, s32 left, FP scale, s32 right)
     {
-        int xOff = 0;
-        int rightWorldSpace = static_cast<int>(right * 0.575);
+        s32 xOff = 0;
+        s32 rightWorldSpace = static_cast<s32>(right * 0.575);
 
         if (sFontDrawScreenSpace_5CA4B4)
         {
@@ -297,13 +297,13 @@ namespace Alive
         }
         else
         {
-            xOff = static_cast<int>(left / 0.575);
+            xOff = static_cast<s32>(left / 0.575);
         }
 
 
         for (const char *strPtr = text; *strPtr; strPtr++)
         {
-            int atlasIdx = 0;
+            s32 atlasIdx = 0;
             char character = *strPtr;
             if (xOff >= rightWorldSpace)
             {
@@ -435,7 +435,7 @@ bool Font_Context::LoadFontTypeFromOddFont(const char * fontPath, char * pPalett
 bool Font_Context::LoadFontTypeFromOddFontMem(BYTE * data, char * pPaletteOut)
 {
     auto fontFile = reinterpret_cast<File_Font*>(data);
-    int * atlasCount = reinterpret_cast<int *>(fontFile->field_28_pixel_buffer + ((fontFile->field_0_width * fontFile->field_2_height) / 2));
+    s32 * atlasCount = reinterpret_cast<s32 *>(fontFile->field_28_pixel_buffer + ((fontFile->field_0_width * fontFile->field_2_height) / 2));
     Font_AtlasEntry * atlasData = reinterpret_cast<Font_AtlasEntry*>(atlasCount + 1);
 
     auto debugFontAtlas = std::vector<BYTE>((BYTE*)atlasData, (BYTE*)atlasData + (sizeof(Font_AtlasEntry) * *atlasCount));

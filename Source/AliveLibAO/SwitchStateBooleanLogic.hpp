@@ -26,7 +26,7 @@ ALIVE_ASSERT_SIZEOF(Path_SwitchStateBooleanLogic, 0x20);
 class SwitchStateBooleanLogic : public BaseGameObject
 {
 public:
-    EXPORT SwitchStateBooleanLogic* ctor_436AB0(Path_SwitchStateBooleanLogic* pTlv, int tlvInfo);
+    EXPORT SwitchStateBooleanLogic* ctor_436AB0(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_436B00();
 
@@ -46,7 +46,7 @@ public:
     u16 field_12_input_2;
     u16 field_14_output;
     BooleanOperatorType field_16_operator;
-    int field_18_tlvInfo;
+    s32 field_18_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(SwitchStateBooleanLogic, 0x1C);
 

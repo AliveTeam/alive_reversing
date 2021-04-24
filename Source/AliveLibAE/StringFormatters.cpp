@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "Input.hpp"
 
-void CC String_FormatString_4969D0(const char* src, char* dst, int /*bufferLen*/, char isAbeMotionsMenuWithAController)
+void CC String_FormatString_4969D0(const char* src, char* dst, s32 /*bufferLen*/, char isAbeMotionsMenuWithAController)
 {
     const char* pSrcIter = src;
     char* pDstIter = dst;

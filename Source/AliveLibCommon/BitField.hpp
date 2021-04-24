@@ -41,7 +41,7 @@ public:
         }
     }
 
-    void Set(EnumType value, int set)
+    void Set(EnumType value, s32 set)
     {
         Set(value, !!set);
     }

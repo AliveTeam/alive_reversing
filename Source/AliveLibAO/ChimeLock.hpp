@@ -55,7 +55,7 @@ public:
 
     void SetTargetBellIfSpace(s16 targetNum);
 
-    int field_10C_tlvInfo;
+    s32 field_10C_tlvInfo;
     enum class ChimeLockStates : s16
     {
         eIdle_0 = 0,
@@ -73,10 +73,10 @@ public:
     Bells* field_11C_right_bell;
     u16 field_120_max_idx;
     s16 field_122_padding;
-    int field_124_code1;
+    s32 field_124_code1;
     s16 field_128_idx;
     s16 field_12A_padding;
-    int field_12C_timer;
+    s32 field_12C_timer;
     s16 field_130_song_matching;
     s16 field_132_solve_id;
     s16 field_134_pressed;

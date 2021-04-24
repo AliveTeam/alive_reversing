@@ -41,7 +41,7 @@ ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
 class MotionDetector : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MotionDetector* ctor_4683B0(Path_MotionDetector* pTlv, int tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner);
+    EXPORT MotionDetector* ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner);
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -55,11 +55,11 @@ private:
     EXPORT void vUpdate_468A90();
 
 private:
-    int field_F4_tlvInfo;
+    s32 field_F4_tlvInfo;
 public:
-    int field_F8_laser_id;
+    s32 field_F8_laser_id;
 private:
-    int field_FC_owner_id;
+    s32 field_FC_owner_id;
 
     enum class States : s16
     {
@@ -71,7 +71,7 @@ private:
     States field_100_state;
 
     s16 field_102_pad;
-    int field_104_timer;
+    s32 field_104_timer;
     s16 field_108_disable_id;
     s16 field_10A_alarm_id;
     s16 field_10C_alarm_ticks;

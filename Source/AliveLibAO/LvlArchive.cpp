@@ -9,7 +9,7 @@ namespace AO {
 ALIVE_VAR(1, 0x4FFD60, LvlArchive, sLvlArchive_4FFD60, {});
 ALIVE_VAR(1, 0x507C90, LvlArchive, stru_507C90, {});
 
-const static int kSectorSize = 2048;
+const static s32 kSectorSize = 2048;
 
 EXPORT void CC LvlArchive::ctor_static_41BBA0()
 {
@@ -37,7 +37,7 @@ EXPORT void CC LvlArchive::dtor_static_443E80()
 }
 
 
-EXPORT void LvlArchive::OpenArchive(const char* fileName, int pos)
+EXPORT void LvlArchive::OpenArchive(const char* fileName, s32 pos)
 {
     // HACK: Added so that AE PSX emu lib works as we don't have a mapping of CDPos <> FileName in the AE emu 
     // (it was a stupid idea so I guess they removed it in the next iteration)
@@ -51,7 +51,7 @@ EXPORT void LvlArchive::OpenArchive(const char* fileName, int pos)
 
     field_4_cd_pos = pos;
 
-    int retryCounter = 0;
+    s32 retryCounter = 0;
     CdlLOC loc = {};
     
     pos = 0; // AE lib hack
@@ -60,7 +60,7 @@ EXPORT void LvlArchive::OpenArchive(const char* fileName, int pos)
     
     field_4_cd_pos = PSX_CdLoc_To_Pos_4FAE40(&loc); // AE lib hack
 
-    int bOk = 0;
+    s32 bOk = 0;
     do
     {
         retryCounter++; // Left over from psx - try to re read CD on failure?
@@ -83,7 +83,7 @@ EXPORT void LvlArchive::OpenArchive(const char* fileName, int pos)
     pHeader->field_4_ref_count = 1;
 }
 
-EXPORT void LvlArchive::OpenArchive_41BC60(int pos)
+EXPORT void LvlArchive::OpenArchive_41BC60(s32 pos)
 {
     OpenArchive(nullptr, pos);
 }
@@ -110,8 +110,8 @@ EXPORT LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const char* pFileName)
         return nullptr;
     }
 
-    const int total = pHeader->field_0_num_files;
-    for (int i = 0; i < total; i++)
+    const s32 total = pHeader->field_0_num_files;
+    for (s32 i = 0; i < total; i++)
     {
         if (strncmp(pHeader->field_10_file_recs[i].field_0_file_name, pFileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)) == 0)
         {

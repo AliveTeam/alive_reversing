@@ -14,7 +14,7 @@ struct Path_LCDScreen : public Path_TLV
     s16 field_12_message_rand_min_id;
     s16 field_14_message_rand_max_id;
     s16 field_16_message_2_id;
-    int field_18_toggle_message_switch_id;
+    s32 field_18_toggle_message_switch_id;
 };
 
 class LCDScreen : public BaseGameObject

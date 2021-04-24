@@ -58,8 +58,8 @@ struct Slurg_State
     char field_1D_bDrawable;
     char field_1C_bRender;
     s16 field_1E_padding;
-    int field_20_frame_table_offset;
-    int field_24_tlvInfo;
+    s32 field_20_frame_table_offset;
+    s32 field_24_tlvInfo;
     Slurg_States field_28_state;
     BitField16<SlurgFlags> field_2A_flags;
 };
@@ -74,7 +74,7 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
 
@@ -104,7 +104,7 @@ private:
     //s16 field_122_padding;
     PathLine* field_124_pLine;
     Path_TLV* field_128_pTlv;
-    int field_12C_tlvInfo;
+    s32 field_12C_tlvInfo;
     FP field_130_scale;
 };
 ALIVE_ASSERT_SIZEOF(Slurg, 0x134);

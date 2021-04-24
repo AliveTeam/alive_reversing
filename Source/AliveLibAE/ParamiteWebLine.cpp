@@ -10,7 +10,7 @@
 #include "ShadowZone.hpp"
 #include "Rope.hpp"
 
-ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tlvInfo)
+ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930( 0);
     SetVTable(&field_108_anim_flare, 0x544290);
@@ -89,7 +89,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
 
     field_F4_anim_segment_count = (field_F6_piece_length + field_FA_bottom - field_F8_top) / field_F6_piece_length;
     field_FC_pRes = reinterpret_cast<AnimationUnknown*>(ae_malloc_non_zero_4954F0(sizeof(AnimationUnknown) * field_F4_anim_segment_count));
-    for (int i = 0; i < field_F4_anim_segment_count; i++)
+    for (s32 i = 0; i < field_F4_anim_segment_count; i++)
     {
         new (&field_FC_pRes[i]) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
         SetVTable(&field_FC_pRes[i], 0x5447CC);
@@ -165,7 +165,7 @@ BaseGameObject* ParamiteWebLine::VDestructor(s32 flags)
     return vdtor_4E2460(flags);
 }
 
-PSX_RECT* ParamiteWebLine::vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx)
+PSX_RECT* ParamiteWebLine::vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx)
 {
     return vGetBoundingRect_4E2B40(pRect, pointIdx);
 }
@@ -221,7 +221,7 @@ void ParamiteWebLine::vUpdate_4E2A50()
     field_106_wobble_pos = field_F8_top;
 }
 
-PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, int /*idx*/)
+PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, s32 /*idx*/)
 {
     const short xpos = FP_GetExponent(field_B8_xpos);
 
@@ -251,7 +251,7 @@ void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
 
     field_20_animation.vRender_40B820(640, 240, ppOt, 0, 0);
 
-    int idx = 0;
+    s32 idx = 0;
     s16 render_ypos = field_FA_bottom;
     while (render_ypos > field_F8_top)
     {

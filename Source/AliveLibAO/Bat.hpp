@@ -20,7 +20,7 @@ class PathLine;
 class Bat : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Bat* ctor_4046E0(Path_Bat* pTlv, int tlvInfo);
+    EXPORT Bat* ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo);
     EXPORT BaseGameObject* dtor_404870();
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
@@ -35,11 +35,11 @@ public:
 
     EXPORT void VUpdate_404950();
 
-    int field_D4[4];
+    s32 field_D4[4];
     PathLine* field_E4_pLine;
     FP field_E8_speed;
-    int field_EC_ticks_before_moving;
-    int field_F0_tlvInfo;
+    s32 field_EC_ticks_before_moving;
+    s32 field_F0_tlvInfo;
     enum class BatStates : s16
     {
         eSetTimer_0 = 0,
@@ -51,8 +51,8 @@ public:
     };
     BatStates field_F4_state;
     s16 field_F6_attack_duration;
-    int field_F8_timer;
-    int field_FC_attack_duration_timer;
+    s32 field_F8_timer;
+    s32 field_FC_attack_duration_timer;
     FP field_100_velx;
     FP field_104_target_xpos;
     FP field_108_target_ypos;

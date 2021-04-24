@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF(Path_FlintLockFire, 0x1C);
 class FlintLockFire : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT FlintLockFire* ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo);
+    EXPORT FlintLockFire* ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_41AE20();
 
@@ -40,7 +40,7 @@ public:
 
     EXPORT void VRender_41B0F0(PrimHeader** ppOt);
 
-    int field_D4_padding[4];
+    s32 field_D4_padding[4];
     enum class States : s16
     {
         eDisabled_0 = 0,
@@ -49,8 +49,8 @@ public:
     };
     States field_E4_state;
     s16 field_E6_switch_id;
-    int field_E8_tlvInfo;
-    int field_EC_fire_sound;
+    s32 field_E8_tlvInfo;
+    s32 field_EC_fire_sound;
     Animation field_F0_anim;
     Animation field_188_anim;
     Animation field_220_anim;

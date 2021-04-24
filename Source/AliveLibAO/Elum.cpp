@@ -89,7 +89,7 @@ const TBrainStateFunc sElum_table_4C52E8[] =
     &Elum::Brain_1_HoneyAddiction_411730,
 };
 
-const int gElumFrameTables_4C5218[52] =
+const s32 gElumFrameTables_4C5218[52] =
 {
     117036,
     117036,
@@ -185,8 +185,8 @@ EXPORT BaseGameObject *Elum::dtor_410BC0()
     }
     field_104_pending_resource_count = 0;
 
-    const int anims[] = { 230, 222, 220, 221 };
-    for (int anim : anims)
+    const s32 anims[] = { 230, 222, 220, 221 };
+    for (s32 anim : anims)
     {
         ResourceManager::FreeResource_455550(
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim, 1, 0)
@@ -921,8 +921,8 @@ void CC Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
                 pObj->field_AC_ypos);
         }
 
-        int volLeft = 0;
-        int volRight = 0;
+        s32 volLeft = 0;
+        s32 volRight = 0;
         switch (dir)
         {
         case CameraPos::eCamCurrent_0:
@@ -984,7 +984,7 @@ void Elum::FindHoney_411600()
     {
         field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
 
-        for (int i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
 
@@ -1037,7 +1037,7 @@ s16 Elum::NearHoney_411DA0()
 
 s16 Elum::Brain_0_WithoutAbe_416190()
 {
-    const int last_event_index = pEventSystem_4FF954->field_18_last_event_index;
+    const s32 last_event_index = pEventSystem_4FF954->field_18_last_event_index;
 
     GameSpeakEvents last_event_v1;
     GameSpeakEvents last_event_v2;
@@ -1271,7 +1271,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
         return 2;
 
     case 5:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1369,7 +1369,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
         return 6;
 
     case 8:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1377,7 +1377,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
         return 6;
 
     case 9:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1385,7 +1385,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
         return 2;
 
     case 10:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1393,7 +1393,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
         return 6;
 
     case 11:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1401,7 +1401,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
         return 2;
 
     case 12:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1710,7 +1710,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
         return field_12A_brain_state;
 
     case 5:
-        if (field_FC_current_motion != eElumStates::State_29_BeesStruggling_412A90 || field_110_timer > static_cast<int>(gnFrameCount_507670))
+        if (field_FC_current_motion != eElumStates::State_29_BeesStruggling_412A90 || field_110_timer > static_cast<s32>(gnFrameCount_507670))
         {
             return field_12A_brain_state;
         }
@@ -1813,7 +1813,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
         return 5;
 
     case 8:
-        if (field_110_timer > static_cast<int>(gnFrameCount_507670))
+        if (field_110_timer > static_cast<s32>(gnFrameCount_507670))
         {
             return field_12A_brain_state;
         }
@@ -3521,7 +3521,7 @@ void Elum::State_50_Knockback_415DC0()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (field_110_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_110_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             if (field_F4_pLine)
             {
@@ -3562,7 +3562,7 @@ void Elum::VUpdate_4102A0()
         field_FC_current_motion = eElumStates::State_21_Land_414A20;
         field_F4_pLine = nullptr;
 
-        static int sElum_velx_table_4FF968[] =
+        static s32 sElum_velx_table_4FF968[] =
         {
             4,
             4,
@@ -3574,7 +3574,7 @@ void Elum::VUpdate_4102A0()
             4
         };
 
-        static int sElum_vely_table_4FF988[] =
+        static s32 sElum_vely_table_4FF988[] =
         {
              0,
              -4,
@@ -3588,7 +3588,7 @@ void Elum::VUpdate_4102A0()
 
         if (Input().IsAnyPressed(0xF000u))
         {
-            const int tableIdx = Input().Dir();
+            const s32 tableIdx = Input().Dir();
             field_B4_velx = FP_FromRaw(sElum_velx_table_4FF968[tableIdx]);
             field_B8_vely = FP_FromRaw(sElum_vely_table_4FF988[tableIdx]);
 
@@ -3896,7 +3896,7 @@ void Elum::Spawn_410E90(TlvItemInfoUnion tlvInfo)
     pElum->ctor_410870(dword_4C52F4, struct2, struct1, dword_4C52F8, tlvInfo);
 }
 
-Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, int, TlvItemInfoUnion tlvInfo)
+Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemInfoUnion tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BA8F8);

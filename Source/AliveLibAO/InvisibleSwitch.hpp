@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF(Path_InvisibleSwitch, 0x24);
 class InvisibleSwitch : public BaseGameObject
 {
 public:
-    EXPORT InvisibleSwitch* ctor_4334E0(Path_InvisibleSwitch* pTlv, int tlvInfo);
+    EXPORT InvisibleSwitch* ctor_4334E0(Path_InvisibleSwitch* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_433540();
 
@@ -39,9 +39,9 @@ public:
 
     s16 field_10_id;
     SwitchOp field_12_action;
-    int field_14_tlvInfo;
-    int field_18_delay_timer;
-    int field_1C_delay;
+    s32 field_14_tlvInfo;
+    s32 field_18_delay_timer;
+    s32 field_1C_delay;
     PSX_Point field_20_top_left;
     PSX_Point field_24_bottom_right;
     u16 field_28_state;

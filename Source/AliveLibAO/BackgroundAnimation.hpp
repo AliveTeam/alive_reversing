@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF(Path_BackgroundAnimation, 0x20);
 class BackgroundAnimation : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BackgroundAnimation* ctor_405A90(Path_BackgroundAnimation* pTlv, int tlvInfo);
+    EXPORT BackgroundAnimation* ctor_405A90(Path_BackgroundAnimation* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_405CB0();
 
@@ -40,22 +40,22 @@ public:
 
     EXPORT void VUpdate_405C30();
 
-    int field_D4_padding;
-    int field_D8_padding;
-    int field_DC_padding;
-    int field_E0_padding;
+    s32 field_D4_padding;
+    s32 field_D8_padding;
+    s32 field_DC_padding;
+    s32 field_E0_padding;
     BYTE** field_E4_res;
     s16 field_E8_xpos;
     s16 field_EA_ypos;
     s16 field_EC_w;
     s16 field_EE_h;
-    int field_F0_tlvInfo;
-    int field_F4_padding;
+    s32 field_F0_tlvInfo;
+    s32 field_F4_padding;
     FP field_F8_animXPos;
     FP field_FC_animYPos;
     s16 field_100_sound_effect;
     s16 field_102_padding;
-    int field_104_sound_channels_mask;
+    s32 field_104_sound_channels_mask;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x108);
 

@@ -93,7 +93,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
         field_D6_scale = 1;
     }
 
-    const int v7 = pPath->field_8_top_left.field_0_x + pPath->field_C_bottom_right.field_0_x;
+    const s32 v7 = pPath->field_8_top_left.field_0_x + pPath->field_C_bottom_right.field_0_x;
     field_B8_xpos = FP_FromInteger(v7 / 2);
     const FP v8 = FP_FromInteger(pPath->field_8_top_left.field_2_y);
     field_BC_ypos = v8;
@@ -333,7 +333,7 @@ bool Mine::IsColliding_46B8C0()
     PSX_RECT mineBound;
     vGetBoundingRect_424FD0(&mineBound, 1);
 
-    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject * pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
 
@@ -348,8 +348,8 @@ bool Mine::IsColliding_46B8C0()
             PSX_RECT objBound;
             pObj->vGetBoundingRect_424FD0(&objBound, 1);
 
-            int objX = FP_GetExponent(pObj->field_B8_xpos);
-            int objY = FP_GetExponent(pObj->field_BC_ypos);
+            s32 objX = FP_GetExponent(pObj->field_B8_xpos);
+            s32 objY = FP_GetExponent(pObj->field_BC_ypos);
 
             if (objX > mineBound.x &&
                 objX < mineBound.w &&

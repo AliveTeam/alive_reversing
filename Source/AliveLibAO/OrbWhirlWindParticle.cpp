@@ -44,7 +44,7 @@ void OrbWhirlWindParticle::ToStop()
     field_DC_position_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 32);
 }
 
-int OrbWhirlWindParticle::IsActive()
+s32 OrbWhirlWindParticle::IsActive()
 {
     return field_4_flags & 1;
 }
@@ -99,9 +99,9 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
         break;
 
     case State::State_1_Spin:
-        if (static_cast<int>(gnFrameCount_507670) < field_DC_position_timer + 16)
+        if (static_cast<s32>(gnFrameCount_507670) < field_DC_position_timer + 16)
         {
-            if (static_cast<int>(gnFrameCount_507670) >= field_DC_position_timer)
+            if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
             {
                 field_D0_ypos_mid += field_B0_ypos_increment;
                 field_D4_radiusX -= FP_FromInteger(2);
@@ -142,7 +142,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
             const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (static_cast<int>(gnFrameCount_507670) < field_DC_position_timer)
+            if (static_cast<s32>(gnFrameCount_507670) < field_DC_position_timer)
             {
                 field_C0_current_scale += field_C8_scale_offset_fly_to_target;
                 const FP v25 = FP_FromInteger(16 - (field_DC_position_timer - gnFrameCount_507670)) / FP_FromInteger(16);
@@ -169,7 +169,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
         break;
 
     case State::State_3_SpinAtTarget:
-        if (static_cast<int>(gnFrameCount_507670) >= field_DC_position_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
         {
             SetActive(IsActive() ? 0 : 1);
         }
@@ -182,7 +182,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
         break;
 
     case State::State_4_Stop:
-        if (static_cast<int>(gnFrameCount_507670) >= field_DC_position_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
         {
             SetActive(IsActive() ? 0 : 1);
         }

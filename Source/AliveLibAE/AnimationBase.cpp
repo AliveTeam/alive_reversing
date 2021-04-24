@@ -9,13 +9,13 @@ void AnimationBase::vDecode_40AC90()
     ALIVE_FATAL("Should never be called");
 }
 
-void AnimationBase::vRender_40B820(int /*xpos*/, int /*ypos*/, PrimHeader** /*pOt*/, s16 /*width*/, s32 /*height*/)
+void AnimationBase::vRender_40B820(s32 /*xpos*/, s32 /*ypos*/, PrimHeader** /*pOt*/, s16 /*width*/, s32 /*height*/)
 {
     ALIVE_FATAL("Should never be called");
 //    return 0;
 }
 
-char AnimationBase::Animation_v_40BEE0(s16 /*a2*/, s16 /*a3*/, int /*a4*/, s16 /*a5*/, s16 /*op1*/)
+char AnimationBase::Animation_v_40BEE0(s16 /*a2*/, s16 /*a3*/, s32 /*a4*/, s16 /*a5*/, s16 /*op1*/)
 {
     NOT_IMPLEMENTED();
     LOG_INFO("Animation_v_40BEE0");

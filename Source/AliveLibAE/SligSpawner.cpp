@@ -8,7 +8,7 @@
 #include "ObjectIds.hpp"
 #include "SwitchStates.hpp"
 
-SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, int tlvInfo)
+SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x544090);
@@ -78,7 +78,7 @@ void SligSpawner::vUpdate_409830()
 
         if (field_3C_spawned_slig_obj_id != -1)
         {
-            for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
             {
                 auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
                 if (!pObj)
@@ -138,7 +138,7 @@ void SligSpawner::vUpdate_409830()
     }
 }
 
-int SligSpawner::vGetSaveState_409BB0(Slig_Spawner_State* pState)
+s32 SligSpawner::vGetSaveState_409BB0(Slig_Spawner_State* pState)
 {
     pState->field_0_type = AETypes::eSligSpawner_2;
     pState->field_4_tlvInfo = field_20_tlv_info;
@@ -157,7 +157,7 @@ int SligSpawner::vGetSaveState_409BB0(Slig_Spawner_State* pState)
     return sizeof(Slig_Spawner_State);
 }
 
-int CC SligSpawner::CreateFromSaveState_409B10(const BYTE* pBuffer)
+s32 CC SligSpawner::CreateFromSaveState_409B10(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_Spawner_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
@@ -184,7 +184,7 @@ void SligSpawner::VScreenChanged()
     vScreenChanged_409A30();
 }
 
-int SligSpawner::VGetSaveState(BYTE* pSaveBuffer)
+s32 SligSpawner::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_409BB0(reinterpret_cast<Slig_Spawner_State*>(pSaveBuffer));
 }

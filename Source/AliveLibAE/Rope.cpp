@@ -29,9 +29,9 @@ const TintEntry kRopeTints_55FD68[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, int minY, int maxY)
+EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
-    const int d1 = minY - Y0(pPoly);
+    const s32 d1 = minY - Y0(pPoly);
     const short polyHeight = Y3(pPoly) - Y0(pPoly);
     if (minY - Y0(pPoly) > 0 && d1 <= polyHeight)
     {
@@ -42,7 +42,7 @@ EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, int minY, int maxY)
         SetUV1(pPoly, U1(pPoly), V1(pPoly) + (BYTE)d1);
     }
 
-    const int d2 = Y3(pPoly) - maxY;
+    const s32 d2 = Y3(pPoly) - maxY;
     if (d2 > 0 && d2 <= polyHeight)
     {
         SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (short)d2);
@@ -100,7 +100,7 @@ Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
     field_F8_ppRopeRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Rope, 0, field_F4_rope_segment_count * sizeof(AnimationUnknown));
     field_FC_pRopeRes = reinterpret_cast<AnimationUnknown*>(*field_F8_ppRopeRes);
 
-    for (int i = 0; i < field_F4_rope_segment_count; i++)
+    for (s32 i = 0; i < field_F4_rope_segment_count; i++)
     {
         AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
@@ -194,7 +194,7 @@ EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
 
             if (screenY >= minY)
             {
-                for (int idx = 0; idx < field_F4_rope_segment_count; idx++)
+                for (s32 idx = 0; idx < field_F4_rope_segment_count; idx++)
                 {
                     // Apply shadow to the segments colour
                     short r = field_D0_r;

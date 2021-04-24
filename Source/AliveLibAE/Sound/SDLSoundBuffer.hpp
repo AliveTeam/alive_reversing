@@ -26,15 +26,15 @@ public:
     SDLSoundBuffer();
 
 
-    SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int soundSysFreq);
+    SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, s32 soundSysFreq);
 
 
-    HRESULT SetVolume(int volume);
-    HRESULT Play(int /*reserved*/, int /*priority*/, int flags);
+    HRESULT SetVolume(s32 volume);
+    HRESULT Play(s32 /*reserved*/, s32 /*priority*/, s32 flags);
     HRESULT Stop();
 
-    HRESULT SetFrequency(int frequency);
-    HRESULT SetCurrentPosition(int position);
+    HRESULT SetFrequency(s32 frequency);
+    HRESULT SetCurrentPosition(s32 position);
     HRESULT GetCurrentPosition(DWORD * readPos, DWORD * writePos);
     HRESULT GetFrequency(DWORD * freq);
     HRESULT SetPan(s32 pan);
@@ -49,9 +49,9 @@ public:
 public:
     struct AE_SDL_Voice_State
     {
-        int iVolume;
+        s32 iVolume;
         bool bVolDirty;
-        int iVolumeTarget;
+        s32 iVolumeTarget;
         float fFrequency;
         s32 iPan;
 
@@ -60,12 +60,12 @@ public:
         bool bIsReleased;
         float fPlaybackPosition;
 
-        int iSampleCount;
-        int iChannels;
-        int iBlockAlign;
+        s32 iSampleCount;
+        s32 iChannels;
+        s32 iBlockAlign;
     };
 
-    int mSoundSysFreq = 0;
+    s32 mSoundSysFreq = 0;
     AE_SDL_Voice_State mState;
     std::shared_ptr<std::vector<BYTE>> mBuffer;
     std::mutex mLock;

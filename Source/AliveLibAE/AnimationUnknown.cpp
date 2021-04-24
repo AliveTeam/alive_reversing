@@ -10,7 +10,7 @@ void AnimationUnknown::vDecode_40AC90()
     // VNull_409C20
 }
 
-void AnimationUnknown::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, s32 height)
+void AnimationUnknown::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height)
 {
     vRender_40C690(xpos, ypos, ppOt, width, height);
 }
@@ -25,7 +25,7 @@ void AnimationUnknown::GetRenderedSize_40C980(PSX_RECT* pRect)
     Poly_FT4_Get_Rect_409DA0(pRect, &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index]);
 }
 
-void AnimationUnknown::vRender_40C690(int xpos, int ypos, PrimHeader** ppOt, int /*width*/, int /*height*/)
+void AnimationUnknown::vRender_40C690(s32 xpos, s32 ypos, PrimHeader** ppOt, s32 /*width*/, s32 /*height*/)
 {
     Poly_FT4* pPoly = &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index];
     if (field_4_flags.Get(AnimFlags::eBit3_Render))
@@ -41,11 +41,11 @@ void AnimationUnknown::vRender_40C690(int xpos, int ypos, PrimHeader** ppOt, int
 
         FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_68_anim_ptr->field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
-        int frameH = pFrameHeader->field_5_height;
-        int frameW = pFrameHeader->field_4_width;
+        s32 frameH = pFrameHeader->field_5_height;
+        s32 frameW = pFrameHeader->field_4_width;
 
-        int frameOffX = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
-        int frameOffY = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
+        s32 frameOffX = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
+        s32 frameOffY = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
 
         if (field_6C_scale != FP_FromInteger(1))
         {
@@ -56,9 +56,9 @@ void AnimationUnknown::vRender_40C690(int xpos, int ypos, PrimHeader** ppOt, int
             frameW = FP_GetExponent((FP_FromInteger(frameW) * field_6C_scale));
         }
 
-        int polyX = 0;
-        int polyY = 0;
-        int xConverted = PsxToPCX(xpos);
+        s32 polyX = 0;
+        s32 polyY = 0;
+        s32 xConverted = PsxToPCX(xpos);
         if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit7_SwapXY))
         {
             if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit6_FlipY))

@@ -48,7 +48,7 @@ void PolyF4_Init(Poly_F4* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyF4);
 }
 
-void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, int xpos, int ypos)
+void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, s32 xpos, s32 ypos)
 {
     SetUnknown(&pPrim->mPrimHeader);
     SetCode(&pPrim->mPrimHeader, PrimTypeCodes::eMoveImage);
@@ -152,7 +152,7 @@ void Init_Tile(Prim_Tile* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile);
 }
 
-int PSX_Prim_Code_Without_Blending_Or_SemiTransparency(int code)
+s32 PSX_Prim_Code_Without_Blending_Or_SemiTransparency(s32 code)
 {
     // Last 2 bits are for blending and semi transparency enable
     return code & 0xFC;

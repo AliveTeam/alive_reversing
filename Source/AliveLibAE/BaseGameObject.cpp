@@ -39,12 +39,12 @@ void BaseGameObject::VStopAudio()
     // Empty 0x4DC0F0
 }
 
-int BaseGameObject::VGetSaveState(BYTE* /*pSaveBuffer*/)
+s32 BaseGameObject::VGetSaveState(BYTE* /*pSaveBuffer*/)
 {
     return 0;
 }
 
-BYTE** BaseGameObject::Add_Resource_4DC130(DWORD type, int resourceID)
+BYTE** BaseGameObject::Add_Resource_4DC130(DWORD type, s32 resourceID)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(type, resourceID, 1, 0);
     if (ppRes)
@@ -82,7 +82,7 @@ void BaseGameObject::BaseGameObject_ctor_4DBFA0(s16 bAddToObjectList, s16 resour
 
     field_C_objectId = sAccumulatedObjectCount_5C1BF4;
     field_8_object_id = sAccumulatedObjectCount_5C1BF4;
-    const int nextId = sAccumulatedObjectCount_5C1BF4++;
+    const s32 nextId = sAccumulatedObjectCount_5C1BF4++;
     sObjectIds_5C1B70.Insert_449C10(nextId, this);
 }
 
@@ -91,7 +91,7 @@ EXPORT void BaseGameObject::BaseGameObject_dtor_4DBEC0()
     SetVTable(this, 0x547AC4); // gVtbl_BaseGameObject_547AC4
     Event_Cancel_For_Obj_422DF0(this);
 
-    for (int i = 0; i < field_10_resources_array.Size(); i++)
+    for (s32 i = 0; i < field_10_resources_array.Size(); i++)
     {
         if (field_10_resources_array.ItemAt(i))
         {
@@ -104,11 +104,11 @@ EXPORT void BaseGameObject::BaseGameObject_dtor_4DBEC0()
     field_10_resources_array.dtor_40CAD0();
 }
 
-EXPORT int CCSTD BaseGameObject::Find_Flags_4DC170(int objectId)
+EXPORT s32 CCSTD BaseGameObject::Find_Flags_4DC170(s32 objectId)
 {
     if (objectId != -1)
     {
-        for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
             if (!pObj)

@@ -40,19 +40,19 @@ namespace AO {
 
 // TODO: Move these few funcs to correct location
 #ifdef _WIN32
-EXPORT int CC Add_Dirty_Area_48D910(int, int, int, int)
+EXPORT s32 CC Add_Dirty_Area_48D910(s32, s32, s32, s32)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT int MessageBox_48E3F0(const char* /*pTitle*/, int /*lineNumber*/, const char* /*pMsg*/, ...)
+EXPORT s32 MessageBox_48E3F0(const char* /*pTitle*/, s32 /*lineNumber*/, const char* /*pMsg*/, ...)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+EXPORT s32 CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
 
@@ -84,11 +84,11 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
                 "14:32:52");
             Input_InitKeyStateArray_48E5F0();
         }
-        Input_SetKeyState_48E610(static_cast<int>(wParam), 1);
+        Input_SetKeyState_48E610(static_cast<s32>(wParam), 1);
         return 0;
 
     case WM_KEYUP:
-        Input_SetKeyState_48E610(static_cast<int>(wParam), 0);
+        Input_SetKeyState_48E610(static_cast<s32>(wParam), 0);
         break;
 
     case WM_SETCURSOR:
@@ -128,7 +128,7 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
         {
             ret = -1;
         }
-        Input_SetKeyState_48E610(static_cast<int>(wParam), 1);
+        Input_SetKeyState_48E610(static_cast<s32>(wParam), 1);
         break;
 
     case WM_SYSKEYUP:
@@ -137,17 +137,17 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
         {
             ret = -1;
         }
-        Input_SetKeyState_48E610(static_cast<int>(wParam), 0);
+        Input_SetKeyState_48E610(static_cast<s32>(wParam), 0);
         break;
 
     case WM_TIMER:
         return 1;
     default:
-        return static_cast<int>(ret);
+        return static_cast<s32>(ret);
     }
-    return static_cast<int>(ret);
+    return static_cast<s32>(ret);
 }
-using TFilter = AddPointer_t<int CC(HWND, UINT, WPARAM, LPARAM)>;
+using TFilter = AddPointer_t<s32 CC(HWND, UINT, WPARAM, LPARAM)>;
 
 EXPORT void CC Sys_SetWindowProc_Filter_48E950(TFilter)
 {
@@ -178,8 +178,8 @@ ALIVE_VAR(1, 0x5076D4, short, gOldSavedMuds_5076D4, 0);
 
 ALIVE_VAR(1, 0x507B78, short, sBreakGameLoop_507B78, 0);
 ALIVE_VAR(1, 0x507698, short, gAttract_507698, 0);
-ALIVE_VAR(1, 0x507B0C, int, gTimeOut_NotUsed_507B0C, 0);
-ALIVE_VAR(1, 0x507B10, int, gFileOffset_NotUsed_507B10, 0);
+ALIVE_VAR(1, 0x507B0C, s32, gTimeOut_NotUsed_507B0C, 0);
+ALIVE_VAR(1, 0x507B10, s32, gFileOffset_NotUsed_507B10, 0);
 ALIVE_VAR(1, 0x505564, DynamicArrayT<AnimationBase>*, gObjList_animations_505564, nullptr);
 
 ALIVE_VAR(1, 0x508BF8, char, gDDCheatMode_508BF8, 0);
@@ -189,7 +189,7 @@ ALIVE_ARY(1, 0x4CECC8, char, 3, gDriveLetter_4CECC8, { 'D', ':', '0' });
 
 
 
-EXPORT int CC Game_End_Frame_4505D0(DWORD bSkip)
+EXPORT s32 CC Game_End_Frame_4505D0(DWORD bSkip)
 {
     return Game_End_Frame_4950F0(bSkip);
 }
@@ -368,7 +368,7 @@ EXPORT void CC Game_ExitGame_450730()
 }
 
 
-EXPORT int CC CreateTimer_48F030(int, void*)
+EXPORT s32 CC CreateTimer_48F030(s32, void*)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -401,7 +401,7 @@ EXPORT void CC Game_Loop_437630()
         Events_Reset_Active_417320();
 
         // Update objects
-        for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
             if (!pObjIter)
@@ -433,7 +433,7 @@ EXPORT void CC Game_Loop_437630()
         // Render objects
         PrimHeader** ppOt = gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer;
 
-        for (int i = 0; i < gObjList_drawables_504618->Size(); i++)
+        for (s32 i = 0; i < gObjList_drawables_504618->Size(); i++)
         {
             BaseGameObject* pDrawable = gObjList_drawables_504618->ItemAt(i);
             if (!pDrawable)
@@ -455,7 +455,7 @@ EXPORT void CC Game_Loop_437630()
         gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
 
         // Destroy objects with certain flags
-        for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
             if (!pObj)
@@ -485,7 +485,7 @@ EXPORT void CC Game_Loop_437630()
     PSX_VSync_496620(0);
     ResourceManager::WaitForPendingResources_41EA60(0);
 
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObjToKill = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObjToKill)

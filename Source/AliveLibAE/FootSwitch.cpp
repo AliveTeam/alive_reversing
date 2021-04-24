@@ -54,7 +54,7 @@ const AnimId sFootSwitchData_547D60[15][2] =
 };
 
 
-FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
+FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547E38);
@@ -62,7 +62,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
     field_4_typeId = AETypes::eFootSwitch_56;
     field_100_obj_id = -1;
 
-    const int idx = static_cast<int>(gMap_5C3030.field_0_current_level);
+    const s32 idx = static_cast<s32>(gMap_5C3030.field_0_current_level);
 
     const AnimRecord& rec = AnimRec(sFootSwitchData_547D60[idx][0]);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -141,7 +141,7 @@ void FootSwitch::vUpdate_4DE270()
         if (pLastStoodOnMe)
         {
             field_100_obj_id = pLastStoodOnMe->field_8_object_id;
-            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
+            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_F8_state = States::eWaitForGetOffMe_1;
         }
@@ -157,7 +157,7 @@ void FootSwitch::vUpdate_4DE270()
             SwitchStates_Do_Operation_465F00(field_FA_id, field_FC_action);
             field_F8_state = States::eWaitForGetOffMe_1;
 
-            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
+            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
             auto pParticleBurst = ae_new<ParticleBurst>();
@@ -241,7 +241,7 @@ void FootSwitch::vUpdate_4DE270()
             pLastStoodOnMe->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
             field_F8_state = States::eWaitForStepOnMe_0;
-            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)][0]);
+            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_100_obj_id = -1;
         }
@@ -257,7 +257,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
 
     if (field_FE_trigger_by == FootSwitchTriggerBy::eAnyone_1)
     {
-        for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
             if (!pObj)
@@ -272,7 +272,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
                 PSX_RECT bRect = {};
                 pAliveObj->vGetBoundingRect_424FD0(&bRect, 1);
 
-                const int xpos = FP_GetExponent(pAliveObj->field_B8_xpos);
+                const s32 xpos = FP_GetExponent(pAliveObj->field_B8_xpos);
 
                 if (xpos > bRectSwitch.x &&
                     xpos < bRectSwitch.w &&
@@ -292,7 +292,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
         PSX_RECT bRect = {};
         sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
 
-        const int xpos = FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos);
+        const s32 xpos = FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos);
 
         if (xpos > bRectSwitch.x &&
             xpos < bRectSwitch.w &&

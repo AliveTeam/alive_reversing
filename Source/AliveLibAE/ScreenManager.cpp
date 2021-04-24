@@ -17,7 +17,7 @@ static u8 gCamBuffer[640 * 240 * 2];
 
 void ScreenManager::sub_40EE10()
 {
-    for (int i = 0; i < 20; i++)
+    for (s32 i = 0; i < 20; i++)
     {
         field_64_20x16_dirty_bits[field_3C_y_idx].mData[i] |= field_64_20x16_dirty_bits[field_3E_x_idx].mData[i];
     }
@@ -53,7 +53,7 @@ BaseGameObject* ScreenManager::vdtor_40E460(s32 flags)
     return this;
 }
 
-void ScreenManager::InvalidateRect_40EC90(int x, int y, s32 width, s32 height, int idx)
+void ScreenManager::InvalidateRect_40EC90(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
     x = std::max(x, 0);
     y = std::max(y, 0);
@@ -61,31 +61,31 @@ void ScreenManager::InvalidateRect_40EC90(int x, int y, s32 width, s32 height, i
     width = std::min(width, 639);
     height = std::min(height, 239);
 
-    for (int tileX = x / 32; tileX <= width / 32; tileX++)
+    for (s32 tileX = x / 32; tileX <= width / 32; tileX++)
     {
-        for (int tileY = y / 16; tileY <= height / 16; tileY++)
+        for (s32 tileY = y / 16; tileY <= height / 16; tileY++)
         {
             field_64_20x16_dirty_bits[idx].SetTile(tileX, tileY, true);
         }
     }
 }
 
-void ScreenManager::InvalidateRect_Layer3_40EDB0(int x, int y, s32 width, s32 height)
+void ScreenManager::InvalidateRect_Layer3_40EDB0(s32 x, s32 y, s32 width, s32 height)
 {
     InvalidateRect_40EC90(x, y, width, height, 3);
 }
 
-void ScreenManager::InvalidateRect_40EC50(int x, int y, s32 width, s32 height, int idx)
+void ScreenManager::InvalidateRect_40EC50(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
     InvalidateRect_40EC90(x, y, width, height, idx + 4);
 }
 
-s16 ScreenManager::IsDirty_40EBC0(int idx, int x, int y)
+s16 ScreenManager::IsDirty_40EBC0(s32 idx, s32 x, s32 y)
 {
     return field_64_20x16_dirty_bits[idx].GetTile(x / 32, y / 16);
 }
 
-void ScreenManager::UnsetDirtyBits_40EDE0(int idx)
+void ScreenManager::UnsetDirtyBits_40EDE0(s32 idx)
 {
     memset(&field_64_20x16_dirty_bits[idx], 0, sizeof(field_64_20x16_dirty_bits[idx]));
 }
@@ -98,7 +98,7 @@ void ScreenManager::UnsetDirtyBits_FG1_40ED70()
     UnsetDirtyBits_40EDE0(4);
 }
 
-void ScreenManager::InvalidateRect_40EC10(int x, int y, s32 width, s32 height)
+void ScreenManager::InvalidateRect_40EC10(s32 x, s32 y, s32 width, s32 height)
 {
     InvalidateRect_40EC90(x, y, width, height, field_3A_idx);
 }
@@ -160,7 +160,7 @@ namespace Oddlib
 
         }
 
-        BitsLogic(int& aPrev, ScreenManager* aStrat)
+        BitsLogic(s32& aPrev, ScreenManager* aStrat)
             : param1(0), param2(0), param3(0), param4(0)
         {
             // Grab 3x next bits
@@ -169,9 +169,9 @@ namespace Oddlib
             bits[2] = aStrat->next_bits();
 
             // Round 1
-            int calc1 = bits[2] - (bits[0] >> 1);
-            int calc2 = calc1 + bits[0];
-            int calc3 = aPrev - (bits[1] >> 1);
+            s32 calc1 = bits[2] - (bits[0] >> 1);
+            s32 calc2 = calc1 + bits[0];
+            s32 calc3 = aPrev - (bits[1] >> 1);
 
             // Round 2
             param1 = calc3 - (calc1 >> 1);
@@ -185,14 +185,14 @@ namespace Oddlib
         }
 
         // Read from the cam file data
-        int bits[3] = {}; // Used outside
+        s32 bits[3] = {}; // Used outside
 
-        int param1 = 0;
-        int param2 = 0;
-        int param3 = 0;
+        s32 param1 = 0;
+        s32 param2 = 0;
+        s32 param3 = 0;
 
         // Only used out of the loop
-        int param4 = 0;
+        s32 param4 = 0;
     };
 
     const auto red_mask = 0xF800;
@@ -201,9 +201,9 @@ namespace Oddlib
 
 }
 
-int ScreenManager::next_bits()
+s32 ScreenManager::next_bits()
 {
-    int ret = 0;
+    s32 ret = 0;
     if (g_left7_array <= 0)
     {
         ret = g_right25_array; // Always the previous g_right25_array! Or zero on first/ when its RLE data
@@ -265,7 +265,7 @@ void ScreenManager::vlc_decode(WORD* aCamSeg, WORD* aDst)
             dstVlcWord |= aCamSeg[camSrcPtrIndex++] << totalBitsToShiftBy;
         }
 
-        int counter = 4;
+        s32 counter = 4;
         while (--counter)
         {
             unsigned short vlcWord = Oddlib::g_VlcTab[++vlcTabIndex];
@@ -317,7 +317,7 @@ void ScreenManager::vlc_decode(WORD* aCamSeg, WORD* aDst)
 
 
 // This function takes a 16x240 strip of bits and processes as 16x16 sized macro blocks, thus there are 240/16=15 macro blocks
-void ScreenManager::process_segment(WORD* aVlcBufferPtr, int xPos)
+void ScreenManager::process_segment(WORD* aVlcBufferPtr, s32 xPos)
 {
     g_pointer_to_vlc_buffer = aVlcBufferPtr;       // This is decoding one 16x240 seg
 
@@ -325,17 +325,17 @@ void ScreenManager::process_segment(WORD* aVlcBufferPtr, int xPos)
     next_bits();
 
     // 240/16 = 15 macro blocks for this strip
-    for (int blockNo = 0; blockNo < 16; blockNo++)
+    for (s32 blockNo = 0; blockNo < 16; blockNo++)
     {
         // Each 16x16 block is decoded using a quad tree breaking it up in to 64 2x2 blocks
-        int notUsed = 0;
+        s32 notUsed = 0;
 
         Oddlib::BitsLogic logic(notUsed, this);
         vlc_decoder(logic.bits[0], logic.bits[1], logic.bits[2], 16, xPos, blockNo * 16); // 16 is the width/block size
     }
 }
 
-void ScreenManager::vlc_decoder(int aR, int aG, int aB, s32 aWidth, int aVramX, int aVramY)
+void ScreenManager::vlc_decoder(s32 aR, s32 aG, s32 aB, s32 aWidth, s32 aVramX, s32 aVramY)
 {
     while (aWidth != 2) // Quad tree through 16, 8, 4, 2 sizes
     {
@@ -362,19 +362,19 @@ void ScreenManager::vlc_decoder(int aR, int aG, int aB, s32 aWidth, int aVramX, 
 }
 
 #if RENDERER_OPENGL
-static void SetPixel16(WORD* /*pLocked*/, DWORD /*pitch*/, int x, int y, WORD colour)
+static void SetPixel16(WORD* /*pLocked*/, DWORD /*pitch*/, s32 x, s32 y, WORD colour)
 {
     reinterpret_cast<WORD*>(gCamBuffer)[x + (y * 640)] = colour;
 }
 #else
-static void SetPixel16(WORD* pLocked, DWORD pitch, int x, int y, WORD colour)
+static void SetPixel16(WORD* pLocked, DWORD pitch, s32 x, s32 y, WORD colour)
 {
     y += (512 / 2) + 16; // Write to lower half of vram
     pLocked[x + (y * pitch)] = colour;
 }
 #endif
 
-void ScreenManager::write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddlib::BitsLogic& aG, const Oddlib::BitsLogic& aB, int aVramX, int aVramY)
+void ScreenManager::write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddlib::BitsLogic& aG, const Oddlib::BitsLogic& aB, s32 aVramX, s32 aVramY)
 {
     using namespace Oddlib;
 
@@ -395,8 +395,8 @@ void ScreenManager::write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddli
     }
 }
 
-const int kStripSize = 16;
-const int kNumStrips = 640 / kStripSize;
+const s32 kStripSize = 16;
+const s32 kNumStrips = 640 / kStripSize;
 
 static bool IsHackedAOCamera(WORD** ppBits)
 {
@@ -406,8 +406,8 @@ static bool IsHackedAOCamera(WORD** ppBits)
 
     // Check if all the segments are the same specific size
     WORD* pIter = *ppBits;
-    int countOf7680SizedSegments = 0;
-    for (int i = 0; i < kNumStrips; i++)
+    s32 countOf7680SizedSegments = 0;
+    for (s32 i = 0; i < kNumStrips; i++)
     {
         const WORD stripSize = *pIter;
         pIter++;
@@ -428,7 +428,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
         LOG_INFO("Applying AO camera");
 
         WORD* pIter = *ppBits;
-        for (int i = 0; i < kNumStrips; i++)
+        for (s32 i = 0; i < kNumStrips; i++)
         {
             const WORD stripSize = *pIter;
             pIter++;
@@ -445,7 +445,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
         {
 #if RENDERER_OPENGL
             WORD* pIter = *ppBits;
-            for (int i = 0; i < kNumStrips; i++)
+            for (s32 i = 0; i < kNumStrips; i++)
             {
                 const WORD stripSize = *pIter;
                 pIter++;
@@ -465,7 +465,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
             if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
             {
                 WORD* pIter = *ppBits;
-                for (int i = 0; i < kNumStrips; i++)
+                for (s32 i = 0; i < kNumStrips; i++)
                 {
                     const WORD stripSize = *pIter;
                     pIter++;
@@ -524,7 +524,7 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
 
     short xpos = 0;
     short ypos = 0;
-    for (int i = 0; i < 300; i++)
+    for (s32 i = 0; i < 300; i++)
     {
         SprtTPage* pItem = &field_24_screen_sprites[i];
         Sprt_Init_4F8910(&pItem->mSprt);
@@ -534,9 +534,9 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
         pItem->mSprt.field_14_w = 32;
         pItem->mSprt.field_16_h = 16;
 
-        int u0 = field_2C_upos + 32 * (i % 20);
-        int v0 = field_2E_vpos + 16 * (i / 20);
-        int tpage = ScreenManager::GetTPage_40F040(TPageMode::e16Bit_2, TPageAbr::eBlend_0, &u0, &v0);
+        s32 u0 = field_2C_upos + 32 * (i % 20);
+        s32 v0 = field_2E_vpos + 16 * (i / 20);
+        s32 tpage = ScreenManager::GetTPage_40F040(TPageMode::e16Bit_2, TPageAbr::eBlend_0, &u0, &v0);
 
         tpage |= 0x8000;
 
@@ -552,7 +552,7 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
         }
     }
 
-    for (int i = 0; i < 8; i++)
+    for (s32 i = 0; i < 8; i++)
     {
         UnsetDirtyBits_40EDE0(i);
     }
@@ -562,7 +562,7 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
     field_3E_x_idx = 0;
 }
 
-int CC ScreenManager::GetTPage_40F040(TPageMode tp, TPageAbr abr, int* xpos, int* ypos)
+s32 CC ScreenManager::GetTPage_40F040(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
 {
     const short clampedYPos = *ypos & 0xFF00;
     const short clampedXPos = *xpos & 0xFFC0;
@@ -577,10 +577,10 @@ void ScreenManager::VRender(PrimHeader** ppOt)
 }
 
 ALIVE_VAR(1, 0x5BB5DC, SprtTPage*, pCurrent_SprtTPage_5BB5DC, nullptr);
-ALIVE_VAR(1, 0x5bb5f0, int, sCurrentYPos_5BB5F0, 0);
+ALIVE_VAR(1, 0x5bb5f0, s32, sCurrentYPos_5BB5F0, 0);
 ALIVE_VAR(1, 0x5bb5d8, Layer, sIdx_5BB5D8, Layer::eLayer_0);
 
-void ScreenManager::Render_Helper_40E9F0(int xpos, int ypos, Layer idx, int sprite_idx, PrimHeader** ppOt)
+void ScreenManager::Render_Helper_40E9F0(s32 xpos, s32 ypos, Layer idx, s32 sprite_idx, PrimHeader** ppOt)
 {
     if (IsDirty_40EBC0(field_3A_idx, xpos, ypos) || IsDirty_40EBC0(field_3C_y_idx, xpos, ypos) || IsDirty_40EBC0(3, xpos, ypos))
     {
@@ -642,11 +642,11 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
     pCurrent_SprtTPage_5BB5DC = nullptr;
     sCurrentYPos_5BB5F0 = -1;
 
-    for (int i = 0; i < 300; i++)
+    for (s32 i = 0; i < 300; i++)
     {
         SprtTPage* pSpriteTPage = &field_24_screen_sprites[i];
-        const int spriteX = pSpriteTPage->mSprt.mBase.vert.x;
-        const int spriteY = pSpriteTPage->mSprt.mBase.vert.y;
+        const s32 spriteX = pSpriteTPage->mSprt.mBase.vert.x;
+        const s32 spriteY = pSpriteTPage->mSprt.mBase.vert.y;
 
         if (IsDirty_40EBC0(7, spriteX, spriteY))
         {
@@ -694,7 +694,7 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
 
     sub_40EE50();
 
-    for (int i = 0; i < 20; i++)
+    for (s32 i = 0; i < 20; i++)
     {
         field_64_20x16_dirty_bits[field_3C_y_idx].mData[i] |= field_64_20x16_dirty_bits[3].mData[i];
     }

@@ -7,27 +7,27 @@ namespace AO {
 struct LvlFileRecord
 {
     char field_0_file_name[12];
-    int field_C_start_sector;
-    int field_10_num_sectors;
-    int field_14_file_size;
+    s32 field_C_start_sector;
+    s32 field_10_num_sectors;
+    s32 field_14_file_size;
 };
 ALIVE_ASSERT_SIZEOF(LvlFileRecord, 0x18);
 
 struct LvlHeader_Sub
 {
-    int field_0_num_files;
-    int field_4_unknown1;
-    int field_8_unknown2;
-    int field_C_unknown3;
+    s32 field_0_num_files;
+    s32 field_4_unknown1;
+    s32 field_8_unknown2;
+    s32 field_C_unknown3;
     LvlFileRecord field_10_file_recs[1]; // TODO: Strictly UB on >= 1 access
 };
 
 struct LvlHeader
 {
-    int field_0_first_file_offset;
-    int field_4_ref_count;
-    int field_8_magic;
-    int field_C_id;
+    s32 field_0_first_file_offset;
+    s32 field_4_ref_count;
+    s32 field_8_magic;
+    s32 field_C_id;
     LvlHeader_Sub field_10_sub;
 };
 
@@ -43,9 +43,9 @@ public:
 
     EXPORT static void CC dtor_static_443E80();
 
-    EXPORT void OpenArchive(const char* fileName, int pos);
+    EXPORT void OpenArchive(const char* fileName, s32 pos);
 
-    EXPORT void OpenArchive_41BC60(int pos);
+    EXPORT void OpenArchive_41BC60(s32 pos);
 
     EXPORT s16 Free_41BEB0();
 
@@ -56,7 +56,7 @@ public:
 private:
     BYTE** field_0_0x2800_res;
 public:
-    int field_4_cd_pos;
+    s32 field_4_cd_pos;
 };
 ALIVE_ASSERT_SIZEOF(LvlArchive, 0x8);
 

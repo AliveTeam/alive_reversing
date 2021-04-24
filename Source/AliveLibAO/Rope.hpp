@@ -24,7 +24,7 @@ public:
 
     EXPORT void VRender_458780(PrimHeader** ppOt);
 
-    int field_D4[4];
+    s32 field_D4[4];
     s16 field_E4_rope_segment_count;
     s16 field_E6_rope_length;
     AnimationUnknown* field_E8_pRopeRes;
@@ -35,7 +35,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Rope, 0xF4);
 
-EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, int minY, int maxY);
+EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY);
 
 }
 

@@ -12,7 +12,7 @@ struct Path_WellExpress;
 class Well : public BaseGameObject
 {
 public:
-    EXPORT Well* ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo);
+    EXPORT Well* ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -24,7 +24,7 @@ private:
     EXPORT void vScreenChanged_4E3070();
     EXPORT void vUpdate_4E2F60();
 private:
-    int field_20_tlvInfo;
+    s32 field_20_tlvInfo;
     s16 field_24_trigger_id;
     s16 field_26_padding;
     FP field_28_scale;

@@ -18,7 +18,7 @@
 #include "Function.hpp"
 #include "Bullet.hpp"
 
-EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
+EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x54566C);
@@ -133,12 +133,12 @@ s16 Greeter::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_447C20(pFrom);
 }
 
-int Greeter::VGetSaveState(BYTE* pSaveBuffer)
+s32 Greeter::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_446400(reinterpret_cast<Greeter_State*>(pSaveBuffer));
 }
 
-int CC Greeter::CreateFromSaveState_446040(const BYTE* pBuffer)
+s32 CC Greeter::CreateFromSaveState_446040(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const Greeter_State*>(pBuffer);
     auto pTlv = static_cast<Path_Greeter*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_28_tlvInfo));
@@ -224,7 +224,7 @@ int CC Greeter::CreateFromSaveState_446040(const BYTE* pBuffer)
     return sizeof(Greeter_State);
 }
 
-int Greeter::vGetSaveState_446400(Greeter_State* pState)
+s32 Greeter::vGetSaveState_446400(Greeter_State* pState)
 {
     if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
@@ -632,7 +632,7 @@ void Greeter::RandomishSpeak_447A70(GreeterSpeak effect)
 
     if (effect == GreeterSpeak::Randomized_1000)
     {
-        const int randomSpeak = static_cast<int>(sGnFrame_5C1B84 % 4);
+        const s32 randomSpeak = static_cast<s32>(sGnFrame_5C1B84 % 4);
         // Will be one of: Hi_0, HereBoy_1,  GetHim_2 or Laugh_3
         Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(randomSpeak), 100, 700, this);
     }
@@ -666,7 +666,7 @@ BOOL Greeter::ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObje
 
 BaseAliveGameObject* Greeter::GetMudToZap_447690()
 {
-    for (int idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(idx);
         if (!pObj)
@@ -746,7 +746,7 @@ void Greeter::vUpdate_4469B0()
             }
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_128_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_128_timer)
         {
             RandomishSpeak_447A70(GreeterSpeak::Randomized_1000);
         }

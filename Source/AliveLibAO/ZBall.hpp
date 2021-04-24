@@ -33,7 +33,7 @@ ALIVE_ASSERT_SIZEOF(Path_ZBall, 0x20);
 class ZBall : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ZBall* ctor_478590(Path_ZBall* pTlv, int tlvInfo);
+    EXPORT ZBall* ctor_478590(Path_ZBall* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
@@ -42,9 +42,9 @@ public:
     EXPORT BaseGameObject* dtor_478710();
     EXPORT void VUpdate_478720();
 
-    int field_D4[4];
+    s32 field_D4[4];
 
-    int field_E4_tlvInfo;
+    s32 field_E4_tlvInfo;
     s16 field_E8_bFrameAbove12;
     s16 field_EA_sound_pitch;
 };

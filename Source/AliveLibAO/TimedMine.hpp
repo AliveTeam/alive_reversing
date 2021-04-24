@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF(Path_TimedMine, 0x24);
 class TimedMine : public BaseAliveGameObject
 {
 public:
-    EXPORT TimedMine* ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo);
+    EXPORT TimedMine* ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo);
     EXPORT BaseGameObject* dtor_408690();
     EXPORT void StickToLiftPoint_408CA0();
 
@@ -44,11 +44,11 @@ private:
 public:
     s16 field_10C_armed;
     u16 field_10E_explode_timeout;
-    int field_110_tlvInfo;
-    int field_114_timer;
+    s32 field_110_tlvInfo;
+    s32 field_114_timer;
     Animation field_118_anim;
-    int field_1B0;
-    int field_1B4;
+    s32 field_1B0;
+    s32 field_1B4;
     s16 field_1B8;
     char field_1BA;
     char field_1BB;

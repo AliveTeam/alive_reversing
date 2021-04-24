@@ -2,7 +2,7 @@
 
 #include "FunctionFwd.hpp"
 
-typedef int(*t_InputCallback)();
+typedef s32(*t_InputCallback)();
 
 EXPORT u8 CC Input_GetInputEnabled_4EDDE0();
 EXPORT void CC Input_EnableInput_4EDDD0();
@@ -11,14 +11,14 @@ EXPORT void Input_SaveSettingsIni_Common(bool isAo);
 EXPORT void Input_SaveSettingsIni_492840();
 EXPORT void CC Input_DisableInputForPauseMenuAndDebug_4EDDC0();
 EXPORT void CC Input_Init_491BC0();
-EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown);
-EXPORT bool CC Input_IsVKPressed_4EDD40(int key);
+EXPORT void CC Input_SetKeyState_4EDD80(s32 key, char bIsDown);
+EXPORT bool CC Input_IsVKPressed_4EDD40(s32 key);
 EXPORT DWORD Input_GetLastPressedKey_492610();
 EXPORT void Input_Reset_492660();
 EXPORT u32 Input_IsChanting_45F260();
 EXPORT void CC Input_Pads_Reset_4FA960();
 EXPORT void CC Input_Init_Names_491870();
-EXPORT const char* CC Input_GetButtonString_492530(const char* idx, int controllerType);
+EXPORT const char* CC Input_GetButtonString_492530(const char* idx, s32 controllerType);
 
 EXPORT bool Input_JoyStickEnabled();
 EXPORT void Input_SetJoyStickEnabled(bool enabled);
@@ -115,9 +115,9 @@ extern const InputCommands::Enum sInputKey_Chant;
 #define kHoistZTurn "\x1b"
 #define kDPad "\x1a"
 
-EXPORT int CC Input_Remap_492680(InputCommands::Enum inputCmd);
-EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad);
-EXPORT int CC Input_Read_Pad_4FA9C0(int padNum);
+EXPORT s32 CC Input_Remap_492680(InputCommands::Enum inputCmd);
+EXPORT void CC Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad);
+EXPORT s32 CC Input_Read_Pad_4FA9C0(s32 padNum);
 
 struct InputPadObject
 {
@@ -155,7 +155,7 @@ enum PsxButtonBits : u32
 
 struct InputBinding
 {
-    int key;
+    s32 key;
     InputCommands::Enum command;
 };
 
@@ -168,12 +168,12 @@ enum GamepadOptionFlags
 class InputObject
 {
 public:
-    EXPORT int Is_Demo_Playing_45F220();
+    EXPORT s32 Is_Demo_Playing_45F220();
     EXPORT void UnsetDemoPlaying_45F240();
     EXPORT void SetDemoResource_45F1E0(DWORD** pDemoRes);
     EXPORT void Update_45F040();
     EXPORT static DWORD CC Command_To_Raw_45EE40(DWORD cmd);
-    EXPORT static char CC Raw_To_Command_45EF70(int a1);
+    EXPORT static char CC Raw_To_Command_45EF70(s32 a1);
     EXPORT void CC ShutDown_45F020();
 public:
     InputPadObject field_0_pads[2];
@@ -194,6 +194,6 @@ EXPORT InputObject& Input();
 ALIVE_VAR_EXTERN(InputObject, sInputObject_5BD4E0);
 ALIVE_VAR_EXTERN(u16, sCurrentControllerIndex_5C1BBE);
 ALIVE_VAR_EXTERN(DWORD, sLastPressedKey_BD30A0);
-ALIVE_VAR_EXTERN(int, sIsAKeyDown_BD309C);
+ALIVE_VAR_EXTERN(s32, sIsAKeyDown_BD309C);
 ALIVE_VAR_EXTERN(s16, bLongerTimeoutToNextDemo_5C1B9A);
-ALIVE_VAR_EXTERN(int, sJoystickEnabled_5C9F70);
+ALIVE_VAR_EXTERN(s32, sJoystickEnabled_5C9F70);

@@ -19,7 +19,7 @@ EXPORT void CC SwitchStates_Set_465FF0(u16 idx, char value)
     sSwitchStates_5C1A28.mData[idx] = value;
 }
 
-EXPORT int CC SwitchStates_Get_466020(u16 idx)
+EXPORT s32 CC SwitchStates_Get_466020(u16 idx)
 {
     if (idx == 0)
     {

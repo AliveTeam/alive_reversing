@@ -29,4 +29,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Rope, 0x108);
 
-EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, int minY, int maxY);
+EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY);

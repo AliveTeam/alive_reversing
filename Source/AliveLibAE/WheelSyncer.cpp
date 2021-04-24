@@ -41,14 +41,14 @@ WheelSyncer* WheelSyncer::ctor_466090(Path_WheelSyncer* pTlv, DWORD tlvInfo)
 
 void WheelSyncer::vUpdate_4661D0()
 {
-    const int state1 = SwitchStates_Get_466020(field_20_id1);
-    const int state2 = SwitchStates_Get_466020(field_22_id2);
-    const int state3 = SwitchStates_Get_466020(field_26_id3);
-    const int state4 = SwitchStates_Get_466020(field_28_id4);
-    const int state5 = SwitchStates_Get_466020(field_2A_id5);
-    const int state6 = SwitchStates_Get_466020(field_2C_id6);
+    const s32 state1 = SwitchStates_Get_466020(field_20_id1);
+    const s32 state2 = SwitchStates_Get_466020(field_22_id2);
+    const s32 state3 = SwitchStates_Get_466020(field_26_id3);
+    const s32 state4 = SwitchStates_Get_466020(field_28_id4);
+    const s32 state5 = SwitchStates_Get_466020(field_2A_id5);
+    const s32 state6 = SwitchStates_Get_466020(field_2C_id6);
 
-    int switchValue = 0;
+    s32 switchValue = 0;
 
     switch (field_2E_action)
     {

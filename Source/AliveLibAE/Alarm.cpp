@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 
 ALIVE_VAR(1, 0x5c1bb4, short, alarmInstanceCount_5C1BB4, 0);
-ALIVE_VAR(1, 0x550d70, int, sAlarmObjId_550D70, -1);
+ALIVE_VAR(1, 0x550d70, s32, sAlarmObjId_550D70, -1);
 
 BaseGameObject* Alarm::VDestructor(s32 flags)
 {
@@ -26,7 +26,7 @@ void Alarm::VRender(PrimHeader** ppOt)
     vRender_409710(ppOt);
 }
 
-Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, int tlvInfo)
+Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, s32 tlvInfo)
 {
     ctor_4AB7A0(Layer::eLayer_39, TPageAbr::eBlend_3);
     field_84_tlvOffsetLevelPathCamId = tlvInfo;
@@ -134,7 +134,7 @@ void Alarm::vUpdate_409460()
     if (field_90_state != States::eWaitForSwitchEnable_0)
     {
         Event_Broadcast_422BC0(kEventAlarm, this);
-        if (static_cast<int>(sGnFrame_5C1B84) > field_80_duration_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_80_duration_timer)
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
@@ -178,7 +178,7 @@ void Alarm::vUpdate_409460()
             }
             else
             {
-                if (static_cast<int>(sGnFrame_5C1B84) <= field_7C_15_timer)
+                if (static_cast<s32>(sGnFrame_5C1B84) <= field_7C_15_timer)
                 {
                     field_6E_r = field_78_r_value;
                     return;
@@ -215,7 +215,7 @@ void Alarm::vUpdate_409460()
             break;
 
         case States::eOnFlash_3:
-            if (static_cast<int>(sGnFrame_5C1B84) <= field_7C_15_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) <= field_7C_15_timer)
             {
                 field_6E_r = field_78_r_value;
                 return;
@@ -247,7 +247,7 @@ void Alarm::vUpdate_409460()
             }
             else
             {
-                if (static_cast<int>(sGnFrame_5C1B84) > field_7C_15_timer)
+                if (static_cast<s32>(sGnFrame_5C1B84) > field_7C_15_timer)
                 {
                     field_90_state = States::eEnabling_2;
                     SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);

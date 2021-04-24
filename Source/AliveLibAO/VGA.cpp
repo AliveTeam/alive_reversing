@@ -7,7 +7,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0xA8A4C0, Bitmap, sVGA_bmp_primary_A8A4C0, {});
 
-EXPORT int CC VGA_FullScreenSet_490160(bool bFullScreen)
+EXPORT s32 CC VGA_FullScreenSet_490160(bool bFullScreen)
 {
     return VGA_FullScreenSet_4F31F0(bFullScreen);
 }
@@ -17,7 +17,7 @@ EXPORT s32 CC VGA_DisplaySet_490230(u16 width, u16 height, char bpp, u8 backbuff
     return VGA_DisplaySet_4F32C0(width, height, bpp, backbufferCount, ppSurface);
 }
 
-EXPORT int CC VGA_GetPixelFormat_490E60()
+EXPORT s32 CC VGA_GetPixelFormat_490E60()
 {
     return VGA_GetPixelFormat_4F3EE0();
 }

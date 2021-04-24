@@ -9,7 +9,7 @@
 #include "ObjectIds.hpp"
 #include "Door.hpp"
 
-int CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const BYTE* pBuffer)
+s32 CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const BYTE* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const SlapLockWhirlWind_State*>(pBuffer);
     SwitchStates_Do_Operation_465F00(pSaveState->field_2_switch_id, SwitchOp::eSetTrue_0);
@@ -91,7 +91,7 @@ void SlapLockWhirlWind::VUpdate()
     vUpdate_43DA90();
 }
 
-int SlapLockWhirlWind::VGetSaveState(BYTE* pSaveBuffer)
+s32 SlapLockWhirlWind::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_43DC50(reinterpret_cast<SlapLockWhirlWind_State*>(pSaveBuffer));
 }
@@ -130,11 +130,11 @@ void SlapLockWhirlWind::vUpdate_43DA90()
         OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_38_orb_whirlwind_id));
         if (field_3C_state == 1)
         {
-            if (!(static_cast<int>(sGnFrame_5C1B84) % 10))
+            if (!(static_cast<s32>(sGnFrame_5C1B84) % 10))
             {
                 SFX_Play_46FBA0(
                     SoundEffect::FlyingSpirit2_108,
-                    static_cast<short>(127 - (static_cast<int>(sGnFrame_5C1B84) - field_40_timer) / 2),
+                    static_cast<short>(127 - (static_cast<s32>(sGnFrame_5C1B84) - field_40_timer) / 2),
                     4 * (sGnFrame_5C1B84 - field_40_timer));
             }
 
@@ -146,9 +146,9 @@ void SlapLockWhirlWind::vUpdate_43DA90()
         }
         else if (field_3C_state == 0)
         {
-            if (!(static_cast<int>(sGnFrame_5C1B84) % 10))
+            if (!(static_cast<s32>(sGnFrame_5C1B84) % 10))
             {
-                if (static_cast<int>(sGnFrame_5C1B84) % 20)
+                if (static_cast<s32>(sGnFrame_5C1B84) % 20)
                 {
                     SFX_Play_46FA90(SoundEffect::FlyingSpirit1_107, 0);
                 }
@@ -158,7 +158,7 @@ void SlapLockWhirlWind::vUpdate_43DA90()
                 }
             }
 
-            if (static_cast<int>(sGnFrame_5C1B84) > field_40_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_40_timer)
             {
                 if (pWhirlWind)
                 {

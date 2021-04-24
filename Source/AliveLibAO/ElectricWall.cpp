@@ -14,7 +14,7 @@
 
 namespace AO {
 
-ElectricWall* ElectricWall::ctor_40FCF0(Path_ElectricWall* pTlv, int tlvInfo)
+ElectricWall* ElectricWall::ctor_40FCF0(Path_ElectricWall* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA8C0);
@@ -130,7 +130,7 @@ void ElectricWall::VUpdate_40FEF0()
         }
 
          // Play sound every so often
-        if (static_cast<int>(gnFrameCount_507670) >= field_EC_sound_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_EC_sound_timer)
         {
             // set a random starting frame
             SFX_Play_43AED0(SoundEffect::BirdPortalSpark_48, 45, soundDirection);
@@ -147,7 +147,7 @@ void ElectricWall::VUpdate_40FEF0()
         bRectBigger.w = FP_GetExponent(field_A8_xpos + FP_FromInteger(4));
         bRectBigger.h = static_cast<short>(bRect.h + 5);
 
-        for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
         {
             BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
             if (!pObjIter)

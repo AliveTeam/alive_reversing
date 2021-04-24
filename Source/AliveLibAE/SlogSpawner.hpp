@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogSpawner, 0x20);
 class SlogSpawner : public BaseGameObject
 {
 public:
-    EXPORT SlogSpawner* ctor_4C7FF0(Path_SlogSpawner* pTlv, int tlvInfo);
+    EXPORT SlogSpawner* ctor_4C7FF0(Path_SlogSpawner* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
@@ -31,12 +31,12 @@ private:
     EXPORT void vUpdate_4C80D0();
 
 private:
-    int field_20_tlvInfo;
+    s32 field_20_tlvInfo;
     s16 field_24_tlv_saved_slog_count;
     s16 field_26_padding;
     FP field_28_xpos;
     FP field_2C_ypos;
-    int field_30_spawn_timer;
+    s32 field_30_spawn_timer;
     Scale_short field_34_scale;
     s16 field_36_max_slogs;
     s16 field_38_max_slogs_at_a_time;

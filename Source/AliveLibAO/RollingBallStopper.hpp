@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF(Path_RollingBallStopper, 0x20);
 class RollingBallStopper : public BaseAliveGameObject
 {
 public:
-    EXPORT RollingBallStopper* ctor_43BCE0(Path_RollingBallStopper* pTlv, int tlvInfo);
+    EXPORT RollingBallStopper* ctor_43BCE0(Path_RollingBallStopper* pTlv, s32 tlvInfo);
     EXPORT BaseGameObject* Vdtor_43C160(s32 flags);
     EXPORT BaseGameObject* dtor_43C0A0();
     EXPORT void VScreenChanged_43C130();
@@ -31,7 +31,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    int field_10C_tlvInfo;
+    s32 field_10C_tlvInfo;
     s16 field_110_unused;
     enum class States : s16
     {

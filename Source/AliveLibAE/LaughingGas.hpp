@@ -32,7 +32,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas, 0x1C);
 class LaughingGas : public BaseGameObject
 {
 public:
-    EXPORT LaughingGas* ctor_432400(Layer layer, int notUsed, Path_LaughingGas* pTlv, int tlvInfo);
+    EXPORT LaughingGas* ctor_432400(Layer layer, s32 notUsed, Path_LaughingGas* pTlv, s32 tlvInfo);
 
     EXPORT void dtor_432B80();
 
@@ -59,24 +59,24 @@ private:
 
     EXPORT void vUpdate_432C40();
 
-    EXPORT float Calc_X_4326A0(float* a2, int xIndex);
-    EXPORT float Calc_Y_4326F0(float* a2, int yIndex);
+    EXPORT float Calc_X_4326A0(float* a2, s32 xIndex);
+    EXPORT float Calc_Y_4326F0(float* a2, s32 yIndex);
 
     EXPORT void sub_4328A0();
 private:
-    int field_20_padding;
-    int field_24_tlvInfo;
+    s32 field_20_padding;
+    s32 field_24_tlvInfo;
     s16 field_28_y;
     s16 field_2A_x;
     s16 field_2C_h;
     s16 field_2E_w;
-    int field_30_padding;
+    s32 field_30_padding;
     s16 field_34_bEnabled;
     Choice_short field_36_bLaughing_gas;
-    int field_38_padding;
-    int field_3C_padding;
-    int field_40_padding;
-    int field_44_padding;
+    s32 field_38_padding;
+    s32 field_3C_padding;
+    s32 field_40_padding;
+    s32 field_44_padding;
     Path_LaughingGas_Data field_48_tlv_data;
     FP field_54_amount_on;
     Layer field_58_layer;
@@ -97,10 +97,10 @@ private:
     Data field_1A0_x_data[321]; // (640+2)/2
     Data field_24D0_y_data[121]; // (480+4)/4
 
-    int field_31F8_w_count;
-    int field_31FC_h_count;
+    s32 field_31F8_w_count;
+    s32 field_31FC_h_count;
 };
 ALIVE_ASSERT_SIZEOF(LaughingGas, 0x3200);
 
-ALIVE_VAR_EXTERN(int, gGasInstanceCount_5BC214);
+ALIVE_VAR_EXTERN(s32, gGasInstanceCount_5BC214);
 ALIVE_VAR_EXTERN(short, gLaughingGasOn_5C1BA4);

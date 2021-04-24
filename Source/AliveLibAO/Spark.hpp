@@ -58,7 +58,7 @@ public:
     SparkRes* field_48_pRes;
     s16 field_4C_count;
     s16 field_4E;
-    int field_50_timer;
+    s32 field_50_timer;
 };
 ALIVE_ASSERT_SIZEOF(Spark, 0x54);
 

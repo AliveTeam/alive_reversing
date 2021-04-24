@@ -106,13 +106,13 @@ const InputCommands sInputKey_Chant = static_cast<InputCommands>(eRightGameSpeak
 
 EXPORT BOOL CC Input_IsChanting_4334C0();
 EXPORT void Input_InitKeyStateArray_48E5F0();
-EXPORT void CC Input_SetKeyState_48E610(int key, char bIsDown);
+EXPORT void CC Input_SetKeyState_48E610(s32 key, char bIsDown);
 
 
 
 EXPORT void Input_GetCurrentKeyStates_48E630();
 
-EXPORT char CC Input_IsVKPressed_48E5D0(int key);
+EXPORT char CC Input_IsVKPressed_48E5D0(s32 key);
 
 EXPORT void CC Input_Init_44EB60();
 
@@ -120,9 +120,9 @@ EXPORT void Input_DisableInput_48E690();
 
 EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails = true);
 
-EXPORT int CC Input_Remap_44F300(InputCommands inputCmd);
+EXPORT s32 CC Input_Remap_44F300(InputCommands inputCmd);
 
-EXPORT int CC Input_SaveSettingsIni_44F460();
+EXPORT s32 CC Input_SaveSettingsIni_44F460();
 
 EXPORT char Input_GetLastPressedKey_44F2C0();
 
@@ -143,16 +143,16 @@ public:
 
     EXPORT void SetDemoRes_433470(DWORD** ppDemoRes);
 
-    EXPORT int IsDemoPlaying_4334A0();
+    EXPORT s32 IsDemoPlaying_4334A0();
 
     PSX_Pad field_0_pads[2];
     DWORD** field_18_demo_res;
-    int field_1C_demo_command_index;
+    s32 field_1C_demo_command_index;
     s16 field_20_demo_playing;
     s16 field_22;
-    int field_24_command;
-    int field_28_command_duration;
-    int field_2C;
+    s32 field_24_command;
+    s32 field_28_command_duration;
+    s32 field_2C;
 
     // These use the active pad
     bool IsAnyPressed(DWORD command) const;

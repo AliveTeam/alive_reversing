@@ -52,7 +52,7 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    int field_D4_padding[4];
+    s32 field_D4_padding[4];
 };
 ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xE4);
 
@@ -64,7 +64,7 @@ class Dove;
 class BirdPortal : public BaseGameObject
 {
 public:
-    EXPORT BirdPortal* ctor_4520A0(Path_BirdPortal* pTlv, int tlvInfo);
+    EXPORT BirdPortal* ctor_4520A0(Path_BirdPortal* pTlv, s32 tlvInfo);
     EXPORT BaseGameObject* dtor_452230();
     EXPORT s16 IsScaredAway_4532E0();
 
@@ -136,8 +136,8 @@ public:
     FP field_20_exit_x;
     FP field_24_exit_y;
     FP field_28_ypos;
-    int field_2C_tlvInfo;
-    int field_30_timer;
+    s32 field_2C_tlvInfo;
+    s32 field_30_timer;
     FP field_34_scale;
     s16 field_38_movie_id;
     s16 field_3A;
@@ -156,7 +156,7 @@ public:
     OrbWhirlWind* field_60_pOrbWhirlWind;
     LevelIds field_64_level;
     s16 field_66_path;
-    int field_68_sfx_ret;
+    s32 field_68_sfx_ret;
 };
 ALIVE_ASSERT_SIZEOF(BirdPortal, 0x6C);
 

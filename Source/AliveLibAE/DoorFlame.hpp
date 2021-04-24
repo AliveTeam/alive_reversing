@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x18);
 class DoorFlame : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT DoorFlame* ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo);
+    EXPORT DoorFlame* ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override
     {
@@ -50,7 +50,7 @@ private:
     EXPORT void vUpdate_45E830();
 
 private:
-    int field_F4_tlvInfo;
+    s32 field_F4_tlvInfo;
     s16 field_F8_switch_id;
     s16 field_FA_frame_count;
     enum class States : s16
@@ -60,10 +60,10 @@ private:
     };
     States field_FC_state;
     s16 field_FE_2_random;
-    int field_100_sounds_mask;
+    s32 field_100_sounds_mask;
     s16 field_104_padding;
     s16 field_106_padding;
-    int field_108_fire_background_glow_id;
-    int field_10C_flame_sparks_id;
+    s32 field_108_fire_background_glow_id;
+    s32 field_10C_flame_sparks_id;
 };
 ALIVE_ASSERT_SIZEOF(DoorFlame, 0x110);

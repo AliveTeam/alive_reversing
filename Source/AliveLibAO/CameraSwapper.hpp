@@ -12,11 +12,11 @@ class ScreenClipper;
 class CameraSwapper : public BaseGameObject
 {
 public:
-    EXPORT CameraSwapper* ctor_48C540(BYTE** ppBits, int movieId, int movieFlag, char movieFlags, s16 flags, s16 volume);
+    EXPORT CameraSwapper* ctor_48C540(BYTE** ppBits, s32 movieId, s32 movieFlag, char movieFlags, s16 flags, s16 volume);
 
-    EXPORT CameraSwapper* ctor_48C5E0(BYTE** ppBits, int moviePos1, int movieId1, int moviePos2, int movieFlag1, char movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2);
+    EXPORT CameraSwapper* ctor_48C5E0(BYTE** ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, char movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2);
 
-    EXPORT CameraSwapper* ctor_48C6B0(BYTE** ppBits, int moviePos1, int movieIds1, int moviePos2, int movieId2, int moviePos3, int movieId3, char movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3);
+    EXPORT CameraSwapper* ctor_48C6B0(BYTE** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, char movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -34,10 +34,10 @@ public:
 
     EXPORT void VUpdate_48CEA0();
 
-    int field_10_movie_pos_3;
-    int field_14_movie_id_3;
-    int field_18_movie_pos_2;
-    int field_1C_movie_id_2;
+    s32 field_10_movie_pos_3;
+    s32 field_14_movie_id_3;
+    s32 field_18_movie_pos_2;
+    s32 field_1C_movie_id_2;
     BYTE** field_20_ppCamRes;
     ScreenClipper* field_24_pSubObject;
     CameraSwapEffects field_28_changeEffect;

@@ -36,7 +36,7 @@ private:
     ParticleBurst_Item* field_F8_pRes;
     s16 field_FC_number_of_particles;
     s16 field_FE_padding;
-    int field_100_timer;
+    s32 field_100_timer;
     BurstType field_104_type;
     s16 field_106_count;
 };

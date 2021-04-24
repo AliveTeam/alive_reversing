@@ -69,7 +69,7 @@ void Bells::VUpdate()
 
 void Bells::VUpdate_40A770()
 {
-    if (field_F0_timer > 0 && static_cast<int>(gnFrameCount_507670) >= field_F4_timer)
+    if (field_F0_timer > 0 && static_cast<s32>(gnFrameCount_507670) >= field_F4_timer)
     {
         field_F4_timer = gnFrameCount_507670 + 4;
         field_F0_timer--;
@@ -134,7 +134,7 @@ void Bells::VUpdate_40A770()
                 }
             }
 
-            for (int i = 0; i < 4; i++)
+            for (s32 i = 0; i < 4; i++)
             {
                 const FP sparkx = field_A8_xpos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + xOff;
                 const FP sparky = field_AC_ypos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + yOff;

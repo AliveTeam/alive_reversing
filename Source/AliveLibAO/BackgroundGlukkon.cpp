@@ -48,7 +48,7 @@ BaseGameObject* BackgroundGlukkon::dtor_41DCE0()
     return dtor_401000();
 }
 
-BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_Glukkon* pTlv, int tlvInfo)
+BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_Glukkon* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BAF70);
@@ -157,7 +157,7 @@ void BackgroundGlukkon::VUpdate_41DD60()
         break;
 
     case 2:
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer2)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer2)
         {
             const auto rndVol = Math_RandomRange_450F20(110, 127);
             const auto rndPitch =  ((Math_NextRandom() % 4) * 128) + 200;

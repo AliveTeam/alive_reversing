@@ -26,7 +26,7 @@ namespace AliveAPI
     {
         std::string mPathBndName;
         Error mResult = Error::None;
-        std::vector<int> mPaths;
+        std::vector<s32> mPaths;
         std::vector<BYTE> mFileData;
         PathInfo mPathInfo;
     };
@@ -116,12 +116,12 @@ namespace AliveAPI
             return mRootAO ? mRootAO->field_38_bnd_name : mRootAE->field_38_bnd_name;
         }
 
-        int PathCount() const
+        s32 PathCount() const
         {
             return mRootAO ? mRootAO->field_18_num_paths : mRootAE->field_18_num_paths;
         }
 
-        PathBlyRecAdapter PathAt(int idx) const
+        PathBlyRecAdapter PathAt(s32 idx) const
         {
             return mRootAO ?
                 PathBlyRecAdapter(&mRootAO->field_0_pBlyArrayPtr[idx]) :
@@ -142,12 +142,12 @@ namespace AliveAPI
 
         }
 
-        int PathRootCount() const
+        s32 PathRootCount() const
         {
             return mGameType == Game::AO ? ALIVE_COUNTOF(AO::gMapData_4CAB58.paths) : ALIVE_COUNTOF(sPathData_559660.paths);
         }
 
-        PathRootAdapter PathAt(int idx) const
+        PathRootAdapter PathAt(s32 idx) const
         {
             return mGameType == Game::AO ?
                 PathRootAdapter(&AO::gMapData_4CAB58.paths[idx]) :
@@ -158,10 +158,10 @@ namespace AliveAPI
         Game mGameType = {};
     };
 
-    [[nodiscard]] static bool OpenPathBndGeneric(PathBND& ret, LvlReader& lvl, Game game, int* pathId)
+    [[nodiscard]] static bool OpenPathBndGeneric(PathBND& ret, LvlReader& lvl, Game game, s32* pathId)
     {
         const PathRootContainerAdapter adapter(game);
-        for (int i = 0; i < adapter.PathRootCount(); i++)
+        for (s32 i = 0; i < adapter.PathRootCount(); i++)
         {
             const auto pathRoot = adapter.PathAt(i);
             if (pathRoot.BndName())
@@ -205,7 +205,7 @@ namespace AliveAPI
                     }
 
                     // Add all path ids
-                    for (int j = 1; j < pathRoot.PathCount(); j++)
+                    for (s32 j = 1; j < pathRoot.PathCount(); j++)
                     {
                         // Only add paths that are not blank entries
                         const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(j);
@@ -221,7 +221,7 @@ namespace AliveAPI
         return false;
     }
 
-    [[nodiscard]] static PathBND OpenPathBnd(const std::string& inputLvlFile, Game& game, int* pathId)
+    [[nodiscard]] static PathBND OpenPathBnd(const std::string& inputLvlFile, Game& game, s32* pathId)
     {
         PathBND ret = {};
 
@@ -249,7 +249,7 @@ namespace AliveAPI
         return ret;
     }
 
-    void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, int pathId)
+    void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, s32 pathId)
     {
         AliveAPI::Result ret = {};
         Game game = {};
@@ -270,14 +270,14 @@ namespace AliveAPI
 
     // Increment when a breaking change to the JSON is made and implement an
     // upgrade step that converts from the last version to the current.
-    constexpr int kApiVersion = 1;
+    constexpr s32 kApiVersion = 1;
 
-    [[nodiscard]] int GetApiVersion()
+    [[nodiscard]] s32 GetApiVersion()
     {
         return kApiVersion;
     }
 
-    [[nodiscard]] Result ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, int pathResourceId)
+    [[nodiscard]] Result ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId)
     {
         AliveAPI::Result ret = {};
         Game game = {};
@@ -321,7 +321,7 @@ namespace AliveAPI
     }
 
     template<typename ReturnType, typename ContainerType>
-    static ReturnType* ItemAtXY(ContainerType& container, int x, int y)
+    static ReturnType* ItemAtXY(ContainerType& container, s32 x, s32 y)
     {
         for (auto& iteratedItem : container)
         {
@@ -336,9 +336,9 @@ namespace AliveAPI
     template<typename ItemType, typename ContainerType, typename FnOnItem>
     static void ForEachItemAtXY(const PathInfo& pathInfo, ContainerType& container, FnOnItem onItem)
     {
-        for (int y = 0; y < pathInfo.mHeight; y++)
+        for (s32 y = 0; y < pathInfo.mHeight; y++)
         {
-            for (int x = 0; x < pathInfo.mWidth; x++)
+            for (s32 x = 0; x < pathInfo.mWidth; x++)
             {
                 auto item = ItemAtXY<ItemType>(container, x, y);
                 if (item)
@@ -412,7 +412,7 @@ namespace AliveAPI
 
         PathRootContainerAdapter pathRootContainer(gameType);
         std::optional<PathBlyRecAdapter> pathBlyRecAdapter;
-        for (int i = 0; i < pathRootContainer.PathRootCount(); i++)
+        for (s32 i = 0; i < pathRootContainer.PathRootCount(); i++)
         {
             PathRootAdapter pathRoot = pathRootContainer.PathAt(i);
             if (pathRoot.BndName())
@@ -439,9 +439,9 @@ namespace AliveAPI
         s.ReserveSize(1024 * 20); // 20 kb estimate
 
         // Write camera array
-        for (int y = 0; y < pathInfo.mHeight; y++)
+        for (s32 y = 0; y < pathInfo.mHeight; y++)
         {
-            for (int x = 0; x < pathInfo.mWidth; x++)
+            for (s32 x = 0; x < pathInfo.mWidth; x++)
             {
                 CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
                 if (pItem)
@@ -468,7 +468,7 @@ namespace AliveAPI
             }
         }
 
-        if (static_cast<int>(collisionLines.size()) > pathInfo.mNumCollisionItems)
+        if (static_cast<s32>(collisionLines.size()) > pathInfo.mNumCollisionItems)
         {
             abort();
         }
@@ -481,9 +481,9 @@ namespace AliveAPI
 
         struct IndexTableEntry
         {
-            int x = 0;
-            int y = 0;
-            int objectsOffset = 0;
+            s32 x = 0;
+            s32 y = 0;
+            s32 objectsOffset = 0;
         };
 
         // Write object lists for each camera, either put everything before the index table if it fits, or put
@@ -499,13 +499,13 @@ namespace AliveAPI
         // Data would overwrite the index table, put everything after it
         if (allTlvsLen + pathInfo.mObjectOffset > pathInfo.mIndexTableOffset)
         {
-            s.SeekWrite(pathInfo.mObjectOffset + (sizeof(int) * pathInfo.mWidth * pathInfo.mHeight));
+            s.SeekWrite(pathInfo.mObjectOffset + (sizeof(s32) * pathInfo.mWidth * pathInfo.mHeight));
         }
 
         std::vector<IndexTableEntry> indexTable;
-        for (int y = 0; y < pathInfo.mHeight; y++)
+        for (s32 y = 0; y < pathInfo.mHeight; y++)
         {
-            for (int x = 0; x < pathInfo.mWidth; x++)
+            for (s32 x = 0; x < pathInfo.mWidth; x++)
             {
                 CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
                 if (pItem)
@@ -517,7 +517,7 @@ namespace AliveAPI
                     }
                     else
                     {
-                        const int objDataOff = static_cast<int>(s.WritePos()) - static_cast<int>(pathInfo.mObjectOffset);
+                        const s32 objDataOff = static_cast<s32>(s.WritePos()) - static_cast<s32>(pathInfo.mObjectOffset);
                         indexTable.push_back({ x, y, objDataOff });
                         for (const auto& tlv : pItem->mTlvBlobs)
                         {

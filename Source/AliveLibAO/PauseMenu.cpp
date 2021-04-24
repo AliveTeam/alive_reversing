@@ -202,7 +202,7 @@ void PauseMenu::VUpdate_44DFB0()
             sDisableFontFlicker_5080E4 = 1;
             SYS_EventsPump_44FF90();
 
-            for(int idx = 0; idx < gObjList_drawables_504618->Size(); idx++)
+            for(s32 idx = 0; idx < gObjList_drawables_504618->Size(); idx++)
             {
                 auto pObjIter = gObjList_drawables_504618->ItemAt(idx);
                 if (!pObjIter)
@@ -304,7 +304,7 @@ void PauseMenu::VUpdate_44DFB0()
                                 field_12E = 0;
                                 field_134 = 1;
                                 SFX_Play_43AD70(SoundEffect::IngameTransition_107, 90, 0);
-                                int tmp = static_cast<int>(gMap_507BA8.field_0_current_level);
+                                s32 tmp = static_cast<s32>(gMap_507BA8.field_0_current_level);
                                 if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
                                 {
                                     short row = 0;
@@ -670,7 +670,7 @@ PauseMenu::PauseEntry keyboardGameSpeak_4CE0D0[21] =
     { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
 };
 
-void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, short selectedEntryId, int polyOffset = 0)
+void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, short selectedEntryId, s32 polyOffset = 0)
 {
     for (short entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
     {

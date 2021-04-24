@@ -6,7 +6,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 // TODO: Move to own file
-EXPORT int CC SnapToXGrid_449930(FP scale, int x);
+EXPORT s32 CC SnapToXGrid_449930(FP scale, s32 x);
 
 struct Path_TLV;
 class PathLine;
@@ -64,11 +64,11 @@ private:
     EXPORT BirdPortal* vIntoBirdPortal_408FD0(s16 gridBlocks);
     EXPORT void vOnTrapDoorOpen_4081F0();
 protected:
-    EXPORT s16 SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, int resourceID);
+    EXPORT s16 SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, s32 resourceID);
 
     EXPORT BOOL Check_IsOnEndOfLine_408E90(s16 direction, s16 distance);
 
-    EXPORT BaseAliveGameObject* GetStackedSlapTarget_425290(int idToFind, AETypes typeToFind, FP xpos, FP ypos);
+    EXPORT BaseAliveGameObject* GetStackedSlapTarget_425290(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos);
 
 
 public:
@@ -92,7 +92,7 @@ public:
     s16 field_108_next_motion;
     s16 field_10A_unused;
     FP field_10C_health;
-    int field_110_id;
+    s32 field_110_id;
     BitField16<Flags_114> field_114_flags;
     s16 field_116_padding;
 };

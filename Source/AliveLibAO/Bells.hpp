@@ -34,11 +34,11 @@ public:
 
     EXPORT void Ring_40AA80();
 
-    int field_D4_padding;
-    int field_D8_padding;
-    int field_DC_padding;
-    int field_E0_padding;
-    int field_E4_padding;
+    s32 field_D4_padding;
+    s32 field_D8_padding;
+    s32 field_DC_padding;
+    s32 field_E0_padding;
+    s32 field_E4_padding;
 
     u16 field_E8_bSmashing;
     enum class Sounds : u16
@@ -48,12 +48,12 @@ public:
         eHighPitch_2 = 2
     };
     Sounds field_EA_sound;
-    int field_EC_timer;
+    s32 field_EC_timer;
     char field_F0_timer;
     char field_F1_padding;
     char field_F2_padding;
     char field_F3_padding;
-    int field_F4_timer;
+    s32 field_F4_timer;
 };
 ALIVE_ASSERT_SIZEOF(Bells, 0xF8);
 

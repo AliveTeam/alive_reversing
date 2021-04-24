@@ -30,7 +30,7 @@ public:
 
     EXPORT void VRender_48AB10(PrimHeader** ppOt);
 
-    int field_D4[4];
+    s32 field_D4[4];
     s16 field_E4_number_of_segments;
     s16 field_E6_segment_length;
     s16 field_E8_ttl;

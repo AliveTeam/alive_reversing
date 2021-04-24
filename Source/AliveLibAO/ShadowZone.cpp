@@ -9,7 +9,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B08, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_507B08, nullptr);
 
-ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, int tlvInfo)
+ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BB728);
@@ -49,9 +49,9 @@ ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, int tl
     return this;
 }
 
-void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(int xpos, int ypos, s16 scale, short* r, short* g, short* b)
+void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, short* r, short* g, short* b)
 {
-    for (int idx = 0; idx < sShadowZone_dArray_507B08->Size(); idx++)
+    for (s32 idx = 0; idx < sShadowZone_dArray_507B08->Size(); idx++)
     {
         ShadowZone* pShadow = sShadowZone_dArray_507B08->ItemAt(idx);
         if (!pShadow)
@@ -175,8 +175,8 @@ void ShadowZone::VScreenChanged_435FE0()
 
 void ShadowZone::GetColourAmount_435E40(FP* pOut, s16 xpos, s16 ypos)
 {
-    const int deltaX = abs(xpos - field_18_centre_x);
-    const int deltaY = abs(ypos - field_1A_centre_y);
+    const s32 deltaX = abs(xpos - field_18_centre_x);
+    const s32 deltaY = abs(ypos - field_1A_centre_y);
 
     if (deltaX > field_20_mid_x || deltaY > field_22_mid_y)
     {

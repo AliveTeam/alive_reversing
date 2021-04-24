@@ -32,29 +32,29 @@ struct SlapLock_State
 {
     AETypes field_0_type;
     s16 field_2_render;
-    int field_4_tlvInfo;
+    s32 field_4_tlvInfo;
     char field_8_tlv_state;
     char field_9_padding;
     SlapLockStates field_A_state;
-    int field_C_timer1;
-    int field_10_obj_id;
-    int field_14_timer2;
+    s32 field_C_timer1;
+    s32 field_10_obj_id;
+    s32 field_14_timer2;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);
 
 class SlapLock : public BaseAliveGameObject
 {
 public:
-    EXPORT SlapLock* ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo);
+    EXPORT SlapLock* ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo);
 
     EXPORT void dtor_43DF00();
     virtual void VUpdate() override;
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    EXPORT static int CC CreateFromSaveState_43EA00(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_43EA00(const BYTE* pBuffer);
 
 private:
     EXPORT SlapLock* vdtor_43DED0(s32 flags);
@@ -67,16 +67,16 @@ private:
 
 private:
     Path_SlapLock* field_118_pTlv;
-    int field_11C_tlvInfo;
+    s32 field_11C_tlvInfo;
     SlapLockStates field_120_state;
     s16 field_122_padding;
-    int field_124_timer1;
+    s32 field_124_timer1;
     FP field_128_midX;
     FP field_12C_midY;
     Choice_short field_130_has_ghost;
     s16 field_132_padding;
-    int field_134_id;
-    int field_138_possesion_flicker_id;
-    int field_13C_timer2;
+    s32 field_134_id;
+    s32 field_138_possesion_flicker_id;
+    s32 field_13C_timer2;
 };
 ALIVE_ASSERT_SIZEOF(SlapLock, 0x140);

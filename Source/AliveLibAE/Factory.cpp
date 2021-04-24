@@ -87,7 +87,7 @@
 template<size_t arraySize>
 struct CompileTimeResourceList
 {
-    int field_0_count = arraySize;
+    s32 field_0_count = arraySize;
     ResourceManager::ResourcesToLoadList_Entry field_4_items[arraySize];
 
     CompileTimeResourceList(std::initializer_list<ResourceManager::ResourcesToLoadList_Entry> elements)
@@ -300,7 +300,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     else
     {
         Path_LiftPoint* pLiftTlv = static_cast<Path_LiftPoint*>(pTlv);
-        for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
             if (!pObj)
@@ -353,8 +353,8 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                     {
                         auto pLiftPointIter = static_cast<Path_LiftPoint*>(pTlvIter);
 
-                        const int tlvX = pTlv->field_8_top_left.field_0_x;
-                        const int absX = pTlvIter->field_8_top_left.field_0_x - tlvX >= 0 ?
+                        const s32 tlvX = pTlv->field_8_top_left.field_0_x;
+                        const s32 absX = pTlvIter->field_8_top_left.field_0_x - tlvX >= 0 ?
                             pTlvIter->field_8_top_left.field_0_x - tlvX :
                             tlvX - pTlvIter->field_8_top_left.field_0_x;
 
@@ -417,7 +417,7 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
         const short width = pDoveTlv->field_C_bottom_right.field_0_x - pDoveTlv->field_8_top_left.field_0_x;
         const short height = pDoveTlv->field_C_bottom_right.field_2_y - pDoveTlv->field_8_top_left.field_2_y;
 
-        for (int i = 0; i < pDoveTlv->field_10_dove_count; i++)
+        for (s32 i = 0; i < pDoveTlv->field_10_dove_count; i++)
         {
             auto pDove = ae_new<Dove>();
             if (pDove)
@@ -1524,7 +1524,7 @@ EXPORT void CC Factory_WorkWheel_4D6B20(Path_TLV* pTlv , Path*, TlvItemInfoUnion
 
 EXPORT void CC Factory_Null_4DA850(Path_TLV* , Path*, TlvItemInfoUnion, LoadMode) { NOT_IMPLEMENTED(); }
 
-EXPORT void CC Create_Gas_4DA8B0(Layer layer, int neverUsed, Path_TLV* pTlv, int tlvInfo)
+EXPORT void CC Create_Gas_4DA8B0(Layer layer, s32 neverUsed, Path_TLV* pTlv, s32 tlvInfo)
 {
     if (!gGasInstanceCount_5BC214)
     {

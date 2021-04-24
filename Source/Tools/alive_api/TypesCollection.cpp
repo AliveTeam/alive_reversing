@@ -40,12 +40,12 @@ void TypesCollection::AddTlvsToJsonArray(jsonxx::Array& array)
     }
 }
 
-std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, int instanceCount)
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, s32 instanceCount)
 {
     return mTlvFactoryAE.MakeTlvByEnum(*this, tlvType, pTlv, instanceCount);
 }
 
-std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, int instanceCount)
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, s32 instanceCount)
 {
     return mTlvFactoryAO.MakeTlvByEnum(*this, tlvType, pTlv, instanceCount);
 }

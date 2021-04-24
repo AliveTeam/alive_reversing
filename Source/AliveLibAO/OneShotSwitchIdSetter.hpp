@@ -15,7 +15,7 @@ ALIVE_ASSERT_SIZEOF(Path_OneShotSwitchIdSetter, 0x28);
 class OneShotSwitchIdSetter : public BaseGameObject
 {
 public:
-    EXPORT BaseGameObject* ctor_432E10(Path_OneShotSwitchIdSetter* pTlv, int tlvInfo);
+    EXPORT BaseGameObject* ctor_432E10(Path_OneShotSwitchIdSetter* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_432EA0();
 
@@ -27,7 +27,7 @@ public:
 
     EXPORT void VScreenChanged_432F00();
 
-    int field_10_tlvInfo;
+    s32 field_10_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(OneShotSwitchIdSetter, 0x14);
 

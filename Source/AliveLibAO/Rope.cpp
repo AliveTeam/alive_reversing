@@ -21,9 +21,9 @@ Rope* Rope::Vdtor_458B60(s32 flags)
     return this;
 }
 
-EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, int minY, int maxY)
+EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
-    const int d1 = minY - Y0(pPoly);
+    const s32 d1 = minY - Y0(pPoly);
     const short polyHeight = Y3(pPoly) - Y0(pPoly);
     if (d1 > 0 && d1 <= polyHeight)
     {
@@ -34,7 +34,7 @@ EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, int minY, int maxY)
         SetUV1(pPoly, U1(pPoly), V1(pPoly) + (BYTE)d1);
     }
 
-    const int d2 = Y3(pPoly) - maxY;
+    const s32 d2 = Y3(pPoly) - maxY;
     if (d2 > 0 && d2 <= polyHeight)
     {
         SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (short)d2);
@@ -119,7 +119,7 @@ Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
     field_E8_pRopeRes = reinterpret_cast<AnimationUnknown*>(ao_new_malloc_447520(sizeof(AnimationUnknown) * field_E4_rope_segment_count));
     if (field_E8_pRopeRes)
     {
-        for (int i = 0; i < field_E4_rope_segment_count; i++)
+        for (s32 i = 0; i < field_E4_rope_segment_count; i++)
         {
             // Placement new the items
             AnimationUnknown* pSegment = &field_E8_pRopeRes[i];
@@ -160,9 +160,9 @@ void Rope::VRender_458780(PrimHeader** ppOt)
             {
                 const FP camYPos = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
-                int minY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EE_top))
+                s32 minY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EE_top))
                     - camYPos);
-                int maxY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_F2_bottom))
+                s32 maxY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_F2_bottom))
                     - camYPos);
 
                 s16 ypos = FP_GetExponent(field_AC_ypos);
@@ -198,7 +198,7 @@ void Rope::VRender_458780(PrimHeader** ppOt)
                 field_10_anim.VRender_403AE0(640, 240, ppOt, 0, 0 );
                 if (screenY >= minY)
                 {
-                    for (int idx = 0; idx < field_E4_rope_segment_count; idx++)
+                    for (s32 idx = 0; idx < field_E4_rope_segment_count; idx++)
                     {
                         short r = 128;
                         short g = 128;

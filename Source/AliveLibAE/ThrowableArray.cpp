@@ -306,7 +306,7 @@ void ThrowableArray::VRender(PrimHeader** /*ppOt*/)
     // Empty 0x4DBF80
 }
 
-int ThrowableArray::VGetSaveState(BYTE* pSaveBuffer)
+s32 ThrowableArray::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_49B2A0(pSaveBuffer);
 }

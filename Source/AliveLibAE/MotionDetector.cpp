@@ -48,7 +48,7 @@ MotionDetectorLaser* MotionDetectorLaser::vdtor_468360(s32 flags)
 
 // =====================================================================================
 
-MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner)
+MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x545FF8);
@@ -287,7 +287,7 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pPrim->mBase.header);
 
         // Add tpage
-        const int tpage = PSX_getTPage_4F60E0(TPageMode::e16Bit_2, field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
+        const s32 tpage = PSX_getTPage_4F60E0(TPageMode::e16Bit_2, field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
         Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 0, 0, tpage);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTPage->mBase);
@@ -381,7 +381,7 @@ void MotionDetector::vUpdate_468A90()
 
         field_178_bObjectInLaser = 0;
 
-        for (int idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
+        for (s32 idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(idx);
             if (!pObj)
@@ -498,7 +498,7 @@ void MotionDetector::vUpdate_468A90()
             break;
 
         case States::eWaitThenMoveLeft_1:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_104_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_104_timer)
             {
                 field_100_state = States::eMoveLeft_2;
             }
@@ -523,7 +523,7 @@ void MotionDetector::vUpdate_468A90()
             break;
 
         case States::eWaitThenMoveRight_3:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_104_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_104_timer)
             {
                 field_100_state = States::eMoveRight_0;
             }

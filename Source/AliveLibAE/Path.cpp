@@ -55,10 +55,10 @@ void Path::Init_4DB200(const PathData* pPathData, LevelIds level, s16 path, s16 
 void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToLoad)
 {
     // Get a pointer to the array of index table offsets
-    const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
+    const s32* indexTable = reinterpret_cast<const s32*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
 
     // Calculate the index of the offset we want for the given camera at x/y
-    int objectTableIdx = indexTable[xpos + (ypos * field_6_cams_on_x)];
+    s32 objectTableIdx = indexTable[xpos + (ypos * field_6_cams_on_x)];
     if (objectTableIdx == -1)
     {
         // -1 means there are no objects for the given camera
@@ -85,7 +85,7 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToL
                 data.parts.pathId = static_cast<BYTE>(field_2_pathId);
 
                 // Call the factory to construct the item
-                field_C_pPathData->field_1E_object_funcs.object_funcs[static_cast<int>(pPathTLV->field_4_type.mType)](pPathTLV, this, data, loadMode);
+                field_C_pPathData->field_1E_object_funcs.object_funcs[static_cast<s32>(pPathTLV->field_4_type.mType)](pPathTLV, this, data, loadMode);
             }
         }
 
@@ -102,15 +102,15 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToL
 
 Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera_4DB610(s16 cam_x_idx, s16 cam_y_idx)
 {
-    const int camY = cam_y_idx + gMap_5C3030.field_D2_cam_y_idx;
-    const int camX = cam_x_idx + gMap_5C3030.field_D0_cam_x_idx;
+    const s32 camY = cam_y_idx + gMap_5C3030.field_D2_cam_y_idx;
+    const s32 camX = cam_x_idx + gMap_5C3030.field_D0_cam_x_idx;
     if (camX >= field_6_cams_on_x || camX < 0 || camY >= field_8_cams_on_y || camY < 0)
     {
         return nullptr;
     }
 
-    const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
-    const int indexTableEntry = indexTable[(camX + (camY * field_6_cams_on_x))];
+    const s32* indexTable = reinterpret_cast<const s32*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
+    const s32 indexTableEntry = indexTable[(camX + (camY * field_6_cams_on_x))];
     if (indexTableEntry == -1)
     {
         return nullptr;
@@ -182,8 +182,8 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, Tlv
         bottom = height;
     }
 
-    const int grid_cell_y = (top + bottom) / (2 * field_C_pPathData->field_C_grid_height);
-    const int grid_cell_x = (right + left) / (2 * field_C_pPathData->field_A_grid_width);
+    const s32 grid_cell_y = (top + bottom) / (2 * field_C_pPathData->field_C_grid_height);
+    const s32 grid_cell_x = (right + left) / (2 * field_C_pPathData->field_A_grid_width);
     
     // Check within map bounds
     if (grid_cell_x >=field_6_cams_on_x)
@@ -197,8 +197,8 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, Tlv
     }
 
     // Get the offset to where the TLV list starts for this camera cell
-    const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
-    const int indexTableEntry = indexTable[(grid_cell_x + (grid_cell_y * field_6_cams_on_x))];
+    const s32* indexTable = reinterpret_cast<const s32*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
+    const s32 indexTableEntry = indexTable[(grid_cell_x + (grid_cell_y * field_6_cams_on_x))];
     if (indexTableEntry == -1)
     {
         return nullptr;
@@ -224,12 +224,12 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, Tlv
 
 Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
 {
-    const int xpos_converted = FP_GetExponent(xpos);
-    const int ypos_converted = FP_GetExponent(ypos);
-    int width_converted = FP_GetExponent(w);
-    int height_converted = FP_GetExponent(h);
+    const s32 xpos_converted = FP_GetExponent(xpos);
+    const s32 ypos_converted = FP_GetExponent(ypos);
+    s32 width_converted = FP_GetExponent(w);
+    s32 height_converted = FP_GetExponent(h);
 
-    int xyPosValid = 1;
+    s32 xyPosValid = 1;
     if (xpos_converted < 0 || ypos_converted < 0)
     {
         xyPosValid = 0;
@@ -244,8 +244,8 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
     if (!pTlv)
     {
         const PathData* pPathData = field_C_pPathData;
-        const int camX = (xpos_converted + width_converted) / (2 * pPathData->field_A_grid_width);
-        const int camY = (ypos_converted + height_converted) / (2 * pPathData->field_C_grid_height);
+        const s32 camX = (xpos_converted + width_converted) / (2 * pPathData->field_A_grid_width);
+        const s32 camY = (ypos_converted + height_converted) / (2 * pPathData->field_C_grid_height);
 
         if (camX >= field_6_cams_on_x || camY >= field_8_cams_on_y)
         {
@@ -258,8 +258,8 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
         }
 
         BYTE* pPathRes = *field_10_ppRes;
-        const int* pIndexTable = reinterpret_cast<const int*>(pPathRes + pPathData->field_16_object_indextable_offset);
-        const int indexTableEntry = pIndexTable[camX + (field_6_cams_on_x * camY)];
+        const s32* pIndexTable = reinterpret_cast<const s32*>(pPathRes + pPathData->field_16_object_indextable_offset);
+        const s32 indexTableEntry = pIndexTable[camX + (field_6_cams_on_x * camY)];
         
         if (indexTableEntry == -1)
         {
@@ -308,7 +308,7 @@ Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(u32 tlvOffset_levelId_PathId)
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
-    if (data.parts.levelId == static_cast<int>(field_0_levelId) && data.parts.pathId == field_2_pathId)
+    if (data.parts.levelId == static_cast<s32>(field_0_levelId) && data.parts.pathId == field_2_pathId)
     {
         return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + data.parts.tlvOffset]);
     }
@@ -357,13 +357,13 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFla
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
-    if (data.parts.levelId == static_cast<int>(gMap_5C3030.field_0_current_level))
+    if (data.parts.levelId == static_cast<s32>(gMap_5C3030.field_0_current_level))
     {
         const PathBlyRec* pBlyRec = Path_Get_Bly_Record_460F30(static_cast<LevelIds>(data.parts.levelId), data.parts.pathId);
         BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
         if (ppPathRes)
         {
-            const int tlvOffset = data.parts.tlvOffset + pBlyRec->field_4_pPathData->field_12_object_offset;
+            const s32 tlvOffset = data.parts.tlvOffset + pBlyRec->field_4_pPathData->field_12_object_offset;
             Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[tlvOffset]);
             
             if (bBit2 & 1)
@@ -410,14 +410,14 @@ EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos directi
 EXPORT void CCSTD Path::Reset_TLVs_4DBCF0(u16 pathId)
 {
     const PathData *  pPathData = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, pathId)->field_4_pPathData;
-    const int camsX = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
-    const int camsY = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
+    const s32 camsX = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
+    const s32 camsY = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
     BYTE** ppPath = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, pathId, TRUE, FALSE);
     if (ppPath)
     {
-        const int totalCams = camsX * camsY;
-        const int* pIdx = reinterpret_cast<int*>(&(*ppPath)[pPathData->field_16_object_indextable_offset]);
-        for (int i = 0; i < totalCams; i++)
+        const s32 totalCams = camsX * camsY;
+        const s32* pIdx = reinterpret_cast<s32*>(&(*ppPath)[pPathData->field_16_object_indextable_offset]);
+        for (s32 i = 0; i < totalCams; i++)
         {
             if (pIdx[i] != -1)
             {

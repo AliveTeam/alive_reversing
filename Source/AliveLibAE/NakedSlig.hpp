@@ -41,7 +41,7 @@ struct NakedSlig_State
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    int field_4_obj_id;
+    s32 field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -68,13 +68,13 @@ struct NakedSlig_State
     char field_40_bIsControlled;
     char field_41_padding;
     s16 field_42_padding;
-    int field_44_tlvInfo;
-    int field_48_ai_idx;
+    s32 field_44_tlvInfo;
+    s32 field_48_ai_idx;
     s16 field_4C_padding;
     s16 field_4E_padding;
     s16 field_50_brain_sub_state;
     s16 field_52_padding;
-    int field_54_timer;
+    s32 field_54_timer;
     FP field_58_velx_scale_factor;
     s16 field_5C_padding;
     s16 field_5E_bChanting;
@@ -82,14 +82,14 @@ struct NakedSlig_State
     s16 field_62_prev_path;
     s16 field_64_prev_camera;
     s16 field_66_pitch;
-    int field_68_unused;
-    int field_6C_slig_button_id;
-    int field_70_obj_id;
-    int field_74_obj_id;
+    s32 field_68_unused;
+    s32 field_6C_slig_button_id;
+    s32 field_70_obj_id;
+    s32 field_74_obj_id;
     SligSpeak field_78_speak;
     char field_79_padding;
     s16 field_7A_unused_counter;
-    int field_7C_say_help_timer;
+    s32 field_7C_say_help_timer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(NakedSlig_State, 0x80);
 
@@ -118,7 +118,7 @@ enum NakedSligMotion : s16
 class NakedSlig : public BaseAliveGameObject
 {
 public:
-    EXPORT NakedSlig* ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo);
+    EXPORT NakedSlig* ctor_418C70(Path_NakedSlig* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -134,12 +134,12 @@ public:
 
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
-    EXPORT static int CC CreateFromSaveState_41AE80(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_41AE80(const BYTE* pBuffer);
 
 private:
-    EXPORT int vGetSaveState_41C9A0(NakedSlig_State* pState);
+    EXPORT s32 vGetSaveState_41C9A0(NakedSlig_State* pState);
 
     EXPORT void vPossessed_4195F0();
 
@@ -147,7 +147,7 @@ private:
 
     EXPORT void UpdateAnimBlock_419900();
 
-    EXPORT BYTE** GetAnimBlock_419950(int currentMotion);
+    EXPORT BYTE** GetAnimBlock_419950(s32 currentMotion);
 
     EXPORT static s16 CC NextRandom_4197D0();
 
@@ -215,7 +215,7 @@ public:
     EXPORT void M_EndPushingWall_17_41B3A0();
 
 private:
-    int field_118_tlvInfo;
+    s32 field_118_tlvInfo;
     s16 field_11C_pPalAlloc[64];
     PSX_RECT field_19C_pal_rect;
     s16 field_1A4_r;
@@ -223,9 +223,9 @@ private:
     s16 field_1A8_b;
 
     s16 field_1AA_padding;
-    int field_1AC_timer;
+    s32 field_1AC_timer;
     FP field_1B0_velx_scale_factor; // TODO: Not sure if this is an accurate name, but can't think of anything better.
-    int field_1B4_unused;
+    s32 field_1B4_unused;
 
     s16 field_1B8_bChanting;
 
@@ -238,13 +238,13 @@ private:
     s16 field_1C2_pitch;
     s16 field_1C4_unused_counter;
     s16 field_1C6_unused;
-    int field_1C8_say_help_timer;
+    s32 field_1C8_say_help_timer;
     s16 field_1CC_unused;
     s16 field_1CE_padding;
-    int field_1D0_slig_button_id;
-    int field_1D4_obj_id;
-    int field_1D8_obj_id;
-    int field_1DC_unused;
+    s32 field_1D0_slig_button_id;
+    s32 field_1D4_obj_id;
+    s32 field_1D8_obj_id;
+    s32 field_1DC_unused;
     Path_NakedSlig::CrawlDirection field_1E0_crawl_direction;
     s16 field_1E2_padding;
     Path_TLV* field_1E4_pPantsOrWingsTlv;

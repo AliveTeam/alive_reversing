@@ -5,7 +5,7 @@
 
 namespace AO {
 
-const int dword_4CEE78[30] =
+const s32 dword_4CEE78[30] =
 {
     // NOTE: diversion from OG!
     // the sneak - speak1 and run - speak2 pairs are now decoupled

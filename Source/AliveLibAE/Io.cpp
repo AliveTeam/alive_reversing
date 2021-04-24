@@ -11,7 +11,7 @@
 
 ALIVE_VAR(1, 0xBBC4BC, std::atomic<IO_Handle*>, sIOHandle_BBC4BC, {});
 ALIVE_VAR(1, 0xBBC4C4, std::atomic<void*>, sIO_ReadBuffer_BBC4C4, {});
-ALIVE_VAR(1, 0xBBC4C0, std::atomic<int>, sIO_Thread_Operation_BBC4C0, {});
+ALIVE_VAR(1, 0xBBC4C0, std::atomic<s32>, sIO_Thread_Operation_BBC4C0, {});
 ALIVE_VAR(1, 0xBBC4C8, std::atomic<size_t>, sIO_BytesToRead_BBC4C8, {});
 ALIVE_VAR(1, 0xBBC558, DWORD, sIoThreadId_BBC558, 0);
 
@@ -35,16 +35,16 @@ IO_FileHandleType IO_Open(const char* fileName, const char * mode)
 #endif
 }
 
-int IO_Seek(IO_FileHandleType pHandle, int offset, int origin)
+s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin)
 {
 #if USE_SDL2_IO
-    return static_cast<int>(pHandle->seek(pHandle, offset, origin));
+    return static_cast<s32>(pHandle->seek(pHandle, offset, origin));
 #else
     return ae_fseek_521955(pHandle, offset, origin);
 #endif
 }
 
-int IO_Close(IO_FileHandleType pHandle)
+s32 IO_Close(IO_FileHandleType pHandle)
 {
 #if USE_SDL2_IO
     return pHandle->close(pHandle);
@@ -62,7 +62,7 @@ size_t IO_Read(IO_FileHandleType pHandle, void *ptr, size_t size, size_t maxnum)
 #endif
 }
 
-EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
+EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, s32 modeFlag)
 {
     IO_Handle* pHandle = reinterpret_cast<IO_Handle*>(ae_malloc_4F4E60(sizeof(IO_Handle)));
     if (!pHandle)
@@ -123,7 +123,7 @@ EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile)
 #endif
 }
 
-EXPORT int CC IO_Seek_4F2490(IO_Handle* hFile, int offset, int origin)
+EXPORT s32 CC IO_Seek_4F2490(IO_Handle* hFile, s32 offset, s32 origin)
 {
     if (!hFile)
     {
@@ -189,7 +189,7 @@ EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
     }
 }
 
-EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, void* readBuffer, size_t bytesToRead, int /*notUsed1*/, int /*notUsed2*/, int /*notUsed3*/)
+EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, s32 always3, void* readBuffer, size_t bytesToRead, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 /*notUsed3*/)
 {
     if (sIOHandle_BBC4BC.load())
     {
@@ -210,7 +210,7 @@ EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, void* re
 }
 #endif
 
-EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
+EXPORT s32 CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
 {
     if (!hFile || !hFile->field_8_hFile)
     {
@@ -265,7 +265,7 @@ EXPORT DWORD CCSTD IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
     return 0;
 }
 
-EXPORT int CC IO_Wait_ASync_4EACF0(void* hFile)
+EXPORT s32 CC IO_Wait_ASync_4EACF0(void* hFile)
 {
     IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(hFile);
 
@@ -350,10 +350,10 @@ EXPORT BOOL CC IO_Read_ASync_4EAED0(void* hFile, void* pBuffer, DWORD readSize)
     return TRUE;
 }
 
-EXPORT int CC IO_Sync_ASync_4EAF80(void* hFile, DWORD offset, DWORD origin)
+EXPORT s32 CC IO_Sync_ASync_4EAF80(void* hFile, DWORD offset, DWORD origin)
 {
     IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(hFile);
-    int result = IO_Wait_ASync_4EACF0(pHandle);
+    s32 result = IO_Wait_ASync_4EACF0(pHandle);
     if (result)
     {
         result = IO_Seek(pHandle->field_0_hFile, offset, origin) != 0;
@@ -394,7 +394,7 @@ EXPORT BOOL CC IO_Seek_Sync_4EAFC0(void* pHandle, DWORD offset, DWORD origin)
 }
 
 
-EXPORT void CC IO_Init_SyncOrASync_4EAC80(int bASync)
+EXPORT void CC IO_Init_SyncOrASync_4EAC80(s32 bASync)
 {
 #if _WIN32 && !USE_SDL2_IO
     if (bASync)

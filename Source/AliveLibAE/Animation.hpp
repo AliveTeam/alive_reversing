@@ -7,7 +7,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-using TFrameCallBackType = int(CC *)(void *, s16 *);
+using TFrameCallBackType = s32(CC *)(void *, s16 *);
 
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_55EF98[5];
 extern TFrameCallBackType kSlig_Anim_Frame_Fns_55EFAC[4];
@@ -24,7 +24,7 @@ struct AnimHeader
 {
     s16 field_0_max_w;
     s16 field_2_max_h;
-    int field_4_frame_table_offset;
+    s32 field_4_frame_table_offset;
 };
 ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
 
@@ -115,13 +115,13 @@ struct FrameHeader
 class Animation : public AnimationBase
 {
 public:
-    EXPORT s16 Set_Animation_Data_409C80(int frameTableOffset, BYTE** pAnimRes);
+    EXPORT s16 Set_Animation_Data_409C80(s32 frameTableOffset, BYTE** pAnimRes);
     EXPORT void Animation_Pal_Free_40C4C0();
 
     bool EnsureDecompressionBuffer();
     void DecompressFrame();
 
-    EXPORT virtual void vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, s32 height) override;
+    EXPORT virtual void vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
     EXPORT virtual void vCleanUp_40C630() override;
 
     EXPORT void vDecode2_40B200();
@@ -136,7 +136,7 @@ public:
     WORD field_12_scale; // padding?
     FP field_14_scale;
     DWORD field_18_frame_table_offset;
-    int(CC **field_1C_fn_ptr_array)(void *, s16 *);
+    s32(CC **field_1C_fn_ptr_array)(void *, s16 *);
     BYTE** field_20_ppBlock; // // pointer to a pointer which points to anim data
     BYTE** field_24_dbuf;
 
@@ -155,11 +155,11 @@ public:
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(s16 frame);
     EXPORT void Get_Frame_Rect_409E10(PSX_RECT *pRect);
     EXPORT WORD Get_Frame_Count_40AC70();
-    EXPORT s16 Init_40A030(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 unknown1, s32 pal_depth, char unknown3);
+    EXPORT s16 Init_40A030(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 unknown1, s32 pal_depth, char unknown3);
     EXPORT void Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY);
     EXPORT void Get_Frame_Width_Height_40C400(s16* pWidth, s16* pHeight);
 
-    EXPORT void Load_Pal_40A530(BYTE** pAnimData, int palOffset);
+    EXPORT void Load_Pal_40A530(BYTE** pAnimData, s32 palOffset);
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 

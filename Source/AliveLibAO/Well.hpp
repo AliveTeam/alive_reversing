@@ -55,7 +55,7 @@ ALIVE_ASSERT_SIZEOF(Path_WellLocal, 0x34);
 class Well : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Well* ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo);
+    EXPORT Well* ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
 
     EXPORT void WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP xpos, FP ypos);
 
@@ -79,8 +79,8 @@ public:
 
     EXPORT Well* vdtor_48B4D0(s32 flags);
 
-    int field_D4[4];
-    int field_E4_tlvInfo;
+    s32 field_D4[4];
+    s32 field_E4_tlvInfo;
     short field_E8_trigger_id;
     // pad
     FP field_EC_scale;

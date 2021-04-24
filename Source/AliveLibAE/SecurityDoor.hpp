@@ -35,7 +35,7 @@ enum class SecurityDoorStates : s16
 class SecurityDoor : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT SecurityDoor* ctor_4ABFC0(Path_SecurityDoor* pTlv, int tlvInfo);
+    EXPORT SecurityDoor* ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo);
 
     virtual void VScreenChanged() override;
 
@@ -56,19 +56,19 @@ private:
 
 
 private:
-    int field_F4_tlvInfo;
+    s32 field_F4_tlvInfo;
     SecurityDoorStates field_F8_state;
     s16 field_FA_id;
-    int field_FC_code_converted;
+    s32 field_FC_code_converted;
     s16 field_100_code_len;
     s16 field_102_padding;
-    int field_104_event_idx;
+    s32 field_104_event_idx;
     BYTE field_108_stru[16];
     s16 field_118_max_idx;
     s16 field_11A_event_idx;
     PSX_Point field_11C_top_left;
     PSX_Point field_120_bottom_right;
-    int field_124_timer;
+    s32 field_124_timer;
     s16 field_128_max_idx;
     s16 field_12A_unused; // Gets set to 1 in vUpdate, but isn't used anywhere else. -- Nemin (6/7/2020)
 };

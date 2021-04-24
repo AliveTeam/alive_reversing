@@ -53,10 +53,10 @@ const BYTE byte_5513D4[40] =
     0u
 };
 
-ALIVE_VAR(1, 0x5c1be8, int, sGasTimer_5C1BE8, 0);
+ALIVE_VAR(1, 0x5c1be8, s32, sGasTimer_5C1BE8, 0);
 ALIVE_VAR(1, 0x5C1C00, short, gGasOn_5C1C00, 0);
 
-GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, int tlvInfo)
+GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5445E0);
@@ -189,7 +189,7 @@ void GasCountDown::DealDamage()
         if (-field_74_time_left > 2)
         {
             sActiveHero_5C1B68->VTakeDamage_408730(this);
-            for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+            for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
             {
                 BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
                 if (!pObj)
@@ -265,8 +265,8 @@ void GasCountDown::vUpdate_4172E0()
             sGasTimer_5C1BE8++;
         }
 
-        const int old_timer = field_74_time_left;
-        const int new_timer = (field_76_gas_countdown_timer - static_cast<int>(sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30;
+        const s32 old_timer = field_74_time_left;
+        const s32 new_timer = (field_76_gas_countdown_timer - static_cast<s32>(sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30;
         field_74_time_left = static_cast<s16>(new_timer);
         if (old_timer != field_74_time_left && field_74_time_left > 0)
         {

@@ -30,8 +30,8 @@ struct LiftPoint_State
     s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
-    int field_C_tlvInfo;
-    int field_10_pTlv;
+    s32 field_C_tlvInfo;
+    s32 field_10_pTlv;
     FP field_14_floorYLevel;
     LiftPointStopType field_18_lift_point_stop_type;
     enum Flags
@@ -51,15 +51,15 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPoint_State, 0x1C);
 class LiftPoint : public PlatformBase
 {
 public:
-    EXPORT LiftPoint* ctor_461030(Path_LiftPoint* pTlv, int tlvInfo);
+    EXPORT LiftPoint* ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
-    EXPORT static int CC CreateFromSaveState_4630F0(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_4630F0(const BYTE* pData);
 
 public:
     EXPORT void vKeepOnMiddleFloor_461870();
@@ -70,7 +70,7 @@ public:
     EXPORT BOOL vOnAFloorLiftMoverCanUse_461960();
     EXPORT BOOL vMovingToFloorLevel_4619B0();
 
-    EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, int not_used);
+    EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, s32 not_used);
 private:
     EXPORT void vRender_462730(PrimHeader** ppOt);
     EXPORT void vUpdate_461AE0();
@@ -91,8 +91,8 @@ private:
     s16 field_12E_pad;
     LiftPointStopType field_130_lift_point_stop_type;
     s16 field_132_pad;
-    int field_134_rope2_id;
-    int field_138_rope1_id;
+    s32 field_134_rope2_id;
+    s32 field_138_rope1_id;
     Animation field_13C_lift_wheel;
     Animation field_1D4_pulley_anim;
     s16 field_26C_pulley_xpos;
@@ -104,7 +104,7 @@ public:
 private:
     char field_279_pad;
     s16 field_27A_pad;
-    int field_27C_pTlv;
+    s32 field_27C_pTlv;
     enum LiftFlags
     {
         eBit1_bTopFloor = 0x1,

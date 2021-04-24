@@ -20,7 +20,7 @@ constexpr short kMeterBarsXCount = 20;
 class ColourfulMeter : public BaseGameObject
 {
 public:
-    EXPORT ColourfulMeter* ctor_43CE40(Path_ColourfulMeter* pTlv, int tlvInfo);
+    EXPORT ColourfulMeter* ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -44,7 +44,7 @@ private:
 private:
     Font_Context field_20_font_context;
     Alive::Font field_30_font;
-    int field_68_tlvInfo;
+    s32 field_68_tlvInfo;
     s16 field_6C_text_x;
     s16 field_6E_text_y;
     s16 field_70_polys_to_render_count;

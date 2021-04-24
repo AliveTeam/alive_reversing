@@ -11,7 +11,7 @@
 
 namespace AO {
 
-BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, int tlvInfo)
+BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA120);

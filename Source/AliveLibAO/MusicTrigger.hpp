@@ -20,9 +20,9 @@ ALIVE_ASSERT_SIZEOF(Path_MusicTrigger, 0x20);
 class MusicTrigger : public BaseGameObject
 {
 public:
-    EXPORT MusicTrigger* ctor_443A60(s16 type, s16 enabledBy, int id, s16 delay);
+    EXPORT MusicTrigger* ctor_443A60(s16 type, s16 enabledBy, s32 id, s16 delay);
 
-    EXPORT MusicTrigger* ctor_4439F0(Path_MusicTrigger* pTlv, int tlvInfo);
+    EXPORT MusicTrigger* ctor_4439F0(Path_MusicTrigger* pTlv, s32 tlvInfo);
 
     EXPORT void Init_443AD0(s16 type, s16 enabledBy, u16 id, s16 delay);
 
@@ -40,10 +40,10 @@ public:
 
     EXPORT void VUpdate_443C90();
 
-    int field_10_tlvInfo;
+    s32 field_10_tlvInfo;
     s16 field_14_flags;
     s16 field_16;
-    int field_18_counter;
+    s32 field_18_counter;
     MusicController::MusicTypes field_1C_music_type;
     u16 field_1E_id;
 };

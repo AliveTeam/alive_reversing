@@ -64,10 +64,10 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
     if (field_54_ppSprxRes)
     {
         field_58_pRes = reinterpret_cast<SparkRes*>(*field_54_ppSprxRes);
-        for (int idx = 0; idx < field_5C_count; idx++)
+        for (s32 idx = 0; idx < field_5C_count; idx++)
         {
             SparkRes* pSparkIter = &field_58_pRes[idx];
-            int randAng = 0;
+            s32 randAng = 0;
             if (min >= 0)
             {
                 randAng = Math_RandomRange_496AB0(min, max);
@@ -140,15 +140,15 @@ void Spark::vUpdate_4CBEF0()
 
     if (sNum_CamSwappers_5C1B66 == 0)
     {
-        if (static_cast<int>(sGnFrame_5C1B84) < field_60_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) < field_60_timer)
         {
-            if (static_cast<int>(sGnFrame_5C1B84) == field_60_timer - 1)
+            if (static_cast<s32>(sGnFrame_5C1B84) == field_60_timer - 1)
             {
                 // Reduce spark count as time passes
                 field_5C_count /= 3;
             }
 
-            for (int idx = 0; idx < field_5C_count; idx++)
+            for (s32 idx = 0; idx < field_5C_count; idx++)
             {
                 SparkRes* pSpark = &field_58_pRes[idx];
                 pSpark->field_0_x0 = pSpark->field_14_radius * Math_Sine_496DD0(pSpark->field_10_ang);
@@ -178,20 +178,20 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
         PSX_Point xy = { 32767, 32767 };
         PSX_Point wh = { -32767, -32767 };
 
-        const int xOrg = FP_GetExponent(field_40_xpos) - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-        const int yOrg = FP_GetExponent(field_44_ypos) - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+        const s32 xOrg = FP_GetExponent(field_40_xpos) - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
+        const s32 yOrg = FP_GetExponent(field_44_ypos) - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
 
-        for (int i = 0; i < field_5C_count; i++)
+        for (s32 i = 0; i < field_5C_count; i++)
         {
             SparkRes* pSpark = &field_58_pRes[i];
 
             Line_G2* pPrim = &pSpark->field_1C_pLineG2s[gPsxDisplay_5C1130.field_C_buffer_index];
             LineG2_Init(pPrim);
 
-            const int y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * field_48_scale);
-            const int y1 = yOrg + FP_GetExponent(pSpark->field_C_y1 * field_48_scale);
-            const int x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * field_48_scale));
-            const int x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * field_48_scale));
+            const s32 y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * field_48_scale);
+            const s32 y1 = yOrg + FP_GetExponent(pSpark->field_C_y1 * field_48_scale);
+            const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * field_48_scale));
+            const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * field_48_scale));
 
             SetXY0(pPrim, static_cast<short>(x0), static_cast<short>(y0));
             SetXY1(pPrim, static_cast<short>(x1), static_cast<short>(y1));

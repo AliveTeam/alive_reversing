@@ -13,7 +13,7 @@
 #include "Particle.hpp"
 #include "ParticleBurst.hpp"
 
-SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
+SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x545224);
@@ -55,7 +55,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
 
     field_130_has_ghost = field_118_pTlv->field_18_has_ghost;
 
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -118,7 +118,7 @@ void SlapLock::VScreenChanged()
     vScreenChanged_43E840();
 }
 
-int SlapLock::VGetSaveState(BYTE* pSaveBuffer)
+s32 SlapLock::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_43EB30(reinterpret_cast<SlapLock_State*>(pSaveBuffer));
 }
@@ -128,7 +128,7 @@ s16 SlapLock::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_43E5D0(pFrom);
 }
 
-int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
+s32 CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const SlapLock_State*>(pBuffer);
 
@@ -234,7 +234,7 @@ void SlapLock::vUpdate_43DF90()
 
             if (field_134_id != -1)
             {
-                for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+                for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
                 {
                     BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
                     if (!pObj)
@@ -270,7 +270,7 @@ void SlapLock::vUpdate_43DF90()
                 }
             }
 
-            if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer1)
+            if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer1)
             {
                 return;
             }
@@ -337,7 +337,7 @@ void SlapLock::vUpdate_43DF90()
         }
         case SlapLockStates::eBroken_3:
         {
-            if (static_cast<int>(sGnFrame_5C1B84) <= field_13C_timer2)
+            if (static_cast<s32>(sGnFrame_5C1B84) <= field_13C_timer2)
             {
                 return;
             }
@@ -353,7 +353,7 @@ void SlapLock::vUpdate_43DF90()
         }
         case SlapLockStates::eEmitInvisibilityPowerupRing_4:
         {
-            if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer1)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer1)
             {
                 if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
                     sActiveHero_5C1B68->field_C2_lvl_number,
@@ -378,7 +378,7 @@ void SlapLock::vUpdate_43DF90()
                 }
             }
 
-            if (static_cast<int>(sGnFrame_5C1B84) <= field_13C_timer2)
+            if (static_cast<s32>(sGnFrame_5C1B84) <= field_13C_timer2)
             {
                 return;
             }

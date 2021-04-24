@@ -29,7 +29,7 @@ ALIVE_ASSERT_SIZEOF(Path_BeeSwarmHole, 0x28);
 class BeeSwarmHole : public BaseGameObject
 {
 public:
-    EXPORT BeeSwarmHole* ctor_4782B0(Path_BeeSwarmHole* pTlv, int tlvInfo);
+    EXPORT BeeSwarmHole* ctor_4782B0(Path_BeeSwarmHole* pTlv, s32 tlvInfo);
 
     virtual void VUpdate() override;
 
@@ -37,9 +37,9 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    int field_10_tlvInfo;
+    s32 field_10_tlvInfo;
     PSX_RECT field_14_rect;
-    int field_1C_interval_timer;
+    s32 field_1C_interval_timer;
     u16 field_20_interval;
     s16 field_22_id;
     Path_BeeSwarmHole::MovementType field_24_movement_type;

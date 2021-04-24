@@ -210,18 +210,18 @@ struct Mudokon_State
     char field_3C_can_be_possessed;
     char field_3D_bIsPlayer;
     s16 field_3E_padding;
-    int field_40_tlvInfo;
+    s32 field_40_tlvInfo;
     FP field_44_velx_slow_by;
-    int field_48_unused;
-    int field_4C_portal_id;
+    s32 field_48_unused;
+    s32 field_4C_portal_id;
     s16 field_50_angry_trigger;
     s16 field_52_padding;
-    int field_54_savedfield124; //TODO: Find out what field_124 is. It appears to be some sort of timer. -- Nemin (5/7/2020)
-    int field_58_angry_timer;
+    s32 field_54_savedfield124; //TODO: Find out what field_124 is. It appears to be some sort of timer. -- Nemin (5/7/2020)
+    s32 field_58_angry_timer;
     s16 field_5C_unused;
     s16 field_5E_voice_pitch;
-    int field_60_wheel_id;
-    int field_64_unused;
+    s32 field_60_wheel_id;
+    s32 field_64_unused;
     MudSounds field_68;
     s16 field_6A_maxXOffset;
 
@@ -266,15 +266,15 @@ struct Mudokon_State
     Mud_Motion field_7A_motion;
     Mud_AI_State field_7C_ai_state;
     s16 field_7E_sub_state;
-    int field_80_timer;
-    int field_84_response_entry_idx;
+    s32 field_80_timer;
+    s32 field_84_response_entry_idx;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
 
 class Mudokon : public BaseAliveGameObject
 {
 public:
-    EXPORT Mudokon* ctor_474F30(Path_Mudokon* pTlv, int tlvInfo);
+    EXPORT Mudokon* ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -282,7 +282,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override
     {
         return vGetSaveState_47B080(reinterpret_cast<Mudokon_State*>(pSaveBuffer));
     }
@@ -313,12 +313,12 @@ public:
         vUpdateAnimRes_474D80();
     }
 
-    EXPORT static int CC CreateFromSaveState_4717C0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4717C0(const BYTE* pBuffer);
 
 
 private:
 
-    EXPORT int vGetSaveState_47B080(Mudokon_State* pState);
+    EXPORT s32 vGetSaveState_47B080(Mudokon_State* pState);
 
 
     EXPORT void vUpdate_4757A0();
@@ -478,26 +478,26 @@ private:
 
     EXPORT void TakeASlap_476090(BaseGameObject *pFrom);
 
-    EXPORT int GetResponseEntryIdx_471760();
+    EXPORT s32 GetResponseEntryIdx_471760();
 
-    EXPORT static const MudEmotionTableEntry* CCSTD GetResponseEntry_471790(int idx);
+    EXPORT static const MudEmotionTableEntry* CCSTD GetResponseEntry_471790(s32 idx);
 
 private:
-    int field_118_tlvInfo;
-    int field_11C_bird_portal_id;
+    s32 field_118_tlvInfo;
+    s32 field_11C_bird_portal_id;
     s16 field_120_angry_trigger;
     s16 field_122_padding;
-    int field_124;
-    int field_128_angry_timer;
-    int field_12C_unused;
+    s32 field_124;
+    s32 field_128_angry_timer;
+    s32 field_12C_unused;
     s16 field_130_unused;
     s16 field_132_padding;
     FP field_134_xVelSlowBy;
-    int field_138_unused;
+    s32 field_138_unused;
     s16 field_13C_voice_pitch;
     s16 field_13E_padding;
-    int field_140_last_event_index;
-    int field_144_padding;
+    s32 field_140_last_event_index;
+    s32 field_144_padding;
     s16 field_148_padding;
     s16 field_14A_padding;
     s16 field_14C_padding;
@@ -506,11 +506,11 @@ private:
     s16 field_152_padding;
     s16 field_154_unused;
     s16 field_156_unused;
-    int field_158_wheel_id;
-    int field_15C_unused;
+    s32 field_158_wheel_id;
+    s32 field_15C_unused;
     MudSounds field_160_delayed_speak;
     s16 field_162_maxXOffset;
-    int field_164_ring_timeout;
+    s32 field_164_ring_timeout;
     RingTypes field_168_ring_type;
 
     enum Flags_16A
@@ -570,7 +570,7 @@ public:
 private:
     s16 field_190_sub_state;
     s16 field_192_return_to_previous_motion;
-    int field_194_timer;
-    int field_198_turning_wheel_timer;
+    s32 field_194_timer;
+    s32 field_198_turning_wheel_timer;
 };
 ALIVE_ASSERT_SIZEOF(Mudokon, 0x19C);

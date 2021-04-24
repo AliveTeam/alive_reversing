@@ -41,7 +41,7 @@ public:
 
     EXPORT void VUpdate_461AD0();
 
-    EXPORT SecurityDoor* ctor_461840(Path_SecurityDoor* pTlv, int tlvInfo);
+    EXPORT SecurityDoor* ctor_461840(Path_SecurityDoor* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_4619C0();
 
@@ -53,20 +53,20 @@ public:
 
     EXPORT void VScreenChanged_461F80();
 
-    int field_D4[4];
-    int field_E4_tlvInfo;
+    s32 field_D4[4];
+    s32 field_E4_tlvInfo;
     s16 field_E8_state;
     s16 field_EA_id;
-    int field_EC_code_converted;
+    s32 field_EC_code_converted;
     s16 field_F0_code_len;
     s16 field_F2_padding;
-    int field_F4_event_idx;
+    s32 field_F4_event_idx;
     BYTE field_F8_stru[16];
     s16 field_108_max_idx;
     s16 field_10A_event_idx;
     PSX_Point field_10C_top_left;
     PSX_Point field_110_bottom_right;
-    int field_114_timer;
+    s32 field_114_timer;
     s16 field_118_max_idx;
     s16 field_11A_unused;
 };

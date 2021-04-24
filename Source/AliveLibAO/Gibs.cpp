@@ -42,7 +42,7 @@ static FP GibRand(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
-Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
+Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 {
     ctor_417C10();
 
@@ -225,7 +225,7 @@ void Gibs::VUpdate_4080C0()
         field_EC_dz = -field_EC_dz;
     }
 
-    for (int i = 0; i < field_5C4_parts_used_count; i++)
+    for (s32 i = 0; i < field_5C4_parts_used_count; i++)
     {
         field_F4_parts[i].field_0_x += field_F4_parts[i].field_C_dx;
         field_F4_parts[i].field_4_y += field_F4_parts[i].field_10_dy;
@@ -240,7 +240,7 @@ void Gibs::VUpdate_4080C0()
         }
     }
 
-    if (static_cast<int>(gnFrameCount_507670) > field_F0_timer)
+    if (static_cast<s32>(gnFrameCount_507670) > field_F0_timer)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -294,7 +294,7 @@ void Gibs::VRender_408200(PrimHeader** ppOt)
     const FP up = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
     const FP down = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
 
-    for (int i = 0; i < field_5C4_parts_used_count; i++)
+    for (s32 i = 0; i < field_5C4_parts_used_count; i++)
     {
         GibPart* pGib = &field_F4_parts[i];
         if (pGib->field_0_x >= left && pGib->field_0_x <= right)

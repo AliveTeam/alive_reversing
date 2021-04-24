@@ -78,10 +78,10 @@ void Leaf::vUpdate_4E3330()
     field_C4_velx = field_C4_velx * FP_FromDouble(0.8);
     field_C8_vely = field_C8_vely * FP_FromDouble(0.8);
 
-    const int randX = (sRandomBytes_546744[sLeafRandIdx_563AA4++] - 127);
+    const s32 randX = (sRandomBytes_546744[sLeafRandIdx_563AA4++] - 127);
     field_C4_velx += (field_CC_sprite_scale * (FP_FromInteger(randX) / FP_FromInteger(64)));
 
-    const int randY = (sRandomBytes_546744[sLeafRandIdx_563AA4++] - 127);
+    const s32 randY = (sRandomBytes_546744[sLeafRandIdx_563AA4++] - 127);
     field_C8_vely += (field_CC_sprite_scale * (FP_FromInteger(randY) / FP_FromInteger(64)));
 
     const FP x2 = field_C4_velx + field_B8_xpos;

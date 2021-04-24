@@ -147,7 +147,7 @@ void Grenade::AddToPlatform_41F7C0()
     {
         if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
         {
-            for (int i = 0; i < ObjListPlatforms_50766C->Size(); i++)
+            for (s32 i = 0; i < ObjListPlatforms_50766C->Size(); i++)
             {
                 BaseGameObject* pObjIter = ObjListPlatforms_50766C->ItemAt(i);
                 if (!pObjIter)

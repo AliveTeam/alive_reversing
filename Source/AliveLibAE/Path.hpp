@@ -159,7 +159,7 @@ enum class Scale_short : s16
     eHalf_1 = 1,
 };
 
-enum class Scale_int : int
+enum class Scale_int : s32
 {
     eFull_0 = 0,
     eHalf_1 = 1,
@@ -319,7 +319,7 @@ struct Path_Edge : public Path_TLV
 
 struct Path_SoftLanding : public Path_TLV
 {
-    int field_10_id;
+    s32 field_10_id;
 };
 // TODO: Size
 
@@ -376,7 +376,7 @@ struct Path_MovieStone : public Path_TLV
 {
     s16 field_10_movie_number;
     Scale_short field_12_scale;
-    int field_14_id;
+    s32 field_14_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovieStone, 0x18);
 
@@ -386,7 +386,7 @@ struct Path_HandStone : public Path_TLV
     s16 field_12_camera_id1;
     s16 field_12_camera_id2;
     s16 field_12_camera_id3;
-    int field_18_trigger_id;
+    s32 field_18_trigger_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HandStone, 0x1C);
 

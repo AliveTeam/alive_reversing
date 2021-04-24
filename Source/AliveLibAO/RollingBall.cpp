@@ -67,7 +67,7 @@ BaseGameObject* RollingBall::dtor_458230()
     return dtor_401000();
 }
 
-RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
+RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BC180);
@@ -426,7 +426,7 @@ void RollingBall::Accelerate_458410()
 
 void RollingBall::CrushThingsInTheWay_458310()
 {
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObj)

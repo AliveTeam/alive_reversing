@@ -22,10 +22,10 @@ EXPORT void CC PSX_Calc_FrameSkip_4945D0()
     static DWORD sLastTicks_5CA4CC = 0;
 
     const DWORD currentTime = SYS_GetTicks();
-    const int ticks = currentTime - sPreviousTime_5CA4C8 - delta_time_ring_buffer_5CA310[0] + sLastTicks_5CA4CC;
+    const s32 ticks = currentTime - sPreviousTime_5CA4C8 - delta_time_ring_buffer_5CA310[0] + sLastTicks_5CA4CC;
 
     // Move all elements down one, so the the last value is "empty"
-    for (int i = 0; i < ALIVE_COUNTOF(delta_time_ring_buffer_5CA310) - 1; i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(delta_time_ring_buffer_5CA310) - 1; i++)
     {
         delta_time_ring_buffer_5CA310[i] = delta_time_ring_buffer_5CA310[i + 1];
     }
@@ -71,7 +71,7 @@ struct DebugTexts
 };
 ALIVE_ASSERT_SIZEOF(DebugTexts, 0x80C);
 
-ALIVE_VAR(1, 0xBD0F28, int, sFntCount_BD0F28, 0);
+ALIVE_VAR(1, 0xBD0F28, s32, sFntCount_BD0F28, 0);
 ALIVE_ARY(1, 0xC27640, DebugTexts, 4, sTexts_C27640, {});
 
 EXPORT void CC DebugFont_Reset_4F8B40()
@@ -91,12 +91,12 @@ EXPORT void CC DebugFont_Update_Text_4F8BE0(s32 idx)
 
 ALIVE_ARY(1, 0xBB47CC, char, 600, sDebugFontTmpBuffer_BB47CC, {});
 ALIVE_VAR(1, 0xBB4A24, short, sbDebugFontLoaded_BB4A24, 0);
-ALIVE_VAR(1, 0xBB47C8, int, sDebugTextIdx_BB47C8, 0);
+ALIVE_VAR(1, 0xBB47C8, s32, sDebugTextIdx_BB47C8, 0);
 
 
-EXPORT int CC DebugFont_Open_4F8AB0(BYTE xMargin, BYTE yMargin, BYTE displayWidth, BYTE displayHeight, BYTE bgColour, u32 maxLenChars)
+EXPORT s32 CC DebugFont_Open_4F8AB0(BYTE xMargin, BYTE yMargin, BYTE displayWidth, BYTE displayHeight, BYTE bgColour, u32 maxLenChars)
 {
-    const int idx = sFntCount_BD0F28;
+    const s32 idx = sFntCount_BD0F28;
     if (sFntCount_BD0F28 == 4)
     {
         return -1;
@@ -112,7 +112,7 @@ EXPORT int CC DebugFont_Open_4F8AB0(BYTE xMargin, BYTE yMargin, BYTE displayWidt
     sTexts_C27640[idx].field_9_text.field_0_src_txt[0] = 0;
     sTexts_C27640[idx].field_9_text.field_400_dst_txt[0] = 0;
 
-    int limitedMaxLen = maxLenChars;
+    s32 limitedMaxLen = maxLenChars;
     if (maxLenChars > 1023)
     {
         limitedMaxLen = 1023;
@@ -121,7 +121,7 @@ EXPORT int CC DebugFont_Open_4F8AB0(BYTE xMargin, BYTE yMargin, BYTE displayWidt
     return idx;
 }
 
-EXPORT int CC DebugFont_Init_4DCF40() // Font
+EXPORT s32 CC DebugFont_Init_4DCF40() // Font
 {
     if (!sbDebugFontLoaded_BB4A24)
     {
@@ -137,7 +137,7 @@ EXPORT int CC DebugFont_Init_4DCF40() // Font
 }
 
 
-EXPORT int CC DebugFont_Printf_4F8B60(int idx, const char* formatStr, ...)
+EXPORT s32 CC DebugFont_Printf_4F8B60(s32 idx, const char* formatStr, ...)
 {
     va_list va;
     va_start(va, formatStr);
@@ -149,7 +149,7 @@ EXPORT int CC DebugFont_Printf_4F8B60(int idx, const char* formatStr, ...)
     char buffer[1024] = {};
     vsprintf(buffer, formatStr, va);
     strncat(sTexts_C27640[idx].field_9_text.field_0_src_txt, buffer, sTexts_C27640[idx].field_4_max_len);
-    return static_cast<int>(strlen(sTexts_C27640[idx].field_9_text.field_0_src_txt));
+    return static_cast<s32>(strlen(sTexts_C27640[idx].field_9_text.field_0_src_txt));
 }
 
 EXPORT void CC DebugFont_Flush_4DD050()
@@ -198,15 +198,15 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
     }
 
     const LONG fontHeight = BMP_Get_Font_Height_4F21F0(pBmp);
-    for (int i = 0; i < sFntCount_BD0F28; i++)
+    for (s32 i = 0; i < sFntCount_BD0F28; i++)
     {
         DebugTexts* pRecord = &sTexts_C27640[i];
-        const int xpos = rect.left + pRecord->field_0_xMargin;
-        int ypos = rect.top + pRecord->field_1_yMargin;
-        const int bgColour = pRecord->field_8_bgColour;
+        const s32 xpos = rect.left + pRecord->field_0_xMargin;
+        s32 ypos = rect.top + pRecord->field_1_yMargin;
+        const s32 bgColour = pRecord->field_8_bgColour;
         for (char* j = strtok(pRecord->field_9_text.field_400_dst_txt, "\n\r"); j; j = strtok(0, "\n\r"))
         {
-            int fontColour = Bmp_Convert_Colour_4F17D0(&sPsxVram_C1D160, 255, 255, 191);
+            s32 fontColour = Bmp_Convert_Colour_4F17D0(&sPsxVram_C1D160, 255, 255, 191);
             BMP_Draw_String_4F2230(pBmp, xpos, ypos, fontColour, bgColour, j);
             ypos += fontHeight;
         }
@@ -267,7 +267,7 @@ void PsxDisplay::PutCurrentDispEnv_41DFA0()
 }
 
 ALIVE_VAR(1, 0x5CA4D1, bool, sCommandLine_NoFrameSkip_5CA4D1, false);
-ALIVE_VAR(1, 0x55EF8C, int, sbDisplayRenderFrame_55EF8C, 1);
+ALIVE_VAR(1, 0x55EF8C, s32, sbDisplayRenderFrame_55EF8C, 1);
 
 void PsxDisplay::PSX_Display_Render_OT_41DDF0()
 {

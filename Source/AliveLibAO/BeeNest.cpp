@@ -9,7 +9,7 @@
 
 namespace AO {
 
-BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, int tlvInfo)
+BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BCEE8);

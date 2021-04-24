@@ -18,7 +18,7 @@ public:
 
     DynamicArrayT<BYTE*> field_0;
     BYTE** field_C_pCamRes;
-    int field_10_camera_resource_id;
+    s32 field_10_camera_resource_id;
     s16 field_14_xpos;
     s16 field_16_ypos;
     s16 field_18_path;

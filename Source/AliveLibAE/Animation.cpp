@@ -21,17 +21,17 @@
 #include "Renderer/IRenderer.hpp"
 
 // Frame call backs ??
-EXPORT int CC Animation_OnFrame_Common_Null_455F40(void*, s16*)
+EXPORT s32 CC Animation_OnFrame_Common_Null_455F40(void*, s16*)
 {
     return 1;
 }
 
-EXPORT int CC Animation_OnFrame_Null_455F60(void*, s16*)
+EXPORT s32 CC Animation_OnFrame_Null_455F60(void*, s16*)
 {
     return 1;
 }
 
-EXPORT int CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
+EXPORT s32 CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
     BYTE** ppAnimData = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDustResID, FALSE, FALSE);
@@ -124,7 +124,7 @@ EXPORT int CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
 }
 
 // Render smoke from flying Slig engine - not sure what it renders for abe
-EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
+EXPORT s32 CC Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
     if (pObj->field_10C_health <= FP_FromInteger(0))
@@ -165,7 +165,7 @@ EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
     return 1;
 }
 
-int CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
+s32 CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
 {
     auto pSlog = static_cast<Slog*>(pObjPtr);
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(pSlog->field_118_target_id));
@@ -431,7 +431,7 @@ inline short FP_AdjustedToInteger(FP fp, FP adjustment)
     return FP_GetExponent(fp + adjustment);
 }
 
-void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, s32 height)
+void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height)
 {
     if ((field_84_vram_rect.x || field_84_vram_rect.y) && !(field_4_flags.Get(AnimFlags::eBit25_bDecompressDone)))
     {
@@ -739,7 +739,7 @@ void Animation::Invoke_CallBacks_40B7A0()
     // This data can be an array of DWORD's + other data up to field_6_count
     // which appears AFTER the usual data.
     DWORD* pCallBackData = reinterpret_cast<DWORD*>(&pFrameHeaderCopy->field_8_data.points[3]);
-    for (int i = 0; i < pFrameHeaderCopy->field_6_count; i++)
+    for (s32 i = 0; i < pFrameHeaderCopy->field_6_count; i++)
     {
         auto pFnCallBack = field_1C_fn_ptr_array[*pCallBackData];
         if (!pFnCallBack)
@@ -752,7 +752,7 @@ void Animation::Invoke_CallBacks_40B7A0()
     }
 }
 
-s16 Animation::Set_Animation_Data_409C80(int frameTableOffset, BYTE** pAnimRes)
+s16 Animation::Set_Animation_Data_409C80(s32 frameTableOffset, BYTE** pAnimRes)
 {
     if (pAnimRes)
     {
@@ -906,7 +906,7 @@ WORD Animation::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, char bEnable_flag10_alternating)
+s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, char bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
@@ -994,11 +994,11 @@ s16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, Bas
 
     s16 pal_depth = 0;
     char b256Pal = 0;
-    int vram_width = 0;
+    s32 vram_width = 0;
     if (pFrameHeader_1->field_6_colour_depth == 4)
     {
-        const int halfW = maxW / 2;
-        const int wMod2 = maxW % 2;
+        const s32 halfW = maxW / 2;
+        const s32 wMod2 = maxW % 2;
 
         vram_width = wMod2 + halfW;
         pal_depth = 16;
@@ -1073,7 +1073,7 @@ s16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, Bas
     return 1;
 }
 
-void Animation::Load_Pal_40A530(BYTE** pAnimData, int palOffset)
+void Animation::Load_Pal_40A530(BYTE** pAnimData, s32 palOffset)
 {
     if (pAnimData)
     {

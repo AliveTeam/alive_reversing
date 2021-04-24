@@ -243,15 +243,15 @@ void SnoozeParticle::VRender_464620(PrimHeader** ppOt)
         const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->field_0_x) + pScreenManager_4FF7C8->field_14_xpos;
         const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->field_4_y) + pScreenManager_4FF7C8->field_16_ypos;
 
-        for (int i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
+        for (s32 i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
             Line_G2* pZExplosionLine = &field_94_lines[bufIdx][i];
             LineG2_Init(pZExplosionLine);
 
-            const int scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].field_0_x) * field_28_scale);
-            const int scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].field_2_y) * field_28_scale);
-            const int scaledLineRelativeEndX = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_0_x) * field_28_scale);
-            const int scaledLineRelativeEndY = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_2_y) * field_28_scale);
+            const s32 scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].field_0_x) * field_28_scale);
+            const s32 scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].field_2_y) * field_28_scale);
+            const s32 scaledLineRelativeEndX = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_0_x) * field_28_scale);
+            const s32 scaledLineRelativeEndY = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_2_y) * field_28_scale);
             SetXY0(pZExplosionLine,
                 static_cast<s16>(PsxToPCX(xInScreen + scaledLineRelativeStartX, 11)),
                 static_cast<s16>(yInScreen + scaledLineRelativeStartY)
@@ -342,7 +342,7 @@ void SnoozeParticle::VRender_464620(PrimHeader** ppOt)
         rectToInvalidate.h = rectH_v;
     }
     Prim_SetTPage* thisTPage = &field_1B4_tPage[bufIdx];
-    const int tPage = PSX_getTPage_4965D0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0);
+    const s32 tPage = PSX_getTPage_4965D0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0);
     Init_SetTPage_495FB0(thisTPage, 1, 0, tPage);
     OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &thisTPage->mBase);
 

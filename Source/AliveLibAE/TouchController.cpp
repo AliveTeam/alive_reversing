@@ -7,7 +7,7 @@ TouchController * gTouchController = nullptr;
 
 
 
-void sdl_ellipse(SDL_Renderer* r, int x0, int y0, int radiusX, int radiusY, u8 red, u8 green, u8 blue, u8 alpha)
+void sdl_ellipse(SDL_Renderer* r, s32 x0, s32 y0, s32 radiusX, s32 radiusY, u8 red, u8 green, u8 blue, u8 alpha)
 {
     SDL_SetRenderDrawColor(r, red, green, blue, alpha);
     SDL_SetRenderDrawBlendMode(r, SDL_BlendMode::SDL_BLENDMODE_BLEND);
@@ -18,22 +18,22 @@ void sdl_ellipse(SDL_Renderer* r, int x0, int y0, int radiusX, int radiusY, u8 r
                           //drew  28 lines with   4x4  circle with precision of 150 0ms
                           //drew 132 lines with  25x14 circle with precision of 150 0ms
                           //drew 152 lines with 100x50 circle with precision of 150 3ms
-    const int prec = 27; // precision value; value of 1 will draw a diamond, 27 makes pretty smooth circles.
+    const s32 prec = 27; // precision value; value of 1 will draw a diamond, 27 makes pretty smooth circles.
     float theta = 0;     // angle that will be increased each loop
 
                          //starting point
-    int x = (int)((float)radiusX * cos(theta));//start point
-    int y = (int)((float)radiusY * sin(theta));//start point
-    int x1 = x;
-    int y1 = y;
+    s32 x = (s32)((float)radiusX * cos(theta));//start point
+    s32 y = (s32)((float)radiusY * sin(theta));//start point
+    s32 x1 = x;
+    s32 y1 = y;
 
     //repeat until theta >= 90;
     float step = pih / (float)prec; // amount to add to theta each time (degrees)
     for (theta = step; theta <= pih; theta += step)//step through only a 90 arc (1 quadrant)
     {
         //get new point location
-        x1 = static_cast<int>((float)radiusX * cosf(theta) + 0.5); //new point (+.5 is a quick rounding method)
-        y1 = static_cast<int>((float)radiusY * sinf(theta) + 0.5); //new point (+.5 is a quick rounding method)
+        x1 = static_cast<s32>((float)radiusX * cosf(theta) + 0.5); //new point (+.5 is a quick rounding method)
+        y1 = static_cast<s32>((float)radiusY * sinf(theta) + 0.5); //new point (+.5 is a quick rounding method)
 
                                                  //draw line from previous point to new point, ONLY if point incremented
         if ((x != x1) || (y != y1))//only draw if coordinate changed
@@ -60,7 +60,7 @@ void sdl_ellipse(SDL_Renderer* r, int x0, int y0, int radiusX, int radiusY, u8 r
 
 TouchController::TouchController()
 {
-    for (int i = 0; i < SDL_GetNumTouchDevices(); i++)
+    for (s32 i = 0; i < SDL_GetNumTouchDevices(); i++)
     {
         touchDevices.push_back(SDL_GetTouchDevice(i));
     }
@@ -137,9 +137,9 @@ void TouchController::Update()
 
     for (SDL_TouchID tid : touchDevices)
     {
-        const int touchCount = SDL_GetNumTouchFingers(tid);
+        const s32 touchCount = SDL_GetNumTouchFingers(tid);
 
-        for (int i = 0; i < touchCount; i++)
+        for (s32 i = 0; i < touchCount; i++)
         {
             SDL_Finger * pFinger = SDL_GetTouchFinger(tid, i);
 
@@ -165,8 +165,8 @@ void TouchController::Update()
 #if _WIN32
     for (auto t : touchButtons)
     {
-        int mx, my;
-        int ms = SDL_GetMouseState(&mx, &my);
+        s32 mx, my;
+        s32 ms = SDL_GetMouseState(&mx, &my);
 
         const float x = t.x * xRatio;
         const float y = t.y * yRatio;
@@ -185,7 +185,7 @@ void TouchController::Render()
 {
     SDL_Renderer * pRenderer = SDL_GetRenderer(Sys_GetWindowHandle_4EE180());
 
-    int w, h;
+    s32 w, h;
     SDL_GetWindowSize(Sys_GetWindowHandle_4EE180(), &w, &h);
 
     xRatio = w / 1280.0f;
@@ -193,11 +193,11 @@ void TouchController::Render()
 
     for (auto t : touchButtons)
     {
-        sdl_ellipse(pRenderer, static_cast<int>(t.x * xRatio), static_cast<int>(t.y * yRatio), static_cast<int>((t.size * yRatio) / 2), static_cast<int>((t.size * yRatio) / 2), 255, 0, 0, 127);
+        sdl_ellipse(pRenderer, static_cast<s32>(t.x * xRatio), static_cast<s32>(t.y * yRatio), static_cast<s32>((t.size * yRatio) / 2), static_cast<s32>((t.size * yRatio) / 2), 255, 0, 0, 127);
     }
 }
 
-int TouchController::GetGamePadData(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+s32 TouchController::GetGamePadData(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
 {
     *pButtons = 0;
     *pX1 = 0;
@@ -245,7 +245,7 @@ int TouchController::GetGamePadData(float *pX1, float *pY1, float *pX2, float *p
     // 9 Start
 
     /*static float vibrationAmount = 0.0f;
-    int screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
+    s32 screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
 
     if (screenShake > 0)
     {

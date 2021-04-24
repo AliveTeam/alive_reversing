@@ -9,7 +9,7 @@ ALIVE_VAR(1, 0xBC0BB4, u8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 
 #if USE_SDL2
 
-EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
+EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags)
 {
     if (flags != 0)
     {
@@ -63,7 +63,7 @@ EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* /*pBmp*/)
     return 10;
 }
 
-EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(int bpp)
+EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(s32 bpp)
 {
     s32 converted = 0;
     switch (bpp)
@@ -99,9 +99,9 @@ EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(int bpp)
     return converted;
 }
 
-EXPORT int CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, int r, int g, int b)
+EXPORT s32 CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b)
 {
-    int converted = 0;
+    s32 converted = 0;
     switch (pBmp->field_15_pixel_format)
     {
     case 0xF:
@@ -144,7 +144,7 @@ EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
     }
 }
 
-EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
+EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags)
 {
     if (!pBitmap || !width || !height)
     {
@@ -153,7 +153,7 @@ EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFo
 
     memset(pBitmap, 0, sizeof(Bitmap));
 
-    const int bpp = BMP_New_convert_BPP_4F1CC0(pixelFormat);
+    const s32 bpp = BMP_New_convert_BPP_4F1CC0(pixelFormat);
     if (bpp < 0)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 170, -1, "BMP_New: bits per pixel not supported");
@@ -291,13 +291,13 @@ const BYTE sBitmapFont[] =
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x00, 0x00,
 };
 
-EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, u32 /*fgColour*/, int /*bgColour*/, LPCSTR lpString)
+EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 /*fgColour*/, s32 /*bgColour*/, LPCSTR lpString)
 {
     SDL_Surface* pFontBmp = SDL_LoadBMP_RW(SDL_RWFromConstMem(sBitmapFont, sizeof(sBitmapFont)), SDL_TRUE);
 
-    int xpos = 0;
-    const int kLetterWidth = 8;
-    const int kLetterHeight = 10;
+    s32 xpos = 0;
+    const s32 kLetterWidth = 8;
+    const s32 kLetterHeight = 10;
     for (u32 i = 0; i < strlen(lpString); i++)
     {
         char letter = lpString[i];
@@ -368,7 +368,7 @@ EXPORT HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPD
     return hr;
 }
 
-EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
+EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags)
 {
     HRESULT hr = S_OK;
     bool addError = true;
@@ -547,7 +547,7 @@ EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* pBmp)
     return textHeight;
 }
 
-EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(int bpp)
+EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(s32 bpp)
 {
     s32 converted = 0;
     switch (bpp)
@@ -583,9 +583,9 @@ EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(int bpp)
     return converted;
 }
 
-EXPORT int CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, int r, int g, int b)
+EXPORT s32 CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b)
 {
-    int converted = 0;
+    s32 converted = 0;
     switch (pBmp->field_15_pixel_format)
     {
     case 0xF:
@@ -628,7 +628,7 @@ EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
     }
 }
 
-EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
+EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags)
 {
     if (!pBitmap || !width || !height)
     {
@@ -637,7 +637,7 @@ EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFo
 
     memset(pBitmap, 0, sizeof(Bitmap));
 
-    const int bpp = BMP_New_convert_BPP_4F1CC0(pixelFormat);
+    const s32 bpp = BMP_New_convert_BPP_4F1CC0(pixelFormat);
     if (bpp < 0)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 170, -1, "BMP_New: bits per pixel not supported");
@@ -788,7 +788,7 @@ EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
     return nullptr;
 }
 
-EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, u32 fgColour, int bgColour, LPCSTR lpString)
+EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 fgColour, s32 bgColour, LPCSTR lpString)
 {
     const HDC dc = BMP_Get_DC_4F2150(pBmp);
     if (bgColour)
@@ -962,7 +962,7 @@ namespace AETest::TestsBmp
         return 0;
     }
 
-    int WINAPI Stub_SetBkMode(HDC, int)
+    s32 WINAPI Stub_SetBkMode(HDC, s32)
     {
         return 0;
     }
@@ -974,7 +974,7 @@ namespace AETest::TestsBmp
         return 0;
     }
 
-    BOOL WINAPI Stub_TextOutA(HDC, _In_ int, _In_ int, LPCSTR, int)
+    BOOL WINAPI Stub_TextOutA(HDC, _In_ s32, _In_ s32, LPCSTR, s32)
     {
         return TRUE;
     }
@@ -1000,7 +1000,7 @@ namespace AETest::TestsBmp
         LPDIRECTDRAWSURFACE surf = nullptr;
 
         DDSURFACEDESC actualData = {};
-        for (int i = 0; i < 32; i++)
+        for (s32 i = 0; i < 32; i++)
         {
             const DWORD flag = (1 << i);
             if (flag != DDSCAPS_SYSTEMMEMORY && flag != DDSCAPS_VIDEOMEMORY)

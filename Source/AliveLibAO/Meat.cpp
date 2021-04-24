@@ -18,7 +18,7 @@
 
 namespace AO {
 
-MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, int tlvInfo)
+MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BB930);
@@ -537,7 +537,7 @@ void Meat::VUpdate_438A20()
                 field_120_deadtimer = gnFrameCount_507670 + 600;
             }
 
-            if (static_cast<int>(gnFrameCount_507670) > field_11C_timer)
+            if (static_cast<s32>(gnFrameCount_507670) > field_11C_timer)
             {
                 New_Shiny_Particle_4199A0(
                     field_A8_xpos + field_BC_sprite_scale,
@@ -546,7 +546,7 @@ void Meat::VUpdate_438A20()
                     Layer::eLayer_36);
                 field_11C_timer = Math_NextRandom() % 16 + gnFrameCount_507670 + 60;
             }
-            if (field_120_deadtimer < static_cast<int>(gnFrameCount_507670))
+            if (field_120_deadtimer < static_cast<s32>(gnFrameCount_507670))
             {
                 field_6_flags.Set(Options::eDead_Bit3);
             }
@@ -624,7 +624,7 @@ void Meat::AddToPlatform_438EA0()
     {
         if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
         {
-            for (int i = 0; i < ObjListPlatforms_50766C->Size(); i++)
+            for (s32 i = 0; i < ObjListPlatforms_50766C->Size(); i++)
             {
                 BaseGameObject* pObjIter = ObjListPlatforms_50766C->ItemAt(i);
                 if (!pObjIter)

@@ -16,8 +16,8 @@ public:
     EXPORT SlapLockWhirlWind* ctor_43D7E0(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale);
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
-    static EXPORT int CC CreateFromSaveState_43DC20(const BYTE* pBuffer);
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    static EXPORT s32 CC CreateFromSaveState_43DC20(const BYTE* pBuffer);
 
 private:
     EXPORT void dtor_43DA70();
@@ -35,10 +35,10 @@ private:
     FP field_2C_door_x;
     FP field_30_door_y;
     FP field_34_door_scale;
-    int field_38_orb_whirlwind_id;
+    s32 field_38_orb_whirlwind_id;
     s16 field_3C_state;
     s16 field_3E_padding;
-    int field_40_timer;
+    s32 field_40_timer;
     s16 field_44_switch_id;
     s16 field_46_padding;
 };

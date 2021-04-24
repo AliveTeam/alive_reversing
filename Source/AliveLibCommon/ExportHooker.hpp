@@ -6,6 +6,7 @@
 #include <sstream>
 #include "logger.hpp"
 #include "Function.hpp"
+#include "Types.hpp"
 
 class ExportHooker
 {
@@ -47,6 +48,6 @@ private:
 
     std::map<DWORD, DWORD> mRealStubs;
     std::set<DWORD> mDisabledImpls;
-    int mExportCount = 0;
-    int mHookedCount = 0;
+    s32 mExportCount = 0;
+    s32 mHookedCount = 0;
 };

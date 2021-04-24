@@ -16,7 +16,7 @@ public:
 
     // New virtuals
     virtual void VStop_4E6150();
-    virtual int VSub_4E6630();
+    virtual s32 VSub_4E6630();
 
     EXPORT Electrocute* ctor_4E5E80(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter, s16 bKillTarget);
 
@@ -26,10 +26,10 @@ private:
     EXPORT void vScreenChanged_4E65E0();
     EXPORT void vUpdate_4E6240();
     EXPORT void vStop_4E6150();
-    EXPORT int vSub_4E6630();
+    EXPORT s32 vSub_4E6630();
 
 public:
-    int field_20_target_obj_id;
+    s32 field_20_target_obj_id;
     s16 field_24_r;
     s16 field_26_g;
     s16 field_28_b;
@@ -50,7 +50,7 @@ private:
     };
     States field_44_state;
     s16 field_46_padding;   // Ditto
-    int field_48_padding;
+    s32 field_48_padding;
     PSX_RECT field_4C_pal_rect;
 };
 ALIVE_ASSERT_SIZEOF(Electrocute, 0x54);

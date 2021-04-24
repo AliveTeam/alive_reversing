@@ -69,7 +69,7 @@ namespace AO
     {
         s16 id;
         s16 state;
-        int scale;
+        s32 scale;
     };
 
     struct Path_Bees : public Path_TLV
@@ -104,24 +104,24 @@ namespace AO
 
     struct Path_AbeStart : public Path_TLV
     {
-        int scale;
+        s32 scale;
     };
 
     struct Path_MudokonPathTrans : public Path_TLV
     {
         LevelIds level;
         s16 path;
-        int camera;
+        s32 camera;
     };
 
     struct Path_Pulley : public Path_TLV
     {
-        int scale;
+        s32 scale;
     };
 
     struct Path_Preloader : public Path_TLV
     {
-        int unload_cams_ASAP;
+        s32 unload_cams_ASAP;
     };
 
     struct Path_SligSpawner : public Path_TLV
@@ -165,12 +165,12 @@ namespace AO
         s16 field_4E_stay_awake;
         s16 field_50_disable_resources;
         s16 field_52_noise_wake_up_distance;
-        int field_54_id;
+        s32 field_54_id;
     };
 
     struct Path_ContinueZone : public Path_TLV
     {
-        int field_10_zone_number;
+        s32 field_10_zone_number;
     };
 
     struct Path_StartController : public Path_TLV
@@ -189,7 +189,7 @@ namespace AO
         s16 sound;
         s16 id;
         s16 action;
-        int set_value;
+        s32 set_value;
     };
 
     struct Path_ElumStart : public Path_TLV

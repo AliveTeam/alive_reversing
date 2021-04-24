@@ -76,7 +76,7 @@ BaseGameObject* GasEmitter::dtor_41D840()
     return dtor_487DF0();
 }
 
-GasEmitter* GasEmitter::ctor_41D760(Path_GasEmitter* pTlv, int tlvInfo)
+GasEmitter* GasEmitter::ctor_41D760(Path_GasEmitter* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BAF20);

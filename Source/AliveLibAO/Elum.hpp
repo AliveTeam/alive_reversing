@@ -61,7 +61,7 @@ namespace AO {
     ENTRY(State_50_Knockback_415DC0)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eElumStates : int
+enum eElumStates : s32
 {
     ELUM_STATES_ENUM(MAKE_ENUM)
 };
@@ -122,7 +122,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    EXPORT Elum* ctor_410870(int a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, int a5, TlvItemInfoUnion a6);
+    EXPORT Elum* ctor_410870(s32 a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, s32 a5, TlvItemInfoUnion a6);
     EXPORT BaseGameObject* dtor_410BC0();
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
@@ -255,10 +255,10 @@ public:
 
     s16 field_10C_bFootStep2;
     s16 field_10E_pressed;
-    int field_110_timer;
-    int field_114_respond_timer;
+    s32 field_110_timer;
+    s32 field_114_respond_timer;
     FP field_118_jump_velx;
-    int field_11C_padding;
+    s32 field_11C_padding;
     s16 field_120_bUnknown;
     s16 field_122_bDontFollowAbe;
     s16 field_124_bShould_IdleToWalk1;
@@ -267,8 +267,8 @@ public:
     s16 field_12A_brain_state;
     s16 field_12C_honey_xpos;
     s16 field_12E_honey_ypos;
-    int field_130_unused;
-    int field_134_padding;
+    s32 field_130_unused;
+    s32 field_134_padding;
     PSX_RECT field_138_continue_rect;
     s16 field_140_continue_zone_number;
     s16 field_142_zone_number;
@@ -281,17 +281,17 @@ public:
     FP field_150_continue_sprite_scale;
     s16 field_154_bAbeForcedDownFromElum;
     s16 field_156_padding;
-    int field_158_last_event_idx;
-    int field_15C_padding;
-    int field_160_padding;
-    int field_164_padding;
-    int field_168_padding;
+    s32 field_158_last_event_idx;
+    s32 field_15C_padding;
+    s32 field_160_padding;
+    s32 field_164_padding;
+    s32 field_168_padding;
     s16 field_16C_never_read;
     s16 field_16E_never_read;
     BitField16<Flags_170> field_170_flags;
     s16 field_172_padding;
     ElumResources field_174_resources;
-    int field_1F0_tlvInfo;
+    s32 field_1F0_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(Elum, 0x1F4);
 

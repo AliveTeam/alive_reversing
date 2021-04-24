@@ -16,16 +16,16 @@ namespace AO {
 
 struct FlintLockFireData
 {
-    int field_0_resourceId;
-    int field_4_frameTable2;
-    int field_8_maxW2;
-    int field_C_maxH2;
-    int field_10_resId;
-    int field_14_frameTable1;
-    int field_18_fireFrameTable;
-    int field_1C_maxW1;
-    int field_20_maxH1;
-    int field_24_bFire;
+    s32 field_0_resourceId;
+    s32 field_4_frameTable2;
+    s32 field_8_maxW2;
+    s32 field_C_maxH2;
+    s32 field_10_resId;
+    s32 field_14_frameTable1;
+    s32 field_18_fireFrameTable;
+    s32 field_1C_maxW1;
+    s32 field_20_maxH1;
+    s32 field_24_bFire;
 };
 ALIVE_ASSERT_SIZEOF(FlintLockFireData, 0x28);
 
@@ -100,7 +100,7 @@ BaseGameObject* FlintLockFire::dtor_41AE20()
     gMap_507BA8.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
     field_F0_anim.vCleanUp();
 
-    if (sFlintLockFireData_4BAC70[static_cast<int>(gMap_507BA8.field_0_current_level)].field_24_bFire)
+    if (sFlintLockFireData_4BAC70[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_24_bFire)
     {
         field_188_anim.vCleanUp();
         field_220_anim.vCleanUp();
@@ -112,7 +112,7 @@ BaseGameObject* FlintLockFire::dtor_41AE20()
     return dtor_417D10();
 }
 
-FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
+FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     field_4_typeId = Types::eFlintLockFire_34;
@@ -123,7 +123,7 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
     SetVTable(&field_188_anim, 0x4BA2B8);
     SetVTable(&field_220_anim, 0x4BA2B8);
 
-    const int cur_lvl = static_cast<int>(gMap_507BA8.field_0_current_level);
+    const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
     BYTE** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, sFlintLockFireData_4BAC70[cur_lvl].field_10_resId, 1, 0);
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(
@@ -243,7 +243,7 @@ void FlintLockFire::VUpdate_41AEE0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    const int cur_lvl = static_cast<int>(gMap_507BA8.field_0_current_level);
+    const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
     switch (field_E4_state)
     {
@@ -315,7 +315,7 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
 {
     if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
     {
-        const int cur_lvl = static_cast<int>(gMap_507BA8.field_0_current_level);
+        const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
         field_10_anim.field_14_scale = field_BC_sprite_scale;
         field_F0_anim.field_14_scale = field_BC_sprite_scale;
 

@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF(Path_Mine, 0x24);
 class Mine : public BaseAliveGameObject
 {
 public:
-    EXPORT Mine* ctor_43A330(Path_Mine* pTlv, int tlvInfo);
+    EXPORT Mine* ctor_43A330(Path_Mine* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_43A640();
 
@@ -57,10 +57,10 @@ public:
 
     u16 field_10C_detonating;
     s16 field_10E_disabled_resources;
-    int field_110_tlv;
-    int field_114_gnframe;
+    s32 field_110_tlv;
+    s32 field_114_gnframe;
     Animation field_118_animation;
-    int field_1B0_flags;
+    s32 field_1B0_flags;
 };
 ALIVE_ASSERT_SIZEOF(Mine, 0x1B4);
 

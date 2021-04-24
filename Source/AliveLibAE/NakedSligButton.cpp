@@ -19,7 +19,7 @@ const SfxDefinition stru_544488[8] =
     // { (char)160u, (char)192u, 77u, 0u, (short)49392, 77 }
 };
 
-NakedSligButton* NakedSligButton::ctor_4148F0(Path_NakedSligButton* pTlv, int tlvInfo)
+NakedSligButton* NakedSligButton::ctor_4148F0(Path_NakedSligButton* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5444B4);
@@ -104,9 +104,9 @@ void NakedSligButton::vUpdate_414B20()
         Event_Broadcast_422BC0(kEventNoise, this);
         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
-        const int old_switch_state = SwitchStates_Get_466020(field_F8_id);
+        const s32 old_switch_state = SwitchStates_Get_466020(field_F8_id);
         SwitchStates_Do_Operation_465F00(field_F8_id, field_FA_action);
-        const int new_switch_state = SwitchStates_Get_466020(field_F8_id);
+        const s32 new_switch_state = SwitchStates_Get_466020(field_F8_id);
 
         if (old_switch_state != new_switch_state)
         {

@@ -23,8 +23,8 @@ struct GameEnderController_State
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    int field_4_obj_id;
-    int field_8_timer;
+    s32 field_4_obj_id;
+    s32 field_8_timer;
     GameEnderController_States field_C_state;
     s16 field_E_padding;
 };
@@ -33,21 +33,21 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderController_State, 0x10);
 class GameEnderController : public BaseGameObject
 {
 public:
-    EXPORT static int CC CreateFromSaveState_43BD10(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_43BD10(const BYTE* pBuffer);
     EXPORT GameEnderController* ctor_43B840();
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 private:
     EXPORT GameEnderController* vdtor_43B8D0(s32 flags);
     EXPORT void vScreenChanged_43BC80();
-    EXPORT int vGetSaveState_43BCD0(GameEnderController_State* pState);
+    EXPORT s32 vGetSaveState_43BCD0(GameEnderController_State* pState);
     EXPORT void vUpdate_43B920();
 
 private:
-    int field_20_timer;
+    s32 field_20_timer;
     GameEnderController_States field_24_state;
     s16 field_26_padding;
 };

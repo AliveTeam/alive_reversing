@@ -19,7 +19,7 @@ ALIVE_ASSERT_SIZEOF(Path_SlogHut, 0x20);
 class SlogHut : public BaseGameObject
 {
 public:
-    EXPORT SlogHut* ctor_472C80(Path_SlogHut* pTlv, int tlvInfo);
+    EXPORT SlogHut* ctor_472C80(Path_SlogHut* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_472CF0();
 
@@ -38,10 +38,10 @@ public:
     FP field_10_xpos;
     FP field_14_ypos;
     FP field_18_scale;
-    int field_1C_tlvInfo;
+    s32 field_1C_tlvInfo;
     s16 field_20_switch_id;
     s16 field_22;
-    int field_24_timer;
+    s32 field_24_timer;
     s16 field_28_z_delay;
     s16 field_2A;
 };

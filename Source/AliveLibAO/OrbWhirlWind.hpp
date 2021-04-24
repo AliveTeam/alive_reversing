@@ -40,7 +40,7 @@ public:
 
     EXPORT void ToStop_48BBB0();
 
-    int field_10_particle_spawn_counter;
+    s32 field_10_particle_spawn_counter;
     ParticlesState field_14_particles_state;
     s16 field_16_particleIdx;
     OrbWhirlWindParticle* field_18_particles[16];

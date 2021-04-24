@@ -66,7 +66,7 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
 
     // And take a pointer to the first chunk to iterate them
     Fg1Chunk* pChunkIter = &pHeader->mChunks;
-    int render_block_idx = 0;
+    s32 render_block_idx = 0;
     for (;;) // Exit when we hit the end chunk
     {
         switch (pChunkIter->field_0_type)
@@ -177,11 +177,11 @@ void FG1::VRender(PrimHeader** ppOt)
 
 void FG1::vRender_49A3C0(PrimHeader** ppOt)
 {
-    for (int i = 0; i < field_28_render_block_count; i++)
+    for (s32 i = 0; i < field_28_render_block_count; i++)
     {
         Poly_FT4* pPoly = &field_30_chnk_res[i].field_0_polys[gPsxDisplay_5C1130.field_C_buffer_index];
-        const int xpos = X0(pPoly);
-        const int ypos = Y0(pPoly);
+        const s32 xpos = X0(pPoly);
+        const s32 ypos = Y0(pPoly);
         if (pScreenManager_5BB5F4->IsDirty_40EBC0(pScreenManager_5BB5F4->field_3A_idx, xpos, ypos) || pScreenManager_5BB5F4->IsDirty_40EBC0(3, xpos, ypos))
         {
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_30_chnk_res[i].field_66_mapped_layer), &pPoly->mBase.header);

@@ -33,5 +33,5 @@ inline FixedPoint operator/(const FixedPoint& lhs, const FixedPoint& rhs)
     return f;
 }
 
-EXPORT int CC Math_SquareRoot_Int_496E70(int value);
+EXPORT s32 CC Math_SquareRoot_Int_496E70(s32 value);
 EXPORT FP CC Math_SquareRoot_FP_496E90(FP value);

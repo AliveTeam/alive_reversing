@@ -228,7 +228,7 @@ void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
         const FP camX = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
         const FP camY = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
 
-        for (int i = 0; i < field_FC_number_of_particles; i++)
+        for (s32 i = 0; i < field_FC_number_of_particles; i++)
         {
             if (field_F8_pRes[i].field_0_x < camX)
             {
@@ -371,8 +371,8 @@ void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
 
 void ParticleBurst::vUpdate_41D590()
 {
-    const int v3 = field_CC_sprite_scale != FP_FromInteger(1) ? 2 : 4;
-    for (int i = 0; i < field_FC_number_of_particles; i++)
+    const s32 v3 = field_CC_sprite_scale != FP_FromInteger(1) ? 2 : 4;
+    for (s32 i = 0; i < field_FC_number_of_particles; i++)
     {
         field_F8_pRes[i].field_0_x += field_F8_pRes[i].field_C_x_speed;
         field_F8_pRes[i].field_4_y += field_F8_pRes[i].field_10_y_speed;
@@ -419,7 +419,7 @@ void ParticleBurst::vUpdate_41D590()
         }
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) > field_100_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

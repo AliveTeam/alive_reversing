@@ -13,10 +13,10 @@
 
 struct TrapDoor_Data
 {
-    int field_0;
-    int field_4_maxW;
-    int field_8;
-    int field_C;
+    s32 field_0;
+    s32 field_4_maxW;
+    s32 field_8;
+    s32 field_C;
     s16 field_10_maxH;
     s16 field_12_frame_table_offset;
 };
@@ -87,18 +87,18 @@ void TrapDoor::VScreenChanged()
     vScreenChanged_4DDE40();
 }
 
-int TrapDoor::VGetSaveState(BYTE* pSaveBuffer)
+s32 TrapDoor::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4DE050(reinterpret_cast<TrapDoor_State*>(pSaveBuffer));
 }
 
-PSX_RECT* TrapDoor::vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx)
+PSX_RECT* TrapDoor::vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx)
 {
     return vGetBoundingRect_4DD870(pRect, pointIdx);
 }
 
 
-EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvInfo)
+EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x547CE0);
@@ -111,9 +111,9 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
     field_134_switch_idx = pTlv->field_10_id;
     field_138_switch_state = pTlv->field_12_start_state;
 
-    const int levelIdx = static_cast<int>(gMap_5C3030.field_0_current_level);
+    const s32 levelIdx = static_cast<s32>(gMap_5C3030.field_0_current_level);
 
-    int frameTableOffset = 0;
+    s32 frameTableOffset = 0;
     if (field_138_switch_state == SwitchStates_Get_466020(field_134_switch_idx))
     {
         field_136_state = TrapDoorState::eOpen_2;
@@ -258,7 +258,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
         {
             Open_4DD960();
             field_136_state = TrapDoorState::eOpening_1;
-            field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<int>(gMap_5C3030.field_0_current_level)].field_8, 0);
+            field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_8, 0);
 
             if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
                 gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
@@ -290,7 +290,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
 
         if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_idx) != field_138_switch_state)
         {
-            field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<int>(gMap_5C3030.field_0_current_level)].field_C, 0);
+            field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_C, 0);
 
             field_136_state = TrapDoorState::eClosing_3;
 
@@ -346,7 +346,7 @@ EXPORT void TrapDoor::vScreenChanged_4DDE40()
     }
 }
 
-EXPORT int TrapDoor::vGetSaveState_4DE050(TrapDoor_State* pState)
+EXPORT s32 TrapDoor::vGetSaveState_4DE050(TrapDoor_State* pState)
 {
     pState->field_0_type = AETypes::eTrapDoor_142;
     pState->field_4_open_time = field_130_stay_open_time2;
@@ -355,7 +355,7 @@ EXPORT int TrapDoor::vGetSaveState_4DE050(TrapDoor_State* pState)
     return sizeof(TrapDoor_State);
 }
 
-EXPORT PSX_RECT* TrapDoor::vGetBoundingRect_4DD870(PSX_RECT* pRect, int /*not_used*/)
+EXPORT PSX_RECT* TrapDoor::vGetBoundingRect_4DD870(PSX_RECT* pRect, s32 /*not_used*/)
 {
     *pRect = field_148_bounding_rect;
     return pRect;
@@ -400,7 +400,7 @@ void TrapDoor::Add_To_Collisions_Array_4DDA20()
 
 void TrapDoor::Open_4DD960()
 {
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)

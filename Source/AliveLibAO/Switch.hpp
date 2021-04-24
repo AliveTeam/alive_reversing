@@ -24,7 +24,7 @@ ALIVE_ASSERT_SIZEOF(Path_Switch, 0x24);
 class Switch : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Switch* ctor_481110(Path_Switch* pTlv, int tlvInfo);
+    EXPORT Switch* ctor_481110(Path_Switch* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_481260();
 
@@ -41,16 +41,16 @@ public:
     EXPORT void VUpdate_4812D0();
 
     // New virtual
-    virtual int VPull(s16 a2);
+    virtual s32 VPull(s16 a2);
 
-    EXPORT int vPull_481640(s16 a2);
+    EXPORT s32 vPull_481640(s16 a2);
 
-    int field_D4[4];
+    s32 field_D4[4];
     s16 field_E4_switchId;
     s16 field_E6_pad;
     s16 field_E8_state;
     s16 field_EA_pad;
-    int field_EC_tlvInfo;
+    s32 field_EC_tlvInfo;
     s16 field_F0;
     SwitchOp field_F2_operation;
     s16 field_F4_on_sound;

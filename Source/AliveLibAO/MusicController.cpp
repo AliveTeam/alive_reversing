@@ -19,12 +19,12 @@ using TRootCallBackFn = decltype(&MusicController::OnRootCounter_4437D0);
 constexpr auto RCntCNT3 = 0xf2000003; // VSync (VBlank)
 
 // TODO: Move out PSX emu parts
-ALIVE_VAR(1, 0x507BA0, int, psx_root_event_507BA0, 0);
+ALIVE_VAR(1, 0x507BA0, s32, psx_root_event_507BA0, 0);
 ALIVE_VAR(1, 0xAC0BE0, TRootCallBackFn, sRootCounerFn_AC0BE0, nullptr);
-ALIVE_VAR(1, 0x507B9C, int, sMusicTime_507B9C, 0);
+ALIVE_VAR(1, 0x507B9C, s32, sMusicTime_507B9C, 0);
 
 
-EXPORT int CC Psx_Root_Counter_49C280(int event, int unknown1, int unknown2, TRootCallBackFn pFn)
+EXPORT s32 CC Psx_Root_Counter_49C280(s32 event, s32 unknown1, s32 unknown2, TRootCallBackFn pFn)
 {
     if (event == RCntCNT3 && unknown1 == 2 && unknown2 == 4096)
     {
@@ -33,7 +33,7 @@ EXPORT int CC Psx_Root_Counter_49C280(int event, int unknown1, int unknown2, TRo
     return 1;
 }
 
-EXPORT int CC Psx_Root_Counter_Event_Free_49C2B0(int event)
+EXPORT s32 CC Psx_Root_Counter_Event_Free_49C2B0(s32 event)
 {
     if (event == RCntCNT3)
     {
@@ -42,29 +42,29 @@ EXPORT int CC Psx_Root_Counter_Event_Free_49C2B0(int event)
     return 1;
 }
 
-EXPORT int CC Psx_Root_Counter_49C3B0(int /*not_used*/)
+EXPORT s32 CC Psx_Root_Counter_49C3B0(s32 /*not_used*/)
 {
     return 0;
 }
 
-EXPORT int CC Psx_Root_Counter_49C340(int /*a1*/, int /*a2*/)
+EXPORT s32 CC Psx_Root_Counter_49C340(s32 /*a1*/, s32 /*a2*/)
 {
     return 0;
 }
 
-EXPORT int Psx_Root_Counter_49C360(int /*not_used*/)
+EXPORT s32 Psx_Root_Counter_49C360(s32 /*not_used*/)
 {
     return 0;
 }
 
-EXPORT int CC Psx_Root_Counter_49C370(int /*counter*/)
+EXPORT s32 CC Psx_Root_Counter_49C370(s32 /*counter*/)
 {
     return 0;
 }
 
 struct MusicController_Record3_Sub
 {
-    int field_0_count;
+    s32 field_0_count;
     s16 field_4_min;
     s16 field_6_max;
 };
@@ -102,7 +102,7 @@ struct MusicController_Record
 {
     s16 field_0_seqIdx;
     s16 field_2;
-    int field_4;
+    s32 field_4;
     s16 field_8_bAmibentEnabled;
     s16 field_A;
     s16 field_C;
@@ -364,7 +364,7 @@ void CC MusicController::UpdateMusicTime()
 #endif
 }
 
-int MusicController::GetMusicTime()
+s32 MusicController::GetMusicTime()
 {
 #if USE_SDL2
     return sMusicTime_507B9C;
@@ -639,7 +639,7 @@ void CC MusicController::EnableMusic_443900(s16 bEnable)
     }
 }
 
-int CC MusicController::OnRootCounter_4437D0()
+s32 CC MusicController::OnRootCounter_4437D0()
 {
     sMusicTime_507B9C++;
     return 0;
@@ -721,7 +721,7 @@ s16 MusicController::SetMusicVolumeDelayed(s16 vol, s16 delay)
     s16 ret = 0;
     if (vol != field_4C_current_vol)
     {
-        const int counterVal = GetMusicTime();
+        const s32 counterVal = GetMusicTime();
 
         field_4A_starting_volume = field_4C_current_vol;
         ret = (vol <= 0) ? 0 : vol;
@@ -745,7 +745,7 @@ s16 MusicController::SetMusicVolumeDelayed(s16 vol, s16 delay)
 
 void MusicController::UpdateMusic_442C20()
 {
-    const int counterVal = GetMusicTime();
+    const s32 counterVal = GetMusicTime();
 
     if (counterVal >= field_3C_music_seq_duration  && !((counterVal - field_30_music_timer) % field_34_sync_after_beats))
     {
@@ -754,7 +754,7 @@ void MusicController::UpdateMusic_442C20()
             SND_Seq_Stop_477A60(field_38_music_seq);
         }
 
-        int idx = 0;
+        s32 idx = 0;
         switch (field_3A_type)
         {
         case MusicTypes::eAbeOnElum_1:
@@ -802,8 +802,8 @@ void MusicController::UpdateMusic_442C20()
         case MusicTypes::eSlogChase_5:
         {
             const MusicController_Record* pRec = field_3A_type == MusicTypes::eChase_4 ?
-                &array_1_stru_4CD958[static_cast<int>(field_18_level)] :
-                &array_2_stru_4CDA58[static_cast<int>(field_18_level)];
+                &array_1_stru_4CD958[static_cast<s32>(field_18_level)] :
+                &array_2_stru_4CDA58[static_cast<s32>(field_18_level)];
             idx = pRec->field_0_seqIdx;
             field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
             field_34_sync_after_beats = pRec->field_4;
@@ -814,7 +814,7 @@ void MusicController::UpdateMusic_442C20()
         case MusicTypes::ePossessed_6:
             if (field_44_bTypeChanged)
             {
-                const MusicController_Record* pRec = &array_3_stru_4CDB58[static_cast<int>(field_18_level)];
+                const MusicController_Record* pRec = &array_3_stru_4CDB58[static_cast<s32>(field_18_level)];
                 idx = pRec->field_0_seqIdx;
                 field_34_sync_after_beats = pRec->field_4;
                 field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
@@ -1023,7 +1023,7 @@ void MusicController::UpdateAmbiance_442AC0()
             s16 random = -1;
             if (field_3A_type == MusicTypes::eType0)
             {
-                const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<int>(field_18_level)];
+                const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<s32>(field_18_level)];
                 for (const MusicController_Record3_Sub& rec : pRec->field_0)
                 {
                     const auto diff = GetMusicTime() - field_2C_music_start_time;
@@ -1036,7 +1036,7 @@ void MusicController::UpdateAmbiance_442AC0()
             }
             else
             {
-                const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<int>(field_18_level)];
+                const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<s32>(field_18_level)];
                 random = Math_RandomRange_450F20(pRec->field_0[0].field_4_min, pRec->field_0[0].field_6_max);
             }
 
@@ -1050,7 +1050,7 @@ void MusicController::UpdateAmbiance_442AC0()
             {
                 // Play new track
                 field_26_ambient_seq = rec2s_4CD5A8[random].field_0_idx;
-                SND_SEQ_Play_477760(field_26_ambient_seq, rec3s_4CD798[static_cast<int>(field_18_level)].field_18, field_4C_current_vol, field_4C_current_vol);
+                SND_SEQ_Play_477760(field_26_ambient_seq, rec3s_4CD798[static_cast<s32>(field_18_level)].field_18, field_4C_current_vol, field_4C_current_vol);
                 field_28_amibent_seq_duration = GetMusicTime() + rec2s_4CD5A8[random].field_2_duration;
             }
         }

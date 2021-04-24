@@ -70,7 +70,7 @@ public:
     // TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
     struct ResourcesToLoadList
     {
-        int field_0_count;
+        s32 field_0_count;
         ResourcesToLoadList_Entry field_4_items[1];
     };
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
@@ -129,7 +129,7 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourceHeapItem, 0x8);
 
-    enum BlockAllocMethod : int
+    enum BlockAllocMethod : s32
     {
         eFirstMatching = 0,
         eNearestMatching = 1,
@@ -139,13 +139,13 @@ public:
     EXPORT static void CC Init_49BCE0();
     EXPORT static ResourceHeapItem* CC Push_List_Item_49BD70();
     EXPORT static void CC Pop_List_Item_49BD90(ResourceHeapItem* pListItem);
-    EXPORT static ResourceHeapItem* CC Split_block_49BDC0(ResourceHeapItem* pItem, int size);
-    EXPORT static int CC SEQ_HashName_49BE30(const char* seqFileName);
+    EXPORT static ResourceHeapItem* CC Split_block_49BDC0(ResourceHeapItem* pItem, s32 size);
+    EXPORT static s32 CC SEQ_HashName_49BE30(const char* seqFileName);
     static BYTE** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, ResourceManager::BlockAllocMethod allocType);
     EXPORT static BYTE** CC Alloc_New_Resource_49BED0(DWORD type, DWORD id, DWORD size);
     EXPORT static BYTE** CC Allocate_New_Locked_Resource_49BF40(DWORD type, DWORD id, DWORD size);
-    EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, BlockAllocMethod allocMethod);
-    EXPORT static int CC LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
+    EXPORT static BYTE** CC Allocate_New_Block_49BFB0(s32 sizeBytes, BlockAllocMethod allocMethod);
+    EXPORT static s32 CC LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
     EXPORT static s16 CC LoadResourceFile_49C170(const char* pFileName, Camera* pCamera);
     EXPORT static s16 CC Move_Resources_To_DArray_49C1C0(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray);
     EXPORT static BYTE** CC GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock);
@@ -176,8 +176,8 @@ private:
 
     DynamicArrayT<ResourceManager_FileRecord> field_20_files_pending_loading;
     ResourceManager_FileRecord* field_2C_pFileItem;
-    int field_30_start_sector;
-    int field_34_num_sectors;
+    s32 field_30_start_sector;
+    s32 field_34_num_sectors;
     BYTE** field_38_ppRes;
     Header* field_3C_pLoadingHeader;
     char field_40_seek_attempts;
@@ -192,4 +192,4 @@ ALIVE_VAR_EXTERN(DWORD, sManagedMemoryUsedSize_AB4A04);
 ALIVE_VAR_EXTERN(DWORD, sPeakedManagedMemUsage_AB4A08);
 ALIVE_VAR_EXTERN(short, sbLoadingInProgress_5C1B96);
 ALIVE_VAR_EXTERN(short, bHideLoadingIcon_5C1BAA);
-ALIVE_VAR_EXTERN(int, loading_ticks_5C1BAC);
+ALIVE_VAR_EXTERN(s32, loading_ticks_5C1BAC);

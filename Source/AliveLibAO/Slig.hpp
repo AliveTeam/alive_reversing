@@ -123,7 +123,7 @@ ALIVE_ASSERT_SIZEOF(Path_Slig, 0x58);
     ENTRY(State_52_Beat_46AA90)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eSligStates : int
+enum eSligStates : s32
 {
     SLIG_STATES_ENUM(MAKE_ENUM)
 };
@@ -188,7 +188,7 @@ using Path_SligPersist = Path_SligBound;
 class Slig : public BaseAliveGameObject
 {
 public:
-    EXPORT Slig* ctor_464D40(Path_Slig* pTlv, int tlvInfo);
+    EXPORT Slig* ctor_464D40(Path_Slig* pTlv, s32 tlvInfo);
     
     EXPORT BaseGameObject* dtor_465320();
 
@@ -273,7 +273,7 @@ public:
 
     EXPORT void WaitOrWalk_46E440();
 
-    EXPORT int IsFacingEffectiveLeft_46BD70(Slig* pSlig);
+    EXPORT s32 IsFacingEffectiveLeft_46BD70(Slig* pSlig);
 
     EXPORT void PauseALittle_46DBD0();
 
@@ -287,13 +287,13 @@ public:
 
     EXPORT void ToKilledAbe_4662E0();
 
-    EXPORT s16 FindBeatTarget_46D0E0(int typeToFind, int gridBlocks);
+    EXPORT s16 FindBeatTarget_46D0E0(s32 typeToFind, s32 gridBlocks);
 
-    EXPORT s16 HandleEnemyStopper_46BF30(int gridBlocks);
+    EXPORT s16 HandleEnemyStopper_46BF30(s32 gridBlocks);
 
     EXPORT void RespondToEnemyOrPatrol_465DF0();
 
-    EXPORT void TurnOrWalk_46D5B0(int a2);
+    EXPORT void TurnOrWalk_46D5B0(s32 a2);
 
     void ToPanicTurn();
 
@@ -307,7 +307,7 @@ public:
 
     EXPORT static s16 CCSTD IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight);
 
-    static EXPORT void CC Slig_GameSpeak_SFX_46F560(SligSpeak effectId, int defaultVol, int pitch_min, BaseAliveGameObject* pObj);
+    static EXPORT void CC Slig_GameSpeak_SFX_46F560(SligSpeak effectId, s32 defaultVol, s32 pitch_min, BaseAliveGameObject* pObj);
 
     static EXPORT s16 CCSTD IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
 
@@ -422,19 +422,19 @@ public:
     s16 field_10E_brain_state;
     s16 field_110_pitch_min;
     s16 field_112;
-    int field_114_timer;
-    int field_118;
+    s32 field_114_timer;
+    s32 field_118;
     s16 field_11C;
     s16 field_11E;
     s16 field_120_checked_if_off_screen;
     s16 field_122;
     s16 field_124;
     s16 field_126_input;
-    int field_128_timer;
+    s32 field_128_timer;
     FP field_12C_falling_velx_scale_factor;
     s16 field_130;
     s16 field_132;
-    int field_134_tlvInfo;
+    s32 field_134_tlvInfo;
     s16 field_138_res_idx;
     s16 field_13A;
     PSX_RECT field_13C_zone_rect;
@@ -446,13 +446,13 @@ public:
     LevelIds field_14E_level;
     s16 field_150_path;
     s16 field_152_camera;
-    int field_154_death_by_being_shot_timer;
-    int field_158_explode_timer;
-    int field_15C;
-    int field_160;
-    int field_164;
-    int field_168;
-    int field_16C;
+    s32 field_154_death_by_being_shot_timer;
+    s32 field_158_explode_timer;
+    s32 field_15C;
+    s32 field_160;
+    s32 field_164;
+    s32 field_168;
+    s32 field_16C;
     s16 field_170;
     s16 field_172;
     Path_Slig field_174_tlv;
@@ -463,14 +463,14 @@ public:
     TBrainFn field_1FC_fn2;
     s16 field_200_num_times_to_shoot;
     s16 field_202; // pad ?
-    int field_204;
-    int field_208;
+    s32 field_204;
+    s32 field_208;
     s16 field_20C_force_alive_state;
     s16 field_20E_spotted_possessed_slig;
     SligResources field_210_resources;
     s16 field_254_prevent_depossession;
     s16 field_256;
-    int field_258_next_gamespeak_motion;
+    s32 field_258_next_gamespeak_motion;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x25C);
 

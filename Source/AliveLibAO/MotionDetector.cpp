@@ -20,7 +20,7 @@ namespace AO {
 #undef min
 #undef max
 
-MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvInfo)
+MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB878);
@@ -212,7 +212,7 @@ void MotionDetector::VUpdate_437E90()
 
             field_160_bObjectInLaser = FALSE;
            
-            for (int i=0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+            for (s32 i=0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
             {
                 BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
                 if (!pObj)
@@ -301,7 +301,7 @@ void MotionDetector::VUpdate_437E90()
                 break;
 
             case States::eWaitThenMoveLeft_1:
-                if (static_cast<int>(gnFrameCount_507670) > field_EC_timer)
+                if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
                 {
                     field_E8_state = States::eMoveLeft_2;
                 }
@@ -321,7 +321,7 @@ void MotionDetector::VUpdate_437E90()
                 break;
 
             case States::eWaitThenMoveRight_3:
-                if (static_cast<int>(gnFrameCount_507670) > field_EC_timer)
+                if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
                 {
                     field_E8_state = States::eMoveRight_0;
                 }

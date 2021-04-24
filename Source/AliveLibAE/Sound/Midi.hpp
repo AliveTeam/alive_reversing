@@ -25,7 +25,7 @@ public:
     virtual s16& sSFXPitchVariationEnabled() = 0;
     virtual short& sNeedToHashSeqNames() = 0;
     virtual SoundBlockInfo& sMonkVh_Vb() = 0;
-    virtual int MidiTableSize() = 0;
+    virtual s32 MidiTableSize() = 0;
 
     // Res manager wrapper
     virtual s16 FreeResource_Impl(BYTE* handle) = 0;
@@ -63,16 +63,16 @@ EXPORT void CC SND_Init_4CA1F0();
 EXPORT void CC SND_Shutdown_4CA280();
 EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask);
 EXPORT void SND_Reset_4C9FB0();
-EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb);
+EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb);
 EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName);
 EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx);
 EXPORT char CC SND_Seq_Table_Valid_4CAFE0();
 EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop);
-EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, s16 volLeft, s16 volRight);
+EXPORT void CC SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight);
 EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight);
-EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(u16 idx);
-EXPORT int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
-EXPORT int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max);
+EXPORT s32 CC SND_SsIsEos_DeInlined_4CACD0(u16 idx);
+EXPORT s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
+EXPORT s32 CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max);
 
 enum SeqId
 {

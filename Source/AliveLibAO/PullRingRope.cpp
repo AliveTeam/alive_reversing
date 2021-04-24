@@ -10,14 +10,14 @@
 
 namespace AO {
 
-PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, int tlvInfo)
+PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BC058);
     field_4_typeId = Types::ePullRingRope_68;
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPullringResID, 1, 0);
 
-    int lvl_x_off = 0;
+    s32 lvl_x_off = 0;
     switch (gMap_507BA8.field_0_current_level)
     {
     case LevelIds::eRuptureFarms_1:
@@ -221,8 +221,8 @@ void PullRingRope::VUpdate_4549A0()
             // Due to seemingly OG bug this can never execute
             if (oldSwitchValue != switchValAfterOperation)
             {
-                int volLeft = 0;
-                int volRight = 0;
+                s32 volLeft = 0;
+                s32 volRight = 0;
                 if (field_100_sound_direction == 1)
                 {
                     volLeft = 1;

@@ -30,7 +30,7 @@ enum class LevelIds : s16;
 class BeeNest : public BaseGameObject
 {
 public:
-    EXPORT BeeNest* ctor_480E20(Path_BeeNest* pTlv, int tlvInfo);
+    EXPORT BeeNest* ctor_480E20(Path_BeeNest* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_4810C0();
 
@@ -50,7 +50,7 @@ public:
     FP field_14_bee_y;
     LevelIds field_18_level;
     s16 field_1A_path;
-    int field_1C_tlvInfo;
+    s32 field_1C_tlvInfo;
     PSX_Point field_20_top_left;
     PSX_Point field_24_bottom_right;
     u16 field_28_switch_id;

@@ -40,7 +40,7 @@ using TFlyingSligFn = void(FlyingSlig::*)(void);
     ENTRY(M_TurnToHorizontalMovement_25_4389E0)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eFlyingSligMotions : int
+enum eFlyingSligMotions : s32
 {
     FLYING_SLIG_MOTIONS_ENUM(MAKE_ENUM)
 };
@@ -89,16 +89,16 @@ struct FlyingSlig_State
         eBit11_padding = 0x400,
     };
     BitField16<Flags_3A> field_3A;
-    int field_3C_tlvInfo;
-    int field_40_timer;
-    int field_44_grenade_delay;
-    int field_48_collision_reaction_timer;
+    s32 field_3C_tlvInfo;
+    s32 field_40_timer;
+    s32 field_44_grenade_delay;
+    s32 field_48_collision_reaction_timer;
     FP field_4C_xSpeed;
     FP field_50_ySpeed;
     SligSpeak field_54_next_speak;
     char field_55_padding;
     s16 field_56_voice_pitch_min;
-    int field_58_obj_id;
+    s32 field_58_obj_id;
     FP field_5C;
     FP field_60;
     FP field_64;
@@ -106,13 +106,13 @@ struct FlyingSlig_State
     FP field_6C;
     FP field_70_lever_pull_range_xpos;
     FP field_74_lever_pull_range_ypos;
-    int field_78_unused;
-    int field_7C_unused;
-    int field_80_unused;
-    int field_84_unused;
+    s32 field_78_unused;
+    s32 field_7C_unused;
+    s32 field_80_unused;
+    s32 field_84_unused;
     FP field_88_nextXPos;
     FP field_8C_nextYPos;
-    int field_90_fns1_idx;
+    s32 field_90_fns1_idx;
     s16 field_94_padding;
     s16 field_96_padding;
     s16 field_98_unused;
@@ -121,7 +121,7 @@ struct FlyingSlig_State
     s16 field_9E_abe_camera;
     s16 field_A0_bobbing_values_table_index;
     s16 field_A2_padding;
-    int field_A4_bobbing_values_index;
+    s32 field_A4_bobbing_values_index;
     FP field_A8_bobbing_value;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
@@ -129,7 +129,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
 class FlyingSlig : public BaseAliveGameObject
 {
 public:
-    EXPORT FlyingSlig* ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo);
+    EXPORT FlyingSlig* ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -145,14 +145,14 @@ public:
 
     virtual void VSetMotion_4081C0(s16 state) override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
     // TODO: Remaining virtuals
 
-    EXPORT static int CC CreateFromSaveState_437E40(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_437E40(const BYTE* pBuffer);
 
 private:
-    EXPORT int vGetSaveState_43B1E0(FlyingSlig_State* pState);
+    EXPORT s32 vGetSaveState_43B1E0(FlyingSlig_State* pState);
 
 
     EXPORT void dtor_434990();
@@ -259,7 +259,7 @@ public:
 
     EXPORT s16 IsTurning_436AE0();
 
-    EXPORT BYTE** ResBlockForMotion_4350F0(int motion);
+    EXPORT BYTE** ResBlockForMotion_4350F0(s32 motion);
 
     EXPORT void ToChantShake_436270();
 
@@ -307,16 +307,16 @@ public:
 
 private:
     Path_FlyingSlig field_118_data;
-    int field_148_tlvInfo;
-    int field_14C_timer;
-    int field_150_grenade_delay;
-    int field_154_collision_reaction_timer;
-    int field_158_obj_id;
+    s32 field_148_tlvInfo;
+    s32 field_14C_timer;
+    s32 field_150_grenade_delay;
+    s32 field_154_collision_reaction_timer;
+    s32 field_158_obj_id;
     s16 field_15C_voice_pitch_min;
     s16 field_15E_useless;
     s16 field_160_voice_pitch_min;
     s16 field_162_padding;
-    int field_164_unused;
+    s32 field_164_unused;
     s16 field_168_padding;
     s16 field_16A_padding;
     s16 field_16C_padding;
@@ -373,10 +373,10 @@ private:
     s16 field_1D2_padding;
     s16 field_1D4_padding;
     s16 field_1D6_padding;
-    int field_1D8_unused;
-    int field_1DC_unused;
-    int field_1E0_unused;
-    int field_1E4_unused;
+    s32 field_1D8_unused;
+    s32 field_1DC_unused;
+    s32 field_1E0_unused;
+    s32 field_1E4_unused;
     s16 field_1E8_unused;
     s16 field_1EA_padding;
     PathLine* field_1EC_pNextLine;
@@ -391,7 +391,7 @@ private:
     const FP* field_288_unused;
     s16 field_28C_bobbing_values_table_index;
     s16 field_28E_padding;
-    int field_290_bobbing_values_index;
+    s32 field_290_bobbing_values_index;
 public:
     FP field_294_nextXPos;
     FP field_298_nextYPos;

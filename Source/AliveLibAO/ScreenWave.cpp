@@ -14,8 +14,8 @@ void Forcelink_ScreenWave() {}
 
 namespace AO {
 
-static constexpr int kMaxUVCount = 32;
-static constexpr int kMaxPolygons = 4;
+static constexpr s32 kMaxUVCount = 32;
+static constexpr s32 kMaxPolygons = 4;
 
 struct ScreenWave_Data
 {
@@ -82,10 +82,10 @@ ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP 
     ScreenWave_Data* pData = *field_14_ppRes;
 
     BYTE ang2 = 0;
-    for (int i = 0; i < 32; i++)
+    for (s32 i = 0; i < 32; i++)
     {
         BYTE ang = 128;
-        for (int j = 0; j < 5; j++)
+        for (s32 j = 0; j < 5; j++)
         {
             pData->field_0_uv1[i][j].field_0_x = ((FP_FromInteger(j) * uv1_off) * Math_Sine_451110(ang2));
             pData->field_0_uv1[i][j].field_4_y = ((FP_FromInteger(j) * uv1_off) * Math_Cosine_4510A0(ang2));
@@ -101,11 +101,11 @@ ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP 
         ang2 += 8;
     }
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j = 0; j < 32; j++)
+        for (s32 j = 0; j < 32; j++)
         {
-            for (int k = 0; k < 4; k++)
+            for (s32 k = 0; k < 4; k++)
             {
                 PolyFT4_Init(&pData->field_B00_poly[i][j][k]);
                 Poly_Set_SemiTrans_498A40(&pData->field_B00_poly[i][j][k].mBase.header, 0);
@@ -165,9 +165,9 @@ void ScreenWave::VUpdate_463080()
 
         auto pData = reinterpret_cast<ScreenWave_Data*>(*field_14_ppRes);
 
-        for (int i = 0; i < 32; i++)
+        for (s32 i = 0; i < 32; i++)
         {
-            for (int j = 0; j < 5; j++)
+            for (s32 j = 0; j < 5; j++)
             {
                 pData->field_0_uv1[i][j].field_0_x += pData->field_A00_xy[i].field_0_x;
                 pData->field_0_uv1[i][j].field_4_y += pData->field_A00_xy[i].field_4_y;
@@ -215,17 +215,17 @@ void ScreenWave::VRender_463130(PrimHeader** ppOt)
     clearRectSize.w = displaySize.field_0_x;
     clearRectSize.h = displaySize.field_2_y;
 
-    for (int i = 0; i < kMaxUVCount; i++)
+    for (s32 i = 0; i < kMaxUVCount; i++)
     {
-        const int i_inc = i + 1;
-        for (int j = 0; j < kMaxPolygons; j++)
+        const s32 i_inc = i + 1;
+        for (s32 j = 0; j < kMaxPolygons; j++)
         {
             const short x0 = field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_500_uv2[i][j].field_0_x);
             const short y0 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_500_uv2[i][j].field_4_y);
             const short x1 = field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_500_uv2[i][j + 1].field_0_x);
             const short y1 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_500_uv2[i][j + 1].field_4_y);
 
-            const int next_i = i_inc == kMaxUVCount ? 0 : i_inc;
+            const s32 next_i = i_inc == kMaxUVCount ? 0 : i_inc;
 
             const short x2 = field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_500_uv2[next_i][j].field_0_x);
             const short y2 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_500_uv2[next_i][j].field_4_y);

@@ -125,7 +125,7 @@ static BYTE Fleech_NextRandom()
     return sRandomBytes_546744[sFleechRandomIdx_5BC20C++];
 }
 
-Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
+Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo)
 {
     ctor_408240(2);
     SetVTable(this, 0x544F28);
@@ -233,7 +233,7 @@ void Fleech::VOnThrowableHit(BaseGameObject* pFrom)
     vOnThrowableHit_42A590(pFrom);
 }
 
-int Fleech::VGetSaveState(BYTE* pSaveBuffer)
+s32 Fleech::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_42FF80(reinterpret_cast<Fleech_State*>(pSaveBuffer));
 }
@@ -262,9 +262,9 @@ const static AnimId sFleechFrameTableOffsets_5517E4[19] =
     AnimId::Fleech_Eat
 };
 
-ALIVE_VAR(1, 0x551840, int, current_target_object_id_551840, -1);
+ALIVE_VAR(1, 0x551840, s32, current_target_object_id_551840, -1);
 
-int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
+s32 CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const Fleech_State*>(pBuffer);
 
@@ -391,7 +391,7 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     return sizeof(Fleech_State);
 }
 
-int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
+s32 Fleech::vGetSaveState_42FF80(Fleech_State* pState)
 {
     if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
@@ -580,7 +580,7 @@ void Fleech::M_Sleeping_0_42F0B0()
 
 void Fleech::M_WakingUp_1_42F270()
 {
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -1194,7 +1194,7 @@ void Fleech::M_Consume_18_42FDF0()
 
         Sound_430520(FleechSound::Burp_1);
 
-        for (int i = 0; i < 3; i++)
+        for (s32 i = 0; i < 3; i++)
         {
             auto pDove = ae_new<Dove>();
             if (pDove)
@@ -1388,7 +1388,7 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
         const FP distanceCosine = Math_Cosine_496CD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
         const FP SineTan = Math_Sine_496DD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
 
-        for (int i = 0; i < 4; i++)
+        for (s32 i = 0; i < 4; i++)
         {
             const FP distanceXY_squareRoot_multiplied = distanceXY_squareRoot * FP_FromInteger(i+1) * FP_FromDouble(0.25);
             const FP cosineIt_times_field188 = Math_Cosine_496CD0(static_cast<BYTE>(32 * (i+1))) * FP_FromInteger(field_188);
@@ -1398,7 +1398,7 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
 
         const FP lastTongueBlockModX = tongueBlock_X[4] - FP_FromInteger(field_184_target_x + 0xFFFF * camX);
         const FP lastTongueBlockModY = tongueBlock_Y[4] - FP_FromInteger(field_186_target_y + 0xFFFF * camY);
-        for (int i = 0; i < 4; i++)
+        for (s32 i = 0; i < 4; i++)
         {
             const FP lastTongueBlockModX_mult = lastTongueBlockModX * FP_FromInteger(i + 1);
             const FP lastTongueBlockModY_mult = lastTongueBlockModY * FP_FromInteger(i + 1);
@@ -1406,7 +1406,7 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
             tongueBlock_Y[i+1] -= lastTongueBlockModY_mult * FP_FromDouble(0.25);
         }
 
-        for (int i = 0; i < 4; i++)
+        for (s32 i = 0; i < 4; i++)
         {
             s16 r = static_cast<s16>((i + 1) * 150 / 4);
             s16 g = static_cast<s16>((i + 1) * 100 / 4);
@@ -1437,10 +1437,10 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
 
             Poly_G4* currTonguePoly1 = &field_18C_tongue_polys1[i][gPsxDisplay_5C1130.field_C_buffer_index];
 
-            const int tonguePolyX1 = PsxToPCX(FP_GetExponent(currTongueBlock_X));
-            const int tonguePolyY1 = FP_GetExponent(currTongueBlock_Y);
-            const int tonguePolyX2 = PsxToPCX(FP_GetExponent(tongueBlock_X[i + 1]));
-            const int tonguePolyY2 = FP_GetExponent(tongueBlock_Y[i + 1]);
+            const s32 tonguePolyX1 = PsxToPCX(FP_GetExponent(currTongueBlock_X));
+            const s32 tonguePolyY1 = FP_GetExponent(currTongueBlock_Y);
+            const s32 tonguePolyX2 = PsxToPCX(FP_GetExponent(tongueBlock_X[i + 1]));
+            const s32 tonguePolyY2 = FP_GetExponent(tongueBlock_Y[i + 1]);
 
             SetXY0(
                 currTonguePoly1,
@@ -1492,7 +1492,7 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
 
             Poly_G4* currTonguePoly2 = &field_2CC_tongue_polys2[i][gPsxDisplay_5C1130.field_C_buffer_index];
 
-            int minus_one_one_switch = -1;
+            s32 minus_one_one_switch = -1;
             if (FP_GetExponent(Tan_fp) <= 64 || FP_GetExponent(Tan_fp) >= 192)
             {
                 minus_one_one_switch = 1;
@@ -1599,7 +1599,7 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
                 pScreenManager_5BB5F4->field_3A_idx
             );
         }
-        const int tPage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0);
+        const s32 tPage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0);
         Init_SetTPage_4F5B60(&field_40C[gPsxDisplay_5C1130.field_C_buffer_index], 1, 0, tPage);
         OrderingTable_Add_4F8AA0(OtLayer(ot, field_20_animation.field_C_render_layer), &field_40C[gPsxDisplay_5C1130.field_C_buffer_index].mBase
         );
@@ -1635,7 +1635,7 @@ void Fleech::vOn_Tlv_Collision_42AAB0(Path_TLV* pTlv)
 s16 Fleech::IsScrabOrParamiteNear_42B440(FP radius)
 {
     BaseAliveGameObject* pNearestScrabOrParamite = nullptr;
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pBaseObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pBaseObj)
@@ -1728,7 +1728,7 @@ TintEntry stru_551844[15] =
     { -1, 127u, 127u, 127u }
 };
 
-int CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData)
+s32 CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData)
 {
     reinterpret_cast<Fleech*>(pObj)->vOnFrame_42BC50(pData);
     return 1;
@@ -1816,9 +1816,9 @@ void Fleech::InitTonguePolys_42B6E0()
     field_184_target_x = -1;
     field_186_target_y = -1;
 
-    for (int i = 0; i < 4; i++)
+    for (s32 i = 0; i < 4; i++)
     {
-        for (int j = 0; j < 2; j++)
+        for (s32 j = 0; j < 2; j++)
         {
             PolyG4_Init_4F88B0(&field_18C_tongue_polys1[i][j]);
             SetRGB0(&field_18C_tongue_polys1[i][j], 150, 100, 100);
@@ -2107,16 +2107,16 @@ void Fleech::ToIdle_42E520()
 
 const SfxDefinition getSfxDef(FleechSound effectId)
 {
-    return stru_5518E0[static_cast<int>(effectId)];
+    return stru_5518E0[static_cast<s32>(effectId)];
 }
 
-int Fleech::Sound_430520(FleechSound soundId)
+s32 Fleech::Sound_430520(FleechSound soundId)
 {
     SfxDefinition effectDef = getSfxDef(soundId);
     s16 defaultSndIdxVol = effectDef.field_3_default_volume;
     if (soundId == FleechSound::CrawlRNG1_14)
     {
-        const int rndIdx = Math_RandomRange_496AB0(14, 16);
+        const s32 rndIdx = Math_RandomRange_496AB0(14, 16);
         effectDef = getSfxDef(static_cast<FleechSound>(rndIdx));
         defaultSndIdxVol = effectDef.field_3_default_volume + Math_RandomRange_496AB0(-10, 10);
     }
@@ -2176,7 +2176,7 @@ int Fleech::Sound_430520(FleechSound soundId)
     );
 }
 
-BYTE** Fleech::ResBlockForMotion_42A530(int /*motion*/)
+BYTE** Fleech::ResBlockForMotion_42A530(s32 /*motion*/)
 {
     return field_10_resources_array.ItemAt(0);
 }
@@ -2217,7 +2217,7 @@ s16 Fleech::CanMove_42E3E0()
     return 0;
 }
 
-s16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(int velX)
+s16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(s32 velX)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     FP nextXPos = {};
@@ -2277,7 +2277,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(int velX)
          (pSlamDoor->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get_466020(pSlamDoor->field_14_id))));
 }
 
-int Fleech::UpdateWakeUpSwitchValue_4308B0()
+s32 Fleech::UpdateWakeUpSwitchValue_4308B0()
 {
     const s16 curSwitchValue = static_cast<s16>(SwitchStates_Get_466020(field_144_wake_up_id));
     const s16 wakeUpValue = field_148_wake_up_switch_value;
@@ -2500,7 +2500,7 @@ s16 Fleech::InRange_4307C0(BaseAliveGameObject* pObj)
     return TRUE;
 }
 
-int Fleech::TongueActive_42B8A0()
+s32 Fleech::TongueActive_42B8A0()
 {
     return field_18A.Get(Flags_18A::e18A_TongueActive_Bit1);
 }
@@ -2564,7 +2564,7 @@ BaseAliveGameObject* Fleech::FindMudOrAbe_42CFD0()
 {
     BaseAliveGameObject* pRet = nullptr;
     FP lastDist = FP_FromInteger(gPsxDisplay_5C1130.field_0_width);
-    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)
@@ -2700,7 +2700,7 @@ BOOL Fleech::Collision_42B290(s16 alwaysOne)
     return sCollisions_DArray_5C1128->Raycast_417A60(x1, y1, x2, y2, &pLine, &hitX, &hitY, field_D6_scale ? 0x01 : 0x10) == 0;
 }
 
-Path_Hoist* Fleech::TryGetHoist_42AFD0(int xDistance, s16 bIgnoreDirection)
+Path_Hoist* Fleech::TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection)
 {
     if (field_106_current_motion == eFleechMotions::M_Fall_9_42ECD0)
     {
@@ -2918,7 +2918,7 @@ s16 Fleech::AI_Patrol_State_1()
         return field_126_state;
     }
 
-    if (!(static_cast<int>(sGnFrame_5C1B84) % 16))
+    if (!(static_cast<s32>(sGnFrame_5C1B84) % 16))
     {
         if (field_13E_current_anger > 0)
         {
@@ -3030,7 +3030,7 @@ s16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
         }
     }
 
-    if (!(static_cast<int>(sGnFrame_5C1B84) % 32))
+    if (!(static_cast<s32>(sGnFrame_5C1B84) % 32))
     {
         if (field_13E_current_anger > 0)
         {
@@ -3949,7 +3949,7 @@ s16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     }
 
     // Look 12 ahead fora hoist
-    int k12BlocksCheck = 1;
+    s32 k12BlocksCheck = 1;
     do
     {
         pHoist = TryGetHoist_42AFD0(k12BlocksCheck, TRUE);
@@ -3965,7 +3965,7 @@ s16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     } while (k12BlocksCheck <= 12);
 
     // Look 8 behind for a hoist
-    int k8BlocksCheck = 1;
+    s32 k8BlocksCheck = 1;
     while (1)
     {
         pHoist = TryGetHoist_42AFD0(-k8BlocksCheck, 1);
@@ -4448,7 +4448,7 @@ s16 Fleech::AI_Death_3_42D1E0()
     field_11C_obj_id = -1;
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-    if (field_12C < static_cast<int>(sGnFrame_5C1B84 + 80))
+    if (field_12C < static_cast<s32>(sGnFrame_5C1B84 + 80))
     {
         field_CC_sprite_scale -= FP_FromDouble(0.022);
         field_D0_r -= 2;
@@ -4456,7 +4456,7 @@ s16 Fleech::AI_Death_3_42D1E0()
         field_D4_b -= 2;
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) < field_12C - 24 && !(sGnFrame_5C1B84 % 5))
+    if (static_cast<s32>(sGnFrame_5C1B84) < field_12C - 24 && !(sGnFrame_5C1B84 % 5))
     {
         const FP xRand = (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale);
         New_Smoke_Particles_426C70(xRand + field_B8_xpos, field_BC_ypos - FP_FromInteger(6), field_CC_sprite_scale / FP_FromInteger(2), 2, 128u, 128u, 128u);

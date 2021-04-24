@@ -15,7 +15,7 @@ void DeathBirdParticle::VUpdate_41DA60()
     switch (field_E5_state)
     {
     case States::eAnimateDeathFlares_0:
-        if (static_cast<int>(gnFrameCount_507670) > field_E8_start)
+        if (static_cast<s32>(gnFrameCount_507670) > field_E8_start)
         {
             // Death "star"
             field_10_anim.Set_Animation_Data_402A40(6284, 0);
@@ -71,7 +71,7 @@ void DeathBirdParticle::VUpdate()
     VUpdate_41DA60();
 }
 
-DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, int start, s16 bPlaySound, FP scale)
+DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, s32 start, s16 bPlaySound, FP scale)
 {
     ctor_417C10();
 

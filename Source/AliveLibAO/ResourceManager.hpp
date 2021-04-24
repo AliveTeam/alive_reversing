@@ -75,15 +75,15 @@ public:
     // TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
     struct ResourcesToLoadList
     {
-        int field_0_count;
+        s32 field_0_count;
         ResourcesToLoadList_Entry field_4_items[1];
     };
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
 
     struct ResourceManager_FilePartRecord
     {
-        int field_0_type;
-        int field_4_res_id;
+        s32 field_0_type;
+        s32 field_4_res_id;
         Camera* field_8_pCamera;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord, 0xc);
@@ -112,14 +112,14 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourceHeapItem, 0x8);
 
-    enum BlockAllocMethod : int
+    enum BlockAllocMethod : s32
     {
         eFirstMatching = 0,
         eNearestMatching = 1,
         eLastMatching = 2
     };
 
-    static EXPORT int CC SEQ_HashName_454EA0(const char* seqFileName);
+    static EXPORT s32 CC SEQ_HashName_454EA0(const char* seqFileName);
 
     EXPORT static void CC Init_454DA0();
 
@@ -127,7 +127,7 @@ public:
 
     static void Pop_List_Item(ResourceHeapItem* pListItem);
 
-    static ResourceHeapItem* Split_block(ResourceHeapItem* pItem, int size);
+    static ResourceHeapItem* Split_block(ResourceHeapItem* pItem, s32 size);
 
     static EXPORT void CC On_Loaded_446C10(ResourceManager_FileRecord* pLoaded);
 
@@ -145,7 +145,7 @@ public:
 
     static EXPORT void CC Decrement_Pending_Count_4557B0();
 
-    static EXPORT int CC Is_Resources_Pending_4557C0();
+    static EXPORT s32 CC Is_Resources_Pending_4557C0();
 
     static EXPORT void CC WaitForPendingResources_41EA60(BaseGameObject* pObj);
 
@@ -192,8 +192,8 @@ public:
 };
 
 ALIVE_VAR_EXTERN(short, bHideLoadingIcon_5076A0);
-ALIVE_VAR_EXTERN(int, loading_ticks_5076A4);
-ALIVE_VAR_EXTERN(int, gFilesPending_507714);
+ALIVE_VAR_EXTERN(s32, loading_ticks_5076A4);
+ALIVE_VAR_EXTERN(s32, gFilesPending_507714);
 ALIVE_VAR_EXTERN(short, bLoadingAFile_50768C);
 ALIVE_VAR_EXTERN(DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0);
 

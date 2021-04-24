@@ -15,7 +15,7 @@ ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall_9F1DD0, nullptr);
 EXPORT short* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, short* pData)
 {
     auto pZBall = static_cast<ZBall*>(pObj);
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pBase = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pBase)
@@ -44,7 +44,7 @@ EXPORT short* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, short* pData)
     return pData + 4; // A rect I guess ?
 }
 
-ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, int tlvInfo)
+ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BCD78);

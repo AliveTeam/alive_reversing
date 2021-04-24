@@ -37,14 +37,14 @@ static void WriteVec(const char* fileName, const std::vector<u8>& vec)
     }
 }
 
-int CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader* pVabHeader, VabBodyRecord* pVabBody, int idx);
-BOOL CC sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, int idx);
-DWORD* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, VabBodyRecord* pBodyRecords, int idx);
+s32 CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
+BOOL CC sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
+DWORD* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, VabBodyRecord* pBodyRecords, s32 idx);
 
-int CC SND_SoundsDat_Read(FILE* file, VabHeader* pVabHeader, VabBodyRecord* pVabBody, int idx, void* pBuffer)
+s32 CC SND_SoundsDat_Read(FILE* file, VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx, void* pBuffer)
 {
-    const int sampleOffset = *SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx); // = field_8_fileOffset
-    const int sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pVabHeader, pVabBody, idx);
+    const s32 sampleOffset = *SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx); // = field_8_fileOffset
+    const s32 sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pVabHeader, pVabBody, idx);
     if (sampleOffset == -1)
     {
         return 0;
@@ -75,7 +75,7 @@ static void PCToPsxVab(bool isAe, const char* lvlName, const char* vhName, const
     auto vbData = ReadLvlFile(archive, vbName);
     auto pBody = reinterpret_cast<VabBodyRecord*>(vbData.data());
 
-    int vagCount = pHeader->field_16_num_vags;
+    s32 vagCount = pHeader->field_16_num_vags;
     if (vagCount > 255)
     {
         vagCount = 255;
@@ -89,9 +89,9 @@ static void PCToPsxVab(bool isAe, const char* lvlName, const char* vhName, const
             ALIVE_FATAL("Failed to open sounds.dat");
         }
 
-        for (int i = 0; i < vagCount; i++)
+        for (s32 i = 0; i < vagCount; i++)
         {
-            int sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pHeader, pBody, i);
+            s32 sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pHeader, pBody, i);
             if (sampleLen < 4000 && !sub_4FC470(pHeader, pBody, i))
             {
                 sampleLen *= 2;
@@ -114,7 +114,7 @@ static void PCToPsxVab(bool isAe, const char* lvlName, const char* vhName, const
     archive.Free_433130();
 }
 
-int main(int /*argc*/, char** /*argv*/)
+s32 main(s32 /*argc*/, char** /*argv*/)
 {
 #if _WIN32
     ::AllocConsole();

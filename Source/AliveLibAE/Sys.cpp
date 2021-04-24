@@ -26,7 +26,7 @@ ALIVE_VAR(1, 0xBBB9F8, TWindowProcFilter, sWindowProcFilter_BBB9F8, nullptr);
 #endif
 ALIVE_VAR(1, 0xBBB9E8, LPSTR, sCommandLine_BBB9E8, nullptr);
 ALIVE_VAR(1, 0xBBB9EC, HINSTANCE, sInstance_BBB9EC, nullptr);
-ALIVE_VAR(1, 0xBBB9FC, int, sCmdShow_BBB9FC, 0);
+ALIVE_VAR(1, 0xBBB9FC, s32, sCmdShow_BBB9FC, 0);
 ALIVE_VAR(1, 0xBBFB04, TWindowHandleType, hWnd_BBFB04, nullptr);
 
 #if ORIGINAL_PS1_BEHAVIOR
@@ -156,7 +156,7 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
             const UINT scanCode = HIWORD(lParam);
             char translated[4] = {};
             // TODO: can be negative but is never checked
-            const int numBytesWritten = ::ToAscii(vKey, scanCode, KeyState, reinterpret_cast<WORD*>(&translated), 0);
+            const s32 numBytesWritten = ::ToAscii(vKey, scanCode, KeyState, reinterpret_cast<WORD*>(&translated), 0);
             translated[numBytesWritten] = 0;
             ::CharToOemA(translated, translated);
             sLastPressedKey_BD30A0 = translated[0];
@@ -196,8 +196,8 @@ void Sys_SetWindowText(TWindowHandleType windowHandle, const char* title)
 POINT Sys_GetScreenMousePos()
 {
 #if USE_SDL2
-    int x = 0;
-    int y = 0;
+    s32 x = 0;
+    s32 y = 0;
     SDL_GetMouseState(&x, &y);
     return {x ,y};
 #else
@@ -220,7 +220,7 @@ bool Sys_IsMouseButtonDown(MouseButtons button)
     return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_LEFT));
 }
 
-void AE_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
+void AE_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     sInstance_BBB9EC = hInstance;
     sCmdShow_BBB9FC = nShowCmd;
@@ -317,11 +317,11 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
             Input_SetKeyState_4EDD80(VK_F6, 1);
             return 0;
         }
-        Input_SetKeyState_4EDD80(static_cast<int>(wParam), 1);
+        Input_SetKeyState_4EDD80(static_cast<s32>(wParam), 1);
         return 0;
 
     case WM_KEYUP:
-        Input_SetKeyState_4EDD80(static_cast<int>(wParam), 0);
+        Input_SetKeyState_4EDD80(static_cast<s32>(wParam), 0);
         return 1;
 
     case WM_ACTIVATE:
@@ -372,7 +372,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
 #endif
 
 #if USE_SDL2
-static int sdl_key_to_win32_vkey(SDL_Scancode key)
+static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
 {
     switch (key)
     {
@@ -604,7 +604,7 @@ static int sdl_key_to_win32_vkey(SDL_Scancode key)
 
 static bool bNeedToQuit = false;
 
-static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
+static s32 Sys_EventFilter(void* /*userData*/, SDL_Event* event)
 {
     if (event->type == SDL_KEYDOWN)
     {
@@ -616,7 +616,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         if (allowTyping)
         {
             // "Typing" input
-            const int vk = sdl_key_to_win32_vkey(event->key.keysym.scancode);
+            const s32 vk = sdl_key_to_win32_vkey(event->key.keysym.scancode);
 
             if (vk >= VK_F1 && vk <= VK_F12)
             {
@@ -665,7 +665,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         else
         {
             // "Game button" input
-            const int vk = sdl_key_to_win32_vkey(event->key.keysym.scancode);
+            const s32 vk = sdl_key_to_win32_vkey(event->key.keysym.scancode);
             //LOG_INFO("Key down " << vk);
 
             Input_SetKeyState_4EDD80(vk, 1);
@@ -704,7 +704,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
     }
     else if (event->type == SDL_KEYUP)
     {
-        const int vk = sdl_key_to_win32_vkey(event->key.keysym.scancode);
+        const s32 vk = sdl_key_to_win32_vkey(event->key.keysym.scancode);
         //LOG_INFO("Key up " << vk);
         Input_SetKeyState_4EDD80(vk, 0);
         sIsAKeyDown_BD309C = FALSE;
@@ -851,7 +851,7 @@ EXPORT LPSTR CC Sys_GetCommandLine_4EE176()
     return sCommandLine_BBB9E8;
 }
 
-EXPORT void CC Sys_SetWindowPos_4EE1B1(int width, int height)
+EXPORT void CC Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
 {
 #if USE_SDL2
     SDL_SetWindowSize(Sys_GetWindowHandle_4EE180(), width, height);
@@ -868,9 +868,9 @@ EXPORT void CC Sys_SetWindowPos_4EE1B1(int width, int height)
 }
 
 #if USE_SDL2
-static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
+static s32 CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
-    int sdlWindowAttributes = 0;
+    s32 sdlWindowAttributes = 0;
 
 #if RENDERER_OPENGL
     sdlWindowAttributes |= SDL_WINDOW_OPENGL;
@@ -904,7 +904,7 @@ static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWind
     return 0;
 }
 #else
-static int CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
+static s32 CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
     WNDCLASSA windowClass = {};
     windowClass.style = CS_VREDRAW | CS_HREDRAW;
@@ -968,7 +968,7 @@ static int CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindow
 }
 #endif
 
-EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
+EXPORT s32 CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
 #if USE_SDL2
     return Sys_WindowClass_Register_SDL(lpClassName, lpWindowName, x, y, nWidth, nHeight);

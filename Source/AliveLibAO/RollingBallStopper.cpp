@@ -10,7 +10,7 @@
 
 namespace AO {
 
-EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopper* pTlv, int tlvInfo)
+EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopper* pTlv, s32 tlvInfo)
 {
     ctor_401090();
 

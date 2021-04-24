@@ -47,7 +47,7 @@ INITIALIZE_EASYLOGGINGPP;
 static void RunTests()
 {
     ::testing::GTEST_FLAG(throw_on_failure) = true;
-    int argCount = 0;
+    s32 argCount = 0;
     LPSTR cmdLine = Sys_GetCommandLine_4EE176();
     ::testing::InitGoogleMock(&argCount, &cmdLine);
 
@@ -92,7 +92,7 @@ static void InitOtherHooksAndRunTests()
     SlamDoor_ForceLink();
 }
 
-ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);
+ALIVE_VAR(1, 0xBBBA04, s32, sExitCode_BBBA04, 0);
 ALIVE_VAR(1, 0xBBBA54, HINSTANCE, sPrevInstance_BBBA54, nullptr);
 
 void Winmain_ForceLink()
@@ -115,7 +115,7 @@ EXPORT void Static_Inits_AE()
 }
 
 
-EXPORT int CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+EXPORT s32 CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("Main enter");
     AE_Sys_Main(hInstance, lpCmdLine, nShowCmd);

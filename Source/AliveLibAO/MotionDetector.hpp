@@ -38,14 +38,14 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
 
-    int field_D4[4];
+    s32 field_D4[4];
 };
 ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xE4);
 
 class MotionDetector : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MotionDetector* ctor_437A50(Path_MotionDetector* pTlv, int tlvInfo);
+    EXPORT MotionDetector* ctor_437A50(Path_MotionDetector* pTlv, s32 tlvInfo);
 
     EXPORT void SetDontComeBack_437E00(s16 bDontComeBack);
 
@@ -67,8 +67,8 @@ public:
 
     EXPORT void VRender_438250(PrimHeader** ppOt);
 
-    int field_D4_padding[4];
-    int field_E4_tlvInfo;
+    s32 field_D4_padding[4];
+    s32 field_E4_tlvInfo;
     enum class States : s16
     {
         eMoveRight_0 = 0,
@@ -78,7 +78,7 @@ public:
     };
     States field_E8_state;
     s16 field_EA_pad;
-    int field_EC_timer;
+    s32 field_EC_timer;
     u16 field_F0_disable_id;
     s16 field_F2_alarm_trigger;
     s16 field_F4_alarm_time;

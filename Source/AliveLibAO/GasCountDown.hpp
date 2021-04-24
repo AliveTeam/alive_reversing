@@ -17,13 +17,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x1C);
 class GasCountDown : public BaseGameObject
 {
 public:
-    EXPORT GasCountDown* ctor_40BF60(Path_GasCountDown* pTlv, int tlvInfo);
+    EXPORT GasCountDown* ctor_40BF60(Path_GasCountDown* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_40C050();
 
-    virtual BaseGameObject* VDestructor(int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT BaseGameObject* Vdtor_40C3F0(int flags);
+    EXPORT BaseGameObject* Vdtor_40C3F0(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -41,7 +41,7 @@ public:
 
     FontContext field_10_font_context;
     AliveFont field_20_font;
-    int field_58_tlvInfo;
+    s32 field_58_tlvInfo;
     s16 field_5C_xpos;
     s16 field_5E_ypos;
     u16 field_60_switch_id;
@@ -50,6 +50,6 @@ public:
 ALIVE_ASSERT_SIZEOF(GasCountDown, 0x64);
 
 ALIVE_VAR_EXTERN(short, gGasOn_4FF888);
-ALIVE_VAR_EXTERN(int, sGasTimer_507700);
+ALIVE_VAR_EXTERN(s32, sGasTimer_507700);
 
 }

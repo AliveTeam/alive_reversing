@@ -202,7 +202,7 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
             bottom += 240;
         }
 
-        for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
             if (!pObj)
@@ -225,7 +225,7 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
     }
 }
 
-BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, int /*unused*/, FP scale)
+BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, s32 /*unused*/, FP scale)
 {
     ctor_417C10();
     SetVTable(this, 0x4BAA00);

@@ -91,7 +91,7 @@ public:
 
     EXPORT GameSpeakMatch MatchBuffer_4219E0(BYTE* pBuffer, s16 max_idx, s16 src_idx);
 
-    EXPORT static int CC FillBuffer_421970(int code, BYTE* pBufffer);
+    EXPORT static s32 CC FillBuffer_421970(s32 code, BYTE* pBufffer);
 
 private:
     EXPORT void dtor_4218A0();
@@ -105,7 +105,7 @@ public:
     GameSpeakEvents field_20_last_event;
     s16 field_22_padding;
     u32 field_24_last_event_frame;
-    int field_28_last_event_index;
+    s32 field_28_last_event_index;
     char field_2C_event_buffer[32];
 };
 ALIVE_ASSERT_SIZEOF(GameSpeak, 0x4C);
@@ -114,6 +114,6 @@ ALIVE_VAR_EXTERN(GameSpeak*, pEventSystem_5BC11C);
 
 EXPORT s16 CC Code_Length_4C9DB0(u32 code);
 
-EXPORT int CC Code_Convert_4C9DF0(u16 code1, u16 code2);
+EXPORT s32 CC Code_Convert_4C9DF0(u16 code1, u16 code2);
 
 EXPORT GameSpeakEvents CC Code_LookUp_4C9E40(u32 code, u16 idx, u16 code_len);

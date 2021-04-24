@@ -46,7 +46,7 @@ struct Fg1Block
 {
     Poly_FT4 field_0_polys[2];
     PSX_RECT field_58_rect;
-    int field_60_padding;
+    s32 field_60_padding;
     s16 field_64_padding;
     Layer field_66_mapped_layer;
 };
@@ -111,7 +111,7 @@ BaseGameObject* FG1::dtor_453DF0()
 
     gObjList_drawables_504618->Remove_Item(this);
 
-    for (int i = 0; i < field_18_render_block_count; i++)
+    for (s32 i = 0; i < field_18_render_block_count; i++)
     {
         if (field_20_chnk_res[i].field_58_rect.w > 0)
         {
@@ -157,7 +157,7 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
 
     BYTE** pSavedChunkIter = nullptr;
     BYTE** pDecompressionBuffer = nullptr;
-    int idx = 0;
+    s32 idx = 0;
 
     for (;;) // Exit when we hit the end chunk
     {
@@ -169,7 +169,7 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
                 Convert_Chunk_To_Render_Block_453BA0(pChunkIter, pRenderBlock);
 
                 // The pixel size is variable, calculate the size and move to the end of it to get the next block
-                const int pixelSizeBytes = pChunkIter->field_A_height * pChunkIter->field_8_width * sizeof(short);
+                const s32 pixelSizeBytes = pChunkIter->field_A_height * pChunkIter->field_8_width * sizeof(short);
                 pChunkIter = reinterpret_cast<Fg1Chunk*>(reinterpret_cast<BYTE*>(pChunkIter) + pixelSizeBytes + sizeof(Fg1Chunk));
             }
             break;
@@ -200,7 +200,7 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
                 Decompress_Type_4_5_461770(reinterpret_cast<const BYTE*>(pChunkIter) + sizeof(Fg1Chunk), *pDecompressionBuffer);
 
                 // Compressed data size + header size
-                const int sizeToSkipBytes = pChunkIter->field_4_xpos_or_compressed_size + sizeof(Fg1Chunk);
+                const s32 sizeToSkipBytes = pChunkIter->field_4_xpos_or_compressed_size + sizeof(Fg1Chunk);
                 
                 // Goto next block and save ptr to it
                 pSavedChunkIter = reinterpret_cast<BYTE**>((reinterpret_cast<BYTE*>(pChunkIter) + sizeToSkipBytes));
@@ -264,7 +264,7 @@ void FG1::VRender_453D50(PrimHeader** ppOt)
 {
     if (field_18_render_block_count > 0)
     {
-        for (int i = 0; i < field_18_render_block_count; i++)
+        for (s32 i = 0; i < field_18_render_block_count; i++)
         {
             Fg1Block* pBlock = &field_20_chnk_res[i];
             if (pBlock->field_58_rect.w > 0)

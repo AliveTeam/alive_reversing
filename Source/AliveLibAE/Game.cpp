@@ -59,24 +59,24 @@ ALIVE_VAR(1, 0x5C1B80, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_5C1B80, nu
 
 ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);
 ALIVE_VAR(1, 0x5C1B66, short, sNum_CamSwappers_5C1B66, 0);
-ALIVE_VAR(1, 0x5C2F78, int, dword_5C2F78, 0);
+ALIVE_VAR(1, 0x5C2F78, s32, dword_5C2F78, 0);
 ALIVE_VAR(1, 0x5C2FA0, short, bSkipGameObjectUpdates_5C2FA0, 0);
 
 ALIVE_ARY(1, 0x5CA488, char, 30, sCdRomDrives_5CA488, {});
-ALIVE_VAR(1, 0x5CA4D4, int, dword_5CA4D4, 0);
-ALIVE_VAR(1, 0x55EF90, int, k1_dword_55EF90, 1);
+ALIVE_VAR(1, 0x5CA4D4, s32, dword_5CA4D4, 0);
+ALIVE_VAR(1, 0x55EF90, s32, k1_dword_55EF90, 1);
 ALIVE_VAR(1, 0x55EF88, bool, byte_55EF88, true);
 ALIVE_VAR(1, 0x5CA4D0, bool, sCommandLine_ShowFps_5CA4D0, false);
 ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false);
 ALIVE_VAR(1, 0x5CA4D2, bool, byte_5CA4D2, false);
-ALIVE_VAR(1, 0x5CA4E0, int, dword_5CA4E0, 0);
+ALIVE_VAR(1, 0x5CA4E0, s32, dword_5CA4E0, 0);
 
 // Fps calcs
 ALIVE_VAR(1, 0xBD0F08, char, bQuitting_BD0F08, 0);
 ALIVE_VAR(1, 0x55EFDC, double, sFps_55EFDC, 0.0);
-ALIVE_VAR(1, 0x5CA4DC, int, sFrameDiff_5CA4DC, 0);
-ALIVE_VAR(1, 0xC2D03C, int, sNumRenderedPrims_C2D03C, 0);
-ALIVE_VAR(1, 0x5CA300, int, sFrameCount_5CA300, 0);
+ALIVE_VAR(1, 0x5CA4DC, s32, sFrameDiff_5CA4DC, 0);
+ALIVE_VAR(1, 0xC2D03C, s32, sNumRenderedPrims_C2D03C, 0);
+ALIVE_VAR(1, 0x5CA300, s32, sFrameCount_5CA300, 0);
 
 ALIVE_VAR(1, 0x5C1B94, short, word_5C1B94, 0);
 ALIVE_VAR(1, 0x5C2A4C, Abe, gAbeObj_5C2A4C, {}); // TODO: Refactor to remove global object, in fact it seems pointless since an abe can get new'ed up, just check the BaseGameObject type instead ??
@@ -147,7 +147,7 @@ EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 void DestroyObjects_4A1F20()
 {
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
-    for (int iterations =0; iterations < 2; iterations++)
+    for (s32 iterations =0; iterations < 2; iterations++)
     {
         short idx = 0;
 
@@ -180,18 +180,18 @@ void DestroyObjects_4A1F20()
 
 }
 
-EXPORT double CC Calculate_FPS_495250(int frameCount)
+EXPORT double CC Calculate_FPS_495250(s32 frameCount)
 {
     static DWORD sLastTime_5CA338 = SYS_GetTicks() - 500;
     const DWORD curTime = SYS_GetTicks();
-    const int timeDiff = curTime - sLastTime_5CA338;
+    const s32 timeDiff = curTime - sLastTime_5CA338;
 
     if (static_cast<s32>((curTime - sLastTime_5CA338)) < 500)
     {
         return sFps_55EFDC;
     }
 
-    const int diffFrames = frameCount - sFrameDiff_5CA4DC;
+    const s32 diffFrames = frameCount - sFrameDiff_5CA4DC;
     sFps_55EFDC = static_cast<double>(diffFrames) * 1000.0 / static_cast<double>(timeDiff);
 
     sLastTime_5CA338 = curTime;
@@ -199,7 +199,7 @@ EXPORT double CC Calculate_FPS_495250(int frameCount)
     return sFps_55EFDC;
 }
 
-EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, int x, int y, float fps)
+EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, float fps)
 {
     char strBuffer[125] = {};
     sprintf(strBuffer, "%02.1f fps ", fps);
@@ -224,7 +224,7 @@ EXPORT void CC Draw_Debug_Strings_4F2800()
 }
 
 
-EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
+EXPORT s32 CC Game_End_Frame_4950F0(DWORD flags)
 {
     if (flags & 1)
     {
@@ -295,7 +295,7 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
     strcpy(strDrive, "C:");
 
     // Collect up all CD rom drives
-    int pos = 0;
+    s32 pos = 0;
     for (char drive = 'D'; drive < 'Z'; drive++)
     {
         if (Is_Cd_Rom_Drive_495470(drive))
@@ -382,7 +382,7 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
     VLC_Tables_Init_496720();
 }
 
-EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
+EXPORT s32 CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -740,7 +740,7 @@ EXPORT void CC Game_Loop_467230()
         bSkipGameObjectUpdates_5C2FA0 = 0;
 
         // Update objects
-        for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+        for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
         {
             BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
 
@@ -780,7 +780,7 @@ EXPORT void CC Game_Loop_467230()
         PrimHeader** ppOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
 
         // Render objects
-        for (int i=0; i < gObjList_drawables_5C1124->Size(); i++)
+        for (s32 i=0; i < gObjList_drawables_5C1124->Size(); i++)
         {
             BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
             if (!pObj)
@@ -800,7 +800,7 @@ EXPORT void CC Game_Loop_467230()
         }
 
         // Render FG1's
-        for (int i=0; i < gFG1List_5D1E28->Size(); i++)
+        for (s32 i=0; i < gFG1List_5D1E28->Size(); i++)
         {
             FG1* pFG1 = gFG1List_5D1E28->ItemAt(i);
             if (!pFG1)

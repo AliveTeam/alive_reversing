@@ -40,7 +40,7 @@ BYTE byte_550F08[32] =
     216u
 };
 
-FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, int tlvInfo)
+FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544424);
@@ -144,7 +144,7 @@ void FartMachine::vRender_4133F0(PrimHeader** ppOt)
     {
         char text[12] = {};
         sprintf(text, "%02d", field_144_total_brew_count);
-        const int textWidth = field_104_font.MeasureWidth_433700(text);
+        const s32 textWidth = field_104_font.MeasureWidth_433700(text);
         short flickerAmount = 50;
         if (sDisableFontFlicker_5C9304)
         {
@@ -168,7 +168,7 @@ void FartMachine::vRender_4133F0(PrimHeader** ppOt)
             field_13C_textX + textWidth,
             flickerAmount);
 
-        const int v5 = 5 * textWidth;
+        const s32 v5 = 5 * textWidth;
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             PsxToPCX(field_13C_textX),
             field_13E_textY,

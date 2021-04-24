@@ -8,7 +8,7 @@
 
 namespace AO {
 
-SligSpawner* SligSpawner::ctor_402850(Path_Slig* pTlv, int tlvInfo)
+SligSpawner* SligSpawner::ctor_402850(Path_Slig* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA078);

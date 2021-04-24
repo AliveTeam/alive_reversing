@@ -18,11 +18,11 @@
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
-EXPORT int CC SnapToXGrid_449930(FP scale, int x)
+EXPORT s32 CC SnapToXGrid_449930(FP scale, s32 x)
 {
     if (scale == FP_FromDouble(0.5))
     {
-        int v4 = (x % 375 - 6) % 13;
+        s32 v4 = (x % 375 - 6) % 13;
         if (v4 >= 7)
         {
             return x - v4 + 13;
@@ -34,7 +34,7 @@ EXPORT int CC SnapToXGrid_449930(FP scale, int x)
     }
     else if (scale == FP_FromInteger(1))
     {
-        int v3 = (x - 12) % 25;
+        s32 v3 = (x - 12) % 25;
         if (v3 >= 13)
         {
             return x - v3 + 25;
@@ -242,7 +242,7 @@ void BaseAliveGameObject::vSetMotion_4081C0(s16 state)
     field_106_current_motion = state;
 }
 
-EXPORT int CC MaxGridBlocks_449880(FP scale)
+EXPORT s32 CC MaxGridBlocks_449880(FP scale)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -428,7 +428,7 @@ void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(s16 distance)
 
 BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(s16 numGridBlocks)
 {
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -478,7 +478,7 @@ void BaseAliveGameObject::vOnTrapDoorOpen_4081F0()
     // Empty
 }
 
-s16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, int resourceID)
+s16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, s32 resourceID)
 {
     SetTint_425600(pTintArray, level_id);
 
@@ -527,13 +527,13 @@ BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(s16 direction, s16 distance
         field_D6_scale != 0 ? 0xF : 0xF0) == 0;
 }
 
-BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(int idToFind, AETypes typeToFind, FP xpos, FP ypos)
+BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos)
 {
     const short xposD = FP_GetExponent(xpos);
     const short yposD = FP_GetExponent(ypos);
 
     BOOL bFound = FALSE;
-    for (int idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
         if (!pObj)
@@ -612,7 +612,7 @@ EXPORT void BaseAliveGameObject::SetActiveCameraDelayedFromDir_408C40()
 
 s16 BaseAliveGameObject::MapFollowMe_408D10(s16 snapToGrid)
 {
-    const int xposSnapped = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
+    const s32 xposSnapped = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
     if (snapToGrid)
     {
         field_B8_xpos = FP_FromInteger(xposSnapped);
@@ -734,10 +734,10 @@ BOOL BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX,
 
 BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind, FP xpos, FP ypos)
 {
-    const int xposI = FP_GetExponent(xpos);
-    const int yposI = FP_GetExponent(ypos);
+    const s32 xposI = FP_GetExponent(xpos);
+    const s32 yposI = FP_GetExponent(ypos);
 
-    for (int i=0; i<gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i=0; i<gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)

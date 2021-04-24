@@ -14,7 +14,7 @@
 #include "ParticleBurst.hpp"
 #include "ScreenShake.hpp"
 
-MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /*a5*/, int /*a6*/)
+MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*a6*/)
 {
     ctor_408240(0);
     SetVTable(&field_124_anim, 0x544290);
@@ -122,7 +122,7 @@ void MineCar::VStopAudio()
     vStopAudio_46F9C0();
 }
 
-int MineCar::VGetSaveState(BYTE* pSaveBuffer)
+s32 MineCar::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_467E10(reinterpret_cast<MineCar_SaveState*>(pSaveBuffer));
 }
@@ -143,7 +143,7 @@ const AnimId sMineCarFrameTable[7] =
     AnimId::Mine_Car_Tread_Move_B
 };
 
-int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
+s32 CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const MineCar_SaveState*>(pBuffer);
     auto pTlv = static_cast<Path_MineCar*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4C_tlvInfo));
@@ -204,7 +204,7 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
 
     pMineCar->field_106_current_motion = pState->field_28_current_motion;
 
-    int remapped1 = 0;
+    s32 remapped1 = 0;
     switch (pState->field_24_frame_table)
     {
     case 10860:
@@ -249,7 +249,7 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
         pMineCar->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
-    int remapped2 = 0;
+    s32 remapped2 = 0;
     switch (pState->field_38_frame_table_offset2)
     {
     case 10860:
@@ -497,7 +497,7 @@ void MineCar::Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::
 {
     field_20_animation.Set_Animation_Data_409C80(frameTabeOffset, nullptr);
     field_11C_state = MineCarStates::eState_2_Moving;
-    field_1C8_frame_mod_16 = static_cast<int>(sGnFrame_5C1B84) % 16;
+    field_1C8_frame_mod_16 = static_cast<s32>(sGnFrame_5C1B84) % 16;
 
     if (!field_1D0_sound_channels_mask)
     {
@@ -519,7 +519,7 @@ void MineCar::Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::
     field_124_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards, bChangeDirection);
 }
 
-s16 MineCar::IsBlocked_46F4A0(s16 a2, int /*a3*/)
+s16 MineCar::IsBlocked_46F4A0(s16 a2, s32 /*a3*/)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     const FP k12Scaled = field_CC_sprite_scale * FP_FromInteger(12);
@@ -669,7 +669,7 @@ void MineCar::RunThingsOver_46F380()
     vGetBoundingRect_424FD0(&ourRect, 1);
     ourRect.h += 6;
 
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -711,7 +711,7 @@ s16 MineCar::vTakeDamage_46F7D0(BaseGameObject* /*pFrom*/)
     }
 }
 
-int MineCar::vGetSaveState_467E10(MineCar_SaveState* pState)
+s32 MineCar::vGetSaveState_467E10(MineCar_SaveState* pState)
 {
     pState->field_0_type = AETypes::eMineCar_89;
 
@@ -1035,7 +1035,7 @@ void MineCar::State_1_ParkedWithAbe()
         {
             if (sInputObject_5BD4E0.isPressed(inputKey))
             {
-                if (field_1BC_turn_direction != MineCarDirs::eLeft_2 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
+                if (field_1BC_turn_direction != MineCarDirs::eLeft_2 && !(static_cast<s32>(sGnFrame_5C1B84) % 6))
                 {
                     SFX_Play_46FA90(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
                 }
@@ -1075,7 +1075,7 @@ void MineCar::State_1_ParkedWithAbe()
     {
         if (sInputObject_5BD4E0.isPressed(inputKey))
         {
-            if (field_1BC_turn_direction != MineCarDirs::eRight_1 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
+            if (field_1BC_turn_direction != MineCarDirs::eRight_1 && !(static_cast<s32>(sGnFrame_5C1B84) % 6))
             {
                 SFX_Play_46FA90(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
             }
@@ -1086,7 +1086,7 @@ void MineCar::State_1_ParkedWithAbe()
 }
 
 bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3,
-    unsigned short moveArgument1, MineCarDirs moveArgument2, const char bChangeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const int ModelMask1, const int ModelMask2,
+    unsigned short moveArgument1, MineCarDirs moveArgument2, const char bChangeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const s32 ModelMask1, const s32 ModelMask2,
     FP velX, FP velY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond)
 {
     PathLine* pPathLine = nullptr;
@@ -1174,7 +1174,7 @@ void MineCar::HandleUpDown()
         {
             if (field_1BC_turn_direction != MineCarDirs::eDown_0)
             {
-                if (!(static_cast<int>(sGnFrame_5C1B84) % 6))
+                if (!(static_cast<s32>(sGnFrame_5C1B84) % 6))
                 {
                     SFX_Play_46FA90(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
                 }
@@ -1207,7 +1207,7 @@ void MineCar::HandleUpDown()
     {
         if (sInputObject_5BD4E0.isPressed(inputKey))
         {
-            if (field_1BC_turn_direction != MineCarDirs::eUp_3 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
+            if (field_1BC_turn_direction != MineCarDirs::eUp_3 && !(static_cast<s32>(sGnFrame_5C1B84) % 6))
             {
                 SFX_Play_46FA90(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
             }

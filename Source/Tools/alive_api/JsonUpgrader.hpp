@@ -30,11 +30,11 @@ public:
     virtual ~BaseJsonUpgrader() { }
     virtual void AddUpgraders() = 0;
 
-    AliveAPI::UpgradeError Upgrade(const std::string& jsonFile, int currentJsonVersion, int targetApiVersion);
+    AliveAPI::UpgradeError Upgrade(const std::string& jsonFile, s32 currentJsonVersion, s32 targetApiVersion);
 
 private:
-    AliveAPI::UpgradeError UpgradeTargetIsValid(int currentJsonVersion, int targetApiVersion);
+    AliveAPI::UpgradeError UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetApiVersion);
 
 protected:
-    std::map<int, TUpgradeFactoryFn> mUpgraders;
+    std::map<s32, TUpgradeFactoryFn> mUpgraders;
 };

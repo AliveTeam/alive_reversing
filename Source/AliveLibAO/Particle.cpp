@@ -38,7 +38,7 @@ Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scal
 void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 type)
 {
     FP velYCounter = {};
-    for (int i = 0; i < count; i++)
+    for (s32 i = 0; i < count; i++)
     {
         FP randX = (FP_FromInteger(Math_RandomRange_450F20(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
@@ -202,7 +202,7 @@ void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, char direction, FP sc
     }
 }
 
-Particle* Particle::ctor_478880(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData)
+Particle* Particle::ctor_478880(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, BYTE** ppAnimData)
 {
     ctor_417C10();
     SetVTable(this, 0x4BCDB0);

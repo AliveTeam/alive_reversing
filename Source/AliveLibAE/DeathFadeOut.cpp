@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 
-ALIVE_VAR(1, 0x5bc204, int, sIsFadingOut_5BC204, 0);
+ALIVE_VAR(1, 0x5bc204, s32, sIsFadingOut_5BC204, 0);
 
 BaseGameObject* DeathFadeOut::VDestructor(s32 flags)
 {

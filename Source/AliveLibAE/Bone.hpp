@@ -16,7 +16,7 @@ struct Bone_SaveState
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    int field_4_obj_id;
+    s32 field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -36,14 +36,14 @@ struct Bone_SaveState
 
     BitField16<BoneStateFlags> field_20_flags;
     s16 field_22_padding;
-    int field_24_base_id;
+    s32 field_24_base_id;
     s16 field_28_line_type;
     s16 field_2A_count;
     BoneStates field_2C_state;
     s16 field_2E_volume_modifier;
     FP field_30_xpos;
     FP field_34_ypos;
-    int field_38_time_to_live;
+    s32 field_38_time_to_live;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
 
@@ -60,9 +60,9 @@ public:
     virtual BOOL VIsFalling_49E330() override;
     virtual void VTimeToExplodeRandom_411490() override;
     virtual BOOL VCanBeEaten_411560();
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
     virtual s16 VGetCount_448080() override;
-    EXPORT static int CC CreateFromSaveState_412C10(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_412C10(const BYTE* pData);
 
 private:
     EXPORT Bone* vdtor_411580(s32 flags);
@@ -75,7 +75,7 @@ private:
     EXPORT s16 OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj);
     EXPORT void vScreenChanged_4122D0();
     EXPORT BOOL vCanBeEaten_411560();
-    EXPORT int vGetSaveState_412ED0(Bone_SaveState* pState);
+    EXPORT s32 vGetSaveState_412ED0(Bone_SaveState* pState);
     EXPORT void InTheAir_4116C0();
     EXPORT void vUpdate_411BC0();
     EXPORT s16 vGetCount_412500();
@@ -85,8 +85,8 @@ private:
     s16 field_11E_volume_modifier;
     FP field_120_xpos;
     FP field_124_ypos;
-    int field_128_shine_timer;
-    int field_12C_time_to_live;
+    s32 field_128_shine_timer;
+    s32 field_12C_time_to_live;
     s16 field_130_hit_object;
     s16 field_132_padding;
 };
@@ -106,7 +106,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoneBag, 0x1C);
 class BoneBag : public BaseAliveGameObject
 {
 public:
-    EXPORT BoneBag* ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo);
+    EXPORT BoneBag* ctor_4125C0(Path_BoneBag* pTlv, s32 tlvInfo);
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -118,7 +118,7 @@ private:
     EXPORT void vUpdate_412880();
 
 private:
-    int field_118_tlvInfo;
+    s32 field_118_tlvInfo;
     s16 field_11C_is_hit;
     s16 field_11E_count;
     s16 field_120_allow_sound;

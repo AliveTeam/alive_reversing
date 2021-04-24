@@ -214,17 +214,17 @@ public:
         return {};
     }
 
-    int FileCount() const
+    s32 FileCount() const
     {
         return mHeader.field_10_sub.field_0_num_files;
     }
 
-    std::string FileNameAt(int idx) const
+    std::string FileNameAt(s32 idx) const
     {
         return ToString(mFileRecords[idx]);
     }
 
-    int FileSizeAt(int idx) const
+    s32 FileSizeAt(s32 idx) const
     {
         return mFileRecords[idx].field_14_file_size;
     }
@@ -310,7 +310,7 @@ public:
         if (mReader.IsOpen())
         {
             bool isEditingAFile = false;
-            for (int i = 0; i < mReader.FileCount(); i++)
+            for (s32 i = 0; i < mReader.FileCount(); i++)
             {
                 const auto fileName = mReader.FileNameAt(i);
                 if (fileName == fileNameInLvl)
@@ -340,7 +340,7 @@ public:
             return true;
         }
 
-        int newFilesCount = 0;
+        s32 newFilesCount = 0;
         for (const auto& rec : mNewOrEditedFiles)
         {
             if (!rec.mEditOfExistingFile)
@@ -354,9 +354,9 @@ public:
         newHeader.field_4_ref_count = 0;
         newHeader.field_8_magic = 0x78646e49; // Idx
         newHeader.field_C_id = 0;
-        newHeader.field_10_sub.field_0_num_files = static_cast<int>(fileRecs.size());
+        newHeader.field_10_sub.field_0_num_files = static_cast<s32>(fileRecs.size());
 
-        int totalFileOffset = static_cast<int>(RoundUp((newHeader.field_10_sub.field_0_num_files * sizeof(LvlFileRecord)) + (sizeof(LvlHeader) - sizeof(LvlFileRecord))));
+        s32 totalFileOffset = static_cast<s32>(RoundUp((newHeader.field_10_sub.field_0_num_files * sizeof(LvlFileRecord)) + (sizeof(LvlHeader) - sizeof(LvlFileRecord))));
         newHeader.field_10_sub.field_4_header_size_in_sectors = newHeader.field_0_first_file_offset / 2048;
         if (newHeader.field_10_sub.field_4_header_size_in_sectors < 5)
         {
@@ -366,7 +366,7 @@ public:
         totalFileOffset = newHeader.field_0_first_file_offset;
 
         // Add existing LVL file records
-        int i = 0;
+        s32 i = 0;
         for (i = 0; i < mReader.FileCount(); i++)
         {
             const auto fileName = mReader.FileNameAt(i);
@@ -374,7 +374,7 @@ public:
             auto rec = GetNewOrEditedFileRecord(fileName.c_str());
             if (rec)
             {
-                fileRecs[i].field_14_file_size = static_cast<int>(rec->mFileData.size());
+                fileRecs[i].field_14_file_size = static_cast<s32>(rec->mFileData.size());
             }
             else
             {
@@ -394,7 +394,7 @@ public:
             if (!rec.mEditOfExistingFile)
             {
                 memcpy(fileRecs[i].field_0_file_name, rec.mFileNameInLvl.c_str(), ALIVE_COUNTOF(LvlFileRecord::field_0_file_name));
-                fileRecs[i].field_14_file_size = static_cast<int>(rec.mFileData.size());
+                fileRecs[i].field_14_file_size = static_cast<s32>(rec.mFileData.size());
                 i++;
             }
         }
@@ -438,7 +438,7 @@ public:
         }
 
         // Ensure termination padding to a multiple of the sector size exists at EOF
-        const long int pos = ::ftell(outFile);
+        const auto pos = ::ftell(outFile);
         if (pos == -1)
         {
             abort();

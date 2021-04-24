@@ -11,12 +11,12 @@
 #include "Sound/SDLSoundSystem.hpp"
 #include "Sound/PsxSpuApi.hpp"
 
-ALIVE_VAR(1, 0xBBC394, int, sLoadedSoundsCount_BBC394, 0);
-ALIVE_VAR(1, 0xbbc33c, int, sLastNotePlayTime_BBC33C, 0);
+ALIVE_VAR(1, 0xBBC394, s32, sLoadedSoundsCount_BBC394, 0);
+ALIVE_VAR(1, 0xbbc33c, s32, sLastNotePlayTime_BBC33C, 0);
 
 
 ALIVE_ARY(1, 0xBBBAB8, SoundBuffer, 32, sSoundBuffers_BBBAB8, {});
-ALIVE_ARY(1, 0xBBBD38, int, 127, sVolumeTable_BBBD38, {});
+ALIVE_ARY(1, 0xBBBD38, s32, 127, sVolumeTable_BBBD38, {});
 ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
 
 const DWORD k127_dword_575158 = 127;
@@ -34,7 +34,7 @@ ALIVE_VAR(1, 0xBBC344, SDLSoundSystem*, sDSound_BBC344, nullptr);
 ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND, sDSound_BBC344, nullptr);
 #endif
 
-EXPORT s32 CC SND_CreateDS_4EEAA0(u32 sampleRate, int bitsPerSample, int isStereo)
+EXPORT s32 CC SND_CreateDS_4EEAA0(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
 {
 #if USE_SDL2_SOUND
     return SND_CreateDS_SDL(sampleRate, bitsPerSample, isStereo);
@@ -43,7 +43,7 @@ EXPORT s32 CC SND_CreateDS_4EEAA0(u32 sampleRate, int bitsPerSample, int isStere
 #endif
 }
 
-EXPORT int CC SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
+EXPORT s32 CC SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
 {
 #if USE_SDL2_SOUND
     return SND_Clear_SDL(pSoundEntry, sampleOffset, size);
@@ -83,7 +83,7 @@ EXPORT void CC SND_SsQuit_4EFD50()
 {
     if (sDSound_BBC344)
     {
-        for (int i = 0; i < 32; i++)
+        for (s32 i = 0; i < 32; i++)
         {
             if (sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer)
             {
@@ -93,7 +93,7 @@ EXPORT void CC SND_SsQuit_4EFD50()
             }
         }
 
-        for (int i = 0; i < sLoadedSoundsCount_BBC394; i++)
+        for (s32 i = 0; i < sLoadedSoundsCount_BBC394; i++)
         {
             SoundEntry* pEntry = sSoundSamples_BBBF38[i];
             if (pEntry->field_4_pDSoundBuffer)
@@ -137,7 +137,7 @@ EXPORT s32 CC SND_Free_4EFA30(SoundEntry* pSnd)
     return 0;
 }
 
-EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Channel* pMidiStru, int playFlags, int priority)
+EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, float freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
 {
     if (!sDSound_BBC344)
     {
@@ -158,14 +158,14 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
 
     sLastNotePlayTime_BBC33C = SYS_GetTicks();
 
-    int panLeft2 = panLeft;
-    int panRight2 = panRight;
+    s32 panLeft2 = panLeft;
+    s32 panRight2 = panRight;
     if (panLeft > panRight)
     {
         panRight2 = panLeft;
     }
 
-    int panRightConverted = 120 * panRight2 * 127 >> 14;// >> 14 = 16384, note: was using k127_dword_575158
+    s32 panRightConverted = 120 * panRight2 * 127 >> 14;// >> 14 = 16384, note: was using k127_dword_575158
 
     if (panRightConverted < 0)
     {
@@ -228,7 +228,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
     pDSoundBuffer->SetFrequency(freqHz);
     pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]);
 
-    const int panConverted = (DSBPAN_RIGHT * (panLeft2 - panRight)) / 127; // From PSX pan range to DSound pan range
+    const s32 panConverted = (DSBPAN_RIGHT * (panLeft2 - panRight)) / 127; // From PSX pan range to DSound pan range
     pDSoundBuffer->SetPan(-panConverted); // Fix Inverted Stereo
 
     if (playFlags & DSBPLAY_LOOPING)
@@ -258,7 +258,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
     return -1;
 }
 
-EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, int sampleRate, u8 bitsPerSample, int isStereo)
+EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, s32 sampleRate, u8 bitsPerSample, s32 isStereo)
 {
     pWaveFormat->nSamplesPerSec = 0;
     pWaveFormat->nAvgBytesPerSec = 0;
@@ -271,7 +271,7 @@ EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, int sampl
     pWaveFormat->nAvgBytesPerSec = sampleRate * pWaveFormat->nBlockAlign;
 }
 
-EXPORT s32 CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo)
+EXPORT s32 CC SND_New_4EEFF0(SoundEntry *pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo)
 {
     if (!sDSound_BBC344)
     {
@@ -290,7 +290,7 @@ EXPORT s32 CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int sampleRate,
         waveFormatEx.cbSize = 0;
         GetSoundAPI().SND_Init_WaveFormatEx(&waveFormatEx, sampleRate, static_cast<u8>(bitsPerSample), isStereo & 1);
 
-        const int sampleByteSize = sampleLength * waveFormatEx.nBlockAlign;
+        const s32 sampleByteSize = sampleLength * waveFormatEx.nBlockAlign;
         bufferDesc.dwReserved = 0;
         bufferDesc.lpwfxFormat = &waveFormatEx;
         pSnd->field_1D_blockAlign = static_cast<u8>(waveFormatEx.nBlockAlign);
@@ -318,7 +318,7 @@ EXPORT s32 CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int sampleRate,
                 pSnd->field_14_buffer_size_bytes = sampleByteSize;
                 pSnd->field_20_isStereo = isStereo;
 
-                for (int i = 0; i < 256; i++)
+                for (s32 i = 0; i < 256; i++)
                 {
                     if (!sSoundSamples_BBBF38[i])
                     {
@@ -398,15 +398,15 @@ EXPORT u32 CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
 
 // Never seems to get called?
 // TODO: Clean up!
-EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, int /*a3*/)
+EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/)
 {
     ALIVE_FATAL("Never expected SND_4F00B0 to be called");
     //return 0;
     //DWORD *result; // eax
     //u32 *v4; // edx
     //u32 v5; // ecx
-    //int v6; // esi
-    //int v7; // esi
+    //s32 v6; // esi
+    //s32 v7; // esi
 
     //result = (DWORD *)a2;
     //v4 = a1;
@@ -433,7 +433,7 @@ EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, int /*a3*/)
     //return result;
 }
 
-EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveDataLen)
+EXPORT s32 CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen)
 {
     GetSoundAPI().SND_Free(pSnd);
     if (!GetSoundAPI().SND_New(pSnd, waveDataLen, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo))
@@ -452,7 +452,7 @@ EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveD
     return GetSoundAPI().SND_LoadSamples(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
 }
 
-EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
+EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC90(s32 idx, float hzChangeFreq)
 {
     SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 511];
     TSoundBufferType* pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
@@ -484,7 +484,7 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
     return 0;
 }
 
-EXPORT int CC SND_Buffer_Get_Status_4F00F0(int idx, int a2)
+EXPORT s32 CC SND_Buffer_Get_Status_4F00F0(s32 idx, s32 a2)
 {
     // TODO: Figure out the meaning of the constants in here
     SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx];
@@ -496,7 +496,7 @@ EXPORT int CC SND_Buffer_Get_Status_4F00F0(int idx, int a2)
     DWORD status = 0;
     pSoundBuffer->field_0_pDSoundBuffer->GetStatus(&status);
 
-    int fromStatus = 0;
+    s32 fromStatus = 0;
     if (!(status & 1))
     {
         fromStatus = 0x8000000;
@@ -506,7 +506,7 @@ EXPORT int CC SND_Buffer_Get_Status_4F00F0(int idx, int a2)
         fromStatus += 0x8000000;
     }
 
-    int v6 = (a2 - pSoundBuffer->field_10) >> 2; // >> 2 = / 2 ? 
+    s32 v6 = (a2 - pSoundBuffer->field_10) >> 2; // >> 2 = / 2 ? 
     if (v6 > 2)
     {
         v6 = 2;
@@ -519,7 +519,7 @@ EXPORT int CC SND_Buffer_Get_Status_4F00F0(int idx, int a2)
     return fromStatus + 2 * (sLastNotePlayTime_BBC33C + (v6 << 8) - pSoundBuffer->field_C); // << 8 = * 256 ?
 }
 
-EXPORT s32 CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol)
+EXPORT s32 CC SND_Buffer_Set_Volume_4EFAD0(s32 idx, s32 vol)
 {
     TSoundBufferType* pSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pSoundBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
@@ -536,9 +536,9 @@ EXPORT s32 CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol)
     return 0;
 }
 
-EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq)
+EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC00(s32 idx, float freq)
 {
-    const int idxMasked = idx & 511;
+    const s32 idxMasked = idx & 511;
     if (idxMasked > 32)
     {
         LOG_ERROR("Idx out of bounds " << idxMasked << " unmasked " << idx);
@@ -567,7 +567,7 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq)
 
 }
 
-EXPORT s32 CC SND_Stop_Sample_At_Idx_4EFA90(int idx)
+EXPORT s32 CC SND_Stop_Sample_At_Idx_4EFA90(s32 idx)
 {
     TSoundBufferType* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511) // TODO: Same unknown field_4 conversion
@@ -578,7 +578,7 @@ EXPORT s32 CC SND_Stop_Sample_At_Idx_4EFA90(int idx)
     return 0;
 }
 
-EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int sampleIdx, int field10)
+EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(s32 idx, s32 sampleIdx, s32 field10)
 {
     SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx];
     if (pSoundBuffer->field_0_pDSoundBuffer)
@@ -588,7 +588,7 @@ EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int sampleIdx, i
     }
 
     // TODO: What is this shorthand for ?
-    const int oldField4 = pSoundBuffer->field_4 ^ (((u16)idx ^ (u16)pSoundBuffer->field_4) & 511);
+    const s32 oldField4 = pSoundBuffer->field_4 ^ (((u16)idx ^ (u16)pSoundBuffer->field_4) & 511);
     pSoundBuffer->field_4 = oldField4 + 512;
 
     pSoundBuffer->field_8_sample_idx = sampleIdx;
@@ -597,7 +597,7 @@ EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int sampleIdx, i
     return pSoundBuffer;
 }
 
-EXPORT int CC SND_Get_Buffer_Status_4EE8F0(int idx)
+EXPORT s32 CC SND_Get_Buffer_Status_4EE8F0(s32 idx)
 {
     TSoundBufferType* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
@@ -619,14 +619,14 @@ EXPORT int CC SND_Get_Buffer_Status_4EE8F0(int idx)
     }
 }
 
-EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int sampleIdx, int field10)
+EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(s32 sampleIdx, s32 field10)
 {
-    int idx = -1;
-    int statusToMatch = 0xC0000000;
+    s32 idx = -1;
+    s32 statusToMatch = 0xC0000000;
 
-    for (int i = 0; i < 32; i++)
+    for (s32 i = 0; i < 32; i++)
     {
-        int status = SND_Buffer_Get_Status_4F00F0(i, field10);
+        s32 status = SND_Buffer_Get_Status_4F00F0(i, field10);
         if (status >= statusToMatch)
         {
             idx = i;

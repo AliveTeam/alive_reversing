@@ -20,7 +20,7 @@ enum class LevelIds : s16;
 class Bullet : public BaseGameObject
 {
 public:
-    EXPORT Bullet* ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, s16 a9);
+    EXPORT Bullet* ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 a7, FP scale, s16 a9);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
@@ -39,7 +39,7 @@ public:
     FP field_18_xpos;
     FP field_1C_ypos;
     FP field_20;
-    int field_24;
+    s32 field_24;
     LevelIds field_28_level;
     s16 field_2A_path;
     FP field_2C_scale;

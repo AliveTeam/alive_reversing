@@ -18,7 +18,7 @@ ALIVE_ASSERT_SIZEOF(Save_PSX_Header, 0x200);
 struct SaveData
 {
     Save_PSX_Header field_0_header;
-    int field_200_hashValue;
+    s32 field_200_hashValue;
     short field_204_zone_number;
     short field_206_clear_from_id;
     short field_208_clear_to_id;
@@ -28,10 +28,10 @@ struct SaveData
     short field_214_saved_path;
     short field_216_saved_camera;
     FP field_218_saved_sprite_scale;
-    int field_21C_saved_ring_timer;
+    s32 field_21C_saved_ring_timer;
     short field_220_bSavedHaveShrykull;
     short field_222_pad;
-    int field_224_xpos;
+    s32 field_224_xpos;
     DWORD field_228_ypos;
     FP field_22C_ah_health;
     FP field_230_ah_sprite_scale;
@@ -43,13 +43,13 @@ struct SaveData
     short field_23E_current_motion;
     WORD field_240_last_anim_frame;
     short field_242_pad;
-    int field_244_stone_state; //TODO @ 100%  fix type length
+    s32 field_244_stone_state; //TODO @ 100%  fix type length
     DWORD field_248_gnFrame;
-    int field_24C_field_118;
+    s32 field_24C_field_118;
     short field_250_throwable_count;
     char field_252_paramonia_done;
     char field_253_scrabania_done;
-    int field_254_ring_pulse_timer;
+    s32 field_254_ring_pulse_timer;
     short field_258_bHaveShrykull;
     WORD field_25A_bElumExists;
     short field_25C_bControllingElum;
@@ -84,7 +84,7 @@ struct SaveData
     WORD field_2A2_killed_mudokons;
     WORD field_2A4_restartRuptureFarmsSavedMudokons;
     WORD field_2A6_restartRuptureFarmsKilledMudokons;
-    int field_2A8_gasTimer;
+    s32 field_2A8_gasTimer;
     short field_2AC_bUseAltSaveHeader;
     short field_2AE_controller_idx;
     BYTE field_2B0_pSaveBuffer[7501];
@@ -94,13 +94,13 @@ ALIVE_ASSERT_SIZEOF(SaveData, 0x2000);
 class SaveGame
 {
 public:
-    EXPORT static void CC LoadFromMemory_459970(SaveData* pData, int bKillObjects);
+    EXPORT static void CC LoadFromMemory_459970(SaveData* pData, s32 bKillObjects);
     EXPORT static void CC SaveToMemory_459490(SaveData* pSaveData);
     EXPORT static short CC LoadFromFile_459D30(const char* name);
     EXPORT static BOOL CC SaveToFile_45A110(const char* name);
 
     static short GetPathId(short pathToFind, short* outFoundPathRow = nullptr);
-    static int Hash(SaveData* table);
+    static s32 Hash(SaveData* table);
 };
 
 extern const char word_4BC670[6][8];

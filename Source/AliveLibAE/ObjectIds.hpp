@@ -6,7 +6,7 @@ class BaseGameObject;
 
 EXPORT void CC static_ObjectIds_init_43EC30();
 
-using TObjectId_KeyType = int;
+using TObjectId_KeyType = s32;
 
 struct ObjectId_Record
 {

@@ -48,9 +48,9 @@ private:
     PSX_RECT field_28_pal_rect1;
     WORD* field_30_pPal2;
     PSX_RECT field_34_pal_rect2;
-    int field_3C;
-    int field_40;
-    int field_44_objId;
+    s32 field_3C;
+    s32 field_40;
+    s32 field_44_objId;
     TPageAbr field_48_old_render_mode;
     char field_49;
     BitField16<Flags_4A> field_4A_flags;

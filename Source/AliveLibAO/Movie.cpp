@@ -6,14 +6,14 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x9F309C, int, sMovie_ref_count_9F309C, 0);
+ALIVE_VAR(1, 0x9F309C, s32, sMovie_ref_count_9F309C, 0);
 
 EXPORT void CC Get_fmvs_sectors_44FEB0(const char* /*pMovieName1*/, const char* /*pMovieName2*/, const char* /*pMovieName3*/, DWORD* /*pMovie1Sector*/, DWORD* /*pMovie2Sector*/, DWORD* /*pMovie3Sector*/)
 {
     NOT_IMPLEMENTED();
 }
 
-Movie* Movie::ctor_489C90(int id, int /*pos*/, char bUnknown, int /*flags*/, s16 volume)
+Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, char bUnknown, s32 /*flags*/, s16 volume)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD6E0);

@@ -43,8 +43,8 @@ struct EvilFart_State
     s16 field_2E_alive_timer;
     FartStates field_30_state;
     s16 field_32_padding;
-    int field_34_timer;
-    int field_38_timer;
+    s32 field_34_timer;
+    s32 field_38_timer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFart_State, 60);
 
@@ -57,12 +57,12 @@ public:
     virtual void VUpdate() override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VPossessed_408F70() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
-    EXPORT static int CC CreateFromSaveState_4281C0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4281C0(const BYTE* pBuffer);
 
 private:
-    EXPORT int vGetSaveState_4283F0(EvilFart_State* pState);
+    EXPORT s32 vGetSaveState_4283F0(EvilFart_State* pState);
 
     EXPORT void InputControlFart_423BB0();
     EXPORT void vOnPossesed_423DA0();
@@ -87,8 +87,8 @@ private:
     s16 field_122_camera;
     FartStates field_124_state;
     s16 field_126_pad;
-    int field_128_timer;
-    int field_12C_back_to_abe_timer;
-    int field_130_sound_channels;
+    s32 field_128_timer;
+    s32 field_12C_back_to_abe_timer;
+    s32 field_130_sound_channels;
 };
 ALIVE_ASSERT_SIZEOF(EvilFart, 0x134);

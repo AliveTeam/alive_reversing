@@ -24,7 +24,7 @@ enum class SecurityOrbStates : s16
 class SecurityOrb : public BaseAliveGameObject
 {
 public:
-    EXPORT SecurityOrb* ctor_436C80(Path_SecurityOrb* pTlv, int tlvInfo);
+    EXPORT SecurityOrb* ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo);
     EXPORT BaseGameObject* dtor_436D60();
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
@@ -39,11 +39,11 @@ private:
     EXPORT void VUpdate_436DF0();
 
 public:
-    int field_10C_tlvInfo;
+    s32 field_10C_tlvInfo;
     SecurityOrbStates field_110_state;
     s16 field_112_pad;
-    int field_114_timer;
-    int field_118_sound_channels;
+    s32 field_114_timer;
+    s32 field_118_sound_channels;
 };
 ALIVE_ASSERT_SIZEOF(SecurityOrb, 0x11C);
 

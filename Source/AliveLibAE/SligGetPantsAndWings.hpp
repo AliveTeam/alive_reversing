@@ -17,7 +17,7 @@ enum class State : s16
 class SligGetPantsAndWings : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT SligGetPantsAndWings* ctor_465BF0(Path_TLV* pTlv, int tlvInfo);
+    EXPORT SligGetPantsAndWings* ctor_465BF0(Path_TLV* pTlv, s32 tlvInfo);
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -29,7 +29,7 @@ private:
 private:
     State field_F4_state;
     //s16 field_F6_pad;
-    int field_F8_tlvInfo;
-    int field_FC_timer;
+    s32 field_F8_tlvInfo;
+    s32 field_FC_timer;
 };
 ALIVE_ASSERT_SIZEOF(SligGetPantsAndWings, 0x100);

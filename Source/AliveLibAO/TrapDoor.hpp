@@ -24,7 +24,7 @@ class PathLine;
 class TrapDoor : public PlatformBase
 {
 public:
-    EXPORT TrapDoor* ctor_488010(Path_TrapDoor* pTlv, Map* pMap, int tlvInfo);
+    EXPORT TrapDoor* ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
 
     void Open();
 
@@ -34,9 +34,9 @@ public:
 
     EXPORT TrapDoor* Vdtor_4887D0(s32 flags);
 
-     virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, int pointIdx) override;
+     virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx) override;
 
-    EXPORT PSX_RECT* VGetBoundingRect_4887B0(PSX_RECT* pRect, int pointIdx);
+    EXPORT PSX_RECT* VGetBoundingRect_4887B0(PSX_RECT* pRect, s32 pointIdx);
 
     virtual void VScreenChanged() override;
 
@@ -62,7 +62,7 @@ public:
 
     s16 field_12C_flag;
     s16 field_12E_pad;
-    int field_130_stay_open_time;
+    s32 field_130_stay_open_time;
     s16 field_134_switch_idx;
     s16 field_136_state;
     s16 field_138_switch_state;

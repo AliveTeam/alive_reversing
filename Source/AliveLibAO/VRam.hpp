@@ -26,7 +26,7 @@ EXPORT void CC Vram_alloc_explicit_4507F0(s16 x, s16 y, s16 w, s16 h);
 EXPORT s16 CC vram_alloc_450B20(u16 width, s16 height, u16 colourDepth, PSX_RECT* pRect);
 
 
-EXPORT int CC vram_alloc_450860(s16 width, s16 height, PSX_RECT* pRect);
+EXPORT s32 CC vram_alloc_450860(s16 width, s16 height, PSX_RECT* pRect);
 
 
 }

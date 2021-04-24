@@ -10,7 +10,7 @@ EXPORT void CC Get_fmvs_sectors_44FEB0(const char* pMovieName1, const char* pMov
 class Movie : public BaseGameObject
 {
 public:
-    EXPORT Movie* ctor_489C90(int id, int pos, char bUnknown, int flags, s16 volume);
+    EXPORT Movie* ctor_489C90(s32 id, s32 pos, char bUnknown, s32 flags, s16 volume);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -24,24 +24,24 @@ public:
 
     s16 field_10_flags;
     s16 field_12;
-    int field_14;
-    int field_18;
+    s32 field_14;
+    s32 field_18;
     BYTE** field_1C;
-    int field_20;
-    int field_24;
-    int field_28;
-    int field_2C;
-    int field_30;
+    s32 field_20;
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
+    s32 field_30;
     char field_34_min;
     char field_35;
     char field_36;
     char field_37;
-    int field_38;
+    s32 field_38;
     s16 field_3C;
     s16 field_3E;
 };
 ALIVE_ASSERT_SIZEOF(Movie, 0x40);
 
-ALIVE_VAR_EXTERN(int, sMovie_ref_count_9F309C);
+ALIVE_VAR_EXTERN(s32, sMovie_ref_count_9F309C);
 
 }

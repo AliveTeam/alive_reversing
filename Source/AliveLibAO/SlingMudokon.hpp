@@ -27,7 +27,7 @@ ALIVE_ASSERT_SIZEOF(Path_SlingMudokon, 0x20);
     ENTRY(State_5_AngryToIdle_46FD50)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eSlingMudStates : int
+enum eSlingMudStates : s32
 {
     SLING_MUD_STATES_ENUM(MAKE_ENUM)
 };
@@ -35,7 +35,7 @@ enum eSlingMudStates : int
 class SlingMudokon : public BaseAliveGameObject
 {
 public:
-    EXPORT SlingMudokon* ctor_46F940(Path_SlingMudokon* pTlv, int tlvInfo);
+    EXPORT SlingMudokon* ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_46FB30();
 
@@ -77,13 +77,13 @@ public:
 
     EXPORT s16 tsub_4707B0();
 
-    int field_10C_padding;
-    int field_110_tlvInfo;
-    int field_114_paddding;
-    int field_118_code_converted;
+    s32 field_10C_padding;
+    s32 field_110_tlvInfo;
+    s32 field_114_paddding;
+    s32 field_118_code_converted;
     s16 field_11C_code_length;
     s16 field_11E_flags;
-    int field_120_last_event_idx;
+    s32 field_120_last_event_idx;
     BYTE field_124_code_buffer[16];
     s16 field_134_buffer_start;
     s16 field_136;
@@ -91,10 +91,10 @@ public:
     s16 field_13A_brain_state;
     s16 field_13C;
     s16 field_13E;
-    int field_140_timer;
-    int field_144_timer2;
-    int field_148;
-    int field_14C;
+    s32 field_140_timer;
+    s32 field_144_timer2;
+    s32 field_148;
+    s32 field_14C;
     BYTE** field_150_res;
     s16 field_154;
     s16 field_156;

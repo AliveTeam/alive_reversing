@@ -38,7 +38,7 @@ const FallingItem_Data sFallingItemData_4BAB20[16] =
   { 11504, 11544, 76, 38 }
 };
 
-FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, int tlvInfo)
+FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     field_6_flags.Set(Options::eCanExplode_Bit7);
@@ -49,7 +49,7 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, int tlvInfo)
     field_10C_tlvInfo = tlvInfo;
 
     BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2rockResID, 1, 0);
-    const int lvlIdx = static_cast<int>(gMap_507BA8.field_0_current_level);
+    const s32 lvlIdx = static_cast<s32>(gMap_507BA8.field_0_current_level);
     Animation_Init_417FD0(
         sFallingItemData_4BAB20[lvlIdx].field_0,
         sFallingItemData_4BAB20[lvlIdx].field_8,
@@ -134,7 +134,7 @@ FallingItem* FallingItem::Vdtor_41A7F0(s32 flags)
 
 void FallingItem::DamageHitItems_41A6D0()
 {
-    for (int idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(idx);
         if (!pObj)
@@ -201,12 +201,12 @@ void FallingItem::VUpdate_41A120()
         field_110_state = State::eState_2_WaitForFallDelay;
         field_B4_velx = FP_FromInteger(0);
         field_B8_vely = FP_FromInteger(0);
-        field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<int>(gMap_507BA8.field_0_current_level)].field_4, nullptr);
+        field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_4, nullptr);
         field_11C_delay_timer = gnFrameCount_507670 + field_118_delay_time;
         break;
 
     case State::eState_2_WaitForFallDelay:
-        if (static_cast<int>(gnFrameCount_507670) >= field_11C_delay_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_11C_delay_timer)
         {
             field_110_state = State::eState_3_Falling;
             field_122_do_sound_in_state_falling = TRUE;
@@ -357,7 +357,7 @@ void FallingItem::VUpdate_41A120()
         }
         else
         {
-            field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<int>(gMap_507BA8.field_0_current_level)].field_0, nullptr);
+            field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0, nullptr);
             field_6_flags.Set(Options::eCanExplode_Bit7);
             field_B8_vely = FP_FromInteger(0);
             field_B4_velx = FP_FromInteger(0);

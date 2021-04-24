@@ -41,9 +41,9 @@ struct FlyingSligSpawner_State
 {
     AETypes field_0_type;
     //s16 field_2_pad;
-    int field_4_tlvInfo;
-    int field_8_bSpawned;
-    int field_C_spawned_slig_obj_id;
+    s32 field_4_tlvInfo;
+    s32 field_8_bSpawned;
+    s32 field_C_spawned_slig_obj_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSpawner_State, 0x10);
 
@@ -52,11 +52,11 @@ class FlyingSligSpawner : public BaseGameObject
 public:
     EXPORT static s32 CC CreateFromSaveState_43B690(const BYTE* pBuffer);
 
-    EXPORT FlyingSligSpawner* ctor_433D50(Path_FlyingSligSpawner* pTlv, int tlvInfo);
+    EXPORT FlyingSligSpawner* ctor_433D50(Path_FlyingSligSpawner* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
 private:
     EXPORT void dtor_434030();
@@ -65,12 +65,12 @@ private:
     EXPORT s32 vGetSaveState_43B730(FlyingSligSpawner_State* pSaveState);
 
 private:
-    int field_20_tlvInfo;
-    int field_24_spawned_slig_id;
+    s32 field_20_tlvInfo;
+    s32 field_24_spawned_slig_id;
     s16 field_28_trigger_id;
     s16 field_2A_pad;
     Path_TLV field_2C_tlv_header;
-    int field_3C_bSpawned;
+    s32 field_3C_bSpawned;
     s16 field_40_bFirstUpdate;
     s16 field_42_pad;
 };

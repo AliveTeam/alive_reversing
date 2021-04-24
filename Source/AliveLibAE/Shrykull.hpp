@@ -41,10 +41,10 @@ private:
     };
     State field_118_state;
     s16 field_11A_padding;
-    int field_11C_timer;
-    int field_120_timer;
-    int field_124_zap_line_id;
-    int field_128_obj_being_zapped_id;
+    s32 field_11C_timer;
+    s32 field_120_timer;
+    s32 field_124_zap_line_id;
+    s32 field_128_obj_being_zapped_id;
     s16 field_12C_bElectrocute;
     s16 field_12E_bResetRingTimer;
 };

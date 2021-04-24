@@ -9,7 +9,7 @@
 
 namespace AO {
 
-MusicTrigger* MusicTrigger::ctor_443A60(s16 type, s16 enabledBy, int id, s16 delay)
+MusicTrigger* MusicTrigger::ctor_443A60(s16 type, s16 enabledBy, s32 id, s16 delay)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBBC0);
@@ -18,7 +18,7 @@ MusicTrigger* MusicTrigger::ctor_443A60(s16 type, s16 enabledBy, int id, s16 del
     return this;
 }
 
-MusicTrigger* MusicTrigger::ctor_4439F0(Path_MusicTrigger* pTlv, int tlvInfo)
+MusicTrigger* MusicTrigger::ctor_4439F0(Path_MusicTrigger* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBBC0);
@@ -208,7 +208,7 @@ void MusicTrigger::VUpdate_443C90()
             }
         }
 
-        if (static_cast<int>(gnFrameCount_507670) < field_18_counter)
+        if (static_cast<s32>(gnFrameCount_507670) < field_18_counter)
         {
             MusicController::PlayMusic_443810(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
         }

@@ -24,7 +24,7 @@ enum class BoomMachineStates : s16
 class BoomMachine : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BoomMachine* ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo);
+    EXPORT BoomMachine* ctor_445B30(Path_BoomMachine* pTlv, s32 tlvInfo);
 
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
@@ -50,8 +50,8 @@ private:
     EXPORT BoomMachine* vdtor_445E10(s32 flags);
 
 private:
-    int field_F4_tlvInfo;
-    int field_F8_nozzle_id;
-    int field_FC_bIsButtonOn;
+    s32 field_F4_tlvInfo;
+    s32 field_F8_nozzle_id;
+    s32 field_FC_bIsButtonOn;
 };
 ALIVE_ASSERT_SIZEOF(BoomMachine, 0x100);

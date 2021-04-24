@@ -16,35 +16,35 @@ struct ScrabSpawner_State
 {
     AETypes field_0_type;
     s16 field_2_pad;
-    int field_4_tlvInfo;
-    int field_8_state;
-    int field_C_spawned_scrab_id;
+    s32 field_4_tlvInfo;
+    s32 field_8_state;
+    s32 field_C_spawned_scrab_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawner_State, 0x10);
 
 class ScrabSpawner : public BaseGameObject
 {
 public:
-    EXPORT ScrabSpawner* ctor_4AB450(Path_ScrabSpawner* pTlv, int tlvInfo);
-    EXPORT static int CC CreateFromSaveState_4ABEB0(const BYTE* pBuffer);
+    EXPORT ScrabSpawner* ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo);
+    EXPORT static s32 CC CreateFromSaveState_4ABEB0(const BYTE* pBuffer);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
 private:
     EXPORT ScrabSpawner* vdtor_4AB4E0(s32 flags);
     EXPORT void dtor_4AB720();
-    EXPORT int vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState);
+    EXPORT s32 vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState);
     EXPORT void vUpdate_4AB510();
 
 private:
-    int field_20_tlvInfo;
+    s32 field_20_tlvInfo;
     s16 field_24_switch_id;
     ScrabSpawnDirection field_26_spawn_direction;
     Path_TLV field_28_tlv_data;
-    int field_38_state;
-    int field_3C_spawned_scrab_id;
+    s32 field_38_state;
+    s32 field_3C_spawned_scrab_id;
     s16 field_40_bFindSpawnedScrab;
     s16 field_42_padding;
 };

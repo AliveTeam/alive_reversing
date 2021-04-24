@@ -9,9 +9,9 @@ namespace AO {
 class DeathFadeOut : public EffectBase
 {
 public:
-    EXPORT DeathFadeOut* ctor_419DB0(Layer layer, s16 direction, s16 destroyOnDone, int speed, TPageAbr abr);
+    EXPORT DeathFadeOut* ctor_419DB0(Layer layer, s16 direction, s16 destroyOnDone, s32 speed, TPageAbr abr);
 
-    EXPORT void Init_419E40(Layer layer, s16 direction, s16 destroyOnDone, int speed);
+    EXPORT void Init_419E40(Layer layer, s16 direction, s16 destroyOnDone, s32 speed);
 
     virtual void VScreenChanged() override;
 

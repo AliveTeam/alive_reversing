@@ -9,7 +9,7 @@ namespace AO {
 
 void BaseAliveGameObject_ForceLink();
 
-EXPORT int CC SnapToXGrid_41FAA0(FP scale, int a2);
+EXPORT s32 CC SnapToXGrid_41FAA0(FP scale, s32 a2);
 
 
 EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, s16 xMargin, WORD* pResult);
@@ -58,17 +58,17 @@ public:
 
     virtual void VSetMotion(s16 state);
 
-    virtual void VSetXSpawn(s16 camWorldX, int screenXPos);
+    virtual void VSetXSpawn(s16 camWorldX, s32 screenXPos);
 
-    virtual void VSetYSpawn(int camWorldY, s16 bLeft);
+    virtual void VSetYSpawn(s32 camWorldY, s16 bLeft);
 
-    virtual void VOnPathTransition(s16 camWorldX, int camWorldY, CameraPos direction);
+    virtual void VOnPathTransition(s16 camWorldX, s32 camWorldY, CameraPos direction);
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom);
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv);
 
-    virtual void VCheckCollisionLineStillValid(int distance);
+    virtual void VCheckCollisionLineStillValid(s32 distance);
 
     virtual void VOnTrapDoorOpen();
 
@@ -77,15 +77,15 @@ private:
 
     EXPORT s16 VTakeDamage_401920(BaseGameObject* pFrom);
 
-    EXPORT void VOnPathTransition_401470(s16 camWorldX, int camWorldY, CameraPos direction);
+    EXPORT void VOnPathTransition_401470(s16 camWorldX, s32 camWorldY, CameraPos direction);
 
     EXPORT void VSetMotion_402520(s16 state);
 
-    EXPORT void VSetXSpawn_401150(s16 camWorldX, int screenXPos);
+    EXPORT void VSetXSpawn_401150(s16 camWorldX, s32 screenXPos);
 
-    EXPORT void VSetYSpawn_401380(int camWorldY, s16 bLeft);
+    EXPORT void VSetYSpawn_401380(s32 camWorldY, s16 bLeft);
 
-    EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
+    EXPORT void VCheckCollisionLineStillValid_401A90(s32 distance);
 
 protected:
     EXPORT void SetActiveCameraDelayedFromDir_401C90();

@@ -8,17 +8,17 @@
 
 struct ErrorData
 {
-    int field_0_minusOne;
+    s32 field_0_minusOne;
     char field_4_str[256];
-    int field_104_line_num;
+    s32 field_104_line_num;
     const char *field_108_pSourceFileName;
 };
 ALIVE_ASSERT_SIZEOF(ErrorData, 0x10C);
 
 ALIVE_ARY(1, 0xBBC570, ErrorData, 32, sErrors_BBC570, {});
-ALIVE_VAR(1, 0xBBC564, int, sErrorIndex_BBC564, 0);
+ALIVE_VAR(1, 0xBBC564, s32, sErrorIndex_BBC564, 0);
 
-EXPORT void CC Error_PushErrorRecord_4F2920(const char* pSourceFileName, int lineNumber, int minusOne, const char* errMsg)
+EXPORT void CC Error_PushErrorRecord_4F2920(const char* pSourceFileName, s32 lineNumber, s32 minusOne, const char* errMsg)
 {
     if (sErrorIndex_BBC564 == 32)
     {
@@ -48,7 +48,7 @@ EXPORT void CC Error_PushErrorRecord_4F2920(const char* pSourceFileName, int lin
     LOG_ERROR(msg);
 }
 
-EXPORT void CC Error_DisplayMessageBox_4F2C80(const char* msg, int lineNum, const char* formatStr, ...)
+EXPORT void CC Error_DisplayMessageBox_4F2C80(const char* msg, s32 lineNum, const char* formatStr, ...)
 {
     static char sErrorMessage_BBFBA8[2052];
     static char sErrorTitle_BC03B4[2048];
@@ -69,7 +69,7 @@ EXPORT void CC Error_DisplayMessageBox_4F2C80(const char* msg, int lineNum, cons
 }
 
 
-EXPORT void Error_MessageBox_4F2D00(const char* pFileName, int lineNum, const char* formatStr, ...)
+EXPORT void Error_MessageBox_4F2D00(const char* pFileName, s32 lineNum, const char* formatStr, ...)
 {
     static char sErrorMsg_BBEEFC[2048];
     static char sErrorTitle_BBF6FC[1024];
@@ -115,7 +115,7 @@ EXPORT void CC Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
         if (allocatedString)
         {
             allocatedString[0] = 0;
-            for (int i = sErrorIndex_BBC564 - 1; i >= 0; i--)
+            for (s32 i = sErrorIndex_BBC564 - 1; i >= 0; i--)
             {
                 char buffer[256*4] = {};
                 sprintf(buffer, "%4d %s: %s\n",
@@ -132,7 +132,7 @@ EXPORT void CC Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
     else
     {
         // Show only the last error, next call displays the next error
-        for (int i = sErrorIndex_BBC564 - 1; i >= 0; i--)
+        for (s32 i = sErrorIndex_BBC564 - 1; i >= 0; i--)
         {
             Error_DisplayMessageBox_4F2C80(
                 sErrors_BBC570[sErrorIndex_BBC564].field_108_pSourceFileName,

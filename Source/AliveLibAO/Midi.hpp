@@ -177,27 +177,27 @@ enum class SeqId : s16
     Unknown_163 = 163,
 };
 
-EXPORT void CC SsUtAllKeyOff_49EDE0(int mode);
+EXPORT void CC SsUtAllKeyOff_49EDE0(s32 mode);
 
 EXPORT void CC SND_Reset_476BA0();
 
-EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, int reverb);
+EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb);
 
-EXPORT void CC SND_Stop_Channels_Mask_4774A0(int mask);
+EXPORT void CC SND_Stop_Channels_Mask_4774A0(s32 mask);
 
 EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqFileName);
 
-EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, int repeatCount, s16 bDontStop);
+EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop);
 
 EXPORT void CC SND_Seq_Stop_477A60(SeqId idx);
 
-EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, s16 volLeft, s16 volRight);
+EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight);
 
 EXPORT s16 CC SND_SsIsEos_DeInlined_477930(SeqId idx);
 
-EXPORT int CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, short volLeft, short volRight, short pitch_min, s16 pitch_max);
+EXPORT s32 CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, short volLeft, short volRight, short pitch_min, s16 pitch_max);
 
-EXPORT int CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, int vol, int pitch_min, int pitch_max);
+EXPORT s32 CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol, s32 pitch_min, s32 pitch_max);
 
 EXPORT void CC SND_Init_476E40();
 

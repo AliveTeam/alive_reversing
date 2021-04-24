@@ -19,18 +19,18 @@
 void Psx_ForceLink() {}
 
 ALIVE_VAR(1, 0x578325, char, sVSync_Unused_578325, 0);
-ALIVE_VAR(1, 0xBD0F2C, int, sVSyncLastMillisecond_BD0F2C, 0);
-ALIVE_VAR(1, 0xBD0F24, int, sLastFrameTimestampMilliseconds_BD0F24, 0);
+ALIVE_VAR(1, 0xBD0F2C, s32, sVSyncLastMillisecond_BD0F2C, 0);
+ALIVE_VAR(1, 0xBD0F24, s32, sLastFrameTimestampMilliseconds_BD0F24, 0);
 
 ALIVE_VAR(1, 0xC3D080, PSX_DRAWENV, sPSX_EMU_DrawEnvState_C3D080, {});
-ALIVE_VAR(1, 0x578E88, int, sConst_1000_578E88, 1000);
+ALIVE_VAR(1, 0x578E88, s32, sConst_1000_578E88, 1000);
 ALIVE_VAR(1, 0xBD1464, BYTE, bDontUseXYOffsetInRender_BD1464, 0);
 
-ALIVE_VAR(1, 0xBDCD40, int, sPsx_drawenv_clipx_BDCD40, 0);
-ALIVE_VAR(1, 0xBDCD44, int, sPsx_drawenv_clipy_BDCD44, 0);
-ALIVE_VAR(1, 0xBDCD48, int, sPsx_drawenv_clipw_BDCD48, 0);
-ALIVE_VAR(1, 0xBDCD4C, int, sPsx_drawenv_cliph_BDCD4C, 0);
-ALIVE_VAR(1, 0xBDCD50, int, sPsx_drawenv_k500_BDCD50, 0);
+ALIVE_VAR(1, 0xBDCD40, s32, sPsx_drawenv_clipx_BDCD40, 0);
+ALIVE_VAR(1, 0xBDCD44, s32, sPsx_drawenv_clipy_BDCD44, 0);
+ALIVE_VAR(1, 0xBDCD48, s32, sPsx_drawenv_clipw_BDCD48, 0);
+ALIVE_VAR(1, 0xBDCD4C, s32, sPsx_drawenv_cliph_BDCD4C, 0);
+ALIVE_VAR(1, 0xBDCD50, s32, sPsx_drawenv_k500_BDCD50, 0);
 ALIVE_VAR(1, 0xBDCD54, BYTE*, sPsx_drawenv_buffer_BDCD54, nullptr);
 ALIVE_VAR(1, 0xBD1465, BYTE, sPsxEMU_show_vram_BD1465, 0);
 
@@ -48,9 +48,9 @@ ALIVE_ARY(1, 0xC144C0, char, 128, sCdEmu_Path2_C144C0, {});
 ALIVE_ARY(1, 0xC145A0, char, 128, sCdEmu_Path3_C145A0, {});
 
 ALIVE_VAR(1, 0xBD1CC4, IO_Handle*, sCdFileHandle_BD1CC4, nullptr);
-ALIVE_VAR(1, 0xBD1894, int, sCdReadPos_BD1894, 0);
+ALIVE_VAR(1, 0xBD1894, s32, sCdReadPos_BD1894, 0);
 
-EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int bTryAllPaths)
+EXPORT s32 CC PSX_CD_OpenFile_4FAE80(const char* pFileName, s32 bTryAllPaths)
 {
     static char sLastOpenedFileName_BD1898[1024] = {};
 
@@ -63,7 +63,7 @@ EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int bTryAllPaths)
         //dword_578D5C = -1; // Note: Never read
         sCdReadPos_BD1894 = 0;
 
-        int openMode = 1;
+        s32 openMode = 1;
         if (!sIOSyncReads_BD2A5C)
         {
             openMode = 5;
@@ -150,7 +150,7 @@ EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int bTryAllPaths)
     return 1;
 }
 
-EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_4FADD0(int pos, CdlLOC* pLoc)
+EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_4FADD0(s32 pos, CdlLOC* pLoc)
 {
     pLoc->field_3_track = 0;
     pLoc->field_0_minute = static_cast<BYTE>(pos / 75 / 60 + 2);
@@ -159,9 +159,9 @@ EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_4FADD0(int pos, CdlLOC* pLoc)
     return pLoc;
 }
 
-EXPORT int CC PSX_CdLoc_To_Pos_4FAE40(const CdlLOC* pLoc)
+EXPORT s32 CC PSX_CdLoc_To_Pos_4FAE40(const CdlLOC* pLoc)
 {
-    int min = pLoc->field_0_minute;
+    s32 min = pLoc->field_0_minute;
     if (min < 2)
     {
         min = 2;
@@ -169,7 +169,7 @@ EXPORT int CC PSX_CdLoc_To_Pos_4FAE40(const CdlLOC* pLoc)
     return pLoc->field_2_sector + 75 * (pLoc->field_1_second + 20 * (3 * min - 6));
 }
 
-EXPORT int CC PSX_CD_File_Seek_4FB1E0(char mode, const CdlLOC* pLoc)
+EXPORT s32 CC PSX_CD_File_Seek_4FB1E0(char mode, const CdlLOC* pLoc)
 {
     if (mode != 2)
     {
@@ -179,7 +179,7 @@ EXPORT int CC PSX_CD_File_Seek_4FB1E0(char mode, const CdlLOC* pLoc)
     return 1;
 }
 
-EXPORT int CC PSX_CD_File_Read_4FB210(int numSectors, void* pBuffer)
+EXPORT s32 CC PSX_CD_File_Read_4FB210(s32 numSectors, void* pBuffer)
 {
     IO_Seek_4F2490(sCdFileHandle_BD1CC4, sCdReadPos_BD1894 << 11, 0);
     IO_Read_4F23A0(sCdFileHandle_BD1CC4, pBuffer, numSectors << 11);
@@ -187,7 +187,7 @@ EXPORT int CC PSX_CD_File_Read_4FB210(int numSectors, void* pBuffer)
     return 1;
 }
 
-EXPORT int CC PSX_CD_FileIOWait_4FB260(int bASync)
+EXPORT s32 CC PSX_CD_FileIOWait_4FB260(s32 bASync)
 {
     if (!sCdFileHandle_BD1CC4)
     {
@@ -208,7 +208,7 @@ ALIVE_VAR(1, 0xBD145C, bool, sbBitmapsAllocated_BD145C, false);
 
 
 
-EXPORT void CC PSX_DispEnv_4EDAB0(Bitmap* /*pBmp*/, int /*left*/, int /*top*/, int /*width*/)
+EXPORT void CC PSX_DispEnv_4EDAB0(Bitmap* /*pBmp*/, s32 /*left*/, s32 /*top*/, s32 /*width*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -236,9 +236,9 @@ EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam)
     // Note: sPsxEmu_BD1454 removed
 }
 
-ALIVE_VAR(1, 0xBD1468, int, sVGA_DisplayType_BD1468, 0);
+ALIVE_VAR(1, 0xBD1468, s32, sVGA_DisplayType_BD1468, 0);
 
-EXPORT void CC PSX_EMU_SetCallBack_4F9430(int callBackType, TPsxEmuCallBack fnPtr)
+EXPORT void CC PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPtr)
 {
     if (callBackType)
     {
@@ -317,32 +317,32 @@ EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const ch
     return 0;
 }
 
-EXPORT int CC PSX_ResetCallBack_4FAA20()
+EXPORT s32 CC PSX_ResetCallBack_4FAA20()
 {
     return 0;
 }
 
-EXPORT int CC PSX_StopCallBack_4FAA30()
+EXPORT s32 CC PSX_StopCallBack_4FAA30()
 {
     return 0;
 }
 
-EXPORT int CC PSX_CdInit_4FB2C0()
+EXPORT s32 CC PSX_CdInit_4FB2C0()
 {
     return 1;
 }
 
-EXPORT int CC PSX_CdSetDebug_4FB330(int /*mode*/)
+EXPORT s32 CC PSX_CdSetDebug_4FB330(s32 /*mode*/)
 {
     return 1;
 }
 
-EXPORT int CC PSX_CdControlB_4FB320(int, int, int)
+EXPORT s32 CC PSX_CdControlB_4FB320(s32, s32, s32)
 {
     return 0;
 }
 
-EXPORT int CC PSX_EMU_VideoAlloc_4F9D70()
+EXPORT s32 CC PSX_EMU_VideoAlloc_4F9D70()
 {
     if (!sbBitmapsAllocated_BD145C)
     {
@@ -359,7 +359,7 @@ EXPORT int CC PSX_EMU_VideoAlloc_4F9D70()
         }
         else
         {
-            int pixelFormat = 0;
+            s32 pixelFormat = 0;
             switch (sVGA_DisplayType_BD1468)
             {
             case 2:
@@ -515,17 +515,17 @@ EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
     SsSeqCalledTbyT_4FDC80();
 }
 
-EXPORT int CC PSX_ResetGraph_4F8800(int)
+EXPORT s32 CC PSX_ResetGraph_4F8800(s32)
 {
     return 0;
 }
 
-EXPORT int CC PSX_SetVideoMode_4FA8F0()
+EXPORT s32 CC PSX_SetVideoMode_4FA8F0()
 {
     return 0;
 }
 
-EXPORT int CC PSX_SetGraphDebug_4F8A10(int)
+EXPORT s32 CC PSX_SetGraphDebug_4F8A10(s32)
 {
     return 0;
 }
@@ -633,7 +633,7 @@ EXPORT void CC PSX_PutDispEnv_4F5890(PSX_DISPENV* pDispEnv)
     }
 }
 
-EXPORT int CC PSX_SetDispMask_4F89F0(int /*mode*/)
+EXPORT s32 CC PSX_SetDispMask_4F89F0(s32 /*mode*/)
 {
     return 0;
 }
@@ -650,7 +650,7 @@ EXPORT bool CC PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect)
         && pRect->h + pRect->y - 1 < sPsxVram_C1D160.field_C_height;
 }
 
-EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
+EXPORT s32 CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
 {
     if (!PSX_Rect_IsInFrameBuffer_4FA050(pRect))
     {
@@ -717,8 +717,8 @@ EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
     // TODO: Refactor
     const WORD* pVramIter = (const WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (rect->x + (rect->y << 10)));
     const WORD* pVramEnd = &pVramIter[1024 * rect->h - 1024 + rect->w];
-    int lineRemainder = 1024 - rect->w;
-    for (int count = 1024 - rect->w; pVramIter < pVramEnd; pVramIter += lineRemainder)
+    s32 lineRemainder = 1024 - rect->w;
+    for (s32 count = 1024 - rect->w; pVramIter < pVramEnd; pVramIter += lineRemainder)
     {
         const WORD* pLineStart = &pVramIter[rect->w];
         while (pVramIter < pLineStart)
@@ -741,7 +741,7 @@ EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
     return 1;
 }
 
-EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
+EXPORT s32 CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
 {
     const u32 pixelCount = pRect->w * pRect->h;
     WORD* pConversionBuffer = reinterpret_cast<WORD*>(ae_malloc_4F4E60(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
@@ -757,7 +757,7 @@ EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
     return loadImageRet;
 }
 
-EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(int x, int y, int w, int h, int unknown, BYTE* pBuffer)
+EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(s32 x, s32 y, s32 w, s32 h, s32 unknown, BYTE* pBuffer)
 {
     sPsx_drawenv_clipx_BDCD40 = x;
     sPsx_drawenv_clipy_BDCD44 = y;
@@ -799,7 +799,7 @@ EXPORT void CC PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
     }
 }
 
-EXPORT s32 CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int ypos)
+EXPORT s32 CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, s32 xpos, s32 ypos)
 {
     if (PSX_Rect_IsInFrameBuffer_4FA050(pRect))
     {
@@ -843,9 +843,9 @@ EXPORT BOOL CC PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* 
         && pRect2->y < (pRect1->y + pRect1->h);
 }
 
-ALIVE_VAR(1, 0xbbb9c4, int, sDispEnv_mode_BBB9C4, 0);
+ALIVE_VAR(1, 0xbbb9c4, s32, sDispEnv_mode_BBB9C4, 0);
 
-EXPORT void CC PSX_DispEnv_Set_4ED960(int mode)
+EXPORT void CC PSX_DispEnv_Set_4ED960(s32 mode)
 {
     sDispEnv_mode_BBB9C4 = mode;
 }
@@ -856,12 +856,12 @@ EXPORT void CC PSX_Prevent_Rendering_4945B0()
 }
 
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.
-EXPORT int CC PSX_VSync_4F6170(int mode)
+EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
 {
     sVSync_Unused_578325 = 0;
     SsSeqCalledTbyT_4FDC80();
 
-    const int currentTime = SYS_GetTicks();
+    const s32 currentTime = SYS_GetTicks();
 
     if (!sVSyncLastMillisecond_BD0F2C)
     {
@@ -871,7 +871,7 @@ EXPORT int CC PSX_VSync_4F6170(int mode)
     if (mode == 1) // Ignore Frame cap
     {
         sVSync_Unused_578325 = 1;
-        const int v3 = (s32)((unsigned __int64)(1172812403ULL * (s32)(240 * (currentTime - sVSyncLastMillisecond_BD0F2C))) >> 32) >> 14;
+        const s32 v3 = (s32)((unsigned __int64)(1172812403ULL * (s32)(240 * (currentTime - sVSyncLastMillisecond_BD0F2C))) >> 32) >> 14;
         return (v3 >> 31) + v3;
     }
     else if (mode < 0) // Nope.
@@ -882,10 +882,10 @@ EXPORT int CC PSX_VSync_4F6170(int mode)
     }
     else
     {
-        int frameTimeInMilliseconds = currentTime - sVSyncLastMillisecond_BD0F2C;
+        s32 frameTimeInMilliseconds = currentTime - sVSyncLastMillisecond_BD0F2C;
         if (mode > 0 && frameTimeInMilliseconds < 1000 * mode / 60)
         {
-            int timeSinceLastFrame = 0;
+            s32 timeSinceLastFrame = 0;
             sVSync_Unused_578325 = 1;
 
             do
@@ -904,7 +904,7 @@ EXPORT int CC PSX_VSync_4F6170(int mode)
     }
 }
 
-EXPORT int CC PSX_DrawSync_4F6280(int /*mode*/)
+EXPORT s32 CC PSX_DrawSync_4F6280(s32 /*mode*/)
 {
     return 0;
 }

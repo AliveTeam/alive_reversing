@@ -27,7 +27,7 @@ BaseGameObject* CC Event_Get_417250(s16 eventType)
     return sEventPtrs_4FF9A8.field_0_events[sEventsToUse_4FFA48].field_0_event_ptrs[eventType];
 }
 
-void CC Event_Broadcast_417220(int eventType, BaseGameObject* pObject)
+void CC Event_Broadcast_417220(s32 eventType, BaseGameObject* pObject)
 {
     sEventPtrs_4FF9A8.field_0_events[!sEventsToUse_4FFA48].field_0_event_ptrs[eventType] = pObject;
 }
@@ -70,9 +70,9 @@ void CC Events_Reset_Active_417320()
 
 void CC Event_Cancel_For_Obj_417350(BaseGameObject* pObj)
 {
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j = 0; j < ALIVE_COUNTOF(EventsArray::field_0_event_ptrs); j++)
+        for (s32 j = 0; j < ALIVE_COUNTOF(EventsArray::field_0_event_ptrs); j++)
         {
             if (sEventPtrs_4FF9A8.field_0_events[i].field_0_event_ptrs[j] == pObj)
             {

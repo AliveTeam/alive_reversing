@@ -29,7 +29,7 @@ const TintEntry stru_4CD310[4] =
 
 ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
 
-MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, int tlvInfo)
+MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     field_6_flags.Set(Options::eCanExplode_Bit7);
@@ -283,7 +283,7 @@ s16 MovingBomb::HitObject_43B970()
 {
     PSX_RECT ourRect = {};
     VGetBoundingRect(&ourRect, 1);
-    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pObjIter)
@@ -492,7 +492,7 @@ void MovingBomb::VUpdate_43B440()
         break;
 
     case States::eWaitABit_4:
-        if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             field_10C_state = States::eToMoving_5;
         }
@@ -519,7 +519,7 @@ void MovingBomb::VUpdate_43B440()
         break;
 
     case States::eBlowingUp_6:
-        if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             SFX_Play_43AD70(SoundEffect::GreenTick_3, 100, 0);
 
@@ -553,7 +553,7 @@ void MovingBomb::VUpdate_43B440()
         break;
 
     case States::eKillMovingBomb_7:
-        if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             field_6_flags.Set(Options::eDead_Bit3);
         }

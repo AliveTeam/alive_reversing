@@ -12,7 +12,7 @@
 #include "Particle.hpp"
 #include "ScreenManager.hpp"
 
-Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int unused, FP scale, s16 numberOfBullets)
+Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x54446C);
@@ -99,7 +99,7 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
     }
 
     BaseAliveGameObject* pObjectToShoot = nullptr;
-    for (int i= 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i= 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)
@@ -180,7 +180,7 @@ void Bullet::vUpdate_413560()
     case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
     case BulletType::eNormalBullet_2:
     {
-        int randomW = FP_GetExponent(FP_FromInteger(Math_RandomRange_496AB0(1, 5)) * field_3C_scale);
+        s32 randomW = FP_GetExponent(FP_FromInteger(Math_RandomRange_496AB0(1, 5)) * field_3C_scale);
         const FP randomHeight = FP_FromInteger(Math_RandomRange_496AB0(1, 5)) * field_3C_scale;
 
         PSX_RECT shootRect = {};
@@ -381,7 +381,7 @@ void Bullet::vUpdate_413560()
 
     case BulletType::ePossessedSligZBullet_1:
     {
-        const int xSnapped = SnapToXGrid_449930(FP_FromInteger(1), FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos));
+        const s32 xSnapped = SnapToXGrid_449930(FP_FromInteger(1), FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos));
         PSX_RECT rect = {};
         rect.x = static_cast<short>(xSnapped - 25);
         rect.w = static_cast<short>(xSnapped - 25 + 50);

@@ -21,7 +21,7 @@ struct Path_Slog : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x24);
 
-enum class SlogSound : int
+enum class SlogSound : s32
 {
     Padding_0 = 0,
     Padding_1 = 1,
@@ -48,7 +48,7 @@ struct Slog_State
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    int field_4_objectId;
+    s32 field_4_objectId;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -70,23 +70,23 @@ struct Slog_State
     s16 field_36_next_motion;
     s16 field_38_last_line_ypos;
     s16 field_3A_line_type;
-    int field_3C_id;
-    int field_40_tlvInfo;
-    int field_44_obj_id;
+    s32 field_3C_id;
+    s32 field_40_tlvInfo;
+    s32 field_44_obj_id;
     s16 field_48_state_idx;
     s16 field_4A_brain_state_result;
-    int field_4C_timer;
+    s32 field_4C_timer;
     FP field_50_falling_velx_scale_factor;
-    int field_54_obj_id;
+    s32 field_54_obj_id;
     s16 field_58_has_woofed;
     s16 field_5A_waiting_counter;
     s16 field_5C_response_index;
     s16 field_5E_response_part;
     s16 field_60_anger_level;
     s16 field_62_jump_counter;
-    int field_64_scratch_timer;
-    int field_68_growl_timer;
-    int field_6C_bone_id;
+    s32 field_64_scratch_timer;
+    s32 field_68_growl_timer;
+    s32 field_6C_bone_id;
     s16 field_70_jump_delay;
     BYTE field_72_slog_random_index;
     BYTE field_73_padding;
@@ -119,7 +119,7 @@ public:
     EXPORT Slog* ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 jumpDelay);
 
 
-    EXPORT Slog* ctor_4C42E0(Path_Slog* pTlv, int tlvInfo);
+    EXPORT Slog* ctor_4C42E0(Path_Slog* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -133,12 +133,12 @@ public:
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
-    EXPORT static int CC CreateFromSaveState_4C54F0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4C54F0(const BYTE* pBuffer);
 
 private:
-    EXPORT int vGetSaveState_4C78F0(Slog_State* pState);
+    EXPORT s32 vGetSaveState_4C78F0(Slog_State* pState);
 
 
 public:
@@ -276,19 +276,19 @@ private:
     EXPORT s16 Facing_4C4020(FP xpos);
 
 public:
-    int field_118_target_id;
+    s32 field_118_target_id;
     s16 field_11C_biting_target;
 private:
     s16 field_11E_padding;
     u16 field_120_brain_state_idx;
     s16 field_122_brain_state_result;
-    int field_124_timer;
+    s32 field_124_timer;
     FP field_128_falling_velx_scale_factor;
-    int field_12C_tlvInfo;
+    s32 field_12C_tlvInfo;
     s16 field_130_motion_resource_block_index;
     s16 field_132_has_woofed;
-    int field_134_last_event_index;
-    int field_138_listening_to_slig_id;
+    s32 field_134_last_event_index;
+    s32 field_138_listening_to_slig_id;
     s16 field_13C_waiting_counter;
     s16 field_13E_response_index;
     s16 field_140_response_part;
@@ -297,13 +297,13 @@ private:
     s16 field_146_total_anger;
     s16 field_148_chase_anger;
     s16 field_14A_padding;
-    int field_14C_scratch_timer;
-    int field_150_growl_timer;
+    s32 field_14C_scratch_timer;
+    s32 field_150_growl_timer;
     s16 field_154_angry_id;
     s16 field_156_bone_eating_time;
     s16 field_158_chase_delay;
     s16 field_15A_jump_counter;
-    int field_15C_bone_id;
+    s32 field_15C_bone_id;
     enum Flags_160 : s16
     {
         eBit1_StopRunning = 0x1,

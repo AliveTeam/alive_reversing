@@ -64,21 +64,21 @@ namespace Alive
     {
     public:
         Font();
-        Font(int maxCharLength, const BYTE *palette, Font_Context *fontContext);
+        Font(s32 maxCharLength, const BYTE *palette, Font_Context *fontContext);
 
-        EXPORT void ctor_433590(int maxCharLength, const BYTE *palette, Font_Context *fontContext);
+        EXPORT void ctor_433590(s32 maxCharLength, const BYTE *palette, Font_Context *fontContext);
         EXPORT void dtor_433540();
-        EXPORT int DrawString_4337D0(PrimHeader** ppOt, const char *text, int x, s16 y, TPageAbr abr, int bSemiTrans, int a2, Layer layer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int a15, s16 colorRandomRange);
-        EXPORT int MeasureWidth_433700(const char * text);
-        EXPORT int MeasureWidth_4336C0(const char *text, FP scale);
-        EXPORT int MeasureWidth_433630(u8 character);
-        EXPORT const char * SliceText_433BD0(const char *text, int left, FP scale, int right);
+        EXPORT s32 DrawString_4337D0(PrimHeader** ppOt, const char *text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 a2, Layer layer, BYTE r, BYTE g, BYTE b, s32 polyOffset, FP scale, s32 a15, s16 colorRandomRange);
+        EXPORT s32 MeasureWidth_433700(const char * text);
+        EXPORT s32 MeasureWidth_4336C0(const char *text, FP scale);
+        EXPORT s32 MeasureWidth_433630(u8 character);
+        EXPORT const char * SliceText_433BD0(const char *text, s32 left, FP scale, s32 right);
     public:
         BYTE gap0[32];
         BYTE **field_20_fnt_poly_block_ptr;
         Poly_FT4 *field_24_fnt_poly_array;
         PSX_RECT field_28_palette_rect;
-        int field_30_poly_count;
+        s32 field_30_poly_count;
         Font_Context *field_34_font_context;
     };
     ALIVE_ASSERT_SIZEOF(Font, 0x38);

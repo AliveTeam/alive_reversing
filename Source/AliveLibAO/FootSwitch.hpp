@@ -33,7 +33,7 @@ public:
 
     EXPORT void VUpdate_4888E0();
 
-    EXPORT FootSwitch* ctor_4887F0(Path_FootSwitch* pTlv, int tlvInfo);
+    EXPORT FootSwitch* ctor_4887F0(Path_FootSwitch* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -45,8 +45,8 @@ public:
 
     EXPORT void VScreenChanged_4889D0();
 
-    int field_D4[4];
-    int field_E4_tlvInfo;
+    s32 field_D4[4];
+    s32 field_E4_tlvInfo;
     enum class States : s16
     {
         eWaitForStepOnMe_0 = 0,

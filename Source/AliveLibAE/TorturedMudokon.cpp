@@ -10,7 +10,7 @@
 #include "Function.hpp"
 #include "Abe.hpp"
 
-TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, int tlvInfo)
+TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -89,7 +89,7 @@ void TorturedMudokon::SetupZapAnimation_47BEF0(Animation* pAnim)
     if (pAnim->Init_40A030(15384, gObjList_animations_5C1A24, this, 50, 80, ppRes, 1, 0, 0))
     {
         // TODO: clean this up
-        const int layerM1 = static_cast<int>(field_20_animation.field_C_render_layer) - 1;
+        const s32 layerM1 = static_cast<s32>(field_20_animation.field_C_render_layer) - 1;
         pAnim->field_C_render_layer = static_cast<Layer>(layerM1);
         pAnim->field_14_scale = field_CC_sprite_scale;
         pAnim->field_8_r = 128;
@@ -177,7 +177,7 @@ void TorturedMudokon::vUpdate_47BF80()
         return;
     }
 
-    if (field_234_flash_colour_timer == static_cast<int>(sGnFrame_5C1B84))
+    if (field_234_flash_colour_timer == static_cast<s32>(sGnFrame_5C1B84))
     {
         field_238_flash_colour_counter++;
         field_234_flash_colour_timer = sGnFrame_5C1B84 + 100;

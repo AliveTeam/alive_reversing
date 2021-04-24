@@ -32,7 +32,7 @@
     ENTRY(M_EndSingleStep_24_443990)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eGlukkonMotions : int
+enum eGlukkonMotions : s32
 {
     GLUKKON_MOTIONS_ENUM(MAKE_ENUM)
 };
@@ -159,7 +159,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
 class Glukkon : public BaseAliveGameObject
 {
 public:
-    EXPORT Glukkon* ctor_43F030(Path_Glukkon* pTlv, int tlvInfo);
+    EXPORT Glukkon* ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -169,7 +169,7 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
     virtual void VScreenChanged() override;
 
@@ -255,7 +255,7 @@ private:
 
     EXPORT void GetOnPlatforms_444060();
 
-    EXPORT static void CC PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon);
+    EXPORT static void CC PlaySound_4447D0(s32 sndIdx, Glukkon* pGlukkon);
 
     EXPORT void ToDead_43F640();
 
@@ -269,7 +269,7 @@ private:
 
     EXPORT void vScreenChanged_440110();
 
-    EXPORT int vGetSaveState_444B90(BYTE* pSaveBuffer);
+    EXPORT s32 vGetSaveState_444B90(BYTE* pSaveBuffer);
 
     EXPORT void vOnTrapDoorOpen_444120();
 
@@ -297,15 +297,15 @@ private:
     s16 field_1E8_camera;
     GlukkonSpeak field_1EA_speak;
     char field_1EB_padding;
-    int field_1EC_unused;
-    int field_1F0_randomish_speak_timer;
-    int field_1F4_turn_or_help_timer;
-    int field_1F8_panic_timer;
+    s32 field_1EC_unused;
+    s32 field_1F0_randomish_speak_timer;
+    s32 field_1F4_turn_or_help_timer;
+    s32 field_1F8_panic_timer;
     s16 field_1FC; // When set to true, broadcasts event kEventUnknown17.
     s16 field_1FE_padding;
-    int field_200_knockback_delay_after_getting_shot_timer;
-    int field_204_getting_shot_timer;
-    int field_208_obj_id;
+    s32 field_200_knockback_delay_after_getting_shot_timer;
+    s32 field_204_getting_shot_timer;
+    s32 field_208_obj_id;
     TGlukkonAIFn field_20C_brain_state_fn;
     s16 field_210_sub_state;
     s16 field_212_currentWalkPitch;

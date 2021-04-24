@@ -57,7 +57,7 @@ void Grenade::VScreenChanged()
     vScreenChanged_449140();
 }
 
-int Grenade::VGetSaveState(BYTE* pSaveBuffer)
+s32 Grenade::VGetSaveState(BYTE* pSaveBuffer)
 {
     return GetSaveState_4496B0(reinterpret_cast<Grenade_SaveState*>(pSaveBuffer));
 }
@@ -92,7 +92,7 @@ void Grenade::VTimeToExplodeRandom_411490()
     vTimeToExplodeRandom_4480A0();
 }
 
-int CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
+s32 CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const Grenade_SaveState*>(pBuffer);
     auto pGrenade = ae_new<Grenade>();
@@ -137,7 +137,7 @@ int CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
     return sizeof(Grenade_SaveState);
 }
 
-int Grenade::GetSaveState_4496B0(Grenade_SaveState* pState)
+s32 Grenade::GetSaveState_4496B0(Grenade_SaveState* pState)
 {
     pState->field_0_type = AETypes::eGrenade_65;
 

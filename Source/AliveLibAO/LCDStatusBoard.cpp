@@ -87,7 +87,7 @@ BaseGameObject* LCDStatusBoard::dtor_4419E0()
     return dtor_487DF0();
 }
 
-LCDStatusBoard* LCDStatusBoard::ctor_4418E0(Path_LCDStatusBoard* pTlv, int tlvInfo)
+LCDStatusBoard* LCDStatusBoard::ctor_4418E0(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBB90);
@@ -182,7 +182,7 @@ void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
         w3 + field_CC_xpos,
         colourRange);
 
-    int biggestW = w1;
+    s32 biggestW = w1;
     if (w2 > biggestW)
     {
         biggestW = w2;

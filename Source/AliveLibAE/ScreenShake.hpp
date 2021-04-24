@@ -26,6 +26,6 @@ private:
     s16 field_44_softerShakes;
 
     s16 field_46_padding;
-    int field_48_padding;
+    s32 field_48_padding;
 };
 ALIVE_ASSERT_SIZEOF(ScreenShake, 0x4C);

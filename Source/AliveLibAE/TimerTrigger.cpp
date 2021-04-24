@@ -7,7 +7,7 @@
 #include "Map.hpp"
 #include "Events.hpp"
 
-TimerTrigger* TimerTrigger::ctor_4CDC20(Path_TimerTrigger* pTlv, int tlvInfo)
+TimerTrigger* TimerTrigger::ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5478E8);
@@ -39,7 +39,7 @@ void TimerTrigger::VScreenChanged()
     vScreenChanged_4CDF00();
 }
 
-int TimerTrigger::VGetSaveState(BYTE* pSaveBuffer)
+s32 TimerTrigger::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4CE030(reinterpret_cast<TimerTrigger_State*>(pSaveBuffer));
 }
@@ -91,7 +91,7 @@ void TimerTrigger::vUpdate_4CDDB0()
         break;
 
     case TimerTriggerStates::eWaitForFirstTrigger_1:
-        if (field_30_trigger_delay_timer <= static_cast<int>(sGnFrame_5C1B84))
+        if (field_30_trigger_delay_timer <= static_cast<s32>(sGnFrame_5C1B84))
         {
             ToggleAllIds_4CDEC0();
             field_22_state = TimerTriggerStates::eCheckForStartAgain_2;
@@ -143,7 +143,7 @@ void TimerTrigger::vScreenChanged_4CDF00()
     }
 }
 
-int TimerTrigger::vGetSaveState_4CE030(TimerTrigger_State* pState)
+s32 TimerTrigger::vGetSaveState_4CE030(TimerTrigger_State* pState)
 {
     pState->field_0_type = AETypes::eTimerTrigger_136;
     pState->field_4_tlvInfo = field_2C_tlvInfo;

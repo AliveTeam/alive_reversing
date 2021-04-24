@@ -178,7 +178,7 @@ void Shrykull::VUpdate_463AE0()
             }
         }
 
-        for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
             if (!pObj)
@@ -338,7 +338,7 @@ void Shrykull::VUpdate_463AE0()
 
                 PSX_RECT ourRect = {};
                 VGetBoundingRect(&ourRect, 1);
-                if (static_cast<int>(gnFrameCount_507670) == field_114_timer)
+                if (static_cast<s32>(gnFrameCount_507670) == field_114_timer)
                 {
                     auto pParticleBurst = ao_new<ParticleBurst>();
                     if (pParticleBurst)
@@ -366,7 +366,7 @@ void Shrykull::VUpdate_463AE0()
             }
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_110_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_110_timer)
         {
             field_10C_state = State::eZapTargets_1;
 

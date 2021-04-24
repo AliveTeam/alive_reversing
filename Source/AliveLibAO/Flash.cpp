@@ -6,7 +6,7 @@
 
 namespace AO {
 
-Flash* Flash::ctor_41A810(Layer layer, u8 r, u8 g, u8 b, int /*not_used*/, TPageAbr abr, int time)
+Flash* Flash::ctor_41A810(Layer layer, u8 r, u8 g, u8 b, s32 /*not_used*/, TPageAbr abr, s32 time)
 {
     ctor_461550(layer, abr);
     SetVTable(this, 0x4BAC40);
@@ -35,7 +35,7 @@ BaseGameObject* Flash::Vdtor_41A890(s32 flags)
 
 void Flash::VUpdate_41A870()
 {
-    if (static_cast<int>(gnFrameCount_507670) >= field_68_flash_time)
+    if (static_cast<s32>(gnFrameCount_507670) >= field_68_flash_time)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

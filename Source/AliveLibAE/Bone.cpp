@@ -99,7 +99,7 @@ BOOL Bone::VCanBeEaten_411560()
     return vCanBeEaten_411560();
 }
 
-int Bone::VGetSaveState(BYTE* pSaveBuffer)
+s32 Bone::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_412ED0(reinterpret_cast<Bone_SaveState*>(pSaveBuffer));
 }
@@ -109,7 +109,7 @@ s16 Bone::VGetCount_448080()
     return vGetCount_412500();
 }
 
-int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
+s32 CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
 {
     auto pState = reinterpret_cast<const Bone_SaveState*>(pData);
 
@@ -298,7 +298,7 @@ BOOL Bone::vCanBeEaten_411560()
     return field_11C_state == BoneStates::eState_4_edible;
 }
 
-int Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
+s32 Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
 {
     pState->field_0_type = AETypes::eBone_11;
     pState->field_4_obj_id = field_C_objectId;
@@ -560,7 +560,7 @@ void Bone::vUpdate_411BC0()
             field_12C_time_to_live = sGnFrame_5C1B84 + 300;
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_128_shine_timer && !pObj)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_128_shine_timer && !pObj)
         {
             // For the shiny star twinkle effect.
             New_TintShiny_Particle_426C30(
@@ -572,7 +572,7 @@ void Bone::vUpdate_411BC0()
             field_128_shine_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
         }
 
-        if (field_12C_time_to_live < static_cast<int>(sGnFrame_5C1B84))
+        if (field_12C_time_to_live < static_cast<s32>(sGnFrame_5C1B84))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -639,7 +639,7 @@ TintEntry stru_550EC0[18] =
 };
 
 
-BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
+BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x5443B0);

@@ -10,7 +10,7 @@ class OrbWhirlWindParticle
 {
 public:
     EXPORT OrbWhirlWindParticle* ctor_4E40C0(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit);
-    EXPORT int IsActive_4E4370();
+    EXPORT s32 IsActive_4E4370();
     EXPORT void Spin_4E4A10(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
     EXPORT void ToStop_4E4AD0();
     
@@ -50,7 +50,7 @@ private:
     State field_B4_state;
 
     s16 field_B6_unused;
-    int field_B8_render_angle;
+    s32 field_B8_render_angle;
     s16 field_BC_counter;
     s16 field_BE_max;
     FP field_C0_current_scale;
@@ -60,7 +60,7 @@ private:
     FP field_D0_ypos_mid;
     FP field_D4_radiusX;
     FP field_D8_radiusY;
-    int field_DC_position_timer;
+    s32 field_DC_position_timer;
     FP field_E0_yMove;
     BaseGameObject* field_E4_pObj;
     FP field_E8_xpos;

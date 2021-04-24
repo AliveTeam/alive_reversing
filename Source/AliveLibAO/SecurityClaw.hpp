@@ -40,7 +40,7 @@ enum class SecurityClawStates : s16
 class SecurityClaw : public BaseAliveGameObject
 {
 public:
-    EXPORT SecurityClaw* ctor_418A70(Path_SecurityClaw* pTlv, int tlvInfo);
+    EXPORT SecurityClaw* ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_418CE0();
 
@@ -62,17 +62,17 @@ public:
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
-    int field_10C_tlvInfo;
+    s32 field_10C_tlvInfo;
     SecurityClawStates field_110_state;
     s16 field_112;
-    int field_114_timer;
+    s32 field_114_timer;
     s16 field_118_alarm_id;
     s16 field_11A;
     FP field_11C_clawX;
     FP field_120_clawY;
     BYTE field_124;
     // 3 byte pad
-    int field_128_sound_channels;
+    s32 field_128_sound_channels;
     s16 field_12C_pDetector;
     s16 field_12E;
     Claw* field_130_pClaw;

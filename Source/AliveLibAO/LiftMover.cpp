@@ -8,7 +8,7 @@
 
 namespace AO {
 
-LiftMover* LiftMover::ctor_4054E0(Path_LiftMover* pTlv, int tlvInfo)
+LiftMover* LiftMover::ctor_4054E0(Path_LiftMover* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA158);
@@ -199,7 +199,7 @@ void LiftMover::VUpdate_4055C0()
 
 LiftPoint* LiftMover::FindLiftPointWithId(short id)
 {
-    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         auto pItem = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pItem)

@@ -116,7 +116,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
         }
         case InvisibleState::eSetInvisibile_1:
         {
-            for (int idx2 = 8; idx2 < pTarget->field_20_animation.field_90_pal_depth; idx2++)
+            for (s32 idx2 = 8; idx2 < pTarget->field_20_animation.field_90_pal_depth; idx2++)
             {
                 // Set transparent bit
                 field_30_pPal2[idx2] |= 0x8000u;
@@ -145,7 +145,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             }
 
             bool v3 = false;
-            for (int idx = 8; idx < pTarget->field_20_animation.field_90_pal_depth; idx++)
+            for (s32 idx = 8; idx < pTarget->field_20_animation.field_90_pal_depth; idx++)
             {
                 // Red
                 if (field_30_pPal2[idx] & 0x1F)
@@ -191,7 +191,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
         case InvisibleState::eUnknown_3:
         {
             LOG_ERROR("Unreachable case InvisibleState::eUnknown_3 hit");
-            for (int i = 8; i < pTarget->field_20_animation.field_90_pal_depth; i++)
+            for (s32 i = 8; i < pTarget->field_20_animation.field_90_pal_depth; i++)
             {
                 // Clear transparent bit
                 field_30_pPal2[i] &= 0x8000u;
@@ -212,7 +212,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             }
 
             bool v3 = false;
-            for (int idx4 = 1; idx4 < pTarget->field_20_animation.field_90_pal_depth; idx4++)
+            for (s32 idx4 = 1; idx4 < pTarget->field_20_animation.field_90_pal_depth; idx4++)
             {
                 if ((field_30_pPal2[idx4] ^ (field_24_pPal1[idx4])) & 0x1F)
                 {

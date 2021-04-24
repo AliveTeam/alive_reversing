@@ -48,7 +48,7 @@ const char * sEventEnumString[]
     "ScreenShake",
 };
 
-EXPORT void CC Event_Broadcast_422BC0(int eventType, BaseGameObject* pObject)
+EXPORT void CC Event_Broadcast_422BC0(s32 eventType, BaseGameObject* pObject)
 {
     sEventPtrs_5BC124.field_0_events[!sEventsToUse_5BC1D4].field_0_event_ptrs[eventType] = pObject;
 
@@ -72,9 +72,9 @@ EXPORT BaseGameObject* CC Event_Get_422C00(s16 eventType)
 
 EXPORT void CC Events_Reset_422D70()
 {
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j = 0; j < Event::kEventMax; j++)
+        for (s32 j = 0; j < Event::kEventMax; j++)
         {
             sEventPtrs_5BC124.field_0_events[i].field_0_event_ptrs[j] = nullptr;
         }
@@ -84,7 +84,7 @@ EXPORT void CC Events_Reset_422D70()
 
 EXPORT void CC Events_Reset_Active_422DA0()
 {
-    for (int i = 0; i < Event::kEventMax; i++)
+    for (s32 i = 0; i < Event::kEventMax; i++)
     {
         sEventPtrs_5BC124.field_0_events[sEventsToUse_5BC1D4].field_0_event_ptrs[i] = nullptr;
     }
@@ -92,8 +92,8 @@ EXPORT void CC Events_Reset_Active_422DA0()
     sEventsToUse_5BC1D4 = !sEventsToUse_5BC1D4;
 }
 
-const int kGridMapWidth = 375;
-const int kGridMapHeight = 260;
+const s32 kGridMapWidth = 375;
+const s32 kGridMapHeight = 260;
 
 EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(s16 eventType, FP xpos, FP ypos, s16 scale)
 {
@@ -122,9 +122,9 @@ EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(s16 
 
 EXPORT void CC Event_Cancel_For_Obj_422DF0(BaseGameObject* pObj)
 {
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j = 0; j < Event::kEventMax; j++)
+        for (s32 j = 0; j < Event::kEventMax; j++)
         {
             if (sEventPtrs_5BC124.field_0_events[i].field_0_event_ptrs[j] == pObj)
             {

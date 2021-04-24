@@ -14,7 +14,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ParamiteWebLine, 0x14);
 class ParamiteWebLine : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ParamiteWebLine* ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tlvInfo);
+    EXPORT ParamiteWebLine* ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tlvInfo);
 
     EXPORT void Wobble_4E29D0(short ypos);
 
@@ -24,7 +24,7 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx) override;
+    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx) override;
 
     virtual void VRender(PrimHeader** ppOt) override;
 
@@ -35,7 +35,7 @@ private:
 
     EXPORT void vUpdate_4E2A50();
 
-    EXPORT PSX_RECT* vGetBoundingRect_4E2B40(PSX_RECT* pRect, int idx);
+    EXPORT PSX_RECT* vGetBoundingRect_4E2B40(PSX_RECT* pRect, s32 idx);
 
     EXPORT void vRender_4E2530(PrimHeader** ppOt);
 private:
@@ -47,7 +47,7 @@ private:
     s16 field_F8_top;
     s16 field_FA_bottom;
     AnimationUnknown* field_FC_pRes;
-    int field_100_tlv_info;
+    s32 field_100_tlv_info;
     s16 field_104_wobble_idx;
     s16 field_106_wobble_pos;
     Animation field_108_anim_flare;

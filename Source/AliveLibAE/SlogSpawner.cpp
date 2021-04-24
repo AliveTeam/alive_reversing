@@ -8,7 +8,7 @@
 #include "Slog.hpp"
 #include "Sfx.hpp"
 
-SlogSpawner* SlogSpawner::ctor_4C7FF0(Path_SlogSpawner* pTlv, int tlvInfo)
+SlogSpawner* SlogSpawner::ctor_4C7FF0(Path_SlogSpawner* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5476E8);
@@ -72,7 +72,7 @@ void SlogSpawner::vUpdate_4C80D0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
+    if (static_cast<s32>(sGnFrame_5C1B84) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
     {
         if (SwitchStates_Get_466020(field_3E_switch_id))
         {

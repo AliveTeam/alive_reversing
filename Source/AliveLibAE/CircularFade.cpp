@@ -26,12 +26,12 @@ void CircularFade::VScreenChanged()
     // null sub
 }
 
-int CircularFade::VFadeIn_4CE300(s16 direction, char destroyOnDone)
+s32 CircularFade::VFadeIn_4CE300(s16 direction, char destroyOnDone)
 {
     return vFadeIn_4CE300(direction, destroyOnDone);
 }
 
-int CircularFade::VDone_4CE0B0()
+s32 CircularFade::VDone_4CE0B0()
 {
     return vDone_4CE0B0();
 }
@@ -226,7 +226,7 @@ void CircularFade::vUpdate_4CE380()
     }
 }
 
-int CircularFade::vFadeIn_4CE300(s16 direction, char destroyOnDone) // TODO: Likely no return
+s32 CircularFade::vFadeIn_4CE300(s16 direction, char destroyOnDone) // TODO: Likely no return
 {
     sNum_CamSwappers_5C1B66++;
 
@@ -249,7 +249,7 @@ int CircularFade::vFadeIn_4CE300(s16 direction, char destroyOnDone) // TODO: Lik
     return field_F4_flags.Raw().all;
 }
 
-int CircularFade::vDone_4CE0B0()
+s32 CircularFade::vDone_4CE0B0()
 {
     return field_F4_flags.Get(Flags::eBit2_Done);
 }

@@ -42,11 +42,11 @@ private:
         eDisabled_4 = 4
     };
     States field_6A_state;
-    int field_6C_15_timer;
-    int field_70_duration_timer;
+    s32 field_6C_15_timer;
+    s32 field_70_duration_timer;
     s16 field_74_switch_id;
     s16 field_76_padding;
-    int field_78_padding;
+    s32 field_78_padding;
 };
 ALIVE_ASSERT_SIZEOF(Alarm, 0x7C);
 

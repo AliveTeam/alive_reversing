@@ -9,19 +9,19 @@
 #include "PsxRender.hpp"
 #include "Events.hpp"
 
-ALIVE_VAR(1, 0x5BC214, int, gGasInstanceCount_5BC214, 0);
+ALIVE_VAR(1, 0x5BC214, s32, gGasInstanceCount_5BC214, 0);
 ALIVE_VAR(1, 0x5C1BA4, short, gLaughingGasOn_5C1BA4, FALSE);
 
 // On linux not using this random algorithm produces much bigger numbers
 // which causes flickering in the gas rendering. Apparently this is the MSVC algorithm.
-static int random_seed = 0;
-static int gas_rand()
+static s32 random_seed = 0;
+static s32 gas_rand()
 {
     random_seed = (random_seed * 214013 + 2531011) & 0xFFFFFFFF;
     return (random_seed >> 16) & 0x7FFF;
 }
 
-LaughingGas* LaughingGas::ctor_432400(Layer layer, int /*notUsed*/, Path_LaughingGas* pTlv, int tlvInfo)
+LaughingGas* LaughingGas::ctor_432400(Layer layer, s32 /*notUsed*/, Path_LaughingGas* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545000);
@@ -121,11 +121,11 @@ const float dword_551C58[7] = { 1.0,  5.0,  10.0,  10.0,  5.0,  1.0,  0.0 };
 
 void LaughingGas::Init_432980()
 {
-    for (int i = 0; i < field_31F8_w_count; i++)
+    for (s32 i = 0; i < field_31F8_w_count; i++)
     {
         const float v4 = (float)i / (float)field_31F8_w_count;
         float val1 = 1.0f;
-        for (int j = 0; j < 7; j++)
+        for (s32 j = 0; j < 7; j++)
         {
             field_1A0_x_data[i].array_4[j] = val1 * dword_551C58[j];
             val1 *= v4;
@@ -134,7 +134,7 @@ void LaughingGas::Init_432980()
         float* pElem_ptr = &field_1A0_x_data[i].array_4[5];
         const float v1 = 1.0f - v4;
         float val2 = 1.0f;
-        for (int j = 0; j < 6; j++)
+        for (s32 j = 0; j < 6; j++)
         {
             const float calc2 = val2 * *pElem_ptr;
             *pElem_ptr = calc2;
@@ -143,11 +143,11 @@ void LaughingGas::Init_432980()
         }
     }
 
-    for (int i = 0; i < field_31FC_h_count; i++)
+    for (s32 i = 0; i < field_31FC_h_count; i++)
     {
         const float v4 = (float)i / (float)field_31FC_h_count;
         float val1 = 1.0f;
-        for (int j = 0; j < 7; j++)
+        for (s32 j = 0; j < 7; j++)
         {
             field_24D0_y_data[i].array_4[j] = val1 * dword_551C58[j];
             val1 *= v4;
@@ -156,7 +156,7 @@ void LaughingGas::Init_432980()
         float* pElem_ptr = &field_24D0_y_data[i].array_4[5];
         const float v1 = 1.0f - v4;
         float val2 = 1.0f;
-        for (int j = 0; j < 6; j++)
+        for (s32 j = 0; j < 6; j++)
         {
             const float calc2 = val2 * *pElem_ptr;
             *pElem_ptr = calc2;
@@ -165,9 +165,9 @@ void LaughingGas::Init_432980()
         }
     }
 
-    for (int i = 0; i < 6; i++)
+    for (s32 i = 0; i < 6; i++)
     {
-        for (int j = 0; j < 6; j++)
+        for (s32 j = 0; j < 6; j++)
         {
             field_10C_gas_x[i][j] = static_cast<float>(gas_rand()) * 6.28f * (1.0f/32767.0f);
         }
@@ -212,21 +212,21 @@ void LaughingGas::DoRender_432740()
     float local_array[6];
 
     WORD* memPtr = field_19C_pMem;
-    int rgb_base = (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
+    s32 rgb_base = (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
 
     if (field_36_bLaughing_gas == Choice_short::eNo_0)
     {
         rgb_base = (1 << sBlueShift_C19140) + (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
     }
 
-    for (int yCount = 0; yCount < field_31FC_h_count; ++yCount)
+    for (s32 yCount = 0; yCount < field_31FC_h_count; ++yCount)
     {
-        for (int p = 0; p < 6; p++)
+        for (s32 p = 0; p < 6; p++)
         {
             local_array[p] = Calc_Y_4326F0(&field_7C_gas_y[p][0], yCount);
         }
 
-        for (int xCount = 0; xCount < field_31F8_w_count; ++memPtr)
+        for (s32 xCount = 0; xCount < field_31F8_w_count; ++memPtr)
         {
             float yValue = Calc_X_4326A0(local_array, xCount);
             if (yValue > 0.0f)
@@ -307,12 +307,12 @@ void LaughingGas::vUpdate_432C40()
     sub_4328A0();
 }
 
-float LaughingGas::Calc_X_4326A0(float* a2, int xIndex)
+float LaughingGas::Calc_X_4326A0(float* a2, s32 xIndex)
 {
     float result = 0.0;
     float* v4 = a2 + 1;
 
-    for (int i = 0; i < 4; i++)
+    for (s32 i = 0; i < 4; i++)
     {
         const float v5 = field_1A0_x_data[xIndex].array_4[i + 1];
         result += v5 * *v4;
@@ -322,12 +322,12 @@ float LaughingGas::Calc_X_4326A0(float* a2, int xIndex)
     return result;
 }
 
-float LaughingGas::Calc_Y_4326F0(float* a2, int yIndex)
+float LaughingGas::Calc_Y_4326F0(float* a2, s32 yIndex)
 {
     float result = 0.0;
     float* v4 = a2 + 1;
 
-    for (int i = 0; i < 4; i++)
+    for (s32 i = 0; i < 4; i++)
     {
         const float v5 = field_24D0_y_data[yIndex].array_4[i + 1];
         result += v5 * *v4;
@@ -339,11 +339,11 @@ float LaughingGas::Calc_Y_4326F0(float* a2, int yIndex)
 
 void LaughingGas::sub_4328A0()
 {
-    for (int i = 0; i < 4; i++)
+    for (s32 i = 0; i < 4; i++)
     {
-        for (int j = 0; j < 4; j++)
+        for (s32 j = 0; j < 4; j++)
         {
-            const int rnd = gas_rand() - 8191;
+            const s32 rnd = gas_rand() - 8191;
             field_7C_gas_y[1 + i][1 + j] = (sin(field_10C_gas_x[1 + i][1 + j]) * 50.0f + 30.0f) * static_cast<float>(FP_GetDouble(field_54_amount_on));
             field_10C_gas_x[1 + i][1 + j] += (float)(rnd) * 0.03f * (1.0f / 16383.0f);
         }

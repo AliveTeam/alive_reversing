@@ -35,7 +35,7 @@ class MusicTrigger : public BaseGameObject
 {
 public:
     EXPORT BaseGameObject* ctor_47FE40(Path_MusicTrigger* pTlv, DWORD tlvInfo);
-    EXPORT MusicTrigger* ctor_47FF10(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, int /*not_used*/, s16 delay);
+    EXPORT MusicTrigger* ctor_47FF10(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s32 /*not_used*/, s16 delay);
     EXPORT void Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 delay);
     EXPORT BaseGameObject* vdtor_47FEE0(s32 flags);
     EXPORT void dtor_4800C0();
@@ -47,7 +47,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    int field_20_tlvInfo;
+    s32 field_20_tlvInfo;
     enum Flags_24
     {
         e24_Bit1_TriggeredByTouching = 0x1,
@@ -56,7 +56,7 @@ private:
     };
     BitField16<Flags_24> field_24_flags;
     MusicController::MusicTypes field_26_music_type;
-    int field_28_counter;
+    s32 field_28_counter;
     PSX_Point field_2C_tl;
     PSX_Point field_30_br;
 };

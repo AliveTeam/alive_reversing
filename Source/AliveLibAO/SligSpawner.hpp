@@ -11,7 +11,7 @@ struct Path_Slig;
 class SligSpawner : public BaseGameObject
 {
 public:
-    EXPORT SligSpawner* ctor_402850(Path_Slig* pTlv, int tlvInfo);
+    EXPORT SligSpawner* ctor_402850(Path_Slig* pTlv, s32 tlvInfo);
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -24,7 +24,7 @@ private:
     EXPORT SligSpawner* VDtor_4029F0(s32 flags);
 
 private:
-    int field_10_tlvInfo;
+    s32 field_10_tlvInfo;
     u16 field_14_slig_id;
     s16 field_16_flags;
     Path_TLV field_18_tlv;

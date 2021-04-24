@@ -39,8 +39,8 @@ static GLuint TextureFromFile(const char* path)
         return 0;
     }
 
-    int x = 0, y = 0;
-    int comp = 0;
+    s32 x = 0, y = 0;
+    s32 comp = 0;
     const u8* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
 
     glGenTextures(1, &texHandle);
@@ -124,7 +124,7 @@ static bool Renderer_TexExists(const PSX_RECT& rect)
 
 static TextureCache* Renderer_TexFromTPage(WORD tPage, BYTE u, BYTE v)
 {
-    int textureMode = static_cast<int>(((u32)tPage >> 7) & 3);
+    s32 textureMode = static_cast<s32>(((u32)tPage >> 7) & 3);
     short tpagex = ((tPage & 0xF) << 6);
     short tpagey = (16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200)) + v;
 
@@ -164,15 +164,15 @@ static TextureCache* Renderer_TexFromTPage(WORD tPage, BYTE u, BYTE v)
     return 0;
 }
 
-static PSX_Point Renderer_ClutToCoords(int tClut)
+static PSX_Point Renderer_ClutToCoords(s32 tClut)
 {
-    int x = (tClut & 63) << 4;
-    int y = ((tClut >> 6) & 0xff);
+    s32 x = (tClut & 63) << 4;
+    s32 y = ((tClut >> 6) & 0xff);
 
     return { (short)x,(short)y };
 }
 
-static PaletteCache* Renderer_ClutToPalette(int tClut)
+static PaletteCache* Renderer_ClutToPalette(s32 tClut)
 {
     short x = (tClut & 63) << 4;
     short y = ((tClut >> 6) & 0xff);
@@ -220,10 +220,10 @@ static void Renderer_FreeTexture(PSX_Point point)
     }
 }
 
-static void Renderer_DecodePalette(const BYTE* srcPalData, RGBAPixel* dst, int palDepth)
+static void Renderer_DecodePalette(const BYTE* srcPalData, RGBAPixel* dst, s32 palDepth)
 {
     const unsigned short* palShortPtr = reinterpret_cast<const unsigned short*>(srcPalData);
-    for (int i = 0; i < palDepth; i++)
+    for (s32 i = 0; i < palDepth; i++)
     {
         const unsigned short oldPixel = palShortPtr[i];
 
@@ -236,7 +236,7 @@ static void Renderer_DecodePalette(const BYTE* srcPalData, RGBAPixel* dst, int p
 
 static void Renderer_FreePalette(PSX_Point point)
 {
-    int i = 0;
+    s32 i = 0;
     for (auto& c : gRendererPals)
     {
         if (point.field_0_x >= c.mPalPoint.field_0_x && point.field_0_x < (c.mPalPoint.field_0_x + c.mPalDepth) && c.mPalPoint.field_2_y == point.field_2_y)
@@ -254,7 +254,7 @@ static void Renderer_LoadPalette(PSX_Point point, const BYTE* palData, short pal
     {
         if (point.field_0_x >= c.mPalPoint.field_0_x && point.field_0_x < (c.mPalPoint.field_0_x + c.mPalDepth) && c.mPalPoint.field_2_y == point.field_2_y)
         {
-            int offset = point.field_0_x - c.mPalPoint.field_0_x;
+            s32 offset = point.field_0_x - c.mPalPoint.field_0_x;
             Renderer_DecodePalette(palData, c.mPalData + offset, palDepth);
 
             if (c.mPalDepth > 0)
@@ -355,7 +355,7 @@ static void Renderer_ParseTPageBlendMode(WORD tPage)
     Renderer_SetBlendMode(pageAbr);
 }
 
-//static int WidthBpp(int textureMode, int width)
+//static s32 WidthBpp(s32 textureMode, s32 width)
 //{
 //    switch (textureMode)
 //    {
@@ -368,7 +368,7 @@ static void Renderer_ParseTPageBlendMode(WORD tPage)
 //    }
 //}
 
-static int WidthBppDivide(int textureMode, int width)
+static s32 WidthBppDivide(s32 textureMode, s32 width)
 {
     switch (textureMode)
     {
@@ -385,8 +385,8 @@ static void Convert4bppTextureFont(const PSX_RECT& rect, const BYTE* pPixels)
 {
     std::vector<u8> buffer(rect.w * rect.h * 4);
 
-    int pIndex = 0;
-    for (int i = 0; i < rect.w * 4 * rect.h; i += 2)
+    s32 pIndex = 0;
+    for (s32 i = 0; i < rect.w * 4 * rect.h; i += 2)
     {
         buffer[i] = pPixels[pIndex] & 0xf;
         buffer[i + 1] = (pPixels[pIndex] & 0xf0) >> 4;
@@ -396,18 +396,18 @@ static void Convert4bppTextureFont(const PSX_RECT& rect, const BYTE* pPixels)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, rect.w * 4, rect.h, 0, GL_RED, GL_UNSIGNED_BYTE, buffer.data());
 }
 
-static void Renderer_ConvertFG1BitMask(int width, int height, const BYTE* pPixels)
+static void Renderer_ConvertFG1BitMask(s32 width, s32 height, const BYTE* pPixels)
 {
     RGBAPixel* mDst = reinterpret_cast<RGBAPixel*>(gDecodeBuffer);
     const unsigned long* mSrc = reinterpret_cast<const unsigned long*>(pPixels);
 
-    int pSrcIndex = 0;
-    int dstIndex = 0;
+    s32 pSrcIndex = 0;
+    s32 dstIndex = 0;
 
-    for (int y = 0; y < height; y++)
+    for (s32 y = 0; y < height; y++)
     {
         unsigned long bitMask = mSrc[pSrcIndex];
-        for (int x = 0; x < width; x++)
+        for (s32 x = 0; x < width; x++)
         {
             u8 v = (bitMask & 1) * 255;
 
@@ -516,7 +516,7 @@ void OpenGLRenderer::InitAttributes()
     glEnableVertexAttribArray(2);
 }
 
-void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, int vertSize, const GLuint* pIndData, int indSize)
+void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
 {
     // Set our new vectors
     glBindBuffer(GL_ARRAY_BUFFER, mVBO);
@@ -542,7 +542,7 @@ void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, int vertSize, co
     }
 }
 
-void OpenGLRenderer::DrawLines(const VertexData* pVertData, int vertSize, const GLuint* pIndData, int indSize)
+void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
 {
     // Set our new vectors
     glBindBuffer(GL_ARRAY_BUFFER, mVBO);
@@ -670,7 +670,7 @@ void OpenGLRenderer::DebugWindow()
     {
         ImVec2 pos = ImGui::GetWindowPos();
 
-        for (int i = 0; i < (1500 / 64); i++)
+        for (s32 i = 0; i < (1500 / 64); i++)
         {
             ImVec2 pos1Line = ImVec2(pos.x + (i * 64), pos.y);
             ImVec2 pos2Line = ImVec2(pos.x + (i * 64), pos.y + 512);
@@ -693,7 +693,7 @@ void OpenGLRenderer::DebugWindow()
         if (ImGui::IsWindowHovered())
         {
             ImGui::BeginTooltip();
-            ImGui::Text("%d, %d", (int)(io.MousePos.x - pos.x), (int)(io.MousePos.y - pos.y));
+            ImGui::Text("%d, %d", (s32)(io.MousePos.x - pos.x), (s32)(io.MousePos.y - pos.y));
             ImGui::EndTooltip();
         }
     }
@@ -732,7 +732,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     mWireframe = false;
 
     // Find the opengl driver
-    const int numDrivers = SDL_GetNumRenderDrivers();
+    const s32 numDrivers = SDL_GetNumRenderDrivers();
     if (numDrivers < 0)
     {
         LOG_ERROR("Failed to get driver count " << SDL_GetError());
@@ -740,8 +740,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
     LOG_INFO("Got " << numDrivers << " drivers");
 
-    int index = -1;
-    for (int i = 0; i < numDrivers; i++)
+    s32 index = -1;
+    for (s32 i = 0; i < numDrivers; i++)
     {
         SDL_RendererInfo info = {};
         if (SDL_GetRenderDriverInfo(i, &info) < 0)
@@ -816,7 +816,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 void OpenGLRenderer::Clear(BYTE /*r*/, BYTE /*g*/, BYTE /*b*/)
 {
     // hacky hot reload shaders
-   /* static int t = 999;
+   /* static s32 t = 999;
     if (t >= 10)
     {
         t = 0;
@@ -847,7 +847,7 @@ void OpenGLRenderer::Clear(BYTE /*r*/, BYTE /*g*/, BYTE /*b*/)
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    int wW, wH;
+    s32 wW, wH;
     SDL_GetWindowSize(mWindow, &wW, &wH);
     glViewport(0, 0, wW, wH);
 
@@ -858,7 +858,7 @@ void OpenGLRenderer::Clear(BYTE /*r*/, BYTE /*g*/, BYTE /*b*/)
     }
 }
 
-void OpenGLRenderer::StartFrame(int /*xOff*/, int /*yOff*/)
+void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
 
 }
@@ -902,19 +902,19 @@ void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect
 
 }
 
-void OpenGLRenderer::OutputSize(int* w, int* h)
+void OpenGLRenderer::OutputSize(s32* w, s32* h)
 {
     *w = 640;
     *h = 480;
     //SDL_GetRendererOutputSize(mRenderer, w, h);
 }
 
-bool OpenGLRenderer::UpdateBackBuffer(const void* /*pPixels*/, int /*pitch*/)
+bool OpenGLRenderer::UpdateBackBuffer(const void* /*pPixels*/, s32 /*pitch*/)
 {
     return true;
 }
 
-void OpenGLRenderer::CreateBackBuffer(bool /*filter*/, int /*format*/, int /*w*/, int /*h*/)
+void OpenGLRenderer::CreateBackBuffer(bool /*filter*/, s32 /*format*/, s32 /*w*/, s32 /*h*/)
 {
    
 }
@@ -925,11 +925,11 @@ void OpenGLRenderer::SetTPage(short tPage)
     mLastTPage = tPage;
 }
 
-void OpenGLRenderer::SetClipDirect(int x, int y, int width, int height)
+void OpenGLRenderer::SetClipDirect(s32 x, s32 y, s32 width, s32 height)
 {
     mLastClip = glm::ivec4(x, y, width, height);
 
-    int w, h;
+    s32 w, h;
     SDL_GetWindowSize(mWindow, &w, &h);
 
     if (width <= 1 && height <= 1)
@@ -1032,8 +1032,8 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     if (gasEffect.pData == nullptr)
         return;
 
-    int gasWidth = (gasEffect.w - gasEffect.x);
-    int gasHeight = (gasEffect.h - gasEffect.y);
+    s32 gasWidth = (gasEffect.w - gasEffect.x);
+    s32 gasHeight = (gasEffect.h - gasEffect.y);
 
     glBindTexture(GL_TEXTURE_2D, TempGasEffectTexture);
 
@@ -1312,8 +1312,8 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         b = 1.0f;
     }
 
-    int xOff = (pTexture->mVramRect.x & 63);
-    int bppMulti = 1;
+    s32 xOff = (pTexture->mVramRect.x & 63);
+    s32 bppMulti = 1;
 
     switch (pTexture->mBitDepth)
     {
@@ -1435,10 +1435,10 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
     mTextureShader.UnUse();
 }
 
-void ConvertAOFG1(const BYTE* srcPalData, RGBAPixel* dst, int pixelCount)
+void ConvertAOFG1(const BYTE* srcPalData, RGBAPixel* dst, s32 pixelCount)
 {
     const unsigned short* palShortPtr = reinterpret_cast<const unsigned short*>(srcPalData);
-    for (int i = 0; i < pixelCount; i++)
+    for (s32 i = 0; i < pixelCount; i++)
     {
         unsigned short oldPixel = palShortPtr[i];
         u8 semiTrans = (((oldPixel) >> 15) & 0x1);
@@ -1449,12 +1449,12 @@ void ConvertAOFG1(const BYTE* srcPalData, RGBAPixel* dst, int pixelCount)
     }
 }
 
-void StitchAOCam(int x, int y, int width, int height, const BYTE* pPixels)
+void StitchAOCam(s32 x, s32 y, s32 width, s32 height, const BYTE* pPixels)
 {
     unsigned short* pDst = reinterpret_cast<unsigned short*>(gDecodeBuffer);
     const unsigned short* pSrc = reinterpret_cast<const unsigned short*>(pPixels);
 
-    for (int y1 = y; y1 < height; y1++)
+    for (s32 y1 = y; y1 < height; y1++)
     {
         memcpy(&pDst[x + (y1 * 640)], &pSrc[(y1 * width)], width * sizeof(short));
     }
@@ -1564,7 +1564,7 @@ void HackSetBackground(const char* path)
 
     FILE * fh = NULL;
 
-    for (int i = 0; i < 3; i++)
+    for (s32 i = 0; i < 3; i++)
     {
         char newPath[100];
         char camHack[9] = {};
@@ -1585,8 +1585,8 @@ void HackSetBackground(const char* path)
         return;
     }
 
-    int x = 0, y = 0;
-    int comp = 0;
+    s32 x = 0, y = 0;
+    s32 comp = 0;
     const u8* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
 
     if (mBackgroundTexture == 0)

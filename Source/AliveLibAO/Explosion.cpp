@@ -227,7 +227,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
         expandedRect.h += 240;
     }
 
-    for(int idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
+    for(s32 idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
     {
         auto pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(idx);
         if (!pObj)
@@ -262,7 +262,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
         {
             pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
             auto dir = gMap_507BA8.GetDirection_444A40(
-                static_cast<int>(gMap_507BA8.field_0_current_level),
+                static_cast<s32>(gMap_507BA8.field_0_current_level),
                 gMap_507BA8.field_2_current_path,
                 FP_FromInteger(pTlv->field_10_top_left.field_0_x),
                 FP_FromInteger(pTlv->field_10_top_left.field_2_y)

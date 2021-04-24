@@ -41,7 +41,7 @@ public:
         return Remove_Item_404520(pItemToRemove);
     }
 
-    T* ItemAt(int idx)
+    T* ItemAt(s32 idx)
     {
         if (idx < 0 || idx >= field_4_used_size)
         {
@@ -50,12 +50,12 @@ public:
         return reinterpret_cast<T*>(field_0_array[idx]);
     }
 
-    void SetAt(int idx, T* itemToSet)
+    void SetAt(s32 idx, T* itemToSet)
     {
         field_0_array[idx] = itemToSet;
     }
 
-    int Size() const
+    s32 Size() const
     {
         return field_4_used_size;
     }
@@ -65,7 +65,7 @@ public:
         return field_4_used_size == 0;
     }
 
-    int RemoveAt(int idx)
+    s32 RemoveAt(s32 idx)
     {
         field_4_used_size--;
 

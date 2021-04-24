@@ -227,7 +227,7 @@ void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-Well* Well::ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo)
+Well* Well::ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BD730);

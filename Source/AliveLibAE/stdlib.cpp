@@ -4,7 +4,7 @@
 #include "Error.hpp"
 #include "Sys_common.hpp"
 
-int access_impl(char const* fileName, int accessMode)
+s32 access_impl(char const* fileName, s32 accessMode)
 {
 #if _WIN32
     return _access(fileName, accessMode);
@@ -32,7 +32,7 @@ EXPORT void* CC ae_realloc_522335(void* ptr, size_t size)
     return ::realloc(ptr, size);
 }
 
-EXPORT int CC ae_fseek_521955(FILE* stream, int offset, int origin)
+EXPORT s32 CC ae_fseek_521955(FILE* stream, s32 offset, s32 origin)
 {
     STDLIB_FUNCTION();
     return fseek(stream, offset, origin);
@@ -50,7 +50,7 @@ EXPORT FILE* CC ae_fopen_520C64(const char* filename, const char* mode)
     return fopen(filename, mode);
 }
 
-EXPORT int CC ae_fclose_520CBE(FILE* stream)
+EXPORT s32 CC ae_fclose_520CBE(FILE* stream)
 {
     STDLIB_FUNCTION();
     return fclose(stream);
@@ -108,7 +108,7 @@ EXPORT void* CC realloc_4F4E80(void* ptr, size_t size)
     return ae_realloc_522335(ptr, size);
 }
 
-EXPORT int CC ae_remove_520B27(LPCSTR lpFileName)
+EXPORT s32 CC ae_remove_520B27(LPCSTR lpFileName)
 {
     STDLIB_FUNCTION();
     return ::remove(lpFileName);

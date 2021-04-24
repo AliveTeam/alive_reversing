@@ -39,9 +39,9 @@ public:
         BYTE field_A_b;
         char field_B;
     };
-    void DrawEntries(PrimHeader** ppOt, PauseEntry* entries, short compilerhack, int polyOffset);
+    void DrawEntries(PrimHeader** ppOt, PauseEntry* entries, short compilerhack, s32 polyOffset);
 
-    int field_D4[4];
+    s32 field_D4[4];
     AliveFont field_E4_font;
     s16 field_11C;
     s16 field_11E;

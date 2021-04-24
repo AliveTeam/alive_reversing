@@ -32,7 +32,7 @@ const TSlingMudStateFunction gSlingMudMotionTable_4CFCB0[] =
     &SlingMudokon::State_5_AngryToIdle_46FD50
 };
 
-const int sSlingMudFrameTables_4CFCC8[6] = { 22636, 22676, 22744, 22700, 22720, 22780 };
+const s32 sSlingMudFrameTables_4CFCC8[6] = { 22636, 22676, 22744, 22700, 22720, 22780 };
 
 using TSlingMudBrain = decltype(&SlingMudokon::tsub_46FEC0);
 
@@ -43,7 +43,7 @@ const TSlingMudBrain gSlingMudBrainTable_4CFCE0[] =
     &SlingMudokon::tsub_4707B0
 };
 
-SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMudokon* pTlv, int tlvInfo)
+SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BCB40);
@@ -414,7 +414,7 @@ s16 SlingMudokon::tsub_46FEC0()
         return 1;
 
     case 2:
-        if (static_cast<int>(gnFrameCount_507670) <= field_140_timer)
+        if (static_cast<s32>(gnFrameCount_507670) <= field_140_timer)
         {
             if (VIsObj_GettingNear_On_X(sActiveHero_507678))
             {
@@ -491,7 +491,7 @@ s16 SlingMudokon::tsub_46FEC0()
                 field_144_timer2 = gnFrameCount_507670 + 40;
             }
 
-            if (static_cast<int>(gnFrameCount_507670) <= field_144_timer2)
+            if (static_cast<s32>(gnFrameCount_507670) <= field_144_timer2)
             {
                 if (pEventSystem_4FF954->MatchBuffer_40FAA0(field_124_code_buffer, field_134_buffer_start, field_136) != GameSpeakMatch::eFullMatch_1 &&
                     pEventSystem_4FF954->MatchBuffer_40FAA0(field_124_code_buffer, field_134_buffer_start, field_136) > GameSpeakMatch::eFullMatch_1)
@@ -516,7 +516,7 @@ s16 SlingMudokon::tsub_46FEC0()
         return field_13A_brain_state;
 
     case 5:
-        if (field_10_anim.field_92_current_frame || static_cast<int>(gnFrameCount_507670) <= field_140_timer)
+        if (field_10_anim.field_92_current_frame || static_cast<s32>(gnFrameCount_507670) <= field_140_timer)
         {
             return field_13A_brain_state;
         }
@@ -552,7 +552,7 @@ s16 SlingMudokon::tsub_470230()
         return 1;
 
     case 1:
-        if (static_cast<int>(gnFrameCount_507670) <= field_140_timer)
+        if (static_cast<s32>(gnFrameCount_507670) <= field_140_timer)
         {
             return field_13A_brain_state;
         }
@@ -566,7 +566,7 @@ s16 SlingMudokon::tsub_470230()
         return 2;
 
     case 2:
-        if (static_cast<int>(gnFrameCount_507670) > field_140_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_140_timer)
         {
             field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -596,7 +596,7 @@ s16 SlingMudokon::tsub_470230()
             return 5;
         }
 
-        if (field_140_timer > static_cast<int>(gnFrameCount_507670))
+        if (field_140_timer > static_cast<s32>(gnFrameCount_507670))
         {
             return field_13A_brain_state;
         }
@@ -642,7 +642,7 @@ s16 SlingMudokon::tsub_470230()
         }
         else
         {
-            if (field_140_timer <= static_cast<int>(gnFrameCount_507670))
+            if (field_140_timer <= static_cast<s32>(gnFrameCount_507670))
             {
                 field_11E_flags &= ~8u;
                 field_140_timer = gnFrameCount_507670 + 40;
@@ -658,7 +658,7 @@ s16 SlingMudokon::tsub_470230()
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
 
-        if (field_140_timer > static_cast<int>(gnFrameCount_507670) || sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+        if (field_140_timer > static_cast<s32>(gnFrameCount_507670) || sActiveHero_507678->field_100_health <= FP_FromInteger(0))
         {
             return field_13A_brain_state;
         }
@@ -667,9 +667,9 @@ s16 SlingMudokon::tsub_470230()
         return 3;
 
     case 7:
-        if (static_cast<int>(gnFrameCount_507670) >= field_140_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_140_timer)
         {
-            for (int i = 0; i < 8; i++)
+            for (s32 i = 0; i < 8; i++)
             {
                 auto pDove = ao_new<Dove>();
                 if (pDove)
@@ -733,7 +733,7 @@ s16 SlingMudokon::tsub_4707B0()
         return 1;
 
     case 1:
-        if (static_cast<int>(gnFrameCount_507670) <= field_140_timer)
+        if (static_cast<s32>(gnFrameCount_507670) <= field_140_timer)
         {
             return field_13A_brain_state;
         }
@@ -747,7 +747,7 @@ s16 SlingMudokon::tsub_4707B0()
         return 2;
 
     case 2:
-        if (static_cast<int>(gnFrameCount_507670) > field_140_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_140_timer)
         {
             field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -780,7 +780,7 @@ s16 SlingMudokon::tsub_4707B0()
             return 7;
         }
 
-        if (field_140_timer > static_cast<int>(gnFrameCount_507670) || field_10_anim.field_92_current_frame)
+        if (field_140_timer > static_cast<s32>(gnFrameCount_507670) || field_10_anim.field_92_current_frame)
         {
             return field_13A_brain_state;
         }
@@ -853,7 +853,7 @@ s16 SlingMudokon::tsub_4707B0()
                 field_144_timer2 = gnFrameCount_507670 + 40;
             }
 
-            if (static_cast<int>(gnFrameCount_507670) <= field_144_timer2)
+            if (static_cast<s32>(gnFrameCount_507670) <= field_144_timer2)
             {
                 if (pEventSystem_4FF954->MatchBuffer_40FAA0(
                     field_124_code_buffer,
@@ -899,7 +899,7 @@ s16 SlingMudokon::tsub_4707B0()
             return field_13A_brain_state;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) <= field_140_timer)
+        if (static_cast<s32>(gnFrameCount_507670) <= field_140_timer)
         {
             return field_13A_brain_state;
         }
@@ -930,7 +930,7 @@ s16 SlingMudokon::tsub_4707B0()
             return 8;
         }
 
-        if (field_140_timer > static_cast<int>(gnFrameCount_507670))
+        if (field_140_timer > static_cast<s32>(gnFrameCount_507670))
         {
             return field_13A_brain_state;
         }
@@ -945,7 +945,7 @@ s16 SlingMudokon::tsub_4707B0()
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
 
-        if (field_140_timer > static_cast<int>(gnFrameCount_507670) || sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+        if (field_140_timer > static_cast<s32>(gnFrameCount_507670) || sActiveHero_507678->field_100_health <= FP_FromInteger(0))
         {
             return field_13A_brain_state;
         }
@@ -954,9 +954,9 @@ s16 SlingMudokon::tsub_4707B0()
         return 3;
 
     case 9:
-        if (static_cast<int>(gnFrameCount_507670) >= field_140_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_140_timer)
         {
-            for (int i = 0; i < 8; i++)
+            for (s32 i = 0; i < 8; i++)
             {
                 auto pDove = ao_new<Dove>();
                 if (pDove)

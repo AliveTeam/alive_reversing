@@ -14,7 +14,7 @@ EXPORT void ao_delete_free_450770(void* ptr)
     ::free(ptr);
 }
 
-EXPORT void* CC ao_new_malloc_447520(int size)
+EXPORT void* CC ao_new_malloc_447520(s32 size)
 {
     STDLIB_FUNCTION();
     return ::malloc(size);

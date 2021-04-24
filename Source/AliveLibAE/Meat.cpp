@@ -402,7 +402,7 @@ void Meat::vUpdate_469BA0()
                 field_12C_deadtimer = sGnFrame_5C1B84 + 600;
             }
 
-            if (static_cast<int>(sGnFrame_5C1B84) > field_128_timer && !v2)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_128_timer && !v2)
             {
                 // That strange "shimmer" the meat gives off
                 New_TintShiny_Particle_426C30(
@@ -458,7 +458,7 @@ TintEntry stru_55C254[] =
 };
 
 
-MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
+MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x5460D4);
@@ -526,12 +526,12 @@ void MeatSack::VUpdate()
     vUpdate_46A6A0();
 }
 
-int Meat::VGetSaveState(BYTE* pSaveBuffer)
+s32 Meat::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_46AC40(reinterpret_cast<Meat_SaveState*>(pSaveBuffer));
 }
 
-int CC Meat::CreateFromSaveState_46A9E0(const BYTE* pBuffer)
+s32 CC Meat::CreateFromSaveState_46A9E0(const BYTE* pBuffer)
 {
     const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
 
@@ -680,7 +680,7 @@ void MeatSack::vUpdate_46A6A0()
     }
 }
 
-int Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
+s32 Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
 {
     pState->field_0_type = AETypes::eMeat_84;
     pState->field_4_obj_id = field_C_objectId;

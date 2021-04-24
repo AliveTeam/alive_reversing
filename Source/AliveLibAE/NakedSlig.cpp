@@ -50,7 +50,7 @@ TintEntry stru_5514B8[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-const int sNakedSligFrameTableOffsets_551470[18] =
+const s32 sNakedSligFrameTableOffsets_551470[18] =
 {
     53684,
     53852,
@@ -105,7 +105,7 @@ const static AIFunctionData<TNakedSligAIFn> sNakedSligAITable[] =
     { &NakedSlig::AI_5_Transformed_41ADF0, 0x40484A, "AI_5_Transformed" },
 };
 
-NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
+NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, s32 tlvInfo)
 {
     ctor_408240(2);
 
@@ -248,12 +248,12 @@ s16 NakedSlig::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_4192B0(pFrom);
 }
 
-int NakedSlig::VGetSaveState(BYTE* pSaveBuffer)
+s32 NakedSlig::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_41C9A0(reinterpret_cast<NakedSlig_State*>(pSaveBuffer));
 }
 
-int CC NakedSlig::CreateFromSaveState_41AE80(const BYTE* pBuffer)
+s32 CC NakedSlig::CreateFromSaveState_41AE80(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const NakedSlig_State*>(pBuffer);
 
@@ -343,7 +343,7 @@ int CC NakedSlig::CreateFromSaveState_41AE80(const BYTE* pBuffer)
     return sizeof(NakedSlig_State);
 }
 
-int NakedSlig::vGetSaveState_41C9A0(NakedSlig_State* pState)
+s32 NakedSlig::vGetSaveState_41C9A0(NakedSlig_State* pState)
 {
     if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
@@ -391,7 +391,7 @@ int NakedSlig::vGetSaveState_41C9A0(NakedSlig_State* pState)
     pState->field_44_tlvInfo = field_118_tlvInfo;
     pState->field_48_ai_idx = 0;
 
-    int idx = 0;
+    s32 idx = 0;
     for (const auto& fn : sNakedSligAITable)
     {
         if (BrainIs(fn.mOurFn))
@@ -455,7 +455,7 @@ void NakedSlig::UpdateAnimBlock_419900()
     field_20_animation.Set_Animation_Data_409C80(sNakedSligFrameTableOffsets_551470[field_106_current_motion], ppRes);
 }
 
-BYTE** NakedSlig::GetAnimBlock_419950(int /*currentMotion*/)
+BYTE** NakedSlig::GetAnimBlock_419950(s32 /*currentMotion*/)
 {
     if (field_1CC_unused)
     {
@@ -814,7 +814,7 @@ s16 NakedSlig::AI_0_Sleeping_419DE0()
 
     if (field_208_brain_sub_state == 0)
     {
-        if (!(static_cast<int>(sGnFrame_5C1B84) % 16))
+        if (!(static_cast<s32>(sGnFrame_5C1B84) % 16))
         {
             if (field_1C4_unused_counter > 0)
             {
@@ -835,7 +835,7 @@ s16 NakedSlig::AI_0_Sleeping_419DE0()
 
     if (field_208_brain_sub_state == 1)
     {
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_1AC_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_1AC_timer)
         {
             return field_208_brain_sub_state;
         }
@@ -932,7 +932,7 @@ s16 NakedSlig::AI_2_PanicGetALocker_419FE0()
         }
         else
         {
-            if (Math_NextRandom() >= 10u || static_cast<int>(sGnFrame_5C1B84) <= field_1C8_say_help_timer)
+            if (Math_NextRandom() >= 10u || static_cast<s32>(sGnFrame_5C1B84) <= field_1C8_say_help_timer)
             {
                 return field_208_brain_sub_state;
             }
@@ -1032,13 +1032,13 @@ s16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             return 3;
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_1AC_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_1AC_timer)
         {
             field_108_next_motion = 11;
             return 3;
         }
 
-        if (Math_NextRandom() >= 10u || static_cast<int>(sGnFrame_5C1B84) <= field_1C8_say_help_timer)
+        if (Math_NextRandom() >= 10u || static_cast<s32>(sGnFrame_5C1B84) <= field_1C8_say_help_timer)
         {
             return field_208_brain_sub_state;
         }
@@ -1088,7 +1088,7 @@ s16 NakedSlig::AI_2_PanicGetALocker_419FE0()
                 return field_208_brain_sub_state;
             }
         }
-        else if (static_cast<int>(sGnFrame_5C1B84) > field_1AC_timer)
+        else if (static_cast<s32>(sGnFrame_5C1B84) > field_1AC_timer)
         {
             Set_AnimAndMotion_419890(NakedSligMotion::M_ShakingToIdle_14_41C040, TRUE);
         }
@@ -1113,7 +1113,7 @@ s16 NakedSlig::AI_3_Possessed_41A5B0()
     switch (field_208_brain_sub_state)
     {
     case 0:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_1AC_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_1AC_timer)
         {
             return field_208_brain_sub_state;
         }
@@ -1133,7 +1133,7 @@ s16 NakedSlig::AI_3_Possessed_41A5B0()
     case 2:
         if (Input_IsChanting_45F260())
         {
-            if (!(static_cast<int>(sGnFrame_5C1B84) % 4))
+            if (!(static_cast<s32>(sGnFrame_5C1B84) % 4))
             {
                 New_TintChant_Particle_426BE0(
                     (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20))) + field_B8_xpos,
@@ -1142,7 +1142,7 @@ s16 NakedSlig::AI_3_Possessed_41A5B0()
                     Layer::eLayer_0);
             }
 
-            if (static_cast<int>(sGnFrame_5C1B84) <= field_1AC_timer && sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
+            if (static_cast<s32>(sGnFrame_5C1B84) <= field_1AC_timer && sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
             {
                 return field_208_brain_sub_state;
             }
@@ -1164,7 +1164,7 @@ s16 NakedSlig::AI_3_Possessed_41A5B0()
     case 3:
         if (field_106_current_motion != NakedSligMotion::M_ShakingToIdle_14_41C040)
         {
-            if (static_cast<int>(sGnFrame_5C1B84) > field_1AC_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_1AC_timer)
             {
                 Set_AnimAndMotion_419890(NakedSligMotion::M_ShakingToIdle_14_41C040, TRUE);
             }
@@ -1207,7 +1207,7 @@ s16 NakedSlig::AI_4_GetKilled_41A880()
         return 1;
 
     case 1:
-        if (field_1AC_timer < static_cast<int>((sGnFrame_5C1B84 + 80)))
+        if (field_1AC_timer < static_cast<s32>((sGnFrame_5C1B84 + 80)))
         {
             field_CC_sprite_scale -= FP_FromDouble(0.008);
             field_D0_r -= 2;
@@ -1215,7 +1215,7 @@ s16 NakedSlig::AI_4_GetKilled_41A880()
             field_D4_b -= 2;
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) < field_1AC_timer - 24 && !(sGnFrame_5C1B84 % 5))
+        if (static_cast<s32>(sGnFrame_5C1B84) < field_1AC_timer - 24 && !(sGnFrame_5C1B84 % 5))
         {
             New_Smoke_Particles_426C70(
                 (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
@@ -1227,7 +1227,7 @@ s16 NakedSlig::AI_4_GetKilled_41A880()
             SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent((FP_FromInteger(2200) * field_CC_sprite_scale)));
         }
 
-        if (field_1AC_timer < static_cast<int>(sGnFrame_5C1B84))
+        if (field_1AC_timer < static_cast<s32>(sGnFrame_5C1B84))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -1284,14 +1284,14 @@ s16 NakedSlig::AI_4_GetKilled_41A880()
     }
 
     case 3:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_1AC_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_1AC_timer)
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         return field_208_brain_sub_state;
 
     case 4:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_1AC_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_1AC_timer)
         {
             return field_208_brain_sub_state;
         }
@@ -1299,9 +1299,9 @@ s16 NakedSlig::AI_4_GetKilled_41A880()
         return 1;
 
     case 5:
-        if (static_cast<int>(sGnFrame_5C1B84) < field_1AC_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) < field_1AC_timer)
         {
-            if (!(static_cast<int>(field_1AC_timer - sGnFrame_5C1B84) % 15))
+            if (!(static_cast<s32>(field_1AC_timer - sGnFrame_5C1B84) % 15))
             {
                 Slig_GameSpeak_SFX_4C04F0(
                     SligSpeak::eHelp_10,
@@ -1310,7 +1310,7 @@ s16 NakedSlig::AI_4_GetKilled_41A880()
                     this);
             }
 
-            if (static_cast<int>(sGnFrame_5C1B84) == field_1AC_timer - 6)
+            if (static_cast<s32>(sGnFrame_5C1B84) == field_1AC_timer - 6)
             {
                 SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
             }
@@ -1376,14 +1376,14 @@ void NakedSlig::M_UsingButton_1_41B890()
             SFX_Play_46FA90(SoundEffect::NakedSligTransformStart_93, 0);
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) == field_1AC_timer - 1)
+        if (static_cast<s32>(sGnFrame_5C1B84) == field_1AC_timer - 1)
         {
             New_DestroyOrCreateObject_Particle_426F40(
                 field_B8_xpos,
                 (field_CC_sprite_scale * FP_FromInteger(45)) + field_BC_ypos,
                 field_CC_sprite_scale);
         }
-        else if (static_cast<int>(sGnFrame_5C1B84) > field_1AC_timer)
+        else if (static_cast<s32>(sGnFrame_5C1B84) > field_1AC_timer)
         {
             if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetPants_104 && ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 0, 0))
             {
@@ -1481,7 +1481,7 @@ void NakedSlig::M_UsingButton_1_41B890()
 
 void NakedSlig::M_WakingUp_2_41BF00()
 {
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -1794,7 +1794,7 @@ void NakedSlig::M_IdleToPushingWall_16_41B3C0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange_496AB0(static_cast<int>(SligSpeak::eOuch1_13), static_cast<int>(SligSpeak::eOuch2_14))), 0, 0, this);
+        Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange_496AB0(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
         Set_AnimAndMotion_419890(NakedSligMotion::M_PushingWall_10_41B400, TRUE);
     }
 }
@@ -1986,9 +1986,9 @@ s16 NakedSlig::CanCrawl_41C5D0()
         field_1B0_velx_scale_factor = FP_FromInteger(0);
         field_C8_vely = FP_FromInteger(0);
         Set_AnimAndMotion_419890(10, TRUE);
-        const int snappedX = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
+        const s32 snappedX = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
         field_C4_velx = ((FP_FromInteger(snappedX) - field_B8_xpos) / FP_FromInteger(4));
-        Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange_496AB0(static_cast<int>(SligSpeak::eOuch1_13), static_cast<int>(SligSpeak::eOuch2_14))), 0, 0, this);
+        Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange_496AB0(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
         return FALSE;
     }
     else

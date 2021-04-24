@@ -176,7 +176,7 @@ ALIVE_ASSERT_SIZEOF(Prim_PrimClipper, 0x10);
 struct Prim_SetTPage
 {
     PrimHeader mBase;
-    int field_C_tpage;
+    s32 field_C_tpage;
 };
 ALIVE_ASSERT_SIZEOF(Prim_SetTPage, 0x10);
 
@@ -316,8 +316,8 @@ enum PrimTypeCodes
 struct Prim_MoveImage
 {
     PrimHeader mPrimHeader;
-    int xPos;
-    int yPos;
+    s32 xPos;
+    s32 yPos;
     PSX_RECT rect;
 };
 
@@ -325,10 +325,10 @@ struct Prim_MoveImage
 struct Prim_GasEffect
 {
     PrimHeader mPrimHeader;
-    int x;
-    int y;
-    int w;
-    int h;
+    s32 x;
+    s32 y;
+    s32 w;
+    s32 h;
     WORD* pData;
 };
 
@@ -388,9 +388,9 @@ template<class T> inline BYTE R0(T* prim) { return prim->mBase.header.rgb_code.r
 template<class T> inline BYTE G0(T* prim) { return prim->mBase.header.rgb_code.g; }
 template<class T> inline BYTE B0(T* prim) { return prim->mBase.header.rgb_code.b; }
 
-template<class T> inline BYTE R_Generic(T* prim, int idx) { return prim->mVerts[idx].mRgb.r; }
-template<class T> inline BYTE G_Generic(T* prim, int idx) { return prim->mVerts[idx].mRgb.g; }
-template<class T> inline BYTE B_Generic(T* prim, int idx) { return prim->mVerts[idx].mRgb.b; }
+template<class T> inline BYTE R_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.r; }
+template<class T> inline BYTE G_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.g; }
+template<class T> inline BYTE B_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.b; }
 template<class T> inline BYTE R1(T* prim) { return R_Generic(prim, 0); }
 template<class T> inline BYTE G1(T* prim) { return G_Generic(prim, 0); }
 template<class T> inline BYTE B1(T* prim) { return B_Generic(prim, 0); }
@@ -404,8 +404,8 @@ template<class T> inline BYTE B3(T* prim) { return B_Generic(prim, 2); }
 template<class T> inline short X0(T* prim) { return prim->mBase.vert.x; }
 template<class T> inline short Y0(T* prim) { return prim->mBase.vert.y; }
 
-template<class T> inline short X_Generic(T* prim, int idx) { return prim->mVerts[idx].mVert.x; }
-template<class T> inline short Y_Generic(T* prim, int idx) { return prim->mVerts[idx].mVert.y; }
+template<class T> inline short X_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mVert.x; }
+template<class T> inline short Y_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mVert.y; }
 template<class T> inline short X1(T* prim) { return X_Generic(prim, 0); }
 template<class T> inline short Y1(T* prim) { return Y_Generic(prim, 0); }
 template<class T> inline short X2(T* prim) { return X_Generic(prim, 1); }
@@ -415,8 +415,8 @@ template<class T> inline short Y3(T* prim) { return Y_Generic(prim, 2); }
 
 template<class T> inline BYTE U0(T* prim) { return prim->mUv.u; }
 template<class T> inline BYTE V0(T* prim) { return prim->mUv.v; }
-template<class T> inline BYTE U_Generic(T* prim, int idx) { return prim->mVerts[idx].mUv.u; }
-template<class T> inline BYTE V_Generic(T* prim, int idx) { return prim->mVerts[idx].mUv.v; }
+template<class T> inline BYTE U_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mUv.u; }
+template<class T> inline BYTE V_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mUv.v; }
 template<class T> inline BYTE U1(T* prim) { return U_Generic(prim, 0); }
 template<class T> inline BYTE V1(T* prim) { return V_Generic(prim, 0); }
 template<class T> inline BYTE U2(T* prim) { return U_Generic(prim, 1); }
@@ -425,21 +425,21 @@ template<class T> inline BYTE U3(T* prim) { return U_Generic(prim, 2); }
 template<class T> inline BYTE V3(T* prim) { return V_Generic(prim, 2); }
 
 template<class T>
-inline void SetXY_Generic(T* prim, int idx, short x, short y)
+inline void SetXY_Generic(T* prim, s32 idx, short x, short y)
 {
     prim->mVerts[idx].mVert.x = x;
     prim->mVerts[idx].mVert.y = y;
 }
 
 template<class T>
-inline void SetUV_Generic(T* prim, int idx, BYTE u, BYTE v)
+inline void SetUV_Generic(T* prim, s32 idx, BYTE u, BYTE v)
 {
     prim->mVerts[idx].mUv.u = u;
     prim->mVerts[idx].mUv.v = v;
 }
 
 template<class T>
-inline void SetRGB_Generic(T* prim, int idx, BYTE r, BYTE g, BYTE b)
+inline void SetRGB_Generic(T* prim, s32 idx, BYTE r, BYTE g, BYTE b)
 {
     prim->mVerts[idx].mRgb.r = r;
     prim->mVerts[idx].mRgb.g = g;
@@ -574,9 +574,9 @@ void PolyFT4_Init(Poly_FT4* pPrim);
 
 void PolyF4_Init(Poly_F4* pPrim);
 
-void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, int xpos, int ypos);
+void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, s32 xpos, s32 ypos);
 
-int PSX_Prim_Code_Without_Blending_Or_SemiTransparency(int code);
+s32 PSX_Prim_Code_Without_Blending_Or_SemiTransparency(s32 code);
 
 
 void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr);

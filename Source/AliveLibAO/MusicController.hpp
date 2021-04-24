@@ -20,7 +20,7 @@ public:
 
     static void CC UpdateMusicTime();
 
-    static int GetMusicTime();
+    static s32 GetMusicTime();
 
     enum class MusicTypes : s16
     {
@@ -70,7 +70,7 @@ public:
 
     static EXPORT void CC EnableMusic_443900(s16 bEnable);
 
-    static EXPORT int CC OnRootCounter_4437D0();
+    static EXPORT s32 CC OnRootCounter_4437D0();
 
     EXPORT void PlayMusic_443460(MusicTypes a2, BaseGameObject* a3, s16 a4, s16 a5);
 
@@ -91,21 +91,21 @@ public:
     s16 field_22;
     s16 field_24_bAmbientMusicEnabled;
     SeqId field_26_ambient_seq;
-    int field_28_amibent_seq_duration;
-    int field_2C_music_start_time;
-    int field_30_music_timer;
-    int field_34_sync_after_beats;
+    s32 field_28_amibent_seq_duration;
+    s32 field_2C_music_start_time;
+    s32 field_30_music_timer;
+    s32 field_34_sync_after_beats;
     SeqId field_38_music_seq;
     MusicTypes field_3A_type;
-    int field_3C_music_seq_duration;
-    int field_40_started_time;
+    s32 field_3C_music_seq_duration;
+    s32 field_40_started_time;
     s16 field_44_bTypeChanged;
     s16 field_46_restart_track;
     s16 field_48_vol_state;
     s16 field_4A_starting_volume;
     s16 field_4C_current_vol;
     s16 field_4E_vol;
-    int field_50_music_volume_change_time;
+    s32 field_50_music_volume_change_time;
 };
 ALIVE_ASSERT_SIZEOF(MusicController, 0x54);
 

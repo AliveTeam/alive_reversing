@@ -2,7 +2,7 @@
 #include "JsonUpgrader.hpp"
 #include "alive_api.hpp"
 
-AliveAPI::UpgradeError BaseJsonUpgrader::Upgrade(const std::string& /*jsonFile*/, int currentJsonVersion, int targetApiVersion)
+AliveAPI::UpgradeError BaseJsonUpgrader::Upgrade(const std::string& /*jsonFile*/, s32 currentJsonVersion, s32 targetApiVersion)
 {
     auto ret = UpgradeTargetIsValid(currentJsonVersion, targetApiVersion);
     if (ret != AliveAPI::UpgradeError::None)
@@ -10,7 +10,7 @@ AliveAPI::UpgradeError BaseJsonUpgrader::Upgrade(const std::string& /*jsonFile*/
         return ret;
     }
 
-    int currentVersion = currentJsonVersion;
+    s32 currentVersion = currentJsonVersion;
     while (currentVersion != targetApiVersion)
     {
         ret = mUpgraders[currentJsonVersion]()->Upgrade();
@@ -24,7 +24,7 @@ AliveAPI::UpgradeError BaseJsonUpgrader::Upgrade(const std::string& /*jsonFile*/
     return ret;
 }
 
-AliveAPI::UpgradeError BaseJsonUpgrader::UpgradeTargetIsValid(int currentJsonVersion, int targetApiVersion)
+AliveAPI::UpgradeError BaseJsonUpgrader::UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetApiVersion)
 {
     if (currentJsonVersion > targetApiVersion)
     {

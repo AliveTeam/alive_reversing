@@ -61,7 +61,7 @@ const TParamiteStateFunction sParamiteMotionTable_4CDCB0[] =
     &Paramite::State_25_Death_44DB90,
 };
 
-const static int sParamiteFrameTables_4CDD18[] =
+const static s32 sParamiteFrameTables_4CDD18[] =
 {
     57152,
     57132,
@@ -101,13 +101,13 @@ static AIFunctionData<Paramite::TParamiteBrain> sParamiteAITable[]
     { &Paramite::Brain_SpottedMeat_449CD0,  0x449CD0, "Brain_SpottedMeat_5" },
 };
 
-Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo)
+Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BBBE8);
     field_4_typeId = Types::eParamite_62;
 
-    for (int i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
     {
         field_150_resources[i] = nullptr;
     }
@@ -238,7 +238,7 @@ BaseGameObject* Paramite::dtor_44AB00()
 
     VOnTrapDoorOpen_44B8C0();
 
-    for (int i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
     {
         if (field_10_anim.field_20_ppBlock != field_150_resources[i])
         {
@@ -506,7 +506,7 @@ void Paramite::VUpdate_44A490()
     else
     {
         bool bFound = false;
-        for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
             if (!pObjIter)
@@ -748,7 +748,7 @@ void Paramite::VUpdateAnimData_44A460()
 
 s16 Paramite::AnotherParamiteNear_44AF80()
 {
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObjIter)
@@ -810,7 +810,7 @@ void Paramite::ToKnockBack_44B5B0()
 
 Meat* Paramite::FindMeat_44B160()
 {
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObjIter)
@@ -1492,7 +1492,7 @@ s16 Paramite::Brain_Patrol_447A10()
             return AI_Patrol::eState0_Panic_15;
         }
 
-        if (field_120_wait_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_120_wait_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             if (Math_NextRandom() >= 6u)
             {
@@ -1626,7 +1626,7 @@ s16 Paramite::Brain_SurpriseWeb_448D00()
         return AI_SurpriseWeb::eState3_StartAnimation_3;
 
     case AI_SurpriseWeb::eState3_StartAnimation_3:
-        if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer > static_cast<s32>(gnFrameCount_507670))
         {
             return field_110_state;
         }
@@ -1702,7 +1702,7 @@ s16 Paramite::Brain_Struggling_44DD70()
             return 1;
 
         case 1:
-            if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
+            if (field_114_timer <= static_cast<s32>(gnFrameCount_507670))
             {
                 field_FC_current_motion = eParamiteStates::State_13_GameSpeakBegin_44D050;
                 field_FE_next_state = eParamiteStates::State_15_Hiss_44D300;
@@ -1754,13 +1754,13 @@ s16 Paramite::Brain_Struggling_44DD70()
 
 s16 Paramite::Brain_Death_448BF0()
 {
-    if (static_cast<int>(gnFrameCount_507670) < field_114_timer && (field_114_timer < static_cast<int>(gnFrameCount_507670) + 80))
+    if (static_cast<s32>(gnFrameCount_507670) < field_114_timer && (field_114_timer < static_cast<s32>(gnFrameCount_507670) + 80))
     {
         field_BC_sprite_scale -= FP_FromDouble(0.008);
         field_C0_r -= 2;
         field_C2_g -= 2;
         field_C4_b -= 2;
-        if (static_cast<int>(gnFrameCount_507670) < field_114_timer - 24 && !(static_cast<int>(gnFrameCount_507670) % 5))
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_timer - 24 && !(static_cast<s32>(gnFrameCount_507670) % 5))
         {
             New_Smoke_Particles_419A80(
                 (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos,
@@ -1771,7 +1771,7 @@ s16 Paramite::Brain_Death_448BF0()
         }
     }
 
-    if (field_114_timer < (int) gnFrameCount_507670)
+    if (field_114_timer < (s32) gnFrameCount_507670)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -1806,7 +1806,7 @@ s16 Paramite::Brain_ChasingAbe_449170()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_138_attack_timer <= static_cast<int>(gnFrameCount_507670)
+    if (field_138_attack_timer <= static_cast<s32>(gnFrameCount_507670)
         && (!VOnSameYLevel(sActiveHero_507678)
             || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale)
         && sActiveHero_507678->field_100_health > FP_FromInteger(0))
@@ -1980,7 +1980,7 @@ s16 Paramite::Brain_ChasingAbe_449170()
         break;
 
     case AI_ChasingAbe::eState2_ToWarning_2:
-        if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer > static_cast<s32>(gnFrameCount_507670))
         {
             return field_110_state;
         }
@@ -2061,7 +2061,7 @@ s16 Paramite::Brain_ChasingAbe_449170()
             }
         }
 
-        if (field_114_timer > static_cast<int>(gnFrameCount_507670) && field_13E_hiss_before_attack == Choice_short::eYes_1)
+        if (field_114_timer > static_cast<s32>(gnFrameCount_507670) && field_13E_hiss_before_attack == Choice_short::eYes_1)
         {
             return field_110_state;
         }
@@ -2114,7 +2114,7 @@ s16 Paramite::Brain_ChasingAbe_449170()
         }
 
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {
             if (HandleEnemyStopper(-2, Path_EnemyStopper::StopDirection::Left_0))
@@ -2241,7 +2241,7 @@ s16 Paramite::Brain_ChasingAbe_449170()
         }
 
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx > FP_FromInteger(0))
         {
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(0, 1))
@@ -2289,7 +2289,7 @@ s16 Paramite::Brain_ChasingAbe_449170()
         break;
 
     case AI_ChasingAbe::eState2_Eating_13:
-        if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer > static_cast<s32>(gnFrameCount_507670))
         {
             return field_110_state;
         }
@@ -2298,7 +2298,7 @@ s16 Paramite::Brain_ChasingAbe_449170()
         return AI_ChasingAbe::eState2_Idle_14;
 
     case AI_ChasingAbe::eState2_Idle_14:
-        if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer > static_cast<s32>(gnFrameCount_507670))
         {
             return field_110_state;
         }
@@ -2428,7 +2428,7 @@ s16 Paramite::Brain_SpottedMeat_449CD0()
     case AI_SpottedMeat::eState5_Running_1:
     {
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(1, 1))
@@ -2479,7 +2479,7 @@ s16 Paramite::Brain_SpottedMeat_449CD0()
     case AI_SpottedMeat::eState5_Walking_2:
     {
         const short x_exp = FP_GetExponent(field_A8_xpos);
-        const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+        const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(1, 1))
@@ -2623,7 +2623,7 @@ s16 Paramite::Brain_SpottedMeat_449CD0()
             }
         }
 
-        if (field_114_timer > static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer > static_cast<s32>(gnFrameCount_507670))
         {
             return field_110_state;
         }

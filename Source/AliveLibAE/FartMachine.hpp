@@ -15,7 +15,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FartMachine, 0x14);
 class FartMachine : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT FartMachine* ctor_413060(Path_FartMachine* pTlv, int tlvInfo);
+    EXPORT FartMachine* ctor_413060(Path_FartMachine* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
@@ -32,12 +32,12 @@ private:
     Alive::Font field_104_font;
     s16 field_13C_textX;
     s16 field_13E_textY;
-    int field_140_tlvInfo;
+    s32 field_140_tlvInfo;
 public:
     s16 field_144_total_brew_count;
 private:
     s16 field_146_padding;
-    int field_148_padding;
+    s32 field_148_padding;
     Animation field_14C_anim;
     s16 field_1E4_remaining_brew_count;
     s16 field_1E6_cam_id;

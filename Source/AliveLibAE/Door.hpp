@@ -46,7 +46,7 @@ public:
         eClosing_3 = 3,
     };
 
-    EXPORT Door* ctor_41E250(Path_Door* pTlvData, int tlvInfo);
+    EXPORT Door* ctor_41E250(Path_Door* pTlvData, s32 tlvInfo);
     EXPORT BOOL vIsOpen_41EB00();
     EXPORT void vOpen_41EB20();
     EXPORT void vClose_41EB50();
@@ -69,7 +69,7 @@ private:
 
 
 protected:
-    int field_F4_tlvInfo;
+    s32 field_F4_tlvInfo;
     enum DoorTypes
     {
         eBasicDoor_0 = 0,
@@ -91,14 +91,14 @@ ALIVE_ASSERT_SIZEOF(Door, 0x114);
 
 struct Path_TrainDoor : public Path_TLV
 {
-    int field_10_direction;
+    s32 field_10_direction;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrainDoor, 0x14);
 
 class TrainDoor : public Door
 {
 public:
-    EXPORT TrainDoor* ctor_4DD090(Path_TrainDoor* pTlv, int tlvInfo);
+    EXPORT TrainDoor* ctor_4DD090(Path_TrainDoor* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 

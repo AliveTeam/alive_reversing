@@ -282,10 +282,10 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
     if (sNum_CamSwappers_5C1B66 == 0)
     {
         const FP_Point* camPos = pScreenManager_5BB5F4->field_20_pCamPos;
-        const int screenX = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
-        const int screenY = ((field_2C0_tlv.field_8_top_left.field_2_y + field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
-        const int screenXWorld = PsxToPCX(screenX);
-        const int maxWidth = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(camPos->field_0_x);
+        const s32 screenX = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
+        const s32 screenY = ((field_2C0_tlv.field_8_top_left.field_2_y + field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
+        const s32 screenXWorld = PsxToPCX(screenX);
+        const s32 maxWidth = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(camPos->field_0_x);
 
         PSX_RECT clipRect = {
             0,

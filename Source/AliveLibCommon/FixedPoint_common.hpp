@@ -7,7 +7,7 @@ using FP = FixedPoint;
 
 struct FixedPoint
 {
-    int fpValue;
+    s32 fpValue;
 };
 static_assert(std::is_pod<FixedPoint>::value, "FixedPoint must be a POD type, otherwise things are going to randomly break so STAP!");
 

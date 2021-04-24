@@ -48,7 +48,7 @@ public:
         eKillElectrocute_3 = 3
     };
     States field_32_state;
-    int field_34_pad;
+    s32 field_34_pad;
     PSX_RECT field_38_pal_rect;
 };
 ALIVE_ASSERT_SIZEOF(Electrocute, 0x40);

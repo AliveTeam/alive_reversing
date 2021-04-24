@@ -28,7 +28,7 @@ DynamicArray* DynamicArray::ctor_40CA60(s16 startingSize)
 DynamicArray* DynamicArray::ctor_40C9E0(s16 startingSize)
 {
     ctor_40CA60(startingSize);
-    for (int i = 0; i < startingSize; i++)
+    for (s32 i = 0; i < startingSize; i++)
     {
         Push_Back_40CAF0(nullptr);
     }

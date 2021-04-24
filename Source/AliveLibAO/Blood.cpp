@@ -95,9 +95,9 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
 
         field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-        for (int i = 0; i < field_116_total_count; i++)
+        for (s32 i = 0; i < field_116_total_count; i++)
         {
-            for (int j = 0; j < 2; j++)
+            for (s32 j = 0; j < 2; j++)
             {
                 BloodParticle* pParticle = &field_E8_pResBuf[i];
                 Prim_Sprt* pSprt = &pParticle->field_10_prims[j];
@@ -130,7 +130,7 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
         // Has its own random seed based on the frame counter.. no idea why
         field_114_rand_seed = static_cast<BYTE>(gnFrameCount_507670);
 
-        for (int i = 0; i < field_112_to_render_count; i++)
+        for (s32 i = 0; i < field_112_to_render_count; i++)
         {
             field_E8_pResBuf[i].field_0_x = FP_FromInteger(field_10E_xpos);
             field_E8_pResBuf[i].field_4_y = FP_FromInteger(field_110_ypos);
@@ -172,7 +172,7 @@ void Blood::VUpdate_407750()
             return;
         }
 
-        for (int i = 0; i < field_112_to_render_count; i++)
+        for (s32 i = 0; i < field_112_to_render_count; i++)
         {
             field_E8_pResBuf[i].field_C_offy += FP_FromDouble(1.8);
 
@@ -236,7 +236,7 @@ void Blood::VRender_407810(PrimHeader** ppOt)
         PSX_Point xy = { 32767, 32767 };
         PSX_Point wh = { -32767, -32767 };
 
-        for (int i = 0; i < field_112_to_render_count; i++)
+        for (s32 i = 0; i < field_112_to_render_count; i++)
         {
             BloodParticle* pParticle = &field_E8_pResBuf[i];
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay_504C78.field_A_buffer_index];

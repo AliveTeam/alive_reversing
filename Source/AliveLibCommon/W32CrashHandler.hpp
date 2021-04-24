@@ -38,7 +38,7 @@ inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
         exceptionInfo.ExceptionPointers = apExceptionInfo;
         exceptionInfo.ClientPointers = FALSE;
 
-        const int flags = MiniDumpWithFullMemory |
+        const s32 flags = MiniDumpWithFullMemory |
             MiniDumpWithFullMemoryInfo |
             MiniDumpWithHandleData |
             MiniDumpWithUnloadedModules |

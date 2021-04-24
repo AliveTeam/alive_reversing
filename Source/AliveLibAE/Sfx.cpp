@@ -133,7 +133,7 @@ const SfxDefinition sSfxEntries_55C2A0[] =
 };
 
 
-int CC SFX_Play_46FB10(u8 sfxId, int leftVol, int rightVol, FP scale)
+s32 CC SFX_Play_46FB10(u8 sfxId, s32 leftVol, s32 rightVol, FP scale)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -144,7 +144,7 @@ int CC SFX_Play_46FB10(u8 sfxId, int leftVol, int rightVol, FP scale)
     return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], static_cast<short>(leftVol), static_cast<short>(rightVol), 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_46FBA0(u8 sfxIdx, s16 volume, int pitch, FP scale)
+s32 CC SFX_Play_46FBA0(u8 sfxIdx, s16 volume, s32 pitch, FP scale)
 {
     if (!volume)
     {
@@ -157,7 +157,7 @@ int CC SFX_Play_46FBA0(u8 sfxIdx, s16 volume, int pitch, FP scale)
     return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, static_cast<short>(pitch), static_cast<short>(pitch));
 }
 
-int CC SFX_Play_46FA90(u8 sfxIdx, s16 volume, FP scale)
+s32 CC SFX_Play_46FA90(u8 sfxIdx, s16 volume, FP scale)
 {
     if (!volume)
     {
@@ -170,7 +170,7 @@ int CC SFX_Play_46FA90(u8 sfxIdx, s16 volume, FP scale)
     return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_46FC20(u8 sfxId, s16 volume, CameraPos direction, FP scale)
+s32 CC SFX_Play_46FC20(u8 sfxId, s16 volume, CameraPos direction, FP scale)
 {
     if (!volume)
     {
@@ -246,7 +246,7 @@ EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject
         PSX_RECT camRect = {};
         gMap_5C3030.Get_Camera_World_Rect_481410(dir, &camRect);
 
-        const int volScaler = defaultVol / 3;
+        const s32 volScaler = defaultVol / 3;
         switch (dir)
         {
         case CameraPos::eCamCurrent_0:
@@ -298,7 +298,7 @@ EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject
 
 void CC Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, s16 defaultVol, s16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    const int idx = static_cast<int>(effectId);
+    const s32 idx = static_cast<s32>(effectId);
     assert(idx < ALIVE_COUNTOF(sSligGameSpeakEntries_560868));
     const SfxDefinition* pEffect = &sSligGameSpeakEntries_560868[idx];
 

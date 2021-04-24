@@ -10,7 +10,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 ALIVE_VAR(1, 0x5076B8, u16, sCurrentControllerIndex_5076B8, 0);
-ALIVE_VAR(1, 0x508A60, int, sJoystickEnabled_508A60, 0);
+ALIVE_VAR(1, 0x508A60, s32, sJoystickEnabled_508A60, 0);
 ALIVE_VAR(1, 0x9F7710, BYTE, sInputEnabled_9F7710, 0);
 ALIVE_VAR(1, 0xA8A604, DWORD, sLastPressedKey_A8A604, 0);
 
@@ -278,7 +278,7 @@ EXPORT void InputObject::Update_433250()
 {
     const BYTE byte_4BB428[16] = { 0u, 64u, 0u, 32u, 192u, 0u, 224u, 0u, 128u, 96u, 0u, 0u, 160u, 0u, 0u, 0u };
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
         field_0_pads[i].field_A_prev_dir = field_0_pads[i].field_2_dir;
         field_0_pads[i].field_B = field_0_pads[i].field_3;
@@ -308,7 +308,7 @@ EXPORT void InputObject::Update_433250()
             return;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) >= field_28_command_duration)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_28_command_duration)
         {
             const DWORD command = (*field_18_demo_res)[field_1C_demo_command_index++];
             field_24_command = command >> 16;
@@ -327,7 +327,7 @@ EXPORT void InputObject::Update_433250()
             field_0_pads[0].field_0_pressed = static_cast<unsigned short>(field_24_command);
         }
 
-        for (int i = 0; i < 2; i++)
+        for (s32 i = 0; i < 2; i++)
         {
             field_0_pads[i].field_8_released = ~field_0_pads[i].field_0_pressed & field_0_pads[i].field_4_previously_pressed;
             field_0_pads[i].field_6_held = ~field_0_pads[i].field_4_previously_pressed & field_0_pads[i].field_0_pressed;
@@ -339,7 +339,7 @@ EXPORT void InputObject::Update_433250()
     }
 
     // Original AO impl
-    //for (int i = 0; i < 2; i++)
+    //for (s32 i = 0; i < 2; i++)
     //{
     //    field_0_pads[i].field_A_prev_dir = field_0_pads[i].field_2_dir;
     //    field_0_pads[i].field_B = field_0_pads[i].field_3;
@@ -373,7 +373,7 @@ EXPORT void InputObject::Update_433250()
     //        return;
     //    }
 
-    //    if (static_cast<int>(gnFrameCount_507670) >= field_28_command_duration)
+    //    if (static_cast<s32>(gnFrameCount_507670) >= field_28_command_duration)
     //    {
     //        const DWORD command = (*field_18_demo_res)[field_1C_demo_command_index++];
     //        field_24_command = command >> 16;
@@ -393,7 +393,7 @@ EXPORT void InputObject::Update_433250()
     //    }
     //}
 
-    //for (int i = 0; i < 2; i++)
+    //for (s32 i = 0; i < 2; i++)
     //{
     //    field_0_pads[i].field_8_released = ~field_0_pads[i].field_0_pressed & field_0_pads[i].field_4_previously_pressed;
     //    field_0_pads[i].field_6_held = ~field_0_pads[i].field_4_previously_pressed & field_0_pads[i].field_0_pressed;
@@ -415,12 +415,12 @@ void InputObject::SetDemoRes_433470(DWORD** ppDemoRes)
     field_28_command_duration = 0;
 }
 
-int InputObject::IsDemoPlaying_4334A0()
+s32 InputObject::IsDemoPlaying_4334A0()
 {
     return field_20_demo_playing & 1;
 }
 
-static int PadIndexToInt(InputObject::PadIndex idx)
+static s32 PadIndexToInt(InputObject::PadIndex idx)
 {
     switch (idx)
     {
@@ -539,18 +539,18 @@ BOOL CC Input_IsChanting_4334C0()
     return Input_IsChanting_45F260();
 }
 
-void CC Input_SetKeyState_48E610(int key, char bIsDown)
+void CC Input_SetKeyState_48E610(s32 key, char bIsDown)
 {
     Input_SetKeyState_4EDD80(key, bIsDown);
 }
 
-EXPORT char CC Input_IsVKPressed_48E5D0(int key)
+EXPORT char CC Input_IsVKPressed_48E5D0(s32 key)
 {
     return Input_IsVKPressed_4EDD40(key);
 }
 
 // from the MainMenu class
-ALIVE_VAR_EXTERN(int, gJoystickAvailable_5079A4);
+ALIVE_VAR_EXTERN(s32, gJoystickAvailable_5079A4);
 
 EXPORT void CC Input_Init_44EB60()
 {
@@ -581,14 +581,14 @@ void Input_InitKeyStateArray_48E5F0()
 EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails)
 {
     const auto aeBits = static_cast<::InputCommands::Enum>(AOInputCommandsToAEInputCommands(MakeAOInputBits(input_command)).Raw().all);
-    int controller_type = forceKeyboardLookupIfGamepadFails ? 2 : 1;
+    s32 controller_type = forceKeyboardLookupIfGamepadFails ? 2 : 1;
     return ::Input_GetButtonString_492530(
         AEInputCommandToAEInputString(aeBits),
         Input_JoyStickEnabled() ? controller_type : 0
     );
 }
 
-EXPORT int CC Input_Remap_44F300(InputCommands inputCmd)
+EXPORT s32 CC Input_Remap_44F300(InputCommands inputCmd)
 {
     return Input_Remap_492680(static_cast<::InputCommands::Enum>(AOInputCommandsToAEInputCommands(MakeAOInputBits(inputCmd)).Raw().all));
 }
@@ -610,7 +610,7 @@ EXPORT char Input_GetLastPressedKey_44F2C0()
     //return result;
 }
 
-EXPORT int Input_Enable_48E6A0()
+EXPORT s32 Input_Enable_48E6A0()
 {
     // AE impl
     ::Input_EnableInput_4EDDD0();
@@ -654,7 +654,7 @@ void Input_SetJoyStickEnabled(bool enabled)
 
 ALIVE_VAR(1, 0x508A64, DWORD, dword_508A64, 0);
 
-EXPORT int CC Input_SaveSettingsIni_44F460()
+EXPORT s32 CC Input_SaveSettingsIni_44F460()
 {
     // Call AE func both in standalone and DLL
     Input_SaveSettingsIni_Common(true);

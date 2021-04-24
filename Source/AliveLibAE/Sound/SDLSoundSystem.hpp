@@ -18,7 +18,7 @@ class SDLSoundSystem
 {
 public:
 
-    void Init(u32 sampleRate, int bitsPerSample, int isStereo);
+    void Init(u32 sampleRate, s32 bitsPerSample, s32 isStereo);
 
     HRESULT DuplicateSoundBuffer(TSoundBufferType* pDSBufferOriginal, TSoundBufferType** ppDSBufferDuplicate);
 
@@ -27,29 +27,29 @@ public:
     HRESULT Release();
 
     // Called by audio thread - time critical
-    static void AudioCallBackStatic(void * userdata, Uint8 *stream, int len);
+    static void AudioCallBackStatic(void * userdata, Uint8 *stream, s32 len);
 
 private:
     ~SDLSoundSystem();
 
-    void AudioCallBack(Uint8* stream, int len);
+    void AudioCallBack(Uint8* stream, s32 len);
 
     void RenderAudioThread();
 
 
-    void RenderAudio(StereoSample_S16* pSampleBuffer, int sampleBufferCount);
+    void RenderAudio(StereoSample_S16* pSampleBuffer, s32 sampleBufferCount);
 
-    void RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* pSampleBuffer, int sampleBufferCount);
+    void RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* pSampleBuffer, s32 sampleBufferCount);
 
-    void RenderMonoSample(Sint16* pVoiceBufferPtr, SDLSoundBuffer* pVoice, int i);
+    void RenderMonoSample(Sint16* pVoiceBufferPtr, SDLSoundBuffer* pVoice, s32 i);
 
-    void RenderStereoSample(Sint16* pVoiceBufferPtr, SDLSoundBuffer* pVoice, int i);
+    void RenderStereoSample(Sint16* pVoiceBufferPtr, SDLSoundBuffer* pVoice, s32 i);
 
 private:
     SDL_AudioSpec mAudioDeviceSpec = {};
-    static constexpr int kMixVolume = 127;
+    static constexpr s32 kMixVolume = 127;
 
-    int mCurrentSoundBufferSize = 0;
+    s32 mCurrentSoundBufferSize = 0;
     AudioFilterMode mAudioFilterMode = AudioFilterMode::Linear;
     std::vector<StereoSample_S16> mTempSoundBuffer;
     std::vector<StereoSample_S16> mNoReverbBuffer;

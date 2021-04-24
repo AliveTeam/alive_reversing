@@ -228,14 +228,14 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 directio
     field_C2_g = field_1A8_fade_colour;
     field_C4_b = field_1A8_fade_colour;
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
         Init_SetTPage_495FB0(&field_188_tPage[i], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
     }
     return this;
 }
 
-int CircularFade::VDone_47A4C0()
+s32 CircularFade::VDone_47A4C0()
 {
     return field_E4_flags.Get(Flags::eBit2_Done);
 }

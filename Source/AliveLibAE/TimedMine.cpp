@@ -244,7 +244,7 @@ void TimedMine::StickToLiftPoint_411100()
         {
             if (ObjList_5C1B78)
             {
-                for (int i = 0; i < ObjList_5C1B78->Size(); i++)
+                for (s32 i = 0; i < ObjList_5C1B78->Size(); i++)
                 {
                     BaseGameObject* pObj = ObjList_5C1B78->ItemAt(i);
                     if (!pObj)

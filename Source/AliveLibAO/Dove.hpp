@@ -22,9 +22,9 @@ void CC Dove_static_ctor_40EE10();
 class Dove : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Dove* ctor_40EE50(int frameTableOffset, int maxW, int maxH, int resourceID, int tlvInfo, FP scale);
+    EXPORT Dove* ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale);
 
-    EXPORT Dove* ctor_40EFF0(int frameTableOffset, int maxW, int maxH, int resourceID, FP xpos, FP ypos, FP scale);
+    EXPORT Dove* ctor_40EFF0(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale);
 
     EXPORT BaseGameObject* dtor_40F1B0();
 
@@ -50,10 +50,10 @@ public:
 
     EXPORT void VUpdate_40F430();
 
-    int field_D4[4];
+    s32 field_D4[4];
     s16 field_E4_counter;
     s16 field_E6;
-    int field_E8_tlvInfo;
+    s32 field_E8_tlvInfo;
     s16 field_EC_keepInGlobalArray;
     enum class State : s16
     {
@@ -66,7 +66,7 @@ public:
     State field_EE_state;
     FP field_F0_xJoin;
     FP field_F4_yJoin;
-    int field_F8_timer;
+    s32 field_F8_timer;
     char field_FC_angle;
     // 3 byte pad
     FP field_100_prevX;

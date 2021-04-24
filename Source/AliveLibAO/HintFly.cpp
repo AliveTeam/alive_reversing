@@ -1363,7 +1363,7 @@ static BYTE HintFly_NextRandom()
     return sRandomBytes_4BBE30[sHintFlyRndSeed_4C6AA4++];
 }
 
-HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
+HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB200);
@@ -1436,7 +1436,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
                 field_110_bitMode = TPageMode::e4Bit_0;
             }
 
-            int vram_x = field_10_anim.field_84_vram_rect.x & 0x3F;
+            s32 vram_x = field_10_anim.field_84_vram_rect.x & 0x3F;
             if (field_110_bitMode == TPageMode::e8Bit_1)
             {
                 vram_x = 2 * vram_x;
@@ -1448,9 +1448,9 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
 
             const auto pHeader = reinterpret_cast<const FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
 
-            for (int i = 0; i < field_11A_msg_len; i++)
+            for (s32 i = 0; i < field_11A_msg_len; i++)
             {
-                for (int j = 0; j < 2; j++)
+                for (s32 j = 0; j < 2; j++)
                 {
                     Prim_Sprt* pSprt = &field_E8_pRes[i].field_24_sprt[j];
 
@@ -1488,7 +1488,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
             }
             */
 
-            for (int i = 0; i < field_118_counter; i++)
+            for (s32 i = 0; i < field_118_counter; i++)
             {
                 HintFlyParticle* pParticle = &field_E8_pRes[i];
                 InitParticle(pParticle);
@@ -1582,19 +1582,19 @@ void HintFly::FormWordAndAdvanceToNextWord_42AF90()
         field_11E_msg_idx++;
     }
 
-    const int xBase = field_114_xScreen - (16 * letterCount) / 2;
-    const int yBase = field_116_yScreen - 8;
+    const s32 xBase = field_114_xScreen - (16 * letterCount) / 2;
+    const s32 yBase = field_116_yScreen - 8;
 
     FP xBaseFP = FP_FromInteger(xBase);
     const FP yBaseFP = FP_FromInteger(yBase);
 
-    int particleIdx = 0;
-    for (int i = 0; i < letterCount; i++)
+    s32 particleIdx = 0;
+    for (s32 i = 0; i < letterCount; i++)
     {
         const auto pArray = pData_4C7268[msgPtr[i] - 'A'];
         // First element is the count of "pixels" that make up a word
-        const int total = pArray[0];
-        for (int j = 0; j < total; j++)
+        const s32 total = pArray[0];
+        for (s32 j = 0; j < total; j++)
         {
             // Position each "pixel" of the word
             HintFlyParticle* pParticleIter = &field_E8_pRes[particleIdx++];
@@ -1622,7 +1622,7 @@ void HintFly::FormWordAndAdvanceToNextWord_42AF90()
 
 void HintFly::UpdateParticles_42B1B0()
 {
-    for (int i = 0; i < field_118_counter; i++)
+    for (s32 i = 0; i < field_118_counter; i++)
     {
         HintFlyParticle* pParticle = &field_E8_pRes[i];
         if (pParticle->field_8_state == 1)
@@ -1705,7 +1705,7 @@ void HintFly::VUpdate_42B3D0()
 
             if (!Event_Get_417250(kEventAbeOhm_8))
             {
-                for (int i = 0; i < field_118_counter; i++)
+                for (s32 i = 0; i < field_118_counter; i++)
                 {
                     if (field_E8_pRes[i].field_8_state == 3)
                     {
@@ -1726,7 +1726,7 @@ void HintFly::VUpdate_42B3D0()
             }
         }
 
-        for (int i=0; i < 8; i++)
+        for (s32 i=0; i < 8; i++)
         {
             if (field_118_counter < field_122_target_count)
             {
@@ -1753,7 +1753,7 @@ void HintFly::VUpdate_42B3D0()
 
         if (!Event_Get_417250(kEventAbeOhm_8))
         {
-            for (int i = 0; i < field_118_counter; i++)
+            for (s32 i = 0; i < field_118_counter; i++)
             {
                 if (field_E8_pRes[i].field_8_state == 3)
                 {
@@ -1779,7 +1779,7 @@ void HintFly::VUpdate_42B3D0()
 
         if (!Event_Get_417250(kEventAbeOhm_8))
         {
-            for (int i = 0; i < field_118_counter; i++)
+            for (s32 i = 0; i < field_118_counter; i++)
             {
                 if (field_E8_pRes[i].field_8_state == 3)
                 {
@@ -1792,7 +1792,7 @@ void HintFly::VUpdate_42B3D0()
             return;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_10C_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
         {
             s16 len = 0;
             const char* pMsgIter = gHintFlyMessages_4C6A10[field_11C_message_id] + field_11E_msg_idx;
@@ -1812,9 +1812,9 @@ void HintFly::VUpdate_42B3D0()
 
         if (Event_Get_417250(kEventAbeOhm_8))
         {
-            if (static_cast<int>(gnFrameCount_507670) > field_10C_timer)
+            if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
             {
-                for (int i = 0; i < field_118_counter; i++)
+                for (s32 i = 0; i < field_118_counter; i++)
                 {
                     if (field_E8_pRes[i].field_8_state == 3)
                     {
@@ -1828,7 +1828,7 @@ void HintFly::VUpdate_42B3D0()
         }
         else
         {
-            for (int i = 0; i < field_118_counter; i++)
+            for (s32 i = 0; i < field_118_counter; i++)
             {
                 if (field_E8_pRes[i].field_8_state == 3)
                 {
@@ -1892,7 +1892,7 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
     rect.y = -32768;
     rect.h = -32767;
 
-    for (int i = 0; i < field_118_counter; i++)
+    for (s32 i = 0; i < field_118_counter; i++)
     {
         HintFlyParticle* pParticle = &field_E8_pRes[i];
         Prim_Sprt* pSprt = &pParticle->field_24_sprt[gPsxDisplay_504C78.field_A_buffer_index];
@@ -1931,7 +1931,7 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
         tPageY = 0;
     }
 
-    const int tpage = PSX_getTPage_4965D0(field_110_bitMode, TPageAbr::eBlend_1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
+    const s32 tpage = PSX_getTPage_4965D0(field_110_bitMode, TPageAbr::eBlend_1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
 
     Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_39), &pTPage->mBase);

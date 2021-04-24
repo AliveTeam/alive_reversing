@@ -41,9 +41,9 @@ private:
 private:
     s16 field_20_id;
     SwitchOp field_22_action;
-    int field_24_tlvInfo;
-    int field_28_delay_timer;
-    int field_2C_delay;
+    s32 field_24_tlvInfo;
+    s32 field_28_delay_timer;
+    s32 field_2C_delay;
     PSX_Point field_30_top_left;
     PSX_Point field_34_bottom_right;
     enum class States : s16

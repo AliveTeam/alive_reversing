@@ -7,7 +7,7 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 
-ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, int tlvInfo)
+ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x546FF0);
@@ -33,7 +33,7 @@ ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, int tlvInfo)
     return this;
 }
 
-int CC ScrabSpawner::CreateFromSaveState_4ABEB0(const BYTE* pBuffer)
+s32 CC ScrabSpawner::CreateFromSaveState_4ABEB0(const BYTE* pBuffer)
 {
     const auto pState = reinterpret_cast<const ScrabSpawner_State*>(pBuffer);
     auto pTlv = static_cast<Path_ScrabSpawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
@@ -55,7 +55,7 @@ void ScrabSpawner::VUpdate()
     vUpdate_4AB510();
 }
 
-int ScrabSpawner::VGetSaveState(BYTE* pSaveBuffer)
+s32 ScrabSpawner::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4ABF50(reinterpret_cast<ScrabSpawner_State*>(pSaveBuffer));
 }
@@ -77,7 +77,7 @@ void ScrabSpawner::dtor_4AB720()
     BaseGameObject_dtor_4DBEC0();
 }
 
-int ScrabSpawner::vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState)
+s32 ScrabSpawner::vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState)
 {
     pSaveState->field_0_type = AETypes::eScrabSpawner_113;
     pSaveState->field_4_tlvInfo = field_20_tlvInfo;
@@ -102,7 +102,7 @@ void ScrabSpawner::vUpdate_4AB510()
         field_40_bFindSpawnedScrab = FALSE;
         if (field_3C_spawned_scrab_id != -1)
         {
-            for (int i=0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i=0; i < gBaseGameObject_list_BB47C4->Size(); i++)
             {
                 BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
                 if (!pObj)

@@ -46,12 +46,12 @@ public:
         return Remove_Item_40CB60(pItemToRemove);
     }
 
-    T* ItemAt(int idx)
+    T* ItemAt(s32 idx)
     {
         return reinterpret_cast<T*>(field_0_array[idx]);
     }
 
-    void SetAt(int idx, T* itemToSet)
+    void SetAt(s32 idx, T* itemToSet)
     {
         field_0_array[idx] = itemToSet;
     }

@@ -24,7 +24,7 @@ void WorkWheel::VScreenChanged()
     vScreenChanged_4E3AD0();
 }
 
-int WorkWheel::VGetSaveState(BYTE* pSaveBuffer)
+s32 WorkWheel::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4E3C40(reinterpret_cast<WorkWheel_SaveState*>(pSaveBuffer));
 }
@@ -39,7 +39,7 @@ void WorkWheel::VStopTurning(s16 bResetSwitch)
     vStopTurning_4E3A60(bResetSwitch);
 }
 
-WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, int tlvInfo)
+WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -125,7 +125,7 @@ WorkWheel* WorkWheel::vdtor_4E3820(s32 flags)
     return this;
 }
 
-int CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
+s32 CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
 {
     const WorkWheel_SaveState* pData = reinterpret_cast<const WorkWheel_SaveState*>(pState);
 
@@ -156,7 +156,7 @@ int CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
     return sizeof(WorkWheel_SaveState);
 }
 
-int WorkWheel::vGetSaveState_4E3C40(WorkWheel_SaveState* pState)
+s32 WorkWheel::vGetSaveState_4E3C40(WorkWheel_SaveState* pState)
 {
     pState->field_0_id = AETypes::eWheel_148;
     pState->field_4_tlvInfo = field_F4_tlv_info;

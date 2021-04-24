@@ -44,10 +44,10 @@ struct Greeter_State
     char field_25_bDrawable;
     char field_26;
     char field_27;
-    int field_28_tlvInfo;
-    int field_2C;
-    int field_30_last_turn_time;
-    int field_34_timer;
+    s32 field_28_tlvInfo;
+    s32 field_2C;
+    s32 field_30_last_turn_time;
+    s32 field_34_timer;
     s16 field_38;
     s16 field_3A;
     s16 field_3C;
@@ -76,20 +76,20 @@ enum class GreeterSpeak : s16
 class Greeter : public BaseAliveGameObject
 {
 public:
-    EXPORT Greeter* ctor_4465B0(Path_Greeter* pTlv, int tlvInfo);
+    EXPORT Greeter* ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
-    EXPORT static int CC CreateFromSaveState_446040(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_446040(const BYTE* pBuffer);
 
 
 private:
-    EXPORT int vGetSaveState_446400(Greeter_State* pState);
+    EXPORT s32 vGetSaveState_446400(Greeter_State* pState);
 
 
     EXPORT Greeter* vdtor_4468B0(s32 flags);
@@ -107,11 +107,11 @@ private:
     EXPORT BaseAliveGameObject* GetMudToZap_447690();
     EXPORT void vUpdate_4469B0();
 private:
-    int field_118_tlvInfo;
-    int field_11C_motionDetectorId;
-    int field_120;
-    int field_124_last_turn_time;
-    int field_128_timer;
+    s32 field_118_tlvInfo;
+    s32 field_11C_motionDetectorId;
+    s32 field_120;
+    s32 field_124_last_turn_time;
+    s32 field_128_timer;
     s16 field_12C;
     s16 field_12E;
     s16 field_130;

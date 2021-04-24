@@ -38,7 +38,7 @@ namespace AO {
     ENTRY(State_25_Death_44DB90)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eParamiteStates : int
+enum eParamiteStates : s32
 {
     PARAMITE_STATES_ENUM(MAKE_ENUM)
 };
@@ -64,7 +64,7 @@ ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
 class Paramite : public BaseAliveGameObject
 {
 public:
-    EXPORT Paramite* ctor_44A7A0(Path_Paramite* pTlv, int tlvInfo);
+    EXPORT Paramite* ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_44AB00();
 
@@ -182,18 +182,18 @@ public:
     TParamiteBrain field_10C_fn;
     s16 field_110_state;
     s16 field_112_drop_in_timer;
-    int field_114_timer;
-    int field_118_not_used;
+    s32 field_114_timer;
+    s32 field_118_not_used;
     s16 field_11C_meat_eating_time;
     s16 field_11E_attack_delay;
-    int field_120_wait_timer;
+    s32 field_120_wait_timer;
     FP field_124_XSpeed;
     s16 field_128_never_read;
     s16 field_12A_res_idx;
-    int field_12C_tlvInfo;
-    int field_130_not_used;
-    int field_134_attack_duration;
-    int field_138_attack_timer;
+    s32 field_12C_tlvInfo;
+    s32 field_130_not_used;
+    s32 field_134_attack_duration;
+    s32 field_138_attack_timer;
     s16 field_13C_id;
     Choice_short field_13E_hiss_before_attack;
     s16 field_140_use_prev_motion;

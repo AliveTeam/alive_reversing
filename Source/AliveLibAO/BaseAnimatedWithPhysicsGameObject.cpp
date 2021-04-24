@@ -58,7 +58,7 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     return this;
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(int frameTableOffset, int maxW, int maxH, BYTE** ppAnimData, s16 a6)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, BYTE** ppAnimData, s16 a6)
 {
     const auto init = field_10_anim.Init_402D20(
         frameTableOffset,
@@ -192,13 +192,13 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
     VRender_417DA0(ppOt);
 }
 
-void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn)
+void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
 {
     VOnCollisionWith_418080(xy, wh, pObjList, startingPointIdx, pFn);
 }
 
 
-PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(PSX_RECT* pRect, int pointIdx)
+PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx)
 {
     return VGetBoundingRect_418120(pRect, pointIdx);
 }
@@ -248,8 +248,8 @@ s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel_418450(BaseAnimatedWithPhys
     pOther->VGetBoundingRect(&theirRect, 1);
 
     // Get mid Y of each
-    const int theirMidY = (theirRect.h + theirRect.y) / 2;
-    const int ourMidY = (ourRect.h + ourRect.y) / 2;
+    const s32 theirMidY = (theirRect.h + theirRect.y) / 2;
+    const s32 ourMidY = (ourRect.h + ourRect.y) / 2;
 
     if (theirMidY <= ourRect.h && theirMidY >= ourRect.y)
     {
@@ -315,11 +315,11 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby_418330(FP radius, BaseAnimat
     return x_abs <= radius;
 }
 
-void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith_418080(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn)
+void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith_418080(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
 {
     if (pObjList)
     {
-        for (int i=0; i<pObjList->Size(); i++)
+        for (s32 i=0; i<pObjList->Size(); i++)
         {
             BaseGameObject* pObjIter = pObjList->ItemAt(i);
             if (!pObjIter)
@@ -351,7 +351,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith_418080(PSX_Point xy, PS
     }
 }
 
-PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* pRect, int pointIdx)
+PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* pRect, s32 pointIdx)
 {
     const FrameInfoHeader* pAnimFrameHeader = field_10_anim.Get_FrameHeader_403A00(-1);
 
@@ -398,9 +398,9 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* p
 
 void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* pTintArray, LevelIds level_id)
 {
-    while (pTintArray->field_0_level != static_cast<int>(level_id))
+    while (pTintArray->field_0_level != static_cast<s32>(level_id))
     {
-        if (pTintArray->field_0_level == static_cast<int>(level_id) || pTintArray->field_0_level == static_cast<int>(LevelIds::eNone))
+        if (pTintArray->field_0_level == static_cast<s32>(level_id) || pTintArray->field_0_level == static_cast<s32>(LevelIds::eNone))
         {
             break;
         }
@@ -433,7 +433,7 @@ BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
     return dtor_487DF0();
 }
 
-s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, int palId)
+s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, s32 palId)
 {
     const TintEntry* pIter = pTintArray;
     while (pIter->field_0_level != static_cast<BYTE>(lvl))
@@ -466,8 +466,8 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeT
         0, 3, -3, 6, -6, 2
     };
 
-    int array_idx = 0;
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    s32 array_idx = 0;
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObjIter)
@@ -500,7 +500,7 @@ EXPORT CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_417CC0(
 BaseAnimatedWithPhysicsGameObject::BetweenCamPos BaseAnimatedWithPhysicsGameObject::BetweenCameras_418500()
 {
     // TODO: Try to understand how the hell these calcs are supposed to work
-    const int xPosMinusHalfCameraSpace = FP_GetExponent(field_A8_xpos - FP_FromInteger(512 / 2));
+    const s32 xPosMinusHalfCameraSpace = FP_GetExponent(field_A8_xpos - FP_FromInteger(512 / 2));
     if (xPosMinusHalfCameraSpace / 512 % 2)
     {
         return BetweenCamPos::Left_1;

@@ -22,7 +22,7 @@ enum class LevelIds : s16;
 
 struct Quicksave_WorldInfo
 {
-    int field_0_gnFrame;
+    s32 field_0_gnFrame;
     LevelIds field_4_level;
     s16 field_6_path;
     s16 field_8_cam;
@@ -42,7 +42,7 @@ struct Quicksave_WorldInfo
     s16 field_32_visited_bonewerks;
     s16 field_34_visited_barracks;
     s16 field_36_visited_feeco_ender;
-    int field_38_gas_timer;
+    s32 field_38_gas_timer;
     s16 field_3C_bBulletProof;
     s16 field_3E_padding;
 };
@@ -51,7 +51,7 @@ ALIVE_ASSERT_SIZEOF(Quicksave_WorldInfo, 0x40);
 struct Quicksave
 {
     Quicksave_PSX_Header field_0_header;
-    int field_200_accumulated_obj_count;
+    s32 field_200_accumulated_obj_count;
     Quicksave_WorldInfo field_204_world_info;
     Quicksave_WorldInfo field_244_restart_path_world_info;
     BYTE field_284_restart_path_abe_state[216];
@@ -70,8 +70,8 @@ ALIVE_ASSERT_SIZEOF(SaveFileRec, 0x24);
 
 ALIVE_ARY_EXTERN(SaveFileRec, 128, sSaveFileRecords_BB31D8);
 ALIVE_VAR_EXTERN(Quicksave, sActiveQuicksaveData_BAF7F8);
-ALIVE_VAR_EXTERN(int, sAccumulatedObjectCount_5C1BF4);
-ALIVE_VAR_EXTERN(int, sSavedGameToLoadIdx_BB43FC);
+ALIVE_VAR_EXTERN(s32, sAccumulatedObjectCount_5C1BF4);
+ALIVE_VAR_EXTERN(s32, sSavedGameToLoadIdx_BB43FC);
 ALIVE_VAR_EXTERN(s32, sTotalSaveFilesCount_BB43E0);
 ALIVE_VAR_EXTERN(WORD, sQuickSave_saved_switchResetters_count_BB234C);
 

@@ -22,9 +22,9 @@ public:
 
     EXPORT void VUpdate_4628C0();
 
-    int field_D4[4];
+    s32 field_D4[4];
     PathLine* field_E4_pLine;
-    int field_E8;
+    s32 field_E8;
     s16 field_EC_hitCount;
     s16 field_EE;
     FP field_F0_speed;

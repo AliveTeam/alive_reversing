@@ -87,7 +87,7 @@ void Rock::VScreenChanged()
     vScreenChanged_49F030();
 }
 
-int Rock::VGetSaveState(BYTE* pSaveBuffer)
+s32 Rock::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_49F9A0(reinterpret_cast<RockSaveState*>(pSaveBuffer));
 }
@@ -425,7 +425,7 @@ void Rock::vUpdate_49E9F0()
         return;
 
     case RockStates::eOnGround_3:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_128_shimmer_timer || pObj)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_128_shimmer_timer || pObj)
         {
             return;
         }
@@ -509,7 +509,7 @@ s32 Rock::vGetSaveState_49F9A0(RockSaveState* pState)
     return sizeof(RockSaveState);
 }
 
-int CC Rock::CreateFromSaveState_49F720(const BYTE* pData)
+s32 CC Rock::CreateFromSaveState_49F720(const BYTE* pData)
 {
     auto pState = reinterpret_cast<const RockSaveState*>(pData);
 

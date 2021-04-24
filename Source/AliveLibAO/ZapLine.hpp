@@ -63,9 +63,9 @@ public:
 
     EXPORT void UpdateSpriteVertexPositions_4795B0();
 
-    EXPORT void CalculateSpritePositionsInner_479400(int idx1, int idx2, int idx3, s16 idx4);
+    EXPORT void CalculateSpritePositionsInner_479400(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
 
-    int field_D4[4];
+    s32 field_D4[4];
 
     enum class ZapLineState : s16
     {

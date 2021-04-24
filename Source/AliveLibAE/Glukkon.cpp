@@ -209,7 +209,7 @@ s32 CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
         glukType = GlukkonTypes::Normal_0;
     }
 
-    const AnimRecord& animRec = AnimRec(dword_554524[static_cast< int >( glukType )][pSaveState->field_28_current_motion]);
+    const AnimRecord& animRec = AnimRec(dword_554524[static_cast< s32 >( glukType )][pSaveState->field_28_current_motion]);
     pGlukkon->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
 	pGlukkon->field_20_animation.field_92_current_frame = pSaveState->field_2A_current_frame;
@@ -272,7 +272,7 @@ bool Glukkon::BrainIs(TGlukkonAIFn fn)
     return ::BrainIs(fn, field_20C_brain_state_fn, sGlukkonAITable);
 }
 
-Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, int tlvInfo)
+Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     field_1EC_unused = -1;
@@ -352,7 +352,7 @@ void Glukkon::VScreenChanged()
     vScreenChanged_440110();
 }
 
-int Glukkon::vGetSaveState_444B90(BYTE* pSaveBuffer)
+s32 Glukkon::vGetSaveState_444B90(BYTE* pSaveBuffer)
 {
     Glukkon_SaveState* pSaveState = reinterpret_cast< Glukkon_SaveState* >( pSaveBuffer );
 
@@ -429,7 +429,7 @@ int Glukkon::vGetSaveState_444B90(BYTE* pSaveBuffer)
     return sizeof(Glukkon_SaveState);
 }
 
-int Glukkon::VGetSaveState(BYTE* pSaveBuffer)
+s32 Glukkon::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_444B90(pSaveBuffer);
 }
@@ -1034,7 +1034,7 @@ void Glukkon::M_GetShot_21_443A60()
         }
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) >= field_204_getting_shot_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) >= field_204_getting_shot_timer)
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
         {
@@ -1051,7 +1051,7 @@ void Glukkon::M_GetShot_21_443A60()
         }
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) > field_200_knockback_delay_after_getting_shot_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) > field_200_knockback_delay_after_getting_shot_timer)
     {
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_C4_velx > FP_FromInteger(0));
         SetAnim_43F9C0(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);
@@ -1205,7 +1205,7 @@ s16 Glukkon::AI_0_Calm_WalkAround_440B40()
             {
                 if (Check_IsOnEndOfLine_408E90(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked_4442F0(field_C4_velx, 1))
                 {
-                    if (static_cast<int>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
+                    if (static_cast<s32>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
                     {
                         field_108_next_motion = eGlukkonMotions::M_Idle_0_442D10;
                         field_1D4_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 120);
@@ -1221,7 +1221,7 @@ s16 Glukkon::AI_0_Calm_WalkAround_440B40()
             }
             else
             {
-                if (Math_NextRandom() < 5 && static_cast<int>(sGnFrame_5C1B84) > field_1F4_turn_or_help_timer)
+                if (Math_NextRandom() < 5 && static_cast<s32>(sGnFrame_5C1B84) > field_1F4_turn_or_help_timer)
                 {
                     field_1F4_turn_or_help_timer = sGnFrame_5C1B84 + 120;
                     field_108_next_motion = eGlukkonMotions::M_Turn_2_442F10;
@@ -1229,7 +1229,7 @@ s16 Glukkon::AI_0_Calm_WalkAround_440B40()
                 }
             }
 
-            if (Math_NextRandom() >= 5 || static_cast<int>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
+            if (Math_NextRandom() >= 5 || static_cast<s32>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
             {
                 return field_210_sub_state;
             }
@@ -1288,7 +1288,7 @@ s16 Glukkon::AI_0_Calm_WalkAround_440B40()
         }
         else
         {
-            if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) <= field_1D4_timer)
             {
                 return field_210_sub_state;
             }
@@ -1330,7 +1330,7 @@ s16 Glukkon::AI_0_Calm_WalkAround_440B40()
             }
             else
             {
-                if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+                if (static_cast<s32>(sGnFrame_5C1B84) <= field_1D4_timer)
                 {
                     return field_210_sub_state;
                 }
@@ -1364,7 +1364,7 @@ s16 Glukkon::AI_0_Calm_WalkAround_440B40()
         break;
 
     case 9:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_1D4_timer)
         {
             return field_210_sub_state;
         }
@@ -1410,7 +1410,7 @@ s16 Glukkon::AI_1_Panic_4412F0()
     switch (field_210_sub_state)
     {
     case 0:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer || field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_1D4_timer || field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10)
         {
             return field_210_sub_state;
         }
@@ -1428,7 +1428,7 @@ s16 Glukkon::AI_1_Panic_4412F0()
         {
             field_1F8_panic_timer = sGnFrame_5C1B84;
         }
-        else if (static_cast<int>(sGnFrame_5C1B84) - field_1F8_panic_timer > field_1A8_tlvData.field_1A_post_alarm_delay)
+        else if (static_cast<s32>(sGnFrame_5C1B84) - field_1F8_panic_timer > field_1A8_tlvData.field_1A_post_alarm_delay)
         {
             SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_switch_id, SwitchOp::eSetFalse_1);
             SetBrain(&Glukkon::AI_0_Calm_WalkAround_440B40);
@@ -1461,14 +1461,14 @@ s16 Glukkon::AI_1_Panic_4412F0()
         }
         else
         {
-            if (Math_NextRandom() < 5u && static_cast<int>(sGnFrame_5C1B84) > field_1F4_turn_or_help_timer)
+            if (Math_NextRandom() < 5u && static_cast<s32>(sGnFrame_5C1B84) > field_1F4_turn_or_help_timer)
             {
                 field_1F4_turn_or_help_timer = sGnFrame_5C1B84 + 120;
                 Glukkon::Speak_444640(GlukkonSpeak::Help_6);
                 return 5;
             }
         }
-        if (Math_NextRandom() >= 0xAu || static_cast<int>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
+        if (Math_NextRandom() >= 0xAu || static_cast<s32>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
         {
             return field_210_sub_state;
         }
@@ -1600,7 +1600,7 @@ s16 Glukkon::AI_2_Slapped_441720()
         {
             field_1F8_panic_timer = sGnFrame_5C1B84;
         }
-        else if (static_cast<int>(sGnFrame_5C1B84 - field_1F8_panic_timer) > field_1A8_tlvData.field_1A_post_alarm_delay)
+        else if (static_cast<s32>(sGnFrame_5C1B84 - field_1F8_panic_timer) > field_1A8_tlvData.field_1A_post_alarm_delay)
         {
             field_108_next_motion = eGlukkonMotions::M_Idle_0_442D10;
             return 0;
@@ -1608,7 +1608,7 @@ s16 Glukkon::AI_2_Slapped_441720()
 
         if (!field_100_pCollisionLine || (!Check_IsOnEndOfLine_408E90(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), 4) && !PathBlocked_4442F0(field_C4_velx, 0)))
         {
-            if (Math_NextRandom() >= 10u || static_cast<int>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
+            if (Math_NextRandom() >= 10u || static_cast<s32>(sGnFrame_5C1B84) <= field_1F0_randomish_speak_timer)
             {
                 return field_210_sub_state;
             }
@@ -1648,7 +1648,7 @@ s16 Glukkon::AI_3_PlayerControlled_441A30()
     switch (field_210_sub_state)
     {
     case 0:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_1D4_timer)
         {
             return field_210_sub_state;
         }
@@ -1700,7 +1700,7 @@ s16 Glukkon::AI_3_PlayerControlled_441A30()
                 field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
             && SwitchStates_Get_466020(field_1A8_tlvData.field_26_play_movie_id)))
         {
-            if (!(static_cast<int>(sGnFrame_5C1B84) % 4))
+            if (!(static_cast<s32>(sGnFrame_5C1B84) % 4))
             {
                 const FP xRand = FP_FromInteger(Math_RandomRange_496AB0(-20, 20));
                 const FP yRand = FP_FromInteger(Math_RandomRange_496AB0(20, 50));
@@ -1711,7 +1711,7 @@ s16 Glukkon::AI_3_PlayerControlled_441A30()
                     Layer::eLayer_0);
             }
 
-            if (static_cast<int>(sGnFrame_5C1B84) > field_1D4_timer || sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0))
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_1D4_timer || sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0))
             {
                 field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
                 SetBrain(&Glukkon::AI_4_Death_442010);
@@ -1729,7 +1729,7 @@ s16 Glukkon::AI_3_PlayerControlled_441A30()
             return field_210_sub_state;
         }
 
-        for (int i=0; i<gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i=0; i<gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {
             auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
             if (!pObj)
@@ -1846,7 +1846,7 @@ s16 Glukkon::AI_4_Death_442010()
         break;
 
     case 1:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_1D4_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_1D4_timer)
         {
             ToDead_43F640();
             return field_210_sub_state;
@@ -1859,7 +1859,7 @@ s16 Glukkon::AI_4_Death_442010()
             field_D2_g -= 2;
             field_D4_b -= 2;
 
-            if (!(static_cast<int>(sGnFrame_5C1B84) % 5))
+            if (!(static_cast<s32>(sGnFrame_5C1B84) % 5))
             {
                 New_Smoke_Particles_426C70(
                     (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
@@ -1925,7 +1925,7 @@ s16 Glukkon::AI_4_Death_442010()
         return 3;
 
     case 3:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_1D4_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_1D4_timer)
         {
             ToDead_43F640();
         }
@@ -1997,7 +1997,7 @@ s16 Glukkon::AI_5_WaitToSpawn_442490()
     }
     else if (field_210_sub_state == 1)
     {
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_1D4_timer)
         {
             return field_210_sub_state;
         }
@@ -2304,7 +2304,7 @@ void Glukkon::Update_Slurg_WatchPoints_440600()
 
 void Glukkon::SetAnim_43F9C0(s16 currentMotion, s16 bClearNextMotion)
 {
-    int typeIndex = static_cast<int>(field_1A8_tlvData.field_22_glukkon_type);
+    s32 typeIndex = static_cast<s32>(field_1A8_tlvData.field_22_glukkon_type);
     if (typeIndex > 3)
     {
         typeIndex = 0;
@@ -2841,10 +2841,10 @@ SfxDefinition stepSfx_554840[3] =
     { 0u, 3u, 72u, 120u, 0, 254 }
 };
 
-void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
+void CC Glukkon::PlaySound_4447D0(s32 sndIdx, Glukkon* pGlukkon)
 {
-    int volumeLeft, volumeRight;
-    int defaultSndIdxVol = stepSfx_554840[sndIdx].field_3_default_volume;
+    s32 volumeLeft, volumeRight;
+    s32 defaultSndIdxVol = stepSfx_554840[sndIdx].field_3_default_volume;
 
     s16 pitch;
     if ( sndIdx || !pGlukkon)

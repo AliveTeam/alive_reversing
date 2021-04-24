@@ -20,9 +20,9 @@
 #include "AmbientSound.hpp"
 
 
-EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, s16 pitch);
+EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch);
 
-const int kSeqTableSizeAE = 144;
+const s32 kSeqTableSizeAE = 144;
 
 static TSNDStopAll sSNDStopAllCallBack = nullptr;
 static TSNDRestart sSNDRestartCallBack = nullptr;
@@ -83,7 +83,7 @@ public:
         return sMonkVh_Vb_560F48;
     }
 
-    virtual int MidiTableSize() override
+    virtual s32 MidiTableSize() override
     {
         return kSeqTableSizeAE;
     }
@@ -159,7 +159,7 @@ EXPORT void CC SND_Free_All_VABS_4C9EB0()
 
 EXPORT void CC SND_Free_All_Seqs_4C9F40()
 {
-    for (int i = 0; i < GetMidiVars()->MidiTableSize(); i++)
+    for (s32 i = 0; i < GetMidiVars()->MidiTableSize(); i++)
     {
         if (GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data)
         {
@@ -188,7 +188,7 @@ EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
     }
     
     // Find the VH file record
-    int headerSize = 0;
+    s32 headerSize = 0;
     LvlFileRecord* pVabHeaderFile = sLvlArchive_5BC520.Find_File_Record_433160(pSoundBlockInfo->field_0_vab_header_name);
     if (sbEnable_PCOpen_5CA4B0)
     {
@@ -213,7 +213,7 @@ EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
         return 0;
     }
 
-    int vabBodySize = 0;
+    s32 vabBodySize = 0;
     if (sbEnable_PCOpen_5CA4B0)
     {
         vabBodySize = pVabBodyFile->field_14_file_size;
@@ -264,7 +264,7 @@ EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
 
 // TODO: PSX has VSyncCallback here 0x800592dc
 
-EXPORT int CC MIDI_Play_Single_Note_4CA1B0(int vabIdAndProgram, int note, int leftVol, int rightVol)
+EXPORT s32 CC MIDI_Play_Single_Note_4CA1B0(s32 vabIdAndProgram, s32 note, s32 leftVol, s32 rightVol)
 {
     // NOTE: word_BB2E40 is used as a guard here, but it is never read anywhere else
     return SsVoKeyOn_4FCF10(vabIdAndProgram, note, static_cast<unsigned short>(leftVol), static_cast<unsigned short>(rightVol));
@@ -316,7 +316,7 @@ EXPORT void SND_Shutdown_4CA280()
 }
 
 
-EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb)
+EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     GetMidiVars()->sSnd_ReloadAbeResources() = FALSE;
@@ -353,7 +353,7 @@ EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb)
 }
 
 
-int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
+s32 CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
 {
     if (!volume)
     {
@@ -401,9 +401,9 @@ int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s1
 }
 
 
-EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, s16 pitch)
+EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch)
 {
-    int v3 = 0;
+    s32 v3 = 0;
     s16 v4 = 0;
 
     if (pitch >= 0)
@@ -423,14 +423,14 @@ EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, 
         {
             const short vabId = 0; // Not used by target func
             const short program = 0; // Not used by target func
-            SsUtChangePitch_4FDF70(i, program, vabId, pSfx->field_2_note, 0, static_cast<short>(static_cast<int>(pSfx->field_2_note) + v3), v4);
+            SsUtChangePitch_4FDF70(i, program, vabId, pSfx->field_2_note, 0, static_cast<short>(static_cast<s32>(pSfx->field_2_note) + v3), v4);
         }
     }
 }
 
-EXPORT int CC SND_4CA5D0(int program, int vabId, int note, s16 vol, s16 min, s16 max)
+EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
 {
-    int volClamped = 0;
+    s32 volClamped = 0;
     if (vol < 10)
     {
         volClamped = 10;
@@ -445,7 +445,7 @@ EXPORT int CC SND_4CA5D0(int program, int vabId, int note, s16 vol, s16 min, s16
     }
 
     // Note: Inlined in psx
-    const int channelBits = MIDI_Play_Single_Note_4CA1B0(vabId | ((s16)program << 8), note << 8, volClamped, volClamped);
+    const s32 channelBits = MIDI_Play_Single_Note_4CA1B0(vabId | ((s16)program << 8), note << 8, volClamped, volClamped);
     if (!GetMidiVars()->sSFXPitchVariationEnabled())
     {
         return 0;
@@ -455,7 +455,7 @@ EXPORT int CC SND_4CA5D0(int program, int vabId, int note, s16 vol, s16 min, s16
     {
         s16 randomValue = Math_RandomRange_496AB0(min, max);
 
-        int v9; // edi
+        s32 v9; // edi
         s16 v10; // bx
         if (randomValue >= 0)
         {
@@ -479,7 +479,7 @@ EXPORT int CC SND_4CA5D0(int program, int vabId, int note, s16 vol, s16 min, s16
     return channelBits;
 }
 
-int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
 {
     if (pitch_min == 0x7FFF)
     {
@@ -531,7 +531,7 @@ int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s
 
 EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask)
 {
-    for (int i = 0; i < 24; i++) // TODO: Constant
+    for (s32 i = 0; i < 24; i++) // TODO: Constant
     {
         // Does the index match a bit in the bitmask?
         if ((1 << i) & bitMask)
@@ -599,7 +599,7 @@ EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop)
             }
         }
 
-        const int vabId = GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].field_8_vab_id;
+        const s32 vabId = GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].field_8_vab_id;
         rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, static_cast<short>(vabId));
 
         GetMidiVars()->sSeq_Ids_word().ids[rec.field_A_id_seqOpenId] = idx;
@@ -724,7 +724,7 @@ EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 vol
 }
 
 
-EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(u16 idx)
+EXPORT s32 CC SND_SsIsEos_DeInlined_4CACD0(u16 idx)
 {
     OpenSeqHandle* pRec = &GetMidiVars()->sSeqDataTable()[idx];
     if (pRec->field_A_id_seqOpenId != -1 && pRec->field_C_ppSeq_Data)
@@ -735,7 +735,7 @@ EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(u16 idx)
 }
 
 
-EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, s16 volLeft, s16 volRight)
+EXPORT void CC SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight)
 {
     u16 limitedIdx = idx & 0xFFFF;
     if (GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId != -1
@@ -767,7 +767,7 @@ EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileN
         // Generate resource ids from hashing the name if we haven't already
         if (GetMidiVars()->sNeedToHashSeqNames())
         {
-            for (int i = 0; i < GetMidiVars()->MidiTableSize(); i++)
+            for (s32 i = 0; i < GetMidiVars()->MidiTableSize(); i++)
             {
                 GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = nullptr;
                 GetMidiVars()->sSeqDataTable()[i].field_A_id_seqOpenId = -1;
@@ -781,7 +781,7 @@ EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileN
         GetMidiVars()->LoadResourceFile(bsqFileName, nullptr);
 
         // Get a pointer to each SEQ
-        for (int i = 0; i < GetMidiVars()->MidiTableSize(); i++)
+        for (s32 i = 0; i < GetMidiVars()->MidiTableSize(); i++)
         {
             BYTE** ppSeq = GetMidiVars()->GetLoadedResource(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 1, 1);
             if (ppSeq)
@@ -824,7 +824,7 @@ EXPORT void CC SND_StopAll_4CB060()
         BackgroundMusic::Stop_4CB000();
         SND_Reset_Ambiance_4CB4B0();
         SND_Stop_All_Seqs_4CA850();
-        for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
             if (!pObj)

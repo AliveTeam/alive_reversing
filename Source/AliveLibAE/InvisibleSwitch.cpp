@@ -60,7 +60,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
 {
     if (field_38_state == States::eState_WaitForDelayTimer_1)
     {
-        if (field_28_delay_timer <= static_cast<int>(sGnFrame_5C1B84))
+        if (field_28_delay_timer <= static_cast<s32>(sGnFrame_5C1B84))
         {
             // Timer expired, do the operation
             SwitchStates_Do_Operation_465F00(field_20_id, field_22_action);

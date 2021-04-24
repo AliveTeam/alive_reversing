@@ -129,9 +129,9 @@ enum class CameraPos : s16;
 
 struct SfxDefinition
 {
-    int field_0_block_idx;
-    int field_4_program;
-    int field_8_note;
+    s32 field_0_block_idx;
+    s32 field_4_program;
+    s32 field_8_note;
     s16 field_C_default_volume;
     s16 field_E_pitch_min;
     s16 field_10_pitch_max;
@@ -139,12 +139,12 @@ struct SfxDefinition
 };
 ALIVE_ASSERT_SIZEOF(SfxDefinition, 0x14);
 
-EXPORT int CC SFX_Play_43AE60(u8 sfxId, int volume, int pitch, BaseAnimatedWithPhysicsGameObject* pObj = nullptr);
+EXPORT s32 CC SFX_Play_43AE60(u8 sfxId, s32 volume, s32 pitch, BaseAnimatedWithPhysicsGameObject* pObj = nullptr);
 
-EXPORT int CC SFX_Play_43AD70(u8 sfxId, int a2, BaseAnimatedWithPhysicsGameObject* a3 = nullptr);
+EXPORT s32 CC SFX_Play_43AD70(u8 sfxId, s32 a2, BaseAnimatedWithPhysicsGameObject* a3 = nullptr);
 
-EXPORT int CC SFX_Play_43ADE0(u8 sfxId, int leftVol, int rightVol, BaseAnimatedWithPhysicsGameObject* pObj);
+EXPORT s32 CC SFX_Play_43ADE0(u8 sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWithPhysicsGameObject* pObj);
 
-EXPORT int CC SFX_Play_43AED0(u8 sfxId, s32 volume, CameraPos direction);
+EXPORT s32 CC SFX_Play_43AED0(u8 sfxId, s32 volume, CameraPos direction);
 
 }

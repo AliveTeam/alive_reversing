@@ -101,7 +101,7 @@ ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, s16 bottom, s16 top, FP scale)
 
     if (field_EC_pRes)
     {
-        for (int i = 0; i < field_E4_number_of_segments; i++)
+        for (s32 i = 0; i < field_E4_number_of_segments; i++)
         {
             AnimationUnknown* pSegment = &field_EC_pRes[i];
             pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
@@ -181,7 +181,7 @@ void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
 
             if (y_start >= minY)
             {
-                for(int idx = 0; idx < field_E4_number_of_segments; ++idx)
+                for(s32 idx = 0; idx < field_E4_number_of_segments; ++idx)
                 {
                     short r = 128;
                     short g = 128;

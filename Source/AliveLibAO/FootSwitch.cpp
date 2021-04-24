@@ -10,7 +10,7 @@
 
 namespace AO {
 
-FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, int tlvInfo)
+FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BD648);
@@ -86,7 +86,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
 
     if (field_EE_trigger_by == FootSwitchTriggerBy::eAnyone_1)
     {
-        for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
             if (!pObj)
@@ -101,7 +101,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
                 PSX_RECT theirRect = {};
                 pAliveObj->VGetBoundingRect(&theirRect, 1);
 
-                const int xpos = FP_GetExponent(pAliveObj->field_A8_xpos);
+                const s32 xpos = FP_GetExponent(pAliveObj->field_A8_xpos);
 
                 if (xpos > bRectSwitch.x &&
                     xpos < bRectSwitch.w &&
@@ -121,7 +121,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
         PSX_RECT bRect = {};
         sActiveHero_507678->VGetBoundingRect(&bRect, 1);
 
-        const int xpos = FP_GetExponent(sActiveHero_507678->field_A8_xpos);
+        const s32 xpos = FP_GetExponent(sActiveHero_507678->field_A8_xpos);
 
         if (xpos > bRectSwitch.x &&
             xpos < bRectSwitch.w &&

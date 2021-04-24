@@ -155,7 +155,7 @@ void PsxDisplay::PSX_Display_Render_OT_40DD20()
         PSX_DrawSync_496750(0);
         PSX_VSync_496620(2);
 
-        const int oldBuffer = field_A_buffer_index;
+        const s32 oldBuffer = field_A_buffer_index;
         field_A_buffer_index = field_A_buffer_index + 1;
         if (field_A_buffer_index >= field_6_max_buffers)
         {
@@ -197,7 +197,7 @@ void PsxDisplay::Movie_Render_40DE60(u16 bufferIdx)
     PSX_ClearOTag_496760(field_C_drawEnv[0].field_70_ot_buffer, field_8_buffer_size);
 }
 
-EXPORT int CC DebugFont_Init_487EC0()
+EXPORT s32 CC DebugFont_Init_487EC0()
 {
     return ::DebugFont_Init_4DCF40();
 }

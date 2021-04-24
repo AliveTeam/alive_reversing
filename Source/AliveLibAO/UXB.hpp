@@ -19,14 +19,14 @@ struct Path_UXB : public Path_TLV
     s16 field_1A_pattern;
     Scale_short field_1C_scale;
     UXB_State field_1E_state;
-    int field_20_disabled_resources;
+    s32 field_20_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF(Path_UXB, 0x24);
 
 class UXB : public BaseAliveGameObject
 {
 public:
-    EXPORT UXB* ctor_488C80(Path_UXB* pTlv, int tlvInfo);
+    EXPORT UXB* ctor_488C80(Path_UXB* pTlv, s32 tlvInfo);
 
     void InitBlinkAnim();
 
@@ -66,8 +66,8 @@ public:
     s16 field_10E_starting_state;
     s16 field_110_disabled_resources;
     s16 field_112;
-    int field_114_tlvInfo;
-    int field_118_next_state_frame;
+    s32 field_114_tlvInfo;
+    s32 field_118_next_state_frame;
     Animation field_11C_anim;
     s16 field_1B4_pattern_length;
     s16 field_1B6_pattern_index;

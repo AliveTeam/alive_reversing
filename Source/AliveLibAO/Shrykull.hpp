@@ -42,8 +42,8 @@ public:
     };
     State field_10C_state;
     s16 field_10E_pad;
-    int field_110_timer;
-    int field_114_timer;
+    s32 field_110_timer;
+    s32 field_114_timer;
     ZapLine* field_118_zap_line;
     BaseAliveGameObject* field_11C_obj_being_zapped;
     s16 field_120_bElectrocute;

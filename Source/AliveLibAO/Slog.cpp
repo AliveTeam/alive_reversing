@@ -78,7 +78,7 @@ const static AIFunctionData<TSlogBrainFunction> sSlogBrainTable[4] =
     { &Slog::Brain_3_Dead_4721B0, 0x4721B0, "Brain_3_Dead" }
 };
 
-const int sSlogFrameOffsetTable_4CFD98[25] =
+const s32 sSlogFrameOffsetTable_4CFD98[25] =
 {
     94456,
     94336,
@@ -115,7 +115,7 @@ static BYTE Slog_NextRandom()
     return sRandomBytes_4BBE30[sSlogRndSeed_9F11C4++];
 }
 
-Slog* Slog::ctor_472EE0(Path_Slog* pTlv, int tlvInfo)
+Slog* Slog::ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BCBC8);
@@ -245,7 +245,7 @@ BaseGameObject* Slog::dtor_473370()
         }
     }
 
-    for (int i = 0; i < ALIVE_COUNTOF(field_184_resources); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_184_resources); i++)
     {
         if (field_10_anim.field_20_ppBlock != field_184_resources[i])
         {
@@ -792,12 +792,12 @@ SfxDefinition sSlogSfx_4CFE40[20] =
     { 0, 22, 36, 45, 0, 0, 0 }
 };
 
-void Slog::Sfx_475BD0(int soundId)
+void Slog::Sfx_475BD0(s32 soundId)
 {
-    int volumeLeft = 0;
-    int volumeRight = 0;
+    s32 volumeLeft = 0;
+    s32 volumeRight = 0;
 
-    const SfxDefinition& sndDef = sSlogSfx_4CFE40[static_cast<int>(soundId)];
+    const SfxDefinition& sndDef = sSlogSfx_4CFE40[static_cast<s32>(soundId)];
     const auto defaultSndIdxVol = sndDef.field_C_default_volume;
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
@@ -883,7 +883,7 @@ BaseAliveGameObject* Slog::FindAbeMudOrSlig_4722F0()
         bRect.w += gPsxDisplay_504C78.field_0_width;
     }
 
-    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pObj)
@@ -1656,7 +1656,7 @@ void Slog::State_17_FallAsleep_475510()
 
 void Slog::State_18_WakeUp_475460()
 {
-    for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObj)
@@ -1832,7 +1832,7 @@ void Slog::State_21_Eating_475900()
         {
             if (Math_RandomRange_450F20(0, 100) < 85)
             {
-                if (static_cast<int>(gnFrameCount_507670) > field_164_timer && Math_RandomRange_450F20(0, 100) < 60)
+                if (static_cast<s32>(gnFrameCount_507670) > field_164_timer && Math_RandomRange_450F20(0, 100) < 60)
                 {
                     field_164_timer = gnFrameCount_507670 + 16;
                     Sfx_475BD0(3);
@@ -1891,7 +1891,7 @@ void Slog::State_24_Growl_475590()
         }
     }
 
-    if (static_cast<int>(gnFrameCount_507670) > field_164_timer)
+    if (static_cast<s32>(gnFrameCount_507670) > field_164_timer)
     {
         field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
     }
@@ -2001,7 +2001,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
             return field_116_brain_state;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) <= field_11C_timer)
+        if (static_cast<s32>(gnFrameCount_507670) <= field_11C_timer)
         {
             return field_116_brain_state;
         }
@@ -2091,7 +2091,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
         return field_116_brain_state;
 
     case 5:
-        if (static_cast<int>(gnFrameCount_507670) <= field_11C_timer)
+        if (static_cast<s32>(gnFrameCount_507670) <= field_11C_timer)
         {
             return field_116_brain_state;
         }
@@ -2100,7 +2100,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
         return 2;
 
     case 6:
-        if (static_cast<int>(gnFrameCount_507670) <= field_11C_timer)
+        if (static_cast<s32>(gnFrameCount_507670) <= field_11C_timer)
         {
             return field_116_brain_state;
         }
@@ -2132,7 +2132,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
 
     case GameSpeakEvents::Slig_Hi_23:
         field_150_waiting_counter++;
-        if (static_cast<int>(gnFrameCount_507670) % 2)
+        if (static_cast<s32>(gnFrameCount_507670) % 2)
         {
             field_150_waiting_counter++;
         }
@@ -2413,7 +2413,7 @@ s16 Slog::Brain_1_Idle_4719C0()
             return field_116_brain_state;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_164_timer && field_FC_current_motion == eSlogStates::State_0_Idle_4742E0)
+        if (static_cast<s32>(gnFrameCount_507670) > field_164_timer && field_FC_current_motion == eSlogStates::State_0_Idle_4742E0)
         {
             field_FC_current_motion = eSlogStates::State_24_Growl_475590;
             field_FE_next_state = eSlogStates::State_0_Idle_4742E0;
@@ -2421,7 +2421,7 @@ s16 Slog::Brain_1_Idle_4719C0()
             field_164_timer = (Math_NextRandom() % 32) + gnFrameCount_507670 + 60;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_160 && field_FC_current_motion == eSlogStates::State_0_Idle_4742E0)
+        if (static_cast<s32>(gnFrameCount_507670) > field_160 && field_FC_current_motion == eSlogStates::State_0_Idle_4742E0)
         {
             field_FC_current_motion = eSlogStates::State_23_Scratch_475550;
             field_FE_next_state = eSlogStates::State_0_Idle_4742E0;
@@ -2497,7 +2497,7 @@ s16 Slog::Brain_1_Idle_4719C0()
 
 s16 Slog::Brain_2_ChasingAbe_470F50()
 {
-    const int lastIdx = pEventSystem_4FF954->field_18_last_event_index;
+    const s32 lastIdx = pEventSystem_4FF954->field_18_last_event_index;
 
     GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
 
@@ -2672,7 +2672,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
             return field_116_brain_state;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_164_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_164_timer)
         {
             field_164_timer = (Math_NextRandom() % 32) + gnFrameCount_507670 + 60;
 
@@ -2680,7 +2680,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
             field_FE_next_state = eSlogStates::State_0_Idle_4742E0;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_160)
+        if (static_cast<s32>(gnFrameCount_507670) > field_160)
         {
             field_160 = (Math_NextRandom() % 32) + gnFrameCount_507670 + 120;
 
@@ -2725,7 +2725,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
         return 8;
 
     case 6:
-        if (static_cast<int>(gnFrameCount_507670) <= field_11C_timer)
+        if (static_cast<s32>(gnFrameCount_507670) <= field_11C_timer)
         {
             if (field_FC_current_motion)
             {
@@ -2845,7 +2845,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
             field_FE_next_state = eSlogStates::State_6_MoveHeadUpwards_474220;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) <= field_11C_timer)
+        if (static_cast<s32>(gnFrameCount_507670) <= field_11C_timer)
         {
             return field_116_brain_state;
         }
@@ -2880,7 +2880,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
             }
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_164_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_164_timer)
         {
             field_FC_current_motion = eSlogStates::State_24_Growl_475590;
             field_FE_next_state = eSlogStates::State_0_Idle_4742E0;
@@ -2888,7 +2888,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
             field_164_timer = (Math_NextRandom() % 32) + gnFrameCount_507670 + 60;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_160)
+        if (static_cast<s32>(gnFrameCount_507670) > field_160)
         {
             field_FC_current_motion = eSlogStates::State_23_Scratch_475550;
             field_FE_next_state = eSlogStates::State_0_Idle_4742E0;
@@ -2919,7 +2919,7 @@ s16 Slog::Brain_3_Dead_4721B0()
         field_10C_pTarget = nullptr;
     }
 
-    if (field_11C_timer < static_cast<int>(gnFrameCount_507670) + 80)
+    if (field_11C_timer < static_cast<s32>(gnFrameCount_507670) + 80)
     {
         field_C0_r -= 2;
         field_C2_g -= 2;
@@ -2927,7 +2927,7 @@ s16 Slog::Brain_3_Dead_4721B0()
         field_BC_sprite_scale -= FP_FromDouble(0.023);
     }
 
-    if (static_cast<int>(gnFrameCount_507670) < field_11C_timer - 24 && !(gnFrameCount_507670 % 5))
+    if (static_cast<s32>(gnFrameCount_507670) < field_11C_timer - 24 && !(gnFrameCount_507670 % 5))
     {
         New_Smoke_Particles_419A80(
             (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos,

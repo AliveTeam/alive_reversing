@@ -42,10 +42,10 @@ EXPORT void CC CheatController_Cheat_FMV_40FBB0()
 
 struct CheatEntry
 {
-    int field_0_level_mask;
-    int field_4_cheat_code_length;
+    s32 field_0_level_mask;
+    s32 field_4_cheat_code_length;
     const InputCommands* field_8_cheat_code_ary;
-    int field_C_success_idx;
+    s32 field_C_success_idx;
     void(*field_10_callback)(void);
 };
 ALIVE_ASSERT_SIZEOF(CheatEntry, 0x14);
@@ -157,7 +157,7 @@ void CheatController::VUpdate_40FC40()
             for (auto& cheatEntry : stru_4C50F8)
             {
                 // Bit shift current level for level mask.
-                if ((1 << static_cast<int>(gMap_507BA8.field_0_current_level)) & cheatEntry.field_0_level_mask)
+                if ((1 << static_cast<s32>(gMap_507BA8.field_0_current_level)) & cheatEntry.field_0_level_mask)
                 {
                     if (held == cheatEntry.field_8_cheat_code_ary[cheatEntry.field_C_success_idx])
                     {

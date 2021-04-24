@@ -74,7 +74,7 @@ namespace AO {
     ENTRY(State_62_Choke_43ED70)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eMudStates : int
+enum eMudStates : s32
 {
     MUD_STATES_ENUM(MAKE_ENUM)
 };
@@ -134,7 +134,7 @@ class Mudokon : public BaseAliveGameObject
 {
 public:
 
-    EXPORT Mudokon* ctor_43EED0(Path_TLV* pTlv, int tlvInfo);
+    EXPORT Mudokon* ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_43F6A0();
 
@@ -284,20 +284,20 @@ public:
     EXPORT short Brain_Chant_14_442710();
     EXPORT short Brain_Choke_15_43C5D0();
 
-    int field_10C;
+    s32 field_10C;
     short field_110;
     short field_112;
-    int field_114;
-    int field_118;
+    s32 field_114;
+    s32 field_118;
     FP field_11C;
-    int field_120;
+    s32 field_120;
     s16 field_124;
     s16 field_126_input;
-    int field_128;
+    s32 field_128;
     BYTE field_12C[16];
     s16 field_13C;
     s16 field_13E;
-    int field_140;
+    s32 field_140;
 
     enum Flags_144
     {
@@ -335,7 +335,7 @@ public:
     s16 field_19E;
     s16 field_1A0;
     s16 field_1A2;
-    int field_1A4;
+    s32 field_1A4;
     s16 field_1A8;
     u16 field_1AA;
     BirdPortal* field_1AC_pBirdPortal;
@@ -347,7 +347,7 @@ public:
     s16 field_1BA_sub_state;
     s16 field_1BC;
     s16 field_1BE;
-    int field_1C0_timer;
+    s32 field_1C0_timer;
     s16 field_1C4_bDoPathTrans;
     s16 field_1C6;
 };

@@ -23,7 +23,7 @@
 #include "../AliveLibAO/Game.hpp"
 #include "../AliveLibAO/SwitchStates.hpp"
 
-enum class GameType : int
+enum class GameType : s32
 {
     eAo = 0,
     eAe = 1,
@@ -45,7 +45,7 @@ namespace AutoSplitterData
         s16* camId;             // 3
         u32* gnFrame;      // 4
         AO::Abe** pAbe;             // 5
-        int abeYOffSet;             // 6
+        s32 abeYOffSet;             // 6
         short* isGameRunning;       // 7
         char* isGameBeaten;         // 8
     };
@@ -61,7 +61,7 @@ namespace AutoSplitterData
         u16* fmvId;                 // 4
         u32* gnFrame;               // 5
         Abe** pAbe;                 // 6
-        int abeYOffSet;             // 7
+        s32 abeYOffSet;             // 7
         char* isPaused;             // 8
     };
 
@@ -176,7 +176,7 @@ static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
     }
 }
 
-static int AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+static s32 AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("AO standalone starting...");
     AO::Static_Inits_AO();
@@ -184,7 +184,7 @@ static int AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
     return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 }
 
-static int AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+static s32 AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("AE standalone starting...");
     // In the real game these are called before main, but shouldn't really matter in this case
@@ -193,7 +193,7 @@ static int AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
     return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
 #if _WIN32
     ::SetUnhandledExceptionFilter(unhandled_handler);
@@ -245,13 +245,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 #if __ANDROID__
-extern "C" __attribute__((visibility("default"))) int SDL_main(int argc, char** argv)
+extern "C" __attribute__((visibility("default"))) s32 SDL_main(s32 argc, char** argv)
 #else
-int main(int argc, char** argv)
+s32 main(s32 argc, char** argv)
 #endif
 {
     std::string args;
-    for (int i = 0; i < argc; i++)
+    for (s32 i = 0; i < argc; i++)
     {
         args += argv[i] + std::string(" ");
     }

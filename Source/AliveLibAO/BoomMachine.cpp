@@ -25,7 +25,7 @@ public:
         switch (field_E4_state)
         {
         case BoomMachineStates::eAlreadyUsed_1:
-            if (static_cast<int>(gnFrameCount_507670) > field_E8_timer)
+            if (static_cast<s32>(gnFrameCount_507670) > field_E8_timer)
             {
                 SFX_Play_43AE60(SoundEffect::ZPop_5, 60, -1800, 0);
                 field_E4_state = BoomMachineStates::eInactive_0;
@@ -33,7 +33,7 @@ public:
             break;
 
         case BoomMachineStates::eDropGrenadeAnimation_2:
-            if (static_cast<int>(gnFrameCount_507670) > field_E8_timer)
+            if (static_cast<s32>(gnFrameCount_507670) > field_E8_timer)
             {
                 field_E4_state = BoomMachineStates::eDropGrenade_3;
                 field_10_anim.Set_Animation_Data_402A40(3588, 0);
@@ -100,10 +100,10 @@ public:
         return this;
     }
 
-    int field_D4_padding[4];
+    s32 field_D4_padding[4];
     BoomMachineStates field_E4_state;
     s16 field_E6_padding;
-    int field_E8_timer;
+    s32 field_E8_timer;
     s16 field_EC_num_grenades;
     s16 field_EE_pad;
 };
@@ -194,7 +194,7 @@ BaseGameObject* BoomMachine::dtor_41E670()
     return dtor_417D10();
 }
 
-BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
+BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
 

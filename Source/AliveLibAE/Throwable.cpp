@@ -95,7 +95,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
         {
             if (ObjList_5C1B78)
             {
-                for (int idx = 0; idx < ObjList_5C1B78->Size(); idx++)
+                for (s32 idx = 0; idx < ObjList_5C1B78->Size(); idx++)
                 {
                     BaseGameObject* pObj = ObjList_5C1B78->ItemAt(idx);
                     if (!pObj)

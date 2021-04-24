@@ -20,7 +20,7 @@ struct Grenade_SaveState
 {
     AETypes field_0_type;
     s16 field_2_pad;
-    int field_4_obj_id;
+    s32 field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -41,7 +41,7 @@ struct Grenade_SaveState
     };
     BitField16<Flags_20> field_20_flags;
     s16 field_22_padding;
-    int field_24_base_id;
+    s32 field_24_base_id;
     s16 field_28_line_type;
     s16 field_2A_savedcount;
     GrenadeStates field_2C_state;
@@ -62,7 +62,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
     virtual void VUpdate() override;
 
@@ -79,10 +79,10 @@ public:
 
     // Next 2 virtuals are base
 
-    EXPORT static int CC CreateFromSaveState_449410(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_449410(const BYTE* pBuffer);
 
 private:
-    EXPORT int GetSaveState_4496B0(Grenade_SaveState* pState);
+    EXPORT s32 GetSaveState_4496B0(Grenade_SaveState* pState);
 
 
     EXPORT void vScreenChanged_449140();
@@ -131,7 +131,7 @@ private:
     */
 
 private:
-    int field_11C_explosion_id;
+    s32 field_11C_explosion_id;
     GrenadeStates field_120_state;
     s16 field_122_explode_timer;
     s16 field_124;

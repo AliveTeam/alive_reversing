@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_NakedSligButton, 0x1C);
 class NakedSligButton : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT NakedSligButton* ctor_4148F0(Path_NakedSligButton* pTlv, int tlvInfo);
+    EXPORT NakedSligButton* ctor_4148F0(Path_NakedSligButton* pTlv, s32 tlvInfo);
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     EXPORT void UseButton_414C60();
@@ -29,7 +29,7 @@ private:
     EXPORT void dtor_414A90();
     EXPORT void vUpdate_414B20();
 private:
-    int field_F4_tlvInfo;
+    s32 field_F4_tlvInfo;
     s16 field_F8_id;
     SwitchOp field_FA_action;
     s16 field_FC_on_sound;

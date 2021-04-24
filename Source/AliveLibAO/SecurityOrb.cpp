@@ -18,7 +18,7 @@
 
 namespace AO {
 
-SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, int tlvInfo)
+SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BB7D0);
@@ -194,13 +194,13 @@ void SecurityOrb::VUpdate_436DF0()
         break;
 
     case SecurityOrbStates::eDoZapEffects_1:
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             PSX_RECT abeRect = {};
             sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
 
-            const int width = abeRect.w + abeRect.x;
-            const int height = abeRect.h + abeRect.y;
+            const s32 width = abeRect.w + abeRect.x;
+            const s32 height = abeRect.h + abeRect.y;
 
             auto pZapLine = ao_new<ZapLine>();
             if (pZapLine)
@@ -257,7 +257,7 @@ void SecurityOrb::VUpdate_436DF0()
             }
 
 
-            for (int i = 0; i < 9; i++)
+            for (s32 i = 0; i < 9; i++)
             {
                 auto pSparks = ao_new<Sparks>();
                 if (pSparks)
@@ -276,7 +276,7 @@ void SecurityOrb::VUpdate_436DF0()
         break;
 
     case SecurityOrbStates::eDoFlashAndSound_2:
-        if (static_cast<int>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<int>(gnFrameCount_507670) == field_114_timer - 1)
+        if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<s32>(gnFrameCount_507670) == field_114_timer - 1)
         {
             auto pFlash = ao_new<Flash>();
             if (pFlash)
@@ -285,7 +285,7 @@ void SecurityOrb::VUpdate_436DF0()
             }
         }
 
-        if (static_cast<int>(gnFrameCount_507670) == field_114_timer - 4)
+        if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 4)
         {
             auto pFlash = ao_new<Flash>();
             if (pFlash)
@@ -303,7 +303,7 @@ void SecurityOrb::VUpdate_436DF0()
             SFX_Play_43AD70(SoundEffect::Zap2_58, 0, 0);
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             field_110_state = SecurityOrbStates::eIdle_0;
         }

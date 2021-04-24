@@ -83,7 +83,7 @@ private:
             LOG_WARNING("BoomMachine field_F4_state is eInactive. We're not sure if this should happen.");
             break;
         case BoomMachineStates::eAlreadyUsed_1:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_F8_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
             {
                 SFX_Play_46FBA0(SoundEffect::ZPop_4, 60, -1800);
                 field_F4_state = BoomMachineStates::eInactive_0;
@@ -91,7 +91,7 @@ private:
             break;
 
         case BoomMachineStates::eDropGrenadeAnimation_2:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_F8_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
             {
                 field_F4_state = BoomMachineStates::eDropGrenade_3;
                 const AnimRecord& animRec = AnimRec(AnimId::Grenade_Machine_Nozzle_Drop_Grenade);
@@ -150,13 +150,13 @@ private:
 private:
     BoomMachineStates field_F4_state;
     s16 field_F6_pad;
-    int field_F8_timer;
+    s32 field_F8_timer;
     s16 field_FC_numGrenades;
     s16 field_FE_pad;
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0x100);
 
-BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo)
+BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 

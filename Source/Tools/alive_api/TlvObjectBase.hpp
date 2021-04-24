@@ -136,7 +136,7 @@ public:
     template<class T>
     void WriteBasicType(T& field, jsonxx::Object& properties)
     {
-        properties << PropName(&field) << static_cast<int>(field);
+        properties << PropName(&field) << static_cast<s32>(field);
     }
 
     void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties);
@@ -163,7 +163,7 @@ public:
     virtual s16 TlvLen() const = 0;
     virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
 
-    void SetInstanceNumber(int instanceNumber)
+    void SetInstanceNumber(s32 instanceNumber)
     {
         mInstanceNumber = instanceNumber;
     }
@@ -203,14 +203,14 @@ public:
     virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
     virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
 
-    int InstanceNumber() const
+    s32 InstanceNumber() const
     {
         return mInstanceNumber;
     }
 
 protected:
     std::string mStructTypeName;
-    int mInstanceNumber = 0;
+    s32 mInstanceNumber = 0;
 };
 
 template <class T>

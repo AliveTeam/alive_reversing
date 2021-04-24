@@ -39,7 +39,7 @@ struct MainMenuButton
     s16 field_2_x;
     s16 field_4_y;
     s16 field_6;
-    int field_8_anim_frame_offset;
+    s32 field_8_anim_frame_offset;
 };
 
 enum MenuResIds
@@ -64,8 +64,8 @@ struct MainMenuControllerResources
 
 struct MainMenuText
 {
-    int field_0_x;
-    int field_4_y;
+    s32 field_0_x;
+    s32 field_4_y;
     const char *field_8_text;
     BYTE field_C_align;
     BYTE field_D;
@@ -80,7 +80,7 @@ struct MainMenuText
 
 struct MainMenuFrameTable
 {
-    int field_0_frame_offset;
+    s32 field_0_frame_offset;
     s16 field_4_menu_res_id;
     s16 field_6_sound;
     s16 field_8_anim_enum;
@@ -159,7 +159,7 @@ public:
     EXPORT void Render_4CF4C0(PrimHeader** ppOt);
     EXPORT void Update_4CF010();
 
-    EXPORT static int CCSTD GetPageIndexFromCam_4D05A0(int camId);
+    EXPORT static s32 CCSTD GetPageIndexFromCam_4D05A0(s32 camId);
 
     enum AnimIds
     {
@@ -217,7 +217,7 @@ public:
     EXPORT void AnimationAndSoundLogic_4CFE80();
     EXPORT void UpdateHighliteGlow_4D0630();
     EXPORT static void callback_4D06E0(MainMenuController *a1);
-    EXPORT static void DrawMenuText_4D20D0(const MainMenuText *array, PrimHeader** ot, Alive::Font *font, int *polyIndex, char a5);
+    EXPORT static void DrawMenuText_4D20D0(const MainMenuText *array, PrimHeader** ot, Alive::Font *font, s32 *polyIndex, char a5);
 
     // Page Functions
     EXPORT void AbeSpeak_Render_4D2060(PrimHeader** ot);
@@ -245,7 +245,7 @@ public:
 
     EXPORT MainMenuNextCam Gamespeak_Update_4D1FC0(DWORD input_held);
 
-    void RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, int count, char isSingleChar);
+    void RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, s32 count, char isSingleChar);
 
     EXPORT void AbeMotions_Render_4D25E0(PrimHeader **ot);
     EXPORT void Gamespeak_Render_4D24F0(PrimHeader** ot);
@@ -348,9 +348,9 @@ public:
     MainMenuControllerResources field_F4_resources;
     Alive::Font field_120_font;
     Animation field_158_animation;
-    int field_1F0_tlvOffsetLevelIdPathId;
-    int field_1F4_credits_next_frame;
-    int field_1F8_page_timeout; // Timer for starting demos automatically / backing out of menus
+    s32 field_1F0_tlvOffsetLevelIdPathId;
+    s32 field_1F4_credits_next_frame;
+    s32 field_1F8_page_timeout; // Timer for starting demos automatically / backing out of menus
     s16 field_1FC_button_index;
     s16 field_1FE_highlite_alpha;
     s16 field_200_highlite_glow_speed;
@@ -370,17 +370,17 @@ public:
     s16 field_21E_bChangeScreen;
     s16 field_220_frame_table_idx;
     char field_222_unused;
-    int field_224_timer_anim_delay;
+    s32 field_224_timer_anim_delay;
     s16 field_228_res_idx;
     s16 field_22A_anim_frame_num;
-    int field_22C_T80_animation_delay;
+    s32 field_22C_T80_animation_delay;
     s16 field_230_target_entry_index;
     s16 field_232_unused;
     const char* field_234_pStr;
     s16 field_238_unused;
     s16 field_23A_Inside_LoadGame_Screen;
     BitField32<Flags> field_23C_T80;
-    int field_240_credits_current_cam;
+    s32 field_240_credits_current_cam;
     LevelIds field_244_lvl_id;
     s16 field_246_path_id;
     s16 field_248_camera;
@@ -408,7 +408,7 @@ struct MainMenuPage
 {
     s16 field_0_cam_id;
     s16 field_2_pad;
-    int field_4_time_out;
+    s32 field_4_time_out;
     s16 field_8_next_idx;
     s16 field_A_transition_effect;
     s16 field_C_initial_button_idx_to_highlight; // which button index to put the cursor on upon page opening
@@ -425,10 +425,10 @@ struct PerPathMudStats
     char mData[21];
 };
 
-ALIVE_VAR_EXTERN(int, sMainMenuObjectCounter_BB4400);
+ALIVE_VAR_EXTERN(s32, sMainMenuObjectCounter_BB4400);
 
 ALIVE_VAR_EXTERN(char, sEnableCheatLevelSelect_5C1BEE);
 ALIVE_VAR_EXTERN(char, sEnableCheatFMV_5C1BEC);
 ALIVE_VAR_EXTERN(PerPathMudStats, sSavedKilledMudsPerPath_5C1B50);
 ALIVE_VAR_EXTERN(DWORD, sLevelId_dword_5CA408);
-ALIVE_VAR_EXTERN(int, sGameStartedFrame_5C1B88);
+ALIVE_VAR_EXTERN(s32, sGameStartedFrame_5C1B88);

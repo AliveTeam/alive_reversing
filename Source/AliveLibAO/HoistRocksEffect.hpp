@@ -33,7 +33,7 @@ ALIVE_ASSERT_SIZEOF(Path_Hoist, 0x20);
 class HoistParticle : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT HoistParticle* ctor_431B00(FP xpos, FP ypos, FP scale, int frameTableOffset);
+    EXPORT HoistParticle* ctor_431B00(FP xpos, FP ypos, FP scale, s32 frameTableOffset);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -41,7 +41,7 @@ public:
 
     EXPORT void VUpdate_431BD0();
 
-    int field_D4[4];
+    s32 field_D4[4];
     s16 field_E4_bHitGround;
     s16 field_E6_pad;
 };
@@ -50,7 +50,7 @@ ALIVE_ASSERT_SIZEOF(HoistParticle, 0xE8);
 class HoistRocksEffect : public BaseGameObject
 {
 public:
-    EXPORT HoistRocksEffect* ctor_431820(Path_Hoist* pTlv, int tlvInfo);
+    EXPORT HoistRocksEffect* ctor_431820(Path_Hoist* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_431A90();
 
@@ -68,8 +68,8 @@ public:
 
     FP field_10_xpos;
     FP field_14_ypos;
-    int field_18_tlvInfo;
-    int field_1C_never_used[4];
+    s32 field_18_tlvInfo;
+    s32 field_1C_never_used[4];
 };
 ALIVE_ASSERT_SIZEOF(HoistRocksEffect, 0x2C);
 

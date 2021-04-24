@@ -9,8 +9,8 @@ namespace AO {
 
 struct FallingItem_Data
 {
-    int field_0;
-    int field_4;
+    s32 field_0;
+    s32 field_4;
     s16 field_8;
     s16 field_A;
 };
@@ -33,7 +33,7 @@ public:
     EXPORT void DamageHitItems_41A6D0();
 
 
-    EXPORT FallingItem* ctor_419F30(Path_FallingItem* pTlv, int tlvInfo);
+    EXPORT FallingItem* ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_41A660();
 
@@ -62,21 +62,21 @@ private:
     };
 
 public:
-    int field_10C_tlvInfo;
+    s32 field_10C_tlvInfo;
     State field_110_state;
     u16 field_112_id;
     s16 field_114_num_items;
     s16 field_116_num_items_remaining;
     s16 field_118_delay_time;
     s16 field_11A;
-    int field_11C_delay_timer;
+    s32 field_11C_delay_timer;
     s16 field_120_reset_id;
     s16 field_122_do_sound_in_state_falling;
     FP field_124_yPosStart;
     FP field_128_xpos;
     FP field_12C_ypos;
-    int field_130_sound_channels;
-    int field_134_created_gnFrame;
+    s32 field_130_sound_channels;
+    s32 field_134_created_gnFrame;
 
 };
 ALIVE_ASSERT_SIZEOF(FallingItem, 0x138);

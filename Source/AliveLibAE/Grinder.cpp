@@ -280,7 +280,7 @@ void Grinder::VStopAudio()
     vStopAudio_4215C0();
 }
 
-int Grinder::VGetSaveState(BYTE* pSaveBuffer)
+s32 Grinder::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4217B0(pSaveBuffer);
 }
@@ -608,7 +608,7 @@ void Grinder::vStopAudio_4215C0()
     }
 }
 
-int Grinder::vGetSaveState_4217B0(BYTE* pSaveBuffer)
+s32 Grinder::vGetSaveState_4217B0(BYTE* pSaveBuffer)
 {
     Grinder_State* pState = reinterpret_cast<Grinder_State*>(pSaveBuffer);
     pState->field_0 = 30;
@@ -623,7 +623,7 @@ void Grinder::EmitSparks_4206D0()
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        int speed = 0;
+        s32 speed = 0;
         if (field_F4_state == GrinderStates::State_1_Going_Down)
         {
             speed = -FP_GetExponent(field_11C_speed2 - FP_FromInteger(2));
@@ -735,7 +735,7 @@ s16 Grinder::DamageTouchingObjects_421060()
     }
 
     BaseAliveGameObject* pFound = nullptr;
-    for (int i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)

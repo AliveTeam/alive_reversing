@@ -18,7 +18,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507668, short, sNumCamSwappers_507668, 0);
 
-CameraSwapper* CameraSwapper::ctor_48C540(BYTE** ppBits, int movieId, int movieFlag, char movieFlags, s16 flags, s16 volume)
+CameraSwapper* CameraSwapper::ctor_48C540(BYTE** ppBits, s32 movieId, s32 movieFlag, char movieFlags, s16 flags, s16 volume)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD7C8);
@@ -37,7 +37,7 @@ CameraSwapper* CameraSwapper::ctor_48C540(BYTE** ppBits, int movieId, int movieF
     return this;
 }
 
-CameraSwapper* CameraSwapper::ctor_48C5E0(BYTE** ppBits, int moviePos1, int movieId1, int moviePos2, int movieFlag1, char movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
+CameraSwapper* CameraSwapper::ctor_48C5E0(BYTE** ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, char movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD7C8);
@@ -63,7 +63,7 @@ CameraSwapper* CameraSwapper::ctor_48C5E0(BYTE** ppBits, int moviePos1, int movi
     return this;
 }
 
-EXPORT CameraSwapper* CameraSwapper::ctor_48C6B0(BYTE** ppBits, int moviePos1, int movieIds1, int moviePos2, int movieId2, int moviePos3, int movieId3, char movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
+EXPORT CameraSwapper* CameraSwapper::ctor_48C6B0(BYTE** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, char movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD7C8);

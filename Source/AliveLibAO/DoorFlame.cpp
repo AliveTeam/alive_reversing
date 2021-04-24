@@ -124,8 +124,8 @@ public:
         const FP frameWScaled = (FP_FromInteger(frameW) * field_BC_sprite_scale);
         const FP frameHScaled = (FP_FromInteger(frameH) * field_BC_sprite_scale);
 
-        const int offXScaled = FP_GetExponent(FP_FromInteger(xy.field_0_x) * field_BC_sprite_scale);
-        const int offYScaled = FP_GetExponent(FP_FromInteger(xy.field_2_y) * field_BC_sprite_scale);
+        const s32 offXScaled = FP_GetExponent(FP_FromInteger(xy.field_0_x) * field_BC_sprite_scale);
+        const s32 offYScaled = FP_GetExponent(FP_FromInteger(xy.field_2_y) * field_BC_sprite_scale);
         
          // TODO: Refactor PSX <> PC width conversion
         const FP frameWScaled_converted = ((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40); 
@@ -139,7 +139,7 @@ public:
         field_F0_yOff = screenY + FP_FromInteger(offYScaled) + frameHScaled + FP_FromInteger(Math_NextRandom() % 3);
     }
 
-    int field_D4[4];
+    s32 field_D4[4];
 
     FP field_E4_xPos;
     FP field_E8_yPos;
@@ -350,7 +350,7 @@ public:
 
     }
 
-    int field_D4_padding[4];
+    s32 field_D4_padding[4];
     s16 field_E4_bRender;
     s16 field_E6_padding;
     FlameSpark field_E8_sparks[6];
@@ -417,7 +417,7 @@ BaseGameObject* DoorFlame::dtor_432AA0()
     return dtor_417D10();
 }
 
-DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, int tlvInfo)
+DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB3A0);

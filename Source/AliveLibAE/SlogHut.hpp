@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogHut, 0x18);
 class SlogHut : public BaseGameObject
 {
 public:
-    EXPORT SlogHut* ctor_4C4070(Path_SlogHut* pTlv, int tlvInfo);
+    EXPORT SlogHut* ctor_4C4070(Path_SlogHut* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
@@ -32,10 +32,10 @@ private:
     FP field_20_xpos;
     FP field_24_ypos;
     FP field_28_scale;
-    int field_2C_tlvInfo;
+    s32 field_2C_tlvInfo;
     s16 field_30_switch_id;
     s16 field_32_padding;
-    int field_34_Zzz_timer;
+    s32 field_34_Zzz_timer;
     s16 field_38_Zzz_delay;
     s16 field_3A_padding;
 };

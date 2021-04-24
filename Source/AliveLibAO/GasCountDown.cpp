@@ -50,10 +50,10 @@ const BYTE byte_4C5080[32] =
     216u
 };
 
-ALIVE_VAR(1, 0x507700, int, sGasTimer_507700, 0);
+ALIVE_VAR(1, 0x507700, s32, sGasTimer_507700, 0);
 ALIVE_VAR(1, 0x4FF888, short, gGasOn_4FF888, 0);
 
-GasCountDown* GasCountDown::ctor_40BF60(Path_GasCountDown* pTlv, int tlvInfo)
+GasCountDown* GasCountDown::ctor_40BF60(Path_GasCountDown* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA440);
@@ -86,7 +86,7 @@ BaseGameObject* GasCountDown::dtor_40C050()
     return dtor_487DF0();
 }
 
-BaseGameObject* GasCountDown::Vdtor_40C3F0(int flags)
+BaseGameObject* GasCountDown::Vdtor_40C3F0(s32 flags)
 {
     dtor_40C050();
     if (flags & 1)
@@ -163,8 +163,8 @@ void GasCountDown::VUpdate_40C0E0()
             sGasTimer_507700++;
         }
 
-        const int oldTimer = field_62_time_left;
-        const int newTimer = 120 - (static_cast<int>(gnFrameCount_507670) - sGasTimer_507700) / 30;
+        const s32 oldTimer = field_62_time_left;
+        const s32 newTimer = 120 - (static_cast<s32>(gnFrameCount_507670) - sGasTimer_507700) / 30;
         field_62_time_left = static_cast<s16>(newTimer);
         if (oldTimer != field_62_time_left && field_62_time_left > 0)
         {
@@ -182,7 +182,7 @@ void GasCountDown::DealDamage()
         if (-field_62_time_left > 2)
         {
             sActiveHero_507678->VTakeDamage(this);
-            for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+            for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
             {
                 BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
                 if (!pObj)
@@ -246,7 +246,7 @@ void GasCountDown::VRender_40C2F0(PrimHeader** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-BaseGameObject* GasCountDown::VDestructor(int flags)
+BaseGameObject* GasCountDown::VDestructor(s32 flags)
 {
     return Vdtor_40C3F0(flags);
 }

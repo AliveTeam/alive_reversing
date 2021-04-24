@@ -12,7 +12,7 @@
 #include "Sfx.hpp"
 #include "FlyingSlig.hpp"
 
-FlyingSligSpawner* FlyingSligSpawner::ctor_433D50(Path_FlyingSligSpawner* pTlv, int tlvInfo)
+FlyingSligSpawner* FlyingSligSpawner::ctor_433D50(Path_FlyingSligSpawner* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545090);
@@ -46,7 +46,7 @@ void FlyingSligSpawner::VUpdate()
     return vUpdate_433E10();
 }
 
-int FlyingSligSpawner::VGetSaveState(BYTE* pSaveBuffer)
+s32 FlyingSligSpawner::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_43B730(reinterpret_cast<FlyingSligSpawner_State*>(pSaveBuffer));
 }
@@ -93,7 +93,7 @@ void FlyingSligSpawner::vUpdate_433E10()
         field_40_bFirstUpdate &= ~2;
         if (field_24_spawned_slig_id != -1)
         {
-            for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
             {
                 BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
                 if (!pObj)

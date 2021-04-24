@@ -42,7 +42,7 @@ private:
     BYTE field_124_rand_seed;
     // pad
     s16 field_126_total_count;
-    int field_128_timer;
+    s32 field_128_timer;
     Layer field_12C_render_layer;
     //s16 field_12E_pad;
 };
