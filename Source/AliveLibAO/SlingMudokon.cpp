@@ -251,7 +251,7 @@ void SlingMudokon::VCallMotion_46F8E0()
 
 void SlingMudokon::VUpdateAnimData_46F8F0()
 {
-    BYTE** ppResBlock = nullptr;
+    u8** ppResBlock = nullptr;
 
     if (field_FC_current_motion >= 6)
     {

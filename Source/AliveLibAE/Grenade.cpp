@@ -57,7 +57,7 @@ void Grenade::VScreenChanged()
     vScreenChanged_449140();
 }
 
-s32 Grenade::VGetSaveState(BYTE* pSaveBuffer)
+s32 Grenade::VGetSaveState(u8* pSaveBuffer)
 {
     return GetSaveState_4496B0(reinterpret_cast<Grenade_SaveState*>(pSaveBuffer));
 }
@@ -92,7 +92,7 @@ void Grenade::VTimeToExplodeRandom_411490()
     vTimeToExplodeRandom_4480A0();
 }
 
-s32 CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
+s32 CC Grenade::CreateFromSaveState_449410(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Grenade_SaveState*>(pBuffer);
     auto pGrenade = ae_new<Grenade>();
@@ -202,7 +202,7 @@ void Grenade::Init_448110(FP xpos, FP ypos)
     }
 
     const AnimRecord& rec = AnimRec(AnimId::Grenade);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
 

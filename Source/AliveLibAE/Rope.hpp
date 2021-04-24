@@ -20,7 +20,7 @@ private:
     s16 field_F4_rope_segment_count;
 public:
     s16 field_F6_rope_length;
-    BYTE **field_F8_ppRopeRes;
+    u8 **field_F8_ppRopeRes;
     AnimationUnknown* field_FC_pRopeRes;
     s16 field_100_left;
     s16 field_102_top;

@@ -12,7 +12,7 @@ struct SparkRes
     FP field_4_y0;
     FP field_8_x1;
     FP field_C_y1;
-    BYTE field_10_ang;
+    u8 field_10_ang;
     // 3 byte pad
     FP field_14_radius;
     FP field_18_len;
@@ -43,7 +43,7 @@ private:
     s16 field_4E_g;
     s16 field_50_b;
     Layer field_52_layer;
-    BYTE **field_54_ppSprxRes;
+    u8 **field_54_ppSprxRes;
     SparkRes *field_58_pRes;
     s16 field_5C_count;
     s32 field_60_timer;

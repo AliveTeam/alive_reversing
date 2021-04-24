@@ -43,7 +43,7 @@ private:
     s32 field_38_padding;
     s16 field_3C_padding;
     s16 field_3E_delay_counter;
-    BYTE field_40_spawned_count;
+    u8 field_40_spawned_count;
     char field_41_padding;
     s16 field_42_padding;
 };

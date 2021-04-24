@@ -235,13 +235,13 @@ s32 CC SND_Clear_DSound(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
 
     if (pLocked1)
     {
-        BYTE* ptr = (BYTE*)pLocked1;
+        u8* ptr = (u8*)pLocked1;
         memset(ptr, 0, locked1Size);
     }
 
     if (pLocked2)
     {
-        BYTE* ptr = (BYTE*)pLocked2;
+        u8* ptr = (u8*)pLocked2;
         memset(ptr, 0, locked2Size);
     }
 

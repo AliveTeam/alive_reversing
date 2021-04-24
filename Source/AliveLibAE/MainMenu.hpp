@@ -59,7 +59,7 @@ enum MenuResIds
 
 struct MainMenuControllerResources
 {
-    BYTE** field_0_resources[11];
+    u8** field_0_resources[11];
 };
 
 struct MainMenuText
@@ -67,15 +67,15 @@ struct MainMenuText
     s32 field_0_x;
     s32 field_4_y;
     const char *field_8_text;
-    BYTE field_C_align;
-    BYTE field_D;
-    BYTE field_E;
-    BYTE field_F;
+    u8 field_C_align;
+    u8 field_D;
+    u8 field_E;
+    u8 field_F;
     float field_10_scale;
-    BYTE field_14;
-    BYTE field_15;
-    BYTE field_16;
-    BYTE field_17;
+    u8 field_14;
+    u8 field_15;
+    u8 field_16;
+    u8 field_17;
 };
 
 struct MainMenuFrameTable
@@ -394,7 +394,7 @@ public:
     s16 field_25C_Inside_FMV_Screen;
     s16 field_25E_Inside_CheatLevelSelect_Screen;
 private:
-    void Unload_Resource(BYTE**& res);
+    void Unload_Resource(u8**& res);
 };
 ALIVE_ASSERT_SIZEOF(MainMenuController, 0x260);
 

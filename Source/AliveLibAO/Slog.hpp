@@ -94,7 +94,7 @@ private:
 public:
     void SetAnimFrame();
 
-    BYTE** ResBlockForMotion(s16 motion);
+    u8** ResBlockForMotion(s16 motion);
 
     EXPORT void MoveOnLine_4740F0();
 
@@ -183,7 +183,7 @@ public:
     s16 field_17E;
     s16 field_180;
     s16 field_182_pad;
-    BYTE** field_184_resources[5];
+    u8** field_184_resources[5];
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x198);
 

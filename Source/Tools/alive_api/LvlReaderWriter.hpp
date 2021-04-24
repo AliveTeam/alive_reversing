@@ -21,7 +21,7 @@ inline std::string ToString(const LvlFileRecord& rec)
 class LvlFileChunk
 {
 public:
-    LvlFileChunk(DWORD id, ResourceManager::ResourceType resType, const std::vector<BYTE>& data)
+    LvlFileChunk(DWORD id, ResourceManager::ResourceType resType, const std::vector<u8>& data)
         : mData(data)
     {
         mHeader.field_0_size = static_cast<DWORD>(data.size());
@@ -44,20 +44,20 @@ public:
         return mHeader;
     }
 
-    const std::vector<BYTE>& Data() const
+    const std::vector<u8>& Data() const
     {
         return mData;
     }
 
 private:
     ResourceManager::Header mHeader = {};
-    std::vector<BYTE> mData;
+    std::vector<u8> mData;
 };
 
 class ChunkedLvlFile
 {
 public:
-    explicit ChunkedLvlFile(const std::vector<BYTE>& data)
+    explicit ChunkedLvlFile(const std::vector<u8>& data)
     {
         Read(data);
     }
@@ -87,7 +87,7 @@ public:
         mChunks.push_back(chunkToAdd);
     }
 
-    std::vector<BYTE> Data() const
+    std::vector<u8> Data() const
     {
         std::size_t neededSize = 0;
         for (auto& chunk : mChunks)
@@ -121,7 +121,7 @@ public:
     }
 
 private:
-    void Read(const std::vector<BYTE>& data)
+    void Read(const std::vector<u8>& data)
     {
         ByteStream s(data);
         do
@@ -133,7 +133,7 @@ private:
             s.Read(resHeader.field_8_type);
             s.Read(resHeader.field_C_id);
 
-            std::vector<BYTE> tmpData(resHeader.field_0_size);
+            std::vector<u8> tmpData(resHeader.field_0_size);
             if (resHeader.field_0_size > 0)
             {
                 tmpData.resize(tmpData.size() - sizeof(ResourceManager::Header));
@@ -185,7 +185,7 @@ public:
         Close();
     }
 
-    std::optional<std::vector<BYTE>> ReadFile(const char* fileName)
+    std::optional<std::vector<u8>> ReadFile(const char* fileName)
     {
         if (!IsOpen())
         {
@@ -202,7 +202,7 @@ public:
                     return {};
                 }
 
-                std::vector<BYTE> ret(rec.field_14_file_size);
+                std::vector<u8> ret(rec.field_14_file_size);
                 if (::fread(ret.data(), 1, ret.size(), mFileHandle) != ret.size())
                 {
                     return {};
@@ -294,7 +294,7 @@ public:
 
     bool IsOpen() const { return mReader.IsOpen(); }
 
-    std::optional<std::vector<BYTE>> ReadFile(const char* fileName)
+    std::optional<std::vector<u8>> ReadFile(const char* fileName)
     {
         // Return added/edited file first
         auto rec = GetNewOrEditedFileRecord(fileName);
@@ -305,7 +305,7 @@ public:
         return mReader.ReadFile(fileName);
     }
 
-    void AddFile(const char* fileNameInLvl, const std::vector<BYTE>& data)
+    void AddFile(const char* fileNameInLvl, const std::vector<u8>& data)
     {
         if (mReader.IsOpen())
         {
@@ -427,7 +427,7 @@ public:
             }
             else
             {
-                std::optional<std::vector<BYTE>> data = mReader.ReadFile(fileName.c_str());
+                std::optional<std::vector<u8>> data = mReader.ReadFile(fileName.c_str());
                 if (!data)
                 {
                     abort();
@@ -447,8 +447,8 @@ public:
         if (pos+1 != RoundUp(pos))
         {
             ::fseek(outFile, RoundUp(pos)-1, SEEK_SET);
-            BYTE emptyByte = 0;
-            ::fwrite(&emptyByte, sizeof(BYTE), 1, outFile);
+            u8 emptyByte = 0;
+            ::fwrite(&emptyByte, sizeof(u8), 1, outFile);
         }
 
         ::fclose(outFile);
@@ -459,7 +459,7 @@ private:
     struct NewOrEditedFileRecord
     {
         std::string mFileNameInLvl;
-        std::vector<BYTE> mFileData;
+        std::vector<u8> mFileData;
         bool mEditOfExistingFile;
     };
 

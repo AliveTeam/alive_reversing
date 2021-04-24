@@ -42,7 +42,7 @@ EXPORT void CC CreateGameEnderController_43B7A0()
 }
 
 
-s32 CC GameEnderController::CreateFromSaveState_43BD10(const BYTE* pBuffer)
+s32 CC GameEnderController::CreateFromSaveState_43BD10(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const GameEnderController_State*>(pBuffer);
     auto pGameEnderController = ae_new<GameEnderController>();
@@ -81,7 +81,7 @@ void GameEnderController::VUpdate()
     vUpdate_43B920();
 }
 
-s32 GameEnderController::VGetSaveState(BYTE* pSaveBuffer)
+s32 GameEnderController::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_43BCD0(reinterpret_cast<GameEnderController_State*>(pSaveBuffer));
 }

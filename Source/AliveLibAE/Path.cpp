@@ -37,7 +37,7 @@ void Path::Free_4DB1C0()
     field_0_levelId = LevelIds::eMenu_0;
 }
 
-void Path::Init_4DB200(const PathData* pPathData, LevelIds level, s16 path, s16 cameraId, BYTE** ppPathRes)
+void Path::Init_4DB200(const PathData* pPathData, LevelIds level, s16 path, s16 cameraId, u8** ppPathRes)
 {
     ResourceManager::FreeResource_49C330(field_10_ppRes);
     field_10_ppRes = ppPathRes;
@@ -65,7 +65,7 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToL
         return;
     }
 
-    BYTE* ptr = &(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + objectTableIdx];
+    u8* ptr = &(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + objectTableIdx];
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     while (pPathTLV)
     {
@@ -81,8 +81,8 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToL
 
                 TlvItemInfoUnion data;
                 data.parts.tlvOffset = static_cast<WORD>(objectTableIdx);
-                data.parts.levelId = static_cast<BYTE>(field_0_levelId);
-                data.parts.pathId = static_cast<BYTE>(field_2_pathId);
+                data.parts.levelId = static_cast<u8>(field_0_levelId);
+                data.parts.pathId = static_cast<u8>(field_2_pathId);
 
                 // Call the factory to construct the item
                 field_C_pPathData->field_1E_object_funcs.object_funcs[static_cast<s32>(pPathTLV->field_4_type.mType)](pPathTLV, this, data, loadMode);
@@ -127,8 +127,8 @@ Path_TLV* CCSTD Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
     }
 
     // Skip length bytes to get to the start of the next TLV
-    BYTE* ptr = reinterpret_cast<BYTE*>(pTlv);
-    BYTE* pNext = ptr + pTlv->field_2_length;
+    u8* ptr = reinterpret_cast<u8*>(pTlv);
+    u8* pNext = ptr + pTlv->field_2_length;
     return reinterpret_cast<Path_TLV*>(pNext);
 }
 
@@ -257,7 +257,7 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
             return nullptr;
         }
 
-        BYTE* pPathRes = *field_10_ppRes;
+        u8* pPathRes = *field_10_ppRes;
         const s32* pIndexTable = reinterpret_cast<const s32*>(pPathRes + pPathData->field_16_object_indextable_offset);
         const s32 indexTableEntry = pIndexTable[camX + (field_6_cams_on_x * camY)];
         
@@ -321,11 +321,11 @@ Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(u32 tlvOffset_levelId_PathId)
 DWORD Path::TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv)
 {
     TlvItemInfoUnion data;
-    data.parts.levelId = static_cast<BYTE>(field_0_levelId);
-    data.parts.pathId = static_cast<BYTE>(field_2_pathId);
+    data.parts.levelId = static_cast<u8>(field_0_levelId);
+    data.parts.pathId = static_cast<u8>(field_2_pathId);
 
     // Num bytes into the path res block
-    const std::size_t diff = reinterpret_cast<BYTE*>(pTlv) - (*field_10_ppRes);
+    const std::size_t diff = reinterpret_cast<u8*>(pTlv) - (*field_10_ppRes);
 
     // Sub off the offset from the start of the path block to TLV data
     data.parts.tlvOffset = static_cast<WORD>(diff - field_C_pPathData->field_12_object_offset);
@@ -360,7 +360,7 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFla
     if (data.parts.levelId == static_cast<s32>(gMap_5C3030.field_0_current_level))
     {
         const PathBlyRec* pBlyRec = Path_Get_Bly_Record_460F30(static_cast<LevelIds>(data.parts.levelId), data.parts.pathId);
-        BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
+        u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
         if (ppPathRes)
         {
             const s32 tlvOffset = data.parts.tlvOffset + pBlyRec->field_4_pPathData->field_12_object_offset;
@@ -387,7 +387,7 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFla
             if (hiFlags != -1)
             {
                 // Seems to be a blob per TLV specific bits
-                pTlv->field_1_tlv_state = static_cast<BYTE>(hiFlags);
+                pTlv->field_1_tlv_state = static_cast<u8>(hiFlags);
             }
             ResourceManager::FreeResource_49C330(ppPathRes);
         }
@@ -412,7 +412,7 @@ EXPORT void CCSTD Path::Reset_TLVs_4DBCF0(u16 pathId)
     const PathData *  pPathData = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, pathId)->field_4_pPathData;
     const s32 camsX = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
     const s32 camsY = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-    BYTE** ppPath = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, pathId, TRUE, FALSE);
+    u8** ppPath = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, pathId, TRUE, FALSE);
     if (ppPath)
     {
         const s32 totalCams = camsX * camsY;

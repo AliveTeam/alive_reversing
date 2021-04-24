@@ -92,10 +92,10 @@ struct OT_Prim
 {
     s32 field_0;
     s32 field_4;
-    BYTE field_8_r;
-    BYTE field_9_g;
-    BYTE field_A_b;
-    BYTE field_B_flags;
+    u8 field_8_r;
+    u8 field_9_g;
+    u8 field_A_b;
+    u8 field_B_flags;
     char field_C_vert_count;
     char field_D_bClip;
     char field_E;
@@ -106,7 +106,7 @@ struct OT_Prim
 };
 ALIVE_ASSERT_SIZEOF(OT_Prim, 380); // could be up to 380
 
-ALIVE_ARY(1, 0xBD0C0C, BYTE, 380, byte_BD0C0C, {});
+ALIVE_ARY(1, 0xBD0C0C, u8, 380, byte_BD0C0C, {});
 
 ALIVE_VAR(1, 0x578330, OT_Prim*, off_578330, reinterpret_cast<OT_Prim*>(&byte_BD0C0C[0]));
 
@@ -118,9 +118,9 @@ ALIVE_VAR(1, 0xbd3308, s16*, r_lut_dword_BD3308, nullptr);
 ALIVE_VAR(1, 0xbd32d8, s16*, g_lut_dword_BD32D8, nullptr);
 ALIVE_VAR(1, 0xbd3348, s16*, b_lut_dword_BD3348, nullptr);
 
-ALIVE_VAR(1, 0xbd32cc, BYTE*, rTable_dword_BD32CC, nullptr);
-ALIVE_VAR(1, 0xbd3358, BYTE*, gTable_dword_BD3358, nullptr);
-ALIVE_VAR(1, 0xbd334c, BYTE*, bTable_dword_BD334C, nullptr);
+ALIVE_VAR(1, 0xbd32cc, u8*, rTable_dword_BD32CC, nullptr);
+ALIVE_VAR(1, 0xbd3358, u8*, gTable_dword_BD3358, nullptr);
+ALIVE_VAR(1, 0xbd334c, u8*, bTable_dword_BD334C, nullptr);
 
 enum TextureModes
 {
@@ -925,7 +925,7 @@ ALIVE_VAR(1, 0xc19140, DWORD, sBlueShift_C19140, 0);
 
 struct Psx_Data
 {
-    BYTE field_0[32];
+    u8 field_0[32];
 };
 ALIVE_ASSERT_SIZEOF(Psx_Data, 32);
 
@@ -1036,7 +1036,7 @@ EXPORT s32 CC PSX_EMU_SetDispType_4F9960(s32 dispType)
                 value = 31;
             }
 
-            stru_C1D1C0[i].field_0[j] = static_cast<BYTE>(value);
+            stru_C1D1C0[i].field_0[j] = static_cast<u8>(value);
 
             stru_C146C0.r[i][j] = value << redShift;
             stru_C146C0.g[i][j] = value << greenShift;
@@ -1165,9 +1165,9 @@ struct OTInformation
     // These root pointers can ONLY be used to get the pointer to the next item in the OT.
     bool IsRootPointer(PrimHeader* pItem) const
     {
-        const BYTE* ptr = reinterpret_cast<const BYTE*>(pItem);
-        const BYTE* pStart = reinterpret_cast<const BYTE*>(mOt);
-        const BYTE* pEnd = pStart + (mOtSize * sizeof(void*));
+        const u8* ptr = reinterpret_cast<const u8*>(pItem);
+        const u8* pStart = reinterpret_cast<const u8*>(mOt);
+        const u8* pEnd = pStart + (mOtSize * sizeof(void*));
         return ptr >= pStart && ptr <= pEnd;
     }
 };
@@ -1378,9 +1378,9 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
     const s32 rect_w = rect_right_clipped - clipped_x + 1;
     const s32 rect_h = rect_bottom_clipped - clipped_y + 1;
 
-    const BYTE r0 = pPrim->rgb_code.r;
-    const BYTE b0 = pPrim->rgb_code.b;
-    const BYTE g0 = pPrim->rgb_code.g;
+    const u8 r0 = pPrim->rgb_code.r;
+    const u8 b0 = pPrim->rgb_code.b;
+    const u8 g0 = pPrim->rgb_code.g;
 
     const DWORD r0_S3 = r0 >> 3;
     const DWORD g0_S3 = g0 >> 3;
@@ -1432,7 +1432,7 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
     PSX_Render_TILE_Blended_Large_4F6D00(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
 }
 
-static inline BYTE Decompress_Next_Type3(s32& control_byte, u32& dstIdx, const WORD*& pCompressed)
+static inline u8 Decompress_Next_Type3(s32& control_byte, u32& dstIdx, const WORD*& pCompressed)
 {
     if (control_byte == 0)
     {
@@ -1448,13 +1448,13 @@ static inline BYTE Decompress_Next_Type3(s32& control_byte, u32& dstIdx, const W
     }
 
     control_byte = control_byte - 6;
-    const BYTE data = dstIdx & 0x3F;
+    const u8 data = dstIdx & 0x3F;
     dstIdx = dstIdx >> 6;
     return data;
 }
 
 
-static inline BYTE Decompress_Next_Type6(s32& control_byte, u32& dstIdx, const WORD*& pCompressed)
+static inline u8 Decompress_Next_Type6(s32& control_byte, u32& dstIdx, const WORD*& pCompressed)
 {
     if (control_byte == 0)
     {
@@ -1464,7 +1464,7 @@ static inline BYTE Decompress_Next_Type6(s32& control_byte, u32& dstIdx, const W
     }
 
     control_byte = control_byte - 4;
-    const BYTE data = dstIdx & 0xF;
+    const u8 data = dstIdx & 0xF;
     dstIdx = dstIdx >> 4;
     return data;
 }
@@ -1597,12 +1597,12 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
                     }
 
                     // Write non black pixels
-                    BYTE runLengthCopyCount = fnDecompress(control_byte, dstIdx, pCompressedIter);
+                    u8 runLengthCopyCount = fnDecompress(control_byte, dstIdx, pCompressedIter);
                     for (s32 numBytesToCopy = 0; numBytesToCopy < runLengthCopyCount; numBytesToCopy++)
                     {
                         WORD* pVramXOff = pVramIter;
 
-                        BYTE decompressed_byte = fnDecompress(control_byte, dstIdx, pCompressedIter);
+                        u8 decompressed_byte = fnDecompress(control_byte, dstIdx, pCompressedIter);
 
                         s32 width_to_write = 0;
                         while (u_width_counter == static_cast<s32>(u_pos))
@@ -2560,7 +2560,7 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculat
 
         if (clampedY - bottom_pos > 0)
         {
-            BYTE* pVram = ((BYTE*)spBitmap_C2D038->field_4_pLockedPixels) + (bottom_pos * spBitmap_C2D038->field_10_locked_pitch);
+            u8* pVram = ((u8*)spBitmap_C2D038->field_4_pLockedPixels) + (bottom_pos * spBitmap_C2D038->field_10_locked_pitch);
             pRenderScanLines((WORD*)pVram, clampedY - bottom_pos);
         }
 
@@ -2789,7 +2789,7 @@ EXPORT char CC PSX_Clip_Line_Segments_4FE4F0(s32* pX0, s32* pY0, s32* pX1, s32* 
     return 1;
 }
 
-EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, s32 x0, s32 y0, s32 x1, s32 y1, BYTE r0, BYTE g0, BYTE b0, BYTE r1, BYTE g1, BYTE b1)
+EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, s32 x0, s32 y0, s32 x1, s32 y1, u8 r0, u8 g0, u8 b0, u8 r1, u8 g1, u8 b1)
 {
     if (!PSX_Clip_Line_Segments_4FE4F0(&x0, &y0, &x1, &y1))
     {
@@ -3240,9 +3240,9 @@ EXPORT void CC PSX_RenderLaughingGasEffect_4F7B80(s32 xpos, s32 ypos, s32 width,
 
 void DrawOTag_Render_SPRT(PrimAny& any, s16 drawEnv_of0, s16 drawEnv_of1, short width, short height)
 {
-    BYTE b = 0;
-    BYTE g = 0;
-    BYTE r = 0;
+    u8 b = 0;
+    u8 g = 0;
+    u8 r = 0;
 
     // Blending disabled bit
     if (any.mPrimHeader->rgb_code.code_or_pad & 1)
@@ -3599,7 +3599,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, s32 u, s32
     const u32 texture_remainder_pitch = 2048 - (rect_w  / 2);
     const u32 pitchWords = spBitmap_C2D038->field_10_locked_pitch / 2;
     const u32 vram_remainder_pitch = pitchWords - pRect->w;
-    const BYTE* pTexture_4bit_src1 = (BYTE *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (sTexture_page_x_BD0F0C + (u / 4) + (tpagey / 1024));
+    const u8* pTexture_4bit_src1 = (u8 *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (sTexture_page_x_BD0F0C + (u / 4) + (tpagey / 1024));
     WORD* pVram_start = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * (pRect->x + pitchWords * pRect->y));
 
     if (r != 128 || g != 128 || b != 128)
@@ -3622,9 +3622,9 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, s32 u, s32
                         const WORD vram_pixel = *pVram_start;
                         pLineEnd1 = pLineEnd2;
 
-                        const BYTE lutR = pLut_r->field_0[clut_pixel >> 11];
-                        const BYTE lutG = pLut_g->field_0[(clut_pixel >> 6) & 31];
-                        const BYTE lutB = pLut_b->field_0[clut_pixel & 31];
+                        const u8 lutR = pLut_r->field_0[clut_pixel >> 11];
+                        const u8 lutG = pLut_g->field_0[(clut_pixel >> 6) & 31];
+                        const u8 lutB = pLut_b->field_0[clut_pixel & 31];
 
                         *pVram_start =
                             pAbrLut->r[lutR][vram_pixel >> 11]
@@ -3643,9 +3643,9 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, s32 u, s32
                     const WORD vram_pixel2 = *pVram_start;
                     if (clut_pixel2)
                     {
-                        const BYTE lutR = pLut_r->field_0[clut_pixel2 >> 11];
-                        const BYTE lutG = pLut_g->field_0[(clut_pixel2 >> 6) & 31];
-                        const BYTE lutB = pLut_b->field_0[clut_pixel2 & 31];
+                        const u8 lutR = pLut_r->field_0[clut_pixel2 >> 11];
+                        const u8 lutG = pLut_g->field_0[(clut_pixel2 >> 6) & 31];
+                        const u8 lutB = pLut_b->field_0[clut_pixel2 & 31];
 
                         *pVram_start =
                             pAbrLut->r[lutR][vram_pixel2 >> 11]
@@ -3778,7 +3778,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(const PSX_RECT* pRect, s32 u, s32
 {
     const s32 tpagex = sTexture_page_x_BD0F0C + (u / 2);
     const s32 tpagey = sTexture_page_y_BD0F10 + v;
-    BYTE* pTexture_8bit_src = (u8 *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (tpagex + (tpagey * 1024));
+    u8* pTexture_8bit_src = (u8 *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (tpagex + (tpagey * 1024));
     const s32 texture_8bit_remainder = 2048 - pRect->w;
 
     const WORD* pClutSrc = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((clut & 63) + (((u32)clut / 64) * 64)));
@@ -3803,9 +3803,9 @@ EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(const PSX_RECT* pRect, s32 u, s32
                     {
                         const WORD clut_pixel = pClutSrc[vram_8bit_idx];
 
-                        const BYTE g_lut_idx = stru_C1D1C0[g >> 3].field_0[(clut_pixel >> 6) & 31];
-                        const BYTE r_lut_idx = stru_C1D1C0[r >> 3].field_0[(clut_pixel >> 11) & 31];
-                        const BYTE b_lut_idx = stru_C1D1C0[b >> 3].field_0[(clut_pixel) & 31];
+                        const u8 g_lut_idx = stru_C1D1C0[g >> 3].field_0[(clut_pixel >> 6) & 31];
+                        const u8 r_lut_idx = stru_C1D1C0[r >> 3].field_0[(clut_pixel >> 11) & 31];
+                        const u8 b_lut_idx = stru_C1D1C0[b >> 3].field_0[(clut_pixel) & 31];
 
                         const WORD vram_pixel = *pVram_dst;
                         *pVram_dst =
@@ -3860,9 +3860,9 @@ EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(const PSX_RECT* pRect, s32 u, s32
                     // Semi trans flag
                     if (clut_pixel & 0x20)
                     {
-                        const BYTE r_lut_idx = (clut_pixel >> 11);
-                        const BYTE g_lut_idx = (((clut_pixel >> 6) & 31));
-                        const BYTE b_lut_idx = ((clut_pixel & 31));
+                        const u8 r_lut_idx = (clut_pixel >> 11);
+                        const u8 g_lut_idx = (((clut_pixel >> 6) & 31));
+                        const u8 b_lut_idx = ((clut_pixel & 31));
 
                         const WORD vram_pixel = *pVram_dst;
                         *pVram_dst =
@@ -3955,9 +3955,9 @@ EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, s32 u, s3
                 {
                     const WORD vram_pixel = *pVram_start;
 
-                    const BYTE rLut = stru_C1D1C0[r >> 3].field_0[texture_pixel >> 11];
-                    const BYTE gLut = stru_C1D1C0[g >> 3].field_0[(texture_pixel >> 6) & 31];
-                    const BYTE bLut = stru_C1D1C0[b >> 3].field_0[texture_pixel & 31];
+                    const u8 rLut = stru_C1D1C0[r >> 3].field_0[texture_pixel >> 11];
+                    const u8 gLut = stru_C1D1C0[g >> 3].field_0[(texture_pixel >> 6) & 31];
+                    const u8 bLut = stru_C1D1C0[b >> 3].field_0[texture_pixel & 31];
 
                     *pVram_start =
                         pAbr_lut->r[rLut][(vram_pixel >> 11)]
@@ -3996,7 +3996,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, s32 u, s3
     }
 }
 
-EXPORT void CC PSX_EMU_Render_SPRT_51EF90(s16 x, s16 y, s32 u, s32 v, BYTE r, BYTE g, BYTE b, s16 w, s16 h, WORD clut, s32 semiTrans)
+EXPORT void CC PSX_EMU_Render_SPRT_51EF90(s16 x, s16 y, s32 u, s32 v, u8 r, u8 g, u8 b, s16 w, s16 h, WORD clut, s32 semiTrans)
 {
     // Get the screen rect
     PSX_RECT screenRect  = {};
@@ -4264,7 +4264,7 @@ EXPORT OT_Prim* CC PSX_clip_polys_4FE710(OT_Prim* pOt)
 
 namespace AETest::TestsPsxRender
 {
-    const BYTE kTestPal[] =
+    const u8 kTestPal[] =
     {
         0x00, 0x00, 0xC4, 0x98, 0x22, 0x80, 0x83, 0x90, 0x20,
         0x80, 0x00, 0x84, 0x42, 0x88, 0xC6, 0x98, 0xAD, 0x2D,
@@ -4300,7 +4300,7 @@ namespace AETest::TestsPsxRender
         RGB888toRGB565(163, 73,  164 ),
     };
 
-    const BYTE kTestImg[4][8] =
+    const u8 kTestImg[4][8] =
     {
         { 0, 0, 1, 2, 2, 2, 1, 3 },
         { 0, 0, 1, 1, 2, 1, 1, 3 },
@@ -4308,13 +4308,13 @@ namespace AETest::TestsPsxRender
         { 4, 4, 1, 5, 2, 6, 1, 7 },
     };
 
-    inline static BYTE AsByte(BYTE nibble1, BYTE nibble2)
+    inline static u8 AsByte(u8 nibble1, u8 nibble2)
     {
         return (nibble2 << 4) | nibble1;
     }
 
     // Pack kTestImg nibbles into bytes
-    const BYTE kTestImage[4][4] =
+    const u8 kTestImage[4][4] =
     {
         { AsByte(kTestImg[0][0],kTestImg[0][1]), AsByte(kTestImg[0][2],kTestImg[0][3]), AsByte(kTestImg[0][4],kTestImg[0][5]), AsByte(kTestImg[0][6],kTestImg[0][7]) },
         { AsByte(kTestImg[1][0],kTestImg[1][1]), AsByte(kTestImg[1][2],kTestImg[1][3]), AsByte(kTestImg[1][4],kTestImg[1][5]), AsByte(kTestImg[1][6],kTestImg[1][7]) },
@@ -4323,7 +4323,7 @@ namespace AETest::TestsPsxRender
     };
 
     // Pack kTestImage bytes into a RLE compressed buffer
-    const BYTE kTestImageCompressed[] =
+    const u8 kTestImageCompressed[] =
     {
         8, 0,               // u16 width
         4, 0,               // u16 height
@@ -4354,7 +4354,7 @@ namespace AETest::TestsPsxRender
 
     WORD vramTest[512][1024] = {};
 
-    BYTE kSinglePixel8BitImg[4] =
+    u8 kSinglePixel8BitImg[4] =
     {
         0x0,
         0x0,
@@ -4405,7 +4405,7 @@ namespace AETest::TestsPsxRender
     {
         memset(vramTest, 0, sizeof(vramTest));
 
-        BYTE decompressed[4][4] = {};
+        u8 decompressed[4][4] = {};
         CompressionType6Ae_Decompress_40A8A0(&kTestImageCompressed[0], &decompressed[0][0]);
 
         sPsxVram_C1D160.field_4_pLockedPixels = vramTest;

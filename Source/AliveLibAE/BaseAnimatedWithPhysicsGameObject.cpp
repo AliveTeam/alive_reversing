@@ -129,9 +129,9 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
                     &b);
             }
 
-            field_20_animation.field_8_r = static_cast<BYTE>(r);
-            field_20_animation.field_9_g = static_cast<BYTE>(g);
-            field_20_animation.field_A_b = static_cast<BYTE>(b);
+            field_20_animation.field_8_r = static_cast<u8>(r);
+            field_20_animation.field_9_g = static_cast<u8>(g);
+            field_20_animation.field_A_b = static_cast<u8>(b);
 
             field_20_animation.vRender_40B820(
                 FP_GetExponent((FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
@@ -164,7 +164,7 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
 }
 
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, BYTE **ppAnimData, s16 a6, u8 a7)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8 **ppAnimData, s16 a6, u8 a7)
 {
     if (field_20_animation.Init_40A030(
         frameTableOffset,
@@ -600,7 +600,7 @@ namespace AETest::TestsBaseAnimatedWithPhysicsGameObject
 
         TestAnimData* pTestData = &testData;
 
-        t.field_20_animation.field_20_ppBlock = (BYTE **)&pTestData;
+        t.field_20_animation.field_20_ppBlock = (u8 **)&pTestData;
         t.field_20_animation.field_18_frame_table_offset = 0;
 
         t.field_CC_sprite_scale = FP_FromDouble(1.0);

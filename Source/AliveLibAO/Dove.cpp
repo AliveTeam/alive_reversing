@@ -17,7 +17,7 @@ namespace AO {
 ALIVE_VAR(1, 0x4FF94C, short, bTheOneControllingTheMusic_4FF94C, 0);
 
 ALIVE_VAR(1, 0x4FF938, DynamicArrayT<Dove>, gDovesArray_4FF938, {});
-ALIVE_VAR(1, 0x4FF948, BYTE, byte_4FF948, 0);
+ALIVE_VAR(1, 0x4FF948, u8, byte_4FF948, 0);
 ALIVE_VAR(1, 0x4FF950, s32, dword_4FF950, 0);
 ALIVE_VAR(1, 0x4C50AC, short, word_4C50AC, 30);
 ALIVE_VAR(1, 0x4C50B0, short, word_4C50B0, -1);
@@ -48,7 +48,7 @@ Dove* Dove::ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID
     ctor_417C10();
     SetVTable(this, 0x4BA858);
     field_4_typeId = Types::eBird_22;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
     Animation_Init_417FD0(
         frameTableOffset,
         maxW,
@@ -113,7 +113,7 @@ Dove* Dove::ctor_40EFF0(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID
 
     field_4_typeId = Types::eBird_22;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
     Animation_Init_417FD0(
         frameTableOffset,
         maxW,
@@ -196,13 +196,13 @@ BaseGameObject* Dove::dtor_40F1B0()
     return dtor_417D10();
 }
 
-void Dove::AsAlmostACircle_40F300(FP xpos, FP ypos, BYTE angle)
+void Dove::AsAlmostACircle_40F300(FP xpos, FP ypos, u8 angle)
 {
     AsACircle_40F280(xpos, ypos, angle);
     field_EE_state = State::eAlmostACircle_4;
 }
 
-void Dove::AsACircle_40F280(FP xpos, FP ypos, BYTE angle)
+void Dove::AsACircle_40F280(FP xpos, FP ypos, u8 angle)
 {
     field_F0_xJoin = xpos;
     field_F4_yJoin = ypos;

@@ -26,7 +26,7 @@ ALIVE_ARY(1, 0x5C92F0, char, 16, sScreenStringBuffer_5C92F0, { 0 });
 ALIVE_ARY(1, 0x5C931C, char, 32, sSaveString_5C931C, {});
 
 
-ALIVE_ARY(1, 0x554474, BYTE, 32, pal_554474, {
+ALIVE_ARY(1, 0x554474, u8, 32, pal_554474, {
     0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90,
     0xA5, 0x14, 0xE7, 0x1C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29,
     0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42,
@@ -534,7 +534,7 @@ void PauseMenu::Init_491760()
     ResourceManager::LoadResourceFile_49C170("EMOANGRY.BAN", 0);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAngryiconResID);
     ResourceManager::LoadResourceFile_49C170("EMONORM.BAN", 0);
-    BYTE **ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID);
+    u8 **ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID);
 
     if (field_158_animation.Init_40A030(1248, gObjList_animations_5C1A24, this, 54, 47, ppAnimData, 1, 0, 0))
     {

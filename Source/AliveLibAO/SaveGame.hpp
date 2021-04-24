@@ -87,7 +87,7 @@ struct SaveData
     s32 field_2A8_gasTimer;
     short field_2AC_bUseAltSaveHeader;
     short field_2AE_controller_idx;
-    BYTE field_2B0_pSaveBuffer[7501];
+    u8 field_2B0_pSaveBuffer[7501];
 };
 ALIVE_ASSERT_SIZEOF(SaveData, 0x2000);
 

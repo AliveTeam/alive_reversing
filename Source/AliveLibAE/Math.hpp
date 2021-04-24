@@ -10,10 +10,10 @@ void Math_ForceLink();
 EXPORT u32  CC Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2);
 EXPORT u32 CC Math_FixedPoint_Divide_496B70(s32 op1, s32 op2);
 EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max);
-EXPORT BYTE Math_NextRandom();
+EXPORT u8 Math_NextRandom();
 
-EXPORT FP CC Math_Cosine_496CD0(BYTE v);
-EXPORT FP CC Math_Sine_496DD0(BYTE v);
+EXPORT FP CC Math_Cosine_496CD0(u8 v);
+EXPORT FP CC Math_Sine_496DD0(u8 v);
 EXPORT FP CC Math_Cosine_496D60(FP fp);
 EXPORT FP CC Math_Sine_496DF0(FP fp);
 

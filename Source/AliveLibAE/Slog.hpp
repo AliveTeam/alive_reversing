@@ -88,8 +88,8 @@ struct Slog_State
     s32 field_68_growl_timer;
     s32 field_6C_bone_id;
     s16 field_70_jump_delay;
-    BYTE field_72_slog_random_index;
-    BYTE field_73_padding;
+    u8 field_72_slog_random_index;
+    u8 field_73_padding;
 
     enum Flags_74
     {
@@ -133,9 +133,9 @@ public:
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_4C54F0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4C54F0(const u8* pBuffer);
 
 private:
     EXPORT s32 vGetSaveState_4C78F0(Slog_State* pState);
@@ -228,7 +228,7 @@ public:
     EXPORT s16 AI_Death_3_4C3250();
 
 private:
-    EXPORT BYTE** ResBlockForMotion_4C4A80(s16 motion);
+    EXPORT u8** ResBlockForMotion_4C4A80(s16 motion);
 
 
     EXPORT void SetAnimFrame_4C42A0();

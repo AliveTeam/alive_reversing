@@ -8,7 +8,7 @@
 
 ALIVE_VAR(1, 0x5d1e2c, ThrowableArray*, gpThrowableArray_5D1E2C, nullptr);
 
-void CCSTD FreeResourceArray_49AEC0(DynamicArrayT<BYTE*>* pArray)
+void CCSTD FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
 {
     while (pArray->Size())
     {
@@ -21,7 +21,7 @@ void CCSTD FreeResourceArray_49AEC0(DynamicArrayT<BYTE*>* pArray)
 void CC LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber)
 {
     BOOL bDoLoadingLoop = FALSE;
-    const BYTE throwableTypeIdx = LOBYTE(Path_Get_Bly_Record_460F30(levelNumber, pathNumber)->field_C_overlay_id);
+    const u8 throwableTypeIdx = LOBYTE(Path_Get_Bly_Record_460F30(levelNumber, pathNumber)->field_C_overlay_id);
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbepickResID, 0, 0))
     {
@@ -178,7 +178,7 @@ void ThrowableArray::vUpdate_49AA50()
     }
 }
 
-s32 ThrowableArray::vGetSaveState_49B2A0(BYTE* pSaveBuffer)
+s32 ThrowableArray::vGetSaveState_49B2A0(u8* pSaveBuffer)
 {
     ThrowableArray_SaveState* pState = reinterpret_cast<ThrowableArray_SaveState*>(pSaveBuffer);
     pState->field_0_unused = 102; // never gets read back, no idea what it means :)
@@ -218,13 +218,13 @@ void ThrowableArray::Add_49A7A0(s16 count)
     {
         if (!field_22_flags.Get(Flags_22::eBit3_Unknown))
         {
-            BYTE** ppRes1 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbepickResID, 1, 0);
+            u8** ppRes1 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbepickResID, 1, 0);
             if (ppRes1)
             {
                 field_24_throwables.Push_Back_40CAF0(ppRes1);
             }
 
-            BYTE** ppRes2 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbethrowResID, 1, 0);
+            u8** ppRes2 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbethrowResID, 1, 0);
             if (ppRes2)
             {
                 field_24_throwables.Push_Back_40CAF0(ppRes2);
@@ -279,7 +279,7 @@ void ThrowableArray::Add_49A7A0(s16 count)
     field_20_count += count;
 }
 
-s32 CC ThrowableArray::CreateFromSaveState_49B200(const BYTE* pState)
+s32 CC ThrowableArray::CreateFromSaveState_49B200(const u8* pState)
 {
     LoadRockTypes_49AB30(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path);
     auto pArray = ae_new<ThrowableArray>();
@@ -306,7 +306,7 @@ void ThrowableArray::VRender(PrimHeader** /*ppOt*/)
     // Empty 0x4DBF80
 }
 
-s32 ThrowableArray::VGetSaveState(BYTE* pSaveBuffer)
+s32 ThrowableArray::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_49B2A0(pSaveBuffer);
 }

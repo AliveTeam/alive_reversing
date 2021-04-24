@@ -6,7 +6,7 @@
 
 struct ProgAtr
 {
-    BYTE field_0_num_tones;
+    u8 field_0_num_tones;
     char field_1_vol;
     char field_2_priority;
     char field_3_mode;
@@ -52,14 +52,14 @@ struct Converted_Vag
     WORD field_2_adsr_sustain_level;
     WORD field_4_adsr_decay;
     WORD field_6_adsr_release;
-    BYTE field_8_min;
-    BYTE field_9_max;
+    u8 field_8_min;
+    u8 field_9_max;
     s16 field_A_shift_cen;
-    BYTE field_C;
-    BYTE field_D_vol;
-    BYTE field_E_priority;
-    BYTE field_F_prog;
-    BYTE field_10_vag;
+    u8 field_C;
+    u8 field_D_vol;
+    u8 field_E_priority;
+    u8 field_F_prog;
+    u8 field_10_vag;
     char field_11_pad;
 };
 ALIVE_ASSERT_SIZEOF(Converted_Vag, 0x12);
@@ -132,16 +132,16 @@ ALIVE_ASSERT_SIZEOF(MIDI_ProgramVolume, 3);
 
 struct MIDI_SeqSong
 {
-    BYTE* field_0_seq_data;
+    u8* field_0_seq_data;
     u32 field_4_time;
     s32 field_8_playTimeStamp;
     s32 field_C_volume;
     s32 field_10_quaterNoteRes;
     s32 field_14_tempo;
     s32 field_18_repeatCount;
-    BYTE* field_1C_pSeqData;
+    u8* field_1C_pSeqData;
     void* field_20_fn_ptr; // read but never written
-    BYTE* field_24_loop_start;
+    u8* field_24_loop_start;
     s16 field_seq_idx;
     u8 field_2A_running_status;
     char field_2B_repeatMode; // TODO: Check
@@ -170,8 +170,8 @@ public:
     virtual s16& sGlobalVolumeLevel_right() = 0;
     virtual s16& sGlobalVolumeLevel_left() = 0;
     virtual VabUnknown& s512_byte() = 0;
-    virtual BYTE* sVagCounts() = 0;
-    virtual BYTE* sProgCounts() = 0;
+    virtual u8* sVagCounts() = 0;
+    virtual u8* sProgCounts() = 0;
     virtual VabHeader** spVabHeaders() = 0;
     virtual ConvertedVagTable& sConvertedVagTable() = 0;
     virtual SoundEntryTable& sSoundEntryTable16() = 0;
@@ -184,7 +184,7 @@ public:
     virtual DWORD& sLastTime() = 0;
     virtual DWORD& sMidi_WaitUntil() = 0;
     virtual IO_FileHandleType& sSoundDatFileHandle() = 0;
-    virtual BYTE& sControllerValue() = 0;
+    virtual u8& sControllerValue() = 0;
     virtual void MIDI_ParseMidiMessage(s32 idx) = 0;
     virtual void SsUtKeyOffV(s32 idx) = 0;
 };
@@ -218,7 +218,7 @@ EXPORT void CC SsUtAllKeyOff_4FDFE0(s32 mode);
 EXPORT s16 CC SsUtKeyOffV_4FE010(s16 idx);
 EXPORT s16 CC SsUtChangePitch_4FDF70(s16 voice, s32 /*vabId*/, s32 /*prog*/, s16 old_note, s16 old_fine, s16 new_note, s16 new_fine);
 
-EXPORT s16 CC SsSeqOpen_4FD6D0(BYTE* pSeqData, s16 seqIdx);
+EXPORT s16 CC SsSeqOpen_4FD6D0(u8* pSeqData, s16 seqIdx);
 EXPORT void CC SsSeqClose_4FD8D0(s16 idx);
 EXPORT void CC SsSeqStop_4FD9C0(s16 idx);
 EXPORT u16 CC SsIsEos_4FDA80(s16 idx, s16 seqNum);
@@ -227,7 +227,7 @@ EXPORT void CC SsSeqPlay_4FD900(u16 idx, char playMode, s16 repeatCount);
 
 EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx);
 EXPORT s32 CC MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru);
-EXPORT BYTE CC MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData);
+EXPORT u8 CC MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData);
 EXPORT void CC MIDI_SkipBytes_4FD6C0(MIDI_SeqSong* pData, s32 length);
 EXPORT void CC MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo);
 EXPORT s32 CC MIDI_PlayerPlayMidiNote_4FCE80(s32 vabId, s32 program, s32 note, s32 leftVol, s32 rightVol, s32 volume);

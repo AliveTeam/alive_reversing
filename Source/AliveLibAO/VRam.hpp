@@ -13,9 +13,9 @@ EXPORT void CC Pal_Free_447870(PSX_Point xy, s16 palDepth);
 
 EXPORT void CC Pal_Copy_4479D0(PSX_Point point, s16 w, WORD* pPalData, PSX_RECT* rect);
 
-EXPORT void CC Pal_Set_447990(PSX_Point xy, s16 w, const BYTE* palData, PSX_RECT* rect);
+EXPORT void CC Pal_Set_447990(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect);
 
-EXPORT u32 CC Pal_Make_Colour_447950(BYTE r, BYTE g, BYTE b, s16 bOpaque);
+EXPORT u32 CC Pal_Make_Colour_447950(u8 r, u8 g, u8 b, s16 bOpaque);
 
 EXPORT void CC Vram_reset_450840();
 

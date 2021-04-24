@@ -26,7 +26,7 @@ private:
     s16 field_22_volume;
     s32 field_24_padding;
     s32 field_28_padding;
-    BYTE** field_2C_ppRes;
+    u8** field_2C_ppRes;
     s32 field_30_padding;
     s32 field_34_padding;
     s32 field_38_unused;

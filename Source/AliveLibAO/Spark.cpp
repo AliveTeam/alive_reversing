@@ -64,14 +64,14 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
             {
                 randAng = min + Math_RandomRange_450F20(0, max - min);
             }
-            pSparkIter->field_10_ang = static_cast<BYTE>(randAng);
+            pSparkIter->field_10_ang = static_cast<u8>(randAng);
             pSparkIter->field_14_radius = FP_FromInteger(0);
             pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange_450F20(2, 4));
         }
 
         field_50_timer = gnFrameCount_507670 + 3;
 
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
         auto pParticle = ao_new<Particle>();
         if (pParticle)
         {
@@ -217,14 +217,14 @@ void Spark::VRender_477ED0(PrimHeader** ppOt)
         SetXY1(pPrim, static_cast<short>(x1), static_cast<short>(y1));
 
         SetRGB0(pPrim,
-            static_cast<BYTE>(field_3C_r / 2),
-            static_cast<BYTE>(field_3E_g / 2),
-            static_cast<BYTE>(field_40_b / 2));
+            static_cast<u8>(field_3C_r / 2),
+            static_cast<u8>(field_3E_g / 2),
+            static_cast<u8>(field_40_b / 2));
 
         SetRGB1(pPrim,
-            static_cast<BYTE>(field_3C_r),
-            static_cast<BYTE>(field_3E_g),
-            static_cast<BYTE>(field_40_b));
+            static_cast<u8>(field_3C_r),
+            static_cast<u8>(field_3E_g),
+            static_cast<u8>(field_40_b));
 
         Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, TRUE);
         OrderingTable_Add_498A80(OtLayer(ppOt, field_42_layer), &pPrim->mBase.header);

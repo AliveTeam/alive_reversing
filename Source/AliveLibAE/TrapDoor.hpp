@@ -41,14 +41,14 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx) override;
 
     virtual void VAdd(BaseAliveGameObject* pObj) override;
     virtual void VRemove(BaseAliveGameObject* pObj) override;
 
     EXPORT TrapDoor* ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
-    EXPORT static s32 CC CreateFromSaveState_4DDED0(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_4DDED0(const u8* pData);
 
 private:
     EXPORT BaseGameObject* vdtor_4DD8A0(s32 flags);

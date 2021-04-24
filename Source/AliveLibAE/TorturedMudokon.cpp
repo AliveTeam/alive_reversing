@@ -68,7 +68,7 @@ BaseGameObject* TorturedMudokon::VDestructor(s32 flags)
 
 void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
 {
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTorturedMudTearsResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTorturedMudTearsResID);
     if (pAnim->Init_40A030(500, gObjList_animations_5C1A24, this, 17, 19, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer;
@@ -85,7 +85,7 @@ void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
 
 void TorturedMudokon::SetupZapAnimation_47BEF0(Animation* pAnim)
 {
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
     if (pAnim->Init_40A030(15384, gObjList_animations_5C1A24, this, 50, 80, ppRes, 1, 0, 0))
     {
         // TODO: clean this up
@@ -232,11 +232,11 @@ void TorturedMudokon::vUpdate_47BF80()
         }
     }
 
-    BYTE rgbBase = 0;
+    u8 rgbBase = 0;
     switch (field_238_flash_colour_counter)
     {
         case 0:
-            rgbBase = static_cast<BYTE>((field_234_flash_colour_timer & 0xFF) - sGnFrame_5C1B84);
+            rgbBase = static_cast<u8>((field_234_flash_colour_timer & 0xFF) - sGnFrame_5C1B84);
             break;
 
         case 1:
@@ -244,7 +244,7 @@ void TorturedMudokon::vUpdate_47BF80()
             break;
 
         case 2:
-            rgbBase = static_cast<BYTE>(sGnFrame_5C1B84 - (field_234_flash_colour_timer & 0xFF) + 100);
+            rgbBase = static_cast<u8>(sGnFrame_5C1B84 - (field_234_flash_colour_timer & 0xFF) + 100);
             break;
 
         case 3:

@@ -22,12 +22,12 @@ class SligSpawner : public BaseGameObject
 {
 public:
     EXPORT SligSpawner* ctor_409740(Path_Slig* pTlv, s32 tlvInfo);
-    EXPORT static s32 CC CreateFromSaveState_409B10(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_409B10(const u8* pBuffer);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
     EXPORT void dtor_409A70();

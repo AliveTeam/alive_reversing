@@ -84,7 +84,7 @@ public:
     s16 field_11C_code_length;
     s16 field_11E_flags;
     s32 field_120_last_event_idx;
-    BYTE field_124_code_buffer[16];
+    u8 field_124_code_buffer[16];
     s16 field_134_buffer_start;
     s16 field_136;
     u16 field_138_brain_state;
@@ -95,7 +95,7 @@ public:
     s32 field_144_timer2;
     s32 field_148;
     s32 field_14C;
-    BYTE** field_150_res;
+    u8** field_150_res;
     s16 field_154;
     s16 field_156;
     s16 field_158_code_pos;

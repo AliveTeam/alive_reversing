@@ -85,7 +85,7 @@ BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP sca
 
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID, 1, 0);
     Animation_Init_417FD0(3860, 31, 18, ppRes, 1);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_BC_sprite_scale = scale;
@@ -180,7 +180,7 @@ BaseGameObject* BirdPortal::dtor_452230()
         field_5C_pThrowableTotalIndicator = nullptr;
     }
 
-    BYTE** ppRes = nullptr;
+    u8** ppRes = nullptr;
     ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
     ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, 0, 0);
@@ -316,7 +316,7 @@ void BirdPortal::VUpdate_4523D0()
             field_4C_pDovesArray->ctor_4043E0(6);
         }
 
-        for (BYTE i = 0; i < 6; i++)
+        for (u8 i = 0; i < 6; i++)
         {
             auto pDove = ao_new<Dove>();
             if (pDove)
@@ -531,7 +531,7 @@ void BirdPortal::VUpdate_4523D0()
         {
             if ((Math_NextRandom() % 8) == 0)
             {
-                BYTE** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, 1, 0);
+                u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, 1, 0);
                 if (ppLightRes)
                 {
                     auto pParticle = ao_new<Particle>();
@@ -657,7 +657,7 @@ void BirdPortal::VUpdate_4523D0()
 
         if (FP_GetExponent(field_3C_pTerminator1->field_AC_ypos) >= FP_GetExponent(field_40_pTerminator2->field_AC_ypos))
         {
-            BYTE** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortlitResID, 1, 0);
+            u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortlitResID, 1, 0);
             if (ppLightRes)
             {
                 auto pParticle_1 = ao_new<Particle>();

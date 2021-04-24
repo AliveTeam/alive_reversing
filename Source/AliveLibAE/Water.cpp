@@ -18,7 +18,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
 
     SetVTable(this, 0x547F10); // vTbl_Water_547F10
  
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWaterDrop);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWaterDrop);
     if (ppRes)
     {
         Animation_Init_424E10(104, 11, 7, ppRes, 1, 1);
@@ -83,7 +83,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
                 field_FE_texture_mode = TPageMode::e4Bit_0;
             }
 
-            BYTE u0 = field_20_animation.field_84_vram_rect.x & 63;
+            u8 u0 = field_20_animation.field_84_vram_rect.x & 63;
             if (field_FE_texture_mode == TPageMode::e8Bit_1)
             {
                 u0 = 2 * u0;
@@ -93,14 +93,14 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
                 u0 = 4 * u0;
             }
 
-            const BYTE v0 = field_20_animation.field_84_vram_rect.y & 0xFF;
+            const u8 v0 = field_20_animation.field_84_vram_rect.y & 0xFF;
 
             const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]);
             field_120_frame_width = pFrameHeader->field_4_width;
             field_122_frame_height = pFrameHeader->field_5_height;
 
-            const BYTE u1 = pFrameHeader->field_4_width + u0 - 1;
-            const BYTE v1 = pFrameHeader->field_5_height + v0 - 1;
+            const u8 u1 = pFrameHeader->field_4_width + u0 - 1;
+            const u8 v1 = pFrameHeader->field_5_height + v0 - 1;
 
             const s32 tPage = PSX_getTPage_4F60E0(
                 field_FE_texture_mode,
@@ -141,7 +141,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
             rect.h = 1;
 
             // Some sort of hack to set the first 2 pixels to black/transparent?
-            const BYTE zeroedData[4] = {};
+            const u8 zeroedData[4] = {};
             PSX_LoadImage_4F5FB0(&rect, zeroedData);  // TODO: FIX ME - won't work with other renderers
 
             field_144_sound_channels = 0;
@@ -281,7 +281,7 @@ void Water::Add_Water_Particle_4E09A0()
             }
         }
         
-        const BYTE rand1 = Math_NextRandom();
+        const u8 rand1 = Math_NextRandom();
         const FP rand2 = FP_FromRaw(Math_NextRandom() << 8);
         const FP xRand = (rand2 * field_118_radius) + FP_FromInteger(1);
         

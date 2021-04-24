@@ -83,9 +83,9 @@ public:
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_446040(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_446040(const u8* pBuffer);
 
 
 private:

@@ -14,7 +14,7 @@ namespace AO {
 EXPORT Shadow* Shadow::ctor_461FB0()
 {
     SetVTable(&field_18_anim, 0x4BA2B8);
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 1, 0);
     field_18_anim.Init_402D20(296, gObjList_animations_505564, 0, 37, 6, ppRes, 1, 0, 0);
 
     field_14_flags.Clear(Flags::eBit1_ShadowAtBottom);
@@ -171,7 +171,7 @@ void Shadow::Render_462410(PrimHeader** ppOt)
     {
         field_18_anim.field_14_scale = FP_FromInteger(1);
         
-        BYTE rgb = 63;
+        u8 rgb = 63;
         if (field_10_scale != FP_FromDouble(0.5))
         {
             rgb = 127;

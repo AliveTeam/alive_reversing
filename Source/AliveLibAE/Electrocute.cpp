@@ -114,7 +114,7 @@ private:
         if (!field_CE_bDone)
         {
             // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
-            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_20_pal_xy.field_2_y, static_cast<short>(field_20_pal_xy.field_0_x + field_C8_pal_x_index), field_CA_pal_w}, reinterpret_cast<BYTE*>(&field_B8_palBuffer[0]));
+            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_20_pal_xy.field_2_y, static_cast<short>(field_20_pal_xy.field_0_x + field_C8_pal_x_index), field_CA_pal_w}, reinterpret_cast<u8*>(&field_B8_palBuffer[0]));
         }
     }
 
@@ -322,7 +322,7 @@ void Electrocute::vUpdate_4E6240()
                     Pal_Set_483510(
                         pTargetObj->field_20_animation.field_8C_pal_vram_xy,
                         pTargetObj->field_20_animation.field_90_pal_depth,
-                        reinterpret_cast<const BYTE*>(field_40_pPalData),
+                        reinterpret_cast<const u8*>(field_40_pPalData),
                         &field_4C_pal_rect);
                 }
 
@@ -387,7 +387,7 @@ void Electrocute::vStop_4E6150()
             Pal_Set_483510(
                 pTarget->field_20_animation.field_8C_pal_vram_xy,
                 pTarget->field_20_animation.field_90_pal_depth,
-                reinterpret_cast<const BYTE*>(field_40_pPalData),
+                reinterpret_cast<const u8*>(field_40_pPalData),
                 &field_4C_pal_rect);
 
             pTarget->field_D0_r = field_24_r;

@@ -54,13 +54,13 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VThrow_49E460(FP velX, FP velY) override;
     virtual BOOL VCanThrow_49E350() override;
     virtual BOOL VIsFalling_49E330() override;
     virtual void VTimeToExplodeRandom_411490() override;
 
-    static s32 CC CreateFromSaveState_49F720(const BYTE* pData);
+    static s32 CC CreateFromSaveState_49F720(const u8* pData);
 
 private:
     EXPORT void vScreenChanged_49F030();

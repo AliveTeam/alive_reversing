@@ -69,7 +69,7 @@ BaseGameObject* SlamDoor::VDestructor(s32 flags)
     return vdtor_4AFD20(flags);
 }
 
-s32 SlamDoor::VGetSaveState(BYTE* pSaveBuffer)
+s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4C09D0(pSaveBuffer);
 }
@@ -451,7 +451,7 @@ void SlamDoor::vUpdate_4AFD50()
 
 }
 
-s32 SlamDoor::vGetSaveState_4C09D0(BYTE* pSaveBuffer)
+s32 SlamDoor::vGetSaveState_4C09D0(u8* pSaveBuffer)
 {
     Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<Quicksave_Obj_SlamDoor*>(pSaveBuffer);
 
@@ -484,7 +484,7 @@ void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPositi
     }
 }
 
-s32 CC SlamDoor::CreateFromSaveState_4C08B0(const BYTE* pData)
+s32 CC SlamDoor::CreateFromSaveState_4C08B0(const u8* pData)
 {
     const Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<const Quicksave_Obj_SlamDoor*>(pData);
 

@@ -32,7 +32,7 @@ private:
     EXPORT void vUpdate_41D590();
 
 private:
-    BYTE** field_F4_ppRes;
+    u8** field_F4_ppRes;
     ParticleBurst_Item* field_F8_pRes;
     s16 field_FC_number_of_particles;
     s16 field_FE_padding;

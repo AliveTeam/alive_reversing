@@ -125,8 +125,8 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
 
     const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
-    BYTE** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, sFlintLockFireData_4BAC70[cur_lvl].field_10_resId, 1, 0);
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(
+    u8** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, sFlintLockFireData_4BAC70[cur_lvl].field_10_resId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(
         ResourceManager::Resource_Animation,
         sFlintLockFireData_4BAC70[cur_lvl].field_0_resourceId,
         1,
@@ -158,7 +158,7 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
-        BYTE** ppHubFireRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
+        u8** ppHubFireRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
         field_188_anim.Init_402D20(
             5072,
             gObjList_animations_505564,
@@ -344,23 +344,23 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
         }
 
 
-        field_10_anim.field_8_r = static_cast<BYTE>(r);
-        field_10_anim.field_9_g = static_cast<BYTE>(g);
-        field_10_anim.field_A_b = static_cast<BYTE>(b);
+        field_10_anim.field_8_r = static_cast<u8>(r);
+        field_10_anim.field_9_g = static_cast<u8>(g);
+        field_10_anim.field_A_b = static_cast<u8>(b);
 
-        field_F0_anim.field_8_r = static_cast<BYTE>(r);
-        field_F0_anim.field_9_g = static_cast<BYTE>(g);
-        field_F0_anim.field_A_b = static_cast<BYTE>(b);
+        field_F0_anim.field_8_r = static_cast<u8>(r);
+        field_F0_anim.field_9_g = static_cast<u8>(g);
+        field_F0_anim.field_A_b = static_cast<u8>(b);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.field_8_r = static_cast<BYTE>(r);
-            field_188_anim.field_9_g = static_cast<BYTE>(g);
-            field_188_anim.field_A_b = static_cast<BYTE>(b);
+            field_188_anim.field_8_r = static_cast<u8>(r);
+            field_188_anim.field_9_g = static_cast<u8>(g);
+            field_188_anim.field_A_b = static_cast<u8>(b);
 
-            field_220_anim.field_8_r = static_cast<BYTE>(r);
-            field_220_anim.field_9_g = static_cast<BYTE>(g);
-            field_220_anim.field_A_b = static_cast<BYTE>(b);
+            field_220_anim.field_8_r = static_cast<u8>(r);
+            field_220_anim.field_9_g = static_cast<u8>(g);
+            field_220_anim.field_A_b = static_cast<u8>(b);
 
             field_220_anim.vRender(
                 FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),

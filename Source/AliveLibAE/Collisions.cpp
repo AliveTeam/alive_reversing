@@ -9,7 +9,7 @@
 
 ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
 
-Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes)
+Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
 {
     field_8_item_count = pCollisionInfo->field_10_num_collision_items;
     field_4_current_item_count = static_cast<WORD>(pCollisionInfo->field_10_num_collision_items);
@@ -39,7 +39,7 @@ void Collisions::dtor_4189F0()
     ae_non_zero_free_495560(field_0_pArray);
 }
 
-void CC Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes)
+void CC Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
 {
     sCollisions_DArray_5C1128 = ae_new<Collisions>();
     if (sCollisions_DArray_5C1128)

@@ -416,7 +416,7 @@ void Map::Handle_PathTransition_481610()
         }
 
         const DWORD pCamNameOffset = sizeof(CameraName) * (field_D0_cam_x_idx + (field_D2_cam_y_idx * sPath_dword_BB47C0->field_6_cams_on_x));
-        const BYTE* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
+        const u8* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
@@ -776,7 +776,7 @@ void Map::GoTo_Camera_481890()
     {
         for (;;)
         {
-            BYTE* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_C_path];
+            u8* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_C_path];
             CameraName* pCameraNameIter = reinterpret_cast<CameraName*>(pPathRes + pCamNameOffset);
 
             if (strncmp(pCameraNameIter->name, pStrBuffer, sizeof(CameraName)) == 0)
@@ -1013,7 +1013,7 @@ void Map::Create_FG1s_480F10()
     Camera* pCamera = field_2C_camera_array[0];
     for (s32 i = 0; i < pCamera->field_0.Size(); i++)
     {
-        BYTE** ppRes = pCamera->field_0.ItemAt(i);
+        u8** ppRes = pCamera->field_0.ItemAt(i);
         if (!ppRes)
         {
             break;
@@ -1138,7 +1138,7 @@ s16 Map::SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffect
     return 1;
 }
 
-BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, LevelIds lvlId)
+BaseGameObject* CC Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds lvlId)
 {
     if (pMap->field_12_fmv_base_id > 10000u)
     {
@@ -1253,7 +1253,7 @@ Camera* Map::Create_Camera_4829E0(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     // Get a pointer to the camera name from the Path resource
-    const BYTE* pPathData = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
+    const u8* pPathData = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
     auto pCamName = reinterpret_cast<const CameraName*>(&pPathData[(xpos + (ypos * sPath_dword_BB47C0->field_6_cams_on_x)) * sizeof(CameraName)]);
 
     // Empty/blank camera in the map array

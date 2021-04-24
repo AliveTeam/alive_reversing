@@ -186,7 +186,7 @@ enum class Choice_short : s16
 struct Path_TLV
 {
     BitField8<TLV_Flags> field_0_flags;
-    BYTE field_1_tlv_state;
+    u8 field_1_tlv_state;
     s16 field_2_length;
     TlvTypes32 field_4_type;
     PSX_Point field_8_top_left;
@@ -219,7 +219,7 @@ public:
     EXPORT void ctor_4DB170();
     EXPORT void dtor_4DB1A0();
     EXPORT void Free_4DB1C0();
-    EXPORT void Init_4DB200(const PathData* pPathData, LevelIds level, s16 path, s16 cameraId, BYTE** ppPathRes);
+    EXPORT void Init_4DB200(const PathData* pPathData, LevelIds level, s16 path, s16 cameraId, u8** ppPathRes);
 
 
     EXPORT void Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToLoad);
@@ -246,7 +246,7 @@ public:
     u16 field_8_cams_on_y;
     s16 field_A_padding;
     const PathData* field_C_pPathData;
-    BYTE** field_10_ppRes;
+    u8** field_10_ppRes;
 };
 ALIVE_ASSERT_SIZEOF(Path, 0x14);
 
@@ -295,7 +295,7 @@ struct Path_Hoist : public Path_TLV
     };
     GrabDirection field_12_grab_direction;
 
-    BYTE field_14_id; // never used
+    u8 field_14_id; // never used
     // pad
 
     Scale_short field_16_scale;

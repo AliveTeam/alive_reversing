@@ -236,7 +236,7 @@ void ParticleBurst::VUpdate_40D600()
 
                 const short volume = static_cast<short>(Math_RandomRange_450F20(-10, 10) + ((field_F0_timer - gnFrameCount_507670) / 91) + 25);
 
-                const BYTE next_rand = Math_NextRandom();
+                const u8 next_rand = Math_NextRandom();
                 if (next_rand < 43)
                 {
                     SFX_Play_43AED0(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamLeft_3);

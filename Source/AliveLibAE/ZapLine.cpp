@@ -20,7 +20,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
         field_130_number_of_pieces_per_segment = 20;
         field_12E_number_of_segments = 12;
         const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Blue);
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
         field_12C_tPageAbr = TPageAbr::eBlend_3;
     }
@@ -30,7 +30,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
         field_130_number_of_pieces_per_segment = 10;
         field_12E_number_of_segments = 28;
         const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Red);
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
         field_12C_tPageAbr = TPageAbr::eBlend_1;
     }
@@ -68,7 +68,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
         field_124_tPageMode = TPageMode::e4Bit_0;
     }
 
-    BYTE u0 = field_20_animation.field_84_vram_rect.x & 0x3F;
+    u8 u0 = field_20_animation.field_84_vram_rect.x & 0x3F;
     if (field_124_tPageMode == TPageMode::e8Bit_1)
     {
         u0 = 2 * u0;
@@ -80,8 +80,8 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
 
     auto pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]);
 
-    const BYTE frameW = pFrameHeader->field_4_width;
-    const BYTE frameH = pFrameHeader->field_5_height;
+    const u8 frameW = pFrameHeader->field_4_width;
+    const u8 frameH = pFrameHeader->field_5_height;
 
     for (s32 i = 0; i < 2; i++)
     {
@@ -228,7 +228,7 @@ void ZapLine::CalculateThickSpriteSegmentPositions_4CCD50()
     // First and last done above.
     for (s32 i = 1; i < field_12E_number_of_segments - 1; i++)
     {
-        const BYTE ang = static_cast<BYTE>(angExtra + 18 * i);
+        const u8 ang = static_cast<u8>(angExtra + 18 * i);
         field_140_sprite_segment_positions[i].field_0_x =
             FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_496CD0(ang) * xDiffDiv) + FP_FromInteger(field_11C_x_position_source) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
 

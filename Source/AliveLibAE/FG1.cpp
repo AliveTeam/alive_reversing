@@ -38,7 +38,7 @@ struct FG1ResourceBlockHeader
     Fg1Chunk mChunks;
 };
 
-FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
+FG1* FG1::ctor_499FC0(u8** pFG1Res)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
 
@@ -78,7 +78,7 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
             Convert_Chunk_To_Render_Block_49A210(pChunkIter, pRenderBlock);
 
             // Skip to the next block - a bit more tricky as we must skip the bit field array thats used for the transparent pixels
-            BYTE* pNextChunk = reinterpret_cast<BYTE*>(pChunkIter) + ((pChunkIter->field_A_height * sizeof(DWORD)) + sizeof(Fg1Chunk));
+            u8* pNextChunk = reinterpret_cast<u8*>(pChunkIter) + ((pChunkIter->field_A_height * sizeof(DWORD)) + sizeof(Fg1Chunk));
             pChunkIter = reinterpret_cast<Fg1Chunk*>(pNextChunk);
         }
         break;

@@ -44,7 +44,7 @@ public:
     s32 field_D8_padding;
     s32 field_DC_padding;
     s32 field_E0_padding;
-    BYTE** field_E4_res;
+    u8** field_E4_res;
     s16 field_E8_xpos;
     s16 field_EA_ypos;
     s16 field_EC_w;

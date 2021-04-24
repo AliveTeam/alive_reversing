@@ -117,10 +117,10 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
     }
 
     // TODO: It is assumed all 3 gib parts have the same resource id - might not be true for mods
-    BYTE** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, pHeadGib->mResourceId);
+    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, pHeadGib->mResourceId);
     
     // TODO: It is assumed all 3 gib parts use the same pal - might not be true for mods
-    BYTE** ppRes = nullptr;
+    u8** ppRes = nullptr;
     if (pHeadGib->mPalOverride != PalId::Default)
     {
         ppRes = Add_Resource_4DC130(ResourceManager::Resource_Palt, PalRec(pHeadGib->mPalOverride).mResourceId);
@@ -243,9 +243,9 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
         pPart->field_18_anim.field_14_scale = scale;
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
 
-        pPart->field_18_anim.field_8_r = static_cast<BYTE>(field_D0_r);
-        pPart->field_18_anim.field_9_g = static_cast<BYTE>(field_D2_g);
-        pPart->field_18_anim.field_A_b = static_cast<BYTE>(field_D4_b); 
+        pPart->field_18_anim.field_8_r = static_cast<u8>(field_D0_r);
+        pPart->field_18_anim.field_9_g = static_cast<u8>(field_D2_g);
+        pPart->field_18_anim.field_A_b = static_cast<u8>(field_D4_b); 
 
         pPart->field_0_x = field_B8_xpos;
         pPart->field_4_y = field_BC_ypos;

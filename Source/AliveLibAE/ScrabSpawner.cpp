@@ -33,7 +33,7 @@ ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo)
     return this;
 }
 
-s32 CC ScrabSpawner::CreateFromSaveState_4ABEB0(const BYTE* pBuffer)
+s32 CC ScrabSpawner::CreateFromSaveState_4ABEB0(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const ScrabSpawner_State*>(pBuffer);
     auto pTlv = static_cast<Path_ScrabSpawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
@@ -55,7 +55,7 @@ void ScrabSpawner::VUpdate()
     vUpdate_4AB510();
 }
 
-s32 ScrabSpawner::VGetSaveState(BYTE* pSaveBuffer)
+s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4ABF50(reinterpret_cast<ScrabSpawner_State*>(pSaveBuffer));
 }

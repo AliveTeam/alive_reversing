@@ -16,8 +16,8 @@ struct File_Font
     s16 field_2_height;
     s16 field_4_color_depth;
     s16 field_6_palette_size;
-    BYTE field_8_palette[32];
-    BYTE field_28_pixel_buffer[1];
+    u8 field_8_palette[32];
+    u8 field_28_pixel_buffer[1];
 };
 //ALIVE_ASSERT_SIZEOF(File_Font, 0x28);
 // Can vary in size
@@ -54,7 +54,7 @@ public:
 class AliveFont
 {
 public:
-    EXPORT AliveFont* ctor_41C170(s32 maxCharLength, const BYTE* palette, FontContext* fontContext);
+    EXPORT AliveFont* ctor_41C170(s32 maxCharLength, const u8* palette, FontContext* fontContext);
 
     EXPORT u32 MeasureWidth_41C2B0(const char* character);
 
@@ -68,8 +68,8 @@ public:
 
     EXPORT const char* SliceText_41C6C0(const char* text, s32 left, FP scale, s32 right);
 
-    BYTE gap0[32];
-    BYTE** field_20_fnt_poly_block_ptr;
+    u8 gap0[32];
+    u8** field_20_fnt_poly_block_ptr;
     Poly_FT4* field_24_fnt_poly_array;
     PSX_RECT field_28_palette_rect;
     s32 field_30_poly_count;
@@ -79,6 +79,6 @@ ALIVE_ASSERT_SIZEOF(AliveFont, 0x38);
 
 ALIVE_VAR_EXTERN(FontContext, sFontContext_4FFD68);
 ALIVE_VAR_EXTERN(short, sDisableFontFlicker_5080E4);
-ALIVE_VAR_EXTERN(BYTE, sFontDrawScreenSpace_508BF4);
+ALIVE_VAR_EXTERN(u8, sFontDrawScreenSpace_508BF4);
 
 }

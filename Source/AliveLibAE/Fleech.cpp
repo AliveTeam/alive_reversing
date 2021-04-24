@@ -22,7 +22,7 @@
 #include "SlamDoor.hpp"
 #include "Sound/Midi.hpp"
 
-ALIVE_VAR(1, 0x5BC20C, BYTE, sFleechRandomIdx_5BC20C, 0);
+ALIVE_VAR(1, 0x5BC20C, u8, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);
 
 const TFleechMotionFn sFleech_motion_table_551798[19] =
@@ -120,7 +120,7 @@ const static AIFunctionData<TFleechAIFn> sFleechAiTable[4] =
     { &Fleech::AI_Death_3_42D1E0, 0x42D1E0, "AI_Death_3" }, // no stub ??
 };
 
-static BYTE Fleech_NextRandom()
+static u8 Fleech_NextRandom()
 {
     return sRandomBytes_546744[sFleechRandomIdx_5BC20C++];
 }
@@ -233,7 +233,7 @@ void Fleech::VOnThrowableHit(BaseGameObject* pFrom)
     vOnThrowableHit_42A590(pFrom);
 }
 
-s32 Fleech::VGetSaveState(BYTE* pSaveBuffer)
+s32 Fleech::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_42FF80(reinterpret_cast<Fleech_State*>(pSaveBuffer));
 }
@@ -264,7 +264,7 @@ const static AnimId sFleechFrameTableOffsets_5517E4[19] =
 
 ALIVE_VAR(1, 0x551840, s32, current_target_object_id_551840, -1);
 
-s32 CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
+s32 CC Fleech::CreateFromSaveState_42DD50(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Fleech_State*>(pBuffer);
 
@@ -1385,13 +1385,13 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
             tongueBlock_Y[0] - tongueBlock_Y[4],
             tongueBlock_X[4] - tongueBlock_X[0]
         );
-        const FP distanceCosine = Math_Cosine_496CD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
-        const FP SineTan = Math_Sine_496DD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
+        const FP distanceCosine = Math_Cosine_496CD0(static_cast<u8>(FP_GetExponent(Tan_fp)));
+        const FP SineTan = Math_Sine_496DD0(static_cast<u8>(FP_GetExponent(Tan_fp)));
 
         for (s32 i = 0; i < 4; i++)
         {
             const FP distanceXY_squareRoot_multiplied = distanceXY_squareRoot * FP_FromInteger(i+1) * FP_FromDouble(0.25);
-            const FP cosineIt_times_field188 = Math_Cosine_496CD0(static_cast<BYTE>(32 * (i+1))) * FP_FromInteger(field_188);
+            const FP cosineIt_times_field188 = Math_Cosine_496CD0(static_cast<u8>(32 * (i+1))) * FP_FromInteger(field_188);
             tongueBlock_X[i + 1] = tongueBlock_X[0] + SineTan * distanceXY_squareRoot_multiplied - cosineIt_times_field188 * distanceCosine;
             tongueBlock_Y[i + 1] = tongueBlock_Y[0] + SineTan * cosineIt_times_field188 + distanceCosine * distanceXY_squareRoot_multiplied;
         }
@@ -1465,27 +1465,27 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
 
             SetRGB0(
                 currTonguePoly1,
-                static_cast<BYTE>(r2),
-                static_cast<BYTE>(g2),
-                static_cast<BYTE>(b2)
+                static_cast<u8>(r2),
+                static_cast<u8>(g2),
+                static_cast<u8>(b2)
             );
             SetRGB1(
                 currTonguePoly1,
-                static_cast<BYTE>(r),
-                static_cast<BYTE>(g),
-                static_cast<BYTE>(b)
+                static_cast<u8>(r),
+                static_cast<u8>(g),
+                static_cast<u8>(b)
             );
             SetRGB2(
                 currTonguePoly1,
-                static_cast<BYTE>(r2),
-                static_cast<BYTE>(g2),
-                static_cast<BYTE>(b2)
+                static_cast<u8>(r2),
+                static_cast<u8>(g2),
+                static_cast<u8>(b2)
             );
             SetRGB3(
                 currTonguePoly1,
-                static_cast<BYTE>(r),
-                static_cast<BYTE>(g),
-                static_cast<BYTE>(b)
+                static_cast<u8>(r),
+                static_cast<u8>(g),
+                static_cast<u8>(b)
             );
 
             OrderingTable_Add_4F8AA0(OtLayer(ot, field_20_animation.field_C_render_layer), &currTonguePoly1->mBase.header);
@@ -1521,27 +1521,27 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
 
             SetRGB0(
                 currTonguePoly2,
-                static_cast<BYTE>(r2),
-                static_cast<BYTE>(g2),
-                static_cast<BYTE>(b2)
+                static_cast<u8>(r2),
+                static_cast<u8>(g2),
+                static_cast<u8>(b2)
             );
             SetRGB1(
                 currTonguePoly2,
-                static_cast<BYTE>(r),
-                static_cast<BYTE>(g),
-                static_cast<BYTE>(b)
+                static_cast<u8>(r),
+                static_cast<u8>(g),
+                static_cast<u8>(b)
             );
             SetRGB2(
                 currTonguePoly2,
-                static_cast<BYTE>(r2),
-                static_cast<BYTE>(g2),
-                static_cast<BYTE>(b2)
+                static_cast<u8>(r2),
+                static_cast<u8>(g2),
+                static_cast<u8>(b2)
             );
             SetRGB3(
                 currTonguePoly2,
-                static_cast<BYTE>(r),
-                static_cast<BYTE>(g),
-                static_cast<BYTE>(b)
+                static_cast<u8>(r),
+                static_cast<u8>(g),
+                static_cast<u8>(b)
             );
 
             OrderingTable_Add_4F8AA0(OtLayer(ot, field_20_animation.field_C_render_layer), &currTonguePoly2->mBase.header);
@@ -1839,7 +1839,7 @@ void Fleech::InitTonguePolys_42B6E0()
 
 void Fleech::SetAnim_429D80()
 {
-	BYTE** ppRes = ResBlockForMotion_42A530(field_106_current_motion);
+	u8** ppRes = ResBlockForMotion_42A530(field_106_current_motion);
 	const AnimRecord& animRec = AnimRec(sFleechFrameTableOffsets_5517E4[field_106_current_motion]);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
@@ -2176,7 +2176,7 @@ s32 Fleech::Sound_430520(FleechSound soundId)
     );
 }
 
-BYTE** Fleech::ResBlockForMotion_42A530(s32 /*motion*/)
+u8** Fleech::ResBlockForMotion_42A530(s32 /*motion*/)
 {
     return field_10_resources_array.ItemAt(0);
 }

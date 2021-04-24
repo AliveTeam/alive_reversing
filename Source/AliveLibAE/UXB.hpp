@@ -60,13 +60,13 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VOnPickUpOrSlapped() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
     EXPORT UXB* ctor_4DE9A0(Path_UXB* params, TlvItemInfoUnion itemInfo);
-    EXPORT static s32 CC CreateFromSaveState_4DFAE0(const BYTE*);
+    EXPORT static s32 CC CreateFromSaveState_4DFAE0(const u8*);
 private:
     EXPORT void vOnPickUpOrSlapped_4DF540();
     EXPORT void vOnThrowableHit_4DF7B0(BaseGameObject* pFrom);
@@ -76,7 +76,7 @@ private:
     EXPORT void Update_4DF030();
     EXPORT void Render_4DF3D0(PrimHeader** ppOt);
     EXPORT void ScreenChanged_4DF9C0();
-    EXPORT s32 GetSaveState_4DFD40(BYTE* pSaveBuffer);
+    EXPORT s32 GetSaveState_4DFD40(u8* pSaveBuffer);
     EXPORT void InitBlinkAnim_4DEED0(Animation* pAnimation);
     EXPORT void PlaySFX_4DE930(u8 sfxIdx);
     EXPORT s32 IsColliding_4DF630();
@@ -84,7 +84,7 @@ private:
     UXBState field_118_state;
     UXBState field_11A_starting_state;
     WORD field_11C_disabled_resources;
-    BYTE field_11E_padding[2];
+    u8 field_11E_padding[2];
     TlvItemInfoUnion field_120_tlv;
     DWORD field_124_next_state_frame;
     Animation field_128_animation;

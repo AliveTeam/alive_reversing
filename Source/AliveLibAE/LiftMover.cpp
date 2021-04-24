@@ -34,7 +34,7 @@ EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo)
     return this;
 }
 
-s32 CC LiftMover::CreateFromSaveState_40D180(const BYTE* pData)
+s32 CC LiftMover::CreateFromSaveState_40D180(const u8* pData)
 {
     auto pState = reinterpret_cast<const LiftMover_State*>(pData);
 
@@ -65,7 +65,7 @@ void LiftMover::VUpdate()
     vUpdate_40CE20();
 }
 
-s32 LiftMover::VGetSaveState(BYTE* pSaveBuffer)
+s32 LiftMover::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_40D240(reinterpret_cast<LiftMover_State*>(pSaveBuffer));
 }

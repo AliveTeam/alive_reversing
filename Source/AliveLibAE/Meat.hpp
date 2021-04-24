@@ -59,9 +59,9 @@ public:
     virtual void VTimeToExplodeRandom_411490() override;
     virtual s16 VGetCount_448080() override;
     virtual BOOL VCanEatMe_4696A0();
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_46A9E0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_46A9E0(const u8* pBuffer);
 
 
 private:

@@ -76,7 +76,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
             {
                 randAng = min + Math_RandomRange_496AB0(0, max - min);
             }
-            pSparkIter->field_10_ang = static_cast<BYTE>(randAng);
+            pSparkIter->field_10_ang = static_cast<u8>(randAng);
             pSparkIter->field_14_radius = FP_FromInteger(0);
             pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange_496AB0(2, 4));
         }
@@ -91,7 +91,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
         else
         {
             // Normal drill/grinder type sparks
-            BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID);
+            u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID);
             auto pParticle = ae_new<Particle>();
             if (pParticle)
             {
@@ -197,14 +197,14 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
             SetXY1(pPrim, static_cast<short>(x1), static_cast<short>(y1));
 
             SetRGB0(pPrim,
-                static_cast<BYTE>(field_4C_r / 2),
-                static_cast<BYTE>(field_4E_g / 2),
-                static_cast<BYTE>(field_50_b / 2));
+                static_cast<u8>(field_4C_r / 2),
+                static_cast<u8>(field_4E_g / 2),
+                static_cast<u8>(field_50_b / 2));
 
             SetRGB1(pPrim,
-                static_cast<BYTE>(field_4C_r),
-                static_cast<BYTE>(field_4E_g),
-                static_cast<BYTE>(field_50_b));
+                static_cast<u8>(field_4C_r),
+                static_cast<u8>(field_4E_g),
+                static_cast<u8>(field_50_b));
 
             Poly_Set_SemiTrans_4F8A60(&pPrim->mBase.header, TRUE);
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_52_layer), &pPrim->mBase.header);

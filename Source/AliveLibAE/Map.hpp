@@ -11,7 +11,7 @@ EXPORT void CC static_map_init_4802D0();
 
 struct Map_PathsArray
 {
-    BYTE** field_0_pPathRecs[30];
+    u8** field_0_pPathRecs[30];
 };
 ALIVE_ASSERT_SIZEOF(Map_PathsArray, 120);
 
@@ -103,7 +103,7 @@ public:
     s16 field_D2_cam_y_idx;
 
     const PathData* field_D4_ptr;
-    BYTE* field_D8_restore_quick_save;
+    u8* field_D8_restore_quick_save;
 
 
     EXPORT void ScreenChange_480B80();
@@ -121,7 +121,7 @@ public:
     EXPORT void Create_FG1s_480F10();
     EXPORT CameraPos Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect);
     EXPORT s16 SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
-    EXPORT static BaseGameObject* CC FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, LevelIds lvlId);
+    EXPORT static BaseGameObject* CC FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds lvlId);
     EXPORT Camera* Create_Camera_4829E0(s16 xpos, s16 ypos, s32 a4);
     EXPORT static void CCSTD Load_Path_Items_482C10(Camera* pCamera, s16 loadMode);
 

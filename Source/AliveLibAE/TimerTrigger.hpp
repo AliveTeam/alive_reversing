@@ -41,9 +41,9 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_4CDF70(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_4CDF70(const u8* pData);
 
 private:
     EXPORT TimerTrigger* vdtor_4CDD00(s32 flags);

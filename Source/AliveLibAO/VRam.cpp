@@ -36,7 +36,7 @@ void CC Pal_Copy_4479D0(PSX_Point point, s16 w, WORD* pPalData, PSX_RECT* rect)
     PSX_StoreImage_496320(rect, pPalData);
 }
 
-void CC Pal_Set_447990(PSX_Point xy, s16 w, const BYTE* palData, PSX_RECT* rect)
+void CC Pal_Set_447990(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect)
 {
     rect->y = xy.field_2_y;
     rect->x = xy.field_0_x;
@@ -45,7 +45,7 @@ void CC Pal_Set_447990(PSX_Point xy, s16 w, const BYTE* palData, PSX_RECT* rect)
     IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{xy.field_0_x, xy.field_2_y, w}, palData);
 }
 
-u32 CC Pal_Make_Colour_447950(BYTE r, BYTE g, BYTE b, s16 bOpaque)
+u32 CC Pal_Make_Colour_447950(u8 r, u8 g, u8 b, s16 bOpaque)
 {
     AE_IMPLEMENTED();
     return Pal_Make_Colour_4834C0(r, g, b, bOpaque);

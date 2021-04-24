@@ -214,11 +214,11 @@ public:
     virtual void VRender(PrimHeader** pOrderingTable);
     virtual void VScreenChanged();
     virtual void VStopAudio();
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer);
+    virtual s32 VGetSaveState(u8* pSaveBuffer);
 
     EXPORT void ScreenChanged_4DC0A0();
 
-    EXPORT BYTE** Add_Resource_4DC130(DWORD type, s32 resourceID);
+    EXPORT u8** Add_Resource_4DC130(DWORD type, s32 resourceID);
     EXPORT void BaseGameObject_ctor_4DBFA0(s16 bAddToObjectList, s16 resourceArraySize);
     EXPORT void BaseGameObject_dtor_4DBEC0();
 
@@ -243,7 +243,7 @@ public:
     BitField16<Options> field_6_flags;
     s32 field_8_object_id;
     s32 field_C_objectId;
-    DynamicArrayT<BYTE*> field_10_resources_array;
+    DynamicArrayT<u8*> field_10_resources_array;
     s32 field_1C_update_delay;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x20);

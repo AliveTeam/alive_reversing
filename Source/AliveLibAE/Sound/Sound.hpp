@@ -81,7 +81,7 @@ struct SoundEntry
 {
     s32 field_0_tableIdx;
     TSoundBufferType* field_4_pDSoundBuffer;
-    BYTE* field_8_pSoundBuffer;
+    u8* field_8_pSoundBuffer;
     s32 field_C_buffer_size_bytes;
     s32 field_10;
     s32 field_14_buffer_size_bytes;

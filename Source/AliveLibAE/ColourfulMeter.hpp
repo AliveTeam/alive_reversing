@@ -63,5 +63,5 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(ColourfulMeter, 0x6c8);
 
-ALIVE_VAR_EXTERN(BYTE, gTotalMeterBars_5C1BFA);
+ALIVE_VAR_EXTERN(u8, gTotalMeterBars_5C1BFA);
 ALIVE_VAR_EXTERN(WORD, gbDrawMeterCountDown_5C1BF8);

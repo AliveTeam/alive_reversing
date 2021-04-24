@@ -51,10 +51,10 @@ public:
     virtual void VUpdate() override;
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    EXPORT static s32 CC CreateFromSaveState_43EA00(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_43EA00(const u8* pBuffer);
 
 private:
     EXPORT SlapLock* vdtor_43DED0(s32 flags);

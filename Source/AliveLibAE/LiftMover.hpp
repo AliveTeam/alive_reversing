@@ -43,11 +43,11 @@ class LiftMover : public BaseGameObject
 {
 public:
     EXPORT LiftMover* ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo);
-    EXPORT static s32 CC CreateFromSaveState_40D180(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_40D180(const u8* pData);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
     EXPORT void vUpdate_40CE20();

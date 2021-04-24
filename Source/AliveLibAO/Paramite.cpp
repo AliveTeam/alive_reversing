@@ -281,7 +281,7 @@ Paramite* Paramite::Vdtor_44B300(s32 flags)
     return this;
 }
 
-BYTE** Paramite::ResBlockForMotion_44AC10(s16 motion)
+u8** Paramite::ResBlockForMotion_44AC10(s16 motion)
 {
     s16 idx = 0;
 

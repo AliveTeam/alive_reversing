@@ -122,7 +122,7 @@ static bool Renderer_TexExists(const PSX_RECT& rect)
     return false;
 }
 
-static TextureCache* Renderer_TexFromTPage(WORD tPage, BYTE u, BYTE v)
+static TextureCache* Renderer_TexFromTPage(WORD tPage, u8 u, u8 v)
 {
     s32 textureMode = static_cast<s32>(((u32)tPage >> 7) & 3);
     short tpagex = ((tPage & 0xF) << 6);
@@ -220,7 +220,7 @@ static void Renderer_FreeTexture(PSX_Point point)
     }
 }
 
-static void Renderer_DecodePalette(const BYTE* srcPalData, RGBAPixel* dst, s32 palDepth)
+static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 palDepth)
 {
     const unsigned short* palShortPtr = reinterpret_cast<const unsigned short*>(srcPalData);
     for (s32 i = 0; i < palDepth; i++)
@@ -248,7 +248,7 @@ static void Renderer_FreePalette(PSX_Point point)
     }
 }
 
-static void Renderer_LoadPalette(PSX_Point point, const BYTE* palData, short palDepth)
+static void Renderer_LoadPalette(PSX_Point point, const u8* palData, short palDepth)
 {
     for (auto& c : gRendererPals)
     {
@@ -381,7 +381,7 @@ static s32 WidthBppDivide(s32 textureMode, s32 width)
     }
 }
 
-static void Convert4bppTextureFont(const PSX_RECT& rect, const BYTE* pPixels)
+static void Convert4bppTextureFont(const PSX_RECT& rect, const u8* pPixels)
 {
     std::vector<u8> buffer(rect.w * rect.h * 4);
 
@@ -396,7 +396,7 @@ static void Convert4bppTextureFont(const PSX_RECT& rect, const BYTE* pPixels)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, rect.w * 4, rect.h, 0, GL_RED, GL_UNSIGNED_BYTE, buffer.data());
 }
 
-static void Renderer_ConvertFG1BitMask(s32 width, s32 height, const BYTE* pPixels)
+static void Renderer_ConvertFG1BitMask(s32 width, s32 height, const u8* pPixels)
 {
     RGBAPixel* mDst = reinterpret_cast<RGBAPixel*>(gDecodeBuffer);
     const unsigned long* mSrc = reinterpret_cast<const unsigned long*>(pPixels);
@@ -447,7 +447,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     {
     case TPageMode::e4Bit_0:
         gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-        CompressionType6Ae_Decompress_40A8A0((BYTE*)pAnimFg1Data, (BYTE*)gDecodeBuffer);
+        CompressionType6Ae_Decompress_40A8A0((u8*)pAnimFg1Data, (u8*)gDecodeBuffer);
         // Hacky because palette is 16 width, but converted sprite is normalized for 16 -> 256
         // So we scale it back down for the shader.
         gFakeTextureCache.mPalNormMulti = 16; 
@@ -456,7 +456,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
         break;
     case TPageMode::e8Bit_1:
         gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-        CompressionType_3Ae_Decompress_40A6A0((BYTE*)pAnimFg1Data, (BYTE*)gDecodeBuffer);
+        CompressionType_3Ae_Decompress_40A6A0((u8*)pAnimFg1Data, (u8*)gDecodeBuffer);
         glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, tWidth, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
         break;
@@ -468,7 +468,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
         gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
         gFakeTextureCache.mIsFG1 = true;
         glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
-        Renderer_ConvertFG1BitMask(fg1Width, fg1Height, (BYTE*)pAnimFg1Data);
+        Renderer_ConvertFG1BitMask(fg1Width, fg1Height, (u8*)pAnimFg1Data);
         break;
     }
 
@@ -813,7 +813,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     return true;
 }
 
-void OpenGLRenderer::Clear(BYTE /*r*/, BYTE /*g*/, BYTE /*b*/)
+void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 {
     // hacky hot reload shaders
    /* static s32 t = 999;
@@ -882,7 +882,7 @@ bool OpenGLRenderer::PalAlloc(PalRecord& record)
     return ret;
 }
 
-void OpenGLRenderer::PalSetData(const PalRecord& record, const BYTE* pPixels)
+void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
 {
     PSX_RECT rect = {};
     rect.x = record.x;
@@ -1331,7 +1331,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     // macros suck. todo: fix that
 #define UV_U(v) (float)(((pTexture->mUvOffset.field_0_x + v) - xOff) / (float)(pTexture->mVramRect.w * bppMulti))
-#define UV_V(v) (float)(((pTexture->mUvOffset.field_2_y + v) - static_cast<BYTE>(pTexture->mVramRect.y)) / (float)pTexture->mVramRect.h)
+#define UV_V(v) (float)(((pTexture->mUvOffset.field_2_y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (float)pTexture->mVramRect.h)
 
     VertexData verts[4] = {
         {(float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v) },
@@ -1435,7 +1435,7 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
     mTextureShader.UnUse();
 }
 
-void ConvertAOFG1(const BYTE* srcPalData, RGBAPixel* dst, s32 pixelCount)
+void ConvertAOFG1(const u8* srcPalData, RGBAPixel* dst, s32 pixelCount)
 {
     const unsigned short* palShortPtr = reinterpret_cast<const unsigned short*>(srcPalData);
     for (s32 i = 0; i < pixelCount; i++)
@@ -1449,7 +1449,7 @@ void ConvertAOFG1(const BYTE* srcPalData, RGBAPixel* dst, s32 pixelCount)
     }
 }
 
-void StitchAOCam(s32 x, s32 y, s32 width, s32 height, const BYTE* pPixels)
+void StitchAOCam(s32 x, s32 y, s32 width, s32 height, const u8* pPixels)
 {
     unsigned short* pDst = reinterpret_cast<unsigned short*>(gDecodeBuffer);
     const unsigned short* pSrc = reinterpret_cast<const unsigned short*>(pPixels);
@@ -1460,7 +1460,7 @@ void StitchAOCam(s32 x, s32 y, s32 width, s32 height, const BYTE* pPixels)
     }
 }
 
-void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE* pPixels)
+void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels)
 {
     // Palettes are the only texture that is 1 in height.
     // So we're gonna hook in here to steal palettes for our
@@ -1469,7 +1469,7 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE*
     {
         if (bitDepth == BitDepth::e16Bit)
         {
-            Renderer_LoadPalette({ rect.x, rect.y }, reinterpret_cast<const BYTE*>(pPixels), rect.w);
+            Renderer_LoadPalette({ rect.x, rect.y }, reinterpret_cast<const u8*>(pPixels), rect.w);
         }
         return;
     }

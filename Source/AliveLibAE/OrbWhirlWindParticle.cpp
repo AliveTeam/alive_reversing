@@ -12,7 +12,7 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_4E40C0(FP xpos, FP ypos, FP sca
 
     SetVTable(this, 0x5480D4);
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, TRUE, FALSE);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, TRUE, FALSE);
     field_108_res = ppRes;
 
     field_8_Anim.Init_40A030(1632, gObjList_animations_5C1A24, 0, 39, 21, ppRes, 1, 0, 0);
@@ -258,8 +258,8 @@ void OrbWhirlWindParticle::CalculateRenderProperties_4E4390(s16 bStarted)
         field_D4_radiusX = field_D4_radiusX + FP_FromInteger(4);
     }
 
-    field_A0_xpos_render_offset = ((field_C0_current_scale * field_D4_radiusX) * Math_Sine_496DD0(static_cast<BYTE>(field_B8_render_angle))) + field_CC_xpos_mid;
-    field_A4_ypos_render_offset = ((field_C0_current_scale * field_D8_radiusY) * Math_Cosine_496CD0(static_cast<BYTE>(field_B8_render_angle))) + field_D0_ypos_mid;
+    field_A0_xpos_render_offset = ((field_C0_current_scale * field_D4_radiusX) * Math_Sine_496DD0(static_cast<u8>(field_B8_render_angle))) + field_CC_xpos_mid;
+    field_A4_ypos_render_offset = ((field_C0_current_scale * field_D8_radiusY) * Math_Cosine_496CD0(static_cast<u8>(field_B8_render_angle))) + field_D0_ypos_mid;
     field_A8_render_as_scale = field_C0_current_scale * field_C4_randomized_scale;
     
     if (field_C0_current_scale > FP_FromDouble(0.599)) // TODO: Check VS 39321

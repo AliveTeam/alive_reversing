@@ -57,9 +57,9 @@ public:
     virtual void VUpdate() override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VPossessed_408F70() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_4281C0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4281C0(const u8* pBuffer);
 
 private:
     EXPORT s32 vGetSaveState_4283F0(EvilFart_State* pState);

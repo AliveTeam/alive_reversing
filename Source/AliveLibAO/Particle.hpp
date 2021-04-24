@@ -8,7 +8,7 @@ namespace AO {
 class Particle : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Particle* ctor_478880(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, BYTE** ppAnimData);
+    EXPORT Particle* ctor_478880(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 

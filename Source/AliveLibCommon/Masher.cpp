@@ -761,7 +761,7 @@ s32 Masher::Init_4E6770(const char* movieFileName)
     // Read file magic
     DWORD fileMagic = 0;
     if (!field_0_file_handle ||
-        !sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (BYTE*)&fileMagic, sizeof(DWORD)) ||
+        !sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)&fileMagic, sizeof(DWORD)) ||
         !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
     {
         return 1;
@@ -775,7 +775,7 @@ s32 Masher::Init_4E6770(const char* movieFileName)
     }
 
     // Read DDV header
-    if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (BYTE*)&field_4_ddv_header, sizeof(Masher_Header)) ||
+    if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)&field_4_ddv_header, sizeof(Masher_Header)) ||
         !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
     {
         return 1;
@@ -792,7 +792,7 @@ s32 Masher::Init_4E6770(const char* movieFileName)
     if (field_61_bHasVideo)
     {
         // Read the video header
-        if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (BYTE*)&field_14_video_header, sizeof(Masher_VideoHeader)) ||
+        if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)&field_14_video_header, sizeof(Masher_VideoHeader)) ||
             !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
         {
             return 1;
@@ -831,7 +831,7 @@ s32 Masher::Init_4E6770(const char* movieFileName)
     if (field_60_bHasAudio)
     {
         // Read audio header
-        if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (BYTE*)&field_2C_audio_header, sizeof(Masher_AudioHeader)) ||
+        if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)&field_2C_audio_header, sizeof(Masher_AudioHeader)) ||
             !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
         {
             return 1;
@@ -852,7 +852,7 @@ s32 Masher::Init_4E6770(const char* movieFileName)
 
         field_84_max_frame_size += field_2C_audio_header.field_8_max_audio_frame_size;
 
-        field_4C_decoded_audio_buffer = (BYTE*)malloc(field_2C_audio_header.field_C_single_audio_frame_size
+        field_4C_decoded_audio_buffer = (u8*)malloc(field_2C_audio_header.field_C_single_audio_frame_size
             * (field_50_num_channels * field_54_bits_per_sample / 8));
 
         if (!field_4C_decoded_audio_buffer)
@@ -878,7 +878,7 @@ s32 Masher::Init_4E6770(const char* movieFileName)
     }
 
     // Populate frame sizes array from disk
-    if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (BYTE*)field_70_frame_sizes_array, frameSizeArrayInBytes) ||
+    if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)field_70_frame_sizes_array, frameSizeArrayInBytes) ||
         !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
     {
         return 1;
@@ -945,7 +945,7 @@ s32 Masher::sub_4E6B30()
         if (frameSizeToRead > 0
             && (!sMovie_IO_BBB314.mIO_Wait(field_0_file_handle) ||
                 !sMovie_IO_BBB314.mIO_Read(field_0_file_handle,
-                (BYTE*)field_80_raw_frame_data + field_88_audio_data_offset,
+                (u8*)field_80_raw_frame_data + field_88_audio_data_offset,
                     frameSizeToRead)))
         {
             return 0;
@@ -968,7 +968,7 @@ s32 Masher::sub_4E6B30()
     // Audio and video
     else
     {
-        BYTE* pFrameData = (BYTE *)field_80_raw_frame_data;
+        u8* pFrameData = (u8 *)field_80_raw_frame_data;
         field_40_video_frame_to_decode = (void*)&pFrameData[frameOffset + sizeof(DWORD)];
 
         // Skip video data + video data len to get start of sound data
@@ -983,7 +983,7 @@ s32 CC Masher::sub_4EAC30(Masher* pMasher)
     s32* pFrameSize = pMasher->field_74_pCurrentFrameSize;
     s32 sizeToRead = *pFrameSize;
     pMasher->field_74_pCurrentFrameSize = pFrameSize + 1;
-    if (!sMovie_IO_BBB314.mIO_Read(pMasher->field_0_file_handle, (BYTE*)pMasher->field_80_raw_frame_data, sizeToRead) ||
+    if (!sMovie_IO_BBB314.mIO_Read(pMasher->field_0_file_handle, (u8*)pMasher->field_80_raw_frame_data, sizeToRead) ||
         !sMovie_IO_BBB314.mIO_Wait(pMasher->field_0_file_handle))
     {
         return 0;
@@ -998,7 +998,7 @@ void Masher::Decode_4EA670()
     MMX_Decode_4E6C60(nullptr);
 }
 
-void Masher::MMX_Decode_4E6C60(BYTE* pPixelBuffer)
+void Masher::MMX_Decode_4E6C60(u8* pPixelBuffer)
 {
     if (!field_61_bHasVideo)
     {
@@ -1095,7 +1095,7 @@ void CC Masher::DDV_SND_4ECFD0(s32 numChannels, s32 bitsPerSample)
     gMasher_bits_per_sample_BBB9A8 = bitsPerSample;
 }
 
-void CC Masher::DDV_SND_4ECFF0(s32* pMasherFrame, BYTE* pDecodedFrame, s32 frameSize)
+void CC Masher::DDV_SND_4ECFF0(s32* pMasherFrame, u8* pDecodedFrame, s32 frameSize)
 {
     AudioDecompressor decompressor;
     const s32 bytesPerSample = gMasher_bits_per_sample_BBB9A8 / 8;
@@ -1105,7 +1105,7 @@ void CC Masher::DDV_SND_4ECFF0(s32* pMasherFrame, BYTE* pDecodedFrame, s32 frame
 
     if (gMasher_bits_per_sample_BBB9A8 == 8)
     {
-        BYTE* pAsByte = (BYTE*)pDecodedFrame;
+        u8* pAsByte = (u8*)pDecodedFrame;
         decompressor.decode_8bit_audio_frame(pAsByte, frameSize, false);
         if (gMasher_num_channels_BBB9B4 == 2)
         {
@@ -1132,7 +1132,7 @@ void* CC Masher::GetDecompressedAudioFrame_4EAC60(Masher* pMasher)
         DDV_SND_4ECFD0(pMasher->field_50_num_channels, pMasher->field_54_bits_per_sample);
         DDV_SND_4ECFF0(
             pMasher->field_48_sound_frame_to_decode,
-            (BYTE*)pMasher->field_4C_decoded_audio_buffer,
+            (u8*)pMasher->field_4C_decoded_audio_buffer,
             pMasher->field_2C_audio_header.field_C_single_audio_frame_size);
         result = pMasher->field_4C_decoded_audio_buffer;
         ++pMasher->field_64_audio_frame_idx;

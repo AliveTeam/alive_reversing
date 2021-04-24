@@ -9,7 +9,7 @@ namespace AO {
 
 Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0);
 
     auto pParticle = ao_new<Particle>();
     if (!pParticle)
@@ -42,7 +42,7 @@ void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 ty
     {
         FP randX = (FP_FromInteger(Math_RandomRange_450F20(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 1, 0);
         auto pParticle = ao_new<Particle>();
         if (pParticle)
         {
@@ -117,7 +117,7 @@ void CC New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, Layer layer)
 
 void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
@@ -148,7 +148,7 @@ void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
 
 void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
@@ -176,7 +176,7 @@ void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
 
 void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, char direction, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
@@ -202,7 +202,7 @@ void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, char direction, FP sc
     }
 }
 
-Particle* Particle::ctor_478880(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, BYTE** ppAnimData)
+Particle* Particle::ctor_478880(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData)
 {
     ctor_417C10();
     SetVTable(this, 0x4BCDB0);

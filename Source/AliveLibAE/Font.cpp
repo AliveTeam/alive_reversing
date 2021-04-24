@@ -55,11 +55,11 @@ ALIVE_VAR(1, 0x5BC5D8, Font_Context, sFont2Context_5BC5D8, {});
 
 ALIVE_VAR(1, 0x5c9304, char, sDisableFontFlicker_5C9304, 0);
 
-ALIVE_VAR(1, 0x5ca4b4, BYTE, sFontDrawScreenSpace_5CA4B4, 0);
+ALIVE_VAR(1, 0x5ca4b4, u8, sFontDrawScreenSpace_5CA4B4, 0);
 
 ALIVE_VAR(1, 0x5BC5E8, s16, sFontType2LoadCount_5BC5E8, 0);
 
-static std::vector<std::vector<BYTE>> sLoadedAtlas;
+static std::vector<std::vector<u8>> sLoadedAtlas;
 
 namespace Alive
 {
@@ -67,12 +67,12 @@ namespace Alive
     {
     }
 
-    Font::Font(s32 maxCharLength, const BYTE *palette, Font_Context *fontContext)
+    Font::Font(s32 maxCharLength, const u8 *palette, Font_Context *fontContext)
     {
         ctor_433590(maxCharLength, palette, fontContext);
     }
 
-    void Font::ctor_433590(s32 maxCharLength, const BYTE *palette, Font_Context *fontContext)
+    void Font::ctor_433590(s32 maxCharLength, const u8 *palette, Font_Context *fontContext)
     {
         field_34_font_context = fontContext;
 
@@ -93,7 +93,7 @@ namespace Alive
 #if DEVELOPER_MODE // Use normal memory allocating for fonts, so we don't overload the resource heap
         auto db = new void*[1];
         db[0] = ae_new_malloc_4954D0(sizeof(Poly_FT4) * 2 * maxCharLength);
-        field_20_fnt_poly_block_ptr = reinterpret_cast<BYTE**>(db);
+        field_20_fnt_poly_block_ptr = reinterpret_cast<u8**>(db);
 #else
         field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_FntP, fontContext->field_C_resource_id, sizeof(Poly_FT4) * 2 * maxCharLength);
 #endif
@@ -114,7 +114,7 @@ namespace Alive
 #endif
     }
 
-    s32 Font::DrawString_4337D0(PrimHeader **ppOt, const char *text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, BYTE r, BYTE g, BYTE b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
+    s32 Font::DrawString_4337D0(PrimHeader **ppOt, const char *text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
     {
         if (!sFontDrawScreenSpace_5CA4B4)
         {
@@ -170,9 +170,9 @@ namespace Alive
             SetRGB0
             (
                 poly,
-                static_cast<BYTE>(r + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
-                static_cast<BYTE>(g + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
-                static_cast<BYTE>(b + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange))
+                static_cast<u8>(r + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
+                static_cast<u8>(g + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
+                static_cast<u8>(b + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange))
             );
 
             SetTPage(poly, static_cast<short>(tpage));
@@ -432,13 +432,13 @@ bool Font_Context::LoadFontTypeFromOddFont(const char * fontPath, char * pPalett
     return LoadFontTypeFromOddFontMem(debugFont.data(), pPaletteOut);
 }
 
-bool Font_Context::LoadFontTypeFromOddFontMem(BYTE * data, char * pPaletteOut)
+bool Font_Context::LoadFontTypeFromOddFontMem(u8 * data, char * pPaletteOut)
 {
     auto fontFile = reinterpret_cast<File_Font*>(data);
     s32 * atlasCount = reinterpret_cast<s32 *>(fontFile->field_28_pixel_buffer + ((fontFile->field_0_width * fontFile->field_2_height) / 2));
     Font_AtlasEntry * atlasData = reinterpret_cast<Font_AtlasEntry*>(atlasCount + 1);
 
-    auto debugFontAtlas = std::vector<BYTE>((BYTE*)atlasData, (BYTE*)atlasData + (sizeof(Font_AtlasEntry) * *atlasCount));
+    auto debugFontAtlas = std::vector<u8>((u8*)atlasData, (u8*)atlasData + (sizeof(Font_AtlasEntry) * *atlasCount));
 
     sLoadedAtlas.push_back(debugFontAtlas);
     LoadFontTypeCustom(reinterpret_cast<File_Font*>(data), reinterpret_cast<Font_AtlasEntry*>(sLoadedAtlas.back().data()), pPaletteOut);

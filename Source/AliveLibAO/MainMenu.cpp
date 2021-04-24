@@ -201,7 +201,7 @@ struct SaveName
 ALIVE_ARY(1, 0x9F1DD8, SaveName, 128, sSaveNames_9F1DD8, {}); // Got more than 128 saves? Hard luck mate
 
 ALIVE_VAR(1, 0x507694, short, gDemoPlay_507694, 0);
-ALIVE_VAR(1, 0x50769C, BYTE, sJoyResId_50769C, 0);
+ALIVE_VAR(1, 0x50769C, u8, sJoyResId_50769C, 0);
 
 ALIVE_VAR(1, 0x9F2DE0, s32, gMainMenuInstanceCount_9F2DE0, 0);
 ALIVE_VAR(1, 0x507688, short, sFontLoaded_507688, 0);
@@ -219,7 +219,7 @@ struct MenuFMV;
 
 ALIVE_VAR(1, 0x9F2DE4, const MenuFMV*, sActiveList_9F2DE4, nullptr);
 
-const BYTE byte_4D0090[32] =
+const u8 byte_4D0090[32] =
 {
     0u,
     0u,
@@ -325,7 +325,7 @@ MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, u16 idx_1, s16 bDest
     field_C2_g = 128;
     field_C0_r = 128;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
     Animation_Init_417FD0(
         dword_4BB1B8[idx_1],
         99,
@@ -387,9 +387,9 @@ void MainMenuFade::VUpdate_42A730()
         field_E6 = -field_E6;
     }
 
-    field_10_anim.field_A_b = static_cast<BYTE>(field_E4);
-    field_10_anim.field_9_g = static_cast<BYTE>(field_E4);
-    field_10_anim.field_8_r = static_cast<BYTE>(field_E4);
+    field_10_anim.field_A_b = static_cast<u8>(field_E4);
+    field_10_anim.field_9_g = static_cast<u8>(field_E4);
+    field_10_anim.field_8_r = static_cast<u8>(field_E4);
 }
 
 void MainMenuFade::VRender(PrimHeader** ppOt)
@@ -694,9 +694,9 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         y1 = field_240_k120 + (Math_FixedPoint_Multiply_451040(v27, v28) >> 16); // LOWORD
         Poly_G3* pPoly = &field_1C_polys[gPsxDisplay_504C78.field_A_buffer_index].field_0_polys[i];
 
-        SetRGB0(pPoly, static_cast<BYTE>(r0g0), static_cast<BYTE>(r0g0), 255);
-        SetRGB1(pPoly, static_cast<BYTE>(rgValue), static_cast<BYTE>(rgValue), static_cast<BYTE>(bValue));
-        SetRGB2(pPoly, static_cast<BYTE>(rgValue), static_cast<BYTE>(rgValue), static_cast<BYTE>(bValue));
+        SetRGB0(pPoly, static_cast<u8>(r0g0), static_cast<u8>(r0g0), 255);
+        SetRGB1(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
+        SetRGB2(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
 
         SetXY0(pPoly, field_23E_width, field_240_k120);
         SetXY1(pPoly, x0, y0);
@@ -759,7 +759,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, s32 tlvInfo)
     field_10_anim.field_9_g = 127;
     field_10_anim.field_8_r = 127;
 
-    BYTE** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
+    u8** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
     field_134_anim.Init_402D20(6152, gObjList_animations_505564, this, 99, 43, v8, 1, 0, 0);
 
     field_134_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
@@ -936,9 +936,9 @@ void Menu::VUpdate_47ABB0()
         field_1E4_colour_counter = -field_1E4_colour_counter;
     }
 
-    field_134_anim.field_8_r = static_cast<BYTE>(field_1E2_rgb);
-    field_134_anim.field_A_b = static_cast<BYTE>(field_1E2_rgb);
-    field_134_anim.field_9_g = static_cast<BYTE>(field_1E2_rgb);
+    field_134_anim.field_8_r = static_cast<u8>(field_1E2_rgb);
+    field_134_anim.field_A_b = static_cast<u8>(field_1E2_rgb);
+    field_134_anim.field_9_g = static_cast<u8>(field_1E2_rgb);
 
     (this->*field_1CC_fn_update)();
 }
@@ -1933,9 +1933,9 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
             const s32 yAdjust = (FP_GetExponent(field_228 + FP_FromDouble(0.5))) + 26 * start + 120;
             const short text_y = static_cast<short>((yAdjust + FP_GetExponent(FP_FromInteger(-7) * FP_FromInteger(1))) - 1);
 
-            BYTE r = 210;
-            BYTE g = 150;
-            BYTE b = 80;
+            u8 r = 210;
+            u8 g = 150;
+            u8 b = 80;
 
             // Draw the "selected" item in another colour so you can see its selected
             if (start == 0)
@@ -2098,7 +2098,7 @@ void Menu::NewGameStart_47B9C0()
         auto pDemoPlayBackMem = ao_new<DemoPlayback>();
         if (pDemoPlayBackMem)
         {
-            BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
+            u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
             pDemoPlayBackMem->ctor_4517B0(ppRes, 0);
         }
     }
@@ -3872,7 +3872,7 @@ void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHe
     const short text_y = static_cast<short>(ypos + FP_GetExponent((FP_FromInteger(-9) * scale_fp)) + 1);
     const short converted_x = static_cast<short>(PsxToPCX(xpos - text_width / 2, 11));
 
-    const BYTE bOldValue = sFontDrawScreenSpace_508BF4;
+    const u8 bOldValue = sFontDrawScreenSpace_508BF4;
     sFontDrawScreenSpace_508BF4 = 1;
 
     s32 offset = pFont->DrawString_41C360(

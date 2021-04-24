@@ -35,7 +35,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
 
     field_CC_sprite_scale = scale;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBloodropResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBloodropResID);
     Animation_Init_424E10(308, 11, 7, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
@@ -82,7 +82,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
             field_11C_texture_mode = TPageMode::e4Bit_0;
         }
 
-        BYTE u0 = field_20_animation.field_84_vram_rect.x & 63;
+        u8 u0 = field_20_animation.field_84_vram_rect.x & 63;
         if (field_11C_texture_mode == TPageMode::e8Bit_1)
         {
             u0 = 2 * u0;
@@ -92,7 +92,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
             u0 = 4 * u0;
         }
 
-        BYTE v0 = field_20_animation.field_84_vram_rect.y & 0xFF;
+        u8 v0 = field_20_animation.field_84_vram_rect.y & 0xFF;
 
         FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]);
 
@@ -133,7 +133,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
         }
 
         // Has its own random seed based on the frame counter.. no idea why
-        field_124_rand_seed = static_cast<BYTE>(sGnFrame_5C1B84);
+        field_124_rand_seed = static_cast<u8>(sGnFrame_5C1B84);
         for (s32 i = 0; i < field_122_to_render_count; i++)
         {
             field_F8_pResBuf[i].field_0_x = FP_FromInteger(field_11E_xpos);
@@ -224,7 +224,7 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
             BloodParticle* pParticle = &field_F8_pResBuf[i];
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay_5C1130.field_C_buffer_index];
 
-            BYTE u0 = field_20_animation.field_84_vram_rect.x & 63;
+            u8 u0 = field_20_animation.field_84_vram_rect.x & 63;
             if (field_11C_texture_mode == TPageMode::e8Bit_1)
             {
                 u0 *= 2;
@@ -234,7 +234,7 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
                 u0 *= 4;
             }
             
-            SetUV0(pSprt, u0, static_cast<BYTE>(field_20_animation.field_84_vram_rect.y));
+            SetUV0(pSprt, u0, static_cast<u8>(field_20_animation.field_84_vram_rect.y));
 
             FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(
                 &(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]

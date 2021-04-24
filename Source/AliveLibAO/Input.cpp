@@ -11,7 +11,7 @@ namespace AO {
 ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 ALIVE_VAR(1, 0x5076B8, u16, sCurrentControllerIndex_5076B8, 0);
 ALIVE_VAR(1, 0x508A60, s32, sJoystickEnabled_508A60, 0);
-ALIVE_VAR(1, 0x9F7710, BYTE, sInputEnabled_9F7710, 0);
+ALIVE_VAR(1, 0x9F7710, u8, sInputEnabled_9F7710, 0);
 ALIVE_VAR(1, 0xA8A604, DWORD, sLastPressedKey_A8A604, 0);
 
 const InputCommands sInputKey_Right_4C6590 = eRight;
@@ -50,8 +50,8 @@ EXPORT void InputObject::InitPad_4331A0(u32 /*padCount*/)
     Input_EnableInput_4EDDD0();
 }
 
-ALIVE_ARY(1, 0x507778, BYTE, 64, sPad1Buffer_507778, {});
-ALIVE_ARY(1, 0x507738, BYTE, 64, sPad2Buffer_507738, {});
+ALIVE_ARY(1, 0x507778, u8, 64, sPad1Buffer_507778, {});
+ALIVE_ARY(1, 0x507738, u8, 64, sPad2Buffer_507738, {});
 
 static void ConvertAEGamespeakAEtoAOGamespeak(BitField32<AO::InputCommands>& value, const BitField32<::InputCommands::Enum>& aeInput)
 {
@@ -276,7 +276,7 @@ static BitField32<AO::InputCommands> MakeAOInputBits(DWORD bits)
 
 EXPORT void InputObject::Update_433250()
 {
-    const BYTE byte_4BB428[16] = { 0u, 64u, 0u, 32u, 192u, 0u, 224u, 0u, 128u, 96u, 0u, 0u, 160u, 0u, 0u, 0u };
+    const u8 byte_4BB428[16] = { 0u, 64u, 0u, 32u, 192u, 0u, 224u, 0u, 128u, 96u, 0u, 0u, 160u, 0u, 0u, 0u };
 
     for (s32 i = 0; i < 2; i++)
     {

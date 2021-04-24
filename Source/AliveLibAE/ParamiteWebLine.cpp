@@ -18,7 +18,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     field_4_typeId = AETypes::eWebLine_146;
     field_100_tlv_info = tlvInfo;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID);
     Animation_Init_424E10(148, 5, 16u, ppRes, 1, 1u);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
@@ -105,7 +105,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     field_104_wobble_idx = 0;
     field_106_wobble_pos = field_F8_top;
 
-    BYTE** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
+    u8** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
     if (field_108_anim_flare.Init_40A030(1632, gObjList_animations_5C1A24, this, 39, 21u, ppFlareRes, 1u, 0, 0))
     {
         field_108_anim_flare.field_8_r = 100;
@@ -286,9 +286,9 @@ void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
 
         const short render_xpos = FP_GetExponent(xVal);
         ShadowZone::ShadowZones_Calculate_Colour_463CE0(render_xpos, render_ypos, field_D6_scale, &r, &g, &b);
-        field_FC_pRes[idx].field_8_r = static_cast<BYTE>(r);
-        field_FC_pRes[idx].field_9_g = static_cast<BYTE>(g);
-        field_FC_pRes[idx].field_A_b = static_cast<BYTE>(b);
+        field_FC_pRes[idx].field_8_r = static_cast<u8>(r);
+        field_FC_pRes[idx].field_9_g = static_cast<u8>(g);
+        field_FC_pRes[idx].field_A_b = static_cast<u8>(b);
 
         field_FC_pRes[idx].vRender_40B820(
             FP_GetExponent(FP_FromInteger(render_xpos) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),

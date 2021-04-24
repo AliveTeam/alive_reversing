@@ -168,7 +168,7 @@ void DoorLight::VUpdate_4060A0()
         const FP lightAngleCosine = -Math_Cosine_4510A0(FP_GetExponent(lightAngle) & 0xFF);
         const s32 rgbVal = FP_GetExponent(FP_FromInteger(255) * lightAngleCosine) + 32;
 
-        BYTE rgb = 0;
+        u8 rgb = 0;
         if (rgbVal <= 255)
         {
             rgb = rgbVal & 0xFF;
@@ -231,9 +231,9 @@ void DoorLight::VRender_406370(PrimHeader** ppOt)
         const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
         const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
-        field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r);
-        field_10_anim.field_9_g = static_cast<BYTE>(field_C2_g);
-        field_10_anim.field_A_b = static_cast<BYTE>(field_C4_b);
+        field_10_anim.field_8_r = static_cast<u8>(field_C0_r);
+        field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
+        field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
 
         field_10_anim.vRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - field_E8_width / 2))),

@@ -166,9 +166,9 @@ public:
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_42DD50(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_42DD50(const u8* pBuffer);
 
 private:
     EXPORT s32 vGetSaveState_42FF80(Fleech_State* pState);
@@ -273,7 +273,7 @@ private:
 
     EXPORT s32 Sound_430520(FleechSound soundId);
 
-    EXPORT BYTE** ResBlockForMotion_42A530(s32 motion);
+    EXPORT u8** ResBlockForMotion_42A530(s32 motion);
 
     EXPORT s16 CanMove_42E3E0();
 

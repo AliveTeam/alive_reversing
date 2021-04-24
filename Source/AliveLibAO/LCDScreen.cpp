@@ -17,7 +17,7 @@
 
 namespace AO {
 
-const BYTE sLCDScreen_Palette_4C75A8[32] =
+const u8 sLCDScreen_Palette_4C75A8[32] =
 {
     0u,
     0u,
@@ -53,7 +53,7 @@ const BYTE sLCDScreen_Palette_4C75A8[32] =
     216u
 };
 
-const BYTE sLCDScreen_Palette2_4C7588[32] =
+const u8 sLCDScreen_Palette2_4C7588[32] =
 {
     0u,
     0u,

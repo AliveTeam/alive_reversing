@@ -26,7 +26,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
     Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -465,7 +465,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
 
     field_4_typeId = AETypes::eMeatSack_85;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
     Animation_Init_424E10(15848, 93, 86, ppRes, 1, 1);
     SetTint_425600(&stru_55C254[0], gMap_5C3030.field_0_current_level);
 
@@ -526,12 +526,12 @@ void MeatSack::VUpdate()
     vUpdate_46A6A0();
 }
 
-s32 Meat::VGetSaveState(BYTE* pSaveBuffer)
+s32 Meat::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_46AC40(reinterpret_cast<Meat_SaveState*>(pSaveBuffer));
 }
 
-s32 CC Meat::CreateFromSaveState_46A9E0(const BYTE* pBuffer)
+s32 CC Meat::CreateFromSaveState_46A9E0(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
 

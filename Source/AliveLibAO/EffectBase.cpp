@@ -57,9 +57,9 @@ void EffectBase::VRender_461690(PrimHeader** ppOt)
     Init_Tile(pTile);
 
     SetRGB0(pTile, 
-        static_cast<BYTE>(field_5E_r),
-        static_cast<BYTE>(field_60_g),
-        static_cast<BYTE>(field_62_b));
+        static_cast<u8>(field_5E_r),
+        static_cast<u8>(field_60_g),
+        static_cast<u8>(field_62_b));
     SetXY0(pTile, 0, 0);
 
     pTile->field_14_w = 640;

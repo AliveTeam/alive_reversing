@@ -6,7 +6,7 @@
 #include "Events.hpp"
 #include "MinesAlarm.hpp"
 
-const BYTE byte_5543D0[32] =
+const u8 byte_5543D0[32] =
 {
     0u,    0u,    1u,    128u,    1u,    132u,    32u,    132u,    33u,
     128u,  32u,   132u,  33u,     132u,  101u,    206u,   101u,    140u,
@@ -14,7 +14,7 @@ const BYTE byte_5543D0[32] =
     152u,  20u,   161u,  24u,     216u
 };
 
-ALIVE_VAR(1, 0x5c1bfa, BYTE, gTotalMeterBars_5C1BFA, 0);
+ALIVE_VAR(1, 0x5c1bfa, u8, gTotalMeterBars_5C1BFA, 0);
 ALIVE_VAR(1, 0x5c1bf8, WORD, gbDrawMeterCountDown_5C1BF8, 0);
 
 ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvInfo)
@@ -240,18 +240,18 @@ void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
         if (((poly_idx + 1)) >= (kMeterBarsXCount/2)+1)
         {
             // 1st half
-            SetRGB0(pPolyG4, 127, static_cast<BYTE>(240 - 12 * poly_idx), 0);
-            SetRGB1(pPolyG4, 127, static_cast<BYTE>(240 - 12 * poly_idx), 0);
-            SetRGB2(pPolyG4, 127, static_cast<BYTE>(228 - 12 * poly_idx), 0);
-            SetRGB3(pPolyG4, 127, static_cast<BYTE>(228 - 12 * poly_idx), 0);
+            SetRGB0(pPolyG4, 127, static_cast<u8>(240 - 12 * poly_idx), 0);
+            SetRGB1(pPolyG4, 127, static_cast<u8>(240 - 12 * poly_idx), 0);
+            SetRGB2(pPolyG4, 127, static_cast<u8>(228 - 12 * poly_idx), 0);
+            SetRGB3(pPolyG4, 127, static_cast<u8>(228 - 12 * poly_idx), 0);
         }
         else
         {
             // 2nd half
-            SetRGB0(pPolyG4, static_cast<BYTE>(12 * poly_idx), 127, 0);
-            SetRGB1(pPolyG4, static_cast<BYTE>(12 * poly_idx), 127, 0);
-            SetRGB2(pPolyG4, static_cast<BYTE>(12 * (poly_idx + 1)), 127, 0);
-            SetRGB3(pPolyG4, static_cast<BYTE>(12 * (poly_idx + 1)), 127, 0);
+            SetRGB0(pPolyG4, static_cast<u8>(12 * poly_idx), 127, 0);
+            SetRGB1(pPolyG4, static_cast<u8>(12 * poly_idx), 127, 0);
+            SetRGB2(pPolyG4, static_cast<u8>(12 * (poly_idx + 1)), 127, 0);
+            SetRGB3(pPolyG4, static_cast<u8>(12 * (poly_idx + 1)), 127, 0);
         }
 
         Poly_Set_SemiTrans_4F8A60(&pPolyG4->mBase.header, FALSE);

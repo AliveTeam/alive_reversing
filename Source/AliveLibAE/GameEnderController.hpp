@@ -33,13 +33,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderController_State, 0x10);
 class GameEnderController : public BaseGameObject
 {
 public:
-    EXPORT static s32 CC CreateFromSaveState_43BD10(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_43BD10(const u8* pBuffer);
     EXPORT GameEnderController* ctor_43B840();
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 private:
     EXPORT GameEnderController* vdtor_43B8D0(s32 flags);
     EXPORT void vScreenChanged_43BC80();

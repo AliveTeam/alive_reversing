@@ -67,7 +67,7 @@ public:
 
     EXPORT CameraPos Is_In_Current_Camera_417CC0();
 
-    EXPORT void Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, BYTE** ppAnimData, s16 a6);
+    EXPORT void Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 a6);
 
 protected:
     // Note inlined in AO everywhere

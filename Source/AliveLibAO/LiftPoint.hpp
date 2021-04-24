@@ -90,7 +90,7 @@ public:
     s16 field_26C_pulley_xpos;
     s16 field_26E_pulley_ypos;
     FP field_270_floorYLevel;
-    BYTE** field_274_ppRes;
+    u8** field_274_ppRes;
     short field_278_point_id;
     BitField16<Flags> field_27A_flags;
 };

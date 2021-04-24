@@ -161,7 +161,7 @@ public:
     }
 
     virtual s16 TlvLen() const = 0;
-    virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
+    virtual std::vector<u8> GetTlvData(bool setTerminationFlag) = 0;
 
     void SetInstanceNumber(s32 instanceNumber)
     {
@@ -295,9 +295,9 @@ public:
         return static_cast<s16>(sizeof(T));
     }
 
-    std::vector<BYTE> GetTlvData(bool setTerminationFlag) override
+    std::vector<u8> GetTlvData(bool setTerminationFlag) override
     {
-        std::vector<BYTE> ret(sizeof(T));
+        std::vector<u8> ret(sizeof(T));
         mTlv.field_0_flags.Set(TLV_Flags::eBit3_End_TLV_List, setTerminationFlag);
         memcpy(ret.data(), &mTlv, sizeof(T));
         return ret;
@@ -370,9 +370,9 @@ public:
         return static_cast<s16>(sizeof(T));
     }
 
-    std::vector<BYTE> GetTlvData(bool setTerminationFlag) override
+    std::vector<u8> GetTlvData(bool setTerminationFlag) override
     {
-        std::vector<BYTE> ret(sizeof(T));
+        std::vector<u8> ret(sizeof(T));
         mTlv.field_0_flags.Set(AO::TLV_Flags::eBit3_End_TLV_List, setTerminationFlag);
         memcpy(ret.data(), &mTlv, sizeof(T));
         return ret;

@@ -34,7 +34,7 @@ EXPORT s32 CC Animation_OnFrame_Null_455F60(void*, s16*)
 EXPORT s32 CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
-    BYTE** ppAnimData = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDustResID, FALSE, FALSE);
+    u8** ppAnimData = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDustResID, FALSE, FALSE);
 
     FP xOff = {};
     if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -132,7 +132,7 @@ EXPORT s32 CC Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
         return 1;
     }
 
-    BYTE** ppAnimRes = pObj->field_10_resources_array.ItemAt(7);
+    u8** ppAnimRes = pObj->field_10_resources_array.ItemAt(7);
     FP xOff = {};
     if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -292,7 +292,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
     case CompressionType::eType_0_NoCompression:
         // No compression, load the data directly into frame buffer
         field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
-        renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
+        renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
         break;
 
     case CompressionType::eType_1_NotUsed:
@@ -306,7 +306,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
         {
             // TODO: Refactor structure to get pixel data.
             CompressionType2_Decompress_40AA50(
-                reinterpret_cast<const BYTE*>(&pFrameHeader[1]),
+                reinterpret_cast<const u8*>(&pFrameHeader[1]),
                 *field_24_dbuf,
                 width_bpp_adjusted * pFrameHeader->field_5_height * 2);
 
@@ -320,7 +320,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
             if (EnsureDecompressionBuffer())
             {
                 // TODO: Refactor structure to get pixel data.
-                CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
+                CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
 
                 renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
             }
@@ -332,7 +332,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
         if (EnsureDecompressionBuffer())
         {
             // TODO: Refactor structure to get pixel data.
-            CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
+            CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
             renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
         }
         break;
@@ -343,7 +343,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
             if (EnsureDecompressionBuffer())
             {
                 // TODO: Refactor structure to get pixel data.
-                CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
+                CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
                  renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
             }
         }
@@ -509,7 +509,7 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
     SetTPage(pPoly, static_cast<WORD>(PSX_getTPage_4F60E0(textureMode, field_B_render_mode, field_84_vram_rect.x, field_84_vram_rect.y)));
     SetClut(pPoly, static_cast<WORD>(PSX_getClut_4F6350(field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y)));
 
-    BYTE u1 = field_84_vram_rect.x & 63;
+    u8 u1 = field_84_vram_rect.x & 63;
     if (textureMode == TPageMode::e8Bit_1)
     {
         // 8 bit
@@ -525,9 +525,9 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
         // 16 bit
     }
 
-    const BYTE v0 = static_cast<BYTE>(field_84_vram_rect.y);
-    const BYTE u0 = pFrameHeader->field_4_width + u1 - 1;
-    const BYTE v1 = pFrameHeader->field_5_height + v0 - 1;
+    const u8 v0 = static_cast<u8>(field_84_vram_rect.y);
+    const u8 u0 = pFrameHeader->field_4_width + u1 - 1;
+    const u8 v1 = pFrameHeader->field_5_height + v0 - 1;
 
     if (field_14_scale != FP_FromDouble(1.0))
     {
@@ -752,7 +752,7 @@ void Animation::Invoke_CallBacks_40B7A0()
     }
 }
 
-s16 Animation::Set_Animation_Data_409C80(s32 frameTableOffset, BYTE** pAnimRes)
+s16 Animation::Set_Animation_Data_409C80(s32 frameTableOffset, u8** pAnimRes)
 {
     if (pAnimRes)
     {
@@ -906,7 +906,7 @@ WORD Animation::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, char bEnable_flag10_alternating)
+s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, char bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
@@ -981,11 +981,11 @@ s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     field_14_scale = FP_FromInteger(1);
 
     FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_40B730(0);
-    BYTE* pAnimData = *field_20_ppBlock;
+    u8* pAnimData = *field_20_ppBlock;
 
     const FrameHeader* pFrameHeader_1 = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
-    BYTE* pClut = &pAnimData[pFrameHeader_1->field_0_clut_offset];
+    u8* pClut = &pAnimData[pFrameHeader_1->field_0_clut_offset];
 
     if (!Vram_alloc_4956C0(maxW, maxH, pFrameHeader_1->field_6_colour_depth, &field_84_vram_rect))
     {
@@ -1073,12 +1073,12 @@ s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     return 1;
 }
 
-void Animation::Load_Pal_40A530(BYTE** pAnimData, s32 palOffset)
+void Animation::Load_Pal_40A530(u8** pAnimData, s32 palOffset)
 {
     if (pAnimData)
     {
         // +4 = skip CLUT len
-        const BYTE* pPal = &(*pAnimData)[palOffset];
+        const u8* pPal = &(*pAnimData)[palOffset];
         if (field_90_pal_depth != 16 && field_90_pal_depth != 64 && field_90_pal_depth != 256)
         {
             LOG_ERROR("Bad pal depth " << field_90_pal_depth);
@@ -1149,7 +1149,7 @@ namespace AETest::TestsAnimation
 
         TestAnimData* pTestData = &testData;
 
-        anim.field_20_ppBlock = (BYTE **)&pTestData;
+        anim.field_20_ppBlock = (u8 **)&pTestData;
         anim.field_18_frame_table_offset = 0;
 
         gPsxDisplay_5C1130.field_C_buffer_index = 0;

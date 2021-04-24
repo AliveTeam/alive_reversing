@@ -62,7 +62,7 @@ private:
 
     ZapLineState field_F4_state;
     s16 field_F6_padding;
-    BYTE** field_F8_ppRes;
+    u8** field_F8_ppRes;
     Prim_SetTPage field_FC_tPage_p8[2];
     s16 field_11C_x_position_source;
     s16 field_11E_y_position_source;

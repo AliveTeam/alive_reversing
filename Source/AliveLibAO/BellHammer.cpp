@@ -18,7 +18,7 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eBellHammer_27;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHammerResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHammerResID, 1, 0);
     Animation_Init_417FD0(4488, 71, 69, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -92,7 +92,7 @@ BaseGameObject* BellHammer::dtor_405220()
         ResourceManager::WaitForPendingResources_41EA60(this);
     }
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmfallResID_216, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmfallResID_216, 1, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_455550(ppRes);

@@ -149,7 +149,7 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
         {
             // Store the ASCII of a single key press. Used for typing in text for save names etc.
             sIsAKeyDown_BD309C = TRUE;
-            BYTE KeyState[256] = {};
+            u8 KeyState[256] = {};
             ::GetKeyboardState(KeyState);
 
             const UINT vKey = static_cast<UINT>(wParam);

@@ -405,7 +405,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo)
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 1, 0));
 
     const AnimRecord& rec = AnimRec(AnimId::Slig_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_4_typeId = AETypes::eSlig_125;
@@ -559,7 +559,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
                     b = bMod;
 
                     const FrameInfoHeader *pFrameInfoHeader = actor->field_20_animation.Get_FrameHeader_40B730(0);
-                    const BYTE* pAnimData = *actor->field_20_animation.field_20_ppBlock;
+                    const u8* pAnimData = *actor->field_20_animation.field_20_ppBlock;
                     const DWORD clut_offset = *reinterpret_cast< const DWORD* >( &( pAnimData )[pFrameInfoHeader->field_0_frame_header_offset] );
                     const WORD* pAnimDataWithOffset = reinterpret_cast< const WORD* >( &pAnimData[clut_offset + 4] );
                     for (s32 i = 0; i < palSize; i++)
@@ -599,7 +599,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
                     Pal_Set_483510(
                         actor->field_20_animation.field_8C_pal_vram_xy,
                         actor->field_20_animation.field_90_pal_depth,
-                        reinterpret_cast< const BYTE* >( pPalAlloc ),
+                        reinterpret_cast< const u8* >( pPalAlloc ),
                         palRect
                     );
                 }
@@ -686,12 +686,12 @@ s16 Slig::vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
     return vOnSameYLevel_4BB6C0(pOther);
 }
 
-s32 Slig::VGetSaveState(BYTE* pSaveBuffer)
+s32 Slig::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4BFB10(reinterpret_cast<Slig_State*>(pSaveBuffer));
 }
 
-s32 CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
+s32 CC Slig::CreateFromSaveState_4B3B50(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_5C_tlvInfo));
@@ -792,7 +792,7 @@ s32 CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
 
     pSlig->field_106_current_motion = pState->field_26_current_motion;
     const AnimRecord& animRec = AnimRec(sSligFrameTables_547318[pState->field_26_current_motion]);
-    BYTE** ppRes = pSlig->ResForMotion_4B1E90(pSlig->field_106_current_motion);
+    u8** ppRes = pSlig->ResForMotion_4B1E90(pSlig->field_106_current_motion);
     pSlig->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 
 
@@ -5206,7 +5206,7 @@ void Slig::vShot_4B2EA0()
 
 void Slig::vUpdateAnim_4B1320()
 {
-    BYTE** ppRes = ResForMotion_4B1E90(field_106_current_motion);
+    u8** ppRes = ResForMotion_4B1E90(field_106_current_motion);
     if (!ppRes)
     {
         field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
@@ -5282,7 +5282,7 @@ void Slig::ShouldStilBeAlive_4BBC00()
     }
 }
 
-BYTE** Slig::ResForMotion_4B1E90(s16 motion)
+u8** Slig::ResForMotion_4B1E90(s16 motion)
 {
     s16 resIdx = 0;
     if (motion < eSligMotions::M_Sleeping_32_4B89A0)

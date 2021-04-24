@@ -863,7 +863,7 @@ void Mudokon::KillBirdPortal()
     }
 }
 
-BYTE** Mudokon::GetResBlockForMotion_43EDE0(s16 motion)
+u8** Mudokon::GetResBlockForMotion_43EDE0(s16 motion)
 {
     if (motion < eMudStates::State_11_Null_43D350)
     {

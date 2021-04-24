@@ -71,6 +71,6 @@ private:
     FP field_FC_xpos_offset2;
     FP field_100_ypos_offset2;
     FP field_104_scale_offset_spin_at_target;
-    BYTE** field_108_res;
+    u8** field_108_res;
 };
 ALIVE_ASSERT_SIZEOF(OrbWhirlWindParticle, 0x10C);

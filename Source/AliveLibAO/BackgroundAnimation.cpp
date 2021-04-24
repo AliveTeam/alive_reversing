@@ -159,7 +159,7 @@ void BackgroundAnimation::VUpdate_405C30()
     {
         if (!field_104_sound_channels_mask && field_100_sound_effect >= 0)
         {
-            field_104_sound_channels_mask = SFX_Play_43AD70(static_cast<BYTE>(field_100_sound_effect), 0, 0);
+            field_104_sound_channels_mask = SFX_Play_43AD70(static_cast<u8>(field_100_sound_effect), 0, 0);
         }
         field_A8_xpos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
         field_AC_ypos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);

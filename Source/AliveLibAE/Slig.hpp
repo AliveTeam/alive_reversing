@@ -267,9 +267,9 @@ public:
 
     virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_4B3B50(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4B3B50(const u8* pBuffer);
 
     EXPORT static s16 CCSTD IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
 
@@ -422,7 +422,7 @@ private:
 
     EXPORT void ShouldStilBeAlive_4BBC00();
 
-    EXPORT BYTE** ResForMotion_4B1E90(s16 motion);
+    EXPORT u8** ResForMotion_4B1E90(s16 motion);
 
     EXPORT void ToTurn_4BE090();
 

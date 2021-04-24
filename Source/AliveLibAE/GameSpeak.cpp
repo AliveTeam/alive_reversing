@@ -75,7 +75,7 @@ GameSpeak* GameSpeak::ctor_421820()
     return this;
 }
 
-GameSpeakMatch GameSpeak::MatchBuffer_4219E0(BYTE* pBuffer, s16 max_idx, s16 src_idx)
+GameSpeakMatch GameSpeak::MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_idx)
 {
     if (src_idx == -1)
     {
@@ -137,12 +137,12 @@ GameSpeakMatch GameSpeak::MatchBuffer_4219E0(BYTE* pBuffer, s16 max_idx, s16 src
     }
 }
 
-s32 CC GameSpeak::FillBuffer_421970(s32 code, BYTE* pBufffer)
+s32 CC GameSpeak::FillBuffer_421970(s32 code, u8* pBufffer)
 {
     const s16 len = Code_Length_4C9DB0(code);
     for (short idx = 0; idx < len; idx++)
     {
-        pBufffer[idx] = static_cast<BYTE>(Code_LookUp_4C9E40(code, idx, len));
+        pBufffer[idx] = static_cast<u8>(Code_LookUp_4C9E40(code, idx, len));
     }
     return len;
 }

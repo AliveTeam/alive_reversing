@@ -72,7 +72,7 @@ public:
 
     EXPORT Paramite* Vdtor_44B300(s32 flags);
 
-    EXPORT BYTE** ResBlockForMotion_44AC10(s16 motion);
+    EXPORT u8** ResBlockForMotion_44AC10(s16 motion);
 
     virtual void VRender(PrimHeader** ppOt) override;
 
@@ -202,7 +202,7 @@ public:
     s16 field_146_not_used;
     Meat* field_148_pMeat;
     ParamiteWeb* field_14C_pWeb;
-    BYTE** field_150_resources[16];
+    u8** field_150_resources[16];
 };
 ALIVE_ASSERT_SIZEOF(Paramite, 0x190);
 

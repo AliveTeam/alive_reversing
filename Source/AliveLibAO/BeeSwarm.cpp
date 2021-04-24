@@ -36,7 +36,7 @@ BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 cha
     SetVTable(this, 0x4BCEB0);
     field_4_typeId = Types::eBeeSwarm_95;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWaspResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWaspResID, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 16, 1, 0);
     if (gMap_507BA8.field_0_current_level != LevelIds::eForestTemple_4 && gMap_507BA8.field_0_current_level != LevelIds::eDesertTemple_9)
     {
@@ -612,9 +612,9 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
 void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
 {
     field_10_anim.field_C_layer = Layer::eLayer_38;
-    field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r);
-    field_10_anim.field_9_g = static_cast<BYTE>(field_C2_g);
-    field_10_anim.field_A_b = static_cast<BYTE>(field_C4_b);
+    field_10_anim.field_8_r = static_cast<u8>(field_C0_r);
+    field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
+    field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
     field_10_anim.field_14_scale = field_BC_sprite_scale;
 
     const auto campos_x_delta = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);

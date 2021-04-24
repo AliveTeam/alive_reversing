@@ -164,7 +164,7 @@ EXPORT BaseGameObject *Elum::dtor_410BC0()
 {
     SetVTable(this, 0x4BA8F8);
 
-    for (BYTE**& ppRes : field_174_resources.res)
+    for (u8**& ppRes : field_174_resources.res)
     {
         if (ppRes && field_10_anim.field_20_ppBlock != ppRes)
         {
@@ -405,7 +405,7 @@ BaseGameObject* Elum::dtor_base_416FE0()
     return dtor_401000();
 }
 
-BYTE** Elum::GetResBlock_410D00(short currentMotion)
+u8** Elum::GetResBlock_410D00(short currentMotion)
 {
     short new_idx = 0;
     if (currentMotion < eElumStates::State_21_Land_414A20)
@@ -3745,7 +3745,7 @@ void Elum::VUpdate_4102A0()
                 if (field_120_bUnknown)
                 {
                     field_FC_current_motion = field_E4_previous_motion;
-                    BYTE** ppRes = GetResBlock_410D00(field_E4_previous_motion);
+                    u8** ppRes = GetResBlock_410D00(field_E4_previous_motion);
                     if (!ppRes)
                     {
                         return;
@@ -3762,7 +3762,7 @@ void Elum::VUpdate_4102A0()
             }
             else
             {
-                BYTE** ppRes = GetResBlock_410D00(field_FC_current_motion);
+                u8** ppRes = GetResBlock_410D00(field_FC_current_motion);
                 if (!ppRes)
                 {
                     return;

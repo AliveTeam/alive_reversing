@@ -62,7 +62,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     virtual void VUpdate() override;
 
@@ -79,7 +79,7 @@ public:
 
     // Next 2 virtuals are base
 
-    EXPORT static s32 CC CreateFromSaveState_449410(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_449410(const u8* pBuffer);
 
 private:
     EXPORT s32 GetSaveState_4496B0(Grenade_SaveState* pState);

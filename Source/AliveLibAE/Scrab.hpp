@@ -206,7 +206,7 @@ public:
         return vOn_TLV_Collision_4A4B80(pTlv);
     }
 
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override
     {
         return vGetSaveState_4AB020(reinterpret_cast<Scrab_State*>(pSaveBuffer));
     }
@@ -221,7 +221,7 @@ public:
         vOnTrapDoorOpen_4A7ED0();
     }
 
-    EXPORT static s32 CC CreateFromSaveState_4A70A0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4A70A0(const u8* pBuffer);
 
 private:
     EXPORT s32 vGetSaveState_4AB020(Scrab_State* pState);
@@ -315,7 +315,7 @@ private:
 
     EXPORT void vPossesed_4A5620();
 
-    EXPORT BYTE** ResBlockForMotion_4A43E0(s16 motion);
+    EXPORT u8** ResBlockForMotion_4A43E0(s16 motion);
 
     EXPORT void vScreenChanged_4A5560();
 

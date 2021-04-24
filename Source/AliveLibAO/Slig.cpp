@@ -306,7 +306,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, s32 tlvInfo)
 
     field_210_resources = {};
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 1, 0);
     field_210_resources.res[0] = ppRes;
     Animation_Init_417FD0(
         132740,
@@ -460,7 +460,7 @@ BaseGameObject* Slig::dtor_465320()
         pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
     }
 
-    for (BYTE**& ppRes : field_210_resources.res)
+    for (u8**& ppRes : field_210_resources.res)
     {
         if (ppRes && field_10_anim.field_20_ppBlock != ppRes)
         {
@@ -1180,7 +1180,7 @@ s16 Slig::VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pWho)
 
 void Slig::VUpdateAnimData_464D00()
 {
-    BYTE** ppRes = ResBlockForMotion_4654D0(field_FC_current_motion);
+    u8** ppRes = ResBlockForMotion_4654D0(field_FC_current_motion);
     if (!ppRes)
     {
         field_FC_current_motion = eSligStates::State_0_StandIdle_467640;
@@ -1203,7 +1203,7 @@ void Slig::Vshot_465C30()
     SetBrain(&Slig::Brain_Death_46C3A0);
 }
 
-BYTE** Slig::ResBlockForMotion_4654D0(s16 motion)
+u8** Slig::ResBlockForMotion_4654D0(s16 motion)
 {
     short new_idx = 0;
     if (motion < eSligStates::State_33_Sleeping_46A410)

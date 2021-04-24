@@ -46,7 +46,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* 
         (*field_F4_res)->field_4_frame_table_offset,
         (*field_F4_res)->field_0_max_w,
         (*field_F4_res)->field_2_max_h,
-        reinterpret_cast<BYTE**>(field_F4_res),
+        reinterpret_cast<u8**>(field_F4_res),
         1,
         1u);
 

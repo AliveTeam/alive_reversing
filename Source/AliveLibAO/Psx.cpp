@@ -45,12 +45,12 @@ EXPORT void CC PSX_PutDispEnv_495CE0(PSX_DISPENV* pDispEnv)
     PSX_PutDispEnv_4F5890(pDispEnv);
 }
 
-EXPORT s32 CC PSX_LoadImage16_4962A0(const PSX_RECT* pRect, const BYTE* pData)
+EXPORT s32 CC PSX_LoadImage16_4962A0(const PSX_RECT* pRect, const u8* pData)
 {
     return PSX_LoadImage16_4F5E20(pRect, pData);
 }
 
-EXPORT s32 PSX_LoadImage_496480(const PSX_RECT* pRect, const BYTE* pData)
+EXPORT s32 PSX_LoadImage_496480(const PSX_RECT* pRect, const u8* pData)
 {
     return PSX_LoadImage_4F5FB0(pRect, pData);
 }

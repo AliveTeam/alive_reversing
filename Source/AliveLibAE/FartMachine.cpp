@@ -4,7 +4,7 @@
 #include "Function.hpp"
 
 // TODO: Should be const but can't be due to mlgs hacks in Font obj
-BYTE byte_550F08[32] =
+u8 byte_550F08[32] =
 {
     0u,
     0u,
@@ -51,7 +51,7 @@ FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, s32 tlvInfo)
     field_F4_font_context.LoadFontType_433400(2);
     field_104_font.ctor_433590(3, byte_550F08, &field_F4_font_context);
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6016);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6016);
     Animation_Init_424E10(316, 19, 11, ppRes, 1, 1u);
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID);
@@ -63,7 +63,7 @@ FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, s32 tlvInfo)
     field_20_animation.field_C_render_layer = Layer::eLayer_23;
     field_1E4_remaining_brew_count = pTlv->field_10_num_brews;
 
-    const BYTE savedBrewCount = pTlv->field_1_tlv_state;
+    const u8 savedBrewCount = pTlv->field_1_tlv_state;
     if (savedBrewCount == 0)
     {
         field_144_total_brew_count = field_1E4_remaining_brew_count;
@@ -125,7 +125,7 @@ void FartMachine::vUpdate_4132C0()
     Path_FartMachine* pTlv = static_cast<Path_FartMachine*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_140_tlvInfo));
     if (field_144_total_brew_count > 0)
     {
-        pTlv->field_1_tlv_state = static_cast<BYTE>(field_144_total_brew_count);
+        pTlv->field_1_tlv_state = static_cast<u8>(field_144_total_brew_count);
     }
     else
     {

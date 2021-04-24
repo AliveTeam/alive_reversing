@@ -131,7 +131,7 @@ TintEntry stru_5546B4[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-s32 CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
+s32 CC Glukkon::CreateFromSaveState_442830(const u8* pData)
 {
     const Glukkon_SaveState* pSaveState = reinterpret_cast< const Glukkon_SaveState* >( pData );
     auto pTlv = static_cast< Path_Glukkon* >( sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_44_tlvInfo) );
@@ -352,7 +352,7 @@ void Glukkon::VScreenChanged()
     vScreenChanged_440110();
 }
 
-s32 Glukkon::vGetSaveState_444B90(BYTE* pSaveBuffer)
+s32 Glukkon::vGetSaveState_444B90(u8* pSaveBuffer)
 {
     Glukkon_SaveState* pSaveState = reinterpret_cast< Glukkon_SaveState* >( pSaveBuffer );
 
@@ -429,7 +429,7 @@ s32 Glukkon::vGetSaveState_444B90(BYTE* pSaveBuffer)
     return sizeof(Glukkon_SaveState);
 }
 
-s32 Glukkon::VGetSaveState(BYTE* pSaveBuffer)
+s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_444B90(pSaveBuffer);
 }

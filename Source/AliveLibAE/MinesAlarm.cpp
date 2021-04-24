@@ -22,7 +22,7 @@ void CC MinesAlarm::Create_4177F0(s32 timer)
     }
 }
 
-s32 CC MinesAlarm::CreateFromSaveState_417740(const BYTE* pBuffer)
+s32 CC MinesAlarm::CreateFromSaveState_417740(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MinesAlarm_State*>(pBuffer);
     auto pMinesAlarm = ae_new<MinesAlarm>();
@@ -57,7 +57,7 @@ void MinesAlarm::VUpdate()
     vUpdate_417910();
 }
 
-s32 MinesAlarm::VGetSaveState(BYTE* pSaveBuffer)
+s32 MinesAlarm::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4177C0(reinterpret_cast<MinesAlarm_State*>(pSaveBuffer));
 }

@@ -38,8 +38,8 @@ EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
         SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (short)d1);
         SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (short)d1);
 
-        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (BYTE)d1);
-        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (BYTE)d1);
+        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (u8)d1);
+        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (u8)d1);
     }
 
     const s32 d2 = Y3(pPoly) - maxY;
@@ -48,8 +48,8 @@ EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
         SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (short)d2);
         SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (short)d2);
 
-        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (BYTE)d2);
-        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (BYTE)d2);
+        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (u8)d2);
+        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (u8)d2);
     }
 }
 
@@ -61,7 +61,7 @@ Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
     field_4_typeId = AETypes::eLiftRope_108;
 
     const AnimRecord& rec = AnimRec(AnimId::Lift_Rope);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     SetTint_425600(kRopeTints_55FD68, gMap_5C3030.field_0_current_level);
 
@@ -83,9 +83,9 @@ Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
         field_D6_scale = 0;
     };
 
-    field_20_animation.field_8_r = static_cast<BYTE>(field_D0_r);
-    field_20_animation.field_9_g = static_cast<BYTE>(field_D2_g);
-    field_20_animation.field_A_b = static_cast<BYTE>(field_D4_b);
+    field_20_animation.field_8_r = static_cast<u8>(field_D0_r);
+    field_20_animation.field_9_g = static_cast<u8>(field_D2_g);
+    field_20_animation.field_A_b = static_cast<u8>(field_D4_b);
 
     field_102_top = top;
     field_106_bottom = bottom;
@@ -209,9 +209,9 @@ EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
                         &g,
                         &b);
 
-                    field_FC_pRopeRes[idx].field_8_r = static_cast<BYTE>(r);
-                    field_FC_pRopeRes[idx].field_9_g = static_cast<BYTE>(g);
-                    field_FC_pRopeRes[idx].field_A_b = static_cast<BYTE>(b);
+                    field_FC_pRopeRes[idx].field_8_r = static_cast<u8>(r);
+                    field_FC_pRopeRes[idx].field_9_g = static_cast<u8>(g);
+                    field_FC_pRopeRes[idx].field_A_b = static_cast<u8>(b);
 
                     // Render the segment
                     field_FC_pRopeRes[idx].vRender_40B820(

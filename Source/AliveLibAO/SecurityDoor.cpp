@@ -62,7 +62,7 @@ SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, s32 tlvInfo)
 
     SetVTable(this, 0x4BC918);
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1sdosResID_6027, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1sdosResID_6027, 1, 0);
     Animation_Init_417FD0(976, 70, 19, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);

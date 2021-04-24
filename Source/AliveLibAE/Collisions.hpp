@@ -9,7 +9,7 @@ namespace AETest::TestsCollision
     void CollisionTests();
 }
 
-enum eLineTypes : BYTE
+enum eLineTypes : u8
 {
     eFloor_0 = 0,
     eWallLeft_1 = 1,
@@ -32,7 +32,7 @@ class PathLine
 {
 public:
     PSX_RECT field_0_rect;
-    BYTE field_8_type;
+    u8 field_8_type;
     s8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
     s16 field_A_previous;
     s16 field_C_next;
@@ -49,9 +49,9 @@ struct CollisionInfo;
 class Collisions
 {
 public:
-    EXPORT Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
+    EXPORT Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
     EXPORT void dtor_4189F0();
-    EXPORT static void CC Factory_4188A0(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
+    EXPORT static void CC Factory_4188A0(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
     EXPORT s16 Raycast_Real_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask);
     EXPORT BOOL Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask);
     EXPORT PathLine* Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, s16 y2, char mode);

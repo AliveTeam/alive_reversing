@@ -10,7 +10,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4D148C, BYTE, sLeafRandIdx_4D148C, 8);
+ALIVE_VAR(1, 0x4D148C, u8, sLeafRandIdx_4D148C, 8);
 
 void Leaf::VUpdate_48B650()
 {
@@ -102,7 +102,7 @@ Leaf* Leaf::ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     field_C2_g = 100;
     field_C4_b = 100;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWellLeafResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWellLeafResID, 1, 0);
     if (!ppRes)
     {
         return this;

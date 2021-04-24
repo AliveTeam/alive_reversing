@@ -59,7 +59,7 @@ struct CameraNameAndTlvBlob
     s32 x = 0;
     s32 y = 0;
     std::string mName;
-    std::vector<std::vector<BYTE>> mTlvBlobs;
+    std::vector<std::vector<u8>> mTlvBlobs;
 
     std::size_t TotalTlvSize() const
     {
@@ -131,11 +131,11 @@ class JsonWriterBase
 public:
     virtual ~JsonWriterBase() { }
     JsonWriterBase(s32 pathId, const std::string& pathBndName, const PathInfo& info);
-    void Save(Game gameType, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName);
-    virtual void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource) = 0;
+    void Save(Game gameType, const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName);
+    virtual void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) = 0;
 protected:
-    virtual jsonxx::Array ReadCollisionStream(BYTE* ptr, s32 numItems) = 0;
-    virtual jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) = 0;
+    virtual jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) = 0;
+    virtual jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, u8* ptr) = 0;
     virtual std::unique_ptr<TypesCollection> MakeTypesCollection() const = 0;
     virtual void ResetTypeCounterMap() = 0;
 protected:
@@ -147,11 +147,11 @@ class JsonWriterAO : public JsonWriterBase
 {
 public:
     JsonWriterAO(s32 pathId, const std::string& pathBndName, const PathInfo& info);
-    void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource) override;
+    void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) override;
 private:
     void ResetTypeCounterMap() override;
-    jsonxx::Array ReadCollisionStream(BYTE* ptr, s32 numItems) override;
-    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) override;
+    jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) override;
+    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, u8* ptr) override;
     std::unique_ptr<TypesCollection> MakeTypesCollection() const override;
     std::map<AO::TlvTypes, s32> mTypeCounterMap;
 };
@@ -160,11 +160,11 @@ class JsonWriterAE : public JsonWriterBase
 {
 public:
     JsonWriterAE(s32 pathId, const std::string& pathBndName, const PathInfo& info);
-    void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource) override;
+    void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) override;
 private:
     void ResetTypeCounterMap() override;
-    jsonxx::Array ReadCollisionStream(BYTE* ptr, s32 numItems) override;
-    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr) override;
+    jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) override;
+    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, u8* ptr) override;
     std::unique_ptr<TypesCollection> MakeTypesCollection() const override;
     std::map<::TlvTypes, s32> mTypeCounterMap;
 

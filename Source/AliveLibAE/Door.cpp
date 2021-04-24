@@ -211,7 +211,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
 
     const AnimRecord& rec_open = AnimRec(sDoorFrameTable[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
     const AnimRecord& rec_closed = AnimRec(sDoorFrameTable[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID);
     if (!ppRes || rec_closed.mFrameTableOffset == 0)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -546,7 +546,7 @@ TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, s32 tlvInfo)
     field_F4_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Train_Closing);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);

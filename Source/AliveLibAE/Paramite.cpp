@@ -106,7 +106,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo)
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID);
 
     const AnimRecord& rec = AnimRec(AnimId::Paramite_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     SetTint_425600(&stru_55D73C[0], gMap_5C3030.field_0_current_level);
@@ -289,7 +289,7 @@ const AnimId sParamiteFrameTableOffsets_55D660[44] =
     AnimId::Paramite_Attack
 };
 
-s32 CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
+s32 CC Paramite::CreateFromSaveState_4855A0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Paramite_State*>(pBuffer);
     auto pTlv = static_cast<Path_Paramite*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_3C_tlvInfo));
@@ -330,7 +330,7 @@ s32 CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
 
     pParamite->field_106_current_motion = pState->field_24_current_motion;
     const AnimRecord& animRec = AnimRec(sParamiteFrameTableOffsets_55D660[pParamite->field_106_current_motion]);
-	BYTE** ppRes = pParamite->ResBlockForMotion_488130(pParamite->field_106_current_motion);
+	u8** ppRes = pParamite->ResBlockForMotion_488130(pParamite->field_106_current_motion);
     pParamite->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 
     pParamite->field_20_animation.field_92_current_frame = pState->field_26_anim_current_frame;
@@ -4989,13 +4989,13 @@ void Paramite::M_Eating_40_48A0F0()
                 }
                 else
                 {
-                    SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
+                    SFX_Play_46FA90(static_cast<u8>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
                 }
             }
         }
         else
         {
-            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
+            SFX_Play_46FA90(static_cast<u8>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
         }
     }
 
@@ -5429,7 +5429,7 @@ s16 Paramite::Find_Paramite_488810()
 void Paramite::vUpdateAnim_487170()
 {
     const AnimRecord& animRec = AnimRec(sParamiteFrameTableOffsets_55D660[field_106_current_motion]);
-	BYTE** ppRes = ResBlockForMotion_488130(field_106_current_motion);
+	u8** ppRes = ResBlockForMotion_488130(field_106_current_motion);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
 
@@ -5618,7 +5618,7 @@ s16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
     }
 }
 
-BYTE** Paramite::ResBlockForMotion_488130(s16 motion)
+u8** Paramite::ResBlockForMotion_488130(s16 motion)
 {
     if (motion < eParamiteMotions::M_GameSpeakBegin_20_48C010)
     {

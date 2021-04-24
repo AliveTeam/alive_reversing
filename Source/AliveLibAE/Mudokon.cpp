@@ -439,7 +439,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     field_10_resources_array.SetAt(1, nullptr);
 
     const AnimRecord& rec = AnimRec(AnimId::Mudokon_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -664,7 +664,7 @@ ALIVE_VAR(1, 0x5C3010, short, sAlertedMudCount_5C3010, 0);
 ALIVE_VAR(1, 0x5C3018, short, sIsMudStandingUp_5C3018, 0);
 
 
-s32 CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
+s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Mudokon_State*>(pBuffer);
 
@@ -771,7 +771,7 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
     pMud->field_106_current_motion = pState->field_24_current_motion;
 
     const AnimRecord& animRec = AnimRec(kMudFrameTableOffsets_55CD00[pMud->field_106_current_motion]);
-    BYTE** ppRes = pMud->AnimBlockForMotion_474DC0(pState->field_24_current_motion);
+    u8** ppRes = pMud->AnimBlockForMotion_474DC0(pState->field_24_current_motion);
 
     pMud->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 
@@ -1751,7 +1751,7 @@ s16 Mudokon::TurningWheelHelloOrAllYaResponse()
 
 void Mudokon::vUpdateAnimRes_474D80()
 {
-    BYTE** ppRes = AnimBlockForMotion_474DC0(field_106_current_motion);
+    u8** ppRes = AnimBlockForMotion_474DC0(field_106_current_motion);
     if (!ppRes)
     {
         LOG_ERROR("No res for " << field_106_current_motion);
@@ -7206,7 +7206,7 @@ s16 Mudokon::CanRespond_4770B0()
     return TRUE;
 }
 
-BYTE** Mudokon::AnimBlockForMotion_474DC0(short motion)
+u8** Mudokon::AnimBlockForMotion_474DC0(short motion)
 {
     if (motion < Mud_Motion::M_LeverUse_10_473020)
     {

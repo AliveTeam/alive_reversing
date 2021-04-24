@@ -40,23 +40,23 @@ void DebugAddRaycast(RaycastDebug rc);
 // File System
 namespace FS
 {
-    std::vector<BYTE> ReadFile(const std::string& filePath);
+    std::vector<u8> ReadFile(const std::string& filePath);
     std::string GetPrefPath();
 }
 
 namespace DEV
 {
-    void DebugDrawLine(PrimHeader ** ot, Layer layer, s32 x1, s32 y1, s32 x2, s32 y2, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
-    void DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, s32 x, s32 y, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent);
-    void DebugFillRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
-    void DebugDrawRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
+    void DebugDrawLine(PrimHeader ** ot, Layer layer, s32 x1, s32 y1, s32 x2, s32 y2, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
+    void DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent);
+    void DebugFillRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
+    void DebugDrawRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
     void DebugOnFrameDraw(PrimHeader** ppOt);
 }
 
 extern bool sDebugEnabled_VerboseEvents;
 
 // Duration in seconds
-void ShowDebugConsoleMessage(std::string message, float duration, BYTE r, BYTE g, BYTE b);
+void ShowDebugConsoleMessage(std::string message, float duration, u8 r, u8 g, u8 b);
 void ShowDebugConsoleMessage(std::string message, float duration);
 
 std::vector<std::string> SplitString(const std::string& s, char seperator);

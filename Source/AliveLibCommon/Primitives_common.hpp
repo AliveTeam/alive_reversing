@@ -28,10 +28,10 @@ ALIVE_ASSERT_SIZEOF(PrimHeaderPart, 4);
 
 struct Prim_RGB
 {
-    BYTE r;
-    BYTE g;
-    BYTE b;
-    BYTE code_or_pad;
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 code_or_pad;
 };
 ALIVE_ASSERT_SIZEOF(Prim_RGB, 0x4);
 
@@ -69,8 +69,8 @@ ALIVE_ASSERT_SIZEOF(Poly_Base, 0x10);
 
 struct UV
 {
-    BYTE u;
-    BYTE v;
+    u8 u;
+    u8 v;
     WORD tpage_clut_pad;
 };
 ALIVE_ASSERT_SIZEOF(UV, 0x4);
@@ -377,29 +377,29 @@ union PrimAny
 ALIVE_ASSERT_SIZEOF(PrimAny, sizeof(void*));
 
 template<class T>
-inline void SetRGB0(T* prim, BYTE r, BYTE g, BYTE b)
+inline void SetRGB0(T* prim, u8 r, u8 g, u8 b)
 {
     prim->mBase.header.rgb_code.r = r;
     prim->mBase.header.rgb_code.g = g;
     prim->mBase.header.rgb_code.b = b;
 }
 
-template<class T> inline BYTE R0(T* prim) { return prim->mBase.header.rgb_code.r; }
-template<class T> inline BYTE G0(T* prim) { return prim->mBase.header.rgb_code.g; }
-template<class T> inline BYTE B0(T* prim) { return prim->mBase.header.rgb_code.b; }
+template<class T> inline u8 R0(T* prim) { return prim->mBase.header.rgb_code.r; }
+template<class T> inline u8 G0(T* prim) { return prim->mBase.header.rgb_code.g; }
+template<class T> inline u8 B0(T* prim) { return prim->mBase.header.rgb_code.b; }
 
-template<class T> inline BYTE R_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.r; }
-template<class T> inline BYTE G_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.g; }
-template<class T> inline BYTE B_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.b; }
-template<class T> inline BYTE R1(T* prim) { return R_Generic(prim, 0); }
-template<class T> inline BYTE G1(T* prim) { return G_Generic(prim, 0); }
-template<class T> inline BYTE B1(T* prim) { return B_Generic(prim, 0); }
-template<class T> inline BYTE R2(T* prim) { return R_Generic(prim, 1); }
-template<class T> inline BYTE G2(T* prim) { return G_Generic(prim, 1); }
-template<class T> inline BYTE B2(T* prim) { return B_Generic(prim, 1); }
-template<class T> inline BYTE R3(T* prim) { return R_Generic(prim, 2); }
-template<class T> inline BYTE G3(T* prim) { return G_Generic(prim, 2); }
-template<class T> inline BYTE B3(T* prim) { return B_Generic(prim, 2); }
+template<class T> inline u8 R_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.r; }
+template<class T> inline u8 G_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.g; }
+template<class T> inline u8 B_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.b; }
+template<class T> inline u8 R1(T* prim) { return R_Generic(prim, 0); }
+template<class T> inline u8 G1(T* prim) { return G_Generic(prim, 0); }
+template<class T> inline u8 B1(T* prim) { return B_Generic(prim, 0); }
+template<class T> inline u8 R2(T* prim) { return R_Generic(prim, 1); }
+template<class T> inline u8 G2(T* prim) { return G_Generic(prim, 1); }
+template<class T> inline u8 B2(T* prim) { return B_Generic(prim, 1); }
+template<class T> inline u8 R3(T* prim) { return R_Generic(prim, 2); }
+template<class T> inline u8 G3(T* prim) { return G_Generic(prim, 2); }
+template<class T> inline u8 B3(T* prim) { return B_Generic(prim, 2); }
 
 template<class T> inline short X0(T* prim) { return prim->mBase.vert.x; }
 template<class T> inline short Y0(T* prim) { return prim->mBase.vert.y; }
@@ -413,16 +413,16 @@ template<class T> inline short Y2(T* prim) { return Y_Generic(prim, 1); }
 template<class T> inline short X3(T* prim) { return X_Generic(prim, 2); }
 template<class T> inline short Y3(T* prim) { return Y_Generic(prim, 2); }
 
-template<class T> inline BYTE U0(T* prim) { return prim->mUv.u; }
-template<class T> inline BYTE V0(T* prim) { return prim->mUv.v; }
-template<class T> inline BYTE U_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mUv.u; }
-template<class T> inline BYTE V_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mUv.v; }
-template<class T> inline BYTE U1(T* prim) { return U_Generic(prim, 0); }
-template<class T> inline BYTE V1(T* prim) { return V_Generic(prim, 0); }
-template<class T> inline BYTE U2(T* prim) { return U_Generic(prim, 1); }
-template<class T> inline BYTE V2(T* prim) { return V_Generic(prim, 1); }
-template<class T> inline BYTE U3(T* prim) { return U_Generic(prim, 2); }
-template<class T> inline BYTE V3(T* prim) { return V_Generic(prim, 2); }
+template<class T> inline u8 U0(T* prim) { return prim->mUv.u; }
+template<class T> inline u8 V0(T* prim) { return prim->mUv.v; }
+template<class T> inline u8 U_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mUv.u; }
+template<class T> inline u8 V_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mUv.v; }
+template<class T> inline u8 U1(T* prim) { return U_Generic(prim, 0); }
+template<class T> inline u8 V1(T* prim) { return V_Generic(prim, 0); }
+template<class T> inline u8 U2(T* prim) { return U_Generic(prim, 1); }
+template<class T> inline u8 V2(T* prim) { return V_Generic(prim, 1); }
+template<class T> inline u8 U3(T* prim) { return U_Generic(prim, 2); }
+template<class T> inline u8 V3(T* prim) { return V_Generic(prim, 2); }
 
 template<class T>
 inline void SetXY_Generic(T* prim, s32 idx, short x, short y)
@@ -432,14 +432,14 @@ inline void SetXY_Generic(T* prim, s32 idx, short x, short y)
 }
 
 template<class T>
-inline void SetUV_Generic(T* prim, s32 idx, BYTE u, BYTE v)
+inline void SetUV_Generic(T* prim, s32 idx, u8 u, u8 v)
 {
     prim->mVerts[idx].mUv.u = u;
     prim->mVerts[idx].mUv.v = v;
 }
 
 template<class T>
-inline void SetRGB_Generic(T* prim, s32 idx, BYTE r, BYTE g, BYTE b)
+inline void SetRGB_Generic(T* prim, s32 idx, u8 r, u8 g, u8 b)
 {
     prim->mVerts[idx].mRgb.r = r;
     prim->mVerts[idx].mRgb.g = g;
@@ -447,19 +447,19 @@ inline void SetRGB_Generic(T* prim, s32 idx, BYTE r, BYTE g, BYTE b)
 }
 
 template<class T>
-inline void SetRGB1(T* prim, BYTE r, BYTE g, BYTE b)
+inline void SetRGB1(T* prim, u8 r, u8 g, u8 b)
 {
     SetRGB_Generic(prim, 0, r, g, b);
 }
 
 template<class T>
-inline void SetRGB2(T* prim, BYTE r, BYTE g, BYTE b)
+inline void SetRGB2(T* prim, u8 r, u8 g, u8 b)
 {
     SetRGB_Generic(prim, 1, r, g, b);
 }
 
 template<class T>
-inline void SetRGB3(T* prim, BYTE r, BYTE g, BYTE b)
+inline void SetRGB3(T* prim, u8 r, u8 g, u8 b)
 {
     SetRGB_Generic(prim, 2, r, g, b);
 }
@@ -472,25 +472,25 @@ inline void SetXY0(T* prim, short x, short y)
 }
 
 template<class T>
-inline void SetUV0(T* prim, BYTE u, BYTE v)
+inline void SetUV0(T* prim, u8 u, u8 v)
 {
     prim->mUv.u = u;
     prim->mUv.v = v;
 }
 
 template<class T>
-inline void SetUV1(T* prim, BYTE u, BYTE v)
+inline void SetUV1(T* prim, u8 u, u8 v)
 {
     SetUV_Generic(prim, 0, u, v);
 }
 template<class T>
-inline void SetUV2(T* prim, BYTE u, BYTE v)
+inline void SetUV2(T* prim, u8 u, u8 v)
 {
     SetUV_Generic(prim, 1, u, v);
 }
 
 template<class T>
-inline void SetUV3(T* prim, BYTE u, BYTE v)
+inline void SetUV3(T* prim, u8 u, u8 v)
 {
     SetUV_Generic(prim, 2, u, v);
 }
@@ -546,7 +546,7 @@ inline void SetXYWH(T pPoly, short x, short y, short w, short h)
     SetXY3(pPoly, x + w, y + h);
 }
 
-void SetCode(PrimHeader* pPrim, BYTE code);
+void SetCode(PrimHeader* pPrim, u8 code);
 void SetUnknown(PrimHeader* pPrim);
 void SetNumLongs(PrimHeader* pPrim, char numLongs);
 

@@ -78,7 +78,7 @@ DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, s32 start, s
     SetVTable(this, 0x4BAF38);
     field_4_typeId = Types::eDeathBird_38;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0);
     Animation_Init_417FD0(6312, 70, 43, ppRes, 1);
 
     if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))

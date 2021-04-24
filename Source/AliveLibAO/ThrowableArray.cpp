@@ -14,7 +14,7 @@ ALIVE_VAR(1, 0x50E26C, ThrowableArray*, gpThrowableArray_50E26C, nullptr);
 EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, u16 path)
 {
     BOOL bDoLoadingLoop = FALSE;
-    const BYTE throwableTypeIdx = Path_Get_Bly_Record_434650(levelNumber, path)->field_C_overlay_id & 0xFF;
+    const u8 throwableTypeIdx = Path_Get_Bly_Record_434650(levelNumber, path)->field_C_overlay_id & 0xFF;
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbepickResID, 0, 0))
     {
@@ -191,7 +191,7 @@ void ThrowableArray::Remove_4540D0(s16 count)
         }
     }
 
-    BYTE** ppRes = nullptr;
+    u8** ppRes = nullptr;
     if (field_12_flags & 2)
     {
         switch (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num])

@@ -68,7 +68,7 @@ ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, s16 bottom, s16 top, FP scale)
         field_E6_segment_length = 7;
     }
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 1, 0);
     Animation_Init_417FD0(88, 3, 16, ppRes, 1);
 
     field_10_anim.field_14_scale = scale;
@@ -187,9 +187,9 @@ void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
                     short g = 128;
                     short b = 128;
                     ShadowZone::ShadowZones_Calculate_Colour_435FF0(FP_GetExponent(field_A8_xpos), ypos_int - (idx * field_E6_segment_length), field_C6_scale, &r, &g, &b);
-                    field_EC_pRes[idx].field_8_r = static_cast<BYTE>(r);
-                    field_EC_pRes[idx].field_9_g = static_cast<BYTE>(g);
-                    field_EC_pRes[idx].field_A_b = static_cast<BYTE>(b);
+                    field_EC_pRes[idx].field_8_r = static_cast<u8>(r);
+                    field_EC_pRes[idx].field_9_g = static_cast<u8>(g);
+                    field_EC_pRes[idx].field_A_b = static_cast<u8>(b);
                     field_EC_pRes[idx].VRender2(x_start, y_start + field_C8_yOffset, ppOt);
                     PSX_RECT rect = {};
                     field_EC_pRes[idx].GetRenderedSize_404220(&rect);

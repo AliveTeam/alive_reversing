@@ -44,7 +44,7 @@ public:
     EXPORT void VRender_407810(PrimHeader** ppOt);
 
     s32 field_D4_not_used[4];
-    BYTE** field_E4_ppResBuf;
+    u8** field_E4_ppResBuf;
     BloodParticle* field_E8_pResBuf;
     Prim_SetTPage field_EC_tPages[2];
     TPageMode field_10C_texture_mode;
@@ -52,7 +52,7 @@ public:
     s16 field_10E_xpos;
     s16 field_110_ypos;
     s16 field_112_to_render_count;
-    BYTE field_114_rand_seed;
+    u8 field_114_rand_seed;
     char field_115_pad;
     s16 field_116_total_count;
     s32 field_118_timer;

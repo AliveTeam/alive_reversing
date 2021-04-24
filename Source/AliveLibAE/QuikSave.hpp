@@ -54,10 +54,10 @@ struct Quicksave
     s32 field_200_accumulated_obj_count;
     Quicksave_WorldInfo field_204_world_info;
     Quicksave_WorldInfo field_244_restart_path_world_info;
-    BYTE field_284_restart_path_abe_state[216];
+    u8 field_284_restart_path_abe_state[216];
     SwitchStates field_35C_restart_path_switch_states;
     SwitchStates field_45C_switch_states;
-    BYTE field_55C_objects_state_data[6820];
+    u8 field_55C_objects_state_data[6820];
 };
 ALIVE_ASSERT_SIZEOF(Quicksave, 0x2000);
 
@@ -80,6 +80,6 @@ EXPORT void CC Quicksave_4C90D0();
 EXPORT void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo);
 EXPORT void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo);
 EXPORT void CC Quicksave_FindSaves_4D4150();
-void QuikSave_RestoreBlyData_D481890_4C9BE0(const BYTE* pSaveData);
+void QuikSave_RestoreBlyData_D481890_4C9BE0(const u8* pSaveData);
 EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870();
 EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30();

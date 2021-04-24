@@ -130,7 +130,7 @@ enum eSligStates : s32
 
 struct SligResources
 {
-    BYTE** res[17];
+    u8** res[17];
 };
 
 enum class SligSpeak : u8
@@ -260,7 +260,7 @@ public:
 
     EXPORT void Slig_SoundEffect_46F310(SligSfx sfxIdx);
 
-    EXPORT BYTE** ResBlockForMotion_4654D0(s16 motion);
+    EXPORT u8** ResBlockForMotion_4654D0(s16 motion);
 
     EXPORT BOOL VIs8_465630(short motion);
 

@@ -326,7 +326,7 @@ void Teleporter::vUpdate_4DC400()
 
         sControlledCharacter_5C1B8C->MapFollowMe_408D10(TRUE);
 
-        const BYTE lineType = sControlledCharacter_5C1B8C->field_D6_scale == 0 ? 0xF0 : 0x1F;
+        const u8 lineType = sControlledCharacter_5C1B8C->field_D6_scale == 0 ? 0xF0 : 0x1F;
 
         PathLine* pPathLine = nullptr;
         FP hitX = {};

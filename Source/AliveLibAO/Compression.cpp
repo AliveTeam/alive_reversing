@@ -8,12 +8,12 @@
 
 namespace AO {
 
-EXPORT void CC Decompress_Type_1_403150(const BYTE* /*pInput*/, BYTE* /*pOutput*/, u32 /*compressedLen*/, u32 /*decompressedLen*/)
+EXPORT void CC Decompress_Type_1_403150(const u8* /*pInput*/, u8* /*pOutput*/, u32 /*compressedLen*/, u32 /*decompressedLen*/)
 {
     ALIVE_FATAL("Decompress_Type_1_403150 never expected be called");
 }
 
-EXPORT void CC Decompress_Type_2_403390(const BYTE* pInput, BYTE* pOutput, s32 decompressedLen)
+EXPORT void CC Decompress_Type_2_403390(const u8* pInput, u8* pOutput, s32 decompressedLen)
 {
     // Exactly the same as AE
     CompressionType2_Decompress_40AA50(pInput, pOutput, decompressedLen);
@@ -39,14 +39,14 @@ static void ReadNextSource(PtrStream& stream, s32& control_byte, T& workBits)
     control_byte -= 6;
 }
 
-EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, s32 totalLen, s32 out_len)
+EXPORT void CC Decompress_Type_3_4031E0(const u8* pInput, u8* pOutput, s32 totalLen, s32 out_len)
 {
     u32 inStreamLen = totalLen & ~3u;
     u32 inStreamDirectBytesLen = totalLen & 3;
  
     PtrStream inStream(&pInput);
 
-    const BYTE* pDirectBytes = pInput + (6 * inStreamLen) / 8;
+    const u8* pDirectBytes = pInput + (6 * inStreamLen) / 8;
     PtrStream inStreamDirectBytes(&pDirectBytes);
 
     const s32 total_out_len = (out_len + 3) / 4;
@@ -58,14 +58,14 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, s32 t
     s32 control_byte = 0;
     u32 workBits = 0;
 
-    BYTE* pOutIter = pOutput;
+    u8* pOutIter = pOutput;
 
     while (inStreamLen)
     {
         ReadNextSource(inStream, control_byte, workBits);
         inStreamLen--;
 
-        const BYTE input_byte = workBits & 0x3F;
+        const u8 input_byte = workBits & 0x3F;
         workBits = workBits >> 6;
 
         if (input_byte & 0x20)
@@ -97,7 +97,7 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, s32 t
 
     while (inStreamDirectBytesLen)
     {
-        const BYTE input_byte = (inStreamDirectBytes.ReadU8() & 0x3F);
+        const u8 input_byte = (inStreamDirectBytes.ReadU8() & 0x3F);
         inStreamDirectBytesLen--;
 
         if (input_byte & 0x20)
@@ -105,7 +105,7 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, s32 t
             const s32 numBytesToCopy = (input_byte & 0x1F) + 1;
             for (s32 i = 0; i < numBytesToCopy; i++)
             {
-                const BYTE copyByte = (inStreamDirectBytes.ReadU8() & 0x3F);
+                const u8 copyByte = (inStreamDirectBytes.ReadU8() & 0x3F);
                 inStreamDirectBytesLen--;
                 *pOutIter++ = copyByte;
             }
@@ -118,7 +118,7 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, s32 t
     }
 }
 
-EXPORT void CC Decompress_Type_4_5_461770(const BYTE* pInput, BYTE* pOutput)
+EXPORT void CC Decompress_Type_4_5_461770(const u8* pInput, u8* pOutput)
 {
     // Exactly the same as AE
     CompressionType_4Or5_Decompress_4ABAB0(pInput, pOutput);

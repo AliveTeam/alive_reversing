@@ -108,9 +108,9 @@ const s32 sSlogFrameOffsetTable_4CFD98[25] =
 };
 
 ALIVE_VAR(1, 0x9F11C8, short, gNumSlogs_9F11C8, 0);
-ALIVE_VAR(1, 0x9F11C4, BYTE, sSlogRndSeed_9F11C4, 0);
+ALIVE_VAR(1, 0x9F11C4, u8, sSlogRndSeed_9F11C4, 0);
 
-static BYTE Slog_NextRandom()
+static u8 Slog_NextRandom()
 {
     return sRandomBytes_4BBE30[sSlogRndSeed_9F11C4++];
 }
@@ -481,11 +481,11 @@ void Slog::VUpdate_4739C0()
 
 void Slog::SetAnimFrame()
 {
-    BYTE** ppRes = ResBlockForMotion(field_FC_current_motion);
+    u8** ppRes = ResBlockForMotion(field_FC_current_motion);
     field_10_anim.Set_Animation_Data_402A40(sSlogFrameOffsetTable_4CFD98[field_FC_current_motion], ppRes);
 }
 
-BYTE** Slog::ResBlockForMotion(s16 motion)
+u8** Slog::ResBlockForMotion(s16 motion)
 {
     if (motion < eSlogStates::State_15_Empty_475290)
     {

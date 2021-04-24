@@ -20,7 +20,7 @@ struct GasPolys
 
 struct Data_Byte
 {
-    BYTE data[2][5][5];
+    u8 data[2][5][5];
 };
 
 ALIVE_ARY(1, 0x5008E8, Prim_SetTPage, 2, gGasTPages_5008E8, {});
@@ -196,7 +196,7 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
             {
                 tableVal = 20;
             }
-            sbyte_3_4FFD78.data[0][i][j] = static_cast<BYTE>(tableVal);
+            sbyte_3_4FFD78.data[0][i][j] = static_cast<u8>(tableVal);
         }
     }
 
@@ -217,7 +217,7 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
             {
                 tableVal = 20;
             }
-            sbyte_3_4FFD78.data[1][i][j] = static_cast<BYTE>(tableVal);
+            sbyte_3_4FFD78.data[1][i][j] = static_cast<u8>(tableVal);
         }
     }
 

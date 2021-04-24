@@ -25,7 +25,7 @@ public:
         SetVTable(this, 0x4BB330);
         field_4_typeId = Types::eNone_0;
 
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGlowResID, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGlowResID, 1, 0);
         Animation_Init_417FD0(1344, 52, 30, ppRes, 1);
 
         field_CC_bApplyShadows |= 1u;
@@ -85,9 +85,9 @@ public:
     {
         if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
         {
-            field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r);
-            field_10_anim.field_9_g = static_cast<BYTE>(field_C2_g);
-            field_10_anim.field_A_b = static_cast<BYTE>(field_C4_b);
+            field_10_anim.field_8_r = static_cast<u8>(field_C0_r);
+            field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
+            field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
 
             field_10_anim.VRender_403AE0(
                 FP_GetExponent(field_E4_xPos),
@@ -173,7 +173,7 @@ public:
 
         SetVTable(this, 0x4BB368);
         field_4_typeId = Types::eNone_0;
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
         Animation_Init_417FD0(1532, 38, 21, ppRes, 1);
         field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -423,7 +423,7 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB3A0);
     field_4_typeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
     Animation_Init_417FD0(5072, 51, 24, ppRes, 1);
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

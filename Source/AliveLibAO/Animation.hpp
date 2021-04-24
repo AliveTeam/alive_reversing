@@ -47,7 +47,7 @@ struct AnimationHeader
     DWORD mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
 };
 
-enum class CompressionType : BYTE
+enum class CompressionType : u8
 {
     eType_0_NoCompression = 0,
     eType_1_NotUsed = 1,
@@ -60,9 +60,9 @@ enum class CompressionType : BYTE
 struct FrameHeader
 {
     DWORD field_0_clut_offset;
-    BYTE field_4_width;
-    BYTE field_5_height;
-    BYTE field_6_colour_depth;
+    u8 field_4_width;
+    u8 field_5_height;
+    u8 field_6_colour_depth;
     CompressionType field_7_compression_type;
     WORD field_8_width2;
     WORD mHeight2;
@@ -192,9 +192,9 @@ public:
 
     BitField32<AnimFlags> field_4_flags;
 
-    BYTE field_8_r;
-    BYTE field_9_g;
-    BYTE field_A_b;
+    u8 field_8_r;
+    u8 field_9_g;
+    u8 field_A_b;
     TPageAbr field_B_render_mode;
 
     Layer field_C_layer;
@@ -214,17 +214,17 @@ public:
 
     EXPORT void VDecode_403550();
 
-    EXPORT s16 Set_Animation_Data_402A40(s32 frameTable, BYTE** resBlock);
+    EXPORT s16 Set_Animation_Data_402A40(s32 frameTable, u8** resBlock);
 
     EXPORT void SetFrame_402AC0(s16 newFrame);
 
-    EXPORT s16 Init_402D20(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, char bEnable_flag10_alternating);
+    EXPORT s16 Init_402D20(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, char bEnable_flag10_alternating);
 
     EXPORT s16 Get_Frame_Count_403540();
 
     EXPORT FrameInfoHeader* Get_FrameHeader_403A00(s32 frame);
 
-    EXPORT void LoadPal_403090(BYTE** pPalData, s32 palOffset);
+    EXPORT void LoadPal_403090(u8** pPalData, s32 palOffset);
 
     EXPORT void Get_Frame_Rect_402B50(PSX_RECT* pRect);
 
@@ -244,8 +244,8 @@ public:
     FP field_14_scale;
     s32 field_18_frame_table_offset;
     TFrameCallBackType* field_1C_fn_ptr_array;
-    BYTE** field_20_ppBlock;
-    BYTE** field_24_dbuf;
+    u8** field_20_ppBlock;
+    u8** field_24_dbuf;
     s32 field_28_dbuf_size;
     Poly_FT4 field_2C_ot_data[2];
     PSX_RECT field_84_vram_rect;

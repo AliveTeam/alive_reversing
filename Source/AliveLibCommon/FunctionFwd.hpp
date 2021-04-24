@@ -28,7 +28,7 @@ bool RunningAsInjectedDll();
 
 #define STATIC_EQUALS(src, dst) static_assert(src == dst, "Not equal!");
 #define ALIVE_COUNTOF(x) (sizeof(x)/sizeof(*(x)))
-#define BYTEn(x, n)   (*((BYTE*)&(x)+n))
+#define BYTEn(x, n)   (*((u8*)&(x)+n))
 #define BYTE0(x)   BYTEn(x,  0)
 #define BYTE1(x)   BYTEn(x,  1)
 #define BYTE2(x)   BYTEn(x,  2)

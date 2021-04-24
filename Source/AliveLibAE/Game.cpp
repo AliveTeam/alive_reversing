@@ -232,7 +232,7 @@ EXPORT s32 CC Game_End_Frame_4950F0(DWORD flags)
         return 0;
     }
 
-    const BYTE oldShowVRam = sPsxEMU_show_vram_BD1465;
+    const u8 oldShowVRam = sPsxEMU_show_vram_BD1465;
     if (sCommandLine_DDCheatEnabled_5CA4B5)
     {
         if (Input_IsVKPressed_4EDD40(VK_SCROLL))
@@ -450,7 +450,7 @@ EXPORT void CC Game_Loop_467230();
 
 EXPORT void CC Game_Init_LoadingIcon_482CD0()
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1u, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1u, 0);
     if (!ppRes)
     {
         ResourceManager::LoadResourceFile_49C170("LOADING.BAN", nullptr);
@@ -461,7 +461,7 @@ EXPORT void CC Game_Init_LoadingIcon_482CD0()
 
 EXPORT void CC Game_Free_LoadingIcon_482D40()
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 0, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_49C330(ppRes);

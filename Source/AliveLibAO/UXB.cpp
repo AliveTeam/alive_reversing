@@ -19,7 +19,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eUXB_99;
 
-    BYTE** ppRes_1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kTbombResID, 1, 0);
+    u8** ppRes_1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kTbombResID, 1, 0);
     Animation_Init_417FD0(
         7740,
         59,
@@ -70,7 +70,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
     {
         if (pTlv->field_1E_state == UXB_State::eArmed_0)
         {
-            BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
+            u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
             field_11C_anim.LoadPal_403090(ppRes, 0);
             field_1BC_flags &= ~2u;
             field_11C_anim.Set_Animation_Data_402A40(372, 0);
@@ -100,7 +100,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
         }
         else
         {
-            BYTE** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
+            u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
             field_11C_anim.LoadPal_403090(ppPal, 0);
             field_1BC_flags &= ~2u;
             field_11C_anim.Set_Animation_Data_402A40(372, 0);
@@ -160,7 +160,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
 
 void UXB::InitBlinkAnim()
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombflshResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombflshResID, 1, 0);
     if (field_11C_anim.Init_402D20(
         372,
         gObjList_animations_505564,

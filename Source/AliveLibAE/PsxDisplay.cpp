@@ -61,12 +61,12 @@ ALIVE_ASSERT_SIZEOF(TextRecords, 0x803);
 
 struct DebugTexts
 {
-    BYTE field_0_xMargin;
-    BYTE field_1_yMargin;
-    BYTE field_2_displayWidth;
-    BYTE field_3_displayHeight;
+    u8 field_0_xMargin;
+    u8 field_1_yMargin;
+    u8 field_2_displayWidth;
+    u8 field_3_displayHeight;
     DWORD field_4_max_len;
-    BYTE field_8_bgColour;
+    u8 field_8_bgColour;
     TextRecords field_9_text;
 };
 ALIVE_ASSERT_SIZEOF(DebugTexts, 0x80C);
@@ -94,7 +94,7 @@ ALIVE_VAR(1, 0xBB4A24, short, sbDebugFontLoaded_BB4A24, 0);
 ALIVE_VAR(1, 0xBB47C8, s32, sDebugTextIdx_BB47C8, 0);
 
 
-EXPORT s32 CC DebugFont_Open_4F8AB0(BYTE xMargin, BYTE yMargin, BYTE displayWidth, BYTE displayHeight, BYTE bgColour, u32 maxLenChars)
+EXPORT s32 CC DebugFont_Open_4F8AB0(u8 xMargin, u8 yMargin, u8 displayWidth, u8 displayHeight, u8 bgColour, u32 maxLenChars)
 {
     const s32 idx = sFntCount_BD0F28;
     if (sFntCount_BD0F28 == 4)
@@ -130,7 +130,7 @@ EXPORT s32 CC DebugFont_Init_4DCF40() // Font
         sbDebugFontLoaded_BB4A24 = 1;
     }
     DebugFont_Reset_4F8B40();
-    sDebugTextIdx_BB47C8 = DebugFont_Open_4F8AB0(8, 16, static_cast<BYTE>(gPsxDisplay_5C1130.field_0_width), 200, 0, 600u);
+    sDebugTextIdx_BB47C8 = DebugFont_Open_4F8AB0(8, 16, static_cast<u8>(gPsxDisplay_5C1130.field_0_width), 200, 0, 600u);
     //nullsub_7(sTextIdx_BB47C8);
     sDebugFontTmpBuffer_BB47CC[0] = 0;
     return 0;

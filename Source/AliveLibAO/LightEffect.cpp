@@ -18,7 +18,7 @@ LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, s32 tlvInfo)
     field_4_typeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBGStarResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBGStarResID, 1, 0);
     Animation_Init_417FD0(748, 20, 12, ppRes, 1);
 
     field_EC_rnd1 = gnFrameCount_507670 + Math_RandomRange_450F20(2, 8);
@@ -79,9 +79,9 @@ void LightEffect::VRender_4067F0(PrimHeader** /*ppOt*/)
         const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
         const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
-        field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r/4);
-        field_10_anim.field_9_g = static_cast<BYTE>(field_C2_g/4);
-        field_10_anim.field_A_b = static_cast<BYTE>(field_C4_b/4);
+        field_10_anim.field_8_r = static_cast<u8>(field_C0_r/4);
+        field_10_anim.field_9_g = static_cast<u8>(field_C2_g/4);
+        field_10_anim.field_A_b = static_cast<u8>(field_C4_b/4);
 
         field_10_anim.vRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos)))),
@@ -138,7 +138,7 @@ void LightEffect::VUpdate_406610()
 
         s32 tmp = field_F4_rnd3 + FP_GetExponent(FP_FromInteger(field_F8_rnd4) * v11);
         
-        BYTE rgb = 0;
+        u8 rgb = 0;
         if (tmp <= 255)
         {
             rgb = tmp & 0xFF;
@@ -157,7 +157,7 @@ void LightEffect::VUpdate_406610()
         field_EC_rnd1 = gnFrameCount_507670 + Math_RandomRange_450F20(2, 8);
         field_F0_rnd2 = field_EC_rnd1 + Math_RandomRange_450F20(4, 8);
         field_F8_rnd4 = Math_RandomRange_450F20(150, 180);
-        BYTE rgb = 96;
+        u8 rgb = 96;
 
         field_C0_r = rgb;
         field_C2_g = rgb;

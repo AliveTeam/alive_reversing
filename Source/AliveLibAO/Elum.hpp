@@ -152,7 +152,7 @@ public:
 
     EXPORT BaseGameObject* dtor_base_416FE0();
 
-    EXPORT BYTE** GetResBlock_410D00(short currentMotion);
+    EXPORT u8** GetResBlock_410D00(short currentMotion);
 
     EXPORT void MidWalkToNextMotion_412FA0();
 
@@ -250,7 +250,7 @@ public:
 
     struct ElumResources
     {
-        BYTE** res[31];
+        u8** res[31];
     };
 
     s16 field_10C_bFootStep2;

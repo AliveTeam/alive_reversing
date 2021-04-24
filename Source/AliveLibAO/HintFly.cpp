@@ -77,7 +77,7 @@ struct HintFlyParticle
 };
 ALIVE_ASSERT_SIZEOF(HintFlyParticle, 0x54);
 
-const BYTE byte_4C6DB0[20] =
+const u8 byte_4C6DB0[20] =
 {
     19u,
     15u,
@@ -101,7 +101,7 @@ const BYTE byte_4C6DB0[20] =
     239u
 };
 
-const BYTE byte_4C6DC8[32] =
+const u8 byte_4C6DC8[32] =
 {
     31u,
     17u,
@@ -137,7 +137,7 @@ const BYTE byte_4C6DC8[32] =
     236u
 };
 
-const BYTE byte_4C6DE8[17] =
+const u8 byte_4C6DE8[17] =
 {
     16u,
     21u,
@@ -158,7 +158,7 @@ const BYTE byte_4C6DE8[17] =
     221u,
 };
 
-const BYTE byte_4C6E00[26] =
+const u8 byte_4C6E00[26] =
 {
     25u,
     17u,
@@ -188,7 +188,7 @@ const BYTE byte_4C6E00[26] =
     236u,
 };
 
-const BYTE byte_4C6E20[27] =
+const u8 byte_4C6E20[27] =
 {
     26u,
     17u,
@@ -219,7 +219,7 @@ const BYTE byte_4C6E20[27] =
     223u,
 };
 
-const BYTE byte_4C6E40[21] =
+const u8 byte_4C6E40[21] =
 {
     20u,
     17u,
@@ -244,7 +244,7 @@ const BYTE byte_4C6E40[21] =
     209u,
 };
 
-const BYTE byte_4C6E58[22] =
+const u8 byte_4C6E58[22] =
 {
     21u,
     21u,
@@ -270,7 +270,7 @@ const BYTE byte_4C6E58[22] =
     221u,
 };
 
-const BYTE byte_4C6E70[23] =
+const u8 byte_4C6E70[23] =
 {
     22u,
     17u,
@@ -297,7 +297,7 @@ const BYTE byte_4C6E70[23] =
     223u,
 };
 
-const BYTE byte_4C6E88[21] =
+const u8 byte_4C6E88[21] =
 {
     20u,
     17u,
@@ -322,7 +322,7 @@ const BYTE byte_4C6E88[21] =
     223u,
 };
 
-const BYTE byte_4C6EA0[15] =
+const u8 byte_4C6EA0[15] =
 {
     14u,
     27u,
@@ -341,7 +341,7 @@ const BYTE byte_4C6EA0[15] =
     221u,
 };
 
-const BYTE byte_4C6EB0[23] =
+const u8 byte_4C6EB0[23] =
 {
     22u,
     17u,
@@ -368,7 +368,7 @@ const BYTE byte_4C6EB0[23] =
     255u,
 };
 
-const BYTE byte_4C6EC8[16] =
+const u8 byte_4C6EC8[16] =
 {
     14u,
     17u,
@@ -387,7 +387,7 @@ const BYTE byte_4C6EC8[16] =
     223u,
 };
 
-const BYTE byte_4C6ED8[25] =
+const u8 byte_4C6ED8[25] =
 {
     24u,
     17u,
@@ -416,7 +416,7 @@ const BYTE byte_4C6ED8[25] =
     223u,
 };
 
-const BYTE byte_4C6EF8[23] =
+const u8 byte_4C6EF8[23] =
 {
     22u,
     17u,
@@ -443,7 +443,7 @@ const BYTE byte_4C6EF8[23] =
     223u,
 };
 
-const BYTE byte_4C6F10[21] =
+const u8 byte_4C6F10[21] =
 {
     20u,
     21u,
@@ -468,7 +468,7 @@ const BYTE byte_4C6F10[21] =
     235u,
 };
 
-const BYTE byte_4C6F28[23] =
+const u8 byte_4C6F28[23] =
 {
     22u,
     17u,
@@ -495,7 +495,7 @@ const BYTE byte_4C6F28[23] =
     230u,
 };
 
-const BYTE byte_4C6F40[24] =
+const u8 byte_4C6F40[24] =
 {
     23u,
     21u,
@@ -523,7 +523,7 @@ const BYTE byte_4C6F40[24] =
     239u
 };
 
-const BYTE byte_4C6F58[27] =
+const u8 byte_4C6F58[27] =
 {
     26u,
     17u,
@@ -554,7 +554,7 @@ const BYTE byte_4C6F58[27] =
     255u,
 };
 
-const BYTE byte_4C6F78[21] =
+const u8 byte_4C6F78[21] =
 {
     20u,
     21u,
@@ -579,7 +579,7 @@ const BYTE byte_4C6F78[21] =
     221u,
 };
 
-const BYTE byte_4C6F90[15] =
+const u8 byte_4C6F90[15] =
 {
     14u,
     17u,
@@ -598,7 +598,7 @@ const BYTE byte_4C6F90[15] =
     209u,
 };
 
-const BYTE byte_4C6FA0[20] =
+const u8 byte_4C6FA0[20] =
 {
     19u,
     17u,
@@ -622,7 +622,7 @@ const BYTE byte_4C6FA0[20] =
     221u,
 };
 
-const BYTE byte_4C6FB8[16] =
+const u8 byte_4C6FB8[16] =
 {
     15u,
     17u,
@@ -642,7 +642,7 @@ const BYTE byte_4C6FB8[16] =
     209u
 };
 
-const BYTE byte_4C6FC8[25] =
+const u8 byte_4C6FC8[25] =
 {
     24u,
     16u,
@@ -671,7 +671,7 @@ const BYTE byte_4C6FC8[25] =
     222u,
 };
 
-const BYTE byte_4C6FE8[17] =
+const u8 byte_4C6FE8[17] =
 {
     16u,
     17u,
@@ -692,7 +692,7 @@ const BYTE byte_4C6FE8[17] =
     255u,
 };
 
-const BYTE byte_4C7000[13] =
+const u8 byte_4C7000[13] =
 {
     12u,
     17u,
@@ -709,7 +709,7 @@ const BYTE byte_4C7000[13] =
     225u,
 };
 
-const BYTE byte_4C7010[22] =
+const u8 byte_4C7010[22] =
 {
     21u,
     17u,
@@ -735,7 +735,7 @@ const BYTE byte_4C7010[22] =
     223u,
 };
 
-const BYTE byte_4C7028[23] =
+const u8 byte_4C7028[23] =
 {
     22u,
     15u,
@@ -762,7 +762,7 @@ const BYTE byte_4C7028[23] =
     239u,
 };
 
-const BYTE byte_4C7040[29] =
+const u8 byte_4C7040[29] =
 {
     28u,
     15u,
@@ -795,7 +795,7 @@ const BYTE byte_4C7040[29] =
     223u,
 };
 
-const BYTE byte_4C7060[21] =
+const u8 byte_4C7060[21] =
 {
     20u,
     15u,
@@ -820,7 +820,7 @@ const BYTE byte_4C7060[21] =
     239u,
 };
 
-const BYTE byte_4C7078[21] =
+const u8 byte_4C7078[21] =
 {
     20u,
     15u,
@@ -845,7 +845,7 @@ const BYTE byte_4C7078[21] =
     239u,
 };
 
-const BYTE byte_4C7090[21] =
+const u8 byte_4C7090[21] =
 {
     20u,
     15u,
@@ -870,7 +870,7 @@ const BYTE byte_4C7090[21] =
     239u,
 };
 
-const BYTE byte_4C70A8[28] =
+const u8 byte_4C70A8[28] =
 {
     27u,
     21u,
@@ -902,7 +902,7 @@ const BYTE byte_4C70A8[28] =
     223u,
 };
 
-const BYTE byte_4C70C8[20] =
+const u8 byte_4C70C8[20] =
 {
     19u,
     21u,
@@ -926,7 +926,7 @@ const BYTE byte_4C70C8[20] =
     218u,
 };
 
-const BYTE byte_4C70E0[28] =
+const u8 byte_4C70E0[28] =
 {
     27u,
     19u,
@@ -958,7 +958,7 @@ const BYTE byte_4C70E0[28] =
     223u,
 };
 
-const BYTE byte_4C7100[28] =
+const u8 byte_4C7100[28] =
 {
     27u,
     19u,
@@ -990,7 +990,7 @@ const BYTE byte_4C7100[28] =
     223u,
 };
 
-const BYTE byte_4C7120[28] =
+const u8 byte_4C7120[28] =
 {
     27u,
     19u,
@@ -1022,7 +1022,7 @@ const BYTE byte_4C7120[28] =
     223u,
 };
 
-const BYTE byte_4C7140[24] =
+const u8 byte_4C7140[24] =
 {
     23u,
     19u,
@@ -1050,7 +1050,7 @@ const BYTE byte_4C7140[24] =
     223u
 };
 
-const BYTE byte_4C7158[23] =
+const u8 byte_4C7158[23] =
 {
     22u,
     19u,
@@ -1077,7 +1077,7 @@ const BYTE byte_4C7158[23] =
     223u
 };
 
-const BYTE byte_4C7170[23] =
+const u8 byte_4C7170[23] =
 {
     22u,
     19u,
@@ -1104,7 +1104,7 @@ const BYTE byte_4C7170[23] =
     223u,
 };
 
-const BYTE byte_4C7188[24] =
+const u8 byte_4C7188[24] =
 {
     23u,
     21u,
@@ -1132,7 +1132,7 @@ const BYTE byte_4C7188[24] =
     223u
 };
 
-const BYTE byte_4C71A0[21] =
+const u8 byte_4C71A0[21] =
 {
     20u,
     24u,
@@ -1157,7 +1157,7 @@ const BYTE byte_4C71A0[21] =
     235u,
 };
 
-const BYTE byte_4C71B8[19] =
+const u8 byte_4C71B8[19] =
 {
     18u,
     24u,
@@ -1180,7 +1180,7 @@ const BYTE byte_4C71B8[19] =
     235u,
 };
 
-const BYTE byte_4C71D0[19] =
+const u8 byte_4C71D0[19] =
 {
     18u,
     24u,
@@ -1203,7 +1203,7 @@ const BYTE byte_4C71D0[19] =
     235u,
 };
 
-const BYTE byte_4C71E8[19] =
+const u8 byte_4C71E8[19] =
 {
     18u,
     24u,
@@ -1226,7 +1226,7 @@ const BYTE byte_4C71E8[19] =
     235u,
 };
 
-const BYTE byte_4C7200[22] =
+const u8 byte_4C7200[22] =
 {
     21u,
     35u,
@@ -1252,7 +1252,7 @@ const BYTE byte_4C7200[22] =
     205u,
 };
 
-const BYTE byte_4C7218[19] =
+const u8 byte_4C7218[19] =
 {
     18u,
     37u,
@@ -1275,7 +1275,7 @@ const BYTE byte_4C7218[19] =
     205u,
 };
 
-const BYTE byte_4C7230[19] =
+const u8 byte_4C7230[19] =
 {
     18u,
     37u,
@@ -1298,7 +1298,7 @@ const BYTE byte_4C7230[19] =
     205u,
 };
 
-const BYTE byte_4C7248[19] =
+const u8 byte_4C7248[19] =
 {
     18u,
     37u,
@@ -1321,12 +1321,12 @@ const BYTE byte_4C7248[19] =
     205u,
 };
 
-const BYTE byte_4C725C[3] = { 2u, 113u, 115u };
+const u8 byte_4C725C[3] = { 2u, 113u, 115u };
 
-const BYTE byte_4C7260[7] = { 6u, 42u, 74u, 106u, 138u, 170u, 202u };
+const u8 byte_4C7260[7] = { 6u, 42u, 74u, 106u, 138u, 170u, 202u };
 
 
-const BYTE* pData_4C7268[] =
+const u8* pData_4C7268[] =
 {
     byte_4C6DB0,
     byte_4C6DC8,
@@ -1356,9 +1356,9 @@ const BYTE* pData_4C7268[] =
     byte_4C7010,
 };
 
-ALIVE_VAR(1, 0x4C6AA4, BYTE, sHintFlyRndSeed_4C6AA4, 37);
+ALIVE_VAR(1, 0x4C6AA4, u8, sHintFlyRndSeed_4C6AA4, 37);
 
-static BYTE HintFly_NextRandom()
+static u8 HintFly_NextRandom()
 {
     return sRandomBytes_4BBE30[sHintFlyRndSeed_4C6AA4++];
 }
@@ -1369,7 +1369,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB200);
     field_E4_ppRes = nullptr;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHintflyResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHintflyResID, 1, 0);
     if (ppRes)
     {
         Animation_Init_417FD0(556, 10, 7, ppRes, 1);
@@ -1477,7 +1477,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
             // Some unknown pal hack that seems to do nothing
             /*
             const PSX_RECT rect = { static_cast<short>(field_10_anim.field_8C_pal_vram_xy.field_0_x + 1), field_10_anim.field_8C_pal_vram_xy.field_2_y, 1, 1 };
-            const BYTE data[] = { 0, 0, 0, 0 };
+            const u8 data[] = { 0, 0, 0, 0 };
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
             {
                 PSX_LoadImage16_4962A0(&rect, data);

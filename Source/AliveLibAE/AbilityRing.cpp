@@ -270,7 +270,7 @@ void AbilityRing::VScreenChanged()
     vScreenChanged_49DE70();
 }
 
-s32 AbilityRing::VGetSaveState(BYTE* pSaveBuffer)
+s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_49E070(reinterpret_cast<AbilityRing_State*>(pSaveBuffer));
 }
@@ -280,7 +280,7 @@ void AbilityRing::VSetTarget(BaseGameObject* pTarget)
     vSetTarget_49D140(pTarget);
 }
 
-s32 CC AbilityRing::CreateFromSaveState_49DF90(const BYTE* pBuffer)
+s32 CC AbilityRing::CreateFromSaveState_49DF90(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
     auto pRing = ae_new<AbilityRing>();
@@ -505,7 +505,7 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
         short x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_254_left * field_260_scaleX)), 11);
         short x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_258_right * field_260_scaleX)), 11);
 
-        BYTE angIncrement = 0;
+        u8 angIncrement = 0;
         if (field_258_right <= FP_FromInteger(150))
         {
             if (field_258_right <= FP_FromInteger(50))
@@ -525,7 +525,7 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
             angIncrement = 4;
         }
 
-        BYTE ang = angIncrement;
+        u8 ang = angIncrement;
         for (s32 i = 0; i < field_28C_count; i++)
         {
             const short x1 = (short)PsxToPCX(field_272_screenXPos + FP_GetExponent(field_254_left * Math_Sine_496DD0(ang) * field_260_scaleX), 11);

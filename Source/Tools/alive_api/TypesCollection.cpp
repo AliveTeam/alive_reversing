@@ -10,7 +10,7 @@ TypesCollection::TypesCollection(Game gameType)
 {
     #define ADD_BASIC_TYPE(name, type) AddBasicType<type>(name, std::numeric_limits<type>::min(), std::numeric_limits<type>::max());
 
-    ADD_BASIC_TYPE("Byte", BYTE);
+    ADD_BASIC_TYPE("Byte", u8);
     ADD_BASIC_TYPE("UInt16", unsigned short);
     ADD_BASIC_TYPE("Uint32", u32);
     ADD_BASIC_TYPE("SInt16", signed short);

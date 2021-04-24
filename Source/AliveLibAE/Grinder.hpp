@@ -72,9 +72,9 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_421600(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_421600(const u8* pData);
 private:
     EXPORT void vUpdate_420C50();
     EXPORT void dtor_420B60();
@@ -82,7 +82,7 @@ private:
     EXPORT void vScreenChanged_4214B0();
     EXPORT void vRender_4213D0(PrimHeader** ppOt);
     EXPORT void vStopAudio_4215C0();
-    EXPORT s32 vGetSaveState_4217B0(BYTE* /*pSaveBuffer*/);
+    EXPORT s32 vGetSaveState_4217B0(u8* /*pSaveBuffer*/);
     EXPORT void EmitSparks_4206D0();
     EXPORT s16 DamageTouchingObjects_421060();
 private:

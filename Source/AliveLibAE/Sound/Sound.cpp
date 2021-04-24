@@ -425,7 +425,7 @@ EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/)
     //        v7 = (char *)v4 - (char *)result;
     //        do
     //        {
-    //            *((BYTE *)result + v7) = *(BYTE *)result ^ 0x80;
+    //            *((u8 *)result + v7) = *(u8 *)result ^ 0x80;
     //            result = (DWORD *)((char *)result + 1);
     //        } while ((u32)result < v5);
     //    }

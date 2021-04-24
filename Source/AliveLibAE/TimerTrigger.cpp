@@ -39,12 +39,12 @@ void TimerTrigger::VScreenChanged()
     vScreenChanged_4CDF00();
 }
 
-s32 TimerTrigger::VGetSaveState(BYTE* pSaveBuffer)
+s32 TimerTrigger::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4CE030(reinterpret_cast<TimerTrigger_State*>(pSaveBuffer));
 }
 
-EXPORT s32 CC TimerTrigger::CreateFromSaveState_4CDF70(const BYTE* pData)
+EXPORT s32 CC TimerTrigger::CreateFromSaveState_4CDF70(const u8* pData)
 {
     auto pState = reinterpret_cast<const TimerTrigger_State*>(pData);
 

@@ -51,7 +51,7 @@ void CC String_FormatString_4969D0(const char* src, char* dst, s32 /*bufferLen*/
             }
             else
             {
-                if (static_cast<BYTE>(src_char) >= 224u) // 244 = always blank/empty
+                if (static_cast<u8>(src_char) >= 224u) // 244 = always blank/empty
                 {
                     src_char += 32;
                 }

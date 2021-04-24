@@ -6,7 +6,7 @@
 
 namespace AO {
 
-enum eLineTypes : BYTE
+enum eLineTypes : u8
 {
     eFloor_0 = 0,
     eWallLeft_1 = 1,
@@ -21,7 +21,7 @@ class PathLine
 {
 public:
     PSX_RECT field_0_rect;
-    BYTE field_8_type;
+    u8 field_8_type;
     char field_9_pad;
     char field_A_pad;
     char field_B_pad;
@@ -37,11 +37,11 @@ struct CollisionInfo;
 class Collisions
 {
 public:
-    EXPORT static void CC Factory_40CEC0(const CollisionInfo* pCollisionInfo, const BYTE* pPathData);
+    EXPORT static void CC Factory_40CEC0(const CollisionInfo* pCollisionInfo, const u8* pPathData);
 
     EXPORT void dtor_40CFB0();
 
-    EXPORT Collisions* ctor_40CF30(const CollisionInfo* pCollisionInfo, const BYTE* pPathData);
+    EXPORT Collisions* ctor_40CF30(const CollisionInfo* pCollisionInfo, const u8* pPathData);
 
     EXPORT PathLine* Add_Dynamic_Collision_Line_40C8A0( s16 x1, s16 y1, s16 x2, s16 y2, char mode);
 

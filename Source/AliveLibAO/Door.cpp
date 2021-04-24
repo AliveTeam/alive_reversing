@@ -84,7 +84,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
 
     FP scale = {};
     PathLine* pLine = nullptr;
-    BYTE** ppRes = nullptr;
+    u8** ppRes = nullptr;
     PSX_Point mapCoords = {};
     switch (field_E8_start_state)
     {

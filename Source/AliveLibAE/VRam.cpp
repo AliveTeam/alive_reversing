@@ -382,12 +382,12 @@ EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, s16 w, WORD* pPalData, PSX_RECT
     PSX_StoreImage_4F5E90(rect, pPalData);
 }
 
-EXPORT u32 CC Pal_Make_Colour_4834C0(BYTE r, BYTE g, BYTE b, s16 bOpaque)
+EXPORT u32 CC Pal_Make_Colour_4834C0(u8 r, u8 g, u8 b, s16 bOpaque)
 {
     return (bOpaque != 0 ? 0x8000 : 0) + ((u32)r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
 }
 
-EXPORT void CC Pal_Set_483510(PSX_Point xy, s16 w, const BYTE* palData, PSX_RECT* rect)
+EXPORT void CC Pal_Set_483510(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect)
 {
     rect->x = xy.field_0_x;
     rect->y = xy.field_2_y;

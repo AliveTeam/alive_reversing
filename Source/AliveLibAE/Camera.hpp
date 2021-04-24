@@ -16,8 +16,8 @@ public:
     EXPORT void dtor_480E00();
     EXPORT static void CC On_Loaded_480ED0(Camera* pCamera);
 
-    DynamicArrayT<BYTE*> field_0;
-    BYTE** field_C_pCamRes;
+    DynamicArrayT<u8*> field_0;
+    u8** field_C_pCamRes;
     s32 field_10_camera_resource_id;
     s16 field_14_xpos;
     s16 field_16_ypos;

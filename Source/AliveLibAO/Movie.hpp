@@ -26,7 +26,7 @@ public:
     s16 field_12;
     s32 field_14;
     s32 field_18;
-    BYTE** field_1C;
+    u8** field_1C;
     s32 field_20;
     s32 field_24;
     s32 field_28;

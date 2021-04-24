@@ -51,7 +51,7 @@ public:
     Layer field_10_layer;
     s16 field_12_pad;
     AbilityRing_PolyBuffer* field_14_pRes;
-    BYTE** field_18_ppRes;
+    u8** field_18_ppRes;
     Prim_SetTPage field_1C_primSetTPage[2];
     PSX_RECT field_3C_collide_rects[64];
     FP field_23C_xpos;

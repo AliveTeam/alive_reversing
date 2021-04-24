@@ -26,8 +26,8 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     EXPORT void dtor_41F870();
 
-    EXPORT void AsAlmostACircle_41FA20(FP xpos, FP ypos, BYTE angle);
-    EXPORT void AsACircle_41F980(FP xpos, FP ypos, BYTE angle);
+    EXPORT void AsAlmostACircle_41FA20(FP xpos, FP ypos, u8 angle);
+    EXPORT void AsACircle_41F980(FP xpos, FP ypos, u8 angle);
     EXPORT void AsJoin_41F940(FP xpos, FP ypos);
     EXPORT void FlyAway_420020(BOOL spookedInstantly);
 

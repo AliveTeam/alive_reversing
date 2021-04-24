@@ -62,7 +62,7 @@ BaseGameObject* RollingBall::dtor_458230()
         field_114_pRollingBallShaker = nullptr;
     }
 
-    BYTE** pRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0);
+    u8** pRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0);
     ResourceManager::FreeResource_455550(pRes);
     return dtor_401000();
 }
@@ -72,7 +72,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
     ctor_401090();
     SetVTable(this, 0x4BC180);
     field_4_typeId = Types::eRollingBall_72;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnbalResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnbalResID, 1, 0);
     Animation_Init_417FD0(
         15596,
         131,

@@ -36,14 +36,14 @@ EXPORT void CC PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPt
 EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3);
 EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(char mode);
 EXPORT s32 CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, s32 xpos, s32 ypos);
-EXPORT s32 CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData);
-EXPORT s32 CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData);
+EXPORT s32 CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const u8* pData);
+EXPORT s32 CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData);
 EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData);
 
 BOOL CC PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
 
 EXPORT BOOL CC PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
-EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(s32 x, s32 y, s32 w, s32 h, s32 unknown, BYTE* pBuffer);
+EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(s32 x, s32 y, s32 w, s32 h, s32 unknown, u8* pBuffer);
 
 EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* pFileName);
 EXPORT s32 CC PSX_CD_OpenFile_4FAE80(const char* pFileName, s32 bTryAllPaths);
@@ -58,13 +58,13 @@ EXPORT s32 CC PSX_CD_File_Read_4FB210(s32 numSectors, void* pBuffer);
 EXPORT s32 CC PSX_CD_FileIOWait_4FB260(s32 bASync);
 
 ALIVE_VAR_EXTERN(Bitmap, sPsxVram_C1D160);
-ALIVE_VAR_EXTERN(BYTE, turn_off_rendering_BD0F20);
+ALIVE_VAR_EXTERN(u8, turn_off_rendering_BD0F20);
 ALIVE_VAR_EXTERN(PSX_DRAWENV, sPSX_EMU_DrawEnvState_C3D080);
-ALIVE_VAR_EXTERN(BYTE, sPsxEMU_show_vram_BD1465);
+ALIVE_VAR_EXTERN(u8, sPsxEMU_show_vram_BD1465);
 ALIVE_VAR_EXTERN(Bitmap*, spBitmap_C2D038);
 
 ALIVE_VAR_EXTERN(TPsxEmuCallBack, sPsxEmu_EndFrameFnPtr_C1D17C);
-ALIVE_VAR_EXTERN(BYTE, bDontUseXYOffsetInRender_BD1464);
+ALIVE_VAR_EXTERN(u8, bDontUseXYOffsetInRender_BD1464);
 ALIVE_VAR_EXTERN(Bitmap, sBitmap_C1D1A0);
 ALIVE_VAR_EXTERN(s32, sVGA_DisplayType_BD1468);
 

@@ -629,7 +629,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
                         ++v22;
                         *(v23 - 3) = static_cast<char>((u32)v32 >> v29);
                         *(v23 - 2) = static_cast<char>((u32)v32 >> v38);
-                        *(v23 - 1) = (BYTE)v32 << v35;
+                        *(v23 - 1) = (u8)v32 << v35;
                     } while ((u32)v23 < v31);
                     v24 = v45;
                     v25 = v52;

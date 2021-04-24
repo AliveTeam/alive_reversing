@@ -43,7 +43,7 @@ public:
     EXPORT s32 Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer);
     EXPORT s32 Free_433130();
 private:
-    BYTE** field_0_0x2800_res;
+    u8** field_0_0x2800_res;
 public:
     DWORD field_4_cd_pos;
 };

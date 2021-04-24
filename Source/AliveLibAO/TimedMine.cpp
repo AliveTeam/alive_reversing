@@ -27,7 +27,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BA2C8);
     field_4_typeId = Types::eTimedMine_8;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombResID, 1, 0);
     Animation_Init_417FD0(792, 35, 17, ppRes, 1);
 
     field_6_flags.Set(Options::eInteractive_Bit8);

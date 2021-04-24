@@ -60,9 +60,9 @@ public:
     virtual BOOL VIsFalling_49E330() override;
     virtual void VTimeToExplodeRandom_411490() override;
     virtual BOOL VCanBeEaten_411560();
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VGetCount_448080() override;
-    EXPORT static s32 CC CreateFromSaveState_412C10(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_412C10(const u8* pData);
 
 private:
     EXPORT Bone* vdtor_411580(s32 flags);

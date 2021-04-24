@@ -141,7 +141,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
     field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, TRUE, FALSE));
 
     const AnimRecord& rec = AnimRec(AnimId::Flying_Slig_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     //Animation_Init_424E10(116888, 107, 48u, field_10_resources_array.ItemAt(0), 1, 1u);
 
@@ -292,7 +292,7 @@ const AnimId sFlyingSligFrameTables_552408[28] =
     AnimId::Flying_Slig_Turn_Horizontal,
 };
 
-s32 CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
+s32 CC FlyingSlig::CreateFromSaveState_437E40(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const FlyingSlig_State*>(pBuffer);
 
@@ -368,7 +368,7 @@ s32 CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
 
     pFlyingSlig->field_106_current_motion = pSaveState->field_24_current_state;
 
-    BYTE** ppRes = pFlyingSlig->ResBlockForMotion_4350F0(pSaveState->field_24_current_state);
+    u8** ppRes = pFlyingSlig->ResBlockForMotion_4350F0(pSaveState->field_24_current_state);
 	const AnimRecord& animRec = AnimRec(sFlyingSligFrameTables_552408[pFlyingSlig->field_106_current_motion]);
     pFlyingSlig->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 
@@ -453,7 +453,7 @@ s32 CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
     return sizeof(FlyingSlig_State);
 }
 
-s32 FlyingSlig::VGetSaveState(BYTE* pSaveBuffer)
+s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_43B1E0(reinterpret_cast<FlyingSlig_State*>(pSaveBuffer));
 }
@@ -2485,7 +2485,7 @@ s16 FlyingSlig::IsTurning_436AE0()
         field_106_current_motion == eFlyingSligMotions::M_UpMovementToTurn_6_439030;
 }
 
-BYTE** FlyingSlig::ResBlockForMotion_4350F0(s32 /*motion*/)
+u8** FlyingSlig::ResBlockForMotion_4350F0(s32 /*motion*/)
 {
     if (field_15E_useless == 0)
     {
@@ -2516,7 +2516,7 @@ void FlyingSlig::ToPossesed_436130()
 
 void FlyingSlig::vUpdateAnimRes_4350A0()
 {
-    BYTE** ppRes = ResBlockForMotion_4350F0(field_106_current_motion);
+    u8** ppRes = ResBlockForMotion_4350F0(field_106_current_motion);
 	const AnimRecord& animRec = AnimRec(sFlyingSligFrameTables_552408[field_106_current_motion]);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }

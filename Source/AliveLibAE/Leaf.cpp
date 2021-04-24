@@ -5,7 +5,7 @@
 #include "Collisions.hpp"
 #include "stdlib.hpp"
 
-ALIVE_VAR(1, 0x563aa4, BYTE, sLeafRandIdx_563AA4, 8);
+ALIVE_VAR(1, 0x563aa4, u8, sLeafRandIdx_563AA4, 8);
 
 Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 {
@@ -17,7 +17,7 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     field_D4_b = 100;
 
     const AnimRecord& rec = AnimRec(AnimId::Well_Leaf);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_CC_sprite_scale = scale;

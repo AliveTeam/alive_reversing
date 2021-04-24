@@ -134,9 +134,9 @@ public:
 
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_41AE80(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_41AE80(const u8* pBuffer);
 
 private:
     EXPORT s32 vGetSaveState_41C9A0(NakedSlig_State* pState);
@@ -147,7 +147,7 @@ private:
 
     EXPORT void UpdateAnimBlock_419900();
 
-    EXPORT BYTE** GetAnimBlock_419950(s32 currentMotion);
+    EXPORT u8** GetAnimBlock_419950(s32 currentMotion);
 
     EXPORT static s16 CC NextRandom_4197D0();
 

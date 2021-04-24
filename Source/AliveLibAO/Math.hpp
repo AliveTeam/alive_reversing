@@ -5,13 +5,13 @@
 
 namespace AO {
 
-BYTE Math_NextRandom();
+u8 Math_NextRandom();
 
 EXPORT short CC Math_RandomRange_450F20(signed short min, signed short max);
 
-EXPORT FP CC Math_Sine_451110(BYTE v);
+EXPORT FP CC Math_Sine_451110(u8 v);
 
-EXPORT FP CC Math_Cosine_4510A0(BYTE v);
+EXPORT FP CC Math_Cosine_4510A0(u8 v);
 
 EXPORT s32 CC Math_Distance_451270(s32 x1, s32 y1, s32 x2, s32 y2);
 

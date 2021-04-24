@@ -63,7 +63,7 @@ private:
     s16 field_100_code_len;
     s16 field_102_padding;
     s32 field_104_event_idx;
-    BYTE field_108_stru[16];
+    u8 field_108_stru[16];
     s16 field_118_max_idx;
     s16 field_11A_event_idx;
     PSX_Point field_11C_top_left;

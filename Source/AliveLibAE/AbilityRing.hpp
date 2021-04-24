@@ -64,12 +64,12 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     // New virtuals
     virtual void VSetTarget(BaseGameObject* pTarget);
 
-    static EXPORT s32 CC CreateFromSaveState_49DF90(const BYTE* pBuffer);
+    static EXPORT s32 CC CreateFromSaveState_49DF90(const u8* pBuffer);
 
 private:
     EXPORT void vSetTarget_49D140(BaseGameObject* pTarget);
@@ -85,7 +85,7 @@ private:
     Layer field_20_layer;
     //s16 field_22_pad;
     AbilityRing_PolyBuffer* field_24_pRes;
-    BYTE** field_28_ppRes;
+    u8** field_28_ppRes;
     Prim_SetTPage field_2C_primSetTPage[2];
     PSX_RECT field_4C_collide_rects[64];
     FP field_24C_xpos;

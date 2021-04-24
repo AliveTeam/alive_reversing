@@ -28,7 +28,7 @@ void Camera::dtor_444700()
 
     for (s32 i = 0; i < field_0_array.Size(); i++)
     {
-        BYTE** ppRes = field_0_array.ItemAt(i);
+        u8** ppRes = field_0_array.ItemAt(i);
         if (!ppRes)
         {
             break;
@@ -66,7 +66,7 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
     rect.w = 16;
     rect.h = 240;
 
-    BYTE** pRes = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
+    u8** pRes = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
     if (pRes)
     {
         // Doesn't do anything since the images are not MDEC compressed in PC
@@ -84,7 +84,7 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
             rect.x = field_20_upos + xpos;
             rect.y = field_22_vpos;
             // TODO: Actually 16bit but must be uploaded as 8bit ??
-            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<BYTE*>(pIter));
+            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<u8*>(pIter));
 
             // To next slice
             pIter += (slice_len / sizeof(s16));
@@ -104,7 +104,7 @@ void ScreenManager::InvalidateRect_406CC0(s32 x, s32 y, s32 width, s32 height)
     InvalidateRect_406E40(x, y, width, height, field_2E_idx);
 }
 
-ScreenManager* ScreenManager::ctor_406830(BYTE** ppBits, FP_Point* pCameraOffset)
+ScreenManager* ScreenManager::ctor_406830(u8** ppBits, FP_Point* pCameraOffset)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA230);
@@ -118,7 +118,7 @@ ScreenManager* ScreenManager::ctor_406830(BYTE** ppBits, FP_Point* pCameraOffset
     return this;
 }
 
-void ScreenManager::Init_4068A0(BYTE** ppBits)
+void ScreenManager::Init_4068A0(u8** ppBits)
 {
     field_36_flags |= 1;
 
@@ -156,7 +156,7 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
 
         Init_SetTPage_495FB0(&pItem->mTPage, 0, 0, tpage);
       
-        SetUV0(&pItem->mSprt, static_cast<BYTE>(u0), static_cast<BYTE>(v0));
+        SetUV0(&pItem->mSprt, static_cast<u8>(u0), static_cast<u8>(v0));
 
         xpos += 32;
         if (xpos == 640)

@@ -29,7 +29,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
     }
 
     const AnimRecord& rec = AnimRec(AnimId::Slap_Lock_Idle_A);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     if (field_118_pTlv->field_10_scale != Scale_short::eFull_0)
@@ -118,7 +118,7 @@ void SlapLock::VScreenChanged()
     vScreenChanged_43E840();
 }
 
-s32 SlapLock::VGetSaveState(BYTE* pSaveBuffer)
+s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_43EB30(reinterpret_cast<SlapLock_State*>(pSaveBuffer));
 }
@@ -128,7 +128,7 @@ s16 SlapLock::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_43E5D0(pFrom);
 }
 
-s32 CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
+s32 CC SlapLock::CreateFromSaveState_43EA00(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const SlapLock_State*>(pBuffer);
 

@@ -25,8 +25,8 @@ ALIVE_ASSERT_SIZEOF(MusicController_Record3_Sub, 4);
 struct MusicController_Record3
 {
     MusicController_Record3_Sub field_0[3];
-    BYTE field_C_repeat_count;
-    BYTE field_D_padding;
+    u8 field_C_repeat_count;
+    u8 field_D_padding;
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record3, 0xE);
 
@@ -68,7 +68,7 @@ struct MusicController_Record
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record, 0x4);
 
-const BYTE unused_55D468[17] =
+const u8 unused_55D468[17] =
 {
     16u,
     20u,

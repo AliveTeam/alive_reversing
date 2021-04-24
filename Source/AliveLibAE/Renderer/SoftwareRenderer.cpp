@@ -15,7 +15,7 @@ bool SoftwareRenderer::Create(TWindowHandleType window)
     return mRenderer != nullptr;
 }
 
-void SoftwareRenderer::Clear(BYTE r, BYTE g, BYTE b)
+void SoftwareRenderer::Clear(u8 r, u8 g, u8 b)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, 255);
     SDL_RenderClear(mRenderer);
@@ -49,7 +49,7 @@ bool SoftwareRenderer::PalAlloc(IRenderer::PalRecord& record)
     return ret;
 }
 
-void SoftwareRenderer::PalSetData(const IRenderer::PalRecord& record, const BYTE* pPixels)
+void SoftwareRenderer::PalSetData(const IRenderer::PalRecord& record, const u8* pPixels)
 {
     PSX_RECT rect = {};
     rect.x = record.x;
@@ -212,7 +212,7 @@ void SoftwareRenderer::DrawPoly(PrimAny& any)
     }
 }
 
-void SoftwareRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE* pPixels)
+void SoftwareRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels)
 {
     switch (bitDepth)
     {

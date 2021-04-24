@@ -43,10 +43,10 @@ struct SeqHeader
     s32 field_0_magic;
     u32 field_4_version;
     WORD field_8_resolution_of_quater_note;
-    BYTE field_A_tempo[3];
+    u8 field_A_tempo[3];
     // No padding byte here, hence 1 byte packing enabled
-    BYTE field_D_time_signature_bars;
-    BYTE field_E_time_signature_beats;
+    u8 field_D_time_signature_bars;
+    u8 field_E_time_signature_beats;
 };
 #pragma pack(pop)
 ALIVE_ASSERT_SIZEOF(SeqHeader, 0xF);
@@ -56,8 +56,8 @@ ALIVE_ASSERT_SIZEOF(SeqHeader, 0xF);
 ALIVE_VAR(1, 0xBD1CDE, s16, sGlobalVolumeLevel_right_BD1CDE, 0);
 ALIVE_VAR(1, 0xBD1CDC, s16, sGlobalVolumeLevel_left_BD1CDC, 0);
 ALIVE_VAR(1, 0xC13180, VabUnknown, s512_byte_C13180, {});
-ALIVE_ARY(1, 0xBE6144, BYTE, kMaxVabs, sVagCounts_BE6144, {});
-ALIVE_ARY(1, 0x0BDCD64, BYTE, kMaxVabs, sProgCounts_BDCD64, {});
+ALIVE_ARY(1, 0xBE6144, u8, kMaxVabs, sVagCounts_BE6144, {});
+ALIVE_ARY(1, 0x0BDCD64, u8, kMaxVabs, sProgCounts_BDCD64, {});
 ALIVE_ARY(1, 0xC13160, VabHeader*, 4, spVabHeaders_C13160, {});
 ALIVE_VAR(1, 0xBEF160, ConvertedVagTable, sConvertedVagTable_BEF160, {});
 ALIVE_VAR(1, 0xBE6160, SoundEntryTable, sSoundEntryTable16_BE6160, {});
@@ -70,7 +70,7 @@ ALIVE_VAR(1, 0xbd1ce4, char, sbDisableSeqs_BD1CE4, 0);
 ALIVE_VAR(1, 0x578E20, DWORD, sLastTime_578E20, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xbd1cf0, DWORD, sMidi_WaitUntil_BD1CF0, 0);
 ALIVE_VAR(1, 0xbd1ce0, IO_FileHandleType, sSoundDatFileHandle_BD1CE0, nullptr);
-ALIVE_VAR(1, 0xbd1cfc, BYTE, sControllerValue_BD1CFC, 0);
+ALIVE_VAR(1, 0xbd1cfc, u8, sControllerValue_BD1CFC, 0);
 
 
 class AEPsxSpuApiVars : public IPsxSpuApiVars
@@ -91,12 +91,12 @@ public:
         return s512_byte_C13180;
     }
 
-    virtual BYTE* sVagCounts() override
+    virtual u8* sVagCounts() override
     {
         return sVagCounts_BE6144;
     }
 
-    virtual BYTE* sProgCounts() override
+    virtual u8* sProgCounts() override
     {
         return sProgCounts_BDCD64;
     }
@@ -165,7 +165,7 @@ public:
         return sSoundDatFileHandle_BD1CE0;
     }
 
-    virtual BYTE& sControllerValue() override
+    virtual u8& sControllerValue() override
     {
         return sControllerValue_BD1CFC;
     }
@@ -211,7 +211,7 @@ inline unsigned SwapBytes<unsigned>(unsigned value)
 
 EXPORT void CC MIDI_ADSR_Update_4FDCE0();
 EXPORT s16 CC MIDI_PitchBend_4FDEC0(s16 field4_match, s16 pitch);
-EXPORT void CC MIDI_Read_SEQ_Header_4FD870(BYTE** pSrc, SeqHeader* pDst, u32 size);
+EXPORT void CC MIDI_Read_SEQ_Header_4FD870(u8** pSrc, SeqHeader* pDst, u32 size);
 EXPORT void CC MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo);
 EXPORT s32 CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, s32 vol);
 EXPORT s32 CC MIDI_Stop_Existing_Single_Note_4FCFF0(s32 VabIdAndProgram, s32 note);
@@ -365,8 +365,8 @@ EXPORT s16 CC SsVabOpenHead_4FC620(VabHeader* pVabHeader)
         numVags = 255;
     }
 
-    gSpuVars->sVagCounts()[vab_id] = static_cast<BYTE>(numVags);
-    gSpuVars->sProgCounts()[vab_id] = static_cast<BYTE>(pVabHeader->field_12_num_progs);
+    gSpuVars->sVagCounts()[vab_id] = static_cast<u8>(numVags);
+    gSpuVars->sProgCounts()[vab_id] = static_cast<u8>(pVabHeader->field_12_num_progs);
     memset(gSpuVars->s512_byte().field_0[vab_id], 0, sizeof(char[128]));
     VagAtr* pVagAttr = (VagAtr *)&pVabHeader[1];
     memset(&gSpuVars->sConvertedVagTable().table[vab_id][0][0], 0, sizeof(Converted_Vag[128][16]));
@@ -379,7 +379,7 @@ EXPORT s16 CC SsVabOpenHead_4FC620(VabHeader* pVabHeader)
             {
                 Converted_Vag* pData = &gSpuVars->sConvertedVagTable().table[vab_id][pVagAttr->field_14_prog][toneCounter];
 
-                pData->field_F_prog = static_cast<BYTE>(pVagAttr->field_14_prog);
+                pData->field_F_prog = static_cast<u8>(pVagAttr->field_14_prog);
                 pData->field_10_vag = LOBYTE(pVagAttr->field_16_vag) - 1;
                 pData->field_C = 0;
                 pData->field_D_vol = pVagAttr->field_2_vol;
@@ -453,7 +453,7 @@ EXPORT void CC SsVabTransBody_4FC840(VabBodyRecord* pVabBody, s16 vabId)
         {
             // Find matching converted vag to set field_C / field_6_adsr
             const s32 unused_field = sub_4FC470(pVabHeader, pVabBody, i);
-            const BYTE unused_copy = unused_field != 0 ? 4 : 0;
+            const u8 unused_copy = unused_field != 0 ? 4 : 0;
             for (s32 prog = 0; prog < 128; prog++)
             {
                 for (s32 tone = 0; tone < 16; tone++)
@@ -792,7 +792,7 @@ EXPORT s32 CC MIDI_Stop_Existing_Single_Note_4FCFF0(s32 VabIdAndProgram, s32 not
 EXPORT s32 CC MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru)
 {
     s32 ret = 0;
-    BYTE midiByte = 0;
+    u8 midiByte = 0;
     for (s32 i = 0; i < 4; ++i)
     {
         midiByte = MIDI_ReadByte_4FD6B0(pMidiStru);
@@ -842,7 +842,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
     u8 v33; // cl
     s32 v34; // eax
     void(CC *pFn)(s32, DWORD, DWORD); // eax
-    BYTE *v36; // eax
+    u8 *v36; // eax
     char v37; // al
     s32 v38; // eax
     u32 v39; // ecx
@@ -1132,7 +1132,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
     return 0;
 }
 
-EXPORT BYTE CC MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData)
+EXPORT u8 CC MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData)
 {
     return *pData->field_0_seq_data++;
 }
@@ -1142,7 +1142,7 @@ EXPORT void CC MIDI_SkipBytes_4FD6C0(MIDI_SeqSong* pData, s32 length)
     pData->field_0_seq_data += length;
 }
 
-EXPORT s16 CC SsSeqOpen_4FD6D0(BYTE* pSeqData, s16 seqIdx)
+EXPORT s16 CC SsSeqOpen_4FD6D0(u8* pSeqData, s16 seqIdx)
 {
     // Read header
     SeqHeader seqHeader = {};
@@ -1217,7 +1217,7 @@ EXPORT s16 CC SsSeqOpen_4FD6D0(BYTE* pSeqData, s16 seqIdx)
     return static_cast<short>(freeIdx);
 }
 
-EXPORT void CC MIDI_Read_SEQ_Header_4FD870(BYTE** pSrc, SeqHeader* pDst, u32 size)
+EXPORT void CC MIDI_Read_SEQ_Header_4FD870(u8** pSrc, SeqHeader* pDst, u32 size)
 {
     memcpy(pDst, *pSrc, size);
     (*pSrc) += size;

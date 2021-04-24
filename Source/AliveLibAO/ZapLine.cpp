@@ -52,7 +52,7 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLine
         field_11C_tPageAbr = TPageAbr::eBlend_1;
     }
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, 1, 0);
     Animation_Init_417FD0(frameTable, 9, 9, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -88,7 +88,7 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLine
         field_114_tPageMode = TPageMode::e4Bit_0;
     }
 
-    BYTE u0 = field_10_anim.field_84_vram_rect.x & 0x3F;
+    u8 u0 = field_10_anim.field_84_vram_rect.x & 0x3F;
     if (field_114_tPageMode == TPageMode::e8Bit_1)
     {
         u0 = 2 * u0;
@@ -100,8 +100,8 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLine
 
     auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
 
-    const BYTE frameW = pFrameHeader->field_4_width;
-    const BYTE frameH = pFrameHeader->field_5_height;
+    const u8 frameW = pFrameHeader->field_4_width;
+    const u8 frameH = pFrameHeader->field_5_height;
 
     for (s32 i = 0; i < 2; i++)
     {
@@ -422,7 +422,7 @@ void ZapLine::CalculateThickSpriteSegmentPositions_478F20()
 
     for (s32 i = 1; i < field_11E_number_of_segments - 1; i++)
     {
-        const BYTE ang = static_cast<BYTE>(angExtra + 18 * i);
+        const u8 ang = static_cast<u8>(angExtra + 18 * i);
 
         field_130_sprite_segment_positions[i].field_0_x =
             FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_4510A0(ang) * yDiffDiv) + FP_FromInteger(field_10C_x_position_source) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);

@@ -157,7 +157,7 @@ s32 SligSpawner::vGetSaveState_409BB0(Slig_Spawner_State* pState)
     return sizeof(Slig_Spawner_State);
 }
 
-s32 CC SligSpawner::CreateFromSaveState_409B10(const BYTE* pBuffer)
+s32 CC SligSpawner::CreateFromSaveState_409B10(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_Spawner_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
@@ -184,7 +184,7 @@ void SligSpawner::VScreenChanged()
     vScreenChanged_409A30();
 }
 
-s32 SligSpawner::VGetSaveState(BYTE* pSaveBuffer)
+s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_409BB0(reinterpret_cast<Slig_Spawner_State*>(pSaveBuffer));
 }

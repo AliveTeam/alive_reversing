@@ -40,7 +40,7 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VStartTurning();
     virtual void VStopTurning(s16 bResetSwitch);
 
@@ -49,7 +49,7 @@ private:
     EXPORT void dtor_4E3850();
     EXPORT WorkWheel* vdtor_4E3820(s32 flags);
 public:
-    EXPORT static s32 CC CreateFromSaveState_4E3B10(const BYTE* pState);
+    EXPORT static s32 CC CreateFromSaveState_4E3B10(const u8* pState);
 private:
     EXPORT s32 vGetSaveState_4E3C40(WorkWheel_SaveState* pState);
     EXPORT void vUpdate_4E38E0();

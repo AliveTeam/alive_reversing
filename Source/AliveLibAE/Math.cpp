@@ -116,7 +116,7 @@ EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
 }
 
 // This seems to have been inlined a lot
-EXPORT BYTE Math_NextRandom()
+EXPORT u8 Math_NextRandom()
 {
     return sRandomBytes_546744[sRandomSeed_5D1E10++];
 }
@@ -133,7 +133,7 @@ const WORD sSineTable_5466C4[64] =
     64539,  64803,   65026,   65209,   65351,   65453,   65514,   65535
 };
 
-EXPORT FP CC Math_Cosine_496CD0(BYTE v)
+EXPORT FP CC Math_Cosine_496CD0(u8 v)
 {
     if (v < 64u)
     {
@@ -167,7 +167,7 @@ EXPORT FP CC Math_Cosine_496D60(FP fp)
         fp.fpValue += 0xFF000000 * ((u32)(fp.fpValue + 0xFFFF) >> 24);
     }
 
-    return Math_Cosine_496CD0(static_cast<BYTE>(FP_GetExponent(fp)));
+    return Math_Cosine_496CD0(static_cast<u8>(FP_GetExponent(fp)));
 }
 
 EXPORT FP CC Math_Sine_496DF0(FP fp)
@@ -176,7 +176,7 @@ EXPORT FP CC Math_Sine_496DF0(FP fp)
     return Math_Cosine_496D60(fp + FP_FromInteger(64));
 }
 
-EXPORT FP CC Math_Sine_496DD0(BYTE v)
+EXPORT FP CC Math_Sine_496DD0(u8 v)
 {
     // TODO: Relies on underflow
     return Math_Cosine_496CD0(v - 64);
@@ -262,22 +262,22 @@ namespace AETest::TestsMath
 {
     void Math_Tests()
     {
-        for (BYTE i = 0; i < 64; i++)
+        for (u8 i = 0; i < 64; i++)
         {
             ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[i]), Math_Cosine_496CD0(i));
         }
 
-        for (BYTE i = 65; i < 128; i++)
+        for (u8 i = 65; i < 128; i++)
         {
             ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[127-i]), Math_Cosine_496CD0(i));
         }
 
-        for (BYTE i = 128; i < 192; i++)
+        for (u8 i = 128; i < 192; i++)
         {
             ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[i - 128]), Math_Cosine_496CD0(i));
         }
 
-        for (BYTE i = 192; i < 255; i++)
+        for (u8 i = 192; i < 255; i++)
         {
             ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[255 - i]), Math_Cosine_496CD0(i));
         }

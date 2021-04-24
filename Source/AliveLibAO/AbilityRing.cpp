@@ -409,7 +409,7 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
         short x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_262_screenXPos) + (field_248_right * field_250_scaleX)), 11);
 
         //Not hardcoded in Exoddus
-        BYTE ang = 4;
+        u8 ang = 4;
         auto count = 64;
 
         for (s32 i = 0; i < count; i++)

@@ -31,7 +31,7 @@ private:
     EXPORT void vRender_40F780(PrimHeader** ppOt);
     EXPORT void vScreenChanged_40FAD0();
 private:
-    BYTE** field_F4_ppResBuf;
+    u8** field_F4_ppResBuf;
     BloodParticle* field_F8_pResBuf;
     Prim_SetTPage field_FC_tPages[2];
     TPageMode field_11C_texture_mode;
@@ -39,7 +39,7 @@ private:
     s16 field_11E_xpos;
     s16 field_120_ypos;
     s16 field_122_to_render_count;
-    BYTE field_124_rand_seed;
+    u8 field_124_rand_seed;
     // pad
     s16 field_126_total_count;
     s32 field_128_timer;

@@ -10,8 +10,8 @@ class Map;
 struct TlvOffsetLevelIdPathId
 {
     WORD tlvOffset;
-    BYTE levelId;
-    BYTE pathId;
+    u8 levelId;
+    u8 pathId;
 };
 
 struct TlvOffsetCombinedLevelIdPathId

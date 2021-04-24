@@ -14,7 +14,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x504C6C, Collisions*, sCollisions_DArray_504C6C, nullptr);
 
-void CC Collisions::Factory_40CEC0(const CollisionInfo* pCollisionInfo, const BYTE* pPathData)
+void CC Collisions::Factory_40CEC0(const CollisionInfo* pCollisionInfo, const u8* pPathData)
 {
     sCollisions_DArray_504C6C = ao_new<Collisions>();
     if (sCollisions_DArray_504C6C)
@@ -28,7 +28,7 @@ void Collisions::dtor_40CFB0()
     ao_delete_free_447540(field_0_pArray);
 }
 
-Collisions* Collisions::ctor_40CF30(const CollisionInfo* pCollisionInfo, const BYTE* ppPathData)
+Collisions* Collisions::ctor_40CF30(const CollisionInfo* pCollisionInfo, const u8* ppPathData)
 {
     field_8_item_count = pCollisionInfo->field_10_num_collision_items;
     field_4_current_item_count = static_cast<WORD>(pCollisionInfo->field_10_num_collision_items);

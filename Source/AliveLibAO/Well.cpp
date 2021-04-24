@@ -12,7 +12,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4D1488, BYTE, sWellRndSeed_4D1488, 4);
+ALIVE_VAR(1, 0x4D1488, u8, sWellRndSeed_4D1488, 4);
 
 static s16 Well_NextRandom()
 {
@@ -112,7 +112,7 @@ void Well::VUpdate()
 
 void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_res_id, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_res_id, 1, 0);
     if (ppRes)
     {
         auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
@@ -169,7 +169,7 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 
 void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_res_id, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_res_id, 1, 0);
     if (ppRes)
     {
         auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);

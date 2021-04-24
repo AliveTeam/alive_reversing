@@ -66,14 +66,14 @@ void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block*
         rect.y = pBlock->field_58_rect.y;
         rect.w = width_rounded;
         rect.h = pChunk->field_A_height;
-        IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, (BYTE*)&pChunk[1]);
+        IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, (u8*)&pChunk[1]);
 
         const short tPage = static_cast<short>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, rect.x /*& 0xFFC0*/, rect.y));
 
-        const BYTE u0 = rect.x & 63;
-        const BYTE v0 = static_cast<BYTE>(rect.y);
-        const BYTE u1 = static_cast<BYTE>(u0 + pChunk->field_8_width - 1);
-        const BYTE v1 = static_cast<BYTE>(v0 + pChunk->field_A_height - 1);
+        const u8 u0 = rect.x & 63;
+        const u8 v0 = static_cast<u8>(rect.y);
+        const u8 u1 = static_cast<u8>(u0 + pChunk->field_8_width - 1);
+        const u8 v1 = static_cast<u8>(v0 + pChunk->field_A_height - 1);
 
         const short x1 = pChunk->field_4_xpos_or_compressed_size + pChunk->field_8_width;
         const short y2 = pChunk->field_6_ypos + pChunk->field_A_height;
@@ -155,8 +155,8 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
     // And take a pointer to the first chunk to iterate them
     Fg1Chunk* pChunkIter = &pHeader->mChunks;
 
-    BYTE** pSavedChunkIter = nullptr;
-    BYTE** pDecompressionBuffer = nullptr;
+    u8** pSavedChunkIter = nullptr;
+    u8** pDecompressionBuffer = nullptr;
     s32 idx = 0;
 
     for (;;) // Exit when we hit the end chunk
@@ -170,7 +170,7 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
 
                 // The pixel size is variable, calculate the size and move to the end of it to get the next block
                 const s32 pixelSizeBytes = pChunkIter->field_A_height * pChunkIter->field_8_width * sizeof(short);
-                pChunkIter = reinterpret_cast<Fg1Chunk*>(reinterpret_cast<BYTE*>(pChunkIter) + pixelSizeBytes + sizeof(Fg1Chunk));
+                pChunkIter = reinterpret_cast<Fg1Chunk*>(reinterpret_cast<u8*>(pChunkIter) + pixelSizeBytes + sizeof(Fg1Chunk));
             }
             break;
 
@@ -197,13 +197,13 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
                     pChunkIter->field_2_layer_or_decompressed_size);
 
                 // Decompress into it
-                Decompress_Type_4_5_461770(reinterpret_cast<const BYTE*>(pChunkIter) + sizeof(Fg1Chunk), *pDecompressionBuffer);
+                Decompress_Type_4_5_461770(reinterpret_cast<const u8*>(pChunkIter) + sizeof(Fg1Chunk), *pDecompressionBuffer);
 
                 // Compressed data size + header size
                 const s32 sizeToSkipBytes = pChunkIter->field_4_xpos_or_compressed_size + sizeof(Fg1Chunk);
                 
                 // Goto next block and save ptr to it
-                pSavedChunkIter = reinterpret_cast<BYTE**>((reinterpret_cast<BYTE*>(pChunkIter) + sizeToSkipBytes));
+                pSavedChunkIter = reinterpret_cast<u8**>((reinterpret_cast<u8*>(pChunkIter) + sizeToSkipBytes));
 
                 // Set current ptr to decompressed data
                 pChunkIter = reinterpret_cast<Fg1Chunk*>(*pDecompressionBuffer);

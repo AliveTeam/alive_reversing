@@ -82,7 +82,7 @@ struct SoundBlockInfo
     const char *field_0_vab_header_name;
     const char *field_4_vab_body_name;
     s32 field_8_vab_id;
-    BYTE* field_C_pVabHeader;
+    u8* field_C_pVabHeader;
 };
 
 struct PathRoot
@@ -129,7 +129,7 @@ struct OpenSeqHandle
     char field_8_sound_block_idx;
     char field_9_volume;
     s16 field_A_id_seqOpenId;
-    BYTE *field_C_ppSeq_Data;
+    u8 *field_C_ppSeq_Data;
 };
 ALIVE_ASSERT_SIZEOF(OpenSeqHandle, 0x10);
 

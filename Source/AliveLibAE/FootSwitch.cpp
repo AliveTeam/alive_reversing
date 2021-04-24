@@ -65,7 +65,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, s32 tlvInfo)
     const s32 idx = static_cast<s32>(gMap_5C3030.field_0_current_level);
 
     const AnimRecord& rec = AnimRec(sFootSwitchData_547D60[idx][0]);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_C_render_layer = Layer::eLayer_25;

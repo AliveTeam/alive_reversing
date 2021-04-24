@@ -57,9 +57,9 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_4630F0(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_4630F0(const u8* pData);
 
 public:
     EXPORT void vKeepOnMiddleFloor_461870();
@@ -98,9 +98,9 @@ private:
     s16 field_26C_pulley_xpos;
     s16 field_26E_pulley_ypos;
     FP field_270_floorYLevel;
-    BYTE** field_274_ppRes;
+    u8** field_274_ppRes;
 public:
-    BYTE field_278_lift_point_id;
+    u8 field_278_lift_point_id;
 private:
     char field_279_pad;
     s16 field_27A_pad;

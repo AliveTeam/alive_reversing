@@ -50,13 +50,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSpawner_State, 0x10);
 class FlyingSligSpawner : public BaseGameObject
 {
 public:
-    EXPORT static s32 CC CreateFromSaveState_43B690(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_43B690(const u8* pBuffer);
 
     EXPORT FlyingSligSpawner* ctor_433D50(Path_FlyingSligSpawner* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
     EXPORT void dtor_434030();

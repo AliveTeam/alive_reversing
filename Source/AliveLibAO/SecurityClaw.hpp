@@ -70,7 +70,7 @@ public:
     s16 field_11A;
     FP field_11C_clawX;
     FP field_120_clawY;
-    BYTE field_124;
+    u8 field_124;
     // 3 byte pad
     s32 field_128_sound_channels;
     s16 field_12C_pDetector;

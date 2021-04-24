@@ -10,7 +10,7 @@ namespace AO {
 
 void CircularFade::VRender_47A080(PrimHeader** ppOt)
 {
-    const BYTE fade_rgb = static_cast<BYTE>((field_1A8_fade_colour * 60) / 100);
+    const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
 
     field_C0_r = fade_rgb;
     field_C4_b = fade_rgb;
@@ -53,7 +53,7 @@ void CircularFade::VRender_47A080(PrimHeader** ppOt)
         rect.h = 240;
     }
 
-    const BYTE fadeColour = static_cast<BYTE>(field_1A8_fade_colour);
+    const u8 fadeColour = static_cast<u8>(field_1A8_fade_colour);
 
 
     Prim_Tile* pTile = &field_E8[gPsxDisplay_504C78.field_A_buffer_index];
@@ -206,12 +206,12 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 directio
     // NOTE: Inlined
     VFadeIn_479FE0(static_cast<char>(direction), destroyOnDone);
 
-    const BYTE fade_rgb = static_cast<BYTE>((field_1A8_fade_colour * 60) / 100);
+    const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
     field_C4_b = fade_rgb;
     field_C2_g = fade_rgb;
     field_C0_r = fade_rgb;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, 1, 0);
     Animation_Init_417FD0(2472, 57, 32, ppRes, 1);
 
     field_CC_bApplyShadows &= ~1u;

@@ -65,15 +65,15 @@ struct FlyingSlig_State
     s16 field_24_current_state;
     s16 field_26_current_frame;
     s16 field_28_frame_change_counter;
-    BYTE field_2A_bAnimRender;
-    BYTE field_2B_bDrawable;
+    u8 field_2A_bAnimRender;
+    u8 field_2B_bDrawable;
     FP field_2C_current_health;
     s16 field_30_current_state;
     s16 field_32_delayed_state;
     s16 field_34_lastLineYPos;
     s16 field_36_line_idx;
-    BYTE field_38_launch_id;
-    BYTE field_39_padding;
+    u8 field_38_launch_id;
+    u8 field_39_padding;
     enum Flags_3A
     {
         eBit1_bPossessed = 0x1,
@@ -145,11 +145,11 @@ public:
 
     virtual void VSetMotion_4081C0(s16 state) override;
 
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     // TODO: Remaining virtuals
 
-    EXPORT static s32 CC CreateFromSaveState_437E40(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_437E40(const u8* pBuffer);
 
 private:
     EXPORT s32 vGetSaveState_43B1E0(FlyingSlig_State* pState);
@@ -259,7 +259,7 @@ public:
 
     EXPORT s16 IsTurning_436AE0();
 
-    EXPORT BYTE** ResBlockForMotion_4350F0(s32 motion);
+    EXPORT u8** ResBlockForMotion_4350F0(s32 motion);
 
     EXPORT void ToChantShake_436270();
 
@@ -327,7 +327,7 @@ private:
     s16 field_176_padding;
     s16 field_178_unused;
     s16 field_17A_unused;
-    BYTE field_17C_launch_id;
+    u8 field_17C_launch_id;
     SligSpeak field_17D_next_speak;
 
     enum Flags_17E

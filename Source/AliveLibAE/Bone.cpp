@@ -25,7 +25,7 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, s16 countId)
     }
 
 	const AnimRecord& rec = AnimRec(AnimId::Bone);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -99,7 +99,7 @@ BOOL Bone::VCanBeEaten_411560()
     return vCanBeEaten_411560();
 }
 
-s32 Bone::VGetSaveState(BYTE* pSaveBuffer)
+s32 Bone::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_412ED0(reinterpret_cast<Bone_SaveState*>(pSaveBuffer));
 }
@@ -109,7 +109,7 @@ s16 Bone::VGetCount_448080()
     return vGetCount_412500();
 }
 
-s32 CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
+s32 CC Bone::CreateFromSaveState_412C10(const u8* pData)
 {
     auto pState = reinterpret_cast<const Bone_SaveState*>(pData);
 
@@ -646,7 +646,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, s32 tlvInfo)
     field_4_typeId = AETypes::eBoneBag_12;
 
     const AnimRecord& rec = AnimRec(AnimId::Bone_Bag_A);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     // TODO: Super super OWI hack, WTF?? Figure out exactly what this is patching in the animation
     *((WORD *)*ppRes + 4374) = 0;
 

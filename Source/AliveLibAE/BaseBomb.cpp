@@ -194,7 +194,7 @@ void BaseBomb::vUpdate_424180()
 
     if (field_20_animation.field_92_current_frame == 3)
     {
-        BYTE** ppRes = Add_Resource_4DC130(
+        u8** ppRes = Add_Resource_4DC130(
             ResourceManager::Resource_Animation,
             ResourceID::kBgexpldResID);
         if (ppRes)

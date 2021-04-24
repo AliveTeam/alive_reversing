@@ -43,7 +43,7 @@ public:
 
     void Destroy();
 
-    std::vector<BYTE>* GetBuffer();
+    std::vector<u8>* GetBuffer();
     void Duplicate(SDLSoundBuffer ** dupePtr);
 
 public:
@@ -67,7 +67,7 @@ public:
 
     s32 mSoundSysFreq = 0;
     AE_SDL_Voice_State mState;
-    std::shared_ptr<std::vector<BYTE>> mBuffer;
+    std::shared_ptr<std::vector<u8>> mBuffer;
     std::mutex mLock;
 };
 

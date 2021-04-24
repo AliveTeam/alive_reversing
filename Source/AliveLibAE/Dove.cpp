@@ -13,7 +13,7 @@
 ALIVE_VAR(1, 0x5bc112, short, bTheOneControllingTheMusic_5BC112, 0);
 
 ALIVE_VAR(1, 0x5BC100, DynamicArrayT<Dove>, gDovesArray_5BC100, {});
-ALIVE_VAR(1, 0x5BC110, BYTE, byte_5BC110, 0);
+ALIVE_VAR(1, 0x5BC110, u8, byte_5BC110, 0);
 
 EXPORT void CC Dove_static_ctor_41F3C0()
 {
@@ -47,7 +47,7 @@ Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 /*maxW*/, u16 /*maxH*/, s32 /*
     if(frameTableOffset == 5580) { a_id = AnimId::Dove_Idle; }
 
     const AnimRecord& rec = AnimRec(a_id);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -104,7 +104,7 @@ Dove* Dove::ctor_41F660(s32 frameTableOffset, s32 /*maxW*/, s16 /*maxH*/, s32 /*
     if(frameTableOffset == 5580) { a_id = AnimId::Dove_Idle; }
 
     const AnimRecord& rec = AnimRec(a_id);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -207,13 +207,13 @@ Dove* Dove::vdtor_41F630(s32 flags)
     return this;
 }
 
-void Dove::AsAlmostACircle_41FA20(FP xpos, FP ypos, BYTE angle)
+void Dove::AsAlmostACircle_41FA20(FP xpos, FP ypos, u8 angle)
 {
     AsACircle_41F980(xpos, ypos, angle);
     field_FE_state = State::State_4_AlmostACircle;
 }
 
-void Dove::AsACircle_41F980(FP xpos, FP ypos, BYTE angle)
+void Dove::AsACircle_41F980(FP xpos, FP ypos, u8 angle)
 {
     field_100_xJoin = xpos;
     field_104_yJoin = ypos;

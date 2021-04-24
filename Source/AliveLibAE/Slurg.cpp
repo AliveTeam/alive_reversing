@@ -56,7 +56,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
     field_11C_state = Slurg_States::State_0_Moving;
 
     const AnimRecord& rec = AnimRec(AnimId::Slurg_Move);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
@@ -131,7 +131,7 @@ void Slurg::VUpdate()
     vUpdate_4C8790();
 }
 
-s32 Slurg::VGetSaveState(BYTE* pSaveBuffer)
+s32 Slurg::VGetSaveState(u8* pSaveBuffer)
 {
     return vSaveState_4C8FC0(reinterpret_cast<Slurg_State*>(pSaveBuffer));
 }
@@ -146,7 +146,7 @@ void Slurg::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_4C8C20(pTlv);
 }
 
-s32 CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
+s32 CC Slurg::CreateFromSaveState_4C8DF0(const u8* pData)
 {
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
     auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_24_tlvInfo));

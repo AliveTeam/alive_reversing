@@ -27,7 +27,7 @@ EvilFart* EvilFart::ctor_422E30()
     field_4_typeId = AETypes::eEvilFart_45;
 
     const AnimRecord& rec = AnimRec(AnimId::Fart);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
@@ -116,12 +116,12 @@ void EvilFart::VPossessed_408F70()
     vOnPossesed_423DA0();
 }
 
-s32 EvilFart::VGetSaveState(BYTE* pSaveBuffer)
+s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4283F0(reinterpret_cast<EvilFart_State*>(pSaveBuffer));
 }
 
-s32 CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
+s32 CC EvilFart::CreateFromSaveState_4281C0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const EvilFart_State*>(pBuffer);
 
@@ -431,8 +431,8 @@ void EvilFart::vUpdate_423100()
                     (field_BC_ypos - FP_FromInteger(55)) * field_CC_sprite_scale,
                     FP_FromDouble(0.5) * field_CC_sprite_scale,
                     3,
-                    static_cast<BYTE>(field_D0_r),
-                    static_cast<BYTE>(field_D2_g),
+                    static_cast<u8>(field_D0_r),
+                    static_cast<u8>(field_D2_g),
                     0x20u);
 
 

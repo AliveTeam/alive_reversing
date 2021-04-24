@@ -1126,7 +1126,7 @@ void MainMenuController::ParamiteSpeak_Load_4D3B70()
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
 
-static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const char* text, s16 x, s16 y, BYTE r, BYTE g, BYTE b, s32& polyOffset)
+static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const char* text, s16 x, s16 y, u8 r, u8 g, u8 b, s32& polyOffset)
 {
     s32 polyOff = polyOffset;
     polyOff = field_120_font.DrawString_4337D0(
@@ -2109,7 +2109,7 @@ char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
 // false if demo was started automatically due to idling
 ALIVE_VAR(1, 0x5C1B9C, short, gIsDemoStartedManually_5C1B9C, FALSE);
 
-ALIVE_VAR(1, 0x5C1BA2, BYTE, sCurrentDemoIdForIdlingDemoPlayback_5C1BA2, 0);
+ALIVE_VAR(1, 0x5C1BA2, u8, sCurrentDemoIdForIdlingDemoPlayback_5C1BA2, 0);
 MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(DWORD)
 {
     const s32 maxDemoId = ALIVE_COUNTOF(sDemos_5617F0);
@@ -2209,7 +2209,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(DWORD)
         char file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
         ResourceManager::LoadResourceFile_49C170(file, nullptr);
-        BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::ResourceType::Resource_NxtP, ResourceID::kUnknownResID_0, 1, 0);
+        u8 **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::ResourceType::Resource_NxtP, ResourceID::kUnknownResID_0, 1, 0);
         sActiveQuicksaveData_BAF7F8 = *(reinterpret_cast<Quicksave*>(*resource));
         ResourceManager::FreeResource_49C330(resource);
 
@@ -2658,7 +2658,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         }
 
         // Render "glowing" box around the selected buttons
-        BYTE rgb = static_cast<BYTE>(3 * field_1FE_highlite_alpha);
+        u8 rgb = static_cast<u8>(3 * field_1FE_highlite_alpha);
         field_158_animation.field_8_r = rgb;
         field_158_animation.field_A_b = rgb;
         field_158_animation.field_9_g = rgb;
@@ -3133,7 +3133,7 @@ void MainMenuController::HandleMainMenuUpdate()
     field_21E_bChangeScreen = 1;
 }
 
-void MainMenuController::Unload_Resource(BYTE**& res)
+void MainMenuController::Unload_Resource(u8**& res)
 {
     // Resource might be pending, wait for it to load if so
     if (!res)
@@ -3808,9 +3808,9 @@ void MainMenuController::UpdateHighliteGlow_4D0630()
         field_200_highlite_glow_speed = -field_200_highlite_glow_speed;
     }
 
-    field_158_animation.field_8_r = static_cast<BYTE>(field_1FE_highlite_alpha);
-    field_158_animation.field_A_b = static_cast<BYTE>(field_1FE_highlite_alpha);
-    field_158_animation.field_9_g = static_cast<BYTE>(field_1FE_highlite_alpha);
+    field_158_animation.field_8_r = static_cast<u8>(field_1FE_highlite_alpha);
+    field_158_animation.field_A_b = static_cast<u8>(field_1FE_highlite_alpha);
+    field_158_animation.field_9_g = static_cast<u8>(field_1FE_highlite_alpha);
 }
 
 void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
@@ -3878,7 +3878,7 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
 
     const FP text_ypos = FP_FromInteger(-10) * fontScale; // -655360
 
-    const BYTE oldDrawInScreenSpace = sFontDrawScreenSpace_5CA4B4;
+    const u8 oldDrawInScreenSpace = sFontDrawScreenSpace_5CA4B4;
     sFontDrawScreenSpace_5CA4B4 = 1;
 
     *polyIndex = font->DrawString_4337D0(

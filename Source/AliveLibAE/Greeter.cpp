@@ -25,7 +25,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
 
     field_4_typeId = AETypes::eGreeter_64;
     const AnimRecord& rec = AnimRec(AnimId::Greeter_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_DC_bApplyShadows |= 2u;
@@ -133,12 +133,12 @@ s16 Greeter::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_447C20(pFrom);
 }
 
-s32 Greeter::VGetSaveState(BYTE* pSaveBuffer)
+s32 Greeter::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_446400(reinterpret_cast<Greeter_State*>(pSaveBuffer));
 }
 
-s32 CC Greeter::CreateFromSaveState_446040(const BYTE* pBuffer)
+s32 CC Greeter::CreateFromSaveState_446040(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Greeter_State*>(pBuffer);
     auto pTlv = static_cast<Path_Greeter*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_28_tlvInfo));

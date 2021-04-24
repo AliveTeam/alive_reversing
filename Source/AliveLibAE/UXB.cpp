@@ -579,7 +579,7 @@ void UXB::ScreenChanged_4DF9C0()
     }
 }
 
-s32 UXB::GetSaveState_4DFD40(BYTE* __pSaveBuffer)
+s32 UXB::GetSaveState_4DFD40(u8* __pSaveBuffer)
 {
     SaveState_UXB* pSaveState = reinterpret_cast<SaveState_UXB*>(__pSaveBuffer);
 
@@ -596,7 +596,7 @@ s32 UXB::GetSaveState_4DFD40(BYTE* __pSaveBuffer)
     return sizeof(SaveState_UXB);
 }
 
-EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
+EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
 {
     const SaveState_UXB* pSaveState = reinterpret_cast<const SaveState_UXB*>(__pSaveState);
 
@@ -650,7 +650,7 @@ EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     return sizeof(SaveState_UXB); // 24
 }
 
-s32 UXB::VGetSaveState(BYTE* __pSaveBuffer)
+s32 UXB::VGetSaveState(u8* __pSaveBuffer)
 {
     return GetSaveState_4DFD40(__pSaveBuffer);
 }

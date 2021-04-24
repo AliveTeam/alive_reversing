@@ -17,7 +17,7 @@ namespace AO {
 ALIVE_VAR(1, 0x4FFD68, FontContext, sFontContext_4FFD68, {});
 
 ALIVE_VAR(1, 0x5080E4, short, sDisableFontFlicker_5080E4, 0);
-ALIVE_VAR(1, 0x508BF4, BYTE, sFontDrawScreenSpace_508BF4, 0);
+ALIVE_VAR(1, 0x508BF4, u8, sFontDrawScreenSpace_508BF4, 0);
 
 const Font_AtlasEntry sFont1Atlas_4C56E8[116] =
 {
@@ -297,7 +297,7 @@ void FontContext::dtor_41C110()
     }
 }
 
-AliveFont* AliveFont::ctor_41C170(s32 maxCharLength, const BYTE* palette, FontContext* fontContext)
+AliveFont* AliveFont::ctor_41C170(s32 maxCharLength, const u8* palette, FontContext* fontContext)
 {
     field_34_font_context = fontContext;
 
@@ -457,9 +457,9 @@ EXPORT s32 AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, s16
         SetRGB0
         (
             poly,
-            static_cast<BYTE>(r + Math_RandomRange_450F20(static_cast<short>(-colorRandomRange), static_cast<short>(colorRandomRange))),
-            static_cast<BYTE>(g + Math_RandomRange_450F20(static_cast<short>(-colorRandomRange), static_cast<short>(colorRandomRange))),
-            static_cast<BYTE>(b + Math_RandomRange_450F20(static_cast<short>(-colorRandomRange), static_cast<short>(colorRandomRange)))
+            static_cast<u8>(r + Math_RandomRange_450F20(static_cast<short>(-colorRandomRange), static_cast<short>(colorRandomRange))),
+            static_cast<u8>(g + Math_RandomRange_450F20(static_cast<short>(-colorRandomRange), static_cast<short>(colorRandomRange))),
+            static_cast<u8>(b + Math_RandomRange_450F20(static_cast<short>(-colorRandomRange), static_cast<short>(colorRandomRange)))
         );
 
         SetTPage(poly, static_cast<short>(tpage));

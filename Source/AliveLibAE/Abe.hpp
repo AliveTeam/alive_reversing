@@ -450,13 +450,13 @@ public:
     EXPORT Abe* ctor_44AD10(s32 frameTableOffset, s32 r, s32 g, s32 b);
     EXPORT void dtor_44B380();
 
-    EXPORT static s32 CC CreateFromSaveState_44D4F0(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_44D4F0(const u8* pData);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
     virtual BirdPortal* VIntoBirdPortal_408FD0(s16 gridBlocks) override;
@@ -469,7 +469,7 @@ public:
     EXPORT void Update_449DC0();
     EXPORT void vRender_44B580(PrimHeader** ppOt);
     EXPORT void vScreenChanged_44D240();
-    EXPORT s32 vGetSaveState_457110(BYTE* pSaveBuffer);
+    EXPORT s32 vGetSaveState_457110(u8* pSaveBuffer);
     EXPORT s16 vTakeDamage_44BB50(BaseGameObject* pFrom);
     EXPORT void vOn_TLV_Collision_44B5D0(Path_TLV* pTlv);
     EXPORT BirdPortal* vIntoBirdPortal_44E970(s16 gridBlocks);
@@ -483,7 +483,7 @@ public:
     EXPORT BOOL IsStanding_449D30();
     EXPORT void Free_Shrykull_Resources_45AA90();
 
-    EXPORT BYTE** StateToAnimResource_44AAB0(short state);
+    EXPORT u8** StateToAnimResource_44AAB0(short state);
 
     // States
     EXPORT void State_0_Idle_44EEB0();

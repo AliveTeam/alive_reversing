@@ -434,13 +434,13 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
             pIter++;
 
             const PSX_RECT rect = { static_cast<short>(i * kStripSize), 256 + 16, kStripSize, 240 };
-            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, reinterpret_cast<const BYTE*>(pIter));
+            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, reinterpret_cast<const u8*>(pIter));
             pIter += (stripSize / sizeof(WORD));
         }
     }
     else
     {
-        BYTE** ppVlc = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
+        u8** ppVlc = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
         if (ppVlc)
         {
 #if RENDERER_OPENGL
@@ -460,7 +460,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
             }
 
             const PSX_RECT vramDest = { 0,272, 640,240 };
-            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, vramDest, reinterpret_cast<const BYTE*>(gCamBuffer));
+            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, vramDest, reinterpret_cast<const u8*>(gCamBuffer));
 #else
             if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
             {
@@ -491,7 +491,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
     UnsetDirtyBits_40EDE0(3);
 }
 
-ScreenManager* ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset)
+ScreenManager* ScreenManager::ctor_40E3E0(u8** ppBits, FP_Point* pCameraOffset)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     field_20_pCamPos = pCameraOffset;
@@ -506,7 +506,7 @@ ScreenManager* ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset
     return this;
 }
 
-void ScreenManager::Init_40E4B0(BYTE** ppBits)
+void ScreenManager::Init_40E4B0(u8** ppBits)
 {
     field_40_flags |= 0x10000;
 
@@ -542,7 +542,7 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
 
         Init_SetTPage_4F5B60(&pItem->mTPage, 0, 0, tpage);
 
-        SetUV0(&pItem->mSprt, static_cast<BYTE>(u0), static_cast<BYTE>(v0));
+        SetUV0(&pItem->mSprt, static_cast<u8>(u0), static_cast<u8>(v0));
 
         xpos += 32;
         if (xpos == 640)

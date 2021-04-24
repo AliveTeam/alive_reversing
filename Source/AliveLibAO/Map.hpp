@@ -35,7 +35,7 @@ struct OverlayRecords
 
 struct Map_PathsArray
 {
-    BYTE** field_0_pPathRecs[30];
+    u8** field_0_pPathRecs[30];
 };
 ALIVE_ASSERT_SIZEOF(Map_PathsArray, 120);
 
@@ -185,13 +185,13 @@ public:
     EXPORT void GetCurrentCamCoords_444890(PSX_Point* pPoint);
     s16 GetOverlayId();
 
-    EXPORT static CameraSwapper* CC FMV_Camera_Change_4458D0(BYTE** ppBits, Map* pMap, LevelIds levelId);
+    EXPORT static CameraSwapper* CC FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds levelId);
 
     EXPORT void Create_FG1s_4447D0();
 
     EXPORT Camera* Create_Camera_445BE0(s16 xpos, s16 ypos, s32 a4);
 
-    EXPORT void RestoreBlyData_446A90(const BYTE* pSaveData);
+    EXPORT void RestoreBlyData_446A90(const u8* pSaveData);
 
     EXPORT void Load_Path_Items_445DA0(Camera* pCamera, s16 kZero);
 
@@ -234,7 +234,7 @@ public:
     // NOTE: Part of Path object in AE
     EXPORT Path_TLV* Get_First_TLV_For_Offsetted_Camera_4463B0(s16 camX, s16 camY);
 
-    EXPORT void SaveBlyData_446900(BYTE* pSaveBuffer);
+    EXPORT void SaveBlyData_446900(u8* pSaveBuffer);
 
     LevelIds field_0_current_level;
     s16 field_2_current_path;
@@ -266,7 +266,7 @@ public:
     s16 field_DA_bMapChanged;
     s16 field_DC_free_all_anim_and_palts;
     s16 field_DE;
-    BYTE* field_E0_save_data;
+    u8* field_E0_save_data;
 };
 
 ALIVE_ASSERT_SIZEOF(Map, 0xE4);

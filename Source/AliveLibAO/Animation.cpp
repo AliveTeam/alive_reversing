@@ -275,7 +275,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
     switch (pFrameHeader->field_7_compression_type)
     {
     case CompressionType::eType_0_NoCompression:
-        renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2));
+        renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2));
         break;
 
     case CompressionType::eType_1_NotUsed:
@@ -283,7 +283,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
         {
             // TODO: Refactor structure to get pixel data/remove casts
             Decompress_Type_1_403150(
-                (BYTE*)&pFrameHeader[1],
+                (u8*)&pFrameHeader[1],
                 *field_24_dbuf,
                 *(DWORD*)&pFrameHeader->field_8_width2,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
@@ -295,7 +295,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
         if (EnsureDecompressionBuffer())
         {
             Decompress_Type_2_403390(
-                (BYTE*)&pFrameHeader[1],
+                (u8*)&pFrameHeader[1],
                 *field_24_dbuf,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
             renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
@@ -307,7 +307,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
         {
             // TODO: Refactor structure to get pixel data/remove casts
             Decompress_Type_3_4031E0(
-                (BYTE*)&pFrameHeader[1],
+                (u8*)&pFrameHeader[1],
                 *field_24_dbuf,
                 *(DWORD*)&pFrameHeader->field_8_width2,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
@@ -320,7 +320,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
         if (EnsureDecompressionBuffer())
         {
             // TODO: Refactor structure to get pixel data/remove casts
-            Decompress_Type_4_5_461770(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
+            Decompress_Type_4_5_461770(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
             renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
         }
         break;
@@ -500,10 +500,10 @@ void Animation::VRender_403AE0(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
 {
     if (field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        BYTE** ppBlock = field_20_ppBlock;
+        u8** ppBlock = field_20_ppBlock;
         if (ppBlock)
         {
-            const BYTE* pBlock = *ppBlock;
+            const u8* pBlock = *ppBlock;
             const FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_403A00(-1);
             const FrameHeader* pFrameHeader = (const FrameHeader*)&pBlock[pFrameInfoHeader->field_0_frame_header_offset];
 
@@ -566,7 +566,7 @@ void Animation::VRender_403AE0(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
             SetTPage(pPoly, static_cast<short>(PSX_getTPage_4965D0(textureMode, field_B_render_mode, field_84_vram_rect.x, tPageY)));
             SetClut(pPoly, static_cast<short>(PSX_getClut_496840(field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y)));
 
-            BYTE u1 = field_84_vram_rect.x & 63;
+            u8 u1 = field_84_vram_rect.x & 63;
             if (textureMode == TPageMode::e8Bit_1)
             {
                 u1 *= 2;
@@ -580,9 +580,9 @@ void Animation::VRender_403AE0(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
                 // 16 bit
             }
 
-            const BYTE v0 = static_cast<BYTE>(field_84_vram_rect.y);
-            const BYTE u0 = pFrameHeader->field_4_width + u1 - 1;
-            const BYTE v1 = pFrameHeader->field_5_height + v0 - 1;
+            const u8 v0 = static_cast<u8>(field_84_vram_rect.y);
+            const u8 u0 = pFrameHeader->field_4_width + u1 - 1;
+            const u8 v1 = pFrameHeader->field_5_height + v0 - 1;
 
             if (field_14_scale != FP_FromInteger(1))
             {
@@ -694,7 +694,7 @@ void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList
     }
 }
 
-s16 Animation::Set_Animation_Data_402A40(s32 frameTableOffset, BYTE** pAnimRes)
+s16 Animation::Set_Animation_Data_402A40(s32 frameTableOffset, u8** pAnimRes)
 {
     if (pAnimRes)
     {
@@ -754,7 +754,7 @@ void Animation::SetFrame_402AC0(s16 newFrame)
     }
 }
 
-s16 Animation::Init_402D20(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bAllocateVRam, s32 b_StartingAlternationState, char bEnable_flag10_alternating)
+s16 Animation::Init_402D20(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bAllocateVRam, s32 b_StartingAlternationState, char bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
 
@@ -782,11 +782,11 @@ s16 Animation::Init_402D20(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     field_14_scale = FP_FromInteger(1);
    
     FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_403A00(0);
-    BYTE* pAnimData = *ppAnimData;
+    u8* pAnimData = *ppAnimData;
 
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
-    BYTE* pClut = &pAnimData[pFrameHeader->field_0_clut_offset];
+    u8* pClut = &pAnimData[pFrameHeader->field_0_clut_offset];
 
     field_4_flags.Clear(AnimFlags::eBit1);
     field_4_flags.Clear(AnimFlags::eBit5_FlipX);
@@ -942,11 +942,11 @@ FrameInfoHeader* Animation::Get_FrameHeader_403A00(s32 frame)
     return pFrame;
 }
 
-void Animation::LoadPal_403090(BYTE** pAnimData, s32 palOffset)
+void Animation::LoadPal_403090(u8** pAnimData, s32 palOffset)
 {
     if (pAnimData)
     {
-        const BYTE* pPalDataOffset = &(*pAnimData)[palOffset];
+        const u8* pPalDataOffset = &(*pAnimData)[palOffset];
         if (field_90_pal_depth != 16 && field_90_pal_depth != 64 && field_90_pal_depth != 256)
         {
             LOG_ERROR("Bad pal depth " << field_90_pal_depth);

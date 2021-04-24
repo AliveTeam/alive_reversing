@@ -89,13 +89,13 @@ public:
 
     // Same as 0x528985 in MGSI.exe
     void Decode_4EA670();
-    void MMX_Decode_4E6C60(BYTE* pPixelBuffer);
+    void MMX_Decode_4E6C60(u8* pPixelBuffer);
 
     // Same as 0x52B015 in MGSI.exe
     static void CC DDV_SND_4ECFD0(s32 numChannels, s32 bitsPerSample);
 
     // Same as 0x52B028 in MGSI.exe
-    static void CC DDV_SND_4ECFF0(s32* pMasherFrame, BYTE* pDecodedFrame, s32 frameSize);
+    static void CC DDV_SND_4ECFF0(s32* pMasherFrame, u8* pDecodedFrame, s32 frameSize);
 
     // Same as 0x52899C in MGSI.exe
     static void* CC GetDecompressedAudioFrame_4EAC60(Masher* pMasher);

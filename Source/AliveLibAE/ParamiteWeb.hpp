@@ -31,7 +31,7 @@ public:
     s16 field_F6_segment_length;
     s16 field_F8_ttl;
     s16 field_FA_ttl_remainder;
-    BYTE** field_FC_ppRes;
+    u8** field_FC_ppRes;
     AnimationUnknown* field_100_pRes;
     s16 field_104_bEnabled;
     s16 field_106_padding;

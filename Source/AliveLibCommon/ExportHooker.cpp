@@ -25,7 +25,7 @@ static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszNa
         // Resolve 1 level long jumps, not using DetourCodeFromPointer
         // as it appears to have a bug where it checks for 0xeb before 0xe9 and so
         // won't skip jmps that start with long jmps.
-        BYTE* pbCode = (BYTE*)pCode;
+        u8* pbCode = (u8*)pCode;
         if (pbCode[0] == 0xe9)
         {
             // jmp +imm32
@@ -250,8 +250,8 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
     info.mExportedFunctionName = exportedFunctionName;
 
     // 4 nops, s32 3, 4 nops
-    const static BYTE kPatternToFind[] = { 0x90, 0x90, 0x90, 0x90, 0xCC, 0x90, 0x90, 0x90, 0x90 };
-    BYTE codeBuffer[256] = {};
+    const static u8 kPatternToFind[] = { 0x90, 0x90, 0x90, 0x90, 0xCC, 0x90, 0x90, 0x90, 0x90 };
+    u8 codeBuffer[256] = {};
     memcpy(codeBuffer, pExportedFunctionAddress, sizeof(codeBuffer));
     for (s32 i = 0; i < sizeof(codeBuffer) - sizeof(kPatternToFind); i++)
     {
@@ -265,7 +265,7 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
                 // mov eax, offset to function name string
                 // pop eax
                 // Therefore extracting the pointer to unmangled offset to the function name tells us if we have the right function.
-                const char*** strAddr = reinterpret_cast<const char***>(&reinterpret_cast<BYTE*>(pExportedFunctionAddress)[i - 5]);
+                const char*** strAddr = reinterpret_cast<const char***>(&reinterpret_cast<u8*>(pExportedFunctionAddress)[i - 5]);
 
                 const char* pBothNames = **strAddr;
                 size_t len = strlen(pBothNames);
@@ -277,7 +277,7 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
 
                     if (!RunningAsInjectedDll())
                     {
-                        BYTE* ptr = &reinterpret_cast<BYTE*>(pExportedFunctionAddress)[i + 4];
+                        u8* ptr = &reinterpret_cast<u8*>(pExportedFunctionAddress)[i + 4];
                         DWORD old = 0;
                         if (!::VirtualProtect(ptr, 1, PAGE_EXECUTE_READWRITE, &old))
                         {

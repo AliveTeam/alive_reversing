@@ -215,13 +215,13 @@ public:
         vOnTrapDoorOpen_489F60();
     }
 
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override
     {
         return vGetSaveState_48F220(reinterpret_cast<Paramite_State*>(pSaveBuffer));
     }
 
 
-    EXPORT static s32 CC CreateFromSaveState_4855A0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4855A0(const u8* pBuffer);
 
 private:
     EXPORT s32 vGetSaveState_48F220(Paramite_State* pState);
@@ -375,7 +375,7 @@ private:
 
     EXPORT s16 vTakeDamage_488250(BaseGameObject* pFrom);
 
-    EXPORT BYTE** ResBlockForMotion_488130(s16 motion);
+    EXPORT u8** ResBlockForMotion_488130(s16 motion);
 
     EXPORT void vOn_TLV_Collision_488640(Path_TLV* pTlv);
 

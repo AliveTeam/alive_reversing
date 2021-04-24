@@ -164,7 +164,7 @@ struct PathData
 
 struct CollisionInfo;
 
-using TCollisionsFactory = AddPointer_t<void(const CollisionInfo* pCollisionInfo, const BYTE* pPathData)>;
+using TCollisionsFactory = AddPointer_t<void(const CollisionInfo* pCollisionInfo, const u8* pPathData)>;
 
 struct CollisionInfo
 {
@@ -204,7 +204,7 @@ struct SoundBlockInfo
     const char* field_0_vab_header_name;
     const char* field_4_vab_body_name;
     s32 field_8_vab_id;
-    BYTE* field_C_pVabHeader;
+    u8* field_C_pVabHeader;
 };
 
 struct PathRoot

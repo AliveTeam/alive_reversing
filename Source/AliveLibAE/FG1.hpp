@@ -23,7 +23,7 @@ enum class LevelIds : s16;
 class FG1 : public BaseGameObject
 {
 public:
-    EXPORT FG1* ctor_499FC0(BYTE** pFg1Res);
+    EXPORT FG1* ctor_499FC0(u8** pFg1Res);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -41,7 +41,7 @@ public:
     s16 field_26_path_id;
     s16 field_28_render_block_count;
     //s16 field_2A;
-    BYTE** field_2C_ptr;
+    u8** field_2C_ptr;
     Fg1Block* field_30_chnk_res;
 };
 ALIVE_ASSERT_SIZEOF(FG1, 0x34);

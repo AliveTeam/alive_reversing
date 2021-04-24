@@ -248,12 +248,12 @@ s16 NakedSlig::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_4192B0(pFrom);
 }
 
-s32 NakedSlig::VGetSaveState(BYTE* pSaveBuffer)
+s32 NakedSlig::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_41C9A0(reinterpret_cast<NakedSlig_State*>(pSaveBuffer));
 }
 
-s32 CC NakedSlig::CreateFromSaveState_41AE80(const BYTE* pBuffer)
+s32 CC NakedSlig::CreateFromSaveState_41AE80(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const NakedSlig_State*>(pBuffer);
 
@@ -446,7 +446,7 @@ void NakedSlig::Set_AnimAndMotion_419890(s16 currentMotion, s16 bClearNextMotion
 
 void NakedSlig::UpdateAnimBlock_419900()
 {
-    BYTE** ppRes = GetAnimBlock_419950(field_106_current_motion);
+    u8** ppRes = GetAnimBlock_419950(field_106_current_motion);
     if (!ppRes)
     {
         field_106_current_motion = 0;
@@ -455,7 +455,7 @@ void NakedSlig::UpdateAnimBlock_419900()
     field_20_animation.Set_Animation_Data_409C80(sNakedSligFrameTableOffsets_551470[field_106_current_motion], ppRes);
 }
 
-BYTE** NakedSlig::GetAnimBlock_419950(s32 /*currentMotion*/)
+u8** NakedSlig::GetAnimBlock_419950(s32 /*currentMotion*/)
 {
     if (field_1CC_unused)
     {

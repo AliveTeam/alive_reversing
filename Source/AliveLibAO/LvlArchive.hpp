@@ -54,7 +54,7 @@ public:
     EXPORT s16 Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer);
 
 private:
-    BYTE** field_0_0x2800_res;
+    u8** field_0_0x2800_res;
 public:
     s32 field_4_cd_pos;
 };

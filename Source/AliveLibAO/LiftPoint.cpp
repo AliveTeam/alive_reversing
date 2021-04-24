@@ -84,7 +84,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 
     pTlv->field_1_unknown = 3;
 
-    BYTE** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftResID, 1, 0);
+    u8** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftResID, 1, 0);
     if (pTlv->field_20_scale)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
@@ -126,7 +126,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     field_118_x_offset -= xMovedBy;
     field_11A_width_offset -= xMovedBy;
 
-    BYTE** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
+    u8** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
     if (field_13C_lift_wheel.Init_402D20(
         stru_4BB480[idx].field_C_lift_wheel_frame_table_offset,
         gObjList_animations_505564,
@@ -605,9 +605,9 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
                     &liftWheelG,
                     &liftWheelB);
 
-                field_13C_lift_wheel.field_8_r = static_cast<BYTE>(liftWheelR);
-                field_13C_lift_wheel.field_9_g = static_cast<BYTE>(liftWheelG);
-                field_13C_lift_wheel.field_A_b = static_cast<BYTE>(liftWheelB);
+                field_13C_lift_wheel.field_8_r = static_cast<u8>(liftWheelR);
+                field_13C_lift_wheel.field_9_g = static_cast<u8>(liftWheelG);
+                field_13C_lift_wheel.field_A_b = static_cast<u8>(liftWheelB);
 
                 const FP xOff = (FP_FromInteger(3) * field_BC_sprite_scale);
                 const FP yOff = (FP_FromInteger(-5) * field_BC_sprite_scale);
@@ -655,9 +655,9 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
                             &g,
                             &b);
   
-                        field_1D4_pulley_anim.field_8_r = static_cast<BYTE>(r);
-                        field_1D4_pulley_anim.field_9_g = static_cast<BYTE>(g);
-                        field_1D4_pulley_anim.field_A_b = static_cast<BYTE>(b);
+                        field_1D4_pulley_anim.field_8_r = static_cast<u8>(r);
+                        field_1D4_pulley_anim.field_9_g = static_cast<u8>(g);
+                        field_1D4_pulley_anim.field_A_b = static_cast<u8>(b);
 
                         field_1D4_pulley_anim.VRender_403AE0(
                             FP_GetExponent(pulley_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
@@ -788,7 +788,7 @@ void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
 
         field_26C_pulley_xpos = FP_GetExponent(((k13_scaled + kM10_scaled) / FP_FromInteger(2)) + FP_NoFractional(field_A8_xpos));
 
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
         const s32 idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
         field_1D4_pulley_anim.Init_402D20(

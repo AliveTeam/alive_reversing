@@ -88,10 +88,10 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    EXPORT static s32 CC CreateFromSaveState_467740(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_467740(const u8* pBuffer);
 
 private:
     EXPORT void LoadAnimation_46BF80(Animation* pAnim);

@@ -482,7 +482,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, Le
 {
     SetTint_425600(pTintArray, level_id);
 
-    BYTE** pPalResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, resourceID, 1u, 0);
+    u8** pPalResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, resourceID, 1u, 0);
 
     if (!pPalResource)
     {

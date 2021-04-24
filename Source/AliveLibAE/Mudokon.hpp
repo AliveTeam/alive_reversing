@@ -282,7 +282,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override
     {
         return vGetSaveState_47B080(reinterpret_cast<Mudokon_State*>(pSaveBuffer));
     }
@@ -313,7 +313,7 @@ public:
         vUpdateAnimRes_474D80();
     }
 
-    EXPORT static s32 CC CreateFromSaveState_4717C0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4717C0(const u8* pBuffer);
 
 
 private:
@@ -450,7 +450,7 @@ private:
     EXPORT void Sound_475EC0(MudSounds idx);
     EXPORT s16 CanRespond_4770B0();
 
-    EXPORT BYTE** AnimBlockForMotion_474DC0(short motion);
+    EXPORT u8** AnimBlockForMotion_474DC0(short motion);
 
     EXPORT void ToFalling_472320();
     EXPORT void ToStand_4724A0();

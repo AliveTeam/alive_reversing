@@ -28,9 +28,9 @@ public:
 
     EXPORT BaseGameObject* dtor_40F1B0();
 
-    EXPORT void AsAlmostACircle_40F300(FP xpos, FP ypos, BYTE angle);
+    EXPORT void AsAlmostACircle_40F300(FP xpos, FP ypos, u8 angle);
 
-    EXPORT void AsACircle_40F280(FP xpos, FP ypos, BYTE angle);
+    EXPORT void AsACircle_40F280(FP xpos, FP ypos, u8 angle);
 
     EXPORT void AsJoin_40F250(FP xpos, FP ypos);
 

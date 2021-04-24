@@ -43,7 +43,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     field_4_typeId = AETypes::eGrinder_30;
 
 	const AnimRecord& rec = AnimRec(AnimId::Bone_Saw_Vertical_Off);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -280,12 +280,12 @@ void Grinder::VStopAudio()
     vStopAudio_4215C0();
 }
 
-s32 Grinder::VGetSaveState(BYTE* pSaveBuffer)
+s32 Grinder::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4217B0(pSaveBuffer);
 }
 
-s32 CC Grinder::CreateFromSaveState_421600(const BYTE* pData)
+s32 CC Grinder::CreateFromSaveState_421600(const u8* pData)
 {
     const Grinder_State* pState = reinterpret_cast<const Grinder_State*>(pData);
 
@@ -608,7 +608,7 @@ void Grinder::vStopAudio_4215C0()
     }
 }
 
-s32 Grinder::vGetSaveState_4217B0(BYTE* pSaveBuffer)
+s32 Grinder::vGetSaveState_4217B0(u8* pSaveBuffer)
 {
     Grinder_State* pState = reinterpret_cast<Grinder_State*>(pSaveBuffer);
     pState->field_0 = 30;

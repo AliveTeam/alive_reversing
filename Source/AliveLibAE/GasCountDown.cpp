@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "DeathGas.hpp"
 
-const BYTE byte_5513D4[40] =
+const u8 byte_5513D4[40] =
 {
     0u,
     0u,

@@ -82,7 +82,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
 
     field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pTlv);
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kLiftResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kLiftResID);
     if (pTlv->field_18_scale != Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
@@ -125,7 +125,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
 
-    BYTE** ppPulleyAnim = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
+    u8** ppPulleyAnim = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
     const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<s32>(gMap_5C3030.field_0_current_level)];
     if (field_13C_lift_wheel.Init_40A030(
         rLiftWheelData.field_C_lift_wheel_frame_table_offset,
@@ -149,7 +149,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
             field_13C_lift_wheel.field_14_scale = field_CC_sprite_scale;
         }
 
-        BYTE** ppAbeLiftRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, TRUE, FALSE);
+        u8** ppAbeLiftRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, TRUE, FALSE);
 
         field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -164,9 +164,9 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
 
         field_274_ppRes = ppAbeLiftRes;
 
-        field_13C_lift_wheel.field_9_g = static_cast<BYTE>(field_D2_g);
-        field_13C_lift_wheel.field_8_r = static_cast<BYTE>(field_D4_b);
-        field_13C_lift_wheel.field_A_b = static_cast<BYTE>(field_D0_r);
+        field_13C_lift_wheel.field_9_g = static_cast<u8>(field_D2_g);
+        field_13C_lift_wheel.field_8_r = static_cast<u8>(field_D4_b);
+        field_13C_lift_wheel.field_A_b = static_cast<u8>(field_D0_r);
         field_13C_lift_wheel.field_B_render_mode = TPageAbr::eBlend_0;
 
         field_C4_velx = FP_FromInteger(0);
@@ -266,7 +266,7 @@ void LiftPoint::VScreenChanged()
     vScreenChanged_463020();
 }
 
-s32 LiftPoint::VGetSaveState(BYTE* pSaveBuffer)
+s32 LiftPoint::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4637D0(reinterpret_cast<LiftPoint_State*>(pSaveBuffer));
 }
@@ -283,7 +283,7 @@ static void LoadLiftResourceBans(const char* pRopeBanName, const char* pLiftBanN
     }
 }
 
-s32 CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
+s32 CC LiftPoint::CreateFromSaveState_4630F0(const u8* pData)
 {
     const LiftPoint_State* pState = reinterpret_cast<const LiftPoint_State*>(pData);
 
@@ -469,9 +469,9 @@ void LiftPoint::vRender_462730(PrimHeader** ppOt)
                 &g,
                 &b);
 
-            field_13C_lift_wheel.field_8_r = static_cast<BYTE>(r);
-            field_13C_lift_wheel.field_9_g = static_cast<BYTE>(g);
-            field_13C_lift_wheel.field_A_b = static_cast<BYTE>(b);
+            field_13C_lift_wheel.field_8_r = static_cast<u8>(r);
+            field_13C_lift_wheel.field_9_g = static_cast<u8>(g);
+            field_13C_lift_wheel.field_A_b = static_cast<u8>(b);
 
             if (gMap_5C3030.field_0_current_level != LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
             {
@@ -513,9 +513,9 @@ void LiftPoint::vRender_462730(PrimHeader** ppOt)
                         &g,
                         &b);
 
-                    field_1D4_pulley_anim.field_8_r = static_cast<BYTE>(r);
-                    field_1D4_pulley_anim.field_9_g = static_cast<BYTE>(g);
-                    field_1D4_pulley_anim.field_A_b = static_cast<BYTE>(b);
+                    field_1D4_pulley_anim.field_8_r = static_cast<u8>(r);
+                    field_1D4_pulley_anim.field_9_g = static_cast<u8>(g);
+                    field_1D4_pulley_anim.field_A_b = static_cast<u8>(b);
 
                     field_1D4_pulley_anim.vRender_40B820(
                         FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
@@ -644,7 +644,7 @@ void LiftPoint::vUpdate_461AE0()
                     field_280_flags.Set(LiftFlags::eBit8_bIgnoreLiftMover);
                 }
 
-                if (pLiftTlv->field_1_tlv_state != static_cast<BYTE>(pLiftTlv->field_12_bStart_point))
+                if (pLiftTlv->field_1_tlv_state != static_cast<u8>(pLiftTlv->field_12_bStart_point))
                 {
                     field_280_flags.Set(LiftFlags::eBit6);
                 }
@@ -988,7 +988,7 @@ void LiftPoint::CreatePulleyIfExists_462C80()
     field_26C_pulley_xpos = FP_GetExponent(((kM10_scaled + k13_scaled) / FP_FromInteger(2)) + FP_NoFractional(field_B8_xpos));
     field_26E_pulley_ypos = pFound->field_8_top_left.field_2_y;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
     const LiftPointData& data = sLiftPointData_545AC8[static_cast<s32>(gMap_5C3030.field_0_current_level)];
     field_1D4_pulley_anim.Init_40A030(
         data.field_10_pulley_frame_table_offset,
@@ -1010,9 +1010,9 @@ void LiftPoint::CreatePulleyIfExists_462C80()
     field_1D4_pulley_anim.field_C_render_layer = field_20_animation.field_C_render_layer;
     field_1D4_pulley_anim.field_14_scale = field_CC_sprite_scale;
 
-    field_1D4_pulley_anim.field_8_r = static_cast<BYTE>(field_D0_r);
-    field_1D4_pulley_anim.field_9_g = static_cast<BYTE>(field_D2_g);
-    field_1D4_pulley_anim.field_A_b = static_cast<BYTE>(field_D4_b);
+    field_1D4_pulley_anim.field_8_r = static_cast<u8>(field_D0_r);
+    field_1D4_pulley_anim.field_9_g = static_cast<u8>(field_D2_g);
+    field_1D4_pulley_anim.field_A_b = static_cast<u8>(field_D4_b);
 
     field_1D4_pulley_anim.field_B_render_mode = TPageAbr::eBlend_0;
 

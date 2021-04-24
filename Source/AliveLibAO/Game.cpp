@@ -334,7 +334,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
 
 EXPORT void CC Game_Init_LoadingIcon_445E30()
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1, 0);
     if (!ppRes)
     {
         ResourceManager::LoadResourceFile_455270("LOADING.BAN", nullptr);
@@ -345,7 +345,7 @@ EXPORT void CC Game_Init_LoadingIcon_445E30()
 
 EXPORT void CC Game_Free_LoadingIcon_445E80()
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 0, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_455550(ppRes);

@@ -364,7 +364,7 @@ ALIVE_ASSERT_SIZEOF(Path_ContinuePoint, 0x24);
 
 struct AbeResources
 {
-    BYTE **res[65];
+    u8 **res[65];
 };
 
 struct Path_Stone_camera
@@ -472,7 +472,7 @@ public:
 
     EXPORT void ToKnockback_422D90(s16 bUnknownSound, s16 bDelayedAnger);
 
-    EXPORT BYTE** StateToAnimResource_4204F0(short motion);
+    EXPORT u8** StateToAnimResource_4204F0(short motion);
 
     EXPORT void ToIdle_422D50();
 

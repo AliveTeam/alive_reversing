@@ -28,13 +28,13 @@ public:
     virtual s32 MidiTableSize() = 0;
 
     // Res manager wrapper
-    virtual s16 FreeResource_Impl(BYTE* handle) = 0;
-    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) = 0;
-    virtual s16 FreeResource(BYTE** handle) = 0;
-    virtual BYTE** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) = 0;
+    virtual s16 FreeResource_Impl(u8* handle) = 0;
+    virtual u8** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) = 0;
+    virtual s16 FreeResource(u8** handle) = 0;
+    virtual u8** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) = 0;
     virtual void LoadingLoop(s16 bShowLoadingIcon) = 0;
     virtual void Reclaim_Memory(u32 size) = 0;
-    virtual BYTE** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) = 0;
+    virtual u8** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) = 0;
     virtual s16 LoadResourceFile(const char* pFileName, Camera* pCamera) = 0;
 };
 
@@ -43,7 +43,7 @@ EXPORT void SetMidiApiVars(IMidiVars* pVars);
 
 using TReclaimMemoryFn = void(CC*)(u32);
 using TLoadResourceFileFn = s16(CC*)(const char*, Camera*);
-using TGetLoadedResourceFn = BYTE * *(CC*)(DWORD, DWORD, u16, u16);
+using TGetLoadedResourceFn = u8 * *(CC*)(DWORD, DWORD, u16, u16);
 using TSNDRestart = void(CC*)();
 using TSNDStopAll = void(CC*)();
 

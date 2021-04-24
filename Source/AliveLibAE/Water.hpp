@@ -56,7 +56,7 @@ private:
     EXPORT void vUpdate_4E0B50();
     EXPORT void vRender_4E1440(PrimHeader** ppOt);
 private:
-    BYTE** field_F4_ppWaterRes;
+    u8** field_F4_ppWaterRes;
     Water_Res* field_F8_pWaterRes;
 
     enum class WaterState : s16

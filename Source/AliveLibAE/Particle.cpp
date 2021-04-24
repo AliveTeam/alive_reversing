@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "BaseAliveGameObject.hpp"
 
-EXPORT Particle* Particle::ctor_4CC4C0(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, BYTE** ppAnimData)
+EXPORT Particle* Particle::ctor_4CC4C0(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -67,7 +67,7 @@ BaseGameObject* Particle::VDestructor(s32 flags)
 
 EXPORT Particle* CC New_DestroyOrCreateObject_Particle_426F40(FP xpos, FP ypos, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, FALSE, FALSE);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, FALSE, FALSE);
     auto pParticle = ae_new<Particle>();
 
     if (!pParticle)
@@ -93,9 +93,9 @@ EXPORT Particle* CC New_DestroyOrCreateObject_Particle_426F40(FP xpos, FP ypos, 
     return pParticle;
 }
 
-EXPORT Particle* CC New_Orb_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, BYTE r, BYTE b, BYTE g)
+EXPORT Particle* CC New_Orb_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, u8 r, u8 b, u8 g)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
     auto pParticle = ae_new<Particle>();
     if (!pParticle)
     {
@@ -141,14 +141,14 @@ EXPORT Particle* CC New_TintChant_Particle_426BE0(FP xpos, FP ypos, FP scale, La
 }
 
 // Fart/dust cloud particle spawner
-EXPORT void CC New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, s16 count, BYTE r, BYTE g, BYTE b)
+EXPORT void CC New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b)
 {
     FP velYCounter = {};
     for (s32 i=0; i < count; i++)
     {
         FP randX = (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
-        BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 0, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 0, 0);
         auto pParticle = ae_new<Particle>();
         if (pParticle)
         {
@@ -200,7 +200,7 @@ Particle* CC New_TintShiny_Particle_426C30(FP xpos, FP ypos, FP scale, Layer lay
 
 void CC New_ShootingZFire_Particle_4269B0(FP xpos, FP ypos, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 0, 0);
 
     auto pParticle = ae_new<Particle>();
     if (pParticle)
@@ -225,7 +225,7 @@ void CC New_ShootingZFire_Particle_4269B0(FP xpos, FP ypos, FP scale)
 
 void CC New_ShootingFire_Particle_426890(FP xpos, FP ypos, char direction, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 0, 0);
     auto pParticle = ae_new<Particle>();
     if (pParticle)
     {

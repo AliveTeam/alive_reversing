@@ -39,14 +39,14 @@ void BaseGameObject::VStopAudio()
     // Empty 0x4DC0F0
 }
 
-s32 BaseGameObject::VGetSaveState(BYTE* /*pSaveBuffer*/)
+s32 BaseGameObject::VGetSaveState(u8* /*pSaveBuffer*/)
 {
     return 0;
 }
 
-BYTE** BaseGameObject::Add_Resource_4DC130(DWORD type, s32 resourceID)
+u8** BaseGameObject::Add_Resource_4DC130(DWORD type, s32 resourceID)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(type, resourceID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(type, resourceID, 1, 0);
     if (ppRes)
     {
         field_10_resources_array.Push_Back_40CAF0(ppRes);

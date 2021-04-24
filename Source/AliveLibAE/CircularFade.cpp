@@ -55,12 +55,12 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 directio
 
     vFadeIn_4CE300(direction, destroyOnDone);
 
-    const BYTE fade_rgb = static_cast<BYTE>((field_1B8_fade_colour * 60) / 100);
+    const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
     field_D4_b = fade_rgb;
     field_D2_g = fade_rgb;
     field_D0_r = fade_rgb;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID);
     Animation_Init_424E10(1536, 57, 32, ppRes, 1, 1u);
 
     field_DC_bApplyShadows &= ~1u;
@@ -84,7 +84,7 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 directio
 
 void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
 {
-    const BYTE fade_rgb = static_cast<BYTE>((field_1B8_fade_colour * 60) / 100);
+    const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
 
     field_D4_b = fade_rgb;
     field_D2_g = fade_rgb;
@@ -133,7 +133,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
         frameRect.h = 240;
     }
 
-    const BYTE fadeColour = static_cast<BYTE>(field_1B8_fade_colour);
+    const u8 fadeColour = static_cast<u8>(field_1B8_fade_colour);
 
     Prim_Tile* pTile1 = &field_F8[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile1);

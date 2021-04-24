@@ -251,7 +251,7 @@ void Slog::VOnThrowableHit(BaseGameObject* pFrom)
     vOnThrowableHit_4C4B50(pFrom);
 }
 
-s32 Slog::VGetSaveState(BYTE* pSaveBuffer)
+s32 Slog::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4C78F0(reinterpret_cast<Slog_State*>(pSaveBuffer));
 }
@@ -285,9 +285,9 @@ const AnimId sSlogFrameOffsetTable_5609D8[24] =
     AnimId::Slog_Idle_B
 };
 
-ALIVE_VAR(1, 0xBAF7F0, BYTE, sSlogRandomIdx_BAF7F0, 0);
+ALIVE_VAR(1, 0xBAF7F0, u8, sSlogRandomIdx_BAF7F0, 0);
 
-s32 CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
+s32 CC Slog::CreateFromSaveState_4C54F0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slog_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slog*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_40_tlvInfo));
@@ -333,7 +333,7 @@ s32 CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
     pSlog->field_D4_b = pState->field_24_b;
 
     pSlog->field_106_current_motion = pState->field_28_current_motion;
-    BYTE** ppRes = pSlog->ResBlockForMotion_4C4A80(pState->field_28_current_motion);
+    u8** ppRes = pSlog->ResBlockForMotion_4C4A80(pState->field_28_current_motion);
 	const AnimRecord& animRec = AnimRec(sSlogFrameOffsetTable_5609D8[pSlog->field_106_current_motion]);
     pSlog->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 
@@ -638,7 +638,7 @@ void Slog::M_Walk_1_4C60C0()
     }
 }
 
-static BYTE Slog_NextRandom()
+static u8 Slog_NextRandom()
 {
     return sRandomBytes_546744[sSlogRandomIdx_BAF7F0++];
 }
@@ -1259,7 +1259,7 @@ void Slog::M_Eating_20_4C75F0()
 
     if (field_20_animation.field_92_current_frame == 3 && !field_20_animation.field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
     {
-        SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
+        SFX_Play_46FA90(static_cast<u8>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
         auto pBlood = ae_new<Blood>();
         if (pBlood)
         {
@@ -2787,7 +2787,7 @@ s16 Slog::AI_Death_3_4C3250()
     return 100;
 }
 
-BYTE** Slog::ResBlockForMotion_4C4A80(s16 motion)
+u8** Slog::ResBlockForMotion_4C4A80(s16 motion)
 {
     if (motion < eSlogMotions::M_AngryBark_14_4C6CF0)
     {
@@ -2828,7 +2828,7 @@ BYTE** Slog::ResBlockForMotion_4C4A80(s16 motion)
 void Slog::SetAnimFrame_4C42A0()
 {
 	const AnimRecord& animRec = AnimRec(sSlogFrameOffsetTable_5609D8[field_106_current_motion]);
-	BYTE** ppRes = ResBlockForMotion_4C4A80(field_106_current_motion);
+	u8** ppRes = ResBlockForMotion_4C4A80(field_106_current_motion);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
 

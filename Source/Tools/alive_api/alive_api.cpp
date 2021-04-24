@@ -27,7 +27,7 @@ namespace AliveAPI
         std::string mPathBndName;
         Error mResult = Error::None;
         std::vector<s32> mPaths;
-        std::vector<BYTE> mFileData;
+        std::vector<u8> mFileData;
         PathInfo mPathInfo;
     };
 
@@ -167,7 +167,7 @@ namespace AliveAPI
             if (pathRoot.BndName())
             {
                 // Try to open the BND
-                std::optional<std::vector<BYTE>> pRec = lvl.ReadFile(pathRoot.BndName());
+                std::optional<std::vector<u8>> pRec = lvl.ReadFile(pathRoot.BndName());
                 if (pRec)
                 {
                     ret.mPathBndName = pathRoot.BndName();
@@ -397,7 +397,7 @@ namespace AliveAPI
             abort();
         }
 
-        std::optional<std::vector<BYTE>> oldPathBnd = inputLvl.ReadFile(doc.mRootInfo.mPathBnd.c_str());
+        std::optional<std::vector<u8>> oldPathBnd = inputLvl.ReadFile(doc.mRootInfo.mPathBnd.c_str());
         if (!oldPathBnd)
         {
             abort();
@@ -448,7 +448,7 @@ namespace AliveAPI
                 {
                     if (pItem->mName.empty())
                     {
-                        const static BYTE blank[8] = {};
+                        const static u8 blank[8] = {};
                         s.Write(blank);
                     }
                     else if (pItem->mName.length() == 8)
@@ -462,7 +462,7 @@ namespace AliveAPI
                 }
                 else
                 {
-                    const static BYTE blank[8] = {};
+                    const static u8 blank[8] = {};
                     s.Write(blank);
                 }
             }

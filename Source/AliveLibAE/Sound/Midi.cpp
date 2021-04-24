@@ -88,22 +88,22 @@ public:
         return kSeqTableSizeAE;
     }
 
-    virtual s16 FreeResource_Impl(BYTE* handle) override
+    virtual s16 FreeResource_Impl(u8* handle) override
     {
         return ResourceManager::FreeResource_Impl_49C360(handle);
     }
 
-    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) override
+    virtual u8** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) override
     {
         return ResourceManager::GetLoadedResource_49C2A0(type, resourceID, addUseCount, bLock);
     }
 
-    virtual s16 FreeResource(BYTE** handle) override
+    virtual s16 FreeResource(u8** handle) override
     {
         return ResourceManager::FreeResource_49C330(handle);
     }
 
-    virtual BYTE** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) override
+    virtual u8** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) override
     {
         return ResourceManager::Allocate_New_Locked_Resource_49BF40(type, id, size);
     }
@@ -118,7 +118,7 @@ public:
         ResourceManager::Reclaim_Memory_49C470(size);
     }
 
-    virtual BYTE** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) override
+    virtual u8** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) override
     {
         return ResourceManager::Alloc_New_Resource_49BED0(type, id, size);
     }
@@ -163,7 +163,7 @@ EXPORT void CC SND_Free_All_Seqs_4C9F40()
     {
         if (GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data)
         {
-            BYTE** ppRes = GetMidiVars()->GetLoadedResource(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 0, 0);
+            u8** ppRes = GetMidiVars()->GetLoadedResource(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 0, 0);
             GetMidiVars()->FreeResource(ppRes);
             GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = nullptr;
         }
@@ -200,7 +200,7 @@ EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
     }
 
     // Load the VH file data
-    BYTE** ppVabHeader = GetMidiVars()->Allocate_New_Locked_Resource(ResourceManager::Resource_VabHeader, vabId, headerSize);
+    u8** ppVabHeader = GetMidiVars()->Allocate_New_Locked_Resource(ResourceManager::Resource_VabHeader, vabId, headerSize);
     pSoundBlockInfo->field_C_pVabHeader = *ppVabHeader;
     sLvlArchive_5BC520.Read_File_4330A0(pVabHeaderFile, *ppVabHeader);
     GetMidiVars()->LoadingLoop(0);
@@ -224,7 +224,7 @@ EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
     }
 
     // Load the VB file data
-    BYTE** ppVabBody = GetMidiVars()->Alloc_New_Resource(ResourceManager::Resource_VabBody, vabId, vabBodySize);
+    u8** ppVabBody = GetMidiVars()->Alloc_New_Resource(ResourceManager::Resource_VabBody, vabId, vabBodySize);
     if (!ppVabBody)
     {
         // Maybe filed due to OOM cause its huge, free the abe resources and try again
@@ -783,7 +783,7 @@ EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileN
         // Get a pointer to each SEQ
         for (s32 i = 0; i < GetMidiVars()->MidiTableSize(); i++)
         {
-            BYTE** ppSeq = GetMidiVars()->GetLoadedResource(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 1, 1);
+            u8** ppSeq = GetMidiVars()->GetLoadedResource(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 1, 1);
             if (ppSeq)
             {
                 GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = *ppSeq;

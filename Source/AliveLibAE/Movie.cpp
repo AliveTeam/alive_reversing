@@ -67,7 +67,7 @@ EXPORT s32 CC Masher_ReadNextFrame_4EAC20(Masher* pMasher)
 
 EXPORT void CC Masher_MMX_Decode_4EAC40(Masher* pMasher, void* pSurface)
 {
-    pMasher->MMX_Decode_4E6C60((BYTE*)pSurface);
+    pMasher->MMX_Decode_4E6C60((u8*)pSurface);
 }
 
 ALIVE_VAR(1, 0x5CA234, bool, bHasAudio_5CA234, false);
@@ -387,7 +387,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
             if (!bNoAudio_5CA1F4)
             {
-                void* pDecompressedAudioFrame = (BYTE *)Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
+                void* pDecompressedAudioFrame = (u8 *)Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
                 if (pDecompressedAudioFrame)
                 {
                     if (GetSoundAPI().SND_LoadSamples(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, (u8*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
@@ -555,7 +555,7 @@ EXPORT char CC DDV_Play_493210(const char* pDDVName)
 ALIVE_VAR(1, 0x563a88, short, sMovie_Kill_SEQs_563A88, 1);
 ALIVE_VAR(1, 0xbb4ab2, short, word_BB4AB2, 0);
 ALIVE_VAR(1, 0xbb4ae4, s32, sMovie_ref_count_BB4AE4, 0);
-ALIVE_VAR(1, 0x5ca4c4, BYTE, sMovieNameIdx_5CA4C4, 0);
+ALIVE_VAR(1, 0x5ca4c4, u8, sMovieNameIdx_5CA4C4, 0);
 
 struct MovieName
 {

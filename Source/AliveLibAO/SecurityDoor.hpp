@@ -61,7 +61,7 @@ public:
     s16 field_F0_code_len;
     s16 field_F2_padding;
     s32 field_F4_event_idx;
-    BYTE field_F8_stru[16];
+    u8 field_F8_stru[16];
     s16 field_108_max_idx;
     s16 field_10A_event_idx;
     PSX_Point field_10C_top_left;

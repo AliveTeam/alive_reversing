@@ -34,9 +34,9 @@ public:
         s16 field_0_x;
         s16 field_2_y;
         const char *field_4_strBuf;
-        BYTE field_8_r;
-        BYTE field_9_g;
-        BYTE field_A_b;
+        u8 field_8_r;
+        u8 field_9_g;
+        u8 field_A_b;
         char field_B;
     };
     void DrawEntries(PrimHeader** ppOt, PauseEntry* entries, short compilerhack, s32 polyOffset);

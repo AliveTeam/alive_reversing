@@ -30,8 +30,8 @@ EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
         SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (short)d1);
         SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (short)d1);
 
-        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (BYTE)d1);
-        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (BYTE)d1);
+        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (u8)d1);
+        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (u8)d1);
     }
 
     const s32 d2 = Y3(pPoly) - maxY;
@@ -40,8 +40,8 @@ EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
         SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (short)d2);
         SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (short)d2);
 
-        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (BYTE)d2);
-        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (BYTE)d2);
+        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (u8)d2);
+        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (u8)d2);
     }
 }
 
@@ -74,7 +74,7 @@ Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
         field_E6_rope_length = 7;
     }
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, 1, 0);
     switch (gMap_507BA8.field_0_current_level)
     {
     case LevelIds::eRuptureFarms_1:
@@ -212,9 +212,9 @@ void Rope::VRender_458780(PrimHeader** ppOt)
                             &b
                         );
 
-                        field_E8_pRopeRes[idx].field_8_r = static_cast<BYTE>(r);
-                        field_E8_pRopeRes[idx].field_9_g = static_cast<BYTE>(g);
-                        field_E8_pRopeRes[idx].field_A_b = static_cast<BYTE>(b);
+                        field_E8_pRopeRes[idx].field_8_r = static_cast<u8>(r);
+                        field_E8_pRopeRes[idx].field_9_g = static_cast<u8>(g);
+                        field_E8_pRopeRes[idx].field_A_b = static_cast<u8>(b);
 
                         field_E8_pRopeRes[idx].VRender2(
                             screenX,

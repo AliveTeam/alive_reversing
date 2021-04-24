@@ -227,14 +227,14 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
             );
 
             SetRGB0(pZExplosionLine,
-                static_cast<BYTE>(field_42_r / 2),
-                static_cast<BYTE>(field_44_g / 2),
-                static_cast<BYTE>(field_46_b / 2)
+                static_cast<u8>(field_42_r / 2),
+                static_cast<u8>(field_44_g / 2),
+                static_cast<u8>(field_46_b / 2)
             );
             SetRGB1(pZExplosionLine,
-                static_cast<BYTE>(field_42_r),
-                static_cast<BYTE>(field_44_g),
-                static_cast<BYTE>(field_46_b)
+                static_cast<u8>(field_42_r),
+                static_cast<u8>(field_44_g),
+                static_cast<u8>(field_46_b)
             );
 
             Poly_Set_SemiTrans_4F8A60(&pZExplosionLine->mBase.header, 1);
@@ -279,24 +279,24 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
         );
 
         SetRGB0(pZLine,
-            static_cast<BYTE>(field_42_r * 8 / 10),
-            static_cast<BYTE>(field_44_g * 8 / 10),
-            static_cast<BYTE>(field_46_b * 8 / 10)
+            static_cast<u8>(field_42_r * 8 / 10),
+            static_cast<u8>(field_44_g * 8 / 10),
+            static_cast<u8>(field_46_b * 8 / 10)
         );
         SetRGB1(pZLine,
-            static_cast<BYTE>(field_42_r),
-            static_cast<BYTE>(field_44_g),
-            static_cast<BYTE>(field_46_b)
+            static_cast<u8>(field_42_r),
+            static_cast<u8>(field_44_g),
+            static_cast<u8>(field_46_b)
         );
         SetRGB2(pZLine,
-            static_cast<BYTE>(field_42_r * 7 / 10),
-            static_cast<BYTE>(field_44_g * 7 / 10),
-            static_cast<BYTE>(field_46_b * 7 / 10)
+            static_cast<u8>(field_42_r * 7 / 10),
+            static_cast<u8>(field_44_g * 7 / 10),
+            static_cast<u8>(field_46_b * 7 / 10)
         );
         SetRGB3(pZLine,
-            static_cast<BYTE>(field_42_r / 2),
-            static_cast<BYTE>(field_44_g / 2),
-            static_cast<BYTE>(field_46_b / 2)
+            static_cast<u8>(field_42_r / 2),
+            static_cast<u8>(field_44_g / 2),
+            static_cast<u8>(field_46_b / 2)
         );
 
         Poly_Set_SemiTrans_4F8A60(&pZLine->mBase.header, 1);

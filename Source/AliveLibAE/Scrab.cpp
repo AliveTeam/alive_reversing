@@ -124,7 +124,7 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spa
     field_10_resources_array.SetAt(13, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kArscrshResID, 1, 0));
 
     const AnimRecord& rec = AnimRec(AnimId::Scrab_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_140_motion_resource_block_index = 0;
@@ -309,7 +309,7 @@ const AnimId sScrabFrameTableOffsets_5601C0[40] =
     AnimId::Scrab_Unknown_L
 };
 
-s32 CC Scrab::CreateFromSaveState_4A70A0(const BYTE* pBuffer)
+s32 CC Scrab::CreateFromSaveState_4A70A0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Scrab_State*>(pBuffer);
 
@@ -347,7 +347,7 @@ s32 CC Scrab::CreateFromSaveState_4A70A0(const BYTE* pBuffer)
     pScrab->field_106_current_motion = pState->field_28_current_motion;
 
     const AnimRecord& animRec = AnimRec(sScrabFrameTableOffsets_5601C0[pState->field_28_current_motion]);
-    BYTE** ppRes = pScrab->ResBlockForMotion_4A43E0(pState->field_28_current_motion);
+    u8** ppRes = pScrab->ResBlockForMotion_4A43E0(pState->field_28_current_motion);
     pScrab->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 
     pScrab->field_20_animation.field_92_current_frame = pState->field_2A_current_frame;
@@ -3605,7 +3605,7 @@ void Scrab::vPossesed_4A5620()
     field_16A_camera = gMap_5C3030.field_4_current_camera;
 }
 
-BYTE** Scrab::ResBlockForMotion_4A43E0(s16 motion)
+u8** Scrab::ResBlockForMotion_4A43E0(s16 motion)
 {
     if (motion < eScrabMotions::M_Stamp_21_4A9CC0)
     {

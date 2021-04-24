@@ -48,7 +48,7 @@ BaseGameObject* MeatSaw::dtor_4398F0()
     }
 
     field_110_anim.vCleanUp();
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
     return dtor_417D10();
 }
@@ -61,7 +61,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
 
     SetVTable(&field_110_anim, 0x4BA2B8);
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
     Animation_Init_417FD0(15200, 104, 36, ppRes, 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
@@ -156,7 +156,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
         field_F4 = pTlv->field_1E_max_rise_time + pTlv->field_24_speed - pTlv->field_1E_max_rise_time % pTlv->field_24_speed;
     }
 
-    BYTE** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
+    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
     if (field_110_anim.Init_402D20(
         15252,
         gObjList_animations_505564,
@@ -171,9 +171,9 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
         field_110_anim.field_C_layer = field_10_anim.field_C_layer;
         field_110_anim.field_14_scale = field_BC_sprite_scale;
 
-        field_110_anim.field_8_r = static_cast<BYTE>(field_C0_r);
-        field_110_anim.field_9_g = static_cast<BYTE>(field_C2_g);
-        field_110_anim.field_A_b = static_cast<BYTE>(field_C4_b);
+        field_110_anim.field_8_r = static_cast<u8>(field_C0_r);
+        field_110_anim.field_9_g = static_cast<u8>(field_C2_g);
+        field_110_anim.field_A_b = static_cast<u8>(field_C4_b);
 
         field_110_anim.field_B_render_mode = TPageAbr::eBlend_0;
 

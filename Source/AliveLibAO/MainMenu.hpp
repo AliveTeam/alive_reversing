@@ -199,7 +199,7 @@ public:
     EXPORT static void CC RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset);
 
     s32 field_D4[4];
-    BYTE** field_E4_res_array[6];
+    u8** field_E4_res_array[6];
     AliveFont field_FC_font;
     Animation field_134_anim;
 
@@ -250,7 +250,7 @@ public:
 ALIVE_ASSERT_SIZEOF(Menu, 0x234);
 
 ALIVE_VAR_EXTERN(s32, gMainMenuInstanceCount_9F2DE0);
-ALIVE_VAR_EXTERN(BYTE, sJoyResId_50769C);
+ALIVE_VAR_EXTERN(u8, sJoyResId_50769C);
 
 }
 

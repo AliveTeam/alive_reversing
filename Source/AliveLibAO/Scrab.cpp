@@ -553,7 +553,7 @@ void Scrab::vUpdateAnim_45B330()
         ResBlockForMotion_45BB30(field_FC_current_motion));
 }
 
-BYTE** Scrab::ResBlockForMotion_45BB30(s16 motion)
+u8** Scrab::ResBlockForMotion_45BB30(s16 motion)
 {
     if (motion < eScrabStates::State_16_Stamp_45F920)
     {

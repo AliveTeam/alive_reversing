@@ -74,11 +74,11 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
 
-    EXPORT static s32 CC CreateFromSaveState_4C8DF0(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_4C8DF0(const u8* pData);
 
 private:
     void GoLeft();

@@ -88,22 +88,22 @@ public:
         return kSeqTableSizeAO;
     }
 
-    virtual s16 FreeResource_Impl(BYTE* handle) override
+    virtual s16 FreeResource_Impl(u8* handle) override
     {
         return ResourceManager::FreeResource_Impl_4555B0(handle);
     }
 
-    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) override
+    virtual u8** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) override
     {
         return ResourceManager::GetLoadedResource_4554F0(type, resourceID, addUseCount, bLock);
     }
 
-    virtual s16 FreeResource(BYTE** handle) override
+    virtual s16 FreeResource(u8** handle) override
     {
         return ResourceManager::FreeResource_455550(handle);
     }
 
-    virtual BYTE** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) override
+    virtual u8** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) override
     {
         return ResourceManager::Allocate_New_Locked_Resource_454F80(type, id, size);
     }
@@ -118,7 +118,7 @@ public:
         ResourceManager::Reclaim_Memory_455660(size);
     }
 
-    virtual BYTE** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) override
+    virtual u8** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) override
     {
         return ResourceManager::Alloc_New_Resource_454F20(type, id, size);
     }
@@ -135,8 +135,8 @@ static AOMidiVars sAoMidiVars;
 ALIVE_VAR(1, 0xA8918E, s16, sGlobalVolumeLevel_right_A8918E, 0);
 ALIVE_VAR(1, 0xA8918C, s16, sGlobalVolumeLevel_left_A8918C, 0);
 ALIVE_VAR(1, 0xABF8C0, VabUnknown, s512_byte_ABF8C0, {});
-ALIVE_ARY(1, 0xA9289C, BYTE, kMaxVabs, sVagCounts_A9289C, {});
-ALIVE_ARY(1, 0xA92898, BYTE, kMaxVabs, sProgCounts_A92898, {});
+ALIVE_ARY(1, 0xA9289C, u8, kMaxVabs, sVagCounts_A9289C, {});
+ALIVE_ARY(1, 0xA92898, u8, kMaxVabs, sProgCounts_A92898, {});
 ALIVE_ARY(1, 0xABF8A0, VabHeader*, 4, spVabHeaders_ABF8A0, {});
 ALIVE_VAR(1, 0xA9B8A0, ConvertedVagTable, sConvertedVagTable_A9B8A0, {});
 ALIVE_VAR(1, 0xA928A0, SoundEntryTable, sSoundEntryTable16_A928A0, {});
@@ -146,7 +146,7 @@ ALIVE_VAR(1, 0xA89198, s32, sMidi_Inited_dword_A89198, 0);
 ALIVE_VAR(1, 0xA89194, u32, sMidiTime_A89194, 0);
 ALIVE_VAR(1, 0xA89190, char, sbDisableSeqs_A89190, 0);
 ALIVE_VAR(1, 0x4E8FD8, DWORD, sLastTime_4E8FD8, 0xFFFFFFFF);
-ALIVE_VAR(1, 0xA8919C, BYTE, sControllerValue_A8919C, 0);
+ALIVE_VAR(1, 0xA8919C, u8, sControllerValue_A8919C, 0);
 
 EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx);
 EXPORT void CC SsUtKeyOffV_49EE50(s16 idx);
@@ -169,12 +169,12 @@ public:
         return s512_byte_ABF8C0;
     }
 
-    virtual BYTE* sVagCounts() override
+    virtual u8* sVagCounts() override
     {
         return sVagCounts_A9289C;
     }
 
-    virtual BYTE* sProgCounts() override
+    virtual u8* sProgCounts() override
     {
         return sProgCounts_A92898;
     }
@@ -245,7 +245,7 @@ public:
         throw std::logic_error("The method or operation is not implemented.");
     }
 
-    virtual BYTE& sControllerValue() override
+    virtual u8& sControllerValue() override
     {
         return sControllerValue_A8919C;
     }
@@ -505,8 +505,8 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
                         auto midi_time = GetSpuApiVars()->sMidiTime();
                         pChannel->field_18_rightVol = playFlags;
                         pChannel->field_14_time = midi_time;
-                        pChannel->field_1C_adsr.field_0_seq_idx = (BYTE)vabId;
-                        pChannel->field_1C_adsr.field_1_program = (BYTE)program;
+                        pChannel->field_1C_adsr.field_0_seq_idx = (u8)vabId;
+                        pChannel->field_1C_adsr.field_1_program = (u8)program;
                         auto v29 = pVagOff->field_A_shift_cen;
                         pChannel->field_1C_adsr.field_2_note_byte1 = BYTE1(note) & 0x7F;
                         auto freq = pow(1.059463094359, (double)(note - v29) * 0.00390625);
@@ -593,28 +593,28 @@ enum MidiEvent
 EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
 {
     MIDI_SeqSong* pCtx = &GetSpuApiVars()->sMidiSeqSongs(idx);
-    BYTE** ppSeqData = &pCtx->field_0_seq_data;
+    u8** ppSeqData = &pCtx->field_0_seq_data;
     if (pCtx->field_4_time <= GetSpuApiVars()->sMidiTime())
     {
         while (1)
         {
-            const BYTE curMidiByte = MIDI_ReadByte_4FD6B0(pCtx);
+            const u8 curMidiByte = MIDI_ReadByte_4FD6B0(pCtx);
 
             struct MidiData
             {
-                BYTE status;
-                BYTE param1;
-                BYTE param2;
+                u8 status;
+                u8 param1;
+                u8 param2;
 
-                const BYTE EventType() const { return status & 0xF0; }
-                const BYTE Channel() const { return status & 0x0F; }
+                const u8 EventType() const { return status & 0xF0; }
+                const u8 Channel() const { return status & 0x0F; }
             };
             MidiData data = {};
 
-            BYTE statusByte = curMidiByte;
+            u8 statusByte = curMidiByte;
             if (curMidiByte < MidiEvent::OtherCommands_F0)
             {
-                BYTE param1 = 0;
+                u8 param1 = 0;
                 if (curMidiByte >= MidiEvent::NoteOff_80)
                 {
                     param1 = MIDI_ReadByte_4FD6B0(pCtx);
@@ -642,7 +642,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
                 case MidiEvent::NoteOff_80:
                 {
                     // Cant see how the ADSR compare would ever be true, the logic makes no sense
-                    const BYTE program = pCtx->field_32_progVols[data.Channel()].field_0_program;
+                    const u8 program = pCtx->field_32_progVols[data.Channel()].field_0_program;
                     const s32 programShifted = ((s32)program >> 8);
                     const s32 vab_id = (pCtx->field_seq_idx << 8) | (programShifted & 0x1F);
                     if (GetSpuApiVars()->sVagCounts()[vab_id])
@@ -688,7 +688,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
                         switch (GetSpuApiVars()->sControllerValue())
                         {
                         case 20:    // set loop
-                            pCtx->field_24_loop_start = (BYTE*)ppSeqData; // ???
+                            pCtx->field_24_loop_start = (u8*)ppSeqData; // ???
                             pCtx->field_2C_loop_count = data.param2;
                             break;
 
@@ -767,7 +767,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
             }
             else if (curMidiByte == 0xFF)  // Sysex len
             {
-                BYTE metaEvent =  MIDI_ReadByte_4FD6B0(pCtx);
+                u8 metaEvent =  MIDI_ReadByte_4FD6B0(pCtx);
                 if (metaEvent == 0x2F)               // End of track
                 {
                     if (pCtx->field_18_repeatCount)
@@ -875,7 +875,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
                 v10 = IterateVBRecords(pVabBody, i);
             }
 
-            const BYTE unused_field = v10->field_4_unused >= 0 ? 0 : 4;
+            const u8 unused_field = v10->field_4_unused >= 0 ? 0 : 4;
             for (s32 prog = 0; prog < 128; prog++)
             {
                 for (s32 tone = 0; tone < 16; tone++)
@@ -938,7 +938,7 @@ EXPORT s16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
 
     s32 headerSize = pVabHeaderFile->field_10_num_sectors << 11;
 
-    BYTE** ppVabHeader = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_VabHeader, vabId, headerSize);
+    u8** ppVabHeader = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_VabHeader, vabId, headerSize);
 
     pSoundBlockInfo->field_C_pVabHeader = *ppVabHeader;
     sLvlArchive_4FFD60.Read_File_41BE40(pVabHeaderFile, *ppVabHeader);
@@ -954,7 +954,7 @@ EXPORT s16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
     s32 vabBodySize = pVabBodyFile->field_10_num_sectors << 11;
 
     // Load the VB file data
-    BYTE** ppVabBody = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VabBody, vabId, vabBodySize);
+    u8** ppVabBody = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VabBody, vabId, vabBodySize);
     if (!ppVabBody)
     {
         // Maybe filed due to OOM cause its huge, free the abe resources and try again

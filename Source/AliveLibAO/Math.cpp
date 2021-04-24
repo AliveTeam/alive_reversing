@@ -27,9 +27,9 @@ ALIVE_ARY(1, 0x4BBE30, u8, 256, sRandomBytes_4BBE30,
     0xC8, 0xA4, 0x02, 0x2E, 0xD4, 0x3B, 0x6F, 0x5C, 0x87, 0x0A, 0x92, 0x0D, 0x4D, 0x16, 0x44, 0x90,
 });
 
-ALIVE_VAR(1, 0x50A228, BYTE, sRandomSeed_50A228, 0);
+ALIVE_VAR(1, 0x50A228, u8, sRandomSeed_50A228, 0);
 
-BYTE Math_NextRandom()
+u8 Math_NextRandom()
 {
     if (!RunningAsInjectedDll())
     {
@@ -44,13 +44,13 @@ short CC Math_RandomRange_450F20(signed short min, signed short max)
     return Math_RandomRange_496AB0(min, max);
 }
 
-FP CC Math_Sine_451110(BYTE v)
+FP CC Math_Sine_451110(u8 v)
 {
     AE_IMPLEMENTED();
     return Math_Sine_496DD0(v);
 }
 
-FP CC Math_Cosine_4510A0(BYTE v)
+FP CC Math_Cosine_4510A0(u8 v)
 {
     AE_IMPLEMENTED();
     return Math_Cosine_496CD0(v);

@@ -817,7 +817,7 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_128.field_10_resource_index = 1;
 
     const AnimRecord& rec = AnimRec(AnimId::Mudokon_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_1C_fn_ptr_array = kAbe_Anim_Frame_Fns_55EF98;
@@ -1052,7 +1052,7 @@ enum ResourceIndices
     eGas_21 = 21,
 };
 
-s32 CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
+s32 CC Abe::CreateFromSaveState_44D4F0(const u8* pData)
 {
     const Abe_SaveState* pSaveState = reinterpret_cast<const Abe_SaveState*>(pData);
 
@@ -1088,7 +1088,7 @@ s32 CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_106_current_motion = pSaveState->current_motion;
 
     const AnimRecord& animRec = AnimRec(sAbeFrameTables[sActiveHero_5C1B68->field_106_current_motion]);
-    BYTE** animFromState = sActiveHero_5C1B68->StateToAnimResource_44AAB0(sActiveHero_5C1B68->field_106_current_motion);
+    u8** animFromState = sActiveHero_5C1B68->StateToAnimResource_44AAB0(sActiveHero_5C1B68->field_106_current_motion);
     if (!animFromState)
     {
         DWORD id = sAbeResourceIDTable_554D60[sActiveHero_5C1B68->field_128.field_10_resource_index];
@@ -1285,7 +1285,7 @@ void Abe::VScreenChanged()
     vScreenChanged_44D240();
 }
 
-s32 Abe::VGetSaveState(BYTE* pSaveBuffer)
+s32 Abe::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_457110(pSaveBuffer);
 }
@@ -1745,7 +1745,7 @@ void Abe::Update_449DC0()
             field_1AE_flags.Clear(Flags_1AE::e1AE_Bit2_do_quicksave);
             sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_save_num = field_1B0_save_num;
             Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
-            vGetSaveState_457110(reinterpret_cast<BYTE*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
+            vGetSaveState_457110(reinterpret_cast<u8*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
             sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states = sSwitchStates_5C1A28;
             Quicksave_4C90D0();
         }
@@ -1942,7 +1942,7 @@ void Abe::vScreenChanged_44D240()
     }
 }
 
-s32 Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
+s32 Abe::vGetSaveState_457110(u8* pSaveBuffer)
 {
     Abe_SaveState* pSaveState = reinterpret_cast<Abe_SaveState*>(pSaveBuffer);
 
@@ -2861,7 +2861,7 @@ void Abe::Free_Shrykull_Resources_45AA90()
     field_10_resources_array.SetAt(27, nullptr);
 }
 
-BYTE** Abe::StateToAnimResource_44AAB0(short state)
+u8** Abe::StateToAnimResource_44AAB0(short state)
 {
     short mapped = ResourceIndices::eBasic_0;
     if (state < eAbeStates::State_12_Null_4569C0)
@@ -7034,7 +7034,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 sHandstoneSoundChannels_5C2C68 = 0;
             }
 
-            BYTE** ppResToFree = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, 0, 0);
+            u8** ppResToFree = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, 0, 0);
             ResourceManager::FreeResource_49C330(ppResToFree);
         }
         break;

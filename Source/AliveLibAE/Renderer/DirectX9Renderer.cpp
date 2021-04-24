@@ -73,7 +73,7 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     return true;
 }
 
-void DirectX9Renderer::Clear(BYTE r, BYTE g, BYTE b)
+void DirectX9Renderer::Clear(u8 r, u8 g, u8 b)
 {
     mDevice->Clear(0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(r, g, b), 1.0f, 0);
 }
@@ -119,7 +119,7 @@ bool DirectX9Renderer::PalAlloc(PalRecord& /*record*/)
     return false;
 }
 
-void DirectX9Renderer::PalSetData(const PalRecord& /*record*/, const BYTE* /*pPixels*/)
+void DirectX9Renderer::PalSetData(const PalRecord& /*record*/, const u8* /*pPixels*/)
 {
 
 }
@@ -194,7 +194,7 @@ void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
 }
 
 
-void DirectX9Renderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, const BYTE* /*pPixels*/)
+void DirectX9Renderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, const u8* /*pPixels*/)
 {
 
 }

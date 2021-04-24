@@ -25,7 +25,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x5080E0, PauseMenu*, pPauseMenu_5080E0, nullptr);
 
-const BYTE byte_4C5EE8[32] =
+const u8 byte_4C5EE8[32] =
 {
     0u,
     0u,
@@ -717,9 +717,9 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, short selected
             1,
             0,
             Layer::eLayer_41,
-            static_cast<BYTE>(colourOffset + entry[entryId].field_8_r),
-            static_cast<BYTE>(colourOffset + entry[entryId].field_9_g),
-            static_cast<BYTE>(colourOffset + entry[entryId].field_A_b),
+            static_cast<u8>(colourOffset + entry[entryId].field_8_r),
+            static_cast<u8>(colourOffset + entry[entryId].field_9_g),
+            static_cast<u8>(colourOffset + entry[entryId].field_A_b),
             polyOffset,
             FP_FromInteger(1),
             640,
@@ -730,7 +730,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, short selected
     PolyF4_Init(pPrim);
     Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, 1);
     Poly_Set_Blending_498A00(&pPrim->mBase.header, 0);
-    BYTE color = 0x64;
+    u8 color = 0x64;
     if (field_126_page != PauseMenuPages::ePause_0)
     {
         color = 160;

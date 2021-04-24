@@ -9,14 +9,14 @@ namespace AO {
 struct PlaybackData
 {
     SaveData saveData;
-    BYTE randomSeed;
+    u8 randomSeed;
     //TODO probably more variables after
 };
 
 class DemoPlayback : public BaseGameObject
 {
 public:
-    EXPORT DemoPlayback* ctor_4517B0(BYTE**, s16 a3);
+    EXPORT DemoPlayback* ctor_4517B0(u8**, s16 a3);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -39,8 +39,8 @@ public:
         eState_2_Done = 2,
     };
     States field_10_state;
-    BYTE** field_14_ppDemoRes;
-    BYTE** field_18_ppRes;
+    u8** field_14_ppDemoRes;
+    u8** field_18_ppRes;
     s16 field_1C;
     s16 field_1E;
     s32 field_20;

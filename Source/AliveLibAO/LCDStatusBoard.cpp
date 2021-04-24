@@ -9,7 +9,7 @@
 
 namespace AO {
 
-const BYTE sStatsSignFontPalette_4CD570[32] =
+const u8 sStatsSignFontPalette_4CD570[32] =
 {
     0u,
     0u,

@@ -45,8 +45,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 struct BirdPortal_State
 {
     AETypes field_0_type;
-    BYTE field_2_state;
-    BYTE field_3_mud_count;
+    u8 field_2_state;
+    u8 field_3_mud_count;
     s32 field_4_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
@@ -75,7 +75,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     // New virtuals
 
@@ -90,7 +90,7 @@ public:
     virtual void VKillPortalClipper_499A20();
     virtual void VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
 
-    EXPORT static s32 CC CreateFromSaveState_499C90(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_499C90(const u8* pBuffer);
 
 
 private:
@@ -98,7 +98,7 @@ private:
     EXPORT void vUpdate_498280();
     EXPORT void vScreenChanged_499B50();
     EXPORT void vStopAudio_499260();
-    EXPORT s32 vGetSaveState_499F50(BYTE* pState);
+    EXPORT s32 vGetSaveState_499F50(u8* pState);
 
     EXPORT s16 vPortalClipper_499430(s16 bUnknown);
     EXPORT void vKillPortalClipper_499610();

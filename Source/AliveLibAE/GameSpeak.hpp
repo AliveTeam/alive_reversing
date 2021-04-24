@@ -89,9 +89,9 @@ public:
 
     EXPORT GameSpeak* ctor_421820();
 
-    EXPORT GameSpeakMatch MatchBuffer_4219E0(BYTE* pBuffer, s16 max_idx, s16 src_idx);
+    EXPORT GameSpeakMatch MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_idx);
 
-    EXPORT static s32 CC FillBuffer_421970(s32 code, BYTE* pBufffer);
+    EXPORT static s32 CC FillBuffer_421970(s32 code, u8* pBufffer);
 
 private:
     EXPORT void dtor_4218A0();

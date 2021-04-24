@@ -253,10 +253,10 @@ void ThrowableTotalIndicator::vUpdate_431EA0()
     {
         case ThrowableTotalIndicatorState::eCreated_0:
         {
-            field_28_cur_xpos = field_20_xpos - (FP_FromInteger(12) * Math_Sine_496DD0(static_cast<BYTE>(2 * sGnFrame_5C1B84)));
-            field_2C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_496CD0(static_cast<BYTE>(2 * sGnFrame_5C1B84))) + field_24_ypos;
+            field_28_cur_xpos = field_20_xpos - (FP_FromInteger(12) * Math_Sine_496DD0(static_cast<u8>(2 * sGnFrame_5C1B84)));
+            field_2C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_496CD0(static_cast<u8>(2 * sGnFrame_5C1B84))) + field_24_ypos;
 
-            const short rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_496DD0(static_cast<BYTE>(3 * sGnFrame_5C1B84))) + 80;
+            const short rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_496DD0(static_cast<u8>(3 * sGnFrame_5C1B84))) + 80;
 
             field_42_r = rgb;
             field_44_g = rgb;

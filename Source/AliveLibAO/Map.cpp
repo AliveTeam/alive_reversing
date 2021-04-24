@@ -105,7 +105,7 @@ struct OpenSeqHandleAO
     s32 field_4_generated_res_id;
     s16 field_8_sound_block_idx;
     s16 field_9_volume;
-    BYTE* field_C_ppSeq_Data;
+    u8* field_C_ppSeq_Data;
     s16 field_A_id_seqOpenId;
     s16 field_12_pad;
 };
@@ -118,7 +118,7 @@ struct OpenSeqHandleAE // Same as ::OpenSeqHandle
     char field_8_sound_block_idx;
     char field_9_volume;
     s16 field_A_id_seqOpenId;
-    BYTE* field_C_ppSeq_Data;
+    u8* field_C_ppSeq_Data;
 };
 ALIVE_ASSERT_SIZEOF(OpenSeqHandleAE, 0x10);
 
@@ -584,7 +584,7 @@ void Map::Handle_PathTransition_444DD0()
         }
 
         const DWORD pCamNameOffset = (sizeof(CameraName) * (field_20_camX_idx + field_22_camY_idx * field_24_max_cams_x));
-        const BYTE* pPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+        const u8* pPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
@@ -874,7 +874,7 @@ Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(s16 cam_x_idx, s16 cam_
         return nullptr;
     }
 
-    BYTE* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    u8* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
     const s32* indexTable = reinterpret_cast<const s32*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
     const s32 indexTableEntry = indexTable[(camX + (camY * field_24_max_cams_x))];
     if (indexTableEntry == -1 || indexTableEntry >= 0x100000)
@@ -887,11 +887,11 @@ Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(s16 cam_x_idx, s16 cam_
     return pTlv;
 }
 
-void Map::SaveBlyData_446900(BYTE* pSaveBuffer)
+void Map::SaveBlyData_446900(u8* pSaveBuffer)
 {
     memcpy(pSaveBuffer, sSwitchStates_505568.mData, sizeof(sSwitchStates_505568.mData));
 
-    BYTE* pAfterSwitchStates = pSaveBuffer + sizeof(sSwitchStates_505568.mData);
+    u8* pAfterSwitchStates = pSaveBuffer + sizeof(sSwitchStates_505568.mData);
     for (short i = 1; i <= gMapData_4CAB58.paths[static_cast<s32>(field_0_current_level)].field_18_num_paths; i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
@@ -910,7 +910,7 @@ void Map::SaveBlyData_446900(BYTE* pSaveBuffer)
                 const s32 tlvOffset = pIndexTable[j];
                 if (tlvOffset != -1 && tlvOffset < 0x100000)
                 {
-                    BYTE* ptr = &(*ppPathRes)[pPathData->field_14_object_offset + tlvOffset];
+                    u8* ptr = &(*ppPathRes)[pPathData->field_14_object_offset + tlvOffset];
                     Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                     pTlv->RangeCheck();
 
@@ -943,10 +943,10 @@ void Map::SaveBlyData_446900(BYTE* pSaveBuffer)
     }
 }
 
-void Map::RestoreBlyData_446A90(const BYTE* pSaveData)
+void Map::RestoreBlyData_446A90(const u8* pSaveData)
 {
     memcpy(sSwitchStates_505568.mData, pSaveData, sizeof(sSwitchStates_505568.mData));
-    const BYTE* pAfterSwitchStates = pSaveData + sizeof(sSwitchStates_505568.mData);
+    const u8* pAfterSwitchStates = pSaveData + sizeof(sSwitchStates_505568.mData);
 
     for (short i = 1; i <= gMapData_4CAB58.paths[static_cast<s32>(field_0_current_level)].field_18_num_paths; i++)
     {
@@ -994,7 +994,7 @@ void Map::RestoreBlyData_446A90(const BYTE* pSaveData)
 
 void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx)
 {
-    BYTE* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    u8* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
     u32* pIndexTableStart = reinterpret_cast<u32*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
 
     const s32 totalCams = field_26_max_cams_y * field_24_max_cams_x;
@@ -1415,7 +1415,7 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
             return nullptr;
         }
 
-        BYTE* ppPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+        u8* ppPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
         const s32* pIndexTable = reinterpret_cast<const s32*>(ppPathRes + pPathData->field_18_object_index_table_offset);
         const s32 indexTableEntry = pIndexTable[camX + (field_24_max_cams_x * camY)];
 
@@ -1593,7 +1593,7 @@ Camera* Map::Create_Camera_445BE0(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     // Get a pointer to the camera name from the Path resource
-    const BYTE* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    const u8* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
     auto pCamName = reinterpret_cast<const CameraName*>(&pPathData[(sizeof(CameraName) * (xpos + field_24_max_cams_x * ypos))]);
 
     // Empty/blank camera in the map array
@@ -1637,7 +1637,7 @@ void Map::Create_FG1s_4447D0()
     Camera* pCamera = field_34_camera_array[0];
     for (s32 i = 0; i < pCamera->field_0_array.Size(); i++)
     {
-        BYTE** ppRes = pCamera->field_0_array.ItemAt(i);
+        u8** ppRes = pCamera->field_0_array.ItemAt(i);
         if (!ppRes)
         {
             break;
@@ -1977,7 +1977,7 @@ void Map::GoTo_Camera_445050()
 void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
 {
     // Get a pointer to the array of index table offsets
-    BYTE* pPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    u8* pPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
     const s32* indexTable = reinterpret_cast<const s32*>(pPathRes + field_D4_pPathData->field_18_object_index_table_offset);
 
     // Calculate the index of the offset we want for the given camera at x/y
@@ -1988,7 +1988,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
         return;
     }
 
-    BYTE* ptr = pPathRes + objectTableIdx + field_D4_pPathData->field_14_object_offset;
+    u8* ptr = pPathRes + objectTableIdx + field_D4_pPathData->field_14_object_offset;
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     pPathTLV->RangeCheck();
 
@@ -2002,8 +2002,8 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
                 {
                     TlvItemInfoUnion data;
                     data.parts.tlvOffset = static_cast<WORD>(objectTableIdx);
-                    data.parts.levelId = static_cast<BYTE>(field_0_current_level);
-                    data.parts.pathId = static_cast<BYTE>(field_2_current_path);
+                    data.parts.levelId = static_cast<u8>(field_0_current_level);
+                    data.parts.pathId = static_cast<u8>(field_2_current_path);
 
                     // Call the factory to construct the item
                     field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<short>(pPathTLV->field_4_type.mType)](pPathTLV, this, data, loadMode);
@@ -2061,13 +2061,13 @@ EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, cha
         if (hiFlags != -1)
         {
             // Seems to be a blob per TLV specific bits
-            pTlv->field_1_unknown = static_cast<BYTE>(hiFlags);
+            pTlv->field_1_unknown = static_cast<u8>(hiFlags);
         }
     }
 }
 
 
-CameraSwapper* CC Map::FMV_Camera_Change_4458D0(BYTE** ppBits, Map* pMap, LevelIds levelId)
+CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds levelId)
 {
     if (pMap->field_12_fmv_base_id > 10000u)
     {
@@ -2195,8 +2195,8 @@ Path_TLV* CCSTD Path_TLV::Next_446460(Path_TLV* pTlv)
 Path_TLV* Path_TLV::Next_NoCheck(Path_TLV* pTlv)
 {
     // Skip length bytes to get to the start of the next TLV
-    BYTE* ptr = reinterpret_cast<BYTE*>(pTlv);
-    BYTE* pNext = ptr + pTlv->field_2_length;
+    u8* ptr = reinterpret_cast<u8*>(pTlv);
+    u8* pNext = ptr + pTlv->field_2_length;
     return reinterpret_cast<Path_TLV*>(pNext);
 }
 

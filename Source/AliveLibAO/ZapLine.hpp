@@ -79,7 +79,7 @@ public:
     ZapLineState field_E4_state;
 
      s16 field_E6_pad;
-    BYTE** field_E8_ppRes;
+    u8** field_E8_ppRes;
     Prim_SetTPage field_EC_tPage_p8[2];
     s16 field_10C_x_position_source;
     s16 field_10E_y_position_source;

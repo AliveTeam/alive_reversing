@@ -88,7 +88,7 @@ struct BanHeader
     DWORD mPaltSize = 0;
 };
 
-enum class CompressionType : BYTE
+enum class CompressionType : u8
 {
     eType_0_NoCompression = 0,
     eType_1_NotUsed = 1,
@@ -104,9 +104,9 @@ enum class CompressionType : BYTE
 struct FrameHeader
 {
     DWORD field_0_clut_offset;
-    BYTE field_4_width;
-    BYTE field_5_height;
-    BYTE field_6_colour_depth;
+    u8 field_4_width;
+    u8 field_5_height;
+    u8 field_6_colour_depth;
     CompressionType field_7_compression_type;
     WORD field_8_width2;
     WORD mHeight2;
@@ -115,7 +115,7 @@ struct FrameHeader
 class Animation : public AnimationBase
 {
 public:
-    EXPORT s16 Set_Animation_Data_409C80(s32 frameTableOffset, BYTE** pAnimRes);
+    EXPORT s16 Set_Animation_Data_409C80(s32 frameTableOffset, u8** pAnimRes);
     EXPORT void Animation_Pal_Free_40C4C0();
 
     bool EnsureDecompressionBuffer();
@@ -137,8 +137,8 @@ public:
     FP field_14_scale;
     DWORD field_18_frame_table_offset;
     s32(CC **field_1C_fn_ptr_array)(void *, s16 *);
-    BYTE** field_20_ppBlock; // // pointer to a pointer which points to anim data
-    BYTE** field_24_dbuf;
+    u8** field_20_ppBlock; // // pointer to a pointer which points to anim data
+    u8** field_24_dbuf;
 
     DWORD field_28_dbuf_size;
     Poly_FT4 field_2C_ot_data[2];
@@ -155,17 +155,17 @@ public:
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(s16 frame);
     EXPORT void Get_Frame_Rect_409E10(PSX_RECT *pRect);
     EXPORT WORD Get_Frame_Count_40AC70();
-    EXPORT s16 Init_40A030(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 unknown1, s32 pal_depth, char unknown3);
+    EXPORT s16 Init_40A030(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 unknown1, s32 pal_depth, char unknown3);
     EXPORT void Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY);
     EXPORT void Get_Frame_Width_Height_40C400(s16* pWidth, s16* pHeight);
 
-    EXPORT void Load_Pal_40A530(BYTE** pAnimData, s32 palOffset);
+    EXPORT void Load_Pal_40A530(u8** pAnimData, s32 palOffset);
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 
 inline bool IsLastFrame(const Animation* pAnim)
 {
-    const BYTE* pAnimData = (*pAnim->field_20_ppBlock);
+    const u8* pAnimData = (*pAnim->field_20_ppBlock);
     const auto pHeader = reinterpret_cast<const AnimationHeader*>(&pAnimData[pAnim->field_18_frame_table_offset]);
     return (pAnim->field_92_current_frame == pHeader->field_2_num_frames - 1);
 }

@@ -81,10 +81,10 @@ ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP 
 
     ScreenWave_Data* pData = *field_14_ppRes;
 
-    BYTE ang2 = 0;
+    u8 ang2 = 0;
     for (s32 i = 0; i < 32; i++)
     {
-        BYTE ang = 128;
+        u8 ang = 128;
         for (s32 j = 0; j < 5; j++)
         {
             pData->field_0_uv1[i][j].field_0_x = ((FP_FromInteger(j) * uv1_off) * Math_Sine_451110(ang2));
@@ -120,7 +120,7 @@ BaseGameObject* ScreenWave::dtor_463010()
 {
     SetVTable(this, 0x4BC9A0);
     gObjList_drawables_504618->Remove_Item(this);
-    ResourceManager::FreeResource_455550(reinterpret_cast<BYTE**>(field_14_ppRes));
+    ResourceManager::FreeResource_455550(reinterpret_cast<u8**>(field_14_ppRes));
     return dtor_487DF0();
 }
 
@@ -309,20 +309,20 @@ void ScreenWave::VRender_463130(PrimHeader** ppOt)
                 )));
 
                 SetUV0(pPoly,
-                    static_cast<BYTE>(u0),
-                    static_cast<BYTE>(v0)
+                    static_cast<u8>(u0),
+                    static_cast<u8>(v0)
                 );
                 SetUV1(pPoly,
-                    static_cast<BYTE>(u1),
-                    static_cast<BYTE>(v1)
+                    static_cast<u8>(u1),
+                    static_cast<u8>(v1)
                 );
                 SetUV2(pPoly,
-                    static_cast<BYTE>(u2),
-                    static_cast<BYTE>(v2)
+                    static_cast<u8>(u2),
+                    static_cast<u8>(v2)
                 );
                 SetUV3(pPoly,
-                    static_cast<BYTE>(u3),
-                    static_cast<BYTE>(v3)
+                    static_cast<u8>(u3),
+                    static_cast<u8>(v3)
                 );
 
                 Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, 0);

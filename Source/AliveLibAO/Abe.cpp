@@ -883,7 +883,7 @@ BaseGameObject* Abe::dtor_420C80()
 
     SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
 
-    BYTE** ppRes = nullptr;
+    u8** ppRes = nullptr;
 
     ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, 0, 0);
     if (ppRes)
@@ -1660,7 +1660,7 @@ void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
     }
 }
 
-BYTE** Abe::StateToAnimResource_4204F0(short motion)
+u8** Abe::StateToAnimResource_4204F0(short motion)
 {
     short res_idx = 0;
 
@@ -8208,7 +8208,7 @@ void Abe::State_87_428FA0()
 }
 
 ALIVE_VAR(1, 0x507728, s32, gCounter_507728, 0);
-ALIVE_VAR(1, 0x50772C, BYTE**, gpDemoPlaybackRes_50772C, nullptr);
+ALIVE_VAR(1, 0x50772C, u8**, gpDemoPlaybackRes_50772C, nullptr);
 ALIVE_VAR(1, 0x507730, s32, sAbeSound_507730, 0);
 ALIVE_VAR(1, 0x507724, BellSong*, sBellSong_507724, nullptr);
 

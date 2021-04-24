@@ -36,7 +36,7 @@ public:
     EXPORT void VRender_40D7F0(PrimHeader** ppOt);
 
     s32 field_D4[4];
-    BYTE** field_E4_ppRes;
+    u8** field_E4_ppRes;
     ParticleBurst_Item* field_E8_pRes;
     s16 field_EC_count;
     s16 field_EE;

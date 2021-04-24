@@ -37,7 +37,7 @@ private:
 private:
     Animation field_F4_tears_animation;
     Animation field_18C_zap_animation;
-    BYTE** field_224_ppRes;
+    u8** field_224_ppRes;
     s32 field_228_padding;
     s32 field_22C_padding;
     s32 field_230_tlvInfo;

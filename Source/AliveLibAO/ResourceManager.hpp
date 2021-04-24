@@ -107,7 +107,7 @@ public:
 
     struct ResourceHeapItem
     {
-        BYTE* field_0_ptr;
+        u8* field_0_ptr;
         ResourceHeapItem* field_4_pNext;
     };
     ALIVE_ASSERT_SIZEOF(ResourceHeapItem, 0x8);
@@ -131,15 +131,15 @@ public:
 
     static EXPORT void CC On_Loaded_446C10(ResourceManager_FileRecord* pLoaded);
 
-    static EXPORT s16 CC Move_Resources_To_DArray_455430(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray);
+    static EXPORT s16 CC Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u8*>* pArray);
 
-    static BYTE** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, BlockAllocMethod allocType);
+    static u8** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, BlockAllocMethod allocType);
 
-    static EXPORT BYTE** CC Alloc_New_Resource_454F20(DWORD type, DWORD id, DWORD size);
+    static EXPORT u8** CC Alloc_New_Resource_454F20(DWORD type, DWORD id, DWORD size);
 
-    static EXPORT BYTE** CC Allocate_New_Block_454FE0(DWORD sizeBytes, BlockAllocMethod allocMethod);
+    static EXPORT u8** CC Allocate_New_Block_454FE0(DWORD sizeBytes, BlockAllocMethod allocMethod);
 
-    static EXPORT s16 CC FreeResource_Impl_4555B0(BYTE* handle);
+    static EXPORT s16 CC FreeResource_Impl_4555B0(u8* handle);
 
     static EXPORT void CC Increment_Pending_Count_4557A0();
 
@@ -151,12 +151,12 @@ public:
 
     static EXPORT void CC Reclaim_Memory_455660(DWORD sizeToReclaim);
 
-    static EXPORT s16 CC FreeResource_455550(BYTE** ppRes);
+    static EXPORT s16 CC FreeResource_455550(u8** ppRes);
 
     static EXPORT void CC LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
 
   
-    static EXPORT BYTE** CC GetLoadedResource_4554F0(DWORD type, DWORD resourceId, s16 addUseCount, s16 bLock);
+    static EXPORT u8** CC GetLoadedResource_4554F0(DWORD type, DWORD resourceId, s16 addUseCount, s16 bLock);
 
     static void CheckResourceIsLoaded(DWORD type, ResourceID resourceId);
     static void CheckResourceIsLoaded(DWORD type, std::initializer_list<ResourceID>& resourceIds);
@@ -167,11 +167,11 @@ public:
 
     static EXPORT s16 CC LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
 
-    static EXPORT BYTE** CC Allocate_New_Locked_Resource_454F80(DWORD type, DWORD id, DWORD size);
+    static EXPORT u8** CC Allocate_New_Locked_Resource_454F80(DWORD type, DWORD id, DWORD size);
 
-    static EXPORT void CC Set_Header_Flags_4557D0(BYTE** ppRes, s16 flags);
+    static EXPORT void CC Set_Header_Flags_4557D0(u8** ppRes, s16 flags);
 
-    static EXPORT void CC Clear_Header_Flags_4557F0(BYTE** ppRes, s16 flags);
+    static EXPORT void CC Clear_Header_Flags_4557F0(u8** ppRes, s16 flags);
 
     template<class T, class Y>
     static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile(const char* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
@@ -188,7 +188,7 @@ public:
 
     static EXPORT void CC LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pList, LoadMode loadMode, s16);
 
-    static EXPORT Header* CC Get_Header_455620(BYTE** ppRes);
+    static EXPORT Header* CC Get_Header_455620(u8** ppRes);
 };
 
 ALIVE_VAR_EXTERN(short, bHideLoadingIcon_5076A0);

@@ -98,9 +98,9 @@ public:
     EXPORT static void CC AnimateAll_40AC20(DynamicArrayT<AnimationBase>* pAnimations);
 
     BitField32<AnimFlags> field_4_flags;
-    BYTE field_8_r;
-    BYTE field_9_g;
-    BYTE field_A_b;
+    u8 field_8_r;
+    u8 field_9_g;
+    u8 field_A_b;
     TPageAbr field_B_render_mode;
     Layer field_C_render_layer;
     WORD field_E_frame_change_counter;

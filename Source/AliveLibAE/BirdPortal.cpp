@@ -240,7 +240,7 @@ void BirdPortal::vUpdate_498280()
         {
             if ((Math_NextRandom() % 8) == 0)
             {
-                BYTE** ppLightRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, TRUE, FALSE);
+                u8** ppLightRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, TRUE, FALSE);
                 if (ppLightRes)
                 {
                     auto pParticle = ae_new<Particle>();
@@ -359,7 +359,7 @@ void BirdPortal::vUpdate_498280()
         pTerminator2->field_BC_ypos -= (FP_FromDouble(3.5) * field_60_scale);
         if (FP_GetExponent(pTerminator1->field_BC_ypos) >= FP_GetExponent(pTerminator2->field_BC_ypos))
         {
-            BYTE** ppLightRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortlitResID);
+            u8** ppLightRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortlitResID);
             if (ppLightRes)
             {
                 auto pParticle = ae_new<Particle>();
@@ -623,7 +623,7 @@ void BirdPortal::vStopAudio_499260()
     }
 }
 
-s32 BirdPortal::vGetSaveState_499F50(BYTE* pBuffer)
+s32 BirdPortal::vGetSaveState_499F50(u8* pBuffer)
 {
     auto pState = reinterpret_cast<BirdPortal_State*>(pBuffer);
     auto pTlv = static_cast<Path_BirdPortal*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_20_tlvInfo));
@@ -636,8 +636,8 @@ s32 BirdPortal::vGetSaveState_499F50(BYTE* pBuffer)
 
     pState->field_0_type = AETypes::eBirdPortal_99;
     pState->field_4_tlvInfo = field_20_tlvInfo;
-    pState->field_2_state = static_cast<BYTE>(field_28_state);
-    pState->field_3_mud_count = static_cast<BYTE>(numMudsForShrykull - field_82_num_muds_for_shrykull);
+    pState->field_2_state = static_cast<u8>(field_28_state);
+    pState->field_3_mud_count = static_cast<u8>(numMudsForShrykull - field_82_num_muds_for_shrykull);
 
     return sizeof(BirdPortal_State);
 }
@@ -657,7 +657,7 @@ void BirdPortal::VStopAudio()
     vStopAudio_499260();
 }
 
-s32 BirdPortal::VGetSaveState(BYTE* pSaveBuffer)
+s32 BirdPortal::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_499F50(pSaveBuffer);
 }
@@ -712,7 +712,7 @@ void BirdPortal::VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera,
     vGetMapChange_499AE0(level, path, camera, screenChangeEffect, movieId);
 }
 
-s32 CC BirdPortal::CreateFromSaveState_499C90(const BYTE* pBuffer)
+s32 CC BirdPortal::CreateFromSaveState_499C90(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const BirdPortal_State*>(pBuffer);
     auto pTlv = static_cast<Path_BirdPortal*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_4_tlvInfo));
@@ -1110,7 +1110,7 @@ s16 BirdPortal::IsScaredAway_4992A0()
 
 void BirdPortal::CreateDovesAndShrykullNumber_497B50()
 {
-    for (BYTE i = 0; i < ALIVE_COUNTOF(field_44_dove_ids); i++)
+    for (u8 i = 0; i < ALIVE_COUNTOF(field_44_dove_ids); i++)
     {
         auto pDove = ae_new<Dove>();
         if (pDove)
@@ -1217,7 +1217,7 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP
 
     field_4_typeId = AETypes::eEyeOrbPart_74;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID);
     Animation_Init_424E10(4144, 32, 18, ppRes, 1, 1);
 
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;

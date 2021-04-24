@@ -248,7 +248,7 @@ void LaughingGas::DoRender_432740()
                 yValue = 0.0f;
             }
 
-            *memPtr = static_cast<WORD>(rgb_base * (static_cast<BYTE>(yValue) & 30));
+            *memPtr = static_cast<WORD>(rgb_base * (static_cast<u8>(yValue) & 30));
             ++xCount;
         }
     }

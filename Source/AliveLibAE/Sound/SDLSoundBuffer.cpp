@@ -66,7 +66,7 @@ SDLSoundBuffer::SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, s32 soundSysFreq)
 
 
     mState.iSampleCount = bufferDesc.dwBufferBytes / 2;
-    mBuffer = std::make_shared<std::vector<BYTE>>(bufferDesc.dwBufferBytes);
+    mBuffer = std::make_shared<std::vector<u8>>(bufferDesc.dwBufferBytes);
     mState.iBlockAlign = bufferDesc.lpwfxFormat->nBlockAlign;
     mState.iChannels = bufferDesc.lpwfxFormat->nChannels;
 
@@ -211,7 +211,7 @@ void SDLSoundBuffer::Destroy()
     delete this;
 }
 
-std::vector<BYTE>* SDLSoundBuffer::GetBuffer()
+std::vector<u8>* SDLSoundBuffer::GetBuffer()
 {
     return mBuffer.get();
 }

@@ -61,15 +61,15 @@ private:
 
 union BitFieldUnion8
 {
-    BYTE all;
+    u8 all;
 };
 template<class EnumType>
 using BitField8 = BitFieldT<BitFieldUnion8, EnumType>;
 
 struct BitFieldBytes16
 {
-    BYTE b0;
-    BYTE b1;
+    u8 b0;
+    u8 b1;
 };
 
 union BitFieldUnion16
@@ -83,10 +83,10 @@ using BitField16 = BitFieldT<BitFieldUnion16, EnumType>;
 
 struct BitFieldBytes32
 {
-    BYTE b0;
-    BYTE b1;
-    BYTE b2;
-    BYTE b3;
+    u8 b0;
+    u8 b1;
+    u8 b2;
+    u8 b3;
 };
 
 struct BitFieldWords32

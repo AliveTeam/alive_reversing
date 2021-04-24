@@ -64,7 +64,7 @@ void InitDebugFont()
     if (!g_DebugGlobalFontIsInit)
     {
         g_DebugGlobalFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), g_DebugGlobalFontPalette);
-        g_DebugGlobalFont.ctor_433590(1024, reinterpret_cast<BYTE*>(g_DebugGlobalFontPalette), &g_DebugGlobalFontContext);
+        g_DebugGlobalFont.ctor_433590(1024, reinterpret_cast<u8*>(g_DebugGlobalFontPalette), &g_DebugGlobalFontContext);
         g_DebugGlobalFontIsInit = true;
     }
 }
@@ -83,7 +83,7 @@ public:
         field_4_typeId = AETypes::eDebugHelper_1001;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
-        mFont.ctor_433590(512, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
+        mFont.ctor_433590(512, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);
     }
@@ -289,7 +289,7 @@ public:
         field_4_typeId = AETypes::eDebugPathRenderer_1003;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
-        mFont.ctor_433590(128, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
+        mFont.ctor_433590(128, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);
     }
@@ -327,7 +327,7 @@ public:
         // Dont kill!
     }
 
-    struct LineColor { BYTE r; BYTE g; BYTE b; };
+    struct LineColor { u8 r; u8 g; u8 b; };
     std::map<s32, LineColor> mLineColors = {
         { 0,{ 255, 0, 0 } }, // Floor
         { 1,{ 0, 0, 255 } }, // Left Wall
@@ -427,12 +427,12 @@ struct DebugConsoleMessage
     std::string message;
     s32 time;
     float y;
-    BYTE r, g, b;
+    u8 r, g, b;
 };
 
 static std::vector<DebugConsoleMessage> sDebugConsoleMessages;
 
-void ShowDebugConsoleMessage(std::string message, float duration, BYTE r, BYTE g, BYTE b)
+void ShowDebugConsoleMessage(std::string message, float duration, u8 r, u8 g, u8 b)
 {
     auto lines = SplitString(message, '\n');
 
@@ -896,7 +896,7 @@ public:
         field_4_typeId = AETypes::eDebugConsole_1002;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
-        mFont.ctor_433590(4096 * 2, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
+        mFont.ctor_433590(4096 * 2, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);
 
@@ -1179,7 +1179,7 @@ struct TimInfo
     WORD mClut;
 };
 
-static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, TPageAbr abr)
+static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
 {
     const PsxTimHeader* pHeader = reinterpret_cast<const PsxTimHeader*>(timBuffer);
     const PsxTimImageHeader* pImgHeader = nullptr;
@@ -1194,7 +1194,7 @@ static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, TPageAbr abr)
         pImgHeader = reinterpret_cast<const PsxTimImageHeader*>(timBuffer + sizeof(PsxTimHeader) + clutSkip);
 
         PSX_RECT clutRect = { static_cast<short>(pHeader->mClutX), static_cast<short>(pHeader->mClutY), static_cast<short>(pHeader->mNumClutColours), static_cast<short>(1) };
-        PSX_LoadImage16_4F5E20(&clutRect, (BYTE*)&pHeader[1]);
+        PSX_LoadImage16_4F5E20(&clutRect, (u8*)&pHeader[1]);
 
         pInfo->mClut = static_cast<WORD>(PSX_getClut_4F6350(pHeader->mClutX, pHeader->mClutY));
     }
@@ -1202,12 +1202,12 @@ static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, TPageAbr abr)
     if (pHeader->mFlag == 2) // 16 bit
     {
         // Raw pixel data, convert it
-        PSX_LoadImage16_4F5E20(&pImgHeader->mImageRect, (BYTE*)&pImgHeader[1]);
+        PSX_LoadImage16_4F5E20(&pImgHeader->mImageRect, (u8*)&pImgHeader[1]);
     }
     else
     {
         // Bytes or nibbles of pal indices, don't convert it
-        PSX_LoadImage_4F5FB0(&pImgHeader->mImageRect, (BYTE*)&pImgHeader[1]);
+        PSX_LoadImage_4F5FB0(&pImgHeader->mImageRect, (u8*)&pImgHeader[1]);
     }
 
     TPageMode mode = TPageMode::e16Bit_2;
@@ -1368,8 +1368,8 @@ private:
 
             // This assumes the texture data is at 0,0 in the active texture page
             SetUV0(&mPolyFT3, 0, 0);
-            SetUV1(&mPolyFT3, 0, static_cast<BYTE>(timInfo.mHeight));
-            SetUV2(&mPolyFT3, static_cast<BYTE>(timInfo.mRenderWidth), 0);
+            SetUV1(&mPolyFT3, 0, static_cast<u8>(timInfo.mHeight));
+            SetUV2(&mPolyFT3, static_cast<u8>(timInfo.mRenderWidth), 0);
         }
 
         {
@@ -1399,8 +1399,8 @@ private:
 
             // This assumes the texture data is at 0,0 in the active texture page
             SetUV0(&mPolyGT3, 0, 0);
-            SetUV1(&mPolyGT3, 0, static_cast<BYTE>(timInfo.mHeight));
-            SetUV2(&mPolyGT3, static_cast<BYTE>(timInfo.mRenderWidth), 0);
+            SetUV1(&mPolyGT3, 0, static_cast<u8>(timInfo.mHeight));
+            SetUV2(&mPolyGT3, static_cast<u8>(timInfo.mRenderWidth), 0);
         }
 
         {
@@ -1461,9 +1461,9 @@ private:
 
                 // This assumes the texture data is at 0,0 in the active texture page
                 SetUV0(&mPolyFT4[i], 0, 0);
-                SetUV1(&mPolyFT4[i], 0, static_cast<BYTE>(timInfo.mHeight));
-                SetUV2(&mPolyFT4[i], static_cast<BYTE>(timInfo.mRenderWidth), 0);
-                SetUV3(&mPolyFT4[i], static_cast<BYTE>(timInfo.mRenderWidth), static_cast<BYTE>(timInfo.mHeight));
+                SetUV1(&mPolyFT4[i], 0, static_cast<u8>(timInfo.mHeight));
+                SetUV2(&mPolyFT4[i], static_cast<u8>(timInfo.mRenderWidth), 0);
+                SetUV3(&mPolyFT4[i], static_cast<u8>(timInfo.mRenderWidth), static_cast<u8>(timInfo.mHeight));
             }
         }
 
@@ -1497,9 +1497,9 @@ private:
 
             // This assumes the texture data is at 0,0 in the active texture page
             SetUV0(&mPolyGT4, 0, 0);
-            SetUV1(&mPolyGT4, 0, static_cast<BYTE>(timInfo.mHeight));
-            SetUV2(&mPolyGT4, static_cast<BYTE>(timInfo.mRenderWidth), 0);
-            SetUV3(&mPolyGT4, static_cast<BYTE>(timInfo.mRenderWidth), static_cast<BYTE>(timInfo.mHeight));
+            SetUV1(&mPolyGT4, 0, static_cast<u8>(timInfo.mHeight));
+            SetUV2(&mPolyGT4, static_cast<u8>(timInfo.mRenderWidth), 0);
+            SetUV3(&mPolyGT4, static_cast<u8>(timInfo.mRenderWidth), static_cast<u8>(timInfo.mHeight));
         }
 
         {
@@ -1577,7 +1577,7 @@ private:
         }
 
         {
-            for (BYTE i = 0; i < 10; i++)
+            for (u8 i = 0; i < 10; i++)
             {
                 Init_Tile1(&mTiles[i]);
                 SetRGB0(&mTiles[i], 255, i * 12, i * 12);
@@ -1892,7 +1892,7 @@ const WORD kTestImagePal[16] =
     RGB888toRGB565(163, 73,  164),
 };
 
-const BYTE kTestImg[4][8] =
+const u8 kTestImg[4][8] =
 {
     { 0, 0, 1, 2, 2, 2, 1, 3 },
     { 0, 0, 1, 1, 2, 1, 1, 3 },
@@ -1900,13 +1900,13 @@ const BYTE kTestImg[4][8] =
     { 4, 4, 1, 5, 2, 6, 1, 7 },
 };
 
-inline static BYTE AsByte(BYTE nibble1, BYTE nibble2)
+inline static u8 AsByte(u8 nibble1, u8 nibble2)
 {
     return (nibble2 << 4) | nibble1;
 }
 
 // Pack kTestImg nibbles into bytes
-const BYTE kTestImage[4][4] =
+const u8 kTestImage[4][4] =
 {
     { AsByte(kTestImg[0][0],kTestImg[0][1]), AsByte(kTestImg[0][2],kTestImg[0][3]), AsByte(kTestImg[0][4],kTestImg[0][5]), AsByte(kTestImg[0][6],kTestImg[0][7]) },
     { AsByte(kTestImg[1][0],kTestImg[1][1]), AsByte(kTestImg[1][2],kTestImg[1][3]), AsByte(kTestImg[1][4],kTestImg[1][5]), AsByte(kTestImg[1][6],kTestImg[1][7]) },
@@ -1915,7 +1915,7 @@ const BYTE kTestImage[4][4] =
 };
 
 // Pack kTestImage bytes into a RLE compressed buffer
-const BYTE kTestImageCompressed[] =
+const u8 kTestImageCompressed[] =
 {
     8, 0,               // u16 width
     4, 0,               // u16 height
@@ -2056,7 +2056,7 @@ private:
         Pal_Allocate_483110(&pr, 16);
         pr.w = 16;
         pr.h = 1;
-        PSX_LoadImage16_4F5E20(&pr, (BYTE*)&kTestImagePal[0]);
+        PSX_LoadImage16_4F5E20(&pr, (u8*)&kTestImagePal[0]);
 
         for (short i = 0; i < 1; i++)
         {
@@ -2087,7 +2087,7 @@ private:
         }
     }
 
-    BYTE** mAnimRes[5];
+    u8** mAnimRes[5];
     Animation mAnim[5];
     Poly_FT4 mPolyFT4[1];
 };
@@ -2117,7 +2117,7 @@ void DebugHelpers_Init()
 //#endif
 }
 
-std::vector<BYTE> FS::ReadFile(const std::string& filePath)
+std::vector<u8> FS::ReadFile(const std::string& filePath)
 {
     FILE* hFile = ::fopen(filePath.c_str(), "rb");
     if (hFile)
@@ -2125,7 +2125,7 @@ std::vector<BYTE> FS::ReadFile(const std::string& filePath)
         ::fseek(hFile, 0, SEEK_END); // seek to end of file
         const std::size_t fileLen = ::ftell(hFile); // get current file pointer
         ::fseek(hFile, 0, SEEK_SET); // seek back to beginning of file
-        std::vector<BYTE> buffer(fileLen);
+        std::vector<u8> buffer(fileLen);
         ::fread(buffer.data(), 1, buffer.size(), hFile);
         ::fclose(hFile);
         return buffer;
@@ -2249,7 +2249,7 @@ s32 sNextPolyF4Prim = 0;
 Line_G2 sLinePrimBuffer[1024];
 Poly_F4 sPolyF4PrimBuffer[1024];
 
-void DEV::DebugFillRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugFillRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
     Poly_F4 * mPolyF4 = &sPolyF4PrimBuffer[++sNextPolyF4Prim];
     *mPolyF4 = {};
@@ -2281,7 +2281,7 @@ void DEV::DebugFillRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, 
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-void DEV::DebugDrawRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
     DebugDrawLine(ot, layer, x, y, x + width, y, r, g, b, worldspace, semiTransparent);
     DebugDrawLine(ot, layer, x + width, y, x + width, y + height, r, g, b, worldspace, semiTransparent);
@@ -2289,7 +2289,7 @@ void DEV::DebugDrawRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, 
     DebugDrawLine(ot, layer, x, y + height, x, y, r, g, b, worldspace, semiTransparent);
 }
 
-void DEV::DebugDrawLine(PrimHeader ** ot, Layer layer, s32 x1, s32 y1, s32 x2, s32 y2, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawLine(PrimHeader ** ot, Layer layer, s32 x1, s32 y1, s32 x2, s32 y2, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
     Line_G2 * mLineG2 = &sLinePrimBuffer[++sNextLinePrim];
     LineG2_Init(mLineG2);
@@ -2321,7 +2321,7 @@ void DEV::DebugDrawLine(PrimHeader ** ot, Layer layer, s32 x1, s32 y1, s32 x2, s
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-void DEV::DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, s32 x, s32 y, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
     const auto camOffset = gMap_5C3030.field_24_camera_offset;
 

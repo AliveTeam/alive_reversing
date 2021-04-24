@@ -87,7 +87,7 @@ void TrapDoor::VScreenChanged()
     vScreenChanged_4DDE40();
 }
 
-s32 TrapDoor::VGetSaveState(BYTE* pSaveBuffer)
+s32 TrapDoor::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4DE050(reinterpret_cast<TrapDoor_State*>(pSaveBuffer));
 }
@@ -137,7 +137,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
         field_D6_scale = 1;
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID);
 
     AddDynamicCollision_4971C0(
         sTrapDoorData_547B78[levelIdx].field_4_maxW,
@@ -191,7 +191,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
     return this;
 }
 
-s32 CC TrapDoor::CreateFromSaveState_4DDED0(const BYTE* pData)
+s32 CC TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
 {
     auto pState = reinterpret_cast<const TrapDoor_State*>(pData);
     auto pTlv = static_cast<Path_TrapDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_8_tlvInfo));

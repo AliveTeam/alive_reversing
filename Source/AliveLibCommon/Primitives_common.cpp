@@ -1,7 +1,7 @@
 #include "stdafx_common.h"
 #include "Primitives_common.hpp"
 
-void SetCode(PrimHeader* pPrim, BYTE code)
+void SetCode(PrimHeader* pPrim, u8 code)
 {
     pPrim->rgb_code.code_or_pad = code;
 #if !_WIN32 || _WIN64

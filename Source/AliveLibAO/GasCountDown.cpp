@@ -14,7 +14,7 @@
 
 namespace AO {
 
-const BYTE byte_4C5080[32] =
+const u8 byte_4C5080[32] =
 {
     0u,
     0u,

@@ -19,8 +19,8 @@ public:
 
     EXPORT static void CC On_Loaded_4447A0(Camera* pThis);
 
-    DynamicArrayT<BYTE*> field_0_array;
-    BYTE** field_C_ppBits;
+    DynamicArrayT<u8*> field_0_array;
+    u8** field_C_ppBits;
     s32 field_10_resId;
     s16 field_14_cam_x;
     s16 field_16_cam_y;
@@ -70,9 +70,9 @@ public:
 
     EXPORT ScreenManager* vdtor_407290(s32 flags);
 
-    EXPORT ScreenManager* ctor_406830(BYTE** ppBits, FP_Point* pCameraOffset);
+    EXPORT ScreenManager* ctor_406830(u8** ppBits, FP_Point* pCameraOffset);
 
-    EXPORT void Init_4068A0(BYTE** ppBits);
+    EXPORT void Init_4068A0(u8** ppBits);
 
     EXPORT void MoveImage_406C40();
 

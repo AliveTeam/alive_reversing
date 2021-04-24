@@ -39,7 +39,7 @@ public:
     s16 field_16_current_path;
     s16 field_18_render_block_count;
     s16 field_1A_pad;
-    BYTE** field_1C_ptr;
+    u8** field_1C_ptr;
     Fg1Block* field_20_chnk_res;
 };
 ALIVE_ASSERT_SIZEOF(FG1, 0x24);

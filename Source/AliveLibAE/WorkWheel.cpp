@@ -24,7 +24,7 @@ void WorkWheel::VScreenChanged()
     vScreenChanged_4E3AD0();
 }
 
-s32 WorkWheel::VGetSaveState(BYTE* pSaveBuffer)
+s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4E3C40(reinterpret_cast<WorkWheel_SaveState*>(pSaveBuffer));
 }
@@ -50,7 +50,7 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, s32 tlvInfo)
     field_C_objectId = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Work_Wheel_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(eBit15_bSemiTrans);
@@ -125,7 +125,7 @@ WorkWheel* WorkWheel::vdtor_4E3820(s32 flags)
     return this;
 }
 
-s32 CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
+s32 CC WorkWheel::CreateFromSaveState_4E3B10(const u8* pState)
 {
     const WorkWheel_SaveState* pData = reinterpret_cast<const WorkWheel_SaveState*>(pState);
 

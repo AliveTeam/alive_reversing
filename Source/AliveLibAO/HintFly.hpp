@@ -47,7 +47,7 @@ public:
     EXPORT void VRender_42BAD0(PrimHeader** ppOt);
 
     s32 field_D4[4];
-    BYTE** field_E4_ppRes;
+    u8** field_E4_ppRes;
     HintFlyParticle* field_E8_pRes;
     Prim_SetTPage field_EC_tPages[2];
     s32 field_10C_timer;

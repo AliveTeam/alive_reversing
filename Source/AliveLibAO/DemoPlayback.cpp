@@ -12,9 +12,9 @@
 
 namespace AO {
 
-ALIVE_VAR_EXTERN(BYTE, sRandomSeed_50A228); //Math.cpp
+ALIVE_VAR_EXTERN(u8, sRandomSeed_50A228); //Math.cpp
 
-EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(BYTE** ppPlaybackData, s16 a3)
+EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(u8** ppPlaybackData, s16 a3)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBF98);

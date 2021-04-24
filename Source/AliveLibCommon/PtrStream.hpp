@@ -3,7 +3,7 @@
 class PtrStream
 {
 public:
-    PtrStream(const BYTE** ppStream)
+    PtrStream(const u8** ppStream)
         : mppStream(ppStream)
     {
 
@@ -15,9 +15,9 @@ public:
         *mppStream += sizeof(v);
     }
 
-    BYTE ReadU8()
+    u8 ReadU8()
     {
-        return ReadT<BYTE>();
+        return ReadT<u8>();
     }
 
     WORD ReadU16()
@@ -30,7 +30,7 @@ public:
         return ReadT<DWORD>();
     }
 
-    const BYTE** mppStream;
+    const u8** mppStream;
 
 private:
     template<class T>

@@ -116,14 +116,14 @@ struct Glukkon_SaveState
     WORD field_28_current_motion;
     WORD field_2A_current_frame;
     WORD field_2C_frame_change_counter;
-    BYTE field_2E_render;
-    BYTE field_2F_drawable;
+    u8 field_2E_render;
+    u8 field_2F_drawable;
     FP field_30_health;
     WORD field_34_current_motion;
     WORD field_36_next_motion;
     s16 field_38_last_line_ypos;
     char field_3A_line_type;
-    BYTE field_3B_padding;
+    u8 field_3B_padding;
     s32 field_3C_padding;
     WORD field_40_bIsActiveChar;
     s16 field_42_padding;
@@ -163,13 +163,13 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT static s32 CC CreateFromSaveState_442830(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_442830(const u8* pBuffer);
 
     virtual void VUpdate() override;
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     virtual void VScreenChanged() override;
 
@@ -269,7 +269,7 @@ private:
 
     EXPORT void vScreenChanged_440110();
 
-    EXPORT s32 vGetSaveState_444B90(BYTE* pSaveBuffer);
+    EXPORT s32 vGetSaveState_444B90(u8* pSaveBuffer);
 
     EXPORT void vOnTrapDoorOpen_444120();
 

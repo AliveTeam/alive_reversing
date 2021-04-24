@@ -122,8 +122,8 @@ EXPORT s32 CC Input_Read_Pad_4FA9C0(s32 padNum);
 struct InputPadObject
 {
     DWORD field_0_pressed;
-    BYTE field_4_dir;
-    BYTE field_5;
+    u8 field_4_dir;
+    u8 field_5;
     WORD field_6_padding; // Not confirmed
     DWORD field_8_previous;
     DWORD field_C_held;

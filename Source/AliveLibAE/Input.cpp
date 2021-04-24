@@ -77,7 +77,7 @@ ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
 #endif
 
 ALIVE_ARY(1, 0xBD2F60, u8, 256, sInputKeyStates_BD2F60, {});
-ALIVE_VAR(1, 0xBBB9D0, BYTE, sInputEnabled_BBB9D0, 0);
+ALIVE_VAR(1, 0xBBB9D0, u8, sInputEnabled_BBB9D0, 0);
 ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject_5BD4E0, {});
 ALIVE_VAR(1, 0x5C1BBE, u16, sCurrentControllerIndex_5C1BBE, 0);
 ALIVE_VAR(1, 0x5C1B9A, s16, bLongerTimeoutToNextDemo_5C1B9A, 0);
@@ -1257,7 +1257,7 @@ EXPORT void CC Input_LoadSettingsIni_492D40()
 }
 
 ALIVE_VAR(1, 0x55ebf8, DWORD, dword_55EBF8, 0);
-ALIVE_VAR(1, 0x5c9390, BYTE, sFlags_5C9390, 0);
+ALIVE_VAR(1, 0x5c9390, u8, sFlags_5C9390, 0);
 ALIVE_VAR(1, 0x5c98d8, DWORD, sPrevTimeStamp_5C98D8, 0);
 ALIVE_VAR(1, 0x5c98dc, DWORD, dword_5C98DC, 0);
 ALIVE_VAR(1, 0x5c9f74, DWORD, sPrevious_down_keyboard_keys_5C9F74, 0);

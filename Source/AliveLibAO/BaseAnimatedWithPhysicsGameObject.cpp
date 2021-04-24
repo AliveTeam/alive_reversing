@@ -58,7 +58,7 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     return this;
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, BYTE** ppAnimData, s16 a6)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 a6)
 {
     const auto init = field_10_anim.Init_402D20(
         frameTableOffset,
@@ -137,9 +137,9 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
                     &b);
             }
 
-            field_10_anim.field_8_r = static_cast<BYTE>(r);
-            field_10_anim.field_9_g = static_cast<BYTE>(g);
-            field_10_anim.field_A_b = static_cast<BYTE>(b);
+            field_10_anim.field_8_r = static_cast<u8>(r);
+            field_10_anim.field_9_g = static_cast<u8>(g);
+            field_10_anim.field_A_b = static_cast<u8>(b);
 
             field_10_anim.vRender(
                 FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) -
@@ -436,7 +436,7 @@ BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
 s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, s32 palId)
 {
     const TintEntry* pIter = pTintArray;
-    while (pIter->field_0_level != static_cast<BYTE>(lvl))
+    while (pIter->field_0_level != static_cast<u8>(lvl))
     {
         if (pIter->field_0_level == -1) // End of entries
         {
@@ -449,7 +449,7 @@ s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintE
     field_C2_g = pIter->field_2_g;
     field_C4_b = pIter->field_3_b;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, palId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, palId, 1, 0);
     if (!ppRes)
     {
         return 0;

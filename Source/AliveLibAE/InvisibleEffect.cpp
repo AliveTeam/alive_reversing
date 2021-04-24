@@ -181,7 +181,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             }
             else
             {
-                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_30_pPal2, &field_34_pal_rect2);
+                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (u8 *)field_30_pPal2, &field_34_pal_rect2);
                 field_1C_update_delay = 1;
             }
 
@@ -197,7 +197,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
                 field_30_pPal2[i] &= 0x8000u;
 
             }
-            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *) field_30_pPal2, &field_34_pal_rect2);
+            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (u8 *) field_30_pPal2, &field_34_pal_rect2);
             field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
             field_1C_update_delay = 1;
             field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
@@ -235,7 +235,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
 
             if (v3)
             {
-                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_30_pPal2, &field_34_pal_rect2);
+                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (u8 *)field_30_pPal2, &field_34_pal_rect2);
                 pTarget->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                 field_1C_update_delay = 5;
             }
@@ -247,7 +247,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
         }
         case InvisibleState::eClearInvisibility_5:
         {
-            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy,  pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_24_pPal1, &field_28_pal_rect1);
+            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy,  pTarget->field_20_animation.field_90_pal_depth, (u8 *)field_24_pPal1, &field_28_pal_rect1);
 
             pTarget->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
             pTarget->field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));

@@ -22,7 +22,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /
     field_4_typeId = AETypes::eMineCar_89;
 
     const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Open);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_11E_scale = pTlv->field_10_scale;
@@ -122,7 +122,7 @@ void MineCar::VStopAudio()
     vStopAudio_46F9C0();
 }
 
-s32 MineCar::VGetSaveState(BYTE* pSaveBuffer)
+s32 MineCar::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_467E10(reinterpret_cast<MineCar_SaveState*>(pSaveBuffer));
 }
@@ -143,7 +143,7 @@ const AnimId sMineCarFrameTable[7] =
     AnimId::Mine_Car_Tread_Move_B
 };
 
-s32 CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
+s32 CC MineCar::CreateFromSaveState_467740(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MineCar_SaveState*>(pBuffer);
     auto pTlv = static_cast<Path_MineCar*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4C_tlvInfo));
@@ -327,7 +327,7 @@ s32 CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
 void MineCar::LoadAnimation_46BF80(Animation* pAnim)
 {
     const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Tread_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
 
     if (pAnim->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
@@ -447,9 +447,9 @@ void MineCar::vRender_46E760(PrimHeader** ppOt)
                 &b);
         }
 
-        field_124_anim.field_8_r = static_cast<BYTE>(r);
-        field_124_anim.field_9_g = static_cast<BYTE>(g);
-        field_124_anim.field_A_b = static_cast<BYTE>(b);
+        field_124_anim.field_8_r = static_cast<u8>(r);
+        field_124_anim.field_9_g = static_cast<u8>(g);
+        field_124_anim.field_A_b = static_cast<u8>(b);
 
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos + FP_FromInteger(30), field_BC_ypos, 0)||
             gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)), 0) ||

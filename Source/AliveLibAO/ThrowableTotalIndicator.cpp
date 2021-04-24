@@ -77,10 +77,10 @@ void ThrowableTotalIndicator::VUpdate_41B690()
     {
     case ThrowableTotalIndicatorState::eCreated_0:
     {
-        field_18_cur_xpos = field_10_xpos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<BYTE>(2 * gnFrameCount_507670)));
-        field_1C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<BYTE>(2 * gnFrameCount_507670))) + field_14_ypos;
+        field_18_cur_xpos = field_10_xpos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<u8>(2 * gnFrameCount_507670)));
+        field_1C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<u8>(2 * gnFrameCount_507670))) + field_14_ypos;
 
-        const short rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<BYTE>(3 * gnFrameCount_507670))) + 80;
+        const short rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<u8>(3 * gnFrameCount_507670))) + 80;
 
         field_32_r = rgb;
         field_34_g = rgb;
@@ -324,9 +324,9 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
         SetXY0(pLine, primBaseX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
         SetXY1(pLine, primVertX + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
         SetRGB0(pLine,
-            static_cast<BYTE>(field_32_r),
-            static_cast<BYTE>(field_34_g),
-            static_cast<BYTE>(field_36_b)
+            static_cast<u8>(field_32_r),
+            static_cast<u8>(field_34_g),
+            static_cast<u8>(field_36_b)
         );
         Poly_Set_SemiTrans_498A40(&pLine->mBase.header, 1);
         OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &pLine->mBase.header);

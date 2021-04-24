@@ -177,9 +177,9 @@ void ParamiteWeb::vRender_4E1BA0(PrimHeader** ppOt)
                     short g = 128;
                     short b = 128;
                     ShadowZone::ShadowZones_Calculate_Colour_463CE0(FP_GetExponent(field_B8_xpos), ypos_int - (idx * field_F6_segment_length), field_D6_scale, &r, &g, &b);
-                    field_100_pRes[idx].field_8_r = static_cast<BYTE>(r);
-                    field_100_pRes[idx].field_9_g = static_cast<BYTE>(g);
-                    field_100_pRes[idx].field_A_b = static_cast<BYTE>(b);
+                    field_100_pRes[idx].field_8_r = static_cast<u8>(r);
+                    field_100_pRes[idx].field_9_g = static_cast<u8>(g);
+                    field_100_pRes[idx].field_A_b = static_cast<u8>(b);
                     field_100_pRes[idx].vRender_40B820(x_start, y_start, ppOt, 0, 0);
                     PSX_RECT rect = {};
                     field_100_pRes[idx].GetRenderedSize_40C980(&rect);

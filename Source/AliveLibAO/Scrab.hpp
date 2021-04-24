@@ -112,7 +112,7 @@ public:
 
     EXPORT void vUpdateAnim_45B330();
 
-    EXPORT BYTE** ResBlockForMotion_45BB30(s16 motion);
+    EXPORT u8** ResBlockForMotion_45BB30(s16 motion);
 
     EXPORT void PlatformCollide_45E580();
 
@@ -218,7 +218,7 @@ public:
     s16 field_148_right_min_delay;
     s16 field_14A_right_max_delay;
     s32 field_14C;
-    BYTE** field_150_resources[14];
+    u8** field_150_resources[14];
     s16 field_188_flags;
     s16 field_18A;
 };

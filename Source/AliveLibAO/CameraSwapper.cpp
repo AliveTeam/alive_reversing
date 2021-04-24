@@ -18,7 +18,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507668, short, sNumCamSwappers_507668, 0);
 
-CameraSwapper* CameraSwapper::ctor_48C540(BYTE** ppBits, s32 movieId, s32 movieFlag, char movieFlags, s16 flags, s16 volume)
+CameraSwapper* CameraSwapper::ctor_48C540(u8** ppBits, s32 movieId, s32 movieFlag, char movieFlags, s16 flags, s16 volume)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD7C8);
@@ -37,7 +37,7 @@ CameraSwapper* CameraSwapper::ctor_48C540(BYTE** ppBits, s32 movieId, s32 movieF
     return this;
 }
 
-CameraSwapper* CameraSwapper::ctor_48C5E0(BYTE** ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, char movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
+CameraSwapper* CameraSwapper::ctor_48C5E0(u8** ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, char movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD7C8);
@@ -63,7 +63,7 @@ CameraSwapper* CameraSwapper::ctor_48C5E0(BYTE** ppBits, s32 moviePos1, s32 movi
     return this;
 }
 
-EXPORT CameraSwapper* CameraSwapper::ctor_48C6B0(BYTE** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, char movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
+EXPORT CameraSwapper* CameraSwapper::ctor_48C6B0(u8** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, char movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD7C8);
@@ -116,7 +116,7 @@ CameraSwapper* CameraSwapper::Vdtor_48D380(s32 flags)
     return this;
 }
 
-CameraSwapper* CameraSwapper::ctor_48C7A0(BYTE** ppBits, CameraSwapEffects changeEffect, s16 xpos, s16 ypos)
+CameraSwapper* CameraSwapper::ctor_48C7A0(u8** ppBits, CameraSwapEffects changeEffect, s16 xpos, s16 ypos)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD7C8);
@@ -157,7 +157,7 @@ void CameraSwapper::VUpdate()
     VUpdate_48CEA0();
 }
 
-void CameraSwapper::Init_48C830(BYTE** ppCamRes, CameraSwapEffects changeEffect)
+void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
 {
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
 

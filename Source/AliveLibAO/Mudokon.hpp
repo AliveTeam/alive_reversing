@@ -125,7 +125,7 @@ class BirdPortal;
 
 struct Mudokon_Resources
 {
-    BYTE** res[15];
+    u8** res[15];
 };
 
 enum class GameSpeakEvents : s16;
@@ -170,7 +170,7 @@ public:
 
     void KillBirdPortal();
 
-    EXPORT BYTE** GetResBlockForMotion_43EDE0(s16 motion);
+    EXPORT u8** GetResBlockForMotion_43EDE0(s16 motion);
 
     EXPORT void DoPathTrans_43FE00();
 
@@ -294,7 +294,7 @@ public:
     s16 field_124;
     s16 field_126_input;
     s32 field_128;
-    BYTE field_12C[16];
+    u8 field_12C[16];
     s16 field_13C;
     s16 field_13E;
     s32 field_140;

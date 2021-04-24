@@ -24,23 +24,23 @@ ALIVE_VAR(1, 0xBD0F24, s32, sLastFrameTimestampMilliseconds_BD0F24, 0);
 
 ALIVE_VAR(1, 0xC3D080, PSX_DRAWENV, sPSX_EMU_DrawEnvState_C3D080, {});
 ALIVE_VAR(1, 0x578E88, s32, sConst_1000_578E88, 1000);
-ALIVE_VAR(1, 0xBD1464, BYTE, bDontUseXYOffsetInRender_BD1464, 0);
+ALIVE_VAR(1, 0xBD1464, u8, bDontUseXYOffsetInRender_BD1464, 0);
 
 ALIVE_VAR(1, 0xBDCD40, s32, sPsx_drawenv_clipx_BDCD40, 0);
 ALIVE_VAR(1, 0xBDCD44, s32, sPsx_drawenv_clipy_BDCD44, 0);
 ALIVE_VAR(1, 0xBDCD48, s32, sPsx_drawenv_clipw_BDCD48, 0);
 ALIVE_VAR(1, 0xBDCD4C, s32, sPsx_drawenv_cliph_BDCD4C, 0);
 ALIVE_VAR(1, 0xBDCD50, s32, sPsx_drawenv_k500_BDCD50, 0);
-ALIVE_VAR(1, 0xBDCD54, BYTE*, sPsx_drawenv_buffer_BDCD54, nullptr);
-ALIVE_VAR(1, 0xBD1465, BYTE, sPsxEMU_show_vram_BD1465, 0);
+ALIVE_VAR(1, 0xBDCD54, u8*, sPsx_drawenv_buffer_BDCD54, nullptr);
+ALIVE_VAR(1, 0xBD1465, u8, sPsxEMU_show_vram_BD1465, 0);
 
 ALIVE_VAR(1, 0xC1D160, Bitmap, sPsxVram_C1D160, {});
 ALIVE_VAR(1, 0xC1D1A0, Bitmap, sBitmap_C1D1A0, {}); // Note: never used?
 
 ALIVE_VAR(1, 0xC2D060, PSX_DISPENV, sLastDispEnv_C2D060, {});
-ALIVE_VAR(1, 0xBD146D, BYTE, sScreenMode_BD146D, 0);
-ALIVE_VAR(1, 0xBD0F20, BYTE, turn_off_rendering_BD0F20, 0);
-ALIVE_VAR(1, 0x578324, BYTE, byte_578324, 1);
+ALIVE_VAR(1, 0xBD146D, u8, sScreenMode_BD146D, 0);
+ALIVE_VAR(1, 0xBD0F20, u8, turn_off_rendering_BD0F20, 0);
+ALIVE_VAR(1, 0x578324, u8, byte_578324, 1);
 
 
 ALIVE_ARY(1, 0xC14620, char, 128, sCdEmu_Path1_C14620, {});
@@ -153,9 +153,9 @@ EXPORT s32 CC PSX_CD_OpenFile_4FAE80(const char* pFileName, s32 bTryAllPaths)
 EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_4FADD0(s32 pos, CdlLOC* pLoc)
 {
     pLoc->field_3_track = 0;
-    pLoc->field_0_minute = static_cast<BYTE>(pos / 75 / 60 + 2);
+    pLoc->field_0_minute = static_cast<u8>(pos / 75 / 60 + 2);
     pLoc->field_1_second = pos / 75 % 60;
-    pLoc->field_2_sector = static_cast<BYTE>(pos + 108 * (pos / 75 / 60) - 75 * (pos / 75 % 60));
+    pLoc->field_2_sector = static_cast<u8>(pos + 108 * (pos / 75 / 60) - 75 * (pos / 75 % 60));
     return pLoc;
 }
 
@@ -203,7 +203,7 @@ EXPORT s32 CC PSX_CD_FileIOWait_4FB260(s32 bASync)
 
 ALIVE_VAR(1, 0xC1D184, TPsxEmuCallBack, sPsxEmu_put_disp_env_callback_C1D184, nullptr);
 ALIVE_VAR(1, 0xC1D17C, TPsxEmuCallBack, sPsxEmu_EndFrameFnPtr_C1D17C, nullptr);
-ALIVE_VAR(1, 0xBD0F21, BYTE, sPsxDontChangeDispEnv_BD0F21, 0);
+ALIVE_VAR(1, 0xBD0F21, u8, sPsxDontChangeDispEnv_BD0F21, 0);
 ALIVE_VAR(1, 0xBD145C, bool, sbBitmapsAllocated_BD145C, false);
 
 
@@ -650,7 +650,7 @@ EXPORT bool CC PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect)
         && pRect->h + pRect->y - 1 < sPsxVram_C1D160.field_C_height;
 }
 
-EXPORT s32 CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
+EXPORT s32 CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData)
 {
     if (!PSX_Rect_IsInFrameBuffer_4FA050(pRect))
     {
@@ -674,9 +674,9 @@ EXPORT s32 CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
     // TODO: Clean up more, treat as 1024x512 16bit array
     const u32 bytesPerPixel = sPsxVram_C1D160.field_14_bpp / 8;
     u32 srcWidthInBytes = pRect->w * bytesPerPixel;
-    BYTE* pDst = (BYTE *)sPsxVram_C1D160.field_4_pLockedPixels + bytesPerPixel * (pRect->x + (pRect->y * sPsxVram_C1D160.field_8_width));
-    const BYTE* pDataEnd = &pData[srcWidthInBytes * pRect->h];
-    const BYTE* pDataIter = pData;
+    u8* pDst = (u8 *)sPsxVram_C1D160.field_4_pLockedPixels + bytesPerPixel * (pRect->x + (pRect->y * sPsxVram_C1D160.field_8_width));
+    const u8* pDataEnd = &pData[srcWidthInBytes * pRect->h];
+    const u8* pDataIter = pData;
 
     while (pDataIter < pDataEnd)
     {
@@ -700,7 +700,7 @@ EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
 
 #if RENDERER_OPENGL
     // TODO: This is actually download, but we have a copy of it stored in the pal cache
-    //IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, *rect, reinterpret_cast<BYTE * >(pData));
+    //IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, *rect, reinterpret_cast<u8 * >(pData));
 #endif
     if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
     {
@@ -741,7 +741,7 @@ EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
     return 1;
 }
 
-EXPORT s32 CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
+EXPORT s32 CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const u8* pData)
 {
     const u32 pixelCount = pRect->w * pRect->h;
     WORD* pConversionBuffer = reinterpret_cast<WORD*>(ae_malloc_4F4E60(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
@@ -752,12 +752,12 @@ EXPORT s32 CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
     }
 
     PSX_Pal_Conversion_4F98D0(reinterpret_cast<const WORD*>(pData), pConversionBuffer, pixelCount);
-    const auto loadImageRet = PSX_LoadImage_4F5FB0(pRect, reinterpret_cast<BYTE*>(pConversionBuffer));
+    const auto loadImageRet = PSX_LoadImage_4F5FB0(pRect, reinterpret_cast<u8*>(pConversionBuffer));
     ae_free_4F4EA0(pConversionBuffer);
     return loadImageRet;
 }
 
-EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(s32 x, s32 y, s32 w, s32 h, s32 unknown, BYTE* pBuffer)
+EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(s32 x, s32 y, s32 w, s32 h, s32 unknown, u8* pBuffer)
 {
     sPsx_drawenv_clipx_BDCD40 = x;
     sPsx_drawenv_clipy_BDCD44 = y;

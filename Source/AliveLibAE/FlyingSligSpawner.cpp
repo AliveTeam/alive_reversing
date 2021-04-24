@@ -46,12 +46,12 @@ void FlyingSligSpawner::VUpdate()
     return vUpdate_433E10();
 }
 
-s32 FlyingSligSpawner::VGetSaveState(BYTE* pSaveBuffer)
+s32 FlyingSligSpawner::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_43B730(reinterpret_cast<FlyingSligSpawner_State*>(pSaveBuffer));
 }
 
-s32 CC FlyingSligSpawner::CreateFromSaveState_43B690(const BYTE* pBuffer)
+s32 CC FlyingSligSpawner::CreateFromSaveState_43B690(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const FlyingSligSpawner_State*>(pBuffer);
 

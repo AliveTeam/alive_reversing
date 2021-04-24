@@ -53,7 +53,7 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     SetVTable(this, 0x4BA280);
 
     field_E4_pGibData = &kGibData_4C30B0[gibType];
-    BYTE** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, field_E4_pGibData->field_14_resource_id, 1, 0);
+    u8** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, field_E4_pGibData->field_14_resource_id, 1, 0);
 
     // The base class renders the head gib
     Animation_Init_417FD0(
@@ -99,7 +99,7 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
         field_EC_dz = GibRand(scale) / FP_FromInteger(2);
     }
 
-    BYTE** ppPal = nullptr;
+    u8** ppPal = nullptr;
     if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
     {
         // TODO: Enum for gib types, 0 = abe, 4 = mud
@@ -174,9 +174,9 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-        pPart->field_18_anim.field_8_r = static_cast<BYTE>(field_C0_r);
-        pPart->field_18_anim.field_9_g = static_cast<BYTE>(field_C2_g);
-        pPart->field_18_anim.field_A_b = static_cast<BYTE>(field_C4_b);
+        pPart->field_18_anim.field_8_r = static_cast<u8>(field_C0_r);
+        pPart->field_18_anim.field_9_g = static_cast<u8>(field_C2_g);
+        pPart->field_18_anim.field_A_b = static_cast<u8>(field_C4_b);
 
         pPart->field_0_x = field_A8_xpos;
         pPart->field_4_y = field_AC_ypos;
