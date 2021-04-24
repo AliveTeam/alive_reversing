@@ -117,7 +117,7 @@ EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const u8* pData, u8* decomp
                     {
                         ReadNextSource(stream, control_byte, dstIndex);
 
-                        const char dstByte = dstIndex & 0x3F;
+                        const s8 dstByte = dstIndex & 0x3F;
                         dstIndex = dstIndex >> 6;
 
                         decompressedData[dstPos] = dstByte;

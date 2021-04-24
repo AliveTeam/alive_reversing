@@ -154,7 +154,7 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
 
             const UINT vKey = static_cast<UINT>(wParam);
             const UINT scanCode = HIWORD(lParam);
-            char translated[4] = {};
+            s8 translated[4] = {};
             // TODO: can be negative but is never checked
             const s32 numBytesWritten = ::ToAscii(vKey, scanCode, KeyState, reinterpret_cast<WORD*>(&translated), 0);
             translated[numBytesWritten] = 0;
@@ -184,7 +184,7 @@ HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle)
 #endif
 #endif
 
-void Sys_SetWindowText(TWindowHandleType windowHandle, const char* title)
+void Sys_SetWindowText(TWindowHandleType windowHandle, const s8* title)
 {
 #if USE_SDL2
     SDL_SetWindowTitle(windowHandle, title);
@@ -796,7 +796,7 @@ EXPORT BOOL CC Sys_IsAppActive_4EDF30()
     return sAppIsActivated_BBBA00;
 }
 
-EXPORT char CC Sys_PumpMessages_4EE4F4()
+EXPORT s8 CC Sys_PumpMessages_4EE4F4()
 {
 #if USE_SDL2
     SDL_Event event;

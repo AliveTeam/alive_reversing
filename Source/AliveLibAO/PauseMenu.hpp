@@ -33,11 +33,11 @@ public:
     {
         s16 field_0_x;
         s16 field_2_y;
-        const char *field_4_strBuf;
+        const s8 *field_4_strBuf;
         u8 field_8_r;
         u8 field_9_g;
         u8 field_A_b;
-        char field_B;
+        s8 field_B;
     };
     void DrawEntries(PrimHeader** ppOt, PauseEntry* entries, s16 compilerhack, s32 polyOffset);
 
@@ -63,6 +63,6 @@ public:
 ALIVE_ASSERT_SIZEOF(PauseMenu, 0x190);
 
 ALIVE_VAR_EXTERN(PauseMenu*, pPauseMenu_5080E0);
-ALIVE_VAR_EXTERN(char, byte_A88B90);
+ALIVE_VAR_EXTERN(s8, byte_A88B90);
 
 }

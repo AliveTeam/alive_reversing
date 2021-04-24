@@ -740,8 +740,8 @@ public:
     s16 field_194_camera;
     s16 field_196_door_id;
     BaseThrowable* field_198_pThrowable;
-    char field_19C_throwable_count;
-    char field_19D_throw_direction;
+    s8 field_19C_throwable_count;
+    s8 field_19D_throw_direction;
     PortalSubStates field_19E_portal_sub_state;
     BirdPortal* field_1A0_portal;
     AbeResources field_1A4_resources;

@@ -24,8 +24,8 @@ ALIVE_VAR(1, 0xBD2A20, Bitmap, sVGA_bmp_primary_BD2A20, {});
 ALIVE_VAR(1, 0xBD2A40, Bitmap, sVGA_bmp_back_buffer_BD2A40, {});
 
 
-ALIVE_VAR(1, 0xBD0BBC, char, sVGA_BD0BBC, 0);
-ALIVE_VAR(1, 0xBD0BF9, char, sVGA_bpp_BD0BF9, 0);
+ALIVE_VAR(1, 0xBD0BBC, s8, sVGA_BD0BBC, 0);
+ALIVE_VAR(1, 0xBD0BF9, s8, sVGA_bpp_BD0BF9, 0);
 ALIVE_VAR(1, 0xBD0BEC, WORD, sVGA_height_BD0BEC, 0);
 ALIVE_VAR(1, 0xBD0BC4, WORD, sVGA_width_BD0BC4, 0);
 
@@ -268,7 +268,7 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
         sVGA_bmp_primary_BD2A20.field_8_width = width;
         sVGA_bmp_primary_BD2A20.field_10_locked_pitch = sVGA_bmp_primary_BD2A20.field_0_pSurface->pitch; // TODO: Probably wrong ?
         sVGA_bmp_primary_BD2A20.field_C_height = height;
-        sVGA_bmp_primary_BD2A20.field_14_bpp = static_cast<char>(bpp);
+        sVGA_bmp_primary_BD2A20.field_14_bpp = static_cast<s8>(bpp);
         sVGA_bmp_primary_BD2A20.field_18_create_flags = 2;
 
         // TODO: Create back buffer surface
@@ -404,31 +404,31 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
 {
     Bitmap *pBitmapToUse; // ebp
     s32 srcWidth; // ebx
-    char bpp; // cl
+    s8 bpp; // cl
     s32 v7 = 0; // eax
     u16 *v22; // esi
-    char *v23; // edx
+    s8 *v23; // edx
     s32 v24; // ecx
-    char *v25; // eax
+    s8 *v25; // eax
     u32 v26; // edi
     u16 v27; // ax
     s32 v28; // ebx
-    char v29; // bp
-    char v30; // bl
+    s8 v29; // bp
+    s8 v30; // bl
     u32 v31; // edi
     u16 v32; // ax
-    char v34; // [esp+10h] [ebp-438h]
-    char v35; // [esp+10h] [ebp-438h]
-    char v37; // [esp+14h] [ebp-434h]
-    char v38; // [esp+14h] [ebp-434h]
+    s8 v34; // [esp+10h] [ebp-438h]
+    s8 v35; // [esp+10h] [ebp-438h]
+    s8 v37; // [esp+14h] [ebp-434h]
+    s8 v38; // [esp+14h] [ebp-434h]
     s32 v40; // [esp+18h] [ebp-430h]
     s32 srcWidth2; // [esp+1Ch] [ebp-42Ch]
     s32 v45; // [esp+20h] [ebp-428h]
     LONG srcX; // [esp+24h] [ebp-424h]
-    char v47; // [esp+24h] [ebp-424h]
+    s8 v47; // [esp+24h] [ebp-424h]
     s32 height; // [esp+28h] [ebp-420h]
     s32 v50; // [esp+2Ch] [ebp-41Ch]
-    char *v52; // [esp+30h] [ebp-418h]
+    s8 *v52; // [esp+30h] [ebp-418h]
     LONG srcY; // [esp+34h] [ebp-414h]
     RECT rect; // [esp+38h] [ebp-410h]
 
@@ -532,7 +532,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
         }
 
         v50 = ((u32)pBitmapToUse->field_10_locked_pitch >> 1) - srcWidth;
-        v22 = (u16 *)((char *)pBitmapToUse->field_4_pLockedPixels
+        v22 = (u16 *)((s8 *)pBitmapToUse->field_4_pLockedPixels
             + 2 * (srcX + ((u32)(srcY * pBitmapToUse->field_10_locked_pitch) >> 1)));
 
         if (sVGA_bmp_primary_BD2A20.field_14_bpp == 32)
@@ -544,11 +544,11 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
             v40 = 3 * srcWidth2;
         }
 
-        v23 = (char *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels;
+        v23 = (s8 *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels;
         v24 = sVGA_Bmp0_BD0BD0.field_10_locked_pitch - v40;
-        v25 = (char *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels + height * sVGA_Bmp0_BD0BD0.field_10_locked_pitch;
+        v25 = (s8 *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels + height * sVGA_Bmp0_BD0BD0.field_10_locked_pitch;
         v45 = sVGA_Bmp0_BD0BD0.field_10_locked_pitch - v40;
-        v52 = (char *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels + height * sVGA_Bmp0_BD0BD0.field_10_locked_pitch;
+        v52 = (s8 *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels + height * sVGA_Bmp0_BD0BD0.field_10_locked_pitch;
         if (sVGA_bmp_primary_BD2A20.field_14_bpp == 32)
         {
             if (pBitmapToUse->field_15_pixel_format == 15)
@@ -627,8 +627,8 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
                         v32 = *v22;
                         v23 += 3;
                         ++v22;
-                        *(v23 - 3) = static_cast<char>((u32)v32 >> v29);
-                        *(v23 - 2) = static_cast<char>((u32)v32 >> v38);
+                        *(v23 - 3) = static_cast<s8>((u32)v32 >> v29);
+                        *(v23 - 2) = static_cast<s8>((u32)v32 >> v38);
                         *(v23 - 1) = (u8)v32 << v35;
                     } while ((u32)v23 < v31);
                     v24 = v45;
@@ -728,7 +728,7 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
                     sVGA_bmp_primary_BD2A20.field_8_width = surfaceDesc.dwWidth;
                     sVGA_bmp_primary_BD2A20.field_10_locked_pitch = surfaceDesc.lPitch;
                     sVGA_bmp_primary_BD2A20.field_C_height = surfaceDesc.dwHeight;
-                    sVGA_bmp_primary_BD2A20.field_14_bpp = static_cast<char>(surfaceDesc.ddpfPixelFormat.dwRGBBitCount);
+                    sVGA_bmp_primary_BD2A20.field_14_bpp = static_cast<s8>(surfaceDesc.ddpfPixelFormat.dwRGBBitCount);
                     sVGA_bmp_primary_BD2A20.field_18_create_flags = 2;
                     memcpy(&sVGA_bmp_back_buffer_BD2A40, &sVGA_bmp_primary_BD2A20, sizeof(sVGA_bmp_back_buffer_BD2A40));
                     sVGA_bmp_back_buffer_BD2A40.field_0_pSurface = sDD_surface_backbuffer_BBC3CC;

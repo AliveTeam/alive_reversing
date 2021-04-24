@@ -365,7 +365,7 @@ BOOL Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_
     return ret_impl;
 }
 
-PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, s16 y2, char mode)
+PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode)
 {
     bool freeItemFound = false;
     s32 idx = field_8_item_count;

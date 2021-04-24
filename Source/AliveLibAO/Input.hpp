@@ -8,7 +8,7 @@ struct PSX_Pad
 {
     u16 field_0_pressed;
     u8 field_2_dir;
-    char field_3;
+    s8 field_3;
     s16 field_4_previously_pressed;
     u16 field_6_held;
     s16 field_8_released;
@@ -106,25 +106,25 @@ const InputCommands sInputKey_Chant = static_cast<InputCommands>(eRightGameSpeak
 
 EXPORT BOOL CC Input_IsChanting_4334C0();
 EXPORT void Input_InitKeyStateArray_48E5F0();
-EXPORT void CC Input_SetKeyState_48E610(s32 key, char bIsDown);
+EXPORT void CC Input_SetKeyState_48E610(s32 key, s8 bIsDown);
 
 
 
 EXPORT void Input_GetCurrentKeyStates_48E630();
 
-EXPORT char CC Input_IsVKPressed_48E5D0(s32 key);
+EXPORT s8 CC Input_IsVKPressed_48E5D0(s32 key);
 
 EXPORT void CC Input_Init_44EB60();
 
 EXPORT void Input_DisableInput_48E690();
 
-EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails = true);
+EXPORT const s8* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails = true);
 
 EXPORT s32 CC Input_Remap_44F300(InputCommands inputCmd);
 
 EXPORT s32 CC Input_SaveSettingsIni_44F460();
 
-EXPORT char Input_GetLastPressedKey_44F2C0();
+EXPORT s8 Input_GetLastPressedKey_44F2C0();
 
 EXPORT void Input_Reset_44F2F0();
 

@@ -77,7 +77,7 @@ void OrbWhirlWindParticle::ToStop_4E4AD0()
     field_DC_position_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 32);
 }
 
-OrbWhirlWindParticle* OrbWhirlWindParticle::vdtor_4E42D0(char flags)
+OrbWhirlWindParticle* OrbWhirlWindParticle::vdtor_4E42D0(s8 flags)
 {
     dtor_4E4300();
     if (flags & 1)

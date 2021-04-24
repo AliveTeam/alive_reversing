@@ -11,14 +11,14 @@ EXPORT void Input_SaveSettingsIni_Common(bool isAo);
 EXPORT void Input_SaveSettingsIni_492840();
 EXPORT void CC Input_DisableInputForPauseMenuAndDebug_4EDDC0();
 EXPORT void CC Input_Init_491BC0();
-EXPORT void CC Input_SetKeyState_4EDD80(s32 key, char bIsDown);
+EXPORT void CC Input_SetKeyState_4EDD80(s32 key, s8 bIsDown);
 EXPORT bool CC Input_IsVKPressed_4EDD40(s32 key);
 EXPORT DWORD Input_GetLastPressedKey_492610();
 EXPORT void Input_Reset_492660();
 EXPORT u32 Input_IsChanting_45F260();
 EXPORT void CC Input_Pads_Reset_4FA960();
 EXPORT void CC Input_Init_Names_491870();
-EXPORT const char* CC Input_GetButtonString_492530(const char* idx, s32 controllerType);
+EXPORT const s8* CC Input_GetButtonString_492530(const s8* idx, s32 controllerType);
 
 EXPORT bool Input_JoyStickEnabled();
 EXPORT void Input_SetJoyStickEnabled(bool enabled);
@@ -173,7 +173,7 @@ public:
     EXPORT void SetDemoResource_45F1E0(DWORD** pDemoRes);
     EXPORT void Update_45F040();
     EXPORT static DWORD CC Command_To_Raw_45EE40(DWORD cmd);
-    EXPORT static char CC Raw_To_Command_45EF70(s32 a1);
+    EXPORT static s8 CC Raw_To_Command_45EF70(s32 a1);
     EXPORT void CC ShutDown_45F020();
 public:
     InputPadObject field_0_pads[2];

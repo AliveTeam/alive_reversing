@@ -11,7 +11,7 @@ ALIVE_ARY(1, 0x5cb888, PSX_RECT, kMaxAllocs, sVramAllocations_5CB888, {});
 ALIVE_VAR(1, 0x5cc888, s32, sVramNumberOfAllocations_5CC888, 0);
 ALIVE_VAR(1, 0x5CC88C, WORD, unused_5CC88C, 0);
 
-EXPORT char CC Vram_calc_width_4955A0(s32 width, s32 depth)
+EXPORT s8 CC Vram_calc_width_4955A0(s32 width, s32 depth)
 {
     switch (depth)
     {

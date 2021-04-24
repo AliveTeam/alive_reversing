@@ -96,7 +96,7 @@ struct FlyingSlig_State
     FP field_4C_xSpeed;
     FP field_50_ySpeed;
     SligSpeak field_54_next_speak;
-    char field_55_padding;
+    s8 field_55_padding;
     s16 field_56_voice_pitch_min;
     s32 field_58_obj_id;
     FP field_5C;

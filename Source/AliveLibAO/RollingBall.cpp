@@ -188,7 +188,7 @@ void RollingBall::VUpdate_457AF0()
     {
         if (!(field_10_anim.field_92_current_frame % 3))
         {
-            SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(71, 72)), 0, 0);
+            SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(71, 72)), 0, 0);
         }
 
         Accelerate_458410();
@@ -217,7 +217,7 @@ void RollingBall::VUpdate_457AF0()
     {
         if (!(field_10_anim.field_92_current_frame % 3))
         {
-            SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(71, 72)), 0, 0);
+            SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(71, 72)), 0, 0);
         }
 
         Accelerate_458410();

@@ -28,7 +28,7 @@ struct TVarInfo
     DWORD mSize;
     bool mIsPointerType;
     bool mIsConstData;
-    const char* mName;
+    const s8* mName;
 };
 
 static std::vector<TVarInfo>& Vars()
@@ -97,7 +97,7 @@ bool operator < (const TVarInfo& lhs, const TVarInfo& rhs)
     return lhs.mAddr < rhs.mAddr;
 }
 
-AliveVar::AliveVar(const char* name, DWORD addr, DWORD sizeInBytes, bool isPointerType, bool isConstData)
+AliveVar::AliveVar(const s8* name, DWORD addr, DWORD sizeInBytes, bool isPointerType, bool isConstData)
 {
     Vars().push_back({ addr, sizeInBytes, isPointerType, isConstData, name });
 }

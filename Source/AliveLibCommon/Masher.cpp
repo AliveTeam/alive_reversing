@@ -259,13 +259,13 @@ static u32 ExtractBits(u32 value, u32 numBits)
     return value >> (32 - numBits);
 }
 
-static void SkipBits(u32& value, char numBits, char& usedBitCount)
+static void SkipBits(u32& value, s8 numBits, s8& usedBitCount)
 {
     value = value << numBits;
     usedBitCount += numBits;
 }
 
-static inline void GetBits(char& usedBitCount, u16*& rawBitStreamPtr, u32& rawWord4, u32& workBits)
+static inline void GetBits(s8& usedBitCount, u16*& rawBitStreamPtr, u32& rawWord4, u32& workBits)
 {
     // I think this is used as an escape code?
     if (usedBitCount & 16)   // 0b10000 if bit 5 set
@@ -276,7 +276,7 @@ static inline void GetBits(char& usedBitCount, u16*& rawBitStreamPtr, u32& rawWo
     }
 }
 
-static inline void OutputWordAndAdvance(u16*& rawBitStreamPtr, u32& rawWord4, u16*& pOut, char& usedBitCount, u32& workBits)
+static inline void OutputWordAndAdvance(u16*& rawBitStreamPtr, u32& rawWord4, u16*& pOut, s8& usedBitCount, u32& workBits)
 {
     *pOut++ = workBits >> (32 - 16);
 
@@ -301,7 +301,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
 
     u32 rawWord4 = ExtractBits(workBits, 11);
 
-    char usedBitCount = 0;
+    s8 usedBitCount = 0;
     SkipBits(workBits, 11, usedBitCount);
 
     *pOutput++ = static_cast<u16>(rawWord4); // store in output 0x000007fc
@@ -335,7 +335,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                                     GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
 
 
-                                    const char bitsToShiftFromTbl = gTbl1[table_index_1].mBitsToShift;
+                                    const s8 bitsToShiftFromTbl = gTbl1[table_index_1].mBitsToShift;
 
                                     SkipBits(workBits, bitsToShiftFromTbl, usedBitCount);
 
@@ -347,7 +347,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                                 } // End while
 
 
-                                const char tblValueBits = gTbl2[table_index_2].mBitsToShift;
+                                const s8 tblValueBits = gTbl2[table_index_2].mBitsToShift;
 
                                 SkipBits(workBits, tblValueBits, usedBitCount);
 
@@ -742,7 +742,7 @@ static void after_block_decode_no_effect_q_impl(s32 quantScale)
 
 }
 
-s32 Masher::Init_4E6770(const char* movieFileName)
+s32 Masher::Init_4E6770(const s8* movieFileName)
 {
     field_40_video_frame_to_decode = nullptr;
     field_44_decoded_frame_data_buffer = nullptr;
@@ -958,7 +958,7 @@ s32 Masher::sub_4E6B30()
     // Audio with no video
     if (field_60_bHasAudio && !field_61_bHasVideo)
     {
-        field_48_sound_frame_to_decode = (s32 *)((char *)field_80_raw_frame_data + frameOffset);
+        field_48_sound_frame_to_decode = (s32 *)((s8 *)field_80_raw_frame_data + frameOffset);
     }
     // Video with no audio
     else if (!field_60_bHasAudio && field_61_bHasVideo)

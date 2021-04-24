@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Sys_common.hpp"
 
-void Sys_SetWindowText(TWindowHandleType windowHandle, const char* title);
+void Sys_SetWindowText(TWindowHandleType windowHandle, const s8* title);
 POINT Sys_GetScreenMousePos();
 enum class MouseButtons
 {
@@ -23,7 +23,7 @@ EXPORT s32 CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
 EXPORT TWindowHandleType CC Sys_GetWindowHandle_4EE180();
 EXPORT BOOL CC Sys_IsAnyKeyDown_4EDDF0();
 EXPORT BOOL CC Sys_IsAppActive_4EDF30();
-EXPORT char CC Sys_PumpMessages_4EE4F4();
+EXPORT s8 CC Sys_PumpMessages_4EE4F4();
 #ifdef _WIN32
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 #endif

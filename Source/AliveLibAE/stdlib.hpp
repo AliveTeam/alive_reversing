@@ -7,7 +7,7 @@ EXPORT void* CC ae_internal_malloc_5212C0(size_t size);
 EXPORT void* CC ae_realloc_522335(void* ptr, size_t size);
 EXPORT s32 CC ae_fseek_521955(FILE* stream, s32 offset, s32 origin);
 EXPORT size_t CC ae_fread_520B5C(void* ptr, size_t size, size_t count, FILE* stream);
-EXPORT FILE* CC ae_fopen_520C64(const char* filename, const char* mode);
+EXPORT FILE* CC ae_fopen_520C64(const s8* filename, const s8* mode);
 EXPORT s32 CC ae_fclose_520CBE(FILE* stream);
 EXPORT void* CC ae_malloc_4F4E60(size_t size);
 EXPORT void* CC ae_new_malloc_4954D0(size_t size);
@@ -29,4 +29,4 @@ inline T* ae_new(Args&&... args)
     return nullptr;
 }
 
-s32 access_impl(char const* fileName, s32 accessMode);
+s32 access_impl(s8 const* fileName, s32 accessMode);

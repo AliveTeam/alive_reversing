@@ -13,7 +13,7 @@ bool CC RunningAsInjectedDll()
     return false;
 }
 
-static std::vector<u8> ReadLvlFile(LvlArchive& archive, const char* fileName)
+static std::vector<u8> ReadLvlFile(LvlArchive& archive, const s8* fileName)
 {
     LvlFileRecord* pFileRec = archive.Find_File_Record_433160(fileName);
     if (!pFileRec)
@@ -27,7 +27,7 @@ static std::vector<u8> ReadLvlFile(LvlArchive& archive, const char* fileName)
     return fileContent;
 }
 
-static void WriteVec(const char* fileName, const std::vector<u8>& vec)
+static void WriteVec(const s8* fileName, const std::vector<u8>& vec)
 {
     auto hFile = fopen(fileName, "wb");
     if (hFile)
@@ -57,7 +57,7 @@ s32 CC SND_SoundsDat_Read(FILE* file, VabHeader* pVabHeader, VabBodyRecord* pVab
 }
 
 
-static void PCToPsxVab(bool isAe, const char* lvlName, const char* vhName, const char* vbName)
+static void PCToPsxVab(bool isAe, const s8* lvlName, const s8* vhName, const s8* vbName)
 {
     ResourceManager::Init_49BCE0();
 
@@ -114,7 +114,7 @@ static void PCToPsxVab(bool isAe, const char* lvlName, const char* vhName, const
     archive.Free_433130();
 }
 
-s32 main(s32 /*argc*/, char** /*argv*/)
+s32 main(s32 /*argc*/, s8** /*argv*/)
 {
 #if _WIN32
     ::AllocConsole();

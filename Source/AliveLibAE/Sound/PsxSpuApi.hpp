@@ -7,11 +7,11 @@
 struct ProgAtr
 {
     u8 field_0_num_tones;
-    char field_1_vol;
-    char field_2_priority;
-    char field_3_mode;
-    char field_4_pan;
-    char field_5_reserved0;
+    s8 field_1_vol;
+    s8 field_2_priority;
+    s8 field_3_mode;
+    s8 field_4_pan;
+    s8 field_5_reserved0;
     s16 field_6_attr;
     s32 field_8_reserved1;
     s32 field_C_reserved2;
@@ -28,10 +28,10 @@ struct VabHeader
     s16 field_12_num_progs;
     s16 field_14_num_tones;
     u16 field_16_num_vags;
-    char field_18_master_vol;
-    char field_19_master_pan;
-    char field_1A_attr1;
-    char field_1B_attr2;
+    s8 field_18_master_vol;
+    s8 field_19_master_pan;
+    s8 field_1A_attr1;
+    s8 field_1B_attr2;
     s32 field_1C_reserved1;
     ProgAtr field_20_progs[128];
 };
@@ -60,7 +60,7 @@ struct Converted_Vag
     u8 field_E_priority;
     u8 field_F_prog;
     u8 field_10_vag;
-    char field_11_pad;
+    s8 field_11_pad;
 };
 ALIVE_ASSERT_SIZEOF(Converted_Vag, 0x12);
 
@@ -80,7 +80,7 @@ ALIVE_ASSERT_SIZEOF(SoundEntryTable, 36864);
 
 struct VabUnknown
 {
-    char field_0[4][128];
+    s8 field_0[4][128];
 };
 ALIVE_ASSERT_SIZEOF(VabUnknown, 512);
 
@@ -92,14 +92,14 @@ struct MIDI_ADSR_State
     u8 field_0_seq_idx;
     u8 field_1_program;
     u8 field_2_note_byte1;
-    char field_3_state;
+    s8 field_3_state;
     u16 field_4_attack;
     u16 field_6_sustain;
     u16 field_8_decay;
     u16 field_A_release;
     u16 field_C;
     u8 field_E_ref_count;
-    char field_F_pad;
+    s8 field_F_pad;
 };
 ALIVE_ASSERT_SIZEOF(MIDI_ADSR_State, 0x10);
 
@@ -124,9 +124,9 @@ ALIVE_ASSERT_SIZEOF(MidiChannels, 1056);
 
 struct MIDI_ProgramVolume
 {
-    char field_0_program;
-    char field_1_left_vol;
-    char field_2_right_vol;
+    s8 field_0_program;
+    s8 field_1_left_vol;
+    s8 field_2_right_vol;
 };
 ALIVE_ASSERT_SIZEOF(MIDI_ProgramVolume, 3);
 
@@ -144,15 +144,15 @@ struct MIDI_SeqSong
     u8* field_24_loop_start;
     s16 field_seq_idx;
     u8 field_2A_running_status;
-    char field_2B_repeatMode; // TODO: Check
-    char field_2C_loop_count;
-    char field_2D_pad;
+    s8 field_2B_repeatMode; // TODO: Check
+    s8 field_2C_loop_count;
+    s8 field_2D_pad;
     s16 field_2E_seqAccessNum; // never written in a meaningful way
-    char field_30_timeSignatureBars;
-    char field_31_timeSignatureBars2; // bug: maybe they should have assigned beats instead? but never read anyway
+    s8 field_30_timeSignatureBars;
+    s8 field_31_timeSignatureBars2; // bug: maybe they should have assigned beats instead? but never read anyway
     MIDI_ProgramVolume field_32_progVols[16];
-    char field_62_pad;
-    char field_63_pad;
+    s8 field_62_pad;
+    s8 field_63_pad;
 };
 ALIVE_ASSERT_SIZEOF(MIDI_SeqSong, 100);
 
@@ -180,7 +180,7 @@ public:
     virtual s32& sMidi_Inited_dword() = 0;
     virtual u32& sMidiTime() = 0;
     virtual BOOL& sSoundDatIsNull() = 0;
-    virtual char& sbDisableSeqs() = 0;
+    virtual s8& sbDisableSeqs() = 0;
     virtual DWORD& sLastTime() = 0;
     virtual DWORD& sMidi_WaitUntil() = 0;
     virtual IO_FileHandleType& sSoundDatFileHandle() = 0;
@@ -223,7 +223,7 @@ EXPORT void CC SsSeqClose_4FD8D0(s16 idx);
 EXPORT void CC SsSeqStop_4FD9C0(s16 idx);
 EXPORT u16 CC SsIsEos_4FDA80(s16 idx, s16 seqNum);
 EXPORT void CC SsSeqSetVol_4FDAC0(s16 idx, s16 volLeft, s16 volRight);
-EXPORT void CC SsSeqPlay_4FD900(u16 idx, char playMode, s16 repeatCount);
+EXPORT void CC SsSeqPlay_4FD900(u16 idx, s8 playMode, s16 repeatCount);
 
 EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx);
 EXPORT s32 CC MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru);

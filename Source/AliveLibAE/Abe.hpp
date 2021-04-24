@@ -228,7 +228,7 @@ enum class MudSounds : s16
     eSadUgh_28 = 28,
 };
 
-enum class EnvironmentSfx : char
+enum class EnvironmentSfx : s8
 {
     eSlideStop_0 = 0,
     eWalkingFootstep_1 = 1,
@@ -344,10 +344,10 @@ struct Abe_SaveState
     WORD current_motion;
     WORD anim_current_frame;
     WORD anim_frame_change_counter;
-    char anim_render_layer;
-    char bAnimRender;
-    char bDrawable;
-    char field_2F_padding;
+    s8 anim_render_layer;
+    s8 bAnimRender;
+    s8 bDrawable;
+    s8 field_2F_padding;
     FP field_30_health;
     WORD field_34_animation_num;
     WORD next_motion;
@@ -356,8 +356,8 @@ struct Abe_SaveState
     DWORD platform_obj_id;
     WORD bElectrocuted;
     WORD field_42_bInvisible;
-    char field_44_is_abe_controlled;
-    char field_45_padding;
+    s8 field_44_is_abe_controlled;
+    s8 field_45_padding;
     s16 field_46_padding;
     FP field_48_x_vel_slow_by;
     DWORD field_4C_unused;
@@ -369,10 +369,10 @@ struct Abe_SaveState
     MudSounds say;
     DWORD auto_say_timer;
     DWORD ring_pulse_timer;
-    char field_6c_rock_bone_count;
-    char bShrivel;
-    char bHaveShrykull;
-    char bHaveInvisiblity;
+    s8 field_6c_rock_bone_count;
+    s8 bShrivel;
+    s8 bHaveShrykull;
+    s8 bHaveInvisiblity;
     WORD prev_held;
     WORD released_buttons;
     WORD field_74_knockdown_motion;
@@ -389,8 +389,8 @@ struct Abe_SaveState
     DWORD invisible_timer;
     WORD field_A0_unused;
     WORD field_A2_invisibility_id;
-    char field_A4_cam_idx;
-    char field_A5_padding;
+    s8 field_A4_cam_idx;
+    s8 field_A5_padding;
     s16 field_A6_padding;
     TlvTypes32 hand_stone_type;
     WORD fmv_id;
@@ -408,8 +408,8 @@ struct Abe_SaveState
     WORD to_path;
     WORD to_camera;
     WORD door_id;
-    char field_ca_throw_direction;
-    char field_CB_padding;
+    s8 field_ca_throw_direction;
+    s8 field_CB_padding;
     WORD field_CC_portal_sub_state;
     s16 field_CE_padding;
     DWORD bird_portal_id;
@@ -686,10 +686,10 @@ public:
     s16 field_174_unused;
     s16 field_176_invisibility_id;
     s32 field_178_invisible_effect_id;
-    char field_17C_cam_idx;
-    char field_17D_padding;
-    char field_17E_padding;
-    char field_17F_padding;
+    s8 field_17C_cam_idx;
+    s8 field_17D_padding;
+    s8 field_17E_padding;
+    s8 field_17F_padding;
     TlvTypes32 field_180_hand_stone_type;
     s16 field_184_fmv_id;
     s16 field_186_to_camera_id[3];
@@ -704,8 +704,8 @@ public:
     s16 field_19C_to_path;
     s16 field_19E_to_camera;
     s16 field_1A0_door_id;
-    char field_1A2_throwable_count;
-    char field_1A3_throw_direction;
+    s8 field_1A2_throwable_count;
+    s8 field_1A3_throw_direction;
     PortalSubStates field_1A4_portal_sub_state;
     s16 field_1A6_padding;
     s32 field_1A8_portal_id;
@@ -751,7 +751,7 @@ ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_5C1B8C);
 ALIVE_VAR_EXTERN(s16, gAbeBulletProof_5C1BDA);
 
 //extern const s32 sAbeFrameOffsetTable_554B18[130];
-extern const char* const sAbeStateNames[130];
+extern const s8* const sAbeStateNames[130];
 
 EXPORT s32 CC Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 

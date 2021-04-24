@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF(Events, 0xB0);
 ALIVE_VAR(1, 0x5BC1D4, s16, sEventsToUse_5BC1D4, 0);
 ALIVE_VAR(1, 0x5BC124, Events, sEventPtrs_5BC124, {});
 
-const char * sEventEnumString[]
+const s8 * sEventEnumString[]
 {
     "Noise",
     "Speaking",

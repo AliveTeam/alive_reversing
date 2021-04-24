@@ -93,7 +93,7 @@ public:
 
     // TODO: Restore vTable entry.
     //EXPORT virtual s16 Animationv_40B200();
-    EXPORT virtual char Animation_v_40BEE0(s16 a2, s16 a3, s32 a4, s16 a5, s16 op1);
+    EXPORT virtual s8 Animation_v_40BEE0(s16 a2, s16 a3, s32 a4, s16 a5, s16 op1);
 
     EXPORT static void CC AnimateAll_40AC20(DynamicArrayT<AnimationBase>* pAnimations);
 

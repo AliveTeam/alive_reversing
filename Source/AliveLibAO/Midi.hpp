@@ -185,7 +185,7 @@ EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 
 EXPORT void CC SND_Stop_Channels_Mask_4774A0(s32 mask);
 
-EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqFileName);
+EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const s8* bsqFileName);
 
 EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop);
 

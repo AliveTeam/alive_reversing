@@ -12,7 +12,7 @@
 #include "d3d.h"
 
 RECT ClientToScreenConvert(HWND hwnd);
-EXPORT const char* CC DX_HR_To_String_4F4EC0(HRESULT hr);
+EXPORT const s8* CC DX_HR_To_String_4F4EC0(HRESULT hr);
 EXPORT s32 CC DD_Shutdown_4F0790(s32 bDestroyDD);
 EXPORT s32 CC DD_Init_4F0840(s32 a1);
 EXPORT s32 CC DD_Init_4F02D0(HWND hwnd, bool bFullScreen, s32 forceSoftwareSurfaces);

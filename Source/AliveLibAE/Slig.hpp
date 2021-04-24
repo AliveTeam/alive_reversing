@@ -177,8 +177,8 @@ struct Slig_State
     s16 field_26_current_motion;
     s16 field_28_current_frame;
     s16 field_2A_frame_change_counter;
-    char field_2C_bRender;
-    char field_2D_bDrawable;
+    s8 field_2C_bRender;
+    s8 field_2D_bDrawable;
     s16 field_2E_padding;
     FP field_30_health;
     s16 field_34_current_motion;
@@ -187,8 +187,8 @@ struct Slig_State
     s16 field_3A_collision_line_type;
     s16 field_3C_padding;
     s16 field_3E_padding;
-    char field_40_bActiveChar;
-    char field_41_padding;
+    s8 field_40_bActiveChar;
+    s8 field_41_padding;
     s16 field_42_ai_sub_state;
     s16 field_44_pitch_min;
     s16 field_46_padding;

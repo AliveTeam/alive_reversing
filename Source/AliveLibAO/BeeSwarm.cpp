@@ -230,7 +230,7 @@ void BeeSwarm::VUpdate_47FF50()
         if (Math_RandomRange_450F20(0, 100) < 40)
         {
             // TODO: Strongly type
-            SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(14, 15)), Math_RandomRange_450F20(volMin, volMax));
+            SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(14, 15)), Math_RandomRange_450F20(volMin, volMax));
         }
     }
 
@@ -467,7 +467,7 @@ void BeeSwarm::VUpdate_47FF50()
             const FP abs_new_chase_x = FP_Abs(distToTargetX);
             const FP abs_new_chase_y = FP_Abs(distToTargetY);
 
-            char tmpAng = 0;
+            s8 tmpAng = 0;
             if (distToTargetY > FP_FromInteger(0))
             {
                 if (distToTargetX >= FP_FromInteger(0))
@@ -504,7 +504,7 @@ void BeeSwarm::VUpdate_47FF50()
                 angSpeed -= 255;
             }
 
-            pBee->field_9_angle_speed = static_cast<char>(angSpeed >> 2);
+            pBee->field_9_angle_speed = static_cast<s8>(angSpeed >> 2);
             pBee->field_C_timer = gnFrameCount_507670 + 5;
         }
 

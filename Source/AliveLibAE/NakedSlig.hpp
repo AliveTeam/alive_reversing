@@ -56,8 +56,8 @@ struct NakedSlig_State
     s16 field_28_current_motion;
     s16 field_2A_anim_cur_frame;
     s16 field_2C_anim_frame_change_counter;
-    char field_2E_bRender;
-    char field_2F_bDrawable;
+    s8 field_2E_bRender;
+    s8 field_2F_bDrawable;
     FP field_30_health;
     s16 field_34_cur_motion;
     s16 field_36_next_motion;
@@ -65,8 +65,8 @@ struct NakedSlig_State
     s16 field_3A_line_type;
     s16 field_3C_padding;
     s16 field_3E_padding;
-    char field_40_bIsControlled;
-    char field_41_padding;
+    s8 field_40_bIsControlled;
+    s8 field_41_padding;
     s16 field_42_padding;
     s32 field_44_tlvInfo;
     s32 field_48_ai_idx;
@@ -87,7 +87,7 @@ struct NakedSlig_State
     s32 field_70_obj_id;
     s32 field_74_obj_id;
     SligSpeak field_78_speak;
-    char field_79_padding;
+    s8 field_79_padding;
     s16 field_7A_unused_counter;
     s32 field_7C_say_help_timer;
 };
@@ -234,7 +234,7 @@ private:
     s16 field_1BE_prev_camera;
 
     SligSpeak field_1C0_speak;
-    char field_1C1_padding;
+    s8 field_1C1_padding;
     s16 field_1C2_pitch;
     s16 field_1C4_unused_counter;
     s16 field_1C6_unused;

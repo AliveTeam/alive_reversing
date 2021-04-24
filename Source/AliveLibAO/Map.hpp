@@ -17,13 +17,13 @@ class CameraSwapper;
 
 struct CameraName
 {
-    char name[8];
+    s8 name[8];
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
 struct OverlayRecord
 {
-    const char* field_0_fileName;
+    const s8* field_0_fileName;
     DWORD field_4_pos;
 };
 ALIVE_ASSERT_SIZEOF(OverlayRecord, 0x8);
@@ -82,7 +82,7 @@ ALIVE_ASSERT_SIZEOF(TlvTypes32, 4);
 struct Path_TLV
 {
     BitField8<TLV_Flags> field_0_flags;
-    char field_1_unknown;
+    s8 field_1_unknown;
     s16 field_2_length;
     TlvTypes32 field_4_type;
     s32 field_8; // only ever used as some sort of hacky memory overwrite check, always 0 in the Path data
@@ -172,7 +172,7 @@ public:
 
     EXPORT void Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad);
 
-    EXPORT void TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, char bSetCreated, char bBit2);
+    EXPORT void TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2);
 
     EXPORT void RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible);
 

@@ -122,7 +122,7 @@ struct Glukkon_SaveState
     WORD field_34_current_motion;
     WORD field_36_next_motion;
     s16 field_38_last_line_ypos;
-    char field_3A_line_type;
+    s8 field_3A_line_type;
     u8 field_3B_padding;
     s32 field_3C_padding;
     WORD field_40_bIsActiveChar;
@@ -296,7 +296,7 @@ private:
     s16 field_1E6_path;
     s16 field_1E8_camera;
     GlukkonSpeak field_1EA_speak;
-    char field_1EB_padding;
+    s8 field_1EB_padding;
     s32 field_1EC_unused;
     s32 field_1F0_randomish_speak_timer;
     s32 field_1F4_turn_or_help_timer;

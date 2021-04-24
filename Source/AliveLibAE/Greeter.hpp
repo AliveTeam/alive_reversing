@@ -40,10 +40,10 @@ struct Greeter_State
     FP field_1C_sprite_scale;
     s16 field_20_current_frame;
     s16 field_22_frame_change_counter;
-    char field_24_bAnimRender;
-    char field_25_bDrawable;
-    char field_26;
-    char field_27;
+    s8 field_24_bAnimRender;
+    s8 field_25_bDrawable;
+    s8 field_26;
+    s8 field_27;
     s32 field_28_tlvInfo;
     s32 field_2C;
     s32 field_30_last_turn_time;

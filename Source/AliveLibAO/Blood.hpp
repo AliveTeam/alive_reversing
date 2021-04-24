@@ -53,7 +53,7 @@ public:
     s16 field_110_ypos;
     s16 field_112_to_render_count;
     u8 field_114_rand_seed;
-    char field_115_pad;
+    s8 field_115_pad;
     s16 field_116_total_count;
     s32 field_118_timer;
     Layer field_11C_render_layer;

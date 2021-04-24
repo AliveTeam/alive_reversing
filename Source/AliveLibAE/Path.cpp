@@ -352,7 +352,7 @@ Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type)
     return pTlv;
 }
 
-EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, char bSetCreated, char bBit2)
+EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;

@@ -89,7 +89,7 @@ GameSpeakMatch GameSpeak::MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_i
     s16 dst_idx = 0;
     while (1)
     {
-        if (field_2C_event_buffer[src_idx] == static_cast<char>(GameSpeakEvents::eNone_m1))
+        if (field_2C_event_buffer[src_idx] == static_cast<s8>(GameSpeakEvents::eNone_m1))
         {
             bool bContinue = true;
             while (src_idx != field_28_last_event_index)
@@ -209,6 +209,6 @@ void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
     }
 
     // TODO: This isn't ever used ??
-    field_2C_event_buffer[field_28_last_event_index] = static_cast<char>(event);
+    field_2C_event_buffer[field_28_last_event_index] = static_cast<s8>(event);
     field_20_last_event = event;
 }

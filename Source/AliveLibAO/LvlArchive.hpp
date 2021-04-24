@@ -6,7 +6,7 @@ namespace AO {
 
 struct LvlFileRecord
 {
-    char field_0_file_name[12];
+    s8 field_0_file_name[12];
     s32 field_C_start_sector;
     s32 field_10_num_sectors;
     s32 field_14_file_size;
@@ -43,13 +43,13 @@ public:
 
     EXPORT static void CC dtor_static_443E80();
 
-    EXPORT void OpenArchive(const char* fileName, s32 pos);
+    EXPORT void OpenArchive(const s8* fileName, s32 pos);
 
     EXPORT void OpenArchive_41BC60(s32 pos);
 
     EXPORT s16 Free_41BEB0();
 
-    EXPORT LvlFileRecord* Find_File_Record_41BED0(const char* pFileName);
+    EXPORT LvlFileRecord* Find_File_Record_41BED0(const s8* pFileName);
 
     EXPORT s16 Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer);
 

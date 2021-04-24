@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 using u8 = uint8_t;
-using s8 = int8_t;
+using s8 = char;
 
 using u16 = uint16_t;
 using s16 = int16_t;

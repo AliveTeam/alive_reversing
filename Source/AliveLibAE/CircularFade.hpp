@@ -12,14 +12,14 @@ public:
     virtual void VScreenChanged() override;
 
     // New virtuals
-    virtual s32 VFadeIn_4CE300(s16 direction, char destroyOnDone);
+    virtual s32 VFadeIn_4CE300(s16 direction, s8 destroyOnDone);
     virtual s32 VDone_4CE0B0();
 
-    EXPORT CircularFade* ctor_4CE100(FP xpos, FP ypos, FP scale, s16 direction, char destroyOnDone);
+    EXPORT CircularFade* ctor_4CE100(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
 private:
     EXPORT void vRender_4CE3F0(PrimHeader** ppOt);
     EXPORT void vUpdate_4CE380();
-    EXPORT s32 vFadeIn_4CE300(s16 direction, char destroyOnDone); // TODO: Likely no return
+    EXPORT s32 vFadeIn_4CE300(s16 direction, s8 destroyOnDone); // TODO: Likely no return
     EXPORT s32 vDone_4CE0B0();
     EXPORT void dtor_4CE080();
     EXPORT CircularFade* vdtor_4CE0D0(s32 flags);
@@ -43,4 +43,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(CircularFade, 0x1BC);
 
-EXPORT CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, char destroyOnDone, char setBit8);
+EXPORT CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 setBit8);

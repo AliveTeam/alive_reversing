@@ -40,13 +40,13 @@
 #include "FlyingSlig.hpp"
 #include "Mudokon.hpp"
 
-char _devConsoleBuffer[1000];
+s8 _devConsoleBuffer[1000];
 
 bool sDebugEnabled_VerboseEvents = false;
 
 Alive::Font g_DebugGlobalFont;
 s32 g_DebugGlobalFontPolyIndex = 0;
-char g_DebugGlobalFontPalette[32];
+s8 g_DebugGlobalFontPalette[32];
 Font_Context g_DebugGlobalFontContext;
 bool g_DebugGlobalFontIsInit = false;
 bool g_EnabledRaycastRendering = false;
@@ -271,7 +271,7 @@ public:
 
     s32 mFontPIndex = 0;
     Alive::Font mFont;
-    char mFontPalette[32];
+    s8 mFontPalette[32];
     Font_Context mFontContext;
 };
 bool ObjectDebugger::Enabled = false;
@@ -359,7 +359,7 @@ public:
             {
                 for (s32 x = 0; x < 15; x++)
                 {
-                    char c = ((x + y) % 2 == 0) ? 200 : 127;
+                    s8 c = ((x + y) % 2 == 0) ? 200 : 127;
                     for (s32 i = -1; i < 2; i++)
                     {
                         DEV::DebugDrawLine(ppOt, layer, (x * gridX) + (gridX / 2) + i, y * gridY, (x * gridX) + (gridX / 2) + i, (y * gridY) + (gridY / 4), 255, 255, 255, false, gridSemiTrans);
@@ -416,7 +416,7 @@ public:
     }
 
     Alive::Font mFont;
-    char mFontPalette[32];
+    s8 mFontPalette[32];
     Font_Context mFontContext;
 };
 bool DebugPathRenderer::Enabled = false;
@@ -657,7 +657,7 @@ void Command_LoadSave(const std::vector<std::string>& args)
 
 	if (!saveFile.fail())
 	{
-		saveFile.read((char*)&sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
+		saveFile.read((s8*)&sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
 		Quicksave_LoadActive_4C9170();
 		saveFile.close();
 		DEV_CONSOLE_PRINTF("Loaded Save %s", filePath.c_str());
@@ -782,7 +782,7 @@ void Command_Spawn(const std::vector<std::string>& args)
     mudPath.field_8_top_left = spawnTopLeft;
     mudPath.field_C_bottom_right = spawnBottomRight;
 
-    char blankMemory[512];
+    s8 blankMemory[512];
     memset(blankMemory, 0, sizeof(blankMemory));
     Path_TLV * basicTlvPath = reinterpret_cast<Path_TLV*>(&blankMemory);
     basicTlvPath->field_8_top_left = spawnTopLeft;
@@ -985,7 +985,7 @@ public:
 
             if (!autoRun.empty())
             {
-                std::string str = std::string(reinterpret_cast<const char *>(autoRun.data()));
+                std::string str = std::string(reinterpret_cast<const s8 *>(autoRun.data()));
 
                 str.erase(std::remove(str.begin(), str.end(), '\r'), str.end());
 
@@ -1002,8 +1002,8 @@ public:
 
         autoRunWait--;
 
-        char titleBuffer[1000];
-        char camBuffer[32];
+        s8 titleBuffer[1000];
+        s8 camBuffer[32];
         Path_Format_CameraName_460FB0(
             camBuffer,
             gMap_5C3030.field_0_current_level,
@@ -1014,7 +1014,7 @@ public:
 
         Command_HelperUpdate();
 
-        const char key = static_cast<char>(Input_GetLastPressedKey_492610());
+        const s8 key = static_cast<s8>(Input_GetLastPressedKey_492610());
         if (Input_IsVKPressed_4EDD40(VK_OEM_3))
         {
             mCommandLineEnabled = !mCommandLineEnabled;
@@ -1047,7 +1047,7 @@ public:
         memcpy(keyStatesPrev, keyStates, sizeof(keyStatesPrev));
 #endif
 
-        const char* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .!-+@#$%^&*()_\"'";
+        const s8* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .!-+@#$%^&*()_\"'";
 
         if (Input_IsVKPressed_4EDD40(VK_UP) && mCommandLineEnabled)
         {
@@ -1145,7 +1145,7 @@ public:
     }
 
     Alive::Font mFont;
-    char mFontPalette[32];
+    s8 mFontPalette[32];
     Font_Context mFontContext;
 
     bool mCommandLineEnabled = false;
@@ -2136,7 +2136,7 @@ std::vector<u8> FS::ReadFile(const std::string& filePath)
 std::string FS::GetPrefPath()
 {
 #if MOBILE
-    char * prefPath = SDL_GetPrefPath("Oddworld", "Abes Exoddus");
+    s8 * prefPath = SDL_GetPrefPath("Oddworld", "Abes Exoddus");
     std::string str = std::string(prefPath);
     SDL_free(prefPath);
     return str;
@@ -2145,7 +2145,7 @@ std::string FS::GetPrefPath()
 #endif
 }
 
-std::vector<std::string> SplitString(const std::string& s, char seperator)
+std::vector<std::string> SplitString(const std::string& s, s8 seperator)
 {
     std::vector<std::string> output;
 
@@ -2179,7 +2179,7 @@ std::string StringToLower(std::string s)
     std::string r;
     for (auto c : s)
     {
-        char l = c;
+        s8 l = c;
         if (l >= 65 && l <= 90)
         {
             l += 32;
@@ -2369,5 +2369,5 @@ void DEV::DebugOnFrameDraw(PrimHeader** ppOt)
 bool IsStringNumber(const std::string& s)
 {
     return !s.empty() && std::find_if(s.begin(),
-        s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
+        s.end(), [](s8 c) { return !std::isdigit(c); }) == s.end();
 }

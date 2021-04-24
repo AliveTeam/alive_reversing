@@ -131,10 +131,10 @@ enum SoundEffect
 
 struct SfxDefinition
 {
-    char field_0_block_idx;
-    char field_1_program;
-    char field_2_note;
-    char field_3_default_volume;
+    s8 field_0_block_idx;
+    s8 field_1_program;
+    s8 field_2_note;
+    s8 field_3_default_volume;
     s16 field_4_pitch_min;
     s16 field_6_pitch_max;
 };

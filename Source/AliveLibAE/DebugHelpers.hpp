@@ -10,7 +10,7 @@
 
 void DebugHelpers_Init();
 
-extern char _devConsoleBuffer[1000];
+extern s8 _devConsoleBuffer[1000];
 
 #define DEV_CONSOLE_MESSAGE(message, duration) ShowDebugConsoleMessage(message, duration);
 #define DEV_CONSOLE_MESSAGE_C(message, duration, r, g, b) ShowDebugConsoleMessage(message, duration, r, g, b);
@@ -59,7 +59,7 @@ extern bool sDebugEnabled_VerboseEvents;
 void ShowDebugConsoleMessage(std::string message, float duration, u8 r, u8 g, u8 b);
 void ShowDebugConsoleMessage(std::string message, float duration);
 
-std::vector<std::string> SplitString(const std::string& s, char seperator);
+std::vector<std::string> SplitString(const std::string& s, s8 seperator);
 bool StringStartsWith(std::string mainStr, std::string toMatch);
 std::string StringToLower(std::string s);
 std::string IntToHexString(s32 v);

@@ -32,7 +32,7 @@ u8 sLCDScreen_Palette2[] =
 
 
 // TODO: Remove spaces and add them at runtime.
-const char *sLCDMessageTable_555768[101] =
+const s8 *sLCDMessageTable_555768[101] =
 {
     "",
     "                               SoulStorm Mining Company is an equal opportunity employer.",
@@ -217,8 +217,8 @@ void LCDScreen::Update_460A00()
     if (field_2AC_x_offset > field_2AE_character_width)
     {
         field_2AC_x_offset -= field_2AE_character_width;
-        char lastChar = *field_A0_message;
-        field_A0_message++; // Offset char index
+        s8 lastChar = *field_A0_message;
+        field_A0_message++; // Offset s8 index
 
         if (lastChar == 0)
         {

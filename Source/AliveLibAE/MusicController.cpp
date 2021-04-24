@@ -53,7 +53,7 @@ const MusicController_Record3 stru_55D1E0[17] =
     { { { -1, 111, 111 },     { -1, 0, 0 },         { -1, 0, 0     } }, 1u, 0u }
 };
 
-enum class AmbientMusic : char
+enum class AmbientMusic : s8
 {
     eOff = 0,
     eOn = 1
@@ -671,7 +671,7 @@ void MusicController::Update_47F730()
     }
 }
 
-void MusicController::PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, char bFlag0x20)
+void MusicController::PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, s8 bFlag0x20)
 {
 
     MusicController::UpdateMusicTime_47F8B0();
@@ -967,7 +967,7 @@ void MusicController::UpdateAmbiance_47F0B0()
     }
 }
 
-void CC MusicController::PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, char bFlag0x20)
+void CC MusicController::PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, s8 bFlag0x20)
 {
     if (pMusicController_5C3020)
     {

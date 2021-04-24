@@ -27,14 +27,14 @@ EXPORT void CC Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, s32 bSemiTrans);
 PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer);
 EXPORT void CC OrderingTable_Add_4F8AA0(PrimHeader** ppOt, PrimHeader* pItem);
 
-enum class TPageMode : char
+enum class TPageMode : s8
 {
     e4Bit_0 = 0,
     e8Bit_1 = 1,
     e16Bit_2 = 2,
 };
 
-enum class TPageAbr : char
+enum class TPageAbr : s8
 {
     eBlend_0 = 0,
     eBlend_1 = 1,

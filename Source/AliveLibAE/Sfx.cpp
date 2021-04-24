@@ -148,7 +148,7 @@ s32 CC SFX_Play_46FBA0(u8 sfxIdx, s16 volume, s32 pitch, FP scale)
 {
     if (!volume)
     {
-        volume = (char)sSfxEntries_55C2A0[sfxIdx].field_3_default_volume;
+        volume = (s8)sSfxEntries_55C2A0[sfxIdx].field_3_default_volume;
     }
     if (scale == FP_FromDouble(0.5))
     {

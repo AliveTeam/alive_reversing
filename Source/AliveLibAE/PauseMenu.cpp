@@ -17,13 +17,13 @@
 #include "Mudokon.hpp"
 #include "Sys.hpp"
 
-ALIVE_VAR(1, 0x5ca4d8, char, sQuicksave_SaveNextFrame_5CA4D8, 0);
-ALIVE_VAR(1, 0x5ca4d9, char, sQuicksave_LoadNextFrame_5CA4D9, 0);
+ALIVE_VAR(1, 0x5ca4d8, s8, sQuicksave_SaveNextFrame_5CA4D8, 0);
+ALIVE_VAR(1, 0x5ca4d9, s8, sQuicksave_LoadNextFrame_5CA4D9, 0);
 
-ALIVE_ARY(1, 0x5C92F0, char, 16, sScreenStringBuffer_5C92F0, { 0 });
+ALIVE_ARY(1, 0x5C92F0, s8, 16, sScreenStringBuffer_5C92F0, { 0 });
 
 
-ALIVE_ARY(1, 0x5C931C, char, 32, sSaveString_5C931C, {});
+ALIVE_ARY(1, 0x5C931C, s8, 32, sSaveString_5C931C, {});
 
 
 ALIVE_ARY(1, 0x554474, u8, 32, pal_554474, {
@@ -279,9 +279,9 @@ PauseMenu::PauseMenuPage sPM_Page_Load_546628 =
     &PauseMenu::Page_Load_Render_4910A0,
     PauseMenu__PageEntryList_Load_55e3a0,
     0,
-    static_cast<char>(160u),
-    static_cast<char>(160u),
-    static_cast<char>(160u),
+    static_cast<s8>(160u),
+    static_cast<s8>(160u),
+    static_cast<s8>(160u),
     0u,
     0u,
     0u
@@ -307,16 +307,16 @@ PauseMenu::PauseMenuPage sPM_Page_Save_5465C8 =
     &PauseMenu::Page_Save_Render_491660,
     &PauseMenu__PageEntryList_Save_55E4C8[0],
     0,
-    static_cast<char>(160u),
-    static_cast<char>(160u),
-    static_cast<char>(160u),
+    static_cast<s8>(160u),
+    static_cast<s8>(160u),
+    static_cast<s8>(160u),
     0,
     0,
     0
 };
 
-ALIVE_ARY(1, 0x55e718, char, 32, sPauseMenu_Of300Mudokons_55E718, {});
-ALIVE_ARY(1, 0x55e738, char, 56, sHasBeenTerminated_55E738, {});
+ALIVE_ARY(1, 0x55e718, s8, 32, sPauseMenu_Of300Mudokons_55E718, {});
+ALIVE_ARY(1, 0x55e738, s8, 56, sHasBeenTerminated_55E738, {});
 
 PauseMenuPageEntry sStatusEntries_55E758[6] =
 {
@@ -591,7 +591,7 @@ EXPORT void PauseMenu::Remove_At_Credits_Screen_490D30()
 class CustomPauseMenu;
 struct CustomPauseMenuItem
 {
-    const char* text;
+    const s8* text;
     std::function<void(CustomPauseMenu*)> callback;
 };
 
@@ -600,7 +600,7 @@ std::vector<CustomPauseMenu*> customMenuStack;
 class CustomPauseMenu
 {
 public:
-    CustomPauseMenu(std::vector<CustomPauseMenuItem>* items, const char* titleStr)
+    CustomPauseMenu(std::vector<CustomPauseMenuItem>* items, const s8* titleStr)
     {
         entries = items;
         title = std::string(titleStr);
@@ -628,11 +628,11 @@ public:
             for (s32 i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
             {
                 const auto item = (*entries)[i];
-                compiledEntries.push_back({ 0, 184, (s16)(57 + (22 * o)), 0, (char*)item.text, 0x80, 0x10, 0xFF, Centre });
+                compiledEntries.push_back({ 0, 184, (s16)(57 + (22 * o)), 0, (s8*)item.text, 0x80, 0x10, 0xFF, Centre });
                 o++;
             }
         }
-        compiledEntries.push_back({ 0, 184, 16, 0, (char*)title.c_str(), 127, 127, 127, Centre });
+        compiledEntries.push_back({ 0, 184, 16, 0, (s8*)title.c_str(), 127, 127, 127, Centre });
         if (size > 7 && index < size - 2)
         {
             compiledEntries.push_back({ 0, 184, 210, 0, kDown, 127, 127, 127, Centre });
@@ -651,7 +651,7 @@ public:
         mMenuPage.field_10_background_b = 127;
     }
 
-    void SetText(char* text)
+    void SetText(s8* text)
     {
         (*entries)[index].text = text;
         compiledEntries[index].field_8_text = text;
@@ -913,7 +913,7 @@ void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPag
 
     while (e->field_8_text)
     {
-        char textFormatted[128];
+        s8 textFormatted[128];
         String_FormatString_4969D0(e->field_8_text, textFormatted, 128, 1);
 
         auto glow = 0;
@@ -951,9 +951,9 @@ void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPag
             1,
             0,
             Layer::eLayer_41,
-            static_cast<char>(glow + e->field_C_r),
-            static_cast<char>(glow + e->field_D_g),
-            static_cast<char>(glow + e->field_E_b),
+            static_cast<s8>(glow + e->field_C_r),
+            static_cast<s8>(glow + e->field_D_g),
+            static_cast<s8>(glow + e->field_E_b),
             field_142_poly_offset,
             FP_FromDouble(1.0),
             640,
@@ -1003,8 +1003,8 @@ void PauseMenu::RestartPath()
     GetSoundAPI().SND_Restart();
 }
 
-const char kArrowChar = 3;
-ALIVE_ARY(1, 0x55E398, char, 2, sArrowStr_55E398, { kArrowChar, 0 });
+const s8 kArrowChar = 3;
+ALIVE_ARY(1, 0x55E398, s8, 2, sArrowStr_55E398, { kArrowChar, 0 });
 
 void PauseMenu::Page_Main_Update_4903E0()
 {
@@ -1084,7 +1084,7 @@ void PauseMenu::Page_Main_Update_4903E0()
                 gMap_5C3030.field_4_current_camera);
             // Null terminate it
             sSaveString_5C931C[8] = 0;
-            // Append the editor arrow char
+            // Append the editor arrow s8
             strcat(sSaveString_5C931C, sArrowStr_55E398);
 
 #if ORIGINAL_PS1_BEHAVIOR  // OG Change - Allow for exiting save menu using controller
@@ -1185,8 +1185,8 @@ void PauseMenu::Page_Save_Update_491210()
 {
     static bool bWriteSaveFile_5C937C = false;
 
-    char newInput[2] = {};
-    char savFileName[40] = {};
+    s8 newInput[2] = {};
+    s8 savFileName[40] = {};
     if (field_13C_save_state == SaveState::DoSave_4)
     {
         strcpy(savFileName, sSaveString_5C931C);
@@ -1261,7 +1261,7 @@ void PauseMenu::Page_Save_Update_491210()
             return;
         }
 
-        newInput[0] = static_cast<char>(lastPressed);
+        newInput[0] = static_cast<s8>(lastPressed);
         newInput[1] = 0;
 
         const size_t stringLen = strlen(sSaveString_5C931C);
@@ -1296,7 +1296,7 @@ void PauseMenu::Page_Save_Update_491210()
         case VK_BACK:
             if (stringLen > 1)
             {
-                // Replace last char with arrow
+                // Replace last s8 with arrow
                 sSaveString_5C931C[stringLen -2] = kArrowChar;
                 sSaveString_5C931C[stringLen -1] = 0;
                 SFX_Play_46FA90(SoundEffect::PickupItem_28, 0);
@@ -1306,7 +1306,7 @@ void PauseMenu::Page_Save_Update_491210()
             return;
         }
 
-        // Otherwise edit the file name if its an allowed char
+        // Otherwise edit the file name if its an allowed s8
         if (strspn(newInput, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-"))
         {
             // Don't allow space at the start of the name, and don't allow 2 constitutive spaces.
@@ -1319,7 +1319,7 @@ void PauseMenu::Page_Save_Update_491210()
             {
                 SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 30, 2400);
             }
-            // Append new input char
+            // Append new input s8
             else
             {
                 sSaveString_5C931C[stringLen -1] = newInput[0]; // Replace arrow with input
@@ -1632,7 +1632,7 @@ void PauseMenu::Update_48FD80()
 
                 for (size_t i = 0; i < strlen(sScreenStringBuffer_5C92F0); i++)
                 {
-                    char currentCamChar = sScreenStringBuffer_5C92F0[i];
+                    s8 currentCamChar = sScreenStringBuffer_5C92F0[i];
                     if (currentCamChar == '.') // Chop off .CAM
                     {
                         sScreenStringBuffer_5C92F0[i] = 0;
@@ -1646,7 +1646,7 @@ void PauseMenu::Update_48FD80()
                     }
                     else
                     {
-                        sScreenStringBuffer_5C92F0[i] =  static_cast<char>(::tolower(currentCamChar));
+                        sScreenStringBuffer_5C92F0[i] =  static_cast<s8>(::tolower(currentCamChar));
                     }
                 }
 

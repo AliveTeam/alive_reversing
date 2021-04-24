@@ -49,10 +49,10 @@ public:
     };
     Sounds field_EA_sound;
     s32 field_EC_timer;
-    char field_F0_timer;
-    char field_F1_padding;
-    char field_F2_padding;
-    char field_F3_padding;
+    s8 field_F0_timer;
+    s8 field_F1_padding;
+    s8 field_F2_padding;
+    s8 field_F3_padding;
     s32 field_F4_timer;
 };
 ALIVE_ASSERT_SIZEOF(Bells, 0xF8);

@@ -124,7 +124,7 @@ void CircularFade::VRender_47A080(PrimHeader** ppOt)
     }
 }
 
-char CircularFade::VFadeIn_479FE0(u8 direction, char destroyOnDone)
+s8 CircularFade::VFadeIn_479FE0(u8 direction, s8 destroyOnDone)
 {
     field_E4_flags.Set(Flags::eBit1_FadeIn, direction);
 
@@ -142,7 +142,7 @@ char CircularFade::VFadeIn_479FE0(u8 direction, char destroyOnDone)
     {
         field_1AA_speed = -12;
     }
-    return static_cast<char>(field_E4_flags.Raw().all);
+    return static_cast<s8>(field_E4_flags.Raw().all);
 }
 
 void CircularFade::VUpdate_47A030()
@@ -189,7 +189,7 @@ void CircularFade::VScreenChanged()
     // Empty
 }
 
-CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 direction, char destroyOnDone)
+CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
 {
     ctor_417C10();
     SetVTable(this, 0x4BCE38);
@@ -204,7 +204,7 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 directio
     }
 
     // NOTE: Inlined
-    VFadeIn_479FE0(static_cast<char>(direction), destroyOnDone);
+    VFadeIn_479FE0(static_cast<s8>(direction), destroyOnDone);
 
     const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
     field_C4_b = fade_rgb;
@@ -240,7 +240,7 @@ s32 CircularFade::VDone_47A4C0()
     return field_E4_flags.Get(Flags::eBit2_Done);
 }
 
-CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, s16 direction, char destroyOnDone)
+CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
 {
     auto pCircularFade = ao_new<CircularFade>();
     if (pCircularFade)

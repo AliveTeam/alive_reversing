@@ -79,7 +79,7 @@ namespace AliveAPI
 
         }
 
-        const char* BlyName() const
+        const s8* BlyName() const
         {
             return mBlyRecAO ? mBlyRecAO->field_0_blyName : mBlyRecAE->field_0_blyName;
         }
@@ -111,7 +111,7 @@ namespace AliveAPI
 
         }
 
-        const char* BndName() const
+        const s8* BndName() const
         {
             return mRootAO ? mRootAO->field_38_bnd_name : mRootAE->field_38_bnd_name;
         }

@@ -20,7 +20,7 @@
 inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
 {
     wchar_t fileNameW[512] = {};
-    char fileNameA[512] = {};
+    s8 fileNameA[512] = {};
 
 #ifdef BUILD_NUMBER
    _snwprintf(fileNameW, _countof(fileNameW), L"core_pid_%d_build_%d.dmp", ::GetCurrentProcessId(), BUILD_NUMBER);
@@ -47,7 +47,7 @@ inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
         ::MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, static_cast<MINIDUMP_TYPE>(flags), &exceptionInfo, nullptr, nullptr);
         ::CloseHandle(hFile);
 
-        char errMsg[1024] = {};
+        s8 errMsg[1024] = {};
         _snprintf(errMsg, _countof(errMsg), "R.E.L.I.V.E. has crashed, dump written to %s in the game folder", fileNameA);
         Alive_Show_ErrorMsg(errMsg);
     }
@@ -57,7 +57,7 @@ inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
 
 inline void create_minidump(PEXCEPTION_POINTERS /* apExceptionInfo */)
 {
-    char errMsg[1024] = {};
+    s8 errMsg[1024] = {};
     _snprintf(errMsg, _countof(errMsg), "R.E.L.I.V.E. has crashed, could not write dump file");
     Alive_Show_ErrorMsg(errMsg);
 }

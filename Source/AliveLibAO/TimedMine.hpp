@@ -50,8 +50,8 @@ public:
     s32 field_1B0;
     s32 field_1B4;
     s16 field_1B8;
-    char field_1BA;
-    char field_1BB;
+    s8 field_1BA;
+    s8 field_1BB;
 };
 ALIVE_ASSERT_SIZEOF(TimedMine, 0x1BC);
 

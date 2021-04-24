@@ -31,6 +31,6 @@ EXPORT void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer
 
 EXPORT void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale);
 
-EXPORT void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, char direction, FP scale);
+EXPORT void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scale);
 
 }

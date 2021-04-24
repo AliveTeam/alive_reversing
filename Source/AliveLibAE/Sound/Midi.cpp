@@ -123,7 +123,7 @@ public:
         return ResourceManager::Alloc_New_Resource_49BED0(type, id, size);
     }
 
-    virtual s16 LoadResourceFile(const char* pFileName, Camera* pCamera) override
+    virtual s16 LoadResourceFile(const s8* pFileName, Camera* pCamera) override
     {
         return ResourceManager::LoadResourceFile_49C170(pFileName, pCamera);
     }
@@ -414,7 +414,7 @@ EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, 
     else
     {
         v3 = -1 - (-pitch >> 7);
-        v4 = 127 - (-(char)pitch & 127);
+        v4 = 127 - (-(s8)pitch & 127);
     }
 
     for (s16 i = 0; i < 24; i++) // TODO: use kNumChannels
@@ -465,7 +465,7 @@ EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16
         else
         {
             v9 = -1 - (-randomValue >> 7);
-            v10 = 127 - (-(char)randomValue & 127);
+            v10 = 127 - (-(s8)randomValue & 127);
         }
 
         for (s16 i = 0; i < 24; i++) // TODO: Use kNumChannels
@@ -758,7 +758,7 @@ EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx)
     }
 }
 
-EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileName)
+EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const s8* bsqFileName)
 {
     if (pSeqTable && bsqFileName)
     {
@@ -796,12 +796,12 @@ EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileN
     }
 }
 
-EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName)
+EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const s8* bsqFileName)
 {
     SND_Load_Seqs_Impl(pSeqTable, bsqFileName);
 }
 
-EXPORT char CC SND_Seq_Table_Valid_4CAFE0()
+EXPORT s8 CC SND_Seq_Table_Valid_4CAFE0()
 {
     return GetMidiVars()->sSeqDataTable() != 0;
 }

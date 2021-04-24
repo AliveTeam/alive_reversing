@@ -62,7 +62,7 @@ ALIVE_VAR(1, 0x5C1B66, s16, sNum_CamSwappers_5C1B66, 0);
 ALIVE_VAR(1, 0x5C2F78, s32, dword_5C2F78, 0);
 ALIVE_VAR(1, 0x5C2FA0, s16, bSkipGameObjectUpdates_5C2FA0, 0);
 
-ALIVE_ARY(1, 0x5CA488, char, 30, sCdRomDrives_5CA488, {});
+ALIVE_ARY(1, 0x5CA488, s8, 30, sCdRomDrives_5CA488, {});
 ALIVE_VAR(1, 0x5CA4D4, s32, dword_5CA4D4, 0);
 ALIVE_VAR(1, 0x55EF90, s32, k1_dword_55EF90, 1);
 ALIVE_VAR(1, 0x55EF88, bool, byte_55EF88, true);
@@ -72,7 +72,7 @@ ALIVE_VAR(1, 0x5CA4D2, bool, byte_5CA4D2, false);
 ALIVE_VAR(1, 0x5CA4E0, s32, dword_5CA4E0, 0);
 
 // Fps calcs
-ALIVE_VAR(1, 0xBD0F08, char, bQuitting_BD0F08, 0);
+ALIVE_VAR(1, 0xBD0F08, s8, bQuitting_BD0F08, 0);
 ALIVE_VAR(1, 0x55EFDC, double, sFps_55EFDC, 0.0);
 ALIVE_VAR(1, 0x5CA4DC, s32, sFrameDiff_5CA4DC, 0);
 ALIVE_VAR(1, 0xC2D03C, s32, sNumRenderedPrims_C2D03C, 0);
@@ -201,7 +201,7 @@ EXPORT double CC Calculate_FPS_495250(s32 frameCount)
 
 EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, float fps)
 {
-    char strBuffer[125] = {};
+    s8 strBuffer[125] = {};
     sprintf(strBuffer, "%02.1f fps ", fps);
     sNumRenderedPrims_C2D03C = 0;
     BMP_Draw_String_4F2230(pBmp, x, y, 0xFF80FFu, 1, strBuffer);
@@ -285,18 +285,18 @@ EXPORT void CC VLC_Tables_Init_496720()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUsed*/, const char* pCommandLine)
+EXPORT void CC Main_ParseCommandLineArguments_494EA0(const s8* /*pCmdLineNotUsed*/, const s8* pCommandLine)
 {
     //nullsub_2(); // Note: Pruned
     IO_Init_494230();
 
     // Default the CD drive to C:
-    char strDrive[3] = {};
+    s8 strDrive[3] = {};
     strcpy(strDrive, "C:");
 
     // Collect up all CD rom drives
     s32 pos = 0;
-    for (char drive = 'D'; drive < 'Z'; drive++)
+    for (s8 drive = 'D'; drive < 'Z'; drive++)
     {
         if (Is_Cd_Rom_Drive_495470(drive))
         {

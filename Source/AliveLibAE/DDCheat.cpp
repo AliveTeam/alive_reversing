@@ -58,7 +58,7 @@ struct DDCheatProperties
 
 ALIVE_VAR(1, 0x5BBF78, DDCheatProperties, DDCheatProperties_5BBF78, {});
 
-ALIVE_ARY(1, 0x550f64, const char*, 17, sTeleportLevelNameTable_550F64,{
+ALIVE_ARY(1, 0x550f64, const s8*, 17, sTeleportLevelNameTable_550F64,{
     "Start screen",
     "Mines",
     "Necrum",
@@ -239,7 +239,7 @@ BaseGameObject* DDCheat::vdtor_415500(s32 flags)
     return this;
 }
 
-void DDCheat::AddPropertyEntry(const char* text, DDCheatValueType valueType, DDCheatValue valuePtr)
+void DDCheat::AddPropertyEntry(const s8* text, DDCheatValueType valueType, DDCheatValue valuePtr)
 {
     for (auto& prop : DDCheatProperties_5BBF78.props)
     {
@@ -258,9 +258,9 @@ void CC DDCheat::ClearProperties_415390()
     DDCheatProperties_5BBF78 = {};
 }
 
-void DDCheat::DebugStr_4F5560(const char* pFormatStr, ...)
+void DDCheat::DebugStr_4F5560(const s8* pFormatStr, ...)
 {
-    char buffer[1024] = {};
+    s8 buffer[1024] = {};
     va_list va;
 
     va_start(va, pFormatStr);

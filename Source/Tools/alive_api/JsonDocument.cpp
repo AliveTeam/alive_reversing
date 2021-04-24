@@ -96,7 +96,7 @@ std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollection& types, json
 std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load(Game gameType, TypesCollection& types, const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
-    std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
+    std::string jsonStr((std::istreambuf_iterator<s8>(inputFileStream)), std::istreambuf_iterator<s8>());
 
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))
@@ -549,7 +549,7 @@ bool JsonMapRootInfoReader::Read(const std::string& fileName)
         abort();
     }
 
-    std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
+    std::string jsonStr((std::istreambuf_iterator<s8>(inputFileStream)), std::istreambuf_iterator<s8>());
 
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))

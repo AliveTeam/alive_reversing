@@ -142,7 +142,7 @@ PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer)
  
 s32 CC PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, s32 x, s16 y)
 {
-    return ((((static_cast<char>(tp)) & 0x3) << 7) | (((static_cast<char>(abr)) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
+    return ((((static_cast<s8>(tp)) & 0x3) << 7) | (((static_cast<s8>(abr)) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
 }
 
 EXPORT s32 CC PSX_getClut_4F6350(s32 x, s32 y)

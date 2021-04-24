@@ -41,7 +41,7 @@ private:
     s16 field_250_k120;
     s16 field_252_tbl_idx;
     //s16 field_254;
-    char field_colour_fade_value;
-    //char field_257;
+    s8 field_colour_fade_value;
+    //s8 field_257;
 };
 ALIVE_ASSERT_SIZEOF(MainMenuTransition, 0x258);

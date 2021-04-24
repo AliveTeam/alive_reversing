@@ -56,17 +56,17 @@ class AliveFont
 public:
     EXPORT AliveFont* ctor_41C170(s32 maxCharLength, const u8* palette, FontContext* fontContext);
 
-    EXPORT u32 MeasureWidth_41C2B0(const char* character);
+    EXPORT u32 MeasureWidth_41C2B0(const s8* character);
 
-    EXPORT s32 MeasureWidth_41C200(char character);
+    EXPORT s32 MeasureWidth_41C200(s8 character);
 
-    EXPORT s32 MeasureWidth_41C280(const char* text, FP scale);
+    EXPORT s32 MeasureWidth_41C280(const s8* text, FP scale);
 
-    EXPORT s32 DrawString_41C360(PrimHeader** ppOt, const char* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 a2, Layer otLayer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 a15, s32 colorRandomRange);
+    EXPORT s32 DrawString_41C360(PrimHeader** ppOt, const s8* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 a2, Layer otLayer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 a15, s32 colorRandomRange);
 
     EXPORT void dtor_41C130();
 
-    EXPORT const char* SliceText_41C6C0(const char* text, s32 left, FP scale, s32 right);
+    EXPORT const s8* SliceText_41C6C0(const s8* text, s32 left, FP scale, s32 right);
 
     u8 gap0[32];
     u8** field_20_fnt_poly_block_ptr;

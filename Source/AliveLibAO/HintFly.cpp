@@ -15,7 +15,7 @@ void HintFly_ForceLink() {}
 
 namespace AO {
 
-const char* gHintFlyMessages_4C6A10[] =
+const s8* gHintFlyMessages_4C6A10[] =
 {
     "SNEAK TO BOMB",
     "ABE WAS HERE",
@@ -60,8 +60,8 @@ struct HintFlyParticle
 {
     FP field_0_xpos;
     FP field_4_ypos;
-    char field_8_state;
-    char field_9_pad;
+    s8 field_8_state;
+    s8 field_9_pad;
     s16 field_A;
     FP field_C_velx;
     FP field_10_vely;
@@ -69,10 +69,10 @@ struct HintFlyParticle
     FP field_18_targetY;
     s16 field_1C_sound_pitch;
     s16 field_1E_sound_pitch_speed;
-    char field_20_angle;
-    char field_21_angle_speed;
-    char field_22_timer;
-    char field_23_pad;
+    s8 field_20_angle;
+    s8 field_21_angle_speed;
+    s8 field_22_timer;
+    s8 field_23_pad;
     Prim_Sprt field_24_sprt[2];
 };
 ALIVE_ASSERT_SIZEOF(HintFlyParticle, 0x54);
@@ -1383,7 +1383,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
         field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
         field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-        const char* pMsg = gHintFlyMessages_4C6A10[pTlv->field_18_message_id];
+        const s8* pMsg = gHintFlyMessages_4C6A10[pTlv->field_18_message_id];
 
         field_118_counter = 20;
         field_11A_msg_len = 0;
@@ -1558,12 +1558,12 @@ BaseGameObject* HintFly::dtor_42ADF0()
 
 void HintFly::FormWordAndAdvanceToNextWord_42AF90()
 {
-    const char* msgPtr = &gHintFlyMessages_4C6A10[field_11C_message_id][field_11E_msg_idx];
+    const s8* msgPtr = &gHintFlyMessages_4C6A10[field_11C_message_id][field_11E_msg_idx];
     LOG_INFO("Word is " << msgPtr);
 
     // Find how long the word is
     s16 letterCount = 0;
-    const char* pEndWord = msgPtr;
+    const s8* pEndWord = msgPtr;
     for (; *pEndWord != ' '; pEndWord++)
     {
         if (!*pEndWord)
@@ -1795,7 +1795,7 @@ void HintFly::VUpdate_42B3D0()
         if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
         {
             s16 len = 0;
-            const char* pMsgIter = gHintFlyMessages_4C6A10[field_11C_message_id] + field_11E_msg_idx;
+            const s8* pMsgIter = gHintFlyMessages_4C6A10[field_11C_message_id] + field_11E_msg_idx;
             while (*pMsgIter != ' ' && *pMsgIter != '\0')
             {
                 len += pData_4C7268[(*pMsgIter) - 'A'][0];

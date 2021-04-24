@@ -5275,7 +5275,7 @@ void Paramite::vUpdate_4871B0()
             static s32 sArray1_5C929C[8] = {};
             static s32 sArray2_5C92BC[8] = {};
 
-            static char byte_5C9298 = 0;
+            static s8 byte_5C9298 = 0;
 
             if (!(byte_5C9298 & 1))
             {
@@ -6405,7 +6405,7 @@ void Paramite::Sound_48F600(ParamiteSpeak soundId, s16 pitch_min)
 
 void Paramite::UpdateSlurgWatchPoints_4890D0()
 {
-    const char count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
+    const s8 count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
     if (count < 5)
     {
         if (field_100_pCollisionLine)

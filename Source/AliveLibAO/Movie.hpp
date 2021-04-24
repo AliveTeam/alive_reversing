@@ -5,12 +5,12 @@
 
 namespace AO {
 
-EXPORT void CC Get_fmvs_sectors_44FEB0(const char* pMovieName1, const char* pMovieName2, const char* pMovieName3, DWORD* pMovie1Sector, DWORD* pMovie2Sector, DWORD* pMovie3Sector);
+EXPORT void CC Get_fmvs_sectors_44FEB0(const s8* pMovieName1, const s8* pMovieName2, const s8* pMovieName3, DWORD* pMovie1Sector, DWORD* pMovie2Sector, DWORD* pMovie3Sector);
 
 class Movie : public BaseGameObject
 {
 public:
-    EXPORT Movie* ctor_489C90(s32 id, s32 pos, char bUnknown, s32 flags, s16 volume);
+    EXPORT Movie* ctor_489C90(s32 id, s32 pos, s8 bUnknown, s32 flags, s16 volume);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -32,10 +32,10 @@ public:
     s32 field_28;
     s32 field_2C;
     s32 field_30;
-    char field_34_min;
-    char field_35;
-    char field_36;
-    char field_37;
+    s8 field_34_min;
+    s8 field_35;
+    s8 field_36;
+    s8 field_37;
     s32 field_38;
     s16 field_3C;
     s16 field_3E;

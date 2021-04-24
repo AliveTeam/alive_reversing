@@ -14,7 +14,7 @@ EXPORT void CC SwitchStates_SetRange_465FA0(u16 start, u16 end)
     }
 }
 
-EXPORT void CC SwitchStates_Set_465FF0(u16 idx, char value)
+EXPORT void CC SwitchStates_Set_465FF0(u16 idx, s8 value)
 {
     sSwitchStates_5C1A28.mData[idx] = value;
 }
@@ -34,7 +34,7 @@ EXPORT s32 CC SwitchStates_Get_466020(u16 idx)
     return sSwitchStates_5C1A28.mData[idx];
 }
 
-EXPORT void CC SwitchStates_Add_466060(u16 idx, char value)
+EXPORT void CC SwitchStates_Add_466060(u16 idx, s8 value)
 {
     sSwitchStates_5C1A28.mData[idx] += value;
 }

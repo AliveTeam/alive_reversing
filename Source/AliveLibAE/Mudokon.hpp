@@ -94,7 +94,7 @@ enum class MudAction : s16
     ENTRY(AI_Sick_9_47A910)
 
 #define MAKE_STRINGS(VAR) #VAR,
-const char* const sMudAiStateNames[10] =
+const s8* const sMudAiStateNames[10] =
 {
     MUD_AI_STATES_ENUM(MAKE_STRINGS)
 };
@@ -198,8 +198,8 @@ struct Mudokon_State
     s16 field_24_current_motion;
     s16 field_26_anim_current_frame;
     s16 field_28_anim_frame_change_counter;
-    char field_2A_bAnimRender;
-    char field_2B_bDrawable;
+    s8 field_2A_bAnimRender;
+    s8 field_2B_bDrawable;
     FP field_2C_health;
     s16 field_30_current_motion;
     s16 field_32_next_motion;
@@ -207,8 +207,8 @@ struct Mudokon_State
     s16 field_36_line_type;
     s16 field_38_padding;
     s16 field_3A_padding;
-    char field_3C_can_be_possessed;
-    char field_3D_bIsPlayer;
+    s8 field_3C_can_be_possessed;
+    s8 field_3D_bIsPlayer;
     s16 field_3E_padding;
     s32 field_40_tlvInfo;
     FP field_44_velx_slow_by;

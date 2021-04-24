@@ -28,7 +28,7 @@ enum class LevelIds : s16
 
 struct FmvInfo 
 {
-    const char* field_0_pName;
+    const s8* field_0_pName;
     u16 field_4_id;
     s16 field_6_flags;
     u16 field_8_flags;
@@ -70,7 +70,7 @@ ALIVE_ASSERT_SIZEOF(PathData, 0x41C);
 
 struct PathBlyRec
 {
-    const char *field_0_blyName;
+    const s8 *field_0_blyName;
     const PathData *field_4_pPathData;
     const CollisionInfo *field_8_pCollisionData;
     WORD field_C_overlay_id;
@@ -79,8 +79,8 @@ struct PathBlyRec
 
 struct SoundBlockInfo
 {
-    const char *field_0_vab_header_name;
-    const char *field_4_vab_body_name;
+    const s8 *field_0_vab_header_name;
+    const s8 *field_4_vab_body_name;
     s32 field_8_vab_id;
     u8* field_C_pVabHeader;
 };
@@ -90,20 +90,20 @@ struct PathRoot
     const PathBlyRec* field_0_pBlyArrayPtr;
     FmvInfo* field_4_pFmvArray;
     SoundBlockInfo* field_8_pMusicInfo;
-    const char* field_C_bsq_file_name;
+    const s8* field_C_bsq_file_name;
     s16 field_10_reverb;
     s16 field_12_bg_music_id;
-    const char* field_14_lvl_name;
+    const s8* field_14_lvl_name;
     s16 field_18_num_paths;
     s16 field_1A_unused; // message to display to change cd ??
     s32 field_1C_padding;
-    const char* field_20_lvl_name_cd;
+    const s8* field_20_lvl_name_cd;
     s32 field_24_padding;
-    const char* field_28_ovl_name_cd;
+    const s8* field_28_ovl_name_cd;
     s32 field_2C_padding;
-    const char* field_30_mov_name_cd;
-    const char* field_34_idx_name;
-    const char* field_38_bnd_name;
+    const s8* field_30_mov_name_cd;
+    const s8* field_34_idx_name;
+    const s8* field_38_bnd_name;
 };
 
 struct PathRootContainer
@@ -113,7 +113,7 @@ struct PathRootContainer
 
 struct PerLvlData
 {
-    const char* field_0_display_name;
+    const s8* field_0_display_name;
     LevelIds field_4_level;
     WORD field_6_path;
     WORD field_8_camera;
@@ -124,10 +124,10 @@ struct PerLvlData
 
 struct OpenSeqHandle
 {
-    const char* field_0_mBsqName;
+    const s8* field_0_mBsqName;
     s32 field_4_generated_res_id; // A hash of the named which matches the resource Id
-    char field_8_sound_block_idx;
-    char field_9_volume;
+    s8 field_8_sound_block_idx;
+    s8 field_9_volume;
     s16 field_A_id_seqOpenId;
     u8 *field_C_ppSeq_Data;
 };
@@ -142,9 +142,9 @@ EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathI
 
 EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId);
 
-EXPORT void CC Path_Format_CameraName_460FB0(char* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId);
+EXPORT void CC Path_Format_CameraName_460FB0(s8* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId);
 
-const char* CdLvlName(LevelIds lvlId);
+const s8* CdLvlName(LevelIds lvlId);
 
 ALIVE_VAR_EXTERN(PathRootContainer, sPathData_559660);
 ALIVE_VAR_EXTERN(SeqHandleTable, sSeqData_558D50);

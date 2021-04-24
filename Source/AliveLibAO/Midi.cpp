@@ -123,7 +123,7 @@ public:
         return ResourceManager::Alloc_New_Resource_454F20(type, id, size);
     }
 
-    virtual s16 LoadResourceFile(const char* pFileName, ::Camera* pCamera) override
+    virtual s16 LoadResourceFile(const s8* pFileName, ::Camera* pCamera) override
     {
         return ResourceManager::LoadResourceFileWrapper(pFileName, reinterpret_cast<Camera*>(pCamera));
     }
@@ -144,7 +144,7 @@ ALIVE_VAR(1, 0xAC07C0, MidiChannels, sMidi_Channels_AC07C0, {});
 ALIVE_VAR(1, 0xABFB40, MidiSeqSongsTable, sMidiSeqSongs_ABFB40, {});
 ALIVE_VAR(1, 0xA89198, s32, sMidi_Inited_dword_A89198, 0);
 ALIVE_VAR(1, 0xA89194, u32, sMidiTime_A89194, 0);
-ALIVE_VAR(1, 0xA89190, char, sbDisableSeqs_A89190, 0);
+ALIVE_VAR(1, 0xA89190, s8, sbDisableSeqs_A89190, 0);
 ALIVE_VAR(1, 0x4E8FD8, DWORD, sLastTime_4E8FD8, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xA8919C, u8, sControllerValue_A8919C, 0);
 
@@ -223,7 +223,7 @@ public:
         return mSoundDatIsNull;
     }
 
-    virtual char& sbDisableSeqs() override
+    virtual s8& sbDisableSeqs() override
     {
         return sbDisableSeqs_A89190;
     }
@@ -832,7 +832,7 @@ static VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, s32 i_3)
 {
     for (s32 i = 0; i < i_3; i++)
     {
-        ret = (VabBodyRecord*)((char*)ret
+        ret = (VabBodyRecord*)((s8*)ret
             + ret->field_0_length_or_duration
             + 8);
     }
@@ -1020,7 +1020,7 @@ EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
     }
 }
 
-EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqFileName)
+EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const s8* bsqFileName)
 {
     SND_Load_Seqs_Impl(
         reinterpret_cast<::OpenSeqHandle*>(pSeqTable),
@@ -1071,10 +1071,10 @@ EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 v
 static ::SfxDefinition ToAeSfxDef(const SfxDefinition* sfxDef)
 {
     ::SfxDefinition aeDef = {};
-    aeDef.field_0_block_idx = static_cast<char>(sfxDef->field_0_block_idx);
-    aeDef.field_1_program = static_cast<char>(sfxDef->field_4_program);
-    aeDef.field_2_note = static_cast<char>(sfxDef->field_8_note);
-    aeDef.field_3_default_volume = static_cast<char>(sfxDef->field_C_default_volume);
+    aeDef.field_0_block_idx = static_cast<s8>(sfxDef->field_0_block_idx);
+    aeDef.field_1_program = static_cast<s8>(sfxDef->field_4_program);
+    aeDef.field_2_note = static_cast<s8>(sfxDef->field_8_note);
+    aeDef.field_3_default_volume = static_cast<s8>(sfxDef->field_C_default_volume);
     aeDef.field_4_pitch_min = sfxDef->field_E_pitch_min;
     aeDef.field_6_pitch_max = sfxDef->field_10_pitch_max;
     return aeDef;

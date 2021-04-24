@@ -11,10 +11,10 @@ namespace AETest::TestsQuikSave
 
 struct Quicksave_PSX_Header
 {
-    char field_0_frame_1_name[128];
-    char field_80_frame_2_padding[128];
-    char field_100_frame_3_padding[128];
-    char field_180_frame_4_padding[128];
+    s8 field_0_frame_1_name[128];
+    s8 field_80_frame_2_padding[128];
+    s8 field_100_frame_3_padding[128];
+    s8 field_180_frame_4_padding[128];
 };
 ALIVE_ASSERT_SIZEOF(Quicksave_PSX_Header, 0x200);
 
@@ -32,11 +32,11 @@ struct Quicksave_WorldInfo
     s16 field_10_controlled_scale;
     s16 field_12_saved_muds;
     s16 field_14_killed_muds;
-    char field_16_muds_in_area;
-    char field_17_last_saved_killed_muds_per_path;
-    char field_18_saved_killed_muds_per_path[20];
-    char field_2C_stats_sign_current_area;
-    char field_2D_total_meter_bars;
+    s8 field_16_muds_in_area;
+    s8 field_17_last_saved_killed_muds_per_path;
+    s8 field_18_saved_killed_muds_per_path[20];
+    s8 field_2C_stats_sign_current_area;
+    s8 field_2D_total_meter_bars;
     s16 field_2E_use_alt_save_header;
     s16 field_30_bDrawMeterCountDown;
     s16 field_32_visited_bonewerks;
@@ -63,7 +63,7 @@ ALIVE_ASSERT_SIZEOF(Quicksave, 0x2000);
 
 struct SaveFileRec
 {
-    char field_0_fileName[32];
+    s8 field_0_fileName[32];
     DWORD field_20_lastWriteTimeStamp;
 };
 ALIVE_ASSERT_SIZEOF(SaveFileRec, 0x24);

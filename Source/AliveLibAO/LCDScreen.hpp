@@ -44,10 +44,10 @@ public:
     FontContext field_50_font_context;
     AliveFont field_60_font;
     PSX_RECT field_98_pal_rect;
-    char* field_A0_message;
-    const char* field_A4_message_cutoff_ptr;
+    s8* field_A0_message;
+    const s8* field_A4_message_cutoff_ptr;
     s32 field_A8;
-    char field_AC_message_buffer[512];
+    s8 field_AC_message_buffer[512];
     s32 field_2AC_message_1_id;
     s32 field_2B0_x_offset;
     s32 field_2B4_character_width;

@@ -162,7 +162,7 @@ static BitField32<::InputCommands::Enum> AOInputCommandsToAEInputCommands(const 
      return r;
 }
 
-const char* AEInputCommandToAEInputString(::InputCommands::Enum input_command)
+const s8* AEInputCommandToAEInputString(::InputCommands::Enum input_command)
 {
     if (input_command & ::InputCommands::Enum::eUp)
     {
@@ -539,12 +539,12 @@ BOOL CC Input_IsChanting_4334C0()
     return Input_IsChanting_45F260();
 }
 
-void CC Input_SetKeyState_48E610(s32 key, char bIsDown)
+void CC Input_SetKeyState_48E610(s32 key, s8 bIsDown)
 {
     Input_SetKeyState_4EDD80(key, bIsDown);
 }
 
-EXPORT char CC Input_IsVKPressed_48E5D0(s32 key)
+EXPORT s8 CC Input_IsVKPressed_48E5D0(s32 key)
 {
     return Input_IsVKPressed_4EDD40(key);
 }
@@ -578,7 +578,7 @@ void Input_InitKeyStateArray_48E5F0()
     Input_InitKeyStateArray_4EDD60();
 }
 
-EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails)
+EXPORT const s8* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails)
 {
     const auto aeBits = static_cast<::InputCommands::Enum>(AOInputCommandsToAEInputCommands(MakeAOInputBits(input_command)).Raw().all);
     s32 controller_type = forceKeyboardLookupIfGamepadFails ? 2 : 1;
@@ -593,10 +593,10 @@ EXPORT s32 CC Input_Remap_44F300(InputCommands inputCmd)
     return Input_Remap_492680(static_cast<::InputCommands::Enum>(AOInputCommandsToAEInputCommands(MakeAOInputBits(inputCmd)).Raw().all));
 }
 
-EXPORT char Input_GetLastPressedKey_44F2C0()
+EXPORT s8 Input_GetLastPressedKey_44F2C0()
 {
     // AE impl
-    return static_cast<char>(::Input_GetLastPressedKey_492610());
+    return static_cast<s8>(::Input_GetLastPressedKey_492610());
 
     // AO impl
     //if (!Sys_IsAnyKeyDown_48E6C0())
@@ -604,7 +604,7 @@ EXPORT char Input_GetLastPressedKey_44F2C0()
     //    return 0;
     //}
 
-    //const char result = static_cast<char>(sLastPressedKey_A8A604);
+    //const s8 result = static_cast<s8>(sLastPressedKey_A8A604);
     //sIsAKeyDown_A8A600 = 0;
     //sLastPressedKey_A8A604 = 0;
     //return result;

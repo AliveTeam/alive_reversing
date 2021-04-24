@@ -145,11 +145,11 @@ EXPORT s16 Reset_Unknown_45A5B0()
 
 struct saveName
 {
-    char characters[26];
+    s8 characters[26];
 };
 ALIVE_VAR(1, 0x5080C6, saveName, saveNameBuffer_5080C6, {});
 
-const char *gLevelNames_4CE1D4[20] =
+const s8 *gLevelNames_4CE1D4[20] =
 {
     "¸",
     "RuptureFarms",
@@ -317,7 +317,7 @@ void PauseMenu::VUpdate_44DFB0()
                                 }
 
                                 auto curPathId = gMap_507BA8.field_2_current_path;
-                                char curPathIdNumBuf[12] = {};
+                                s8 curPathIdNumBuf[12] = {};
 
                                 strncpy(&saveNameBuffer_5080C6.characters[2], gLevelNames_4CE1D4[tmp], 19);
                                 if (tmp != 12 && tmp != 14 && tmp != 15)
@@ -331,7 +331,7 @@ void PauseMenu::VUpdate_44DFB0()
                                     strncat(&saveNameBuffer_5080C6.characters[2], curPathIdNumBuf, 19u);
                                 }
 
-                                const char aux[2] = { 18, 0 };
+                                const s8 aux[2] = { 18, 0 };
                                 strncat(&saveNameBuffer_5080C6.characters[2], aux, 19u);
 #if ORIGINAL_PS1_BEHAVIOR  // OG Change - Allow for exiting save menu using controller
                                 setSaveMenuOpen(true); // Sets saveMenuOpen bool to true, instead of disabling input
@@ -391,7 +391,7 @@ void PauseMenu::VUpdate_44DFB0()
                     }
 
                     auto last_pressed = Input_GetLastPressedKey_44F2C0();
-                    char lastPressedKeyNT[2] = { last_pressed, 0 };
+                    s8 lastPressedKeyNT[2] = { last_pressed, 0 };
 
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Exit save menu using controller
                     if (last_pressed == VK_ESCAPE || last_pressed == VK_RETURN) // Keyboard ESC or ENTER
@@ -566,7 +566,7 @@ void PauseMenu::VRender(PrimHeader** ppOt)
     VRender_44E6F0(ppOt);
 }
 
-ALIVE_VAR(1, 0xA88B90, char, byte_A88B90, 0);
+ALIVE_VAR(1, 0xA88B90, s8, byte_A88B90, 0);
 
 PauseMenu::PauseEntry pauseEntries_4CDE50[6] =
 {
@@ -683,7 +683,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, s16 selectedEn
         {
             colourOffset = 0;
         }
-        const char *stringBuffer;
+        const s8 *stringBuffer;
         if (&entry[entryId] == &saveEntries_4CDED0[0])
         {
             stringBuffer = &saveNameBuffer_5080C6.characters[2];
@@ -696,7 +696,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, s16 selectedEn
         {
             break;
         }
-        char formattedString[128] = {};
+        s8 formattedString[128] = {};
         String_FormatString_450DC0(stringBuffer, formattedString);
         s16 clampedFontWidth;
         if (entry[entryId].field_B == 1)
@@ -765,7 +765,7 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
             {
                 entries = &pauseEntries_4CDE50[0];
             }
-            char cameraNameBuffer[48] = {};
+            s8 cameraNameBuffer[48] = {};
             Path_Format_CameraName_4346B0(
                 cameraNameBuffer,
                 gMap_507BA8.field_0_current_level,
@@ -777,8 +777,8 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
             {
                 for(unsigned idx = 0; idx < strlen(cameraNameBuffer); idx++)
                 {
-                    char letter = cameraNameBuffer[idx];
-                    char letterCandidate = 0;
+                    s8 letter = cameraNameBuffer[idx];
+                    s8 letterCandidate = 0;
                     if (letter < 'A' || letter > 'Z')
                     {
                         if (letter < '0' || letter > '9')

@@ -39,7 +39,7 @@ struct PauseMenuPageEntry
     s16 field_2_x;
     s16 field_4_y;
     s16 field_6_unknown;
-    const char* field_8_text;
+    const s8* field_8_text;
     u8 field_C_r;
     u8 field_D_g;
     u8 field_E_b;
@@ -98,12 +98,12 @@ public:
         t_PmPage_Render field_4_fn_render;
         PauseMenuPageEntry *field_8_menu_items;
         s16 field_C_selected_index;
-        char field_E_background_r;
-        char field_F_background_g;
-        char field_10_background_b;
-        char field_11_padding;
-        char field_12_padding;
-        char field_13_padding;
+        s8 field_E_background_r;
+        s8 field_F_background_g;
+        s8 field_10_background_b;
+        s8 field_11_padding;
+        s8 field_12_padding;
+        s8 field_13_padding;
     };
     ALIVE_ASSERT_SIZEOF(PauseMenu::PauseMenuPage, 0x14);
 
@@ -154,6 +154,6 @@ public:
 ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
 
 ALIVE_VAR_EXTERN(PauseMenu*, pPauseMenu_5C9300);
-ALIVE_VAR_EXTERN(char, sQuicksave_SaveNextFrame_5CA4D8);
-ALIVE_VAR_EXTERN(char, sQuicksave_LoadNextFrame_5CA4D9);
+ALIVE_VAR_EXTERN(s8, sQuicksave_SaveNextFrame_5CA4D8);
+ALIVE_VAR_EXTERN(s8, sQuicksave_LoadNextFrame_5CA4D9);
 ALIVE_ARY_EXTERN(u8, 32, pal_554474);

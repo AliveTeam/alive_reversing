@@ -57,7 +57,7 @@
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
 #define MAKE_STRINGS(VAR) #VAR,
-const char* const sAbeStateNames[] =
+const s8* const sAbeStateNames[] =
 {
     ABE_STATES_ENUM(MAKE_STRINGS)
 };
@@ -973,7 +973,7 @@ void Abe::dtor_44B380()
     dtor_4080B0();
 }
 
-const char* sAbe_ResNames_545830[22] =
+const s8* sAbe_ResNames_545830[22] =
 {
     "ABEBASIC.BAN",
     "ABEBSIC1.BAN",
@@ -1935,7 +1935,7 @@ void Abe::vScreenChanged_44D240()
 
     if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level && !(field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave)))
     {
-        for (char& val : sSavedKilledMudsPerPath_5C1B50.mData)
+        for (s8& val : sSavedKilledMudsPerPath_5C1B50.mData)
         {
             val = 0;
         }
@@ -1997,7 +1997,7 @@ s32 Abe::vGetSaveState_457110(u8* pSaveBuffer)
 
     pSaveState->bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pSaveState->bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
-    pSaveState->anim_render_layer = static_cast<char>(field_20_animation.field_C_render_layer);
+    pSaveState->anim_render_layer = static_cast<s8>(field_20_animation.field_C_render_layer);
     pSaveState->field_30_health = field_10C_health;
     pSaveState->field_34_animation_num = field_106_current_motion;
     pSaveState->next_motion = field_108_next_motion;
@@ -2037,8 +2037,8 @@ s32 Abe::vGetSaveState_457110(u8* pSaveBuffer)
     pSaveState->auto_say_timer = field_144_auto_say_timer;
     pSaveState->ring_pulse_timer = field_168_ring_pulse_timer;
     pSaveState->field_6c_rock_bone_count = field_1A2_throwable_count;
-    pSaveState->bHaveShrykull = static_cast<char>(field_16C_bHaveShrykull);
-    pSaveState->bHaveInvisiblity = static_cast<char>(field_16E_bHaveInvisiblity);
+    pSaveState->bHaveShrykull = static_cast<s8>(field_16C_bHaveShrykull);
+    pSaveState->bHaveInvisiblity = static_cast<s8>(field_16E_bHaveInvisiblity);
 
     pSaveState->prev_held = InputObject::Raw_To_Command_45EF70(field_118_prev_held);
     pSaveState->released_buttons = InputObject::Raw_To_Command_45EF70(field_11C_released_buttons);
@@ -8611,7 +8611,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
         case AETypes::eMeat_84:
         case AETypes::eRock_105:
             field_106_current_motion = eAbeStates::State_111_PickupItem_4564A0;
-            field_1A2_throwable_count += static_cast<char>(static_cast<BaseThrowable*>(pSlappableOrCollectable)->VGetCount_448080()); // TODO: Check types are correct.
+            field_1A2_throwable_count += static_cast<s8>(static_cast<BaseThrowable*>(pSlappableOrCollectable)->VGetCount_448080()); // TODO: Check types are correct.
             if (!bThrowableIndicatorExists_5C112C)
             {
                 auto pThrowableIndicator = ae_new<ThrowableTotalIndicator>();

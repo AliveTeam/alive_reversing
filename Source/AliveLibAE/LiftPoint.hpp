@@ -102,7 +102,7 @@ private:
 public:
     u8 field_278_lift_point_id;
 private:
-    char field_279_pad;
+    s8 field_279_pad;
     s16 field_27A_pad;
     s32 field_27C_pTlv;
     enum LiftFlags

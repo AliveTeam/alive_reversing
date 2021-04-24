@@ -74,10 +74,10 @@ public:
     s16 field_23E_width;
     s16 field_240_k120;
     s16 field_242_idx;
-    char field_244;
-    char field_245;
-    char field_246_colour_fade_value;
-    char field_247;
+    s8 field_244;
+    s8 field_245;
+    s8 field_246_colour_fade_value;
+    s8 field_247;
 };
 ALIVE_ASSERT_SIZEOF(MainMenuTransition, 0x248);
 
@@ -221,7 +221,7 @@ public:
     MainMenuTransition* field_1E8_pMenuTrans;
     MainMenuFade* field_1EC_pObj1;
     MainMenuFade* field_1F0_pObj2;
-    const char* field_1F4_text;
+    const s8* field_1F4_text;
     s16 field_1F8;
     s16 field_1FA;
     s16 field_1FC;

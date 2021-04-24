@@ -33,8 +33,8 @@ struct SlapLock_State
     AETypes field_0_type;
     s16 field_2_render;
     s32 field_4_tlvInfo;
-    char field_8_tlv_state;
-    char field_9_padding;
+    s8 field_8_tlv_state;
+    s8 field_9_padding;
     SlapLockStates field_A_state;
     s32 field_C_timer1;
     s32 field_10_obj_id;

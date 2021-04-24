@@ -199,11 +199,11 @@ EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFo
     pBitmap->field_0_pSurface = SDL_CreateRGBSurface(0, width, height, bpp, rMask, gMask, bMask, 0x0);
     pBitmap->field_C_height = height;
     pBitmap->field_8_width = width;
-    pBitmap->field_14_bpp = static_cast<char>(bpp);
+    pBitmap->field_14_bpp = static_cast<s8>(bpp);
     SDL_LockSurface(pBitmap->field_0_pSurface);
     pBitmap->field_10_locked_pitch = pBitmap->field_0_pSurface->pitch;
     SDL_UnlockSurface(pBitmap->field_0_pSurface);
-    pBitmap->field_15_pixel_format = static_cast<char>(pixelFormat);
+    pBitmap->field_15_pixel_format = static_cast<s8>(pixelFormat);
     pBitmap->field_18_create_flags = createFlags;
 
     return 0;
@@ -300,7 +300,7 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 /*fgColour
     const s32 kLetterHeight = 10;
     for (u32 i = 0; i < strlen(lpString); i++)
     {
-        char letter = lpString[i];
+        s8 letter = lpString[i];
 
         SDL_Rect dstRect = { x + xpos, y, kLetterWidth, kLetterHeight };
 
@@ -329,7 +329,7 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 /*fgColour
 
         if (SDL_BlitSurface(pFontBmp, &srcRect, pBmp->field_0_pSurface, &dstRect) != 0)
         {
-            const char* e = SDL_GetError();
+            const s8* e = SDL_GetError();
             LOG_ERROR(e);
             abort();
         }
@@ -742,9 +742,9 @@ EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFo
     }
 
     pBitmap->field_C_height = height;
-    pBitmap->field_14_bpp = static_cast<char>(pSurfaceDesc.ddpfPixelFormat.dwRGBBitCount);
+    pBitmap->field_14_bpp = static_cast<s8>(pSurfaceDesc.ddpfPixelFormat.dwRGBBitCount);
     pBitmap->field_8_width = width;
-    pBitmap->field_15_pixel_format = static_cast<char>(pixelFormat);
+    pBitmap->field_15_pixel_format = static_cast<s8>(pixelFormat);
     pBitmap->field_18_create_flags = createFlags;
     return 0;
 }

@@ -106,7 +106,7 @@ public:
     s16 field_22_padding;
     u32 field_24_last_event_frame;
     s32 field_28_last_event_index;
-    char field_2C_event_buffer[32];
+    s8 field_2C_event_buffer[32];
 };
 ALIVE_ASSERT_SIZEOF(GameSpeak, 0x4C);
 

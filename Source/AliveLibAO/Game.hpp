@@ -15,7 +15,7 @@ ALIVE_VAR_EXTERN(s16, gAttract_507698);
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gObjList_drawables_504618);
 ALIVE_VAR_EXTERN(DynamicArrayT<AnimationBase>*, gObjList_animations_505564);
 ALIVE_VAR_EXTERN(s16, sBreakGameLoop_507B78);
-ALIVE_VAR_EXTERN(char, gDDCheatMode_508BF8);
+ALIVE_VAR_EXTERN(s8, gDDCheatMode_508BF8);
 
 ALIVE_VAR_EXTERN(s16, gRestartRuptureFarmsKilledMuds_5076C4);
 ALIVE_VAR_EXTERN(s16, gRestartRuptureFarmsSavedMuds_5076C8);

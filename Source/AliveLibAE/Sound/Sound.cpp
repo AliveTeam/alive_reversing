@@ -61,7 +61,7 @@ EXPORT s32 CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset,
 #endif
 }
 
-EXPORT const char * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
+EXPORT const s8 * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
 {
 #if USE_SDL2_SOUND
     return SND_HR_Err_To_String_SDL(hr);
@@ -313,7 +313,7 @@ EXPORT s32 CC SND_New_4EEFF0(SoundEntry *pSnd, s32 sampleLength, s32 sampleRate,
             if (bufferData)
             {
                 pSnd->field_18_sampleRate = sampleRate;
-                pSnd->field_1C_bitsPerSample = static_cast<char>(bitsPerSample);
+                pSnd->field_1C_bitsPerSample = static_cast<s8>(bitsPerSample);
                 pSnd->field_C_buffer_size_bytes = sampleByteSize;
                 pSnd->field_14_buffer_size_bytes = sampleByteSize;
                 pSnd->field_20_isStereo = isStereo;
@@ -422,11 +422,11 @@ EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/)
     //    } while ((u32)result < v5);
     //    if ((u32)result < v5)
     //    {
-    //        v7 = (char *)v4 - (char *)result;
+    //        v7 = (s8 *)v4 - (s8 *)result;
     //        do
     //        {
     //            *((u8 *)result + v7) = *(u8 *)result ^ 0x80;
-    //            result = (DWORD *)((char *)result + 1);
+    //            result = (DWORD *)((s8 *)result + 1);
     //        } while ((u32)result < v5);
     //    }
     //}

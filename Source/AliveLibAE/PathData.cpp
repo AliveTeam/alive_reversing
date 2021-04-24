@@ -1181,7 +1181,7 @@ const static PerLvlData gDemoData_off_5617F0[23] =
 
 ALIVE_VAR(1, 0x559660, PathRootContainer, sPathData_559660, pathData);
 
-const char* CdLvlName(LevelIds lvlId)
+const s8* CdLvlName(LevelIds lvlId)
 {
     return sPathData_559660.paths[static_cast<s32>(lvlId)].field_20_lvl_name_cd;
 }
@@ -1202,7 +1202,7 @@ FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId)
     return &sPathData_559660.paths[static_cast<s32>(lvlId)].field_4_pFmvArray[fmvId];
 }
 
-void CC Path_Format_CameraName_460FB0(char* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId)
+void CC Path_Format_CameraName_460FB0(s8* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId)
 {
     sprintf(pStrBuffer, "%sP%02dC%02d.CAM", sPathData_559660.paths[static_cast<s32>(levelId)].field_14_lvl_name, pathId, cameraId);
 }

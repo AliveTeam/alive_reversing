@@ -6,8 +6,8 @@
 
 struct PrimHeaderPart_Normal
 {
-    char field_4_num_longs;
-    char field_5_unknown;
+    s8 field_4_num_longs;
+    s8 field_5_unknown;
     s16 field_6_pad0;
 };
 ALIVE_ASSERT_SIZEOF(PrimHeaderPart_Normal, 0x4);
@@ -548,7 +548,7 @@ inline void SetXYWH(T pPoly, s16 x, s16 y, s16 w, s16 h)
 
 void SetCode(PrimHeader* pPrim, u8 code);
 void SetUnknown(PrimHeader* pPrim);
-void SetNumLongs(PrimHeader* pPrim, char numLongs);
+void SetNumLongs(PrimHeader* pPrim, s8 numLongs);
 
 void PolyF3_Init(Poly_F3* pPoly);
 void PolyFT3_Init(Poly_FT3* pPoly);

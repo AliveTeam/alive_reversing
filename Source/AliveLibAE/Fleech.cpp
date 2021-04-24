@@ -2783,7 +2783,7 @@ void Fleech::vOnFrame_42BC50(s16* pData)
     field_182_tongue_y = FP_GetExponent((field_CC_sprite_scale * FP_FromInteger(pData[1])) + field_BC_ypos);
 }
 
-const char byte_551984[] =
+const s8 byte_551984[] =
 {
     0,
     0,
@@ -3345,7 +3345,7 @@ s16 Fleech::AI_Patrol_State_10()
     return PatrolStates::State_4_Alert;
 }
 
-const char byte_551784[] =
+const s8 byte_551784[] =
 {
     7,
     7,
@@ -4067,7 +4067,7 @@ s16 Fleech::AI_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj)
     return 2;
 }
 
-const char byte_5518B0[16] =
+const s8 byte_5518B0[16] =
 {
     6,
     6,

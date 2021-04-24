@@ -5,7 +5,7 @@
 
 namespace AO {
 
-EXPORT void Error_WarningMessageBox_48E470(const char* pWarningMsg, ...)
+EXPORT void Error_WarningMessageBox_48E470(const s8* pWarningMsg, ...)
 {
     AE_IMPLEMENTED();
     // HACK: VA_ARGS can't be forwarded, but no big deal as this will be resolved when engines are merged

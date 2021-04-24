@@ -86,10 +86,10 @@ struct SoundEntry
     s32 field_10;
     s32 field_14_buffer_size_bytes;
     s32 field_18_sampleRate;
-    char field_1C_bitsPerSample;
+    s8 field_1C_bitsPerSample;
     u8 field_1D_blockAlign;
-    char field_1E;
-    char field_1F;
+    s8 field_1E;
+    s8 field_1F;
     s32 field_20_isStereo;
 };
 ALIVE_ASSERT_SIZEOF(SoundEntry, 0x24);
@@ -111,12 +111,12 @@ EXPORT s32 CC SND_CreateDS_4EEAA0(u32 sampleRate, s32 bitsPerSample, s32 isStere
 EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, s32 sampleRate, u8 bitsPerSample, s32 isStereo);
 EXPORT s32 CC SND_New_4EEFF0(SoundEntry *pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo);
 EXPORT s32 CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen);
-EXPORT const char* CC SND_HR_Err_To_String_4EEC70(HRESULT hr);
+EXPORT const s8* CC SND_HR_Err_To_String_4EEC70(HRESULT hr);
 EXPORT s32 CC SND_Free_4EFA30(SoundEntry* pSnd);
 EXPORT void CC SND_Restart_4CB0E0();
 EXPORT s32 CC SND_SetPrimarySoundBufferFormat_4EE990(s32 sampleRate, s32 bitsPerSample, u8 isStereo);
 EXPORT void CC SND_InitVolumeTable_4EEF60();
-EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSample, s32 isStereo);
+EXPORT s8 CC SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSample, s32 isStereo);
 EXPORT s32 CC SND_Renew_4EEDD0(SoundEntry *pSnd);
 EXPORT s32 CC SND_Get_Buffer_Status_4EE8F0(s32 idx);
 EXPORT s32 CC SND_Stop_Sample_At_Idx_4EFA90(s32 idx);

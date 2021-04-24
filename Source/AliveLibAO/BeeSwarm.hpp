@@ -11,8 +11,8 @@ struct BeeSwarmParticle
 {
     FP field_0_xpos;
     FP field_4_ypos;
-    char field_8_angle;
-    char field_9_angle_speed;
+    s8 field_8_angle;
+    s8 field_9_angle_speed;
     s16 field_A_pad;
     s32 field_C_timer;
     AnimationUnknown field_10_anim;

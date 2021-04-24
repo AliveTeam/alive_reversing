@@ -127,8 +127,8 @@ struct Paramite_State
     s16 field_24_current_motion;
     s16 field_26_anim_current_frame;
     s16 field_28_frame_change_counter;
-    char field_2A_render;
-    char field_2B_drawable;
+    s8 field_2A_render;
+    s8 field_2B_drawable;
     FP field_2C_health;
     s16 field_30_current_motion;
     s16 field_32_next_motion;

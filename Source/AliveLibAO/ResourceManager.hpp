@@ -96,7 +96,7 @@ public:
             field_10_file_sections_dArray.dtor_404440();
         }
 
-        const char* field_0_fileName;
+        const s8* field_0_fileName;
         ResourcesToLoadList* field_4_pResourcesToLoadList;
         DWORD field_8_type;
         DWORD field_C_resourceId;
@@ -119,7 +119,7 @@ public:
         eLastMatching = 2
     };
 
-    static EXPORT s32 CC SEQ_HashName_454EA0(const char* seqFileName);
+    static EXPORT s32 CC SEQ_HashName_454EA0(const s8* seqFileName);
 
     EXPORT static void CC Init_454DA0();
 
@@ -153,7 +153,7 @@ public:
 
     static EXPORT s16 CC FreeResource_455550(u8** ppRes);
 
-    static EXPORT void CC LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
+    static EXPORT void CC LoadResource_446C90(const s8* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
 
   
     static EXPORT u8** CC GetLoadedResource_4554F0(DWORD type, DWORD resourceId, s16 addUseCount, s16 bLock);
@@ -163,9 +163,9 @@ public:
 
     static EXPORT void CC LoadingLoop_41EAD0(s16 bShowLoadingIcon);
 
-    static s16 CC LoadResourceFileWrapper(const char* filename, Camera* pCam);
+    static s16 CC LoadResourceFileWrapper(const s8* filename, Camera* pCam);
 
-    static EXPORT s16 CC LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
+    static EXPORT s16 CC LoadResourceFile_455270(const s8* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
 
     static EXPORT u8** CC Allocate_New_Locked_Resource_454F80(DWORD type, DWORD id, DWORD size);
 
@@ -174,19 +174,19 @@ public:
     static EXPORT void CC Clear_Header_Flags_4557F0(u8** ppRes, s16 flags);
 
     template<class T, class Y>
-    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile(const char* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
+    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile(const s8* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
     {
         // TODO: Change the camera types to void*'s
         return LoadResourceFile_4551E0(pFileName, reinterpret_cast<TLoaderFn>(pOnLoadFn), reinterpret_cast<Camera*>(pOnLoadFnArgument), reinterpret_cast<Camera*>(pCamera2));
     }
 
-    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile_4551E0(const char* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
+    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile_4551E0(const s8* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
 
     static EXPORT void CC Free_Resource_Of_Type_455810(DWORD type);
 
     static EXPORT void CC Free_Resources_For_Camera_447170(Camera* pCamera);
 
-    static EXPORT void CC LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pList, LoadMode loadMode, s16);
+    static EXPORT void CC LoadResourcesFromList_446E80(const s8* pFileName, ResourcesToLoadList* pList, LoadMode loadMode, s16);
 
     static EXPORT Header* CC Get_Header_455620(u8** ppRes);
 };

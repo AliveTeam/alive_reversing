@@ -234,7 +234,7 @@ public:
     EXPORT DWORD TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv);
 
     EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type);
-    EXPORT static void CCSTD TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, char bSetCreated, char bBit2);
+    EXPORT static void CCSTD TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2);
     EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
     
     EXPORT static void CCSTD Reset_TLVs_4DBCF0(u16 pathId);
@@ -252,7 +252,7 @@ ALIVE_ASSERT_SIZEOF(Path, 0x14);
 
 enum class CameraPos : s16;
 
-EXPORT void CC Stop_slig_sounds_4CBA70(CameraPos direction, char kZero);
+EXPORT void CC Stop_slig_sounds_4CBA70(CameraPos direction, s8 kZero);
 
 struct Path_Teleporter_Data
 {

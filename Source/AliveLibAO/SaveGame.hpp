@@ -9,9 +9,9 @@ namespace AO {
 struct Save_PSX_Header
 {
     u8 field_0_frame_1_name[128];
-    char field_80_frame_2_padding[128];
-    char field_100_frame_3_padding[128];
-    char field_180_frame_4_padding[128];
+    s8 field_80_frame_2_padding[128];
+    s8 field_100_frame_3_padding[128];
+    s8 field_180_frame_4_padding[128];
 };
 ALIVE_ASSERT_SIZEOF(Save_PSX_Header, 0x200);
 
@@ -47,8 +47,8 @@ struct SaveData
     DWORD field_248_gnFrame;
     s32 field_24C_field_118;
     s16 field_250_throwable_count;
-    char field_252_paramonia_done;
-    char field_253_scrabania_done;
+    s8 field_252_paramonia_done;
+    s8 field_253_scrabania_done;
     s32 field_254_ring_pulse_timer;
     s16 field_258_bHaveShrykull;
     WORD field_25A_bElumExists;
@@ -70,10 +70,10 @@ struct SaveData
     WORD field_280_honey_ypos;
     s16 field_282_pad;
     DWORD field_284_unused;
-    char field_288_elum_StrugglingWithBees;
-    char field_289_elum_StungByBees;
-    char field_28A_elum_Falling;
-    char field_28B_elum_FoundHoney;
+    s8 field_288_elum_StrugglingWithBees;
+    s8 field_289_elum_StungByBees;
+    s8 field_28A_elum_Falling;
+    s8 field_28B_elum_FoundHoney;
     PSX_RECT field_28C_elum_continue_rect;
     WORD field_294_continue_zone_number;
     WORD field_296_elum_zone_number;
@@ -96,14 +96,14 @@ class SaveGame
 public:
     EXPORT static void CC LoadFromMemory_459970(SaveData* pData, s32 bKillObjects);
     EXPORT static void CC SaveToMemory_459490(SaveData* pSaveData);
-    EXPORT static s16 CC LoadFromFile_459D30(const char* name);
-    EXPORT static BOOL CC SaveToFile_45A110(const char* name);
+    EXPORT static s16 CC LoadFromFile_459D30(const s8* name);
+    EXPORT static BOOL CC SaveToFile_45A110(const s8* name);
 
     static s16 GetPathId(s16 pathToFind, s16* outFoundPathRow = nullptr);
     static s32 Hash(SaveData* table);
 };
 
-extern const char word_4BC670[6][8];
+extern const s8 word_4BC670[6][8];
 
 }
 

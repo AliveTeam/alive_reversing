@@ -142,7 +142,7 @@ void FartMachine::vRender_4133F0(PrimHeader** ppOt)
 {
     if (gMap_5C3030.field_4_current_camera == field_1E6_cam_id)
     {
-        char text[12] = {};
+        s8 text[12] = {};
         sprintf(text, "%02d", field_144_total_brew_count);
         const s32 textWidth = field_104_font.MeasureWidth_433700(text);
         s16 flickerAmount = 50;

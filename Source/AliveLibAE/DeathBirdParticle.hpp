@@ -15,8 +15,8 @@ private:
     EXPORT void dtor_43EE50();
     EXPORT DeathBirdParticle* vdtor_43EE20(s32 flags);
 private:
-    char field_F4_random;
-    enum class States : char
+    s8 field_F4_random;
+    enum class States : s8
     {
         eAnimateDeathFlares_0 = 0,
         eTransformStarsToDoves_1 = 1

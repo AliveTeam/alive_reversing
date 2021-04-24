@@ -16,7 +16,7 @@ enum class LevelIds : s16;
 
 struct MenuFMV
 {
-    const char* field_0_name;
+    const s8* field_0_name;
     LevelIds field_4_level_id;
     s16 field_6;
     s16 field_8;
@@ -66,7 +66,7 @@ struct MainMenuText
 {
     s32 field_0_x;
     s32 field_4_y;
-    const char *field_8_text;
+    const s8 *field_8_text;
     u8 field_C_align;
     u8 field_D;
     u8 field_E;
@@ -217,7 +217,7 @@ public:
     EXPORT void AnimationAndSoundLogic_4CFE80();
     EXPORT void UpdateHighliteGlow_4D0630();
     EXPORT static void callback_4D06E0(MainMenuController *a1);
-    EXPORT static void DrawMenuText_4D20D0(const MainMenuText *array, PrimHeader** ot, Alive::Font *font, s32 *polyIndex, char a5);
+    EXPORT static void DrawMenuText_4D20D0(const MainMenuText *array, PrimHeader** ot, Alive::Font *font, s32 *polyIndex, s8 a5);
 
     // Page Functions
     EXPORT void AbeSpeak_Render_4D2060(PrimHeader** ot);
@@ -245,7 +245,7 @@ public:
 
     EXPORT MainMenuNextCam Gamespeak_Update_4D1FC0(DWORD input_held);
 
-    void RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, s32 count, char isSingleChar);
+    void RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, s32 count, s8 isSingleChar);
 
     EXPORT void AbeMotions_Render_4D25E0(PrimHeader **ot);
     EXPORT void Gamespeak_Render_4D24F0(PrimHeader** ot);
@@ -299,8 +299,8 @@ public:
     EXPORT void tLoadGame_Render_4D44D0(PrimHeader **pOt);
 
     EXPORT void tLoadGame_Load_4D42F0();
-    EXPORT static char CC checkIfDemoFileExists_4D1430(char *path);
-    EXPORT static void CC remove_ISO9660_Suffix_4D1660(char* out, char* in);
+    EXPORT static s8 CC checkIfDemoFileExists_4D1430(s8 *path);
+    EXPORT static void CC remove_ISO9660_Suffix_4D1660(s8* out, s8* in);
 
     EXPORT void tLoadGame_Unload_4D4360();
 
@@ -369,14 +369,14 @@ public:
     s16 field_21C_bDoScreenTransistionEffect;
     s16 field_21E_bChangeScreen;
     s16 field_220_frame_table_idx;
-    char field_222_unused;
+    s8 field_222_unused;
     s32 field_224_timer_anim_delay;
     s16 field_228_res_idx;
     s16 field_22A_anim_frame_num;
     s32 field_22C_T80_animation_delay;
     s16 field_230_target_entry_index;
     s16 field_232_unused;
-    const char* field_234_pStr;
+    const s8* field_234_pStr;
     s16 field_238_unused;
     s16 field_23A_Inside_LoadGame_Screen;
     BitField32<Flags> field_23C_T80;
@@ -422,13 +422,13 @@ struct MainMenuPage
 
 struct PerPathMudStats
 {
-    char mData[21];
+    s8 mData[21];
 };
 
 ALIVE_VAR_EXTERN(s32, sMainMenuObjectCounter_BB4400);
 
-ALIVE_VAR_EXTERN(char, sEnableCheatLevelSelect_5C1BEE);
-ALIVE_VAR_EXTERN(char, sEnableCheatFMV_5C1BEC);
+ALIVE_VAR_EXTERN(s8, sEnableCheatLevelSelect_5C1BEE);
+ALIVE_VAR_EXTERN(s8, sEnableCheatFMV_5C1BEC);
 ALIVE_VAR_EXTERN(PerPathMudStats, sSavedKilledMudsPerPath_5C1B50);
 ALIVE_VAR_EXTERN(DWORD, sLevelId_dword_5CA408);
 ALIVE_VAR_EXTERN(s32, sGameStartedFrame_5C1B88);

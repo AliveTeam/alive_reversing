@@ -101,7 +101,7 @@ void WheelSyncer::vUpdate_4661D0()
             break;
     }
 
-    SwitchStates_Set_465FF0(field_24_trigger_id, static_cast<char>(switchValue));
+    SwitchStates_Set_465FF0(field_24_trigger_id, static_cast<s8>(switchValue));
 
     if (Event_Get_422C00(kEventDeathReset))
     {

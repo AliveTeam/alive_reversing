@@ -55,8 +55,8 @@ struct Slurg_State
     s16 field_16_current_motion;
     s16 field_18_anim_current_frame;
     s16 field_1A_anim_frame_change_counter;
-    char field_1D_bDrawable;
-    char field_1C_bRender;
+    s8 field_1D_bDrawable;
+    s8 field_1C_bRender;
     s16 field_1E_padding;
     s32 field_20_frame_table_offset;
     s32 field_24_tlvInfo;
@@ -110,5 +110,5 @@ private:
 ALIVE_ASSERT_SIZEOF(Slurg, 0x134);
 
 ALIVE_VAR_EXTERN(WORD, sSlurg_Step_Watch_Points_Idx_5C1C08);
-ALIVE_ARY_EXTERN(char, 2, sSlurg_Step_Watch_Points_Count_5BD4DC);
+ALIVE_ARY_EXTERN(s8, 2, sSlurg_Step_Watch_Points_Count_5BD4DC);
 ALIVE_ARY_EXTERN(Slurg_Step_Watch_Points, 2, sSlurg_Step_Watch_Points_5C1B28);

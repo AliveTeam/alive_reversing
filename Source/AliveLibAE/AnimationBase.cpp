@@ -15,7 +15,7 @@ void AnimationBase::vRender_40B820(s32 /*xpos*/, s32 /*ypos*/, PrimHeader** /*pO
 //    return 0;
 }
 
-char AnimationBase::Animation_v_40BEE0(s16 /*a2*/, s16 /*a3*/, s32 /*a4*/, s16 /*a5*/, s16 /*op1*/)
+s8 AnimationBase::Animation_v_40BEE0(s16 /*a2*/, s16 /*a3*/, s32 /*a4*/, s16 /*a5*/, s16 /*op1*/)
 {
     NOT_IMPLEMENTED();
     LOG_INFO("Animation_v_40BEE0");

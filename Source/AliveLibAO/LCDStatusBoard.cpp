@@ -121,7 +121,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
 
 void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
 {
-    char text[12] = {};
+    s8 text[12] = {};
     sprintf(text, "%02d", 99 - sRescuedMudokons_5076C0 - sKilledMudokons_5076BC);
 
     const s16 w1 = static_cast<s16>(field_90_font3.MeasureWidth_41C2B0(text));

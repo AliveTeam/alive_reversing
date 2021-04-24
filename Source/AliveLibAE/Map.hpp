@@ -40,7 +40,7 @@ enum class CameraSwapEffects : s16
 
 struct CameraName
 {
-    char name[8];
+    s8 name[8];
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
@@ -125,8 +125,8 @@ public:
     EXPORT Camera* Create_Camera_4829E0(s16 xpos, s16 ypos, s32 a4);
     EXPORT static void CCSTD Load_Path_Items_482C10(Camera* pCamera, s16 loadMode);
 
-    EXPORT static void CC LoadResource_4DBE00(const char* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
-    EXPORT static void CC LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad = FALSE);
+    EXPORT static void CC LoadResource_4DBE00(const s8* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
+    EXPORT static void CC LoadResourcesFromList_4DBE70(const s8* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad = FALSE);
 
     EXPORT s16 SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, s16 kMinus1);
 

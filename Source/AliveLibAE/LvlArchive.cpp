@@ -34,7 +34,7 @@ EXPORT void CC LvlArchive_Static_init_432E00()
     atexit(LvlArchive_static_dtor_432E60);
 }
 
-EXPORT s32 CC File_pc_open_4FA2C0(const char* /*fileName*/, s32 /*mode*/)
+EXPORT s32 CC File_pc_open_4FA2C0(const s8* /*fileName*/, s32 /*mode*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -52,7 +52,7 @@ EXPORT s32 CC File_close_4FA530(s32 /*hFile*/)
     return 0;
 }
 
-s32 LvlArchive::Read_File_433070(const char* pFileName, void* pBuffer)
+s32 LvlArchive::Read_File_433070(const s8* pFileName, void* pBuffer)
 {
     return Read_File_4330A0(Find_File_Record_433160(pFileName), pBuffer);
 }
@@ -87,7 +87,7 @@ s32 LvlArchive::Free_433130()
     return 0;
 }
 
-s32 LvlArchive::Open_Archive_432E80(const char* fileName)
+s32 LvlArchive::Open_Archive_432E80(const s8* fileName)
 {
     // Allocate space for LVL archive header
     field_0_0x2800_res = ResourceManager::Allocate_New_Block_49BFB0(kSectorSize * 5, ResourceManager::BlockAllocMethod::eFirstMatching);
@@ -95,7 +95,7 @@ s32 LvlArchive::Open_Archive_432E80(const char* fileName)
     // Open the LVL file
 
 #if BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
-    char subdirPath[256];
+    s8 subdirPath[256];
     strcpy(subdirPath, "levels");
     strcat(subdirPath, fileName);
     s32 hFile = PSX_CD_OpenFile_4FAE80(subdirPath, 1);
@@ -134,7 +134,7 @@ s32 LvlArchive::Open_Archive_432E80(const char* fileName)
     return bOk;
 }
 
-LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
+LvlFileRecord* LvlArchive::Find_File_Record_433160(const s8* pFileName)
 {
     const u32 fileNameLen = static_cast<DWORD>(strlen(pFileName) + 1);
 

@@ -8,7 +8,7 @@
 
 namespace AO {
 
-ScopedSeq* ScopedSeq::ctor_476400(char ambianceId, CameraPos direction)
+ScopedSeq* ScopedSeq::ctor_476400(s8 ambianceId, CameraPos direction)
 {
     SetVTable(this, 0x4BCD44);
 

@@ -60,7 +60,7 @@ ALIVE_VAR_EXTERN(s16, sbDebugFontLoaded_BB4A24);
 ALIVE_VAR_EXTERN(s32, sbDisplayRenderFrame_55EF8C);
 
 EXPORT void CC DebugFont_Flush_4DD050();
-EXPORT s32 CC DebugFont_Printf_4F8B60(s32 idx, const char* formatStr, ...);
+EXPORT s32 CC DebugFont_Printf_4F8B60(s32 idx, const s8* formatStr, ...);
 EXPORT s32 CC DebugFont_Init_4DCF40();
 
 void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect);

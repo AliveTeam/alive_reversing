@@ -212,7 +212,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
         field_280_flags.Clear(LiftFlags::eBit4_bHasPulley);
         CreatePulleyIfExists_462C80();
 
-        field_278_lift_point_id = static_cast<char>(pTlv->field_10_id);
+        field_278_lift_point_id = static_cast<s8>(pTlv->field_10_id);
         field_130_lift_point_stop_type = pTlv->field_16_lift_point_stop_type;
 
         switch (field_130_lift_point_stop_type)
@@ -271,7 +271,7 @@ s32 LiftPoint::VGetSaveState(u8* pSaveBuffer)
     return vGetSaveState_4637D0(reinterpret_cast<LiftPoint_State*>(pSaveBuffer));
 }
 
-static void LoadLiftResourceBans(const char* pRopeBanName, const char* pLiftBanName)
+static void LoadLiftResourceBans(const s8* pRopeBanName, const s8* pLiftBanName)
 {
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, FALSE, FALSE))
     {

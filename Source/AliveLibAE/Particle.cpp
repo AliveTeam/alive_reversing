@@ -223,7 +223,7 @@ void CC New_ShootingZFire_Particle_4269B0(FP xpos, FP ypos, FP scale)
     }
 }
 
-void CC New_ShootingFire_Particle_426890(FP xpos, FP ypos, char direction, FP scale)
+void CC New_ShootingFire_Particle_426890(FP xpos, FP ypos, s8 direction, FP scale)
 {
     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 0, 0);
     auto pParticle = ae_new<Particle>();

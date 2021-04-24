@@ -29,7 +29,7 @@ private:
     s16 field_2A_global_x2;
     s32 field_2C_switch_state;
 
-    enum class TeleporterState : char
+    enum class TeleporterState : s8
     {
         eWaitForSwitchOn_0 = 0,
         eIntoTeleporter_1 = 1,
@@ -37,7 +37,7 @@ private:
         eOutOfTeleporter_4 = 4,
     };
     TeleporterState field_30_state;
-    char field_31_padding;
+    s8 field_31_padding;
     s16 field_32_bDestroySelf;
     Path_Teleporter_Data field_34_mTlvData;
     s16 field_4A_padding;

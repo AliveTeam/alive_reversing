@@ -101,7 +101,7 @@ struct AIFunctionData
 {
     T mOurFn;
     DWORD mOriginal;
-    const char* fnName;
+    const s8* fnName;
 };
 
 #if _WIN32 || !_WIN64

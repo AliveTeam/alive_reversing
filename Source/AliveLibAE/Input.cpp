@@ -83,15 +83,15 @@ ALIVE_VAR(1, 0x5C1BBE, u16, sCurrentControllerIndex_5C1BBE, 0);
 ALIVE_VAR(1, 0x5C1B9A, s16, bLongerTimeoutToNextDemo_5C1B9A, 0);
 ALIVE_VAR(1, 0xbd30a0, DWORD, sLastPressedKey_BD30A0, 0);
 ALIVE_VAR(1, 0xbd309c, s32, sIsAKeyDown_BD309C, 0);
-ALIVE_ARY(1, 0x5C9D30, char, 256, sAllowedGameKeys_5C9D30, {});
-ALIVE_ARY(1, 0x5C9394, const char *, 256, sKeyNames_5C9394, {});
-ALIVE_ARY(1, 0x5C9908, const char *, 10, sJoyButtonNames_5C9908, {});
+ALIVE_ARY(1, 0x5C9D30, s8, 256, sAllowedGameKeys_5C9D30, {});
+ALIVE_ARY(1, 0x5C9394, const s8 *, 256, sKeyNames_5C9394, {});
+ALIVE_ARY(1, 0x5C9908, const s8 *, 10, sJoyButtonNames_5C9908, {});
 ALIVE_ARY(1, 0x5C9930, u32, 256, sKeyboardBindings_5C9930, {});
 ALIVE_ARY(1, 0x5C98E0, s32, 10, sGamePadBindings_5C98E0, {});
 ALIVE_VAR(1, 0xbd1870, t_InputCallback, sInputCallbackFunc_BD1870, 0);
 
-ALIVE_ARY(1, 0x555708, char, 32, sGamePadStr_555708, { "Game Pad" });
-ALIVE_ARY(1, 0x55E85C, char, 32, sGamePadStr_55E85C, { "Game Pad" });
+ALIVE_ARY(1, 0x555708, s8, 32, sGamePadStr_555708, { "Game Pad" });
+ALIVE_ARY(1, 0x55E85C, s8, 32, sGamePadStr_55E85C, { "Game Pad" });
 
 ALIVE_VAR(1, 0x5c2ee8, s32, bAbsX_5C2EE8, 0);
 ALIVE_VAR(1, 0x5c2ea4, s32, bAbsY_5C2EA4, 0);
@@ -550,9 +550,9 @@ EXPORT u8 CC Input_GetInputEnabled_4EDDE0()
     return sInputEnabled_BBB9D0 != 0;
 }
 
-EXPORT char CC Input_GetKeyState_4EDD20(s32 key)
+EXPORT s8 CC Input_GetKeyState_4EDD20(s32 key)
 {
-    const char keyState = sInputKeyStates_BD2F60[key] & 0x80;
+    const s8 keyState = sInputKeyStates_BD2F60[key] & 0x80;
     sInputKeyStates_BD2F60[key] = keyState;
     return keyState;
 }
@@ -569,7 +569,7 @@ EXPORT void CC Input_DisableInputForPauseMenuAndDebug_4EDDC0()
 
 struct KeyName
 {
-    char field_0_name[10];
+    s8 field_0_name[10];
 };
 
 struct KeyNames
@@ -592,7 +592,7 @@ EXPORT void CC Input_Init_Names_491870()
     s32 bindingMask = 16;
     for (s32 i = 4; i < 32; i++)
     {
-        char* keyNamePtr = sKeyboardDisplayKeyNames_5C9E30.keys[i].field_0_name;
+        s8* keyNamePtr = sKeyboardDisplayKeyNames_5C9E30.keys[i].field_0_name;
         for (s32 keyNameIdx = 0; keyNameIdx < 256; keyNameIdx++)
         {
             if (bindingMask & sKeyboardBindings_5C9930[keyNameIdx])
@@ -656,9 +656,9 @@ EXPORT void CC Input_Init_Names_491870()
     strcpy(sGamepadDisplayKeyNames_5C9798.keys[20].field_0_name, sJoyButtonNames_5C9908[1]);
 }
 
-const char* CC Input_GetButtonString_492530(const char* idx, s32 controllerType)
+const s8* CC Input_GetButtonString_492530(const s8* idx, s32 controllerType)
 {
-    const char* ret = ""; // don't crash the game if the buttonstring cannot be looked up
+    const s8* ret = ""; // don't crash the game if the buttonstring cannot be looked up
     if (controllerType == 0)
     {
         ret = sKeyboardDisplayKeyNames_5C9E30.keys[*idx-1].field_0_name;
@@ -816,7 +816,7 @@ EXPORT void CC Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad)
     }
 }
 
-EXPORT InputCommands::Enum CC Input_LoadSettingsIni_GetInputCommand_492B80(const char *pActionName)
+EXPORT InputCommands::Enum CC Input_LoadSettingsIni_GetInputCommand_492B80(const s8 *pActionName)
 {
     if (!_strcmpi(pActionName, "run"))
     {
@@ -849,7 +849,7 @@ EXPORT InputCommands::Enum CC Input_LoadSettingsIni_GetInputCommand_492B80(const
     return InputCommands::Enum::eSpeak1;
 }
 
-EXPORT s32 CC Input_GetKeyboardKeyCode_492CA0(const char * keyName)
+EXPORT s32 CC Input_GetKeyboardKeyCode_492CA0(const s8 * keyName)
 {
     for (s32 i = 0; i < 256; i++)
     {
@@ -862,7 +862,7 @@ EXPORT s32 CC Input_GetKeyboardKeyCode_492CA0(const char * keyName)
     return -1;
 }
 
-EXPORT s32 CC Input_GetGamePadCode_492CF0(const char * buttonName )
+EXPORT s32 CC Input_GetGamePadCode_492CF0(const s8 * buttonName )
 {
     for (s32 i = 0; i < 10; i++)
     {
@@ -875,7 +875,7 @@ EXPORT s32 CC Input_GetGamePadCode_492CF0(const char * buttonName )
     return -1;
 }
 
-EXPORT void CC Input_SetKeyboardBinding_493180(const char *pKeyName, s32 inputCommand)
+EXPORT void CC Input_SetKeyboardBinding_493180(const s8 *pKeyName, s32 inputCommand)
 {
     s32 keyCode = Input_GetKeyboardKeyCode_492CA0(pKeyName);
     if (keyCode >= 0)
@@ -885,7 +885,7 @@ EXPORT void CC Input_SetKeyboardBinding_493180(const char *pKeyName, s32 inputCo
     }
 }
 
-EXPORT void CC Input_SetGamePadBinding_4931D0(const char *pButtonName, s32 inputCommand)
+EXPORT void CC Input_SetGamePadBinding_4931D0(const s8 *pButtonName, s32 inputCommand)
 {
     s32 gamePadCode = Input_GetGamePadCode_492CF0(pButtonName);
     Input_ResetBinding_4925A0(inputCommand, 1);
@@ -929,7 +929,7 @@ union intOrBoolPointer
 
 struct IniCustomSaveEntry
 {
-    const char* name;
+    const s8* name;
     intOrBoolPointer data;
     bool isBool;
 };
@@ -957,7 +957,7 @@ enum class IniCategory
 };
 
 
-const char* iniCategories[4] = {
+const s8* iniCategories[4] = {
     "Control",
     "Keyboard",
     "Gamepad",
@@ -967,7 +967,7 @@ const char* iniCategories[4] = {
 void NewParseSettingsIni()
 {
     const auto abeBuffer = FS::ReadFile(FS::GetPrefPath() + "abe2.ini");
-    const std::string abeConfig(reinterpret_cast<const char*>(abeBuffer.data()), abeBuffer.size());
+    const std::string abeConfig(reinterpret_cast<const s8*>(abeBuffer.data()), abeBuffer.size());
     std::vector<std::string> configSplit = SplitString(abeConfig, '\n');
 
     IniCategory currentCategory = IniCategory::eNone;
@@ -1115,7 +1115,7 @@ EXPORT void Input_SaveSettingsIni_Common(bool isAo)
     // Keyboard remap
     output << "[" << iniCategories[1] << "]" << "\n";
 
-    const char* btnString = nullptr;
+    const s8* btnString = nullptr;
 
     btnString = Input_GetButtonString_492530(kRun, 0);
     if (btnString)
@@ -1270,7 +1270,7 @@ static bool IsChantingAnyShoulderButton(s32 shoulderButtonsPressedCount)
     return (shoulderButtonsPressedCount > 1);
 }
 #else
-static bool IsChanting(char input_command_c_pressed, char input_command_delete_pressed)
+static bool IsChanting(s8 input_command_c_pressed, s8 input_command_delete_pressed)
 {
     return (input_command_c_pressed && input_command_delete_pressed);
 }
@@ -1282,8 +1282,8 @@ EXPORT s32 Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
     DWORD timeStamp; // eax
     DWORD buttons; // edx
     DWORD currentTime; // eax
-    char input_command_delete_pressed; // [esp+2h] [ebp-1Ah]
-    char input_command_c_pressed; // [esp+3h] [ebp-19h]
+    s8 input_command_delete_pressed; // [esp+2h] [ebp-1Ah]
+    s8 input_command_c_pressed; // [esp+3h] [ebp-19h]
     s32 keys_down; // [esp+4h] [ebp-18h]
     DWORD pButtons; // [esp+8h] [ebp-14h]
 
@@ -1910,7 +1910,7 @@ EXPORT void CC Input_InitKeyStateArray_4EDD60()
     memset(sInputKeyStates_BD2F60, 0, 256u);
 }
 
-EXPORT void CC Input_SetKeyState_4EDD80(s32 key, char bIsDown)
+EXPORT void CC Input_SetKeyState_4EDD80(s32 key, s8 bIsDown)
 {
     if (bIsDown)
     {
@@ -2187,10 +2187,10 @@ DWORD CC InputObject::Command_To_Raw_45EE40(DWORD cmd)
 }
 
 // TODO: Refactor/implement cleanly - this should be the reverse of Command_To_Raw_45EE40
-char CC InputObject::Raw_To_Command_45EF70(s32 a1)
+s8 CC InputObject::Raw_To_Command_45EF70(s32 a1)
 {
     s32 v1; // ecx
-    char result; // al
+    s8 result; // al
 
     v1 = a1;
     result = 0;

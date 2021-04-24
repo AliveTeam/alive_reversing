@@ -7,7 +7,7 @@
 #include <windows.h>
 #endif
 
-[[noreturn]] void ALIVE_FATAL(const char* errMsg)
+[[noreturn]] void ALIVE_FATAL(const s8* errMsg)
 {
     Sys_MessageBox(nullptr, errMsg, "ALIVE Hook fatal error.");
     abort();
@@ -25,7 +25,7 @@ DWORD SYS_GetTicks()
 #endif
 }
 
-MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type)
+MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const s8* message, const s8* title, MessageBoxType type)
 {
 #if USE_SDL2
     SDL_MessageBoxData data = {};

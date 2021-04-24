@@ -55,7 +55,7 @@ private:
     FP field_100_xJoin;
     FP field_104_yJoin;
     s32 field_108_timer;
-    char field_10C_angle;
+    s8 field_10C_angle;
     // 3 byte pad
     FP field_110_prevX;
     FP field_114_prevY;

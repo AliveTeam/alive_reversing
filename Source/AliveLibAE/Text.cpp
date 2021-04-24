@@ -32,7 +32,7 @@ void Text::VScreenChanged()
     // Empty
 }
 
-EXPORT Text* Text::ctor_46ADA0(const char* pMessage, s32 renderCount, s32 bShadow)
+EXPORT Text* Text::ctor_46ADA0(const s8* pMessage, s32 renderCount, s32 bShadow)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x546148); // vTbl_Text_546148
@@ -160,7 +160,7 @@ EXPORT void Text::Render_46AFD0(PrimHeader** ppOt)
 // MainMenuController::ChangeScreenAndIntroLogic_4CF640 will call with type 3 (Shown on boot, says Abe's Exoddus).
 
 // TODO: When above functions are reversed clean up this function to remove strange dead cases..
-EXPORT char CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, MessageType messageType)
+EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, MessageType messageType)
 {
     if (messageType == MessageType::eSkipMovie_1)
     {
@@ -170,7 +170,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, Mes
     auto pTextObj = ae_new<Text>();
     if (pTextObj)
     {
-        const char* pMsg = nullptr;
+        const s8* pMsg = nullptr;
         if (messageType == MessageType::eShortTitle_3)
         {
             pMsg = "    Abe's Exoddus    ";
@@ -244,7 +244,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, Mes
         displayForMsecs += 4000;
     }
 
-    char bQuitViaEnterOrTimeOut = 1;
+    s8 bQuitViaEnterOrTimeOut = 1;
     if (SYS_GetTicks() < displayForMsecs)
     {
         bool waitReturn = true;

@@ -6,7 +6,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x505568, SwitchStates, sSwitchStates_505568, {});
 
-void SwitchStates_Set(u16 idx, char value)
+void SwitchStates_Set(u16 idx, s8 value)
 {
     sSwitchStates_505568.mData[idx] = value;
 }
@@ -26,7 +26,7 @@ s16 SwitchStates_Get(u16 idx)
     return sSwitchStates_505568.mData[idx];
 }
 
-void SwitchStates_Add(u16 idx, char value)
+void SwitchStates_Add(u16 idx, s8 value)
 {
     sSwitchStates_505568.mData[idx] += value;
 }

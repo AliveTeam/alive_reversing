@@ -6,10 +6,10 @@ namespace AO {
 
 struct SwitchStates
 {
-    char mData[256];
+    s8 mData[256];
 };
 
-void SwitchStates_Set(u16 idx, char value);
+void SwitchStates_Set(u16 idx, s8 value);
 s16 SwitchStates_Get(u16 idx);
 
 enum class SwitchOp : s16
@@ -23,7 +23,7 @@ enum class SwitchOp : s16
 
 EXPORT void CC SwitchStates_Do_Operation_436A10(s16 idx, SwitchOp operation);
 
-void SwitchStates_Add(u16 idx, char value);
+void SwitchStates_Add(u16 idx, s8 value);
 void SwitchStates_ClearAll();
 
 ALIVE_VAR_EXTERN(SwitchStates, sSwitchStates_505568);

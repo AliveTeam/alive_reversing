@@ -13,12 +13,12 @@
 ALIVE_VAR(1, 0xbbc388, LPDIRECTSOUNDBUFFER, sPrimarySoundBuffer_BBC388, 0);
 
 ALIVE_VAR(1, 0xbbc340, s32, sPrimarySoundBufferSampleRate_BBC340, 0);
-ALIVE_VAR(1, 0xbbbab0, char, sPrimarySoundBufferChannels_BBBAB0, 0);
-ALIVE_VAR(1, 0xbbc338, char, sPrimarySoundBufferBitsPerSample_BBC338, 0);
+ALIVE_VAR(1, 0xbbbab0, s8, sPrimarySoundBufferChannels_BBBAB0, 0);
+ALIVE_VAR(1, 0xbbc338, s8, sPrimarySoundBufferBitsPerSample_BBC338, 0);
 
-ALIVE_ARY(1, 0xBBC348, char, 64, sDSoundErrorBuffer_BBC348, {});
+ALIVE_ARY(1, 0xBBC348, s8, 64, sDSoundErrorBuffer_BBC348, {});
 
-const char* SND_HR_Err_To_String_DSound(HRESULT hr)
+const s8* SND_HR_Err_To_String_DSound(HRESULT hr)
 {
     switch (hr)
     {
@@ -144,8 +144,8 @@ s32 CC SND_CreateDS_DSound(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
                 }
 
                 sPrimarySoundBufferSampleRate_BBC340 = sampleRate;
-                sPrimarySoundBufferBitsPerSample_BBC338 = static_cast<char>(bitsPerSample);
-                sPrimarySoundBufferChannels_BBBAB0 = static_cast<char>(isStereo);
+                sPrimarySoundBufferBitsPerSample_BBC338 = static_cast<s8>(bitsPerSample);
+                sPrimarySoundBufferChannels_BBBAB0 = static_cast<s8>(isStereo);
 
                 SND_InitVolumeTable_4EEF60();
 
@@ -261,7 +261,7 @@ void SND_InitVolumeTable_DSound()
     sVolumeTable_BBBD38[0] = -10000;
 }
 
-EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSample, s32 isStereo)
+EXPORT s8 CC SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSample, s32 isStereo)
 {
     DSBUFFERDESC bufferDesc = {};
     bufferDesc.dwSize = sizeof(DSBUFFERDESC);
@@ -315,7 +315,7 @@ s32 CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset, u8* pS
 
     u32 *leftChannelBuffer;
     s32 leftChannelSize;
-    char * rightChannelBuffer;
+    s8 * rightChannelBuffer;
     s32 rightChannelSize;
 
     s32 lockHR = pSnd->field_4_pDSoundBuffer->Lock(offsetBytes, bufferSizeBytes, (LPVOID *)&leftChannelBuffer, (LPDWORD)&leftChannelSize, (LPVOID *)&rightChannelBuffer, (LPDWORD)&rightChannelSize, 0);

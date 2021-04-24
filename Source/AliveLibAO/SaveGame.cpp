@@ -92,7 +92,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, s32 bKillObjects)
     sActiveHero_507678->field_11C_regen_health_timer = gnFrameCount_507670;
     sActiveHero_507678->field_BC_sprite_scale = pData->field_230_ah_sprite_scale;
     sActiveHero_507678->field_118_timer = pData->field_24C_field_118;
-    sActiveHero_507678->field_19C_throwable_count = static_cast<char>(pData->field_250_throwable_count); // TODO: Type check when other save func done
+    sActiveHero_507678->field_19C_throwable_count = static_cast<s8>(pData->field_250_throwable_count); // TODO: Type check when other save func done
     sActiveHero_507678->field_106_shot = 0;
 
     sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
@@ -149,7 +149,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, s32 bKillObjects)
         1);
 }
 
-const char word_4BC670[6][8] =
+const s8 word_4BC670[6][8] =
 {
     { 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x00, 0x00 },
     { 0x01, 0x02, 0x03, 0x0A, 0x00, 0x00, 0x00, 0x00 },
@@ -291,7 +291,7 @@ const u8* encodedLevelNames_4BC62C[] =
     byte_4BC4A0
 };
 
-const char* rawLevelNames[] = {
+const s8* rawLevelNames[] = {
     nullptr,
     "RuptureFarms     ",
     "Stockyard Escape ",
@@ -353,7 +353,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     if (lvName != nullptr)
     {
         memcpy(
-            reinterpret_cast<char*>(&pSaveData->field_0_header.field_0_frame_1_name[4]),
+            reinterpret_cast<s8*>(&pSaveData->field_0_header.field_0_frame_1_name[4]),
             lvName,
             18
         );
@@ -371,7 +371,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
 
             // 0x8250 = 1
             pSaveData->field_0_header.field_0_frame_1_name[46] = 0x82u;
-            pSaveData->field_0_header.field_0_frame_1_name[47] = static_cast<char>(path_id + 0x50);
+            pSaveData->field_0_header.field_0_frame_1_name[47] = static_cast<s8>(path_id + 0x50);
         }
     }
     pSaveData->field_234_current_level = gMap_507BA8.field_0_current_level;
@@ -479,9 +479,9 @@ s32 SaveGame::Hash(SaveData* sData)
     return counter;
 }
 
-s16 CC SaveGame::LoadFromFile_459D30(const char* name)
+s16 CC SaveGame::LoadFromFile_459D30(const s8* name)
 {
-    char buffer[40] = {};
+    s8 buffer[40] = {};
 
     strcpy(buffer, name);
     strcat(buffer, ".sav");
@@ -515,9 +515,9 @@ s16 CC SaveGame::LoadFromFile_459D30(const char* name)
     }
 }
 
-BOOL CC SaveGame::SaveToFile_45A110(const char *name)
+BOOL CC SaveGame::SaveToFile_45A110(const s8 *name)
 {
-    char buffer[40] = {};
+    s8 buffer[40] = {};
 
     strcpy(buffer, name);
     strcat(buffer, ".sav");

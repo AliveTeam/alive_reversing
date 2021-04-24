@@ -48,10 +48,10 @@ struct MineCar_SaveState
     s16 field_28_current_motion;
     s16 field_2A_current_anim_frame;
     s16 field_2C_frame_change_counter;
-    char field_2E_render;
-    char field_2F_drawable;
-    char field_30; // TODO: Remove because it's the same as field_2E_render.
-    char field_31_padding;
+    s8 field_2E_render;
+    s8 field_2F_drawable;
+    s8 field_30; // TODO: Remove because it's the same as field_2E_render.
+    s8 field_31_padding;
     s16 field_32; // TODO: Remove because it's the same as field_22_xFlip.
     s16 field_34; // TODO: Remove because it's the same as field_2A_current_anim_frame.
     s16 field_36; // TODO: Remove because it's the same as field_2C_frame_change_counter.
@@ -105,7 +105,7 @@ private:
     EXPORT void vUpdate_REAL_46C010();
     EXPORT void vRender_46E760(PrimHeader** ppOt);
     EXPORT void Stop_46E570();
-    EXPORT void Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs dir, char bChangeDirection);
+    EXPORT void Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs dir, s8 bChangeDirection);
     EXPORT s16 IsBlocked_46F4A0(s16 a2, s32 a3);
     EXPORT s16 FollowDirection_46EA00();
     EXPORT void RunThingsOver_46F380();
@@ -122,7 +122,7 @@ private:
     void HandleUpDown();
 
     using mineCarFPFunc = BOOL (MineCar::*)(FP, FP);
-    bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, u16 moveArgument1, MineCarDirs moveArgument2, const char changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const s32 ModelMask1, const s32 ModelMask2, FP moveX, FP moveY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond);
+    bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, u16 moveArgument1, MineCarDirs moveArgument2, const s8 changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const s32 ModelMask1, const s32 ModelMask2, FP moveX, FP moveY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond);
 
 private:
     s32 field_118_tlvInfo;

@@ -18,7 +18,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507668, s16, sNumCamSwappers_507668, 0);
 
-CameraSwapper* CameraSwapper::ctor_48C540(u8** ppBits, s32 movieId, s32 movieFlag, char movieFlags, s16 flags, s16 volume)
+CameraSwapper* CameraSwapper::ctor_48C540(u8** ppBits, s32 movieId, s32 movieFlag, s8 movieFlags, s16 flags, s16 volume)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD7C8);
@@ -37,7 +37,7 @@ CameraSwapper* CameraSwapper::ctor_48C540(u8** ppBits, s32 movieId, s32 movieFla
     return this;
 }
 
-CameraSwapper* CameraSwapper::ctor_48C5E0(u8** ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, char movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
+CameraSwapper* CameraSwapper::ctor_48C5E0(u8** ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, s8 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD7C8);
@@ -63,7 +63,7 @@ CameraSwapper* CameraSwapper::ctor_48C5E0(u8** ppBits, s32 moviePos1, s32 movieI
     return this;
 }
 
-EXPORT CameraSwapper* CameraSwapper::ctor_48C6B0(u8** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, char movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
+EXPORT CameraSwapper* CameraSwapper::ctor_48C6B0(u8** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD7C8);
@@ -543,7 +543,7 @@ void CameraSwapper::VUpdate_48CEA0()
                 pMovie->ctor_489C90(
                     field_14_movie_id_3,
                     field_10_movie_pos_3,
-                    static_cast<char>(field_30_movie_flag_3),
+                    static_cast<s8>(field_30_movie_flag_3),
                     field_32_movie_flags_3,
                     field_34_movie_vol_3);
             }
@@ -571,7 +571,7 @@ void CameraSwapper::VUpdate_48CEA0()
                 pMovie->ctor_489C90(
                     field_1C_movie_id_2,
                     field_18_movie_pos_2,
-                    static_cast<char>(field_36_movie_flag_2),
+                    static_cast<s8>(field_36_movie_flag_2),
                     field_38_movie_flags_2,
                     field_3A_movie_vol_2);
             }

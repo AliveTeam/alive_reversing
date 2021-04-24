@@ -13,9 +13,9 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv);
 
 EXPORT void CC SND_Init_Ambiance_4765C0();
 
-EXPORT void CC Start_Slig_sounds_476960(CameraPos direction, char kZero);
+EXPORT void CC Start_Slig_sounds_476960(CameraPos direction, s8 kZero);
 
-EXPORT void CC Stop_slig_sounds_476A20(CameraPos direction, char kZero);
+EXPORT void CC Stop_slig_sounds_476A20(CameraPos direction, s8 kZero);
 
 class ScopedSeq;
 struct Sound_Ambiance

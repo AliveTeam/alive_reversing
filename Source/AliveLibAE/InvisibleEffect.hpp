@@ -52,7 +52,7 @@ private:
     s32 field_40;
     s32 field_44_objId;
     TPageAbr field_48_old_render_mode;
-    char field_49;
+    s8 field_49;
     BitField16<Flags_4A> field_4A_flags;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleEffect, 0x4C);

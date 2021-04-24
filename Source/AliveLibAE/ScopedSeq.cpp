@@ -5,7 +5,7 @@
 #include "Sound/Midi.hpp"
 #include "stdlib.hpp"
 
-ScopedSeq* ScopedSeq::ctor_4CB210(char ambianceId, CameraPos direction)
+ScopedSeq* ScopedSeq::ctor_4CB210(s8 ambianceId, CameraPos direction)
 {
     SetVTable(this, 0x547838);
 

@@ -72,7 +72,7 @@ void SwitchStateBooleanLogic::VUpdate_436B60()
     const s16 id1_value = SwitchStates_Get(field_10_input_1);
     const s16 id2_value = SwitchStates_Get(field_12_input_2);
 
-    char id_value = 0;
+    s8 id_value = 0;
     switch (field_16_operator)
     {
     case BooleanOperatorType::eAnd_0:

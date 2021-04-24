@@ -26,7 +26,7 @@ void CircularFade::VScreenChanged()
     // null sub
 }
 
-s32 CircularFade::VFadeIn_4CE300(s16 direction, char destroyOnDone)
+s32 CircularFade::VFadeIn_4CE300(s16 direction, s8 destroyOnDone)
 {
     return vFadeIn_4CE300(direction, destroyOnDone);
 }
@@ -36,7 +36,7 @@ s32 CircularFade::VDone_4CE0B0()
     return vDone_4CE0B0();
 }
 
-CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 direction, char destroyOnDone)
+CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -226,7 +226,7 @@ void CircularFade::vUpdate_4CE380()
     }
 }
 
-s32 CircularFade::vFadeIn_4CE300(s16 direction, char destroyOnDone) // TODO: Likely no return
+s32 CircularFade::vFadeIn_4CE300(s16 direction, s8 destroyOnDone) // TODO: Likely no return
 {
     sNum_CamSwappers_5C1B66++;
 
@@ -275,7 +275,7 @@ CircularFade* CircularFade::vdtor_4CE0D0(s32 flags)
     return this;
 }
 
-CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, char destroyOnDone, char setBit8)
+CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 setBit8)
 {
     auto pFade = ae_new<CircularFade>();
     if (!pFade)

@@ -68,7 +68,7 @@ ALIVE_VAR_EXTERN(SaveData, gSaveBuffer_505668);
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_423520);
 
 #define MAKE_STRINGS(VAR) #VAR,
-const char* const sAbeStateNames[] =
+const s8* const sAbeStateNames[] =
 {
     AO_ABE_STATES_ENUM(MAKE_STRINGS)
 };
@@ -2303,7 +2303,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
         case Types::eMeat_54:
         case Types::eRock_70:
             field_FC_current_motion = eAbeStates::State_149_PickupItem_42A030;
-            field_19C_throwable_count += static_cast<char>(field_15C_pThrowable->VGetCount());
+            field_19C_throwable_count += static_cast<s8>(field_15C_pThrowable->VGetCount());
 
             if (!bThrowableIndicatorExists_504C70)
             {
@@ -8330,7 +8330,7 @@ void Abe::State_88_HandstoneBegin_430590()
                             pMovie->ctor_489C90(
                                 pFmvInfo->field_4_id,
                                 aux,
-                                static_cast<char>(pFmvInfo->field_6),
+                                static_cast<s8>(pFmvInfo->field_6),
                                 pFmvInfo->field_A,
                                 pFmvInfo->field_C_volume
                             );

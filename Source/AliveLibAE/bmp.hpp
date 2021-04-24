@@ -33,7 +33,7 @@ struct Bitmap
     s32 field_8_width;
     s32 field_C_height;
     s32 field_10_locked_pitch;
-    char field_14_bpp;
+    s8 field_14_bpp;
     u8 field_15_pixel_format;
     s16 field_16_pad;
     s32 field_18_create_flags;

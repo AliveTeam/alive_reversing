@@ -53,7 +53,7 @@ EXPORT s32 CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
         return 1;
     }
 
-    const char count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
+    const s8 count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
     if (count < 5)
     {
         Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
@@ -906,7 +906,7 @@ WORD Animation::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, char bEnable_flag10_alternating)
+s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
@@ -993,7 +993,7 @@ s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     }
 
     s16 pal_depth = 0;
-    char b256Pal = 0;
+    s8 b256Pal = 0;
     s32 vram_width = 0;
     if (pFrameHeader_1->field_6_colour_depth == 4)
     {

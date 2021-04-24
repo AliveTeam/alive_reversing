@@ -27,8 +27,8 @@ struct EvilFart_State
     FP field_1C_sprite_scale;
     s16 field_20_anim_cur_frame;
     s16 field_22_frame_change_counter;
-    char field_24_bAnimRender;
-    char field_25_bDrawable;
+    s8 field_24_bAnimRender;
+    s8 field_25_bDrawable;
     LevelIds field_26_level;
     s16 field_28_path;
     s16 field_2A_camera;

@@ -1812,7 +1812,7 @@ void Slog::State_21_Eating_475900()
     {
         if (field_10_anim.field_92_current_frame == 3 && !field_10_anim.field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
         {
-            SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(79, 80)), 100, 0);
+            SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(79, 80)), 100, 0);
             auto pBlood = ao_new<Blood>();
             if (pBlood)
             {

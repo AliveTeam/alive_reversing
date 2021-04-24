@@ -91,7 +91,7 @@ DDCheat* DDCheat::Vdtor_40A380(s32 flags)
     return this;
 }
 
-void DDCheat::AddPropertyEntry(const char* text, DDCheatValueType valueType, DDCheatValue valuePtr)
+void DDCheat::AddPropertyEntry(const s8* text, DDCheatValueType valueType, DDCheatValue valuePtr)
 {
     for (auto& prop : DDCheatProperties_4FF7D8.props)
     {
@@ -122,7 +122,7 @@ ALIVE_VAR(1, 0x4C315C, DWORD, level_4C315C, 3);
 ALIVE_VAR(1, 0x4C3160, WORD, path_4C3160, 1);
 ALIVE_VAR(1, 0x4FF864, DWORD, gVox_4FF864, 0);
 ALIVE_VAR(1, 0x4FF860, WORD, doNothing_4FF860, 0);
-ALIVE_VAR_EXTERN(char, gDDCheatMode_508BF8);
+ALIVE_VAR_EXTERN(s8, gDDCheatMode_508BF8);
 
 ALIVE_VAR(1, 0x9F0E40, DWORD, dword_9F0E40, 0);
 ALIVE_VAR(1, 0x9F0E44, DWORD, dword_9F0E44, 1);
@@ -142,7 +142,7 @@ void DDCheat::ScreenShot_409720()
     auto pixelBuffer = reinterpret_cast<WORD*>(alloc_450740(640 * sizeof(WORD) * gPsxDisplay_504C78.field_2_height));
     if (pixelBuffer)
     {
-        char fileNameBuffer[16] = {};
+        s8 fileNameBuffer[16] = {};
         sprintf(fileNameBuffer, "SD%06ld.TGA", gnFrameCount_507670 % 1000000);
         const auto fileHandle = fopen(fileNameBuffer, "wb");
         if (!fileHandle)
@@ -160,18 +160,18 @@ void DDCheat::ScreenShot_409720()
         }
 
         struct {
-            char  idlength = 0;
-            char  colourmaptype = 0;
-            char  datatypecode = 2;
+            s8  idlength = 0;
+            s8  colourmaptype = 0;
+            s8  datatypecode = 2;
             s16 colourmaporigin = 0;
             s16 colourmaplength = 0;
-            char  colourmapdepth = 0;
+            s8  colourmapdepth = 0;
             s16 x_origin = 0;
             s16 y_origin = 0;
             s16 width = 640;
             s16 height = 480;
-            char  bitsperpixel = 16;
-            char  imagedescriptor = 0;
+            s8  bitsperpixel = 16;
+            s8  imagedescriptor = 0;
         } headerTGA;
 
         writeHeaderElement(headerTGA.idlength, fileHandle);
@@ -402,7 +402,7 @@ void DDCheat::VUpdate_4098C0()
     }
 }
 
-const char *lvl_names_4C3168[16] =
+const s8 *lvl_names_4C3168[16] =
 {
     "Start screen",
     "Rupture 1",
@@ -543,14 +543,14 @@ void DDCheat::Misc_409E90()
     DebugStr_495990("\nScale: up=+5 down=-5 left=100 right=50\n");
     DebugStr_495990("Scale: %d\n\n", gScale_4C3158);
 
-    const char *invulnerableDisplayText = "on";
+    const s8 *invulnerableDisplayText = "on";
     if (!gAbeInvulnerableCheat_5076E4)
     {
         invulnerableDisplayText = "off";
     }
     DebugStr_495990("triangle=invulnerable (%s)\n", invulnerableDisplayText);
 
-    const char *invisibleDisplayText = "on";
+    const s8 *invisibleDisplayText = "on";
     if (!gAbeInvisibleCheat_5076F8)
     {
         invisibleDisplayText = "off";
@@ -580,7 +580,7 @@ void DDCheat::Misc_409E90()
 
 
 
-s32 DDCheat::DebugFont_Printf_498B40(s32 idx, const char* formatStr, ...)
+s32 DDCheat::DebugFont_Printf_498B40(s32 idx, const s8* formatStr, ...)
 {
     AE_IMPLEMENTED();
 
@@ -591,18 +591,18 @@ s32 DDCheat::DebugFont_Printf_498B40(s32 idx, const char* formatStr, ...)
         return -1;
     }
 
-    char buffer[1024] = {};
+    s8 buffer[1024] = {};
     vsprintf(buffer, formatStr, va);
 
     return ::DebugFont_Printf_4F8B60(idx, buffer);
 }
 
-s32 DDCheat::DebugStr_495990(const char* pStr, ...)
+s32 DDCheat::DebugStr_495990(const s8* pStr, ...)
 {
     va_list va;
     va_start(va, pStr);
 
-    char strBuffer[1024];
+    s8 strBuffer[1024];
     vsprintf(strBuffer, pStr, va);
     DDCheat::DebugFont_Printf_498B40(0, strBuffer);
     return 0;

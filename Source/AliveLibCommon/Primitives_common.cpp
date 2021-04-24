@@ -14,7 +14,7 @@ void SetUnknown(PrimHeader* pPrim)
     pPrim->header.mNormal.field_5_unknown = 0; // byte_BD146C; // Note not using the AE or AO value but shouldn't matter as its never read
 }
 
-void SetNumLongs(PrimHeader* pPrim, char numLongs)
+void SetNumLongs(PrimHeader* pPrim, s8 numLongs)
 {
     pPrim->header.mNormal.field_4_num_longs = numLongs;
 }

@@ -24,4 +24,4 @@ EXPORT void CC New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, s16 count,
 EXPORT void New_RandomizedChant_Particle_45BC70(class BaseAliveGameObject* pObj);
 EXPORT Particle* CC New_TintShiny_Particle_426C30(FP xpos, FP ypos, FP scale, Layer layer);
 EXPORT void CC New_ShootingZFire_Particle_4269B0(FP xpos, FP ypos, FP scale);
-EXPORT void CC New_ShootingFire_Particle_426890(FP xpos, FP ypos, char direction, FP scale);
+EXPORT void CC New_ShootingFire_Particle_426890(FP xpos, FP ypos, s8 direction, FP scale);

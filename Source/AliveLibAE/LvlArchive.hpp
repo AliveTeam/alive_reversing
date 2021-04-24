@@ -8,7 +8,7 @@ EXPORT void CC static_lvl_init_480350();
 
 struct LvlFileRecord
 {
-    char field_0_file_name[12];
+    s8 field_0_file_name[12];
     s32 field_C_start_sector;
     s32 field_10_num_sectors;
     s32 field_14_file_size;
@@ -37,9 +37,9 @@ struct LvlHeader
 class LvlArchive
 {
 public:
-    EXPORT s32 Open_Archive_432E80(const char* fileName);
-    EXPORT LvlFileRecord* Find_File_Record_433160(const char* pFileName);
-    EXPORT s32 Read_File_433070(const char* pFileName, void* pBuffer);
+    EXPORT s32 Open_Archive_432E80(const s8* fileName);
+    EXPORT LvlFileRecord* Find_File_Record_433160(const s8* pFileName);
+    EXPORT s32 Read_File_433070(const s8* pFileName, void* pBuffer);
     EXPORT s32 Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer);
     EXPORT s32 Free_433130();
 private:

@@ -18,7 +18,7 @@
 
 void Psx_ForceLink() {}
 
-ALIVE_VAR(1, 0x578325, char, sVSync_Unused_578325, 0);
+ALIVE_VAR(1, 0x578325, s8, sVSync_Unused_578325, 0);
 ALIVE_VAR(1, 0xBD0F2C, s32, sVSyncLastMillisecond_BD0F2C, 0);
 ALIVE_VAR(1, 0xBD0F24, s32, sLastFrameTimestampMilliseconds_BD0F24, 0);
 
@@ -43,19 +43,19 @@ ALIVE_VAR(1, 0xBD0F20, u8, turn_off_rendering_BD0F20, 0);
 ALIVE_VAR(1, 0x578324, u8, byte_578324, 1);
 
 
-ALIVE_ARY(1, 0xC14620, char, 128, sCdEmu_Path1_C14620, {});
-ALIVE_ARY(1, 0xC144C0, char, 128, sCdEmu_Path2_C144C0, {});
-ALIVE_ARY(1, 0xC145A0, char, 128, sCdEmu_Path3_C145A0, {});
+ALIVE_ARY(1, 0xC14620, s8, 128, sCdEmu_Path1_C14620, {});
+ALIVE_ARY(1, 0xC144C0, s8, 128, sCdEmu_Path2_C144C0, {});
+ALIVE_ARY(1, 0xC145A0, s8, 128, sCdEmu_Path3_C145A0, {});
 
 ALIVE_VAR(1, 0xBD1CC4, IO_Handle*, sCdFileHandle_BD1CC4, nullptr);
 ALIVE_VAR(1, 0xBD1894, s32, sCdReadPos_BD1894, 0);
 
-EXPORT s32 CC PSX_CD_OpenFile_4FAE80(const char* pFileName, s32 bTryAllPaths)
+EXPORT s32 CC PSX_CD_OpenFile_4FAE80(const s8* pFileName, s32 bTryAllPaths)
 {
-    static char sLastOpenedFileName_BD1898[1024] = {};
+    static s8 sLastOpenedFileName_BD1898[1024] = {};
 
-    char pNormalizedName[256] = {};
-    char fullFilePath[1024] = {};
+    s8 pNormalizedName[256] = {};
+    s8 fullFilePath[1024] = {};
 
     if (_strcmpi(sLastOpenedFileName_BD1898, pFileName) != 0)
     {
@@ -107,7 +107,7 @@ EXPORT s32 CC PSX_CD_OpenFile_4FAE80(const char* pFileName, s32 bTryAllPaths)
                         return 0;
                     }
 
-                    char* pCdRomDrivesIter = sCdRomDrives_5CA488;
+                    s8* pCdRomDrivesIter = sCdRomDrives_5CA488;
                     while (*pCdRomDrivesIter)
                     {
                         fullFilePath[0] = *pCdRomDrivesIter;
@@ -169,7 +169,7 @@ EXPORT s32 CC PSX_CdLoc_To_Pos_4FAE40(const CdlLOC* pLoc)
     return pLoc->field_2_sector + 75 * (pLoc->field_1_second + 20 * (3 * min - 6));
 }
 
-EXPORT s32 CC PSX_CD_File_Seek_4FB1E0(char mode, const CdlLOC* pLoc)
+EXPORT s32 CC PSX_CD_File_Seek_4FB1E0(s8 mode, const CdlLOC* pLoc)
 {
     if (mode != 2)
     {
@@ -253,24 +253,24 @@ EXPORT void CC PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPt
     }
 }
 
-EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(char /*mode*/)
+EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(s8 /*mode*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT s32 CC PSX_CD_Add_EMU_Path_4FAC00(const char* /*filePath*/)
+EXPORT s32 CC PSX_CD_Add_EMU_Path_4FAC00(const s8* /*filePath*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
 #if _WIN32
-const char kDirChar[] = "\\";
+const s8 kDirChar[] = "\\";
 #else
-const char kDirChar[] = "/";
+const s8 kDirChar[] = "/";
 #endif
 
-EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3)
+EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const s8* pPath1, const s8* pPath2, const s8* pPath3)
 {
     if (pPath1)
     {
@@ -451,7 +451,7 @@ EXPORT void CC PSX_EMU_VideoDeAlloc_4FA010()
 }
 
 
-EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
+EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, s8 a2)
 {
     if (!pDispEnv)
     {
@@ -715,7 +715,7 @@ EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
     WORD* pDstIter = pData;
 
     // TODO: Refactor
-    const WORD* pVramIter = (const WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (rect->x + (rect->y << 10)));
+    const WORD* pVramIter = (const WORD *)((s8 *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (rect->x + (rect->y << 10)));
     const WORD* pVramEnd = &pVramIter[1024 * rect->h - 1024 + rect->w];
     s32 lineRemainder = 1024 - rect->w;
     for (s32 count = 1024 - rect->w; pVramIter < pVramEnd; pVramIter += lineRemainder)
@@ -816,10 +816,10 @@ EXPORT s32 CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, s32 xpos, s32 ypos)
     return -1;
 }
 
-EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* pFileName)
+EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(s8* pNormalized, const s8* pFileName)
 {
-    const char *fileNameIter = pFileName;
-    char* pNormalizedIter = pNormalized;
+    const s8 *fileNameIter = pFileName;
+    s8* pNormalizedIter = pNormalized;
     while (*fileNameIter)
     {
         if (*fileNameIter == ';')
@@ -827,7 +827,7 @@ EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* p
             break;
         }
 
-        *pNormalizedIter = static_cast<char>(tolower(*fileNameIter));
+        *pNormalizedIter = static_cast<s8>(tolower(*fileNameIter));
 
         ++fileNameIter;
         ++pNormalizedIter;

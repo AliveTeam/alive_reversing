@@ -101,7 +101,7 @@ ALIVE_VAR(1, 0x4C5AA8, OverlayRecords, sOverlayTable_4C5AA8, kOverlays);
 
 struct OpenSeqHandleAO
 {
-    const char* field_0_mBsqName;
+    const s8* field_0_mBsqName;
     s32 field_4_generated_res_id;
     s16 field_8_sound_block_idx;
     s16 field_9_volume;
@@ -113,10 +113,10 @@ ALIVE_ASSERT_SIZEOF(OpenSeqHandleAO, 0x14);
 
 struct OpenSeqHandleAE // Same as ::OpenSeqHandle
 {
-    const char* field_0_mBsqName;
+    const s8* field_0_mBsqName;
     s32 field_4_generated_res_id; // A hash of the named which matches the resource Id
-    char field_8_sound_block_idx;
-    char field_9_volume;
+    s8 field_8_sound_block_idx;
+    s8 field_9_volume;
     s16 field_A_id_seqOpenId;
     u8* field_C_ppSeq_Data;
 };
@@ -1802,7 +1802,7 @@ void Map::GoTo_Camera_445050()
     field_24_max_cams_x = (field_D4_pPathData->field_8_bTop - field_D4_pPathData->field_4_bLeft) / field_D4_pPathData->field_C_grid_width;
     field_26_max_cams_y = (field_D4_pPathData->field_A_bBottom - field_D4_pPathData->field_6_bRight) / field_D4_pPathData->field_E_grid_height;
 
-    char camNameBuffer[20] = {};
+    s8 camNameBuffer[20] = {};
     Path_Format_CameraName_4346B0(camNameBuffer, field_A_level, field_C_path, field_E_camera);
 
     const auto totalCams = field_26_max_cams_y * field_24_max_cams_x;
@@ -2029,7 +2029,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
     }
 }
 
-EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, char bSetCreated, char bBit2)
+EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
@@ -2103,7 +2103,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
             pos3,
             pFmvRec3->field_4_id,
 
-            static_cast<char>(pFmvRec1->field_6),
+            static_cast<s8>(pFmvRec1->field_6),
             pFmvRec1->field_A,
             pFmvRec1->field_C_volume,
 
@@ -2138,7 +2138,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
             cdPos2,
             pFmvRec2->field_4_id,
 
-            static_cast<char>(pFmvRec1->field_6),
+            static_cast<s8>(pFmvRec1->field_6),
             pFmvRec1->field_A,
             pFmvRec1->field_C_volume,
 
@@ -2163,7 +2163,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
                 ppBits,
                 cdPos,
                 pFmvRecord->field_4_id,
-                static_cast<char>(pFmvRecord->field_6),
+                static_cast<s8>(pFmvRecord->field_6),
                 pFmvRecord->field_A,
                 pFmvRecord->field_C_volume);
     }

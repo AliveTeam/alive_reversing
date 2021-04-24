@@ -92,7 +92,7 @@ public:
 
     struct ResourceManager_FileRecord
     {
-        char* field_0_fileName;
+        s8* field_0_fileName;
         ResourcesToLoadList* field_4_pResourcesToLoadList;
         DWORD field_8_type;
         DWORD field_C_id;
@@ -107,9 +107,9 @@ public:
     EXPORT void dtor_4649E0();
     EXPORT void vLoadFile_StateMachine_464A70();
     EXPORT void OnResourceLoaded_464CE0();
-    EXPORT void LoadResource_464EE0(const char* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 bAddUseCount);
-    EXPORT void LoadResourcesFromList_465150(const char* pFileName, ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 addUseCount);
-    EXPORT void LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, s16 a6);
+    EXPORT void LoadResource_464EE0(const s8* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 bAddUseCount);
+    EXPORT void LoadResourcesFromList_465150(const s8* pFileName, ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 addUseCount);
+    EXPORT void LoadResourceFile_465460(const s8* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, s16 a6);
     EXPORT void LoadingLoop_465590(s16 bShowLoadingIcon);
     EXPORT void Shutdown_465610();
     EXPORT void Free_Resources_For_Camera_4656F0(const Camera* pCamera);
@@ -140,13 +140,13 @@ public:
     EXPORT static ResourceHeapItem* CC Push_List_Item_49BD70();
     EXPORT static void CC Pop_List_Item_49BD90(ResourceHeapItem* pListItem);
     EXPORT static ResourceHeapItem* CC Split_block_49BDC0(ResourceHeapItem* pItem, s32 size);
-    EXPORT static s32 CC SEQ_HashName_49BE30(const char* seqFileName);
+    EXPORT static s32 CC SEQ_HashName_49BE30(const s8* seqFileName);
     static u8** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, ResourceManager::BlockAllocMethod allocType);
     EXPORT static u8** CC Alloc_New_Resource_49BED0(DWORD type, DWORD id, DWORD size);
     EXPORT static u8** CC Allocate_New_Locked_Resource_49BF40(DWORD type, DWORD id, DWORD size);
     EXPORT static u8** CC Allocate_New_Block_49BFB0(s32 sizeBytes, BlockAllocMethod allocMethod);
-    EXPORT static s32 CC LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
-    EXPORT static s16 CC LoadResourceFile_49C170(const char* pFileName, Camera* pCamera);
+    EXPORT static s32 CC LoadResourceFile_49C130(const s8* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
+    EXPORT static s16 CC LoadResourceFile_49C170(const s8* pFileName, Camera* pCamera);
     EXPORT static s16 CC Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArrayT<u8*>* pArray);
     EXPORT static u8** CC GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock);
     EXPORT static void CC Inc_Ref_Count_49C310(u8 **ppRes);
@@ -180,7 +180,7 @@ private:
     s32 field_34_num_sectors;
     u8** field_38_ppRes;
     Header* field_3C_pLoadingHeader;
-    char field_40_seek_attempts;
+    s8 field_40_seek_attempts;
     LoadingStates field_42_state;
     CdlLOC field_44_cdLoc;
     DynamicArrayT<u8*> field_48_dArray;

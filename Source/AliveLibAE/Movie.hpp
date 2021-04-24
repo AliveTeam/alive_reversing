@@ -4,8 +4,8 @@
 
 struct CdlLOC;
 
-EXPORT void CC Get_fmvs_sectors_494460(const char* fmvName1, const char* fmvName2, const char* fmvName3, DWORD* fmvSectorPos1, DWORD* fmvSectorPos2, DWORD* fmvSectorPos3);
-EXPORT char CC DDV_Play_493210(const char* pDDVName);
+EXPORT void CC Get_fmvs_sectors_494460(const s8* fmvName1, const s8* fmvName2, const s8* fmvName3, DWORD* fmvSectorPos1, DWORD* fmvSectorPos2, DWORD* fmvSectorPos3);
+EXPORT s8 CC DDV_Play_493210(const s8* pDDVName);
 bool AreMovieSkippingInputsHeld();
 
 class Movie : public BaseGameObject
@@ -32,10 +32,10 @@ private:
     s32 field_38_unused;
     s32 field_3C_unused;
     s32 field_40_padding;
-    char field_44_cd_loc_min;
-    char field_45_cd_loc_sec;
-    char field_46_cd_loc_sector;
-    char field_47_padding;
+    s8 field_44_cd_loc_min;
+    s8 field_45_cd_loc_sec;
+    s8 field_46_cd_loc_sector;
+    s8 field_47_padding;
 };
 ALIVE_ASSERT_SIZEOF(Movie, 0x48);
 

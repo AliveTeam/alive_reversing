@@ -16,7 +16,7 @@ const SfxDefinition stru_544488[8] =
     { 25u, 0u, 35u, 0u, 0, 0 },
     { 0u, 0u, 0u, 0u, 19040, 65 },
     { 32u, 75u, 65u, 0u, 19344, 66 },
-    // { (char)160u, (char)192u, 77u, 0u, (s16)49392, 77 }
+    // { (s8)160u, (s8)192u, 77u, 0u, (s16)49392, 77 }
 };
 
 NakedSligButton* NakedSligButton::ctor_4148F0(Path_NakedSligButton* pTlv, s32 tlvInfo)

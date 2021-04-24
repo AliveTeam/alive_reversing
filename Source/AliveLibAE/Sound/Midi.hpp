@@ -35,14 +35,14 @@ public:
     virtual void LoadingLoop(s16 bShowLoadingIcon) = 0;
     virtual void Reclaim_Memory(u32 size) = 0;
     virtual u8** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) = 0;
-    virtual s16 LoadResourceFile(const char* pFileName, Camera* pCamera) = 0;
+    virtual s16 LoadResourceFile(const s8* pFileName, Camera* pCamera) = 0;
 };
 
 EXPORT IMidiVars* GetMidiVars();
 EXPORT void SetMidiApiVars(IMidiVars* pVars);
 
 using TReclaimMemoryFn = void(CC*)(u32);
-using TLoadResourceFileFn = s16(CC*)(const char*, Camera*);
+using TLoadResourceFileFn = s16(CC*)(const s8*, Camera*);
 using TGetLoadedResourceFn = u8 * *(CC*)(DWORD, DWORD, u16, u16);
 using TSNDRestart = void(CC*)();
 using TSNDStopAll = void(CC*)();
@@ -54,7 +54,7 @@ EXPORT void SND_StopAll_SetCallBack(TSNDStopAll cb);
 EXPORT void SND_Restart_SetCallBack(TSNDRestart cb);
 
 
-EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileName);
+EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const s8* bsqFileName);
 
 EXPORT void SND_Stop_All_Seqs_4CA850();
 
@@ -64,9 +64,9 @@ EXPORT void CC SND_Shutdown_4CA280();
 EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask);
 EXPORT void SND_Reset_4C9FB0();
 EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb);
-EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName);
+EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const s8* bsqFileName);
 EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx);
-EXPORT char CC SND_Seq_Table_Valid_4CAFE0();
+EXPORT s8 CC SND_Seq_Table_Valid_4CAFE0();
 EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop);
 EXPORT void CC SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight);
 EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight);

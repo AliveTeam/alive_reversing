@@ -157,7 +157,7 @@ private:
 class LvlReader
 {
 public:
-    explicit LvlReader(const char* lvlFile)
+    explicit LvlReader(const s8* lvlFile)
     {
         mFileHandle = ::fopen(lvlFile, "rb");
         if (mFileHandle)
@@ -185,7 +185,7 @@ public:
         Close();
     }
 
-    std::optional<std::vector<u8>> ReadFile(const char* fileName)
+    std::optional<std::vector<u8>> ReadFile(const s8* fileName)
     {
         if (!IsOpen())
         {
@@ -281,7 +281,7 @@ inline T RoundUp(T offset)
 class LvlWriter
 {
 public:
-    explicit LvlWriter(const char* lvlFile)
+    explicit LvlWriter(const s8* lvlFile)
         : mReader(lvlFile)
     {
 
@@ -294,7 +294,7 @@ public:
 
     bool IsOpen() const { return mReader.IsOpen(); }
 
-    std::optional<std::vector<u8>> ReadFile(const char* fileName)
+    std::optional<std::vector<u8>> ReadFile(const s8* fileName)
     {
         // Return added/edited file first
         auto rec = GetNewOrEditedFileRecord(fileName);
@@ -305,7 +305,7 @@ public:
         return mReader.ReadFile(fileName);
     }
 
-    void AddFile(const char* fileNameInLvl, const std::vector<u8>& data)
+    void AddFile(const s8* fileNameInLvl, const std::vector<u8>& data)
     {
         if (mReader.IsOpen())
         {
@@ -333,7 +333,7 @@ public:
         }
     }
 
-    bool Save(const char* lvlName = nullptr)
+    bool Save(const s8* lvlName = nullptr)
     {
         if (mNewOrEditedFiles.empty())
         {
@@ -463,7 +463,7 @@ private:
         bool mEditOfExistingFile;
     };
 
-    NewOrEditedFileRecord* GetNewOrEditedFileRecord(const char* fileName)
+    NewOrEditedFileRecord* GetNewOrEditedFileRecord(const s8* fileName)
     {
         for (auto& rec : mNewOrEditedFiles)
         {

@@ -63,8 +63,8 @@ struct Slog_State
     s16 field_28_current_motion;
     s16 field_2A_anim_cur_frame;
     s16 field_2C_frame_change_counter;
-    char field_2E_bRender;
-    char field_2F_bDrawable;
+    s8 field_2E_bRender;
+    s8 field_2F_bDrawable;
     FP field_30_health;
     s16 field_34_current_motion;
     s16 field_36_next_motion;

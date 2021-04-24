@@ -9,7 +9,7 @@ namespace AO {
 class CircularFade : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT CircularFade* ctor_479E20(FP xpos, FP ypos, FP scale, s16 direction, char destroyOnDone);
+    EXPORT CircularFade* ctor_479E20(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
 
     virtual void VScreenChanged() override;
 
@@ -24,7 +24,7 @@ public:
     EXPORT void VRender_47A080(PrimHeader** ppOt);
 
     // New virtuals
-    virtual EXPORT char VFadeIn_479FE0(u8 direction, char destroyOnDone);
+    virtual EXPORT s8 VFadeIn_479FE0(u8 direction, s8 destroyOnDone);
 
     virtual EXPORT s32 VDone_47A4C0();
 
@@ -48,7 +48,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(CircularFade, 0x1AC);
 
-EXPORT CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, s16 direction, char destroyOnDone);
+EXPORT CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
 
 }
 

@@ -44,7 +44,7 @@ private:
     s16 field_3C_padding;
     s16 field_3E_delay_counter;
     u8 field_40_spawned_count;
-    char field_41_padding;
+    s8 field_41_padding;
     s16 field_42_padding;
 };
 ALIVE_ASSERT_SIZEOF(SlurgSpawner, 0x3C);

@@ -29,7 +29,7 @@ static bool gRenderEnable_F4 = true;
 static bool gRenderEnable_F3 = true;
 static bool gRenderEnable_F2 = true;
 
-static GLuint TextureFromFile(const char* path)
+static GLuint TextureFromFile(const s8* path)
 {
     GLuint texHandle = 0;
     FILE* fh = fopen(path, "rb");;
@@ -510,9 +510,9 @@ void OpenGLRenderer::InitAttributes()
     glBindVertexArray(mVAO);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), 0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (char*)NULL + 12);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*)NULL + 12);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (char*)NULL + 24);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*)NULL + 24);
     glEnableVertexAttribArray(2);
 }
 
@@ -1552,11 +1552,11 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
     
 }
 
-void HackSetBackground(const char* path)
+void HackSetBackground(const s8* path)
 {
     //return; 
 
-    const char* camSearchs[] = {
+    const s8* camSearchs[] = {
         "hd/%s.PNG",
         "hd/%s.CAM.PNG",
         "hd/%s.CAM.cam.PNG"
@@ -1566,8 +1566,8 @@ void HackSetBackground(const char* path)
 
     for (s32 i = 0; i < 3; i++)
     {
-        char newPath[100];
-        char camHack[9] = {};
+        s8 newPath[100];
+        s8 camHack[9] = {};
         memcpy(camHack, path, 8);
         sprintf(newPath, camSearchs[i], camHack);
         fh = fopen(newPath, "rb");

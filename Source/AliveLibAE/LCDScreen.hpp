@@ -6,7 +6,7 @@
 #include "Path.hpp"
 #include "Factory.hpp"
 
-extern const char * sLCDMessageTable_555768[101];
+extern const s8 * sLCDMessageTable_555768[101];
 
 struct Path_LCDScreen : public Path_TLV
 {
@@ -36,9 +36,9 @@ public:
     Prim_PrimClipper field_20_prim_clippers[2][2];
     Alive::Font field_60_font;
     PSX_RECT field_98_pal_rect;
-    const char *field_A0_message;
-    const char * field_A4_message_cutoff_ptr;
-    char field_A8_message_buffer[512];
+    const s8 *field_A0_message;
+    const s8 * field_A4_message_cutoff_ptr;
+    s8 field_A8_message_buffer[512];
     WORD field_2A8_play_sound_toggle;
     s16 field_2AA_message_1_id;
     s16 field_2AC_x_offset;

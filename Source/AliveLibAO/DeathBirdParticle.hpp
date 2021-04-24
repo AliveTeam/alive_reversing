@@ -17,8 +17,8 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
     s32 field_D4_padding[4];
-    char field_E4_random;
-    enum class States : char
+    s8 field_E4_random;
+    enum class States : s8
     {
         eAnimateDeathFlares_0 = 0,
         eTransformStarsToDoves_1 = 1

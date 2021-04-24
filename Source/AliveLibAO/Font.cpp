@@ -324,13 +324,13 @@ AliveFont* AliveFont::ctor_41C170(s32 maxCharLength, const u8* palette, FontCont
     return this;
 }
 
-EXPORT u32 AliveFont::MeasureWidth_41C2B0(const char* text)
+EXPORT u32 AliveFont::MeasureWidth_41C2B0(const s8* text)
 {
     s32 result = 0;
 
     for (u32 i = 0; i < strlen(text); i++)
     {
-        const char c = text[i];
+        const s8 c = text[i];
         s32 charIndex = 0;
 
         if (c <= 32 || static_cast<const u8>(c) > 175)
@@ -363,7 +363,7 @@ EXPORT u32 AliveFont::MeasureWidth_41C2B0(const char* text)
     return result;
 }
 
-EXPORT s32 AliveFont::MeasureWidth_41C200(char character)
+EXPORT s32 AliveFont::MeasureWidth_41C200(s8 character)
 {
     s32 result = 0;
     s32 charIndex = 0;
@@ -391,13 +391,13 @@ EXPORT s32 AliveFont::MeasureWidth_41C200(char character)
 }
 
 
-s32 AliveFont::MeasureWidth_41C280(const char* text, FP scale)
+s32 AliveFont::MeasureWidth_41C280(const s8* text, FP scale)
 {
     const FP width = FP_FromInteger(MeasureWidth_41C2B0(text));
     return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
 }
 
-EXPORT s32 AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s32 colorRandomRange)
+EXPORT s32 AliveFont::DrawString_41C360(PrimHeader** ppOt, const s8* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s32 colorRandomRange)
 {
     if (!sFontDrawScreenSpace_508BF4)
     {
@@ -439,10 +439,10 @@ EXPORT s32 AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, s16
         const auto fContext = field_34_font_context;
         const auto atlasEntry = &fContext->field_8_atlas_array[charInfoIndex];
 
-        const char charWidth = atlasEntry->field_2_width;
+        const s8 charWidth = atlasEntry->field_2_width;
         const auto charHeight = atlasEntry->field_3_height;
-        const char texture_u = static_cast<char>(atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F)));
-        const char texture_v = static_cast<char>(atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y));
+        const s8 texture_u = static_cast<s8>(atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F)));
+        const s8 texture_v = static_cast<s8>(atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y));
 
         const s16 widthScaled = static_cast<s16>(charWidth * FP_GetDouble(scale));
         const s16 heightScaled = static_cast<s16>(charHeight * FP_GetDouble(scale));
@@ -506,7 +506,7 @@ void AliveFont::dtor_41C130()
     ResourceManager::FreeResource_455550(field_20_fnt_poly_block_ptr);
 }
 
-const char* AliveFont::SliceText_41C6C0(const char* text, s32 left, FP scale, s32 right)
+const s8* AliveFont::SliceText_41C6C0(const s8* text, s32 left, FP scale, s32 right)
 {
     s32 xOff = 0;
     s32 rightWorldSpace = PsxToPCX(right, 11);
@@ -520,10 +520,10 @@ const char* AliveFont::SliceText_41C6C0(const char* text, s32 left, FP scale, s3
         xOff = PsxToPCX(left, 11);
     }
 
-    for (const char* strPtr = text; *strPtr; strPtr++)
+    for (const s8* strPtr = text; *strPtr; strPtr++)
     {
         s32 atlasIdx = 0;
-        char character = *strPtr;
+        s8 character = *strPtr;
         if (xOff >= rightWorldSpace)
             break;
 

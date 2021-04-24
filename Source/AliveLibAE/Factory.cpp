@@ -240,7 +240,7 @@ EXPORT void CC Factory_Shadow_4D7200(Path_TLV* pTlv, Path* pPath, TlvItemInfoUni
 }
 
 
-static void LoadLiftPointResources(const char* ropeBan, const char* liftBan, LoadMode loadMode)
+static void LoadLiftPointResources(const s8* ropeBan, const s8* liftBan, LoadMode loadMode)
 {
     static CompileTimeResourceList<2> kResources({
         { ResourceManager::Resource_Animation, ResourceID::kPulleyResID },

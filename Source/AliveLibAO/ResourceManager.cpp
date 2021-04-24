@@ -299,7 +299,7 @@ void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
     }
 }
 
-void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, s16 bDontLoad)
+void CC ResourceManager::LoadResource_446C90(const s8* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, s16 bDontLoad)
 {
     if (bDontLoad)
     {
@@ -390,7 +390,7 @@ void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, 
     }
 }
 
-void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pTypeAndIdList, LoadMode loadMode, s16 bDontLoad)
+void CC ResourceManager::LoadResourcesFromList_446E80(const s8* pFileName, ResourcesToLoadList* pTypeAndIdList, LoadMode loadMode, s16 bDontLoad)
 {
     // Debug_Print_Stub_48DD70("Requesting tag res %s\n", pFileName);
 
@@ -633,7 +633,7 @@ void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
     }
 }
 
-s32 CC ResourceManager::SEQ_HashName_454EA0(const char* seqFileName)
+s32 CC ResourceManager::SEQ_HashName_454EA0(const s8* seqFileName)
 {
     // Clamp max len
     size_t seqFileNameLength = strlen(seqFileName) - 1;
@@ -642,11 +642,11 @@ s32 CC ResourceManager::SEQ_HashName_454EA0(const char* seqFileName)
         seqFileNameLength = 8;
     }
 
-    // Iterate each char to calculate hash
+    // Iterate each s8 to calculate hash
     DWORD hashId = 0;
     for (size_t index = 0; index < seqFileNameLength; index++)
     {
-        char letter = seqFileName[index];
+        s8 letter = seqFileName[index];
         if (letter == '.')
         {
             break;
@@ -737,7 +737,7 @@ ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager:
     return pItem;
 }
 
-ResourceManager_FileRecord_Unknown* CC ResourceManager::LoadResourceFile_4551E0(const char* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
+ResourceManager_FileRecord_Unknown* CC ResourceManager::LoadResourceFile_4551E0(const s8* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
 {
     LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(pFileName);
     if (!pFileRec)
@@ -887,12 +887,12 @@ EXPORT u8** CC ResourceManager::Allocate_New_Block_454FE0(DWORD sizeBytes, Block
     }
 }
 
-s16 CC ResourceManager::LoadResourceFileWrapper(const char* filename, Camera* pCam)
+s16 CC ResourceManager::LoadResourceFileWrapper(const s8* filename, Camera* pCam)
 {
     return LoadResourceFile_455270(filename, pCam, BlockAllocMethod::eFirstMatching);
 }
 
-EXPORT s16 CC ResourceManager::LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod)
+EXPORT s16 CC ResourceManager::LoadResourceFile_455270(const s8* filename, Camera* pCam, BlockAllocMethod allocMethod)
 {
     // Note: None gPcOpenEnabled_508BF0 block not impl as never used
 
@@ -949,7 +949,7 @@ s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArray
                 pHeader->field_4_ref_count++;
             }
 
-            pHeader = (Header*)((char*)pHeader + pHeader->field_0_size);
+            pHeader = (Header*)((s8*)pHeader + pHeader->field_0_size);
 
             // Out of heap space
             if (pHeader->field_0_size >= kResHeapSize)
@@ -1140,12 +1140,12 @@ void CC ResourceManager::Reclaim_Memory_455660(DWORD sizeToReclaim)
                     u8* pDataStart = pNext->field_0_ptr - sizeof(Header);
                     if (sizeToMove > 0)
                     {
-                        const size_t offset = (char*)pCurrentHeader - (char*)pNextHeader;
+                        const size_t offset = (s8*)pCurrentHeader - (s8*)pNextHeader;
                         memmove(pDataStart + offset, pDataStart, sizeToMove);
                     }
 
                     // Get resource header after the current one
-                    Header* pNextResHeader = (Header*)((char*)pCurrentHeader + pCurrentHeader->field_0_size);
+                    Header* pNextResHeader = (Header*)((s8*)pCurrentHeader + pCurrentHeader->field_0_size);
                     pNextResHeader->field_0_size = savedSize;
                     pNextResHeader->field_8_type = Resource_Free;
 

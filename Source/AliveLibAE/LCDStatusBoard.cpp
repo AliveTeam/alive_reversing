@@ -26,7 +26,7 @@ s16 sMudsInLevelCount_55CFAC[15] =
 
 
 ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
-ALIVE_VAR(1, 0x5C1A20, char, sStatsSignCurrentArea_5C1A20, 0);
+ALIVE_VAR(1, 0x5C1A20, s8, sStatsSignCurrentArea_5C1A20, 0);
 
 
 BaseGameObject* LCDStatusBoard::VDestructor(s32 flags)
@@ -74,7 +74,7 @@ LCDStatusBoard* LCDStatusBoard::ctor_47B600(Path_LCDStatusBoard* params, TlvItem
     field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
     field_108_is_hidden = static_cast<s16 >(params->field_14_hidden);
-    sStatsSignCurrentArea_5C1A20 = static_cast<char>(params->field_12_zulag_number);
+    sStatsSignCurrentArea_5C1A20 = static_cast<s8>(params->field_12_zulag_number);
     return this;
 }
 
@@ -120,7 +120,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
 {
     if (!field_108_is_hidden)
     {
-        char text[12] = {};
+        s8 text[12] = {};
         sprintf(text, "%3d", sMudsInLevelCount_55CFAC[static_cast<s32>(gMap_5C3030.field_0_current_level)]);
         s32 maxWidth = field_90_font3.MeasureWidth_433700(text);
 

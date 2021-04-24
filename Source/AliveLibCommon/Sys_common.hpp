@@ -32,7 +32,7 @@ enum class MessageBoxButton
     eYes,
 };
 
-MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type = MessageBoxType::eStandard);
+MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const s8* message, const s8* title, MessageBoxType type = MessageBoxType::eStandard);
 void Sys_Main_Common();
 
 inline std::string BuildString()
@@ -70,11 +70,11 @@ inline std::string WindowTitleAE()
     return "R.E.L.I.V.E. Oddworld Abe's Exoddus" + BuildAndBitnesString();
 }
 
-inline void Alive_Show_ErrorMsg(const char* msg)
+inline void Alive_Show_ErrorMsg(const s8* msg)
 {
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ("R.E.L.I.V.E. " + BuildString()).c_str(), msg, nullptr);
 }
 
-[[noreturn]] void ALIVE_FATAL(const char* errMsg);
+[[noreturn]] void ALIVE_FATAL(const s8* errMsg);
 
 DWORD SYS_GetTicks();

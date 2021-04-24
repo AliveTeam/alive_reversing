@@ -64,7 +64,7 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 
         for (const auto& e : mExports)
         {
-            char buffer[1024 * 20] = {};
+            s8 buffer[1024 * 20] = {};
             const DWORD len = UnDecorateSymbolName(e.mName.c_str(), buffer, ALIVE_COUNTOF(buffer), UNDNAME_NAME_ONLY);
             if (len > 0)
             {
@@ -228,13 +228,13 @@ void ExportHooker::ProcessExports()
 #endif
 }
 
-bool ExportHooker::IsHexDigit(char letter)
+bool ExportHooker::IsHexDigit(s8 letter)
 {
     if (letter >= '0' && letter <= '9')
     {
         return true;
     }
-    const char lower = static_cast<char>(::tolower(letter));
+    const s8 lower = static_cast<s8>(::tolower(letter));
     return (lower >= 'a' && lower <= 'f');
 }
 
@@ -265,11 +265,11 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
                 // mov eax, offset to function name string
                 // pop eax
                 // Therefore extracting the pointer to unmangled offset to the function name tells us if we have the right function.
-                const char*** strAddr = reinterpret_cast<const char***>(&reinterpret_cast<u8*>(pExportedFunctionAddress)[i - 5]);
+                const s8*** strAddr = reinterpret_cast<const s8***>(&reinterpret_cast<u8*>(pExportedFunctionAddress)[i - 5]);
 
-                const char* pBothNames = **strAddr;
+                const s8* pBothNames = **strAddr;
                 size_t len = strlen(pBothNames);
-                const char* mangledName = pBothNames + len + 1;
+                const s8* mangledName = pBothNames + len + 1;
 
                 if (std::string(mangledName) == exportedFunctionName)
                 {

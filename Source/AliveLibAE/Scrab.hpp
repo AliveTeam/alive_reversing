@@ -113,8 +113,8 @@ struct Scrab_State
     s16 field_28_current_motion;
     s16 field_2A_current_frame;
     s16 field_2C_frame_change_counter;
-    char field_2E_bAnimRender;
-    char field_2F_bDrawable;
+    s8 field_2E_bAnimRender;
+    s8 field_2F_bDrawable;
     FP field_30_health;
     s16 field_34_current_motion;
     s16 field_36_next_motion;
@@ -122,8 +122,8 @@ struct Scrab_State
     s16 field_3A_line_type;
     s16 field_3C_padding;
     s16 field_3E_padding;
-    char field_40_bIsControlled;
-    char field_41_padding;
+    s8 field_40_bIsControlled;
+    s8 field_41_padding;
     s16 field_42_padding;
     s32 field_44_tlvInfo;
     s32 field_48_ai_idx;

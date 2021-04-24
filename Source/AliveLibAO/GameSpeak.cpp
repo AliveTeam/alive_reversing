@@ -113,7 +113,7 @@ void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
         field_18_last_event_index = 0;
     }
 
-    field_1C_event_buffer[field_18_last_event_index] = static_cast<char>(event);
+    field_1C_event_buffer[field_18_last_event_index] = static_cast<s8>(event);
     field_10_last_event = event;
 }
 
@@ -158,7 +158,7 @@ GameSpeakMatch GameSpeak::MatchBuffer_40FAA0(u8* pBuffer, s16 bufferLen, s16 buf
     s16 pBufferIdx = 0;
     while (1)
     {
-        while (field_1C_event_buffer[bufferStartIdx] == static_cast<char>(GameSpeakEvents::eNone_m1))
+        while (field_1C_event_buffer[bufferStartIdx] == static_cast<s8>(GameSpeakEvents::eNone_m1))
         {
             // Hit the end of events?
             if (bufferStartIdx == field_18_last_event_index)

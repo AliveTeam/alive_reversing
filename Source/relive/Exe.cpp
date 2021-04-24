@@ -33,7 +33,7 @@ namespace AutoSplitterData
 {
     struct GuidStr
     {
-        const char guid[39];
+        const s8 guid[39];
     };
 
     struct AOGameInfo
@@ -47,7 +47,7 @@ namespace AutoSplitterData
         AO::Abe** pAbe;             // 5
         s32 abeYOffSet;             // 6
         s16* isGameRunning;       // 7
-        char* isGameBeaten;         // 8
+        s8* isGameBeaten;         // 8
     };
 
     struct AEGameInfo
@@ -62,7 +62,7 @@ namespace AutoSplitterData
         u32* gnFrame;               // 5
         Abe** pAbe;                 // 6
         s32 abeYOffSet;             // 7
-        char* isPaused;             // 8
+        s8* isPaused;             // 8
     };
 
     extern "C"
@@ -129,7 +129,7 @@ void PopulateAutoSplitterVars(GameType gameType)
     AutoSplitterData::gameType = gameType;
 }
 
-static bool FileExists(const char* fileName)
+static bool FileExists(const s8* fileName)
 {
     FILE* f = fopen(fileName, "r");
     if (f)
@@ -245,9 +245,9 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 #if __ANDROID__
-extern "C" __attribute__((visibility("default"))) s32 SDL_main(s32 argc, char** argv)
+extern "C" __attribute__((visibility("default"))) s32 SDL_main(s32 argc, s8** argv)
 #else
-s32 main(s32 argc, char** argv)
+s32 main(s32 argc, s8** argv)
 #endif
 {
     std::string args;

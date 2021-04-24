@@ -20,7 +20,7 @@ private:
     void LoadDisabledHooks();
     void ProcessExports();
 
-    static bool IsHexDigit(char letter);
+    static bool IsHexDigit(s8 letter);
 
     struct ExportInformation
     {

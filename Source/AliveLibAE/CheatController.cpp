@@ -63,7 +63,7 @@ EXPORT void CC CheatController_Cheat_LevelSelect_421B00()
 
 EXPORT void CC CheatController_Cheat_PathSkip_421B30()
 {
-    char nameBuffer[20];
+    s8 nameBuffer[20];
 
     DestroyObjects_4A1F20();
     ResourceManager::Reclaim_Memory_49C470(0);

@@ -11,22 +11,22 @@
 
 struct VagAtr
 {
-    char field_0_priority;
-    char field_1_mode;
-    char field_2_vol;
-    char field_3_pan;
+    s8 field_0_priority;
+    s8 field_1_mode;
+    s8 field_2_vol;
+    s8 field_3_pan;
     u8 field_4_centre;
     u8 field_5_shift;
-    char field_6_min;
-    char field_7_max;
-    char field_8_vibW;
-    char field_9_vibT;
-    char field_A_porW;
-    char field_B_porT;
-    char field_C_pitch_bend_min;
-    char field_D_pitch_bend_max;
-    char field_E_reserved1;
-    char field_F_reserved2;
+    s8 field_6_min;
+    s8 field_7_max;
+    s8 field_8_vibW;
+    s8 field_9_vibT;
+    s8 field_A_porW;
+    s8 field_B_porT;
+    s8 field_C_pitch_bend_min;
+    s8 field_D_pitch_bend_max;
+    s8 field_E_reserved1;
+    s8 field_F_reserved2;
     s16 field_10_adsr1;
     s16 field_12_adsr2;
     s16 field_14_prog;
@@ -66,7 +66,7 @@ ALIVE_VAR(1, 0xC13400, MidiSeqSongsTable, sMidiSeqSongs_C13400, {});
 ALIVE_VAR(1, 0xbd1cf4, s32, sMidi_Inited_dword_BD1CF4, 0);
 ALIVE_VAR(1, 0xbd1cec, u32, sMidiTime_BD1CEC, 0);
 ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, 1);
-ALIVE_VAR(1, 0xbd1ce4, char, sbDisableSeqs_BD1CE4, 0);
+ALIVE_VAR(1, 0xbd1ce4, s8, sbDisableSeqs_BD1CE4, 0);
 ALIVE_VAR(1, 0x578E20, DWORD, sLastTime_578E20, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xbd1cf0, DWORD, sMidi_WaitUntil_BD1CF0, 0);
 ALIVE_VAR(1, 0xbd1ce0, IO_FileHandleType, sSoundDatFileHandle_BD1CE0, nullptr);
@@ -145,7 +145,7 @@ public:
         return sSoundDatIsNull_BD1CE8;
     }
 
-    virtual char& sbDisableSeqs() override
+    virtual s8& sbDisableSeqs() override
     {
         return sbDisableSeqs_BD1CE4;
     }
@@ -367,7 +367,7 @@ EXPORT s16 CC SsVabOpenHead_4FC620(VabHeader* pVabHeader)
 
     gSpuVars->sVagCounts()[vab_id] = static_cast<u8>(numVags);
     gSpuVars->sProgCounts()[vab_id] = static_cast<u8>(pVabHeader->field_12_num_progs);
-    memset(gSpuVars->s512_byte().field_0[vab_id], 0, sizeof(char[128]));
+    memset(gSpuVars->s512_byte().field_0[vab_id], 0, sizeof(s8[128]));
     VagAtr* pVagAttr = (VagAtr *)&pVabHeader[1];
     memset(&gSpuVars->sConvertedVagTable().table[vab_id][0][0], 0, sizeof(Converted_Vag[128][16]));
 
@@ -819,8 +819,8 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
     s32 oldLoopCount; // eax
     s32 newLoopCount; // eax
     s32 tempoChange; // eax
-    char tempoByte3; // bl
-    char tempoByte2; // ST2B_1
+    s8 tempoByte3; // bl
+    s8 tempoByte2; // ST2B_1
     u8 fullTempo; // dl
     s32 v12; // eax
     u16 v13; // cx
@@ -831,8 +831,8 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
     MIDI_ProgramVolume  *v18; // ecx
     s32 v19; // ebx
     MIDI_ADSR_State *pSubChan2; // esi
-    char v21; // bl
-    char channelIdx_1; // cl
+    s8 v21; // bl
+    s8 channelIdx_1; // cl
 
     MIDI_ADSR_State *pSubChan1; // esi
     u8 refCount1; // dl
@@ -843,7 +843,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
     s32 v34; // eax
     void(CC *pFn)(s32, DWORD, DWORD); // eax
     u8 *v36; // eax
-    char v37; // al
+    s8 v37; // al
     s32 v38; // eax
     u32 v39; // ecx
     u32 v40; // edi
@@ -997,7 +997,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
                     }
                 }
 
-                v21 = static_cast<char>(v19 + 1);
+                v21 = static_cast<s8>(v19 + 1);
                 v47 = MIDI_PlayerPlayMidiNote_4FCE80(
                     gSpuVars->sMidiSeqSongs(idx2).field_seq_idx,
                     v18->field_0_program,
@@ -1233,7 +1233,7 @@ EXPORT void CC SsSeqClose_4FD8D0(s16 idx)
 }
 
 
-EXPORT void CC SsSeqPlay_4FD900(u16 idx, char repeatMode, s16 repeatCount)
+EXPORT void CC SsSeqPlay_4FD900(u16 idx, s8 repeatMode, s16 repeatCount)
 {
     if (idx < 32u)
     {
@@ -1468,7 +1468,7 @@ EXPORT s32 CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, s32 vol)
         return 1;
     }
 
-    pData->field_8_left_vol = static_cast<char>(vol);
+    pData->field_8_left_vol = static_cast<s8>(vol);
 
     if (!GetSoundAPI().SND_Buffer_Set_Volume(pData->field_0_sound_buffer_field_4, vol))
     {

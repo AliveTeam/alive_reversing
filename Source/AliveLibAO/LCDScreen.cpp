@@ -89,7 +89,7 @@ const u8 sLCDScreen_Palette2_4C7588[32] =
     216u
 };
 
-const char* sLCDMessageTable_4C7420[90] =
+const s8* sLCDMessageTable_4C7420[90] =
 {
     "",
     "                               The profits justify the means.",
@@ -302,7 +302,7 @@ void LCDScreen::VUpdate_4341B0()
     if (field_2B0_x_offset > field_2B4_character_width)
     {
         field_2B0_x_offset -= field_2B4_character_width;
-        char* pMsg = field_A0_message;
+        s8* pMsg = field_A0_message;
         field_A0_message++;
         if (!*pMsg)
         {
@@ -358,7 +358,7 @@ void LCDScreen::VUpdate_4341B0()
     auto screenLeft = field_2BC_tlv.field_10_top_left.field_0_x - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
     auto screenRight = field_2BC_tlv.field_14_bottom_right.field_0_x - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
 
-    const char *slicedText = field_60_font.SliceText_41C6C0(
+    const s8 *slicedText = field_60_font.SliceText_41C6C0(
         field_A0_message,
         PsxToPCX(screenLeft - pScreenManager_4FF7C8->field_14_xpos, 11) - field_2B0_x_offset,
         FP_FromInteger(1),

@@ -46,7 +46,7 @@ EXPORT s32 CC Add_Dirty_Area_48D910(s32, s32, s32, s32)
     return 0;
 }
 
-EXPORT s32 MessageBox_48E3F0(const char* /*pTitle*/, s32 /*lineNumber*/, const char* /*pMsg*/, ...)
+EXPORT s32 MessageBox_48E3F0(const s8* /*pTitle*/, s32 /*lineNumber*/, const s8* /*pMsg*/, ...)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -182,10 +182,10 @@ ALIVE_VAR(1, 0x507B0C, s32, gTimeOut_NotUsed_507B0C, 0);
 ALIVE_VAR(1, 0x507B10, s32, gFileOffset_NotUsed_507B10, 0);
 ALIVE_VAR(1, 0x505564, DynamicArrayT<AnimationBase>*, gObjList_animations_505564, nullptr);
 
-ALIVE_VAR(1, 0x508BF8, char, gDDCheatMode_508BF8, 0);
-ALIVE_VAR(1, 0x508BFC, char, byte_508BFC, 0);
+ALIVE_VAR(1, 0x508BF8, s8, gDDCheatMode_508BF8, 0);
+ALIVE_VAR(1, 0x508BFC, s8, byte_508BFC, 0);
 
-ALIVE_ARY(1, 0x4CECC8, char, 3, gDriveLetter_4CECC8, { 'D', ':', '0' });
+ALIVE_ARY(1, 0x4CECC8, s8, 3, gDriveLetter_4CECC8, { 'D', ':', '0' });
 
 
 
@@ -200,7 +200,7 @@ static void Main_ParseCommandLineArguments()
 
     // TODO: I guess some code got removed that picked the CD-ROM drive like in AE since this
     // doesn't really make any sense anymore.
-    char cdDrivePath[3] = {};
+    s8 cdDrivePath[3] = {};
     cdDrivePath[0] = gDriveLetter_4CECC8[0];
     cdDrivePath[1] = gDriveLetter_4CECC8[1];
     if (gDriveLetter_4CECC8[0] > 'Z')
