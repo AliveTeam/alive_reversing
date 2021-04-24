@@ -3528,7 +3528,9 @@ void Menu::Load_Update_47D760()
         && !field_1FE) || field_1DC_idle_input_counter > 1000)
     {
         field_1FA = 0;
-        field_1E0_selected_index = 1;
+#if !ORIGINAL_PS1_BEHAVIOR // OG Change - Fixes automatic scroll when exiting Load Menu
+        field_1E0_selected_index = 1; // This line causes the issue
+#endif
         field_134_anim.Set_Animation_Data_402A40(stru_4D01F0[1].field_4_frame_table, nullptr);
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
         field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
