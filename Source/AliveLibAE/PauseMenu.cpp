@@ -1086,7 +1086,12 @@ void PauseMenu::Page_Main_Update_4903E0()
             sSaveString_5C931C[8] = 0;
             // Append the editor arrow char
             strcat(sSaveString_5C931C, sArrowStr_55E398);
+
+#if ORIGINAL_PS1_BEHAVIOR  // OG Change - Allow for exiting save menu using controller
+            setSaveMenuOpen(true); // Sets saveMenuOpen bool to true, instead of disabling input
+#else
             Input_DisableInputForPauseMenuAndDebug_4EDDC0();
+#endif
             return;
 
         case MainPages::ePage_Load_5:
@@ -1220,13 +1225,37 @@ void PauseMenu::Page_Save_Update_491210()
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
             field_13C_save_state = SaveState::ReadingInput_0;
             strcat(sSaveString_5C931C, sArrowStr_55E398);
+#if ORIGINAL_PS1_BEHAVIOR  // OG Change - Allow for exiting save menu using controller
+            setSaveMenuOpen(true); // Sets saveMenuOpen bool to true, instead of disabling input
+#else
             Input_DisableInputForPauseMenuAndDebug_4EDDC0();
+#endif
         }
         return;
     }
     else if (field_13C_save_state == SaveState::ReadingInput_0)
     {
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Exit save menu using controller
+        DWORD lastPressed = Input_GetLastPressedKey_492610();
+
+        if (lastPressed == VK_ESCAPE || lastPressed == VK_RETURN) // Keyboard ESC or ENTER
+        {
+            setSaveMenuOpen(false);
+        }
+        else if (Input().isHeld(InputCommands::eBack)) // Triangle
+        {
+            lastPressed = VK_ESCAPE;
+            setSaveMenuOpen(false);
+        }
+        else if (Input().isHeld(InputCommands::eUnPause_OrConfirm)) // Cross or START
+        {
+            lastPressed = VK_RETURN;
+            setSaveMenuOpen(false);
+        }
+#else
         const DWORD lastPressed = Input_GetLastPressedKey_492610();
+#endif
+
         if (!lastPressed)
         {
             return;
