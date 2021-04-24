@@ -83,11 +83,11 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /
     field_1C2_falling_counter = 0;
 
     // What was pressed before we started to move
-    field_1D4_previous_input = static_cast<short>(sInputKey_ThrowItem_5550F4);
+    field_1D4_previous_input = static_cast<s16>(sInputKey_ThrowItem_5550F4);
 
     // Set to a key that keeps the car moving, for example if moving right and we hit a right wall that a car
     // can travel "up" then we set this key to "up" such that holding down "right" automatically moves the car up.
-    field_1D6_continue_move_input = static_cast<short>(sInputKey_ThrowItem_5550F4);
+    field_1D6_continue_move_input = static_cast<s16>(sInputKey_ThrowItem_5550F4);
 
     field_1CC_spawned_path = gMap_5C3030.field_2_current_path;
     field_1CE_spawned_camera = gMap_5C3030.field_4_current_camera;
@@ -429,9 +429,9 @@ void MineCar::vRender_46E760(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        short r = field_D2_g;
-        short g = field_D0_r;
-        short b = field_D4_b;
+        s16 r = field_D2_g;
+        s16 g = field_D0_r;
+        s16 b = field_D4_b;
 
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
@@ -511,7 +511,7 @@ void MineCar::Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::
 
     if (sInputObject_5BD4E0.isPressed(input))
     {
-        field_1D4_previous_input = static_cast<short>(input);
+        field_1D4_previous_input = static_cast<s16>(input);
     }
 
     field_1BC_turn_direction = turnDirection;
@@ -572,11 +572,11 @@ s16 MineCar::FollowDirection_46EA00()
     {
         if (field_1BC_turn_direction == MineCarDirs::eUp_3)
         {
-            field_1D6_continue_move_input = (unsigned short)sInputKey_Up_5550D8;
+            field_1D6_continue_move_input = (u16)sInputKey_Up_5550D8;
         }
         else
         {
-            field_1D6_continue_move_input = (unsigned short)sInputKey_Down_5550DC;
+            field_1D6_continue_move_input = (u16)sInputKey_Down_5550DC;
         }
         return 1;
     }
@@ -586,11 +586,11 @@ s16 MineCar::FollowDirection_46EA00()
     {
         if (field_1BC_turn_direction == MineCarDirs::eLeft_2)
         {
-            field_1D6_continue_move_input = (unsigned short)sInputKey_Left_5550D4;
+            field_1D6_continue_move_input = (u16)sInputKey_Left_5550D4;
         }
         else
         {
-            field_1D6_continue_move_input = (unsigned short)sInputKey_Right_5550D0;
+            field_1D6_continue_move_input = (u16)sInputKey_Right_5550D0;
         }
         return 1;
     }
@@ -607,7 +607,7 @@ s16 MineCar::FollowDirection_46EA00()
 
         if ((field_C4_velx > k0 && !bNoFloorRight) || (field_C4_velx < k0 && !bNoFloorLeft))
         {
-            field_1D6_continue_move_input = (unsigned short)sInputKey_Down_5550DC;
+            field_1D6_continue_move_input = (u16)sInputKey_Down_5550DC;
             return 1;
         }
     }
@@ -623,7 +623,7 @@ s16 MineCar::FollowDirection_46EA00()
 
         if ((field_C4_velx > k0 && !bRoofRight) || (field_C4_velx < k0 && !bRoofLeft))
         {
-            field_1D6_continue_move_input = (unsigned short)sInputKey_Up_5550D8;
+            field_1D6_continue_move_input = (u16)sInputKey_Up_5550D8;
             return 1;
         }
     }
@@ -639,7 +639,7 @@ s16 MineCar::FollowDirection_46EA00()
 
         if ((field_C8_vely > k0 && !bWall1) || (field_C8_vely < k0 && !bWall2))
         {
-            field_1D6_continue_move_input = (unsigned short)sInputKey_Right_5550D0;
+            field_1D6_continue_move_input = (u16)sInputKey_Right_5550D0;
             return 1;
         }
     }
@@ -655,7 +655,7 @@ s16 MineCar::FollowDirection_46EA00()
 
         if ((field_C8_vely > k0 && !bWall1) || (field_C8_vely < k0 && !bWall2))
         {
-            field_1D6_continue_move_input = (unsigned short)sInputKey_Left_5550D4;
+            field_1D6_continue_move_input = (u16)sInputKey_Left_5550D4;
             return 1;
         }
     }
@@ -1019,7 +1019,7 @@ void MineCar::State_1_ParkedWithAbe()
         const FP velY = FP_FromInteger(0);
         const FP hitX = mineCarWidthAdjusted + FP_FromInteger(2);
         const FP hitX2 = FP_FromInteger(4) - mineCarWidthAdjusted;
-        const unsigned short frameTableOffset = 20872u;
+        const u16 frameTableOffset = 20872u;
 
         if (HandleState1Move(&MineCar::CheckFloorCollision_46F730, hitX, FP_FromInteger(4), hitX2, frameTableOffset, MineCarDirs::eUp_3, 0,
             rayCast1, rayCast2, rayCast3, rayCast4, 0x800, 0x4000, velX, velY, inputKey, false, false) ||
@@ -1061,7 +1061,7 @@ void MineCar::State_1_ParkedWithAbe()
         const FP velY = FP_FromInteger(0);
         const FP hitX = mineCarWidthAdjusted - FP_FromInteger(4);
         const FP hitX2 = -(mineCarWidthAdjusted + FP_FromInteger(2));
-        const unsigned short frameTableOffset = 20900u;
+        const u16 frameTableOffset = 20900u;
 
         if (HandleState1Move(&MineCar::CheckFloorCollision_46F730, hitX, FP_FromInteger(4), hitX2, frameTableOffset, MineCarDirs::eUp_3, 1,
             rayCast1, rayCast2, rayCast3, rayCast4, 0x800, 0x4000, velX, velY, inputKey, false, false) ||
@@ -1086,7 +1086,7 @@ void MineCar::State_1_ParkedWithAbe()
 }
 
 bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3,
-    unsigned short moveArgument1, MineCarDirs moveArgument2, const char bChangeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const s32 ModelMask1, const s32 ModelMask2,
+    u16 moveArgument1, MineCarDirs moveArgument2, const char bChangeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const s32 ModelMask1, const s32 ModelMask2,
     FP velX, FP velY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond)
 {
     PathLine* pPathLine = nullptr;
@@ -1145,7 +1145,7 @@ void MineCar::HandleUpDown()
     const FP rayCast4 = field_BC_ypos - (k5Scaled) -((mineCarWidthAdjusted) * FP_FromDouble(0.5));
     const FP velX = FP_FromInteger(0);
     const FP velY = k5Scaled;
-    const unsigned short frameTableOffset = 20836u;
+    const u16 frameTableOffset = 20836u;
 
     InputCommands::Enum inputKey = sInputKey_Up_5550D8;
 

@@ -52,7 +52,7 @@ ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvIn
 
     field_78_count = 15;
 
-    field_7E_starting_switch_state = static_cast<short>(SwitchStates_Get_466020(field_72_switch_id));
+    field_7E_starting_switch_state = static_cast<s16>(SwitchStates_Get_466020(field_72_switch_id));
     field_84_bStartFilled = pTlv->field_16_bStartFilled;
     field_7C_mines_alarm_countdown = pTlv->field_14_mines_alarm_countdown;
 
@@ -215,27 +215,27 @@ const PSX_Point stru_5543F0[kMeterBarsXCount] =
 
 void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
 {
-    const short screenXOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(4));
-    const short screenYOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(4));
+    const s16 screenXOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(4));
+    const s16 screenYOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(4));
 
-    for (short poly_idx = 0; poly_idx < field_70_polys_to_render_count && poly_idx < kMeterBarsXCount -1; poly_idx++)
+    for (s16 poly_idx = 0; poly_idx < field_70_polys_to_render_count && poly_idx < kMeterBarsXCount -1; poly_idx++)
     {
         Poly_G4* pPolyG4 = &field_88_polyG4s[gPsxDisplay_5C1130.field_C_buffer_index][poly_idx];
         PolyG4_Init_4F88B0(pPolyG4);
 
-        const short x0 = field_74_tlv_x + (FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].field_0_x))) - screenXOff;
-        const short y0 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].field_2_y)) - screenYOff + field_76_tlv_y - 20;
+        const s16 x0 = field_74_tlv_x + (FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].field_0_x))) - screenXOff;
+        const s16 y0 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].field_2_y)) - screenYOff + field_76_tlv_y - 20;
 
-        const short x1 = field_74_tlv_x + ((poly_idx + 1) * 2) - screenXOff;
-        const short y1 = field_76_tlv_y - screenYOff - 5;
+        const s16 x1 = field_74_tlv_x + ((poly_idx + 1) * 2) - screenXOff;
+        const s16 y1 = field_76_tlv_y - screenYOff - 5;
 
-        const short x2 = field_74_tlv_x + FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].field_0_x)) - screenXOff;
-        const short y2 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].field_2_y)) - screenYOff + field_76_tlv_y - 20;
+        const s16 x2 = field_74_tlv_x + FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].field_0_x)) - screenXOff;
+        const s16 y2 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].field_2_y)) - screenYOff + field_76_tlv_y - 20;
 
-        SetXY0(pPolyG4, static_cast<short>(PsxToPCX(x0)), y0);
-        SetXY1(pPolyG4, static_cast<short>(PsxToPCX(x1)), y1);
-        SetXY2(pPolyG4, static_cast<short>(PsxToPCX(x2)), y2);
-        SetXY3(pPolyG4, static_cast<short>(PsxToPCX(x1 + 2)), y1);
+        SetXY0(pPolyG4, static_cast<s16>(PsxToPCX(x0)), y0);
+        SetXY1(pPolyG4, static_cast<s16>(PsxToPCX(x1)), y1);
+        SetXY2(pPolyG4, static_cast<s16>(PsxToPCX(x2)), y2);
+        SetXY3(pPolyG4, static_cast<s16>(PsxToPCX(x1 + 2)), y1);
 
         if (((poly_idx + 1)) >= (kMeterBarsXCount/2)+1)
         {
@@ -264,7 +264,7 @@ void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
         sprintf(text, "%01d:%02d", sTimerValue_5C1BFC / 1800u, sTimerValue_5C1BFC / 30u % 60);
         const s32 textWidth = field_30_font.MeasureWidth_433700(text);
 
-        short colourRand = 50;
+        s16 colourRand = 50;
         if (sDisableFontFlicker_5C9304)
         {
             colourRand = 0;

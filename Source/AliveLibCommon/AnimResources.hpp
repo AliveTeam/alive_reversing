@@ -600,8 +600,8 @@ struct AnimRecord
     AnimId mId;
     const char* mBanName;
     s32 mFrameTableOffset;
-    short mMaxW;
-    short mMaxH;
+    s16 mMaxW;
+    s16 mMaxH;
     s32 mResourceId;
     PalId mPalOverride;
 };

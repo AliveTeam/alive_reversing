@@ -13,7 +13,7 @@ MusicTrigger* MusicTrigger::ctor_443A60(s16 type, s16 enabledBy, s32 id, s16 del
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBBC0);
-    Init_443AD0(type, enabledBy, static_cast<short>(id), delay);
+    Init_443AD0(type, enabledBy, static_cast<s16>(id), delay);
     field_10_tlvInfo = -1;
     return this;
 }

@@ -7,7 +7,7 @@ namespace AO {
 
 u8 Math_NextRandom();
 
-EXPORT short CC Math_RandomRange_450F20(signed short min, signed short max);
+EXPORT s16 CC Math_RandomRange_450F20(s16 min, s16 max);
 
 EXPORT FP CC Math_Sine_451110(u8 v);
 

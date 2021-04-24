@@ -24,7 +24,7 @@
 #include "PsxDisplay.hpp"
 #include "Mudokon.hpp"
 
-ALIVE_VAR(1, 0xBAF7F2, short, sSlogCount_BAF7F2, 0);
+ALIVE_VAR(1, 0xBAF7F2, s16, sSlogCount_BAF7F2, 0);
 
 const TSlogMotionFn sSlog_motion_table_560978[24] =
 {
@@ -798,8 +798,8 @@ void Slog::M_Fall_4_4C6930()
                 PSX_RECT bRect = {};
                 vGetBoundingRect_424FD0(&bRect, 1);
 
-                const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-                const PSX_Point wh = { bRect.w, static_cast<short>(FP_GetExponent(field_BC_ypos) + 5) };
+                const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+                const PSX_Point wh = { bRect.w, static_cast<s16>(FP_GetExponent(field_BC_ypos) + 5) };
                 vOnCollisionWith_424EE0(
                     xy,
                     wh,
@@ -2904,8 +2904,8 @@ void Slog::Init_4C46A0()
         {
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
-            const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-            const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+            const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+            const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
             vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
         }
     }
@@ -3223,8 +3223,8 @@ void Slog::MoveOnLine_4C5DA0()
             {
                 PSX_RECT bRect = {};
                 vGetBoundingRect_424FD0(&bRect, 1);
-                const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-                const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+                const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+                const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
                 vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
             }
         }

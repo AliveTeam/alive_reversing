@@ -832,7 +832,7 @@ void MusicController::UpdateMusic_47F260()
                 field_58_flags.Set(Flags_58::e58_Bit7);
             }
             break;
-        case MusicTypes::eDeathShort_10: // Death jingle short
+        case MusicTypes::eDeathShort_10: // Death jingle s16
             field_3C_unused = 1;
             idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6)? 2 : -1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
@@ -844,7 +844,7 @@ void MusicController::UpdateMusic_47F260()
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
             break;
-        case MusicTypes::eSecretAreaShort_12: // secret area short
+        case MusicTypes::eSecretAreaShort_12: // secret area s16
             field_3C_unused = 120;
             idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6)? 4 : -1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);

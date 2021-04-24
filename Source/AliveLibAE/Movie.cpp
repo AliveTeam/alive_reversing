@@ -552,8 +552,8 @@ EXPORT char CC DDV_Play_493210(const char* pDDVName)
     return ret;
 }
 
-ALIVE_VAR(1, 0x563a88, short, sMovie_Kill_SEQs_563A88, 1);
-ALIVE_VAR(1, 0xbb4ab2, short, word_BB4AB2, 0);
+ALIVE_VAR(1, 0x563a88, s16, sMovie_Kill_SEQs_563A88, 1);
+ALIVE_VAR(1, 0xbb4ab2, s16, word_BB4AB2, 0);
 ALIVE_VAR(1, 0xbb4ae4, s32, sMovie_ref_count_BB4AE4, 0);
 ALIVE_VAR(1, 0x5ca4c4, u8, sMovieNameIdx_5CA4C4, 0);
 

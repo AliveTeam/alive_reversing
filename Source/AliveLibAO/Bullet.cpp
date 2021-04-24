@@ -61,7 +61,7 @@ void Bullet::VUpdate_408E30()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
-    const short volume = field_2C_scale != FP_FromDouble(0.5) ? 75 : 50;
+    const s16 volume = field_2C_scale != FP_FromDouble(0.5) ? 75 : 50;
 
     switch (field_10_type)
     {

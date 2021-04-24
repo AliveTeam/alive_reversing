@@ -96,9 +96,9 @@ inline FixedPoint FP_FromInteger(T v)
     return f;
 }
 
-inline short FP_GetExponent(const FixedPoint& fp)
+inline s16 FP_GetExponent(const FixedPoint& fp)
 {
-    return static_cast<short>(fp.fpValue / 0x10000);
+    return static_cast<s16>(fp.fpValue / 0x10000);
 }
 
 inline double FP_GetDouble(FixedPoint& fp)

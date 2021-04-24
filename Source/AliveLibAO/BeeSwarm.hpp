@@ -95,8 +95,8 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BeeSwarm, 0xDB0);
 
-ALIVE_VAR_EXTERN(short, gBeeInstanceCount_5076B0);
-ALIVE_VAR_EXTERN(short, gBeesNearAbe_5076AC);
+ALIVE_VAR_EXTERN(s16, gBeeInstanceCount_5076B0);
+ALIVE_VAR_EXTERN(s16, gBeesNearAbe_5076AC);
 
 }
 

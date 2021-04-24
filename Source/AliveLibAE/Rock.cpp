@@ -243,7 +243,7 @@ void Rock::InTheAir_49E4B0()
                 field_C4_velx = (field_C4_velx / FP_FromInteger(2));
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
 
-                short vol = 20 * (4 - field_11E_volume);
+                s16 vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -262,7 +262,7 @@ void Rock::InTheAir_49E4B0()
             {
                 field_BC_ypos = hitY;
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
-                short vol = 20 * (4 - field_11E_volume);
+                s16 vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -286,7 +286,7 @@ void Rock::InTheAir_49E4B0()
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E_volume);
+                s16 vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -304,7 +304,7 @@ void Rock::InTheAir_49E4B0()
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E_volume);
+                s16 vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -443,8 +443,8 @@ void Rock::vUpdate_49E9F0()
         InTheAir_49E4B0();
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
-        const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-        const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+        const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+        const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
         vOnCollisionWith_424EE0(xy, wh,
             gBaseGameObject_list_BB47C4,
             1,

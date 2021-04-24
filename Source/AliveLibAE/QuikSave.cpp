@@ -281,7 +281,7 @@ void QuikSave_RestoreBlyData_D481890_4C9BE0(const u8* pSaveData)
 
     // Skip the 2 zero entries, the saved flag words come after the object save state data
     const u8* pSrcFlags = reinterpret_cast<const u8*>(pSaveData2 + 2);
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
@@ -304,7 +304,7 @@ void QuikSave_RestoreBlyData_D481890_4C9BE0(const u8* pSaveData)
                         while (pTlv)
                         {
                             // TODO: Convert table to strongly typed flags
-                            const u8 tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<short>(pTlv->field_4_type.mType)];
+                            const u8 tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->field_4_type.mType)];
                             if (tableValue == 1 || tableValue == 2) // Type 0 ignored - actually it should never be written here anyway
                             {
                                 pTlv->field_0_flags.Raw().all = *pSrcFlags;
@@ -376,7 +376,7 @@ static void WriteFlags(u8*& pSaveBuffer, const Path_TLV* pTlv, const BitField8<T
 
 EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
 {
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
@@ -398,7 +398,7 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<short>(pTlv->field_4_type.mType)] == 1)
+                            if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->field_4_type.mType)] == 1)
                             {
                                 BitField8<TLV_Flags> flags = pTlv->field_0_flags;
                                 if (flags.Get(TLV_Flags::eBit1_Created))
@@ -408,7 +408,7 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
                                 }
                                 WriteFlags(pSaveBuffer, pTlv, flags);
                             }
-                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<short>(pTlv->field_4_type.mType)] == 2)
+                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->field_4_type.mType)] == 2)
                             {
                                 WriteFlags(pSaveBuffer, pTlv, pTlv->field_0_flags);
                             }
@@ -438,7 +438,7 @@ ALIVE_ARY(1, 0xBB233C, SaveFlagsAndData, 8, sSwitchReset_Saved_States_BB233C, {}
 EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
 {
     sQuickSave_saved_switchResetters_count_BB234C = 0;
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
@@ -487,7 +487,7 @@ EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
 EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
 {
     s32 idx = 0;
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)

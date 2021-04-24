@@ -8,7 +8,7 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 
-ALIVE_VAR(1, 0x5c1bb4, short, alarmInstanceCount_5C1BB4, 0);
+ALIVE_VAR(1, 0x5c1bb4, s16, alarmInstanceCount_5C1BB4, 0);
 ALIVE_VAR(1, 0x550d70, s32, sAlarmObjId_550D70, -1);
 
 BaseGameObject* Alarm::VDestructor(s32 flags)

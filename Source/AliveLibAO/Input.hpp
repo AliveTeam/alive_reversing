@@ -185,10 +185,10 @@ public:
 
     // These use the active pad
     u16 Pressed() const;
-    unsigned short Held() const;
-    unsigned short Released() const;
+    u16 Held() const;
+    u16 Released() const;
 
-    unsigned short Held(PadIndex padIx) const;
+    u16 Held(PadIndex padIx) const;
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
 

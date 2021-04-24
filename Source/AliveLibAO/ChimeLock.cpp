@@ -423,7 +423,7 @@ void ChimeLock::VUpdate_40AEF0()
                 Math_RandomRange_450F20(6, 9),
                 0);
 
-            if (DoNote_40BB20(static_cast<short>(Bell)))
+            if (DoNote_40BB20(static_cast<s16>(Bell)))
             {
                 field_110_state = ChimeLockStates::eNeverRead_6;
                 SwitchStates_Do_Operation_436A10(field_132_solve_id, SwitchOp::eSetTrue_0);

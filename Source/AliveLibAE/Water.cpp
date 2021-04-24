@@ -122,8 +122,8 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
                     field_20_animation.field_8C_pal_vram_xy.field_0_x,
                     field_20_animation.field_8C_pal_vram_xy.field_2_y);
 
-                SetClut(pPoly, static_cast<short>(clut));
-                SetTPage(pPoly, static_cast<short>(tPage));
+                SetClut(pPoly, static_cast<s16>(clut));
+                SetTPage(pPoly, static_cast<s16>(tPage));
 
                 SetUV0(pPoly, u0, v0);
                 SetUV1(pPoly, u1, v0);
@@ -211,11 +211,11 @@ void Water::dtor_4E0880()
 
     if (field_148_bHitTimeout & 1)
     {
-        Path::TLV_Reset_4DB8E0(field_114_tlvInfo, static_cast<short>(field_FC_state), 0, 1);
+        Path::TLV_Reset_4DB8E0(field_114_tlvInfo, static_cast<s16>(field_FC_state), 0, 1);
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_114_tlvInfo, static_cast<short>(field_FC_state), 0, 0);
+        Path::TLV_Reset_4DB8E0(field_114_tlvInfo, static_cast<s16>(field_FC_state), 0, 0);
     }
 
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
@@ -466,7 +466,7 @@ void Water::vUpdate_4E0B50()
                 break;
         }
 
-        for (short i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
+        for (s16 i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
         {
             Water_Res* pWaterRes = &field_F8_pWaterRes[i];
             if (pWaterRes->field_18_enabled)
@@ -518,7 +518,7 @@ void Water::vUpdate_4E0B50()
                             pWaterRes->field_1A_splash_time = 15;
                         }
 
-                        short old_splash_time = field_138_splash_time;
+                        s16 old_splash_time = field_138_splash_time;
                         field_138_splash_time = old_splash_time + 1;
 
                         if (!(old_splash_time % 4) && !field_13C_not_in_camera_count)
@@ -552,22 +552,22 @@ void Water::vRender_4E1440(PrimHeader** ppOt)
         field_BC_ypos,
         0))
     {
-        short xMin = 32767;
-        short wMax = -32767;
+        s16 xMin = 32767;
+        s16 wMax = -32767;
 
-        short yMin = 32767;
-        short hMax = -32767;
+        s16 yMin = 32767;
+        s16 hMax = -32767;
 
         for (s32 i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
         {
             Water_Res* pWaterRes = &field_F8_pWaterRes[i];
             if (pWaterRes->field_18_enabled)
             {
-                const short polyX = PsxToPCX(FP_GetExponent(pWaterRes->field_0_xpos));
-                const short polyY = FP_GetExponent((FP_FromRaw(pWaterRes->field_8_zpos.fpValue / 2)) + pWaterRes->field_4_ypos);
-                const short width = field_120_frame_width - 1;
+                const s16 polyX = PsxToPCX(FP_GetExponent(pWaterRes->field_0_xpos));
+                const s16 polyY = FP_GetExponent((FP_FromRaw(pWaterRes->field_8_zpos.fpValue / 2)) + pWaterRes->field_4_ypos);
+                const s16 width = field_120_frame_width - 1;
 
-                short height;
+                s16 height;
                 if (pWaterRes->field_1C_state == 2)
                 {
                     height = field_122_frame_height;

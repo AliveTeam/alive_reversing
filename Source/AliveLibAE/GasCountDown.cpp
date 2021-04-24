@@ -54,7 +54,7 @@ const u8 byte_5513D4[40] =
 };
 
 ALIVE_VAR(1, 0x5c1be8, s32, sGasTimer_5C1BE8, 0);
-ALIVE_VAR(1, 0x5C1C00, short, gGasOn_5C1C00, 0);
+ALIVE_VAR(1, 0x5C1C00, s16, gGasOn_5C1C00, 0);
 
 GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo)
 {
@@ -80,7 +80,7 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo)
 
     if (sGasTimer_5C1BE8)
     {
-        field_74_time_left = static_cast<short>((field_76_gas_countdown_timer - (sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30);
+        field_74_time_left = static_cast<s16>((field_76_gas_countdown_timer - (sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30);
         if (field_74_time_left < 0)
         {
             field_74_time_left = 0;

@@ -33,7 +33,7 @@ EXPORT s32 CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, s32 depth)
         return 0;
     }
 
-    short newX = 0;
+    s16 newX = 0;
     const s32 depthShift = 2 - depth;
     while (true)
     {
@@ -105,7 +105,7 @@ EXPORT s32 CC Vram_alloc_block_4957B0(PSX_RECT* pRect, s32 depth)
             {
                 // v7 &= 0xFFFFFF00; // Todo: check this. was LOBYTE(v7) = 0; Doesn't seem needed
                 // to pass tests.
-                const short ypos = (pRect->y + 255) - pRect->h + 1;
+                const s16 ypos = (pRect->y + 255) - pRect->h + 1;
                 if (ypos < pRect->y)
                 {
                     pRect->y = ypos;
@@ -125,7 +125,7 @@ EXPORT s32 CC Vram_alloc_block_4957B0(PSX_RECT* pRect, s32 depth)
     // Search Loop
     while (true)
     {
-        const short yPos = pRect->y;
+        const s16 yPos = pRect->y;
         if (pRect->h + yPos <= 255 || yPos >= 256)
         {
             if (!Vram_Is_Area_Free_4958F0(pRect, depth))
@@ -329,12 +329,12 @@ EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
         }
     }
 
-    pRect->w = static_cast<short>(paletteColorCount);
+    pRect->w = static_cast<s16>(paletteColorCount);
 
     palBitMask = palBitMask << palX_idx;
     sPal_table_5C9164[pal_rect_y] |= palBitMask;
-    pRect->x = static_cast<short>(pal_xpos_5C9162 + (16 * palX_idx));
-    pRect->y = static_cast<short>(pal_rect_y + pal_ypos_5C9160);
+    pRect->x = static_cast<s16>(pal_xpos_5C9162 + (16 * palX_idx));
+    pRect->y = static_cast<s16>(pal_rect_y + pal_ypos_5C9160);
     return 1;
 }
 

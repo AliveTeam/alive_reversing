@@ -628,7 +628,7 @@ public:
             for (s32 i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
             {
                 const auto item = (*entries)[i];
-                compiledEntries.push_back({ 0, 184, (short)(57 + (22 * o)), 0, (char*)item.text, 0x80, 0x10, 0xFF, Centre });
+                compiledEntries.push_back({ 0, 184, (s16)(57 + (22 * o)), 0, (char*)item.text, 0x80, 0x10, 0xFF, Centre });
                 o++;
             }
         }
@@ -700,7 +700,7 @@ public:
             CompileEntries();
         }
 
-        pm->field_144_active_menu.field_C_selected_index = static_cast<short>(index - scrollDownIndex);
+        pm->field_144_active_menu.field_C_selected_index = static_cast<s16>(index - scrollDownIndex);
     }
 
     void Activate()
@@ -926,7 +926,7 @@ void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPag
 
         if (e->field_F_alignment != 0)
         {
-            short textMeasure = static_cast<short>(field_F4_font.MeasureWidth_433700(textFormatted));
+            s16 textMeasure = static_cast<s16>(field_F4_font.MeasureWidth_433700(textFormatted));
 
             if (textMeasure >= 608)
             {
@@ -942,7 +942,7 @@ void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPag
             }
         }
 
-        field_142_poly_offset = static_cast<short>(field_F4_font.DrawString_4337D0(
+        field_142_poly_offset = static_cast<s16>(field_F4_font.DrawString_4337D0(
             ot,
             textFormatted,
             x, // X
@@ -1596,7 +1596,7 @@ void PauseMenu::Update_48FD80()
             && !(pHero->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
             && !(pControlledChar->field_114_flags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
-            const short heroState = pHero->field_106_current_motion;
+            const s16 heroState = pHero->field_106_current_motion;
             if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
                 && heroState != eAbeStates::State_119_ToShrykull_45A990
                 && heroState != eAbeStates::State_120_EndShrykull_45AB00

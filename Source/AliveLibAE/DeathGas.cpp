@@ -173,8 +173,8 @@ void DeathGas::vRender_43C350(PrimHeader** ppOt)
         {
             const FP cosVal = Math_Cosine_496CD0(sbyte_1_5BD1E4.data[0][i][j]);
             const FP sinVal = Math_Sine_496DD0(sbyte_1_5BD1E4.data[0][i][j]);
-            const short cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
-            const short sinMul10 = FP_GetExponent(FP_FromInteger(20) * sinVal);
+            const s16 cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
+            const s16 sinMul10 = FP_GetExponent(FP_FromInteger(20) * sinVal);
 
             s32 tableVal = 0;
             if ((i & 1) && (j & 1))
@@ -199,7 +199,7 @@ void DeathGas::vRender_43C350(PrimHeader** ppOt)
         for (s32 j = 0; j < 5; j++)
         {
             const FP cosVal = Math_Cosine_496CD0(sbyte_1_5BD1E4.data[1][i][j]);
-            const short cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
+            const s16 cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
 
             s32 tableVal = 0;
             if (!(i & 1) && (j & 1))
@@ -271,10 +271,10 @@ void DeathGas::vRender_43C350(PrimHeader** ppOt)
 
                 const s32 yVal = (gPsxDisplay_5C1130.field_2_height + 28) * (255 - field_20_total) / 255;
 
-                SetXY0(pPoly, static_cast<short>(x0), static_cast<short>(y0 - yVal));
-                SetXY1(pPoly, static_cast<short>(x1), static_cast<short>(y1 - yVal));
-                SetXY2(pPoly, static_cast<short>(x2), static_cast<short>(y2 - yVal));
-                SetXY3(pPoly, static_cast<short>(x3), static_cast<short>(y3 - yVal));
+                SetXY0(pPoly, static_cast<s16>(x0), static_cast<s16>(y0 - yVal));
+                SetXY1(pPoly, static_cast<s16>(x1), static_cast<s16>(y1 - yVal));
+                SetXY2(pPoly, static_cast<s16>(x2), static_cast<s16>(y2 - yVal));
+                SetXY3(pPoly, static_cast<s16>(x3), static_cast<s16>(y3 - yVal));
 
                 OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_28_layer), &pPoly->mBase.header);
             }

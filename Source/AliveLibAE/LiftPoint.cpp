@@ -118,7 +118,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
 
     const FP oldX = field_B8_xpos;
     MapFollowMe_408D10(TRUE);
-    const short xSnapDelta = FP_GetExponent(field_B8_xpos - oldX);
+    const s16 xSnapDelta = FP_GetExponent(field_B8_xpos - oldX);
     field_11C_x_offset -= xSnapDelta;
     field_11E_width_offset -= xSnapDelta;
 
@@ -455,9 +455,9 @@ void LiftPoint::vRender_462730(PrimHeader** ppOt)
 
         if (field_B8_xpos >= FP_FromInteger(camPos.field_0_x) && field_B8_xpos <= FP_FromInteger(camPos.field_0_x + 640))
         {
-            short r = field_D0_r;
-            short g = field_D2_g;
-            short b = field_D4_b;
+            s16 r = field_D0_r;
+            s16 g = field_D2_g;
+            s16 b = field_D4_b;
 
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
@@ -994,8 +994,8 @@ void LiftPoint::CreatePulleyIfExists_462C80()
         data.field_10_pulley_frame_table_offset,
         gObjList_animations_5C1A24,
         this,
-        static_cast<short>(data.field_14_maxW_lift_wheel_and_pulley),
-        static_cast<short>(data.field_18_maxH_lift_wheel_and_pulley),
+        static_cast<s16>(data.field_14_maxW_lift_wheel_and_pulley),
+        static_cast<s16>(data.field_18_maxH_lift_wheel_and_pulley),
         ppRes,
         1,
         0,

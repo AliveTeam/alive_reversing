@@ -21,7 +21,7 @@ enum class DDCheatValueType : s32
 union DDCheatValue
 {
     s32* pInt;
-    short* pShort;
+    s16* pShort;
     FP* pFixedPoint;
 
     DDCheatValue()
@@ -34,7 +34,7 @@ union DDCheatValue
         pInt = v;
     }
 
-    DDCheatValue(short* v)
+    DDCheatValue(s16* v)
     {
         pShort = v;
     }

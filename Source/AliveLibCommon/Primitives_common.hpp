@@ -14,8 +14,8 @@ ALIVE_ASSERT_SIZEOF(PrimHeaderPart_Normal, 0x4);
 
 struct PrimHeaderPart_PsxRect
 {
-    short w;
-    short h;
+    s16 w;
+    s16 h;
 };
 ALIVE_ASSERT_SIZEOF(PrimHeaderPart_PsxRect, 0x4);
 
@@ -160,16 +160,16 @@ struct Poly_GT3
 struct Prim_ScreenOffset
 {
     PrimHeader mBase;
-    short field_C_xoff;
-    short field_E_yoff;
+    s16 field_C_xoff;
+    s16 field_E_yoff;
 };
 ALIVE_ASSERT_SIZEOF(Prim_ScreenOffset, 0x10);
 
 struct Prim_PrimClipper
 {
     PrimHeader mBase;
-    short field_C_x;
-    short field_E_y;
+    s16 field_C_x;
+    s16 field_E_y;
 };
 ALIVE_ASSERT_SIZEOF(Prim_PrimClipper, 0x10);
 
@@ -401,17 +401,17 @@ template<class T> inline u8 R3(T* prim) { return R_Generic(prim, 2); }
 template<class T> inline u8 G3(T* prim) { return G_Generic(prim, 2); }
 template<class T> inline u8 B3(T* prim) { return B_Generic(prim, 2); }
 
-template<class T> inline short X0(T* prim) { return prim->mBase.vert.x; }
-template<class T> inline short Y0(T* prim) { return prim->mBase.vert.y; }
+template<class T> inline s16 X0(T* prim) { return prim->mBase.vert.x; }
+template<class T> inline s16 Y0(T* prim) { return prim->mBase.vert.y; }
 
-template<class T> inline short X_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mVert.x; }
-template<class T> inline short Y_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mVert.y; }
-template<class T> inline short X1(T* prim) { return X_Generic(prim, 0); }
-template<class T> inline short Y1(T* prim) { return Y_Generic(prim, 0); }
-template<class T> inline short X2(T* prim) { return X_Generic(prim, 1); }
-template<class T> inline short Y2(T* prim) { return Y_Generic(prim, 1); }
-template<class T> inline short X3(T* prim) { return X_Generic(prim, 2); }
-template<class T> inline short Y3(T* prim) { return Y_Generic(prim, 2); }
+template<class T> inline s16 X_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mVert.x; }
+template<class T> inline s16 Y_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mVert.y; }
+template<class T> inline s16 X1(T* prim) { return X_Generic(prim, 0); }
+template<class T> inline s16 Y1(T* prim) { return Y_Generic(prim, 0); }
+template<class T> inline s16 X2(T* prim) { return X_Generic(prim, 1); }
+template<class T> inline s16 Y2(T* prim) { return Y_Generic(prim, 1); }
+template<class T> inline s16 X3(T* prim) { return X_Generic(prim, 2); }
+template<class T> inline s16 Y3(T* prim) { return Y_Generic(prim, 2); }
 
 template<class T> inline u8 U0(T* prim) { return prim->mUv.u; }
 template<class T> inline u8 V0(T* prim) { return prim->mUv.v; }
@@ -425,7 +425,7 @@ template<class T> inline u8 U3(T* prim) { return U_Generic(prim, 2); }
 template<class T> inline u8 V3(T* prim) { return V_Generic(prim, 2); }
 
 template<class T>
-inline void SetXY_Generic(T* prim, s32 idx, short x, short y)
+inline void SetXY_Generic(T* prim, s32 idx, s16 x, s16 y)
 {
     prim->mVerts[idx].mVert.x = x;
     prim->mVerts[idx].mVert.y = y;
@@ -465,7 +465,7 @@ inline void SetRGB3(T* prim, u8 r, u8 g, u8 b)
 }
 
 template<class T>
-inline void SetXY0(T* prim, short x, short y)
+inline void SetXY0(T* prim, s16 x, s16 y)
 {
     prim->mBase.vert.x = x;
     prim->mBase.vert.y = y;
@@ -496,49 +496,49 @@ inline void SetUV3(T* prim, u8 u, u8 v)
 }
 
 template<class T>
-inline void SetXY1(T* prim, short x, short y)
+inline void SetXY1(T* prim, s16 x, s16 y)
 {
     SetXY_Generic(prim, 0, x, y);
 }
 
 template<class T>
-inline void SetXY2(T* prim, short x, short y)
+inline void SetXY2(T* prim, s16 x, s16 y)
 {
     SetXY_Generic(prim, 1, x, y);
 }
 
 template<class T>
-inline void SetXY3(T* prim, short x, short y)
+inline void SetXY3(T* prim, s16 x, s16 y)
 {
     SetXY_Generic(prim, 2, x, y);
 }
 
 template<class T>
-inline void SetTPage(T* prim, short tpage)
+inline void SetTPage(T* prim, s16 tpage)
 {
     prim->mVerts[0].mUv.tpage_clut_pad = tpage;
 }
 
 template<class T>
-inline short GetTPage(T* prim)
+inline s16 GetTPage(T* prim)
 {
     return prim->mVerts[0].mUv.tpage_clut_pad;
 }
 
 template<class T>
-inline void SetClut(T* prim, short clut)
+inline void SetClut(T* prim, s16 clut)
 {
     prim->mUv.tpage_clut_pad = clut;
 }
 
 template<class T>
-inline short GetClut(T* prim)
+inline s16 GetClut(T* prim)
 {
     return prim->mUv.tpage_clut_pad;
 }
 
 template<class T>
-inline void SetXYWH(T pPoly, short x, short y, short w, short h)
+inline void SetXYWH(T pPoly, s16 x, s16 y, s16 w, s16 h)
 {
     SetXY0(pPoly, x, y);
     SetXY1(pPoly, x + w, y);

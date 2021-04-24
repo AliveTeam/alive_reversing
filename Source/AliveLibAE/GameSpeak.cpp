@@ -79,7 +79,7 @@ GameSpeakMatch GameSpeak::MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_i
 {
     if (src_idx == -1)
     {
-        src_idx = static_cast<short>(field_28_last_event_index - max_idx);
+        src_idx = static_cast<s16>(field_28_last_event_index - max_idx);
         if (src_idx < 0)
         {
             src_idx += ALIVE_COUNTOF(field_2C_event_buffer);
@@ -140,7 +140,7 @@ GameSpeakMatch GameSpeak::MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_i
 s32 CC GameSpeak::FillBuffer_421970(s32 code, u8* pBufffer)
 {
     const s16 len = Code_Length_4C9DB0(code);
-    for (short idx = 0; idx < len; idx++)
+    for (s16 idx = 0; idx < len; idx++)
     {
         pBufffer[idx] = static_cast<u8>(Code_LookUp_4C9E40(code, idx, len));
     }

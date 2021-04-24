@@ -15,7 +15,7 @@ enum TLV_Flags
     eBit3_End_TLV_List = 0x4,
 };
 
-enum class TlvTypes : short 
+enum class TlvTypes : s16 
 {
     None_m1 = -1,
     ContinuePoint_0 = 0,
@@ -136,7 +136,7 @@ enum class TlvTypes : short
 struct TlvTypes32
 {
     TlvTypes mType;
-    short padTo32Bits;
+    s16 padTo32Bits;
 
     bool operator == (TlvTypes type) const
     {
@@ -367,7 +367,7 @@ struct Path_WellExpress : public Path_WellBase
 
 struct Path_Alarm : public Path_TLV
 {
-    short field_10_id;
+    s16 field_10_id;
     WORD field_12_duration;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Alarm, 0x14);

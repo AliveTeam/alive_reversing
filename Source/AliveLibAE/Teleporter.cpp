@@ -105,8 +105,8 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
     PSX_Point abeSpawnPos = {};
     gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
 
-    const short xOrg = pTlvData->field_22_eletric_x - abeSpawnPos.field_0_x;
-    const short yOrg = pTlvData->field_24_electric_y - abeSpawnPos.field_2_y;
+    const s16 xOrg = pTlvData->field_22_eletric_x - abeSpawnPos.field_0_x;
+    const s16 yOrg = pTlvData->field_24_electric_y - abeSpawnPos.field_2_y;
 
     for (auto& sparkOffs : kSparkOffs_563988)
     {
@@ -254,7 +254,7 @@ void Teleporter::vUpdate_4DC400()
         gMap_5C3030.field_20 = 1;
 
         const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[field_34_mTlvData.field_1E_cam_swap_effect];
-        short bForceChange = 0;
+        s16 bForceChange = 0;
         if (effect == CameraSwapEffects::eEffect5_1_FMV || effect == CameraSwapEffects::eEffect11_Unknown)
         {
             bForceChange = 1;

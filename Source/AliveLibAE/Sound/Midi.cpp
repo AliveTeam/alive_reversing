@@ -33,7 +33,7 @@ ALIVE_VAR(1, 0xbb2e38, OpenSeqHandle *, sSeqDataTable_BB2E38, nullptr);
 ALIVE_VAR(1, 0xbb2e3c, s16, sSeqsPlaying_count_word_BB2E3C, 0);
 ALIVE_VAR(1, 0xbb2e34, SoundBlockInfo *, sLastLoadedSoundBlockInfo_BB2E34, nullptr);
 ALIVE_VAR(1, 0x560f58, s16, sSFXPitchVariationEnabled_560F58, true);
-ALIVE_VAR(1, 0x560f40, short, sNeedToHashSeqNames_560F40, 1);
+ALIVE_VAR(1, 0x560f40, s16, sNeedToHashSeqNames_560F40, 1);
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
 const SoundBlockInfo soundBlock = { "MONK.VH", "MONK.VB", -1, nullptr };
@@ -73,7 +73,7 @@ public:
         return sSFXPitchVariationEnabled_560F58;
     }
 
-    virtual short& sNeedToHashSeqNames() override
+    virtual s16& sNeedToHashSeqNames() override
     {
         return sNeedToHashSeqNames_560F40;
     }
@@ -253,7 +253,7 @@ EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
 
     // Load actual sample data
 
-    SsVabTransBody_4FC840(reinterpret_cast<VabBodyRecord*>(*ppVabBody), static_cast<short>(pSoundBlockInfo->field_8_vab_id));
+    SsVabTransBody_4FC840(reinterpret_cast<VabBodyRecord*>(*ppVabBody), static_cast<s16>(pSoundBlockInfo->field_8_vab_id));
 
     SsVabTransCompleted_4FE060(SS_WAIT_COMPLETED);
 
@@ -267,7 +267,7 @@ EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
 EXPORT s32 CC MIDI_Play_Single_Note_4CA1B0(s32 vabIdAndProgram, s32 note, s32 leftVol, s32 rightVol)
 {
     // NOTE: word_BB2E40 is used as a guard here, but it is never read anywhere else
-    return SsVoKeyOn_4FCF10(vabIdAndProgram, note, static_cast<unsigned short>(leftVol), static_cast<unsigned short>(rightVol));
+    return SsVoKeyOn_4FCF10(vabIdAndProgram, note, static_cast<u16>(leftVol), static_cast<u16>(rightVol));
 }
 
 EXPORT void CC SND_Init_4CA1F0()
@@ -417,13 +417,13 @@ EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, 
         v4 = 127 - (-(char)pitch & 127);
     }
 
-    for (short i = 0; i < 24; i++) // TODO: use kNumChannels
+    for (s16 i = 0; i < 24; i++) // TODO: use kNumChannels
     {
         if ((1 << i) & channelsBits)
         {
-            const short vabId = 0; // Not used by target func
-            const short program = 0; // Not used by target func
-            SsUtChangePitch_4FDF70(i, program, vabId, pSfx->field_2_note, 0, static_cast<short>(static_cast<s32>(pSfx->field_2_note) + v3), v4);
+            const s16 vabId = 0; // Not used by target func
+            const s16 program = 0; // Not used by target func
+            SsUtChangePitch_4FDF70(i, program, vabId, pSfx->field_2_note, 0, static_cast<s16>(static_cast<s32>(pSfx->field_2_note) + v3), v4);
         }
     }
 }
@@ -468,11 +468,11 @@ EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16
             v10 = 127 - (-(char)randomValue & 127);
         }
 
-        for (short i = 0; i < 24; i++) // TODO: Use kNumChannels
+        for (s16 i = 0; i < 24; i++) // TODO: Use kNumChannels
         {
             if ((1 << i) & channelBits)
             {
-                SsUtChangePitch_4FDF70(i, program, vabId, static_cast<short>(note), 0, static_cast<short>(v9 + note), v10);
+                SsUtChangePitch_4FDF70(i, program, vabId, static_cast<s16>(note), 0, static_cast<s16>(v9 + note), v10);
             }
         }
     }
@@ -537,7 +537,7 @@ EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask)
         if ((1 << i) & bitMask)
         {
             // Turn it off
-            GetSpuApiVars()->SsUtKeyOffV(static_cast<short>(i));
+            GetSpuApiVars()->SsUtKeyOffV(static_cast<s16>(i));
         }
     }
 }
@@ -546,7 +546,7 @@ EXPORT void SND_Stop_All_Seqs_4CA850()
 {
     // TODO: Why is there 16 of these but 32 of sMidiStruct2Ary32_C13400? Seems like they should match in size
     GetMidiVars()->sSeqsPlaying_count_word() = 0;
-    for (short i = 0; i < 16; i++)
+    for (s16 i = 0; i < 16; i++)
     {
         if (GetMidiVars()->sSeq_Ids_word().ids[i] >= 0)
         {
@@ -564,7 +564,7 @@ EXPORT void SND_Stop_All_Seqs_4CA850()
 
 EXPORT void SND_Seq_Stop_4CA8E0()
 {
-    for (short i = 0; i < 16; i++)
+    for (s16 i = 0; i < 16; i++)
     {
         if (GetMidiVars()->sSeq_Ids_word().ids[i] >= 0)
         {
@@ -600,7 +600,7 @@ EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop)
         }
 
         const s32 vabId = GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].field_8_vab_id;
-        rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, static_cast<short>(vabId));
+        rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, static_cast<s16>(vabId));
 
         GetMidiVars()->sSeq_Ids_word().ids[rec.field_A_id_seqOpenId] = idx;
         GetMidiVars()->sSeqsPlaying_count_word()++;
@@ -667,7 +667,7 @@ EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 vol
         }
 
         // Open the SEQ
-        const short vabId = static_cast<short>(GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].field_8_vab_id);
+        const s16 vabId = static_cast<s16>(GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].field_8_vab_id);
         rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, vabId);
 
         // Index into the IDS via the seq ID and map it to the index

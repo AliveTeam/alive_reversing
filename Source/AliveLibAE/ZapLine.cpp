@@ -95,7 +95,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
                 Poly_Set_SemiTrans_4F8A60(&pSprt->mBase.header, 1);
                 Poly_Set_Blending_4F8A20(&pSprt->mBase.header, 1);
 
-                SetClut(pSprt, static_cast<short>(PSX_getClut_4F6350(field_20_animation.field_8C_pal_vram_xy.field_0_x, field_20_animation.field_8C_pal_vram_xy.field_2_y)));
+                SetClut(pSprt, static_cast<s16>(PSX_getClut_4F6350(field_20_animation.field_8C_pal_vram_xy.field_0_x, field_20_animation.field_8C_pal_vram_xy.field_2_y)));
 
                 SetUV0(pSprt, u0, field_20_animation.field_84_vram_rect.y & 0xFF);
                 pSprt->field_14_w = frameW - 1;
@@ -327,7 +327,7 @@ void ZapLine::UpdateSpriteVertexPositions_4CD650()
 
 void ZapLine::CalculateSpritePositionsOuter_4CD5D0()
 {
-    for (short i = 0; i < field_12E_number_of_segments; i++)
+    for (s16 i = 0; i < field_12E_number_of_segments; i++)
     {
         if (i == 0)
         {
@@ -336,7 +336,7 @@ void ZapLine::CalculateSpritePositionsOuter_4CD5D0()
         }
         else
         {
-            const short lastIdx = field_12E_number_of_segments - 1;
+            const s16 lastIdx = field_12E_number_of_segments - 1;
             if (i == lastIdx)
             {
                 // Last item.

@@ -97,9 +97,9 @@ void LiftMover::VUpdate_4055C0()
                 {
                     // Load lift point objects (I guess in case for some reason it got unloaded ??)
                     // AE doesn't do this.
-                    for (short y = 0; y < gMap_507BA8.field_26_max_cams_y; y++)
+                    for (s16 y = 0; y < gMap_507BA8.field_26_max_cams_y; y++)
                     {
-                        for (short x = 0; x < gMap_507BA8.field_24_max_cams_x; x++)
+                        for (s16 x = 0; x < gMap_507BA8.field_24_max_cams_x; x++)
                         {
                             gMap_507BA8.Loader_446590(x, y, LoadMode::Mode_0, TlvTypes::LiftPoint_8);
                         }
@@ -197,7 +197,7 @@ void LiftMover::VUpdate_4055C0()
     }
 }
 
-LiftPoint* LiftMover::FindLiftPointWithId(short id)
+LiftPoint* LiftMover::FindLiftPointWithId(s16 id)
 {
     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {

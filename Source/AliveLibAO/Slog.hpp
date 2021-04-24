@@ -187,6 +187,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x198);
 
-ALIVE_VAR_EXTERN(short, gNumSlogs_9F11C8);
+ALIVE_VAR_EXTERN(s16, gNumSlogs_9F11C8);
 
 }

@@ -36,7 +36,7 @@ struct StereoSample
     T right;
 };
 
-using StereoSample_S16 = StereoSample<signed short>;
+using StereoSample_S16 = StereoSample<s16>;
 using StereoSample_S32 = StereoSample<s32>;
 using StereoSample_F32 = StereoSample<float>;
 

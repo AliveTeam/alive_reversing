@@ -56,7 +56,7 @@ public:
 
 ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay_5C1130);
 ALIVE_VAR_EXTERN(bool, sCommandLine_NoFrameSkip_5CA4D1);
-ALIVE_VAR_EXTERN(short, sbDebugFontLoaded_BB4A24);
+ALIVE_VAR_EXTERN(s16, sbDebugFontLoaded_BB4A24);
 ALIVE_VAR_EXTERN(s32, sbDisplayRenderFrame_55EF8C);
 
 EXPORT void CC DebugFont_Flush_4DD050();

@@ -45,7 +45,7 @@ ALIVE_VAR(1, 0x5c1bec, char, sEnableCheatFMV_5C1BEC, 0);
 
 ALIVE_VAR(1, 0x5c1b9e, s16, sDemoIdChosenFromDemoMenu_5C1B9E, 0);
 
-ALIVE_VAR(1, 0x561538, short, sMenuItemCount_561538, 0);
+ALIVE_VAR(1, 0x561538, s16, sMenuItemCount_561538, 0);
 ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerPath_5C1B50, {});
 
 union DemoOrFmv
@@ -603,7 +603,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_200_highlite_glow_speed = -8;
     field_1F0_tlvOffsetLevelIdPathId = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
 
-    field_214_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(gMap_5C3030.field_4_current_camera));
+    field_214_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(gMap_5C3030.field_4_current_camera));
     field_21C_bDoScreenTransistionEffect = 1;
     field_21E_bChangeScreen = 0;
     field_1F8_page_timeout = 0;
@@ -881,8 +881,8 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
             Particle* pParticle = ae_new<Particle>();
             if (pParticle)
             {
-                const short randX = Math_RandomRange_496AB0(-40, 40) + 184;
-                const short randY = Math_RandomRange_496AB0(30, 90);
+                const s16 randX = Math_RandomRange_496AB0(-40, 40) + 184;
+                const s16 randY = Math_RandomRange_496AB0(30, 90);
 
                 const FP xpos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromDouble(randX);
                 FP ypos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromDouble(randY);
@@ -1302,7 +1302,7 @@ void MainMenuController::ControllerMenu_Render_Text_4D26C0(PrimHeader ** ot)
     }
 }
 
-ALIVE_VAR(1, 0xBB4418, short, word_BB4418, 0);
+ALIVE_VAR(1, 0xBB4418, s16, word_BB4418, 0);
 
 void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
 {
@@ -1392,17 +1392,17 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
         {
             field_234_pStr = pDemosOrFmvs_BB4414.mDemoRec[idx].field_0_display_name;
             s32 textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
-            short nextTextXPos = 0;
+            s16 nextTextXPos = 0;
             if (textWidth >= 336)
             {
                 nextTextXPos = 16;
             }
             else
             {
-                nextTextXPos = static_cast<short>((368 - textWidth) / 2);
+                nextTextXPos = static_cast<s16>((368 - textWidth) / 2);
             }
 
-            const short textYPos = static_cast<short>((FP_GetExponent(field_254 + FP_FromDouble(0.5))) + 26 * loopCount + 117);
+            const s16 textYPos = static_cast<s16>((FP_GetExponent(field_254 + FP_FromDouble(0.5))) + 26 * loopCount + 117);
             if (loopCount)
             {
                 polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, textYPos, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_32, 210, 150, 80, polyIndex, FP_FromInteger(1), 640, 0);
@@ -1787,7 +1787,7 @@ void MainMenuController::Page_Front_Render_4D24B0(PrimHeader** ot)
     RenderOnScreenTextHelper(ot, &sMMT_FrontPage_5623A0[0], ALIVE_COUNTOF(sMMT_FrontPage_5623A0), 1);
 }
 
-ALIVE_VAR(1, 0xbb43dc, short, word_BB43DC, 0);
+ALIVE_VAR(1, 0xbb43dc, s16, word_BB43DC, 0);
 ALIVE_VAR(1, 0x5c1b88, s32, sGameStartedFrame_5C1B88, 0);
 
 MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
@@ -2107,7 +2107,7 @@ char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
 
 // true if demo was started manually from the demos menu,
 // false if demo was started automatically due to idling
-ALIVE_VAR(1, 0x5C1B9C, short, gIsDemoStartedManually_5C1B9C, FALSE);
+ALIVE_VAR(1, 0x5C1B9C, s16, gIsDemoStartedManually_5C1B9C, FALSE);
 
 ALIVE_VAR(1, 0x5C1BA2, u8, sCurrentDemoIdForIdlingDemoPlayback_5C1BA2, 0);
 MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(DWORD)
@@ -2957,11 +2957,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 22)
             {
                 field_240_credits_current_cam = 1;
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<short>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, static_cast<short>(currentCam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, static_cast<s16>(currentCam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             }
         }
         else
@@ -2972,7 +2972,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
                 gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 return;
             }
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<short>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
         }
     }
 }
@@ -3046,7 +3046,7 @@ void MainMenuController::HandleMainMenuUpdate()
                             field_1FC_button_index--;
                             if (field_1FC_button_index < 0)
                             {
-                                short lastIndex = 0;
+                                s16 lastIndex = 0;
                                 while (btnArray[lastIndex].field_0_type == MainMenuButtonType::eCircularSelectableButton)
                                 {
                                     lastIndex++;
@@ -3114,7 +3114,7 @@ void MainMenuController::HandleMainMenuUpdate()
             return;
         }
 
-        field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pageUpdateReturnedCam.page_update_camera));
+        field_218_target_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(pageUpdateReturnedCam.page_update_camera));
         field_21A_target_button_index = pageUpdateReturnedCam.button_idx_to_highlight;
 
         // Originally was:
@@ -3125,7 +3125,7 @@ void MainMenuController::HandleMainMenuUpdate()
     else
     {
         field_1F8_page_timeout = 0;
-        field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pPage->field_8_next_idx));
+        field_218_target_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(pPage->field_8_next_idx));
         field_21A_target_button_index = pPage->field_C_initial_button_idx_to_highlight;
         field_21C_bDoScreenTransistionEffect = pPage->field_A_transition_effect;
     }
@@ -3456,7 +3456,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             //if (field_1FC_button_index == NO_SELECTABLE_BUTTONS)
             //{
                 //MainMenuButton* pButtonsIter = targetPage.field_18_buttons;
-                //short useButtonIdx = 0;
+                //s16 useButtonIdx = 0;
                 //for (;;)
                 //{
                 //    // Last row of buttons, don't look further
@@ -3860,10 +3860,10 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
     const s32 array_field_x = array->field_0_x;
     const s32 array_field_y = array->field_4_y;
 
-    short text_xpos = 0;
+    s16 text_xpos = 0;
     if (array->field_C_align == 1)
     {
-        text_xpos = static_cast<short>(PsxToPCX(array_field_x));
+        text_xpos = static_cast<s16>(PsxToPCX(array_field_x));
     }
     else
     {
@@ -3873,7 +3873,7 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
         {
             halfFontWidth = -fontWidth;
         }
-        text_xpos = static_cast<short>(strlen(textBuffer) + PsxToPCX(halfFontWidth + array_field_x));
+        text_xpos = static_cast<s16>(strlen(textBuffer) + PsxToPCX(halfFontWidth + array_field_x));
     }
 
     const FP text_ypos = FP_FromInteger(-10) * fontScale; // -655360
@@ -3885,7 +3885,7 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
         ot,
         textBuffer,
         text_xpos,
-        static_cast<short>(FP_GetExponent(text_ypos) + array_field_y + 1),
+        static_cast<s16>(FP_GetExponent(text_ypos) + array_field_y + 1),
         TPageAbr::eBlend_0,
         1,
         0,

@@ -17,7 +17,7 @@ enum class DDCheatValueType : s32
 union DDCheatValue
 {
     s32* pInt;
-    short* pShort;
+    s16* pShort;
     FP* pFixedPoint;
 
     DDCheatValue()
@@ -30,7 +30,7 @@ union DDCheatValue
         pInt = v;
     }
 
-    DDCheatValue(short* v)
+    DDCheatValue(s16* v)
     {
         pShort = v;
     }
@@ -92,9 +92,9 @@ ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
 ALIVE_VAR_EXTERN(s32, gTweak_X_5076D8);
 ALIVE_VAR_EXTERN(s32, gTweak_Y_5076DC);
 
-ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
-ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
-ALIVE_VAR_EXTERN(short, showDebugCreatureInfo_5076E0);
-ALIVE_VAR_EXTERN(short, sDDCheat_FlyingEnabled_50771C);
+ALIVE_VAR_EXTERN(s16, sRescuedMudokons_5076C0);
+ALIVE_VAR_EXTERN(s16, sKilledMudokons_5076BC);
+ALIVE_VAR_EXTERN(s16, showDebugCreatureInfo_5076E0);
+ALIVE_VAR_EXTERN(s16, sDDCheat_FlyingEnabled_50771C);
 
 }

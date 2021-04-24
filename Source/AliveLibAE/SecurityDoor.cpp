@@ -129,8 +129,8 @@ SecurityDoor* SecurityDoor::vdtor_4AC230(s32 flags)
 
 s16 SecurityDoor::IsPlayerNear_4AC300()
 {
-    const short xpos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
-    const short ypos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
+    const s16 xpos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
+    const s16 ypos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
 
     if (xpos < field_11C_top_left.field_0_x || xpos > field_120_bottom_right.field_0_x)
     {
@@ -222,7 +222,7 @@ void SecurityDoor::vUpdate_4AC380()
 
     case SecurityDoorStates::ePreparingToSayPassword_5:
         field_128_max_idx = 0;
-        field_118_max_idx = static_cast<short>(GameSpeak::FillBuffer_421970(field_FC_code_converted, field_108_stru));
+        field_118_max_idx = static_cast<s16>(GameSpeak::FillBuffer_421970(field_FC_code_converted, field_108_stru));
         field_F8_state = SecurityDoorStates::eSayingPassword_6;
         return;
 
@@ -274,7 +274,7 @@ void SecurityDoor::vUpdate_4AC380()
                 field_104_event_idx = pEventSystem_5BC11C->field_28_last_event_index;
                 if (pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eNone_m1 && pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eSameAsLast_m2)
                 {
-                    field_11A_event_idx = static_cast<short>(pEventSystem_5BC11C->field_28_last_event_index);
+                    field_11A_event_idx = static_cast<s16>(pEventSystem_5BC11C->field_28_last_event_index);
                     field_F8_state = SecurityDoorStates::eCheckingIfPasswordMatches_10;
                 }
             }

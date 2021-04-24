@@ -298,8 +298,8 @@ void MeatSaw::VUpdate_4399D0()
         if (field_F4 <= 0)
         {
             field_E4_state = MeatSawStates::eIdle_0;
-            short minRnd = 0;
-            short maxRnd = 0;
+            s16 minRnd = 0;
+            s16 maxRnd = 0;
             if ((field_1A8_flags >> 2) & 1)
             {
                 maxRnd = field_FC_max_time_off2;

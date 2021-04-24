@@ -809,8 +809,8 @@ void Scrab::vUpdate_4A3530()
                 if (field_10C_health > FP_FromInteger(0) && !(static_cast<s32>(sGnFrame_5C1B84) % 4))
                 {
                     // Draw green particle
-                    short particleXRand = Math_RandomRange_496AB0(40, 50);
-                    const short particleYRand = Math_RandomRange_496AB0(45, 55);
+                    s16 particleXRand = Math_RandomRange_496AB0(40, 50);
+                    const s16 particleYRand = Math_RandomRange_496AB0(45, 55);
                     FP particleVelX = (FP_FromInteger(-7) * field_CC_sprite_scale);
                     FP particleVelY = (FP_FromDouble(0.3) * field_CC_sprite_scale);
 
@@ -1068,8 +1068,8 @@ s16 Scrab::AI_Patrol_0_4AA630()
 
         field_108_next_motion = eScrabMotions::M_Stand_0_4A8220;
 
-        short maxTimer = 0;
-        short minTimer = 0;
+        s16 maxTimer = 0;
+        s16 minTimer = 0;
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
             maxTimer = field_15A_left_max_delay;
@@ -3536,8 +3536,8 @@ void Scrab::PlatformCollide_4A7E50()
     PSX_RECT bRect = {};
     vGetBoundingRect_424FD0(&bRect, 1);
 
-    const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-    const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+    const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+    const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
     vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
 }
 

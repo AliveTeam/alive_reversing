@@ -145,7 +145,7 @@ void FartMachine::vRender_4133F0(PrimHeader** ppOt)
         char text[12] = {};
         sprintf(text, "%02d", field_144_total_brew_count);
         const s32 textWidth = field_104_font.MeasureWidth_433700(text);
-        short flickerAmount = 50;
+        s16 flickerAmount = 50;
         if (sDisableFontFlicker_5C9304)
         {
             flickerAmount = 0;

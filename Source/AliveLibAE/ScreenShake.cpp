@@ -92,8 +92,8 @@ EXPORT void ScreenShake::vRender_4AD120(PrimHeader** ppOt)
     Prim_ScreenOffset* pPrim = &field_20_screenOffset[gPsxDisplay_5C1130.field_C_buffer_index];
     if (field_40_shakeNumber < 14)
     {
-        short xoff = 0;
-        short yoff = 0;
+        s16 xoff = 0;
+        s16 yoff = 0;
 
         if (field_44_softerShakes)
         {

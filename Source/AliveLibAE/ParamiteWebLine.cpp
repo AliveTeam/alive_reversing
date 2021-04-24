@@ -130,9 +130,9 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     return this;
 }
 
-void ParamiteWebLine::Wobble_4E29D0(short ypos)
+void ParamiteWebLine::Wobble_4E29D0(s16 ypos)
 {
-    short yPosToUse = ypos;
+    s16 yPosToUse = ypos;
     if (ypos < field_F8_top)
     {
         yPosToUse = field_F8_top;
@@ -223,7 +223,7 @@ void ParamiteWebLine::vUpdate_4E2A50()
 
 PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, s32 /*idx*/)
 {
-    const short xpos = FP_GetExponent(field_B8_xpos);
+    const s16 xpos = FP_GetExponent(field_B8_xpos);
 
     pRect->x = xpos - 2;
     pRect->y = field_F8_top;
@@ -255,9 +255,9 @@ void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
     s16 render_ypos = field_FA_bottom;
     while (render_ypos > field_F8_top)
     {
-        short r = field_D0_r;
-        short g = field_D2_g;
-        short b = field_D4_b;
+        s16 r = field_D0_r;
+        s16 g = field_D2_g;
+        s16 b = field_D4_b;
 
         FP xVal = field_B8_xpos;
         if (field_104_wobble_idx != 0)
@@ -284,7 +284,7 @@ void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
             }
         }
 
-        const short render_xpos = FP_GetExponent(xVal);
+        const s16 render_xpos = FP_GetExponent(xVal);
         ShadowZone::ShadowZones_Calculate_Colour_463CE0(render_xpos, render_ypos, field_D6_scale, &r, &g, &b);
         field_FC_pRes[idx].field_8_r = static_cast<u8>(r);
         field_FC_pRes[idx].field_9_g = static_cast<u8>(g);

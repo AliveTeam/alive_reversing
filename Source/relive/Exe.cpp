@@ -46,7 +46,7 @@ namespace AutoSplitterData
         u32* gnFrame;      // 4
         AO::Abe** pAbe;             // 5
         s32 abeYOffSet;             // 6
-        short* isGameRunning;       // 7
+        s16* isGameRunning;       // 7
         char* isGameBeaten;         // 8
     };
 
@@ -111,7 +111,7 @@ namespace AutoSplitterData
             &AO::LocalVar_gMap_507BA8.field_4_current_camera,
             &AO::LocalVar_gnFrameCount_507670,
             &AO::LocalVar_sActiveHero_507678,
-            offsetof(AO::Abe, field_AC_ypos) + sizeof(short), // +2 for exp only
+            offsetof(AO::Abe, field_AC_ypos) + sizeof(s16), // +2 for exp only
             &AO::LocalVar_sDisableFontFlicker_5080E4,
             &AO::LocalVar_sSwitchStates_505568.mData[70]
         };

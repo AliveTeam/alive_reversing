@@ -89,7 +89,7 @@ void ExplosionSet::Init_4151D0(Path_ExplosionSet* pTlv)
 
     if (!bEnabled_5C1BB6)
     {
-        bEnabled_5C1BB6 = static_cast<short>(pTlv->field_10_bStart_enabled);
+        bEnabled_5C1BB6 = static_cast<s16>(pTlv->field_10_bStart_enabled);
     }
 
     field_5C_flags.Set(Flags_5C::eBit3);
@@ -198,7 +198,7 @@ void ExplosionSet::vUpdate_414E30()
                 return;
             }
 
-            short xpos = 0;
+            s16 xpos = 0;
             if (field_5C_flags.Get(Flags_5C::eBit2_flipX))
             {
                 xpos = field_48_tlv_rect.w + field_48_tlv_rect.x - (field_46_spacing_multiplicator * field_5A_increasing_grid_spacing) - field_58_grid_spacing;

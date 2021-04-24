@@ -139,18 +139,18 @@ void ParamiteWeb::vRender_4E1BA0(PrimHeader** ppOt)
             const FP cam_y = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
             const FP cam_x = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
 
-            short minY = FP_GetExponent(FP_FromInteger(field_F8_ttl) - cam_y);
-            short maxY = FP_GetExponent(FP_FromInteger(field_FA_ttl_remainder) - cam_y);
+            s16 minY = FP_GetExponent(FP_FromInteger(field_F8_ttl) - cam_y);
+            s16 maxY = FP_GetExponent(FP_FromInteger(field_FA_ttl_remainder) - cam_y);
 
-            short ypos_int = FP_GetExponent(field_BC_ypos);
+            s16 ypos_int = FP_GetExponent(field_BC_ypos);
             if (ypos_int > field_FA_ttl_remainder)
             {
                 ypos_int = field_FA_ttl_remainder + (ypos_int - field_FA_ttl_remainder) % field_F6_segment_length;
             }
 
-            const short x_start = FP_GetExponent(field_B8_xpos - cam_x);
+            const s16 x_start = FP_GetExponent(field_B8_xpos - cam_x);
 
-            short y_start = FP_GetExponent((FP_FromInteger(ypos_int)) - cam_y);
+            s16 y_start = FP_GetExponent((FP_FromInteger(ypos_int)) - cam_y);
             if (y_start > 240)
             {
                 y_start = y_start % field_F6_segment_length + 240;
@@ -173,9 +173,9 @@ void ParamiteWeb::vRender_4E1BA0(PrimHeader** ppOt)
             {
                 for (s32 idx = 0; idx < field_F4_number_of_segments; ++idx)
                 {
-                    short r = 128;
-                    short g = 128;
-                    short b = 128;
+                    s16 r = 128;
+                    s16 g = 128;
+                    s16 b = 128;
                     ShadowZone::ShadowZones_Calculate_Colour_463CE0(FP_GetExponent(field_B8_xpos), ypos_int - (idx * field_F6_segment_length), field_D6_scale, &r, &g, &b);
                     field_100_pRes[idx].field_8_r = static_cast<u8>(r);
                     field_100_pRes[idx].field_9_g = static_cast<u8>(g);

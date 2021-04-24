@@ -43,13 +43,13 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 
     field_F4_bHitSomething &= ~1u;
 
-    short randLeftVol = Math_RandomRange_496AB0(19, 24);
+    s16 randLeftVol = Math_RandomRange_496AB0(19, 24);
     if (field_CC_sprite_scale == FP_FromDouble(0.5))
     {
         randLeftVol -= 7;
     }
 
-    const short randRightVol = Math_RandomRange_496AB0(-900, -700);
+    const s16 randRightVol = Math_RandomRange_496AB0(-900, -700);
     SFX_Play_46FBA0(SoundEffect::Leaf_22, (3 * randLeftVol) / 4, randRightVol);
     field_1C_update_delay = 1;
 

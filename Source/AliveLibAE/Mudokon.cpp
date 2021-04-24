@@ -32,7 +32,7 @@
 #include "LaughingGas.hpp"
 #include "Sys_common.hpp"
 
-ALIVE_VAR(1, 0x5C3012, short, sGoingToBirdPortalMudCount_5C3012, 0);
+ALIVE_VAR(1, 0x5C3012, s16, sGoingToBirdPortalMudCount_5C3012, 0);
 
 const TintEntry kMudTints_55C744[18] =
 {
@@ -598,8 +598,8 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
             vOnCollisionWith_424EE0(
-                { bRect.x, static_cast<short>(bRect.y + 5) },
-                { bRect.w, static_cast<short>(bRect.h + 5) },
+                { bRect.x, static_cast<s16>(bRect.y + 5) },
+                { bRect.w, static_cast<s16>(bRect.h + 5) },
                 ObjList_5C1B78,
                 1,
                 (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
@@ -660,8 +660,8 @@ const AnimId kMudFrameTableOffsets_55CD00[60] =
     AnimId::Mudokon_Unknown_T,     AnimId::Mudokon_Hit_Self,     AnimId::Mudokon_Wheel_Start,    AnimId::Mudokon_Wheel,    AnimId::Mudokon_Wheel_End
 };
 
-ALIVE_VAR(1, 0x5C3010, short, sAlertedMudCount_5C3010, 0);
-ALIVE_VAR(1, 0x5C3018, short, sIsMudStandingUp_5C3018, 0);
+ALIVE_VAR(1, 0x5C3010, s16, sAlertedMudCount_5C3010, 0);
+ALIVE_VAR(1, 0x5C3018, s16, sIsMudStandingUp_5C3018, 0);
 
 
 s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
@@ -1024,8 +1024,8 @@ void Mudokon::vUpdate_4757A0()
                 vGetBoundingRect_424FD0(&bRect, 1);
 
                 vOnCollisionWith_424EE0(
-                    { bRect.x, static_cast<short>(bRect.y + 5) },
-                    { bRect.w, static_cast<short>(bRect.h + 5) },
+                    { bRect.x, static_cast<s16>(bRect.y + 5) },
+                    { bRect.w, static_cast<s16>(bRect.h + 5) },
                     ObjList_5C1B78,
                     1,
                     (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
@@ -1231,7 +1231,7 @@ void Mudokon::vOnTlvCollision_476EA0(Path_TLV* pTlv)
     }
 }
 
-short Mudokon::FacingTarget_473140(BirdPortal* pTarget)
+s16 Mudokon::FacingTarget_473140(BirdPortal* pTarget)
 {
     if (pTarget->field_2C_xpos == field_B8_xpos)
     {
@@ -2122,7 +2122,7 @@ s16 Mudokon::AI_GiveRings_0_470C10()
 }
 
 const s16 kDelayTable_55CF7C[6] = { 0, 6, 12, 18, 24, 30, };
-ALIVE_VAR(1, 0x5C3014, short, sDelayIdx_5C3014, 0);
+ALIVE_VAR(1, 0x5C3014, s16, sDelayIdx_5C3014, 0);
 
 s16 Mudokon::AI_Chisel_1_47C5F0()
 {
@@ -4828,7 +4828,7 @@ s16 Mudokon::AI_ListeningToAbe_State_18()
         s16 v18 = GetAISubStateResponse_477AF0(field_17E_delayed_speak);
         if (field_188_pTblEntry->field_0_sound == MudSounds::eOops_14)
         {
-            field_194_timer = (short)(sGnFrame_5C1B84 + 20);
+            field_194_timer = (s16)(sGnFrame_5C1B84 + 20);
         }
         else
         {
@@ -5643,8 +5643,8 @@ void Mudokon::M_Idle_0_4724E0()
             vGetBoundingRect_424FD0(&bRect, 1);
 
             vOnCollisionWith_424EE0(
-                { bRect.x, static_cast<short>(bRect.y + 5) },
-                { bRect.w, static_cast<short>(bRect.h + 5) },
+                { bRect.x, static_cast<s16>(bRect.y + 5) },
+                { bRect.w, static_cast<s16>(bRect.h + 5) },
                 ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
         }
     }
@@ -6594,8 +6594,8 @@ void Mudokon::M_HoistLand_40_474780()
             field_106_current_motion = Mud_Motion::M_LandSoft1_41_474960;
             vGetBoundingRect_424FD0(&bRect, 1);
             vOnCollisionWith_424EE0(
-                { bRect.x, static_cast<short>(bRect.y + 5) },
-                { bRect.w, static_cast<short>(bRect.h + 5) },
+                { bRect.x, static_cast<s16>(bRect.y + 5) },
+                { bRect.w, static_cast<s16>(bRect.h + 5) },
                 ObjList_5C1B78,
                 1,
                 (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
@@ -7122,12 +7122,12 @@ void Mudokon::Sound_475EC0(MudSounds idx)
             return;
         }
 
-        short pitch1 = Math_RandomRange_496AB0(-5, 0);
+        s16 pitch1 = Math_RandomRange_496AB0(-5, 0);
         pitch1 *= 100;
         pitch1 = pitch1 - field_13C_voice_pitch;
         Mudokon_SFX_457EC0(MudSounds::eSick_24, Math_RandomRange_496AB0(20, 50), pitch1, this);
 
-        short pitch2 = Math_RandomRange_496AB0(-5, 0);
+        s16 pitch2 = Math_RandomRange_496AB0(-5, 0);
         pitch2 *= 100;
         pitch2 = pitch2 - field_13C_voice_pitch;
         Mudokon_SFX_457EC0(MudSounds::eSadUgh_28, Math_RandomRange_496AB0(20, 60), pitch2, this);
@@ -7138,12 +7138,12 @@ void Mudokon::Sound_475EC0(MudSounds idx)
     {
         if (idx == MudSounds::eSick_24)
         {
-            short pitch1 = Math_RandomRange_496AB0(-5, 0);
+            s16 pitch1 = Math_RandomRange_496AB0(-5, 0);
             pitch1 *= 100;
             pitch1 = pitch1 - field_13C_voice_pitch;
             Mudokon_SFX_457EC0(MudSounds::eSick_24, Math_RandomRange_496AB0(55, 90), pitch1, this);
 
-            short pitch2 = Math_RandomRange_496AB0(-5, 0);
+            s16 pitch2 = Math_RandomRange_496AB0(-5, 0);
             pitch2 *= 100;
             pitch2 = pitch2 - field_13C_voice_pitch;
             Mudokon_SFX_457EC0(MudSounds::eSadUgh_28, Math_RandomRange_496AB0(60, 110), pitch2, this);
@@ -7206,7 +7206,7 @@ s16 Mudokon::CanRespond_4770B0()
     return TRUE;
 }
 
-u8** Mudokon::AnimBlockForMotion_474DC0(short motion)
+u8** Mudokon::AnimBlockForMotion_474DC0(s16 motion)
 {
     if (motion < Mud_Motion::M_LeverUse_10_473020)
     {
@@ -7469,8 +7469,8 @@ void Mudokon::MoveOnLine_4720D0()
             vGetBoundingRect_424FD0(&bRect, 1);
 
             vOnCollisionWith_424EE0(
-                { bRect.x, static_cast<short>(bRect.y + 5) },
-                { bRect.w, static_cast<short>(bRect.h + 5) },
+                { bRect.x, static_cast<s16>(bRect.y + 5) },
+                { bRect.w, static_cast<s16>(bRect.h + 5) },
                 ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
         }
     }
@@ -7606,7 +7606,7 @@ void Mudokon::CheckKnockedOntoABomb_4723C0()
 void Mudokon::HurtSound_475DB0()
 {
     const u8 random = Math_RandomRange_496AB0(0, 127) >= 64 ? 16 : 9;
-    const short min = FP_GetExponent((FP_FromInteger(1) - field_10C_health) / FP_FromDouble(0.15));
+    const s16 min = FP_GetExponent((FP_FromInteger(1) - field_10C_health) / FP_FromDouble(0.15));
     const s16 bInCamera = gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0);
     Mudokon_SFX_457EC0(static_cast<MudSounds>(random), bInCamera ? 0 : 80, Math_RandomRange_496AB0(200 * min, 40 * (5 * min + 5)), this);
 }

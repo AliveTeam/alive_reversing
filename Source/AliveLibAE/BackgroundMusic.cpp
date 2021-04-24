@@ -6,7 +6,7 @@
 #include "stdlib.hpp"
 #include "PathData.hpp"
 
-ALIVE_VAR(1, 0x560f78, short, sBackgroundMusic_seq_id_560F78, -1);
+ALIVE_VAR(1, 0x560f78, s16, sBackgroundMusic_seq_id_560F78, -1);
 
 
 BackgroundMusic* BackgroundMusic::ctor_4CB110(s16 musicId)

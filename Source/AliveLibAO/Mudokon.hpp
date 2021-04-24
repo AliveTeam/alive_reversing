@@ -267,26 +267,26 @@ public:
     EXPORT void State_62_Choke_43ED70();
 
     // Brain states
-    EXPORT short Brain_ComingIn_0_441DE0();
-    EXPORT short Brain_ComingOut_1_441E90();
-    EXPORT short Brain_SingSequenceIdle_2_441CA0();
-    EXPORT short Brain_SingSequenceSing_3_441510();
-    EXPORT short Brain_SingSequencePassword_4_441260();
-    EXPORT short Brain_LiftUse_5_43C180();
-    EXPORT short Brain_LeverUse_6_43C250();
-    EXPORT short Brain_GiveRings_7_43C2F0();
-    EXPORT short Brain_StandScrub_8_441F40();
-    EXPORT short Brain_CrouchScrub_9_4422A0();
-    EXPORT short Brain_ListeningToAbe_10_440300();
-    EXPORT short Brain_ShrivelDeath_11_43C5F0();
-    EXPORT short Brain_Escape_12_440FD0();
-    EXPORT short Brain_FallAndSmackDeath_13_43C700();
-    EXPORT short Brain_Chant_14_442710();
-    EXPORT short Brain_Choke_15_43C5D0();
+    EXPORT s16 Brain_ComingIn_0_441DE0();
+    EXPORT s16 Brain_ComingOut_1_441E90();
+    EXPORT s16 Brain_SingSequenceIdle_2_441CA0();
+    EXPORT s16 Brain_SingSequenceSing_3_441510();
+    EXPORT s16 Brain_SingSequencePassword_4_441260();
+    EXPORT s16 Brain_LiftUse_5_43C180();
+    EXPORT s16 Brain_LeverUse_6_43C250();
+    EXPORT s16 Brain_GiveRings_7_43C2F0();
+    EXPORT s16 Brain_StandScrub_8_441F40();
+    EXPORT s16 Brain_CrouchScrub_9_4422A0();
+    EXPORT s16 Brain_ListeningToAbe_10_440300();
+    EXPORT s16 Brain_ShrivelDeath_11_43C5F0();
+    EXPORT s16 Brain_Escape_12_440FD0();
+    EXPORT s16 Brain_FallAndSmackDeath_13_43C700();
+    EXPORT s16 Brain_Chant_14_442710();
+    EXPORT s16 Brain_Choke_15_43C5D0();
 
     s32 field_10C;
-    short field_110;
-    short field_112;
+    s16 field_110;
+    s16 field_112;
     s32 field_114;
     s32 field_118;
     FP field_11C;

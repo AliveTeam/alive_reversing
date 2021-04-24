@@ -13,7 +13,7 @@
 
 namespace AO {
 
-const short xPositionDeltaEntries_4CF8E0[39] =
+const s16 xPositionDeltaEntries_4CF8E0[39] =
 {
     1,
     0,

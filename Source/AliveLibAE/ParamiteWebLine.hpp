@@ -16,7 +16,7 @@ class ParamiteWebLine : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT ParamiteWebLine* ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tlvInfo);
 
-    EXPORT void Wobble_4E29D0(short ypos);
+    EXPORT void Wobble_4E29D0(s16 ypos);
 
     virtual void VUpdate() override;
 

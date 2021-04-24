@@ -38,7 +38,7 @@ public:
 
     EXPORT static void CC static_dtor_41C020();
 
-    EXPORT void LoadFontType_41C040(short resourceID);
+    EXPORT void LoadFontType_41C040(s16 resourceID);
 
 
     EXPORT void dtor_41C110();
@@ -78,7 +78,7 @@ public:
 ALIVE_ASSERT_SIZEOF(AliveFont, 0x38);
 
 ALIVE_VAR_EXTERN(FontContext, sFontContext_4FFD68);
-ALIVE_VAR_EXTERN(short, sDisableFontFlicker_5080E4);
+ALIVE_VAR_EXTERN(s16, sDisableFontFlicker_5080E4);
 ALIVE_VAR_EXTERN(u8, sFontDrawScreenSpace_508BF4);
 
 }

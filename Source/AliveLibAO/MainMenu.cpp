@@ -31,7 +31,7 @@ namespace AO {
 const s32 dword_4BB1B8[4] = { 6152, 6140, 6164, 0 };
 
 // TODO: Move out
-ALIVE_VAR(1, 0x507690, short, sSoundMono_507690, 0);
+ALIVE_VAR(1, 0x507690, s16, sSoundMono_507690, 0);
 
 // TODO: Move out
 EXPORT void SND_Set_Mono_477020()
@@ -47,7 +47,7 @@ EXPORT void SND_Set_Stereo_477030()
     sSoundMono_507690 = 0;
 }
 
-ALIVE_VAR(1, 0x9F2DE8, short, bWaitingForRemapInput_9F2DE8, 0);
+ALIVE_VAR(1, 0x9F2DE8, s16, bWaitingForRemapInput_9F2DE8, 0);
 
 struct Buttons
 {
@@ -200,12 +200,12 @@ struct SaveName
 
 ALIVE_ARY(1, 0x9F1DD8, SaveName, 128, sSaveNames_9F1DD8, {}); // Got more than 128 saves? Hard luck mate
 
-ALIVE_VAR(1, 0x507694, short, gDemoPlay_507694, 0);
+ALIVE_VAR(1, 0x507694, s16, gDemoPlay_507694, 0);
 ALIVE_VAR(1, 0x50769C, u8, sJoyResId_50769C, 0);
 
 ALIVE_VAR(1, 0x9F2DE0, s32, gMainMenuInstanceCount_9F2DE0, 0);
-ALIVE_VAR(1, 0x507688, short, sFontLoaded_507688, 0);
-ALIVE_VAR(1, 0x4D0228, short, sListCount_4D0228, -1);
+ALIVE_VAR(1, 0x507688, s16, sFontLoaded_507688, 0);
+ALIVE_VAR(1, 0x4D0228, s16, sListCount_4D0228, -1);
 
 // The total number of valid controllers - includes the keyboard as well
 ALIVE_VAR(1, 0x4CE598, s32, sAvailableControllers_4CE598, 0);
@@ -700,7 +700,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
 
         SetXY0(pPoly, field_23E_width, field_240_k120);
         SetXY1(pPoly, x0, y0);
-        SetXY2(pPoly, static_cast<short>(x1), static_cast<short>(y1));
+        SetXY2(pPoly, static_cast<s16>(x1), static_cast<s16>(y1));
 
         OrderingTable_Add_498A80(OtLayer(ppOt, field_23C_layer), &pPoly->mBase.header);
     }
@@ -1103,7 +1103,7 @@ void Menu::FMV_Select_Update_47E8D0()
                     // The credits are re-done in this class rather than using CreditsController... go to the Sherry credit screen
                     field_208_camera = 1;
                     pScreenManager_4FF7C8->UnsetDirtyBits_FG1_406EF0();
-                    gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<short>(field_208_camera), CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<s16>(field_208_camera), CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                     field_1CC_fn_update = &Menu::To_Credits_Update_47F140;
                     field_1D0_fn_render = &Menu::Empty_Render_47AC80;
                 }
@@ -1231,18 +1231,18 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
         {
             field_1F4_text = sActiveList_9F2DE4[itemIdx].field_0_name;
             const s32 textWidth = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
-            short textXOff = 0;
+            s16 textXOff = 0;
             if (textWidth >= 336)
             {
                 textXOff = 16;
             }
             else
             {
-                textXOff = static_cast<short>((368 - textWidth) / 2);
+                textXOff = static_cast<s16>((368 - textWidth) / 2);
             }
 
-            const short textYPos = static_cast<short>((FP_GetExponent(field_21C + FP_FromDouble(0.5))) + textYOff + 114);
-            const short textXPos = textXOff + 6;
+            const s16 textYPos = static_cast<s16>((FP_GetExponent(field_21C + FP_FromDouble(0.5))) + textYOff + 114);
+            const s16 textXPos = textXOff + 6;
             polyOffset = field_FC_font.DrawString_41C360(
                 ppOt,
                 field_1F4_text,
@@ -1871,7 +1871,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
     {
         if (field_228 != FP_FromInteger(0))
         {
-            field_1E0_selected_index = static_cast<short>(sSelectedSaveIdx_9F2DDC);
+            field_1E0_selected_index = static_cast<s16>(sSelectedSaveIdx_9F2DDC);
         }
         else
         {
@@ -1920,18 +1920,18 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
             field_1F4_text = sSaveNames_9F1DD8[curIdx].field_0_mName;
 
             const auto name_width = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
-            short text_x = 0;
+            s16 text_x = 0;
             if (name_width >= 336)
             {
                 text_x = 16;
             }
             else
             {
-                text_x = static_cast<short>((368 - name_width) / 2);
+                text_x = static_cast<s16>((368 - name_width) / 2);
             }
 
             const s32 yAdjust = (FP_GetExponent(field_228 + FP_FromDouble(0.5))) + 26 * start + 120;
-            const short text_y = static_cast<short>((yAdjust + FP_GetExponent(FP_FromInteger(-7) * FP_FromInteger(1))) - 1);
+            const s16 text_y = static_cast<s16>((yAdjust + FP_GetExponent(FP_FromInteger(-7) * FP_FromInteger(1))) - 1);
 
             u8 r = 210;
             u8 g = 150;
@@ -2267,7 +2267,7 @@ void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
             field_228 = FP_FromInteger(0);
             field_1CC_fn_update = &Menu::To_Options_Controller_Update_47F2E0;
             field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
-            field_1E0_selected_index = static_cast<short>(Input_JoyStickEnabled());
+            field_1E0_selected_index = static_cast<s16>(Input_JoyStickEnabled());
             field_230_bGoBack = -1;
             field_22C = FP_FromInteger(0);
             break;
@@ -2307,7 +2307,7 @@ void Menu::To_Options_Controller_Update_47F2E0()
             field_1CC_fn_update = &Menu::Options_Controller_Update_47F210;
             field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
             field_1DC_idle_input_counter = 0;
-            field_1E0_selected_index = static_cast<short>(Input_JoyStickEnabled());
+            field_1E0_selected_index = static_cast<s16>(Input_JoyStickEnabled());
             field_228 = FP_FromInteger(0);
         }
     }
@@ -2343,7 +2343,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
     {
         if (field_228 > FP_FromInteger(0))
         {
-            field_1E0_selected_index = static_cast<short>(Input_JoyStickEnabled());
+            field_1E0_selected_index = static_cast<s16>(Input_JoyStickEnabled());
         }
         else
         {
@@ -2380,9 +2380,9 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
                 field_1F4_text = "Gamepad";
             }
 
-            const short fontWidth = static_cast<short>(field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1)));
-            const short x = static_cast<short>(fontWidth >= 336 ? 16 : (368 - fontWidth) / 2);
-            const short y = static_cast<short>(FP_GetExponent(field_228 + FP_FromDouble(0.5)) + yOffset + 112);
+            const s16 fontWidth = static_cast<s16>(field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1)));
+            const s16 x = static_cast<s16>(fontWidth >= 336 ? 16 : (368 - fontWidth) / 2);
+            const s16 y = static_cast<s16>(FP_GetExponent(field_228 + FP_FromDouble(0.5)) + yOffset + 112);
 
             polyOffset = field_FC_font.DrawString_41C360(
                 ppOt,
@@ -3136,14 +3136,14 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             field_1F4_text = "Press key to use";
         }
         s32 fontWidth = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
-        short calculatedXposBasedOnWidth = 0;
+        s16 calculatedXposBasedOnWidth = 0;
         if (fontWidth >= maxFontWidth)
         {
             calculatedXposBasedOnWidth = 16;
         }
         else
         {
-            calculatedXposBasedOnWidth = static_cast<short>((368 - fontWidth) / 2);
+            calculatedXposBasedOnWidth = static_cast<s16>((368 - fontWidth) / 2);
         }
         s32 drawnStringOffset = field_FC_font.DrawString_41C360(
             ppOt,
@@ -3167,14 +3167,14 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
         sprintf(buffer, "for %s", inputActions_4D0070[field_1E0_selected_index]);
         field_1F4_text = buffer;
         auto fontWidth2 = field_FC_font.MeasureWidth_41C280(buffer, FP_FromInteger(1));
-        short calculatedXposBasedOnWidth2 = 0;
+        s16 calculatedXposBasedOnWidth2 = 0;
         if (fontWidth2 >= maxFontWidth)
         {
             calculatedXposBasedOnWidth2 = 16;
         }
         else
         {
-            calculatedXposBasedOnWidth2 = static_cast<short>((368 - fontWidth2) / 2);
+            calculatedXposBasedOnWidth2 = static_cast<s16>((368 - fontWidth2) / 2);
         }
         polyOffset = field_FC_font.DrawString_41C360(
             ppOt,
@@ -3195,14 +3195,14 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
         );
         field_1F4_text = "or Esc for none";
         auto fontWidth3 = field_FC_font.MeasureWidth_41C280("or Esc for none", FP_FromInteger(1));
-        short calculatedXposBasedOnWidth3 = 0;
+        s16 calculatedXposBasedOnWidth3 = 0;
         if (fontWidth3 >= maxFontWidth)
         {
             calculatedXposBasedOnWidth3 = 16;
         }
         else
         {
-            calculatedXposBasedOnWidth3 = static_cast<short>((368 - fontWidth3) / 2);
+            calculatedXposBasedOnWidth3 = static_cast<s16>((368 - fontWidth3) / 2);
         }
         polyOffset = field_FC_font.DrawString_41C360(
             ppOt,
@@ -3407,7 +3407,7 @@ void Menu::SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt)
     // give people a clue about what broke.
     const char* kErrStr = "Error loading save file";
 
-    short xpos = 16;
+    s16 xpos = 16;
     const s32 fontWidth = field_FC_font.MeasureWidth_41C2B0(kErrStr);
     const s32 drawWidth = field_FC_font.DrawString_41C360(
         ppOt,
@@ -3501,7 +3501,7 @@ void Menu::Credits_Update_47F190()
         else
         {
             // Next credits screen
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<short>(field_208_camera), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<s16>(field_208_camera), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             field_1D8_timer = gnFrameCount_507670 + 60;
         }
     }
@@ -3869,8 +3869,8 @@ void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHe
     }
 
     const s32 text_width = pFont->MeasureWidth_41C280(text, scale_fp);
-    const short text_y = static_cast<short>(ypos + FP_GetExponent((FP_FromInteger(-9) * scale_fp)) + 1);
-    const short converted_x = static_cast<short>(PsxToPCX(xpos - text_width / 2, 11));
+    const s16 text_y = static_cast<s16>(ypos + FP_GetExponent((FP_FromInteger(-9) * scale_fp)) + 1);
+    const s16 converted_x = static_cast<s16>(PsxToPCX(xpos - text_width / 2, 11));
 
     const u8 bOldValue = sFontDrawScreenSpace_508BF4;
     sFontDrawScreenSpace_508BF4 = 1;

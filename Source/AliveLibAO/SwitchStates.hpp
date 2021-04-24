@@ -10,7 +10,7 @@ struct SwitchStates
 };
 
 void SwitchStates_Set(u16 idx, char value);
-short SwitchStates_Get(u16 idx);
+s16 SwitchStates_Get(u16 idx);
 
 enum class SwitchOp : s16
 {

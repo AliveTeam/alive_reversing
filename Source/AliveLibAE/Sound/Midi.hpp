@@ -23,7 +23,7 @@ public:
     virtual s16& sSeqsPlaying_count_word() = 0;
     virtual SoundBlockInfo*& sLastLoadedSoundBlockInfo() = 0;
     virtual s16& sSFXPitchVariationEnabled() = 0;
-    virtual short& sNeedToHashSeqNames() = 0;
+    virtual s16& sNeedToHashSeqNames() = 0;
     virtual SoundBlockInfo& sMonkVh_Vb() = 0;
     virtual s32 MidiTableSize() = 0;
 

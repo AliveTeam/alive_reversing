@@ -49,7 +49,7 @@ ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tl
     return this;
 }
 
-void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, short* r, short* g, short* b)
+void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
 {
     for (s32 idx = 0; idx < sShadowZone_dArray_507B08->Size(); idx++)
     {
@@ -64,7 +64,7 @@ void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 
              FP amount = {};
              
              // TODO: This was probably a reference, refactor later
-             pShadow->GetColourAmount_435E40(&amount, static_cast<short>(xpos), static_cast<short>(ypos));
+             pShadow->GetColourAmount_435E40(&amount, static_cast<s16>(xpos), static_cast<s16>(ypos));
 
             *r = FP_GetExponent(FP_FromInteger(*r) + (pShadow->field_28_r * amount));
             *b = FP_GetExponent(FP_FromInteger(*b) + (pShadow->field_30_b * amount));

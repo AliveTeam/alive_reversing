@@ -19,10 +19,10 @@ ALIVE_VAR(1, 0x5009E0, DynamicArrayT<ResourceManager::ResourceManager_FileRecord
 ALIVE_VAR(1, 0x9F0E48, DWORD, sManagedMemoryUsedSize_9F0E48, 0);
 ALIVE_VAR(1, 0x9F0E4C, DWORD, sPeakedManagedMemUsage_9F0E4C, 0);
 
-ALIVE_VAR(1, 0x5076A0, short, bHideLoadingIcon_5076A0, 0);
+ALIVE_VAR(1, 0x5076A0, s16, bHideLoadingIcon_5076A0, 0);
 ALIVE_VAR(1, 0x5076A4, s32, loading_ticks_5076A4, 0);
-ALIVE_VAR(1, 0x9F0E38, short, sResources_Pending_Loading_9F0E38, 0);
-ALIVE_VAR(1, 0x9F0E50, short, sAllocationFailed_9F0E50, 0);
+ALIVE_VAR(1, 0x9F0E38, s16, sResources_Pending_Loading_9F0E38, 0);
+ALIVE_VAR(1, 0x9F0E50, s16, sAllocationFailed_9F0E50, 0);
 
 
 
@@ -46,7 +46,7 @@ EXPORT void CC Odd_Sleep_48DD90(DWORD /*dwMilliseconds*/)
 }
 
 ALIVE_VAR(1, 0x507714, s32, gFilesPending_507714, 0);
-ALIVE_VAR(1, 0x50768C, short, bLoadingAFile_50768C, 0);
+ALIVE_VAR(1, 0x50768C, s16, bLoadingAFile_50768C, 0);
 
 // TODO: Rename to "LoadingFile"
 class ResourceManager_FileRecord_Unknown : public BaseGameObject

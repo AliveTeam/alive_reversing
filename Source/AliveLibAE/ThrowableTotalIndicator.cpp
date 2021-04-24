@@ -256,7 +256,7 @@ void ThrowableTotalIndicator::vUpdate_431EA0()
             field_28_cur_xpos = field_20_xpos - (FP_FromInteger(12) * Math_Sine_496DD0(static_cast<u8>(2 * sGnFrame_5C1B84)));
             field_2C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_496CD0(static_cast<u8>(2 * sGnFrame_5C1B84))) + field_24_ypos;
 
-            const short rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_496DD0(static_cast<u8>(3 * sGnFrame_5C1B84))) + 80;
+            const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_496DD0(static_cast<u8>(3 * sGnFrame_5C1B84))) + 80;
 
             field_42_r = rgb;
             field_44_g = rgb;
@@ -312,10 +312,10 @@ void ThrowableTotalIndicator::vRender_432070(PrimHeader** ppOt)
     const FP camX = FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
     const FP camY = FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
 
-    short xpos = 0;
-    short ypos = 0;
+    s16 xpos = 0;
+    s16 ypos = 0;
 
-    for (short counter = 0; counter < kNumbersArray_551B20[field_48_num_to_show][0]; counter++)
+    for (s16 counter = 0; counter < kNumbersArray_551B20[field_48_num_to_show][0]; counter++)
     {
         // return static_cast<T>(((40 * x) + 11) / 23);
         // Can't use PsxToPCX as this deals with FP's and it adds 11 before the divide ??

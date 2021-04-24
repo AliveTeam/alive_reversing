@@ -13,7 +13,7 @@
 #include "Function.hpp"
 
 struct Colour {
-    short r, g, b;
+    s16 r, g, b;
 };
 
 constexpr Colour greenFart = { 32, 128, 32 };

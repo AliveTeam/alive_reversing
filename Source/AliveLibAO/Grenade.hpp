@@ -36,7 +36,7 @@ private:
     EXPORT s16 VCanThrow_453EC0();
 
 public:
-    enum class States : short
+    enum class States : s16
     {
         eFallingToBeCollected_0 = 0,
         eWaitToBeCollected_1 = 1,
@@ -58,7 +58,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Grenade, 0x128);
 
-ALIVE_VAR_EXTERN(short, gInfiniteGrenades_5076EC);
+ALIVE_VAR_EXTERN(s16, gInfiniteGrenades_5076EC);
 
 }
 

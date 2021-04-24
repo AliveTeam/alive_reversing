@@ -10,7 +10,7 @@
 #include "Abe.hpp"
 #include "stdlib.hpp"
 
-ALIVE_VAR(1, 0x5bc112, short, bTheOneControllingTheMusic_5BC112, 0);
+ALIVE_VAR(1, 0x5bc112, s16, bTheOneControllingTheMusic_5BC112, 0);
 
 ALIVE_VAR(1, 0x5BC100, DynamicArrayT<Dove>, gDovesArray_5BC100, {});
 ALIVE_VAR(1, 0x5BC110, u8, byte_5BC110, 0);
@@ -253,8 +253,8 @@ void Dove::FlyAway_420020(BOOL spookedInstantly)
 ALIVE_VAR(1, 0x5BC10C, s32, bExtraSeqStarted_5BC10C, 0);
 
 static s32 sAbePortalTimer_5BC114 = 0;
-static short sAbePortalDirection_551546 = 0;
-static short sAbePortalWidth_551544 = 0;
+static s16 sAbePortalDirection_551546 = 0;
+static s16 sAbePortalWidth_551544 = 0;
 
 void Dove::vUpdate_41FAE0()
 {

@@ -77,7 +77,7 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT void CreatePulleyIfExists_435AE0(short camX, short camY);
+    EXPORT void CreatePulleyIfExists_435AE0(s16 camX, s16 camY);
 
     s16 field_12C_bMoving;
     s16 field_12E;
@@ -91,7 +91,7 @@ public:
     s16 field_26E_pulley_ypos;
     FP field_270_floorYLevel;
     u8** field_274_ppRes;
-    short field_278_point_id;
+    s16 field_278_point_id;
     BitField16<Flags> field_27A_flags;
 };
 

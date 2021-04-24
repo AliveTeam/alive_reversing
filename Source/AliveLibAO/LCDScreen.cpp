@@ -397,7 +397,7 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
             0,
             0,
             640,
-            static_cast<short>(gPsxDisplay_504C78.field_2_height)
+            static_cast<s16>(gPsxDisplay_504C78.field_2_height)
         };
 
         auto* pClippers = &field_10_prim_clippers[0][gPsxDisplay_504C78.field_A_buffer_index];
@@ -421,8 +421,8 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
         field_60_font.DrawString_41C360(
             ppOt,
             field_A0_message,
-            static_cast<short>(PsxToPCX(screenX, 11) - field_2B0_x_offset),
-            static_cast<short>(screenY),
+            static_cast<s16>(PsxToPCX(screenX, 11) - field_2B0_x_offset),
+            static_cast<s16>(screenY),
             TPageAbr::eBlend_1,
             1,
             0,
@@ -439,9 +439,9 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
 
         PSX_RECT clipRect2 = {};
 
-        clipRect2.x = static_cast<short>(PsxToPCX(screenX, 11));
-        clipRect2.y = static_cast<short>(screenY - 12);
-        clipRect2.w = static_cast<short>(PsxToPCX(maxWidth - screenX, 51));
+        clipRect2.x = static_cast<s16>(PsxToPCX(screenX, 11));
+        clipRect2.y = static_cast<s16>(screenY - 12);
+        clipRect2.w = static_cast<s16>(PsxToPCX(maxWidth - screenX, 51));
         clipRect2.h = 48;
 
         auto* clipper = &field_10_prim_clippers[1][gPsxDisplay_504C78.field_A_buffer_index];

@@ -327,7 +327,7 @@ const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10]
 };
 
 ALIVE_VAR(1, 0x507BA8, Map, gMap_507BA8, {});
-ALIVE_VAR(1, 0x507C9C, short, sMap_bDoPurpleLightEffect_507C9C, 0);
+ALIVE_VAR(1, 0x507C9C, s16, sMap_bDoPurpleLightEffect_507C9C, 0);
 ALIVE_VAR(1, 0x507CA0, s32, gSndChannels_507CA0, 0);
 
 void Map::ctor_static_443E10()
@@ -892,7 +892,7 @@ void Map::SaveBlyData_446900(u8* pSaveBuffer)
     memcpy(pSaveBuffer, sSwitchStates_505568.mData, sizeof(sSwitchStates_505568.mData));
 
     u8* pAfterSwitchStates = pSaveBuffer + sizeof(sSwitchStates_505568.mData);
-    for (short i = 1; i <= gMapData_4CAB58.paths[static_cast<s32>(field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= gMapData_4CAB58.paths[static_cast<s32>(field_0_current_level)].field_18_num_paths; i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
         if (pPathRec->field_0_blyName)
@@ -948,7 +948,7 @@ void Map::RestoreBlyData_446A90(const u8* pSaveData)
     memcpy(sSwitchStates_505568.mData, pSaveData, sizeof(sSwitchStates_505568.mData));
     const u8* pAfterSwitchStates = pSaveData + sizeof(sSwitchStates_505568.mData);
 
-    for (short i = 1; i <= gMapData_4CAB58.paths[static_cast<s32>(field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= gMapData_4CAB58.paths[static_cast<s32>(field_0_current_level)].field_18_num_paths; i++)
     {
         auto ppPathRes = field_5C_path_res_array.field_0_pPathRecs[i];
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
@@ -1507,7 +1507,7 @@ void Map::sub_447430(u16 pathNum)
 
 Path_TLV* Map::TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, s32 camX)
 {
-    Path_TLV* pTlvIter = Get_First_TLV_For_Offsetted_Camera_4463B0(static_cast<short>(camX), 0);
+    Path_TLV* pTlvIter = Get_First_TLV_For_Offsetted_Camera_4463B0(static_cast<s16>(camX), 0);
     if (!pTlvIter)
     {
         return nullptr;
@@ -1822,8 +1822,8 @@ void Map::GoTo_Camera_445050()
         }
     }
 
-    const auto camX_idx = static_cast<short>(camIdx % field_24_max_cams_x);
-    const auto camY_idx = static_cast<short>(camIdx / field_24_max_cams_x);
+    const auto camX_idx = static_cast<s16>(camIdx % field_24_max_cams_x);
+    const auto camY_idx = static_cast<s16>(camIdx / field_24_max_cams_x);
 
     field_20_camX_idx = camX_idx;
     field_22_camY_idx = camY_idx;
@@ -1938,7 +1938,7 @@ void Map::GoTo_Camera_445050()
 
     if (field_10_screenChangeEffect == CameraSwapEffects::eEffect11)
     {
-        pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<unsigned short**>(field_34_camera_array[0]->field_C_ppBits));
+        pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<u16**>(field_34_camera_array[0]->field_C_ppBits));
         pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, 240);
         pScreenManager_4FF7C8->MoveImage_406C40();
         pScreenManager_4FF7C8->field_36_flags = (pScreenManager_4FF7C8->field_36_flags & ~1) ^ 1;
@@ -1961,8 +1961,8 @@ void Map::GoTo_Camera_445050()
             pCameraSwapperMem->ctor_48C7A0(
                 field_34_camera_array[0]->field_C_ppBits,
                 field_10_screenChangeEffect,
-                static_cast<short>(xpos),
-                static_cast<short>(ypos));
+                static_cast<s16>(xpos),
+                static_cast<s16>(ypos));
         }
         else
         {
@@ -2006,7 +2006,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
                     data.parts.pathId = static_cast<u8>(field_2_current_path);
 
                     // Call the factory to construct the item
-                    field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<short>(pPathTLV->field_4_type.mType)](pPathTLV, this, data, loadMode);
+                    field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<s16>(pPathTLV->field_4_type.mType)](pPathTLV, this, data, loadMode);
 
                     if (loadMode == LoadMode::Mode_0)
                     {

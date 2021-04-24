@@ -152,7 +152,7 @@ public:
 
     EXPORT BaseGameObject* dtor_base_416FE0();
 
-    EXPORT u8** GetResBlock_410D00(short currentMotion);
+    EXPORT u8** GetResBlock_410D00(s16 currentMotion);
 
     EXPORT void MidWalkToNextMotion_412FA0();
 

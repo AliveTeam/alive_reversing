@@ -458,8 +458,8 @@ void Grenade::vUpdate_4489C0()
                 PSX_RECT bRect = {};
                 vGetBoundingRect_424FD0(&bRect, 1);
 
-                const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-                const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+                const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+                const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
                 vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Grenade::OnCollision_BounceOff_448F90);
             }
         }
@@ -504,8 +504,8 @@ void Grenade::vUpdate_4489C0()
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
 
-        const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-        const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+        const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+        const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
         vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Grenade::OnCollision_InstantExplode_4490D0);
 
         if (field_134_bExplodeNow)
@@ -568,7 +568,7 @@ s16 Grenade::InTheAir_4484F0(s16 blowUpOnFloorTouch)
             field_B8_xpos = hitX;
             field_BC_ypos = hitY;
             field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
-            short vol = 75 - 20 * field_124;
+            s16 vol = 75 - 20 * field_124;
             if (vol < 40)
             {
                 vol = 40;
@@ -602,7 +602,7 @@ s16 Grenade::InTheAir_4484F0(s16 blowUpOnFloorTouch)
 
             if (field_124 <= 4)
             {
-                short vol = 75 - 20 * field_124;
+                s16 vol = 75 - 20 * field_124;
                 if (vol < 40)
                 {
                     vol = 40;
@@ -637,7 +637,7 @@ s16 Grenade::InTheAir_4484F0(s16 blowUpOnFloorTouch)
                 field_BC_ypos = hitY;
                 field_B8_xpos = hitX;
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
-                short vol = 75 - 20 * field_124;
+                s16 vol = 75 - 20 * field_124;
                 if (vol < 40)
                 {
                     vol = 40;
@@ -656,7 +656,7 @@ s16 Grenade::InTheAir_4484F0(s16 blowUpOnFloorTouch)
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
-                short vol = 75 - 20 * field_124;
+                s16 vol = 75 - 20 * field_124;
                 if (vol < 40)
                 {
                     vol = 40;

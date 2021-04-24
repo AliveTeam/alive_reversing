@@ -348,18 +348,18 @@ void MotionDetector::VRender_438250(PrimHeader** ppOt)
 
     if (!SwitchStates_Get(field_F0_disable_id))
     {
-        const short screen_top =  FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+        const s16 screen_top =  FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
     
-        const short screen_left = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+        const s16 screen_left = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
 
         PSX_RECT bLaserRect = {};
         field_108_pLaser->VGetBoundingRect(&bLaserRect, 1);
 
-        const short x0 = static_cast<short>(PsxToPCX(FP_GetExponent(field_A8_xpos) - screen_left, 11));
-        const short y0 = FP_GetExponent(field_AC_ypos) - screen_top;
-        const short y1 = FP_GetExponent(field_108_pLaser->field_AC_ypos) - screen_top;
-        const short y2 = y1 + bLaserRect.y - bLaserRect.h;
-        const short x1 = static_cast<short>(PsxToPCX(FP_GetExponent(field_108_pLaser->field_A8_xpos) - screen_left, 11));
+        const s16 x0 = static_cast<s16>(PsxToPCX(FP_GetExponent(field_A8_xpos) - screen_left, 11));
+        const s16 y0 = FP_GetExponent(field_AC_ypos) - screen_top;
+        const s16 y1 = FP_GetExponent(field_108_pLaser->field_AC_ypos) - screen_top;
+        const s16 y2 = y1 + bLaserRect.y - bLaserRect.h;
+        const s16 x1 = static_cast<s16>(PsxToPCX(FP_GetExponent(field_108_pLaser->field_A8_xpos) - screen_left, 11));
 
         Poly_F3* pPrim = &field_10C_prims[gPsxDisplay_504C78.field_A_buffer_index];
         PolyF3_Init(pPrim);

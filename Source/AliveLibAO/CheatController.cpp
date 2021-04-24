@@ -9,10 +9,10 @@ namespace AO {
 
 ALIVE_VAR(1, 0x4FF958, CheatController*, pCheatController_4FF958, nullptr);
 
-ALIVE_VAR(1, 0x507704, short, sEnableFartGasCheat_507704, 0);
-ALIVE_VAR(1, 0x507708, short, sVoiceCheat_507708, 0);
-ALIVE_VAR(1, 0x50770C, short, sEnableCheatFMV_50770C, 0);
-ALIVE_VAR(1, 0x507710, short, sEnableCheatLevelSelect_507710, 0);
+ALIVE_VAR(1, 0x507704, s16, sEnableFartGasCheat_507704, 0);
+ALIVE_VAR(1, 0x507708, s16, sVoiceCheat_507708, 0);
+ALIVE_VAR(1, 0x50770C, s16, sEnableCheatFMV_50770C, 0);
+ALIVE_VAR(1, 0x507710, s16, sEnableCheatLevelSelect_507710, 0);
 
 EXPORT void CC CheatController_Cheat_FartGas_40FB70()
 {

@@ -51,7 +51,7 @@ public:
 
     EXPORT void VUpdate_435F80();
 
-    EXPORT static void CC ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, short* r, short* g, short* b);
+    EXPORT static void CC ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
 
     // Note: Completely inlined in AO
     s16 ApplysToScale(s16 scale);

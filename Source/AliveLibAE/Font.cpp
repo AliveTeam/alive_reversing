@@ -123,7 +123,7 @@ namespace Alive
 
         s32 characterRenderCount = 0;
         const s32 maxRenderX = static_cast<s32>(maxRenderWidth / 0.575);
-        short offsetX = static_cast<short>(x);
+        s16 offsetX = static_cast<s16>(x);
         s32 charInfoIndex = 0;
         auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
 
@@ -160,8 +160,8 @@ namespace Alive
             const char texture_u = static_cast<char>(atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F)));
             const char texture_v = static_cast<char>(atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y));
 
-            const short widthScaled = static_cast<short>(charWidth * FP_GetDouble(scale));
-            const short heightScaled = static_cast<short>(charHeight * FP_GetDouble(scale));
+            const s16 widthScaled = static_cast<s16>(charWidth * FP_GetDouble(scale));
+            const s16 heightScaled = static_cast<s16>(charHeight * FP_GetDouble(scale));
 
             PolyFT4_Init(poly);
             Poly_Set_SemiTrans_4F8A60(&poly->mBase.header, bSemiTrans);
@@ -175,8 +175,8 @@ namespace Alive
                 static_cast<u8>(b + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange))
             );
 
-            SetTPage(poly, static_cast<short>(tpage));
-            SetClut(poly, static_cast<short>(clut));
+            SetTPage(poly, static_cast<s16>(tpage));
+            SetClut(poly, static_cast<s16>(clut));
 
             // Padding
             poly->mVerts[1].mUv.tpage_clut_pad = 0;
@@ -202,7 +202,7 @@ namespace Alive
 
             ++characterRenderCount;
 
-            offsetX += widthScaled + static_cast<short>(field_34_font_context->field_8_atlas_array[0].field_2_width * FP_GetExponent(scale));
+            offsetX += widthScaled + static_cast<s16>(field_34_font_context->field_8_atlas_array[0].field_2_width * FP_GetExponent(scale));
 
             poly += 2;
         }
@@ -333,7 +333,7 @@ namespace Alive
     }
 }
 
-void Font_Context::LoadFontType_433400(short resourceID)
+void Font_Context::LoadFontType_433400(s16 resourceID)
 {
     // Override game fonts with our XInput friendly ones.
 #if XINPUT_SUPPORT 
@@ -355,7 +355,7 @@ void Font_Context::LoadFontType_433400(short resourceID)
     field_C_resource_id = resourceID;
 
     Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
-    const PSX_RECT vramAllocatedRect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
+    const PSX_RECT vramAllocatedRect = { field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
     IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, vramAllocatedRect, fontFile->field_28_pixel_buffer);
 
@@ -407,7 +407,7 @@ void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fo
     field_C_resource_id = 0xff;
 
     Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
-    const PSX_RECT vramAlloctedRect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
+    const PSX_RECT vramAlloctedRect = { field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
     if (pPaletteOut)
     {

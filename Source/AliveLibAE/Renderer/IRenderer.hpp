@@ -30,9 +30,9 @@ public:
 
     struct PalRecord final
     {
-        short x = 0;
-        short y = 0;
-        short depth = 0;
+        s16 x = 0;
+        s16 y = 0;
+        s16 depth = 0;
     };
 public:
     virtual ~IRenderer() {}
@@ -46,7 +46,7 @@ public:
     virtual bool UpdateBackBuffer(const void* pPixels, s32 pitch) = 0;
     virtual void CreateBackBuffer(bool filter, s32 format, s32 w, s32 h) = 0;
 
-    virtual void SetTPage(short tPage) = 0;
+    virtual void SetTPage(s16 tPage) = 0;
 
     virtual void SetClip(Prim_PrimClipper& clipper) = 0;
     virtual void SetScreenOffset(Prim_ScreenOffset& offset) = 0;

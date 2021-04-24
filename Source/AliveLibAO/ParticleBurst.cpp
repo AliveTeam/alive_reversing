@@ -234,7 +234,7 @@ void ParticleBurst::VUpdate_40D600()
                 // TODO: Never used by OG ??
                 // Math_RandomRange_450F20(-64, 46);
 
-                const short volume = static_cast<short>(Math_RandomRange_450F20(-10, 10) + ((field_F0_timer - gnFrameCount_507670) / 91) + 25);
+                const s16 volume = static_cast<s16>(Math_RandomRange_450F20(-10, 10) + ((field_F0_timer - gnFrameCount_507670) / 91) + 25);
 
                 const u8 next_rand = Math_NextRandom();
                 if (next_rand < 43)

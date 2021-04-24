@@ -77,11 +77,11 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
 
         if (d1 <= d2)
         {
-            field_25C_fade = static_cast<short>(MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height, 0, gPsxDisplay_504C78.field_2_height));
+            field_25C_fade = static_cast<s16>(MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height, 0, gPsxDisplay_504C78.field_2_height));
         }
         else
         {
-            field_25C_fade = static_cast<short>(MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0));
+            field_25C_fade = static_cast<s16>(MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0));
         }
 
         field_274_ring_type = type;
@@ -402,11 +402,11 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
         0)
         )//&& !field_290_bFindingTarget) Missing part of the check from AE
     {
-        short y3 = field_264_screenYPos;
-        short y4 = field_264_screenYPos;
+        s16 y3 = field_264_screenYPos;
+        s16 y4 = field_264_screenYPos;
 
-        short x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_262_screenXPos) + (field_244_left * field_250_scaleX)), 11);
-        short x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_262_screenXPos) + (field_248_right * field_250_scaleX)), 11);
+        s16 x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_262_screenXPos) + (field_244_left * field_250_scaleX)), 11);
+        s16 x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_262_screenXPos) + (field_248_right * field_250_scaleX)), 11);
 
         //Not hardcoded in Exoddus
         u8 ang = 4;
@@ -414,16 +414,16 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
 
         for (s32 i = 0; i < count; i++)
         {
-            const short x1 = (short) PsxToPCX(field_262_screenXPos + FP_GetExponent(field_244_left * Math_Sine_451110(ang) * field_250_scaleX), 11);
-            const short x2 = (short) PsxToPCX(field_262_screenXPos + FP_GetExponent(field_248_right * Math_Sine_451110(ang) * field_250_scaleX), 11);
+            const s16 x1 = (s16) PsxToPCX(field_262_screenXPos + FP_GetExponent(field_244_left * Math_Sine_451110(ang) * field_250_scaleX), 11);
+            const s16 x2 = (s16) PsxToPCX(field_262_screenXPos + FP_GetExponent(field_248_right * Math_Sine_451110(ang) * field_250_scaleX), 11);
 
-            const short y1 = field_264_screenYPos + FP_GetExponent(field_244_left * Math_Cosine_4510A0(ang) * field_254_scaleY);
-            const short y2 = field_264_screenYPos + FP_GetExponent(field_248_right * Math_Cosine_4510A0(ang) * field_254_scaleY);
+            const s16 y1 = field_264_screenYPos + FP_GetExponent(field_244_left * Math_Cosine_4510A0(ang) * field_254_scaleY);
+            const s16 y2 = field_264_screenYPos + FP_GetExponent(field_248_right * Math_Cosine_4510A0(ang) * field_254_scaleY);
 
-            const short x = std::min(std::min(x1, x3), std::min(x2, x4));
-            const short y = std::min(std::min(y1, y3), std::min(y2, y4));
-            const short w = std::max(std::max(x1, x3), std::max(x2, x4));
-            const short h = std::max(std::max(y1, y3), std::max(y2, y4));
+            const s16 x = std::min(std::min(x1, x3), std::min(x2, x4));
+            const s16 y = std::min(std::min(y1, y3), std::min(y2, y4));
+            const s16 w = std::max(std::max(x1, x3), std::max(x2, x4));
+            const s16 h = std::max(std::max(y1, y3), std::max(y2, y4));
 
             const PSX_RECT rect = { x, y, w, h };
             if (rect.w < 0 || rect.x > 640 || rect.y > 240 || rect.h < 0)

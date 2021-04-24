@@ -128,7 +128,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
                 field_20_animation.field_C_render_layer = Layer::eLayer_20;
             }
 
-            field_FC_number_of_particles = static_cast<short>(numOfParticles);
+            field_FC_number_of_particles = static_cast<s16>(numOfParticles);
             field_100_timer = sGnFrame_5C1B84 + 91;
             field_B8_xpos = xpos;
             field_BC_ypos = ypos;
@@ -401,7 +401,7 @@ void ParticleBurst::vUpdate_41D590()
             //Math_RandomRange_496AB0(-64, 46);
 
             // TODO: This might be wrong
-            const short volume = static_cast<short>(Math_RandomRange_496AB0(-10, 10) + ((field_100_timer - sGnFrame_5C1B84) / 91) + 25);
+            const s16 volume = static_cast<s16>(Math_RandomRange_496AB0(-10, 10) + ((field_100_timer - sGnFrame_5C1B84) / 91) + 25);
 
             const u8 next_rand = Math_NextRandom();
             if (next_rand < 43)

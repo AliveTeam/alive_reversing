@@ -6,7 +6,7 @@
 
 class LiftPoint;
 
-enum class LiftMoverStates : short
+enum class LiftMoverStates : s16
 {
     eInactive_0 = 0,
     eStartMovingDown_1 = 1,

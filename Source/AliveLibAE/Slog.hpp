@@ -327,4 +327,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x164);
 
-ALIVE_VAR_EXTERN(short, sSlogCount_BAF7F2);
+ALIVE_VAR_EXTERN(s16, sSlogCount_BAF7F2);

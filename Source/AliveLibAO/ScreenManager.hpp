@@ -107,8 +107,8 @@ public:
     s32 field_1C;
     s16 field_20_upos;
     s16 field_22_vpos;
-    short field_24_cam_width;
-    short field_26_cam_height;
+    s16 field_24_cam_width;
+    s16 field_26_cam_height;
     s32 field_28;
     s16 field_2C;
     u16 field_2E_idx;

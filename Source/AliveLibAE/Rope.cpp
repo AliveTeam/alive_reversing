@@ -32,11 +32,11 @@ const TintEntry kRopeTints_55FD68[18] =
 EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
     const s32 d1 = minY - Y0(pPoly);
-    const short polyHeight = Y3(pPoly) - Y0(pPoly);
+    const s16 polyHeight = Y3(pPoly) - Y0(pPoly);
     if (minY - Y0(pPoly) > 0 && d1 <= polyHeight)
     {
-        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (short)d1);
-        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (short)d1);
+        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (s16)d1);
+        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (s16)d1);
 
         SetUV0(pPoly, U0(pPoly), V0(pPoly) + (u8)d1);
         SetUV1(pPoly, U1(pPoly), V1(pPoly) + (u8)d1);
@@ -45,8 +45,8 @@ EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
     const s32 d2 = Y3(pPoly) - maxY;
     if (d2 > 0 && d2 <= polyHeight)
     {
-        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (short)d2);
-        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (short)d2);
+        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (s16)d2);
+        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (s16)d2);
 
         SetUV2(pPoly, U2(pPoly), V2(pPoly) - (u8)d2);
         SetUV3(pPoly, U3(pPoly), V3(pPoly) - (u8)d2);
@@ -171,8 +171,8 @@ EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
                 ypos = field_106_bottom + ((ypos - field_106_bottom) % field_F6_rope_length);
             }
 
-            short screenX = FP_GetExponent(field_B8_xpos - camXPos);
-            short screenY = ypos - FP_GetExponent(camYPos);
+            s16 screenX = FP_GetExponent(field_B8_xpos - camXPos);
+            s16 screenY = ypos - FP_GetExponent(camYPos);
 
             if (screenY > 240)
             {
@@ -197,9 +197,9 @@ EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
                 for (s32 idx = 0; idx < field_F4_rope_segment_count; idx++)
                 {
                     // Apply shadow to the segments colour
-                    short r = field_D0_r;
-                    short g = field_D2_g;
-                    short b = field_D4_b;
+                    s16 r = field_D0_r;
+                    s16 g = field_D2_g;
+                    s16 b = field_D4_b;
 
                     ShadowZone::ShadowZones_Calculate_Colour_463CE0(
                         FP_GetExponent(field_B8_xpos),

@@ -1389,8 +1389,8 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
         field_11A_msg_len = 0;
 
         // Find the length of the longest word (in particles)
-        short longestWordLen = 0;
-        short curWordLen = 0;
+        s16 longestWordLen = 0;
+        s16 curWordLen = 0;
         for(;;)
         {
             // End of word?
@@ -1459,7 +1459,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
                     Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);
                     Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
 
-                    SetClut(pSprt, static_cast<short>(PSX_getClut_496840(
+                    SetClut(pSprt, static_cast<s16>(PSX_getClut_496840(
                         field_10_anim.field_8C_pal_vram_xy.field_0_x,
                         field_10_anim.field_8C_pal_vram_xy.field_2_y)));
 
@@ -1476,7 +1476,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
 
             // Some unknown pal hack that seems to do nothing
             /*
-            const PSX_RECT rect = { static_cast<short>(field_10_anim.field_8C_pal_vram_xy.field_0_x + 1), field_10_anim.field_8C_pal_vram_xy.field_2_y, 1, 1 };
+            const PSX_RECT rect = { static_cast<s16>(field_10_anim.field_8C_pal_vram_xy.field_0_x + 1), field_10_anim.field_8C_pal_vram_xy.field_2_y, 1, 1 };
             const u8 data[] = { 0, 0, 0, 0 };
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
             {
@@ -1562,7 +1562,7 @@ void HintFly::FormWordAndAdvanceToNextWord_42AF90()
     LOG_INFO("Word is " << msgPtr);
 
     // Find how long the word is
-    short letterCount = 0;
+    s16 letterCount = 0;
     const char* pEndWord = msgPtr;
     for (; *pEndWord != ' '; pEndWord++)
     {
@@ -1897,8 +1897,8 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
         HintFlyParticle* pParticle = &field_E8_pRes[i];
         Prim_Sprt* pSprt = &pParticle->field_24_sprt[gPsxDisplay_504C78.field_A_buffer_index];
 
-        const short flyX = FP_GetExponent(PsxToPCX(pParticle->field_0_xpos, FP_FromInteger(11)));
-        const short flyY = FP_GetExponent(pParticle->field_4_ypos);
+        const s16 flyX = FP_GetExponent(PsxToPCX(pParticle->field_0_xpos, FP_FromInteger(11)));
+        const s16 flyY = FP_GetExponent(pParticle->field_4_ypos);
 
         SetXY0(pSprt, flyX, flyY);
 
@@ -1925,7 +1925,7 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
         }
     }
 
-    short tPageY = 256;
+    s16 tPageY = 256;
     if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag) && field_10_anim.field_84_vram_rect.y < 256u)
     {
         tPageY = 0;

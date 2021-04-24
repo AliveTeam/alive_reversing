@@ -241,7 +241,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
         pNozzle->field_E4_state = BoomMachineStates::eInactive_0;
         pNozzle->field_A8_xpos = field_A8_xpos + (directedScale * FP_FromInteger(30));
         pNozzle->field_AC_ypos = field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-30));
-        pNozzle->field_EC_num_grenades = static_cast<short>(pTlv->field_1E_number_of_grenades);
+        pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->field_1E_number_of_grenades);
     }
 
     pNozzle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_nozzle_side & 1);

@@ -461,7 +461,7 @@ constexpr AnimRecord kAnimRecords[] =
     { AnimId::Slog_Bark, "SLOG.BND", 96496, 121, 57, kDogbasicResID, PalId::Default },
     { AnimId::Slog_Run_Stop, "SLOG.BND", 96532, 121, 57, kDogbasicResID, PalId::Default },
     { AnimId::Slog_Run_Turn_Around, "SLOG.BND", 96580, 121, 57, kDogbasicResID, PalId::Default },
-    { AnimId::Slog_Unknown_A, "SLOG.BND", 96640, 121, 57, kDogbasicResID, PalId::Default }, // Very short animation
+    { AnimId::Slog_Unknown_A, "SLOG.BND", 96640, 121, 57, kDogbasicResID, PalId::Default }, // Very s16 animation
     { AnimId::Slog_Unknown_B, "SLOG.BND", 96660, 121, 57, kDogbasicResID, PalId::Default }, // ^
     { AnimId::Slog_Unknown_C, "SLOG.BND", 96876, 121, 57, kDogbasicResID, PalId::Default }, // ^
     { AnimId::Slog_Unknown_D, "SLOG.BND", 96716, 121, 57, kDogbasicResID, PalId::Default }, // Just a still frame

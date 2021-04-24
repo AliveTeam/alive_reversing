@@ -830,10 +830,10 @@ s32 Scrab::Scrab_SFX_460B80(ScrabSounds soundId, s32 /*vol*/, s32 pitch, s16 app
         }
     }
     return SFX_SfxDefinition_Play_477330(&sScrabSfx_4CF798[static_cast<s32>(soundId)],
-        static_cast<short>(volumeLeft),
-        static_cast<short>(volumeRight),
-        static_cast<short>(pitch),
-        static_cast<short>(pitch)
+        static_cast<s16>(volumeLeft),
+        static_cast<s16>(volumeRight),
+        static_cast<s16>(pitch),
+        static_cast<s16>(pitch)
     );
 }
 
@@ -2868,7 +2868,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
     {
         if (field_B4_velx > FP_FromInteger(0))
         {
-            const short x_exp = FP_GetExponent(field_A8_xpos);
+            const s16 x_exp = FP_GetExponent(field_A8_xpos);
             const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(0, 1))
             {
@@ -2911,7 +2911,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
         }
         else if (field_B4_velx < FP_FromInteger(0))
         {
-            const short x_exp = FP_GetExponent(field_A8_xpos);
+            const s16 x_exp = FP_GetExponent(field_A8_xpos);
             const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
             if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(1, 1))
             {

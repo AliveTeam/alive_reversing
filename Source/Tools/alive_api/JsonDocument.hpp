@@ -6,11 +6,11 @@
 #include "../AliveLibAO/Collisions.hpp"
 #include "../AliveLibAE/Collisions.hpp"
 
-enum class TlvTypes : short;
+enum class TlvTypes : s16;
 
 namespace AO
 {
-    enum class TlvTypes : short;
+    enum class TlvTypes : s16;
 }
 
 inline s32 To1dIndex(s32 width, s32 x, s32 y)

@@ -14,13 +14,13 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4FF94C, short, bTheOneControllingTheMusic_4FF94C, 0);
+ALIVE_VAR(1, 0x4FF94C, s16, bTheOneControllingTheMusic_4FF94C, 0);
 
 ALIVE_VAR(1, 0x4FF938, DynamicArrayT<Dove>, gDovesArray_4FF938, {});
 ALIVE_VAR(1, 0x4FF948, u8, byte_4FF948, 0);
 ALIVE_VAR(1, 0x4FF950, s32, dword_4FF950, 0);
-ALIVE_VAR(1, 0x4C50AC, short, word_4C50AC, 30);
-ALIVE_VAR(1, 0x4C50B0, short, word_4C50B0, -1);
+ALIVE_VAR(1, 0x4C50AC, s16, word_4C50AC, 30);
+ALIVE_VAR(1, 0x4C50B0, s16, word_4C50B0, -1);
 
 
 static void Dove_static_ctor()

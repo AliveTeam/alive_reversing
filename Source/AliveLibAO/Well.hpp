@@ -81,7 +81,7 @@ public:
 
     s32 field_D4[4];
     s32 field_E4_tlvInfo;
-    short field_E8_trigger_id;
+    s16 field_E8_trigger_id;
     // pad
     FP field_EC_scale;
     FP field_F0_exit_x;

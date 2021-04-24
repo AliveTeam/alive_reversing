@@ -25,7 +25,7 @@ void DeathFadeOut::VRender(PrimHeader** ppOt)
     vRender_427210(ppOt);
 }
 
-DeathFadeOut* DeathFadeOut::ctor_427030(Layer layer, s16 direction, s16 destroyOnDone, short speed, TPageAbr abr)
+DeathFadeOut* DeathFadeOut::ctor_427030(Layer layer, s16 direction, s16 destroyOnDone, s16 speed, TPageAbr abr)
 {
     ctor_4AB7A0(layer, abr);
     SetVTable(this, 0x544DA0); // vTbl_DeathFadeOut_00544DA0
@@ -49,7 +49,7 @@ DeathFadeOut* DeathFadeOut::ctor_427030(Layer layer, s16 direction, s16 destroyO
     return this;
 }
 
-void DeathFadeOut::Init_427140(Layer layer, s16 direction, s16 destroyOnDone, short speed)
+void DeathFadeOut::Init_427140(Layer layer, s16 direction, s16 destroyOnDone, s16 speed)
 {
     field_6C_layer = layer;
     field_7C_direction = direction;

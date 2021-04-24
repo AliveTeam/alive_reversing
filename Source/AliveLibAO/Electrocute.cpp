@@ -79,7 +79,7 @@ public:
         if (!field_BE_bDone)
         {
              // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
-            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{ field_10_pal_xy.field_2_y, static_cast<short>(field_10_pal_xy.field_0_x + field_B8_pal_x_index), field_BA_pal_w }, reinterpret_cast<u8*>(&field_A8_palBuffer[0]));
+            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{ field_10_pal_xy.field_2_y, static_cast<s16>(field_10_pal_xy.field_0_x + field_B8_pal_x_index), field_BA_pal_w }, reinterpret_cast<u8*>(&field_A8_palBuffer[0]));
         }
     }
 
@@ -120,7 +120,7 @@ public:
     }
 
     PSX_Point field_10_pal_xy;
-    short field_14_pal_colours_count;
+    s16 field_14_pal_colours_count;
     // pad
     s32 field_18_not_used[36]; // TODO: Probably something used in PSX but not PC?
     s16 field_A8_palBuffer[8];
@@ -281,7 +281,7 @@ void Electrocute::VUpdate_48D5C0()
             field_18_pPalOverwriters[0]->ctor_416FF0(
                 field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
                 field_10_obj_target->field_10_anim.field_90_pal_depth,
-                static_cast<short>(Pal_Make_Colour_447950(255u, 255, 255, 1)));
+                static_cast<s16>(Pal_Make_Colour_447950(255u, 255, 255, 1)));
 
         field_18_pPalOverwriters[1] = ao_new<PalleteOverwriter>();
         if (field_18_pPalOverwriters[1])
@@ -289,7 +289,7 @@ void Electrocute::VUpdate_48D5C0()
             field_18_pPalOverwriters[1]->ctor_416FF0(
                 field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
                 field_10_obj_target->field_10_anim.field_90_pal_depth,
-                static_cast<short>(Pal_Make_Colour_447950(64u, 64, 255, 1)));
+                static_cast<s16>(Pal_Make_Colour_447950(64u, 64, 255, 1)));
 
             field_18_pPalOverwriters[1]->field_8_update_delay = 4;
         }
@@ -302,7 +302,7 @@ void Electrocute::VUpdate_48D5C0()
                 field_18_pPalOverwriters[2]->ctor_416FF0(
                     field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
                     field_10_obj_target->field_10_anim.field_90_pal_depth,
-                    static_cast<short>(Pal_Make_Colour_447950(0, 0, 0, 0)));
+                    static_cast<s16>(Pal_Make_Colour_447950(0, 0, 0, 0)));
 
                 field_18_pPalOverwriters[2]->field_8_update_delay = 8;
                 field_32_state = States::eHandleDamage_2;

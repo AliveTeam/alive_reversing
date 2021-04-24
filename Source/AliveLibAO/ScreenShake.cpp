@@ -99,8 +99,8 @@ void ScreenShake::VRender_4625E0(PrimHeader** ppOt)
     {
         Prim_ScreenOffset* pPrim = &field_10_screenOffset[gPsxDisplay_504C78.field_A_buffer_index];
 
-        short xoff = 0;
-        short yoff = 0;
+        s16 xoff = 0;
+        s16 yoff = 0;
         xoff = FP_GetExponent(stru_4CF850[field_30_shakeNumber].field_0_x); // TODO: Div 16 ??
         yoff = FP_GetExponent(stru_4CF850[field_30_shakeNumber].field_4_y);
 

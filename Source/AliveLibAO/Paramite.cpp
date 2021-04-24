@@ -875,8 +875,8 @@ void Paramite::MoveOnLine_44B740()
                     VGetBoundingRect(&bRect, 1);
 
                     VOnCollisionWith(
-                        { bRect.x, static_cast<short>(bRect.y + 5) },
-                        { bRect.w, static_cast<short>(bRect.h + 5) },
+                        { bRect.x, static_cast<s16>(bRect.y + 5) },
+                        { bRect.w, static_cast<s16>(bRect.h + 5) },
                         ObjListPlatforms_50766C,
                         1,
                         (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -919,8 +919,8 @@ void Paramite::Sound_44DBB0(u8 idx)
         field_A8_xpos,
         field_AC_ypos);
 
-    short volRight = stru_4CDD98[idx].field_C_default_volume;
-    short volLeft = 0;
+    s16 volRight = stru_4CDD98[idx].field_C_default_volume;
+    s16 volLeft = 0;
 
     PSX_RECT rect = {};
     gMap_507BA8.Get_Camera_World_Rect_444C30(direction, &rect);
@@ -2113,7 +2113,7 @@ s16 Paramite::Brain_ChasingAbe_449170()
             return AI_ChasingAbe::eState2_TurningWhileChasing_9;
         }
 
-        const short x_exp = FP_GetExponent(field_A8_xpos);
+        const s16 x_exp = FP_GetExponent(field_A8_xpos);
         const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {
@@ -2240,7 +2240,7 @@ s16 Paramite::Brain_ChasingAbe_449170()
             return AI_ChasingAbe::eState2_Eating_13;
         }
 
-        const short x_exp = FP_GetExponent(field_A8_xpos);
+        const s16 x_exp = FP_GetExponent(field_A8_xpos);
         const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx > FP_FromInteger(0))
         {
@@ -2427,7 +2427,7 @@ s16 Paramite::Brain_SpottedMeat_449CD0()
 
     case AI_SpottedMeat::eState5_Running_1:
     {
-        const short x_exp = FP_GetExponent(field_A8_xpos);
+        const s16 x_exp = FP_GetExponent(field_A8_xpos);
         const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {
@@ -2478,7 +2478,7 @@ s16 Paramite::Brain_SpottedMeat_449CD0()
 
     case AI_SpottedMeat::eState5_Walking_2:
     {
-        const short x_exp = FP_GetExponent(field_A8_xpos);
+        const s16 x_exp = FP_GetExponent(field_A8_xpos);
         const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
         if (field_B4_velx < FP_FromInteger(0))
         {

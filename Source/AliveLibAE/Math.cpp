@@ -78,10 +78,10 @@ EXPORT u32 CC Math_FixedPoint_Divide_496B70(s32 op1, s32 op2)
     return result;
 }
 
-EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
+EXPORT s16 CC Math_RandomRange_496AB0(s16 min, s16 max)
 {
-    short tempMax = max;
-    short tempMin = min;
+    s16 tempMax = max;
+    s16 tempMin = min;
 
     if (max >= min)
     {
@@ -98,14 +98,14 @@ EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
         tempMin = max;
     }
 
-    short result = tempMin;
+    s16 result = tempMin;
     const s32 rangeSize = tempMax - tempMin;
 
     if (rangeSize >= 256)
     {
         const s32 randByte = (257 * sRandomBytes_546744[sRandomSeed_5D1E10]);
         sRandomSeed_5D1E10 += 2;
-        result = static_cast<short>(result + randByte % (rangeSize + 1));
+        result = static_cast<s16>(result + randByte % (rangeSize + 1));
     }
     else
     {

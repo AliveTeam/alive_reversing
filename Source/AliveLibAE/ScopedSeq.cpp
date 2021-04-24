@@ -9,8 +9,8 @@ ScopedSeq* ScopedSeq::ctor_4CB210(char ambianceId, CameraPos direction)
 {
     SetVTable(this, 0x547838);
 
-    short leftVol = 0;
-    short rightVol = 0;
+    s16 leftVol = 0;
+    s16 rightVol = 0;
 
     if (direction == CameraPos::eCamLeft_3)
     {

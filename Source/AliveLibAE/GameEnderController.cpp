@@ -13,8 +13,8 @@
 #include "Alarm.hpp"
 #include "Function.hpp"
 
-ALIVE_VAR(1, 0x5C1BC6, short, sFeeco_Restart_KilledMudCount_5C1BC6, 0);
-ALIVE_VAR(1, 0x5C1BC8, short, sFeecoRestart_SavedMudCount_5C1BC8, 0);
+ALIVE_VAR(1, 0x5C1BC6, s16, sFeeco_Restart_KilledMudCount_5C1BC6, 0);
+ALIVE_VAR(1, 0x5C1BC8, s16, sFeecoRestart_SavedMudCount_5C1BC8, 0);
 
 EXPORT void CC CreateGameEnderController_43B7A0()
 {

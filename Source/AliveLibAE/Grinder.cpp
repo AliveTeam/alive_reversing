@@ -453,8 +453,8 @@ void Grinder::vUpdate_420C50()
             field_F4_state = GrinderStates::State_0_Restart_Cycle;
             SFX_Play_46FC20(SoundEffect::DrillCollision_99, 50, soundDirection);
 
-            short max_off = 0;
-            short min_off = 0;
+            s16 max_off = 0;
+            s16 min_off = 0;
             if (field_128_flags.Get(Flags::eBit5_SpeedChanged))
             {
                 max_off = field_102_max_off_time_speed_change;

@@ -39,7 +39,7 @@ public:
         u8 field_A_b;
         char field_B;
     };
-    void DrawEntries(PrimHeader** ppOt, PauseEntry* entries, short compilerhack, s32 polyOffset);
+    void DrawEntries(PrimHeader** ppOt, PauseEntry* entries, s16 compilerhack, s32 polyOffset);
 
     s32 field_D4[4];
     AliveFont field_E4_font;

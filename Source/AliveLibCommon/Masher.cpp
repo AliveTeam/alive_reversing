@@ -304,7 +304,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
     char usedBitCount = 0;
     SkipBits(workBits, 11, usedBitCount);
 
-    *pOutput++ = static_cast<unsigned short>(rawWord4); // store in output 0x000007fc
+    *pOutput++ = static_cast<u16>(rawWord4); // store in output 0x000007fc
 
     u16* rawBitStreamPtr = (pFrameData + 3); // 0x7f40
     while (1)
@@ -363,7 +363,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                                 OutputWordAndAdvance(rawBitStreamPtr, rawWord4, pOutput, usedBitCount, workBits);
                             } // End while
 
-                            *pOutput++ = static_cast<unsigned short>(rawWord4);
+                            *pOutput++ = static_cast<u16>(rawWord4);
 
                             if ((u16)rawWord4 == MDEC_END)
                             {
@@ -376,7 +376,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                                 }
 
                                 rawWord4 = v15 & MASK_11_BITS;
-                                *pOutput++ = static_cast<unsigned short>(rawWord4);
+                                *pOutput++ = static_cast<u16>(rawWord4);
 
                                 GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
 
@@ -394,7 +394,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                         OutputWordAndAdvance(rawBitStreamPtr, rawWord4, pOutput, usedBitCount, workBits);
                     } // End while
 
-                    *pOutput++ = static_cast<unsigned short>(rawWord4);
+                    *pOutput++ = static_cast<u16>(rawWord4);
 
                     if ((u16)rawWord4 == MDEC_END)
                     {
@@ -407,7 +407,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                         }
 
                         rawWord4 = t11Bits & MASK_11_BITS;
-                        *pOutput++ = static_cast<unsigned short>(rawWord4);
+                        *pOutput++ = static_cast<u16>(rawWord4);
 
                         GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
                     }
@@ -426,7 +426,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                 OutputWordAndAdvance(rawBitStreamPtr, rawWord4, pOutput, usedBitCount, workBits);
             } // End while
 
-            *pOutput++ = static_cast<unsigned short>(rawWord4);
+            *pOutput++ = static_cast<u16>(rawWord4);
 
         } while ((u16)rawWord4 != MDEC_END);
 
@@ -438,7 +438,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
             return ret;
         }
 
-        *pOutput++ = static_cast<unsigned short>(rawWord4);
+        *pOutput++ = static_cast<u16>(rawWord4);
 
         GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
 

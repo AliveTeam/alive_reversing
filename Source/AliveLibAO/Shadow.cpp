@@ -46,8 +46,8 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
     if (field_14_flags.Get(Flags::eBit2_Enabled))
     {
         // TODO: Is this the same as PsxToPCX ??
-        const short objX = (23 * frameRect->x) / 40;
-        const short objW = (23 * frameRect->w) / 40;
+        const s16 objX = (23 * frameRect->x) / 40;
+        const s16 objW = (23 * frameRect->w) / 40;
 
         FP objY = {};
         if (field_14_flags.Get(Flags::eBit1_ShadowAtBottom))
@@ -76,8 +76,8 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
         {
             const FP camXPos = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
 
-            short lineXScreen = pLine->field_0_rect.x - FP_GetExponent(camXPos);
-            short lineWScreen = pLine->field_0_rect.w - FP_GetExponent(camXPos);
+            s16 lineXScreen = pLine->field_0_rect.x - FP_GetExponent(camXPos);
+            s16 lineWScreen = pLine->field_0_rect.w - FP_GetExponent(camXPos);
 
             if (lineWScreen < lineXScreen)
             {
@@ -134,7 +134,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
             field_0_x1 = std::max(objX, lineXScreen);
             field_4_x2 = std::min(objW, lineWScreen);
 
-            short height;
+            s16 height;
             if (FP_GetExponent(field_10_scale * FP_FromInteger(6)) <= 6)
             {
                 height = FP_GetExponent(field_10_scale * FP_FromInteger(6));
@@ -144,7 +144,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
                 height = 6;
             }
 
-            const short finalYPos = FP_GetExponent(field_C_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y) - height / 2;
+            const s16 finalYPos = FP_GetExponent(field_C_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y) - height / 2;
             field_2_y1 = finalYPos;
             field_6_y2 = finalYPos + height;
         }

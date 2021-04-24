@@ -24,11 +24,11 @@ Rope* Rope::Vdtor_458B60(s32 flags)
 EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
     const s32 d1 = minY - Y0(pPoly);
-    const short polyHeight = Y3(pPoly) - Y0(pPoly);
+    const s16 polyHeight = Y3(pPoly) - Y0(pPoly);
     if (d1 > 0 && d1 <= polyHeight)
     {
-        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (short)d1);
-        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (short)d1);
+        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (s16)d1);
+        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (s16)d1);
 
         SetUV0(pPoly, U0(pPoly), V0(pPoly) + (u8)d1);
         SetUV1(pPoly, U1(pPoly), V1(pPoly) + (u8)d1);
@@ -37,8 +37,8 @@ EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
     const s32 d2 = Y3(pPoly) - maxY;
     if (d2 > 0 && d2 <= polyHeight)
     {
-        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (short)d2);
-        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (short)d2);
+        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (s16)d2);
+        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (s16)d2);
 
         SetUV2(pPoly, U2(pPoly), V2(pPoly) - (u8)d2);
         SetUV3(pPoly, U3(pPoly), V3(pPoly) - (u8)d2);
@@ -171,11 +171,11 @@ void Rope::VRender_458780(PrimHeader** ppOt)
                     ypos = field_F2_bottom + ((ypos - field_F2_bottom) % field_E6_rope_length);
                 }
 
-                short screenX = PsxToPCX(
+                s16 screenX = PsxToPCX(
                     FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
                     11
                 );
-                short screenY = FP_GetExponent(
+                s16 screenY = FP_GetExponent(
                     (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos))
                     - camYPos
                 );
@@ -200,9 +200,9 @@ void Rope::VRender_458780(PrimHeader** ppOt)
                 {
                     for (s32 idx = 0; idx < field_E4_rope_segment_count; idx++)
                     {
-                        short r = 128;
-                        short g = 128;
-                        short b = 128;
+                        s16 r = 128;
+                        s16 g = 128;
+                        s16 b = 128;
                         ShadowZone::ShadowZones_Calculate_Colour_435FF0(
                             FP_GetExponent(field_A8_xpos),
                             ypos - (idx * field_E6_rope_length),

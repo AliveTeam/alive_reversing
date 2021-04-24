@@ -107,7 +107,7 @@ const s32 sSlogFrameOffsetTable_4CFD98[25] =
     12500
 };
 
-ALIVE_VAR(1, 0x9F11C8, short, gNumSlogs_9F11C8, 0);
+ALIVE_VAR(1, 0x9F11C8, s16, gNumSlogs_9F11C8, 0);
 ALIVE_VAR(1, 0x9F11C4, u8, sSlogRndSeed_9F11C4, 0);
 
 static u8 Slog_NextRandom()
@@ -848,10 +848,10 @@ void Slog::Sfx_475BD0(s32 soundId)
             return;
     }
     SFX_SfxDefinition_Play_477330(&sndDef,
-        static_cast<short>(volumeLeft),
-        static_cast<short>(volumeRight),
-        static_cast<short>(sndDef.field_E_pitch_min),
-        static_cast<short>(sndDef.field_10_pitch_max)
+        static_cast<s16>(volumeLeft),
+        static_cast<s16>(volumeRight),
+        static_cast<s16>(sndDef.field_E_pitch_min),
+        static_cast<s16>(sndDef.field_10_pitch_max)
     );
 }
 

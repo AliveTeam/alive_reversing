@@ -178,7 +178,7 @@ namespace AO {
     ENTRY(State_164_PoisonGasDeath_42A120)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eAbeStates : short
+enum eAbeStates : s16
 {
     AO_ABE_STATES_ENUM(MAKE_ENUM)
 };
@@ -406,7 +406,7 @@ union AllStone
     Path_Handstone_data dataHandstone;
     Path_BellsongStone_data dataBellsong;
     Path_Moviestone_data dataMovie;
-    unsigned short demoId;
+    u16 demoId;
 };
 
 struct Path_Stone : public Path_TLV
@@ -472,7 +472,7 @@ public:
 
     EXPORT void ToKnockback_422D90(s16 bUnknownSound, s16 bDelayedAnger);
 
-    EXPORT u8** StateToAnimResource_4204F0(short motion);
+    EXPORT u8** StateToAnimResource_4204F0(s16 motion);
 
     EXPORT void ToIdle_422D50();
 
@@ -482,7 +482,7 @@ public:
 
     EXPORT void ElumFree_4228F0();
 
-    EXPORT short DoGameSpeak_42F5C0(u16 input);
+    EXPORT s16 DoGameSpeak_42F5C0(u16 input);
 
     EXPORT void SyncToElum_42D850(s16 elumMotion);
 
@@ -496,7 +496,7 @@ public:
 
     EXPORT void MoveWithVelocity_4257F0(FP speed);
 
-    EXPORT void ToNewElumSyncMotion_422520(short elum_frame);
+    EXPORT void ToNewElumSyncMotion_422520(s16 elum_frame);
 
     EXPORT void SetActiveControlledCharacter_421480();
 
@@ -754,8 +754,8 @@ ALIVE_ASSERT_SIZEOF(Abe, 0x2B4);
 
 ALIVE_VAR_EXTERN(Abe*, sActiveHero_507678);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
-ALIVE_VAR_EXTERN(short, gAbeInvulnerableCheat_5076E4);
-ALIVE_VAR_EXTERN(short, gAbeInvisibleCheat_5076F8);
+ALIVE_VAR_EXTERN(s16, gAbeInvulnerableCheat_5076E4);
+ALIVE_VAR_EXTERN(s16, gAbeInvisibleCheat_5076F8);
 
 EXPORT s32 CC Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 

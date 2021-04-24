@@ -18,7 +18,7 @@ struct Events
     EventsArray field_0_events[2];
 };
 
-ALIVE_VAR(1, 0x4FFA48, short, sEventsToUse_4FFA48, 0);
+ALIVE_VAR(1, 0x4FFA48, s16, sEventsToUse_4FFA48, 0);
 ALIVE_VAR(1, 0x4FF9A8, Events, sEventPtrs_4FF9A8, {});
 
 

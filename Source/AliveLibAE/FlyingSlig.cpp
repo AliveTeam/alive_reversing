@@ -497,7 +497,7 @@ s32 FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
 
     if (field_100_pCollisionLine)
     {
-        pState->field_36_line_idx = static_cast<short>(field_100_pCollisionLine - sCollisions_DArray_5C1128->field_0_pArray);
+        pState->field_36_line_idx = static_cast<s16>(field_100_pCollisionLine - sCollisions_DArray_5C1128->field_0_pArray);
     }
 
     pState->field_38_launch_id = field_17C_launch_id;
@@ -733,8 +733,8 @@ void FlyingSlig::sub_4348A0()
     field_18C = FP_FromInteger(0);
     field_190 = FP_FromInteger(0);
     sub_437C70(field_100_pCollisionLine);
-    const short v5 = FP_GetExponent(field_BC_ypos - field_1A4_rect.y);
-    const short v6 = FP_GetExponent(field_B8_xpos - field_1A4_rect.x);
+    const s16 v5 = FP_GetExponent(field_BC_ypos - field_1A4_rect.y);
+    const s16 v6 = FP_GetExponent(field_B8_xpos - field_1A4_rect.x);
     field_194 = FP_FromInteger(Math_SquareRoot_Int_496E70(v5 * v5 + v6 * v6));
     field_17E_flags.Set(Flags_17E::eBit4, field_118_data.field_10_data.field_A_direction == 0);
 }
@@ -3406,10 +3406,10 @@ s16 FlyingSlig::TryPullLever_439DB0()
     }
 
     // TODO: Can be replaced with FP_Rect and PSX_RECT.
-    const short rect_w = FP_GetExponent(rect_w_fp);
-    const short rect_x = FP_GetExponent(rect_x_fp);
-    const short rect_h = FP_GetExponent(rect_h_fp);
-    const short rect_y = FP_GetExponent(rect_y_fp);
+    const s16 rect_w = FP_GetExponent(rect_w_fp);
+    const s16 rect_x = FP_GetExponent(rect_x_fp);
+    const s16 rect_h = FP_GetExponent(rect_h_fp);
+    const s16 rect_y = FP_GetExponent(rect_y_fp);
 
     for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {

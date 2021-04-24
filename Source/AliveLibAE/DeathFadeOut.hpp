@@ -12,8 +12,8 @@ public:
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT DeathFadeOut* ctor_427030(Layer layer, s16 direction, s16 destroyOnDone, short speed, TPageAbr abr);
-    EXPORT void Init_427140(Layer layer, s16 direction, s16 destroyOnDone, short speed);
+    EXPORT DeathFadeOut* ctor_427030(Layer layer, s16 direction, s16 destroyOnDone, s16 speed, TPageAbr abr);
+    EXPORT void Init_427140(Layer layer, s16 direction, s16 destroyOnDone, s16 speed);
 private:
     EXPORT void dtor_427120();
     EXPORT DeathFadeOut* vdtor_4270F0(s32 flags);

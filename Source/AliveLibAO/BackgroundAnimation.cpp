@@ -36,28 +36,28 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     {
         xMax = pTlv->field_10_top_left.field_0_x;
     }
-    field_E8_xpos = static_cast<short>(xMax);
+    field_E8_xpos = static_cast<s16>(xMax);
 
     auto wMax = pTlv->field_10_top_left.field_0_x + pHeader->field_0_max_w;
     if (wMax <= pTlv->field_10_top_left.field_0_x)
     {
         wMax = pTlv->field_10_top_left.field_0_x;
     }
-    field_EC_w = static_cast<short>(wMax);
+    field_EC_w = static_cast<s16>(wMax);
 
     auto yMax = pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h;
     if (pTlv->field_10_top_left.field_2_y <= yMax)
     {
         yMax = pTlv->field_10_top_left.field_2_y;
     }
-    field_EA_ypos = static_cast<short>(yMax);
+    field_EA_ypos = static_cast<s16>(yMax);
 
     auto hMax = pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h;
     if (pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h <= pTlv->field_10_top_left.field_2_y)
     {
         hMax = pTlv->field_10_top_left.field_2_y;
     }
-    field_EE_h = static_cast<short>(hMax);
+    field_EE_h = static_cast<s16>(hMax);
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);

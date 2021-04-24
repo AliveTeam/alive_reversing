@@ -164,8 +164,8 @@ public:
             if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
-                short x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
-                short y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
+                s16 x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
+                s16 y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
 
                 if (IsInAnimationList(&aliveObj->field_20_animation))
                 {
@@ -174,7 +174,7 @@ public:
                         FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            y += static_cast<short>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
+                            y += static_cast<s16>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
                         }
                     }
                 }
@@ -403,8 +403,8 @@ public:
                 }
                 DEV::DebugDrawLine(ppOt, layer, l->field_0_rect.x, l->field_0_rect.y, l->field_0_rect.w, l->field_0_rect.h, color.r, color.g, color.b, true, false);
 
-                short id_x = l->field_0_rect.x - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
-                short id_y = l->field_0_rect.y - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
+                s16 id_x = l->field_0_rect.x - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
+                s16 id_y = l->field_0_rect.y - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
 
                 if (id_x > 0 && id_x <= 640 && id_y > 0 && id_y <= 240)
                 {
@@ -577,15 +577,15 @@ void Command_ToggleBool(bool * var, std::string varName)
 
 void Command_Teleport(const std::vector<std::string>& args)
 {
-    short level = 0;
+    s16 level = 0;
     if (IsStringNumber(args[0]))
     {
-        level = static_cast<short>(std::stoi(args[0]));
+        level = static_cast<s16>(std::stoi(args[0]));
     }
     else
     {
         bool found = false;
-        for (short i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot);i++)
+        for (s16 i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot);i++)
         {
             if (!strcmpi(sPathData_559660.paths[i].field_14_lvl_name, args[0].c_str()))
             {
@@ -600,8 +600,8 @@ void Command_Teleport(const std::vector<std::string>& args)
             DEV_CONSOLE_MESSAGE("Cannot find level specified!", 6);
         }
     }
-    short path = static_cast<short>(std::stoi(args[1]));
-    short cam = static_cast<short>(std::stoi(args[2]));
+    s16 path = static_cast<s16>(std::stoi(args[1]));
+    s16 cam = static_cast<s16>(std::stoi(args[2]));
     gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::eEffect5_1_FMV, 0, 0);
 
 
@@ -626,9 +626,9 @@ void Command_Menu(const std::vector<std::string>& args)
     s32 menuCam = std::stoi(args[0]);
     if (MainMenuController::gMainMenuController != nullptr)
     {
-        MainMenuController::gMainMenuController->field_21A_target_button_index = static_cast<short>(menuCam);
-        MainMenuController::gMainMenuController->field_218_target_page_index = static_cast<short>(MainMenuController::GetPageIndexFromCam_4D05A0(menuCam));
-        MainMenuController::gMainMenuController->field_21C_bDoScreenTransistionEffect = static_cast<short>(menuCam);
+        MainMenuController::gMainMenuController->field_21A_target_button_index = static_cast<s16>(menuCam);
+        MainMenuController::gMainMenuController->field_218_target_page_index = static_cast<s16>(MainMenuController::GetPageIndexFromCam_4D05A0(menuCam));
+        MainMenuController::gMainMenuController->field_21C_bDoScreenTransistionEffect = static_cast<s16>(menuCam);
         MainMenuController::gMainMenuController->field_23C_T80.Set(MainMenuController::Flags::eBit22_GameSpeakPlaying);
     }
 }
@@ -769,8 +769,8 @@ void Command_Spawn(const std::vector<std::string>& args)
         spawnY = FP_GetExponent(hitY);
     }
 
-    PSX_Point spawnTopLeft = { static_cast<short>(spawnX), static_cast<short>(spawnY - 5) };
-    PSX_Point spawnBottomRight = { static_cast<short>(spawnX + 50), static_cast<short>(spawnY + 30) };
+    PSX_Point spawnTopLeft = { static_cast<s16>(spawnX), static_cast<s16>(spawnY - 5) };
+    PSX_Point spawnBottomRight = { static_cast<s16>(spawnX + 50), static_cast<s16>(spawnY + 30) };
 
     TPathFunctionFn factoryFunc = nullptr;
     Path_TLV* factoryTLV = nullptr;
@@ -1120,8 +1120,8 @@ public:
 
             message->y = static_cast<float>(targetY);
 
-            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<short>(message->y), TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
-            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<short>(message->y) + 1, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<s16>(message->y), TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<s16>(message->y) + 1, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
 
             message->time--;
 
@@ -1173,8 +1173,8 @@ struct PsxTimImageHeader
 
 struct TimInfo
 {
-    short mRenderWidth;
-    short mHeight;
+    s16 mRenderWidth;
+    s16 mHeight;
     WORD mTPage;
     WORD mClut;
 };
@@ -1193,7 +1193,7 @@ static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
         s32 clutSkip = pHeader->mClutCount * pHeader->mNumClutColours * 2;
         pImgHeader = reinterpret_cast<const PsxTimImageHeader*>(timBuffer + sizeof(PsxTimHeader) + clutSkip);
 
-        PSX_RECT clutRect = { static_cast<short>(pHeader->mClutX), static_cast<short>(pHeader->mClutY), static_cast<short>(pHeader->mNumClutColours), static_cast<short>(1) };
+        PSX_RECT clutRect = { static_cast<s16>(pHeader->mClutX), static_cast<s16>(pHeader->mClutY), static_cast<s16>(pHeader->mNumClutColours), static_cast<s16>(1) };
         PSX_LoadImage16_4F5E20(&clutRect, (u8*)&pHeader[1]);
 
         pInfo->mClut = static_cast<WORD>(PSX_getClut_4F6350(pHeader->mClutX, pHeader->mClutY));
@@ -1238,7 +1238,7 @@ static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
         widthMultipler = 2;
     }
 
-    pInfo->mRenderWidth = static_cast<short>(pImgHeader->mImageRect.w * widthMultipler);
+    pInfo->mRenderWidth = static_cast<s16>(pImgHeader->mImageRect.w * widthMultipler);
     pInfo->mHeight = pImgHeader->mImageRect.h;
     pInfo->mTPage = static_cast<WORD>(PSX_getTPage_4F60E0(mode, abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
 }
@@ -1254,7 +1254,7 @@ public:
     void Render(PrimHeader** ppOt)
     {
         static PSX_Pos16 xy = {};
-        static short ypos = 0;
+        static s16 ypos = 0;
         ypos++;
         if (ypos > 30)
         {
@@ -1357,10 +1357,10 @@ private:
             SetTPage(&mPolyFT3, timInfo.mTPage);
             SetClut(&mPolyFT3, timInfo.mClut);
 
-            const short xpos = 30;
-            const short ypos = 160;
-            const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
-            const short h = timInfo.mHeight;
+            const s16 xpos = 30;
+            const s16 ypos = 160;
+            const s16 w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+            const s16 h = timInfo.mHeight;
 
             SetXY0(&mPolyFT3, xpos, ypos);
             SetXY1(&mPolyFT3, xpos, ypos + h);
@@ -1388,10 +1388,10 @@ private:
             SetTPage(&mPolyGT3, timInfo.mTPage);
             SetClut(&mPolyGT3, timInfo.mClut);
 
-            const short xpos = 180;
-            const short ypos = 90;
-            const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
-            const short h = timInfo.mHeight;
+            const s16 xpos = 180;
+            const s16 ypos = 90;
+            const s16 w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+            const s16 h = timInfo.mHeight;
 
             SetXY0(&mPolyGT3, xpos, ypos);
             SetXY1(&mPolyGT3, xpos, ypos + h);
@@ -1415,7 +1415,7 @@ private:
         }
 
         {
-            for (short i = 0; i < 4; i++)
+            for (s16 i = 0; i < 4; i++)
             {
                 PolyFT4_Init(&mPolyFT4[i]);
 
@@ -1449,10 +1449,10 @@ private:
                 SetTPage(&mPolyFT4[i], timInfo.mTPage);
                 SetClut(&mPolyFT4[i], timInfo.mClut);
 
-                const short xpos = 30 + (150 * i);
-                const short ypos = 20;
-                const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
-                const short h = timInfo.mHeight;
+                const s16 xpos = 30 + (150 * i);
+                const s16 ypos = 20;
+                const s16 w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+                const s16 h = timInfo.mHeight;
 
                 SetXY0(&mPolyFT4[i], xpos, ypos);
                 SetXY1(&mPolyFT4[i], xpos, ypos + h);
@@ -1485,10 +1485,10 @@ private:
             SetTPage(&mPolyGT4, timInfo.mTPage);
             SetClut(&mPolyGT4, timInfo.mClut);
 
-            const short xpos = 30;
-            const short ypos = 90;
-            const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
-            const short h = timInfo.mHeight;
+            const s16 xpos = 30;
+            const s16 ypos = 90;
+            const s16 w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+            const s16 h = timInfo.mHeight;
 
             SetXY0(&mPolyGT4, xpos, ypos);
             SetXY1(&mPolyGT4, xpos, ypos + h);
@@ -1730,7 +1730,7 @@ public:
             mWidth = 60;
         }
 
-        short xpos = mXPos;
+        s16 xpos = mXPos;
         for (auto& poly : mPolys)
         {
             SetXY0(&poly, xpos, mYPos);
@@ -1742,10 +1742,10 @@ public:
     }
 
 private:
-    short mWidth = 60;
-    short mHeight = 150;
-    short mXPos = 50;
-    short mYPos = 50/2;
+    s16 mWidth = 60;
+    s16 mHeight = 150;
+    s16 mXPos = 50;
+    s16 mYPos = 50/2;
     Poly_F3 mPolys[4];
 };
 
@@ -2058,18 +2058,18 @@ private:
         pr.h = 1;
         PSX_LoadImage16_4F5E20(&pr, (u8*)&kTestImagePal[0]);
 
-        for (short i = 0; i < 1; i++)
+        for (s16 i = 0; i < 1; i++)
         {
             PolyFT4_Init(&mPolyFT4[i]);
 
             SetRGB0(&mPolyFT4[i], 127, 127, 127);
             SetTPage(&mPolyFT4[i], 0);
-            SetClut(&mPolyFT4[i], static_cast<short>(PSX_getClut_4F6350(pr.x, pr.y)));
+            SetClut(&mPolyFT4[i], static_cast<s16>(PSX_getClut_4F6350(pr.x, pr.y)));
 
-            const short xpos = 20 + (150 * i);
-            const short ypos = 10;
-            const short w = 255; // All width doubled due to PC doubling the render width
-            const short h = 80;
+            const s16 xpos = 20 + (150 * i);
+            const s16 ypos = 10;
+            const s16 w = 255; // All width doubled due to PC doubling the render width
+            const s16 h = 80;
 
             SetXY0(&mPolyFT4[i], xpos, ypos);
             SetXY1(&mPolyFT4[i], xpos, ypos + h);
@@ -2238,7 +2238,7 @@ void Cheat_OpenAllDoors()
 {
     for (s32 i = 0; i < 256; i++)
     {
-        SwitchStates_Set_465FF0(static_cast<unsigned short>(i), 1);
+        SwitchStates_Set_465FF0(static_cast<u16>(i), 1);
     }
 
     DEV_CONSOLE_MESSAGE("(CHEAT) All doors opened", 4);
@@ -2270,10 +2270,10 @@ void DEV::DebugFillRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, 
 
     SetRGB0(mPolyF4, r, g, b);
 
-    SetXY0(mPolyF4, static_cast<short>(x), static_cast<short>(y));
-    SetXY1(mPolyF4, static_cast<short>(x), static_cast<short>(y + height));
-    SetXY2(mPolyF4, static_cast<short>(x + width), static_cast<short>(y));
-    SetXY3(mPolyF4, static_cast<short>(x + width), static_cast<short>(y + height));
+    SetXY0(mPolyF4, static_cast<s16>(x), static_cast<s16>(y));
+    SetXY1(mPolyF4, static_cast<s16>(x), static_cast<s16>(y + height));
+    SetXY2(mPolyF4, static_cast<s16>(x + width), static_cast<s16>(y));
+    SetXY3(mPolyF4, static_cast<s16>(x + width), static_cast<s16>(y + height));
 
     Poly_Set_SemiTrans_4F8A60(&mPolyF4->mBase.header, semiTransparent);
 
@@ -2310,10 +2310,10 @@ void DEV::DebugDrawLine(PrimHeader ** ot, Layer layer, s32 x1, s32 y1, s32 x2, s
 
     // TODO: Might as well use Line_F2 here
     SetRGB0(mLineG2, r, g, b);
-    SetXY0(mLineG2, static_cast<short>(x1), static_cast<short>(y1));
+    SetXY0(mLineG2, static_cast<s16>(x1), static_cast<s16>(y1));
 
     SetRGB1(mLineG2, r, g, b);
-    SetXY1(mLineG2, static_cast<short>(x2), static_cast<short>(y2));
+    SetXY1(mLineG2, static_cast<s16>(x2), static_cast<s16>(y2));
 
     Poly_Set_SemiTrans_4F8A60(&mLineG2->mBase.header, semiTransparent);
 
@@ -2331,8 +2331,8 @@ void DEV::DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, s32 x
         y -= FP_GetExponent(camOffset.field_4_y);
     }
 
-    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2), static_cast<short>(y), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
-    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, static_cast<short>(y + 1), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2), static_cast<s16>(y), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, static_cast<s16>(y + 1), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
 }
 
 void DEV::DebugOnFrameDraw(PrimHeader** ppOt)

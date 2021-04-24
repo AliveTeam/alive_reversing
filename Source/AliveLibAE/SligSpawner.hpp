@@ -12,8 +12,8 @@ struct Slig_Spawner_State
     AETypes field_0_type;
     s16 field_2_padding;
     s32 field_4_tlvInfo;
-    short field_8_state;
-    short field_A_padding;
+    s16 field_8_state;
+    s16 field_A_padding;
     s32 field_C_spawned_slig_obj_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_Spawner_State, 0x10);

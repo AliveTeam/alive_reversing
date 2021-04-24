@@ -69,7 +69,7 @@ void CircularFade::VRender_47A080(PrimHeader** ppOt)
     Init_Tile(pTile2_1);
     SetRGB0(pTile2_1, fadeColour, fadeColour, fadeColour);
 
-    short w = 0;
+    s16 w = 0;
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         w = rect.x + 1;

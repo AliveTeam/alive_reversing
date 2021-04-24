@@ -16,7 +16,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x4FFD68, FontContext, sFontContext_4FFD68, {});
 
-ALIVE_VAR(1, 0x5080E4, short, sDisableFontFlicker_5080E4, 0);
+ALIVE_VAR(1, 0x5080E4, s16, sDisableFontFlicker_5080E4, 0);
 ALIVE_VAR(1, 0x508BF4, u8, sFontDrawScreenSpace_508BF4, 0);
 
 const Font_AtlasEntry sFont1Atlas_4C56E8[116] =
@@ -258,7 +258,7 @@ void CC FontContext::static_dtor_41C020()
     sFontContext_4FFD68.dtor_41C110();
 }
 
-void FontContext::LoadFontType_41C040(short resourceID)
+void FontContext::LoadFontType_41C040(s16 resourceID)
 {
     field_C_resource_id = resourceID;
     auto loadedResource = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Font, resourceID, 1, 0);
@@ -266,7 +266,7 @@ void FontContext::LoadFontType_41C040(short resourceID)
 
     vram_alloc_450B20(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
     
-    const PSX_RECT rect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
+    const PSX_RECT rect = { field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
     IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, rect, fontFile->field_28_pixel_buffer);
 
@@ -406,7 +406,7 @@ EXPORT s32 AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, s16
 
     s32 characterRenderCount = 0;
     const s32 maxRenderX = PsxToPCX(maxRenderWidth, 11);
-    short offsetX = x;
+    s16 offsetX = x;
     s32 charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_504C78.field_A_buffer_index + (2 * polyOffset)];
 
@@ -444,8 +444,8 @@ EXPORT s32 AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, s16
         const char texture_u = static_cast<char>(atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F)));
         const char texture_v = static_cast<char>(atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y));
 
-        const short widthScaled = static_cast<short>(charWidth * FP_GetDouble(scale));
-        const short heightScaled = static_cast<short>(charHeight * FP_GetDouble(scale));
+        const s16 widthScaled = static_cast<s16>(charWidth * FP_GetDouble(scale));
+        const s16 heightScaled = static_cast<s16>(charHeight * FP_GetDouble(scale));
 
         PolyFT4_Init(poly);
 
@@ -457,13 +457,13 @@ EXPORT s32 AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, s16
         SetRGB0
         (
             poly,
-            static_cast<u8>(r + Math_RandomRange_450F20(static_cast<short>(-colorRandomRange), static_cast<short>(colorRandomRange))),
-            static_cast<u8>(g + Math_RandomRange_450F20(static_cast<short>(-colorRandomRange), static_cast<short>(colorRandomRange))),
-            static_cast<u8>(b + Math_RandomRange_450F20(static_cast<short>(-colorRandomRange), static_cast<short>(colorRandomRange)))
+            static_cast<u8>(r + Math_RandomRange_450F20(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))),
+            static_cast<u8>(g + Math_RandomRange_450F20(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))),
+            static_cast<u8>(b + Math_RandomRange_450F20(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange)))
         );
 
-        SetTPage(poly, static_cast<short>(tpage));
-        SetClut(poly, static_cast<short>(clut));
+        SetTPage(poly, static_cast<s16>(tpage));
+        SetClut(poly, static_cast<s16>(clut));
 
         // Padding
         poly->mVerts[1].mUv.tpage_clut_pad = 0;

@@ -234,7 +234,7 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
 
         SetXY0(pPoly, field_24E_width, field_250_k120);
         SetXY1(pPoly, x0, y0);
-        SetXY2(pPoly, static_cast<short>(x1), static_cast<short>(y1));
+        SetXY2(pPoly, static_cast<s16>(x1), static_cast<s16>(y1));
 
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_24C_layer), &pPoly->mBase.header);
     }

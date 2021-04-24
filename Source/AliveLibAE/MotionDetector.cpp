@@ -265,13 +265,13 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
         const FP camXFp = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
         const FP camYFp = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
 
-        const short screenX = FP_GetExponent(field_B8_xpos) - FP_GetExponent(camXFp);
+        const s16 screenX = FP_GetExponent(field_B8_xpos) - FP_GetExponent(camXFp);
 
-        const short x0 = static_cast<short>(PsxToPCX(screenX, 11));
-        const short y0 = FP_GetExponent(field_BC_ypos) - FP_GetExponent(camYFp);
-        const short y1 = FP_GetExponent(pLaser->field_BC_ypos - camYFp);
-        const short y2 = y1 + bLaserRect.y - bLaserRect.h;
-        const short x1 = PsxToPCX(FP_GetExponent(pLaser->field_B8_xpos - camXFp), 11);
+        const s16 x0 = static_cast<s16>(PsxToPCX(screenX, 11));
+        const s16 y0 = FP_GetExponent(field_BC_ypos) - FP_GetExponent(camYFp);
+        const s16 y1 = FP_GetExponent(pLaser->field_BC_ypos - camYFp);
+        const s16 y2 = y1 + bLaserRect.y - bLaserRect.h;
+        const s16 x1 = PsxToPCX(FP_GetExponent(pLaser->field_B8_xpos - camXFp), 11);
 
         Poly_F3* pPrim = &field_124_prims[gPsxDisplay_5C1130.field_C_buffer_index];
         PolyF3_Init(pPrim);

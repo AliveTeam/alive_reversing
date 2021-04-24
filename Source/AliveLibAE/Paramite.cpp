@@ -4070,8 +4070,8 @@ void Paramite::M_CloseAttack_16_48DDA0()
             PSX_RECT ourRect = {};
             vGetBoundingRect_424FD0(&ourRect, 1);
 
-            short right = 0;
-            short left = 0;
+            s16 right = 0;
+            s16 left = 0;
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 right = ourRect.x;
@@ -4561,8 +4561,8 @@ void Paramite::M_RunningAttack_31_48C9E0()
             PSX_RECT ourRect = {};
             vGetBoundingRect_424FD0(&ourRect, 1);
 
-            short right = 0;
-            short left = 0;
+            s16 right = 0;
+            s16 left = 0;
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 right = ourRect.x;
@@ -5075,8 +5075,8 @@ void Paramite::M_Attack_43_48DB70()
         PSX_RECT ourRect = {};
         vGetBoundingRect_424FD0(&ourRect, 1);
 
-        short right = 0;
-        short left = 0;
+        s16 right = 0;
+        s16 left = 0;
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
             right = ourRect.x;
@@ -6291,7 +6291,7 @@ void Paramite::HandleInputRunning_48ADB0()
     }
 }
 
-ALIVE_VAR(1, 0x5C92EC, short, sParamiteDelayIdx_5C92EC, 0);
+ALIVE_VAR(1, 0x5C92EC, s16, sParamiteDelayIdx_5C92EC, 0);
 
 const s16 sParamiteDelayTable_55D7B8[4] = { 0, 5, 10, 0 };
 
@@ -6325,7 +6325,7 @@ void Paramite::Sound_48F600(ParamiteSpeak soundId, s16 pitch_min)
 {
     const CameraPos direction = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
 
-    short volRight = 0;
+    s16 volRight = 0;
     if (soundId == ParamiteSpeak::Howdy_5)
     {
         volRight = paramite_stru_55D7C0[5].field_3_default_volume;
@@ -6351,7 +6351,7 @@ void Paramite::Sound_48F600(ParamiteSpeak soundId, s16 pitch_min)
     PSX_RECT pRect = {};
     gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
 
-    short volLeft = 0;
+    s16 volLeft = 0;
     switch (direction)
     {
     case CameraPos::eCamCurrent_0:
@@ -6361,7 +6361,7 @@ void Paramite::Sound_48F600(ParamiteSpeak soundId, s16 pitch_min)
     case CameraPos::eCamTop_1:
     case CameraPos::eCamBottom_2:
     {
-        const short v12 = FP_GetExponent(FP_FromRaw(paramite_stru_55D7C0[static_cast<s32>(soundId)].field_3_default_volume) / FP_FromInteger(3));
+        const s16 v12 = FP_GetExponent(FP_FromRaw(paramite_stru_55D7C0[static_cast<s32>(soundId)].field_3_default_volume) / FP_FromInteger(3));
         volLeft = v12;
         volRight = v12;
         break;

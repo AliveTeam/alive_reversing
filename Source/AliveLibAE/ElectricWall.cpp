@@ -153,9 +153,9 @@ void ElectricWall::vUpdate_422030()
 
         PSX_RECT bRectBigger;
         bRectBigger.x = FP_GetExponent(field_B8_xpos - FP_FromInteger(4));
-        bRectBigger.y = static_cast<short>(bRect.y + 5);
+        bRectBigger.y = static_cast<s16>(bRect.y + 5);
         bRectBigger.w = FP_GetExponent(field_B8_xpos + FP_FromInteger(4));
-        bRectBigger.h = static_cast<short>(bRect.h + 5);
+        bRectBigger.h = static_cast<s16>(bRect.h + 5);
 
         for (s32 i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {

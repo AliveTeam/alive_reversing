@@ -57,10 +57,10 @@ ALIVE_VAR(1, 0x5C1B78, DynamicArrayT<BaseGameObject>*, ObjList_5C1B78, nullptr);
 ALIVE_VAR(1, 0x5BD4D8, DynamicArray*, ObjList_5BD4D8, nullptr);
 ALIVE_VAR(1, 0x5C1B80, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_5C1B80, nullptr);
 
-ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);
-ALIVE_VAR(1, 0x5C1B66, short, sNum_CamSwappers_5C1B66, 0);
+ALIVE_VAR(1, 0x5C2FE0, s16, sBreakGameLoop_5C2FE0, 0);
+ALIVE_VAR(1, 0x5C1B66, s16, sNum_CamSwappers_5C1B66, 0);
 ALIVE_VAR(1, 0x5C2F78, s32, dword_5C2F78, 0);
-ALIVE_VAR(1, 0x5C2FA0, short, bSkipGameObjectUpdates_5C2FA0, 0);
+ALIVE_VAR(1, 0x5C2FA0, s16, bSkipGameObjectUpdates_5C2FA0, 0);
 
 ALIVE_ARY(1, 0x5CA488, char, 30, sCdRomDrives_5CA488, {});
 ALIVE_VAR(1, 0x5CA4D4, s32, dword_5CA4D4, 0);
@@ -78,7 +78,7 @@ ALIVE_VAR(1, 0x5CA4DC, s32, sFrameDiff_5CA4DC, 0);
 ALIVE_VAR(1, 0xC2D03C, s32, sNumRenderedPrims_C2D03C, 0);
 ALIVE_VAR(1, 0x5CA300, s32, sFrameCount_5CA300, 0);
 
-ALIVE_VAR(1, 0x5C1B94, short, word_5C1B94, 0);
+ALIVE_VAR(1, 0x5C1B94, s16, word_5C1B94, 0);
 ALIVE_VAR(1, 0x5C2A4C, Abe, gAbeObj_5C2A4C, {}); // TODO: Refactor to remove global object, in fact it seems pointless since an abe can get new'ed up, just check the BaseGameObject type instead ??
 ALIVE_VAR(1, 0x554D5C, Abe*, spAbe_554D5C, &gAbeObj_5C2A4C);
 
@@ -149,7 +149,7 @@ void DestroyObjects_4A1F20()
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
     for (s32 iterations =0; iterations < 2; iterations++)
     {
-        short idx = 0;
+        s16 idx = 0;
 
 
 
@@ -526,7 +526,7 @@ EXPORT void CC Game_Run_466D40()
     camera.dtor_480E00();
 
     Input_Init_491BC0();
-    short cameraId = 25;
+    s16 cameraId = 25;
 #if DEVELOPER_MODE
 #if _WIN32
     if (GetKeyState(VK_LSHIFT) >= 0)
@@ -827,7 +827,7 @@ EXPORT void CC Game_Loop_467230()
         gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
 
         // Destroy objects with certain flags
-        for (short idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        for (s16 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
             if (!pObj)
@@ -890,7 +890,7 @@ EXPORT void CC Game_Loop_467230()
     {
         DynamicArrayIter iter = {};
         iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
-        for (short idx =0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        for (s16 idx =0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
             iter.field_4_idx = idx + 1;

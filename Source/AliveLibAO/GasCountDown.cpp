@@ -51,7 +51,7 @@ const u8 byte_4C5080[32] =
 };
 
 ALIVE_VAR(1, 0x507700, s32, sGasTimer_507700, 0);
-ALIVE_VAR(1, 0x4FF888, short, gGasOn_4FF888, 0);
+ALIVE_VAR(1, 0x4FF888, s16, gGasOn_4FF888, 0);
 
 GasCountDown* GasCountDown::ctor_40BF60(Path_GasCountDown* pTlv, s32 tlvInfo)
 {

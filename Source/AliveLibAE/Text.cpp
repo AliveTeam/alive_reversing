@@ -46,7 +46,7 @@ EXPORT Text* Text::ctor_46ADA0(const char* pMessage, s32 renderCount, s32 bShado
 
     field_20_font.ctor_433590(static_cast<s32>((bShadow + 1) * strlen(pMessage)), pal_554474, &sFont1Context_5BC5C8);
 
-    field_5C_xpos = static_cast<short>(field_20_font.MeasureWidth_433700(pMessage));
+    field_5C_xpos = static_cast<s16>(field_20_font.MeasureWidth_433700(pMessage));
     field_5E_ypos = 0;
 
     field_58_k0_unused = 0; // never used?
@@ -54,7 +54,7 @@ EXPORT Text* Text::ctor_46ADA0(const char* pMessage, s32 renderCount, s32 bShado
 
     memcpy(field_68_txt_buffer, pMessage, strlen(pMessage) + 1);
 
-    field_60_bShadow = static_cast<short>(bShadow);
+    field_60_bShadow = static_cast<s16>(bShadow);
     field_64_render_count = renderCount;
 
     return this;

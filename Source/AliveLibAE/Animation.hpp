@@ -53,8 +53,8 @@ union PointsUnion
 struct FrameInfoHeader
 {
     DWORD field_0_frame_header_offset;
-    short field_4_magic;
-    short field_6_count;
+    s16 field_4_magic;
+    s16 field_6_count;
     PointsUnion field_8_data;
 };
 
@@ -62,10 +62,10 @@ struct AnimationHeader
 {
     // Meta data - the offset where this record was read from
     WORD field_0_fps;            // Seems to be 0x1 or 0x2
-    short field_2_num_frames;      // Number of frames in the set
+    s16 field_2_num_frames;      // Number of frames in the set
 
                                        // If loop flag set then this is the frame to loop back to
-    short field_4_loop_start_frame;
+    s16 field_4_loop_start_frame;
 
     // These where reversed by editing data in memory on PSX version
     enum eFlags
@@ -130,7 +130,7 @@ public:
 
     EXPORT void Invoke_CallBacks_40B7A0();
 
-    void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, short width_bpp_adjusted);
+    void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted);
 
     WORD field_10_frame_delay;
     WORD field_12_scale; // padding?

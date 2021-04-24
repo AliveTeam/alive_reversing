@@ -38,7 +38,7 @@ u8 Math_NextRandom()
     return ::Math_NextRandom(); // Ae ver
 }
 
-short CC Math_RandomRange_450F20(signed short min, signed short max)
+s16 CC Math_RandomRange_450F20(s16 min, s16 max)
 {
     AE_IMPLEMENTED();
     return Math_RandomRange_496AB0(min, max);

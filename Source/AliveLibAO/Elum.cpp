@@ -405,9 +405,9 @@ BaseGameObject* Elum::dtor_base_416FE0()
     return dtor_401000();
 }
 
-u8** Elum::GetResBlock_410D00(short currentMotion)
+u8** Elum::GetResBlock_410D00(s16 currentMotion)
 {
-    short new_idx = 0;
+    s16 new_idx = 0;
     if (currentMotion < eElumStates::State_21_Land_414A20)
     {
         new_idx = 0;
@@ -634,8 +634,8 @@ void Elum::MoveOnLine_412580(s16 xLookAhead)
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
             VOnCollisionWith(
-                {bRect.x, static_cast<short>(bRect.y + 5)},
-                {bRect.w, static_cast<short>(bRect.h + 5)},
+                {bRect.x, static_cast<s16>(bRect.y + 5)},
+                {bRect.w, static_cast<s16>(bRect.h + 5)},
                 ObjListPlatforms_50766C,
                 1,
                 (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -2879,8 +2879,8 @@ void Elum::State_32_HopLand_415140()
         VGetBoundingRect(&bRect, 1);
 
         VOnCollisionWith(
-            { bRect.x, static_cast<short>(bRect.y + 5) },
-            { bRect.w, static_cast<short>(bRect.h + 5) },
+            { bRect.x, static_cast<s16>(bRect.y + 5) },
+            { bRect.w, static_cast<s16>(bRect.h + 5) },
             ObjListPlatforms_50766C,
             1,
             (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -2949,8 +2949,8 @@ void Elum::State_35_RunJumpLand_415580()
         VGetBoundingRect(&bRect, 1);
 
         VOnCollisionWith(
-            { bRect.x, static_cast<short>(bRect.y + 5) },
-            { bRect.w, static_cast<short>(bRect.h + 5) },
+            { bRect.x, static_cast<s16>(bRect.y + 5) },
+            { bRect.w, static_cast<s16>(bRect.h + 5) },
             ObjListPlatforms_50766C,
             1,
             (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -3708,8 +3708,8 @@ void Elum::VUpdate_4102A0()
                 VGetBoundingRect(&bRect, 1);
 
                 VOnCollisionWith(
-                    {bRect.x, static_cast<short>(bRect.y + 5)},
-                    {bRect.w, static_cast<short>(bRect.h + 5)},
+                    {bRect.x, static_cast<s16>(bRect.y + 5)},
+                    {bRect.w, static_cast<s16>(bRect.h + 5)},
                     ObjListPlatforms_50766C,
                     1,
                     (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -3875,11 +3875,11 @@ void Elum::vScreenChange_411340()
     }
 }
 
-ALIVE_VAR(1, 0x4C52F0, short, word_4C52F0, 0x88);
-ALIVE_VAR(1, 0x4C52F2, short, word_4C52F2, 0x38);
+ALIVE_VAR(1, 0x4C52F0, s16, word_4C52F0, 0x88);
+ALIVE_VAR(1, 0x4C52F2, s16, word_4C52F2, 0x38);
 ALIVE_VAR(1, 0x4C52F4, DWORD, dword_4C52F4, 0x1C92C);
 ALIVE_VAR(1, 0x4C52F8, DWORD, dword_4C52F8, 0xC8);
-ALIVE_VAR(1, 0x4C52FA, short, word_4C52FA, 0);
+ALIVE_VAR(1, 0x4C52FA, s16, word_4C52FA, 0);
 
 void Elum::Spawn_410E90(TlvItemInfoUnion tlvInfo)
 {

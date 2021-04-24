@@ -19,7 +19,7 @@ TimerTrigger* TimerTrigger::ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo)
     field_24_ids[1] = pTlv->field_16_id2;
     field_24_ids[2] = pTlv->field_18_id3;
     field_24_ids[3] = pTlv->field_1A_id4;
-    field_38_starting_switch_state = static_cast<short>(SwitchStates_Get_466020(field_20_id));
+    field_38_starting_switch_state = static_cast<s16>(SwitchStates_Get_466020(field_20_id));
     field_22_state = TimerTriggerStates::eWaitForEnabled_0;
     return this;
 }

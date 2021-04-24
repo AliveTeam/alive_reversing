@@ -2013,8 +2013,8 @@ s16 Glukkon::AI_5_WaitToSpawn_442490()
 
             for (const auto& p : v00554768)
             {
-                const short sparkX = FP_GetExponent(FP_FromInteger(p.field_0_x) + field_B8_xpos + FP_FromInteger(13));
-                const short sparkY = FP_GetExponent(field_BC_ypos + FP_FromInteger(p.field_2_y) - FP_FromInteger(11));
+                const s16 sparkX = FP_GetExponent(FP_FromInteger(p.field_0_x) + field_B8_xpos + FP_FromInteger(13));
+                const s16 sparkY = FP_GetExponent(field_BC_ypos + FP_FromInteger(p.field_2_y) - FP_FromInteger(11));
                 auto pSpark = ae_new<Spark>();
                 if (pSpark)
                 {

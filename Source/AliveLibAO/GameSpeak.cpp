@@ -134,10 +134,10 @@ void GameSpeak::VUpdate_40FA20()
     }
 }
 
-short CC GameSpeak::sub_40FA60(s32 code, u8* pBuffer)
+s16 CC GameSpeak::sub_40FA60(s32 code, u8* pBuffer)
 {
     const s16 len = Code_Length_475FD0(code);
-    for (short idx = 0; idx < len; ++idx)
+    for (s16 idx = 0; idx < len; ++idx)
     {
         pBuffer[idx] = static_cast<u8>(Code_LookUp_476050(code, idx, len));
     }
@@ -148,7 +148,7 @@ GameSpeakMatch GameSpeak::MatchBuffer_40FAA0(u8* pBuffer, s16 bufferLen, s16 buf
 {
     if (bufferStartIdx == -1)
     {
-        bufferStartIdx = static_cast<short>(field_18_last_event_index - bufferLen);
+        bufferStartIdx = static_cast<s16>(field_18_last_event_index - bufferLen);
         if (bufferStartIdx < 0)
         {
             bufferStartIdx += ALIVE_COUNTOF(field_1C_event_buffer);

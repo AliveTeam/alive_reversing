@@ -312,7 +312,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
             {
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
-                const short xpos = FP_GetExponent(pLiftPoint->field_B8_xpos);
+                const s16 xpos = FP_GetExponent(pLiftPoint->field_B8_xpos);
                 if (pTlv->field_8_top_left.field_0_x <= xpos &&
                     xpos <= pTlv->field_C_bottom_right.field_0_x &&
                     pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_id &&
@@ -340,7 +340,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
         else
         {
             // Find out where to create the lift point
-            short pointNumber = 1;
+            s16 pointNumber = 1;
             while (pointNumber < 8)
             {
                 Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(
@@ -414,8 +414,8 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
     {
         auto pDoveTlv = static_cast<Path_Dove*>(pTlv);
 
-        const short width = pDoveTlv->field_C_bottom_right.field_0_x - pDoveTlv->field_8_top_left.field_0_x;
-        const short height = pDoveTlv->field_C_bottom_right.field_2_y - pDoveTlv->field_8_top_left.field_2_y;
+        const s16 width = pDoveTlv->field_C_bottom_right.field_0_x - pDoveTlv->field_8_top_left.field_0_x;
+        const s16 height = pDoveTlv->field_C_bottom_right.field_2_y - pDoveTlv->field_8_top_left.field_2_y;
 
         for (s32 i = 0; i < pDoveTlv->field_10_dove_count; i++)
         {
@@ -425,7 +425,7 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
                 pDove->ctor_41F430(5580, 41, 20, 60, tlvInfo.all, pDoveTlv->field_14_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
             }
 
-            short ypos = 0;
+            s16 ypos = 0;
             if (pDoveTlv->field_12_pixel_perfect)
             {
                 pDove->field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
@@ -923,7 +923,7 @@ EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUn
         pBound->field_0_flags.Clear(TLV_Flags::eBit1_Created);
         pBound->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
 
-        for (short camX_idx = -2; camX_idx < 3; camX_idx++)
+        for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
             Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(camX_idx, 0);
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);

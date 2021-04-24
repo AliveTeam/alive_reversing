@@ -141,7 +141,7 @@ s32 CC SFX_Play_46FB10(u8 sfxId, s32 leftVol, s32 rightVol, FP scale)
         rightVol = 2 * rightVol / 3;
     }
 
-    return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], static_cast<short>(leftVol), static_cast<short>(rightVol), 0x7FFF, 0x7FFF);
+    return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], static_cast<s16>(leftVol), static_cast<s16>(rightVol), 0x7FFF, 0x7FFF);
 }
 
 s32 CC SFX_Play_46FBA0(u8 sfxIdx, s16 volume, s32 pitch, FP scale)
@@ -154,7 +154,7 @@ s32 CC SFX_Play_46FBA0(u8 sfxIdx, s16 volume, s32 pitch, FP scale)
     {
         volume = static_cast<s16>(volume / 1.5);
     }
-    return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, static_cast<short>(pitch), static_cast<short>(pitch));
+    return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, static_cast<s16>(pitch), static_cast<s16>(pitch));
 }
 
 s32 CC SFX_Play_46FA90(u8 sfxIdx, s16 volume, FP scale)

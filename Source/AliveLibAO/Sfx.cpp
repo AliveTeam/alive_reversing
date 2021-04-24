@@ -152,18 +152,18 @@ s32 CC SFX_Play_43AD70(u8 sfxIdx, s32 volume, BaseAnimatedWithPhysicsGameObject*
 
 s32 CC SFX_Play_43ADE0(u8 sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    short left = 0;
-    short right = 0;
+    s16 left = 0;
+    s16 right = 0;
 
     if (pObj && pObj->field_BC_sprite_scale == FP_FromDouble(0.5))
     {
-        left = static_cast<short>(2 * leftVol / 3);
-        right = static_cast<short>(2 * rightVol / 3);
+        left = static_cast<s16>(2 * leftVol / 3);
+        right = static_cast<s16>(2 * rightVol / 3);
     }
     else
     {
-        right = static_cast<short>(rightVol);
-        left = static_cast<short>(leftVol);
+        right = static_cast<s16>(rightVol);
+        left = static_cast<s16>(leftVol);
     }
     return SFX_SfxDefinition_Play_477330(&sSfxEntries_4CCA38[sfxId], left, right, 0x7FFF, 0x7FFF);
 }
@@ -185,8 +185,8 @@ s32 CC SFX_Play_43AED0(u8 sfxId, s32 volume, CameraPos direction)
         {
             return SFX_SfxDefinition_Play_477330(
                 &sSfxEntries_4CCA38[sfxId],
-                static_cast<short>(2 * volume / 3),
-                static_cast<short>(2 * volume / 9),
+                static_cast<s16>(2 * volume / 3),
+                static_cast<s16>(2 * volume / 9),
                 0x7FFF,
                 0x7FFF
             );
@@ -195,8 +195,8 @@ s32 CC SFX_Play_43AED0(u8 sfxId, s32 volume, CameraPos direction)
         {
             return SFX_SfxDefinition_Play_477330(
                 &sSfxEntries_4CCA38[sfxId],
-                static_cast<short>(2 * volume / 9),
-                static_cast<short>(2 * volume / 3),
+                static_cast<s16>(2 * volume / 9),
+                static_cast<s16>(2 * volume / 3),
                 0x7FFF,
                 0x7FFF
             );

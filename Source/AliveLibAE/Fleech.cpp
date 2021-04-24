@@ -23,7 +23,7 @@
 #include "Sound/Midi.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, u8, sFleechRandomIdx_5BC20C, 0);
-ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);
+ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);
 
 const TFleechMotionFn sFleech_motion_table_551798[19] =
 {
@@ -856,8 +856,8 @@ void Fleech::M_Fall_9_42ECD0()
                 PSX_RECT bRect = {};
                 vGetBoundingRect_424FD0(&bRect, 1);
                 vOnCollisionWith_424EE0(
-                    { bRect.x, static_cast<short>(bRect.y + 5) },
-                    { bRect.w, static_cast<short>(FP_GetExponent(field_BC_ypos) + 5) },
+                    { bRect.x, static_cast<s16>(bRect.y + 5) },
+                    { bRect.w, static_cast<s16>(FP_GetExponent(field_BC_ypos) + 5) },
                     ObjList_5C1B78,
                     1,
                     (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
@@ -911,7 +911,7 @@ void Fleech::M_RaiseHead_11_42F590()
         field_C4_velx = FP_FromInteger(0);
         field_C8_vely = FP_FromInteger(-1);
 
-        const short yOff = field_CC_sprite_scale >= FP_FromInteger(1) ? 0 : -10;
+        const s16 yOff = field_CC_sprite_scale >= FP_FromInteger(1) ? 0 : -10;
         auto pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
             field_160_hoistX,
             FP_GetExponent(field_BC_ypos - FP_FromInteger((yOff + 20))),
@@ -2620,8 +2620,8 @@ void Fleech::MoveAlongFloor_42E600()
             {
                 PSX_RECT bRect = {};
                 vGetBoundingRect_424FD0(&bRect, 1);
-                const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-                const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+                const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+                const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
                 vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
             }
         }
@@ -3152,7 +3152,7 @@ s16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
             {
                 if (FP_FromInteger(field_14C) <= field_B8_xpos)
                 {
-                    short patrolRangeDelta = FP_GetExponent(field_B8_xpos) - field_150_patrol_range;
+                    s16 patrolRangeDelta = FP_GetExponent(field_B8_xpos) - field_150_patrol_range;
                     if (field_14C > patrolRangeDelta)
                     {
                         patrolRangeDelta = field_14C;
@@ -3166,7 +3166,7 @@ s16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
                 }
                 else
                 {
-                    short patrolRangeDelta = field_150_patrol_range + FP_GetExponent(field_B8_xpos);
+                    s16 patrolRangeDelta = field_150_patrol_range + FP_GetExponent(field_B8_xpos);
                     if (field_14C <= patrolRangeDelta)
                     {
                         patrolRangeDelta = field_14C;

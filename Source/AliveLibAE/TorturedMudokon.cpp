@@ -261,7 +261,7 @@ void TorturedMudokon::vUpdate_47BF80()
         }
         field_18C_zap_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         SFX_Play_46FA90(SoundEffect::ElectricZap_39, 70);
-        const short sndRnd = Math_RandomRange_496AB0(0, 3) - 1;
+        const s16 sndRnd = Math_RandomRange_496AB0(0, 3) - 1;
         if (sndRnd)
         {
             if (sndRnd == 1)

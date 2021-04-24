@@ -144,8 +144,8 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
         sFlintLockFireData_4BAC70[cur_lvl].field_4_frameTable2,
         gObjList_animations_505564,
         this,
-        static_cast<short>(sFlintLockFireData_4BAC70[cur_lvl].field_8_maxW2),
-        static_cast<short>(sFlintLockFireData_4BAC70[cur_lvl].field_C_maxH2),
+        static_cast<s16>(sFlintLockFireData_4BAC70[cur_lvl].field_8_maxW2),
+        static_cast<s16>(sFlintLockFireData_4BAC70[cur_lvl].field_C_maxH2),
         ppRes,
         1,
         0,
@@ -325,9 +325,9 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
             field_220_anim.field_14_scale = field_BC_sprite_scale;
         }
 
-        short r = field_C0_r;
-        short g = field_C2_g;
-        short b = field_C4_b;
+        s16 r = field_C0_r;
+        s16 g = field_C2_g;
+        s16 b = field_C4_b;
 
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);

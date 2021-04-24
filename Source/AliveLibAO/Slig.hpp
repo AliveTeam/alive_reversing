@@ -262,7 +262,7 @@ public:
 
     EXPORT u8** ResBlockForMotion_4654D0(s16 motion);
 
-    EXPORT BOOL VIs8_465630(short motion);
+    EXPORT BOOL VIs8_465630(s16 motion);
 
     EXPORT void ToShoot_46F1D0();
     EXPORT void ToZShoot_46F200();
@@ -297,7 +297,7 @@ public:
 
     void ToPanicTurn();
 
-    void PlayerControlRunningSlideStopOrTurn(short last_anim_frame);
+    void PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame);
 
     EXPORT s16 GetNextMotionIncGameSpeak_467700(u16 input);
 

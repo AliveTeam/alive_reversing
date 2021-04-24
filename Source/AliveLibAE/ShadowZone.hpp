@@ -34,7 +34,7 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT ShadowZone* ctor_463900(Path_ShadowZone* pTlv, Path* pPath, DWORD tlvInfo);
-    EXPORT static void CC ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypos, s16 scale, short* r, short* g, short* b);
+    EXPORT static void CC ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
 private:
     EXPORT void dtor_463BB0();
     EXPORT ShadowZone* vdtor_463A70(s32 flags);

@@ -75,11 +75,11 @@ void DeathFadeOut::Init_419E40(Layer layer, s16 direction, s16 destroyOnDone, s3
 
     if (direction == 0)
     {
-        field_6A_speed = static_cast<short>(-speed);
+        field_6A_speed = static_cast<s16>(-speed);
     }
     else
     {
-        field_6A_speed = static_cast<short>(speed);
+        field_6A_speed = static_cast<s16>(speed);
     }
 }
 

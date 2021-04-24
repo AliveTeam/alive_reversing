@@ -10,7 +10,7 @@
 #include "Events.hpp"
 
 ALIVE_VAR(1, 0x5BC214, s32, gGasInstanceCount_5BC214, 0);
-ALIVE_VAR(1, 0x5C1BA4, short, gLaughingGasOn_5C1BA4, FALSE);
+ALIVE_VAR(1, 0x5C1BA4, s16, gLaughingGasOn_5C1BA4, FALSE);
 
 // On linux not using this random algorithm produces much bigger numbers
 // which causes flickering in the gas rendering. Apparently this is the MSVC algorithm.
@@ -73,7 +73,7 @@ LaughingGas* LaughingGas::ctor_432400(Layer layer, s32 /*notUsed*/, Path_Laughin
     field_31F8_w_count = (field_2E_w - field_2A_x) / 4;
     field_31FC_h_count = (field_2C_h - field_28_y + 2) / 2;
 
-    field_19C_pMem = static_cast<WORD*>(ae_malloc_non_zero_4954F0(sizeof(short) * field_31FC_h_count * field_31F8_w_count));
+    field_19C_pMem = static_cast<WORD*>(ae_malloc_non_zero_4954F0(sizeof(s16) * field_31FC_h_count * field_31F8_w_count));
 
     Init_432980();
     VUpdate();

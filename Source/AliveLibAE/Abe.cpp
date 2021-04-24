@@ -433,7 +433,7 @@ const SfxDefinition sSFXList_555160[] =
 EXPORT s32 CC Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj)
 {
     s32 sndVolume;
-    short sndIndex = 0;
+    s16 sndIndex = 0;
 
     switch (sfxId)
     {
@@ -491,13 +491,13 @@ EXPORT s32 CC Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitch
     case EnvironmentSfx::eLandingSoft_5:
         if (volume || !pAliveObj || pAliveObj->field_CC_sprite_scale != FP_FromDouble(0.5))
         {
-            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[2], static_cast<short>(volume), static_cast<short>(pitchMin), 0x7FFF) |
-                SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[16], static_cast<short>(volume), static_cast<short>(pitchMin), 0x7FFF);
+            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[2], static_cast<s16>(volume), static_cast<s16>(pitchMin), 0x7FFF) |
+                SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[16], static_cast<s16>(volume), static_cast<s16>(pitchMin), 0x7FFF);
         }
         else
         {
-            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[2], sSFXList_555160[2].field_3_default_volume / 2, static_cast<short>(pitchMin), 0x7FFF) |
-                SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[16], sSFXList_555160[16].field_3_default_volume / 2, static_cast<short>(pitchMin), 0x7FFF);
+            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[2], sSFXList_555160[2].field_3_default_volume / 2, static_cast<s16>(pitchMin), 0x7FFF) |
+                SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[16], sSFXList_555160[16].field_3_default_volume / 2, static_cast<s16>(pitchMin), 0x7FFF);
         }
 
     case EnvironmentSfx::eHitGroundSoft_6:
@@ -572,7 +572,7 @@ EXPORT s32 CC Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitch
 
     if (!pAliveObj)
     {
-        return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<short>(sndVolume), static_cast<short>(pitchMin), 0x7FFF);
+        return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<s16>(sndVolume), static_cast<s16>(pitchMin), 0x7FFF);
     }
 
     if (pAliveObj->field_CC_sprite_scale == FP_FromDouble(0.5))
@@ -589,24 +589,24 @@ EXPORT s32 CC Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitch
             pAliveObj->field_BC_ypos))
         {
         case CameraPos::eCamCurrent_0:
-            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<short>(sndVolume), static_cast<short>(pitchMin), 0x7FFF);
+            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<s16>(sndVolume), static_cast<s16>(pitchMin), 0x7FFF);
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
-            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<short>(2 * sndVolume / 3), static_cast<short>(pitchMin), 0x7FFF);
+            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<s16>(2 * sndVolume / 3), static_cast<s16>(pitchMin), 0x7FFF);
         case CameraPos::eCamLeft_3:
             return SFX_SfxDefinition_Play_4CA700(
                 &sSFXList_555160[sndIndex],
-                static_cast<short>(2 * sndVolume / 9),
-                static_cast<short>(2 * sndVolume / 9),
-                static_cast<short>(pitchMin),
+                static_cast<s16>(2 * sndVolume / 9),
+                static_cast<s16>(2 * sndVolume / 9),
+                static_cast<s16>(pitchMin),
                 0x7FFF);
             break;
         case CameraPos::eCamRight_4:
             return SFX_SfxDefinition_Play_4CA700(
                 &sSFXList_555160[sndIndex],
-                static_cast<short>(2 * sndVolume / 3),
-                static_cast<short>(2 * sndVolume / 3),
-                static_cast<short>(pitchMin),
+                static_cast<s16>(2 * sndVolume / 3),
+                static_cast<s16>(2 * sndVolume / 3),
+                static_cast<s16>(pitchMin),
                 0x7FFF);
             break;
         default:
@@ -615,7 +615,7 @@ EXPORT s32 CC Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitch
     }
     else
     {
-        return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<short>(sndVolume), static_cast<short>(pitchMin), 0x7FFF);
+        return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<s16>(sndVolume), static_cast<s16>(pitchMin), 0x7FFF);
     }
 }
 
@@ -1344,7 +1344,7 @@ const FP sAbe_yVel_table_545790[8] =
     FP_FromInteger(4)
 };
 
-ALIVE_VAR(1, 0x5c1bda, short, gAbeBulletProof_5C1BDA, 0);
+ALIVE_VAR(1, 0x5c1bda, s16, gAbeBulletProof_5C1BDA, 0);
 
 
 void Abe::Update_449DC0()
@@ -1499,7 +1499,7 @@ void Abe::Update_449DC0()
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
-        short state_idx = field_106_current_motion;
+        s16 state_idx = field_106_current_motion;
 
         // Execute the current state
         const FP oldXPos = field_B8_xpos;
@@ -2398,7 +2398,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             {
                 // The damage sound from a Fleech keeps getting high and higher pitch till death
                 const FP hpRandSoundRange = (FP_FromInteger(1) - sActiveHero_5C1B68->field_10C_health) / FP_FromDouble(0.15);
-                const short pitchRand = Math_RandomRange_496AB0(
+                const s16 pitchRand = Math_RandomRange_496AB0(
                     200 * (FP_GetExponent(hpRandSoundRange)),
                     40 * (5 * (FP_GetExponent(hpRandSoundRange)) + 5));
 
@@ -2694,7 +2694,7 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
                 pResetSwitchRange->field_1_tlv_state = 1;
                 if (pResetSwitchRange->field_10_set_switches)
                 {
-                    for (short i = pResetSwitchRange->field_12_start_id; i <= pResetSwitchRange->field_14_end_id; i++)
+                    for (s16 i = pResetSwitchRange->field_12_start_id; i <= pResetSwitchRange->field_14_end_id; i++)
                     {
                         if (i != pResetSwitchRange->field_16_skip_id && i > 1)
                         {
@@ -2720,7 +2720,7 @@ BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
     BaseAliveGameObject* pInRangeFart = nullptr;
     BaseAliveGameObject* pInRangeGlukkon = nullptr;
 
-    short maxDistance = 32767;
+    s16 maxDistance = 32767;
     FP lastScale = {};
     for (s32 i = 0; i<gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
@@ -2742,7 +2742,7 @@ BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
             case AETypes::eSlig_125:
                 if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
                 {
-                    const short distance = static_cast<short>(Math_Distance_496EB0(
+                    const s16 distance = static_cast<s16>(Math_Distance_496EB0(
                         FP_GetExponent(field_B8_xpos),
                         FP_GetExponent(field_BC_ypos),
                         FP_GetExponent(pObj->field_B8_xpos),
@@ -2861,9 +2861,9 @@ void Abe::Free_Shrykull_Resources_45AA90()
     field_10_resources_array.SetAt(27, nullptr);
 }
 
-u8** Abe::StateToAnimResource_44AAB0(short state)
+u8** Abe::StateToAnimResource_44AAB0(s16 state)
 {
-    short mapped = ResourceIndices::eBasic_0;
+    s16 mapped = ResourceIndices::eBasic_0;
     if (state < eAbeStates::State_12_Null_4569C0)
     {
         mapped = ResourceIndices::eBasic1_1;
@@ -2955,7 +2955,7 @@ u8** Abe::StateToAnimResource_44AAB0(short state)
         {
             // Impossible case?
             LOG_ERROR("State is out of bounds !!! " << state);
-            mapped = static_cast<short>(state);
+            mapped = static_cast<s16>(state);
         }
     }
 
@@ -3707,7 +3707,7 @@ void Abe::State_3_Fall_459B60()
 
             if (pSoftLanding)
             {
-                if (!SwitchStates_Get_466020(static_cast<short>(pSoftLanding->field_10_id)))
+                if (!SwitchStates_Get_466020(static_cast<s16>(pSoftLanding->field_10_id)))
                 {
                     pSoftLanding = nullptr;
                 }
@@ -6503,8 +6503,8 @@ void Abe::State_78_WellBegin_45C810()
                 TlvTypes::WellExpress_23);
         }
 
-        const short xpos = FP_GetExponent(field_B8_xpos);
-        const short tlv_mid_x = (field_FC_pPathTLV->field_8_top_left.field_0_x + field_FC_pPathTLV->field_C_bottom_right.field_0_x) / 2;
+        const s16 xpos = FP_GetExponent(field_B8_xpos);
+        const s16 tlv_mid_x = (field_FC_pPathTLV->field_8_top_left.field_0_x + field_FC_pPathTLV->field_C_bottom_right.field_0_x) / 2;
         if (xpos > tlv_mid_x)
         {
             field_B8_xpos -= field_CC_sprite_scale;
@@ -6935,13 +6935,13 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 {
                     id = pHandStoneTlv->field_18_trigger_id;
 
-                    field_184_fmv_id = static_cast<short>(pHandStoneTlv->field_10_scale); // TODO: Never used for this type?
+                    field_184_fmv_id = static_cast<s16>(pHandStoneTlv->field_10_scale); // TODO: Never used for this type?
 
                     field_186_to_camera_id[0] = pHandStoneTlv->field_12_camera_id1;
                     field_186_to_camera_id[1] = pHandStoneTlv->field_12_camera_id2;
                     field_186_to_camera_id[2] = pHandStoneTlv->field_12_camera_id3;
 
-                    field_18C_unused = static_cast<short>(pHandStoneTlv->field_18_trigger_id); // TODO: Never used?
+                    field_18C_unused = static_cast<s16>(pHandStoneTlv->field_18_trigger_id); // TODO: Never used?
                 }
             }
             else
@@ -6949,15 +6949,15 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 id = pMovieStoneTlv->field_14_id;
 
                 field_184_fmv_id = pMovieStoneTlv->field_10_movie_number;
-                field_186_to_camera_id[0] = static_cast<short>(pMovieStoneTlv->field_12_scale); // TODO: Never used?
-                field_186_to_camera_id[1] = static_cast<short>(pMovieStoneTlv->field_14_id);    // TODO: Never used?
+                field_186_to_camera_id[0] = static_cast<s16>(pMovieStoneTlv->field_12_scale); // TODO: Never used?
+                field_186_to_camera_id[1] = static_cast<s16>(pMovieStoneTlv->field_14_id);    // TODO: Never used?
             }
 
             if (field_FC_pPathTLV)
             {
                 if (id > 1)
                 {
-                    SwitchStates_Set_465FF0(static_cast<short>(id), 1);
+                    SwitchStates_Set_465FF0(static_cast<s16>(id), 1);
                 }
 
                 field_180_hand_stone_type = field_FC_pPathTLV->field_4_type.mType;
@@ -8939,8 +8939,8 @@ void Abe::MoveForward_44E9A0()
             vGetBoundingRect_424FD0(&bRect, 1);
 
             vOnCollisionWith_424EE0(
-            { bRect.x, static_cast<short>(bRect.y + 5) },
-            { static_cast<short>(bRect.w + 5), static_cast<short>(bRect.h + 5) }, // TODO: Is it really on both ??
+            { bRect.x, static_cast<s16>(bRect.y + 5) },
+            { static_cast<s16>(bRect.w + 5), static_cast<s16>(bRect.h + 5) }, // TODO: Is it really on both ??
                 ObjList_5C1B78,
                 1,
                 (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
@@ -9244,9 +9244,9 @@ void Abe::ToDieFinal_458910()
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
 }
 
-short Abe::DoGameSpeak_45AB70(s32 input)
+s16 Abe::DoGameSpeak_45AB70(s32 input)
 {
-    short nextState = -1;
+    s16 nextState = -1;
     if (Input_IsChanting_45F260())
     {
         // Fixes an OG bug where Abe doesn't transform into Shrykull when you immediately chant after using GameSpeak.
@@ -9815,7 +9815,7 @@ void Abe::IntoPortalStates_451990()
     }
 }
 
-void Abe::Calc_Well_Velocity_45C530(short xPosSource, short yPosSource, short xPosDest, short yPosDest)
+void Abe::Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 xPosDest, s16 yPosDest)
 {
     PSX_Point abeSpawnPos = {};
     gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
@@ -9901,7 +9901,7 @@ void Abe::FollowLift_45A500()
     }
 }
 
-short Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
+s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
 {
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
     if (!pLiftPoint)
@@ -10064,7 +10064,7 @@ static void playAbeSFX(MudSounds idx, s16 volume, s32 pitch)
     SFX_SfxDefinition_Play_4CA420(
         &sAbeSFXList_555250[static_cast<u8>(idx)],
         volume,
-        static_cast<short>(pitch), static_cast<short>(pitch)
+        static_cast<s16>(pitch), static_cast<s16>(pitch)
     );
 }
 
@@ -10154,7 +10154,7 @@ EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, s16 volume, s32 pitch, BaseAliv
                         &sAbeSFXList_555250[idxToVal],
                         2 * volume / 3,
                         2 * volume / 9,
-                        static_cast<short>(pitch), static_cast<short>(pitch));
+                        static_cast<s16>(pitch), static_cast<s16>(pitch));
                     break;
                 }
                 case CameraPos::eCamRight_4:
@@ -10163,7 +10163,7 @@ EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, s16 volume, s32 pitch, BaseAliv
                         &sAbeSFXList_555250[idxToVal],
                         2 * volume / 9,
                         2 * volume / 3,
-                        static_cast<short>(pitch), static_cast<short>(pitch));
+                        static_cast<s16>(pitch), static_cast<s16>(pitch));
                     break;
                 }
                 default:

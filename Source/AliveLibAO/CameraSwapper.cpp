@@ -16,7 +16,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x507668, short, sNumCamSwappers_507668, 0);
+ALIVE_VAR(1, 0x507668, s16, sNumCamSwappers_507668, 0);
 
 CameraSwapper* CameraSwapper::ctor_48C540(u8** ppBits, s32 movieId, s32 movieFlag, char movieFlags, s16 flags, s16 volume)
 {
@@ -313,19 +313,19 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
         field_42_XSlices = 24; // ??
         field_44_YSlices = 15; // ??
 
-        short xDiff = gPsxDisplay_504C78.field_0_width - field_3E_xpos_converted;
+        s16 xDiff = gPsxDisplay_504C78.field_0_width - field_3E_xpos_converted;
         if (xDiff <= field_3E_xpos_converted)
         {
             xDiff = field_3E_xpos_converted;
         }
 
-        short yDiff = gPsxDisplay_504C78.field_2_height - field_40_ypos_converted;
+        s16 yDiff = gPsxDisplay_504C78.field_2_height - field_40_ypos_converted;
         if (yDiff <= field_40_ypos_converted)
         {
             yDiff = field_40_ypos_converted;
         }
 
-        short startingSlice = 0;
+        s16 startingSlice = 0;
         if ((xDiff / field_42_XSlices) <= (yDiff / field_44_YSlices))
         {
             startingSlice = yDiff / field_44_YSlices;
@@ -390,15 +390,15 @@ void CameraSwapper::VUpdate_48CEA0()
             return;
         }
 
-        const short xpos = field_46_slice_width * field_2A_current_slice;
-        short width = field_46_slice_width * (field_2A_current_slice + 1);
+        const s16 xpos = field_46_slice_width * field_2A_current_slice;
+        s16 width = field_46_slice_width * (field_2A_current_slice + 1);
         if (width > gPsxDisplay_504C78.field_0_width - 1)
         {
             width = gPsxDisplay_504C78.field_0_width - 1;
         }
 
         pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(xpos, 0, width, gPsxDisplay_504C78.field_2_height);
-        field_24_pSubObject->Update_Clip_Rect_40BE40({ xpos, 0 }, { static_cast<short>(width + 1), static_cast<short>(gPsxDisplay_504C78.field_2_height) });
+        field_24_pSubObject->Update_Clip_Rect_40BE40({ xpos, 0 }, { static_cast<s16>(width + 1), static_cast<s16>(gPsxDisplay_504C78.field_2_height) });
     }
     break;
 
@@ -413,15 +413,15 @@ void CameraSwapper::VUpdate_48CEA0()
             return;
         }
 
-        const short ypos = field_46_slice_width * field_2A_current_slice;
-        short height = field_46_slice_width * (field_2A_current_slice + 1);
+        const s16 ypos = field_46_slice_width * field_2A_current_slice;
+        s16 height = field_46_slice_width * (field_2A_current_slice + 1);
 
         pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(
             0,
             ypos,
             gPsxDisplay_504C78.field_0_width,
             height);
-        field_24_pSubObject->Update_Clip_Rect_40BE40({ 0, ypos }, {  static_cast<short>(gPsxDisplay_504C78.field_0_width), height});
+        field_24_pSubObject->Update_Clip_Rect_40BE40({ 0, ypos }, {  static_cast<s16>(gPsxDisplay_504C78.field_0_width), height});
     }
     break;
 
@@ -463,11 +463,11 @@ void CameraSwapper::VUpdate_48CEA0()
             return;
         }
 
-        const short xpos = field_46_slice_width * field_2A_current_slice;
-        const short halfDisplayWidth = gPsxDisplay_504C78.field_0_width / 2;
+        const s16 xpos = field_46_slice_width * field_2A_current_slice;
+        const s16 halfDisplayWidth = gPsxDisplay_504C78.field_0_width / 2;
 
-        pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(static_cast<short>(halfDisplayWidth - xpos), 0, static_cast<short>(xpos + halfDisplayWidth), gPsxDisplay_504C78.field_2_height);
-        field_24_pSubObject->Update_Clip_Rect_40BE40({ static_cast<short>(halfDisplayWidth - xpos), 0 }, { static_cast<short>(xpos + halfDisplayWidth + 1), static_cast<short>(gPsxDisplay_504C78.field_2_height) });
+        pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(static_cast<s16>(halfDisplayWidth - xpos), 0, static_cast<s16>(xpos + halfDisplayWidth), gPsxDisplay_504C78.field_2_height);
+        field_24_pSubObject->Update_Clip_Rect_40BE40({ static_cast<s16>(halfDisplayWidth - xpos), 0 }, { static_cast<s16>(xpos + halfDisplayWidth + 1), static_cast<s16>(gPsxDisplay_504C78.field_2_height) });
     }
     break;
 
@@ -481,11 +481,11 @@ void CameraSwapper::VUpdate_48CEA0()
             return;
         }
 
-        const short ypos = field_46_slice_width * field_2A_current_slice;
-        const short halfDisplayHeight = gPsxDisplay_504C78.field_2_height / 2;
+        const s16 ypos = field_46_slice_width * field_2A_current_slice;
+        const s16 halfDisplayHeight = gPsxDisplay_504C78.field_2_height / 2;
 
-        pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(0, static_cast<short>(halfDisplayHeight - ypos), 640, static_cast<short>(halfDisplayHeight + ypos));
-        field_24_pSubObject->Update_Clip_Rect_40BE40({ 0,  static_cast<short>(halfDisplayHeight - ypos) }, { 640,  static_cast<short>(halfDisplayHeight + ypos) });
+        pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(0, static_cast<s16>(halfDisplayHeight - ypos), 640, static_cast<s16>(halfDisplayHeight + ypos));
+        field_24_pSubObject->Update_Clip_Rect_40BE40({ 0,  static_cast<s16>(halfDisplayHeight - ypos) }, { 640,  static_cast<s16>(halfDisplayHeight + ypos) });
     }
     break;
 
@@ -499,11 +499,11 @@ void CameraSwapper::VUpdate_48CEA0()
             return;
         }
 
-        const short xSlicePos = field_2A_current_slice * field_42_XSlices;
-        const short width = (field_3E_xpos_converted + xSlicePos > gPsxDisplay_504C78.field_0_width) ? gPsxDisplay_504C78.field_0_width : field_3E_xpos_converted + xSlicePos;
+        const s16 xSlicePos = field_2A_current_slice * field_42_XSlices;
+        const s16 width = (field_3E_xpos_converted + xSlicePos > gPsxDisplay_504C78.field_0_width) ? gPsxDisplay_504C78.field_0_width : field_3E_xpos_converted + xSlicePos;
 
-        const short ySlicePos = field_2A_current_slice * field_44_YSlices;
-        const short height = (ySlicePos + field_40_ypos_converted > gPsxDisplay_504C78.field_2_height) ? gPsxDisplay_504C78.field_2_height : ySlicePos + field_40_ypos_converted;
+        const s16 ySlicePos = field_2A_current_slice * field_44_YSlices;
+        const s16 height = (ySlicePos + field_40_ypos_converted > gPsxDisplay_504C78.field_2_height) ? gPsxDisplay_504C78.field_2_height : ySlicePos + field_40_ypos_converted;
 
         PSX_Point rect_xy = {};
         rect_xy.field_0_x = (field_3E_xpos_converted - xSlicePos <= 0) ? 0 : field_3E_xpos_converted - xSlicePos;

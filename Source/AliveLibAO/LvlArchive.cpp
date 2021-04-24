@@ -133,7 +133,7 @@ EXPORT s16 LvlArchive::Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBu
     CdlLOC loc = {};
     PSX_Pos_To_CdLoc_49B340(pFileRec->field_C_start_sector + field_4_cd_pos, &loc);
     PSX_CD_File_Seek_49B670(2, &loc);
-    s16 ret = static_cast<short>(PSX_CD_File_Read_49B8B0(pFileRec->field_10_num_sectors, pBuffer));
+    s16 ret = static_cast<s16>(PSX_CD_File_Read_49B8B0(pFileRec->field_10_num_sectors, pBuffer));
     if (PSX_CD_FileIOWait_49B900(0) == -1)
     {
         ret = 0;

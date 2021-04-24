@@ -20,7 +20,7 @@ EXPORT Particle* Particle::ctor_4CC4C0(FP xpos, FP ypos, s32 animFrameTableOffse
     field_D2_g = 128;
     field_D0_r = 128;
 
-    Animation_Init_424E10(animFrameTableOffset, static_cast<short>(maxW), static_cast<short>(maxH), ppAnimData, 1, 1);
+    Animation_Init_424E10(animFrameTableOffset, static_cast<s16>(maxW), static_cast<s16>(maxH), ppAnimData, 1, 1);
 
     if (field_6_flags.Get(Options::eListAddFailed_Bit1))
     {

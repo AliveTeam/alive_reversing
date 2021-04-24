@@ -191,10 +191,10 @@ public:
     static EXPORT Header* CC Get_Header_455620(u8** ppRes);
 };
 
-ALIVE_VAR_EXTERN(short, bHideLoadingIcon_5076A0);
+ALIVE_VAR_EXTERN(s16, bHideLoadingIcon_5076A0);
 ALIVE_VAR_EXTERN(s32, loading_ticks_5076A4);
 ALIVE_VAR_EXTERN(s32, gFilesPending_507714);
-ALIVE_VAR_EXTERN(short, bLoadingAFile_50768C);
+ALIVE_VAR_EXTERN(s16, bLoadingAFile_50768C);
 ALIVE_VAR_EXTERN(DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0);
 
 ALIVE_VAR_EXTERN(DWORD, sManagedMemoryUsedSize_9F0E48);

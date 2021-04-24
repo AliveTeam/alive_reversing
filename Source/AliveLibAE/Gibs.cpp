@@ -27,7 +27,7 @@ const TintEntry kGibTints_55C744[] =
     { -1, 87u, 103u, 67u }
 };
 
-ALIVE_VAR(1, 0x550e80, short, sGibRandom_550E80, 13);
+ALIVE_VAR(1, 0x550e80, s16, sGibRandom_550E80, 13);
 
 EXPORT FP CC Random_40FAF0(FP scale)
 {
@@ -198,7 +198,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
     field_5D4_parts_used_count = 4;
     
     GibPart* pPart = &field_104_parts[0];
-    for (short i = 0; i < field_5D4_parts_used_count; i++)
+    for (s16 i = 0; i < field_5D4_parts_used_count; i++)
     {
         if (i < 2)
         {

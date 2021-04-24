@@ -380,7 +380,7 @@ s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
         xLoc = gridSize * FP_FromInteger(dist);
     }
 
-    const short xposRounded = FP_GetExponent(field_A8_xpos) & 1023;
+    const s16 xposRounded = FP_GetExponent(field_A8_xpos) & 1023;
     const FP xPosSnapped = FP_FromInteger((FP_GetExponent(field_A8_xpos) & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, xposRounded));
     if (xposRounded < (240+16) || xposRounded > (640-16))
     {
@@ -460,7 +460,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
         break;
     }
 
-    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(static_cast<short>(xpos), static_cast<short>(ypos), static_cast<short>(width), static_cast<short>(height), TlvTypes::StartController_28);
+    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), TlvTypes::StartController_28);
     if (!field_F0_pTlv)
     {
         // Find to find one at position so just try the first one, and for some reason flip the direction ??

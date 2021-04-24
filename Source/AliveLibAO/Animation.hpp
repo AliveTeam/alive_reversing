@@ -10,7 +10,7 @@
 
 namespace AO {
 
-using TFrameCallBackType = short* (CC*)(void*, s16*);
+using TFrameCallBackType = s16* (CC*)(void*, s16*);
 
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[];
 extern TFrameCallBackType kSlig_Anim_Frame_Fns_4CEBF0[];
@@ -30,10 +30,10 @@ struct AnimationHeader
 {
     // Meta data - the offset where this record was read from
     WORD field_0_fps;            // Seems to be 0x1 or 0x2
-    short field_2_num_frames;      // Number of frames in the set
+    s16 field_2_num_frames;      // Number of frames in the set
 
                                        // If loop flag set then this is the frame to loop back to
-    short field_4_loop_start_frame;
+    s16 field_4_loop_start_frame;
 
     // These where reversed by editing data in memory on PSX version
     enum eFlags
@@ -93,8 +93,8 @@ union PointsUnion
 struct FrameInfoHeader
 {
     DWORD field_0_frame_header_offset;
-    short field_4_magic;
-    short field_6_count;
+    s16 field_4_magic;
+    s16 field_6_count;
     PointsUnion field_8_data;
 };
 
@@ -228,9 +228,9 @@ public:
 
     EXPORT void Get_Frame_Rect_402B50(PSX_RECT* pRect);
 
-    EXPORT void Get_Frame_Width_Height_403E80(short* pWidth, short* pHeight);
+    EXPORT void Get_Frame_Width_Height_403E80(s16* pWidth, s16* pHeight);
 
-    EXPORT void Get_Frame_Offset_403EE0(short* pBoundingX, short* pBoundingY);
+    EXPORT void Get_Frame_Offset_403EE0(s16* pBoundingX, s16* pBoundingY);
 
     virtual void vCleanUp() override;
 
@@ -238,7 +238,7 @@ public:
 
     bool EnsureDecompressionBuffer();
 
-    void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, short width_bpp_adjusted);
+    void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted);
 
     s32 field_10_frame_delay;
     FP field_14_scale;

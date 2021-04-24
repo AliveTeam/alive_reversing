@@ -603,7 +603,7 @@ void BirdPortal::VUpdate_4523D0()
                 xOff = (field_34_scale * FP_FromInteger(-16));
             }
 
-            const short scale32 = FP_GetExponent(field_34_scale * FP_FromInteger(32));
+            const s16 scale32 = FP_GetExponent(field_34_scale * FP_FromInteger(32));
             if (static_cast<s32>(gnFrameCount_507670) >= field_30_timer)
             {
                 field_30_timer = gnFrameCount_507670 + Math_RandomRange_450F20(4, 12);
@@ -1129,7 +1129,7 @@ s16 BirdPortal::VPortalClipper_4533E0(s16 bUnknown)
         return 1;
     }
 
-    const short portalX = static_cast<short>(PsxToPCX(pScreenManager_4FF7C8->field_14_xpos + FP_GetExponent(field_18_xpos) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x), 11));
+    const s16 portalX = static_cast<s16>(PsxToPCX(pScreenManager_4FF7C8->field_14_xpos + FP_GetExponent(field_18_xpos) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x), 11));
 
     PSX_Point xy = {};
     PSX_Point wh = {};

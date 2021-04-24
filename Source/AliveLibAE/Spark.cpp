@@ -193,8 +193,8 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
             const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * field_48_scale));
             const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * field_48_scale));
 
-            SetXY0(pPrim, static_cast<short>(x0), static_cast<short>(y0));
-            SetXY1(pPrim, static_cast<short>(x1), static_cast<short>(y1));
+            SetXY0(pPrim, static_cast<s16>(x0), static_cast<s16>(y0));
+            SetXY1(pPrim, static_cast<s16>(x1), static_cast<s16>(y1));
 
             SetRGB0(pPrim,
                 static_cast<u8>(field_4C_r / 2),
@@ -210,8 +210,8 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_52_layer), &pPrim->mBase.header);
 
             // TODO: Can be refactored much further - looks like min/max stuff
-            short x1Short = static_cast<short>(x1);
-            short maxX = xy.field_0_x;
+            s16 x1Short = static_cast<s16>(x1);
+            s16 maxX = xy.field_0_x;
 
             if (x1Short <= xy.field_0_x)
             {
@@ -220,14 +220,14 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
 
             if (x0 <= maxX)
             {
-                xy.field_0_x = static_cast<short>(x0);
+                xy.field_0_x = static_cast<s16>(x0);
             }
             else if (x1Short <= xy.field_0_x)
             {
                 xy.field_0_x = x1Short;
             }
 
-            short x1Short2 = x1Short;
+            s16 x1Short2 = x1Short;
             if (x1Short <= wh.field_0_x)
             {
                 x1Short2 = wh.field_0_x;
@@ -242,24 +242,24 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
             }
             else
             {
-                wh.field_0_x = static_cast<short>(x0);
+                wh.field_0_x = static_cast<s16>(x0);
             }
 
-            short yPoint = xy.field_2_y;
+            s16 yPoint = xy.field_2_y;
             if (y1 <= xy.field_2_y)
             {
-                yPoint = static_cast<short>(y1);
+                yPoint = static_cast<s16>(y1);
             }
             if (y0 <= yPoint)
             {
-                xy.field_2_y = static_cast<short>(y0);
+                xy.field_2_y = static_cast<s16>(y0);
             }
             else if (y1 <= xy.field_2_y)
             {
-                xy.field_2_y = static_cast<short>(y1);
+                xy.field_2_y = static_cast<s16>(y1);
             }
 
-            short y1Short = static_cast<short>(y1);
+            s16 y1Short = static_cast<s16>(y1);
             if (y1 <= wh.field_2_y)
             {
                 y1Short = wh.field_2_y;
@@ -269,12 +269,12 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
             {
                 if (y1 > wh.field_2_y)
                 {
-                    wh.field_2_y = static_cast<short>(y1);
+                    wh.field_2_y = static_cast<s16>(y1);
                 }
             }
             else
             {
-                wh.field_2_y = static_cast<short>(y0);
+                wh.field_2_y = static_cast<s16>(y0);
             }
         }
 

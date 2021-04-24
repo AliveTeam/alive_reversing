@@ -53,11 +53,11 @@ void OrbWhirlWindParticle::VRender_48C430(PrimHeader** ppOt)
 {
     field_8_anim.field_14_scale = field_A8_render_as_scale;
 
-    const short xpos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
+    const s16 xpos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
         + field_A0_xpos_render_offset
         - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
 
-    const short ypos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + 5)
+    const s16 ypos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + 5)
         + field_A4_ypos_render_offset
         - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
 

@@ -352,7 +352,7 @@ struct Abe_SaveState
     WORD field_34_animation_num;
     WORD next_motion;
     WORD last_line_ypos;
-    short field_3a_collision_line_id;
+    s16 field_3a_collision_line_id;
     DWORD platform_obj_id;
     WORD bElectrocuted;
     WORD field_42_bInvisible;
@@ -483,7 +483,7 @@ public:
     EXPORT BOOL IsStanding_449D30();
     EXPORT void Free_Shrykull_Resources_45AA90();
 
-    EXPORT u8** StateToAnimResource_44AAB0(short state);
+    EXPORT u8** StateToAnimResource_44AAB0(s16 state);
 
     // States
     EXPORT void State_0_Idle_44EEB0();
@@ -641,7 +641,7 @@ public:
     EXPORT s16 RunTryEnterDoor_451220();
     EXPORT s16 RunTryEnterWell_451060();
     EXPORT void ToDieFinal_458910();
-    EXPORT short DoGameSpeak_45AB70(s32 input);
+    EXPORT s16 DoGameSpeak_45AB70(s32 input);
     EXPORT s16 CantBeDamaged_44BAB0();
     EXPORT void FallOnBombs_44EC10();
     EXPORT s16 ForceDownIfHoisting_44BA30();
@@ -649,10 +649,10 @@ public:
     EXPORT void GiveControlBackToMe_44BA10();
     EXPORT PullRingRope* GetPullRope_44D120();
     EXPORT void IntoPortalStates_451990();
-    EXPORT void Calc_Well_Velocity_45C530(short xPosSource, short yPosSource, short XPosDest, short yPosDest);
+    EXPORT void Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 XPosDest, s16 yPosDest);
     EXPORT void FollowLift_45A500();
 
-    EXPORT short MoveLiftUpOrDown_45A7E0(FP yVelocity);
+    EXPORT s16 MoveLiftUpOrDown_45A7E0(FP yVelocity);
 
 
     EXPORT s16 GetEvilFart_4585F0(s16 bDontLoad);
@@ -748,7 +748,7 @@ ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 ALIVE_VAR_EXTERN(Abe*, sActiveHero_5C1B68);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_5C1B8C);
 
-ALIVE_VAR_EXTERN(short, gAbeBulletProof_5C1BDA);
+ALIVE_VAR_EXTERN(s16, gAbeBulletProof_5C1BDA);
 
 //extern const s32 sAbeFrameOffsetTable_554B18[130];
 extern const char* const sAbeStateNames[130];

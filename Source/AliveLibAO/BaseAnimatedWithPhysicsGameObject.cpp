@@ -64,8 +64,8 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
         frameTableOffset,
         gObjList_animations_505564,
         this,
-        static_cast<short>(maxW),
-        static_cast<unsigned short>(maxH),
+        static_cast<u16>(maxW),
+        static_cast<u16>(maxH),
         ppAnimData,
         1, 0, 0);
 
@@ -384,8 +384,8 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* p
     rect.w = FP_GetExponent((FP_FromInteger(rect.w) * field_BC_sprite_scale));
     rect.h = FP_GetExponent((FP_FromInteger(rect.h) * field_BC_sprite_scale));
 
-    const short xpos = FP_GetExponent(field_A8_xpos);
-    const short ypos = FP_GetExponent(field_AC_ypos);
+    const s16 xpos = FP_GetExponent(field_A8_xpos);
+    const s16 ypos = FP_GetExponent(field_AC_ypos);
 
     rect.x += xpos;
     rect.y += ypos;
@@ -461,7 +461,7 @@ s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintE
 
 void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeToFind)
 {
-    const short offsets[6] =
+    const s16 offsets[6] =
     {
         0, 3, -3, 6, -6, 2
     };

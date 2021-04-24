@@ -58,8 +58,8 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     // The base class renders the head gib
     Animation_Init_417FD0(
         field_E4_pGibData->field_0_head,
-        static_cast<short>(field_E4_pGibData->field_C_max_w),
-        static_cast<short>(field_E4_pGibData->field_10_max_h),
+        static_cast<s16>(field_E4_pGibData->field_C_max_w),
+        static_cast<s16>(field_E4_pGibData->field_10_max_h),
         ppAnimData,
         1);
 
@@ -126,7 +126,7 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     field_5C4_parts_used_count = 7;
 
     GibPart* pPart = &field_F4_parts[0];
-    for (short i = 0; i < field_5C4_parts_used_count; i++)
+    for (s16 i = 0; i < field_5C4_parts_used_count; i++)
     {
         if (i < 2)
         {
@@ -135,8 +135,8 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
                 field_E4_pGibData->field_4_arm,
                 gObjList_animations_505564,
                 this,
-                static_cast<short>(field_E4_pGibData->field_C_max_w),
-                static_cast<short>(field_E4_pGibData->field_10_max_h),
+                static_cast<s16>(field_E4_pGibData->field_C_max_w),
+                static_cast<s16>(field_E4_pGibData->field_10_max_h),
                 ppAnimData,
                 1,
                 0,
@@ -154,8 +154,8 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
                 field_E4_pGibData->field_8_body,
                 gObjList_animations_505564,
                 this,
-                static_cast<short>(field_E4_pGibData->field_C_max_w),
-                static_cast<short>(field_E4_pGibData->field_10_max_h),
+                static_cast<s16>(field_E4_pGibData->field_C_max_w),
+                static_cast<s16>(field_E4_pGibData->field_10_max_h),
                 ppAnimData,
                 1,
                 0,
@@ -250,7 +250,7 @@ BaseGameObject* Gibs::dtor_408040()
 {
     SetVTable(this, 0x4BA280);
 
-    for (short i = 0; i < field_5C4_parts_used_count; i++)
+    for (s16 i = 0; i < field_5C4_parts_used_count; i++)
     {
         field_F4_parts[i].field_18_anim.vCleanUp();
     }

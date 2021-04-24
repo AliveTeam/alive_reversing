@@ -125,8 +125,8 @@ static bool Renderer_TexExists(const PSX_RECT& rect)
 static TextureCache* Renderer_TexFromTPage(WORD tPage, u8 u, u8 v)
 {
     s32 textureMode = static_cast<s32>(((u32)tPage >> 7) & 3);
-    short tpagex = ((tPage & 0xF) << 6);
-    short tpagey = (16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200)) + v;
+    s16 tpagex = ((tPage & 0xF) << 6);
+    s16 tpagey = (16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200)) + v;
 
     // Lets prims use background texture as a src even tho we dont have vram anymore.
     if (tpagex < 640 && tpagey < 240)
@@ -169,13 +169,13 @@ static PSX_Point Renderer_ClutToCoords(s32 tClut)
     s32 x = (tClut & 63) << 4;
     s32 y = ((tClut >> 6) & 0xff);
 
-    return { (short)x,(short)y };
+    return { (s16)x,(s16)y };
 }
 
 static PaletteCache* Renderer_ClutToPalette(s32 tClut)
 {
-    short x = (tClut & 63) << 4;
-    short y = ((tClut >> 6) & 0xff);
+    s16 x = (tClut & 63) << 4;
+    s16 y = ((tClut >> 6) & 0xff);
 
     for (size_t i = 0; i < gRendererPals.size(); i++)
     {
@@ -222,10 +222,10 @@ static void Renderer_FreeTexture(PSX_Point point)
 
 static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 palDepth)
 {
-    const unsigned short* palShortPtr = reinterpret_cast<const unsigned short*>(srcPalData);
+    const u16* palShortPtr = reinterpret_cast<const u16*>(srcPalData);
     for (s32 i = 0; i < palDepth; i++)
     {
-        const unsigned short oldPixel = palShortPtr[i];
+        const u16 oldPixel = palShortPtr[i];
 
         dst[i].R = static_cast<u8>((((oldPixel >> 0) & 0x1F)) << 2);
         dst[i].G = static_cast<u8>((((oldPixel >> 5) & 0x1F)) << 2);
@@ -248,7 +248,7 @@ static void Renderer_FreePalette(PSX_Point point)
     }
 }
 
-static void Renderer_LoadPalette(PSX_Point point, const u8* palData, short palDepth)
+static void Renderer_LoadPalette(PSX_Point point, const u8* palData, s16 palDepth)
 {
     for (auto& c : gRendererPals)
     {
@@ -339,8 +339,8 @@ static void Renderer_SetBlendMode(TPageAbr blendAbr)
 
 static PSX_Point Renderer_VRamFromTPage(WORD tPage)
 {
-    short tpagex = (tPage & 0xF) << 6;
-    short tpagey = 16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200);
+    s16 tpagex = (tPage & 0xF) << 6;
+    s16 tpagey = 16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200);
 
     return { tpagex, tpagey };
 }
@@ -432,14 +432,14 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     if (gDecodedTextureCache == 0)
         gDecodedTextureCache = Renderer_CreateTexture();
 
-    unsigned short tWidth = reinterpret_cast<const unsigned short*>(GetPrimExtraPointerHack(&poly))[0];
-    unsigned short tHeight = reinterpret_cast<const unsigned short*>(GetPrimExtraPointerHack(&poly))[1];
+    u16 tWidth = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[0];
+    u16 tHeight = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[1];
 
     TPageMode textureMode = static_cast<TPageMode>(((u32)poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
     
     gFakeTextureCache = {};
     gFakeTextureCache.mPalXY = Renderer_ClutToCoords(poly.mUv.tpage_clut_pad);
-    gFakeTextureCache.mVramRect = { 0,0, (short)tWidth, (short)tHeight };
+    gFakeTextureCache.mVramRect = { 0,0, (s16)tWidth, (s16)tHeight };
     gFakeTextureCache.mTextureID = gDecodedTextureCache;
     
 
@@ -462,8 +462,8 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
         break;
     case TPageMode::e16Bit_2:
         // TODO:  FG1's get rendered here for AE.
-        short fg1Width = poly.mVerts[0].mVert.x - poly.mBase.vert.x;
-        short fg1Height = poly.mVerts[1].mVert.y - poly.mBase.vert.y;
+        s16 fg1Width = poly.mVerts[0].mVert.x - poly.mBase.vert.x;
+        s16 fg1Height = poly.mVerts[1].mVert.y - poly.mBase.vert.y;
         gFakeTextureCache.mVramRect = { 0,0, fg1Width, fg1Height };
         gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
         gFakeTextureCache.mIsFG1 = true;
@@ -919,7 +919,7 @@ void OpenGLRenderer::CreateBackBuffer(bool /*filter*/, s32 /*format*/, s32 /*w*/
    
 }
 
-void OpenGLRenderer::SetTPage(short tPage)
+void OpenGLRenderer::SetTPage(s16 tPage)
 {
     Renderer_ParseTPageBlendMode(tPage);
     mLastTPage = tPage;
@@ -971,7 +971,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     }
 
     PSX_Point vramPoint = Renderer_VRamFromTPage(mLastTPage);
-    short textureMode = (mLastTPage >> 7) & 3;
+    s16 textureMode = (mLastTPage >> 7) & 3;
 
     // FG1 Blocks
     if (vramPoint.field_0_x < 640)
@@ -986,7 +986,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
     
-    TextureCache* pTexture = Renderer_TexFromVRam({ static_cast<short>(vramPoint.field_0_x + WidthBppDivide(textureMode, sprt.mUv.u)), static_cast<short>(vramPoint.field_2_y + sprt.mUv.v) });
+    TextureCache* pTexture = Renderer_TexFromVRam({ static_cast<s16>(vramPoint.field_0_x + WidthBppDivide(textureMode, sprt.mUv.u)), static_cast<s16>(vramPoint.field_2_y + sprt.mUv.v) });
     PaletteCache* pPal = Renderer_ClutToPalette(sprt.mUv.tpage_clut_pad);
 
     const VertexData verts[4] = {
@@ -1437,10 +1437,10 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
 
 void ConvertAOFG1(const u8* srcPalData, RGBAPixel* dst, s32 pixelCount)
 {
-    const unsigned short* palShortPtr = reinterpret_cast<const unsigned short*>(srcPalData);
+    const u16* palShortPtr = reinterpret_cast<const u16*>(srcPalData);
     for (s32 i = 0; i < pixelCount; i++)
     {
-        unsigned short oldPixel = palShortPtr[i];
+        u16 oldPixel = palShortPtr[i];
         u8 semiTrans = (((oldPixel) >> 15) & 0x1);
         dst[i].G = ((oldPixel >> 5) & 0x1F) << 2;
         dst[i].R = ((oldPixel >> 0) & 0x1F) << 2;
@@ -1451,12 +1451,12 @@ void ConvertAOFG1(const u8* srcPalData, RGBAPixel* dst, s32 pixelCount)
 
 void StitchAOCam(s32 x, s32 y, s32 width, s32 height, const u8* pPixels)
 {
-    unsigned short* pDst = reinterpret_cast<unsigned short*>(gDecodeBuffer);
-    const unsigned short* pSrc = reinterpret_cast<const unsigned short*>(pPixels);
+    u16* pDst = reinterpret_cast<u16*>(gDecodeBuffer);
+    const u16* pSrc = reinterpret_cast<const u16*>(pPixels);
 
     for (s32 y1 = y; y1 < height; y1++)
     {
-        memcpy(&pDst[x + (y1 * 640)], &pSrc[(y1 * width)], width * sizeof(short));
+        memcpy(&pDst[x + (y1 * 640)], &pSrc[(y1 * width)], width * sizeof(s16));
     }
 }
 

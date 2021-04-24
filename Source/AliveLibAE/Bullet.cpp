@@ -173,7 +173,7 @@ void Bullet::vUpdate_413560()
         return;
     }
 
-    const short volume = field_3C_scale != FP_FromDouble(0.5) ? 75 : 50;
+    const s16 volume = field_3C_scale != FP_FromDouble(0.5) ? 75 : 50;
 
     switch (field_20_type)
     {
@@ -205,7 +205,7 @@ void Bullet::vUpdate_413560()
 
         BaseAliveGameObject* pShotObj = ShootObject_414630(&shootRect);
 
-        const short vol = field_3C_scale != FP_FromDouble(0.5) ? 90 : 60;
+        const s16 vol = field_3C_scale != FP_FromDouble(0.5) ? 90 : 60;
 
         FP hitX = {};
         FP hitY = {};
@@ -383,10 +383,10 @@ void Bullet::vUpdate_413560()
     {
         const s32 xSnapped = SnapToXGrid_449930(FP_FromInteger(1), FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos));
         PSX_RECT rect = {};
-        rect.x = static_cast<short>(xSnapped - 25);
-        rect.w = static_cast<short>(xSnapped - 25 + 50);
+        rect.x = static_cast<s16>(xSnapped - 25);
+        rect.w = static_cast<s16>(xSnapped - 25 + 50);
         rect.y = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
-        rect.h = static_cast<short>(rect.y + 240);
+        rect.h = static_cast<s16>(rect.y + 240);
         BaseAliveGameObject* pShootObj = ShootObject_414630(&rect);
         if (pShootObj)
         {
@@ -479,7 +479,7 @@ void Bullet::vUpdate_413560()
     }
 }
 
-void Bullet::PlayBulletSounds(short volume)
+void Bullet::PlayBulletSounds(s16 volume)
 {
     SFX_Play_46FBA0(SoundEffect::AirStream_23, volume, 2000);
     SFX_Play_46FBA0(SoundEffect::MeatBounce_36, volume, Math_RandomRange_496AB0(300, 700));

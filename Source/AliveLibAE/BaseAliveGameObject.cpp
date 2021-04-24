@@ -50,7 +50,7 @@ EXPORT s32 CC SnapToXGrid_449930(FP scale, s32 x)
     }
 }
 
-EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArraySize)
+EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(s16 resourceArraySize)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(resourceArraySize);
     SetVTable(this, 0x544000);
@@ -529,8 +529,8 @@ BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(s16 direction, s16 distance
 
 BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos)
 {
-    const short xposD = FP_GetExponent(xpos);
-    const short yposD = FP_GetExponent(ypos);
+    const s16 xposD = FP_GetExponent(xpos);
+    const s16 yposD = FP_GetExponent(ypos);
 
     BOOL bFound = FALSE;
     for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)

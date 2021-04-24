@@ -143,8 +143,8 @@ static const TintEntry sMudTints_4CD320[] =
     { -1, 87u, 103u, 67u }
 };
 
-ALIVE_VAR(1, 0x507B90, short, sAlertedMudCount_507B90, 0);
-ALIVE_VAR(1, 0x507B94, short, sMudRunningToPortalCount_507B94, 0);
+ALIVE_VAR(1, 0x507B90, s16, sAlertedMudCount_507B90, 0);
+ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);
 
 Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
 {
@@ -344,8 +344,8 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
             VOnCollisionWith(
-                PSX_Point{ bRect.x, static_cast<short>(bRect.y + 5) },
-                PSX_Point{ bRect.w, static_cast<short>(bRect.h + 5) },
+                PSX_Point{ bRect.x, static_cast<s16>(bRect.y + 5) },
+                PSX_Point{ bRect.w, static_cast<s16>(bRect.h + 5) },
                 ObjListPlatforms_50766C,
                 1,
                 (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -1112,8 +1112,8 @@ void Mudokon::MoveOnLine_43C7E0()
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
                 VOnCollisionWith(
-                    PSX_Point{ bRect.x, static_cast<short>(bRect.y + 5) },
-                    PSX_Point{ bRect.w, static_cast<short>(bRect.h + 5) },
+                    PSX_Point{ bRect.x, static_cast<s16>(bRect.y + 5) },
+                    PSX_Point{ bRect.w, static_cast<s16>(bRect.h + 5) },
                     ObjListPlatforms_50766C,
                     1,
                     (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -2719,7 +2719,7 @@ void Mudokon::State_62_Choke_43ED70()
     }
 }
 
-short Mudokon::Brain_ComingIn_0_441DE0()
+s16 Mudokon::Brain_ComingIn_0_441DE0()
 {
     if (field_1BA_sub_state == 0)
     {
@@ -2757,7 +2757,7 @@ short Mudokon::Brain_ComingIn_0_441DE0()
     return field_1BA_sub_state;
 }
 
-short Mudokon::Brain_ComingOut_1_441E90()
+s16 Mudokon::Brain_ComingOut_1_441E90()
 {
     if (field_1BA_sub_state == 0)
     {
@@ -2798,7 +2798,7 @@ short Mudokon::Brain_ComingOut_1_441E90()
     return field_1BA_sub_state;
 }
 
-short Mudokon::Brain_SingSequenceIdle_2_441CA0()
+s16 Mudokon::Brain_SingSequenceIdle_2_441CA0()
 {
     switch (field_1BA_sub_state)
     {
@@ -2875,7 +2875,7 @@ short Mudokon::Brain_SingSequenceIdle_2_441CA0()
     return field_1BA_sub_state;
 }
 
-short Mudokon::Brain_SingSequenceSing_3_441510()
+s16 Mudokon::Brain_SingSequenceSing_3_441510()
 {
     switch (field_1BA_sub_state)
     {
@@ -2983,7 +2983,7 @@ short Mudokon::Brain_SingSequenceSing_3_441510()
 
         if (last_speak != GameSpeakEvents::eNone_m1 && last_speak != GameSpeakEvents::eSameAsLast_m2)
         {
-            field_13E = static_cast<short>(pEventSystem_4FF954->field_18_last_event_index);
+            field_13E = static_cast<s16>(pEventSystem_4FF954->field_18_last_event_index);
             field_118 = gnFrameCount_507670 + 60;
             return 4;
         }
@@ -3080,7 +3080,7 @@ short Mudokon::Brain_SingSequenceSing_3_441510()
     return field_1BA_sub_state;
 }
 
-short Mudokon::Brain_SingSequencePassword_4_441260()
+s16 Mudokon::Brain_SingSequencePassword_4_441260()
 {
     switch (field_1BA_sub_state)
     {
@@ -3116,7 +3116,7 @@ short Mudokon::Brain_SingSequencePassword_4_441260()
 
         if (last_speak != GameSpeakEvents::eNone_m1 && last_speak != GameSpeakEvents::eSameAsLast_m2)
         {
-            field_13E = static_cast<short>(pEventSystem_4FF954->field_18_last_event_index);
+            field_13E = static_cast<s16>(pEventSystem_4FF954->field_18_last_event_index);
             field_118 = gnFrameCount_507670 + 60;
             return 3;
         }
@@ -3224,7 +3224,7 @@ short Mudokon::Brain_SingSequencePassword_4_441260()
     return field_1BA_sub_state;
 }
 
-short Mudokon::Brain_LiftUse_5_43C180()
+s16 Mudokon::Brain_LiftUse_5_43C180()
 {
     if (field_1BA_sub_state)
     {
@@ -3270,7 +3270,7 @@ short Mudokon::Brain_LiftUse_5_43C180()
     return field_1BA_sub_state;
 }
 
-short Mudokon::Brain_LeverUse_6_43C250()
+s16 Mudokon::Brain_LeverUse_6_43C250()
 {
     if (field_1BA_sub_state || field_FC_current_motion)
     {
@@ -3298,7 +3298,7 @@ short Mudokon::Brain_LeverUse_6_43C250()
     return 1;
 }
 
-short Mudokon::Brain_GiveRings_7_43C2F0()
+s16 Mudokon::Brain_GiveRings_7_43C2F0()
 {
     switch (field_1BA_sub_state)
     {
@@ -3388,7 +3388,7 @@ short Mudokon::Brain_GiveRings_7_43C2F0()
     return field_1BA_sub_state;
 }
 
-short Mudokon::Brain_StandScrub_8_441F40()
+s16 Mudokon::Brain_StandScrub_8_441F40()
 {
     if (FindBirdPortal_440250())
     {
@@ -3521,7 +3521,7 @@ short Mudokon::Brain_StandScrub_8_441F40()
     }
 }
 
-short Mudokon::Brain_CrouchScrub_9_4422A0()
+s16 Mudokon::Brain_CrouchScrub_9_4422A0()
 {
     if (FindBirdPortal_440250())
     {
@@ -3671,7 +3671,7 @@ short Mudokon::Brain_CrouchScrub_9_4422A0()
     return field_1BA_sub_state;
 }
 
-short Mudokon::Brain_ListeningToAbe_10_440300()
+s16 Mudokon::Brain_ListeningToAbe_10_440300()
 {
     if (FindBirdPortal_440250())
     {
@@ -4269,7 +4269,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
     return field_1BA_sub_state;
 }
 
-short Mudokon::Brain_ShrivelDeath_11_43C5F0()
+s16 Mudokon::Brain_ShrivelDeath_11_43C5F0()
 {
     if (field_1C0_timer < static_cast<s32>(gnFrameCount_507670) + 80)
     {
@@ -4299,7 +4299,7 @@ short Mudokon::Brain_ShrivelDeath_11_43C5F0()
     return 100;
 }
 
-short Mudokon::Brain_Escape_12_440FD0()
+s16 Mudokon::Brain_Escape_12_440FD0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
@@ -4434,7 +4434,7 @@ short Mudokon::Brain_Escape_12_440FD0()
     return field_1BA_sub_state;
 }
 
-short Mudokon::Brain_FallAndSmackDeath_13_43C700()
+s16 Mudokon::Brain_FallAndSmackDeath_13_43C700()
 {
     if (field_1BA_sub_state)
     {
@@ -4467,7 +4467,7 @@ short Mudokon::Brain_FallAndSmackDeath_13_43C700()
     }
 }
 
-short Mudokon::Brain_Chant_14_442710()
+s16 Mudokon::Brain_Chant_14_442710()
 {
     if (FindBirdPortal_440250())
     {
@@ -4557,7 +4557,7 @@ short Mudokon::Brain_Chant_14_442710()
     return field_1BA_sub_state;
 }
 
-short Mudokon::Brain_Choke_15_43C5D0()
+s16 Mudokon::Brain_Choke_15_43C5D0()
 {
     if (field_FC_current_motion != eMudStates::State_62_Choke_43ED70)
     {

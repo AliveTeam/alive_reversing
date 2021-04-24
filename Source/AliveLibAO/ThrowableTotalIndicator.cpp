@@ -80,7 +80,7 @@ void ThrowableTotalIndicator::VUpdate_41B690()
         field_18_cur_xpos = field_10_xpos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<u8>(2 * gnFrameCount_507670)));
         field_1C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<u8>(2 * gnFrameCount_507670))) + field_14_ypos;
 
-        const short rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<u8>(3 * gnFrameCount_507670))) + 80;
+        const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<u8>(3 * gnFrameCount_507670))) + 80;
 
         field_32_r = rgb;
         field_34_g = rgb;
@@ -292,10 +292,10 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
     const FP camX = FP_FromInteger(FP_GetExponent(camPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)));
     const FP camY = FP_FromInteger(FP_GetExponent(camPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)));
 
-    short xpos = 0;
-    short ypos = 0;
+    s16 xpos = 0;
+    s16 ypos = 0;
 
-    for (short counter = 0; counter < kNumbersArray_4C56A8[field_38_num_to_show][0]; counter++)
+    for (s16 counter = 0; counter < kNumbersArray_4C56A8[field_38_num_to_show][0]; counter++)
     {
         xpos = FP_GetExponent(field_18_cur_xpos - camX);
         ypos = FP_GetExponent(field_1C_cur_ypos - camY);
@@ -305,8 +305,8 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
         const FP x1 = FP_FromInteger(kNumbersArray_4C56A8[field_38_num_to_show][(4 * counter) + 3]) * field_28_scale;
         const FP y1 = FP_FromInteger(kNumbersArray_4C56A8[field_38_num_to_show][(4 * counter) + 4]) * field_28_scale;
 
-        short primBaseX = 0;
-        short primVertX = 0;
+        s16 primBaseX = 0;
+        s16 primVertX = 0;
         if (field_38_num_to_show == 11)
         {
             primBaseX = PsxToPCX(xpos);

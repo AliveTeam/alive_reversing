@@ -113,7 +113,7 @@ void BulletShell::VUpdate_4628C0()
                 field_B4_velx = FP_FromInteger(1);
             }
 
-            short volume = 19 * (3 - field_EC_hitCount);
+            s16 volume = 19 * (3 - field_EC_hitCount);
             if (volume <= 19)
             {
                 volume = 19;

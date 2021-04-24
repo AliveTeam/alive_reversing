@@ -149,18 +149,18 @@ void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
             const FP cam_y = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
             const FP cam_x = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
 
-            short minY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_E8_ttl) - cam_y);
-            short maxY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EA_ttl_remainder) - cam_y);
+            s16 minY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_E8_ttl) - cam_y);
+            s16 maxY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EA_ttl_remainder) - cam_y);
 
-            short ypos_int = FP_GetExponent(field_AC_ypos);
+            s16 ypos_int = FP_GetExponent(field_AC_ypos);
             if (ypos_int > field_EA_ttl_remainder)
             {
                 ypos_int = field_EA_ttl_remainder + (ypos_int - field_EA_ttl_remainder) % field_E6_segment_length;
             }
 
-            const short x_start = PsxToPCX<short>(FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - cam_x));
+            const s16 x_start = PsxToPCX<s16>(FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - cam_x));
 
-            short y_start = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos_int) - cam_y);
+            s16 y_start = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos_int) - cam_y);
             if (field_C8_yOffset + y_start > 240)
             {
                 y_start = y_start % field_E6_segment_length + 240;
@@ -183,9 +183,9 @@ void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
             {
                 for(s32 idx = 0; idx < field_E4_number_of_segments; ++idx)
                 {
-                    short r = 128;
-                    short g = 128;
-                    short b = 128;
+                    s16 r = 128;
+                    s16 g = 128;
+                    s16 b = 128;
                     ShadowZone::ShadowZones_Calculate_Colour_435FF0(FP_GetExponent(field_A8_xpos), ypos_int - (idx * field_E6_segment_length), field_C6_scale, &r, &g, &b);
                     field_EC_pRes[idx].field_8_r = static_cast<u8>(r);
                     field_EC_pRes[idx].field_9_g = static_cast<u8>(g);

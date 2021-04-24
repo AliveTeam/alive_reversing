@@ -15,7 +15,7 @@ struct Path_ColourfulMeter : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ColourfulMeter, 0x18);
 
-constexpr short kMeterBarsXCount = 20;
+constexpr s16 kMeterBarsXCount = 20;
 
 class ColourfulMeter : public BaseGameObject
 {

@@ -114,13 +114,13 @@ private:
         if (!field_CE_bDone)
         {
             // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
-            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_20_pal_xy.field_2_y, static_cast<short>(field_20_pal_xy.field_0_x + field_C8_pal_x_index), field_CA_pal_w}, reinterpret_cast<u8*>(&field_B8_palBuffer[0]));
+            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_20_pal_xy.field_2_y, static_cast<s16>(field_20_pal_xy.field_0_x + field_C8_pal_x_index), field_CA_pal_w}, reinterpret_cast<u8*>(&field_B8_palBuffer[0]));
         }
     }
 
 private:
     PSX_Point field_20_pal_xy;
-    short field_24_pal_colours_count;
+    s16 field_24_pal_colours_count;
     // pad
     s32 field_28_not_used[36]; // TODO: Probably something used in PSX but not PC?
     s16 field_B8_palBuffer[8];
@@ -281,7 +281,7 @@ void Electrocute::vUpdate_4E6240()
                 field_30_pPalOverwriters[0]->ctor_4228D0(
                     pTargetObj->field_20_animation.field_8C_pal_vram_xy,
                     pTargetObj->field_20_animation.field_90_pal_depth,
-                    static_cast<short>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
+                    static_cast<s16>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
             }
 
             field_30_pPalOverwriters[1] = ae_new<PalleteOverwriter>();
@@ -290,7 +290,7 @@ void Electrocute::vUpdate_4E6240()
                 field_30_pPalOverwriters[1]->ctor_4228D0(
                     pTargetObj->field_20_animation.field_8C_pal_vram_xy,
                     pTargetObj->field_20_animation.field_90_pal_depth,
-                    static_cast<short>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
+                    static_cast<s16>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
 
                 field_30_pPalOverwriters[1]->field_1C_update_delay = 4;
             }
@@ -303,7 +303,7 @@ void Electrocute::vUpdate_4E6240()
                     field_30_pPalOverwriters[2]->ctor_4228D0(
                         pTargetObj->field_20_animation.field_8C_pal_vram_xy,
                         pTargetObj->field_20_animation.field_90_pal_depth,
-                        static_cast<short>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
+                        static_cast<s16>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
 
                     field_30_pPalOverwriters[2]->field_1C_update_delay = 8;
                 }

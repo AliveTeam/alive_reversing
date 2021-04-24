@@ -13,7 +13,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4FFA4C, short, word_4FFA4C, 0);
+ALIVE_VAR(1, 0x4FFA4C, s16, word_4FFA4C, 0);
 
 void BaseBomb::VUpdate_417580()
 {
@@ -153,7 +153,7 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
 {
     if (gBaseAliveGameObjects_4FC8A0)
     {
-        short min_w_x = pRect->w;
+        s16 min_w_x = pRect->w;
         if (pRect->x <= pRect->w)
         {
             min_w_x = pRect->x;
@@ -171,7 +171,7 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
             min_y_h = pRect->y;
         }
 
-        short min_h_y = pRect->h;
+        s16 min_h_y = pRect->h;
         if (pRect->h <= pRect->y)
         {
             min_h_y = pRect->y;
@@ -210,10 +210,10 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
                 break;
             }
 
-            const short obj_xpos = FP_GetExponent(pObj->field_A8_xpos);
+            const s16 obj_xpos = FP_GetExponent(pObj->field_A8_xpos);
             if (obj_xpos >= left && obj_xpos <= right)
             {
-                const short obj_ypos = FP_GetExponent(pObj->field_AC_ypos);
+                const s16 obj_ypos = FP_GetExponent(pObj->field_AC_ypos);
                 if (obj_ypos >= top &&
                     obj_ypos <= bottom &&
                     field_BC_sprite_scale == (pObj->field_BC_sprite_scale * FP_FromDouble(2.75)))

@@ -5,10 +5,10 @@
 
 struct CdlLOC
 {
-    unsigned __int8 field_0_minute;
-    unsigned __int8 field_1_second;
-    unsigned __int8 field_2_sector;
-    char field_3_track;
+    u8 field_0_minute;
+    u8 field_1_second;
+    u8 field_2_sector;
+    s8 field_3_track;
 };
 ALIVE_ASSERT_SIZEOF(CdlLOC, 0x4);
 
@@ -16,15 +16,15 @@ ALIVE_ASSERT_SIZEOF(CdlLOC, 0x4);
 struct CdlFILE
 {
     CdlLOC field_0_loc;
-    int field_4_pos;
-    char field_8_name[16];
+    s32 field_4_pos;
+    s8 field_8_name[16];
 };
 ALIVE_ASSERT_SIZEOF(CdlFILE, 24);
 
 
 struct PSX_RECT
 {
-    short x, y, w, h;
+    s16 x, y, w, h;
 };
 ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
 
@@ -36,8 +36,8 @@ ALIVE_ASSERT_SIZEOF(FP_RECT, 4 * 4);
 
 struct PSX_Point
 {
-    short field_0_x;
-    short field_2_y;
+    s16 field_0_x;
+    s16 field_2_y;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Point, 4);
 
@@ -60,29 +60,29 @@ inline bool RectsOverlap(const PSX_RECT& r1, const PSX_RECT& r2)
 
 struct PSX_Pos16
 {
-    short x, y;
+    s16 x, y;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Pos16, 0x4);
 
 struct PSX_DR_ENV
 {
-    int field_0_tag;
-    int field_4_code[15];
+    s32 field_0_tag;
+    s32 field_4_code[15];
 };
 // TODO: Size
 
 struct PSX_DRAWENV
 {
     PSX_RECT field_0_clip;
-    __int16 field_8_ofs[2];
+    s16 field_8_ofs[2];
     PSX_RECT field_C_tw;
-    unsigned __int16 field_14_tpage;
-    char field_16_dtd;
-    char field_17_dfe;
-    char field_18_isbg;
-    char field_19_r0;
-    char field_1A_g0;
-    char field_1B_b0;
+    u8 field_14_tpage;
+    s8 field_16_dtd;
+    s8 field_17_dfe;
+    s8 field_18_isbg;
+    s8 field_19_r0;
+    s8 field_1A_g0;
+    s8 field_1B_b0;
     PSX_DR_ENV field_1C_dr_env;
 };
 // TODO: Size
@@ -91,10 +91,10 @@ struct PSX_DISPENV
 {
     PSX_RECT disp;
     PSX_RECT screen;
-    char isinter;
-    char isrgb24;
-    char pad0;
-    char pad1;
+    s8 isinter;
+    s8 isrgb24;
+    s8 pad0;
+    s8 pad1;
 };
 // TODO: Size
 

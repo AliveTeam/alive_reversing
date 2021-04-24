@@ -29,9 +29,9 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(s16 doorNumber, s16 switchId, 
     field_44_switch_id = switchId;
 
     bool bFoundTarget = false;
-    for (short y = 0; y < sPath_dword_BB47C0->field_8_cams_on_y; y++)
+    for (s16 y = 0; y < sPath_dword_BB47C0->field_8_cams_on_y; y++)
     {
-        for (short x = 0; x < sPath_dword_BB47C0->field_6_cams_on_x; x++)
+        for (s16 x = 0; x < sPath_dword_BB47C0->field_6_cams_on_x; x++)
         {
             Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(
                 x - gMap_5C3030.field_D0_cam_x_idx,
@@ -134,7 +134,7 @@ void SlapLockWhirlWind::vUpdate_43DA90()
             {
                 SFX_Play_46FBA0(
                     SoundEffect::FlyingSpirit2_108,
-                    static_cast<short>(127 - (static_cast<s32>(sGnFrame_5C1B84) - field_40_timer) / 2),
+                    static_cast<s16>(127 - (static_cast<s32>(sGnFrame_5C1B84) - field_40_timer) / 2),
                     4 * (sGnFrame_5C1B84 - field_40_timer));
             }
 

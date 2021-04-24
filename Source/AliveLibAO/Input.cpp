@@ -289,14 +289,14 @@ EXPORT void InputObject::Update_433250()
     ::Input().Update_45F040();
 
     // Convert from AE bit flags to AO bit flags
-    field_0_pads[0].field_0_pressed = static_cast<unsigned short>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_0_pressed)).Raw().all);
+    field_0_pads[0].field_0_pressed = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_0_pressed)).Raw().all);
 
     // TODO: This one probably needs its own conversion
     field_0_pads[0].field_2_dir = ::Input().field_0_pads[0].field_4_dir;
 
-    field_0_pads[0].field_4_previously_pressed = static_cast<unsigned short>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_8_previous)).Raw().all);
-    field_0_pads[0].field_6_held = static_cast<unsigned short>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_C_held)).Raw().all);
-    field_0_pads[0].field_8_released = static_cast<unsigned short>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_10_released)).Raw().all);
+    field_0_pads[0].field_4_previously_pressed = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_8_previous)).Raw().all);
+    field_0_pads[0].field_6_held = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_C_held)).Raw().all);
+    field_0_pads[0].field_8_released = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_10_released)).Raw().all);
 
     // Handle demo input (AO impl)
     if (field_20_demo_playing & 1)
@@ -324,7 +324,7 @@ EXPORT void InputObject::Update_433250()
         // Will do nothing if we hit the end command..
         if (field_20_demo_playing & 1)
         {
-            field_0_pads[0].field_0_pressed = static_cast<unsigned short>(field_24_command);
+            field_0_pads[0].field_0_pressed = static_cast<u16>(field_24_command);
         }
 
         for (s32 i = 0; i < 2; i++)
@@ -389,7 +389,7 @@ EXPORT void InputObject::Update_433250()
     //    // Will do nothing if we hit the end command..
     //    if (field_20_demo_playing & 1)
     //    {
-    //        field_0_pads[0].field_0_pressed = static_cast<unsigned short>(field_24_command);
+    //        field_0_pads[0].field_0_pressed = static_cast<u16>(field_24_command);
     //    }
     //}
 
@@ -519,17 +519,17 @@ u16 InputObject::Pressed(PadIndex padIx) const
     return field_0_pads[PadIndexToInt(padIx)].field_0_pressed;
 }
 
-unsigned short InputObject::Held() const
+u16 InputObject::Held() const
 {
     return Held(PadIndex::Active);
 }
 
-unsigned short InputObject::Held(PadIndex padIx) const
+u16 InputObject::Held(PadIndex padIx) const
 {
     return sInputObject_5009E8.field_0_pads[PadIndexToInt(padIx)].field_6_held;
 }
 
-unsigned short InputObject::Released() const
+u16 InputObject::Released() const
 {
     return sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_8_released;
 }

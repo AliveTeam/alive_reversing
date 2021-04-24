@@ -19,7 +19,7 @@ public:
     void PalFree(const PalRecord& record) override;
     bool PalAlloc(PalRecord& record) override;
     void PalSetData(const PalRecord& record, const u8* pPixels) override;
-    void SetTPage(short tPage) override;
+    void SetTPage(s16 tPage) override;
     void SetClip(Prim_PrimClipper& clipper) override;
     void SetScreenOffset(Prim_ScreenOffset& offset) override;
     void Draw(Prim_Sprt& sprt) override;

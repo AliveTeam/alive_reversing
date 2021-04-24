@@ -87,8 +87,8 @@ inline void Reverb_Update(s32 index)
     {
         const StereoSample_S32 v = buffer->GetSample();
 
-        sReverbBuffer[index].left += static_cast<signed short>(v.left * gReverbMix);
-        sReverbBuffer[index].right += static_cast<signed short>(v.right * gReverbMix);
+        sReverbBuffer[index].left += static_cast<s16>(v.left * gReverbMix);
+        sReverbBuffer[index].right += static_cast<s16>(v.right * gReverbMix);
     }
 }
 

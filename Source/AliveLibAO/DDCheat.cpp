@@ -28,11 +28,11 @@ ALIVE_VAR(1, 0x5076FC, s32, gDoorsOpen_5076FC, 0);
 ALIVE_VAR(1, 0x5076D8, s32, gTweak_X_5076D8, 0);
 ALIVE_VAR(1, 0x5076DC, s32, gTweak_Y_5076DC, 0);
 
-ALIVE_VAR(1, 0x5076C0, short, sRescuedMudokons_5076C0, 0);
-ALIVE_VAR(1, 0x5076BC, short, sKilledMudokons_5076BC, 0);
+ALIVE_VAR(1, 0x5076C0, s16, sRescuedMudokons_5076C0, 0);
+ALIVE_VAR(1, 0x5076BC, s16, sKilledMudokons_5076BC, 0);
 
-ALIVE_VAR(1, 0x5076E0, short, showDebugCreatureInfo_5076E0, 0);
-ALIVE_VAR(1, 0x50771C, short, sDDCheat_FlyingEnabled_50771C, 0);
+ALIVE_VAR(1, 0x5076E0, s16, showDebugCreatureInfo_5076E0, 0);
+ALIVE_VAR(1, 0x50771C, s16, sDDCheat_FlyingEnabled_50771C, 0);
 
 using TDDCheatFn = decltype(&DDCheat::Teleport_409CE0);
 
@@ -149,7 +149,7 @@ void DDCheat::ScreenShot_409720()
         {
             return;
         }
-        const PSX_RECT rect = { 0, 0, 640, static_cast<short>(gPsxDisplay_504C78.field_2_height) };
+        const PSX_RECT rect = { 0, 0, 640, static_cast<s16>(gPsxDisplay_504C78.field_2_height) };
         PSX_StoreImage_496320(&rect, pixelBuffer);
         PSX_DrawSync_496750(0);
 
@@ -168,8 +168,8 @@ void DDCheat::ScreenShot_409720()
             char  colourmapdepth = 0;
             s16 x_origin = 0;
             s16 y_origin = 0;
-            short width = 640;
-            short height = 480;
+            s16 width = 640;
+            s16 height = 480;
             char  bitsperpixel = 16;
             char  imagedescriptor = 0;
         } headerTGA;
@@ -237,7 +237,7 @@ void DDCheat::VUpdate_4098C0()
                 pObj->field_FC_current_motion = 3;
                 pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 pObj->field_B2_lvl_number = static_cast<LevelIds>(level_4C315C);
-                pObj->field_B0_path_number = static_cast<short>(path_4C3160);
+                pObj->field_B0_path_number = static_cast<s16>(path_4C3160);
                 sDDCheat_FlyingEnabled_50771C = 1;
                 field_18 = 0;
             }
@@ -422,7 +422,7 @@ const char *lvl_names_4C3168[16] =
     "Desert Level Ender"
 };
 
-ALIVE_VAR(1, 0x4C3164, short, camera_4C3164, 1);
+ALIVE_VAR(1, 0x4C3164, s16, camera_4C3164, 1);
 
 void DDCheat::Teleport_409CE0()
 {

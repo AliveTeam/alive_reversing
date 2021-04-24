@@ -1305,7 +1305,7 @@ s16 NakedSlig::AI_4_GetKilled_41A880()
             {
                 Slig_GameSpeak_SFX_4C04F0(
                     SligSpeak::eHelp_10,
-                    static_cast<short>(2 * (field_1AC_timer & 0xFFFF - sGnFrame_5C1B84)),
+                    static_cast<s16>(2 * (field_1AC_timer & 0xFFFF - sGnFrame_5C1B84)),
                     field_1C2_pitch,
                     this);
             }

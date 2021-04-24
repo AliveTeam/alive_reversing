@@ -127,7 +127,7 @@ public:
     Masher_AudioHeader field_2C_audio_header;
 private:
     void* field_40_video_frame_to_decode;
-    unsigned short *field_44_decoded_frame_data_buffer;
+    u16 *field_44_decoded_frame_data_buffer;
     s32* field_48_sound_frame_to_decode;
     void *field_4C_decoded_audio_buffer;
     s32 field_50_num_channels;

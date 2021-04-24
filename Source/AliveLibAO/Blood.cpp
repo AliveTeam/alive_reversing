@@ -90,8 +90,8 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
 
         FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
 
-        const short frameW = pFrameHeader->field_4_width;
-        const short frameH = pFrameHeader->field_5_height;
+        const s16 frameW = pFrameHeader->field_4_width;
+        const s16 frameH = pFrameHeader->field_5_height;
 
         field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
@@ -117,7 +117,7 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
                 }
 
                 SetClut(pSprt, 
-                   static_cast<short>(
+                   static_cast<s16>(
                        PSX_getClut_496840(
                             field_10_anim.field_8C_pal_vram_xy.field_0_x,
                             field_10_anim.field_8C_pal_vram_xy.field_2_y)));
@@ -260,8 +260,8 @@ void Blood::VRender_407810(PrimHeader** ppOt)
             pSprt->field_14_w = pFrameHeader->field_4_width - 1;
             pSprt->field_16_h = pFrameHeader->field_5_height - 1;
 
-            const short x0 = PsxToPCX(FP_GetExponent(pParticle->field_0_x));
-            const short y0 = FP_GetExponent(pParticle->field_4_y);
+            const s16 x0 = PsxToPCX(FP_GetExponent(pParticle->field_0_x));
+            const s16 y0 = FP_GetExponent(pParticle->field_4_y);
 
             SetXY0(pSprt, x0, y0);
 
@@ -279,7 +279,7 @@ void Blood::VRender_407810(PrimHeader** ppOt)
             wh.field_2_y = std::max(y0, wh.field_2_y);
         }
 
-        short tpageY = 256;
+        s16 tpageY = 256;
         if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag)
             && field_10_anim.field_84_vram_rect.y < 256)
         {

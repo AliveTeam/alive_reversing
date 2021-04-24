@@ -59,6 +59,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(CameraSwapper, 0x48);
 
-ALIVE_VAR_EXTERN(short, sNumCamSwappers_507668); // TODO: Move to own file
+ALIVE_VAR_EXTERN(s16, sNumCamSwappers_507668); // TODO: Move to own file
 
 }

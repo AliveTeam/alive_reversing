@@ -456,7 +456,7 @@ s16 SlingMudokon::tsub_46FEC0()
         }
 
         field_144_timer2 = gnFrameCount_507670 + 40;
-        field_136 = static_cast<short>(pEventSystem_4FF954->field_18_last_event_index);
+        field_136 = static_cast<s16>(pEventSystem_4FF954->field_18_last_event_index);
         return 4;
     }
 
@@ -821,7 +821,7 @@ s16 SlingMudokon::tsub_4707B0()
                 return field_13A_brain_state;
             }
 
-            field_136 = static_cast<short>(pEventSystem_4FF954->field_18_last_event_index);
+            field_136 = static_cast<s16>(pEventSystem_4FF954->field_18_last_event_index);
             field_144_timer2 = gnFrameCount_507670 + 40;
             return 5;
         }

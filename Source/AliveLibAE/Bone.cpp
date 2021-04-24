@@ -405,7 +405,7 @@ void Bone::InTheAir_4116C0()
                 field_BC_ypos -= FP_FromDouble(0.1);
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
                 field_C4_velx = (field_C4_velx / FP_FromInteger(2));
-                short vol = 20 * (4 - field_11E_volume_modifier);
+                s16 vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -423,7 +423,7 @@ void Bone::InTheAir_4116C0()
             {
                 field_BC_ypos = hitY;
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
-                short vol = 20 * (4 - field_11E_volume_modifier);
+                s16 vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -447,7 +447,7 @@ void Bone::InTheAir_4116C0()
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E_volume_modifier);
+                s16 vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -466,7 +466,7 @@ void Bone::InTheAir_4116C0()
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E_volume_modifier);
+                s16 vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -502,9 +502,9 @@ void Bone::vUpdate_411BC0()
     {
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
-        const short offset = field_D6_scale != 0 ? 5 : 0;
-        const PSX_Point xy{ bRect.x, static_cast<short>(bRect.y + offset) };
-        const PSX_Point wh{ bRect.w, static_cast<short>(bRect.h + offset) };
+        const s16 offset = field_D6_scale != 0 ? 5 : 0;
+        const PSX_Point xy{ bRect.x, static_cast<s16>(bRect.y + offset) };
+        const PSX_Point wh{ bRect.w, static_cast<s16>(bRect.h + offset) };
         vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Bone::OnCollision_412140);
 
         if (WallHit_408750(FP_FromInteger(5), field_C4_velx))
@@ -583,9 +583,9 @@ void Bone::vUpdate_411BC0()
         InTheAir_4116C0();
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
-        const short offset = field_D6_scale != 0 ? 5 : 0;
-        const PSX_Point xy{ bRect.x, static_cast<short>(bRect.y + offset) };
-        const PSX_Point wh{ bRect.w, static_cast<short>(bRect.h + offset) };
+        const s16 offset = field_D6_scale != 0 ? 5 : 0;
+        const PSX_Point xy{ bRect.x, static_cast<s16>(bRect.y + offset) };
+        const PSX_Point wh{ bRect.w, static_cast<s16>(bRect.h + offset) };
         vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Bone::OnCollision_412140);
 
         if (field_BC_ypos > FP_FromInteger(gMap_5C3030.field_D4_ptr->field_6_bBottom))

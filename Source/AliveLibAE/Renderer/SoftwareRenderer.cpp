@@ -108,7 +108,7 @@ void SoftwareRenderer::CreateBackBuffer(bool filter, s32 format, s32 w, s32 h)
     }
 }
 
-void SoftwareRenderer::SetTPage(short tPage)
+void SoftwareRenderer::SetTPage(s16 tPage)
 {
     PSX_TPage_Change_4F6430(tPage);
 }
@@ -136,7 +136,7 @@ void SoftwareRenderer::Draw(Prim_Sprt& sprt)
 {
     PrimAny any;
     any.mSprt = &sprt;
-    DrawOTag_Render_SPRT(any, static_cast<short>(mFrame_xOff), static_cast<short>(mFrame_yOff), any.mSprt->field_14_w, any.mSprt->field_16_h);
+    DrawOTag_Render_SPRT(any, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff), any.mSprt->field_14_w, any.mSprt->field_16_h);
 }
 
 void SoftwareRenderer::Draw(Prim_GasEffect& gasEffect)
@@ -148,22 +148,22 @@ void SoftwareRenderer::Draw(Prim_Tile& tile)
 {
     PrimAny any;
     any.mTile = &tile;
-    DrawOTag_Render_TILE(any, static_cast<short>(mFrame_xOff) + any.mSprt->mBase.vert.x, static_cast<short>(mFrame_yOff) + any.mSprt->mBase.vert.y, any.mTile->field_14_w, any.mTile->field_16_h);
+    DrawOTag_Render_TILE(any, static_cast<s16>(mFrame_xOff) + any.mSprt->mBase.vert.x, static_cast<s16>(mFrame_yOff) + any.mSprt->mBase.vert.y, any.mTile->field_14_w, any.mTile->field_16_h);
 }
 
 void SoftwareRenderer::Draw(Line_F2& line)
 {
-     PSX_Render_Line_Prim_4F7D90(&line, static_cast<short>(mFrame_xOff), static_cast<short>(mFrame_yOff));
+     PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
 }
 
 void SoftwareRenderer::Draw(Line_G2& line)
 {
-    PSX_Render_Line_Prim_4F7D90(&line, static_cast<short>(mFrame_xOff), static_cast<short>(mFrame_yOff));
+    PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
 }
 
 void SoftwareRenderer::Draw(Line_G4& line)
 {
-    PSX_Render_Line_Prim_4F7D90(&line, static_cast<short>(mFrame_xOff), static_cast<short>(mFrame_yOff));
+    PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
 }
 
 void SoftwareRenderer::Draw(Poly_F3& poly)
@@ -204,11 +204,11 @@ void SoftwareRenderer::Draw(Poly_G4& poly)
 void SoftwareRenderer::DrawPoly(PrimAny& any)
 {
     // This works by func 1 populating some data structure and then func 2 does the actual rendering
-    // for POLY_FT4 it may return nullptr as it short circuits this logic and renders the polygon itself in some cases.
-    OT_Prim* pPolyBuffer = PSX_Render_Convert_Polys_To_Internal_Format_4F7110(any.mVoid, static_cast<short>(mFrame_xOff), static_cast<short>(mFrame_yOff));
+    // for POLY_FT4 it may return nullptr as it s16 circuits this logic and renders the polygon itself in some cases.
+    OT_Prim* pPolyBuffer = PSX_Render_Convert_Polys_To_Internal_Format_4F7110(any.mVoid, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
     if (pPolyBuffer)
     {
-        PSX_Render_Internal_Format_Polygon_4F7960(pPolyBuffer, static_cast<short>(mFrame_xOff), static_cast<short>(mFrame_yOff));
+        PSX_Render_Internal_Format_Polygon_4F7960(pPolyBuffer, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
     }
 }
 

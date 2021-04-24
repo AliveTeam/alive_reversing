@@ -16,11 +16,11 @@ ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 ALIVE_VAR(1, 0xab4a04, DWORD, sManagedMemoryUsedSize_AB4A04, 0);
 ALIVE_VAR(1, 0xab4a08, DWORD, sPeakedManagedMemUsage_AB4A08, 0);
 
-ALIVE_VAR(1, 0x5C1B96, short, sbLoadingInProgress_5C1B96, 0);
-ALIVE_VAR(1, 0x5C1BAA, short, bHideLoadingIcon_5C1BAA, 0);
+ALIVE_VAR(1, 0x5C1B96, s16, sbLoadingInProgress_5C1B96, 0);
+ALIVE_VAR(1, 0x5C1BAA, s16, bHideLoadingIcon_5C1BAA, 0);
 ALIVE_VAR(1, 0x5C1BAC, s32, loading_ticks_5C1BAC, 0);
-ALIVE_VAR(1, 0xAB49F4, short, sResources_Pending_Loading_AB49F4, 0);
-ALIVE_VAR(1, 0xAB4A0C, short, sAllocationFailed_AB4A0C, 0);
+ALIVE_VAR(1, 0xAB49F4, s16, sResources_Pending_Loading_AB49F4, 0);
+ALIVE_VAR(1, 0xAB4A0C, s16, sAllocationFailed_AB4A0C, 0);
 
 ALIVE_VAR(1, 0x5D29EC, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_5D29EC, nullptr);
 ALIVE_VAR(1, 0x5D29E8, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_5D29E8, nullptr);

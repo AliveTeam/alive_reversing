@@ -124,8 +124,8 @@ void GlukkonSwitch::vScreenChange_4456D0()
 
 s16 GlukkonSwitch::PlayerNearMe_445180()
 {
-    const short playerXPos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
-    const short playerYPos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
+    const s16 playerXPos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
+    const s16 playerYPos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
 
     if ((playerXPos >= field_118_top_left.field_0_x && playerXPos <= field_11C_bottom_right.field_0_x) &&
         (playerYPos >= field_118_top_left.field_2_y && playerYPos <= field_11C_bottom_right.field_2_y))

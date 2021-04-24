@@ -75,11 +75,11 @@ public:
         const FP frameHScaled = (FP_FromInteger(frameH) * field_CC_sprite_scale);
 
         const FP offXScaled = (FP_FromInteger(xy.field_0_x) * field_CC_sprite_scale);
-        const short offYScaled = FP_GetExponent((FP_FromInteger(xy.field_2_y) * field_CC_sprite_scale));
+        const s16 offYScaled = FP_GetExponent((FP_FromInteger(xy.field_2_y) * field_CC_sprite_scale));
 
         // TODO: Refactor PSX <> PC width conversion
         const FP frameWScaled_converted = (((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
-        const short offXScaled_converted = FP_GetExponent(((offXScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
+        const s16 offXScaled_converted = FP_GetExponent(((offXScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
 
         field_F4_xPos =  screenX + FP_FromInteger(offXScaled_converted) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);
         field_F8_yPos =  screenY + FP_FromInteger(offYScaled) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);

@@ -31,7 +31,7 @@ public:
 
     EXPORT void VUpdate_4055C0();
 
-    LiftPoint* FindLiftPointWithId(short id);
+    LiftPoint* FindLiftPointWithId(s16 id);
 
     u16 field_10_enabled_by_switch_id;
     s16 field_12_target_lift_point_id;

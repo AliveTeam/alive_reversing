@@ -54,10 +54,10 @@ public:
     s32 field_2B8_tlv_item_info;
     Path_TLV field_2BC_tlv;
     s32 field_2D4;
-    short field_2D8_message_rand_min;
-    short pad_2DA;
-    short field_2DC_message_rand_max;
-    short pad_2DE;
+    s16 field_2D8_message_rand_min;
+    s16 pad_2DA;
+    s16 field_2DC_message_rand_max;
+    s16 pad_2DE;
 };
 ALIVE_ASSERT_SIZEOF(LCDScreen, 0x2E0);
 

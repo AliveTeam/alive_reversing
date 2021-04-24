@@ -36,7 +36,7 @@ private:
 
     EXPORT void vUpdate_413560();
 
-    void PlayBulletSounds(short volume);
+    void PlayBulletSounds(s16 volume);
 public:
     BulletType field_20_type;
 private:

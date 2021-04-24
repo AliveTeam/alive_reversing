@@ -170,7 +170,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffs
         frameTableOffset,
         gObjList_animations_5C1A24,
         this,
-        static_cast<short>(maxW),
+        static_cast<s16>(maxW),
         maxH,
         ppAnimData,
         a7,
@@ -287,8 +287,8 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::GetBoundingRect_424FD0(PSX_RECT* pR
     rect.w = FP_GetExponent((FP_FromInteger(rect.w) * field_CC_sprite_scale));
     rect.h = FP_GetExponent((FP_FromInteger(rect.h) * field_CC_sprite_scale));
 
-    const short xpos = FP_GetExponent(field_B8_xpos);
-    const short ypos = FP_GetExponent(field_BC_ypos);
+    const s16 xpos = FP_GetExponent(field_B8_xpos);
+    const s16 ypos = FP_GetExponent(field_BC_ypos);
 
     rect.x += xpos;
     rect.y += ypos;

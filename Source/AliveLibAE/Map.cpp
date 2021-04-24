@@ -510,8 +510,8 @@ void Map::Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects sc
 
     field_22_overlayID = -1;
 
-    field_4_current_camera = static_cast<short>(-1);
-    field_2_current_path = static_cast<short>(-1);
+    field_4_current_camera = static_cast<s16>(-1);
+    field_2_current_path = static_cast<s16>(-1);
     field_0_current_level = LevelIds::eNone;
 
     field_8_force_load = 0;
@@ -794,8 +794,8 @@ void Map::GoTo_Camera_481890()
         }
     }
 
-    field_D0_cam_x_idx = static_cast<short>((pCamNameOffset / sizeof(CameraName)) % sPath_dword_BB47C0->field_6_cams_on_x);
-    field_D2_cam_y_idx = static_cast<short>((pCamNameOffset / sizeof(CameraName)) / sPath_dword_BB47C0->field_6_cams_on_x);
+    field_D0_cam_x_idx = static_cast<s16>((pCamNameOffset / sizeof(CameraName)) % sPath_dword_BB47C0->field_6_cams_on_x);
+    field_D2_cam_y_idx = static_cast<s16>((pCamNameOffset / sizeof(CameraName)) / sPath_dword_BB47C0->field_6_cams_on_x);
     field_24_camera_offset.field_0_x = FP_FromInteger(field_D0_cam_x_idx * field_D4_ptr->field_A_grid_width);
     field_24_camera_offset.field_4_y = FP_FromInteger(field_D2_cam_y_idx * field_D4_ptr->field_C_grid_height);
 
@@ -972,12 +972,12 @@ void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
     {
         // TODO: Refactor
         const FP_Point* pCamPos2 = pScreenManager_5BB5F4->field_20_pCamPos;
-        const short doorYDiff = static_cast<short>(pTlv->field_8_top_left.field_2_y - FP_GetExponent(pCamPos2->field_4_y));
+        const s16 doorYDiff = static_cast<s16>(pTlv->field_8_top_left.field_2_y - FP_GetExponent(pCamPos2->field_4_y));
         FP camX = pCamPos2->field_0_x;
-        const short midX = (pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2;
+        const s16 midX = (pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2;
 
-        const short rightPos = static_cast<short>(midX - FP_GetExponent(camX));
-        const short xpos2 = rightPos;
+        const s16 rightPos = static_cast<s16>(midX - FP_GetExponent(camX));
+        const s16 xpos2 = rightPos;
         obj->ctor_4E5000(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, xpos2, doorYDiff);
     }
 }

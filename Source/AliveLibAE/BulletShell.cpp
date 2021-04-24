@@ -5,7 +5,7 @@
 #include "Collisions.hpp"
 #include "Sfx.hpp"
 
-ALIVE_VAR(1, 0xBAF7E0, short, sShellCount_BAF7E0, 0);
+ALIVE_VAR(1, 0xBAF7E0, s16, sShellCount_BAF7E0, 0);
 
 BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, s16 direction, FP scale)
 {
@@ -126,7 +126,7 @@ void BulletShell::vUpdate_4AD550()
                 field_C4_velx = FP_FromInteger(1);
             }
 
-            short volume = 19 * (3 - field_FC_hitCount);
+            s16 volume = 19 * (3 - field_FC_hitCount);
             if (volume <= 19)
             {
                 volume = 19;

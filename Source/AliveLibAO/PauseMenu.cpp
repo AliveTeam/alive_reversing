@@ -125,9 +125,9 @@ void PauseMenu::VUpdate()
     VUpdate_44DFB0();
 }
 
-ALIVE_VAR(1, 0x9F1188, short, word_9F1188, 0);
-ALIVE_VAR(1, 0x504620, short, word_504620, 0);
-ALIVE_VAR(1, 0x504622, short, word_504622, 0);
+ALIVE_VAR(1, 0x9F1188, s16, word_9F1188, 0);
+ALIVE_VAR(1, 0x504620, s16, word_504620, 0);
+ALIVE_VAR(1, 0x504622, s16, word_504622, 0);
 ALIVE_VAR(1, 0x9F0E60, WORD, word_9F0E60, 0);
 ALIVE_VAR(1, 0x504624, WORD, word_504624, 0);
 ALIVE_VAR(1, 0x504626, WORD, word_504626, 0);
@@ -307,7 +307,7 @@ void PauseMenu::VUpdate_44DFB0()
                                 s32 tmp = static_cast<s32>(gMap_507BA8.field_0_current_level);
                                 if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
                                 {
-                                    short row = 0;
+                                    s16 row = 0;
                                     auto pathId = SaveGame::GetPathId(gMap_507BA8.field_2_current_path, &row);
 
                                     if (pathId != -1)
@@ -670,9 +670,9 @@ PauseMenu::PauseEntry keyboardGameSpeak_4CE0D0[21] =
     { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
 };
 
-void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, short selectedEntryId, s32 polyOffset = 0)
+void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, s16 selectedEntryId, s32 polyOffset = 0)
 {
-    for (short entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
+    for (s16 entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
     {
         s16 colourOffset;
         if (entryId == selectedEntryId && (field_126_page != 1 || field_132))
@@ -701,7 +701,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, short selected
         s16 clampedFontWidth;
         if (entry[entryId].field_B == 1)
         {
-            s16 font_width_2 = static_cast<short>(field_E4_font.MeasureWidth_41C2B0(formattedString));
+            s16 font_width_2 = static_cast<s16>(field_E4_font.MeasureWidth_41C2B0(formattedString));
             clampedFontWidth = font_width_2 >= 608 ? 16 : (entry[entryId].field_0_x - font_width_2 / 2);
         }
         else

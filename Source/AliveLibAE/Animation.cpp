@@ -284,7 +284,7 @@ static IRenderer::BitDepth AnimFlagsToBitDepth(const BitField32<AnimFlags>& flag
     return IRenderer::BitDepth::e4Bit;
 }
 
-void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, short width_bpp_adjusted)
+void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted)
 {
     IRenderer& renderer = *IRenderer::GetRenderer();
     switch (pFrameHeader->field_7_compression_type)
@@ -386,7 +386,7 @@ void Animation::DecompressFrame()
         return;
     }
 
-    short width_bpp_adjusted = 0;
+    s16 width_bpp_adjusted = 0;
     if (field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
     {
         // 8 bit, divided by half
@@ -426,7 +426,7 @@ void Animation::DecompressFrame()
     UploadTexture(pFrameHeader, vram_rect, width_bpp_adjusted);
 }
 
-inline short FP_AdjustedToInteger(FP fp, FP adjustment)
+inline s16 FP_AdjustedToInteger(FP fp, FP adjustment)
 {
     return FP_GetExponent(fp + adjustment);
 }
@@ -440,8 +440,8 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
         field_84_vram_rect.y = 0;
     }
 
-    const short xpos_unknown =  static_cast<short>(PsxToPCX(xpos));
-    const short width_unknown = static_cast<short>(PsxToPCX(width));
+    const s16 xpos_unknown =  static_cast<s16>(PsxToPCX(xpos));
+    const s16 width_unknown = static_cast<s16>(PsxToPCX(width));
 
     if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
     {
@@ -547,8 +547,8 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
         yOffset_fixed = (yOffset_fixed * field_14_scale) - FP_FromDouble(1.0);
     }
 
-    short polyXPos = 0;
-    short polyYPos = 0;
+    s16 polyXPos = 0;
+    s16 polyYPos = 0;
     if (field_4_flags.Get(AnimFlags::eBit6_FlipY))
     {
         if (field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -568,7 +568,7 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
             polyXPos = xpos_unknown + FP_AdjustedToInteger(xOffSet_fixed, FP_FromDouble(0.499));
         }
         // TODO: Might be wrong because this was doing something with the sign bit abs() ??
-        polyYPos = static_cast<short>(ypos) - FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499)) - FP_AdjustedToInteger(frame_height_fixed, FP_FromDouble(0.499));
+        polyYPos = static_cast<s16>(ypos) - FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499)) - FP_AdjustedToInteger(frame_height_fixed, FP_FromDouble(0.499));
     }
     else
     {
@@ -581,7 +581,7 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
             SetUV3(pPoly, u1, v1);
 
             polyXPos = xpos_unknown - FP_AdjustedToInteger(xOffSet_fixed, FP_FromDouble(0.499)) - FP_AdjustedToInteger(frame_width_fixed, FP_FromDouble(0.499));
-            polyYPos = static_cast<short>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499));
+            polyYPos = static_cast<s16>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499));
         }
         else
         {
@@ -593,7 +593,7 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
             polyXPos = xpos_unknown + FP_AdjustedToInteger(xOffSet_fixed, FP_FromDouble(0.499));
 
             yPosFixed = yOffset_fixed + FP_FromDouble(0.499);
-            polyYPos = static_cast<short>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499));
+            polyYPos = static_cast<s16>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499));
         }
 
     }
@@ -748,7 +748,7 @@ void Animation::Invoke_CallBacks_40B7A0()
         }
         pCallBackData++; // Skip the array index
         // Pass the data pointer into the call back which will then read and skip any extra data
-        pCallBackData += pFnCallBack(field_94_pGameObj, (short*)pCallBackData);
+        pCallBackData += pFnCallBack(field_94_pGameObj, (s16*)pCallBackData);
     }
 }
 

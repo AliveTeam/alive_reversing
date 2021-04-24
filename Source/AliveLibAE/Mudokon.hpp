@@ -329,7 +329,7 @@ private:
 
     EXPORT void vOnTlvCollision_476EA0(Path_TLV* pTlv);
 
-    EXPORT short FacingTarget_473140(BirdPortal* pTarget);
+    EXPORT s16 FacingTarget_473140(BirdPortal* pTarget);
 
     EXPORT Mudokon* vdtor_475770(s32 flags);
 
@@ -450,7 +450,7 @@ private:
     EXPORT void Sound_475EC0(MudSounds idx);
     EXPORT s16 CanRespond_4770B0();
 
-    EXPORT u8** AnimBlockForMotion_474DC0(short motion);
+    EXPORT u8** AnimBlockForMotion_474DC0(s16 motion);
 
     EXPORT void ToFalling_472320();
     EXPORT void ToStand_4724A0();

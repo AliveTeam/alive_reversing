@@ -68,11 +68,11 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
         const s32 d2 = MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height);
         if (d1 <= d2)
         {
-            field_26C_fade = static_cast<short>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height));
+            field_26C_fade = static_cast<s16>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height));
         }
         else
         {
-            field_26C_fade = static_cast<short>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, 0, 0, 0));
+            field_26C_fade = static_cast<s16>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, 0, 0, 0));
         }
 
         field_284_ring_type = ringType;
@@ -499,11 +499,11 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
         0)
         && !field_290_bFindingTarget)
     {
-        short y3 = field_274_screenYPos;
-        short y4  = field_274_screenYPos;
+        s16 y3 = field_274_screenYPos;
+        s16 y4  = field_274_screenYPos;
 
-        short x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_254_left * field_260_scaleX)), 11);
-        short x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_258_right * field_260_scaleX)), 11);
+        s16 x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_254_left * field_260_scaleX)), 11);
+        s16 x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_258_right * field_260_scaleX)), 11);
 
         u8 angIncrement = 0;
         if (field_258_right <= FP_FromInteger(150))
@@ -528,16 +528,16 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
         u8 ang = angIncrement;
         for (s32 i = 0; i < field_28C_count; i++)
         {
-            const short x1 = (short)PsxToPCX(field_272_screenXPos + FP_GetExponent(field_254_left * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
-            const short x2 = (short)PsxToPCX(field_272_screenXPos + FP_GetExponent(field_258_right * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
+            const s16 x1 = (s16)PsxToPCX(field_272_screenXPos + FP_GetExponent(field_254_left * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
+            const s16 x2 = (s16)PsxToPCX(field_272_screenXPos + FP_GetExponent(field_258_right * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
 
-            const short y1 = field_274_screenYPos + FP_GetExponent(field_254_left * Math_Cosine_496CD0(ang) * field_264_scaleY);
-            const short y2 = field_274_screenYPos + FP_GetExponent(field_258_right * Math_Cosine_496CD0(ang) * field_264_scaleY);
+            const s16 y1 = field_274_screenYPos + FP_GetExponent(field_254_left * Math_Cosine_496CD0(ang) * field_264_scaleY);
+            const s16 y2 = field_274_screenYPos + FP_GetExponent(field_258_right * Math_Cosine_496CD0(ang) * field_264_scaleY);
 
-            const short x = std::min(std::min(x1, x3), std::min(x2, x4));
-            const short y = std::min(std::min(y1, y3), std::min(y2, y4));
-            const short w = std::max(std::max(x1, x3), std::max(x2, x4));
-            const short h = std::max(std::max(y1, y3), std::max(y2, y4));
+            const s16 x = std::min(std::min(x1, x3), std::min(x2, x4));
+            const s16 y = std::min(std::min(y1, y3), std::min(y2, y4));
+            const s16 w = std::max(std::max(x1, x3), std::max(x2, x4));
+            const s16 h = std::max(std::max(y1, y3), std::max(y2, y4));
 
             const PSX_RECT rect = { x, y, w, h };
             if (rect.w < 0 || rect.x > 640 || rect.y > 240 || rect.h < 0)

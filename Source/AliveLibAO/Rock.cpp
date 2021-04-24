@@ -335,7 +335,7 @@ void Rock::VUpdate_456EC0()
         }
         else
         {
-            const short x_exp = FP_GetExponent(field_A8_xpos);
+            const s16 x_exp = FP_GetExponent(field_A8_xpos);
             const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
             if (abs(xSnapped - x_exp) > 1)
             {
@@ -383,8 +383,8 @@ void Rock::VUpdate_456EC0()
         InTheAir_456B60();
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
-        const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-        const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+        const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+        const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
         VOnCollisionWith(
             xy,
             wh,

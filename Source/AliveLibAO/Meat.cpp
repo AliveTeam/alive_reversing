@@ -371,7 +371,7 @@ void Meat::InTheAir_438720()
     FP hitX = {};
     FP hitY = {};
 
-    const short CollisionRaycast = sCollisions_DArray_504C6C->RayCast_40C410(
+    const s16 CollisionRaycast = sCollisions_DArray_504C6C->RayCast_40C410(
         field_114_xpos,
         field_118_ypos,
         CamX_VoidSkipper,
@@ -482,8 +482,8 @@ void Meat::VUpdate_438A20()
             PSX_RECT bRect = {};
 
             VGetBoundingRect(&bRect, 1);
-            const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-            const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+            const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+            const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
 
             VOnCollisionWith(xy, wh, gBaseGameObject_list_9F2DF0, 1, (TCollisionCallBack)&Meat::OnCollision_438D80);
 

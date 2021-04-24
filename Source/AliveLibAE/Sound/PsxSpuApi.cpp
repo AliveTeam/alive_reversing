@@ -177,7 +177,7 @@ public:
 
     virtual void SsUtKeyOffV(s32 idx) override
     {
-        SsUtKeyOffV_4FE010(static_cast<short>(idx));
+        SsUtKeyOffV_4FE010(static_cast<s16>(idx));
     }
 };
 
@@ -415,7 +415,7 @@ EXPORT s16 CC SsVabOpenHead_4FC620(VabHeader* pVabHeader)
             ++pVagAttr;
         }
     }
-    return static_cast<short>(vab_id);
+    return static_cast<s16>(vab_id);
 }
 
 // Loads sounds dat to memory
@@ -633,7 +633,7 @@ EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 lef
                     {
                         pChannel->field_1C_adsr.field_3_state = 1;
 
-                        pChannel->field_1C_adsr.field_4_attack = static_cast<unsigned short>((pVagIter->field_0_adsr_attack * (127 - volume)) / 64);
+                        pChannel->field_1C_adsr.field_4_attack = static_cast<u16>((pVagIter->field_0_adsr_attack * (127 - volume)) / 64);
                         pChannel->field_1C_adsr.field_6_sustain = pVagIter->field_2_adsr_sustain_level;
                         pChannel->field_1C_adsr.field_8_decay = pVagIter->field_4_adsr_decay;
                         pChannel->field_1C_adsr.field_A_release = pVagIter->field_6_adsr_release;
@@ -770,7 +770,7 @@ EXPORT s32 CC MIDI_Stop_Existing_Single_Note_4FCFF0(s32 VabIdAndProgram, s32 not
         return 0;
     }
 
-    short i = 0;
+    s16 i = 0;
     for (i = 0; i < kNumChannels; i++)
     {
         MIDI_Channel* pChannel = &gSpuVars->sMidi_Channels().channels[i];
@@ -884,7 +884,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
                         gSpuVars->sMidiSeqSongs(idx).field_18_repeatCount = newLoopCount;
                         if (!newLoopCount)
                         {
-                            SsSeqStop_4FD9C0(static_cast<short>(idx));
+                            SsSeqStop_4FD9C0(static_cast<s16>(idx));
                             return 1;
                         }
                     }
@@ -900,9 +900,9 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
                             tempoByte3 = MIDI_ReadByte_4FD6B0(pCtx) << 16;
                             tempoByte2 = MIDI_ReadByte_4FD6B0(pCtx) << 8;
 
-                            // TODO: This is too short
+                            // TODO: This is too s16
                             fullTempo = tempoByte3 | tempoByte2 | MIDI_ReadByte_4FD6B0(pCtx);
-                            MIDI_SetTempo_4FDB80(static_cast<short>(idx), 0, static_cast<short>(fullTempo));
+                            MIDI_SetTempo_4FDB80(static_cast<s16>(idx), 0, static_cast<s16>(fullTempo));
                         }
                         else
                         {
@@ -1019,7 +1019,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
             }
             else
             {
-                for (short i = 0; i < 24; i++)
+                for (s16 i = 0; i < 24; i++)
                 {
                     pSubChan1 = &gSpuVars->sMidi_Channels().channels[i].field_1C_adsr;
                     if (pSubChan1->field_3_state)
@@ -1100,7 +1100,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
         {
             MIDI_PitchBend_4FDEC0(
                 gSpuVars->sMidiSeqSongs(idx2).field_32_progVols[v16 & 0xF].field_0_program,
-                static_cast<short>(((v16 >> 8) - 0x4000) >> 4));
+                static_cast<s16>(((v16 >> 8) - 0x4000) >> 4));
         }
         break;
         default:
@@ -1214,7 +1214,7 @@ EXPORT s16 CC SsSeqOpen_4FD6D0(u8* pSeqData, s16 seqIdx)
     gSpuVars->sMidiSeqSongs(freeIdx).field_C_volume = 112;
     gSpuVars->sMidiSeqSongs(freeIdx).field_seq_idx = seqIdx;
 
-    return static_cast<short>(freeIdx);
+    return static_cast<s16>(freeIdx);
 }
 
 EXPORT void CC MIDI_Read_SEQ_Header_4FD870(u8** pSrc, SeqHeader* pDst, u32 size)
@@ -1287,7 +1287,7 @@ EXPORT void CC SsSeqStop_4FD9C0(s16 idx)
         field_C = field_C >> 4;
         if (field_C == static_cast<u32>(idx))
         {
-            gSpuVars->SsUtKeyOffV(static_cast<short>(i));
+            gSpuVars->SsUtKeyOffV(static_cast<s16>(i));
             gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_C = 0;
         }
     }
@@ -1396,7 +1396,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
             case 0:
                 if (timeDiff1 > 90000)
                 {
-                    gSpuVars->SsUtKeyOffV(static_cast<short>(i));
+                    gSpuVars->SsUtKeyOffV(static_cast<s16>(i));
                 }
                 break;
             case 2:
@@ -1506,7 +1506,7 @@ EXPORT s16 CC SsUtChangePitch_4FDF70(s16 voice, s32 /*vabId*/, s32 /*prog*/, s16
 EXPORT void CC SsUtAllKeyOff_4FDFE0(s32)
 {
     // Stop all backwards
-    short idx = kNumChannels - 1;
+    s16 idx = kNumChannels - 1;
     do
     {
         gSpuVars->SsUtKeyOffV(idx--);

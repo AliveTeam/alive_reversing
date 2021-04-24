@@ -4,8 +4,8 @@
 #include "Types.hpp"
 
 // Pos / neg Tables
-const short pos_adpcm_table[5] = { 0, +60, +115, +98, +122 };
-const short neg_adpcm_table[5] = { 0, 0, -52, -55, -60 };
+const s16 pos_adpcm_table[5] = { 0, +60, +115, +98, +122 };
+const s16 neg_adpcm_table[5] = { 0, 0, -52, -55, -60 };
 
 static s8 Signed4bit(u8 number)
 {
@@ -41,7 +41,7 @@ static void DecodeBlock(
     const u8(&parameters)[16],
     u8 block,
     u8 nibble,
-    short& dst,
+    s16& dst,
     f64& old,
     f64& older)
 {
@@ -56,26 +56,26 @@ static void DecodeBlock(
     {
         const u8 value = samples[block + d * 4];
         const s32 t = Signed4bit((u8)((value >> (nibble * 4)) & 0xF));
-        s32 s = (short)((t << shift) + ((old * f0 + older * f1 + 32) / 64));
+        s32 s = (s16)((t << shift) + ((old * f0 + older * f1 + 32) / 64));
         s = static_cast<u16>(MinMax(s, -32768, 32767));
 
 
-        out[dst] = static_cast<short>(s);
+        out[dst] = static_cast<s16>(s);
         dst += 2;
 
         older = old;
-        old = static_cast<short>(s);
+        old = static_cast<s16>(s);
     }
 }
 
 template<class T>
 static void Decode(const PSXADPCMDecoder::SoundFrame& sf, T& out)
 {
-    short dstLeft = 0;
+    s16 dstLeft = 0;
     static f64 oldLeft = 0;
     static f64 olderLeft = 0;
 
-    short dstRight = 1;
+    s16 dstRight = 1;
     static f64 oldRight = 0;
     static f64 olderRight = 0;
 

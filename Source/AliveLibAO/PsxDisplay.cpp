@@ -36,8 +36,8 @@ PsxDisplay* PsxDisplay::ctor_40DAB0(const PSX_Display_Params* pParams)
         field_0_width = 3 *  pParams->field_0_width / 2;
     }
 
-    short w = 0;
-    short v1 = 0;
+    s16 w = 0;
+    s16 v1 = 0;
     if (pParams->field_2_height == 240)
     {
         w = field_0_width;

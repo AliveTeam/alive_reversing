@@ -90,7 +90,7 @@ EXPORT void CC DebugFont_Update_Text_4F8BE0(s32 idx)
 }
 
 ALIVE_ARY(1, 0xBB47CC, char, 600, sDebugFontTmpBuffer_BB47CC, {});
-ALIVE_VAR(1, 0xBB4A24, short, sbDebugFontLoaded_BB4A24, 0);
+ALIVE_VAR(1, 0xBB4A24, s16, sbDebugFontLoaded_BB4A24, 0);
 ALIVE_VAR(1, 0xBB47C8, s32, sDebugTextIdx_BB47C8, 0);
 
 

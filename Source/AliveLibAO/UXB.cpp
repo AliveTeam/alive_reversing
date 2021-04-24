@@ -115,7 +115,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
 
     field_114_tlvInfo = tlvInfo;
     field_118_next_state_frame = gnFrameCount_507670;
-    field_110_disabled_resources = static_cast<short>(pTlv->field_20_disabled_resources);
+    field_110_disabled_resources = static_cast<s16>(pTlv->field_20_disabled_resources);
 
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0);

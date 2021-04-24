@@ -21,8 +21,8 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5076B0, short, gBeeInstanceCount_5076B0, 0);
-ALIVE_VAR(1, 0x5076AC, short, gBeesNearAbe_5076AC, 0);
+ALIVE_VAR(1, 0x5076B0, s16, gBeeInstanceCount_5076B0, 0);
+ALIVE_VAR(1, 0x5076AC, s16, gBeesNearAbe_5076AC, 0);
 
 BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks)
 {
@@ -43,7 +43,7 @@ BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 cha
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_204, 1, 0);
     }
 
-    short numBeesToUse = 0;
+    s16 numBeesToUse = 0;
     gBeeInstanceCount_5076B0++;
     if (gBeeInstanceCount_5076B0 < 3)
     {
@@ -223,8 +223,8 @@ void BeeSwarm::VUpdate_47FF50()
     }
 
     // Play random bee sounds
-    const short volMax = field_D80_state == BeeSwarmStates::eAttackChase_1 ? 24 : 16;
-    const short volMin = field_D80_state == BeeSwarmStates::eAttackChase_1 ? 30 : 22;
+    const s16 volMax = field_D80_state == BeeSwarmStates::eAttackChase_1 ? 24 : 16;
+    const s16 volMin = field_D80_state == BeeSwarmStates::eAttackChase_1 ? 30 : 22;
     for (s32 i = 0; i < 2; i++)
     {
         if (Math_RandomRange_450F20(0, 100) < 40)
@@ -323,7 +323,7 @@ void BeeSwarm::VUpdate_47FF50()
                             {
                                 const MudSounds snd = Math_RandomRange_450F20(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
                                 const FP pitch_val = (FP_FromInteger(1) - sActiveHero_507678->field_100_health) / FP_FromDouble(0.15);
-                                const short pitch = Math_RandomRange_450F20(
+                                const s16 pitch = Math_RandomRange_450F20(
                                     200 * FP_GetExponent(pitch_val),
                                     200 * (FP_GetExponent(pitch_val) + 1));
                                 Mudokon_SFX_42A4D0(snd, 0, pitch, sActiveHero_507678);

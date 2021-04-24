@@ -14,7 +14,7 @@ namespace AO {
 
 void Alarm_ForceLink() { }
 
-ALIVE_VAR(1, 0x5076A8, short, alarmInstanceCount_5076A8, 0);
+ALIVE_VAR(1, 0x5076A8, s16, alarmInstanceCount_5076A8, 0);
 
 EXPORT Alarm* Alarm::ctor_402570(s16 duration_timer, s16 switchId, s16 timer, Layer layer)
 {

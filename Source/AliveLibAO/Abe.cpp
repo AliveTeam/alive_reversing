@@ -60,8 +60,8 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5076E4, short, gAbeInvulnerableCheat_5076E4, 0);
-ALIVE_VAR(1, 0x5076F8, short, gAbeInvisibleCheat_5076F8, 0);
+ALIVE_VAR(1, 0x5076E4, s16, gAbeInvulnerableCheat_5076E4, 0);
+ALIVE_VAR(1, 0x5076F8, s16, gAbeInvisibleCheat_5076F8, 0);
 
 ALIVE_VAR_EXTERN(SaveData, gSaveBuffer_505668);
 
@@ -473,7 +473,7 @@ SfxDefinition sSFXList_4C6638[49] =
 
 s32 CC Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj)
 {
-    short sndIndex = 0;
+    s16 sndIndex = 0;
     switch (sfxId)
     {
         case EnvironmentSfx::eSlideStop_0:
@@ -628,7 +628,7 @@ s32 CC Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObj
     }
     else
     {
-        auto idxShort = static_cast<short>(idx);
+        auto idxShort = static_cast<s16>(idx);
         if (volume == 0)
         {
             volume = sSFXList_4C6638[idxShort + 30].field_C_default_volume;
@@ -1660,9 +1660,9 @@ void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
     }
 }
 
-u8** Abe::StateToAnimResource_4204F0(short motion)
+u8** Abe::StateToAnimResource_4204F0(s16 motion)
 {
-    short res_idx = 0;
+    s16 res_idx = 0;
 
     if (motion < eAbeStates::State_15_Null_42A210)
     {
@@ -1962,7 +1962,7 @@ void Abe::ElumFree_4228F0()
     }
 }
 
-short Abe::DoGameSpeak_42F5C0(u16 input)
+s16 Abe::DoGameSpeak_42F5C0(u16 input)
 {
     if (Input_IsChanting_4334C0())
     {
@@ -2548,7 +2548,7 @@ void Abe::MoveWithVelocity_4257F0(FP speed)
     }
 }
 
-void Abe::ToNewElumSyncMotion_422520(short elum_frame)
+void Abe::ToNewElumSyncMotion_422520(s16 elum_frame)
 {
     field_10_anim.Set_Animation_Data_402A40(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion], StateToAnimResource_4204F0(field_FC_current_motion));
     field_12C_timer = gnFrameCount_507670;
@@ -3676,7 +3676,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
             {
                 const auto rnd_sfx = Math_RandomRange_450F20(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
                 const FP v16 = (FP_FromInteger(1) - sActiveHero_507678->field_100_health) / FP_FromDouble(0.15);
-                const short calc_pitch = Math_RandomRange_450F20(200 * FP_GetExponent(v16), 200 * FP_GetExponent(v16) + 1);
+                const s16 calc_pitch = Math_RandomRange_450F20(200 * FP_GetExponent(v16), 200 * FP_GetExponent(v16) + 1);
                 Mudokon_SFX_42A4D0(rnd_sfx, 0, calc_pitch, this);
             }
             else
@@ -4147,7 +4147,7 @@ void Abe::State_0_Idle_423520()
                 {
                     loaded |= 4;
                 }
-                const short rnd = Math_RandomRange_450F20(0, 2);
+                const s16 rnd = Math_RandomRange_450F20(0, 2);
                 if ((1 << rnd) & loaded)
                 {
                     switch (rnd)
@@ -4351,7 +4351,7 @@ void Abe::State_2_StandingTurn_426040()
         {
             // OG bug: this local variable allows you to "store" your next state if you face the opposite
             // ledge direction and press down/up and then interrupt it by running away before you hoist.
-            const short kNext_state = field_FE_next_state;
+            const s16 kNext_state = field_FE_next_state;
             if (field_FE_next_state != eAbeStates::State_139_ElumMountBegin_42E090)
             {
                 if (field_FE_next_state == eAbeStates::State_101_LeverUse_429970)
@@ -7366,7 +7366,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
             gElum_507680->field_122_bDontFollowAbe = pSaveData->field_276_bDontFollowAbe;
             gElum_507680->field_128_brain_idx = pSaveData->field_278_brain_idx;
             gElum_507680->field_12A_brain_state = pSaveData->field_27A_elum_brain_state;
-            gElum_507680->field_12C_honey_xpos = static_cast<short>(pSaveData->field_27C_honey_xpos);
+            gElum_507680->field_12C_honey_xpos = static_cast<s16>(pSaveData->field_27C_honey_xpos);
             gElum_507680->field_146_honey_ypos = pSaveData->field_280_honey_ypos;
             gElum_507680->field_130_unused = pSaveData->field_284_unused;
 
@@ -7808,7 +7808,7 @@ void Abe::State_77_WellBegin_430F10()
             );
         }
 
-        const short xpos = FP_GetExponent(field_A8_xpos);
+        const s16 xpos = FP_GetExponent(field_A8_xpos);
         const auto tlv_mid_x = (field_F0_pTlv->field_14_bottom_right.field_0_x + field_F0_pTlv->field_10_top_left.field_0_x) / 2;
         if (xpos > tlv_mid_x)
         {
@@ -9896,7 +9896,7 @@ void Abe::State_156_DoorEnter_42D370()
                 {
                     if (pTlv->field_18_clearIds)
                     {
-                        for (short i = pTlv->field_1A_from; i <= pTlv->field_1C_to; i++ )
+                        for (s16 i = pTlv->field_1A_from; i <= pTlv->field_1C_to; i++ )
                         {
                             if (i != pTlv->field_1E_exclude && i > 1)
                             {
@@ -9924,7 +9924,7 @@ void Abe::State_156_DoorEnter_42D370()
             field_F0_pTlv = pDoorTlv;
             gMap_507BA8.field_1E_door = 1;
             const auto changeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pDoorTlv->field_3A_wipe_effect];
-            short flag = 0;
+            s16 flag = 0;
             if (changeEffect == CameraSwapEffects::eEffect5_1_FMV || changeEffect == CameraSwapEffects::eEffect11 )
             {
                 flag = 1;

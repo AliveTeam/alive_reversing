@@ -115,8 +115,8 @@ void SecurityDoor::VScreenChanged_461F80()
 
 BOOL SecurityDoor::IsPlayerNear()
 {
-    const short xpos = FP_GetExponent(sControlledCharacter_50767C->field_A8_xpos);
-    const short ypos = FP_GetExponent(sControlledCharacter_50767C->field_AC_ypos);
+    const s16 xpos = FP_GetExponent(sControlledCharacter_50767C->field_A8_xpos);
+    const s16 ypos = FP_GetExponent(sControlledCharacter_50767C->field_AC_ypos);
 
     if (xpos < field_10C_top_left.field_0_x || xpos > field_110_bottom_right.field_0_x)
     {
@@ -316,7 +316,7 @@ void SecurityDoor::VUpdate_461AD0()
         if (last_event == GameSpeakEvents::eNone_m1)
         {
             const auto MatchBuffer = pEventSystem_4FF954->MatchBuffer_40FAA0(field_F8_stru, field_108_max_idx, field_10A_event_idx);
-            field_11A_unused = static_cast<short>(MatchBuffer);
+            field_11A_unused = static_cast<s16>(MatchBuffer);
             if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || sVoiceCheat_507708)
             {
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);

@@ -73,7 +73,7 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
         //PSX_MDEC_rest_498C30(0);
 
         u16* pIter = *ppBits;
-        for (short xpos = 0; xpos < 640; xpos += 16)
+        for (s16 xpos = 0; xpos < 640; xpos += 16)
         {
             const u16 slice_len = *pIter;
             pIter++; // Skip len
@@ -136,8 +136,8 @@ void ScreenManager::Init_4068A0(u8** ppBits)
 
     field_18_screen_sprites = &sSpriteTPageBuffer_4FC8A8[0];
 
-    short xpos = 0;
-    short ypos = 0;
+    s16 xpos = 0;
+    s16 ypos = 0;
     for (s32 i = 0; i < 300; i++)
     {
         SprtTPage* pItem = &field_18_screen_sprites[i];
@@ -228,8 +228,8 @@ void ScreenManager::VUpdate()
 
 s32 ScreenManager::GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
 {
-    const short clampedYPos = *ypos & 0xFF00;
-    const short clampedXPos = *xpos & 0xFFC0;
+    const s16 clampedYPos = *ypos & 0xFF00;
+    const s16 clampedXPos = *xpos & 0xFFC0;
     *xpos -= clampedXPos;
     *ypos -= clampedYPos;
     return PSX_getTPage_4965D0(tp, abr, clampedXPos, clampedYPos);

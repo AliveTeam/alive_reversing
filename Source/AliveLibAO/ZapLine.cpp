@@ -114,7 +114,7 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLine
 
                   Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);
                   Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
-                  SetClut(pSprt, static_cast<short>(PSX_getClut_496840(
+                  SetClut(pSprt, static_cast<s16>(PSX_getClut_496840(
                       field_10_anim.field_8C_pal_vram_xy.field_0_x,
                       field_10_anim.field_8C_pal_vram_xy.field_2_y)));
 
@@ -316,7 +316,7 @@ void ZapLine::VUpdate_4796B0()
 
 void ZapLine::CalculateSpritePositionsOuter()
 {
-    for (short i = 0; i < field_11E_number_of_segments; i++)
+    for (s16 i = 0; i < field_11E_number_of_segments; i++)
     {
         if (i == 0)
         {
@@ -325,7 +325,7 @@ void ZapLine::CalculateSpritePositionsOuter()
         }
         else
         {
-            const short lastIdx = field_11E_number_of_segments - 1;
+            const s16 lastIdx = field_11E_number_of_segments - 1;
             if (i == lastIdx)
             {
                 // Last item.

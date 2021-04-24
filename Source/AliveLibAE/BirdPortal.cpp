@@ -302,8 +302,8 @@ void BirdPortal::vUpdate_498280()
             {
                 xOff = field_60_scale * FP_FromInteger(-16);
             }
-            const short xOffExp = FP_GetExponent(xOff);
-            const short scale32 = FP_GetExponent(field_60_scale * FP_FromInteger(32));
+            const s16 xOffExp = FP_GetExponent(xOff);
+            const s16 scale32 = FP_GetExponent(field_60_scale * FP_FromInteger(32));
 
             if (static_cast<s32>(sGnFrame_5C1B84) >= field_5C_timer)
             {

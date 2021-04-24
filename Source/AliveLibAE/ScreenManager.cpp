@@ -247,7 +247,7 @@ void ScreenManager::vlc_decode(WORD* aCamSeg, WORD* aDst)
         // 0b11111111111 = 2047 * 4 =8192 = 8kb max index of 11 bits
         vlcTabIndex = 4 * shiftedData;
 
-        // Grab vlc tab short using 11bit index * 4
+        // Grab vlc tab s16 using 11bit index * 4
         const u32 bitsToShiftBy = Oddlib::g_VlcTab[vlcTabIndex];
 
         // Shift var
@@ -256,10 +256,10 @@ void ScreenManager::vlc_decode(WORD* aCamSeg, WORD* aDst)
         // Shift the other way by the vlc word
         dstVlcWord = dstVlcWord << bitsToShiftBy;
 
-        // If we've shifted more than sizeof(short)
+        // If we've shifted more than sizeof(s16)
         if (totalBitsToShiftBy > 0xF)
         {
-            // Limit to short, and set 1st short to the next
+            // Limit to s16, and set 1st s16 to the next
             // source word
             totalBitsToShiftBy = totalBitsToShiftBy & 0xF;
             dstVlcWord |= aCamSeg[camSrcPtrIndex++] << totalBitsToShiftBy;
@@ -268,7 +268,7 @@ void ScreenManager::vlc_decode(WORD* aCamSeg, WORD* aDst)
         s32 counter = 4;
         while (--counter)
         {
-            unsigned short vlcWord = Oddlib::g_VlcTab[++vlcTabIndex];
+            u16 vlcWord = Oddlib::g_VlcTab[++vlcTabIndex];
             if (vlcWord == 0)
             {
                 counter = 0; // continue
@@ -433,7 +433,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
             const WORD stripSize = *pIter;
             pIter++;
 
-            const PSX_RECT rect = { static_cast<short>(i * kStripSize), 256 + 16, kStripSize, 240 };
+            const PSX_RECT rect = { static_cast<s16>(i * kStripSize), 256 + 16, kStripSize, 240 };
             IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, reinterpret_cast<const u8*>(pIter));
             pIter += (stripSize / sizeof(WORD));
         }
@@ -522,8 +522,8 @@ void ScreenManager::Init_40E4B0(u8** ppBits)
 
     field_24_screen_sprites = &sSpriteTPageBuffer_5B86C8[0];
 
-    short xpos = 0;
-    short ypos = 0;
+    s16 xpos = 0;
+    s16 ypos = 0;
     for (s32 i = 0; i < 300; i++)
     {
         SprtTPage* pItem = &field_24_screen_sprites[i];
@@ -564,8 +564,8 @@ void ScreenManager::Init_40E4B0(u8** ppBits)
 
 s32 CC ScreenManager::GetTPage_40F040(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
 {
-    const short clampedYPos = *ypos & 0xFF00;
-    const short clampedXPos = *xpos & 0xFFC0;
+    const s16 clampedYPos = *ypos & 0xFF00;
+    const s16 clampedXPos = *xpos & 0xFFC0;
     *xpos -= clampedXPos;
     *ypos -= clampedYPos;
     return PSX_getTPage_4F60E0(tp, abr, clampedXPos, clampedYPos);

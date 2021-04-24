@@ -13,8 +13,8 @@
 namespace AO {
 
 ALIVE_VAR_EXTERN(s32, sGasTimer_507700);
-ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
-ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
+ALIVE_VAR_EXTERN(s16, sRescuedMudokons_5076C0);
+ALIVE_VAR_EXTERN(s16, sKilledMudokons_5076BC);
 ALIVE_VAR(1, 0x4CF2B0, Save_PSX_Header, sSaveHeader2_4CF2B0, {});
 ALIVE_VAR(1, 0x4BC250, Save_PSX_Header, sSaveHeader1_4BC250, {});
 ALIVE_VAR(1, 0x5076B4, WORD, bUseAltSaveHeader_5076B4, 0);
@@ -310,10 +310,10 @@ const char* rawLevelNames[] = {
     "Scrabania Chase  ",
 };
 
-short SaveGame::GetPathId(short pathToFind, short* outFoundPathRow)
+s16 SaveGame::GetPathId(s16 pathToFind, s16* outFoundPathRow)
 {
-    short path_id = -1;
-    for (short i = 0; i < 4; i++)
+    s16 path_id = -1;
+    for (s16 i = 0; i < 4; i++)
     {
         for (s32 j = 0; j < 8; j++)
         {
@@ -361,7 +361,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {
-        short path_id = GetPathId(gMap_507BA8.field_2_current_path);
+        s16 path_id = GetPathId(gMap_507BA8.field_2_current_path);
 
         if (path_id != -1)
         {
@@ -479,7 +479,7 @@ s32 SaveGame::Hash(SaveData* sData)
     return counter;
 }
 
-short CC SaveGame::LoadFromFile_459D30(const char* name)
+s16 CC SaveGame::LoadFromFile_459D30(const char* name)
 {
     char buffer[40] = {};
 

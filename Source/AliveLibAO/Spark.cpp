@@ -197,8 +197,8 @@ void Spark::VRender_477ED0(PrimHeader** ppOt)
 
     const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
 
-    const short xOrg = FP_GetExponent(field_30_xpos) - FP_GetExponent(pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
-    const short yOrg = FP_GetExponent(field_34_ypos) - FP_GetExponent(pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+    const s16 xOrg = FP_GetExponent(field_30_xpos) - FP_GetExponent(pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+    const s16 yOrg = FP_GetExponent(field_34_ypos) - FP_GetExponent(pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
     for (s32 i = 0; i < field_4C_count; i++)
     {
@@ -213,8 +213,8 @@ void Spark::VRender_477ED0(PrimHeader** ppOt)
         const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * field_38_scale), 11);
         const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * field_38_scale), 11);
 
-        SetXY0(pPrim, static_cast<short>(x0), static_cast<short>(y0));
-        SetXY1(pPrim, static_cast<short>(x1), static_cast<short>(y1));
+        SetXY0(pPrim, static_cast<s16>(x0), static_cast<s16>(y0));
+        SetXY1(pPrim, static_cast<s16>(x1), static_cast<s16>(y1));
 
         SetRGB0(pPrim,
             static_cast<u8>(field_3C_r / 2),
@@ -229,11 +229,11 @@ void Spark::VRender_477ED0(PrimHeader** ppOt)
         Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, TRUE);
         OrderingTable_Add_498A80(OtLayer(ppOt, field_42_layer), &pPrim->mBase.header);
         
-        rect.x = std::min(rect.x, std::min(static_cast<short>(x0), static_cast<short>(x1)));
-        rect.w = std::max(rect.w, std::max(static_cast<short>(x0), static_cast<short>(x1)));
+        rect.x = std::min(rect.x, std::min(static_cast<s16>(x0), static_cast<s16>(x1)));
+        rect.w = std::max(rect.w, std::max(static_cast<s16>(x0), static_cast<s16>(x1)));
 
-        rect.y = std::min(rect.y, std::min(static_cast<short>(y0), static_cast<short>(y1)));
-        rect.h = std::max(rect.h, std::max(static_cast<short>(y0), static_cast<short>(y1)));
+        rect.y = std::min(rect.y, std::min(static_cast<s16>(y0), static_cast<s16>(y1)));
+        rect.h = std::max(rect.h, std::max(static_cast<s16>(y0), static_cast<s16>(y1)));
     }
 
     Prim_SetTPage* pTPage = &field_10_tPage[gPsxDisplay_504C78.field_A_buffer_index];

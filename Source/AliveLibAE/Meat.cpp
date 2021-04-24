@@ -341,8 +341,8 @@ void Meat::vUpdate_469BA0()
             InTheAir_4697E0();
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
-            const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-            const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+            const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+            const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
             vOnCollisionWith_424EE0(
                 xy,
                 wh,

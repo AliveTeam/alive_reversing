@@ -96,8 +96,8 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
 
         FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]);
 
-        const short frameW = pFrameHeader->field_4_width;
-        const short frameH = pFrameHeader->field_5_height;
+        const s16 frameW = pFrameHeader->field_4_width;
+        const s16 frameH = pFrameHeader->field_5_height;
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
@@ -121,7 +121,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
                 }
 
                 SetClut(pSprt,
-                    static_cast<short>(
+                    static_cast<s16>(
                         PSX_getClut_4F6350(
                             field_20_animation.field_8C_pal_vram_xy.field_0_x,
                             field_20_animation.field_8C_pal_vram_xy.field_2_y)));
@@ -243,8 +243,8 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
             pSprt->field_14_w = pFrameHeader->field_4_width - 1;
             pSprt->field_16_h = pFrameHeader->field_5_height - 1;
 
-            const short x0 = PsxToPCX(FP_GetExponent(pParticle->field_0_x));
-            const short y0 = FP_GetExponent(pParticle->field_4_y);
+            const s16 x0 = PsxToPCX(FP_GetExponent(pParticle->field_0_x));
+            const s16 y0 = FP_GetExponent(pParticle->field_4_y);
 
             SetXY0(pSprt, x0, y0);
 
@@ -269,7 +269,7 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
             field_20_animation.field_84_vram_rect.y);
 
         Prim_SetTPage* pTPage = &field_FC_tPages[gPsxDisplay_5C1130.field_C_buffer_index];
-        Init_SetTPage_4F5B60(pTPage, 0, 0, static_cast<short>(tpage));
+        Init_SetTPage_4F5B60(pTPage, 0, 0, static_cast<s16>(tpage));
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_12C_render_layer), &pTPage->mBase);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC90(

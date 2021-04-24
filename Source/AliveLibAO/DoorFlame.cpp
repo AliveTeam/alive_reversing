@@ -130,7 +130,7 @@ public:
          // TODO: Refactor PSX <> PC width conversion
         const FP frameWScaled_converted = ((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40); 
         // Why isn't this converted ??
-        //const short offXScaled_converted = FP_GetExponent(((FP_FromInteger(offXScaled) * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
+        //const s16 offXScaled_converted = FP_GetExponent(((FP_FromInteger(offXScaled) * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
 
      
         field_E4_xPos = screenX + FP_FromInteger(offXScaled) + FP_FromInteger(Math_NextRandom() % 3);
@@ -194,7 +194,7 @@ public:
             anim.field_14.field_4_flags.Set(AnimFlags::eBit3_Render);
             anim.field_14.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-            const short rndLayer = static_cast<short>(field_10_anim.field_C_layer) + Math_RandomRange_450F20(-1, 1);
+            const s16 rndLayer = static_cast<s16>(field_10_anim.field_C_layer) + Math_RandomRange_450F20(-1, 1);
             anim.field_14.field_C_layer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = field_BC_sprite_scale;
 

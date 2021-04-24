@@ -58,11 +58,11 @@ const SfxDefinition stru_5607E0[17] =
 void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
 {
     const SfxDefinition* pEffect = &stru_5607E0[static_cast<s32>(effect)];
-    short vLeft = 0;
-    short vRight = 0;
+    s16 vLeft = 0;
+    s16 vRight = 0;
     if (Calc_Slig_Sound_Direction_4C01B0(pObj, 0, pEffect, &vLeft, &vRight))
     {
-        short pitch = 0;
+        s16 pitch = 0;
         if (effect == SligSfx::ePropeller1_9 || effect == SligSfx::ePropeller2_10 || effect == SligSfx::ePropeller3_11)
         {
             FP sndDistance = FP_FromInteger(abs(Math_Distance_496EB0(0, 0, FP_GetExponent(pObj->field_C4_velx), FP_GetExponent(pObj->field_C8_vely))));
@@ -183,7 +183,7 @@ TintEntry sSligTint_560570[15] =
 };
 
 ALIVE_VAR(1, 0xBAF7E4, s32, unused_BAF7E4, 0);
-ALIVE_VAR(1, 0xBAF7E8, short, sSligsUnderControlCount_BAF7E8, 0);
+ALIVE_VAR(1, 0xBAF7E8, s16, sSligsUnderControlCount_BAF7E8, 0);
 
 const AnimId sSligFrameTables_547318[52] =
 {
@@ -848,7 +848,7 @@ s32 CC Slig::CreateFromSaveState_4B3B50(const u8* pBuffer)
 
     unused_BAF7E4 = pState->field_88_unused;
 
-    pSlig->field_158_num_times_to_shoot = static_cast<short>(pState->field_8C_num_times_to_shoot); // TODO: Wrong type ??
+    pSlig->field_158_num_times_to_shoot = static_cast<s16>(pState->field_8C_num_times_to_shoot); // TODO: Wrong type ??
     pSlig->field_15C_force_alive_state = pState->field_90_force_alive_state;
     pSlig->field_15E_spotted_possessed_slig = pState->field_92_spotted_possessed_slig;
     pSlig->field_208_glukkon_obj_id = pState->field_94_glukkon_id;
@@ -2679,7 +2679,7 @@ s16 Slig::AI_DeathDropDeath_3_4BC1E0()
             {
                 Slig_GameSpeak_SFX_4C04F0(
                     SligSpeak::eHelp_10,
-                    static_cast<short>(2 * ((field_120_timer & 0xFFFF) - sGnFrame_5C1B84)),
+                    static_cast<s16>(2 * ((field_120_timer & 0xFFFF) - sGnFrame_5C1B84)),
                     field_11E_pitch_min,
                     this);
             }
@@ -4368,7 +4368,7 @@ s16 Slig::AI_DiscussionWhat_25_4BF380()
 
     if (field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0 && field_120_timer == static_cast<s32>(sGnFrame_5C1B84))
     {
-        field_108_next_motion = static_cast<short>(field_294_next_gamespeak_motion);
+        field_108_next_motion = static_cast<s16>(field_294_next_gamespeak_motion);
     }
 
     if (field_120_timer < static_cast<s32>(sGnFrame_5C1B84 - 5))
@@ -4844,9 +4844,9 @@ void Slig::Init_4BB0D0()
     field_268_points[field_290_points_count].field_2_y = FP_GetExponent(field_BC_ypos);
     field_290_points_count++;
 
-    for (short yCam = -3; yCam < 4; yCam++)
+    for (s16 yCam = -3; yCam < 4; yCam++)
     {
-        for (short xCam = -3; xCam < 4; xCam++)
+        for (s16 xCam = -3; xCam < 4; xCam++)
         {
             Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(xCam, yCam);
             while (pTlvIter)
@@ -5007,8 +5007,8 @@ void Slig::vUpdate_4B17C0()
                     PSX_RECT bRect = {};
                     vGetBoundingRect_424FD0(&bRect, 1);
                     vOnCollisionWith_424EE0(
-                        { bRect.x, static_cast<short>(bRect.y + 5) },
-                        { bRect.w, static_cast<short>(bRect.h + 5) },
+                        { bRect.x, static_cast<s16>(bRect.y + 5) },
+                        { bRect.w, static_cast<s16>(bRect.h + 5) },
                         ObjList_5C1B78,
                         1,
                         (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
@@ -6487,7 +6487,7 @@ void Slig::ToPanicTurn_4BC750()
     SetBrain(&Slig::AI_PanicTurning_12_4BC490);
 }
 
-ALIVE_VAR(1, 0xBAF7EC, short, sDelayIdx_BAF7EC, 0);
+ALIVE_VAR(1, 0xBAF7EC, s16, sDelayIdx_BAF7EC, 0);
 const s16 sDelayTable_56075C[6] = { 0, 6, 10, 8, 4, 12 };
 
 
@@ -6894,7 +6894,7 @@ s32 Slig::vGetSaveState_4BFB10(Slig_State* pState)
 
 s16 Slig::FindSwitch_4B9A50()
 {
-    const short yPos = FP_GetExponent(field_BC_ypos - FP_FromInteger(5));
+    const s16 yPos = FP_GetExponent(field_BC_ypos - FP_FromInteger(5));
     if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(field_B8_xpos), yPos, FP_GetExponent(field_B8_xpos), yPos, TlvTypes::Switch_17))
     {
         return 0;

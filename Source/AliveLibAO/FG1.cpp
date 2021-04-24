@@ -56,7 +56,7 @@ const Layer sFg1_layer_to_bits_layer_4BC024[] = { Layer::eLayer_37, Layer::eLaye
 
 void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 {
-    const short width_rounded = (pChunk->field_8_width + 1) & ~1u;
+    const s16 width_rounded = (pChunk->field_8_width + 1) & ~1u;
     if (vram_alloc_450860(pChunk->field_8_width, pChunk->field_A_height, &pBlock->field_58_rect))
     {
         pBlock->field_66_mapped_layer = sFg1_layer_to_bits_layer_4BC024[pChunk->field_2_layer_or_decompressed_size];
@@ -68,15 +68,15 @@ void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block*
         rect.h = pChunk->field_A_height;
         IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, (u8*)&pChunk[1]);
 
-        const short tPage = static_cast<short>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, rect.x /*& 0xFFC0*/, rect.y));
+        const s16 tPage = static_cast<s16>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, rect.x /*& 0xFFC0*/, rect.y));
 
         const u8 u0 = rect.x & 63;
         const u8 v0 = static_cast<u8>(rect.y);
         const u8 u1 = static_cast<u8>(u0 + pChunk->field_8_width - 1);
         const u8 v1 = static_cast<u8>(v0 + pChunk->field_A_height - 1);
 
-        const short x1 = pChunk->field_4_xpos_or_compressed_size + pChunk->field_8_width;
-        const short y2 = pChunk->field_6_ypos + pChunk->field_A_height;
+        const s16 x1 = pChunk->field_4_xpos_or_compressed_size + pChunk->field_8_width;
+        const s16 y2 = pChunk->field_6_ypos + pChunk->field_A_height;
 
         for (Poly_FT4& rPoly : pBlock->field_0_polys)
         {
@@ -148,7 +148,7 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
     // Cast to the actual FG1 resource block format
     FG1ResourceBlockHeader* pHeader = reinterpret_cast<FG1ResourceBlockHeader*>(*ppRes);
 
-    field_18_render_block_count = static_cast<short>(pHeader->mCount);
+    field_18_render_block_count = static_cast<s16>(pHeader->mCount);
     field_1C_ptr = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_CHNK, 0, pHeader->mCount * sizeof(Fg1Block));
     field_20_chnk_res = reinterpret_cast<Fg1Block*>(*field_1C_ptr);
 
@@ -169,7 +169,7 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
                 Convert_Chunk_To_Render_Block_453BA0(pChunkIter, pRenderBlock);
 
                 // The pixel size is variable, calculate the size and move to the end of it to get the next block
-                const s32 pixelSizeBytes = pChunkIter->field_A_height * pChunkIter->field_8_width * sizeof(short);
+                const s32 pixelSizeBytes = pChunkIter->field_A_height * pChunkIter->field_8_width * sizeof(s16);
                 pChunkIter = reinterpret_cast<Fg1Chunk*>(reinterpret_cast<u8*>(pChunkIter) + pixelSizeBytes + sizeof(Fg1Chunk));
             }
             break;

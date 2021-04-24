@@ -16,7 +16,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5076EC, short, gInfiniteGrenades_5076EC, 0);
+ALIVE_VAR(1, 0x5076EC, s16, gInfiniteGrenades_5076EC, 0);
 
 void Grenade::VOnTrapDoorOpen()
 {
@@ -330,8 +330,8 @@ void Grenade::VUpdate_41F240()
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
 
-                const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-                const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+                const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+                const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
 
                 VOnCollisionWith(xy, wh, gBaseGameObject_list_9F2DF0, 1, (TCollisionCallBack)&Grenade::OnCollision_BounceOff_41F650);
             }
@@ -450,7 +450,7 @@ s16 Grenade::InTheAir_41EF10()
             field_B4_velx =(field_B4_velx / FP_FromInteger(2));
             if (field_118 <= 4)
             {
-                short vol = 75 - 20 * field_118;
+                s16 vol = 75 - 20 * field_118;
                 if (vol < 40)
                 {
                     vol = 40;
@@ -485,7 +485,7 @@ s16 Grenade::InTheAir_41EF10()
                 field_AC_ypos = hitY;
                 field_A8_xpos = hitX;
                 field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                short vol = 75 - 20 * field_118;
+                s16 vol = 75 - 20 * field_118;
                 if (vol < 40)
                 {
                     vol = 40;
@@ -504,7 +504,7 @@ s16 Grenade::InTheAir_41EF10()
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
                 field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                short vol = 75 - 20 * field_118;
+                s16 vol = 75 - 20 * field_118;
                 if (vol < 40)
                 {
 
@@ -562,7 +562,7 @@ s16 Grenade::OnCollision_BounceOff_41F650(BaseGameObject* pHit)
 
 s16 Grenade::BlowUpAfterCountdown_41EDD0()
 {
-    const short timer = field_112_explode_timer--;
+    const s16 timer = field_112_explode_timer--;
     if (!(timer % 16))
     {
         SFX_Play_43AD70(SoundEffect::GreenTick_3, 0, 0);

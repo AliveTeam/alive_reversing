@@ -24,7 +24,7 @@ ALIVE_ARY(1, 0xBD0D88, OtUnknown, 32, sOt_Stack_BD0D88, {});
 ALIVE_VAR(1, 0xBD0C08, s32, sOtIdxRollOver_BD0C08, 0);
 
 
-ALIVE_VAR(1, 0x578318, short, sActiveTPage_578318, -1);
+ALIVE_VAR(1, 0x578318, s16, sActiveTPage_578318, -1);
 ALIVE_VAR(1, 0xbd0f0c, DWORD, sTexture_page_x_BD0F0C, 0);
 ALIVE_VAR(1, 0xbd0f10, DWORD, sTexture_page_y_BD0F10, 0);
 ALIVE_VAR(1, 0xbd0f14, DWORD, sTexture_mode_BD0F14, 0);
@@ -937,18 +937,18 @@ static void CalculateBlendingModesLUT()
 {
     const s32 redShift = sRedShift_C215C4;
     const s32 greenShift = sGreenShift_C1D180;
-    for (short i = 0; i < 32; i++)
+    for (s16 i = 0; i < 32; i++)
     {
-        for (short j = 0; j < 32; j++)
+        for (s16 j = 0; j < 32; j++)
         {
             // 0.5xB + 0.5xF
-            short value1 = (j + i) / 2;
+            s16 value1 = (j + i) / 2;
             sPsx_abr_lut_C215E0[eBlendMode_0].r[i][j] = value1 << redShift;
             sPsx_abr_lut_C215E0[eBlendMode_0].g[i][j] = value1 << greenShift;
             sPsx_abr_lut_C215E0[eBlendMode_0].b[i][j] = value1;
 
             // 1.0xB + 1.0xF
-            short value2 = i + j;
+            s16 value2 = i + j;
             if (value2 > 31)
             {
                 value2 = 31;
@@ -958,7 +958,7 @@ static void CalculateBlendingModesLUT()
             sPsx_abr_lut_C215E0[eBlendMode_1].b[i][j] = value2;
 
             // 1.0xB - 1.0xF
-            short value3 = j - i;
+            s16 value3 = j - i;
             if (value3 < 0)
             {
                 value3 = 0;
@@ -968,7 +968,7 @@ static void CalculateBlendingModesLUT()
             sPsx_abr_lut_C215E0[eBlendMode_2].b[i][j] = value3;
 
             // 1.0xB + 0.25xF
-            short value4 = j + (i / 4);
+            s16 value4 = j + (i / 4);
             if (value4 > 31)
             {
                 value4 = 31;
@@ -1024,13 +1024,13 @@ EXPORT s32 CC PSX_EMU_SetDispType_4F9960(s32 dispType)
     const s32 greenShift = sGreenShift_C1D180;
 
     // TODO: Its unknown what this is calculating
-    for (short i = 0; i < 32; i++)
+    for (s16 i = 0; i < 32; i++)
     {
-        short iPlus_iExp = 0;
-        short iExp = 0;
-        for (short j = 0; j < 32; j++)
+        s16 iPlus_iExp = 0;
+        s16 iExp = 0;
+        for (s16 j = 0; j < 32; j++)
         {
-            short value = iPlus_iExp / 16;
+            s16 value = iPlus_iExp / 16;
             if (value > 31)
             {
                 value = 31;
@@ -1273,7 +1273,7 @@ static s32 sLast_TILE_r_578328 = 0;
 static s32 sLast_TILE_g_C3D0E0 = 0;
 static s32 sLast_TILE_b_C3D0DC = 0;
 static DWORD sLast_Tile_abr_57832C = 0;
-ALIVE_ARY(1, 0xC2D080, short, 16384, word_C2D080, {});
+ALIVE_ARY(1, 0xC2D080, s16, 16384, word_C2D080, {});
 
 void PSX_Render_TILE_Blended_Large_Impl(WORD *pVRam, s32 width, s32 height, s32 r, s32 g, s32 b, s32 pitch)
 {
@@ -1285,9 +1285,9 @@ void PSX_Render_TILE_Blended_Large_Impl(WORD *pVRam, s32 width, s32 height, s32 
     {
         // NOTE: if (spBitmap_C2D038->field_15_pixel_format == 15) {} case removed as only 16 supported
 
-        short* pAbr_R = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].r[r][0];
-        short* pAbr_G = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].g[g][0];
-        short* pAbr_B = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].b[b][0];
+        s16* pAbr_R = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].r[r][0];
+        s16* pAbr_G = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].g[g][0];
+        s16* pAbr_B = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].b[b][0];
 
         // TODO: Figure out what this look up table actually is
         for (s32 i = 0; i < 16384; i++)
@@ -2595,7 +2595,7 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, s32 xoff
 
     if (prim)
     {
-        const short oldTPage = sActiveTPage_578318;
+        const s16 oldTPage = sActiveTPage_578318;
         switch (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(prim->field_B_flags))
         {
         case PrimTypeCodes::ePolyFT3:
@@ -3238,7 +3238,7 @@ EXPORT void CC PSX_RenderLaughingGasEffect_4F7B80(s32 xpos, s32 ypos, s32 width,
     }
 }
 
-void DrawOTag_Render_SPRT(PrimAny& any, s16 drawEnv_of0, s16 drawEnv_of1, short width, short height)
+void DrawOTag_Render_SPRT(PrimAny& any, s16 drawEnv_of0, s16 drawEnv_of1, s16 width, s16 height)
 {
     u8 b = 0;
     u8 g = 0;
@@ -3258,10 +3258,10 @@ void DrawOTag_Render_SPRT(PrimAny& any, s16 drawEnv_of0, s16 drawEnv_of1, short 
         b = any.mPrimHeader->rgb_code.b;
     }
 
-    const short x0 = drawEnv_of0 + any.mSprt->mBase.vert.x;
-    const short y0 = drawEnv_of1 + any.mSprt->mBase.vert.y;
-    const short u0 = any.mSprt->mUv.u;
-    const short v0 = any.mSprt->mUv.v;
+    const s16 x0 = drawEnv_of0 + any.mSprt->mBase.vert.x;
+    const s16 y0 = drawEnv_of1 + any.mSprt->mBase.vert.y;
+    const s16 u0 = any.mSprt->mUv.u;
+    const s16 v0 = any.mSprt->mUv.v;
 
     pPSX_EMU_Render_SPRT_51EF90_C2D04C(
         x0, y0,
@@ -3275,7 +3275,7 @@ void DrawOTag_Render_SPRT(PrimAny& any, s16 drawEnv_of0, s16 drawEnv_of1, short 
         any.mPrimHeader->rgb_code.code_or_pad & 2); // Semi transparency bit
 }
 
-void DrawOTag_Render_TILE(PrimAny& any, short x, short y, short w, short h)
+void DrawOTag_Render_TILE(PrimAny& any, s16 x, s16 y, s16 w, s16 h)
 {
     PSX_RECT rect = { x,y,w,h };
     PSX_Render_TILE_4F6A70(&rect, &any.mTile->mBase.header);
@@ -3411,7 +3411,7 @@ static bool DrawOTagImpl(PrimHeader** ppOt, s16 drawEnv_of0, s16 drawEnv_of1)
             switch (itemToDrawType)
             {
             case PrimTypeCodes::eSetTPage:
-                renderer.SetTPage(static_cast<short>(any.mSetTPage->field_C_tpage));
+                renderer.SetTPage(static_cast<s16>(any.mSetTPage->field_C_tpage));
                 break;
 
             case PrimTypeCodes::ePrimClipper:
@@ -3547,7 +3547,7 @@ EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pScreen, const P
             biggestRight = pScreen->x + pScreen->w;
         }
 
-        const s16 overlap_w = static_cast<short>(biggestRight - pToRender->x);
+        const s16 overlap_w = static_cast<s16>(biggestRight - pToRender->x);
         pOverlapRect->w = overlap_w;
         if (pToRender->x >= pScreen->x)
         {
@@ -3567,7 +3567,7 @@ EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pScreen, const P
             biggestBottom = pScreen->y + pScreen->h;
         }
 
-        const s16 overlap_h = static_cast<short>(biggestBottom - pToRender->y);
+        const s16 overlap_h = static_cast<s16>(biggestBottom - pToRender->y);
         pOverlapRect->h = overlap_h;
         if (pToRender->y >= pScreen->y)
         {
@@ -4370,7 +4370,7 @@ namespace AETest::TestsPsxRender
 
 
         OT_Prim otPrim = {};
-        otPrim.field_12_clut = static_cast<short>(PSX_getClut_4F6350(0, 256));
+        otPrim.field_12_clut = static_cast<s16>(PSX_getClut_4F6350(0, 256));
         otPrim.field_14_verts[0].field_0_x0 = 0;
         otPrim.field_14_verts[0].field_4_y0 = 0;
         otPrim.field_14_verts[3].field_0_x0 = 8;

@@ -131,8 +131,8 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         stru_4BB480[idx].field_C_lift_wheel_frame_table_offset,
         gObjList_animations_505564,
         this,
-        static_cast<short>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
-        static_cast<short>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
+        static_cast<s16>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
+        static_cast<s16>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
         ppLiftWheelRes,
         1,
         0,
@@ -757,7 +757,7 @@ BaseGameObject* LiftPoint::VDestructor(s32 flags)
     return Vdtor_435D10(flags);
 }
 
-void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
+void LiftPoint::CreatePulleyIfExists_435AE0(s16 camX, s16 camY)
 {
     auto pTlv = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(camX, camY);
     if (pTlv)
@@ -795,8 +795,8 @@ void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
             stru_4BB480[idx].field_10_pulley_frame_table_offset,
             gObjList_animations_505564,
             this,
-            static_cast<short>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
-            static_cast<short>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
+            static_cast<s16>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
+            static_cast<s16>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
             ppRes,
             1,
             0,

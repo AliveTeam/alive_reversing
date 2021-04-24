@@ -301,8 +301,8 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
         field_60_font.DrawString_4337D0(
             ppOt,
             field_A0_message,
-            static_cast<short>(screenXWorld - field_2AC_x_offset),
-            static_cast<short>(screenY),
+            static_cast<s16>(screenXWorld - field_2AC_x_offset),
+            static_cast<s16>(screenY),
             TPageAbr::eBlend_1,
             1,
             0,
@@ -317,9 +317,9 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
         sFontDrawScreenSpace_5CA4B4 = 0;
 
         clipRect = {
-            static_cast<short>(screenXWorld),
-            static_cast<short>(screenY - 12),
-            static_cast<short>(PsxToPCX(maxWidth - screenX)),
+            static_cast<s16>(screenXWorld),
+            static_cast<s16>(screenY - 12),
+            static_cast<s16>(PsxToPCX(maxWidth - screenX)),
             48
         };
 

@@ -11,9 +11,9 @@ namespace AETest::TestsPsxRender
 }
 union PrimAny;
 
-void DrawOTag_Render_SPRT(PrimAny& any, s16 drawEnv_of0, s16 drawEnv_of1, short width, short height);
+void DrawOTag_Render_SPRT(PrimAny& any, s16 drawEnv_of0, s16 drawEnv_of1, s16 width, s16 height);
 EXPORT void CC PSX_RenderLaughingGasEffect_4F7B80(s32 xpos, s32 ypos, s32 width, s32 height, WORD* pData);
-void DrawOTag_Render_TILE(PrimAny& any, short x, short y, short w, short h);
+void DrawOTag_Render_TILE(PrimAny& any, s16 x, s16 y, s16 w, s16 h);
 EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, s32 offX, s32 offY);
 
 struct OT_Prim;
