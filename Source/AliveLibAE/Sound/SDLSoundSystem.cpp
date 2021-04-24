@@ -295,8 +295,8 @@ void SDLSoundSystem::RenderMonoSample(Sint16* pVoiceBufferPtr, SDLSoundBuffer* p
         break;
     }
 
-    signed int leftPan = 10000;
-    signed int rightPan = 10000;
+    s32 leftPan = 10000;
+    s32 rightPan = 10000;
 
     if (gAudioStereo)
     {
@@ -311,7 +311,7 @@ void SDLSoundSystem::RenderMonoSample(Sint16* pVoiceBufferPtr, SDLSoundBuffer* p
     }
     else
     {
-        signed int r = (leftPan + rightPan) / 2;
+        s32 r = (leftPan + rightPan) / 2;
         leftPan = r;
         rightPan = r;
     }

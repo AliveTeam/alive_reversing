@@ -10,13 +10,13 @@ class CheatController : public BaseGameObject
 public:
     EXPORT CheatController* ctor_40FBF0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VScreenChanged() override;
 
     EXPORT BaseGameObject* dtor_40FC20();
 
-    EXPORT CheatController* Vdtor_40FCD0(signed int flags);
+    EXPORT CheatController* Vdtor_40FCD0(s32 flags);
 
     virtual void VUpdate() override;
 

@@ -1520,12 +1520,12 @@ void HintFly::InitParticle(HintFlyParticle* pParticle)
     }
 }
 
-BaseGameObject* HintFly::VDestructor(signed int flags)
+BaseGameObject* HintFly::VDestructor(s32 flags)
 {
     return Vdtor_42BCF0(flags);
 }
 
-HintFly* HintFly::Vdtor_42BCF0(signed int flags)
+HintFly* HintFly::Vdtor_42BCF0(s32 flags)
 {
     dtor_42ADF0();
     if (flags & 1)

@@ -33,12 +33,12 @@ EXPORT int CC PSX_EMU_VideoAlloc_4F9D70();
 EXPORT void CC Init_VGA_AndPsxVram_494690();
 EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam);
 EXPORT void CC PSX_EMU_SetCallBack_4F9430(int callBackType, TPsxEmuCallBack fnPtr);
-EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3);
+EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3);
 EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(char mode);
-EXPORT signed int CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int ypos);
+EXPORT s32 CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int ypos);
 EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData);
 EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData);
-EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData);
+EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData);
 
 BOOL CC PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
 

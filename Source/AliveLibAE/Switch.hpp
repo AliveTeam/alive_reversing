@@ -47,14 +47,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Switch, 0x20);
 class Switch : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s16 VPull_4D6050(s16 bLeftDirection);
     EXPORT Switch* ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo);
 private:
     EXPORT void dtor_4D5B00();
-    EXPORT Switch* vdtor_4D5AD0(signed int flags);
+    EXPORT Switch* vdtor_4D5AD0(s32 flags);
     EXPORT void vUpdate_4D5C00();
     EXPORT void vScreenChanged_4D5B90();
     EXPORT s16 vPull_4D6050( s16 bLeftDirection);

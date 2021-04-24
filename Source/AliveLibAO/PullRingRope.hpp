@@ -29,9 +29,9 @@ public:
 
     EXPORT BaseGameObject* dtor_454910();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT PullRingRope* Vdtor_454D80(signed int flags);
+    EXPORT PullRingRope* Vdtor_454D80(s32 flags);
 
     virtual void VScreenChanged() override;
 

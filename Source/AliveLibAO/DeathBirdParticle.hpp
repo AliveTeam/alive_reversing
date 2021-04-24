@@ -14,7 +14,7 @@ public:
 
     EXPORT void VUpdate_41DA60();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     int field_D4_padding[4];
     char field_E4_random;

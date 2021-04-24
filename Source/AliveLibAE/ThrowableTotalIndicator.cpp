@@ -185,7 +185,7 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, 
     return this;
 }
 
-BaseGameObject* ThrowableTotalIndicator::VDestructor(signed int flags)
+BaseGameObject* ThrowableTotalIndicator::VDestructor(s32 flags)
 {
     return vdtor_431DE0(flags);
 }
@@ -222,7 +222,7 @@ void ThrowableTotalIndicator::dtor_431E10()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* ThrowableTotalIndicator::vdtor_431DE0(signed int flags)
+BaseGameObject* ThrowableTotalIndicator::vdtor_431DE0(s32 flags)
 {
     dtor_431E10();
     if (flags & 1)

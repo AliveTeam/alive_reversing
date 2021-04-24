@@ -30,7 +30,7 @@ void GasEmitter::VScreenChanged()
     VScreenChanged_41D900();
 }
 
-GasEmitter* GasEmitter::Vdtor_41D910(signed int flags)
+GasEmitter* GasEmitter::Vdtor_41D910(s32 flags)
 {
     dtor_41D840();
     if (flags & 1)
@@ -40,7 +40,7 @@ GasEmitter* GasEmitter::Vdtor_41D910(signed int flags)
     return this;
 }
 
-BaseGameObject* GasEmitter::VDestructor(signed int flags)
+BaseGameObject* GasEmitter::VDestructor(s32 flags)
 {
     return Vdtor_41D910(flags);
 }

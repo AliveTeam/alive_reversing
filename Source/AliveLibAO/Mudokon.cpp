@@ -456,12 +456,12 @@ void Mudokon::KillLiftPoint_194()
     }
 }
 
-BaseGameObject* Mudokon::VDestructor(signed int flags)
+BaseGameObject* Mudokon::VDestructor(s32 flags)
 {
     return Vdtor_440230(flags);
 }
 
-Mudokon* Mudokon::Vdtor_440230(signed int flags)
+Mudokon* Mudokon::Vdtor_440230(s32 flags)
 {
     dtor_43F6A0();
     if (flags & 1)

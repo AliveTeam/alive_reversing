@@ -8,7 +8,7 @@
 ALIVE_VAR(1, 0x5c1b90, s16, sDoesCreditsControllerExist_5C1B90, false);
 
 
-BaseGameObject* CreditsController::VDestructor(signed int flags)
+BaseGameObject* CreditsController::VDestructor(s32 flags)
 {
     return vdtor_418A60(flags);
 }
@@ -39,7 +39,7 @@ void CreditsController::dtor_418A90()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* CreditsController::vdtor_418A60(signed int flags)
+BaseGameObject* CreditsController::vdtor_418A60(s32 flags)
 {
     dtor_418A90();
     if (flags & 1)

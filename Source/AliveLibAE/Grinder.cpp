@@ -255,7 +255,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     return this;
 }
 
-BaseGameObject* Grinder::VDestructor(signed int flags)
+BaseGameObject* Grinder::VDestructor(s32 flags)
 {
     return vdtor_4206A0(flags);
 }
@@ -285,7 +285,7 @@ int Grinder::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_4217B0(pSaveBuffer);
 }
 
-signed int CC Grinder::CreateFromSaveState_421600(const BYTE* pData)
+s32 CC Grinder::CreateFromSaveState_421600(const BYTE* pData)
 {
     const Grinder_State* pState = reinterpret_cast<const Grinder_State*>(pData);
 
@@ -512,7 +512,7 @@ void Grinder::dtor_420B60()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Grinder* Grinder::vdtor_4206A0(signed int flags)
+Grinder* Grinder::vdtor_4206A0(s32 flags)
 {
     dtor_420B60();
     if (flags & 1)

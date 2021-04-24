@@ -30,7 +30,7 @@ Well* Well::ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo)
     return this;
 }
 
-BaseGameObject* Well::VDestructor(signed int flags)
+BaseGameObject* Well::VDestructor(s32 flags)
 {
     return vdtor_4E2CA0(flags);
 }
@@ -132,7 +132,7 @@ void Well::WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-Well* Well::vdtor_4E2CA0(signed int flags)
+Well* Well::vdtor_4E2CA0(s32 flags)
 {
     dtor_4E3090();
     if (flags & 1)

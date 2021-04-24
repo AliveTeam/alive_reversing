@@ -6,7 +6,7 @@
 #include "stdlib.hpp"
 #include "Sfx.hpp"
 
-BaseGameObject* DeathBirdParticle::VDestructor(signed int flags)
+BaseGameObject* DeathBirdParticle::VDestructor(s32 flags)
 {
     return vdtor_43EE20(flags);
 }
@@ -118,7 +118,7 @@ void DeathBirdParticle::dtor_43EE50()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-DeathBirdParticle* DeathBirdParticle::vdtor_43EE20(signed int flags)
+DeathBirdParticle* DeathBirdParticle::vdtor_43EE20(s32 flags)
 {
     dtor_43EE50();
     if (flags & 1)

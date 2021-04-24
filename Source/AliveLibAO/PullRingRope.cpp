@@ -99,7 +99,7 @@ void PullRingRope::VScreenChanged()
     VScreenChanged_454D70();
 }
 
-PullRingRope* PullRingRope::Vdtor_454D80(signed int flags)
+PullRingRope* PullRingRope::Vdtor_454D80(s32 flags)
 {
     dtor_454910();
     if (flags & 1)
@@ -109,7 +109,7 @@ PullRingRope* PullRingRope::Vdtor_454D80(signed int flags)
     return this;
 }
 
-BaseGameObject* PullRingRope::VDestructor(signed int flags)
+BaseGameObject* PullRingRope::VDestructor(s32 flags)
 {
     return Vdtor_454D80(flags);
 }

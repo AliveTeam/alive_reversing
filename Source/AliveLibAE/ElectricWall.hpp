@@ -23,12 +23,12 @@ class ElectricWall : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ElectricWall* ctor_421DA0(Path_ElectricWall* pTlv, int tlvInfo);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT ElectricWall* vdtor_421F70(signed int flags);
+    EXPORT ElectricWall* vdtor_421F70(s32 flags);
     EXPORT void dtor_421FA0();
     EXPORT void vScreenChanged_422530();
     EXPORT void vUpdate_422030();

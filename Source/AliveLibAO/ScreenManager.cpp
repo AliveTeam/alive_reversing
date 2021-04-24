@@ -99,7 +99,7 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
     }
 }
 
-void ScreenManager::InvalidateRect_406CC0(int x, int y, signed int width, signed int height)
+void ScreenManager::InvalidateRect_406CC0(int x, int y, s32 width, s32 height)
 {
     InvalidateRect_406E40(x, y, width, height, field_2E_idx);
 }
@@ -177,7 +177,7 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
 }
 
 
-BaseGameObject* ScreenManager::VDestructor(signed int flags)
+BaseGameObject* ScreenManager::VDestructor(s32 flags)
 {
     return vdtor_407290(flags);
 }
@@ -187,7 +187,7 @@ void ScreenManager::UnsetDirtyBits_FG1_406EF0()
     memset(&field_58_20x16_dirty_bits[5], 0, sizeof(this->field_58_20x16_dirty_bits[5]));
 }
 
-void ScreenManager::InvalidateRect_406E40(int x, int y, signed int width, signed int height, int idx)
+void ScreenManager::InvalidateRect_406E40(int x, int y, s32 width, s32 height, int idx)
 {
     x = std::max(x, 0);
     y = std::max(y, 0);
@@ -210,7 +210,7 @@ void ScreenManager::InvalidateRect_Layer3_406F20(int x, int y, int width, int he
 }
 
 
-void ScreenManager::InvalidateRect_406D80(int x, int y, signed int width, signed int height, int idx)
+void ScreenManager::InvalidateRect_406D80(int x, int y, s32 width, s32 height, int idx)
 {
     InvalidateRect_406E40(x, y, width, height, idx + 4);
 }
@@ -328,7 +328,7 @@ void ScreenManager::sub_406FF0()
         sizeof(field_58_20x16_dirty_bits[field_2E_idx]));
 }
 
-ScreenManager* ScreenManager::vdtor_407290(signed int flags)
+ScreenManager* ScreenManager::vdtor_407290(s32 flags)
 {
     dtor_487DF0();
     if (flags & 1)

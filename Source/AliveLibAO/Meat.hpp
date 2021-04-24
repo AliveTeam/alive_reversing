@@ -24,9 +24,9 @@ class MeatSack : public BaseAliveGameObject
 public:
     EXPORT MeatSack* ctor_4390F0(Path_MeatSack* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT MeatSack* Vdtor_439550(signed int flags);
+    EXPORT MeatSack* Vdtor_439550(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -56,9 +56,9 @@ public:
 
     EXPORT BaseGameObject* dtor_438660();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT Meat* Vdtor_4390D0(signed int flags);
+    EXPORT Meat* Vdtor_4390D0(s32 flags);
 
     virtual void VScreenChanged() override;
 

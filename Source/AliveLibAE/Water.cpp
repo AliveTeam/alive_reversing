@@ -160,7 +160,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* Water::VDestructor(signed int flags)
+BaseGameObject* Water::VDestructor(s32 flags)
 {
     return vdtor_4E0850(flags);
 }
@@ -221,7 +221,7 @@ void Water::dtor_4E0880()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Water* Water::vdtor_4E0850(signed int flags)
+Water* Water::vdtor_4E0850(s32 flags)
 {
     dtor_4E0880();
     if (flags & 1)

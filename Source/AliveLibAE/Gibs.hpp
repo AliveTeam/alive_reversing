@@ -46,12 +46,12 @@ class Gibs : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Gibs* ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 bMakeSmaller);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 private:
     EXPORT void dtor_410170();
-    EXPORT Gibs* vdtor_410100(signed int flags);
+    EXPORT Gibs* vdtor_410100(s32 flags);
     EXPORT void vUpdate_410210();
     EXPORT void vRender_4103A0(PrimHeader** ppOt);
 private:

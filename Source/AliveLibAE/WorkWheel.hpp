@@ -37,7 +37,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WorkWheel, 0x1C);
 class WorkWheel : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
@@ -47,7 +47,7 @@ public:
     EXPORT WorkWheel* ctor_4E35D0(Path_WorkWheel* pTlv, int tlvInfo);
 private:
     EXPORT void dtor_4E3850();
-    EXPORT WorkWheel* vdtor_4E3820(signed int flags);
+    EXPORT WorkWheel* vdtor_4E3820(s32 flags);
 public:
     EXPORT static int CC CreateFromSaveState_4E3B10(const BYTE* pState);
 private:

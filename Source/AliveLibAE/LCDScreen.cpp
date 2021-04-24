@@ -359,7 +359,7 @@ void LCDScreen::dtor_460920()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* LCDScreen::vdtor_4608F0(signed int flags)
+BaseGameObject* LCDScreen::vdtor_4608F0(s32 flags)
 {
     dtor_460920();
     if (flags & 1)
@@ -379,7 +379,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
     Render_460CB0(ppOt);
 }
 
-BaseGameObject* LCDScreen::VDestructor(signed int flags)
+BaseGameObject* LCDScreen::VDestructor(s32 flags)
 {
     return vdtor_4608F0(flags);
 }

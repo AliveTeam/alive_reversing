@@ -22,11 +22,11 @@ class SlogSpawner : public BaseGameObject
 public:
     EXPORT SlogSpawner* ctor_4C7FF0(Path_SlogSpawner* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 private:
-    EXPORT SlogSpawner* vdtor_4C8080(signed int flags);
+    EXPORT SlogSpawner* vdtor_4C8080(s32 flags);
     EXPORT void vScreenChanged_4C82A0();
     EXPORT void vUpdate_4C80D0();
 

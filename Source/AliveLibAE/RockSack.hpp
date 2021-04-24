@@ -19,12 +19,12 @@ class RockSack : public BaseAliveGameObject
 public:
     EXPORT RockSack* ctor_49F100(Path_RockSack* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
 private:
-    EXPORT RockSack* vdtor_49F2E0(signed int flags);
+    EXPORT RockSack* vdtor_49F2E0(s32 flags);
     EXPORT void dtor_49F310();
     EXPORT void vScreenChanged_49F700();
     EXPORT void vUpdate_49F3A0();

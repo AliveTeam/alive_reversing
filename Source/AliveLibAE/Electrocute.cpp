@@ -40,7 +40,7 @@ public:
         return this;
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return vdtor_4229C0(flags);
     }
@@ -99,7 +99,7 @@ private:
         BaseGameObject_dtor_4DBEC0();
     }
 
-    EXPORT PalleteOverwriter* vdtor_4229C0(signed int flags)
+    EXPORT PalleteOverwriter* vdtor_4229C0(s32 flags)
     {
         dtor_4229F0();
         if (flags & 1)
@@ -132,7 +132,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xD0);
 
-BaseGameObject* Electrocute::VDestructor(signed int flags)
+BaseGameObject* Electrocute::VDestructor(s32 flags)
 {
     return vdtor_4E6060(flags);
 }
@@ -198,7 +198,7 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, s16 bExtr
     return this;
 }
 
-Electrocute* Electrocute::vdtor_4E6060(signed int flags)
+Electrocute* Electrocute::vdtor_4E6060(s32 flags)
 {
     dtor_4E6090();
     if (flags & 1)

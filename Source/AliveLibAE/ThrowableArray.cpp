@@ -140,7 +140,7 @@ void ThrowableArray::dtor_49A6F0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* ThrowableArray::vdtor_49A6C0(signed int flags)
+BaseGameObject* ThrowableArray::vdtor_49A6C0(s32 flags)
 {
     dtor_49A6F0();
     if (flags & 1)
@@ -178,7 +178,7 @@ void ThrowableArray::vUpdate_49AA50()
     }
 }
 
-signed int ThrowableArray::vGetSaveState_49B2A0(BYTE* pSaveBuffer)
+s32 ThrowableArray::vGetSaveState_49B2A0(BYTE* pSaveBuffer)
 {
     ThrowableArray_SaveState* pState = reinterpret_cast<ThrowableArray_SaveState*>(pSaveBuffer);
     pState->field_0_unused = 102; // never gets read back, no idea what it means :)
@@ -279,7 +279,7 @@ void ThrowableArray::Add_49A7A0(s16 count)
     field_20_count += count;
 }
 
-signed int CC ThrowableArray::CreateFromSaveState_49B200(const BYTE* pState)
+s32 CC ThrowableArray::CreateFromSaveState_49B200(const BYTE* pState)
 {
     LoadRockTypes_49AB30(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path);
     auto pArray = ae_new<ThrowableArray>();
@@ -291,7 +291,7 @@ signed int CC ThrowableArray::CreateFromSaveState_49B200(const BYTE* pState)
     return sizeof(ThrowableArray_SaveState);
 }
 
-BaseGameObject* ThrowableArray::VDestructor(signed int flags)
+BaseGameObject* ThrowableArray::VDestructor(s32 flags)
 {
     return vdtor_49A6C0(flags);
 }

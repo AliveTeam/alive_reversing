@@ -6,7 +6,7 @@
 class PlatformBase : public BaseAliveGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VAdd(BaseAliveGameObject* pObj);
     virtual void VRemove(BaseAliveGameObject* pObj);
@@ -23,7 +23,7 @@ protected:
 
     EXPORT void vAddCount_4975B0(BaseAliveGameObject* pObj);
 private:
-    EXPORT PlatformBase* vdtor_4974B0(signed int flags);
+    EXPORT PlatformBase* vdtor_4974B0(s32 flags);
 
 protected:
     int field_118_count;

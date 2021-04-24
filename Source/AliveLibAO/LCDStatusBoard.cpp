@@ -60,7 +60,7 @@ void LCDStatusBoard::VScreenChanged()
     VScreenChanged_441C70();
 }
 
-LCDStatusBoard* LCDStatusBoard::Vdtor_441C80(signed int flags)
+LCDStatusBoard* LCDStatusBoard::Vdtor_441C80(s32 flags)
 {
     dtor_4419E0();
     if (flags & 1)
@@ -70,7 +70,7 @@ LCDStatusBoard* LCDStatusBoard::Vdtor_441C80(signed int flags)
     return this;
 }
 
-BaseGameObject* LCDStatusBoard::VDestructor(signed int flags)
+BaseGameObject* LCDStatusBoard::VDestructor(s32 flags)
 {
     return Vdtor_441C80(flags);
 }

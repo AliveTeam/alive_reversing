@@ -25,14 +25,14 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 private:
     EXPORT void SetupTearsAnimation_47BE60(Animation* pAnim);
     EXPORT void SetupZapAnimation_47BEF0(Animation* pAnim);
     EXPORT void vScreenChanged_47C440();
     EXPORT void vRender_47C460(PrimHeader** ppOt);
     EXPORT void dtor_47C380();
-    EXPORT TorturedMudokon* vdtor_47BE30(signed int flags);
+    EXPORT TorturedMudokon* vdtor_47BE30(s32 flags);
     EXPORT void vUpdate_47BF80();
 private:
     Animation field_F4_tears_animation;

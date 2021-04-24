@@ -97,7 +97,7 @@ CheatController* CheatController::ctor_421BD0()
     return this;
 }
 
-BaseGameObject* CheatController::vdtor_421C10(signed int flags)
+BaseGameObject* CheatController::vdtor_421C10(s32 flags)
 {
     dtor_421C40();
     if (flags & 1)
@@ -149,7 +149,7 @@ void CheatController::Update_421C70()
     }
 }
 
-BaseGameObject* CheatController::VDestructor(signed int flags)
+BaseGameObject* CheatController::VDestructor(s32 flags)
 {
     return vdtor_421C10(flags);
 }

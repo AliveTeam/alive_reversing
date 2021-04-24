@@ -18,13 +18,13 @@ class SlogHut : public BaseGameObject
 public:
     EXPORT SlogHut* ctor_4C4070(Path_SlogHut* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
     EXPORT void dtor_4C4130();
-    EXPORT SlogHut* vdtor_4C4100(signed int flags);
+    EXPORT SlogHut* vdtor_4C4100(s32 flags);
     EXPORT void vScreenChanged_4C4280();
     EXPORT void vUpdate_4C41B0();
 

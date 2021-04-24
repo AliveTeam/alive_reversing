@@ -47,7 +47,7 @@ public:
         return this;
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return vdtor_45D9B0(flags);
     }
@@ -125,7 +125,7 @@ public:
         BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     }
 
-    EXPORT FireBackgroundGlow* vdtor_45D9B0(signed int flags)
+    EXPORT FireBackgroundGlow* vdtor_45D9B0(s32 flags)
     {
         dtor_45D9E0();
         if (flags & 1)
@@ -212,7 +212,7 @@ public:
         return this;
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return vdtor_45DF90(flags);
     }
@@ -346,7 +346,7 @@ private:
         BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     }
 
-    EXPORT FlameSparks* vdtor_45DF90(signed int flags)
+    EXPORT FlameSparks* vdtor_45DF90(s32 flags)
     {
         dtor_45DFC0();
         if (flags & 1)
@@ -418,7 +418,7 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
     return this;
 }
 
-DoorFlame* DoorFlame::vdtor_45E690(signed int flags)
+DoorFlame* DoorFlame::vdtor_45E690(s32 flags)
 {
     dtor_45E6C0();
     if (flags & 1)

@@ -176,7 +176,7 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
         int v11 = Math_FixedPoint_Multiply_496C50(v9, val1);
         int v12 = Math_FixedPoint_Multiply_496C50(v10, val2) - v11;
         int v13 = Math_FixedPoint_Multiply_496C50(op1, v8);
-        s16 x0 = this->field_24E_width + 640 * ((signed int)Math_FixedPoint_Multiply_496C50(v12, v13) >> 16) / 368;
+        s16 x0 = this->field_24E_width + 640 * ((s32)Math_FixedPoint_Multiply_496C50(v12, v13) >> 16) / 368;
         int v14 = Math_FixedPoint_Multiply_496C50(v9, val2);
         int v15 = Math_FixedPoint_Multiply_496C50(v10, val1) + v14;
         int v16 = Math_FixedPoint_Multiply_496C50(op1, v8);
@@ -221,7 +221,7 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
         int x1 = Math_FixedPoint_Multiply_496C50(v36, val2) - v23;
         int v25 = Math_FixedPoint_Multiply_496C50(op1, y1);
         // TODO: Use PsxToPCX
-        x1 = this->field_24E_width + 40 * ((signed int)Math_FixedPoint_Multiply_496C50(x1, v25) >> 16) / 23; // LOWORD
+        x1 = this->field_24E_width + 40 * ((s32)Math_FixedPoint_Multiply_496C50(x1, v25) >> 16) / 23; // LOWORD
         int v26 = Math_FixedPoint_Multiply_496C50(v38, val2);
         int v27 = v26 + Math_FixedPoint_Multiply_496C50(v36, val1);
         int v28 = Math_FixedPoint_Multiply_496C50(op1, y1);
@@ -260,7 +260,7 @@ void MainMenuTransition::dtor_4642F0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* MainMenuTransition::vdtor_4642C0(signed int flags)
+BaseGameObject* MainMenuTransition::vdtor_4642C0(s32 flags)
 {
     dtor_4642F0();
     if (flags & 1)
@@ -288,7 +288,7 @@ void MainMenuTransition::VUpdate()
     Update_464400();
 }
 
-BaseGameObject* MainMenuTransition::VDestructor(signed int flags)
+BaseGameObject* MainMenuTransition::VDestructor(s32 flags)
 {
     return vdtor_4642C0(flags);
 }

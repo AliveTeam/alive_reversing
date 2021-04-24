@@ -43,7 +43,7 @@ void Honey::VScreenChanged_431EF0()
 }
 
 
-BaseGameObject* Honey::VDestructor(signed int flags)
+BaseGameObject* Honey::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

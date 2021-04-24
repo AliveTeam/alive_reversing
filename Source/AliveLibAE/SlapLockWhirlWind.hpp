@@ -14,15 +14,15 @@ class SlapLockWhirlWind : public BaseGameObject
 {
 public:
     EXPORT SlapLockWhirlWind* ctor_43D7E0(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     static EXPORT int CC CreateFromSaveState_43DC20(const BYTE* pBuffer);
 
 private:
     EXPORT void dtor_43DA70();
-    EXPORT SlapLockWhirlWind* vdtor_43DA40(signed int flags);
-    EXPORT signed int vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState);
+    EXPORT SlapLockWhirlWind* vdtor_43DA40(s32 flags);
+    EXPORT s32 vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState);
     EXPORT void vUpdate_43DA90();
 
 public:

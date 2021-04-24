@@ -8,14 +8,14 @@ class BaseAliveGameObject;
 class PossessionFlicker : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
     EXPORT PossessionFlicker* ctor_4319E0(BaseAliveGameObject* pToApplyFlicker, int duration, s16 r, s16 g, s16 b);
     int ObjectId() const;
 private:
-    EXPORT PossessionFlicker* vdtor_431AD0(signed int flags);
+    EXPORT PossessionFlicker* vdtor_431AD0(s32 flags);
     EXPORT void dtor_431B00();
     EXPORT void vScreenChanged_431C80();
     EXPORT void vUpdate_431BC0();

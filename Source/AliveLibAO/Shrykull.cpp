@@ -36,7 +36,7 @@ BaseGameObject* Shrykull::dtor_463990()
     return dtor_401000();
 }
 
-Shrykull* Shrykull::Vdtor_464300(signed int flags)
+Shrykull* Shrykull::Vdtor_464300(s32 flags)
 {
     dtor_463990();
     if (flags & 1)
@@ -46,7 +46,7 @@ Shrykull* Shrykull::Vdtor_464300(signed int flags)
     return this;
 }
 
-BaseGameObject* Shrykull::VDestructor(signed int flags)
+BaseGameObject* Shrykull::VDestructor(s32 flags)
 {
     return Vdtor_464300(flags);
 }

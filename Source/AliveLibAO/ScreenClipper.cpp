@@ -62,7 +62,7 @@ void ScreenClipper::VRender(PrimHeader** ppOt)
     VRender_40BEB0(ppOt);
 }
 
-BaseGameObject* ScreenClipper::VDestructor(signed int flags)
+BaseGameObject* ScreenClipper::VDestructor(s32 flags)
 {
     return Vdtor_40BF40(flags);
 }

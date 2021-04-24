@@ -24,9 +24,9 @@ public:
 
     EXPORT BaseGameObject* dtor_479BE0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT IdSplitter* Vdtor_479E00(signed int flags);
+    EXPORT IdSplitter* Vdtor_479E00(s32 flags);
 
     virtual void VScreenChanged() override;
 

@@ -50,7 +50,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     int field_D4_padding[4];
 };
@@ -68,7 +68,7 @@ public:
     EXPORT BaseGameObject* dtor_452230();
     EXPORT s16 IsScaredAway_4532E0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
@@ -98,7 +98,7 @@ private:
     EXPORT void VScreenChanged_4538E0();
     EXPORT void VGiveShrukull_4535A0(s16 bPlaySound);
     EXPORT void VUpdate_4523D0();
-    EXPORT BirdPortal* Vdtor_453990(signed int flags);
+    EXPORT BirdPortal* Vdtor_453990(s32 flags);
 
 public:
     PortalType field_10_portal_type;

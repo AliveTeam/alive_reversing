@@ -17,14 +17,14 @@ class ThrowableTotalIndicator : public BaseGameObject
 {
 public:
     EXPORT ThrowableTotalIndicator* ctor_431CB0(FP xpos, FP ypos, Layer layer, FP scale, s16 count, s16 bFade);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
     EXPORT void dtor_431E10();
-    EXPORT BaseGameObject* vdtor_431DE0(signed int flags);
+    EXPORT BaseGameObject* vdtor_431DE0(s32 flags);
     EXPORT void vScreenChanged_4323E0();
     EXPORT void vUpdate_431EA0();
     EXPORT void vRender_432070(PrimHeader** ppOt);

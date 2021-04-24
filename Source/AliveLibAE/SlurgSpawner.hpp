@@ -26,14 +26,14 @@ class SlurgSpawner : public BaseGameObject
 public:
     EXPORT SlurgSpawner* ctor_4C82E0(Path_SlurgSpawner* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
     EXPORT void vUpdate_4C83C0();
     EXPORT void dtor_4C83A0();
-    EXPORT SlurgSpawner* vdtor_4C8370(signed int flags);
+    EXPORT SlurgSpawner* vdtor_4C8370(s32 flags);
     EXPORT void vScreenChanged_4C84A0();
 
 private:

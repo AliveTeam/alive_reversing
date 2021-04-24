@@ -443,7 +443,7 @@ EXPORT s16 sub_4A2BC0()
     return 0;
 }
 
-BaseGameObject* PauseMenu::VDestructor(signed int flags)
+BaseGameObject* PauseMenu::VDestructor(s32 flags)
 {
     return vdtor_48FCB0(flags);
 }
@@ -517,7 +517,7 @@ void PauseMenu::dtor_48FCE0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-BaseGameObject* PauseMenu::vdtor_48FCB0(signed int flags)
+BaseGameObject* PauseMenu::vdtor_48FCB0(s32 flags)
 {
     dtor_48FCE0();
     if (flags & 1)

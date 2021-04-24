@@ -24,14 +24,14 @@ public:
     EXPORT SligSpawner* ctor_409740(Path_Slig* pTlv, int tlvInfo);
     EXPORT static int CC CreateFromSaveState_409B10(const BYTE* pBuffer);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
 private:
     EXPORT void dtor_409A70();
-    EXPORT SligSpawner* vdtor_409800(signed int flags);
+    EXPORT SligSpawner* vdtor_409800(s32 flags);
     EXPORT void vScreenChanged_409A30();
     EXPORT void vUpdate_409830();
     EXPORT int vGetSaveState_409BB0(Slig_Spawner_State* pState);

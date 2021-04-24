@@ -71,11 +71,11 @@ public:
 
     EXPORT void VScreenChanged_435CC0();
 
-    LiftPoint* Vdtor_435D10(signed int flags);
+    LiftPoint* Vdtor_435D10(s32 flags);
 
     EXPORT BaseGameObject* dtor_4355E0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     EXPORT void CreatePulleyIfExists_435AE0(short camX, short camY);
 

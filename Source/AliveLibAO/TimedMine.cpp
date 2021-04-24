@@ -115,12 +115,12 @@ BaseGameObject* TimedMine::dtor_408690()
     return dtor_401000();
 }
 
-BaseGameObject* TimedMine::VDestructor(signed int flags)
+BaseGameObject* TimedMine::VDestructor(s32 flags)
 {
     return Vdtor_408E10(flags);
 }
 
-TimedMine* TimedMine::Vdtor_408E10(signed int flags)
+TimedMine* TimedMine::Vdtor_408E10(s32 flags)
 {
     dtor_408690();
     if (flags & 1)
@@ -369,7 +369,7 @@ void TimedMine::vOnPickUpOrSlapped_408A80()
     if (field_10C_armed != 1)
     {
         field_10C_armed = 1;
-        if ((signed int) (field_10E_explode_timeout & 0xFFFC) >= 72)
+        if ((s32) (field_10E_explode_timeout & 0xFFFC) >= 72)
         {
             field_1B4 = 18;
         }

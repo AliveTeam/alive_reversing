@@ -67,7 +67,7 @@ const TintEntry sTrapDoorTints_5639AC[18] =
 
 
 
-BaseGameObject* TrapDoor::VDestructor(signed int flags)
+BaseGameObject* TrapDoor::VDestructor(s32 flags)
 {
     return vdtor_4DD8A0(flags);
 }
@@ -191,7 +191,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
     return this;
 }
 
-signed int CC TrapDoor::CreateFromSaveState_4DDED0(const BYTE* pData)
+s32 CC TrapDoor::CreateFromSaveState_4DDED0(const BYTE* pData)
 {
     auto pState = reinterpret_cast<const TrapDoor_State*>(pData);
     auto pTlv = static_cast<Path_TrapDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_8_tlvInfo));
@@ -232,7 +232,7 @@ signed int CC TrapDoor::CreateFromSaveState_4DDED0(const BYTE* pData)
     return sizeof(TrapDoor_State);
 }
 
-EXPORT BaseGameObject* TrapDoor::vdtor_4DD8A0(signed int flags)
+EXPORT BaseGameObject* TrapDoor::vdtor_4DD8A0(s32 flags)
 {
     dtor_4DD8D0();
     if (flags & 1)

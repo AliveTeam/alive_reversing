@@ -9,7 +9,7 @@ struct Path_Alarm;
 class Alarm : public EffectBase
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
@@ -17,7 +17,7 @@ public:
     EXPORT Alarm* ctor_4091F0(s16 durationOffset, s16 switchId, s16 timerOffset, Layer layer);
 private:
     EXPORT void dtor_409380();
-    EXPORT Alarm* vdtor_4092D0(signed int flags);
+    EXPORT Alarm* vdtor_4092D0(s32 flags);
     EXPORT void vRender_409710(PrimHeader** ppOt);
     EXPORT void vUpdate_409460();
 private:

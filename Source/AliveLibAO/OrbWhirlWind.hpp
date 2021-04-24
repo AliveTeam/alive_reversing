@@ -24,9 +24,9 @@ public:
     EXPORT BaseGameObject* dtor_48B910();
 
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT OrbWhirlWind* Vdtor_48C4F0(signed int flags);
+    EXPORT OrbWhirlWind* Vdtor_48C4F0(s32 flags);
 
     virtual void VUpdate() override;
 

@@ -56,7 +56,7 @@ enum UXB_Flags_1C8
 class UXB : public BaseAliveGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -72,14 +72,14 @@ private:
     EXPORT void vOnThrowableHit_4DF7B0(BaseGameObject* pFrom);
     EXPORT s16 vTakeDamage_4DF850(BaseGameObject* pFrom);
     EXPORT void dtor_4DEF60();
-    EXPORT BaseGameObject* vdtor_4DEEA0(signed int flags);
+    EXPORT BaseGameObject* vdtor_4DEEA0(s32 flags);
     EXPORT void Update_4DF030();
     EXPORT void Render_4DF3D0(PrimHeader** ppOt);
     EXPORT void ScreenChanged_4DF9C0();
     EXPORT int GetSaveState_4DFD40(BYTE* pSaveBuffer);
     EXPORT void InitBlinkAnim_4DEED0(Animation* pAnimation);
     EXPORT void PlaySFX_4DE930(u8 sfxIdx);
-    EXPORT signed int IsColliding_4DF630();
+    EXPORT s32 IsColliding_4DF630();
 private:
     UXBState field_118_state;
     UXBState field_11A_starting_state;

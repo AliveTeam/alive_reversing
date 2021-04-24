@@ -84,7 +84,7 @@ DeathGas* DeathGas::ctor_41CF40(Layer layer, s16 amount)
     return this;
 }
 
-BaseGameObject* DeathGas::VDestructor(signed int flags)
+BaseGameObject* DeathGas::VDestructor(s32 flags)
 {
     return Vdtor_41D740(flags);
 }
@@ -134,7 +134,7 @@ void DeathGas::VUpdate()
     VUpdate_41D150();
 }
 
-DeathGas* DeathGas::Vdtor_41D740(signed int flags)
+DeathGas* DeathGas::Vdtor_41D740(s32 flags)
 {
     dtor_41D0E0();
     if (flags & 1)

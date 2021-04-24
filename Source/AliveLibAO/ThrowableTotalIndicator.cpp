@@ -19,7 +19,7 @@ void ThrowableTotalIndicator::VScreenChanged()
     VScreenChanged_41BB70();
 }
 
-BaseGameObject* ThrowableTotalIndicator::Vdtor_41BB80(signed int flags)
+BaseGameObject* ThrowableTotalIndicator::Vdtor_41BB80(s32 flags)
 {
     dtor_41B610();
     if (flags & 1)
@@ -29,7 +29,7 @@ BaseGameObject* ThrowableTotalIndicator::Vdtor_41BB80(signed int flags)
     return this;
 }
 
-BaseGameObject* ThrowableTotalIndicator::VDestructor(signed int flags)
+BaseGameObject* ThrowableTotalIndicator::VDestructor(s32 flags)
 {
     return Vdtor_41BB80(flags);
 }

@@ -51,7 +51,7 @@ class Rock : public BaseThrowable
 public:
     EXPORT Rock* ctor_49E150(FP xpos, FP ypos, s16 count);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
@@ -67,7 +67,7 @@ private:
     EXPORT int vGetSaveState_49F9A0(RockSaveState* pState);
     EXPORT BOOL vIsFalling_49E330();
     EXPORT BOOL vCanThrow_49E350();
-    EXPORT Rock* vdtor_49E370(signed int flags);
+    EXPORT Rock* vdtor_49E370(s32 flags);
     EXPORT void dtor_49E3A0();
     EXPORT void vThrow_49E460(FP velX, FP velY);
     EXPORT void InTheAir_49E4B0();

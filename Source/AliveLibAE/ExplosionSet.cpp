@@ -41,7 +41,7 @@ ExplosionSet* ExplosionSet::ctor_414CA0()
     return this;
 }
 
-BaseGameObject* ExplosionSet::VDestructor(signed int flags)
+BaseGameObject* ExplosionSet::VDestructor(s32 flags)
 {
     return vdtor_414D80(flags);
 }
@@ -96,7 +96,7 @@ void ExplosionSet::Init_4151D0(Path_ExplosionSet* pTlv)
     field_46_spacing_multiplicator = 0;
 }
 
-ExplosionSet* ExplosionSet::vdtor_414D80(signed int flags)
+ExplosionSet* ExplosionSet::vdtor_414D80(s32 flags)
 {
     dtor_414DB0();
     if (flags & 1)

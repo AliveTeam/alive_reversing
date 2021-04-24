@@ -56,7 +56,7 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     return this;
 }
 
-BaseGameObject* Leaf::VDestructor(signed int flags)
+BaseGameObject* Leaf::VDestructor(s32 flags)
 {
     return vdtor_4E32E0(flags);
 }
@@ -147,7 +147,7 @@ void Leaf::dtor_4E3310()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Leaf* Leaf::vdtor_4E32E0(signed int flags)
+Leaf* Leaf::vdtor_4E32E0(s32 flags)
 {
     dtor_4E3310();
 

@@ -48,7 +48,7 @@ EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(BYTE** ppPlaybackData, s16 a3)
     return this;
 }
 
-BaseGameObject* DemoPlayback::VDestructor(signed int flags)
+BaseGameObject* DemoPlayback::VDestructor(s32 flags)
 {
     return Vdtor_451F50(flags);
 }
@@ -72,7 +72,7 @@ BaseGameObject* DemoPlayback::dtor_4518D0()
     return dtor_487DF0();
 }
 
-DemoPlayback* DemoPlayback::Vdtor_451F50(signed int flags)
+DemoPlayback* DemoPlayback::Vdtor_451F50(s32 flags)
 {
     dtor_4518D0();
     if (flags & 1)

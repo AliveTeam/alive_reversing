@@ -35,10 +35,10 @@ class ZBall : public BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT ZBall* ctor_478590(Path_ZBall* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
 
-    EXPORT ZBall* Vdtor_478860(signed int flags);
+    EXPORT ZBall* Vdtor_478860(s32 flags);
     EXPORT BaseGameObject* dtor_478710();
     EXPORT void VUpdate_478720();
 

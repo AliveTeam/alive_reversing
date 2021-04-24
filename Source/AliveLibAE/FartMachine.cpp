@@ -86,7 +86,7 @@ FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* FartMachine::VDestructor(signed int flags)
+BaseGameObject* FartMachine::VDestructor(s32 flags)
 {
     return vdtor_413290(flags);
 }
@@ -101,7 +101,7 @@ void FartMachine::VRender(PrimHeader** ppOt)
     vRender_4133F0(ppOt);
 }
 
-FartMachine* FartMachine::vdtor_413290(signed int flags)
+FartMachine* FartMachine::vdtor_413290(s32 flags)
 {
     dtor_413330();
     if (flags & 1)

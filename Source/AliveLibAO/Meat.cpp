@@ -169,12 +169,12 @@ void MeatSack::VUpdate_4392C0()
     }
 }
 
-BaseGameObject* MeatSack::VDestructor(signed int flags)
+BaseGameObject* MeatSack::VDestructor(s32 flags)
 {
     return Vdtor_439550(flags);
 }
 
-MeatSack* MeatSack::Vdtor_439550(signed int flags)
+MeatSack* MeatSack::Vdtor_439550(s32 flags)
 {
     dtor_439250();
     if (flags & 1)
@@ -252,12 +252,12 @@ BaseGameObject* Meat::dtor_438660()
     return dtor_401000();
 }
 
-BaseGameObject* Meat::VDestructor(signed int flags)
+BaseGameObject* Meat::VDestructor(s32 flags)
 {
     return Vdtor_4390D0(flags);
 }
 
-Meat* Meat::Vdtor_4390D0(signed int flags)
+Meat* Meat::Vdtor_4390D0(s32 flags)
 {
     dtor_438660();
     if (flags & 1)

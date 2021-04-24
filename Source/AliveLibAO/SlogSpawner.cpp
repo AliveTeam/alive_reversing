@@ -43,7 +43,7 @@ SlogSpawner* SlogSpawner::ctor_475DD0(Path_SlogSpawner* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* SlogSpawner::VDestructor(signed int flags)
+BaseGameObject* SlogSpawner::VDestructor(s32 flags)
 {
     dtor_487DF0();
     if (flags & 1)

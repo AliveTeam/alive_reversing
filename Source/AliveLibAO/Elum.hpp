@@ -110,14 +110,14 @@ public:
         s16 field_2;
     };
 
-    EXPORT Elum* Vdtor_411710(signed int flags);
+    EXPORT Elum* Vdtor_411710(s32 flags);
     EXPORT void VUpdate_4102A0();
     EXPORT void VRender_410E40(PrimHeader** ppOt);
     EXPORT void vScreenChange_411340();
 
     EXPORT static void Spawn_410E90(TlvItemInfoUnion tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

@@ -16,9 +16,9 @@ public:
 
     EXPORT BaseGameObject* dtor_461630();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT EffectBase* Vdtor_461750(signed int flags);
+    EXPORT EffectBase* Vdtor_461750(s32 flags);
 
     virtual void VRender(PrimHeader** ppOt) override;
 

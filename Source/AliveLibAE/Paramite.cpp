@@ -231,7 +231,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* Paramite::VDestructor(signed int flags)
+BaseGameObject* Paramite::VDestructor(s32 flags)
 {
     return vdtor_487F90(flags);
 }
@@ -5151,7 +5151,7 @@ void Paramite::dtor_487FC0()
     dtor_4080B0();
 }
 
-Paramite* Paramite::vdtor_487F90(signed int flags)
+Paramite* Paramite::vdtor_487F90(s32 flags)
 {
     dtor_487FC0();
     if (flags & 1)

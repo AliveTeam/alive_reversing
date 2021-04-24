@@ -10,7 +10,7 @@ void AnimationUnknown::vDecode_40AC90()
     // VNull_409C20
 }
 
-void AnimationUnknown::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, signed int height)
+void AnimationUnknown::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, s32 height)
 {
     vRender_40C690(xpos, ypos, ppOt, width, height);
 }

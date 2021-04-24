@@ -76,12 +76,12 @@ BaseGameObject* DDCheat::dtor_409710()
     return dtor_487DF0();
 }
 
-BaseGameObject* DDCheat::VDestructor(signed int flags)
+BaseGameObject* DDCheat::VDestructor(s32 flags)
 {
     return Vdtor_40A380(flags);
 }
 
-DDCheat* DDCheat::Vdtor_40A380(signed int flags)
+DDCheat* DDCheat::Vdtor_40A380(s32 flags)
 {
     dtor_409710();
     if (flags & 1)

@@ -145,12 +145,12 @@ const int gElumFrameTables_4C5218[52] =
     0
 };
 
-BaseGameObject* Elum::VDestructor(signed int flags)
+BaseGameObject* Elum::VDestructor(s32 flags)
 {
     return Vdtor_411710(flags);
 }
 
-Elum* Elum::Vdtor_411710(signed int flags)
+Elum* Elum::Vdtor_411710(s32 flags)
 {
     dtor_410BC0();
     if (flags & 1)

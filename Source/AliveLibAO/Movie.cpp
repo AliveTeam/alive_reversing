@@ -49,12 +49,12 @@ Movie* Movie::ctor_489C90(int id, int /*pos*/, char bUnknown, int /*flags*/, s16
     return this;
 }
 
-BaseGameObject* Movie::VDestructor(signed int flags)
+BaseGameObject* Movie::VDestructor(s32 flags)
 {
     return Vdtor_475FB0(flags);
 }
 
-BaseGameObject* Movie::Vdtor_475FB0(signed int flags)
+BaseGameObject* Movie::Vdtor_475FB0(s32 flags)
 {
     dtor_487DF0();
     if (flags & 1)

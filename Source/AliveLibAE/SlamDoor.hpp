@@ -30,7 +30,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);
 class SlamDoor : public BaseAliveGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VUpdate() override;
 
@@ -41,7 +41,7 @@ public:
 
 private:
     EXPORT void dtor_4B0620();
-    EXPORT SlamDoor* vdtor_4AFD20(signed int flags);
+    EXPORT SlamDoor* vdtor_4AFD20(s32 flags);
     EXPORT void vUpdate_4AFD50();
     EXPORT int vGetSaveState_4C09D0(BYTE* pSaveBuffer);
     EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPosition, s16 width);

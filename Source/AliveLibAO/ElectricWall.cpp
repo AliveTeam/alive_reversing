@@ -67,12 +67,12 @@ BaseGameObject* ElectricWall::dtor_40FE80()
     return dtor_417D10();
 }
 
-BaseGameObject* ElectricWall::VDestructor(signed int flags)
+BaseGameObject* ElectricWall::VDestructor(s32 flags)
 {
     return Vdtor_410280(flags);
 }
 
-ElectricWall* ElectricWall::Vdtor_410280(signed int flags)
+ElectricWall* ElectricWall::Vdtor_410280(s32 flags)
 {
     dtor_40FE80();
     if (flags & 1)

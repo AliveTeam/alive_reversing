@@ -15,13 +15,13 @@ public:
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
 private:
     EXPORT void VScreenChanged_402960();
     EXPORT void VUpdate_4028A0();
     EXPORT BaseGameObject* dtor_402970();
-    EXPORT SligSpawner* VDtor_4029F0(signed int flags);
+    EXPORT SligSpawner* VDtor_4029F0(s32 flags);
 
 private:
     int field_10_tlvInfo;

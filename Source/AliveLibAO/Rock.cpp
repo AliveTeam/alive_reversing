@@ -121,7 +121,7 @@ void RockSack::VScreenChanged()
     VScreenChanged_457890();
 }
 
-RockSack* RockSack::Vdtor_4578A0(signed int flags)
+RockSack* RockSack::Vdtor_4578A0(s32 flags)
 {
     dtor_457580();
     if (flags & 1)
@@ -131,7 +131,7 @@ RockSack* RockSack::Vdtor_4578A0(signed int flags)
     return this;
 }
 
-BaseGameObject* RockSack::VDestructor(signed int flags)
+BaseGameObject* RockSack::VDestructor(s32 flags)
 {
     return Vdtor_4578A0(flags);
 }
@@ -277,12 +277,12 @@ BaseGameObject* Rock::dtor_456A90()
     return dtor_401000();
 }
 
-BaseGameObject* Rock::VDestructor(signed int flags)
+BaseGameObject* Rock::VDestructor(s32 flags)
 {
     return Vdtor_4573D0(flags);
 }
 
-Rock* Rock::Vdtor_4573D0(signed int flags)
+Rock* Rock::Vdtor_4573D0(s32 flags)
 {
     dtor_456A90();
     if (flags & 1)

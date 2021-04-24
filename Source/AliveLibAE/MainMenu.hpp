@@ -148,10 +148,10 @@ class MainMenuController : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MainMenuController* ctor_4CE9A0(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
-    EXPORT BaseGameObject* vdtor_4CEF00(signed int flags);
+    EXPORT BaseGameObject* vdtor_4CEF00(s32 flags);
     EXPORT void dtor_4CEF30();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override { }
@@ -213,7 +213,7 @@ public:
 
     EXPORT void Set_Anim_4D05E0(s16 a2, s16 a3 = 0);
     EXPORT void Load_Anim_Pal_4D06A0(Animation* pAnim);
-    EXPORT signed int ChangeScreenAndIntroLogic_4CF640();
+    EXPORT s32 ChangeScreenAndIntroLogic_4CF640();
     EXPORT void AnimationAndSoundLogic_4CFE80();
     EXPORT void UpdateHighliteGlow_4D0630();
     EXPORT static void callback_4D06E0(MainMenuController *a1);

@@ -330,12 +330,12 @@ void Door::VScreenChanged_40EDE0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-BaseGameObject* Door::VDestructor(signed int flags)
+BaseGameObject* Door::VDestructor(s32 flags)
 {
     return Vdtor_40EDF0(flags);
 }
 
-Door* Door::Vdtor_40EDF0(signed int flags)
+Door* Door::Vdtor_40EDF0(s32 flags)
 {
     dtor_40E710();
     if (flags & 1)

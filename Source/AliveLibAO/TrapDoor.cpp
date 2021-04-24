@@ -111,7 +111,7 @@ PSX_RECT* TrapDoor::VGetBoundingRect(PSX_RECT* pRect, int pointIdx)
     return VGetBoundingRect_4887B0(pRect, pointIdx);
 }
 
-TrapDoor* TrapDoor::Vdtor_4887D0(signed int flags)
+TrapDoor* TrapDoor::Vdtor_4887D0(s32 flags)
 {
     dtor_4882A0();
     if (flags & 1)
@@ -121,7 +121,7 @@ TrapDoor* TrapDoor::Vdtor_4887D0(signed int flags)
     return this;
 }
 
-BaseGameObject* TrapDoor::VDestructor(signed int flags)
+BaseGameObject* TrapDoor::VDestructor(s32 flags)
 {
     return Vdtor_4887D0(flags);
 }

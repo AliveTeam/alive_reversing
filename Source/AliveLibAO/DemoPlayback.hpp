@@ -18,11 +18,11 @@ class DemoPlayback : public BaseGameObject
 public:
     EXPORT DemoPlayback* ctor_4517B0(BYTE**, s16 a3);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     EXPORT BaseGameObject* dtor_4518D0();
 
-    EXPORT DemoPlayback* Vdtor_451F50(signed int flags);
+    EXPORT DemoPlayback* Vdtor_451F50(s32 flags);
 
     virtual void VScreenChanged() override;
 

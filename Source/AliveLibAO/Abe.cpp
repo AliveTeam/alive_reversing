@@ -471,7 +471,7 @@ SfxDefinition sSFXList_4C6638[49] =
     { 0, 65, 64, 80, 0, 0, 0 }
 };
 
-int CC Environment_SFX_42A220(EnvironmentSfx sfxId, signed int volume, int pitchMin, BaseAliveGameObject* pAliveObj)
+int CC Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, int pitchMin, BaseAliveGameObject* pAliveObj)
 {
     short sndIndex = 0;
     switch (sfxId)
@@ -663,7 +663,7 @@ int CC XGrid_Index_To_XPos_41FA60(FP scale, int xGridIndex)
     return 440;
 }
 
-BaseGameObject* Abe::VDestructor(signed int flags)
+BaseGameObject* Abe::VDestructor(s32 flags)
 {
     return vdtor_422A70(flags);
 }
@@ -997,7 +997,7 @@ BaseGameObject* Abe::dtor_420C80()
     return dtor_401000();
 }
 
-BaseGameObject* Abe::vdtor_422A70(signed int flags)
+BaseGameObject* Abe::vdtor_422A70(s32 flags)
 {
     dtor_420C80();
     if (flags & 1)

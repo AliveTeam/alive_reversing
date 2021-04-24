@@ -45,14 +45,14 @@ public:
     EXPORT LiftMover* ctor_40CCD0(Path_LiftMover* pTlv, int tlvInfo);
     EXPORT static int CC CreateFromSaveState_40D180(const BYTE* pData);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
 private:
     EXPORT void vUpdate_40CE20();
     EXPORT void dtor_40CDA0();
-    EXPORT LiftMover* vdtor_40CD70(signed int flags);
+    EXPORT LiftMover* vdtor_40CD70(s32 flags);
     EXPORT int vGetSaveState_40D240(LiftMover_State* pState);
     EXPORT LiftPoint* GetLiftPoint_40D0F0();
 

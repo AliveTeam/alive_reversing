@@ -171,12 +171,12 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
     }
 }
 
-BaseGameObject* BaseAnimatedWithPhysicsGameObject::VDestructor(signed int flags)
+BaseGameObject* BaseAnimatedWithPhysicsGameObject::VDestructor(s32 flags)
 {
     return Vdtor_4189C0(flags);
 }
 
-BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::Vdtor_4189C0(signed int flags)
+BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::Vdtor_4189C0(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

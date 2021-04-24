@@ -75,9 +75,9 @@ public:
 
     EXPORT BaseGameObject* dtor_48B460();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT Well* vdtor_48B4D0(signed int flags);
+    EXPORT Well* vdtor_48B4D0(s32 flags);
 
     int field_D4[4];
     int field_E4_tlvInfo;

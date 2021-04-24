@@ -450,9 +450,9 @@ public:
     EXPORT Abe* ctor_44AD10(int frameTableOffset, int r, int g, int b);
     EXPORT void dtor_44B380();
 
-    EXPORT static signed int CC CreateFromSaveState_44D4F0(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_44D4F0(const BYTE* pData);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -465,7 +465,7 @@ public:
     void DoRunJump();
 
     // Virtual impls
-    EXPORT BaseGameObject* vdtor_44B350(signed int flags);
+    EXPORT BaseGameObject* vdtor_44B350(s32 flags);
     EXPORT void Update_449DC0();
     EXPORT void vRender_44B580(PrimHeader** ppOt);
     EXPORT void vScreenChanged_44D240();

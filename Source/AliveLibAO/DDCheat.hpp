@@ -58,9 +58,9 @@ public:
 
     EXPORT BaseGameObject* dtor_409710();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT DDCheat* Vdtor_40A380(signed int flags);
+    EXPORT DDCheat* Vdtor_40A380(s32 flags);
 
     void AddPropertyEntry(const char* text, DDCheatValueType valueType, DDCheatValue valuePtr);
 

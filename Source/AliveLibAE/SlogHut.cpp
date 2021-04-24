@@ -32,7 +32,7 @@ SlogHut* SlogHut::ctor_4C4070(Path_SlogHut* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* SlogHut::VDestructor(signed int flags)
+BaseGameObject* SlogHut::VDestructor(s32 flags)
 {
     return vdtor_4C4100(flags);
 }
@@ -54,7 +54,7 @@ void SlogHut::dtor_4C4130()
     BaseGameObject_dtor_4DBEC0();
 }
 
-SlogHut* SlogHut::vdtor_4C4100(signed int flags)
+SlogHut* SlogHut::vdtor_4C4100(s32 flags)
 {
     dtor_4C4130();
     if (flags & 1)

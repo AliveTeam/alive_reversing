@@ -13,13 +13,13 @@ class Well : public BaseGameObject
 {
 public:
     EXPORT Well* ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 private:
     EXPORT void WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos);
     EXPORT void WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos);
-    EXPORT Well* vdtor_4E2CA0(signed int flags);
+    EXPORT Well* vdtor_4E2CA0(s32 flags);
     EXPORT void dtor_4E3090();
     EXPORT void vScreenChanged_4E3070();
     EXPORT void vUpdate_4E2F60();

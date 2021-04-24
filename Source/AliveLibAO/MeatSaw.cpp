@@ -20,7 +20,7 @@ void MeatSaw::VScreenChanged()
     VScreenChanged_43A060();
 }
 
-MeatSaw* MeatSaw::Vdtor_43A0B0(signed int flags)
+MeatSaw* MeatSaw::Vdtor_43A0B0(s32 flags)
 {
     dtor_4398F0();
     if (flags & 1)
@@ -30,7 +30,7 @@ MeatSaw* MeatSaw::Vdtor_43A0B0(signed int flags)
     return this;
 }
 
-BaseGameObject* MeatSaw::VDestructor(signed int flags)
+BaseGameObject* MeatSaw::VDestructor(s32 flags)
 {
     return Vdtor_43A0B0(flags);
 }

@@ -60,7 +60,7 @@ public:
     EXPORT static AbilityRing * CC Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale);
     EXPORT AbilityRing* ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP scale);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -74,7 +74,7 @@ public:
 private:
     EXPORT void vSetTarget_49D140(BaseGameObject* pTarget);
     EXPORT void dtor_49D0B0();
-    EXPORT AbilityRing* vdtor_49D080(signed int flags);
+    EXPORT AbilityRing* vdtor_49D080(s32 flags);
     EXPORT void vUpdate_49D160();
     EXPORT void CollideWithObjects_49D5E0(s16 bDealDamage);
     EXPORT void vRender_49D790(PrimHeader** ppOt);

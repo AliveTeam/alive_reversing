@@ -27,7 +27,7 @@ void SecurityDoor::VUpdate()
     VUpdate_461AD0();
 }
 
-SecurityDoor* SecurityDoor::vdtor_461F90(signed int flags)
+SecurityDoor* SecurityDoor::vdtor_461F90(s32 flags)
 {
     dtor_4619C0();
     if (flags & 1)
@@ -37,7 +37,7 @@ SecurityDoor* SecurityDoor::vdtor_461F90(signed int flags)
     return this;
 }
 
-BaseGameObject* SecurityDoor::VDestructor(signed int flags)
+BaseGameObject* SecurityDoor::VDestructor(s32 flags)
 {
     return vdtor_461F90(flags);
 }

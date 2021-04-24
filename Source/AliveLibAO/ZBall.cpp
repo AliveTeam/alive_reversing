@@ -112,7 +112,7 @@ ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* ZBall::VDestructor(signed int flags)
+BaseGameObject* ZBall::VDestructor(s32 flags)
 {
     return Vdtor_478860(flags);
 }
@@ -122,7 +122,7 @@ void ZBall::VUpdate()
     VUpdate_478720();
 }
 
-ZBall* ZBall::Vdtor_478860(signed int flags)
+ZBall* ZBall::Vdtor_478860(s32 flags)
 {
     dtor_478710();
     if (flags & 1)

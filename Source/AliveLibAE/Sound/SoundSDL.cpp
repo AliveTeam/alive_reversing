@@ -28,7 +28,7 @@ int SND_Clear_SDL(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
     return 0;
 }
 
-signed int SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount)
+s32 SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount)
 {
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const u32 bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
@@ -36,7 +36,7 @@ signed int SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, u8* p
     return 0;
 }
 
-signed int SND_CreateDS_SDL(u32 sampleRate, int bitsPerSample, int isStereo)
+s32 SND_CreateDS_SDL(u32 sampleRate, int bitsPerSample, int isStereo)
 {
     sDSound_BBC344 = new SDLSoundSystem();
     sDSound_BBC344->Init(sampleRate, bitsPerSample, isStereo);

@@ -11,8 +11,8 @@ public:
 
     EXPORT BackgroundMusic* ctor_4CB110( s16 musicId);
     
-    virtual BaseGameObject* VDestructor(signed int flags) override;
-    EXPORT BaseGameObject* vdtor_4CB150(signed int flags);
+    virtual BaseGameObject* VDestructor(s32 flags) override;
+    EXPORT BaseGameObject* vdtor_4CB150(s32 flags);
     EXPORT void dtor_4CB180();
 
     virtual void VUpdate() override;

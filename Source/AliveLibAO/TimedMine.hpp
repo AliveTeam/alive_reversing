@@ -24,7 +24,7 @@ public:
     EXPORT BaseGameObject* dtor_408690();
     EXPORT void StickToLiftPoint_408CA0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -38,7 +38,7 @@ private:
     EXPORT void VUpdate_408760();
     EXPORT s16 VTakeDamage_408B90(BaseGameObject* pFrom);
     EXPORT void VScreenChanged_408DD0();
-    EXPORT TimedMine* Vdtor_408E10(signed int flags);
+    EXPORT TimedMine* Vdtor_408E10(s32 flags);
     EXPORT void VRender_408960(PrimHeader** ppOt);
 
 public:

@@ -36,12 +36,12 @@ public:
     EXPORT static int CC CreateFromSaveState_43BD10(const BYTE* pBuffer);
     EXPORT GameEnderController* ctor_43B840();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 private:
-    EXPORT GameEnderController* vdtor_43B8D0(signed int flags);
+    EXPORT GameEnderController* vdtor_43B8D0(s32 flags);
     EXPORT void vScreenChanged_43BC80();
     EXPORT int vGetSaveState_43BCD0(GameEnderController_State* pState);
     EXPORT void vUpdate_43B920();

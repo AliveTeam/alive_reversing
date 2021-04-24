@@ -11,14 +11,14 @@ bool AreMovieSkippingInputsHeld();
 class Movie : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
     EXPORT void Init_4DFF60(int a2, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume);
     EXPORT Movie* ctor_4DFDE0(int id, DWORD pos, s16 bUnknown, s16 flags, s16 volume);
     EXPORT void vUpdate_4E0030();
-    EXPORT BaseGameObject* vdtor_4DFE80(signed int flags);
+    EXPORT BaseGameObject* vdtor_4DFE80(s32 flags);
 private:
     EXPORT void DeInit_4E0210();
 

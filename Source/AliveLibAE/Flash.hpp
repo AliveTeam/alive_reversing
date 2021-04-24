@@ -9,10 +9,10 @@ class Flash : public EffectBase
 public:
     EXPORT Flash* ctor_428570(Layer layer, u8 r, u8 g, u8 b, int /*not_used*/, TPageAbr abr, int time);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
 private:
-    EXPORT Flash* vdtor_4285F0(signed int flags);
+    EXPORT Flash* vdtor_4285F0(s32 flags);
     EXPORT void vUpdate_428640();
 private:
     int field_78_flash_time;

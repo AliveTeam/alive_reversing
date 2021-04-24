@@ -55,11 +55,11 @@ class GameSpeak : public BaseGameObject
 public:
     EXPORT GameSpeak* ctor_40F990();
 
-    EXPORT GameSpeak* Vdtor_40FB50(signed int flags);
+    EXPORT GameSpeak* Vdtor_40FB50(s32 flags);
 
     virtual void VScreenChanged() override;
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     EXPORT BaseGameObject* dtor_40F9C0();
 

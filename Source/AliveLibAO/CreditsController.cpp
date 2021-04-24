@@ -16,7 +16,7 @@ void CreditsController::VUpdate()
     VUpdate_40D020();
 }
 
-BaseGameObject* CreditsController::VDestructor(signed int flags)
+BaseGameObject* CreditsController::VDestructor(s32 flags)
 {
     return Vdtor_40D090(flags);
 }
@@ -41,7 +41,7 @@ BaseGameObject* CreditsController::dtor_40D000()
     return dtor_487DF0();
 }
 
-CreditsController* CreditsController::Vdtor_40D090(signed int flags)
+CreditsController* CreditsController::Vdtor_40D090(s32 flags)
 {
     dtor_40D000();
     if (flags & 1)

@@ -120,7 +120,7 @@ BaseGameObject* BellHammer::dtor_405220()
     return dtor_417D10();
 }
 
-BaseGameObject* BellHammer::VDestructor(signed int flags)
+BaseGameObject* BellHammer::VDestructor(s32 flags)
 {
     return Vdtor_4054C0(flags);
 }
@@ -130,7 +130,7 @@ void BellHammer::VScreenChanged_4054B0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-BellHammer* BellHammer::Vdtor_4054C0(signed int flags)
+BellHammer* BellHammer::Vdtor_4054C0(s32 flags)
 {
     dtor_405220();
     if (flags & 1)

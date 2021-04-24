@@ -13,7 +13,7 @@ void HoistParticle::VUpdate()
     VUpdate_431BD0();
 }
 
-BaseGameObject* HoistParticle::VDestructor(signed int flags)
+BaseGameObject* HoistParticle::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)
@@ -111,7 +111,7 @@ void HoistRocksEffect::VScreenChanged()
     VScreenChanged_431AF0();
 }
 
-HoistRocksEffect* HoistRocksEffect::vdtor_431CF0(signed int flags)
+HoistRocksEffect* HoistRocksEffect::vdtor_431CF0(s32 flags)
 {
     dtor_431A90();
     if (flags & 1)
@@ -121,7 +121,7 @@ HoistRocksEffect* HoistRocksEffect::vdtor_431CF0(signed int flags)
     return this;
 }
 
-BaseGameObject* HoistRocksEffect::VDestructor(signed int flags)
+BaseGameObject* HoistRocksEffect::VDestructor(s32 flags)
 {
     return vdtor_431CF0(flags);
 }

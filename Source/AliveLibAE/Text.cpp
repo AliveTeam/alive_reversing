@@ -12,7 +12,7 @@
 #include "PauseMenu.hpp" // pal_554474
 #include "Sys.hpp"
 
-BaseGameObject* Text::VDestructor(signed int flags)
+BaseGameObject* Text::VDestructor(s32 flags)
 {
     return vdtor_46AED0(flags);
 }
@@ -60,7 +60,7 @@ EXPORT Text* Text::ctor_46ADA0(const char* pMessage, int renderCount, int bShado
     return this;
 }
 
-EXPORT BaseGameObject* Text::vdtor_46AED0(signed int flags)
+EXPORT BaseGameObject* Text::vdtor_46AED0(s32 flags)
 {
     dtor_46AF00();
     if (flags & 1)

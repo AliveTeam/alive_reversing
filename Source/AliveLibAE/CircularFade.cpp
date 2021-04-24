@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* CircularFade::VDestructor(signed int flags)
+BaseGameObject* CircularFade::VDestructor(s32 flags)
 {
     return vdtor_4CE0D0(flags);
 }
@@ -265,7 +265,7 @@ void CircularFade::dtor_4CE080()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-CircularFade* CircularFade::vdtor_4CE0D0(signed int flags)
+CircularFade* CircularFade::vdtor_4CE0D0(s32 flags)
 {
     dtor_4CE080();
     if (flags & 1)

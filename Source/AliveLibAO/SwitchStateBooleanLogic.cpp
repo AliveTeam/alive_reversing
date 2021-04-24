@@ -12,7 +12,7 @@ void SwitchStateBooleanLogic::VUpdate()
     VUpdate_436B60();
 }
 
-BaseGameObject* SwitchStateBooleanLogic::Vdtor_436C60(signed int flags)
+BaseGameObject* SwitchStateBooleanLogic::Vdtor_436C60(s32 flags)
 {
     dtor_436B00();
 
@@ -24,7 +24,7 @@ BaseGameObject* SwitchStateBooleanLogic::Vdtor_436C60(signed int flags)
     return this;
 }
 
-BaseGameObject* SwitchStateBooleanLogic::VDestructor(signed int flags)
+BaseGameObject* SwitchStateBooleanLogic::VDestructor(s32 flags)
 {
     return Vdtor_436C60(flags);
 }

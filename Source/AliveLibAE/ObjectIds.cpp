@@ -161,7 +161,7 @@ namespace AETest::TestsObjectIds
     class FakeGameObject : public BaseGameObject
     {
     public:
-        virtual BaseGameObject* VDestructor(signed int) override { return this; }
+        virtual BaseGameObject* VDestructor(s32) override { return this; }
     };
 
     void ObjectIdsTests()

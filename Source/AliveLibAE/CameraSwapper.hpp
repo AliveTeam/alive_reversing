@@ -14,12 +14,12 @@ public:
     EXPORT CameraSwapper* ctor_4E4ED0(BYTE** ppCamRes, int moviePos1, int movieId1, int moviePos2, int movieId2, int moviePos3, int movieId3, char movieFlag1, s16  movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 moveFlag3, s16 movieFlags3, s16 movieVol3);
     EXPORT CameraSwapper* ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect, s16 xpos, s16 ypos);
     EXPORT void dtor_4E5790();
-    EXPORT BaseGameObject* vdtor_4E4D90(signed int flags);
+    EXPORT BaseGameObject* vdtor_4E4D90(s32 flags);
     EXPORT void Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect);
     EXPORT void vUpdate_4E5850();
 
     virtual void VUpdate() override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
 
 private:

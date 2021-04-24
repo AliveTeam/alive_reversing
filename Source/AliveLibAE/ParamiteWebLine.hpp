@@ -22,14 +22,14 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx) override;
 
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT ParamiteWebLine* vdtor_4E2460(signed int flags);
+    EXPORT ParamiteWebLine* vdtor_4E2460(s32 flags);
 
     EXPORT void dtor_4E2490();
 

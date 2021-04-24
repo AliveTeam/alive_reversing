@@ -63,7 +63,7 @@ ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* ElectricWall::VDestructor(signed int flags)
+BaseGameObject* ElectricWall::VDestructor(s32 flags)
 {
     return vdtor_421F70(flags);
 }
@@ -78,7 +78,7 @@ void ElectricWall::VScreenChanged()
     vScreenChanged_422530();
 }
 
-ElectricWall* ElectricWall::vdtor_421F70(signed int flags)
+ElectricWall* ElectricWall::vdtor_421F70(s32 flags)
 {
     dtor_421FA0();
     if (flags & 1)

@@ -37,12 +37,12 @@ public:
     EXPORT BaseGameObject* ctor_47FE40(Path_MusicTrigger* pTlv, DWORD tlvInfo);
     EXPORT MusicTrigger* ctor_47FF10(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, int /*not_used*/, s16 delay);
     EXPORT void Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 delay);
-    EXPORT BaseGameObject* vdtor_47FEE0(signed int flags);
+    EXPORT BaseGameObject* vdtor_47FEE0(s32 flags);
     EXPORT void dtor_4800C0();
     EXPORT void vScreenChange_4802A0();
     EXPORT void vUpdate_480140();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

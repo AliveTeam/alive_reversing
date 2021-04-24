@@ -16,7 +16,7 @@ public:
 
     EXPORT void VUpdate_417580();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     int field_D4[4];
     FP field_E4_scale;

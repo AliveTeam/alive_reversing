@@ -14,10 +14,10 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
 private:
-    EXPORT ParamiteWeb* vdtor_4E1AF0(signed int flags);
+    EXPORT ParamiteWeb* vdtor_4E1AF0(s32 flags);
 
     EXPORT void dtor_4E1B20();
 

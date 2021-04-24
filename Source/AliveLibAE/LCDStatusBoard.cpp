@@ -29,7 +29,7 @@ ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
 ALIVE_VAR(1, 0x5C1A20, char, sStatsSignCurrentArea_5C1A20, 0);
 
 
-BaseGameObject* LCDStatusBoard::VDestructor(signed int flags)
+BaseGameObject* LCDStatusBoard::VDestructor(s32 flags)
 {
     return vdtor_47B7B0(flags);
 }
@@ -97,7 +97,7 @@ void LCDStatusBoard::dtor_47B7E0()
 }
 
 
-BaseGameObject* LCDStatusBoard::vdtor_47B7B0(signed int flags)
+BaseGameObject* LCDStatusBoard::vdtor_47B7B0(s32 flags)
 {
     dtor_47B7E0();
     if (flags & 1)

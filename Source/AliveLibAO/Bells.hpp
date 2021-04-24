@@ -26,9 +26,9 @@ public:
 
     void PlaySounds();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT Bells* Vdtor_40AB00(signed int flags);
+    EXPORT Bells* Vdtor_40AB00(s32 flags);
 
     EXPORT BOOL CanSmash_40AA70();
 

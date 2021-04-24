@@ -97,7 +97,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     return this;
 }
 
-BaseGameObject* MineCar::VDestructor(signed int flags)
+BaseGameObject* MineCar::VDestructor(s32 flags)
 {
     return vdtor_46BF50(flags);
 }
@@ -363,7 +363,7 @@ void MineCar::vScreenChanged_46F800()
     BaseGameObject::VScreenChanged();
 }
 
-MineCar* MineCar::vdtor_46BF50(signed int flags)
+MineCar* MineCar::vdtor_46BF50(s32 flags)
 {
     dtor_46F2A0();
     if (flags & 1)

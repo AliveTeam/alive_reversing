@@ -7,7 +7,7 @@
 class DeathFadeOut : public EffectBase
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -16,7 +16,7 @@ public:
     EXPORT void Init_427140(Layer layer, s16 direction, s16 destroyOnDone, short speed);
 private:
     EXPORT void dtor_427120();
-    EXPORT DeathFadeOut* vdtor_4270F0(signed int flags);
+    EXPORT DeathFadeOut* vdtor_4270F0(s32 flags);
     EXPORT void Update_4271C0();
     EXPORT void vRender_427210(PrimHeader** ppOt);
 private:

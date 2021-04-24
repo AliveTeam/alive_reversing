@@ -18,12 +18,12 @@ BackgroundMusic* BackgroundMusic::ctor_4CB110(s16 musicId)
     return this;
 }
 
-BaseGameObject* BackgroundMusic::VDestructor(signed int flags)
+BaseGameObject* BackgroundMusic::VDestructor(s32 flags)
 {
     return vdtor_4CB150(flags);
 }
 
-BaseGameObject* BackgroundMusic::vdtor_4CB150(signed int flags)
+BaseGameObject* BackgroundMusic::vdtor_4CB150(s32 flags)
 {
     dtor_4CB180();
     if (flags & 1)

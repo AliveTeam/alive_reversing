@@ -160,7 +160,7 @@ void ParamiteWebLine::VScreenChanged()
     return vScreenChanged_4E2BC0();
 }
 
-BaseGameObject* ParamiteWebLine::VDestructor(signed int flags)
+BaseGameObject* ParamiteWebLine::VDestructor(s32 flags)
 {
     return vdtor_4E2460(flags);
 }
@@ -175,7 +175,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
     vRender_4E2530(ppOt);
 }
 
-ParamiteWebLine* ParamiteWebLine::vdtor_4E2460(signed int flags)
+ParamiteWebLine* ParamiteWebLine::vdtor_4E2460(s32 flags)
 {
     dtor_4E2490();
     if (flags & 1)

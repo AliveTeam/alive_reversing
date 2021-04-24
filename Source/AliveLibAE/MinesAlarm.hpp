@@ -17,14 +17,14 @@ public:
     EXPORT static void CC Create_4177F0(int timer);
     EXPORT static int CC CreateFromSaveState_417740(const BYTE* pBuffer);
     EXPORT BaseGameObject* ctor_417870(int timer);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 private:
     int vGetSaveState_4177C0(MinesAlarm_State* pState);
     EXPORT void dtor_4178E0();
-    EXPORT BaseGameObject* vdtor_4178B0(signed int flags);
+    EXPORT BaseGameObject* vdtor_4178B0(s32 flags);
     EXPORT void vScreenChanged_417A20();
     EXPORT void vUpdate_417910();
 };

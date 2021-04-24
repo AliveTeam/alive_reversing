@@ -219,7 +219,7 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, ScrabSpawnDirection spa
     return this;
 }
 
-BaseGameObject* Scrab::VDestructor(signed int flags)
+BaseGameObject* Scrab::VDestructor(s32 flags)
 {
     return vdtor_4A41B0(flags);
 }
@@ -519,7 +519,7 @@ int Scrab::vGetSaveState_4AB020(Scrab_State* pState)
     return sizeof(Scrab_State);
 }
 
-Scrab* Scrab::vdtor_4A41B0(signed int flags)
+Scrab* Scrab::vdtor_4A41B0(s32 flags)
 {
     dtor_4A42B0();
     if (flags & 1)

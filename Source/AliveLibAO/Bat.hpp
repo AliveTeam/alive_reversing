@@ -23,11 +23,11 @@ public:
     EXPORT Bat* ctor_4046E0(Path_Bat* pTlv, int tlvInfo);
     EXPORT BaseGameObject* dtor_404870();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_404FE0();
-    EXPORT Bat* Vdtor_404FF0(signed int flags);
+    EXPORT Bat* Vdtor_404FF0(s32 flags);
 
     EXPORT void FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed);
 

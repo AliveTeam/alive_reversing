@@ -11,7 +11,7 @@
 
 namespace AO {
 
-Rope* Rope::Vdtor_458B60(signed int flags)
+Rope* Rope::Vdtor_458B60(s32 flags)
 {
     dtor_458720();
     if (flags & 1)
@@ -52,7 +52,7 @@ BaseGameObject* Rope::dtor_458720()
     return dtor_417D10();
 }
 
-BaseGameObject* Rope::VDestructor(signed int flags)
+BaseGameObject* Rope::VDestructor(s32 flags)
 {
     return Vdtor_458B60(flags);
 }

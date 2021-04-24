@@ -90,7 +90,7 @@ public:
         // Empty
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         dtor_417D10();
         if (flags & 1)
@@ -263,12 +263,12 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* BoomMachine::VDestructor(signed int flags)
+BaseGameObject* BoomMachine::VDestructor(s32 flags)
 {
     return Vdtor_41E850(flags);
 }
 
-BoomMachine* BoomMachine::Vdtor_41E850(signed int flags)
+BoomMachine* BoomMachine::Vdtor_41E850(s32 flags)
 {
     dtor_41E670();
     if (flags & 1)

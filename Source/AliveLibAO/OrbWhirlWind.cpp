@@ -104,7 +104,7 @@ void OrbWhirlWind::VUpdate()
     VUpdate_48B990();
 }
 
-OrbWhirlWind* OrbWhirlWind::Vdtor_48C4F0(signed int flags)
+OrbWhirlWind* OrbWhirlWind::Vdtor_48C4F0(s32 flags)
 {
     dtor_48B910();
     if (flags & 1)
@@ -114,7 +114,7 @@ OrbWhirlWind* OrbWhirlWind::Vdtor_48C4F0(signed int flags)
     return this;
 }
 
-BaseGameObject* OrbWhirlWind::VDestructor(signed int flags)
+BaseGameObject* OrbWhirlWind::VDestructor(s32 flags)
 {
     return Vdtor_48C4F0(flags);
 }

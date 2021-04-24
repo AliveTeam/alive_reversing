@@ -20,14 +20,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_StatusLight, 0x20);
 class StatusLight : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
     EXPORT StatusLight* ctor_4D5250(Path_StatusLight* pTlv, DWORD tlvInfo);
 private:
     EXPORT void vUpdate_4D5530();
-    EXPORT StatusLight* vdtor_4D5500(signed int flags);
+    EXPORT StatusLight* vdtor_4D5500(s32 flags);
     EXPORT void dtor_4D5790();
     EXPORT void vScreenChanged_4D5820();
 private:

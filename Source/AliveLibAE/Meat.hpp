@@ -49,7 +49,7 @@ class Meat : public BaseThrowable
 public:
     EXPORT Meat* ctor_4694A0(FP xpos, FP ypos, s16 count);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VOnTrapDoorOpen() override;
@@ -71,7 +71,7 @@ private:
     EXPORT BOOL vIsFalling_469660();
     EXPORT BOOL vCanThrow_469680();
     EXPORT void dtor_4696F0();
-    EXPORT Meat* vdtor_4696C0(signed int flags);
+    EXPORT Meat* vdtor_4696C0(s32 flags);
     EXPORT void vThrow_469790(FP velX, FP velY);
     EXPORT s16 vGetCount_46A350();
     EXPORT void InTheAir_4697E0();
@@ -107,12 +107,12 @@ class MeatSack : public BaseAliveGameObject
 {
 public:
     EXPORT MeatSack* ctor_46A410(Path_MeatSack* pTlv, int tlvInfo);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
 private:
-    EXPORT MeatSack* vdtor_46A5E0(signed int flags);
+    EXPORT MeatSack* vdtor_46A5E0(s32 flags);
     EXPORT void dtor_46A610();
     EXPORT void vScreenChanged_46A9C0();
     EXPORT void vUpdate_46A6A0();

@@ -94,7 +94,7 @@ EXPORT CameraSwapper* CameraSwapper::ctor_48C6B0(BYTE** ppBits, int moviePos1, i
     return this;
 }
 
-BaseGameObject* CameraSwapper::VDestructor(signed int flags)
+BaseGameObject* CameraSwapper::VDestructor(s32 flags)
 {
     return Vdtor_48D380(flags);
 }
@@ -105,7 +105,7 @@ void CameraSwapper::VScreenChanged()
     // Empty
 }
 
-CameraSwapper* CameraSwapper::Vdtor_48D380(signed int flags)
+CameraSwapper* CameraSwapper::Vdtor_48D380(s32 flags)
 {
     dtor_48CE00();
 

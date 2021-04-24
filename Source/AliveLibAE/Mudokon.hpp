@@ -276,7 +276,7 @@ class Mudokon : public BaseAliveGameObject
 public:
     EXPORT Mudokon* ctor_474F30(Path_Mudokon* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -331,7 +331,7 @@ private:
 
     EXPORT short FacingTarget_473140(BirdPortal* pTarget);
 
-    EXPORT Mudokon* vdtor_475770(signed int flags);
+    EXPORT Mudokon* vdtor_475770(s32 flags);
 
     EXPORT void dtor_475B60();
 

@@ -103,7 +103,7 @@ public:
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x1C);
 
     EXPORT ResourceManager* ctor_464910();
-    EXPORT BaseGameObject* vdtor_4649B0(signed int flags);
+    EXPORT BaseGameObject* vdtor_4649B0(s32 flags);
     EXPORT void dtor_4649E0();
     EXPORT void vLoadFile_StateMachine_464A70();
     EXPORT void OnResourceLoaded_464CE0();
@@ -114,7 +114,7 @@ public:
     EXPORT void Shutdown_465610();
     EXPORT void Free_Resources_For_Camera_4656F0(const Camera* pCamera);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

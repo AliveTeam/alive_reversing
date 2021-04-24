@@ -9,7 +9,7 @@
 #include "PathData.hpp"
 #include "GameEnderController.hpp"
 
-BaseGameObject* WorkWheel::VDestructor(signed int flags)
+BaseGameObject* WorkWheel::VDestructor(s32 flags)
 {
     return vdtor_4E3820(flags);
 }
@@ -115,7 +115,7 @@ void WorkWheel::dtor_4E3850()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-WorkWheel* WorkWheel::vdtor_4E3820(signed int flags)
+WorkWheel* WorkWheel::vdtor_4E3820(s32 flags)
 {
     dtor_4E3850();
     if (flags & 1)

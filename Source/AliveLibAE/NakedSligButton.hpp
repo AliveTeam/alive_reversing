@@ -21,11 +21,11 @@ class NakedSligButton : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT NakedSligButton* ctor_4148F0(Path_NakedSligButton* pTlv, int tlvInfo);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     EXPORT void UseButton_414C60();
 private:
-    EXPORT NakedSligButton* vdtor_414A60(signed int flags);
+    EXPORT NakedSligButton* vdtor_414A60(s32 flags);
     EXPORT void dtor_414A90();
     EXPORT void vUpdate_414B20();
 private:

@@ -53,7 +53,7 @@ class LiftPoint : public PlatformBase
 public:
     EXPORT LiftPoint* ctor_461030(Path_LiftPoint* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -77,12 +77,12 @@ private:
     EXPORT void MoveObjectsOnLift_497600(FP xVelocity);
     EXPORT static void CCSTD sub_461000(Path_TLV* pTlv);
     EXPORT void vStayOnFloor_461A00(s16 floor, Path_LiftPoint* pTlv);
-    EXPORT signed int vGetSaveState_4637D0(LiftPoint_State *pState);
+    EXPORT s32 vGetSaveState_4637D0(LiftPoint_State *pState);
 
 private:
     EXPORT void CreatePulleyIfExists_462C80();
     EXPORT void vScreenChanged_463020();
-    EXPORT LiftPoint* vdtor_4619D0(signed int flags);
+    EXPORT LiftPoint* vdtor_4619D0(s32 flags);
     EXPORT void dtor_4624E0();
 
 public:

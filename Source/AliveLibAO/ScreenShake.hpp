@@ -15,9 +15,9 @@ public:
 
     EXPORT void VUpdate_4625B0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT ScreenShake* Vdtor_462770(signed int flags);
+    EXPORT ScreenShake* Vdtor_462770(s32 flags);
 
     virtual void VRender(PrimHeader** ppOt) override;
 

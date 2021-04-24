@@ -18,7 +18,7 @@ class DoorFlame : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT DoorFlame* ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return vdtor_45E690(flags);
     }
@@ -39,7 +39,7 @@ public:
     }
 
 private:
-    EXPORT DoorFlame* vdtor_45E690(signed int flags);
+    EXPORT DoorFlame* vdtor_45E690(s32 flags);
 
     EXPORT void dtor_45E6C0();
 

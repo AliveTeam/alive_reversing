@@ -38,7 +38,7 @@ GasEmitter* GasEmitter::ctor_43CAA0(Path_GasEmitter* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* GasEmitter::VDestructor(signed int flags)
+BaseGameObject* GasEmitter::VDestructor(s32 flags)
 {
     return vdtor_43CB40(flags);
 }
@@ -71,7 +71,7 @@ void GasEmitter::dtor_43CD20()
     BaseGameObject_dtor_4DBEC0();
 }
 
-GasEmitter* GasEmitter::vdtor_43CB40(signed int flags)
+GasEmitter* GasEmitter::vdtor_43CB40(s32 flags)
 {
     dtor_43CD20();
     if (flags & 1)

@@ -85,7 +85,7 @@ void Sparks::VScreenChanged_40A640()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-BaseGameObject* Sparks::VDestructor(signed int flags)
+BaseGameObject* Sparks::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

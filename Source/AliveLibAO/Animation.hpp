@@ -218,7 +218,7 @@ public:
 
     EXPORT void SetFrame_402AC0(s16 newFrame);
 
-    EXPORT s16 Init_402D20(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating);
+    EXPORT s16 Init_402D20(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, char bEnable_flag10_alternating);
 
     EXPORT s16 Get_Frame_Count_403540();
 

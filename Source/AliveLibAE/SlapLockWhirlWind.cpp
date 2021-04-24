@@ -81,7 +81,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(s16 doorNumber, s16 switchId, 
     return this;
 }
 
-BaseGameObject* SlapLockWhirlWind::VDestructor(signed int flags)
+BaseGameObject* SlapLockWhirlWind::VDestructor(s32 flags)
 {
     return vdtor_43DA40(flags);
 }
@@ -102,7 +102,7 @@ void SlapLockWhirlWind::dtor_43DA70()
     BaseGameObject_dtor_4DBEC0();
 }
 
-SlapLockWhirlWind* SlapLockWhirlWind::vdtor_43DA40(signed int flags)
+SlapLockWhirlWind* SlapLockWhirlWind::vdtor_43DA40(s32 flags)
 {
     dtor_43DA70();
     if (flags & 1)
@@ -112,7 +112,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::vdtor_43DA40(signed int flags)
     return this;
 }
 
-signed int SlapLockWhirlWind::vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState)
+s32 SlapLockWhirlWind::vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState)
 {
     pSaveState->field_0_type = AETypes::eSlapLock_OrbWhirlWind_60;
     pSaveState->field_2_switch_id = field_44_switch_id;

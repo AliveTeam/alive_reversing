@@ -14,13 +14,13 @@ enum class MessageType : int
 class Text : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
     EXPORT Text* ctor_46ADA0(const char* pMessage, int renderCount, int bShadow);
-    EXPORT BaseGameObject* vdtor_46AED0(signed int flags);
+    EXPORT BaseGameObject* vdtor_46AED0(s32 flags);
     EXPORT void dtor_46AF00();
     EXPORT void SetYPos_46AFB0(int /*not_used*/, s16 ypos);
     EXPORT void Render_46AFD0(PrimHeader** ppOt);

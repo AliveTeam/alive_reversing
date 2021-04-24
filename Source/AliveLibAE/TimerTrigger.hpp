@@ -38,15 +38,15 @@ class TimerTrigger : public BaseGameObject
 public:
     EXPORT TimerTrigger* ctor_4CDC20(Path_TimerTrigger* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
-    EXPORT static signed int CC CreateFromSaveState_4CDF70(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_4CDF70(const BYTE* pData);
 
 private:
-    EXPORT TimerTrigger* vdtor_4CDD00(signed int flags);
+    EXPORT TimerTrigger* vdtor_4CDD00(s32 flags);
     EXPORT void dtor_4CDD30();
     EXPORT void vUpdate_4CDDB0();
     EXPORT void ToggleAllIds_4CDEC0();

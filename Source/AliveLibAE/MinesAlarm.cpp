@@ -42,7 +42,7 @@ BaseGameObject* MinesAlarm::ctor_417870(int timer)
     return this;
 }
 
-BaseGameObject* MinesAlarm::VDestructor(signed int flags)
+BaseGameObject* MinesAlarm::VDestructor(s32 flags)
 {
     return vdtor_4178B0(flags);
 }
@@ -77,7 +77,7 @@ void MinesAlarm::dtor_4178E0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* MinesAlarm::vdtor_4178B0(signed int flags)
+BaseGameObject* MinesAlarm::vdtor_4178B0(s32 flags)
 {
     dtor_4178E0();
     if (flags & 1)

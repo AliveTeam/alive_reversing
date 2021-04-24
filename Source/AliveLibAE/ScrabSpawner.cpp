@@ -45,7 +45,7 @@ int CC ScrabSpawner::CreateFromSaveState_4ABEB0(const BYTE* pBuffer)
     return sizeof(ScrabSpawner_State);
 }
 
-BaseGameObject* ScrabSpawner::VDestructor(signed int flags)
+BaseGameObject* ScrabSpawner::VDestructor(s32 flags)
 {
     return vdtor_4AB4E0(flags);
 }
@@ -60,7 +60,7 @@ int ScrabSpawner::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_4ABF50(reinterpret_cast<ScrabSpawner_State*>(pSaveBuffer));
 }
 
-ScrabSpawner* ScrabSpawner::vdtor_4AB4E0(signed int flags)
+ScrabSpawner* ScrabSpawner::vdtor_4AB4E0(s32 flags)
 {
     dtor_4AB720();
     if (flags & 1)

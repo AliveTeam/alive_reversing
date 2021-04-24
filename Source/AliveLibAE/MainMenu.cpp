@@ -696,7 +696,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     return this;
 }
 
-BaseGameObject* MainMenuController::vdtor_4CEF00(signed int flags)
+BaseGameObject* MainMenuController::vdtor_4CEF00(s32 flags)
 {
     dtor_4CEF30();
     if (flags & 1)
@@ -724,7 +724,7 @@ void MainMenuController::dtor_4CEF30()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-BaseGameObject* MainMenuController::VDestructor(signed int flags)
+BaseGameObject* MainMenuController::VDestructor(s32 flags)
 {
     return vdtor_4CEF00(flags);
 }
@@ -3193,7 +3193,7 @@ void MainMenuController::Load_Anim_Pal_4D06A0(Animation* pAnim)
 
 ALIVE_VAR(1, 0x5ca408, DWORD, sLevelId_dword_5CA408, 0);
 
-signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
+s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 {
     if (field_21E_bChangeScreen == 0 || field_23C_T80.Get(Flags::eBit22_GameSpeakPlaying) || field_228_res_idx != 0)
     {

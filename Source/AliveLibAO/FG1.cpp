@@ -235,7 +235,7 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
     }
 }
 
-BaseGameObject* FG1::VDestructor(signed int flags)
+BaseGameObject* FG1::VDestructor(s32 flags)
 {
     return Vdtor_453E90(flags);
 }
@@ -286,7 +286,7 @@ void FG1::VRender_453D50(PrimHeader** ppOt)
     }
 }
 
-FG1* FG1::Vdtor_453E90(signed int flags)
+FG1* FG1::Vdtor_453E90(s32 flags)
 {
     dtor_453DF0();
     if (flags & 1)

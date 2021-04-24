@@ -117,12 +117,12 @@ BaseGameObject* DoorLight::dtor_4062F0()
     return dtor_417D10();
 }
 
-BaseGameObject* DoorLight::VDestructor(signed int flags)
+BaseGameObject* DoorLight::VDestructor(s32 flags)
 {
     return Vdtor_4064A0(flags);
 }
 
-DoorLight* DoorLight::Vdtor_4064A0(signed int flags)
+DoorLight* DoorLight::Vdtor_4064A0(s32 flags)
 {
     dtor_4062F0();
     if (flags & 1)

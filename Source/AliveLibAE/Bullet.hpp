@@ -23,14 +23,14 @@ class Bullet : public BaseGameObject
 {
 public:
     EXPORT Bullet* ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int unused, FP scale, s16 numberOfBullets);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
 
     static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
 private:
-    EXPORT Bullet* vdtor_4145E0(signed int flags);
+    EXPORT Bullet* vdtor_4145E0(s32 flags);
 
     EXPORT BaseAliveGameObject* ShootObject_414630(PSX_RECT* pRect);
 

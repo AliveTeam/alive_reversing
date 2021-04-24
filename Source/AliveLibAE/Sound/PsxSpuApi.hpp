@@ -225,13 +225,13 @@ EXPORT u16 CC SsIsEos_4FDA80(s16 idx, s16 seqNum);
 EXPORT void CC SsSeqSetVol_4FDAC0(s16 idx, s16 volLeft, s16 volRight);
 EXPORT void CC SsSeqPlay_4FD900(u16 idx, char playMode, s16 repeatCount);
 
-EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx);
+EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(int idx);
 EXPORT int CC MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru);
 EXPORT BYTE CC MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData);
 EXPORT void CC MIDI_SkipBytes_4FD6C0(MIDI_SeqSong* pData, int length);
 EXPORT void CC MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo);
 EXPORT int CC MIDI_PlayerPlayMidiNote_4FCE80(int vabId, int program, int note, int leftVol, int rightVol, int volume);
-EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int not_used, int priority);
+EXPORT s32 CC MIDI_Allocate_Channel_4FCA50(int not_used, int priority);
 
 using TVSyncCallBackFn = void(CC *)();
 EXPORT void CC VSyncCallback_4F8C40(TVSyncCallBackFn callBack);

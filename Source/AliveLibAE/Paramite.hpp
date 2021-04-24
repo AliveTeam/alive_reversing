@@ -176,7 +176,7 @@ class Paramite : public BaseAliveGameObject
 public:
     EXPORT Paramite* ctor_4879B0(Path_Paramite* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -355,7 +355,7 @@ private:
 
 private:
     EXPORT void dtor_487FC0();
-    EXPORT Paramite* vdtor_487F90(signed int flags);
+    EXPORT Paramite* vdtor_487F90(s32 flags);
 
     EXPORT void vUpdate_4871B0();
 

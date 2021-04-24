@@ -44,12 +44,12 @@ void Claw::ctor()
     Animation_Init_417FD0(22468, 152, 31, ppRes, 1);
 }
 
-BaseGameObject* Claw::VDestructor(signed int flags)
+BaseGameObject* Claw::VDestructor(s32 flags)
 {
     return Vdtor(flags);
 }
 
-BaseGameObject* Claw::Vdtor(signed int flags)
+BaseGameObject* Claw::Vdtor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)
@@ -167,12 +167,12 @@ BaseGameObject* SecurityClaw::dtor_418CE0()
     return dtor_401000();
 }
 
-BaseGameObject* SecurityClaw::VDestructor(signed int flags)
+BaseGameObject* SecurityClaw::VDestructor(s32 flags)
 {
     return Vdtor_419700(flags);
 }
 
-SecurityClaw* SecurityClaw::Vdtor_419700(signed int flags)
+SecurityClaw* SecurityClaw::Vdtor_419700(s32 flags)
 {
     dtor_418CE0();
     if (flags & 1)

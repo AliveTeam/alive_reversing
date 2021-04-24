@@ -58,12 +58,12 @@ ScopedSeq* ScopedSeq::ctor_4CB210(char ambianceId, CameraPos direction)
     return this;
 }
 
-ScopedSeq* ScopedSeq::VDestructor(signed int flags)
+ScopedSeq* ScopedSeq::VDestructor(s32 flags)
 {
     return vdtor_4CB410(flags);
 }
 
-ScopedSeq* ScopedSeq::vdtor_4CB410(signed int flags)
+ScopedSeq* ScopedSeq::vdtor_4CB410(s32 flags)
 {
     dtor_4CB440();
     if (flags & 1)

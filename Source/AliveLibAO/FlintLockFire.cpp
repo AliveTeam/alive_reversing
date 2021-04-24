@@ -78,7 +78,7 @@ void FlintLockFire::VStopAudio()
     VStopAudio_41B0C0();
 }
 
-FlintLockFire* FlintLockFire::Vdtor_41B500(signed int flags)
+FlintLockFire* FlintLockFire::Vdtor_41B500(s32 flags)
 {
     dtor_41AE20();
     if (flags & 1)
@@ -88,7 +88,7 @@ FlintLockFire* FlintLockFire::Vdtor_41B500(signed int flags)
     return this;
 }
 
-BaseGameObject* FlintLockFire::VDestructor(signed int flags)
+BaseGameObject* FlintLockFire::VDestructor(s32 flags)
 {
     return Vdtor_41B500(flags);
 }

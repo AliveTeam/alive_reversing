@@ -133,12 +133,12 @@ void MusicTrigger::VScreenChanged_443DD0()
     }
 }
 
-BaseGameObject* MusicTrigger::VDestructor(signed int flags)
+BaseGameObject* MusicTrigger::VDestructor(s32 flags)
 {
     return Vdtor_443DF0(flags);
 }
 
-MusicTrigger* MusicTrigger::Vdtor_443DF0(signed int flags)
+MusicTrigger* MusicTrigger::Vdtor_443DF0(s32 flags)
 {
     dtor_443C20();
     if (flags & 1)

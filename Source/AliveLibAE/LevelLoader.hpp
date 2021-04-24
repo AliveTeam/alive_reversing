@@ -20,13 +20,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LevelLoader, 0x1C);
 class LevelLoader : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
 
     EXPORT LevelLoader* ctor_4DD330(Path_LevelLoader* pTlv, DWORD tlvInfo);
 private:
     EXPORT void vUpdate_4DD400();
-    EXPORT LevelLoader* vdtor_4DD3B0(signed int flags);
+    EXPORT LevelLoader* vdtor_4DD3B0(s32 flags);
     EXPORT void dtor_4DD3E0();
 private:
     s16 field_20_id;

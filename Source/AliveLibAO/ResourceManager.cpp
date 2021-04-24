@@ -192,12 +192,12 @@ public:
     }
 
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return Vdtor_41EBB0(flags);
     }
 
-    EXPORT ResourceManager_FileRecord_Unknown* Vdtor_41EBB0(signed int flags)
+    EXPORT ResourceManager_FileRecord_Unknown* Vdtor_41EBB0(s32 flags)
     {
         dtor_41E870();
         if (flags & 1)

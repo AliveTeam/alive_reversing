@@ -77,11 +77,11 @@ inline bool operator != (const FixedPoint& lhs, const FixedPoint& rhs)
 inline FixedPoint FP_FromDouble(double v)
 {
     FixedPoint f = {};
-    f.fpValue = (static_cast<signed int>(v * 0x10000));
+    f.fpValue = (static_cast<s32>(v * 0x10000));
     return f;
 }
 
-inline FixedPoint FP_FromRaw(signed int v)
+inline FixedPoint FP_FromRaw(s32 v)
 {
     FixedPoint f = {};
     f.fpValue = v;

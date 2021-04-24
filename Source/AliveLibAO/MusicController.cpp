@@ -427,7 +427,7 @@ void MusicController::VScreenChanged_443450()
     field_16_bScreenChanged = 1;
 }
 
-MusicController* MusicController::Vdtor_4439D0(signed int flags)
+MusicController* MusicController::Vdtor_4439D0(s32 flags)
 {
     dtor_4429B0();
     if (flags & 1)
@@ -437,7 +437,7 @@ MusicController* MusicController::Vdtor_4439D0(signed int flags)
     return this;
 }
 
-BaseGameObject* MusicController::VDestructor(signed int flags)
+BaseGameObject* MusicController::VDestructor(s32 flags)
 {
     return Vdtor_4439D0(flags);
 }

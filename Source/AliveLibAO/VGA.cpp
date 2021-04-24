@@ -12,7 +12,7 @@ EXPORT int CC VGA_FullScreenSet_490160(bool bFullScreen)
     return VGA_FullScreenSet_4F31F0(bFullScreen);
 }
 
-EXPORT signed int CC VGA_DisplaySet_490230(u16 width, u16 height, char bpp, u8 backbufferCount, TSurfaceType** ppSurface)
+EXPORT s32 CC VGA_DisplaySet_490230(u16 width, u16 height, char bpp, u8 backbufferCount, TSurfaceType** ppSurface)
 {
     return VGA_DisplaySet_4F32C0(width, height, bpp, backbufferCount, ppSurface);
 }

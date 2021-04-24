@@ -36,7 +36,7 @@ BaseGameObject* ParamiteWeb::dtor_48AAB0()
     return dtor_417D10();
 }
 
-ParamiteWeb* ParamiteWeb::Vdtor_48AEC0(signed int flags)
+ParamiteWeb* ParamiteWeb::Vdtor_48AEC0(s32 flags)
 {
     dtor_48AAB0();
     if (flags & 1)
@@ -46,7 +46,7 @@ ParamiteWeb* ParamiteWeb::Vdtor_48AEC0(signed int flags)
     return this;
 }
 
-BaseGameObject* ParamiteWeb::VDestructor(signed int flags)
+BaseGameObject* ParamiteWeb::VDestructor(s32 flags)
 {
     return Vdtor_48AEC0(flags);
 }

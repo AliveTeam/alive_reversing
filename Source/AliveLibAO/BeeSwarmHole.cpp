@@ -132,7 +132,7 @@ void BeeSwarmHole::VUpdate_478320()
     }
 }
 
-BaseGameObject* BeeSwarmHole::VDestructor(signed int flags)
+BaseGameObject* BeeSwarmHole::VDestructor(s32 flags)
 {
     dtor_487DF0();
     if (flags & 1)

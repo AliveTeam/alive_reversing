@@ -102,7 +102,7 @@ ResourceManager* ResourceManager::ctor_464910()
     return this;
 }
 
-BaseGameObject* ResourceManager::vdtor_4649B0(signed int flags)
+BaseGameObject* ResourceManager::vdtor_4649B0(s32 flags)
 {
     dtor_4649E0();
     if (flags & 1)
@@ -644,7 +644,7 @@ void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
     }
 }
 
-BaseGameObject* ResourceManager::VDestructor(signed int flags)
+BaseGameObject* ResourceManager::VDestructor(s32 flags)
 {
     return vdtor_4649B0(flags);
 }

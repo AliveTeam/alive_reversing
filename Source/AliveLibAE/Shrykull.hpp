@@ -8,7 +8,7 @@ class Shrykull : public BaseAliveGameObject
 public:
     EXPORT Shrykull* ctor_4AEA20();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -19,7 +19,7 @@ public:
 private:
     EXPORT void dtor_4AEBC0();
 
-    EXPORT Shrykull* vdtor_4AEB90(signed int flags);
+    EXPORT Shrykull* vdtor_4AEB90(s32 flags);
 
     EXPORT void vScreenChange_4AF650();
 

@@ -1052,7 +1052,7 @@ enum ResourceIndices
     eGas_21 = 21,
 };
 
-signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
+s32 CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
 {
     const Abe_SaveState* pSaveState = reinterpret_cast<const Abe_SaveState*>(pData);
 
@@ -1265,7 +1265,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     return sizeof(Abe_SaveState);
 }
 
-BaseGameObject* Abe::VDestructor(signed int flags)
+BaseGameObject* Abe::VDestructor(s32 flags)
 {
     return vdtor_44B350(flags);
 }
@@ -1310,7 +1310,7 @@ void Abe::VOnTrapDoorOpen()
     vOnTrapDoorOpen_45A570();
 }
 
-BaseGameObject* Abe::vdtor_44B350(signed int flags)
+BaseGameObject* Abe::vdtor_44B350(s32 flags)
 {
     dtor_44B380();
     if (flags & 1)

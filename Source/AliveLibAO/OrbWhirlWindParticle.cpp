@@ -194,7 +194,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
     }
 }
 
-OrbWhirlWindParticle* OrbWhirlWindParticle::Vdtor_48C510(signed int flags)
+OrbWhirlWindParticle* OrbWhirlWindParticle::Vdtor_48C510(s32 flags)
 {
     SetVTable(this, 0x4BD7B8);
 

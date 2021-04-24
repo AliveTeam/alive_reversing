@@ -24,9 +24,9 @@ public:
 
     void InitParticle(HintFlyParticle* pParticle);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT HintFly* Vdtor_42BCF0(signed int flags);
+    EXPORT HintFly* Vdtor_42BCF0(s32 flags);
 
     virtual void VScreenChanged() override;
 

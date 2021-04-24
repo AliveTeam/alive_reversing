@@ -20,7 +20,7 @@ public:
 
     EXPORT void DealBlastDamage_459160(PSX_RECT* pRect);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     int field_D4[4];
     FP field_E4_scale;

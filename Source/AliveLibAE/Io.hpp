@@ -44,7 +44,7 @@ EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile);
 EXPORT int CC IO_Seek_4F2490(IO_Handle* hFile, int offset, int origin);
 EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile);
 EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID lpThreadParameter);
-EXPORT signed int CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, void* readBuffer, size_t bytesToRead, int /*notUsed1*/, int /*notUsed2*/, int /*notUsed3*/);
+EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, void* readBuffer, size_t bytesToRead, int /*notUsed1*/, int /*notUsed2*/, int /*notUsed3*/);
 EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount);
 EXPORT void IO_Init_494230();
 

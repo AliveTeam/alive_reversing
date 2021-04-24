@@ -66,7 +66,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* RockSack::VDestructor(signed int flags)
+BaseGameObject* RockSack::VDestructor(s32 flags)
 {
     return vdtor_49F2E0(flags);
 }
@@ -81,7 +81,7 @@ void RockSack::VUpdate()
     vUpdate_49F3A0();
 }
 
-RockSack* RockSack::vdtor_49F2E0(signed int flags)
+RockSack* RockSack::vdtor_49F2E0(s32 flags)
 {
     dtor_49F310();
     if (flags & 1)

@@ -250,7 +250,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
     return this;
 }
 
-BaseGameObject* AbilityRing::VDestructor(signed int flags)
+BaseGameObject* AbilityRing::VDestructor(s32 flags)
 {
     return vdtor_49D080(flags);
 }
@@ -311,7 +311,7 @@ void AbilityRing::dtor_49D0B0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-AbilityRing* AbilityRing::vdtor_49D080(signed int flags)
+AbilityRing* AbilityRing::vdtor_49D080(s32 flags)
 {
     dtor_49D0B0();
     if (flags & 1)

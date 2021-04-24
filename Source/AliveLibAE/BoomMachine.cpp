@@ -54,7 +54,7 @@ public:
         }
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return vdtor_4457D0(flags);
     }
@@ -65,7 +65,7 @@ public:
     }
 
 private:
-    GrenadeMachineNozzle* vdtor_4457D0(signed int flags)
+    GrenadeMachineNozzle* vdtor_4457D0(s32 flags)
     {
         BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
         if (flags & 1)
@@ -209,7 +209,7 @@ BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* BoomMachine::VDestructor(signed int flags)
+BaseGameObject* BoomMachine::VDestructor(s32 flags)
 {
     return vdtor_445E10(flags);
 }
@@ -306,7 +306,7 @@ void BoomMachine::dtor_445E40()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-BoomMachine* BoomMachine::vdtor_445E10(signed int flags)
+BoomMachine* BoomMachine::vdtor_445E10(s32 flags)
 {
     dtor_445E40();
     if (flags & 1)

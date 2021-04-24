@@ -56,12 +56,12 @@ BaseGameObject* Alarm::dtor_402630()
     return dtor_461630();
 }
 
-BaseGameObject* Alarm::VDestructor(signed int flags)
+BaseGameObject* Alarm::VDestructor(s32 flags)
 {
     return Vdtor_402830(flags);
 }
 
-Alarm* Alarm::Vdtor_402830(signed int flags)
+Alarm* Alarm::Vdtor_402830(s32 flags)
 {
     dtor_402630();
     if (flags & 1)

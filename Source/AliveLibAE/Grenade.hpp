@@ -58,7 +58,7 @@ class Grenade : public BaseThrowable
 public:
     EXPORT Grenade* ctor_447F70(FP xpos, FP ypos, s16 numGrenades, s16 a5, s16 a6, BaseGameObject* pOwner);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VScreenChanged() override;
 
@@ -105,7 +105,7 @@ private:
 
     EXPORT void dtor_448220();
 
-    EXPORT Grenade* vdtor_4480E0(signed int flags);
+    EXPORT Grenade* vdtor_4480E0(s32 flags);
 
     EXPORT s16 TimeToBlowUp_448350();
 

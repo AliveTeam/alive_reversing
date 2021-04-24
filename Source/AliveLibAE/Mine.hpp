@@ -29,7 +29,7 @@ enum Mine_Flags_1BC
 class Mine : public BaseAliveGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -39,7 +39,7 @@ public:
 
     EXPORT Mine* ctor_46B120(Path_Mine *pPath, TlvItemInfoUnion tlv);
 private:
-    EXPORT Mine* vdtor_46B4C0(signed int flags);
+    EXPORT Mine* vdtor_46B4C0(s32 flags);
     EXPORT void dtor_46B4F0();
     EXPORT void Update_46B5D0();
     EXPORT void Render_46B7A0(PrimHeader** ppOt);

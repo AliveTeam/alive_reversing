@@ -168,12 +168,12 @@ void MotionDetector::VScreenChanged_438520()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-BaseGameObject* MotionDetector::VDestructor(signed int flags)
+BaseGameObject* MotionDetector::VDestructor(s32 flags)
 {
     return Vdtor_438530(flags);
 }
 
-MotionDetector* MotionDetector::Vdtor_438530(signed int flags)
+MotionDetector* MotionDetector::Vdtor_438530(s32 flags)
 {
     dtor_437D70();
     if (flags & 1)
@@ -387,7 +387,7 @@ void MotionDetector::VRender_438250(PrimHeader** ppOt)
     }
 }
 
-BaseGameObject* MotionDetectorLaser::VDestructor(signed int flags)
+BaseGameObject* MotionDetectorLaser::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

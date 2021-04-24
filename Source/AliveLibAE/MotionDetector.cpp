@@ -31,12 +31,12 @@ MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale
     return this;
 }
 
-BaseGameObject* MotionDetectorLaser::VDestructor(signed int flags)
+BaseGameObject* MotionDetectorLaser::VDestructor(s32 flags)
 {
     return vdtor_468360(flags);
 }
 
-MotionDetectorLaser* MotionDetectorLaser::vdtor_468360(signed int flags)
+MotionDetectorLaser* MotionDetectorLaser::vdtor_468360(s32 flags)
 {
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
@@ -186,7 +186,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
 }
 
 
-BaseGameObject* MotionDetector::VDestructor(signed int flags)
+BaseGameObject* MotionDetector::VDestructor(s32 flags)
 {
     return vdtor_468850(flags);
 }
@@ -206,7 +206,7 @@ void MotionDetector::VScreenChanged()
     vScreenChanged_469460();
 }
 
-MotionDetector* MotionDetector::vdtor_468850(signed int flags)
+MotionDetector* MotionDetector::vdtor_468850(s32 flags)
 {
     dtor_468880();
     if (flags & 1)

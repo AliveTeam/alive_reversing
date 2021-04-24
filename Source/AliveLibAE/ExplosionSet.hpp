@@ -25,7 +25,7 @@ class ExplosionSet : public BaseGameObject
 public:
     EXPORT ExplosionSet* ctor_414CA0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
@@ -36,7 +36,7 @@ public:
 
 
 private:
-    EXPORT ExplosionSet* vdtor_414D80(signed int flags);
+    EXPORT ExplosionSet* vdtor_414D80(s32 flags);
 
     EXPORT void dtor_414DB0();
 

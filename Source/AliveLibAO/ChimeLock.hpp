@@ -23,13 +23,13 @@ ALIVE_ASSERT_SIZEOF(Path_ChimeLock, 0x24);
 class ChimeLock : public BaseAliveGameObject
 {
 public:
-    EXPORT ChimeLock* ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo);
+    EXPORT ChimeLock* ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_40AE60();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT ChimeLock* Vdtor_40BD40(signed int flags);
+    EXPORT ChimeLock* Vdtor_40BD40(s32 flags);
 
     virtual void VScreenChanged() override;
 

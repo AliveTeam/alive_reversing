@@ -10,11 +10,11 @@ class Teleporter : public BaseGameObject
 {
 public:
     EXPORT Teleporter* ctor_4DC1E0(Path_Teleporter* pTlv, DWORD tlvInfo);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 private:
-    EXPORT Teleporter* vdtor_4DC350(signed int flags);
+    EXPORT Teleporter* vdtor_4DC350(s32 flags);
     EXPORT void dtor_4DC380();
     EXPORT void vScreenChanged_4DCE80();
     EXPORT void vUpdate_4DC400();

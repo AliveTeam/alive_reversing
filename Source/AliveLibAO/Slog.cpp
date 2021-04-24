@@ -196,12 +196,12 @@ Slog* Slog::ctor_473050(FP xpos, FP ypos, FP scale)
     return this;
 }
 
-BaseGameObject* Slog::VDestructor(signed int flags)
+BaseGameObject* Slog::VDestructor(s32 flags)
 {
     return Vdtor_473CB0(flags);
 }
 
-Slog* Slog::Vdtor_473CB0(signed int flags)
+Slog* Slog::Vdtor_473CB0(s32 flags)
 {
     dtor_473370();
     if (flags & 1)

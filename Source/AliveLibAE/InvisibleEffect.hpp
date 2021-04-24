@@ -35,9 +35,9 @@ public:
     EXPORT void ClearInvisibility_45FA50();
     EXPORT void BecomeInvisible_45F9E0();
     EXPORT void vUpdate_45F4A0();
-    EXPORT BaseGameObject* vdtor_45F3E0(signed int flags);
+    EXPORT BaseGameObject* vdtor_45F3E0(s32 flags);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

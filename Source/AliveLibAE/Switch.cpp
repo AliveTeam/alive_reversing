@@ -31,7 +31,7 @@ const TintEntry kSwitchTints_563228[18] =
     { 0, 0u, 0u, 0u }
 };
 
-BaseGameObject* Switch::VDestructor(signed int flags)
+BaseGameObject* Switch::VDestructor(s32 flags)
 {
     return vdtor_4D5AD0(flags);
 }
@@ -128,7 +128,7 @@ void Switch::dtor_4D5B00()
     //Switch::dtor_4D5840(); // Omitted interface base nop.
 }
 
-Switch* Switch::vdtor_4D5AD0(signed int flags)
+Switch* Switch::vdtor_4D5AD0(s32 flags)
 {
     dtor_4D5B00();
     if (flags & 1)

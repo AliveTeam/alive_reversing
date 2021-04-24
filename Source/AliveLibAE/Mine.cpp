@@ -34,7 +34,7 @@ void Mine::VRender(PrimHeader** ppOt)
     Render_46B7A0(ppOt);
 }
 
-BaseGameObject* Mine::VDestructor(signed int flags)
+BaseGameObject* Mine::VDestructor(s32 flags)
 {
     return vdtor_46B4C0(flags);
 }
@@ -159,7 +159,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     return this;
 }
 
-Mine* Mine::vdtor_46B4C0(signed int flags)
+Mine* Mine::vdtor_46B4C0(s32 flags)
 {
     dtor_46B4F0();
     if (flags & 1)

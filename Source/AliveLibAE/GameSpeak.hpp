@@ -79,7 +79,7 @@ enum class GameSpeakMatch : s16
 class GameSpeak : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -95,7 +95,7 @@ public:
 
 private:
     EXPORT void dtor_4218A0();
-    EXPORT BaseGameObject* vdtor_421870(signed int flags);
+    EXPORT BaseGameObject* vdtor_421870(s32 flags);
 
 private:
     EXPORT void Update_421920();

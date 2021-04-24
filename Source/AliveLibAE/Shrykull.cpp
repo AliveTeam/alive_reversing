@@ -46,7 +46,7 @@ Shrykull* Shrykull::ctor_4AEA20()
     return this;
 }
 
-BaseGameObject* Shrykull::VDestructor(signed int flags)
+BaseGameObject* Shrykull::VDestructor(s32 flags)
 {
     return vdtor_4AEB90(flags);
 }
@@ -76,7 +76,7 @@ void Shrykull::dtor_4AEBC0()
     dtor_4080B0();
 }
 
-Shrykull* Shrykull::vdtor_4AEB90(signed int flags)
+Shrykull* Shrykull::vdtor_4AEB90(s32 flags)
 {
     dtor_4AEBC0();
     if (flags & 1)

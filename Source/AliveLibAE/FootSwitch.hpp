@@ -36,12 +36,12 @@ class FootSwitch : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT FootSwitch* ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT FootSwitch* vdtor_4DE240(signed int flags);
+    EXPORT FootSwitch* vdtor_4DE240(s32 flags);
     EXPORT void dtor_4DE670();
     EXPORT void vScreenChanged_4DE650();
     EXPORT void vUpdate_4DE270();

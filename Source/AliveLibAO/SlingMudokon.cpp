@@ -147,12 +147,12 @@ BaseGameObject* SlingMudokon::dtor_46FB30()
     return dtor_401000();
 }
 
-BaseGameObject* SlingMudokon::VDestructor(signed int flags)
+BaseGameObject* SlingMudokon::VDestructor(s32 flags)
 {
     return Vdtor_470F30(flags);
 }
 
-BaseGameObject* SlingMudokon::Vdtor_470F30(signed int flags)
+BaseGameObject* SlingMudokon::Vdtor_470F30(s32 flags)
 {
     dtor_46FB30();
     if (flags & 1)

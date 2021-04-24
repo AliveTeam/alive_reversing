@@ -494,7 +494,7 @@ namespace AETest::TestsCollision
         c.field_4_current_item_count = 1;
         c.field_C_max_count = 1;
 
-        signed int ret = c.Raycast_Impl(x1, y1, x2, y2, &line, &x, &y, 0xF);
+        s32 ret = c.Raycast_Impl(x1, y1, x2, y2, &line, &x, &y, 0xF);
         ASSERT_EQ(TRUE, ret);
 
         FP expectedX = {};

@@ -51,12 +51,12 @@ void ScreenShake::VUpdate_4625B0()
     }
 }
 
-BaseGameObject* ScreenShake::VDestructor(signed int flags)
+BaseGameObject* ScreenShake::VDestructor(s32 flags)
 {
     return Vdtor_462770(flags);
 }
 
-ScreenShake* ScreenShake::Vdtor_462770(signed int flags)
+ScreenShake* ScreenShake::Vdtor_462770(s32 flags)
 {
     dtor_462550();
     if (flags & 1)

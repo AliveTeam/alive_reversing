@@ -48,21 +48,21 @@ public:
 
     EXPORT void MoveImage_40EB70();
 
-    EXPORT void InvalidateRect_40EC90(int x, int y, signed int width, signed int height, int idx);
-    EXPORT void InvalidateRect_40EC10(int x, int y, signed int width, signed int height);
-    EXPORT void InvalidateRect_Layer3_40EDB0(int x, int y, signed int width, signed int height);
-    EXPORT void InvalidateRect_40EC50(int x, int y, signed int width, signed int height, int idx);
+    EXPORT void InvalidateRect_40EC90(int x, int y, s32 width, s32 height, int idx);
+    EXPORT void InvalidateRect_40EC10(int x, int y, s32 width, s32 height);
+    EXPORT void InvalidateRect_Layer3_40EDB0(int x, int y, s32 width, s32 height);
+    EXPORT void InvalidateRect_40EC50(int x, int y, s32 width, s32 height, int idx);
 
     EXPORT s16 IsDirty_40EBC0(int idx, int x, int y);
     EXPORT void UnsetDirtyBits_40EDE0(int idx);
     EXPORT void UnsetDirtyBits_FG1_40ED70();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override {}
 
     void process_segment(WORD* aVlcBufferPtr, int xPos);
     void vlc_decode(WORD* aCamSeg, WORD* aDst);
-    void vlc_decoder(int aR, int aG, int aB, signed int aWidth, int aVramX, int aVramY);
+    void vlc_decoder(int aR, int aG, int aB, s32 aWidth, int aVramX, int aVramY);
     void write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddlib::BitsLogic& aG, const Oddlib::BitsLogic& aB, int aVramX, int aVramY);
 
     EXPORT void DecompressCameraToVRam_40EF60(WORD** ppBits);
@@ -72,7 +72,7 @@ public:
     EXPORT void Init_40E4B0(BYTE** ppBits);
 
     EXPORT void dtor_40E490();
-    EXPORT BaseGameObject* vdtor_40E460(signed int flags);
+    EXPORT BaseGameObject* vdtor_40E460(s32 flags);
     int next_bits();
 
     EXPORT static int CC GetTPage_40F040(TPageMode tp, TPageAbr abr, int* xpos, int* ypos);
@@ -111,7 +111,7 @@ public:
     int field_60_padding;
     DirtyBits field_64_20x16_dirty_bits[8];
 
-    signed int g_left7_array = 0;
+    s32 g_left7_array = 0;
     int g_right25_array = 0;
     u16* g_pointer_to_vlc_buffer = nullptr;
 };

@@ -6,7 +6,7 @@
 class CircularFade : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -22,7 +22,7 @@ private:
     EXPORT int vFadeIn_4CE300(s16 direction, char destroyOnDone); // TODO: Likely no return
     EXPORT int vDone_4CE0B0();
     EXPORT void dtor_4CE080();
-    EXPORT CircularFade* vdtor_4CE0D0(signed int flags);
+    EXPORT CircularFade* vdtor_4CE0D0(s32 flags);
 private:
     enum Flags
     {

@@ -6,7 +6,7 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* WheelSyncer::VDestructor(signed int flags)
+BaseGameObject* WheelSyncer::VDestructor(s32 flags)
 {
     return vdtor_466120(flags);
 }
@@ -109,7 +109,7 @@ void WheelSyncer::vUpdate_4661D0()
     }
 }
 
-WheelSyncer* WheelSyncer::vdtor_466120(signed int flags)
+WheelSyncer* WheelSyncer::vdtor_466120(s32 flags)
 {
     dtor_466150();
     if (flags & 1)

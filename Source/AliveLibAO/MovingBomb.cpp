@@ -176,12 +176,12 @@ BaseGameObject* MovingBomb::dtor_43B2C0()
     return dtor_401000();
 }
 
-BaseGameObject* MovingBomb::VDestructor(signed int flags)
+BaseGameObject* MovingBomb::VDestructor(s32 flags)
 {
     return Vdtor_43BCC0(flags);
 }
 
-BaseGameObject* MovingBomb::Vdtor_43BCC0(signed int flags)
+BaseGameObject* MovingBomb::Vdtor_43BCC0(s32 flags)
 {
     dtor_43B2C0();
     if (flags & 1)

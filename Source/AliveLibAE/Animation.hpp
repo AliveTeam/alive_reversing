@@ -121,7 +121,7 @@ public:
     bool EnsureDecompressionBuffer();
     void DecompressFrame();
 
-    EXPORT virtual void vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, signed int height) override;
+    EXPORT virtual void vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, s32 height) override;
     EXPORT virtual void vCleanUp_40C630() override;
 
     EXPORT void vDecode2_40B200();
@@ -155,7 +155,7 @@ public:
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(s16 frame);
     EXPORT void Get_Frame_Rect_409E10(PSX_RECT *pRect);
     EXPORT WORD Get_Frame_Count_40AC70();
-    EXPORT s16 Init_40A030(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 unknown1, signed int pal_depth, char unknown3);
+    EXPORT s16 Init_40A030(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 unknown1, s32 pal_depth, char unknown3);
     EXPORT void Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY);
     EXPORT void Get_Frame_Width_Height_40C400(s16* pWidth, s16* pHeight);
 

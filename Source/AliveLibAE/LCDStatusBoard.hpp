@@ -17,14 +17,14 @@ struct Path_LCDStatusBoard : public Path_TLV
 class LCDStatusBoard : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
     EXPORT LCDStatusBoard* ctor_47B600(Path_LCDStatusBoard* params, TlvItemInfoUnion a3);
     EXPORT void dtor_47B7E0();
-    EXPORT BaseGameObject* vdtor_47B7B0(signed int flags);
+    EXPORT BaseGameObject* vdtor_47B7B0(s32 flags);
     EXPORT void vUpdate_47B8D0();
     EXPORT void vRender_47B900(PrimHeader** ppOt);
     EXPORT void vScreenChanged_47BC40();

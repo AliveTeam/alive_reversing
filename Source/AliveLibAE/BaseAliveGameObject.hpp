@@ -37,10 +37,10 @@ public:
     EXPORT BaseAliveGameObject* ctor_408240(short resourceArraySize);
     EXPORT void dtor_4080B0();
 
-    BaseGameObject* vdtor_408210(signed int flags);
+    BaseGameObject* vdtor_408210(s32 flags);
 
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUnPosses_408F90();
     virtual void VPossessed_408F70();

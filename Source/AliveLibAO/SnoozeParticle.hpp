@@ -27,9 +27,9 @@ public:
 
     EXPORT BaseGameObject* dtor_4644A0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT SnoozeParticle* Vdtor_464CE0(signed int flags);
+    EXPORT SnoozeParticle* Vdtor_464CE0(s32 flags);
 
     virtual void VUpdate() override;
 

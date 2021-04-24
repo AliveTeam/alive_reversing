@@ -37,7 +37,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
 class TrapDoor : public PlatformBase
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -48,10 +48,10 @@ public:
     virtual void VRemove(BaseAliveGameObject* pObj) override;
 
     EXPORT TrapDoor* ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvInfo);
-    EXPORT static signed int CC CreateFromSaveState_4DDED0(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_4DDED0(const BYTE* pData);
 
 private:
-    EXPORT BaseGameObject* vdtor_4DD8A0(signed int flags);
+    EXPORT BaseGameObject* vdtor_4DD8A0(s32 flags);
     EXPORT void vUpdate_4DDA90();
     EXPORT void vRender_4DDDD0(PrimHeader** ppOt);
     EXPORT void vScreenChanged_4DDE40();

@@ -18,12 +18,12 @@ Flash* Flash::ctor_41A810(Layer layer, u8 r, u8 g, u8 b, int /*not_used*/, TPage
     return this;
 }
 
-BaseGameObject* Flash::VDestructor(signed int flags)
+BaseGameObject* Flash::VDestructor(s32 flags)
 {
     return Vdtor_41A890(flags);
 }
 
-BaseGameObject* Flash::Vdtor_41A890(signed int flags)
+BaseGameObject* Flash::Vdtor_41A890(s32 flags)
 {
     dtor_461630();
     if (flags & 1)

@@ -30,9 +30,9 @@ public:
 
     EXPORT BaseGameObject* dtor_4882A0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT TrapDoor* Vdtor_4887D0(signed int flags);
+    EXPORT TrapDoor* Vdtor_4887D0(s32 flags);
 
      virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, int pointIdx) override;
 

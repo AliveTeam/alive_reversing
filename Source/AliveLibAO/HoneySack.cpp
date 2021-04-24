@@ -109,12 +109,12 @@ BaseGameObject* HoneySack::dtor_42BF20()
     return dtor_417D10();
 }
 
-BaseGameObject* HoneySack::VDestructor(signed int flags)
+BaseGameObject* HoneySack::VDestructor(s32 flags)
 {
     return Vdtor_42C3B0(flags);
 }
 
-HoneySack* HoneySack::Vdtor_42C3B0(signed int flags)
+HoneySack* HoneySack::Vdtor_42C3B0(s32 flags)
 {
     dtor_42BF20();
     if (flags & 1)

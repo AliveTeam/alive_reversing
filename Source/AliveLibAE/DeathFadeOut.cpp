@@ -5,7 +5,7 @@
 
 ALIVE_VAR(1, 0x5bc204, int, sIsFadingOut_5BC204, 0);
 
-BaseGameObject* DeathFadeOut::VDestructor(signed int flags)
+BaseGameObject* DeathFadeOut::VDestructor(s32 flags)
 {
     return vdtor_4270F0(flags);
 }
@@ -82,7 +82,7 @@ void DeathFadeOut::dtor_427120()
     dtor_4AB8F0();
 }
 
-DeathFadeOut* DeathFadeOut::vdtor_4270F0(signed int flags)
+DeathFadeOut* DeathFadeOut::vdtor_4270F0(s32 flags)
 {
     dtor_427120();
     if (flags & 1)

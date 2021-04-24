@@ -19,9 +19,9 @@ public:
     virtual void VStopAudio() override;
 
     EXPORT void VStopAudio_41D8D0();
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT GasEmitter* Vdtor_41D910(signed int flags);
+    EXPORT GasEmitter* Vdtor_41D910(s32 flags);
 
     virtual void VScreenChanged() override;
 

@@ -37,7 +37,7 @@ SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, int tlvI
     return this;
 }
 
-BaseGameObject* SligGetPantsAndWings::VDestructor(signed int flags)
+BaseGameObject* SligGetPantsAndWings::VDestructor(s32 flags)
 {
     return vdtor_465D10(flags);
 }
@@ -91,7 +91,7 @@ void SligGetPantsAndWings::vUpdate_465DD0()
     }
 }
 
-SligGetPantsAndWings* SligGetPantsAndWings::vdtor_465D10(signed int flags)
+SligGetPantsAndWings* SligGetPantsAndWings::vdtor_465D10(s32 flags)
 {
     dtor_465D40();
     if (flags & 1)

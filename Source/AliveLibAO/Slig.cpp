@@ -472,12 +472,12 @@ BaseGameObject* Slig::dtor_465320()
     return dtor_401000(); // Note: Empty dtor skipped
 }
 
-BaseGameObject* Slig::VDestructor(signed int flags)
+BaseGameObject* Slig::VDestructor(s32 flags)
 {
     return Vdtor_465DC0(flags);
 }
 
-Slig* Slig::Vdtor_465DC0(signed int flags)
+Slig* Slig::Vdtor_465DC0(s32 flags)
 {
     dtor_465320();
     if (flags & 1)

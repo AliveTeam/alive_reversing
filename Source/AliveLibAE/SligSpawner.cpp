@@ -50,7 +50,7 @@ void SligSpawner::dtor_409A70()
     BaseGameObject_dtor_4DBEC0();
 }
 
-SligSpawner* SligSpawner::vdtor_409800(signed int flags)
+SligSpawner* SligSpawner::vdtor_409800(s32 flags)
 {
     dtor_409A70();
     if (flags & 1)
@@ -169,7 +169,7 @@ int CC SligSpawner::CreateFromSaveState_409B10(const BYTE* pBuffer)
     return sizeof(Slig_Spawner_State);
 }
 
-BaseGameObject* SligSpawner::VDestructor(signed int flags)
+BaseGameObject* SligSpawner::VDestructor(s32 flags)
 {
     return vdtor_409800(flags);
 }

@@ -27,7 +27,7 @@ void PossessionFlicker::VScreenChanged()
     VScreenChanged_41AA40();
 }
 
-PossessionFlicker* PossessionFlicker::vdtor_41AA70(signed int flags)
+PossessionFlicker* PossessionFlicker::vdtor_41AA70(s32 flags)
 {
     dtor_41A940();
     if (flags & 1)
@@ -37,7 +37,7 @@ PossessionFlicker* PossessionFlicker::vdtor_41AA70(signed int flags)
     return this;
 }
 
-BaseGameObject* PossessionFlicker::VDestructor(signed int flags)
+BaseGameObject* PossessionFlicker::VDestructor(s32 flags)
 {
     return vdtor_41AA70(flags);
 }

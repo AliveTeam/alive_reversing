@@ -82,13 +82,13 @@ public:
 
     EXPORT BaseGameObject* dtor_45BA50();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT void VRender_45BBF0(PrimHeader** ppOt);
 
-    EXPORT Scrab* Vdtor_45C310(signed int flags);
+    EXPORT Scrab* Vdtor_45C310(s32 flags);
 
     virtual void VUpdate() override;
 

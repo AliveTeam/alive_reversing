@@ -7,7 +7,7 @@
 #include "DDCheat.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* StatusLight::VDestructor(signed int flags)
+BaseGameObject* StatusLight::VDestructor(s32 flags)
 {
     return vdtor_4D5500(flags);
 }
@@ -145,7 +145,7 @@ void StatusLight::vUpdate_4D5530()
     }
 }
 
-StatusLight* StatusLight::vdtor_4D5500(signed int flags)
+StatusLight* StatusLight::vdtor_4D5500(s32 flags)
 {
     dtor_4D5790();
     if (flags & 1)

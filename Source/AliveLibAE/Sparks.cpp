@@ -33,7 +33,7 @@ Sparks* Sparks::ctor_416390(FP xpos, FP ypos, FP scale)
     return this;
 }
 
-BaseGameObject* Sparks::VDestructor(signed int flags)
+BaseGameObject* Sparks::VDestructor(s32 flags)
 {
     return vdtor_416520(flags);
 }
@@ -89,7 +89,7 @@ void Sparks::dtor_416550()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Sparks* Sparks::vdtor_416520(signed int flags)
+Sparks* Sparks::vdtor_416520(s32 flags)
 {
     dtor_416550();
     if (flags & 1)

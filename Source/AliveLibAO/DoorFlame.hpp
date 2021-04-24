@@ -33,11 +33,11 @@ public:
 
     EXPORT void VStopAudio_432B60();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     EXPORT BaseGameObject* dtor_432AA0();
 
-    EXPORT DoorFlame* Vdtor_432DF0(signed int flags);
+    EXPORT DoorFlame* Vdtor_432DF0(s32 flags);
 
     virtual void VUpdate() override;
 

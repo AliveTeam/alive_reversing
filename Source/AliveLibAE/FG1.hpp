@@ -25,14 +25,14 @@ class FG1 : public BaseGameObject
 public:
     EXPORT FG1* ctor_499FC0(BYTE** pFg1Res);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override { }
     virtual void VScreenChanged() override;
 
     EXPORT void vScreenChanged_49A520();
     EXPORT void vRender_49A3C0(PrimHeader** ppOt);
-    EXPORT BaseGameObject* vdtor_49A1E0(signed int flags);
+    EXPORT BaseGameObject* vdtor_49A1E0(s32 flags);
     EXPORT void dtor_49A540();
     EXPORT s16 Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 

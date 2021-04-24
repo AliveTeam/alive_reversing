@@ -13,11 +13,11 @@ class RollingBallShaker : public BaseGameObject
 public:
     EXPORT RollingBallShaker* ctor_4361A0();
     EXPORT BaseGameObject* dtor_436200();
-    EXPORT RollingBallShaker* Vdtor_436350(signed int flags);
+    EXPORT RollingBallShaker* Vdtor_436350(s32 flags);
     EXPORT void VUpdate_436260();
     EXPORT void VRender_436280(PrimHeader** ppOt);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 

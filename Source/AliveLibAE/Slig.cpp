@@ -514,7 +514,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* Slig::VDestructor(signed int flags)
+BaseGameObject* Slig::VDestructor(s32 flags)
 {
     return vdtor_4B1790(flags);
 }
@@ -4935,7 +4935,7 @@ void Slig::dtor_4B1CF0()
     dtor_4080B0();
 }
 
-Slig* Slig::vdtor_4B1790(signed int flags)
+Slig* Slig::vdtor_4B1790(s32 flags)
 {
     dtor_4B1CF0();
     if (flags & 1)

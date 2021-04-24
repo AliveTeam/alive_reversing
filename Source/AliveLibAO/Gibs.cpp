@@ -331,7 +331,7 @@ void Gibs::VRender_408200(PrimHeader** ppOt)
     }
 }
 
-BaseGameObject* Gibs::VDestructor(signed int flags)
+BaseGameObject* Gibs::VDestructor(s32 flags)
 {
     return Vdtor_4083D0(flags);
 }

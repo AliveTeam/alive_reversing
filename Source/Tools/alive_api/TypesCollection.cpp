@@ -14,7 +14,7 @@ TypesCollection::TypesCollection(Game gameType)
     ADD_BASIC_TYPE("UInt16", unsigned short);
     ADD_BASIC_TYPE("Uint32", u32);
     ADD_BASIC_TYPE("SInt16", signed short);
-    ADD_BASIC_TYPE("SInt32", signed int);
+    ADD_BASIC_TYPE("SInt32", s32);
 
     #undef ADD_BASIC_TYPE
 

@@ -55,7 +55,7 @@ NakedSligButton* NakedSligButton::ctor_4148F0(Path_NakedSligButton* pTlv, int tl
     return this;
 }
 
-BaseGameObject* NakedSligButton::VDestructor(signed int flags)
+BaseGameObject* NakedSligButton::VDestructor(s32 flags)
 {
     return vdtor_414A60(flags);
 }
@@ -74,7 +74,7 @@ void NakedSligButton::UseButton_414C60()
     }
 }
 
-NakedSligButton* NakedSligButton::vdtor_414A60(signed int flags)
+NakedSligButton* NakedSligButton::vdtor_414A60(s32 flags)
 {
     dtor_414A90();
     if (flags & 1)

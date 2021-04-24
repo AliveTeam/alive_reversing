@@ -39,9 +39,9 @@ public:
 
     EXPORT BaseGameObject* dtor_46FB30();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT BaseGameObject* Vdtor_470F30(signed int flags);
+    EXPORT BaseGameObject* Vdtor_470F30(s32 flags);
 
     virtual void VScreenChanged() override;
 

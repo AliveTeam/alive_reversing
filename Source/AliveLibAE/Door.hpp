@@ -57,14 +57,14 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
 private:
 
     EXPORT void vScreenChange_41F080();
-    EXPORT Door* vdtor_41E9D0(signed int flags);
+    EXPORT Door* vdtor_41E9D0(s32 flags);
     EXPORT void vUpdate_41EBE0();
 
 
@@ -100,12 +100,12 @@ class TrainDoor : public Door
 public:
     EXPORT TrainDoor* ctor_4DD090(Path_TrainDoor* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
 private:
-    EXPORT TrainDoor* vdtor_4DD1D0(signed int flags);
+    EXPORT TrainDoor* vdtor_4DD1D0(s32 flags);
 
     EXPORT void dtor_4DD200();
 

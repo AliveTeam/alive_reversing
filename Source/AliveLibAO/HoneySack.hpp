@@ -20,11 +20,11 @@ class HoneySack : public BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT HoneySack* ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     
     BaseGameObject* dtor_42BF20();
 
-    EXPORT HoneySack* Vdtor_42C3B0(signed int flags);
+    EXPORT HoneySack* Vdtor_42C3B0(s32 flags);
 
     virtual void VScreenChanged() override;
 

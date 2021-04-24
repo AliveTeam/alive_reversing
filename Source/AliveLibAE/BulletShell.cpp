@@ -60,7 +60,7 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, s16 direction, FP scale)
     return this;
 }
 
-BaseGameObject* BulletShell::VDestructor(signed int flags)
+BaseGameObject* BulletShell::VDestructor(s32 flags)
 {
     return vdtor_4AD4F0(flags);
 }
@@ -70,7 +70,7 @@ void BulletShell::VUpdate()
     vUpdate_4AD550();
 }
 
-BulletShell* BulletShell::vdtor_4AD4F0(signed int flags)
+BulletShell* BulletShell::vdtor_4AD4F0(s32 flags)
 {
     dtor_4AD520();
     if (flags & 1)

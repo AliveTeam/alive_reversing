@@ -122,7 +122,7 @@ void SnoozeParticle::dtor_4B0900()
     BaseGameObject_dtor_4DBEC0();
 }
 
-SnoozeParticle* SnoozeParticle::vdtor_4B08D0(signed int flags)
+SnoozeParticle* SnoozeParticle::vdtor_4B08D0(s32 flags)
 {
     dtor_4B0900();
     if (flags & 1)

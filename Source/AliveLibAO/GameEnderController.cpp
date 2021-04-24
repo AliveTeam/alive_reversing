@@ -38,12 +38,12 @@ BaseGameObject* GameEnderController::dtor_41C850()
     return dtor_487DF0();
 }
 
-BaseGameObject* GameEnderController::VDestructor(signed int flags)
+BaseGameObject* GameEnderController::VDestructor(s32 flags)
 {
     return Vdtor_41CD00(flags);
 }
 
-GameEnderController* GameEnderController::Vdtor_41CD00(signed int flags)
+GameEnderController* GameEnderController::Vdtor_41CD00(s32 flags)
 {
     dtor_41C850();
     if (flags & 1)

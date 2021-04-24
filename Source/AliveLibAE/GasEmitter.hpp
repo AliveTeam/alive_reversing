@@ -25,14 +25,14 @@ class GasEmitter : public BaseGameObject
 public:
     EXPORT GasEmitter* ctor_43CAA0(Path_GasEmitter* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
 
 private:
     EXPORT void dtor_43CD20();
-    EXPORT GasEmitter* vdtor_43CB40(signed int flags);
+    EXPORT GasEmitter* vdtor_43CB40(s32 flags);
     EXPORT void vStopAudio_43CDE0();
     EXPORT void vScreenChanged_43CE20();
     EXPORT void vUpdate_43CB70();

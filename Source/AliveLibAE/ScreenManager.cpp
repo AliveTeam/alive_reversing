@@ -33,7 +33,7 @@ void ScreenManager::MoveImage_40EB70()
     PSX_MoveImage_4F5D50(&rect, 0, 0);
 }
 
-BaseGameObject* ScreenManager::VDestructor(signed int flags)
+BaseGameObject* ScreenManager::VDestructor(s32 flags)
 {
     return vdtor_40E460(flags);
 }
@@ -43,7 +43,7 @@ void ScreenManager::dtor_40E490()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* ScreenManager::vdtor_40E460(signed int flags)
+BaseGameObject* ScreenManager::vdtor_40E460(s32 flags)
 {
     dtor_40E490();
     if (flags & 1)
@@ -53,7 +53,7 @@ BaseGameObject* ScreenManager::vdtor_40E460(signed int flags)
     return this;
 }
 
-void ScreenManager::InvalidateRect_40EC90(int x, int y, signed int width, signed int height, int idx)
+void ScreenManager::InvalidateRect_40EC90(int x, int y, s32 width, s32 height, int idx)
 {
     x = std::max(x, 0);
     y = std::max(y, 0);
@@ -70,12 +70,12 @@ void ScreenManager::InvalidateRect_40EC90(int x, int y, signed int width, signed
     }
 }
 
-void ScreenManager::InvalidateRect_Layer3_40EDB0(int x, int y, signed int width, signed int height)
+void ScreenManager::InvalidateRect_Layer3_40EDB0(int x, int y, s32 width, s32 height)
 {
     InvalidateRect_40EC90(x, y, width, height, 3);
 }
 
-void ScreenManager::InvalidateRect_40EC50(int x, int y, signed int width, signed int height, int idx)
+void ScreenManager::InvalidateRect_40EC50(int x, int y, s32 width, s32 height, int idx)
 {
     InvalidateRect_40EC90(x, y, width, height, idx + 4);
 }
@@ -98,7 +98,7 @@ void ScreenManager::UnsetDirtyBits_FG1_40ED70()
     UnsetDirtyBits_40EDE0(4);
 }
 
-void ScreenManager::InvalidateRect_40EC10(int x, int y, signed int width, signed int height)
+void ScreenManager::InvalidateRect_40EC10(int x, int y, s32 width, s32 height)
 {
     InvalidateRect_40EC90(x, y, width, height, field_3A_idx);
 }
@@ -237,7 +237,7 @@ void ScreenManager::vlc_decode(WORD* aCamSeg, WORD* aDst)
     u32 dstVlcWord = aCamSeg[camSrcPtrIndex + 1] | (aCamSeg[camSrcPtrIndex] << 16);
     camSrcPtrIndex += 2; // Skip the two words we just OR'ed
 
-    signed int totalBitsToShiftBy = 0;
+    s32 totalBitsToShiftBy = 0;
 
     for (;;)
     {
@@ -335,7 +335,7 @@ void ScreenManager::process_segment(WORD* aVlcBufferPtr, int xPos)
     }
 }
 
-void ScreenManager::vlc_decoder(int aR, int aG, int aB, signed int aWidth, int aVramX, int aVramY)
+void ScreenManager::vlc_decoder(int aR, int aG, int aB, s32 aWidth, int aVramX, int aVramY)
 {
     while (aWidth != 2) // Quad tree through 16, 8, 4, 2 sizes
     {

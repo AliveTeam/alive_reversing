@@ -231,7 +231,7 @@ BaseGameObject* UXB::dtor_4891B0()
     return dtor_401000();
 }
 
-BaseGameObject* UXB::Vdtor_489C70(signed int flags)
+BaseGameObject* UXB::Vdtor_489C70(s32 flags)
 {
     dtor_4891B0();
     if (flags & 1)
@@ -601,7 +601,7 @@ void UXB::VRender_4896C0(PrimHeader** ppOt)
     }
 }
 
-BaseGameObject* UXB::VDestructor(signed int flags)
+BaseGameObject* UXB::VDestructor(s32 flags)
 {
     return Vdtor_489C70(flags);
 }

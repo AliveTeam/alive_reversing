@@ -21,9 +21,9 @@ class Claw : public BaseAnimatedWithPhysicsGameObject
 public:
     void ctor();
 
-    BaseGameObject* VDestructor(signed int flags);
+    BaseGameObject* VDestructor(s32 flags);
 
-    BaseGameObject* Vdtor(signed int flags);
+    BaseGameObject* Vdtor(s32 flags);
 
 };
 
@@ -44,9 +44,9 @@ public:
 
     EXPORT BaseGameObject* dtor_418CE0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT SecurityClaw* Vdtor_419700(signed int flags);
+    EXPORT SecurityClaw* Vdtor_419700(s32 flags);
 
     virtual void VScreenChanged() override;
 

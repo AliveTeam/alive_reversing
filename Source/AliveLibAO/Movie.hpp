@@ -12,9 +12,9 @@ class Movie : public BaseGameObject
 public:
     EXPORT Movie* ctor_489C90(int id, int pos, char bUnknown, int flags, s16 volume);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT BaseGameObject* Vdtor_475FB0(signed int flags);
+    EXPORT BaseGameObject* Vdtor_475FB0(s32 flags);
 
     virtual void VScreenChanged() override;
 

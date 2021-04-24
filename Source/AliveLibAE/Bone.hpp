@@ -51,7 +51,7 @@ class Bone : public BaseThrowable
 {
 public:
     EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, s16 countId);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VThrow_49E460(FP velX, FP velY) override;
@@ -65,7 +65,7 @@ public:
     EXPORT static int CC CreateFromSaveState_412C10(const BYTE* pData);
 
 private:
-    EXPORT Bone* vdtor_411580(signed int flags);
+    EXPORT Bone* vdtor_411580(s32 flags);
     EXPORT void dtor_4115B0();
     EXPORT void AddToPlatform_412310();
     EXPORT void vThrow_411670(FP velX, FP velY);
@@ -107,13 +107,13 @@ class BoneBag : public BaseAliveGameObject
 {
 public:
     EXPORT BoneBag* ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
     EXPORT void vScreenChanged_412BF0();
-    EXPORT BoneBag* vdtor_4127C0(signed int flags);
+    EXPORT BoneBag* vdtor_4127C0(s32 flags);
     EXPORT void dtor_4127F0();
     EXPORT void vUpdate_412880();
 

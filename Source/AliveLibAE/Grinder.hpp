@@ -67,18 +67,18 @@ class Grinder : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT Grinder* ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
-    EXPORT static signed int CC CreateFromSaveState_421600(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_421600(const BYTE* pData);
 private:
     EXPORT void vUpdate_420C50();
     EXPORT void dtor_420B60();
-    EXPORT Grinder* vdtor_4206A0(signed int flags);
+    EXPORT Grinder* vdtor_4206A0(s32 flags);
     EXPORT void vScreenChanged_4214B0();
     EXPORT void vRender_4213D0(PrimHeader** ppOt);
     EXPORT void vStopAudio_4215C0();

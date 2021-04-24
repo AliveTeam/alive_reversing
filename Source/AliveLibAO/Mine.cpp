@@ -159,12 +159,12 @@ BaseGameObject* Mine::dtor_43A640()
     return dtor_401000();
 }
 
-BaseGameObject* Mine::VDestructor(signed int flags)
+BaseGameObject* Mine::VDestructor(s32 flags)
 {
     return Vdtor_43AD50(flags);
 }
 
-Mine* Mine::Vdtor_43AD50(signed int flags)
+Mine* Mine::Vdtor_43AD50(s32 flags)
 {
     dtor_43A640();
     if (flags & 1)

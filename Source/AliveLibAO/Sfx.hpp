@@ -145,6 +145,6 @@ EXPORT int CC SFX_Play_43AD70(u8 sfxId, int a2, BaseAnimatedWithPhysicsGameObjec
 
 EXPORT int CC SFX_Play_43ADE0(u8 sfxId, int leftVol, int rightVol, BaseAnimatedWithPhysicsGameObject* pObj);
 
-EXPORT int CC SFX_Play_43AED0(u8 sfxId, signed int volume, CameraPos direction);
+EXPORT int CC SFX_Play_43AED0(u8 sfxId, s32 volume, CameraPos direction);
 
 }

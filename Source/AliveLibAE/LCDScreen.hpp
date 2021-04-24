@@ -25,11 +25,11 @@ public:
     EXPORT void Render_460CB0(PrimHeader** ppOt);
     EXPORT void vSetDead_460F10();
     EXPORT void dtor_460920();
-    EXPORT BaseGameObject* vdtor_4608F0(signed int flags);
+    EXPORT BaseGameObject* vdtor_4608F0(s32 flags);
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
 
 public:

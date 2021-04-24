@@ -29,7 +29,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
     Render_410CD0(ppOt);
 }
 
-BaseGameObject* TimedMine::VDestructor(signed int flags)
+BaseGameObject* TimedMine::VDestructor(s32 flags)
 {
     return vdtor_4108B0(flags);
 }
@@ -298,7 +298,7 @@ void TimedMine::dtor_410970()
     dtor_4080B0();
 }
 
-TimedMine* TimedMine::vdtor_4108B0(signed int flags)
+TimedMine* TimedMine::vdtor_4108B0(s32 flags)
 {
     dtor_410970();
     if (flags & 1)
@@ -369,7 +369,7 @@ void TimedMine::vOnPickUpOrSlapped_410E30()
     if (field_118_armed != 1)
     {
         field_118_armed = 1;
-        if ((signed int)(field_11A_explode_timeout & 0xFFFC) >= 72)
+        if ((s32)(field_11A_explode_timeout & 0xFFFC) >= 72)
         {
             field_1C0_detonation_timer = 18;
         }

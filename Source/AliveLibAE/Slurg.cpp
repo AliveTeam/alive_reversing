@@ -121,7 +121,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
     return this;
 }
 
-BaseGameObject* Slurg::VDestructor(signed int flags)
+BaseGameObject* Slurg::VDestructor(s32 flags)
 {
     return vdtor_4C8760(flags);
 }
@@ -146,7 +146,7 @@ void Slurg::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_4C8C20(pTlv);
 }
 
-signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
+s32 CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
 {
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
     auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_24_tlvInfo));
@@ -186,7 +186,7 @@ signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
     return sizeof(Slurg_State);
 }
 
-Slurg* Slurg::vdtor_4C8760(signed int flags)
+Slurg* Slurg::vdtor_4C8760(s32 flags)
 {
     dtor_4C8A40();
 
@@ -379,7 +379,7 @@ void Slurg::vOn_TLV_Collision_4C8C20(Path_TLV* pTlv)
     }
 }
 
-signed int Slurg::vSaveState_4C8FC0(Slurg_State* pState)
+s32 Slurg::vSaveState_4C8FC0(Slurg_State* pState)
 {
     if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {

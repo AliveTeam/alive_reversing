@@ -84,7 +84,7 @@ EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, Triggered
     }
 }
 
-EXPORT BaseGameObject* MusicTrigger::vdtor_47FEE0(signed int flags)
+EXPORT BaseGameObject* MusicTrigger::vdtor_47FEE0(s32 flags)
 {
     dtor_4800C0();
     if (flags & 1)
@@ -155,7 +155,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
     }
 }
 
-BaseGameObject* MusicTrigger::VDestructor(signed int flags)
+BaseGameObject* MusicTrigger::VDestructor(s32 flags)
 {
     return vdtor_47FEE0(flags);
 }

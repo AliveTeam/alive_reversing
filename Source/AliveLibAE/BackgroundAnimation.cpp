@@ -5,7 +5,7 @@
 #include "Events.hpp"
 #include "DDCheat.hpp"
 
-BaseGameObject* BackgroundAnimation::VDestructor(signed int flags)
+BaseGameObject* BackgroundAnimation::VDestructor(s32 flags)
 {
     return vdtor_40D420(flags);
 }
@@ -99,7 +99,7 @@ void BackgroundAnimation::dtor_40D4C0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-BaseGameObject* BackgroundAnimation::vdtor_40D420(signed int flags)
+BaseGameObject* BackgroundAnimation::vdtor_40D420(s32 flags)
 {
     dtor_40D4C0();
     if (flags & 1)

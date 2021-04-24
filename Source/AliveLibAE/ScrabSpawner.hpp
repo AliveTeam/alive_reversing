@@ -28,12 +28,12 @@ public:
     EXPORT ScrabSpawner* ctor_4AB450(Path_ScrabSpawner* pTlv, int tlvInfo);
     EXPORT static int CC CreateFromSaveState_4ABEB0(const BYTE* pBuffer);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
 private:
-    EXPORT ScrabSpawner* vdtor_4AB4E0(signed int flags);
+    EXPORT ScrabSpawner* vdtor_4AB4E0(s32 flags);
     EXPORT void dtor_4AB720();
     EXPORT int vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState);
     EXPORT void vUpdate_4AB510();

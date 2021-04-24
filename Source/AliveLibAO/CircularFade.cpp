@@ -174,7 +174,7 @@ void CircularFade::VUpdate()
     VUpdate_47A030();
 }
 
-BaseGameObject* CircularFade::VDestructor(signed int flags)
+BaseGameObject* CircularFade::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

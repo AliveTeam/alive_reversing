@@ -21,13 +21,13 @@ struct Path_Hoist;
 class HoistRocksEffect : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     EXPORT HoistRocksEffect* ctor_45D270(Path_Hoist* pTlv, int tlvInfo);
 private:
-    EXPORT HoistRocksEffect* vdtor_45D430(signed int flags);
+    EXPORT HoistRocksEffect* vdtor_45D430(s32 flags);
     EXPORT void dtor_45D6D0();
     EXPORT void Update_45D460();
     EXPORT void Render_45D7B0(PrimHeader** ppOt);

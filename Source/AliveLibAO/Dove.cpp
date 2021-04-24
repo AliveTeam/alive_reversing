@@ -268,7 +268,7 @@ void Dove::VRender_40F960(PrimHeader** ppOt)
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 }
 
-BaseGameObject* Dove::VDestructor(signed int flags)
+BaseGameObject* Dove::VDestructor(s32 flags)
 {
     return Vdtor_40F970(flags);
 }

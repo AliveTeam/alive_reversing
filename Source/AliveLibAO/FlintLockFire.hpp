@@ -20,9 +20,9 @@ public:
 
     EXPORT BaseGameObject* dtor_41AE20();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT FlintLockFire* Vdtor_41B500(signed int flags);
+    EXPORT FlintLockFire* Vdtor_41B500(s32 flags);
 
     virtual void VStopAudio() override;
 

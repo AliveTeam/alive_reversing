@@ -108,7 +108,7 @@ void SlapLock::VUpdate()
     vUpdate_43DF90();
 }
 
-BaseGameObject* SlapLock::VDestructor(signed int flags)
+BaseGameObject* SlapLock::VDestructor(s32 flags)
 {
     return vdtor_43DED0(flags);
 }
@@ -158,7 +158,7 @@ int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
     return sizeof(SlapLock_State);
 }
 
-SlapLock* SlapLock::vdtor_43DED0(signed int flags)
+SlapLock* SlapLock::vdtor_43DED0(s32 flags)
 {
     dtor_43DF00();
     if (flags & 1)
@@ -189,7 +189,7 @@ void SlapLock::GiveInvisibility_43E880()
     }
 }
 
-signed int SlapLock::vGetSaveState_43EB30(SlapLock_State* pState)
+s32 SlapLock::vGetSaveState_43EB30(SlapLock_State* pState)
 {
     pState->field_0_type = AETypes::eLockedSoul_61;
     pState->field_2_render = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) & 1;

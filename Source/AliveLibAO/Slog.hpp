@@ -79,7 +79,7 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VUpdate() override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
 private:
     void VOnTrapDoorOpen_4740C0();
@@ -89,7 +89,7 @@ private:
     EXPORT void VUpdate_4739C0();
     EXPORT void VOn_Tlv_Collision_473970(Path_TLV* pTlv);
     EXPORT s16 VTakeDamage_473610(BaseGameObject* pFrom);
-    EXPORT Slog* Vdtor_473CB0(signed int flags);
+    EXPORT Slog* Vdtor_473CB0(s32 flags);
 
 public:
     void SetAnimFrame();

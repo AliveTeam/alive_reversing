@@ -416,7 +416,7 @@ void MainMenuFade::VRender_42A7A0(PrimHeader** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-BaseGameObject* MainMenuFade::VDestructor(signed int flags)
+BaseGameObject* MainMenuFade::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)
@@ -465,7 +465,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
     { -16,       0,         256, 1 },
 };
 
-BaseGameObject* MainMenuTransition::VDestructor(signed int flags)
+BaseGameObject* MainMenuTransition::VDestructor(s32 flags)
 {
     return Vdtor_4369F0(flags);
 }
@@ -561,7 +561,7 @@ BaseGameObject* MainMenuTransition::dtor_436500()
     return dtor_487DF0();
 }
 
-MainMenuTransition* MainMenuTransition::Vdtor_4369F0(signed int flags)
+MainMenuTransition* MainMenuTransition::Vdtor_4369F0(s32 flags)
 {
     dtor_436500();
     if (flags & 1)
@@ -642,7 +642,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         int v11 = Math_FixedPoint_Multiply_451040(v9, val1);
         int v12 = Math_FixedPoint_Multiply_451040(v10, val2) - v11;
         int v13 = Math_FixedPoint_Multiply_451040(op1, v8);
-        s16 x0 = field_23E_width + 640 * ((signed int)Math_FixedPoint_Multiply_451040(v12, v13) >> 16) / 368;
+        s16 x0 = field_23E_width + 640 * ((s32)Math_FixedPoint_Multiply_451040(v12, v13) >> 16) / 368;
         int v14 = Math_FixedPoint_Multiply_451040(v9, val2);
         int v15 = Math_FixedPoint_Multiply_451040(v10, val1) + v14;
         int v16 = Math_FixedPoint_Multiply_451040(op1, v8);
@@ -687,7 +687,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         int x1 = Math_FixedPoint_Multiply_451040(v36, val2) - v23;
         int v25 = Math_FixedPoint_Multiply_451040(op1, y1);
         // TODO: Use PsxToPCX
-        x1 = field_23E_width + 40 * ((signed int)Math_FixedPoint_Multiply_451040(x1, v25) >> 16) / 23; // LOWORD
+        x1 = field_23E_width + 40 * ((s32)Math_FixedPoint_Multiply_451040(x1, v25) >> 16) / 23; // LOWORD
         int v26 = Math_FixedPoint_Multiply_451040(v38, val2);
         int v27 = v26 + Math_FixedPoint_Multiply_451040(v36, val1);
         int v28 = Math_FixedPoint_Multiply_451040(op1, y1);
@@ -878,12 +878,12 @@ BaseGameObject* Menu::dtor_47AAB0()
     return dtor_417D10();
 }
 
-BaseGameObject* Menu::VDestructor(signed int flags)
+BaseGameObject* Menu::VDestructor(s32 flags)
 {
     return Vdtor_47FC40(flags);
 }
 
-Menu* Menu::Vdtor_47FC40(signed int flags)
+Menu* Menu::Vdtor_47FC40(s32 flags)
 {
     dtor_47AAB0();
     if (flags & 1)

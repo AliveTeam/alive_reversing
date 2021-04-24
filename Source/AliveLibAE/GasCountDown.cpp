@@ -101,7 +101,7 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* GasCountDown::VDestructor(signed int flags)
+BaseGameObject* GasCountDown::VDestructor(s32 flags)
 {
     return vdtor_4171F0(flags);
 }
@@ -131,7 +131,7 @@ void GasCountDown::dtor_417220()
     BaseGameObject_dtor_4DBEC0();
 }
 
-GasCountDown* GasCountDown::vdtor_4171F0(signed int flags)
+GasCountDown* GasCountDown::vdtor_4171F0(s32 flags)
 {
     dtor_417220();
     if (flags & 1)

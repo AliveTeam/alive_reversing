@@ -28,7 +28,7 @@ class TimedMine : public BaseAliveGameObject
 public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
@@ -41,7 +41,7 @@ private:
     EXPORT void InitBlinkAnimation_4108E0(Animation* pAnimation);
     EXPORT void StickToLiftPoint_411100();
     EXPORT void dtor_410970();
-    EXPORT TimedMine* vdtor_4108B0(signed int flags);
+    EXPORT TimedMine* vdtor_4108B0(s32 flags);
     EXPORT void vScreenChanged_411270();
     EXPORT s16 vTakeDamage_410FA0(BaseGameObject* pFrom);
     EXPORT void vOnThrowableHit_410F00(BaseGameObject* pHitBy);

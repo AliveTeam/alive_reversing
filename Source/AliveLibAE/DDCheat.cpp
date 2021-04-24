@@ -229,7 +229,7 @@ void DDCheat::dtor_415530()
 }
 
 
-BaseGameObject* DDCheat::vdtor_415500(signed int flags)
+BaseGameObject* DDCheat::vdtor_415500(s32 flags)
 {
     dtor_415530();
     if (flags & 1)
@@ -492,7 +492,7 @@ void DDCheat::Update_415780()
     }
 }
 
-BaseGameObject* DDCheat::VDestructor(signed int flags)
+BaseGameObject* DDCheat::VDestructor(s32 flags)
 {
     return vdtor_415500(flags);
 }

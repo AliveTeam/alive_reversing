@@ -13,7 +13,7 @@ void ZapLine_ForceLink() {}
 
 namespace AO {
 
-BaseGameObject* ZapLine::VDestructor(signed int flags)
+BaseGameObject* ZapLine::VDestructor(s32 flags)
 {
     return Vdtor_479B20(flags);
 }
@@ -130,7 +130,7 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLine
     return this;
 }
 
-ZapLine* ZapLine::Vdtor_479B20(signed int flags)
+ZapLine* ZapLine::Vdtor_479B20(s32 flags)
 {
     dtor_478E90();
     if (flags & 1)

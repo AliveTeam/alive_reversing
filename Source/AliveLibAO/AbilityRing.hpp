@@ -26,9 +26,9 @@ public:
 
     EXPORT AbilityRing* ctor_455860(FP xpos, FP ypos, s16 type);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT BaseGameObject* Vdtor_456940(signed int flags);
+    EXPORT BaseGameObject* Vdtor_456940(s32 flags);
 
     EXPORT static AbilityRing* CC Factory_447590(FP xpos, FP ypos, s16 type);
 

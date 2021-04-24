@@ -558,7 +558,7 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
             counter += q_scale;
 
             const int lookedUpIndex = g_index_look_up_table[counter];
-            signed int v24 = pOutput[lookedUpIndex] + (macroBlockWord << 22);
+            s32 v24 = pOutput[lookedUpIndex] + (macroBlockWord << 22);
 
             u32 v25 = 0;
             SetHiWord(v25, GetHiWord(v24));
@@ -584,7 +584,7 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
             }
             const u32 q_scale = (macroBlockWord >> 10);
 
-            const signed int v24 = macroBlockWord << 22;
+            const s32 v24 = macroBlockWord << 22;
             int k = q_scale + 1;
             int idx = 0;
             while (1)
@@ -717,7 +717,7 @@ static void after_block_decode_no_effect_q_impl(int quantScale)
     g_252_buffer_unk_635A0C[0] = 16;
     if (quantScale > 0)
     {
-        signed int result = 0;
+        s32 result = 0;
         do
         {
             auto val = gQuant1_dword_42AEC8[result];

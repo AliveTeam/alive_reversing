@@ -30,10 +30,10 @@ class MotionDetectorLaser : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT MotionDetectorLaser* ctor_468290(FP xpos, FP ypos, FP scale, Layer layer);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
 private:
-    EXPORT MotionDetectorLaser* vdtor_468360(signed int flags);
+    EXPORT MotionDetectorLaser* vdtor_468360(s32 flags);
 };
 ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
 
@@ -42,12 +42,12 @@ class MotionDetector : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MotionDetector* ctor_4683B0(Path_MotionDetector* pTlv, int tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 private:
-    EXPORT MotionDetector* vdtor_468850(signed int flags);
+    EXPORT MotionDetector* vdtor_468850(s32 flags);
     EXPORT void dtor_468880();
     EXPORT void vScreenChanged_469460();
     EXPORT void vRender_469120(PrimHeader** ppOt);

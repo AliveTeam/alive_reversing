@@ -94,7 +94,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* PullRingRope::VDestructor(signed int flags)
+BaseGameObject* PullRingRope::VDestructor(s32 flags)
 {
     return vdtor_49B630(flags);
 }
@@ -124,7 +124,7 @@ void PullRingRope::VMarkAsPulled_49B610()
     return vMarkAsPulled_49B610();
 }
 
-PullRingRope* PullRingRope::vdtor_49B630(signed int flags)
+PullRingRope* PullRingRope::vdtor_49B630(s32 flags)
 {
     dtor_49B660();
     if (flags & 1)

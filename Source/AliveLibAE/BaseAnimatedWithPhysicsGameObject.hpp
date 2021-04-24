@@ -39,11 +39,11 @@ public:
     EXPORT BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize);
     EXPORT void BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT BaseGameObject* vdtor_424A40(signed int flags);
+    EXPORT BaseGameObject* vdtor_424A40(s32 flags);
     EXPORT void Update_424AB0();
     EXPORT void Render_424B90(PrimHeader** ppOt);
 

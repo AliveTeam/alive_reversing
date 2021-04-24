@@ -278,7 +278,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
 
 }
 
-EXPORT BaseGameObject* InvisibleEffect::vdtor_45F3E0(signed int flags)
+EXPORT BaseGameObject* InvisibleEffect::vdtor_45F3E0(s32 flags)
 {
     dtor_45F410();
     if (flags & 1)
@@ -288,7 +288,7 @@ EXPORT BaseGameObject* InvisibleEffect::vdtor_45F3E0(signed int flags)
     return this;
 }
 
-BaseGameObject* InvisibleEffect::VDestructor(signed int flags)
+BaseGameObject* InvisibleEffect::VDestructor(s32 flags)
 {
     return vdtor_45F3E0(flags);
 }

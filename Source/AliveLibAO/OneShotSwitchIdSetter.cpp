@@ -11,7 +11,7 @@ void OneShotSwitchIdSetter::VScreenChanged()
     VScreenChanged_432F00();
 }
 
-BaseGameObject* OneShotSwitchIdSetter::Vdtor_432F10(signed int flags)
+BaseGameObject* OneShotSwitchIdSetter::Vdtor_432F10(s32 flags)
 {
     dtor_432EA0();
     if (flags & 1)
@@ -21,7 +21,7 @@ BaseGameObject* OneShotSwitchIdSetter::Vdtor_432F10(signed int flags)
     return this;
 }
 
-BaseGameObject* OneShotSwitchIdSetter::VDestructor(signed int flags)
+BaseGameObject* OneShotSwitchIdSetter::VDestructor(s32 flags)
 {
     return Vdtor_432F10(flags);
 }

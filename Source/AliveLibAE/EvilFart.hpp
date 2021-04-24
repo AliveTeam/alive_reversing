@@ -53,7 +53,7 @@ class EvilFart : public BaseAliveGameObject
 public:
     EXPORT EvilFart* ctor_422E30();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VPossessed_408F70() override;
@@ -76,7 +76,7 @@ private:
     void BlowUp();
 
     EXPORT void dtor_423D80();
-    EXPORT EvilFart* vdtor_4230D0(signed int flags);
+    EXPORT EvilFart* vdtor_4230D0(s32 flags);
 
 private:
     s16 field_118_bBlowUp;

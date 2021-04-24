@@ -329,7 +329,7 @@ ALIVE_VAR(1, 0xBAF7F8, Quicksave, sActiveQuicksaveData_BAF7F8, {});
 ALIVE_VAR(1, 0x5C1BF4, int, sAccumulatedObjectCount_5C1BF4, 0);
 ALIVE_ARY(1, 0xBB31D8, SaveFileRec, 128, sSaveFileRecords_BB31D8, {});
 ALIVE_VAR(1, 0xBB43FC, int, sSavedGameToLoadIdx_BB43FC, 0);
-ALIVE_VAR(1, 0xBB43E0, signed int, sTotalSaveFilesCount_BB43E0, 0);
+ALIVE_VAR(1, 0xBB43E0, s32, sTotalSaveFilesCount_BB43E0, 0);
 
 EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave *quicksaveData)
 {
@@ -577,8 +577,8 @@ void CC MEMCARD_Write_SJISC_String_4A2770(char* src, char* dst, int srcLength)
 EXPORT void CC MEMCARD_Generate_Timestamp_String_4A21F0(char *pStr)
 {
     sprintf(pStr, "%03d:%02d",
-        (signed int)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 / 60 % 1000,
-        (signed int)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
+        (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 / 60 % 1000,
+        (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
 }
 
 EXPORT void CC MEMCARD_Write_Timestamp_SJISC_String_4A2290(char* dst)

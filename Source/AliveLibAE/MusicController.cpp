@@ -422,7 +422,7 @@ MusicController::MusicTypes CC MusicController::GetMusicType_47FDA0(WORD* seq1, 
     return MusicTypes::eTypeNull;
 }
 
-BaseGameObject* MusicController::VDestructor(signed int flags)
+BaseGameObject* MusicController::VDestructor(s32 flags)
 {
     return vdtor_47EF20(flags);
 }
@@ -464,7 +464,7 @@ MusicController* MusicController::ctor_47EE80()
     return this;
 }
 
-BaseGameObject* MusicController::vdtor_47EF20(signed int flags)
+BaseGameObject* MusicController::vdtor_47EF20(s32 flags)
 {
     dtor_47EF50();
     if (flags & 1)

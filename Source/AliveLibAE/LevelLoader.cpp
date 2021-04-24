@@ -8,7 +8,7 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* LevelLoader::VDestructor(signed int flags)
+BaseGameObject* LevelLoader::VDestructor(s32 flags)
 {
     return vdtor_4DD3B0(flags);
 }
@@ -86,7 +86,7 @@ void LevelLoader::vUpdate_4DD400()
     }
 }
 
-LevelLoader* LevelLoader::vdtor_4DD3B0(signed int flags)
+LevelLoader* LevelLoader::vdtor_4DD3B0(s32 flags)
 {
     dtor_4DD3E0();
     if (flags & 1)

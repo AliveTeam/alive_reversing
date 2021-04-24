@@ -19,13 +19,13 @@ ALIVE_ASSERT_SIZEOF(CheatEntry, 0x14);
 class CheatController : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
     EXPORT CheatController* ctor_421BD0();
-    EXPORT BaseGameObject* vdtor_421C10(signed int flags);
+    EXPORT BaseGameObject* vdtor_421C10(s32 flags);
     EXPORT void dtor_421C40();
 
     EXPORT void Update_421C70();

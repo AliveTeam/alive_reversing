@@ -110,7 +110,7 @@ BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP sca
     return this;
 }
 
-BaseGameObject* BirdPortalTerminator::VDestructor(signed int flags)
+BaseGameObject* BirdPortalTerminator::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)
@@ -122,7 +122,7 @@ BaseGameObject* BirdPortalTerminator::VDestructor(signed int flags)
 
 // ==========================================================================
 
-BaseGameObject* BirdPortal::VDestructor(signed int flags)
+BaseGameObject* BirdPortal::VDestructor(s32 flags)
 {
     return Vdtor_453990(flags);
 }
@@ -276,7 +276,7 @@ BirdPortal* BirdPortal::ctor_4520A0(Path_BirdPortal* pTlv, int tlvInfo)
     return this;
 }
 
-BirdPortal* BirdPortal::Vdtor_453990(signed int flags)
+BirdPortal* BirdPortal::Vdtor_453990(s32 flags)
 {
     dtor_452230();
     if (flags & 1)

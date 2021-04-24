@@ -161,9 +161,9 @@ class Glukkon : public BaseAliveGameObject
 public:
     EXPORT Glukkon* ctor_43F030(Path_Glukkon* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT static signed int CC CreateFromSaveState_442830(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_442830(const BYTE* pBuffer);
 
     virtual void VUpdate() override;
 
@@ -225,7 +225,7 @@ public:
 private:
     EXPORT void Init_43F260();
 
-    EXPORT Glukkon* vdtor_43F230(signed int flags);
+    EXPORT Glukkon* vdtor_43F230(s32 flags);
 
     EXPORT void dtor_43F570();
 

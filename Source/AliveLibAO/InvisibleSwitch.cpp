@@ -15,7 +15,7 @@ void InvisibleSwitch::VScreenChanged()
     VScreenChanged_433700();
 }
 
-InvisibleSwitch* InvisibleSwitch::Vdtor_433740(signed int flags)
+InvisibleSwitch* InvisibleSwitch::Vdtor_433740(s32 flags)
 {
     dtor_433540();
     if (flags & 1)
@@ -25,7 +25,7 @@ InvisibleSwitch* InvisibleSwitch::Vdtor_433740(signed int flags)
     return this;
 }
 
-BaseGameObject* InvisibleSwitch::VDestructor(signed int flags)
+BaseGameObject* InvisibleSwitch::VDestructor(s32 flags)
 {
     return Vdtor_433740(flags);
 }

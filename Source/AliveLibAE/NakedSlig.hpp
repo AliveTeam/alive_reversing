@@ -120,7 +120,7 @@ class NakedSlig : public BaseAliveGameObject
 public:
     EXPORT NakedSlig* ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -173,7 +173,7 @@ private:
 
     EXPORT void dtor_418FE0();
 
-    EXPORT NakedSlig* vdtor_418FB0(signed int flags);
+    EXPORT NakedSlig* vdtor_418FB0(s32 flags);
 
     EXPORT BOOL PanicOn_419810();
 

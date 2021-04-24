@@ -213,7 +213,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0();
 EXPORT s16 CC MIDI_PitchBend_4FDEC0(s16 field4_match, s16 pitch);
 EXPORT void CC MIDI_Read_SEQ_Header_4FD870(BYTE** pSrc, SeqHeader* pDst, u32 size);
 EXPORT void CC MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo);
-EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, int vol);
+EXPORT s32 CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, int vol);
 EXPORT int CC MIDI_Stop_Existing_Single_Note_4FCFF0(int VabIdAndProgram, int note);
 EXPORT void CC MIDI_Wait_4FCE50();
 
@@ -287,7 +287,7 @@ EXPORT int CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader *pVabHeader, VabBody
 
     if (pVabHeader && idx >= 0)
     {
-        result = (signed int)(8 * *(SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx) - 2)) / 16;// -2 = field_0_length_or_duration
+        result = (s32)(8 * *(SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx) - 2)) / 16;// -2 = field_0_length_or_duration
     }
     else
     {
@@ -503,7 +503,7 @@ EXPORT int CC MIDI_Invert_4FCA40(int /*not_used*/, int value)
 }
 
 
-EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int /*not_used*/, int priority)
+EXPORT s32 CC MIDI_Allocate_Channel_4FCA50(int /*not_used*/, int priority)
 {
     int lowestEndTime = -999999;
     u32 timeMod24 = gSpuVars->sMidiTime() % 24;
@@ -807,7 +807,7 @@ EXPORT int CC MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru)
 
 
 // TODO: Complete tests so this can be rewritten
-EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
+EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(int idx)
 {
     //NOT_IMPLEMENTED();
 
@@ -829,7 +829,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
     u32 v16; // eax
     int v17; // ecx
     MIDI_ProgramVolume  *v18; // ecx
-    signed int v19; // ebx
+    s32 v19; // ebx
     MIDI_ADSR_State *pSubChan2; // esi
     char v21; // bl
     char channelIdx_1; // cl
@@ -1356,7 +1356,7 @@ EXPORT void CC SsSeqCalledTbyT_4FDC80()
         const DWORD currentTime = SYS_GetTicks();
         gSpuVars->sMidiTime() = currentTime;
         // First time or 30 passed?
-        if (gSpuVars->sLastTime() == 0xFFFFFFFF || (signed int)(currentTime - gSpuVars->sLastTime()) >= 30)
+        if (gSpuVars->sLastTime() == 0xFFFFFFFF || (s32)(currentTime - gSpuVars->sLastTime()) >= 30)
         {
             gSpuVars->sLastTime() = currentTime;
             for (int i = 0; i < kNumChannels; i++)
@@ -1381,10 +1381,10 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
         MIDI_Channel* pChannel = &gSpuVars->sMidi_Channels().channels[i];
         if (pChannel->field_1C_adsr.field_3_state)
         {
-            signed int timeDiff1 = gSpuVars->sMidiTime() - pChannel->field_14_time;
-            signed int timeDiff2 = gSpuVars->sMidiTime() - pChannel->field_14_time;
+            s32 timeDiff1 = gSpuVars->sMidiTime() - pChannel->field_14_time;
+            s32 timeDiff2 = gSpuVars->sMidiTime() - pChannel->field_14_time;
 
-            if ((signed int)(gSpuVars->sMidiTime() - pChannel->field_14_time) < 0)
+            if ((s32)(gSpuVars->sMidiTime() - pChannel->field_14_time) < 0)
             {
                 timeDiff1 = 0;
                 timeDiff2 = 0;
@@ -1461,7 +1461,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
 }
 
 
-EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, int vol)
+EXPORT s32 CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, int vol)
 {
     if (pData->field_8_left_vol == vol)
     {
@@ -1497,7 +1497,7 @@ EXPORT s16 CC MIDI_PitchBend_4FDEC0(s16 program, s16 pitch)
 
 EXPORT s16 CC SsUtChangePitch_4FDF70(s16 voice, int /*vabId*/, int /*prog*/, s16 old_note, s16 old_fine, s16 new_note, s16 new_fine)
 {
-    const float freq = pow(1.059463094359f, (float)(new_fine + ((new_note - (signed int)old_note) << 7) - old_fine) * 0.0078125f);
+    const float freq = pow(1.059463094359f, (float)(new_fine + ((new_note - (s32)old_note) << 7) - old_fine) * 0.0078125f);
     GetSoundAPI().SND_Buffer_Set_Frequency1(gSpuVars->sMidi_Channels().channels[voice].field_0_sound_buffer_field_4, freq);
     return 0;
 }

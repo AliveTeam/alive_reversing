@@ -752,7 +752,7 @@ BaseGameObject* LiftPoint::dtor_4355E0()
     return dtor_451490();
 }
 
-BaseGameObject* LiftPoint::VDestructor(signed int flags)
+BaseGameObject* LiftPoint::VDestructor(s32 flags)
 {
     return Vdtor_435D10(flags);
 }
@@ -821,7 +821,7 @@ void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
     }
 }
 
-LiftPoint* LiftPoint::Vdtor_435D10(signed int flags)
+LiftPoint* LiftPoint::Vdtor_435D10(s32 flags)
 {
     dtor_4355E0();
     if (flags & 1)

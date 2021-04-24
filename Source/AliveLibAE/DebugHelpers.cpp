@@ -100,7 +100,7 @@ public:
         gObjList_drawables_5C1124->Remove_Item(this);
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         Destruct();
         if (flags & 1)
@@ -307,7 +307,7 @@ public:
         gObjList_drawables_5C1124->Remove_Item(this);
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         Destruct();
         if (flags & 1)
@@ -914,7 +914,7 @@ public:
         gObjList_drawables_5C1124->Remove_Item(this);
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         Destruct();
         if (flags & 1)
@@ -1830,7 +1830,7 @@ public:
         gObjList_drawables_5C1124->Push_Back(this);
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         Destruct();
         if (flags & 1)
@@ -1980,7 +1980,7 @@ public:
 
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         Destruct();
         if (flags & 1)

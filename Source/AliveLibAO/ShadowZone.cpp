@@ -135,12 +135,12 @@ BaseGameObject* ShadowZone::dtor_435F10()
     return dtor_487DF0();
 }
 
-BaseGameObject* ShadowZone::VDestructor(signed int flags)
+BaseGameObject* ShadowZone::VDestructor(s32 flags)
 {
     return Vdtor_436180(flags);
 }
 
-ShadowZone* ShadowZone::Vdtor_436180(signed int flags)
+ShadowZone* ShadowZone::Vdtor_436180(s32 flags)
 {
     dtor_435F10();
     if (flags & 1)

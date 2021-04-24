@@ -255,12 +255,12 @@ BaseGameObject* LCDScreen::dtor_434100()
     return dtor_487DF0();
 }
 
-BaseGameObject* LCDScreen::VDestructor(signed int flags)
+BaseGameObject* LCDScreen::VDestructor(s32 flags)
 {
     return Vdtor_434630(flags);
 }
 
-BaseGameObject* LCDScreen::Vdtor_434630(signed int flags)
+BaseGameObject* LCDScreen::Vdtor_434630(s32 flags)
 {
     dtor_434100();
     if (flags & 1)

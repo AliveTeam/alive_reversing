@@ -8,13 +8,13 @@ class BaseBomb : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual void VUpdate() override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     EXPORT BaseBomb * ctor_423E70(FP x, FP y, int unused, FP scale);
 
 private:
     EXPORT void vUpdate_424180();
-    EXPORT BaseBomb* vdtor_424130(signed int flags);
+    EXPORT BaseBomb* vdtor_424130(s32 flags);
     EXPORT void dtor_424160();
 
 private:

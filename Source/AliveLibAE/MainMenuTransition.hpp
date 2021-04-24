@@ -18,12 +18,12 @@ public:
     EXPORT void Update_464400();
     EXPORT void Render_464470(PrimHeader** ppOt);
     EXPORT void dtor_4642F0();
-    EXPORT BaseGameObject* vdtor_4642C0(signed int flags);
+    EXPORT BaseGameObject* vdtor_4642C0(s32 flags);
     EXPORT void vScreenChanged_4648D0();
 
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
 private:
     s16 field_20_current_value;

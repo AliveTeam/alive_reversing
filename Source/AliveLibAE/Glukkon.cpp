@@ -131,7 +131,7 @@ TintEntry stru_5546B4[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-signed int CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
+s32 CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
 {
     const Glukkon_SaveState* pSaveState = reinterpret_cast< const Glukkon_SaveState* >( pData );
     auto pTlv = static_cast< Path_Glukkon* >( sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_44_tlvInfo) );
@@ -316,7 +316,7 @@ Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* Glukkon::VDestructor(signed int flags)
+BaseGameObject* Glukkon::VDestructor(s32 flags)
 {
     return vdtor_43F230(flags);
 }
@@ -1559,7 +1559,7 @@ s16 Glukkon::AI_2_Slapped_441720()
         {
             field_1F8_panic_timer = sGnFrame_5C1B84;
         }
-        else if ((signed int)(sGnFrame_5C1B84 - field_1F8_panic_timer) > field_1A8_tlvData.field_1A_post_alarm_delay)
+        else if ((s32)(sGnFrame_5C1B84 - field_1F8_panic_timer) > field_1A8_tlvData.field_1A_post_alarm_delay)
         {
             SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_switch_id, SwitchOp::eSetFalse_1);
             SetBrain(&Glukkon::AI_0_Calm_WalkAround_440B40);
@@ -2150,7 +2150,7 @@ void Glukkon::Init_43F260()
     }
 }
 
-Glukkon* Glukkon::vdtor_43F230(signed int flags)
+Glukkon* Glukkon::vdtor_43F230(s32 flags)
 {
     dtor_43F570();
     if (flags & 1)

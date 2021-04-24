@@ -27,7 +27,7 @@ public:
     EXPORT BoomMachine* ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo);
 
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -47,7 +47,7 @@ private:
 
     EXPORT void dtor_445E40();
 
-    EXPORT BoomMachine* vdtor_445E10(signed int flags);
+    EXPORT BoomMachine* vdtor_445E10(s32 flags);
 
 private:
     int field_F4_tlvInfo;

@@ -431,7 +431,7 @@ inline short FP_AdjustedToInteger(FP fp, FP adjustment)
     return FP_GetExponent(fp + adjustment);
 }
 
-void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, signed int height)
+void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, s32 height)
 {
     if ((field_84_vram_rect.x || field_84_vram_rect.y) && !(field_4_flags.Get(AnimFlags::eBit25_bDecompressDone)))
     {
@@ -906,7 +906,7 @@ WORD Animation::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
+s16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, char bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);

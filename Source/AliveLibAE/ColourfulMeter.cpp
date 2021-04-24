@@ -74,7 +74,7 @@ ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, int tlvIn
     return this;
 }
 
-BaseGameObject* ColourfulMeter::VDestructor(signed int flags)
+BaseGameObject* ColourfulMeter::VDestructor(s32 flags)
 {
     return vdtor_43D050(flags);
 }
@@ -94,7 +94,7 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
     vRender_43D2B0(ppOt);
 }
 
-ColourfulMeter* ColourfulMeter::vdtor_43D050(signed int flags)
+ColourfulMeter* ColourfulMeter::vdtor_43D050(s32 flags)
 {
     dtor_43D080();
     if (flags & 1)

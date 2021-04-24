@@ -41,12 +41,12 @@ FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* FootSwitch::VDestructor(signed int flags)
+BaseGameObject* FootSwitch::VDestructor(s32 flags)
 {
     return vdtor_488C10(flags);
 }
 
-FootSwitch* FootSwitch::vdtor_488C10(signed int flags)
+FootSwitch* FootSwitch::vdtor_488C10(s32 flags)
 {
     dtor_4889E0();
     if (flags & 1)

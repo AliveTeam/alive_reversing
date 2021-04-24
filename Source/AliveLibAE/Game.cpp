@@ -186,7 +186,7 @@ EXPORT double CC Calculate_FPS_495250(int frameCount)
     const DWORD curTime = SYS_GetTicks();
     const int timeDiff = curTime - sLastTime_5CA338;
 
-    if (static_cast<signed int>((curTime - sLastTime_5CA338)) < 500)
+    if (static_cast<s32>((curTime - sLastTime_5CA338)) < 500)
     {
         return sFps_55EFDC;
     }
@@ -653,7 +653,7 @@ EXPORT void CC Game_Shutdown_4F2C30()
     VGA_Shutdown_4F3170();
 }
 
-EXPORT signed int TMR_Init_4EDE20()
+EXPORT s32 TMR_Init_4EDE20()
 {
 #if USE_SDL2
 	return 0;
@@ -672,7 +672,7 @@ EXPORT signed int TMR_Init_4EDE20()
 #endif
 }
 
-EXPORT signed int CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
+EXPORT s32 CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
 {
     static bool sbGameShutdownSet_BBC560 = false;
     if (!sbGameShutdownSet_BBC560)

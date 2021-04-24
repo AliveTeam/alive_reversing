@@ -135,7 +135,7 @@ public:
     EXPORT BaseGameObject* ctor_487E10(s16 arraySize);
     EXPORT BaseGameObject* dtor_487DF0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) = 0;
+    virtual BaseGameObject* VDestructor(s32 flags) = 0;
 
     virtual void VUpdate()
     {

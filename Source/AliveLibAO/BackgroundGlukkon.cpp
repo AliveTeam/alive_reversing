@@ -17,7 +17,7 @@ void BackgroundGlukkon::VScreenChanged()
     VScreenChanged_41E0E0();
 }
 
-BackgroundGlukkon* BackgroundGlukkon::Vdtor_41E0F0(signed int flags)
+BackgroundGlukkon* BackgroundGlukkon::Vdtor_41E0F0(s32 flags)
 {
     dtor_41DCE0();
     if (flags & 1)
@@ -27,7 +27,7 @@ BackgroundGlukkon* BackgroundGlukkon::Vdtor_41E0F0(signed int flags)
     return this;
 }
 
-BaseGameObject* BackgroundGlukkon::VDestructor(signed int flags)
+BaseGameObject* BackgroundGlukkon::VDestructor(s32 flags)
 {
     return Vdtor_41E0F0(flags);
 }

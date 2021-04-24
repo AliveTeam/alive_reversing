@@ -124,7 +124,7 @@ void CameraSwapper::dtor_4E5790()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* CameraSwapper::vdtor_4E4D90(signed int flags)
+BaseGameObject* CameraSwapper::vdtor_4E4D90(s32 flags)
 {
     dtor_4E5790();
     if (flags & 1)
@@ -559,7 +559,7 @@ void CameraSwapper::vUpdate_4E5850()
     }
 }
 
-BaseGameObject* CameraSwapper::VDestructor(signed int flags)
+BaseGameObject* CameraSwapper::VDestructor(s32 flags)
 {
     return vdtor_4E4D90(flags);
 }

@@ -12,9 +12,9 @@ class ParamiteWeb : public BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT ParamiteWeb* ctor_48A920(FP xpos, s16 bottom, s16 top, FP scale);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT ParamiteWeb* Vdtor_48AEC0(signed int flags);
+    EXPORT ParamiteWeb* Vdtor_48AEC0(s32 flags);
 
     EXPORT BaseGameObject* dtor_48AAB0();
 

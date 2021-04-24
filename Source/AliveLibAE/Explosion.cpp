@@ -72,7 +72,7 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, s16 bSmall)
     return this;
 }
 
-BaseGameObject* Explosion::VDestructor(signed int flags)
+BaseGameObject* Explosion::VDestructor(s32 flags)
 {
     return vdtor_4A14C0(flags);
 }
@@ -300,7 +300,7 @@ void Explosion::dtor_4A14F0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Explosion* Explosion::vdtor_4A14C0(signed int flags)
+Explosion* Explosion::vdtor_4A14C0(s32 flags)
 {
     dtor_4A14F0();
     if (flags & 1)

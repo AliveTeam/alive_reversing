@@ -10,7 +10,7 @@
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
 
-BaseGameObject* Spark::VDestructor(signed int flags)
+BaseGameObject* Spark::VDestructor(s32 flags)
 {
     return vdtor_4CBE30(flags);
 }
@@ -295,7 +295,7 @@ void Spark::vScreenChange_4CC4A0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-Spark* Spark::vdtor_4CBE30(signed int flags)
+Spark* Spark::vdtor_4CBE30(s32 flags)
 {
     dtor_4CBE60();
     if (flags & 1)

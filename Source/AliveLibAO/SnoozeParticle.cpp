@@ -56,7 +56,7 @@ const short xPositionDeltaEntries_4CF8E0[39] =
     0
 };
 
-BaseGameObject* SnoozeParticle::VDestructor(signed int flags)
+BaseGameObject* SnoozeParticle::VDestructor(s32 flags)
 {
     return Vdtor_464CE0(flags);
 }
@@ -123,7 +123,7 @@ SnoozeParticle* SnoozeParticle::ctor_464320(FP xpos, FP ypos, Layer layer, FP sc
     return this;
 }
 
-SnoozeParticle* SnoozeParticle::Vdtor_464CE0(signed int flags)
+SnoozeParticle* SnoozeParticle::Vdtor_464CE0(s32 flags)
 {
     dtor_4644A0();
     if (flags & 1)

@@ -10,12 +10,12 @@ struct Path_TLV;
 class CreditsController : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
 
     EXPORT CreditsController* ctor_40CFC0(Path_TLV* pTlv, int tlvInfo);
     EXPORT BaseGameObject* dtor_40D000();
-    EXPORT CreditsController* Vdtor_40D090(signed int flags);
+    EXPORT CreditsController* Vdtor_40D090(s32 flags);
     EXPORT void VUpdate_40D020();
 
     int field_10_next_cam_frame;

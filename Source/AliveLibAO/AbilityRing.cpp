@@ -189,12 +189,12 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
     return this;
 }
 
-BaseGameObject* AbilityRing::VDestructor(signed int flags)
+BaseGameObject* AbilityRing::VDestructor(s32 flags)
 {
     return Vdtor_456940(flags);
 }
 
-BaseGameObject* AbilityRing::Vdtor_456940(signed int flags)
+BaseGameObject* AbilityRing::Vdtor_456940(s32 flags)
 {
     dtor_455E50();
     if (flags & 1)

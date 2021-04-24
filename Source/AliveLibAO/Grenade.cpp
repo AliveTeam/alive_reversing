@@ -113,12 +113,12 @@ BaseGameObject* Grenade::dtor_41ECD0()
     return dtor_401000();
 }
 
-BaseGameObject* Grenade::VDestructor(signed int flags)
+BaseGameObject* Grenade::VDestructor(s32 flags)
 {
     return Vdtor_41F9F0(flags);
 }
 
-Grenade* Grenade::Vdtor_41F9F0(signed int flags)
+Grenade* Grenade::Vdtor_41F9F0(s32 flags)
 {
     dtor_41ECD0();
     if (flags & 1)

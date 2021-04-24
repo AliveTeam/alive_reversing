@@ -21,7 +21,7 @@ public:
     EXPORT Dove* ctor_41F430(int frameTableOffset, int maxW, u16 maxH, int resourceID, int tlvInfo, FP scale);
 
     EXPORT Dove* ctor_41F660(int frameTableOffset, int maxW, s16 maxH, int resourceID, FP xpos, FP ypos, FP scale);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     EXPORT void dtor_41F870();
@@ -35,7 +35,7 @@ public:
 
 private:
     EXPORT void vRender_4200B0(PrimHeader** ppOt);
-    EXPORT Dove* vdtor_41F630(signed int flags);
+    EXPORT Dove* vdtor_41F630(s32 flags);
     EXPORT void vUpdate_41FAE0();
 
 private:

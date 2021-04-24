@@ -168,7 +168,7 @@ int CC SFX_Play_43ADE0(u8 sfxId, int leftVol, int rightVol, BaseAnimatedWithPhys
     return SFX_SfxDefinition_Play_477330(&sSfxEntries_4CCA38[sfxId], left, right, 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_43AED0(u8 sfxId, signed int volume, CameraPos direction)
+int CC SFX_Play_43AED0(u8 sfxId, s32 volume, CameraPos direction)
 {
     switch (direction)
     {

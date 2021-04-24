@@ -32,9 +32,9 @@ public:
 
     EXPORT void VScreenChanged_443DD0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT MusicTrigger* Vdtor_443DF0(signed int flags);
+    EXPORT MusicTrigger* Vdtor_443DF0(s32 flags);
 
     virtual void VUpdate() override;
 

@@ -77,12 +77,12 @@ BaseGameObject* SecurityOrb::dtor_436D60()
     return dtor_401000();
 }
 
-BaseGameObject* SecurityOrb::VDestructor(signed int flags)
+BaseGameObject* SecurityOrb::VDestructor(s32 flags)
 {
     return Vdtor_4373B0(flags);
 }
 
-SecurityOrb* SecurityOrb::Vdtor_4373B0(signed int flags)
+SecurityOrb* SecurityOrb::Vdtor_4373B0(s32 flags)
 {
     dtor_436D60();
     if (flags & 1)

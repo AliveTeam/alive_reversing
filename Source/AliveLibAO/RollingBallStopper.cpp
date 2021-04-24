@@ -93,7 +93,7 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
     return this;
 }
 
-BaseGameObject* RollingBallStopper::Vdtor_43C160(signed int flags)
+BaseGameObject* RollingBallStopper::Vdtor_43C160(s32 flags)
 {
     dtor_43C0A0();
     if (flags & 1)
@@ -164,7 +164,7 @@ void RollingBallStopper::VUpdate_43BF70()
     }
 }
 
-BaseGameObject* RollingBallStopper::VDestructor(signed int flags)
+BaseGameObject* RollingBallStopper::VDestructor(s32 flags)
 {
     return Vdtor_43C160(flags);
 }

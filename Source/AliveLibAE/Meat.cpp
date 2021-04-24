@@ -57,7 +57,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
     return this;
 }
 
-BaseGameObject* Meat::VDestructor(signed int flags)
+BaseGameObject* Meat::VDestructor(s32 flags)
 {
     return vdtor_4696C0(flags);
 }
@@ -159,7 +159,7 @@ void Meat::dtor_4696F0()
     dtor_4080B0();
 }
 
-Meat* Meat::vdtor_4696C0(signed int flags)
+Meat* Meat::vdtor_4696C0(s32 flags)
 {
     dtor_4696F0();
     if (flags & 1)
@@ -412,7 +412,7 @@ void Meat::vUpdate_469BA0()
                     Layer::eLayer_36);
                 field_128_timer = Math_NextRandom() % 16 + sGnFrame_5C1B84 + 60;
             }
-            if (field_12C_deadtimer < (signed int)sGnFrame_5C1B84)
+            if (field_12C_deadtimer < (s32)sGnFrame_5C1B84)
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
@@ -511,7 +511,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* MeatSack::VDestructor(signed int flags)
+BaseGameObject* MeatSack::VDestructor(s32 flags)
 {
     return vdtor_46A5E0(flags);
 }
@@ -577,7 +577,7 @@ int CC Meat::CreateFromSaveState_46A9E0(const BYTE* pBuffer)
     return sizeof(Meat_SaveState);
 }
 
-MeatSack* MeatSack::vdtor_46A5E0(signed int flags)
+MeatSack* MeatSack::vdtor_46A5E0(s32 flags)
 {
     dtor_46A610();
     if (flags & 1)

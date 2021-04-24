@@ -78,7 +78,7 @@ class Greeter : public BaseAliveGameObject
 public:
     EXPORT Greeter* ctor_4465B0(Path_Greeter* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
@@ -92,7 +92,7 @@ private:
     EXPORT int vGetSaveState_446400(Greeter_State* pState);
 
 
-    EXPORT Greeter* vdtor_4468B0(signed int flags);
+    EXPORT Greeter* vdtor_4468B0(s32 flags);
     EXPORT void vScreenChanged_447DD0();
     EXPORT void dtor_4468E0();
     EXPORT void BlowUp_447E50();

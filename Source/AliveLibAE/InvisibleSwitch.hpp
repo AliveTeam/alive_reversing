@@ -28,14 +28,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x1C);
 class InvisibleSwitch : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
     EXPORT InvisibleSwitch* ctor_45FA70(Path_InvisibleSwitch* pTlv, DWORD tlvInfo);
 private:
     EXPORT void dtor_45FB20();
-    EXPORT InvisibleSwitch* vdtor_45FAF0(signed int flags);
+    EXPORT InvisibleSwitch* vdtor_45FAF0(s32 flags);
     EXPORT void vUpdate_45FBA0();
     EXPORT void vScreenChanged_45FD80();
 private:

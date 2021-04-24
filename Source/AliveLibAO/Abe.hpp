@@ -424,7 +424,7 @@ public:
 
     EXPORT BaseGameObject* dtor_420C80();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -436,7 +436,7 @@ public:
     EXPORT void VOnTrapDoorOpen_42EED0();
 
     // Virtual impls
-    EXPORT BaseGameObject* vdtor_422A70(signed int flags);
+    EXPORT BaseGameObject* vdtor_422A70(s32 flags);
     EXPORT void vUpdate_41FDB0();
     EXPORT void vRender_420F30(PrimHeader** ppOt);
     EXPORT void vScreenChanged_422640();
@@ -757,7 +757,7 @@ ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
 ALIVE_VAR_EXTERN(short, gAbeInvulnerableCheat_5076E4);
 ALIVE_VAR_EXTERN(short, gAbeInvisibleCheat_5076F8);
 
-EXPORT int CC Environment_SFX_42A220(EnvironmentSfx sfxId, signed int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
+EXPORT int CC Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, int pitchMin, BaseAliveGameObject* pAliveObj);
 
 EXPORT int CC Mudokon_SFX_42A4D0(MudSounds idx, int volume, int pitch, BaseAliveGameObject* pHero);
 

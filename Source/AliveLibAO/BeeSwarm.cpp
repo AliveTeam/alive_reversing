@@ -112,12 +112,12 @@ BaseGameObject* BeeSwarm::dtor_47FDF0()
     return dtor_417D10();
 }
 
-BaseGameObject* BeeSwarm::VDestructor(signed int flags)
+BaseGameObject* BeeSwarm::VDestructor(s32 flags)
 {
     return Vdtor_480E00(flags);
 }
 
-BeeSwarm* BeeSwarm::Vdtor_480E00(signed int flags)
+BeeSwarm* BeeSwarm::Vdtor_480E00(s32 flags)
 {
     dtor_47FDF0();
     if (flags & 1)

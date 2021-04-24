@@ -451,7 +451,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             const int bMoreFrames = Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC); // read audio and video frame
             if (bNoAudio_5CA1F4)
             {
-                while ((signed int)(SYS_GetTicks() - dword_5CA244) <= (1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate))
+                while ((s32)(SYS_GetTicks() - dword_5CA244) <= (1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate))
                 {
                     // Wait for the amount of time the frame would take to display at the given framerate
                 }
@@ -461,7 +461,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 // Sync on where the audio playback is up to
                 total_audio_offset_5CA1F0 += gMasher_single_audio_frame_size_5CA240;
                 const DWORD soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
-                if ((signed int)(oldBufferPlayPos_5CA22C - soundBufferPlayPos) > sampleLength / 2)
+                if ((s32)(oldBufferPlayPos_5CA22C - soundBufferPlayPos) > sampleLength / 2)
                 {
                      dword_5CA1FC++;
                 }
@@ -493,7 +493,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                         if (counter > 10000)
                         {
                             counter = 0;
-                            if ((signed int)(SYS_GetTicks() - dword_5CA244) > maxWait)
+                            if ((s32)(SYS_GetTicks() - dword_5CA244) > maxWait)
                             {
                                 // TODO: Unknown failure case
                                 bNoAudio_5CA1F4 = 1;
@@ -593,7 +593,7 @@ void CC Get_fmvs_sectors_494460(const char* pMovieName1, const char* pMovieName2
     }
 }
 
-BaseGameObject* Movie::VDestructor(signed int flags)
+BaseGameObject* Movie::VDestructor(s32 flags)
 {
     return vdtor_4DFE80(flags);
 }
@@ -689,7 +689,7 @@ void Movie::vUpdate_4E0030()
     DeInit_4E0210();
 }
 
-BaseGameObject* Movie::vdtor_4DFE80(signed int flags)
+BaseGameObject* Movie::vdtor_4DFE80(s32 flags)
 {
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)

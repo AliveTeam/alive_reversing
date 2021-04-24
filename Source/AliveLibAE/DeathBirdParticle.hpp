@@ -6,14 +6,14 @@
 class DeathBirdParticle : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
 
     EXPORT DeathBirdParticle* ctor_43ECB0(FP xpos, FP ypos, int start, s16 playSound, FP scale);
 private:
     EXPORT void Update_43EE70();
     EXPORT void dtor_43EE50();
-    EXPORT DeathBirdParticle* vdtor_43EE20(signed int flags);
+    EXPORT DeathBirdParticle* vdtor_43EE20(s32 flags);
 private:
     char field_F4_random;
     enum class States : char

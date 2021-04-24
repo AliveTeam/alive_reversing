@@ -105,12 +105,12 @@ BaseGameObject* BackgroundAnimation::dtor_405CB0()
     return dtor_417D10();
 }
 
-BaseGameObject* BackgroundAnimation::VDestructor(signed int flags)
+BaseGameObject* BackgroundAnimation::VDestructor(s32 flags)
 {
     return Vdtor_405D70(flags);
 }
 
-BackgroundAnimation* BackgroundAnimation::Vdtor_405D70(signed int flags)
+BackgroundAnimation* BackgroundAnimation::Vdtor_405D70(s32 flags)
 {
     dtor_405CB0();
     if (flags & 1)

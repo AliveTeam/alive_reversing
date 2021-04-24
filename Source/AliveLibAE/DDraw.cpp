@@ -278,7 +278,7 @@ ALIVE_VAR(1, 0xBBC3AC, int, sbDD_FlipMode_BBC3AC, 0); // TODO: Make Enum
 ALIVE_VAR(1, 0xBBC3E0, LONG, sDD_old_win_style_BBC3E0, 0);
 
 
-EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
+EXPORT s32 CC DD_Shutdown_4F0790(int bDestroyDD)
 {
     if (sDDraw_BBC3D4)
     {
@@ -355,7 +355,7 @@ EXPORT LPDIRECTDRAWSURFACE CC DD_Create_Surface_4F0CB0(int width, int height, in
     return pSurface;
 }
 
-EXPORT signed int CC DD_RestoreSurfacesIfRequired_4F01D0(HRESULT hr, IDirectDrawSurface* pSurface1, IDirectDrawSurface* pSurface2)
+EXPORT s32 CC DD_RestoreSurfacesIfRequired_4F01D0(HRESULT hr, IDirectDrawSurface* pSurface1, IDirectDrawSurface* pSurface2)
 {
     if (hr == DDERR_SURFACELOST)
     {
@@ -409,7 +409,7 @@ EXPORT signed int CC DD_RestoreSurfacesIfRequired_4F01D0(HRESULT hr, IDirectDraw
 
 #pragma comment(lib, "ddraw.lib") // DirectDrawCreate
 
-EXPORT signed int CC DD_Init_4F02D0(HWND hwnd, bool bFullScreen, int forceSoftwareSurfaces)
+EXPORT s32 CC DD_Init_4F02D0(HWND hwnd, bool bFullScreen, int forceSoftwareSurfaces)
 {
     if (!sDDraw_BBC3D4)
     {
@@ -534,7 +534,7 @@ EXPORT int CC DD_SetDisplayMode_4F0730(DWORD width, DWORD height, DWORD bpp)
 ALIVE_VAR(1, 0xBBC3A4, int, sDD_Width_BBC3A4, 0);
 ALIVE_VAR(1, 0xBBC3A8, int, sDD_Height_BBC3A8, 0);
 
-EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int bpp, int flipMode, int a6)
+EXPORT s32 CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int bpp, int flipMode, int a6)
 {
     sbDD_FlipMode_BBC3AC = flipMode;
     //byte_BBC3C4[0] = 0; // TODO: Never used?
@@ -713,7 +713,7 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
 // Not used, part of 8 bpp mode
 //ALIVE_ARY(1, 0xBD2A80, PALETTEENTRY, 256, sDDPalEntry_BD2A80, {});
 
-static signed int InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
+static s32 InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
 {
     DDPIXELFORMAT pixelFormat = {};
     pixelFormat.dwSize = sizeof(DDPIXELFORMAT);
@@ -748,7 +748,7 @@ static signed int InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
     return 1;
 }
 
-static signed int CreateDDObjects(signed int backBufferCount)
+static s32 CreateDDObjects(s32 backBufferCount)
 {
     DDSURFACEDESC surfaceDesc = {};
     surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
@@ -796,7 +796,7 @@ static signed int CreateDDObjects(signed int backBufferCount)
     return InitColourKeyAndPallete(sDD_primary_surface_BBC3C8);
 }
 
-EXPORT signed int CC DD_Init_4F0840(signed int backBufferCount)
+EXPORT s32 CC DD_Init_4F0840(s32 backBufferCount)
 {
     if (!sbFullScreen_BBC3BC)
     {

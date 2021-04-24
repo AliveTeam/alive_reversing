@@ -154,7 +154,7 @@ Dove* Dove::ctor_41F660(int frameTableOffset, int /*maxW*/, s16 /*maxH*/, int /*
     return this;
 }
 
-BaseGameObject* Dove::VDestructor(signed int flags)
+BaseGameObject* Dove::VDestructor(s32 flags)
 {
     return vdtor_41F630(flags);
 }
@@ -197,7 +197,7 @@ void Dove::dtor_41F870()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Dove* Dove::vdtor_41F630(signed int flags)
+Dove* Dove::vdtor_41F630(s32 flags)
 {
     dtor_41F870();
     if (flags & 1)

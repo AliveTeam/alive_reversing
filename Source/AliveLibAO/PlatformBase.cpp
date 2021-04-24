@@ -126,7 +126,7 @@ void PlatformBase::KeepThingsOnPlatform_451690(FP xpos)
     }
 }
 
-BaseGameObject* PlatformBase::Vdtor_4516F0(signed int flags)
+BaseGameObject* PlatformBase::Vdtor_4516F0(s32 flags)
 {
     dtor_451490();
 
@@ -137,7 +137,7 @@ BaseGameObject* PlatformBase::Vdtor_4516F0(signed int flags)
     return this;
 }
 
-BaseGameObject* PlatformBase::VDestructor(signed int flags)
+BaseGameObject* PlatformBase::VDestructor(s32 flags)
 {
     return Vdtor_4516F0(flags);
 }

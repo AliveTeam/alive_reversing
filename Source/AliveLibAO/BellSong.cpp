@@ -82,7 +82,7 @@ BellSong* BellSong::ctor_4760B0(BellsongTypes type, u32 code)
     return this;
 }
 
-BaseGameObject* BellSong::VDestructor(signed int flags)
+BaseGameObject* BellSong::VDestructor(s32 flags)
 {
     dtor_487DF0();
     if (flags & 1)

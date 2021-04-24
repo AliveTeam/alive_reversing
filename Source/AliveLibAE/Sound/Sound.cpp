@@ -34,7 +34,7 @@ ALIVE_VAR(1, 0xBBC344, SDLSoundSystem*, sDSound_BBC344, nullptr);
 ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND, sDSound_BBC344, nullptr);
 #endif
 
-EXPORT signed int CC SND_CreateDS_4EEAA0(u32 sampleRate, int bitsPerSample, int isStereo)
+EXPORT s32 CC SND_CreateDS_4EEAA0(u32 sampleRate, int bitsPerSample, int isStereo)
 {
 #if USE_SDL2_SOUND
     return SND_CreateDS_SDL(sampleRate, bitsPerSample, isStereo);
@@ -52,7 +52,7 @@ EXPORT int CC SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 si
 #endif
 }
 
-EXPORT signed int CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount)
+EXPORT s32 CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount)
 {
 #if USE_SDL2_SOUND
     return SND_LoadSamples_SDL(pSnd, sampleOffset, pSoundBuffer, sampleCount);
@@ -111,7 +111,7 @@ EXPORT void CC SND_SsQuit_4EFD50()
 }
 
 
-EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
+EXPORT s32 CC SND_Free_4EFA30(SoundEntry* pSnd)
 {
     if (!sDSound_BBC344)
     {
@@ -271,7 +271,7 @@ EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, int sampl
     pWaveFormat->nAvgBytesPerSec = sampleRate * pWaveFormat->nBlockAlign;
 }
 
-EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo)
+EXPORT s32 CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo)
 {
     if (!sDSound_BBC344)
     {
@@ -351,7 +351,7 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
 }
 
 
-EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
+EXPORT s32 CC SND_Renew_4EEDD0(SoundEntry *pSnd)
 {
     if (!sDSound_BBC344)
     {
@@ -519,7 +519,7 @@ EXPORT int CC SND_Buffer_Get_Status_4F00F0(int idx, int a2)
     return fromStatus + 2 * (sLastNotePlayTime_BBC33C + (v6 << 8) - pSoundBuffer->field_C); // << 8 = * 256 ?
 }
 
-EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol)
+EXPORT s32 CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol)
 {
     TSoundBufferType* pSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pSoundBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
@@ -567,7 +567,7 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq)
 
 }
 
-EXPORT signed int CC SND_Stop_Sample_At_Idx_4EFA90(int idx)
+EXPORT s32 CC SND_Stop_Sample_At_Idx_4EFA90(int idx)
 {
     TSoundBufferType* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511) // TODO: Same unknown field_4 conversion

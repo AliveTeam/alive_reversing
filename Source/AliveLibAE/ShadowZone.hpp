@@ -29,7 +29,7 @@ enum class LevelIds : s16;
 class ShadowZone : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
@@ -37,7 +37,7 @@ public:
     EXPORT static void CC ShadowZones_Calculate_Colour_463CE0(int xpos, int ypos, s16 scale, short* r, short* g, short* b);
 private:
     EXPORT void dtor_463BB0();
-    EXPORT ShadowZone* vdtor_463A70(signed int flags);
+    EXPORT ShadowZone* vdtor_463A70(s32 flags);
     EXPORT void vScreenChanged_463CC0();
     EXPORT s16 ApplysToScale_463C70(s16 scale);
     EXPORT void vUpdate_463C40();

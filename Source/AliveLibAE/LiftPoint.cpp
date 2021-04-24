@@ -246,7 +246,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* LiftPoint::VDestructor(signed int flags)
+BaseGameObject* LiftPoint::VDestructor(s32 flags)
 {
     return vdtor_4619D0(flags);
 }
@@ -914,7 +914,7 @@ void LiftPoint::vStayOnFloor_461A00(s16 floor, Path_LiftPoint* pTlv)
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 }
 
-signed int LiftPoint::vGetSaveState_4637D0(LiftPoint_State *pState)
+s32 LiftPoint::vGetSaveState_4637D0(LiftPoint_State *pState)
 {
     pState->field_0_type = AETypes::eLiftPoint_78;
     pState->field_4_xpos = field_B8_xpos;
@@ -1050,7 +1050,7 @@ void LiftPoint::vScreenChanged_463020()
     }
 }
 
-LiftPoint* LiftPoint::vdtor_4619D0(signed int flags)
+LiftPoint* LiftPoint::vdtor_4619D0(s32 flags)
 {
     dtor_4624E0();
     if (flags & 1)

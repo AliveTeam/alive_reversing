@@ -39,7 +39,7 @@ class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VRender(PrimHeader** ppOt) override;
 
@@ -88,7 +88,7 @@ protected:
 
 private:
 
-    EXPORT BaseAnimatedWithPhysicsGameObject* Vdtor_4189C0(signed int flags);
+    EXPORT BaseAnimatedWithPhysicsGameObject* Vdtor_4189C0(s32 flags);
   
     EXPORT void VRender_417DA0(PrimHeader** ppOt);
 

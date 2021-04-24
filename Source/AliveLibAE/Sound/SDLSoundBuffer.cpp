@@ -164,7 +164,7 @@ HRESULT SDLSoundBuffer::GetFrequency(DWORD* freq)
     return S_OK;
 }
 
-HRESULT SDLSoundBuffer::SetPan(signed int pan)
+HRESULT SDLSoundBuffer::SetPan(s32 pan)
 {
     std::lock_guard<std::mutex> lock(mLock);
 

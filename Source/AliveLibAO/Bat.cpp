@@ -88,7 +88,7 @@ BaseGameObject* Bat::dtor_404870()
     return dtor_417D10();
 }
 
-BaseGameObject* Bat::VDestructor(signed int flags)
+BaseGameObject* Bat::VDestructor(s32 flags)
 {
     return Vdtor_404FF0(flags);
 }
@@ -103,7 +103,7 @@ void Bat::VScreenChanged_404FE0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-Bat* Bat::Vdtor_404FF0(signed int flags)
+Bat* Bat::Vdtor_404FF0(s32 flags)
 {
     dtor_404870();
     if (flags & 1)

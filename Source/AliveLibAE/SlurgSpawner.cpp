@@ -23,7 +23,7 @@ SlurgSpawner* SlurgSpawner::ctor_4C82E0(Path_SlurgSpawner* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* SlurgSpawner::VDestructor(signed int flags)
+BaseGameObject* SlurgSpawner::VDestructor(s32 flags)
 {
     return vdtor_4C8370(flags);
 }
@@ -68,7 +68,7 @@ void SlurgSpawner::dtor_4C83A0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-SlurgSpawner* SlurgSpawner::vdtor_4C8370(signed int flags)
+SlurgSpawner* SlurgSpawner::vdtor_4C8370(s32 flags)
 {
     dtor_4C83A0();
     if (flags & 1)

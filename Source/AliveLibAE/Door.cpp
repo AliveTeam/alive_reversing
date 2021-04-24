@@ -359,7 +359,7 @@ void Door::vScreenChange_41F080()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-Door* Door::vdtor_41E9D0(signed int flags)
+Door* Door::vdtor_41E9D0(s32 flags)
 {
     dtor_41EA00();
     if (flags & 1)
@@ -525,7 +525,7 @@ void Door::VUpdate()
     vUpdate_41EBE0();
 }
 
-BaseGameObject* Door::VDestructor(signed int flags)
+BaseGameObject* Door::VDestructor(s32 flags)
 {
     return vdtor_41E9D0(flags);
 }
@@ -572,7 +572,7 @@ TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* TrainDoor::VDestructor(signed int flags)
+BaseGameObject* TrainDoor::VDestructor(s32 flags)
 {
     return vdtor_4DD1D0(flags);
 }
@@ -582,7 +582,7 @@ void TrainDoor::VUpdate()
     vUpdate_4DD2A0();
 }
 
-TrainDoor* TrainDoor::vdtor_4DD1D0(signed int flags)
+TrainDoor* TrainDoor::vdtor_4DD1D0(s32 flags)
 {
     dtor_4DD200();
     if (flags & 1)

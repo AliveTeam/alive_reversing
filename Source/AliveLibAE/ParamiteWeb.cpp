@@ -86,12 +86,12 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
     vRender_4E1BA0(ppOt);
 }
 
-BaseGameObject* ParamiteWeb::VDestructor(signed int flags)
+BaseGameObject* ParamiteWeb::VDestructor(s32 flags)
 {
     return vdtor_4E1AF0(flags);
 }
 
-ParamiteWeb* ParamiteWeb::vdtor_4E1AF0(signed int flags)
+ParamiteWeb* ParamiteWeb::vdtor_4E1AF0(s32 flags)
 {
     dtor_4E1B20();
     if (flags & 1)

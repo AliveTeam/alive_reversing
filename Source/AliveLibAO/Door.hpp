@@ -59,9 +59,9 @@ public:
 
     EXPORT void VScreenChanged_40EDE0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT Door* Vdtor_40EDF0(signed int flags);
+    EXPORT Door* Vdtor_40EDF0(s32 flags);
 
     EXPORT BOOL vIsOpen_40E800();
 

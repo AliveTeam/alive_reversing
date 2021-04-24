@@ -18,11 +18,11 @@ public:
 
     EXPORT CameraSwapper* ctor_48C6B0(BYTE** ppBits, int moviePos1, int movieIds1, int moviePos2, int movieId2, int moviePos3, int movieId3, char movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VScreenChanged() override;
 
-    EXPORT CameraSwapper* Vdtor_48D380(signed int flags);
+    EXPORT CameraSwapper* Vdtor_48D380(s32 flags);
 
     EXPORT CameraSwapper* ctor_48C7A0(BYTE** ppBits, CameraSwapEffects changeEffect, s16 xpos, s16 ypos);
 

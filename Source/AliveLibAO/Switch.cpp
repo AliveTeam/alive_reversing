@@ -181,7 +181,7 @@ void Switch::VScreenChanged()
     VScreenChanged_4816F0();
 }
 
-Switch* Switch::Vdtor_481700(signed int flags)
+Switch* Switch::Vdtor_481700(s32 flags)
 {
     dtor_481260();
     if (flags & 1)
@@ -191,7 +191,7 @@ Switch* Switch::Vdtor_481700(signed int flags)
     return this;
 }
 
-BaseGameObject* Switch::VDestructor(signed int flags)
+BaseGameObject* Switch::VDestructor(s32 flags)
 {
     return Vdtor_481700(flags);
 }

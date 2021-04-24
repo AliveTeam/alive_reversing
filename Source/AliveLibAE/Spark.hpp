@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
 class Spark : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -32,7 +32,7 @@ private:
     EXPORT void vUpdate_4CBEF0();
     EXPORT void vRender_4CC050(PrimHeader** ppOt);
     EXPORT void vScreenChange_4CC4A0();
-    EXPORT Spark* vdtor_4CBE30(signed int flags);
+    EXPORT Spark* vdtor_4CBE30(s32 flags);
     EXPORT void dtor_4CBE60();
 private:
     Prim_SetTPage field_20_tPage[2];

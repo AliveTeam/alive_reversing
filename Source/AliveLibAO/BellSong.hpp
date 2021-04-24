@@ -20,7 +20,7 @@ public:
 
     EXPORT void VUpdate_476130();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
 
     int field_10_code_idx;

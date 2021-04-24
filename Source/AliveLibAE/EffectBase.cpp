@@ -7,7 +7,7 @@
 #include "PsxDisplay.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* EffectBase::VDestructor(signed int flags)
+BaseGameObject* EffectBase::VDestructor(s32 flags)
 {
     return vdtor_4AB8C0(flags);
 }
@@ -40,7 +40,7 @@ void EffectBase::dtor_4AB8F0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-EffectBase* EffectBase::vdtor_4AB8C0(signed int flags)
+EffectBase* EffectBase::vdtor_4AB8C0(s32 flags)
 {
     dtor_4AB8F0();
     if (flags & 1)

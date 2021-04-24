@@ -85,7 +85,7 @@ GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* GlukkonSwitch::VDestructor(signed int flags)
+BaseGameObject* GlukkonSwitch::VDestructor(s32 flags)
 {
     return vdtor_4450C0(flags);
 }
@@ -107,7 +107,7 @@ void GlukkonSwitch::dtor_4450F0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-GlukkonSwitch* GlukkonSwitch::vdtor_4450C0(signed int flags)
+GlukkonSwitch* GlukkonSwitch::vdtor_4450C0(s32 flags)
 {
     dtor_4450F0();
     if (flags & 1)

@@ -85,7 +85,7 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* BirdPortal::VDestructor(signed int flags)
+BaseGameObject* BirdPortal::VDestructor(s32 flags)
 {
     return vdtor_498050(flags);
 }
@@ -95,7 +95,7 @@ void BirdPortal::VUpdate()
     vUpdate_498280();
 }
 
-BirdPortal* BirdPortal::vdtor_498050(signed int flags)
+BirdPortal* BirdPortal::vdtor_498050(s32 flags)
 {
     dtor_4980A0();
     if (flags & 1)
@@ -623,7 +623,7 @@ void BirdPortal::vStopAudio_499260()
     }
 }
 
-signed int BirdPortal::vGetSaveState_499F50(BYTE* pBuffer)
+s32 BirdPortal::vGetSaveState_499F50(BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<BirdPortal_State*>(pBuffer);
     auto pTlv = static_cast<Path_BirdPortal*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_20_tlvInfo));
@@ -657,7 +657,7 @@ void BirdPortal::VStopAudio()
     vStopAudio_499260();
 }
 
-signed int BirdPortal::VGetSaveState(BYTE* pSaveBuffer)
+s32 BirdPortal::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_499F50(pSaveBuffer);
 }
@@ -1248,12 +1248,12 @@ void BirdPortalTerminator::VScreenChanged()
     // Staying alive
 }
 
-BaseGameObject* BirdPortalTerminator::VDestructor(signed int flags)
+BaseGameObject* BirdPortalTerminator::VDestructor(s32 flags)
 {
     return vdtor_497A70(flags);
 }
 
-BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::vdtor_497A70(signed int flags)
+BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::vdtor_497A70(s32 flags)
 {
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)

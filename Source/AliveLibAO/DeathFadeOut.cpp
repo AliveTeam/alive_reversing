@@ -107,7 +107,7 @@ DeathFadeOut* DeathFadeOut::ctor_419DB0(Layer layer, s16 direction, s16 destroyO
     return this;
 }
 
-BaseGameObject* DeathFadeOut::VDestructor(signed int flags)
+BaseGameObject* DeathFadeOut::VDestructor(s32 flags)
 {
     dtor_461630();
     if (flags & 1)

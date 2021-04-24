@@ -31,7 +31,7 @@ void DemoPlayback::ctor()
     }
 }
 
-BaseGameObject* DemoPlayback::VDestructor(signed int flags)
+BaseGameObject* DemoPlayback::VDestructor(s32 flags)
 {
     return vdtor_497880(flags);
 }
@@ -56,7 +56,7 @@ void DemoPlayback::dtor_4978B0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-DemoPlayback* DemoPlayback::vdtor_497880(signed int flags)
+DemoPlayback* DemoPlayback::vdtor_497880(s32 flags)
 {
     dtor_4978B0();
     if (flags & 1)

@@ -289,7 +289,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
     }
 }
 
-BaseGameObject* Explosion::VDestructor(signed int flags)
+BaseGameObject* Explosion::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

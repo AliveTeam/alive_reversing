@@ -111,7 +111,7 @@ DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, int start, s
     return this;
 }
 
-BaseGameObject* DeathBirdParticle::VDestructor(signed int flags)
+BaseGameObject* DeathBirdParticle::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

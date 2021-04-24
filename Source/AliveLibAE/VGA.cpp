@@ -39,7 +39,7 @@ bool s_VGA_FilterScreen = false;
 
 #if USE_SDL2
 
-EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
+EXPORT s32 CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
     //  NOT_IMPLEMENTED();
     LOG_INFO("Stub"); // Can't be empty func otherwise NOT_IMPLEMENT'ed searcher will look into the next function
@@ -100,7 +100,7 @@ EXPORT int CC VGA_Convert_Colour_4F4DB0(int r, int g, int b)
     return Bmp_Convert_Colour_4F17D0(VGA_GetBitmap_4F3F00(), r, g, b);
 }
 
-EXPORT signed int CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
+EXPORT s32 CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
 {
     return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
@@ -218,7 +218,7 @@ EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, u8 screenMode)
     VGA_CopyToFront_4F3730(pBmp, pRect, screenMode);
 }
 
-EXPORT signed int CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSurfaceType** ppSurface)
+EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSurfaceType** ppSurface)
 {
     // TODO: Window sub classing for VGA_WindowSubClass_4F2F50 removed as it only exists to support 8 bpp mode.
 
@@ -340,7 +340,7 @@ EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(int /*always3*/)
 #else
 
 #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
+EXPORT s32 CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
   //  NOT_IMPLEMENTED();
     LOG_INFO("Stub"); // Can't be empty func otherwise NOT_IMPLEMENT'ed searcher will look into the next function
@@ -395,7 +395,7 @@ EXPORT int CC VGA_Convert_Colour_4F4DB0(int r, int g, int b)
     return Bmp_Convert_Colour_4F17D0(VGA_GetBitmap_4F3F00(), r, g, b);
 }
 
-EXPORT signed int CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
+EXPORT s32 CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
 {
     return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
@@ -663,9 +663,9 @@ EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
     VGA_CopyToFront_4F3730(pBmp, pRect, 0);
 }
 
-EXPORT signed int CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSurfaceType** ppSurface)
+EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSurfaceType** ppSurface)
 {
-    signed int result = 0;
+    s32 result = 0;
 
     // TODO: Window sub classing for VGA_WindowSubClass_4F2F50 removed as it only exists to support 8 bpp mode.
 

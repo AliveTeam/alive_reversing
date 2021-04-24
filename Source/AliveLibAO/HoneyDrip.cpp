@@ -50,7 +50,7 @@ void HoneyDrip::VUpdate_431DC0()
     }
 }
 
-BaseGameObject* HoneyDrip::VDestructor(signed int flags)
+BaseGameObject* HoneyDrip::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

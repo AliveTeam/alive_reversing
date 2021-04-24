@@ -47,7 +47,7 @@ Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, s16 numGrenades, s16 bBlowUpOnCo
     return this;
 }
 
-BaseGameObject* Grenade::VDestructor(signed int flags)
+BaseGameObject* Grenade::VDestructor(s32 flags)
 {
     return vdtor_4480E0(flags);
 }
@@ -315,7 +315,7 @@ void Grenade::dtor_448220()
     dtor_4080B0();
 }
 
-Grenade* Grenade::vdtor_4480E0(signed int flags)
+Grenade* Grenade::vdtor_4480E0(s32 flags)
 {
     dtor_448220();
 

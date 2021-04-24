@@ -22,12 +22,12 @@ class RollingBallStopper : public BaseAliveGameObject
 {
 public:
     EXPORT RollingBallStopper* ctor_43BCE0(Path_RollingBallStopper* pTlv, int tlvInfo);
-    EXPORT BaseGameObject* Vdtor_43C160(signed int flags);
+    EXPORT BaseGameObject* Vdtor_43C160(s32 flags);
     EXPORT BaseGameObject* dtor_43C0A0();
     EXPORT void VScreenChanged_43C130();
     EXPORT void VUpdate_43BF70();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

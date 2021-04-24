@@ -27,14 +27,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WheelSyncer, 0x20);
 class WheelSyncer : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
     EXPORT WheelSyncer* ctor_466090(Path_WheelSyncer* pTlv, DWORD tlvInfo);
 private:
     EXPORT void vUpdate_4661D0();
-    EXPORT WheelSyncer* vdtor_466120(signed int flags);
+    EXPORT WheelSyncer* vdtor_466120(s32 flags);
     EXPORT void dtor_466150();
     EXPORT void vScreenChanged_466310();
 private:

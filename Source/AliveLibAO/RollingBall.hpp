@@ -28,9 +28,9 @@ public:
 
     EXPORT BaseGameObject* dtor_458230();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT RollingBall* Vdtor_458490(signed int flags);
+    EXPORT RollingBall* Vdtor_458490(s32 flags);
 
     virtual void VUpdate() override;
 

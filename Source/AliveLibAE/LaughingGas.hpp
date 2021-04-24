@@ -36,7 +36,7 @@ public:
 
     EXPORT void dtor_432B80();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VScreenChanged() override;
 
@@ -49,7 +49,7 @@ private:
 
     EXPORT void Init_432980();
 
-    EXPORT LaughingGas* vdtor_432670(signed int flags);
+    EXPORT LaughingGas* vdtor_432670(s32 flags);
 
     EXPORT void vRender_432D10(PrimHeader** ppOt);
 

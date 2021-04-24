@@ -124,12 +124,12 @@ BaseGameObject* ScreenWave::dtor_463010()
     return dtor_487DF0();
 }
 
-BaseGameObject* ScreenWave::VDestructor(signed int flags)
+BaseGameObject* ScreenWave::VDestructor(s32 flags)
 {
     return Vdtor_463860(flags);
 }
 
-ScreenWave* ScreenWave::Vdtor_463860(signed int flags)
+ScreenWave* ScreenWave::Vdtor_463860(s32 flags)
 {
     dtor_463010();
     if (flags & 1)

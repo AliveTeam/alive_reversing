@@ -29,14 +29,14 @@ class MovingBomb : public BaseAliveGameObject
 public:
     EXPORT MovingBomb* ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VScreenChanged() override;
 private:
-    EXPORT MovingBomb* vdtor_470040(signed int flags);
+    EXPORT MovingBomb* vdtor_470040(s32 flags);
     EXPORT void dtor_4700C0();
     EXPORT void BlowUp_470070();
     EXPORT void vRender_4707D0(PrimHeader** ot);

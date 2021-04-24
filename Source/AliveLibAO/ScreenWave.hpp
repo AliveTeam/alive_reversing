@@ -20,9 +20,9 @@ public:
 
     EXPORT BaseGameObject* dtor_463010();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT ScreenWave* Vdtor_463860(signed int flags);
+    EXPORT ScreenWave* Vdtor_463860(s32 flags);
 
     virtual void VScreenChanged() override;
 

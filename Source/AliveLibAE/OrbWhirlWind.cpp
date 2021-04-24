@@ -4,7 +4,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* OrbWhirlWind::VDestructor(signed int flags)
+BaseGameObject* OrbWhirlWind::VDestructor(s32 flags)
 {
     return vdtor_4E3D50(flags);
 }
@@ -164,7 +164,7 @@ void OrbWhirlWind::dtor_4E3D80()
 }
 
 
-OrbWhirlWind* OrbWhirlWind::vdtor_4E3D50(signed int flags)
+OrbWhirlWind* OrbWhirlWind::vdtor_4E3D50(s32 flags)
 {
     dtor_4E3D80();
     if (flags & 1)

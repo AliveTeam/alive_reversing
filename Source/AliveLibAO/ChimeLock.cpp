@@ -22,7 +22,7 @@ namespace AO {
 // TODO: Index is always >=1 so first entry is redundant ??
 const int dword_4C5054[11] = { 0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
 
-ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
+ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BA3C8);
@@ -162,7 +162,7 @@ BaseGameObject* ChimeLock::dtor_40AE60()
     return dtor_401000();
 }
 
-ChimeLock* ChimeLock::Vdtor_40BD40(signed int flags)
+ChimeLock* ChimeLock::Vdtor_40BD40(s32 flags)
 {
     dtor_40AE60();
     if (flags & 1)
@@ -666,7 +666,7 @@ void ChimeLock::VPossessed_40BC40()
     field_164_ChimeLock_num[1] = BellPositions::eNone_0;
 }
 
-BaseGameObject* ChimeLock::VDestructor(signed int flags)
+BaseGameObject* ChimeLock::VDestructor(s32 flags)
 {
     return Vdtor_40BD40(flags);
 }

@@ -291,7 +291,7 @@ BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, int /*unused*/, FP scale)
     return this;
 }
 
-BaseGameObject* BaseBomb::VDestructor(signed int flags)
+BaseGameObject* BaseBomb::VDestructor(s32 flags)
 {
     dtor_417D10();
 

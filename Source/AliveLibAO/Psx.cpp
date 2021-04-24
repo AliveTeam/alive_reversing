@@ -55,7 +55,7 @@ EXPORT int PSX_LoadImage_496480(const PSX_RECT* pRect, const BYTE* pData)
     return PSX_LoadImage_4F5FB0(pRect, pData);
 }
 
-EXPORT signed int CC PSX_StoreImage_496320(const PSX_RECT* rect, WORD* pData)
+EXPORT s32 CC PSX_StoreImage_496320(const PSX_RECT* rect, WORD* pData)
 {
     return PSX_StoreImage_4F5E90(rect, pData);
 }
@@ -125,7 +125,7 @@ EXPORT int CC PSX_MoveImage_4961A0(const PSX_RECT* pRect, int xpos, int ypos)
     return PSX_MoveImage_4F5D50(pRect, xpos, ypos);
 }
 
-EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char* pPath1, const char* pPath2, const char* pPath3)
+EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char* pPath1, const char* pPath2, const char* pPath3)
 {
     return PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(pPath1, pPath2, pPath3);
 }
@@ -135,7 +135,7 @@ EXPORT void CC PSX_EMU_Init_49A1D0(bool bShowVRam)
     PSX_EMU_Init_4F9CD0(bShowVRam);
 }
 
-EXPORT signed int PSX_EMU_VideoAlloc_49A2B0()
+EXPORT s32 PSX_EMU_VideoAlloc_49A2B0()
 {
     return PSX_EMU_VideoAlloc_4F9D70();
 }

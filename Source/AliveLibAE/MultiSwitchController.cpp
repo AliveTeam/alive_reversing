@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* MultiSwitchController::VDestructor(signed int flags)
+BaseGameObject* MultiSwitchController::VDestructor(s32 flags)
 {
     return vdtor_4D61A0(flags);
 }
@@ -50,7 +50,7 @@ MultiSwitchController* MultiSwitchController::ctor_4D60E0(Path_MultiSwitchContro
     return this;
 }
 
-MultiSwitchController* MultiSwitchController::vdtor_4D61A0(signed int flags)
+MultiSwitchController* MultiSwitchController::vdtor_4D61A0(s32 flags)
 {
     dtor_4D61D0();
     if (flags & 1)

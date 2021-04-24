@@ -17,12 +17,12 @@ class FartMachine : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT FartMachine* ctor_413060(Path_FartMachine* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT FartMachine* vdtor_413290(signed int flags);
+    EXPORT FartMachine* vdtor_413290(s32 flags);
     EXPORT void dtor_413330();
     EXPORT void vUpdate_4132C0();
     EXPORT void vRender_4133F0(PrimHeader** ppOt);

@@ -92,7 +92,7 @@ void LaughingGas::dtor_432B80()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* LaughingGas::VDestructor(signed int flags)
+BaseGameObject* LaughingGas::VDestructor(s32 flags)
 {
     return vdtor_432670(flags);
 }
@@ -181,7 +181,7 @@ void LaughingGas::Init_432980()
     field_5C_prim.pData = field_19C_pMem;
 }
 
-LaughingGas* LaughingGas::vdtor_432670(signed int flags)
+LaughingGas* LaughingGas::vdtor_432670(s32 flags)
 {
     dtor_432B80();
     if (flags & 1)

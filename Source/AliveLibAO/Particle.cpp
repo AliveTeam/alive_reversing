@@ -232,7 +232,7 @@ Particle* Particle::ctor_478880(FP xpos, FP ypos, int animFrameTableOffset, int 
     return this;
 }
 
-BaseGameObject* Particle::VDestructor(signed int flags)
+BaseGameObject* Particle::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

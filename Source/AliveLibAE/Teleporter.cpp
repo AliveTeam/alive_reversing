@@ -40,7 +40,7 @@ Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, DWORD tlvInfo)
     return this;
 }
 
-BaseGameObject* Teleporter::VDestructor(signed int flags)
+BaseGameObject* Teleporter::VDestructor(s32 flags)
 {
     return vdtor_4DC350(flags);
 }
@@ -55,7 +55,7 @@ void Teleporter::VScreenChanged()
     vScreenChanged_4DCE80();
 }
 
-Teleporter* Teleporter::vdtor_4DC350(signed int flags)
+Teleporter* Teleporter::vdtor_4DC350(s32 flags)
 {
     dtor_4DC380();
     if (flags & 1)

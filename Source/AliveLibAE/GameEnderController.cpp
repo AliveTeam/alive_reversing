@@ -66,7 +66,7 @@ GameEnderController* GameEnderController::ctor_43B840()
     return this;
 }
 
-BaseGameObject* GameEnderController::VDestructor(signed int flags)
+BaseGameObject* GameEnderController::VDestructor(s32 flags)
 {
     return vdtor_43B8D0(flags);
 }
@@ -86,7 +86,7 @@ int GameEnderController::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_43BCD0(reinterpret_cast<GameEnderController_State*>(pSaveBuffer));
 }
 
-GameEnderController* GameEnderController::vdtor_43B8D0(signed int flags)
+GameEnderController* GameEnderController::vdtor_43B8D0(s32 flags)
 {
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)

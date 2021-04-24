@@ -12,9 +12,9 @@ public:
 
     EXPORT BaseGameObject* dtor_406770();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT LightEffect* Vdtor_406800(signed int flags);
+    EXPORT LightEffect* Vdtor_406800(s32 flags);
 
     EXPORT void VRender_4067F0(PrimHeader** ppOt);
 

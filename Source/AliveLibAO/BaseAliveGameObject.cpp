@@ -170,12 +170,12 @@ BaseGameObject* BaseAliveGameObject::dtor_401000()
     return dtor_417D10();
 }
 
-BaseGameObject* BaseAliveGameObject::VDestructor(signed int flags)
+BaseGameObject* BaseAliveGameObject::VDestructor(s32 flags)
 {
     return Vdtor_402540(flags);
 }
 
-BaseGameObject* BaseAliveGameObject::Vdtor_402540(signed int flags)
+BaseGameObject* BaseAliveGameObject::Vdtor_402540(s32 flags)
 {
     dtor_401000();
     if (flags & 1)

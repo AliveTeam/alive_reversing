@@ -72,7 +72,7 @@ void UXB::PlaySFX_4DE930(u8 sfxIdx)
     }
 }
 
-signed int UXB::IsColliding_4DF630()
+s32 UXB::IsColliding_4DF630()
 {
     PSX_RECT uxbBound = {};
     vGetBoundingRect_424FD0(&uxbBound, 1);
@@ -121,7 +121,7 @@ void UXB::VRender(PrimHeader** ppOt)
     Render_4DF3D0(ppOt);
 }
 
-BaseGameObject* UXB::VDestructor(signed int flags)
+BaseGameObject* UXB::VDestructor(s32 flags)
 {
     return vdtor_4DEEA0(flags);
 }
@@ -395,7 +395,7 @@ void UXB::dtor_4DEF60()
     dtor_4080B0();
 }
 
-BaseGameObject* UXB::vdtor_4DEEA0(signed int flags)
+BaseGameObject* UXB::vdtor_4DEEA0(s32 flags)
 {
     dtor_4DEF60();
     if (flags & 1)

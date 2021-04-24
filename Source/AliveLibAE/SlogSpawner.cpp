@@ -34,7 +34,7 @@ SlogSpawner* SlogSpawner::ctor_4C7FF0(Path_SlogSpawner* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* SlogSpawner::VDestructor(signed int flags)
+BaseGameObject* SlogSpawner::VDestructor(s32 flags)
 {
     return vdtor_4C8080(flags);
 }
@@ -49,7 +49,7 @@ void SlogSpawner::VScreenChanged()
     vScreenChanged_4C82A0();
 }
 
-SlogSpawner* SlogSpawner::vdtor_4C8080(signed int flags)
+SlogSpawner* SlogSpawner::vdtor_4C8080(s32 flags)
 {
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)

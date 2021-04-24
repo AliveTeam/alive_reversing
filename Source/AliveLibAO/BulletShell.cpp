@@ -58,12 +58,12 @@ BaseGameObject* BulletShell::dtor_4628B0()
     return dtor_417D10();
 }
 
-BaseGameObject* BulletShell::VDestructor(signed int flags)
+BaseGameObject* BulletShell::VDestructor(s32 flags)
 {
     return Vdtor_462A50(flags);
 }
 
-BulletShell* BulletShell::Vdtor_462A50(signed int flags)
+BulletShell* BulletShell::Vdtor_462A50(s32 flags)
 {
     dtor_4628B0();
     if (flags & 1)

@@ -70,7 +70,7 @@ EXPORT void BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* BaseAnimatedWithPhysicsGameObject::vdtor_424A40(signed int flags)
+BaseGameObject* BaseAnimatedWithPhysicsGameObject::vdtor_424A40(s32 flags)
 {
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
@@ -80,7 +80,7 @@ BaseGameObject* BaseAnimatedWithPhysicsGameObject::vdtor_424A40(signed int flags
     return this;
 }
 
-BaseGameObject* BaseAnimatedWithPhysicsGameObject::VDestructor(signed int flags)
+BaseGameObject* BaseAnimatedWithPhysicsGameObject::VDestructor(s32 flags)
 {
     return vdtor_424A40(flags);
 }
@@ -550,7 +550,7 @@ namespace AETest::TestsBaseAnimatedWithPhysicsGameObject
     class TestObj : public ::BaseAnimatedWithPhysicsGameObject
     {
     public:
-        virtual BaseGameObject* VDestructor(signed int) override
+        virtual BaseGameObject* VDestructor(s32) override
         {
             // Stub
             return this;

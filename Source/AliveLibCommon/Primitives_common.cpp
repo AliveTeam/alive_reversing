@@ -167,8 +167,8 @@ void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr)
     // TODO: 64bit fail
     DWORD asPtr = *((DWORD*)&ptr);
 
-    signed int ptr_first_half = (signed int)asPtr >> 16;
-    s16 ptr_second_half = (WORD)(signed int)(asPtr);
+    s32 ptr_first_half = (s32)asPtr >> 16;
+    s16 ptr_second_half = (WORD)(s32)(asPtr);
     pPoly->mVerts[1].mUv.tpage_clut_pad = ptr_second_half;
     pPoly->mVerts[2].mUv.tpage_clut_pad = static_cast<WORD>(ptr_first_half);
 #else

@@ -23,7 +23,7 @@ void RollingBall::VUpdate()
     VUpdate_457AF0();
 }
 
-RollingBall* RollingBall::Vdtor_458490(signed int flags)
+RollingBall* RollingBall::Vdtor_458490(s32 flags)
 {
     dtor_458230();
     if (flags & 1)
@@ -33,7 +33,7 @@ RollingBall* RollingBall::Vdtor_458490(signed int flags)
     return this;
 }
 
-BaseGameObject* RollingBall::VDestructor(signed int flags)
+BaseGameObject* RollingBall::VDestructor(s32 flags)
 {
     return Vdtor_458490(flags);
 }

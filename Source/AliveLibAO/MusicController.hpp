@@ -56,9 +56,9 @@ public:
 
     EXPORT void VUpdate_443300();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT MusicController* Vdtor_4439D0(signed int flags);
+    EXPORT MusicController* Vdtor_4439D0(s32 flags);
 
     EXPORT static void CC PlayMusic_443810(MusicTypes a1, BaseGameObject* a2, s16 a3, s16 a4);
 

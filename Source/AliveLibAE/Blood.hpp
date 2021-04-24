@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF(BloodParticle, 0x40);
 class Blood : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -26,7 +26,7 @@ public:
 private:
     EXPORT void dtor_40F5D0();
 
-    EXPORT BaseGameObject* vDtor_40F5A0(signed int /*flags*/);
+    EXPORT BaseGameObject* vDtor_40F5A0(s32 /*flags*/);
     EXPORT void vUpdate_40F650();
     EXPORT void vRender_40F780(PrimHeader** ppOt);
     EXPORT void vScreenChanged_40FAD0();

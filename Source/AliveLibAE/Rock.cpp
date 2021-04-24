@@ -72,7 +72,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
     return this;
 }
 
-BaseGameObject* Rock::VDestructor(signed int flags)
+BaseGameObject* Rock::VDestructor(s32 flags)
 {
     return vdtor_49E370(flags);
 }
@@ -130,7 +130,7 @@ BOOL Rock::vCanThrow_49E350()
     return field_11C_state == RockStates::eBouncing_4;
 }
 
-Rock* Rock::vdtor_49E370(signed int flags)
+Rock* Rock::vdtor_49E370(s32 flags)
 {
     dtor_49E3A0();
     if (flags & 1)
@@ -470,7 +470,7 @@ void Rock::vUpdate_49E9F0()
     }
 }
 
-signed int Rock::vGetSaveState_49F9A0(RockSaveState* pState)
+s32 Rock::vGetSaveState_49F9A0(RockSaveState* pState)
 {
     pState->field_0_type = AETypes::eRock_105;
     pState->field_4_obj_id = field_C_objectId;

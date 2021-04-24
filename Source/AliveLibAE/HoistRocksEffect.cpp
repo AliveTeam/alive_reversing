@@ -11,7 +11,7 @@
 const static int dword_5556E0[4] = { 204, 180, 192, 204 };
 const static s16 word_5556F0[12] = { 5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0 };
 
-BaseGameObject* HoistRocksEffect::VDestructor(signed int flags)
+BaseGameObject* HoistRocksEffect::VDestructor(s32 flags)
 {
     return vdtor_45D430(flags);
 }
@@ -99,7 +99,7 @@ HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, int tlvInfo)
     return this;
 }
 
-HoistRocksEffect* HoistRocksEffect::vdtor_45D430(signed int flags)
+HoistRocksEffect* HoistRocksEffect::vdtor_45D430(s32 flags)
 {
     dtor_45D6D0();
     if (flags & 1)

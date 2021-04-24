@@ -61,7 +61,7 @@ void DoorBlocker::VUpdate()
     vUpdate_41F250();
 }
 
-BaseGameObject* DoorBlocker::VDestructor(signed int flags)
+BaseGameObject* DoorBlocker::VDestructor(s32 flags)
 {
     return vdtor_41F220(flags);
 }
@@ -93,7 +93,7 @@ void DoorBlocker::vUpdate_41F250()
     }
 }
 
-DoorBlocker* DoorBlocker::vdtor_41F220(signed int flags)
+DoorBlocker* DoorBlocker::vdtor_41F220(s32 flags)
 {
     dtor_41F310();
     if (flags & 1)

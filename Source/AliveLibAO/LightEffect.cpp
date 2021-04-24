@@ -53,12 +53,12 @@ BaseGameObject* LightEffect::dtor_406770()
     return dtor_417D10();
 }
 
-BaseGameObject* LightEffect::VDestructor(signed int flags)
+BaseGameObject* LightEffect::VDestructor(s32 flags)
 {
     return Vdtor_406800(flags);
 }
 
-LightEffect* LightEffect::Vdtor_406800(signed int flags)
+LightEffect* LightEffect::Vdtor_406800(s32 flags)
 {
     dtor_406770();
     if (flags & 1)

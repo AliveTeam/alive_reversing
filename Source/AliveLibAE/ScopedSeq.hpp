@@ -9,10 +9,10 @@ class ScopedSeq
 public:
     EXPORT ScopedSeq* ctor_4CB210(char ambianceId, CameraPos direction);
 
-    virtual ScopedSeq* VDestructor(signed int flags);
+    virtual ScopedSeq* VDestructor(s32 flags);
 
 private:
-    EXPORT ScopedSeq* vdtor_4CB410(signed int flags);
+    EXPORT ScopedSeq* vdtor_4CB410(s32 flags);
 
     EXPORT void dtor_4CB440();
 

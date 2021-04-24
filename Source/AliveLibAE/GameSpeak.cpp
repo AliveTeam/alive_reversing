@@ -153,7 +153,7 @@ void GameSpeak::dtor_4218A0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* GameSpeak::vdtor_421870(signed int flags)
+BaseGameObject* GameSpeak::vdtor_421870(s32 flags)
 {
     dtor_4218A0();
     if (flags & 1)
@@ -163,7 +163,7 @@ BaseGameObject* GameSpeak::vdtor_421870(signed int flags)
     return this;
 }
 
-BaseGameObject* GameSpeak::VDestructor(signed int flags)
+BaseGameObject* GameSpeak::VDestructor(s32 flags)
 {
     return vdtor_421870(flags);
 }

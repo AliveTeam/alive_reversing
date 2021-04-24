@@ -80,7 +80,7 @@ EXPORT void CC DebugFont_Reset_4F8B40()
     sFntCount_BD0F28 = 0;
 }
 
-EXPORT void CC DebugFont_Update_Text_4F8BE0(signed int idx)
+EXPORT void CC DebugFont_Update_Text_4F8BE0(s32 idx)
 {
     if (idx >= 0 && idx <= 3)
     {

@@ -267,7 +267,7 @@ BaseGameObject* Scrab::dtor_45BA50()
     return dtor_401000();
 }
 
-BaseGameObject* Scrab::VDestructor(signed int flags)
+BaseGameObject* Scrab::VDestructor(s32 flags)
 {
     return Vdtor_45C310(flags);
 }
@@ -285,7 +285,7 @@ void Scrab::VRender_45BBF0(PrimHeader** ppOt)
     }
 }
 
-Scrab* Scrab::Vdtor_45C310(signed int flags)
+Scrab* Scrab::Vdtor_45C310(s32 flags)
 {
     dtor_45BA50();
     if (flags & 1)

@@ -18,7 +18,7 @@ public:
     EXPORT void ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
     EXPORT void ToStop_4E4050();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
@@ -26,7 +26,7 @@ private:
     EXPORT void vRender_4E3F80(PrimHeader** ppOt);
     EXPORT void vUpdate_4E3E20();
     EXPORT void dtor_4E3D80();
-    EXPORT OrbWhirlWind* vdtor_4E3D50(signed int flags);
+    EXPORT OrbWhirlWind* vdtor_4E3D50(s32 flags);
 private:
     int field_20_particle_spawn_counter;
     ParticlesState field_24_particles_state;

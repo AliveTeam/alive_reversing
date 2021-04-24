@@ -258,7 +258,7 @@ EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(char /*mode*/)
     NOT_IMPLEMENTED();
 }
 
-EXPORT signed int CC PSX_CD_Add_EMU_Path_4FAC00(const char* /*filePath*/)
+EXPORT s32 CC PSX_CD_Add_EMU_Path_4FAC00(const char* /*filePath*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -270,7 +270,7 @@ const char kDirChar[] = "\\";
 const char kDirChar[] = "/";
 #endif
 
-EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3)
+EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3)
 {
     if (pPath1)
     {
@@ -691,7 +691,7 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
     // Note: Removed width == 32 optimization case.
 }
 
-EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
+EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
 {
     if (!PSX_Rect_IsInFrameBuffer_4FA050(rect))
     {
@@ -799,7 +799,7 @@ EXPORT void CC PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
     }
 }
 
-EXPORT signed int CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int ypos)
+EXPORT s32 CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int ypos)
 {
     if (PSX_Rect_IsInFrameBuffer_4FA050(pRect))
     {
@@ -871,7 +871,7 @@ EXPORT int CC PSX_VSync_4F6170(int mode)
     if (mode == 1) // Ignore Frame cap
     {
         sVSync_Unused_578325 = 1;
-        const int v3 = (signed int)((unsigned __int64)(1172812403ULL * (signed int)(240 * (currentTime - sVSyncLastMillisecond_BD0F2C))) >> 32) >> 14;
+        const int v3 = (s32)((unsigned __int64)(1172812403ULL * (s32)(240 * (currentTime - sVSyncLastMillisecond_BD0F2C))) >> 32) >> 14;
         return (v3 >> 31) + v3;
     }
     else if (mode < 0) // Nope.

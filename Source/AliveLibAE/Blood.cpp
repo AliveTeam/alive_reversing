@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "PsxDisplay.hpp"
 
-BaseGameObject* Blood::VDestructor(signed int flags)
+BaseGameObject* Blood::VDestructor(s32 flags)
 {
     return vDtor_40F5A0(flags);
 }
@@ -166,7 +166,7 @@ void Blood::dtor_40F5D0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-BaseGameObject* Blood::vDtor_40F5A0(signed int flags)
+BaseGameObject* Blood::vDtor_40F5A0(s32 flags)
 {
     dtor_40F5D0();
     if (flags & 1)

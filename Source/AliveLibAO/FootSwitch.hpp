@@ -35,9 +35,9 @@ public:
 
     EXPORT FootSwitch* ctor_4887F0(Path_FootSwitch* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT FootSwitch* vdtor_488C10(signed int flags);
+    EXPORT FootSwitch* vdtor_488C10(s32 flags);
 
     EXPORT BaseGameObject* dtor_4889E0();
 

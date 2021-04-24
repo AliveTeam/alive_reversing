@@ -148,7 +148,7 @@ ALIVE_VAR(1, 0xA89190, char, sbDisableSeqs_A89190, 0);
 ALIVE_VAR(1, 0x4E8FD8, DWORD, sLastTime_4E8FD8, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xA8919C, BYTE, sControllerValue_A8919C, 0);
 
-EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx);
+EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(int idx);
 EXPORT void CC SsUtKeyOffV_49EE50(s16 idx);
 
 class AOPsxSpuApiVars : public IPsxSpuApiVars
@@ -286,7 +286,7 @@ EXPORT void CC SsSeqCalledTbyT_49E9F0()
     SsSeqCalledTbyT_4FDC80();
 }
 
-EXPORT signed int CC SND_New_492790(SoundEntry* pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo)
+EXPORT s32 CC SND_New_492790(SoundEntry* pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo)
 {
     return SND_New_4EEFF0(pSnd, sampleLength, sampleRate, bitsPerSample, isStereo);
 }
@@ -352,7 +352,7 @@ EXPORT void CC MIDI_SetTempo_49E8F0(s16 idx, s16 kZero, s16 tempo)
     MIDI_SetTempo_4FDB80(idx, kZero, tempo);
 }
 
-EXPORT signed int CC MIDI_Allocate_Channel_49D660(int not_used, int priority)
+EXPORT s32 CC MIDI_Allocate_Channel_49D660(int not_used, int priority)
 {
     return MIDI_Allocate_Channel_4FCA50(not_used, priority);
 }
@@ -535,7 +535,7 @@ EXPORT int CC MIDI_PlayerPlayMidiNote_49D730(int vabId, int program, int note, i
     return 0;
 }
 
-EXPORT int CC MIDI_PlayerPlayMidiNote_49DAD0(int vabId, int program, int note, int leftVol, signed int rightVol, int volume)
+EXPORT int CC MIDI_PlayerPlayMidiNote_49DAD0(int vabId, int program, int note, int leftVol, s32 rightVol, int volume)
 {
     if (rightVol >= 64)
     {
@@ -590,7 +590,7 @@ enum MidiEvent
     OtherCommands_F0 = 0xF0
 };
 
-EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
+EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(int idx)
 {
     MIDI_SeqSong* pCtx = &GetSpuApiVars()->sMidiSeqSongs(idx);
     BYTE** ppSeqData = &pCtx->field_0_seq_data;

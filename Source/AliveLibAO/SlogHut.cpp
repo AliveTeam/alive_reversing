@@ -14,7 +14,7 @@ void SlogHut::VScreenChanged()
     VScreenChanged_472E20();
 }
 
-SlogHut* SlogHut::Vdtor_472E30(signed int flags)
+SlogHut* SlogHut::Vdtor_472E30(s32 flags)
 {
     dtor_472CF0();
     if (flags & 1)
@@ -24,7 +24,7 @@ SlogHut* SlogHut::Vdtor_472E30(signed int flags)
     return this;
 }
 
-BaseGameObject* SlogHut::VDestructor(signed int flags)
+BaseGameObject* SlogHut::VDestructor(s32 flags)
 {
     return Vdtor_472E30(flags);
 }

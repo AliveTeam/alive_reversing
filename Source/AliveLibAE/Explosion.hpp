@@ -8,7 +8,7 @@ class Explosion : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT Explosion* ctor_4A1200(FP xpos, FP ypos, FP scale, s16 bSmall);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -24,7 +24,7 @@ private:
 
     EXPORT void dtor_4A14F0();
 
-    EXPORT Explosion* vdtor_4A14C0(signed int flags);
+    EXPORT Explosion* vdtor_4A14C0(s32 flags);
 
 private:
     s16 field_F4_bSmall;

@@ -55,7 +55,7 @@ int CC LiftMover::CreateFromSaveState_40D180(const BYTE* pData)
     return sizeof(LiftMover_State);
 }
 
-BaseGameObject* LiftMover::VDestructor(signed int flags)
+BaseGameObject* LiftMover::VDestructor(s32 flags)
 {
     return vdtor_40CD70(flags);
 }
@@ -226,7 +226,7 @@ void LiftMover::dtor_40CDA0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-LiftMover* LiftMover::vdtor_40CD70(signed int flags)
+LiftMover* LiftMover::vdtor_40CD70(s32 flags)
 {
     dtor_40CDA0();
     if (flags & 1)

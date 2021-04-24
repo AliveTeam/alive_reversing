@@ -28,10 +28,10 @@ public:
     EXPORT BaseGameObject* dtor_405220();
 
     virtual void VScreenChanged() override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     EXPORT void VScreenChanged_4054B0();
-    EXPORT BellHammer* Vdtor_4054C0(signed int flags);
+    EXPORT BellHammer* Vdtor_4054C0(s32 flags);
 
     virtual void VUpdate() override;
 

@@ -96,7 +96,7 @@ void SecurityDoor::VUpdate()
     vUpdate_4AC380();
 }
 
-BaseGameObject* SecurityDoor::VDestructor(signed int flags)
+BaseGameObject* SecurityDoor::VDestructor(s32 flags)
 {
     return vdtor_4AC230(flags);
 }
@@ -117,7 +117,7 @@ void SecurityDoor::vScreenChanged_4AC970()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-SecurityDoor* SecurityDoor::vdtor_4AC230(signed int flags)
+SecurityDoor* SecurityDoor::vdtor_4AC230(s32 flags)
 {
     dtor_4AC260();
     if (flags & 1)

@@ -109,7 +109,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
     return this;
 }
 
-BaseGameObject* ZapLine::VDestructor(signed int flags)
+BaseGameObject* ZapLine::VDestructor(s32 flags)
 {
     return vdtor_4CCAA0(flags);
 }
@@ -130,7 +130,7 @@ void ZapLine::VScreenChanged()
     vScreenChanged_4CDBE0();
 }
 
-ZapLine* ZapLine::vdtor_4CCAA0(signed int flags)
+ZapLine* ZapLine::vdtor_4CCAA0(s32 flags)
 {
     dtor_4CCCB0();
     if (flags & 1)

@@ -100,7 +100,7 @@ void TestAnimation::VScreenChanged()
     // Keep alive
 }
 
-BaseGameObject* TestAnimation::VDestructor(signed int flags)
+BaseGameObject* TestAnimation::VDestructor(s32 flags)
 {
     // TODO: Destruction of this object will likely crash, but this obj can be removed
     // once all animations are added to the table

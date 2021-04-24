@@ -30,12 +30,12 @@ class ZapLine : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT ZapLine* ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s16 aliveTime, ZapLineType type, Layer layer);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 private:
-    EXPORT ZapLine* vdtor_4CCAA0(signed int flags);
+    EXPORT ZapLine* vdtor_4CCAA0(s32 flags);
 public:
     EXPORT void CalculateSourceAndDestinationPositions_4CCAD0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
 private:

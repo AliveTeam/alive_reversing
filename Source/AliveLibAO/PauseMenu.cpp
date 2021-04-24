@@ -92,12 +92,12 @@ BaseGameObject* PauseMenu::dtor_44DF40()
     return dtor_417D10();
 }
 
-BaseGameObject* PauseMenu::VDestructor(signed int flags)
+BaseGameObject* PauseMenu::VDestructor(s32 flags)
 {
     return Vdtor_44EAA0(flags);
 }
 
-PauseMenu* PauseMenu::Vdtor_44EAA0(signed int flags)
+PauseMenu* PauseMenu::Vdtor_44EAA0(s32 flags)
 {
     dtor_44DF40();
     if (flags & 1)

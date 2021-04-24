@@ -6,7 +6,7 @@
 #include "stdlib.hpp"
 #include "Function.hpp"
 
-BaseGameObject* PossessionFlicker::VDestructor(signed int flags)
+BaseGameObject* PossessionFlicker::VDestructor(s32 flags)
 {
     return vdtor_431AD0(flags);
 }
@@ -68,7 +68,7 @@ int PossessionFlicker::ObjectId() const
     return field_30_obj_id;
 }
 
-PossessionFlicker* PossessionFlicker::vdtor_431AD0(signed int flags)
+PossessionFlicker* PossessionFlicker::vdtor_431AD0(s32 flags)
 {
     dtor_431B00();
     if (flags & 1)

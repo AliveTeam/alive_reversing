@@ -51,7 +51,7 @@ EXPORT void ScreenShake::vUpdate_4AD0E0()
     }
 }
 
-EXPORT BaseGameObject* ScreenShake::vdtor_4AD030(signed int flags)
+EXPORT BaseGameObject* ScreenShake::vdtor_4AD030(s32 flags)
 {
     dtor_4AD060();
     if (flags & 1)
@@ -167,7 +167,7 @@ EXPORT void ScreenShake::vRender_4AD120(PrimHeader** ppOt)
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-BaseGameObject* ScreenShake::VDestructor(signed int flags)
+BaseGameObject* ScreenShake::VDestructor(s32 flags)
 {
     return vdtor_4AD030(flags);
 }

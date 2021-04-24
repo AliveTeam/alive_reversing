@@ -12,9 +12,9 @@ public:
 
     EXPORT BaseGameObject* dtor_4763A0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT BackgroundMusic* Vdtor_476A80(signed int flags);
+    EXPORT BackgroundMusic* Vdtor_476A80(s32 flags);
 
     virtual void VUpdate() override;
 

@@ -41,14 +41,14 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
 private:
     EXPORT void dtor_4AC260();
 
     EXPORT void vScreenChanged_4AC970();
 
-    EXPORT SecurityDoor* vdtor_4AC230(signed int flags);
+    EXPORT SecurityDoor* vdtor_4AC230(s32 flags);
 
     EXPORT s16 IsPlayerNear_4AC300();
 

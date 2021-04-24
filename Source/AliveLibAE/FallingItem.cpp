@@ -176,7 +176,7 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
     return this;
 }
 
-BaseGameObject* FallingItem::VDestructor(signed int flags)
+BaseGameObject* FallingItem::VDestructor(s32 flags)
 {
     return vdtor_427530(flags);
 }
@@ -202,7 +202,7 @@ void FallingItem::dtor_427EB0()
     dtor_4080B0();
 }
 
-FallingItem* FallingItem::vdtor_427530(signed int flags)
+FallingItem* FallingItem::vdtor_427530(s32 flags)
 {
     dtor_427EB0();
     if (flags & 1)

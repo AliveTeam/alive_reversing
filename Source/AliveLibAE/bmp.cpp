@@ -9,7 +9,7 @@ ALIVE_VAR(1, 0xBC0BB4, u8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 
 #if USE_SDL2
 
-EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
+EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
 {
     if (flags != 0)
     {
@@ -25,7 +25,7 @@ EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap*
     return -1;
 }
 
-EXPORT signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
+EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
 {
     const SDL_Rect clearRect = { pRect->left, pRect->right, pRect->top, pRect->bottom };
     if (SDL_FillRect(pBmp->field_0_pSurface, &clearRect, fillColour /*SDL_MapRGB(pBmp->field_0_pSurface->format, 255, 0, 0)*/) != 0)
@@ -63,9 +63,9 @@ EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* /*pBmp*/)
     return 10;
 }
 
-EXPORT signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
+EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(int bpp)
 {
-    signed int converted = 0;
+    s32 converted = 0;
     switch (bpp)
     {
     case 1:
@@ -144,7 +144,7 @@ EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
     }
 }
 
-EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
+EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
 {
     if (!pBitmap || !width || !height)
     {
@@ -368,7 +368,7 @@ EXPORT HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPD
     return hr;
 }
 
-EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
+EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
 {
     HRESULT hr = S_OK;
     bool addError = true;
@@ -415,7 +415,7 @@ EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap*
 
 ALIVE_VAR(1, 0xBBC458, DDBLTFX, blt_fx_stru_BBC458, {});
 
-EXPORT signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
+EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
 {
     RECT rect = *pRect;
 
@@ -547,9 +547,9 @@ EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* pBmp)
     return textHeight;
 }
 
-EXPORT signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
+EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(int bpp)
 {
-    signed int converted = 0;
+    s32 converted = 0;
     switch (bpp)
     {
     case 1:
@@ -628,7 +628,7 @@ EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
     }
 }
 
-EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
+EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
 {
     if (!pBitmap || !width || !height)
     {

@@ -45,7 +45,7 @@ EXPORT void Particle::vUpdate_4CC620()
     }
 }
 
-EXPORT BaseGameObject* Particle::vdtor_4CC5D0(signed int flags)
+EXPORT BaseGameObject* Particle::vdtor_4CC5D0(s32 flags)
 {
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
@@ -60,7 +60,7 @@ void Particle::VUpdate()
     vUpdate_4CC620();
 }
 
-BaseGameObject* Particle::VDestructor(signed int flags)
+BaseGameObject* Particle::VDestructor(s32 flags)
 {
     return vdtor_4CC5D0(flags);
 }

@@ -31,7 +31,7 @@ public:
 
     EXPORT FallingItem* ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16 delayTime, s16 numItems, s16 resetId);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -45,7 +45,7 @@ public:
 private:
     EXPORT void dtor_427EB0();
 
-    EXPORT FallingItem* vdtor_427530(signed int flags);
+    EXPORT FallingItem* vdtor_427530(s32 flags);
 
     EXPORT void vScreenChanged_428180();
 

@@ -64,7 +64,7 @@ struct Quicksave_Obj_SlamDoor
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
 
-BaseGameObject* SlamDoor::VDestructor(signed int flags)
+BaseGameObject* SlamDoor::VDestructor(s32 flags)
 {
     return vdtor_4AFD20(flags);
 }
@@ -266,7 +266,7 @@ void SlamDoor::dtor_4B0620()
     dtor_4080B0();
 }
 
-SlamDoor* SlamDoor::vdtor_4AFD20(signed int flags)
+SlamDoor* SlamDoor::vdtor_4AFD20(s32 flags)
 {
     dtor_4B0620();
     if (flags & 1)

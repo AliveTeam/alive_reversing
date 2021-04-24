@@ -176,12 +176,12 @@ BaseGameObject* ParticleBurst::dtor_40D5A0()
     return dtor_417D10();
 }
 
-BaseGameObject* ParticleBurst::VDestructor(signed int flags)
+BaseGameObject* ParticleBurst::VDestructor(s32 flags)
 {
     return Vdtor_40DA40(flags);
 }
 
-ParticleBurst* ParticleBurst::Vdtor_40DA40(signed int flags)
+ParticleBurst* ParticleBurst::Vdtor_40DA40(s32 flags)
 {
     dtor_40D5A0();
     if (flags & 1)

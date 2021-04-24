@@ -27,13 +27,13 @@ public:
     EXPORT SecurityOrb* ctor_436C80(Path_SecurityOrb* pTlv, int tlvInfo);
     EXPORT BaseGameObject* dtor_436D60();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 
 private:
-    EXPORT SecurityOrb* Vdtor_4373B0(signed int flags);
+    EXPORT SecurityOrb* Vdtor_4373B0(s32 flags);
     EXPORT void VScreenChanged_4373A0();
     EXPORT s16 VTakeDamage_437280(BaseGameObject* pFrom);
     EXPORT void VUpdate_436DF0();

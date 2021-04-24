@@ -11,7 +11,7 @@
 ALIVE_VAR(1, 0x5c1bb4, short, alarmInstanceCount_5C1BB4, 0);
 ALIVE_VAR(1, 0x550d70, int, sAlarmObjId_550D70, -1);
 
-BaseGameObject* Alarm::VDestructor(signed int flags)
+BaseGameObject* Alarm::VDestructor(s32 flags)
 {
     return vdtor_4092D0(flags);
 }
@@ -111,7 +111,7 @@ void Alarm::dtor_409380()
     dtor_4AB8F0();
 }
 
-Alarm* Alarm::vdtor_4092D0(signed int flags)
+Alarm* Alarm::vdtor_4092D0(s32 flags)
 {
     dtor_409380();
     if (flags & 1)

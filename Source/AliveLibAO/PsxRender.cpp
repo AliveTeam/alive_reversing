@@ -15,7 +15,7 @@ EXPORT void CC PSX_DrawOTag_4969F0(PrimHeader** ppOt)
     PSX_DrawOTag_4F6540(ppOt);
 }
 
-EXPORT signed int CC PSX_EMU_SetDispType_499E60(int dispType)
+EXPORT s32 CC PSX_EMU_SetDispType_499E60(int dispType)
 {
     return PSX_EMU_SetDispType_4F9960(dispType);
 }

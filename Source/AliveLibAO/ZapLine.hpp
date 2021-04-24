@@ -34,9 +34,9 @@ public:
 
     EXPORT BaseGameObject* dtor_478E90();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT ZapLine* Vdtor_479B20(signed int flags);
+    EXPORT ZapLine* Vdtor_479B20(s32 flags);
 
     EXPORT void CalculateSourceAndDestinationPositions_478CF0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
 

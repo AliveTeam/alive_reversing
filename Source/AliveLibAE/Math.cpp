@@ -26,7 +26,7 @@ ALIVE_ARY(1, 0x546744, u8, 256, sRandomBytes_546744,
 });
 ALIVE_VAR(1, 0x5D1E10, u8, sRandomSeed_5D1E10, 0);
 
-EXPORT u32  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed int op2)
+EXPORT u32  CC Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2)
 {
     u32 op1a; // ecx
     u32 op2a; // esi
@@ -46,9 +46,9 @@ EXPORT u32  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed int op2)
     return result;
 }
 
-EXPORT u32 CC Math_FixedPoint_Divide_496B70(signed int op1, signed int op2)
+EXPORT u32 CC Math_FixedPoint_Divide_496B70(s32 op1, s32 op2)
 {
-    signed int op1a; // ebx
+    s32 op1a; // ebx
     u32 op1b; // edi
     u32 op2a; // ecx
     u32 v5; // esi

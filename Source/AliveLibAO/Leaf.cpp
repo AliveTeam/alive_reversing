@@ -150,7 +150,7 @@ Leaf* Leaf::ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     return this;
 }
 
-BaseGameObject* Leaf::VDestructor(signed int flags)
+BaseGameObject* Leaf::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

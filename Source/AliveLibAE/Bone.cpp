@@ -54,7 +54,7 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, s16 countId)
     return this;
 }
 
-BaseGameObject* Bone::VDestructor(signed int flags)
+BaseGameObject* Bone::VDestructor(s32 flags)
 {
     return vdtor_411580(flags);
 }
@@ -164,7 +164,7 @@ int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
     return sizeof(Bone_SaveState);
 }
 
-Bone* Bone::vdtor_411580(signed int flags)
+Bone* Bone::vdtor_411580(s32 flags)
 {
     dtor_4115B0();
 
@@ -693,7 +693,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* BoneBag::VDestructor(signed int flags)
+BaseGameObject* BoneBag::VDestructor(s32 flags)
 {
     return vdtor_4127C0(flags);
 }
@@ -713,7 +713,7 @@ void BoneBag::vScreenChanged_412BF0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-BoneBag* BoneBag::vdtor_4127C0(signed int flags)
+BoneBag* BoneBag::vdtor_4127C0(s32 flags)
 {
     dtor_4127F0();
     if (flags & 1)

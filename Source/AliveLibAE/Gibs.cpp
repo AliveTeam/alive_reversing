@@ -277,7 +277,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
     return this;
 }
 
-BaseGameObject* Gibs::VDestructor(signed int flags)
+BaseGameObject* Gibs::VDestructor(s32 flags)
 {
     return vdtor_410100(flags);
 }
@@ -304,7 +304,7 @@ void Gibs::dtor_410170()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Gibs* Gibs::vdtor_410100(signed int flags)
+Gibs* Gibs::vdtor_410100(s32 flags)
 {
     dtor_410170();
     if (flags & 1)

@@ -26,7 +26,7 @@ EXPORT int CC PSX_LoadImage16_4962A0(const PSX_RECT* pRect, const BYTE* pData);
 
 EXPORT int PSX_LoadImage_496480(const PSX_RECT* pRect, const BYTE* pData);
 
-EXPORT signed int CC PSX_StoreImage_496320(const PSX_RECT* rect, WORD* pData);
+EXPORT s32 CC PSX_StoreImage_496320(const PSX_RECT* rect, WORD* pData);
 
 EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_49B340(int pos, CdlLOC* pLoc);
 
@@ -54,11 +54,11 @@ EXPORT int PSX_ResetCallBack_49AFB0();
 
 EXPORT int CC PSX_MoveImage_4961A0(const PSX_RECT* pRect, int xpos, int ypos);
 
-EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char* pPath1, const char* pPath2, const char* pPath3);
+EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char* pPath1, const char* pPath2, const char* pPath3);
 
 EXPORT void CC PSX_EMU_Init_49A1D0(bool bShowVRam);
 
-EXPORT signed int PSX_EMU_VideoAlloc_49A2B0();
+EXPORT s32 PSX_EMU_VideoAlloc_49A2B0();
 
 EXPORT void CC PSX_EMU_SetCallBack_499920(int callBackType, TPsxEmuCallBack fnPtr);
 

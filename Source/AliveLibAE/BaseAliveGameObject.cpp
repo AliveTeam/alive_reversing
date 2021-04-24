@@ -107,7 +107,7 @@ EXPORT void BaseAliveGameObject::dtor_4080B0()
 }
 
 
-BaseGameObject* BaseAliveGameObject::vdtor_408210(signed int flags)
+BaseGameObject* BaseAliveGameObject::vdtor_408210(s32 flags)
 {
     dtor_4080B0();
     if (flags & 1)
@@ -122,7 +122,7 @@ void BaseAliveGameObject::VRender(PrimHeader** ppOt)
     Render_424B90(ppOt);
 }
 
-BaseGameObject* BaseAliveGameObject::VDestructor(signed int flags)
+BaseGameObject* BaseAliveGameObject::VDestructor(s32 flags)
 {
     return vdtor_408210(flags);
 }

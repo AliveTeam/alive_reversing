@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* PlatformBase::VDestructor(signed int flags)
+BaseGameObject* PlatformBase::VDestructor(s32 flags)
 {
     return vdtor_4974B0(flags);
 }
@@ -111,7 +111,7 @@ EXPORT void PlatformBase::vAddCount_4975B0(BaseAliveGameObject* /*pObj*/)
     }
 }
 
-PlatformBase* PlatformBase::vdtor_4974B0(signed int flags)
+PlatformBase* PlatformBase::vdtor_4974B0(s32 flags)
 {
     dtor_4973E0();
     if (flags & 1)

@@ -49,12 +49,12 @@ public:
         return dtor_487DF0();
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return Vdtor_417200(flags);
     }
 
-    EXPORT PalleteOverwriter* Vdtor_417200(signed int flags)
+    EXPORT PalleteOverwriter* Vdtor_417200(s32 flags)
     {
         dtor_4170B0();
         if (flags & 1)
@@ -190,12 +190,12 @@ BaseGameObject* Electrocute::dtor_48D480()
     return dtor_487DF0();
 }
 
-BaseGameObject* Electrocute::VDestructor(signed int flags)
+BaseGameObject* Electrocute::VDestructor(s32 flags)
 {
     return Vdtor_48D8E0(flags);
 }
 
-Electrocute* Electrocute::Vdtor_48D8E0(signed int flags)
+Electrocute* Electrocute::Vdtor_48D8E0(s32 flags)
 {
     dtor_48D480();
     if (flags & 1)

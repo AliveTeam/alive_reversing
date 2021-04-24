@@ -37,7 +37,7 @@ public:
     HRESULT SetCurrentPosition(int position);
     HRESULT GetCurrentPosition(DWORD * readPos, DWORD * writePos);
     HRESULT GetFrequency(DWORD * freq);
-    HRESULT SetPan(signed int pan);
+    HRESULT SetPan(s32 pan);
     void Release();
     HRESULT GetStatus(DWORD * r);
 
@@ -53,7 +53,7 @@ public:
         bool bVolDirty;
         int iVolumeTarget;
         float fFrequency;
-        signed int iPan;
+        s32 iPan;
 
         SDLSoundBufferStatus eStatus;
         bool bLoop;

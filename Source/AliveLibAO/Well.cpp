@@ -20,7 +20,7 @@ static s16 Well_NextRandom()
 }
 
 
-BaseGameObject* Well::VDestructor(signed int flags)
+BaseGameObject* Well::VDestructor(s32 flags)
 {
     return vdtor_48B4D0(flags);
 }
@@ -253,7 +253,7 @@ Well* Well::ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, int tlvInfo)
     return this;
 }
 
-Well* Well::vdtor_48B4D0(signed int flags)
+Well* Well::vdtor_48B4D0(s32 flags)
 {
     dtor_48B460();
     if (flags & 1)

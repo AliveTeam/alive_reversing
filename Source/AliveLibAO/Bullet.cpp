@@ -33,7 +33,7 @@ EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type
     return this;
 }
 
-BaseGameObject* Bullet::VDestructor(signed int flags)
+BaseGameObject* Bullet::VDestructor(s32 flags)
 {
     dtor_487DF0();
     if (flags & 1)

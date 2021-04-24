@@ -66,9 +66,9 @@ struct SprtTPage
 class ScreenManager : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT ScreenManager* vdtor_407290(signed int flags);
+    EXPORT ScreenManager* vdtor_407290(s32 flags);
 
     EXPORT ScreenManager* ctor_406830(BYTE** ppBits, FP_Point* pCameraOffset);
 
@@ -76,17 +76,17 @@ public:
 
     EXPORT void MoveImage_406C40();
 
-    EXPORT void InvalidateRect_406CC0(int x, int y, signed int width, signed int height);
+    EXPORT void InvalidateRect_406CC0(int x, int y, s32 width, s32 height);
 
     EXPORT void DecompressCameraToVRam_407110(u16** ppBits);
 
     EXPORT void UnsetDirtyBits_FG1_406EF0();
 
-    EXPORT void InvalidateRect_406E40(int x, int y, signed int width, signed int height, int idx);
+    EXPORT void InvalidateRect_406E40(int x, int y, s32 width, s32 height, int idx);
 
     EXPORT void InvalidateRect_Layer3_406F20(int x, int y, int width, int height);
 
-    EXPORT void InvalidateRect_406D80(int x, int y, signed int width, signed int height, int idx);
+    EXPORT void InvalidateRect_406D80(int x, int y, s32 width, s32 height, int idx);
 
     virtual void VScreenChanged() override;
 

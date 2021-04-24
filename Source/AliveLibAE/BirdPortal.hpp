@@ -56,10 +56,10 @@ class BirdPortalTerminator : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT BaseAnimatedWithPhysicsGameObject* ctor_497960(FP xpos, FP ypos, FP scale, PortalType portalType);
     virtual void VScreenChanged() override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     EXPORT void Fadeout_497AC0();
 private:
-    EXPORT BaseAnimatedWithPhysicsGameObject* vdtor_497A70(signed int flags);
+    EXPORT BaseAnimatedWithPhysicsGameObject* vdtor_497A70(s32 flags);
 };
 ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xF4);
 
@@ -70,12 +70,12 @@ class BirdPortal : public BaseGameObject
 public:
     EXPORT BaseGameObject* ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
-    virtual signed int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(BYTE* pSaveBuffer) override;
 
     // New virtuals
 
@@ -94,11 +94,11 @@ public:
 
 
 private:
-    EXPORT BirdPortal* vdtor_498050(signed int flags);
+    EXPORT BirdPortal* vdtor_498050(s32 flags);
     EXPORT void vUpdate_498280();
     EXPORT void vScreenChanged_499B50();
     EXPORT void vStopAudio_499260();
-    EXPORT signed int vGetSaveState_499F50(BYTE* pState);
+    EXPORT s32 vGetSaveState_499F50(BYTE* pState);
 
     EXPORT s16 vPortalClipper_499430(s16 bUnknown);
     EXPORT void vKillPortalClipper_499610();

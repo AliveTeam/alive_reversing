@@ -8,7 +8,7 @@
 #include "SwitchStates.hpp"
 #include "Abe.hpp"
 
-BaseGameObject* InvisibleSwitch::VDestructor(signed int flags)
+BaseGameObject* InvisibleSwitch::VDestructor(s32 flags)
 {
     return vdtor_45FAF0(flags);
 }
@@ -46,7 +46,7 @@ void InvisibleSwitch::dtor_45FB20()
     BaseGameObject_dtor_4DBEC0();
 }
 
-InvisibleSwitch* InvisibleSwitch::vdtor_45FAF0(signed int flags)
+InvisibleSwitch* InvisibleSwitch::vdtor_45FAF0(s32 flags)
 {
     dtor_45FB20();
     if (flags & 1)

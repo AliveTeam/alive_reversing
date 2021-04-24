@@ -24,8 +24,8 @@ public:
     EXPORT LiftMover* ctor_4054E0(Path_LiftMover* pTlv, int tlvInfo);
     EXPORT BaseGameObject* dtor_405550();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
-    EXPORT LiftMover* Vdtor_405A50(signed int flags);
+    virtual BaseGameObject* VDestructor(s32 flags) override;
+    EXPORT LiftMover* Vdtor_405A50(s32 flags);
 
     virtual void VUpdate() override;
 

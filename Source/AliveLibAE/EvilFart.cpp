@@ -96,7 +96,7 @@ EvilFart* EvilFart::ctor_422E30()
     return this;
 }
 
-BaseGameObject* EvilFart::VDestructor(signed int flags)
+BaseGameObject* EvilFart::VDestructor(s32 flags)
 {
     return vdtor_4230D0(flags);
 }
@@ -614,7 +614,7 @@ void EvilFart::dtor_423D80()
     dtor_4080B0();
 }
 
-EvilFart* EvilFart::vdtor_4230D0(signed int flags)
+EvilFart* EvilFart::vdtor_4230D0(s32 flags)
 {
     dtor_423D80();
     if (flags & 1)

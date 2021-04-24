@@ -25,12 +25,12 @@ BaseGameObject* BackgroundMusic::dtor_4763A0()
     return dtor_487DF0();
 }
 
-BaseGameObject* BackgroundMusic::VDestructor(signed int flags)
+BaseGameObject* BackgroundMusic::VDestructor(s32 flags)
 {
     return Vdtor_476A80(flags);
 }
 
-BackgroundMusic* BackgroundMusic::Vdtor_476A80(signed int flags)
+BackgroundMusic* BackgroundMusic::Vdtor_476A80(s32 flags)
 {
     dtor_4763A0();
     if (flags & 1)

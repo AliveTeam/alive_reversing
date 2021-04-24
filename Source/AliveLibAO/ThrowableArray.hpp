@@ -19,11 +19,11 @@ public:
 
     EXPORT void Add_453F70(s16 count);
 
-    EXPORT BaseGameObject* Vdtor_454690(signed int flags);
+    EXPORT BaseGameObject* Vdtor_454690(s32 flags);
     EXPORT void VUpdate_4542B0();
     EXPORT void vScreenChange_454300();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

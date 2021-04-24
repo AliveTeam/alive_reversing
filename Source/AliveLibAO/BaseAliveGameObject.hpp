@@ -50,7 +50,7 @@ public:
 
     EXPORT BaseGameObject* dtor_401000();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUnPosses();
 
@@ -73,7 +73,7 @@ public:
     virtual void VOnTrapDoorOpen();
 
 private:
-    EXPORT BaseGameObject* Vdtor_402540(signed int flags);
+    EXPORT BaseGameObject* Vdtor_402540(s32 flags);
 
     EXPORT s16 VTakeDamage_401920(BaseGameObject* pFrom);
 

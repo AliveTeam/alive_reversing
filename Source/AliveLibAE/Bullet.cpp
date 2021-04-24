@@ -31,7 +31,7 @@ Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xp
     return this;
 }
 
-BaseGameObject* Bullet::VDestructor(signed int flags)
+BaseGameObject* Bullet::VDestructor(s32 flags)
 {
     return vdtor_4145E0(flags);
 }
@@ -81,7 +81,7 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
     return false;
 }
 
-Bullet* Bullet::vdtor_4145E0(signed int flags)
+Bullet* Bullet::vdtor_4145E0(s32 flags)
 {
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)

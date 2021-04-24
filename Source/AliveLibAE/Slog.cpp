@@ -221,7 +221,7 @@ Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* Slog::VDestructor(signed int flags)
+BaseGameObject* Slog::VDestructor(s32 flags)
 {
     return vdtor_4C4510(flags);
 }
@@ -3030,7 +3030,7 @@ void Slog::dtor_4C49A0()
     dtor_4080B0();
 }
 
-Slog* Slog::vdtor_4C4510(signed int flags)
+Slog* Slog::vdtor_4C4510(s32 flags)
 {
     dtor_4C49A0();
     if (flags & 1)

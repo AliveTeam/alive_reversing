@@ -206,7 +206,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* NakedSlig::VDestructor(signed int flags)
+BaseGameObject* NakedSlig::VDestructor(s32 flags)
 {
     return vdtor_418FB0(flags);
 }
@@ -777,7 +777,7 @@ void NakedSlig::dtor_418FE0()
     dtor_4080B0();
 }
 
-NakedSlig* NakedSlig::vdtor_418FB0(signed int flags)
+NakedSlig* NakedSlig::vdtor_418FB0(s32 flags)
 {
     dtor_418FE0();
     if (flags & 1)

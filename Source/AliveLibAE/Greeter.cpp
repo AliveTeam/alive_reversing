@@ -108,7 +108,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* Greeter::VDestructor(signed int flags)
+BaseGameObject* Greeter::VDestructor(s32 flags)
 {
     return vdtor_4468B0(flags);
 }
@@ -271,7 +271,7 @@ int Greeter::vGetSaveState_446400(Greeter_State* pState)
     return sizeof(Greeter_State);
 }
 
-Greeter* Greeter::vdtor_4468B0(signed int flags)
+Greeter* Greeter::vdtor_4468B0(s32 flags)
 {
     dtor_4468E0();
     if (flags & 1)

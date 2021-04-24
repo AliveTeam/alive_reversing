@@ -6,7 +6,7 @@
 #include "stdlib.hpp"
 #include "Events.hpp"
 
-BaseGameObject* ShadowZone::VDestructor(signed int flags)
+BaseGameObject* ShadowZone::VDestructor(s32 flags)
 {
     return vdtor_463A70(flags);
 }
@@ -129,7 +129,7 @@ void ShadowZone::dtor_463BB0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-ShadowZone* ShadowZone::vdtor_463A70(signed int flags)
+ShadowZone* ShadowZone::vdtor_463A70(s32 flags)
 {
     dtor_463BB0();
     if (flags & 1)

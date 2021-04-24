@@ -61,7 +61,7 @@ void TorturedMudokon::VUpdate()
     vUpdate_47BF80();
 }
 
-BaseGameObject* TorturedMudokon::VDestructor(signed int flags)
+BaseGameObject* TorturedMudokon::VDestructor(s32 flags)
 {
     return vdtor_47BE30(flags);
 }
@@ -159,7 +159,7 @@ void TorturedMudokon::dtor_47C380()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-TorturedMudokon* TorturedMudokon::vdtor_47BE30(signed int flags)
+TorturedMudokon* TorturedMudokon::vdtor_47BE30(s32 flags)
 {
     dtor_47C380();
     if (flags & 1)

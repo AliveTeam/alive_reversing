@@ -46,12 +46,12 @@ BaseGameObject* LiftMover::dtor_405550()
     return dtor_487DF0();
 }
 
-BaseGameObject* LiftMover::VDestructor(signed int flags)
+BaseGameObject* LiftMover::VDestructor(s32 flags)
 {
     return Vdtor_405A50(flags);
 }
 
-EXPORT LiftMover* LiftMover::Vdtor_405A50(signed int flags)
+EXPORT LiftMover* LiftMover::Vdtor_405A50(s32 flags)
 {
     dtor_405550();
     if (flags & 1)

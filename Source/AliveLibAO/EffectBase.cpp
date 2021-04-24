@@ -35,7 +35,7 @@ BaseGameObject* EffectBase::dtor_461630()
     return dtor_487DF0();
 }
 
-EffectBase* EffectBase::Vdtor_461750(signed int flags)
+EffectBase* EffectBase::Vdtor_461750(s32 flags)
 {
     dtor_461630();
     if (flags & 1)
@@ -71,7 +71,7 @@ void EffectBase::VRender_461690(PrimHeader** ppOt)
     pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, gPsxDisplay_504C78.field_2_height);
 }
 
-BaseGameObject* EffectBase::VDestructor(signed int flags)
+BaseGameObject* EffectBase::VDestructor(s32 flags)
 {
     return Vdtor_461750(flags);
 }

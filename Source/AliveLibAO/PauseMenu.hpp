@@ -13,9 +13,9 @@ public:
 
     EXPORT BaseGameObject* dtor_44DF40();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT PauseMenu* Vdtor_44EAA0(signed int flags);
+    EXPORT PauseMenu* Vdtor_44EAA0(s32 flags);
 
     virtual void VScreenChanged() override;
 

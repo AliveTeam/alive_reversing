@@ -88,7 +88,7 @@ EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, u16 path)
     }
 }
 
-BaseGameObject* ThrowableArray::VDestructor(signed int flags)
+BaseGameObject* ThrowableArray::VDestructor(s32 flags)
 {
     return Vdtor_454690(flags);
 }
@@ -108,7 +108,7 @@ void ThrowableArray::VScreenChanged()
     vScreenChange_454300();
 }
 
-BaseGameObject* ThrowableArray::Vdtor_454690(signed int flags)
+BaseGameObject* ThrowableArray::Vdtor_454690(s32 flags)
 {
     dtor_453F10();
     if (flags & 1)

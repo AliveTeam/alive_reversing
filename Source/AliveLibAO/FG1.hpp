@@ -15,9 +15,9 @@ class FG1 : public BaseGameObject
 public:
     EXPORT FG1* ctor_4539C0(u8** ppRes);
 
-    EXPORT FG1* Vdtor_453E90(signed int flags);
+    EXPORT FG1* Vdtor_453E90(s32 flags);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 

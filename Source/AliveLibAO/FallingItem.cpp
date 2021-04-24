@@ -122,7 +122,7 @@ BaseGameObject* FallingItem::dtor_41A660()
     return dtor_401000();
 }
 
-FallingItem* FallingItem::Vdtor_41A7F0(signed int flags)
+FallingItem* FallingItem::Vdtor_41A7F0(s32 flags)
 {
     dtor_41A660();
     if (flags & 1)
@@ -398,7 +398,7 @@ void FallingItem::VScreenChanged()
     VScreenChanged_41A7C0();
 }
 
-BaseGameObject* FallingItem::VDestructor(signed int flags)
+BaseGameObject* FallingItem::VDestructor(s32 flags)
 {
     return Vdtor_41A7F0(flags);
 }

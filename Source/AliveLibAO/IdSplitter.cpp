@@ -30,7 +30,7 @@ void IdSplitter::VScreenChanged()
     VScreenChanged_479DB0();
 }
 
-IdSplitter* IdSplitter::Vdtor_479E00(signed int flags)
+IdSplitter* IdSplitter::Vdtor_479E00(s32 flags)
 {
     dtor_479BE0();
     if (flags & 1)
@@ -40,7 +40,7 @@ IdSplitter* IdSplitter::Vdtor_479E00(signed int flags)
     return this;
 }
 
-BaseGameObject* IdSplitter::VDestructor(signed int flags)
+BaseGameObject* IdSplitter::VDestructor(s32 flags)
 {
     return Vdtor_479E00(flags);
 }

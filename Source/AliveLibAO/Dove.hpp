@@ -42,7 +42,7 @@ public:
 
     EXPORT void VRender_40F960(PrimHeader** ppOt);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     EXPORT Dove* Vdtor_40F970(u32 flags);
 

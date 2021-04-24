@@ -193,7 +193,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* Fleech::VDestructor(signed int flags)
+BaseGameObject* Fleech::VDestructor(s32 flags)
 {
     return vdtor_42A140(flags);
 }
@@ -1259,7 +1259,7 @@ void Fleech::dtor_42A3A0()
     dtor_4080B0();
 }
 
-Fleech* Fleech::vdtor_42A140(signed int flags)
+Fleech* Fleech::vdtor_42A140(s32 flags)
 {
     dtor_42A3A0();
     if (flags & 1)

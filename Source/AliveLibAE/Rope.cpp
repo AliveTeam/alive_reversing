@@ -116,7 +116,7 @@ Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
     return this;
 }
 
-BaseGameObject* Rope::VDestructor(signed int flags)
+BaseGameObject* Rope::VDestructor(s32 flags)
 {
     return vdtor_4A0D80(flags);
 }
@@ -138,7 +138,7 @@ void Rope::dtor_4A0DB0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Rope* Rope::vdtor_4A0D80(signed int flags)
+Rope* Rope::vdtor_4A0D80(s32 flags)
 {
     dtor_4A0DB0();
     if (flags & 1)

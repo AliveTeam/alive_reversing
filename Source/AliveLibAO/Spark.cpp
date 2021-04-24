@@ -121,12 +121,12 @@ BaseGameObject* Spark::dtor_477D40()
     return dtor_487DF0();
 }
 
-BaseGameObject* Spark::VDestructor(signed int flags)
+BaseGameObject* Spark::VDestructor(s32 flags)
 {
     return Vdtor_478290(flags);
 }
 
-Spark* Spark::Vdtor_478290(signed int flags)
+Spark* Spark::Vdtor_478290(s32 flags)
 {
     dtor_477D40();
     if (flags & 1)

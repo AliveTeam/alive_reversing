@@ -138,7 +138,7 @@ LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
 {
     const u32 fileNameLen = static_cast<DWORD>(strlen(pFileName) + 1);
 
-    const bool notEnoughSpaceForFileExt = (static_cast<signed int>(fileNameLen) - 1) < 4;
+    const bool notEnoughSpaceForFileExt = (static_cast<s32>(fileNameLen) - 1) < 4;
     if (notEnoughSpaceForFileExt || _strcmpi(&pFileName[fileNameLen - 5], ".STR") != 0) // Check its not a STR file
     {
         if (sbEnable_PCOpen_5CA4B0)

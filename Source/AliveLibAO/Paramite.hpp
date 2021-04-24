@@ -68,9 +68,9 @@ public:
 
     EXPORT BaseGameObject* dtor_44AB00();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT Paramite* Vdtor_44B300(signed int flags);
+    EXPORT Paramite* Vdtor_44B300(s32 flags);
 
     EXPORT BYTE** ResBlockForMotion_44AC10(s16 motion);
 

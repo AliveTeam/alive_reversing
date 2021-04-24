@@ -20,7 +20,7 @@ public:
 
     EXPORT void VRender_42A7A0(PrimHeader** ppOt);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     int field_D4[4];
     s16 field_E4;
@@ -52,9 +52,9 @@ public:
 
     EXPORT void VScreenChanged_4369D0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT MainMenuTransition* Vdtor_4369F0(signed int flags);
+    EXPORT MainMenuTransition* Vdtor_4369F0(s32 flags);
 
     EXPORT void StartTrans_436560(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed);
 
@@ -91,9 +91,9 @@ public:
 
     EXPORT BaseGameObject* dtor_47AAB0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT Menu* Vdtor_47FC40(signed int flags);
+    EXPORT Menu* Vdtor_47FC40(s32 flags);
 
     virtual void VUpdate() override;
 

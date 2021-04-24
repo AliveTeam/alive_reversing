@@ -19,7 +19,7 @@ void BaseBomb::VUpdate()
 }
 
 
-BaseGameObject* BaseBomb::VDestructor(signed int flags)
+BaseGameObject* BaseBomb::VDestructor(s32 flags)
 {
     return vdtor_424130(flags);
 }
@@ -226,7 +226,7 @@ void BaseBomb::vUpdate_424180()
 }
 
 
-BaseBomb* BaseBomb::vdtor_424130(signed int flags)
+BaseBomb* BaseBomb::vdtor_424130(s32 flags)
 {
     dtor_424160();
 

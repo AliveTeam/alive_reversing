@@ -29,9 +29,9 @@ public:
 
     EXPORT void VUpdate_4575F0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT RockSack* Vdtor_4578A0(signed int flags);
+    EXPORT RockSack* Vdtor_4578A0(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -54,9 +54,9 @@ public:
 
     EXPORT BaseGameObject* dtor_456A90();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT Rock* Vdtor_4573D0(signed int flags);
+    EXPORT Rock* Vdtor_4573D0(s32 flags);
 
     virtual void VUpdate() override;
 

@@ -22,7 +22,7 @@ void Font_ForceLink()
  Then its probably x *= 0.575;
  If it looks like:
 
- v17 = (signed int)(40 * x + 11 + ((unsigned __int64)(-1307163959i64 * (40 * x + 11)) >> 32)) >> 4;
+ v17 = (s32)(40 * x + 11 + ((unsigned __int64)(-1307163959i64 * (40 * x + 11)) >> 32)) >> 4;
  x = (v17 >> 31) + v17;
 
  then do x /= 0.575;
@@ -326,7 +326,7 @@ namespace Alive
 
             // v12 = field_34_font_context->field_8_atlas_array[atlasIdx].field_3_height;
             // Math_FixedPoint_Multiply_496C50(v12 << 16, scale);
-            xOff += static_cast<signed int>(field_34_font_context->field_8_atlas_array[atlasIdx].field_2_width * FP_GetDouble(scale)) / 0x10000 + field_34_font_context->field_8_atlas_array->field_2_width;
+            xOff += static_cast<s32>(field_34_font_context->field_8_atlas_array[atlasIdx].field_2_width * FP_GetDouble(scale)) / 0x10000 + field_34_font_context->field_8_atlas_array->field_2_width;
         }
 
         return text;

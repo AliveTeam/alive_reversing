@@ -83,7 +83,7 @@ class MineCar : public BaseAliveGameObject
 public:
     EXPORT MineCar* ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int a4, int a5, int a6);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -97,7 +97,7 @@ private:
     EXPORT void LoadAnimation_46BF80(Animation* pAnim);
     EXPORT void vStopAudio_46F9C0();
     EXPORT void vScreenChanged_46F800();
-    EXPORT MineCar* vdtor_46BF50(signed int flags);
+    EXPORT MineCar* vdtor_46BF50(s32 flags);
     EXPORT void dtor_46F2A0();
     EXPORT BOOL CheckRoofCollision_46F6B0(FP hitX, FP hitY);
     EXPORT BOOL CheckFloorCollision_46F730(FP hitX, FP hitY);

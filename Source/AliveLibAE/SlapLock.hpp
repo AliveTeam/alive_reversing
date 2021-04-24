@@ -49,7 +49,7 @@ public:
 
     EXPORT void dtor_43DF00();
     virtual void VUpdate() override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
@@ -57,10 +57,10 @@ public:
     EXPORT static int CC CreateFromSaveState_43EA00(const BYTE* pBuffer);
 
 private:
-    EXPORT SlapLock* vdtor_43DED0(signed int flags);
+    EXPORT SlapLock* vdtor_43DED0(s32 flags);
     EXPORT void vScreenChanged_43E840();
     EXPORT void GiveInvisibility_43E880();
-    EXPORT signed int vGetSaveState_43EB30(SlapLock_State* pState);
+    EXPORT s32 vGetSaveState_43EB30(SlapLock_State* pState);
     EXPORT void vUpdate_43DF90();
     EXPORT void GiveInvisibilityPowerUp_43E910();
     EXPORT s16 vTakeDamage_43E5D0(BaseGameObject* pFrom);

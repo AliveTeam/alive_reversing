@@ -27,9 +27,9 @@ public:
     EXPORT void KeepThingsOnPlatform_451690(FP xpos);
 
 
-    EXPORT BaseGameObject* Vdtor_4516F0(signed int flags);
+    EXPORT BaseGameObject* Vdtor_4516F0(s32 flags);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     int field_10C;
     int field_110;

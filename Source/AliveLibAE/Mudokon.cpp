@@ -880,7 +880,7 @@ int CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
     return sizeof(Mudokon_State);
 }
 
-BaseGameObject* Mudokon::VDestructor(signed int flags)
+BaseGameObject* Mudokon::VDestructor(s32 flags)
 {
     return vdtor_475770(flags);
 }
@@ -1248,7 +1248,7 @@ short Mudokon::FacingTarget_473140(BirdPortal* pTarget)
     return FALSE;
 }
 
-Mudokon* Mudokon::vdtor_475770(signed int flags)
+Mudokon* Mudokon::vdtor_475770(s32 flags)
 {
     Mudokon::dtor_475B60();
     if (flags & 1)
@@ -2679,7 +2679,7 @@ s16 Mudokon::AI_Scrub_2_47D270()
     {
         if (field_128_angry_timer)
         {
-            if (field_128_angry_timer <= (signed int)sGnFrame_5C1B84)
+            if (field_128_angry_timer <= (s32)sGnFrame_5C1B84)
             {
                 field_16A_flags.Set(Flags_16A::eBit8_do_angry);
                 field_180_emo_tbl = Mud_Emotion::eAngry_1;
@@ -3684,7 +3684,7 @@ s16 Mudokon::AI_ListeningToAbe_State_4()
 
                     if (lastSpeak_1 == GameSpeakEvents::eNone_m1)
                     {
-                        if (field_180_emo_tbl != Mud_Emotion::eWired_6 || field_124 > (signed int)sGnFrame_5C1B84)
+                        if (field_180_emo_tbl != Mud_Emotion::eWired_6 || field_124 > (s32)sGnFrame_5C1B84)
                         {
                             return field_190_sub_state;
                         }
@@ -4231,7 +4231,7 @@ s16 Mudokon::AI_ListeningToAbe_State_7()
         && ((lastSpeak = field_182, lastSpeak == GameSpeakEvents::eNone_m1)
             || (field_180_emo_tbl != Mud_Emotion::eNormal_0 && field_180_emo_tbl != Mud_Emotion::eHappy_5 && field_180_emo_tbl != Mud_Emotion::eWired_6)))
     {
-        if (field_180_emo_tbl != Mud_Emotion::eWired_6 || field_124 > (signed int)sGnFrame_5C1B84)
+        if (field_180_emo_tbl != Mud_Emotion::eWired_6 || field_124 > (s32)sGnFrame_5C1B84)
         {
             return field_190_sub_state;
         }

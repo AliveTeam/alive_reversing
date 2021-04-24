@@ -266,12 +266,12 @@ BaseGameObject* Paramite::dtor_44AB00()
     return dtor_401000();
 }
 
-BaseGameObject* Paramite::VDestructor(signed int flags)
+BaseGameObject* Paramite::VDestructor(s32 flags)
 {
     return Vdtor_44B300(flags);
 }
 
-Paramite* Paramite::Vdtor_44B300(signed int flags)
+Paramite* Paramite::Vdtor_44B300(s32 flags)
 {
     dtor_44AB00();
     if (flags & 1)

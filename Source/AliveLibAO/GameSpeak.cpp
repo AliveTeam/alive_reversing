@@ -69,7 +69,7 @@ GameSpeak* GameSpeak::ctor_40F990()
     return this;
 }
 
-GameSpeak* GameSpeak::Vdtor_40FB50(signed int flags)
+GameSpeak* GameSpeak::Vdtor_40FB50(s32 flags)
 {
     dtor_40F9C0();
     if (flags & 1)
@@ -84,7 +84,7 @@ void GameSpeak::VScreenChanged()
     // Empty
 }
 
-BaseGameObject* GameSpeak::VDestructor(signed int flags)
+BaseGameObject* GameSpeak::VDestructor(s32 flags)
 {
     return Vdtor_40FB50(flags);
 }

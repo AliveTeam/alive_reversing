@@ -24,7 +24,7 @@ class SecurityOrb : public BaseAliveGameObject
 public:
     EXPORT SecurityOrb* ctor_466350(Path_SecurityOrb* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return vdtor_4664B0(flags);
     }
@@ -50,7 +50,7 @@ public:
     }
 
 private:
-    EXPORT SecurityOrb* vdtor_4664B0(signed int flags);
+    EXPORT SecurityOrb* vdtor_4664B0(s32 flags);
 
     EXPORT void dtor_4664E0();
 

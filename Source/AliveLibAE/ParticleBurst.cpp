@@ -177,7 +177,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
     return this;
 }
 
-BaseGameObject* ParticleBurst::VDestructor(signed int flags)
+BaseGameObject* ParticleBurst::VDestructor(s32 flags)
 {
     return vdtor_41D4E0(flags);
 }
@@ -199,7 +199,7 @@ FP* ParticleBurst::Random_Speed_41CEE0(FP* random)
     return random;
 }
 
-ParticleBurst* ParticleBurst::vdtor_41D4E0(signed int flags)
+ParticleBurst* ParticleBurst::vdtor_41D4E0(s32 flags)
 {
     dtor_41D510();
     if (flags & 1)

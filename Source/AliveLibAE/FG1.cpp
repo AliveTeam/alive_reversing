@@ -121,12 +121,12 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
     }
 }
 
-BaseGameObject* FG1::VDestructor(signed int flags)
+BaseGameObject* FG1::VDestructor(s32 flags)
 {
     return vdtor_49A1E0(flags);
 }
 
-BaseGameObject* FG1::vdtor_49A1E0(signed int flags)
+BaseGameObject* FG1::vdtor_49A1E0(s32 flags)
 {
     dtor_49A540();
     if (flags & 1)

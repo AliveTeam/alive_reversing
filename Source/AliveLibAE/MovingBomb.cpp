@@ -111,7 +111,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* MovingBomb::VDestructor(signed int flags)
+BaseGameObject* MovingBomb::VDestructor(s32 flags)
 {
     return vdtor_470040(flags);
 }
@@ -141,7 +141,7 @@ void MovingBomb::VScreenChanged()
     vScreenChanged_470B90();
 }
 
-MovingBomb* MovingBomb::vdtor_470040(signed int flags)
+MovingBomb* MovingBomb::vdtor_470040(s32 flags)
 {
     dtor_4700C0();
     if (flags & 1)

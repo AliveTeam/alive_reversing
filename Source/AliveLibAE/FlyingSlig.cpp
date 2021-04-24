@@ -612,12 +612,12 @@ void FlyingSlig::dtor_434990()
     BaseAliveGameObject::dtor_4080B0();
 }
 
-BaseGameObject* FlyingSlig::VDestructor(signed int flags)
+BaseGameObject* FlyingSlig::VDestructor(s32 flags)
 {
     return vdtor_434870(flags);
 }
 
-FlyingSlig* FlyingSlig::vdtor_434870(signed int flags)
+FlyingSlig* FlyingSlig::vdtor_434870(s32 flags)
 {
     dtor_434990();
     if (flags & 1)

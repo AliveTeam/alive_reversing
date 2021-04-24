@@ -93,7 +93,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* FootSwitch::VDestructor(signed int flags)
+BaseGameObject* FootSwitch::VDestructor(s32 flags)
 {
     return vdtor_4DE240(flags);
 }
@@ -108,7 +108,7 @@ void FootSwitch::VScreenChanged()
     vScreenChanged_4DE650();
 }
 
-FootSwitch* FootSwitch::vdtor_4DE240(signed int flags)
+FootSwitch* FootSwitch::vdtor_4DE240(s32 flags)
 {
     dtor_4DE670();
     if (flags & 1)

@@ -80,7 +80,7 @@ SecurityOrb* SecurityOrb::ctor_466350(Path_SecurityOrb* pTlv, int tlvInfo)
     return this;
 }
 
-SecurityOrb* SecurityOrb::vdtor_4664B0(signed int flags)
+SecurityOrb* SecurityOrb::vdtor_4664B0(s32 flags)
 {
     dtor_4664E0();
     if (flags & 1)

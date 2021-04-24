@@ -11,7 +11,7 @@ class DeathGas : public BaseGameObject
 public:
     EXPORT DeathGas* ctor_43C030(Layer layer, s16 amount);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VScreenChanged() override;
 
@@ -20,7 +20,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT DeathGas* vdtor_43C240(signed int flags);
+    EXPORT DeathGas* vdtor_43C240(s32 flags);
 
     EXPORT void dtor_43C270();
 

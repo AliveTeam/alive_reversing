@@ -121,7 +121,7 @@ public:
 
     EXPORT Slog* ctor_4C42E0(Path_Slog* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -239,7 +239,7 @@ private:
 
     EXPORT void dtor_4C49A0();
 
-    EXPORT Slog* vdtor_4C4510(signed int flags);
+    EXPORT Slog* vdtor_4C4510(s32 flags);
 
 
 private:
