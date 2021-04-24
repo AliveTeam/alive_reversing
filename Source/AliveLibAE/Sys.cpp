@@ -30,7 +30,7 @@ ALIVE_VAR(1, 0xBBB9FC, int, sCmdShow_BBB9FC, 0);
 ALIVE_VAR(1, 0xBBFB04, TWindowHandleType, hWnd_BBFB04, nullptr);
 
 #if ORIGINAL_PS1_BEHAVIOR
-bool saveMenuOpen = false;
+static bool saveMenuOpen = false;
 
 EXPORT void setSaveMenuOpen(bool val)
 {
