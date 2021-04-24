@@ -22,11 +22,11 @@
 class BaseProperty;
 
 
-template< typename T >
+template<typename T>
 class TypedProperty : public BaseProperty
 {
 public:
-    TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data) 
+    TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data)
         : BaseProperty(name, typeName, isVisibleToEditor), m_data(data) { }
 
     void Read(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties) override;
@@ -41,29 +41,6 @@ class PropertyCollection
 {
 public:
     virtual ~PropertyCollection() { }
-
-    }
-
-    virtual ~TlvObjectBase() {}
-
-
-    virtual void AddTypes(TypesCollection& /*types*/)
-    {
-        // Default empty to prevent having to explicitly implement in every TLV wrapper
-    }
-
-    virtual __int16 TlvLen() const = 0;
-    virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
-
-    void SetInstanceNumber(int instanceNumber)
-    {
-        mInstanceNumber = instanceNumber;
-    }
-
-    std::string Name() const
-    {
-        return mStructTypeName;
-    }
 
     template<typename PropertyType>
     void AddProperty(const std::string& name, const std::string& typeName, PropertyType* key, bool visibleInEditor)
@@ -183,7 +160,7 @@ public:
         // Default empty to prevent having to explicitly implement in every TLV wrapper
     }
 
-    virtual std::size_t TlvLen() const = 0;
+    virtual __int16 TlvLen() const = 0;
     virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
 
     void SetInstanceNumber(int instanceNumber)
@@ -245,7 +222,7 @@ void TypedProperty<T>::Read(PropertyCollection& propertyCollection, TypesCollect
     }
     else
     {
-        tlvObjBase.ReadBasicType(*m_data, properties);
+        propertyCollection.ReadBasicType(*m_data, properties);
     }
 }
 
@@ -258,7 +235,7 @@ void TypedProperty<T>::Write(PropertyCollection& propertyCollection, TypesCollec
     }
     else
     {
-        tlvObjBase.WriteBasicType(*m_data, properties);
+        propertyCollection.WriteBasicType(*m_data, properties);
     }
 }
 
