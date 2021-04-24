@@ -137,7 +137,7 @@ void CC OrderingTable_Add_4F8AA0(PrimHeader** ppOt, PrimHeader* pItem)
 
 PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer)
 {
-    return &ppOt[static_cast<unsigned int>(layer)];
+    return &ppOt[static_cast<u32>(layer)];
 }
  
 int CC PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, int x, __int16 y)

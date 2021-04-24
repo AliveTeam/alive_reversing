@@ -4,10 +4,10 @@
 
 void SwitchStates_ForceLink();
 
-EXPORT void CC SwitchStates_SetRange_465FA0(unsigned __int16 start, unsigned __int16 end);
-EXPORT void CC SwitchStates_Set_465FF0(unsigned __int16 idx, char value);
-EXPORT int CC SwitchStates_Get_466020(unsigned __int16 idx);
-EXPORT void CC SwitchStates_Add_466060(unsigned __int16 idx, char value);
+EXPORT void CC SwitchStates_SetRange_465FA0(u16 start, u16 end);
+EXPORT void CC SwitchStates_Set_465FF0(u16 idx, char value);
+EXPORT int CC SwitchStates_Get_466020(u16 idx);
+EXPORT void CC SwitchStates_Add_466060(u16 idx, char value);
 
 enum class SwitchOp : __int16
 {
@@ -18,7 +18,7 @@ enum class SwitchOp : __int16
     eDecrement_4 = 4,
 };
 
-EXPORT void CC SwitchStates_Do_Operation_465F00(signed __int16 idx, SwitchOp operation);
+EXPORT void CC SwitchStates_Do_Operation_465F00(s16 idx, SwitchOp operation);
 
 struct SwitchStates
 {

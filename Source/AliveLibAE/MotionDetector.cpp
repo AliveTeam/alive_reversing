@@ -102,7 +102,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
             field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
         }
 
-        field_174_speed = FP_FromRaw((unsigned __int16)pTlv->field_16_speed_x256 << 8);
+        field_174_speed = FP_FromRaw((u16)pTlv->field_16_speed_x256 << 8);
 
         MotionDetectorLaser* pLaser = nullptr;
         if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
@@ -301,7 +301,7 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
     }
 }
 
-signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
+s16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
 {
     if (pWho->field_4_typeId == AETypes::eAbe_69)
     {

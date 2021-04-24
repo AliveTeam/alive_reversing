@@ -29,9 +29,9 @@ enum class LevelIds : __int16
 struct FmvInfo 
 {
     const char* field_0_pName;
-    unsigned __int16 field_4_id;
+    u16 field_4_id;
     __int16 field_6_flags;
-    unsigned __int16 field_8_flags;
+    u16 field_8_flags;
     __int16 field_A_volume; // usually 127 ?
 };
 ALIVE_ASSERT_SIZEOF(FmvInfo, 0xC);
@@ -43,10 +43,10 @@ struct CollisionInfo
     __int16 field_6_right;
     __int16 field_8_top;
     __int16 field_A_bottom;
-    unsigned int field_C_collision_offset;
-    unsigned int field_10_num_collision_items;
-    unsigned int field_14_grid_width;
-    unsigned int field_18_grid_height;
+    u32 field_C_collision_offset;
+    u32 field_10_num_collision_items;
+    u32 field_14_grid_width;
+    u32 field_18_grid_height;
 };
 ALIVE_ASSERT_SIZEOF(CollisionInfo, 0x1C);
 
@@ -60,8 +60,8 @@ struct PathData
     __int16 field_C_grid_height;
     __int16 field_E_width;
     __int16 field_10_height;
-    unsigned int field_12_object_offset;
-    unsigned int field_16_object_indextable_offset;
+    u32 field_12_object_offset;
+    u32 field_16_object_indextable_offset;
     __int16 field_1A_abe_start_xpos;
     __int16 field_1C_abe_start_ypos;
     PathFunctionTable field_1E_object_funcs;
@@ -138,9 +138,9 @@ struct SeqHandleTable
     OpenSeqHandle mSeqs[145];
 };
 
-EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, unsigned __int16 pathId);
+EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathId);
 
-EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, unsigned __int16 fmvId);
+EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId);
 
 EXPORT void CC Path_Format_CameraName_460FB0(char* pStrBuffer, LevelIds levelId, __int16 pathId, __int16 cameraId);
 

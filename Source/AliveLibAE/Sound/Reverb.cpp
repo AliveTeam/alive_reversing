@@ -94,7 +94,7 @@ inline void Reverb_Update(int index)
 
 void Reverb_Mix(StereoSample_S16 * dst, SDL_AudioFormat format, Uint32 len, int volume)
 {
-    for (unsigned int i = 0; i < len / sizeof(StereoSample_S16); i++)
+    for (u32 i = 0; i < len / sizeof(StereoSample_S16); i++)
     {
         Reverb_PushSample(dst[i]);
         Reverb_Update(i);

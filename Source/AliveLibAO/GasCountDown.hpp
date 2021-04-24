@@ -44,7 +44,7 @@ public:
     int field_58_tlvInfo;
     __int16 field_5C_xpos;
     __int16 field_5E_ypos;
-    unsigned __int16 field_60_switch_id;
+    u16 field_60_switch_id;
     __int16 field_62_time_left;
 };
 ALIVE_ASSERT_SIZEOF(GasCountDown, 0x64);

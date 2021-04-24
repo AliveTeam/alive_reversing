@@ -1007,8 +1007,8 @@ BaseGameObject* Abe::vdtor_422A70(signed int flags)
     return this;
 }
 
-const unsigned int sAbe_xVel_table_4BB118[8] = { 262144, 262144, 0, 4294705152, 4294705152, 4294705152, 0, 262144 };
-const unsigned int sAbe_yVel_table_4BB138[8] = { 0, 4294705152, 4294705152, 4294705152, 0, 262144, 262144, 262144 };
+const u32 sAbe_xVel_table_4BB118[8] = { 262144, 262144, 0, 4294705152, 4294705152, 4294705152, 0, 262144 };
+const u32 sAbe_yVel_table_4BB138[8] = { 0, 4294705152, 4294705152, 4294705152, 0, 262144, 262144, 262144 };
 
 void Abe::vUpdate_41FDB0()
 {
@@ -1962,7 +1962,7 @@ void Abe::ElumFree_4228F0()
     }
 }
 
-short Abe::DoGameSpeak_42F5C0(unsigned __int16 input)
+short Abe::DoGameSpeak_42F5C0(u16 input)
 {
     if (Input_IsChanting_4334C0())
     {
@@ -4115,7 +4115,7 @@ void Abe::State_0_Idle_423520()
             }
             else if (gnFrameCount_507670 - field_114_gnFrame > 150)
             {
-                unsigned __int16 loaded = 0;
+                u16 loaded = 0;
                 field_114_gnFrame = gnFrameCount_507670;
 
 
@@ -8404,7 +8404,7 @@ void Abe::State_88_HandstoneBegin_430590()
             {
                 gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
                 pScreenManager_4FF7C8->DecompressCameraToVRam_407110(
-                    reinterpret_cast<unsigned __int16**>(gMap_507BA8.field_34_camera_array[0]->field_C_ppBits)
+                    reinterpret_cast<u16**>(gMap_507BA8.field_34_camera_array[0]->field_C_ppBits)
                 );
                 pScreenManager_4FF7C8->MoveImage_406C40();
                 pScreenManager_4FF7C8->field_36_flags |= 1;

@@ -51,7 +51,7 @@ private:
     EXPORT void dtor_468880();
     EXPORT void vScreenChanged_469460();
     EXPORT void vRender_469120(PrimHeader** ppOt);
-    EXPORT signed __int16 IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner);
+    EXPORT s16 IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner);
     EXPORT void vUpdate_468A90();
 
 private:

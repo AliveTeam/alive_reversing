@@ -173,7 +173,7 @@ static inline void WriteSinglePixelOfXLine(WORD* pVRam, int xLeft, int xRight, T
 
 EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam, int ySize)
 {
-    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    const u32 pitch = (u32)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
 
     const Render_Unknown* pLeft = &left_side_BD3320;
     const Render_Unknown* pRight = &right_side_BD32A0;
@@ -257,7 +257,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam,
                     {
                         WriteSinglePixelOfXLine(pVRam, x_left, x_right, [&](WORD* pOut)
                         {
-                            const unsigned int tpage_idx = (u_pos + (k255_s20 & v_pos)) >> 10;
+                            const u32 tpage_idx = (u_pos + (k255_s20 & v_pos)) >> 10;
                             *pOut = pTPage_src_BD32C8[tpage_idx];
                             u_pos += u_diff;
                             v_pos += v_diff;
@@ -269,9 +269,9 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam,
             {
                 WriteSinglePixelOfXLine(pVRam, x_left, x_right, [&](WORD* pOut)
                 {
-                    const unsigned int tpage_nibbles = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_pos + (v_pos & 0x3FC00000)) >> 11));
+                    const u32 tpage_nibbles = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_pos + (v_pos & 0x3FC00000)) >> 11));
 
-                    unsigned int nibble = 0;
+                    u32 nibble = 0;
                     if (u_pos & 0x400)
                     {
                         nibble = tpage_nibbles >> 4;
@@ -308,7 +308,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam,
 // TODO: Refactor/remove duplication
 EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRam, int ySize)
 {
-    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    const u32 pitch = (u32)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
     Render_Unknown* pLeft = &left_side_BD3320;
     Render_Unknown* pRight = &right_side_BD32A0;
 
@@ -425,8 +425,8 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
                 const int _v_fixed_2 = v_fixed;
                 while (pStart < &pVRam[x_right])
                 {
-                    const unsigned int tpage_pixel_1 = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_left + (v_fixed_1 & 0x3FC00000)) >> 11));
-                    unsigned int nibble = 0;
+                    const u32 tpage_pixel_1 = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_left + (v_fixed_1 & 0x3FC00000)) >> 11));
+                    u32 nibble = 0;
                     if (u_left & 0x400)
                     {
                         nibble = tpage_pixel_1 >> 4;
@@ -472,7 +472,7 @@ static inline WORD Calc_Abr_Pixel(const Psx_Test& abr_lut, WORD vram_pixel, WORD
 
 EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(WORD* pVRam, int ySize)
 {
-    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    const u32 pitch = (u32)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
 
     const Render_Unknown* pLeft = &left_side_BD3320;
     const Render_Unknown* pRight = &right_side_BD32A0;
@@ -625,7 +625,7 @@ EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(WORD* pVram,
     Render_Unknown* pLeft = &left_side_BD3320;
     Render_Unknown* pRight = &right_side_BD32A0;
 
-    const unsigned int width_pitch = ((unsigned int)spBitmap_C2D038->field_10_locked_pitch) / sizeof(WORD);
+    const u32 width_pitch = ((u32)spBitmap_C2D038->field_10_locked_pitch) / sizeof(WORD);
     for (int i = 0; i < ySize; i++)
     {
         if (pLeft->field_0_x > pRight->field_0_x)
@@ -655,7 +655,7 @@ EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(WORD* pVR
     const auto lut_r = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].r[(sPoly_fill_colour_BD3350 >> 11) & 0x1F][0];
     const auto lut_g = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].g[(sPoly_fill_colour_BD3350 >> 6) & 0x1F][0];
 
-    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    const u32 pitch = (u32)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
     const Render_Unknown* pLeft1 = &left_side_BD3320;
     const Render_Unknown* pRight1 = &right_side_BD32A0;
 
@@ -688,7 +688,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* pVr
     const Render_Unknown* pRight = &right_side_BD32A0;
     const Render_Unknown* pLeft = &left_side_BD3320;
 
-    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    const u32 pitch = (u32)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
     const Psx_Test& abr_lut = sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
     for (int i = 0; i < ySize; i++)
     {
@@ -794,7 +794,7 @@ EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(WORD* pVRam,
 {
     const Render_Unknown* pLeft = &left_side_BD3320;
     const Render_Unknown* pRight = &right_side_BD32A0;
-    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    const u32 pitch = (u32)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
 
     for (int i = 0; i < ySize; i++)
     {
@@ -844,7 +844,7 @@ EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(WORD* pVRam,
 
 EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0(WORD* pVram, int yCount)
 {
-    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    const u32 pitch = (u32)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
 
     const auto r_table = sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].r;
     const auto g_table = sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].g;
@@ -880,9 +880,9 @@ EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0(WORD* pVr
             {
                 const WORD existingPixel = *pStart;
                 *pStart =
-                      (unsigned __int16)b_table[(shade_b >> 16) & 0x1F][existingPixel & 0x1F]
-                    | (unsigned __int16)r_table[(shade_r >> 16) & 0x1F][(existingPixel >> 11) & 0x1F]
-                    | (unsigned __int16)g_table[(shade_g >> 16) & 0x1F][(existingPixel >> 6) & 0x1F];
+                      (u16)b_table[(shade_b >> 16) & 0x1F][existingPixel & 0x1F]
+                    | (u16)r_table[(shade_r >> 16) & 0x1F][(existingPixel >> 11) & 0x1F]
+                    | (u16)g_table[(shade_g >> 16) & 0x1F][(existingPixel >> 6) & 0x1F];
 
                 shade_r += r_scaled;
                 shade_g += g_scaled;
@@ -1053,14 +1053,14 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
 }
 
 
-EXPORT void CC PSX_Pal_Conversion_4F98D0(const WORD* pDataToConvert, WORD* pConverted, unsigned int size)
+EXPORT void CC PSX_Pal_Conversion_4F98D0(const WORD* pDataToConvert, WORD* pConverted, u32 size)
 {
     if (sVGA_DisplayType_BD1468 == 5)
     {
         return;
     }
 
-    for (unsigned int i = 0; i < size; i++)
+    for (u32 i = 0; i < size; i++)
     {
         pConverted[i] = ((pDataToConvert[i] >> 15) << sSemiTransShift_C215C0)
                       | ((pDataToConvert[i] & 31) << sRedShift_C215C4)
@@ -1137,9 +1137,9 @@ EXPORT int CC PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, unsigned __int8 r, un
 
     const WORD colour_value =
         ((1 << sSemiTransShift_C215C0) // TODO: Might be something else
-        | (static_cast<unsigned int>(r) >> 3 << sRedShift_C215C4)
-        | (static_cast<unsigned int>(g) >> 3 << sGreenShift_C1D180)
-        | (static_cast<unsigned int>(b) >> 3 << sBlueShift_C19140));
+        | (static_cast<u32>(r) >> 3 << sRedShift_C215C4)
+        | (static_cast<u32>(g) >> 3 << sGreenShift_C1D180)
+        | (static_cast<u32>(b) >> 3 << sBlueShift_C19140));
 
     const int pitch_words = sPsxVram_C1D160.field_10_locked_pitch / sizeof(WORD);
 
@@ -1432,7 +1432,7 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
     PSX_Render_TILE_Blended_Large_4F6D00(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
 }
 
-static inline BYTE Decompress_Next_Type3(int& control_byte, unsigned int& dstIdx, const WORD*& pCompressed)
+static inline BYTE Decompress_Next_Type3(int& control_byte, u32& dstIdx, const WORD*& pCompressed)
 {
     if (control_byte == 0)
     {
@@ -1454,7 +1454,7 @@ static inline BYTE Decompress_Next_Type3(int& control_byte, unsigned int& dstIdx
 }
 
 
-static inline BYTE Decompress_Next_Type6(int& control_byte, unsigned int& dstIdx, const WORD*& pCompressed)
+static inline BYTE Decompress_Next_Type6(int& control_byte, u32& dstIdx, const WORD*& pCompressed)
 {
     if (control_byte == 0)
     {
@@ -1497,7 +1497,7 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     const float texture_h_step = static_cast<float>(v_height) / static_cast<float>(height);
 
     int control_byte = 0;
-    unsigned int dstIdx = 0;
+    u32 dstIdx = 0;
 
     int yCounter = 0;
     float v_pos = 0.0f;
@@ -1984,7 +1984,7 @@ EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* pPrim, int width, int he
 
     if (height_clipped >= 0 && width >= 0)
     {
-        const unsigned int pitch = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+        const u32 pitch = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
         WORD* pDst = (WORD *)spBitmap_C2D038->field_4_pLockedPixels + (1 * xConverted) + (yConverted * pitch);
         WORD* pSrc = (WORD *)spBitmap_C2D038->field_4_pLockedPixels + (pitch * (yoffset + 272)) + xoffset;
 
@@ -2463,9 +2463,9 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculat
         {
             // no blending
 
-            unsigned int g_s3 = pPrim->field_9_g >> 3;
-            unsigned int r_s3 = pPrim->field_8_r >> 3;
-            unsigned int b_s3 = pPrim->field_A_b >> 3;
+            u32 g_s3 = pPrim->field_9_g >> 3;
+            u32 r_s3 = pPrim->field_8_r >> 3;
+            u32 b_s3 = pPrim->field_A_b >> 3;
 
             r_lut_dword_BD3308 = stru_C146C0.r[r_s3];
             g_lut_dword_BD32D8 = stru_C146C0.g[g_s3];
@@ -2481,9 +2481,9 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculat
     else
     {
         // not textured
-        unsigned int g_s3 = pPrim->field_9_g >> 3;
-        unsigned int r_s3 = pPrim->field_8_r >> 3;
-        unsigned int b_s3 = pPrim->field_A_b >> 3;
+        u32 g_s3 = pPrim->field_9_g >> 3;
+        u32 r_s3 = pPrim->field_8_r >> 3;
+        u32 b_s3 = pPrim->field_A_b >> 3;
 
         sPoly_fill_colour_BD3350 = ((WORD)r_s3 << sRedShift_C215C4) | ((WORD)g_s3 << sGreenShift_C1D180) | ((WORD)b_s3 << sBlueShift_C19140);
     }
@@ -2796,7 +2796,7 @@ EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, signed int x0
         return;
     }
 
-    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    const u32 pitch = (u32)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
 
     int rDiff = (r1 - r0) << 16;
     int gDiff = (g1 - g0) << 16;
@@ -2942,7 +2942,7 @@ EXPORT void CC PSX_EMU_Render_F_LineSegment_4F80C0(int x0, int y0, int x1, int y
     const WORD b_s3 = static_cast<WORD>(b >> 3);
     const WORD fill_colour = (r_s3 << sRedShift_C215C4) | (g_s3 << sGreenShift_C1D180) | (b_s3 << sBlueShift_C19140);
 
-    const unsigned int pitch = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    const u32 pitch = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
 
     int x1_max = x1;
     int y1_max = y1;
@@ -3223,7 +3223,7 @@ EXPORT void CC PSX_RenderLaughingGasEffect_4F7B80(int xpos, int ypos, int width,
         {
             if (*pSrcIter)
             {
-                *pDstLineIter = (*pSrcIter + (unsigned int)(unsigned __int16)(pixel_mask & *pDstLineIter)) >> 1;
+                *pDstLineIter = (*pSrcIter + (u32)(u16)(pixel_mask & *pDstLineIter)) >> 1;
             }
             pDstLineIter += 2;
             pSrcIter += (xCounter & 1);
@@ -3518,10 +3518,10 @@ EXPORT void CC PSX_TPage_Change_4F6430(__int16 tPage)
 
         // Extract parts of the tpage
         sTexture_page_x_BD0F0C = (tPage & 0xF) << 6;
-        sTexture_page_y_BD0F10 = 16 * (tPage & 0x10) + (((unsigned int)tPage >> 2) & 0x200);
+        sTexture_page_y_BD0F10 = 16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200);
 
-        sTexture_mode_BD0F14 = ((unsigned int)tPage >> 7) & 3;
-        sTexture_page_abr_BD0F18 = ((unsigned int)tPage >> 5) & 3;
+        sTexture_mode_BD0F14 = ((u32)tPage >> 7) & 3;
+        sTexture_page_abr_BD0F18 = ((u32)tPage >> 5) & 3;
 
         if (sTexture_mode_BD0F14 == (TextureModes::e16Bit | TextureModes::e8Bit))
         {
@@ -3587,8 +3587,8 @@ EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pScreen, const P
 EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int v, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, WORD clut, char bSemiTrans)
 {
     const int tpagey = sTexture_page_y_BD0F10 + v;
-    const unsigned int rect_w = pRect->w;
-    const WORD* pClutSrc1 = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels  + 32 * ((clut & 63) + ((unsigned int)clut >> 6 << 6)));
+    const u32 rect_w = pRect->w;
+    const WORD* pClutSrc1 = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels  + 32 * ((clut & 63) + ((u32)clut >> 6 << 6)));
 
     Psx_Test* pAbrLut = nullptr;
     if (bSemiTrans)
@@ -3596,9 +3596,9 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
         pAbrLut = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
     }
 
-    const unsigned int texture_remainder_pitch = 2048 - (rect_w  / 2);
-    const unsigned int pitchWords = spBitmap_C2D038->field_10_locked_pitch / 2;
-    const unsigned int vram_remainder_pitch = pitchWords - pRect->w;
+    const u32 texture_remainder_pitch = 2048 - (rect_w  / 2);
+    const u32 pitchWords = spBitmap_C2D038->field_10_locked_pitch / 2;
+    const u32 vram_remainder_pitch = pitchWords - pRect->w;
     const BYTE* pTexture_4bit_src1 = (BYTE *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (sTexture_page_x_BD0F0C + (u / 4) + (tpagey / 1024));
     WORD* pVram_start = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * (pRect->x + pitchWords * pRect->y));
 
@@ -3638,7 +3638,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
                         break;
                     }
 
-                    const unsigned int clut_4_bit_idx2 = (*pTexture_4bit_src1++) >> 4;
+                    const u32 clut_4_bit_idx2 = (*pTexture_4bit_src1++) >> 4;
                     const WORD clut_pixel2 = pClutSrc1[clut_4_bit_idx2];
                     const WORD vram_pixel2 = *pVram_start;
                     if (clut_pixel2)
@@ -3685,7 +3685,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
                         break;
                     }
 
-                    const unsigned int clut_4_bit_idx3 = (*pTexture_4bit_src1++) >> 4;
+                    const u32 clut_4_bit_idx3 = (*pTexture_4bit_src1++) >> 4;
                     const WORD clut_pixel3 = pClutSrc1[clut_4_bit_idx3];
                     if (clut_pixel3)
                     {
@@ -3725,7 +3725,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
                     break;
                 }
 
-                const unsigned int clut_4_bit_idx5 = (*pTexture_4bit_src1) >> 4;
+                const u32 clut_4_bit_idx5 = (*pTexture_4bit_src1) >> 4;
                 const WORD clut_pixel5 = pClutSrc1[clut_4_bit_idx5];
                 if (clut_pixel5)
                 {
@@ -3774,18 +3774,18 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
 }
 
 // TODO: Can be refactored further
-EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(const PSX_RECT* pRect, int u, int v, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, unsigned __int16 clut, char bSemiTrans)
+EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(const PSX_RECT* pRect, int u, int v, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, u16 clut, char bSemiTrans)
 {
     const int tpagex = sTexture_page_x_BD0F0C + (u / 2);
     const int tpagey = sTexture_page_y_BD0F10 + v;
     BYTE* pTexture_8bit_src = (unsigned __int8 *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (tpagex + (tpagey * 1024));
     const int texture_8bit_remainder = 2048 - pRect->w;
 
-    const WORD* pClutSrc = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((clut & 63) + (((unsigned int)clut / 64) * 64)));
+    const WORD* pClutSrc = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((clut & 63) + (((u32)clut / 64) * 64)));
 
-    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / 2;
+    const u32 pitch = (u32)spBitmap_C2D038->field_10_locked_pitch / 2;
     const int vram_dst_remainder = pitch - pRect->w;
-    unsigned __int16* pVram_dst = (unsigned __int16 *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * (pRect->x + pitch * pRect->y));
+    u16* pVram_dst = (u16 *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * (pRect->x + pitch * pRect->y));
     WORD* pVram_End = &pVram_dst[(pRect->w - 1) + pitch * (pRect->h - 1)];
 
     if (r != 128 || g != 128 || b != 128)
@@ -3911,8 +3911,8 @@ EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(const PSX_RECT* pRect, int u, int
 EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, int u, int v, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*clut*/, char bSemiTrans)
 {
     const int texture_row_width = (1 << tpage_width_57831C) - pRect->w;
-    const unsigned int line_pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch >> 1;
-    const unsigned int pitch_remainder = line_pitch - pRect->w;
+    const u32 line_pitch = (u32)spBitmap_C2D038->field_10_locked_pitch >> 1;
+    const u32 pitch_remainder = line_pitch - pRect->w;
 
     const WORD* pTexture_src = &sTPage_src_ptr_BD0F1C[u + (v << tpage_width_57831C)];// tpage_width_57831C = tpage width/bpp? becomes / 1024 ?
     WORD* pVram_start = reinterpret_cast<WORD*>(spBitmap_C2D038->field_4_pLockedPixels) + (pRect->x + (line_pitch * pRect->y));
@@ -4283,7 +4283,7 @@ namespace AETest::TestsPsxRender
         0x11, 0x3A
     };
 
-    static WORD RGB888toRGB565(unsigned int r, unsigned int g, unsigned int b)
+    static WORD RGB888toRGB565(u32 r, u32 g, u32 b)
     {
         return static_cast<WORD>((r >> 3 << 11) + (g >> 2 << 5) + (b >> 3));
     }

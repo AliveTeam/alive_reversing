@@ -46,8 +46,8 @@ struct PathInfo
     int mWidth = 0;
     int mGridHeight = 0;
     int mHeight = 0;
-    unsigned int mObjectOffset = 0;
-    unsigned int mIndexTableOffset = 0;
+    u32 mObjectOffset = 0;
+    u32 mIndexTableOffset = 0;
 
     int mNumCollisionItems = 0;
     int mCollisionOffset = 0;

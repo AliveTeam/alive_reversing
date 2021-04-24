@@ -995,7 +995,7 @@ void Map::RestoreBlyData_446A90(const BYTE* pSaveData)
 void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx)
 {
     BYTE* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
-    unsigned int* pIndexTableStart = reinterpret_cast<unsigned int*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
+    u32* pIndexTableStart = reinterpret_cast<u32*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
 
     const int totalCams = field_26_max_cams_y * field_24_max_cams_x;
 
@@ -1070,7 +1070,7 @@ Camera* Map::GetCamera(CameraPos pos)
     return field_34_camera_array[static_cast<int>(pos)];
 }
 
-signed __int16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect)
+s16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect)
 {
     Path_ChangeTLV* pPathChangeTLV = nullptr;
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eEffect0_InstantChange;
@@ -1163,7 +1163,7 @@ __int16 Map::Is_Point_In_Current_Camera_4449C0(int level, int path, FP xpos, FP 
     return Rect_Location_Relative_To_Active_Camera_4448C0(&rect, width) == CameraPos::eCamCurrent_0;
 }
 
-signed __int16 Map::Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect)
+s16 Map::Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect)
 {
     if (camIdx < CameraPos::eCamCurrent_0 || camIdx > CameraPos::eCamRight_4)
     {
@@ -1464,7 +1464,7 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
     return pTlv;
 }
 
-void Map::sub_447430(unsigned __int16 pathNum)
+void Map::sub_447430(u16 pathNum)
 {
     const auto pPathData = Path_Get_Bly_Record_434650(field_0_current_level, pathNum)->field_4_pPathData;
     const auto pPathRes = *field_5C_path_res_array.field_0_pPathRecs[pathNum];
@@ -2029,7 +2029,7 @@ void Map::Loader_446590(__int16 camX, __int16 camY, LoadMode loadMode, TlvTypes 
     }
 }
 
-EXPORT void Map::TLV_Reset_446870(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2)
+EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;

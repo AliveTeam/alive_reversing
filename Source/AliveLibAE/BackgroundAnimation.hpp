@@ -9,7 +9,7 @@
 
 struct Path_BackgroundAnimation : public Path_TLV
 {
-    unsigned __int16 field_10_res_id;
+    u16 field_10_res_id;
     Choice_short field_12_is_semi_trans;
     TPageAbr field_14_semi_trans_mode;
     // pad

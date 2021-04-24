@@ -355,7 +355,7 @@ public:
     __int16 field_1FE_highlite_alpha;
     __int16 field_200_highlite_glow_speed;
     __int16 field_202_input_hold_down_timer;
-    unsigned int field_204_prev_pressed;
+    u32 field_204_prev_pressed;
     MainMenuTransition* field_208_transition_obj;
 
     // These appear to never be used

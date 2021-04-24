@@ -173,7 +173,7 @@ inline Fixed_24_8 operator / (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     return r;
 }
 
-signed __int16 Collisions::RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask)
+s16 Collisions::RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
 {
     // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
 

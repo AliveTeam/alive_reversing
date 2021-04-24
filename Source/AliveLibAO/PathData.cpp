@@ -824,12 +824,12 @@ PathRootContainer gMapData_4CAB58 =
     }
 };
 
-const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, unsigned __int16 path)
+const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, u16 path)
 {
     return &gMapData_4CAB58.paths[static_cast<int>(level)].field_0_pBlyArrayPtr[path];
 }
 
-FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, unsigned __int16 fmvId)
+FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId)
 {
     return &gMapData_4CAB58.paths[static_cast<int>(levelId)].field_4_pFmvArray[fmvId];
 }

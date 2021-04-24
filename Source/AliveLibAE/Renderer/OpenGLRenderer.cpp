@@ -124,9 +124,9 @@ static bool Renderer_TexExists(const PSX_RECT& rect)
 
 static TextureCache* Renderer_TexFromTPage(WORD tPage, BYTE u, BYTE v)
 {
-    int textureMode = static_cast<int>(((unsigned int)tPage >> 7) & 3);
+    int textureMode = static_cast<int>(((u32)tPage >> 7) & 3);
     short tpagex = ((tPage & 0xF) << 6);
-    short tpagey = (16 * (tPage & 0x10) + (((unsigned int)tPage >> 2) & 0x200)) + v;
+    short tpagey = (16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200)) + v;
 
     // Lets prims use background texture as a src even tho we dont have vram anymore.
     if (tpagex < 640 && tpagey < 240)
@@ -340,15 +340,15 @@ static void Renderer_SetBlendMode(TPageAbr blendAbr)
 static PSX_Point Renderer_VRamFromTPage(WORD tPage)
 {
     short tpagex = (tPage & 0xF) << 6;
-    short tpagey = 16 * (tPage & 0x10) + (((unsigned int)tPage >> 2) & 0x200);
+    short tpagey = 16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200);
 
     return { tpagex, tpagey };
 }
 
 static void Renderer_ParseTPageBlendMode(WORD tPage)
 {
-    // TPageMode textureMode = static_cast<TPageMode>(((unsigned int)tPage >> 7) & 3);
-    TPageAbr pageAbr = static_cast<TPageAbr>(((unsigned int)tPage >> 5) & 3);
+    // TPageMode textureMode = static_cast<TPageMode>(((u32)tPage >> 7) & 3);
+    TPageAbr pageAbr = static_cast<TPageAbr>(((u32)tPage >> 5) & 3);
 
     glEnable(GL_BLEND);
 
@@ -435,7 +435,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     unsigned short tWidth = reinterpret_cast<const unsigned short*>(GetPrimExtraPointerHack(&poly))[0];
     unsigned short tHeight = reinterpret_cast<const unsigned short*>(GetPrimExtraPointerHack(&poly))[1];
 
-    TPageMode textureMode = static_cast<TPageMode>(((unsigned int)poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
+    TPageMode textureMode = static_cast<TPageMode>(((u32)poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
     
     gFakeTextureCache = {};
     gFakeTextureCache.mPalXY = Renderer_ClutToCoords(poly.mUv.tpage_clut_pad);

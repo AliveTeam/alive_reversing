@@ -29,13 +29,13 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
-    virtual signed __int16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 
 private:
     EXPORT SecurityOrb* Vdtor_4373B0(signed int flags);
     EXPORT void VScreenChanged_4373A0();
-    EXPORT signed __int16 VTakeDamage_437280(BaseGameObject* pFrom);
+    EXPORT s16 VTakeDamage_437280(BaseGameObject* pFrom);
     EXPORT void VUpdate_436DF0();
 
 public:

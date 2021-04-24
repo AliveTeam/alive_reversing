@@ -27,7 +27,7 @@ struct VabHeader
     __int16 field_10_reserved0;
     __int16 field_12_num_progs;
     __int16 field_14_num_tones;
-    unsigned __int16 field_16_num_vags;
+    u16 field_16_num_vags;
     char field_18_master_vol;
     char field_19_master_pan;
     char field_1A_attr1;
@@ -93,11 +93,11 @@ struct MIDI_ADSR_State
     unsigned __int8 field_1_program;
     unsigned __int8 field_2_note_byte1;
     char field_3_state;
-    unsigned __int16 field_4_attack;
-    unsigned __int16 field_6_sustain;
-    unsigned __int16 field_8_decay;
-    unsigned __int16 field_A_release;
-    unsigned __int16 field_C;
+    u16 field_4_attack;
+    u16 field_6_sustain;
+    u16 field_8_decay;
+    u16 field_A_release;
+    u16 field_C;
     unsigned __int8 field_E_ref_count;
     char field_F_pad;
 };
@@ -133,7 +133,7 @@ ALIVE_ASSERT_SIZEOF(MIDI_ProgramVolume, 3);
 struct MIDI_SeqSong
 {
     BYTE* field_0_seq_data;
-    unsigned int field_4_time;
+    u32 field_4_time;
     int field_8_playTimeStamp;
     int field_C_volume;
     int field_10_quaterNoteRes;
@@ -178,7 +178,7 @@ public:
     virtual MidiChannels& sMidi_Channels() = 0;
     virtual MIDI_SeqSong& sMidiSeqSongs(int idx) = 0;
     virtual int& sMidi_Inited_dword() = 0;
-    virtual unsigned int& sMidiTime() = 0;
+    virtual u32& sMidiTime() = 0;
     virtual BOOL& sSoundDatIsNull() = 0;
     virtual char& sbDisableSeqs() = 0;
     virtual DWORD& sLastTime() = 0;
@@ -213,7 +213,7 @@ EXPORT void SsUtReverbOff_4FE350();
 EXPORT void SpuClearReverbWorkArea_4FA690(int reverbMode);
 
 EXPORT void CC SsSetTickMode_4FDC20(int tickMode);
-EXPORT int CC SsVoKeyOn_4FCF10(int vabIdAndProgram, int pitch, unsigned __int16 leftVol, unsigned __int16 rightVol);
+EXPORT int CC SsVoKeyOn_4FCF10(int vabIdAndProgram, int pitch, u16 leftVol, u16 rightVol);
 EXPORT void CC SsUtAllKeyOff_4FDFE0(int mode);
 EXPORT __int16 CC SsUtKeyOffV_4FE010(__int16 idx);
 EXPORT __int16 CC SsUtChangePitch_4FDF70(__int16 voice, int /*vabId*/, int /*prog*/, __int16 old_note, __int16 old_fine, __int16 new_note, __int16 new_fine);
@@ -221,9 +221,9 @@ EXPORT __int16 CC SsUtChangePitch_4FDF70(__int16 voice, int /*vabId*/, int /*pro
 EXPORT __int16 CC SsSeqOpen_4FD6D0(BYTE* pSeqData, __int16 seqIdx);
 EXPORT void CC SsSeqClose_4FD8D0(__int16 idx);
 EXPORT void CC SsSeqStop_4FD9C0(__int16 idx);
-EXPORT unsigned __int16 CC SsIsEos_4FDA80(__int16 idx, __int16 seqNum);
+EXPORT u16 CC SsIsEos_4FDA80(__int16 idx, __int16 seqNum);
 EXPORT void CC SsSeqSetVol_4FDAC0(__int16 idx, __int16 volLeft, __int16 volRight);
-EXPORT void CC SsSeqPlay_4FD900(unsigned __int16 idx, char playMode, __int16 repeatCount);
+EXPORT void CC SsSeqPlay_4FD900(u16 idx, char playMode, __int16 repeatCount);
 
 EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx);
 EXPORT int CC MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru);

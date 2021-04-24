@@ -21,17 +21,17 @@
 #include "Renderer/IRenderer.hpp"
 
 // Frame call backs ??
-EXPORT int CC Animation_OnFrame_Common_Null_455F40(void*, signed __int16*)
+EXPORT int CC Animation_OnFrame_Common_Null_455F40(void*, s16*)
 {
     return 1;
 }
 
-EXPORT int CC Animation_OnFrame_Null_455F60(void*, signed __int16*)
+EXPORT int CC Animation_OnFrame_Null_455F60(void*, s16*)
 {
     return 1;
 }
 
-EXPORT int CC Animation_OnFrame_Common_4561B0(void* pObjPtr, signed __int16* pData)
+EXPORT int CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
     BYTE** ppAnimData = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDustResID, FALSE, FALSE);
@@ -124,7 +124,7 @@ EXPORT int CC Animation_OnFrame_Common_4561B0(void* pObjPtr, signed __int16* pDa
 }
 
 // Render smoke from flying Slig engine - not sure what it renders for abe
-EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, signed __int16* pData)
+EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
     if (pObj->field_10C_health <= FP_FromInteger(0))
@@ -165,7 +165,7 @@ EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, signed __int16* pDa
     return 1;
 }
 
-int CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, signed __int16* pPoints)
+int CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
 {
     auto pSlog = static_cast<Slog*>(pObjPtr);
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(pSlog->field_118_target_id));
@@ -752,7 +752,7 @@ void Animation::Invoke_CallBacks_40B7A0()
     }
 }
 
-signed __int16 Animation::Set_Animation_Data_409C80(int frameTableOffset, BYTE** pAnimRes)
+s16 Animation::Set_Animation_Data_409C80(int frameTableOffset, BYTE** pAnimRes)
 {
     if (pAnimRes)
     {
@@ -906,7 +906,7 @@ WORD Animation::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
+s16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);

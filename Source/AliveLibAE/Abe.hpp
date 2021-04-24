@@ -248,7 +248,7 @@ enum class EnvironmentSfx : char
     eFallingDeathScreamHitGround_15 = 15 // TODO: better name
 };
 
-enum class ChantStates : unsigned __int16
+enum class ChantStates : u16
 {
     eIdleChanting_0 = 0,
     ePossessVictim_1 = 1,
@@ -259,7 +259,7 @@ enum class ChantStates : unsigned __int16
     eChantingForBirdPortal_6 = 6,
 };
 
-enum class StoneStates : unsigned __int16
+enum class StoneStates : u16
 {
     eHandstoneBegin_0 = 0,
     eGetHandstoneType_1 = 1,
@@ -271,7 +271,7 @@ enum class StoneStates : unsigned __int16
     eCircularFadeExit_7 = 7,
 };
 
-enum class DoorStates : unsigned __int16
+enum class DoorStates : u16
 {
     eAbeComesIn_0 = 0,
     ePadding_1 = 1,
@@ -291,7 +291,7 @@ enum class PortalSubStates : __int16
     eSetNewAbePosition_4 = 4
 };
 
-enum class WorkWheelStates : unsigned __int16
+enum class WorkWheelStates : u16
 {
     eTurningWheel_0 = 0,
     eCheckForNoLongerTurningWheel_1 = 1,
@@ -304,7 +304,7 @@ union AllInternalStates
     StoneStates stone;
     DoorStates door;
     WorkWheelStates wheel;
-    unsigned __int16 raw;
+    u16 raw;
 };
 
 enum class Mud_Emotion : __int16;
@@ -315,7 +315,7 @@ struct Abe_1BC_20_sub_object
     int field_4_regen_health_timer;
     FP field_8_x_vel_slow_by;
     int field_C_unused;
-    unsigned __int16 field_10_resource_index;
+    u16 field_10_resource_index;
     Mud_Emotion field_12_mood;
     int field_14_rolling_motion_timer;
     MudSounds field_18_say;
@@ -755,6 +755,6 @@ extern const char* const sAbeStateNames[130];
 
 EXPORT int CC Environment_SFX_457A40(EnvironmentSfx sfxId, int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
 
-EXPORT int CC Animation_OnFrame_Abe_455F80(void* pPtr, signed __int16* pData);
+EXPORT int CC Animation_OnFrame_Abe_455F80(void* pPtr, s16* pData);
 
 EXPORT int CC XGrid_Index_To_XPos_4498F0(FP scale, int xGridIndex);

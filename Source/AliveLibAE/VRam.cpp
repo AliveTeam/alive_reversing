@@ -155,7 +155,7 @@ EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
     return 1;
 }
 
-EXPORT signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT* pRect)
+EXPORT s16 CC Vram_alloc_4956C0(u16 width, __int16 height, u16 colourDepth, PSX_RECT* pRect)
 {
     PSX_RECT rect = {};
 
@@ -288,7 +288,7 @@ static bool Pal_Allocate_Helper(int& i, int& palX_idx, int maskValue, int numBit
     return false;
 }
 
-EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* pRect, unsigned int paletteColorCount)
+EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
 {
     if (!pal_free_count_5C915E)
     {
@@ -357,7 +357,7 @@ EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
     }
 }
 
-EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, unsigned __int16 width, unsigned __int16 height)
+EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, u16 width, u16 height)
 {
     pal_xpos_5C9162 = xpos;
     pal_ypos_5C9160 = ypos;
@@ -382,9 +382,9 @@ EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, __int16 w, WORD* pPalData, PSX_
     PSX_StoreImage_4F5E90(rect, pPalData);
 }
 
-EXPORT unsigned int CC Pal_Make_Colour_4834C0(BYTE r, BYTE g, BYTE b, __int16 bOpaque)
+EXPORT u32 CC Pal_Make_Colour_4834C0(BYTE r, BYTE g, BYTE b, __int16 bOpaque)
 {
-    return (bOpaque != 0 ? 0x8000 : 0) + ((unsigned int)r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
+    return (bOpaque != 0 ? 0x8000 : 0) + ((u32)r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
 }
 
 EXPORT void CC Pal_Set_483510(PSX_Point xy, __int16 w, const BYTE* palData, PSX_RECT* rect)

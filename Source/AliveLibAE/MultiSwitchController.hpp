@@ -10,13 +10,13 @@ struct Path_MultiSwitchController : public Path_TLV
 {
     __int16 field_10_id;
     SwitchOp field_12_operation;
-    unsigned __int16 field_14_delay;
-    unsigned __int16 field_16_id1;
-    unsigned __int16 field_18_id2;
-    unsigned __int16 field_1A_id3;
-    unsigned __int16 field_1C_id4;
-    unsigned __int16 field_1E_id5;
-    unsigned __int16 field_20_id6;
+    u16 field_14_delay;
+    u16 field_16_id1;
+    u16 field_18_id2;
+    u16 field_1A_id3;
+    u16 field_1C_id4;
+    u16 field_1E_id5;
+    u16 field_20_id6;
     __int16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MultiSwitchController, 0x24);
@@ -37,13 +37,13 @@ private:
     EXPORT void WaitingForAllOff_4D65B0();
 
 private:
-    unsigned __int16 field_20_id1;
-    unsigned __int16 field_22_id2;
-    unsigned __int16 field_24_id3;
-    unsigned __int16 field_26_id4;
-    unsigned __int16 field_28_id5;
-    unsigned __int16 field_2A_id6;
-    unsigned __int16 field_2C_id;
+    u16 field_20_id1;
+    u16 field_22_id2;
+    u16 field_24_id3;
+    u16 field_26_id4;
+    u16 field_28_id5;
+    u16 field_2A_id6;
+    u16 field_2C_id;
     SwitchOp field_2E_operation;
     int field_30_tlvInfo;
     int field_34_last_switch_on_time;

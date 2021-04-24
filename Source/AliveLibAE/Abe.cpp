@@ -632,7 +632,7 @@ const FP_Point sThrowVelocities_555118[9] =
     { FP_FromInteger(0),    FP_FromInteger(0) }
 };
 
-int CC Animation_OnFrame_Abe_455F80(void* pPtr, signed __int16* pData)
+int CC Animation_OnFrame_Abe_455F80(void* pPtr, s16* pData)
 {
     auto pAbe = static_cast<Abe*>(pPtr);
     auto pFramePos = reinterpret_cast<PSX_Point*>(pData);
@@ -7013,7 +7013,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
         if (sMovie_ref_count_BB4AE4 == 0)
         {
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((unsigned __int16 **)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
+            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16 **)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager_5BB5F4->field_40_flags |= 0x10000;
             pCircularFade->VFadeIn_4CE300(0, 0);
             field_120_state.stone = StoneStates::eHandstoneEnd_3;

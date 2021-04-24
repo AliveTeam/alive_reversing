@@ -326,7 +326,7 @@ Grenade* Grenade::vdtor_4480E0(signed int flags)
     return this;
 }
 
-signed __int16 Grenade::TimeToBlowUp_448350()
+s16 Grenade::TimeToBlowUp_448350()
 {
     if (!(--field_122_explode_timer % 16))
     {

@@ -9,7 +9,7 @@
 #include "ShadowZone.hpp"
 #include "BaseAliveGameObject.hpp"
 
-BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize)
+BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize)
 {
     BaseGameObject_ctor_4DBFA0(1, resourceArraySize);
 
@@ -164,7 +164,7 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
 }
 
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffset, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, __int16 a6, unsigned __int8 a7)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffset, int maxW, u16 maxH, BYTE **ppAnimData, __int16 a6, unsigned __int8 a7)
 {
     if (field_20_animation.Init_40A030(
         frameTableOffset,

@@ -44,7 +44,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    EXPORT Dove* Vdtor_40F970(unsigned int flags);
+    EXPORT Dove* Vdtor_40F970(u32 flags);
 
     virtual void VUpdate() override;
 

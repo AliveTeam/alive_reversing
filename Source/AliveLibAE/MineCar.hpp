@@ -105,7 +105,7 @@ private:
     EXPORT void vUpdate_REAL_46C010();
     EXPORT void vRender_46E760(PrimHeader** ppOt);
     EXPORT void Stop_46E570();
-    EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs dir, char bChangeDirection);
+    EXPORT void Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs dir, char bChangeDirection);
     EXPORT __int16 IsBlocked_46F4A0(__int16 a2, int a3);
     EXPORT __int16 FollowDirection_46EA00();
     EXPORT void RunThingsOver_46F380();

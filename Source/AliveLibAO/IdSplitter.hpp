@@ -9,7 +9,7 @@ namespace AO {
 struct Path_IdSplitter : public Path_TLV
 {
     __int16 field_18_source_id;
-    unsigned __int16 field_1A_delay;
+    u16 field_1A_delay;
     __int16 field_1C_id1;
     __int16 field_1C_id2;
     __int16 field_1C_id3;
@@ -36,7 +36,7 @@ public:
 
     EXPORT void VUpdate_479C40();
 
-    unsigned __int16 field_10_source_id;
+    u16 field_10_source_id;
 
     enum class State : __int16
     {

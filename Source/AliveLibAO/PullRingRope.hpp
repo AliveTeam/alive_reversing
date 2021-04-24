@@ -11,8 +11,8 @@ struct Path_PullRingRope : public Path_TLV
 {
     __int16 field_18_id;
     SwitchOp field_1A_action;
-    unsigned __int16 field_1C_rope_length;
-    unsigned __int16 field_1E_scale;
+    u16 field_1C_rope_length;
+    u16 field_1E_scale;
     __int16 field_20_on_sound;
     __int16 field_22_off_sound;
     __int16 field_24_sound_direction;

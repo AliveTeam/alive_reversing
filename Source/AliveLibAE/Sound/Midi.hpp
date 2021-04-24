@@ -28,22 +28,22 @@ public:
     virtual int MidiTableSize() = 0;
 
     // Res manager wrapper
-    virtual signed __int16 FreeResource_Impl(BYTE* handle) = 0;
-    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock) = 0;
-    virtual signed __int16 FreeResource(BYTE** handle) = 0;
+    virtual s16 FreeResource_Impl(BYTE* handle) = 0;
+    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) = 0;
+    virtual s16 FreeResource(BYTE** handle) = 0;
     virtual BYTE** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) = 0;
     virtual void LoadingLoop(__int16 bShowLoadingIcon) = 0;
-    virtual void Reclaim_Memory(unsigned int size) = 0;
+    virtual void Reclaim_Memory(u32 size) = 0;
     virtual BYTE** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) = 0;
-    virtual signed __int16 LoadResourceFile(const char* pFileName, Camera* pCamera) = 0;
+    virtual s16 LoadResourceFile(const char* pFileName, Camera* pCamera) = 0;
 };
 
 EXPORT IMidiVars* GetMidiVars();
 EXPORT void SetMidiApiVars(IMidiVars* pVars);
 
-using TReclaimMemoryFn = void(CC*)(unsigned int);
-using TLoadResourceFileFn = signed __int16(CC*)(const char*, Camera*);
-using TGetLoadedResourceFn = BYTE * *(CC*)(DWORD, DWORD, unsigned __int16, unsigned __int16);
+using TReclaimMemoryFn = void(CC*)(u32);
+using TLoadResourceFileFn = s16(CC*)(const char*, Camera*);
+using TGetLoadedResourceFn = BYTE * *(CC*)(DWORD, DWORD, u16, u16);
 using TSNDRestart = void(CC*)();
 using TSNDStopAll = void(CC*)();
 
@@ -65,12 +65,12 @@ EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask);
 EXPORT void SND_Reset_4C9FB0();
 EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb);
 EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName);
-EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx);
+EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx);
 EXPORT char CC SND_Seq_Table_Valid_4CAFE0();
-EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 repeatCount, __int16 bDontStop);
+EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, __int16 repeatCount, __int16 bDontStop);
 EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight);
-EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount, __int16 volLeft, __int16 volRight);
-EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx);
+EXPORT __int16 CC SND_SEQ_Play_4CAB10(u16 idx, __int16 repeatCount, __int16 volLeft, __int16 volRight);
+EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(u16 idx);
 EXPORT int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, __int16 volLeft, __int16 volRight, __int16 pitch_min, __int16 pitch_max);
 EXPORT int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, __int16 volume, __int16 pitch_min, __int16 pitch_max);
 

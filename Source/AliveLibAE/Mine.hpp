@@ -46,7 +46,7 @@ private:
     EXPORT void ScreenChanged_46BAE0();
     EXPORT void vOnPickUpOrSlapped_46B880();
     EXPORT void vOnThrowableHit_46BA40(BaseGameObject* pFrom);
-    EXPORT signed __int16 vTakeDamage_46BB20(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_46BB20(BaseGameObject* pFrom);
     EXPORT bool IsColliding_46B8C0();
 public:
     WORD field_118_detonating;

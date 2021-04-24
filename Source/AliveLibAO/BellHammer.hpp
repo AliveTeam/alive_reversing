@@ -15,7 +15,7 @@ struct Path_BellHammer : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_BellHammer, 0x20);
 
-enum class BellHammerStates : unsigned __int16
+enum class BellHammerStates : u16
 {
     eWaitForActivation_0 = 0,
     eSmashingBell_1 = 1

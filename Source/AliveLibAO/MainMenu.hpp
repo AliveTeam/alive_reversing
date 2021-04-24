@@ -10,7 +10,7 @@ namespace AO {
 class MainMenuFade : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MainMenuFade* ctor_42A5A0(__int16 xpos, __int16 ypos, unsigned __int16 idx_1, __int16 bDestroyOnDone);
+    EXPORT MainMenuFade* ctor_42A5A0(__int16 xpos, __int16 ypos, u16 idx_1, __int16 bDestroyOnDone);
 
     virtual void VUpdate() override;
 

@@ -128,7 +128,7 @@ void Greeter::VOnThrowableHit(BaseGameObject* pFrom)
     vOnThrowableHit_447DB0(pFrom);
 }
 
-signed __int16 Greeter::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 Greeter::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_447C20(pFrom);
 }
@@ -447,7 +447,7 @@ void Greeter::HandleRollingAlong_447860()
     }
 }
 
-EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
+EXPORT s16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3) || FP_GetExponent(field_10C_health) == 0)
     {

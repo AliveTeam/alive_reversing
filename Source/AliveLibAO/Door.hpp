@@ -24,7 +24,7 @@ struct Path_Door : public Path_TLV
     __int16 field_1A_path;
     __int16 field_1C_camera;
     Scale_short field_1E_scale;
-    unsigned __int16 field_20_door_number;
+    u16 field_20_door_number;
     __int16 field_22_id;
     __int16 field_24_target_door_number;
     DoorStates field_26_start_state;

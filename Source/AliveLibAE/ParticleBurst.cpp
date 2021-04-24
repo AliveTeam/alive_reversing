@@ -22,7 +22,7 @@ struct ParticleBurst_Item
 ALIVE_ASSERT_SIZEOF(ParticleBurst_Item, 0x88);
 
 
-ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfParticles, FP scale, BurstType type, signed __int16 count)
+ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, FP scale, BurstType type, s16 count)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5447DC);

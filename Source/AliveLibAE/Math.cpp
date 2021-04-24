@@ -26,10 +26,10 @@ ALIVE_ARY(1, 0x546744, unsigned char, 256, sRandomBytes_546744,
 });
 ALIVE_VAR(1, 0x5D1E10, unsigned char, sRandomSeed_5D1E10, 0);
 
-EXPORT unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed int op2)
+EXPORT u32  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed int op2)
 {
-    unsigned int op1a; // ecx
-    unsigned int op2a; // esi
+    u32 op1a; // ecx
+    u32 op2a; // esi
     int result; // eax
 
     op1a = op1;
@@ -39,19 +39,19 @@ EXPORT unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed i
     if (op2 < 0)
         op2a = -op2;
     result = op2a * (op1a >> 16)
-        + (unsigned __int16)op1a * (op2a >> 16)
-        + ((unsigned __int16)op1a * (unsigned int)(unsigned __int16)op2a >> 16);
+        + (u16)op1a * (op2a >> 16)
+        + ((u16)op1a * (u32)(u16)op2a >> 16);
     if ((op1 < 0) != (op2 < 0))
         result = -result;
     return result;
 }
 
-EXPORT unsigned int CC Math_FixedPoint_Divide_496B70(signed int op1, signed int op2)
+EXPORT u32 CC Math_FixedPoint_Divide_496B70(signed int op1, signed int op2)
 {
     signed int op1a; // ebx
-    unsigned int op1b; // edi
-    unsigned int op2a; // ecx
-    unsigned int v5; // esi
+    u32 op1b; // edi
+    u32 op2a; // ecx
+    u32 v5; // esi
     int v6; // edi
     int result; // eax
 
@@ -158,13 +158,13 @@ EXPORT FP CC Math_Cosine_496D60(FP fp)
     if (fp < FP_FromInteger(0))
     {
         // TODO: Refactor to something sane
-        fp.fpValue = ((unsigned int)(0xFFFFFF - fp.fpValue) >> 24 << 24) + fp.fpValue;
+        fp.fpValue = ((u32)(0xFFFFFF - fp.fpValue) >> 24 << 24) + fp.fpValue;
     }
 
     if (fp > FP_FromInteger(255))
     {
         // TODO: Refactor to something sane
-        fp.fpValue += 0xFF000000 * ((unsigned int)(fp.fpValue + 0xFFFF) >> 24);
+        fp.fpValue += 0xFF000000 * ((u32)(fp.fpValue + 0xFFFF) >> 24);
     }
 
     return Math_Cosine_496CD0(static_cast<BYTE>(FP_GetExponent(fp)));

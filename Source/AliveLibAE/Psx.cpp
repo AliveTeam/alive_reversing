@@ -672,8 +672,8 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
     }
 
     // TODO: Clean up more, treat as 1024x512 16bit array
-    const unsigned int bytesPerPixel = sPsxVram_C1D160.field_14_bpp / 8;
-    unsigned int srcWidthInBytes = pRect->w * bytesPerPixel;
+    const u32 bytesPerPixel = sPsxVram_C1D160.field_14_bpp / 8;
+    u32 srcWidthInBytes = pRect->w * bytesPerPixel;
     BYTE* pDst = (BYTE *)sPsxVram_C1D160.field_4_pLockedPixels + bytesPerPixel * (pRect->x + (pRect->y * sPsxVram_C1D160.field_8_width));
     const BYTE* pDataEnd = &pData[srcWidthInBytes * pRect->h];
     const BYTE* pDataIter = pData;
@@ -723,13 +723,13 @@ EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
         const WORD* pLineStart = &pVramIter[rect->w];
         while (pVramIter < pLineStart)
         {
-            const auto vram_pixel = static_cast<unsigned int>(*pVramIter);
+            const auto vram_pixel = static_cast<u32>(*pVramIter);
             ++pVramIter;
 
-            unsigned int shiftedRed = (vram_pixel >> sRedShift_C215C4) & 0x1F;
-            unsigned int shiftedGreen = (vram_pixel >> sGreenShift_C1D180) & 0x1F;
-            unsigned int shiftedBlue = (vram_pixel >> sBlueShift_C19140) & 0x1F;
-            unsigned int shiftedTrans = (vram_pixel >> sSemiTransShift_C215C0);
+            u32 shiftedRed = (vram_pixel >> sRedShift_C215C4) & 0x1F;
+            u32 shiftedGreen = (vram_pixel >> sGreenShift_C1D180) & 0x1F;
+            u32 shiftedBlue = (vram_pixel >> sBlueShift_C19140) & 0x1F;
+            u32 shiftedTrans = (vram_pixel >> sSemiTransShift_C215C0);
             // Convert and store pixel value
             *(pDstIter) = static_cast<WORD>(shiftedRed | 32 * (shiftedGreen | 32 * (shiftedBlue | 32 * (shiftedTrans))));
 
@@ -743,7 +743,7 @@ EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
 
 EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
 {
-    const unsigned int pixelCount = pRect->w * pRect->h;
+    const u32 pixelCount = pRect->w * pRect->h;
     WORD* pConversionBuffer = reinterpret_cast<WORD*>(ae_malloc_4F4E60(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
     if (!pConversionBuffer)
     {

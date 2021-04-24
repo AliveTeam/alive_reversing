@@ -218,7 +218,7 @@ const SfxDefinition sSligGameSpeakEntries_560868[21] =
     { 0u, 0u, 0u, 0u, 0, 0 }
 };
 
-EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, __int16 defaultVol, const SfxDefinition* pSfx, __int16* pLeftVol, __int16* pRightVol)
+EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, __int16 defaultVol, const SfxDefinition* pSfx, __int16* pLeftVol, __int16* pRightVol)
 {
     if (defaultVol == 0)
     {

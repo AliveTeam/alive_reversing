@@ -9,7 +9,7 @@
 namespace AO {
 
 ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
-ALIVE_VAR(1, 0x5076B8, unsigned __int16, sCurrentControllerIndex_5076B8, 0);
+ALIVE_VAR(1, 0x5076B8, u16, sCurrentControllerIndex_5076B8, 0);
 ALIVE_VAR(1, 0x508A60, int, sJoystickEnabled_508A60, 0);
 ALIVE_VAR(1, 0x9F7710, BYTE, sInputEnabled_9F7710, 0);
 ALIVE_VAR(1, 0xA8A604, DWORD, sLastPressedKey_A8A604, 0);
@@ -37,7 +37,7 @@ const InputCommands sInputKey_GameSpeak6_4C65E8 = eHop;
 const InputCommands sInputKey_GameSpeak7_4C65E4 = eThrowItem;
 const InputCommands sInputKey_GameSpeak8_4C65E0 = eDoAction;
 
-EXPORT void InputObject::InitPad_4331A0(unsigned int /*padCount*/)
+EXPORT void InputObject::InitPad_4331A0(u32 /*padCount*/)
 {
     for (PSX_Pad& pad : field_0_pads)
     {
@@ -509,12 +509,12 @@ bool InputObject::IsAllHeld(DWORD commands) const
     return (field_0_pads[sCurrentControllerIndex_5076B8].field_6_held & commands) == commands;
 }
 
-unsigned __int16 InputObject::Pressed() const
+u16 InputObject::Pressed() const
 {
     return Pressed(PadIndex::Active);
 }
 
-unsigned __int16 InputObject::Pressed(PadIndex padIx) const
+u16 InputObject::Pressed(PadIndex padIx) const
 {
     return field_0_pads[PadIndexToInt(padIx)].field_0_pressed;
 }

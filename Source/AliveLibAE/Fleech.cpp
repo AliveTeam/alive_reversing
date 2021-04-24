@@ -1728,7 +1728,7 @@ TintEntry stru_551844[15] =
     { -1, 127u, 127u, 127u }
 };
 
-int CC Animation_OnFrame_Fleech_449A60(void* pObj, signed __int16* pData)
+int CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData)
 {
     reinterpret_cast<Fleech*>(pObj)->vOnFrame_42BC50(pData);
     return 1;
@@ -2767,7 +2767,7 @@ Path_Hoist* Fleech::TryGetHoist_42AFD0(int xDistance, __int16 bIgnoreDirection)
     return nullptr;
 }
 
-void Fleech::vOnFrame_42BC50(signed __int16* pData)
+void Fleech::vOnFrame_42BC50(s16* pData)
 {
     FP xpos = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))

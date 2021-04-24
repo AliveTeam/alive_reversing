@@ -78,7 +78,7 @@ public:
 
     EXPORT void InvalidateRect_406CC0(int x, int y, signed int width, signed int height);
 
-    EXPORT void DecompressCameraToVRam_407110(unsigned __int16** ppBits);
+    EXPORT void DecompressCameraToVRam_407110(u16** ppBits);
 
     EXPORT void UnsetDirtyBits_FG1_406EF0();
 
@@ -102,7 +102,7 @@ public:
 
     FP_Point* field_10_pCamPos;
     __int16 field_14_xpos;
-    unsigned __int16 field_16_ypos;
+    u16 field_16_ypos;
     SprtTPage* field_18_screen_sprites;
     int field_1C;
     __int16 field_20_upos;
@@ -111,9 +111,9 @@ public:
     short field_26_cam_height;
     int field_28;
     __int16 field_2C;
-    unsigned __int16 field_2E_idx;
-    unsigned __int16 field_30_y_idx;
-    unsigned __int16 field_32_x_idx;
+    u16 field_2E_idx;
+    u16 field_30_y_idx;
+    u16 field_32_x_idx;
     __int16 field_34;
     __int16 field_36_flags;
     int field_38;

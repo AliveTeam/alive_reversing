@@ -6,11 +6,11 @@ namespace AO {
 
 struct PSX_Pad
 {
-    unsigned __int16 field_0_pressed;
+    u16 field_0_pressed;
     unsigned __int8 field_2_dir;
     char field_3;
     __int16 field_4_previously_pressed;
-    unsigned __int16 field_6_held;
+    u16 field_6_held;
     __int16 field_8_released;
     __int8 field_A_prev_dir;
     __int8 field_B;
@@ -18,7 +18,7 @@ struct PSX_Pad
 ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
 
 // TODO: most of these are gonna be wrong bar the ones in abe.cpp
-enum InputCommands : unsigned int
+enum InputCommands : u32
 {
     eRightGameSpeak = 1u << 0,  // 0x1
     eSneak = 1u << 1,  // 0x2
@@ -135,7 +135,7 @@ bool Input_JoyStickAvailable();
 class InputObject
 {
 public:
-    EXPORT void InitPad_4331A0(unsigned int padCount);
+    EXPORT void InitPad_4331A0(u32 padCount);
 
     EXPORT void Update_433250();
 
@@ -181,10 +181,10 @@ public:
     bool IsAnyReleased(PadIndex padIx, DWORD command) const;
     bool IsAllPressed(PadIndex padIx, DWORD commands) const;
 
-    unsigned __int16 Pressed(PadIndex padIx) const;
+    u16 Pressed(PadIndex padIx) const;
 
     // These use the active pad
-    unsigned __int16 Pressed() const;
+    u16 Pressed() const;
     unsigned short Held() const;
     unsigned short Released() const;
 

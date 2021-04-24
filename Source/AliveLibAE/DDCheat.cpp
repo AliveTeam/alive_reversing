@@ -22,9 +22,9 @@ ALIVE_VAR(1, 0x5c1c02, __int16, sVisitedBonewerks_5C1C02, 0);
 ALIVE_VAR(1, 0x5c1c04, __int16, sVisitedBarracks_5C1C04, 0);
 ALIVE_VAR(1, 0x5c1c06, __int16, sVisitedFeecoEnder_5C1C06, 0);
 
-ALIVE_VAR(1, 0x550f5c, unsigned __int16, sTeleport_Level_550F5C, 0);
-ALIVE_VAR(1, 0x550f5e, unsigned __int16, sTeleport_Path_550F5E, 0);
-ALIVE_VAR(1, 0x550f60, unsigned __int16, sTeleport_Cam_550F60, 0);
+ALIVE_VAR(1, 0x550f5c, u16, sTeleport_Level_550F5C, 0);
+ALIVE_VAR(1, 0x550f5e, u16, sTeleport_Path_550F5E, 0);
+ALIVE_VAR(1, 0x550f60, u16, sTeleport_Cam_550F60, 0);
 
 ALIVE_VAR(1, 0x5c2c08, bool, sDDCheat_FlyingEnabled_5C2C08, false);
 ALIVE_VAR(1, 0x5c1bd8, bool, sDDCheat_ShowAI_Info_5C1BD8, false);

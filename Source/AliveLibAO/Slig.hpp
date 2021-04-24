@@ -252,11 +252,11 @@ public:
 
     EXPORT void SlowDown_469D50(FP speed);
 
-    EXPORT signed __int16 HandlePlayerControlled_4667B0();
+    EXPORT s16 HandlePlayerControlled_4667B0();
 
     void OperateLift();
 
-    EXPORT signed __int16 MainMovement_467020();
+    EXPORT s16 MainMovement_467020();
 
     EXPORT void Slig_SoundEffect_46F310(SligSfx sfxIdx);
 
@@ -299,7 +299,7 @@ public:
 
     void PlayerControlRunningSlideStopOrTurn(short last_anim_frame);
 
-    EXPORT __int16 GetNextMotionIncGameSpeak_467700(unsigned __int16 input);
+    EXPORT __int16 GetNextMotionIncGameSpeak_467700(u16 input);
 
     EXPORT static BOOL CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
 

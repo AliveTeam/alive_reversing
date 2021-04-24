@@ -32,7 +32,7 @@ struct RaycastDebug
     FP hitX;
     FP hitY;
     PathLine * pLine;
-    unsigned int type;
+    u32 type;
 };
 
 void DebugAddRaycast(RaycastDebug rc);

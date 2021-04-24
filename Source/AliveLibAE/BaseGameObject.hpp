@@ -4,7 +4,7 @@
 #include "DynamicArray.hpp"
 #include "BitField.hpp"
 
-ALIVE_VAR_EXTERN(unsigned int, sGnFrame_5C1B84);
+ALIVE_VAR_EXTERN(u32, sGnFrame_5C1B84);
 
 enum class AETypes : __int16
 {
@@ -219,7 +219,7 @@ public:
     EXPORT void ScreenChanged_4DC0A0();
 
     EXPORT BYTE** Add_Resource_4DC130(DWORD type, int resourceID);
-    EXPORT void BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resourceArraySize);
+    EXPORT void BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, s16 resourceArraySize);
     EXPORT void BaseGameObject_dtor_4DBEC0();
 
     EXPORT static int CCSTD Find_Flags_4DC170(int objectId);
@@ -242,7 +242,7 @@ public:
     AETypes field_4_typeId;
     BitField16<Options> field_6_flags;
     int field_8_object_id;
-    __int32 field_C_objectId;
+    s32 field_C_objectId;
     DynamicArrayT<BYTE*> field_10_resources_array;
     int field_1C_update_delay;
 };

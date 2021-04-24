@@ -34,7 +34,7 @@ ALIVE_VAR(1, 0xBBC344, SDLSoundSystem*, sDSound_BBC344, nullptr);
 ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND, sDSound_BBC344, nullptr);
 #endif
 
-EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSample, int isStereo)
+EXPORT signed int CC SND_CreateDS_4EEAA0(u32 sampleRate, int bitsPerSample, int isStereo)
 {
 #if USE_SDL2_SOUND
     return SND_CreateDS_SDL(sampleRate, bitsPerSample, isStereo);
@@ -43,7 +43,7 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSam
 #endif
 }
 
-EXPORT int CC SND_Clear_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
+EXPORT int CC SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
 {
 #if USE_SDL2_SOUND
     return SND_Clear_SDL(pSoundEntry, sampleOffset, size);
@@ -52,7 +52,7 @@ EXPORT int CC SND_Clear_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffse
 #endif
 }
 
-EXPORT signed int CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
+EXPORT signed int CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, u32 sampleCount)
 {
 #if USE_SDL2_SOUND
     return SND_LoadSamples_SDL(pSnd, sampleOffset, pSoundBuffer, sampleCount);
@@ -388,7 +388,7 @@ EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
     }
 }
 
-EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
+EXPORT u32 CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
 {
     DWORD dwReadPos = 0;
     DWORD dwWritePos = 0;
@@ -398,13 +398,13 @@ EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
 
 // Never seems to get called?
 // TODO: Clean up!
-EXPORT DWORD * CC SND_4F00B0(unsigned int* /*a1*/, unsigned int /*a2*/, int /*a3*/)
+EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, int /*a3*/)
 {
     ALIVE_FATAL("Never expected SND_4F00B0 to be called");
     //return 0;
     //DWORD *result; // eax
-    //unsigned int *v4; // edx
-    //unsigned int v5; // ecx
+    //u32 *v4; // edx
+    //u32 v5; // ecx
     //int v6; // esi
     //int v7; // esi
 
@@ -419,15 +419,15 @@ EXPORT DWORD * CC SND_4F00B0(unsigned int* /*a1*/, unsigned int /*a2*/, int /*a3
     //        ++result;
     //        *v4 = v6 ^ 0x80808080;
     //        ++v4;
-    //    } while ((unsigned int)result < v5);
-    //    if ((unsigned int)result < v5)
+    //    } while ((u32)result < v5);
+    //    if ((u32)result < v5)
     //    {
     //        v7 = (char *)v4 - (char *)result;
     //        do
     //        {
     //            *((BYTE *)result + v7) = *(BYTE *)result ^ 0x80;
     //            result = (DWORD *)((char *)result + 1);
-    //        } while ((unsigned int)result < v5);
+    //        } while ((u32)result < v5);
     //    }
     //}
     //return result;
@@ -527,7 +527,7 @@ EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol)
         return -1;
     }
 
-    unsigned int volConverted = (unsigned int)(vol * k127_dword_575158) >> 7; // Conversion used else where
+    u32 volConverted = (u32)(vol * k127_dword_575158) >> 7; // Conversion used else where
     if (volConverted > 127)
     {
         volConverted = 127;
@@ -588,7 +588,7 @@ EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int sampleIdx, i
     }
 
     // TODO: What is this shorthand for ?
-    const int oldField4 = pSoundBuffer->field_4 ^ (((unsigned __int16)idx ^ (unsigned __int16)pSoundBuffer->field_4) & 511);
+    const int oldField4 = pSoundBuffer->field_4 ^ (((u16)idx ^ (u16)pSoundBuffer->field_4) & 511);
     pSoundBuffer->field_4 = oldField4 + 512;
 
     pSoundBuffer->field_8_sample_idx = sampleIdx;

@@ -100,7 +100,7 @@ const char* const sMudAiStateNames[10] =
 };
 
 #define MAKE_ENUM(VAR) VAR,
-enum Mud_AI_State : unsigned __int16
+enum Mud_AI_State : u16
 {
     MUD_AI_STATES_ENUM(MAKE_ENUM)
 };
@@ -108,7 +108,7 @@ enum Mud_AI_State : unsigned __int16
 
 // Note can't use the macro magic here because there are duplicate names because
 // speak generic appears 3 times :(
-enum Mud_Motion : unsigned __int16
+enum Mud_Motion : u16
 {
     M_Idle_0_4724E0,
     M_WalkLoop_1_4728B0,

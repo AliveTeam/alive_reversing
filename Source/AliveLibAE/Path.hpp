@@ -229,21 +229,21 @@ public:
     EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes objectType, __int16 camX);
     EXPORT Path_TLV* TLV_Get_At_4DB4B0(__int16 xpos, __int16 ypos, __int16 width, __int16 height, TlvTypes objectType);
     EXPORT Path_TLV* TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
-    EXPORT Path_TLV* TLV_From_Offset_Lvl_Cam_4DB770(unsigned int tlvOffset_levelId_PathId);
+    EXPORT Path_TLV* TLV_From_Offset_Lvl_Cam_4DB770(u32 tlvOffset_levelId_PathId);
 
     EXPORT DWORD TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv);
 
     EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type);
-    EXPORT static void CCSTD TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2);
+    EXPORT static void CCSTD TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2);
     EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx);
     
-    EXPORT static void CCSTD Reset_TLVs_4DBCF0(unsigned __int16 pathId);
+    EXPORT static void CCSTD Reset_TLVs_4DBCF0(u16 pathId);
 
     LevelIds field_0_levelId;
-    unsigned __int16 field_2_pathId;
+    u16 field_2_pathId;
     __int16 field_4_cameraId;
-    unsigned __int16 field_6_cams_on_x;
-    unsigned __int16 field_8_cams_on_y;
+    u16 field_6_cams_on_x;
+    u16 field_8_cams_on_y;
     __int16 field_A_padding;
     const PathData* field_C_pPathData;
     BYTE** field_10_ppRes;

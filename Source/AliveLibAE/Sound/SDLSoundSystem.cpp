@@ -4,7 +4,7 @@
 #include "Reverb.hpp"
 #include "Sys.hpp"
 
-void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)
+void SDLSoundSystem::Init(u32 /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)
 {
     mCreated = false;
 

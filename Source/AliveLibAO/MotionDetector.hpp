@@ -79,7 +79,7 @@ public:
     States field_E8_state;
     __int16 field_EA_pad;
     int field_EC_timer;
-    unsigned __int16 field_F0_disable_id;
+    u16 field_F0_disable_id;
     __int16 field_F2_alarm_trigger;
     __int16 field_F4_alarm_time;
     __int16 field_F6_bDontComeBack;

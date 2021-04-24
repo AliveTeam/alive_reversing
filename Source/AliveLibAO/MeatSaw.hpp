@@ -57,11 +57,11 @@ public:
 
     int field_D4_padding[4];
     MeatSawStates field_E4_state;
-    unsigned __int16 field_E6_max_rise_time;
+    u16 field_E6_max_rise_time;
     __int16 field_E8_speed2;
     __int16 field_EA_speed1;
     __int16 field_EC_off_speed;
-    unsigned __int16 field_EE_switch_id;
+    u16 field_EE_switch_id;
     __int16 field_F0_switch_value;
     __int16 field_F2_switch_value;
     __int16 field_F4;
@@ -75,7 +75,7 @@ public:
     int field_108_SFX_timer;
     int field_10C_FrameCount;
     Animation field_110_anim;
-    unsigned __int16 field_1A8_flags;
+    u16 field_1A8_flags;
     __int16 field_1AA_padding;
 };
 ALIVE_ASSERT_SIZEOF(MeatSaw, 0x1AC);

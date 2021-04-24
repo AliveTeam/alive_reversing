@@ -40,8 +40,8 @@ public:
         eMovingDone_2
     };
     States field_112_state;
-    unsigned __int16 field_114_switch_on_id;
-    unsigned __int16 field_116_switch_id_off;
+    u16 field_114_switch_on_id;
+    u16 field_116_switch_id_off;
     PathLine* field_118_pLine;
 };
 ALIVE_ASSERT_SIZEOF(RollingBallStopper, 0x11C);

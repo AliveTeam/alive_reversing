@@ -710,7 +710,7 @@ void CC ResourceManager::Pop_List_Item_49BD90(ResourceManager::ResourceHeapItem*
 ResourceManager::ResourceHeapItem* CC ResourceManager::Split_block_49BDC0(ResourceManager::ResourceHeapItem* pItem, int size)
 {
     Header* pToSplit = Get_Header_49C410(&pItem->field_0_ptr);
-    const unsigned int sizeForNewRes = pToSplit->field_0_size - size;
+    const u32 sizeForNewRes = pToSplit->field_0_size - size;
     if (sizeForNewRes >= sizeof(Header))
     {
         ResourceHeapItem* pNewListItem = ResourceManager::Push_List_Item_49BD70();
@@ -808,7 +808,7 @@ BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, BlockAllocMe
 {
     ResourceHeapItem* pListItem = sFirstLinkedListItem_5D29EC;
     ResourceHeapItem* pHeapMem = nullptr;
-    const unsigned int size = (sizeBytes + 3) & ~3u; // Rounding ??
+    const u32 size = (sizeBytes + 3) & ~3u; // Rounding ??
     Header* pHeaderToUse = nullptr;
     while (pListItem)
     {
@@ -906,14 +906,14 @@ int CC ResourceManager::LoadResourceFile_49C130(const char* filename, TLoaderFn 
     return 0;
 }
 
-signed __int16 CC ResourceManager::LoadResourceFile_49C170(const char* pFileName, Camera* pCamera)
+s16 CC ResourceManager::LoadResourceFile_49C170(const char* pFileName, Camera* pCamera)
 {
     pResourceManager_5C1BB0->LoadResourceFile_465460(pFileName, pCamera, nullptr, nullptr, pCamera != nullptr);
     pResourceManager_5C1BB0->LoadingLoop_465590(0);
     return 1;
 }
 
-signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray)
+s16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray)
 {
     ResourceHeapItem* pItemToAdd = (ResourceHeapItem *)ppRes;
     Header* pHeader = Get_Header_49C410(&pItemToAdd->field_0_ptr);
@@ -969,7 +969,7 @@ signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(BYTE** ppRes,
     return 1;
 }
 
-BYTE** CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock)
+BYTE** CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock)
 {
     // Iterate all list items
     ResourceHeapItem* pListIter = sFirstLinkedListItem_5D29EC;
@@ -1002,7 +1002,7 @@ void CC ResourceManager::Inc_Ref_Count_49C310(BYTE** ppRes)
     Get_Header_49C410(ppRes)->field_4_ref_count++;
 }
 
-signed __int16 CC ResourceManager::FreeResource_49C330(BYTE** handle)
+s16 CC ResourceManager::FreeResource_49C330(BYTE** handle)
 {
     if (!handle)
     {
@@ -1011,7 +1011,7 @@ signed __int16 CC ResourceManager::FreeResource_49C330(BYTE** handle)
     return FreeResource_Impl_49C360(*handle);
 }
 
-signed __int16 CC ResourceManager::FreeResource_Impl_49C360(BYTE* handle)
+s16 CC ResourceManager::FreeResource_Impl_49C360(BYTE* handle)
 {
     if (handle)
     {
@@ -1037,7 +1037,7 @@ ResourceManager::Header* CC ResourceManager::Get_Header_49C410(BYTE** ppRes)
     return reinterpret_cast<Header*>((*ppRes - sizeof(Header)));
 }
 
-void CC ResourceManager::Reclaim_Memory_49C470(unsigned int sizeToReclaim)
+void CC ResourceManager::Reclaim_Memory_49C470(u32 sizeToReclaim)
 {
     if (sResources_Pending_Loading_AB49F4 != 0)
     {
@@ -1076,7 +1076,7 @@ void CC ResourceManager::Reclaim_Memory_49C470(unsigned int sizeToReclaim)
             }
             else
             {
-                unsigned int sizeToMove = 0;
+                u32 sizeToMove = 0;
                 if (pNextHeader->field_6_flags & ResourceHeaderFlags::eOnlyAHeader)
                 {
                     sizeToMove = sizeof(Header);

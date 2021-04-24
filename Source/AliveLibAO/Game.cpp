@@ -116,7 +116,7 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
 
     case WM_INITMENUPOPUP:
         // TODO: Constants for wParam
-        if ((unsigned int)lParam >> 16)
+        if ((u32)lParam >> 16)
         {
             return -1;
         }
@@ -157,7 +157,7 @@ EXPORT void CC Sys_SetWindowProc_Filter_48E950(TFilter)
 #endif
 
 
-ALIVE_VAR(1, 0x507670, unsigned int, gnFrameCount_507670, 0);
+ALIVE_VAR(1, 0x507670, u32, gnFrameCount_507670, 0);
 ALIVE_VAR(1, 0x504618, DynamicArrayT<BaseGameObject>*, gObjList_drawables_504618, nullptr);
 
 ALIVE_VAR(1, 0x50766C, DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C, nullptr);

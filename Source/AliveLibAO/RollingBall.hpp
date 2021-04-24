@@ -12,8 +12,8 @@ struct Path_RollingBall : public Path_TLV
     Scale_short field_18_scale;
     XDirection_short field_1A_roll_direction;
     __int16 field_1C_release;
-    unsigned __int16 field_1E_speed;
-    unsigned __int16 field_20_acceleration;
+    u16 field_1E_speed;
+    u16 field_20_acceleration;
     __int16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_RollingBall, 0x24);
@@ -41,7 +41,7 @@ public:
     EXPORT void CrushThingsInTheWay_458310();
 
     int field_10C_tlvInfo;
-    unsigned __int16 field_110_release_switch_id;
+    u16 field_110_release_switch_id;
     enum class States : __int16
     {
         eInactive_0,

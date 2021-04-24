@@ -613,7 +613,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x298);
 
-EXPORT int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData);
+EXPORT int CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData);
 EXPORT void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj);
 
 void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, __int16* pPalAlloc, __int16 palSize, PSX_RECT* palRect,

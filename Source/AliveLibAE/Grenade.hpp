@@ -107,7 +107,7 @@ private:
 
     EXPORT Grenade* vdtor_4480E0(signed int flags);
 
-    EXPORT signed __int16 TimeToBlowUp_448350();
+    EXPORT s16 TimeToBlowUp_448350();
 
     EXPORT void vUpdate_4489C0();
 

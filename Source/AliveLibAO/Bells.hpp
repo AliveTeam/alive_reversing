@@ -40,8 +40,8 @@ public:
     int field_E0_padding;
     int field_E4_padding;
 
-    unsigned __int16 field_E8_bSmashing;
-    enum class Sounds : unsigned __int16
+    u16 field_E8_bSmashing;
+    enum class Sounds : u16
     {
         eLowPitch_0 = 0,
         eMediumPitch_1 = 1,

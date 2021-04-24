@@ -41,7 +41,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    EXPORT BaseGameObject* Vdtor_4083D0(unsigned int flags);
+    EXPORT BaseGameObject* Vdtor_4083D0(u32 flags);
 
     virtual void VRender(PrimHeader** ppOt) override;
 

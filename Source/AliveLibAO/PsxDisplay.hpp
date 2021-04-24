@@ -62,14 +62,14 @@ public:
 
     EXPORT void PutCurrentDispEnv_40DE40();
 
-    EXPORT void Movie_Render_40DE60(unsigned __int16 bufferIdx);
+    EXPORT void Movie_Render_40DE60(u16 bufferIdx);
 
-    unsigned __int16 field_0_width;
-    unsigned __int16 field_2_height;
+    u16 field_0_width;
+    u16 field_2_height;
     __int16 field_4_bpp;
     __int16 field_6_max_buffers;
-    unsigned __int16 field_8_buffer_size;
-    unsigned __int16 field_A_buffer_index;
+    u16 field_8_buffer_size;
+    u16 field_A_buffer_index;
     PSX_Display_Buffer field_C_drawEnv[2];
 };
 ALIVE_ASSERT_SIZEOF(PsxDisplay, 0x8EC);

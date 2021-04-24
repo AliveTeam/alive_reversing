@@ -25,7 +25,7 @@ private:
 
 private:
     int field_10_tlvInfo;
-    unsigned __int16 field_14_slig_id;
+    u16 field_14_slig_id;
     __int16 field_16_flags;
     Path_TLV field_18_tlv;
 };

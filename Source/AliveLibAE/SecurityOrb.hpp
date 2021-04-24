@@ -44,7 +44,7 @@ public:
         // Empty
     }
 
-    virtual signed __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override
     {
         return vTakeDamage_466BB0(pFrom);
     }
@@ -56,7 +56,7 @@ private:
 
     EXPORT void vScreenChanged_466D20();
 
-    EXPORT signed __int16 vTakeDamage_466BB0(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_466BB0(BaseGameObject* pFrom);
 
     EXPORT void vUpdate_4665A0();
 

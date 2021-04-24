@@ -324,11 +324,11 @@ AliveFont* AliveFont::ctor_41C170(int maxCharLength, const BYTE* palette, FontCo
     return this;
 }
 
-EXPORT unsigned int AliveFont::MeasureWidth_41C2B0(const char* text)
+EXPORT u32 AliveFont::MeasureWidth_41C2B0(const char* text)
 {
     int result = 0;
 
-    for (unsigned int i = 0; i < strlen(text); i++)
+    for (u32 i = 0; i < strlen(text); i++)
     {
         const char c = text[i];
         int charIndex = 0;
@@ -413,7 +413,7 @@ EXPORT int AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, __i
     const int tpage = PSX_getTPage_4965D0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & ~63, field_34_font_context->field_0_rect.y);
     const int clut = PSX_getClut_496840(field_28_palette_rect.x, field_28_palette_rect.y);
 
-    for (unsigned int i = 0; i < strlen(text); i++)
+    for (u32 i = 0; i < strlen(text); i++)
     {
         if (offsetX >= maxRenderX)
         {

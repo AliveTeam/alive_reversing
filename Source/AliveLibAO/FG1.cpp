@@ -27,12 +27,12 @@ enum eChunkTypes
 
 struct Fg1Chunk
 {
-    unsigned __int16 field_0_type;
-    unsigned __int16 field_2_layer_or_decompressed_size;
+    u16 field_0_type;
+    u16 field_2_layer_or_decompressed_size;
     __int16 field_4_xpos_or_compressed_size;
     __int16 field_6_ypos;
-    unsigned __int16 field_8_width;
-    unsigned __int16 field_A_height;
+    u16 field_8_width;
+    u16 field_A_height;
 };
 ALIVE_ASSERT_SIZEOF(Fg1Chunk, 0xC);
 

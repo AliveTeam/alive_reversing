@@ -101,7 +101,7 @@ struct Glukkon_SaveState
 {
     AETypes field_0_id;
     __int16 field_2_padding;
-    __int32 field_4_object_id;
+    s32 field_4_object_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_xvel;
@@ -124,15 +124,15 @@ struct Glukkon_SaveState
     __int16 field_38_last_line_ypos;
     char field_3A_line_type;
     BYTE field_3B_padding;
-    __int32 field_3C_padding;
+    s32 field_3C_padding;
     WORD field_40_bIsActiveChar;
     __int16 field_42_padding;
-    __int32 field_44_tlvInfo;
-    __int32 field_48_brain_state_idx;
-    __int32 field_4C_padding;
+    s32 field_44_tlvInfo;
+    s32 field_48_brain_state_idx;
+    s32 field_4C_padding;
     __int16 field_50_sub_state;
     __int16 field_52_padding;
-    __int32 field_54_timer;
+    s32 field_54_timer;
     FP field_58_falling_velx_scale_factor;
     __int16 field_5C_padding;
     __int16 field_5E_prevent_depossession;
@@ -143,14 +143,14 @@ struct Glukkon_SaveState
     __int16 field_68_gamespeak_pitch;
     __int16 field_6A_padding;
     FP field_6C_previous_ypos;
-    __int32 field_70_randomish_speak_timer;
-    __int32 field_74_turn_or_help_timer;
-    __int32 field_78_panic_timer;
+    s32 field_70_randomish_speak_timer;
+    s32 field_74_turn_or_help_timer;
+    s32 field_78_panic_timer;
     __int16 field_7C;
     __int16 field_7E_padding;
-    __int32 field_80_knockback_delay_after_getting_shot_timer;
-    __int32 field_84_getting_shot_timer;
-    __int32 field_88_obj_id;
+    s32 field_80_knockback_delay_after_getting_shot_timer;
+    s32 field_84_getting_shot_timer;
+    s32 field_88_obj_id;
     __int16 field_8C_can_be_possessed;
     AETypes field_8E_type_id;
 };
@@ -287,7 +287,7 @@ private:
     __int16 field_1A4_blue;
     __int16 field_1A6_padding;
     Path_Glukkon field_1A8_tlvData;
-    __int32 field_1D4_timer;
+    s32 field_1D4_timer;
     FP field_1D8_falling_velx_scale_factor;
     FP field_1DC_previous_ypos;
     __int16 field_1E0_gamespeak_pitch;
@@ -309,6 +309,6 @@ private:
     TGlukkonAIFn field_20C_brain_state_fn;
     __int16 field_210_sub_state;
     __int16 field_212_currentWalkPitch;
-    __int32 field_214_tlv_info;
+    s32 field_214_tlv_info;
 };
 ALIVE_ASSERT_SIZEOF(Glukkon, 0x218);

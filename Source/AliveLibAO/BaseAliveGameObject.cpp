@@ -717,7 +717,7 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
     }
 }
 
-signed __int16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
+s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
 {
     PSX_RECT rect = {};
 

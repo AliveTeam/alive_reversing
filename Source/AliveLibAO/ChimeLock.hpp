@@ -71,7 +71,7 @@ public:
     Bells* field_114_left_bell;
     Bells* field_118_center_bell;
     Bells* field_11C_right_bell;
-    unsigned __int16 field_120_max_idx;
+    u16 field_120_max_idx;
     __int16 field_122_padding;
     int field_124_code1;
     __int16 field_128_idx;

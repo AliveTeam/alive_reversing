@@ -314,7 +314,7 @@ const MenuFMV sLevelList_4D0300[15] =
     { "The Boardroom", LevelIds::eBoardRoom_12, 6, 1, -1, 592, 157 }
 };
 
-MainMenuFade* MainMenuFade::ctor_42A5A0(__int16 xpos, __int16 ypos, unsigned __int16 idx_1, __int16 bDestroyOnDone)
+MainMenuFade* MainMenuFade::ctor_42A5A0(__int16 xpos, __int16 ypos, u16 idx_1, __int16 bDestroyOnDone)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB1C8);
@@ -638,7 +638,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         int idx = i + (8 * field_242_idx);
         int v8 = stru_55C038[idx].field_4 << 8;
         int v9 = stru_55C038[idx].field_2 << 16;
-        int v10 = (signed __int16)stru_55C038[idx].field_0 << 16;
+        int v10 = (s16)stru_55C038[idx].field_0 << 16;
         int v11 = Math_FixedPoint_Multiply_451040(v9, val1);
         int v12 = Math_FixedPoint_Multiply_451040(v10, val2) - v11;
         int v13 = Math_FixedPoint_Multiply_451040(op1, v8);
@@ -659,7 +659,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         }
 
         int idx2 = (8 * field_242_idx);
-        int v36 = (signed __int16)stru_55C038[idx2 + v17].field_0 << 16;
+        int v36 = (s16)stru_55C038[idx2 + v17].field_0 << 16;
         int v19 = 0;
         if (i < 7)
         {
@@ -1090,7 +1090,7 @@ void Menu::FMV_Select_Update_47E8D0()
 
                     stru_507C90.Free_41BEB0();
                     gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
-                    pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<unsigned __int16**>(gMap_507BA8.field_34_camera_array[0]->field_C_ppBits));
+                    pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<u16**>(gMap_507BA8.field_34_camera_array[0]->field_C_ppBits));
                     pScreenManager_4FF7C8->MoveImage_406C40();
                     pScreenManager_4FF7C8->field_36_flags = pScreenManager_4FF7C8->field_36_flags & ~1 ^ 1; // Set 1 ?
                     SND_Restart_476340();

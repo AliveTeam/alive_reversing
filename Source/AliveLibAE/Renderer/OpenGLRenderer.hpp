@@ -44,7 +44,7 @@ struct TextureCache
 
 struct PaletteCache
 {
-    unsigned int mPalTextureID;
+    u32 mPalTextureID;
     PSX_Point mPalPoint;
     short mPalDepth;
     RGBAPixel mPalData[256];

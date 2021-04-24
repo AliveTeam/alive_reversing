@@ -10,7 +10,7 @@
 
 namespace AO {
 
-BaseGameObject* ScreenClipper::Vdtor_40BF40(unsigned int flags)
+BaseGameObject* ScreenClipper::Vdtor_40BF40(u32 flags)
 {
     dtor_40BDE0();
     if (flags & 1)

@@ -9,7 +9,7 @@ namespace AO {
 
 struct Path_SlogHut : public Path_TLV
 {
-    unsigned __int16 field_18_scale;
+    u16 field_18_scale;
     __int16 field_1A_switch_id;
     __int16 field_1C_z_delay;
     __int16 field_1E_pad;

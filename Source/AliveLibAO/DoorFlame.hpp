@@ -12,7 +12,7 @@ class FlameSparks;
 struct Path_DoorFlame : public Path_TLV
 {
     __int16 field_18_id;
-    unsigned __int16 field_1A_scale;
+    u16 field_1A_scale;
     enum class Colour : __int16
     {
         red_1 = 1,
@@ -47,7 +47,7 @@ public:
     int field_E4_tlvInfo;
     __int16 field_E8_switch_id;
     __int16 field_EA_frame_count;
-    enum class States : unsigned __int16
+    enum class States : u16
     {
         eDisabled_0 = 0,
         eEnabled_1 = 1

@@ -10,7 +10,7 @@ struct Path_Bat : public Path_TLV
 {
     __int16 field_18_ticks_before_moving;
     __int16 field_1A_speed;
-    unsigned __int16 field_1C_scale;
+    u16 field_1C_scale;
     __int16 field_1E_attack_duration;
 };
 ALIVE_ASSERT_SIZEOF(Path_Bat, 0x20);

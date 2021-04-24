@@ -689,8 +689,8 @@ void Slig::VUpdate()
     VUpdate_465050();
 }
 
-const unsigned int sSligVelXTable_4BCA30[] = { 262144, 262144, 0, 4294705152, 4294705152, 4294705152, 0, 262144 };
-const unsigned int sSligVelYTable_4BCA50[] = { 0, 4294705152, 4294705152, 4294705152, 0, 262144, 262144, 262144 };
+const u32 sSligVelXTable_4BCA30[] = { 262144, 262144, 0, 4294705152, 4294705152, 4294705152, 0, 262144 };
+const u32 sSligVelYTable_4BCA50[] = { 0, 4294705152, 4294705152, 4294705152, 0, 262144, 262144, 262144 };
 
 
 void Slig::VUpdate_465050()
@@ -1629,7 +1629,7 @@ void Slig::ToPanicTurn()
     SetBrain(&Slig::Brain_PanicTurning_46C7C0);
 }
 
-__int16 Slig::GetNextMotionIncGameSpeak_467700(unsigned __int16 input)
+__int16 Slig::GetNextMotionIncGameSpeak_467700(u16 input)
 {
     if (sControlledCharacter_50767C != this || field_100_health <= FP_FromInteger(0))
     {
@@ -2153,7 +2153,7 @@ void Slig::OperateLift()
     }
 }
 
-signed __int16 Slig::HandlePlayerControlled_4667B0()
+s16 Slig::HandlePlayerControlled_4667B0()
 {
     FP kScaleGrid = ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
@@ -2470,7 +2470,7 @@ void Slig::SlowDown_469D50(FP speed)
     }
 }
 
-signed __int16 Slig::MainMovement_467020()
+s16 Slig::MainMovement_467020()
 {
     if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
     {

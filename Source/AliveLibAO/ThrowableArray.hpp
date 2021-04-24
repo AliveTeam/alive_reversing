@@ -6,7 +6,7 @@ namespace AO {
 
 enum class LevelIds : __int16;
 
-EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, unsigned __int16 path);
+EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, u16 path);
 
 class ThrowableArray : public BaseGameObject
 {

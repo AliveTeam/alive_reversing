@@ -82,7 +82,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual signed __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
     EXPORT static int CC CreateFromSaveState_446040(const BYTE* pBuffer);
@@ -99,7 +99,7 @@ private:
     EXPORT void ChangeDirection_447BD0();
     EXPORT void BounceBackFromShot_447B10();
     EXPORT void HandleRollingAlong_447860();
-    EXPORT signed __int16 vTakeDamage_447C20(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_447C20(BaseGameObject* pFrom);
     EXPORT void vOnThrowableHit_447DB0(BaseGameObject* pFrom);
     EXPORT void ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
     EXPORT void RandomishSpeak_447A70(GreeterSpeak effect);

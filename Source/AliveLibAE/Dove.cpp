@@ -36,7 +36,7 @@ EXPORT void CC Dove_static_ctor_41F3A0()
     atexit(Dove_static_dtor_41F400);
 }
 
-Dove* Dove::ctor_41F430(int frameTableOffset, int /*maxW*/, unsigned __int16 /*maxH*/, int /*resourceID*/, int tlvInfo, FP scale)
+Dove* Dove::ctor_41F430(int frameTableOffset, int /*maxW*/, u16 /*maxH*/, int /*resourceID*/, int tlvInfo, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90);

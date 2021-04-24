@@ -403,7 +403,7 @@ void Grenade::VOnTrapDoorOpen_41F920()
     }
 }
 
-signed __int16 Grenade::InTheAir_41EF10()
+s16 Grenade::InTheAir_41EF10()
 {
     field_120_xpos = field_A8_xpos;
     field_124_ypos = field_AC_ypos;
@@ -531,7 +531,7 @@ void Grenade::VTimeToExplodeRandom()
     VTimeToExplodeRandom_41F9B0();
 }
 
-signed __int16 Grenade::OnCollision_BounceOff_41F650(BaseGameObject* pHit)
+s16 Grenade::OnCollision_BounceOff_41F650(BaseGameObject* pHit)
 {
     if (!pHit->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -560,7 +560,7 @@ signed __int16 Grenade::OnCollision_BounceOff_41F650(BaseGameObject* pHit)
     return 0;
 }
 
-signed __int16 Grenade::BlowUpAfterCountdown_41EDD0()
+s16 Grenade::BlowUpAfterCountdown_41EDD0()
 {
     const short timer = field_112_explode_timer--;
     if (!(timer % 16))

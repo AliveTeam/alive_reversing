@@ -173,10 +173,10 @@ struct CollisionInfo
     __int16 field_6_right;
     __int16 field_8_top;
     __int16 field_A_bottom;
-    unsigned int field_C_collision_offset;
-    unsigned int field_10_num_collision_items;
-    unsigned int field_14_grid_width;
-    unsigned int field_18_grid_height;
+    u32 field_C_collision_offset;
+    u32 field_10_num_collision_items;
+    u32 field_14_grid_width;
+    u32 field_18_grid_height;
 };
 
 struct PathBlyRec
@@ -191,7 +191,7 @@ struct PathBlyRec
 struct FmvInfo
 {
     const char* field_0_pName;
-    unsigned __int16 field_4_id;
+    u16 field_4_id;
     __int16 field_6;
     __int16 field_8_stop_music;
     __int16 field_A;
@@ -233,9 +233,9 @@ struct PathRootContainer
     PathRoot paths[16];
 };
 
-EXPORT const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, unsigned __int16 path);
+EXPORT const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, u16 path);
 
-EXPORT FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, unsigned __int16 fmvId);
+EXPORT FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId);
 
 EXPORT int CC Path_Format_CameraName_4346B0(char* pNameBuffer, LevelIds level, __int16 path, __int16 camera);
 

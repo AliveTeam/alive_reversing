@@ -42,9 +42,9 @@ public:
 
     EXPORT void VUpdate_436B60();
 
-    unsigned __int16 field_10_input_1;
-    unsigned __int16 field_12_input_2;
-    unsigned __int16 field_14_output;
+    u16 field_10_input_1;
+    u16 field_12_input_2;
+    u16 field_14_output;
     BooleanOperatorType field_16_operator;
     int field_18_tlvInfo;
 };

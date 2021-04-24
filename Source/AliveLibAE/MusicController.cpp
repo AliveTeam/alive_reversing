@@ -16,7 +16,7 @@ ALIVE_VAR(1, 0x5c3024, DWORD, sMusicTime_5C3024, 0);
 
 struct MusicController_Record3_Sub
 {
-    signed __int16 field_0;
+    s16 field_0;
     signed __int8 field_2_min;
     signed __int8 field_3_max;
 };

@@ -14,7 +14,7 @@ enum class BellsongTypes : __int16
 class BellSong : public BaseGameObject
 {
 public:
-    EXPORT BellSong* ctor_4760B0(BellsongTypes type, unsigned int code);
+    EXPORT BellSong* ctor_4760B0(BellsongTypes type, u32 code);
 
     virtual void VUpdate() override;
 

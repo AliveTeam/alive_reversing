@@ -64,7 +64,7 @@ private:
     EXPORT BirdPortal* vIntoBirdPortal_408FD0(__int16 gridBlocks);
     EXPORT void vOnTrapDoorOpen_4081F0();
 protected:
-    EXPORT signed __int16 SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, int resourceID);
+    EXPORT s16 SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, int resourceID);
 
     EXPORT BOOL Check_IsOnEndOfLine_408E90(__int16 direction, __int16 distance);
 

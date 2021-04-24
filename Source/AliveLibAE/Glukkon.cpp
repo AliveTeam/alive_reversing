@@ -2853,7 +2853,7 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
     }
     else
     {
-        signed __int16 pitchCap = pGlukkon->field_212_currentWalkPitch;
+        s16 pitchCap = pGlukkon->field_212_currentWalkPitch;
         if (pitchCap > 12)
         {
             pitchCap = pitchCap % 4 + 12;

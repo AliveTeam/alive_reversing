@@ -125,7 +125,7 @@ struct Path_ChangeTLV : public Path_TLV
     __int16 field_1A_path;
     __int16 field_1C_camera;
     __int16 field_1E_movie;
-    unsigned __int16 field_20_wipe;
+    u16 field_20_wipe;
     __int16 field_22_scale;
 };
 ALIVE_ASSERT_SIZEOF(Path_ChangeTLV, 0x24);
@@ -172,7 +172,7 @@ public:
 
     EXPORT void Loader_446590(__int16 camX, __int16 camY, LoadMode loadMode, TlvTypes typeToLoad);
 
-    EXPORT void TLV_Reset_446870(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2);
+    EXPORT void TLV_Reset_446870(u32 tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2);
 
     EXPORT void RemoveObjectsWithPurpleLight_4440D0(__int16 bMakeInvisible);
 
@@ -201,7 +201,7 @@ public:
 
     EXPORT Path_TLV* TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
 
-    EXPORT void sub_447430(unsigned __int16 pathNum);
+    EXPORT void sub_447430(u16 pathNum);
 
     CameraPos GetDirection(LevelIds level, int path, FP xpos, FP ypos)
     {
@@ -212,7 +212,7 @@ public:
 
     EXPORT CameraPos Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, __int16 width);
 
-    EXPORT signed __int16 Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect);
+    EXPORT s16 Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect);
 
     __int16 Is_Point_In_Current_Camera_4449C0(LevelIds level, int path, FP xpos, FP ypos, __int16 width)
     {
@@ -221,7 +221,7 @@ public:
 
     EXPORT __int16 Is_Point_In_Current_Camera_4449C0(int level, int path, FP xpos, FP ypos, __int16 width);
 
-    EXPORT signed __int16 SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect);
+    EXPORT s16 SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect);
 
     Camera* GetCamera(CameraPos pos);
 
@@ -253,8 +253,8 @@ public:
     __int16 field_1E_door;
     __int16 field_20_camX_idx;
     __int16 field_22_camY_idx;
-    unsigned __int16 field_24_max_cams_x;
-    unsigned __int16 field_26_max_cams_y;
+    u16 field_24_max_cams_x;
+    u16 field_26_max_cams_y;
     __int16 field_28_cd_or_overlay_num;
     __int16 field_2A;
     FP_Point field_2C_camera_offset;

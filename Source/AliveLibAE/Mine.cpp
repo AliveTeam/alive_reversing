@@ -297,7 +297,7 @@ void Mine::vOnThrowableHit_46BA40(BaseGameObject* /*pFrom*/)
     field_118_detonating = 1;
 }
 
-signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
+s16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {

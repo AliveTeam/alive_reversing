@@ -88,17 +88,17 @@ public:
         return kSeqTableSizeAO;
     }
 
-    virtual signed __int16 FreeResource_Impl(BYTE* handle) override
+    virtual s16 FreeResource_Impl(BYTE* handle) override
     {
         return ResourceManager::FreeResource_Impl_4555B0(handle);
     }
 
-    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock) override
+    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) override
     {
         return ResourceManager::GetLoadedResource_4554F0(type, resourceID, addUseCount, bLock);
     }
 
-    virtual signed __int16 FreeResource(BYTE** handle) override
+    virtual s16 FreeResource(BYTE** handle) override
     {
         return ResourceManager::FreeResource_455550(handle);
     }
@@ -113,7 +113,7 @@ public:
         ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
     }
 
-    virtual void Reclaim_Memory(unsigned int size) override
+    virtual void Reclaim_Memory(u32 size) override
     {
         ResourceManager::Reclaim_Memory_455660(size);
     }
@@ -123,7 +123,7 @@ public:
         return ResourceManager::Alloc_New_Resource_454F20(type, id, size);
     }
 
-    virtual signed __int16 LoadResourceFile(const char* pFileName, ::Camera* pCamera) override
+    virtual s16 LoadResourceFile(const char* pFileName, ::Camera* pCamera) override
     {
         return ResourceManager::LoadResourceFileWrapper(pFileName, reinterpret_cast<Camera*>(pCamera));
     }
@@ -143,7 +143,7 @@ ALIVE_VAR(1, 0xA928A0, SoundEntryTable, sSoundEntryTable16_A928A0, {});
 ALIVE_VAR(1, 0xAC07C0, MidiChannels, sMidi_Channels_AC07C0, {});
 ALIVE_VAR(1, 0xABFB40, MidiSeqSongsTable, sMidiSeqSongs_ABFB40, {});
 ALIVE_VAR(1, 0xA89198, int, sMidi_Inited_dword_A89198, 0);
-ALIVE_VAR(1, 0xA89194, unsigned int, sMidiTime_A89194, 0);
+ALIVE_VAR(1, 0xA89194, u32, sMidiTime_A89194, 0);
 ALIVE_VAR(1, 0xA89190, char, sbDisableSeqs_A89190, 0);
 ALIVE_VAR(1, 0x4E8FD8, DWORD, sLastTime_4E8FD8, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xA8919C, BYTE, sControllerValue_A8919C, 0);
@@ -213,7 +213,7 @@ public:
         return sMidi_Inited_dword_A89198;
     }
 
-    virtual unsigned int& sMidiTime() override
+    virtual u32& sMidiTime() override
     {
         return sMidiTime_A89194;
     }
@@ -306,18 +306,18 @@ EXPORT void CC SND_Stop_Channels_Mask_4774A0(int mask)
     SND_Stop_Channels_Mask_4CA810(mask);
 }
 
-EXPORT signed __int16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, int repeatCount, __int16 bDontStop)
+EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, int repeatCount, __int16 bDontStop)
 {
-    return SND_SEQ_PlaySeq_4CA960(static_cast<unsigned __int16>(idx), static_cast<short>(repeatCount), bDontStop);
+    return SND_SEQ_PlaySeq_4CA960(static_cast<u16>(idx), static_cast<short>(repeatCount), bDontStop);
 }
 
 EXPORT void CC SND_Seq_Stop_477A60(SeqId idx)
 {
-    SND_SEQ_Stop_4CAE60(static_cast<unsigned __int16>(idx));
+    SND_SEQ_Stop_4CAE60(static_cast<u16>(idx));
 }
 EXPORT __int16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
 {
-    return static_cast<__int16>(SND_SsIsEos_DeInlined_4CACD0(static_cast<unsigned __int16>(idx)));
+    return static_cast<__int16>(SND_SsIsEos_DeInlined_4CACD0(static_cast<u16>(idx)));
 }
 
 EXPORT int CC SND_PlayEx_493040(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Channel* pMidiStru, int playFlags, int priority)
@@ -428,10 +428,10 @@ EXPORT int CC MIDI_PlayerPlayMidiNote_49D730(int vabId, int program, int note, i
         {
             auto vag_vol = pVagOff->field_D_vol;
             auto vag_num = pVagOff->field_10_vag;
-            auto panLeft = vag_vol * (unsigned __int16)GetSpuApiVars()->sGlobalVolumeLevel_left() * volume_ * leftVolume_ >> 21;
-            auto panRight = vag_vol * (unsigned __int16)GetSpuApiVars()->sGlobalVolumeLevel_right() * volume_ * v32 >> 21;
+            auto panLeft = vag_vol * (u16)GetSpuApiVars()->sGlobalVolumeLevel_left() * volume_ * leftVolume_ >> 21;
+            auto panRight = vag_vol * (u16)GetSpuApiVars()->sGlobalVolumeLevel_right() * volume_ * v32 >> 21;
             auto bPanLeftLessThanZero = panLeft < 0;
-            auto playFlags = ((unsigned int)pVagOff->field_C >> 2) & 1;
+            auto playFlags = ((u32)pVagOff->field_C >> 2) & 1;
 
             if (panLeft || panRight)
             {
@@ -442,7 +442,7 @@ EXPORT int CC MIDI_PlayerPlayMidiNote_49D730(int vabId, int program, int note, i
 
                 if (!bPanLeftLessThanZero && panRight >= 0)
                 {
-                    if (((unsigned int)pVagOff->field_C >> 2) & 1)
+                    if (((u32)pVagOff->field_C >> 2) & 1)
                     {
                         if (panLeft > 90)
                         {
@@ -673,7 +673,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                     auto r_vol = pProgVol->field_2_right_vol;
                     auto note = data.param1 << 8;
                     auto program = pProgVol->field_0_program;
-                    auto l_vol = (signed __int16)((unsigned int)(pProgVol->field_1_left_vol * pCtx->field_C_volume) >> 7);
+                    auto l_vol = (s16)((u32)(pProgVol->field_1_left_vol * pCtx->field_C_volume) >> 7);
 
                     auto freq = data.param2;
                     MIDI_PlayerPlayMidiNote_49DAD0(pCtx->field_seq_idx, program, note, l_vol, r_vol, freq); // Note: inlined
@@ -742,7 +742,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx)
                     const int prog_num = pCtx->field_32_progVols[data.Channel()].field_0_program;
 
                     // Inlined MIDI_PitchBend
-                    const float freq_conv = (float)pow(1.059463094359, (double)(signed __int16)(((data.param1) - 0x4000) >> 4) * 0.0078125);
+                    const float freq_conv = (float)pow(1.059463094359, (double)(s16)(((data.param1) - 0x4000) >> 4) * 0.0078125);
 
                     for (int i = 0; i < 24; i++)
                     {
@@ -825,7 +825,7 @@ EXPORT void CC SND_Shutdown_476EC0()
 
 EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, __int16 volLeft, __int16 volRight)
 {
-    SND_SEQ_SetVol_4CAD20(static_cast<unsigned __int16>(idx), volLeft, volRight);
+    SND_SEQ_SetVol_4CAD20(static_cast<u16>(idx), volLeft, volRight);
 }
 
 static VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, int i_3)
@@ -925,7 +925,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
     }
 }
 
-EXPORT signed __int16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
+EXPORT s16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
 {
     // Fail if no file name
     if (!pSoundBlockInfo->field_0_vab_header_name)
@@ -1027,11 +1027,11 @@ EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqF
         bsqFileName);
 }
 
-EXPORT signed __int16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, __int16 volLeft, __int16 volRight)
+EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, __int16 volLeft, __int16 volRight)
 {
-    const auto ret = SND_SEQ_PlaySeq_4CA960(static_cast<unsigned __int16>(idx), static_cast<short>(repeatCount), 1); // TODO ??
+    const auto ret = SND_SEQ_PlaySeq_4CA960(static_cast<u16>(idx), static_cast<short>(repeatCount), 1); // TODO ??
 
-    OpenSeqHandle* pOpenSeq = &GetMidiVars()->sSeqDataTable()[static_cast<unsigned __int16>(idx)];
+    OpenSeqHandle* pOpenSeq = &GetMidiVars()->sSeqDataTable()[static_cast<u16>(idx)];
 
     // Clamp vol
     __int16 clampedVolLeft = volLeft;
@@ -1080,7 +1080,7 @@ static ::SfxDefinition ToAeSfxDef(const SfxDefinition* sfxDef)
     return aeDef;
 }
 
-EXPORT int CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, short volLeft, short volRight, short pitch_min, signed __int16 pitch_max)
+EXPORT int CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, short volLeft, short volRight, short pitch_min, s16 pitch_max)
 {
     const ::SfxDefinition aeDef = ToAeSfxDef(sfxDef);
     return SFX_SfxDefinition_Play_4CA700(&aeDef, volLeft, volRight, pitch_min, pitch_max);

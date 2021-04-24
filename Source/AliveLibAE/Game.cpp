@@ -47,7 +47,7 @@ using TExitGameCallBack = AddPointer_t<void CC()>;
 
 ALIVE_VAR(1, 0xBBFB00, TExitGameCallBack, sGame_OnExitCallback_BBFB00, nullptr);
 
-ALIVE_VAR(1, 0x5C1B84, unsigned int, sGnFrame_5C1B84, 0);
+ALIVE_VAR(1, 0x5C1B84, u32, sGnFrame_5C1B84, 0);
 
 // Timer
 ALIVE_VAR(1, 0xBBB9D4, DWORD, sTimer_period_BBB9D4, 0);
@@ -518,7 +518,7 @@ EXPORT void CC Game_Run_466D40()
     pScreenManager_5BB5F4 = ae_new<ScreenManager>();
     pScreenManager_5BB5F4->ctor_40E3E0(camera.field_C_pCamRes, &gMap_5C3030.field_24_camera_offset);
 
-    pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((unsigned __int16 **)camera.field_C_pCamRes);
+    pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16 **)camera.field_C_pCamRes);
     pScreenManager_5BB5F4->MoveImage_40EB70();
 
     sLvlArchive_5BC520.Free_433130();

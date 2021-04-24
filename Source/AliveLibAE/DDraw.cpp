@@ -914,8 +914,8 @@ EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRe
                 pRectToUse = &rect;
             }
 
-            const unsigned int rectW = pRectToUse->right - pRectToUse->left;
-            const unsigned int rectH = pRectToUse->bottom - pRectToUse->top;
+            const u32 rectW = pRectToUse->right - pRectToUse->left;
+            const u32 rectH = pRectToUse->bottom - pRectToUse->top;
 
             if (surfaceDesc1.dwWidth != 2 * rectW || surfaceDesc1.dwHeight != 2 * rectH)
             {

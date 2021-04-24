@@ -21,7 +21,7 @@ const int code_base_560F0C[12] =
     0,
 };
 
-__int16 CC Code_Length_4C9DB0(unsigned int code)
+__int16 CC Code_Length_4C9DB0(u32 code)
 {
     __int16 i = 0;
     for (i = 0; code; ++i)
@@ -31,7 +31,7 @@ __int16 CC Code_Length_4C9DB0(unsigned int code)
     return i;
 }
 
-int CC Code_Convert_4C9DF0(unsigned __int16 code1, unsigned __int16 code2)
+int CC Code_Convert_4C9DF0(u16 code1, u16 code2)
 {
     if (code2)
     {
@@ -44,14 +44,14 @@ int CC Code_Convert_4C9DF0(unsigned __int16 code1, unsigned __int16 code2)
 }
 
 
-GameSpeakEvents CC Code_LookUp_4C9E40(unsigned int code, unsigned __int16 idx, unsigned __int16 code_len)
+GameSpeakEvents CC Code_LookUp_4C9E40(u32 code, u16 idx, u16 code_len)
 {
     if (!code)
     {
         return GameSpeakEvents::eUnknown_0;
     }
 
-    unsigned __int16 code_len_to_use = code_len;
+    u16 code_len_to_use = code_len;
     if (code_len == 0)
     {
         code_len_to_use = Code_Length_4C9DB0(code);
@@ -75,7 +75,7 @@ GameSpeak* GameSpeak::ctor_421820()
     return this;
 }
 
-GameSpeakMatch GameSpeak::MatchBuffer_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx)
+GameSpeakMatch GameSpeak::MatchBuffer_4219E0(BYTE* pBuffer, __int16 max_idx, s16 src_idx)
 {
     if (src_idx == -1)
     {

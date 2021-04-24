@@ -41,7 +41,7 @@ EXPORT void CC Init_PrimClipper_495FD0(Prim_PrimClipper* pPrim, const PSX_RECT* 
 
 inline PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer)
 {
-    return &ppOt[static_cast<unsigned int>(layer)];
+    return &ppOt[static_cast<u32>(layer)];
 }
 
 EXPORT void CC OrderingTable_Add_498A80(PrimHeader** ppOt, PrimHeader* pItem);

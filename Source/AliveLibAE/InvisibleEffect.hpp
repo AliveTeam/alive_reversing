@@ -17,7 +17,7 @@ public:
         eIsInvisible_Bit3 = 0x4 //TODO @ 100% Remove it - Never actually checked for
     };
 
-    enum class InvisibleState : unsigned __int16
+    enum class InvisibleState : u16
     {
         eSetRenderMode1_0 = 0,
         eSetInvisibile_1 = 1,

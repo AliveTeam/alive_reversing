@@ -132,7 +132,7 @@ ALIVE_VAR(1, 0x9F0E60, WORD, word_9F0E60, 0);
 ALIVE_VAR(1, 0x504624, WORD, word_504624, 0);
 ALIVE_VAR(1, 0x504626, WORD, word_504626, 0);
 
-EXPORT signed __int16 Reset_Unknown_45A5B0()
+EXPORT s16 Reset_Unknown_45A5B0()
 {
     word_9F1188 = -1;
     word_504620 = -1;
@@ -698,7 +698,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, short selected
         }
         char formattedString[128] = {};
         String_FormatString_450DC0(stringBuffer, formattedString);
-        signed __int16 clampedFontWidth;
+        s16 clampedFontWidth;
         if (entry[entryId].field_B == 1)
         {
             __int16 font_width_2 = static_cast<short>(field_E4_font.MeasureWidth_41C2B0(formattedString));
@@ -797,7 +797,7 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
             auto polyOffset = field_E4_font.DrawString_41C360(
                 ppOt,
                 cameraNameBuffer,
-                static_cast<signed __int16>(PauseEntry2_4CDE98[0].field_0_x - field_E4_font.MeasureWidth_41C2B0(cameraNameBuffer) / 2),
+                static_cast<s16>(PauseEntry2_4CDE98[0].field_0_x - field_E4_font.MeasureWidth_41C2B0(cameraNameBuffer) / 2),
                 PauseEntry2_4CDE98[0].field_2_y,
                 TPageAbr::eBlend_0,
                 1,

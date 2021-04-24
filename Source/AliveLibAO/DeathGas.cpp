@@ -310,7 +310,7 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
                 v22 = v38;
                 ++v26;
                 v14 = __OFSUB__((_WORD)a2a + 8, 32);
-                v13 = (signed __int16)((_WORD)a2a - 24) < 0;
+                v13 = (s16)((_WORD)a2a - 24) < 0;
                 k5Counter_inner_b = v38;
                 a2a += 2;
                 v49 += 2;

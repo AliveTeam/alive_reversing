@@ -482,7 +482,7 @@ public:
 
     EXPORT void ElumFree_4228F0();
 
-    EXPORT short DoGameSpeak_42F5C0(unsigned __int16 input);
+    EXPORT short DoGameSpeak_42F5C0(u16 input);
 
     EXPORT void SyncToElum_42D850(__int16 elumMotion);
 

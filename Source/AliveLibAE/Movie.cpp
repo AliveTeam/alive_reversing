@@ -15,7 +15,7 @@
 #include "VGA.hpp"
 
 // Inputs on the controller that can be used for aborting skippable movies
-const unsigned int MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
+const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
 
 ALIVE_VAR(1, 0x5ca208, SoundEntry, sDDV_SoundEntry_5CA208, {});
 
@@ -90,7 +90,7 @@ EXPORT char CC DDV_StartAudio_493DF0()
         return 1;
     }
 
-    unsigned int audioBufferStartOffset = 0;
+    u32 audioBufferStartOffset = 0;
     sampleOffsetPos_5CA238 = 0;
 
     if (sFrameInterleaveNum_5CA23C < pMasher_audio_header_5CA1E0->field_10_num_frames_interleave)
@@ -319,7 +319,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
         SYS_EventsPump_494580();
     }
 
-    bHasAudio_5CA234 = ((unsigned int)pMasher_header_5CA1E4->field_4_contains >> 1) & 1;
+    bHasAudio_5CA234 = ((u32)pMasher_header_5CA1E4->field_4_contains >> 1) & 1;
     gMasher_single_audio_frame_size_5CA240 = pMasher_audio_header_5CA1E0->field_C_single_audio_frame_size;
     const auto sampleLength = gMasher_single_audio_frame_size_5CA240 * (pMasher_audio_header_5CA1E0->field_10_num_frames_interleave + 6);
 
@@ -474,7 +474,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                     int counter = 0;
                     for (;;)
                     {
-                        const unsigned int soundPlayingPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
+                        const u32 soundPlayingPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
                         const int remainderLen = oldBufferPlayPos_5CA22C - soundPlayingPos;
                         if (remainderLen > sampleLength / 2)
                         {

@@ -172,7 +172,7 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
         int idx = i + (8 * this->field_252_tbl_idx);
         int v8 = stru_55C038[idx].field_4 << 8;
         int v9 = stru_55C038[idx].field_2 << 16;
-        int v10 = (signed __int16)stru_55C038[idx].field_0 << 16;
+        int v10 = (s16)stru_55C038[idx].field_0 << 16;
         int v11 = Math_FixedPoint_Multiply_496C50(v9, val1);
         int v12 = Math_FixedPoint_Multiply_496C50(v10, val2) - v11;
         int v13 = Math_FixedPoint_Multiply_496C50(op1, v8);
@@ -193,7 +193,7 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
         }
 
         int idx2 = (8 * this->field_252_tbl_idx);
-        int v36 = (signed __int16)stru_55C038[idx2 + v17].field_0 << 16;
+        int v36 = (s16)stru_55C038[idx2 + v17].field_0 << 16;
         int v19 = 0;
         if (i < 7)
         {

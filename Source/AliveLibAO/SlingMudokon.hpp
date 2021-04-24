@@ -87,7 +87,7 @@ public:
     BYTE field_124_code_buffer[16];
     __int16 field_134_buffer_start;
     __int16 field_136;
-    unsigned __int16 field_138_brain_state;
+    u16 field_138_brain_state;
     __int16 field_13A_brain_state;
     __int16 field_13C;
     __int16 field_13E;

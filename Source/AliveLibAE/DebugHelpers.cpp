@@ -739,7 +739,7 @@ void Command_Bind(const std::vector<std::string>& args)
     std::string key = args[0];
 
     std::string command;
-    for (unsigned int i = 1; i < args.size(); i++)
+    for (u32 i = 1; i < args.size(); i++)
     {
         command += args[i];
 
@@ -1875,7 +1875,7 @@ private:
 #include "ScreenManager.hpp"
 #include "VRam.hpp"
 
-static WORD RGB888toRGB565(unsigned int r, unsigned int g, unsigned int b)
+static WORD RGB888toRGB565(u32 r, u32 g, u32 b)
 {
     return static_cast<WORD>((r >> 3 << 11) + (g >> 2 << 5) + (b >> 3));
 }

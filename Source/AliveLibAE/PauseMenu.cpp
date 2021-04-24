@@ -437,7 +437,7 @@ void DumpMenus()
     fileOut << output.rdbuf() << "\n\n" << output_override.rdbuf();
 }
 
-EXPORT signed __int16 sub_4A2BC0()
+EXPORT s16 sub_4A2BC0()
 {
     NOT_IMPLEMENTED();
     return 0;

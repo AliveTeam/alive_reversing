@@ -68,7 +68,7 @@ void BellSong::VUpdate()
     VUpdate_476130();
 }
 
-BellSong* BellSong::ctor_4760B0(BellsongTypes type, unsigned int code)
+BellSong* BellSong::ctor_4760B0(BellsongTypes type, u32 code)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BCD18);

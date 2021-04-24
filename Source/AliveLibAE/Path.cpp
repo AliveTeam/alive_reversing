@@ -303,7 +303,7 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
     return pTlv;
 }
 
-Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(unsigned int tlvOffset_levelId_PathId)
+Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(u32 tlvOffset_levelId_PathId)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
@@ -352,7 +352,7 @@ Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type)
     return pTlv;
 }
 
-EXPORT void CCSTD Path::TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2)
+EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
@@ -407,7 +407,7 @@ EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos directi
     }
 }
 
-EXPORT void CCSTD Path::Reset_TLVs_4DBCF0(unsigned __int16 pathId)
+EXPORT void CCSTD Path::Reset_TLVs_4DBCF0(u16 pathId)
 {
     const PathData *  pPathData = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, pathId)->field_4_pPathData;
     const int camsX = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;

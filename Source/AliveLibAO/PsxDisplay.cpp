@@ -177,7 +177,7 @@ void PsxDisplay::PutCurrentDispEnv_40DE40()
 }
 
 // NOTE: Dead code after new FMVs are implemented
-void PsxDisplay::Movie_Render_40DE60(unsigned __int16 bufferIdx)
+void PsxDisplay::Movie_Render_40DE60(u16 bufferIdx)
 {
     field_A_buffer_index = bufferIdx;
     PSX_ClearOTag_496760(field_C_drawEnv[0].field_70_ot_buffer, field_8_buffer_size);

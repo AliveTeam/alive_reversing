@@ -88,17 +88,17 @@ public:
         return kSeqTableSizeAE;
     }
 
-    virtual signed __int16 FreeResource_Impl(BYTE* handle) override
+    virtual s16 FreeResource_Impl(BYTE* handle) override
     {
         return ResourceManager::FreeResource_Impl_49C360(handle);
     }
 
-    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock) override
+    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) override
     {
         return ResourceManager::GetLoadedResource_49C2A0(type, resourceID, addUseCount, bLock);
     }
 
-    virtual signed __int16 FreeResource(BYTE** handle) override
+    virtual s16 FreeResource(BYTE** handle) override
     {
         return ResourceManager::FreeResource_49C330(handle);
     }
@@ -113,7 +113,7 @@ public:
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
     }
 
-    virtual void Reclaim_Memory(unsigned int size) override
+    virtual void Reclaim_Memory(u32 size) override
     {
         ResourceManager::Reclaim_Memory_49C470(size);
     }
@@ -123,7 +123,7 @@ public:
         return ResourceManager::Alloc_New_Resource_49BED0(type, id, size);
     }
 
-    virtual signed __int16 LoadResourceFile(const char* pFileName, Camera* pCamera) override
+    virtual s16 LoadResourceFile(const char* pFileName, Camera* pCamera) override
     {
         return ResourceManager::LoadResourceFile_49C170(pFileName, pCamera);
     }
@@ -179,7 +179,7 @@ EXPORT void SND_Reset_4C9FB0()
 }
 
 
-EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
+EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
 {
     // Fail if no file name
     if (!pSoundBlockInfo->field_0_vab_header_name)
@@ -445,7 +445,7 @@ EXPORT int CC SND_4CA5D0(int program, int vabId, int note, __int16 vol, __int16 
     }
 
     // Note: Inlined in psx
-    const int channelBits = MIDI_Play_Single_Note_4CA1B0(vabId | ((signed __int16)program << 8), note << 8, volClamped, volClamped);
+    const int channelBits = MIDI_Play_Single_Note_4CA1B0(vabId | ((s16)program << 8), note << 8, volClamped, volClamped);
     if (!GetMidiVars()->sSFXPitchVariationEnabled())
     {
         return 0;
@@ -579,7 +579,7 @@ EXPORT void SND_Seq_Stop_4CA8E0()
     }
 }
 
-EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 repeatCount, __int16 bDontStop)
+EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, __int16 repeatCount, __int16 bDontStop)
 {
     OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
     if (!rec.field_C_ppSeq_Data)
@@ -642,7 +642,7 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 re
 }
 
 
-EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount, __int16 volLeft, __int16 volRight)
+EXPORT __int16 CC SND_SEQ_Play_4CAB10(u16 idx, __int16 repeatCount, __int16 volLeft, __int16 volRight)
 {
     OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
     if (!rec.field_C_ppSeq_Data)
@@ -680,7 +680,7 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount,
     }
 
     // Clamp left
-    signed __int16 clampedVolLeft = 0;
+    s16 clampedVolLeft = 0;
     if (volLeft < 10)
     {
         clampedVolLeft = 10;
@@ -695,7 +695,7 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount,
     }
 
     // Clamp right
-    signed __int16 clampedVolRight = 0;
+    s16 clampedVolRight = 0;
     if (volRight < 10)
     {
         clampedVolRight = 10;
@@ -724,7 +724,7 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount,
 }
 
 
-EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx)
+EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(u16 idx)
 {
     OpenSeqHandle* pRec = &GetMidiVars()->sSeqDataTable()[idx];
     if (pRec->field_A_id_seqOpenId != -1 && pRec->field_C_ppSeq_Data)
@@ -737,7 +737,7 @@ EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx)
 
 EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight)
 {
-    unsigned __int16 limitedIdx = idx & 0xFFFF;
+    u16 limitedIdx = idx & 0xFFFF;
     if (GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId != -1
         && GetMidiVars()->sSeqDataTable()[limitedIdx].field_C_ppSeq_Data
         && SND_SsIsEos_DeInlined_4CACD0(limitedIdx))
@@ -747,7 +747,7 @@ EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight)
 }
 
 
-EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx)
+EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx)
 {
     if (GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId != -1 && GetMidiVars()->sSeqDataTable()[idx].field_C_ppSeq_Data)
     {

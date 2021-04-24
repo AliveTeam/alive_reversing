@@ -8,7 +8,7 @@ class AnimationUnknown;
 class Rope : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Rope* ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bottom, FP scale);
+    EXPORT Rope* ctor_4A0A70(u16 left, __int16 top, u16 bottom, FP scale);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;

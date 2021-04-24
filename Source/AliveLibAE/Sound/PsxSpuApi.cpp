@@ -41,7 +41,7 @@ struct VagAtr
 struct SeqHeader
 {
     int field_0_magic;
-    unsigned int field_4_version;
+    u32 field_4_version;
     WORD field_8_resolution_of_quater_note;
     BYTE field_A_tempo[3];
     // No padding byte here, hence 1 byte packing enabled
@@ -64,7 +64,7 @@ ALIVE_VAR(1, 0xBE6160, SoundEntryTable, sSoundEntryTable16_BE6160, {});
 ALIVE_VAR(1, 0xC14080, MidiChannels, sMidi_Channels_C14080, {});
 ALIVE_VAR(1, 0xC13400, MidiSeqSongsTable, sMidiSeqSongs_C13400, {});
 ALIVE_VAR(1, 0xbd1cf4, int, sMidi_Inited_dword_BD1CF4, 0);
-ALIVE_VAR(1, 0xbd1cec, unsigned int, sMidiTime_BD1CEC, 0);
+ALIVE_VAR(1, 0xbd1cec, u32, sMidiTime_BD1CEC, 0);
 ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, 1);
 ALIVE_VAR(1, 0xbd1ce4, char, sbDisableSeqs_BD1CE4, 0);
 ALIVE_VAR(1, 0x578E20, DWORD, sLastTime_578E20, 0xFFFFFFFF);
@@ -135,7 +135,7 @@ public:
         return sMidi_Inited_dword_BD1CF4;
     }
 
-    virtual unsigned int& sMidiTime() override
+    virtual u32& sMidiTime() override
     {
         return sMidiTime_BD1CEC;
     }
@@ -211,7 +211,7 @@ inline unsigned SwapBytes<unsigned>(unsigned value)
 
 EXPORT void CC MIDI_ADSR_Update_4FDCE0();
 EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 field4_match, __int16 pitch);
-EXPORT void CC MIDI_Read_SEQ_Header_4FD870(BYTE** pSrc, SeqHeader* pDst, unsigned int size);
+EXPORT void CC MIDI_Read_SEQ_Header_4FD870(BYTE** pSrc, SeqHeader* pDst, u32 size);
 EXPORT void CC MIDI_SetTempo_4FDB80(__int16 idx, __int16 kZero, __int16 tempo);
 EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, int vol);
 EXPORT int CC MIDI_Stop_Existing_Single_Note_4FCFF0(int VabIdAndProgram, int note);
@@ -506,7 +506,7 @@ EXPORT int CC MIDI_Invert_4FCA40(int /*not_used*/, int value)
 EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int /*not_used*/, int priority)
 {
     int lowestEndTime = -999999;
-    unsigned int timeMod24 = gSpuVars->sMidiTime() % 24;
+    u32 timeMod24 = gSpuVars->sMidiTime() % 24;
     for (int i = 0; i < 24; i++)
     {
         if (gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_3_state == 0)
@@ -588,7 +588,7 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
             const int vagVol = pVagIter->field_D_vol;
             int panLeft = (volume * leftVol2 * vagVol * gSpuVars->sGlobalVolumeLevel_left()) >> 21;
             int panRight = (volume * rightVol2 * vagVol * gSpuVars->sGlobalVolumeLevel_right()) >> 21;
-            const unsigned int playFlags = (((unsigned int)pVagIter->field_C) >> 2) & 1;
+            const u32 playFlags = (((u32)pVagIter->field_C) >> 2) & 1;
 
             // TODO: Logic seems wrong even in OG
             if (panLeft)
@@ -605,7 +605,7 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
 
             if (panRight >= 0)
             {
-                if ((((unsigned int)pVagIter->field_C >> 2)) & 1)
+                if ((((u32)pVagIter->field_C >> 2)) & 1)
                 {
                     // Clamp pans
                     if (panLeft > 90)
@@ -737,7 +737,7 @@ EXPORT int CC MIDI_PlayerPlayMidiNote_4FCE80(int vabId, int program, int note, i
 }
 
 
-EXPORT int CC SsVoKeyOn_4FCF10(int vabIdAndProgram, int pitch, unsigned __int16 leftVol, unsigned __int16 rightVol)
+EXPORT int CC SsVoKeyOn_4FCF10(int vabIdAndProgram, int pitch, u16 leftVol, u16 rightVol)
 {
     MIDI_Stop_Existing_Single_Note_4FCFF0((vabIdAndProgram & 127) | (((vabIdAndProgram >> 8) & 31) << 8), pitch);
 
@@ -823,10 +823,10 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
     char tempoByte2; // ST2B_1
     unsigned __int8 fullTempo; // dl
     int v12; // eax
-    unsigned __int16 v13; // cx
+    u16 v13; // cx
     int v14; // ecx
-    unsigned int cmd; // ebx
-    unsigned int v16; // eax
+    u32 cmd; // ebx
+    u32 v16; // eax
     int v17; // ecx
     MIDI_ProgramVolume  *v18; // ecx
     signed int v19; // ebx
@@ -845,8 +845,8 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
     BYTE *v36; // eax
     char v37; // al
     int v38; // eax
-    unsigned int v39; // ecx
-    unsigned int v40; // edi
+    u32 v39; // ecx
+    u32 v40; // edi
     int v42 = 0; // [esp+14h] [ebp-1Ch]
     MIDI_ProgramVolume *v43; // [esp+18h] [ebp-18h]
     int v45; // [esp+20h] [ebp-10h]
@@ -976,7 +976,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
             v45 = v17;
             v18 = &gSpuVars->sMidiSeqSongs(idx2).field_32_progVols[v17];
             v43 = v18;
-            leftVol = (signed __int16)((unsigned int)(v18->field_1_left_vol * gSpuVars->sMidiSeqSongs(idx2).field_C_volume) >> 7);
+            leftVol = (s16)((u32)(v18->field_1_left_vol * gSpuVars->sMidiSeqSongs(idx2).field_C_volume) >> 7);
             if (v16 >> 16)
             {
                 v19 = 0;
@@ -1217,7 +1217,7 @@ EXPORT __int16 CC SsSeqOpen_4FD6D0(BYTE* pSeqData, __int16 seqIdx)
     return static_cast<short>(freeIdx);
 }
 
-EXPORT void CC MIDI_Read_SEQ_Header_4FD870(BYTE** pSrc, SeqHeader* pDst, unsigned int size)
+EXPORT void CC MIDI_Read_SEQ_Header_4FD870(BYTE** pSrc, SeqHeader* pDst, u32 size)
 {
     memcpy(pDst, *pSrc, size);
     (*pSrc) += size;
@@ -1233,7 +1233,7 @@ EXPORT void CC SsSeqClose_4FD8D0(__int16 idx)
 }
 
 
-EXPORT void CC SsSeqPlay_4FD900(unsigned __int16 idx, char repeatMode, __int16 repeatCount)
+EXPORT void CC SsSeqPlay_4FD900(u16 idx, char repeatMode, __int16 repeatCount)
 {
     if (idx < 32u)
     {
@@ -1248,7 +1248,7 @@ EXPORT void CC SsSeqPlay_4FD900(unsigned __int16 idx, char repeatMode, __int16 r
             {
                 rec.field_0_seq_data = rec.field_1C_pSeqData;
                 rec.field_2A_running_status = 0;
-                unsigned int midiTime = MIDI_Read_Var_Len_4FD0D0(&rec);
+                u32 midiTime = MIDI_Read_Var_Len_4FD0D0(&rec);
                 if (midiTime)
                 {
                     midiTime = (midiTime * rec.field_14_tempo) / 1000;
@@ -1281,11 +1281,11 @@ EXPORT void CC SsSeqStop_4FD9C0(__int16 idx)
         }
     }
 
-    for (unsigned int i = 0; i < kNumChannels; i++)
+    for (u32 i = 0; i < kNumChannels; i++)
     {
-        unsigned int field_C = gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_C;
+        u32 field_C = gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_C;
         field_C = field_C >> 4;
-        if (field_C == static_cast<unsigned int>(idx))
+        if (field_C == static_cast<u32>(idx))
         {
             gSpuVars->SsUtKeyOffV(static_cast<short>(i));
             gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_C = 0;
@@ -1297,7 +1297,7 @@ EXPORT void CC SsSeqStop_4FD9C0(__int16 idx)
 
 // TODO: Removed 4FDA60
 
-EXPORT unsigned __int16 CC SsIsEos_4FDA80(__int16 idx, __int16 kZero)
+EXPORT u16 CC SsIsEos_4FDA80(__int16 idx, __int16 kZero)
 {
     if (!kZero)
     {

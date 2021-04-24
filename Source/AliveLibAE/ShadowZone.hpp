@@ -15,9 +15,9 @@ struct Path_ShadowZone : public Path_TLV
 {
     __int16 field_10_center_w;
     __int16 field_12_center_h;
-    unsigned __int16 field_14_r;
-    unsigned __int16 field_16_g;
-    unsigned __int16 field_18_b;
+    u16 field_14_r;
+    u16 field_16_g;
+    u16 field_18_b;
     __int16 field_1A_id;
     ShadowZoneScale field_1C_scale;
     __int16 field_1E_pad;

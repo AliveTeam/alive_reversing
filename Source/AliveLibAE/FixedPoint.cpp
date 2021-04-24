@@ -3,17 +3,17 @@
 #include "Function.hpp"
 #include <gtest/gtest.h>
 
-EXPORT int CC Math_SquareRoot_Shifted_496E20(unsigned int value, __int16 iterations)
+EXPORT int CC Math_SquareRoot_Shifted_496E20(u32 value, __int16 iterations)
 {
-    unsigned int value_shifted = value;
+    u32 value_shifted = value;
     int ret = 0;
     int counter = (iterations / 2) + 15;
-    unsigned int tmp = 0;
+    u32 tmp = 0;
     for (int i = 0; i <= counter; i++)
     {
         ret *= 2;
         tmp = (value_shifted >> 30) | 4 * tmp; // Hm.. what?
-        const unsigned int v6 = (2 * ret) + 1;
+        const u32 v6 = (2 * ret) + 1;
         value_shifted *= 4;
         if (tmp >= v6)
         {

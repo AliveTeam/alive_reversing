@@ -291,14 +291,14 @@ const BYTE sBitmapFont[] =
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x00, 0x00,
 };
 
-EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int /*fgColour*/, int /*bgColour*/, LPCSTR lpString)
+EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, u32 /*fgColour*/, int /*bgColour*/, LPCSTR lpString)
 {
     SDL_Surface* pFontBmp = SDL_LoadBMP_RW(SDL_RWFromConstMem(sBitmapFont, sizeof(sBitmapFont)), SDL_TRUE);
 
     int xpos = 0;
     const int kLetterWidth = 8;
     const int kLetterHeight = 10;
-    for (unsigned int i = 0; i < strlen(lpString); i++)
+    for (u32 i = 0; i < strlen(lpString); i++)
     {
         char letter = lpString[i];
 
@@ -788,7 +788,7 @@ EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
     return nullptr;
 }
 
-EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int fgColour, int bgColour, LPCSTR lpString)
+EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, u32 fgColour, int bgColour, LPCSTR lpString)
 {
     const HDC dc = BMP_Get_DC_4F2150(pBmp);
     if (bgColour)
@@ -798,7 +798,7 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int f
 
     ::SetBkMode(dc, (bgColour != 0) + 1);
 
-    unsigned int colour = 0;
+    u32 colour = 0;
     colour |= (BYTE0(fgColour) << 16);
     colour |= (BYTE1(fgColour) << 8);
     colour |= (BYTE2(fgColour) << 0);

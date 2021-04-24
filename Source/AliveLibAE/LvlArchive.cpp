@@ -136,7 +136,7 @@ int LvlArchive::Open_Archive_432E80(const char* fileName)
 
 LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
 {
-    const unsigned int fileNameLen = static_cast<DWORD>(strlen(pFileName) + 1);
+    const u32 fileNameLen = static_cast<DWORD>(strlen(pFileName) + 1);
 
     const bool notEnoughSpaceForFileExt = (static_cast<signed int>(fileNameLen) - 1) < 4;
     if (notEnoughSpaceForFileExt || _strcmpi(&pFileName[fileNameLen - 5], ".STR") != 0) // Check its not a STR file
@@ -150,7 +150,7 @@ LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
                 strcpy(sOpenFileNames_5BC220[idx].field_0_file_name, pFileName);
                 sOpenFileNames_5BC220[idx].field_C_start_sector = 0;
                 sOpenFileNames_5BC220[idx].field_14_file_size = File_seek_4FA490(hFile, 0, 2);
-                sOpenFileNames_5BC220[idx].field_10_num_sectors = (unsigned int)(sOpenFileNames_5BC220[idx].field_14_file_size + kSectorSize - 1) >> 11;
+                sOpenFileNames_5BC220[idx].field_10_num_sectors = (u32)(sOpenFileNames_5BC220[idx].field_14_file_size + kSectorSize - 1) >> 11;
                 File_close_4FA530(hFile);
                 return &sOpenFileNames_5BC220[idx];
             }

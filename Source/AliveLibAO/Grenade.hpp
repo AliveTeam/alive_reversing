@@ -9,9 +9,9 @@ class Grenade : public BaseThrowable
 {
 public:
     EXPORT void AddToPlatform_41F7C0();
-    EXPORT signed __int16 BlowUpAfterCountdown_41EDD0();
-    EXPORT signed __int16 OnCollision_BounceOff_41F650(BaseGameObject* pHit);
-    EXPORT signed __int16 InTheAir_41EF10();
+    EXPORT s16 BlowUpAfterCountdown_41EDD0();
+    EXPORT s16 OnCollision_BounceOff_41F650(BaseGameObject* pHit);
+    EXPORT s16 InTheAir_41EF10();
 
     virtual __int16 VCanThrow() override;
     virtual __int16 VIsFalling() override;

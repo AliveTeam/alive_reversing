@@ -315,7 +315,7 @@ private:
 
 
 public:
-    EXPORT void vOnFrame_42BC50(signed __int16* pData);
+    EXPORT void vOnFrame_42BC50(s16* pData);
 
 private:
     int field_118_tlvInfo;
@@ -323,7 +323,7 @@ private:
     __int16 field_120_unused;
     __int16 field_122;
     __int16 field_124_brain_state;
-    unsigned __int16 field_126_state;
+    u16 field_126_state;
     __int16 field_128;
     __int16 field_12A;
     int field_12C;
@@ -333,7 +333,7 @@ private:
     FP field_138;
     __int16 field_13C;
     __int16 field_13E_current_anger;
-    unsigned __int16 field_140_max_anger;
+    u16 field_140_max_anger;
     __int16 field_142_attack_anger_increaser;
     __int16 field_144_wake_up_id;
     __int16 field_146_tlv_28;
@@ -404,4 +404,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Fleech, 0x42C);
 
-EXPORT int CC Animation_OnFrame_Fleech_449A60(void* pObj, signed __int16* pData);
+EXPORT int CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData);

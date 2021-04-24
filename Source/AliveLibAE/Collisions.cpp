@@ -148,13 +148,13 @@ EXPORT PSX_RECT* CCSTD Rect_Clear_418040(PSX_RECT* pRect)
     return pRect;
 }
 
-signed __int16 Collisions::Raycast_Real_417A60(FP /*X1*/, FP /*Y1*/, FP /*X2*/, FP /*Y2*/, PathLine** /*ppLine*/, FP * /*hitX*/, FP * /*hitY*/, unsigned int /*modeMask*/)
+s16 Collisions::Raycast_Real_417A60(FP /*X1*/, FP /*Y1*/, FP /*X2*/, FP /*Y2*/, PathLine** /*ppLine*/, FP * /*hitX*/, FP * /*hitY*/, u32 /*modeMask*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP * hitX, FP * hitY, unsigned int modeMask)
+s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask)
 {
     // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
 
@@ -316,7 +316,7 @@ signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, F
     return FALSE;
 }
 
-BOOL Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask)
+BOOL Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
 {
     // Take 2 copies of the input before anything changes them, important as the caller can pass in defaults - don't overwrite them if we don't
     // find a collision!
@@ -328,11 +328,11 @@ BOOL Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_
     FP realX = *hitX;
     FP realY = *hitY;
 
-    signed __int16 ret_impl = Raycast_Impl(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineImpl, &implX, &implY, modeMask);
+    s16 ret_impl = Raycast_Impl(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineImpl, &implX, &implY, modeMask);
 
     if (RunningAsInjectedDll())
     {
-        signed __int16 ret_real = Raycast_Real_417A60(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineReal, &realX, &realY, modeMask);
+        s16 ret_real = Raycast_Real_417A60(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineReal, &realX, &realY, modeMask);
 
         // TODO: Remove when this is fully re-tested and known to be working
         if (ret_impl == ret_real)

@@ -292,7 +292,7 @@ static inline void OutputWordAndAdvance(u16*& rawBitStreamPtr, u32& rawWord4, un
 static int decode_bitstream(u16* pFrameData, unsigned short int* pOutput)
 {
 
-    unsigned int table_index_2 = 0;
+    u32 table_index_2 = 0;
     int ret = *pFrameData;
 
 
@@ -530,7 +530,7 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
 {
     const int v1 = isYBlock;
     const u32* pTable = isYBlock ? &g_252_buffer_unk_63580C[1] : &g_252_buffer_unk_635A0C[1];
-    unsigned int counter = 0;
+    u32 counter = 0;
     u16* pInput = (u16*)inPtr;
     u32* pOutput = (u32*)outputBlockPtr;              // off 10 quantised coefficients
 
@@ -547,7 +547,7 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
     {
         do
         {
-            const unsigned int macroBlockWord = *pInput++;// bail if end
+            const u32 macroBlockWord = *pInput++;// bail if end
             if (macroBlockWord == 0xFE00)
             {
                 break;
@@ -577,7 +577,7 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
 
         while (1)
         {
-            const unsigned int macroBlockWord = *pInput++;// bail if end
+            const u32 macroBlockWord = *pInput++;// bail if end
             if (macroBlockWord == 0xFE00)
             {
                 break;

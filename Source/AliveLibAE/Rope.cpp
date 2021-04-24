@@ -53,7 +53,7 @@ EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, int minY, int maxY)
     }
 }
 
-Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bottom, FP scale)
+Rope* Rope::ctor_4A0A70(u16 left, __int16 top, u16 bottom, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546C70); // vTbl_LiftRope_00546C70

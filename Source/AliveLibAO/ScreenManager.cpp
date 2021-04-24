@@ -58,7 +58,7 @@ void ScreenManager::MoveImage_406C40()
     PSX_MoveImage_4961A0(&rect, 0, 0);
 }
 
-void ScreenManager::DecompressCameraToVRam_407110(unsigned __int16** ppBits)
+void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
 {
     PSX_RECT rect = {};
     rect.x = 0;
@@ -72,10 +72,10 @@ void ScreenManager::DecompressCameraToVRam_407110(unsigned __int16** ppBits)
         // Doesn't do anything since the images are not MDEC compressed in PC
         //PSX_MDEC_rest_498C30(0);
 
-        unsigned __int16* pIter = *ppBits;
+        u16* pIter = *ppBits;
         for (short xpos = 0; xpos < 640; xpos += 16)
         {
-            const unsigned __int16 slice_len = *pIter;
+            const u16 slice_len = *pIter;
             pIter++; // Skip len
 
             // already in correct format - no need to convert

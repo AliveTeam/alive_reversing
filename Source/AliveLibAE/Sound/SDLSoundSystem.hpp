@@ -18,7 +18,7 @@ class SDLSoundSystem
 {
 public:
 
-    void Init(unsigned int sampleRate, int bitsPerSample, int isStereo);
+    void Init(u32 sampleRate, int bitsPerSample, int isStereo);
 
     HRESULT DuplicateSoundBuffer(TSoundBufferType* pDSBufferOriginal, TSoundBufferType** ppDSBufferDuplicate);
 

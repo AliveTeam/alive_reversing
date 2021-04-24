@@ -40,10 +40,10 @@ public:
     const char * field_A4_message_cutoff_ptr;
     char field_A8_message_buffer[512];
     WORD field_2A8_play_sound_toggle;
-    signed __int16 field_2AA_message_1_id;
+    s16 field_2AA_message_1_id;
     __int16 field_2AC_x_offset;
     WORD field_2AE_character_width;
-    unsigned __int16 field_2B0_message_2_id;
+    u16 field_2B0_message_2_id;
     WORD field_2B2_toggle_message_switch_id;
     WORD field_2B4;
     WORD field_2B6_message_rand_min_id;

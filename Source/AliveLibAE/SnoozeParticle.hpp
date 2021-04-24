@@ -64,7 +64,7 @@ private:
     __int16 field_42_r;
     __int16 field_44_g;
     __int16 field_46_b;
-    unsigned __int16 field_48_idx;
+    u16 field_48_idx;
     __int16 field_4A_count_down;
     Line_G4 field_4C_G4_lines[2];
     Line_G2 field_A4_G2_lines[2][6];

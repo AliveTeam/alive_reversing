@@ -337,7 +337,7 @@ public:
     __int16 field_1A2;
     int field_1A4;
     __int16 field_1A8;
-    unsigned __int16 field_1AA;
+    u16 field_1AA;
     BirdPortal* field_1AC_pBirdPortal;
     __int16 field_1B0;
     __int16 field_1B2_switch_id;

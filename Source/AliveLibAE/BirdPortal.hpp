@@ -79,7 +79,7 @@ public:
 
     // New virtuals
 
-    virtual signed __int16 VPortalClipper_499430(__int16 bUnknown);
+    virtual s16 VPortalClipper_499430(__int16 bUnknown);
     virtual void VKillPortalClipper_499610();
     virtual void VMudSaved_499A50();
     virtual BOOL VActivePortal_499830();
@@ -100,7 +100,7 @@ private:
     EXPORT void vStopAudio_499260();
     EXPORT signed int vGetSaveState_499F50(BYTE* pState);
 
-    EXPORT signed __int16 vPortalClipper_499430(__int16 bUnknown);
+    EXPORT s16 vPortalClipper_499430(__int16 bUnknown);
     EXPORT void vKillPortalClipper_499610();
     EXPORT void vMudSaved_499A50();
     EXPORT BOOL vActivePortal_499830();
@@ -112,7 +112,7 @@ private:
     EXPORT void vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
     EXPORT void dtor_4980A0();
 
-    EXPORT signed __int16 IsScaredAway_4992A0();
+    EXPORT s16 IsScaredAway_4992A0();
 
     EXPORT void CreateDovesAndShrykullNumber_497B50();
 
@@ -120,7 +120,7 @@ private:
 
     EXPORT void CreateTerminators_497D10();
 
-    EXPORT signed __int16 GetEvent_499A70();
+    EXPORT s16 GetEvent_499A70();
 
 private:
     int field_20_tlvInfo;

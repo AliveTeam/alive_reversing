@@ -51,7 +51,7 @@ const InputCommands::Enum sInputKey_GameSpeak7_555114 = InputCommands::Enum::eGa
 const InputCommands::Enum sInputKey_Chant = InputCommands::Enum::eChant;
 
 // Bitmask for all menu-exclusive (navigation, entering, etc.) input commands
-const unsigned int AllMenuCommandsMask =
+const u32 AllMenuCommandsMask =
     (
         InputCommands::Enum::ePause |
         InputCommands::Enum::eUnPause_OrConfirm |
@@ -79,14 +79,14 @@ ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
 ALIVE_ARY(1, 0xBD2F60, unsigned char, 256, sInputKeyStates_BD2F60, {});
 ALIVE_VAR(1, 0xBBB9D0, BYTE, sInputEnabled_BBB9D0, 0);
 ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject_5BD4E0, {});
-ALIVE_VAR(1, 0x5C1BBE, unsigned __int16, sCurrentControllerIndex_5C1BBE, 0);
+ALIVE_VAR(1, 0x5C1BBE, u16, sCurrentControllerIndex_5C1BBE, 0);
 ALIVE_VAR(1, 0x5C1B9A, __int16, bLongerTimeoutToNextDemo_5C1B9A, 0);
 ALIVE_VAR(1, 0xbd30a0, DWORD, sLastPressedKey_BD30A0, 0);
 ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
 ALIVE_ARY(1, 0x5C9D30, char, 256, sAllowedGameKeys_5C9D30, {});
 ALIVE_ARY(1, 0x5C9394, const char *, 256, sKeyNames_5C9394, {});
 ALIVE_ARY(1, 0x5C9908, const char *, 10, sJoyButtonNames_5C9908, {});
-ALIVE_ARY(1, 0x5C9930, unsigned int, 256, sKeyboardBindings_5C9930, {});
+ALIVE_ARY(1, 0x5C9930, u32, 256, sKeyboardBindings_5C9930, {});
 ALIVE_ARY(1, 0x5C98E0, int, 10, sGamePadBindings_5C98E0, {});
 ALIVE_VAR(1, 0xbd1870, t_InputCallback, sInputCallbackFunc_BD1870, 0);
 
@@ -140,7 +140,7 @@ ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyboardBindings_55EAD8, {
     { 0, static_cast<InputCommands::Enum>(0) }
 });
 
-ALIVE_ARY(1, 0x55EA2C, const unsigned int, 10, sDefaultGamepadBindings_55EA2C, {
+ALIVE_ARY(1, 0x55EA2C, const u32, 10, sDefaultGamepadBindings_55EA2C, {
     InputCommands::Enum::eDoAction,                                       // Square / X
     InputCommands::Enum::eFartOrRoll | InputCommands::Enum::eUnPause_OrConfirm, // Cross / A
     InputCommands::Enum::eThrowItem,                                      // Circle / B
@@ -741,7 +741,7 @@ int CC Input_Remap_492680(InputCommands::Enum inputCmd)
             // By also resetting the command the key was bound FROM
             // (and only if it's a non-menu command), a situation can be
             // avoided where one key can be assigned to multiple commands.
-            const unsigned int onlyNonMenuOriginalCommands = sGamePadBindings_5C98E0[bindIdx] & ~AllMenuCommandsMask;
+            const u32 onlyNonMenuOriginalCommands = sGamePadBindings_5C98E0[bindIdx] & ~AllMenuCommandsMask;
             Input_ResetBinding_4925A0(inputCmd | onlyNonMenuOriginalCommands, 1);
             sGamePadBindings_5C98E0[bindIdx] |= inputCmd;
             Input_Init_Names_491870();
@@ -790,7 +790,7 @@ int CC Input_Remap_492680(InputCommands::Enum inputCmd)
     // By also resetting the command the key was bound FROM
     // (and only if it's a non-menu command), a situation can be
     // avoided where one key can be assigned to multiple commands.
-    const unsigned int onlyNonMenuOriginalCommands = sKeyboardBindings_5C9930[bindIdx] & ~AllMenuCommandsMask;
+    const u32 onlyNonMenuOriginalCommands = sKeyboardBindings_5C9930[bindIdx] & ~AllMenuCommandsMask;
     Input_ResetBinding_4925A0(inputCmd | onlyNonMenuOriginalCommands, 0);
 
     sKeyboardBindings_5C9930[bindIdx] |= inputCmd;
@@ -898,7 +898,7 @@ EXPORT void CC Input_SetGamePadBinding_4931D0(const char *pButtonName, int input
 std::vector<std::string> Ini_SplitParams(std::string line)
 {
     auto paramSplit = SplitString(line, '=');
-    for (unsigned int i = 0; i < paramSplit.size(); i++)
+    for (u32 i = 0; i < paramSplit.size(); i++)
     {
         if (paramSplit[i].size() == 0)
         {
@@ -1492,7 +1492,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             if (!(sPrevious_down_keyboard_keys_5C9F74 & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft)))
                             {
                                 currentTime = SYS_GetTicks();
-                                if ((unsigned int)(sPrevTimeStamp_5C98D8 - dword_5C98DC) <= 220 && currentTime - sPrevTimeStamp_5C98D8 <= 220)
+                                if ((u32)(sPrevTimeStamp_5C98D8 - dword_5C98DC) <= 220 && currentTime - sPrevTimeStamp_5C98D8 <= 220)
                                 {
                                     dword_5C9F78 = 1;
                                 }
@@ -1899,7 +1899,7 @@ void Input_Reset_492660()
     Input_InitKeyStateArray_4EDD60();
 }
 
-EXPORT unsigned int Input_IsChanting_45F260()
+EXPORT u32 Input_IsChanting_45F260()
 {
     return (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed & InputCommands::Enum::eChant) == InputCommands::Enum::eChant;
 }
@@ -2058,7 +2058,7 @@ void InputObject::Update_45F040()
 
 DWORD CC InputObject::Command_To_Raw_45EE40(DWORD cmd)
 {
-    unsigned int shoulderButtonsPressedCount = 0;
+    u32 shoulderButtonsPressedCount = 0;
 
     if (cmd & PsxButtonBits::eL2)
     {

@@ -2059,7 +2059,7 @@ void FlyingSlig::M_TurnToHorizontalMovement_25_4389E0()
     }
 }
 
-signed __int16 FlyingSlig::IsFacingMovementDirection_43A510()
+s16 FlyingSlig::IsFacingMovementDirection_43A510()
 {
     return ((field_184_xSpeed > FP_FromInteger(0) && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
          || (field_184_xSpeed < FP_FromInteger(0) &&   field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)));

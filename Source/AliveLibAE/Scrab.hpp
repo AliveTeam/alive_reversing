@@ -81,7 +81,7 @@ struct Path_Scrab : public Path_TLV
     __int16 field_18_left_max_delay;
     __int16 field_1A_right_min_delay;
     __int16 field_1C_right_max_delay;
-    unsigned __int16 field_1E_spotting_abe_delay;
+    u16 field_1E_spotting_abe_delay;
     __int16 field_20_disabled_resources;
     Choice_short field_22_roar_randomly;
     Choice_short field_24_persistant;

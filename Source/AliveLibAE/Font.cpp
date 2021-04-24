@@ -130,7 +130,7 @@ namespace Alive
         int tpage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
         int clut = PSX_getClut_4F6350(field_28_palette_rect.x, field_28_palette_rect.y);
 
-        for (unsigned int i = 0; i < strlen(text); i++)
+        for (u32 i = 0; i < strlen(text); i++)
         {
             if (offsetX >= maxRenderX)
             {
@@ -216,7 +216,7 @@ namespace Alive
     {
         int result = 0;
 
-        for (unsigned int i = 0; i < strlen(text); i++)
+        for (u32 i = 0; i < strlen(text); i++)
         {
             const char c = text[i];
             int charIndex = 0;

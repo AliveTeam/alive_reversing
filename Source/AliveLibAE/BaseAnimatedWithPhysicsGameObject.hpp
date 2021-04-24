@@ -36,7 +36,7 @@ using TCollisionCallBack = __int16(BaseGameObject::*)(BaseGameObject*); // Typic
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
-    EXPORT BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize);
+    EXPORT BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize);
     EXPORT void BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
@@ -47,7 +47,7 @@ public:
     EXPORT void Update_424AB0();
     EXPORT void Render_424B90(PrimHeader** ppOt);
 
-    EXPORT void Animation_Init_424E10(int frameTableOffset, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, __int16 a6, unsigned __int8 a7);
+    EXPORT void Animation_Init_424E10(int frameTableOffset, int maxW, u16 maxH, BYTE **ppAnimData, __int16 a6, unsigned __int8 a7);
 
     virtual void vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
     // TODO: Just return by value - this is odd optimization the compiler does

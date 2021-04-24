@@ -257,7 +257,7 @@ BaseGameObject* Gibs::dtor_408040()
     return dtor_417D10();
 }
 
-BaseGameObject* Gibs::Vdtor_4083D0(unsigned int flags)
+BaseGameObject* Gibs::Vdtor_4083D0(u32 flags)
 {
     dtor_408040();
     if (flags & 1)

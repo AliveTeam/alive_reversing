@@ -8,7 +8,7 @@
 
 namespace AO {
 
-EXPORT void CC Decompress_Type_1_403150(const BYTE* /*pInput*/, BYTE* /*pOutput*/, unsigned int /*compressedLen*/, unsigned int /*decompressedLen*/)
+EXPORT void CC Decompress_Type_1_403150(const BYTE* /*pInput*/, BYTE* /*pOutput*/, u32 /*compressedLen*/, u32 /*decompressedLen*/)
 {
     ALIVE_FATAL("Decompress_Type_1_403150 never expected be called");
 }
@@ -41,8 +41,8 @@ static void ReadNextSource(PtrStream& stream, int& control_byte, T& workBits)
 
 EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int totalLen, int out_len)
 {
-    unsigned int inStreamLen = totalLen & ~3u;
-    unsigned int inStreamDirectBytesLen = totalLen & 3;
+    u32 inStreamLen = totalLen & ~3u;
+    u32 inStreamDirectBytesLen = totalLen & 3;
  
     PtrStream inStream(&pInput);
 
@@ -56,7 +56,7 @@ EXPORT void CC Decompress_Type_3_4031E0(const BYTE* pInput, BYTE* pOutput, int t
     }
 
     int control_byte = 0;
-    unsigned int workBits = 0;
+    u32 workBits = 0;
 
     BYTE* pOutIter = pOutput;
 

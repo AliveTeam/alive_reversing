@@ -214,11 +214,11 @@ public:
 
     EXPORT void VDecode_403550();
 
-    EXPORT signed __int16 Set_Animation_Data_402A40(int frameTable, BYTE** resBlock);
+    EXPORT s16 Set_Animation_Data_402A40(int frameTable, BYTE** resBlock);
 
     EXPORT void SetFrame_402AC0(__int16 newFrame);
 
-    EXPORT signed __int16 Init_402D20(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating);
+    EXPORT s16 Init_402D20(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating);
 
     EXPORT __int16 Get_Frame_Count_403540();
 

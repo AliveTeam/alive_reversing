@@ -30,7 +30,7 @@ class BeeSwarm : public BaseAnimatedWithPhysicsGameObject
 {
 public:
 
-    EXPORT BeeSwarm* ctor_47FC60(FP xpos, FP ypos, FP speed, signed __int16 numBees, int chaseTicks);
+    EXPORT BeeSwarm* ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, int chaseTicks);
 
     EXPORT BaseGameObject* dtor_47FDF0();
 

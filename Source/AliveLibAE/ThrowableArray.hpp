@@ -6,7 +6,7 @@
 enum class LevelIds : __int16;
 
 EXPORT void CCSTD FreeResourceArray_49AEC0(DynamicArrayT<BYTE*>* pArray);
-EXPORT void CC LoadRockTypes_49AB30(LevelIds levelNumber, unsigned __int16 pathNumber);
+EXPORT void CC LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber);
 
 class ThrowableArray : public BaseGameObject
 {

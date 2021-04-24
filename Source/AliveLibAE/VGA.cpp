@@ -218,7 +218,7 @@ EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, unsigned __int8
     VGA_CopyToFront_4F3730(pBmp, pRect, screenMode);
 }
 
-EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __int16 height, unsigned __int8 bpp, unsigned __int8 backbufferCount, TSurfaceType** ppSurface)
+EXPORT signed int CC VGA_DisplaySet_4F32C0(u16 width, u16 height, unsigned __int8 bpp, unsigned __int8 backbufferCount, TSurfaceType** ppSurface)
 {
     // TODO: Window sub classing for VGA_WindowSubClass_4F2F50 removed as it only exists to support 8 bpp mode.
 
@@ -406,17 +406,17 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
     int srcWidth; // ebx
     char bpp; // cl
     int v7 = 0; // eax
-    unsigned __int16 *v22; // esi
+    u16 *v22; // esi
     char *v23; // edx
     int v24; // ecx
     char *v25; // eax
-    unsigned int v26; // edi
-    unsigned __int16 v27; // ax
+    u32 v26; // edi
+    u16 v27; // ax
     int v28; // ebx
     char v29; // bp
     char v30; // bl
-    unsigned int v31; // edi
-    unsigned __int16 v32; // ax
+    u32 v31; // edi
+    u16 v32; // ax
     char v34; // [esp+10h] [ebp-438h]
     char v35; // [esp+10h] [ebp-438h]
     char v37; // [esp+14h] [ebp-434h]
@@ -531,9 +531,9 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
             return;
         }
 
-        v50 = ((unsigned int)pBitmapToUse->field_10_locked_pitch >> 1) - srcWidth;
-        v22 = (unsigned __int16 *)((char *)pBitmapToUse->field_4_pLockedPixels
-            + 2 * (srcX + ((unsigned int)(srcY * pBitmapToUse->field_10_locked_pitch) >> 1)));
+        v50 = ((u32)pBitmapToUse->field_10_locked_pitch >> 1) - srcWidth;
+        v22 = (u16 *)((char *)pBitmapToUse->field_4_pLockedPixels
+            + 2 * (srcX + ((u32)(srcY * pBitmapToUse->field_10_locked_pitch) >> 1)));
 
         if (sVGA_bmp_primary_BD2A20.field_14_bpp == 32)
         {
@@ -574,7 +574,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
             {
                 do
                 {
-                    v26 = (unsigned int)&v23[v40];
+                    v26 = (u32)&v23[v40];
                     if (v23 < &v23[v40])
                     {
                         do
@@ -584,7 +584,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
                             v28 = *v22 << v34;
                             ++v22;
                             *((DWORD *)v23 - 1) = (v27 << v37) & 0xFF00 | (v27 << v47) & 0xFF0000 | (unsigned __int8)v28;
-                        } while ((unsigned int)v23 < v26);
+                        } while ((u32)v23 < v26);
                         v24 = v45;
                         v25 = v52;
                         pBitmapToUse = pBmp;
@@ -619,7 +619,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
         {
             do
             {
-                v31 = (unsigned int)&v23[v40];
+                v31 = (u32)&v23[v40];
                 if (v23 < &v23[v40])
                 {
                     do
@@ -627,10 +627,10 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
                         v32 = *v22;
                         v23 += 3;
                         ++v22;
-                        *(v23 - 3) = static_cast<char>((unsigned int)v32 >> v29);
-                        *(v23 - 2) = static_cast<char>((unsigned int)v32 >> v38);
+                        *(v23 - 3) = static_cast<char>((u32)v32 >> v29);
+                        *(v23 - 2) = static_cast<char>((u32)v32 >> v38);
                         *(v23 - 1) = (BYTE)v32 << v35;
-                    } while ((unsigned int)v23 < v31);
+                    } while ((u32)v23 < v31);
                     v24 = v45;
                     v25 = v52;
                 }
@@ -663,7 +663,7 @@ EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
     VGA_CopyToFront_4F3730(pBmp, pRect, 0);
 }
 
-EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __int16 height, unsigned __int8 bpp, unsigned __int8 backbufferCount, TSurfaceType** ppSurface)
+EXPORT signed int CC VGA_DisplaySet_4F32C0(u16 width, u16 height, unsigned __int8 bpp, unsigned __int8 backbufferCount, TSurfaceType** ppSurface)
 {
     signed int result = 0;
 

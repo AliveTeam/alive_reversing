@@ -115,7 +115,7 @@ struct FrameHeader
 class Animation : public AnimationBase
 {
 public:
-    EXPORT signed __int16 Set_Animation_Data_409C80(int frameTableOffset, BYTE** pAnimRes);
+    EXPORT s16 Set_Animation_Data_409C80(int frameTableOffset, BYTE** pAnimRes);
     EXPORT void Animation_Pal_Free_40C4C0();
 
     bool EnsureDecompressionBuffer();
@@ -155,7 +155,7 @@ public:
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(__int16 frame);
     EXPORT void Get_Frame_Rect_409E10(PSX_RECT *pRect);
     EXPORT WORD Get_Frame_Count_40AC70();
-    EXPORT signed __int16 Init_40A030(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3);
+    EXPORT s16 Init_40A030(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3);
     EXPORT void Get_Frame_Offset_40C480(__int16* pBoundingX, __int16* pBoundingY);
     EXPORT void Get_Frame_Width_Height_40C400(__int16* pWidth, __int16* pHeight);
 

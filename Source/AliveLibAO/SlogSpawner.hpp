@@ -38,11 +38,11 @@ public:
     FP field_1C_yPos;
     int field_20_spawn_timer;
     __int16 field_24_scale;
-    unsigned __int16 field_26_num_slogs;
-    unsigned __int16 field_28_num_at_a_time;
+    u16 field_26_num_slogs;
+    u16 field_28_num_at_a_time;
     __int16 field_2A_direction;
-    unsigned __int16 field_2C_ticks_between_slogs;
-    unsigned __int16 field_2E_start_id;
+    u16 field_2C_ticks_between_slogs;
+    u16 field_2E_start_id;
 };
 ALIVE_ASSERT_SIZEOF(SlogSpawner, 0x30);
 

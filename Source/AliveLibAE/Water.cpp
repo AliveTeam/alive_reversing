@@ -356,7 +356,7 @@ void Water::vUpdate_4E0B50()
                     field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
                 }
 
-                if (field_110_current_drops < (signed __int16)(field_124_tlv_data.field_10_max_drops >> 5))
+                if (field_110_current_drops < (s16)(field_124_tlv_data.field_10_max_drops >> 5))
                 {
                     for (int i = 0; i < field_110_current_drops; i++)
                     {

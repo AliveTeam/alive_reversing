@@ -478,7 +478,7 @@ void BaseAliveGameObject::vOnTrapDoorOpen_4081F0()
     // Empty
 }
 
-signed __int16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, int resourceID)
+s16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, int resourceID)
 {
     SetTint_425600(pTintArray, level_id);
 

@@ -10,9 +10,9 @@ namespace AO {
 struct Path_MeatSack : public Path_TLV
 {
     __int16 field_18_side;
-    unsigned __int16 field_1A_x_vel;
+    u16 field_1A_x_vel;
     __int16 field_1C_y_vel;
-    unsigned __int16 field_1E_scale;
+    u16 field_1E_scale;
     __int16 field_20_amount_of_meat;
     __int16 field_22_pad;
 };

@@ -280,7 +280,7 @@ public:
     __int16 field_11C_biting_target;
 private:
     __int16 field_11E_padding;
-    unsigned __int16 field_120_brain_state_idx;
+    u16 field_120_brain_state_idx;
     __int16 field_122_brain_state_result;
     int field_124_timer;
     FP field_128_falling_velx_scale_factor;

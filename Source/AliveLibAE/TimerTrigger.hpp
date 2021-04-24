@@ -7,7 +7,7 @@
 struct Path_TimerTrigger : public Path_TLV
 {
     __int16 field_10_id;
-    unsigned __int16 field_12_trigger_delay;
+    u16 field_12_trigger_delay;
     __int16 field_14_id1;
     __int16 field_16_id2;
     __int16 field_18_id3;

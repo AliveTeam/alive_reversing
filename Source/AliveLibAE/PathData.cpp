@@ -1186,7 +1186,7 @@ const char* CdLvlName(LevelIds lvlId)
     return sPathData_559660.paths[static_cast<int>(lvlId)].field_20_lvl_name_cd;
 }
 
-const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, unsigned __int16 pathId)
+const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathId)
 {
     const PathBlyRec* rec = &sPathData_559660.paths[static_cast<int>(lvlId)].field_0_pBlyArrayPtr[pathId];
     if (!rec)
@@ -1197,7 +1197,7 @@ const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, unsigned __int16
     return rec;
 }
 
-FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, unsigned __int16 fmvId)
+FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId)
 {
     return &sPathData_559660.paths[static_cast<int>(lvlId)].field_4_pFmvArray[fmvId];
 }

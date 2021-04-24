@@ -1031,7 +1031,7 @@ void Map::Create_FG1s_480F10()
     }
 }
 
-signed __int16 Map::Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect)
+s16 Map::Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect)
 {
     if (camIdx < CameraPos::eCamCurrent_0 || camIdx > CameraPos::eCamRight_4)
     {
@@ -1111,7 +1111,7 @@ EXPORT CameraPos Map::Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* p
     return CameraPos::eCamLeft_3;
 }
 
-signed __int16 Map::SetActiveCam_480D30(LevelIds level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange)
+s16 Map::SetActiveCam_480D30(LevelIds level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange)
 {
     if (!forceChange && cam == field_4_current_camera && level == field_0_current_level && path == field_2_current_path)
     {
@@ -1349,7 +1349,7 @@ void CC Map::LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager
     }
 }
 
-signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect)
+s16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, __int16 swapEffect)
 {
     Path_ChangeTLV* pPathChangeTLV = nullptr;
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eEffect0_InstantChange;

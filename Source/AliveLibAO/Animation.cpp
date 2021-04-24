@@ -694,7 +694,7 @@ void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList
     }
 }
 
-signed __int16 Animation::Set_Animation_Data_402A40(int frameTableOffset, BYTE** pAnimRes)
+s16 Animation::Set_Animation_Data_402A40(int frameTableOffset, BYTE** pAnimRes)
 {
     if (pAnimRes)
     {
@@ -754,7 +754,7 @@ void Animation::SetFrame_402AC0(__int16 newFrame)
     }
 }
 
-signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bAllocateVRam, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
+s16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, unsigned __int8 bAllocateVRam, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
 

@@ -33,7 +33,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    EXPORT BaseGameObject* Vdtor_407AC0(unsigned int flags);
+    EXPORT BaseGameObject* Vdtor_407AC0(u32 flags);
 
     virtual void VScreenChanged() override;
 

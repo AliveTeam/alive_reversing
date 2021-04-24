@@ -27,7 +27,7 @@ MusicTrigger* MusicTrigger::ctor_4439F0(Path_MusicTrigger* pTlv, int tlvInfo)
     return this;
 }
 
-void MusicTrigger::Init_443AD0(__int16 type, __int16 enabledBy, unsigned __int16 id, __int16 delay)
+void MusicTrigger::Init_443AD0(__int16 type, __int16 enabledBy, u16 id, __int16 delay)
 {
     field_14_flags &= ~7u;
     field_4_typeId = Types::eNone_0;

@@ -229,12 +229,12 @@ int ScreenManager::next_bits()
 
 void ScreenManager::vlc_decode(WORD* aCamSeg, WORD* aDst)
 {
-    unsigned int vlcPtrIndex = 0;
-    unsigned int camSrcPtrIndex = 0;
-    unsigned int vlcTabIndex = 0;
+    u32 vlcPtrIndex = 0;
+    u32 camSrcPtrIndex = 0;
+    u32 vlcTabIndex = 0;
 
     // Or two source words together to make a DWORD
-    unsigned int dstVlcWord = aCamSeg[camSrcPtrIndex + 1] | (aCamSeg[camSrcPtrIndex] << 16);
+    u32 dstVlcWord = aCamSeg[camSrcPtrIndex + 1] | (aCamSeg[camSrcPtrIndex] << 16);
     camSrcPtrIndex += 2; // Skip the two words we just OR'ed
 
     signed int totalBitsToShiftBy = 0;
@@ -242,13 +242,13 @@ void ScreenManager::vlc_decode(WORD* aCamSeg, WORD* aDst)
     for (;;)
     {
         // Get 11 bits
-        const unsigned int shiftedData = (dstVlcWord >> 21);
+        const u32 shiftedData = (dstVlcWord >> 21);
 
         // 0b11111111111 = 2047 * 4 =8192 = 8kb max index of 11 bits
         vlcTabIndex = 4 * shiftedData;
 
         // Grab vlc tab short using 11bit index * 4
-        const unsigned int bitsToShiftBy = Oddlib::g_VlcTab[vlcTabIndex];
+        const u32 bitsToShiftBy = Oddlib::g_VlcTab[vlcTabIndex];
 
         // Shift var
         totalBitsToShiftBy += bitsToShiftBy;

@@ -81,7 +81,7 @@ void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
     }
 }
 
-int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
+int CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
 {
     auto pSlig = reinterpret_cast<Slig*>(pObj);
     auto pPoints = reinterpret_cast<PSX_Point*>(pData);
@@ -564,22 +564,22 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, __int16*
                     const WORD* pAnimDataWithOffset = reinterpret_cast< const WORD* >( &pAnimData[clut_offset + 4] );
                     for (int i = 0; i < palSize; i++)
                     {
-                        __int32 auxPalValue = pAnimDataWithOffset[i] & 0x1F;
-                        unsigned __int16 resultR = static_cast< __int16 >( auxPalValue * r ) >> 7;
+                        s32 auxPalValue = pAnimDataWithOffset[i] & 0x1F;
+                        u16 resultR = static_cast< __int16 >( auxPalValue * r ) >> 7;
                         if (resultR > 31)
                         {
                             resultR = 31;
                         }
 
                         auxPalValue = ( pAnimDataWithOffset[i] >> 5 ) & 0x1F;
-                        unsigned __int16 resultG = static_cast< __int16 >( auxPalValue * g ) >> 7;
+                        u16 resultG = static_cast< __int16 >( auxPalValue * g ) >> 7;
                         if (resultG > 31)
                         {
                             resultG = 31;
                         }
 
                         auxPalValue = ( pAnimDataWithOffset[i] >> 10 ) & 0x1F;
-                        unsigned __int16 resultB = static_cast< __int16 >( auxPalValue * b ) >> 7;
+                        u16 resultB = static_cast< __int16 >( auxPalValue * b ) >> 7;
                         if (resultB > 31)
                         {
                             resultB = 31;

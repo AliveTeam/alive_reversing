@@ -40,12 +40,12 @@ public:
     int field_10_tlvInfo;
     PSX_RECT field_14_rect;
     int field_1C_interval_timer;
-    unsigned __int16 field_20_interval;
+    u16 field_20_interval;
     __int16 field_22_id;
     Path_BeeSwarmHole::MovementType field_24_movement_type;
     __int16 field_26_num_bees;
-    unsigned __int16 field_28_chase_time;
-    unsigned __int16 field_2A_speed;
+    u16 field_28_chase_time;
+    u16 field_2A_speed;
 };
 ALIVE_ASSERT_SIZEOF(BeeSwarmHole, 0x2C);
 

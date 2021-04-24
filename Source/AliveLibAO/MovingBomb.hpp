@@ -77,7 +77,7 @@ public:
     int field_110_tlvInfo;
     int field_114_timer;
     FP field_118_speed;
-    unsigned __int16 field_11C_id;
+    u16 field_11C_id;
     __int16 field_11E_max;
     __int16 field_120_min;
     __int16 field_122_pad;

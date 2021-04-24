@@ -203,7 +203,7 @@ BaseGameObject* Blood::VDestructor(signed int flags)
     return Vdtor_407AC0(flags);
 }
 
-BaseGameObject* Blood::Vdtor_407AC0(unsigned int flags)
+BaseGameObject* Blood::Vdtor_407AC0(u32 flags)
 {
     dtor_4076F0();
     if (flags & 1)

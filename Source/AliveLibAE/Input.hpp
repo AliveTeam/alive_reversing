@@ -15,7 +15,7 @@ EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown);
 EXPORT bool CC Input_IsVKPressed_4EDD40(int key);
 EXPORT DWORD Input_GetLastPressedKey_492610();
 EXPORT void Input_Reset_492660();
-EXPORT unsigned int Input_IsChanting_45F260();
+EXPORT u32 Input_IsChanting_45F260();
 EXPORT void CC Input_Pads_Reset_4FA960();
 EXPORT void CC Input_Init_Names_491870();
 EXPORT const char* CC Input_GetButtonString_492530(const char* idx, int controllerType);
@@ -26,7 +26,7 @@ EXPORT bool Input_JoyStickAvailable();
 
 namespace InputCommands {
 
-enum Enum : unsigned int
+enum Enum : u32
 {
     eUp =           1u << 0,  // 0x1
     eDown =         1u << 1,  // 0x2
@@ -132,7 +132,7 @@ struct InputPadObject
 };
 ALIVE_ASSERT_SIZEOF(InputPadObject, 0x18);
 
-enum PsxButtonBits : unsigned int
+enum PsxButtonBits : u32
 {
     eL2 = 1 << 0,
     eR2 = 1 << 1,
@@ -192,7 +192,7 @@ ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 EXPORT InputObject& Input();
 
 ALIVE_VAR_EXTERN(InputObject, sInputObject_5BD4E0);
-ALIVE_VAR_EXTERN(unsigned __int16, sCurrentControllerIndex_5C1BBE);
+ALIVE_VAR_EXTERN(u16, sCurrentControllerIndex_5C1BBE);
 ALIVE_VAR_EXTERN(DWORD, sLastPressedKey_BD30A0);
 ALIVE_VAR_EXTERN(int, sIsAKeyDown_BD309C);
 ALIVE_VAR_EXTERN(__int16, bLongerTimeoutToNextDemo_5C1B9A);

@@ -429,7 +429,7 @@ void DDCheat::Teleport_409CE0()
     DebugStr_495990("\n[Teleport]\n");
     DebugStr_495990("Level    (L,R):      %s \n", lvl_names_4C3168[level_4C315C]);
     DebugStr_495990("Path    (Up/Down):   %d \n", path_4C3160);
-    DebugStr_495990("Camera (Left/Right): %d \n", static_cast<unsigned __int16>(camera_4C3164));
+    DebugStr_495990("Camera (Left/Right): %d \n", static_cast<u16>(camera_4C3164));
     DebugStr_495990("Teleport = [] Reset = O\n"); //TODO don't display PSX buttons
     int input = field_24_input;
     field_10 = 6;

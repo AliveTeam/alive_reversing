@@ -17,7 +17,7 @@ struct Path_BeeNest : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_BeeNest, 0x24);
 
-enum class BeeNestStates : unsigned __int16
+enum class BeeNestStates : u16
 {
     eWaitForTrigger_0,
     eResetIfDead_1
@@ -53,9 +53,9 @@ public:
     int field_1C_tlvInfo;
     PSX_Point field_20_top_left;
     PSX_Point field_24_bottom_right;
-    unsigned __int16 field_28_switch_id;
+    u16 field_28_switch_id;
     __int16 field_2A_swarm_size;
-    unsigned __int16 field_2C_chase_ticks;
+    u16 field_2C_chase_ticks;
     BeeNestStates field_2E_state;
     FP field_30_speed;
     BeeSwarm* field_34_pBeeSwarm;

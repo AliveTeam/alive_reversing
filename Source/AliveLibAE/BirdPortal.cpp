@@ -662,7 +662,7 @@ signed int BirdPortal::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_499F50(pSaveBuffer);
 }
 
-signed __int16 BirdPortal::VPortalClipper_499430(__int16 bUnknown)
+s16 BirdPortal::VPortalClipper_499430(__int16 bUnknown)
 {
     return vPortalClipper_499430(bUnknown);
 }
@@ -785,7 +785,7 @@ int CC BirdPortal::CreateFromSaveState_499C90(const BYTE* pBuffer)
     return sizeof(BirdPortal_State);
 }
 
-signed __int16 BirdPortal::vPortalClipper_499430(__int16 bIgnoreClipping)
+s16 BirdPortal::vPortalClipper_499430(__int16 bIgnoreClipping)
 {
     if (bIgnoreClipping && field_28_state != PortalStates::ActivePortal_6)
     {
@@ -1068,7 +1068,7 @@ void BirdPortal::dtor_4980A0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-signed __int16 BirdPortal::IsScaredAway_4992A0()
+s16 BirdPortal::IsScaredAway_4992A0()
 {
     for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
@@ -1185,7 +1185,7 @@ void BirdPortal::CreateTerminators_497D10()
     }
 }
 
-signed __int16 BirdPortal::GetEvent_499A70()
+s16 BirdPortal::GetEvent_499A70()
 {
     for (int idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
     {

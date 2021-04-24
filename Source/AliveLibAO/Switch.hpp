@@ -13,7 +13,7 @@ struct Path_Switch : public Path_TLV
 {
     __int16 field_18_trigger_object;
     SwitchOp field_1A_trigger_object_action;
-    unsigned __int16 field_1C_scale;
+    u16 field_1C_scale;
     __int16 field_1E_on_sound;
     __int16 field_20_off_sound;
     __int16 field_22_sound_direction;

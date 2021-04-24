@@ -714,7 +714,7 @@ void ResourceManager::Pop_List_Item(ResourceHeapItem* pListItem)
 ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager::ResourceHeapItem* pItem, int size)
 {
     Header* pToSplit = Get_Header_455620(&pItem->field_0_ptr);
-    const unsigned int sizeForNewRes = pToSplit->field_0_size - size;
+    const u32 sizeForNewRes = pToSplit->field_0_size - size;
     if (sizeForNewRes >= sizeof(Header))
     {
         ResourceHeapItem* pNewListItem = ResourceManager::Push_List_Item();
@@ -795,7 +795,7 @@ EXPORT BYTE** CC ResourceManager::Allocate_New_Block_454FE0(DWORD sizeBytes, Blo
 {
     ResourceHeapItem* pListItem = sFirstLinkedListItem_50EE2C;
     ResourceHeapItem* pHeapMem = nullptr;
-    const unsigned int size = (sizeBytes + 3) & ~3u; // Rounding ??
+    const u32 size = (sizeBytes + 3) & ~3u; // Rounding ??
     Header* pHeaderToUse = nullptr;
     while (pListItem)
     {
@@ -1117,7 +1117,7 @@ void CC ResourceManager::Reclaim_Memory_455660(DWORD sizeToReclaim)
             }
             else
             {
-                unsigned int sizeToMove = 0;
+                u32 sizeToMove = 0;
                 if (pNextHeader->field_6_flags & ResourceHeaderFlags::eOnlyAHeader)
                 {
                     sizeToMove = sizeof(Header);

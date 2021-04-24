@@ -54,7 +54,7 @@ public:
     FP field_F4_drip_target_x;
     FP field_F8_drip_target_y;
     FP field_FC_ypos2;
-    unsigned __int16 field_100_chase_ticks;
+    u16 field_100_chase_ticks;
     __int16 field_102_padding;
 };
 ALIVE_ASSERT_SIZEOF(HoneySack, 0x104);

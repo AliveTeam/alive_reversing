@@ -59,7 +59,7 @@ const char* SND_HR_Err_To_String_DSound(HRESULT hr)
     return "";
 }
 
-signed int CC SND_CreateDS_DSound(unsigned int sampleRate, int bitsPerSample, int isStereo)
+signed int CC SND_CreateDS_DSound(u32 sampleRate, int bitsPerSample, int isStereo)
 {
     if (sDSound_BBC344)
     {
@@ -179,7 +179,7 @@ signed int CC SND_CreateDS_DSound(unsigned int sampleRate, int bitsPerSample, in
 }
 
 
-int CC SND_Clear_DSound(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
+int CC SND_Clear_DSound(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
 {
     if (!sDSound_BBC344)
     {
@@ -302,10 +302,10 @@ EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPer
     return -(sPrimarySoundBuffer_BBC388->SetFormat(&pWaveFormat) != 0);
 }
 
-signed int CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
+signed int CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, u32 sampleCount)
 {
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
-    const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
+    const u32 bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
 
     if (!sDSound_BBC344)
     {
@@ -313,7 +313,7 @@ signed int CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset,
         return -1;
     }
 
-    unsigned int *leftChannelBuffer;
+    u32 *leftChannelBuffer;
     int leftChannelSize;
     char * rightChannelBuffer;
     int rightChannelSize;
@@ -340,11 +340,11 @@ signed int CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset,
     {
         if (leftChannelBuffer)
         {
-            SND_4F00B0(leftChannelBuffer, (unsigned int)pSoundBuffer, (int)leftChannelSize);
+            SND_4F00B0(leftChannelBuffer, (u32)pSoundBuffer, (int)leftChannelSize);
         }
         if (rightChannelBuffer)
         {
-            SND_4F00B0((unsigned int *)rightChannelBuffer, (DWORD)pSoundBuffer + (unsigned int)leftChannelSize, rightChannelSize);
+            SND_4F00B0((u32 *)rightChannelBuffer, (DWORD)pSoundBuffer + (u32)leftChannelSize, rightChannelSize);
         }
     }
     else

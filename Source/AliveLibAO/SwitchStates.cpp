@@ -6,12 +6,12 @@ namespace AO {
 
 ALIVE_VAR(1, 0x505568, SwitchStates, sSwitchStates_505568, {});
 
-void SwitchStates_Set(unsigned __int16 idx, char value)
+void SwitchStates_Set(u16 idx, char value)
 {
     sSwitchStates_505568.mData[idx] = value;
 }
 
-short SwitchStates_Get(unsigned __int16 idx)
+short SwitchStates_Get(u16 idx)
 {
     if (idx == 0)
     {
@@ -26,7 +26,7 @@ short SwitchStates_Get(unsigned __int16 idx)
     return sSwitchStates_505568.mData[idx];
 }
 
-void SwitchStates_Add(unsigned __int16 idx, char value)
+void SwitchStates_Add(u16 idx, char value)
 {
     sSwitchStates_505568.mData[idx] += value;
 }
@@ -37,7 +37,7 @@ void SwitchStates_ClearAll()
     sSwitchStates_505568 = {};
 }
 
-EXPORT void CC SwitchStates_Do_Operation_436A10(signed __int16 idx, SwitchOp operation)
+EXPORT void CC SwitchStates_Do_Operation_436A10(s16 idx, SwitchOp operation)
 {
     if (idx >= 2)
     {

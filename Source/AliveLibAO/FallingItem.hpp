@@ -64,7 +64,7 @@ private:
 public:
     int field_10C_tlvInfo;
     State field_110_state;
-    unsigned __int16 field_112_id;
+    u16 field_112_id;
     __int16 field_114_num_items;
     __int16 field_116_num_items_remaining;
     __int16 field_118_delay_time;

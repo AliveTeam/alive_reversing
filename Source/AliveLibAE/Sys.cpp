@@ -336,7 +336,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
 
     case WM_INITMENUPOPUP:
         // TODO: Constants for wParam
-        if ((unsigned int)lParam >> 16)
+        if ((u32)lParam >> 16)
         {
             return -1;
         }
@@ -813,7 +813,7 @@ EXPORT char CC Sys_PumpMessages_4EE4F4()
     return 0;
 #else
     MSG msg = {};
-    unsigned int paintMessageCount = 0;
+    u32 paintMessageCount = 0;
     while (::PeekMessageA(&msg, 0, 0, 0, PM_REMOVE))
     {
         if (msg.message == WM_QUIT)

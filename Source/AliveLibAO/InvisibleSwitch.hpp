@@ -11,7 +11,7 @@ struct Path_InvisibleSwitch : public Path_TLV
 {
     __int16 field_18_id;
     SwitchOp field_1A_action;
-    unsigned __int16 field_1C_delay;
+    u16 field_1C_delay;
     __int16 field_1E_set_off_alarm;
     __int16 field_20_scale;
     __int16 field_22_pad;
@@ -44,7 +44,7 @@ public:
     int field_1C_delay;
     PSX_Point field_20_top_left;
     PSX_Point field_24_bottom_right;
-    unsigned __int16 field_28_state;
+    u16 field_28_state;
     __int16 field_2A_set_off_alarm;
     __int16 field_2C_scale;
     __int16 field_2E_pad;

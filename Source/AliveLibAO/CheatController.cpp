@@ -148,7 +148,7 @@ void CheatController::VUpdate()
 
 void CheatController::VUpdate_40FC40()
 {
-    const unsigned __int16 held = Input().Held();
+    const u16 held = Input().Held();
     if (held)
     {
         // Only do cheat code check if shift is held

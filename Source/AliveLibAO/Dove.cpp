@@ -273,7 +273,7 @@ BaseGameObject* Dove::VDestructor(signed int flags)
     return Vdtor_40F970(flags);
 }
 
-Dove* Dove::Vdtor_40F970(unsigned int flags)
+Dove* Dove::Vdtor_40F970(u32 flags)
 {
     dtor_40F1B0();
     if (flags & 1)

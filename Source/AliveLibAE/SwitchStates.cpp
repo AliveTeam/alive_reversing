@@ -6,7 +6,7 @@ ALIVE_VAR(1, 0x5c1a28, SwitchStates, sSwitchStates_5C1A28, {});
 
 void SwitchStates_ForceLink() {}
 
-EXPORT void CC SwitchStates_SetRange_465FA0(unsigned __int16 start, unsigned __int16 end)
+EXPORT void CC SwitchStates_SetRange_465FA0(u16 start, u16 end)
 {
     if (start <= end)
     {
@@ -14,12 +14,12 @@ EXPORT void CC SwitchStates_SetRange_465FA0(unsigned __int16 start, unsigned __i
     }
 }
 
-EXPORT void CC SwitchStates_Set_465FF0(unsigned __int16 idx, char value)
+EXPORT void CC SwitchStates_Set_465FF0(u16 idx, char value)
 {
     sSwitchStates_5C1A28.mData[idx] = value;
 }
 
-EXPORT int CC SwitchStates_Get_466020(unsigned __int16 idx)
+EXPORT int CC SwitchStates_Get_466020(u16 idx)
 {
     if (idx == 0)
     {
@@ -34,12 +34,12 @@ EXPORT int CC SwitchStates_Get_466020(unsigned __int16 idx)
     return sSwitchStates_5C1A28.mData[idx];
 }
 
-EXPORT void CC SwitchStates_Add_466060(unsigned __int16 idx, char value)
+EXPORT void CC SwitchStates_Add_466060(u16 idx, char value)
 {
     sSwitchStates_5C1A28.mData[idx] += value;
 }
 
-EXPORT void CC SwitchStates_Do_Operation_465F00(signed __int16 idx, SwitchOp operation)
+EXPORT void CC SwitchStates_Do_Operation_465F00(s16 idx, SwitchOp operation)
 {
     if (idx >= 2)
     {

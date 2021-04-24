@@ -94,7 +94,7 @@ ALIVE_VAR(1, 0xBB4A24, short, sbDebugFontLoaded_BB4A24, 0);
 ALIVE_VAR(1, 0xBB47C8, int, sDebugTextIdx_BB47C8, 0);
 
 
-EXPORT int CC DebugFont_Open_4F8AB0(BYTE xMargin, BYTE yMargin, BYTE displayWidth, BYTE displayHeight, BYTE bgColour, unsigned int maxLenChars)
+EXPORT int CC DebugFont_Open_4F8AB0(BYTE xMargin, BYTE yMargin, BYTE displayWidth, BYTE displayHeight, BYTE bgColour, u32 maxLenChars)
 {
     const int idx = sFntCount_BD0F28;
     if (sFntCount_BD0F28 == 4)

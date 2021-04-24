@@ -171,4 +171,4 @@ enum class SligSpeak : signed char
 };
 
 EXPORT void CC Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, __int16 defaultVol, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj);
-EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, __int16 defaultVol, const SfxDefinition* pSfx, __int16* pLeftVol, __int16* pRightVol);
+EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, __int16 defaultVol, const SfxDefinition* pSfx, __int16* pLeftVol, __int16* pRightVol);

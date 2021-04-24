@@ -57,7 +57,7 @@ BaseGameObject* Rope::VDestructor(signed int flags)
     return Vdtor_458B60(flags);
 }
 
-Rope* Rope::ctor_458520(unsigned __int16 left, __int16 top, unsigned __int16 bottom, FP scale)
+Rope* Rope::ctor_458520(u16 left, __int16 top, u16 bottom, FP scale)
 {
     ctor_417C10();
     SetVTable(this, 0x4BC1E0);

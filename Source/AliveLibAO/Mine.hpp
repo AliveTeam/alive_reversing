@@ -55,7 +55,7 @@ public:
 
     EXPORT __int16 IsColliding_43AA60();
 
-    unsigned __int16 field_10C_detonating;
+    u16 field_10C_detonating;
     __int16 field_10E_disabled_resources;
     int field_110_tlv;
     int field_114_gnframe;

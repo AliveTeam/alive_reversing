@@ -493,7 +493,7 @@ void MineCar::Stop_46E570()
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 }
 
-void MineCar::Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs turnDirection, char bChangeDirection)
+void MineCar::Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs turnDirection, char bChangeDirection)
 {
     field_20_animation.Set_Animation_Data_409C80(frameTabeOffset, nullptr);
     field_11C_state = MineCarStates::eState_2_Moving;
@@ -1004,8 +1004,8 @@ void MineCar::State_1_ParkedWithAbe()
 
     if ((sInputObject_5BD4E0.isPressed(inputKey) ||
         (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
-        (unsigned __int16) field_1D6_continue_move_input == inputKey &&
-        field_1D4_previous_input != (unsigned __int16) inputKey &&
+        (u16) field_1D6_continue_move_input == inputKey &&
+        field_1D4_previous_input != (u16) inputKey &&
         field_1BC_turn_direction != MineCarDirs::eUp_3 &&
         field_1BC_turn_direction != MineCarDirs::eDown_0))
         && !(WallHit_408750(mineCarHeight * FP_FromDouble(0.5), mineCarWidthAdjusted + FP_FromInteger(1)) &&
@@ -1047,8 +1047,8 @@ void MineCar::State_1_ParkedWithAbe()
 
     if ((sInputObject_5BD4E0.isPressed(inputKey) ||
         (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
-        (unsigned __int16) field_1D6_continue_move_input == inputKey &&
-        field_1D4_previous_input != (unsigned __int16) inputKey &&
+        (u16) field_1D6_continue_move_input == inputKey &&
+        field_1D4_previous_input != (u16) inputKey &&
         field_1BC_turn_direction != MineCarDirs::eUp_3 &&
         field_1BC_turn_direction != MineCarDirs::eDown_0))
         && !(WallHit_408750(mineCarHeight * FP_FromDouble(0.5), -mineCarWidthAdjusted)))
@@ -1150,8 +1150,8 @@ void MineCar::HandleUpDown()
     InputCommands::Enum inputKey = sInputKey_Up_5550D8;
 
     if (sInputObject_5BD4E0.isPressed(inputKey) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
-        (unsigned __int16) field_1D6_continue_move_input == inputKey &&
-        field_1D4_previous_input != (unsigned __int16) sInputKey_Down_5550DC &&
+        (u16) field_1D6_continue_move_input == inputKey &&
+        field_1D4_previous_input != (u16) sInputKey_Down_5550DC &&
         field_1BC_turn_direction != MineCarDirs::eLeft_2 &&
         field_1BC_turn_direction != MineCarDirs::eRight_1 &&
         !IsBlocked_46F4A0(0, 0)))
@@ -1185,8 +1185,8 @@ void MineCar::HandleUpDown()
     inputKey = sInputKey_Down_5550DC;
 
     if ((sInputObject_5BD4E0.isPressed(inputKey) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
-        (unsigned __int16) field_1D6_continue_move_input == inputKey &&
-        field_1D4_previous_input != (unsigned __int16) sInputKey_Up_5550D8 &&
+        (u16) field_1D6_continue_move_input == inputKey &&
+        field_1D4_previous_input != (u16) sInputKey_Up_5550D8 &&
         field_1BC_turn_direction != MineCarDirs::eLeft_2 &&
         field_1BC_turn_direction != MineCarDirs::eRight_1)) &&
         !IsBlocked_46F4A0(3, 0))

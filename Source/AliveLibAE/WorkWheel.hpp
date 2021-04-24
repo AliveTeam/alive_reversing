@@ -62,7 +62,7 @@ private:
     __int16 field_FA_padding;
     WheelStates field_FC_state;
     __int16 field_FE_activation_time;
-    unsigned __int16 field_100_on_counter;
+    u16 field_100_on_counter;
     __int16 field_102_off_time;
     Choice_short field_104_turn_off_when_stopped;
 };

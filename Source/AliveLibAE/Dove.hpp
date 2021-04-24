@@ -18,7 +18,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x18);
 class Dove : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Dove* ctor_41F430(int frameTableOffset, int maxW, unsigned __int16 maxH, int resourceID, int tlvInfo, FP scale);
+    EXPORT Dove* ctor_41F430(int frameTableOffset, int maxW, u16 maxH, int resourceID, int tlvInfo, FP scale);
 
     EXPORT Dove* ctor_41F660(int frameTableOffset, int maxW, __int16 maxH, int resourceID, FP xpos, FP ypos, FP scale);
     virtual BaseGameObject* VDestructor(signed int flags) override;

@@ -102,12 +102,12 @@ void SecurityOrb::VScreenChanged_4373A0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-signed __int16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
+s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_437280(pFrom);
 }
 
-signed __int16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
+s16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {

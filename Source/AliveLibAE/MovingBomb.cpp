@@ -282,7 +282,7 @@ void MovingBomb::vOnThrowableHit_470800(BaseGameObject* /*pObj*/)
     }
 }
 
-signed __int16 MovingBomb::HitObject_470830()
+s16 MovingBomb::HitObject_470830()
 {
     PSX_RECT bRect = {};
     vGetBoundingRect_424FD0(&bRect, 1);

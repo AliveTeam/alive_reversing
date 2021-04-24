@@ -9,7 +9,7 @@ namespace AO {
 
 struct Path_BackgroundAnimation : public Path_TLV
 {
-    unsigned __int16 field_18_animation_id;
+    u16 field_18_animation_id;
     __int16 field_1A_is_semi_trans;
     TPageAbr field_1C_semi_trans_mode;
     // pad

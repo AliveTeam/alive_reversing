@@ -24,11 +24,11 @@ class ObjectIds
 public:
     void Destructor();
     EXPORT static void dtor_43EC90();
-    EXPORT void ctor_449AE0(unsigned int size);
-    EXPORT unsigned int Id_To_Buffer_Size_Range_449BA0(TObjectId_KeyType id);
+    EXPORT void ctor_449AE0(u32 size);
+    EXPORT u32 Id_To_Buffer_Size_Range_449BA0(TObjectId_KeyType id);
     EXPORT ObjectId_Record* Find_By_Id_449BC0(TObjectId_KeyType idToFind, ObjectId_Record** ppLastMatch);
     EXPORT void Insert_449C10(TObjectId_KeyType objCount, BaseGameObject* pGameObj);
-    EXPORT signed __int16 Remove_449C60(TObjectId_KeyType idToRemove);
+    EXPORT s16 Remove_449C60(TObjectId_KeyType idToRemove);
 
     // Use the "checked" Find() so the types are verified where possible (i.e its to a specific single derived type
     EXPORT BaseGameObject* Find_449CF0(TObjectId_KeyType idToFind);
@@ -36,7 +36,7 @@ public:
     BaseGameObject* Find(TObjectId_KeyType idToFind, AETypes type);
 
 private:
-    unsigned int field_0_buffer_size;
+    u32 field_0_buffer_size;
     ObjectId_Record** field_4_pBuffer;
 };
 ALIVE_ASSERT_SIZEOF(ObjectIds, 0x8);

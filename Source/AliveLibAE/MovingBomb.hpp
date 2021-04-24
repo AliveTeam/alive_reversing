@@ -6,13 +6,13 @@
 
 struct Path_MovingBomb : public Path_TLV
 {
-    unsigned __int16 field_10_speed;
+    u16 field_10_speed;
     __int16 field_12_id;
     Choice_short field_14_bStart_type_triggered_by_alarm;
     Scale_short field_16_scale;
     __int16 field_18_max_rise;
     __int16 field_1A_disable_resources;
-    unsigned __int16 field_1C_start_speed;
+    u16 field_1C_start_speed;
     __int16 field_1E_persist_offscreen;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBomb, 0x20);
@@ -44,7 +44,7 @@ private:
     EXPORT void FollowLine_470950();
     EXPORT __int16 vTakeDamage_470990(BaseGameObject* pFrom);
     EXPORT void vOnThrowableHit_470800(BaseGameObject* pObj);
-    EXPORT signed __int16 HitObject_470830();
+    EXPORT s16 HitObject_470830();
     EXPORT void vUpdate_4701E0();
 
 private:

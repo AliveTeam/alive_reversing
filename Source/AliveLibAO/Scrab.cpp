@@ -2078,7 +2078,7 @@ void Scrab::State_24_FeedToGulp_45FC30()
     }
 }
 
-const unsigned int sFeedVelTable_4BC8D0[12] =
+const u32 sFeedVelTable_4BC8D0[12] =
 {
   380127,
   526666,

@@ -8,7 +8,7 @@
 struct Path_GasCountDown : public Path_TLV
 {
     __int16 field_10_start_trigger_id;
-    unsigned __int16 field_12_gas_countdown_timer;
+    u16 field_12_gas_countdown_timer;
     __int16 field_14_stop_trigger_id;
     __int16 field_16_pad;
 };
@@ -46,7 +46,7 @@ private:
     __int16 field_70_start_trigger_id;
     __int16 field_72_stop_trigger_id;
     __int16 field_74_time_left;
-    unsigned __int16 field_76_gas_countdown_timer;
+    u16 field_76_gas_countdown_timer;
 };
 ALIVE_ASSERT_SIZEOF(GasCountDown, 0x78);
 

@@ -43,7 +43,7 @@ private:
 
 public:
     __int16 field_10C_armed;
-    unsigned __int16 field_10E_explode_timeout;
+    u16 field_10E_explode_timeout;
     int field_110_tlvInfo;
     int field_114_timer;
     Animation field_118_anim;

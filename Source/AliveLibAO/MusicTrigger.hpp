@@ -24,7 +24,7 @@ public:
 
     EXPORT MusicTrigger* ctor_4439F0(Path_MusicTrigger* pTlv, int tlvInfo);
 
-    EXPORT void Init_443AD0(__int16 type, __int16 enabledBy, unsigned __int16 id, __int16 delay);
+    EXPORT void Init_443AD0(__int16 type, __int16 enabledBy, u16 id, __int16 delay);
 
     EXPORT BaseGameObject* dtor_443C20();
 
@@ -45,7 +45,7 @@ public:
     __int16 field_16;
     int field_18_counter;
     MusicController::MusicTypes field_1C_music_type;
-    unsigned __int16 field_1E_id;
+    u16 field_1E_id;
 };
 ALIVE_ASSERT_SIZEOF(MusicTrigger, 0x20);
 

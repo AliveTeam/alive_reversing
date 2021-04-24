@@ -14,8 +14,8 @@ struct Path_GlukkonSwitch : public Path_TLV
     Scale field_10_scale;
     __int16 field_12_ok_id;
     __int16 field_14_fail_id;
-    unsigned __int16 field_16_xpos;
-    unsigned __int16 field_18_ypos;
+    u16 field_16_xpos;
+    u16 field_18_ypos;
     __int16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GlukkonSwitch, 0x1C);

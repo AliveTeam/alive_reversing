@@ -8,7 +8,7 @@ void CheatController_ForceLink();
 
 struct CheatEntry
 {
-    unsigned int field_0_level_mask;
+    u32 field_0_level_mask;
     int field_4_cheat_code_length;
     const InputCommands::Enum *field_8_cheat_code_ary;
     int field_C_success_idx;

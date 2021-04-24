@@ -43,7 +43,7 @@ namespace AutoSplitterData
         AO::LevelIds* levelId;      // 1
         __int16* pathId;            // 2
         __int16* camId;             // 3
-        unsigned int* gnFrame;      // 4
+        u32* gnFrame;      // 4
         AO::Abe** pAbe;             // 5
         int abeYOffSet;             // 6
         short* isGameRunning;       // 7
@@ -59,7 +59,7 @@ namespace AutoSplitterData
         __int16* pathId;            // 2
         __int16* camId;             // 3
         unsigned  __int16* fmvId;   // 4
-        unsigned int* gnFrame;      // 5
+        u32* gnFrame;      // 5
         Abe** pAbe;                 // 6
         int abeYOffSet;             // 7
         char* isPaused;             // 8

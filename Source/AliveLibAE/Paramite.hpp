@@ -73,7 +73,7 @@ struct Path_Paramite : public Path_TLV
     __int16 field_14_alone_wait_before_chase_timer;
     __int16 field_16_surprise_web_delay_timer;
     __int16 field_18_meat_eating_time;
-    unsigned __int16 field_1A_group_wait_before_chase_timer;
+    u16 field_1A_group_wait_before_chase_timer;
     __int16 field_1C_disabled_resources;
     __int16 field_1E_id;
     __int16 field_20_hiss_before_attack;

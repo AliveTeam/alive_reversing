@@ -9,7 +9,7 @@ namespace AO {
 struct Path_Glukkon : public Path_TLV
 {
     __int16 field_18_scale_percent;
-    unsigned __int16 field_1A_pal_id;
+    u16 field_1A_pal_id;
     __int16 field_1C_target_id;
     __int16 field_1E_voice_adjust;
 };

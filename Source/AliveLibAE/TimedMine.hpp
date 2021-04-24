@@ -51,10 +51,10 @@ public:
     WORD field_118_armed;
     WORD field_11A_explode_timeout;
     DWORD field_11C_tlv;
-    unsigned int field_120_gnframe;
+    u32 field_120_gnframe;
     Animation field_124_animation;
-    unsigned int field_1BC_gnframe_2;
-    unsigned int field_1C0_detonation_timer;
+    u32 field_1BC_gnframe_2;
+    u32 field_1C0_detonation_timer;
     BitField32<TimedMine_Flags_1C4> field_1C4_flags;
 };
 ALIVE_ASSERT_SIZEOF(TimedMine, 0x1C8);
