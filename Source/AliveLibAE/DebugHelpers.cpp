@@ -136,12 +136,12 @@ public:
     {
         /*struct MainMenuButton
         {
-        __int16 field_0_type;
-        __int16 field_2_x;
-        __int16 field_4_y;
-        __int16 field_6;
-        __int16 field_8;
-        __int16 field_A;
+        s16 field_0_type;
+        s16 field_2_x;
+        s16 field_4_y;
+        s16 field_6;
+        s16 field_8;
+        s16 field_A;
         };
 
         auto list = reinterpret_cast<MainMenuButton *>(0x5610B8);
@@ -635,7 +635,7 @@ void Command_Menu(const std::vector<std::string>& args)
 
 void Command_Midi1(const std::vector<std::string>& args)
 {
-    const unsigned __int8 arg1 = static_cast<unsigned __int8>(std::stoi(args[0]));
+    const u8 arg1 = static_cast<u8>(std::stoi(args[0]));
 
     SFX_Play_46FA90(arg1, 0);
 
@@ -696,7 +696,7 @@ void Command_SetState(const std::vector<std::string>& args)
         return;
     }
 
-    __int16  state = static_cast<__int16 >(std::stoi(args[0]));
+    s16  state = static_cast<s16 >(std::stoi(args[0]));
     Abe* pAbe = static_cast<Abe*>(sControlledCharacter_5C1B8C);
     auto resource = pAbe->StateToAnimResource_44AAB0(state);
 

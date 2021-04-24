@@ -170,31 +170,31 @@ extern const InputCommands::Enum sInputKey_GameSpeak7_555114;
 
 struct Path_ContinuePoint : public Path_TLV
 {
-    enum class Scale : __int16
+    enum class Scale : s16
     {
         eNone_0 = 0,
         eHalf_1 = 1,
         eFull_2 = 2,
     };
     Scale field_10_scale;
-    __int16 field_12_save_file_id;
+    s16 field_12_save_file_id;
 };
 
 
 struct Path_ResetSwitchRange : public Path_TLV
 {
-    __int16 field_10_set_switches;
-    __int16 field_12_start_id;
-    __int16 field_14_end_id;
-    __int16 field_16_skip_id;
-    __int16 field_18_free_path_res;
-    __int16 field_1A_path_to_free_id;
-    __int16 field_1C_bEnabled;
-    __int16 field_1E_pad;
+    s16 field_10_set_switches;
+    s16 field_12_start_id;
+    s16 field_14_end_id;
+    s16 field_16_skip_id;
+    s16 field_18_free_path_res;
+    s16 field_1A_path_to_free_id;
+    s16 field_1C_bEnabled;
+    s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetSwitchRange, 0x20);
 
-enum class MudSounds : __int16
+enum class MudSounds : s16
 {
     eNone = -1,
     eEmpty_0 = 0,
@@ -282,7 +282,7 @@ enum class DoorStates : u16
     eAbeComesOut_6 = 6
 };
 
-enum class PortalSubStates : __int16
+enum class PortalSubStates : s16
 {
     eJumpingInsidePortal_0 = 0,
     eSetNewActiveCamera_1 = 1,
@@ -307,7 +307,7 @@ union AllInternalStates
     u16 raw;
 };
 
-enum class Mud_Emotion : __int16;
+enum class Mud_Emotion : s16;
 
 struct Abe_1BC_20_sub_object
 {
@@ -319,16 +319,16 @@ struct Abe_1BC_20_sub_object
     Mud_Emotion field_12_mood;
     int field_14_rolling_motion_timer;
     MudSounds field_18_say;
-    __int16 field_1A_padding;
+    s16 field_1A_padding;
 };
 ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
-EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, BaseAliveGameObject* pHero);
+EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, s16 volume, int pitch, BaseAliveGameObject* pHero);
 
 struct Abe_SaveState
 {
     AETypes field_0_id;
-    __int16 field_2_padding;
+    s16 field_2_padding;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_c_velx;
@@ -358,7 +358,7 @@ struct Abe_SaveState
     WORD field_42_bInvisible;
     char field_44_is_abe_controlled;
     char field_45_padding;
-    __int16 field_46_padding;
+    s16 field_46_padding;
     FP field_48_x_vel_slow_by;
     DWORD field_4C_unused;
     DWORD field_50_state;
@@ -376,7 +376,7 @@ struct Abe_SaveState
     WORD prev_held;
     WORD released_buttons;
     WORD field_74_knockdown_motion;
-    __int16 field_76_padding;
+    s16 field_76_padding;
     DWORD field_78_rolling_motion_timer;
     DWORD fade_obj_id;
     DWORD circular_fade_id;
@@ -391,7 +391,7 @@ struct Abe_SaveState
     WORD field_A2_invisibility_id;
     char field_A4_cam_idx;
     char field_A5_padding;
-    __int16 field_A6_padding;
+    s16 field_A6_padding;
     TlvTypes32 hand_stone_type;
     WORD fmv_id;
     WORD cam_id_1;
@@ -411,7 +411,7 @@ struct Abe_SaveState
     char field_ca_throw_direction;
     char field_CB_padding;
     WORD field_CC_portal_sub_state;
-    __int16 field_CE_padding;
+    s16 field_CE_padding;
     DWORD bird_portal_id;
     enum Flags_D4
     {
@@ -457,9 +457,9 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
-    virtual BirdPortal* VIntoBirdPortal_408FD0(__int16 gridBlocks) override;
+    virtual BirdPortal* VIntoBirdPortal_408FD0(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
 
     void DoRunJump();
@@ -470,13 +470,13 @@ public:
     EXPORT void vRender_44B580(PrimHeader** ppOt);
     EXPORT void vScreenChanged_44D240();
     EXPORT int vGetSaveState_457110(BYTE* pSaveBuffer);
-    EXPORT __int16 vTakeDamage_44BB50(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_44BB50(BaseGameObject* pFrom);
     EXPORT void vOn_TLV_Collision_44B5D0(Path_TLV* pTlv);
-    EXPORT BirdPortal* vIntoBirdPortal_44E970(__int16 gridBlocks);
+    EXPORT BirdPortal* vIntoBirdPortal_44E970(s16 gridBlocks);
     EXPORT void vOnTrapDoorOpen_45A570();
 
     // Non virtuals
-    EXPORT void ToKnockback_44E700(__int16 bKnockbackSound, __int16 bDelayedAnger);
+    EXPORT void ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger);
     EXPORT BaseAliveGameObject* FindObjectToPossess_44B7B0();
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
@@ -627,24 +627,24 @@ public:
     EXPORT void ToIdle_44E6B0();
     EXPORT void PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch);
     EXPORT void Get_Shrykull_Resources_45AA20();
-    EXPORT __int16 ToLeftRightMovement_44E340();
+    EXPORT s16 ToLeftRightMovement_44E340();
     EXPORT void TryHoist_44ED30();
     EXPORT static void CC Create_Fart_421D20();
-    EXPORT __int16 TryEnterMineCar_4569E0();
+    EXPORT s16 TryEnterMineCar_4569E0();
     EXPORT int NearDoorIsOpen_44EE10();
-    EXPORT __int16 HandleDoAction_455BD0();
+    EXPORT s16 HandleDoAction_455BD0();
     EXPORT void PushWall_44E890();
     EXPORT void MoveForward_44E9A0();
-    EXPORT __int16 CrouchingGameSpeak_453E10();
+    EXPORT s16 CrouchingGameSpeak_453E10();
     EXPORT BOOL Is_Celling_Above_44E8D0();
     EXPORT void MoveWithVelocity_450FA0(FP velocityX);
-    EXPORT __int16 RunTryEnterDoor_451220();
-    EXPORT __int16 RunTryEnterWell_451060();
+    EXPORT s16 RunTryEnterDoor_451220();
+    EXPORT s16 RunTryEnterWell_451060();
     EXPORT void ToDieFinal_458910();
     EXPORT short DoGameSpeak_45AB70(int input);
-    EXPORT __int16 CantBeDamaged_44BAB0();
+    EXPORT s16 CantBeDamaged_44BAB0();
     EXPORT void FallOnBombs_44EC10();
-    EXPORT __int16 ForceDownIfHoisting_44BA30();
+    EXPORT s16 ForceDownIfHoisting_44BA30();
     EXPORT void BulletDamage_44C980(Bullet* pObj);
     EXPORT void GiveControlBackToMe_44BA10();
     EXPORT PullRingRope* GetPullRope_44D120();
@@ -655,19 +655,19 @@ public:
     EXPORT short MoveLiftUpOrDown_45A7E0(FP yVelocity);
 
 
-    EXPORT __int16 GetEvilFart_4585F0(__int16 bDontLoad);
+    EXPORT s16 GetEvilFart_4585F0(s16 bDontLoad);
 
-    EXPORT void ChangeChantState_45BB90(__int16 bLaughAtChantEnd);
+    EXPORT void ChangeChantState_45BB90(s16 bLaughAtChantEnd);
 
     EXPORT void SetAsDead_459430();
 
-    EXPORT void ExitShrykull_45A9D0(__int16 bResetRingTimer);
+    EXPORT void ExitShrykull_45A9D0(s16 bResetRingTimer);
 
 public:
     int field_118_prev_held;
     int field_11C_released_buttons;
     AllInternalStates field_120_state;
-    __int16 field_122_knockdown_motion;
+    s16 field_122_knockdown_motion;
     int field_124_timer;
     Abe_1BC_20_sub_object field_128;
     int field_144_auto_say_timer;
@@ -680,34 +680,34 @@ public:
     int field_160_slappable_or_pick_item_id;
     int field_164_wheel_id;
     int field_168_ring_pulse_timer;
-    __int16 field_16C_bHaveShrykull;
-    __int16 field_16E_bHaveInvisiblity;
+    s16 field_16C_bHaveShrykull;
+    s16 field_16E_bHaveInvisiblity;
     int field_170_invisible_timer;
-    __int16 field_174_unused;
-    __int16 field_176_invisibility_id;
+    s16 field_174_unused;
+    s16 field_176_invisibility_id;
     int field_178_invisible_effect_id;
     char field_17C_cam_idx;
     char field_17D_padding;
     char field_17E_padding;
     char field_17F_padding;
     TlvTypes32 field_180_hand_stone_type;
-    __int16 field_184_fmv_id;
-    __int16 field_186_to_camera_id[3];
-    __int16 field_18C_unused;
-    __int16 field_18E_unused;
-    __int16 field_190_unused;
-    __int16 field_192_unused;
-    __int16 field_194_unused;
-    __int16 field_196_unused;
-    __int16 field_198_has_evil_fart;
+    s16 field_184_fmv_id;
+    s16 field_186_to_camera_id[3];
+    s16 field_18C_unused;
+    s16 field_18E_unused;
+    s16 field_190_unused;
+    s16 field_192_unused;
+    s16 field_194_unused;
+    s16 field_196_unused;
+    s16 field_198_has_evil_fart;
     LevelIds field_19A_to_level;
-    __int16 field_19C_to_path;
-    __int16 field_19E_to_camera;
-    __int16 field_1A0_door_id;
+    s16 field_19C_to_path;
+    s16 field_19E_to_camera;
+    s16 field_1A0_door_id;
     char field_1A2_throwable_count;
     char field_1A3_throw_direction;
     PortalSubStates field_1A4_portal_sub_state;
-    __int16 field_1A6_padding;
+    s16 field_1A6_padding;
     int field_1A8_portal_id;
 
     enum Flags_1AC
@@ -738,7 +738,7 @@ public:
     };
     BitField16<Flags_1AE> field_1AE_flags;
 
-    __int16 field_1B0_save_num;
+    s16 field_1B0_save_num;
 
     int field_1B4_padding;
     int field_1B8_padding;

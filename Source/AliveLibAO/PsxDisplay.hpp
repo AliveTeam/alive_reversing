@@ -33,14 +33,14 @@ inline T PCToPsxX(T x, int addX = 0)
 
 struct PSX_Display_Params
 {
-    __int16 field_0_width;
-    __int16 field_2_height;
-    __int16 field_4_bpp;
-    __int16 field_6_max_buffers;
-    __int16 field_8_buffer_size;
-    __int16 field_A_k32;
-    __int16 field_C_k1;
-    __int16 field_E;
+    s16 field_0_width;
+    s16 field_2_height;
+    s16 field_4_bpp;
+    s16 field_6_max_buffers;
+    s16 field_8_buffer_size;
+    s16 field_A_k32;
+    s16 field_C_k1;
+    s16 field_E;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Display_Params, 0x10);
 
@@ -66,8 +66,8 @@ public:
 
     u16 field_0_width;
     u16 field_2_height;
-    __int16 field_4_bpp;
-    __int16 field_6_max_buffers;
+    s16 field_4_bpp;
+    s16 field_6_max_buffers;
     u16 field_8_buffer_size;
     u16 field_A_buffer_index;
     PSX_Display_Buffer field_C_drawEnv[2];

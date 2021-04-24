@@ -192,12 +192,12 @@ void SecurityClaw::VScreenChange_4196F0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-__int16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
+s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_419520(pFrom);
 }
 
-__int16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
+s16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
 {
     if (!field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {

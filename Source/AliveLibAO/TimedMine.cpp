@@ -149,12 +149,12 @@ void TimedMine::VScreenChanged_408DD0()
     }
 }
 
-__int16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
+s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_408B90(pFrom);
 }
 
-__int16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
+s16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {

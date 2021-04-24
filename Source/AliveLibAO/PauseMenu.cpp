@@ -674,7 +674,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, short selected
 {
     for (short entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
     {
-        __int16 colourOffset;
+        s16 colourOffset;
         if (entryId == selectedEntryId && (field_126_page != 1 || field_132))
         {
             colourOffset = field_11E;
@@ -701,7 +701,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, short selected
         s16 clampedFontWidth;
         if (entry[entryId].field_B == 1)
         {
-            __int16 font_width_2 = static_cast<short>(field_E4_font.MeasureWidth_41C2B0(formattedString));
+            s16 font_width_2 = static_cast<short>(field_E4_font.MeasureWidth_41C2B0(formattedString));
             clampedFontWidth = font_width_2 >= 608 ? 16 : (entry[entryId].field_0_x - font_width_2 / 2);
         }
         else

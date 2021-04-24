@@ -234,7 +234,7 @@ PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, int /*idx*/)
     return pRect;
 }
 
-const __int16 word_563A8C[10] = { 0, 1, -3, 2, -4, 4, -6, 4, 0, 0 };
+const s16 word_563A8C[10] = { 0, 1, -3, 2, -4, 4, -6, 4, 0, 0 };
 
 void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
 {
@@ -252,7 +252,7 @@ void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
     field_20_animation.vRender_40B820(640, 240, ppOt, 0, 0);
 
     int idx = 0;
-    __int16 render_ypos = field_FA_bottom;
+    s16 render_ypos = field_FA_bottom;
     while (render_ypos > field_F8_top)
     {
         short r = field_D0_r;

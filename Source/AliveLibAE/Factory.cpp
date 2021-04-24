@@ -572,7 +572,7 @@ static CompileTimeResourceList<4> kResources_5632BC(
     { ResourceManager::Resource_Animation, 360 }
 });
 
-static void LoadWalkingSligResources(__int16 disabledResources, LoadMode loadMode)
+static void LoadWalkingSligResources(s16 disabledResources, LoadMode loadMode)
 {
     gMap_5C3030.LoadResource_4DBE00("SLGLEVER.BAN", ResourceManager::Resource_Animation, 419, loadMode, disabledResources & 1);
     gMap_5C3030.LoadResource_4DBE00("SLGLIFT.BAN", ResourceManager::Resource_Animation, 420, loadMode, disabledResources & 2);
@@ -658,7 +658,7 @@ EXPORT void CC Factory_Null_4D69E0(Path_TLV* , Path*, TlvItemInfoUnion, LoadMode
 EXPORT void CC Factory_SecurityOrb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     Path_SecurityOrb* pSecurityOrbTlv = static_cast<Path_SecurityOrb*>(pTlv);
-    const __int16 disabledResources = pSecurityOrbTlv->field_12_disabled_resources;
+    const s16 disabledResources = pSecurityOrbTlv->field_12_disabled_resources;
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
     {
         gMap_5C3030.LoadResource_4DBE00("MAIMORB.BAN", ResourceManager::Resource_Animation, ResourceID::kMaimGameResID, loadMode);

@@ -8,8 +8,8 @@ namespace AO {
 
 struct Path_FlintLockFire : public Path_TLV
 {
-    __int16 field_18_scale;
-    __int16 field_1A_id;
+    s16 field_18_scale;
+    s16 field_1A_id;
 };
 ALIVE_ASSERT_SIZEOF(Path_FlintLockFire, 0x1C);
 
@@ -41,14 +41,14 @@ public:
     EXPORT void VRender_41B0F0(PrimHeader** ppOt);
 
     int field_D4_padding[4];
-    enum class States : __int16
+    enum class States : s16
     {
         eDisabled_0 = 0,
         eActivating_1 = 1,
         eActivated_2 = 2
     };
     States field_E4_state;
-    __int16 field_E6_switch_id;
+    s16 field_E6_switch_id;
     int field_E8_tlvInfo;
     int field_EC_fire_sound;
     Animation field_F0_anim;

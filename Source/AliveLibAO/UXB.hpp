@@ -7,7 +7,7 @@
 
 namespace AO {
 
-enum class UXB_State : __int16
+enum class UXB_State : s16
 {
     eArmed_0 = 0,
     eDisarmed_1 = 1,
@@ -15,8 +15,8 @@ enum class UXB_State : __int16
 
 struct Path_UXB : public Path_TLV
 {
-    __int16 field_18_num_patterns;
-    __int16 field_1A_pattern;
+    s16 field_18_num_patterns;
+    s16 field_1A_pattern;
     Scale_short field_1C_scale;
     UXB_State field_1E_state;
     int field_20_disabled_resources;
@@ -40,9 +40,9 @@ public:
 
     EXPORT void VScreenChanged_489BD0();
 
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT __int16 VTakeDamage_489AB0(BaseGameObject* pFrom);
+    EXPORT s16 VTakeDamage_489AB0(BaseGameObject* pFrom);
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
@@ -56,25 +56,25 @@ public:
 
     EXPORT void VUpdate_489380();
 
-    EXPORT __int16 IsColliding_489900();
+    EXPORT s16 IsColliding_489900();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT void VRender_4896C0(PrimHeader** ppOt);
 
-    __int16 field_10C_state;
-    __int16 field_10E_starting_state;
-    __int16 field_110_disabled_resources;
-    __int16 field_112;
+    s16 field_10C_state;
+    s16 field_10E_starting_state;
+    s16 field_110_disabled_resources;
+    s16 field_112;
     int field_114_tlvInfo;
     int field_118_next_state_frame;
     Animation field_11C_anim;
-    __int16 field_1B4_pattern_length;
-    __int16 field_1B6_pattern_index;
-    __int16 field_1B8_pattern;
-    __int16 field_1BA_red_blink_count;
-    __int16 field_1BC_flags;
-    __int16 field_1BE;
+    s16 field_1B4_pattern_length;
+    s16 field_1B6_pattern_index;
+    s16 field_1B8_pattern;
+    s16 field_1BA_red_blink_count;
+    s16 field_1BC_flags;
+    s16 field_1BE;
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1C0);
 

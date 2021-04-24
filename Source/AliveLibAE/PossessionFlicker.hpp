@@ -12,7 +12,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    EXPORT PossessionFlicker* ctor_4319E0(BaseAliveGameObject* pToApplyFlicker, int duration, __int16 r, __int16 g, __int16 b);
+    EXPORT PossessionFlicker* ctor_4319E0(BaseAliveGameObject* pToApplyFlicker, int duration, s16 r, s16 g, s16 b);
     int ObjectId() const;
 private:
     EXPORT PossessionFlicker* vdtor_431AD0(signed int flags);
@@ -22,13 +22,13 @@ private:
 private:
     int field_20_time_to_flicker;
 
-    __int16 field_24_r;
-    __int16 field_26_g;
-    __int16 field_28_b;
+    s16 field_24_r;
+    s16 field_26_g;
+    s16 field_28_b;
 
-    __int16 field_2A_old_r;
-    __int16 field_2C_old_g;
-    __int16 field_2E_old_b;
+    s16 field_2A_old_r;
+    s16 field_2C_old_g;
+    s16 field_2E_old_b;
 
     int field_30_obj_id;
 };

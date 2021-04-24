@@ -8,12 +8,12 @@ namespace AO {
 
 struct Path_IdSplitter : public Path_TLV
 {
-    __int16 field_18_source_id;
+    s16 field_18_source_id;
     u16 field_1A_delay;
-    __int16 field_1C_id1;
-    __int16 field_1C_id2;
-    __int16 field_1C_id3;
-    __int16 field_1C_id4;
+    s16 field_1C_id1;
+    s16 field_1C_id2;
+    s16 field_1C_id3;
+    s16 field_1C_id4;
 };
 ALIVE_ASSERT_SIZEOF(Path_IdSplitter, 0x24);
 
@@ -38,7 +38,7 @@ public:
 
     u16 field_10_source_id;
 
-    enum class State : __int16
+    enum class State : s16
     {
         eState_0 = 0,
         eState_1 = 1,
@@ -46,12 +46,12 @@ public:
         eState_3 = 3,
     };
     State field_12_state;
-    __int16 field_14_ids[4];
+    s16 field_14_ids[4];
     int field_1C_tlvInfo;
     int field_20_delay_timer;
     int field_24_delay;
-    __int16 field_28_source_switch_value;
-    __int16 field_2A_pad;
+    s16 field_28_source_switch_value;
+    s16 field_2A_pad;
 };
 ALIVE_ASSERT_SIZEOF(IdSplitter, 0x2C);
 

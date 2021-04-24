@@ -1202,7 +1202,7 @@ FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId)
     return &sPathData_559660.paths[static_cast<int>(lvlId)].field_4_pFmvArray[fmvId];
 }
 
-void CC Path_Format_CameraName_460FB0(char* pStrBuffer, LevelIds levelId, __int16 pathId, __int16 cameraId)
+void CC Path_Format_CameraName_460FB0(char* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId)
 {
     sprintf(pStrBuffer, "%sP%02dC%02d.CAM", sPathData_559660.paths[static_cast<int>(levelId)].field_14_lvl_name, pathId, cameraId);
 }

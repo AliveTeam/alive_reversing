@@ -8,10 +8,10 @@ EXPORT void CC Dove_static_ctor_41F3A0();
 
 struct Path_Dove : public Path_TLV
 {
-    __int16 field_10_dove_count;
-    __int16 field_12_pixel_perfect;
+    s16 field_10_dove_count;
+    s16 field_12_pixel_perfect;
     Scale_short field_14_scale;
-    __int16 field_16_pad;
+    s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x18);
 
@@ -20,7 +20,7 @@ class Dove : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT Dove* ctor_41F430(int frameTableOffset, int maxW, u16 maxH, int resourceID, int tlvInfo, FP scale);
 
-    EXPORT Dove* ctor_41F660(int frameTableOffset, int maxW, __int16 maxH, int resourceID, FP xpos, FP ypos, FP scale);
+    EXPORT Dove* ctor_41F660(int frameTableOffset, int maxW, s16 maxH, int resourceID, FP xpos, FP ypos, FP scale);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -39,11 +39,11 @@ private:
     EXPORT void vUpdate_41FAE0();
 
 private:
-    __int16 field_F4_counter;
-    __int16 field_F6_padding;
+    s16 field_F4_counter;
+    s16 field_F6_padding;
     int field_F8_tlvInfo;
-    __int16 field_FC_keepInGlobalArray;
-    enum class State : __int16
+    s16 field_FC_keepInGlobalArray;
+    enum class State : s16
     {
         State_0_OnGround = 0,
         State_1_FlyAway = 1,

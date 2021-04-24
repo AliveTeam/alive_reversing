@@ -56,7 +56,7 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, int /*bitsPerSample*/, int /*isSte
             if (sSoundSamples_BBBF38[i])
             {
                 GetSoundAPI().SND_Renew(sSoundSamples_BBBF38[i]);
-                GetSoundAPI().SND_LoadSamples(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
+                GetSoundAPI().SND_LoadSamples(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (u8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
                 if ((i + 1) == sLoadedSoundsCount_BBC394)
                     break;
             }

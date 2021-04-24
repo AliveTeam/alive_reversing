@@ -13,15 +13,15 @@ public:
     EXPORT s16 OnCollision_BounceOff_41F650(BaseGameObject* pHit);
     EXPORT s16 InTheAir_41EF10();
 
-    virtual __int16 VCanThrow() override;
-    virtual __int16 VIsFalling() override;
+    virtual s16 VCanThrow() override;
+    virtual s16 VIsFalling() override;
     virtual void VTimeToExplodeRandom() override;
     virtual void VThrow(FP velX, FP velY) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    EXPORT Grenade* ctor_41EBD0(FP xpos, FP ypos, __int16 numGrenades);
+    EXPORT Grenade* ctor_41EBD0(FP xpos, FP ypos, s16 numGrenades);
     EXPORT BaseGameObject* dtor_41ECD0();
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
@@ -32,8 +32,8 @@ private:
     EXPORT void VOnTrapDoorOpen_41F920();
     EXPORT void VThrow_41ED90(FP velX, FP velY);
     EXPORT void VTimeToExplodeRandom_41F9B0();
-    EXPORT __int16 VIsFalling_453ED0();
-    EXPORT __int16 VCanThrow_453EC0();
+    EXPORT s16 VIsFalling_453ED0();
+    EXPORT s16 VCanThrow_453EC0();
 
 public:
     enum class States : short
@@ -48,10 +48,10 @@ public:
         eExploded_7 = 7
     };
     States field_110_state;
-    __int16 field_112_explode_timer;
+    s16 field_112_explode_timer;
     PathLine* field_114_pCollisionLine;
-    __int16 field_118;
-    __int16 field_11A_padding;
+    s16 field_118;
+    s16 field_11A_padding;
     BaseGameObject* field_11C;
     FP field_120_xpos;
     FP field_124_ypos;

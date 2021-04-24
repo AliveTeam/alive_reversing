@@ -6,7 +6,7 @@
 
 ALIVE_VAR_EXTERN(u32, sGnFrame_5C1B84);
 
-enum class AETypes : __int16
+enum class AETypes : s16
 {
     eNone_0 = 0,
     eAlarm_1 = 1,
@@ -219,7 +219,7 @@ public:
     EXPORT void ScreenChanged_4DC0A0();
 
     EXPORT BYTE** Add_Resource_4DC130(DWORD type, int resourceID);
-    EXPORT void BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, s16 resourceArraySize);
+    EXPORT void BaseGameObject_ctor_4DBFA0(s16 bAddToObjectList, s16 resourceArraySize);
     EXPORT void BaseGameObject_dtor_4DBEC0();
 
     EXPORT static int CCSTD Find_Flags_4DC170(int objectId);

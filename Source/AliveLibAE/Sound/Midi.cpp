@@ -20,7 +20,7 @@
 #include "AmbientSound.hpp"
 
 
-EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, __int16 pitch);
+EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, s16 pitch);
 
 const int kSeqTableSizeAE = 144;
 
@@ -30,9 +30,9 @@ static TSNDRestart sSNDRestartCallBack = nullptr;
 ALIVE_VAR(1, 0xBB2354, SeqIds, sSeq_Ids_word_BB2354, {});
 ALIVE_VAR(1, 0xbb2e3e, WORD, sSnd_ReloadAbeResources_BB2E3E, 0);
 ALIVE_VAR(1, 0xbb2e38, OpenSeqHandle *, sSeqDataTable_BB2E38, nullptr);
-ALIVE_VAR(1, 0xbb2e3c, __int16, sSeqsPlaying_count_word_BB2E3C, 0);
+ALIVE_VAR(1, 0xbb2e3c, s16, sSeqsPlaying_count_word_BB2E3C, 0);
 ALIVE_VAR(1, 0xbb2e34, SoundBlockInfo *, sLastLoadedSoundBlockInfo_BB2E34, nullptr);
-ALIVE_VAR(1, 0x560f58, __int16, sSFXPitchVariationEnabled_560F58, true);
+ALIVE_VAR(1, 0x560f58, s16, sSFXPitchVariationEnabled_560F58, true);
 ALIVE_VAR(1, 0x560f40, short, sNeedToHashSeqNames_560F40, 1);
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
@@ -58,7 +58,7 @@ public:
         return sSeqDataTable_BB2E38;
     }
 
-    virtual __int16& sSeqsPlaying_count_word() override
+    virtual s16& sSeqsPlaying_count_word() override
     {
         return sSeqsPlaying_count_word_BB2E3C;
     }
@@ -68,7 +68,7 @@ public:
         return sLastLoadedSoundBlockInfo_BB2E34;
     }
 
-    virtual __int16& sSFXPitchVariationEnabled() override
+    virtual s16& sSFXPitchVariationEnabled() override
     {
         return sSFXPitchVariationEnabled_560F58;
     }
@@ -108,7 +108,7 @@ public:
         return ResourceManager::Allocate_New_Locked_Resource_49BF40(type, id, size);
     }
 
-    virtual void LoadingLoop(__int16 bShowLoadingIcon) override
+    virtual void LoadingLoop(s16 bShowLoadingIcon) override
     {
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
     }
@@ -179,7 +179,7 @@ EXPORT void SND_Reset_4C9FB0()
 }
 
 
-EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
+EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
 {
     // Fail if no file name
     if (!pSoundBlockInfo->field_0_vab_header_name)
@@ -333,7 +333,7 @@ EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb)
 
         GetMidiVars()->sLastLoadedSoundBlockInfo() = pSoundBlockInfo;
 
-        __int16 vabId = 0;
+        s16 vabId = 0;
         while (SND_VAB_Load_4C9FE0(pSoundBlockInfoIter, vabId))
         {
             ++vabId;
@@ -353,7 +353,7 @@ EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb)
 }
 
 
-int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, __int16 volume, __int16 pitch_min, __int16 pitch_max)
+int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
 {
     if (!volume)
     {
@@ -401,10 +401,10 @@ int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, __int16 volume
 }
 
 
-EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, __int16 pitch)
+EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, s16 pitch)
 {
     int v3 = 0;
-    __int16 v4 = 0;
+    s16 v4 = 0;
 
     if (pitch >= 0)
     {
@@ -428,7 +428,7 @@ EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, 
     }
 }
 
-EXPORT int CC SND_4CA5D0(int program, int vabId, int note, __int16 vol, __int16 min, __int16 max)
+EXPORT int CC SND_4CA5D0(int program, int vabId, int note, s16 vol, s16 min, s16 max)
 {
     int volClamped = 0;
     if (vol < 10)
@@ -453,10 +453,10 @@ EXPORT int CC SND_4CA5D0(int program, int vabId, int note, __int16 vol, __int16 
 
     if (min || max)
     {
-        __int16 randomValue = Math_RandomRange_496AB0(min, max);
+        s16 randomValue = Math_RandomRange_496AB0(min, max);
 
         int v9; // edi
-        __int16 v10; // bx
+        s16 v10; // bx
         if (randomValue >= 0)
         {
             v9 = (randomValue >> 7) & 0xFFFF;
@@ -479,7 +479,7 @@ EXPORT int CC SND_4CA5D0(int program, int vabId, int note, __int16 vol, __int16 
     return channelBits;
 }
 
-int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, __int16 volLeft, __int16 volRight, __int16 pitch_min, __int16 pitch_max)
+int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
 {
     if (pitch_min == 0x7FFF)
     {
@@ -579,7 +579,7 @@ EXPORT void SND_Seq_Stop_4CA8E0()
     }
 }
 
-EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, __int16 repeatCount, __int16 bDontStop)
+EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop)
 {
     OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
     if (!rec.field_C_ppSeq_Data)
@@ -615,7 +615,7 @@ EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, __int16 repeatCount, __int16 bDont
     }
 
     // Clamp vol
-    __int16 clampedVol = rec.field_9_volume;
+    s16 clampedVol = rec.field_9_volume;
     if (clampedVol <= 10)
     {
         clampedVol = 10;
@@ -642,7 +642,7 @@ EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, __int16 repeatCount, __int16 bDont
 }
 
 
-EXPORT __int16 CC SND_SEQ_Play_4CAB10(u16 idx, __int16 repeatCount, __int16 volLeft, __int16 volRight)
+EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
 {
     OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
     if (!rec.field_C_ppSeq_Data)
@@ -735,7 +735,7 @@ EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(u16 idx)
 }
 
 
-EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight)
+EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, s16 volLeft, s16 volRight)
 {
     u16 limitedIdx = idx & 0xFFFF;
     if (GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId != -1

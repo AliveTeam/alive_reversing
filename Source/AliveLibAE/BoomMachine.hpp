@@ -8,12 +8,12 @@ struct Path_BoomMachine : public Path_TLV
 {
     Scale_short field_10_scale;
     XDirection_short field_12_nozzle_side;
-    __int16 field_14_disabled_resources;
-    __int16 field_16_number_of_grenades;
+    s16 field_14_disabled_resources;
+    s16 field_16_number_of_grenades;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoomMachine, 0x18);
 
-enum class BoomMachineStates : __int16
+enum class BoomMachineStates : s16
 {
     eInactive_0,
     eAlreadyUsed_1,

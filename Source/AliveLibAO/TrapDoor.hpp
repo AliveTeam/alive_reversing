@@ -8,14 +8,14 @@ namespace AO {
 
 struct Path_TrapDoor : public Path_TLV
 {
-    __int16 field_18_id;
-    __int16 field_1A_start_state;
-    __int16 field_1C_self_closing;
-    __int16 field_1E_scale;
-    __int16 field_20_dest_level;
-    __int16 field_22_direction;
-    __int16 field_24_anim_offset;
-    __int16 field_26_pad;
+    s16 field_18_id;
+    s16 field_1A_start_state;
+    s16 field_1C_self_closing;
+    s16 field_1E_scale;
+    s16 field_20_dest_level;
+    s16 field_22_direction;
+    s16 field_24_anim_offset;
+    s16 field_26_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_TrapDoor, 0x28);
 
@@ -60,15 +60,15 @@ public:
 
 
 
-    __int16 field_12C_flag;
-    __int16 field_12E_pad;
+    s16 field_12C_flag;
+    s16 field_12E_pad;
     int field_130_stay_open_time;
-    __int16 field_134_switch_idx;
-    __int16 field_136_state;
-    __int16 field_138_switch_state;
-    __int16 field_13A_xOff;
-    __int16 field_13C_set_switch_on_dead;
-    __int16 field_13E_pad;
+    s16 field_134_switch_idx;
+    s16 field_136_state;
+    s16 field_138_switch_state;
+    s16 field_13A_xOff;
+    s16 field_13C_set_switch_on_dead;
+    s16 field_13E_pad;
     FP field_140_x;
     FP field_144_y;
     PSX_RECT field_148_bounding_rect;

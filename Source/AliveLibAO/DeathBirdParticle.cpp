@@ -71,7 +71,7 @@ void DeathBirdParticle::VUpdate()
     VUpdate_41DA60();
 }
 
-DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, int start, __int16 bPlaySound, FP scale)
+DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, int start, s16 bPlaySound, FP scale)
 {
     ctor_417C10();
 

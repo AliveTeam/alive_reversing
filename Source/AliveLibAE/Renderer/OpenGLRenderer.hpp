@@ -27,7 +27,7 @@ struct VertexData
 
 struct RGBAPixel
 {
-    unsigned char R, G, B, A;
+    u8 R, G, B, A;
 };
 
 struct TextureCache

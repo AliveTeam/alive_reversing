@@ -17,20 +17,20 @@ struct AbilityRing_PolyBuffer
 };
 ALIVE_ASSERT_SIZEOF(AbilityRing_PolyBuffer, 56);
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 class AbilityRing : public BaseGameObject
 {
 public:
     EXPORT BaseGameObject* dtor_455E50();
 
-    EXPORT AbilityRing* ctor_455860(FP xpos, FP ypos, __int16 type);
+    EXPORT AbilityRing* ctor_455860(FP xpos, FP ypos, s16 type);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     EXPORT BaseGameObject* Vdtor_456940(signed int flags);
 
-    EXPORT static AbilityRing* CC Factory_447590(FP xpos, FP ypos, __int16 type);
+    EXPORT static AbilityRing* CC Factory_447590(FP xpos, FP ypos, s16 type);
 
     EXPORT void SetTarget_455EC0(BaseAliveGameObject* pTarget);
 
@@ -49,7 +49,7 @@ public:
     EXPORT void VRender_456340(PrimHeader** ppOt);
 
     Layer field_10_layer;
-    __int16 field_12_pad;
+    s16 field_12_pad;
     AbilityRing_PolyBuffer* field_14_pRes;
     BYTE** field_18_ppRes;
     Prim_SetTPage field_1C_primSetTPage[2];
@@ -62,21 +62,21 @@ public:
     FP field_250_scaleX;
     FP field_254_scaleY;
     FP field_258_ring_thickness;
-    __int16 field_25C_fade;
-    __int16 field_25E_screenX;
-    __int16 field_260_screenY;
-    __int16 field_262_screenXPos;
-    __int16 field_264_screenYPos;
-    __int16 field_266_r;
-    __int16 field_268_g;
-    __int16 field_26A_b;
-    __int16 field_26C_semiTrans;
+    s16 field_25C_fade;
+    s16 field_25E_screenX;
+    s16 field_260_screenY;
+    s16 field_262_screenXPos;
+    s16 field_264_screenYPos;
+    s16 field_266_r;
+    s16 field_268_g;
+    s16 field_26A_b;
+    s16 field_26C_semiTrans;
     TPageAbr field_26E_tPageMode;
     // pad
     LevelIds field_270_level;
-    __int16 field_272_path;
-    __int16 field_274_ring_type;
-    __int16 field_276_padding;
+    s16 field_272_path;
+    s16 field_274_ring_type;
+    s16 field_276_padding;
     BaseAliveGameObject* field_278_pTarget_obj;
 };
 ALIVE_ASSERT_SIZEOF(AbilityRing, 0x27C);

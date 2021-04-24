@@ -38,14 +38,14 @@ public:
 class PsxDisplay
 {
 public:
-    __int16 field_0_width;
-    __int16 field_2_height;
-    __int16 field_4_unused;
-    __int16 field_6_bpp;
-    __int16 field_8_max_buffers;
+    s16 field_0_width;
+    s16 field_2_height;
+    s16 field_4_unused;
+    s16 field_6_bpp;
+    s16 field_8_max_buffers;
     u16 field_A_buffer_size;
     u16 field_C_buffer_index;
-    __int16 field_E_padding;
+    s16 field_E_padding;
     PSX_Display_Buffer field_10_drawEnv[2];
 
     EXPORT void ctor_41DC30();

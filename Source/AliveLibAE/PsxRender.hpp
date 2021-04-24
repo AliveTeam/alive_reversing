@@ -11,7 +11,7 @@ namespace AETest::TestsPsxRender
 }
 union PrimAny;
 
-void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 drawEnv_of1, short width, short height);
+void DrawOTag_Render_SPRT(PrimAny& any, s16 drawEnv_of0, s16 drawEnv_of1, short width, short height);
 EXPORT void CC PSX_RenderLaughingGasEffect_4F7B80(int xpos, int ypos, int width, int height, WORD* pData);
 void DrawOTag_Render_TILE(PrimAny& any, short x, short y, short w, short h);
 EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, int offX, int offY);
@@ -24,11 +24,11 @@ EXPORT void CC PSX_DrawOTag_4F6540(PrimHeader** ppOt);
 EXPORT void CC PSX_OrderingTable_SaveRecord_4F62C0(int** otBuffer, int otBufferSize);
 EXPORT void CC PSX_ClearOTag_4F6290(PrimHeader** otBuffer, int otBufferSize);
 
-EXPORT void CC PSX_TPage_Change_4F6430(__int16 tPage);
+EXPORT void CC PSX_TPage_Change_4F6430(s16 tPage);
 EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType);
 
-EXPORT void CC PSX_EMU_Render_SPRT_51EF90(__int16 x, __int16 y, int minX, int minY, BYTE r, BYTE g, BYTE b, __int16 w, __int16 h, WORD clut, int semiTrans);
-EXPORT int CC PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b);
+EXPORT void CC PSX_EMU_Render_SPRT_51EF90(s16 x, s16 y, int minX, int minY, BYTE r, BYTE g, BYTE b, s16 w, s16 h, WORD clut, int semiTrans);
+EXPORT int CC PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, u8 r, u8 g, u8 b);
 EXPORT void CC PSX_Pal_Conversion_4F98D0(const WORD* pDataToConvert, WORD* pConverted, u32 size);
 
 EXPORT void CC Add_Dirty_Area_4ED970(int x, int y, int w, int h);

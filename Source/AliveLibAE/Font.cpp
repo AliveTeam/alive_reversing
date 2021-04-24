@@ -57,7 +57,7 @@ ALIVE_VAR(1, 0x5c9304, char, sDisableFontFlicker_5C9304, 0);
 
 ALIVE_VAR(1, 0x5ca4b4, BYTE, sFontDrawScreenSpace_5CA4B4, 0);
 
-ALIVE_VAR(1, 0x5BC5E8, __int16, sFontType2LoadCount_5BC5E8, 0);
+ALIVE_VAR(1, 0x5BC5E8, s16, sFontType2LoadCount_5BC5E8, 0);
 
 static std::vector<std::vector<BYTE>> sLoadedAtlas;
 
@@ -114,7 +114,7 @@ namespace Alive
 #endif
     }
 
-    int Font::DrawString_4337D0(PrimHeader **ppOt, const char *text, int x, __int16 y, TPageAbr abr, int bSemiTrans, int blendMode, Layer layer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int maxRenderWidth, __int16 colorRandomRange)
+    int Font::DrawString_4337D0(PrimHeader **ppOt, const char *text, int x, s16 y, TPageAbr abr, int bSemiTrans, int blendMode, Layer layer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int maxRenderWidth, s16 colorRandomRange)
     {
         if (!sFontDrawScreenSpace_5CA4B4)
         {
@@ -137,7 +137,7 @@ namespace Alive
                 break;
             }
 
-            const unsigned char c = text[i];
+            const u8 c = text[i];
             if (c <= 0x20u || c > 0xAFu)
             {
                 if (c < 7u || c > 0x1Fu)
@@ -221,7 +221,7 @@ namespace Alive
             const char c = text[i];
             int charIndex = 0;
 
-            if (c <= 32 || static_cast<const unsigned char>(c) > 175)
+            if (c <= 32 || static_cast<const u8>(c) > 175)
             {
                 if (c < 7 || c > 31)
                 {
@@ -258,7 +258,7 @@ namespace Alive
     }
 
     // Measures the width of a single character.
-    int Font::MeasureWidth_433630(unsigned char character)
+    int Font::MeasureWidth_433630(u8 character)
     {
         int result = 0;
         int charIndex = 0;

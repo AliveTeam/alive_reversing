@@ -10,10 +10,10 @@
 
 struct MainMenu_TransitionData
 {
-    __int16 field_0;
-    __int16 field_2;
-    __int16 field_4;
-    __int16 field_6;
+    s16 field_0;
+    s16 field_2;
+    s16 field_4;
+    s16 field_6;
 };
 ALIVE_ASSERT_SIZEOF(MainMenu_TransitionData, 0x8);
 
@@ -47,7 +47,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
     { -16,       0,         256, 1 },
 };
 
-MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, TPageAbr abr)
+MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 fadeSpeed, TPageAbr abr)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
 
@@ -92,7 +92,7 @@ MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, __int16 fadeDir
     return this;
 }
 
-void MainMenuTransition::StartTrans_464370(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed)
+void MainMenuTransition::StartTrans_464370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)
 {
     field_24C_layer = layer;
     field_24_fade_direction = fadeDirection;
@@ -176,11 +176,11 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
         int v11 = Math_FixedPoint_Multiply_496C50(v9, val1);
         int v12 = Math_FixedPoint_Multiply_496C50(v10, val2) - v11;
         int v13 = Math_FixedPoint_Multiply_496C50(op1, v8);
-        __int16 x0 = this->field_24E_width + 640 * ((signed int)Math_FixedPoint_Multiply_496C50(v12, v13) >> 16) / 368;
+        s16 x0 = this->field_24E_width + 640 * ((signed int)Math_FixedPoint_Multiply_496C50(v12, v13) >> 16) / 368;
         int v14 = Math_FixedPoint_Multiply_496C50(v9, val2);
         int v15 = Math_FixedPoint_Multiply_496C50(v10, val1) + v14;
         int v16 = Math_FixedPoint_Multiply_496C50(op1, v8);
-        __int16 y0 = this->field_250_k120 + (Math_FixedPoint_Multiply_496C50(v15, v16) >> 16);
+        s16 y0 = this->field_250_k120 + (Math_FixedPoint_Multiply_496C50(v15, v16) >> 16);
 
         int v17 = 0;
         if (i < 7)

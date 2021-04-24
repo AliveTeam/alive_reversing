@@ -23,10 +23,10 @@ private:
     void SpawnRingSparks(Path_Teleporter_Data* pTlvData);
 
     int field_20_tlvInfo;
-    __int16 field_24_global_y1;
-    __int16 field_26_global_x1;
-    __int16 field_28_global_y2;
-    __int16 field_2A_global_x2;
+    s16 field_24_global_y1;
+    s16 field_26_global_x1;
+    s16 field_28_global_y2;
+    s16 field_2A_global_x2;
     int field_2C_switch_state;
 
     enum class TeleporterState : char
@@ -38,12 +38,12 @@ private:
     };
     TeleporterState field_30_state;
     char field_31_padding;
-    __int16 field_32_bDestroySelf;
+    s16 field_32_bDestroySelf;
     Path_Teleporter_Data field_34_mTlvData;
-    __int16 field_4A_padding;
+    s16 field_4A_padding;
     Path_Teleporter* field_4C_pTlv;
     int field_50_objId;
-    __int16 field_54_effect_created;
-    __int16 field_56_padding;
+    s16 field_54_effect_created;
+    s16 field_56_padding;
 };
 ALIVE_ASSERT_SIZEOF(Teleporter, 0x58);

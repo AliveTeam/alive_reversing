@@ -11,12 +11,12 @@ void Mine_ForceLink();
 
 struct Path_Mine : public Path_TLV
 {
-    __int16 field_10_num_patterns;
-    __int16 field_12_pattern;
+    s16 field_10_num_patterns;
+    s16 field_12_pattern;
     Scale_short field_14_scale;
-    __int16 field_16_disabled_resources;
+    s16 field_16_disabled_resources;
     Choice_short field_18_persist_offscreen;
-    __int16 pad;
+    s16 pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_Mine, 0x1C);
 
@@ -35,7 +35,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VOnPickUpOrSlapped() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
     EXPORT Mine* ctor_46B120(Path_Mine *pPath, TlvItemInfoUnion tlv);
 private:

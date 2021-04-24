@@ -27,7 +27,7 @@ void Blood::VScreenChanged()
     vScreenChanged_40FAD0();
 }
 
-Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 count)
+Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     

@@ -140,7 +140,7 @@ PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer)
     return &ppOt[static_cast<u32>(layer)];
 }
  
-int CC PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, int x, __int16 y)
+int CC PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, int x, s16 y)
 {
     return ((((static_cast<char>(tp)) & 0x3) << 7) | (((static_cast<char>(abr)) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
 }

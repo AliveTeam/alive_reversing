@@ -160,7 +160,7 @@ public:
         // Default empty to prevent having to explicitly implement in every TLV wrapper
     }
 
-    virtual __int16 TlvLen() const = 0;
+    virtual s16 TlvLen() const = 0;
     virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
 
     void SetInstanceNumber(int instanceNumber)
@@ -290,9 +290,9 @@ public:
         ret << "object_structures_type" << Name();
     }
 
-    __int16 TlvLen() const override
+    s16 TlvLen() const override
     {
-        return static_cast<__int16>(sizeof(T));
+        return static_cast<s16>(sizeof(T));
     }
 
     std::vector<BYTE> GetTlvData(bool setTerminationFlag) override
@@ -365,9 +365,9 @@ public:
         ret << "object_structures_type" << Name();
     }
 
-    __int16 TlvLen() const override
+    s16 TlvLen() const override
     {
-        return static_cast<__int16>(sizeof(T));
+        return static_cast<s16>(sizeof(T));
     }
 
     std::vector<BYTE> GetTlvData(bool setTerminationFlag) override

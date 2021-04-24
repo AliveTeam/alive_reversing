@@ -256,7 +256,7 @@ void Water::vStopAudio_4E1800()
     }
 }
 
-void Water::Disable_Water_Particle_4E0B10(__int16 idx)
+void Water::Disable_Water_Particle_4E0B10(s16 idx)
 {
     field_F8_pWaterRes[idx].field_18_enabled = 0;
     field_10C_particle_count--;

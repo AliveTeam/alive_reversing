@@ -413,12 +413,12 @@ void Scrab::VUpdate_45B360()
 }
 
 
-__int16 Scrab::VTakeDamage(BaseGameObject* pFrom)
+s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_45BC10(pFrom);
 }
 
-__int16 Scrab::VTakeDamage_45BC10(BaseGameObject* pFrom)
+s16 Scrab::VTakeDamage_45BC10(BaseGameObject* pFrom)
 {
     if (field_100_health > FP_FromInteger(0))
     {
@@ -553,7 +553,7 @@ void Scrab::vUpdateAnim_45B330()
         ResBlockForMotion_45BB30(field_FC_current_motion));
 }
 
-BYTE** Scrab::ResBlockForMotion_45BB30(__int16 motion)
+BYTE** Scrab::ResBlockForMotion_45BB30(s16 motion)
 {
     if (motion < eScrabStates::State_16_Stamp_45F920)
     {
@@ -641,7 +641,7 @@ void Scrab::VOnTrapDoorOpen_45E5E0()
     }
 }
 
-__int16 Scrab::ToNextMotion_45DFB0()
+s16 Scrab::ToNextMotion_45DFB0()
 {
     MapFollowMe_401D30(1);
 
@@ -772,7 +772,7 @@ SfxDefinition sScrabSfx_4CF798[9] =
     { 0, 39, 68, 110, -1791, -1791, 0 }
 };
 
-int Scrab::Scrab_SFX_460B80(ScrabSounds soundId, int /*vol*/, int pitch, __int16 applyDirection)
+int Scrab::Scrab_SFX_460B80(ScrabSounds soundId, int /*vol*/, int pitch, s16 applyDirection)
 {
     int volumeLeft = 0;
     int volumeRight = 0;
@@ -902,13 +902,13 @@ void Scrab::MoveOnLine_45E450()
     }
 }
 
-__int16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return VOnSameYLevel_45C180(pOther);
 }
 
 
-__int16 Scrab::VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 Scrab::VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     PSX_RECT ourRect = {};
     VGetBoundingRect(&ourRect, 1);
@@ -990,7 +990,7 @@ Scrab* Scrab::FindScrabToFight_45BE30()
 }
 
 
-__int16 Scrab::FindAbeOrMud_45BEF0()
+s16 Scrab::FindAbeOrMud_45BEF0()
 {
     if (CanSeeAbe_45C100(sActiveHero_507678) &&
         sActiveHero_507678->field_100_health > FP_FromInteger(0) &&
@@ -1034,7 +1034,7 @@ __int16 Scrab::FindAbeOrMud_45BEF0()
     return 0;
 }
 
-__int16 Scrab::CanSeeAbe_45C100(BaseAliveGameObject* pObj)
+s16 Scrab::CanSeeAbe_45C100(BaseAliveGameObject* pObj)
 {
     if (pObj->field_BC_sprite_scale != field_BC_sprite_scale)
     {
@@ -2225,7 +2225,7 @@ void Scrab::State_29_DeathBegin_45FFA0()
     }
 }
 
-__int16 Scrab::Brain_Fighting_45C370()
+s16 Scrab::Brain_Fighting_45C370()
 {
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
     {
@@ -2547,7 +2547,7 @@ __int16 Scrab::Brain_Fighting_45C370()
     }
 }
 
-__int16 Scrab::Brain_BatDeath_45CA60()
+s16 Scrab::Brain_BatDeath_45CA60()
 {
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
     {
@@ -2610,7 +2610,7 @@ __int16 Scrab::Brain_BatDeath_45CA60()
     return field_110_brain_ret;
 }
 
-__int16 Scrab::Brain_Death_45CB80()
+s16 Scrab::Brain_Death_45CB80()
 {
     if (field_118_timer > static_cast<int>(gnFrameCount_507670) && field_118_timer < static_cast<int>(gnFrameCount_507670) + 80)
     {
@@ -2634,13 +2634,13 @@ __int16 Scrab::Brain_Death_45CB80()
     return 100;
 }
 
-__int16 Scrab::Brain_ChasingEnemy_Real_45CC90()
+s16 Scrab::Brain_ChasingEnemy_Real_45CC90()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Scrab::Brain_ChasingEnemy_45CC90()
+s16 Scrab::Brain_ChasingEnemy_45CC90()
 {
     // 0 to 17
     if (field_110_brain_ret == 8)
@@ -3337,7 +3337,7 @@ __int16 Scrab::Brain_ChasingEnemy_45CC90()
     }
 }
 
-__int16 Scrab::Brain_Patrol_460020()
+s16 Scrab::Brain_Patrol_460020()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
@@ -3643,7 +3643,7 @@ __int16 Scrab::Brain_Patrol_460020()
     }
 }
 
-__int16 Scrab::Brain_WalkAround_460D80()
+s16 Scrab::Brain_WalkAround_460D80()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
@@ -3942,7 +3942,7 @@ bool Scrab::BrainIs(TBrainType fn)
     return ::BrainIs(fn, field_10C_fn, sScrabAITable);
 }
 
-__int16 Scrab::HandleRunning()
+s16 Scrab::HandleRunning()
 {
     field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos),
@@ -3986,7 +3986,7 @@ __int16 Scrab::HandleRunning()
     return 3;
 }
 
-__int16 Scrab::GetMotionForPatrolType(__int16 patrolType)
+s16 Scrab::GetMotionForPatrolType(s16 patrolType)
 {
     switch (patrolType)
     {

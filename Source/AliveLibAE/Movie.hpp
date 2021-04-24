@@ -15,15 +15,15 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    EXPORT void Init_4DFF60(int a2, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags, __int16 volume);
-    EXPORT Movie* ctor_4DFDE0(int id, DWORD pos, __int16 bUnknown, __int16 flags, __int16 volume);
+    EXPORT void Init_4DFF60(int a2, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume);
+    EXPORT Movie* ctor_4DFDE0(int id, DWORD pos, s16 bUnknown, s16 flags, s16 volume);
     EXPORT void vUpdate_4E0030();
     EXPORT BaseGameObject* vdtor_4DFE80(signed int flags);
 private:
     EXPORT void DeInit_4E0210();
 
-    __int16 field_20_unused;
-    __int16 field_22_volume;
+    s16 field_20_unused;
+    s16 field_22_volume;
     int field_24_padding;
     int field_28_padding;
     BYTE** field_2C_ppRes;

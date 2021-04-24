@@ -8,12 +8,12 @@ namespace AO {
 struct Fg1Block;
 struct Fg1Chunk;
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 class FG1 : public BaseGameObject
 {
 public:
-    EXPORT FG1* ctor_4539C0(unsigned __int8** ppRes);
+    EXPORT FG1* ctor_4539C0(u8** ppRes);
 
     EXPORT FG1* Vdtor_453E90(signed int flags);
 
@@ -33,12 +33,12 @@ public:
 
     EXPORT BaseGameObject* dtor_453DF0();
 
-    __int16 field_10_cam_pos_x;
-    __int16 field_12_cam_pos_y;
+    s16 field_10_cam_pos_x;
+    s16 field_12_cam_pos_y;
     LevelIds field_14_current_level;
-    __int16 field_16_current_path;
-    __int16 field_18_render_block_count;
-    __int16 field_1A_pad;
+    s16 field_16_current_path;
+    s16 field_18_render_block_count;
+    s16 field_1A_pad;
     BYTE** field_1C_ptr;
     Fg1Block* field_20_chnk_res;
 };

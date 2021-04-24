@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF(BloodParticle, 0x40);
 class Blood : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Blood* ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 count);
+    EXPORT Blood* ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count);
 
     EXPORT BaseGameObject* dtor_4076F0();
 
@@ -49,15 +49,15 @@ public:
     Prim_SetTPage field_EC_tPages[2];
     TPageMode field_10C_texture_mode;
     // pad
-    __int16 field_10E_xpos;
-    __int16 field_110_ypos;
-    __int16 field_112_to_render_count;
+    s16 field_10E_xpos;
+    s16 field_110_ypos;
+    s16 field_112_to_render_count;
     BYTE field_114_rand_seed;
     char field_115_pad;
-    __int16 field_116_total_count;
+    s16 field_116_total_count;
     int field_118_timer;
     Layer field_11C_render_layer;
-    __int16 field_11E_pad;
+    s16 field_11E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Blood, 0x120);
 

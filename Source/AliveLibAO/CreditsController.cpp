@@ -7,7 +7,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x507684, __int16, gCreditsControllerExists_507684, false);
+ALIVE_VAR(1, 0x507684, s16, gCreditsControllerExists_507684, false);
 
 constexpr int kShowCreditScreenForTicks = 60;
 

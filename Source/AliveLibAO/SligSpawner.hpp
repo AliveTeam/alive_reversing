@@ -26,7 +26,7 @@ private:
 private:
     int field_10_tlvInfo;
     u16 field_14_slig_id;
-    __int16 field_16_flags;
+    s16 field_16_flags;
     Path_TLV field_18_tlv;
 };
 ALIVE_ASSERT_SIZEOF(SligSpawner, 0x30);

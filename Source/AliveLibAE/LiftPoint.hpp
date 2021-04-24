@@ -4,7 +4,7 @@
 #include "PlatformBase.hpp"
 #include "Path.hpp"
 
-enum class LiftPointStopType : __int16
+enum class LiftPointStopType : s16
 {
     eTopFloor_0 = 0,
     eBottomFloor_1 = 1,
@@ -15,9 +15,9 @@ enum class LiftPointStopType : __int16
 
 struct Path_LiftPoint : public Path_TLV
 {
-    __int16 field_10_id;
+    s16 field_10_id;
     Choice_short field_12_bStart_point;
-    __int16 field_14_lift_type; // TODO: Not actually used
+    s16 field_14_lift_type; // TODO: Not actually used
     LiftPointStopType field_16_lift_point_stop_type;
     Scale_short field_18_scale;
     Choice_short field_1A_bIgnore_lift_mover;
@@ -27,7 +27,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftPoint, 0x1C);
 struct LiftPoint_State
 {
     AETypes field_0_type;
-    __int16 field_2_pad;
+    s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
     int field_C_tlvInfo;
@@ -76,7 +76,7 @@ private:
     EXPORT void vUpdate_461AE0();
     EXPORT void MoveObjectsOnLift_497600(FP xVelocity);
     EXPORT static void CCSTD sub_461000(Path_TLV* pTlv);
-    EXPORT void vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv);
+    EXPORT void vStayOnFloor_461A00(s16 floor, Path_LiftPoint* pTlv);
     EXPORT signed int vGetSaveState_4637D0(LiftPoint_State *pState);
 
 private:
@@ -86,24 +86,24 @@ private:
     EXPORT void dtor_4624E0();
 
 public:
-    __int16 field_12C_bMoving;
+    s16 field_12C_bMoving;
 private:
-    __int16 field_12E_pad;
+    s16 field_12E_pad;
     LiftPointStopType field_130_lift_point_stop_type;
-    __int16 field_132_pad;
+    s16 field_132_pad;
     int field_134_rope2_id;
     int field_138_rope1_id;
     Animation field_13C_lift_wheel;
     Animation field_1D4_pulley_anim;
-    __int16 field_26C_pulley_xpos;
-    __int16 field_26E_pulley_ypos;
+    s16 field_26C_pulley_xpos;
+    s16 field_26E_pulley_ypos;
     FP field_270_floorYLevel;
     BYTE** field_274_ppRes;
 public:
     BYTE field_278_lift_point_id;
 private:
     char field_279_pad;
-    __int16 field_27A_pad;
+    s16 field_27A_pad;
     int field_27C_pTlv;
     enum LiftFlags
     {
@@ -117,6 +117,6 @@ private:
         eBit8_bIgnoreLiftMover = 0x80,
     };
     BitField16<LiftFlags> field_280_flags;
-    __int16 field_282_pad;
+    s16 field_282_pad;
 };
 ALIVE_ASSERT_SIZEOF(LiftPoint, 0x284);

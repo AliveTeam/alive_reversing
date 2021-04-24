@@ -13,7 +13,7 @@ struct BeeSwarmParticle
     FP field_4_ypos;
     char field_8_angle;
     char field_9_angle_speed;
-    __int16 field_A_pad;
+    s16 field_A_pad;
     int field_C_timer;
     AnimationUnknown field_10_anim;
 };
@@ -58,8 +58,8 @@ public:
 
     int field_D4[4];
     BeeSwarmParticles field_E4_bees;
-    __int16 field_D64_num_bees;
-    __int16 field_D66_bee_count;
+    s16 field_D64_num_bees;
+    s16 field_D66_bee_count;
     FP field_D68_xpos;
     FP field_D6C_ypos;
     FP field_D70_chase_target_x;
@@ -67,7 +67,7 @@ public:
     FP field_D78_speed;
     FP field_D7C_pos_offset;
 
-    enum class BeeSwarmStates : __int16
+    enum class BeeSwarmStates : s16
     {
         eIdle_0 = 0,
         eAttackChase_1 = 1,
@@ -76,7 +76,7 @@ public:
     };
     BeeSwarmStates field_D80_state;
 
-    __int16 field_D82_pad;
+    s16 field_D82_pad;
 
     int field_D84_chaseTicks;
 

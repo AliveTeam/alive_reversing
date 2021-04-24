@@ -16,7 +16,7 @@ struct PlaybackData
 class DemoPlayback : public BaseGameObject
 {
 public:
-    EXPORT DemoPlayback* ctor_4517B0(BYTE**, __int16 a3);
+    EXPORT DemoPlayback* ctor_4517B0(BYTE**, s16 a3);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
@@ -41,8 +41,8 @@ public:
     States field_10_state;
     BYTE** field_14_ppDemoRes;
     BYTE** field_18_ppRes;
-    __int16 field_1C;
-    __int16 field_1E;
+    s16 field_1C;
+    s16 field_1E;
     int field_20;
     int field_24;
     int field_28;

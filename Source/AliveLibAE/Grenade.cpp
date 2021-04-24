@@ -14,7 +14,7 @@
 #include "Gibs.hpp"
 #include "Explosion.hpp"
 
-Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 bBlowUpOnCollision, __int16 unused, BaseGameObject* pOwner)
+Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, s16 numGrenades, s16 bBlowUpOnCollision, s16 unused, BaseGameObject* pOwner)
 {
     ctor_408240(0);
     SetVTable(this, 0x5456E0);
@@ -276,7 +276,7 @@ void Grenade::vTimeToExplodeRandom_4480A0()
     field_122_explode_timer -= Math_NextRandom() % 16;
 }
 
-void Grenade::BlowUp_4483C0(__int16 bSmallExplosion)
+void Grenade::BlowUp_4483C0(s16 bSmallExplosion)
 {
     auto pExplosion = ae_new<Explosion>();
     if (pExplosion)
@@ -517,7 +517,7 @@ void Grenade::vUpdate_4489C0()
     }
 }
 
-__int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
+s16 Grenade::InTheAir_4484F0(s16 blowUpOnFloorTouch)
 {
     sObjectIds_5C1B70.Find_449CF0(field_110_id);
 
@@ -681,7 +681,7 @@ void Grenade::AddToPlatform_449210()
     BaseAddToPlatform([](AETypes type) { return type == AETypes::eLiftPoint_78 || type == AETypes::eTrapDoor_142; });
 }
 
-__int16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
+s16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
 {
     if (!pHit->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -714,7 +714,7 @@ __int16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
     return 0;
 }
 
-__int16 Grenade::OnCollision_InstantExplode_4490D0(BaseGameObject* pHit)
+s16 Grenade::OnCollision_InstantExplode_4490D0(BaseGameObject* pHit)
 {
     if (pHit == field_138_pOwner)
     {

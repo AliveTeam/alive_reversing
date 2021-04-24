@@ -150,7 +150,7 @@ BaseGameObject* ThrowableArray::vdtor_49A6C0(signed int flags)
     return this;
 }
 
-void ThrowableArray::Remove_49AA00(__int16 count)
+void ThrowableArray::Remove_49AA00(s16 count)
 {
     field_20_count -= count;
     if (field_20_count > 0)
@@ -207,7 +207,7 @@ void ThrowableArray::vScreenChange_49AAA0()
 
 }
 
-void ThrowableArray::Add_49A7A0(__int16 count)
+void ThrowableArray::Add_49A7A0(s16 count)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {

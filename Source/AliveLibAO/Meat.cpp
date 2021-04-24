@@ -194,7 +194,7 @@ void MeatSack::VScreenChanged_439540()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-Meat* Meat::ctor_438550(FP xpos, FP ypos, __int16 count)
+Meat* Meat::ctor_438550(FP xpos, FP ypos, s16 count)
 {
     ctor_401090();
     SetVTable(this, 0x4BB8B0);
@@ -303,12 +303,12 @@ void Meat::VThrow_4386E0(FP velX, FP velY)
     }
 }
 
-__int16 Meat::VCanThrow()
+s16 Meat::VCanThrow()
 {
     return VCanThrow_4390B0();
 }
 
-__int16 Meat::VCanThrow_4390B0()
+s16 Meat::VCanThrow_4390B0()
 {
     return field_110_state == 2;
 }
@@ -323,12 +323,12 @@ BOOL Meat::VCanEatMe_4390C0()
     return field_110_state != 0;
 }
 
-__int16 Meat::VIsFalling_4573B0()
+s16 Meat::VIsFalling_4573B0()
 {
     return field_110_state == 5;
 }
 
-__int16 Meat::VIsFalling()
+s16 Meat::VIsFalling()
 {
     return VIsFalling_4573B0();
 }
@@ -574,7 +574,7 @@ void Meat::VUpdate_438A20()
     }
 }
 
-__int16 Meat::OnCollision_438D80(BaseAliveGameObject* pHit)
+s16 Meat::OnCollision_438D80(BaseAliveGameObject* pHit)
 {
     if (!pHit->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -684,12 +684,12 @@ void Meat::VOnTrapDoorOpen_438FD0()
     }
 }
 
-__int16 Meat::VGetCount()
+s16 Meat::VGetCount()
 {
     return VGetCount_439020();
 }
 
-__int16 Meat::VGetCount_439020()
+s16 Meat::VGetCount_439020()
 {
     if (field_110_state == 4 && field_10C_count == 0)
     {

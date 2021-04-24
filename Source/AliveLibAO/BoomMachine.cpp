@@ -102,10 +102,10 @@ public:
 
     int field_D4_padding[4];
     BoomMachineStates field_E4_state;
-    __int16 field_E6_padding;
+    s16 field_E6_padding;
     int field_E8_timer;
-    __int16 field_EC_num_grenades;
-    __int16 field_EE_pad;
+    s16 field_EC_num_grenades;
+    s16 field_EE_pad;
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0xF0);
 

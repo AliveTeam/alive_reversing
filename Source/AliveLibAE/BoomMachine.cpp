@@ -13,7 +13,7 @@
 class GrenadeMachineNozzle : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT GrenadeMachineNozzle* ctor_4456F0(FP xpos, FP ypos, FP scale, __int16 numGrenades)
+    EXPORT GrenadeMachineNozzle* ctor_4456F0(FP xpos, FP ypos, FP scale, s16 numGrenades)
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
         SetVTable(this, 0x54557C);
@@ -149,10 +149,10 @@ private:
 
 private:
     BoomMachineStates field_F4_state;
-    __int16 field_F6_pad;
+    s16 field_F6_pad;
     int field_F8_timer;
-    __int16 field_FC_numGrenades;
-    __int16 field_FE_pad;
+    s16 field_FC_numGrenades;
+    s16 field_FE_pad;
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0x100);
 

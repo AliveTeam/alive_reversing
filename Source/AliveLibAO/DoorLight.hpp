@@ -8,7 +8,7 @@ namespace AO {
 
 struct Path_LightEffect : public Path_TLV
 {
-    enum class Type : __int16
+    enum class Type : s16
     {
         Star_0 = 0,
         RedGlow_1 = 1,
@@ -18,9 +18,9 @@ struct Path_LightEffect : public Path_TLV
         Switchable_RedGreenHubLight_5 = 5,
     };
     Type field_18_type;
-    __int16 field_1A_size;
-    __int16 field_1C_id;
-    __int16 field_1E_flip_x;
+    s16 field_1A_size;
+    s16 field_1C_id;
+    s16 field_1E_flip_x;
 };
 ALIVE_ASSERT_SIZEOF(Path_LightEffect, 0x20);
 
@@ -45,12 +45,12 @@ private:
 public:
     int field_D4_padding[4];
     int field_E4_tlvInfo;
-    __int16 field_E8_width;
-    __int16 field_EA_height;
-    __int16 field_EC_bHasID;
-    __int16 field_EE_switch_value;
-    __int16 field_F0_id;
-    __int16 field_F2_padding;
+    s16 field_E8_width;
+    s16 field_EA_height;
+    s16 field_EC_bHasID;
+    s16 field_EE_switch_value;
+    s16 field_F0_id;
+    s16 field_F2_padding;
 };
 ALIVE_ASSERT_SIZEOF(DoorLight, 0xF4);
 

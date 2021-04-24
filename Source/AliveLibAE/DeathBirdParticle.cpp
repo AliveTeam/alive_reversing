@@ -16,7 +16,7 @@ void DeathBirdParticle::VUpdate()
     Update_43EE70();
 }
 
-DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, int start, __int16 bPlaySound, FP scale)
+DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, int start, s16 bPlaySound, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 

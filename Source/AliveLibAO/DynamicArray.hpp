@@ -1,25 +1,26 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "Types.hpp"
 
 namespace AO {
 
 class DynamicArray
 {
 public:
-    EXPORT DynamicArray* ctor_4043E0(__int16 startingSize);
+    EXPORT DynamicArray* ctor_4043E0(s16 startingSize);
     EXPORT void dtor_404440();
 protected:
-    EXPORT __int16 Push_Back_404450(void *item);
-    EXPORT __int16 Remove_Item_404520(void *item);
+    EXPORT s16 Push_Back_404450(void *item);
+    EXPORT s16 Remove_Item_404520(void *item);
 public:
     void** field_0_array;
 public:
-    __int16 field_4_used_size;
+    s16 field_4_used_size;
 private:
-    __int16 field_6_max_size;
-    __int16 field_8_expand_size;
-    __int16 field_A_pad;
+    s16 field_6_max_size;
+    s16 field_8_expand_size;
+    s16 field_A_pad;
 };
 
 ALIVE_ASSERT_SIZEOF(DynamicArray, 0xC);
@@ -30,12 +31,12 @@ template<class T>
 class DynamicArrayT : public DynamicArray
 {
 public:
-    __int16 Push_Back(T* pValue)
+    s16 Push_Back(T* pValue)
     {
         return Push_Back_404450(pValue);
     }
 
-    __int16 Remove_Item(T* pItemToRemove)
+    s16 Remove_Item(T* pItemToRemove)
     {
         return Remove_Item_404520(pItemToRemove);
     }

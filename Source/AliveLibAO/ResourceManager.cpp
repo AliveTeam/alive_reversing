@@ -213,9 +213,9 @@ public:
     Camera* field_1C_pCamera;
     BYTE** field_20_ppRes;
     void* field_24_readBuffer;
-    __int16 field_28_state;
+    s16 field_28_state;
     CdlLOC field_2A_cdLoc;
-    __int16 field_2E_pad;
+    s16 field_2E_pad;
 };
 ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord_Unknown, 0x30);
 
@@ -299,7 +299,7 @@ void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
     }
 }
 
-void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, __int16 bDontLoad)
+void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, s16 bDontLoad)
 {
     if (bDontLoad)
     {
@@ -390,7 +390,7 @@ void CC ResourceManager::LoadResource_446C90(const char* pFileName, DWORD type, 
     }
 }
 
-void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pTypeAndIdList, LoadMode loadMode, __int16 bDontLoad)
+void CC ResourceManager::LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pTypeAndIdList, LoadMode loadMode, s16 bDontLoad)
 {
     // Debug_Print_Stub_48DD70("Requesting tag res %s\n", pFileName);
 
@@ -536,7 +536,7 @@ void CC ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
     }
 }
 
-EXPORT void CC ResourceManager::LoadingLoop_41EAD0(__int16 bShowLoadingIcon)
+EXPORT void CC ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
 {
     while (gFilesPending_507714 > 0)
     {
@@ -887,12 +887,12 @@ EXPORT BYTE** CC ResourceManager::Allocate_New_Block_454FE0(DWORD sizeBytes, Blo
     }
 }
 
-__int16 CC ResourceManager::LoadResourceFileWrapper(const char* filename, Camera* pCam)
+s16 CC ResourceManager::LoadResourceFileWrapper(const char* filename, Camera* pCam)
 {
     return LoadResourceFile_455270(filename, pCam, BlockAllocMethod::eFirstMatching);
 }
 
-EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod)
+EXPORT s16 CC ResourceManager::LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod)
 {
     // Note: None gPcOpenEnabled_508BF0 block not impl as never used
 
@@ -933,7 +933,7 @@ EXPORT __int16 CC ResourceManager::LoadResourceFile_455270(const char* filename,
     return 1;
 }
 
-__int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray)
+s16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray)
 {
     auto pItemToAdd = (ResourceHeapItem*)ppRes;
     Header* pHeader = Get_Header_455620(ppRes);
@@ -993,7 +993,7 @@ __int16 CC ResourceManager::Move_Resources_To_DArray_455430(BYTE** ppRes, Dynami
     return 1;
 }
 
-BYTE** CC ResourceManager::GetLoadedResource_4554F0(DWORD type, DWORD resourceId, __int16 addUseCount, __int16 bLock)
+BYTE** CC ResourceManager::GetLoadedResource_4554F0(DWORD type, DWORD resourceId, s16 addUseCount, s16 bLock)
 {
     // Iterate all list items
     ResourceHeapItem* pListIter = sFirstLinkedListItem_50EE2C;
@@ -1040,7 +1040,7 @@ void ResourceManager::CheckResourceIsLoaded(DWORD type, std::initializer_list<Re
     }
 }
 
-__int16 CC ResourceManager::FreeResource_455550(BYTE** handle)
+s16 CC ResourceManager::FreeResource_455550(BYTE** handle)
 {
     // Note: Checks for ptrs of 0xCDCDCDCD and 0xDDDDDDDD removed
     // because these can only come from the MSVCRT debug runtimes
@@ -1052,7 +1052,7 @@ __int16 CC ResourceManager::FreeResource_455550(BYTE** handle)
 }
 
 
-__int16 CC ResourceManager::FreeResource_Impl_4555B0(BYTE* handle)
+s16 CC ResourceManager::FreeResource_Impl_4555B0(BYTE* handle)
 {
     if (handle)
     {
@@ -1185,13 +1185,13 @@ void CC ResourceManager::Decrement_Pending_Count_4557B0()
     sResources_Pending_Loading_9F0E38--;
 }
 
-void CC ResourceManager::Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags)
+void CC ResourceManager::Set_Header_Flags_4557D0(BYTE** ppRes, s16 flags)
 {
     Get_Header_455620(ppRes)->field_6_flags |= flags;
 }
 
 
-void CC ResourceManager::Clear_Header_Flags_4557F0(BYTE** ppRes, __int16 flags)
+void CC ResourceManager::Clear_Header_Flags_4557F0(BYTE** ppRes, s16 flags)
 {
     Get_Header_455620(ppRes)->field_6_flags &= ~flags;
 }

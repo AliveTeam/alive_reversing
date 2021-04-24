@@ -17,8 +17,8 @@ ALIVE_VAR(1, 0x5c3024, DWORD, sMusicTime_5C3024, 0);
 struct MusicController_Record3_Sub
 {
     s16 field_0;
-    signed __int8 field_2_min;
-    signed __int8 field_3_max;
+    s8 field_2_min;
+    s8 field_3_max;
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record3_Sub, 4);
 
@@ -61,10 +61,10 @@ enum class AmbientMusic : char
 
 struct MusicController_Record
 {
-    signed char field_0_seq_id_idx;
-    signed char field_1_unused;
+    s8 field_0_seq_id_idx;
+    s8 field_1_unused;
     AmbientMusic field_2_bAmbient_music_enabled;
-    signed char field_3_padding;
+    s8 field_3_padding;
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record, 0x4);
 
@@ -486,7 +486,7 @@ void MusicController::dtor_47EF50()
     BaseGameObject_dtor_4DBEC0();
 }
 
-void MusicController::EnableMusic_47FB80(__int16 bEnable)
+void MusicController::EnableMusic_47FB80(s16 bEnable)
 {
     bool enableMusic = bEnable != 0 ? true : false;
     MusicController::UpdateMusicTime_47F8B0();
@@ -521,7 +521,7 @@ void MusicController::EnableMusic_47FB80(__int16 bEnable)
     }
 }
 
-void MusicController::SetMusicVolumeDelayed_47FB00(__int16 vol, __int16 delay)
+void MusicController::SetMusicVolumeDelayed_47FB00(s16 vol, s16 delay)
 {
     if (vol != field_50_current_vol)
     {
@@ -671,7 +671,7 @@ void MusicController::Update_47F730()
     }
 }
 
-void MusicController::PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20)
+void MusicController::PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, char bFlag0x20)
 {
 
     MusicController::UpdateMusicTime_47F8B0();
@@ -914,7 +914,7 @@ void MusicController::UpdateAmbiance_47F0B0()
                 musicTime = sMusicTime_5C3024;
             }
 
-            __int16 random = 0; // TODO: minus 1 ??
+            s16 random = 0; // TODO: minus 1 ??
             // TODO: Check this logic, seems to have changed a lot since AO so might
             // be bugged
             if (field_42_type != MusicTypes::eNone_0)
@@ -967,7 +967,7 @@ void MusicController::UpdateAmbiance_47F0B0()
     }
 }
 
-void CC MusicController::PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20)
+void CC MusicController::PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, char bFlag0x20)
 {
     if (pMusicController_5C3020)
     {
@@ -975,7 +975,7 @@ void CC MusicController::PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameOb
     }
 }
 
-void CC MusicController::EnableMusic_47FE10(__int16 bOn)
+void CC MusicController::EnableMusic_47FE10(s16 bOn)
 {
     pMusicController_5C3020->EnableMusic_47FB80(bOn);
 }

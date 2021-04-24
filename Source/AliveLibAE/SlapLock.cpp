@@ -123,7 +123,7 @@ int SlapLock::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_43EB30(reinterpret_cast<SlapLock_State*>(pSaveBuffer));
 }
 
-__int16 SlapLock::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 SlapLock::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_43E5D0(pFrom);
 }
@@ -464,7 +464,7 @@ void SlapLock::GiveInvisibilityPowerUp_43E910()
     pRing->VSetTarget(sActiveHero_5C1B68);
 }
 
-__int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
+s16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
 

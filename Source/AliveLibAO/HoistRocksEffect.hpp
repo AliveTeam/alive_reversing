@@ -8,7 +8,7 @@ namespace AO {
 
 struct Path_Hoist : public Path_TLV
 {
-    enum class Type : __int16
+    enum class Type : s16
     {
         eNextFloor = 0,
         eNextEdge = 1,
@@ -16,7 +16,7 @@ struct Path_Hoist : public Path_TLV
     };
     Type field_18_hoist_type;
 
-    enum class EdgeType : __int16
+    enum class EdgeType : s16
     {
         eLeft = 0,
         eRight = 1,
@@ -24,9 +24,9 @@ struct Path_Hoist : public Path_TLV
     };
     EdgeType field_1A_edge_type;
 
-    __int16 field_1C_id;
+    s16 field_1C_id;
 
-    __int16 field_1E_pad;
+    s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_Hoist, 0x20);
 
@@ -42,8 +42,8 @@ public:
     EXPORT void VUpdate_431BD0();
 
     int field_D4[4];
-    __int16 field_E4_bHitGround;
-    __int16 field_E6_pad;
+    s16 field_E4_bHitGround;
+    s16 field_E6_pad;
 };
 ALIVE_ASSERT_SIZEOF(HoistParticle, 0xE8);
 

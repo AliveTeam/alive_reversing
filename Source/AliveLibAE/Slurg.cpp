@@ -136,7 +136,7 @@ int Slurg::VGetSaveState(BYTE* pSaveBuffer)
     return vSaveState_4C8FC0(reinterpret_cast<Slurg_State*>(pSaveBuffer));
 }
 
-__int16 Slurg::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 Slurg::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_4C8BF0(pFrom);
 }
@@ -330,7 +330,7 @@ void Slurg::vUpdate_4C8790()
     }
 }
 
-__int16 Slurg::vTakeDamage_4C8BF0(BaseGameObject* pFrom)
+s16 Slurg::vTakeDamage_4C8BF0(BaseGameObject* pFrom)
 {
     // Slurgs are tough little dudes, only Paramites can smack 'em up.
     if (pFrom->field_4_typeId == AETypes::eParamite_96)

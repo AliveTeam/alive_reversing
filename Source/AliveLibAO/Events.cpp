@@ -22,7 +22,7 @@ ALIVE_VAR(1, 0x4FFA48, short, sEventsToUse_4FFA48, 0);
 ALIVE_VAR(1, 0x4FF9A8, Events, sEventPtrs_4FF9A8, {});
 
 
-BaseGameObject* CC Event_Get_417250(__int16 eventType)
+BaseGameObject* CC Event_Get_417250(s16 eventType)
 {
     return sEventPtrs_4FF9A8.field_0_events[sEventsToUse_4FFA48].field_0_event_ptrs[eventType];
 }
@@ -32,7 +32,7 @@ void CC Event_Broadcast_417220(int eventType, BaseGameObject* pObject)
     sEventPtrs_4FF9A8.field_0_events[!sEventsToUse_4FFA48].field_0_event_ptrs[eventType] = pObject;
 }
 
-BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(__int16 eventType, FP xpos, FP ypos, FP scale)
+BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(s16 eventType, FP xpos, FP ypos, FP scale)
 {
     BaseGameObject* pObj = sEventPtrs_4FF9A8.field_0_events[sEventsToUse_4FFA48].field_0_event_ptrs[eventType];
     if (!pObj)

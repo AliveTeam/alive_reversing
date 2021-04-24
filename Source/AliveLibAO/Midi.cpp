@@ -31,9 +31,9 @@ const int kSeqTableSizeAO = 164;
 ALIVE_VAR(1, 0x9F12D8, SeqIds, sSeq_Ids_word_9F12D8, {});
 ALIVE_VAR(1, 0x9F1DC4, WORD, sSnd_ReloadAbeResources_9F1DC4, 0);
 ALIVE_VAR(1, 0x9F1DBC, OpenSeqHandle *, sSeqDataTable_9F1DBC, nullptr);
-ALIVE_VAR(1, 0x9F1DC0, __int16, sSeqsPlaying_count_word_9F1DC0, 0);
+ALIVE_VAR(1, 0x9F1DC0, s16, sSeqsPlaying_count_word_9F1DC0, 0);
 ALIVE_VAR(1, 0x9F1DB8, SoundBlockInfo *, sLastLoadedSoundBlockInfo_9F1DB8, nullptr);
-ALIVE_VAR(1, 0x4D0018, __int16, sSFXPitchVariationEnabled_4D0018, true);
+ALIVE_VAR(1, 0x4D0018, s16, sSFXPitchVariationEnabled_4D0018, true);
 ALIVE_VAR(1, 0x4D0000, short, sNeedToHashSeqNames_4D0000, 1);
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
@@ -58,7 +58,7 @@ public:
         return sSeqDataTable_9F1DBC;
     }
 
-    virtual __int16& sSeqsPlaying_count_word() override
+    virtual s16& sSeqsPlaying_count_word() override
     {
         return sSeqsPlaying_count_word_9F1DC0;
     }
@@ -68,7 +68,7 @@ public:
         return reinterpret_cast<::SoundBlockInfo*&>(sLastLoadedSoundBlockInfo_9F1DB8);
     }
 
-    virtual __int16& sSFXPitchVariationEnabled() override
+    virtual s16& sSFXPitchVariationEnabled() override
     {
         return sSFXPitchVariationEnabled_4D0018;
     }
@@ -108,7 +108,7 @@ public:
         return ResourceManager::Allocate_New_Locked_Resource_454F80(type, id, size);
     }
 
-    virtual void LoadingLoop(__int16 bShowLoadingIcon) override
+    virtual void LoadingLoop(s16 bShowLoadingIcon) override
     {
         ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
     }
@@ -132,8 +132,8 @@ public:
 
 static AOMidiVars sAoMidiVars;
 
-ALIVE_VAR(1, 0xA8918E, __int16, sGlobalVolumeLevel_right_A8918E, 0);
-ALIVE_VAR(1, 0xA8918C, __int16, sGlobalVolumeLevel_left_A8918C, 0);
+ALIVE_VAR(1, 0xA8918E, s16, sGlobalVolumeLevel_right_A8918E, 0);
+ALIVE_VAR(1, 0xA8918C, s16, sGlobalVolumeLevel_left_A8918C, 0);
 ALIVE_VAR(1, 0xABF8C0, VabUnknown, s512_byte_ABF8C0, {});
 ALIVE_ARY(1, 0xA9289C, BYTE, kMaxVabs, sVagCounts_A9289C, {});
 ALIVE_ARY(1, 0xA92898, BYTE, kMaxVabs, sProgCounts_A92898, {});
@@ -149,17 +149,17 @@ ALIVE_VAR(1, 0x4E8FD8, DWORD, sLastTime_4E8FD8, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xA8919C, BYTE, sControllerValue_A8919C, 0);
 
 EXPORT signed int CC MIDI_ParseMidiMessage_49DD30(int idx);
-EXPORT void CC SsUtKeyOffV_49EE50(__int16 idx);
+EXPORT void CC SsUtKeyOffV_49EE50(s16 idx);
 
 class AOPsxSpuApiVars : public IPsxSpuApiVars
 {
 public:
-    virtual __int16& sGlobalVolumeLevel_right() override
+    virtual s16& sGlobalVolumeLevel_right() override
     {
         return sGlobalVolumeLevel_right_A8918E;
     }
 
-    virtual __int16& sGlobalVolumeLevel_left() override
+    virtual s16& sGlobalVolumeLevel_left() override
     {
         return sGlobalVolumeLevel_left_A8918C;
     }
@@ -296,7 +296,7 @@ EXPORT int CC SND_Load_492F40(SoundEntry* pSnd, const void* pWaveData, int waveD
     return SND_Load_4EF680(pSnd, pWaveData, waveDataLen);
 }
 
-EXPORT __int16 CC SsVabOpenHead_49CFB0(VabHeader* pVabHeader)
+EXPORT s16 CC SsVabOpenHead_49CFB0(VabHeader* pVabHeader)
 {
     return SsVabOpenHead_4FC620(pVabHeader);
 }
@@ -306,7 +306,7 @@ EXPORT void CC SND_Stop_Channels_Mask_4774A0(int mask)
     SND_Stop_Channels_Mask_4CA810(mask);
 }
 
-EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, int repeatCount, __int16 bDontStop)
+EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, int repeatCount, s16 bDontStop)
 {
     return SND_SEQ_PlaySeq_4CA960(static_cast<u16>(idx), static_cast<short>(repeatCount), bDontStop);
 }
@@ -315,9 +315,9 @@ EXPORT void CC SND_Seq_Stop_477A60(SeqId idx)
 {
     SND_SEQ_Stop_4CAE60(static_cast<u16>(idx));
 }
-EXPORT __int16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
+EXPORT s16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
 {
-    return static_cast<__int16>(SND_SsIsEos_DeInlined_4CACD0(static_cast<u16>(idx)));
+    return static_cast<s16>(SND_SsIsEos_DeInlined_4CACD0(static_cast<u16>(idx)));
 }
 
 EXPORT int CC SND_PlayEx_493040(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Channel* pMidiStru, int playFlags, int priority)
@@ -347,7 +347,7 @@ EXPORT void CC SsSeqStop_49E6E0(short idx)
     SsSeqStop_4FD9C0(idx);
 }
 
-EXPORT void CC MIDI_SetTempo_49E8F0(__int16 idx, __int16 kZero, __int16 tempo)
+EXPORT void CC MIDI_SetTempo_49E8F0(s16 idx, s16 kZero, s16 tempo)
 {
     MIDI_SetTempo_4FDB80(idx, kZero, tempo);
 }
@@ -554,7 +554,7 @@ EXPORT int CC SND_Stop_Sample_At_Idx_493570(int idx)
 }
 
 // NOTE!!! not the same as AE
-EXPORT void CC SsUtKeyOffV_49EE50(__int16 idx)
+EXPORT void CC SsUtKeyOffV_49EE50(s16 idx)
 {
     const auto adsr_state = GetSpuApiVars()->sMidi_Channels().channels[idx].field_1C_adsr.field_3_state;
     auto pChannel = &GetSpuApiVars()->sMidi_Channels().channels[idx];
@@ -823,7 +823,7 @@ EXPORT void CC SND_Shutdown_476EC0()
     SND_Shutdown_4CA280();
 }
 
-EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, __int16 volLeft, __int16 volRight)
+EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
 {
     SND_SEQ_SetVol_4CAD20(static_cast<u16>(idx), volLeft, volRight);
 }
@@ -840,7 +840,7 @@ static VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, int i_3)
 }
 
 // Loads vab body sample data to memory
-EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
+EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
 {
     if (vabId < 0)
     {
@@ -925,7 +925,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, __int16 vabId)
     }
 }
 
-EXPORT s16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
+EXPORT s16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
 {
     // Fail if no file name
     if (!pSoundBlockInfo->field_0_vab_header_name)
@@ -1002,7 +1002,7 @@ EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, int reverb)
 
         GetMidiVars()->sLastLoadedSoundBlockInfo() = reinterpret_cast<::SoundBlockInfo*>(pSoundBlockInfo);
 
-        __int16 vabId = 0;
+        s16 vabId = 0;
         while (SND_VAB_Load_476CB0(pSoundBlockInfoIter, vabId))
         {
             ++vabId;
@@ -1027,14 +1027,14 @@ EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqF
         bsqFileName);
 }
 
-EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, __int16 volLeft, __int16 volRight)
+EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, s16 volLeft, s16 volRight)
 {
     const auto ret = SND_SEQ_PlaySeq_4CA960(static_cast<u16>(idx), static_cast<short>(repeatCount), 1); // TODO ??
 
     OpenSeqHandle* pOpenSeq = &GetMidiVars()->sSeqDataTable()[static_cast<u16>(idx)];
 
     // Clamp vol
-    __int16 clampedVolLeft = volLeft;
+    s16 clampedVolLeft = volLeft;
     if (clampedVolLeft <= 10)
     {
         clampedVolLeft = 10;
@@ -1047,7 +1047,7 @@ EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, __int16 volLeft, _
         }
     }
 
-    __int16 clampedVolRight = volRight;
+    s16 clampedVolRight = volRight;
     if (clampedVolRight <= 10)
     {
         clampedVolRight = 10;

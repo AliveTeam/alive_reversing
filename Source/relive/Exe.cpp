@@ -41,8 +41,8 @@ namespace AutoSplitterData
         GuidStr guid;
         GameType* gameType;         // 0
         AO::LevelIds* levelId;      // 1
-        __int16* pathId;            // 2
-        __int16* camId;             // 3
+        s16* pathId;            // 2
+        s16* camId;             // 3
         u32* gnFrame;      // 4
         AO::Abe** pAbe;             // 5
         int abeYOffSet;             // 6
@@ -56,10 +56,10 @@ namespace AutoSplitterData
         // 1 byte padding/null
         GameType* gameType;         // 0
         LevelIds* levelId;          // 1
-        __int16* pathId;            // 2
-        __int16* camId;             // 3
-        unsigned  __int16* fmvId;   // 4
-        u32* gnFrame;      // 5
+        s16* pathId;                // 2
+        s16* camId;                 // 3
+        u16* fmvId;                 // 4
+        u32* gnFrame;               // 5
         Abe** pAbe;                 // 6
         int abeYOffSet;             // 7
         char* isPaused;             // 8

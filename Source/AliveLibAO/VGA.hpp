@@ -7,7 +7,7 @@ namespace AO {
 
 EXPORT int CC VGA_FullScreenSet_490160(bool bFullScreen);
 
-EXPORT signed int CC VGA_DisplaySet_490230(u16 width, u16 height, char bpp, unsigned __int8 backbufferCount, TSurfaceType** ppSurface);
+EXPORT signed int CC VGA_DisplaySet_490230(u16 width, u16 height, char bpp, u8 backbufferCount, TSurfaceType** ppSurface);
 
 EXPORT int CC VGA_GetPixelFormat_490E60();
 

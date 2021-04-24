@@ -24,7 +24,7 @@ enum class TPageAbr : char
     eBlend_3 = 3,
 };
 
-inline int CC PSX_getTPage_4965D0(TPageMode tp, TPageAbr abr, int x, __int16 y)
+inline int CC PSX_getTPage_4965D0(TPageMode tp, TPageAbr abr, int x, s16 y)
 {
     return ((((static_cast<char>(tp)) & 0x3) << 7) | (((static_cast<char>(abr)) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
 }

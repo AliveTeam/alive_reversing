@@ -20,9 +20,9 @@ private:
     EXPORT void Update_418AC0();
 public:
     int field_20_next_cam_frame;
-    __int16 field_24_camera_number;
+    s16 field_24_camera_number;
 };
 #pragma pack(pop)
 ALIVE_ASSERT_SIZEOF(CreditsController, 0x26);
 
-ALIVE_VAR_EXTERN(__int16, sDoesCreditsControllerExist_5C1B90);
+ALIVE_VAR_EXTERN(s16, sDoesCreditsControllerExist_5C1B90);

@@ -10,10 +10,10 @@ extern const char * sLCDMessageTable_555768[101];
 
 struct Path_LCDScreen : public Path_TLV
 {
-    __int16 field_10_message_1_id;
-    __int16 field_12_message_rand_min_id;
-    __int16 field_14_message_rand_max_id;
-    __int16 field_16_message_2_id;
+    s16 field_10_message_1_id;
+    s16 field_12_message_rand_min_id;
+    s16 field_14_message_rand_max_id;
+    s16 field_16_message_2_id;
     int field_18_toggle_message_switch_id;
 };
 
@@ -41,14 +41,14 @@ public:
     char field_A8_message_buffer[512];
     WORD field_2A8_play_sound_toggle;
     s16 field_2AA_message_1_id;
-    __int16 field_2AC_x_offset;
+    s16 field_2AC_x_offset;
     WORD field_2AE_character_width;
     u16 field_2B0_message_2_id;
     WORD field_2B2_toggle_message_switch_id;
     WORD field_2B4;
     WORD field_2B6_message_rand_min_id;
     WORD field_2B8_message_rand_max_id;
-    __int16 field_2BA_padding;
+    s16 field_2BA_padding;
     TlvItemInfoUnion field_2BC_tlv_item_info;
     Path_TLV field_2C0_tlv;
 };

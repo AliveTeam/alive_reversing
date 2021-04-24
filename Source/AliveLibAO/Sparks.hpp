@@ -18,8 +18,8 @@ public:
 
     int field_D4_not_used[4];
     int field_E4_not_used1;
-    __int16 field_E8_not_used2;
-    __int16 field_EA_random;
+    s16 field_E8_not_used2;
+    s16 field_EA_random;
 };
 
 }

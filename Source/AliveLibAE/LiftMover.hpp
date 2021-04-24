@@ -18,8 +18,8 @@ enum class LiftMoverStates : short
 
 struct LiftMover_State
 {
-    __int16 field_0_type;
-    //__int16 field_2;
+    s16 field_0_type;
+    //s16 field_2;
     int field_4_tlvInfo;
     LiftMoverStates field_8_state;
 };
@@ -27,15 +27,15 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
 
 struct Path_LiftMover : public Path_TLV
 {
-    __int16 field_10_switch_id;
-    __int16 field_12_lift_id;
-    enum class YDirection : __int16
+    s16 field_10_switch_id;
+    s16 field_12_lift_id;
+    enum class YDirection : s16
     {
         eDown_0 = 0,
         eUp_1 = 1,
     };
     YDirection field_14_direction;
-    __int16 field_16_pad;
+    s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);
 
@@ -57,12 +57,12 @@ private:
     EXPORT LiftPoint* GetLiftPoint_40D0F0();
 
 private:
-    __int16 field_20_enabled_by_switch_id;
-    __int16 field_22_target_lift_point_id;
+    s16 field_20_enabled_by_switch_id;
+    s16 field_22_target_lift_point_id;
     int field_24_tlvInfo;
     int field_28_lift_id;
     FP field_2C_speed;
     LiftMoverStates field_30_state;
-    __int16 field_32_bMoveInProgress;
+    s16 field_32_bMoveInProgress;
 };
 ALIVE_ASSERT_SIZEOF(LiftMover, 0x34);

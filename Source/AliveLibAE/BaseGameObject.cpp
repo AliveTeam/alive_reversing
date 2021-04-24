@@ -54,7 +54,7 @@ BYTE** BaseGameObject::Add_Resource_4DC130(DWORD type, int resourceID)
     return ppRes;
 }
 
-void BaseGameObject::BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, s16 resourceArraySize)
+void BaseGameObject::BaseGameObject_ctor_4DBFA0(s16 bAddToObjectList, s16 resourceArraySize)
 {
     SetVTable(this, 0x547AC4);
 

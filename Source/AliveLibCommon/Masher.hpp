@@ -102,15 +102,15 @@ public:
 private:
     struct Macroblock_RGB_Struct
     {
-        unsigned char Red;
-        unsigned char Green;
-        unsigned char Blue;
-        unsigned char A;
+        u8 Red;
+        u8 Green;
+        u8 Blue;
+        u8 A;
     };
 
     static int To1d(int x, int y);
 
-    static unsigned char Clamp(f32 v);
+    static u8 Clamp(f32 v);
 
 
     static void SetElement(int x, int y, int width, int height, u16* ptr, u16 value, bool doubleWidth, bool doubleHeight);

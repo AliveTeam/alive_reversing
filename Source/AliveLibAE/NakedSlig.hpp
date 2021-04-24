@@ -9,7 +9,7 @@ struct Path_NakedSlig : public Path_TLV
     Scale_short field_10_scale;
     XDirection_short field_12_direction;
 
-    enum class State : __int16
+    enum class State : s16
     {
         eSleeping_0 = 0,
         eSleeping_1 = 1,
@@ -17,83 +17,83 @@ struct Path_NakedSlig : public Path_TLV
     };
     State field_14_state;
 
-    enum class CrawlDirection : __int16
+    enum class CrawlDirection : s16
     {
         eLeft_0 = 0,
         eRight_1 = 1,
         eRandom_2 = 2,
     };
     CrawlDirection field_16_crawl_direction;
-    __int16 field_18_panic_id;
+    s16 field_18_panic_id;
     Choice_short field_1A_reset_on_death;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_NakedSlig, 0x1C);
 
 class NakedSlig;
 
-using TNakedSligAIFn = __int16 (NakedSlig::*)();
+using TNakedSligAIFn = s16 (NakedSlig::*)();
 using TNakedSligMotionFn = void (NakedSlig::*)();
 
-enum class LevelIds : __int16;
-enum class SligSpeak : signed char;
+enum class LevelIds : s16;
+enum class SligSpeak : s8;
 
 struct NakedSlig_State
 {
     AETypes field_0_type;
-    __int16 field_2_padding;
+    s16 field_2_padding;
     int field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
     FP field_14_vely;
-    __int16 field_18_path_number;
+    s16 field_18_path_number;
     LevelIds field_1A_lvl_number;
     FP field_1C_sprite_scale;
-    __int16 field_20_r;
-    __int16 field_22_g;
-    __int16 field_24_b;
-    __int16 field_26_bFlipX;
-    __int16 field_28_current_motion;
-    __int16 field_2A_anim_cur_frame;
-    __int16 field_2C_anim_frame_change_counter;
+    s16 field_20_r;
+    s16 field_22_g;
+    s16 field_24_b;
+    s16 field_26_bFlipX;
+    s16 field_28_current_motion;
+    s16 field_2A_anim_cur_frame;
+    s16 field_2C_anim_frame_change_counter;
     char field_2E_bRender;
     char field_2F_bDrawable;
     FP field_30_health;
-    __int16 field_34_cur_motion;
-    __int16 field_36_next_motion;
-    __int16 field_38_last_line_ypos;
-    __int16 field_3A_line_type;
-    __int16 field_3C_padding;
-    __int16 field_3E_padding;
+    s16 field_34_cur_motion;
+    s16 field_36_next_motion;
+    s16 field_38_last_line_ypos;
+    s16 field_3A_line_type;
+    s16 field_3C_padding;
+    s16 field_3E_padding;
     char field_40_bIsControlled;
     char field_41_padding;
-    __int16 field_42_padding;
+    s16 field_42_padding;
     int field_44_tlvInfo;
     int field_48_ai_idx;
-    __int16 field_4C_padding;
-    __int16 field_4E_padding;
-    __int16 field_50_brain_sub_state;
-    __int16 field_52_padding;
+    s16 field_4C_padding;
+    s16 field_4E_padding;
+    s16 field_50_brain_sub_state;
+    s16 field_52_padding;
     int field_54_timer;
     FP field_58_velx_scale_factor;
-    __int16 field_5C_padding;
-    __int16 field_5E_bChanting;
+    s16 field_5C_padding;
+    s16 field_5E_bChanting;
     LevelIds field_60_prev_leve;
-    __int16 field_62_prev_path;
-    __int16 field_64_prev_camera;
-    __int16 field_66_pitch;
+    s16 field_62_prev_path;
+    s16 field_64_prev_camera;
+    s16 field_66_pitch;
     int field_68_unused;
     int field_6C_slig_button_id;
     int field_70_obj_id;
     int field_74_obj_id;
     SligSpeak field_78_speak;
     char field_79_padding;
-    __int16 field_7A_unused_counter;
+    s16 field_7A_unused_counter;
     int field_7C_say_help_timer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(NakedSlig_State, 0x80);
 
-enum NakedSligMotion : __int16
+enum NakedSligMotion : s16
 {
     M_Idle_0_41B260 = 0,
     M_UsingButton_1_41B890 = 1,
@@ -132,7 +132,7 @@ public:
 
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
 
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
@@ -143,19 +143,19 @@ private:
 
     EXPORT void vPossessed_4195F0();
 
-    EXPORT void Set_AnimAndMotion_419890(__int16 currentMotion, __int16 bClearNextMotion);
+    EXPORT void Set_AnimAndMotion_419890(s16 currentMotion, s16 bClearNextMotion);
 
     EXPORT void UpdateAnimBlock_419900();
 
     EXPORT BYTE** GetAnimBlock_419950(int currentMotion);
 
-    EXPORT static __int16 CC NextRandom_4197D0();
+    EXPORT static s16 CC NextRandom_4197D0();
 
     EXPORT void vUpdate_419100();
 
     EXPORT void vRender_419990(PrimHeader** ot);
 
-    EXPORT __int16 HandleEnemyStopper_41C740(FP velX);
+    EXPORT s16 HandleEnemyStopper_41C740(FP velX);
 
     EXPORT Path_TLV* FindPantsOrWings_419750();
 
@@ -165,7 +165,7 @@ private:
 
     EXPORT void vOn_TLV_Collision_419680(Path_TLV* pTlv);
 
-    EXPORT __int16 vTakeDamage_4192B0(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_4192B0(BaseGameObject* pFrom);
 
 private:
     void SetBrain(TNakedSligAIFn fn);
@@ -181,18 +181,18 @@ private:
 
     EXPORT void HandleCommon_41C0B0();
 
-    EXPORT __int16 CanCrawl_41C5D0();
+    EXPORT s16 CanCrawl_41C5D0();
 
     EXPORT void MoveOnLine_41C3D0();
 
     EXPORT void PlatformCollide_41C500();
 public:
-    EXPORT __int16 AI_0_Sleeping_419DE0();
-    EXPORT __int16 AI_1_Idle_419F60();
-    EXPORT __int16 AI_2_PanicGetALocker_419FE0();
-    EXPORT __int16 AI_3_Possessed_41A5B0();
-    EXPORT __int16 AI_4_GetKilled_41A880();
-    EXPORT __int16 AI_5_Transformed_41ADF0();
+    EXPORT s16 AI_0_Sleeping_419DE0();
+    EXPORT s16 AI_1_Idle_419F60();
+    EXPORT s16 AI_2_PanicGetALocker_419FE0();
+    EXPORT s16 AI_3_Possessed_41A5B0();
+    EXPORT s16 AI_4_GetKilled_41A880();
+    EXPORT s16 AI_5_Transformed_41ADF0();
 
 
     EXPORT void M_Idle_0_41B260();
@@ -216,41 +216,41 @@ public:
 
 private:
     int field_118_tlvInfo;
-    __int16 field_11C_pPalAlloc[64];
+    s16 field_11C_pPalAlloc[64];
     PSX_RECT field_19C_pal_rect;
-    __int16 field_1A4_r;
-    __int16 field_1A6_g;
-    __int16 field_1A8_b;
+    s16 field_1A4_r;
+    s16 field_1A6_g;
+    s16 field_1A8_b;
 
-    __int16 field_1AA_padding;
+    s16 field_1AA_padding;
     int field_1AC_timer;
     FP field_1B0_velx_scale_factor; // TODO: Not sure if this is an accurate name, but can't think of anything better.
     int field_1B4_unused;
 
-    __int16 field_1B8_bChanting;
+    s16 field_1B8_bChanting;
 
     LevelIds field_1BA_prev_level;
-    __int16 field_1BC_prev_path;
-    __int16 field_1BE_prev_camera;
+    s16 field_1BC_prev_path;
+    s16 field_1BE_prev_camera;
 
     SligSpeak field_1C0_speak;
     char field_1C1_padding;
-    __int16 field_1C2_pitch;
-    __int16 field_1C4_unused_counter;
-    __int16 field_1C6_unused;
+    s16 field_1C2_pitch;
+    s16 field_1C4_unused_counter;
+    s16 field_1C6_unused;
     int field_1C8_say_help_timer;
-    __int16 field_1CC_unused;
-    __int16 field_1CE_padding;
+    s16 field_1CC_unused;
+    s16 field_1CE_padding;
     int field_1D0_slig_button_id;
     int field_1D4_obj_id;
     int field_1D8_obj_id;
     int field_1DC_unused;
     Path_NakedSlig::CrawlDirection field_1E0_crawl_direction;
-    __int16 field_1E2_padding;
+    s16 field_1E2_padding;
     Path_TLV* field_1E4_pPantsOrWingsTlv;
     Path_NakedSlig field_1E8_tlv;
     TNakedSligAIFn field_204_brain_state;
-    __int16 field_208_brain_sub_state;
-    __int16 field_20A_padding;
+    s16 field_208_brain_sub_state;
+    s16 field_20A_padding;
 };
 ALIVE_ASSERT_SIZEOF(NakedSlig, 0x20C);

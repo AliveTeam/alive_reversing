@@ -6,13 +6,13 @@
 
 struct Path_StatusLight : public Path_TLV
 {
-    __int16 field_10_id;
+    s16 field_10_id;
     Scale_short field_12_scale;
-    __int16 field_14_id1;
-    __int16 field_16_id2;
-    __int16 field_18_id3;
-    __int16 field_1A_id4;
-    __int16 field_1C_id5;
+    s16 field_14_id1;
+    s16 field_16_id2;
+    s16 field_18_id3;
+    s16 field_1A_id4;
+    s16 field_1C_id5;
     Choice_short field_1E_bIgnore_grid_snapping;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_StatusLight, 0x20);
@@ -32,12 +32,12 @@ private:
     EXPORT void vScreenChanged_4D5820();
 private:
     DWORD field_F4_tlvInfo;
-    __int16 field_F8_input_id;
-    __int16 field_FA_id1;
-    __int16 field_FC_id2;
-    __int16 field_FE_id3;
-    __int16 field_100_id4;
-    __int16 field_102_id5;
+    s16 field_F8_input_id;
+    s16 field_FA_id1;
+    s16 field_FC_id2;
+    s16 field_FE_id3;
+    s16 field_100_id4;
+    s16 field_102_id5;
     Choice_short field_104_bIgnore_grid_snapping;
     FP field_108_xpos;
     FP field_10C_ypos;

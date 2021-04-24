@@ -17,8 +17,8 @@ struct TrapDoor_Data
     int field_4_maxW;
     int field_8;
     int field_C;
-    __int16 field_10_maxH;
-    __int16 field_12_frame_table_offset;
+    s16 field_10_maxH;
+    s16 field_12_frame_table_offset;
 };
 
 const TrapDoor_Data sTrapDoorData_547B78[18] =

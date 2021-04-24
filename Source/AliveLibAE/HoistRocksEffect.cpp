@@ -9,7 +9,7 @@
 #include "ScreenManager.hpp"
 
 const static int dword_5556E0[4] = { 204, 180, 192, 204 };
-const static __int16 word_5556F0[12] = { 5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0 };
+const static s16 word_5556F0[12] = { 5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0 };
 
 BaseGameObject* HoistRocksEffect::VDestructor(signed int flags)
 {

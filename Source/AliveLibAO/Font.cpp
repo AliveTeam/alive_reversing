@@ -333,7 +333,7 @@ EXPORT u32 AliveFont::MeasureWidth_41C2B0(const char* text)
         const char c = text[i];
         int charIndex = 0;
 
-        if (c <= 32 || static_cast<const unsigned char>(c) > 175)
+        if (c <= 32 || static_cast<const u8>(c) > 175)
         {
             if (c < 7 || c > 31)
             {
@@ -397,7 +397,7 @@ int AliveFont::MeasureWidth_41C280(const char* text, FP scale)
     return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
 }
 
-EXPORT int AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, __int16 x, __int16 y, TPageAbr abr, int bSemiTrans, int blendMode, Layer layer, unsigned char r, unsigned char g, unsigned char b, int polyOffset, FP scale, int maxRenderWidth, int colorRandomRange)
+EXPORT int AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, s16 x, s16 y, TPageAbr abr, int bSemiTrans, int blendMode, Layer layer, u8 r, u8 g, u8 b, int polyOffset, FP scale, int maxRenderWidth, int colorRandomRange)
 {
     if (!sFontDrawScreenSpace_508BF4)
     {
@@ -420,7 +420,7 @@ EXPORT int AliveFont::DrawString_41C360(PrimHeader** ppOt, const char* text, __i
             break;
         }
 
-        const unsigned char c = text[i];
+        const u8 c = text[i];
 
         if (c <= 32 || c > 175)
         {

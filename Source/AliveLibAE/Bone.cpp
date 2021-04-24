@@ -13,7 +13,7 @@
 #include "Abe.hpp"
 #include "Particle.hpp"
 
-Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
+Bone* Bone::ctor_4112C0(FP xpos, FP ypos, s16 countId)
 {
     ctor_408240(0);
     field_11A_bDead = 0;
@@ -104,7 +104,7 @@ int Bone::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_412ED0(reinterpret_cast<Bone_SaveState*>(pSaveBuffer));
 }
 
-__int16 Bone::VGetCount_448080()
+s16 Bone::VGetCount_448080()
 {
     return vGetCount_412500();
 }
@@ -236,7 +236,7 @@ BOOL Bone::vCanThrow_411530()
     return field_11C_state != BoneStates::eState_0_spawned && field_11C_state != BoneStates::eState_1_airborne;
 }
 
-__int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -607,7 +607,7 @@ void Bone::vUpdate_411BC0()
     }
 }
 
-__int16 Bone::vGetCount_412500()
+s16 Bone::vGetCount_412500()
 {
     if (field_11C_state == BoneStates::eState_3_on_ground && field_118_count == 0)
     {

@@ -156,7 +156,7 @@ signed int CC SND_CreateDS_DSound(u32 sampleRate, int bitsPerSample, int isStere
                         if (sSoundSamples_BBBF38[i])
                         {
                             SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
-                            SND_LoadSamples_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
+                            SND_LoadSamples_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (u8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
                             if ((i + 1) == sLoadedSoundsCount_BBC394)
                                 break;
                         }
@@ -277,14 +277,14 @@ EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int sampleRate, int bitsPerSa
 
     if (SUCCEEDED(sPrimarySoundBuffer_BBC388->Play(0, 0, 1)))
     {
-        return SND_SetPrimarySoundBufferFormat_4EE990(sampleRate, bitsPerSample, static_cast<unsigned char>(isStereo)) != 0 ? 0xFD : 0;
+        return SND_SetPrimarySoundBufferFormat_4EE990(sampleRate, bitsPerSample, static_cast<u8>(isStereo)) != 0 ? 0xFD : 0;
     }
 
     sPrimarySoundBuffer_BBC388->Release();
     return -2;
 }
 
-EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPerSample, unsigned __int8 isStereo)
+EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPerSample, u8 isStereo)
 {
     WAVEFORMATEX pWaveFormat = {};
 
@@ -298,11 +298,11 @@ EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPer
     pWaveFormat.nAvgBytesPerSec = 0;
     pWaveFormat.nBlockAlign = 0;
     pWaveFormat.cbSize = 0;
-    SND_Init_WaveFormatEx_4EEA00(&pWaveFormat, sampleRate, static_cast<unsigned char>(bitsPerSample), isStereo);
+    SND_Init_WaveFormatEx_4EEA00(&pWaveFormat, sampleRate, static_cast<u8>(bitsPerSample), isStereo);
     return -(sPrimarySoundBuffer_BBC388->SetFormat(&pWaveFormat) != 0);
 }
 
-signed int CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, u32 sampleCount)
+signed int CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount)
 {
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const u32 bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;

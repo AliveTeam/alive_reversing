@@ -34,7 +34,7 @@ void WorkWheel::VStartTurning()
     vStartTurning_4E3A20();
 }
 
-void WorkWheel::VStopTurning(__int16 bResetSwitch)
+void WorkWheel::VStopTurning(s16 bResetSwitch)
 {
     vStopTurning_4E3A60(bResetSwitch);
 }
@@ -234,7 +234,7 @@ void WorkWheel::vStartTurning_4E3A20()
     }
 }
 
-void WorkWheel::vStopTurning_4E3A60(__int16 bResetSwitch)
+void WorkWheel::vStopTurning_4E3A60(s16 bResetSwitch)
 {
     if (field_FC_state == WheelStates::eTurning_1)
     {

@@ -324,7 +324,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, int tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    const __int16 bHit = sCollisions_DArray_504C6C->RayCast_40C410(
+    const s16 bHit = sCollisions_DArray_504C6C->RayCast_40C410(
         FP_FromInteger(pTlv->field_10_top_left.field_0_x),
         FP_FromInteger(pTlv->field_10_top_left.field_2_y),
         FP_FromInteger(pTlv->field_14_bottom_right.field_0_x),
@@ -660,12 +660,12 @@ void Mudokon::VScreenChanged_43FFC0()
     }
 }
 
-__int16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
+s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_43F830(pFrom);
 }
 
-__int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
+s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
 {
     switch (pFrom->field_4_typeId)
     {
@@ -830,7 +830,7 @@ __int16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
     }
 }
 
-__int16 Mudokon::DoSmashDamage()
+s16 Mudokon::DoSmashDamage()
 {
     if (field_100_health > FP_FromInteger(0))
     {
@@ -863,7 +863,7 @@ void Mudokon::KillBirdPortal()
     }
 }
 
-BYTE** Mudokon::GetResBlockForMotion_43EDE0(__int16 motion)
+BYTE** Mudokon::GetResBlockForMotion_43EDE0(s16 motion)
 {
     if (motion < eMudStates::State_11_Null_43D350)
     {
@@ -1018,7 +1018,7 @@ void Mudokon::CheckFloorGone_43C9B0()
     }
 }
 
-__int16 CC Mudokon::IsAbeSneaking_43D660(Mudokon* /*pMud*/)
+s16 CC Mudokon::IsAbeSneaking_43D660(Mudokon* /*pMud*/)
 {
     return sActiveHero_507678->field_FC_current_motion == eAbeStates::State_42_SneakLoop_424BB0
         || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_47_SneakBegin_424ED0
@@ -1129,7 +1129,7 @@ void Mudokon::MoveOnLine_43C7E0()
     }
 }
 
-__int16 Mudokon::FindBirdPortal_440250()
+s16 Mudokon::FindBirdPortal_440250()
 {
     if (field_1AC_pBirdPortal)
     {
@@ -1158,7 +1158,7 @@ __int16 Mudokon::FindBirdPortal_440250()
     return 0;
 }
 
-__int16 Mudokon::FacingTarget_43D6A0(BirdPortal* pTarget)
+s16 Mudokon::FacingTarget_43D6A0(BirdPortal* pTarget)
 {
     if (pTarget->field_18_xpos == field_A8_xpos)
     {
@@ -1224,7 +1224,7 @@ void Mudokon::RemoveAlerted()
     }
 }
 
-__int16 Mudokon::IAmNearestToAbe_440120()
+s16 Mudokon::IAmNearestToAbe_440120()
 {
     for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
@@ -3729,12 +3729,12 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
         {
             gridSizeDirected = ScaleToGridSize_41FA30(field_BC_sprite_scale);
         }
-        const __int16 bHitWall = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected);
-        const __int16 bEndOfLine = Check_IsOnEndOfLine_4021A0(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1);
+        const s16 bHitWall = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected);
+        const s16 bEndOfLine = Check_IsOnEndOfLine_4021A0(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1);
 
         if (field_FC_current_motion != eMudStates::State_0_Idle_43CA70)
         {
-            const __int16 oldState = field_1BA_sub_state;
+            const s16 oldState = field_1BA_sub_state;
             field_FE_next_state = eMudStates::State_0_Idle_43CA70;
             field_1B4_idle_time = 0;
             return oldState;
@@ -3892,7 +3892,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             gridSizeDirected = ScaleToGridSize_41FA30(field_BC_sprite_scale);
         }
 
-        const __int16 bHitWall = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected);
+        const s16 bHitWall = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected);
 
         if (Check_IsOnEndOfLine_4021A0(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1) || bHitWall)
         {
@@ -3981,7 +3981,7 @@ short Mudokon::Brain_ListeningToAbe_10_440300()
             gridSizeDirected = ScaleToGridSize_41FA30(field_BC_sprite_scale);
         }
 
-        const __int16 bHitWall = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected * FP_FromInteger(3));
+        const s16 bHitWall = WallHit_401930(field_BC_sprite_scale * FP_FromInteger(50), gridSizeDirected * FP_FromInteger(3));
         if (Check_IsOnEndOfLine_4021A0(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? 1 : 0, 4)
             || bHitWall)
         {

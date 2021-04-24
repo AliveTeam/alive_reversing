@@ -8,7 +8,7 @@
 #include "PsxRender.hpp"
 #include "Game.hpp"
 
-EXPORT ScreenShake* ScreenShake::ctor_4ACF70(__int16 enableShakeEvent, __int16 softerShakes)
+EXPORT ScreenShake* ScreenShake::ctor_4ACF70(s16 enableShakeEvent, s16 softerShakes)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547070); // vTbl_ScreenShake_547070
@@ -63,8 +63,8 @@ EXPORT BaseGameObject* ScreenShake::vdtor_4AD030(signed int flags)
 
 struct ScreenOffset
 {
-    signed char field_0_x;
-    signed char field_1_y;
+    s8 field_0_x;
+    s8 field_1_y;
 };
 
 const ScreenOffset sShakeOffsets_560388[16] =

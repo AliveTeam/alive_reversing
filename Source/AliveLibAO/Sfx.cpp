@@ -124,7 +124,7 @@ const SfxDefinition sSfxEntries_4CCA38[] =
     { 0, 64, 39, 90, -1000, -1000, 0 }
 };
 
-int CC SFX_Play_43AE60(unsigned __int8 sfxIdx, int volume, int pitch, BaseAnimatedWithPhysicsGameObject* pObj)
+int CC SFX_Play_43AE60(u8 sfxIdx, int volume, int pitch, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (volume > 0)
     {
@@ -137,7 +137,7 @@ int CC SFX_Play_43AE60(unsigned __int8 sfxIdx, int volume, int pitch, BaseAnimat
     return SFX_SfxDefinition_Play_4770F0(&sSfxEntries_4CCA38[sfxIdx], volume, pitch, pitch);
 }
 
-int CC SFX_Play_43AD70(unsigned __int8 sfxIdx, int volume, BaseAnimatedWithPhysicsGameObject* pObj)
+int CC SFX_Play_43AD70(u8 sfxIdx, int volume, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (volume > 0)
     {
@@ -150,7 +150,7 @@ int CC SFX_Play_43AD70(unsigned __int8 sfxIdx, int volume, BaseAnimatedWithPhysi
     return SFX_SfxDefinition_Play_4770F0(&sSfxEntries_4CCA38[sfxIdx], volume, 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_43ADE0(unsigned __int8 sfxId, int leftVol, int rightVol, BaseAnimatedWithPhysicsGameObject* pObj)
+int CC SFX_Play_43ADE0(u8 sfxId, int leftVol, int rightVol, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     short left = 0;
     short right = 0;
@@ -168,7 +168,7 @@ int CC SFX_Play_43ADE0(unsigned __int8 sfxId, int leftVol, int rightVol, BaseAni
     return SFX_SfxDefinition_Play_477330(&sSfxEntries_4CCA38[sfxId], left, right, 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_43AED0(unsigned __int8 sfxId, signed int volume, CameraPos direction)
+int CC SFX_Play_43AED0(u8 sfxId, signed int volume, CameraPos direction)
 {
     switch (direction)
     {

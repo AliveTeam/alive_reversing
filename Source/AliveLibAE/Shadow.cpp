@@ -36,7 +36,7 @@ void Shadow::dtor_4ACA30()
     field_18_animation.vCleanUp_40C630();
 }
 
-void Shadow::Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, __int16 scale)
+void Shadow::Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, s16 scale)
 {
     if (field_14_flags.Get(Flags::eBit2_Enabled))
     {

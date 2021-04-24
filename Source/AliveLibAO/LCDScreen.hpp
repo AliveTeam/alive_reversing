@@ -10,10 +10,10 @@ namespace AO {
 
 struct Path_LCDScreen : public Path_TLV
 {
-    __int16 field_18_message_1_id;
-    __int16 field_1A_message_rand_min;
-    __int16 field_1C_message_rand_max;
-    __int16 field_1E_message_2_id_not_used;
+    s16 field_18_message_1_id;
+    s16 field_1A_message_rand_min;
+    s16 field_1C_message_rand_max;
+    s16 field_1E_message_2_id_not_used;
 };
 ALIVE_ASSERT_SIZEOF(Path_LCDScreen, 0x20);
 

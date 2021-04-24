@@ -51,7 +51,7 @@ BaseGameObject* ParamiteWeb::VDestructor(signed int flags)
     return Vdtor_48AEC0(flags);
 }
 
-ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, __int16 bottom, __int16 top, FP scale)
+ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, s16 bottom, s16 top, FP scale)
 {
     ctor_417C10();
     SetVTable(this, 0x4BD6F8);

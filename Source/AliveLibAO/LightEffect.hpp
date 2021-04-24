@@ -34,8 +34,8 @@ public:
     int field_E0;
 
     int field_E4_tlvInfo;
-    __int16 field_E8;
-    __int16 field_EA;
+    s16 field_E8;
+    s16 field_EA;
     int field_EC_rnd1;
     int field_F0_rnd2;
     int field_F4_rnd3;

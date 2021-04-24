@@ -11,19 +11,19 @@ struct FallingItem_Data
 {
     int field_0;
     int field_4;
-    __int16 field_8;
-    __int16 field_A;
+    s16 field_8;
+    s16 field_A;
 };
 ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
 
 struct Path_FallingItem : public Path_TLV
 {
-    __int16 field_18_id;
+    s16 field_18_id;
     Scale_short field_1A_scale;
-    __int16 field_1C_delay_time;
-    __int16 field_1E_number_of_items;
-    __int16 field_20_reset_id;
-    __int16 field_22_pad;
+    s16 field_1C_delay_time;
+    s16 field_1E_number_of_items;
+    s16 field_20_reset_id;
+    s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_FallingItem, 0x24);
 
@@ -52,7 +52,7 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
 private:
-    enum class State : __int16
+    enum class State : s16
     {
         eState_0_WaitForIdEnable = 0,
         eState_1_GoWaitForDelay = 1,
@@ -65,13 +65,13 @@ public:
     int field_10C_tlvInfo;
     State field_110_state;
     u16 field_112_id;
-    __int16 field_114_num_items;
-    __int16 field_116_num_items_remaining;
-    __int16 field_118_delay_time;
-    __int16 field_11A;
+    s16 field_114_num_items;
+    s16 field_116_num_items_remaining;
+    s16 field_118_delay_time;
+    s16 field_11A;
     int field_11C_delay_timer;
-    __int16 field_120_reset_id;
-    __int16 field_122_do_sound_in_state_falling;
+    s16 field_120_reset_id;
+    s16 field_122_do_sound_in_state_falling;
     FP field_124_yPosStart;
     FP field_128_xpos;
     FP field_12C_ypos;

@@ -7,7 +7,7 @@
 class ScreenShake : public BaseGameObject
 {
 public:
-    EXPORT ScreenShake* ctor_4ACF70(__int16 enableShakeEvent, __int16 softerShakes);
+    EXPORT ScreenShake* ctor_4ACF70(s16 enableShakeEvent, s16 softerShakes);
    
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
@@ -21,11 +21,11 @@ private:
 
 private:
     Prim_ScreenOffset field_20_screenOffset[2];
-    __int16 field_40_shakeNumber;
-    __int16 field_42_enableShakeEvent;
-    __int16 field_44_softerShakes;
+    s16 field_40_shakeNumber;
+    s16 field_42_enableShakeEvent;
+    s16 field_44_softerShakes;
 
-    __int16 field_46_padding;
+    s16 field_46_padding;
     int field_48_padding;
 };
 ALIVE_ASSERT_SIZEOF(ScreenShake, 0x4C);

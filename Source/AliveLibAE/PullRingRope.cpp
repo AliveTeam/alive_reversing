@@ -109,7 +109,7 @@ void PullRingRope::VScreenChanged()
     vScreenChanged_49BCB0();
 }
 
-__int16 PullRingRope::VPull_49BBD0(BaseGameObject* a2)
+s16 PullRingRope::VPull_49BBD0(BaseGameObject* a2)
 {
     return vPull_49BBD0(a2);
 }
@@ -294,7 +294,7 @@ void PullRingRope::vScreenChanged_49BCB0()
     }
 }
 
-__int16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
+s16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
 {
     if (!pObj || field_100_state != States::eIdle_0)
     {

@@ -12,7 +12,7 @@ class BaseAliveGameObject;
 class OrbWhirlWind : public BaseGameObject
 {
 public:
-    enum class ParticlesState : __int16
+    enum class ParticlesState : s16
     {
         eCreating = 0,
         eCreated = 1,
@@ -42,7 +42,7 @@ public:
 
     int field_10_particle_spawn_counter;
     ParticlesState field_14_particles_state;
-    __int16 field_16_particleIdx;
+    s16 field_16_particleIdx;
     OrbWhirlWindParticle* field_18_particles[16];
     FP field_58_xpos;
     FP field_5C_ypos;

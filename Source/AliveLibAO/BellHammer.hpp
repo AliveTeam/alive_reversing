@@ -8,10 +8,10 @@ namespace AO {
 
 struct Path_BellHammer : public Path_TLV
 {
-    __int16 field_18_id;
-    __int16 field_1A_action;
-    __int16 field_1C_scale;
-    __int16 field_1E_direction;
+    s16 field_18_id;
+    s16 field_1A_action;
+    s16 field_1C_scale;
+    s16 field_1E_direction;
 };
 ALIVE_ASSERT_SIZEOF(Path_BellHammer, 0x20);
 
@@ -44,7 +44,7 @@ public:
     int field_DC;
     int field_E0;
     BellHammerStates field_E4_state;
-    __int16 field_E6_switch_id;
+    s16 field_E6_switch_id;
     int field_E8_tlvInfo;
     int field_EC_pending_resource_count;
     int field_F0_bSpawnElum;

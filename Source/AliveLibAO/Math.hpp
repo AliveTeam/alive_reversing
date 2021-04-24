@@ -19,7 +19,7 @@ EXPORT int CC Math_SquareRoot_Int_4511B0(int a1);
 
 EXPORT FP CC Math_SquareRoot_FP_451210(FP v);
 
-ALIVE_ARY_EXTERN(unsigned char, 256, sRandomBytes_4BBE30);
+ALIVE_ARY_EXTERN(u8, 256, sRandomBytes_4BBE30);
 
 }
 

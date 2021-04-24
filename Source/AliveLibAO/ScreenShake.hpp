@@ -9,7 +9,7 @@ namespace AO {
 class ScreenShake : public BaseGameObject
 {
 public:
-    EXPORT ScreenShake* ctor_4624D0(__int16 enableShakeEvent);
+    EXPORT ScreenShake* ctor_4624D0(s16 enableShakeEvent);
 
     virtual void VUpdate() override;
 
@@ -26,8 +26,8 @@ public:
     EXPORT BaseGameObject* dtor_462550();
 
     Prim_ScreenOffset field_10_screenOffset[2];
-    __int16 field_30_shakeNumber;
-    __int16 field_32_enableShakeEvent;
+    s16 field_30_shakeNumber;
+    s16 field_32_enableShakeEvent;
 };
 ALIVE_ASSERT_SIZEOF(ScreenShake, 0x34);
 

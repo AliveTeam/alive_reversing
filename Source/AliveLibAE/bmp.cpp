@@ -5,7 +5,7 @@
 #include "Error.hpp"
 #include "Sys_common.hpp"
 
-ALIVE_VAR(1, 0xBC0BB4, unsigned __int8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
+ALIVE_VAR(1, 0xBC0BB4, u8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 
 #if USE_SDL2
 

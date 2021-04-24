@@ -267,7 +267,7 @@ void GasCountDown::vUpdate_4172E0()
 
         const int old_timer = field_74_time_left;
         const int new_timer = (field_76_gas_countdown_timer - static_cast<int>(sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30;
-        field_74_time_left = static_cast<__int16>(new_timer);
+        field_74_time_left = static_cast<s16>(new_timer);
         if (old_timer != field_74_time_left && field_74_time_left > 0)
         {
             SFX_Play_46FBA0(SoundEffect::RedTick_3, 55, -1000);

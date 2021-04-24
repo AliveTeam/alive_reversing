@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdint.h>
+#include "Types.hpp"
 
 #ifdef _WIN32
     #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
@@ -9,11 +9,6 @@
     #define NOMINMAX
     #endif
 
-    using u16 = unsigned short;
-    using s16 = signed short;
-
-    using u32 = unsigned int;
-    using s32 = signed int;
 #else
     using PVOID = void*;
     using LPVOID = void*;
@@ -33,8 +28,6 @@
     using CHAR = char;
 
     #define __int64 long long
-    #define __int16 short
-    #define __int8 char
 
     #define TRUE 1
     #define FALSE 0

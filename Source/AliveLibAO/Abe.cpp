@@ -1087,7 +1087,7 @@ void Abe::vUpdate_41FDB0()
 
 
              // Execute the current state
-            __int16 state_idx = field_FC_current_motion;
+            s16 state_idx = field_FC_current_motion;
             const FP oldX = field_A8_xpos;
             const FP oldY = field_AC_ypos;
             (this->*sAbeStateMachineTable_4C5F08[state_idx])();
@@ -1478,7 +1478,7 @@ void Abe::FollowLift_42EE90()
     }
 }
 
-void Abe::ExitShrykull_42F440(__int16 bResetRingTimer)
+void Abe::ExitShrykull_42F440(s16 bResetRingTimer)
 {
     field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -1494,7 +1494,7 @@ void Abe::ExitShrykull_42F440(__int16 bResetRingTimer)
     }
 }
 
-__int16 Abe::RunTryEnterWell_425880()
+s16 Abe::RunTryEnterWell_425880()
 {
     if (!Input().IsAnyPressed(sInputKey_Up_4C6598) ||
         field_10_anim.field_92_current_frame < 4)
@@ -1540,7 +1540,7 @@ __int16 Abe::RunTryEnterWell_425880()
     return 0;
 }
 
-void Abe::ChangeChantState_430510(__int16 bKeepChanting)
+void Abe::ChangeChantState_430510(s16 bKeepChanting)
 {
     if (bKeepChanting)
     {
@@ -1594,7 +1594,7 @@ void Abe::ToDieFinal_42C400()
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
 }
 
-void Abe::ToKnockback_422D90(__int16 bKnockbackSound, __int16 bDelayedAnger)
+void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
 {
     if (sControlledCharacter_50767C->field_4_typeId != Types::eSlig_88 || field_100_health <= FP_FromInteger(0))
     {
@@ -2093,7 +2093,7 @@ short Abe::DoGameSpeak_42F5C0(u16 input)
     return -1;
 }
 
-void Abe::SyncToElum_42D850(__int16 elumMotion)
+void Abe::SyncToElum_42D850(s16 elumMotion)
 {
     if (field_FC_current_motion != eAbeStates::State_137_ElumUnmountBegin_42E2B0 && field_FC_current_motion != eAbeStates::State_138_ElumUnmountEnd_42E390)
     {
@@ -2251,7 +2251,7 @@ void Abe::SyncToElum_42D850(__int16 elumMotion)
     }
 }
 
-void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, __int16 bStandToCrouch)
+void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, int fpY, s16 bStandToCrouch)
 {
     BaseAliveGameObject* pSlapableOrCollectable = nullptr;
     for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
@@ -2460,7 +2460,7 @@ void Abe::FallOnBombs_4231B0()
     }
 }
 
-__int16 Abe::ToLeftRightMovement_422AA0()
+s16 Abe::ToLeftRightMovement_422AA0()
 {
     field_B8_vely = FP_FromInteger(0);
     if (sControlledCharacter_50767C != this)
@@ -2648,7 +2648,7 @@ void Abe::ElumKnockForward_42E780(int /*not_used*/)
     gElum_507680->field_154_bAbeForcedDownFromElum = 1;
 }
 
-__int16 Abe::TryMountElum_42E600()
+s16 Abe::TryMountElum_42E600()
 {
     if (gElum_507680)
     {
@@ -2914,7 +2914,7 @@ BOOL Abe::NearDoorIsOpen()
     return TRUE;
 }
 
-__int16 Abe::RunTryEnterDoor_4259C0()
+s16 Abe::RunTryEnterDoor_4259C0()
 {
     if (!Input().IsAnyPressed(sInputKey_Up_4C6598))
     {
@@ -2956,7 +2956,7 @@ __int16 Abe::RunTryEnterDoor_4259C0()
     return 1;
 }
 
-__int16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
+s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
 {
     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
 
@@ -3153,9 +3153,9 @@ void Abe::VOn_Tlv_Collision_421130(Path_TLV *pTlv)
     }
 }
 
-__int16 Abe::HandleDoAction_429A70()
+s16 Abe::HandleDoAction_429A70()
 {
-    __int16 mountMotion = TryMountElum_42E600();
+    s16 mountMotion = TryMountElum_42E600();
     if (mountMotion != eAbeStates::State_0_Idle_423520)
     {
         return mountMotion;
@@ -3255,12 +3255,12 @@ __int16 Abe::HandleDoAction_429A70()
 }
 
 
-__int16 Abe::VTakeDamage(BaseGameObject* pFrom)
+s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_4214E0(pFrom);
 }
 
-__int16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
+s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
 {
     SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
 
@@ -7298,7 +7298,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
         }
         sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8_bLandSoft);
         sActiveHero_507678->field_E8_LastLineYPos = sActiveHero_507678->field_AC_ypos;
-        sActiveHero_507678->field_110_state.raw = static_cast<__int16>(pSaveData->field_244_stone_state);
+        sActiveHero_507678->field_110_state.raw = static_cast<s16>(pSaveData->field_244_stone_state);
         sActiveHero_507678->field_114_gnFrame = pSaveData->field_248_gnFrame;
         sActiveHero_507678->field_E6_last_anim_frame = pSaveData->field_240_last_anim_frame;
         sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_23C_ah_flipX & 1);
@@ -9837,12 +9837,12 @@ void Abe::State_155_ElumJumpToFall_42E060()
 
 struct Path_Reset : public Path_TLV
 {
-    __int16 field_18_clearIds;
-    __int16 field_1A_from;
-    __int16 field_1C_to;
-    __int16 field_1E_exclude;
-    __int16 field_20_clearObjects;
-    __int16 field_22_path;
+    s16 field_18_clearIds;
+    s16 field_1A_from;
+    s16 field_1C_to;
+    s16 field_1E_exclude;
+    s16 field_20_clearObjects;
+    s16 field_22_path;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Reset, 0x24);
 

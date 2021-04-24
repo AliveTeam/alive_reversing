@@ -12,7 +12,7 @@
 #include "Particle.hpp"
 #include "ScreenManager.hpp"
 
-Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int unused, FP scale, __int16 numberOfBullets)
+Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int unused, FP scale, s16 numberOfBullets)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x54446C);

@@ -32,7 +32,7 @@ public:
         Update_4B0980();
     }
 
-    enum class SnoozeParticleState : __int16
+    enum class SnoozeParticleState : s16
     {
         Rising_0 = 0,
         Unused_1 = 1,
@@ -61,17 +61,17 @@ private:
     FP field_38_scale;
     FP field_3C_scale_dx;
     Layer field_40_layer;
-    __int16 field_42_r;
-    __int16 field_44_g;
-    __int16 field_46_b;
+    s16 field_42_r;
+    s16 field_44_g;
+    s16 field_46_b;
     u16 field_48_idx;
-    __int16 field_4A_count_down;
+    s16 field_4A_count_down;
     Line_G4 field_4C_G4_lines[2];
     Line_G2 field_A4_G2_lines[2][6];
     Prim_SetTPage field_1C4_tPage[2];
 public:
     SnoozeParticleState field_1E4_state;
 private:
-    __int16 field_1E6_padding;
+    s16 field_1E6_padding;
 };
 ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1E8);

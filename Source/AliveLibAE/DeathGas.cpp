@@ -33,7 +33,7 @@ ALIVE_VAR(1, 0x5BD1E4, Data_Byte, sbyte_1_5BD1E4, {});
 ALIVE_VAR(1, 0x5BD218, Data_Byte, sbyte_2_5BD218, {});
 ALIVE_VAR(1, 0x5BD24C, int, gDeathGasCount_5BD24C, 0);
 
-DeathGas* DeathGas::ctor_43C030(Layer layer, __int16 amount)
+DeathGas* DeathGas::ctor_43C030(Layer layer, s16 amount)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5451B4);

@@ -27,4 +27,4 @@ namespace AETest::TestsMath
     void Math_Tests();
 }
 
-ALIVE_ARY_EXTERN(unsigned char, 256, sRandomBytes_546744);
+ALIVE_ARY_EXTERN(u8, 256, sRandomBytes_546744);

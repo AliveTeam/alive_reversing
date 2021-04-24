@@ -12,10 +12,10 @@ namespace AO {
 
 struct File_Font
 {
-    __int16 field_0_width;
-    __int16 field_2_height;
-    __int16 field_4_color_depth;
-    __int16 field_6_palette_size;
+    s16 field_0_width;
+    s16 field_2_height;
+    s16 field_4_color_depth;
+    s16 field_6_palette_size;
     BYTE field_8_palette[32];
     BYTE field_28_pixel_buffer[1];
 };
@@ -24,10 +24,10 @@ struct File_Font
 
 struct Font_AtlasEntry
 {
-    unsigned __int8 field_0_x;
-    unsigned __int8 field_1_y;
-    unsigned __int8 field_2_width;
-    unsigned __int8 field_3_height;
+    u8 field_0_x;
+    u8 field_1_y;
+    u8 field_2_width;
+    u8 field_3_height;
 };
 ALIVE_ASSERT_SIZEOF(Font_AtlasEntry, 0x4);
 
@@ -46,8 +46,8 @@ public:
 
     PSX_RECT field_0_rect;
     const Font_AtlasEntry* field_8_atlas_array;
-    __int16 field_C_resource_id;
-    __int16 field_E_pad;
+    s16 field_C_resource_id;
+    s16 field_E_pad;
 };
 
 
@@ -62,7 +62,7 @@ public:
 
     EXPORT int MeasureWidth_41C280(const char* text, FP scale);
 
-    EXPORT int DrawString_41C360(PrimHeader** ppOt, const char* text, __int16 x, __int16 y, TPageAbr abr, int bSemiTrans, int a2, Layer otLayer, unsigned char r, unsigned char g, unsigned char b, int polyOffset, FP scale, int a15, int colorRandomRange);
+    EXPORT int DrawString_41C360(PrimHeader** ppOt, const char* text, s16 x, s16 y, TPageAbr abr, int bSemiTrans, int a2, Layer otLayer, u8 r, u8 g, u8 b, int polyOffset, FP scale, int a15, int colorRandomRange);
 
     EXPORT void dtor_41C130();
 

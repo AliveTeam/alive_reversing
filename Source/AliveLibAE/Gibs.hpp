@@ -45,7 +45,7 @@ enum class GibType : int
 class Gibs : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Gibs* ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bMakeSmaller);
+    EXPORT Gibs* ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 bMakeSmaller);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -60,7 +60,7 @@ private:
     FP field_FC_dz;
     int field_100_timer;
     GibPart field_104_parts[7];
-    __int16 field_5D4_parts_used_count;
-    __int16 field_5D6_bMakeSmaller;
+    s16 field_5D4_parts_used_count;
+    s16 field_5D6_bMakeSmaller;
 };
 ALIVE_ASSERT_SIZEOF(Gibs, 0x5D8);

@@ -27,8 +27,8 @@ public:
     EXPORT void VUpdate_41C860();
 
     int field_10_timer;
-    __int16 field_14_state;
-    __int16 field_16;
+    s16 field_14_state;
+    s16 field_16;
 };
 ALIVE_ASSERT_SIZEOF(GameEnderController, 0x18);
 

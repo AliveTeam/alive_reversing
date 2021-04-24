@@ -10,7 +10,7 @@
 
 namespace AO {
 
-using TFrameCallBackType = short* (CC*)(void*, __int16*);
+using TFrameCallBackType = short* (CC*)(void*, s16*);
 
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[];
 extern TFrameCallBackType kSlig_Anim_Frame_Fns_4CEBF0[];
@@ -20,8 +20,8 @@ extern TFrameCallBackType kZBall_Anim_Frame_Fns_4CEBF8[];
 
 struct AnimHeader
 {
-    __int16 field_0_max_w;
-    __int16 field_2_max_h;
+    s16 field_0_max_w;
+    s16 field_2_max_h;
     int field_4_frame_table_offset;
 };
 ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
@@ -70,8 +70,8 @@ struct FrameHeader
 
 struct Point
 {
-    __int16 x = 0;
-    __int16 y = 0;
+    s16 x = 0;
+    s16 y = 0;
 };
 
 
@@ -183,7 +183,7 @@ class AnimationBase
 public:
     virtual void vDecode() = 0;
 
-    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height) = 0;
+    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, s16 width, s16 height) = 0;
 
     virtual void vCleanUp() = 0;
 
@@ -198,7 +198,7 @@ public:
     TPageAbr field_B_render_mode;
 
     Layer field_C_layer;
-    __int16 field_E_frame_change_counter;
+    s16 field_E_frame_change_counter;
 };
 
 class BaseGameObject;
@@ -208,19 +208,19 @@ class Animation : public AnimationBase
 public:
     virtual void vDecode() override;
 
-    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height) override;
+    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, s16 width, s16 height) override;
 
-    EXPORT void VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height);
+    EXPORT void VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, s16 width, s16 height);
 
     EXPORT void VDecode_403550();
 
     EXPORT s16 Set_Animation_Data_402A40(int frameTable, BYTE** resBlock);
 
-    EXPORT void SetFrame_402AC0(__int16 newFrame);
+    EXPORT void SetFrame_402AC0(s16 newFrame);
 
-    EXPORT s16 Init_402D20(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating);
+    EXPORT s16 Init_402D20(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating);
 
-    EXPORT __int16 Get_Frame_Count_403540();
+    EXPORT s16 Get_Frame_Count_403540();
 
     EXPORT FrameInfoHeader* Get_FrameHeader_403A00(int frame);
 
@@ -250,8 +250,8 @@ public:
     Poly_FT4 field_2C_ot_data[2];
     PSX_RECT field_84_vram_rect;
     PSX_Point field_8C_pal_vram_xy;
-    __int16 field_90_pal_depth;
-    __int16 field_92_current_frame;
+    s16 field_90_pal_depth;
+    s16 field_92_current_frame;
     BaseGameObject* field_94_pGameObj;
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
@@ -263,7 +263,7 @@ class AnimationUnknown : public AnimationBase
 public:
     virtual void vDecode() override;
 
-    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height) override;
+    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, s16 width, s16 height) override;
 
     virtual void vCleanUp() override;
 

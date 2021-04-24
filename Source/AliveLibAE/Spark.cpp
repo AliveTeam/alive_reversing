@@ -30,7 +30,7 @@ void Spark::VScreenChanged()
     vScreenChange_4CC4A0();
 }
 
-Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max, __int16 type)
+Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max, s16 type)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);

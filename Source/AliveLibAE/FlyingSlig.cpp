@@ -719,7 +719,7 @@ void FlyingSlig::VRender(PrimHeader** ppOt)
 
 void FlyingSlig::vRender_435130(PrimHeader** ot)
 {
-    const __int16 eyeIndices[] = { 60, 62 };
+    const s16 eyeIndices[] = { 60, 62 };
     renderWithGlowingEyes(ot, this, &field_1F4_pPalAlloc[0], ALIVE_COUNTOF(field_1F4_pPalAlloc),
                         &field_274_pal_rect, field_27C_r, field_27E_g, field_280_b, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
@@ -1007,12 +1007,12 @@ void FlyingSlig::Movement_4396E0()
     field_190 = FP_FromInteger(0);
 }
 
-__int16 FlyingSlig::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 FlyingSlig::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_434C90(pFrom);
 }
 
-__int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
+s16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
 {
     switch (pFrom->field_4_typeId)
     {
@@ -2090,7 +2090,7 @@ void FlyingSlig::ToChase_435E10()
     SetBrain(&FlyingSlig::AI_ChasingEnemy_4_435BC0);
 }
 
-__int16 FlyingSlig::IsPossessed_436A90()
+s16 FlyingSlig::IsPossessed_436A90()
 {
     return
         BrainIs(&FlyingSlig::AI_Possessed_12_436040) ||
@@ -2100,7 +2100,7 @@ __int16 FlyingSlig::IsPossessed_436A90()
         BrainIs(&FlyingSlig::AI_DePossession_14_436180);
 }
 
-__int16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
+s16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
 {
     if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
         !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
@@ -2125,7 +2125,7 @@ __int16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
     return 0;
 }
 
-void FlyingSlig::Say_436A50(SligSpeak speak, __int16 pitch)
+void FlyingSlig::Say_436A50(SligSpeak speak, s16 pitch)
 {
     if (field_106_current_motion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
     {
@@ -2136,7 +2136,7 @@ void FlyingSlig::Say_436A50(SligSpeak speak, __int16 pitch)
     }
 }
 
-__int16 FlyingSlig::sub_4374A0(__int16 a2)
+s16 FlyingSlig::sub_4374A0(s16 a2)
 {
     field_17E_flags.Clear(Flags_17E::eBit2_bLastLine);
 
@@ -2297,7 +2297,7 @@ __int16 FlyingSlig::sub_4374A0(__int16 a2)
     return 0;
 }
 
-__int16 CCSTD FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
+s16 CCSTD FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
 {
     return Slig::IsAbeEnteringDoor_4BB990(pThis);
 }
@@ -2402,7 +2402,7 @@ void FlyingSlig::BlowUp_436510()
     field_14C_timer = sGnFrame_5C1B84 + 40;
 }
 
-__int16 FlyingSlig::sub_436730()
+s16 FlyingSlig::sub_436730()
 {
     if (CanChase_436850(sControlledCharacter_5C1B8C))
     {
@@ -2434,7 +2434,7 @@ __int16 FlyingSlig::sub_436730()
 
 }
 
-__int16 FlyingSlig::CanHearAbe_4369C0()
+s16 FlyingSlig::CanHearAbe_4369C0()
 {
     return
         sActiveHero_5C1B68 == Event_Is_Event_In_Range_422C30(kEventSuspiciousNoise, field_B8_xpos, field_BC_ypos, field_D6_scale) ||
@@ -2476,7 +2476,7 @@ void FlyingSlig::ToPanicMoving_435A50()
     SetBrain(&FlyingSlig::AI_PanicMoving_7_435990);
 }
 
-__int16 FlyingSlig::IsTurning_436AE0()
+s16 FlyingSlig::IsTurning_436AE0()
 {
     return
         field_106_current_motion == eFlyingSligMotions::M_IdleToTurn_2_4388B0 ||
@@ -2541,7 +2541,7 @@ void FlyingSlig::PatrolDelay_435860()
     SetBrain(&FlyingSlig::AI_Idle_5_435820);
 }
 
-__int16 FlyingSlig::CanThrowGrenade_43A490()
+s16 FlyingSlig::CanThrowGrenade_43A490()
 {
     return
         field_106_current_motion == eFlyingSligMotions::M_Idle_0_4385E0 ||
@@ -2697,7 +2697,7 @@ void FlyingSlig::HandlePlayerControls_439340()
 
 }
 
-__int16 FlyingSlig::sub_437C70(PathLine* pLine)
+s16 FlyingSlig::sub_437C70(PathLine* pLine)
 {
 
     field_100_pCollisionLine = pLine;
@@ -2779,7 +2779,7 @@ void FlyingSlig::vPossessed_434FB0()
     ToPossesed_436130();
 }
 
-__int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
+s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
 {
     if (!pRect)
     {
@@ -3087,18 +3087,18 @@ void FlyingSlig::sub_4373B0()
     }
 }
 
-void FlyingSlig::VSetMotion_4081C0(__int16 state)
+void FlyingSlig::VSetMotion_4081C0(s16 state)
 {
     vSetMotion_43B1B0(state);
 }
 
-void FlyingSlig::vSetMotion_43B1B0(__int16 newMotion)
+void FlyingSlig::vSetMotion_43B1B0(s16 newMotion)
 {
     field_106_current_motion = newMotion;
     vUpdateAnimRes_4350A0();
 }
 
-__int16 FlyingSlig::CollisionUp_43A640(FP velY)
+s16 FlyingSlig::CollisionUp_43A640(FP velY)
 {
     const FP y2 = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20)) + velY;
 
@@ -3173,7 +3173,7 @@ __int16 FlyingSlig::CollisionUp_43A640(FP velY)
     return 0;
 }
 
-__int16 FlyingSlig::CollisionDown_43A9E0(FP velY)
+s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
 {
     const FP y2 = (field_CC_sprite_scale * FP_FromInteger(10)) + field_BC_ypos + velY;
 
@@ -3235,7 +3235,7 @@ __int16 FlyingSlig::CollisionDown_43A9E0(FP velY)
     return 0;
 }
 
-__int16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
+s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
 {
     FP newX = {};
     if (velX <= FP_FromInteger(0))
@@ -3344,7 +3344,7 @@ void FlyingSlig::PullLever_436450()
     }
 }
 
-__int16 FlyingSlig::TryPullLever_439DB0()
+s16 FlyingSlig::TryPullLever_439DB0()
 {
     if (BrainIs(&FlyingSlig::AI_FlyingSligSpawn_15_4362C0))
     {

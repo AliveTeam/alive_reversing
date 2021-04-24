@@ -135,22 +135,22 @@ struct SfxDefinition
     char field_1_program;
     char field_2_note;
     char field_3_default_volume;
-    __int16 field_4_pitch_min;
-    __int16 field_6_pitch_max;
+    s16 field_4_pitch_min;
+    s16 field_6_pitch_max;
 };
 ALIVE_ASSERT_SIZEOF(SfxDefinition, 0x8);
 
 
-enum class CameraPos : __int16;
+enum class CameraPos : s16;
 class BaseAnimatedWithPhysicsGameObject;
 
-EXPORT int CC SFX_Play_46FB10(unsigned __int8 sfxId, int leftVol, int rightVol, FP scale = FP_FromInteger(1));
-EXPORT int CC SFX_Play_46FBA0(unsigned __int8 sfxIdx, __int16 volume, int pitch, FP scale = FP_FromInteger(1));
-EXPORT int CC SFX_Play_46FA90(unsigned __int8 sfxIdx, __int16 volume, FP scale = FP_FromInteger(1));
-EXPORT int CC SFX_Play_46FC20(unsigned __int8 sfxId, __int16 volume, CameraPos direction, FP scale = FP_FromInteger(1));
-EXPORT int CC SND_4CA5D0(int a1, int a2, int a3, __int16 vol, __int16 min, __int16 max);
+EXPORT int CC SFX_Play_46FB10(u8 sfxId, int leftVol, int rightVol, FP scale = FP_FromInteger(1));
+EXPORT int CC SFX_Play_46FBA0(u8 sfxIdx, s16 volume, int pitch, FP scale = FP_FromInteger(1));
+EXPORT int CC SFX_Play_46FA90(u8 sfxIdx, s16 volume, FP scale = FP_FromInteger(1));
+EXPORT int CC SFX_Play_46FC20(u8 sfxId, s16 volume, CameraPos direction, FP scale = FP_FromInteger(1));
+EXPORT int CC SND_4CA5D0(int a1, int a2, int a3, s16 vol, s16 min, s16 max);
 
-enum class SligSpeak : signed char
+enum class SligSpeak : s8
 {
     eNone        = -1,
     eHi_0        =  0,
@@ -170,5 +170,5 @@ enum class SligSpeak : signed char
     eOuch2_14    =  14,
 };
 
-EXPORT void CC Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, __int16 defaultVol, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj);
-EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, __int16 defaultVol, const SfxDefinition* pSfx, __int16* pLeftVol, __int16* pRightVol);
+EXPORT void CC Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, s16 defaultVol, s16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj);
+EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s16 defaultVol, const SfxDefinition* pSfx, s16* pLeftVol, s16* pRightVol);

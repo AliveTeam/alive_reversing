@@ -127,7 +127,7 @@ int MineCar::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_467E10(reinterpret_cast<MineCar_SaveState*>(pSaveBuffer));
 }
 
-__int16 MineCar::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 MineCar::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_46F7D0(pFrom);
 }
@@ -519,7 +519,7 @@ void MineCar::Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::
     field_124_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards, bChangeDirection);
 }
 
-__int16 MineCar::IsBlocked_46F4A0(__int16 a2, int /*a3*/)
+s16 MineCar::IsBlocked_46F4A0(s16 a2, int /*a3*/)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     const FP k12Scaled = field_CC_sprite_scale * FP_FromInteger(12);
@@ -557,7 +557,7 @@ __int16 MineCar::IsBlocked_46F4A0(__int16 a2, int /*a3*/)
     return 1;
 }
 
-__int16 MineCar::FollowDirection_46EA00()
+s16 MineCar::FollowDirection_46EA00()
 {
     const FP k60Scaled = field_CC_sprite_scale * FP_FromInteger(60);
     const FP k12Scaled = field_CC_sprite_scale * FP_FromInteger(12);
@@ -699,7 +699,7 @@ void MineCar::RunThingsOver_46F380()
     }
 }
 
-__int16 MineCar::vTakeDamage_46F7D0(BaseGameObject* /*pFrom*/)
+s16 MineCar::vTakeDamage_46F7D0(BaseGameObject* /*pFrom*/)
 {
     if (!field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {

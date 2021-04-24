@@ -9,10 +9,10 @@ namespace AO {
 
 struct Path_SecurityClaw : public Path_TLV
 {
-    __int16 field_18_scale;
-    __int16 field_1A_alarm_id;
-    __int16 field_1C_alarm_time;
-    __int16 field_1E_disabled_resources;
+    s16 field_18_scale;
+    s16 field_1A_alarm_id;
+    s16 field_1C_alarm_time;
+    s16 field_1E_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF(Path_SecurityClaw, 0x20);
 
@@ -29,7 +29,7 @@ public:
 
 class MotionDetector;
 
-enum class SecurityClawStates : __int16
+enum class SecurityClawStates : s16
 {
     eCamSwap_0,
     eIdle_1,
@@ -52,9 +52,9 @@ public:
 
     EXPORT void VScreenChange_4196F0();
 
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT __int16 VTakeDamage_419520(BaseGameObject* pFrom);
+    EXPORT s16 VTakeDamage_419520(BaseGameObject* pFrom);
 
     virtual void VUpdate() override;
 
@@ -64,17 +64,17 @@ public:
 
     int field_10C_tlvInfo;
     SecurityClawStates field_110_state;
-    __int16 field_112;
+    s16 field_112;
     int field_114_timer;
-    __int16 field_118_alarm_id;
-    __int16 field_11A;
+    s16 field_118_alarm_id;
+    s16 field_11A;
     FP field_11C_clawX;
     FP field_120_clawY;
     BYTE field_124;
     // 3 byte pad
     int field_128_sound_channels;
-    __int16 field_12C_pDetector;
-    __int16 field_12E;
+    s16 field_12C_pDetector;
+    s16 field_12E;
     Claw* field_130_pClaw;
     PSX_Point field_134;
     PSX_Point field_138;

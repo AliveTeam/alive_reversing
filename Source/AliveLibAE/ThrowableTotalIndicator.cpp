@@ -9,7 +9,7 @@
 
 ALIVE_VAR(1, 0x5c112c, WORD, bThrowableIndicatorExists_5C112C, 0);
 
-const __int16 kNum_0_551994[17] =
+const s16 kNum_0_551994[17] =
 {
     4,
    -3,  -4,   3,   -4,
@@ -18,13 +18,13 @@ const __int16 kNum_0_551994[17] =
    -3,   3,  -3,   -3
 };
 
-const __int16 kNum_1_5519B8[5] =
+const s16 kNum_1_5519B8[5] =
 {
     1,
     2, -4, 2, 4
 };
 
-const __int16 kNum_2_5519C4[21] =
+const s16 kNum_2_5519C4[21] =
 {
     5,
     -5,  -4,   5,   -4,
@@ -34,7 +34,7 @@ const __int16 kNum_2_5519C4[21] =
     -5,   4,   5,    4
 };
 
-const __int16 kNum_3_5519F0[17] =
+const s16 kNum_3_5519F0[17] =
 {
     4,
    -5,  -4,  5, -4,
@@ -43,7 +43,7 @@ const __int16 kNum_3_5519F0[17] =
    -4,   0,  4,  0,
 };
 
-const __int16 kNum_4_551A14[13] =
+const s16 kNum_4_551A14[13] =
 {
      3,
     -5, -4, -5, -1,
@@ -51,7 +51,7 @@ const __int16 kNum_4_551A14[13] =
      5, -4,  5,  4
 };
 
-const __int16 kNum_5_551A30[21] =
+const s16 kNum_5_551A30[21] =
 {
     5,
     5,   -4,  -5,  -4,
@@ -61,7 +61,7 @@ const __int16 kNum_5_551A30[21] =
     5,    4,  -5,   4
 };
 
-const __int16 kNum_6_551A5C[21] =
+const s16 kNum_6_551A5C[21] =
 {
     5,
     5,   -4,   -5,   -4,   -5,
@@ -70,14 +70,14 @@ const __int16 kNum_6_551A5C[21] =
     1,    5,    0,   -4,    0
 };
 
-const __int16 kNum_7_551A88[9] =
+const s16 kNum_7_551A88[9] =
 {
     2,
    -5, -4, 5, -4,
     5, -3, 0,  4
 };
 
-const __int16 kNum_8_551A9C[21] =
+const s16 kNum_8_551A9C[21] =
 {
     5,
    -5,  -4,   5,  -4,
@@ -87,7 +87,7 @@ const __int16 kNum_8_551A9C[21] =
    -4,   0,   4,   0
 };
 
-const __int16 kNum_9_551AC8[17] =
+const s16 kNum_9_551AC8[17] =
 {
     4,
     5,   4,   5,  -3,
@@ -96,7 +96,7 @@ const __int16 kNum_9_551AC8[17] =
    -5,   0,   4,   0
 };
 
-const __int16 kInfinity_551AEC[25] =
+const s16 kInfinity_551AEC[25] =
 {
    6,
   -3,  -2,  -5,  0,
@@ -107,7 +107,7 @@ const __int16 kInfinity_551AEC[25] =
    2,   3,  -2,  -2
 };
 
-const __int16* kNumbersArray_551B20[11] =
+const s16* kNumbersArray_551B20[11] =
 {
     kNum_0_551994,
     kNum_1_5519B8,
@@ -122,7 +122,7 @@ const __int16* kNumbersArray_551B20[11] =
     kInfinity_551AEC
 };
 
-ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, Layer layer, FP /*scale*/, __int16 count, __int16 bFade)
+ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, Layer layer, FP /*scale*/, s16 count, s16 bFade)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x544FE4);

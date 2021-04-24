@@ -41,7 +41,7 @@ const Switch_Data gSwitchData_4BCF40[16] =
     { 16272, 66, 41, 16284, 16336, 16372, 16424 }
 };
 
-int Switch::VPull(__int16 a2)
+int Switch::VPull(s16 a2)
 {
     return vPull_481640(a2);
 }
@@ -252,7 +252,7 @@ Switch* Switch::ctor_481110(Path_Switch* pTlv, int tlvInfo)
     return this;
 }
 
-int Switch::vPull_481640(__int16 a2)
+int Switch::vPull_481640(s16 a2)
 {
     if (field_E8_state == 0)
     {

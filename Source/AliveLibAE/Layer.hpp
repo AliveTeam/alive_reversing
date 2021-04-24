@@ -1,6 +1,6 @@
 #pragma once
 
-enum class Layer : __int16
+enum class Layer : s16
 {
     eLayer_0 = 0,
     eLayer_1 = 1,

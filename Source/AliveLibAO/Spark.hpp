@@ -26,7 +26,7 @@ ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
 class Spark : public BaseGameObject
 {
 public:
-    EXPORT Spark* ctor_477B70(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max);
+    EXPORT Spark* ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max);
 
     EXPORT BaseGameObject* dtor_477D40();
 
@@ -50,14 +50,14 @@ public:
     FP field_30_xpos;
     FP field_34_ypos;
     FP field_38_scale;
-    __int16 field_3C_r;
-    __int16 field_3E_g;
-    __int16 field_40_b;
+    s16 field_3C_r;
+    s16 field_3E_g;
+    s16 field_40_b;
     Layer field_42_layer;
     BYTE** field_44_ppSprxRes;
     SparkRes* field_48_pRes;
-    __int16 field_4C_count;
-    __int16 field_4E;
+    s16 field_4C_count;
+    s16 field_4E;
     int field_50_timer;
 };
 ALIVE_ASSERT_SIZEOF(Spark, 0x54);

@@ -220,7 +220,7 @@ void Dove::AsJoin_40F250(FP xpos, FP ypos)
     field_F8_timer = gnFrameCount_507670 + 47;
 }
 
-void Dove::FlyAway_40F8F0(__int16 a2)
+void Dove::FlyAway_40F8F0(s16 a2)
 {
     if (field_EE_state != State::eFlyAway_1)
     {

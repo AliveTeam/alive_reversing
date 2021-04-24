@@ -131,7 +131,7 @@ void MovingBomb::VOnThrowableHit(BaseGameObject* pFrom)
     vOnThrowableHit_470800(pFrom);
 }
 
-__int16 MovingBomb::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 MovingBomb::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_470990(pFrom);
 }
@@ -232,7 +232,7 @@ void MovingBomb::FollowLine_470950()
     }
 }
 
-__int16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
+s16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3) || field_10C_health <= FP_FromInteger(0))
     {

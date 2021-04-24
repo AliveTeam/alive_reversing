@@ -9,7 +9,7 @@ namespace AO {
 class DeathGas : public BaseGameObject
 {
 public:
-    EXPORT DeathGas* ctor_41CF40(Layer layer, __int16 amount);
+    EXPORT DeathGas* ctor_41CF40(Layer layer, s16 amount);
 
     virtual void VUpdate() override;
 
@@ -29,14 +29,14 @@ public:
 
     EXPORT void VRender_41D190(PrimHeader** ppOt);
 
-    __int16 field_10_total;
-    __int16 field_12_unused;
-    __int16 field_14_amount;
-    __int16 field_16_flag;
+    s16 field_10_total;
+    s16 field_12_unused;
+    s16 field_14_amount;
+    s16 field_16_flag;
     Layer field_18_layer;
-    __int16 field_1A;
-    __int16 field_1C;
-    __int16 field_1E;
+    s16 field_1A;
+    s16 field_1C;
+    s16 field_1E;
 };
 ALIVE_ASSERT_SIZEOF(DeathGas, 0x20);
 

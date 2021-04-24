@@ -9,10 +9,10 @@ namespace AO {
 
 struct Path_LiftMover : public Path_TLV
 {
-    __int16 field_18_switch_id;
-    __int16 field_1A_lift_id;
-    __int16 field_1C_direction;
-    __int16 field_1E_pad;
+    s16 field_18_switch_id;
+    s16 field_1A_lift_id;
+    s16 field_1C_direction;
+    s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_LiftMover, 0x20);
 
@@ -34,12 +34,12 @@ public:
     LiftPoint* FindLiftPointWithId(short id);
 
     u16 field_10_enabled_by_switch_id;
-    __int16 field_12_target_lift_point_id;
+    s16 field_12_target_lift_point_id;
     int field_14_tlvInfo;
     BaseGameObject* field_18_pLiftPoint; // TODO: LiftPoint* or actually no because it can be a platform as well?
     FP field_1C_speed;
-    __int16 field_20_state;
-    __int16 field_22_pad;
+    s16 field_20_state;
+    s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(LiftMover, 0x24);
 

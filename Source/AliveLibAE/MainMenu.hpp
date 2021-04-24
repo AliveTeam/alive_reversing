@@ -12,17 +12,17 @@
 
 void MainMenu_ForceLink();
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 struct MenuFMV
 {
     const char* field_0_name;
     LevelIds field_4_level_id;
-    __int16 field_6;
-    __int16 field_8;
-    __int16 field_A_fmv_id;
-    __int16 field_C;
-    __int16 field_E;
+    s16 field_6;
+    s16 field_8;
+    s16 field_A_fmv_id;
+    s16 field_C;
+    s16 field_E;
 };
 
 enum MainMenuButtonType
@@ -35,10 +35,10 @@ enum MainMenuButtonType
 
 struct MainMenuButton
 {
-    __int16 field_0_type;
-    __int16 field_2_x;
-    __int16 field_4_y;
-    __int16 field_6;
+    s16 field_0_type;
+    s16 field_2_x;
+    s16 field_4_y;
+    s16 field_6;
     int field_8_anim_frame_offset;
 };
 
@@ -81,10 +81,10 @@ struct MainMenuText
 struct MainMenuFrameTable
 {
     int field_0_frame_offset;
-    __int16 field_4_menu_res_id;
-    __int16 field_6_sound;
-    __int16 field_8_anim_enum;
-    __int16 field_A_frame_number;
+    s16 field_4_menu_res_id;
+    s16 field_6_sound;
+    s16 field_8_anim_enum;
+    s16 field_A_frame_number;
 };
 
 extern PerLvlData gPerLvlData_561700[17];
@@ -211,7 +211,7 @@ public:
 
     };
 
-    EXPORT void Set_Anim_4D05E0(__int16 a2, __int16 a3 = 0);
+    EXPORT void Set_Anim_4D05E0(s16 a2, s16 a3 = 0);
     EXPORT void Load_Anim_Pal_4D06A0(Animation* pAnim);
     EXPORT signed int ChangeScreenAndIntroLogic_4CF640();
     EXPORT void AnimationAndSoundLogic_4CFE80();
@@ -351,10 +351,10 @@ public:
     int field_1F0_tlvOffsetLevelIdPathId;
     int field_1F4_credits_next_frame;
     int field_1F8_page_timeout; // Timer for starting demos automatically / backing out of menus
-    __int16 field_1FC_button_index;
-    __int16 field_1FE_highlite_alpha;
-    __int16 field_200_highlite_glow_speed;
-    __int16 field_202_input_hold_down_timer;
+    s16 field_1FC_button_index;
+    s16 field_1FE_highlite_alpha;
+    s16 field_200_highlite_glow_speed;
+    s16 field_202_input_hold_down_timer;
     u32 field_204_prev_pressed;
     MainMenuTransition* field_208_transition_obj;
 
@@ -362,37 +362,37 @@ public:
     BaseGameObject* field_20C_pUnused;
     BaseGameObject* field_210_pUnused;
 
-    __int16 field_214_page_index;
-    __int16 field_216_previous_page_index;
-    __int16 field_218_target_page_index;
-    __int16 field_21A_target_button_index;
-    __int16 field_21C_bDoScreenTransistionEffect;
-    __int16 field_21E_bChangeScreen;
-    __int16 field_220_frame_table_idx;
+    s16 field_214_page_index;
+    s16 field_216_previous_page_index;
+    s16 field_218_target_page_index;
+    s16 field_21A_target_button_index;
+    s16 field_21C_bDoScreenTransistionEffect;
+    s16 field_21E_bChangeScreen;
+    s16 field_220_frame_table_idx;
     char field_222_unused;
     int field_224_timer_anim_delay;
-    __int16 field_228_res_idx;
-    __int16 field_22A_anim_frame_num;
+    s16 field_228_res_idx;
+    s16 field_22A_anim_frame_num;
     int field_22C_T80_animation_delay;
-    __int16 field_230_target_entry_index;
-    __int16 field_232_unused;
+    s16 field_230_target_entry_index;
+    s16 field_232_unused;
     const char* field_234_pStr;
-    __int16 field_238_unused;
-    __int16 field_23A_Inside_LoadGame_Screen;
+    s16 field_238_unused;
+    s16 field_23A_Inside_LoadGame_Screen;
     BitField32<Flags> field_23C_T80;
     int field_240_credits_current_cam;
     LevelIds field_244_lvl_id;
-    __int16 field_246_path_id;
-    __int16 field_248_camera;
-    __int16 field_24A_abeXOff;
-    __int16 field_24C_abeYOff;
-    __int16 field_24E_start_scale;
-    __int16 field_250_selected_entry_index;
-    __int16 field_252_unused;
+    s16 field_246_path_id;
+    s16 field_248_camera;
+    s16 field_24A_abeXOff;
+    s16 field_24C_abeYOff;
+    s16 field_24E_start_scale;
+    s16 field_250_selected_entry_index;
+    s16 field_252_unused;
     FP field_254;
     FP field_258;
-    __int16 field_25C_Inside_FMV_Screen;
-    __int16 field_25E_Inside_CheatLevelSelect_Screen;
+    s16 field_25C_Inside_FMV_Screen;
+    s16 field_25E_Inside_CheatLevelSelect_Screen;
 private:
     void Unload_Resource(BYTE**& res);
 };
@@ -406,13 +406,13 @@ using TFnUnLoad = void (MainMenuController::*)();
 
 struct MainMenuPage
 {
-    __int16 field_0_cam_id;
-    __int16 field_2_pad;
+    s16 field_0_cam_id;
+    s16 field_2_pad;
     int field_4_time_out;
-    __int16 field_8_next_idx;
-    __int16 field_A_transition_effect;
-    __int16 field_C_initial_button_idx_to_highlight; // which button index to put the cursor on upon page opening
-    __int16 field_E_show_character;
+    s16 field_8_next_idx;
+    s16 field_A_transition_effect;
+    s16 field_C_initial_button_idx_to_highlight; // which button index to put the cursor on upon page opening
+    s16 field_E_show_character;
     TFnInput field_10_fn_update;
     TFnRender field_14_fn_render;
     MainMenuButton *field_18_buttons;

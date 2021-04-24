@@ -20,7 +20,7 @@ EXPORT BaseGameObject* MusicTrigger::ctor_47FE40(Path_MusicTrigger* pTlv, DWORD 
     return this;
 }
 
-EXPORT MusicTrigger* MusicTrigger::ctor_47FF10(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, int /*not_used*/, __int16 musicDelay)
+EXPORT MusicTrigger* MusicTrigger::ctor_47FF10(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, int /*not_used*/, s16 musicDelay)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5463DC);
@@ -31,7 +31,7 @@ EXPORT MusicTrigger* MusicTrigger::ctor_47FF10(MusicTriggerMusicType musicType, 
     return this;
 }
 
-EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, __int16 musicDelay)
+EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 musicDelay)
 {
     field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
     field_24_flags.Clear(Flags_24::e24_Bit2_TriggeredByTimer);

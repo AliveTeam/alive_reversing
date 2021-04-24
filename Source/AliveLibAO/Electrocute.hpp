@@ -12,7 +12,7 @@ class PalleteOverwriter;
 class Electrocute : public BaseGameObject
 {
 public:
-    EXPORT Electrocute* ctor_48D3A0(BaseAliveGameObject* pTargetObj, __int16 bExtraOverwriter);
+    EXPORT Electrocute* ctor_48D3A0(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter);
 
     EXPORT BaseGameObject* dtor_48D480();
 
@@ -31,16 +31,16 @@ public:
     EXPORT void VUpdate_48D5C0();
 
     BaseAliveGameObject* field_10_obj_target;
-    __int16 field_14_overwriter_count;
-    __int16 field_16_pad;
+    s16 field_14_overwriter_count;
+    s16 field_16_pad;
     PalleteOverwriter* field_18_pPalOverwriters[3];
-    __int16 field_24_extraOverwriter;
-    __int16 field_26_pad;
+    s16 field_24_extraOverwriter;
+    s16 field_26_pad;
     WORD* field_28_pPalData;
-    __int16 field_2C_r;
-    __int16 field_2E_g;
-    __int16 field_30_b;
-    enum class States : __int16
+    s16 field_2C_r;
+    s16 field_2E_g;
+    s16 field_30_b;
+    enum class States : s16
     {
         eSetNewColour_0 = 0,
         eAlphaFadeout_1 = 1,

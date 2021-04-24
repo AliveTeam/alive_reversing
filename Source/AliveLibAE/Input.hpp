@@ -4,7 +4,7 @@
 
 typedef int(*t_InputCallback)();
 
-EXPORT unsigned __int8 CC Input_GetInputEnabled_4EDDE0();
+EXPORT u8 CC Input_GetInputEnabled_4EDDE0();
 EXPORT void CC Input_EnableInput_4EDDD0();
 EXPORT void CC Input_InitKeyStateArray_4EDD60();
 EXPORT void Input_SaveSettingsIni_Common(bool isAo);
@@ -195,5 +195,5 @@ ALIVE_VAR_EXTERN(InputObject, sInputObject_5BD4E0);
 ALIVE_VAR_EXTERN(u16, sCurrentControllerIndex_5C1BBE);
 ALIVE_VAR_EXTERN(DWORD, sLastPressedKey_BD30A0);
 ALIVE_VAR_EXTERN(int, sIsAKeyDown_BD309C);
-ALIVE_VAR_EXTERN(__int16, bLongerTimeoutToNextDemo_5C1B9A);
+ALIVE_VAR_EXTERN(s16, bLongerTimeoutToNextDemo_5C1B9A);
 ALIVE_VAR_EXTERN(int, sJoystickEnabled_5C9F70);

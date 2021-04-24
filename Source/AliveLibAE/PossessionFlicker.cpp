@@ -21,7 +21,7 @@ void PossessionFlicker::VScreenChanged()
     vScreenChanged_431C80();
 }
 
-PossessionFlicker* PossessionFlicker::ctor_4319E0(BaseAliveGameObject* pToApplyFlicker, int duration, __int16 r, __int16 g, __int16 b)
+PossessionFlicker* PossessionFlicker::ctor_4319E0(BaseAliveGameObject* pToApplyFlicker, int duration, s16 r, s16 g, s16 b)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x544FC8); // vTbl_PossessionFlicker_544FC8

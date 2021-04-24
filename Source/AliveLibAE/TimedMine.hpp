@@ -9,10 +9,10 @@
 
 struct Path_TimedMine : public Path_TLV
 {
-    __int16 field_10_id;
-    __int16 field_12_state;
-    __int16 field_14_scale;
-    __int16 field_16_timeout;
+    s16 field_10_id;
+    s16 field_12_state;
+    s16 field_14_scale;
+    s16 field_16_timeout;
     int field_18_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF(Path_TimedMine, 0x1C);
@@ -30,7 +30,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnPickUpOrSlapped() override;
     EXPORT TimedMine* ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv);
@@ -43,7 +43,7 @@ private:
     EXPORT void dtor_410970();
     EXPORT TimedMine* vdtor_4108B0(signed int flags);
     EXPORT void vScreenChanged_411270();
-    EXPORT __int16 vTakeDamage_410FA0(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_410FA0(BaseGameObject* pFrom);
     EXPORT void vOnThrowableHit_410F00(BaseGameObject* pHitBy);
     EXPORT void vOnPickUpOrSlapped_410E30();
 

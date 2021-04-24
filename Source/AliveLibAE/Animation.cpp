@@ -431,7 +431,7 @@ inline short FP_AdjustedToInteger(FP fp, FP adjustment)
     return FP_GetExponent(fp + adjustment);
 }
 
-void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 width, signed int height)
+void Animation::vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, signed int height)
 {
     if ((field_84_vram_rect.x || field_84_vram_rect.y) && !(field_4_flags.Get(AnimFlags::eBit25_bDecompressDone)))
     {
@@ -659,7 +659,7 @@ bool Animation::DecodeCommon()
     if (field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
     {
         // Loop backwards
-        const __int16 prevFrameNum = --field_92_current_frame;
+        const s16 prevFrameNum = --field_92_current_frame;
         field_E_frame_change_counter = field_10_frame_delay;
 
         if (prevFrameNum < pAnimHeader->field_4_loop_start_frame)
@@ -688,7 +688,7 @@ bool Animation::DecodeCommon()
     else
     {
         // Loop forwards
-        const __int16 nextFrameNum = ++field_92_current_frame;
+        const s16 nextFrameNum = ++field_92_current_frame;
         field_E_frame_change_counter = field_10_frame_delay;
 
         // Animation reached end point
@@ -820,7 +820,7 @@ void Animation::Animation_Pal_Free_40C4C0()
     }
 }
 
-void Animation::SetFrame_409D50(__int16 newFrame)
+void Animation::SetFrame_409D50(s16 newFrame)
 {
     if (field_20_ppBlock)
     {
@@ -843,7 +843,7 @@ void Animation::SetFrame_409D50(__int16 newFrame)
 
 ALIVE_VAR(1, 0x5440AC, FrameInfoHeader, sBlankFrameInfoHeader_5440AC, {});
 
-FrameInfoHeader* Animation::Get_FrameHeader_40B730(__int16 frame)
+FrameInfoHeader* Animation::Get_FrameHeader_40B730(s16 frame)
 {
     if (!field_20_ppBlock)
     {
@@ -906,7 +906,7 @@ WORD Animation::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
+s16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
@@ -992,7 +992,7 @@ s16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, Bas
         return 0;
     }
 
-    __int16 pal_depth = 0;
+    s16 pal_depth = 0;
     char b256Pal = 0;
     int vram_width = 0;
     if (pFrameHeader_1->field_6_colour_depth == 4)
@@ -1088,7 +1088,7 @@ void Animation::Load_Pal_40A530(BYTE** pAnimData, int palOffset)
     }
 }
 
-void Animation::Get_Frame_Offset_40C480(__int16* pBoundingX, __int16* pBoundingY)
+void Animation::Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY)
 {
     FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(-1);
     *pBoundingX = pFrameHeader->field_8_data.offsetAndRect.mOffset.x;
@@ -1096,7 +1096,7 @@ void Animation::Get_Frame_Offset_40C480(__int16* pBoundingX, __int16* pBoundingY
 }
 
 
-void Animation::Get_Frame_Width_Height_40C400(__int16* pWidth, __int16* pHeight)
+void Animation::Get_Frame_Width_Height_40C400(s16* pWidth, s16* pHeight)
 {
     FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(-1);
     if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))

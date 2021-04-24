@@ -55,7 +55,7 @@ void Mine::VOnThrowableHit(BaseGameObject* pFrom)
     vOnThrowableHit_46BA40(pFrom);
 }
 
-__int16 Mine::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 Mine::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_46BB20(pFrom);
 }

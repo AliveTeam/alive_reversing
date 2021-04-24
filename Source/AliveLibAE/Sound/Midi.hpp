@@ -10,7 +10,7 @@ class Camera;
 
 struct SeqIds
 {
-    __int16 ids[16];
+    s16 ids[16];
 };
 
 class IMidiVars
@@ -20,9 +20,9 @@ public:
     virtual SeqIds& sSeq_Ids_word() = 0;
     virtual WORD& sSnd_ReloadAbeResources() = 0;
     virtual OpenSeqHandle*& sSeqDataTable() = 0;
-    virtual __int16& sSeqsPlaying_count_word() = 0;
+    virtual s16& sSeqsPlaying_count_word() = 0;
     virtual SoundBlockInfo*& sLastLoadedSoundBlockInfo() = 0;
-    virtual __int16& sSFXPitchVariationEnabled() = 0;
+    virtual s16& sSFXPitchVariationEnabled() = 0;
     virtual short& sNeedToHashSeqNames() = 0;
     virtual SoundBlockInfo& sMonkVh_Vb() = 0;
     virtual int MidiTableSize() = 0;
@@ -32,7 +32,7 @@ public:
     virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) = 0;
     virtual s16 FreeResource(BYTE** handle) = 0;
     virtual BYTE** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) = 0;
-    virtual void LoadingLoop(__int16 bShowLoadingIcon) = 0;
+    virtual void LoadingLoop(s16 bShowLoadingIcon) = 0;
     virtual void Reclaim_Memory(u32 size) = 0;
     virtual BYTE** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) = 0;
     virtual s16 LoadResourceFile(const char* pFileName, Camera* pCamera) = 0;
@@ -67,12 +67,12 @@ EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb)
 EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName);
 EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx);
 EXPORT char CC SND_Seq_Table_Valid_4CAFE0();
-EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, __int16 repeatCount, __int16 bDontStop);
-EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight);
-EXPORT __int16 CC SND_SEQ_Play_4CAB10(u16 idx, __int16 repeatCount, __int16 volLeft, __int16 volRight);
+EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop);
+EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, s16 volLeft, s16 volRight);
+EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight);
 EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(u16 idx);
-EXPORT int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, __int16 volLeft, __int16 volRight, __int16 pitch_min, __int16 pitch_max);
-EXPORT int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, __int16 volume, __int16 pitch_min, __int16 pitch_max);
+EXPORT int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
+EXPORT int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max);
 
 enum SeqId
 {

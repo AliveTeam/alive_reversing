@@ -10,10 +10,10 @@ namespace AO {
 struct Path_BackgroundAnimation : public Path_TLV
 {
     u16 field_18_animation_id;
-    __int16 field_1A_is_semi_trans;
+    s16 field_1A_is_semi_trans;
     TPageAbr field_1C_semi_trans_mode;
     // pad
-    __int16 field_1E_sound_effect;
+    s16 field_1E_sound_effect;
 };
 ALIVE_ASSERT_SIZEOF(Path_BackgroundAnimation, 0x20);
 
@@ -45,16 +45,16 @@ public:
     int field_DC_padding;
     int field_E0_padding;
     BYTE** field_E4_res;
-    __int16 field_E8_xpos;
-    __int16 field_EA_ypos;
-    __int16 field_EC_w;
-    __int16 field_EE_h;
+    s16 field_E8_xpos;
+    s16 field_EA_ypos;
+    s16 field_EC_w;
+    s16 field_EE_h;
     int field_F0_tlvInfo;
     int field_F4_padding;
     FP field_F8_animXPos;
     FP field_FC_animYPos;
-    __int16 field_100_sound_effect;
-    __int16 field_102_padding;
+    s16 field_100_sound_effect;
+    s16 field_102_padding;
     int field_104_sound_channels_mask;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x108);

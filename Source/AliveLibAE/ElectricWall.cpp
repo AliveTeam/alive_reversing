@@ -11,7 +11,7 @@
 #include "Electrocute.hpp"
 #include "Function.hpp"
 
-const __int16 sElecticWallFrames_55165C[6] = { 0, 6, 10, 18, 22, 0 };
+const s16 sElecticWallFrames_55165C[6] = { 0, 6, 10, 18, 22, 0 };
 
 ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, int tlvInfo)
 {

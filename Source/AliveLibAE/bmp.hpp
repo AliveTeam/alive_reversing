@@ -34,8 +34,8 @@ struct Bitmap
     int field_C_height;
     int field_10_locked_pitch;
     char field_14_bpp;
-    unsigned char field_15_pixel_format;
-    __int16 field_16_pad;
+    u8 field_15_pixel_format;
+    s16 field_16_pad;
     int field_18_create_flags;
 };
 ALIVE_ASSERT_SIZEOF(Bitmap, 0x1C);
@@ -51,4 +51,4 @@ EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int 
 EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, u32 fgColour, int bgColour, LPCSTR lpString);
 EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* pBmp);
 
-ALIVE_VAR_EXTERN(unsigned __int8, gVGA_force_sys_memory_surfaces_BC0BB4);
+ALIVE_VAR_EXTERN(u8, gVGA_force_sys_memory_surfaces_BC0BB4);

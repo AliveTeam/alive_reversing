@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
-enum class State : __int16
+enum class State : s16
 {
     eWaiting_0 = 0,
     eActive_1 = 1,
@@ -28,7 +28,7 @@ private:
     EXPORT void dtor_465D40();
 private:
     State field_F4_state;
-    //__int16 field_F6_pad;
+    //s16 field_F6_pad;
     int field_F8_tlvInfo;
     int field_FC_timer;
 };

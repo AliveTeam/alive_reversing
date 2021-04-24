@@ -19,7 +19,7 @@ void OrbWhirlWind::VRender(PrimHeader** ppOt)
     return vRender_4E3F80(ppOt);
 }
 
-OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bIsMudokonSpirit)
+OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit)
 {
     field_4_typeId = AETypes::eNone_0;
 

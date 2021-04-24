@@ -11,7 +11,7 @@
 
 namespace AO {
 
-ScreenShake* ScreenShake::ctor_4624D0(__int16 enableShakeEvent)
+ScreenShake* ScreenShake::ctor_4624D0(s16 enableShakeEvent)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BC950);

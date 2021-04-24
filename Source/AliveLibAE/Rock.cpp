@@ -10,7 +10,7 @@
 #include "Events.hpp"
 #include "Particle.hpp"
 
-Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
+Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
 {
     ctor_408240(0);
     SetVTable(this, 0x546AF8);
@@ -318,7 +318,7 @@ void Rock::InTheAir_49E4B0()
     }
 }
 
-__int16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
+s16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
 {
     if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {

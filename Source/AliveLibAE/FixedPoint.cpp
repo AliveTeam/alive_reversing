@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include <gtest/gtest.h>
 
-EXPORT int CC Math_SquareRoot_Shifted_496E20(u32 value, __int16 iterations)
+EXPORT int CC Math_SquareRoot_Shifted_496E20(u32 value, s16 iterations)
 {
     u32 value_shifted = value;
     int ret = 0;

@@ -1548,7 +1548,7 @@ void PauseMenu::Update_48FD80()
         pControlledChar = sControlledCharacter_5C1B8C;
         if (!(sControlledCharacter_5C1B8C->field_114_flags.Get(e114_Bit10_Teleporting)))
         {
-            const __int16 heroState = sActiveHero_5C1B68->field_106_current_motion;
+            const s16 heroState = sActiveHero_5C1B68->field_106_current_motion;
             if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
                 && heroState != eAbeStates::State_119_ToShrykull_45A990
                 && heroState != eAbeStates::State_120_EndShrykull_45AB00

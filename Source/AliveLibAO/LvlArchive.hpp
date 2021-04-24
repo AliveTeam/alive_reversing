@@ -47,11 +47,11 @@ public:
 
     EXPORT void OpenArchive_41BC60(int pos);
 
-    EXPORT __int16 Free_41BEB0();
+    EXPORT s16 Free_41BEB0();
 
     EXPORT LvlFileRecord* Find_File_Record_41BED0(const char* pFileName);
 
-    EXPORT __int16 Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer);
+    EXPORT s16 Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer);
 
 private:
     BYTE** field_0_0x2800_res;

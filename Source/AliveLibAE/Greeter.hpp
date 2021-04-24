@@ -7,13 +7,13 @@
 struct Path_Greeter : public Path_TLV
 {
     Scale_short field_10_scale;
-    __int16 field_12_motion_detector_speed;
+    s16 field_12_motion_detector_speed;
     XDirection_short field_14_direction;
-    __int16 field_16_pad;
+    s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Greeter, 0x18);
 
-enum class GreeterStates : __int16
+enum class GreeterStates : s16
 {
     eState_0_Patrol,
     eState_1_PatrolTurn,
@@ -28,18 +28,18 @@ enum class GreeterStates : __int16
 struct Greeter_State
 {
     AETypes field_0_type;
-    __int16 field_2_r;
-    __int16 field_4_g;
-    __int16 field_6_b;
-    __int16 field_8_path_number;
+    s16 field_2_r;
+    s16 field_4_g;
+    s16 field_6_b;
+    s16 field_8_path_number;
     LevelIds field_A_lvl_number;
     FP field_C_xpos;
     FP field_10_ypos;
     FP field_14_velx;
     FP field_18_vely;
     FP field_1C_sprite_scale;
-    __int16 field_20_current_frame;
-    __int16 field_22_frame_change_counter;
+    s16 field_20_current_frame;
+    s16 field_22_frame_change_counter;
     char field_24_bAnimRender;
     char field_25_bDrawable;
     char field_26;
@@ -48,22 +48,22 @@ struct Greeter_State
     int field_2C;
     int field_30_last_turn_time;
     int field_34_timer;
-    __int16 field_38;
-    __int16 field_3A;
-    __int16 field_3C;
-    __int16 field_3E;
+    s16 field_38;
+    s16 field_3A;
+    s16 field_3C;
+    s16 field_3E;
     FP  field_40_speed;
     GreeterStates field_44_state;
-    __int16 field_46_targetOnLeft;
-    __int16 field_48_targetOnRight;
-    __int16 field_4A;
+    s16 field_46_targetOnLeft;
+    s16 field_48_targetOnRight;
+    s16 field_4A;
     FP field_4C_motion_laser_xpos;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Greeter_State, 0x50);
 
 class PathLine;
 
-enum class GreeterSpeak : __int16
+enum class GreeterSpeak : s16
 {
     Hi_0 = 0,
     HereBoy_1 = 1,
@@ -112,17 +112,17 @@ private:
     int field_120;
     int field_124_last_turn_time;
     int field_128_timer;
-    __int16 field_12C;
-    __int16 field_12E;
-    __int16 field_130;
-    __int16 field_132;
+    s16 field_12C;
+    s16 field_12E;
+    s16 field_130;
+    s16 field_132;
     FP field_134_speed;
     Path_TLV* field_138_pTlv;
 public:
     GreeterStates field_13C_state;
-    __int16 field_13E_targetOnLeft;
-    __int16 field_140_targetOnRight;
+    s16 field_13E_targetOnLeft;
+    s16 field_140_targetOnRight;
 private:
-    __int16 field_142;
+    s16 field_142;
 };
 ALIVE_ASSERT_SIZEOF(Greeter, 0x144);

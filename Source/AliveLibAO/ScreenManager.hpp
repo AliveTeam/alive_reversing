@@ -8,7 +8,7 @@
 
 namespace AO {
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 class Camera
 {
@@ -22,14 +22,14 @@ public:
     DynamicArrayT<BYTE*> field_0_array;
     BYTE** field_C_ppBits;
     int field_10_resId;
-    __int16 field_14_cam_x;
-    __int16 field_16_cam_y;
-    __int16 field_18_path;
+    s16 field_14_cam_x;
+    s16 field_16_cam_y;
+    s16 field_18_path;
     LevelIds field_1A_level;
-    __int16 field_1C;
+    s16 field_1C;
     char field_1E_fileName[18];
-    __int16 field_30_flags;
-    __int16 field_32;
+    s16 field_30_flags;
+    s16 field_32;
 };
 ALIVE_ASSERT_SIZEOF(Camera, 0x34);
 
@@ -101,21 +101,21 @@ public:
     EXPORT void sub_406FF0();
 
     FP_Point* field_10_pCamPos;
-    __int16 field_14_xpos;
+    s16 field_14_xpos;
     u16 field_16_ypos;
     SprtTPage* field_18_screen_sprites;
     int field_1C;
-    __int16 field_20_upos;
-    __int16 field_22_vpos;
+    s16 field_20_upos;
+    s16 field_22_vpos;
     short field_24_cam_width;
     short field_26_cam_height;
     int field_28;
-    __int16 field_2C;
+    s16 field_2C;
     u16 field_2E_idx;
     u16 field_30_y_idx;
     u16 field_32_x_idx;
-    __int16 field_34;
-    __int16 field_36_flags;
+    s16 field_34;
+    s16 field_36_flags;
     int field_38;
     int field_3C;
     int field_40;

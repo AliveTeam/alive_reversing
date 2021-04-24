@@ -6,7 +6,7 @@
 
 namespace AO {
 
-enum class BellSize : __int16
+enum class BellSize : s16
 {
     eBig_0 = 0,
     eMedium_1 = 1,

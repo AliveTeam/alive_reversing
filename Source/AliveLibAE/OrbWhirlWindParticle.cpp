@@ -6,7 +6,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "stdlib.hpp"
 
-OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_4E40C0(FP xpos, FP ypos, FP scale, __int16 bIsMudokonSpirit)
+OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_4E40C0(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit)
 {
     SetVTable(&field_8_Anim, 0x544290);
 
@@ -241,7 +241,7 @@ void OrbWhirlWindParticle::dtor_4E4300()
     ResourceManager::FreeResource_49C330(field_108_res);
 }
 
-void OrbWhirlWindParticle::CalculateRenderProperties_4E4390(__int16 bStarted)
+void OrbWhirlWindParticle::CalculateRenderProperties_4E4390(s16 bStarted)
 {
     field_B8_render_angle += field_BC_counter;
 
@@ -272,7 +272,7 @@ void OrbWhirlWindParticle::CalculateRenderProperties_4E4390(__int16 bStarted)
     }
 }
 
-void OrbWhirlWindParticle::SetActive_4E4340(unsigned __int8 active)
+void OrbWhirlWindParticle::SetActive_4E4340(u8 active)
 {
     if (active)
     {

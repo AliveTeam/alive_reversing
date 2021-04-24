@@ -59,7 +59,7 @@ void UXB::InitBlinkAnim_4DEED0(Animation* pAnimation)
     }
 }
 
-void UXB::PlaySFX_4DE930(unsigned __int8 sfxIdx)
+void UXB::PlaySFX_4DE930(u8 sfxIdx)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
         this->field_C2_lvl_number,
@@ -131,7 +131,7 @@ void UXB::VScreenChanged()
     ScreenChanged_4DF9C0();
 }
 
-__int16 UXB::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 UXB::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_4DF850(pFrom);
 }
@@ -330,7 +330,7 @@ void UXB::vOnThrowableHit_4DF7B0(BaseGameObject* /*pFrom*/)
     field_124_next_state_frame = sGnFrame_5C1B84;
 }
 
-__int16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
+s16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {

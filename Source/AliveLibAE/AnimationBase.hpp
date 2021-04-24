@@ -88,12 +88,12 @@ public:
     // TODO: Virtuals must be on the base type, yet there is only 1 vtable pointing to derived?
     virtual void vDecode_40AC90();
 
-    virtual void vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 width, signed int height);
+    virtual void vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, signed int height);
     virtual void vCleanUp_40C630() = 0;
 
     // TODO: Restore vTable entry.
-    //EXPORT virtual __int16 Animationv_40B200();
-    EXPORT virtual char Animation_v_40BEE0(__int16 a2, __int16 a3, int a4, __int16 a5, __int16 op1);
+    //EXPORT virtual s16 Animationv_40B200();
+    EXPORT virtual char Animation_v_40BEE0(s16 a2, s16 a3, int a4, s16 a5, s16 op1);
 
     EXPORT static void CC AnimateAll_40AC20(DynamicArrayT<AnimationBase>* pAnimations);
 

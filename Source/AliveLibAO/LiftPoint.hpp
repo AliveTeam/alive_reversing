@@ -10,12 +10,12 @@ namespace AO {
 
 struct Path_LiftPoint : public Path_TLV
 {
-    __int16 field_18_id;
-    __int16 field_1A_bstart_point;
-    __int16 field_1C_lift_type;
-    __int16 field_1E_lift_point_stop_type;
-    __int16 field_20_scale;
-    __int16 field_22_bIgnore_lift_mover;
+    s16 field_18_id;
+    s16 field_1A_bstart_point;
+    s16 field_1C_lift_type;
+    s16 field_1E_lift_point_stop_type;
+    s16 field_20_scale;
+    s16 field_22_bIgnore_lift_mover;
 };
 
 class Rope;
@@ -39,7 +39,7 @@ public:
     
     EXPORT void Move_435740(FP xSpeed, FP ySpeed, int not_used);
 
-    void StayOnFloor(__int16 floor, Path_LiftPoint* pTlv);
+    void StayOnFloor(s16 floor, Path_LiftPoint* pTlv);
 
     void Sub_Unknown(Path_TLV* pTlv);
 
@@ -79,16 +79,16 @@ public:
 
     EXPORT void CreatePulleyIfExists_435AE0(short camX, short camY);
 
-    __int16 field_12C_bMoving;
-    __int16 field_12E;
-    __int16 field_130_stop_type;
-    __int16 field_132;
+    s16 field_12C_bMoving;
+    s16 field_12E;
+    s16 field_130_stop_type;
+    s16 field_132;
     Rope* field_134_pRope2;
     Rope* field_138_pRope1;
     Animation field_13C_lift_wheel;
     Animation field_1D4_pulley_anim;
-    __int16 field_26C_pulley_xpos;
-    __int16 field_26E_pulley_ypos;
+    s16 field_26C_pulley_xpos;
+    s16 field_26E_pulley_ypos;
     FP field_270_floorYLevel;
     BYTE** field_274_ppRes;
     short field_278_point_id;

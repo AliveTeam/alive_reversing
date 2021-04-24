@@ -90,8 +90,8 @@ EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
         pRect->y = 512 - pRect->h;
         while (pRect->y >= 0)
         {
-            // Old Code: if (static_cast<unsigned __int8>(pRect->y) + pRect->h <= 256)
-            // Instead of casting to unsigned __int8 to wrap around the integer, we're
+            // Old Code: if (static_cast<u8>(pRect->y) + pRect->h <= 256)
+            // Instead of casting to u8 to wrap around the integer, we're
             // going to do it manually in case other platforms don't auto wrap integers on
             // cast.
             if ((pRect->y % 256) + pRect->h <= 256)
@@ -155,7 +155,7 @@ EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
     return 1;
 }
 
-EXPORT s16 CC Vram_alloc_4956C0(u16 width, __int16 height, u16 colourDepth, PSX_RECT* pRect)
+EXPORT s16 CC Vram_alloc_4956C0(u16 width, s16 height, u16 colourDepth, PSX_RECT* pRect)
 {
     PSX_RECT rect = {};
 
@@ -185,7 +185,7 @@ EXPORT void CC Vram_init_495660()
     sVramNumberOfAllocations_5CC888 = 0;
 }
 
-EXPORT void CC Vram_alloc_explicit_4955F0(__int16 x, __int16 y, __int16 w, __int16 h)
+EXPORT void CC Vram_alloc_explicit_4955F0(s16 x, s16 y, s16 w, s16 h)
 {
     if (sVramNumberOfAllocations_5CC888 < kMaxAllocs)
     {
@@ -249,11 +249,11 @@ EXPORT BOOL CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT*
 }
 
 
-ALIVE_VAR(1, 0x5c9162, __int16, pal_xpos_5C9162, 0);
-ALIVE_VAR(1, 0x5c9160, __int16, pal_ypos_5C9160, 0);
+ALIVE_VAR(1, 0x5c9162, s16, pal_xpos_5C9162, 0);
+ALIVE_VAR(1, 0x5c9160, s16, pal_ypos_5C9160, 0);
 
-ALIVE_VAR(1, 0x5c915c, __int16, pal_width_5C915C, 0);
-ALIVE_VAR(1, 0x5c915e, __int16, pal_free_count_5C915E, 0);
+ALIVE_VAR(1, 0x5c915c, s16, pal_width_5C915C, 0);
+ALIVE_VAR(1, 0x5c915e, s16, pal_free_count_5C915E, 0);
 
 ALIVE_ARY(1, 0x5c9164, int, 77, sPal_table_5C9164, {}); // TODO: Actually 32 in size ?
 
@@ -338,7 +338,7 @@ EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
     return 1;
 }
 
-EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
+EXPORT void CC Pal_free_483390(PSX_Point xy, s16 palDepth)
 {
     const int palIdx = xy.field_2_y - pal_ypos_5C9160;
     const int palWidthBits = xy.field_0_x - pal_xpos_5C9162;
@@ -357,7 +357,7 @@ EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
     }
 }
 
-EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, u16 width, u16 height)
+EXPORT void CC Pal_Area_Init_483080(s16 xpos, s16 ypos, u16 width, u16 height)
 {
     pal_xpos_5C9162 = xpos;
     pal_ypos_5C9160 = ypos;
@@ -373,7 +373,7 @@ EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, u16 width, u16 h
     }
 }
 
-EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, __int16 w, WORD* pPalData, PSX_RECT* rect)
+EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, s16 w, WORD* pPalData, PSX_RECT* rect)
 {
     rect->x = pPoint.field_0_x;
     rect->y = pPoint.field_2_y;
@@ -382,12 +382,12 @@ EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, __int16 w, WORD* pPalData, PSX_
     PSX_StoreImage_4F5E90(rect, pPalData);
 }
 
-EXPORT u32 CC Pal_Make_Colour_4834C0(BYTE r, BYTE g, BYTE b, __int16 bOpaque)
+EXPORT u32 CC Pal_Make_Colour_4834C0(BYTE r, BYTE g, BYTE b, s16 bOpaque)
 {
     return (bOpaque != 0 ? 0x8000 : 0) + ((u32)r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
 }
 
-EXPORT void CC Pal_Set_483510(PSX_Point xy, __int16 w, const BYTE* palData, PSX_RECT* rect)
+EXPORT void CC Pal_Set_483510(PSX_Point xy, s16 w, const BYTE* palData, PSX_RECT* rect)
 {
     rect->x = xy.field_0_x;
     rect->y = xy.field_2_y;

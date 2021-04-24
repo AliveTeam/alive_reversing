@@ -267,12 +267,12 @@ BaseGameObject* Slog::dtor_473370()
     return dtor_401000();
 }
 
-__int16 Slog::VTakeDamage(BaseGameObject* pFrom)
+s16 Slog::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_473610(pFrom);
 }
 
-__int16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
+s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
 {
     if (field_100_health <= FP_FromInteger(0))
     {
@@ -430,7 +430,7 @@ void Slog::VUpdate_4739C0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    const __int16 old_motion = field_FC_current_motion;
+    const s16 old_motion = field_FC_current_motion;
     const auto oldBrain = sSlog_fns_brain_4CFE00[field_114_brain_idx];
     field_116_brain_state = (this->*sSlog_fns_brain_4CFE00[field_114_brain_idx])();
 
@@ -485,7 +485,7 @@ void Slog::SetAnimFrame()
     field_10_anim.Set_Animation_Data_402A40(sSlogFrameOffsetTable_4CFD98[field_FC_current_motion], ppRes);
 }
 
-BYTE** Slog::ResBlockForMotion(__int16 motion)
+BYTE** Slog::ResBlockForMotion(s16 motion)
 {
     if (motion < eSlogStates::State_15_Empty_475290)
     {
@@ -668,7 +668,7 @@ void Slog::Init_473130()
     gNumSlogs_9F11C8++;
 }
 
-__int16 Slog::ToNextMotion_473CE0()
+s16 Slog::ToNextMotion_473CE0()
 {
     switch (field_FE_next_state)
     {
@@ -855,7 +855,7 @@ void Slog::Sfx_475BD0(int soundId)
     );
 }
 
-__int16 Slog::IsPlayerNear_471930()
+s16 Slog::IsPlayerNear_471930()
 {
     if (FP_Abs(sActiveHero_507678->field_A8_xpos - field_A8_xpos) >= (FP_FromInteger(100) * field_BC_sprite_scale) ||
         FP_Abs(sActiveHero_507678->field_AC_ypos - field_AC_ypos) >= (FP_FromInteger(25) * field_BC_sprite_scale) ||
@@ -972,7 +972,7 @@ void Slog::VOnThrowableHit_4735F0(BaseGameObject* /*pFrom*/)
     field_156 += field_15C;
 }
 
-__int16 Slog::HandleEnemyStopper_473BD0()
+s16 Slog::HandleEnemyStopper_473BD0()
 {
     FP xpos = {};
     if (field_B4_velx >= FP_FromInteger(0))
@@ -1906,7 +1906,7 @@ void Slog::State_24_Growl_475590()
     }
 }
 
-const __int16 sSlogResponseMotion_4CFCF0[3][10] =
+const s16 sSlogResponseMotion_4CFCF0[3][10] =
 {
     {
         eSlogStates::State_3_TurnAround_474C70,
@@ -1946,7 +1946,7 @@ const __int16 sSlogResponseMotion_4CFCF0[3][10] =
     }
 };
 
-__int16 Slog::Brain_0_ListeningToSlig_472450()
+s16 Slog::Brain_0_ListeningToSlig_472450()
 {
     if (!field_14C_pSlig)
     {
@@ -2252,7 +2252,7 @@ __int16 Slog::Brain_0_ListeningToSlig_472450()
      return field_116_brain_state;
 }
 
-__int16 Slog::Brain_1_Idle_4719C0()
+s16 Slog::Brain_1_Idle_4719C0()
 {
     if (field_10C_pTarget)
     {
@@ -2495,7 +2495,7 @@ __int16 Slog::Brain_1_Idle_4719C0()
     }
 }
 
-__int16 Slog::Brain_2_ChasingAbe_470F50()
+s16 Slog::Brain_2_ChasingAbe_470F50()
 {
     const int lastIdx = pEventSystem_4FF954->field_18_last_event_index;
 
@@ -2905,7 +2905,7 @@ __int16 Slog::Brain_2_ChasingAbe_470F50()
     return field_116_brain_state;
 }
 
-__int16 Slog::Brain_3_Dead_4721B0()
+s16 Slog::Brain_3_Dead_4721B0()
 {
     if (field_14C_pSlig)
     {
@@ -2944,7 +2944,7 @@ __int16 Slog::Brain_3_Dead_4721B0()
     return 100;
 }
 
-__int16 Slog::Facing(FP xpos)
+s16 Slog::Facing(FP xpos)
 {
     if (field_A8_xpos < xpos && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -2959,7 +2959,7 @@ __int16 Slog::Facing(FP xpos)
     return FALSE;
 }
 
-void Slog::DelayedResponse(__int16 responseIdx)
+void Slog::DelayedResponse(s16 responseIdx)
 {
     field_152_response_index = responseIdx;
     field_154_response_part = 0;

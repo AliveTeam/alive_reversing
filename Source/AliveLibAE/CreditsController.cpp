@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "Map.hpp"
 
-ALIVE_VAR(1, 0x5c1b90, __int16, sDoesCreditsControllerExist_5C1B90, false);
+ALIVE_VAR(1, 0x5c1b90, s16, sDoesCreditsControllerExist_5C1B90, false);
 
 
 BaseGameObject* CreditsController::VDestructor(signed int flags)

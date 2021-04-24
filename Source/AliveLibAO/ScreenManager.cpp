@@ -87,7 +87,7 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
             IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<BYTE*>(pIter));
 
             // To next slice
-            pIter += (slice_len / sizeof(__int16));
+            pIter += (slice_len / sizeof(s16));
         }
         
         ResourceManager::FreeResource_455550(pRes);

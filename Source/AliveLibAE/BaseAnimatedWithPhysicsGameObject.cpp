@@ -111,9 +111,9 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
         {
             field_20_animation.field_14_scale = field_CC_sprite_scale;
 
-            __int16 r = field_D0_r;
-            __int16 g = field_D2_g;
-            __int16 b = field_D4_b;
+            s16 r = field_D0_r;
+            s16 g = field_D2_g;
+            s16 b = field_D4_b;
 
             PSX_RECT boundingRect = {};
             vGetBoundingRect_424FD0(&boundingRect, 1);
@@ -164,7 +164,7 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
 }
 
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffset, int maxW, u16 maxH, BYTE **ppAnimData, __int16 a6, unsigned __int8 a7)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffset, int maxW, u16 maxH, BYTE **ppAnimData, s16 a6, u8 a7)
 {
     if (field_20_animation.Init_40A030(
         frameTableOffset,
@@ -219,22 +219,22 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::vGetBoundingRect_424FD0(PSX_RECT* p
     return GetBoundingRect_424FD0(pRect, pointIdx);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj)
+s16 BaseAnimatedWithPhysicsGameObject::vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj)
 {
     return IsObjNearby_4253B0(radius, pObj);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::vIsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 BaseAnimatedWithPhysicsGameObject::vIsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     return IsObj_GettingNear_On_X_425420(pObj);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return IsFacingMe_4254A0(pOther);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return OnSameYLevel_425520(pOther);
 }
@@ -299,7 +299,7 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::GetBoundingRect_424FD0(PSX_RECT* pR
     return pRect;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj)
+s16 BaseAnimatedWithPhysicsGameObject::IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj)
 {
     FP distance = pObj->field_B8_xpos - field_B8_xpos;
 
@@ -311,7 +311,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::IsObjNearby_4253B0(FP radius, BaseAni
     return distance <= radius;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->field_B8_xpos < field_B8_xpos && pOther->field_C4_velx > field_C4_velx)
     {
@@ -330,7 +330,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::IsObj_GettingNear_On_X_425420(BaseAni
 }
 
 // Muds use this to face "away" from Abe when stood on the same grid block. Also used to follow Abe in the correct direction etc.
-__int16 BaseAnimatedWithPhysicsGameObject::IsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::IsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->field_B8_xpos == field_B8_xpos
         && pOther->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -354,7 +354,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::IsFacingMe_4254A0(BaseAnimatedWithPhy
 }
 
 // This is how Scrabs, Fleeches (and probably other stuff) know you are on the same "floor"
-__int16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     // Get bounding rects
     PSX_RECT ourRect = {};
@@ -383,7 +383,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithP
 void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(AETypes typeToFind)
 {
     // For some reason this isn't const in the real game
-    const __int16 kData[6] =
+    const s16 kData[6] =
     {
         0, 3, -3, 6, -6, 2
     };
@@ -538,7 +538,7 @@ void BaseAnimatedWithPhysicsGameObject::SetTint_425600(const TintEntry* pTintArr
 }
 
 
-void BaseAnimatedWithPhysicsGameObject::SetRGB(__int16 r, __int16 g, __int16 b)
+void BaseAnimatedWithPhysicsGameObject::SetRGB(s16 r, s16 g, s16 b)
 {
     field_D0_r = r;
     field_D2_g = g;

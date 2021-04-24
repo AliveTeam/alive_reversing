@@ -8,7 +8,7 @@
 
 namespace AO {
 
-enum class ThrowableTotalIndicatorState : __int16
+enum class ThrowableTotalIndicatorState : s16
 {
     eCreated_0 = 0,
     eFading_1 = 1,
@@ -18,7 +18,7 @@ enum class ThrowableTotalIndicatorState : __int16
 class ThrowableTotalIndicator : public BaseGameObject
 {
 public:
-    EXPORT ThrowableTotalIndicator* ctor_41B520(FP xpos, FP ypos, Layer layer, FP scale, __int16 count, __int16 bFade);
+    EXPORT ThrowableTotalIndicator* ctor_41B520(FP xpos, FP ypos, Layer layer, FP scale, s16 count, s16 bFade);
 
     EXPORT BaseGameObject* dtor_41B610();
 
@@ -49,16 +49,16 @@ public:
     FP field_28_scale;
     FP field_2C_scale_speed;
     Layer field_30_layer;
-    __int16 field_32_r;
-    __int16 field_34_g;
-    __int16 field_36_b;
-    __int16 field_38_num_to_show;
-    __int16 field_3A_pad;
+    s16 field_32_r;
+    s16 field_34_g;
+    s16 field_36_b;
+    s16 field_38_num_to_show;
+    s16 field_3A_pad;
 
     Line_F2 field_3C_lines[2][8];
     Prim_SetTPage field_17C_tPage[2];
     ThrowableTotalIndicatorState field_19C_state;
-    __int16 field_19E_bFade;
+    s16 field_19E_bFade;
 };
 ALIVE_ASSERT_SIZEOF(ThrowableTotalIndicator, 0x1A0);
 

@@ -5,14 +5,14 @@
 #include "BitField.hpp"
 #include "FunctionFwd.hpp"
 
-enum class GrinderDirection : __int16
+enum class GrinderDirection : s16
 {
     eDown_0 = 0,
     eRight_1 = 1,
     eLeft_2 = 2,
 };
 
-enum class GrinderBehavior : __int16
+enum class GrinderBehavior : s16
 {
     eNotInteractable_0 = 0,
     eToggle_1 = 1,
@@ -22,21 +22,21 @@ enum class GrinderBehavior : __int16
 struct Path_Grinder_Data
 {
     Scale_short field_10_scale;
-    __int16 field_12_min_off_time;
-    __int16 field_14_max_off_time;
-    __int16 field_16_id;
+    s16 field_12_min_off_time;
+    s16 field_14_max_off_time;
+    s16 field_16_id;
     GrinderBehavior field_18_behavior;
-    __int16 field_1A_speed;
+    s16 field_1A_speed;
     Choice_short field_1C_bStart_state_on;
-    __int16 field_1E_off_speed;
-    __int16 field_20_min_off_time_speed_change;
-    __int16 field_22_max_off_time_speed_change;
+    s16 field_1E_off_speed;
+    s16 field_20_min_off_time_speed_change;
+    s16 field_22_max_off_time_speed_change;
     Choice_short field_24_bStart_position_bottom;
     GrinderDirection field_26_direction;
 };
 ALIVE_ASSERT_SIZEOF(Path_Grinder_Data, 0x18);
 
-enum class GrinderStates : __int16
+enum class GrinderStates : s16
 {
     State_0_Restart_Cycle = 0,
     State_1_Going_Down = 1,
@@ -45,13 +45,13 @@ enum class GrinderStates : __int16
 
 struct Grinder_State
 {
-    __int16 field_0;
-    //__int16 field_2_padding;
+    s16 field_0;
+    //s16 field_2_padding;
     int field_4;
     int field_8_tlvInfo;
     int field_C_off_timer;
     GrinderStates field_10_state;
-    __int16 field_12_xyoff;
+    s16 field_12_xyoff;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Grinder_State, 0x14);
 
@@ -84,16 +84,16 @@ private:
     EXPORT void vStopAudio_4215C0();
     EXPORT int vGetSaveState_4217B0(BYTE* /*pSaveBuffer*/);
     EXPORT void EmitSparks_4206D0();
-    EXPORT __int16 DamageTouchingObjects_421060();
+    EXPORT s16 DamageTouchingObjects_421060();
 private:
     GrinderStates field_F4_state;
-    __int16 field_F6_width;
-    __int16 field_F8_id;
+    s16 field_F6_width;
+    s16 field_F8_id;
     GrinderDirection field_FA_direction;
-    __int16 field_FC_min_off_time;
-    __int16 field_FE_max_off_time;
-    __int16 field_100_min_off_time_speed_change;
-    __int16 field_102_max_off_time_speed_change;
+    s16 field_FC_min_off_time;
+    s16 field_FE_max_off_time;
+    s16 field_100_min_off_time_speed_change;
+    s16 field_102_max_off_time_speed_change;
     DWORD field_104_tlv;
     int field_108_off_timer;
     int field_10C_audio_channels_mask;
@@ -113,6 +113,6 @@ private:
         eBit6_StartPosIsBottom = 0x20,
     };
     BitField16<Flags> field_128_flags;
-    __int16 field_12A_pad;
+    s16 field_12A_pad;
 };
 ALIVE_ASSERT_SIZEOF(Grinder, 0x12C);

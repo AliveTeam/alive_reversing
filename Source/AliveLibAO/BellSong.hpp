@@ -5,7 +5,7 @@
 
 namespace AO {
 
-enum class BellsongTypes : __int16
+enum class BellsongTypes : s16
 {
     eWhistle = 0,
     eChimes = 1
@@ -24,11 +24,11 @@ public:
 
 
     int field_10_code_idx;
-    __int16 field_14_bDone;
+    s16 field_14_bDone;
     BellsongTypes field_16_type;
     int field_18_code;
-    __int16 field_1C_code_len;
-    __int16 field_1E;
+    s16 field_1C_code_len;
+    s16 field_1E;
 };
 ALIVE_ASSERT_SIZEOF(BellSong, 0x20);
 

@@ -133,7 +133,7 @@ BaseGameObject* PullRingRope::dtor_454910()
     return dtor_417D10();
 }
 
-__int16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
+s16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
 {
     if (!pFrom)
     {

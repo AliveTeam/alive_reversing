@@ -14,7 +14,7 @@ namespace AO {
 
 ALIVE_VAR_EXTERN(BYTE, sRandomSeed_50A228); //Math.cpp
 
-EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(BYTE** ppPlaybackData, __int16 a3)
+EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(BYTE** ppPlaybackData, s16 a3)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBF98);

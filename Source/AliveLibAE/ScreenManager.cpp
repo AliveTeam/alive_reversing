@@ -13,7 +13,7 @@
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
 ALIVE_ARY(1, 0x5b86c8, SprtTPage, 300, sSpriteTPageBuffer_5B86C8, {});
 
-static unsigned char gCamBuffer[640 * 240 * 2];
+static u8 gCamBuffer[640 * 240 * 2];
 
 void ScreenManager::sub_40EE10()
 {
@@ -80,7 +80,7 @@ void ScreenManager::InvalidateRect_40EC50(int x, int y, signed int width, signed
     InvalidateRect_40EC90(x, y, width, height, idx + 4);
 }
 
-__int16 ScreenManager::IsDirty_40EBC0(int idx, int x, int y)
+s16 ScreenManager::IsDirty_40EBC0(int idx, int x, int y)
 {
     return field_64_20x16_dirty_bits[idx].GetTile(x / 32, y / 16);
 }
@@ -107,7 +107,7 @@ namespace Oddlib
 {
     // NOTE: More reversing is required to fully understand these algorithms, but its something like JPEG
     // and since its enough to actually decode the data this is where the work on reversing stopped :)
-    static const unsigned short int g_red_table[] =
+    static const u16 g_red_table[] =
     {
         0x00000, 0x00800, 0x01000, 0x01800, 0x02000, 0x02800, // 0
         0x03000, 0x03800, 0x04000, 0x04800, 0x05000, 0x05800, // 6
@@ -122,7 +122,7 @@ namespace Oddlib
         0x0F800, 0x0F800, 0x0F800, 0x0F800                    // 60-64
     };
 
-    static const unsigned short int g_blue_table[] =
+    static const u16 g_blue_table[] =
     {
         0, 1, 2, 3, 4, 5,                   // 0
         6, 7, 8, 9, 0x0A, 0x0B,             // 6
@@ -137,7 +137,7 @@ namespace Oddlib
         0x1F, 0x1F, 0x1F, 0x1F              // 60
     };
 
-    static const unsigned short int g_green_table[] =
+    static const u16 g_green_table[] =
     {
         0x000, 0x040, 0x080, 0x0C0, 0x100, 0x140, // 0
         0x180, 0x1C0, 0x200, 0x240, 0x280, 0x2C0, // 6
@@ -208,7 +208,7 @@ int ScreenManager::next_bits()
     {
         ret = g_right25_array; // Always the previous g_right25_array! Or zero on first/ when its RLE data
 
-        unsigned short int o = *g_pointer_to_vlc_buffer;
+        u16 o = *g_pointer_to_vlc_buffer;
 
         g_left7_array = o >> 7;
 

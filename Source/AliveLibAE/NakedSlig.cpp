@@ -223,7 +223,7 @@ void NakedSlig::VRender(PrimHeader** ppOt)
 
 void NakedSlig::vRender_419990(PrimHeader** ot)
 {
-    const __int16 eyeIndices[] = { 60, 62 };
+    const s16 eyeIndices[] = { 60, 62 };
     renderWithGlowingEyes(ot, this, &field_11C_pPalAlloc[0], ALIVE_COUNTOF(field_11C_pPalAlloc),
                         &field_19C_pal_rect, field_1A4_r, field_1A6_g, field_1A8_b, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
@@ -243,7 +243,7 @@ void NakedSlig::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_419680(pTlv);
 }
 
-__int16 NakedSlig::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 NakedSlig::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_4192B0(pFrom);
 }
@@ -431,7 +431,7 @@ void NakedSlig::vPossessed_4195F0()
     field_1BE_prev_camera = gMap_5C3030.field_4_current_camera;
 }
 
-void NakedSlig::Set_AnimAndMotion_419890(__int16 currentMotion, __int16 bClearNextMotion)
+void NakedSlig::Set_AnimAndMotion_419890(s16 currentMotion, s16 bClearNextMotion)
 {
     field_20_animation.Set_Animation_Data_409C80(sNakedSligFrameTableOffsets_551470[currentMotion], nullptr);
     field_106_current_motion = currentMotion;
@@ -464,7 +464,7 @@ BYTE** NakedSlig::GetAnimBlock_419950(int /*currentMotion*/)
     return field_10_resources_array.ItemAt(0);
 }
 
-__int16 CC NakedSlig::NextRandom_4197D0()
+s16 CC NakedSlig::NextRandom_4197D0()
 {
     return (Math_NextRandom() & 1) == 0;
 }
@@ -535,7 +535,7 @@ void NakedSlig::vUpdate_419100()
     }
 }
 
-__int16 NakedSlig::HandleEnemyStopper_41C740(FP /*velX*/)
+s16 NakedSlig::HandleEnemyStopper_41C740(FP /*velX*/)
 {
     FP gridSizeDirected = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     Path_EnemyStopper::StopDirection direction = Path_EnemyStopper::StopDirection::Both_2;
@@ -644,7 +644,7 @@ void NakedSlig::vOn_TLV_Collision_419680(Path_TLV* pTlv)
     }
 }
 
-__int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
+s16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
 {
     if (!BrainIs(&NakedSlig::AI_5_Transformed_41ADF0))
     {
@@ -801,7 +801,7 @@ void NakedSlig::ToIdle_41C070()
     MapFollowMe_408D10(TRUE);
 }
 
-__int16 NakedSlig::AI_0_Sleeping_419DE0()
+s16 NakedSlig::AI_0_Sleeping_419DE0()
 {
     if (gMap_5C3030.GetDirection_4811A0(
         field_C2_lvl_number,
@@ -863,7 +863,7 @@ __int16 NakedSlig::AI_0_Sleeping_419DE0()
     return 0;
 }
 
-__int16 NakedSlig::AI_1_Idle_419F60()
+s16 NakedSlig::AI_1_Idle_419F60()
 {
     if (gMap_5C3030.GetDirection_4811A0(
         field_C2_lvl_number,
@@ -881,7 +881,7 @@ __int16 NakedSlig::AI_1_Idle_419F60()
     return 0;
 }
 
-__int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
+s16 NakedSlig::AI_2_PanicGetALocker_419FE0()
 {
     if (gMap_5C3030.GetDirection_4811A0(
         field_C2_lvl_number,
@@ -1099,7 +1099,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
     }
 }
 
-__int16 NakedSlig::AI_3_Possessed_41A5B0()
+s16 NakedSlig::AI_3_Possessed_41A5B0()
 {
     if (gMap_5C3030.GetDirection_4811A0(
         field_C2_lvl_number,
@@ -1186,7 +1186,7 @@ __int16 NakedSlig::AI_3_Possessed_41A5B0()
     return field_208_brain_sub_state;
 }
 
-__int16 NakedSlig::AI_4_GetKilled_41A880()
+s16 NakedSlig::AI_4_GetKilled_41A880()
 {
     if (gMap_5C3030.GetDirection_4811A0(
         field_C2_lvl_number,
@@ -1334,7 +1334,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
     }
 }
 
-__int16 NakedSlig::AI_5_Transformed_41ADF0()
+s16 NakedSlig::AI_5_Transformed_41ADF0()
 {
     BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_1D8_obj_id);
     if (gMap_5C3030.GetDirection_4811A0(
@@ -1968,7 +1968,7 @@ const FP dword_54471C[15] =
     FP_FromDouble(0)
 };
 
-__int16 NakedSlig::CanCrawl_41C5D0()
+s16 NakedSlig::CanCrawl_41C5D0()
 {
     field_C4_velx = dword_54471C[field_20_animation.field_92_current_frame];
 

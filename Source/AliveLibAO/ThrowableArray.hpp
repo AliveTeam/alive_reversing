@@ -4,7 +4,7 @@
 
 namespace AO {
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, u16 path);
 
@@ -15,9 +15,9 @@ public:
 
     EXPORT BaseGameObject* dtor_453F10();
 
-    EXPORT void Remove_4540D0(__int16 count);
+    EXPORT void Remove_4540D0(s16 count);
 
-    EXPORT void Add_453F70(__int16 count);
+    EXPORT void Add_453F70(s16 count);
 
     EXPORT BaseGameObject* Vdtor_454690(signed int flags);
     EXPORT void VUpdate_4542B0();
@@ -28,8 +28,8 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    __int16 field_10_count;
-    __int16 field_12_flags;
+    s16 field_10_count;
+    s16 field_12_flags;
 };
 ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x14);
 

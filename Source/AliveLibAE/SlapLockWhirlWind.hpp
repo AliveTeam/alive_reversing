@@ -6,14 +6,14 @@
 struct SlapLockWhirlWind_State
 {
     AETypes field_0_type;
-    __int16 field_2_switch_id;
+    s16 field_2_switch_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockWhirlWind_State, 0x4);
 
 class SlapLockWhirlWind : public BaseGameObject
 {
 public:
-    EXPORT SlapLockWhirlWind* ctor_43D7E0(__int16 doorNumber, __int16 switchId, FP xpos, FP ypos, FP scale);
+    EXPORT SlapLockWhirlWind* ctor_43D7E0(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
@@ -26,7 +26,7 @@ private:
     EXPORT void vUpdate_43DA90();
 
 public:
-    __int16 SwitchId() const;
+    s16 SwitchId() const;
 
 private:
     FP field_20_xpos;
@@ -36,10 +36,10 @@ private:
     FP field_30_door_y;
     FP field_34_door_scale;
     int field_38_orb_whirlwind_id;
-    __int16 field_3C_state;
-    __int16 field_3E_padding;
+    s16 field_3C_state;
+    s16 field_3E_padding;
     int field_40_timer;
-    __int16 field_44_switch_id;
-    __int16 field_46_padding;
+    s16 field_44_switch_id;
+    s16 field_46_padding;
 };
 ALIVE_ASSERT_SIZEOF(SlapLockWhirlWind, 0x48);

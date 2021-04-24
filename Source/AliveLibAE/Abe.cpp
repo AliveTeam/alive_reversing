@@ -1290,7 +1290,7 @@ int Abe::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_457110(pSaveBuffer);
 }
 
-__int16 Abe::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 Abe::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_44BB50(pFrom);
 }
@@ -1300,7 +1300,7 @@ void Abe::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_44B5D0(pTlv);
 }
 
-BirdPortal* Abe::VIntoBirdPortal_408FD0(__int16 gridBlocks)
+BirdPortal* Abe::VIntoBirdPortal_408FD0(s16 gridBlocks)
 {
     return vIntoBirdPortal_44E970(gridBlocks);
 }
@@ -1443,14 +1443,14 @@ void Abe::Update_449DC0()
 
         if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp))
         {
-            field_C4_velx = sAbe_xVel_table_545770[(unsigned __int8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-            field_C8_vely = sAbe_yVel_table_545790[(unsigned __int8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+            field_C4_velx = sAbe_xVel_table_545770[(u8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+            field_C8_vely = sAbe_yVel_table_545790[(u8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
 
             if (sInputKey_Run_5550E8 & Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
             {
-                field_C4_velx += sAbe_xVel_table_545770[(unsigned __int8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-                field_C4_velx += sAbe_xVel_table_545770[(unsigned __int8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-                field_C8_vely += sAbe_yVel_table_545790[(unsigned __int8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                field_C4_velx += sAbe_xVel_table_545770[(u8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                field_C4_velx += sAbe_xVel_table_545770[(u8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                field_C8_vely += sAbe_yVel_table_545790[(u8)Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
             }
 
             field_B8_xpos += field_C4_velx;
@@ -1752,7 +1752,7 @@ void Abe::Update_449DC0()
     }
 }
 
-BirdPortal* Abe::vIntoBirdPortal_44E970(__int16 gridBlocks)
+BirdPortal* Abe::vIntoBirdPortal_44E970(s16 gridBlocks)
 {
     auto pPortal = BaseAliveGameObject::VIntoBirdPortal_408FD0(gridBlocks);
     if (pPortal && pPortal->field_24_portal_type == PortalType::eAbe_0)
@@ -1786,7 +1786,7 @@ void Abe::vOnTrapDoorOpen_45A570()
     }
 }
 
-void Abe::ToKnockback_44E700(__int16 bKnockbackSound, __int16 bDelayedAnger)
+void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
 {
     OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
     BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id));
@@ -2195,7 +2195,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     return sizeof(Abe_SaveState);
 }
 
-__int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
+s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 {
     // Stop chant sound music.
     SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
@@ -2226,7 +2226,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     }
 
     field_128.field_4_regen_health_timer = sGnFrame_5C1B84 + 180;
-    __int16 ret = field_10C_health > FP_FromInteger(0);
+    s16 ret = field_10C_health > FP_FromInteger(0);
 
     switch (pFrom->field_4_typeId)
     {
@@ -3576,7 +3576,7 @@ void Abe::State_1_WalkLoop_44FBA0()
 
 void Abe::State_2_StandingTurn_451830()
 {
-    const __int16 currentFrame = field_20_animation.field_92_current_frame;
+    const s16 currentFrame = field_20_animation.field_92_current_frame;
     const DWORD pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
     if (currentFrame == 4 && (sInputKey_Run_5550E8 & pressed) && (sInputKey_Right_5550D0 | sInputKey_Left_5550D4) & pressed)
@@ -6018,7 +6018,7 @@ void Abe::State_62_Punch_454750()
         while (pSlapTarget)
         {
             // Is it in a state where we can slap it?
-            const __int16 mud_state = static_cast<Mudokon*>(pSlapTarget)->field_106_current_motion;
+            const s16 mud_state = static_cast<Mudokon*>(pSlapTarget)->field_106_current_motion;
             if (mud_state != 46 && mud_state != 47)
             {
                 // Can slap, so exit
@@ -6103,7 +6103,7 @@ void Abe::State_64_AfterSorry_454730()
 
 void Abe::State_65_LedgeAscend_4548E0()
 {
-    const __int16 curFrameNum = field_20_animation.field_92_current_frame;
+    const s16 curFrameNum = field_20_animation.field_92_current_frame;
     if (curFrameNum == 0)
     {
         Environment_SFX_457A40(EnvironmentSfx::eExhaustingHoistNoise_10, 0, 32767, this);
@@ -6124,7 +6124,7 @@ void Abe::State_65_LedgeAscend_4548E0()
 
 void Abe::State_66_LedgeDescend_454970()
 {
-    const __int16 curFrameNum = field_20_animation.field_92_current_frame;
+    const s16 curFrameNum = field_20_animation.field_92_current_frame;
     if (curFrameNum == 2)
     {
         Environment_SFX_457A40(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 32767, this);
@@ -8034,7 +8034,7 @@ void Abe::State_114_DoorEnter_459470()
         }
 
         gMap_5C3030.field_1E_door = 1;
-        __int16 bForceChange = 0;
+        s16 bForceChange = 0;
         const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pDoorTlv->field_32_wipe_effect];
         if (effect == CameraSwapEffects::eEffect5_1_FMV || effect == CameraSwapEffects::eEffect11_Unknown)
         {
@@ -8662,7 +8662,7 @@ void Abe::Get_Shrykull_Resources_45AA20()
     field_10_resources_array.SetAt(27, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, TRUE, FALSE));
 }
 
-__int16 Abe::ToLeftRightMovement_44E340()
+s16 Abe::ToLeftRightMovement_44E340()
 {
     field_C8_vely = FP_FromInteger(0);
     if (sControlledCharacter_5C1B8C != this)
@@ -8758,7 +8758,7 @@ void CC Abe::Create_Fart_421D20()
     pFart->ctor_422E30();
 }
 
-__int16 Abe::TryEnterMineCar_4569E0()
+s16 Abe::TryEnterMineCar_4569E0()
 {
     if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & sInputKey_Up_5550D8)
     {
@@ -8825,7 +8825,7 @@ int Abe::NearDoorIsOpen_44EE10()
     return TRUE;
 }
 
-__int16 Abe::HandleDoAction_455BD0()
+s16 Abe::HandleDoAction_455BD0()
 {
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
         nullptr,
@@ -9000,7 +9000,7 @@ void Abe::MoveForward_44E9A0()
     }
 }
 
-__int16 Abe::CrouchingGameSpeak_453E10()
+s16 Abe::CrouchingGameSpeak_453E10()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
 
@@ -9125,7 +9125,7 @@ void Abe::MoveWithVelocity_450FA0(FP velocityX)
     }
 }
 
-__int16 Abe::RunTryEnterDoor_451220()
+s16 Abe::RunTryEnterDoor_451220()
 {
     // Can't be entering a door if we're not pressing up.
     if (!Input().isPressed(sInputKey_Up_5550D8))
@@ -9169,7 +9169,7 @@ __int16 Abe::RunTryEnterDoor_451220()
     return 1;
 }
 
-__int16 Abe::RunTryEnterWell_451060()
+s16 Abe::RunTryEnterWell_451060()
 {
     if (!Input().isPressed(sInputKey_Up_5550D8) ||
         field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted) ||
@@ -9389,7 +9389,7 @@ short Abe::DoGameSpeak_45AB70(int input)
     return nextState;
 }
 
-__int16 Abe::CantBeDamaged_44BAB0()
+s16 Abe::CantBeDamaged_44BAB0()
 {
     switch (field_106_current_motion)
     {
@@ -9448,7 +9448,7 @@ void Abe::FallOnBombs_44EC10()
     }
 }
 
-__int16 Abe::ForceDownIfHoisting_44BA30()
+s16 Abe::ForceDownIfHoisting_44BA30()
 {
     if (field_106_current_motion != eAbeStates::State_65_LedgeAscend_4548E0 &&
         field_106_current_motion != eAbeStates::State_67_LedgeHang_454E20 &&
@@ -9969,7 +9969,7 @@ short Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
     return eAbeStates::State_123_LiftGrabIdle_45A6A0;
 }
 
-__int16 Abe::GetEvilFart_4585F0(__int16 bDontLoad)
+s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
 {
     PSX_RECT abeRect = {};
     vGetBoundingRect_424FD0(&abeRect, 1);
@@ -10021,7 +10021,7 @@ __int16 Abe::GetEvilFart_4585F0(__int16 bDontLoad)
     return 1;
 }
 
-EXPORT void Abe::ChangeChantState_45BB90(__int16 bLaughAtChantEnd)
+EXPORT void Abe::ChangeChantState_45BB90(s16 bLaughAtChantEnd)
 {
     if (bLaughAtChantEnd)
     {
@@ -10043,7 +10043,7 @@ void Abe::SetAsDead_459430()
     field_120_state.raw = 1;
 }
 
-void Abe::ExitShrykull_45A9D0(__int16 bResetRingTimer)
+void Abe::ExitShrykull_45A9D0(s16 bResetRingTimer)
 {
     field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -10059,16 +10059,16 @@ void Abe::ExitShrykull_45A9D0(__int16 bResetRingTimer)
     }
 }
 
-static void playAbeSFX(MudSounds idx, __int16 volume, int pitch)
+static void playAbeSFX(MudSounds idx, s16 volume, int pitch)
 {
     SFX_SfxDefinition_Play_4CA420(
-        &sAbeSFXList_555250[static_cast<unsigned __int8>(idx)],
+        &sAbeSFXList_555250[static_cast<u8>(idx)],
         volume,
         static_cast<short>(pitch), static_cast<short>(pitch)
     );
 }
 
-EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, BaseAliveGameObject* pHero)
+EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, s16 volume, int pitch, BaseAliveGameObject* pHero)
 {
     switch (idx)
     {
@@ -10107,7 +10107,7 @@ EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, Base
         }
         default:
         {
-            auto idxToVal = static_cast<unsigned __int8>(idx);
+            auto idxToVal = static_cast<u8>(idx);
             if (!volume)
             {
                 volume = sAbeSFXList_555250[idxToVal].field_3_default_volume;

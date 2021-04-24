@@ -189,12 +189,12 @@ void Mine::VScreenChanged_43AC10()
     }
 }
 
-__int16 Mine::VTakeDamage(BaseGameObject* pFrom)
+s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_43AC40(pFrom);
 }
 
-__int16 Mine::VTakeDamage_43AC40(BaseGameObject* pFrom)
+s16 Mine::VTakeDamage_43AC40(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -292,7 +292,7 @@ void Mine::VUpdate()
 
 void Mine::vUpdate_43A7F0()
 {
-    const __int16 bInCamera = gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    const s16 bInCamera = gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_B2_lvl_number,
         field_B0_path_number,
         field_A8_xpos,
@@ -346,7 +346,7 @@ void Mine::vUpdate_43A7F0()
     }
 }
 
-__int16 Mine::IsColliding_43AA60()
+s16 Mine::IsColliding_43AA60()
 {
     PSX_RECT bRect = {};
     VGetBoundingRect(&bRect, 1);

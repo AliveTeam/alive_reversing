@@ -14,7 +14,7 @@
 #include "ScreenClipper.hpp"
 #include "Sys_common.hpp"
 
-CameraSwapper* CameraSwapper::ctor_4E4CA0(BYTE** ppCamRes, int movieSector, int movieId, char movieFlag, __int16  movieFlags, __int16 movieVol)
+CameraSwapper* CameraSwapper::ctor_4E4CA0(BYTE** ppCamRes, int movieSector, int movieId, char movieFlag, s16  movieFlags, s16 movieVol)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
@@ -34,7 +34,7 @@ CameraSwapper* CameraSwapper::ctor_4E4CA0(BYTE** ppCamRes, int movieSector, int 
     return this;
 }
 
-CameraSwapper* CameraSwapper::ctor_4E4DC0(BYTE** ppCamRes, int moviePos1, int movieId1, int moviePos2, int movieId2, char movieFlag1, __int16 movieFlags1, __int16 movieVol1, __int16 movieFlag2, __int16 movieFlags2, __int16 movieVol2)
+CameraSwapper* CameraSwapper::ctor_4E4DC0(BYTE** ppCamRes, int moviePos1, int movieId1, int moviePos2, int movieId2, char movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
@@ -60,7 +60,7 @@ CameraSwapper* CameraSwapper::ctor_4E4DC0(BYTE** ppCamRes, int moviePos1, int mo
     return this;
 }
 
-CameraSwapper* CameraSwapper::ctor_4E4ED0(BYTE** ppCamRes, int moviePos1, int movieId1, int moviePos2, int movieId2, int moviePos3, int movieId3, char movieFlag1, __int16  movieFlags1, __int16 movieVol1, __int16 movieFlag2, __int16 movieFlags2, __int16 movieVol2, __int16 moveFlag3, __int16 movieFlags3, __int16 movieVol3)
+CameraSwapper* CameraSwapper::ctor_4E4ED0(BYTE** ppCamRes, int moviePos1, int movieId1, int moviePos2, int movieId2, int moviePos3, int movieId3, char movieFlag1, s16  movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 moveFlag3, s16 movieFlags3, s16 movieVol3)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
@@ -91,7 +91,7 @@ CameraSwapper* CameraSwapper::ctor_4E4ED0(BYTE** ppCamRes, int moviePos1, int mo
     return this;
 }
 
-CameraSwapper* CameraSwapper::ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos)
+CameraSwapper* CameraSwapper::ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect, s16 xpos, s16 ypos)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4

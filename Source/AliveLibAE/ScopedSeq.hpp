@@ -2,7 +2,7 @@
 
 #include "FunctionFwd.hpp"
 
-enum class CameraPos : __int16;
+enum class CameraPos : s16;
 
 class ScopedSeq
 {
@@ -18,8 +18,8 @@ private:
 
 
 private:
-    __int16 field_4_seq_id;
-    __int16 field_6_padding;
+    s16 field_4_seq_id;
+    s16 field_6_padding;
     int field_8_channel_mask;
 };
 ALIVE_ASSERT_SIZEOF(ScopedSeq, 0xC);

@@ -7,13 +7,13 @@ namespace AO {
 struct PSX_Pad
 {
     u16 field_0_pressed;
-    unsigned __int8 field_2_dir;
+    u8 field_2_dir;
     char field_3;
-    __int16 field_4_previously_pressed;
+    s16 field_4_previously_pressed;
     u16 field_6_held;
-    __int16 field_8_released;
-    __int8 field_A_prev_dir;
-    __int8 field_B;
+    s16 field_8_released;
+    s8 field_A_prev_dir;
+    s8 field_B;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
 
@@ -148,8 +148,8 @@ public:
     PSX_Pad field_0_pads[2];
     DWORD** field_18_demo_res;
     int field_1C_demo_command_index;
-    __int16 field_20_demo_playing;
-    __int16 field_22;
+    s16 field_20_demo_playing;
+    s16 field_22;
     int field_24_command;
     int field_28_command_duration;
     int field_2C;
@@ -158,7 +158,7 @@ public:
     bool IsAnyPressed(DWORD command) const;
     bool IsAnyHeld(DWORD command) const;
     bool IsAnyReleased(DWORD command) const;
-    unsigned __int8 Dir() const;
+    u8 Dir() const;
     bool IsAllPressed(DWORD commands) const;
     bool IsAllHeld(DWORD commands) const;
 

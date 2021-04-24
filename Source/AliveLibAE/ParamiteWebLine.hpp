@@ -7,7 +7,7 @@
 struct Path_ParamiteWebLine : public Path_TLV
 {
     Scale_short field_10_scale;
-    __int16 field_12_pad;
+    s16 field_12_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ParamiteWebLine, 0x14);
 
@@ -42,20 +42,20 @@ private:
 
     EXPORT void vScreenChanged_4E2BC0();
 
-    __int16 field_F4_anim_segment_count;
-    __int16 field_F6_piece_length;
-    __int16 field_F8_top;
-    __int16 field_FA_bottom;
+    s16 field_F4_anim_segment_count;
+    s16 field_F6_piece_length;
+    s16 field_F8_top;
+    s16 field_FA_bottom;
     AnimationUnknown* field_FC_pRes;
     int field_100_tlv_info;
-    __int16 field_104_wobble_idx;
-    __int16 field_106_wobble_pos;
+    s16 field_104_wobble_idx;
+    s16 field_106_wobble_pos;
     Animation field_108_anim_flare;
-    __int16 field_1A0_pulse_position;
-    __int16 field_1A2_pulse_position_speed;
-    __int16 field_1A4_delay_counter;
-    __int16 field_1A6_padding;
-    __int16 field_1A8_padding;
-    __int16 field_1AA_padding;
+    s16 field_1A0_pulse_position;
+    s16 field_1A2_pulse_position_speed;
+    s16 field_1A4_delay_counter;
+    s16 field_1A6_padding;
+    s16 field_1A8_padding;
+    s16 field_1AA_padding;
 };
 ALIVE_ASSERT_SIZEOF(ParamiteWebLine, 0x1AC);

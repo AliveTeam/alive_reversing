@@ -28,7 +28,7 @@ void BirdPortalTerminator::VScreenChanged()
     // Staying alive
 }
 
-__int16 BirdPortal::VPortalClipper(__int16 bUnknown)
+s16 BirdPortal::VPortalClipper(s16 bUnknown)
 {
     return VPortalClipper_4533E0(bUnknown);
 }
@@ -73,7 +73,7 @@ BOOL BirdPortal::VStateIs6()
     return VStateIs6_453700();
 }
 
-void BirdPortal::VGiveShrukull(__int16 bPlaySound)
+void BirdPortal::VGiveShrukull(s16 bPlaySound)
 {
     VGiveShrukull_4535A0(bPlaySound);
 }
@@ -849,7 +849,7 @@ void BirdPortal::VUpdate_4523D0()
     }
 }
 
-__int16 BirdPortal::IsScaredAway_4532E0()
+s16 BirdPortal::IsScaredAway_4532E0()
 {
     for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
@@ -887,7 +887,7 @@ __int16 BirdPortal::IsScaredAway_4532E0()
     return FALSE;
 }
 
-void BirdPortal::VGiveShrukull_4535A0(__int16 bPlaySound)
+void BirdPortal::VGiveShrukull_4535A0(s16 bPlaySound)
 {
     if (field_10_portal_type == PortalType::eShrykull_2 && field_56_num_muds_for_shrykull <= 0)
     {
@@ -1117,7 +1117,7 @@ void BirdPortal::VGetMapChange_453840(LevelIds* level, WORD* path, WORD* camera,
     *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
 }
 
-__int16 BirdPortal::VPortalClipper_4533E0(__int16 bUnknown)
+s16 BirdPortal::VPortalClipper_4533E0(s16 bUnknown)
 {
     if (bUnknown && field_14_state != States::State_6)
     {

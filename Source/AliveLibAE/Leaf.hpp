@@ -16,7 +16,7 @@ private:
     EXPORT void dtor_4E3310();
     EXPORT Leaf* vdtor_4E32E0(signed int flags);
 private:
-    __int16 field_F4_bHitSomething;
-    //__int16 field_F6_pad;
+    s16 field_F4_bHitSomething;
+    //s16 field_F6_pad;
 };
 ALIVE_ASSERT_SIZEOF(Leaf, 0xF8);

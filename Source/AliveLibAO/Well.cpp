@@ -14,7 +14,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x4D1488, BYTE, sWellRndSeed_4D1488, 4);
 
-static __int16 Well_NextRandom()
+static s16 Well_NextRandom()
 {
     return sRandomBytes_4BBE30[sWellRndSeed_4D1488++];
 }

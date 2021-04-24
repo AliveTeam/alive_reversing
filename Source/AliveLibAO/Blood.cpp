@@ -18,7 +18,7 @@ namespace AO {
 
 void Blood_ForceLink() {}
 
-Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 count)
+Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count)
 {
     ctor_417C10();
 

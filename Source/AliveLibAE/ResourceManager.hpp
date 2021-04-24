@@ -43,7 +43,7 @@ public:
         Resource_Spline = 0x6e6c7053, // Went with Spline as in ZapLine.cpp.
     };
 
-    enum ResourceHeaderFlags : __int16
+    enum ResourceHeaderFlags : s16
     {
         eLocked = 0x1,
         eOnlyAHeader = 0x2,
@@ -53,8 +53,8 @@ public:
     struct Header
     {
         DWORD field_0_size;
-        __int16 field_4_ref_count;
-        __int16 field_6_flags;
+        s16 field_4_ref_count;
+        s16 field_6_flags;
         DWORD field_8_type;
         DWORD field_C_id;
     };
@@ -85,8 +85,8 @@ public:
         Camera *field_8_pCamera;
         Camera* field_C_fn_arg_pCamera;
         TLoaderFn field_10_pFn;
-        __int16 field_14_bAddUseCount;
-        __int16 field_16_padding;
+        s16 field_14_bAddUseCount;
+        s16 field_16_padding;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord_18, 0x18);
 
@@ -107,10 +107,10 @@ public:
     EXPORT void dtor_4649E0();
     EXPORT void vLoadFile_StateMachine_464A70();
     EXPORT void OnResourceLoaded_464CE0();
-    EXPORT void LoadResource_464EE0(const char* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, __int16 bAddUseCount);
-    EXPORT void LoadResourcesFromList_465150(const char* pFileName, ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, __int16 addUseCount);
-    EXPORT void LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, __int16 a6);
-    EXPORT void LoadingLoop_465590(__int16 bShowLoadingIcon);
+    EXPORT void LoadResource_464EE0(const char* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 bAddUseCount);
+    EXPORT void LoadResourcesFromList_465150(const char* pFileName, ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 addUseCount);
+    EXPORT void LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, s16 a6);
+    EXPORT void LoadingLoop_465590(s16 bShowLoadingIcon);
     EXPORT void Shutdown_465610();
     EXPORT void Free_Resources_For_Camera_4656F0(const Camera* pCamera);
 
@@ -156,14 +156,14 @@ public:
     EXPORT static void CC Reclaim_Memory_49C470(u32 size);
     EXPORT static void CC Increment_Pending_Count_49C5F0();
     EXPORT static void CC Decrement_Pending_Count_49C610();
-    EXPORT static void CC Set_Header_Flags_49C650(BYTE** ppRes, __int16 flags);
+    EXPORT static void CC Set_Header_Flags_49C650(BYTE** ppRes, s16 flags);
     EXPORT static void CC Free_Resource_Of_Type_49C6B0(DWORD type);
     EXPORT static void CC NoEffect_49C700();
 
 
 private:
 
-    enum LoadingStates : __int16
+    enum LoadingStates : s16
     {
         State_Wait_For_Load_Request = 0,
         State_Allocate_Memory_For_File = 1,

@@ -19,7 +19,7 @@ void Spark_ForceLink() { }
 
 namespace AO {
 
-Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max)
+Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max)
 {
     ctor_487E10(1);
     field_6_flags.Set(Options::eDrawable_Bit4);

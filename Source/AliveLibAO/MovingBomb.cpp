@@ -201,12 +201,12 @@ void MovingBomb::VScreenChanged_43BC90()
     }
 }
 
-__int16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
+s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_43BB60(pFrom);
 }
 
-__int16 MovingBomb::VTakeDamage_43BB60(BaseGameObject* pFrom)
+s16 MovingBomb::VTakeDamage_43BB60(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -279,7 +279,7 @@ void MovingBomb::VOnThrowableHit_43B930(BaseGameObject* /*pFrom*/)
     SFX_Play_43AD70(SoundEffect::GreenTick_3, 100, 0);
 }
 
-__int16 MovingBomb::HitObject_43B970()
+s16 MovingBomb::HitObject_43B970()
 {
     PSX_RECT ourRect = {};
     VGetBoundingRect(&ourRect, 1);

@@ -371,7 +371,7 @@ Door* Door::vdtor_41E9D0(signed int flags)
 
 void Door::PlaySound_41EA90()
 {
-    __int16 volume = 0;
+    s16 volume = 0;
     if (field_F8_door_type != DoorTypes::eBasicDoor_0 || field_CC_sprite_scale != FP_FromInteger(1))
     {
         volume = 60;

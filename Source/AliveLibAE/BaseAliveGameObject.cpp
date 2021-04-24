@@ -137,17 +137,17 @@ void BaseAliveGameObject::VPossessed_408F70()
     vPossessed_408F70();
 }
 
-void BaseAliveGameObject::VSetMotion_4081C0(__int16 state)
+void BaseAliveGameObject::VSetMotion_4081C0(s16 state)
 {
     vSetMotion_4081C0(state);
 }
 
-void BaseAliveGameObject::VOnPathTransition_408320(__int16 cameraWorldXPos, __int16 cameraWorldYPos, CameraPos direction)
+void BaseAliveGameObject::VOnPathTransition_408320(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction)
 {
     vOnPathTransition_408320(cameraWorldXPos, cameraWorldYPos, direction);
 }
 
-__int16 BaseAliveGameObject::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 BaseAliveGameObject::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_408730(pFrom);
 }
@@ -157,12 +157,12 @@ void BaseAliveGameObject::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_4087F0(pTlv);
 }
 
-void BaseAliveGameObject::VCheckCollisionLineStillValid_408A40(__int16 distance)
+void BaseAliveGameObject::VCheckCollisionLineStillValid_408A40(s16 distance)
 {
     vCheckCollisionLineStillValid_408A40(distance);
 }
 
-BirdPortal* BaseAliveGameObject::VIntoBirdPortal_408FD0(__int16 gridBlocks)
+BirdPortal* BaseAliveGameObject::VIntoBirdPortal_408FD0(s16 gridBlocks)
 {
     return vIntoBirdPortal_408FD0(gridBlocks);
 }
@@ -172,7 +172,7 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
     vOnTrapDoorOpen_4081F0();
 }
 
-__int16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* pObj)
+s16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* pObj)
 {
     /* OG unused feature to always appear as if you are in an invisible zone
     if (word_5C1BE4)
@@ -236,7 +236,7 @@ void BaseAliveGameObject::vPossessed_408F70()
     // Empty
 }
 
-void BaseAliveGameObject::vSetMotion_4081C0(__int16 state)
+void BaseAliveGameObject::vSetMotion_4081C0(s16 state)
 {
     field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
     field_106_current_motion = state;
@@ -259,7 +259,7 @@ EXPORT int CC MaxGridBlocks_449880(FP scale)
     }
 }
 
-void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __int16 cameraWorldYPos, CameraPos direction)
+void BaseAliveGameObject::vOnPathTransition_408320(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction)
 {
     const FP oldY = field_BC_ypos;
     switch (direction)
@@ -361,7 +361,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __in
     }
 }
 
-__int16 BaseAliveGameObject::vTakeDamage_408730(BaseGameObject* /*pFrom*/)
+s16 BaseAliveGameObject::vTakeDamage_408730(BaseGameObject* /*pFrom*/)
 {
     // Defaults to no damage.
     return 0;
@@ -372,7 +372,7 @@ void BaseAliveGameObject::vOn_TLV_Collision_4087F0(Path_TLV* /*pTlv*/)
     // Empty
 }
 
-void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(__int16 distance)
+void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(s16 distance)
 {
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
     if (!field_100_pCollisionLine)
@@ -426,7 +426,7 @@ void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(__int16 distance)
 
 }
 
-BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(__int16 numGridBlocks)
+BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(s16 numGridBlocks)
 {
     for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
@@ -494,7 +494,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, Le
     return 1;
 }
 
-BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(__int16 direction, __int16 distance)
+BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(s16 direction, s16 distance)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
@@ -610,7 +610,7 @@ EXPORT void BaseAliveGameObject::SetActiveCameraDelayedFromDir_408C40()
      }
 }
 
-__int16 BaseAliveGameObject::MapFollowMe_408D10(__int16 snapToGrid)
+s16 BaseAliveGameObject::MapFollowMe_408D10(s16 snapToGrid)
 {
     const int xposSnapped = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
     if (snapToGrid)
@@ -764,7 +764,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind,
     return nullptr;
 }
 
-__int16 BaseAliveGameObject::OnTrapDoorIntersection_408BA0(PlatformBase* pPlatform)
+s16 BaseAliveGameObject::OnTrapDoorIntersection_408BA0(PlatformBase* pPlatform)
 {
     PSX_RECT bRect = {};
     pPlatform->vGetBoundingRect_424FD0(&bRect, 1);

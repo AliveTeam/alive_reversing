@@ -9,12 +9,12 @@ namespace AO {
 
 struct Path_RockSack : public Path_TLV
 {
-    __int16 field_18_side;
-    __int16 field_1A_x_vel;
-    __int16 field_1C_y_vel;
-    __int16 field_1E_scale;
-    __int16 field_20_num_rocks;
-    __int16 field_22_pad;
+    s16 field_18_side;
+    s16 field_1A_x_vel;
+    s16 field_1C_y_vel;
+    s16 field_1E_scale;
+    s16 field_20_num_rocks;
+    s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_RockSack, 0x24);
 
@@ -38,10 +38,10 @@ public:
     EXPORT void VScreenChanged_457890();
 
     int field_10C_tlvInfo;
-    __int16 field_110;
-    __int16 field_112_num_rocks;
-    __int16 field_114_can_play_wobble_sound;
-    __int16 field_116_force_wobble_sound;
+    s16 field_110;
+    s16 field_112_num_rocks;
+    s16 field_114_can_play_wobble_sound;
+    s16 field_116_force_wobble_sound;
     FP field_118_x_vel;
     FP field_11C_y_vel;
 };
@@ -50,7 +50,7 @@ ALIVE_ASSERT_SIZEOF(RockSack, 0x120);
 class Rock : public BaseThrowable
 {
 public:
-    EXPORT Rock* ctor_456960(FP xpos, FP ypos, __int16 count);
+    EXPORT Rock* ctor_456960(FP xpos, FP ypos, s16 count);
 
     EXPORT BaseGameObject* dtor_456A90();
 
@@ -70,19 +70,19 @@ public:
 
     EXPORT void VThrow_456B20(FP velX, FP velY);
 
-    virtual __int16 VCanThrow() override;
+    virtual s16 VCanThrow() override;
 
-    EXPORT __int16 VCanThrow_4573C0();
+    EXPORT s16 VCanThrow_4573C0();
 
     EXPORT void InTheAir_456B60();
 
-    EXPORT __int16 OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj);
+    EXPORT s16 OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj);
 
-    virtual __int16 VIsFalling() override;
+    virtual s16 VIsFalling() override;
 
     virtual void VTimeToExplodeRandom() override;
 
-    enum class States : __int16
+    enum class States : s16
     {
         eNone_0 = 0,
         eFallingOutOfRockSack_1 = 1,
@@ -92,10 +92,10 @@ public:
         eFallingOutOfWorld_5 = 5,
     };
     States field_110_state;
-    __int16 field_112;
+    s16 field_112;
     PathLine* field_114_pLine;
-    __int16 field_118_vol;
-    __int16 field_11A;
+    s16 field_118_vol;
+    s16 field_11A;
     FP field_11C_xpos;
     FP field_120_ypos;
     int field_124;

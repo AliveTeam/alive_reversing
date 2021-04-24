@@ -31,8 +31,8 @@ public:
 
     struct PauseEntry
     {
-        __int16 field_0_x;
-        __int16 field_2_y;
+        s16 field_0_x;
+        s16 field_2_y;
         const char *field_4_strBuf;
         BYTE field_8_r;
         BYTE field_9_g;
@@ -43,20 +43,20 @@ public:
 
     int field_D4[4];
     AliveFont field_E4_font;
-    __int16 field_11C;
-    __int16 field_11E;
-    __int16 field_120;
-    __int16 field_122;
-    __int16 field_124;
-    __int16 field_126_page;
-    __int16 field_128_controller_id;
-    __int16 field_12A;
-    __int16 field_12C;
-    __int16 field_12E;
-    __int16 field_130;
-    __int16 field_132;
-    __int16 field_134;
-    __int16 field_136;
+    s16 field_11C;
+    s16 field_11E;
+    s16 field_120;
+    s16 field_122;
+    s16 field_124;
+    s16 field_126_page;
+    s16 field_128_controller_id;
+    s16 field_12A;
+    s16 field_12C;
+    s16 field_12E;
+    s16 field_130;
+    s16 field_132;
+    s16 field_134;
+    s16 field_136;
     Prim_SetTPage field_138_tPage[2];
     Poly_F4 field_158[2];
 };

@@ -12,15 +12,15 @@
 
 void DDCheat_ForceLink() { }
 
-ALIVE_VAR(1, 0x5c1be6, __int16, sDoorsOpen_5C1BE6, 0);
+ALIVE_VAR(1, 0x5c1be6, s16, sDoorsOpen_5C1BE6, 0);
 ALIVE_VAR(1, 0x5c1bd0, int, sTweakX_5C1BD0, 0);
 ALIVE_VAR(1, 0x5c1bd4, int, sTweakY_5C1BD4, 0);
-ALIVE_VAR(1, 0x5c1bc2, __int16, sRescuedMudokons_5C1BC2, 0);
-ALIVE_VAR(1, 0x5c1bc0, __int16, sKilledMudokons_5C1BC0, 0);
+ALIVE_VAR(1, 0x5c1bc2, s16, sRescuedMudokons_5C1BC2, 0);
+ALIVE_VAR(1, 0x5c1bc0, s16, sKilledMudokons_5C1BC0, 0);
 
-ALIVE_VAR(1, 0x5c1c02, __int16, sVisitedBonewerks_5C1C02, 0);
-ALIVE_VAR(1, 0x5c1c04, __int16, sVisitedBarracks_5C1C04, 0);
-ALIVE_VAR(1, 0x5c1c06, __int16, sVisitedFeecoEnder_5C1C06, 0);
+ALIVE_VAR(1, 0x5c1c02, s16, sVisitedBonewerks_5C1C02, 0);
+ALIVE_VAR(1, 0x5c1c04, s16, sVisitedBarracks_5C1C04, 0);
+ALIVE_VAR(1, 0x5c1c06, s16, sVisitedFeecoEnder_5C1C06, 0);
 
 ALIVE_VAR(1, 0x550f5c, u16, sTeleport_Level_550F5C, 0);
 ALIVE_VAR(1, 0x550f5e, u16, sTeleport_Path_550F5E, 0);
@@ -41,11 +41,11 @@ ALIVE_ARY(1, 0x550f50, TDDCheatMenu, DDCHEAT_MENU_COUNT, sDDCheat_FnTable_550F50
     &DDCheat::Menu_Movies_416000,
 });
 
-ALIVE_VAR(1, 0x5bc008, __int16, sScreenshotOnNextFrame_5BC008, 0);
+ALIVE_VAR(1, 0x5bc008, s16, sScreenshotOnNextFrame_5BC008, 0);
 ALIVE_VAR(1, 0xab49fc, int, sDDCheat_Unused2_AB49FC, 0);
 ALIVE_VAR(1, 0xab4a00, int, sDDCheat_Unused1_AB4A00, 0);
 
-ALIVE_VAR(1, 0x5BBFF0, __int16, sDDCheat_MovieSelectIdx_5BBFF0, 0);
+ALIVE_VAR(1, 0x5BBFF0, s16, sDDCheat_MovieSelectIdx_5BBFF0, 0);
 ALIVE_VAR_EXTERN(DWORD, sLevelId_dword_5CA408);
 
 EXPORT void DDCheat_SaveScreenshot_415550() { NOT_IMPLEMENTED(); }

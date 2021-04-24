@@ -5,7 +5,7 @@
 
 EXPORT void CC CreateGameEnderController_43B7A0();
 
-enum class GameEnderController_States : __int16
+enum class GameEnderController_States : s16
 {
     eInit_0 = 0,
     eDetermineEnding_1 = 1,
@@ -22,11 +22,11 @@ enum class GameEnderController_States : __int16
 struct GameEnderController_State
 {
     AETypes field_0_type;
-    __int16 field_2_padding;
+    s16 field_2_padding;
     int field_4_obj_id;
     int field_8_timer;
     GameEnderController_States field_C_state;
-    __int16 field_E_padding;
+    s16 field_E_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderController_State, 0x10);
 
@@ -49,7 +49,7 @@ private:
 private:
     int field_20_timer;
     GameEnderController_States field_24_state;
-    __int16 field_26_padding;
+    s16 field_26_padding;
 };
 ALIVE_ASSERT_SIZEOF(GameEnderController, 0x28);
 

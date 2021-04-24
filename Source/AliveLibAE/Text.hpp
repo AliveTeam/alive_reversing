@@ -22,15 +22,15 @@ public:
     EXPORT Text* ctor_46ADA0(const char* pMessage, int renderCount, int bShadow);
     EXPORT BaseGameObject* vdtor_46AED0(signed int flags);
     EXPORT void dtor_46AF00();
-    EXPORT void SetYPos_46AFB0(int /*not_used*/, __int16 ypos);
+    EXPORT void SetYPos_46AFB0(int /*not_used*/, s16 ypos);
     EXPORT void Render_46AFD0(PrimHeader** ppOt);
 private:
     Alive::Font field_20_font;
-    __int16 field_58_k0_unused;
-    __int16 field_5A_k4_unused;
-    __int16 field_5C_xpos;
-    __int16 field_5E_ypos;
-    __int16 field_60_bShadow;
+    s16 field_58_k0_unused;
+    s16 field_5A_k4_unused;
+    s16 field_5C_xpos;
+    s16 field_5E_ypos;
+    s16 field_60_bShadow;
     int field_64_render_count;
     char field_68_txt_buffer[60];
 };

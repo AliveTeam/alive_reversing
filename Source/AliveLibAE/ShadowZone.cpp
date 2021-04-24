@@ -60,7 +60,7 @@ ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, DWOR
     return this;
 }
 
-EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_463CE0(int xpos, int ypos, __int16 scale, short* r, short* g, short* b)
+EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_463CE0(int xpos, int ypos, s16 scale, short* r, short* g, short* b)
 {
     for (int idx = 0; idx < sShadowZone_dArray_5C1B80->Size(); idx++)
     {
@@ -144,7 +144,7 @@ void ShadowZone::vScreenChanged_463CC0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-__int16 ShadowZone::ApplysToScale_463C70(__int16 scale)
+s16 ShadowZone::ApplysToScale_463C70(s16 scale)
 {
     if (field_36_scale == ShadowZoneScale::eBoth_0)
     {
@@ -169,7 +169,7 @@ void ShadowZone::vUpdate_463C40()
     }
 }
 
-FP* ShadowZone::GetColourAmount_463AA0(FP* pOut, __int16 xpos, __int16 ypos)
+FP* ShadowZone::GetColourAmount_463AA0(FP* pOut, s16 xpos, s16 ypos)
 {
     const int deltaX = abs(xpos - field_28_centre_x);
     const int deltaY = abs(ypos - field_2A_center_y);

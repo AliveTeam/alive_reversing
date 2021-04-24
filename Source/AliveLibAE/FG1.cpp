@@ -25,8 +25,8 @@ struct Fg1Chunk
 {
     u16 field_0_type;
     u16 field_2_layer;
-    __int16 field_4_xpos;
-    __int16 field_6_ypos;
+    s16 field_4_xpos;
+    s16 field_6_ypos;
     u16 field_8_width;
     u16 field_A_height;
 };
@@ -144,7 +144,7 @@ void FG1::dtor_49A540()
     BaseGameObject_dtor_4DBEC0();
 }
 
-__int16 FG1::Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock)
+s16 FG1::Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 {
     // Map the layer from FG1 internal to OT layer
     pBlock->field_66_mapped_layer = sFg1_layer_to_bits_layer_5469BC[pChunk->field_2_layer];

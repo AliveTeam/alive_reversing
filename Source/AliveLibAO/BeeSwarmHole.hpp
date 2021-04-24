@@ -9,20 +9,20 @@ namespace AO {
 
 struct Path_BeeSwarmHole : public Path_TLV
 {
-    enum class MovementType : __int16
+    enum class MovementType : s16
     {
         eHover_0 = 0,
         eAttack_1 = 1,
         eFollowPath_2 = 2,
     };
-    __int16 field_18_what_to_spawn;
-    __int16 field_1A_interval;
-    __int16 field_1C_id;
+    s16 field_18_what_to_spawn;
+    s16 field_1A_interval;
+    s16 field_1C_id;
     MovementType field_1E_movement_type;
-    __int16 field_20_size;
-    __int16 field_22_chase_time;
-    __int16 field_24_speed;
-    __int16 field_26_scale;
+    s16 field_20_size;
+    s16 field_22_chase_time;
+    s16 field_24_speed;
+    s16 field_26_scale;
 };
 ALIVE_ASSERT_SIZEOF(Path_BeeSwarmHole, 0x28);
 
@@ -41,9 +41,9 @@ public:
     PSX_RECT field_14_rect;
     int field_1C_interval_timer;
     u16 field_20_interval;
-    __int16 field_22_id;
+    s16 field_22_id;
     Path_BeeSwarmHole::MovementType field_24_movement_type;
-    __int16 field_26_num_bees;
+    s16 field_26_num_bees;
     u16 field_28_chase_time;
     u16 field_2A_speed;
 };

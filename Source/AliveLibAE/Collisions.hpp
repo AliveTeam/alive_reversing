@@ -33,12 +33,12 @@ class PathLine
 public:
     PSX_RECT field_0_rect;
     BYTE field_8_type;
-    __int8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
-    __int16 field_A_previous;
-    __int16 field_C_next;
-    __int16 field_E_previous2; // Never used
-    __int16 field_10_next2;    // And... also never used
-    __int16 field_12_line_length;
+    s8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
+    s16 field_A_previous;
+    s16 field_C_next;
+    s16 field_E_previous2; // Never used
+    s16 field_10_next2;    // And... also never used
+    s16 field_12_line_length;
 
     EXPORT PathLine* MoveOnLine_418260(FP* xpos, FP* ypos, FP velX);
 };
@@ -54,8 +54,8 @@ public:
     EXPORT static void CC Factory_4188A0(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
     EXPORT s16 Raycast_Real_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask);
     EXPORT BOOL Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask);
-    EXPORT PathLine* Add_Dynamic_Collision_Line_417FA0(__int16 x1, __int16 y1, __int16 x2, __int16 y2, char mode);
-    EXPORT PathLine* Get_Line_At_Idx_418070(__int16 idx);
+    EXPORT PathLine* Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, s16 y2, char mode);
+    EXPORT PathLine* Get_Line_At_Idx_418070(s16 idx);
     EXPORT PathLine* PreviousLine_4180A0(PathLine* pLine);
     EXPORT PathLine* NextLine_418180(PathLine* pLine);
     s16 Raycast_Impl(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask);

@@ -6,7 +6,7 @@
 
 void GameSpeak_ForceLink();
 
-enum class GameSpeakEvents : __int16
+enum class GameSpeakEvents : s16
 {
     eSameAsLast_m2 = -2,
     eNone_m1 = -1,
@@ -69,7 +69,7 @@ enum class GameSpeakEvents : __int16
     Scrab_Shriek_54 = 54,
 };
 
-enum class GameSpeakMatch : __int16
+enum class GameSpeakMatch : s16
 {
     eNoMatch_0 = 0,
     eFullMatch_1 = 1,
@@ -89,7 +89,7 @@ public:
 
     EXPORT GameSpeak* ctor_421820();
 
-    EXPORT GameSpeakMatch MatchBuffer_4219E0(BYTE* pBuffer, __int16 max_idx, s16 src_idx);
+    EXPORT GameSpeakMatch MatchBuffer_4219E0(BYTE* pBuffer, s16 max_idx, s16 src_idx);
 
     EXPORT static int CC FillBuffer_421970(int code, BYTE* pBufffer);
 
@@ -103,7 +103,7 @@ private:
 
 public:
     GameSpeakEvents field_20_last_event;
-    __int16 field_22_padding;
+    s16 field_22_padding;
     u32 field_24_last_event_frame;
     int field_28_last_event_index;
     char field_2C_event_buffer[32];
@@ -112,7 +112,7 @@ ALIVE_ASSERT_SIZEOF(GameSpeak, 0x4C);
 
 ALIVE_VAR_EXTERN(GameSpeak*, pEventSystem_5BC11C);
 
-EXPORT __int16 CC Code_Length_4C9DB0(u32 code);
+EXPORT s16 CC Code_Length_4C9DB0(u32 code);
 
 EXPORT int CC Code_Convert_4C9DF0(u16 code1, u16 code2);
 

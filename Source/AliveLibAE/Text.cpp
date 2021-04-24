@@ -79,14 +79,14 @@ EXPORT void Text::dtor_46AF00()
     BaseGameObject_dtor_4DBEC0();
 }
 
-EXPORT void Text::SetYPos_46AFB0(int /*not_used*/, __int16 ypos)
+EXPORT void Text::SetYPos_46AFB0(int /*not_used*/, s16 ypos)
 {
     field_5E_ypos = ypos;
 }
 
 EXPORT void Text::Render_46AFD0(PrimHeader** ppOt)
 {
-    const __int16 ypos = field_5E_ypos + 100;
+    const s16 ypos = field_5E_ypos + 100;
     const int xpos = (368 / 2) - (field_5C_xpos / 2);
 
     int drawRet1 = field_20_font.DrawString_4337D0(

@@ -9,7 +9,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x4CFFF8, short, sBackgroundMusic_seq_id_4CFFF8, -1);
 
-BackgroundMusic* BackgroundMusic::ctor_476370(__int16 musicId)
+BackgroundMusic* BackgroundMusic::ctor_476370(s16 musicId)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BCD30);

@@ -159,7 +159,7 @@ void Well::vScreenChanged_4E3070()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-static __int16 Well_NextRandom()
+static s16 Well_NextRandom()
 {
     const auto curRand = sRandomBytes_546744[sWellRndSeed_563AA0];
     sWellRndSeed_563AA0++;

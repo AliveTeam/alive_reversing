@@ -218,7 +218,7 @@ void Fleech::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_Tlv_Collision_42AAB0(pTlv);
 }
 
-__int16 Fleech::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 Fleech::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_42A5C0(pFrom);
 }
@@ -1221,7 +1221,7 @@ void Fleech::M_Consume_18_42FDF0()
     }
 }
 
-EXPORT __int16 Fleech::AI_Patrol_0_Real_430BA0()
+EXPORT s16 Fleech::AI_Patrol_0_Real_430BA0()
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -1370,8 +1370,8 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
         FP tongueBlock_Y[5] = {};
 
         const FP_Point *camPos = pScreenManager_5BB5F4->field_20_pCamPos;
-        const __int16 camX = FP_GetExponent(camPos->field_0_x);
-        const __int16 camY = FP_GetExponent(camPos->field_4_y);
+        const s16 camX = FP_GetExponent(camPos->field_0_x);
+        const s16 camY = FP_GetExponent(camPos->field_4_y);
 
         tongueBlock_X[0] = FP_FromInteger(field_180_tongue_x - camX);
         tongueBlock_Y[0] = FP_FromInteger(field_182_tongue_y - camY);
@@ -1408,12 +1408,12 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
 
         for (int i = 0; i < 4; i++)
         {
-            __int16 r = static_cast<__int16>((i + 1) * 150 / 4);
-            __int16 g = static_cast<__int16>((i + 1) * 100 / 4);
-            __int16 b = static_cast<__int16>((i + 1) * 100 / 4);
-            __int16 r2 = static_cast<__int16>(i * 150 / 4);
-            __int16 g2 = static_cast<__int16>(i * 100 / 4);
-            __int16 b2 = static_cast<__int16>(i * 100 / 4);
+            s16 r = static_cast<s16>((i + 1) * 150 / 4);
+            s16 g = static_cast<s16>((i + 1) * 100 / 4);
+            s16 b = static_cast<s16>((i + 1) * 100 / 4);
+            s16 r2 = static_cast<s16>(i * 150 / 4);
+            s16 g2 = static_cast<s16>(i * 100 / 4);
+            s16 b2 = static_cast<s16>(i * 100 / 4);
 
             const FP currTongueBlock_Y = tongueBlock_Y[i];
             const FP currTongueBlock_X = tongueBlock_X[i];
@@ -1444,23 +1444,23 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
 
             SetXY0(
                 currTonguePoly1,
-                static_cast<__int16>(tonguePolyX1),
-                static_cast<__int16>(tonguePolyY1 - 1)
+                static_cast<s16>(tonguePolyX1),
+                static_cast<s16>(tonguePolyY1 - 1)
             );
             SetXY1(
                 currTonguePoly1,
-                static_cast<__int16>(tonguePolyX2),
-                static_cast<__int16>(tonguePolyY2 - 1)
+                static_cast<s16>(tonguePolyX2),
+                static_cast<s16>(tonguePolyY2 - 1)
             );
             SetXY2(
                 currTonguePoly1,
-                static_cast<__int16>(tonguePolyX1),
-                static_cast<__int16>(tonguePolyY1 + 1)
+                static_cast<s16>(tonguePolyX1),
+                static_cast<s16>(tonguePolyY1 + 1)
             );
             SetXY3(
                 currTonguePoly1,
-                static_cast<__int16>(tonguePolyX2),
-                static_cast<__int16>(tonguePolyY2 + 1)
+                static_cast<s16>(tonguePolyX2),
+                static_cast<s16>(tonguePolyY2 + 1)
             );
 
             SetRGB0(
@@ -1500,23 +1500,23 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
 
             SetXY0(
                 currTonguePoly2,
-                static_cast<__int16>(tonguePolyX1 - minus_one_one_switch),
-                static_cast<__int16>(tonguePolyY1 - 1)
+                static_cast<s16>(tonguePolyX1 - minus_one_one_switch),
+                static_cast<s16>(tonguePolyY1 - 1)
             );
             SetXY1(
                 currTonguePoly2,
-                static_cast<__int16>(tonguePolyX2 - minus_one_one_switch),
-                static_cast<__int16>(tonguePolyY2 - 1)
+                static_cast<s16>(tonguePolyX2 - minus_one_one_switch),
+                static_cast<s16>(tonguePolyY2 - 1)
             );
             SetXY2(
                 currTonguePoly2,
-                static_cast<__int16>(tonguePolyX1 + minus_one_one_switch),
-                static_cast<__int16>(tonguePolyY1 + 1)
+                static_cast<s16>(tonguePolyX1 + minus_one_one_switch),
+                static_cast<s16>(tonguePolyY1 + 1)
             );
             SetXY3(
                 currTonguePoly2,
-                static_cast<__int16>(tonguePolyX2 + minus_one_one_switch),
-                static_cast<__int16>(tonguePolyY2 + 1)
+                static_cast<s16>(tonguePolyX2 + minus_one_one_switch),
+                static_cast<s16>(tonguePolyY2 + 1)
             );
 
             SetRGB0(
@@ -1546,25 +1546,25 @@ void Fleech::RenderEx_42C5A0(PrimHeader** ot)
 
             OrderingTable_Add_4F8AA0(OtLayer(ot, field_20_animation.field_C_render_layer), &currTonguePoly2->mBase.header);
 
-            __int16 invRect_x;
-            __int16 invRect_y;
-            __int16 invRect_w;
-            __int16 invRect_h;
+            s16 invRect_x;
+            s16 invRect_y;
+            s16 invRect_w;
+            s16 invRect_h;
 
-            const __int16 smallerof1andBaseX = std::min(
+            const s16 smallerof1andBaseX = std::min(
                 currTonguePoly2->mVerts[1].mVert.x,
                 currTonguePoly2->mBase.vert.x
             );
-            const __int16 biggerof2and0X = std::max(
+            const s16 biggerof2and0X = std::max(
                 currTonguePoly2->mVerts[0].mVert.x,
                 currTonguePoly2->mVerts[2].mVert.x
             );
 
-            const __int16 smallerof0andBaseY = std::min(
+            const s16 smallerof0andBaseY = std::min(
                 currTonguePoly2->mVerts[0].mVert.y,
                 currTonguePoly2->mBase.vert.y
             );
-            const __int16 biggerof1and2Y = std::max(
+            const s16 biggerof1and2Y = std::max(
                 currTonguePoly2->mVerts[1].mVert.y,
                 currTonguePoly2->mVerts[2].mVert.y
             );
@@ -1632,7 +1632,7 @@ void Fleech::vOn_Tlv_Collision_42AAB0(Path_TLV* pTlv)
     }
 }
 
-__int16 Fleech::IsScrabOrParamiteNear_42B440(FP radius)
+s16 Fleech::IsScrabOrParamiteNear_42B440(FP radius)
 {
     BaseAliveGameObject* pNearestScrabOrParamite = nullptr;
     for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
@@ -1852,7 +1852,7 @@ void Fleech::ResetTarget_42CF70()
     }
 }
 
-__int16 Fleech::GotNoTarget_42CFA0()
+s16 Fleech::GotNoTarget_42CFA0()
 {
     return current_target_object_id_551840 == -1 && !field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted);
 }
@@ -1862,7 +1862,7 @@ void Fleech::SetTarget_42CF50()
     current_target_object_id_551840 = field_8_object_id;
 }
 
-void Fleech::TongueHangingFromWall_42B9A0(__int16 target_x, __int16 target_y)
+void Fleech::TongueHangingFromWall_42B9A0(s16 target_x, s16 target_y)
 {
     field_18A.Set(Flags_18A::e18A_Render_Bit2);
     field_178_tongue_state = 2;
@@ -2113,7 +2113,7 @@ const SfxDefinition getSfxDef(FleechSound effectId)
 int Fleech::Sound_430520(FleechSound soundId)
 {
     SfxDefinition effectDef = getSfxDef(soundId);
-    __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
+    s16 defaultSndIdxVol = effectDef.field_3_default_volume;
     if (soundId == FleechSound::CrawlRNG1_14)
     {
         const int rndIdx = Math_RandomRange_496AB0(14, 16);
@@ -2126,8 +2126,8 @@ int Fleech::Sound_430520(FleechSound soundId)
         defaultSndIdxVol = 2 * defaultSndIdxVol / 3;
     }
 
-    __int16 volumeLeft = 0;
-    __int16 volumeRight = defaultSndIdxVol;
+    s16 volumeLeft = 0;
+    s16 volumeRight = defaultSndIdxVol;
     const CameraPos direction = gMap_5C3030.GetDirection_4811A0(
         field_C2_lvl_number,
         field_C0_path_number,
@@ -2181,7 +2181,7 @@ BYTE** Fleech::ResBlockForMotion_42A530(int /*motion*/)
     return field_10_resources_array.ItemAt(0);
 }
 
-__int16 Fleech::CanMove_42E3E0()
+s16 Fleech::CanMove_42E3E0()
 {
     if (field_108_next_motion == eFleechMotions::M_Knockback_6_42EAF0)
     {
@@ -2217,7 +2217,7 @@ __int16 Fleech::CanMove_42E3E0()
     return 0;
 }
 
-__int16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(int velX)
+s16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(int velX)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     FP nextXPos = {};
@@ -2279,8 +2279,8 @@ __int16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(int velX)
 
 int Fleech::UpdateWakeUpSwitchValue_4308B0()
 {
-    const __int16 curSwitchValue = static_cast<__int16>(SwitchStates_Get_466020(field_144_wake_up_id));
-    const __int16 wakeUpValue = field_148_wake_up_switch_value;
+    const s16 curSwitchValue = static_cast<s16>(SwitchStates_Get_466020(field_144_wake_up_id));
+    const s16 wakeUpValue = field_148_wake_up_switch_value;
 
     if (curSwitchValue == wakeUpValue)
     {
@@ -2299,7 +2299,7 @@ int Fleech::UpdateWakeUpSwitchValue_4308B0()
     }
 }
 
-__int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
+s16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
 {
     if (field_10C_health <= FP_FromInteger(0))
     {
@@ -2483,7 +2483,7 @@ void Fleech::IncreaseAnger_430920()
     }
 }
 
-__int16 Fleech::InRange_4307C0(BaseAliveGameObject* pObj)
+s16 Fleech::InRange_4307C0(BaseAliveGameObject* pObj)
 {
     if (!pObj || (pObj == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible)))
     {
@@ -2649,7 +2649,7 @@ void Fleech::MoveAlongFloor_42E600()
     }
 }
 
-__int16 Fleech::IsNear_428670(BaseAliveGameObject* pObj)
+s16 Fleech::IsNear_428670(BaseAliveGameObject* pObj)
 {
     if (pObj &&
         field_CC_sprite_scale == pObj->field_CC_sprite_scale &&
@@ -2666,7 +2666,7 @@ void Fleech::vOnThrowableHit_42A590(BaseGameObject* /*pFrom*/)
     field_13E_current_anger += field_142_attack_anger_increaser;
 }
 
-BOOL Fleech::Collision_42B290(__int16 alwaysOne)
+BOOL Fleech::Collision_42B290(s16 alwaysOne)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     const FP quaterScaled = (kGridSize * FP_FromDouble(0.25));
@@ -2700,7 +2700,7 @@ BOOL Fleech::Collision_42B290(__int16 alwaysOne)
     return sCollisions_DArray_5C1128->Raycast_417A60(x1, y1, x2, y2, &pLine, &hitX, &hitY, field_D6_scale ? 0x01 : 0x10) == 0;
 }
 
-Path_Hoist* Fleech::TryGetHoist_42AFD0(int xDistance, __int16 bIgnoreDirection)
+Path_Hoist* Fleech::TryGetHoist_42AFD0(int xDistance, s16 bIgnoreDirection)
 {
     if (field_106_current_motion == eFleechMotions::M_Fall_9_42ECD0)
     {
@@ -2818,7 +2818,7 @@ enum PatrolStates
     State_10 = 10,
 };
 
-__int16 Fleech::AI_Patrol_0_430BA0()
+s16 Fleech::AI_Patrol_0_430BA0()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
     if (!pTarget ||
@@ -2880,7 +2880,7 @@ __int16 Fleech::AI_Patrol_0_430BA0()
     }
 }
 
-__int16 Fleech::AI_Patrol_State_0()
+s16 Fleech::AI_Patrol_State_0()
 {
     field_156 = Fleech_NextRandom() & 0x3F;
     field_15A_chase_timer = 0;
@@ -2911,7 +2911,7 @@ __int16 Fleech::AI_Patrol_State_0()
     return PatrolStates::State_3_To_Sleep;
 }
 
-__int16 Fleech::AI_Patrol_State_1()
+s16 Fleech::AI_Patrol_State_1()
 {
     if (!SwitchStates_Get_466020(field_14A_use_wake_up_id))
     {
@@ -2930,7 +2930,7 @@ __int16 Fleech::AI_Patrol_State_1()
 
     if (UpdateWakeUpSwitchValue_4308B0())
     {
-        const __int16 v11 = (field_142_attack_anger_increaser - field_140_max_anger) / 2;
+        const s16 v11 = (field_142_attack_anger_increaser - field_140_max_anger) / 2;
         if (field_13E_current_anger < v11 + field_140_max_anger)
         {
             field_13E_current_anger = field_140_max_anger + v11;
@@ -2983,7 +2983,7 @@ __int16 Fleech::AI_Patrol_State_1()
     return PatrolStates::State_2;
 }
 
-__int16 Fleech::AI_Patrol_State_2()
+s16 Fleech::AI_Patrol_State_2()
 {
     if (field_106_current_motion != eFleechMotions::M_WakingUp_1_42F270)
     {
@@ -3002,7 +3002,7 @@ __int16 Fleech::AI_Patrol_State_2()
     return PatrolStates::State_4_Alert;
 }
 
-__int16 Fleech::AI_Patrol_State_3()
+s16 Fleech::AI_Patrol_State_3()
 {
     if (field_106_current_motion == eFleechMotions::M_Idle_3_42E850)
     {
@@ -3019,7 +3019,7 @@ __int16 Fleech::AI_Patrol_State_3()
     return PatrolStates::State_1_Sleeping;
 }
 
-__int16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
+s16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
 {
     if (field_11C_obj_id == -1)
     {
@@ -3049,7 +3049,7 @@ __int16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
 
         if (vIsObjNearby_4253B0(FP_FromInteger(2) * ScaleToGridSize_4498B0(field_CC_sprite_scale), pDangerObj))
         {
-            const __int16 v27 = (field_142_attack_anger_increaser - field_140_max_anger) / 2;
+            const s16 v27 = (field_142_attack_anger_increaser - field_140_max_anger) / 2;
             if (field_13E_current_anger < v27 + field_140_max_anger)
             {
                 field_13E_current_anger = field_140_max_anger + v27;
@@ -3245,7 +3245,7 @@ __int16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
     return PatrolStates::State_3_To_Sleep;
 }
 
-__int16 Fleech::AI_Patrol_State_5()
+s16 Fleech::AI_Patrol_State_5()
 {
     if (field_106_current_motion == eFleechMotions::M_StopCrawling_7_42EBB0 || field_106_current_motion == eFleechMotions::M_Knockback_6_42EAF0)
     {
@@ -3275,7 +3275,7 @@ __int16 Fleech::AI_Patrol_State_5()
     return PatrolStates::State_6;
 }
 
-__int16 Fleech::AI_Patrol_State_6()
+s16 Fleech::AI_Patrol_State_6()
 {
     auto pDangerObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj));
     if (field_106_current_motion != eFleechMotions::M_Crawl_4_42E960 || (pDangerObj &&
@@ -3293,7 +3293,7 @@ __int16 Fleech::AI_Patrol_State_6()
     return PatrolStates::State_7;
 }
 
-__int16 Fleech::AI_Patrol_State_7()
+s16 Fleech::AI_Patrol_State_7()
 {
     if (field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
     {
@@ -3302,7 +3302,7 @@ __int16 Fleech::AI_Patrol_State_7()
     return PatrolStates::State_4_Alert;
 }
 
-__int16 Fleech::AI_Patrol_State_8(BaseAliveGameObject* pTarget)
+s16 Fleech::AI_Patrol_State_8(BaseAliveGameObject* pTarget)
 {
     if (pTarget == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
@@ -3319,7 +3319,7 @@ __int16 Fleech::AI_Patrol_State_8(BaseAliveGameObject* pTarget)
     return 0;
 }
 
-__int16 Fleech::AI_Patrol_State_9()
+s16 Fleech::AI_Patrol_State_9()
 {
     if (field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
     {
@@ -3335,7 +3335,7 @@ __int16 Fleech::AI_Patrol_State_9()
     return PatrolStates::State_10;
 }
 
-__int16 Fleech::AI_Patrol_State_10()
+s16 Fleech::AI_Patrol_State_10()
 {
     if (field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
     {
@@ -3367,7 +3367,7 @@ const char byte_551784[] =
     0
 };
 
-__int16 Fleech::AI_ChasingAbe_1_428760()
+s16 Fleech::AI_ChasingAbe_1_428760()
 {
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
     if (pObj)
@@ -3609,7 +3609,7 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
     }
 }
 
-__int16 Fleech::AI_ChasingAbe_State_9(BaseAliveGameObject* pObj)
+s16 Fleech::AI_ChasingAbe_State_9(BaseAliveGameObject* pObj)
 {
     if (!IsScrabOrParamiteNear_42B440(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(6)))
     {
@@ -3688,7 +3688,7 @@ __int16 Fleech::AI_ChasingAbe_State_9(BaseAliveGameObject* pObj)
     return field_126_state;
 }
 
-__int16 Fleech::AI_ChasingAbe_State_2(BaseAliveGameObject* pObj)
+s16 Fleech::AI_ChasingAbe_State_2(BaseAliveGameObject* pObj)
 {
     if (!pObj || pObj->field_10C_health <= FP_FromInteger(0))
     {
@@ -3758,7 +3758,7 @@ __int16 Fleech::AI_ChasingAbe_State_2(BaseAliveGameObject* pObj)
     }
 }
 
-__int16 Fleech::AI_ChasingAbe_State_0(BaseAliveGameObject* pObj)
+s16 Fleech::AI_ChasingAbe_State_0(BaseAliveGameObject* pObj)
 {
     if (!pObj)
     {
@@ -3777,7 +3777,7 @@ __int16 Fleech::AI_ChasingAbe_State_0(BaseAliveGameObject* pObj)
     return 1;
 }
 
-__int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
+s16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
 {
     if (!pObj || pObj->field_10C_health <= FP_FromInteger(0))
     {
@@ -3999,7 +3999,7 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     }
 }
 
-__int16 Fleech::AI_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj)
+s16 Fleech::AI_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj)
 {
     if (pObj->field_BC_ypos < field_BC_ypos - FP_FromInteger((field_CC_sprite_scale >= FP_FromInteger(1) ? 18 : 9)) &&
         pObj->field_CC_sprite_scale == field_CC_sprite_scale && IsNear_428670(pObj))
@@ -4087,7 +4087,7 @@ const char byte_5518B0[16] =
     0
 };
 
-__int16 Fleech::AI_Scared_2_42D310()
+s16 Fleech::AI_Scared_2_42D310()
 {
     auto pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj));
     if (pDangerObj && pDangerObj->field_10C_health > FP_FromInteger(0))
@@ -4443,7 +4443,7 @@ __int16 Fleech::AI_Scared_2_42D310()
     }
 }
 
-__int16 Fleech::AI_Death_3_42D1E0()
+s16 Fleech::AI_Death_3_42D1E0()
 {
     field_11C_obj_id = -1;
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);

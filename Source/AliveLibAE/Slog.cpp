@@ -121,7 +121,7 @@ const static AIFunctionData<TSlogAIFn> sSlogAiTable[4] =
     { &Slog::AI_Death_3_4C3250, 0x4C3250, "AI_Death_3" },
 };
 
-Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, __int16 bListenToSligs, __int16 chaseDelay)
+Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
 {
     ctor_408240(5);
     SetVTable(this, 0x547578);
@@ -241,7 +241,7 @@ void Slog::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_Tlv_Collision_4C5060(pTlv);
 }
 
-__int16 Slog::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 Slog::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_4C4B80(pFrom);
 }
@@ -1344,7 +1344,7 @@ void Slog::M_Growl_23_4C7170()
     }
 }
 
-const __int16 sSlogResponseMotion_560930[3][10] =
+const s16 sSlogResponseMotion_560930[3][10] =
 {
     {
         eSlogMotions::M_TurnAround_3_4C65C0,
@@ -1372,7 +1372,7 @@ const __int16 sSlogResponseMotion_560930[3][10] =
     }
 };
 
-__int16 Slog::AI_ListeningToSlig_0_4C3790()
+s16 Slog::AI_ListeningToSlig_0_4C3790()
 {
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_138_listening_to_slig_id));
 
@@ -1408,7 +1408,7 @@ __int16 Slog::AI_ListeningToSlig_0_4C3790()
     }
 }
 
-__int16 Slog::AI_ListeningToSlig_State_6_Responding()
+s16 Slog::AI_ListeningToSlig_State_6_Responding()
 {
     if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
     {
@@ -1429,7 +1429,7 @@ __int16 Slog::AI_ListeningToSlig_State_6_Responding()
     }
 }
 
-__int16 Slog::AI_ListeningToSlig_State_5_Waiting()
+s16 Slog::AI_ListeningToSlig_State_5_Waiting()
 {
     if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
     {
@@ -1440,7 +1440,7 @@ __int16 Slog::AI_ListeningToSlig_State_5_Waiting()
     return 2;
 }
 
-__int16 Slog::AI_ListeningToSlig_State_4_Running(const FP xpos1GridAHead)
+s16 Slog::AI_ListeningToSlig_State_4_Running(const FP xpos1GridAHead)
 {
     if (field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -1468,7 +1468,7 @@ __int16 Slog::AI_ListeningToSlig_State_4_Running(const FP xpos1GridAHead)
     }
 }
 
-__int16 Slog::AI_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead)
+s16 Slog::AI_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead)
 {
     if (field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -1501,7 +1501,7 @@ __int16 Slog::AI_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead)
     return 2;
 }
 
-__int16 Slog::AI_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseAliveGameObject* pObj)
+s16 Slog::AI_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseAliveGameObject* pObj)
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -1652,7 +1652,7 @@ __int16 Slog::AI_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, Base
     return field_122_brain_state_result;
 }
 
-__int16 Slog::AI_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead)
+s16 Slog::AI_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead)
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -1673,7 +1673,7 @@ __int16 Slog::AI_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead)
     return 2;
 }
 
-__int16 Slog::AI_ListeningToSlig_State_0_Init()
+s16 Slog::AI_ListeningToSlig_State_0_Init()
 {
     field_108_next_motion = eSlogMotions::M_Idle_0_4C5F90;
     field_13C_waiting_counter = 0;
@@ -1681,7 +1681,7 @@ __int16 Slog::AI_ListeningToSlig_State_0_Init()
     return 1;
 }
 
-__int16 Slog::AI_Idle_1_4C2830()
+s16 Slog::AI_Idle_1_4C2830()
 {
     BaseGameObject* pTarget = sObjectIds_5C1B70.Find_449CF0(field_118_target_id);
 
@@ -1902,7 +1902,7 @@ __int16 Slog::AI_Idle_1_4C2830()
     }
 }
 
-__int16 Slog::AI_ChasingAbe_2_4C0A00()
+s16 Slog::AI_ChasingAbe_2_4C0A00()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_118_target_id));
     if (field_160_flags.Get(Flags_160::eBit2_ListenToSligs))
@@ -1985,7 +1985,7 @@ __int16 Slog::AI_ChasingAbe_2_4C0A00()
     }
 }
 
-__int16 Slog::AI_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget)
+s16 Slog::AI_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget)
 {
     FP gridSize = {};
 
@@ -2023,7 +2023,7 @@ __int16 Slog::AI_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget
     return AI_ChasingAbe_State_20_Collided(pTarget);
 }
 
-__int16 Slog::AI_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget)
+s16 Slog::AI_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget)
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2040,7 +2040,7 @@ __int16 Slog::AI_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget)
     return 2;
 }
 
-__int16 Slog::AI_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget)
+s16 Slog::AI_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget)
 {
     if (field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2067,7 +2067,7 @@ __int16 Slog::AI_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget
     return 2;
 }
 
-__int16 Slog::AI_ChasingAbe_State_16_JumpingUpwards()
+s16 Slog::AI_ChasingAbe_State_16_JumpingUpwards()
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2077,7 +2077,7 @@ __int16 Slog::AI_ChasingAbe_State_16_JumpingUpwards()
     return 15;
 }
 
-__int16 Slog::AI_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTarget)
+s16 Slog::AI_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTarget)
 {
     if (field_C4_velx > FP_FromInteger(0) && HandleEnemyStopper_4C5340())
     {
@@ -2155,7 +2155,7 @@ __int16 Slog::AI_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTa
     return 17;
 }
 
-__int16 Slog::AI_ChasingAbe_State_14_CheckingIfBoneNearby()
+s16 Slog::AI_ChasingAbe_State_14_CheckingIfBoneNearby()
 {
     auto pBone = static_cast<Bone*>(sObjectIds_5C1B70.Find_449CF0(field_15C_bone_id));
     if (!pBone)
@@ -2205,7 +2205,7 @@ __int16 Slog::AI_ChasingAbe_State_14_CheckingIfBoneNearby()
     return 2;
 }
 
-__int16 Slog::AI_ChasingAbe_State_13_EatingBone()
+s16 Slog::AI_ChasingAbe_State_13_EatingBone()
 {
     auto pBone = static_cast<Bone*>(sObjectIds_5C1B70.Find_449CF0(field_15C_bone_id));
     if (!pBone || pBone->VIsFalling_49E330())
@@ -2243,7 +2243,7 @@ __int16 Slog::AI_ChasingAbe_State_13_EatingBone()
     return 2;
 }
 
-__int16 Slog::AI_ChasingAbe_State_12_WalkingToBone()
+s16 Slog::AI_ChasingAbe_State_12_WalkingToBone()
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90 && field_106_current_motion != eSlogMotions::M_Walk_1_4C60C0)
     {
@@ -2291,7 +2291,7 @@ __int16 Slog::AI_ChasingAbe_State_12_WalkingToBone()
     return 2;
 }
 
-__int16 Slog::AI_ChasingAbe_State_11_ChasingAfterBone()
+s16 Slog::AI_ChasingAbe_State_11_ChasingAfterBone()
 {
     auto pBone = static_cast<Bone*>(sObjectIds_5C1B70.Find_449CF0(field_15C_bone_id));
     if (!pBone || pBone->VIsFalling_49E330())
@@ -2389,7 +2389,7 @@ __int16 Slog::AI_ChasingAbe_State_11_ChasingAfterBone()
     return 2;
 }
 
-__int16 Slog::AI_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget)
+s16 Slog::AI_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget)
 {
     auto pBone = FindBone_4C25B0();
     if (pBone)
@@ -2436,7 +2436,7 @@ __int16 Slog::AI_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget)
     return field_122_brain_state_result;
 }
 
-__int16 Slog::AI_ChasingAbe_State_10_HungryForBone()
+s16 Slog::AI_ChasingAbe_State_10_HungryForBone()
 {
     if (field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2477,7 +2477,7 @@ __int16 Slog::AI_ChasingAbe_State_10_HungryForBone()
     return 2;
 }
 
-__int16 Slog::AI_ChasingAbe_State_9_Falling()
+s16 Slog::AI_ChasingAbe_State_9_Falling()
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2487,7 +2487,7 @@ __int16 Slog::AI_ChasingAbe_State_9_Falling()
     return 2;
 }
 
-__int16 Slog::AI_ChasingAbe_State_8_ToIdle()
+s16 Slog::AI_ChasingAbe_State_8_ToIdle()
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2499,7 +2499,7 @@ __int16 Slog::AI_ChasingAbe_State_8_ToIdle()
     return 0;
 }
 
-__int16 Slog::AI_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget)
+s16 Slog::AI_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget)
 {
     if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer && pTarget->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -2516,7 +2516,7 @@ __int16 Slog::AI_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget)
     return 8;
 }
 
-__int16 Slog::AI_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget)
+s16 Slog::AI_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget)
 {
     if (field_106_current_motion == eSlogMotions::M_Run_2_4C6340)
     {
@@ -2561,7 +2561,7 @@ __int16 Slog::AI_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget
     return 9;
 }
 
-__int16 Slog::AI_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget)
+s16 Slog::AI_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget)
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2596,7 +2596,7 @@ __int16 Slog::AI_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget)
     return field_122_brain_state_result;
 }
 
-__int16 Slog::AI_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
+s16 Slog::AI_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
 {
     if (field_C4_velx > FP_FromInteger(0) && HandleEnemyStopper_4C5340())
     {
@@ -2736,7 +2736,7 @@ __int16 Slog::AI_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
     return 15;
 }
 
-__int16 Slog::AI_ChasingAbe_State_1_Waiting()
+s16 Slog::AI_ChasingAbe_State_1_Waiting()
 {
     if (field_124_timer > static_cast<int>(sGnFrame_5C1B84))
     {
@@ -2746,7 +2746,7 @@ __int16 Slog::AI_ChasingAbe_State_1_Waiting()
     return 2;
 }
 
-__int16 Slog::AI_ChasingAbe_State_0_Init()
+s16 Slog::AI_ChasingAbe_State_0_Init()
 {
     field_11C_biting_target = 0;
     field_15A_jump_counter = 0;
@@ -2756,7 +2756,7 @@ __int16 Slog::AI_ChasingAbe_State_0_Init()
     return 1;
 }
 
-__int16 Slog::AI_Death_3_4C3250()
+s16 Slog::AI_Death_3_4C3250()
 {
     field_138_listening_to_slig_id = -1;
     field_118_target_id = -1;
@@ -2787,7 +2787,7 @@ __int16 Slog::AI_Death_3_4C3250()
     return 100;
 }
 
-BYTE** Slog::ResBlockForMotion_4C4A80(__int16 motion)
+BYTE** Slog::ResBlockForMotion_4C4A80(s16 motion)
 {
     if (motion < eSlogMotions::M_AngryBark_14_4C6CF0)
     {
@@ -3057,8 +3057,8 @@ const SfxDefinition getSfxDef(SlogSound effectId)
 
 void Slog::Sfx_4C7D30(SlogSound effectId)
 {
-    __int16 volumeLeft = 0;
-    __int16 volumeRight = 0;
+    s16 volumeLeft = 0;
+    s16 volumeRight = 0;
     const SfxDefinition effectDef = getSfxDef(effectId);
 
 
@@ -3071,7 +3071,7 @@ void Slog::Sfx_4C7D30(SlogSound effectId)
     PSX_RECT pRect = {};
     gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
 
-    const __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
+    const s16 defaultSndIdxVol = effectDef.field_3_default_volume;
     volumeRight = defaultSndIdxVol;
     switch (direction)
     {
@@ -3145,7 +3145,7 @@ void Slog::ToJump_4C5C60()
     }
 }
 
-__int16 Slog::ToNextMotion_4C5A30()
+s16 Slog::ToNextMotion_4C5A30()
 {
     switch (field_108_next_motion)
     {
@@ -3273,7 +3273,7 @@ Bone* Slog::FindBone_4C25B0()
     return nullptr;
 }
 
-BaseAliveGameObject* Slog::FindTarget_4C33C0(__int16 bKillSligs, __int16 bLookingUp)
+BaseAliveGameObject* Slog::FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp)
 {
     PSX_RECT bRect = {};
     vGetBoundingRect_424FD0(&bRect, 1);
@@ -3418,7 +3418,7 @@ void Slog::vOn_Tlv_Collision_4C5060(Path_TLV* pTlv)
     }
 }
 
-__int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
+s16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
 {
     if (field_10C_health <= FP_FromInteger(0))
     {
@@ -3564,7 +3564,7 @@ void Slog::vOnThrowableHit_4C4B50(BaseGameObject* /*pFrom*/)
     field_142_anger_level += field_148_chase_anger;// on throwable hit?
 }
 
-__int16 Slog::PlayerOrNakedSligNear_4C26A0()
+s16 Slog::PlayerOrNakedSligNear_4C26A0()
 {
     const FP kMinXDist = FP_FromInteger(100) * field_CC_sprite_scale;
     const FP kMinYDist = FP_FromInteger(25) * field_CC_sprite_scale;
@@ -3599,14 +3599,14 @@ __int16 Slog::PlayerOrNakedSligNear_4C26A0()
     return 0;
 }
 
-void Slog::DelayedResponse_4C3750(__int16 responseIdx)
+void Slog::DelayedResponse_4C3750(s16 responseIdx)
 {
     field_140_response_part = 0;
     field_13E_response_index = responseIdx;
     field_124_timer = sGnFrame_5C1B84 + 10;
 }
 
-__int16 Slog::HandleEnemyStopper_4C5340()
+s16 Slog::HandleEnemyStopper_4C5340()
 {
     FP xPos = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2);
     if (field_C4_velx >= FP_FromInteger(0))
@@ -3636,7 +3636,7 @@ __int16 Slog::HandleEnemyStopper_4C5340()
         SwitchStates_Get_466020(stopperPath->field_12_id) > 0;
 }
 
-__int16 Slog::Facing_4C4020(FP xpos)
+s16 Slog::Facing_4C4020(FP xpos)
 {
     if (field_B8_xpos < xpos && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {

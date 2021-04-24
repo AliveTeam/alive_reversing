@@ -43,7 +43,7 @@ public:
 
 private:
     InvisibleState field_20_state_or_op;
-    __int16 field_22;
+    s16 field_22;
     WORD* field_24_pPal1;
     PSX_RECT field_28_pal_rect1;
     WORD* field_30_pPal2;

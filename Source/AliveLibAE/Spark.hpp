@@ -27,7 +27,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    EXPORT Spark* ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max, __int16 type);
+    EXPORT Spark* ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max, s16 type);
 private:
     EXPORT void vUpdate_4CBEF0();
     EXPORT void vRender_4CC050(PrimHeader** ppOt);
@@ -39,14 +39,14 @@ private:
     FP field_40_xpos;
     FP field_44_ypos;
     FP field_48_scale;
-    __int16 field_4C_r;
-    __int16 field_4E_g;
-    __int16 field_50_b;
+    s16 field_4C_r;
+    s16 field_4E_g;
+    s16 field_50_b;
     Layer field_52_layer;
     BYTE **field_54_ppSprxRes;
     SparkRes *field_58_pRes;
-    __int16 field_5C_count;
+    s16 field_5C_count;
     int field_60_timer;
-    __int16 field_64_type;
+    s16 field_64_type;
 };
 ALIVE_ASSERT_SIZEOF(Spark, 0x68);

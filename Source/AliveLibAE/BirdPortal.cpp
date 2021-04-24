@@ -628,7 +628,7 @@ signed int BirdPortal::vGetSaveState_499F50(BYTE* pBuffer)
     auto pState = reinterpret_cast<BirdPortal_State*>(pBuffer);
     auto pTlv = static_cast<Path_BirdPortal*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_20_tlvInfo));
 
-    __int16 numMudsForShrykull = 0;
+    s16 numMudsForShrykull = 0;
     if (pTlv)
     {
         numMudsForShrykull = pTlv->field_1E_mudokon_amount_for_shrykull;
@@ -662,7 +662,7 @@ signed int BirdPortal::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_499F50(pSaveBuffer);
 }
 
-s16 BirdPortal::VPortalClipper_499430(__int16 bUnknown)
+s16 BirdPortal::VPortalClipper_499430(s16 bUnknown)
 {
     return vPortalClipper_499430(bUnknown);
 }
@@ -682,7 +682,7 @@ BOOL BirdPortal::VActivePortal_499830()
     return vActivePortal_499830();
 }
 
-void BirdPortal::VGiveShrukull_499680(__int16 bPlaySound)
+void BirdPortal::VGiveShrukull_499680(s16 bPlaySound)
 {
     return vGiveShrukull_499680(bPlaySound);
 }
@@ -785,7 +785,7 @@ int CC BirdPortal::CreateFromSaveState_499C90(const BYTE* pBuffer)
     return sizeof(BirdPortal_State);
 }
 
-s16 BirdPortal::vPortalClipper_499430(__int16 bIgnoreClipping)
+s16 BirdPortal::vPortalClipper_499430(s16 bIgnoreClipping)
 {
     if (bIgnoreClipping && field_28_state != PortalStates::ActivePortal_6)
     {
@@ -879,7 +879,7 @@ BOOL BirdPortal::vActivePortal_499830()
     return field_28_state == PortalStates::ActivePortal_6;
 }
 
-void BirdPortal::vGiveShrukull_499680(__int16 bPlaySound)
+void BirdPortal::vGiveShrukull_499680(s16 bPlaySound)
 {
     if (sActiveHero_5C1B68 != spAbe_554D5C)
     {
@@ -1265,12 +1265,12 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::vdtor_497A70(signed int
 
 void BirdPortalTerminator::Fadeout_497AC0()
 {
-    const __int16 r = field_D0_r;
+    const s16 r = field_D0_r;
     field_D0_r = (r >> 1) + (r >> 2);
 
-    const __int16 g = field_D2_g;
+    const s16 g = field_D2_g;
     field_D2_g = (g >> 1) + (g >> 2);
 
-    const __int16 b = field_D4_b;
+    const s16 b = field_D4_b;
     field_D4_b = (b >> 1) + (b >> 2);
 }

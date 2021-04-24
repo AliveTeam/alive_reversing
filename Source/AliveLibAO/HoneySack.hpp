@@ -8,8 +8,8 @@ namespace AO {
 
 struct Path_HoneySack : public Path_TLV
 {
-    __int16 field_18_chase_ticks;
-    __int16 field_1A_scale;
+    s16 field_18_chase_ticks;
+    s16 field_1A_scale;
 };
 ALIVE_ASSERT_SIZEOF(Path_HoneySack, 0x1C);
 
@@ -40,7 +40,7 @@ public:
 
     int field_D4_padding[4];
     int field_E4_tlvInfo;
-    enum class State : __int16
+    enum class State : s16
     {
         eDripHoney_0 = 0,
         eSetFallAnimation_1 = 1,
@@ -48,14 +48,14 @@ public:
         eUpdateHoneySackOnGround_3 = 3
     };
     State field_E8_state;
-    __int16 field_EA_bHit_ground;
+    s16 field_EA_bHit_ground;
     int field_EC_timer;
     BeeSwarm* field_F0_pBee;
     FP field_F4_drip_target_x;
     FP field_F8_drip_target_y;
     FP field_FC_ypos2;
     u16 field_100_chase_ticks;
-    __int16 field_102_padding;
+    s16 field_102_padding;
 };
 ALIVE_ASSERT_SIZEOF(HoneySack, 0x104);
 

@@ -254,7 +254,7 @@ void LaughingGas::DoRender_432740()
     }
 }
 
-__int16 LaughingGas::CounterOver_432DA0()
+s16 LaughingGas::CounterOver_432DA0()
 {
     return field_54_amount_on >= FP_FromDouble(0.3);
 }

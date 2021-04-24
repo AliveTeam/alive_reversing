@@ -131,7 +131,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, int tlvIn
     return this;
 }
 
-void MotionDetector::SetDontComeBack_437E00(__int16 bDontComeBack)
+void MotionDetector::SetDontComeBack_437E00(s16 bDontComeBack)
 {
     field_F6_bDontComeBack = bDontComeBack;
 }

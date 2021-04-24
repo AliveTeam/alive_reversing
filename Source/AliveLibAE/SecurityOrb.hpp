@@ -7,15 +7,15 @@
 struct Path_SecurityClaw : public Path_TLV
 {
     Scale_int field_10_scale;
-    __int16 field_12_disabled_resources;
-    __int16 field_14_unknown;
+    s16 field_12_disabled_resources;
+    s16 field_14_unknown;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityClaw, 0x18);
 
 struct Path_SecurityOrb : public Path_TLV
 {
     Scale_short field_10_scale;
-    __int16 field_12_disabled_resources;
+    s16 field_12_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x14);
 
@@ -62,8 +62,8 @@ private:
 
 private:
     int field_118_tlvInfo;
-    __int16 field_11C_state;
-    //__int16 field_11E_pad;
+    s16 field_11C_state;
+    //s16 field_11E_pad;
     int field_120_timer;
     int field_124_sound_channels_mask;
 };

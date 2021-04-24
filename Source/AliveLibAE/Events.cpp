@@ -65,7 +65,7 @@ EXPORT void CC Event_Broadcast_422BC0(int eventType, BaseGameObject* pObject)
     }
 }
 
-EXPORT BaseGameObject* CC Event_Get_422C00(__int16 eventType)
+EXPORT BaseGameObject* CC Event_Get_422C00(s16 eventType)
 {
     return sEventPtrs_5BC124.field_0_events[sEventsToUse_5BC1D4].field_0_event_ptrs[eventType];
 }
@@ -95,7 +95,7 @@ EXPORT void CC Events_Reset_Active_422DA0()
 const int kGridMapWidth = 375;
 const int kGridMapHeight = 260;
 
-EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(__int16 eventType, FP xpos, FP ypos, __int16 scale)
+EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(s16 eventType, FP xpos, FP ypos, s16 scale)
 {
     BaseGameObject* pObj = sEventPtrs_5BC124.field_0_events[sEventsToUse_5BC1D4].field_0_event_ptrs[eventType];
     if (!pObj)

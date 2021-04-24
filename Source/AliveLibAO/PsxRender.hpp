@@ -14,7 +14,7 @@ EXPORT void CC PSX_DrawOTag_4969F0(PrimHeader** ppOt);
 
 EXPORT signed int CC PSX_EMU_SetDispType_499E60(int dispType);
 
-EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b);
+EXPORT int CC PSX_ClearImage_496020(const PSX_RECT* pRect, u8 r, u8 g, u8 b);
 
 }
 

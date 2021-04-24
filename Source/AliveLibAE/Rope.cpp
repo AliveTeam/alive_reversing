@@ -53,7 +53,7 @@ EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, int minY, int maxY)
     }
 }
 
-Rope* Rope::ctor_4A0A70(u16 left, __int16 top, u16 bottom, FP scale)
+Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546C70); // vTbl_LiftRope_00546C70
@@ -162,10 +162,10 @@ EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
             const FP camXPos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
             const FP camYPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
 
-            __int16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
-            __int16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);
+            s16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
+            s16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);
 
-            __int16 ypos = FP_GetExponent(field_BC_ypos);
+            s16 ypos = FP_GetExponent(field_BC_ypos);
             if (ypos > field_106_bottom)
             {
                 ypos = field_106_bottom + ((ypos - field_106_bottom) % field_F6_rope_length);

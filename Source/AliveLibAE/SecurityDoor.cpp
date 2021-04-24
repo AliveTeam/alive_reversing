@@ -108,7 +108,7 @@ void SecurityDoor::dtor_4AC260()
     {
         field_F8_state = SecurityDoorStates::eInactive_0;
     }
-    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, static_cast<__int16>(field_F8_state) + 1, 0, 0);
+    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, static_cast<s16>(field_F8_state) + 1, 0, 0);
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
@@ -127,7 +127,7 @@ SecurityDoor* SecurityDoor::vdtor_4AC230(signed int flags)
     return this;
 }
 
-__int16 SecurityDoor::IsPlayerNear_4AC300()
+s16 SecurityDoor::IsPlayerNear_4AC300()
 {
     const short xpos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
     const short ypos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);

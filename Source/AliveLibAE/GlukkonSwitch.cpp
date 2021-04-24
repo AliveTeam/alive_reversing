@@ -122,7 +122,7 @@ void GlukkonSwitch::vScreenChange_4456D0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-__int16 GlukkonSwitch::PlayerNearMe_445180()
+s16 GlukkonSwitch::PlayerNearMe_445180()
 {
     const short playerXPos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
     const short playerYPos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);

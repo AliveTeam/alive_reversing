@@ -111,8 +111,8 @@ public:
     {
         PSX_Point xy = {};
 
-        __int16 frameW = 0;
-        __int16 frameH = 0;
+        s16 frameW = 0;
+        s16 frameH = 0;
 
         field_10_anim.Get_Frame_Width_Height_403E80(&frameW, &frameH);
         field_10_anim.Get_Frame_Offset_403EE0(&xy.field_0_x, &xy.field_2_y);
@@ -154,8 +154,8 @@ struct FlameSpark
     FP field_4_y;
     FP field_8_off_x;
     FP field_C_off_y;
-    __int16 field_10_random64;
-    __int16 field_12_bVisible;
+    s16 field_10_random64;
+    s16 field_12_bVisible;
     AnimationUnknown field_14;
 };
 ALIVE_ASSERT_SIZEOF(FlameSpark, 0x84);
@@ -351,8 +351,8 @@ public:
     }
 
     int field_D4_padding[4];
-    __int16 field_E4_bRender;
-    __int16 field_E6_padding;
+    s16 field_E4_bRender;
+    s16 field_E6_padding;
     FlameSpark field_E8_sparks[6];
     FP field_400_xpos;
     FP field_404_ypos;

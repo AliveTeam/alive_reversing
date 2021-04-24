@@ -49,7 +49,7 @@ Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, int tlvInfo)
     return this;
 }
 
-Alarm* Alarm::ctor_4091F0(__int16 durationOffset, __int16 switchId, __int16 timerOffset, Layer layer)
+Alarm* Alarm::ctor_4091F0(s16 durationOffset, s16 switchId, s16 timerOffset, Layer layer)
 {
     ctor_4AB7A0(layer, TPageAbr::eBlend_3);
 

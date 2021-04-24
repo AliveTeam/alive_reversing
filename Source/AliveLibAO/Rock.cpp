@@ -209,7 +209,7 @@ void RockSack::VScreenChanged_457890()
 }
 
 
-Rock* Rock::ctor_456960(FP xpos, FP ypos, __int16 count)
+Rock* Rock::ctor_456960(FP xpos, FP ypos, s16 count)
 {
     ctor_401090();
     SetVTable(this, 0x4BC0A8);
@@ -455,12 +455,12 @@ void Rock::VThrow_456B20(FP velX, FP velY)
     }
 }
 
-__int16 Rock::VCanThrow()
+s16 Rock::VCanThrow()
 {
     return VCanThrow_4573C0();
 }
 
-__int16 Rock::VCanThrow_4573C0()
+s16 Rock::VCanThrow_4573C0()
 {
     return field_110_state == States::eBouncing_4;
 }
@@ -585,7 +585,7 @@ void Rock::InTheAir_456B60()
     }
 }
 
-__int16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -612,7 +612,7 @@ __int16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
     return 0;
 }
 
-__int16 Rock::VIsFalling()
+s16 Rock::VIsFalling()
 {
     // Same as meat falling func - compiler seems to have made them both
     // use the same func, or should it go in the base ??

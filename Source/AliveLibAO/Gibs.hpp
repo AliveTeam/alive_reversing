@@ -53,8 +53,8 @@ public:
     FP field_EC_dz;
     int field_F0_timer;
     GibPart field_F4_parts[7];
-    __int16 field_5C4_parts_used_count;
-    __int16 field_5C6_pad;
+    s16 field_5C4_parts_used_count;
+    s16 field_5C6_pad;
 };
 ALIVE_ASSERT_SIZEOF(Gibs, 0x5C8);
 

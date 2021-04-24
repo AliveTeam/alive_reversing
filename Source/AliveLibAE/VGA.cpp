@@ -213,12 +213,12 @@ EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
     VGA_CopyToFront_4F3730(pBmp, pRect, 0);
 }
 
-EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, unsigned __int8 screenMode)
+EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, u8 screenMode)
 {
     VGA_CopyToFront_4F3730(pBmp, pRect, screenMode);
 }
 
-EXPORT signed int CC VGA_DisplaySet_4F32C0(u16 width, u16 height, unsigned __int8 bpp, unsigned __int8 backbufferCount, TSurfaceType** ppSurface)
+EXPORT signed int CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSurfaceType** ppSurface)
 {
     // TODO: Window sub classing for VGA_WindowSubClass_4F2F50 removed as it only exists to support 8 bpp mode.
 
@@ -583,7 +583,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
                             v23 += 4;
                             v28 = *v22 << v34;
                             ++v22;
-                            *((DWORD *)v23 - 1) = (v27 << v37) & 0xFF00 | (v27 << v47) & 0xFF0000 | (unsigned __int8)v28;
+                            *((DWORD *)v23 - 1) = (v27 << v37) & 0xFF00 | (v27 << v47) & 0xFF0000 | (u8)v28;
                         } while ((u32)v23 < v26);
                         v24 = v45;
                         v25 = v52;
@@ -653,7 +653,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
     }
 }
 
-EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, unsigned __int8 screenMode)
+EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, u8 screenMode)
 {
     VGA_CopyToFront_4F3730(pBmp, pRect, screenMode);
 }
@@ -663,7 +663,7 @@ EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
     VGA_CopyToFront_4F3730(pBmp, pRect, 0);
 }
 
-EXPORT signed int CC VGA_DisplaySet_4F32C0(u16 width, u16 height, unsigned __int8 bpp, unsigned __int8 backbufferCount, TSurfaceType** ppSurface)
+EXPORT signed int CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSurfaceType** ppSurface)
 {
     signed int result = 0;
 

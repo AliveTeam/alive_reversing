@@ -52,7 +52,7 @@ EXPORT int CC SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 si
 #endif
 }
 
-EXPORT signed int CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, u32 sampleCount)
+EXPORT signed int CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount)
 {
 #if USE_SDL2_SOUND
     return SND_LoadSamples_SDL(pSnd, sampleOffset, pSoundBuffer, sampleCount);
@@ -258,7 +258,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
     return -1;
 }
 
-EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, int sampleRate, unsigned __int8 bitsPerSample, int isStereo)
+EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, int sampleRate, u8 bitsPerSample, int isStereo)
 {
     pWaveFormat->nSamplesPerSec = 0;
     pWaveFormat->nAvgBytesPerSec = 0;
@@ -288,12 +288,12 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
         waveFormatEx.nAvgBytesPerSec = 0;
         waveFormatEx.nBlockAlign = 0;
         waveFormatEx.cbSize = 0;
-        GetSoundAPI().SND_Init_WaveFormatEx(&waveFormatEx, sampleRate, static_cast<unsigned char>(bitsPerSample), isStereo & 1);
+        GetSoundAPI().SND_Init_WaveFormatEx(&waveFormatEx, sampleRate, static_cast<u8>(bitsPerSample), isStereo & 1);
 
         const int sampleByteSize = sampleLength * waveFormatEx.nBlockAlign;
         bufferDesc.dwReserved = 0;
         bufferDesc.lpwfxFormat = &waveFormatEx;
-        pSnd->field_1D_blockAlign = static_cast<unsigned char>(waveFormatEx.nBlockAlign);
+        pSnd->field_1D_blockAlign = static_cast<u8>(waveFormatEx.nBlockAlign);
         bufferDesc.dwSize = 20;
         bufferDesc.dwBufferBytes = sampleByteSize;
         bufferDesc.dwFlags = 82152;
@@ -308,7 +308,7 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
         else
         {
             pSnd->field_10 = 0;
-            unsigned char * bufferData = static_cast<unsigned char *>(ae_malloc_4F4E60(sampleByteSize));
+            u8 * bufferData = static_cast<u8 *>(ae_malloc_4F4E60(sampleByteSize));
             pSnd->field_8_pSoundBuffer = bufferData;
             if (bufferData)
             {

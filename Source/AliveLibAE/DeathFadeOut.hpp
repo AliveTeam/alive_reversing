@@ -12,21 +12,21 @@ public:
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT DeathFadeOut* ctor_427030(Layer layer, __int16 direction, __int16 destroyOnDone, short speed, TPageAbr abr);
-    EXPORT void Init_427140(Layer layer, __int16 direction, __int16 destroyOnDone, short speed);
+    EXPORT DeathFadeOut* ctor_427030(Layer layer, s16 direction, s16 destroyOnDone, short speed, TPageAbr abr);
+    EXPORT void Init_427140(Layer layer, s16 direction, s16 destroyOnDone, short speed);
 private:
     EXPORT void dtor_427120();
     EXPORT DeathFadeOut* vdtor_4270F0(signed int flags);
     EXPORT void Update_4271C0();
     EXPORT void vRender_427210(PrimHeader** ppOt);
 private:
-    __int16 field_78_current_fade_rgb;
-    __int16 field_7A_speed;
-    __int16 field_7C_direction;
+    s16 field_78_current_fade_rgb;
+    s16 field_7A_speed;
+    s16 field_7C_direction;
 public:
-    __int16 field_7E_bDone;
+    s16 field_7E_bDone;
 private:
-    __int16 field_80_destroy_on_done;
-    __int16 field_82;
+    s16 field_80_destroy_on_done;
+    s16 field_82;
 };
 ALIVE_ASSERT_SIZEOF(DeathFadeOut, 0x84);

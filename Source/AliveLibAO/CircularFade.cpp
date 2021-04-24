@@ -124,7 +124,7 @@ void CircularFade::VRender_47A080(PrimHeader** ppOt)
     }
 }
 
-char CircularFade::VFadeIn_479FE0(unsigned __int8 direction, char destroyOnDone)
+char CircularFade::VFadeIn_479FE0(u8 direction, char destroyOnDone)
 {
     field_E4_flags.Set(Flags::eBit1_FadeIn, direction);
 
@@ -189,7 +189,7 @@ void CircularFade::VScreenChanged()
     // Empty
 }
 
-CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, __int16 direction, char destroyOnDone)
+CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 direction, char destroyOnDone)
 {
     ctor_417C10();
     SetVTable(this, 0x4BCE38);
@@ -240,7 +240,7 @@ int CircularFade::VDone_47A4C0()
     return field_E4_flags.Get(Flags::eBit2_Done);
 }
 
-CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, __int16 direction, char destroyOnDone)
+CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, s16 direction, char destroyOnDone)
 {
     auto pCircularFade = ao_new<CircularFade>();
     if (pCircularFade)

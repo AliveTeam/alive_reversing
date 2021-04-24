@@ -9,8 +9,8 @@ void StatsSign_ForceLink();
 
 struct Path_LCDStatusBoard : public Path_TLV
 {
-    __int16 field_10_number_of_muds;
-    __int16 field_12_zulag_number;
+    s16 field_10_number_of_muds;
+    s16 field_12_zulag_number;
     int field_14_hidden;
 };
 
@@ -34,12 +34,12 @@ public:
     Alive::Font field_90_font3;
     Alive::Font field_C8_font4;
     int field_100_objectId;
-    __int16 field_104_position_x;
-    __int16 field_106_position_y;
-    __int16 field_108_is_hidden;
-    __int16 field_10A_muds_left_in_area;
+    s16 field_104_position_x;
+    s16 field_106_position_y;
+    s16 field_108_is_hidden;
+    s16 field_10A_muds_left_in_area;
 };
 ALIVE_ASSERT_SIZEOF(LCDStatusBoard, 0x10C);
 
-ALIVE_VAR_EXTERN(__int16, sMudokonsInArea_5C1BC4);
+ALIVE_VAR_EXTERN(s16, sMudokonsInArea_5C1BC4);
 ALIVE_VAR_EXTERN(char, sStatsSignCurrentArea_5C1A20);

@@ -369,7 +369,7 @@ void SlingMudokon::State_5_AngryToIdle_46FD50()
     }
 }
 
-__int16 SlingMudokon::tsub_46FEC0()
+s16 SlingMudokon::tsub_46FEC0()
 {
     switch (field_13A_brain_state)
     {
@@ -543,7 +543,7 @@ __int16 SlingMudokon::tsub_46FEC0()
     return field_156;
 }
 
-__int16 SlingMudokon::tsub_470230()
+s16 SlingMudokon::tsub_470230()
 {
     switch (field_13A_brain_state)
     {
@@ -723,7 +723,7 @@ __int16 SlingMudokon::tsub_470230()
     }
 }
 
-__int16 SlingMudokon::tsub_4707B0()
+s16 SlingMudokon::tsub_4707B0()
 {
     switch (field_13A_brain_state)
     {

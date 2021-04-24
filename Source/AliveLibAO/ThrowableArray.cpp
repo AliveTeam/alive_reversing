@@ -170,7 +170,7 @@ ThrowableArray* ThrowableArray::ctor_453EE0()
     return this;
 }
 
-void ThrowableArray::Remove_4540D0(__int16 count)
+void ThrowableArray::Remove_4540D0(s16 count)
 {
     field_10_count -= count;
 
@@ -235,7 +235,7 @@ void ThrowableArray::Remove_4540D0(__int16 count)
     }
 }
 
-void ThrowableArray::Add_453F70(__int16 count)
+void ThrowableArray::Add_453F70(s16 count)
 {
     if (field_10_count == 0)
     {

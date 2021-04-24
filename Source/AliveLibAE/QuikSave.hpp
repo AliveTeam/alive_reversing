@@ -18,33 +18,33 @@ struct Quicksave_PSX_Header
 };
 ALIVE_ASSERT_SIZEOF(Quicksave_PSX_Header, 0x200);
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 struct Quicksave_WorldInfo
 {
     int field_0_gnFrame;
     LevelIds field_4_level;
-    __int16 field_6_path;
-    __int16 field_8_cam;
-    __int16 field_A_save_num;
-    __int16 field_C_controlled_x;
-    __int16 field_E_controlled_y;
-    __int16 field_10_controlled_scale;
-    __int16 field_12_saved_muds;
-    __int16 field_14_killed_muds;
+    s16 field_6_path;
+    s16 field_8_cam;
+    s16 field_A_save_num;
+    s16 field_C_controlled_x;
+    s16 field_E_controlled_y;
+    s16 field_10_controlled_scale;
+    s16 field_12_saved_muds;
+    s16 field_14_killed_muds;
     char field_16_muds_in_area;
     char field_17_last_saved_killed_muds_per_path;
     char field_18_saved_killed_muds_per_path[20];
     char field_2C_stats_sign_current_area;
     char field_2D_total_meter_bars;
-    __int16 field_2E_use_alt_save_header;
-    __int16 field_30_bDrawMeterCountDown;
-    __int16 field_32_visited_bonewerks;
-    __int16 field_34_visited_barracks;
-    __int16 field_36_visited_feeco_ender;
+    s16 field_2E_use_alt_save_header;
+    s16 field_30_bDrawMeterCountDown;
+    s16 field_32_visited_bonewerks;
+    s16 field_34_visited_barracks;
+    s16 field_36_visited_feeco_ender;
     int field_38_gas_timer;
-    __int16 field_3C_bBulletProof;
-    __int16 field_3E_padding;
+    s16 field_3C_bBulletProof;
+    s16 field_3E_padding;
 };
 ALIVE_ASSERT_SIZEOF(Quicksave_WorldInfo, 0x40);
 

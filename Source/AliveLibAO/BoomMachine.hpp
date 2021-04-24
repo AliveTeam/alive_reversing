@@ -10,14 +10,14 @@ class GrenadeMachineNozzle;
 
 struct Path_BoomMachine : public Path_TLV
 {
-    __int16 field_18_scale;
-    __int16 field_1A_nozzle_side;
-    __int16 field_1C_disabled_resources;
-    __int16 field_1E_number_of_grenades;
+    s16 field_18_scale;
+    s16 field_1A_nozzle_side;
+    s16 field_1C_disabled_resources;
+    s16 field_1E_number_of_grenades;
 };
 ALIVE_ASSERT_SIZEOF(Path_BoomMachine, 0x20);
 
-enum class BoomMachineStates : __int16
+enum class BoomMachineStates : s16
 {
     eInactive_0,
     eAlreadyUsed_1,
@@ -57,8 +57,8 @@ public:
 
     int field_D4_padding[4];
     int field_E4_tlvInfo;
-    __int16 field_E8_bIsButtonOn;
-    __int16 field_EA_padding;
+    s16 field_E8_bIsButtonOn;
+    s16 field_EA_padding;
     GrenadeMachineNozzle* field_EC_pNozzle;
 };
 ALIVE_ASSERT_SIZEOF(BoomMachine, 0xF0);

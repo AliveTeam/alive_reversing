@@ -50,12 +50,12 @@ struct Path_Paramite : public Path_TLV
 {
     Scale_short field_18_scale;
     Choice_short field_1A_bEnter_from_web;
-    __int16 field_1C_attack_delay;
-    __int16 field_1E_drop_in_timer;
-    __int16 field_20_meat_eating_time;
-    __int16 field_22_attack_duration;
-    __int16 field_24_disabled_resources; // Not actually used
-    __int16 field_26_id;
+    s16 field_1C_attack_delay;
+    s16 field_1E_drop_in_timer;
+    s16 field_20_meat_eating_time;
+    s16 field_22_attack_duration;
+    s16 field_24_disabled_resources; // Not actually used
+    s16 field_26_id;
     Choice_short field_28_hiss_before_attack;
     Choice_short field_2A_delete_when_far_away;
 };
@@ -72,15 +72,15 @@ public:
 
     EXPORT Paramite* Vdtor_44B300(signed int flags);
 
-    EXPORT BYTE** ResBlockForMotion_44AC10(__int16 motion);
+    EXPORT BYTE** ResBlockForMotion_44AC10(s16 motion);
 
     virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT void VRender_44ACA0(PrimHeader** ppOt);
 
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT __int16 VTakeDamage_44ACC0(BaseGameObject* pFrom);
+    EXPORT s16 VTakeDamage_44ACC0(BaseGameObject* pFrom);
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
@@ -90,9 +90,9 @@ public:
 
     EXPORT void VScreenChanged_44B2C0();
 
-    virtual __int16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    EXPORT __int16 VOnSameYLevel_44B240(BaseAnimatedWithPhysicsGameObject* pOther);
+    EXPORT s16 VOnSameYLevel_44B240(BaseAnimatedWithPhysicsGameObject* pOther);
 
     virtual void VOnTrapDoorOpen() override;
 
@@ -104,11 +104,11 @@ public:
 
     EXPORT void ToIdle_44B580();
 
-    EXPORT __int16 ToNextMotion_44B320();
+    EXPORT s16 ToNextMotion_44B320();
 
     EXPORT void VUpdateAnimData_44A460();
 
-    EXPORT __int16 AnotherParamiteNear_44AF80();
+    EXPORT s16 AnotherParamiteNear_44AF80();
 
     EXPORT void ToKnockBack_44B5B0();
 
@@ -116,24 +116,24 @@ public:
 
     EXPORT void MoveOnLine_44B740();
 
-    EXPORT void Sound_44DBB0(unsigned __int8 idx);
+    EXPORT void Sound_44DBB0(u8 idx);
 
     EXPORT void ToHop_44B660();
 
     void SetMusic();
 
     // Brains
-    EXPORT __int16 Brain_Patrol_447A10();
+    EXPORT s16 Brain_Patrol_447A10();
 
-    EXPORT __int16 Brain_SurpriseWeb_448D00();
+    EXPORT s16 Brain_SurpriseWeb_448D00();
 
-    EXPORT __int16 Brain_Struggling_44DD70();
+    EXPORT s16 Brain_Struggling_44DD70();
 
-    EXPORT __int16 Brain_Death_448BF0();
+    EXPORT s16 Brain_Death_448BF0();
  
-    EXPORT __int16 Brain_ChasingAbe_449170();
+    EXPORT s16 Brain_ChasingAbe_449170();
 
-    EXPORT __int16 Brain_SpottedMeat_449CD0();
+    EXPORT s16 Brain_SpottedMeat_449CD0();
 
 
     using TParamiteBrain = decltype(&Paramite::Brain_Patrol_447A10);
@@ -148,7 +148,7 @@ public:
         Right,
     };
 
-    __int16 HandleEnemyStopper(__int16 numGridBlocks, Path_EnemyStopper::StopDirection dir);
+    s16 HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirection dir);
 
     // States
     EXPORT void State_0_Idle_44B900();
@@ -180,26 +180,26 @@ public:
 
 
     TParamiteBrain field_10C_fn;
-    __int16 field_110_state;
-    __int16 field_112_drop_in_timer;
+    s16 field_110_state;
+    s16 field_112_drop_in_timer;
     int field_114_timer;
     int field_118_not_used;
-    __int16 field_11C_meat_eating_time;
-    __int16 field_11E_attack_delay;
+    s16 field_11C_meat_eating_time;
+    s16 field_11E_attack_delay;
     int field_120_wait_timer;
     FP field_124_XSpeed;
-    __int16 field_128_never_read;
-    __int16 field_12A_res_idx;
+    s16 field_128_never_read;
+    s16 field_12A_res_idx;
     int field_12C_tlvInfo;
     int field_130_not_used;
     int field_134_attack_duration;
     int field_138_attack_timer;
-    __int16 field_13C_id;
+    s16 field_13C_id;
     Choice_short field_13E_hiss_before_attack;
-    __int16 field_140_use_prev_motion;
-    __int16 field_142_bSnapped;
+    s16 field_140_use_prev_motion;
+    s16 field_142_bSnapped;
     Choice_short field_144_delete_when_far_away;
-    __int16 field_146_not_used;
+    s16 field_146_not_used;
     Meat* field_148_pMeat;
     ParamiteWeb* field_14C_pWeb;
     BYTE** field_150_resources[16];

@@ -10,9 +10,9 @@ namespace AO {
 struct Path_SlogHut : public Path_TLV
 {
     u16 field_18_scale;
-    __int16 field_1A_switch_id;
-    __int16 field_1C_z_delay;
-    __int16 field_1E_pad;
+    s16 field_1A_switch_id;
+    s16 field_1C_z_delay;
+    s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_SlogHut, 0x20);
 
@@ -39,11 +39,11 @@ public:
     FP field_14_ypos;
     FP field_18_scale;
     int field_1C_tlvInfo;
-    __int16 field_20_switch_id;
-    __int16 field_22;
+    s16 field_20_switch_id;
+    s16 field_22;
     int field_24_timer;
-    __int16 field_28_z_delay;
-    __int16 field_2A;
+    s16 field_28_z_delay;
+    s16 field_2A;
 };
 ALIVE_ASSERT_SIZEOF(SlogHut, 0x2C);
 

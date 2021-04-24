@@ -11,7 +11,7 @@
 
 namespace AO {
 
-void OrbWhirlWindParticle::CalculateRenderProperties_48BDC0(__int16 bStarted)
+void OrbWhirlWindParticle::CalculateRenderProperties_48BDC0(s16 bStarted)
 {
     field_B8_render_angle += field_BC_counter;
 
@@ -78,7 +78,7 @@ void OrbWhirlWindParticle::VRender_48C430(PrimHeader** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-void OrbWhirlWindParticle::SetActive(unsigned __int8 active)
+void OrbWhirlWindParticle::SetActive(u8 active)
 {
     if (active)
     {

@@ -8,9 +8,9 @@
 
 namespace AO {
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
-enum class DoorStates : __int16
+enum class DoorStates : s16
 {
     eOpen_0 = 0,
     eClosed_1 = 1,
@@ -21,28 +21,28 @@ enum class DoorStates : __int16
 struct Path_Door : public Path_TLV
 {
     LevelIds field_18_level;
-    __int16 field_1A_path;
-    __int16 field_1C_camera;
+    s16 field_1A_path;
+    s16 field_1C_camera;
     Scale_short field_1E_scale;
     u16 field_20_door_number;
-    __int16 field_22_id;
-    __int16 field_24_target_door_number;
+    s16 field_22_id;
+    s16 field_24_target_door_number;
     DoorStates field_26_start_state;
     Choice_short field_28_door_closed;
-    __int16 field_2A_hub1;
-    __int16 field_2A_hub2;
-    __int16 field_2A_hub3;
-    __int16 field_2A_hub4;
-    __int16 field_2A_hub5;
-    __int16 field_2A_hub6;
-    __int16 field_2A_hub7;
-    __int16 field_2A_hub8;
-    __int16 field_3A_wipe_effect;
-    __int16 field_3C_movie_number;
-    __int16 field_3E_x_offset;
-    __int16 field_40_y_offset;
-    __int16 field_42_wipe_x_org;
-    __int16 field_44_wipe_y_org;
+    s16 field_2A_hub1;
+    s16 field_2A_hub2;
+    s16 field_2A_hub3;
+    s16 field_2A_hub4;
+    s16 field_2A_hub5;
+    s16 field_2A_hub6;
+    s16 field_2A_hub7;
+    s16 field_2A_hub8;
+    s16 field_3A_wipe_effect;
+    s16 field_3C_movie_number;
+    s16 field_3E_x_offset;
+    s16 field_40_y_offset;
+    s16 field_42_wipe_x_org;
+    s16 field_44_wipe_y_org;
     XDirection_short field_46_abe_direction;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x48);
@@ -82,12 +82,12 @@ public:
     int field_D4[4];
     int field_E4_tlvInfo;
     DoorStates field_E8_start_state;
-    __int16 field_EA_door_number;
+    s16 field_EA_door_number;
     DoorStates field_EC_current_state;
     Choice_short field_EE_door_closed;
-    __int16 field_F0_switch_id;
-    __int16 field_F2_hubs_ids[8];
-    __int16 field_102_pad;
+    s16 field_F0_switch_id;
+    s16 field_F2_hubs_ids[8];
+    s16 field_102_pad;
 };
 ALIVE_ASSERT_SIZEOF(Door, 0x104);
 

@@ -378,7 +378,7 @@ void Door::vSetClosed_40E860()
 
 void Door::PlaySound_40E780()
 {
-    __int16 volume = 0;
+    s16 volume = 0;
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {

@@ -6,16 +6,16 @@
 
 struct Path_TimerTrigger : public Path_TLV
 {
-    __int16 field_10_id;
+    s16 field_10_id;
     u16 field_12_trigger_delay;
-    __int16 field_14_id1;
-    __int16 field_16_id2;
-    __int16 field_18_id3;
-    __int16 field_1A_id4;
+    s16 field_14_id1;
+    s16 field_16_id2;
+    s16 field_18_id3;
+    s16 field_1A_id4;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimerTrigger, 0x1C);
 
-enum class TimerTriggerStates : __int16
+enum class TimerTriggerStates : s16
 {
     eWaitForEnabled_0 = 0,
     eWaitForFirstTrigger_1 = 1,
@@ -29,7 +29,7 @@ struct TimerTrigger_State
     int field_4_tlvInfo;
     int field_8_delay_timer_base;
     TimerTriggerStates field_C_state;
-    __int16 field_E_starting_switch_state;
+    s16 field_E_starting_switch_state;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTrigger_State, 0x10);
 
@@ -54,12 +54,12 @@ private:
     EXPORT int vGetSaveState_4CE030(TimerTrigger_State* pState);
 
 private:
-    __int16 field_20_id;
+    s16 field_20_id;
     TimerTriggerStates field_22_state;
-    __int16 field_24_ids[4];
+    s16 field_24_ids[4];
     int field_2C_tlvInfo;
     int field_30_trigger_delay_timer;
     int field_34_trigger_delay;
-    __int16 field_38_starting_switch_state;
+    s16 field_38_starting_switch_state;
 };
 ALIVE_ASSERT_SIZEOF(TimerTrigger, 0x3C);

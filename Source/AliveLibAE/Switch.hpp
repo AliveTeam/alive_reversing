@@ -4,14 +4,14 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-enum class SwitchState : __int16
+enum class SwitchState : s16
 {
     eWaiting_0 = 0,
     ePulled_1 = 1,
     eFinished_2 = 2
 };
 
-enum class SwitchSoundType : __int16
+enum class SwitchSoundType : s16
 {
     eNone = 0,
     eWell_1 = 1,
@@ -22,9 +22,9 @@ enum class SwitchSoundType : __int16
     eLift_6 = 6
 };
 
-enum class SwitchOp : __int16;
+enum class SwitchOp : s16;
 
-enum class SwitchSoundDirection : __int16
+enum class SwitchSoundDirection : s16
 {
     eLeftAndRight_0 = 0,
     eLeft_1 = 1,
@@ -38,9 +38,9 @@ struct Path_Switch : public Path_TLV
     SwitchSoundType field_14_on_sound;
     SwitchSoundType field_16_off_sound;
     SwitchSoundDirection field_18_sound_direction;
-    __int16 field_1A_trigger_id;
+    s16 field_1A_trigger_id;
     Choice_short field_1C_persist_offscreen;
-    __int16 field_1E_padding;
+    s16 field_1E_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Switch, 0x20);
 
@@ -50,17 +50,17 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual __int16 VPull_4D6050(__int16 bLeftDirection);
+    virtual s16 VPull_4D6050(s16 bLeftDirection);
     EXPORT Switch* ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo);
 private:
     EXPORT void dtor_4D5B00();
     EXPORT Switch* vdtor_4D5AD0(signed int flags);
     EXPORT void vUpdate_4D5C00();
     EXPORT void vScreenChanged_4D5B90();
-    EXPORT __int16 vPull_4D6050( __int16 bLeftDirection);
+    EXPORT s16 vPull_4D6050( s16 bLeftDirection);
 private:
-    __int16 field_F4_trigger_id;
-    __int16 field_F6_padding;
+    s16 field_F4_trigger_id;
+    s16 field_F6_padding;
     SwitchState field_F8_state;
     int field_FC_tlvInfo;
     enum Flags_100

@@ -7,7 +7,7 @@ TouchController * gTouchController = nullptr;
 
 
 
-void sdl_ellipse(SDL_Renderer* r, int x0, int y0, int radiusX, int radiusY, unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha)
+void sdl_ellipse(SDL_Renderer* r, int x0, int y0, int radiusX, int radiusY, u8 red, u8 green, u8 blue, u8 alpha)
 {
     SDL_SetRenderDrawColor(r, red, green, blue, alpha);
     SDL_SetRenderDrawBlendMode(r, SDL_BlendMode::SDL_BLENDMODE_BLEND);

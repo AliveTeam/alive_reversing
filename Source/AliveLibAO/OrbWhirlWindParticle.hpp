@@ -18,7 +18,7 @@ public:
 
     virtual EXPORT void VUpdate_48BF00();
 
-    EXPORT void SetActive(unsigned __int8 active);
+    EXPORT void SetActive(u8 active);
 
     virtual EXPORT void VRender_48C430(PrimHeader** ppOt);
 
@@ -28,7 +28,7 @@ public:
     // NOTE: inlined
     void ToStop();
 
-    EXPORT void CalculateRenderProperties_48BDC0(__int16 bStarted);
+    EXPORT void CalculateRenderProperties_48BDC0(s16 bStarted);
 
     void Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
 
@@ -40,7 +40,7 @@ public:
     FP field_AC_radiusX_offset;
     FP field_B0_ypos_increment;
 
-    enum class State : __int16
+    enum class State : s16
     {
         State_0_Start = 0,
         State_1_Spin = 1,
@@ -50,10 +50,10 @@ public:
     };
     State field_B4_state;
 
-    __int16 field_B6_unused;
+    s16 field_B6_unused;
     int field_B8_render_angle;
-    __int16 field_BC_counter;
-    __int16 field_BE_max;
+    s16 field_BC_counter;
+    s16 field_BE_max;
     FP field_C0_current_scale;
     FP field_C4_randomized_scale;
     FP field_C8_scale_offset_fly_to_target;

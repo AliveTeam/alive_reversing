@@ -5,7 +5,7 @@
 
 namespace AO {
 
-DynamicArray* DynamicArray::ctor_4043E0(__int16 startingSize)
+DynamicArray* DynamicArray::ctor_4043E0(s16 startingSize)
 {
     const auto sizeInBytes = startingSize * sizeof(void*);
     field_0_array = reinterpret_cast<void**>(alloc_450740(sizeInBytes));
@@ -29,7 +29,7 @@ void DynamicArray::dtor_404440()
     ao_delete_free_450770(field_0_array);
 }
 
-__int16 DynamicArray::Push_Back_404450(void *item)
+s16 DynamicArray::Push_Back_404450(void *item)
 {
     if (!item || !field_0_array)
     {
@@ -39,7 +39,7 @@ __int16 DynamicArray::Push_Back_404450(void *item)
     if (field_4_used_size == field_6_max_size)
     {
         // Inlined expand call?
-        const __int16 newSizeElements = field_6_max_size + field_8_expand_size;
+        const s16 newSizeElements = field_6_max_size + field_8_expand_size;
         const auto newArraySizeBytes = newSizeElements * sizeof(void*);
         auto pNewArray = reinterpret_cast<void**>(alloc_450740(newArraySizeBytes));
         if (!pNewArray)
@@ -61,9 +61,9 @@ __int16 DynamicArray::Push_Back_404450(void *item)
     return 1;
 }
 
-__int16 DynamicArray::Remove_Item_404520(void *item)
+s16 DynamicArray::Remove_Item_404520(void *item)
 {
-    for (__int16 idx = 0; idx < field_4_used_size; idx++)
+    for (s16 idx = 0; idx < field_4_used_size; idx++)
     {
         void* pCurrentItem = field_0_array[idx];
         if (!pCurrentItem)

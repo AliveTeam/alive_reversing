@@ -10,7 +10,7 @@ struct Path_Slig;
 struct Slig_Spawner_State
 {
     AETypes field_0_type;
-    __int16 field_2_padding;
+    s16 field_2_padding;
     int field_4_tlvInfo;
     short field_8_state;
     short field_A_padding;
@@ -38,13 +38,13 @@ private:
 
 private:
     int field_20_tlv_info;
-    __int16 field_24_slig_id;
-    __int16 field_26_flags;
+    s16 field_24_slig_id;
+    s16 field_26_flags;
     Path_TLV field_28_tlv;
-    __int16 field_38_state;
-    __int16 field_3A_padding;
+    s16 field_38_state;
+    s16 field_3A_padding;
     int field_3C_spawned_slig_obj_id;
-    __int16 field_40_bFindSpawnedSlig;
-    __int16 field_42_padding;
+    s16 field_40_bFindSpawnedSlig;
+    s16 field_42_padding;
 };
 ALIVE_ASSERT_SIZEOF(SligSpawner, 0x44);

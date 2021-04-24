@@ -7,7 +7,7 @@
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
 
-ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, __int16 bottom, __int16 top, FP scale)
+ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, s16 bottom, s16 top, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547F58);

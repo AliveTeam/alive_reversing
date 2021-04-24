@@ -93,7 +93,7 @@ Dove* Dove::ctor_41F430(int frameTableOffset, int /*maxW*/, u16 /*maxH*/, int /*
     return this;
 }
 
-Dove* Dove::ctor_41F660(int frameTableOffset, int /*maxW*/, __int16 /*maxH*/, int /*resourceID*/, FP xpos, FP ypos, FP scale)
+Dove* Dove::ctor_41F660(int frameTableOffset, int /*maxW*/, s16 /*maxH*/, int /*resourceID*/, FP xpos, FP ypos, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90); // vTbl_Dove_544A90

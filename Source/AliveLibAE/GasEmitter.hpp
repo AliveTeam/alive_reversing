@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-enum class GasColour : __int16
+enum class GasColour : s16
 {
     Yellow_0,
     Red_1,
@@ -15,7 +15,7 @@ enum class GasColour : __int16
 
 struct Path_GasEmitter : public Path_TLV
 {
-    __int16 field_10_switch_id;
+    s16 field_10_switch_id;
     GasColour field_12_colour;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasEmitter, 0x14);
@@ -40,10 +40,10 @@ private:
 private:
     int field_20_tlvInfo;
     int field_24_emit_power;
-    __int16 field_28_draw_flipper;
-    __int16 field_2A_switch_id;
+    s16 field_28_draw_flipper;
+    s16 field_2A_switch_id;
     GasColour field_2C_gas_colour;
-    __int16 field_2E_pad;
+    s16 field_2E_pad;
     FP field_30_xpos;
     FP field_34_ypos;
     FP field_38_fp_not_used;

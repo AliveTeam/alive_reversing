@@ -12,22 +12,22 @@ struct Water_Res
     FP field_C_delta_x;
     FP field_10_delta_y;
     FP field_14_delta_z;
-    __int16 field_18_enabled;
-    __int16 field_1A_splash_time;
-    __int16 field_1C_state;
-    __int16 field_1E_padding;
+    s16 field_18_enabled;
+    s16 field_1A_splash_time;
+    s16 field_1C_state;
+    s16 field_1E_padding;
     Poly_FT4 field_20_polys[2];
 };
 ALIVE_ASSERT_SIZEOF(Water_Res, 0x78);
 
 struct Path_Water_Data
 {
-    __int16 field_10_max_drops;
-    __int16 field_12_id;
-    __int16 field_14_splash_time;
-    __int16 field_16_splash_x_velocity;
-    __int16 field_18_splash_y_velocity;
-    __int16 field_1A_water_duration;
+    s16 field_10_max_drops;
+    s16 field_12_id;
+    s16 field_14_splash_time;
+    s16 field_16_splash_x_velocity;
+    s16 field_18_splash_y_velocity;
+    s16 field_1A_water_duration;
 };
 ALIVE_ASSERT_SIZEOF(Path_Water_Data, 0xC);
 
@@ -51,7 +51,7 @@ private:
     EXPORT Water* vdtor_4E0850(signed int flags);
     EXPORT void vScreenChanged_4E1780();
     EXPORT void vStopAudio_4E1800();
-    EXPORT void Disable_Water_Particle_4E0B10(__int16 idx);
+    EXPORT void Disable_Water_Particle_4E0B10(s16 idx);
     EXPORT void Add_Water_Particle_4E09A0();
     EXPORT void vUpdate_4E0B50();
     EXPORT void vRender_4E1440(PrimHeader** ppOt);
@@ -59,7 +59,7 @@ private:
     BYTE** field_F4_ppWaterRes;
     Water_Res* field_F8_pWaterRes;
 
-    enum class WaterState : __int16
+    enum class WaterState : s16
     {
         eInit_0 = 0,
         eStarting_1 = 1,
@@ -71,25 +71,25 @@ private:
     WaterState field_FC_state;
     TPageMode field_FE_texture_mode;
     // pad
-    __int16 field_100_screen_x;
-    __int16 field_102_screen_y;
+    s16 field_100_screen_x;
+    s16 field_102_screen_y;
     PSX_Point field_104_top_left;
     PSX_Point field_108_bottom_right;
-    __int16 field_10C_particle_count;
-    __int16 field_10E_current_particle_idx;
-    __int16 field_110_current_drops;
+    s16 field_10C_particle_count;
+    s16 field_10E_current_particle_idx;
+    s16 field_110_current_drops;
     int field_114_tlvInfo;
     FP field_118_radius;
     FP field_11C_centre;
-    __int16 field_120_frame_width;
-    __int16 field_122_frame_height;
+    s16 field_120_frame_width;
+    s16 field_122_frame_height;
     Path_Water_Data field_124_tlv_data;
     FP field_130_splash_x_vel;
     FP field_134_emit_x_vel;
-    __int16 field_138_splash_time;
+    s16 field_138_splash_time;
     int field_13C_not_in_camera_count;
     int field_140_water_duration;
     int field_144_sound_channels;
-    __int16 field_148_bHitTimeout;
+    s16 field_148_bHitTimeout;
 };
 ALIVE_ASSERT_SIZEOF(Water, 0x14C);

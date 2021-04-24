@@ -2,7 +2,7 @@
 
 #include "Throwable.hpp"
 
-enum class BoneStates : __int16
+enum class BoneStates : s16
 {
     eState_0_spawned = 0,
     eState_1_airborne = 1,
@@ -15,14 +15,14 @@ enum class BoneStates : __int16
 struct Bone_SaveState
 {
     AETypes field_0_type;
-    __int16 field_2_padding;
+    s16 field_2_padding;
     int field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
     FP field_14_vely;
     FP field_18_sprite_scale;
-    __int16 field_1C_path_number;
+    s16 field_1C_path_number;
     LevelIds field_1E_lvl_number;
 
     enum BoneStateFlags
@@ -35,12 +35,12 @@ struct Bone_SaveState
     };
 
     BitField16<BoneStateFlags> field_20_flags;
-    __int16 field_22_padding;
+    s16 field_22_padding;
     int field_24_base_id;
-    __int16 field_28_line_type;
-    __int16 field_2A_count;
+    s16 field_28_line_type;
+    s16 field_2A_count;
     BoneStates field_2C_state;
-    __int16 field_2E_volume_modifier;
+    s16 field_2E_volume_modifier;
     FP field_30_xpos;
     FP field_34_ypos;
     int field_38_time_to_live;
@@ -50,7 +50,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
 class Bone : public BaseThrowable
 {
 public:
-    EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, __int16 countId);
+    EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, s16 countId);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -61,7 +61,7 @@ public:
     virtual void VTimeToExplodeRandom_411490() override;
     virtual BOOL VCanBeEaten_411560();
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
-    virtual __int16 VGetCount_448080() override;
+    virtual s16 VGetCount_448080() override;
     EXPORT static int CC CreateFromSaveState_412C10(const BYTE* pData);
 
 private:
@@ -72,23 +72,23 @@ private:
     EXPORT void vOnTrapDoorOpen_412490();
     EXPORT BOOL vIsFalling_411510();
     EXPORT BOOL vCanThrow_411530();
-    EXPORT __int16 OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj);
+    EXPORT s16 OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj);
     EXPORT void vScreenChanged_4122D0();
     EXPORT BOOL vCanBeEaten_411560();
     EXPORT int vGetSaveState_412ED0(Bone_SaveState* pState);
     EXPORT void InTheAir_4116C0();
     EXPORT void vUpdate_411BC0();
-    EXPORT __int16 vGetCount_412500();
+    EXPORT s16 vGetCount_412500();
 
 private:
     BoneStates field_11C_state;
-    __int16 field_11E_volume_modifier;
+    s16 field_11E_volume_modifier;
     FP field_120_xpos;
     FP field_124_ypos;
     int field_128_shine_timer;
     int field_12C_time_to_live;
-    __int16 field_130_hit_object;
-    __int16 field_132_padding;
+    s16 field_130_hit_object;
+    s16 field_132_padding;
 };
 ALIVE_ASSERT_SIZEOF(Bone, 0x134);
 
@@ -98,8 +98,8 @@ struct Path_BoneBag : public Path_TLV
     u16 field_12_x_vel;
     u16 field_14_y_vel;
     Scale_short field_16_scale;
-    __int16 field_18_bone_amount;
-    __int16 field_1A_padding;
+    s16 field_18_bone_amount;
+    s16 field_1A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoneBag, 0x1C);
 
@@ -119,10 +119,10 @@ private:
 
 private:
     int field_118_tlvInfo;
-    __int16 field_11C_is_hit;
-    __int16 field_11E_count;
-    __int16 field_120_allow_sound;
-    __int16 field_122_force_play_sound;
+    s16 field_11C_is_hit;
+    s16 field_11E_count;
+    s16 field_120_allow_sound;
+    s16 field_122_force_play_sound;
     FP field_124_velX;
     FP field_128_velY;
 };

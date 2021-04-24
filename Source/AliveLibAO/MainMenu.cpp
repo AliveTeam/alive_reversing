@@ -82,8 +82,8 @@ ALIVE_VAR(1, 0x4D0030, const Buttons, sRemappableInputs_4D0030, {});
 
 struct Menu_Button
 {
-    __int16 field_0_xpos;
-    __int16 field_2_ypos;
+    s16 field_0_xpos;
+    s16 field_2_ypos;
     int field_4_frame_table;
 };
 
@@ -259,11 +259,11 @@ struct MenuFMV
 {
     const char* field_0_name;
     LevelIds field_4_level_id;
-    __int16 field_6;
-    __int16 field_8;
-    __int16 field_A_fmv_id;
-    __int16 field_C;
-    __int16 field_E;
+    s16 field_6;
+    s16 field_8;
+    s16 field_A_fmv_id;
+    s16 field_C;
+    s16 field_E;
 };
 
 const MenuFMV gFmvs_4D0230[13] =
@@ -287,11 +287,11 @@ struct MenuLevel
 {
     const char* field_0_name;
     LevelIds field_4_level_id;
-    __int16 field_6;
-    __int16 field_8;
-    __int16 field_A;
-    __int16 field_C;
-    __int16 field_E;
+    s16 field_6;
+    s16 field_8;
+    s16 field_A;
+    s16 field_C;
+    s16 field_E;
 };
 
 // TODO: Should be MenuFMV or there is a generic structure for "lists" of things?
@@ -314,7 +314,7 @@ const MenuFMV sLevelList_4D0300[15] =
     { "The Boardroom", LevelIds::eBoardRoom_12, 6, 1, -1, 592, 157 }
 };
 
-MainMenuFade* MainMenuFade::ctor_42A5A0(__int16 xpos, __int16 ypos, u16 idx_1, __int16 bDestroyOnDone)
+MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, u16 idx_1, s16 bDestroyOnDone)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB1C8);
@@ -428,10 +428,10 @@ BaseGameObject* MainMenuFade::VDestructor(signed int flags)
 
 struct MainMenu_TransitionData
 {
-    __int16 field_0;
-    __int16 field_2;
-    __int16 field_4;
-    __int16 field_6;
+    s16 field_0;
+    s16 field_2;
+    s16 field_4;
+    s16 field_6;
 };
 ALIVE_ASSERT_SIZEOF(MainMenu_TransitionData, 0x8);
 
@@ -510,7 +510,7 @@ void MainMenuTransition::VUpdate()
     VUpdate_4365C0();
 }
 
-MainMenuTransition* MainMenuTransition::ctor_436370(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed, TPageAbr abr)
+MainMenuTransition* MainMenuTransition::ctor_436370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed, TPageAbr abr)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BB7A0);
@@ -571,7 +571,7 @@ MainMenuTransition* MainMenuTransition::Vdtor_4369F0(signed int flags)
     return this;
 }
 
-void MainMenuTransition::StartTrans_436560(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed)
+void MainMenuTransition::StartTrans_436560(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)
 {
     field_23C_layer = layer;
     field_14_fade_direction = fadeDirection;
@@ -642,11 +642,11 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         int v11 = Math_FixedPoint_Multiply_451040(v9, val1);
         int v12 = Math_FixedPoint_Multiply_451040(v10, val2) - v11;
         int v13 = Math_FixedPoint_Multiply_451040(op1, v8);
-        __int16 x0 = field_23E_width + 640 * ((signed int)Math_FixedPoint_Multiply_451040(v12, v13) >> 16) / 368;
+        s16 x0 = field_23E_width + 640 * ((signed int)Math_FixedPoint_Multiply_451040(v12, v13) >> 16) / 368;
         int v14 = Math_FixedPoint_Multiply_451040(v9, val2);
         int v15 = Math_FixedPoint_Multiply_451040(v10, val1) + v14;
         int v16 = Math_FixedPoint_Multiply_451040(op1, v8);
-        __int16 y0 = field_240_k120 + (Math_FixedPoint_Multiply_451040(v15, v16) >> 16);
+        s16 y0 = field_240_k120 + (Math_FixedPoint_Multiply_451040(v15, v16) >> 16);
 
         int v17 = 0;
         if (i < 7)

@@ -5,9 +5,9 @@
 #include "Path.hpp"
 #include "Psx.hpp"
 
-enum class SwitchOp : __int16;
+enum class SwitchOp : s16;
 
-enum class InvisibleSwitchScale : __int16
+enum class InvisibleSwitchScale : s16
 {
     eHalf_0 = 0,
     eFull_1 = 1,
@@ -16,12 +16,12 @@ enum class InvisibleSwitchScale : __int16
 
 struct Path_InvisibleSwitch : public Path_TLV
 {
-    __int16 field_10_id;
+    s16 field_10_id;
     SwitchOp field_12_action;
-    __int16 field_14_delay;
+    s16 field_14_delay;
     Choice_short field_16_set_off_alarm;
     InvisibleSwitchScale field_18_scale;
-    __int16 field_1A_pad;
+    s16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x1C);
 
@@ -39,14 +39,14 @@ private:
     EXPORT void vUpdate_45FBA0();
     EXPORT void vScreenChanged_45FD80();
 private:
-    __int16 field_20_id;
+    s16 field_20_id;
     SwitchOp field_22_action;
     int field_24_tlvInfo;
     int field_28_delay_timer;
     int field_2C_delay;
     PSX_Point field_30_top_left;
     PSX_Point field_34_bottom_right;
-    enum class States : __int16
+    enum class States : s16
     {
         eState_WaitForTrigger_0 = 0,
         eState_WaitForDelayTimer_1 = 1,
@@ -54,6 +54,6 @@ private:
     States field_38_state;
     Choice_short field_3A_set_off_alarm;
     InvisibleSwitchScale field_3C_scale;
-    __int16 field_3E_pad;
+    s16 field_3E_pad;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x40);

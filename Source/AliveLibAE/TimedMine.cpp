@@ -39,7 +39,7 @@ void TimedMine::VScreenChanged()
     vScreenChanged_411270();
 }
 
-__int16 TimedMine::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 TimedMine::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_410FA0(pFrom);
 }
@@ -320,7 +320,7 @@ void TimedMine::vScreenChanged_411270()
     }
 }
 
-__int16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
+s16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {

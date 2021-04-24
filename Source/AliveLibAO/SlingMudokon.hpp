@@ -11,10 +11,10 @@ namespace AO {
 
 struct Path_SlingMudokon : public Path_TLV
 {
-    __int16 field_18_scale;
-    __int16 field_1A_silent;
-    __int16 field_1C_code_1;
-    __int16 field_1E_code_2;
+    s16 field_18_scale;
+    s16 field_1A_silent;
+    s16 field_1C_code_1;
+    s16 field_1E_code_2;
 };
 ALIVE_ASSERT_SIZEOF(Path_SlingMudokon, 0x20);
 
@@ -71,35 +71,35 @@ public:
     EXPORT void State_5_AngryToIdle_46FD50();
 
     // Brains
-    EXPORT __int16 tsub_46FEC0();
+    EXPORT s16 tsub_46FEC0();
 
-    EXPORT __int16 tsub_470230();
+    EXPORT s16 tsub_470230();
 
-    EXPORT __int16 tsub_4707B0();
+    EXPORT s16 tsub_4707B0();
 
     int field_10C_padding;
     int field_110_tlvInfo;
     int field_114_paddding;
     int field_118_code_converted;
-    __int16 field_11C_code_length;
-    __int16 field_11E_flags;
+    s16 field_11C_code_length;
+    s16 field_11E_flags;
     int field_120_last_event_idx;
     BYTE field_124_code_buffer[16];
-    __int16 field_134_buffer_start;
-    __int16 field_136;
+    s16 field_134_buffer_start;
+    s16 field_136;
     u16 field_138_brain_state;
-    __int16 field_13A_brain_state;
-    __int16 field_13C;
-    __int16 field_13E;
+    s16 field_13A_brain_state;
+    s16 field_13C;
+    s16 field_13E;
     int field_140_timer;
     int field_144_timer2;
     int field_148;
     int field_14C;
     BYTE** field_150_res;
-    __int16 field_154;
-    __int16 field_156;
-    __int16 field_158_code_pos;
-    __int16 field_15A;
+    s16 field_154;
+    s16 field_156;
+    s16 field_158_code_pos;
+    s16 field_15A;
 };
 ALIVE_ASSERT_SIZEOF(SlingMudokon, 0x15C);
 

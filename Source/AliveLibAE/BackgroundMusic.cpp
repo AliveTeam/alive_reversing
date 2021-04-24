@@ -9,7 +9,7 @@
 ALIVE_VAR(1, 0x560f78, short, sBackgroundMusic_seq_id_560F78, -1);
 
 
-BackgroundMusic* BackgroundMusic::ctor_4CB110(__int16 musicId)
+BackgroundMusic* BackgroundMusic::ctor_4CB110(s16 musicId)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x54781C); //  vTbl_BackgroundMusic_54781C

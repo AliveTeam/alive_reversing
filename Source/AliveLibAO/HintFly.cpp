@@ -62,13 +62,13 @@ struct HintFlyParticle
     FP field_4_ypos;
     char field_8_state;
     char field_9_pad;
-    __int16 field_A;
+    s16 field_A;
     FP field_C_velx;
     FP field_10_vely;
     FP field_14_targetX;
     FP field_18_targetY;
-    __int16 field_1C_sound_pitch;
-    __int16 field_1E_sound_pitch_speed;
+    s16 field_1C_sound_pitch;
+    s16 field_1E_sound_pitch_speed;
     char field_20_angle;
     char field_21_angle_speed;
     char field_22_timer;
@@ -1794,7 +1794,7 @@ void HintFly::VUpdate_42B3D0()
 
         if (static_cast<int>(gnFrameCount_507670) > field_10C_timer)
         {
-            __int16 len = 0;
+            s16 len = 0;
             const char* pMsgIter = gHintFlyMessages_4C6A10[field_11C_message_id] + field_11E_msg_idx;
             while (*pMsgIter != ' ' && *pMsgIter != '\0')
             {

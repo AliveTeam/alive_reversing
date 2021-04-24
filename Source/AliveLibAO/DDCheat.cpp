@@ -187,7 +187,7 @@ void DDCheat::ScreenShot_409720()
         writeHeaderElement(headerTGA.bitsperpixel, fileHandle);
         writeHeaderElement(headerTGA.bitsperpixel, fileHandle);
 
-        unsigned char *rowOfPixels = reinterpret_cast<unsigned char*>(pixelBuffer + 640 * 239);
+        u8 *rowOfPixels = reinterpret_cast<u8*>(pixelBuffer + 640 * 239);
         const int rowNum = 240;
         for(int i = 0; i < rowNum; i++)
         {

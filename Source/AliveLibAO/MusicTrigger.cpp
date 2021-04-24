@@ -9,7 +9,7 @@
 
 namespace AO {
 
-MusicTrigger* MusicTrigger::ctor_443A60(__int16 type, __int16 enabledBy, int id, __int16 delay)
+MusicTrigger* MusicTrigger::ctor_443A60(s16 type, s16 enabledBy, int id, s16 delay)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBBC0);
@@ -27,7 +27,7 @@ MusicTrigger* MusicTrigger::ctor_4439F0(Path_MusicTrigger* pTlv, int tlvInfo)
     return this;
 }
 
-void MusicTrigger::Init_443AD0(__int16 type, __int16 enabledBy, u16 id, __int16 delay)
+void MusicTrigger::Init_443AD0(s16 type, s16 enabledBy, u16 id, s16 delay)
 {
     field_14_flags &= ~7u;
     field_4_typeId = Types::eNone_0;
@@ -173,7 +173,7 @@ void MusicTrigger::VUpdate_443C90()
             MusicController::PlayMusic_443810(
                 field_1C_music_type,
                 this,
-                ((unsigned __int8)field_14_flags >> 2) & 1,
+                ((u8)field_14_flags >> 2) & 1,
                 1);
             field_14_flags |= 2u;
 

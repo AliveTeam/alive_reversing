@@ -10,10 +10,10 @@ namespace AO {
 
 struct Path_Dove : public Path_TLV
 {
-    __int16 field_18_dove_count;
+    s16 field_18_dove_count;
     Choice_short field_1A_pixel_perfect;
     Scale_short field_1C_scale;
-    __int16 field_1E_pad;
+    s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_Dove, 0x20);
 
@@ -34,7 +34,7 @@ public:
 
     EXPORT void AsJoin_40F250(FP xpos, FP ypos);
 
-    EXPORT void FlyAway_40F8F0(__int16 a2);
+    EXPORT void FlyAway_40F8F0(s16 a2);
 
     EXPORT static void All_FlyAway_40F390();
 
@@ -51,11 +51,11 @@ public:
     EXPORT void VUpdate_40F430();
 
     int field_D4[4];
-    __int16 field_E4_counter;
-    __int16 field_E6;
+    s16 field_E4_counter;
+    s16 field_E6;
     int field_E8_tlvInfo;
-    __int16 field_EC_keepInGlobalArray;
-    enum class State : __int16
+    s16 field_EC_keepInGlobalArray;
+    enum class State : s16
     {
         eOnGround_0 = 0,
         eFlyAway_1 = 1,

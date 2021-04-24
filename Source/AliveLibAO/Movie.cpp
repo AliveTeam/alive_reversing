@@ -13,7 +13,7 @@ EXPORT void CC Get_fmvs_sectors_44FEB0(const char* /*pMovieName1*/, const char* 
     NOT_IMPLEMENTED();
 }
 
-Movie* Movie::ctor_489C90(int id, int /*pos*/, char bUnknown, int /*flags*/, __int16 volume)
+Movie* Movie::ctor_489C90(int id, int /*pos*/, char bUnknown, int /*flags*/, s16 volume)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD6E0);

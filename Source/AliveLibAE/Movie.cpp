@@ -103,7 +103,7 @@ EXPORT char CC DDV_StartAudio_493DF0()
                 if (GetSoundAPI().SND_LoadSamples(
                     &sDDV_SoundEntry_5CA208,
                     sampleOffsetPos_5CA238,
-                    (unsigned char*)pAudioFrame,
+                    (u8*)pAudioFrame,
                     gMasher_single_audio_frame_size_5CA240))
                 {
                     bNoAudio_5CA1F4 = 1;
@@ -390,7 +390,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 void* pDecompressedAudioFrame = (BYTE *)Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
                 if (pDecompressedAudioFrame)
                 {
-                    if (GetSoundAPI().SND_LoadSamples(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, (unsigned char*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
+                    if (GetSoundAPI().SND_LoadSamples(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, (u8*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
                     {
                         // Reload with data fail
                         bNoAudio_5CA1F4 = 1;
@@ -608,7 +608,7 @@ void Movie::VScreenChanged()
     // Null sub 0x4E02A0
 }
 
-void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags, __int16 volume)
+void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume)
 {
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
@@ -647,7 +647,7 @@ void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags,
     ResourceManager::Reclaim_Memory_49C470(0);
 }
 
-Movie* Movie::ctor_4DFDE0(int id, DWORD pos, __int16 bUnknown, __int16 flags, __int16 volume)
+Movie* Movie::ctor_4DFDE0(int id, DWORD pos, s16 bUnknown, s16 flags, s16 volume)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547EF4); // vTbl_Movie_547EF4

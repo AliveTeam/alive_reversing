@@ -29,8 +29,8 @@ struct Fg1Chunk
 {
     u16 field_0_type;
     u16 field_2_layer_or_decompressed_size;
-    __int16 field_4_xpos_or_compressed_size;
-    __int16 field_6_ypos;
+    s16 field_4_xpos_or_compressed_size;
+    s16 field_6_ypos;
     u16 field_8_width;
     u16 field_A_height;
 };
@@ -47,7 +47,7 @@ struct Fg1Block
     Poly_FT4 field_0_polys[2];
     PSX_RECT field_58_rect;
     int field_60_padding;
-    __int16 field_64_padding;
+    s16 field_64_padding;
     Layer field_66_mapped_layer;
 };
 ALIVE_ASSERT_SIZEOF(Fg1Block, 0x68);
@@ -125,7 +125,7 @@ BaseGameObject* FG1::dtor_453DF0()
     return dtor_487DF0();
 }
 
-FG1* FG1::ctor_4539C0(unsigned __int8** ppRes)
+FG1* FG1::ctor_4539C0(u8** ppRes)
 {
     ctor_487E10(1);
      

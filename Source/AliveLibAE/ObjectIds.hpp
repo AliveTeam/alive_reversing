@@ -17,7 +17,7 @@ struct ObjectId_Record
 ALIVE_ASSERT_SIZEOF(ObjectId_Record, 0xC);
 
 class BaseGameObject;
-enum class AETypes : __int16;
+enum class AETypes : s16;
 
 class ObjectIds
 {

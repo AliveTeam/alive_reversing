@@ -10,7 +10,7 @@ class PathLine;
 class BulletShell : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BulletShell* ctor_462790(FP xpos, FP ypos, __int16 direction, FP scale);
+    EXPORT BulletShell* ctor_462790(FP xpos, FP ypos, s16 direction, FP scale);
 
     EXPORT BaseGameObject* dtor_4628B0();
 
@@ -25,8 +25,8 @@ public:
     int field_D4[4];
     PathLine* field_E4_pLine;
     int field_E8;
-    __int16 field_EC_hitCount;
-    __int16 field_EE;
+    s16 field_EC_hitCount;
+    s16 field_EE;
     FP field_F0_speed;
 };
 ALIVE_ASSERT_SIZEOF(BulletShell, 0xF4);

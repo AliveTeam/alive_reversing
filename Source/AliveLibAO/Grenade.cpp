@@ -33,7 +33,7 @@ void Grenade::VScreenChanged()
     VScreenChanged_41F720();
 }
 
-Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, __int16 numGrenades)
+Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, s16 numGrenades)
 {
     ctor_401090();
     field_10E_bDead = 0;
@@ -98,7 +98,7 @@ BaseGameObject* Grenade::dtor_41ECD0()
 
         if (gpThrowableArray_50E26C)
         {
-            __int16 count = 0;
+            s16 count = 0;
             if (field_10C_count >= 1u)
             {
                 count = field_10C_count;
@@ -189,7 +189,7 @@ void Grenade::AddToPlatform_41F7C0()
 }
 
 
-__int16 Grenade::VCanThrow()
+s16 Grenade::VCanThrow()
 {
     return VCanThrow_453EC0();
 }
@@ -595,17 +595,17 @@ s16 Grenade::BlowUpAfterCountdown_41EDD0()
     return 1;
 }
 
-__int16 Grenade::VCanThrow_453EC0()
+s16 Grenade::VCanThrow_453EC0()
 {
     return FALSE;
 }
 
-__int16 Grenade::VIsFalling()
+s16 Grenade::VIsFalling()
 {
     return VIsFalling_453ED0();
 }
 
-__int16 Grenade::VIsFalling_453ED0()
+s16 Grenade::VIsFalling_453ED0()
 {
     return FALSE;
 }

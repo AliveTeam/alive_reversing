@@ -10,12 +10,12 @@ class Bells;
 
 struct Path_ChimeLock : public Path_TLV
 {
-    __int16 field_18_scale;
-    __int16 field_1A_solve_id;
-    __int16 field_1C_code1;
-    __int16 field_1E_code2;
-    __int16 field_20_id;
-    __int16 field_22_pad;
+    s16 field_18_scale;
+    s16 field_1A_solve_id;
+    s16 field_1C_code1;
+    s16 field_1E_code2;
+    s16 field_20_id;
+    s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_ChimeLock, 0x24);
 
@@ -43,20 +43,20 @@ public:
 
     EXPORT void VUnPosses_40BC90();
 
-    EXPORT __int16 DoNote_40BB20(__int16 note);
+    EXPORT s16 DoNote_40BB20(s16 note);
 
-    EXPORT void SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, __int16 timer, __int16 xSize, __int16 ySize, __int16 bHitBell);
+    EXPORT void SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, s16 timer, s16 xSize, s16 ySize, s16 bHitBell);
 
-    EXPORT __int16 UpdateBall_40B8A0();
+    EXPORT s16 UpdateBall_40B8A0();
 
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_40AEF0();
 
-    void SetTargetBellIfSpace(__int16 targetNum);
+    void SetTargetBellIfSpace(s16 targetNum);
 
     int field_10C_tlvInfo;
-    enum class ChimeLockStates : __int16
+    enum class ChimeLockStates : s16
     {
         eIdle_0 = 0,
         eUnused_1 = 1,
@@ -67,22 +67,22 @@ public:
         eNeverRead_6 = 6
     };
     ChimeLockStates field_110_state;
-    __int16 field_112_padding;
+    s16 field_112_padding;
     Bells* field_114_left_bell;
     Bells* field_118_center_bell;
     Bells* field_11C_right_bell;
     u16 field_120_max_idx;
-    __int16 field_122_padding;
+    s16 field_122_padding;
     int field_124_code1;
-    __int16 field_128_idx;
-    __int16 field_12A_padding;
+    s16 field_128_idx;
+    s16 field_12A_padding;
     int field_12C_timer;
-    __int16 field_130_song_matching;
-    __int16 field_132_solve_id;
-    __int16 field_134_pressed;
-    __int16 field_136_unpossession_timer;
-    __int16 field_138_flags;
-    __int16 field_13A_padding;
+    s16 field_130_song_matching;
+    s16 field_132_solve_id;
+    s16 field_134_pressed;
+    s16 field_136_unpossession_timer;
+    s16 field_138_flags;
+    s16 field_13A_padding;
     FP field_13C_targetX;
     FP field_140_targetY;
     FP field_144_ball_start_x;
@@ -90,9 +90,9 @@ public:
     FP field_14C_increase_vely_by;
     FP field_150;
     FP field_154;
-    __int16 field_158_xSize;
-    __int16 field_15A_ySize;
-    enum class BallStates : __int16
+    s16 field_158_xSize;
+    s16 field_15A_ySize;
+    enum class BallStates : s16
     {
         eIdle_0 = 0,
         eMovingToBell_1 = 1,
@@ -100,10 +100,10 @@ public:
         eNeverRead_3 = 3
     };
     BallStates field_15C_ball_state;
-    __int16 field_15E_ball_angle;
-    __int16 field_160_ball_timer;
-    __int16 field_162_never_set;
-    enum class BellPositions : __int16
+    s16 field_15E_ball_angle;
+    s16 field_160_ball_timer;
+    s16 field_162_never_set;
+    enum class BellPositions : s16
     {
         eNone_0 = 0,
         eLeftBell_1 = 1,

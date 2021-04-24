@@ -14,7 +14,7 @@
 
 namespace AO {
 
-EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, __int16 a9)
+EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, s16 a9)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA328);

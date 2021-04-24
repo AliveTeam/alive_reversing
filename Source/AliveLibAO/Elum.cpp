@@ -248,12 +248,12 @@ void Elum::VOn_TLV_Collision_410F10(Path_TLV* pTlv)
     }
 }
 
-__int16 Elum::VTakeDamage(BaseGameObject* pFrom)
+s16 Elum::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_411020(pFrom);
 }
 
-__int16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
+s16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
 {
     switch (pFrom->field_4_typeId)
     {
@@ -608,7 +608,7 @@ void Elum::CheckLiftPointGoneAndSetCamera()
     }
 }
 
-void Elum::MoveOnLine_412580(__int16 xLookAhead)
+void Elum::MoveOnLine_412580(s16 xLookAhead)
 {
     CheckLiftPointGoneAndSetCamera();
 
@@ -650,7 +650,7 @@ void Elum::MoveOnLine_412580(__int16 xLookAhead)
     }
 }
 
-void Elum::SetAbeAsPlayer_412520(__int16 abeMotion)
+void Elum::SetAbeAsPlayer_412520(s16 abeMotion)
 {
     // Back to Abe
     if (sControlledCharacter_50767C == this)
@@ -673,7 +673,7 @@ void Elum::SetAbeAsPlayer_412520(__int16 abeMotion)
         this);
 }
 
-__int16 Elum::ToNextState_4120F0()
+s16 Elum::ToNextState_4120F0()
 {
     if (sControlledCharacter_50767C == this)
     {
@@ -744,7 +744,7 @@ __int16 Elum::ToNextState_4120F0()
     }
 }
 
-__int16 Elum::ToNextStateAbeControlled_411E40()
+s16 Elum::ToNextStateAbeControlled_411E40()
 {
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
     if (pLiftPoint)
@@ -945,7 +945,7 @@ void CC Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
             volRight = 80;
             break;
         }
-        SFX_SfxDefinition_Play_477330(&sElumSfx_4C5398[3], (__int16) volLeft, (__int16) volRight, 0, 0);
+        SFX_SfxDefinition_Play_477330(&sElumSfx_4C5398[3], (s16) volLeft, (s16) volRight, 0, 0);
         break;
     }
 
@@ -1019,7 +1019,7 @@ void Elum::FindHoney_411600()
     }
 }
 
-__int16 Elum::NearHoney_411DA0()
+s16 Elum::NearHoney_411DA0()
 {
     if (field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
     {
@@ -1035,7 +1035,7 @@ __int16 Elum::NearHoney_411DA0()
     return 0;
 }
 
-__int16 Elum::Brain_0_WithoutAbe_416190()
+s16 Elum::Brain_0_WithoutAbe_416190()
 {
     const int last_event_index = pEventSystem_4FF954->field_18_last_event_index;
 
@@ -1534,7 +1534,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
     }
 }
 
-__int16 Elum::Brain_1_HoneyAddiction_411730()
+s16 Elum::Brain_1_HoneyAddiction_411730()
 {
     const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
@@ -2537,7 +2537,7 @@ void Elum::State_21_Land_414A20()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const __int16 bHit = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+    const s16 bHit = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
     if (sControlledCharacter_50767C == this)
     {
@@ -3010,7 +3010,7 @@ void Elum::State_36_RunLoop_413720()
         return;
     }
 
-    __int16 gridSizeDirected = 0;
+    s16 gridSizeDirected = 0;
     if (field_B4_velx <= FP_FromInteger(0))
     {
         gridSizeDirected = FP_GetExponent(ScaleToGridSize_41FA30(field_BC_sprite_scale));

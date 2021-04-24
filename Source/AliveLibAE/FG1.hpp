@@ -11,14 +11,14 @@ struct Fg1Block
     int field_58_padding;
     int field_5C_padding;
     int field_60_padding;
-    __int16 field_64_padding;
+    s16 field_64_padding;
     Layer field_66_mapped_layer;
     int field_68_array_of_height[16];
 };
 ALIVE_ASSERT_SIZEOF(Fg1Block, 0xA8);
 
 struct Fg1Chunk;
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 class FG1 : public BaseGameObject
 {
@@ -34,13 +34,13 @@ public:
     EXPORT void vRender_49A3C0(PrimHeader** ppOt);
     EXPORT BaseGameObject* vdtor_49A1E0(signed int flags);
     EXPORT void dtor_49A540();
-    EXPORT __int16 Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock);
+    EXPORT s16 Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
     int field_20_unused;
     LevelIds field_24_level_id;
-    __int16 field_26_path_id;
-    __int16 field_28_render_block_count;
-    //__int16 field_2A;
+    s16 field_26_path_id;
+    s16 field_28_render_block_count;
+    //s16 field_2A;
     BYTE** field_2C_ptr;
     Fg1Block* field_30_chnk_res;
 };

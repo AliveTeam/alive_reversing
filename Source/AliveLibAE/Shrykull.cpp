@@ -94,7 +94,7 @@ void Shrykull::vScreenChange_4AF650()
     }
 }
 
-__int16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
+s16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
 {
     switch (pObj->field_4_typeId)
     {
@@ -114,7 +114,7 @@ __int16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
     }
 }
 
-__int16 CCSTD Shrykull::CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 CCSTD Shrykull::CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     return
         (

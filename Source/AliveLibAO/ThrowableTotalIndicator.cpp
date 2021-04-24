@@ -130,7 +130,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
     VRender_41B810(ppOt);
 }
 
-const __int16 kNum_0[17] =
+const s16 kNum_0[17] =
 {
     4,
     -3, -4, 3, -4,
@@ -139,13 +139,13 @@ const __int16 kNum_0[17] =
     -3, 3, -3, -3
 };
 
-const __int16 kNum_1[5] =
+const s16 kNum_1[5] =
 {
     1,
     2, -4, 2, 4
 };
 
-const __int16 kNum_2[21] =
+const s16 kNum_2[21] =
 {
     5,
     -5, -4, 5, -4,
@@ -155,7 +155,7 @@ const __int16 kNum_2[21] =
     -5, 4, 5, 4
 };
 
-const __int16 kNum_3[17] =
+const s16 kNum_3[17] =
 {
     4,
     -5, -4, 5, -4,
@@ -164,7 +164,7 @@ const __int16 kNum_3[17] =
     -4, 0, 4, 0,
 };
 
-const __int16 kNum_4[13] =
+const s16 kNum_4[13] =
 {
     3,
     -5, -4, -5, -1,
@@ -172,7 +172,7 @@ const __int16 kNum_4[13] =
     5, -4, 5, 4
 };
 
-const __int16 kNum_5[21] =
+const s16 kNum_5[21] =
 {
     5,
     5, -4, -5, -4,
@@ -182,7 +182,7 @@ const __int16 kNum_5[21] =
     5, 4, -5, 4
 };
 
-const __int16 kNum_6[21] =
+const s16 kNum_6[21] =
 {
     5,
     5, -4, -5, -4, -5,
@@ -191,14 +191,14 @@ const __int16 kNum_6[21] =
     1, 5, 0, -4, 0
 };
 
-const __int16 kNum_7[9] =
+const s16 kNum_7[9] =
 {
     2,
     -5, -4, 5, -4,
     5, -3, 0, 4
 };
 
-const __int16 kNum_8[21] =
+const s16 kNum_8[21] =
 {
     5,
     -5, -4, 5, -4,
@@ -208,7 +208,7 @@ const __int16 kNum_8[21] =
     -4, 0, 4, 0
 };
 
-const __int16 kNum_9[17] =
+const s16 kNum_9[17] =
 {
     4,
     5, 4, 5, -3,
@@ -217,7 +217,7 @@ const __int16 kNum_9[17] =
     -5, 0, 4, 0
 };
 
-const __int16 kInfinity[25] =
+const s16 kInfinity[25] =
 {
     6,
     -3, -2, -5, 0,
@@ -228,7 +228,7 @@ const __int16 kInfinity[25] =
     2, 3, -2, -2
 };
 
-const __int16 kCheckpoint[36] =
+const s16 kCheckpoint[36] =
 {
     8, 0, -6, 1,
     -6,
@@ -265,7 +265,7 @@ const __int16 kCheckpoint[36] =
     0
 };
 
-const __int16 *kNumbersArray_4C56A8[12] =
+const s16 *kNumbersArray_4C56A8[12] =
 {
     kNum_0,
     kNum_1,
@@ -344,7 +344,7 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
     );
 }
 
-ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, Layer layer, FP /*scale*/, __int16 count, __int16 bFade)
+ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, Layer layer, FP /*scale*/, s16 count, s16 bFade)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BAED8);

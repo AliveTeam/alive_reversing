@@ -436,7 +436,7 @@ void AbilityRing::vUpdate_49D160()
     }
 }
 
-void AbilityRing::CollideWithObjects_49D5E0(__int16 bDealDamage)
+void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
 {
     for (int i = 0; i < field_28C_count; i++)
     {

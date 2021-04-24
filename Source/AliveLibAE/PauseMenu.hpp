@@ -35,15 +35,15 @@ enum PauseMenuAlign
 
 struct PauseMenuPageEntry
 {
-    __int16 field_0_unknown2;
-    __int16 field_2_x;
-    __int16 field_4_y;
-    __int16 field_6_unknown;
+    s16 field_0_unknown2;
+    s16 field_2_x;
+    s16 field_4_y;
+    s16 field_6_unknown;
     const char* field_8_text;
-    unsigned char field_C_r;
-    unsigned char field_D_g;
-    unsigned char field_E_b;
-    unsigned char field_F_alignment;
+    u8 field_C_r;
+    u8 field_D_g;
+    u8 field_E_b;
+    u8 field_F_alignment;
 };
 ALIVE_ASSERT_SIZEOF(PauseMenuPageEntry, 0x10);
 
@@ -97,7 +97,7 @@ public:
         t_PmPage_Update field_0_fn_update;
         t_PmPage_Render field_4_fn_render;
         PauseMenuPageEntry *field_8_menu_items;
-        __int16 field_C_selected_index;
+        s16 field_C_selected_index;
         char field_E_background_r;
         char field_F_background_g;
         char field_10_background_b;
@@ -112,12 +112,12 @@ private:
 
 public:
     Alive::Font field_F4_font;
-    __int16 word12C_flags;
-    __int16 field_12E_selected_glow;
-    __int16 field_130_selected_glow_counter;
-    __int16 field_132_padding;
+    s16 word12C_flags;
+    s16 field_12E_selected_glow;
+    s16 field_130_selected_glow_counter;
+    s16 field_132_padding;
 
-    enum MainPages : __int16
+    enum MainPages : s16
     {
         ePage_Continue_0 = 0,
         ePage_QuickSave_1 = 1,
@@ -129,12 +129,12 @@ public:
         ePage_Quit_7 = 7,
     };
 
-    /*MainPages*/ __int16 field_134_index_main;
-    __int16 field_136_unused;
-    __int16 field_138_control_action_page_index;
-    __int16 field_13A_unused;
+    /*MainPages*/ s16 field_134_index_main;
+    s16 field_136_unused;
+    s16 field_138_control_action_page_index;
+    s16 field_13A_unused;
 
-    enum class SaveState : __int16
+    enum class SaveState : s16
     {
         ReadingInput_0 = 0,
         DoSave_4 = 4,
@@ -142,9 +142,9 @@ public:
     };
     SaveState field_13C_save_state;
 
-    __int16 field_13E_unused;
-    __int16 field_140_unused;
-    __int16 field_142_poly_offset;
+    s16 field_13E_unused;
+    s16 field_140_unused;
+    s16 field_142_poly_offset;
     PauseMenu::PauseMenuPage field_144_active_menu;
     Animation field_158_animation;
     Prim_SetTPage field_1F0_primitives[2];

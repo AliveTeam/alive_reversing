@@ -8,7 +8,7 @@ struct SoundBlockInfo;
 struct OpenSeqHandleAE;
 struct SfxDefinition;
 
-enum class SeqId : __int16
+enum class SeqId : s16
 {
     None_M1 = -1,
     Unknown_0 = 0,
@@ -187,13 +187,13 @@ EXPORT void CC SND_Stop_Channels_Mask_4774A0(int mask);
 
 EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char* bsqFileName);
 
-EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, int repeatCount, __int16 bDontStop);
+EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, int repeatCount, s16 bDontStop);
 
 EXPORT void CC SND_Seq_Stop_477A60(SeqId idx);
 
-EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, __int16 volLeft, __int16 volRight);
+EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, int repeatCount, s16 volLeft, s16 volRight);
 
-EXPORT __int16 CC SND_SsIsEos_DeInlined_477930(SeqId idx);
+EXPORT s16 CC SND_SsIsEos_DeInlined_477930(SeqId idx);
 
 EXPORT int CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, short volLeft, short volRight, short pitch_min, s16 pitch_max);
 
@@ -203,7 +203,7 @@ EXPORT void CC SND_Init_476E40();
 
 EXPORT void CC SND_Shutdown_476EC0();
 
-EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, __int16 volLeft, __int16 volRight);
+EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight);
 
 EXPORT void CC SND_StopAll_4762D0();
 

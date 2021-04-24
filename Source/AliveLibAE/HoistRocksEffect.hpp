@@ -7,8 +7,8 @@
 
 struct HoistRockParticle
 {
-    __int16 field_0_state;
-    __int16 field_2;
+    s16 field_0_state;
+    s16 field_2;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_yVel;
@@ -33,8 +33,8 @@ private:
     EXPORT void Render_45D7B0(PrimHeader** ppOt);
     EXPORT void vScreenChanged_45D790();
 private:
-    __int16 field_20_xpos;
-    __int16 field_22_ypos;
+    s16 field_20_xpos;
+    s16 field_22_ypos;
     int field_24_tlvInfo;
     int field_28_timer;
     FP field_2C_scale;

@@ -4,7 +4,7 @@
 #include "Factory.hpp"
 #include "Collisions.hpp"
 
-enum class LevelIds : __int16
+enum class LevelIds : s16
 {
     eNone = -1,
     eMenu_0 = 0,
@@ -30,19 +30,19 @@ struct FmvInfo
 {
     const char* field_0_pName;
     u16 field_4_id;
-    __int16 field_6_flags;
+    s16 field_6_flags;
     u16 field_8_flags;
-    __int16 field_A_volume; // usually 127 ?
+    s16 field_A_volume; // usually 127 ?
 };
 ALIVE_ASSERT_SIZEOF(FmvInfo, 0xC);
 
 struct CollisionInfo
 {
     TCollisionsFactory field_0_fn_ptr;
-    __int16 field_4_left;
-    __int16 field_6_right;
-    __int16 field_8_top;
-    __int16 field_A_bottom;
+    s16 field_4_left;
+    s16 field_6_right;
+    s16 field_8_top;
+    s16 field_A_bottom;
     u32 field_C_collision_offset;
     u32 field_10_num_collision_items;
     u32 field_14_grid_width;
@@ -52,18 +52,18 @@ ALIVE_ASSERT_SIZEOF(CollisionInfo, 0x1C);
 
 struct PathData
 {
-    __int16 field_0_bLeft;
-    __int16 field_2_bRight;
-    __int16 field_4_bTop;
-    __int16 field_6_bBottom;
-    __int16 field_A_grid_width;
-    __int16 field_C_grid_height;
-    __int16 field_E_width;
-    __int16 field_10_height;
+    s16 field_0_bLeft;
+    s16 field_2_bRight;
+    s16 field_4_bTop;
+    s16 field_6_bBottom;
+    s16 field_A_grid_width;
+    s16 field_C_grid_height;
+    s16 field_E_width;
+    s16 field_10_height;
     u32 field_12_object_offset;
     u32 field_16_object_indextable_offset;
-    __int16 field_1A_abe_start_xpos;
-    __int16 field_1C_abe_start_ypos;
+    s16 field_1A_abe_start_xpos;
+    s16 field_1C_abe_start_ypos;
     PathFunctionTable field_1E_object_funcs;
 };
 ALIVE_ASSERT_SIZEOF(PathData, 0x41C);
@@ -91,11 +91,11 @@ struct PathRoot
     FmvInfo* field_4_pFmvArray;
     SoundBlockInfo* field_8_pMusicInfo;
     const char* field_C_bsq_file_name;
-    __int16 field_10_reverb;
-    __int16 field_12_bg_music_id;
+    s16 field_10_reverb;
+    s16 field_12_bg_music_id;
     const char* field_14_lvl_name;
-    __int16 field_18_num_paths;
-    __int16 field_1A_unused; // message to display to change cd ??
+    s16 field_18_num_paths;
+    s16 field_1A_unused; // message to display to change cd ??
     int field_1C_padding;
     const char* field_20_lvl_name_cd;
     int field_24_padding;
@@ -128,7 +128,7 @@ struct OpenSeqHandle
     int field_4_generated_res_id; // A hash of the named which matches the resource Id
     char field_8_sound_block_idx;
     char field_9_volume;
-    __int16 field_A_id_seqOpenId;
+    s16 field_A_id_seqOpenId;
     BYTE *field_C_ppSeq_Data;
 };
 ALIVE_ASSERT_SIZEOF(OpenSeqHandle, 0x10);
@@ -142,7 +142,7 @@ EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathI
 
 EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId);
 
-EXPORT void CC Path_Format_CameraName_460FB0(char* pStrBuffer, LevelIds levelId, __int16 pathId, __int16 cameraId);
+EXPORT void CC Path_Format_CameraName_460FB0(char* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId);
 
 const char* CdLvlName(LevelIds lvlId);
 

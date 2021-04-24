@@ -28,7 +28,7 @@ int SND_Clear_SDL(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
     return 0;
 }
 
-signed int SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, u32 sampleCount)
+signed int SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount)
 {
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const u32 bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;

@@ -11,7 +11,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x9F2DF0, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_9F2DF0, nullptr);
 
-BaseGameObject* BaseGameObject::ctor_487E10(__int16 arraySize)
+BaseGameObject* BaseGameObject::ctor_487E10(s16 arraySize)
 {
     SetVTable(this, 0x4BD488); // vTable_BaseGameObject_4BD488
 

@@ -7,9 +7,9 @@
 struct Path_SlogHut : public Path_TLV
 {
     Scale_short field_10_scale;
-    __int16 field_12_switch_id;
-    __int16 field_14_Zzz_delay;
-    __int16 field_16_padding;
+    s16 field_12_switch_id;
+    s16 field_14_Zzz_delay;
+    s16 field_16_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogHut, 0x18);
 
@@ -33,10 +33,10 @@ private:
     FP field_24_ypos;
     FP field_28_scale;
     int field_2C_tlvInfo;
-    __int16 field_30_switch_id;
-    __int16 field_32_padding;
+    s16 field_30_switch_id;
+    s16 field_32_padding;
     int field_34_Zzz_timer;
-    __int16 field_38_Zzz_delay;
-    __int16 field_3A_padding;
+    s16 field_38_Zzz_delay;
+    s16 field_3A_padding;
 };
 ALIVE_ASSERT_SIZEOF(SlogHut, 0x3C);

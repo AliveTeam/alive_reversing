@@ -19,11 +19,11 @@ public:
     EXPORT void VUpdate_40D020();
 
     int field_10_next_cam_frame;
-    __int16 field_14_camera_number;
-    __int16 field_16_pad;
+    s16 field_14_camera_number;
+    s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF(CreditsController, 0x18);
 
-ALIVE_VAR_EXTERN(__int16, gCreditsControllerExists_507684);
+ALIVE_VAR_EXTERN(s16, gCreditsControllerExists_507684);
 
 }

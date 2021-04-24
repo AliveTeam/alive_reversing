@@ -5,7 +5,7 @@
 #include "Path.hpp"
 #include "MusicController.hpp"
 
-enum class MusicTriggerMusicType : __int16
+enum class MusicTriggerMusicType : s16
 {
     eUnknown_0 = 0,
     eDeathShort_1 = 1,
@@ -16,7 +16,7 @@ enum class MusicTriggerMusicType : __int16
     eSecretAreaShort_6 = 6
 };
 
-enum class TriggeredBy : __int16
+enum class TriggeredBy : s16
 {
     eTimer_0 = 0,
     eTouching_1 = 1
@@ -26,8 +26,8 @@ struct Path_MusicTrigger : public Path_TLV
 {
     MusicTriggerMusicType field_10_music_type;
     TriggeredBy field_12_triggered_by;
-    __int16 field_14_music_delay;
-    __int16 field_16_pad;
+    s16 field_14_music_delay;
+    s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x18);
 
@@ -35,8 +35,8 @@ class MusicTrigger : public BaseGameObject
 {
 public:
     EXPORT BaseGameObject* ctor_47FE40(Path_MusicTrigger* pTlv, DWORD tlvInfo);
-    EXPORT MusicTrigger* ctor_47FF10(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, int /*not_used*/, __int16 delay);
-    EXPORT void Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, __int16 delay);
+    EXPORT MusicTrigger* ctor_47FF10(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, int /*not_used*/, s16 delay);
+    EXPORT void Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 delay);
     EXPORT BaseGameObject* vdtor_47FEE0(signed int flags);
     EXPORT void dtor_4800C0();
     EXPORT void vScreenChange_4802A0();

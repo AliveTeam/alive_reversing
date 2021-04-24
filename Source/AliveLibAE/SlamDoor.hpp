@@ -20,10 +20,10 @@ struct Path_SlamDoor : public Path_TLV
 {
     Choice_short field_10_bStart_closed;
     Scale_short field_12_scale;
-    __int16 field_14_id;
+    s16 field_14_id;
     Choice_short field_16_bStart_inverted;
     Choice_short field_18_bDelete;
-    __int16 field_1A_padding;
+    s16 field_1A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);
 
@@ -44,17 +44,17 @@ private:
     EXPORT SlamDoor* vdtor_4AFD20(signed int flags);
     EXPORT void vUpdate_4AFD50();
     EXPORT int vGetSaveState_4C09D0(BYTE* pSaveBuffer);
-    EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, __int16 xPosition, __int16 width);
+    EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPosition, s16 width);
 
 private:
     BitField16<SlamDoor_Flags_118> field_118_flags;
-    __int16 field_11A_padding;
+    s16 field_11A_padding;
     PathLine* field_11C_pCollisionLine_6_2;
     PathLine* field_120_pCollisionLine_5_1;
-    __int16 field_124_x1;
-    __int16 field_126_y1;
-    __int16 field_128_switch_id;
-    __int16 field_12A_padding;
+    s16 field_124_x1;
+    s16 field_126_y1;
+    s16 field_128_switch_id;
+    s16 field_12A_padding;
     TlvItemInfoUnion field_12C_tlvInfo;
     int field_130_padding;
 };

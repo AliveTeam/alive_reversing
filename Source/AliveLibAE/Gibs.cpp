@@ -34,7 +34,7 @@ EXPORT FP CC Random_40FAF0(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << sGibRandom_550E80) * scale;
 }
 
-EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bMakeSmaller)
+EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 bMakeSmaller)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     

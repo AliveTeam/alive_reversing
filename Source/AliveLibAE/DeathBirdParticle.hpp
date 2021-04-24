@@ -9,7 +9,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
 
-    EXPORT DeathBirdParticle* ctor_43ECB0(FP xpos, FP ypos, int start, __int16 playSound, FP scale);
+    EXPORT DeathBirdParticle* ctor_43ECB0(FP xpos, FP ypos, int start, s16 playSound, FP scale);
 private:
     EXPORT void Update_43EE70();
     EXPORT void dtor_43EE50();
@@ -24,7 +24,7 @@ private:
     States field_F5_state;
     // 2 byte pad
     int field_F8_start;
-    __int16 field_FC_bPlaySound;
+    s16 field_FC_bPlaySound;
     // 2 byte pad
 };
 ALIVE_ASSERT_SIZEOF(DeathBirdParticle, 0x100);

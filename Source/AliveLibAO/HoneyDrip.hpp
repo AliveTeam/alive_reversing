@@ -17,8 +17,8 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     int field_D4[4];
-    __int16 field_E4_bSoundPlaying;
-    __int16 field_E6;
+    s16 field_E4_bSoundPlaying;
+    s16 field_E6;
 };
 ALIVE_ASSERT_SIZEOF(HoneyDrip, 0xE8);
 

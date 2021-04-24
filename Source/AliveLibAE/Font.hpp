@@ -22,10 +22,10 @@ EXPORT void CC static_font2context_init_433380();
 
 struct File_Font
 {
-    __int16 field_0_width;
-    __int16 field_2_height;
-    __int16 field_4_color_depth;
-    __int16 field_6_palette_size;
+    s16 field_0_width;
+    s16 field_2_height;
+    s16 field_4_color_depth;
+    s16 field_6_palette_size;
     BYTE field_8_palette[32];
     BYTE field_28_pixel_buffer[1];
 };
@@ -34,10 +34,10 @@ struct File_Font
 
 struct Font_AtlasEntry
 {
-    unsigned __int8 field_0_x;
-    unsigned __int8 field_1_y;
-    unsigned __int8 field_2_width;
-    unsigned __int8 field_3_height;
+    u8 field_0_x;
+    u8 field_1_y;
+    u8 field_2_width;
+    u8 field_3_height;
 };
 ALIVE_ASSERT_SIZEOF(Font_AtlasEntry, 0x4);
 
@@ -45,7 +45,7 @@ struct Font_Context
 {
     PSX_RECT field_0_rect;
     Font_AtlasEntry *field_8_atlas_array;
-    __int16 field_C_resource_id;
+    s16 field_C_resource_id;
 
     EXPORT void LoadFontType_433400(short resourceID);
     EXPORT void dtor_433510();
@@ -68,10 +68,10 @@ namespace Alive
 
         EXPORT void ctor_433590(int maxCharLength, const BYTE *palette, Font_Context *fontContext);
         EXPORT void dtor_433540();
-        EXPORT int DrawString_4337D0(PrimHeader** ppOt, const char *text, int x, __int16 y, TPageAbr abr, int bSemiTrans, int a2, Layer layer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int a15, __int16 colorRandomRange);
+        EXPORT int DrawString_4337D0(PrimHeader** ppOt, const char *text, int x, s16 y, TPageAbr abr, int bSemiTrans, int a2, Layer layer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int a15, s16 colorRandomRange);
         EXPORT int MeasureWidth_433700(const char * text);
         EXPORT int MeasureWidth_4336C0(const char *text, FP scale);
-        EXPORT int MeasureWidth_433630(unsigned char character);
+        EXPORT int MeasureWidth_433630(u8 character);
         EXPORT const char * SliceText_433BD0(const char *text, int left, FP scale, int right);
     public:
         BYTE gap0[32];
@@ -84,7 +84,7 @@ namespace Alive
     ALIVE_ASSERT_SIZEOF(Font, 0x38);
 }
 
-ALIVE_VAR_EXTERN(__int16, sFontType2LoadCount_5BC5E8);
+ALIVE_VAR_EXTERN(s16, sFontType2LoadCount_5BC5E8);
 ALIVE_VAR_EXTERN(BYTE, sFontDrawScreenSpace_5CA4B4);
 
 ALIVE_VAR_EXTERN(Font_Context, sFont1Context_5BC5C8);

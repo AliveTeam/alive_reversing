@@ -58,7 +58,7 @@ BaseGameObject* PossessionFlicker::dtor_41A940()
     return dtor_487DF0();
 }
 
-PossessionFlicker* PossessionFlicker::ctor_41A8C0(BaseAliveGameObject* pToApplyFlicker, int duration, __int16 r, __int16 g, __int16 b)
+PossessionFlicker* PossessionFlicker::ctor_41A8C0(BaseAliveGameObject* pToApplyFlicker, int duration, s16 r, s16 g, s16 b)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BAC58);

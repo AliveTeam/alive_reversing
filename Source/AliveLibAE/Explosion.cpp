@@ -14,7 +14,7 @@
 #include "Slig.hpp"
 #include "ExplosionSet.hpp"
 
-Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
+Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, s16 bSmall)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546CB8);

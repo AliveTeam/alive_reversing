@@ -46,7 +46,7 @@ void Switch::VScreenChanged()
     vScreenChanged_4D5B90();
 }
 
-__int16 Switch::VPull_4D6050(__int16 bLeftDirection)
+s16 Switch::VPull_4D6050(s16 bLeftDirection)
 {
     return vPull_4D6050(bLeftDirection);
 }
@@ -313,7 +313,7 @@ void Switch::vUpdate_4D5C00()
     }
 }
 
-__int16 Switch::vPull_4D6050(__int16 bLeftDirection)
+s16 Switch::vPull_4D6050(s16 bLeftDirection)
 {
     if (field_F8_state != SwitchState::eWaiting_0)
     {

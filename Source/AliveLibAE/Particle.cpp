@@ -141,7 +141,7 @@ EXPORT Particle* CC New_TintChant_Particle_426BE0(FP xpos, FP ypos, FP scale, La
 }
 
 // Fart/dust cloud particle spawner
-EXPORT void CC New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, __int16 count, BYTE r, BYTE g, BYTE b)
+EXPORT void CC New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, s16 count, BYTE r, BYTE g, BYTE b)
 {
     FP velYCounter = {};
     for (int i=0; i < count; i++)

@@ -10,7 +10,7 @@
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
 static GLuint mBackgroundTexture = 0;
-static unsigned char gDecodeBuffer[640 * 256 * 2] = {};
+static u8 gDecodeBuffer[640 * 256 * 2] = {};
 static GLuint gDecodedTextureCache = 0;
 
 static TextureCache gFakeTextureCache = {};
@@ -41,7 +41,7 @@ static GLuint TextureFromFile(const char* path)
 
     int x = 0, y = 0;
     int comp = 0;
-    const unsigned char* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
+    const u8* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
 
     glGenTextures(1, &texHandle);
 
@@ -227,10 +227,10 @@ static void Renderer_DecodePalette(const BYTE* srcPalData, RGBAPixel* dst, int p
     {
         const unsigned short oldPixel = palShortPtr[i];
 
-        dst[i].R = static_cast<unsigned char>((((oldPixel >> 0) & 0x1F)) << 2);
-        dst[i].G = static_cast<unsigned char>((((oldPixel >> 5) & 0x1F)) << 2);
-        dst[i].B = static_cast<unsigned char>((((oldPixel >> 10) & 0x1F)) << 2);
-        dst[i].A = static_cast<unsigned char>((((((oldPixel) >> 15) & 0xffff)) ? 127 : 255));
+        dst[i].R = static_cast<u8>((((oldPixel >> 0) & 0x1F)) << 2);
+        dst[i].G = static_cast<u8>((((oldPixel >> 5) & 0x1F)) << 2);
+        dst[i].B = static_cast<u8>((((oldPixel >> 10) & 0x1F)) << 2);
+        dst[i].A = static_cast<u8>((((((oldPixel) >> 15) & 0xffff)) ? 127 : 255));
     }
 }
 
@@ -383,7 +383,7 @@ static int WidthBppDivide(int textureMode, int width)
 
 static void Convert4bppTextureFont(const PSX_RECT& rect, const BYTE* pPixels)
 {
-    std::vector<unsigned char> buffer(rect.w * rect.h * 4);
+    std::vector<u8> buffer(rect.w * rect.h * 4);
 
     int pIndex = 0;
     for (int i = 0; i < rect.w * 4 * rect.h; i += 2)
@@ -409,7 +409,7 @@ static void Renderer_ConvertFG1BitMask(int width, int height, const BYTE* pPixel
         unsigned long bitMask = mSrc[pSrcIndex];
         for (int x = 0; x < width; x++)
         {
-            unsigned char v = (bitMask & 1) * 255;
+            u8 v = (bitMask & 1) * 255;
 
             bitMask >>= 1;
 
@@ -1441,7 +1441,7 @@ void ConvertAOFG1(const BYTE* srcPalData, RGBAPixel* dst, int pixelCount)
     for (int i = 0; i < pixelCount; i++)
     {
         unsigned short oldPixel = palShortPtr[i];
-        unsigned char semiTrans = (((oldPixel) >> 15) & 0x1);
+        u8 semiTrans = (((oldPixel) >> 15) & 0x1);
         dst[i].G = ((oldPixel >> 5) & 0x1F) << 2;
         dst[i].R = ((oldPixel >> 0) & 0x1F) << 2;
         dst[i].B = ((oldPixel >> 10) & 0x1F) << 2;
@@ -1587,7 +1587,7 @@ void HackSetBackground(const char* path)
 
     int x = 0, y = 0;
     int comp = 0;
-    const unsigned char* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
+    const u8* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
 
     if (mBackgroundTexture == 0)
     {

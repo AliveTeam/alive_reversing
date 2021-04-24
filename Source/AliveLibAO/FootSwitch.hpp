@@ -7,17 +7,17 @@
 
 namespace AO {
 
-enum class FootSwitchTriggerBy : __int16
+enum class FootSwitchTriggerBy : s16
 {
     eOnlyAbe_0 = 0,
     eAnyone_1 = 1,
 };
 
-enum class SwitchOp : __int16;
+enum class SwitchOp : s16;
 
 struct Path_FootSwitch : public Path_TLV
 {
-    __int16 field_18_id;
+    s16 field_18_id;
     Scale_short field_1A_scale;
     SwitchOp field_1C_action;
     FootSwitchTriggerBy field_1E_trigger_by;
@@ -47,13 +47,13 @@ public:
 
     int field_D4[4];
     int field_E4_tlvInfo;
-    enum class States : __int16
+    enum class States : s16
     {
         eWaitForStepOnMe_0 = 0,
         eWaitForGetOffMe_1 = 1,
     };
     States field_E8_state;
-    __int16 field_EA_id;
+    s16 field_EA_id;
     SwitchOp field_EC_action;
     FootSwitchTriggerBy field_EE_trigger_by;
     BaseAliveGameObject* field_F0_pStoodOnMe;

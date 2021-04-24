@@ -34,10 +34,10 @@ public:
     int field_10C;
     int field_110;
     int field_114_count;
-    __int16 field_118_x_offset;
-    __int16 field_11A_width_offset;
-    __int16 field_11C_y_offset;
-    __int16 field_11E_height_offset;
+    s16 field_118_x_offset;
+    s16 field_11A_width_offset;
+    s16 field_11C_y_offset;
+    s16 field_11E_height_offset;
     PathLine* field_120_pCollisionLine;
     Map* field_124_pMap;
     int field_128_tlvInfo;

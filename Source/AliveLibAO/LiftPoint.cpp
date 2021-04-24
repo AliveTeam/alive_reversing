@@ -245,7 +245,7 @@ void LiftPoint::Move_435740(FP xSpeed, FP ySpeed, int /*not_used*/)
 }
 
 
-void LiftPoint::StayOnFloor(__int16 floor, Path_LiftPoint* pLiftTlv)
+void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
 {
     if (!floor)
     {
@@ -590,9 +590,9 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
             {
                 BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-                __int16 liftWheelR = field_C0_r;
-                __int16 liftWheelG = field_C2_g;
-                __int16 liftWheelB = field_C4_b;
+                s16 liftWheelR = field_C0_r;
+                s16 liftWheelG = field_C2_g;
+                s16 liftWheelB = field_C4_b;
 
                 PSX_RECT boundingRect = {};
                 VGetBoundingRect(&boundingRect, 1);
@@ -643,9 +643,9 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
                         pulley_ypos,
                         0))
                     {
-                        __int16 r = field_C0_r;
-                        __int16 g = field_C2_g;
-                        __int16 b = field_C4_b;
+                        s16 r = field_C0_r;
+                        s16 g = field_C2_g;
+                        s16 b = field_C4_b;
 
                         ShadowZone::ShadowZones_Calculate_Colour_435FF0(
                             field_26C_pulley_xpos,

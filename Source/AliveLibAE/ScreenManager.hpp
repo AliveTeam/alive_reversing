@@ -53,7 +53,7 @@ public:
     EXPORT void InvalidateRect_Layer3_40EDB0(int x, int y, signed int width, signed int height);
     EXPORT void InvalidateRect_40EC50(int x, int y, signed int width, signed int height, int idx);
 
-    EXPORT __int16 IsDirty_40EBC0(int idx, int x, int y);
+    EXPORT s16 IsDirty_40EBC0(int idx, int x, int y);
     EXPORT void UnsetDirtyBits_40EDE0(int idx);
     EXPORT void UnsetDirtyBits_FG1_40ED70();
 
@@ -92,10 +92,10 @@ public:
     int field_28_padding;
     u16 field_2C_upos;
     u16 field_2E_vpos;
-    __int16 field_30_cam_width;
-    __int16 field_32_cam_height;
+    s16 field_30_cam_width;
+    s16 field_32_cam_height;
     int field_34_padding;
-    __int16 field_38_padding;
+    s16 field_38_padding;
     u16 field_3A_idx;
     u16 field_3C_y_idx;
     u16 field_3E_x_idx;
@@ -113,7 +113,7 @@ public:
 
     signed int g_left7_array = 0;
     int g_right25_array = 0;
-    unsigned short int* g_pointer_to_vlc_buffer = nullptr;
+    u16* g_pointer_to_vlc_buffer = nullptr;
 };
 //ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);
 

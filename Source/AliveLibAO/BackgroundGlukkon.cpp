@@ -86,12 +86,12 @@ void BackgroundGlukkon::VScreenChanged_41E0E0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-__int16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
+s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_41DF80(pFrom);
 }
 
-__int16 BackgroundGlukkon::VTakeDamage_41DF80(BaseGameObject* pFrom)
+s16 BackgroundGlukkon::VTakeDamage_41DF80(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {

@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "stdlib.hpp"
 
-const __int16 xPositionDeltaEntries_560408[39] =
+const s16 xPositionDeltaEntries_560408[39] =
 {
     1,
     0,
@@ -52,7 +52,7 @@ const __int16 xPositionDeltaEntries_560408[39] =
 };
 
 
-const __int16 zVerts[8] =
+const s16 zVerts[8] =
 {
     -4,
     -4,
@@ -201,12 +201,12 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
 {
     PSX_RECT rectToInvalidate = {};
     FP_Point* pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
-    const __int16 bufIdx = gPsxDisplay_5C1130.field_C_buffer_index;
+    const s16 bufIdx = gPsxDisplay_5C1130.field_C_buffer_index;
 
     if (field_1E4_state == SnoozeParticleState::BlowingUp_2)
     {
-        const __int16 xInScreen = FP_GetExponent(field_28_x - pCamPos->field_0_x);
-        const __int16 yInScreen = FP_GetExponent(field_2C_y - pCamPos->field_4_y);
+        const s16 xInScreen = FP_GetExponent(field_28_x - pCamPos->field_0_x);
+        const s16 yInScreen = FP_GetExponent(field_2C_y - pCamPos->field_4_y);
 
         for (int i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
@@ -218,12 +218,12 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
             const int scaledLineRelativeEndX = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_0_x) * field_38_scale);
             const int scaledLineRelativeEndY = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_2_y) * field_38_scale);
             SetXY0(pZExplosionLine,
-                static_cast<__int16>(PsxToPCX(xInScreen + scaledLineRelativeStartX, 11)),
-                static_cast<__int16>(yInScreen + scaledLineRelativeStartY)
+                static_cast<s16>(PsxToPCX(xInScreen + scaledLineRelativeStartX, 11)),
+                static_cast<s16>(yInScreen + scaledLineRelativeStartY)
             );
             SetXY1(pZExplosionLine,
-                static_cast<__int16>(PsxToPCX(xInScreen + scaledLineRelativeEndX, 11)),
-                static_cast<__int16>(yInScreen + scaledLineRelativeEndY)
+                static_cast<s16>(PsxToPCX(xInScreen + scaledLineRelativeEndX, 11)),
+                static_cast<s16>(yInScreen + scaledLineRelativeEndY)
             );
 
             SetRGB0(pZExplosionLine,
@@ -240,37 +240,37 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
             Poly_Set_SemiTrans_4F8A60(&pZExplosionLine->mBase.header, 1);
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &pZExplosionLine->mBase.header);
         }
-        rectToInvalidate.x = static_cast<__int16>(PsxToPCX(xInScreen - 8, 0));
-        rectToInvalidate.w = static_cast<__int16>(PsxToPCX(xInScreen + 8, 0));
-        rectToInvalidate.y = static_cast<__int16>(yInScreen - 8);
-        rectToInvalidate.h = static_cast<__int16>(yInScreen + 8);
+        rectToInvalidate.x = static_cast<s16>(PsxToPCX(xInScreen - 8, 0));
+        rectToInvalidate.w = static_cast<s16>(PsxToPCX(xInScreen + 8, 0));
+        rectToInvalidate.y = static_cast<s16>(yInScreen - 8);
+        rectToInvalidate.h = static_cast<s16>(yInScreen + 8);
     }
     else
     {
         Line_G4* pZLine = &field_4C_G4_lines[bufIdx];
         LineG4_Init(pZLine);
 
-        const __int16 xInScreen = FP_GetExponent(field_28_x - FP_FromInteger(FP_GetExponent(pCamPos->field_0_x)));
-        const __int16 yInScreen = FP_GetExponent(field_2C_y - FP_FromInteger(FP_GetExponent(pCamPos->field_4_y)));
+        const s16 xInScreen = FP_GetExponent(field_28_x - FP_FromInteger(FP_GetExponent(pCamPos->field_0_x)));
+        const s16 yInScreen = FP_GetExponent(field_2C_y - FP_FromInteger(FP_GetExponent(pCamPos->field_4_y)));
 
-        const __int16 RectX_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[0]) * field_38_scale);
-        const __int16 RectW_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * field_38_scale);
+        const s16 RectX_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[0]) * field_38_scale);
+        const s16 RectW_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * field_38_scale);
 
-        const __int16 rectX_v = PsxToPCX(RectX_v_Psx, 11);
-        const __int16 rectY_v = FP_GetExponent(FP_FromInteger(zVerts[1]) * field_38_scale) + yInScreen;
-        const __int16 rectW_v = PsxToPCX(RectW_v_Psx, 11);
-        const __int16 rectH_v = yInScreen + FP_GetExponent(FP_FromInteger(zVerts[7]) * field_38_scale);
+        const s16 rectX_v = PsxToPCX(RectX_v_Psx, 11);
+        const s16 rectY_v = FP_GetExponent(FP_FromInteger(zVerts[1]) * field_38_scale) + yInScreen;
+        const s16 rectW_v = PsxToPCX(RectW_v_Psx, 11);
+        const s16 rectH_v = yInScreen + FP_GetExponent(FP_FromInteger(zVerts[7]) * field_38_scale);
 
         SetXY0(pZLine,
             rectX_v,
             rectY_v
         );
         SetXY1(pZLine,
-            static_cast<__int16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[2]) * field_38_scale), 11)),
+            static_cast<s16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[2]) * field_38_scale), 11)),
             yInScreen + FP_GetExponent(FP_FromInteger(zVerts[3]) * field_38_scale)
         );
         SetXY2(pZLine,
-            static_cast<__int16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[4]) * field_38_scale), 11)),
+            static_cast<s16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[4]) * field_38_scale), 11)),
             yInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * field_38_scale)
         );
         SetXY3(pZLine,

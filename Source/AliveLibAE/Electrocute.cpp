@@ -12,7 +12,7 @@
 class PalleteOverwriter : public BaseGameObject
 {
 public:
-    EXPORT PalleteOverwriter* ctor_4228D0(PSX_Point palXY, __int16 palDepth, __int16 colour)
+    EXPORT PalleteOverwriter* ctor_4228D0(PSX_Point palXY, s16 palDepth, s16 colour)
     {
         BaseGameObject_ctor_4DBFA0(FALSE, 0);
 
@@ -123,12 +123,12 @@ private:
     short field_24_pal_colours_count;
     // pad
     int field_28_not_used[36]; // TODO: Probably something used in PSX but not PC?
-    __int16 field_B8_palBuffer[8];
-    __int16 field_C8_pal_x_index;
-    __int16 field_CA_pal_w;
-    __int16 field_CC_bFirstUpdate;
+    s16 field_B8_palBuffer[8];
+    s16 field_C8_pal_x_index;
+    s16 field_CA_pal_w;
+    s16 field_CC_bFirstUpdate;
 public:
-    __int16 field_CE_bDone;
+    s16 field_CE_bDone;
 };
 ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xD0);
 
@@ -157,7 +157,7 @@ int Electrocute::VSub_4E6630()
     return vSub_4E6630();
 }
 
-Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 bExtraOverwriter, __int16 bKillTarget)
+Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter, s16 bKillTarget)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
 

@@ -88,7 +88,7 @@ EXPORT void LvlArchive::OpenArchive_41BC60(int pos)
     OpenArchive(nullptr, pos);
 }
 
-EXPORT __int16 LvlArchive::Free_41BEB0()
+EXPORT s16 LvlArchive::Free_41BEB0()
 {
     if (field_0_0x2800_res)
     {
@@ -123,7 +123,7 @@ EXPORT LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const char* pFileName)
     return nullptr;
 }
 
-EXPORT __int16 LvlArchive::Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer)
+EXPORT s16 LvlArchive::Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer)
 {
     if (!pFileRec || !pBuffer)
     {
@@ -133,7 +133,7 @@ EXPORT __int16 LvlArchive::Read_File_41BE40(const LvlFileRecord* pFileRec, void*
     CdlLOC loc = {};
     PSX_Pos_To_CdLoc_49B340(pFileRec->field_C_start_sector + field_4_cd_pos, &loc);
     PSX_CD_File_Seek_49B670(2, &loc);
-    __int16 ret = static_cast<short>(PSX_CD_File_Read_49B8B0(pFileRec->field_10_num_sectors, pBuffer));
+    s16 ret = static_cast<short>(PSX_CD_File_Read_49B8B0(pFileRec->field_10_num_sectors, pBuffer));
     if (PSX_CD_FileIOWait_49B900(0) == -1)
     {
         ret = 0;

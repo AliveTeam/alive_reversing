@@ -9,22 +9,22 @@
 struct Path_LaughingGas_Data
 {
     Choice_short field_0_bLaughing_gas;
-    __int16 field_2_laughing_gas_id;
-    __int16 field_4_red_percent;
-    __int16 field_6_blue_percent;
-    __int16 field_8_green_percent;
-    __int16 field_A_padding;
+    s16 field_2_laughing_gas_id;
+    s16 field_4_red_percent;
+    s16 field_6_blue_percent;
+    s16 field_8_green_percent;
+    s16 field_A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas_Data, 0xC);
 
 struct Path_LaughingGas : public Path_TLV
 {
     Choice_short field_10_bLaughing_gas;
-    __int16 field_12_laughing_gas_id;
-    __int16 field_14_red_percent;
-    __int16 field_16_green_percent;
-    __int16 field_18_blue_percent;
-    __int16 field_1A_padding;
+    s16 field_12_laughing_gas_id;
+    s16 field_14_red_percent;
+    s16 field_16_green_percent;
+    s16 field_18_blue_percent;
+    s16 field_1A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas, 0x1C);
 
@@ -55,7 +55,7 @@ private:
 
     EXPORT void DoRender_432740();
 
-    EXPORT __int16 CounterOver_432DA0();
+    EXPORT s16 CounterOver_432DA0();
 
     EXPORT void vUpdate_432C40();
 
@@ -66,12 +66,12 @@ private:
 private:
     int field_20_padding;
     int field_24_tlvInfo;
-    __int16 field_28_y;
-    __int16 field_2A_x;
-    __int16 field_2C_h;
-    __int16 field_2E_w;
+    s16 field_28_y;
+    s16 field_2A_x;
+    s16 field_2C_h;
+    s16 field_2E_w;
     int field_30_padding;
-    __int16 field_34_bEnabled;
+    s16 field_34_bEnabled;
     Choice_short field_36_bLaughing_gas;
     int field_38_padding;
     int field_3C_padding;
@@ -80,7 +80,7 @@ private:
     Path_LaughingGas_Data field_48_tlv_data;
     FP field_54_amount_on;
     Layer field_58_layer;
-    __int16 field_5A_padding;
+    s16 field_5A_padding;
 
     Prim_GasEffect field_5C_prim;
 

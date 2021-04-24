@@ -25,7 +25,7 @@ EXPORT int CC PSX_VSync_496620(int mode)
     return PSX_VSync_4F6170(mode);
 }
 
-EXPORT void CC PSX_SetDefDrawEnv_495EF0(PSX_DRAWENV* pDrawEnv, __int16 x, __int16 y, __int16 w, __int16 h)
+EXPORT void CC PSX_SetDefDrawEnv_495EF0(PSX_DRAWENV* pDrawEnv, s16 x, s16 y, s16 w, s16 h)
 {
     PSX_SetDefDrawEnv_4F5AA0(pDrawEnv, x, y, w, h);
 }
@@ -35,7 +35,7 @@ EXPORT void CC PSX_PutDrawEnv_495DD0(const PSX_DRAWENV* pDrawEnv)
     PSX_PutDrawEnv_4F5980(pDrawEnv);
 }
 
-EXPORT void CC PSX_SetDefDispEnv_4959D0(PSX_DISPENV* pOutEnv, __int16 x, __int16 y, __int16 w, __int16 h)
+EXPORT void CC PSX_SetDefDispEnv_4959D0(PSX_DISPENV* pOutEnv, s16 x, s16 y, s16 w, s16 h)
 {
     PSX_SetDefDispEnv_4F55A0(pOutEnv, x, y, w, h);
 }

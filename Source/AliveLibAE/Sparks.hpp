@@ -17,7 +17,7 @@ private:
     EXPORT Sparks* vdtor_416520(signed int flags);
 private:
     int field_F4_padding;
-    __int16 field_F8_padding;
-    __int16 field_FA_16_random;
+    s16 field_F8_padding;
+    s16 field_FA_16_random;
 };
 ALIVE_ASSERT_SIZEOF(Sparks, 0xFC);

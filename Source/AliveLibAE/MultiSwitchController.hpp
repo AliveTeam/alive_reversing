@@ -4,11 +4,11 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-enum class SwitchOp : __int16;
+enum class SwitchOp : s16;
 
 struct Path_MultiSwitchController : public Path_TLV
 {
-    __int16 field_10_id;
+    s16 field_10_id;
     SwitchOp field_12_operation;
     u16 field_14_delay;
     u16 field_16_id1;
@@ -17,7 +17,7 @@ struct Path_MultiSwitchController : public Path_TLV
     u16 field_1C_id4;
     u16 field_1E_id5;
     u16 field_20_id6;
-    __int16 field_22_pad;
+    s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MultiSwitchController, 0x24);
 
@@ -54,6 +54,6 @@ private:
         eBit1_is_on = 0x1,
     };
     BitField16<Flags_40> field_40_flags;
-    //__int16 field_42; // pad
+    //s16 field_42; // pad
 };
 ALIVE_ASSERT_SIZEOF(MultiSwitchController, 0x44);

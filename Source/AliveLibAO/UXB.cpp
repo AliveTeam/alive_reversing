@@ -270,12 +270,12 @@ void UXB::VScreenChanged_489BD0()
     }
 }
 
-__int16 UXB::VTakeDamage(BaseGameObject* pFrom)
+s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_489AB0(pFrom);
 }
 
-__int16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
+s16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -522,7 +522,7 @@ void UXB::VUpdate_489380()
     }
 }
 
-__int16 UXB::IsColliding_489900()
+s16 UXB::IsColliding_489900()
 {
     PSX_RECT uxbBound = {};
     VGetBoundingRect(&uxbBound, 1);

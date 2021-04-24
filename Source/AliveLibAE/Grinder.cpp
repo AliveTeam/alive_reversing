@@ -724,7 +724,7 @@ void Grinder::EmitSparks_4206D0()
     }
 }
 
-__int16 Grinder::DamageTouchingObjects_421060()
+s16 Grinder::DamageTouchingObjects_421060()
 {
     PSX_RECT grinderRect = {};
     vGetBoundingRect_424FD0(&grinderRect, 1);

@@ -19,7 +19,7 @@ struct ZapPoint
 };
 ALIVE_ASSERT_SIZEOF(ZapPoint, 0xC);
 
-enum class ZapLineType : __int16
+enum class ZapLineType : s16
 {
     eThick_0 = 0, // Used by Chant Suppressors and Greeters.
     eThin_1 = 1   // Used by the Shrykull.
@@ -28,7 +28,7 @@ enum class ZapLineType : __int16
 class ZapLine : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ZapLine* ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, __int16 aliveTime, ZapLineType type, Layer layer);
+    EXPORT ZapLine* ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s16 aliveTime, ZapLineType type, Layer layer);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
@@ -44,14 +44,14 @@ private:
     EXPORT void CalculateThickSpriteSegmentPositions_4CCD50();
     EXPORT void CalculateThinSpriteSegmentPositions_4CD110();
     EXPORT void CalculateZapPoints_4CD340();
-    EXPORT void CalculateSpritePositionsInner_4CD400(int idx1, int idx2, int idx3, __int16 idx4);
+    EXPORT void CalculateSpritePositionsInner_4CD400(int idx1, int idx2, int idx3, s16 idx4);
     EXPORT void UpdateSpriteVertexPositions_4CD650();
     EXPORT void CalculateSpritePositionsOuter_4CD5D0();
     EXPORT void vUpdate_4CD790();
     EXPORT void vRender_4CD8C0(PrimHeader** ppOt);
 
 private:
-    enum class ZapLineState : __int16
+    enum class ZapLineState : s16
     {
         eInit_0 = 0,
         eInitSpritePositions_1 = 1,
@@ -61,23 +61,23 @@ private:
     };
 
     ZapLineState field_F4_state;
-    __int16 field_F6_padding;
+    s16 field_F6_padding;
     BYTE** field_F8_ppRes;
     Prim_SetTPage field_FC_tPage_p8[2];
-    __int16 field_11C_x_position_source;
-    __int16 field_11E_y_position_source;
-    __int16 field_120_x_position_destination;
-    __int16 field_122_y_position_destination;
+    s16 field_11C_x_position_source;
+    s16 field_11E_y_position_source;
+    s16 field_120_x_position_destination;
+    s16 field_122_y_position_destination;
     TPageMode field_124_tPageMode;
     // pad
-    __int16 field_126_alive_timer;
-    __int16 field_128_max_alive_time;
+    s16 field_126_alive_timer;
+    s16 field_128_max_alive_time;
     ZapLineType field_12A_type;
     TPageAbr field_12C_tPageAbr;
     // pad
-    __int16 field_12E_number_of_segments;
-    __int16 field_130_number_of_pieces_per_segment;
-    __int16 field_132_number_of_sprites;
+    s16 field_12E_number_of_segments;
+    s16 field_130_number_of_pieces_per_segment;
+    s16 field_132_number_of_sprites;
     ZapLineSprites* field_134_pSprites;
     PSX_Point* field_138_sprite_positions;
     ZapPoint* field_13C_zap_points;

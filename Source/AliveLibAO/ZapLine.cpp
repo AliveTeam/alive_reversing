@@ -28,7 +28,7 @@ BaseGameObject* ZapLine::dtor_478E90()
     return dtor_417D10();
 }
 
-ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, ZapLineType type, Layer layer)
+ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLineType type, Layer layer)
 {
     ctor_417C10();
     SetVTable(this, 0x4BCDE8);
@@ -150,8 +150,8 @@ void ZapLine::CalculateSourceAndDestinationPositions_478CF0(FP xPosSource, FP yP
     field_10C_x_position_source = PsxToPCX(field_10C_x_position_source, 11);
     field_110_x_position_destination = PsxToPCX(field_110_x_position_destination, 11);
 
-    __int16 xOff = 0;
-    __int16 yOff = 0;
+    s16 xOff = 0;
+    s16 yOff = 0;
     field_10_anim.Get_Frame_Offset_403EE0(&xOff, &yOff);
 
     field_10C_x_position_source = FP_GetExponent(FP_FromInteger(xOff) + FP_FromInteger(field_10C_x_position_source));
@@ -456,7 +456,7 @@ void ZapLine::UpdateSpriteVertexPositions_4795B0()
     }
 }
 
-void ZapLine::CalculateSpritePositionsInner_479400(int idx1, int idx2, int idx3, __int16 idx4)
+void ZapLine::CalculateSpritePositionsInner_479400(int idx1, int idx2, int idx3, s16 idx4)
 {
     const FP x1 = field_130_sprite_segment_positions[idx1].field_0_x;
     const FP y1 = field_130_sprite_segment_positions[idx1].field_4_y;

@@ -45,7 +45,7 @@ BaseGameObject* AbilityRing::dtor_455E50()
     return dtor_487DF0();
 }
 
-AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
+AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BC090);
@@ -204,7 +204,7 @@ BaseGameObject* AbilityRing::Vdtor_456940(signed int flags)
     return this;
 }
 
-AbilityRing* CC AbilityRing::Factory_447590(FP xpos, FP ypos, __int16 type)
+AbilityRing* CC AbilityRing::Factory_447590(FP xpos, FP ypos, s16 type)
 {
     auto pAbilityRing = ao_new<AbilityRing>();
     if (pAbilityRing)

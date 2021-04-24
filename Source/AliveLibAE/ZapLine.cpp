@@ -7,7 +7,7 @@
 #include "PsxDisplay.hpp"
 #include "Game.hpp"
 
-EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, __int16 aliveTime, ZapLineType type, Layer layer)
+EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s16 aliveTime, ZapLineType type, Layer layer)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     field_12A_type = type;
@@ -150,8 +150,8 @@ void ZapLine::CalculateSourceAndDestinationPositions_4CCAD0(FP xPosSource, FP yP
     field_11C_x_position_source = PsxToPCX(field_11C_x_position_source, 11);
     field_120_x_position_destination = PsxToPCX(field_120_x_position_destination, 11);
 
-    __int16 xOff = 0;
-    __int16 yOff = 0;
+    s16 xOff = 0;
+    s16 yOff = 0;
     field_20_animation.Get_Frame_Offset_40C480(&xOff, &yOff);
 
     field_11C_x_position_source = FP_GetExponent(FP_FromInteger(xOff) + FP_FromInteger(field_11C_x_position_source));
@@ -282,7 +282,7 @@ void ZapLine::CalculateZapPoints_4CD340()
     }
 }
 
-void ZapLine::CalculateSpritePositionsInner_4CD400(int idx1, int idx2, int idx3, __int16 idx4)
+void ZapLine::CalculateSpritePositionsInner_4CD400(int idx1, int idx2, int idx3, s16 idx4)
 {
     const FP x1 = field_140_sprite_segment_positions[idx1].field_0_x;
     const FP y1 = field_140_sprite_segment_positions[idx1].field_4_y;

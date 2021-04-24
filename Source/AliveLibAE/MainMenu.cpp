@@ -30,9 +30,9 @@
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
 ALIVE_VAR(1, 0xbb4400, int, sMainMenuObjectCounter_BB4400, 0);
-ALIVE_VAR(1, 0x5c1b92, __int16, sMainMenuFontLoaded_5C1B92, 0);
+ALIVE_VAR(1, 0x5c1b92, s16, sMainMenuFontLoaded_5C1B92, 0);
 
-unsigned char pal_560F80[] =
+u8 pal_560F80[] =
 {
     0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90,
     0xA5, 0x94, 0xE7, 0x9C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29,
@@ -43,7 +43,7 @@ unsigned char pal_560F80[] =
 ALIVE_VAR(1, 0x5c1bee, char, sEnableCheatLevelSelect_5C1BEE, 0);
 ALIVE_VAR(1, 0x5c1bec, char, sEnableCheatFMV_5C1BEC, 0);
 
-ALIVE_VAR(1, 0x5c1b9e, __int16, sDemoIdChosenFromDemoMenu_5C1B9E, 0);
+ALIVE_VAR(1, 0x5c1b9e, s16, sDemoIdChosenFromDemoMenu_5C1B9E, 0);
 
 ALIVE_VAR(1, 0x561538, short, sMenuItemCount_561538, 0);
 ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerPath_5C1B50, {});
@@ -1126,7 +1126,7 @@ void MainMenuController::ParamiteSpeak_Load_4D3B70()
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
 
-static int DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const char* text, __int16 x, __int16 y, BYTE r, BYTE g, BYTE b, int& polyOffset)
+static int DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const char* text, s16 x, s16 y, BYTE r, BYTE g, BYTE b, int& polyOffset)
 {
     int polyOff = polyOffset;
     polyOff = field_120_font.DrawString_4337D0(
@@ -1256,9 +1256,9 @@ static void RenderScrollableTextEntries(
             int currEntryWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
 
             //Entry X alignment (of questionable quality) for long words
-            __int16 x = currEntryWidth >= 336 ? 16 : (368 - static_cast<__int16>(currEntryWidth)) / 2;
+            s16 x = currEntryWidth >= 336 ? 16 : (368 - static_cast<s16>(currEntryWidth)) / 2;
             //TextYPos is entry height?
-            __int16 y = FP_GetExponent(TextYPos + FP_FromDouble(0.5)) + static_cast<__int16>(26 * i) + 112;
+            s16 y = FP_GetExponent(TextYPos + FP_FromDouble(0.5)) + static_cast<s16>(26 * i) + 112;
             if (i)
             {
                 //Draw non-highlighted entry
@@ -2116,7 +2116,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(DWORD)
 
     if (field_23C_T80.Get(Flags::eBit18_Loading))
     {
-        __int16 demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
+        s16 demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
         if (!gIsDemoStartedManually_5C1B9C)
         {
             demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2;
@@ -3174,7 +3174,7 @@ int CCSTD MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
     return 0;
 }
 
-void MainMenuController::Set_Anim_4D05E0(__int16 a2, __int16 a3)
+void MainMenuController::Set_Anim_4D05E0(s16 a2, s16 a3)
 {
     if (a2 != this->field_220_frame_table_idx || sMainMenuFrameTable_561CC8[a2].field_8_anim_enum == a2)
     {
@@ -3720,7 +3720,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             {
                 if (field_228_res_idx > 0)
                 {
-                    const __int16 sound = sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound;
+                    const s16 sound = sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound;
                     if (sound != -1)
                     {
                         switch (sMainMenuFrameTable_561CC8[field_228_res_idx].field_4_menu_res_id)

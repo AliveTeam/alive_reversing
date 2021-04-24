@@ -7,7 +7,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-using TFrameCallBackType = int(CC *)(void *, __int16 *);
+using TFrameCallBackType = int(CC *)(void *, s16 *);
 
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_55EF98[5];
 extern TFrameCallBackType kSlig_Anim_Frame_Fns_55EFAC[4];
@@ -22,16 +22,16 @@ namespace AETest::TestsAnimation
 
 struct AnimHeader
 {
-    __int16 field_0_max_w;
-    __int16 field_2_max_h;
+    s16 field_0_max_w;
+    s16 field_2_max_h;
     int field_4_frame_table_offset;
 };
 ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
 
 struct Point
 {
-    __int16 x = 0;
-    __int16 y = 0;
+    s16 x = 0;
+    s16 y = 0;
 };
 
 
@@ -121,7 +121,7 @@ public:
     bool EnsureDecompressionBuffer();
     void DecompressFrame();
 
-    EXPORT virtual void vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, __int16 width, signed int height) override;
+    EXPORT virtual void vRender_40B820(int xpos, int ypos, PrimHeader** ppOt, s16 width, signed int height) override;
     EXPORT virtual void vCleanUp_40C630() override;
 
     EXPORT void vDecode2_40B200();
@@ -136,7 +136,7 @@ public:
     WORD field_12_scale; // padding?
     FP field_14_scale;
     DWORD field_18_frame_table_offset;
-    int(CC **field_1C_fn_ptr_array)(void *, __int16 *);
+    int(CC **field_1C_fn_ptr_array)(void *, s16 *);
     BYTE** field_20_ppBlock; // // pointer to a pointer which points to anim data
     BYTE** field_24_dbuf;
 
@@ -146,18 +146,18 @@ public:
     PSX_RECT field_84_vram_rect;
     PSX_Point field_8C_pal_vram_xy;
 
-    __int16 field_90_pal_depth;
-    __int16 field_92_current_frame;
+    s16 field_90_pal_depth;
+    s16 field_92_current_frame;
     BaseGameObject* field_94_pGameObj;
 
 public:
-    EXPORT void SetFrame_409D50(__int16 newFrame);
-    EXPORT FrameInfoHeader* Get_FrameHeader_40B730(__int16 frame);
+    EXPORT void SetFrame_409D50(s16 newFrame);
+    EXPORT FrameInfoHeader* Get_FrameHeader_40B730(s16 frame);
     EXPORT void Get_Frame_Rect_409E10(PSX_RECT *pRect);
     EXPORT WORD Get_Frame_Count_40AC70();
-    EXPORT s16 Init_40A030(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3);
-    EXPORT void Get_Frame_Offset_40C480(__int16* pBoundingX, __int16* pBoundingY);
-    EXPORT void Get_Frame_Width_Height_40C400(__int16* pWidth, __int16* pHeight);
+    EXPORT s16 Init_40A030(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 unknown1, signed int pal_depth, char unknown3);
+    EXPORT void Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY);
+    EXPORT void Get_Frame_Width_Height_40C400(s16* pWidth, s16* pHeight);
 
     EXPORT void Load_Pal_40A530(BYTE** pAnimData, int palOffset);
 };

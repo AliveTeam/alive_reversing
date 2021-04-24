@@ -326,7 +326,7 @@ void ResourceManager::ResourceManager_FileRecord::dtor_464EA0()
     field_10_file_sections_dArray.dtor_40CAD0();
 }
 
-void ResourceManager::LoadResource_464EE0(const char* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, __int16 bAddUseCount)
+void ResourceManager::LoadResource_464EE0(const char* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
 {
     BYTE** pLoadedRes = GetLoadedResource_49C2A0(type, resourceID, 1, 0);
     if (pLoadedRes)
@@ -413,7 +413,7 @@ void ResourceManager::LoadResource_464EE0(const char* pFileItem, DWORD type, DWO
     field_20_files_pending_loading.Push_Back(pNewFileRec);
 }
 
-void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, ResourceManager::ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, __int16 addUseCount)
+void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, ResourceManager::ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, s16 addUseCount)
 {
     // Already loaded flag ??
     if (!(pTypeAndIdList->field_0_count & ~0x80000000))
@@ -503,7 +503,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
     }
 }
 
-void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* pCam2, ResourceManager::TLoaderFn pFn, __int16 bAddUseCount)
+void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* pCam2, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
 {
     auto pFileRecord = ae_new<ResourceManager_FileRecord>();
     if (pFileRecord)
@@ -533,7 +533,7 @@ void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam
     field_20_files_pending_loading.Push_Back(pFileRecord);
 }
 
-void ResourceManager::LoadingLoop_465590(__int16 bShowLoadingIcon)
+void ResourceManager::LoadingLoop_465590(s16 bShowLoadingIcon)
 {
     while (!field_20_files_pending_loading.IsEmpty())
     {
@@ -553,7 +553,7 @@ void ResourceManager::Shutdown_465610()
 {
     // Clear out every file in the files array
     auto pFilesArray = &field_20_files_pending_loading;
-    __int16 fileIdx = 0;
+    s16 fileIdx = 0;
     DynamicArrayIter iter;
     iter.field_0_pDynamicArray = pFilesArray;
     iter.field_4_idx = 0;
@@ -568,7 +568,7 @@ void ResourceManager::Shutdown_465610()
         }
 
         auto pFileSectionsArray = &pFileRec->field_10_file_sections_dArray;
-        __int16 fileSectionIdx = 0;
+        s16 fileSectionIdx = 0;
         DynamicArrayIter fileSectionsIter;
         fileSectionsIter.field_0_pDynamicArray = &pFileRec->field_10_file_sections_dArray;
         fileSectionsIter.field_4_idx = 0;
@@ -1143,7 +1143,7 @@ void CC ResourceManager::Decrement_Pending_Count_49C610()
     --sResources_Pending_Loading_AB49F4;
 }
 
-void CC ResourceManager::Set_Header_Flags_49C650(BYTE** ppRes, __int16 flags)
+void CC ResourceManager::Set_Header_Flags_49C650(BYTE** ppRes, s16 flags)
 {
     Get_Header_49C410(ppRes)->field_6_flags |= flags;
 }

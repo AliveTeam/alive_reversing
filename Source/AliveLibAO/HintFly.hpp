@@ -12,8 +12,8 @@ struct HintFlyParticle;
 
 struct Path_HintFly : public Path_TLV
 {
-    __int16 field_18_message_id;
-    __int16 field_1A_pad;
+    s16 field_18_message_id;
+    s16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_HintFly, 0x1C);
 
@@ -54,7 +54,7 @@ public:
     TPageMode field_110_bitMode;
     // pad
 
-    enum class State : __int16
+    enum class State : s16
     {
         eState_0 = 0,
         eIdleWaitForChanting_1 = 1,
@@ -65,14 +65,14 @@ public:
         eState_6 = 6,
     };
     State field_112_state;
-    __int16 field_114_xScreen;
-    __int16 field_116_yScreen;
-    __int16 field_118_counter;
-    __int16 field_11A_msg_len;
-    __int16 field_11C_message_id;
-    __int16 field_11E_msg_idx;
-    __int16 field_120_idx;
-    __int16 field_122_target_count;
+    s16 field_114_xScreen;
+    s16 field_116_yScreen;
+    s16 field_118_counter;
+    s16 field_11A_msg_len;
+    s16 field_11C_message_id;
+    s16 field_11E_msg_idx;
+    s16 field_120_idx;
+    s16 field_122_target_count;
     int field_124_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(HintFly, 0x128);

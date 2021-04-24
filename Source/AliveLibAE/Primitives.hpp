@@ -44,5 +44,5 @@ enum class TPageAbr : char
 
 
 EXPORT void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage);
-EXPORT int CC PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, int x, __int16 y);
+EXPORT int CC PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, int x, s16 y);
 EXPORT int CC PSX_getClut_4F6350(int x, int y);

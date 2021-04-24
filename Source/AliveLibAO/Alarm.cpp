@@ -16,7 +16,7 @@ void Alarm_ForceLink() { }
 
 ALIVE_VAR(1, 0x5076A8, short, alarmInstanceCount_5076A8, 0);
 
-EXPORT Alarm* Alarm::ctor_402570(__int16 duration_timer, __int16 switchId, __int16 timer, Layer layer)
+EXPORT Alarm* Alarm::ctor_402570(s16 duration_timer, s16 switchId, s16 timer, Layer layer)
 {
     ctor_461550(layer, TPageAbr::eBlend_1);
 

@@ -31,8 +31,8 @@ public:
     EXPORT void Update_421C70();
 
 public:
-    __int16 field_20;
-    __int16 field_22;
+    s16 field_20;
+    s16 field_22;
     int field_24;
     int field_28;
     int field_2C;

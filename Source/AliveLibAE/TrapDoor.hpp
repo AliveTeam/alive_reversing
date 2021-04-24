@@ -6,18 +6,18 @@
 
 struct Path_TrapDoor : public Path_TLV
 {
-    __int16 field_10_id;
-    __int16 field_12_start_state;
+    s16 field_10_id;
+    s16 field_12_start_state;
     Choice_short field_14_self_closing;
     Scale_short field_16_scale;
-    __int16 field_18_dest_level;
+    s16 field_18_dest_level;
     XDirection_short field_1A_direction;
-    __int16 field_1C_xOff;
-    __int16 field_1E_stay_open_time;
+    s16 field_1C_xOff;
+    s16 field_1E_stay_open_time;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x20);
 
-enum class TrapDoorState : __int16
+enum class TrapDoorState : s16
 {
     eClosed_0 = 0,
     eOpening_1 = 1,
@@ -70,14 +70,14 @@ private:
     EXPORT void dtor_4DD8D0();
 
 private:
-    __int16 field_12C_unused;
-    __int16 field_12E_padding;
+    s16 field_12C_unused;
+    s16 field_12E_padding;
     int field_130_stay_open_time2;
-    __int16 field_134_switch_idx;
+    s16 field_134_switch_idx;
     TrapDoorState field_136_state;
-    __int16 field_138_switch_state;
-    __int16 field_13A_xOff;
-    __int16 field_13C_stay_open_time;
+    s16 field_138_switch_state;
+    s16 field_13A_xOff;
+    s16 field_13C_stay_open_time;
     Choice_short field_13E_self_closing;
     FP field_140_x;
     FP field_144_y;

@@ -8,19 +8,19 @@ namespace AO {
 
 class BaseAliveGameObject;
 
-enum class BulletType : __int16
+enum class BulletType : s16
 {
     ePossessedSlig_0 = 0,
     eNormalBullet_1 = 1,
     eZBullet_2 = 2
 };
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 class Bullet : public BaseGameObject
 {
 public:
-    EXPORT Bullet* ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, __int16 a9);
+    EXPORT Bullet* ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, s16 a9);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
@@ -34,18 +34,18 @@ public:
     static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
 
     BulletType field_10_type;
-    __int16 field_12;
+    s16 field_12;
     PathLine* field_14_pLine;
     FP field_18_xpos;
     FP field_1C_ypos;
     FP field_20;
     int field_24;
     LevelIds field_28_level;
-    __int16 field_2A_path;
+    s16 field_2A_path;
     FP field_2C_scale;
     BaseAliveGameObject* field_30_pParent;
-    __int16 field_34;
-    __int16 field_36;
+    s16 field_34;
+    s16 field_36;
 };
 ALIVE_ASSERT_SIZEOF(Bullet, 0x38);
 

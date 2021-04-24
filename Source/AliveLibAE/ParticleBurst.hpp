@@ -5,7 +5,7 @@
 
 struct ParticleBurst_Item;
 
-enum class BurstType : __int16
+enum class BurstType : s16
 {
     eFallingRocks_0 = 0,
     eSticks_1 = 1,
@@ -34,10 +34,10 @@ private:
 private:
     BYTE** field_F4_ppRes;
     ParticleBurst_Item* field_F8_pRes;
-    __int16 field_FC_number_of_particles;
-    __int16 field_FE_padding;
+    s16 field_FC_number_of_particles;
+    s16 field_FE_padding;
     int field_100_timer;
     BurstType field_104_type;
-    __int16 field_106_count;
+    s16 field_106_count;
 };
 ALIVE_ASSERT_SIZEOF(ParticleBurst, 0x108);

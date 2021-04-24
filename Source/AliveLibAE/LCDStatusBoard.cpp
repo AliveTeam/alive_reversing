@@ -13,7 +13,7 @@ void StatsSign_ForceLink()
 
 }
 
-unsigned char sStatsSignFontPalette_55CF8C[] =
+u8 sStatsSignFontPalette_55CF8C[] =
 {
     0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
     0x20, 0x84, 0x21, 0x84, 0x65, 0xCE, 0x65, 0x8C, 0x8C, 0xB1,
@@ -21,11 +21,11 @@ unsigned char sStatsSignFontPalette_55CF8C[] =
     0x18, 0xD8
 };
 
-__int16 sMudsInLevelCount_55CFAC[15] =
+s16 sMudsInLevelCount_55CFAC[15] =
 { 0, 75, 10, 5, 14, 26, 49, 14, 31, 90, 90, 5, 26, 49, 31 };
 
 
-ALIVE_VAR(1, 0x5C1BC4, __int16, sMudokonsInArea_5C1BC4, 0);
+ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
 ALIVE_VAR(1, 0x5C1A20, char, sStatsSignCurrentArea_5C1A20, 0);
 
 
@@ -73,7 +73,7 @@ LCDStatusBoard* LCDStatusBoard::ctor_47B600(Path_LCDStatusBoard* params, TlvItem
     field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<int>(params->field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
     field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<int>(params->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
-    field_108_is_hidden = static_cast<__int16 >(params->field_14_hidden);
+    field_108_is_hidden = static_cast<s16 >(params->field_14_hidden);
     sStatsSignCurrentArea_5C1A20 = static_cast<char>(params->field_12_zulag_number);
     return this;
 }
@@ -124,7 +124,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
         sprintf(text, "%3d", sMudsInLevelCount_55CFAC[static_cast<int>(gMap_5C3030.field_0_current_level)]);
         int maxWidth = field_90_font3.MeasureWidth_433700(text);
 
-        __int16 flickerAmount = 50; // ax
+        s16 flickerAmount = 50; // ax
         if (sDisableFontFlicker_5C9304)
         {
             flickerAmount = 0;
@@ -147,7 +147,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
             FP_FromDouble(1.0),
             field_104_position_x + maxWidth,
             flickerAmount);
-        const __int16 mudsLeftInArea = sMudokonsInArea_5C1BC4 - sSavedKilledMudsPerPath_5C1B50.mData[sStatsSignCurrentArea_5C1A20];
+        const s16 mudsLeftInArea = sMudokonsInArea_5C1BC4 - sSavedKilledMudsPerPath_5C1B50.mData[sStatsSignCurrentArea_5C1A20];
         field_10A_muds_left_in_area = mudsLeftInArea;
 
         // Muds in this Area

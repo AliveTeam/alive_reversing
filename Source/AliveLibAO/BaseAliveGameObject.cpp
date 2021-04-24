@@ -51,7 +51,7 @@ EXPORT int CC SnapToXGrid_41FAA0(FP scale, int x)
 }
 
 
-EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult)
+EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, s16 xMargin, WORD* pResult)
 {
     const FP v1 = xpos - FP_FromInteger(256);
 
@@ -88,7 +88,7 @@ EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pR
     return result;
 }
 
-EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, __int16 yMargin, WORD* pResult)
+EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, s16 yMargin, WORD* pResult)
 {
     const int yVal = (FP_GetExponent(ypos) - 120);
     const int yIdx = yVal / 240;
@@ -195,32 +195,32 @@ void BaseAliveGameObject::VPossessed()
     // Empty
 }
 
-void BaseAliveGameObject::VSetMotion(__int16 state)
+void BaseAliveGameObject::VSetMotion(s16 state)
 {
     VSetMotion_402520(state);
 }
 
-void BaseAliveGameObject::VSetXSpawn(__int16 camWorldX, int screenXPos)
+void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, int screenXPos)
 {
     VSetXSpawn_401150(camWorldX, screenXPos);
 }
 
-void BaseAliveGameObject::VSetYSpawn(int camWorldY, __int16 bLeft)
+void BaseAliveGameObject::VSetYSpawn(int camWorldY, s16 bLeft)
 {
     VSetYSpawn_401380(camWorldY, bLeft);
 }
 
-void BaseAliveGameObject::VOnPathTransition(__int16 camWorldX, int camWorldY, CameraPos direction)
+void BaseAliveGameObject::VOnPathTransition(s16 camWorldX, int camWorldY, CameraPos direction)
 {
     VOnPathTransition_401470(camWorldX, camWorldY, direction);
 }
 
-__int16 BaseAliveGameObject::VTakeDamage(BaseGameObject* pFrom)
+s16 BaseAliveGameObject::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_401920(pFrom);
 }
 
-__int16 BaseAliveGameObject::VTakeDamage_401920(BaseGameObject* /*pFrom*/)
+s16 BaseAliveGameObject::VTakeDamage_401920(BaseGameObject* /*pFrom*/)
 {
     // Defaults to no damage.
     return 0;
@@ -306,7 +306,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int distance)
     }
 }
 
-BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
+BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
 {
     for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
     {
@@ -364,7 +364,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
     return 0;
 }
 
-__int16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(__int16 direction, __int16 dist)
+s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
@@ -401,7 +401,7 @@ __int16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(__int16 direction, __int
         field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70) == 0;
 }
 
-void BaseAliveGameObject::VOnPathTransition_401470(__int16 camWorldX, int camWorldY, CameraPos direction)
+void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, int camWorldY, CameraPos direction)
 {
     const FP oldx = field_A8_xpos;
     const FP oldy = field_AC_ypos;
@@ -561,7 +561,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(__int16 camWorldX, int camWor
 }
 
 
-__int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
+s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
 {
     PSX_Point camCoords = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
@@ -734,7 +734,7 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
     return 1;
 }
 
-__int16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
+s16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions_DArray_504C6C->RayCast_40C410(
@@ -748,7 +748,7 @@ __int16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
         field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60) != 0;
 }
 
-__int16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely)
+s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely)
 {
     field_B8_vely += (field_BC_sprite_scale * vely);
 
@@ -779,7 +779,7 @@ void CC BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
     ppRes->field_104_pending_resource_count--;
 }
 
-void BaseAliveGameObject::VSetXSpawn_401150(__int16 camWorldX, int screenXPos)
+void BaseAliveGameObject::VSetXSpawn_401150(s16 camWorldX, int screenXPos)
 {
     const FP old_x = field_A8_xpos;
     const FP old_y = field_AC_ypos;
@@ -858,7 +858,7 @@ void BaseAliveGameObject::VSetXSpawn_401150(__int16 camWorldX, int screenXPos)
     }
 }
 
-void BaseAliveGameObject::VSetYSpawn_401380(int camWorldY, __int16 bLeft)
+void BaseAliveGameObject::VSetYSpawn_401380(int camWorldY, s16 bLeft)
 {
     const FP oldx = field_A8_xpos;
     const FP oldy = field_AC_ypos;
@@ -893,7 +893,7 @@ void BaseAliveGameObject::VSetYSpawn_401380(int camWorldY, __int16 bLeft)
     }
 }
 
-__int16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
+s16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
 {
     for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
     {
@@ -914,7 +914,7 @@ __int16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
     return 0;
 }
 
-void BaseAliveGameObject::VSetMotion_402520(__int16 state)
+void BaseAliveGameObject::VSetMotion_402520(s16 state)
 {
     field_108_bMotionChanged = TRUE;
     field_FC_current_motion = state;

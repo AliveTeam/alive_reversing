@@ -16,7 +16,7 @@ int CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const BYTE* pBuffer)
     return sizeof(SlapLockWhirlWind_State);
 }
 
-SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(__int16 doorNumber, __int16 switchId, FP xpos, FP ypos, FP scale)
+SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545208);
@@ -170,7 +170,7 @@ void SlapLockWhirlWind::vUpdate_43DA90()
     }
 }
 
-__int16 SlapLockWhirlWind::SwitchId() const
+s16 SlapLockWhirlWind::SwitchId() const
 {
     return field_44_switch_id;
 }

@@ -6,7 +6,7 @@
 struct MinesAlarm_State
 {
     AETypes field_0_type;
-    __int16 field_2_pad;
+    s16 field_2_pad;
     int field_4_timer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(MinesAlarm_State, 0x8);

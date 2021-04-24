@@ -12,7 +12,7 @@
 #include "FallingItem.hpp"
 
 ALIVE_VAR(1, 0x5BBF68, ExplosionSet*, pExplosionSet_5BBF68, nullptr);
-ALIVE_VAR(1, 0x5C1BB6, __int16, bEnabled_5C1BB6, FALSE);
+ALIVE_VAR(1, 0x5C1BB6, s16, bEnabled_5C1BB6, FALSE);
 
 ExplosionSet* ExplosionSet::ctor_414CA0()
 {
@@ -129,7 +129,7 @@ void ExplosionSet::vScreenChanged_415190()
 
 struct Point2
 {
-    signed char x, y;
+    s8 x, y;
 };
 
 const Point2 stru_550F38[12] =

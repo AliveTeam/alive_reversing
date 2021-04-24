@@ -10,11 +10,11 @@ namespace AO {
 struct Path_SecurityOrb : public Path_TLV
 {
     Scale_short field_18_scale;
-    __int16 field_1A_disable_resources;
+    s16 field_1A_disable_resources;
 };
 ALIVE_ASSERT_SIZEOF(Path_SecurityOrb, 0x1C);
 
-enum class SecurityOrbStates : __int16
+enum class SecurityOrbStates : s16
 {
     eIdle_0,
     eDoZapEffects_1,
@@ -41,7 +41,7 @@ private:
 public:
     int field_10C_tlvInfo;
     SecurityOrbStates field_110_state;
-    __int16 field_112_pad;
+    s16 field_112_pad;
     int field_114_timer;
     int field_118_sound_channels;
 };

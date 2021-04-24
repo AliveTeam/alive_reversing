@@ -276,7 +276,7 @@ static inline void GetBits(char& usedBitCount, u16*& rawBitStreamPtr, u32& rawWo
     }
 }
 
-static inline void OutputWordAndAdvance(u16*& rawBitStreamPtr, u32& rawWord4, unsigned short int*& pOut, char& usedBitCount, u32& workBits)
+static inline void OutputWordAndAdvance(u16*& rawBitStreamPtr, u32& rawWord4, u16*& pOut, char& usedBitCount, u32& workBits)
 {
     *pOut++ = workBits >> (32 - 16);
 
@@ -289,7 +289,7 @@ static inline void OutputWordAndAdvance(u16*& rawBitStreamPtr, u32& rawWord4, un
 #define MASK_13_BITS 0x1FFF
 #define MDEC_END 0xFE00u
 
-static int decode_bitstream(u16* pFrameData, unsigned short int* pOutput)
+static int decode_bitstream(u16* pFrameData, u16* pOutput)
 {
 
     u32 table_index_2 = 0;
@@ -1151,11 +1151,11 @@ int Masher::To1d(int x, int y)
     return y * 8 + x;
 }
 
-unsigned char Masher::Clamp(f32 v)
+u8 Masher::Clamp(f32 v)
 {
     if (v < 0.0f) v = 0.0f;
     if (v > 255.0f) v = 255.0f;
-    return (unsigned char)v;
+    return (u8)v;
 }
 
 void Masher::SetElement(int x, int y, int width, int height, u16* ptr, u16 value, bool doubleWidth, bool doubleHeight)

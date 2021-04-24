@@ -895,12 +895,12 @@ void Slig::VPossessed_465C80()
 }
 
 
-__int16 Slig::VTakeDamage(BaseGameObject* pFrom)
+s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_465640(pFrom);
 }
 
-__int16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
+s16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
 {
     switch (pFrom->field_4_typeId)
     {
@@ -1129,17 +1129,17 @@ void Slig::VOn_TLV_Collision_465CF0(Path_TLV* pTlv)
     }
 }
 
-__int16 Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return VIsFacingMe_4655B0(pOther);
 }
 
-__int16 Slig::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 Slig::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return VOnSameYLevel_46BD00(pOther);
 }
 
-__int16 Slig::VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 Slig::VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     PSX_RECT ourRect = {};
     PSX_RECT objRect = {};
@@ -1148,7 +1148,7 @@ __int16 Slig::VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* pOther)
     return ((objRect.y + objRect.h) / 2) <= ourRect.h && objRect.h >= ourRect.y;
 }
 
-__int16 Slig::VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pWho)
+s16 Slig::VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pWho)
 {
     if (field_FC_current_motion != eSligStates::State_5_TurnAroundStanding_469C80
         || field_10_anim.field_92_current_frame < 6)
@@ -1203,7 +1203,7 @@ void Slig::Vshot_465C30()
     SetBrain(&Slig::Brain_Death_46C3A0);
 }
 
-BYTE** Slig::ResBlockForMotion_4654D0(__int16 motion)
+BYTE** Slig::ResBlockForMotion_4654D0(s16 motion)
 {
     short new_idx = 0;
     if (motion < eSligStates::State_33_Sleeping_46A410)
@@ -1455,7 +1455,7 @@ inline PSX_RECT MakeMinMaxRect(FP x, FP y, FP w, FP h, bool flipToMaxMin = false
     }
 }
 
-__int16 Slig::FindBeatTarget_46D0E0(int /*typeToFind*/, int gridBlocks)
+s16 Slig::FindBeatTarget_46D0E0(int /*typeToFind*/, int gridBlocks)
 {
     const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
     const FP k2Scaled = FP_FromInteger(2) * kGridSize;
@@ -1498,7 +1498,7 @@ __int16 Slig::FindBeatTarget_46D0E0(int /*typeToFind*/, int gridBlocks)
     return 0;
 }
 
-__int16 Slig::HandleEnemyStopper_46BF30(int gridBlocks)
+s16 Slig::HandleEnemyStopper_46BF30(int gridBlocks)
 {
     int directedGirdBlocks = gridBlocks;
     auto bFacingLeft = IsFacingEffectiveLeft_46BD70(this);
@@ -1629,7 +1629,7 @@ void Slig::ToPanicTurn()
     SetBrain(&Slig::Brain_PanicTurning_46C7C0);
 }
 
-__int16 Slig::GetNextMotionIncGameSpeak_467700(u16 input)
+s16 Slig::GetNextMotionIncGameSpeak_467700(u16 input)
 {
     if (sControlledCharacter_50767C != this || field_100_health <= FP_FromInteger(0))
     {
@@ -1780,7 +1780,7 @@ BOOL CCSTD Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
     return pThis->field_10_anim.field_C_layer == Layer::eLayer_3 || pThis->field_10_anim.field_C_layer == Layer::eLayer_22;
 }
 
-__int16 CCSTD Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
+s16 CCSTD Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
 {
     if (((pThis->field_4_typeId == Types::eAbe_43) &&
         (pThis->field_FC_current_motion == eAbeStates::State_156_DoorEnter_42D370 &&
@@ -1793,7 +1793,7 @@ __int16 CCSTD Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
     return 0;
 }
 
-__int16 CCSTD Slig::IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight)
+s16 CCSTD Slig::IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight)
 {
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -1826,7 +1826,7 @@ void CC Slig::Slig_GameSpeak_SFX_46F560(SligSpeak effectId, int defaultVol, int 
     SFX_SfxDefinition_Play_4770F0(&sSligSounds2[static_cast<int>(effectId)], volume, pitch_min, pitch_min);
 }
 
-__int16 CCSTD Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 CCSTD Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     /* TODO: Not used in AE but might be possible to activate in AO
     if (gAbeInvisibleCheat_5076F8)
@@ -1875,7 +1875,7 @@ void Slig::ToStand()
     MapFollowMe_401D30(TRUE);
 }
 
-__int16 CCSTD Slig::IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 CCSTD Slig::IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     PSX_RECT bRect = {};
     pObj->VGetBoundingRect(&bRect, 1);
@@ -1899,7 +1899,7 @@ void Slig::CheckPlatformVanished()
 }
 
 
-__int16 Slig::MoveLift_4665E0(FP ySpeed)
+s16 Slig::MoveLift_4665E0(FP ySpeed)
 {
     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
 
@@ -3087,7 +3087,7 @@ void Slig::State_7_Falling_46A1A0()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    const __int16 bHit = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+    const s16 bHit = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
     SetActiveCameraDelayedFromDir_401C90();
     if (bHit)
     {
@@ -4140,7 +4140,7 @@ void Slig::State_52_Beat_46AA90()
     }
 }
 
-__int16 Slig::Brain_SpottedEnemy_465EB0()
+s16 Slig::Brain_SpottedEnemy_465EB0()
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_B2_lvl_number,
@@ -4193,7 +4193,7 @@ __int16 Slig::Brain_SpottedEnemy_465EB0()
     return 302;
 }
 
-__int16 Slig::Brain_Paused_466030()
+s16 Slig::Brain_Paused_466030()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
@@ -4281,7 +4281,7 @@ __int16 Slig::Brain_Paused_466030()
     return 1;
 }
 
-__int16 Slig::Brain_EnemyDead_466190()
+s16 Slig::Brain_EnemyDead_466190()
 {
     if (Event_Get_417250(4)
         && !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
@@ -4329,7 +4329,7 @@ __int16 Slig::Brain_EnemyDead_466190()
     return 113;
 }
 
-__int16 Slig::Brain_KilledEnemy_4662A0()
+s16 Slig::Brain_KilledEnemy_4662A0()
 {
     if (field_114_timer > static_cast<int>(gnFrameCount_507670))
     {
@@ -4344,7 +4344,7 @@ __int16 Slig::Brain_KilledEnemy_4662A0()
     return 114;
 }
 
-__int16 Slig::Brain_Unknown_46B250()
+s16 Slig::Brain_Unknown_46B250()
 {
     if (!VOnSameYLevel(sControlledCharacter_50767C)
         || !VIsFacingMe_4655B0(sControlledCharacter_50767C)
@@ -4446,7 +4446,7 @@ void Slig::WakeUp()
     }
 }
 
-void Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, unsigned __int8 ambianceId)
+void Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, u8 ambianceId)
 {
     if (!array.mArray[ambianceId].field_8_pScopedSeq)
     {
@@ -4458,7 +4458,7 @@ void Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, unsi
     }
 }
 
-__int16 Slig::Brain_Sleeping_46B4E0()
+s16 Slig::Brain_Sleeping_46B4E0()
 {
     const auto pEvent = static_cast<BaseAliveGameObject*>(Event_Get_417250(kEventNoise_0));
     if (pEvent)
@@ -4527,7 +4527,7 @@ __int16 Slig::Brain_Sleeping_46B4E0()
     return 102;
 }
 
-__int16 Slig::Brain_WakingUp_46B700()
+s16 Slig::Brain_WakingUp_46B700()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -4536,7 +4536,7 @@ __int16 Slig::Brain_WakingUp_46B700()
     return 0;
 }
 
-__int16 Slig::Brain_Inactive_46B780()
+s16 Slig::Brain_Inactive_46B780()
 {
     if (field_114_timer > static_cast<int>(gnFrameCount_507670))
     {
@@ -4568,7 +4568,7 @@ __int16 Slig::Brain_Inactive_46B780()
     return 103;
 }
 
-__int16 Slig::Brain_Possessed_46C190()
+s16 Slig::Brain_Possessed_46C190()
 {
     switch (field_10E_brain_state)
     {
@@ -4658,7 +4658,7 @@ __int16 Slig::Brain_Possessed_46C190()
     return field_10E_brain_state;
 }
 
-__int16 Slig::Brain_Death_46C3A0()
+s16 Slig::Brain_Death_46C3A0()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render) && field_114_timer < static_cast<int>(gnFrameCount_507670) + 30)
     {
@@ -4726,7 +4726,7 @@ __int16 Slig::Brain_Death_46C3A0()
     return 116;
 }
 
-__int16 Slig::Brain_DeathDropDeath_46C5A0()
+s16 Slig::Brain_DeathDropDeath_46C5A0()
 {
     switch (field_10E_brain_state)
     {
@@ -4784,7 +4784,7 @@ __int16 Slig::Brain_DeathDropDeath_46C5A0()
     }
 }
 
-__int16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
+s16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
 {
     if (sControlledCharacter_50767C == this)
     {
@@ -4802,7 +4802,7 @@ __int16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
     return 117;
 }
 
-__int16 Slig::Brain_PanicTurning_46C7C0()
+s16 Slig::Brain_PanicTurning_46C7C0()
 {
     if (Event_Get_417250(kEventDeathReset_4)
         && !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
@@ -4883,7 +4883,7 @@ __int16 Slig::Brain_PanicTurning_46C7C0()
     return 107;
 }
 
-__int16 Slig::Brain_PanicRunning_46CA20()
+s16 Slig::Brain_PanicRunning_46CA20()
 {
     if ((field_B4_velx > FP_FromInteger(4) &&
         (ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(4)) + field_A8_xpos >
@@ -4943,7 +4943,7 @@ __int16 Slig::Brain_PanicRunning_46CA20()
     return 109;
 }
 
-__int16 Slig::Brain_PanicYelling_46CC50()
+s16 Slig::Brain_PanicYelling_46CC50()
 {
     if (field_FC_current_motion == eSligStates::State_29_SpeakPanic_4681D0
         && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -4973,7 +4973,7 @@ __int16 Slig::Brain_PanicYelling_46CC50()
     return 115;
 }
 
-__int16 Slig::Brain_Chasing_46CD60()
+s16 Slig::Brain_Chasing_46CD60()
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_B2_lvl_number,
@@ -5026,7 +5026,7 @@ __int16 Slig::Brain_Chasing_46CD60()
     return 118;
 }
 
-__int16 Slig::Brain_StopChasing_46CF20()
+s16 Slig::Brain_StopChasing_46CF20()
 {
     if (field_114_timer > static_cast<int>(gnFrameCount_507670))
     {
@@ -5046,7 +5046,7 @@ __int16 Slig::Brain_StopChasing_46CF20()
     return 119;
 }
 
-__int16 Slig::Brain_StartChasing_46CF90()
+s16 Slig::Brain_StartChasing_46CF90()
 {
     if (field_114_timer > static_cast<int>(gnFrameCount_507670))
     {
@@ -5082,7 +5082,7 @@ __int16 Slig::Brain_StartChasing_46CF90()
     return 122;
 }
 
-__int16 Slig::Brain_Idle_46D6E0()
+s16 Slig::Brain_Idle_46D6E0()
 {
     if (Event_Get_417250(kEventAbeOhm_8) && !Event_Get_417250(kEventResetting_6))
     {
@@ -5242,7 +5242,7 @@ __int16 Slig::Brain_Idle_46D6E0()
     return 104;
 }
 
-__int16 Slig::Brain_Turning_46DC70()
+s16 Slig::Brain_Turning_46DC70()
 {
     if (Event_Get_417250(kEventDeathReset_4)
         && !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
@@ -5305,7 +5305,7 @@ __int16 Slig::Brain_Turning_46DC70()
     return 106;
 }
 
-__int16 Slig::Brain_Walking_46DE90()
+s16 Slig::Brain_Walking_46DE90()
 {
     if (dword_9F11BC)
     {
@@ -5475,7 +5475,7 @@ __int16 Slig::Brain_Walking_46DE90()
     }
 }
 
-__int16 Slig::Brain_GetAlertedTurn_46E520()
+s16 Slig::Brain_GetAlertedTurn_46E520()
 {
     if (field_FC_current_motion == eSligStates::State_5_TurnAroundStanding_469C80 &&
         field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -5550,7 +5550,7 @@ __int16 Slig::Brain_GetAlertedTurn_46E520()
     return 123;
 }
 
-__int16 Slig::Brain_GetAlerted_46E800()
+s16 Slig::Brain_GetAlerted_46E800()
 {
     if (field_114_timer == field_174_tlv.field_42_listen_time + static_cast<int>(gnFrameCount_507670) - 2 &&
         Math_RandomRange_450F20(0, 100) < field_174_tlv.field_44_percent_say_what)
@@ -5647,7 +5647,7 @@ __int16 Slig::Brain_GetAlerted_46E800()
     return 124;
 }
 
-__int16 Slig::Brain_StoppingNextToMudokon_46EBB0()
+s16 Slig::Brain_StoppingNextToMudokon_46EBB0()
 {
     if (field_FC_current_motion != eSligStates::State_0_StandIdle_467640)
     {
@@ -5683,7 +5683,7 @@ __int16 Slig::Brain_StoppingNextToMudokon_46EBB0()
     return 128;
 }
 
-__int16 Slig::Brain_BeatingUp_46EC40()
+s16 Slig::Brain_BeatingUp_46EC40()
 {
     if (field_FC_current_motion != eSligStates::State_0_StandIdle_467640 || field_114_timer >= static_cast<int>(gnFrameCount_507670))
     {
@@ -5712,7 +5712,7 @@ __int16 Slig::Brain_BeatingUp_46EC40()
     return 129;
 }
 
-__int16 Slig::Brain_Discussion_46ECE0()
+s16 Slig::Brain_Discussion_46ECE0()
 {
     if (field_FC_current_motion == eSligStates::State_0_StandIdle_467640 && field_114_timer == static_cast<int>(gnFrameCount_507670))
     {
@@ -5727,7 +5727,7 @@ __int16 Slig::Brain_Discussion_46ECE0()
     return 128;
 }
 
-__int16 Slig::Brain_GameEnder_46EEE0()
+s16 Slig::Brain_GameEnder_46EEE0()
 {
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
     {
@@ -5771,7 +5771,7 @@ __int16 Slig::Brain_GameEnder_46EEE0()
     }
 }
 
-__int16 Slig::Brain_Shooting_46EFD0()
+s16 Slig::Brain_Shooting_46EFD0()
 {
     if (field_FC_current_motion == eSligStates::State_6_Shoot_468820
         && field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -5845,7 +5845,7 @@ __int16 Slig::Brain_Shooting_46EFD0()
     return 111;
 }
 
-__int16 Slig::Brain_ZSpottedEnemy_46F260()
+s16 Slig::Brain_ZSpottedEnemy_46F260()
 {
     if (field_114_timer > static_cast<int>(gnFrameCount_507670))
     {
@@ -5857,7 +5857,7 @@ __int16 Slig::Brain_ZSpottedEnemy_46F260()
 }
 
 
-__int16 Slig::Brain_ZShooting_46F290()
+s16 Slig::Brain_ZShooting_46F290()
 {
     if (field_FC_current_motion != eSligStates::State_43_ShootZ_468E30 || !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {

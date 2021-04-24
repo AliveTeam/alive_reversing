@@ -8,10 +8,10 @@ namespace AO {
 
 struct Path_Bat : public Path_TLV
 {
-    __int16 field_18_ticks_before_moving;
-    __int16 field_1A_speed;
+    s16 field_18_ticks_before_moving;
+    s16 field_1A_speed;
     u16 field_1C_scale;
-    __int16 field_1E_attack_duration;
+    s16 field_1E_attack_duration;
 };
 ALIVE_ASSERT_SIZEOF(Path_Bat, 0x20);
 
@@ -40,7 +40,7 @@ public:
     FP field_E8_speed;
     int field_EC_ticks_before_moving;
     int field_F0_tlvInfo;
-    enum class BatStates : __int16
+    enum class BatStates : s16
     {
         eSetTimer_0 = 0,
         eInit_1 = 1,
@@ -50,7 +50,7 @@ public:
         eFlyAwayAndDie_5 = 5,
     };
     BatStates field_F4_state;
-    __int16 field_F6_attack_duration;
+    s16 field_F6_attack_duration;
     int field_F8_timer;
     int field_FC_attack_duration_timer;
     FP field_100_velx;

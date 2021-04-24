@@ -5,7 +5,7 @@
 namespace AO {
 
 struct Path_TLV;
-enum class CameraPos : __int16;
+enum class CameraPos : s16;
 
 EXPORT void CC SND_Reset_Ambiance_4765E0();
 

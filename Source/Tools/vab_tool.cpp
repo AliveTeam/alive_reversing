@@ -13,21 +13,21 @@ bool CC RunningAsInjectedDll()
     return false;
 }
 
-static std::vector<unsigned char> ReadLvlFile(LvlArchive& archive, const char* fileName)
+static std::vector<u8> ReadLvlFile(LvlArchive& archive, const char* fileName)
 {
     LvlFileRecord* pFileRec = archive.Find_File_Record_433160(fileName);
     if (!pFileRec)
     {
         ALIVE_FATAL("Failed find file in lvl");
     }
-    std::vector<unsigned char> fileContent;
+    std::vector<u8> fileContent;
     fileContent.resize(pFileRec->field_10_num_sectors * 2048);
     sLvlArchive_5BC520.Read_File_4330A0(pFileRec, fileContent.data());
     fileContent.resize(pFileRec->field_14_file_size);
     return fileContent;
 }
 
-static void WriteVec(const char* fileName, const std::vector<unsigned char>& vec)
+static void WriteVec(const char* fileName, const std::vector<u8>& vec)
 {
     auto hFile = fopen(fileName, "wb");
     if (hFile)
@@ -98,7 +98,7 @@ static void PCToPsxVab(bool isAe, const char* lvlName, const char* vhName, const
             }
             sampleLen = pBody->field_0_length_or_duration;
 
-            std::vector<unsigned char> tempBuffer;
+            std::vector<u8> tempBuffer;
             tempBuffer.resize(sampleLen);
            // SND_SoundsDat_Read(hDat, pHeader, pBody, i, tempBuffer.data());
 

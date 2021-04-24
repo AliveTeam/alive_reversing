@@ -57,7 +57,7 @@ BaseGameObject* Rope::VDestructor(signed int flags)
     return Vdtor_458B60(flags);
 }
 
-Rope* Rope::ctor_458520(u16 left, __int16 top, u16 bottom, FP scale)
+Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
 {
     ctor_417C10();
     SetVTable(this, 0x4BC1E0);
@@ -165,7 +165,7 @@ void Rope::VRender_458780(PrimHeader** ppOt)
                 int maxY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_F2_bottom))
                     - camYPos);
 
-                __int16 ypos = FP_GetExponent(field_AC_ypos);
+                s16 ypos = FP_GetExponent(field_AC_ypos);
                 if (ypos > field_F2_bottom)
                 {
                     ypos = field_F2_bottom + ((ypos - field_F2_bottom) % field_E6_rope_length);

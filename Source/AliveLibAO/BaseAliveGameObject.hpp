@@ -12,8 +12,8 @@ void BaseAliveGameObject_ForceLink();
 EXPORT int CC SnapToXGrid_41FAA0(FP scale, int a2);
 
 
-EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult);
-EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, __int16 yMargin, WORD* pResult);
+EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, s16 xMargin, WORD* pResult);
+EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, s16 yMargin, WORD* pResult);
 
 
 struct Path_TLV;
@@ -21,7 +21,7 @@ class PlatformBase;
 class PathLine;
 class BirdPortal;
 
-enum class CameraPos : __int16;
+enum class CameraPos : s16;
 
 enum Flags_10A
 {
@@ -56,15 +56,15 @@ public:
 
     virtual void VPossessed();
 
-    virtual void VSetMotion(__int16 state);
+    virtual void VSetMotion(s16 state);
 
-    virtual void VSetXSpawn(__int16 camWorldX, int screenXPos);
+    virtual void VSetXSpawn(s16 camWorldX, int screenXPos);
 
-    virtual void VSetYSpawn(int camWorldY, __int16 bLeft);
+    virtual void VSetYSpawn(int camWorldY, s16 bLeft);
 
-    virtual void VOnPathTransition(__int16 camWorldX, int camWorldY, CameraPos direction);
+    virtual void VOnPathTransition(s16 camWorldX, int camWorldY, CameraPos direction);
 
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom);
+    virtual s16 VTakeDamage(BaseGameObject* pFrom);
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv);
 
@@ -75,15 +75,15 @@ public:
 private:
     EXPORT BaseGameObject* Vdtor_402540(signed int flags);
 
-    EXPORT __int16 VTakeDamage_401920(BaseGameObject* pFrom);
+    EXPORT s16 VTakeDamage_401920(BaseGameObject* pFrom);
 
-    EXPORT void VOnPathTransition_401470(__int16 camWorldX, int camWorldY, CameraPos direction);
+    EXPORT void VOnPathTransition_401470(s16 camWorldX, int camWorldY, CameraPos direction);
 
-    EXPORT void VSetMotion_402520(__int16 state);
+    EXPORT void VSetMotion_402520(s16 state);
 
-    EXPORT void VSetXSpawn_401150(__int16 camWorldX, int screenXPos);
+    EXPORT void VSetXSpawn_401150(s16 camWorldX, int screenXPos);
 
-    EXPORT void VSetYSpawn_401380(int camWorldY, __int16 bLeft);
+    EXPORT void VSetYSpawn_401380(int camWorldY, s16 bLeft);
 
     EXPORT void VCheckCollisionLineStillValid_401A90(int distance);
 
@@ -92,41 +92,41 @@ protected:
 
     EXPORT static void CC OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);
 
-    EXPORT __int16 IsBeeSwarmChasingMe_4022B0();
+    EXPORT s16 IsBeeSwarmChasingMe_4022B0();
 
     EXPORT void UsePathTransScale_4020D0();
 
     EXPORT static BaseGameObject* CC FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos);
 
-    EXPORT BirdPortal* IntoBirdPortal_402350(__int16 distance);
+    EXPORT BirdPortal* IntoBirdPortal_402350(s16 distance);
 
 
 
-    EXPORT __int16 WallHit_401930(FP offY, FP offX);
+    EXPORT s16 WallHit_401930(FP offY, FP offX);
 
-    EXPORT __int16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
+    EXPORT s16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
 
-    EXPORT __int16 Check_IsOnEndOfLine_4021A0(__int16 direction, __int16 dist);
+    EXPORT s16 Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist);
 public:
     EXPORT s16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);
-    EXPORT __int16 MapFollowMe_401D30(__int16 snapToGrid);
+    EXPORT s16 MapFollowMe_401D30(s16 snapToGrid);
 public:
 
     FP_RECT field_D4_collection_rect;
-    __int16 field_E4_previous_motion;
-    __int16 field_E6_last_anim_frame;
+    s16 field_E4_previous_motion;
+    s16 field_E6_last_anim_frame;
     FP field_E8_LastLineYPos;
-    __int16 field_EC; // can the bees attack - multiple values so prob more unknown meanings as well
-    __int16 field_EE_type;
+    s16 field_EC; // can the bees attack - multiple values so prob more unknown meanings as well
+    s16 field_EE_type;
     Path_TLV* field_F0_pTlv;
     PathLine* field_F4_pLine;
     PlatformBase* field_F8_pLiftPoint;
-    __int16 field_FC_current_motion;
-    __int16 field_FE_next_state;
+    s16 field_FC_current_motion;
+    s16 field_FE_next_state;
     FP field_100_health;
-    __int16 field_104_pending_resource_count;
-    __int16 field_106_shot;
-    __int16 field_108_bMotionChanged;
+    s16 field_104_pending_resource_count;
+    s16 field_106_shot;
+    s16 field_108_bMotionChanged;
     BitField16<Flags_10A> field_10A_flags;
 };
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x10C);

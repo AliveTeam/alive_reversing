@@ -32,7 +32,7 @@ static inline FP Random_Speed(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
-ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, __int16 particleCount, FP scale, BurstType type)
+ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, FP scale, BurstType type)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA480);

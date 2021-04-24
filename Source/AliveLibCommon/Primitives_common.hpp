@@ -8,7 +8,7 @@ struct PrimHeaderPart_Normal
 {
     char field_4_num_longs;
     char field_5_unknown;
-    __int16 field_6_pad0;
+    s16 field_6_pad0;
 };
 ALIVE_ASSERT_SIZEOF(PrimHeaderPart_Normal, 0x4);
 
@@ -48,8 +48,8 @@ ALIVE_ASSERT_SIZEOF(PrimHeader, 0xC);
 
 struct FVert
 {
-    __int16 x;
-    __int16 y;
+    s16 x;
+    s16 y;
 };
 ALIVE_ASSERT_SIZEOF(FVert, 0x4);
 
@@ -229,8 +229,8 @@ struct Prim_Sprt
 {
     Poly_Base mBase;
     UV mUv;
-    __int16 field_14_w;
-    __int16 field_16_h;
+    s16 field_14_w;
+    s16 field_16_h;
 };
 ALIVE_ASSERT_SIZEOF(Prim_Sprt, 0x18);
 
@@ -249,8 +249,8 @@ struct Prim_Sprt_8
 struct Prim_Tile
 {
     Poly_Base mBase;
-    __int16 field_14_w;
-    __int16 field_16_h;
+    s16 field_14_w;
+    s16 field_16_h;
 };
 
 struct Prim_Tile_16

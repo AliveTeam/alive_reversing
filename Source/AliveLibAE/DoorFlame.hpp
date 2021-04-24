@@ -6,10 +6,10 @@
 
 struct Path_DoorFlame : public Path_TLV
 {
-    __int16 field_10_id;
+    s16 field_10_id;
     Scale_short field_12_scale;
-    __int16 field_14_colour;
-    __int16 field_16_pad;
+    s16 field_14_colour;
+    s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x18);
 
@@ -51,18 +51,18 @@ private:
 
 private:
     int field_F4_tlvInfo;
-    __int16 field_F8_switch_id;
-    __int16 field_FA_frame_count;
-    enum class States : __int16
+    s16 field_F8_switch_id;
+    s16 field_FA_frame_count;
+    enum class States : s16
     {
         eDisabled_0 = 0,
         eEnabled_1 = 1,
     };
     States field_FC_state;
-    __int16 field_FE_2_random;
+    s16 field_FE_2_random;
     int field_100_sounds_mask;
-    __int16 field_104_padding;
-    __int16 field_106_padding;
+    s16 field_104_padding;
+    s16 field_106_padding;
     int field_108_fire_background_glow_id;
     int field_10C_flame_sparks_id;
 };

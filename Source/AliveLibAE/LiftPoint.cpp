@@ -895,7 +895,7 @@ void CCSTD LiftPoint::sub_461000(Path_TLV* pTlv)
     pTlv->field_1_tlv_state |= 1;
 }
 
-void LiftPoint::vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv)
+void LiftPoint::vStayOnFloor_461A00(s16 floor, Path_LiftPoint* pTlv)
 {
     if (!floor)
     {
@@ -941,11 +941,11 @@ void LiftPoint::CreatePulleyIfExists_462C80()
     Path_TLV* pFound = nullptr;
 
     const PathData* pPathData = sPath_dword_BB47C0->field_C_pPathData;
-    __int16 yCamIdx = FP_GetExponent(field_BC_ypos) / pPathData->field_C_grid_height;
+    s16 yCamIdx = FP_GetExponent(field_BC_ypos) / pPathData->field_C_grid_height;
     // If we are in the top row of cameras then there can't be a pulley in the screen above because there are no more screens above!
     while (yCamIdx >= 0)
     {
-        const __int16 xCamIdx = (FP_GetExponent(field_B8_xpos) / pPathData->field_A_grid_width) - gMap_5C3030.field_D0_cam_x_idx;
+        const s16 xCamIdx = (FP_GetExponent(field_B8_xpos) / pPathData->field_A_grid_width) - gMap_5C3030.field_D0_cam_x_idx;
         // Keep looking up 1 camera for any camera that has TLVs in it.
         Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(xCamIdx, yCamIdx - gMap_5C3030.field_D2_cam_y_idx);
         while (pTlvIter)

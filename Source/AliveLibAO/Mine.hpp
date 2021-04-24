@@ -9,12 +9,12 @@ namespace AO {
 
 struct Path_Mine : public Path_TLV
 {
-    __int16 field_18_num_patterns;
-    __int16 field_1A_pattern;
+    s16 field_18_num_patterns;
+    s16 field_1A_pattern;
     Scale_short field_1C_scale;
-    __int16 field_1E_disabled_resources;
+    s16 field_1E_disabled_resources;
     Choice_short field_20_persists_offscreen;
-    __int16 field_22_pad;
+    s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_Mine, 0x24);
 
@@ -33,9 +33,9 @@ public:
 
     EXPORT void VScreenChanged_43AC10();
 
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT __int16 VTakeDamage_43AC40(BaseGameObject* pFrom);
+    EXPORT s16 VTakeDamage_43AC40(BaseGameObject* pFrom);
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
@@ -53,10 +53,10 @@ public:
 
     EXPORT void vUpdate_43A7F0();
 
-    EXPORT __int16 IsColliding_43AA60();
+    EXPORT s16 IsColliding_43AA60();
 
     u16 field_10C_detonating;
-    __int16 field_10E_disabled_resources;
+    s16 field_10E_disabled_resources;
     int field_110_tlv;
     int field_114_gnframe;
     Animation field_118_animation;

@@ -35,7 +35,7 @@ Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scal
     return pParticle;
 }
 
-void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, __int16 count, __int16 type)
+void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 type)
 {
     FP velYCounter = {};
     for (int i = 0; i < count; i++)

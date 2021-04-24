@@ -110,7 +110,7 @@ void NakedSligButton::vUpdate_414B20()
 
         if (old_switch_state != new_switch_state)
         {
-            const __int16 sound_id = new_switch_state ? field_FC_on_sound : field_FE_off_sound;
+            const s16 sound_id = new_switch_state ? field_FC_on_sound : field_FE_off_sound;
             if (sound_id)
             {
                 SFX_Play_46FB10(

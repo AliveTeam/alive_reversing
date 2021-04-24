@@ -12,8 +12,8 @@ struct SlamDoor_Data
     int field_0_frameTableOffset;
     int field_4_ppRes;
     int field_8_frameTableOffset;
-    __int16 field_C_maxH;
-    __int16 field_E_maxW;
+    s16 field_C_maxH;
+    s16 field_E_maxW;
 };
 
 const AnimId sSlamDoorData_547168[15][3] =
@@ -461,7 +461,7 @@ int SlamDoor::vGetSaveState_4C09D0(BYTE* pSaveBuffer)
     return sizeof(Quicksave_Obj_SlamDoor);
 }
 
-void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, __int16 xPosition, __int16 width)
+void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPosition, s16 width)
 {
     if (FP_GetExponent(pObj->field_B8_xpos) - xPosition >= width - FP_GetExponent(pObj->field_B8_xpos))
     {

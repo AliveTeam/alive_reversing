@@ -76,11 +76,11 @@ ALIVE_VAR(1, 0x5c2d10, tagJOYCAPSA, sJoystickCaps_5C2D10, {});
 ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
 #endif
 
-ALIVE_ARY(1, 0xBD2F60, unsigned char, 256, sInputKeyStates_BD2F60, {});
+ALIVE_ARY(1, 0xBD2F60, u8, 256, sInputKeyStates_BD2F60, {});
 ALIVE_VAR(1, 0xBBB9D0, BYTE, sInputEnabled_BBB9D0, 0);
 ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject_5BD4E0, {});
 ALIVE_VAR(1, 0x5C1BBE, u16, sCurrentControllerIndex_5C1BBE, 0);
-ALIVE_VAR(1, 0x5C1B9A, __int16, bLongerTimeoutToNextDemo_5C1B9A, 0);
+ALIVE_VAR(1, 0x5C1B9A, s16, bLongerTimeoutToNextDemo_5C1B9A, 0);
 ALIVE_VAR(1, 0xbd30a0, DWORD, sLastPressedKey_BD30A0, 0);
 ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
 ALIVE_ARY(1, 0x5C9D30, char, 256, sAllowedGameKeys_5C9D30, {});
@@ -545,7 +545,7 @@ EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, floa
 #endif
 }
 
-EXPORT unsigned __int8 CC Input_GetInputEnabled_4EDDE0()
+EXPORT u8 CC Input_GetInputEnabled_4EDDE0()
 {
     return sInputEnabled_BBB9D0 != 0;
 }
@@ -1988,7 +1988,7 @@ void InputObject::SetDemoResource_45F1E0(DWORD** pDemoRes)
 
 void InputObject::Update_45F040()
 {
-    const unsigned char byte_545A4C[20] =
+    const u8 byte_545A4C[20] =
     {
         0, // left?
         64, // up?

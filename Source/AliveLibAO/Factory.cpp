@@ -2643,7 +2643,7 @@ EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 
         struct Path_RingCancel_Corrected : public Path_RingCancel
         {
-            __int16 field_18_bShrykull_remove;
+            s16 field_18_bShrykull_remove;
         };
 
         if (pTlv->field_2_length == sizeof(Path_RingCancel_Corrected))

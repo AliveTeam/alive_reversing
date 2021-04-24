@@ -54,7 +54,7 @@ Collisions* Collisions::ctor_40CF30(const CollisionInfo* pCollisionInfo, const B
     return this;
 }
 
-PathLine* Collisions::Add_Dynamic_Collision_Line_40C8A0(__int16 x1, __int16 y1, __int16 x2, __int16 y2, char mode)
+PathLine* Collisions::Add_Dynamic_Collision_Line_40C8A0(s16 x1, s16 y1, s16 x2, s16 y2, char mode)
 {
     bool freeItemFound = false;
     int idx = field_8_item_count;

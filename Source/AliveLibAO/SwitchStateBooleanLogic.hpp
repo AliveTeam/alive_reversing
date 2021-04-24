@@ -6,7 +6,7 @@
 
 namespace AO {
 
-enum class BooleanOperatorType : __int16
+enum class BooleanOperatorType : s16
 {
     eAnd_0 = 0,
     eAndNot_1 = 1,
@@ -16,9 +16,9 @@ enum class BooleanOperatorType : __int16
 
 struct Path_SwitchStateBooleanLogic : public Path_TLV
 {
-    __int16 field_18_input1;
-    __int16 field_1A_input2;
-    __int16 field_1C_output;
+    s16 field_18_input1;
+    s16 field_1A_input2;
+    s16 field_1C_output;
     BooleanOperatorType field_1E_operator;
 };
 ALIVE_ASSERT_SIZEOF(Path_SwitchStateBooleanLogic, 0x20);

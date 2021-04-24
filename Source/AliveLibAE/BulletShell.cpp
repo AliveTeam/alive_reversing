@@ -7,7 +7,7 @@
 
 ALIVE_VAR(1, 0xBAF7E0, short, sShellCount_BAF7E0, 0);
 
-BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP scale)
+BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, s16 direction, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x54708C);

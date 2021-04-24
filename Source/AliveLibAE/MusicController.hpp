@@ -5,7 +5,7 @@
 
 class BaseAliveGameObject;
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 // NOTE: Called MusicEnv in real game (derived from AE PC demo)
 class MusicController : public BaseGameObject
@@ -31,7 +31,7 @@ public:
         e58_eBit16 = 0x8000,
     };
 
-    enum class MusicTypes : __int16
+    enum class MusicTypes : s16
     {
         eTypeNull = -1,
         eNone_0 = 0,
@@ -70,30 +70,30 @@ public:
     EXPORT void Update_47F730();
 
 
-    EXPORT void EnableMusic_47FB80(__int16 enable);
-    EXPORT void SetMusicVolumeDelayed_47FB00(__int16 vol, __int16 delay);
+    EXPORT void EnableMusic_47FB80(s16 enable);
+    EXPORT void SetMusicVolumeDelayed_47FB00(s16 vol, s16 delay);
     EXPORT void UpdateVolumeState_47EFD0();
-    EXPORT void PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20);
+    EXPORT void PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, char bFlag0x20);
 
     EXPORT void UpdateMusic_47F260();
     EXPORT void UpdateAmbiance_47F0B0();
 
-    EXPORT static void CC PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20);
-    EXPORT static void CC EnableMusic_47FE10(__int16 bOn);
+    EXPORT static void CC PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, char bFlag0x20);
+    EXPORT static void CC EnableMusic_47FE10(s16 bOn);
 
 private:
     WORD field_20_vol;
     WORD field_22_vol;
     LevelIds field_24_currentLevelID;
-    __int16 field_26_padding;
+    s16 field_26_padding;
     int field_28_object_id;
-    __int16 field_2C_flags_and_seq_idx;
-    __int16 field_2E_padding;
+    s16 field_2C_flags_and_seq_idx;
+    s16 field_2E_padding;
     DWORD field_30_music_time;
     DWORD field_34_music_start_time;
     DWORD field_38_unused;
     DWORD field_3C_unused;
-    __int16 field_40_flags_and_idx;
+    s16 field_40_flags_and_idx;
     MusicTypes field_42_type;
     int field_44;
     DWORD field_48_last_music_frame;

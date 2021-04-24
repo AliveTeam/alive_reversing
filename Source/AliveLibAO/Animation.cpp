@@ -30,7 +30,7 @@
 
 namespace AO {
 
-EXPORT short* CC Animation_OnFrame_Slig_46F610(void* pObj, __int16* pData)
+EXPORT short* CC Animation_OnFrame_Slig_46F610(void* pObj, s16* pData)
 {
     auto pSlig = static_cast<Slig*>(pObj);
     if (pSlig->field_8_update_delay != 0)
@@ -135,7 +135,7 @@ EXPORT short* CC Animation_OnFrame_Slig_46F610(void* pObj, __int16* pData)
 
 EXPORT short* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, short* pData);
 
-EXPORT short *CC Slog_OnFrame_471FD0(void* pObj, __int16* pData)
+EXPORT short *CC Slog_OnFrame_471FD0(void* pObj, s16* pData)
 {
     auto pSlog = static_cast<Slog*>(pObj);
     if (pSlog->field_10C_pTarget)
@@ -197,7 +197,7 @@ const FP_Point kAbeVelTable_4C6608[6] =
     { FP_FromInteger(4),    FP_FromInteger(-3) }
 };
 
-EXPORT short* CC Abe_OnFrame_429E30(void* pObj, __int16* pData)
+EXPORT short* CC Abe_OnFrame_429E30(void* pObj, s16* pData)
 {
     auto pAbe = static_cast<Abe*>(pObj);
 
@@ -348,7 +348,7 @@ void Animation::VDecode_403550()
     if (field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
     {
         // Loop backwards
-        const __int16 prevFrameNum = --field_92_current_frame;
+        const s16 prevFrameNum = --field_92_current_frame;
         field_E_frame_change_counter = static_cast<short>(field_10_frame_delay);
 
         if (prevFrameNum < pAnimationHeader->field_4_loop_start_frame)
@@ -380,7 +380,7 @@ void Animation::VDecode_403550()
     else
     {
         // Loop forwards
-        const __int16 nextFrameNum = ++field_92_current_frame;
+        const s16 nextFrameNum = ++field_92_current_frame;
         field_E_frame_change_counter = static_cast<short>(field_10_frame_delay);
 
         // Animation reached end point
@@ -491,12 +491,12 @@ void Animation::VDecode_403550()
     UploadTexture(pFrameHeader, vram_rect, width_bpp_adjusted);
 }
 
-void Animation::vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height)
+void Animation::vRender(int xpos, int ypos, PrimHeader** ppOt, s16 width, s16 height)
 {
     VRender_403AE0(xpos, ypos, ppOt, width, height);
 }
 
-void Animation::VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height)
+void Animation::VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, s16 width, s16 height)
 {
     if (field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -733,7 +733,7 @@ s16 Animation::Set_Animation_Data_402A40(int frameTableOffset, BYTE** pAnimRes)
     return 1;
 }
 
-void Animation::SetFrame_402AC0(__int16 newFrame)
+void Animation::SetFrame_402AC0(s16 newFrame)
 {
     if (field_20_ppBlock)
     {
@@ -754,7 +754,7 @@ void Animation::SetFrame_402AC0(__int16 newFrame)
     }
 }
 
-s16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, unsigned __int8 bAllocateVRam, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
+s16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, BYTE** ppAnimData, u8 bAllocateVRam, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
 
@@ -904,7 +904,7 @@ s16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*animList*/, Bas
     return result;
 }
 
-__int16 Animation::Get_Frame_Count_403540()
+s16 Animation::Get_Frame_Count_403540()
 {
     AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
     return pHead->field_2_num_frames;
@@ -1034,7 +1034,7 @@ void AnimationUnknown::VRender2(int xpos, int ypos, PrimHeader** ppOt)
     VRender2_403FD0(xpos, ypos, ppOt);
 }
 
-void AnimationUnknown::vRender(int /*xpos*/, int /*ypos*/, PrimHeader** /*pOt*/, __int16 /*width*/, __int16 /*height*/)
+void AnimationUnknown::vRender(int /*xpos*/, int /*ypos*/, PrimHeader** /*pOt*/, s16 /*width*/, s16 /*height*/)
 {
     // Empty @ 402A20
 }

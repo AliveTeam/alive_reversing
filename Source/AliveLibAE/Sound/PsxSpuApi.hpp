@@ -12,7 +12,7 @@ struct ProgAtr
     char field_3_mode;
     char field_4_pan;
     char field_5_reserved0;
-    __int16 field_6_attr;
+    s16 field_6_attr;
     int field_8_reserved1;
     int field_C_reserved2;
 };
@@ -24,9 +24,9 @@ struct VabHeader
     int field_4_version;
     int field_8_id;
     int field_C_file_size;
-    __int16 field_10_reserved0;
-    __int16 field_12_num_progs;
-    __int16 field_14_num_tones;
+    s16 field_10_reserved0;
+    s16 field_12_num_progs;
+    s16 field_14_num_tones;
     u16 field_16_num_vags;
     char field_18_master_vol;
     char field_19_master_pan;
@@ -37,7 +37,7 @@ struct VabHeader
 };
 ALIVE_ASSERT_SIZEOF(VabHeader, 0x820);
 
-EXPORT __int16 CC SsVabOpenHead_4FC620(VabHeader* pVabHeader);
+EXPORT s16 CC SsVabOpenHead_4FC620(VabHeader* pVabHeader);
 
 struct VabBodyRecord
 {
@@ -54,7 +54,7 @@ struct Converted_Vag
     WORD field_6_adsr_release;
     BYTE field_8_min;
     BYTE field_9_max;
-    __int16 field_A_shift_cen;
+    s16 field_A_shift_cen;
     BYTE field_C;
     BYTE field_D_vol;
     BYTE field_E_priority;
@@ -89,16 +89,16 @@ const int kNumChannels = 24;
 // Only exposed for SND_PlayEx_4EF740!
 struct MIDI_ADSR_State
 {
-    unsigned __int8 field_0_seq_idx;
-    unsigned __int8 field_1_program;
-    unsigned __int8 field_2_note_byte1;
+    u8 field_0_seq_idx;
+    u8 field_1_program;
+    u8 field_2_note_byte1;
     char field_3_state;
     u16 field_4_attack;
     u16 field_6_sustain;
     u16 field_8_decay;
     u16 field_A_release;
     u16 field_C;
-    unsigned __int8 field_E_ref_count;
+    u8 field_E_ref_count;
     char field_F_pad;
 };
 ALIVE_ASSERT_SIZEOF(MIDI_ADSR_State, 0x10);
@@ -142,12 +142,12 @@ struct MIDI_SeqSong
     BYTE* field_1C_pSeqData;
     void* field_20_fn_ptr; // read but never written
     BYTE* field_24_loop_start;
-    __int16 field_seq_idx;
-    unsigned char field_2A_running_status;
+    s16 field_seq_idx;
+    u8 field_2A_running_status;
     char field_2B_repeatMode; // TODO: Check
     char field_2C_loop_count;
     char field_2D_pad;
-    __int16 field_2E_seqAccessNum; // never written in a meaningful way
+    s16 field_2E_seqAccessNum; // never written in a meaningful way
     char field_30_timeSignatureBars;
     char field_31_timeSignatureBars2; // bug: maybe they should have assigned beats instead? but never read anyway
     MIDI_ProgramVolume field_32_progVols[16];
@@ -167,8 +167,8 @@ class IPsxSpuApiVars
 {
 public:
     virtual ~IPsxSpuApiVars() {}
-    virtual __int16& sGlobalVolumeLevel_right() = 0;
-    virtual __int16& sGlobalVolumeLevel_left() = 0;
+    virtual s16& sGlobalVolumeLevel_right() = 0;
+    virtual s16& sGlobalVolumeLevel_left() = 0;
     virtual VabUnknown& s512_byte() = 0;
     virtual BYTE* sVagCounts() = 0;
     virtual BYTE* sProgCounts() = 0;
@@ -192,14 +192,14 @@ public:
 EXPORT void SetSpuApiVars(IPsxSpuApiVars* pVars);
 EXPORT IPsxSpuApiVars* GetSpuApiVars();
 
-EXPORT void CC SsVabTransBody_4FC840(VabBodyRecord* pVabBody, __int16 vabId);
+EXPORT void CC SsVabTransBody_4FC840(VabBodyRecord* pVabBody, s16 vabId);
 
 #define SS_WAIT_COMPLETED 1
 EXPORT void SsVabTransCompleted_4FE060(int immediateFlag);
 EXPORT void CC SsVabClose_4FC5B0(int vabId);
 
 
-EXPORT void CC SsSetMVol_4FC360(__int16 left, __int16 right);
+EXPORT void CC SsSetMVol_4FC360(s16 left, s16 right);
 EXPORT void CC SSInit_4FC230();
 EXPORT void CC SpuInitHot_4FC320();
 EXPORT void SsEnd_4FC350();
@@ -215,21 +215,21 @@ EXPORT void SpuClearReverbWorkArea_4FA690(int reverbMode);
 EXPORT void CC SsSetTickMode_4FDC20(int tickMode);
 EXPORT int CC SsVoKeyOn_4FCF10(int vabIdAndProgram, int pitch, u16 leftVol, u16 rightVol);
 EXPORT void CC SsUtAllKeyOff_4FDFE0(int mode);
-EXPORT __int16 CC SsUtKeyOffV_4FE010(__int16 idx);
-EXPORT __int16 CC SsUtChangePitch_4FDF70(__int16 voice, int /*vabId*/, int /*prog*/, __int16 old_note, __int16 old_fine, __int16 new_note, __int16 new_fine);
+EXPORT s16 CC SsUtKeyOffV_4FE010(s16 idx);
+EXPORT s16 CC SsUtChangePitch_4FDF70(s16 voice, int /*vabId*/, int /*prog*/, s16 old_note, s16 old_fine, s16 new_note, s16 new_fine);
 
-EXPORT __int16 CC SsSeqOpen_4FD6D0(BYTE* pSeqData, __int16 seqIdx);
-EXPORT void CC SsSeqClose_4FD8D0(__int16 idx);
-EXPORT void CC SsSeqStop_4FD9C0(__int16 idx);
-EXPORT u16 CC SsIsEos_4FDA80(__int16 idx, __int16 seqNum);
-EXPORT void CC SsSeqSetVol_4FDAC0(__int16 idx, __int16 volLeft, __int16 volRight);
-EXPORT void CC SsSeqPlay_4FD900(u16 idx, char playMode, __int16 repeatCount);
+EXPORT s16 CC SsSeqOpen_4FD6D0(BYTE* pSeqData, s16 seqIdx);
+EXPORT void CC SsSeqClose_4FD8D0(s16 idx);
+EXPORT void CC SsSeqStop_4FD9C0(s16 idx);
+EXPORT u16 CC SsIsEos_4FDA80(s16 idx, s16 seqNum);
+EXPORT void CC SsSeqSetVol_4FDAC0(s16 idx, s16 volLeft, s16 volRight);
+EXPORT void CC SsSeqPlay_4FD900(u16 idx, char playMode, s16 repeatCount);
 
 EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx);
 EXPORT int CC MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru);
 EXPORT BYTE CC MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData);
 EXPORT void CC MIDI_SkipBytes_4FD6C0(MIDI_SeqSong* pData, int length);
-EXPORT void CC MIDI_SetTempo_4FDB80(__int16 idx, __int16 kZero, __int16 tempo);
+EXPORT void CC MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo);
 EXPORT int CC MIDI_PlayerPlayMidiNote_4FCE80(int vabId, int program, int note, int leftVol, int rightVol, int volume);
 EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int not_used, int priority);
 

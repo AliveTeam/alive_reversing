@@ -37,7 +37,7 @@ void Path::Free_4DB1C0()
     field_0_levelId = LevelIds::eMenu_0;
 }
 
-void Path::Init_4DB200(const PathData* pPathData, LevelIds level, __int16 path, __int16 cameraId, BYTE** ppPathRes)
+void Path::Init_4DB200(const PathData* pPathData, LevelIds level, s16 path, s16 cameraId, BYTE** ppPathRes)
 {
     ResourceManager::FreeResource_49C330(field_10_ppRes);
     field_10_ppRes = ppPathRes;
@@ -52,7 +52,7 @@ void Path::Init_4DB200(const PathData* pPathData, LevelIds level, __int16 path, 
     field_8_cams_on_y = (field_C_pPathData->field_6_bBottom - field_C_pPathData->field_2_bRight) / field_C_pPathData->field_C_grid_height;
 }
 
-void Path::Loader_4DB800(__int16 xpos, __int16 ypos, LoadMode loadMode, TlvTypes typeToLoad)
+void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToLoad)
 {
     // Get a pointer to the array of index table offsets
     const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
@@ -100,7 +100,7 @@ void Path::Loader_4DB800(__int16 xpos, __int16 ypos, LoadMode loadMode, TlvTypes
     }
 }
 
-Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera_4DB610(__int16 cam_x_idx, __int16 cam_y_idx)
+Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera_4DB610(s16 cam_x_idx, s16 cam_y_idx)
 {
     const int camY = cam_y_idx + gMap_5C3030.field_D2_cam_y_idx;
     const int camX = cam_x_idx + gMap_5C3030.field_D0_cam_x_idx;
@@ -132,7 +132,7 @@ Path_TLV* CCSTD Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
     return reinterpret_cast<Path_TLV*>(pNext);
 }
 
-Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes objectType, __int16 camX)
+Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes objectType, s16 camX)
 {
     Path_TLV* pTlv = Get_First_TLV_For_Offsetted_Camera_4DB610(camX, 0);
     if (!pTlv)
@@ -151,11 +151,11 @@ Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes objectType, __int16 
     return pTlv;
 }
 
-Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 xpos, __int16 ypos, __int16 width, __int16 height, TlvTypes objectType)
+Path_TLV* Path::TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes objectType)
 {
     // TODO: Can be refactored to use min/max
-    __int16 right = 0;
-    __int16 left = 0;
+    s16 right = 0;
+    s16 left = 0;
 
     if (xpos >= width)
     {
@@ -168,8 +168,8 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 xpos, __int16 ypos, __int16 width, __i
         left = width;
     }
 
-    __int16 top = 0;
-    __int16 bottom = 0;
+    s16 top = 0;
+    s16 bottom = 0;
 
     if (ypos >= height)
     {
@@ -352,7 +352,7 @@ Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type)
     return pTlv;
 }
 
-EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2)
+EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, char bSetCreated, char bBit2)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
@@ -394,7 +394,7 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, __int16 h
     }
 }
 
-EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx)
+EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx)
 {
     Path_TLV* pTlv = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(cam_x_idx, cam_y_idx);
     while (pTlv)

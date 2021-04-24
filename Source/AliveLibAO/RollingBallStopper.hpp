@@ -11,9 +11,9 @@ class PathLine;
 
 struct Path_RollingBallStopper : public Path_TLV
 {
-    __int16 field_18_id_on;
+    s16 field_18_id_on;
     Scale_short field_1A_scale;
-    __int16 field_1C_id_off;
+    s16 field_1C_id_off;
     XDirection_short field_1E_direction;
 };
 ALIVE_ASSERT_SIZEOF(Path_RollingBallStopper, 0x20);
@@ -32,8 +32,8 @@ public:
     virtual void VScreenChanged() override;
 
     int field_10C_tlvInfo;
-    __int16 field_110_unused;
-    enum class States : __int16
+    s16 field_110_unused;
+    enum class States : s16
     {
         eWaitForTrigger_0,
         eMoveStopper_1,

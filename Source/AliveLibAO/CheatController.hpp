@@ -22,8 +22,8 @@ public:
 
     EXPORT void VUpdate_40FC40();
 
-    __int16 field_10;
-    __int16 field_12;
+    s16 field_10;
+    s16 field_12;
 };
 ALIVE_ASSERT_SIZEOF(CheatController, 0x14);
 

@@ -94,7 +94,7 @@ EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const BYTE* pData, BYTE* de
             {
                 ReadNextSource(stream, control_byte, dstIndex);
 
-                const unsigned char blackBytes = dstIndex & 0x3F;
+                const u8 blackBytes = dstIndex & 0x3F;
                 u32 srcByte = dstIndex >> 6;
 
                 const int bytesToWrite = blackBytes + columnNumber;
@@ -106,7 +106,7 @@ EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const BYTE* pData, BYTE* de
 
                 ReadNextSource(stream, control_byte, srcByte);
 
-                const unsigned char bytes = srcByte & 0x3F;
+                const u8 bytes = srcByte & 0x3F;
                 dstIndex = srcByte >> 6;
 
                 columnNumber = bytes + bytesToWrite;

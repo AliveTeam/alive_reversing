@@ -58,7 +58,7 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     return this;
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(int frameTableOffset, int maxW, int maxH, BYTE** ppAnimData, __int16 a6)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(int frameTableOffset, int maxW, int maxH, BYTE** ppAnimData, s16 a6)
 {
     const auto init = field_10_anim.Init_402D20(
         frameTableOffset,
@@ -119,9 +119,9 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
         {
             field_10_anim.field_14_scale = field_BC_sprite_scale;
 
-            __int16 r = field_C0_r;
-            __int16 g = field_C2_g;
-            __int16 b = field_C4_b;
+            s16 r = field_C0_r;
+            s16 g = field_C2_g;
+            s16 b = field_C4_b;
 
             PSX_RECT boundingRect = {};
             VGetBoundingRect(&boundingRect, 1);
@@ -203,22 +203,22 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(PSX_RECT* pRect, i
     return VGetBoundingRect_418120(pRect, pointIdx);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
+s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
     return VIsObjNearby_418330(radius, pOtherObj);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return VIsObj_GettingNear_On_X_418390(pOther);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return VIsFacingMe_4183F0(pOther);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return VOnSameYLevel_418450(pOther);
 }
@@ -238,7 +238,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnThrowableHit(BaseGameObject* /*pFrom*
     // Empty
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel_418450(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel_418450(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     // Get bounding rects
     PSX_RECT ourRect = {};
@@ -264,7 +264,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel_418450(BaseAnimatedWith
     return FALSE;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe_4183F0(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe_4183F0(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->field_A8_xpos == field_A8_xpos
         && pOther->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -287,7 +287,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe_4183F0(BaseAnimatedWithPh
     return FALSE;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X_418390(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X_418390(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->field_A8_xpos < field_A8_xpos && pOther->field_B4_velx > field_B4_velx)
     {
@@ -305,7 +305,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X_418390(BaseAn
     return FALSE;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby_418330(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
+s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby_418330(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
     FP x_abs = FP_Abs(pOtherObj->field_A8_xpos - field_A8_xpos);
     if (x_abs > FP_FromInteger(400))
@@ -433,7 +433,7 @@ BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
     return dtor_487DF0();
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, int palId)
+s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, int palId)
 {
     const TintEntry* pIter = pTintArray;
     while (pIter->field_0_level != static_cast<BYTE>(lvl))

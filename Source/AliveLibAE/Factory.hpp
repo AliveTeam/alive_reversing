@@ -26,7 +26,7 @@ union TlvItemInfoUnion
 };
 ALIVE_ASSERT_SIZEOF(TlvItemInfoUnion, 4);
 
-enum class LoadMode : __int16
+enum class LoadMode : s16
 {
     Mode_0 = 0,
     Mode_1 = 1,

@@ -106,7 +106,7 @@ void EvilFart::VUpdate()
     vUpdate_423100();
 }
 
-__int16 EvilFart::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 EvilFart::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return VTakeDamage_423B70(pFrom);
 }
@@ -302,7 +302,7 @@ void EvilFart::ResetFartColour()
     field_D4_b = greenFart.b;
 }
 
-__int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
+s16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {

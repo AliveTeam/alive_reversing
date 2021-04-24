@@ -22,9 +22,9 @@ const int dword_4CFFCC[11] =
 };
 
 
-__int16 CC Code_Length_475FD0(u32 code)
+s16 CC Code_Length_475FD0(u32 code)
 {
-    __int16 i = 0;
+    s16 i = 0;
     for (i = 0; code; ++i)
     {
         code /= 10u;
@@ -136,7 +136,7 @@ void GameSpeak::VUpdate_40FA20()
 
 short CC GameSpeak::sub_40FA60(int code, BYTE* pBuffer)
 {
-    const __int16 len = Code_Length_475FD0(code);
+    const s16 len = Code_Length_475FD0(code);
     for (short idx = 0; idx < len; ++idx)
     {
         pBuffer[idx] = static_cast<BYTE>(Code_LookUp_476050(code, idx, len));
@@ -144,7 +144,7 @@ short CC GameSpeak::sub_40FA60(int code, BYTE* pBuffer)
     return len;
 }
 
-GameSpeakMatch GameSpeak::MatchBuffer_40FAA0(BYTE* pBuffer, __int16 bufferLen, s16 bufferStartIdx)
+GameSpeakMatch GameSpeak::MatchBuffer_40FAA0(BYTE* pBuffer, s16 bufferLen, s16 bufferStartIdx)
 {
     if (bufferStartIdx == -1)
     {
@@ -155,7 +155,7 @@ GameSpeakMatch GameSpeak::MatchBuffer_40FAA0(BYTE* pBuffer, __int16 bufferLen, s
         }
     }
 
-    __int16 pBufferIdx = 0;
+    s16 pBufferIdx = 0;
     while (1)
     {
         while (field_1C_event_buffer[bufferStartIdx] == static_cast<char>(GameSpeakEvents::eNone_m1))
