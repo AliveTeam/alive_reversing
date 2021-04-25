@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ITypeBase.hpp"
+#include "relive_api.hpp"
 
 template<class T>
 class EnumType : public ITypeBase
