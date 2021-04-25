@@ -115,7 +115,7 @@ private:
     {
         if (mReadPos + len > mData.size())
         {
-            throw AliveAPI::IOReadPastEOFException();
+            throw ReliveAPI::IOReadPastEOFException();
         }
         memcpy(buffer, &mData[mReadPos], len);
         mReadPos += len;

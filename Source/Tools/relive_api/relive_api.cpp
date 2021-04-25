@@ -1,5 +1,5 @@
 #include "../AliveLibCommon/stdafx_common.h"
-#include "alive_api.hpp"
+#include "relive_api.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAE/PathData.hpp"
 #include "LvlReaderWriter.hpp"
@@ -18,7 +18,7 @@ bool RunningAsInjectedDll()
     return false;
 }
 
-namespace AliveAPI
+namespace ReliveAPI
 {
     struct PathBND
     {
@@ -231,7 +231,7 @@ namespace AliveAPI
         LvlReader lvl(inputLvlFile.c_str());
         if (!lvl.IsOpen())
         {
-            throw AliveAPI::IOReadException(inputLvlFile.c_str());
+            throw ReliveAPI::IOReadException(inputLvlFile.c_str());
         }
 
         // Find AE Path BND
@@ -249,13 +249,13 @@ namespace AliveAPI
         }
 
         // Both failed
-        throw AliveAPI::OpenPathException();
+        throw ReliveAPI::OpenPathException();
     }
 
     void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, s32 pathId)
     {
         Game game = {};
-        AliveAPI::PathBND pathBnd = AliveAPI::OpenPathBnd(lvlFile, game, &pathId);
+        ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvlFile, game, &pathId);
         if (game == Game::AO)
         {
             JsonWriterAO doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
@@ -280,7 +280,7 @@ namespace AliveAPI
     void ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId)
     {
         Game game = {};
-        AliveAPI::PathBND pathBnd = AliveAPI::OpenPathBnd(inputLvlFile, game, &pathResourceId);
+        ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(inputLvlFile, game, &pathResourceId);
 
         if (game == Game::AO)
         {
@@ -384,20 +384,20 @@ namespace AliveAPI
         LvlWriter inputLvl(inputLvlFile.c_str());
         if (!inputLvl.IsOpen())
         {
-            throw AliveAPI::IOReadException(inputLvlFile.c_str());
+            throw ReliveAPI::IOReadException(inputLvlFile.c_str());
         }
 
         std::optional<std::vector<u8>> oldPathBnd = inputLvl.ReadFile(doc.mRootInfo.mPathBnd.c_str());
         if (!oldPathBnd)
         {
-            throw AliveAPI::OpenPathException();
+            throw ReliveAPI::OpenPathException();
         }
 
         ChunkedLvlFile pathBndFile(*oldPathBnd);
         std::optional<LvlFileChunk> chunk = pathBndFile.ChunkById(doc.mRootInfo.mPathId);
         if (!chunk)
         {
-            throw AliveAPI::OpenPathException();
+            throw ReliveAPI::OpenPathException();
         }
 
         PathRootContainerAdapter pathRootContainer(gameType);
@@ -420,7 +420,7 @@ namespace AliveAPI
 
         if (!pathBlyRecAdapter)
         {
-            throw AliveAPI::OpenPathException();
+            throw ReliveAPI::OpenPathException();
         }
 
         const PathInfo pathInfo = pathBlyRecAdapter->ConvertPathInfo();
@@ -451,7 +451,7 @@ namespace AliveAPI
                     else
                     {
                         // With a name that isn't 8 chars
-                        throw AliveAPI::BadCameraNameException(pItem->mName);
+                        throw ReliveAPI::BadCameraNameException(pItem->mName);
                     }
                 }
                 else
@@ -465,7 +465,7 @@ namespace AliveAPI
 
         if (static_cast<s32>(collisionLines.size()) != pathInfo.mNumCollisionItems)
         {
-            throw AliveAPI::CollisionsCountChangedException();
+            throw ReliveAPI::CollisionsCountChangedException();
         }
 
         // Write collision lines
@@ -545,7 +545,7 @@ namespace AliveAPI
         // Write out the updated lvl to disk
         if (!inputLvl.Save(outputLvlFile.c_str()))
         {
-            throw AliveAPI::IOWriteException(outputLvlFile.c_str());
+            throw ReliveAPI::IOWriteException(outputLvlFile.c_str());
         }
     }
 
@@ -556,7 +556,7 @@ namespace AliveAPI
 
         if (rootInfo.mMapRootInfo.mVersion != GetApiVersion())
         {
-            throw AliveAPI::JsonNeedsUpgradingException();
+            throw ReliveAPI::JsonNeedsUpgradingException();
         }
 
         if (rootInfo.mMapRootInfo.mGame == "AO")

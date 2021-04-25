@@ -431,7 +431,7 @@ public:
                 if (!data)
                 {
                     ::fclose(outFile);
-                    throw AliveAPI::IOReadException(fileName.c_str());
+                    throw ReliveAPI::IOReadException(fileName.c_str());
                 }
 
                 ::fwrite(data->data(), 1, data->size(), outFile);
@@ -443,7 +443,7 @@ public:
         if (pos == -1)
         {
             ::fclose(outFile);
-            throw AliveAPI::IOReadException(lvlName);
+            throw ReliveAPI::IOReadException(lvlName);
         }
 
         if (pos+1 != RoundUp(pos))

@@ -1,6 +1,6 @@
 #include "../AliveLibCommon/stdafx_common.h"
 #include "JsonDocument.hpp"
-#include "alive_api.hpp"
+#include "relive_api.hpp"
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAO/Collisions.hpp"
 #include "../AliveLibAO/HoistRocksEffect.hpp"
@@ -70,7 +70,7 @@ static jsonxx::Array ReadArray(jsonxx::Object& o, const std::string& key)
 {
     if (!o.has<jsonxx::Array>(key))
     {
-        throw AliveAPI::JsonKeyNotFoundException(key);
+        throw ReliveAPI::JsonKeyNotFoundException(key);
     }
     return o.get<jsonxx::Array>(key);
 }
@@ -79,7 +79,7 @@ static jsonxx::Object ReadObject(jsonxx::Object& o, const std::string& key)
 {
     if (!o.has<jsonxx::Object>(key))
     {
-        throw AliveAPI::JsonKeyNotFoundException(key);
+        throw ReliveAPI::JsonKeyNotFoundException(key);
     }
     return o.get<jsonxx::Object>(key);
 }
@@ -88,7 +88,7 @@ static int ReadNumber(jsonxx::Object& o, const std::string& key)
 {
     if (!o.has<jsonxx::Number>(key))
     {
-        throw AliveAPI::JsonKeyNotFoundException(key);
+        throw ReliveAPI::JsonKeyNotFoundException(key);
     }
     return static_cast<int>(o.get<jsonxx::Number>(key));
 }
@@ -97,7 +97,7 @@ static std::string ReadString(jsonxx::Object& o, const std::string& key)
 {
     if (!o.has<jsonxx::String>(key))
     {
-        throw AliveAPI::JsonKeyNotFoundException(key);
+        throw ReliveAPI::JsonKeyNotFoundException(key);
     }
     return o.get<jsonxx::String>(key);
 }
@@ -133,14 +133,14 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
     std::ifstream inputFileStream(fileName.c_str());
     if (!inputFileStream.is_open())
     {
-        throw AliveAPI::IOReadException();
+        throw ReliveAPI::IOReadException();
     }
 
     std::string jsonStr((std::istreambuf_iterator<s8>(inputFileStream)), std::istreambuf_iterator<s8>());
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))
     {
-        throw AliveAPI::InvalidJsonException();
+        throw ReliveAPI::InvalidJsonException();
     }
 
     jsonxx::Object map = ReadObject(rootObj, "map");
@@ -165,7 +165,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
         const s32 y = ReadNumber(camera, "y");
         if (x > mRootInfo.mXSize || y > mRootInfo.mYSize)
         {
-            throw AliveAPI::CameraOutOfBoundsException();
+            throw ReliveAPI::CameraOutOfBoundsException();
         }
 
         CameraNameAndTlvBlob cameraNameBlob;
@@ -182,7 +182,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
             std::unique_ptr<TlvObjectBase> tlv = gameType == Game::AO ? types.MakeTlvAO(structureType, nullptr) : types.MakeTlvAE(structureType, nullptr);
             if (!tlv)
             {
-                throw AliveAPI::UnknownStructureTypeException(structureType.c_str());
+                throw ReliveAPI::UnknownStructureTypeException(structureType.c_str());
             }
 
             tlv->InstanceFromJson(types, mapObject);
@@ -230,7 +230,7 @@ static void DebugDumpTlv(const std::string& prefix, s32 idx, const T& tlv)
     FILE* hFile = ::fopen(fileName.c_str(), "wb");
     if (!hFile)
     {
-        throw AliveAPI::IOWriteException(fileName.c_str());
+        throw ReliveAPI::IOWriteException(fileName.c_str());
     }
     ::fwrite(&tlv, tlv.field_2_length, 1, hFile);
     ::fclose(hFile);
@@ -308,7 +308,7 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
                 if (pPathTLV->field_2_length != obj->TlvLen())
                 {
                     LOG_ERROR(magic_enum::enum_name(pPathTLV->field_4_type.mType) << " size should be " << pPathTLV->field_2_length << " but got " << obj->TlvLen());
-                    throw AliveAPI::WrongTLVLengthException();
+                    throw ReliveAPI::WrongTLVLengthException();
                 }
                 mapObjects << obj->InstanceToJson(globalTypes);
             }
@@ -367,7 +367,7 @@ JsonWriterBase::JsonWriterBase(s32 pathId, const std::string& pathBndName, const
     mMapInfo.mXSize = info.mWidth;
     mMapInfo.mYSize = info.mHeight;
 
-    mMapRootInfo.mVersion = AliveAPI::GetApiVersion();
+    mMapRootInfo.mVersion = ReliveAPI::GetApiVersion();
 }
 
 void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName)
@@ -476,7 +476,7 @@ void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<u8>& 
     }
     else
     {
-        throw AliveAPI::IOWriteException(fileName.c_str());
+        throw ReliveAPI::IOWriteException(fileName.c_str());
     }
 }
 
@@ -523,7 +523,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
             if (pPathTLV->field_2_length != obj->TlvLen())
             {
                 LOG_ERROR(magic_enum::enum_name(pPathTLV->field_4_type.mType) << " size should be " << pPathTLV->field_2_length << " but got " << obj->TlvLen());
-                throw AliveAPI::WrongTLVLengthException();
+                throw ReliveAPI::WrongTLVLengthException();
             }
 
             mapObjects << obj->InstanceToJson(globalTypes);
@@ -549,7 +549,7 @@ void JsonMapRootInfoReader::Read(const std::string& fileName)
     std::ifstream inputFileStream(fileName.c_str());
     if (!inputFileStream.is_open())
     {
-        throw AliveAPI::IOReadException(fileName.c_str());
+        throw ReliveAPI::IOReadException(fileName.c_str());
     }
 
     std::string jsonStr((std::istreambuf_iterator<s8>(inputFileStream)), std::istreambuf_iterator<s8>());
@@ -557,7 +557,7 @@ void JsonMapRootInfoReader::Read(const std::string& fileName)
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))
     {
-        throw AliveAPI::InvalidJsonException();
+        throw ReliveAPI::InvalidJsonException();
     }
 
     mMapRootInfo.mVersion = ReadNumber(rootObj, "api_version");
@@ -580,5 +580,5 @@ void JsonMapRootInfoReader::Read(const std::string& fileName)
     }*/
 
 
-    throw AliveAPI::InvalidGameException(mMapRootInfo.mGame.c_str());
+    throw ReliveAPI::InvalidGameException(mMapRootInfo.mGame.c_str());
 }

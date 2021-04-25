@@ -31,7 +31,7 @@ public:
                 return key;
             }
         }
-        throw AliveAPI::UnknownEnumValueException(valueString);
+        throw ReliveAPI::UnknownEnumValueException(valueString);
     }
 
     std::string ValueToString(T valueToFind) const
@@ -43,7 +43,7 @@ public:
                 return value;
             }
         }
-        throw AliveAPI::UnknownEnumValueException();
+        throw ReliveAPI::UnknownEnumValueException();
     }
 
     bool IsBasicType() const override

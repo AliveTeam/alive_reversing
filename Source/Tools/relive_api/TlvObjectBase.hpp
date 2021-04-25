@@ -4,7 +4,7 @@
 #include "TypedProperty.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAO/Map.hpp"
-#include "alive_api.hpp"
+#include "relive_api.hpp"
 #include <string>
 
 #define ADD_PROP(name, type) AddProperty(name, globalTypes.TypeName(typeid(type)), &type)
@@ -48,24 +48,24 @@ public:
     {
         if (name.empty())
         {
-            throw AliveAPI::EmptyPropertyNameException();
+            throw ReliveAPI::EmptyPropertyNameException();
         }
 
         if (typeName.empty())
         {
-            throw AliveAPI::EmptyTypeNameException();
+            throw ReliveAPI::EmptyTypeNameException();
         }
 
         for (const auto& [keyIt, valueIt] : mProperties)
         {
             if (keyIt == key)
             {
-                throw AliveAPI::DuplicatePropertyKeyException();
+                throw ReliveAPI::DuplicatePropertyKeyException();
             }
 
             if (name == valueIt->Name())
             {
-                throw AliveAPI::DuplicatePropertyNameException(name.c_str());
+                throw ReliveAPI::DuplicatePropertyNameException(name.c_str());
             }
         }
 
@@ -77,7 +77,7 @@ public:
         auto it = mProperties.find(key);
         if (it == std::end(mProperties))
         {
-            throw AliveAPI::PropertyNotFoundException();
+            throw ReliveAPI::PropertyNotFoundException();
         }
         return it->second->TypeName();
     }
@@ -101,7 +101,7 @@ public:
         auto it = mProperties.find(key);
         if (it == std::end(mProperties))
         {
-            throw AliveAPI::PropertyNotFoundException();
+            throw ReliveAPI::PropertyNotFoundException();
         }
         return it->second->Name();
     }

@@ -5,7 +5,7 @@
 
 #define API_EXPORT
 
-namespace AliveAPI
+namespace ReliveAPI
 {
     class Exception
     {
