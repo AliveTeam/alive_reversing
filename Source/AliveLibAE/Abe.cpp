@@ -3581,6 +3581,11 @@ void Abe::State_2_StandingTurn_451830()
 
     if (currentFrame == 4 && (sInputKey_Run_5550E8 & pressed) && (sInputKey_Right_5550D0 | sInputKey_Left_5550D4) & pressed)
     {
+
+#if ORIGINAL_GAME_FIXES
+        field_108_next_motion = 0; // OG Change - Fixes "Auto-Turn" bug
+#endif
+
         field_106_current_motion = eAbeStates::State_61_TurnToRun_456530;
         field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
 
