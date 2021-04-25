@@ -28,9 +28,7 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 <summary>Build on Windows using MSYS2 + MinGW</summary>
 
 1. Obtain [MSYS2](https://www.msys2.org/) and follow the installation instructions on the main page
-
 2. Open a MSYS2 shell, and install SDL2 via `pacman -S mingw-w64-SDL2 mingw-w64-x86_64-SDL2`
-
 3. Open a MinGW x64 shell and `cd build && cmake .. -G"MinGW Makefiles" && make -j$(nproc)`
 
 </details>
@@ -45,7 +43,7 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 1. `cd build`
 2. `cmake -S .. -B . -DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY`
 3. `msbuild /p:Configuration=Debug;Platform=Win32 relive.sln /m`
-4. 
+ 
 </details>
 
 
@@ -61,7 +59,7 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 4. Choose `x86-debug` and click `select`.
 5. This will open `CMakeSettings.json`, edit the line `cmakeCommandArgs` to contain `-DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY`, set your build directory to `build` and then click `generate` in the top yellow warning bar.
 6. Invoke `CMake` -> `Build all` to build the project.
-7. 
+
 </details>
 
 
