@@ -523,7 +523,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
             if (pPathTLV->field_2_length != obj->TlvLen())
             {
                 LOG_ERROR(magic_enum::enum_name(pPathTLV->field_4_type.mType) << " size should be " << pPathTLV->field_2_length << " but got " << obj->TlvLen());
-                abort();
+                throw AliveAPI::WrongTLVLengthException();
             }
 
             mapObjects << obj->InstanceToJson(globalTypes);
@@ -544,7 +544,7 @@ std::unique_ptr<TypesCollection> JsonWriterAE::MakeTypesCollection() const
     return std::make_unique<TypesCollection>(Game::AE);
 }
 
-bool JsonMapRootInfoReader::Read(const std::string& fileName)
+void JsonMapRootInfoReader::Read(const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
     if (!inputFileStream.is_open())
@@ -565,19 +565,18 @@ bool JsonMapRootInfoReader::Read(const std::string& fileName)
 
     if (mMapRootInfo.mGame == "AO")
     {
-        return true;
+        return;
     }
 
     if (mMapRootInfo.mGame == "AE")
     {
-        return true;
+        return;
     }
 
     /*
     if (mMapRootInfo.mVersion != AliveAPI::GetApiVersion())
     {
         // TODO: Upgrade
-        abort();
     }*/
 
 

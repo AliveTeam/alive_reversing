@@ -23,7 +23,6 @@ namespace AliveAPI
     struct PathBND
     {
         std::string mPathBndName;
-        Error mResult = Error::None;
         std::vector<s32> mPaths;
         std::vector<u8> mFileData;
         PathInfo mPathInfo;
@@ -156,7 +155,14 @@ namespace AliveAPI
         Game mGameType = {};
     };
 
-    [[nodiscard]] static bool OpenPathBndGeneric(PathBND& ret, LvlReader& lvl, Game game, s32* pathId)
+    enum class OpenPathBndResult
+    {
+        OK,
+        PathResourceChunkNotFound,
+        NoPaths
+    };
+
+    [[nodiscard]] static OpenPathBndResult OpenPathBndGeneric(PathBND& ret, LvlReader& lvl, Game game, s32* pathId)
     {
         const PathRootContainerAdapter adapter(game);
         for (s32 i = 0; i < adapter.PathRootCount(); i++)
@@ -176,7 +182,7 @@ namespace AliveAPI
                         std::optional<LvlFileChunk> chunk = pathChunks.ChunkById(*pathId);
                         if (!chunk)
                         {
-                            return false;
+                            return OpenPathBndResult::PathResourceChunkNotFound;
                         }
 
                         // Save the actual path resource block data
@@ -192,14 +198,12 @@ namespace AliveAPI
                                 // Copy out its info
                                 ret.mPathBndName = pathRoot.BndName();
                                 ret.mPathInfo = pBlyRec.ConvertPathInfo();
-                                ret.mResult = Error::None;
-                                return true;
+                                return OpenPathBndResult::OK;
                             }
                         }
 
                         // Path id out of bounds or the entry is blank
-                        ret.mResult = Error::PathResourceNotFound;
-                        return false;
+                        return OpenPathBndResult::PathResourceChunkNotFound;
                     }
 
                     // Add all path ids
@@ -212,11 +216,11 @@ namespace AliveAPI
                             ret.mPaths.push_back(j);
                         }
                     }
-                    return true;
+                    return OpenPathBndResult::OK;
                 }
             }
         }
-        return false;
+        return OpenPathBndResult::NoPaths;
     }
 
     [[nodiscard]] static PathBND OpenPathBnd(const std::string& inputLvlFile, Game& game, s32* pathId)
@@ -227,33 +231,31 @@ namespace AliveAPI
         LvlReader lvl(inputLvlFile.c_str());
         if (!lvl.IsOpen())
         {
-            ret.mResult = Error::LvlFileReadError;
-            return ret;
+            throw AliveAPI::IOReadException(inputLvlFile.c_str());
         }
 
         // Find AE Path BND
-        game = Game::AE;
-        if (!OpenPathBndGeneric(ret, lvl, game, pathId))
+        if (OpenPathBndGeneric(ret, lvl, Game::AE, pathId) == OpenPathBndResult::OK)
         {
-            // Failed, look for AO Path BND
-            game = Game::AO;
-            if (!OpenPathBndGeneric(ret, lvl, game, pathId))
-            {
-                // Both failed
-                ret.mResult = Error::PathResourceNotFound;
-            }
+            game = Game::AE;
+            return ret;
         }
 
-        return ret;
+        // Failed, look for AO Path BND
+        if (OpenPathBndGeneric(ret, lvl, Game::AO, pathId) == OpenPathBndResult::OK)
+        {
+            game = Game::AO;
+           return ret;
+        }
+
+        // Both failed
+        throw AliveAPI::OpenPathException();
     }
 
     void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, s32 pathId)
     {
-        AliveAPI::Result ret = {};
         Game game = {};
         AliveAPI::PathBND pathBnd = AliveAPI::OpenPathBnd(lvlFile, game, &pathId);
-        ret.mResult = pathBnd.mResult;
-
         if (game == Game::AO)
         {
             JsonWriterAO doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
@@ -275,12 +277,10 @@ namespace AliveAPI
         return kApiVersion;
     }
 
-    [[nodiscard]] Result ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId)
+    void ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId)
     {
-        AliveAPI::Result ret = {};
         Game game = {};
         AliveAPI::PathBND pathBnd = AliveAPI::OpenPathBnd(inputLvlFile, game, &pathResourceId);
-        ret.mResult = pathBnd.mResult;
 
         if (game == Game::AO)
         {
@@ -292,30 +292,23 @@ namespace AliveAPI
             JsonWriterAE doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
             doc.Save(Game::AE, pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
         }
-        return ret;
     }
 
-    [[nodiscard]] JsonUpgradeResult UpgradePathJson(const std::string& jsonFile)
+    void UpgradePathJson(const std::string& jsonFile)
     {
-        JsonUpgradeResult ret = {};
-
         JsonMapRootInfoReader rootInfo;
-        if (!rootInfo.Read(jsonFile))
-        {
-            abort();
-        }
+        rootInfo.Read(jsonFile);
 
         if (rootInfo.mMapRootInfo.mGame == "AO")
         {
             AOJsonUpgrader upgrader;
-            ret.mResult = upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
+            upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
         }
         else
         {
             AEJsonUpgrader upgrader;
-            ret.mResult = upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
+            upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
         }
-        return ret;
     }
 
     template<typename ReturnType, typename ContainerType>
@@ -383,7 +376,7 @@ namespace AliveAPI
     }
 
     template<typename JsonReaderType>
-    static void SaveBinaryPathToLvl(Result& ret, Game gameType, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile)
+    static void SaveBinaryPathToLvl(Game gameType, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile)
     {
         JsonReaderType doc;
         auto [camerasAndMapObjects, collisionLines] = doc.Load(jsonInputFile);
@@ -391,21 +384,20 @@ namespace AliveAPI
         LvlWriter inputLvl(inputLvlFile.c_str());
         if (!inputLvl.IsOpen())
         {
-            ret.mResult = Error::JsonFileReadError;
-            abort();
+            throw AliveAPI::IOReadException(inputLvlFile.c_str());
         }
 
         std::optional<std::vector<u8>> oldPathBnd = inputLvl.ReadFile(doc.mRootInfo.mPathBnd.c_str());
         if (!oldPathBnd)
         {
-            abort();
+            throw AliveAPI::OpenPathException();
         }
 
         ChunkedLvlFile pathBndFile(*oldPathBnd);
         std::optional<LvlFileChunk> chunk = pathBndFile.ChunkById(doc.mRootInfo.mPathId);
         if (!chunk)
         {
-            abort();
+            throw AliveAPI::OpenPathException();
         }
 
         PathRootContainerAdapter pathRootContainer(gameType);
@@ -428,7 +420,7 @@ namespace AliveAPI
 
         if (!pathBlyRecAdapter)
         {
-            abort();
+            throw AliveAPI::OpenPathException();
         }
 
         const PathInfo pathInfo = pathBlyRecAdapter->ConvertPathInfo();
@@ -444,31 +436,36 @@ namespace AliveAPI
                 CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
                 if (pItem)
                 {
+                    // We have a camera
                     if (pItem->mName.empty())
                     {
+                        // With a blank name
                         const static u8 blank[8] = {};
                         s.Write(blank);
                     }
                     else if (pItem->mName.length() == 8)
                     {
+                        // With a non blank name
                         s.Write(pItem->mName);
                     }
                     else
                     {
-                        abort();
+                        // With a name that isn't 8 chars
+                        throw AliveAPI::BadCameraNameException(pItem->mName);
                     }
                 }
                 else
                 {
+                    // No camera
                     const static u8 blank[8] = {};
                     s.Write(blank);
                 }
             }
         }
 
-        if (static_cast<s32>(collisionLines.size()) > pathInfo.mNumCollisionItems)
+        if (static_cast<s32>(collisionLines.size()) != pathInfo.mNumCollisionItems)
         {
-            abort();
+            throw AliveAPI::CollisionsCountChangedException();
         }
 
         // Write collision lines
@@ -548,36 +545,28 @@ namespace AliveAPI
         // Write out the updated lvl to disk
         if (!inputLvl.Save(outputLvlFile.c_str()))
         {
-            abort();
+            throw AliveAPI::IOWriteException(outputLvlFile.c_str());
         }
     }
 
-    [[nodiscard]] Result ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/)
+    void ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/)
     {
-        Result ret = {};
-
         JsonMapRootInfoReader rootInfo;
-        if (!rootInfo.Read(jsonInputFile))
-        {
-            abort();
-        }
+        rootInfo.Read(jsonInputFile);
 
         if (rootInfo.mMapRootInfo.mVersion != GetApiVersion())
         {
-            ret.mResult = Error::JsonFileNeedsUpgrading;
-            return ret;
+            throw AliveAPI::JsonNeedsUpgradingException();
         }
 
         if (rootInfo.mMapRootInfo.mGame == "AO")
         {
-            SaveBinaryPathToLvl<JsonReaderAO>(ret, Game::AO, jsonInputFile, inputLvl, outputLvlFile);
+            SaveBinaryPathToLvl<JsonReaderAO>(Game::AO, jsonInputFile, inputLvl, outputLvlFile);
         }
         else
         {
-            SaveBinaryPathToLvl<JsonReaderAE>(ret, Game::AE, jsonInputFile, inputLvl, outputLvlFile);
+            SaveBinaryPathToLvl<JsonReaderAE>(Game::AE, jsonInputFile, inputLvl, outputLvlFile);
         }
-
-        return ret;
     }
 
     [[nodiscard]] EnumeratePathsResult EnumeratePaths(const std::string& inputLvlFile)
@@ -585,7 +574,6 @@ namespace AliveAPI
         EnumeratePathsResult ret = {};
         Game game = {};
         PathBND pathBnd = OpenPathBnd(inputLvlFile, game, nullptr);
-        ret.mResult = pathBnd.mResult;
         ret.paths = pathBnd.mPaths;
         ret.pathBndName = pathBnd.mPathBndName;
         return ret;

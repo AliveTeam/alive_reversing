@@ -4,6 +4,7 @@
 #include "TypedProperty.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAO/Map.hpp"
+#include "alive_api.hpp"
 #include <string>
 
 #define ADD_PROP(name, type) AddProperty(name, globalTypes.TypeName(typeid(type)), &type)
@@ -47,24 +48,24 @@ public:
     {
         if (name.empty())
         {
-            abort();
+            throw AliveAPI::EmptyPropertyNameException();
         }
 
         if (typeName.empty())
         {
-            abort();
+            throw AliveAPI::EmptyTypeNameException();
         }
 
         for (const auto& [keyIt, valueIt] : mProperties)
         {
             if (keyIt == key)
             {
-                abort(); // dup key
+                throw AliveAPI::DuplicatePropertyKeyException();
             }
 
             if (name == valueIt->Name())
             {
-                abort(); // dup prop name
+                throw AliveAPI::DuplicatePropertyNameException(name.c_str());
             }
         }
 
@@ -76,7 +77,7 @@ public:
         auto it = mProperties.find(key);
         if (it == std::end(mProperties))
         {
-            abort();
+            throw AliveAPI::PropertyNotFoundException();
         }
         return it->second->TypeName();
     }
@@ -100,7 +101,7 @@ public:
         auto it = mProperties.find(key);
         if (it == std::end(mProperties))
         {
-            abort();
+            throw AliveAPI::PropertyNotFoundException();
         }
         return it->second->Name();
     }
@@ -263,6 +264,7 @@ public:
         if (mTlv.field_C_bottom_right.field_0_x - mTlv.field_8_top_left.field_0_x < 0 ||
             mTlv.field_C_bottom_right.field_2_y - mTlv.field_8_top_left.field_2_y < 0)
         {
+            // Sanity check on the data - passed on all OG data, left for any bad/corrupted lvls
             abort();
         }
 
@@ -335,6 +337,7 @@ public:
         if (mBase->field_14_bottom_right.field_0_x - mBase->field_10_top_left.field_0_x < 0 ||
             mBase->field_14_bottom_right.field_2_y - mBase->field_10_top_left.field_2_y < 0)
         {
+            // Sanity check on the data - passed on all OG data, left for any bad/corrupted lvls
             abort();
         }
 

@@ -2,46 +2,34 @@
 #include "JsonUpgrader.hpp"
 #include "alive_api.hpp"
 
-AliveAPI::UpgradeError BaseJsonUpgrader::Upgrade(const std::string& /*jsonFile*/, s32 currentJsonVersion, s32 targetApiVersion)
+void BaseJsonUpgrader::Upgrade(const std::string& /*jsonFile*/, s32 currentJsonVersion, s32 targetApiVersion)
 {
-    auto ret = UpgradeTargetIsValid(currentJsonVersion, targetApiVersion);
-    if (ret != AliveAPI::UpgradeError::None)
-    {
-        return ret;
-    }
+    UpgradeTargetIsValid(currentJsonVersion, targetApiVersion);
 
     s32 currentVersion = currentJsonVersion;
     while (currentVersion != targetApiVersion)
     {
-        ret = mUpgraders[currentJsonVersion]()->Upgrade();
-        if (ret != AliveAPI::UpgradeError::None)
-        {
-            return ret;
-        }
+        mUpgraders[currentJsonVersion]()->Upgrade();
         currentVersion++;
     }
-
-    return ret;
 }
 
-AliveAPI::UpgradeError BaseJsonUpgrader::UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetApiVersion)
+void BaseJsonUpgrader::UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetApiVersion)
 {
     if (currentJsonVersion > targetApiVersion)
     {
         // json is newer than what we support (probably created in a new editor and opened in an old editor).
-        abort();
+        throw AliveAPI::JsonVersionTooNew();
     }
 
     if (currentJsonVersion < 1)
     {
         // json is older than anything ever released, probably someone manually edited the json
-        abort();
+        throw AliveAPI::JsonVersionTooOld();
     }
-
-    return AliveAPI::UpgradeError::None;
 }
 
-AliveAPI::UpgradeError DoNothingUpgrader::Upgrade()
+void DoNothingUpgrader::Upgrade()
 {
-    return AliveAPI::UpgradeError::None;
+
 }

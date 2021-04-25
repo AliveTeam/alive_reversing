@@ -430,7 +430,8 @@ public:
                 std::optional<std::vector<u8>> data = mReader.ReadFile(fileName.c_str());
                 if (!data)
                 {
-                    abort();
+                    ::fclose(outFile);
+                    throw AliveAPI::IOReadException(fileName.c_str());
                 }
 
                 ::fwrite(data->data(), 1, data->size(), outFile);
@@ -441,7 +442,8 @@ public:
         const auto pos = ::ftell(outFile);
         if (pos == -1)
         {
-            abort();
+            ::fclose(outFile);
+            throw AliveAPI::IOReadException(lvlName);
         }
 
         if (pos+1 != RoundUp(pos))
