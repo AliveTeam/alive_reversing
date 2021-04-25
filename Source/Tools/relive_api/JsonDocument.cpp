@@ -39,7 +39,7 @@
 class AOLine final : public PropertyCollection
 {
 public:
-    AOLine(TypesCollection& globalTypes, const AO::PathLine* line = nullptr)
+    AOLine(TypesCollectionBase& globalTypes, const AO::PathLine* line = nullptr)
     {
         if (line)
         {
@@ -64,7 +64,7 @@ public:
 class AELine final : public PropertyCollection
 {
 public:
-    AELine(TypesCollection& globalTypes, const PathLine* line = nullptr)
+    AELine(TypesCollectionBase& globalTypes, const PathLine* line = nullptr)
     {
         if (line)
         {
@@ -109,13 +109,13 @@ static jsonxx::Object ReadObject(jsonxx::Object& o, const std::string& key)
     return o.get<jsonxx::Object>(key);
 }
 
-static int ReadNumber(jsonxx::Object& o, const std::string& key)
+static s32 ReadNumber(jsonxx::Object& o, const std::string& key)
 {
     if (!o.has<jsonxx::Number>(key))
     {
         throw ReliveAPI::JsonKeyNotFoundException(key);
     }
-    return static_cast<int>(o.get<jsonxx::Number>(key));
+    return static_cast<s32>(o.get<jsonxx::Number>(key));
 }
 
 static std::string ReadString(jsonxx::Object& o, const std::string& key)
@@ -127,7 +127,7 @@ static std::string ReadString(jsonxx::Object& o, const std::string& key)
     return o.get<jsonxx::String>(key);
 }
 
-std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollection& types, jsonxx::Array& collisionsArray)
+std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollectionBase& types, jsonxx::Array& collisionsArray)
 {
     std::vector<AO::PathLine> lines;
     for (auto i = 0u; i < collisionsArray.values().size(); i++)
@@ -140,7 +140,7 @@ std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollection& types, js
     return lines;
 }
 
-std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollection& types, jsonxx::Array& collisionsArray)
+std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollectionBase& types, jsonxx::Array& collisionsArray)
 {
     std::vector<::PathLine> lines;
     for (auto i = 0u; i < collisionsArray.values().size(); i++)
@@ -153,7 +153,7 @@ std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollection& types, json
     return lines;
 }
 
-std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load(Game gameType, TypesCollection& types, const std::string& fileName)
+std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load(TypesCollectionBase& types, const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
     if (!inputFileStream.is_open())
@@ -204,7 +204,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
         {
             jsonxx::Object mapObject = mapObjectsArray.get<jsonxx::Object>(j);
             std::string structureType = ReadString(mapObject, "object_structures_type");
-            std::unique_ptr<TlvObjectBase> tlv = gameType == Game::AO ? types.MakeTlvAO(structureType, nullptr) : types.MakeTlvAE(structureType, nullptr);
+            std::unique_ptr<TlvObjectBase> tlv = types.MakeTlvFromString(structureType);
             if (!tlv)
             {
                 throw ReliveAPI::UnknownStructureTypeException(structureType.c_str());
@@ -220,8 +220,8 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
 
 std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::Load(const std::string& fileName)
 {
-    TypesCollection globalTypes(Game::AO);
-    auto [mapData, mapJsonObject] = JsonReaderBase::Load(Game::AO, globalTypes, fileName);
+    TypesCollectionAO globalTypes;
+    auto [mapData, mapJsonObject] = JsonReaderBase::Load(globalTypes, fileName);
 
     jsonxx::Object collisionsObject = ReadObject(mapJsonObject, "collisions");
     jsonxx::Array collisionsArray = ReadArray(collisionsObject, "items");
@@ -232,8 +232,8 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
 
 std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> JsonReaderAE::Load(const std::string& fileName)
 {
-    TypesCollection globalTypes(Game::AE);
-    auto [mapData, mapJsonObject] = JsonReaderBase::Load(Game::AE, globalTypes, fileName);
+    TypesCollectionAE globalTypes;
+    auto [mapData, mapJsonObject] = JsonReaderBase::Load(globalTypes, fileName);
 
     jsonxx::Object collisionsObject = ReadObject(mapJsonObject, "collisions");
     jsonxx::Array collisionsArray = ReadArray(collisionsObject, "items");
@@ -243,7 +243,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> JsonReader
 }
 
 JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const PathInfo& info)
-    : JsonWriterBase(pathId, pathBndName, info)
+    : JsonWriterBase(mTypesCollection, pathId, pathBndName, info)
 {
     mMapRootInfo.mGame = "AO";
 }
@@ -314,7 +314,7 @@ void JsonWriterAE::DebugDumpTlvs(const std::string& prefix, const PathInfo& info
     }
 }
 
-jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
+jsonxx::Array JsonWriterAO::ReadTlvStream(u8* ptr)
 {
     jsonxx::Array mapObjects;
 
@@ -327,7 +327,7 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
         {
             mTypeCounterMap[pPathTLV->field_4_type.mType]++;
 
-            auto obj = globalTypes.MakeTlvAO(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
+            auto obj = mTypesCollection.MakeTlvAO(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
             if (obj)
             {
                 if (pPathTLV->field_2_length != obj->TlvLen())
@@ -335,7 +335,7 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
                     LOG_ERROR(magic_enum::enum_name(pPathTLV->field_4_type.mType) << " size should be " << pPathTLV->field_2_length << " but got " << obj->TlvLen());
                     throw ReliveAPI::WrongTLVLengthException();
                 }
-                mapObjects << obj->InstanceToJson(globalTypes);
+                mapObjects << obj->InstanceToJson(mTypesCollection);
             }
             else
             {
@@ -353,9 +353,11 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
     return mapObjects;
 }
 
-std::unique_ptr<TypesCollection> JsonWriterAO::MakeTypesCollection() const
+
+jsonxx::Array JsonWriterAO::AddCollisionLineStructureJson()
 {
-    return std::make_unique<TypesCollection>(Game::AO);
+    AOLine tmpLine(mTypesCollection);
+    return tmpLine.PropertiesToJson();
 }
 
 void JsonWriterAO::ResetTypeCounterMap()
@@ -367,7 +369,7 @@ jsonxx::Array JsonWriterAO::ReadCollisionStream(u8* ptr, s32 numItems)
 {
     jsonxx::Array collisionsArray;
     AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(ptr);
-    TypesCollection types(Game::AO);
+    TypesCollectionAO types;
 
     for (s32 i = 0; i < numItems; i++)
     {
@@ -382,7 +384,8 @@ jsonxx::Array JsonWriterAO::ReadCollisionStream(u8* ptr, s32 numItems)
 }
 
 
-JsonWriterBase::JsonWriterBase(s32 pathId, const std::string& pathBndName, const PathInfo& info)
+JsonWriterBase::JsonWriterBase(TypesCollectionBase& types, s32 pathId, const std::string& pathBndName, const PathInfo& info)
+    : mBaseTypesCollection(types)
 {
     mMapInfo.mPathId = pathId;
     mMapInfo.mPathBnd = pathBndName;
@@ -395,7 +398,7 @@ JsonWriterBase::JsonWriterBase(s32 pathId, const std::string& pathBndName, const
     mMapRootInfo.mVersion = ReliveAPI::GetApiVersion();
 }
 
-void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName)
+void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName)
 {
     ResetTypeCounterMap();
 
@@ -421,20 +424,9 @@ void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<u8>& 
     u8* pLineIter = pPathData + info.mCollisionOffset;
     jsonxx::Array collisionsArray = ReadCollisionStream(pLineIter, info.mNumCollisionItems);
     jsonxx::Object colllisionObject;
-
-    std::unique_ptr<TypesCollection> globalTypes = MakeTypesCollection();
-    if (gameType == Game::AO)
-    {
-        AOLine tmpLine(*globalTypes);
-        colllisionObject << "structure" << tmpLine.PropertiesToJson();
-    }
-    else
-    {
-        AELine tmpLine(*globalTypes);
-        colllisionObject << "structure" << tmpLine.PropertiesToJson();
-    }
-
+    colllisionObject << "structure" << AddCollisionLineStructureJson();
     colllisionObject << "items" << collisionsArray;
+
     rootMapObject << "collisions" << colllisionObject;
 
     const s32* indexTable = reinterpret_cast<const s32*>(pPathData + info.mIndexTableOffset);
@@ -474,7 +466,7 @@ void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<u8>& 
                 // "blank" cameras just do not have a name set.
 
                 u8* ptr = pPathData + indexTableEntryOffset + info.mObjectOffset;
-                jsonxx::Array mapObjects = ReadTlvStream(*globalTypes, ptr);
+                jsonxx::Array mapObjects = ReadTlvStream(ptr);
                 LOG_INFO("Add camera " << tmpCamera.mName);
                 cameraArray << tmpCamera.ToJsonObject(mapObjects);
             }
@@ -484,11 +476,11 @@ void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<u8>& 
     rootMapObject << "cameras" << cameraArray;
 
     jsonxx::Object schemaObject;
-    schemaObject << "object_structure_property_basic_types" << globalTypes->BasicTypesToJson();
-    schemaObject << "object_structure_property_enums" << globalTypes->EnumsToJson();
+    schemaObject << "object_structure_property_basic_types" << mBaseTypesCollection.BasicTypesToJson();
+    schemaObject << "object_structure_property_enums" << mBaseTypesCollection.EnumsToJson();
 
     jsonxx::Array objectStructuresArray;
-    globalTypes->AddTlvsToJsonArray(objectStructuresArray);
+    mBaseTypesCollection.AddTlvsToJsonArray(objectStructuresArray);
     schemaObject << "object_structures" << objectStructuresArray;
 
     rootObject << "map" << rootMapObject;
@@ -506,7 +498,7 @@ void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<u8>& 
 }
 
 JsonWriterAE::JsonWriterAE(s32 pathId, const std::string& pathBndName, const PathInfo& info)
-    : JsonWriterBase(pathId, pathBndName, info)
+    : JsonWriterBase(mTypesCollection, pathId, pathBndName, info)
 {
     mMapRootInfo.mGame = "AE";
 }
@@ -520,7 +512,7 @@ jsonxx::Array JsonWriterAE::ReadCollisionStream(u8* ptr, s32 numItems)
 {
     jsonxx::Array collisionsArray;
     PathLine* pLineIter = reinterpret_cast<PathLine*>(ptr);
-    TypesCollection types(Game::AE);
+    TypesCollectionAE types;
 
     for (s32 i = 0; i < numItems; i++)
     {
@@ -534,7 +526,7 @@ jsonxx::Array JsonWriterAE::ReadCollisionStream(u8* ptr, s32 numItems)
     return collisionsArray;
 }
 
-jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
+jsonxx::Array JsonWriterAE::ReadTlvStream(u8* ptr)
 {
     jsonxx::Array mapObjects;
 
@@ -542,7 +534,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
     while (pPathTLV)
     {
         mTypeCounterMap[pPathTLV->field_4_type.mType]++;
-        auto obj = globalTypes.MakeTlvAE(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
+        auto obj = mTypesCollection.MakeTlvAE(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
         if (obj)
         {
             if (pPathTLV->field_2_length != obj->TlvLen())
@@ -551,7 +543,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
                 throw ReliveAPI::WrongTLVLengthException();
             }
 
-            mapObjects << obj->InstanceToJson(globalTypes);
+            mapObjects << obj->InstanceToJson(mTypesCollection);
         }
         else
         {
@@ -564,9 +556,10 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
     return mapObjects;
 }
 
-std::unique_ptr<TypesCollection> JsonWriterAE::MakeTypesCollection() const
+jsonxx::Array JsonWriterAE::AddCollisionLineStructureJson()
 {
-    return std::make_unique<TypesCollection>(Game::AE);
+    AELine tmpLine(mTypesCollection);
+    return tmpLine.PropertiesToJson();
 }
 
 void JsonMapRootInfoReader::Read(const std::string& fileName)

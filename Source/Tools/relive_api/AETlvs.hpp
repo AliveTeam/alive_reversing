@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TlvObjectBase.hpp"
+#include "TlvObjectBaseAE.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAE/Switch.hpp"
 #include "../AliveLibAE/ElectricWall.hpp"
@@ -69,7 +69,7 @@
 #include "../AliveLibAE/Meat.hpp"
 #include "../AliveLibAE/TorturedMudokon.hpp"
 
-#define CTOR_AE(className, objectTypeName, tlvType) className() : TlvObjectBaseAE(tlvType, objectTypeName) {}  className(TypesCollection& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(globalTypes, tlvType, objectTypeName, pTlv)
+#define CTOR_AE(className, objectTypeName, tlvType) className() : TlvObjectBaseAE(tlvType, objectTypeName) {}  className(TypesCollectionBase& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(globalTypes, tlvType, objectTypeName, pTlv)
 #define EMPTY_CTOR_AE() (void)globalTypes
 
 struct Path_Null_63 : public Path_TLV
@@ -245,7 +245,7 @@ namespace AETlvs
 {
     struct Path_ElectricWall : public TlvObjectBaseAE<::Path_ElectricWall>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::ElectricWallStartState>("Enum_ElectricWallStartState",
                 {
@@ -264,7 +264,7 @@ namespace AETlvs
 
     struct Path_Mudokon : public TlvObjectBaseAE<::Path_Mudokon>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Mud_TLV_Emotion>("Enum_Mud_TLV_Emotion",
                 {
@@ -307,7 +307,7 @@ namespace AETlvs
 
     struct Path_BirdPortal : public TlvObjectBaseAE<::Path_BirdPortal>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::PortalType>("Enum_PortalType",
                 {
@@ -383,7 +383,7 @@ namespace AETlvs
 
     struct Path_Switch : public TlvObjectBaseAE<::Path_Switch>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::SwitchSoundType>("Enum_SwitchSoundType",
                 {
@@ -418,7 +418,7 @@ namespace AETlvs
 
     struct Path_Hoist : public TlvObjectBaseAE<::Path_Hoist>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Path_Hoist::Type>("Enum_HoistType",
                 {
@@ -457,7 +457,7 @@ namespace AETlvs
 
     struct Path_Slig : public TlvObjectBaseAE<::Path_Slig>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Path_Slig::StartState>("Enum_SligStartState",
                 {
@@ -539,7 +539,7 @@ namespace AETlvs
 
     struct Path_EnemyStopper : public TlvObjectBaseAE<::Path_EnemyStopper>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Path_EnemyStopper::StopDirection>("Enum_StopDirection",
                 {
@@ -576,7 +576,7 @@ namespace AETlvs
 
     struct Path_UXB : public TlvObjectBaseAE<::Path_UXB>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Path_UXB::StartState>("Enum_Path_UXB_StartState",
                 {
@@ -609,7 +609,7 @@ namespace AETlvs
 
     struct Path_Edge : public TlvObjectBaseAE<::Path_Edge>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Path_Edge::GrabDirection>("Enum_EdgeGrabDirection",
                 {
@@ -644,7 +644,7 @@ namespace AETlvs
 
     struct Path_ShadowZone : public TlvObjectBaseAE<::Path_ShadowZone>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::ShadowZoneScale>("Enum_ShadowZoneScale",
                 {
@@ -680,7 +680,7 @@ namespace AETlvs
 
     struct Path_MusicTrigger : public TlvObjectBaseAE<::Path_MusicTrigger>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::MusicTriggerMusicType>("Enum_MusicTriggerMusicType",
                 {
@@ -791,7 +791,7 @@ namespace AETlvs
 
     struct Path_InvisibleSwitch : public TlvObjectBaseAE<::Path_InvisibleSwitch>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::InvisibleSwitchScale>("Enum_InvisibleSwitchScale",
                 {
@@ -826,7 +826,7 @@ namespace AETlvs
 
     struct Path_GasEmitter : public TlvObjectBaseAE<::Path_GasEmitter>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::GasColour>("Enum_GasColour",
                 {
@@ -847,7 +847,7 @@ namespace AETlvs
 
     struct Path_BackgroundAnimation : public TlvObjectBaseAE<::Path_BackgroundAnimation>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::TPageAbr>("Enum_TPageAbr",
                 {
@@ -918,7 +918,7 @@ namespace AETlvs
 
     struct Path_LiftPoint : public TlvObjectBaseAE<::Path_LiftPoint>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::LiftPointStopType>("Enum_LiftPointStopType",
                 {
@@ -943,7 +943,7 @@ namespace AETlvs
 
     struct Path_PullRingRope : public TlvObjectBaseAE<::Path_PullRingRope>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::PullRingSwitchSound>("Enum_PullRingSwitchSound",
                 {
@@ -1008,7 +1008,7 @@ namespace AETlvs
 
     struct Path_ContinuePoint : public TlvObjectBaseAE<::Path_ContinuePoint>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Path_ContinuePoint::Scale>("Enum_ContinuePointScale",
                 {
@@ -1027,7 +1027,7 @@ namespace AETlvs
 
     struct Path_WheelSyncer : public TlvObjectBaseAE<::Path_WheelSyncer>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::WheelSyncerAction>("Enum_WheelSyncerAction",
                 {
@@ -1236,7 +1236,7 @@ namespace AETlvs
 
     struct Path_Grinder : public TlvObjectBaseAE<::Path_Grinder>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::GrinderBehavior>("Enum_GrinderBehavior",
                 {
@@ -1343,7 +1343,7 @@ namespace AETlvs
 
     struct Path_LiftMover : public TlvObjectBaseAE<::Path_LiftMover>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Path_LiftMover::YDirection>("Enum_LiftMoverYDirection",
                 {
@@ -1387,7 +1387,7 @@ namespace AETlvs
 
     struct Path_MotionDetector : public TlvObjectBaseAE<::Path_MotionDetector>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Path_MotionDetector::InitialMoveDirection>("Enum_InitialMoveDirection",
                 {
@@ -1610,7 +1610,7 @@ namespace AETlvs
 
     struct Path_NakedSlig : public TlvObjectBaseAE<::Path_NakedSlig>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Path_NakedSlig::State>("Enum_NakedSligState",
                 {
@@ -1716,7 +1716,7 @@ namespace AETlvs
 
     struct Path_Glukkon : public TlvObjectBaseAE<::Path_Glukkon>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::GlukkonTypes>("Enum_GlukkonTypes",
                 {
@@ -1756,7 +1756,7 @@ namespace AETlvs
 
     struct Path_GlukkonSwitch : public TlvObjectBaseAE<::Path_GlukkonSwitch>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Path_GlukkonSwitch::Scale>("Enum_GlukkonSwitchScale",
                 {
@@ -1821,7 +1821,7 @@ namespace AETlvs
 
     struct Path_FootSwitch : public TlvObjectBaseAE<::Path_FootSwitch>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::FootSwitchTriggerBy>("Enum_FootSwitchTriggeredBy",
                 {
@@ -1904,7 +1904,7 @@ namespace AETlvs
 
     struct Path_ScrabSpawner : public TlvObjectBaseAE<::Path_ScrabSpawner>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::ScrabSpawnDirection>("Enum_ScrabSpawnDirection",
                 {
@@ -1955,7 +1955,7 @@ namespace AETlvs
 
     struct Path_Paramite : public TlvObjectBaseAE<::Path_Paramite>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<::Path_Paramite::EntranceType>("Enum_ParamiteEntranceType",
                 {

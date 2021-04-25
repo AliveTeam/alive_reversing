@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TlvObjectBase.hpp"
+#include "TlvObjectBaseAO.hpp"
 #include "../AliveLibAO/HoistRocksEffect.hpp"
 #include "../AliveLibAO/Abe.hpp"
 #include "../AliveLibAO/Door.hpp"
@@ -55,7 +55,7 @@
 #include "../AliveLibAO/FootSwitch.hpp"
 #include "../AliveLibAO/Paramite.hpp"
 
-#define CTOR_AO(className, objectTypeName, tlvType) className() : TlvObjectBaseAO(tlvType, objectTypeName) {}  className(TypesCollection& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(globalTypes, tlvType, objectTypeName, pTlv)
+#define CTOR_AO(className, objectTypeName, tlvType) className() : TlvObjectBaseAO(tlvType, objectTypeName) {}  className(TypesCollectionBase& globalTypes, AO::Path_TLV* pTlv = nullptr) : TlvObjectBaseAO(globalTypes, tlvType, objectTypeName, pTlv)
 #define EMPTY_CTOR_AO() (void)globalTypes
 
 namespace AO
@@ -231,7 +231,7 @@ namespace AOTlvs
 
     struct Path_BellsongStone : public TlvObjectBaseAO<AO::Path_BellsongStone>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::BellsongTypes>("Enum_BellsongTypes",
                 {
@@ -272,7 +272,7 @@ namespace AOTlvs
 
     struct Path_Door : public TlvObjectBaseAO<AO::Path_Door>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::DoorStates>("Enum_DoorStates",
                 {
@@ -326,7 +326,7 @@ namespace AOTlvs
 
     struct Path_Hoist : public TlvObjectBaseAO<AO::Path_Hoist>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::Path_Hoist::Type>("Enum_HoistType",
                 {
@@ -379,7 +379,7 @@ namespace AOTlvs
 
     struct Path_LightEffect : public TlvObjectBaseAO<AO::Path_LightEffect>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::Path_LightEffect::Type>("Enum_LightType",
                 {
@@ -429,7 +429,7 @@ namespace AOTlvs
 
     struct Path_Edge : public TlvObjectBaseAO<AO::Path_Edge>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::Path_Edge::Type>("Enum_EdgeType",
                 {
@@ -507,7 +507,7 @@ namespace AOTlvs
 
     struct Path_EnemyStopper : public TlvObjectBaseAO<AO::Path_EnemyStopper>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::Path_EnemyStopper::StopDirection>("Enum_StopDirection",
                 {
@@ -526,7 +526,7 @@ namespace AOTlvs
 
     struct Path_Slig : public TlvObjectBaseAO<AO::Path_Slig>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::Path_Slig::StartState>("Enum_SligStartState",
                 {
@@ -659,7 +659,7 @@ namespace AOTlvs
 
     struct Path_UXB : public TlvObjectBaseAO<AO::Path_UXB>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::UXB_State>("UXB_State",
                 {
@@ -699,7 +699,7 @@ namespace AOTlvs
 
     struct Path_ShadowZone : public TlvObjectBaseAO<AO::Path_ShadowZone>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::ShadowZoneScale>("Enum_ShadowZoneScale",
                 {
@@ -914,7 +914,7 @@ namespace AOTlvs
 
     struct Path_BirdPortal : public TlvObjectBaseAO<AO::Path_BirdPortal>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::PortalSide>("Enum_PortalSide",
                 {
@@ -1116,7 +1116,7 @@ namespace AOTlvs
 
     struct Path_SligSpawner : public TlvObjectBaseAO<AO::Path_SligSpawner>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::Path_SligSpawner::StartState>("Enum_SligSpawnerStartState",
                 {
@@ -1167,7 +1167,7 @@ namespace AOTlvs
 
     struct Path_MotionDetector : public TlvObjectBaseAO<AO::Path_MotionDetector>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::Path_MotionDetector::StartMoveDirection>("Enum_MotionDetectorStartMoveDirection",
                 {
@@ -1192,7 +1192,7 @@ namespace AOTlvs
 
     struct Path_BackgroundAnimation : public TlvObjectBaseAO<AO::Path_BackgroundAnimation>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::TPageAbr>("Enum_TPageAbr",
                 {
@@ -1330,7 +1330,7 @@ namespace AOTlvs
 
     struct Path_BeeSwarmHole : public TlvObjectBaseAO<AO::Path_BeeSwarmHole>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::Path_BeeSwarmHole::MovementType>("Enum_BeeSwarmHoleMovementType",
                 {
@@ -1403,7 +1403,7 @@ namespace AOTlvs
 
     struct Path_ZBall : public TlvObjectBaseAO<AO::Path_ZBall>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::Path_ZBall::StartPos>("Enum_ZBallStartPos",
                 {
@@ -1430,7 +1430,7 @@ namespace AOTlvs
 
     struct Path_FootSwitch : public TlvObjectBaseAO<AO::Path_FootSwitch>
     {
-        void AddTypes(TypesCollection& types) override
+        void AddTypes(TypesCollectionBase& types) override
         {
             types.AddEnum<AO::FootSwitchTriggerBy>("Enum_FootSwitchTriggeredBy",
                 {

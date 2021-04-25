@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include "JsonDocument.hpp"
-#include "TypesCollection.hpp"
+#include "TypesCollectionBase.hpp"
 #include <gmock/gmock.h>
 #include <type_traits>
 #include <typeindex>
@@ -287,12 +287,12 @@ namespace ReliveAPI
         if (game == Game::AO)
         {
             JsonWriterAO doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-            doc.Save(Game::AO, pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
+            doc.Save(pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
         }
         else
         {
             JsonWriterAE doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-            doc.Save(Game::AE, pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
+            doc.Save(pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
         }
     }
 

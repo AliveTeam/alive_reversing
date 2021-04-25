@@ -1,11 +1,11 @@
 #include "../AliveLibCommon/stdafx_common.h"
-#include "TypesCollection.hpp"
+#include "TypesCollectionAO.hpp"
 #include "AOTlvs.hpp"
 #include "../AliveLibAO/SwitchStates.hpp"
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAE/Path.hpp"
 
-void TypesCollection::AddAOTypes()
+void TypesCollectionAO::AddAOTypes()
 {
     #define REGISTER_TYPE_AO(TlvWrapperType) mTlvFactoryAO.DoRegisterType<TlvWrapperType>(*this)
 

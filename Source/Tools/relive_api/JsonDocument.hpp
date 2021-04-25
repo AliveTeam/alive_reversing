@@ -10,7 +10,9 @@
 #include <map>
 
 enum class Game;
-class TypesCollection;
+class TypesCollectionBase;
+class TypesCollectionAO;
+class TypesCollectionAE;
 
 class PathLine;
 enum class TlvTypes : s16;
@@ -92,10 +94,10 @@ public:
     MapInfo mRootInfo;
 
 protected:
-    std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> Load(Game gameType, TypesCollection& types, const std::string& fileName);
+    std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> Load(TypesCollectionBase& types, const std::string& fileName);
 
-    std::vector<AO::PathLine> ReadAOLines(TypesCollection& types, jsonxx::Array& collisionsArray);
-    std::vector<::PathLine> ReadAELines(TypesCollection& types, jsonxx::Array& collisionsArray);
+    std::vector<AO::PathLine> ReadAOLines(TypesCollectionBase& types, jsonxx::Array& collisionsArray);
+    std::vector<::PathLine> ReadAELines(TypesCollectionBase& types, jsonxx::Array& collisionsArray);
 };
 
 class JsonReaderAO : public JsonReaderBase
@@ -113,46 +115,62 @@ public:
 class JsonWriterBase
 {
 public:
-    virtual ~JsonWriterBase() { }
-    JsonWriterBase(s32 pathId, const std::string& pathBndName, const PathInfo& info);
-    void Save(Game gameType, const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName);
+    JsonWriterBase(TypesCollectionBase& types, s32 pathId, const std::string& pathBndName, const PathInfo& info);
+    virtual ~JsonWriterBase();
+
+    void Save(const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName);
     virtual void DebugDumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) = 0;
+
+    virtual jsonxx::Array ReadTlvStream(u8* ptr) = 0;
+    virtual jsonxx::Array AddCollisionLineStructureJson() = 0;
 
 protected:
     virtual jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) = 0;
-    virtual jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, u8* ptr) = 0;
-    virtual std::unique_ptr<TypesCollection> MakeTypesCollection() const = 0;
     virtual void ResetTypeCounterMap() = 0;
 
-protected:
     MapRootInfo mMapRootInfo;
     MapInfo mMapInfo;
+    TypesCollectionBase& mBaseTypesCollection;
 };
 
 class JsonWriterAO : public JsonWriterBase
 {
+private:
+    JsonWriterAO(std::unique_ptr<TypesCollectionAO>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info);
+
 public:
     JsonWriterAO(s32 pathId, const std::string& pathBndName, const PathInfo& info);
+    ~JsonWriterAO();
+
     void DebugDumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) override;
 
 private:
     void ResetTypeCounterMap() override;
     jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) override;
-    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, u8* ptr) override;
-    std::unique_ptr<TypesCollection> MakeTypesCollection() const override;
+    jsonxx::Array ReadTlvStream(u8* ptr) override;
+    jsonxx::Array AddCollisionLineStructureJson() override;
+
     std::map<AO::TlvTypes, s32> mTypeCounterMap;
+    std::unique_ptr<TypesCollectionAO> mTypesCollection;
 };
 
 class JsonWriterAE : public JsonWriterBase
 {
+private:
+    JsonWriterAE(std::unique_ptr<TypesCollectionAE>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info);
+
 public:
     JsonWriterAE(s32 pathId, const std::string& pathBndName, const PathInfo& info);
+    ~JsonWriterAE();
+
     void DebugDumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) override;
 
 private:
     void ResetTypeCounterMap() override;
     jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) override;
-    jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, u8* ptr) override;
-    std::unique_ptr<TypesCollection> MakeTypesCollection() const override;
+    jsonxx::Array ReadTlvStream(u8* ptr) override;
+    jsonxx::Array AddCollisionLineStructureJson() override;
+
     std::map<::TlvTypes, s32> mTypeCounterMap;
+    std::unique_ptr<TypesCollectionAE> mTypesCollection;
 };
