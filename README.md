@@ -24,6 +24,14 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 
 #### **Regardless of your platform, you need to create a folder called `build` in your repository root! `.gitignore` is configured to ignore this folder. This helps to prevent polluting the commits with binaries.**
 
+### Build on Windows using MSYS2 + MinGW 
+
+1. Obtain [MSYS2](https://www.msys2.org/) and follow the installation instructions on the main page
+
+2. Open a MSYS2 shell, and install SDL2 via `pacman -S mingw-w64-SDL2 mingw-w64-x86_64-SDL2`
+
+3. Open a MinGW x64 shell and `cd build && cmake .. -G"MinGW Makefiles" && make -j$(nproc)`
+
 ### Build on Windows using `msbuild`
 
 [SDL](https://libsdl.org/download-2.0.php) and [CMake](https://cmake.org/) is required to build the project.
