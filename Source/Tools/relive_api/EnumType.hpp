@@ -3,6 +3,12 @@
 #include "ITypeBase.hpp"
 #include "relive_api.hpp"
 
+#include <jsonxx/jsonxx.h>
+
+#include <map>
+#include <string>
+#include <typeinfo>
+
 template<class T>
 class EnumType : public ITypeBase
 {
@@ -10,7 +16,6 @@ public:
     explicit EnumType(const std::string& typeName)
         : ITypeBase(typeName), mTypeIndex(typeid(T))
     {
-
     }
 
     void Add(T enumValue, const std::string& name)
@@ -18,12 +23,12 @@ public:
         mMapping[enumValue] = name;
     }
 
-    std::type_index TypeIndex() const override
+    [[nodiscard]] const std::type_index& TypeIndex() const override
     {
         return mTypeIndex;
     }
 
-    T ValueFromString(const std::string& valueString) const
+    [[nodiscard]] T ValueFromString(const std::string& valueString) const
     {
         for (const auto [key, value] : mMapping)
         {
@@ -32,10 +37,11 @@ public:
                 return key;
             }
         }
+
         throw ReliveAPI::UnknownEnumValueException(valueString);
     }
 
-    std::string ValueToString(T valueToFind) const
+    [[nodiscard]] const std::string& ValueToString(T valueToFind) const
     {
         for (const auto [key, value] : mMapping)
         {
@@ -44,10 +50,11 @@ public:
                 return value;
             }
         }
+
         throw ReliveAPI::UnknownEnumValueException();
     }
 
-    bool IsBasicType() const override
+    [[nodiscard]] bool IsBasicType() const override
     {
         return false;
     }
@@ -63,6 +70,7 @@ public:
         jsonxx::Object enumObj;
         enumObj << "name" << Name();
         enumObj << "values" << enumVals;
+
         obj << enumObj;
     }
 

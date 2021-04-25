@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(relive_api_src
     TlvObjectBase.hpp
+    TlvObjectBase.cpp
     TlvObjectBaseAE.hpp
     TlvObjectBaseAO.hpp
     PropertyCollection.hpp
@@ -16,11 +17,15 @@ set(relive_api_src
     AETlvs.hpp
     AOTlvs.hpp
     ITypeBase.hpp
+    ITypeBase.cpp
     BasicType.hpp
+    BasicTypeBase.hpp
+    BasicTypeBase.cpp
     EnumType.hpp
     relive_api.cpp
     relive_api.hpp
     TlvFactory.hpp
+    TlvFactory.cpp
     TypesCollectionBase.hpp
     TypesCollectionBase.cpp
     TypesCollectionAO.hpp
@@ -35,7 +40,10 @@ set(relive_api_src
     AOJsonUpgrader.cpp
     AEJsonUpgrader.hpp
     AEJsonUpgrader.cpp
+    BaseProperty.hpp
+    BaseProperty.cpp
     TypedProperty.hpp
+    TypedProperty.cpp
     LvlReaderWriter.hpp
     ByteStream.hpp
 )

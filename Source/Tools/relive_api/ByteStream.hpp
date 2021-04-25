@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstddef>
+#include <string>
+#include <type_traits>
 #include <vector>
 
 class ByteStream
@@ -7,17 +10,16 @@ class ByteStream
 public:
     ByteStream() = default;
 
-    explicit ByteStream(const std::vector<u8>& data) 
+    explicit ByteStream(const std::vector<u8>& data)
         : mData(data)
     {
-
     }
 
     // Read any fundamental type
     template<class T>
     void Read(T& type)
     {
-        static_assert(std::is_fundamental<T>::value, "Can only read fundamental types");
+        static_assert(std::is_fundamental_v<T>, "Can only read fundamental types");
         ReadBytes(reinterpret_cast<u8*>(&type), sizeof(type));
     }
 
@@ -31,7 +33,7 @@ public:
     template<class T>
     void Read(std::vector<T>& type)
     {
-        static_assert(std::is_fundamental<T>::value, "Can only read vectors of fundamental types");
+        static_assert(std::is_fundamental_v<T>, "Can only read vectors of fundamental types");
         ReadBytes(reinterpret_cast<u8*>(type.data()), sizeof(T) * type.size());
     }
 
@@ -39,7 +41,7 @@ public:
     template<class T, std::size_t count>
     void Read(std::array<T, count>& type)
     {
-        static_assert(std::is_fundamental<T>::value, "Can only read vectors of fundamental types");
+        static_assert(std::is_fundamental_v<T>, "Can only read vectors of fundamental types");
         ReadBytes(reinterpret_cast<u8*>(type.data()), sizeof(T) * type.size());
     }
 
@@ -47,7 +49,7 @@ public:
     template<typename T, std::size_t count>
     void Read(T(&value)[count])
     {
-        static_assert(std::is_fundamental<T>::value, "Can only read fundamental types");
+        static_assert(std::is_fundamental_v<T>, "Can only read fundamental types");
         ReadBytes(reinterpret_cast<u8*>(&value[0]), sizeof(T) * count);
     }
 
@@ -55,7 +57,7 @@ public:
     template<typename T, std::size_t count>
     void Write(const T(&value)[count])
     {
-        static_assert(std::is_fundamental<T>::value, "Can only write fundamental types");
+        static_assert(std::is_fundamental_v<T>, "Can only write fundamental types");
         WriteBytes(reinterpret_cast<const u8*>(&value[0]), sizeof(T) * count);
     }
 
@@ -63,7 +65,7 @@ public:
     template<class T>
     void Write(const T& type)
     {
-        static_assert(std::is_fundamental<T>::value, "Can only write fundamental types");
+        static_assert(std::is_fundamental_v<T>, "Can only write fundamental types");
         WriteBytes(reinterpret_cast<const u8*>(&type), sizeof(type));
     }
 
@@ -71,7 +73,7 @@ public:
     template<class T>
     void Write(const std::vector<T>& type)
     {
-        static_assert(std::is_fundamental<T>::value, "Can only write vectors of fundamental types");
+        static_assert(std::is_fundamental_v<T>, "Can only write vectors of fundamental types");
         WriteBytes(reinterpret_cast<const u8*>(type.data()), sizeof(T) * type.size());
     }
 

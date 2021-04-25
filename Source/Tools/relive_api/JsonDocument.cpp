@@ -1,15 +1,24 @@
-#include "../AliveLibCommon/stdafx_common.h"
 #include "JsonDocument.hpp"
+
 #include "relive_api.hpp"
+#include "TlvObjectBase.hpp"
+#include "TypesCollectionAO.hpp"
+#include "TypesCollectionAE.hpp"
+
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAO/Collisions.hpp"
 #include "../AliveLibAO/HoistRocksEffect.hpp"
+
 #include "../AliveLibAE/ResourceManager.hpp"
 #include "../AliveLibAE/Collisions.hpp"
+
+#include "../AliveLibCommon/stdafx_common.h"
+
+#include <magic_enum/include/magic_enum.hpp>
+#include <jsonxx/jsonxx.h>
+
 #include <fstream>
 #include <streambuf>
-#include <magic_enum/include/magic_enum.hpp>
-#include "TlvObjectBase.hpp"
 
 [[nodiscard]] jsonxx::Object CameraObject::ToJsonObject(jsonxx::Array mapObjectsArray) const
 {
@@ -46,16 +55,16 @@ public:
             mLine = *line;
         }
 
-        ADD("x1", mLine.field_0_rect.x);
-        ADD("y1", mLine.field_0_rect.y);
+        TLVOBJECTBASE_ADD("x1", mLine.field_0_rect.x);
+        TLVOBJECTBASE_ADD("y1", mLine.field_0_rect.y);
 
-        ADD("x2", mLine.field_0_rect.w);
-        ADD("y2", mLine.field_0_rect.h);
+        TLVOBJECTBASE_ADD("x2", mLine.field_0_rect.w);
+        TLVOBJECTBASE_ADD("y2", mLine.field_0_rect.h);
 
-        ADD("type", mLine.field_8_type);
+        TLVOBJECTBASE_ADD("type", mLine.field_8_type);
 
-        ADD("next", mLine.field_10_next);
-        ADD("previous", mLine.field_C_previous);
+        TLVOBJECTBASE_ADD("next", mLine.field_10_next);
+        TLVOBJECTBASE_ADD("previous", mLine.field_C_previous);
     }
 
     AO::PathLine mLine = {};
@@ -71,21 +80,21 @@ public:
             mLine = *line;
         }
 
-        ADD("x1", mLine.field_0_rect.x);
-        ADD("y1", mLine.field_0_rect.y);
+        TLVOBJECTBASE_ADD("x1", mLine.field_0_rect.x);
+        TLVOBJECTBASE_ADD("y1", mLine.field_0_rect.y);
 
-        ADD("x2", mLine.field_0_rect.w);
-        ADD("y2", mLine.field_0_rect.h);
+        TLVOBJECTBASE_ADD("x2", mLine.field_0_rect.w);
+        TLVOBJECTBASE_ADD("y2", mLine.field_0_rect.h);
 
-        ADD("type", mLine.field_8_type);
+        TLVOBJECTBASE_ADD("type", mLine.field_8_type);
 
-        ADD("next", mLine.field_C_next);
-        ADD("previous", mLine.field_A_previous);
+        TLVOBJECTBASE_ADD("next", mLine.field_C_next);
+        TLVOBJECTBASE_ADD("previous", mLine.field_A_previous);
 
-        ADD("next2", mLine.field_10_next2);
-        ADD("previous2", mLine.field_E_previous2);
+        TLVOBJECTBASE_ADD("next2", mLine.field_10_next2);
+        TLVOBJECTBASE_ADD("previous2", mLine.field_E_previous2);
 
-        ADD("length", mLine.field_12_line_length);
+        TLVOBJECTBASE_ADD("length", mLine.field_12_line_length);
     }
 
     PathLine mLine = {};
@@ -242,11 +251,18 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> JsonReader
     return { mapData, lines };
 }
 
-JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const PathInfo& info)
-    : JsonWriterBase(mTypesCollection, pathId, pathBndName, info)
+JsonWriterAO::JsonWriterAO(std::unique_ptr<TypesCollectionAO>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info)
+    : JsonWriterBase(*mTypesCollection, pathId, pathBndName, info)
 {
     mMapRootInfo.mGame = "AO";
 }
+
+JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const PathInfo& info)
+    : JsonWriterAO{std::make_unique<TypesCollectionAO>(), pathId, pathBndName, info}
+{
+}
+
+JsonWriterAO::~JsonWriterAO() = default;
 
 template<typename T>
 static void DebugDumpTlv(const std::string& prefix, s32 idx, const T& tlv)
@@ -327,7 +343,7 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(u8* ptr)
         {
             mTypeCounterMap[pPathTLV->field_4_type.mType]++;
 
-            auto obj = mTypesCollection.MakeTlvAO(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
+            auto obj = mTypesCollection->MakeTlvAO(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
             if (obj)
             {
                 if (pPathTLV->field_2_length != obj->TlvLen())
@@ -335,7 +351,7 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(u8* ptr)
                     LOG_ERROR(magic_enum::enum_name(pPathTLV->field_4_type.mType) << " size should be " << pPathTLV->field_2_length << " but got " << obj->TlvLen());
                     throw ReliveAPI::WrongTLVLengthException();
                 }
-                mapObjects << obj->InstanceToJson(mTypesCollection);
+                mapObjects << obj->InstanceToJson(*mTypesCollection);
             }
             else
             {
@@ -356,7 +372,7 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(u8* ptr)
 
 jsonxx::Array JsonWriterAO::AddCollisionLineStructureJson()
 {
-    AOLine tmpLine(mTypesCollection);
+    AOLine tmpLine(*mTypesCollection);
     return tmpLine.PropertiesToJson();
 }
 
@@ -383,6 +399,7 @@ jsonxx::Array JsonWriterAO::ReadCollisionStream(u8* ptr, s32 numItems)
     return collisionsArray;
 }
 
+JsonWriterBase::~JsonWriterBase() = default;
 
 JsonWriterBase::JsonWriterBase(TypesCollectionBase& types, s32 pathId, const std::string& pathBndName, const PathInfo& info)
     : mBaseTypesCollection(types)
@@ -497,11 +514,18 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, c
     }
 }
 
-JsonWriterAE::JsonWriterAE(s32 pathId, const std::string& pathBndName, const PathInfo& info)
-    : JsonWriterBase(mTypesCollection, pathId, pathBndName, info)
+JsonWriterAE::JsonWriterAE(std::unique_ptr<TypesCollectionAE>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info)
+    : JsonWriterBase(*mTypesCollection, pathId, pathBndName, info)
 {
     mMapRootInfo.mGame = "AE";
 }
+
+JsonWriterAE::JsonWriterAE(s32 pathId, const std::string& pathBndName, const PathInfo& info)
+    : JsonWriterAE{std::make_unique<TypesCollectionAE>(), pathId, pathBndName, info}
+{
+}
+
+JsonWriterAE::~JsonWriterAE() = default;
 
 void JsonWriterAE::ResetTypeCounterMap()
 {
@@ -534,7 +558,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(u8* ptr)
     while (pPathTLV)
     {
         mTypeCounterMap[pPathTLV->field_4_type.mType]++;
-        auto obj = mTypesCollection.MakeTlvAE(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
+        auto obj = mTypesCollection->MakeTlvAE(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
         if (obj)
         {
             if (pPathTLV->field_2_length != obj->TlvLen())
@@ -543,7 +567,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(u8* ptr)
                 throw ReliveAPI::WrongTLVLengthException();
             }
 
-            mapObjects << obj->InstanceToJson(mTypesCollection);
+            mapObjects << obj->InstanceToJson(*mTypesCollection);
         }
         else
         {
@@ -558,7 +582,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(u8* ptr)
 
 jsonxx::Array JsonWriterAE::AddCollisionLineStructureJson()
 {
-    AELine tmpLine(mTypesCollection);
+    AELine tmpLine(*mTypesCollection);
     return tmpLine.PropertiesToJson();
 }
 

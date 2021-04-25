@@ -3,8 +3,11 @@
 #include "ITypeBase.hpp"
 #include "EnumType.hpp"
 #include "BasicType.hpp"
+
 #include "../AliveLibAO/PathData.hpp"
+
 #include "../AliveLibAE/Path.hpp"
+
 #include <magic_enum/include/magic_enum.hpp>
 
 #include <functional>

@@ -1,5 +1,16 @@
 #pragma once
 
+#include "relive_api.hpp"
+#include "TypesCollectionBase.hpp"
+#include "BaseProperty.hpp"
+#include "TypedProperty.hpp"
+
+#include <jsonxx/jsonxx.h>
+
+#include <string>
+#include <map>
+#include <memory>
+
 class PropertyCollection
 {
 public:
@@ -34,40 +45,9 @@ public:
         mProperties[key] = std::make_unique<TypedProperty<PropertyType>>(name, typeName, visibleInEditor, key);
     }
 
-    std::string PropType(void* key) const
-    {
-        auto it = mProperties.find(key);
-        if (it == std::end(mProperties))
-        {
-            throw ReliveAPI::PropertyNotFoundException();
-        }
-        return it->second->TypeName();
-    }
-
-    jsonxx::Array PropertiesToJson() const
-    {
-        jsonxx::Array ret;
-        for (const auto&[key, value] : mProperties)
-        {
-            jsonxx::Object property;
-            property << "Type" << value->TypeName();
-            property << "Visible" << value->IsVisibleToEditor();
-            property << "name" << value->Name();
-            ret << property;
-        }
-        return ret;
-    }
-
-    std::string PropName(void* key) const
-    {
-        auto it = mProperties.find(key);
-        if (it == std::end(mProperties))
-        {
-            throw ReliveAPI::PropertyNotFoundException();
-        }
-        return it->second->Name();
-    }
-
+    [[nodiscard]] std::string PropType(void* key) const;
+    [[nodiscard]] jsonxx::Array PropertiesToJson() const;
+    [[nodiscard]] std::string PropName(void* key) const;
 
     template<class T>
     void ReadEnumValue(TypesCollectionBase& types, T& field, jsonxx::Object& properties)

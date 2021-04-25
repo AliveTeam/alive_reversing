@@ -2,6 +2,15 @@
 
 #include "TlvObjectBase.hpp"
 
+#include "../AliveLibAO/Map.hpp"
+#include "../AliveLibAE/Path.hpp"
+
+#include "../AliveLibCommon/Types.hpp"
+
+#include <string>
+#include <utility>
+#include <vector>
+
 template<class T>
 class TlvObjectBaseAO : public TlvObjectBase
 {
@@ -18,23 +27,23 @@ public:
     {
         mTlv.field_4_type.mType = mType;
         mTlv.field_2_length = sizeof(T);
-        COPY_TLV();
+        TLVOBJECTBASE_COPY_TLV();
 
         if (mBase->field_14_bottom_right.field_0_x - mBase->field_10_top_left.field_0_x < 0 ||
             mBase->field_14_bottom_right.field_2_y - mBase->field_10_top_left.field_2_y < 0)
         {
             // Sanity check on the data - passed on all OG data, left for any bad/corrupted lvls
-            abort();
+            std::abort();
         }
 
-        ADD("xpos", mBase->field_10_top_left.field_0_x);
-        ADD("ypos", mBase->field_10_top_left.field_2_y);
+        TLVOBJECTBASE_ADD("xpos", mBase->field_10_top_left.field_0_x);
+        TLVOBJECTBASE_ADD("ypos", mBase->field_10_top_left.field_2_y);
 
         mBase->field_14_bottom_right.field_0_x -= mBase->field_10_top_left.field_0_x;
         mBase->field_14_bottom_right.field_2_y -= mBase->field_10_top_left.field_2_y;
 
-        ADD("width", mBase->field_14_bottom_right.field_0_x);
-        ADD("height", mBase->field_14_bottom_right.field_2_y);
+        TLVOBJECTBASE_ADD("width", mBase->field_14_bottom_right.field_0_x);
+        TLVOBJECTBASE_ADD("height", mBase->field_14_bottom_right.field_2_y);
     }
 
     void InstanceFromJsonBase(jsonxx::Object& obj) override

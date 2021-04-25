@@ -1,9 +1,38 @@
-#include "../AliveLibCommon/stdafx_common.h"
 #include "TypesCollectionAO.hpp"
+
 #include "AOTlvs.hpp"
+#include "TlvObjectBase.hpp"
+
 #include "../AliveLibAO/SwitchStates.hpp"
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAE/Path.hpp"
+
+#include "../AliveLibCommon/stdafx_common.h"
+
+TypesCollectionAO::TypesCollectionAO()
+{
+    AddAOTypes();
+}
+
+void TypesCollectionAO::AddTlvsToJsonArray(jsonxx::Array& array)
+{
+    mTlvFactoryAO.AddTlvsToJsonArray(*this, array);
+}
+
+[[nodiscard]] std::unique_ptr<TlvObjectBase> TypesCollectionAO::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, s32 instanceCount)
+{
+    return mTlvFactoryAO.MakeTlvByEnum(*this, tlvType, pTlv, instanceCount);
+}
+
+[[nodiscard]] std::unique_ptr<TlvObjectBase> TypesCollectionAO::MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv)
+{
+    return mTlvFactoryAO.MakeTlvByName(*this, tlvTypeName, pTlv);
+}
+
+[[nodiscard]] std::unique_ptr<TlvObjectBase> TypesCollectionAO::MakeTlvFromString(const std::string& tlvTypeName)
+{
+    return mTlvFactoryAO.MakeTlvByName(*this, tlvTypeName, nullptr);
+}
 
 void TypesCollectionAO::AddAOTypes()
 {

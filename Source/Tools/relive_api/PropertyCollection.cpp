@@ -1,6 +1,8 @@
 #include "PropertyCollection.hpp"
 
 #include "relive_api.hpp"
+#include "BaseProperty.hpp"
+#include "TypedProperty.hpp"
 
 #include "../AliveLibCommon/stdafx_common.h"
 
@@ -10,7 +12,7 @@
 {
     auto it = mProperties.find(key);
 
-    if (it == std::end(mProperties))
+    if (it == mProperties.end())
     {
         throw ReliveAPI::PropertyNotFoundException();
     }
@@ -38,7 +40,7 @@
 {
     auto it = mProperties.find(key);
 
-    if (it == std::end(mProperties))
+    if (it == mProperties.end())
     {
         throw ReliveAPI::PropertyNotFoundException();
     }

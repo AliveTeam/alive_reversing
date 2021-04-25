@@ -1,7 +1,10 @@
 #pragma once
 
+#include "../AliveLibCommon/Types.hpp"
+
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 #define API_EXPORT
 
@@ -35,7 +38,7 @@ namespace ReliveAPI
     class DuplicatePropertyKeyException final : public Exception {};
     class DuplicatePropertyNameException final : public Exception { public: using Exception::Exception; };
     class DuplicateEnumNameException final : public Exception { public: using Exception::Exception; };
-    
+
     class PropertyNotFoundException final : public Exception {};
 
     class InvalidGameException final : public Exception { public: using Exception::Exception; };
