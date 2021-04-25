@@ -65,7 +65,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAO)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAE)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/alive_api)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
 
 # -----------------------------------------------------------------------------
@@ -78,10 +78,10 @@ set_target_properties(imgui         PROPERTIES UNITY_BUILD ON)
 set_target_properties(AliveLibCommon PROPERTIES UNITY_BUILD ON)
 set_target_properties(AliveLibAE     PROPERTIES UNITY_BUILD ON)
 set_target_properties(AliveLibAO     PROPERTIES UNITY_BUILD ON)
-set_target_properties(relive       PROPERTIES UNITY_BUILD ON)
+set_target_properties(relive         PROPERTIES UNITY_BUILD ON)
 
-set_target_properties(alive_api      PROPERTIES UNITY_BUILD OFF) # too big
-set_target_properties(alive_api_test PROPERTIES UNITY_BUILD OFF) # too big
+set_target_properties(relive_api      PROPERTIES UNITY_BUILD OFF) # too big
+set_target_properties(relive_api_test PROPERTIES UNITY_BUILD OFF) # too big
 # -----------------------------------------------------------------------------
 
 
@@ -105,13 +105,13 @@ target_precompile_headers(
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
 )
 
-target_precompile_headers(alive_api_test REUSE_FROM AliveLibAO)
+target_precompile_headers(relive_api_test REUSE_FROM AliveLibAO)
 target_precompile_headers(relive       REUSE_FROM AliveLibAO)
 
-# 'alive_api' needs its own PCH because of different `_CRT_SECURE_NO_WARNINGS`
+# 'relive_api' needs its own PCH because of different `_CRT_SECURE_NO_WARNINGS`
 # and defines with the rest
 target_precompile_headers(
-    alive_api PRIVATE
+    relive_api PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
 )
 

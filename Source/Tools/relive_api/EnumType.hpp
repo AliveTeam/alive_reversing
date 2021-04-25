@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ITypeBase.hpp"
+#include "relive_api.hpp"
 
 template<class T>
 class EnumType : public ITypeBase
@@ -31,7 +32,7 @@ public:
                 return key;
             }
         }
-        abort();
+        throw ReliveAPI::UnknownEnumValueException(valueString);
     }
 
     std::string ValueToString(T valueToFind) const
@@ -43,7 +44,7 @@ public:
                 return value;
             }
         }
-        abort();
+        throw ReliveAPI::UnknownEnumValueException();
     }
 
     bool IsBasicType() const override

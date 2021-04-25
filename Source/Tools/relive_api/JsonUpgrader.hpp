@@ -2,22 +2,17 @@
 
 #include "AddPointer.hpp"
 
-namespace AliveAPI
-{
-    enum class UpgradeError;
-}
-
 class IJsonUpgrader
 {
 public:
     virtual ~IJsonUpgrader() { }
-    virtual AliveAPI::UpgradeError Upgrade() = 0;
+    virtual void Upgrade() = 0;
 };
 
 class DoNothingUpgrader : public IJsonUpgrader
 {
 public:
-    AliveAPI::UpgradeError Upgrade() override;
+    void Upgrade() override;
 };
 
 using TUpgradeFactoryFn = AddPointer_t<std::unique_ptr<IJsonUpgrader>()>;
@@ -30,10 +25,10 @@ public:
     virtual ~BaseJsonUpgrader() { }
     virtual void AddUpgraders() = 0;
 
-    AliveAPI::UpgradeError Upgrade(const std::string& jsonFile, s32 currentJsonVersion, s32 targetApiVersion);
+    void Upgrade(const std::string& jsonFile, s32 currentJsonVersion, s32 targetApiVersion);
 
 private:
-    AliveAPI::UpgradeError UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetApiVersion);
+    void UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetApiVersion);
 
 protected:
     std::map<s32, TUpgradeFactoryFn> mUpgraders;

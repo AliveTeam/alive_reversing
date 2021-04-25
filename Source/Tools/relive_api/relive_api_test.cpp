@@ -1,5 +1,5 @@
 #include "../AliveLibCommon/stdafx_common.h"
-#include "alive_api.hpp"
+#include "relive_api.hpp"
 #include "SDL.h"
 #include "logger.hpp"
 #include "AOTlvs.hpp"
@@ -56,21 +56,18 @@ static std::string AOPath(const std::string& fileName)
 
 TEST(alive_api, ExportPathBinaryToJsonAE)
 {
-    auto ret = AliveAPI::ExportPathBinaryToJson("OutputAE.json", AEPath(kAETestLvl), 14);
-    ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
+    ReliveAPI::ExportPathBinaryToJson("OutputAE.json", AEPath(kAETestLvl), 14);
 }
 
 
 TEST(alive_api, ExportPathBinaryToJsonAO)
 {
-    auto ret = AliveAPI::ExportPathBinaryToJson("OutputAO.json", AOPath("R1.LVL"), 19);
-    ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
+    ReliveAPI::ExportPathBinaryToJson("OutputAO.json", AOPath("R1.LVL"), 19);
 }
 
 TEST(alive_api, ImportPathJsonToBinaryAO)
 {
-    auto ret =  AliveAPI::ImportPathJsonToBinary("OutputAO.json", AOPath("R1.LVL"), "newAO.lvl", {});
-    ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
+    ReliveAPI::ImportPathJsonToBinary("OutputAO.json", AOPath("R1.LVL"), "newAO.lvl", {});
 
     const auto ogR1 = FS::ReadFile(AOPath("R1.LVL"));
     ASSERT_NE(ogR1.size(), 0u);
@@ -83,8 +80,7 @@ TEST(alive_api, ImportPathJsonToBinaryAO)
 
 TEST(alive_api, ImportPathJsonToBinaryAE)
 {
-    auto ret = AliveAPI::ImportPathJsonToBinary("OutputAE.json", AEPath(kAETestLvl), "newAE.lvl", {});
-    ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
+    ReliveAPI::ImportPathJsonToBinary("OutputAE.json", AEPath(kAETestLvl), "newAE.lvl", {});
 
     const auto ogLVL = FS::ReadFile(AEPath(kAETestLvl));
     ASSERT_NE(ogLVL.size(), 0u);
@@ -94,39 +90,35 @@ TEST(alive_api, ImportPathJsonToBinaryAE)
 
     if (ogLVL != rewrittenLVL)
     {
-        AliveAPI::DebugDumpTlvs("old/", AEPath(kAETestLvl), 14);
-        AliveAPI::DebugDumpTlvs("new/", "newAE.lvl", 14);
+        ReliveAPI::DebugDumpTlvs("old/", AEPath(kAETestLvl), 14);
+        ReliveAPI::DebugDumpTlvs("new/", "newAE.lvl", 14);
     }
     ASSERT_EQ(ogLVL, rewrittenLVL);
 }
 
 TEST(alive_api, EnumeratePathsAO)
 {
-    auto ret = AliveAPI::EnumeratePaths(AOPath("R1.LVL"));
+    auto ret = ReliveAPI::EnumeratePaths(AOPath("R1.LVL"));
     ASSERT_EQ(ret.pathBndName, "R1PATH.BND");
     const std::vector<s32> paths {15, 16, 18, 19};
     ASSERT_EQ(ret.paths, paths);
-    ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 }
 
 TEST(alive_api, ReSaveAllPathsAO)
 {
     for (const auto& lvl : kAOLvls)
     {
-        auto ret = AliveAPI::EnumeratePaths(AOPath(lvl));
-        ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
+        auto ret = ReliveAPI::EnumeratePaths(AOPath(lvl));
 
         for (s32 path : ret.paths)
         {
             const std::string jsonName = "OutputAO_" + lvl + "_" + std::to_string(path) + ".json";
             LOG_INFO("Save " << jsonName);
-            auto exportRet = AliveAPI::ExportPathBinaryToJson(jsonName, AOPath(lvl), path);
-            ASSERT_EQ(exportRet.mResult, AliveAPI::Error::None);
+            ReliveAPI::ExportPathBinaryToJson(jsonName, AOPath(lvl), path);
 
             const std::string lvlName = "OutputAO_" + lvl + "_" + std::to_string(path) + ".lvl";
             LOG_INFO("Resave " << lvlName);
-            auto importRet = AliveAPI::ImportPathJsonToBinary(jsonName, AOPath(lvl), lvlName, {});
-            ASSERT_EQ(importRet.mResult, AliveAPI::Error::None);
+            ReliveAPI::ImportPathJsonToBinary(jsonName, AOPath(lvl), lvlName, {});
 
             const auto originalLvlBytes = FS::ReadFile(AOPath(lvl));
             ASSERT_NE(originalLvlBytes.size(), 0u);
@@ -135,8 +127,8 @@ TEST(alive_api, ReSaveAllPathsAO)
 
             if (originalLvlBytes != resavedLvlBytes)
             {
-                AliveAPI::DebugDumpTlvs("old/", AOPath(lvl), path);
-                AliveAPI::DebugDumpTlvs("new/", lvlName, path);
+                ReliveAPI::DebugDumpTlvs("old/", AOPath(lvl), path);
+                ReliveAPI::DebugDumpTlvs("new/", lvlName, path);
             }
             ASSERT_EQ(originalLvlBytes, resavedLvlBytes);
         }
@@ -147,20 +139,17 @@ TEST(alive_api, ReSaveAllPathsAE)
 {
     for (const auto& lvl : kAELvls)
     {
-        auto ret = AliveAPI::EnumeratePaths(AEPath(lvl));
-        ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
+        auto ret = ReliveAPI::EnumeratePaths(AEPath(lvl));
 
         for (s32 path : ret.paths)
         {
             const std::string jsonName = "OutputAE_" + lvl + "_" + std::to_string(path) + ".json";
             LOG_INFO("Save " << jsonName);
-            auto exportRet = AliveAPI::ExportPathBinaryToJson(jsonName, AEPath(lvl), path);
-            ASSERT_EQ(exportRet.mResult, AliveAPI::Error::None);
+            ReliveAPI::ExportPathBinaryToJson(jsonName, AEPath(lvl), path);
 
             const std::string lvlName = "OutputAE_" + lvl + "_" + std::to_string(path) + ".lvl";
             LOG_INFO("Resave " << lvlName);
-            auto importRet = AliveAPI::ImportPathJsonToBinary(jsonName, AEPath(lvl), lvlName, {});
-            ASSERT_EQ(importRet.mResult, AliveAPI::Error::None);
+            ReliveAPI::ImportPathJsonToBinary(jsonName, AEPath(lvl), lvlName, {});
 
             const auto originalLvlBytes = FS::ReadFile(AEPath(lvl));
             ASSERT_NE(originalLvlBytes.size(), 0u);
@@ -170,8 +159,8 @@ TEST(alive_api, ReSaveAllPathsAE)
 
             if (originalLvlBytes != resavedLvlBytes)
             {
-                AliveAPI::DebugDumpTlvs("old/", AEPath(lvl), path);
-                AliveAPI::DebugDumpTlvs("new/", lvlName, path);
+                ReliveAPI::DebugDumpTlvs("old/", AEPath(lvl), path);
+                ReliveAPI::DebugDumpTlvs("new/", lvlName, path);
             }
             ASSERT_EQ(originalLvlBytes, resavedLvlBytes);
         }

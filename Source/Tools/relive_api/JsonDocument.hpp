@@ -91,10 +91,10 @@ struct MapInfo
 };
 
 // Reads the root fields to read the version/game type (we need to know this so we can create a game specific reader/do an upgrade of the json).
-class JsonMapRootInfoReader
+class JsonMapRootInfoReader final
 {
 public:
-    bool Read(const std::string& fileName);
+    void Read(const std::string& fileName);
     MapRootInfo mMapRootInfo;
 };
 
@@ -132,7 +132,7 @@ public:
     virtual ~JsonWriterBase() { }
     JsonWriterBase(s32 pathId, const std::string& pathBndName, const PathInfo& info);
     void Save(Game gameType, const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName);
-    virtual void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) = 0;
+    virtual void DebugDumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) = 0;
 protected:
     virtual jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) = 0;
     virtual jsonxx::Array ReadTlvStream(TypesCollection& globalTypes, u8* ptr) = 0;
@@ -147,7 +147,7 @@ class JsonWriterAO : public JsonWriterBase
 {
 public:
     JsonWriterAO(s32 pathId, const std::string& pathBndName, const PathInfo& info);
-    void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) override;
+    void DebugDumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) override;
 private:
     void ResetTypeCounterMap() override;
     jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) override;
@@ -160,7 +160,7 @@ class JsonWriterAE : public JsonWriterBase
 {
 public:
     JsonWriterAE(s32 pathId, const std::string& pathBndName, const PathInfo& info);
-    void DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) override;
+    void DebugDumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) override;
 private:
     void ResetTypeCounterMap() override;
     jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) override;

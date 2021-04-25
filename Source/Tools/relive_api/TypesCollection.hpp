@@ -154,8 +154,7 @@ public:
         {
             // Type already exists
             LOG_ERROR(enumName << " exists more than once ");
-            abort();
-            //return ret;
+            throw ReliveAPI::DuplicateEnumNameException(enumName.c_str());
         }
 
         auto newEnum = std::make_unique<EnumType<T>>(enumName);
@@ -178,7 +177,7 @@ public:
                 return static_cast<EnumType<T>*>(e.get())->ValueFromString(enumValueString);
             }
         }
-        abort();
+        throw ReliveAPI::UnknownEnumValueException(enumValueString.c_str());
     }
 
     template<class T>
@@ -191,7 +190,7 @@ public:
                 return static_cast<EnumType<T>*>(e.get())->ValueToString(enumValue);
             }
         }
-        abort();
+        throw ReliveAPI::UnknownEnumValueException();
     }
 
     template<class T>
