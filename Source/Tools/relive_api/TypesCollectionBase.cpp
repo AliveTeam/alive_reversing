@@ -1,5 +1,5 @@
 #include "../AliveLibCommon/stdafx_common.h"
-#include "TypesCollection.hpp"
+#include "TypesCollectionBase.hpp"
 #include "TlvObjectBase.hpp"
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAO/Map.hpp"
@@ -29,34 +29,9 @@ void TypesCollectionAO::AddTlvsToJsonArray(jsonxx::Array& array)
     mTlvFactoryAO.AddTlvsToJsonArray(*this, array);
 }
 
-void TypesCollectionAE::AddTlvsToJsonArray(jsonxx::Array& array)
-{
-    mTlvFactoryAE.AddTlvsToJsonArray(*this, array);
-}
-
-std::unique_ptr<TlvObjectBase> TypesCollectionAE::MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, s32 instanceCount)
-{
-    return mTlvFactoryAE.MakeTlvByEnum(*this, tlvType, pTlv, instanceCount);
-}
-
 std::unique_ptr<TlvObjectBase> TypesCollectionAO::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, s32 instanceCount)
 {
     return mTlvFactoryAO.MakeTlvByEnum(*this, tlvType, pTlv, instanceCount);
-}
-
-std::unique_ptr<TlvObjectBase> TypesCollectionAE::MakeTlvAE(const std::string& tlvTypeName, Path_TLV* pTlv)
-{
-    return mTlvFactoryAE.MakeTlvByName(*this, tlvTypeName, pTlv);
-}
-
-TypesCollectionAE::TypesCollectionAE()
-{
-    AddAETypes();
-}
-
-std::unique_ptr<TlvObjectBase> TypesCollectionAE::MakeTlvFromString(const std::string& tlvTypeName)
-{
-    return mTlvFactoryAE.MakeTlvByName(*this, tlvTypeName, nullptr);
 }
 
 std::unique_ptr<TlvObjectBase> TypesCollectionAO::MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv)
