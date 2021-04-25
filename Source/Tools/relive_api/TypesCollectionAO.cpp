@@ -5,7 +5,7 @@
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAE/Path.hpp"
 
-void TypesCollection::AddAOTypes()
+void TypesCollectionAO::AddAOTypes()
 {
     #define REGISTER_TYPE_AO(TlvWrapperType) mTlvFactoryAO.DoRegisterType<TlvWrapperType>(*this)
 

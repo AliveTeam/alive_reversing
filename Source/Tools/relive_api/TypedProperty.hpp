@@ -8,8 +8,8 @@ public:
     BaseProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor)
         : m_name(name), m_TypeName(typeName), m_isVisibleToEditor(isVisibleToEditor) {}
     virtual ~BaseProperty() {}
-    virtual void Read(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties) = 0;
-    virtual void Write(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties) = 0;
+    virtual void Read(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) = 0;
+    virtual void Write(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) = 0;
 
     std::string TypeName() const
     {

@@ -6,7 +6,7 @@
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAE/Map.hpp"
 
-void TypesCollection::AddAETypes()
+void TypesCollectionAE::AddAETypes()
 {
     #define REGISTER_TYPE_AE(TlvWrapperType) mTlvFactoryAE.DoRegisterType<TlvWrapperType>(*this)
 

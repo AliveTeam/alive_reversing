@@ -2,7 +2,7 @@
 #include "TlvObjectBase.hpp"
 #include "TypedProperty.hpp"
 
-void PropertyCollection::PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties)
+void PropertyCollection::PropertiesFromJson(TypesCollectionBase& types, jsonxx::Object& properties)
 {
     for (auto& [Key, value] : mProperties)
     {
@@ -10,7 +10,7 @@ void PropertyCollection::PropertiesFromJson(TypesCollection& types, jsonxx::Obje
     }
 }
 
-void PropertyCollection::PropertiesToJson(TypesCollection& types, jsonxx::Object& properties)
+void PropertyCollection::PropertiesToJson(TypesCollectionBase& types, jsonxx::Object& properties)
 {
     for (auto& [Key, value] : mProperties)
     {

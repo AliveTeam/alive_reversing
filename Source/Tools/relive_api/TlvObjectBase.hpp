@@ -30,9 +30,9 @@ public:
     TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data)
         : BaseProperty(name, typeName, isVisibleToEditor), m_data(data) { }
 
-    void Read(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties) override;
+    void Read(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) override;
 
-    void Write(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties) override;
+    void Write(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) override;
 
 private:
     T* m_data = nullptr;
@@ -108,7 +108,7 @@ public:
 
 
     template<class T>
-    void ReadEnumValue(TypesCollection& types, T& field, jsonxx::Object& properties)
+    void ReadEnumValue(TypesCollectionBase& types, T& field, jsonxx::Object& properties)
     {
         const std::string propName = PropName(&field);
         const std::string propType = PropType(&field);
@@ -123,7 +123,7 @@ public:
     }
 
     template<class T>
-    void WriteEnumValue(TypesCollection& types, jsonxx::Object& properties, T& field)
+    void WriteEnumValue(TypesCollectionBase& types, jsonxx::Object& properties, T& field)
     {
         properties << PropName(&field) << types.EnumValueToString<T>(field);
     }
@@ -140,8 +140,8 @@ public:
         properties << PropName(&field) << static_cast<s32>(field);
     }
 
-    void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties);
-    void PropertiesToJson(TypesCollection& types, jsonxx::Object& properties);
+    void PropertiesFromJson(TypesCollectionBase& types, jsonxx::Object& properties);
+    void PropertiesToJson(TypesCollectionBase& types, jsonxx::Object& properties);
 
 protected:
     std::map<void*, std::unique_ptr<BaseProperty>> mProperties;
@@ -156,7 +156,7 @@ public:
 
     }
 
-    virtual void AddTypes(TypesCollection& /*types*/)
+    virtual void AddTypes(TypesCollectionBase& /*types*/)
     {
         // Default empty to prevent having to explicitly implement in every TLV wrapper
     }
@@ -182,14 +182,14 @@ public:
         return ret;
     }
 
-    void InstanceFromJson(TypesCollection& types, jsonxx::Object& obj)
+    void InstanceFromJson(TypesCollectionBase& types, jsonxx::Object& obj)
     {
         jsonxx::Object properties = obj.get<jsonxx::Object>("properties");
         PropertiesFromJson(types, properties);
         InstanceFromJsonBase(obj);
     }
 
-    jsonxx::Object InstanceToJson(TypesCollection& types)
+    jsonxx::Object InstanceToJson(TypesCollectionBase& types)
     {
         jsonxx::Object ret;
         InstanceToJsonBase(ret);
@@ -215,7 +215,7 @@ protected:
 };
 
 template <class T>
-void TypedProperty<T>::Read(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties)
+void TypedProperty<T>::Read(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties)
 {
     if constexpr (std::is_enum<T>::value)
     {
@@ -229,7 +229,7 @@ void TypedProperty<T>::Read(PropertyCollection& propertyCollection, TypesCollect
 }
 
 template <class T>
-void TypedProperty<T>::Write(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties)
+void TypedProperty<T>::Write(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties)
 {
     if constexpr (std::is_enum<T>::value)
     {
@@ -254,7 +254,7 @@ public:
 
     }
 
-    TlvObjectBaseAE(TypesCollection& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pTlv)
+    TlvObjectBaseAE(TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pTlv)
         : TlvObjectBase(typeName), mType(tlvType)
     {
         mTlv.field_2_length = sizeof(T);
@@ -327,7 +327,7 @@ public:
 
     }
 
-    TlvObjectBaseAO(TypesCollection& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
+    TlvObjectBaseAO(TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
         : TlvObjectBase(typeName), mType(tlvType), mBase(&mTlv)
     {
         mTlv.field_4_type.mType = mType;

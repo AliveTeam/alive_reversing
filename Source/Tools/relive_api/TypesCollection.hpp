@@ -16,13 +16,13 @@ enum class Game
 };
 
 template<class TlvType>
-using FnTlvFactory = std::function<std::unique_ptr<TlvObjectBase>(class TypesCollection&, TlvType*, s32)>;
+using FnTlvFactory = std::function<std::unique_ptr<TlvObjectBase>(class TypesCollectionBase&, TlvType*, s32)>;
 
 template<typename TlvEnumType, typename PathTlvType>
 class TlvFactory
 {
 public:
-    std::unique_ptr<TlvObjectBase> MakeTlvByEnum(TypesCollection& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, s32 instanceCount)
+    std::unique_ptr<TlvObjectBase> MakeTlvByEnum(TypesCollectionBase& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, s32 instanceCount)
     {
         auto it = mTlvFactory.find(tlvType);
         if (it == std::end(mTlvFactory))
@@ -33,7 +33,7 @@ public:
         return it->second(typesCollection, pTlv, instanceCount);
     }
 
-    std::unique_ptr<TlvObjectBase> MakeTlvByName(TypesCollection& typesCollection, const std::string& tlvTypeName, PathTlvType* pTlv)
+    std::unique_ptr<TlvObjectBase> MakeTlvByName(TypesCollectionBase& typesCollection, const std::string& tlvTypeName, PathTlvType* pTlv)
     {
         auto it = mReverseTlvFactory.find(tlvTypeName);
         if (it == std::end(mReverseTlvFactory))
@@ -44,7 +44,7 @@ public:
         return it->second(typesCollection, pTlv, 0);
     }
 
-    void AddTlvsToJsonArray(TypesCollection& typesCollection, jsonxx::Array& array)
+    void AddTlvsToJsonArray(TypesCollectionBase& typesCollection, jsonxx::Array& array)
     {
         for (auto& [key, value] : mTlvFactory)
         {
@@ -53,12 +53,12 @@ public:
     }
 
     template<typename TlvWrapperType>
-    void DoRegisterType(TypesCollection& constructingTypes)
+    void DoRegisterType(TypesCollectionBase& constructingTypes)
     {
         TlvWrapperType tmp;
         tmp.AddTypes(constructingTypes);
         const TlvEnumType tlvType = tmp.TlvType();
-        auto fnCreate = [](TypesCollection& types, PathTlvType* pTlv, s32 instanceCount)
+        auto fnCreate = [](TypesCollectionBase& types, PathTlvType* pTlv, s32 instanceCount)
         {
             auto ret = std::make_unique<TlvWrapperType>(types, pTlv);
             ret->SetInstanceNumber(instanceCount);
@@ -72,21 +72,14 @@ public:
     std::map<std::string, FnTlvFactory<PathTlvType>> mReverseTlvFactory;
 };
 
-class TypesCollection
+class TypesCollectionBase
 {
 public:
-    explicit TypesCollection(Game gameType);
+    TypesCollectionBase();
+    virtual ~TypesCollectionBase();
 
-    void AddAOTypes();
-    void AddAETypes();
-
-    void AddTlvsToJsonArray(jsonxx::Array& array);
-
-    std::unique_ptr<TlvObjectBase> MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, s32 instanceCount);
-    std::unique_ptr<TlvObjectBase> MakeTlvAE(const std::string& tlvTypeName, Path_TLV* pTlv);
-
-    std::unique_ptr<TlvObjectBase> MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, s32 instanceCount);
-    std::unique_ptr<TlvObjectBase> MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv);
+    virtual void AddTlvsToJsonArray(jsonxx::Array& array) = 0;
+    virtual std::unique_ptr<TlvObjectBase> MakeTlvFromString(const std::string& tlvTypeName) = 0;
 
     jsonxx::Array EnumsToJson() const
     {
@@ -209,12 +202,34 @@ public:
         return ret;
     }
 
-
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
+};
 
+class TypesCollectionAO final : public TypesCollectionBase
+{
+public:
+    TypesCollectionAO();
+    void AddTlvsToJsonArray(jsonxx::Array& array) override;
+    std::unique_ptr<TlvObjectBase> MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, s32 instanceCount);
+    std::unique_ptr<TlvObjectBase> MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv);
+
+    std::unique_ptr<TlvObjectBase> MakeTlvFromString(const std::string& tlvTypeName) override;
+private:
+    void AddAOTypes();
     TlvFactory<AO::TlvTypes, AO::Path_TLV> mTlvFactoryAO;
-    TlvFactory<TlvTypes, Path_TLV> mTlvFactoryAE;
+};
 
-    Game mGameType = {};
+class TypesCollectionAE final : public TypesCollectionBase
+{
+public:
+    TypesCollectionAE();
+    void AddTlvsToJsonArray(jsonxx::Array& array) override;
+    std::unique_ptr<TlvObjectBase> MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, s32 instanceCount);
+    std::unique_ptr<TlvObjectBase> MakeTlvAE(const std::string& tlvTypeName, Path_TLV* pTlv);
+
+    std::unique_ptr<TlvObjectBase> MakeTlvFromString(const std::string& tlvTypeName) override;
+private:
+    void AddAETypes();
+    TlvFactory<TlvTypes, Path_TLV> mTlvFactoryAE;
 };
