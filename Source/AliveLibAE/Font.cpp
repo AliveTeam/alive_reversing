@@ -22,7 +22,7 @@ void Font_ForceLink()
  Then its probably x *= 0.575;
  If it looks like:
 
- v17 = (s32)(40 * x + 11 + ((unsigned __int64)(-1307163959i64 * (40 * x + 11)) >> 32)) >> 4;
+ v17 = (s32)(40 * x + 11 + ((s64)(-1307163959i64 * (40 * x + 11)) >> 32)) >> 4;
  x = (v17 >> 31) + v17;
 
  then do x /= 0.575;

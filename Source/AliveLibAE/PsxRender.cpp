@@ -156,7 +156,7 @@ void Psx_Render_Float_Table_Init()
 
 EXPORT s32 CC PSX_poly_helper_fixed_point_scale_517FA0(s32 fixedPoint, s32 scaleFactor)
 {
-    return (static_cast<signed __int64>(fixedPoint) * scaleFactor) / 0x10000;
+    return (static_cast<s64>(fixedPoint) * scaleFactor) / 0x10000;
 }
 
 template<class T>

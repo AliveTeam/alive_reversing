@@ -27,8 +27,6 @@
     using HANDLE = void*;
     using CHAR = char;
 
-    #define __int64 long long
-
     #define TRUE 1
     #define FALSE 0
 

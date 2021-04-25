@@ -1404,7 +1404,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                 {
                     MIDI_Set_Volume_4FDE80(
                         pChannel,
-                        (signed __int64)(((f64)timeDiff2 / (f64)pChannel->field_1C_adsr.field_4_attack
+                        (s64)(((f64)timeDiff2 / (f64)pChannel->field_1C_adsr.field_4_attack
                             + (f64)timeDiff2 / (f64)pChannel->field_1C_adsr.field_4_attack
                             - (f64)timeDiff2 / (f64)pChannel->field_1C_adsr.field_4_attack * ((f64)timeDiff2 / (f64)pChannel->field_1C_adsr.field_4_attack))
                             * (f64)pChannel->field_C_vol));
