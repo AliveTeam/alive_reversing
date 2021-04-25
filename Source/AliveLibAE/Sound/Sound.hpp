@@ -122,13 +122,13 @@ EXPORT s32 CC SND_Get_Buffer_Status_4EE8F0(s32 idx);
 EXPORT s32 CC SND_Stop_Sample_At_Idx_4EFA90(s32 idx);
 EXPORT s32 CC SND_Buffer_Set_Volume_4EFAD0(s32 idx, s32 vol);
 EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(s32 sampleIdx, s32 field10);
-EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC90(s32 idx, float hzChangeFreq);
-EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC00(s32 idx, float freq);
+EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC90(s32 idx, f32 hzChangeFreq);
+EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC00(s32 idx, f32 freq);
 EXPORT s32 CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount);
 EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/);
 
 struct MIDI_Channel;
-EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, float freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority);
+EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority);
 
 struct SoundApi
 {

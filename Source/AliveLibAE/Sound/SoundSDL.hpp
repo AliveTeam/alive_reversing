@@ -38,7 +38,7 @@ struct StereoSample
 
 using StereoSample_S16 = StereoSample<s16>;
 using StereoSample_S32 = StereoSample<s32>;
-using StereoSample_F32 = StereoSample<float>;
+using StereoSample_F32 = StereoSample<f32>;
 
 void SND_InitVolumeTable_SDL();
 s32 SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount);

@@ -475,11 +475,11 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     return &gFakeTextureCache;
 }
 
-void OpenGLRenderer::DrawTexture(GLuint pTexture, float x, float y, float width, float height)
+void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height)
 {
-    const float r = 1.0f;
-    const float g = 1.0f;
-    const float b = 1.0f;
+    const f32 r = 1.0f;
+    const f32 g = 1.0f;
+    const f32 b = 1.0f;
 
     const VertexData verts[4] = {
     { 0, 0, 0,  r, g, b,    0, 0 },
@@ -572,7 +572,7 @@ glm::mat4 OpenGLRenderer::GetMVP()
     return m_View;
 }
 
-glm::mat4 OpenGLRenderer::GetMVP(float x, float y, float width, float height)
+glm::mat4 OpenGLRenderer::GetMVP(f32 x, f32 y, f32 width, f32 height)
 {
     glm::mat4 model = glm::mat4(1);
     model = glm::translate(model, glm::vec3(x, y, 0));
@@ -624,12 +624,12 @@ void OpenGLRenderer::DebugWindow()
 
     if (ImGui::Begin("Texture Window", nullptr, ImGuiWindowFlags_MenuBar))
     {
-        float widthSpace = ImGui::GetContentRegionAvailWidth();
-        float currentWidth = 0;
+        f32 widthSpace = ImGui::GetContentRegionAvailWidth();
+        f32 currentWidth = 0;
         for (size_t i = 0; i < gRendererTextures.size(); i++)
         {
-            float textureWidth = static_cast<float>(gRendererTextures[i].mVramRect.w);
-            float textureHeight = static_cast<float>(gRendererTextures[i].mVramRect.h);
+            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
+            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
 
             ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
             ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
@@ -658,7 +658,7 @@ void OpenGLRenderer::DebugWindow()
 
     if (ImGui::Begin("Palettes", nullptr, ImGuiWindowFlags_MenuBar))
     {
-        float width = ImGui::GetWindowContentRegionWidth();
+        f32 width = ImGui::GetWindowContentRegionWidth();
         for (auto& pal : gRendererPals)
         {
             ImGui::Image(GL_TO_IMGUI_TEX(pal.mPalTextureID), ImVec2(width, 16));
@@ -680,10 +680,10 @@ void OpenGLRenderer::DebugWindow()
 
         for (size_t i = 0; i < gRendererTextures.size(); i++)
         {
-            ImGui::SetCursorPos(ImVec2(static_cast<float>(gRendererTextures[i].mVramRect.x), static_cast<float>(gRendererTextures[i].mVramRect.y + 50)));
+            ImGui::SetCursorPos(ImVec2(static_cast<f32>(gRendererTextures[i].mVramRect.x), static_cast<f32>(gRendererTextures[i].mVramRect.y + 50)));
             ImVec2 xpos = ImGui::GetCursorScreenPos();
-            float textureWidth = static_cast<float>(gRendererTextures[i].mVramRect.w);
-            float textureHeight = static_cast<float>(gRendererTextures[i].mVramRect.h);
+            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
+            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
             
             ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
             ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), { textureWidth, textureHeight });
@@ -806,7 +806,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     glGenBuffers(1, &mVBO);
 
     // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
-    m_View = glm::ortho<float>(0, 640, 240, 0, 0, 1);
+    m_View = glm::ortho<f32>(0, 640, 240, 0, 0, 1);
 
     //mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
     mTextureShader.LoadSource(gShader_TextureVSH, gShader_TextureFSH);
@@ -952,10 +952,10 @@ void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
 
 void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
 {
-    m_View = glm::ortho<float>(static_cast<float>(offset.field_C_xoff), 
-        static_cast<float>(640 + offset.field_C_xoff), 
-        static_cast<float>(240 + offset.field_E_yoff), 
-        static_cast<float>(offset.field_E_yoff), 0.0f, 1.0f);
+    m_View = glm::ortho<f32>(static_cast<f32>(offset.field_C_xoff), 
+        static_cast<f32>(640 + offset.field_C_xoff), 
+        static_cast<f32>(240 + offset.field_E_yoff), 
+        static_cast<f32>(offset.field_E_yoff), 0.0f, 1.0f);
 }
 
 void OpenGLRenderer::Draw(Prim_Sprt& sprt)
@@ -1044,7 +1044,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     mTextureShader.Uniform1i("m_DitherWidth", gasWidth);
     mTextureShader.Uniform1i("m_DitherHeight", gasHeight);
     Renderer_SetBlendMode(TPageAbr::eBlend_1);
-    DrawTexture(TempGasEffectTexture, (float)gasEffect.x, (float)gasEffect.y, (float)gasWidth, (float)gasHeight);
+    DrawTexture(TempGasEffectTexture, (f32)gasEffect.x, (f32)gasEffect.y, (f32)gasWidth, (f32)gasHeight);
     mTextureShader.Use();
     mTextureShader.Uniform1i("m_Dithered", 0);
 }
@@ -1055,9 +1055,9 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
         return;
 
     // todo: texturing ?
-    const float r = tile.mBase.header.rgb_code.r / 255.0f;
-    const float g = tile.mBase.header.rgb_code.g / 255.0f;
-    const float b = tile.mBase.header.rgb_code.b / 255.0f;
+    const f32 r = tile.mBase.header.rgb_code.r / 255.0f;
+    const f32 g = tile.mBase.header.rgb_code.g / 255.0f;
+    const f32 b = tile.mBase.header.rgb_code.b / 255.0f;
 
     const VertexData verts[4] = {
     { 0, 0, 0,  r, g, b,    0, 0 },
@@ -1089,10 +1089,10 @@ void OpenGLRenderer::Draw(Line_F2& line)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[2] = { 
-        {(float)line.mVerts[0].mVert.x, (float)line.mVerts[0].mVert.y, 0, 
+        {(f32)line.mVerts[0].mVert.x, (f32)line.mVerts[0].mVert.y, 0, 
         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f, 
         0, 0 },
-         {(float)line.mBase.vert.x, (float)line.mBase.vert.y, 0,
+         {(f32)line.mBase.vert.x, (f32)line.mBase.vert.y, 0,
         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
         0, 0 }
     };
@@ -1119,10 +1119,10 @@ void OpenGLRenderer::Draw(Line_G2& line)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[2] = {
-        {(float)line.mVerts[0].mVert.x, (float)line.mVerts[0].mVert.y, 0,
+        {(f32)line.mVerts[0].mVert.x, (f32)line.mVerts[0].mVert.y, 0,
        line.mVerts[0].mRgb.r / 255.0f, line.mVerts[0].mRgb.g / 255.0f, line.mVerts[0].mRgb.b / 255.0f,
        0, 0 },
-       {(float)line.mBase.vert.x, (float)line.mBase.vert.y, 0,
+       {(f32)line.mBase.vert.x, (f32)line.mBase.vert.y, 0,
         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
         0, 0 }
     };
@@ -1149,16 +1149,16 @@ void OpenGLRenderer::Draw(Line_G4& line)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[4] = {
-        {(float)line.mBase.vert.x, (float)line.mBase.vert.y, 0,
+        {(f32)line.mBase.vert.x, (f32)line.mBase.vert.y, 0,
         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
         0, 0 },
-        {(float)line.mVerts[0].mVert.x, (float)line.mVerts[0].mVert.y, 0,
+        {(f32)line.mVerts[0].mVert.x, (f32)line.mVerts[0].mVert.y, 0,
        line.mVerts[0].mRgb.r / 255.0f, line.mVerts[0].mRgb.g / 255.0f, line.mVerts[0].mRgb.b / 255.0f,
        0, 0 },
-       {(float)line.mVerts[1].mVert.x, (float)line.mVerts[1].mVert.y, 0,
+       {(f32)line.mVerts[1].mVert.x, (f32)line.mVerts[1].mVert.y, 0,
        line.mVerts[1].mRgb.r / 255.0f, line.mVerts[1].mRgb.g / 255.0f, line.mVerts[1].mRgb.b / 255.0f,
        0, 0 },
-       {(float)line.mVerts[2].mVert.x, (float)line.mVerts[2].mVert.y, 0,
+       {(f32)line.mVerts[2].mVert.x, (f32)line.mVerts[2].mVert.y, 0,
        line.mVerts[2].mRgb.r / 255.0f, line.mVerts[2].mRgb.g / 255.0f, line.mVerts[2].mRgb.b / 255.0f,
        0, 0 }
     };
@@ -1185,13 +1185,13 @@ void OpenGLRenderer::Draw(Poly_F3& poly)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[3] = {
-        {(float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0,
+        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0,
         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
         0, 0 },
-        {(float)poly.mVerts[0].mVert.x, (float)poly.mVerts[0].mVert.y, 0,
+        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0,
         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
         1, 0 },
-        {(float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y, 0,
+        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0,
         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
         0, 1 }
     };
@@ -1220,13 +1220,13 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[3] = {
-        {(float)poly.mVerts[0].mVert.x, (float)poly.mVerts[0].mVert.y, 0,
+        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0,
         poly.mVerts[0].mRgb.r / 255.0f, poly.mVerts[0].mRgb.g / 255.0f, poly.mVerts[0].mRgb.b / 255.0f,
         1, 0 },
-        {(float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0,
+        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0,
         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
         0, 0 },
-        {(float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y, 0,
+        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0,
         poly.mVerts[1].mRgb.r / 255.0f, poly.mVerts[1].mRgb.g / 255.0f, poly.mVerts[1].mRgb.b / 255.0f,
         0, 1 }
     };
@@ -1252,15 +1252,15 @@ void OpenGLRenderer::Draw(Poly_F4& poly)
     glDisable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    const float r = poly.mBase.header.rgb_code.r / 255.0f;
-    const float g = poly.mBase.header.rgb_code.g / 255.0f;
-    const float b = poly.mBase.header.rgb_code.b / 255.0f;
+    const f32 r = poly.mBase.header.rgb_code.r / 255.0f;
+    const f32 g = poly.mBase.header.rgb_code.g / 255.0f;
+    const f32 b = poly.mBase.header.rgb_code.b / 255.0f;
 
     const VertexData verts[4] = {
-        {(float)poly.mVerts[0].mVert.x, (float)poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0 },
-        {(float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0, r, g, b,0, 0 },
-        {(float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1 },
-        {(float)poly.mVerts[2].mVert.x, (float)poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1 }
+        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0 },
+        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0, r, g, b,0, 0 },
+        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1 },
+        {(f32)poly.mVerts[2].mVert.x, (f32)poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1 }
     };
 
     mTextureShader.Use();
@@ -1301,9 +1301,9 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     mTextureShader.Use();
 
-    float r = poly.mBase.header.rgb_code.r / 64.0f;
-    float g = poly.mBase.header.rgb_code.g / 64.0f;
-    float b = poly.mBase.header.rgb_code.b / 64.0f;
+    f32 r = poly.mBase.header.rgb_code.r / 64.0f;
+    f32 g = poly.mBase.header.rgb_code.g / 64.0f;
+    f32 b = poly.mBase.header.rgb_code.b / 64.0f;
 
     if (pTexture->mIgnoreColor)
     {
@@ -1330,14 +1330,14 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     xOff *= bppMulti;
 
     // macros suck. todo: fix that
-#define UV_U(v) (float)(((pTexture->mUvOffset.field_0_x + v) - xOff) / (float)(pTexture->mVramRect.w * bppMulti))
-#define UV_V(v) (float)(((pTexture->mUvOffset.field_2_y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (float)pTexture->mVramRect.h)
+#define UV_U(v) (f32)(((pTexture->mUvOffset.field_0_x + v) - xOff) / (f32)(pTexture->mVramRect.w * bppMulti))
+#define UV_V(v) (f32)(((pTexture->mUvOffset.field_2_y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (f32)pTexture->mVramRect.h)
 
     VertexData verts[4] = {
-        {(float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v) },
-        {(float)poly.mVerts[0].mVert.x, (float)poly.mVerts[0].mVert.y, 0, r, g, b, UV_U(poly.mVerts[0].mUv.u), UV_V(poly.mVerts[0].mUv.v) },
-        {(float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y, 0, r, g, b, UV_U(poly.mVerts[1].mUv.u), UV_V(poly.mVerts[1].mUv.v) },
-        {(float)poly.mVerts[2].mVert.x, (float)poly.mVerts[2].mVert.y, 0, r, g, b, UV_U(poly.mVerts[2].mUv.u), UV_V(poly.mVerts[2].mUv.v) }
+        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v) },
+        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0, r, g, b, UV_U(poly.mVerts[0].mUv.u), UV_V(poly.mVerts[0].mUv.v) },
+        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0, r, g, b, UV_U(poly.mVerts[1].mUv.u), UV_V(poly.mVerts[1].mUv.v) },
+        {(f32)poly.mVerts[2].mVert.x, (f32)poly.mVerts[2].mVert.y, 0, r, g, b, UV_U(poly.mVerts[2].mUv.u), UV_V(poly.mVerts[2].mUv.v) }
     };
 
     Renderer_BindPalette(pPal);
@@ -1345,12 +1345,12 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     if (pTexture->mIsFG1)
     {
-        const float overdraw = 0.2f; // stops weird line rendering issues.
+        const f32 overdraw = 0.2f; // stops weird line rendering issues.
         // This is an FG1, so UV's are maxed;
-        verts[0] = { (float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0, 1.0f, 1.0f, 1.0f, 0, 0 };
-        verts[1] = { (float)poly.mVerts[0].mVert.x + overdraw, (float)poly.mVerts[0].mVert.y, 0, 1.0f, 1.0f, 1.0f, 1, 0 };
-        verts[2] = { (float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 0, 1 };
-        verts[3] = { (float)poly.mVerts[2].mVert.x + overdraw, (float)poly.mVerts[2].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 1, 1 };
+        verts[0] = { (f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0, 1.0f, 1.0f, 1.0f, 0, 0 };
+        verts[1] = { (f32)poly.mVerts[0].mVert.x + overdraw, (f32)poly.mVerts[0].mVert.y, 0, 1.0f, 1.0f, 1.0f, 1, 0 };
+        verts[2] = { (f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 0, 1 };
+        verts[3] = { (f32)poly.mVerts[2].mVert.x + overdraw, (f32)poly.mVerts[2].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 1, 1 };
 
 
         // Hack, set palette texture to our background.
@@ -1409,16 +1409,16 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[4] = {
-        {(float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0,
+        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0,
         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
         0, 0 },
-        {(float)poly.mVerts[0].mVert.x, (float)poly.mVerts[0].mVert.y, 0,
+        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0,
        poly.mVerts[0].mRgb.r / 255.0f, poly.mVerts[0].mRgb.g / 255.0f, poly.mVerts[0].mRgb.b / 255.0f,
        1, 0 },
-       {(float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y, 0,
+       {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0,
         poly.mVerts[1].mRgb.r / 255.0f, poly.mVerts[1].mRgb.g / 255.0f, poly.mVerts[1].mRgb.b / 255.0f,
         0, 1 },
-        {(float)poly.mVerts[2].mVert.x, (float)poly.mVerts[2].mVert.y, 0,
+        {(f32)poly.mVerts[2].mVert.x, (f32)poly.mVerts[2].mVert.y, 0,
         poly.mVerts[2].mRgb.r / 255.0f, poly.mVerts[2].mRgb.g / 255.0f, poly.mVerts[2].mRgb.b / 255.0f,
         1, 1 }
     };
@@ -1489,9 +1489,9 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
 
     if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
     {
-        ImGui::SetCursorPos(ImVec2(static_cast<float>(tc->mVramRect.x), static_cast<float>(tc->mVramRect.y + 50)));
-        float textureWidth = static_cast<float>(tc->mVramRect.w);
-        float textureHeight = static_cast<float>(tc->mVramRect.h);
+        ImGui::SetCursorPos(ImVec2(static_cast<f32>(tc->mVramRect.x), static_cast<f32>(tc->mVramRect.y + 50)));
+        f32 textureWidth = static_cast<f32>(tc->mVramRect.w);
+        f32 textureHeight = static_cast<f32>(tc->mVramRect.h);
         ImVec2 xpos = ImGui::GetCursorScreenPos();
         ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
         ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(0.0f, 1.0f, 0.0f, 1.0f)));

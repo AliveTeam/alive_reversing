@@ -36,7 +36,7 @@ ALIVE_VAR(1, 0xBD2A04, DWORD, sTile_r_BD2A04, 0);
 ALIVE_VAR(1, 0xBD2A00, DWORD, sTile_g_BD2A00, 0);
 ALIVE_VAR(1, 0xBD29FC, DWORD, sTile_b_BD29FC, 0);
 
-ALIVE_ARY(1, 0xC19160, float, 4096, sPsxEmu_float_table_C19160, {});
+ALIVE_ARY(1, 0xC19160, f32, 4096, sPsxEmu_float_table_C19160, {});
 ALIVE_ARY(1, 0xC1D5C0, s32, 4096, sPsxEmu_fixed_point_table_C1D5C0, {});
 
 struct Render_Unknown
@@ -45,9 +45,9 @@ struct Render_Unknown
     s32 field_4_y;
     s32 field_8;
     s32 field_C;
-    s32 field_10_float; // float ?
-    s32 field_14_u; // float ?
-    s32 field_18_v; // float ?
+    s32 field_10_float; // f32 ?
+    s32 field_14_u; // f32 ?
+    s32 field_18_v; // f32 ?
     s32 field_1C_GShadeR;
     s32 field_20_GShadeG;
     s32 field_24_GShadeB;
@@ -148,7 +148,7 @@ void Psx_Render_Float_Table_Init()
         }
         else
         {
-            sPsxEmu_float_table_C19160[i] = 1.0f / static_cast<float>(i);
+            sPsxEmu_float_table_C19160[i] = 1.0f / static_cast<f32>(i);
             sPsxEmu_fixed_point_table_C1D5C0[i] = 0x10000 / (i);
         }
     }
@@ -1493,14 +1493,14 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
         return;
     }
 
-    const float texture_w_step = static_cast<float>(u_width) / static_cast<float>(width);
-    const float texture_h_step = static_cast<float>(v_height) / static_cast<float>(height);
+    const f32 texture_w_step = static_cast<f32>(u_width) / static_cast<f32>(width);
+    const f32 texture_h_step = static_cast<f32>(v_height) / static_cast<f32>(height);
 
     s32 control_byte = 0;
     u32 dstIdx = 0;
 
     s32 yCounter = 0;
-    float v_pos = 0.0f;
+    f32 v_pos = 0.0f;
 
     if ( (xpos_clip % 2) !=0)
     {
@@ -1551,7 +1551,7 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
             }
 
             s32 width_clip_counter = 0;
-            float u_pos = 0.0f;
+            f32 u_pos = 0.0f;
             s32 u_width_counter = 0;
             while (u_width_counter <= u_width)
             {
@@ -2414,7 +2414,7 @@ EXPORT void CC PSX_poly_Textured_Unknown_5180B0(Render_Unknown* /*pOrigin*/, Ren
     pSlope->field_4_y = pV2->field_4_y0 - v2_y;
     if (pSlope->field_4_y > 0)
     {
-        const float psx_fixed_to_float = sPsxEmu_float_table_C19160[pSlope->field_4_y];
+        const f32 psx_fixed_to_float = sPsxEmu_float_table_C19160[pSlope->field_4_y];
         pSlope->field_0_x = static_cast<s32>(pSlope->field_0_x * psx_fixed_to_float);
         pSlope->field_14_u = (pV2->field_14_u - pV1->field_14_u) * psx_fixed_to_float * 16.0f;
         pSlope->field_18_v = (pV2->field_18_v - pV1->field_18_v) * psx_fixed_to_float * 16.0f;
@@ -2424,7 +2424,7 @@ EXPORT void CC PSX_poly_Textured_Unknown_5180B0(Render_Unknown* /*pOrigin*/, Ren
     const s32 yRounded = (pV1->field_4_y0 + 15) & ~15;
     pOrigin->field_0_x = (yRounded * pSlope->field_0_x) + (v1_x * 4096) / 16;
 
-    const float yRounded_scaled = yRounded - (pV1->field_4_y0 / 16.0f); // * 0.0625f
+    const f32 yRounded_scaled = yRounded - (pV1->field_4_y0 / 16.0f); // * 0.0625f
     pOrigin->field_14_u = (yRounded_scaled * pSlope->field_14_u) + pV1->field_14_u;
     pOrigin->field_18_v = (yRounded_scaled * pSlope->field_18_v) + pV1->field_18_v;
     pOrigin->field_10_float = (yRounded_scaled * pSlope->field_10_float) + pV1->field_10;
@@ -4106,7 +4106,7 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                 s32 y0_diff = pVerts->field_4_y0 - pLastVert1->field_4_y0;
 
                 bool bWasClipped = false;
-                float scaleFactor = 0.0f;
+                f32 scaleFactor = 0.0f;
                 OT_Vert* pTmpVert = nullptr;
                 switch (idx)
                 {
@@ -4119,10 +4119,10 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                             x0_diff = 1;
                         }
 
-                        scaleFactor = (float)(sPsx_drawenv_clipx_BDCD40 - pVerts->field_0_x0) / (float)x0_diff;
+                        scaleFactor = (f32)(sPsx_drawenv_clipx_BDCD40 - pVerts->field_0_x0) / (f32)x0_diff;
                         pTmpVert = GetVert(result, result->field_C_vert_count);
                         result->field_C_vert_count++;
-                        pTmpVert->field_4_y0 = static_cast<s32>(((float)(y0_diff * scaleFactor) + (float)pVerts->field_4_y0));
+                        pTmpVert->field_4_y0 = static_cast<s32>(((f32)(y0_diff * scaleFactor) + (f32)pVerts->field_4_y0));
                         pTmpVert->field_0_x0 = sPsx_drawenv_clipx_BDCD40;
                         result = pLocal;
                     }
@@ -4137,10 +4137,10 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                             y0_diff = 1;
                         }
 
-                        scaleFactor = (float)(sPsx_drawenv_clipy_BDCD44 - pVerts->field_4_y0) / (float)y0_diff;
+                        scaleFactor = (f32)(sPsx_drawenv_clipy_BDCD44 - pVerts->field_4_y0) / (f32)y0_diff;
                         pTmpVert = GetVert(result, result->field_C_vert_count);
                         result->field_C_vert_count++;
-                        pTmpVert->field_0_x0 = static_cast<s32>(((float)(x0_diff * scaleFactor) + (float)pVerts->field_0_x0));
+                        pTmpVert->field_0_x0 = static_cast<s32>(((f32)(x0_diff * scaleFactor) + (f32)pVerts->field_0_x0));
                         pTmpVert->field_4_y0 = sPsx_drawenv_clipy_BDCD44;
                         result = pLocal;
                     }
@@ -4155,10 +4155,10 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                             x0_diff = 1;
                         }
 
-                        scaleFactor = (float)(sPsx_drawenv_clipw_BDCD48 - pVerts->field_0_x0) / (float)x0_diff;
+                        scaleFactor = (f32)(sPsx_drawenv_clipw_BDCD48 - pVerts->field_0_x0) / (f32)x0_diff;
                         pTmpVert = GetVert(result, result->field_C_vert_count);
                         result->field_C_vert_count++;
-                        pTmpVert->field_4_y0 = static_cast<s32>(((float)(y0_diff * scaleFactor) + (float)pVerts->field_4_y0));
+                        pTmpVert->field_4_y0 = static_cast<s32>(((f32)(y0_diff * scaleFactor) + (f32)pVerts->field_4_y0));
                         pTmpVert->field_0_x0 = sPsx_drawenv_clipw_BDCD48;
                         result = pLocal;
                     }
@@ -4173,10 +4173,10 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                             y0_diff = 1;
                         }
 
-                        scaleFactor = (float)(sPsx_drawenv_cliph_BDCD4C - pVerts->field_4_y0) / (float)y0_diff;
+                        scaleFactor = (f32)(sPsx_drawenv_cliph_BDCD4C - pVerts->field_4_y0) / (f32)y0_diff;
                         pTmpVert = GetVert(result, result->field_C_vert_count);
                         result->field_C_vert_count++;
-                        pTmpVert->field_0_x0 =  static_cast<s32>((float)(x0_diff * scaleFactor) + (float)pVerts->field_0_x0);
+                        pTmpVert->field_0_x0 =  static_cast<s32>((f32)(x0_diff * scaleFactor) + (f32)pVerts->field_0_x0);
                         pTmpVert->field_4_y0 = sPsx_drawenv_cliph_BDCD4C;
                         result = pLocal;
                     }
@@ -4191,27 +4191,27 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                         if (pOt->field_E & 1)
                         {
                             // TODO: Dead branch, u/v is never treated as floats, must have been a union in the real code?
-                            LOG_ERROR("Never expected float flag to be set, bugs ahead");
-                            pTmpVert->field_14_u = (s32)((float)(pVerts->field_14_u - pLastVert2->field_14_u) * scaleFactor + (float)pVerts->field_14_u);
-                            pTmpVert->field_18_v = (s32)((float)(pVerts->field_18_v - pLastVert2->field_18_v) * scaleFactor + (float)pVerts->field_18_v);
-                            pTmpVert->field_10 = (s32)((float)(pVerts->field_10 - pLastVert2->field_10) * scaleFactor + (float)pVerts->field_10);
+                            LOG_ERROR("Never expected f32 flag to be set, bugs ahead");
+                            pTmpVert->field_14_u = (s32)((f32)(pVerts->field_14_u - pLastVert2->field_14_u) * scaleFactor + (f32)pVerts->field_14_u);
+                            pTmpVert->field_18_v = (s32)((f32)(pVerts->field_18_v - pLastVert2->field_18_v) * scaleFactor + (f32)pVerts->field_18_v);
+                            pTmpVert->field_10 = (s32)((f32)(pVerts->field_10 - pLastVert2->field_10) * scaleFactor + (f32)pVerts->field_10);
                         }
                         else
                         {
-                            pTmpVert->field_14_u = (s32)((float)(pVerts->field_14_u - pLastVert2->field_14_u) * scaleFactor + (float)pVerts->field_14_u);
-                            pTmpVert->field_18_v = (s32)((float)(pVerts->field_18_v - pLastVert2->field_18_v) * scaleFactor + (float)pVerts->field_18_v);
+                            pTmpVert->field_14_u = (s32)((f32)(pVerts->field_14_u - pLastVert2->field_14_u) * scaleFactor + (f32)pVerts->field_14_u);
+                            pTmpVert->field_18_v = (s32)((f32)(pVerts->field_18_v - pLastVert2->field_18_v) * scaleFactor + (f32)pVerts->field_18_v);
                             pOtCopy = pOt;
                         }
                     }
 
                     if (pOtCopy->field_B_flags & 0x10)
                     {
-                        pTmpVert->field_1C_r = (s32)((float)(pVerts->field_1C_r - pLastVert2->field_1C_r) * scaleFactor + (float)pVerts->field_1C_r);
-                        pTmpVert->field_20_g = (s32)((float)(pVerts->field_20_g - pLastVert2->field_20_g) * scaleFactor + (float)pVerts->field_20_g);
-                        pTmpVert->field_24_b = (s32)((float)(pVerts->field_24_b - pLastVert2->field_24_b) * scaleFactor + (float)pVerts->field_24_b);
+                        pTmpVert->field_1C_r = (s32)((f32)(pVerts->field_1C_r - pLastVert2->field_1C_r) * scaleFactor + (f32)pVerts->field_1C_r);
+                        pTmpVert->field_20_g = (s32)((f32)(pVerts->field_20_g - pLastVert2->field_20_g) * scaleFactor + (f32)pVerts->field_20_g);
+                        pTmpVert->field_24_b = (s32)((f32)(pVerts->field_24_b - pLastVert2->field_24_b) * scaleFactor + (f32)pVerts->field_24_b);
                     }
 
-                    pTmpVert->field_8 = (s32)((float)(pVerts->field_8 - pLastVert2->field_8) * scaleFactor + (float)pVerts->field_8);
+                    pTmpVert->field_8 = (s32)((f32)(pVerts->field_8 - pLastVert2->field_8) * scaleFactor + (f32)pVerts->field_8);
                     result = pLocal;
                 }
 

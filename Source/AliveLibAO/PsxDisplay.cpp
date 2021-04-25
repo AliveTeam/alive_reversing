@@ -151,7 +151,7 @@ void PsxDisplay::PSX_Display_Render_OT_40DD20()
     }
     else
     {
-        // Normal double buffer rendering
+        // Normal f64 buffer rendering
         PSX_DrawSync_496750(0);
         PSX_VSync_496620(2);
 

@@ -320,7 +320,7 @@ EXPORT s16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
     return static_cast<s16>(SND_SsIsEos_DeInlined_4CACD0(static_cast<u16>(idx)));
 }
 
-EXPORT s32 CC SND_PlayEx_493040(const SoundEntry* pSnd, s32 panLeft, s32 panRight, float freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
+EXPORT s32 CC SND_PlayEx_493040(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
 {
     return SND_PlayEx_4EF740(pSnd, panLeft, panRight, freq, pMidiStru, playFlags, priority);
 }
@@ -331,13 +331,13 @@ EXPORT s32 CC SND_Get_Buffer_Status_491D40(s32 idx)
 }
 
 // TODO: Check correct one
-EXPORT s32 CC SND_Buffer_Set_Frequency_493820(s32 idx, float freq)
+EXPORT s32 CC SND_Buffer_Set_Frequency_493820(s32 idx, f32 freq)
 {
     return SND_Buffer_Set_Frequency_4EFC00(idx, freq);
 }
 
 // TODO: Check is 2nd one
-EXPORT s32 CC SND_Buffer_Set_Frequency_493790(s32 idx, float freq)
+EXPORT s32 CC SND_Buffer_Set_Frequency_493790(s32 idx, f32 freq)
 {
     return SND_Buffer_Set_Frequency_4EFC00(idx, freq);
 }
@@ -509,13 +509,13 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
                         pChannel->field_1C_adsr.field_1_program = (u8)program;
                         auto v29 = pVagOff->field_A_shift_cen;
                         pChannel->field_1C_adsr.field_2_note_byte1 = BYTE1(note) & 0x7F;
-                        auto freq = pow(1.059463094359, (double)(note - v29) * 0.00390625);
-                        pChannel->field_10_freq = (float)freq;
+                        auto freq = pow(1.059463094359, (f64)(note - v29) * 0.00390625);
+                        pChannel->field_10_freq = (f32)freq;
                         SND_PlayEx_493040(
                             &GetSpuApiVars()->sSoundEntryTable16().table[vabId][vag_num],
                             panLeft,
                             panRight,
-                            (float)freq,
+                            (f32)freq,
                             pChannel,
                             playFlags,
                             priority_);
@@ -742,14 +742,14 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
                     const s32 prog_num = pCtx->field_32_progVols[data.Channel()].field_0_program;
 
                     // Inlined MIDI_PitchBend
-                    const float freq_conv = (float)pow(1.059463094359, (double)(s16)(((data.param1) - 0x4000) >> 4) * 0.0078125);
+                    const f32 freq_conv = (f32)pow(1.059463094359, (f64)(s16)(((data.param1) - 0x4000) >> 4) * 0.0078125);
 
                     for (s32 i = 0; i < 24; i++)
                     {
                         MIDI_Channel* pChannel = &GetSpuApiVars()->sMidi_Channels().channels[i];
                         if (pChannel->field_1C_adsr.field_1_program == prog_num)
                         {
-                            const float freq_1 = freq_conv * pChannel->field_10_freq;
+                            const f32 freq_1 = freq_conv * pChannel->field_10_freq;
                             SND_Buffer_Set_Frequency_493790(i, freq_1);
                         }
                     }

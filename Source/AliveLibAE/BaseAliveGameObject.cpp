@@ -350,7 +350,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(s16 cameraWorldXPos, s16 came
 
     if (field_CC_sprite_scale == FP_FromInteger(1) && field_20_animation.field_14_scale == FP_FromDouble(0.5))
     {
-        // From 0.5 to 1 scale, double velx
+        // From 0.5 to 1 scale, f64 velx
         field_C4_velx = field_C4_velx * FP_FromInteger(2);
     }
 

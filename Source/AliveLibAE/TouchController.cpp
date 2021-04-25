@@ -12,28 +12,28 @@ void sdl_ellipse(SDL_Renderer* r, s32 x0, s32 y0, s32 radiusX, s32 radiusY, u8 r
     SDL_SetRenderDrawColor(r, red, green, blue, alpha);
     SDL_SetRenderDrawBlendMode(r, SDL_BlendMode::SDL_BLENDMODE_BLEND);
 
-    float pi = 3.14159265f;
-    float pih = pi / 2.0f; //half of pi
+    f32 pi = 3.14159265f;
+    f32 pih = pi / 2.0f; //half of pi
 
                           //drew  28 lines with   4x4  circle with precision of 150 0ms
                           //drew 132 lines with  25x14 circle with precision of 150 0ms
                           //drew 152 lines with 100x50 circle with precision of 150 3ms
     const s32 prec = 27; // precision value; value of 1 will draw a diamond, 27 makes pretty smooth circles.
-    float theta = 0;     // angle that will be increased each loop
+    f32 theta = 0;     // angle that will be increased each loop
 
                          //starting point
-    s32 x = (s32)((float)radiusX * cos(theta));//start point
-    s32 y = (s32)((float)radiusY * sin(theta));//start point
+    s32 x = (s32)((f32)radiusX * cos(theta));//start point
+    s32 y = (s32)((f32)radiusY * sin(theta));//start point
     s32 x1 = x;
     s32 y1 = y;
 
     //repeat until theta >= 90;
-    float step = pih / (float)prec; // amount to add to theta each time (degrees)
+    f32 step = pih / (f32)prec; // amount to add to theta each time (degrees)
     for (theta = step; theta <= pih; theta += step)//step through only a 90 arc (1 quadrant)
     {
         //get new point location
-        x1 = static_cast<s32>((float)radiusX * cosf(theta) + 0.5); //new point (+.5 is a quick rounding method)
-        y1 = static_cast<s32>((float)radiusY * sinf(theta) + 0.5); //new point (+.5 is a quick rounding method)
+        x1 = static_cast<s32>((f32)radiusX * cosf(theta) + 0.5); //new point (+.5 is a quick rounding method)
+        y1 = static_cast<s32>((f32)radiusY * sinf(theta) + 0.5); //new point (+.5 is a quick rounding method)
 
                                                  //draw line from previous point to new point, ONLY if point incremented
         if ((x != x1) || (y != y1))//only draw if coordinate changed
@@ -67,11 +67,11 @@ TouchController::TouchController()
     
 
     {
-        const float offsetX = 1100;
-        const float offsetY = 520;
-        const float size = 100;
-        const float spaceMult = 1.0f;
-        const float spaceOffset = (size * spaceMult);
+        const f32 offsetX = 1100;
+        const f32 offsetY = 520;
+        const f32 size = 100;
+        const f32 spaceMult = 1.0f;
+        const f32 spaceOffset = (size * spaceMult);
         touchButtons.push_back({ offsetX, offsetY - spaceOffset, size,TOUCH_CONTROLLER_BUTTON_Y });
         touchButtons.push_back({ offsetX, offsetY + spaceOffset, size,TOUCH_CONTROLLER_BUTTON_A });
         touchButtons.push_back({ offsetX - spaceOffset, offsetY, size,TOUCH_CONTROLLER_BUTTON_X });
@@ -79,11 +79,11 @@ TouchController::TouchController()
     }
 
     {
-        const float offsetX = 180;
-        const float offsetY = 520;
-        const float size = 100;
-        const float spaceMult = 1.0f;
-        const float spaceOffset = (size * spaceMult);
+        const f32 offsetX = 180;
+        const f32 offsetY = 520;
+        const f32 size = 100;
+        const f32 spaceMult = 1.0f;
+        const f32 spaceOffset = (size * spaceMult);
         touchButtons.push_back({ offsetX, offsetY - spaceOffset, size, TOUCH_CONTROLLER_BUTTON_DPAD_UP});
         touchButtons.push_back({ offsetX, offsetY + spaceOffset, size, TOUCH_CONTROLLER_BUTTON_DPAD_DOWN });
         touchButtons.push_back({ offsetX - spaceOffset, offsetY, size, TOUCH_CONTROLLER_BUTTON_DPAD_LEFT });
@@ -145,12 +145,12 @@ void TouchController::Update()
 
             for (auto t : touchButtons)
             {
-                const float x = t.x;
-                const float y = t.y;
-                const float s = t.size * 0.5f;
+                const f32 x = t.x;
+                const f32 y = t.y;
+                const f32 s = t.size * 0.5f;
 
-                const float fingerX = pFinger->x * 1280.0f;
-                const float fingerY = pFinger->y * 720.0f;
+                const f32 fingerX = pFinger->x * 1280.0f;
+                const f32 fingerY = pFinger->y * 720.0f;
 
                 if (fingerX > x - s && fingerX < x + s &&
                     fingerY > y - s && fingerY < y + s)
@@ -168,9 +168,9 @@ void TouchController::Update()
         s32 mx, my;
         s32 ms = SDL_GetMouseState(&mx, &my);
 
-        const float x = t.x * xRatio;
-        const float y = t.y * yRatio;
-        const float s = t.size * yRatio * 0.5f;
+        const f32 x = t.x * xRatio;
+        const f32 y = t.y * yRatio;
+        const f32 s = t.size * yRatio * 0.5f;
 
         if (mx > x - s && mx < x + s &&
             my > y - s && my < y + s && ms > 0)
@@ -197,7 +197,7 @@ void TouchController::Render()
     }
 }
 
-s32 TouchController::GetGamePadData(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+s32 TouchController::GetGamePadData(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, DWORD *pButtons)
 {
     *pButtons = 0;
     *pX1 = 0;
@@ -244,7 +244,7 @@ s32 TouchController::GetGamePadData(float *pX1, float *pY1, float *pX2, float *p
     // 8 Back
     // 9 Start
 
-    /*static float vibrationAmount = 0.0f;
+    /*static f32 vibrationAmount = 0.0f;
     s32 screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
 
     if (screenShake > 0)

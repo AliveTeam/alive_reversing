@@ -56,8 +56,8 @@ namespace DEV
 extern bool sDebugEnabled_VerboseEvents;
 
 // Duration in seconds
-void ShowDebugConsoleMessage(std::string message, float duration, u8 r, u8 g, u8 b);
-void ShowDebugConsoleMessage(std::string message, float duration);
+void ShowDebugConsoleMessage(std::string message, f32 duration, u8 r, u8 g, u8 b);
+void ShowDebugConsoleMessage(std::string message, f32 duration);
 
 std::vector<std::string> SplitString(const std::string& s, s8 seperator);
 bool StringStartsWith(std::string mainStr, std::string toMatch);

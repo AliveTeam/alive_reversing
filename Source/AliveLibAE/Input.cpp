@@ -155,7 +155,7 @@ ALIVE_ARY(1, 0x55EA2C, const u32, 10, sDefaultGamepadBindings_55EA2C, {
 
 // For joysticks with very little buttons, depending on strength of joystick, will make abe
 // automatically run/sneak.
-EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
+EXPORT void CC Input_StickControl_45FF60(f32 x, f32 y, DWORD* buttons)
 {
     if (!bAutoX_5C2EE4 && !bAutoY_5C2EF0)
     {
@@ -220,9 +220,9 @@ EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
 }
 
 #if USE_SDL2
-    void Input_GetJoyState_SDL(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+    void Input_GetJoyState_SDL(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, DWORD *pButtons)
     {
-        float deadzone = 0.2f;
+        f32 deadzone = 0.2f;
 
         *pButtons = 0;
         *pX1 = 0;
@@ -235,11 +235,11 @@ EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
             sJoystickNumButtons_5C2EFC = SDL_JoystickNumButtons(SDL_GameControllerGetJoystick(pSDLController));
             sGamepadCapFlags_5C2EF8 = 0xFFFF;
 
-            float f_LX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTX) / 32767.0f;
-            float f_LY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTY) / 32767.0f;
+            f32 f_LX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTX) / 32767.0f;
+            f32 f_LY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTY) / 32767.0f;
 
-            float f_RX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTX) / 32767.0f;
-            float f_RY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTY) / 32767.0f;
+            f32 f_RX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTX) / 32767.0f;
+            f32 f_RY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTY) / 32767.0f;
 
             // Joysticks
             if (abs(f_LX) > deadzone)
@@ -291,7 +291,7 @@ EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
             // 8 Back
             // 9 Start
 
-            static float vibrationAmount = 0.0f;
+            static f32 vibrationAmount = 0.0f;
             s32 screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
 
             if (screenShake > 0)
@@ -317,7 +317,7 @@ EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
 #endif
 
 #if !USE_SDL2 && _WIN32
-void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+void Input_GetJoyState_Impl(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, DWORD *pButtons)
 {
     if (!sJoystickAvailable_5C2EF4)
     {
@@ -354,7 +354,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
     s32 xRangeDeadZone = (xRange - sJoystickCaps_5C2D10.wXmin) / 4;
     if (sJoystickInfo_5C2EA8.dwXpos < xRange - xRangeDeadZone || sJoystickInfo_5C2EA8.dwXpos > xRange + xRangeDeadZone)
     {
-        *pX1 = static_cast<float>(static_cast<s32>(sJoystickInfo_5C2EA8.dwXpos) - xRange) / static_cast<float>(xRange - sJoystickCaps_5C2D10.wXmin);
+        *pX1 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwXpos) - xRange) / static_cast<f32>(xRange - sJoystickCaps_5C2D10.wXmin);
     }
     else
     {
@@ -365,7 +365,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
     s32 yRangeDeadZone = (yRange - sJoystickCaps_5C2D10.wYmin) / 4;
     if (sJoystickInfo_5C2EA8.dwYpos < yRange - yRangeDeadZone || sJoystickInfo_5C2EA8.dwYpos > yRange + yRangeDeadZone)
     {
-        *pY1 = static_cast<float>(static_cast<s32>(sJoystickInfo_5C2EA8.dwYpos) - yRange) / static_cast<float>(yRange - sJoystickCaps_5C2D10.wYmin);
+        *pY1 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwYpos) - yRange) / static_cast<f32>(yRange - sJoystickCaps_5C2D10.wYmin);
     }
     else
     {
@@ -377,7 +377,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
     if (sJoystickCapFlags_5C2EDC & JOY_RETURNZ
         && (sJoystickInfo_5C2EA8.dwZpos < zRange - zRangeDeadZone || sJoystickInfo_5C2EA8.dwZpos > zRange + zRangeDeadZone))
     {
-        *pX2 = static_cast<float>(static_cast<s32>(sJoystickInfo_5C2EA8.dwZpos) - zRange) / static_cast<float>(zRange - sJoystickCaps_5C2D10.wZmin);
+        *pX2 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwZpos) - zRange) / static_cast<f32>(zRange - sJoystickCaps_5C2D10.wZmin);
     }
     else
     {
@@ -389,7 +389,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
     if (sJoystickCapFlags_5C2EDC & JOY_RETURNR
         && (sJoystickInfo_5C2EA8.dwRpos < wRange - wRangeDeadZone || sJoystickInfo_5C2EA8.dwRpos > wRange + wRangeDeadZone))
     {
-        *pY2 = static_cast<float>(static_cast<s32>(sJoystickInfo_5C2EA8.dwRpos) - wRange) / static_cast<float>(wRange - sJoystickCaps_5C2D10.wRmin);
+        *pY2 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwRpos) - wRange) / static_cast<f32>(wRange - sJoystickCaps_5C2D10.wRmin);
     }
     else
     {
@@ -428,12 +428,12 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
 #endif
 
 #if XINPUT_SUPPORT
-void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+void Input_XINPUT(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, DWORD *pButtons)
 {
     XINPUT_STATE state;
     ZeroMemory(&state, sizeof(XINPUT_STATE));
 
-    float deadzone = 0.2f;
+    f32 deadzone = 0.2f;
 
     *pButtons = 0;
     *pX1 = 0;
@@ -443,11 +443,11 @@ void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButton
 
     if (XInputGetState(sCurrentControllerIndex_5C1BBE, &state) == ERROR_SUCCESS)
     {
-        float f_LX = state.Gamepad.sThumbLX / 32767.0f;
-        float f_LY = state.Gamepad.sThumbLY / 32767.0f;
+        f32 f_LX = state.Gamepad.sThumbLX / 32767.0f;
+        f32 f_LY = state.Gamepad.sThumbLY / 32767.0f;
 
-        float f_RX = state.Gamepad.sThumbRX / 32767.0f;
-        float f_RY = state.Gamepad.sThumbRY / 32767.0f;
+        f32 f_RX = state.Gamepad.sThumbRX / 32767.0f;
+        f32 f_RY = state.Gamepad.sThumbRY / 32767.0f;
 
         // Joysticks
         if (abs(f_LX) > deadzone)
@@ -498,7 +498,7 @@ void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButton
         // 8 Back
         // 9 Start
 
-        static float vibrationAmount = 0.0f;
+        static f32 vibrationAmount = 0.0f;
         s32 screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
 
         if (screenShake > 0)
@@ -525,7 +525,7 @@ void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButton
 #endif
 
 // TODO: Needs actual testing.
-EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+EXPORT void CC Input_GetJoyState_460280(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, DWORD *pButtons)
 {
 #if XINPUT_SUPPORT
     Input_XINPUT(pX1, pY1, pX2, pY2, pButtons);
@@ -704,10 +704,10 @@ s32 CC Input_Remap_492680(InputCommands::Enum inputCmd)
 
     if (sJoystickEnabled_5C9F70)
     {
-        float y2 = 0.0f;
-        float x2 = 0.0f;
-        float y1 = 0.0f;
-        float x1 = 0.0f;
+        f32 y2 = 0.0f;
+        f32 x2 = 0.0f;
+        f32 y1 = 0.0f;
+        f32 x1 = 0.0f;
         DWORD buttons = 0;
         Input_GetJoyState_460280(&x1, &y1, &x2, &y2, &buttons);
 
@@ -1312,10 +1312,10 @@ EXPORT s32 Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
         dword_5C98DC = timeStamp - 55;
     }
 
-    float pX1 = 0.0f;
-    float pY1 = 0.0f;
-    float pY2 = 0.0f;
-    float pX2 = 0.0f;
+    f32 pX1 = 0.0f;
+    f32 pY1 = 0.0f;
+    f32 pY2 = 0.0f;
+    f32 pX2 = 0.0f;
 
     if (Sys_IsAppActive_4EDF30())
     {
@@ -1547,7 +1547,7 @@ EXPORT void CC Input_SetCallback_4FA910(t_InputCallback pFunc)
     sInputCallbackFunc_BD1870 = pFunc;
 }
 
-EXPORT void CC Input_45FDF0(float x, float y, s32 a3, bool cap_has_r)
+EXPORT void CC Input_45FDF0(f32 x, f32 y, s32 a3, bool cap_has_r)
 {
     if (sJoystickNumButtons_5C2EFC == 4 && (a3 || cap_has_r))
     {
@@ -1691,11 +1691,11 @@ EXPORT void Input_InitJoyStick_460080()
     {
         if (joyFlags & 0xC)
         {
-            float pY2; // [esp+Ch] [ebp-14h]
-            float pX2; // [esp+10h] [ebp-10h]
+            f32 pY2; // [esp+Ch] [ebp-14h]
+            f32 pX2; // [esp+10h] [ebp-10h]
             DWORD pButtons; // [esp+14h] [ebp-Ch]
-            float pY1; // [esp+18h] [ebp-8h]
-            float pX1; // [esp+1Ch] [ebp-4h]
+            f32 pY1; // [esp+18h] [ebp-8h]
+            f32 pX1; // [esp+1Ch] [ebp-4h]
 
             Input_GetJoyState_460280(&pX1, &pY1, &pX2, &pY2, &pButtons);
             Input_45FDF0(pX2, pY2, (sJoystickCapFlags_5C2EDC & 4) != 0, (sJoystickCapFlags_5C2EDC & 8) != 0);

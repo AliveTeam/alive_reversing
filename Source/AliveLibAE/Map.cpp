@@ -255,7 +255,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
                 }
             }
 
-            // TODO/HACK what is the point of the double loop? Why not do both in 1 iteration ??
+            // TODO/HACK what is the point of the f64 loop? Why not do both in 1 iteration ??
             for (s32 i = 0; i < pPurpleLightArray->Size(); i++)
             {
                 Particle* pLight = pPurpleLightArray->ItemAt(i);

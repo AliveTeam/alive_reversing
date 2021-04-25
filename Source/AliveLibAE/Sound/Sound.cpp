@@ -137,7 +137,7 @@ EXPORT s32 CC SND_Free_4EFA30(SoundEntry* pSnd)
     return 0;
 }
 
-EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, float freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
+EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
 {
     if (!sDSound_BBC344)
     {
@@ -452,7 +452,7 @@ EXPORT s32 CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, s32 waveD
     return GetSoundAPI().SND_LoadSamples(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
 }
 
-EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC90(s32 idx, float hzChangeFreq)
+EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC90(s32 idx, f32 hzChangeFreq)
 {
     SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 511];
     TSoundBufferType* pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
@@ -536,7 +536,7 @@ EXPORT s32 CC SND_Buffer_Set_Volume_4EFAD0(s32 idx, s32 vol)
     return 0;
 }
 
-EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC00(s32 idx, float freq)
+EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC00(s32 idx, f32 freq)
 {
     const s32 idxMasked = idx & 511;
     if (idxMasked > 32)

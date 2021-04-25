@@ -61,7 +61,7 @@ EXPORT void CC Game_ShowLoadingIcon_482D80()
     PSX_PutDrawEnv_4F5980(&dispBuffer.field_0_draw_env);
     PSX_DrawSync_4F6280(0);
 
-    // This was doing something odd with OT index.. I think its trying to simulate double buffering by
+    // This was doing something odd with OT index.. I think its trying to simulate f64 buffering by
     // using other parts of the OT while another part is drawn, but it was bugged because it cleared the other anyway
     // on PC it seems fine to just always start at zero.
     PSX_ClearOTag_4F6290(dispBuffer.field_70_ot_buffer, 43);

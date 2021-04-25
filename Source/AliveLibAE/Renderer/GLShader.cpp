@@ -240,10 +240,10 @@ uniform mat4 m_MVP;
 
 void main()
 {
-	gl_Position = m_MVP * vec4(aPos.x, aPos.y, aPos.z, 1.0);
-	
-	m_Color = aColor;
-	m_TexCoord = aTexCoord;
+    gl_Position = m_MVP * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+    
+    m_Color = aColor;
+    m_TexCoord = aTexCoord;
 }
 )";
 
@@ -261,11 +261,11 @@ uniform sampler2D m_Sprite;
 uniform sampler2D m_Palette;
 
 uniform bool m_PaletteEnabled = true;
-uniform s32 m_PaletteDepth = 0;
+uniform int m_PaletteDepth = 0;
 uniform bool m_Textured = true;
 uniform bool m_Dithered = false;
-uniform s32 m_DitherWidth = 0;
-uniform s32 m_DitherHeight = 0;
+uniform int m_DitherWidth = 0;
+uniform int m_DitherHeight = 0;
 uniform bool m_Debug = false;
 uniform bool m_FG1 = false;
 uniform vec4 m_FG1Size;
@@ -274,15 +274,15 @@ const vec2 CamSize = vec2(640,240);
 
 vec4 PixelToPalette(float v)
 {
-	return texture(m_Palette, vec2((v / m_PaletteDepth) * 256, 0.5f));
+    return texture(m_Palette, vec2((v / m_PaletteDepth) * 256, 0.5f));
 }
 
 vec3 checker(in vec2 uv)
 {
-  float checkSize = 2;
-  float fmodResult = mod(floor(checkSize * uv.x) + floor(checkSize * uv.y), 2.0);
-  float fin = max(sign(fmodResult), 0.0);
-  return vec3(fin, fin, fin);
+    float checkSize = 2;
+    float fmodResult = mod(floor(checkSize * uv.x) + floor(checkSize * uv.y), 2.0);
+    float fin = max(sign(fmodResult), 0.0);
+    return vec3(fin, fin, fin);
 }
 
 void main()

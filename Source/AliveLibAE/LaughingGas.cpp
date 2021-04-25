@@ -117,26 +117,26 @@ void LaughingGas::vScreenChanged_432DE0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-const float dword_551C58[7] = { 1.0,  5.0,  10.0,  10.0,  5.0,  1.0,  0.0 };
+const f32 dword_551C58[7] = { 1.0,  5.0,  10.0,  10.0,  5.0,  1.0,  0.0 };
 
 void LaughingGas::Init_432980()
 {
     for (s32 i = 0; i < field_31F8_w_count; i++)
     {
-        const float v4 = (float)i / (float)field_31F8_w_count;
-        float val1 = 1.0f;
+        const f32 v4 = (f32)i / (f32)field_31F8_w_count;
+        f32 val1 = 1.0f;
         for (s32 j = 0; j < 7; j++)
         {
             field_1A0_x_data[i].array_4[j] = val1 * dword_551C58[j];
             val1 *= v4;
         }
 
-        float* pElem_ptr = &field_1A0_x_data[i].array_4[5];
-        const float v1 = 1.0f - v4;
-        float val2 = 1.0f;
+        f32* pElem_ptr = &field_1A0_x_data[i].array_4[5];
+        const f32 v1 = 1.0f - v4;
+        f32 val2 = 1.0f;
         for (s32 j = 0; j < 6; j++)
         {
-            const float calc2 = val2 * *pElem_ptr;
+            const f32 calc2 = val2 * *pElem_ptr;
             *pElem_ptr = calc2;
             --pElem_ptr;
             val2 *= v1;
@@ -145,20 +145,20 @@ void LaughingGas::Init_432980()
 
     for (s32 i = 0; i < field_31FC_h_count; i++)
     {
-        const float v4 = (float)i / (float)field_31FC_h_count;
-        float val1 = 1.0f;
+        const f32 v4 = (f32)i / (f32)field_31FC_h_count;
+        f32 val1 = 1.0f;
         for (s32 j = 0; j < 7; j++)
         {
             field_24D0_y_data[i].array_4[j] = val1 * dword_551C58[j];
             val1 *= v4;
         }
 
-        float* pElem_ptr = &field_24D0_y_data[i].array_4[5];
-        const float v1 = 1.0f - v4;
-        float val2 = 1.0f;
+        f32* pElem_ptr = &field_24D0_y_data[i].array_4[5];
+        const f32 v1 = 1.0f - v4;
+        f32 val2 = 1.0f;
         for (s32 j = 0; j < 6; j++)
         {
-            const float calc2 = val2 * *pElem_ptr;
+            const f32 calc2 = val2 * *pElem_ptr;
             *pElem_ptr = calc2;
             --pElem_ptr;
             val2 *= v1;
@@ -169,7 +169,7 @@ void LaughingGas::Init_432980()
     {
         for (s32 j = 0; j < 6; j++)
         {
-            field_10C_gas_x[i][j] = static_cast<float>(gas_rand()) * 6.28f * (1.0f/32767.0f);
+            field_10C_gas_x[i][j] = static_cast<f32>(gas_rand()) * 6.28f * (1.0f/32767.0f);
         }
     }
 
@@ -209,7 +209,7 @@ void LaughingGas::vRender_432D10(PrimHeader** ppOt)
 
 void LaughingGas::DoRender_432740()
 {
-    float local_array[6];
+    f32 local_array[6];
 
     WORD* memPtr = field_19C_pMem;
     s32 rgb_base = (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
@@ -228,7 +228,7 @@ void LaughingGas::DoRender_432740()
 
         for (s32 xCount = 0; xCount < field_31F8_w_count; ++memPtr)
         {
-            float yValue = Calc_X_4326A0(local_array, xCount);
+            f32 yValue = Calc_X_4326A0(local_array, xCount);
             if (yValue > 0.0f)
             {
                 if (yValue >= 3.0f)
@@ -307,14 +307,14 @@ void LaughingGas::vUpdate_432C40()
     sub_4328A0();
 }
 
-float LaughingGas::Calc_X_4326A0(float* a2, s32 xIndex)
+f32 LaughingGas::Calc_X_4326A0(f32* a2, s32 xIndex)
 {
-    float result = 0.0;
-    float* v4 = a2 + 1;
+    f32 result = 0.0;
+    f32* v4 = a2 + 1;
 
     for (s32 i = 0; i < 4; i++)
     {
-        const float v5 = field_1A0_x_data[xIndex].array_4[i + 1];
+        const f32 v5 = field_1A0_x_data[xIndex].array_4[i + 1];
         result += v5 * *v4;
         v4++;
     }
@@ -322,14 +322,14 @@ float LaughingGas::Calc_X_4326A0(float* a2, s32 xIndex)
     return result;
 }
 
-float LaughingGas::Calc_Y_4326F0(float* a2, s32 yIndex)
+f32 LaughingGas::Calc_Y_4326F0(f32* a2, s32 yIndex)
 {
-    float result = 0.0;
-    float* v4 = a2 + 1;
+    f32 result = 0.0;
+    f32* v4 = a2 + 1;
 
     for (s32 i = 0; i < 4; i++)
     {
-        const float v5 = field_24D0_y_data[yIndex].array_4[i + 1];
+        const f32 v5 = field_24D0_y_data[yIndex].array_4[i + 1];
         result += v5 * *v4;
         v4++;
     }
@@ -344,8 +344,8 @@ void LaughingGas::sub_4328A0()
         for (s32 j = 0; j < 4; j++)
         {
             const s32 rnd = gas_rand() - 8191;
-            field_7C_gas_y[1 + i][1 + j] = (sin(field_10C_gas_x[1 + i][1 + j]) * 50.0f + 30.0f) * static_cast<float>(FP_GetDouble(field_54_amount_on));
-            field_10C_gas_x[1 + i][1 + j] += (float)(rnd) * 0.03f * (1.0f / 16383.0f);
+            field_7C_gas_y[1 + i][1 + j] = (sin(field_10C_gas_x[1 + i][1 + j]) * 50.0f + 30.0f) * static_cast<f32>(FP_GetDouble(field_54_amount_on));
+            field_10C_gas_x[1 + i][1 + j] += (f32)(rnd) * 0.03f * (1.0f / 16383.0f);
         }
     }
 }

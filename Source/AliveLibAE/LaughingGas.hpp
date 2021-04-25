@@ -59,8 +59,8 @@ private:
 
     EXPORT void vUpdate_432C40();
 
-    EXPORT float Calc_X_4326A0(float* a2, s32 xIndex);
-    EXPORT float Calc_Y_4326F0(float* a2, s32 yIndex);
+    EXPORT f32 Calc_X_4326A0(f32* a2, s32 xIndex);
+    EXPORT f32 Calc_Y_4326F0(f32* a2, s32 yIndex);
 
     EXPORT void sub_4328A0();
 private:
@@ -84,14 +84,14 @@ private:
 
     Prim_GasEffect field_5C_prim;
 
-    float field_7C_gas_y[6][6];
-    float field_10C_gas_x[6][6];
+    f32 field_7C_gas_y[6][6];
+    f32 field_10C_gas_x[6][6];
 
     WORD* field_19C_pMem;
 
     struct Data
     {
-        float array_4[7];
+        f32 array_4[7];
     };
 
     Data field_1A0_x_data[321]; // (640+2)/2

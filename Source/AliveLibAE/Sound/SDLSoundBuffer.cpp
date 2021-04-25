@@ -134,7 +134,7 @@ HRESULT SDLSoundBuffer::SetFrequency(s32 frequency)
 {
     std::lock_guard<std::mutex> lock(mLock);
 
-    mState.fFrequency = frequency / static_cast<float>(mSoundSysFreq);
+    mState.fFrequency = frequency / static_cast<f32>(mSoundSysFreq);
     return S_OK;
 }
 
@@ -142,7 +142,7 @@ HRESULT SDLSoundBuffer::SetCurrentPosition(s32 position) // This offset is appar
 {
     std::lock_guard<std::mutex> lock(mLock);
 
-    mState.fPlaybackPosition = static_cast<float>(position / mState.iBlockAlign);
+    mState.fPlaybackPosition = static_cast<f32>(position / mState.iBlockAlign);
     return S_OK;
 }
 

@@ -390,7 +390,7 @@ EXPORT s16 CC SsVabOpenHead_4FC620(VabHeader* pVabHeader)
                 const s16 centre = pVagAttr->field_4_centre;
                 pData->field_A_shift_cen = 2 * (pVagAttr->field_5_shift + (centre << 7));
 
-                float sustain_level = static_cast<float>((2 * (~(u8)pVagAttr->field_10_adsr1 & 0xF)));
+                f32 sustain_level = static_cast<f32>((2 * (~(u8)pVagAttr->field_10_adsr1 & 0xF)));
 
                 pData->field_0_adsr_attack = std::min(static_cast<WORD>((powf(2.0f, ((pVagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), static_cast<WORD>(32767));
                 pData->field_4_adsr_decay = static_cast<WORD>((((pVagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0);
@@ -670,15 +670,15 @@ EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 lef
                     // Note: 1.059463094359 is the 12th root of 2.
                     // https://en.wikipedia.org/wiki/Twelfth_root_of_two
 
-                    // Uses the correct way of determining the pitch float.
+                    // Uses the correct way of determining the pitch f32.
                     // Almost identical to PS1 versions pitches (at least from PS1 emulators)
                     // Todo: check real ps1 hardware.
-                    pChannel->field_10_freq = static_cast<float>(pow(1.059463094359, (double)((note / 256.0) - (pVagIter->field_A_shift_cen / 256.0))));
+                    pChannel->field_10_freq = static_cast<f32>(pow(1.059463094359, (f64)((note / 256.0) - (pVagIter->field_A_shift_cen / 256.0))));
 
                     // This way seems to be more accurate to ps1 sound, but its actually not correct. So ps1 was limited because floats?
-                    // pChannel->field_10_float = static_cast<float>(pow(1.059463094359, (double)((note / 256) - (pVagIter->field_A_shift_cen / 256))));
+                    // pChannel->field_10_float = static_cast<f32>(pow(1.059463094359, (f64)((note / 256) - (pVagIter->field_A_shift_cen / 256))));
 #else
-                    pChannel->field_10_freq = static_cast<float>(pow(1.059463094359, (double)(note - pVagIter->field_A_shift_cen) * 0.00390625));
+                    pChannel->field_10_freq = static_cast<f32>(pow(1.059463094359, (f64)(note - pVagIter->field_A_shift_cen) * 0.00390625));
 #endif
 
                     if (gSpuVars->sMidi_WaitUntil())
@@ -1404,10 +1404,10 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                 {
                     MIDI_Set_Volume_4FDE80(
                         pChannel,
-                        (signed __int64)(((double)timeDiff2 / (double)pChannel->field_1C_adsr.field_4_attack
-                            + (double)timeDiff2 / (double)pChannel->field_1C_adsr.field_4_attack
-                            - (double)timeDiff2 / (double)pChannel->field_1C_adsr.field_4_attack * ((double)timeDiff2 / (double)pChannel->field_1C_adsr.field_4_attack))
-                            * (double)pChannel->field_C_vol));
+                        (signed __int64)(((f64)timeDiff2 / (f64)pChannel->field_1C_adsr.field_4_attack
+                            + (f64)timeDiff2 / (f64)pChannel->field_1C_adsr.field_4_attack
+                            - (f64)timeDiff2 / (f64)pChannel->field_1C_adsr.field_4_attack * ((f64)timeDiff2 / (f64)pChannel->field_1C_adsr.field_4_attack))
+                            * (f64)pChannel->field_C_vol));
                     break;
                 }
 
@@ -1482,12 +1482,12 @@ EXPORT s32 CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, s32 vol)
 
 EXPORT s16 CC MIDI_PitchBend_4FDEC0(s16 program, s16 pitch)
 {
-    const float pitcha = pow(1.059463094359f, (float)pitch * 0.0078125f);
+    const f32 pitcha = pow(1.059463094359f, (f32)pitch * 0.0078125f);
     for (s32 i = 0; i < kNumChannels; i++)
     {
         if (gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_1_program == program)
         {
-            const float freq = pitcha * gSpuVars->sMidi_Channels().channels[i].field_10_freq;
+            const f32 freq = pitcha * gSpuVars->sMidi_Channels().channels[i].field_10_freq;
             GetSoundAPI().SND_Buffer_Set_Frequency2(gSpuVars->sMidi_Channels().channels[i].field_C_vol, freq);
         }
     }
@@ -1497,7 +1497,7 @@ EXPORT s16 CC MIDI_PitchBend_4FDEC0(s16 program, s16 pitch)
 
 EXPORT s16 CC SsUtChangePitch_4FDF70(s16 voice, s32 /*vabId*/, s32 /*prog*/, s16 old_note, s16 old_fine, s16 new_note, s16 new_fine)
 {
-    const float freq = pow(1.059463094359f, (float)(new_fine + ((new_note - (s32)old_note) << 7) - old_fine) * 0.0078125f);
+    const f32 freq = pow(1.059463094359f, (f32)(new_fine + ((new_note - (s32)old_note) << 7) - old_fine) * 0.0078125f);
     GetSoundAPI().SND_Buffer_Set_Frequency1(gSpuVars->sMidi_Channels().channels[voice].field_0_sound_buffer_field_4, freq);
     return 0;
 }

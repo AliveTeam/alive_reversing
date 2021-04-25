@@ -187,10 +187,10 @@ public:
         }
     }
 
-    float Vec2Distance(float x1, float y1, float x2, float y2)
+    f32 Vec2Distance(f32 x1, f32 y1, f32 x2, f32 y2)
     {
         // This takes into account the fact that the height of the screen is / 2
-        return static_cast<float>(sqrt(pow(x1 - x2, 2) + pow((y1 - y2) * 2, 2)));
+        return static_cast<f32>(sqrt(pow(x1 - x2, 2) + pow((y1 - y2) * 2, 2)));
     }
 
     bool isDragging = false;
@@ -218,13 +218,13 @@ public:
                 s32 x = static_cast<s32>((FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x)) / 0.575);
                 s32 y = static_cast<s32>((FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y)));
 
-                if (Vec2Distance(static_cast<float>(x), static_cast<float>(y), static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)) < 10 && !isDragging && mouseLeftDown)
+                if (Vec2Distance(static_cast<f32>(x), static_cast<f32>(y), static_cast<f32>(mousePos.x), static_cast<f32>(mousePos.y)) < 10 && !isDragging && mouseLeftDown)
                 {
                     isDragging = true;
                     mDragObject = aliveObj;
                 }
 
-                if (Vec2Distance(static_cast<float>(x), static_cast<float>(y), static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)) > 100)
+                if (Vec2Distance(static_cast<f32>(x), static_cast<f32>(y), static_cast<f32>(mousePos.x), static_cast<f32>(mousePos.y)) > 100)
                 {
                     continue;
                 }
@@ -426,13 +426,13 @@ struct DebugConsoleMessage
 {
     std::string message;
     s32 time;
-    float y;
+    f32 y;
     u8 r, g, b;
 };
 
 static std::vector<DebugConsoleMessage> sDebugConsoleMessages;
 
-void ShowDebugConsoleMessage(std::string message, float duration, u8 r, u8 g, u8 b)
+void ShowDebugConsoleMessage(std::string message, f32 duration, u8 r, u8 g, u8 b)
 {
     auto lines = SplitString(message, '\n');
 
@@ -442,7 +442,7 @@ void ShowDebugConsoleMessage(std::string message, float duration, u8 r, u8 g, u8
     }
 }
 
-void ShowDebugConsoleMessage(std::string message, float duration)
+void ShowDebugConsoleMessage(std::string message, f32 duration)
 {
     ShowDebugConsoleMessage(message, duration, 255, 255, 255);
 }
@@ -539,7 +539,7 @@ void Command_HelperUpdate()
         FP rY = FP_FromInteger(0);
         PathLine* rUnk = nullptr;
 
-        float subDevide = 368 / 10.0f;
+        f32 subDevide = 368 / 10.0f;
         for (s32 i = 0; i < 10; i++)
         {
             s32 centerIndex = ((i + 5) % 10);
@@ -1118,7 +1118,7 @@ public:
             auto message = it;
             s32 targetY = 232 - (i * 9) - 9;
 
-            message->y = static_cast<float>(targetY);
+            message->y = static_cast<f32>(targetY);
 
             pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<s16>(message->y), TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
             pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<s16>(message->y) + 1, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);

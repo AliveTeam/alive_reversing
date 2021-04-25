@@ -71,7 +71,7 @@ struct MainMenuText
     u8 field_D;
     u8 field_E;
     u8 field_F;
-    float field_10_scale;
+    f32 field_10_scale;
     u8 field_14;
     u8 field_15;
     u8 field_16;

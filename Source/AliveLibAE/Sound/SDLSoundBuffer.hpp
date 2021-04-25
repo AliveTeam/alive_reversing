@@ -52,13 +52,13 @@ public:
         s32 iVolume;
         bool bVolDirty;
         s32 iVolumeTarget;
-        float fFrequency;
+        f32 fFrequency;
         s32 iPan;
 
         SDLSoundBufferStatus eStatus;
         bool bLoop;
         bool bIsReleased;
-        float fPlaybackPosition;
+        f32 fPlaybackPosition;
 
         s32 iSampleCount;
         s32 iChannels;

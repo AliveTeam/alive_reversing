@@ -1563,7 +1563,7 @@ void Abe::Update_449DC0()
                 || field_106_current_motion == eAbeStates::State_9_Speak_45B180
                 || field_106_current_motion == eAbeStates::State_10_Fart_45B1A0)
             {
-                // Prevents double laugh when blowing up a slig as we prevent saying anything while chanting or various other states
+                // Prevents f64 laugh when blowing up a slig as we prevent saying anything while chanting or various other states
                 // or when abe isn't in the active screen
                 field_128.field_18_say = MudSounds::eNone;
             }

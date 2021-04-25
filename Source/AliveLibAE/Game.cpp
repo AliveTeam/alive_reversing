@@ -73,7 +73,7 @@ ALIVE_VAR(1, 0x5CA4E0, s32, dword_5CA4E0, 0);
 
 // Fps calcs
 ALIVE_VAR(1, 0xBD0F08, s8, bQuitting_BD0F08, 0);
-ALIVE_VAR(1, 0x55EFDC, double, sFps_55EFDC, 0.0);
+ALIVE_VAR(1, 0x55EFDC, f64, sFps_55EFDC, 0.0);
 ALIVE_VAR(1, 0x5CA4DC, s32, sFrameDiff_5CA4DC, 0);
 ALIVE_VAR(1, 0xC2D03C, s32, sNumRenderedPrims_C2D03C, 0);
 ALIVE_VAR(1, 0x5CA300, s32, sFrameCount_5CA300, 0);
@@ -180,7 +180,7 @@ void DestroyObjects_4A1F20()
 
 }
 
-EXPORT double CC Calculate_FPS_495250(s32 frameCount)
+EXPORT f64 CC Calculate_FPS_495250(s32 frameCount)
 {
     static DWORD sLastTime_5CA338 = SYS_GetTicks() - 500;
     const DWORD curTime = SYS_GetTicks();
@@ -192,14 +192,14 @@ EXPORT double CC Calculate_FPS_495250(s32 frameCount)
     }
 
     const s32 diffFrames = frameCount - sFrameDiff_5CA4DC;
-    sFps_55EFDC = static_cast<double>(diffFrames) * 1000.0 / static_cast<double>(timeDiff);
+    sFps_55EFDC = static_cast<f64>(diffFrames) * 1000.0 / static_cast<f64>(timeDiff);
 
     sLastTime_5CA338 = curTime;
     sFrameDiff_5CA4DC = frameCount;
     return sFps_55EFDC;
 }
 
-EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, float fps)
+EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, f32 fps)
 {
     s8 strBuffer[125] = {};
     sprintf(strBuffer, "%02.1f fps ", fps);
@@ -251,7 +251,7 @@ EXPORT s32 CC Game_End_Frame_4950F0(DWORD flags)
         Add_Dirty_Area_4ED970(0, 0, 640, 240);
     }
 
-    const double fps = Calculate_FPS_495250(sFrameCount_5CA300);
+    const f64 fps = Calculate_FPS_495250(sFrameCount_5CA300);
     CheckShiftCapslock_4953B0();
     if (sCommandLine_ShowFps_5CA4D0)
     {
@@ -265,7 +265,7 @@ EXPORT s32 CC Game_End_Frame_4950F0(DWORD flags)
             pVram,
             sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + 4,
             sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y + 4,
-            static_cast<float>(fps));
+            static_cast<f32>(fps));
     }
 
     Draw_Debug_Strings_4F2800();
@@ -677,8 +677,8 @@ EXPORT s32 CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
     static bool sbGameShutdownSet_BBC560 = false;
     if (!sbGameShutdownSet_BBC560)
     {
-        // OG: Change - this gets called normally anyway, using atexit results in a double call that
-        // will double free and use freed objects
+        // OG: Change - this gets called normally anyway, using atexit results in a f64 call that
+        // will f64 free and use freed objects
         //atexit(Game_Shutdown_4F2C30);
         sbGameShutdownSet_BBC560 = 1;
         gVGA_force_sys_memory_surfaces_BC0BB4 = forceSystemMemorySurfaces;

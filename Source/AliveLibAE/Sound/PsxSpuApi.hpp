@@ -109,7 +109,7 @@ struct MIDI_Channel
     s32 field_4_priority;
     s32 field_8_left_vol;
     s32 field_C_vol; // pan vol?
-    float field_10_freq;
+    f32 field_10_freq;
     s32 field_14_time;
     s32 field_18_rightVol;
     MIDI_ADSR_State field_1C_adsr;

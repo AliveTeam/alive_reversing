@@ -20,9 +20,9 @@
 
 struct VertexData
 {
-    float x, y, z;
-    float r, g, b;
-    float u, v;
+    f32 x, y, z;
+    f32 r, g, b;
+    f32 u, v;
 };
 
 struct RGBAPixel
@@ -97,14 +97,14 @@ private:
     GLuint mVAO = 0;
 
     glm::mat4 GetMVP();
-    glm::mat4 GetMVP(float x, float y, float width, float height);
+    glm::mat4 GetMVP(f32 x, f32 y, f32 width, f32 height);
 
     void SetClipDirect(s32 x, s32 y, s32 width, s32 height);
 
     void DebugWindow();
 
     void InitAttributes();
-    void DrawTexture(GLuint pTexture, float x, float y, float width, float height);
+    void DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height);
     void DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
     void DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
 
