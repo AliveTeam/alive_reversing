@@ -9,6 +9,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(relive_api_src
     TlvObjectBase.hpp
+    TlvObjectBaseAE.hpp
+    TlvObjectBaseAO.hpp
     PropertyCollection.hpp
     PropertyCollection.cpp
     AETlvs.hpp
