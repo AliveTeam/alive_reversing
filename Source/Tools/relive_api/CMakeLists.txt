@@ -40,7 +40,7 @@ set(relive_api_src
     ByteStream.hpp
 )
 add_library(relive_api ${relive_api_src})
-target_link_libraries(relive_api jsonxx AliveLibAE AliveLibAO)
+target_link_libraries(relive_api jsonxx AliveLibAE AliveLibAO project_warnings)
 export(TARGETS relive_api FILE relive_api.cmake)
 
 
@@ -60,7 +60,7 @@ target_compile_features(relive_api_test
     PRIVATE cxx_auto_type
     PRIVATE cxx_variadic_templates)
 target_compile_definitions(relive_api_test PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_link_libraries(relive_api_test relive_api jsonxx AliveLibAE AliveLibAO)
+target_link_libraries(relive_api_test relive_api jsonxx AliveLibAE AliveLibAO project_warnings)
 
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)

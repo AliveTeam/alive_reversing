@@ -346,7 +346,7 @@ void FallingItem::VUpdate_41A120()
 
         field_116_num_items_remaining--;
 
-        if (field_114_num_items && field_116_num_items_remaining <= 0 || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        if ((field_114_num_items && field_116_num_items_remaining <= 0) || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                 field_B2_lvl_number,
                 field_B0_path_number,
                 field_128_xpos,

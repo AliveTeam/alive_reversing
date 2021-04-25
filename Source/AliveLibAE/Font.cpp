@@ -105,7 +105,7 @@ namespace Alive
         IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{ field_28_palette_rect.x,field_28_palette_rect.y, field_28_palette_rect.w });
         field_28_palette_rect.x = 0;
 
-#if DEVELOPER_MODE 
+#if DEVELOPER_MODE
         auto db = reinterpret_cast<void**>(field_20_fnt_poly_block_ptr);
         ae_delete_free_495540(*db);
         delete[] db;
@@ -221,7 +221,7 @@ namespace Alive
             const s8 c = text[i];
             s32 charIndex = 0;
 
-            if (c <= 32 || static_cast<const u8>(c) > 175)
+            if (c <= 32 || static_cast<u8>(c) > 175)
             {
                 if (c < 7 || c > 31)
                 {
@@ -336,7 +336,7 @@ namespace Alive
 void Font_Context::LoadFontType_433400(s16 resourceID)
 {
     // Override game fonts with our XInput friendly ones.
-#if XINPUT_SUPPORT 
+#if XINPUT_SUPPORT
     if (resourceID == 2)
     {
         LoadFontTypeFromOddFontMem(sOddFontXboxLCD, nullptr);
@@ -445,7 +445,7 @@ bool Font_Context::LoadFontTypeFromOddFontMem(u8 * data, s8 * pPaletteOut)
     return true;
 }
 
-ALIVE_ARY(1, 0x551D34, Font_AtlasEntry, 169, sFont1Atlas_551D34, 
+ALIVE_ARY(1, 0x551D34, Font_AtlasEntry, 169, sFont1Atlas_551D34,
 {
     { 0u, 0u, 2u, 0u },
     { 0u, 0u, 9u, 0u },

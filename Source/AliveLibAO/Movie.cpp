@@ -39,7 +39,7 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
     field_28 = id;
     field_4_typeId = Types::eMovie_100;
     field_2C = 0;
-    field_10_flags = 4 * (bUnknown & 1) | field_10_flags & ~7;
+    field_10_flags = 4 * (bUnknown & 1) | (field_10_flags & ~7);
     field_3C = 1;
 
     field_12 = volume;

@@ -1449,6 +1449,8 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             SetPal_4772D0(Mud_Emotion::eNormal_0);
             // Fall though to other cases below
         }
+
+        [[fallthrough]];
     }
 
     case AETypes::eGasClock_23:

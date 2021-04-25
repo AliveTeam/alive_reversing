@@ -606,8 +606,8 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
                 u8 param1;
                 u8 param2;
 
-                const u8 EventType() const { return status & 0xF0; }
-                const u8 Channel() const { return status & 0x0F; }
+                [[nodiscard]] u8 EventType() const { return status & 0xF0; }
+                [[nodiscard]] u8 Channel() const { return status & 0x0F; }
             };
             MidiData data = {};
 

@@ -11,7 +11,7 @@ if (NOT MINGW AND WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
 
     target_compile_definitions(Detours PRIVATE "DETOURS_X86" "DETOURS_32BIT")
 
-    target_include_directories(Detours PUBLIC
+    target_include_directories(Detours SYSTEM PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Detours/src>
         $<INSTALL_INTERFACE:Detours/src>)
 
@@ -21,7 +21,7 @@ endif()
 
 # Cinder for lock free circular buffer in audio processing
 add_library(Cinder INTERFACE)
-target_include_directories(Cinder INTERFACE Cinder/)
+target_include_directories(Cinder SYSTEM INTERFACE Cinder/)
 export(TARGETS Cinder FILE Cinder.cmake)
 
 # EasyLogging++ lib
@@ -30,7 +30,7 @@ add_library(EasyLogging++
     EasyLogging++/EasyLogging/src/easylogging++.h
     )
 
-target_include_directories(EasyLogging++ PUBLIC
+target_include_directories(EasyLogging++ SYSTEM PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/EasyLogging++/EasyLogging/src>
     $<INSTALL_INTERFACE:EasyLogging++/EasyLogging/src>)
 
@@ -39,12 +39,12 @@ export(TARGETS EasyLogging++ FILE EasyLogging++.cmake)
 
 # DxOld lib
 add_library(DxOld INTERFACE)
-target_include_directories(DxOld INTERFACE DxOld/)
+target_include_directories(DxOld SYSTEM INTERFACE DxOld/)
 export(TARGETS DxOld FILE DxOld.cmake)
 
 # jsonxx lib
 add_library(jsonxx jsonxx/jsonxx.cc)
-target_include_directories(jsonxx PUBLIC
+target_include_directories(jsonxx SYSTEM PUBLIC
     $<BUILD_INTERFACE:
     ${CMAKE_CURRENT_SOURCE_DIR}/jsonxx>)
 export(TARGETS jsonxx FILE jsonxx.cmake)
@@ -57,7 +57,7 @@ add_library(googletest
     googletest/googlemock/src/gmock-all.cc
     )
 
-target_include_directories(googletest PUBLIC
+target_include_directories(googletest SYSTEM PUBLIC
     $<BUILD_INTERFACE:
     ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest;
     ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include;
@@ -90,7 +90,7 @@ target_link_libraries(imgui
     ${SDL2_LIBRARIES}
     )
 
-target_include_directories(imgui PUBLIC
+target_include_directories(imgui SYSTEM PUBLIC
     $<BUILD_INTERFACE:
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui;
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends>
@@ -107,7 +107,7 @@ export(TARGETS libglew_static FILE libglew_static.cmake)
 # glm
 add_library(glm INTERFACE)
 
-target_include_directories(glm INTERFACE
+target_include_directories(glm SYSTEM INTERFACE
     $<BUILD_INTERFACE:
     ${CMAKE_CURRENT_SOURCE_DIR}/glm>
     )

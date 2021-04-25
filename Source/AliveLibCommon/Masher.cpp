@@ -18,9 +18,9 @@ AudioDecompressor::AudioDecompressor()
 
 /*static*/ s32 AudioDecompressor::GetSoundTableValue(s16 tblIndex)
 {
-    const s32 positiveTblIdx = static_cast<s32>(abs(tblIndex));
+    const s32 positiveTblIdx = abs(tblIndex);
     const u32 shiftedIdx = (positiveTblIdx >> 7) & 0xFF;
-    s32 result = (u16)((s16)gSndTbl_byte_62EEB0[shiftedIdx] << 7) | (u16)(positiveTblIdx >> gSndTbl_byte_62EEB0[shiftedIdx]);
+    s32 result = static_cast<u16>(static_cast<s16>(gSndTbl_byte_62EEB0[shiftedIdx] << 7)) | static_cast<u16>(positiveTblIdx >> gSndTbl_byte_62EEB0[shiftedIdx]);
     if (tblIndex < 0)
     {
         result = -result;
@@ -30,14 +30,14 @@ AudioDecompressor::AudioDecompressor()
 
 s16 AudioDecompressor::sub_408F50(s16 sample)
 {
-    s32 absSample = static_cast<s32>(abs(sample));
+    s32 absSample = abs(sample);
     s32 sampleBits = absSample >> 7;
     s32 sampleMasked = absSample & 0x7F;
 
-    s16 result = (u16)(sampleMasked << sampleBits);
+    s16 result = static_cast<u16>(sampleMasked << sampleBits);
     if (sampleBits >= 2)
     {
-        result |= (u16)(1 << (sampleBits - 2));
+        result |= static_cast<u16>(1 << (sampleBits - 2));
     }
 
     if (sample < 0)
@@ -64,16 +64,16 @@ s32 AudioDecompressor::SndRelated_sub_409650()
     const s32 numBits = mUsedBits & 7;
     mUsedBits -= numBits;
     mWorkBits >>= numBits;
-    mWorkBits = ReadNextAudioWord(mWorkBits);
+    mWorkBits = ReadNextAudioWord(static_cast<s32>(mWorkBits));
     return mUsedBits;
 }
 
 s16 AudioDecompressor::NextSoundBits(u16 numBits)
 {
     mUsedBits -= numBits;
-    const s16 ret = static_cast<s16>(mWorkBits & ((1 << numBits) - 1));
+    const s16 ret = static_cast<s16>(mWorkBits & ((1u << numBits) - 1u));
     mWorkBits >>= numBits;
-    mWorkBits = ReadNextAudioWord(mWorkBits);
+    mWorkBits = ReadNextAudioWord(static_cast<s32>(mWorkBits));
     return ret;
 }
 
@@ -186,7 +186,7 @@ void AudioDecompressor::decode_16bit_audio_frame(u16* outPtr, s32 numSamplesPerF
 u16* AudioDecompressor::SetupAudioDecodePtrs(u16 *rawFrameBuffer)
 {
     mAudioFrameDataPtr = rawFrameBuffer;
-    mWorkBits = *(u32 *)mAudioFrameDataPtr;
+    mWorkBits = *reinterpret_cast<u32*>(mAudioFrameDataPtr);
     mAudioFrameDataPtr = mAudioFrameDataPtr + 2;
     mUsedBits = 32;
     return mAudioFrameDataPtr;
@@ -355,7 +355,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
 
                                 SetLoWord(rawWord4, gTbl2[table_index_2].mOutputWord1);
 
-                                if ((u16)rawWord4 != 0x7C1F) // 0b 11111 00000 11111
+                                if (static_cast<u16>(rawWord4) != 0x7C1F) // 0b 11111 00000 11111
                                 {
                                     break;
                                 }
@@ -365,7 +365,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
 
                             *pOutput++ = static_cast<u16>(rawWord4);
 
-                            if ((u16)rawWord4 == MDEC_END)
+                            if (static_cast<u16>(rawWord4) == MDEC_END)
                             {
                                 const s32 v15 = ExtractBits(workBits, 11);
                                 SkipBits(workBits, 11, usedBitCount);
@@ -383,10 +383,10 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                             }
 
                             SetLoWord(rawWord4, gTbl2[table_index_2].mOutputWord2);
-                        } while (!(u16)rawWord4);
+                        } while (!static_cast<u16>(rawWord4));
 
 
-                        if ((u16)rawWord4 != 0x7C1F)
+                        if (static_cast<u16>(rawWord4) != 0x7C1F)
                         {
                             break;
                         }
@@ -396,7 +396,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
 
                     *pOutput++ = static_cast<u16>(rawWord4);
 
-                    if ((u16)rawWord4 == MDEC_END)
+                    if (static_cast<u16>(rawWord4) == MDEC_END)
                     {
                         const s32 t11Bits = ExtractBits(workBits, 11);
                         SkipBits(workBits, 11, usedBitCount);
@@ -414,10 +414,10 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
 
                     SetLoWord(rawWord4, gTbl2[table_index_2].mOutputWord3);
 
-                } while (!(u16)rawWord4);
+                } while (!static_cast<u16>(rawWord4));
 
 
-                if ((u16)rawWord4 != 0x7C1F)
+                if (static_cast<u16>(rawWord4) != 0x7C1F)
                 {
                     break;
                 }
@@ -428,7 +428,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
 
             *pOutput++ = static_cast<u16>(rawWord4);
 
-        } while ((u16)rawWord4 != MDEC_END);
+        } while (static_cast<u16>(rawWord4) != MDEC_END);
 
         rawWord4 = ExtractBits(workBits, 11);
         SkipBits(workBits, 11, usedBitCount);
@@ -531,8 +531,8 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
     const s32 v1 = isYBlock;
     const u32* pTable = isYBlock ? &g_252_buffer_unk_63580C[1] : &g_252_buffer_unk_635A0C[1];
     u32 counter = 0;
-    u16* pInput = (u16*)inPtr;
-    u32* pOutput = (u32*)outputBlockPtr;              // off 10 quantised coefficients
+    u16* pInput = reinterpret_cast<u16*>(inPtr);
+    u32* pOutput = reinterpret_cast<u32*>(outputBlockPtr);              // off 10 quantised coefficients
 
                                                       // 0xFE00 == END_OF_BLOCK, hence this loop moves past the EOB
     while (*pInput == 0xFE00u)
@@ -609,7 +609,7 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
             ++counter;
             if (counter >= 63)                      // 63 AC values?
             {
-                return (int16_t*)pInput;
+                return reinterpret_cast<int16_t*>(pInput);
             }
         }
 
@@ -645,7 +645,7 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
         }
 
     }
-    return (int16_t*)pInput;
+    return reinterpret_cast<int16_t*>(pInput);
 }
 
 // TODO: Should probably just be 64? Making this bigger fixes a sound glitch which is probably caused
@@ -852,8 +852,8 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
 
         field_84_max_frame_size += field_2C_audio_header.field_8_max_audio_frame_size;
 
-        field_4C_decoded_audio_buffer = (u8*)malloc(field_2C_audio_header.field_C_single_audio_frame_size
-            * (field_50_num_channels * field_54_bits_per_sample / 8));
+        field_4C_decoded_audio_buffer = static_cast<u8*>(malloc(field_2C_audio_header.field_C_single_audio_frame_size
+            * (field_50_num_channels * field_54_bits_per_sample / 8)));
 
         if (!field_4C_decoded_audio_buffer)
         {
@@ -863,7 +863,7 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
 
     // Align the size
     field_84_max_frame_size = RoundUpPowerOf2(field_84_max_frame_size, 2);
-    field_80_raw_frame_data = (s32*)malloc(2 * field_84_max_frame_size);
+    field_80_raw_frame_data = static_cast<s32*>(malloc(2 * field_84_max_frame_size));
     if (!field_80_raw_frame_data)
     {
         return 2;
@@ -871,7 +871,7 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
 
     // Allocate buffer for frame sizes
     const u32 frameSizeArrayInBytes = sizeof(u32) * (field_2C_audio_header.field_10_num_frames_interleave + field_4_ddv_header.field_C_number_of_frames);
-    field_70_frame_sizes_array = (s32*)malloc(frameSizeArrayInBytes);
+    field_70_frame_sizes_array = static_cast<s32*>(malloc(frameSizeArrayInBytes));
     if (!field_70_frame_sizes_array)
     {
         return 2;
@@ -968,12 +968,12 @@ s32 Masher::sub_4E6B30()
     // Audio and video
     else
     {
-        u8* pFrameData = (u8 *)field_80_raw_frame_data;
-        field_40_video_frame_to_decode = (void*)&pFrameData[frameOffset + sizeof(u32)];
+        u8* pFrameData = reinterpret_cast<u8*>(field_80_raw_frame_data);
+        field_40_video_frame_to_decode = reinterpret_cast<void*>(&pFrameData[frameOffset + sizeof(u32)]);
 
         // Skip video data + video data len to get start of sound data
-        u32 videoDataSize = *(u32 *)&pFrameData[frameOffset];
-        field_48_sound_frame_to_decode = (s32 *)&pFrameData[frameOffset + sizeof(u32) + videoDataSize];
+        u32 videoDataSize = *reinterpret_cast<u32*>(&pFrameData[frameOffset]);
+        field_48_sound_frame_to_decode = reinterpret_cast<s32*>(&pFrameData[frameOffset + sizeof(u32) + videoDataSize]);
     }
     return ++field_68_frame_number < field_4_ddv_header.field_C_number_of_frames + 2;
 }
@@ -983,7 +983,7 @@ s32 CC Masher::sub_4EAC30(Masher* pMasher)
     s32* pFrameSize = pMasher->field_74_pCurrentFrameSize;
     s32 sizeToRead = *pFrameSize;
     pMasher->field_74_pCurrentFrameSize = pFrameSize + 1;
-    if (!sMovie_IO_BBB314.mIO_Read(pMasher->field_0_file_handle, (u8*)pMasher->field_80_raw_frame_data, sizeToRead) ||
+    if (!sMovie_IO_BBB314.mIO_Read(pMasher->field_0_file_handle, reinterpret_cast<u8*>(pMasher->field_80_raw_frame_data), sizeToRead) ||
         !sMovie_IO_BBB314.mIO_Wait(pMasher->field_0_file_handle))
     {
         return 0;
@@ -1033,8 +1033,8 @@ void Masher::MMX_Decode_4E6C60(u8* pPixelBuffer)
 
     after_block_decode_no_effect_q_impl(quantScale);
 
-    int16_t* bitstreamCurPos = (int16_t*)field_44_decoded_frame_data_buffer;
-    int16_t* block1Output = (int16_t*)field_8C_macro_block_buffer;
+    int16_t* bitstreamCurPos = reinterpret_cast<int16_t*>(field_44_decoded_frame_data_buffer);
+    int16_t* block1Output = static_cast<int16_t*>(field_8C_macro_block_buffer);
 
     s32 xoff = 0;
     for (s32 xBlock = 0; xBlock < blocksX; xBlock++)
@@ -1100,12 +1100,12 @@ void CC Masher::DDV_SND_4ECFF0(s32* pMasherFrame, u8* pDecodedFrame, s32 frameSi
     AudioDecompressor decompressor;
     const s32 bytesPerSample = gMasher_bits_per_sample_BBB9A8 / 8;
     decompressor.SetChannelCount(bytesPerSample);
-    decompressor.SetupAudioDecodePtrs((u16*)pMasherFrame);
+    decompressor.SetupAudioDecodePtrs(reinterpret_cast<u16*>(pMasherFrame));
     memset(pDecodedFrame, 0, frameSize * bytesPerSample * gMasher_num_channels_BBB9B4);
 
     if (gMasher_bits_per_sample_BBB9A8 == 8)
     {
-        u8* pAsByte = (u8*)pDecodedFrame;
+        u8* pAsByte = pDecodedFrame;
         decompressor.decode_8bit_audio_frame(pAsByte, frameSize, false);
         if (gMasher_num_channels_BBB9B4 == 2)
         {
@@ -1115,10 +1115,10 @@ void CC Masher::DDV_SND_4ECFF0(s32* pMasherFrame, u8* pDecodedFrame, s32 frameSi
 
     if (gMasher_bits_per_sample_BBB9A8 == 16)
     {
-        decompressor.decode_16bit_audio_frame((u16*)pDecodedFrame, frameSize, false);
+        decompressor.decode_16bit_audio_frame(reinterpret_cast<u16*>(pDecodedFrame), frameSize, false);
         if (gMasher_num_channels_BBB9B4 == 2)
         {
-            decompressor.decode_16bit_audio_frame((u16*)pDecodedFrame + 1, frameSize, true);
+            decompressor.decode_16bit_audio_frame(reinterpret_cast<u16*>(pDecodedFrame) + 1, frameSize, true);
         }
     }
 }
@@ -1132,7 +1132,7 @@ void* CC Masher::GetDecompressedAudioFrame_4EAC60(Masher* pMasher)
         DDV_SND_4ECFD0(pMasher->field_50_num_channels, pMasher->field_54_bits_per_sample);
         DDV_SND_4ECFF0(
             pMasher->field_48_sound_frame_to_decode,
-            (u8*)pMasher->field_4C_decoded_audio_buffer,
+            static_cast<u8*>(pMasher->field_4C_decoded_audio_buffer),
             pMasher->field_2C_audio_header.field_C_single_audio_frame_size);
         result = pMasher->field_4C_decoded_audio_buffer;
         ++pMasher->field_64_audio_frame_idx;
@@ -1155,7 +1155,7 @@ u8 Masher::Clamp(f32 v)
 {
     if (v < 0.0f) v = 0.0f;
     if (v > 255.0f) v = 255.0f;
-    return (u8)v;
+    return static_cast<u8>(v);
 }
 
 void Masher::SetElement(s32 x, s32 y, s32 width, s32 height, u16* ptr, u16 value, bool doubleWidth, bool doubleHeight)
@@ -1207,7 +1207,7 @@ uint16_t Masher::rgb888torgb565(Macroblock_RGB_Struct& rgb888Pixel)
     uint16_t g = ((green >> 2) & 0x3f) << 5;
     uint16_t r = ((red >> 3) & 0x1f) << 11;
 
-    return (uint16_t)(r | g | b);
+    return static_cast<uint16_t>(r | g | b);
 }
 
 void Masher::ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 width, s32 height, bool doubleWidth, bool doubleHeight)

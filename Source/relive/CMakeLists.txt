@@ -4,8 +4,8 @@ elseif(WIN32)
   SET(BINPATH ".")
 endif()
 
-add_executable(relive WIN32 
-    Exe.cpp 
+add_executable(relive WIN32
+    Exe.cpp
     resource.rc
     resource.h
     app.ico)
@@ -17,7 +17,7 @@ target_compile_features(relive
     PRIVATE cxx_auto_type
     PRIVATE cxx_variadic_templates)
 target_compile_definitions(relive PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_link_libraries(relive AliveLibAE AliveLibAO)
+target_link_libraries(relive AliveLibAE AliveLibAO project_warnings)
 export(TARGETS relive FILE relive.cmake)
 install(TARGETS relive DESTINATION "${BINPATH}")
 

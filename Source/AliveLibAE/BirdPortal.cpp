@@ -763,10 +763,14 @@ s32 CC BirdPortal::CreateFromSaveState_499C90(const u8* pBuffer)
 
     case PortalStates::ShrykullGetDoves_7:
     case PortalStates::Unused_8:
+    {
         if (savedState == PortalStates::Unused_8)
         {
             ALIVE_FATAL("PortalStates::Unused_8 never expected to be used");
         }
+
+        break;
+    }
 
     case PortalStates::GetShrykull_9:
     {

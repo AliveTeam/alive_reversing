@@ -1092,7 +1092,7 @@ void Menu::FMV_Select_Update_47E8D0()
                     gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
                     pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<u16**>(gMap_507BA8.field_34_camera_array[0]->field_C_ppBits));
                     pScreenManager_4FF7C8->MoveImage_406C40();
-                    pScreenManager_4FF7C8->field_36_flags = pScreenManager_4FF7C8->field_36_flags & ~1 ^ 1; // Set 1 ?
+                    pScreenManager_4FF7C8->field_36_flags = (pScreenManager_4FF7C8->field_36_flags & ~1) ^ 1; // Set 1 ?
                     SND_Restart_476340();
                 }
                 else

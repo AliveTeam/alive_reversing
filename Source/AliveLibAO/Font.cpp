@@ -265,7 +265,7 @@ void FontContext::LoadFontType_41C040(s16 resourceID)
     auto fontFile = reinterpret_cast<File_Font*>(*loadedResource);
 
     vram_alloc_450B20(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
-    
+
     const PSX_RECT rect = { field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
     IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, rect, fontFile->field_28_pixel_buffer);
@@ -333,7 +333,7 @@ EXPORT u32 AliveFont::MeasureWidth_41C2B0(const s8* text)
         const s8 c = text[i];
         s32 charIndex = 0;
 
-        if (c <= 32 || static_cast<const u8>(c) > 175)
+        if (c <= 32 || static_cast<u8>(c) > 175)
         {
             if (c < 7 || c > 31)
             {
