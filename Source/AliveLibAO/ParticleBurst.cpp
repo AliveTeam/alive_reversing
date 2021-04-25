@@ -208,7 +208,7 @@ void ParticleBurst::VUpdate_40D600()
 
         pItem->field_10_y_speed += FP_FromDouble(0.25);
 
-        WORD result = 0;
+        u16 result = 0;
         pItem->field_0_x = CamX_VoidSkipper_418590(pItem->field_0_x, pItem->field_C_x_speed, 16, &result);
         pItem->field_4_y = CamY_VoidSkipper_418690(pItem->field_4_y, pItem->field_10_y_speed, 16, &result);
 

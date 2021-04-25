@@ -122,7 +122,7 @@ static bool Renderer_TexExists(const PSX_RECT& rect)
     return false;
 }
 
-static TextureCache* Renderer_TexFromTPage(WORD tPage, u8 u, u8 v)
+static TextureCache* Renderer_TexFromTPage(u16 tPage, u8 u, u8 v)
 {
     s32 textureMode = static_cast<s32>(((u32)tPage >> 7) & 3);
     s16 tpagex = ((tPage & 0xF) << 6);
@@ -337,7 +337,7 @@ static void Renderer_SetBlendMode(TPageAbr blendAbr)
     }
 }
 
-static PSX_Point Renderer_VRamFromTPage(WORD tPage)
+static PSX_Point Renderer_VRamFromTPage(u16 tPage)
 {
     s16 tpagex = (tPage & 0xF) << 6;
     s16 tpagey = 16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200);
@@ -345,7 +345,7 @@ static PSX_Point Renderer_VRamFromTPage(WORD tPage)
     return { tpagex, tpagey };
 }
 
-static void Renderer_ParseTPageBlendMode(WORD tPage)
+static void Renderer_ParseTPageBlendMode(u16 tPage)
 {
     // TPageMode textureMode = static_cast<TPageMode>(((u32)tPage >> 7) & 3);
     TPageAbr pageAbr = static_cast<TPageAbr>(((u32)tPage >> 5) & 3);

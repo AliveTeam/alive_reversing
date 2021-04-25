@@ -38,5 +38,5 @@ protected:
     s16 field_11A_bDead;
 };
 
-ALIVE_VAR_EXTERN(WORD, gInfiniteGrenades_5C1BDE);
+ALIVE_VAR_EXTERN(u16, gInfiniteGrenades_5C1BDE);
 extern const AETypes throwable_types_55FAFC[252];

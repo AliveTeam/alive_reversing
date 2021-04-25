@@ -1976,7 +1976,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
         scaled1Directed = -scaled1Directed;
     }
 
-    WORD result = 0;
+    u16 result = 0;
     const FP xSkip = CamX_VoidSkipper_418590(scaled1Directed + field_14C_pSlig->field_A8_xpos, scaled1Directed, 0, &result);
 
     GameSpeakEvents speak = GameSpeakEvents::eNone_m1;

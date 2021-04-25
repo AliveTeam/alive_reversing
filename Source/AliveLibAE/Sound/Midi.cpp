@@ -28,7 +28,7 @@ static TSNDStopAll sSNDStopAllCallBack = nullptr;
 static TSNDRestart sSNDRestartCallBack = nullptr;
 
 ALIVE_VAR(1, 0xBB2354, SeqIds, sSeq_Ids_word_BB2354, {});
-ALIVE_VAR(1, 0xbb2e3e, WORD, sSnd_ReloadAbeResources_BB2E3E, 0);
+ALIVE_VAR(1, 0xbb2e3e, u16, sSnd_ReloadAbeResources_BB2E3E, 0);
 ALIVE_VAR(1, 0xbb2e38, OpenSeqHandle *, sSeqDataTable_BB2E38, nullptr);
 ALIVE_VAR(1, 0xbb2e3c, s16, sSeqsPlaying_count_word_BB2E3C, 0);
 ALIVE_VAR(1, 0xbb2e34, SoundBlockInfo *, sLastLoadedSoundBlockInfo_BB2E34, nullptr);
@@ -48,7 +48,7 @@ public:
         return sSeq_Ids_word_BB2354;
     }
 
-    virtual WORD& sSnd_ReloadAbeResources() override
+    virtual u16& sSnd_ReloadAbeResources() override
     {
         return sSnd_ReloadAbeResources_BB2E3E;
     }

@@ -27,7 +27,7 @@ EXPORT void CC Pal_Free_447870(PSX_Point xy, s16 palDepth)
 }
 
 
-void CC Pal_Copy_4479D0(PSX_Point point, s16 w, WORD* pPalData, PSX_RECT* rect)
+void CC Pal_Copy_4479D0(PSX_Point point, s16 w, u16* pPalData, PSX_RECT* rect)
 {
     rect->y = point.field_2_y;
     rect->x = point.field_0_x;

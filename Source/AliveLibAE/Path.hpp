@@ -368,7 +368,7 @@ struct Path_WellExpress : public Path_WellBase
 struct Path_Alarm : public Path_TLV
 {
     s16 field_10_id;
-    WORD field_12_duration;
+    u16 field_12_duration;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Alarm, 0x14);
 

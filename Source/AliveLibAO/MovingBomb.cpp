@@ -322,7 +322,7 @@ void MovingBomb::FollowLine_43BA40()
         field_F4_pLine = field_F4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
         if (field_F4_pLine)
         {
-            WORD a4 = 0;
+            u16 a4 = 0;
             const FP screen_x = CamX_VoidSkipper_418590(oldX, field_A8_xpos - oldX, 12, &a4);
             if (a4)
             {

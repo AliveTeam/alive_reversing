@@ -55,7 +55,7 @@ EXPORT s32 PSX_LoadImage_496480(const PSX_RECT* pRect, const u8* pData)
     return PSX_LoadImage_4F5FB0(pRect, pData);
 }
 
-EXPORT s32 CC PSX_StoreImage_496320(const PSX_RECT* rect, WORD* pData)
+EXPORT s32 CC PSX_StoreImage_496320(const PSX_RECT* rect, u16* pData)
 {
     return PSX_StoreImage_4F5E90(rect, pData);
 }

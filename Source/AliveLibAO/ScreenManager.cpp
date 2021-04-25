@@ -132,7 +132,7 @@ void ScreenManager::Init_4068A0(u8** ppBits)
     field_26_cam_height = 240;
 
     Vram_alloc_explicit_4507F0(0, 272, 640, 512);
-    DecompressCameraToVRam_407110(reinterpret_cast<WORD**>(ppBits));
+    DecompressCameraToVRam_407110(reinterpret_cast<u16**>(ppBits));
 
     field_18_screen_sprites = &sSpriteTPageBuffer_4FC8A8[0];
 

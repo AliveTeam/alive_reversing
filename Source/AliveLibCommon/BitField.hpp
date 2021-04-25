@@ -74,7 +74,7 @@ struct BitFieldBytes16
 
 union BitFieldUnion16
 {
-    WORD all;
+    u16 all;
     BitFieldBytes16 bytes;
 };
 
@@ -91,8 +91,8 @@ struct BitFieldBytes32
 
 struct BitFieldWords32
 {
-    WORD loword;
-    WORD hiword;
+    u16 loword;
+    u16 hiword;
 };
 
 union BitFieldUnion32

@@ -38,7 +38,7 @@ EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(s8 mode);
 EXPORT s32 CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, s32 xpos, s32 ypos);
 EXPORT s32 CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const u8* pData);
 EXPORT s32 CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData);
-EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData);
+EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, u16* pData);
 
 BOOL CC PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
 

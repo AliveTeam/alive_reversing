@@ -73,8 +73,8 @@ struct PathBlyRec
     const s8 *field_0_blyName;
     const PathData *field_4_pPathData;
     const CollisionInfo *field_8_pCollisionData;
-    WORD field_C_overlay_id;
-    WORD field_E_padding;
+    u16 field_C_overlay_id;
+    u16 field_E_padding;
 };
 
 struct SoundBlockInfo
@@ -115,11 +115,11 @@ struct PerLvlData
 {
     const s8* field_0_display_name;
     LevelIds field_4_level;
-    WORD field_6_path;
-    WORD field_8_camera;
-    WORD field_A_id;
-    WORD field_C_abe_x_off;
-    WORD field_E_abe_y_off;
+    u16 field_6_path;
+    u16 field_8_camera;
+    u16 field_A_id;
+    u16 field_C_abe_x_off;
+    u16 field_E_abe_y_off;
 };
 
 struct OpenSeqHandle

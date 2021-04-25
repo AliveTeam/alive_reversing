@@ -88,7 +88,7 @@ public:
     virtual void VExitPortal_499870();
     virtual BOOL VPortalExit_AbeExitting_499A00();
     virtual void VKillPortalClipper_499A20();
-    virtual void VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
+    virtual void VGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
     EXPORT static s32 CC CreateFromSaveState_499C90(const u8* pBuffer);
 
@@ -109,7 +109,7 @@ private:
     EXPORT void vExitPortal_499870();
     EXPORT BOOL vPortalExit_AbeExitting_499A00();
     EXPORT void vIncreaseTimerAndKillPortalClipper_499A20();
-    EXPORT void vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
+    EXPORT void vGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
     EXPORT void dtor_4980A0();
 
     EXPORT s16 IsScaredAway_4992A0();

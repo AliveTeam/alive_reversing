@@ -825,7 +825,7 @@ s16 Animation::Init_402D20(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     {
         vram_width = maxW;
 
-        if (*(WORD*)pClut == 64) // CLUT entry count/len
+        if (*(u16*)pClut == 64) // CLUT entry count/len
         {
             pal_depth = 64;
         }

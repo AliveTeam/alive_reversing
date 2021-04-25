@@ -49,8 +49,8 @@ private:
     EXPORT s16 vTakeDamage_46BB20(BaseGameObject* pFrom);
     EXPORT bool IsColliding_46B8C0();
 public:
-    WORD field_118_detonating;
-    WORD field_11A_disabled_resources;
+    u16 field_118_detonating;
+    u16 field_11A_disabled_resources;
     TlvItemInfoUnion field_11C_tlv;
     u32 field_120_gnframe;
     Animation field_124_animation;

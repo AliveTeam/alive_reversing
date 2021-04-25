@@ -62,7 +62,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ThrowableTotalIndicator, 0x1A0);
 
-ALIVE_VAR_EXTERN(WORD, bThrowableIndicatorExists_504C70);
+ALIVE_VAR_EXTERN(u16, bThrowableIndicatorExists_504C70);
 
 }
 

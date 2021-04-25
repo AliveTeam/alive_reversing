@@ -20,9 +20,9 @@ public:
         return ReadT<u8>();
     }
 
-    WORD ReadU16()
+    u16 ReadU16()
     {
-        return ReadT<WORD>();
+        return ReadT<u16>();
     }
 
     u32 ReadU32()

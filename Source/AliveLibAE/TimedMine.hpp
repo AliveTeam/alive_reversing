@@ -48,8 +48,8 @@ private:
     EXPORT void vOnPickUpOrSlapped_410E30();
 
 public:
-    WORD field_118_armed;
-    WORD field_11A_explode_timeout;
+    u16 field_118_armed;
+    u16 field_11A_explode_timeout;
     u32 field_11C_tlv;
     u32 field_120_gnframe;
     Animation field_124_animation;

@@ -103,6 +103,6 @@ public:
     u8 field_A_b;
     TPageAbr field_B_render_mode;
     Layer field_C_render_layer;
-    WORD field_E_frame_change_counter;
+    u16 field_E_frame_change_counter;
 };
 ALIVE_ASSERT_SIZEOF(AnimationBase, 0x10);

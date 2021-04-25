@@ -73,7 +73,7 @@ LaughingGas* LaughingGas::ctor_432400(Layer layer, s32 /*notUsed*/, Path_Laughin
     field_31F8_w_count = (field_2E_w - field_2A_x) / 4;
     field_31FC_h_count = (field_2C_h - field_28_y + 2) / 2;
 
-    field_19C_pMem = static_cast<WORD*>(ae_malloc_non_zero_4954F0(sizeof(s16) * field_31FC_h_count * field_31F8_w_count));
+    field_19C_pMem = static_cast<u16*>(ae_malloc_non_zero_4954F0(sizeof(s16) * field_31FC_h_count * field_31F8_w_count));
 
     Init_432980();
     VUpdate();
@@ -211,7 +211,7 @@ void LaughingGas::DoRender_432740()
 {
     f32 local_array[6];
 
-    WORD* memPtr = field_19C_pMem;
+    u16* memPtr = field_19C_pMem;
     s32 rgb_base = (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
 
     if (field_36_bLaughing_gas == Choice_short::eNo_0)
@@ -248,7 +248,7 @@ void LaughingGas::DoRender_432740()
                 yValue = 0.0f;
             }
 
-            *memPtr = static_cast<WORD>(rgb_base * (static_cast<u8>(yValue) & 30));
+            *memPtr = static_cast<u16>(rgb_base * (static_cast<u8>(yValue) & 30));
             ++xCount;
         }
     }

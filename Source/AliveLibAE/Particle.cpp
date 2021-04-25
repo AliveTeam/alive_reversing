@@ -176,7 +176,7 @@ EXPORT void CC New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, s16 count,
             }
 
             pParticle->field_F4_scale_amount = scale * FP_FromDouble(0.03);
-            pParticle->field_20_animation.field_10_frame_delay = static_cast<WORD>((i + 3) / 2);
+            pParticle->field_20_animation.field_10_frame_delay = static_cast<u16>((i + 3) / 2);
             if (Math_NextRandom() < 127)
             {
                 pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);

@@ -31,7 +31,7 @@ void Collisions::dtor_40CFB0()
 Collisions* Collisions::ctor_40CF30(const CollisionInfo* pCollisionInfo, const u8* ppPathData)
 {
     field_8_item_count = pCollisionInfo->field_10_num_collision_items;
-    field_4_current_item_count = static_cast<WORD>(pCollisionInfo->field_10_num_collision_items);
+    field_4_current_item_count = static_cast<u16>(pCollisionInfo->field_10_num_collision_items);
 
     // Up to 20 dynamic collisions, slam doors, trap doors, lift platforms etc. (Half of AEs)
     field_C_max_count = pCollisionInfo->field_10_num_collision_items + 20;

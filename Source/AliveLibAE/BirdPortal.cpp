@@ -707,7 +707,7 @@ void BirdPortal::VKillPortalClipper_499A20()
     vIncreaseTimerAndKillPortalClipper_499A20();
 }
 
-void BirdPortal::VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
+void BirdPortal::VGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
 {
     vGetMapChange_499AE0(level, path, camera, screenChangeEffect, movieId);
 }
@@ -982,7 +982,7 @@ void BirdPortal::vIncreaseTimerAndKillPortalClipper_499A20()
     field_5C_timer = sGnFrame_5C1B84 + 30;
 }
 
-void BirdPortal::vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
+void BirdPortal::vGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
 {
     *level = field_7C_dest_level;
     *path = field_7E_dest_path;

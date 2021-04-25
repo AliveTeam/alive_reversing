@@ -227,7 +227,7 @@ s32 ScreenManager::next_bits()
 }
 
 
-void ScreenManager::vlc_decode(WORD* aCamSeg, WORD* aDst)
+void ScreenManager::vlc_decode(u16* aCamSeg, u16* aDst)
 {
     u32 vlcPtrIndex = 0;
     u32 camSrcPtrIndex = 0;
@@ -317,7 +317,7 @@ void ScreenManager::vlc_decode(WORD* aCamSeg, WORD* aDst)
 
 
 // This function takes a 16x240 strip of bits and processes as 16x16 sized macro blocks, thus there are 240/16=15 macro blocks
-void ScreenManager::process_segment(WORD* aVlcBufferPtr, s32 xPos)
+void ScreenManager::process_segment(u16* aVlcBufferPtr, s32 xPos)
 {
     g_pointer_to_vlc_buffer = aVlcBufferPtr;       // This is decoding one 16x240 seg
 
@@ -362,12 +362,12 @@ void ScreenManager::vlc_decoder(s32 aR, s32 aG, s32 aB, s32 aWidth, s32 aVramX, 
 }
 
 #if RENDERER_OPENGL
-static void SetPixel16(WORD* /*pLocked*/, u32 /*pitch*/, s32 x, s32 y, WORD colour)
+static void SetPixel16(u16* /*pLocked*/, u32 /*pitch*/, s32 x, s32 y, u16 colour)
 {
-    reinterpret_cast<WORD*>(gCamBuffer)[x + (y * 640)] = colour;
+    reinterpret_cast<u16*>(gCamBuffer)[x + (y * 640)] = colour;
 }
 #else
-static void SetPixel16(WORD* pLocked, u32 pitch, s32 x, s32 y, WORD colour)
+static void SetPixel16(u16* pLocked, u32 pitch, s32 x, s32 y, u16 colour)
 {
     y += (512 / 2) + 16; // Write to lower half of vram
     pLocked[x + (y * pitch)] = colour;
@@ -378,7 +378,7 @@ void ScreenManager::write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddli
 {
     using namespace Oddlib;
 
-    WORD* pData = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels);
+    u16* pData = reinterpret_cast<u16*>(sPsxVram_C1D160.field_4_pLockedPixels);
     u32 pitch = sPsxVram_C1D160.field_10_locked_pitch / 2;
 
     // Will go out of bounds due to macro blocks being 16x16, hence bounds check
@@ -398,44 +398,44 @@ void ScreenManager::write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddli
 const s32 kStripSize = 16;
 const s32 kNumStrips = 640 / kStripSize;
 
-static bool IsHackedAOCamera(WORD** ppBits)
+static bool IsHackedAOCamera(u16** ppBits)
 {
     // If they are its a "hacked" camera from paulsapps level editor. This editor used an
     // injected dll to replace camera images. So this code here replicates that so "old" mods
     // can still work.
 
     // Check if all the segments are the same specific size
-    WORD* pIter = *ppBits;
+    u16* pIter = *ppBits;
     s32 countOf7680SizedSegments = 0;
     for (s32 i = 0; i < kNumStrips; i++)
     {
-        const WORD stripSize = *pIter;
+        const u16 stripSize = *pIter;
         pIter++;
         if (stripSize == 7680)
         {
             countOf7680SizedSegments++;
         }
-        pIter += (stripSize / sizeof(WORD));
+        pIter += (stripSize / sizeof(u16));
     }
 
     return countOf7680SizedSegments == kNumStrips;
 }
 
-void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
+void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
 {
     if (IsHackedAOCamera(ppBits))
     {
         LOG_INFO("Applying AO camera");
 
-        WORD* pIter = *ppBits;
+        u16* pIter = *ppBits;
         for (s32 i = 0; i < kNumStrips; i++)
         {
-            const WORD stripSize = *pIter;
+            const u16 stripSize = *pIter;
             pIter++;
 
             const PSX_RECT rect = { static_cast<s16>(i * kStripSize), 256 + 16, kStripSize, 240 };
             IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, reinterpret_cast<const u8*>(pIter));
-            pIter += (stripSize / sizeof(WORD));
+            pIter += (stripSize / sizeof(u16));
         }
     }
     else
@@ -444,19 +444,19 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
         if (ppVlc)
         {
 #if RENDERER_OPENGL
-            WORD* pIter = *ppBits;
+            u16* pIter = *ppBits;
             for (s32 i = 0; i < kNumStrips; i++)
             {
-                const WORD stripSize = *pIter;
+                const u16 stripSize = *pIter;
                 pIter++;
 
                 if (stripSize > 0)
                 {
-                    vlc_decode(pIter, reinterpret_cast<WORD*>(*ppVlc));
-                    process_segment(reinterpret_cast<WORD*>(*ppVlc), i * kStripSize);
+                    vlc_decode(pIter, reinterpret_cast<u16*>(*ppVlc));
+                    process_segment(reinterpret_cast<u16*>(*ppVlc), i * kStripSize);
                 }
 
-                pIter += (stripSize / sizeof(WORD));
+                pIter += (stripSize / sizeof(u16));
             }
 
             const PSX_RECT vramDest = { 0,272, 640,240 };
@@ -464,19 +464,19 @@ void ScreenManager::DecompressCameraToVRam_40EF60(WORD** ppBits)
 #else
             if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
             {
-                WORD* pIter = *ppBits;
+                u16* pIter = *ppBits;
                 for (s32 i = 0; i < kNumStrips; i++)
                 {
-                    const WORD stripSize = *pIter;
+                    const u16 stripSize = *pIter;
                     pIter++;
 
                     if (stripSize > 0)
                     {
-                        vlc_decode(pIter, reinterpret_cast<WORD*>(*ppVlc));
-                        process_segment(reinterpret_cast<WORD*>(*ppVlc), i * kStripSize);
+                        vlc_decode(pIter, reinterpret_cast<u16*>(*ppVlc));
+                        process_segment(reinterpret_cast<u16*>(*ppVlc), i * kStripSize);
                     }
 
-                    pIter += (stripSize / sizeof(WORD));
+                    pIter += (stripSize / sizeof(u16));
                 }
                 BMP_unlock_4F2100(&sPsxVram_C1D160);
             }
@@ -518,7 +518,7 @@ void ScreenManager::Init_40E4B0(u8** ppBits)
     field_32_cam_height = 240;
 
     Vram_alloc_explicit_4955F0(0, 272, 640 - 1, 512 - 1);
-    DecompressCameraToVRam_40EF60(reinterpret_cast<WORD**>(ppBits));
+    DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(ppBits));
 
     field_24_screen_sprites = &sSpriteTPageBuffer_5B86C8[0];
 

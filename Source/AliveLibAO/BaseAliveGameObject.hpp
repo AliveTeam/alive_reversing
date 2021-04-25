@@ -12,8 +12,8 @@ void BaseAliveGameObject_ForceLink();
 EXPORT s32 CC SnapToXGrid_41FAA0(FP scale, s32 a2);
 
 
-EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, s16 xMargin, WORD* pResult);
-EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, s16 yMargin, WORD* pResult);
+EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, s16 xMargin, u16* pResult);
+EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, s16 yMargin, u16* pResult);
 
 
 struct Path_TLV;

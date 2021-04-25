@@ -12,7 +12,7 @@ ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
 Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
 {
     field_8_item_count = pCollisionInfo->field_10_num_collision_items;
-    field_4_current_item_count = static_cast<WORD>(pCollisionInfo->field_10_num_collision_items);
+    field_4_current_item_count = static_cast<u16>(pCollisionInfo->field_10_num_collision_items);
 
     // Up to 40 dynamic collisions, slam doors, trap doors, lift platforms etc.
     field_C_max_count = pCollisionInfo->field_10_num_collision_items + 40;

@@ -71,7 +71,7 @@ struct UV
 {
     u8 u;
     u8 v;
-    WORD tpage_clut_pad;
+    u16 tpage_clut_pad;
 };
 ALIVE_ASSERT_SIZEOF(UV, 0x4);
 
@@ -329,7 +329,7 @@ struct Prim_GasEffect
     s32 y;
     s32 w;
     s32 h;
-    WORD* pData;
+    u16* pData;
 };
 
 union PrimAny

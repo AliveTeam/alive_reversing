@@ -80,7 +80,7 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToL
                 }
 
                 TlvItemInfoUnion data;
-                data.parts.tlvOffset = static_cast<WORD>(objectTableIdx);
+                data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
                 data.parts.levelId = static_cast<u8>(field_0_levelId);
                 data.parts.pathId = static_cast<u8>(field_2_pathId);
 
@@ -328,7 +328,7 @@ u32 Path::TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv)
     const std::size_t diff = reinterpret_cast<u8*>(pTlv) - (*field_10_ppRes);
 
     // Sub off the offset from the start of the path block to TLV data
-    data.parts.tlvOffset = static_cast<WORD>(diff - field_C_pPathData->field_12_object_offset);
+    data.parts.tlvOffset = static_cast<u16>(diff - field_C_pPathData->field_12_object_offset);
     return data.all;
 }
 

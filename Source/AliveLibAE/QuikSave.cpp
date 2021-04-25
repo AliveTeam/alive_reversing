@@ -266,17 +266,17 @@ const QuickSaveFlagTypeTable kQuickSaveFlagsTable =
 
 ALIVE_VAR(1, 0x547794, QuickSaveFlagTypeTable, kObjectTypeAttributesTable_byte_547794, kQuickSaveFlagsTable);
 
-ALIVE_VAR(1, 0x5c1bbc, WORD, bUseAltSaveHeader_5C1BBC, 0);
+ALIVE_VAR(1, 0x5c1bbc, u16, bUseAltSaveHeader_5C1BBC, 0);
 
-ALIVE_VAR(1, 0xbb234c, WORD, sQuickSave_saved_switchResetters_count_BB234C, 0);
+ALIVE_VAR(1, 0xbb234c, u16, sQuickSave_saved_switchResetters_count_BB234C, 0);
 
 void QuikSave_RestoreBlyData_D481890_4C9BE0(const u8* pSaveData)
 {
-    const WORD* pSaveData2 = reinterpret_cast<const WORD*>(pSaveData);
+    const u16* pSaveData2 = reinterpret_cast<const u16*>(pSaveData);
 
     while (*reinterpret_cast<const u32*>(pSaveData2) != 0)
     {
-        pSaveData2 += sQuicksaveLoadFunctionTable_560C34.mFns[*pSaveData2](reinterpret_cast<const u8*>(pSaveData2)) / sizeof(WORD);
+        pSaveData2 += sQuicksaveLoadFunctionTable_560C34.mFns[*pSaveData2](reinterpret_cast<const u8*>(pSaveData2)) / sizeof(u16);
     }
 
     // Skip the 2 zero entries, the saved flag words come after the object save state data

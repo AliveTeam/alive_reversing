@@ -29,7 +29,7 @@ ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
 struct AnimationHeader
 {
     // Meta data - the offset where this record was read from
-    WORD field_0_fps;            // Seems to be 0x1 or 0x2
+    u16 field_0_fps;            // Seems to be 0x1 or 0x2
     s16 field_2_num_frames;      // Number of frames in the set
 
                                        // If loop flag set then this is the frame to loop back to
@@ -43,7 +43,7 @@ struct AnimationHeader
         eNeverUnload = 0x1,
         eLoopFlag = 0x2
     };
-    WORD field_6_flags;
+    u16 field_6_flags;
     u32 mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
 };
 
@@ -64,8 +64,8 @@ struct FrameHeader
     u8 field_5_height;
     u8 field_6_colour_depth;
     CompressionType field_7_compression_type;
-    WORD field_8_width2;
-    WORD mHeight2;
+    u16 field_8_width2;
+    u16 mHeight2;
 };
 
 struct Point

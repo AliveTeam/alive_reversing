@@ -156,7 +156,7 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
             const UINT scanCode = HIWORD(lParam);
             s8 translated[4] = {};
             // TODO: can be negative but is never checked
-            const s32 numBytesWritten = ::ToAscii(vKey, scanCode, KeyState, reinterpret_cast<WORD*>(&translated), 0);
+            const s32 numBytesWritten = ::ToAscii(vKey, scanCode, KeyState, reinterpret_cast<u16*>(&translated), 0);
             translated[numBytesWritten] = 0;
             ::CharToOemA(translated, translated);
             sLastPressedKey_BD30A0 = translated[0];

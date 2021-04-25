@@ -2001,7 +2001,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
                 if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
                 {
                     TlvItemInfoUnion data;
-                    data.parts.tlvOffset = static_cast<WORD>(objectTableIdx);
+                    data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
                     data.parts.levelId = static_cast<u8>(field_0_current_level);
                     data.parts.pathId = static_cast<u8>(field_2_current_path);
 

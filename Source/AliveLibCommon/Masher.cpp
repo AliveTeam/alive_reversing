@@ -802,7 +802,7 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
         field_84_max_frame_size += field_14_video_header.field_C_max_audio_frame_size;
 
         // Allocate buffer for decoding frame data
-        field_44_decoded_frame_data_buffer = (WORD*)malloc(sizeof(WORD) * field_14_video_header.field_10_max_video_frame_size);
+        field_44_decoded_frame_data_buffer = (u16*)malloc(sizeof(u16) * field_14_video_header.field_10_max_video_frame_size);
         if (!field_44_decoded_frame_data_buffer)
         {
             return 2;

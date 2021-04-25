@@ -62,7 +62,7 @@ public:
 
     EXPORT static void CC PlayMusic_443810(MusicTypes a1, BaseGameObject* a2, s16 a3, s16 a4);
 
-    EXPORT static MusicTypes CC GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, WORD* ambientOrMusicDuration);
+    EXPORT static MusicTypes CC GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration);
 
     EXPORT void UpdateVolumeState_442A10();
 

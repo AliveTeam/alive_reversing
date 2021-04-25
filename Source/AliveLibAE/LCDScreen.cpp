@@ -148,7 +148,7 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion item
 
     field_2AA_message_1_id = params->field_10_message_1_id;
     field_2B0_message_2_id = params->field_16_message_2_id;
-    field_2B2_toggle_message_switch_id = static_cast<WORD>(params->field_18_toggle_message_switch_id);
+    field_2B2_toggle_message_switch_id = static_cast<u16>(params->field_18_toggle_message_switch_id);
     field_2BC_tlv_item_info = itemInfo;
 
     if (!sFontType2LoadCount_5BC5E8)
@@ -189,7 +189,7 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion item
     field_A4_message_cutoff_ptr = nullptr;
     field_2AC_x_offset = 0;
     sFontDrawScreenSpace_5CA4B4 = 1;
-    field_2AE_character_width = static_cast<WORD>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
+    field_2AE_character_width = static_cast<u16>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
     sFontDrawScreenSpace_5CA4B4 = 0;
     field_2B4 = 0;
     field_2B6_message_rand_min_id = params->field_12_message_rand_min_id;
@@ -248,7 +248,7 @@ void LCDScreen::Update_460A00()
         }
 
         sFontDrawScreenSpace_5CA4B4 = 1;
-        field_2AE_character_width = static_cast<WORD>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
+        field_2AE_character_width = static_cast<u16>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
         sFontDrawScreenSpace_5CA4B4 = 0;
     }
 

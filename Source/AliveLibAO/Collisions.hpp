@@ -52,7 +52,7 @@ public:
     EXPORT PathLine* NextLine_40C9B0(PathLine* pLine);
 
     PathLine* field_0_pArray;
-    WORD field_4_current_item_count;
+    u16 field_4_current_item_count;
     s32 field_8_item_count;
     s32 field_C_max_count;
 };

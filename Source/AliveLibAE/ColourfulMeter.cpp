@@ -15,7 +15,7 @@ const u8 byte_5543D0[32] =
 };
 
 ALIVE_VAR(1, 0x5c1bfa, u8, gTotalMeterBars_5C1BFA, 0);
-ALIVE_VAR(1, 0x5c1bf8, WORD, gbDrawMeterCountDown_5C1BF8, 0);
+ALIVE_VAR(1, 0x5c1bf8, u16, gbDrawMeterCountDown_5C1BF8, 0);
 
 ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvInfo)
 {

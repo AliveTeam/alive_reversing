@@ -73,7 +73,7 @@ ALIVE_VAR_EXTERN(Quicksave, sActiveQuicksaveData_BAF7F8);
 ALIVE_VAR_EXTERN(s32, sAccumulatedObjectCount_5C1BF4);
 ALIVE_VAR_EXTERN(s32, sSavedGameToLoadIdx_BB43FC);
 ALIVE_VAR_EXTERN(s32, sTotalSaveFilesCount_BB43E0);
-ALIVE_VAR_EXTERN(WORD, sQuickSave_saved_switchResetters_count_BB234C);
+ALIVE_VAR_EXTERN(u16, sQuickSave_saved_switchResetters_count_BB234C);
 
 EXPORT void CC Quicksave_LoadActive_4C9170();
 EXPORT void CC Quicksave_4C90D0();

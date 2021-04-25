@@ -218,8 +218,8 @@ const MusicController_Record slogChaseTension_55D424[17] =
 // TODO: 118 = max SEQs?
 struct MusicController_Record2
 {
-    WORD field_0_idx;
-    WORD field_2_duration;
+    u16 field_0_idx;
+    u16 field_2_duration;
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record2, 4);
 
@@ -387,7 +387,7 @@ void CC MusicController::Shutdown_47FD20()
     }
 }
 
-MusicController::MusicTypes MusicController::GetMusicType_47FA80(WORD* seq, WORD* seq2, u32* seqTime)
+MusicController::MusicTypes MusicController::GetMusicType_47FA80(u16* seq, u16* seq2, u32* seqTime)
 {
     MusicController::UpdateMusicTime_47F8B0();
     if (seq)
@@ -413,7 +413,7 @@ MusicController::MusicTypes MusicController::GetMusicType_47FA80(WORD* seq, WORD
     return field_42_type;
 }
 
-MusicController::MusicTypes CC MusicController::GetMusicType_47FDA0(WORD* seq1, WORD* seq2, u32* seqTime)
+MusicController::MusicTypes CC MusicController::GetMusicType_47FDA0(u16* seq1, u16* seq2, u32* seqTime)
 {
     if (pMusicController_5C3020)
     {

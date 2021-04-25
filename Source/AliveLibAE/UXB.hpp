@@ -9,7 +9,7 @@
 
 void UXB_ForceLink();
 
-enum class UXBState : WORD
+enum class UXBState : u16
 {
     eDelay_0 = 0,
     eActive_1 = 1,
@@ -40,10 +40,10 @@ struct SaveState_UXB
     u32 field_8_next_state_frame;
     UXBState field_C_state;
     UXBState field_E_starting_state;
-    WORD field_10_disabled_resources;
-    WORD field_12_pattern_index;
-    WORD field_14_red_blink_count;
-    WORD field_16_is_red;
+    u16 field_10_disabled_resources;
+    u16 field_12_pattern_index;
+    u16 field_14_red_blink_count;
+    u16 field_16_is_red;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SaveState_UXB, 24);
 
@@ -83,15 +83,15 @@ private:
 private:
     UXBState field_118_state;
     UXBState field_11A_starting_state;
-    WORD field_11C_disabled_resources;
+    u16 field_11C_disabled_resources;
     u8 field_11E_padding[2];
     TlvItemInfoUnion field_120_tlv;
     u32 field_124_next_state_frame;
     Animation field_128_animation;
-    WORD field_1C0_pattern_length;
-    WORD field_1C2_pattern_index;
-    WORD field_1C4_pattern;
-    WORD field_1C6_red_blink_count;
+    u16 field_1C0_pattern_length;
+    u16 field_1C2_pattern_index;
+    u16 field_1C4_pattern;
+    u16 field_1C6_red_blink_count;
     BitField16<UXB_Flags_1C8> field_1C8_flags;
     s16 field_1CA_padding;
 };

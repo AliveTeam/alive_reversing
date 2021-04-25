@@ -648,7 +648,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, s32 tlvInfo)
     const AnimRecord& rec = AnimRec(AnimId::Bone_Bag_A);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     // TODO: Super super OWI hack, WTF?? Figure out exactly what this is patching in the animation
-    *((WORD *)*ppRes + 4374) = 0;
+    *((u16 *)*ppRes + 4374) = 0;
 
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);

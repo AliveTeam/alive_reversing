@@ -38,7 +38,7 @@ void BirdPortal::VMudSaved()
     VMudSaved_453830();
 }
 
-void BirdPortal::VGetMapChange(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
+void BirdPortal::VGetMapChange(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
 {
     VGetMapChange_453840(level, path, camera, screenChangeEffect, movieId);
 }
@@ -1084,7 +1084,7 @@ void BirdPortal::VMudSaved_453830()
     field_56_num_muds_for_shrykull--;
 }
 
-void BirdPortal::VGetMapChange_453840(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
+void BirdPortal::VGetMapChange_453840(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
 {
     *level = field_50_dest_level;
     *path = field_52_dest_path;

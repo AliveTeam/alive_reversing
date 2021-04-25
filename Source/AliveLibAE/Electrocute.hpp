@@ -40,7 +40,7 @@ private:
     PalleteOverwriter* field_30_pPalOverwriters[3];
     s16 field_3C_extraOverwriter;
     s16 field_3E_padding;
-    WORD* field_40_pPalData;
+    u16* field_40_pPalData;
     enum class States : s16
     {
         eSetNewColour_0 = 0,

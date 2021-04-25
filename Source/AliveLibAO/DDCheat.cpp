@@ -116,12 +116,12 @@ void DDCheat::VUpdate()
     VUpdate_4098C0();
 }
 
-ALIVE_VAR(1, 0x4FF868, WORD, word_4FF868, 0);
+ALIVE_VAR(1, 0x4FF868, u16, word_4FF868, 0);
 
 ALIVE_VAR(1, 0x4C315C, u32, level_4C315C, 3);
-ALIVE_VAR(1, 0x4C3160, WORD, path_4C3160, 1);
+ALIVE_VAR(1, 0x4C3160, u16, path_4C3160, 1);
 ALIVE_VAR(1, 0x4FF864, u32, gVox_4FF864, 0);
-ALIVE_VAR(1, 0x4FF860, WORD, doNothing_4FF860, 0);
+ALIVE_VAR(1, 0x4FF860, u16, doNothing_4FF860, 0);
 ALIVE_VAR_EXTERN(s8, gDDCheatMode_508BF8);
 
 ALIVE_VAR(1, 0x9F0E40, u32, dword_9F0E40, 0);
@@ -139,7 +139,7 @@ static void writeHeaderElement(const T& element, FILE* f)
 
 void DDCheat::ScreenShot_409720()
 {
-    auto pixelBuffer = reinterpret_cast<WORD*>(alloc_450740(640 * sizeof(WORD) * gPsxDisplay_504C78.field_2_height));
+    auto pixelBuffer = reinterpret_cast<u16*>(alloc_450740(640 * sizeof(u16) * gPsxDisplay_504C78.field_2_height));
     if (pixelBuffer)
     {
         s8 fileNameBuffer[16] = {};
@@ -155,7 +155,7 @@ void DDCheat::ScreenShot_409720()
 
         for (s32 i = 0; i < 640 * gPsxDisplay_504C78.field_2_height; i++)
         {
-            const WORD pixel = pixelBuffer[i];
+            const u16 pixel = pixelBuffer[i];
             pixelBuffer[i] = ((pixel >> 10) & 0x1F) + (32 * (32 * (pixel & 0x1F) + ((pixel >> 5) & 0x1F)));
         }
 
@@ -191,9 +191,9 @@ void DDCheat::ScreenShot_409720()
         const s32 rowNum = 240;
         for(s32 i = 0; i < rowNum; i++)
         {
-            fwrite(rowOfPixels, 1, 640 * sizeof(WORD), fileHandle);
-            fwrite(rowOfPixels, 1, 640 * sizeof(WORD), fileHandle);
-            rowOfPixels -= 640 * sizeof(WORD);
+            fwrite(rowOfPixels, 1, 640 * sizeof(u16), fileHandle);
+            fwrite(rowOfPixels, 1, 640 * sizeof(u16), fileHandle);
+            rowOfPixels -= 640 * sizeof(u16);
         }
         fclose(fileHandle);
         ao_delete_free_450770(pixelBuffer);

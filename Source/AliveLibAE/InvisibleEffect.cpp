@@ -20,14 +20,14 @@ EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(BaseAliveGameObject* pTarge
 
     field_44_objId = pTarget->field_8_object_id;
 
-    field_24_pPal1 = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+    field_24_pPal1 = reinterpret_cast<u16*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(u16)));
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,
         field_24_pPal1,
         &field_28_pal_rect1);
 
-    field_30_pPal2 = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+    field_30_pPal2 = reinterpret_cast<u16*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(u16)));
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,

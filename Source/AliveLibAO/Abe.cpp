@@ -5495,10 +5495,10 @@ void Abe::IntoPortalStates_4262A0()
             if (field_1A0_portal->VStateIs16())
             {
                 LevelIds level = {};
-                WORD path = 0;
-                WORD camera = 0;
+                u16 path = 0;
+                u16 camera = 0;
                 CameraSwapEffects screenChangeEffect = {};
-                WORD movieId = 0;
+                u16 movieId = 0;
                 field_1A0_portal->VGetMapChange(&level, &path, &camera, &screenChangeEffect, &movieId);
                 gMap_507BA8.SetActiveCam_444660(level, path, camera, screenChangeEffect, movieId, FALSE);
                 field_19E_portal_sub_state = PortalSubStates::eSetNewAbePosition_4;

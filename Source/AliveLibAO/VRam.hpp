@@ -11,7 +11,7 @@ EXPORT s16 CC Pal_Allocate_4476F0(PSX_RECT* pRect, u32 paletteColorCount);
 
 EXPORT void CC Pal_Free_447870(PSX_Point xy, s16 palDepth);
 
-EXPORT void CC Pal_Copy_4479D0(PSX_Point point, s16 w, WORD* pPalData, PSX_RECT* rect);
+EXPORT void CC Pal_Copy_4479D0(PSX_Point point, s16 w, u16* pPalData, PSX_RECT* rect);
 
 EXPORT void CC Pal_Set_447990(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect);
 

@@ -691,7 +691,7 @@ EXPORT s32 CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData)
     // Note: Removed width == 32 optimization case.
 }
 
-EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
+EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, u16* pData)
 {
     if (!PSX_Rect_IsInFrameBuffer_4FA050(rect))
     {
@@ -712,15 +712,15 @@ EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
         return 1;
     }
 
-    WORD* pDstIter = pData;
+    u16* pDstIter = pData;
 
     // TODO: Refactor
-    const WORD* pVramIter = (const WORD *)((s8 *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (rect->x + (rect->y << 10)));
-    const WORD* pVramEnd = &pVramIter[1024 * rect->h - 1024 + rect->w];
+    const u16* pVramIter = (const u16 *)((s8 *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (rect->x + (rect->y << 10)));
+    const u16* pVramEnd = &pVramIter[1024 * rect->h - 1024 + rect->w];
     s32 lineRemainder = 1024 - rect->w;
     for (s32 count = 1024 - rect->w; pVramIter < pVramEnd; pVramIter += lineRemainder)
     {
-        const WORD* pLineStart = &pVramIter[rect->w];
+        const u16* pLineStart = &pVramIter[rect->w];
         while (pVramIter < pLineStart)
         {
             const auto vram_pixel = static_cast<u32>(*pVramIter);
@@ -731,7 +731,7 @@ EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
             u32 shiftedBlue = (vram_pixel >> sBlueShift_C19140) & 0x1F;
             u32 shiftedTrans = (vram_pixel >> sSemiTransShift_C215C0);
             // Convert and store pixel value
-            *(pDstIter) = static_cast<WORD>(shiftedRed | 32 * (shiftedGreen | 32 * (shiftedBlue | 32 * (shiftedTrans))));
+            *(pDstIter) = static_cast<u16>(shiftedRed | 32 * (shiftedGreen | 32 * (shiftedBlue | 32 * (shiftedTrans))));
 
             ++pDstIter;
             lineRemainder = count;
@@ -744,14 +744,14 @@ EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
 EXPORT s32 CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const u8* pData)
 {
     const u32 pixelCount = pRect->w * pRect->h;
-    WORD* pConversionBuffer = reinterpret_cast<WORD*>(ae_malloc_4F4E60(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
+    u16* pConversionBuffer = reinterpret_cast<u16*>(ae_malloc_4F4E60(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
     if (!pConversionBuffer)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 579, 0, "LoadImage16: can't do color conversion.");
         return PSX_LoadImage_4F5FB0(pRect, pData);
     }
 
-    PSX_Pal_Conversion_4F98D0(reinterpret_cast<const WORD*>(pData), pConversionBuffer, pixelCount);
+    PSX_Pal_Conversion_4F98D0(reinterpret_cast<const u16*>(pData), pConversionBuffer, pixelCount);
     const auto loadImageRet = PSX_LoadImage_4F5FB0(pRect, reinterpret_cast<u8*>(pConversionBuffer));
     ae_free_4F4EA0(pConversionBuffer);
     return loadImageRet;

@@ -1159,10 +1159,10 @@ struct PsxTimHeader
     u32 mMagic;   // 0x10
     u32 mFlag;    // 0x08 4BPP, 0x09 8BPP, 0x02 16BPP
     u32 mUnknown;
-    WORD mClutX;
-    WORD mClutY;
-    WORD mNumClutColours;
-    WORD mClutCount;
+    u16 mClutX;
+    u16 mClutY;
+    u16 mNumClutColours;
+    u16 mClutCount;
 };
 
 struct PsxTimImageHeader
@@ -1175,8 +1175,8 @@ struct TimInfo
 {
     s16 mRenderWidth;
     s16 mHeight;
-    WORD mTPage;
-    WORD mClut;
+    u16 mTPage;
+    u16 mClut;
 };
 
 static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
@@ -1196,7 +1196,7 @@ static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
         PSX_RECT clutRect = { static_cast<s16>(pHeader->mClutX), static_cast<s16>(pHeader->mClutY), static_cast<s16>(pHeader->mNumClutColours), static_cast<s16>(1) };
         PSX_LoadImage16_4F5E20(&clutRect, (u8*)&pHeader[1]);
 
-        pInfo->mClut = static_cast<WORD>(PSX_getClut_4F6350(pHeader->mClutX, pHeader->mClutY));
+        pInfo->mClut = static_cast<u16>(PSX_getClut_4F6350(pHeader->mClutX, pHeader->mClutY));
     }
 
     if (pHeader->mFlag == 2) // 16 bit
@@ -1240,7 +1240,7 @@ static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
 
     pInfo->mRenderWidth = static_cast<s16>(pImgHeader->mImageRect.w * widthMultipler);
     pInfo->mHeight = pImgHeader->mImageRect.h;
-    pInfo->mTPage = static_cast<WORD>(PSX_getTPage_4F60E0(mode, abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
+    pInfo->mTPage = static_cast<u16>(PSX_getTPage_4F60E0(mode, abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
 }
 
 class RenderTest_AllPrims
@@ -1875,12 +1875,12 @@ private:
 #include "ScreenManager.hpp"
 #include "VRam.hpp"
 
-static WORD RGB888toRGB565(u32 r, u32 g, u32 b)
+static u16 RGB888toRGB565(u32 r, u32 g, u32 b)
 {
-    return static_cast<WORD>((r >> 3 << 11) + (g >> 2 << 5) + (b >> 3));
+    return static_cast<u16>((r >> 3 << 11) + (g >> 2 << 5) + (b >> 3));
 }
 
-const WORD kTestImagePal[16] =
+const u16 kTestImagePal[16] =
 {
     RGB888toRGB565(237, 28,  36),
     RGB888toRGB565(255, 255, 255),

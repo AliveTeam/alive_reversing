@@ -36,7 +36,7 @@ ALIVE_ASSERT_SIZEOF(Camera, 0x34);
 
 struct DirtyBits
 {
-    WORD mData[20]; // 20 Columns
+    u16 mData[20]; // 20 Columns
 
     bool GetTile(s32 x, s32 y)
     {

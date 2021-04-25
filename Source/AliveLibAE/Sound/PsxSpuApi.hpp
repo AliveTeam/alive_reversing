@@ -48,10 +48,10 @@ struct VabBodyRecord
 
 struct Converted_Vag
 {
-    WORD field_0_adsr_attack;
-    WORD field_2_adsr_sustain_level;
-    WORD field_4_adsr_decay;
-    WORD field_6_adsr_release;
+    u16 field_0_adsr_attack;
+    u16 field_2_adsr_sustain_level;
+    u16 field_4_adsr_decay;
+    u16 field_6_adsr_release;
     u8 field_8_min;
     u8 field_9_max;
     s16 field_A_shift_cen;

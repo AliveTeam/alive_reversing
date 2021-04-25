@@ -29,7 +29,7 @@ namespace AO {
 const s32 kSeqTableSizeAO = 164;
 
 ALIVE_VAR(1, 0x9F12D8, SeqIds, sSeq_Ids_word_9F12D8, {});
-ALIVE_VAR(1, 0x9F1DC4, WORD, sSnd_ReloadAbeResources_9F1DC4, 0);
+ALIVE_VAR(1, 0x9F1DC4, u16, sSnd_ReloadAbeResources_9F1DC4, 0);
 ALIVE_VAR(1, 0x9F1DBC, OpenSeqHandle *, sSeqDataTable_9F1DBC, nullptr);
 ALIVE_VAR(1, 0x9F1DC0, s16, sSeqsPlaying_count_word_9F1DC0, 0);
 ALIVE_VAR(1, 0x9F1DB8, SoundBlockInfo *, sLastLoadedSoundBlockInfo_9F1DB8, nullptr);
@@ -48,7 +48,7 @@ public:
         return sSeq_Ids_word_9F12D8;
     }
 
-    virtual WORD& sSnd_ReloadAbeResources() override
+    virtual u16& sSnd_ReloadAbeResources() override
     {
         return sSnd_ReloadAbeResources_9F1DC4;
     }

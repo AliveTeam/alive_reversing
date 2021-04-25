@@ -36,7 +36,7 @@ public:
     PalleteOverwriter* field_18_pPalOverwriters[3];
     s16 field_24_extraOverwriter;
     s16 field_26_pad;
-    WORD* field_28_pPalData;
+    u16* field_28_pPalData;
     s16 field_2C_r;
     s16 field_2E_g;
     s16 field_30_b;

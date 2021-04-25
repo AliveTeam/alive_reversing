@@ -51,7 +51,7 @@ EXPORT s32 CC SnapToXGrid_41FAA0(FP scale, s32 x)
 }
 
 
-EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, s16 xMargin, WORD* pResult)
+EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, s16 xMargin, u16* pResult)
 {
     const FP v1 = xpos - FP_FromInteger(256);
 
@@ -88,7 +88,7 @@ EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, s16 xMargin, WORD* pResul
     return result;
 }
 
-EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, s16 yMargin, WORD* pResult)
+EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, s16 yMargin, u16* pResult)
 {
     const s32 yVal = (FP_GetExponent(ypos) - 120);
     const s32 yIdx = yVal / 240;

@@ -17,13 +17,13 @@
 #define _WAVEFORMATEX_
 typedef struct tWAVEFORMATEX
 {
-    WORD        wFormatTag;
-    WORD        nChannels;
+    u16        wFormatTag;
+    u16        nChannels;
     u32       nSamplesPerSec;
     u32       nAvgBytesPerSec;
-    WORD        nBlockAlign;
-    WORD        wBitsPerSample;
-    WORD        cbSize;
+    u16        nBlockAlign;
+    u16        wBitsPerSample;
+    u16        cbSize;
 
 } WAVEFORMATEX, *PWAVEFORMATEX, *NPWAVEFORMATEX, *LPWAVEFORMATEX;
 #endif

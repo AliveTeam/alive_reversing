@@ -1562,7 +1562,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             }
             stru_5C3110.Free_433130();
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<WORD**>(gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes));
+            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes));
             pScreenManager_5BB5F4->MoveImage_40EB70();
             pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
             GetSoundAPI().SND_Restart();
@@ -1984,7 +1984,7 @@ EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u3
             }
 
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((WORD**)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
+            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager_5BB5F4->MoveImage_40EB70();
             pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
             GetSoundAPI().SND_Restart();
@@ -2918,7 +2918,7 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(u32 input_held, std::fu
         if (field_210_pUnused)
         {
             // TODO: Recover type
-            WORD* pUnknown = (WORD *)field_210_pUnused;
+            u16* pUnknown = (u16 *)field_210_pUnused;
             pUnknown[124] = 1;
             field_210_pUnused = nullptr;
         }
@@ -2930,7 +2930,7 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(u32 input_held, std::fu
         if (field_210_pUnused)
         {
             // TODO: Recover type
-            WORD* pUnknown = (WORD *)field_210_pUnused;
+            u16* pUnknown = (u16 *)field_210_pUnused;
             pUnknown[124] = 1;
             field_210_pUnused = nullptr;
         }

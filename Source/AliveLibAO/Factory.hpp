@@ -9,15 +9,15 @@ class Map;
 
 struct TlvOffsetLevelIdPathId
 {
-    WORD tlvOffset;
+    u16 tlvOffset;
     u8 levelId;
     u8 pathId;
 };
 
 struct TlvOffsetCombinedLevelIdPathId
 {
-    WORD tlvOffset;
-    WORD levelIdPathId;
+    u16 tlvOffset;
+    u16 levelIdPathId;
 };
 
 union TlvItemInfoUnion

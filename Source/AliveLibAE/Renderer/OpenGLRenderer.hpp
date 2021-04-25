@@ -85,7 +85,7 @@ private:
     SDL_Window* mWindow = nullptr;
     SDL_GLContext mContext = nullptr;
     GLShader mTextureShader = {};
-    WORD mLastTPage = 0;
+    u16 mLastTPage = 0;
     bool mWireframe = false;
 
     glm::mat4 m_View = {};

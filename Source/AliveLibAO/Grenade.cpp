@@ -413,7 +413,7 @@ s16 Grenade::InTheAir_41EF10()
     field_A8_xpos += field_B4_velx;
     field_AC_ypos += field_B8_vely;
 
-    WORD result = 0;
+    u16 result = 0;
     field_A8_xpos = CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 8, &result);
     field_AC_ypos = CamY_VoidSkipper_418690(field_AC_ypos, field_B8_vely, 8, &result);
 

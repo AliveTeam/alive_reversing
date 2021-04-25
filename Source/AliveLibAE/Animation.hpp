@@ -61,7 +61,7 @@ struct FrameInfoHeader
 struct AnimationHeader
 {
     // Meta data - the offset where this record was read from
-    WORD field_0_fps;            // Seems to be 0x1 or 0x2
+    u16 field_0_fps;            // Seems to be 0x1 or 0x2
     s16 field_2_num_frames;      // Number of frames in the set
 
                                        // If loop flag set then this is the frame to loop back to
@@ -75,15 +75,15 @@ struct AnimationHeader
         eNeverUnload = 0x1,
         eLoopFlag = 0x2
     };
-    WORD field_6_flags;
+    u16 field_6_flags;
     u32 mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
 };
 //ALIVE_ASSERT_SIZEOF(AnimationHeader, 0x8);
 
 struct BanHeader
 {
-    WORD mMaxW = 0;
-    WORD mMaxH = 0;
+    u16 mMaxW = 0;
+    u16 mMaxH = 0;
     u32 mFrameTableOffSet = 0;
     u32 mPaltSize = 0;
 };
@@ -108,8 +108,8 @@ struct FrameHeader
     u8 field_5_height;
     u8 field_6_colour_depth;
     CompressionType field_7_compression_type;
-    WORD field_8_width2;
-    WORD mHeight2;
+    u16 field_8_width2;
+    u16 mHeight2;
 };
 
 class Animation : public AnimationBase
@@ -132,8 +132,8 @@ public:
 
     void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted);
 
-    WORD field_10_frame_delay;
-    WORD field_12_scale; // padding?
+    u16 field_10_frame_delay;
+    u16 field_12_scale; // padding?
     FP field_14_scale;
     u32 field_18_frame_table_offset;
     s32(CC **field_1C_fn_ptr_array)(void *, s16 *);
@@ -154,7 +154,7 @@ public:
     EXPORT void SetFrame_409D50(s16 newFrame);
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(s16 frame);
     EXPORT void Get_Frame_Rect_409E10(PSX_RECT *pRect);
-    EXPORT WORD Get_Frame_Count_40AC70();
+    EXPORT u16 Get_Frame_Count_40AC70();
     EXPORT s16 Init_40A030(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 unknown1, s32 pal_depth, s8 unknown3);
     EXPORT void Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY);
     EXPORT void Get_Frame_Width_Height_40C400(s16* pWidth, s16* pHeight);

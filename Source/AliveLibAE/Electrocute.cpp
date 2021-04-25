@@ -177,7 +177,7 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, s16 bExtr
     case AETypes::eGlukkon_67:
     case AETypes::eAbe_69:
     case AETypes::eSlig_125:
-        field_40_pPalData = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(sizeof(WORD) * pTargetObj->field_20_animation.field_90_pal_depth));
+        field_40_pPalData = reinterpret_cast<u16*>(ae_malloc_non_zero_4954F0(sizeof(u16) * pTargetObj->field_20_animation.field_90_pal_depth));
         Pal_Copy_483560(
             pTargetObj->field_20_animation.field_8C_pal_vram_xy,
             pTargetObj->field_20_animation.field_90_pal_depth,

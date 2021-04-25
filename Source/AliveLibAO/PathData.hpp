@@ -184,8 +184,8 @@ struct PathBlyRec
     const s8* field_0_blyName;
     const PathData* field_4_pPathData;
     const CollisionInfo* field_8_pCollisionData;
-    WORD field_C_overlay_id;
-    WORD field_E;
+    u16 field_C_overlay_id;
+    u16 field_E;
 };
 
 struct FmvInfo

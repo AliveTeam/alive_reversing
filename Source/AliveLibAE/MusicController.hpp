@@ -55,13 +55,13 @@ public:
     EXPORT static void CC SetBaseTimeStamp_47FD00();
     EXPORT static void CC Shutdown_47FD20();
     EXPORT static void CC UpdateMusicTime_47F8B0();
-    EXPORT static MusicTypes CC GetMusicType_47FDA0(WORD* seq1, WORD* seq2, u32* seqTime);
+    EXPORT static MusicTypes CC GetMusicType_47FDA0(u16* seq1, u16* seq2, u32* seqTime);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     EXPORT MusicController* ctor_47EE80();
     EXPORT BaseGameObject* vdtor_47EF20(s32 flags);
     EXPORT void dtor_47EF50();
-    EXPORT MusicTypes GetMusicType_47FA80(WORD *seq, WORD *seq2, u32 *seqTime);
+    EXPORT MusicTypes GetMusicType_47FA80(u16 *seq, u16 *seq2, u32 *seqTime);
 
     virtual void VScreenChanged() override;
     EXPORT void vsub_ScreenChange_47F8F0();
@@ -82,8 +82,8 @@ public:
     EXPORT static void CC EnableMusic_47FE10(s16 bOn);
 
 private:
-    WORD field_20_vol;
-    WORD field_22_vol;
+    u16 field_20_vol;
+    u16 field_22_vol;
     LevelIds field_24_currentLevelID;
     s16 field_26_padding;
     s32 field_28_object_id;
@@ -97,13 +97,13 @@ private:
     MusicTypes field_42_type;
     s32 field_44;
     u32 field_48_last_music_frame;
-    WORD field_4C_state;
-    WORD field_4E_starting_volume;
-    WORD field_50_current_vol;
-    WORD field_52_target_volume;
+    u16 field_4C_state;
+    u16 field_4E_starting_volume;
+    u16 field_50_current_vol;
+    u16 field_52_target_volume;
     u32 field_54_music_volume_change_time;
     BitField16<Flags_58> field_58_flags;
-    WORD field_60_padding;
+    u16 field_60_padding;
 };
 ALIVE_ASSERT_SIZEOF(MusicController, 0x5C);
 

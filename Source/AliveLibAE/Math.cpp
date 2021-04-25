@@ -121,7 +121,7 @@ EXPORT u8 Math_NextRandom()
     return sRandomBytes_546744[sRandomSeed_5D1E10++];
 }
 
-const WORD sSineTable_5466C4[64] =
+const u16 sSineTable_5466C4[64] =
 {
     0,      1633,    3266,    4897,    6525,    8148,    9767,    11380,
     12985,  14582,   16171,   17749,   19316,   20872,   22414,   23942,

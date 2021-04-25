@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Psx.hpp"
 
-ALIVE_VAR_EXTERN(WORD, unused_5CC88C);
+ALIVE_VAR_EXTERN(u16, unused_5CC88C);
 
 EXPORT s16 CC Vram_alloc_4956C0(u16 width, s16 height, u16 colourDepth, PSX_RECT* pRect);
 
@@ -18,7 +18,7 @@ EXPORT BOOL CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT*
 
 EXPORT void CC Pal_Area_Init_483080(s16 xpos, s16 ypos, u16 width, u16 height);
 
-EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, s16 w, WORD* pPalData, PSX_RECT* rect);
+EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, s16 w, u16* pPalData, PSX_RECT* rect);
 
 
 EXPORT u32 CC Pal_Make_Colour_4834C0(u8 r, u8 g, u8 b, s16 bOpaque);

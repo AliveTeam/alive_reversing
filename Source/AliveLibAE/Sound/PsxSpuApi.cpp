@@ -42,7 +42,7 @@ struct SeqHeader
 {
     s32 field_0_magic;
     u32 field_4_version;
-    WORD field_8_resolution_of_quater_note;
+    u16 field_8_resolution_of_quater_note;
     u8 field_A_tempo[3];
     // No padding byte here, hence 1 byte packing enabled
     u8 field_D_time_signature_bars;
@@ -198,7 +198,7 @@ EXPORT IPsxSpuApiVars* GetSpuApiVars()
 template<typename T> T SwapBytes(T value);
 
 template<>
-inline WORD SwapBytes<WORD>(WORD value)
+inline u16 SwapBytes<u16>(u16 value)
 {
     return (value >> 8) | (value << 8);
 }
@@ -206,7 +206,7 @@ inline WORD SwapBytes<WORD>(WORD value)
 template<>
 inline unsigned SwapBytes<unsigned>(unsigned value)
 {
-    return unsigned(SwapBytes<WORD>(static_cast<WORD>(value)) << 16) | SwapBytes<WORD>(static_cast<WORD>(value >> 16));
+    return unsigned(SwapBytes<u16>(static_cast<u16>(value)) << 16) | SwapBytes<u16>(static_cast<u16>(value >> 16));
 }
 
 EXPORT void CC MIDI_ADSR_Update_4FDCE0();
@@ -392,10 +392,10 @@ EXPORT s16 CC SsVabOpenHead_4FC620(VabHeader* pVabHeader)
 
                 f32 sustain_level = static_cast<f32>((2 * (~(u8)pVagAttr->field_10_adsr1 & 0xF)));
 
-                pData->field_0_adsr_attack = std::min(static_cast<WORD>((powf(2.0f, ((pVagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), static_cast<WORD>(32767));
-                pData->field_4_adsr_decay = static_cast<WORD>((((pVagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0);
-                pData->field_2_adsr_sustain_level = std::min(static_cast<WORD>((sustain_level / 15.0f) * 600.0), static_cast<WORD>(32767));
-                pData->field_6_adsr_release = std::min(static_cast<WORD>(pow(2, pVagAttr->field_12_adsr2 & 0x1F) * 0.045f), static_cast<WORD>(32767));
+                pData->field_0_adsr_attack = std::min(static_cast<u16>((powf(2.0f, ((pVagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), static_cast<u16>(32767));
+                pData->field_4_adsr_decay = static_cast<u16>((((pVagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0);
+                pData->field_2_adsr_sustain_level = std::min(static_cast<u16>((sustain_level / 15.0f) * 600.0), static_cast<u16>(32767));
+                pData->field_6_adsr_release = std::min(static_cast<u16>(pow(2, pVagAttr->field_12_adsr2 & 0x1F) * 0.045f), static_cast<u16>(32767));
 
                 // If decay is at max, then nothing should play. So mute sustain too ?
                 if (pData->field_4_adsr_decay == 16)
@@ -926,7 +926,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
     handle_next_event:
 
         v13 = v31 & 0x00FF;
-        v13 |= (WORD)(midiByte1 << 8);
+        v13 |= (u16)(midiByte1 << 8);
         //LOBYTE(v13) = 0;
         //HIBYTE(v13) = midiByte1;
         v14 = midiByte1_copy | v13;
@@ -1011,7 +1011,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
                 {
                     if ((1 << channelIdx_1) & v47)
                     {
-                        gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_C = static_cast<WORD>(16 * idx + (v42 & 0xF));
+                        gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_C = static_cast<u16>(16 * idx + (v42 & 0xF));
                         gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_E_ref_count = v21;
                     }
                     ++channelIdx_1;

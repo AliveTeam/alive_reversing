@@ -92,7 +92,7 @@ extern PerLvlData gPerLvlData_561700[17];
 struct Path_TLV;
 class MainMenuTransition;
 
-enum MainMenuCams : WORD
+enum MainMenuCams : u16
 {
     eNoChange = 0,
     eMainMenuCam = 1,

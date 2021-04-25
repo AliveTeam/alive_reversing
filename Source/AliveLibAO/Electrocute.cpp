@@ -147,7 +147,7 @@ Electrocute* Electrocute::ctor_48D3A0(BaseAliveGameObject* pTargetObj, s16 bExtr
 
     if (pTargetObj->field_4_typeId == Types::eAbe_43)
     {
-        field_28_pPalData = reinterpret_cast<WORD*>(alloc_450740(sizeof(WORD) * pTargetObj->field_10_anim.field_90_pal_depth));
+        field_28_pPalData = reinterpret_cast<u16*>(alloc_450740(sizeof(u16) * pTargetObj->field_10_anim.field_90_pal_depth));
         Pal_Copy_4479D0(
             pTargetObj->field_10_anim.field_8C_pal_vram_xy,
             pTargetObj->field_10_anim.field_90_pal_depth,

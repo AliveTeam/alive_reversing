@@ -124,7 +124,7 @@ struct InputPadObject
     u32 field_0_pressed;
     u8 field_4_dir;
     u8 field_5;
-    WORD field_6_padding; // Not confirmed
+    u16 field_6_padding; // Not confirmed
     u32 field_8_previous;
     u32 field_C_held;
     u32 field_10_released;
@@ -179,8 +179,8 @@ public:
     InputPadObject field_0_pads[2];
     u32** field_30_pDemoRes;
     u32 field_34_demo_command_index;
-    WORD field_38_bDemoPlaying;
-    WORD field_3A_pad_idx;
+    u16 field_38_bDemoPlaying;
+    u16 field_3A_pad_idx;
     u32 field_3C_command;
     u32 field_40_command_duration;
     bool isPressed(u32 command);

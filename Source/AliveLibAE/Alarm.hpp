@@ -27,7 +27,7 @@ private:
     s32 field_80_duration_timer;
     s32 field_84_tlvOffsetLevelPathCamId;
     s16 field_88_switch_id;
-    WORD field_8A_duration;
+    u16 field_8A_duration;
     s32 field_8C_padding;
     enum class States : s16
     {

@@ -10,7 +10,7 @@
 #include "PlatformBase.hpp"
 #include "Game.hpp"
 
-ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
+ALIVE_VAR(1, 0x5c1bde, u16, gInfiniteGrenades_5C1BDE, 0);
 
 // Overlay to throwable type table ??
 const AETypes throwable_types_55FAFC[252] =

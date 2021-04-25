@@ -50,4 +50,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(ThrowableTotalIndicator, 0x190);
 
-ALIVE_VAR_EXTERN(WORD, bThrowableIndicatorExists_5C112C);
+ALIVE_VAR_EXTERN(u16, bThrowableIndicatorExists_5C112C);

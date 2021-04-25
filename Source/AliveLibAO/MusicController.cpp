@@ -177,7 +177,7 @@ const MusicController_Record array_3_stru_4CDB58[] =
 struct MusicController_Record2
 {
     SeqId field_0_idx;
-    WORD field_2_duration;
+    u16 field_2_duration;
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record2, 4);
 
@@ -515,7 +515,7 @@ void CC MusicController::PlayMusic_443810(MusicTypes musicType, BaseGameObject* 
     }
 }
 
-MusicController::MusicTypes CC MusicController::GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, WORD* ambientOrMusicDuration)
+MusicController::MusicTypes CC MusicController::GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration)
 {
     MusicController::UpdateMusicTime();
 
@@ -538,11 +538,11 @@ MusicController::MusicTypes CC MusicController::GetAbmientAndMusicInfo_443840(Se
     {
         if (pMusicController_507B98->field_3A_type == MusicTypes::eType0)
         {
-            *ambientOrMusicDuration = static_cast<WORD>(pMusicController_507B98->field_28_amibent_seq_duration - GetMusicTime());
+            *ambientOrMusicDuration = static_cast<u16>(pMusicController_507B98->field_28_amibent_seq_duration - GetMusicTime());
         }
         else
         {
-            *ambientOrMusicDuration = static_cast<WORD>(pMusicController_507B98->field_3C_music_seq_duration - GetMusicTime());
+            *ambientOrMusicDuration = static_cast<u16>(pMusicController_507B98->field_3C_music_seq_duration - GetMusicTime());
         }
     }
     return pMusicController_507B98->field_3A_type;

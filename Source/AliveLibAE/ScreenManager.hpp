@@ -9,7 +9,7 @@ struct Prim_Sprt;
 
 struct DirtyBits
 {
-    WORD mData[20]; // 20 Columns
+    u16 mData[20]; // 20 Columns
 
     bool GetTile(s32 x, s32 y)
     {
@@ -60,12 +60,12 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override {}
 
-    void process_segment(WORD* aVlcBufferPtr, s32 xPos);
-    void vlc_decode(WORD* aCamSeg, WORD* aDst);
+    void process_segment(u16* aVlcBufferPtr, s32 xPos);
+    void vlc_decode(u16* aCamSeg, u16* aDst);
     void vlc_decoder(s32 aR, s32 aG, s32 aB, s32 aWidth, s32 aVramX, s32 aVramY);
     void write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddlib::BitsLogic& aG, const Oddlib::BitsLogic& aB, s32 aVramX, s32 aVramY);
 
-    EXPORT void DecompressCameraToVRam_40EF60(WORD** ppBits);
+    EXPORT void DecompressCameraToVRam_40EF60(u16** ppBits);
 
     EXPORT ScreenManager* ctor_40E3E0(u8** ppBits, FP_Point* pCameraOffset);
 

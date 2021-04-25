@@ -12,7 +12,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x504C70, WORD, bThrowableIndicatorExists_504C70, 0);
+ALIVE_VAR(1, 0x504C70, u16, bThrowableIndicatorExists_504C70, 0);
 
 void ThrowableTotalIndicator::VScreenChanged()
 {

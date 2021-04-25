@@ -5,8 +5,8 @@
 
 struct Slurg_Step_Watch_Point
 {
-    WORD field_0_xPos;
-    WORD field_2_yPos;
+    u16 field_0_xPos;
+    u16 field_2_yPos;
 };
 ALIVE_ASSERT_SIZEOF(Slurg_Step_Watch_Point, 0x4);
 
@@ -109,6 +109,6 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Slurg, 0x134);
 
-ALIVE_VAR_EXTERN(WORD, sSlurg_Step_Watch_Points_Idx_5C1C08);
+ALIVE_VAR_EXTERN(u16, sSlurg_Step_Watch_Points_Idx_5C1C08);
 ALIVE_ARY_EXTERN(s8, 2, sSlurg_Step_Watch_Points_Count_5BD4DC);
 ALIVE_ARY_EXTERN(Slurg_Step_Watch_Points, 2, sSlurg_Step_Watch_Points_5C1B28);

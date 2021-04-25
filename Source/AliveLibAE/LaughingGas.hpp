@@ -87,7 +87,7 @@ private:
     f32 field_7C_gas_y[6][6];
     f32 field_10C_gas_x[6][6];
 
-    WORD* field_19C_pMem;
+    u16* field_19C_pMem;
 
     struct Data
     {

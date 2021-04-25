@@ -561,7 +561,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
                     const FrameInfoHeader *pFrameInfoHeader = actor->field_20_animation.Get_FrameHeader_40B730(0);
                     const u8* pAnimData = *actor->field_20_animation.field_20_ppBlock;
                     const u32 clut_offset = *reinterpret_cast< const u32* >( &( pAnimData )[pFrameInfoHeader->field_0_frame_header_offset] );
-                    const WORD* pAnimDataWithOffset = reinterpret_cast< const WORD* >( &pAnimData[clut_offset + 4] );
+                    const u16* pAnimDataWithOffset = reinterpret_cast< const u16* >( &pAnimData[clut_offset + 4] );
                     for (s32 i = 0; i < palSize; i++)
                     {
                         s32 auxPalValue = pAnimDataWithOffset[i] & 0x1F;
@@ -590,7 +590,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
                         {
                             resultMixed = 1;
                         }
-                        pPalAlloc[i] = static_cast< WORD >( resultMixed );
+                        pPalAlloc[i] = static_cast< u16 >( resultMixed );
                     }
                     for (s32 i = 0; i < eyeColourIndicesSize; i++)
                     {

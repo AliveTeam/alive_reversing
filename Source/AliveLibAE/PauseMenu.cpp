@@ -1528,7 +1528,7 @@ void PauseMenu::Page_Load_Render_4910A0(PrimHeader** ot, PauseMenuPage* mp)
     Page_Base_Render_490A50(ot, mp);
 }
 
-EXPORT WORD CC sub_4A2B70()
+EXPORT u16 CC sub_4A2B70()
 {
     NOT_IMPLEMENTED();
     return 1;

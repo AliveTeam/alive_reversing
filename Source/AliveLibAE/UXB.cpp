@@ -250,7 +250,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
     field_120_tlv = itemInfo;
     field_124_next_state_frame = sGnFrame_5C1B84;
-    field_11C_disabled_resources = static_cast<WORD>(tlv_params->field_18_disabled_resources);
+    field_11C_disabled_resources = static_cast<u16>(tlv_params->field_18_disabled_resources);
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbebombResID);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDebrisID00);

@@ -18,7 +18,7 @@ class IMidiVars
 public:
     ~IMidiVars() { }
     virtual SeqIds& sSeq_Ids_word() = 0;
-    virtual WORD& sSnd_ReloadAbeResources() = 0;
+    virtual u16& sSnd_ReloadAbeResources() = 0;
     virtual OpenSeqHandle*& sSeqDataTable() = 0;
     virtual s16& sSeqsPlaying_count_word() = 0;
     virtual SoundBlockInfo*& sLastLoadedSoundBlockInfo() = 0;

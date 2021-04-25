@@ -121,7 +121,7 @@ public:
     s16 field_C6_scale;
     s16 field_C8_yOffset;
     s16 field_CA_xOffset;
-    WORD field_CC_bApplyShadows;
+    u16 field_CC_bApplyShadows;
     s16 field_CE_pad;
     Shadow* field_D0_pShadow;
 };

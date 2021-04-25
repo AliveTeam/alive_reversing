@@ -9,7 +9,7 @@ const s32 kMaxAllocs = 512;
 
 ALIVE_ARY(1, 0x5cb888, PSX_RECT, kMaxAllocs, sVramAllocations_5CB888, {});
 ALIVE_VAR(1, 0x5cc888, s32, sVramNumberOfAllocations_5CC888, 0);
-ALIVE_VAR(1, 0x5CC88C, WORD, unused_5CC88C, 0);
+ALIVE_VAR(1, 0x5CC88C, u16, unused_5CC88C, 0);
 
 EXPORT s8 CC Vram_calc_width_4955A0(s32 width, s32 depth)
 {
@@ -373,7 +373,7 @@ EXPORT void CC Pal_Area_Init_483080(s16 xpos, s16 ypos, u16 width, u16 height)
     }
 }
 
-EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, s16 w, WORD* pPalData, PSX_RECT* rect)
+EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, s16 w, u16* pPalData, PSX_RECT* rect)
 {
     rect->x = pPoint.field_0_x;
     rect->y = pPoint.field_2_y;

@@ -79,7 +79,7 @@ void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 ty
             }
 
             pParticle->field_E4_scale_amount = scale * FP_FromDouble(0.03);
-            pParticle->field_10_anim.field_10_frame_delay = static_cast<WORD>((i + 3) / 2);
+            pParticle->field_10_anim.field_10_frame_delay = static_cast<u16>((i + 3) / 2);
             if (Math_NextRandom() < 127)
             {
                 pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);

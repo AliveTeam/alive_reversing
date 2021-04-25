@@ -351,7 +351,7 @@ void Meat::InTheAir_438720()
     field_A8_xpos += field_B4_velx;
     field_AC_ypos += field_B8_vely;
 
-    WORD result = 0;
+    u16 result = 0;
     const FP CamX_VoidSkipper = CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 8, &result);
     field_A8_xpos = CamX_VoidSkipper;
 

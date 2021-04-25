@@ -506,8 +506,8 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
     Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, field_4_flags.Get(AnimFlags::eBit15_bSemiTrans));
     Poly_Set_Blending_4F8A20(&pPoly->mBase.header, field_4_flags.Get(AnimFlags::eBit16_bBlending));
     SetRGB0(pPoly, field_8_r, field_9_g, field_A_b);
-    SetTPage(pPoly, static_cast<WORD>(PSX_getTPage_4F60E0(textureMode, field_B_render_mode, field_84_vram_rect.x, field_84_vram_rect.y)));
-    SetClut(pPoly, static_cast<WORD>(PSX_getClut_4F6350(field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y)));
+    SetTPage(pPoly, static_cast<u16>(PSX_getTPage_4F60E0(textureMode, field_B_render_mode, field_84_vram_rect.x, field_84_vram_rect.y)));
+    SetClut(pPoly, static_cast<u16>(PSX_getClut_4F6350(field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y)));
 
     u8 u1 = field_84_vram_rect.x & 63;
     if (textureMode == TPageMode::e8Bit_1)
@@ -900,7 +900,7 @@ void Animation::Get_Frame_Rect_409E10(PSX_RECT* pRect)
     pRect->h = std::max(max_y0_y1, max_y2_y3);
 }
 
-WORD Animation::Get_Frame_Count_40AC70()
+u16 Animation::Get_Frame_Count_40AC70()
 {
     AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
     return pHead->field_2_num_frames;

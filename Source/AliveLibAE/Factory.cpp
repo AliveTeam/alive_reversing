@@ -935,7 +935,7 @@ EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUn
                 if (pSlig)
                 {
                     tlvInfo.parts.tlvOffset +=
-                        static_cast<WORD>(
+                        static_cast<u16>(
                             reinterpret_cast<const u8*>(pTlvIter) -
                             reinterpret_cast<const u8*>(pBound));
                     pSlig->ctor_4B1370(static_cast<Path_Slig*>(pTlvIter), tlvInfo.all);

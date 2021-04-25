@@ -1127,7 +1127,7 @@ s32 CC Abe::CreateFromSaveState_44D4F0(const u8* pData)
     sActiveHero_5C1B68->field_108_next_motion = pSaveState->next_motion;
     sActiveHero_5C1B68->field_F8_LastLineYPos = FP_FromInteger(pSaveState->last_line_ypos);
     sActiveHero_5C1B68->field_110_id = pSaveState->platform_obj_id;
-    sActiveHero_5C1B68->field_120_state.raw = static_cast<WORD>(pSaveState->field_50_state);
+    sActiveHero_5C1B68->field_120_state.raw = static_cast<u16>(pSaveState->field_50_state);
     sActiveHero_5C1B68->field_124_timer = pSaveState->field_54_timer;
     sActiveHero_5C1B68->field_128.field_0_abe_timer = pSaveState->field_58_abe_timer;
     sActiveHero_5C1B68->field_128.field_4_regen_health_timer = pSaveState->field_5C_regen_health_timer;
@@ -2164,7 +2164,7 @@ s32 Abe::vGetSaveState_457110(u8* pSaveBuffer)
     pSaveState->to_camera = field_19E_to_camera;
     pSaveState->door_id = field_1A0_door_id;
     pSaveState->field_ca_throw_direction = field_1A3_throw_direction;
-    pSaveState->field_CC_portal_sub_state = static_cast<WORD>(field_1A4_portal_sub_state);
+    pSaveState->field_CC_portal_sub_state = static_cast<u16>(field_1A4_portal_sub_state);
 
     pSaveState->bElectrocuted = field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted);
     pSaveState->field_42_bInvisible = field_114_flags.Get(Flags_114::e114_Bit8_bInvisible);
@@ -9767,10 +9767,10 @@ void Abe::IntoPortalStates_451990()
             if (pBirdPortal->VAbeInsidePortal_499850())
             {
                 LevelIds level = {};
-                WORD path = 0;
-                WORD camera = 0;
+                u16 path = 0;
+                u16 camera = 0;
                 CameraSwapEffects screenChangeEffect = {};
-                WORD movieId = 0;
+                u16 movieId = 0;
 
                 pBirdPortal->VGetMapChange_499AE0(&level, &path, &camera, &screenChangeEffect, &movieId);
                 gMap_5C3030.SetActiveCam_480D30(level, path, camera, screenChangeEffect, movieId, FALSE);
