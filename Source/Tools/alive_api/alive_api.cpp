@@ -8,8 +8,6 @@
 
 #include <iostream>
 #include "JsonDocument.hpp"
-#include "AETlvs.hpp"
-#include "AOTlvs.hpp"
 #include "TypesCollection.hpp"
 #include <gmock/gmock.h>
 #include <type_traits>
@@ -259,12 +257,12 @@ namespace AliveAPI
         if (game == Game::AO)
         {
             JsonWriterAO doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-            doc.DumpTlvs(prefix, pathBnd.mPathInfo, pathBnd.mFileData);
+            doc.DebugDumpTlvs(prefix, pathBnd.mPathInfo, pathBnd.mFileData);
         }
         else
         {
             JsonWriterAE doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-            doc.DumpTlvs(prefix, pathBnd.mPathInfo, pathBnd.mFileData);
+            doc.DebugDumpTlvs(prefix, pathBnd.mPathInfo, pathBnd.mFileData);
         }
     }
 
