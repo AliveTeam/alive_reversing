@@ -24,7 +24,8 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 
 #### **Regardless of your platform, you need to create a folder called `build` in your repository root! `.gitignore` is configured to ignore this folder. This helps to prevent polluting the commits with binaries.**
 
-### Build on Windows using MSYS2 + MinGW 
+<details>
+<summary>Build on Windows using MSYS2 + MinGW</summary>
 
 1. Obtain [MSYS2](https://www.msys2.org/) and follow the installation instructions on the main page
 
@@ -32,15 +33,25 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 
 3. Open a MinGW x64 shell and `cd build && cmake .. -G"MinGW Makefiles" && make -j$(nproc)`
 
-### Build on Windows using `msbuild`
+</details>
+  
+  
+
+<details>
+<summary>Build on Windows using `msbuild`</summary>
 
 [SDL](https://libsdl.org/download-2.0.php) and [CMake](https://cmake.org/) is required to build the project.
 
 1. `cd build`
 2. `cmake -S .. -B . -DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY`
 3. `msbuild /p:Configuration=Debug;Platform=Win32 relive.sln /m`
+4. 
+</details>
 
-### Build on Windows using Visual Studio 2017
+
+
+<details>
+<summary>Build on Windows using Visual Studio 2017</summary>
 
 [SDL](https://libsdl.org/download-2.0.php) is required to build the project.
 
@@ -50,8 +61,12 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 4. Choose `x86-debug` and click `select`.
 5. This will open `CMakeSettings.json`, edit the line `cmakeCommandArgs` to contain `-DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY`, set your build directory to `build` and then click `generate` in the top yellow warning bar.
 6. Invoke `CMake` -> `Build all` to build the project.
+7. 
+</details>
 
-### Build on Linux
+
+<details>
+<summary>Build on Linux</summary>
 
 1. Install SDL2 using your package manager.
 2. `cd build`
@@ -59,6 +74,8 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 4. `make -j$(nproc)`
 5. You'll find your executables in the `Source` folder under `AliveExe`.
 6. You can optionally install the package using `make install` or create a Debian-compatible package using `cpack -G DEB`.
+
+</details>
 
 ## Testing
 
