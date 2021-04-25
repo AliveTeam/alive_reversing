@@ -280,13 +280,26 @@ void PauseMenu::VUpdate_44DFB0()
                         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
                     }
 
-                    if (Input().IsAnyHeld(
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Pause Menu controls like PS1
+                    if (Input().IsAnyHeld(InputCommands::ePause))
+                    {
+                        field_11C = 0;
+                        SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
+                        SND_Restart_476340();
+                        break;
+                    }
+
+                    const bool optionClicked = Input().IsAnyHeld(InputCommands::eUnPause_OrConfirm);
+#else
+                    const bool optionClicked = Input().IsAnyHeld(
                         InputCommands::eHop |
                         InputCommands::eThrowItem |
                         InputCommands::eUnPause_OrConfirm |
                         InputCommands::eDoAction |
                         InputCommands::eBack
-                    ))
+                    )
+#endif
+                    if (optionClicked)
                     {
                         switch (field_124)
                         {
