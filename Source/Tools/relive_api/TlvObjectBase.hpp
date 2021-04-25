@@ -21,6 +21,35 @@
 
 #define COPY_TLV() if (pTlv) { mTlv = *reinterpret_cast<decltype(&mTlv)>(pTlv); }
 
+// Defined here as it depends on a full definition of PropertyCollection
+template <class T>
+void TypedProperty<T>::Read(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties)
+{
+    if constexpr (std::is_enum<T>::value)
+    {
+        propertyCollection.ReadEnumValue(types, *m_data, properties);
+    }
+    else
+    {
+        propertyCollection.ReadBasicType(*m_data, properties);
+        (void)types; // statically compiled out in this branch
+    }
+}
+
+template <class T>
+void TypedProperty<T>::Write(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties)
+{
+    if constexpr (std::is_enum<T>::value)
+    {
+        propertyCollection.WriteEnumValue(types, properties, *m_data);
+    }
+    else
+    {
+        propertyCollection.WriteBasicType(*m_data, properties);
+        (void)types; // statically compiled out in this branch
+    }
+}
+
 class TlvObjectBase : public PropertyCollection
 {
 public:
