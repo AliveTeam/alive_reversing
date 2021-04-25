@@ -36,7 +36,7 @@ ALIVE_VAR(1, 0x50771C, s16, sDDCheat_FlyingEnabled_50771C, 0);
 
 using TDDCheatFn = decltype(&DDCheat::Teleport_409CE0);
 
-const TDDCheatFn off_4C3150[] = 
+const TDDCheatFn off_4C3150[] =
 {
     &DDCheat::Teleport_409CE0,
     &DDCheat::Misc_409E90
@@ -143,7 +143,7 @@ void DDCheat::ScreenShot_409720()
     if (pixelBuffer)
     {
         s8 fileNameBuffer[16] = {};
-        sprintf(fileNameBuffer, "SD%06ld.TGA", gnFrameCount_507670 % 1000000);
+        sprintf(fileNameBuffer, "SD%06ld.TGA", static_cast<long int>(gnFrameCount_507670 % 1000000));
         const auto fileHandle = fopen(fileNameBuffer, "wb");
         if (!fileHandle)
         {
