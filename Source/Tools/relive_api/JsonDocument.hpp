@@ -5,7 +5,8 @@
 #include <jsonxx/jsonxx.h>
 #include "../AliveLibAO/Collisions.hpp"
 #include "../AliveLibAE/Collisions.hpp"
-#include "TypesCollection.hpp"
+#include "TypesCollectionAO.hpp"
+#include "TypesCollectionAE.hpp"
 
 enum class TlvTypes : s16;
 

@@ -1,5 +1,5 @@
 #include "../AliveLibCommon/stdafx_common.h"
-#include "TypesCollection.hpp"
+#include "TypesCollectionAO.hpp"
 #include "AOTlvs.hpp"
 #include "../AliveLibAO/SwitchStates.hpp"
 #include "../AliveLibAO/PathData.hpp"

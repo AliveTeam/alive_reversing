@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include "JsonDocument.hpp"
-#include "TypesCollection.hpp"
+#include "TypesCollectionBase.hpp"
 #include <gmock/gmock.h>
 #include <type_traits>
 #include <typeindex>

@@ -84,13 +84,13 @@ static jsonxx::Object ReadObject(jsonxx::Object& o, const std::string& key)
     return o.get<jsonxx::Object>(key);
 }
 
-static int ReadNumber(jsonxx::Object& o, const std::string& key)
+static s32 ReadNumber(jsonxx::Object& o, const std::string& key)
 {
     if (!o.has<jsonxx::Number>(key))
     {
         throw ReliveAPI::JsonKeyNotFoundException(key);
     }
-    return static_cast<int>(o.get<jsonxx::Number>(key));
+    return static_cast<s32>(o.get<jsonxx::Number>(key));
 }
 
 static std::string ReadString(jsonxx::Object& o, const std::string& key)
