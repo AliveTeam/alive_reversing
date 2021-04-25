@@ -278,7 +278,7 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
                     if (!RunningAsInjectedDll())
                     {
                         u8* ptr = &reinterpret_cast<u8*>(pExportedFunctionAddress)[i + 4];
-                        u32 old = 0;
+                        DWORD old = 0;
                         if (!::VirtualProtect(ptr, 1, PAGE_EXECUTE_READWRITE, &old))
                         {
                             HOOK_FATAL("Failed to make memory writable");
