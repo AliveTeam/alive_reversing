@@ -21,7 +21,6 @@
 
 namespace {
 
-using namespace std::literals::string_literals;
 using namespace std::literals::string_view_literals;
 
 constexpr std::string_view kAEDir = "C:\\GOG Games\\Abes Exoddus\\"sv;

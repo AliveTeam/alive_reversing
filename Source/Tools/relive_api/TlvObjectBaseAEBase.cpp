@@ -32,14 +32,14 @@ TlvObjectBaseAEBase::TlvObjectBaseAEBase(std::size_t sizeOfT, TypesCollectionBas
         std::abort();
     }
 
-    TLVOBJECTBASE_ADD("xpos", mPSelfTlv->field_8_top_left.field_0_x);
-    TLVOBJECTBASE_ADD("ypos", mPSelfTlv->field_8_top_left.field_2_y);
+    ADD("xpos", mPSelfTlv->field_8_top_left.field_0_x);
+    ADD("ypos", mPSelfTlv->field_8_top_left.field_2_y);
 
     mPSelfTlv->field_C_bottom_right.field_0_x -= mPSelfTlv->field_8_top_left.field_0_x;
     mPSelfTlv->field_C_bottom_right.field_2_y -= mPSelfTlv->field_8_top_left.field_2_y;
 
-    TLVOBJECTBASE_ADD("width", mPSelfTlv->field_C_bottom_right.field_0_x);
-    TLVOBJECTBASE_ADD("height", mPSelfTlv->field_C_bottom_right.field_2_y);
+    ADD("width", mPSelfTlv->field_C_bottom_right.field_0_x);
+    ADD("height", mPSelfTlv->field_C_bottom_right.field_2_y);
 }
 
 void TlvObjectBaseAEBase::InstanceFromJsonBase(jsonxx::Object& obj)

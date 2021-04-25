@@ -61,16 +61,16 @@ public:
             mLine = *line;
         }
 
-        TLVOBJECTBASE_ADD("x1", mLine.field_0_rect.x);
-        TLVOBJECTBASE_ADD("y1", mLine.field_0_rect.y);
+        ADD("x1", mLine.field_0_rect.x);
+        ADD("y1", mLine.field_0_rect.y);
 
-        TLVOBJECTBASE_ADD("x2", mLine.field_0_rect.w);
-        TLVOBJECTBASE_ADD("y2", mLine.field_0_rect.h);
+        ADD("x2", mLine.field_0_rect.w);
+        ADD("y2", mLine.field_0_rect.h);
 
-        TLVOBJECTBASE_ADD("type", mLine.field_8_type);
+        ADD("type", mLine.field_8_type);
 
-        TLVOBJECTBASE_ADD("next", mLine.field_10_next);
-        TLVOBJECTBASE_ADD("previous", mLine.field_C_previous);
+        ADD("next", mLine.field_10_next);
+        ADD("previous", mLine.field_C_previous);
     }
 
     AO::PathLine mLine = {};
@@ -86,21 +86,21 @@ public:
             mLine = *line;
         }
 
-        TLVOBJECTBASE_ADD("x1", mLine.field_0_rect.x);
-        TLVOBJECTBASE_ADD("y1", mLine.field_0_rect.y);
+        ADD("x1", mLine.field_0_rect.x);
+        ADD("y1", mLine.field_0_rect.y);
 
-        TLVOBJECTBASE_ADD("x2", mLine.field_0_rect.w);
-        TLVOBJECTBASE_ADD("y2", mLine.field_0_rect.h);
+        ADD("x2", mLine.field_0_rect.w);
+        ADD("y2", mLine.field_0_rect.h);
 
-        TLVOBJECTBASE_ADD("type", mLine.field_8_type);
+        ADD("type", mLine.field_8_type);
 
-        TLVOBJECTBASE_ADD("next", mLine.field_C_next);
-        TLVOBJECTBASE_ADD("previous", mLine.field_A_previous);
+        ADD("next", mLine.field_C_next);
+        ADD("previous", mLine.field_A_previous);
 
-        TLVOBJECTBASE_ADD("next2", mLine.field_10_next2);
-        TLVOBJECTBASE_ADD("previous2", mLine.field_E_previous2);
+        ADD("next2", mLine.field_10_next2);
+        ADD("previous2", mLine.field_E_previous2);
 
-        TLVOBJECTBASE_ADD("length", mLine.field_12_line_length);
+        ADD("length", mLine.field_12_line_length);
     }
 
     PathLine mLine = {};
