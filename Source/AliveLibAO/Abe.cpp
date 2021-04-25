@@ -4323,6 +4323,11 @@ void Abe::State_2_StandingTurn_426040()
         if (Input().IsAnyPressed(sInputKey_Run_4C65A8) &&
             Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
         {
+
+#if ORIGINAL_GAME_FIXES || ORIGINAL_GAME_FIX_AUTO_TURN
+            field_FE_next_state = eAbeStates::State_0_Idle_423520; // OG Change - Fixes "Auto-Turn" bug
+#endif
+
             field_FC_current_motion = eAbeStates::State_63_TurnToRun_42A0A0;
             field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
 
