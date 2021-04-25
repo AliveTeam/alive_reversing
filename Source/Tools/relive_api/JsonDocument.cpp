@@ -2,6 +2,7 @@
 
 #include "relive_api.hpp"
 #include "TlvObjectBase.hpp"
+#include "TlvObjectBaseMacros.hpp"
 #include "TypesCollectionAO.hpp"
 #include "TypesCollectionAE.hpp"
 

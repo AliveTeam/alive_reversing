@@ -1,6 +1,6 @@
 #include "TlvFactory.hpp"
 
-#include "TlvObjectBase.cpp"
+#include "TlvObjectBase.hpp"
 
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAO/Map.hpp"

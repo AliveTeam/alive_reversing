@@ -13,11 +13,8 @@
 
 class PropertyCollection
 {
-public:
-    virtual ~PropertyCollection() { }
-
-    template<typename PropertyType>
-    void AddProperty(const std::string& name, const std::string& typeName, PropertyType* key, bool visibleInEditor)
+private:
+    void ThrowOnAddPropertyError(const std::string& name, const std::string& typeName, void* key, bool visibleInEditor)
     {
         if (name.empty())
         {
@@ -31,7 +28,7 @@ public:
 
         for (const auto&[keyIt, valueIt] : mProperties)
         {
-            if (keyIt == key)
+            if (static_cast<void*>(keyIt) == key)
             {
                 throw ReliveAPI::DuplicatePropertyKeyException();
             }
@@ -41,8 +38,18 @@ public:
                 throw ReliveAPI::DuplicatePropertyNameException(name.c_str());
             }
         }
+    }
 
-        mProperties[key] = std::make_unique<TypedProperty<PropertyType>>(name, typeName, visibleInEditor, key);
+public:
+    virtual ~PropertyCollection() { }
+
+    template<typename PropertyType>
+    void AddProperty(const std::string& name, const std::string& typeName, void* key, bool visibleInEditor)
+    {
+        ThrowOnAddPropertyError(name, typeName, key, visibleInEditor);
+
+        // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
+        mProperties[key].reset(new TypedProperty<PropertyType>(name, typeName, visibleInEditor, static_cast<PropertyType*>(key)));
     }
 
     [[nodiscard]] std::string PropType(void* key) const;

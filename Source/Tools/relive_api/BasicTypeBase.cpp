@@ -10,7 +10,6 @@
 BasicTypeBase::BasicTypeBase(const std::type_index& typeIndex, const std::string& typeName, s32 minVal, s32 maxVal)
     : ITypeBase(typeName), mTypeIndex(typeIndex), mMinVal(minVal), mMaxVal(maxVal)
 {
-
 }
 
 [[nodiscard]] const std::type_index& BasicTypeBase::TypeIndex() const

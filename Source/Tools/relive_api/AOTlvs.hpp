@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TlvObjectBaseAO.hpp"
+#include "TlvObjectBaseMacros.hpp"
 
 #include "../AliveLibAO/HoistRocksEffect.hpp"
 #include "../AliveLibAO/Abe.hpp"

@@ -50,7 +50,7 @@ TypesCollectionBase::~TypesCollectionBase() = default;
     return ret;
 }
 
-[[nodiscard]] std::string TypesCollectionBase::TypeName(std::type_index typeIndex) const
+[[nodiscard]] const std::string& TypesCollectionBase::TypeName(const std::type_index& typeIndex) const
 {
     for (const auto& e : mTypes)
     {
@@ -60,5 +60,5 @@ TypesCollectionBase::~TypesCollectionBase() = default;
         }
     }
 
-    return "";
+    return mEmptyStr;
 }

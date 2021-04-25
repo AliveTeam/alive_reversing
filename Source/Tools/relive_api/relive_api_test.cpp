@@ -14,8 +14,9 @@
 
 #include <array>
 #include <memory>
-#include <string>
+#include <sstream>
 #include <string_view>
+#include <string>
 #include <vector>
 
 namespace {
@@ -60,14 +61,25 @@ constexpr std::array kAOLvls
     "s1.lvl"sv
 };
 
+template <typename... Ts>
+[[nodiscard]] std::string concat(const Ts&... xs)
+{
+    static std::ostringstream oss;
+    oss.str("");
+
+    (oss << ... << xs);
+
+    return oss.str();
+}
+
 [[nodiscard]] std::string AEPath(std::string_view fileName)
 {
-    return std::string{kAEDir} + fileName;
+    return concat(kAEDir, fileName);
 }
 
 [[nodiscard]] std::string AOPath(std::string_view fileName)
 {
-    return std::string{kAODir} + fileName;
+    return concat(kAODir, fileName);
 }
 
 TEST(alive_api, ExportPathBinaryToJsonAE)
@@ -127,11 +139,11 @@ TEST(alive_api, ReSaveAllPathsAO)
 
         for (s32 path : ret.paths)
         {
-            const std::string jsonName = "OutputAO_" + lvl + "_" + std::to_string(path) + ".json";
+            const std::string jsonName = concat("OutputAO_", lvl, '_', path, ".json");
             LOG_INFO("Save " << jsonName);
             ReliveAPI::ExportPathBinaryToJson(jsonName, AOPath(lvl), path);
 
-            const std::string lvlName = "OutputAO_" + lvl + "_" + std::to_string(path) + ".lvl";
+            const std::string lvlName = concat("OutputAO_", lvl, '_', path, ".lvl");
             LOG_INFO("Resave " << lvlName);
             ReliveAPI::ImportPathJsonToBinary(jsonName, AOPath(lvl), lvlName, {});
 
@@ -158,11 +170,11 @@ TEST(alive_api, ReSaveAllPathsAE)
 
         for (s32 path : ret.paths)
         {
-            const std::string jsonName = "OutputAE_" + lvl + "_" + std::to_string(path) + ".json";
+            const std::string jsonName = concat("OutputAE_", lvl, '_', path, ".json");
             LOG_INFO("Save " << jsonName);
             ReliveAPI::ExportPathBinaryToJson(jsonName, AEPath(lvl), path);
 
-            const std::string lvlName = "OutputAE_" + lvl + "_" + std::to_string(path) + ".lvl";
+            const std::string lvlName = concat("OutputAE_", lvl, '_', path, ".lvl");
             LOG_INFO("Resave " << lvlName);
             ReliveAPI::ImportPathJsonToBinary(jsonName, AEPath(lvl), lvlName, {});
 
@@ -194,8 +206,8 @@ TEST(alive_api, tlv_reflection)
     std::unique_ptr<TlvObjectBase> pHoist = types.MakeTlvAO(AO::TlvTypes::Hoist_3, &tlv, 99);
 
     auto obj = pHoist->InstanceToJson(types);
-    pHoist->InstanceFromJson(types, obj);
-    pHoist->StructureToJson();
+    (void) pHoist->InstanceFromJson(types, obj); // TODO: check return value?
+    (void) pHoist->StructureToJson(); // TODO: check return value?
     ASSERT_EQ(pHoist->InstanceNumber(), 99);
 }
 
@@ -245,6 +257,8 @@ private:
     std::vector<std::string> mArgs;
 };
 
+}
+
 s32 main(s32 argc, s8* argv[])
 {
     ArgsAdapter args(argc, argv);
@@ -258,4 +272,3 @@ s32 main(s32 argc, s8* argv[])
     return ret;
 }
 
-}

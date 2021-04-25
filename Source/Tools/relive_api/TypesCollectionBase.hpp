@@ -35,10 +35,10 @@ public:
 
     [[nodiscard]] jsonxx::Array EnumsToJson() const;
     [[nodiscard]] jsonxx::Array BasicTypesToJson() const;
-    [[nodiscard]] std::string TypeName(std::type_index typeIndex) const;
+    [[nodiscard]] const std::string& TypeName(const std::type_index& typeIndex) const;
 
     template<class T>
-    [[nodiscard]] std::string TypeName() const
+    [[nodiscard]] const std::string& TypeName() const
     {
         return TypeName(typeid(T));
     }
@@ -60,19 +60,20 @@ public:
             throw ReliveAPI::DuplicateEnumNameException(enumName.c_str());
         }
 
-        auto newEnum = std::make_unique<EnumType<T>>(enumName);
+        // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
+        auto* newEnum = new EnumType<T>(enumName);
         for (const auto& enumItem : enumItems)
         {
             newEnum->Add(enumItem.mEnumValue, enumItem.mName);
         }
 
-        const auto ret = newEnum.get();
-        mTypes.push_back(std::move(newEnum));
-        return ret;
+        // `static_cast` to avoid unnecessary instantiations.
+        mTypes.emplace_back(static_cast<ITypeBase*>(newEnum));
+        return newEnum;
     }
 
     template<class T>
-    T EnumValueFromString(const std::string& enumTypeName, const std::string& enumValueString)
+    [[nodiscard]] T EnumValueFromString(const std::string& enumTypeName, const std::string& enumValueString)
     {
         for (const auto& e : mTypes)
         {
@@ -86,7 +87,7 @@ public:
     }
 
     template<class T>
-    std::string EnumValueToString(T enumValue)
+    [[nodiscard]] std::string EnumValueToString(T enumValue)
     {
         for (const auto& e : mTypes)
         {
@@ -108,13 +109,15 @@ public:
             return nullptr;
         }
 
-        auto newType = std::make_unique<BasicType<T>>(typeName, minVal, maxVal);
+        // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
+        auto* newType = new BasicType<T>(typeName, minVal, maxVal);
 
-        const auto ret = newType.get();
-        mTypes.push_back(std::move(newType));
-        return ret;
+        // `static_cast` to avoid unnecessary instantiations.
+        mTypes.emplace_back(static_cast<ITypeBase*>(newType));
+        return newType;
     }
 
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
+    const std::string mEmptyStr;
 };

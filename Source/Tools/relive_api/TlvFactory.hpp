@@ -2,7 +2,6 @@
 
 #include "../AliveLibCommon/Types.hpp"
 
-#include <functional>
 #include <map>
 #include <memory>
 #include <string>
@@ -13,11 +12,21 @@ class TlvObjectBase;
 class TypesCollectionBase;
 
 template<class TlvType>
-using FnTlvFactory = std::function<std::unique_ptr<TlvObjectBase>(TypesCollectionBase&, TlvType*, s32)>;
+using FnTlvFactory = std::unique_ptr<TlvObjectBase>(*)(TypesCollectionBase&, TlvType*, s32);
 
 template<typename TlvEnumType, typename PathTlvType>
 class TlvFactory
 {
+private:
+    template<typename TlvWrapperType>
+    [[nodiscard]] static std::unique_ptr<TlvObjectBase> fnCreate(TypesCollectionBase& types, PathTlvType* pTlv, s32 instanceCount)
+    {
+        // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
+        auto* ret = new TlvWrapperType(types, pTlv);
+        ret->SetInstanceNumber(instanceCount);
+        return std::unique_ptr<TlvObjectBase>{static_cast<TlvObjectBase*>(ret)};
+    }
+
 public:
     [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvByEnum(TypesCollectionBase& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, s32 instanceCount);
     [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvByName(TypesCollectionBase& typesCollection, const std::string& tlvTypeName, PathTlvType* pTlv);
@@ -32,15 +41,7 @@ public:
 
         const TlvEnumType tlvType = tmp.TlvType();
 
-        auto fnCreate = [](TypesCollectionBase& types, PathTlvType* pTlv, s32 instanceCount)
-        {
-            auto ret = std::make_unique<TlvWrapperType>(types, pTlv);
-            ret->SetInstanceNumber(instanceCount);
-            return ret;
-        };
-
-        mReverseTlvFactory[tmp.Name()] = fnCreate;
-        mTlvFactory[tlvType] = fnCreate;
+        mReverseTlvFactory[tmp.Name()] = mTlvFactory[tlvType] = &fnCreate<TlvWrapperType>;
     }
 
     std::map<TlvEnumType, FnTlvFactory<PathTlvType>> mTlvFactory;
