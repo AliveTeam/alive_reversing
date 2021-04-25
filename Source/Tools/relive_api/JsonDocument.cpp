@@ -11,6 +11,31 @@
 #include <magic_enum/include/magic_enum.hpp>
 #include "TlvObjectBase.hpp"
 
+[[nodiscard]] jsonxx::Object CameraObject::ToJsonObject(jsonxx::Array mapObjectsArray) const
+{
+    jsonxx::Object obj;
+
+    obj << "name" << mName;
+    obj << "x" << mX;
+    obj << "y" << mY;
+    obj << "id" << mId;
+    obj << "map_objects" << mapObjectsArray;
+
+    return obj;
+}
+
+[[nodiscard]] std::size_t CameraNameAndTlvBlob::TotalTlvSize() const
+{
+    std::size_t allTlvsLen = 0;
+
+    for (const auto& tlv : mTlvBlobs)
+    {
+        allTlvsLen += tlv.size();
+    }
+
+    return allTlvsLen;
+}
+
 class AOLine final : public PropertyCollection
 {
 public:
@@ -324,7 +349,7 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
             }
         }
     }
-    
+
     return mapObjects;
 }
 
@@ -533,7 +558,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
             LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type.mType);
         }
 
-        pPathTLV = Path::Next_TLV_4DB6A0(pPathTLV); // TODO: Will skip the last entry ?? 
+        pPathTLV = Path::Next_TLV_4DB6A0(pPathTLV); // TODO: Will skip the last entry ??
     }
 
     return mapObjects;

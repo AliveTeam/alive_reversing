@@ -59,3 +59,46 @@ std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(const std::string& tlv
 {
     return mTlvFactoryAO.MakeTlvByName(*this, tlvTypeName, pTlv);
 }
+
+[[nodiscard]] jsonxx::Array TypesCollection::EnumsToJson() const
+{
+    jsonxx::Array ret;
+
+    for (const auto& basicType : mTypes)
+    {
+        if (!basicType->IsBasicType())
+        {
+            basicType->ToJson(ret);
+        }
+    }
+
+    return ret;
+}
+
+[[nodiscard]] jsonxx::Array TypesCollection::BasicTypesToJson() const
+{
+    jsonxx::Array ret;
+
+    for (const auto& basicType : mTypes)
+    {
+        if (basicType->IsBasicType())
+        {
+            basicType->ToJson(ret);
+        }
+    }
+
+    return ret;
+}
+
+[[nodiscard]] std::string TypesCollection::TypeName(std::type_index typeIndex) const
+{
+    for (const auto& e : mTypes)
+    {
+        if (e->TypeIndex() == typeIndex)
+        {
+            return e->Name();
+        }
+    }
+
+    return "";
+}

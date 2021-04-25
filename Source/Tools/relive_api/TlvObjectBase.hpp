@@ -22,7 +22,6 @@
 
 class BaseProperty;
 
-
 template<typename T>
 class TypedProperty : public BaseProperty
 {
@@ -72,40 +71,9 @@ public:
         mProperties[key] = std::make_unique<TypedProperty<PropertyType>>(name, typeName, visibleInEditor, key);
     }
 
-    std::string PropType(void* key) const
-    {
-        auto it = mProperties.find(key);
-        if (it == std::end(mProperties))
-        {
-            throw ReliveAPI::PropertyNotFoundException();
-        }
-        return it->second->TypeName();
-    }
-
-    jsonxx::Array PropertiesToJson() const
-    {
-        jsonxx::Array ret;
-        for (const auto& [key, value] : mProperties)
-        {
-            jsonxx::Object property;
-            property << "Type" << value->TypeName();
-            property << "Visible" << value->IsVisibleToEditor();
-            property << "name" << value->Name();
-            ret << property;
-        }
-        return ret;
-    }
-
-    std::string PropName(void* key) const
-    {
-        auto it = mProperties.find(key);
-        if (it == std::end(mProperties))
-        {
-            throw ReliveAPI::PropertyNotFoundException();
-        }
-        return it->second->Name();
-    }
-
+    [[nodiscard]] std::string PropType(void* key) const;
+    [[nodiscard]] jsonxx::Array PropertiesToJson() const;
+    [[nodiscard]] std::string PropName(void* key) const;
 
     template<class T>
     void ReadEnumValue(TypesCollection& types, T& field, jsonxx::Object& properties)
@@ -150,64 +118,25 @@ protected:
 class TlvObjectBase : public PropertyCollection
 {
 public:
-    TlvObjectBase(const std::string& typeName)
-        : mStructTypeName(typeName)
-    {
+    TlvObjectBase(const std::string& typeName);
 
-    }
-
-    virtual void AddTypes(TypesCollection& /*types*/)
-    {
-        // Default empty to prevent having to explicitly implement in every TLV wrapper
-    }
+    virtual void AddTypes(TypesCollection& /*types*/);
 
     virtual s16 TlvLen() const = 0;
     virtual std::vector<u8> GetTlvData(bool setTerminationFlag) = 0;
 
-    void SetInstanceNumber(s32 instanceNumber)
-    {
-        mInstanceNumber = instanceNumber;
-    }
+    void SetInstanceNumber(s32 instanceNumber);
 
-    std::string Name() const
-    {
-        return mStructTypeName;
-    }
+    [[nodiscard]] const std::string& Name() const;
+    [[nodiscard]] jsonxx::Object StructureToJson();
 
-    jsonxx::Object StructureToJson()
-    {
-        jsonxx::Object ret;
-        ret << "name" << Name();
-        ret << "enum_and_basic_type_properties" << PropertiesToJson();
-        return ret;
-    }
-
-    void InstanceFromJson(TypesCollection& types, jsonxx::Object& obj)
-    {
-        jsonxx::Object properties = obj.get<jsonxx::Object>("properties");
-        PropertiesFromJson(types, properties);
-        InstanceFromJsonBase(obj);
-    }
-
-    jsonxx::Object InstanceToJson(TypesCollection& types)
-    {
-        jsonxx::Object ret;
-        InstanceToJsonBase(ret);
-
-        jsonxx::Object properties;
-        PropertiesToJson(types, properties);
-        ret << "properties" << properties;
-
-        return ret;
-    }
+    void InstanceFromJson(TypesCollection& types, jsonxx::Object& obj);
+    [[nodiscard]]jsonxx::Object InstanceToJson(TypesCollection& types);
 
     virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
     virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
 
-    s32 InstanceNumber() const
-    {
-        return mInstanceNumber;
-    }
+    [[nodiscard]] s32 InstanceNumber() const;
 
 protected:
     std::string mStructTypeName;
@@ -241,7 +170,6 @@ void TypedProperty<T>::Write(PropertyCollection& propertyCollection, TypesCollec
         (void)types; // statically compiled out in this branch
     }
 }
-
 
 template<class T>
 class TlvObjectBaseAE : public TlvObjectBase

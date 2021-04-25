@@ -7,6 +7,12 @@
 #include "../AliveLibAE/Path.hpp"
 #include <magic_enum/include/magic_enum.hpp>
 
+#include <functional>
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
+
 class TlvObjectBase;
 
 enum class Game
@@ -88,55 +94,14 @@ public:
     std::unique_ptr<TlvObjectBase> MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, s32 instanceCount);
     std::unique_ptr<TlvObjectBase> MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv);
 
-    jsonxx::Array EnumsToJson() const
-    {
-        jsonxx::Array ret;
-        for (const auto& basicType : mTypes)
-        {
-            if (!basicType->IsBasicType())
-            {
-                basicType->ToJson(ret);
-            }
-        }
-        return ret;
-    }
-
-    jsonxx::Array BasicTypesToJson() const
-    {
-        jsonxx::Array ret;
-        for (const auto& basicType : mTypes)
-        {
-            if (basicType->IsBasicType())
-            {
-                basicType->ToJson(ret);
-            }
-        }
-        return ret;
-    }
-
-    std::string TypeName(std::type_index typeIndex) const
-    {
-        for (const auto& e : mTypes)
-        {
-            if (e->TypeIndex() == typeIndex)
-            {
-                return e->Name();
-            }
-        }
-        return "";
-    }
+    [[nodiscard]] jsonxx::Array EnumsToJson() const;
+    [[nodiscard]] jsonxx::Array BasicTypesToJson() const;
+    [[nodiscard]] std::string TypeName(std::type_index typeIndex) const;
 
     template<class T>
-    std::string TypeName() const
+    [[nodiscard]] std::string TypeName() const
     {
-        for (const auto& e : mTypes)
-        {
-            if (e->TypeIndex() == typeid(T))
-            {
-                return e->Name();
-            }
-        }
-        return "";
+        return TypeName(typeid(T));
     }
 
     template<class T>
@@ -149,7 +114,6 @@ public:
     template<class T>
     EnumType<T>* AddEnum(const std::string& enumName, const std::vector<EnumPair<T>>& enumItems)
     {
-        EnumType<T>* ret = nullptr;
         if (!TypeName<T>().empty())
         {
             // Type already exists
@@ -162,7 +126,8 @@ public:
         {
             newEnum->Add(enumItem.mEnumValue, enumItem.mName);
         }
-        ret = newEnum.get();
+
+        const auto ret = newEnum.get();
         mTypes.push_back(std::move(newEnum));
         return ret;
     }
@@ -177,6 +142,7 @@ public:
                 return static_cast<EnumType<T>*>(e.get())->ValueFromString(enumValueString);
             }
         }
+
         throw ReliveAPI::UnknownEnumValueException(enumValueString.c_str());
     }
 
@@ -190,25 +156,25 @@ public:
                 return static_cast<EnumType<T>*>(e.get())->ValueToString(enumValue);
             }
         }
+
         throw ReliveAPI::UnknownEnumValueException();
     }
 
     template<class T>
     BasicType<T>* AddBasicType(const std::string& typeName, s32 minVal, s32 maxVal)
     {
-        BasicType<T>* ret = nullptr;
         if (!TypeName<T>().empty())
         {
             // Type already exists
-            return ret;
+            return nullptr;
         }
 
         auto newType = std::make_unique<BasicType<T>>(typeName, minVal, maxVal);
-        ret = newType.get();
+
+        const auto ret = newType.get();
         mTypes.push_back(std::move(newType));
         return ret;
     }
-
 
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
