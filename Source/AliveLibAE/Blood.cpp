@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "PsxDisplay.hpp"
 
-BaseGameObject* Blood::VDestructor(signed int flags)
+BaseGameObject* Blood::VDestructor(s32 flags)
 {
     return vDtor_40F5A0(flags);
 }
@@ -27,7 +27,7 @@ void Blood::VScreenChanged()
     vScreenChanged_40FAD0();
 }
 
-Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 count)
+Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     
@@ -35,7 +35,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
 
     field_CC_sprite_scale = scale;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBloodropResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBloodropResID);
     Animation_Init_424E10(308, 11, 7, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
@@ -82,7 +82,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
             field_11C_texture_mode = TPageMode::e4Bit_0;
         }
 
-        BYTE u0 = field_20_animation.field_84_vram_rect.x & 63;
+        u8 u0 = field_20_animation.field_84_vram_rect.x & 63;
         if (field_11C_texture_mode == TPageMode::e8Bit_1)
         {
             u0 = 2 * u0;
@@ -92,18 +92,18 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
             u0 = 4 * u0;
         }
 
-        BYTE v0 = field_20_animation.field_84_vram_rect.y & 0xFF;
+        u8 v0 = field_20_animation.field_84_vram_rect.y & 0xFF;
 
         FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]);
 
-        const short frameW = pFrameHeader->field_4_width;
-        const short frameH = pFrameHeader->field_5_height;
+        const s16 frameW = pFrameHeader->field_4_width;
+        const s16 frameH = pFrameHeader->field_5_height;
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-        for (int i = 0; i < field_126_total_count; i++)
+        for (s32 i = 0; i < field_126_total_count; i++)
         {
-            for (int j = 0; j < 2; j++)
+            for (s32 j = 0; j < 2; j++)
             {
                 BloodParticle* pParticle = &field_F8_pResBuf[i];
                 Prim_Sprt* pSprt = &pParticle->field_10_prims[j];
@@ -121,7 +121,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
                 }
 
                 SetClut(pSprt,
-                    static_cast<short>(
+                    static_cast<s16>(
                         PSX_getClut_4F6350(
                             field_20_animation.field_8C_pal_vram_xy.field_0_x,
                             field_20_animation.field_8C_pal_vram_xy.field_2_y)));
@@ -133,8 +133,8 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
         }
 
         // Has its own random seed based on the frame counter.. no idea why
-        field_124_rand_seed = static_cast<BYTE>(sGnFrame_5C1B84);
-        for (int i = 0; i < field_122_to_render_count; i++)
+        field_124_rand_seed = static_cast<u8>(sGnFrame_5C1B84);
+        for (s32 i = 0; i < field_122_to_render_count; i++)
         {
             field_F8_pResBuf[i].field_0_x = FP_FromInteger(field_11E_xpos);
             field_F8_pResBuf[i].field_4_y = FP_FromInteger(field_120_ypos);
@@ -166,7 +166,7 @@ void Blood::dtor_40F5D0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-BaseGameObject* Blood::vDtor_40F5A0(signed int flags)
+BaseGameObject* Blood::vDtor_40F5A0(s32 flags)
 {
     dtor_40F5D0();
     if (flags & 1)
@@ -192,7 +192,7 @@ void Blood::vUpdate_40F650()
             return;
         }
 
-        for (int i=0; i<field_122_to_render_count; i++)
+        for (s32 i=0; i<field_122_to_render_count; i++)
         {
             field_F8_pResBuf[i].field_C_offy += FP_FromDouble(1.8);
 
@@ -219,12 +219,12 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
         PSX_Point xy = { 32767, 32767 };
         PSX_Point wh = { -32767, -32767 };
 
-        for (int i = 0; i < field_122_to_render_count; i++)
+        for (s32 i = 0; i < field_122_to_render_count; i++)
         {
             BloodParticle* pParticle = &field_F8_pResBuf[i];
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay_5C1130.field_C_buffer_index];
 
-            BYTE u0 = field_20_animation.field_84_vram_rect.x & 63;
+            u8 u0 = field_20_animation.field_84_vram_rect.x & 63;
             if (field_11C_texture_mode == TPageMode::e8Bit_1)
             {
                 u0 *= 2;
@@ -234,7 +234,7 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
                 u0 *= 4;
             }
             
-            SetUV0(pSprt, u0, static_cast<BYTE>(field_20_animation.field_84_vram_rect.y));
+            SetUV0(pSprt, u0, static_cast<u8>(field_20_animation.field_84_vram_rect.y));
 
             FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(
                 &(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]
@@ -243,8 +243,8 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
             pSprt->field_14_w = pFrameHeader->field_4_width - 1;
             pSprt->field_16_h = pFrameHeader->field_5_height - 1;
 
-            const short x0 = PsxToPCX(FP_GetExponent(pParticle->field_0_x));
-            const short y0 = FP_GetExponent(pParticle->field_4_y);
+            const s16 x0 = PsxToPCX(FP_GetExponent(pParticle->field_0_x));
+            const s16 y0 = FP_GetExponent(pParticle->field_4_y);
 
             SetXY0(pSprt, x0, y0);
 
@@ -262,14 +262,14 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
             wh.field_2_y = std::max(y0, wh.field_2_y);
         }
         
-        const int tpage = PSX_getTPage_4F60E0(
+        const s32 tpage = PSX_getTPage_4F60E0(
             field_11C_texture_mode,
             TPageAbr::eBlend_0,
             field_20_animation.field_84_vram_rect.x,
             field_20_animation.field_84_vram_rect.y);
 
         Prim_SetTPage* pTPage = &field_FC_tPages[gPsxDisplay_5C1130.field_C_buffer_index];
-        Init_SetTPage_4F5B60(pTPage, 0, 0, static_cast<short>(tpage));
+        Init_SetTPage_4F5B60(pTPage, 0, 0, static_cast<s16>(tpage));
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_12C_render_layer), &pTPage->mBase);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC90(

@@ -9,19 +9,19 @@
 #include "PsxRender.hpp"
 #include "Events.hpp"
 
-ALIVE_VAR(1, 0x5BC214, int, gGasInstanceCount_5BC214, 0);
-ALIVE_VAR(1, 0x5C1BA4, short, gLaughingGasOn_5C1BA4, FALSE);
+ALIVE_VAR(1, 0x5BC214, s32, gGasInstanceCount_5BC214, 0);
+ALIVE_VAR(1, 0x5C1BA4, s16, gLaughingGasOn_5C1BA4, FALSE);
 
 // On linux not using this random algorithm produces much bigger numbers
 // which causes flickering in the gas rendering. Apparently this is the MSVC algorithm.
-static int random_seed = 0;
-static int gas_rand()
+static s32 random_seed = 0;
+static s32 gas_rand()
 {
     random_seed = (random_seed * 214013 + 2531011) & 0xFFFFFFFF;
     return (random_seed >> 16) & 0x7FFF;
 }
 
-LaughingGas* LaughingGas::ctor_432400(Layer layer, int /*notUsed*/, Path_LaughingGas* pTlv, int tlvInfo)
+LaughingGas* LaughingGas::ctor_432400(Layer layer, s32 /*notUsed*/, Path_LaughingGas* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545000);
@@ -73,7 +73,7 @@ LaughingGas* LaughingGas::ctor_432400(Layer layer, int /*notUsed*/, Path_Laughin
     field_31F8_w_count = (field_2E_w - field_2A_x) / 4;
     field_31FC_h_count = (field_2C_h - field_28_y + 2) / 2;
 
-    field_19C_pMem = static_cast<WORD*>(ae_malloc_non_zero_4954F0(sizeof(short) * field_31FC_h_count * field_31F8_w_count));
+    field_19C_pMem = static_cast<u16*>(ae_malloc_non_zero_4954F0(sizeof(s16) * field_31FC_h_count * field_31F8_w_count));
 
     Init_432980();
     VUpdate();
@@ -92,7 +92,7 @@ void LaughingGas::dtor_432B80()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* LaughingGas::VDestructor(signed int flags)
+BaseGameObject* LaughingGas::VDestructor(s32 flags)
 {
     return vdtor_432670(flags);
 }
@@ -117,59 +117,59 @@ void LaughingGas::vScreenChanged_432DE0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-const float dword_551C58[7] = { 1.0,  5.0,  10.0,  10.0,  5.0,  1.0,  0.0 };
+const f32 dword_551C58[7] = { 1.0,  5.0,  10.0,  10.0,  5.0,  1.0,  0.0 };
 
 void LaughingGas::Init_432980()
 {
-    for (int i = 0; i < field_31F8_w_count; i++)
+    for (s32 i = 0; i < field_31F8_w_count; i++)
     {
-        const float v4 = (float)i / (float)field_31F8_w_count;
-        float val1 = 1.0f;
-        for (int j = 0; j < 7; j++)
+        const f32 v4 = (f32)i / (f32)field_31F8_w_count;
+        f32 val1 = 1.0f;
+        for (s32 j = 0; j < 7; j++)
         {
             field_1A0_x_data[i].array_4[j] = val1 * dword_551C58[j];
             val1 *= v4;
         }
 
-        float* pElem_ptr = &field_1A0_x_data[i].array_4[5];
-        const float v1 = 1.0f - v4;
-        float val2 = 1.0f;
-        for (int j = 0; j < 6; j++)
+        f32* pElem_ptr = &field_1A0_x_data[i].array_4[5];
+        const f32 v1 = 1.0f - v4;
+        f32 val2 = 1.0f;
+        for (s32 j = 0; j < 6; j++)
         {
-            const float calc2 = val2 * *pElem_ptr;
+            const f32 calc2 = val2 * *pElem_ptr;
             *pElem_ptr = calc2;
             --pElem_ptr;
             val2 *= v1;
         }
     }
 
-    for (int i = 0; i < field_31FC_h_count; i++)
+    for (s32 i = 0; i < field_31FC_h_count; i++)
     {
-        const float v4 = (float)i / (float)field_31FC_h_count;
-        float val1 = 1.0f;
-        for (int j = 0; j < 7; j++)
+        const f32 v4 = (f32)i / (f32)field_31FC_h_count;
+        f32 val1 = 1.0f;
+        for (s32 j = 0; j < 7; j++)
         {
             field_24D0_y_data[i].array_4[j] = val1 * dword_551C58[j];
             val1 *= v4;
         }
 
-        float* pElem_ptr = &field_24D0_y_data[i].array_4[5];
-        const float v1 = 1.0f - v4;
-        float val2 = 1.0f;
-        for (int j = 0; j < 6; j++)
+        f32* pElem_ptr = &field_24D0_y_data[i].array_4[5];
+        const f32 v1 = 1.0f - v4;
+        f32 val2 = 1.0f;
+        for (s32 j = 0; j < 6; j++)
         {
-            const float calc2 = val2 * *pElem_ptr;
+            const f32 calc2 = val2 * *pElem_ptr;
             *pElem_ptr = calc2;
             --pElem_ptr;
             val2 *= v1;
         }
     }
 
-    for (int i = 0; i < 6; i++)
+    for (s32 i = 0; i < 6; i++)
     {
-        for (int j = 0; j < 6; j++)
+        for (s32 j = 0; j < 6; j++)
         {
-            field_10C_gas_x[i][j] = static_cast<float>(gas_rand()) * 6.28f * (1.0f/32767.0f);
+            field_10C_gas_x[i][j] = static_cast<f32>(gas_rand()) * 6.28f * (1.0f/32767.0f);
         }
     }
 
@@ -181,7 +181,7 @@ void LaughingGas::Init_432980()
     field_5C_prim.pData = field_19C_pMem;
 }
 
-LaughingGas* LaughingGas::vdtor_432670(signed int flags)
+LaughingGas* LaughingGas::vdtor_432670(s32 flags)
 {
     dtor_432B80();
     if (flags & 1)
@@ -209,26 +209,26 @@ void LaughingGas::vRender_432D10(PrimHeader** ppOt)
 
 void LaughingGas::DoRender_432740()
 {
-    float local_array[6];
+    f32 local_array[6];
 
-    WORD* memPtr = field_19C_pMem;
-    int rgb_base = (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
+    u16* memPtr = field_19C_pMem;
+    s32 rgb_base = (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
 
     if (field_36_bLaughing_gas == Choice_short::eNo_0)
     {
         rgb_base = (1 << sBlueShift_C19140) + (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
     }
 
-    for (int yCount = 0; yCount < field_31FC_h_count; ++yCount)
+    for (s32 yCount = 0; yCount < field_31FC_h_count; ++yCount)
     {
-        for (int p = 0; p < 6; p++)
+        for (s32 p = 0; p < 6; p++)
         {
             local_array[p] = Calc_Y_4326F0(&field_7C_gas_y[p][0], yCount);
         }
 
-        for (int xCount = 0; xCount < field_31F8_w_count; ++memPtr)
+        for (s32 xCount = 0; xCount < field_31F8_w_count; ++memPtr)
         {
-            float yValue = Calc_X_4326A0(local_array, xCount);
+            f32 yValue = Calc_X_4326A0(local_array, xCount);
             if (yValue > 0.0f)
             {
                 if (yValue >= 3.0f)
@@ -248,13 +248,13 @@ void LaughingGas::DoRender_432740()
                 yValue = 0.0f;
             }
 
-            *memPtr = static_cast<WORD>(rgb_base * (static_cast<BYTE>(yValue) & 30));
+            *memPtr = static_cast<u16>(rgb_base * (static_cast<u8>(yValue) & 30));
             ++xCount;
         }
     }
 }
 
-__int16 LaughingGas::CounterOver_432DA0()
+s16 LaughingGas::CounterOver_432DA0()
 {
     return field_54_amount_on >= FP_FromDouble(0.3);
 }
@@ -307,14 +307,14 @@ void LaughingGas::vUpdate_432C40()
     sub_4328A0();
 }
 
-float LaughingGas::Calc_X_4326A0(float* a2, int xIndex)
+f32 LaughingGas::Calc_X_4326A0(f32* a2, s32 xIndex)
 {
-    float result = 0.0;
-    float* v4 = a2 + 1;
+    f32 result = 0.0;
+    f32* v4 = a2 + 1;
 
-    for (int i = 0; i < 4; i++)
+    for (s32 i = 0; i < 4; i++)
     {
-        const float v5 = field_1A0_x_data[xIndex].array_4[i + 1];
+        const f32 v5 = field_1A0_x_data[xIndex].array_4[i + 1];
         result += v5 * *v4;
         v4++;
     }
@@ -322,14 +322,14 @@ float LaughingGas::Calc_X_4326A0(float* a2, int xIndex)
     return result;
 }
 
-float LaughingGas::Calc_Y_4326F0(float* a2, int yIndex)
+f32 LaughingGas::Calc_Y_4326F0(f32* a2, s32 yIndex)
 {
-    float result = 0.0;
-    float* v4 = a2 + 1;
+    f32 result = 0.0;
+    f32* v4 = a2 + 1;
 
-    for (int i = 0; i < 4; i++)
+    for (s32 i = 0; i < 4; i++)
     {
-        const float v5 = field_24D0_y_data[yIndex].array_4[i + 1];
+        const f32 v5 = field_24D0_y_data[yIndex].array_4[i + 1];
         result += v5 * *v4;
         v4++;
     }
@@ -339,13 +339,13 @@ float LaughingGas::Calc_Y_4326F0(float* a2, int yIndex)
 
 void LaughingGas::sub_4328A0()
 {
-    for (int i = 0; i < 4; i++)
+    for (s32 i = 0; i < 4; i++)
     {
-        for (int j = 0; j < 4; j++)
+        for (s32 j = 0; j < 4; j++)
         {
-            const int rnd = gas_rand() - 8191;
-            field_7C_gas_y[1 + i][1 + j] = (sin(field_10C_gas_x[1 + i][1 + j]) * 50.0f + 30.0f) * static_cast<float>(FP_GetDouble(field_54_amount_on));
-            field_10C_gas_x[1 + i][1 + j] += (float)(rnd) * 0.03f * (1.0f / 16383.0f);
+            const s32 rnd = gas_rand() - 8191;
+            field_7C_gas_y[1 + i][1 + j] = (sin(field_10C_gas_x[1 + i][1 + j]) * 50.0f + 30.0f) * static_cast<f32>(FP_GetDouble(field_54_amount_on));
+            field_10C_gas_x[1 + i][1 + j] += (f32)(rnd) * 0.03f * (1.0f / 16383.0f);
         }
     }
 }

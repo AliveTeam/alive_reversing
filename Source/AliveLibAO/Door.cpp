@@ -15,18 +15,18 @@ namespace AO {
 
 struct Door_Data
 {
-    int field_0;
-    int field_4;
-    int field_8;
-    int field_C;
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-    int field_28;
-    int field_2C;
+    s32 field_0;
+    s32 field_4;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
 };
 ALIVE_ASSERT_SIZEOF(Door_Data, 0x30);
 
@@ -50,7 +50,7 @@ const Door_Data sDoorData_4BA508[16] =
     { 3176, 3152, 52, 69, 1048, 1024, 21, 29, 1016, 992, 26, 31 }
 };
 
-Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
+Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
 {
     ctor_417C10(); // NOTE: Pointless base ctor omitted
 
@@ -80,11 +80,11 @@ Door* Door::ctor_40E010(Path_Door* pTlv, int tlvInfo)
         field_EC_current_state = DoorStates::eOpen_0;
     }
 
-    const int idx = static_cast<int>(gMap_507BA8.field_0_current_level);
+    const s32 idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
     FP scale = {};
     PathLine* pLine = nullptr;
-    BYTE** ppRes = nullptr;
+    u8** ppRes = nullptr;
     PSX_Point mapCoords = {};
     switch (field_E8_start_state)
     {
@@ -330,12 +330,12 @@ void Door::VScreenChanged_40EDE0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-BaseGameObject* Door::VDestructor(signed int flags)
+BaseGameObject* Door::VDestructor(s32 flags)
 {
     return Vdtor_40EDF0(flags);
 }
 
-Door* Door::Vdtor_40EDF0(signed int flags)
+Door* Door::Vdtor_40EDF0(s32 flags)
 {
     dtor_40E710();
     if (flags & 1)
@@ -378,7 +378,7 @@ void Door::vSetClosed_40E860()
 
 void Door::PlaySound_40E780()
 {
-    __int16 volume = 0;
+    s16 volume = 0;
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {
@@ -451,7 +451,7 @@ void Door::VUpdate_40E870()
             }
         }
 
-        const int lvl = static_cast<int>(gMap_507BA8.field_0_current_level);
+        const s32 lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
         switch (field_EC_current_state)
         {

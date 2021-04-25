@@ -16,16 +16,16 @@ namespace AO {
 
 struct FlintLockFireData
 {
-    int field_0_resourceId;
-    int field_4_frameTable2;
-    int field_8_maxW2;
-    int field_C_maxH2;
-    int field_10_resId;
-    int field_14_frameTable1;
-    int field_18_fireFrameTable;
-    int field_1C_maxW1;
-    int field_20_maxH1;
-    int field_24_bFire;
+    s32 field_0_resourceId;
+    s32 field_4_frameTable2;
+    s32 field_8_maxW2;
+    s32 field_C_maxH2;
+    s32 field_10_resId;
+    s32 field_14_frameTable1;
+    s32 field_18_fireFrameTable;
+    s32 field_1C_maxW1;
+    s32 field_20_maxH1;
+    s32 field_24_bFire;
 };
 ALIVE_ASSERT_SIZEOF(FlintLockFireData, 0x28);
 
@@ -78,7 +78,7 @@ void FlintLockFire::VStopAudio()
     VStopAudio_41B0C0();
 }
 
-FlintLockFire* FlintLockFire::Vdtor_41B500(signed int flags)
+FlintLockFire* FlintLockFire::Vdtor_41B500(s32 flags)
 {
     dtor_41AE20();
     if (flags & 1)
@@ -88,7 +88,7 @@ FlintLockFire* FlintLockFire::Vdtor_41B500(signed int flags)
     return this;
 }
 
-BaseGameObject* FlintLockFire::VDestructor(signed int flags)
+BaseGameObject* FlintLockFire::VDestructor(s32 flags)
 {
     return Vdtor_41B500(flags);
 }
@@ -100,7 +100,7 @@ BaseGameObject* FlintLockFire::dtor_41AE20()
     gMap_507BA8.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
     field_F0_anim.vCleanUp();
 
-    if (sFlintLockFireData_4BAC70[static_cast<int>(gMap_507BA8.field_0_current_level)].field_24_bFire)
+    if (sFlintLockFireData_4BAC70[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_24_bFire)
     {
         field_188_anim.vCleanUp();
         field_220_anim.vCleanUp();
@@ -112,7 +112,7 @@ BaseGameObject* FlintLockFire::dtor_41AE20()
     return dtor_417D10();
 }
 
-FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
+FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     field_4_typeId = Types::eFlintLockFire_34;
@@ -123,10 +123,10 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
     SetVTable(&field_188_anim, 0x4BA2B8);
     SetVTable(&field_220_anim, 0x4BA2B8);
 
-    const int cur_lvl = static_cast<int>(gMap_507BA8.field_0_current_level);
+    const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
-    BYTE** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, sFlintLockFireData_4BAC70[cur_lvl].field_10_resId, 1, 0);
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(
+    u8** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, sFlintLockFireData_4BAC70[cur_lvl].field_10_resId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(
         ResourceManager::Resource_Animation,
         sFlintLockFireData_4BAC70[cur_lvl].field_0_resourceId,
         1,
@@ -144,8 +144,8 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
         sFlintLockFireData_4BAC70[cur_lvl].field_4_frameTable2,
         gObjList_animations_505564,
         this,
-        static_cast<short>(sFlintLockFireData_4BAC70[cur_lvl].field_8_maxW2),
-        static_cast<short>(sFlintLockFireData_4BAC70[cur_lvl].field_C_maxH2),
+        static_cast<s16>(sFlintLockFireData_4BAC70[cur_lvl].field_8_maxW2),
+        static_cast<s16>(sFlintLockFireData_4BAC70[cur_lvl].field_C_maxH2),
         ppRes,
         1,
         0,
@@ -158,7 +158,7 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo)
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
-        BYTE** ppHubFireRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
+        u8** ppHubFireRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
         field_188_anim.Init_402D20(
             5072,
             gObjList_animations_505564,
@@ -243,7 +243,7 @@ void FlintLockFire::VUpdate_41AEE0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    const int cur_lvl = static_cast<int>(gMap_507BA8.field_0_current_level);
+    const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
     switch (field_E4_state)
     {
@@ -315,7 +315,7 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
 {
     if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
     {
-        const int cur_lvl = static_cast<int>(gMap_507BA8.field_0_current_level);
+        const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
         field_10_anim.field_14_scale = field_BC_sprite_scale;
         field_F0_anim.field_14_scale = field_BC_sprite_scale;
 
@@ -325,9 +325,9 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
             field_220_anim.field_14_scale = field_BC_sprite_scale;
         }
 
-        short r = field_C0_r;
-        short g = field_C2_g;
-        short b = field_C4_b;
+        s16 r = field_C0_r;
+        s16 g = field_C2_g;
+        s16 b = field_C4_b;
 
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
@@ -344,23 +344,23 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
         }
 
 
-        field_10_anim.field_8_r = static_cast<BYTE>(r);
-        field_10_anim.field_9_g = static_cast<BYTE>(g);
-        field_10_anim.field_A_b = static_cast<BYTE>(b);
+        field_10_anim.field_8_r = static_cast<u8>(r);
+        field_10_anim.field_9_g = static_cast<u8>(g);
+        field_10_anim.field_A_b = static_cast<u8>(b);
 
-        field_F0_anim.field_8_r = static_cast<BYTE>(r);
-        field_F0_anim.field_9_g = static_cast<BYTE>(g);
-        field_F0_anim.field_A_b = static_cast<BYTE>(b);
+        field_F0_anim.field_8_r = static_cast<u8>(r);
+        field_F0_anim.field_9_g = static_cast<u8>(g);
+        field_F0_anim.field_A_b = static_cast<u8>(b);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.field_8_r = static_cast<BYTE>(r);
-            field_188_anim.field_9_g = static_cast<BYTE>(g);
-            field_188_anim.field_A_b = static_cast<BYTE>(b);
+            field_188_anim.field_8_r = static_cast<u8>(r);
+            field_188_anim.field_9_g = static_cast<u8>(g);
+            field_188_anim.field_A_b = static_cast<u8>(b);
 
-            field_220_anim.field_8_r = static_cast<BYTE>(r);
-            field_220_anim.field_9_g = static_cast<BYTE>(g);
-            field_220_anim.field_A_b = static_cast<BYTE>(b);
+            field_220_anim.field_8_r = static_cast<u8>(r);
+            field_220_anim.field_9_g = static_cast<u8>(g);
+            field_220_anim.field_A_b = static_cast<u8>(b);
 
             field_220_anim.vRender(
                 FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),

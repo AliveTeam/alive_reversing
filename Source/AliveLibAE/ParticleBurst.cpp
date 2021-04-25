@@ -22,7 +22,7 @@ struct ParticleBurst_Item
 ALIVE_ASSERT_SIZEOF(ParticleBurst_Item, 0x88);
 
 
-ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfParticles, FP scale, BurstType type, signed __int16 count)
+ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, FP scale, BurstType type, s16 count)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5447DC);
@@ -50,7 +50,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfPa
     if (field_F4_ppRes)
     {
         field_F8_pRes = reinterpret_cast<ParticleBurst_Item*>(*field_F4_ppRes);
-        for (DWORD i = 0; i < numOfParticles; i++)
+        for (u32 i = 0; i < numOfParticles; i++)
         {
             // Placement new each element
             new (&field_F8_pRes[i]) ParticleBurst_Item();
@@ -128,12 +128,12 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfPa
                 field_20_animation.field_C_render_layer = Layer::eLayer_20;
             }
 
-            field_FC_number_of_particles = static_cast<short>(numOfParticles);
+            field_FC_number_of_particles = static_cast<s16>(numOfParticles);
             field_100_timer = sGnFrame_5C1B84 + 91;
             field_B8_xpos = xpos;
             field_BC_ypos = ypos;
 
-            for (DWORD i = 0; i < numOfParticles; i++)
+            for (u32 i = 0; i < numOfParticles; i++)
             {
                 field_F8_pRes[i].field_18_anim.field_68_anim_ptr = &field_20_animation;
                 field_F8_pRes[i].field_18_anim.field_C_render_layer = field_20_animation.field_C_render_layer;
@@ -177,7 +177,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int numOfPa
     return this;
 }
 
-BaseGameObject* ParticleBurst::VDestructor(signed int flags)
+BaseGameObject* ParticleBurst::VDestructor(s32 flags)
 {
     return vdtor_41D4E0(flags);
 }
@@ -199,7 +199,7 @@ FP* ParticleBurst::Random_Speed_41CEE0(FP* random)
     return random;
 }
 
-ParticleBurst* ParticleBurst::vdtor_41D4E0(signed int flags)
+ParticleBurst* ParticleBurst::vdtor_41D4E0(s32 flags)
 {
     dtor_41D510();
     if (flags & 1)
@@ -228,7 +228,7 @@ void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
         const FP camX = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
         const FP camY = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
 
-        for (int i = 0; i < field_FC_number_of_particles; i++)
+        for (s32 i = 0; i < field_FC_number_of_particles; i++)
         {
             if (field_F8_pRes[i].field_0_x < camX)
             {
@@ -371,8 +371,8 @@ void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
 
 void ParticleBurst::vUpdate_41D590()
 {
-    const int v3 = field_CC_sprite_scale != FP_FromInteger(1) ? 2 : 4;
-    for (int i = 0; i < field_FC_number_of_particles; i++)
+    const s32 v3 = field_CC_sprite_scale != FP_FromInteger(1) ? 2 : 4;
+    for (s32 i = 0; i < field_FC_number_of_particles; i++)
     {
         field_F8_pRes[i].field_0_x += field_F8_pRes[i].field_C_x_speed;
         field_F8_pRes[i].field_4_y += field_F8_pRes[i].field_10_y_speed;
@@ -401,9 +401,9 @@ void ParticleBurst::vUpdate_41D590()
             //Math_RandomRange_496AB0(-64, 46);
 
             // TODO: This might be wrong
-            const short volume = static_cast<short>(Math_RandomRange_496AB0(-10, 10) + ((field_100_timer - sGnFrame_5C1B84) / 91) + 25);
+            const s16 volume = static_cast<s16>(Math_RandomRange_496AB0(-10, 10) + ((field_100_timer - sGnFrame_5C1B84) / 91) + 25);
 
-            const BYTE next_rand = Math_NextRandom();
+            const u8 next_rand = Math_NextRandom();
             if (next_rand < 43)
             {
                 SFX_Play_46FC20(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamLeft_3);
@@ -419,7 +419,7 @@ void ParticleBurst::vUpdate_41D590()
         }
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) > field_100_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

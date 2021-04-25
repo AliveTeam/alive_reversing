@@ -27,9 +27,9 @@ typedef enum
 
 struct TouchButton
 {
-    float x;
-    float y;
-    float size;
+    f32 x;
+    f32 y;
+    f32 size;
     TouchControllerButton button;
 };
 
@@ -46,7 +46,7 @@ public:
     void Update();
     void Render();
 
-    int GetGamePadData(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons);
+    s32 GetGamePadData(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons);
 
 private:
 
@@ -55,8 +55,8 @@ private:
     Uint32 state;
     std::vector<TouchButton> touchButtons;
 
-    float xRatio;
-    float yRatio;
+    f32 xRatio;
+    f32 yRatio;
 
     std::vector<SDL_TouchID> touchDevices;
 };

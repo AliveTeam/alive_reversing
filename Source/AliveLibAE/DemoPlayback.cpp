@@ -24,14 +24,14 @@ void DemoPlayback::ctor()
         sDemoObj_dword_5D1E20 = this;
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 
-        DWORD** ppRes = reinterpret_cast<DWORD**>(Add_Resource_4DC130(ResourceManager::Resource_Demo, ResourceID::kDemoResID));
+        u32** ppRes = reinterpret_cast<u32**>(Add_Resource_4DC130(ResourceManager::Resource_Demo, ResourceID::kDemoResID));
         field_1C_update_delay = 1;
         sInputObject_5BD4E0.SetDemoResource_45F1E0(ppRes);
         field_4_typeId = AETypes::eDemoPlayback_98;
     }
 }
 
-BaseGameObject* DemoPlayback::VDestructor(signed int flags)
+BaseGameObject* DemoPlayback::VDestructor(s32 flags)
 {
     return vdtor_497880(flags);
 }
@@ -56,7 +56,7 @@ void DemoPlayback::dtor_4978B0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-DemoPlayback* DemoPlayback::vdtor_497880(signed int flags)
+DemoPlayback* DemoPlayback::vdtor_497880(s32 flags)
 {
     dtor_4978B0();
     if (flags & 1)

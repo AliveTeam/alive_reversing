@@ -14,9 +14,9 @@ namespace AO {
 
 void Alarm_ForceLink() { }
 
-ALIVE_VAR(1, 0x5076A8, short, alarmInstanceCount_5076A8, 0);
+ALIVE_VAR(1, 0x5076A8, s16, alarmInstanceCount_5076A8, 0);
 
-EXPORT Alarm* Alarm::ctor_402570(__int16 duration_timer, __int16 switchId, __int16 timer, Layer layer)
+EXPORT Alarm* Alarm::ctor_402570(s16 duration_timer, s16 switchId, s16 timer, Layer layer)
 {
     ctor_461550(layer, TPageAbr::eBlend_1);
 
@@ -56,12 +56,12 @@ BaseGameObject* Alarm::dtor_402630()
     return dtor_461630();
 }
 
-BaseGameObject* Alarm::VDestructor(signed int flags)
+BaseGameObject* Alarm::VDestructor(s32 flags)
 {
     return Vdtor_402830(flags);
 }
 
-Alarm* Alarm::Vdtor_402830(signed int flags)
+Alarm* Alarm::Vdtor_402830(s32 flags)
 {
     dtor_402630();
     if (flags & 1)
@@ -99,7 +99,7 @@ void Alarm::VUpdate_402660()
 
     if (field_10_path_id != gMap_507BA8.field_2_current_path ||
         field_12_level_id != gMap_507BA8.field_0_current_level ||
-        static_cast<int>(gnFrameCount_507670) > field_70_duration_timer)
+        static_cast<s32>(gnFrameCount_507670) > field_70_duration_timer)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
@@ -114,7 +114,7 @@ void Alarm::VUpdate_402660()
             return;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_6C_15_timer)
         {
             field_6A_state = States::eEnabling_1;
 
@@ -140,7 +140,7 @@ void Alarm::VUpdate_402660()
         break;
 
     case States::eOnFlash_2:
-        if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_6C_15_timer)
         {
             field_6A_state = States::eDisabling_3;
         }
@@ -164,7 +164,7 @@ void Alarm::VUpdate_402660()
             return;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_6C_15_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_6C_15_timer)
         {
             field_6A_state = States::eEnabling_1;
             SFX_Play_43AD70(SoundEffect::Alarm_45, 0, 0);

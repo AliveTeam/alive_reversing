@@ -11,9 +11,9 @@ class PathLine;
 
 struct Path_RollingBallStopper : public Path_TLV
 {
-    __int16 field_18_id_on;
+    s16 field_18_id_on;
     Scale_short field_1A_scale;
-    __int16 field_1C_id_off;
+    s16 field_1C_id_off;
     XDirection_short field_1E_direction;
 };
 ALIVE_ASSERT_SIZEOF(Path_RollingBallStopper, 0x20);
@@ -21,27 +21,27 @@ ALIVE_ASSERT_SIZEOF(Path_RollingBallStopper, 0x20);
 class RollingBallStopper : public BaseAliveGameObject
 {
 public:
-    EXPORT RollingBallStopper* ctor_43BCE0(Path_RollingBallStopper* pTlv, int tlvInfo);
-    EXPORT BaseGameObject* Vdtor_43C160(signed int flags);
+    EXPORT RollingBallStopper* ctor_43BCE0(Path_RollingBallStopper* pTlv, s32 tlvInfo);
+    EXPORT BaseGameObject* Vdtor_43C160(s32 flags);
     EXPORT BaseGameObject* dtor_43C0A0();
     EXPORT void VScreenChanged_43C130();
     EXPORT void VUpdate_43BF70();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    int field_10C_tlvInfo;
-    __int16 field_110_unused;
-    enum class States : __int16
+    s32 field_10C_tlvInfo;
+    s16 field_110_unused;
+    enum class States : s16
     {
         eWaitForTrigger_0,
         eMoveStopper_1,
         eMovingDone_2
     };
     States field_112_state;
-    unsigned __int16 field_114_switch_on_id;
-    unsigned __int16 field_116_switch_id_off;
+    u16 field_114_switch_on_id;
+    u16 field_116_switch_id_off;
     PathLine* field_118_pLine;
 };
 ALIVE_ASSERT_SIZEOF(RollingBallStopper, 0x11C);

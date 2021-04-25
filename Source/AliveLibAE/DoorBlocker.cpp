@@ -6,7 +6,7 @@
 #include "Sfx.hpp"
 #include "stdlib.hpp"
 
-DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, int tlvInfo)
+DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x544A1C);
@@ -16,7 +16,7 @@ DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, int tlvInfo)
     field_11A_switch_id = pTlv->field_12_id;
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Lock_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_118_bDone &= ~1u;
@@ -61,7 +61,7 @@ void DoorBlocker::VUpdate()
     vUpdate_41F250();
 }
 
-BaseGameObject* DoorBlocker::VDestructor(signed int flags)
+BaseGameObject* DoorBlocker::VDestructor(s32 flags)
 {
     return vdtor_41F220(flags);
 }
@@ -93,7 +93,7 @@ void DoorBlocker::vUpdate_41F250()
     }
 }
 
-DoorBlocker* DoorBlocker::vdtor_41F220(signed int flags)
+DoorBlocker* DoorBlocker::vdtor_41F220(s32 flags)
 {
     dtor_41F310();
     if (flags & 1)

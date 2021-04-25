@@ -7,17 +7,17 @@ using FP = FixedPoint;
 
 void Math_ForceLink();
 
-EXPORT unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed int op2);
-EXPORT unsigned int CC Math_FixedPoint_Divide_496B70(signed int op1, signed int op2);
-EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max);
-EXPORT BYTE Math_NextRandom();
+EXPORT u32  CC Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2);
+EXPORT u32 CC Math_FixedPoint_Divide_496B70(s32 op1, s32 op2);
+EXPORT s16 CC Math_RandomRange_496AB0(s16 min, s16 max);
+EXPORT u8 Math_NextRandom();
 
-EXPORT FP CC Math_Cosine_496CD0(BYTE v);
-EXPORT FP CC Math_Sine_496DD0(BYTE v);
+EXPORT FP CC Math_Cosine_496CD0(u8 v);
+EXPORT FP CC Math_Sine_496DD0(u8 v);
 EXPORT FP CC Math_Cosine_496D60(FP fp);
 EXPORT FP CC Math_Sine_496DF0(FP fp);
 
-EXPORT int CC Math_Distance_496EB0(int x1, int y1, int x2, int y2);
+EXPORT s32 CC Math_Distance_496EB0(s32 x1, s32 y1, s32 x2, s32 y2);
 
 EXPORT FP CC Math_Tan_496F70(FP value1, FP value2);
 
@@ -27,4 +27,4 @@ namespace AETest::TestsMath
     void Math_Tests();
 }
 
-ALIVE_ARY_EXTERN(unsigned char, 256, sRandomBytes_546744);
+ALIVE_ARY_EXTERN(u8, 256, sRandomBytes_546744);

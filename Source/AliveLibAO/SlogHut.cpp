@@ -14,7 +14,7 @@ void SlogHut::VScreenChanged()
     VScreenChanged_472E20();
 }
 
-SlogHut* SlogHut::Vdtor_472E30(signed int flags)
+SlogHut* SlogHut::Vdtor_472E30(s32 flags)
 {
     dtor_472CF0();
     if (flags & 1)
@@ -24,7 +24,7 @@ SlogHut* SlogHut::Vdtor_472E30(signed int flags)
     return this;
 }
 
-BaseGameObject* SlogHut::VDestructor(signed int flags)
+BaseGameObject* SlogHut::VDestructor(s32 flags)
 {
     return Vdtor_472E30(flags);
 }
@@ -36,7 +36,7 @@ BaseGameObject* SlogHut::dtor_472CF0()
     return dtor_487DF0();
 }
 
-SlogHut* SlogHut::ctor_472C80(Path_SlogHut* pTlv, int tlvInfo)
+SlogHut* SlogHut::ctor_472C80(Path_SlogHut* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BCBB0);
@@ -79,7 +79,7 @@ void SlogHut::VUpdate_472D50()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (!SwitchStates_Get(field_20_switch_id) && static_cast<int>(gnFrameCount_507670) > field_24_timer)
+    if (!SwitchStates_Get(field_20_switch_id) && static_cast<s32>(gnFrameCount_507670) > field_24_timer)
     {
         auto pSnoozeParticle = ao_new<SnoozeParticle>();
         if (pSnoozeParticle)

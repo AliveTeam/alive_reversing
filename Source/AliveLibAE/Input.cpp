@@ -51,7 +51,7 @@ const InputCommands::Enum sInputKey_GameSpeak7_555114 = InputCommands::Enum::eGa
 const InputCommands::Enum sInputKey_Chant = InputCommands::Enum::eChant;
 
 // Bitmask for all menu-exclusive (navigation, entering, etc.) input commands
-const unsigned int AllMenuCommandsMask =
+const u32 AllMenuCommandsMask =
     (
         InputCommands::Enum::ePause |
         InputCommands::Enum::eUnPause_OrConfirm |
@@ -63,42 +63,42 @@ const unsigned int AllMenuCommandsMask =
 ALIVE_VAR(1, 0x5C2EF4, bool, sJoystickAvailable_5C2EF4, false);
 
 // Is the joystick selected as the active controller device (instead of keyboard)?
-ALIVE_VAR(1, 0x5c9f70, int, sJoystickEnabled_5C9F70, 0);
+ALIVE_VAR(1, 0x5c9f70, s32, sJoystickEnabled_5C9F70, 0);
 
-ALIVE_VAR(1, 0x5C2EFC, int, sJoystickNumButtons_5C2EFC, 0);
-ALIVE_VAR(1, 0x5C2F00, int, sJoystickID_5C2F00, 0);
-ALIVE_VAR(1, 0x5c2edc, int, sJoystickCapFlags_5C2EDC, 0);
+ALIVE_VAR(1, 0x5C2EFC, s32, sJoystickNumButtons_5C2EFC, 0);
+ALIVE_VAR(1, 0x5C2F00, s32, sJoystickID_5C2F00, 0);
+ALIVE_VAR(1, 0x5c2edc, s32, sJoystickCapFlags_5C2EDC, 0);
 ALIVE_VAR(1, 0x5c2ee0, bool, sJoyStateIsInit_5C2EE0, 0);
-ALIVE_VAR(1, 0x5c2eec, int, sJoyLastTick_5C2EEC, 0);
-ALIVE_VAR(1, 0x5C2EF8, int, sGamepadCapFlags_5C2EF8, 0);
+ALIVE_VAR(1, 0x5c2eec, s32, sJoyLastTick_5C2EEC, 0);
+ALIVE_VAR(1, 0x5C2EF8, s32, sGamepadCapFlags_5C2EF8, 0);
 #if !USE_SDL2 && _WIN32
 ALIVE_VAR(1, 0x5c2d10, tagJOYCAPSA, sJoystickCaps_5C2D10, {});
 ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
 #endif
 
-ALIVE_ARY(1, 0xBD2F60, unsigned char, 256, sInputKeyStates_BD2F60, {});
-ALIVE_VAR(1, 0xBBB9D0, BYTE, sInputEnabled_BBB9D0, 0);
+ALIVE_ARY(1, 0xBD2F60, u8, 256, sInputKeyStates_BD2F60, {});
+ALIVE_VAR(1, 0xBBB9D0, u8, sInputEnabled_BBB9D0, 0);
 ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject_5BD4E0, {});
-ALIVE_VAR(1, 0x5C1BBE, unsigned __int16, sCurrentControllerIndex_5C1BBE, 0);
-ALIVE_VAR(1, 0x5C1B9A, __int16, bLongerTimeoutToNextDemo_5C1B9A, 0);
-ALIVE_VAR(1, 0xbd30a0, DWORD, sLastPressedKey_BD30A0, 0);
-ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
-ALIVE_ARY(1, 0x5C9D30, char, 256, sAllowedGameKeys_5C9D30, {});
-ALIVE_ARY(1, 0x5C9394, const char *, 256, sKeyNames_5C9394, {});
-ALIVE_ARY(1, 0x5C9908, const char *, 10, sJoyButtonNames_5C9908, {});
-ALIVE_ARY(1, 0x5C9930, unsigned int, 256, sKeyboardBindings_5C9930, {});
-ALIVE_ARY(1, 0x5C98E0, int, 10, sGamePadBindings_5C98E0, {});
+ALIVE_VAR(1, 0x5C1BBE, u16, sCurrentControllerIndex_5C1BBE, 0);
+ALIVE_VAR(1, 0x5C1B9A, s16, bLongerTimeoutToNextDemo_5C1B9A, 0);
+ALIVE_VAR(1, 0xbd30a0, u32, sLastPressedKey_BD30A0, 0);
+ALIVE_VAR(1, 0xbd309c, s32, sIsAKeyDown_BD309C, 0);
+ALIVE_ARY(1, 0x5C9D30, s8, 256, sAllowedGameKeys_5C9D30, {});
+ALIVE_ARY(1, 0x5C9394, const s8 *, 256, sKeyNames_5C9394, {});
+ALIVE_ARY(1, 0x5C9908, const s8 *, 10, sJoyButtonNames_5C9908, {});
+ALIVE_ARY(1, 0x5C9930, u32, 256, sKeyboardBindings_5C9930, {});
+ALIVE_ARY(1, 0x5C98E0, s32, 10, sGamePadBindings_5C98E0, {});
 ALIVE_VAR(1, 0xbd1870, t_InputCallback, sInputCallbackFunc_BD1870, 0);
 
-ALIVE_ARY(1, 0x555708, char, 32, sGamePadStr_555708, { "Game Pad" });
-ALIVE_ARY(1, 0x55E85C, char, 32, sGamePadStr_55E85C, { "Game Pad" });
+ALIVE_ARY(1, 0x555708, s8, 32, sGamePadStr_555708, { "Game Pad" });
+ALIVE_ARY(1, 0x55E85C, s8, 32, sGamePadStr_55E85C, { "Game Pad" });
 
-ALIVE_VAR(1, 0x5c2ee8, int, bAbsX_5C2EE8, 0);
-ALIVE_VAR(1, 0x5c2ea4, int, bAbsY_5C2EA4, 0);
-ALIVE_VAR(1, 0x5c2ee4, int, bAutoX_5C2EE4, 0);
-ALIVE_VAR(1, 0x5c2ef0, int, bAutoY_5C2EF0, 0);
+ALIVE_VAR(1, 0x5c2ee8, s32, bAbsX_5C2EE8, 0);
+ALIVE_VAR(1, 0x5c2ea4, s32, bAbsY_5C2EA4, 0);
+ALIVE_VAR(1, 0x5c2ee4, s32, bAutoX_5C2EE4, 0);
+ALIVE_VAR(1, 0x5c2ef0, s32, bAutoY_5C2EF0, 0);
 
-ALIVE_VAR(1, 0xbd1878, DWORD, sLastPad_Input_BD1878, 0);
+ALIVE_VAR(1, 0xbd1878, u32, sLastPad_Input_BD1878, 0);
 ALIVE_VAR(1, 0xbd1874, bool, sReadPadEnable_BD1874, false);
 
 ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyboardBindings_55EAD8, {
@@ -140,7 +140,7 @@ ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyboardBindings_55EAD8, {
     { 0, static_cast<InputCommands::Enum>(0) }
 });
 
-ALIVE_ARY(1, 0x55EA2C, const unsigned int, 10, sDefaultGamepadBindings_55EA2C, {
+ALIVE_ARY(1, 0x55EA2C, const u32, 10, sDefaultGamepadBindings_55EA2C, {
     InputCommands::Enum::eDoAction,                                       // Square / X
     InputCommands::Enum::eFartOrRoll | InputCommands::Enum::eUnPause_OrConfirm, // Cross / A
     InputCommands::Enum::eThrowItem,                                      // Circle / B
@@ -155,7 +155,7 @@ ALIVE_ARY(1, 0x55EA2C, const unsigned int, 10, sDefaultGamepadBindings_55EA2C, {
 
 // For joysticks with very little buttons, depending on strength of joystick, will make abe
 // automatically run/sneak.
-EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
+EXPORT void CC Input_StickControl_45FF60(f32 x, f32 y, u32* buttons)
 {
     if (!bAutoX_5C2EE4 && !bAutoY_5C2EF0)
     {
@@ -220,9 +220,9 @@ EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
 }
 
 #if USE_SDL2
-    void Input_GetJoyState_SDL(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+    void Input_GetJoyState_SDL(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons)
     {
-        float deadzone = 0.2f;
+        f32 deadzone = 0.2f;
 
         *pButtons = 0;
         *pX1 = 0;
@@ -235,11 +235,11 @@ EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
             sJoystickNumButtons_5C2EFC = SDL_JoystickNumButtons(SDL_GameControllerGetJoystick(pSDLController));
             sGamepadCapFlags_5C2EF8 = 0xFFFF;
 
-            float f_LX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTX) / 32767.0f;
-            float f_LY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTY) / 32767.0f;
+            f32 f_LX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTX) / 32767.0f;
+            f32 f_LY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTY) / 32767.0f;
 
-            float f_RX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTX) / 32767.0f;
-            float f_RY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTY) / 32767.0f;
+            f32 f_RX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTX) / 32767.0f;
+            f32 f_RY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTY) / 32767.0f;
 
             // Joysticks
             if (abs(f_LX) > deadzone)
@@ -291,8 +291,8 @@ EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
             // 8 Back
             // 9 Start
 
-            static float vibrationAmount = 0.0f;
-            int screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
+            static f32 vibrationAmount = 0.0f;
+            s32 screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
 
             if (screenShake > 0)
             {
@@ -317,7 +317,7 @@ EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
 #endif
 
 #if !USE_SDL2 && _WIN32
-void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+void Input_GetJoyState_Impl(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons)
 {
     if (!sJoystickAvailable_5C2EF4)
     {
@@ -350,46 +350,46 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
         }
     }
 
-    DWORD xRange = (sJoystickCaps_5C2D10.wXmin + sJoystickCaps_5C2D10.wXmax) / 2;
-    signed int xRangeDeadZone = (xRange - sJoystickCaps_5C2D10.wXmin) / 4;
+    u32 xRange = (sJoystickCaps_5C2D10.wXmin + sJoystickCaps_5C2D10.wXmax) / 2;
+    s32 xRangeDeadZone = (xRange - sJoystickCaps_5C2D10.wXmin) / 4;
     if (sJoystickInfo_5C2EA8.dwXpos < xRange - xRangeDeadZone || sJoystickInfo_5C2EA8.dwXpos > xRange + xRangeDeadZone)
     {
-        *pX1 = static_cast<float>(static_cast<signed int>(sJoystickInfo_5C2EA8.dwXpos) - xRange) / static_cast<float>(xRange - sJoystickCaps_5C2D10.wXmin);
+        *pX1 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwXpos) - xRange) / static_cast<f32>(xRange - sJoystickCaps_5C2D10.wXmin);
     }
     else
     {
         *pX1 = 0.0f;
     }
 
-    DWORD yRange = (sJoystickCaps_5C2D10.wYmax + sJoystickCaps_5C2D10.wYmin) / 2;
-    signed int yRangeDeadZone = (yRange - sJoystickCaps_5C2D10.wYmin) / 4;
+    u32 yRange = (sJoystickCaps_5C2D10.wYmax + sJoystickCaps_5C2D10.wYmin) / 2;
+    s32 yRangeDeadZone = (yRange - sJoystickCaps_5C2D10.wYmin) / 4;
     if (sJoystickInfo_5C2EA8.dwYpos < yRange - yRangeDeadZone || sJoystickInfo_5C2EA8.dwYpos > yRange + yRangeDeadZone)
     {
-        *pY1 = static_cast<float>(static_cast<signed int>(sJoystickInfo_5C2EA8.dwYpos) - yRange) / static_cast<float>(yRange - sJoystickCaps_5C2D10.wYmin);
+        *pY1 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwYpos) - yRange) / static_cast<f32>(yRange - sJoystickCaps_5C2D10.wYmin);
     }
     else
     {
         *pY1 = 0.0f;
     }
 
-    DWORD zRange = (sJoystickCaps_5C2D10.wZmin + sJoystickCaps_5C2D10.wZmax) / 2;
-    signed int zRangeDeadZone = (zRange - sJoystickCaps_5C2D10.wZmin) / 4;
+    u32 zRange = (sJoystickCaps_5C2D10.wZmin + sJoystickCaps_5C2D10.wZmax) / 2;
+    s32 zRangeDeadZone = (zRange - sJoystickCaps_5C2D10.wZmin) / 4;
     if (sJoystickCapFlags_5C2EDC & JOY_RETURNZ
         && (sJoystickInfo_5C2EA8.dwZpos < zRange - zRangeDeadZone || sJoystickInfo_5C2EA8.dwZpos > zRange + zRangeDeadZone))
     {
-        *pX2 = static_cast<float>(static_cast<signed int>(sJoystickInfo_5C2EA8.dwZpos) - zRange) / static_cast<float>(zRange - sJoystickCaps_5C2D10.wZmin);
+        *pX2 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwZpos) - zRange) / static_cast<f32>(zRange - sJoystickCaps_5C2D10.wZmin);
     }
     else
     {
         *pX2 = 0.0f;
     }
 
-    DWORD wRange = (sJoystickCaps_5C2D10.wRmax + sJoystickCaps_5C2D10.wRmin) / 2;
-    signed int wRangeDeadZone = (wRange - sJoystickCaps_5C2D10.wRmin) / 4;
+    u32 wRange = (sJoystickCaps_5C2D10.wRmax + sJoystickCaps_5C2D10.wRmin) / 2;
+    s32 wRangeDeadZone = (wRange - sJoystickCaps_5C2D10.wRmin) / 4;
     if (sJoystickCapFlags_5C2EDC & JOY_RETURNR
         && (sJoystickInfo_5C2EA8.dwRpos < wRange - wRangeDeadZone || sJoystickInfo_5C2EA8.dwRpos > wRange + wRangeDeadZone))
     {
-        *pY2 = static_cast<float>(static_cast<signed int>(sJoystickInfo_5C2EA8.dwRpos) - wRange) / static_cast<float>(wRange - sJoystickCaps_5C2D10.wRmin);
+        *pY2 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwRpos) - wRange) / static_cast<f32>(wRange - sJoystickCaps_5C2D10.wRmin);
     }
     else
     {
@@ -428,12 +428,12 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
 #endif
 
 #if XINPUT_SUPPORT
-void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+void Input_XINPUT(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons)
 {
     XINPUT_STATE state;
     ZeroMemory(&state, sizeof(XINPUT_STATE));
 
-    float deadzone = 0.2f;
+    f32 deadzone = 0.2f;
 
     *pButtons = 0;
     *pX1 = 0;
@@ -443,11 +443,11 @@ void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButton
 
     if (XInputGetState(sCurrentControllerIndex_5C1BBE, &state) == ERROR_SUCCESS)
     {
-        float f_LX = state.Gamepad.sThumbLX / 32767.0f;
-        float f_LY = state.Gamepad.sThumbLY / 32767.0f;
+        f32 f_LX = state.Gamepad.sThumbLX / 32767.0f;
+        f32 f_LY = state.Gamepad.sThumbLY / 32767.0f;
 
-        float f_RX = state.Gamepad.sThumbRX / 32767.0f;
-        float f_RY = state.Gamepad.sThumbRY / 32767.0f;
+        f32 f_RX = state.Gamepad.sThumbRX / 32767.0f;
+        f32 f_RY = state.Gamepad.sThumbRY / 32767.0f;
 
         // Joysticks
         if (abs(f_LX) > deadzone)
@@ -498,8 +498,8 @@ void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButton
         // 8 Back
         // 9 Start
 
-        static float vibrationAmount = 0.0f;
-        int screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
+        static f32 vibrationAmount = 0.0f;
+        s32 screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
 
         if (screenShake > 0)
         {
@@ -525,7 +525,7 @@ void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButton
 #endif
 
 // TODO: Needs actual testing.
-EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+EXPORT void CC Input_GetJoyState_460280(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons)
 {
 #if XINPUT_SUPPORT
     Input_XINPUT(pX1, pY1, pX2, pY2, pButtons);
@@ -545,14 +545,14 @@ EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, floa
 #endif
 }
 
-EXPORT unsigned __int8 CC Input_GetInputEnabled_4EDDE0()
+EXPORT u8 CC Input_GetInputEnabled_4EDDE0()
 {
     return sInputEnabled_BBB9D0 != 0;
 }
 
-EXPORT char CC Input_GetKeyState_4EDD20(int key)
+EXPORT s8 CC Input_GetKeyState_4EDD20(s32 key)
 {
-    const char keyState = sInputKeyStates_BD2F60[key] & 0x80;
+    const s8 keyState = sInputKeyStates_BD2F60[key] & 0x80;
     sInputKeyStates_BD2F60[key] = keyState;
     return keyState;
 }
@@ -569,7 +569,7 @@ EXPORT void CC Input_DisableInputForPauseMenuAndDebug_4EDDC0()
 
 struct KeyName
 {
-    char field_0_name[10];
+    s8 field_0_name[10];
 };
 
 struct KeyNames
@@ -589,11 +589,11 @@ EXPORT void CC Input_Init_Names_491870()
     strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[2].field_0_name, kStopIt);
     strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[3].field_0_name, kChant);
 
-    int bindingMask = 16;
-    for (int i = 4; i < 32; i++)
+    s32 bindingMask = 16;
+    for (s32 i = 4; i < 32; i++)
     {
-        char* keyNamePtr = sKeyboardDisplayKeyNames_5C9E30.keys[i].field_0_name;
-        for (int keyNameIdx = 0; keyNameIdx < 256; keyNameIdx++)
+        s8* keyNamePtr = sKeyboardDisplayKeyNames_5C9E30.keys[i].field_0_name;
+        for (s32 keyNameIdx = 0; keyNameIdx < 256; keyNameIdx++)
         {
             if (bindingMask & sKeyboardBindings_5C9930[keyNameIdx])
             {
@@ -604,12 +604,12 @@ EXPORT void CC Input_Init_Names_491870()
         bindingMask <<= 1;
     }
 
-    int eSpeak1idx = -1;
-    int eSpeak2idx = -1;
+    s32 eSpeak1idx = -1;
+    s32 eSpeak2idx = -1;
 
     sGamepadDisplayKeyNames_5C9798 = {};
 
-    for (int i = 0; i < 10; i++)
+    for (s32 i = 0; i < 10; i++)
     {
         if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eSpeak1)
         {
@@ -630,8 +630,8 @@ EXPORT void CC Input_Init_Names_491870()
 
         if (sGamePadBindings_5C98E0[i])
         {
-            int curBinding = sGamePadBindings_5C98E0[i];
-            for (int k = 0; k < 32; k++)
+            s32 curBinding = sGamePadBindings_5C98E0[i];
+            for (s32 k = 0; k < 32; k++)
             {
                 if (curBinding & 1)
                 {
@@ -656,9 +656,9 @@ EXPORT void CC Input_Init_Names_491870()
     strcpy(sGamepadDisplayKeyNames_5C9798.keys[20].field_0_name, sJoyButtonNames_5C9908[1]);
 }
 
-const char* CC Input_GetButtonString_492530(const char* idx, int controllerType)
+const s8* CC Input_GetButtonString_492530(const s8* idx, s32 controllerType)
 {
-    const char* ret = ""; // don't crash the game if the buttonstring cannot be looked up
+    const s8* ret = ""; // don't crash the game if the buttonstring cannot be looked up
     if (controllerType == 0)
     {
         ret = sKeyboardDisplayKeyNames_5C9E30.keys[*idx-1].field_0_name;
@@ -695,7 +695,7 @@ EXPORT void Input_SetJoyStickEnabled(bool enabled)
     sJoystickEnabled_5C9F70 = enabled;
 }
 
-int CC Input_Remap_492680(InputCommands::Enum inputCmd)
+s32 CC Input_Remap_492680(InputCommands::Enum inputCmd)
 {
     if (!Input_GetInputEnabled_4EDDE0())
     {
@@ -704,22 +704,22 @@ int CC Input_Remap_492680(InputCommands::Enum inputCmd)
 
     if (sJoystickEnabled_5C9F70)
     {
-        float y2 = 0.0f;
-        float x2 = 0.0f;
-        float y1 = 0.0f;
-        float x1 = 0.0f;
-        DWORD buttons = 0;
+        f32 y2 = 0.0f;
+        f32 x2 = 0.0f;
+        f32 y1 = 0.0f;
+        f32 x1 = 0.0f;
+        u32 buttons = 0;
         Input_GetJoyState_460280(&x1, &y1, &x2, &y2, &buttons);
 
         // Mask of buttons that exist for this controller
-        const int allButtonsMask = (1 << sJoystickNumButtons_5C2EFC) - 1;
+        const s32 allButtonsMask = (1 << sJoystickNumButtons_5C2EFC) - 1;
 
-        const int buttonsToRebind = allButtonsMask & buttons;
+        const s32 buttonsToRebind = allButtonsMask & buttons;
 
         buttons &= allButtonsMask;
         if (buttons)
         {
-            int bindIdx = 0;
+            s32 bindIdx = 0;
 
             // get bindIdx from the mask
             for (bindIdx = 0; bindIdx < 10; bindIdx++)
@@ -741,7 +741,7 @@ int CC Input_Remap_492680(InputCommands::Enum inputCmd)
             // By also resetting the command the key was bound FROM
             // (and only if it's a non-menu command), a situation can be
             // avoided where one key can be assigned to multiple commands.
-            const unsigned int onlyNonMenuOriginalCommands = sGamePadBindings_5C98E0[bindIdx] & ~AllMenuCommandsMask;
+            const u32 onlyNonMenuOriginalCommands = sGamePadBindings_5C98E0[bindIdx] & ~AllMenuCommandsMask;
             Input_ResetBinding_4925A0(inputCmd | onlyNonMenuOriginalCommands, 1);
             sGamePadBindings_5C98E0[bindIdx] |= inputCmd;
             Input_Init_Names_491870();
@@ -750,7 +750,7 @@ int CC Input_Remap_492680(InputCommands::Enum inputCmd)
     }
 
     // Find an "empty" key that is pressed
-    int bindIdx = 0;
+    s32 bindIdx = 0;
     while ((!sAllowedGameKeys_5C9D30[bindIdx] && bindIdx != VK_ESCAPE) || !Input_GetKeyState_4EDD20(bindIdx))
     {
         // Out of bounds
@@ -790,7 +790,7 @@ int CC Input_Remap_492680(InputCommands::Enum inputCmd)
     // By also resetting the command the key was bound FROM
     // (and only if it's a non-menu command), a situation can be
     // avoided where one key can be assigned to multiple commands.
-    const unsigned int onlyNonMenuOriginalCommands = sKeyboardBindings_5C9930[bindIdx] & ~AllMenuCommandsMask;
+    const u32 onlyNonMenuOriginalCommands = sKeyboardBindings_5C9930[bindIdx] & ~AllMenuCommandsMask;
     Input_ResetBinding_4925A0(inputCmd | onlyNonMenuOriginalCommands, 0);
 
     sKeyboardBindings_5C9930[bindIdx] |= inputCmd;
@@ -798,25 +798,25 @@ int CC Input_Remap_492680(InputCommands::Enum inputCmd)
     return 1;
 }
 
-EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad)
+EXPORT void CC Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad)
 {
     if (bIsGamePad)
     {
-        for (int i = 0; i < 10; i++)
+        for (s32 i = 0; i < 10; i++)
         {
             sGamePadBindings_5C98E0[i] &= ~input_command;
         }
     }
     else
     {
-        for (int i = 0; i < 256; i++)
+        for (s32 i = 0; i < 256; i++)
         {
             sKeyboardBindings_5C9930[i] &= ~input_command;
         }
     }
 }
 
-EXPORT InputCommands::Enum CC Input_LoadSettingsIni_GetInputCommand_492B80(const char *pActionName)
+EXPORT InputCommands::Enum CC Input_LoadSettingsIni_GetInputCommand_492B80(const s8 *pActionName)
 {
     if (!_strcmpi(pActionName, "run"))
     {
@@ -849,9 +849,9 @@ EXPORT InputCommands::Enum CC Input_LoadSettingsIni_GetInputCommand_492B80(const
     return InputCommands::Enum::eSpeak1;
 }
 
-EXPORT int CC Input_GetKeyboardKeyCode_492CA0(const char * keyName)
+EXPORT s32 CC Input_GetKeyboardKeyCode_492CA0(const s8 * keyName)
 {
-    for (int i = 0; i < 256; i++)
+    for (s32 i = 0; i < 256; i++)
     {
         if (sKeyNames_5C9394[i] && !strcmpi(keyName, sKeyNames_5C9394[i]))
         {
@@ -862,9 +862,9 @@ EXPORT int CC Input_GetKeyboardKeyCode_492CA0(const char * keyName)
     return -1;
 }
 
-EXPORT int CC Input_GetGamePadCode_492CF0(const char * buttonName )
+EXPORT s32 CC Input_GetGamePadCode_492CF0(const s8 * buttonName )
 {
-    for (int i = 0; i < 10; i++)
+    for (s32 i = 0; i < 10; i++)
     {
         if (sJoyButtonNames_5C9908[i] && !strcmpi(buttonName, sJoyButtonNames_5C9908[i]))
         {
@@ -875,9 +875,9 @@ EXPORT int CC Input_GetGamePadCode_492CF0(const char * buttonName )
     return -1;
 }
 
-EXPORT void CC Input_SetKeyboardBinding_493180(const char *pKeyName, int inputCommand)
+EXPORT void CC Input_SetKeyboardBinding_493180(const s8 *pKeyName, s32 inputCommand)
 {
-    int keyCode = Input_GetKeyboardKeyCode_492CA0(pKeyName);
+    s32 keyCode = Input_GetKeyboardKeyCode_492CA0(pKeyName);
     if (keyCode >= 0)
     {
         Input_ResetBinding_4925A0(inputCommand, 0);
@@ -885,9 +885,9 @@ EXPORT void CC Input_SetKeyboardBinding_493180(const char *pKeyName, int inputCo
     }
 }
 
-EXPORT void CC Input_SetGamePadBinding_4931D0(const char *pButtonName, int inputCommand)
+EXPORT void CC Input_SetGamePadBinding_4931D0(const s8 *pButtonName, s32 inputCommand)
 {
-    int gamePadCode = Input_GetGamePadCode_492CF0(pButtonName);
+    s32 gamePadCode = Input_GetGamePadCode_492CF0(pButtonName);
     Input_ResetBinding_4925A0(inputCommand, 1);
     if (gamePadCode >= 0)
     {
@@ -898,7 +898,7 @@ EXPORT void CC Input_SetGamePadBinding_4931D0(const char *pButtonName, int input
 std::vector<std::string> Ini_SplitParams(std::string line)
 {
     auto paramSplit = SplitString(line, '=');
-    for (unsigned int i = 0; i < paramSplit.size(); i++)
+    for (u32 i = 0; i < paramSplit.size(); i++)
     {
         if (paramSplit[i].size() == 0)
         {
@@ -921,15 +921,15 @@ std::vector<std::string> Ini_SplitParams(std::string line)
 union intOrBoolPointer
 {
     intOrBoolPointer(bool* pBool) : boolVal(pBool) {}
-    intOrBoolPointer(int* pInt) : intVal(pInt) {}
+    intOrBoolPointer(s32* pInt) : intVal(pInt) {}
 
-    int* intVal;
+    s32* intVal;
     bool* boolVal;
 };
 
 struct IniCustomSaveEntry
 {
-    const char* name;
+    const s8* name;
     intOrBoolPointer data;
     bool isBool;
 };
@@ -957,7 +957,7 @@ enum class IniCategory
 };
 
 
-const char* iniCategories[4] = {
+const s8* iniCategories[4] = {
     "Control",
     "Keyboard",
     "Gamepad",
@@ -967,7 +967,7 @@ const char* iniCategories[4] = {
 void NewParseSettingsIni()
 {
     const auto abeBuffer = FS::ReadFile(FS::GetPrefPath() + "abe2.ini");
-    const std::string abeConfig(reinterpret_cast<const char*>(abeBuffer.data()), abeBuffer.size());
+    const std::string abeConfig(reinterpret_cast<const s8*>(abeBuffer.data()), abeBuffer.size());
     std::vector<std::string> configSplit = SplitString(abeConfig, '\n');
 
     IniCategory currentCategory = IniCategory::eNone;
@@ -1064,7 +1064,7 @@ void NewParseSettingsIni()
                             {
                                 *s.data.boolVal = param[1] == "true";
                             }
-                            else // int
+                            else // s32
                             {
                                 *s.data.intVal = atoi(param[1].c_str());
                             }
@@ -1089,7 +1089,7 @@ EXPORT void Input_SaveSettingsIni_Common(bool isAo)
         return;
     }
 
-    int prevJoyState = sJoystickEnabled_5C9F70;
+    s32 prevJoyState = sJoystickEnabled_5C9F70;
 
     std::stringstream output;
 
@@ -1115,7 +1115,7 @@ EXPORT void Input_SaveSettingsIni_Common(bool isAo)
     // Keyboard remap
     output << "[" << iniCategories[1] << "]" << "\n";
 
-    const char* btnString = nullptr;
+    const s8* btnString = nullptr;
 
     btnString = Input_GetButtonString_492530(kRun, 0);
     if (btnString)
@@ -1256,44 +1256,44 @@ EXPORT void CC Input_LoadSettingsIni_492D40()
     NewParseSettingsIni();
 }
 
-ALIVE_VAR(1, 0x55ebf8, DWORD, dword_55EBF8, 0);
-ALIVE_VAR(1, 0x5c9390, BYTE, sFlags_5C9390, 0);
-ALIVE_VAR(1, 0x5c98d8, DWORD, sPrevTimeStamp_5C98D8, 0);
-ALIVE_VAR(1, 0x5c98dc, DWORD, dword_5C98DC, 0);
-ALIVE_VAR(1, 0x5c9f74, DWORD, sPrevious_down_keyboard_keys_5C9F74, 0);
-ALIVE_VAR(1, 0x5c9f78, DWORD, dword_5C9F78, 0);
-ALIVE_VAR(1, 0x5c9794, int, sKeyboardBindings_5C9794, 0);
+ALIVE_VAR(1, 0x55ebf8, u32, dword_55EBF8, 0);
+ALIVE_VAR(1, 0x5c9390, u8, sFlags_5C9390, 0);
+ALIVE_VAR(1, 0x5c98d8, u32, sPrevTimeStamp_5C98D8, 0);
+ALIVE_VAR(1, 0x5c98dc, u32, dword_5C98DC, 0);
+ALIVE_VAR(1, 0x5c9f74, u32, sPrevious_down_keyboard_keys_5C9F74, 0);
+ALIVE_VAR(1, 0x5c9f78, u32, dword_5C9F78, 0);
+ALIVE_VAR(1, 0x5c9794, s32, sKeyboardBindings_5C9794, 0);
 
 #if ORIGINAL_PS1_BEHAVIOR
-static bool IsChantingAnyShoulderButton(int shoulderButtonsPressedCount)
+static bool IsChantingAnyShoulderButton(s32 shoulderButtonsPressedCount)
 {
     return (shoulderButtonsPressedCount > 1);
 }
 #else
-static bool IsChanting(char input_command_c_pressed, char input_command_delete_pressed)
+static bool IsChanting(s8 input_command_c_pressed, s8 input_command_delete_pressed)
 {
     return (input_command_c_pressed && input_command_delete_pressed);
 }
 #endif
 
 // Temp Hax. Todo: fix up
-EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
+EXPORT s32 Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 {
-    DWORD timeStamp; // eax
-    DWORD buttons; // edx
-    DWORD currentTime; // eax
-    char input_command_delete_pressed; // [esp+2h] [ebp-1Ah]
-    char input_command_c_pressed; // [esp+3h] [ebp-19h]
-    int keys_down; // [esp+4h] [ebp-18h]
-    DWORD pButtons; // [esp+8h] [ebp-14h]
+    u32 timeStamp; // eax
+    u32 buttons; // edx
+    u32 currentTime; // eax
+    s8 input_command_delete_pressed; // [esp+2h] [ebp-1Ah]
+    s8 input_command_c_pressed; // [esp+3h] [ebp-19h]
+    s32 keys_down; // [esp+4h] [ebp-18h]
+    u32 pButtons; // [esp+8h] [ebp-14h]
 
     if (!Input_GetInputEnabled_4EDDE0())
     {
         return 0;
     }
 
-    int converted_input = 0;
-    int pressed_keyboard_keys = 0;
+    s32 converted_input = 0;
+    s32 pressed_keyboard_keys = 0;
 
     if (sFlags_5C9390 & 1)
     {
@@ -1312,14 +1312,14 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
         dword_5C98DC = timeStamp - 55;
     }
 
-    float pX1 = 0.0f;
-    float pY1 = 0.0f;
-    float pY2 = 0.0f;
-    float pX2 = 0.0f;
+    f32 pX1 = 0.0f;
+    f32 pY1 = 0.0f;
+    f32 pY2 = 0.0f;
+    f32 pX2 = 0.0f;
 
     if (Sys_IsAppActive_4EDF30())
     {
-        for (int i = 0; i < 256; i++)
+        for (s32 i = 0; i < 256; i++)
         {
             if (sKeyboardBindings_5C9930[i])
             {
@@ -1374,9 +1374,9 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                 {
                     buttons = pButtons;
 
-                    int shoulderButtonsPressedCount = 0;
+                    s32 shoulderButtonsPressedCount = 0;
 
-                    for (int i = 0; i < 10; i++)
+                    for (s32 i = 0; i < 10; i++)
                     {
                         if (sGamePadBindings_5C98E0[i] & InputCommands::Enum::eSpeak1)
                         {
@@ -1471,7 +1471,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                     }
                 }
 
-                for (int i = 0; i < 10; i++)
+                for (s32 i = 0; i < 10; i++)
                 {
                     if (sGamePadBindings_5C98E0[i])
                     {
@@ -1492,7 +1492,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             if (!(sPrevious_down_keyboard_keys_5C9F74 & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft)))
                             {
                                 currentTime = SYS_GetTicks();
-                                if ((unsigned int)(sPrevTimeStamp_5C98D8 - dword_5C98DC) <= 220 && currentTime - sPrevTimeStamp_5C98D8 <= 220)
+                                if ((u32)(sPrevTimeStamp_5C98D8 - dword_5C98DC) <= 220 && currentTime - sPrevTimeStamp_5C98D8 <= 220)
                                 {
                                     dword_5C9F78 = 1;
                                 }
@@ -1547,7 +1547,7 @@ EXPORT void CC Input_SetCallback_4FA910(t_InputCallback pFunc)
     sInputCallbackFunc_BD1870 = pFunc;
 }
 
-EXPORT void CC Input_45FDF0(float x, float y, int a3, bool cap_has_r)
+EXPORT void CC Input_45FDF0(f32 x, f32 y, s32 a3, bool cap_has_r)
 {
     if (sJoystickNumButtons_5C2EFC == 4 && (a3 || cap_has_r))
     {
@@ -1611,7 +1611,7 @@ EXPORT void Input_InitJoyStick_460080()
     if (!SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC | SDL_INIT_GAMECONTROLLER))
     {
         DEV_CONSOLE_PRINTF("SDL GamePads: %i", SDL_NumJoysticks());
-        for (int i = 0; i < SDL_NumJoysticks(); ++i) {
+        for (s32 i = 0; i < SDL_NumJoysticks(); ++i) {
             if (SDL_IsGameController(i)) {
                 pSDLController = SDL_GameControllerOpen(i);
                 if (pSDLController) {
@@ -1638,8 +1638,8 @@ EXPORT void Input_InitJoyStick_460080()
         printf("Failed to INIT SDL Gamepad Input\n");
     }
 #elif _WIN32
-    const DWORD count = joyGetNumDevs();
-    for (DWORD i = 0; i < count; i++)
+    const u32 count = joyGetNumDevs();
+    for (u32 i = 0; i < count; i++)
     {
         LOG_INFO("Calling joyGetDevCapsA for " << i << " of " << count);
         if (!joyGetDevCapsA(i, &sJoystickCaps_5C2D10, sizeof(tagJOYCAPSA)))
@@ -1661,7 +1661,7 @@ EXPORT void Input_InitJoyStick_460080()
         }
     }
 
-    int joyFlags = 0xC83;
+    s32 joyFlags = 0xC83;
 
     if (sJoystickCaps_5C2D10.wCaps & JOYCAPS_HASZ)
     {
@@ -1691,11 +1691,11 @@ EXPORT void Input_InitJoyStick_460080()
     {
         if (joyFlags & 0xC)
         {
-            float pY2; // [esp+Ch] [ebp-14h]
-            float pX2; // [esp+10h] [ebp-10h]
-            DWORD pButtons; // [esp+14h] [ebp-Ch]
-            float pY1; // [esp+18h] [ebp-8h]
-            float pX1; // [esp+1Ch] [ebp-4h]
+            f32 pY2; // [esp+Ch] [ebp-14h]
+            f32 pX2; // [esp+10h] [ebp-10h]
+            u32 pButtons; // [esp+14h] [ebp-Ch]
+            f32 pY1; // [esp+18h] [ebp-8h]
+            f32 pX1; // [esp+1Ch] [ebp-4h]
 
             Input_GetJoyState_460280(&pX1, &pY1, &pX2, &pY2, &pButtons);
             Input_45FDF0(pX2, pY2, (sJoystickCapFlags_5C2EDC & 4) != 0, (sJoystickCapFlags_5C2EDC & 8) != 0);
@@ -1878,14 +1878,14 @@ EXPORT void CC Input_Init_491BC0()
     Input_SetCallback_4FA910(Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150);
 }
 
-EXPORT DWORD Input_GetLastPressedKey_492610()
+EXPORT u32 Input_GetLastPressedKey_492610()
 {
     if (!Sys_IsAnyKeyDown_4EDDF0())
     {
         return 0;
     }
 
-    const DWORD lastVKeyPressed = sLastPressedKey_BD30A0;
+    const u32 lastVKeyPressed = sLastPressedKey_BD30A0;
 
     sIsAKeyDown_BD309C = false;
     sLastPressedKey_BD30A0 = 0;
@@ -1899,7 +1899,7 @@ void Input_Reset_492660()
     Input_InitKeyStateArray_4EDD60();
 }
 
-EXPORT unsigned int Input_IsChanting_45F260()
+EXPORT u32 Input_IsChanting_45F260()
 {
     return (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed & InputCommands::Enum::eChant) == InputCommands::Enum::eChant;
 }
@@ -1910,7 +1910,7 @@ EXPORT void CC Input_InitKeyStateArray_4EDD60()
     memset(sInputKeyStates_BD2F60, 0, 256u);
 }
 
-EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown)
+EXPORT void CC Input_SetKeyState_4EDD80(s32 key, s8 bIsDown)
 {
     if (bIsDown)
     {
@@ -1923,7 +1923,7 @@ EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown)
 }
 
 // Returns true if a key was just pressed down.
-EXPORT bool CC Input_IsVKPressed_4EDD40(int key)
+EXPORT bool CC Input_IsVKPressed_4EDD40(s32 key)
 {
     const auto keyState = sInputKeyStates_BD2F60[key];
 
@@ -1937,7 +1937,7 @@ EXPORT bool CC Input_IsVKPressed_4EDD40(int key)
     return true;
 }
 
-EXPORT int CC Input_Read_Pad_4FA9C0(int padNum)
+EXPORT s32 CC Input_Read_Pad_4FA9C0(s32 padNum)
 {
     if (!sReadPadEnable_BD1874 || (padNum != 0) != (Input_GetKeyState_4EDD20(VK_F2) != 0))
     {
@@ -1968,7 +1968,7 @@ EXPORT void CC Input_Pads_Reset_4FA960()
     sReadPadEnable_BD1874 = true;
 }
 
-int InputObject::Is_Demo_Playing_45F220()
+s32 InputObject::Is_Demo_Playing_45F220()
 {
     return field_38_bDemoPlaying & 1;
 }
@@ -1978,7 +1978,7 @@ void InputObject::UnsetDemoPlaying_45F240()
     field_38_bDemoPlaying &= ~1;
 }
 
-void InputObject::SetDemoResource_45F1E0(DWORD** pDemoRes)
+void InputObject::SetDemoResource_45F1E0(u32** pDemoRes)
 {
     field_34_demo_command_index = 2;
     field_30_pDemoRes = pDemoRes;
@@ -1988,7 +1988,7 @@ void InputObject::SetDemoResource_45F1E0(DWORD** pDemoRes)
 
 void InputObject::Update_45F040()
 {
-    const unsigned char byte_545A4C[20] =
+    const u8 byte_545A4C[20] =
     {
         0, // left?
         64, // up?
@@ -2027,7 +2027,7 @@ void InputObject::Update_45F040()
 
         if (sGnFrame_5C1B84 >= field_40_command_duration)
         {
-            const DWORD command = (*field_30_pDemoRes)[field_34_demo_command_index++];
+            const u32 command = (*field_30_pDemoRes)[field_34_demo_command_index++];
             field_3C_command = command >> 16;
             field_40_command_duration = sGnFrame_5C1B84 + (command & 0xFFFF);
 
@@ -2056,9 +2056,9 @@ void InputObject::Update_45F040()
     field_0_pads[1].field_4_dir = byte_545A4C[field_0_pads[1].field_0_pressed & 0xF];
 }
 
-DWORD CC InputObject::Command_To_Raw_45EE40(DWORD cmd)
+u32 CC InputObject::Command_To_Raw_45EE40(u32 cmd)
 {
-    unsigned int shoulderButtonsPressedCount = 0;
+    u32 shoulderButtonsPressedCount = 0;
 
     if (cmd & PsxButtonBits::eL2)
     {
@@ -2085,7 +2085,7 @@ DWORD CC InputObject::Command_To_Raw_45EE40(DWORD cmd)
         return InputCommands::Enum::eChant;
     }
 
-    DWORD rawInput = 0;
+    u32 rawInput = 0;
     if (cmd & PsxButtonBits::eDPadUp)
     {
         rawInput |= InputCommands::Enum::eUp;
@@ -2187,10 +2187,10 @@ DWORD CC InputObject::Command_To_Raw_45EE40(DWORD cmd)
 }
 
 // TODO: Refactor/implement cleanly - this should be the reverse of Command_To_Raw_45EE40
-char CC InputObject::Raw_To_Command_45EF70(int a1)
+s8 CC InputObject::Raw_To_Command_45EF70(s32 a1)
 {
-    int v1; // ecx
-    char result; // al
+    s32 v1; // ecx
+    s8 result; // al
 
     v1 = a1;
     result = 0;
@@ -2241,17 +2241,17 @@ void CC InputObject::ShutDown_45F020()
 #endif
 }
 
-bool InputObject::isPressed(DWORD command)
+bool InputObject::isPressed(u32 command)
 {
   return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & command) != 0;
 }
 
-bool InputObject::isHeld(DWORD command)
+bool InputObject::isHeld(u32 command)
 {
   return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & command) != 0;
 }
 
-bool InputObject::IsReleased(DWORD keys)
+bool InputObject::IsReleased(u32 keys)
 {
     return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_10_released & keys) != 0;
 }

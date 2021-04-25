@@ -36,7 +36,7 @@ BaseGameObject* Shrykull::dtor_463990()
     return dtor_401000();
 }
 
-Shrykull* Shrykull::Vdtor_464300(signed int flags)
+Shrykull* Shrykull::Vdtor_464300(s32 flags)
 {
     dtor_463990();
     if (flags & 1)
@@ -46,7 +46,7 @@ Shrykull* Shrykull::Vdtor_464300(signed int flags)
     return this;
 }
 
-BaseGameObject* Shrykull::VDestructor(signed int flags)
+BaseGameObject* Shrykull::VDestructor(s32 flags)
 {
     return Vdtor_464300(flags);
 }
@@ -71,7 +71,7 @@ Shrykull* Shrykull::ctor_463880()
     field_6_flags.Set(Options::eCanExplode_Bit7);
     SetVTable(this, 0x4BC9B8);
     field_4_typeId = Types::eShrykull_85;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID, 1, 0);
     Animation_Init_417FD0(
         92004,
         121,
@@ -178,7 +178,7 @@ void Shrykull::VUpdate_463AE0()
             }
         }
 
-        for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
             if (!pObj)
@@ -338,7 +338,7 @@ void Shrykull::VUpdate_463AE0()
 
                 PSX_RECT ourRect = {};
                 VGetBoundingRect(&ourRect, 1);
-                if (static_cast<int>(gnFrameCount_507670) == field_114_timer)
+                if (static_cast<s32>(gnFrameCount_507670) == field_114_timer)
                 {
                     auto pParticleBurst = ao_new<ParticleBurst>();
                     if (pParticleBurst)
@@ -366,7 +366,7 @@ void Shrykull::VUpdate_463AE0()
             }
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_110_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_110_timer)
         {
             field_10C_state = State::eZapTargets_1;
 

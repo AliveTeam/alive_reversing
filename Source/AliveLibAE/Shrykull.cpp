@@ -26,7 +26,7 @@ Shrykull* Shrykull::ctor_4AEA20()
     field_128_obj_being_zapped_id = -1;
     field_124_zap_line_id = -1;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID);
     Animation_Init_424E10(82676, 123, 79u, ppRes, 1, 1u);
 
     field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos;
@@ -46,7 +46,7 @@ Shrykull* Shrykull::ctor_4AEA20()
     return this;
 }
 
-BaseGameObject* Shrykull::VDestructor(signed int flags)
+BaseGameObject* Shrykull::VDestructor(s32 flags)
 {
     return vdtor_4AEB90(flags);
 }
@@ -76,7 +76,7 @@ void Shrykull::dtor_4AEBC0()
     dtor_4080B0();
 }
 
-Shrykull* Shrykull::vdtor_4AEB90(signed int flags)
+Shrykull* Shrykull::vdtor_4AEB90(s32 flags)
 {
     dtor_4AEBC0();
     if (flags & 1)
@@ -94,7 +94,7 @@ void Shrykull::vScreenChange_4AF650()
     }
 }
 
-__int16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
+s16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
 {
     switch (pObj->field_4_typeId)
     {
@@ -114,7 +114,7 @@ __int16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
     }
 }
 
-__int16 CCSTD Shrykull::CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 CCSTD Shrykull::CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     return
         (
@@ -169,7 +169,7 @@ void Shrykull::vUpdate_4AEDE0()
             }
         }
 
-        for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
             if (!pObj)
@@ -329,7 +329,7 @@ void Shrykull::vUpdate_4AEDE0()
                 PSX_RECT ourRect = {};
                 vGetBoundingRect_424FD0(&ourRect, 1);
 
-                if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer)
+                if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer)
                 {
                     auto pParticleBurst = ae_new<ParticleBurst>();
                     if (pParticleBurst)
@@ -354,7 +354,7 @@ void Shrykull::vUpdate_4AEDE0()
             }
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_11C_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_11C_timer)
         {
             field_118_state = State::eZapTargets_1;
             if (pExistingBeingZappedObj)

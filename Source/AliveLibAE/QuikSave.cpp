@@ -50,7 +50,7 @@
 
 struct QuickSaveRestoreTable
 {
-    int(CC* mFns[180])(const BYTE *);
+    s32(CC* mFns[180])(const u8 *);
 };
 
 QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
@@ -241,7 +241,7 @@ ALIVE_VAR(1, 0x560c34, QuickSaveRestoreTable, sQuicksaveLoadFunctionTable_560C34
 
 struct QuickSaveFlagTypeTable
 {
-    BYTE mTypes[136];
+    u8 mTypes[136];
 };
 
 const QuickSaveFlagTypeTable kQuickSaveFlagsTable =
@@ -266,45 +266,45 @@ const QuickSaveFlagTypeTable kQuickSaveFlagsTable =
 
 ALIVE_VAR(1, 0x547794, QuickSaveFlagTypeTable, kObjectTypeAttributesTable_byte_547794, kQuickSaveFlagsTable);
 
-ALIVE_VAR(1, 0x5c1bbc, WORD, bUseAltSaveHeader_5C1BBC, 0);
+ALIVE_VAR(1, 0x5c1bbc, u16, bUseAltSaveHeader_5C1BBC, 0);
 
-ALIVE_VAR(1, 0xbb234c, WORD, sQuickSave_saved_switchResetters_count_BB234C, 0);
+ALIVE_VAR(1, 0xbb234c, u16, sQuickSave_saved_switchResetters_count_BB234C, 0);
 
-void QuikSave_RestoreBlyData_D481890_4C9BE0(const BYTE* pSaveData)
+void QuikSave_RestoreBlyData_D481890_4C9BE0(const u8* pSaveData)
 {
-    const WORD* pSaveData2 = reinterpret_cast<const WORD*>(pSaveData);
+    const u16* pSaveData2 = reinterpret_cast<const u16*>(pSaveData);
 
-    while (*reinterpret_cast<const DWORD*>(pSaveData2) != 0)
+    while (*reinterpret_cast<const u32*>(pSaveData2) != 0)
     {
-        pSaveData2 += sQuicksaveLoadFunctionTable_560C34.mFns[*pSaveData2](reinterpret_cast<const BYTE*>(pSaveData2)) / sizeof(WORD);
+        pSaveData2 += sQuicksaveLoadFunctionTable_560C34.mFns[*pSaveData2](reinterpret_cast<const u8*>(pSaveData2)) / sizeof(u16);
     }
 
     // Skip the 2 zero entries, the saved flag words come after the object save state data
-    const BYTE* pSrcFlags = reinterpret_cast<const BYTE*>(pSaveData2 + 2);
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    const u8* pSrcFlags = reinterpret_cast<const u8*>(pSaveData2 + 2);
+    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
         {
             const PathData* pPathData = pPathRec->field_4_pPathData;
-            const int widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
-            const int heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+            const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
+            const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
+            u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
             if (ppPathRes)
             {
-                const int totalCameraCount = widthCount * heightCount;
-                const int* indexTable = reinterpret_cast<const int*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
-                for (int j = 0; j < totalCameraCount; j++)
+                const s32 totalCameraCount = widthCount * heightCount;
+                const s32* indexTable = reinterpret_cast<const s32*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
+                for (s32 j = 0; j < totalCameraCount; j++)
                 {
-                    const int tlvOffset = indexTable[j];
+                    const s32 tlvOffset = indexTable[j];
                     if (tlvOffset != -1)
                     {
-                        BYTE* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
+                        u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
                             // TODO: Convert table to strongly typed flags
-                            const BYTE tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<short>(pTlv->field_4_type.mType)];
+                            const u8 tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->field_4_type.mType)];
                             if (tableValue == 1 || tableValue == 2) // Type 0 ignored - actually it should never be written here anyway
                             {
                                 pTlv->field_0_flags.Raw().all = *pSrcFlags;
@@ -326,10 +326,10 @@ void QuikSave_RestoreBlyData_D481890_4C9BE0(const BYTE* pSaveData)
 
 
 ALIVE_VAR(1, 0xBAF7F8, Quicksave, sActiveQuicksaveData_BAF7F8, {});
-ALIVE_VAR(1, 0x5C1BF4, int, sAccumulatedObjectCount_5C1BF4, 0);
+ALIVE_VAR(1, 0x5C1BF4, s32, sAccumulatedObjectCount_5C1BF4, 0);
 ALIVE_ARY(1, 0xBB31D8, SaveFileRec, 128, sSaveFileRecords_BB31D8, {});
-ALIVE_VAR(1, 0xBB43FC, int, sSavedGameToLoadIdx_BB43FC, 0);
-ALIVE_VAR(1, 0xBB43E0, signed int, sTotalSaveFilesCount_BB43E0, 0);
+ALIVE_VAR(1, 0xBB43FC, s32, sSavedGameToLoadIdx_BB43FC, 0);
+ALIVE_VAR(1, 0xBB43E0, s32, sTotalSaveFilesCount_BB43E0, 0);
 
 EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave *quicksaveData)
 {
@@ -339,7 +339,7 @@ EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave *quicksaveData)
     bSkipGameObjectUpdates_5C2FA0 = 1;
     Quicksave_ReadWorldInfo_4C9490(&quicksaveData->field_204_world_info);
     sSwitchStates_5C1A28 = quicksaveData->field_45C_switch_states;
-    gMap_5C3030.field_D8_restore_quick_save = reinterpret_cast<BYTE*>(quicksaveData->field_55C_objects_state_data);
+    gMap_5C3030.field_D8_restore_quick_save = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);
     gMap_5C3030.SetActiveCam_480D30(
         quicksaveData->field_204_world_info.field_4_level,
         quicksaveData->field_204_world_info.field_6_path,
@@ -356,7 +356,7 @@ EXPORT void CC Quicksave_LoadActive_4C9170()
     Quicksave_LoadFromMemory_4C95A0(&sActiveQuicksaveData_BAF7F8);
 }
 
-static void WriteChars(char*& pDst, BYTE v1, BYTE v2)
+static void WriteChars(s8*& pDst, u8 v1, u8 v2)
 {
     *pDst = v1;
     pDst++;
@@ -365,7 +365,7 @@ static void WriteChars(char*& pDst, BYTE v1, BYTE v2)
     pDst++;
 }
 
-static void WriteFlags(BYTE*& pSaveBuffer, const Path_TLV* pTlv, const BitField8<TLV_Flags>& flags)
+static void WriteFlags(u8*& pSaveBuffer, const Path_TLV* pTlv, const BitField8<TLV_Flags>& flags)
 {
     *pSaveBuffer = flags.Raw().all;
     pSaveBuffer++;
@@ -374,31 +374,31 @@ static void WriteFlags(BYTE*& pSaveBuffer, const Path_TLV* pTlv, const BitField8
     pSaveBuffer++;
 }
 
-EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE* pSaveBuffer)
+EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
 {
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
         {
             const PathData* pPathData = pPathRec->field_4_pPathData;
-            const int widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
-            const int heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+            const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
+            const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
+            u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
             if (ppPathRes)
             {
-                const int totalCameraCount = widthCount * heightCount;
-                const int* indexTable = reinterpret_cast<const int*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
-                for (int j = 0; j < totalCameraCount; j++)
+                const s32 totalCameraCount = widthCount * heightCount;
+                const s32* indexTable = reinterpret_cast<const s32*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
+                for (s32 j = 0; j < totalCameraCount; j++)
                 {
-                    const int tlvOffset = indexTable[j];
+                    const s32 tlvOffset = indexTable[j];
                     if (tlvOffset != -1)
                     {
-                        BYTE* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
+                        u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<short>(pTlv->field_4_type.mType)] == 1)
+                            if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->field_4_type.mType)] == 1)
                             {
                                 BitField8<TLV_Flags> flags = pTlv->field_0_flags;
                                 if (flags.Get(TLV_Flags::eBit1_Created))
@@ -408,7 +408,7 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE* pSaveBuffer)
                                 }
                                 WriteFlags(pSaveBuffer, pTlv, flags);
                             }
-                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<short>(pTlv->field_4_type.mType)] == 2)
+                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->field_4_type.mType)] == 2)
                             {
                                 WriteFlags(pSaveBuffer, pTlv, pTlv->field_0_flags);
                             }
@@ -431,32 +431,32 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE* pSaveBuffer)
 struct SaveFlagsAndData
 {
     BitField8<TLV_Flags> flags;
-    BYTE data;
+    u8 data;
 };
 ALIVE_ARY(1, 0xBB233C, SaveFlagsAndData, 8, sSwitchReset_Saved_States_BB233C, {});
 
 EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
 {
     sQuickSave_saved_switchResetters_count_BB234C = 0;
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
         {
             const PathData* pPathData = pPathRec->field_4_pPathData;
-            const int widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
-            const int heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+            const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
+            const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
+            u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
             if (ppPathRes)
             {
-                const int totalCameraCount = widthCount * heightCount;
-                const int* indexTable = reinterpret_cast<const int*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
-                for (int j = 0; j < totalCameraCount; j++)
+                const s32 totalCameraCount = widthCount * heightCount;
+                const s32* indexTable = reinterpret_cast<const s32*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
+                for (s32 j = 0; j < totalCameraCount; j++)
                 {
-                    int tlvOffset = indexTable[j];
+                    s32 tlvOffset = indexTable[j];
                     if (tlvOffset != -1)
                     {
-                        BYTE* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
+                        u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
@@ -486,26 +486,26 @@ EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
 
 EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
 {
-    int idx = 0;
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    s32 idx = 0;
+    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
         {
             const PathData* pPathData = pPathRec->field_4_pPathData;
-            const int widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
-            const int heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+            const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
+            const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
+            u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
             if (ppPathRes)
             {
-                const int totalCameraCount = widthCount * heightCount;
-                const int* indexTable = reinterpret_cast<const int*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
-                for (int j = 0; j < totalCameraCount; j++)
+                const s32 totalCameraCount = widthCount * heightCount;
+                const s32* indexTable = reinterpret_cast<const s32*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
+                for (s32 j = 0; j < totalCameraCount; j++)
                 {
-                    int tlvOffset = indexTable[j];
+                    s32 tlvOffset = indexTable[j];
                     if (tlvOffset != -1)
                     {
-                        BYTE* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
+                        u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
@@ -534,11 +534,11 @@ EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
     sQuickSave_saved_switchResetters_count_BB234C = 0;
 }
 
-void CC MEMCARD_Write_SJISC_String_4A2770(char* src, char* dst, int srcLength)
+void CC MEMCARD_Write_SJISC_String_4A2770(s8* src, s8* dst, s32 srcLength)
 {
     while (srcLength > 0)
     {
-        const char srcChar = *src;
+        const s8 srcChar = *src;
         if (*src >= 'A' && srcChar <= 'Z')
         {
             WriteChars(dst, 0x82, *src + 0x1F);
@@ -574,23 +574,23 @@ void CC MEMCARD_Write_SJISC_String_4A2770(char* src, char* dst, int srcLength)
     }
 }
 
-EXPORT void CC MEMCARD_Generate_Timestamp_String_4A21F0(char *pStr)
+EXPORT void CC MEMCARD_Generate_Timestamp_String_4A21F0(s8 *pStr)
 {
     sprintf(pStr, "%03d:%02d",
-        (signed int)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 / 60 % 1000,
-        (signed int)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
+        (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 / 60 % 1000,
+        (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
 }
 
-EXPORT void CC MEMCARD_Write_Timestamp_SJISC_String_4A2290(char* dst)
+EXPORT void CC MEMCARD_Write_Timestamp_SJISC_String_4A2290(s8* dst)
 {
-    char gameTimeStr[12] = {};
+    s8 gameTimeStr[12] = {};
     MEMCARD_Generate_Timestamp_String_4A21F0(gameTimeStr);
 
     const size_t len = strlen(gameTimeStr);
     for (size_t idx = 0; idx < len; idx++)
     {
         // More SJISC conversion ?
-        const char strChar = gameTimeStr[idx];
+        const s8 strChar = gameTimeStr[idx];
         if (strChar == ' ')
         {
             dst[2 * idx] = 0x81u;
@@ -631,17 +631,17 @@ EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 
         MEMCARD_Write_Timestamp_SJISC_String_4A2290(&pSave->field_0_header.field_0_frame_1_name[50]);
 
-        char src[12] = {};
+        s8 src[12] = {};
         sprintf(src, "%2sP%02dC%02d",
-            sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
+            sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
             gMap_5C3030.field_2_current_path,
             gMap_5C3030.field_4_current_camera);
         MEMCARD_Write_SJISC_String_4A2770(src, &pSave->field_0_header.field_0_frame_1_name[32], 8);
         Quicksave_SaveWorldInfo_4C9310(&pSave->field_204_world_info);
         pSave->field_45C_switch_states = sSwitchStates_5C1A28;
 
-        BYTE* pDataIter = pSave->field_55C_objects_state_data;
-        for (int idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        u8* pDataIter = pSave->field_55C_objects_state_data;
+        for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
             if (!pObj)
@@ -655,7 +655,7 @@ EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
             }
         }
 
-        // Write a DWORD of 0
+        // Write a u32 of 0
         pDataIter[0] = 0;
         pDataIter[1] = 0;
         pDataIter[2] = 0;
@@ -680,7 +680,7 @@ void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
     bUseAltSaveHeader_5C1BBC = pInfo->field_2E_use_alt_save_header;
 
     // Read all fields bar the last
-    for (int i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)
     {
         sSavedKilledMudsPerPath_5C1B50.mData[i] = pInfo->field_18_saved_killed_muds_per_path[i];
     }
@@ -714,7 +714,7 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_8_cam = gMap_5C3030.field_4_current_camera;
     pInfo->field_2E_use_alt_save_header = bUseAltSaveHeader_5C1BBC;
 
-    for (int i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)
     {
         pInfo->field_18_saved_killed_muds_per_path[i] = sSavedKilledMudsPerPath_5C1B50.mData[i];
     }
@@ -724,7 +724,7 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_2C_stats_sign_current_area = sStatsSignCurrentArea_5C1A20;
     pInfo->field_12_saved_muds = sRescuedMudokons_5C1BC2;
     pInfo->field_14_killed_muds = sKilledMudokons_5C1BC0;
-    pInfo->field_16_muds_in_area = static_cast<char>(sMudokonsInArea_5C1BC4); // TODO: Check types
+    pInfo->field_16_muds_in_area = static_cast<s8>(sMudokonsInArea_5C1BC4); // TODO: Check types
     pInfo->field_2D_total_meter_bars = gTotalMeterBars_5C1BFA;
     pInfo->field_30_bDrawMeterCountDown = gbDrawMeterCountDown_5C1BF8;
     pInfo->field_3C_bBulletProof = gAbeBulletProof_5C1BDA;
@@ -737,10 +737,10 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_10_controlled_scale = sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0);
 }
 
-EXPORT int CC Sort_comparitor_4D42C0(const void *pSaveRecLeft, const void *pSaveRecRight)
+EXPORT s32 CC Sort_comparitor_4D42C0(const void *pSaveRecLeft, const void *pSaveRecRight)
 {
-    const int leftTime = reinterpret_cast<const SaveFileRec*>(pSaveRecLeft)->field_20_lastWriteTimeStamp;
-    const int rightTime = reinterpret_cast<const SaveFileRec*>(pSaveRecRight)->field_20_lastWriteTimeStamp;
+    const s32 leftTime = reinterpret_cast<const SaveFileRec*>(pSaveRecLeft)->field_20_lastWriteTimeStamp;
+    const s32 rightTime = reinterpret_cast<const SaveFileRec*>(pSaveRecRight)->field_20_lastWriteTimeStamp;
 
     if (leftTime <= rightTime)
     {
@@ -756,7 +756,7 @@ void CC Quicksave_FindSaves_4D4150()
 {
     sTotalSaveFilesCount_BB43E0 = 0;
 
-    IO_EnumerateDirectory("*.sav", [](const char* fileName, DWORD lastWriteTime)
+    IO_EnumerateDirectory("*.sav", [](const s8* fileName, u32 lastWriteTime)
     {
         if (sTotalSaveFilesCount_BB43E0 < 128)
         {
@@ -810,7 +810,7 @@ namespace AETest::TestsQuikSave
         abe.field_E0_pShadow = &shadow;
         Abe_SaveState state = {};
         abe.field_1AC_flags.Set(bitToSet);
-        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
         ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
     }
 
@@ -821,7 +821,7 @@ namespace AETest::TestsQuikSave
         abe.field_E0_pShadow = &shadow;
         Abe_SaveState state = {};
         abe.field_1AE_flags.Set(bitToSet);
-        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
         ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
     }
 
@@ -832,7 +832,7 @@ namespace AETest::TestsQuikSave
         abe.field_E0_pShadow = &shadow;
         Abe_SaveState state = {};
         abe.field_114_flags.Set(bitToSet);
-        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
         ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
     }
 
@@ -844,7 +844,7 @@ namespace AETest::TestsQuikSave
         abe.field_E0_pShadow = &shadow;
         Abe_SaveState state = {};
         abe.field_1AC_flags.Set(bitToSet);
-        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
         comp(state);
     }
 
@@ -856,7 +856,7 @@ namespace AETest::TestsQuikSave
         abe.field_E0_pShadow = &shadow;
         Abe_SaveState state = {};
         set(abe);
-        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
         ASSERT_TRUE(state.field_D6_flags.Get(bitToExpect));
     }
 
@@ -869,7 +869,7 @@ namespace AETest::TestsQuikSave
         abe.field_E0_pShadow = &shadow;
         Abe_SaveState state = {};
         set(abe);
-        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
         ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
     }
 
@@ -881,7 +881,7 @@ namespace AETest::TestsQuikSave
         abe.field_E0_pShadow = &shadow;
         Abe_SaveState state = {};
         set(abe);
-        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
         comp(state);
     }
 
@@ -926,7 +926,7 @@ namespace AETest::TestsQuikSave
 
 
         // Needs resource manager and tons of other stuff, requires too many hacks to test this call
-        //Abe::CreateFromSaveState_44D4F0(reinterpret_cast<const BYTE*>(&state));
+        //Abe::CreateFromSaveState_44D4F0(reinterpret_cast<const u8*>(&state));
     }
 
     void QuikSave_Tests()

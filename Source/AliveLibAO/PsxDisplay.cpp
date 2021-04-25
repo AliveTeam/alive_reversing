@@ -36,8 +36,8 @@ PsxDisplay* PsxDisplay::ctor_40DAB0(const PSX_Display_Params* pParams)
         field_0_width = 3 *  pParams->field_0_width / 2;
     }
 
-    short w = 0;
-    short v1 = 0;
+    s16 w = 0;
+    s16 v1 = 0;
     if (pParams->field_2_height == 240)
     {
         w = field_0_width;
@@ -151,11 +151,11 @@ void PsxDisplay::PSX_Display_Render_OT_40DD20()
     }
     else
     {
-        // Normal double buffer rendering
+        // Normal f64 buffer rendering
         PSX_DrawSync_496750(0);
         PSX_VSync_496620(2);
 
-        const int oldBuffer = field_A_buffer_index;
+        const s32 oldBuffer = field_A_buffer_index;
         field_A_buffer_index = field_A_buffer_index + 1;
         if (field_A_buffer_index >= field_6_max_buffers)
         {
@@ -177,7 +177,7 @@ void PsxDisplay::PutCurrentDispEnv_40DE40()
 }
 
 // NOTE: Dead code after new FMVs are implemented
-void PsxDisplay::Movie_Render_40DE60(unsigned __int16 bufferIdx)
+void PsxDisplay::Movie_Render_40DE60(u16 bufferIdx)
 {
     field_A_buffer_index = bufferIdx;
     PSX_ClearOTag_496760(field_C_drawEnv[0].field_70_ot_buffer, field_8_buffer_size);
@@ -197,7 +197,7 @@ void PsxDisplay::Movie_Render_40DE60(unsigned __int16 bufferIdx)
     PSX_ClearOTag_496760(field_C_drawEnv[0].field_70_ot_buffer, field_8_buffer_size);
 }
 
-EXPORT int CC DebugFont_Init_487EC0()
+EXPORT s32 CC DebugFont_Init_487EC0()
 {
     return ::DebugFont_Init_4DCF40();
 }

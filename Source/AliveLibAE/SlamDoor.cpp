@@ -9,11 +9,11 @@
 
 struct SlamDoor_Data
 {
-    int field_0_frameTableOffset;
-    int field_4_ppRes;
-    int field_8_frameTableOffset;
-    __int16 field_C_maxH;
-    __int16 field_E_maxW;
+    s32 field_0_frameTableOffset;
+    s32 field_4_ppRes;
+    s32 field_8_frameTableOffset;
+    s16 field_C_maxH;
+    s16 field_E_maxW;
 };
 
 const AnimId sSlamDoorData_547168[15][3] =
@@ -64,12 +64,12 @@ struct Quicksave_Obj_SlamDoor
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
 
-BaseGameObject* SlamDoor::VDestructor(signed int flags)
+BaseGameObject* SlamDoor::VDestructor(s32 flags)
 {
     return vdtor_4AFD20(flags);
 }
 
-int SlamDoor::VGetSaveState(BYTE* pSaveBuffer)
+s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4C09D0(pSaveBuffer);
 }
@@ -107,7 +107,7 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         field_118_flags.Set(SlamDoor_Flags_118::e118_Bit5_Delete);
     }
 
-    const int currentLevelId = static_cast<int>(gMap_5C3030.field_0_current_level);
+    const s32 currentLevelId = static_cast<s32>(gMap_5C3030.field_0_current_level);
 
     const AnimRecord& rec = AnimRec(sSlamDoorData_547168[currentLevelId][2]);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1u);
@@ -140,8 +140,8 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         field_D8_yOffset = FP_GetExponent(field_CC_sprite_scale * FP_FromDouble(-68.0));
     }
 
-    int switchState = SwitchStates_Get_466020(field_128_switch_id);
-    int bitIsOpen = static_cast<int>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
+    s32 switchState = SwitchStates_Get_466020(field_128_switch_id);
+    s32 bitIsOpen = static_cast<s32>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
 
     if (switchState == bitIsOpen)
     {
@@ -266,7 +266,7 @@ void SlamDoor::dtor_4B0620()
     dtor_4080B0();
 }
 
-SlamDoor* SlamDoor::vdtor_4AFD20(signed int flags)
+SlamDoor* SlamDoor::vdtor_4AFD20(s32 flags)
 {
     dtor_4B0620();
     if (flags & 1)
@@ -283,7 +283,7 @@ void SlamDoor::vUpdate_4AFD50()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    const bool stateUnchanged = SwitchStates_Get_466020(field_128_switch_id) == static_cast<int>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
+    const bool stateUnchanged = SwitchStates_Get_466020(field_128_switch_id) == static_cast<s32>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
     if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -325,7 +325,7 @@ void SlamDoor::vUpdate_4AFD50()
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<int>(gMap_5C3030.field_0_current_level)][2]);
+            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(gMap_5C3030.field_0_current_level)][2]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
             if (field_CC_sprite_scale == FP_FromInteger(1))
@@ -368,7 +368,7 @@ void SlamDoor::vUpdate_4AFD50()
                 bRect.h += FP_GetExponent(FP_FromInteger(-110) * field_CC_sprite_scale);
             }
 
-            for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+            for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
             {
                 auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
                 if (!pObj)
@@ -396,7 +396,7 @@ void SlamDoor::vUpdate_4AFD50()
         }
         else
         {
-            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<int>(gMap_5C3030.field_0_current_level)][0]);
+            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, 0);
             Rect_Clear_418040(&field_11C_pCollisionLine_6_2->field_0_rect);
             field_11C_pCollisionLine_6_2 = nullptr;
@@ -417,7 +417,7 @@ void SlamDoor::vUpdate_4AFD50()
             bRect.h += FP_GetExponent(FP_FromInteger(-110) * field_CC_sprite_scale) - FP_GetExponent(FP_FromInteger(20) * field_CC_sprite_scale);
         }
 
-        for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {
             auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
             if (!pObj)
@@ -451,7 +451,7 @@ void SlamDoor::vUpdate_4AFD50()
 
 }
 
-int SlamDoor::vGetSaveState_4C09D0(BYTE* pSaveBuffer)
+s32 SlamDoor::vGetSaveState_4C09D0(u8* pSaveBuffer)
 {
     Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<Quicksave_Obj_SlamDoor*>(pSaveBuffer);
 
@@ -461,7 +461,7 @@ int SlamDoor::vGetSaveState_4C09D0(BYTE* pSaveBuffer)
     return sizeof(Quicksave_Obj_SlamDoor);
 }
 
-void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, __int16 xPosition, __int16 width)
+void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPosition, s16 width)
 {
     if (FP_GetExponent(pObj->field_B8_xpos) - xPosition >= width - FP_GetExponent(pObj->field_B8_xpos))
     {
@@ -484,7 +484,7 @@ void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, __int16 xPo
     }
 }
 
-int CC SlamDoor::CreateFromSaveState_4C08B0(const BYTE* pData)
+s32 CC SlamDoor::CreateFromSaveState_4C08B0(const u8* pData)
 {
     const Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<const Quicksave_Obj_SlamDoor*>(pData);
 

@@ -6,19 +6,19 @@
 
 struct Path_DoorFlame : public Path_TLV
 {
-    __int16 field_10_id;
+    s16 field_10_id;
     Scale_short field_12_scale;
-    __int16 field_14_colour;
-    __int16 field_16_pad;
+    s16 field_14_colour;
+    s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x18);
 
 class DoorFlame : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT DoorFlame* ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo);
+    EXPORT DoorFlame* ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return vdtor_45E690(flags);
     }
@@ -39,7 +39,7 @@ public:
     }
 
 private:
-    EXPORT DoorFlame* vdtor_45E690(signed int flags);
+    EXPORT DoorFlame* vdtor_45E690(s32 flags);
 
     EXPORT void dtor_45E6C0();
 
@@ -50,20 +50,20 @@ private:
     EXPORT void vUpdate_45E830();
 
 private:
-    int field_F4_tlvInfo;
-    __int16 field_F8_switch_id;
-    __int16 field_FA_frame_count;
-    enum class States : __int16
+    s32 field_F4_tlvInfo;
+    s16 field_F8_switch_id;
+    s16 field_FA_frame_count;
+    enum class States : s16
     {
         eDisabled_0 = 0,
         eEnabled_1 = 1,
     };
     States field_FC_state;
-    __int16 field_FE_2_random;
-    int field_100_sounds_mask;
-    __int16 field_104_padding;
-    __int16 field_106_padding;
-    int field_108_fire_background_glow_id;
-    int field_10C_flame_sparks_id;
+    s16 field_FE_2_random;
+    s32 field_100_sounds_mask;
+    s16 field_104_padding;
+    s16 field_106_padding;
+    s32 field_108_fire_background_glow_id;
+    s32 field_10C_flame_sparks_id;
 };
 ALIVE_ASSERT_SIZEOF(DoorFlame, 0x110);

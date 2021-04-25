@@ -8,7 +8,7 @@
 #include "ObjectIds.hpp"
 #include "stdlib.hpp"
 
-EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, int tlvInfo)
+EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5440D4);
@@ -34,7 +34,7 @@ EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, int tlvInfo)
     return this;
 }
 
-int CC LiftMover::CreateFromSaveState_40D180(const BYTE* pData)
+s32 CC LiftMover::CreateFromSaveState_40D180(const u8* pData)
 {
     auto pState = reinterpret_cast<const LiftMover_State*>(pData);
 
@@ -55,7 +55,7 @@ int CC LiftMover::CreateFromSaveState_40D180(const BYTE* pData)
     return sizeof(LiftMover_State);
 }
 
-BaseGameObject* LiftMover::VDestructor(signed int flags)
+BaseGameObject* LiftMover::VDestructor(s32 flags)
 {
     return vdtor_40CD70(flags);
 }
@@ -65,7 +65,7 @@ void LiftMover::VUpdate()
     vUpdate_40CE20();
 }
 
-int LiftMover::VGetSaveState(BYTE* pSaveBuffer)
+s32 LiftMover::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_40D240(reinterpret_cast<LiftMover_State*>(pSaveBuffer));
 }
@@ -226,7 +226,7 @@ void LiftMover::dtor_40CDA0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-LiftMover* LiftMover::vdtor_40CD70(signed int flags)
+LiftMover* LiftMover::vdtor_40CD70(s32 flags)
 {
     dtor_40CDA0();
     if (flags & 1)
@@ -236,7 +236,7 @@ LiftMover* LiftMover::vdtor_40CD70(signed int flags)
     return this;
 }
 
-int LiftMover::vGetSaveState_40D240(LiftMover_State* pState)
+s32 LiftMover::vGetSaveState_40D240(LiftMover_State* pState)
 {
     pState->field_0_type = 9; // TODO: Types
     pState->field_4_tlvInfo = field_24_tlvInfo;
@@ -246,7 +246,7 @@ int LiftMover::vGetSaveState_40D240(LiftMover_State* pState)
 
 LiftPoint* LiftMover::GetLiftPoint_40D0F0()
 {
-    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)

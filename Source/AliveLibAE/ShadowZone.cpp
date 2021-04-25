@@ -6,7 +6,7 @@
 #include "stdlib.hpp"
 #include "Events.hpp"
 
-BaseGameObject* ShadowZone::VDestructor(signed int flags)
+BaseGameObject* ShadowZone::VDestructor(s32 flags)
 {
     return vdtor_463A70(flags);
 }
@@ -21,7 +21,7 @@ void ShadowZone::VScreenChanged()
     vScreenChanged_463CC0();
 }
 
-ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, DWORD tlvInfo)
+ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545E10); // vTbl_ShadowZone_545E10
@@ -60,9 +60,9 @@ ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, DWOR
     return this;
 }
 
-EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_463CE0(int xpos, int ypos, __int16 scale, short* r, short* g, short* b)
+EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
 {
-    for (int idx = 0; idx < sShadowZone_dArray_5C1B80->Size(); idx++)
+    for (s32 idx = 0; idx < sShadowZone_dArray_5C1B80->Size(); idx++)
     {
         ShadowZone* pShadow = sShadowZone_dArray_5C1B80->ItemAt(idx);
         if (!pShadow)
@@ -74,7 +74,7 @@ EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_463CE0(int xpos, int ypo
         {
             FP amount = {};
             // TODO: This was probably a reference, refactor later
-            pShadow->GetColourAmount_463AA0(&amount, static_cast<short>(xpos), static_cast<short>(ypos));
+            pShadow->GetColourAmount_463AA0(&amount, static_cast<s16>(xpos), static_cast<s16>(ypos));
 
             *r = FP_GetExponent(FP_FromInteger(*r) + (pShadow->field_38_r * amount));
             *b = FP_GetExponent(FP_FromInteger(*b) + (pShadow->field_40_b * amount));
@@ -129,7 +129,7 @@ void ShadowZone::dtor_463BB0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-ShadowZone* ShadowZone::vdtor_463A70(signed int flags)
+ShadowZone* ShadowZone::vdtor_463A70(s32 flags)
 {
     dtor_463BB0();
     if (flags & 1)
@@ -144,7 +144,7 @@ void ShadowZone::vScreenChanged_463CC0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-__int16 ShadowZone::ApplysToScale_463C70(__int16 scale)
+s16 ShadowZone::ApplysToScale_463C70(s16 scale)
 {
     if (field_36_scale == ShadowZoneScale::eBoth_0)
     {
@@ -169,10 +169,10 @@ void ShadowZone::vUpdate_463C40()
     }
 }
 
-FP* ShadowZone::GetColourAmount_463AA0(FP* pOut, __int16 xpos, __int16 ypos)
+FP* ShadowZone::GetColourAmount_463AA0(FP* pOut, s16 xpos, s16 ypos)
 {
-    const int deltaX = abs(xpos - field_28_centre_x);
-    const int deltaY = abs(ypos - field_2A_center_y);
+    const s32 deltaX = abs(xpos - field_28_centre_x);
+    const s32 deltaY = abs(ypos - field_2A_center_y);
 
     if (deltaX > field_30_mid_x || deltaY > field_32_mid_y)
     {

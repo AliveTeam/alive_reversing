@@ -7,9 +7,9 @@
 #include "PsxDisplay.hpp"
 #include "stdlib.hpp"
 
-ALIVE_VAR(1, 0x5c112c, WORD, bThrowableIndicatorExists_5C112C, 0);
+ALIVE_VAR(1, 0x5c112c, u16, bThrowableIndicatorExists_5C112C, 0);
 
-const __int16 kNum_0_551994[17] =
+const s16 kNum_0_551994[17] =
 {
     4,
    -3,  -4,   3,   -4,
@@ -18,13 +18,13 @@ const __int16 kNum_0_551994[17] =
    -3,   3,  -3,   -3
 };
 
-const __int16 kNum_1_5519B8[5] =
+const s16 kNum_1_5519B8[5] =
 {
     1,
     2, -4, 2, 4
 };
 
-const __int16 kNum_2_5519C4[21] =
+const s16 kNum_2_5519C4[21] =
 {
     5,
     -5,  -4,   5,   -4,
@@ -34,7 +34,7 @@ const __int16 kNum_2_5519C4[21] =
     -5,   4,   5,    4
 };
 
-const __int16 kNum_3_5519F0[17] =
+const s16 kNum_3_5519F0[17] =
 {
     4,
    -5,  -4,  5, -4,
@@ -43,7 +43,7 @@ const __int16 kNum_3_5519F0[17] =
    -4,   0,  4,  0,
 };
 
-const __int16 kNum_4_551A14[13] =
+const s16 kNum_4_551A14[13] =
 {
      3,
     -5, -4, -5, -1,
@@ -51,7 +51,7 @@ const __int16 kNum_4_551A14[13] =
      5, -4,  5,  4
 };
 
-const __int16 kNum_5_551A30[21] =
+const s16 kNum_5_551A30[21] =
 {
     5,
     5,   -4,  -5,  -4,
@@ -61,7 +61,7 @@ const __int16 kNum_5_551A30[21] =
     5,    4,  -5,   4
 };
 
-const __int16 kNum_6_551A5C[21] =
+const s16 kNum_6_551A5C[21] =
 {
     5,
     5,   -4,   -5,   -4,   -5,
@@ -70,14 +70,14 @@ const __int16 kNum_6_551A5C[21] =
     1,    5,    0,   -4,    0
 };
 
-const __int16 kNum_7_551A88[9] =
+const s16 kNum_7_551A88[9] =
 {
     2,
    -5, -4, 5, -4,
     5, -3, 0,  4
 };
 
-const __int16 kNum_8_551A9C[21] =
+const s16 kNum_8_551A9C[21] =
 {
     5,
    -5,  -4,   5,  -4,
@@ -87,7 +87,7 @@ const __int16 kNum_8_551A9C[21] =
    -4,   0,   4,   0
 };
 
-const __int16 kNum_9_551AC8[17] =
+const s16 kNum_9_551AC8[17] =
 {
     4,
     5,   4,   5,  -3,
@@ -96,7 +96,7 @@ const __int16 kNum_9_551AC8[17] =
    -5,   0,   4,   0
 };
 
-const __int16 kInfinity_551AEC[25] =
+const s16 kInfinity_551AEC[25] =
 {
    6,
   -3,  -2,  -5,  0,
@@ -107,7 +107,7 @@ const __int16 kInfinity_551AEC[25] =
    2,   3,  -2,  -2
 };
 
-const __int16* kNumbersArray_551B20[11] =
+const s16* kNumbersArray_551B20[11] =
 {
     kNum_0_551994,
     kNum_1_5519B8,
@@ -122,7 +122,7 @@ const __int16* kNumbersArray_551B20[11] =
     kInfinity_551AEC
 };
 
-ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, Layer layer, FP /*scale*/, __int16 count, __int16 bFade)
+ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, Layer layer, FP /*scale*/, s16 count, s16 bFade)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x544FE4);
@@ -185,7 +185,7 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, 
     return this;
 }
 
-BaseGameObject* ThrowableTotalIndicator::VDestructor(signed int flags)
+BaseGameObject* ThrowableTotalIndicator::VDestructor(s32 flags)
 {
     return vdtor_431DE0(flags);
 }
@@ -222,7 +222,7 @@ void ThrowableTotalIndicator::dtor_431E10()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* ThrowableTotalIndicator::vdtor_431DE0(signed int flags)
+BaseGameObject* ThrowableTotalIndicator::vdtor_431DE0(s32 flags)
 {
     dtor_431E10();
     if (flags & 1)
@@ -253,10 +253,10 @@ void ThrowableTotalIndicator::vUpdate_431EA0()
     {
         case ThrowableTotalIndicatorState::eCreated_0:
         {
-            field_28_cur_xpos = field_20_xpos - (FP_FromInteger(12) * Math_Sine_496DD0(static_cast<BYTE>(2 * sGnFrame_5C1B84)));
-            field_2C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_496CD0(static_cast<BYTE>(2 * sGnFrame_5C1B84))) + field_24_ypos;
+            field_28_cur_xpos = field_20_xpos - (FP_FromInteger(12) * Math_Sine_496DD0(static_cast<u8>(2 * sGnFrame_5C1B84)));
+            field_2C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_496CD0(static_cast<u8>(2 * sGnFrame_5C1B84))) + field_24_ypos;
 
-            const short rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_496DD0(static_cast<BYTE>(3 * sGnFrame_5C1B84))) + 80;
+            const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_496DD0(static_cast<u8>(3 * sGnFrame_5C1B84))) + 80;
 
             field_42_r = rgb;
             field_44_g = rgb;
@@ -312,10 +312,10 @@ void ThrowableTotalIndicator::vRender_432070(PrimHeader** ppOt)
     const FP camX = FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
     const FP camY = FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
 
-    short xpos = 0;
-    short ypos = 0;
+    s16 xpos = 0;
+    s16 ypos = 0;
 
-    for (short counter = 0; counter < kNumbersArray_551B20[field_48_num_to_show][0]; counter++)
+    for (s16 counter = 0; counter < kNumbersArray_551B20[field_48_num_to_show][0]; counter++)
     {
         // return static_cast<T>(((40 * x) + 11) / 23);
         // Can't use PsxToPCX as this deals with FP's and it adds 11 before the divide ??

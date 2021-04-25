@@ -11,10 +11,10 @@ struct Path_RollingBall : public Path_TLV
 {
     Scale_short field_18_scale;
     XDirection_short field_1A_roll_direction;
-    __int16 field_1C_release;
-    unsigned __int16 field_1E_speed;
-    unsigned __int16 field_20_acceleration;
-    __int16 field_22_pad;
+    s16 field_1C_release;
+    u16 field_1E_speed;
+    u16 field_20_acceleration;
+    s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_RollingBall, 0x24);
 
@@ -24,13 +24,13 @@ class PathLine;
 class RollingBall : public BaseAliveGameObject
 {
 public:
-    EXPORT RollingBall* ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo);
+    EXPORT RollingBall* ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_458230();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT RollingBall* Vdtor_458490(signed int flags);
+    EXPORT RollingBall* Vdtor_458490(s32 flags);
 
     virtual void VUpdate() override;
 
@@ -40,9 +40,9 @@ public:
 
     EXPORT void CrushThingsInTheWay_458310();
 
-    int field_10C_tlvInfo;
-    unsigned __int16 field_110_release_switch_id;
-    enum class States : __int16
+    s32 field_10C_tlvInfo;
+    u16 field_110_release_switch_id;
+    enum class States : s16
     {
         eInactive_0,
         eStartRolling_1,
@@ -55,8 +55,8 @@ public:
     FP field_118_speed;
     FP field_11C_acceleration;
     PathLine* field_120_pCollisionLine;
-    int field_124_padding;
-    int field_128_padding;
+    s32 field_124_padding;
+    s32 field_128_padding;
 };
 ALIVE_ASSERT_SIZEOF(RollingBall, 0x12C);
 

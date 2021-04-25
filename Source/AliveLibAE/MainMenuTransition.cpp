@@ -10,10 +10,10 @@
 
 struct MainMenu_TransitionData
 {
-    __int16 field_0;
-    __int16 field_2;
-    __int16 field_4;
-    __int16 field_6;
+    s16 field_0;
+    s16 field_2;
+    s16 field_4;
+    s16 field_6;
 };
 ALIVE_ASSERT_SIZEOF(MainMenu_TransitionData, 0x8);
 
@@ -47,7 +47,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
     { -16,       0,         256, 1 },
 };
 
-MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, TPageAbr abr)
+MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 fadeSpeed, TPageAbr abr)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
 
@@ -62,7 +62,7 @@ MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, __int16 fadeDir
     Init_SetTPage_4F5B60(&field_22C_tPage[0], 0, 1, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, abr, 0, 0));
     Init_SetTPage_4F5B60(&field_22C_tPage[1], 0, 1, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, abr, 0, 0));
 
-    for (int i = 0; i < 8; i++)
+    for (s32 i = 0; i < 8; i++)
     {
         PolyG3_Init_4F8890(&field_2C_polys[0].field_0_polys[i]);
         Poly_Set_SemiTrans_4F8A60(&field_2C_polys[0].field_0_polys[i].mBase.header, 1);
@@ -92,7 +92,7 @@ MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, __int16 fadeDir
     return this;
 }
 
-void MainMenuTransition::StartTrans_464370(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed)
+void MainMenuTransition::StartTrans_464370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)
 {
     field_24C_layer = layer;
     field_24_fade_direction = fadeDirection;
@@ -146,43 +146,43 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
 {
     // TODO: The fixed point math/var needs cleaning up/refactoring in here
 
-    int currentValue = field_20_current_value;
-    int v4 = (currentValue + 1) >> 4;
-    int v5 = v4 * v4 * v4 * v4 >> 8;
+    s32 currentValue = field_20_current_value;
+    s32 v4 = (currentValue + 1) >> 4;
+    s32 v5 = v4 * v4 * v4 * v4 >> 8;
 
-    int bValue = v4 * v4 * v4 * v4 >> 8;
+    s32 bValue = v4 * v4 * v4 * v4 >> 8;
     if (v5 > 255)
     {
         bValue = -1; // LOBYTE
         v5 = 255;
     }
 
-    int rgValue = v5 * v5 >> 8;
+    s32 rgValue = v5 * v5 >> 8;
     if (rgValue > 255)
     {
         rgValue = -1; // LOBYTE
     }
 
-    int op1 = currentValue << 12;
-    int val1 = Math_Cosine_496CD0(field_colour_fade_value).fpValue;
-    int val2 = Math_Sine_496DD0(field_colour_fade_value).fpValue;
-    int r0g0 = -64 / ((v5 >> 2) + 1);
-    for (int i = 0; i < 8; i++)
+    s32 op1 = currentValue << 12;
+    s32 val1 = Math_Cosine_496CD0(field_colour_fade_value).fpValue;
+    s32 val2 = Math_Sine_496DD0(field_colour_fade_value).fpValue;
+    s32 r0g0 = -64 / ((v5 >> 2) + 1);
+    for (s32 i = 0; i < 8; i++)
     {
-        int idx = i + (8 * this->field_252_tbl_idx);
-        int v8 = stru_55C038[idx].field_4 << 8;
-        int v9 = stru_55C038[idx].field_2 << 16;
-        int v10 = (signed __int16)stru_55C038[idx].field_0 << 16;
-        int v11 = Math_FixedPoint_Multiply_496C50(v9, val1);
-        int v12 = Math_FixedPoint_Multiply_496C50(v10, val2) - v11;
-        int v13 = Math_FixedPoint_Multiply_496C50(op1, v8);
-        __int16 x0 = this->field_24E_width + 640 * ((signed int)Math_FixedPoint_Multiply_496C50(v12, v13) >> 16) / 368;
-        int v14 = Math_FixedPoint_Multiply_496C50(v9, val2);
-        int v15 = Math_FixedPoint_Multiply_496C50(v10, val1) + v14;
-        int v16 = Math_FixedPoint_Multiply_496C50(op1, v8);
-        __int16 y0 = this->field_250_k120 + (Math_FixedPoint_Multiply_496C50(v15, v16) >> 16);
+        s32 idx = i + (8 * this->field_252_tbl_idx);
+        s32 v8 = stru_55C038[idx].field_4 << 8;
+        s32 v9 = stru_55C038[idx].field_2 << 16;
+        s32 v10 = (s16)stru_55C038[idx].field_0 << 16;
+        s32 v11 = Math_FixedPoint_Multiply_496C50(v9, val1);
+        s32 v12 = Math_FixedPoint_Multiply_496C50(v10, val2) - v11;
+        s32 v13 = Math_FixedPoint_Multiply_496C50(op1, v8);
+        s16 x0 = this->field_24E_width + 640 * ((s32)Math_FixedPoint_Multiply_496C50(v12, v13) >> 16) / 368;
+        s32 v14 = Math_FixedPoint_Multiply_496C50(v9, val2);
+        s32 v15 = Math_FixedPoint_Multiply_496C50(v10, val1) + v14;
+        s32 v16 = Math_FixedPoint_Multiply_496C50(op1, v8);
+        s16 y0 = this->field_250_k120 + (Math_FixedPoint_Multiply_496C50(v15, v16) >> 16);
 
-        int v17 = 0;
+        s32 v17 = 0;
         if (i < 7)
         {
             v17 = i + 1;
@@ -192,9 +192,9 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
             v17 = 0;
         }
 
-        int idx2 = (8 * this->field_252_tbl_idx);
-        int v36 = (signed __int16)stru_55C038[idx2 + v17].field_0 << 16;
-        int v19 = 0;
+        s32 idx2 = (8 * this->field_252_tbl_idx);
+        s32 v36 = (s16)stru_55C038[idx2 + v17].field_0 << 16;
+        s32 v19 = 0;
         if (i < 7)
         {
             v19 = i + 1;
@@ -204,9 +204,9 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
             v19 = 0;
         }
 
-        int v20 = stru_55C038[idx2 + v19].field_2 << 16;
-        int v38 = v20;
-        int v21 = 0;
+        s32 v20 = stru_55C038[idx2 + v19].field_2 << 16;
+        s32 v38 = v20;
+        s32 v21 = 0;
         if (i < 7)
         {
             v21 = i + 1;
@@ -215,26 +215,26 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
         {
             v21 = 0;
         }
-        int y1 = stru_55C038[v21 + idx2].field_4 << 8;
+        s32 y1 = stru_55C038[v21 + idx2].field_4 << 8;
 
-        int v23 = Math_FixedPoint_Multiply_496C50(v20, val1);
-        int x1 = Math_FixedPoint_Multiply_496C50(v36, val2) - v23;
-        int v25 = Math_FixedPoint_Multiply_496C50(op1, y1);
+        s32 v23 = Math_FixedPoint_Multiply_496C50(v20, val1);
+        s32 x1 = Math_FixedPoint_Multiply_496C50(v36, val2) - v23;
+        s32 v25 = Math_FixedPoint_Multiply_496C50(op1, y1);
         // TODO: Use PsxToPCX
-        x1 = this->field_24E_width + 40 * ((signed int)Math_FixedPoint_Multiply_496C50(x1, v25) >> 16) / 23; // LOWORD
-        int v26 = Math_FixedPoint_Multiply_496C50(v38, val2);
-        int v27 = v26 + Math_FixedPoint_Multiply_496C50(v36, val1);
-        int v28 = Math_FixedPoint_Multiply_496C50(op1, y1);
+        x1 = this->field_24E_width + 40 * ((s32)Math_FixedPoint_Multiply_496C50(x1, v25) >> 16) / 23; // LOWORD
+        s32 v26 = Math_FixedPoint_Multiply_496C50(v38, val2);
+        s32 v27 = v26 + Math_FixedPoint_Multiply_496C50(v36, val1);
+        s32 v28 = Math_FixedPoint_Multiply_496C50(op1, y1);
         y1 = this->field_250_k120 + (Math_FixedPoint_Multiply_496C50(v27, v28) >> 16); // LOWORD
         Poly_G3* pPoly = &field_2C_polys[gPsxDisplay_5C1130.field_C_buffer_index].field_0_polys[i];
 
-        SetRGB0(pPoly, static_cast<BYTE>(r0g0), static_cast<BYTE>(r0g0), 255);
-        SetRGB1(pPoly, static_cast<BYTE>(rgValue), static_cast<BYTE>(rgValue), static_cast<BYTE>(bValue));
-        SetRGB2(pPoly, static_cast<BYTE>(rgValue), static_cast<BYTE>(rgValue), static_cast<BYTE>(bValue));
+        SetRGB0(pPoly, static_cast<u8>(r0g0), static_cast<u8>(r0g0), 255);
+        SetRGB1(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
+        SetRGB2(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
 
         SetXY0(pPoly, field_24E_width, field_250_k120);
         SetXY1(pPoly, x0, y0);
-        SetXY2(pPoly, static_cast<short>(x1), static_cast<short>(y1));
+        SetXY2(pPoly, static_cast<s16>(x1), static_cast<s16>(y1));
 
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_24C_layer), &pPoly->mBase.header);
     }
@@ -260,7 +260,7 @@ void MainMenuTransition::dtor_4642F0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* MainMenuTransition::vdtor_4642C0(signed int flags)
+BaseGameObject* MainMenuTransition::vdtor_4642C0(s32 flags)
 {
     dtor_4642F0();
     if (flags & 1)
@@ -288,7 +288,7 @@ void MainMenuTransition::VUpdate()
     Update_464400();
 }
 
-BaseGameObject* MainMenuTransition::VDestructor(signed int flags)
+BaseGameObject* MainMenuTransition::VDestructor(s32 flags)
 {
     return vdtor_4642C0(flags);
 }

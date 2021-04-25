@@ -14,11 +14,11 @@ public:
 
     EXPORT void VUpdate_431DC0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    int field_D4[4];
-    __int16 field_E4_bSoundPlaying;
-    __int16 field_E6;
+    s32 field_D4[4];
+    s16 field_E4_bSoundPlaying;
+    s16 field_E6;
 };
 ALIVE_ASSERT_SIZEOF(HoneyDrip, 0xE8);
 

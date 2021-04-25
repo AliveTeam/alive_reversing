@@ -96,7 +96,7 @@ void RollingBallShaker::VRender_436280(PrimHeader** ppOt)
     pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, gPsxDisplay_504C78.field_2_height);
 }
 
-BaseGameObject* RollingBallShaker::VDestructor(signed int flags)
+BaseGameObject* RollingBallShaker::VDestructor(s32 flags)
 {
     return Vdtor_436350(flags);
 }
@@ -111,7 +111,7 @@ void RollingBallShaker::VRender(PrimHeader** ppOt)
     VRender_436280(ppOt);
 }
 
-RollingBallShaker* RollingBallShaker::Vdtor_436350(signed int flags)
+RollingBallShaker* RollingBallShaker::Vdtor_436350(s32 flags)
 {
     dtor_436200();
     if (flags & 1)

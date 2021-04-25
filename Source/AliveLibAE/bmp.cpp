@@ -5,11 +5,11 @@
 #include "Error.hpp"
 #include "Sys_common.hpp"
 
-ALIVE_VAR(1, 0xBC0BB4, unsigned __int8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
+ALIVE_VAR(1, 0xBC0BB4, u8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 
 #if USE_SDL2
 
-EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
+EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags)
 {
     if (flags != 0)
     {
@@ -25,7 +25,7 @@ EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap*
     return -1;
 }
 
-EXPORT signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
+EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
 {
     const SDL_Rect clearRect = { pRect->left, pRect->right, pRect->top, pRect->bottom };
     if (SDL_FillRect(pBmp->field_0_pSurface, &clearRect, fillColour /*SDL_MapRGB(pBmp->field_0_pSurface->format, 255, 0, 0)*/) != 0)
@@ -63,9 +63,9 @@ EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* /*pBmp*/)
     return 10;
 }
 
-EXPORT signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
+EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(s32 bpp)
 {
-    signed int converted = 0;
+    s32 converted = 0;
     switch (bpp)
     {
     case 1:
@@ -99,9 +99,9 @@ EXPORT signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
     return converted;
 }
 
-EXPORT int CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, int r, int g, int b)
+EXPORT s32 CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b)
 {
-    int converted = 0;
+    s32 converted = 0;
     switch (pBmp->field_15_pixel_format)
     {
     case 0xF:
@@ -144,7 +144,7 @@ EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
     }
 }
 
-EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
+EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags)
 {
     if (!pBitmap || !width || !height)
     {
@@ -153,16 +153,16 @@ EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int 
 
     memset(pBitmap, 0, sizeof(Bitmap));
 
-    const int bpp = BMP_New_convert_BPP_4F1CC0(pixelFormat);
+    const s32 bpp = BMP_New_convert_BPP_4F1CC0(pixelFormat);
     if (bpp < 0)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 170, -1, "BMP_New: bits per pixel not supported");
         return -1;
     }
 
-    DWORD bMask = 0;
-    DWORD rMask = 0;
-    DWORD gMask = 0;
+    u32 bMask = 0;
+    u32 rMask = 0;
+    u32 gMask = 0;
 
     switch (bpp)
     {
@@ -199,11 +199,11 @@ EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int 
     pBitmap->field_0_pSurface = SDL_CreateRGBSurface(0, width, height, bpp, rMask, gMask, bMask, 0x0);
     pBitmap->field_C_height = height;
     pBitmap->field_8_width = width;
-    pBitmap->field_14_bpp = static_cast<char>(bpp);
+    pBitmap->field_14_bpp = static_cast<s8>(bpp);
     SDL_LockSurface(pBitmap->field_0_pSurface);
     pBitmap->field_10_locked_pitch = pBitmap->field_0_pSurface->pitch;
     SDL_UnlockSurface(pBitmap->field_0_pSurface);
-    pBitmap->field_15_pixel_format = static_cast<char>(pixelFormat);
+    pBitmap->field_15_pixel_format = static_cast<s8>(pixelFormat);
     pBitmap->field_18_create_flags = createFlags;
 
     return 0;
@@ -223,7 +223,7 @@ EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
     return pBitmap->field_4_pLockedPixels;
 }
 
-const BYTE sBitmapFont[] =
+const u8 sBitmapFont[] =
 {
     0x42, 0x4D, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3E, 0x00, 0x00, 0x00, 0x28, 0x00,
     0x00, 0x00, 0xF1, 0x02, 0x00, 0x00, 0x0A, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00,
@@ -291,16 +291,16 @@ const BYTE sBitmapFont[] =
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x00, 0x00,
 };
 
-EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int /*fgColour*/, int /*bgColour*/, LPCSTR lpString)
+EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 /*fgColour*/, s32 /*bgColour*/, LPCSTR lpString)
 {
     SDL_Surface* pFontBmp = SDL_LoadBMP_RW(SDL_RWFromConstMem(sBitmapFont, sizeof(sBitmapFont)), SDL_TRUE);
 
-    int xpos = 0;
-    const int kLetterWidth = 8;
-    const int kLetterHeight = 10;
-    for (unsigned int i = 0; i < strlen(lpString); i++)
+    s32 xpos = 0;
+    const s32 kLetterWidth = 8;
+    const s32 kLetterHeight = 10;
+    for (u32 i = 0; i < strlen(lpString); i++)
     {
-        char letter = lpString[i];
+        s8 letter = lpString[i];
 
         SDL_Rect dstRect = { x + xpos, y, kLetterWidth, kLetterHeight };
 
@@ -329,7 +329,7 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int /
 
         if (SDL_BlitSurface(pFontBmp, &srcRect, pBmp->field_0_pSurface, &dstRect) != 0)
         {
-            const char* e = SDL_GetError();
+            const s8* e = SDL_GetError();
             LOG_ERROR(e);
             abort();
         }
@@ -356,10 +356,10 @@ EXPORT HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPD
 
     if (hr == DDERR_INVALIDPARAMS)
     {
-        const DWORD oldCaps = pSurfaceDesc->ddsCaps.dwCaps;
+        const u32 oldCaps = pSurfaceDesc->ddsCaps.dwCaps;
         if (!(oldCaps & DDSCAPS_SYSTEMMEMORY))
         {
-            const DWORD tempCaps = (pSurfaceDesc->ddsCaps.dwCaps & ~DDSCAPS_VIDEOMEMORY) | DDSCAPS_SYSTEMMEMORY;
+            const u32 tempCaps = (pSurfaceDesc->ddsCaps.dwCaps & ~DDSCAPS_VIDEOMEMORY) | DDSCAPS_SYSTEMMEMORY;
             pSurfaceDesc->ddsCaps.dwCaps = tempCaps;
             hr = sDDraw_BBC3D4->CreateSurface(pSurfaceDesc, ppSurface, nullptr);
             pSurfaceDesc->ddsCaps.dwCaps = oldCaps;
@@ -368,7 +368,7 @@ EXPORT HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPD
     return hr;
 }
 
-EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
+EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags)
 {
     HRESULT hr = S_OK;
     bool addError = true;
@@ -415,7 +415,7 @@ EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap*
 
 ALIVE_VAR(1, 0xBBC458, DDBLTFX, blt_fx_stru_BBC458, {});
 
-EXPORT signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
+EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
 {
     RECT rect = *pRect;
 
@@ -547,9 +547,9 @@ EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* pBmp)
     return textHeight;
 }
 
-EXPORT signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
+EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(s32 bpp)
 {
-    signed int converted = 0;
+    s32 converted = 0;
     switch (bpp)
     {
     case 1:
@@ -583,9 +583,9 @@ EXPORT signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
     return converted;
 }
 
-EXPORT int CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, int r, int g, int b)
+EXPORT s32 CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b)
 {
-    int converted = 0;
+    s32 converted = 0;
     switch (pBmp->field_15_pixel_format)
     {
     case 0xF:
@@ -628,7 +628,7 @@ EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
     }
 }
 
-EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
+EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags)
 {
     if (!pBitmap || !width || !height)
     {
@@ -637,17 +637,17 @@ EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int 
 
     memset(pBitmap, 0, sizeof(Bitmap));
 
-    const int bpp = BMP_New_convert_BPP_4F1CC0(pixelFormat);
+    const s32 bpp = BMP_New_convert_BPP_4F1CC0(pixelFormat);
     if (bpp < 0)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 170, -1, "BMP_New: bits per pixel not supported");
         return -1;
     }
 
-    DWORD bMask = 0;
-    DWORD rMask = 0;
-    DWORD gMask = 0;
-    DWORD flags = 0;
+    u32 bMask = 0;
+    u32 rMask = 0;
+    u32 gMask = 0;
+    u32 flags = 0;
 
     switch (bpp)
     {
@@ -742,9 +742,9 @@ EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int 
     }
 
     pBitmap->field_C_height = height;
-    pBitmap->field_14_bpp = static_cast<char>(pSurfaceDesc.ddpfPixelFormat.dwRGBBitCount);
+    pBitmap->field_14_bpp = static_cast<s8>(pSurfaceDesc.ddpfPixelFormat.dwRGBBitCount);
     pBitmap->field_8_width = width;
-    pBitmap->field_15_pixel_format = static_cast<char>(pixelFormat);
+    pBitmap->field_15_pixel_format = static_cast<s8>(pixelFormat);
     pBitmap->field_18_create_flags = createFlags;
     return 0;
 }
@@ -788,7 +788,7 @@ EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
     return nullptr;
 }
 
-EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int fgColour, int bgColour, LPCSTR lpString)
+EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 fgColour, s32 bgColour, LPCSTR lpString)
 {
     const HDC dc = BMP_Get_DC_4F2150(pBmp);
     if (bgColour)
@@ -798,7 +798,7 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int f
 
     ::SetBkMode(dc, (bgColour != 0) + 1);
 
-    unsigned int colour = 0;
+    u32 colour = 0;
     colour |= (BYTE0(fgColour) << 16);
     colour |= (BYTE1(fgColour) << 8);
     colour |= (BYTE2(fgColour) << 0);
@@ -856,12 +856,12 @@ namespace AETest::TestsBmp
             return mMock.CreateSurface(surfaceDesc, ppSurface, pUnk);
         }
 
-        STDMETHOD(CreateClipper)(THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR*, IUnknown FAR*)
+        STDMETHOD(CreateClipper)(THIS_ u32, LPDIRECTDRAWCLIPPER FAR*, IUnknown FAR*)
         {
             return S_OK;
         }
 
-        STDMETHOD(CreatePalette)(THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR*, IUnknown FAR*)
+        STDMETHOD(CreatePalette)(THIS_ u32, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR*, IUnknown FAR*)
         {
             return S_OK;
         }
@@ -871,12 +871,12 @@ namespace AETest::TestsBmp
             return S_OK;
         }
 
-        STDMETHOD(EnumDisplayModes)(THIS_ DWORD, LPDDSURFACEDESC, LPVOID, LPDDENUMMODESCALLBACK)
+        STDMETHOD(EnumDisplayModes)(THIS_ u32, LPDDSURFACEDESC, LPVOID, LPDDENUMMODESCALLBACK)
         {
             return S_OK;
         }
 
-        STDMETHOD(EnumSurfaces)(THIS_ DWORD, LPDDSURFACEDESC, LPVOID, LPDDENUMSURFACESCALLBACK)
+        STDMETHOD(EnumSurfaces)(THIS_ u32, LPDDSURFACEDESC, LPVOID, LPDDENUMSURFACESCALLBACK)
         {
             return S_OK;
         }
@@ -931,17 +931,17 @@ namespace AETest::TestsBmp
             return S_OK;
         }
 
-        STDMETHOD(SetCooperativeLevel)(THIS_ HWND, DWORD)
+        STDMETHOD(SetCooperativeLevel)(THIS_ HWND, u32)
         {
             return S_OK;
         }
 
-        STDMETHOD(SetDisplayMode)(THIS_ DWORD, DWORD, DWORD)
+        STDMETHOD(SetDisplayMode)(THIS_ u32, u32, u32)
         {
             return S_OK;
         }
 
-        STDMETHOD(WaitForVerticalBlank)(THIS_ DWORD, HANDLE)
+        STDMETHOD(WaitForVerticalBlank)(THIS_ u32, HANDLE)
         {
             return S_OK;
         }
@@ -962,7 +962,7 @@ namespace AETest::TestsBmp
         return 0;
     }
 
-    int WINAPI Stub_SetBkMode(HDC, int)
+    s32 WINAPI Stub_SetBkMode(HDC, s32)
     {
         return 0;
     }
@@ -974,7 +974,7 @@ namespace AETest::TestsBmp
         return 0;
     }
 
-    BOOL WINAPI Stub_TextOutA(HDC, _In_ int, _In_ int, LPCSTR, int)
+    BOOL WINAPI Stub_TextOutA(HDC, _In_ s32, _In_ s32, LPCSTR, s32)
     {
         return TRUE;
     }
@@ -1000,9 +1000,9 @@ namespace AETest::TestsBmp
         LPDIRECTDRAWSURFACE surf = nullptr;
 
         DDSURFACEDESC actualData = {};
-        for (int i = 0; i < 32; i++)
+        for (s32 i = 0; i < 32; i++)
         {
-            const DWORD flag = (1 << i);
+            const u32 flag = (1 << i);
             if (flag != DDSCAPS_SYSTEMMEMORY && flag != DDSCAPS_VIDEOMEMORY)
             {
                 StrictMock<MockedDirectDraw> mocked;
@@ -1018,7 +1018,7 @@ namespace AETest::TestsBmp
                     .WillOnce(DoAll(SaveArgPointee<0>(&actualData), Return(S_OK)));
                 ASSERT_EQ(S_OK, BMP_New_create_surface_4F1C60(&desc, &surf));
 
-                ASSERT_EQ(actualData.ddsCaps.dwCaps, static_cast<DWORD>(DDSCAPS_SYSTEMMEMORY | flag));
+                ASSERT_EQ(actualData.ddsCaps.dwCaps, static_cast<u32>(DDSCAPS_SYSTEMMEMORY | flag));
             }
         }
 
@@ -1036,7 +1036,7 @@ namespace AETest::TestsBmp
                 .WillOnce(DoAll(SaveArgPointee<0>(&actualData), Return(S_OK)));
             ASSERT_EQ(S_OK, BMP_New_create_surface_4F1C60(&desc, &surf));
 
-            ASSERT_EQ(actualData.ddsCaps.dwCaps, static_cast<DWORD>(DDSCAPS_SYSTEMMEMORY));
+            ASSERT_EQ(actualData.ddsCaps.dwCaps, static_cast<u32>(DDSCAPS_SYSTEMMEMORY));
         }
 
         sDDraw_BBC3D4 = nullptr;

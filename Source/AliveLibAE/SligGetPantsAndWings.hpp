@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
-enum class State : __int16
+enum class State : s16
 {
     eWaiting_0 = 0,
     eActive_1 = 1,
@@ -17,19 +17,19 @@ enum class State : __int16
 class SligGetPantsAndWings : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT SligGetPantsAndWings* ctor_465BF0(Path_TLV* pTlv, int tlvInfo);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    EXPORT SligGetPantsAndWings* ctor_465BF0(Path_TLV* pTlv, s32 tlvInfo);
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 private:
     EXPORT void vUpdate_465DD0();
-    EXPORT SligGetPantsAndWings* vdtor_465D10(signed int flags);
+    EXPORT SligGetPantsAndWings* vdtor_465D10(s32 flags);
     EXPORT void vScreenChanged_465EE0();
     EXPORT void dtor_465D40();
 private:
     State field_F4_state;
-    //__int16 field_F6_pad;
-    int field_F8_tlvInfo;
-    int field_FC_timer;
+    //s16 field_F6_pad;
+    s32 field_F8_tlvInfo;
+    s32 field_FC_timer;
 };
 ALIVE_ASSERT_SIZEOF(SligGetPantsAndWings, 0x100);

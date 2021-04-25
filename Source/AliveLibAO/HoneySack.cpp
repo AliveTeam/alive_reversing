@@ -13,13 +13,13 @@
 
 namespace AO {
 
-HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo)
+HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB238);
     field_4_typeId = Types::eHoneySack_45;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP2c3HiveResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP2c3HiveResID, 1, 0);
     Animation_Init_417FD0(9312, 140, 38, ppRes, 1);
 
     field_6_flags.Set(Options::eCanExplode_Bit7);
@@ -109,12 +109,12 @@ BaseGameObject* HoneySack::dtor_42BF20()
     return dtor_417D10();
 }
 
-BaseGameObject* HoneySack::VDestructor(signed int flags)
+BaseGameObject* HoneySack::VDestructor(s32 flags)
 {
     return Vdtor_42C3B0(flags);
 }
 
-HoneySack* HoneySack::Vdtor_42C3B0(signed int flags)
+HoneySack* HoneySack::Vdtor_42C3B0(s32 flags)
 {
     dtor_42BF20();
     if (flags & 1)
@@ -172,7 +172,7 @@ void HoneySack::VUpdate_42BFE0()
     switch (field_E8_state)
     {
     case State::eDripHoney_0:
-        if (static_cast<int>(gnFrameCount_507670) > field_EC_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
         {
             auto pHoneyDrip = ao_new<HoneyDrip>();
             if (pHoneyDrip)
@@ -193,7 +193,7 @@ void HoneySack::VUpdate_42BFE0()
         break;
 
     case State::eSetFallAnimation_1:
-        if (static_cast<int>(gnFrameCount_507670) > field_EC_timer - 68)
+        if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer - 68)
         {
             field_10_anim.Set_Animation_Data_402A40(9336, 0);
             field_E8_state = State::eFallOnGround_2;
@@ -257,7 +257,7 @@ void HoneySack::VUpdate_42BFE0()
                 field_F0_pBee = nullptr;
             }
 
-            for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
             {
                 BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
                 if (!pObj)
@@ -279,7 +279,7 @@ void HoneySack::VUpdate_42BFE0()
     case State::eUpdateHoneySackOnGround_3:
         if (!field_EA_bHit_ground)
         {
-            for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
             {
                 BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
                 if (!pObj)

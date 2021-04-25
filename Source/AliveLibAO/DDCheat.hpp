@@ -6,7 +6,7 @@
 
 namespace AO {
 
-enum class DDCheatValueType : int
+enum class DDCheatValueType : s32
 {
     eShort_1 = 1,
     eInt_2 = 2,
@@ -16,8 +16,8 @@ enum class DDCheatValueType : int
 
 union DDCheatValue
 {
-    int* pInt;
-    short* pShort;
+    s32* pInt;
+    s16* pShort;
     FP* pFixedPoint;
 
     DDCheatValue()
@@ -25,12 +25,12 @@ union DDCheatValue
         pInt = nullptr;
     }
 
-    DDCheatValue(int* v)
+    DDCheatValue(s32* v)
     {
         pInt = v;
     }
 
-    DDCheatValue(short* v)
+    DDCheatValue(s16* v)
     {
         pShort = v;
     }
@@ -43,7 +43,7 @@ union DDCheatValue
 
 struct DDCheatProperty
 {
-    const char* Name;
+    const s8* Name;
     DDCheatValueType ValueType;
     DDCheatValue ValuePtr;
 };
@@ -58,11 +58,11 @@ public:
 
     EXPORT BaseGameObject* dtor_409710();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT DDCheat* Vdtor_40A380(signed int flags);
+    EXPORT DDCheat* Vdtor_40A380(s32 flags);
 
-    void AddPropertyEntry(const char* text, DDCheatValueType valueType, DDCheatValue valuePtr);
+    void AddPropertyEntry(const s8* text, DDCheatValueType valueType, DDCheatValue valuePtr);
 
     virtual void VScreenChanged() override;
 
@@ -76,25 +76,25 @@ public:
 
     EXPORT void Misc_409E90();
 
-    EXPORT static int DebugFont_Printf_498B40(int idx, const char* formatStr, ...);
+    EXPORT static s32 DebugFont_Printf_498B40(s32 idx, const s8* formatStr, ...);
 
-    EXPORT static int DebugStr_495990(const char* pStr, ...);
+    EXPORT static s32 DebugStr_495990(const s8* pStr, ...);
 
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24_input;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    s32 field_24_input;
 };
 ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
 
-ALIVE_VAR_EXTERN(int, gTweak_X_5076D8);
-ALIVE_VAR_EXTERN(int, gTweak_Y_5076DC);
+ALIVE_VAR_EXTERN(s32, gTweak_X_5076D8);
+ALIVE_VAR_EXTERN(s32, gTweak_Y_5076DC);
 
-ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
-ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
-ALIVE_VAR_EXTERN(short, showDebugCreatureInfo_5076E0);
-ALIVE_VAR_EXTERN(short, sDDCheat_FlyingEnabled_50771C);
+ALIVE_VAR_EXTERN(s16, sRescuedMudokons_5076C0);
+ALIVE_VAR_EXTERN(s16, sKilledMudokons_5076BC);
+ALIVE_VAR_EXTERN(s16, showDebugCreatureInfo_5076E0);
+ALIVE_VAR_EXTERN(s16, sDDCheat_FlyingEnabled_50771C);
 
 }

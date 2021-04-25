@@ -29,7 +29,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
     Render_410CD0(ppOt);
 }
 
-BaseGameObject* TimedMine::VDestructor(signed int flags)
+BaseGameObject* TimedMine::VDestructor(s32 flags)
 {
     return vdtor_4108B0(flags);
 }
@@ -39,7 +39,7 @@ void TimedMine::VScreenChanged()
     vScreenChanged_411270();
 }
 
-__int16 TimedMine::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 TimedMine::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_410FA0(pFrom);
 }
@@ -64,7 +64,7 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     field_4_typeId = AETypes::eTimedMine_or_MovingBomb_10;
 
     const AnimRecord& rec = AnimRec(AnimId::Timed_Mine_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_6_flags.Set(Options::eInteractive_Bit8);
@@ -244,7 +244,7 @@ void TimedMine::StickToLiftPoint_411100()
         {
             if (ObjList_5C1B78)
             {
-                for (int i = 0; i < ObjList_5C1B78->Size(); i++)
+                for (s32 i = 0; i < ObjList_5C1B78->Size(); i++)
                 {
                     BaseGameObject* pObj = ObjList_5C1B78->ItemAt(i);
                     if (!pObj)
@@ -298,7 +298,7 @@ void TimedMine::dtor_410970()
     dtor_4080B0();
 }
 
-TimedMine* TimedMine::vdtor_4108B0(signed int flags)
+TimedMine* TimedMine::vdtor_4108B0(s32 flags)
 {
     dtor_410970();
     if (flags & 1)
@@ -320,7 +320,7 @@ void TimedMine::vScreenChanged_411270()
     }
 }
 
-__int16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
+s16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -369,7 +369,7 @@ void TimedMine::vOnPickUpOrSlapped_410E30()
     if (field_118_armed != 1)
     {
         field_118_armed = 1;
-        if ((signed int)(field_11A_explode_timeout & 0xFFFC) >= 72)
+        if ((s32)(field_11A_explode_timeout & 0xFFFC) >= 72)
         {
             field_1C0_detonation_timer = 18;
         }

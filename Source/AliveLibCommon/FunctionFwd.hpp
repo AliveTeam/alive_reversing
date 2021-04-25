@@ -28,20 +28,20 @@ bool RunningAsInjectedDll();
 
 #define STATIC_EQUALS(src, dst) static_assert(src == dst, "Not equal!");
 #define ALIVE_COUNTOF(x) (sizeof(x)/sizeof(*(x)))
-#define BYTEn(x, n)   (*((BYTE*)&(x)+n))
+#define BYTEn(x, n)   (*((u8*)&(x)+n))
 #define BYTE0(x)   BYTEn(x,  0)
 #define BYTE1(x)   BYTEn(x,  1)
 #define BYTE2(x)   BYTEn(x,  2)
 #define BYTE3(x)   BYTEn(x,  3)
 
 #ifndef HIWORD
-#define HIWORD(l) ((WORD)((((DWORD_PTR)(l)) >> 16) & 0xffff))
+#define HIWORD(l) ((u16)((((DWORD_PTR)(l)) >> 16) & 0xffff))
 #endif
 
 class AliveVar
 {
 public:
-    AliveVar(const char* name, DWORD addr, DWORD sizeInBytes, bool isDynamicallyAllocated, bool isConstData);
+    AliveVar(const s8* name, u32 addr, u32 sizeInBytes, bool isDynamicallyAllocated, bool isConstData);
 };
 
 #define ALIVE_VAR_EXTERN(TypeName, VarName)\

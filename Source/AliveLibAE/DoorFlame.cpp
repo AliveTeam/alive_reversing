@@ -22,7 +22,7 @@ public:
         field_4_typeId = AETypes::eNone_0;
 
         const AnimRecord& rec = AnimRec(AnimId::Door_Flame_Glow);
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
         field_DC_bApplyShadows &= ~1u;
@@ -47,7 +47,7 @@ public:
         return this;
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return vdtor_45D9B0(flags);
     }
@@ -61,8 +61,8 @@ public:
     {
         PSX_Point xy = {};
 
-        __int16 frameW = 0;
-        __int16 frameH = 0;
+        s16 frameW = 0;
+        s16 frameH = 0;
 
         field_20_animation.Get_Frame_Width_Height_40C400(&frameW, &frameH);
         field_20_animation.Get_Frame_Offset_40C480(&xy.field_0_x, &xy.field_2_y);
@@ -75,11 +75,11 @@ public:
         const FP frameHScaled = (FP_FromInteger(frameH) * field_CC_sprite_scale);
 
         const FP offXScaled = (FP_FromInteger(xy.field_0_x) * field_CC_sprite_scale);
-        const short offYScaled = FP_GetExponent((FP_FromInteger(xy.field_2_y) * field_CC_sprite_scale));
+        const s16 offYScaled = FP_GetExponent((FP_FromInteger(xy.field_2_y) * field_CC_sprite_scale));
 
         // TODO: Refactor PSX <> PC width conversion
         const FP frameWScaled_converted = (((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
-        const short offXScaled_converted = FP_GetExponent(((offXScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
+        const s16 offXScaled_converted = FP_GetExponent(((offXScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
 
         field_F4_xPos =  screenX + FP_FromInteger(offXScaled_converted) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);
         field_F8_yPos =  screenY + FP_FromInteger(offYScaled) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);
@@ -125,7 +125,7 @@ public:
         BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     }
 
-    EXPORT FireBackgroundGlow* vdtor_45D9B0(signed int flags)
+    EXPORT FireBackgroundGlow* vdtor_45D9B0(s32 flags)
     {
         dtor_45D9E0();
         if (flags & 1)
@@ -149,8 +149,8 @@ struct FlameSpark
     FP field_4_y;
     FP field_8_off_x;
     FP field_C_off_y;
-    __int16 field_10_random64;
-    __int16 field_12_bVisible;
+    s16 field_10_random64;
+    s16 field_12_bVisible;
     AnimationUnknown field_14;
 };
 ALIVE_ASSERT_SIZEOF(FlameSpark, 0x84);
@@ -171,7 +171,7 @@ public:
         field_4_typeId = AETypes::eNone_0;
 
         const AnimRecord& rec = AnimRec(AnimId::Door_Flame_Spark);
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -194,7 +194,7 @@ public:
             anim.field_14.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
             // TODO: clean this up
-            const int rndLayer = static_cast<int>(field_20_animation.field_C_render_layer) + Math_RandomRange_496AB0(-1, 1);
+            const s32 rndLayer = static_cast<s32>(field_20_animation.field_C_render_layer) + Math_RandomRange_496AB0(-1, 1);
             anim.field_14.field_C_render_layer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = field_CC_sprite_scale;
 
@@ -212,7 +212,7 @@ public:
         return this;
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return vdtor_45DF90(flags);
     }
@@ -227,7 +227,7 @@ public:
         vRender_45E260(ppOt);
     }
 
-    EXPORT void SetRenderEnabled_45E240(__int16 bEnable)
+    EXPORT void SetRenderEnabled_45E240(s16 bEnable)
     {
         field_F4_bRender = bEnable;
     }
@@ -346,7 +346,7 @@ private:
         BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     }
 
-    EXPORT FlameSparks* vdtor_45DF90(signed int flags)
+    EXPORT FlameSparks* vdtor_45DF90(s32 flags)
     {
         dtor_45DFC0();
         if (flags & 1)
@@ -358,15 +358,15 @@ private:
 
 
 private:
-    __int16 field_F4_bRender;
-    //__int16 field_F6_pad;
+    s16 field_F4_bRender;
+    //s16 field_F6_pad;
     FlameSpark field_F8_sparks[6];
     FP field_410_xpos;
     FP field_414_ypos;
 };
 ALIVE_ASSERT_SIZEOF(FlameSparks, 0x418);
 
-DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
+DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5459BC);
@@ -375,7 +375,7 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
     field_F4_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Flame);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -418,7 +418,7 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
     return this;
 }
 
-DoorFlame* DoorFlame::vdtor_45E690(signed int flags)
+DoorFlame* DoorFlame::vdtor_45E690(s32 flags)
 {
     dtor_45E6C0();
     if (flags & 1)

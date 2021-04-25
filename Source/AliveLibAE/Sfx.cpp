@@ -133,7 +133,7 @@ const SfxDefinition sSfxEntries_55C2A0[] =
 };
 
 
-int CC SFX_Play_46FB10(unsigned __int8 sfxId, int leftVol, int rightVol, FP scale)
+s32 CC SFX_Play_46FB10(u8 sfxId, s32 leftVol, s32 rightVol, FP scale)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -141,23 +141,23 @@ int CC SFX_Play_46FB10(unsigned __int8 sfxId, int leftVol, int rightVol, FP scal
         rightVol = 2 * rightVol / 3;
     }
 
-    return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], static_cast<short>(leftVol), static_cast<short>(rightVol), 0x7FFF, 0x7FFF);
+    return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], static_cast<s16>(leftVol), static_cast<s16>(rightVol), 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_46FBA0(unsigned __int8 sfxIdx, __int16 volume, int pitch, FP scale)
+s32 CC SFX_Play_46FBA0(u8 sfxIdx, s16 volume, s32 pitch, FP scale)
 {
     if (!volume)
     {
-        volume = (char)sSfxEntries_55C2A0[sfxIdx].field_3_default_volume;
+        volume = (s8)sSfxEntries_55C2A0[sfxIdx].field_3_default_volume;
     }
     if (scale == FP_FromDouble(0.5))
     {
-        volume = static_cast<__int16>(volume / 1.5);
+        volume = static_cast<s16>(volume / 1.5);
     }
-    return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, static_cast<short>(pitch), static_cast<short>(pitch));
+    return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, static_cast<s16>(pitch), static_cast<s16>(pitch));
 }
 
-int CC SFX_Play_46FA90(unsigned __int8 sfxIdx, __int16 volume, FP scale)
+s32 CC SFX_Play_46FA90(u8 sfxIdx, s16 volume, FP scale)
 {
     if (!volume)
     {
@@ -170,7 +170,7 @@ int CC SFX_Play_46FA90(unsigned __int8 sfxIdx, __int16 volume, FP scale)
     return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_46FC20(unsigned __int8 sfxId, __int16 volume, CameraPos direction, FP scale)
+s32 CC SFX_Play_46FC20(u8 sfxId, s16 volume, CameraPos direction, FP scale)
 {
     if (!volume)
     {
@@ -218,7 +218,7 @@ const SfxDefinition sSligGameSpeakEntries_560868[21] =
     { 0u, 0u, 0u, 0u, 0, 0 }
 };
 
-EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, __int16 defaultVol, const SfxDefinition* pSfx, __int16* pLeftVol, __int16* pRightVol)
+EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s16 defaultVol, const SfxDefinition* pSfx, s16* pLeftVol, s16* pRightVol)
 {
     if (defaultVol == 0)
     {
@@ -246,7 +246,7 @@ EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysic
         PSX_RECT camRect = {};
         gMap_5C3030.Get_Camera_World_Rect_481410(dir, &camRect);
 
-        const int volScaler = defaultVol / 3;
+        const s32 volScaler = defaultVol / 3;
         switch (dir)
         {
         case CameraPos::eCamCurrent_0:
@@ -296,14 +296,14 @@ EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysic
     }
 }
 
-void CC Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, __int16 defaultVol, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
+void CC Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, s16 defaultVol, s16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    const int idx = static_cast<int>(effectId);
+    const s32 idx = static_cast<s32>(effectId);
     assert(idx < ALIVE_COUNTOF(sSligGameSpeakEntries_560868));
     const SfxDefinition* pEffect = &sSligGameSpeakEntries_560868[idx];
 
-    __int16 volLeft = 0;
-    __int16 volRight = 0;
+    s16 volLeft = 0;
+    s16 volRight = 0;
     if (Calc_Slig_Sound_Direction_4C01B0(pObj, defaultVol, pEffect, &volLeft, &volRight))
     {
         SFX_SfxDefinition_Play_4CA700(pEffect, volLeft, volRight, pitch_min, pitch_min);

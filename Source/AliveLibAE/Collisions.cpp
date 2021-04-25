@@ -9,10 +9,10 @@
 
 ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
 
-Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes)
+Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
 {
     field_8_item_count = pCollisionInfo->field_10_num_collision_items;
-    field_4_current_item_count = static_cast<WORD>(pCollisionInfo->field_10_num_collision_items);
+    field_4_current_item_count = static_cast<u16>(pCollisionInfo->field_10_num_collision_items);
 
     // Up to 40 dynamic collisions, slam doors, trap doors, lift platforms etc.
     field_C_max_count = pCollisionInfo->field_10_num_collision_items + 40;
@@ -24,7 +24,7 @@ Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const B
     memcpy(field_0_pArray, &pPathRes[pCollisionInfo->field_C_collision_offset], field_4_current_item_count * sizeof(PathLine));
 
     // Init dynamic collisions positions to zeros
-    for (int i = field_4_current_item_count; i < field_C_max_count; i++)
+    for (s32 i = field_4_current_item_count; i < field_C_max_count; i++)
     {
         field_0_pArray[i].field_0_rect.x = 0;
         field_0_pArray[i].field_0_rect.y = 0;
@@ -39,7 +39,7 @@ void Collisions::dtor_4189F0()
     ae_non_zero_free_495560(field_0_pArray);
 }
 
-void CC Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes)
+void CC Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
 {
     sCollisions_DArray_5C1128 = ae_new<Collisions>();
     if (sCollisions_DArray_5C1128)
@@ -58,7 +58,7 @@ public:
 
     }
 
-    explicit Fixed_24_8(int val)
+    explicit Fixed_24_8(s32 val)
     {
         fpValue = val * 256;
     }
@@ -68,7 +68,7 @@ public:
         fpValue = fixed16_16.fpValue / 256;
     }
 
-    int GetExponent() const
+    s32 GetExponent() const
     {
         return fpValue / 256;
     }
@@ -87,7 +87,7 @@ public:
         return r;
     }
 
-    int fpValue;
+    s32 fpValue;
 };
 
 inline bool operator > (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
@@ -119,12 +119,12 @@ inline Fixed_24_8 operator * (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     // Whenever we see alldiv/allmul __PAIR__ and odd 64bit math its likely something like the following.
 
     // Multiply as 64bit numbers to get more precision in the results
-    unsigned long long left = lhs.fpValue;
-    unsigned long long right = rhs.fpValue;
-    unsigned long long mult = (left * right) / 256;
+    u64 left = lhs.fpValue;
+    u64 right = rhs.fpValue;
+    u64 mult = (left * right) / 256;
 
     Fixed_24_8 r;
-    r.fpValue = static_cast<int>(mult);
+    r.fpValue = static_cast<s32>(mult);
     return r;
 }
 
@@ -148,13 +148,13 @@ EXPORT PSX_RECT* CCSTD Rect_Clear_418040(PSX_RECT* pRect)
     return pRect;
 }
 
-signed __int16 Collisions::Raycast_Real_417A60(FP /*X1*/, FP /*Y1*/, FP /*X2*/, FP /*Y2*/, PathLine** /*ppLine*/, FP * /*hitX*/, FP * /*hitY*/, unsigned int /*modeMask*/)
+s16 Collisions::Raycast_Real_417A60(FP /*X1*/, FP /*Y1*/, FP /*X2*/, FP /*Y2*/, PathLine** /*ppLine*/, FP * /*hitX*/, FP * /*hitY*/, u32 /*modeMask*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP * hitX, FP * hitY, unsigned int modeMask)
+s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask)
 {
     // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
 
@@ -166,11 +166,11 @@ signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, F
     Fixed_24_8 y1(Y1_16_16);
     Fixed_24_8 y2(Y2_16_16);
 
-    int minX = std::min(x1, x2).GetExponent();
-    int maxX = std::max(x1, x2).GetExponent();
+    s32 minX = std::min(x1, x2).GetExponent();
+    s32 maxX = std::max(x1, x2).GetExponent();
 
-    int minY = std::min(y1, y2).GetExponent();
-    int maxY = std::max(y1, y2).GetExponent();
+    s32 minY = std::min(y1, y2).GetExponent();
+    s32 maxY = std::max(y1, y2).GetExponent();
 
     Fixed_24_8 xDiff = x2 - x1;
     Fixed_24_8 yDiff = y2 - y1;
@@ -182,7 +182,7 @@ signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, F
 
     PathLine* pNearestMatch = nullptr;
 
-    for (int i = 0; i < field_C_max_count; i++)
+    for (s32 i = 0; i < field_C_max_count; i++)
     {
         PathLine* pLine = &field_0_pArray[i];
         if (!(1 << (pLine->field_8_type % 32) & modeMask))
@@ -291,8 +291,8 @@ signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, F
     if (nearestMatch < Fixed_24_8(2))
     {
         // TODO: This needs cleaning up
-        int xh = x1.fpValue + ((xDiff.fpValue * nearestMatch.fpValue) / 256);
-        int yh = y1.fpValue + ((yDiff.fpValue * nearestMatch.fpValue) / 256);
+        s32 xh = x1.fpValue + ((xDiff.fpValue * nearestMatch.fpValue) / 256);
+        s32 yh = y1.fpValue + ((yDiff.fpValue * nearestMatch.fpValue) / 256);
 
         *hitX = FP_FromRaw(xh << 8);
         *hitY = FP_FromRaw(yh << 8);
@@ -316,7 +316,7 @@ signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, F
     return FALSE;
 }
 
-BOOL Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask)
+BOOL Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
 {
     // Take 2 copies of the input before anything changes them, important as the caller can pass in defaults - don't overwrite them if we don't
     // find a collision!
@@ -328,11 +328,11 @@ BOOL Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_
     FP realX = *hitX;
     FP realY = *hitY;
 
-    signed __int16 ret_impl = Raycast_Impl(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineImpl, &implX, &implY, modeMask);
+    s16 ret_impl = Raycast_Impl(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineImpl, &implX, &implY, modeMask);
 
     if (RunningAsInjectedDll())
     {
-        signed __int16 ret_real = Raycast_Real_417A60(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineReal, &realX, &realY, modeMask);
+        s16 ret_real = Raycast_Real_417A60(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineReal, &realX, &realY, modeMask);
 
         // TODO: Remove when this is fully re-tested and known to be working
         if (ret_impl == ret_real)
@@ -365,10 +365,10 @@ BOOL Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_
     return ret_impl;
 }
 
-PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(__int16 x1, __int16 y1, __int16 x2, __int16 y2, char mode)
+PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode)
 {
     bool freeItemFound = false;
-    int idx = field_8_item_count;
+    s32 idx = field_8_item_count;
     while (idx < field_C_max_count)
     {
         PathLine* pIter = &field_0_pArray[idx];
@@ -396,7 +396,7 @@ PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(__int16 x1, __int16 y1, 
     return pAddedLine;
 }
 
-PathLine* Collisions::Get_Line_At_Idx_418070(__int16 idx)
+PathLine* Collisions::Get_Line_At_Idx_418070(s16 idx)
 {
     if (idx == -1)
     {
@@ -405,7 +405,7 @@ PathLine* Collisions::Get_Line_At_Idx_418070(__int16 idx)
     return &field_0_pArray[idx];
 }
 
-const int kNearLineTollerance = 8;
+const s32 kNearLineTollerance = 8;
 
 PathLine* Collisions::PreviousLine_4180A0(PathLine* pLine)
 {
@@ -419,7 +419,7 @@ PathLine* Collisions::PreviousLine_4180A0(PathLine* pLine)
         return nullptr;
     }
 
-    for (int i = 0; i < field_C_max_count; i++)
+    for (s32 i = 0; i < field_C_max_count; i++)
     {
         if (abs(pLine->field_0_rect.x - field_0_pArray[i].field_0_rect.w) <= kNearLineTollerance &&
             abs(pLine->field_0_rect.y - field_0_pArray[i].field_0_rect.h) <= kNearLineTollerance )
@@ -445,7 +445,7 @@ PathLine* Collisions::NextLine_418180(PathLine* pLine)
         return 0;
     }
 
-    for (int i = 0; i < field_C_max_count; i++)
+    for (s32 i = 0; i < field_C_max_count; i++)
     {
         if (abs(pLine->field_0_rect.w - field_0_pArray[i].field_0_rect.x) <= kNearLineTollerance &&
             abs(pLine->field_0_rect.h - field_0_pArray[i].field_0_rect.y) <= kNearLineTollerance)
@@ -494,7 +494,7 @@ namespace AETest::TestsCollision
         c.field_4_current_item_count = 1;
         c.field_C_max_count = 1;
 
-        signed int ret = c.Raycast_Impl(x1, y1, x2, y2, &line, &x, &y, 0xF);
+        s32 ret = c.Raycast_Impl(x1, y1, x2, y2, &line, &x, &y, 0xF);
         ASSERT_EQ(TRUE, ret);
 
         FP expectedX = {};
@@ -513,7 +513,7 @@ namespace AETest::TestsCollision
     }
 }
 
-static int ClampMinus1To1(int value)
+static s32 ClampMinus1To1(s32 value)
 {
     if (value < 0)
     {
@@ -526,7 +526,7 @@ static int ClampMinus1To1(int value)
     return 1;
 }
 
-static int ClampMinus1To1(FP value)
+static s32 ClampMinus1To1(FP value)
 {
     if (value < FP_FromInteger(0))
     {
@@ -654,8 +654,8 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
         yPosRet = (distToMove * (yDiff * squareRoot)) + (*pYPos);
     }
 
-    const int xCalc1 = ClampMinus1To1(xPosRet - FP_FromInteger(field_0_rect.w));
-    const int xCalc2 = ClampMinus1To1(field_0_rect.w - field_0_rect.x);
+    const s32 xCalc1 = ClampMinus1To1(xPosRet - FP_FromInteger(field_0_rect.w));
+    const s32 xCalc2 = ClampMinus1To1(field_0_rect.w - field_0_rect.x);
 
     if (xCalc1 == xCalc2)
     {
@@ -679,8 +679,8 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
     }
 
 
-    const int yCalc1 = ClampMinus1To1(xPosRet - FP_FromInteger(field_0_rect.x));
-    const int yCalc2 = ClampMinus1To1(field_0_rect.x - field_0_rect.w);
+    const s32 yCalc1 = ClampMinus1To1(xPosRet - FP_FromInteger(field_0_rect.x));
+    const s32 yCalc2 = ClampMinus1To1(field_0_rect.x - field_0_rect.w);
 
     if (yCalc1 == yCalc2)
     {

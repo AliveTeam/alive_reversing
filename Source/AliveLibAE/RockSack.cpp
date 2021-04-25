@@ -9,7 +9,7 @@
 #include "Events.hpp"
 #include "Abe.hpp"
 
-RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
+RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x546B88);
@@ -17,7 +17,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
     field_4_typeId = AETypes::eRockSack_106;
 
     const AnimRecord& rec = AnimRec(AnimId::Rock_Sack_A);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
 
     // Set RockSack idle animation speed.
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + rec.mFrameTableOffset);
@@ -66,7 +66,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* RockSack::VDestructor(signed int flags)
+BaseGameObject* RockSack::VDestructor(s32 flags)
 {
     return vdtor_49F2E0(flags);
 }
@@ -81,7 +81,7 @@ void RockSack::VUpdate()
     vUpdate_49F3A0();
 }
 
-RockSack* RockSack::vdtor_49F2E0(signed int flags)
+RockSack* RockSack::vdtor_49F2E0(s32 flags)
 {
     dtor_49F310();
     if (flags & 1)

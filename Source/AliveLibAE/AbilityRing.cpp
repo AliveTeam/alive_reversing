@@ -25,10 +25,10 @@ struct AbilityRing_PolyBuffer
 };
 ALIVE_ASSERT_SIZEOF(AbilityRing_PolyBuffer, 56);
 
-static int MinDistance(int screenX, int screenY, int width1, int height1, int width2, int height2)
+static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 width2, s32 height2)
 {
-    const int d1 = Math_Distance_496EB0(screenX, screenY, width1, height1);
-    const int d2 = Math_Distance_496EB0(screenX, screenY, width2, height2);
+    const s32 d1 = Math_Distance_496EB0(screenX, screenY, width1, height1);
+    const s32 d2 = Math_Distance_496EB0(screenX, screenY, width2, height2);
     if (d2 <= d1)
     {
         return d1;
@@ -64,15 +64,15 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
         field_272_screenXPos = FP_GetExponent(xpos) - field_26E_screenX;
         field_274_screenYPos = FP_GetExponent(ypos) - field_270_screenY;
 
-        const int d1 = MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, 0, 0, 0);
-        const int d2 = MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height);
+        const s32 d1 = MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, 0, 0, 0);
+        const s32 d2 = MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height);
         if (d1 <= d2)
         {
-            field_26C_fade = static_cast<short>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height));
+            field_26C_fade = static_cast<s16>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height));
         }
         else
         {
-            field_26C_fade = static_cast<short>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, 0, 0, 0));
+            field_26C_fade = static_cast<s16>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, 0, 0, 0));
         }
 
         field_284_ring_type = ringType;
@@ -229,9 +229,9 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
         field_254_left = (field_254_left * scale);
         field_258_right = (field_258_right * scale);
 
-        for (int y = 0; y < 2; y++)
+        for (s32 y = 0; y < 2; y++)
         {
-            for (int x = 0; x < 64; x++)
+            for (s32 x = 0; x < 64; x++)
             {
                 Poly_F4* pPoly = &field_24_pRes[x].mPolys[y];
                 PolyF4_Init_4F8830(pPoly);
@@ -250,7 +250,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
     return this;
 }
 
-BaseGameObject* AbilityRing::VDestructor(signed int flags)
+BaseGameObject* AbilityRing::VDestructor(s32 flags)
 {
     return vdtor_49D080(flags);
 }
@@ -270,7 +270,7 @@ void AbilityRing::VScreenChanged()
     vScreenChanged_49DE70();
 }
 
-int AbilityRing::VGetSaveState(BYTE* pSaveBuffer)
+s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_49E070(reinterpret_cast<AbilityRing_State*>(pSaveBuffer));
 }
@@ -280,7 +280,7 @@ void AbilityRing::VSetTarget(BaseGameObject* pTarget)
     vSetTarget_49D140(pTarget);
 }
 
-int CC AbilityRing::CreateFromSaveState_49DF90(const BYTE* pBuffer)
+s32 CC AbilityRing::CreateFromSaveState_49DF90(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
     auto pRing = ae_new<AbilityRing>();
@@ -311,7 +311,7 @@ void AbilityRing::dtor_49D0B0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-AbilityRing* AbilityRing::vdtor_49D080(signed int flags)
+AbilityRing* AbilityRing::vdtor_49D080(s32 flags)
 {
     dtor_49D0B0();
     if (flags & 1)
@@ -367,9 +367,9 @@ void AbilityRing::vUpdate_49D160()
             field_276_r = (field_276_r >> 1) + (field_276_r >> 2);
             field_278_g = (field_278_g >> 1) + (field_278_g >> 2);
             field_27A_b = (field_27A_b >> 1) + (field_27A_b >> 2);
-            for (int j = 0; j < 2; j++)
+            for (s32 j = 0; j < 2; j++)
             {
-                for (int i = 0; i < 64; i++)
+                for (s32 i = 0; i < 64; i++)
                 {
                     SetRGB0(&field_24_pRes[i].mPolys[j], field_276_r & 255, field_278_g & 255, field_27A_b & 255);
                 }
@@ -436,9 +436,9 @@ void AbilityRing::vUpdate_49D160()
     }
 }
 
-void AbilityRing::CollideWithObjects_49D5E0(__int16 bDealDamage)
+void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
 {
-    for (int i = 0; i < field_28C_count; i++)
+    for (s32 i = 0; i < field_28C_count; i++)
     {
         field_4C_collide_rects[i].x += field_26E_screenX;
         field_4C_collide_rects[i].y += field_270_screenY;
@@ -446,7 +446,7 @@ void AbilityRing::CollideWithObjects_49D5E0(__int16 bDealDamage)
         field_4C_collide_rects[i].h += field_270_screenY;
     }
 
-    for (int i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)
@@ -459,7 +459,7 @@ void AbilityRing::CollideWithObjects_49D5E0(__int16 bDealDamage)
 
         if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
         {
-            for (int j = 0; j < field_28C_count; j++)
+            for (s32 j = 0; j < field_28C_count; j++)
             {
                 if (field_4C_collide_rects[j].x <= bRect.w &&
                     field_4C_collide_rects[j].w >= bRect.x &&
@@ -499,13 +499,13 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
         0)
         && !field_290_bFindingTarget)
     {
-        short y3 = field_274_screenYPos;
-        short y4  = field_274_screenYPos;
+        s16 y3 = field_274_screenYPos;
+        s16 y4  = field_274_screenYPos;
 
-        short x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_254_left * field_260_scaleX)), 11);
-        short x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_258_right * field_260_scaleX)), 11);
+        s16 x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_254_left * field_260_scaleX)), 11);
+        s16 x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_258_right * field_260_scaleX)), 11);
 
-        BYTE angIncrement = 0;
+        u8 angIncrement = 0;
         if (field_258_right <= FP_FromInteger(150))
         {
             if (field_258_right <= FP_FromInteger(50))
@@ -525,19 +525,19 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
             angIncrement = 4;
         }
 
-        BYTE ang = angIncrement;
-        for (int i = 0; i < field_28C_count; i++)
+        u8 ang = angIncrement;
+        for (s32 i = 0; i < field_28C_count; i++)
         {
-            const short x1 = (short)PsxToPCX(field_272_screenXPos + FP_GetExponent(field_254_left * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
-            const short x2 = (short)PsxToPCX(field_272_screenXPos + FP_GetExponent(field_258_right * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
+            const s16 x1 = (s16)PsxToPCX(field_272_screenXPos + FP_GetExponent(field_254_left * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
+            const s16 x2 = (s16)PsxToPCX(field_272_screenXPos + FP_GetExponent(field_258_right * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
 
-            const short y1 = field_274_screenYPos + FP_GetExponent(field_254_left * Math_Cosine_496CD0(ang) * field_264_scaleY);
-            const short y2 = field_274_screenYPos + FP_GetExponent(field_258_right * Math_Cosine_496CD0(ang) * field_264_scaleY);
+            const s16 y1 = field_274_screenYPos + FP_GetExponent(field_254_left * Math_Cosine_496CD0(ang) * field_264_scaleY);
+            const s16 y2 = field_274_screenYPos + FP_GetExponent(field_258_right * Math_Cosine_496CD0(ang) * field_264_scaleY);
 
-            const short x = std::min(std::min(x1, x3), std::min(x2, x4));
-            const short y = std::min(std::min(y1, y3), std::min(y2, y4));
-            const short w = std::max(std::max(x1, x3), std::max(x2, x4));
-            const short h = std::max(std::max(y1, y3), std::max(y2, y4));
+            const s16 x = std::min(std::min(x1, x3), std::min(x2, x4));
+            const s16 y = std::min(std::min(y1, y3), std::min(y2, y4));
+            const s16 w = std::max(std::max(x1, x3), std::max(x2, x4));
+            const s16 h = std::max(std::max(y1, y3), std::max(y2, y4));
 
             const PSX_RECT rect = { x, y, w, h };
             if (rect.w < 0 || rect.x > 640 || rect.y > 240 || rect.h < 0)
@@ -585,7 +585,7 @@ void AbilityRing::vScreenChanged_49DE70()
 {
     if (field_284_ring_type == RingTypes::eHealing_Emit_12)
     {
-        for (int i=0; i<gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i=0; i<gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
             if (!pObj)
@@ -609,7 +609,7 @@ void AbilityRing::vScreenChanged_49DE70()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-int AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
+s32 AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
 {
     pSaveState->field_0_type = AETypes::eAbilityRing_104;
     pSaveState->field_4_xpos = field_24C_xpos;

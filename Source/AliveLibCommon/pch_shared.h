@@ -1,11 +1,14 @@
 #pragma once
 
+#include "Types.hpp"
+
 #ifdef _WIN32
     #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
     #ifndef NOMINMAX
     #define NOMINMAX
     #endif
+
 #else
     using PVOID = void*;
     using LPVOID = void*;
@@ -23,11 +26,6 @@
     using byte = unsigned char;
     using HANDLE = void*;
     using CHAR = char;
-
-    #define __int64 long long
-    #define __int32 int
-    #define __int16 short
-    #define __int8 char
 
     #define TRUE 1
     #define FALSE 0

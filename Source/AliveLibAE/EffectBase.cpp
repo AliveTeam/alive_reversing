@@ -7,7 +7,7 @@
 #include "PsxDisplay.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* EffectBase::VDestructor(signed int flags)
+BaseGameObject* EffectBase::VDestructor(s32 flags)
 {
     return vdtor_4AB8C0(flags);
 }
@@ -40,7 +40,7 @@ void EffectBase::dtor_4AB8F0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-EffectBase* EffectBase::vdtor_4AB8C0(signed int flags)
+EffectBase* EffectBase::vdtor_4AB8C0(s32 flags)
 {
     dtor_4AB8F0();
     if (flags & 1)
@@ -55,9 +55,9 @@ void EffectBase::vRender_4AB970(PrimHeader** ppOt)
     Prim_Tile* pTile = &field_24_tile[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile);
     SetRGB0(pTile,
-        static_cast<BYTE>(field_6E_r),
-        static_cast<BYTE>(field_70_g),
-        static_cast<BYTE>(field_72_b));
+        static_cast<u8>(field_6E_r),
+        static_cast<u8>(field_70_g),
+        static_cast<u8>(field_72_b));
     SetXY0(pTile, 0, 0);
     pTile->field_14_w = 640;
     pTile->field_16_h = gPsxDisplay_5C1130.field_2_height;

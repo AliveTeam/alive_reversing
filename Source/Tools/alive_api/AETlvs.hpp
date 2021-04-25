@@ -75,8 +75,8 @@
 struct Path_Null_63 : public Path_TLV
 {
     // TODO: check
-    __int16 padding1;
-    __int16 padding2;
+    s16 padding1;
+    s16 padding2;
 };
 
 struct Path_MainMenuController : public Path_TLV
@@ -87,66 +87,66 @@ struct Path_MainMenuController : public Path_TLV
 struct Path_SligGetWings : public Path_TLV
 {
     Scale_short scale;
-    __int16 state;
-    __int16 hi_pause_time;
-    __int16 patrol_pause_min;
-    __int16 patrol_pause_max;
-    __int16 direction;
-    __int16 panic_delay;
-    __int16 give_up_chase_delay;
-    __int16 prechase_delay;
-    __int16 slig_id;
-    __int16 listen_time;
-    __int16 trigger_id;
-    __int16 grenade_delay;
-    __int16 max_velocity;
-    __int16 launch_id;
-    __int16 persistant;
+    s16 state;
+    s16 hi_pause_time;
+    s16 patrol_pause_min;
+    s16 patrol_pause_max;
+    s16 direction;
+    s16 panic_delay;
+    s16 give_up_chase_delay;
+    s16 prechase_delay;
+    s16 slig_id;
+    s16 listen_time;
+    s16 trigger_id;
+    s16 grenade_delay;
+    s16 max_velocity;
+    s16 launch_id;
+    s16 persistant;
 };
 
 struct Path_SligGetPants : public Path_TLV
 {
     // TODO: check
     Scale_short scale;
-    __int16 unknown2;
-    __int16 unknown3;
-    __int16 unknown4;
-    __int16 unknown5;
-    __int16 unknown6;
-    __int16 unknown7;
-    __int16 unknown8;
-    __int16 unknown9;
-    __int16 unknown10;
-    __int16 unknown11;
-    __int16 unknown12;
-    __int16 unknown13;
-    __int16 unknown14;
-    __int16 unknown15;
-    __int16 unknown16;
-    __int16 unknown17;
-    __int16 unknown18;
-    __int16 unknown19;
-    __int16 unknown20;
-    __int16 unknown21;
-    __int16 unknown22;
-    __int16 unknown23;
-    __int16 unknown24;
-    __int16 unknown25;
-    __int16 unknown26;
-    __int16 unknown27;
-    __int16 unknown28;
-    __int16 unknown29;
-    __int16 unknown30;
-    __int16 unknown31;
-    __int16 unknown32;
+    s16 unknown2;
+    s16 unknown3;
+    s16 unknown4;
+    s16 unknown5;
+    s16 unknown6;
+    s16 unknown7;
+    s16 unknown8;
+    s16 unknown9;
+    s16 unknown10;
+    s16 unknown11;
+    s16 unknown12;
+    s16 unknown13;
+    s16 unknown14;
+    s16 unknown15;
+    s16 unknown16;
+    s16 unknown17;
+    s16 unknown18;
+    s16 unknown19;
+    s16 unknown20;
+    s16 unknown21;
+    s16 unknown22;
+    s16 unknown23;
+    s16 unknown24;
+    s16 unknown25;
+    s16 unknown26;
+    s16 unknown27;
+    s16 unknown28;
+    s16 unknown29;
+    s16 unknown30;
+    s16 unknown31;
+    s16 unknown32;
 };
 
 struct Path_MovieHandstone : public Path_TLV
 {
-    __int16 padding;
+    s16 padding;
     Scale_short scale;
-    __int16 movie_number;
-    __int16 id;
+    s16 movie_number;
+    s16 id;
 };
 
 struct Path_CreditsController : public Path_TLV
@@ -171,11 +171,11 @@ struct Path_DemoSpawnPoint : public Path_TLV
 
 struct Path_PathTransition : public Path_TLV
 {
-    __int16 level;
-    __int16 path;
-    __int16 camera;
-    __int16 movie;
-    __int16 wipe;
+    s16 level;
+    s16 path;
+    s16 camera;
+    s16 movie;
+    s16 wipe;
     Scale_short scale;
 };
 
@@ -187,47 +187,47 @@ struct Path_ZSligCover : public Path_TLV
 struct Path_SligSpawner : public Path_TLV
 {
     Scale_short scale;
-    __int16 start_state;
-    __int16 pause_time;
-    __int16 pause_left_min;
-    __int16 pause_left_max;
-    __int16 pause_right_min;
-    __int16 pause_right_max;
-    __int16 chal_number;
-    __int16 chal_timer;
-    __int16 number_of_times_to_shoot;
-    __int16 unknown;
-    __int16 code_1;
-    __int16 code_2;
-    __int16 chase_abe;
-    __int16 start_direction;
-    __int16 panic_timeout;
-    __int16 num_panic_sounds;
-    __int16 panic_sound_timeout;
-    __int16 stop_chase_delay;
-    __int16 time_to_wait_before_chase;
-    __int16 slig_id;
-    __int16 listen_time;
-    __int16 percent_say_what;
-    __int16 percent_beat_mud;
-    __int16 talk_to_abe;
-    __int16 dont_shoot;
-    __int16 z_shoot_delay;
-    __int16 stay_awake;
-    __int16 disable_resources;
-    __int16 noise_wake_up_distance;
-    __int16 id;
-    __int16 spawn_many;
+    s16 start_state;
+    s16 pause_time;
+    s16 pause_left_min;
+    s16 pause_left_max;
+    s16 pause_right_min;
+    s16 pause_right_max;
+    s16 chal_number;
+    s16 chal_timer;
+    s16 number_of_times_to_shoot;
+    s16 unknown;
+    s16 code_1;
+    s16 code_2;
+    s16 chase_abe;
+    s16 start_direction;
+    s16 panic_timeout;
+    s16 num_panic_sounds;
+    s16 panic_sound_timeout;
+    s16 stop_chase_delay;
+    s16 time_to_wait_before_chase;
+    s16 slig_id;
+    s16 listen_time;
+    s16 percent_say_what;
+    s16 percent_beat_mud;
+    s16 talk_to_abe;
+    s16 dont_shoot;
+    s16 z_shoot_delay;
+    s16 stay_awake;
+    s16 disable_resources;
+    s16 noise_wake_up_distance;
+    s16 id;
+    s16 spawn_many;
 };
 
 struct Path_DeathDrop : public Path_TLV
 {
-    __int16 field_10_animation;
-    __int16 field_12_sound;
-    __int16 field_14_id;
-    __int16 field_16_action;
-    __int16 field_18_unknown1;
-    __int16 field_1A_unknown2;
+    s16 field_10_animation;
+    s16 field_12_sound;
+    s16 field_14_id;
+    s16 field_16_action;
+    s16 field_18_unknown1;
+    s16 field_1A_unknown2;
 };
 
 struct Path_InvisibleZone : public Path_TLV
@@ -237,8 +237,8 @@ struct Path_InvisibleZone : public Path_TLV
 
 struct Path_Pulley : public Path_TLV
 {
-    __int16 field_10_unknown1;
-    __int16 field_12_unknown2;
+    s16 field_10_unknown1;
+    s16 field_12_unknown2;
 };
 
 namespace AETlvs

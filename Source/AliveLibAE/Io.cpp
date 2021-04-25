@@ -11,9 +11,9 @@
 
 ALIVE_VAR(1, 0xBBC4BC, std::atomic<IO_Handle*>, sIOHandle_BBC4BC, {});
 ALIVE_VAR(1, 0xBBC4C4, std::atomic<void*>, sIO_ReadBuffer_BBC4C4, {});
-ALIVE_VAR(1, 0xBBC4C0, std::atomic<int>, sIO_Thread_Operation_BBC4C0, {});
+ALIVE_VAR(1, 0xBBC4C0, std::atomic<s32>, sIO_Thread_Operation_BBC4C0, {});
 ALIVE_VAR(1, 0xBBC4C8, std::atomic<size_t>, sIO_BytesToRead_BBC4C8, {});
-ALIVE_VAR(1, 0xBBC558, DWORD, sIoThreadId_BBC558, 0);
+ALIVE_VAR(1, 0xBBC558, u32, sIoThreadId_BBC558, 0);
 
 // I/O
 ALIVE_VAR(1, 0xBD2A5C, BOOL, sIOSyncReads_BD2A5C, FALSE);
@@ -21,7 +21,7 @@ ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 
 
 // SDL/C IO Wrappers
-IO_FileHandleType IO_Open(const char* fileName, const char * mode)
+IO_FileHandleType IO_Open(const s8* fileName, const s8 * mode)
 {
     if (strlen(fileName) >= 3 && fileName[0] == '.' && (fileName[1] == '/' || fileName[1] == '\\'))
     {
@@ -35,16 +35,16 @@ IO_FileHandleType IO_Open(const char* fileName, const char * mode)
 #endif
 }
 
-int IO_Seek(IO_FileHandleType pHandle, int offset, int origin)
+s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin)
 {
 #if USE_SDL2_IO
-    return static_cast<int>(pHandle->seek(pHandle, offset, origin));
+    return static_cast<s32>(pHandle->seek(pHandle, offset, origin));
 #else
     return ae_fseek_521955(pHandle, offset, origin);
 #endif
 }
 
-int IO_Close(IO_FileHandleType pHandle)
+s32 IO_Close(IO_FileHandleType pHandle)
 {
 #if USE_SDL2_IO
     return pHandle->close(pHandle);
@@ -62,7 +62,7 @@ size_t IO_Read(IO_FileHandleType pHandle, void *ptr, size_t size, size_t maxnum)
 #endif
 }
 
-EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
+EXPORT IO_Handle* CC IO_Open_4F2320(const s8* fileName, s32 modeFlag)
 {
     IO_Handle* pHandle = reinterpret_cast<IO_Handle*>(ae_malloc_4F4E60(sizeof(IO_Handle)));
     if (!pHandle)
@@ -72,7 +72,7 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
 
     memset(pHandle, 0, sizeof(IO_Handle));
 
-    const char* mode = nullptr;
+    const s8* mode = nullptr;
     if ((modeFlag & 3) == 3)
     {
         mode = "rwb";
@@ -87,7 +87,7 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
         if (!(modeFlag & 2))
         {
             // Somehow it can also be passed as string?? I don't think this case ever happens
-            //mode = reinterpret_cast<const char*>(modeFlag);
+            //mode = reinterpret_cast<const s8*>(modeFlag);
             LOG_ERROR("Unknown mode flag " << modeFlag);
             ALIVE_FATAL("Unknow mode flag");
         }
@@ -123,7 +123,7 @@ EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile)
 #endif
 }
 
-EXPORT int CC IO_Seek_4F2490(IO_Handle* hFile, int offset, int origin)
+EXPORT s32 CC IO_Seek_4F2490(IO_Handle* hFile, s32 offset, s32 origin)
 {
     if (!hFile)
     {
@@ -149,7 +149,7 @@ EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile)
 }
 
 #if _WIN32 && !USE_SDL2_IO
-EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
+EXPORT u32 WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
 {
     while (1)
     {
@@ -189,7 +189,7 @@ EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
     }
 }
 
-EXPORT signed int CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, void* readBuffer, size_t bytesToRead, int /*notUsed1*/, int /*notUsed2*/, int /*notUsed3*/)
+EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, s32 always3, void* readBuffer, size_t bytesToRead, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 /*notUsed3*/)
 {
     if (sIOHandle_BBC4BC.load())
     {
@@ -210,7 +210,7 @@ EXPORT signed int CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, v
 }
 #endif
 
-EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
+EXPORT s32 CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
 {
     if (!hFile || !hFile->field_8_hFile)
     {
@@ -243,7 +243,7 @@ EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
 
 
 #if _WIN32 && !USE_SDL2_IO
-EXPORT DWORD CCSTD IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
+EXPORT u32 CCSTD IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
 {
     MSG msg = {};
 
@@ -265,11 +265,11 @@ EXPORT DWORD CCSTD IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
     return 0;
 }
 
-EXPORT int CC IO_Wait_ASync_4EACF0(void* hFile)
+EXPORT s32 CC IO_Wait_ASync_4EACF0(void* hFile)
 {
     IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(hFile);
 
-    DWORD dwRet = WaitForSingleObject(pHandle->field_18_hEvent, 0x3E8u);
+    u32 dwRet = WaitForSingleObject(pHandle->field_18_hEvent, 0x3E8u);
     if (!dwRet)
     {
         return pHandle->field_10_read_ret;
@@ -306,7 +306,7 @@ EXPORT void CC IO_Close_ASync_4EAD40(void* hFile)
     ae_delete_free_495540(pHandle);
 }
 
-EXPORT void* CC IO_Open_ASync_4EADA0(const char* filename)
+EXPORT void* CC IO_Open_ASync_4EADA0(const s8* filename)
 {
     IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(ae_internal_malloc_5212C0(sizeof(IO_Movie_Handle)));
     if (!pHandle)
@@ -330,7 +330,7 @@ EXPORT void* CC IO_Open_ASync_4EADA0(const char* filename)
     return nullptr;
 }
 
-EXPORT BOOL CC IO_Read_ASync_4EAED0(void* hFile, void* pBuffer, DWORD readSize)
+EXPORT BOOL CC IO_Read_ASync_4EAED0(void* hFile, void* pBuffer, u32 readSize)
 {
     IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(hFile);
     if (!IO_Wait_ASync_4EACF0(pHandle))
@@ -350,10 +350,10 @@ EXPORT BOOL CC IO_Read_ASync_4EAED0(void* hFile, void* pBuffer, DWORD readSize)
     return TRUE;
 }
 
-EXPORT int CC IO_Sync_ASync_4EAF80(void* hFile, DWORD offset, DWORD origin)
+EXPORT s32 CC IO_Sync_ASync_4EAF80(void* hFile, u32 offset, u32 origin)
 {
     IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(hFile);
-    int result = IO_Wait_ASync_4EACF0(pHandle);
+    s32 result = IO_Wait_ASync_4EACF0(pHandle);
     if (result)
     {
         result = IO_Seek(pHandle->field_0_hFile, offset, origin) != 0;
@@ -362,7 +362,7 @@ EXPORT int CC IO_Sync_ASync_4EAF80(void* hFile, DWORD offset, DWORD origin)
 }
 #endif
 
-EXPORT void* CC IO_Open_Sync_4EAEB0(const char* pFileName)
+EXPORT void* CC IO_Open_Sync_4EAEB0(const s8* pFileName)
 {
     return IO_Open(pFileName, "rb");
 }
@@ -376,7 +376,7 @@ EXPORT void CC IO_Close_Sync_4EAD90(void* pHandle)
     }
 }
 
-EXPORT BOOL CC IO_Read_Sync_4EAF50(void* pHandle, void* pBuffer, DWORD readSize)
+EXPORT BOOL CC IO_Read_Sync_4EAF50(void* pHandle, void* pBuffer, u32 readSize)
 {
     IO_FileHandleType hFile = reinterpret_cast<IO_FileHandleType>(pHandle);
     return IO_Read(hFile, pBuffer, 1u, readSize) == readSize;
@@ -387,14 +387,14 @@ EXPORT BOOL CC IO_Wait_Sync_4EAD30(void*)
     return 1;
 }
 
-EXPORT BOOL CC IO_Seek_Sync_4EAFC0(void* pHandle, DWORD offset, DWORD origin)
+EXPORT BOOL CC IO_Seek_Sync_4EAFC0(void* pHandle, u32 offset, u32 origin)
 {
     IO_FileHandleType hFile = reinterpret_cast<IO_FileHandleType>(pHandle);
     return IO_Seek(hFile, offset, origin) != 0;
 }
 
 
-EXPORT void CC IO_Init_SyncOrASync_4EAC80(int bASync)
+EXPORT void CC IO_Init_SyncOrASync_4EAC80(s32 bASync)
 {
 #if _WIN32 && !USE_SDL2_IO
     if (bASync)
@@ -419,7 +419,7 @@ EXPORT void CC IO_Init_SyncOrASync_4EAC80(int bASync)
     }
 }
 
-EXPORT void* CC IO_fopen_494280(const char* pFileName)
+EXPORT void* CC IO_fopen_494280(const s8* pFileName)
 {
     return IO_Open_4F2320(pFileName, 5);
 }
@@ -432,7 +432,7 @@ EXPORT void CC IO_fclose_4942A0(void* pHandle)
     }
 }
 
-EXPORT BOOL CC IO_request_fread_4942C0(void* pHandle, void* pBuffer, DWORD size)
+EXPORT BOOL CC IO_request_fread_4942C0(void* pHandle, void* pBuffer, u32 size)
 {
     return IO_Read_4F23A0(reinterpret_cast<IO_Handle*>(pHandle), pBuffer, size) == 0;
 }
@@ -487,7 +487,7 @@ bool IO_CreateThread()
     return true;
 }
 
-bool IO_DirectoryExists(const char* pDirName)
+bool IO_DirectoryExists(const s8* pDirName)
 {
 #if _WIN32
     WIN32_FIND_DATA sFindData = {};
@@ -513,7 +513,7 @@ bool IO_DirectoryExists(const char* pDirName)
 #include <string>
 #include <regex>
 
-static void replace_all(std::string& input, char find, const char replace)
+static void replace_all(std::string& input, s8 find, const s8 replace)
 {
     size_t pos = 0;
     while ((pos = input.find(find, pos)) != std::string::npos)
@@ -568,7 +568,7 @@ static bool WildCardMatcher(const std::string& text, std::string wildcardPattern
 }
 #endif
 
-EXPORT void IO_EnumerateDirectory(const char* fileName, TEnumCallBack cb)
+EXPORT void IO_EnumerateDirectory(const s8* fileName, TEnumCallBack cb)
 {
 #if _WIN32
     _finddata_t findRec = {};
@@ -579,7 +579,7 @@ EXPORT void IO_EnumerateDirectory(const char* fileName, TEnumCallBack cb)
         {
             if (!(findRec.attrib & FILE_ATTRIBUTE_DIRECTORY))
             {
-                cb(findRec.name, static_cast<DWORD>(findRec.time_write)); // TODO: Chopping off a lot of time stamp resolution here
+                cb(findRec.name, static_cast<u32>(findRec.time_write)); // TODO: Chopping off a lot of time stamp resolution here
             }
 
             if (_findnext(hFind, &findRec) == -1)

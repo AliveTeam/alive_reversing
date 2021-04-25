@@ -4,7 +4,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-Flash* Flash::ctor_428570(Layer layer, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*not_used*/, TPageAbr abr, int time)
+Flash* Flash::ctor_428570(Layer layer, u8 r, u8 g, u8 b, s32 /*not_used*/, TPageAbr abr, s32 time)
 {
     ctor_4AB7A0(layer, abr);
     SetVTable(this, 0x544F0C); // vTbl_Flash_544F0C
@@ -16,7 +16,7 @@ Flash* Flash::ctor_428570(Layer layer, unsigned __int8 r, unsigned __int8 g, uns
     return this;
 }
 
-BaseGameObject* Flash::VDestructor(signed int flags)
+BaseGameObject* Flash::VDestructor(s32 flags)
 {
     return vdtor_4285F0(flags);
 }
@@ -26,7 +26,7 @@ void Flash::VUpdate()
     vUpdate_428640();
 }
 
-Flash* Flash::vdtor_4285F0(signed int flags)
+Flash* Flash::vdtor_4285F0(s32 flags)
 {
     dtor_4AB8F0();
     if (flags & 1)
@@ -38,7 +38,7 @@ Flash* Flash::vdtor_4285F0(signed int flags)
 
 void Flash::vUpdate_428640()
 {
-    if (static_cast<int>(sGnFrame_5C1B84) >= field_78_flash_time)
+    if (static_cast<s32>(sGnFrame_5C1B84) >= field_78_flash_time)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

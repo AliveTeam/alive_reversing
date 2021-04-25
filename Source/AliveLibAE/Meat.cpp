@@ -13,7 +13,7 @@
 #include "Abe.hpp"
 #include "Particle.hpp"
 
-Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
+Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
 {
     ctor_408240(0);
     SetVTable(this, 0x546040);
@@ -26,7 +26,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
     Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -57,7 +57,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
     return this;
 }
 
-BaseGameObject* Meat::VDestructor(signed int flags)
+BaseGameObject* Meat::VDestructor(s32 flags)
 {
     return vdtor_4696C0(flags);
 }
@@ -97,7 +97,7 @@ void Meat::VTimeToExplodeRandom_411490()
     // TODO
 }
 
-__int16 Meat::VGetCount_448080()
+s16 Meat::VGetCount_448080()
 {
     return vGetCount_46A350();
 }
@@ -159,7 +159,7 @@ void Meat::dtor_4696F0()
     dtor_4080B0();
 }
 
-Meat* Meat::vdtor_4696C0(signed int flags)
+Meat* Meat::vdtor_4696C0(s32 flags)
 {
     dtor_4696F0();
     if (flags & 1)
@@ -186,7 +186,7 @@ void Meat::vThrow_469790(FP velX, FP velY)
     }
 }
 
-__int16 Meat::vGetCount_46A350()
+s16 Meat::vGetCount_46A350()
 {
     if (field_11C_state == MeatStates::State_4_WaitForPickUp && field_118_count == 0)
     {
@@ -285,7 +285,7 @@ void Meat::InTheAir_4697E0()
     }
 }
 
-__int16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
+s16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
 {
     // TODO: Check if pHit type is correct for all throwables
 
@@ -341,8 +341,8 @@ void Meat::vUpdate_469BA0()
             InTheAir_4697E0();
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
-            const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-            const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+            const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+            const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
             vOnCollisionWith_424EE0(
                 xy,
                 wh,
@@ -402,7 +402,7 @@ void Meat::vUpdate_469BA0()
                 field_12C_deadtimer = sGnFrame_5C1B84 + 600;
             }
 
-            if (static_cast<int>(sGnFrame_5C1B84) > field_128_timer && !v2)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_128_timer && !v2)
             {
                 // That strange "shimmer" the meat gives off
                 New_TintShiny_Particle_426C30(
@@ -412,7 +412,7 @@ void Meat::vUpdate_469BA0()
                     Layer::eLayer_36);
                 field_128_timer = Math_NextRandom() % 16 + sGnFrame_5C1B84 + 60;
             }
-            if (field_12C_deadtimer < (signed int)sGnFrame_5C1B84)
+            if (field_12C_deadtimer < (s32)sGnFrame_5C1B84)
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
@@ -458,14 +458,14 @@ TintEntry stru_55C254[] =
 };
 
 
-MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
+MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x5460D4);
 
     field_4_typeId = AETypes::eMeatSack_85;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
     Animation_Init_424E10(15848, 93, 86, ppRes, 1, 1);
     SetTint_425600(&stru_55C254[0], gMap_5C3030.field_0_current_level);
 
@@ -511,7 +511,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* MeatSack::VDestructor(signed int flags)
+BaseGameObject* MeatSack::VDestructor(s32 flags)
 {
     return vdtor_46A5E0(flags);
 }
@@ -526,12 +526,12 @@ void MeatSack::VUpdate()
     vUpdate_46A6A0();
 }
 
-int Meat::VGetSaveState(BYTE* pSaveBuffer)
+s32 Meat::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_46AC40(reinterpret_cast<Meat_SaveState*>(pSaveBuffer));
 }
 
-int CC Meat::CreateFromSaveState_46A9E0(const BYTE* pBuffer)
+s32 CC Meat::CreateFromSaveState_46A9E0(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
 
@@ -577,7 +577,7 @@ int CC Meat::CreateFromSaveState_46A9E0(const BYTE* pBuffer)
     return sizeof(Meat_SaveState);
 }
 
-MeatSack* MeatSack::vdtor_46A5E0(signed int flags)
+MeatSack* MeatSack::vdtor_46A5E0(s32 flags)
 {
     dtor_46A610();
     if (flags & 1)
@@ -680,7 +680,7 @@ void MeatSack::vUpdate_46A6A0()
     }
 }
 
-int Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
+s32 Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
 {
     pState->field_0_type = AETypes::eMeat_84;
     pState->field_4_obj_id = field_C_objectId;

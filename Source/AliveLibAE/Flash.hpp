@@ -7,14 +7,14 @@
 class Flash : public EffectBase
 {
 public:
-    EXPORT Flash* ctor_428570(Layer layer, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*not_used*/, TPageAbr abr, int time);
+    EXPORT Flash* ctor_428570(Layer layer, u8 r, u8 g, u8 b, s32 /*not_used*/, TPageAbr abr, s32 time);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
 private:
-    EXPORT Flash* vdtor_4285F0(signed int flags);
+    EXPORT Flash* vdtor_4285F0(s32 flags);
     EXPORT void vUpdate_428640();
 private:
-    int field_78_flash_time;
+    s32 field_78_flash_time;
 };
 ALIVE_ASSERT_SIZEOF(Flash, 0x7C);

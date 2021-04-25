@@ -16,9 +16,9 @@ public:
 
     EXPORT void VScreenChanged_464280();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT Shrykull* Vdtor_464300(signed int flags);
+    EXPORT Shrykull* Vdtor_464300(s32 flags);
 
     EXPORT BaseGameObject* dtor_463990();
 
@@ -32,7 +32,7 @@ public:
 
     EXPORT void VUpdate_463AE0();
 
-    enum class State : __int16
+    enum class State : s16
     {
         eTransform_0 = 0,
         eZapTargets_1 = 1,
@@ -41,13 +41,13 @@ public:
         eKillTargets_4 = 4,
     };
     State field_10C_state;
-    __int16 field_10E_pad;
-    int field_110_timer;
-    int field_114_timer;
+    s16 field_10E_pad;
+    s32 field_110_timer;
+    s32 field_114_timer;
     ZapLine* field_118_zap_line;
     BaseAliveGameObject* field_11C_obj_being_zapped;
-    __int16 field_120_bElectrocute;
-    __int16 field_122_bResetRingTimer;
+    s16 field_120_bElectrocute;
+    s16 field_122_bResetRingTimer;
 };
 ALIVE_ASSERT_SIZEOF(Shrykull, 0x124);
 

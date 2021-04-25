@@ -11,7 +11,7 @@
 
 namespace AO {
 
-Rope* Rope::Vdtor_458B60(signed int flags)
+Rope* Rope::Vdtor_458B60(s32 flags)
 {
     dtor_458720();
     if (flags & 1)
@@ -21,27 +21,27 @@ Rope* Rope::Vdtor_458B60(signed int flags)
     return this;
 }
 
-EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, int minY, int maxY)
+EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
-    const int d1 = minY - Y0(pPoly);
-    const short polyHeight = Y3(pPoly) - Y0(pPoly);
+    const s32 d1 = minY - Y0(pPoly);
+    const s16 polyHeight = Y3(pPoly) - Y0(pPoly);
     if (d1 > 0 && d1 <= polyHeight)
     {
-        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (short)d1);
-        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (short)d1);
+        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (s16)d1);
+        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (s16)d1);
 
-        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (BYTE)d1);
-        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (BYTE)d1);
+        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (u8)d1);
+        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (u8)d1);
     }
 
-    const int d2 = Y3(pPoly) - maxY;
+    const s32 d2 = Y3(pPoly) - maxY;
     if (d2 > 0 && d2 <= polyHeight)
     {
-        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (short)d2);
-        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (short)d2);
+        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (s16)d2);
+        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (s16)d2);
 
-        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (BYTE)d2);
-        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (BYTE)d2);
+        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (u8)d2);
+        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (u8)d2);
     }
 }
 
@@ -52,12 +52,12 @@ BaseGameObject* Rope::dtor_458720()
     return dtor_417D10();
 }
 
-BaseGameObject* Rope::VDestructor(signed int flags)
+BaseGameObject* Rope::VDestructor(s32 flags)
 {
     return Vdtor_458B60(flags);
 }
 
-Rope* Rope::ctor_458520(unsigned __int16 left, __int16 top, unsigned __int16 bottom, FP scale)
+Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
 {
     ctor_417C10();
     SetVTable(this, 0x4BC1E0);
@@ -74,7 +74,7 @@ Rope* Rope::ctor_458520(unsigned __int16 left, __int16 top, unsigned __int16 bot
         field_E6_rope_length = 7;
     }
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, 1, 0);
     switch (gMap_507BA8.field_0_current_level)
     {
     case LevelIds::eRuptureFarms_1:
@@ -119,7 +119,7 @@ Rope* Rope::ctor_458520(unsigned __int16 left, __int16 top, unsigned __int16 bot
     field_E8_pRopeRes = reinterpret_cast<AnimationUnknown*>(ao_new_malloc_447520(sizeof(AnimationUnknown) * field_E4_rope_segment_count));
     if (field_E8_pRopeRes)
     {
-        for (int i = 0; i < field_E4_rope_segment_count; i++)
+        for (s32 i = 0; i < field_E4_rope_segment_count; i++)
         {
             // Placement new the items
             AnimationUnknown* pSegment = &field_E8_pRopeRes[i];
@@ -160,22 +160,22 @@ void Rope::VRender_458780(PrimHeader** ppOt)
             {
                 const FP camYPos = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
-                int minY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EE_top))
+                s32 minY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EE_top))
                     - camYPos);
-                int maxY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_F2_bottom))
+                s32 maxY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_F2_bottom))
                     - camYPos);
 
-                __int16 ypos = FP_GetExponent(field_AC_ypos);
+                s16 ypos = FP_GetExponent(field_AC_ypos);
                 if (ypos > field_F2_bottom)
                 {
                     ypos = field_F2_bottom + ((ypos - field_F2_bottom) % field_E6_rope_length);
                 }
 
-                short screenX = PsxToPCX(
+                s16 screenX = PsxToPCX(
                     FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
                     11
                 );
-                short screenY = FP_GetExponent(
+                s16 screenY = FP_GetExponent(
                     (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos))
                     - camYPos
                 );
@@ -198,11 +198,11 @@ void Rope::VRender_458780(PrimHeader** ppOt)
                 field_10_anim.VRender_403AE0(640, 240, ppOt, 0, 0 );
                 if (screenY >= minY)
                 {
-                    for (int idx = 0; idx < field_E4_rope_segment_count; idx++)
+                    for (s32 idx = 0; idx < field_E4_rope_segment_count; idx++)
                     {
-                        short r = 128;
-                        short g = 128;
-                        short b = 128;
+                        s16 r = 128;
+                        s16 g = 128;
+                        s16 b = 128;
                         ShadowZone::ShadowZones_Calculate_Colour_435FF0(
                             FP_GetExponent(field_A8_xpos),
                             ypos - (idx * field_E6_rope_length),
@@ -212,9 +212,9 @@ void Rope::VRender_458780(PrimHeader** ppOt)
                             &b
                         );
 
-                        field_E8_pRopeRes[idx].field_8_r = static_cast<BYTE>(r);
-                        field_E8_pRopeRes[idx].field_9_g = static_cast<BYTE>(g);
-                        field_E8_pRopeRes[idx].field_A_b = static_cast<BYTE>(b);
+                        field_E8_pRopeRes[idx].field_8_r = static_cast<u8>(r);
+                        field_E8_pRopeRes[idx].field_9_g = static_cast<u8>(g);
+                        field_E8_pRopeRes[idx].field_A_b = static_cast<u8>(b);
 
                         field_E8_pRopeRes[idx].VRender2(
                             screenX,

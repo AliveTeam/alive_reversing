@@ -35,7 +35,7 @@ const AnimId sFallingItemData_544DC0[15][2] =
 
 ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
 
-EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo)
+EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x544E98);
@@ -47,10 +47,10 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
 
-    const int lvlIdx = static_cast<int>(gMap_5C3030.field_0_current_level);
+    const s32 lvlIdx = static_cast<s32>(gMap_5C3030.field_0_current_level);
 
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_11E_id = pTlv->field_10_id;
@@ -104,7 +104,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
     return this;
 }
 
-FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale, __int16 id, __int16 delayTime, __int16 numItems, __int16 resetId)
+FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16 delayTime, s16 numItems, s16 resetId)
 {
     ctor_408240(0);
 
@@ -114,10 +114,10 @@ FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale,
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = -1;
 
-    const int lvlIdx = static_cast<int>(gMap_5C3030.field_0_current_level);
+    const s32 lvlIdx = static_cast<s32>(gMap_5C3030.field_0_current_level);
 
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_C_render_layer = Layer::eLayer_31;
@@ -176,7 +176,7 @@ FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale,
     return this;
 }
 
-BaseGameObject* FallingItem::VDestructor(signed int flags)
+BaseGameObject* FallingItem::VDestructor(s32 flags)
 {
     return vdtor_427530(flags);
 }
@@ -202,7 +202,7 @@ void FallingItem::dtor_427EB0()
     dtor_4080B0();
 }
 
-FallingItem* FallingItem::vdtor_427530(signed int flags)
+FallingItem* FallingItem::vdtor_427530(s32 flags)
 {
     dtor_427EB0();
     if (flags & 1)
@@ -267,7 +267,7 @@ EXPORT void FallingItem::vUpdate_427780()
             field_C4_velx = FP_FromInteger(0);
             field_C8_vely = FP_FromInteger(0);
 
-            const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
+            const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
             field_128_delay_timer = sGnFrame_5C1B84 + field_124_fall_delay;
@@ -282,7 +282,7 @@ EXPORT void FallingItem::vUpdate_427780()
         field_C4_velx = FP_FromInteger(0);
         field_C8_vely = FP_FromInteger(0);
 
-        const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)][1]);
+        const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
         field_128_delay_timer = sGnFrame_5C1B84 + field_124_fall_delay;
@@ -290,7 +290,7 @@ EXPORT void FallingItem::vUpdate_427780()
     }
 
     case State::eState_2_WaitForFallDelay:
-        if (static_cast<int>(sGnFrame_5C1B84) >= field_128_delay_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) >= field_128_delay_timer)
         {
             field_11C_state = State::eState_3_Falling;
             field_12E_do_sound_in_state_falling = TRUE;
@@ -380,7 +380,7 @@ EXPORT void FallingItem::vUpdate_427780()
             auto pParticle = ae_new<Particle>();
             if (pParticle)
             {
-                BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0);
+                u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0);
                 pParticle->ctor_4CC4C0(
                     field_B8_xpos,
                     field_BC_ypos - (FP_FromInteger(15) * field_CC_sprite_scale),
@@ -450,7 +450,7 @@ EXPORT void FallingItem::vUpdate_427780()
         }
         else
         {
-            const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)][0]);
+            const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
             field_C8_vely = FP_FromInteger(0);
@@ -467,7 +467,7 @@ EXPORT void FallingItem::vUpdate_427780()
 
 void FallingItem::DamageHitItems_427F40()
 {
-    for (int idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
         if (!pObj)

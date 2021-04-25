@@ -10,23 +10,23 @@ namespace AO {
 
 struct Path_LCDScreen : public Path_TLV
 {
-    __int16 field_18_message_1_id;
-    __int16 field_1A_message_rand_min;
-    __int16 field_1C_message_rand_max;
-    __int16 field_1E_message_2_id_not_used;
+    s16 field_18_message_1_id;
+    s16 field_1A_message_rand_min;
+    s16 field_1C_message_rand_max;
+    s16 field_1E_message_2_id_not_used;
 };
 ALIVE_ASSERT_SIZEOF(Path_LCDScreen, 0x20);
 
 class LCDScreen : public BaseGameObject
 {
 public:
-    EXPORT LCDScreen* ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo);
+    EXPORT LCDScreen* ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_434100();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT BaseGameObject* Vdtor_434630(signed int flags);
+    EXPORT BaseGameObject* Vdtor_434630(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -44,20 +44,20 @@ public:
     FontContext field_50_font_context;
     AliveFont field_60_font;
     PSX_RECT field_98_pal_rect;
-    char* field_A0_message;
-    const char* field_A4_message_cutoff_ptr;
-    int field_A8;
-    char field_AC_message_buffer[512];
-    int field_2AC_message_1_id;
-    int field_2B0_x_offset;
-    int field_2B4_character_width;
-    int field_2B8_tlv_item_info;
+    s8* field_A0_message;
+    const s8* field_A4_message_cutoff_ptr;
+    s32 field_A8;
+    s8 field_AC_message_buffer[512];
+    s32 field_2AC_message_1_id;
+    s32 field_2B0_x_offset;
+    s32 field_2B4_character_width;
+    s32 field_2B8_tlv_item_info;
     Path_TLV field_2BC_tlv;
-    int field_2D4;
-    short field_2D8_message_rand_min;
-    short pad_2DA;
-    short field_2DC_message_rand_max;
-    short pad_2DE;
+    s32 field_2D4;
+    s16 field_2D8_message_rand_min;
+    s16 pad_2DA;
+    s16 field_2DC_message_rand_max;
+    s16 pad_2DE;
 };
 ALIVE_ASSERT_SIZEOF(LCDScreen, 0x2E0);
 

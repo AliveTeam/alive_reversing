@@ -8,21 +8,21 @@ namespace AO {
 
 struct Path_FlintLockFire : public Path_TLV
 {
-    __int16 field_18_scale;
-    __int16 field_1A_id;
+    s16 field_18_scale;
+    s16 field_1A_id;
 };
 ALIVE_ASSERT_SIZEOF(Path_FlintLockFire, 0x1C);
 
 class FlintLockFire : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT FlintLockFire* ctor_41AA90(Path_FlintLockFire* pTlv, int tlvInfo);
+    EXPORT FlintLockFire* ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_41AE20();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT FlintLockFire* Vdtor_41B500(signed int flags);
+    EXPORT FlintLockFire* Vdtor_41B500(s32 flags);
 
     virtual void VStopAudio() override;
 
@@ -40,17 +40,17 @@ public:
 
     EXPORT void VRender_41B0F0(PrimHeader** ppOt);
 
-    int field_D4_padding[4];
-    enum class States : __int16
+    s32 field_D4_padding[4];
+    enum class States : s16
     {
         eDisabled_0 = 0,
         eActivating_1 = 1,
         eActivated_2 = 2
     };
     States field_E4_state;
-    __int16 field_E6_switch_id;
-    int field_E8_tlvInfo;
-    int field_EC_fire_sound;
+    s16 field_E6_switch_id;
+    s32 field_E8_tlvInfo;
+    s32 field_EC_fire_sound;
     Animation field_F0_anim;
     Animation field_188_anim;
     Animation field_220_anim;

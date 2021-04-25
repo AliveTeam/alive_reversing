@@ -7,9 +7,9 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4CFFF8, short, sBackgroundMusic_seq_id_4CFFF8, -1);
+ALIVE_VAR(1, 0x4CFFF8, s16, sBackgroundMusic_seq_id_4CFFF8, -1);
 
-BackgroundMusic* BackgroundMusic::ctor_476370(__int16 musicId)
+BackgroundMusic* BackgroundMusic::ctor_476370(s16 musicId)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BCD30);
@@ -25,12 +25,12 @@ BaseGameObject* BackgroundMusic::dtor_4763A0()
     return dtor_487DF0();
 }
 
-BaseGameObject* BackgroundMusic::VDestructor(signed int flags)
+BaseGameObject* BackgroundMusic::VDestructor(s32 flags)
 {
     return Vdtor_476A80(flags);
 }
 
-BackgroundMusic* BackgroundMusic::Vdtor_476A80(signed int flags)
+BackgroundMusic* BackgroundMusic::Vdtor_476A80(s32 flags)
 {
     dtor_4763A0();
     if (flags & 1)

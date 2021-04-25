@@ -9,17 +9,17 @@ class DirectX9Renderer : public IRenderer
 public:
     void Destroy() override;
     bool Create(TWindowHandleType window) override;
-    void Clear(BYTE r, BYTE g, BYTE b) override;
-    void StartFrame(int xOff, int yOff) override;
+    void Clear(u8 r, u8 g, u8 b) override;
+    void StartFrame(s32 xOff, s32 yOff) override;
     void EndFrame() override;
     void BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst) override;
-    void OutputSize(int* w, int* h) override;
-    bool UpdateBackBuffer(const void* pPixels, int pitch) override;
-    void CreateBackBuffer(bool filter, int format, int w, int h) override;
+    void OutputSize(s32* w, s32* h) override;
+    bool UpdateBackBuffer(const void* pPixels, s32 pitch) override;
+    void CreateBackBuffer(bool filter, s32 format, s32 w, s32 h) override;
     void PalFree(const PalRecord& record) override;
     bool PalAlloc(PalRecord& record) override;
-    void PalSetData(const PalRecord& record, const BYTE* pPixels) override;
-    void SetTPage(short tPage) override;
+    void PalSetData(const PalRecord& record, const u8* pPixels) override;
+    void SetTPage(s16 tPage) override;
     void SetClip(Prim_PrimClipper& clipper) override;
     void SetScreenOffset(Prim_ScreenOffset& offset) override;
     void Draw(Prim_Sprt& sprt) override;
@@ -34,7 +34,7 @@ public:
     void Draw(Poly_FT4& poly) override;
     void Draw(Poly_G4& poly) override;
 
-    void Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE* pPixels) override;
+    void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) override;
 private:
     SDL_Renderer* mRenderer = nullptr;
     IDirect3DDevice9* mDevice = nullptr;

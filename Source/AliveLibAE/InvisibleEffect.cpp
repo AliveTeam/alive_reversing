@@ -20,14 +20,14 @@ EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(BaseAliveGameObject* pTarge
 
     field_44_objId = pTarget->field_8_object_id;
 
-    field_24_pPal1 = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+    field_24_pPal1 = reinterpret_cast<u16*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(u16)));
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,
         field_24_pPal1,
         &field_28_pal_rect1);
 
-    field_30_pPal2 = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+    field_30_pPal2 = reinterpret_cast<u16*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(u16)));
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,
@@ -116,7 +116,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
         }
         case InvisibleState::eSetInvisibile_1:
         {
-            for (int idx2 = 8; idx2 < pTarget->field_20_animation.field_90_pal_depth; idx2++)
+            for (s32 idx2 = 8; idx2 < pTarget->field_20_animation.field_90_pal_depth; idx2++)
             {
                 // Set transparent bit
                 field_30_pPal2[idx2] |= 0x8000u;
@@ -145,7 +145,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             }
 
             bool v3 = false;
-            for (int idx = 8; idx < pTarget->field_20_animation.field_90_pal_depth; idx++)
+            for (s32 idx = 8; idx < pTarget->field_20_animation.field_90_pal_depth; idx++)
             {
                 // Red
                 if (field_30_pPal2[idx] & 0x1F)
@@ -181,7 +181,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             }
             else
             {
-                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_30_pPal2, &field_34_pal_rect2);
+                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (u8 *)field_30_pPal2, &field_34_pal_rect2);
                 field_1C_update_delay = 1;
             }
 
@@ -191,13 +191,13 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
         case InvisibleState::eUnknown_3:
         {
             LOG_ERROR("Unreachable case InvisibleState::eUnknown_3 hit");
-            for (int i = 8; i < pTarget->field_20_animation.field_90_pal_depth; i++)
+            for (s32 i = 8; i < pTarget->field_20_animation.field_90_pal_depth; i++)
             {
                 // Clear transparent bit
                 field_30_pPal2[i] &= 0x8000u;
 
             }
-            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *) field_30_pPal2, &field_34_pal_rect2);
+            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (u8 *) field_30_pPal2, &field_34_pal_rect2);
             field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
             field_1C_update_delay = 1;
             field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
@@ -212,7 +212,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             }
 
             bool v3 = false;
-            for (int idx4 = 1; idx4 < pTarget->field_20_animation.field_90_pal_depth; idx4++)
+            for (s32 idx4 = 1; idx4 < pTarget->field_20_animation.field_90_pal_depth; idx4++)
             {
                 if ((field_30_pPal2[idx4] ^ (field_24_pPal1[idx4])) & 0x1F)
                 {
@@ -235,7 +235,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
 
             if (v3)
             {
-                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_30_pPal2, &field_34_pal_rect2);
+                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (u8 *)field_30_pPal2, &field_34_pal_rect2);
                 pTarget->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                 field_1C_update_delay = 5;
             }
@@ -247,7 +247,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
         }
         case InvisibleState::eClearInvisibility_5:
         {
-            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy,  pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_24_pPal1, &field_28_pal_rect1);
+            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy,  pTarget->field_20_animation.field_90_pal_depth, (u8 *)field_24_pPal1, &field_28_pal_rect1);
 
             pTarget->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
             pTarget->field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));
@@ -278,7 +278,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
 
 }
 
-EXPORT BaseGameObject* InvisibleEffect::vdtor_45F3E0(signed int flags)
+EXPORT BaseGameObject* InvisibleEffect::vdtor_45F3E0(s32 flags)
 {
     dtor_45F410();
     if (flags & 1)
@@ -288,7 +288,7 @@ EXPORT BaseGameObject* InvisibleEffect::vdtor_45F3E0(signed int flags)
     return this;
 }
 
-BaseGameObject* InvisibleEffect::VDestructor(signed int flags)
+BaseGameObject* InvisibleEffect::VDestructor(s32 flags)
 {
     return vdtor_45F3E0(flags);
 }

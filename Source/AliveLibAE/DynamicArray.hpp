@@ -8,23 +8,23 @@ void DynamicArray_ForceLink();
 class DynamicArray
 {
 public:
-    EXPORT DynamicArray* ctor_40CA60(__int16 startingSize);
-    EXPORT DynamicArray* ctor_40C9E0(__int16 startingSize);
+    EXPORT DynamicArray* ctor_40CA60(s16 startingSize);
+    EXPORT DynamicArray* ctor_40C9E0(s16 startingSize);
     EXPORT void dtor_40CAD0();
 
-    EXPORT __int16 Expand_40CBE0(__int16 expandSize);
+    EXPORT s16 Expand_40CBE0(s16 expandSize);
     bool IsEmpty() const { return field_4_used_size == 0; }
-    __int16 Size() const { return field_4_used_size; }
+    s16 Size() const { return field_4_used_size; }
 public:
-    EXPORT __int16 Push_Back_40CAF0(void* pValue);
+    EXPORT s16 Push_Back_40CAF0(void* pValue);
 protected:
-    EXPORT __int16 Remove_Item_40CB60(void* pItemToRemove);
+    EXPORT s16 Remove_Item_40CB60(void* pItemToRemove);
     void** field_0_array;
 public:
-    __int16 field_4_used_size;
+    s16 field_4_used_size;
 private:
-    __int16 field_6_max_size;
-    __int16 field_8_expand_size;
+    s16 field_6_max_size;
+    s16 field_8_expand_size;
     // padding
 
     friend class DynamicArrayIter;
@@ -36,22 +36,22 @@ template<class T>
 class DynamicArrayT : public DynamicArray
 {
 public:
-    __int16 Push_Back(T* pValue)
+    s16 Push_Back(T* pValue)
     {
         return Push_Back_40CAF0(pValue);
     }
 
-    __int16 Remove_Item(T* pItemToRemove)
+    s16 Remove_Item(T* pItemToRemove)
     {
         return Remove_Item_40CB60(pItemToRemove);
     }
 
-    T* ItemAt(int idx)
+    T* ItemAt(s32 idx)
     {
         return reinterpret_cast<T*>(field_0_array[idx]);
     }
 
-    void SetAt(int idx, T* itemToSet)
+    void SetAt(s32 idx, T* itemToSet)
     {
         field_0_array[idx] = itemToSet;
     }
@@ -63,7 +63,7 @@ public:
     EXPORT void Remove_At_Iter_40CCA0();
 
     DynamicArray* field_0_pDynamicArray;
-    __int16 field_4_idx;
+    s16 field_4_idx;
     // padding
 };
 ALIVE_ASSERT_SIZEOF(DynamicArrayIter, 0x8);

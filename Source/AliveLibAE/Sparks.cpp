@@ -10,7 +10,7 @@ Sparks* Sparks::ctor_416390(FP xpos, FP ypos, FP scale)
     field_4_typeId = AETypes::eSparks_22;
 
     const AnimRecord& rec = AnimRec(AnimId::Sparks);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_DC_bApplyShadows &= ~1u;
@@ -33,7 +33,7 @@ Sparks* Sparks::ctor_416390(FP xpos, FP ypos, FP scale)
     return this;
 }
 
-BaseGameObject* Sparks::VDestructor(signed int flags)
+BaseGameObject* Sparks::VDestructor(s32 flags)
 {
     return vdtor_416520(flags);
 }
@@ -89,7 +89,7 @@ void Sparks::dtor_416550()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Sparks* Sparks::vdtor_416520(signed int flags)
+Sparks* Sparks::vdtor_416520(s32 flags)
 {
     dtor_416550();
     if (flags & 1)

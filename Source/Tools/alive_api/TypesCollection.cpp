@@ -10,11 +10,11 @@ TypesCollection::TypesCollection(Game gameType)
 {
     #define ADD_BASIC_TYPE(name, type) AddBasicType<type>(name, std::numeric_limits<type>::min(), std::numeric_limits<type>::max());
 
-    ADD_BASIC_TYPE("Byte", BYTE);
-    ADD_BASIC_TYPE("UInt16", unsigned short);
-    ADD_BASIC_TYPE("Uint32", unsigned int);
-    ADD_BASIC_TYPE("SInt16", signed short);
-    ADD_BASIC_TYPE("SInt32", signed int);
+    ADD_BASIC_TYPE("Byte", u8);
+    ADD_BASIC_TYPE("UInt16", u16);
+    ADD_BASIC_TYPE("Uint32", u32);
+    ADD_BASIC_TYPE("SInt16", s16);
+    ADD_BASIC_TYPE("SInt32", s32);
 
     #undef ADD_BASIC_TYPE
 
@@ -40,12 +40,12 @@ void TypesCollection::AddTlvsToJsonArray(jsonxx::Array& array)
     }
 }
 
-std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, int instanceCount)
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, s32 instanceCount)
 {
     return mTlvFactoryAE.MakeTlvByEnum(*this, tlvType, pTlv, instanceCount);
 }
 
-std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, int instanceCount)
+std::unique_ptr<TlvObjectBase> TypesCollection::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, s32 instanceCount)
 {
     return mTlvFactoryAO.MakeTlvByEnum(*this, tlvType, pTlv, instanceCount);
 }

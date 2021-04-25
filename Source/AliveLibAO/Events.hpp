@@ -8,7 +8,7 @@ namespace AO {
 class BaseGameObject;
 class BaseAnimatedWithPhysicsGameObject;
 
-enum Event : __int16
+enum Event : s16
 {
     kEventNoise_0 = 0,
     kEventSpeaking_1 = 1,
@@ -31,11 +31,11 @@ enum Event : __int16
     kEventScreenShake_19 = 19,
 };
 
-EXPORT BaseGameObject* CC Event_Get_417250(__int16 eventType);
+EXPORT BaseGameObject* CC Event_Get_417250(s16 eventType);
 
-EXPORT void CC Event_Broadcast_417220(int eventType, BaseGameObject* pObject);
+EXPORT void CC Event_Broadcast_417220(s32 eventType, BaseGameObject* pObject);
 
-EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(__int16 eventType, FP xpos, FP ypos, FP scale);
+EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(s16 eventType, FP xpos, FP ypos, FP scale);
 
 EXPORT void CC Events_Reset_Active_417320();
 

@@ -6,7 +6,7 @@
 
 void GameSpeak_ForceLink();
 
-enum class GameSpeakEvents : __int16
+enum class GameSpeakEvents : s16
 {
     eSameAsLast_m2 = -2,
     eNone_m1 = -1,
@@ -69,7 +69,7 @@ enum class GameSpeakEvents : __int16
     Scrab_Shriek_54 = 54,
 };
 
-enum class GameSpeakMatch : __int16
+enum class GameSpeakMatch : s16
 {
     eNoMatch_0 = 0,
     eFullMatch_1 = 1,
@@ -79,7 +79,7 @@ enum class GameSpeakMatch : __int16
 class GameSpeak : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -89,13 +89,13 @@ public:
 
     EXPORT GameSpeak* ctor_421820();
 
-    EXPORT GameSpeakMatch MatchBuffer_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx);
+    EXPORT GameSpeakMatch MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_idx);
 
-    EXPORT static int CC FillBuffer_421970(int code, BYTE* pBufffer);
+    EXPORT static s32 CC FillBuffer_421970(s32 code, u8* pBufffer);
 
 private:
     EXPORT void dtor_4218A0();
-    EXPORT BaseGameObject* vdtor_421870(signed int flags);
+    EXPORT BaseGameObject* vdtor_421870(s32 flags);
 
 private:
     EXPORT void Update_421920();
@@ -103,17 +103,17 @@ private:
 
 public:
     GameSpeakEvents field_20_last_event;
-    __int16 field_22_padding;
-    unsigned int field_24_last_event_frame;
-    int field_28_last_event_index;
-    char field_2C_event_buffer[32];
+    s16 field_22_padding;
+    u32 field_24_last_event_frame;
+    s32 field_28_last_event_index;
+    s8 field_2C_event_buffer[32];
 };
 ALIVE_ASSERT_SIZEOF(GameSpeak, 0x4C);
 
 ALIVE_VAR_EXTERN(GameSpeak*, pEventSystem_5BC11C);
 
-EXPORT __int16 CC Code_Length_4C9DB0(unsigned int code);
+EXPORT s16 CC Code_Length_4C9DB0(u32 code);
 
-EXPORT int CC Code_Convert_4C9DF0(unsigned __int16 code1, unsigned __int16 code2);
+EXPORT s32 CC Code_Convert_4C9DF0(u16 code1, u16 code2);
 
-EXPORT GameSpeakEvents CC Code_LookUp_4C9E40(unsigned int code, unsigned __int16 idx, unsigned __int16 code_len);
+EXPORT GameSpeakEvents CC Code_LookUp_4C9E40(u32 code, u16 idx, u16 code_len);

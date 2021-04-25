@@ -7,11 +7,11 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x9F30A0, int, gOrbWhirlWind_instace_count_9F30A0, 0);
+ALIVE_VAR(1, 0x9F30A0, s32, gOrbWhirlWind_instace_count_9F30A0, 0);
 
 void OrbWhirlWind::ToSpin_48BAD0(FP xpos, FP ypos, BaseAliveGameObject* pObj)
 {
-    for (int i = 0; i < field_16_particleIdx; i++)
+    for (s32 i = 0; i < field_16_particleIdx; i++)
     {
         if (field_18_particles[i])
         {
@@ -26,7 +26,7 @@ void OrbWhirlWind::ToSpin_48BAD0(FP xpos, FP ypos, BaseAliveGameObject* pObj)
 
 void OrbWhirlWind::VRender_48BA90(PrimHeader** ppOt)
 {
-    for (int i = 0; i < field_16_particleIdx; i++)
+    for (s32 i = 0; i < field_16_particleIdx; i++)
     {
         if (field_18_particles[i])
         {
@@ -69,7 +69,7 @@ void OrbWhirlWind::VUpdate_48B990()
     else if (field_14_particles_state == ParticlesState::eActive)
     {
         bool unknown = false;
-        for (int i = 0; i < field_16_particleIdx; i++)
+        for (s32 i = 0; i < field_16_particleIdx; i++)
         {
             if (field_18_particles[i])
             {
@@ -87,7 +87,7 @@ void OrbWhirlWind::VUpdate_48B990()
         }
     }
 
-    for (int i = 0; i < field_16_particleIdx; i++)
+    for (s32 i = 0; i < field_16_particleIdx; i++)
     {
         if (field_18_particles[i])
         {
@@ -104,7 +104,7 @@ void OrbWhirlWind::VUpdate()
     VUpdate_48B990();
 }
 
-OrbWhirlWind* OrbWhirlWind::Vdtor_48C4F0(signed int flags)
+OrbWhirlWind* OrbWhirlWind::Vdtor_48C4F0(s32 flags)
 {
     dtor_48B910();
     if (flags & 1)
@@ -114,7 +114,7 @@ OrbWhirlWind* OrbWhirlWind::Vdtor_48C4F0(signed int flags)
     return this;
 }
 
-BaseGameObject* OrbWhirlWind::VDestructor(signed int flags)
+BaseGameObject* OrbWhirlWind::VDestructor(s32 flags)
 {
     return Vdtor_48C4F0(flags);
 }
@@ -164,7 +164,7 @@ OrbWhirlWind* OrbWhirlWind::ctor_48B870(FP xpos, FP ypos, FP scale)
 
 void OrbWhirlWind::ToStop_48BBB0()
 {
-    for (int i = 0; i < field_16_particleIdx; i++)
+    for (s32 i = 0; i < field_16_particleIdx; i++)
     {
         if (field_18_particles[i])
         {

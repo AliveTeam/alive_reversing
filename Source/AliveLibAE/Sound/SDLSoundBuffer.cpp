@@ -8,7 +8,7 @@ std::atomic<SDLSoundBuffer*> sAE_ActiveVoices[MAX_VOICE_COUNT] = {};
 
 void AddVoiceToActiveList(SDLSoundBuffer * pVoice)
 {
-    for (int i = 0; i < MAX_VOICE_COUNT; i++)
+    for (s32 i = 0; i < MAX_VOICE_COUNT; i++)
     {
         if (sAE_ActiveVoices[i].load() == nullptr)
         {
@@ -22,7 +22,7 @@ void AddVoiceToActiveList(SDLSoundBuffer * pVoice)
 
 void RemoveVoiceFromActiveList(SDLSoundBuffer * pVoice)
 {
-    for (int i = 0; i < MAX_VOICE_COUNT; i++)
+    for (s32 i = 0; i < MAX_VOICE_COUNT; i++)
     {
         if (sAE_ActiveVoices[i] == pVoice)
         {
@@ -50,7 +50,7 @@ SDLSoundBuffer::SDLSoundBuffer()
     AddVoiceToActiveList(this);
 }
 
-SDLSoundBuffer::SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int soundSysFreq)
+SDLSoundBuffer::SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, s32 soundSysFreq)
     : mSoundSysFreq(soundSysFreq)
 {
     mState.iVolume = 0;
@@ -66,7 +66,7 @@ SDLSoundBuffer::SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int soundSysFreq)
 
 
     mState.iSampleCount = bufferDesc.dwBufferBytes / 2;
-    mBuffer = std::make_shared<std::vector<BYTE>>(bufferDesc.dwBufferBytes);
+    mBuffer = std::make_shared<std::vector<u8>>(bufferDesc.dwBufferBytes);
     mState.iBlockAlign = bufferDesc.lpwfxFormat->nBlockAlign;
     mState.iChannels = bufferDesc.lpwfxFormat->nChannels;
 
@@ -91,7 +91,7 @@ SDLSoundBuffer& SDLSoundBuffer::operator=(const SDLSoundBuffer& rhs)
     return *this;
 }
 
-HRESULT SDLSoundBuffer::SetVolume(int volume)
+HRESULT SDLSoundBuffer::SetVolume(s32 volume)
 {
     std::lock_guard<std::mutex> lock(mLock);
 
@@ -107,7 +107,7 @@ HRESULT SDLSoundBuffer::SetVolume(int volume)
     return S_OK;
 }
 
-HRESULT SDLSoundBuffer::Play(int, int, int flags)
+HRESULT SDLSoundBuffer::Play(s32, s32, s32 flags)
 {
     std::lock_guard<std::mutex> lock(mLock);
 
@@ -130,41 +130,41 @@ HRESULT SDLSoundBuffer::Stop()
     return S_OK;
 }
 
-HRESULT SDLSoundBuffer::SetFrequency(int frequency)
+HRESULT SDLSoundBuffer::SetFrequency(s32 frequency)
 {
     std::lock_guard<std::mutex> lock(mLock);
 
-    mState.fFrequency = frequency / static_cast<float>(mSoundSysFreq);
+    mState.fFrequency = frequency / static_cast<f32>(mSoundSysFreq);
     return S_OK;
 }
 
-HRESULT SDLSoundBuffer::SetCurrentPosition(int position) // This offset is apparently in bytes
+HRESULT SDLSoundBuffer::SetCurrentPosition(s32 position) // This offset is apparently in bytes
 {
     std::lock_guard<std::mutex> lock(mLock);
 
-    mState.fPlaybackPosition = static_cast<float>(position / mState.iBlockAlign);
+    mState.fPlaybackPosition = static_cast<f32>(position / mState.iBlockAlign);
     return S_OK;
 }
 
-HRESULT SDLSoundBuffer::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
+HRESULT SDLSoundBuffer::GetCurrentPosition(u32 * readPos, u32 * writePos)
 {
     std::lock_guard<std::mutex> lock(mLock);
 
-    *readPos = static_cast<DWORD>(mState.fPlaybackPosition * mState.iBlockAlign);
+    *readPos = static_cast<u32>(mState.fPlaybackPosition * mState.iBlockAlign);
     *writePos = 0;
 
     return S_OK;
 }
 
-HRESULT SDLSoundBuffer::GetFrequency(DWORD* freq)
+HRESULT SDLSoundBuffer::GetFrequency(u32* freq)
 {
     std::lock_guard<std::mutex> lock(mLock);
 
-    *freq = static_cast<DWORD>(mState.fFrequency * mSoundSysFreq);
+    *freq = static_cast<u32>(mState.fFrequency * mSoundSysFreq);
     return S_OK;
 }
 
-HRESULT SDLSoundBuffer::SetPan(signed int pan)
+HRESULT SDLSoundBuffer::SetPan(s32 pan)
 {
     std::lock_guard<std::mutex> lock(mLock);
 
@@ -180,7 +180,7 @@ void SDLSoundBuffer::Release()
     mState.bIsReleased = true;
 }
 
-HRESULT SDLSoundBuffer::GetStatus(DWORD * r)
+HRESULT SDLSoundBuffer::GetStatus(u32 * r)
 {
     std::lock_guard<std::mutex> lock(mLock);
 
@@ -211,7 +211,7 @@ void SDLSoundBuffer::Destroy()
     delete this;
 }
 
-std::vector<BYTE>* SDLSoundBuffer::GetBuffer()
+std::vector<u8>* SDLSoundBuffer::GetBuffer()
 {
     return mBuffer.get();
 }

@@ -20,7 +20,7 @@ using TLoaderFn = void(CC*)(void*);
 class ResourceManager
 {
 public:
-    enum ResourceType : DWORD
+    enum ResourceType : u32
     {
         Resource_PBuf = 0x66754250,
         Resource_CHNK = 0x4B4E4843,
@@ -48,7 +48,7 @@ public:
         Resource_Play = 0x79616C50,
     };
 
-    enum ResourceHeaderFlags : __int16
+    enum ResourceHeaderFlags : s16
     {
         eLocked = 0x1,
         eOnlyAHeader = 0x2,
@@ -57,33 +57,33 @@ public:
 
     struct Header
     {
-        DWORD field_0_size;
-        __int16 field_4_ref_count;
-        __int16 field_6_flags;
-        DWORD field_8_type;
-        DWORD field_C_id;
+        u32 field_0_size;
+        s16 field_4_ref_count;
+        s16 field_6_flags;
+        u32 field_8_type;
+        u32 field_C_id;
     };
     ALIVE_ASSERT_SIZEOF(Header, 0x10);
 
     struct ResourcesToLoadList_Entry
     {
-        DWORD field_0_type;
-        DWORD field_4_res_id;
+        u32 field_0_type;
+        u32 field_4_res_id;
     };
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
 
     // TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
     struct ResourcesToLoadList
     {
-        int field_0_count;
+        s32 field_0_count;
         ResourcesToLoadList_Entry field_4_items[1];
     };
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
 
     struct ResourceManager_FilePartRecord
     {
-        int field_0_type;
-        int field_4_res_id;
+        s32 field_0_type;
+        s32 field_4_res_id;
         Camera* field_8_pCamera;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord, 0xc);
@@ -96,10 +96,10 @@ public:
             field_10_file_sections_dArray.dtor_404440();
         }
 
-        const char* field_0_fileName;
+        const s8* field_0_fileName;
         ResourcesToLoadList* field_4_pResourcesToLoadList;
-        DWORD field_8_type;
-        DWORD field_C_resourceId;
+        u32 field_8_type;
+        u32 field_C_resourceId;
         DynamicArrayT<ResourceManager_FilePartRecord> field_10_file_sections_dArray;
         ResourceManager_FileRecord_Unknown* field_1C_pGameObjFileRec;
     };
@@ -107,19 +107,19 @@ public:
 
     struct ResourceHeapItem
     {
-        BYTE* field_0_ptr;
+        u8* field_0_ptr;
         ResourceHeapItem* field_4_pNext;
     };
     ALIVE_ASSERT_SIZEOF(ResourceHeapItem, 0x8);
 
-    enum BlockAllocMethod : int
+    enum BlockAllocMethod : s32
     {
         eFirstMatching = 0,
         eNearestMatching = 1,
         eLastMatching = 2
     };
 
-    static EXPORT int CC SEQ_HashName_454EA0(const char* seqFileName);
+    static EXPORT s32 CC SEQ_HashName_454EA0(const s8* seqFileName);
 
     EXPORT static void CC Init_454DA0();
 
@@ -127,77 +127,77 @@ public:
 
     static void Pop_List_Item(ResourceHeapItem* pListItem);
 
-    static ResourceHeapItem* Split_block(ResourceHeapItem* pItem, int size);
+    static ResourceHeapItem* Split_block(ResourceHeapItem* pItem, s32 size);
 
     static EXPORT void CC On_Loaded_446C10(ResourceManager_FileRecord* pLoaded);
 
-    static EXPORT __int16 CC Move_Resources_To_DArray_455430(BYTE** ppRes, DynamicArrayT<BYTE*>* pArray);
+    static EXPORT s16 CC Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u8*>* pArray);
 
-    static BYTE** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, BlockAllocMethod allocType);
+    static u8** Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool locked, BlockAllocMethod allocType);
 
-    static EXPORT BYTE** CC Alloc_New_Resource_454F20(DWORD type, DWORD id, DWORD size);
+    static EXPORT u8** CC Alloc_New_Resource_454F20(u32 type, u32 id, u32 size);
 
-    static EXPORT BYTE** CC Allocate_New_Block_454FE0(DWORD sizeBytes, BlockAllocMethod allocMethod);
+    static EXPORT u8** CC Allocate_New_Block_454FE0(u32 sizeBytes, BlockAllocMethod allocMethod);
 
-    static EXPORT __int16 CC FreeResource_Impl_4555B0(BYTE* handle);
+    static EXPORT s16 CC FreeResource_Impl_4555B0(u8* handle);
 
     static EXPORT void CC Increment_Pending_Count_4557A0();
 
     static EXPORT void CC Decrement_Pending_Count_4557B0();
 
-    static EXPORT int CC Is_Resources_Pending_4557C0();
+    static EXPORT s32 CC Is_Resources_Pending_4557C0();
 
     static EXPORT void CC WaitForPendingResources_41EA60(BaseGameObject* pObj);
 
-    static EXPORT void CC Reclaim_Memory_455660(DWORD sizeToReclaim);
+    static EXPORT void CC Reclaim_Memory_455660(u32 sizeToReclaim);
 
-    static EXPORT __int16 CC FreeResource_455550(BYTE** ppRes);
+    static EXPORT s16 CC FreeResource_455550(u8** ppRes);
 
-    static EXPORT void CC LoadResource_446C90(const char* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, __int16 bDontLoad = FALSE);
+    static EXPORT void CC LoadResource_446C90(const s8* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
 
   
-    static EXPORT BYTE** CC GetLoadedResource_4554F0(DWORD type, DWORD resourceId, __int16 addUseCount, __int16 bLock);
+    static EXPORT u8** CC GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock);
 
-    static void CheckResourceIsLoaded(DWORD type, ResourceID resourceId);
-    static void CheckResourceIsLoaded(DWORD type, std::initializer_list<ResourceID>& resourceIds);
+    static void CheckResourceIsLoaded(u32 type, ResourceID resourceId);
+    static void CheckResourceIsLoaded(u32 type, std::initializer_list<ResourceID>& resourceIds);
 
-    static EXPORT void CC LoadingLoop_41EAD0(__int16 bShowLoadingIcon);
+    static EXPORT void CC LoadingLoop_41EAD0(s16 bShowLoadingIcon);
 
-    static __int16 CC LoadResourceFileWrapper(const char* filename, Camera* pCam);
+    static s16 CC LoadResourceFileWrapper(const s8* filename, Camera* pCam);
 
-    static EXPORT __int16 CC LoadResourceFile_455270(const char* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
+    static EXPORT s16 CC LoadResourceFile_455270(const s8* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
 
-    static EXPORT BYTE** CC Allocate_New_Locked_Resource_454F80(DWORD type, DWORD id, DWORD size);
+    static EXPORT u8** CC Allocate_New_Locked_Resource_454F80(u32 type, u32 id, u32 size);
 
-    static EXPORT void CC Set_Header_Flags_4557D0(BYTE** ppRes, __int16 flags);
+    static EXPORT void CC Set_Header_Flags_4557D0(u8** ppRes, s16 flags);
 
-    static EXPORT void CC Clear_Header_Flags_4557F0(BYTE** ppRes, __int16 flags);
+    static EXPORT void CC Clear_Header_Flags_4557F0(u8** ppRes, s16 flags);
 
     template<class T, class Y>
-    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile(const char* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
+    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile(const s8* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
     {
         // TODO: Change the camera types to void*'s
         return LoadResourceFile_4551E0(pFileName, reinterpret_cast<TLoaderFn>(pOnLoadFn), reinterpret_cast<Camera*>(pOnLoadFnArgument), reinterpret_cast<Camera*>(pCamera2));
     }
 
-    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile_4551E0(const char* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
+    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile_4551E0(const s8* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
 
-    static EXPORT void CC Free_Resource_Of_Type_455810(DWORD type);
+    static EXPORT void CC Free_Resource_Of_Type_455810(u32 type);
 
     static EXPORT void CC Free_Resources_For_Camera_447170(Camera* pCamera);
 
-    static EXPORT void CC LoadResourcesFromList_446E80(const char* pFileName, ResourcesToLoadList* pList, LoadMode loadMode, __int16);
+    static EXPORT void CC LoadResourcesFromList_446E80(const s8* pFileName, ResourcesToLoadList* pList, LoadMode loadMode, s16);
 
-    static EXPORT Header* CC Get_Header_455620(BYTE** ppRes);
+    static EXPORT Header* CC Get_Header_455620(u8** ppRes);
 };
 
-ALIVE_VAR_EXTERN(short, bHideLoadingIcon_5076A0);
-ALIVE_VAR_EXTERN(int, loading_ticks_5076A4);
-ALIVE_VAR_EXTERN(int, gFilesPending_507714);
-ALIVE_VAR_EXTERN(short, bLoadingAFile_50768C);
+ALIVE_VAR_EXTERN(s16, bHideLoadingIcon_5076A0);
+ALIVE_VAR_EXTERN(s32, loading_ticks_5076A4);
+ALIVE_VAR_EXTERN(s32, gFilesPending_507714);
+ALIVE_VAR_EXTERN(s16, bLoadingAFile_50768C);
 ALIVE_VAR_EXTERN(DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0);
 
-ALIVE_VAR_EXTERN(DWORD, sManagedMemoryUsedSize_9F0E48);
-ALIVE_VAR_EXTERN( DWORD, sPeakedManagedMemUsage_9F0E4C);
+ALIVE_VAR_EXTERN(u32, sManagedMemoryUsedSize_9F0E48);
+ALIVE_VAR_EXTERN( u32, sPeakedManagedMemUsage_9F0E4C);
 
 }

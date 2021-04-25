@@ -63,13 +63,13 @@ EXPORT void CC CheatController_Cheat_LevelSelect_421B00()
 
 EXPORT void CC CheatController_Cheat_PathSkip_421B30()
 {
-    char nameBuffer[20];
+    s8 nameBuffer[20];
 
     DestroyObjects_4A1F20();
     ResourceManager::Reclaim_Memory_49C470(0);
     sprintf(nameBuffer, "NXTP%04d.SAV", sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_save_num);
     ResourceManager::LoadResourceFile_49C170(nameBuffer, 0);
-    BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_NxtP, ResourceID::kUnknownResID_0, 1u, 0);
+    u8 **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_NxtP, ResourceID::kUnknownResID_0, 1u, 0);
     if (resource)
     {
         memcpy(&sActiveQuicksaveData_BAF7F8, *resource, sizeof(sActiveQuicksaveData_BAF7F8));
@@ -97,7 +97,7 @@ CheatController* CheatController::ctor_421BD0()
     return this;
 }
 
-BaseGameObject* CheatController::vdtor_421C10(signed int flags)
+BaseGameObject* CheatController::vdtor_421C10(s32 flags)
 {
     dtor_421C40();
     if (flags & 1)
@@ -126,7 +126,7 @@ void CheatController::Update_421C70()
             for (auto& cheatEntry : sCheatArray_5515F8)
             {
                 // Bit shift current level for level mask.
-                if ((1 << static_cast<int>(gMap_5C3030.field_0_current_level)) & cheatEntry.field_0_level_mask)
+                if ((1 << static_cast<s32>(gMap_5C3030.field_0_current_level)) & cheatEntry.field_0_level_mask)
                 {
                     if (held == cheatEntry.field_8_cheat_code_ary[cheatEntry.field_C_success_idx])
                     {
@@ -149,7 +149,7 @@ void CheatController::Update_421C70()
     }
 }
 
-BaseGameObject* CheatController::VDestructor(signed int flags)
+BaseGameObject* CheatController::VDestructor(s32 flags)
 {
     return vdtor_421C10(flags);
 }

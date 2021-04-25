@@ -40,13 +40,13 @@
 #include "FlyingSlig.hpp"
 #include "Mudokon.hpp"
 
-char _devConsoleBuffer[1000];
+s8 _devConsoleBuffer[1000];
 
 bool sDebugEnabled_VerboseEvents = false;
 
 Alive::Font g_DebugGlobalFont;
-int g_DebugGlobalFontPolyIndex = 0;
-char g_DebugGlobalFontPalette[32];
+s32 g_DebugGlobalFontPolyIndex = 0;
+s8 g_DebugGlobalFontPalette[32];
 Font_Context g_DebugGlobalFontContext;
 bool g_DebugGlobalFontIsInit = false;
 bool g_EnabledRaycastRendering = false;
@@ -64,7 +64,7 @@ void InitDebugFont()
     if (!g_DebugGlobalFontIsInit)
     {
         g_DebugGlobalFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), g_DebugGlobalFontPalette);
-        g_DebugGlobalFont.ctor_433590(1024, reinterpret_cast<BYTE*>(g_DebugGlobalFontPalette), &g_DebugGlobalFontContext);
+        g_DebugGlobalFont.ctor_433590(1024, reinterpret_cast<u8*>(g_DebugGlobalFontPalette), &g_DebugGlobalFontContext);
         g_DebugGlobalFontIsInit = true;
     }
 }
@@ -83,7 +83,7 @@ public:
         field_4_typeId = AETypes::eDebugHelper_1001;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
-        mFont.ctor_433590(512, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
+        mFont.ctor_433590(512, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);
     }
@@ -100,7 +100,7 @@ public:
         gObjList_drawables_5C1124->Remove_Item(this);
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         Destruct();
         if (flags & 1)
@@ -122,7 +122,7 @@ public:
 
     static bool IsInAnimationList(AnimationBase* toFind)
     {
-        for (int i = 0; i < gObjList_animations_5C1A24->Size(); i++)
+        for (s32 i = 0; i < gObjList_animations_5C1A24->Size(); i++)
         {
             if (gObjList_animations_5C1A24->ItemAt(i) == toFind)
             {
@@ -136,12 +136,12 @@ public:
     {
         /*struct MainMenuButton
         {
-        __int16 field_0_type;
-        __int16 field_2_x;
-        __int16 field_4_y;
-        __int16 field_6;
-        __int16 field_8;
-        __int16 field_A;
+        s16 field_0_type;
+        s16 field_2_x;
+        s16 field_4_y;
+        s16 field_6;
+        s16 field_8;
+        s16 field_A;
         };
 
         auto list = reinterpret_cast<MainMenuButton *>(0x5610B8);
@@ -152,7 +152,7 @@ public:
         list++;
         }*/
 
-        for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+        for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
         {
             BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
 
@@ -164,8 +164,8 @@ public:
             if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
-                short x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
-                short y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
+                s16 x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
+                s16 y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
 
                 if (IsInAnimationList(&aliveObj->field_20_animation))
                 {
@@ -174,12 +174,12 @@ public:
                         FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            y += static_cast<short>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
+                            y += static_cast<s16>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
                         }
                     }
                 }
 
-                std::string text = std::to_string(static_cast<int>(pBaseGameObject->field_4_typeId));
+                std::string text = std::to_string(static_cast<s32>(pBaseGameObject->field_4_typeId));
 
                 mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
                 mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
@@ -187,10 +187,10 @@ public:
         }
     }
 
-    float Vec2Distance(float x1, float y1, float x2, float y2)
+    f32 Vec2Distance(f32 x1, f32 y1, f32 x2, f32 y2)
     {
         // This takes into account the fact that the height of the screen is / 2
-        return static_cast<float>(sqrt(pow(x1 - x2, 2) + pow((y1 - y2) * 2, 2)));
+        return static_cast<f32>(sqrt(pow(x1 - x2, 2) + pow((y1 - y2) * 2, 2)));
     }
 
     bool isDragging = false;
@@ -202,7 +202,7 @@ public:
         bool mouseLeftDown = Sys_IsMouseButtonDown(MouseButtons::eLeft);
         mousePos.y /= 2;
 
-        for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+        for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
         {
             BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
 
@@ -215,16 +215,16 @@ public:
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
 
-                int x = static_cast<int>((FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x)) / 0.575);
-                int y = static_cast<int>((FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y)));
+                s32 x = static_cast<s32>((FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x)) / 0.575);
+                s32 y = static_cast<s32>((FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y)));
 
-                if (Vec2Distance(static_cast<float>(x), static_cast<float>(y), static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)) < 10 && !isDragging && mouseLeftDown)
+                if (Vec2Distance(static_cast<f32>(x), static_cast<f32>(y), static_cast<f32>(mousePos.x), static_cast<f32>(mousePos.y)) < 10 && !isDragging && mouseLeftDown)
                 {
                     isDragging = true;
                     mDragObject = aliveObj;
                 }
 
-                if (Vec2Distance(static_cast<float>(x), static_cast<float>(y), static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)) > 100)
+                if (Vec2Distance(static_cast<f32>(x), static_cast<f32>(y), static_cast<f32>(mousePos.x), static_cast<f32>(mousePos.y)) > 100)
                 {
                     continue;
                 }
@@ -236,7 +236,7 @@ public:
                         FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            y += static_cast<int>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
+                            y += static_cast<s32>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
                         }
                     }
                 }
@@ -253,8 +253,8 @@ public:
 
             if (isDragging)
             {
-                mDragObject->field_B8_xpos = FP_FromInteger(static_cast<int>(FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x) + (mousePos.x * 0.575)));
-                mDragObject->field_BC_ypos = FP_FromInteger(static_cast<int>(FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y) + mousePos.y));
+                mDragObject->field_B8_xpos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x) + (mousePos.x * 0.575)));
+                mDragObject->field_BC_ypos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y) + mousePos.y));
             }
         }
     }
@@ -269,9 +269,9 @@ public:
         DrawObjectIDs(ppOt);
     }
 
-    int mFontPIndex = 0;
+    s32 mFontPIndex = 0;
     Alive::Font mFont;
-    char mFontPalette[32];
+    s8 mFontPalette[32];
     Font_Context mFontContext;
 };
 bool ObjectDebugger::Enabled = false;
@@ -289,7 +289,7 @@ public:
         field_4_typeId = AETypes::eDebugPathRenderer_1003;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
-        mFont.ctor_433590(128, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
+        mFont.ctor_433590(128, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);
     }
@@ -307,7 +307,7 @@ public:
         gObjList_drawables_5C1124->Remove_Item(this);
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         Destruct();
         if (flags & 1)
@@ -327,8 +327,8 @@ public:
         // Dont kill!
     }
 
-    struct LineColor { BYTE r; BYTE g; BYTE b; };
-    std::map<int, LineColor> mLineColors = {
+    struct LineColor { u8 r; u8 g; u8 b; };
+    std::map<s32, LineColor> mLineColors = {
         { 0,{ 255, 0, 0 } }, // Floor
         { 1,{ 0, 0, 255 } }, // Left Wall
         { 3,{ 255, 0, 0 } }, // Ceiling
@@ -345,22 +345,22 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override
     {
-        int pIndex = 0;
+        s32 pIndex = 0;
 
         bool gridSemiTrans = true;
 
         if (GridEnabled)
         {
-            const int gridX = 25 / 2;
-            const int gridY = 20;
+            const s32 gridX = 25 / 2;
+            const s32 gridY = 20;
             const Layer layer = Layer::eLayer_22;
 
-            for (int y = 0; y < 12; y++)
+            for (s32 y = 0; y < 12; y++)
             {
-                for (int x = 0; x < 15; x++)
+                for (s32 x = 0; x < 15; x++)
                 {
-                    char c = ((x + y) % 2 == 0) ? 200 : 127;
-                    for (int i = -1; i < 2; i++)
+                    s8 c = ((x + y) % 2 == 0) ? 200 : 127;
+                    for (s32 i = -1; i < 2; i++)
                     {
                         DEV::DebugDrawLine(ppOt, layer, (x * gridX) + (gridX / 2) + i, y * gridY, (x * gridX) + (gridX / 2) + i, (y * gridY) + (gridY / 4), 255, 255, 255, false, gridSemiTrans);
                     }
@@ -383,11 +383,11 @@ public:
 
         if (Enabled)
         {
-            for (int i = 0; i < sCollisions_DArray_5C1128->field_C_max_count; i++)
+            for (s32 i = 0; i < sCollisions_DArray_5C1128->field_C_max_count; i++)
             {
                 auto l = &sCollisions_DArray_5C1128->field_0_pArray[i];
                 LineColor color = { 255, 0, 255 };
-                int mode = l->field_8_type;
+                s32 mode = l->field_8_type;
 
                 if (mLineColors.find(mode) != mLineColors.end())
                 {
@@ -403,8 +403,8 @@ public:
                 }
                 DEV::DebugDrawLine(ppOt, layer, l->field_0_rect.x, l->field_0_rect.y, l->field_0_rect.w, l->field_0_rect.h, color.r, color.g, color.b, true, false);
 
-                short id_x = l->field_0_rect.x - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
-                short id_y = l->field_0_rect.y - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
+                s16 id_x = l->field_0_rect.x - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
+                s16 id_y = l->field_0_rect.y - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
 
                 if (id_x > 0 && id_x <= 640 && id_y > 0 && id_y <= 240)
                 {
@@ -416,7 +416,7 @@ public:
     }
 
     Alive::Font mFont;
-    char mFontPalette[32];
+    s8 mFontPalette[32];
     Font_Context mFontContext;
 };
 bool DebugPathRenderer::Enabled = false;
@@ -425,24 +425,24 @@ bool DebugPathRenderer::GridEnabled = false;
 struct DebugConsoleMessage
 {
     std::string message;
-    int time;
-    float y;
-    BYTE r, g, b;
+    s32 time;
+    f32 y;
+    u8 r, g, b;
 };
 
 static std::vector<DebugConsoleMessage> sDebugConsoleMessages;
 
-void ShowDebugConsoleMessage(std::string message, float duration, BYTE r, BYTE g, BYTE b)
+void ShowDebugConsoleMessage(std::string message, f32 duration, u8 r, u8 g, u8 b)
 {
     auto lines = SplitString(message, '\n');
 
     for (auto l : lines)
     {
-        sDebugConsoleMessages.insert(sDebugConsoleMessages.begin(), { l, static_cast<int>(30 * duration), 250, r, g, b });
+        sDebugConsoleMessages.insert(sDebugConsoleMessages.begin(), { l, static_cast<s32>(30 * duration), 250, r, g, b });
     }
 }
 
-void ShowDebugConsoleMessage(std::string message, float duration)
+void ShowDebugConsoleMessage(std::string message, f32 duration)
 {
     ShowDebugConsoleMessage(message, duration, 255, 255, 255);
 }
@@ -450,7 +450,7 @@ void ShowDebugConsoleMessage(std::string message, float duration)
 struct DebugConsoleCommand
 {
     std::string command;
-    int paramsCount;
+    s32 paramsCount;
     std::function<void(const std::vector<std::string>& args)> callback;
     std::string helpText;
 };
@@ -489,7 +489,7 @@ void Command_Die(const std::vector<std::string>& /*args*/)
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
 {
-    for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+    for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
     {
         BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
 
@@ -539,10 +539,10 @@ void Command_HelperUpdate()
         FP rY = FP_FromInteger(0);
         PathLine* rUnk = nullptr;
 
-        float subDevide = 368 / 10.0f;
-        for (int i = 0; i < 10; i++)
+        f32 subDevide = 368 / 10.0f;
+        for (s32 i = 0; i < 10; i++)
         {
-            int centerIndex = ((i + 5) % 10);
+            s32 centerIndex = ((i + 5) % 10);
             FP xOffset = FP_FromDouble(pos.field_0_x + (subDevide * centerIndex));
             FP yOffset = FP_FromDouble(pos.field_2_y);
             if (sCollisions_DArray_5C1128->Raycast_417A60(xOffset, yOffset,
@@ -577,15 +577,15 @@ void Command_ToggleBool(bool * var, std::string varName)
 
 void Command_Teleport(const std::vector<std::string>& args)
 {
-    short level = 0;
+    s16 level = 0;
     if (IsStringNumber(args[0]))
     {
-        level = static_cast<short>(std::stoi(args[0]));
+        level = static_cast<s16>(std::stoi(args[0]));
     }
     else
     {
         bool found = false;
-        for (short i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot);i++)
+        for (s16 i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot);i++)
         {
             if (!strcmpi(sPathData_559660.paths[i].field_14_lvl_name, args[0].c_str()))
             {
@@ -600,8 +600,8 @@ void Command_Teleport(const std::vector<std::string>& args)
             DEV_CONSOLE_MESSAGE("Cannot find level specified!", 6);
         }
     }
-    short path = static_cast<short>(std::stoi(args[1]));
-    short cam = static_cast<short>(std::stoi(args[2]));
+    s16 path = static_cast<s16>(std::stoi(args[1]));
+    s16 cam = static_cast<s16>(std::stoi(args[2]));
     gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::eEffect5_1_FMV, 0, 0);
 
 
@@ -612,7 +612,7 @@ void Command_Teleport(const std::vector<std::string>& args)
 
 void Command_Event(const std::vector<std::string>& args)
 {
-    int eventId = std::stoi(args[0]);
+    s32 eventId = std::stoi(args[0]);
     if (eventId >= Event::kEventMax)
     {
         DEV_CONSOLE_MESSAGE_C("Invalid event id", 6, 127, 0, 0);
@@ -623,19 +623,19 @@ void Command_Event(const std::vector<std::string>& args)
 
 void Command_Menu(const std::vector<std::string>& args)
 {
-    int menuCam = std::stoi(args[0]);
+    s32 menuCam = std::stoi(args[0]);
     if (MainMenuController::gMainMenuController != nullptr)
     {
-        MainMenuController::gMainMenuController->field_21A_target_button_index = static_cast<short>(menuCam);
-        MainMenuController::gMainMenuController->field_218_target_page_index = static_cast<short>(MainMenuController::GetPageIndexFromCam_4D05A0(menuCam));
-        MainMenuController::gMainMenuController->field_21C_bDoScreenTransistionEffect = static_cast<short>(menuCam);
+        MainMenuController::gMainMenuController->field_21A_target_button_index = static_cast<s16>(menuCam);
+        MainMenuController::gMainMenuController->field_218_target_page_index = static_cast<s16>(MainMenuController::GetPageIndexFromCam_4D05A0(menuCam));
+        MainMenuController::gMainMenuController->field_21C_bDoScreenTransistionEffect = static_cast<s16>(menuCam);
         MainMenuController::gMainMenuController->field_23C_T80.Set(MainMenuController::Flags::eBit22_GameSpeakPlaying);
     }
 }
 
 void Command_Midi1(const std::vector<std::string>& args)
 {
-    const unsigned __int8 arg1 = static_cast<unsigned __int8>(std::stoi(args[0]));
+    const u8 arg1 = static_cast<u8>(std::stoi(args[0]));
 
     SFX_Play_46FA90(arg1, 0);
 
@@ -657,7 +657,7 @@ void Command_LoadSave(const std::vector<std::string>& args)
 
 	if (!saveFile.fail())
 	{
-		saveFile.read((char*)&sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
+		saveFile.read((s8*)&sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
 		Quicksave_LoadActive_4C9170();
 		saveFile.close();
 		DEV_CONSOLE_PRINTF("Loaded Save %s", filePath.c_str());
@@ -696,7 +696,7 @@ void Command_SetState(const std::vector<std::string>& args)
         return;
     }
 
-    __int16  state = static_cast<__int16 >(std::stoi(args[0]));
+    s16  state = static_cast<s16 >(std::stoi(args[0]));
     Abe* pAbe = static_cast<Abe*>(sControlledCharacter_5C1B8C);
     auto resource = pAbe->StateToAnimResource_44AAB0(state);
 
@@ -714,7 +714,7 @@ void Command_SetState(const std::vector<std::string>& args)
 
 void Command_Ring(const std::vector<std::string>& args)
 {
-    int ringType = std::stoi(args[0]);
+    s32 ringType = std::stoi(args[0]);
 
     PSX_RECT rect = {};
     sActiveHero_5C1B68->vGetBoundingRect_424FD0(&rect, 1);
@@ -739,7 +739,7 @@ void Command_Bind(const std::vector<std::string>& args)
     std::string key = args[0];
 
     std::string command;
-    for (unsigned int i = 1; i < args.size(); i++)
+    for (u32 i = 1; i < args.size(); i++)
     {
         command += args[i];
 
@@ -757,8 +757,8 @@ void Command_Spawn(const std::vector<std::string>& args)
     std::string objName = args[0];
     TlvItemInfoUnion tlvinfo;
     tlvinfo.all = 0;
-    int spawnX = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos) + 50;
-    int spawnY = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
+    s32 spawnX = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos) + 50;
+    s32 spawnY = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
 
     FP hitX;
     FP hitY;
@@ -769,8 +769,8 @@ void Command_Spawn(const std::vector<std::string>& args)
         spawnY = FP_GetExponent(hitY);
     }
 
-    PSX_Point spawnTopLeft = { static_cast<short>(spawnX), static_cast<short>(spawnY - 5) };
-    PSX_Point spawnBottomRight = { static_cast<short>(spawnX + 50), static_cast<short>(spawnY + 30) };
+    PSX_Point spawnTopLeft = { static_cast<s16>(spawnX), static_cast<s16>(spawnY - 5) };
+    PSX_Point spawnBottomRight = { static_cast<s16>(spawnX + 50), static_cast<s16>(spawnY + 30) };
 
     TPathFunctionFn factoryFunc = nullptr;
     Path_TLV* factoryTLV = nullptr;
@@ -782,7 +782,7 @@ void Command_Spawn(const std::vector<std::string>& args)
     mudPath.field_8_top_left = spawnTopLeft;
     mudPath.field_C_bottom_right = spawnBottomRight;
 
-    char blankMemory[512];
+    s8 blankMemory[512];
     memset(blankMemory, 0, sizeof(blankMemory));
     Path_TLV * basicTlvPath = reinterpret_cast<Path_TLV*>(&blankMemory);
     basicTlvPath->field_8_top_left = spawnTopLeft;
@@ -896,7 +896,7 @@ public:
         field_4_typeId = AETypes::eDebugConsole_1002;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
-        mFont.ctor_433590(4096 * 2, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
+        mFont.ctor_433590(4096 * 2, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);
 
@@ -914,7 +914,7 @@ public:
         gObjList_drawables_5C1124->Remove_Item(this);
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         Destruct();
         if (flags & 1)
@@ -937,7 +937,7 @@ public:
                 {
                     commandSplit.erase(commandSplit.begin());
 
-                    if (c.paramsCount == -1 || c.paramsCount == static_cast<int>(commandSplit.size()))
+                    if (c.paramsCount == -1 || c.paramsCount == static_cast<s32>(commandSplit.size()))
                     {
                         c.callback(commandSplit);
                     }
@@ -976,7 +976,7 @@ public:
         }
 
         static bool hasRunAutorun = false;
-        static int autoRunWait = 1;
+        static s32 autoRunWait = 1;
         if (!hasRunAutorun && autoRunWait <= 0)
         {
             // Runs some commands on game startup
@@ -985,7 +985,7 @@ public:
 
             if (!autoRun.empty())
             {
-                std::string str = std::string(reinterpret_cast<const char *>(autoRun.data()));
+                std::string str = std::string(reinterpret_cast<const s8 *>(autoRun.data()));
 
                 str.erase(std::remove(str.begin(), str.end(), '\r'), str.end());
 
@@ -1002,8 +1002,8 @@ public:
 
         autoRunWait--;
 
-        char titleBuffer[1000];
-        char camBuffer[32];
+        s8 titleBuffer[1000];
+        s8 camBuffer[32];
         Path_Format_CameraName_460FB0(
             camBuffer,
             gMap_5C3030.field_0_current_level,
@@ -1014,7 +1014,7 @@ public:
 
         Command_HelperUpdate();
 
-        const char key = static_cast<char>(Input_GetLastPressedKey_492610());
+        const s8 key = static_cast<s8>(Input_GetLastPressedKey_492610());
         if (Input_IsVKPressed_4EDD40(VK_OEM_3))
         {
             mCommandLineEnabled = !mCommandLineEnabled;
@@ -1047,7 +1047,7 @@ public:
         memcpy(keyStatesPrev, keyStates, sizeof(keyStatesPrev));
 #endif
 
-        const char* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .!-+@#$%^&*()_\"'";
+        const s8* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .!-+@#$%^&*()_\"'";
 
         if (Input_IsVKPressed_4EDD40(VK_UP) && mCommandLineEnabled)
         {
@@ -1108,20 +1108,20 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override
     {
-        int pIndex = 0;
+        s32 pIndex = 0;
 
-        int i = 0;
+        s32 i = 0;
         for (std::vector<DebugConsoleMessage>::iterator it = sDebugConsoleMessages.begin();
             it != sDebugConsoleMessages.end();
             /*it++*/)
         {
             auto message = it;
-            int targetY = 232 - (i * 9) - 9;
+            s32 targetY = 232 - (i * 9) - 9;
 
-            message->y = static_cast<float>(targetY);
+            message->y = static_cast<f32>(targetY);
 
-            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<short>(message->y), TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
-            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<short>(message->y) + 1, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<s16>(message->y), TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<s16>(message->y) + 1, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
 
             message->time--;
 
@@ -1145,7 +1145,7 @@ public:
     }
 
     Alive::Font mFont;
-    char mFontPalette[32];
+    s8 mFontPalette[32];
     Font_Context mFontContext;
 
     bool mCommandLineEnabled = false;
@@ -1156,58 +1156,58 @@ public:
 
 struct PsxTimHeader
 {
-    DWORD mMagic;   // 0x10
-    DWORD mFlag;    // 0x08 4BPP, 0x09 8BPP, 0x02 16BPP
-    DWORD mUnknown;
-    WORD mClutX;
-    WORD mClutY;
-    WORD mNumClutColours;
-    WORD mClutCount;
+    u32 mMagic;   // 0x10
+    u32 mFlag;    // 0x08 4BPP, 0x09 8BPP, 0x02 16BPP
+    u32 mUnknown;
+    u16 mClutX;
+    u16 mClutY;
+    u16 mNumClutColours;
+    u16 mClutCount;
 };
 
 struct PsxTimImageHeader
 {
-    DWORD mSizeInBytes; // includes header size
+    u32 mSizeInBytes; // includes header size
     PSX_RECT mImageRect;
 };
 
 struct TimInfo
 {
-    short mRenderWidth;
-    short mHeight;
-    WORD mTPage;
-    WORD mClut;
+    s16 mRenderWidth;
+    s16 mHeight;
+    u16 mTPage;
+    u16 mClut;
 };
 
-static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, TPageAbr abr)
+static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
 {
     const PsxTimHeader* pHeader = reinterpret_cast<const PsxTimHeader*>(timBuffer);
     const PsxTimImageHeader* pImgHeader = nullptr;
     if (pHeader->mFlag == 2) // 16 bit
     {
-        pImgHeader = reinterpret_cast<const PsxTimImageHeader*>(timBuffer + (sizeof(DWORD) * 2)); // skip magic marker and flags
+        pImgHeader = reinterpret_cast<const PsxTimImageHeader*>(timBuffer + (sizeof(u32) * 2)); // skip magic marker and flags
         pInfo->mClut = 0;
     }
     else
     {
-        int clutSkip = pHeader->mClutCount * pHeader->mNumClutColours * 2;
+        s32 clutSkip = pHeader->mClutCount * pHeader->mNumClutColours * 2;
         pImgHeader = reinterpret_cast<const PsxTimImageHeader*>(timBuffer + sizeof(PsxTimHeader) + clutSkip);
 
-        PSX_RECT clutRect = { static_cast<short>(pHeader->mClutX), static_cast<short>(pHeader->mClutY), static_cast<short>(pHeader->mNumClutColours), static_cast<short>(1) };
-        PSX_LoadImage16_4F5E20(&clutRect, (BYTE*)&pHeader[1]);
+        PSX_RECT clutRect = { static_cast<s16>(pHeader->mClutX), static_cast<s16>(pHeader->mClutY), static_cast<s16>(pHeader->mNumClutColours), static_cast<s16>(1) };
+        PSX_LoadImage16_4F5E20(&clutRect, (u8*)&pHeader[1]);
 
-        pInfo->mClut = static_cast<WORD>(PSX_getClut_4F6350(pHeader->mClutX, pHeader->mClutY));
+        pInfo->mClut = static_cast<u16>(PSX_getClut_4F6350(pHeader->mClutX, pHeader->mClutY));
     }
 
     if (pHeader->mFlag == 2) // 16 bit
     {
         // Raw pixel data, convert it
-        PSX_LoadImage16_4F5E20(&pImgHeader->mImageRect, (BYTE*)&pImgHeader[1]);
+        PSX_LoadImage16_4F5E20(&pImgHeader->mImageRect, (u8*)&pImgHeader[1]);
     }
     else
     {
         // Bytes or nibbles of pal indices, don't convert it
-        PSX_LoadImage_4F5FB0(&pImgHeader->mImageRect, (BYTE*)&pImgHeader[1]);
+        PSX_LoadImage_4F5FB0(&pImgHeader->mImageRect, (u8*)&pImgHeader[1]);
     }
 
     TPageMode mode = TPageMode::e16Bit_2;
@@ -1228,7 +1228,7 @@ static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, TPageAbr abr)
         ALIVE_FATAL("Unknown TIM flags");
     }
 
-    int widthMultipler = 1;
+    s32 widthMultipler = 1;
     if (mode == TPageMode::e4Bit_0)
     {
         widthMultipler = 4;
@@ -1238,9 +1238,9 @@ static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, TPageAbr abr)
         widthMultipler = 2;
     }
 
-    pInfo->mRenderWidth = static_cast<short>(pImgHeader->mImageRect.w * widthMultipler);
+    pInfo->mRenderWidth = static_cast<s16>(pImgHeader->mImageRect.w * widthMultipler);
     pInfo->mHeight = pImgHeader->mImageRect.h;
-    pInfo->mTPage = static_cast<WORD>(PSX_getTPage_4F60E0(mode, abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
+    pInfo->mTPage = static_cast<u16>(PSX_getTPage_4F60E0(mode, abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
 }
 
 class RenderTest_AllPrims
@@ -1254,7 +1254,7 @@ public:
     void Render(PrimHeader** ppOt)
     {
         static PSX_Pos16 xy = {};
-        static short ypos = 0;
+        static s16 ypos = 0;
         ypos++;
         if (ypos > 30)
         {
@@ -1275,7 +1275,7 @@ public:
         // OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPrimClipper.field_0_header);
 
         // Tiles
-        for (int i = 0; i < 10; i++)
+        for (s32 i = 0; i < 10; i++)
         {
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTiles[i].mBase.header);
         }
@@ -1302,7 +1302,7 @@ public:
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineG3.mBase.header);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineG4.mBase.header);
 
-        for (int i = 0; i < 4; i++)
+        for (s32 i = 0; i < 4; i++)
         {
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyFT4[i].mBase.header);
         }
@@ -1357,10 +1357,10 @@ private:
             SetTPage(&mPolyFT3, timInfo.mTPage);
             SetClut(&mPolyFT3, timInfo.mClut);
 
-            const short xpos = 30;
-            const short ypos = 160;
-            const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
-            const short h = timInfo.mHeight;
+            const s16 xpos = 30;
+            const s16 ypos = 160;
+            const s16 w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+            const s16 h = timInfo.mHeight;
 
             SetXY0(&mPolyFT3, xpos, ypos);
             SetXY1(&mPolyFT3, xpos, ypos + h);
@@ -1368,8 +1368,8 @@ private:
 
             // This assumes the texture data is at 0,0 in the active texture page
             SetUV0(&mPolyFT3, 0, 0);
-            SetUV1(&mPolyFT3, 0, static_cast<BYTE>(timInfo.mHeight));
-            SetUV2(&mPolyFT3, static_cast<BYTE>(timInfo.mRenderWidth), 0);
+            SetUV1(&mPolyFT3, 0, static_cast<u8>(timInfo.mHeight));
+            SetUV2(&mPolyFT3, static_cast<u8>(timInfo.mRenderWidth), 0);
         }
 
         {
@@ -1388,10 +1388,10 @@ private:
             SetTPage(&mPolyGT3, timInfo.mTPage);
             SetClut(&mPolyGT3, timInfo.mClut);
 
-            const short xpos = 180;
-            const short ypos = 90;
-            const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
-            const short h = timInfo.mHeight;
+            const s16 xpos = 180;
+            const s16 ypos = 90;
+            const s16 w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+            const s16 h = timInfo.mHeight;
 
             SetXY0(&mPolyGT3, xpos, ypos);
             SetXY1(&mPolyGT3, xpos, ypos + h);
@@ -1399,8 +1399,8 @@ private:
 
             // This assumes the texture data is at 0,0 in the active texture page
             SetUV0(&mPolyGT3, 0, 0);
-            SetUV1(&mPolyGT3, 0, static_cast<BYTE>(timInfo.mHeight));
-            SetUV2(&mPolyGT3, static_cast<BYTE>(timInfo.mRenderWidth), 0);
+            SetUV1(&mPolyGT3, 0, static_cast<u8>(timInfo.mHeight));
+            SetUV2(&mPolyGT3, static_cast<u8>(timInfo.mRenderWidth), 0);
         }
 
         {
@@ -1415,7 +1415,7 @@ private:
         }
 
         {
-            for (short i = 0; i < 4; i++)
+            for (s16 i = 0; i < 4; i++)
             {
                 PolyFT4_Init(&mPolyFT4[i]);
 
@@ -1449,10 +1449,10 @@ private:
                 SetTPage(&mPolyFT4[i], timInfo.mTPage);
                 SetClut(&mPolyFT4[i], timInfo.mClut);
 
-                const short xpos = 30 + (150 * i);
-                const short ypos = 20;
-                const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
-                const short h = timInfo.mHeight;
+                const s16 xpos = 30 + (150 * i);
+                const s16 ypos = 20;
+                const s16 w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+                const s16 h = timInfo.mHeight;
 
                 SetXY0(&mPolyFT4[i], xpos, ypos);
                 SetXY1(&mPolyFT4[i], xpos, ypos + h);
@@ -1461,9 +1461,9 @@ private:
 
                 // This assumes the texture data is at 0,0 in the active texture page
                 SetUV0(&mPolyFT4[i], 0, 0);
-                SetUV1(&mPolyFT4[i], 0, static_cast<BYTE>(timInfo.mHeight));
-                SetUV2(&mPolyFT4[i], static_cast<BYTE>(timInfo.mRenderWidth), 0);
-                SetUV3(&mPolyFT4[i], static_cast<BYTE>(timInfo.mRenderWidth), static_cast<BYTE>(timInfo.mHeight));
+                SetUV1(&mPolyFT4[i], 0, static_cast<u8>(timInfo.mHeight));
+                SetUV2(&mPolyFT4[i], static_cast<u8>(timInfo.mRenderWidth), 0);
+                SetUV3(&mPolyFT4[i], static_cast<u8>(timInfo.mRenderWidth), static_cast<u8>(timInfo.mHeight));
             }
         }
 
@@ -1485,10 +1485,10 @@ private:
             SetTPage(&mPolyGT4, timInfo.mTPage);
             SetClut(&mPolyGT4, timInfo.mClut);
 
-            const short xpos = 30;
-            const short ypos = 90;
-            const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
-            const short h = timInfo.mHeight;
+            const s16 xpos = 30;
+            const s16 ypos = 90;
+            const s16 w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+            const s16 h = timInfo.mHeight;
 
             SetXY0(&mPolyGT4, xpos, ypos);
             SetXY1(&mPolyGT4, xpos, ypos + h);
@@ -1497,9 +1497,9 @@ private:
 
             // This assumes the texture data is at 0,0 in the active texture page
             SetUV0(&mPolyGT4, 0, 0);
-            SetUV1(&mPolyGT4, 0, static_cast<BYTE>(timInfo.mHeight));
-            SetUV2(&mPolyGT4, static_cast<BYTE>(timInfo.mRenderWidth), 0);
-            SetUV3(&mPolyGT4, static_cast<BYTE>(timInfo.mRenderWidth), static_cast<BYTE>(timInfo.mHeight));
+            SetUV1(&mPolyGT4, 0, static_cast<u8>(timInfo.mHeight));
+            SetUV2(&mPolyGT4, static_cast<u8>(timInfo.mRenderWidth), 0);
+            SetUV3(&mPolyGT4, static_cast<u8>(timInfo.mRenderWidth), static_cast<u8>(timInfo.mHeight));
         }
 
         {
@@ -1577,7 +1577,7 @@ private:
         }
 
         {
-            for (BYTE i = 0; i < 10; i++)
+            for (u8 i = 0; i < 10; i++)
             {
                 Init_Tile1(&mTiles[i]);
                 SetRGB0(&mTiles[i], 255, i * 12, i * 12);
@@ -1716,7 +1716,7 @@ public:
 
     void Render(PrimHeader** ppOt)
     {
-        for (int i = 0; i < 4; i++)
+        for (s32 i = 0; i < 4; i++)
         {
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolys[i].mBase.header);
         }
@@ -1730,7 +1730,7 @@ public:
             mWidth = 60;
         }
 
-        short xpos = mXPos;
+        s16 xpos = mXPos;
         for (auto& poly : mPolys)
         {
             SetXY0(&poly, xpos, mYPos);
@@ -1742,10 +1742,10 @@ public:
     }
 
 private:
-    short mWidth = 60;
-    short mHeight = 150;
-    short mXPos = 50;
-    short mYPos = 50/2;
+    s16 mWidth = 60;
+    s16 mHeight = 150;
+    s16 mXPos = 50;
+    s16 mYPos = 50/2;
     Poly_F3 mPolys[4];
 };
 
@@ -1774,7 +1774,7 @@ public:
         SetXY2(&mPoly_F4, 300, 200);
         SetXY3(&mPoly_F4, 500, 50);
 
-        for (int i = 0; i < 4; i++)
+        for (s32 i = 0; i < 4; i++)
         {
             Init_Tile8(&mPoly_F4_Verts[i]);
         }
@@ -1793,7 +1793,7 @@ public:
 
     void Render(PrimHeader** ppOt)
     {
-        for (int i = 0; i < 4; i++)
+        for (s32 i = 0; i < 4; i++)
         {
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPoly_F4_Verts[i].mBase.header);
         }
@@ -1830,7 +1830,7 @@ public:
         gObjList_drawables_5C1124->Push_Back(this);
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         Destruct();
         if (flags & 1)
@@ -1875,12 +1875,12 @@ private:
 #include "ScreenManager.hpp"
 #include "VRam.hpp"
 
-static WORD RGB888toRGB565(unsigned int r, unsigned int g, unsigned int b)
+static u16 RGB888toRGB565(u32 r, u32 g, u32 b)
 {
-    return static_cast<WORD>((r >> 3 << 11) + (g >> 2 << 5) + (b >> 3));
+    return static_cast<u16>((r >> 3 << 11) + (g >> 2 << 5) + (b >> 3));
 }
 
-const WORD kTestImagePal[16] =
+const u16 kTestImagePal[16] =
 {
     RGB888toRGB565(237, 28,  36),
     RGB888toRGB565(255, 255, 255),
@@ -1892,7 +1892,7 @@ const WORD kTestImagePal[16] =
     RGB888toRGB565(163, 73,  164),
 };
 
-const BYTE kTestImg[4][8] =
+const u8 kTestImg[4][8] =
 {
     { 0, 0, 1, 2, 2, 2, 1, 3 },
     { 0, 0, 1, 1, 2, 1, 1, 3 },
@@ -1900,13 +1900,13 @@ const BYTE kTestImg[4][8] =
     { 4, 4, 1, 5, 2, 6, 1, 7 },
 };
 
-inline static BYTE AsByte(BYTE nibble1, BYTE nibble2)
+inline static u8 AsByte(u8 nibble1, u8 nibble2)
 {
     return (nibble2 << 4) | nibble1;
 }
 
 // Pack kTestImg nibbles into bytes
-const BYTE kTestImage[4][4] =
+const u8 kTestImage[4][4] =
 {
     { AsByte(kTestImg[0][0],kTestImg[0][1]), AsByte(kTestImg[0][2],kTestImg[0][3]), AsByte(kTestImg[0][4],kTestImg[0][5]), AsByte(kTestImg[0][6],kTestImg[0][7]) },
     { AsByte(kTestImg[1][0],kTestImg[1][1]), AsByte(kTestImg[1][2],kTestImg[1][3]), AsByte(kTestImg[1][4],kTestImg[1][5]), AsByte(kTestImg[1][6],kTestImg[1][7]) },
@@ -1915,7 +1915,7 @@ const BYTE kTestImage[4][4] =
 };
 
 // Pack kTestImage bytes into a RLE compressed buffer
-const BYTE kTestImageCompressed[] =
+const u8 kTestImageCompressed[] =
 {
     8, 0,               // u16 width
     4, 0,               // u16 height
@@ -1980,7 +1980,7 @@ public:
 
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         Destruct();
         if (flags & 1)
@@ -2000,7 +2000,7 @@ private:
         ResourceManager::LoadResourceFile_49C170("LOADING.BAN", nullptr);
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
 
-        for (int i = 0; i < 5; i++)
+        for (s32 i = 0; i < 5; i++)
         {
 
             SetVTable(&mAnim[i], 0x544290);
@@ -2056,20 +2056,20 @@ private:
         Pal_Allocate_483110(&pr, 16);
         pr.w = 16;
         pr.h = 1;
-        PSX_LoadImage16_4F5E20(&pr, (BYTE*)&kTestImagePal[0]);
+        PSX_LoadImage16_4F5E20(&pr, (u8*)&kTestImagePal[0]);
 
-        for (short i = 0; i < 1; i++)
+        for (s16 i = 0; i < 1; i++)
         {
             PolyFT4_Init(&mPolyFT4[i]);
 
             SetRGB0(&mPolyFT4[i], 127, 127, 127);
             SetTPage(&mPolyFT4[i], 0);
-            SetClut(&mPolyFT4[i], static_cast<short>(PSX_getClut_4F6350(pr.x, pr.y)));
+            SetClut(&mPolyFT4[i], static_cast<s16>(PSX_getClut_4F6350(pr.x, pr.y)));
 
-            const short xpos = 20 + (150 * i);
-            const short ypos = 10;
-            const short w = 255; // All width doubled due to PC doubling the render width
-            const short h = 80;
+            const s16 xpos = 20 + (150 * i);
+            const s16 ypos = 10;
+            const s16 w = 255; // All width doubled due to PC doubling the render width
+            const s16 h = 80;
 
             SetXY0(&mPolyFT4[i], xpos, ypos);
             SetXY1(&mPolyFT4[i], xpos, ypos + h);
@@ -2087,7 +2087,7 @@ private:
         }
     }
 
-    BYTE** mAnimRes[5];
+    u8** mAnimRes[5];
     Animation mAnim[5];
     Poly_FT4 mPolyFT4[1];
 };
@@ -2117,7 +2117,7 @@ void DebugHelpers_Init()
 //#endif
 }
 
-std::vector<BYTE> FS::ReadFile(const std::string& filePath)
+std::vector<u8> FS::ReadFile(const std::string& filePath)
 {
     FILE* hFile = ::fopen(filePath.c_str(), "rb");
     if (hFile)
@@ -2125,7 +2125,7 @@ std::vector<BYTE> FS::ReadFile(const std::string& filePath)
         ::fseek(hFile, 0, SEEK_END); // seek to end of file
         const std::size_t fileLen = ::ftell(hFile); // get current file pointer
         ::fseek(hFile, 0, SEEK_SET); // seek back to beginning of file
-        std::vector<BYTE> buffer(fileLen);
+        std::vector<u8> buffer(fileLen);
         ::fread(buffer.data(), 1, buffer.size(), hFile);
         ::fclose(hFile);
         return buffer;
@@ -2136,7 +2136,7 @@ std::vector<BYTE> FS::ReadFile(const std::string& filePath)
 std::string FS::GetPrefPath()
 {
 #if MOBILE
-    char * prefPath = SDL_GetPrefPath("Oddworld", "Abes Exoddus");
+    s8 * prefPath = SDL_GetPrefPath("Oddworld", "Abes Exoddus");
     std::string str = std::string(prefPath);
     SDL_free(prefPath);
     return str;
@@ -2145,7 +2145,7 @@ std::string FS::GetPrefPath()
 #endif
 }
 
-std::vector<std::string> SplitString(const std::string& s, char seperator)
+std::vector<std::string> SplitString(const std::string& s, s8 seperator)
 {
     std::vector<std::string> output;
 
@@ -2179,7 +2179,7 @@ std::string StringToLower(std::string s)
     std::string r;
     for (auto c : s)
     {
-        char l = c;
+        s8 l = c;
         if (l >= 65 && l <= 90)
         {
             l += 32;
@@ -2191,7 +2191,7 @@ std::string StringToLower(std::string s)
     return r;
 }
 
-std::string IntToHexString(int v)
+std::string IntToHexString(s32 v)
 {
     std::stringstream ss;
     ss << "0x" << std::hex << v;
@@ -2210,7 +2210,7 @@ std::string EscapeUnknownCharacters(std::string text)
         }
         else
         {
-            output << "\\x" << std::setfill('0') << std::setw(2) << std::hex << (int)c;
+            output << "\\x" << std::setfill('0') << std::setw(2) << std::hex << (s32)c;
         }
     }
 
@@ -2219,7 +2219,7 @@ std::string EscapeUnknownCharacters(std::string text)
 
 BaseGameObject* FindObjectOfType(AETypes id)
 {
-    for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+    for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
     {
         BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
 
@@ -2236,20 +2236,20 @@ BaseGameObject* FindObjectOfType(AETypes id)
 
 void Cheat_OpenAllDoors()
 {
-    for (int i = 0; i < 256; i++)
+    for (s32 i = 0; i < 256; i++)
     {
-        SwitchStates_Set_465FF0(static_cast<unsigned short>(i), 1);
+        SwitchStates_Set_465FF0(static_cast<u16>(i), 1);
     }
 
     DEV_CONSOLE_MESSAGE("(CHEAT) All doors opened", 4);
 }
 
-int sNextLinePrim = 0;
-int sNextPolyF4Prim = 0;
+s32 sNextLinePrim = 0;
+s32 sNextPolyF4Prim = 0;
 Line_G2 sLinePrimBuffer[1024];
 Poly_F4 sPolyF4PrimBuffer[1024];
 
-void DEV::DebugFillRect(PrimHeader ** ot, Layer layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugFillRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
     Poly_F4 * mPolyF4 = &sPolyF4PrimBuffer[++sNextPolyF4Prim];
     *mPolyF4 = {};
@@ -2262,18 +2262,18 @@ void DEV::DebugFillRect(PrimHeader ** ot, Layer layer, int x, int y, int width, 
         x -= FP_GetExponent(camOffset.field_0_x);
         y -= FP_GetExponent(camOffset.field_4_y);
 
-        x = static_cast<int>(x / 0.575);
-        y = static_cast<int>(y / 0.575);
-        width = static_cast<int>(width / 0.575);
-        height = static_cast<int>(height / 0.575);
+        x = static_cast<s32>(x / 0.575);
+        y = static_cast<s32>(y / 0.575);
+        width = static_cast<s32>(width / 0.575);
+        height = static_cast<s32>(height / 0.575);
     }
 
     SetRGB0(mPolyF4, r, g, b);
 
-    SetXY0(mPolyF4, static_cast<short>(x), static_cast<short>(y));
-    SetXY1(mPolyF4, static_cast<short>(x), static_cast<short>(y + height));
-    SetXY2(mPolyF4, static_cast<short>(x + width), static_cast<short>(y));
-    SetXY3(mPolyF4, static_cast<short>(x + width), static_cast<short>(y + height));
+    SetXY0(mPolyF4, static_cast<s16>(x), static_cast<s16>(y));
+    SetXY1(mPolyF4, static_cast<s16>(x), static_cast<s16>(y + height));
+    SetXY2(mPolyF4, static_cast<s16>(x + width), static_cast<s16>(y));
+    SetXY3(mPolyF4, static_cast<s16>(x + width), static_cast<s16>(y + height));
 
     Poly_Set_SemiTrans_4F8A60(&mPolyF4->mBase.header, semiTransparent);
 
@@ -2281,7 +2281,7 @@ void DEV::DebugFillRect(PrimHeader ** ot, Layer layer, int x, int y, int width, 
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-void DEV::DebugDrawRect(PrimHeader ** ot, Layer layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
     DebugDrawLine(ot, layer, x, y, x + width, y, r, g, b, worldspace, semiTransparent);
     DebugDrawLine(ot, layer, x + width, y, x + width, y + height, r, g, b, worldspace, semiTransparent);
@@ -2289,7 +2289,7 @@ void DEV::DebugDrawRect(PrimHeader ** ot, Layer layer, int x, int y, int width, 
     DebugDrawLine(ot, layer, x, y + height, x, y, r, g, b, worldspace, semiTransparent);
 }
 
-void DEV::DebugDrawLine(PrimHeader ** ot, Layer layer, int x1, int y1, int x2, int y2, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawLine(PrimHeader ** ot, Layer layer, s32 x1, s32 y1, s32 x2, s32 y2, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
     Line_G2 * mLineG2 = &sLinePrimBuffer[++sNextLinePrim];
     LineG2_Init(mLineG2);
@@ -2304,16 +2304,16 @@ void DEV::DebugDrawLine(PrimHeader ** ot, Layer layer, int x1, int y1, int x2, i
         x2 -= FP_GetExponent(camOffset.field_0_x);
         y2 -= FP_GetExponent(camOffset.field_4_y);
 
-        x1 = static_cast<int>(x1 / 0.575);
-        x2 = static_cast<int>(x2 / 0.575);
+        x1 = static_cast<s32>(x1 / 0.575);
+        x2 = static_cast<s32>(x2 / 0.575);
     }
 
     // TODO: Might as well use Line_F2 here
     SetRGB0(mLineG2, r, g, b);
-    SetXY0(mLineG2, static_cast<short>(x1), static_cast<short>(y1));
+    SetXY0(mLineG2, static_cast<s16>(x1), static_cast<s16>(y1));
 
     SetRGB1(mLineG2, r, g, b);
-    SetXY1(mLineG2, static_cast<short>(x2), static_cast<short>(y2));
+    SetXY1(mLineG2, static_cast<s16>(x2), static_cast<s16>(y2));
 
     Poly_Set_SemiTrans_4F8A60(&mLineG2->mBase.header, semiTransparent);
 
@@ -2321,7 +2321,7 @@ void DEV::DebugDrawLine(PrimHeader ** ot, Layer layer, int x1, int y1, int x2, i
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-void DEV::DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, int x, int y, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
     const auto camOffset = gMap_5C3030.field_24_camera_offset;
 
@@ -2331,8 +2331,8 @@ void DEV::DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, int x
         y -= FP_GetExponent(camOffset.field_4_y);
     }
 
-    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2), static_cast<short>(y), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
-    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, static_cast<short>(y + 1), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2), static_cast<s16>(y), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, static_cast<s16>(y + 1), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
 }
 
 void DEV::DebugOnFrameDraw(PrimHeader** ppOt)
@@ -2347,8 +2347,8 @@ void DEV::DebugOnFrameDraw(PrimHeader** ppOt)
         {
             if (rc.pLine != nullptr)
             {
-                const int hitX = FP_GetExponent(rc.hitX);
-                const int hitY = FP_GetExponent(rc.hitY);
+                const s32 hitX = FP_GetExponent(rc.hitX);
+                const s32 hitY = FP_GetExponent(rc.hitY);
 
                 DEV::DebugDrawLine(ppOt, Layer::eLayer_38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), hitX, hitY, 255, 255, 0, true, true);
 
@@ -2369,5 +2369,5 @@ void DEV::DebugOnFrameDraw(PrimHeader** ppOt)
 bool IsStringNumber(const std::string& s)
 {
     return !s.empty() && std::find_if(s.begin(),
-        s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
+        s.end(), [](s8 c) { return !std::isdigit(c); }) == s.end();
 }

@@ -25,7 +25,7 @@ void ObjectIds::dtor_43EC90()
 
 void ObjectIds::Destructor()
 {
-    for (unsigned int i = 0; i < field_0_buffer_size; i++)
+    for (u32 i = 0; i < field_0_buffer_size; i++)
     {
         while (field_4_pBuffer[i])
         {
@@ -44,18 +44,18 @@ void ObjectIds::Destructor()
     ae_non_zero_free_495560(field_4_pBuffer);
 }
 
-void ObjectIds::ctor_449AE0(unsigned int size)
+void ObjectIds::ctor_449AE0(u32 size)
 {
     // Allocate the array and set all items to nullptr
     field_0_buffer_size = size;
     field_4_pBuffer = reinterpret_cast<ObjectId_Record**>(ae_malloc_non_zero_4954F0(sizeof(ObjectId_Record*) * size));
-    for (unsigned int i = 0; i < field_0_buffer_size; i++)
+    for (u32 i = 0; i < field_0_buffer_size; i++)
     {
         field_4_pBuffer[i] = nullptr;
     }
 }
 
-unsigned int ObjectIds::Id_To_Buffer_Size_Range_449BA0(TObjectId_KeyType id)
+u32 ObjectIds::Id_To_Buffer_Size_Range_449BA0(TObjectId_KeyType id)
 {
     return id % field_0_buffer_size;
 }
@@ -89,13 +89,13 @@ void ObjectIds::Insert_449C10(TObjectId_KeyType nextId, BaseGameObject* pGameObj
     pRec->field_4_obj_ptr = pGameObj;
 
     // Insert and fix links
-    const unsigned int id = Id_To_Buffer_Size_Range_449BA0(nextId);
+    const u32 id = Id_To_Buffer_Size_Range_449BA0(nextId);
 
     pRec->field_8_pNext = field_4_pBuffer[id];
     field_4_pBuffer[id] = pRec;
 }
 
-signed __int16 ObjectIds::Remove_449C60(TObjectId_KeyType idToRemove)
+s16 ObjectIds::Remove_449C60(TObjectId_KeyType idToRemove)
 {
     // Find the record
     ObjectId_Record* pLastMatch = nullptr;
@@ -106,7 +106,7 @@ signed __int16 ObjectIds::Remove_449C60(TObjectId_KeyType idToRemove)
     }
 
     // Fix the links
-    const unsigned int idx = Id_To_Buffer_Size_Range_449BA0(idToRemove);
+    const u32 idx = Id_To_Buffer_Size_Range_449BA0(idToRemove);
     if (pLastMatch)
     {
         // There was an object before this, so point to the one after what we found
@@ -148,7 +148,7 @@ BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, AETypes type)
     BaseGameObject* pItem = Find_449CF0(idToFind);
     if (pItem && pItem->field_4_typeId != type)
     {
-        LOG_ERROR("Expected type " << static_cast<int>(type) << " for object with id " << idToFind << " but got " << static_cast<int>(pItem->field_4_typeId));
+        LOG_ERROR("Expected type " << static_cast<s32>(type) << " for object with id " << idToFind << " but got " << static_cast<s32>(pItem->field_4_typeId));
         ALIVE_FATAL("Wrong type!");
     }
     return pItem;
@@ -161,7 +161,7 @@ namespace AETest::TestsObjectIds
     class FakeGameObject : public BaseGameObject
     {
     public:
-        virtual BaseGameObject* VDestructor(signed int) override { return this; }
+        virtual BaseGameObject* VDestructor(s32) override { return this; }
     };
 
     void ObjectIdsTests()
@@ -191,12 +191,12 @@ namespace AETest::TestsObjectIds
 
         ASSERT_EQ(nullptr, ids.Find(9999, AETypes::eAlarm_1));
 
-        for (int i = 0; i < 3000; i++)
+        for (s32 i = 0; i < 3000; i++)
         {
             ids.Insert_449C10(i, &p);
         }
 
-        for (int i = 0; i < 3000; i++)
+        for (s32 i = 0; i < 3000; i++)
         {
             ids.Remove_449C60(i);
         }

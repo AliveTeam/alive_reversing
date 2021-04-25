@@ -11,14 +11,14 @@
 
 namespace AO {
 
-BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, int tlvInfo)
+BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA120);
 
     field_4_typeId = Types::eBellHammer_27;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHammerResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHammerResID, 1, 0);
     Animation_Init_417FD0(4488, 71, 69, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -92,7 +92,7 @@ BaseGameObject* BellHammer::dtor_405220()
         ResourceManager::WaitForPendingResources_41EA60(this);
     }
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmfallResID_216, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmfallResID_216, 1, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_455550(ppRes);
@@ -120,7 +120,7 @@ BaseGameObject* BellHammer::dtor_405220()
     return dtor_417D10();
 }
 
-BaseGameObject* BellHammer::VDestructor(signed int flags)
+BaseGameObject* BellHammer::VDestructor(s32 flags)
 {
     return Vdtor_4054C0(flags);
 }
@@ -130,7 +130,7 @@ void BellHammer::VScreenChanged_4054B0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-BellHammer* BellHammer::Vdtor_4054C0(signed int flags)
+BellHammer* BellHammer::Vdtor_4054C0(s32 flags)
 {
     dtor_405220();
     if (flags & 1)

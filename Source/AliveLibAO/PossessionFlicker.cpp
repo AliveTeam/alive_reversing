@@ -27,7 +27,7 @@ void PossessionFlicker::VScreenChanged()
     VScreenChanged_41AA40();
 }
 
-PossessionFlicker* PossessionFlicker::vdtor_41AA70(signed int flags)
+PossessionFlicker* PossessionFlicker::vdtor_41AA70(s32 flags)
 {
     dtor_41A940();
     if (flags & 1)
@@ -37,7 +37,7 @@ PossessionFlicker* PossessionFlicker::vdtor_41AA70(signed int flags)
     return this;
 }
 
-BaseGameObject* PossessionFlicker::VDestructor(signed int flags)
+BaseGameObject* PossessionFlicker::VDestructor(s32 flags)
 {
     return vdtor_41AA70(flags);
 }
@@ -58,7 +58,7 @@ BaseGameObject* PossessionFlicker::dtor_41A940()
     return dtor_487DF0();
 }
 
-PossessionFlicker* PossessionFlicker::ctor_41A8C0(BaseAliveGameObject* pToApplyFlicker, int duration, __int16 r, __int16 g, __int16 b)
+PossessionFlicker* PossessionFlicker::ctor_41A8C0(BaseAliveGameObject* pToApplyFlicker, s32 duration, s16 r, s16 g, s16 b)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BAC58);
@@ -112,7 +112,7 @@ void PossessionFlicker::VUpdate_41A9B0()
             field_10_pObj->field_C4_b = field_1C_b;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_14_time_to_flicker)
+        if (static_cast<s32>(gnFrameCount_507670) > field_14_time_to_flicker)
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }

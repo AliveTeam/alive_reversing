@@ -9,24 +9,24 @@ namespace AO {
 
 struct Path_BackgroundAnimation : public Path_TLV
 {
-    unsigned __int16 field_18_animation_id;
-    __int16 field_1A_is_semi_trans;
+    u16 field_18_animation_id;
+    s16 field_1A_is_semi_trans;
     TPageAbr field_1C_semi_trans_mode;
     // pad
-    __int16 field_1E_sound_effect;
+    s16 field_1E_sound_effect;
 };
 ALIVE_ASSERT_SIZEOF(Path_BackgroundAnimation, 0x20);
 
 class BackgroundAnimation : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BackgroundAnimation* ctor_405A90(Path_BackgroundAnimation* pTlv, int tlvInfo);
+    EXPORT BackgroundAnimation* ctor_405A90(Path_BackgroundAnimation* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_405CB0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT BackgroundAnimation* Vdtor_405D70(signed int flags);
+    EXPORT BackgroundAnimation* Vdtor_405D70(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -40,22 +40,22 @@ public:
 
     EXPORT void VUpdate_405C30();
 
-    int field_D4_padding;
-    int field_D8_padding;
-    int field_DC_padding;
-    int field_E0_padding;
-    BYTE** field_E4_res;
-    __int16 field_E8_xpos;
-    __int16 field_EA_ypos;
-    __int16 field_EC_w;
-    __int16 field_EE_h;
-    int field_F0_tlvInfo;
-    int field_F4_padding;
+    s32 field_D4_padding;
+    s32 field_D8_padding;
+    s32 field_DC_padding;
+    s32 field_E0_padding;
+    u8** field_E4_res;
+    s16 field_E8_xpos;
+    s16 field_EA_ypos;
+    s16 field_EC_w;
+    s16 field_EE_h;
+    s32 field_F0_tlvInfo;
+    s32 field_F4_padding;
     FP field_F8_animXPos;
     FP field_FC_animYPos;
-    __int16 field_100_sound_effect;
-    __int16 field_102_padding;
-    int field_104_sound_channels_mask;
+    s16 field_100_sound_effect;
+    s16 field_102_padding;
+    s32 field_104_sound_channels_mask;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x108);
 

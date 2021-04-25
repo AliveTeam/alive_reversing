@@ -124,7 +124,7 @@ const SfxDefinition sSfxEntries_4CCA38[] =
     { 0, 64, 39, 90, -1000, -1000, 0 }
 };
 
-int CC SFX_Play_43AE60(unsigned __int8 sfxIdx, int volume, int pitch, BaseAnimatedWithPhysicsGameObject* pObj)
+s32 CC SFX_Play_43AE60(u8 sfxIdx, s32 volume, s32 pitch, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (volume > 0)
     {
@@ -137,7 +137,7 @@ int CC SFX_Play_43AE60(unsigned __int8 sfxIdx, int volume, int pitch, BaseAnimat
     return SFX_SfxDefinition_Play_4770F0(&sSfxEntries_4CCA38[sfxIdx], volume, pitch, pitch);
 }
 
-int CC SFX_Play_43AD70(unsigned __int8 sfxIdx, int volume, BaseAnimatedWithPhysicsGameObject* pObj)
+s32 CC SFX_Play_43AD70(u8 sfxIdx, s32 volume, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (volume > 0)
     {
@@ -150,25 +150,25 @@ int CC SFX_Play_43AD70(unsigned __int8 sfxIdx, int volume, BaseAnimatedWithPhysi
     return SFX_SfxDefinition_Play_4770F0(&sSfxEntries_4CCA38[sfxIdx], volume, 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_43ADE0(unsigned __int8 sfxId, int leftVol, int rightVol, BaseAnimatedWithPhysicsGameObject* pObj)
+s32 CC SFX_Play_43ADE0(u8 sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    short left = 0;
-    short right = 0;
+    s16 left = 0;
+    s16 right = 0;
 
     if (pObj && pObj->field_BC_sprite_scale == FP_FromDouble(0.5))
     {
-        left = static_cast<short>(2 * leftVol / 3);
-        right = static_cast<short>(2 * rightVol / 3);
+        left = static_cast<s16>(2 * leftVol / 3);
+        right = static_cast<s16>(2 * rightVol / 3);
     }
     else
     {
-        right = static_cast<short>(rightVol);
-        left = static_cast<short>(leftVol);
+        right = static_cast<s16>(rightVol);
+        left = static_cast<s16>(leftVol);
     }
     return SFX_SfxDefinition_Play_477330(&sSfxEntries_4CCA38[sfxId], left, right, 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_43AED0(unsigned __int8 sfxId, signed int volume, CameraPos direction)
+s32 CC SFX_Play_43AED0(u8 sfxId, s32 volume, CameraPos direction)
 {
     switch (direction)
     {
@@ -185,8 +185,8 @@ int CC SFX_Play_43AED0(unsigned __int8 sfxId, signed int volume, CameraPos direc
         {
             return SFX_SfxDefinition_Play_477330(
                 &sSfxEntries_4CCA38[sfxId],
-                static_cast<short>(2 * volume / 3),
-                static_cast<short>(2 * volume / 9),
+                static_cast<s16>(2 * volume / 3),
+                static_cast<s16>(2 * volume / 9),
                 0x7FFF,
                 0x7FFF
             );
@@ -195,8 +195,8 @@ int CC SFX_Play_43AED0(unsigned __int8 sfxId, signed int volume, CameraPos direc
         {
             return SFX_SfxDefinition_Play_477330(
                 &sSfxEntries_4CCA38[sfxId],
-                static_cast<short>(2 * volume / 9),
-                static_cast<short>(2 * volume / 3),
+                static_cast<s16>(2 * volume / 9),
+                static_cast<s16>(2 * volume / 3),
                 0x7FFF,
                 0x7FFF
             );

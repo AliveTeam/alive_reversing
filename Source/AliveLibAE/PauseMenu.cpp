@@ -17,16 +17,16 @@
 #include "Mudokon.hpp"
 #include "Sys.hpp"
 
-ALIVE_VAR(1, 0x5ca4d8, char, sQuicksave_SaveNextFrame_5CA4D8, 0);
-ALIVE_VAR(1, 0x5ca4d9, char, sQuicksave_LoadNextFrame_5CA4D9, 0);
+ALIVE_VAR(1, 0x5ca4d8, s8, sQuicksave_SaveNextFrame_5CA4D8, 0);
+ALIVE_VAR(1, 0x5ca4d9, s8, sQuicksave_LoadNextFrame_5CA4D9, 0);
 
-ALIVE_ARY(1, 0x5C92F0, char, 16, sScreenStringBuffer_5C92F0, { 0 });
-
-
-ALIVE_ARY(1, 0x5C931C, char, 32, sSaveString_5C931C, {});
+ALIVE_ARY(1, 0x5C92F0, s8, 16, sScreenStringBuffer_5C92F0, { 0 });
 
 
-ALIVE_ARY(1, 0x554474, BYTE, 32, pal_554474, {
+ALIVE_ARY(1, 0x5C931C, s8, 32, sSaveString_5C931C, {});
+
+
+ALIVE_ARY(1, 0x554474, u8, 32, pal_554474, {
     0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90,
     0xA5, 0x14, 0xE7, 0x1C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29,
     0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42,
@@ -279,9 +279,9 @@ PauseMenu::PauseMenuPage sPM_Page_Load_546628 =
     &PauseMenu::Page_Load_Render_4910A0,
     PauseMenu__PageEntryList_Load_55e3a0,
     0,
-    static_cast<char>(160u),
-    static_cast<char>(160u),
-    static_cast<char>(160u),
+    static_cast<s8>(160u),
+    static_cast<s8>(160u),
+    static_cast<s8>(160u),
     0u,
     0u,
     0u
@@ -307,16 +307,16 @@ PauseMenu::PauseMenuPage sPM_Page_Save_5465C8 =
     &PauseMenu::Page_Save_Render_491660,
     &PauseMenu__PageEntryList_Save_55E4C8[0],
     0,
-    static_cast<char>(160u),
-    static_cast<char>(160u),
-    static_cast<char>(160u),
+    static_cast<s8>(160u),
+    static_cast<s8>(160u),
+    static_cast<s8>(160u),
     0,
     0,
     0
 };
 
-ALIVE_ARY(1, 0x55e718, char, 32, sPauseMenu_Of300Mudokons_55E718, {});
-ALIVE_ARY(1, 0x55e738, char, 56, sHasBeenTerminated_55E738, {});
+ALIVE_ARY(1, 0x55e718, s8, 32, sPauseMenu_Of300Mudokons_55E718, {});
+ALIVE_ARY(1, 0x55e738, s8, 56, sHasBeenTerminated_55E738, {});
 
 PauseMenuPageEntry sStatusEntries_55E758[6] =
 {
@@ -383,7 +383,7 @@ void DumpMenus()
         std::stringstream menuAddr;
         menuAddr << std::hex << a.address;
 
-        int count = 0;
+        s32 count = 0;
         PauseMenuPageEntry* c = reinterpret_cast<PauseMenuPageEntry*>(a.address);
 
         while (c->field_8_text)
@@ -421,9 +421,9 @@ void DumpMenus()
             output << e->field_4_y << ", ";
             output << e->field_6_unknown << ", ";
             output << "\"" << EscapeUnknownCharacters(e->field_8_text) << "\"" << ", ";
-            output << (int)e->field_C_r << ", ";
-            output << (int)e->field_D_g << ", ";
-            output << (int)e->field_E_b << ", ";
+            output << (s32)e->field_C_r << ", ";
+            output << (s32)e->field_D_g << ", ";
+            output << (s32)e->field_E_b << ", ";
             output << alignment;
             output << " },\n";
 
@@ -437,13 +437,13 @@ void DumpMenus()
     fileOut << output.rdbuf() << "\n\n" << output_override.rdbuf();
 }
 
-EXPORT signed __int16 sub_4A2BC0()
+EXPORT s16 sub_4A2BC0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-BaseGameObject* PauseMenu::VDestructor(signed int flags)
+BaseGameObject* PauseMenu::VDestructor(s32 flags)
 {
     return vdtor_48FCB0(flags);
 }
@@ -517,7 +517,7 @@ void PauseMenu::dtor_48FCE0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-BaseGameObject* PauseMenu::vdtor_48FCB0(signed int flags)
+BaseGameObject* PauseMenu::vdtor_48FCB0(s32 flags)
 {
     dtor_48FCE0();
     if (flags & 1)
@@ -534,7 +534,7 @@ void PauseMenu::Init_491760()
     ResourceManager::LoadResourceFile_49C170("EMOANGRY.BAN", 0);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAngryiconResID);
     ResourceManager::LoadResourceFile_49C170("EMONORM.BAN", 0);
-    BYTE **ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID);
+    u8 **ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID);
 
     if (field_158_animation.Init_40A030(1248, gObjList_animations_5C1A24, this, 54, 47, ppAnimData, 1, 0, 0))
     {
@@ -591,7 +591,7 @@ EXPORT void PauseMenu::Remove_At_Credits_Screen_490D30()
 class CustomPauseMenu;
 struct CustomPauseMenuItem
 {
-    const char* text;
+    const s8* text;
     std::function<void(CustomPauseMenu*)> callback;
 };
 
@@ -600,7 +600,7 @@ std::vector<CustomPauseMenu*> customMenuStack;
 class CustomPauseMenu
 {
 public:
-    CustomPauseMenu(std::vector<CustomPauseMenuItem>* items, const char* titleStr)
+    CustomPauseMenu(std::vector<CustomPauseMenuItem>* items, const s8* titleStr)
     {
         entries = items;
         title = std::string(titleStr);
@@ -620,19 +620,19 @@ public:
             scrollDownIndex = 0;
         }
 
-        int o = 0;
-        int size = 0;
+        s32 o = 0;
+        s32 size = 0;
         if (entries != nullptr)
         {
-            size = static_cast<int>(entries->size());
-            for (int i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
+            size = static_cast<s32>(entries->size());
+            for (s32 i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
             {
                 const auto item = (*entries)[i];
-                compiledEntries.push_back({ 0, 184, (short)(57 + (22 * o)), 0, (char*)item.text, 0x80, 0x10, 0xFF, Centre });
+                compiledEntries.push_back({ 0, 184, (s16)(57 + (22 * o)), 0, (s8*)item.text, 0x80, 0x10, 0xFF, Centre });
                 o++;
             }
         }
-        compiledEntries.push_back({ 0, 184, 16, 0, (char*)title.c_str(), 127, 127, 127, Centre });
+        compiledEntries.push_back({ 0, 184, 16, 0, (s8*)title.c_str(), 127, 127, 127, Centre });
         if (size > 7 && index < size - 2)
         {
             compiledEntries.push_back({ 0, 184, 210, 0, kDown, 127, 127, 127, Centre });
@@ -651,7 +651,7 @@ public:
         mMenuPage.field_10_background_b = 127;
     }
 
-    void SetText(char* text)
+    void SetText(s8* text)
     {
         (*entries)[index].text = text;
         compiledEntries[index].field_8_text = text;
@@ -670,7 +670,7 @@ public:
         auto input = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
         if (input & InputCommands::Enum::eDown)
         {
-            if (++index >= static_cast<int>(entries->size()))
+            if (++index >= static_cast<s32>(entries->size()))
             {
                 index = 0;
             }
@@ -682,7 +682,7 @@ public:
         {
             if (--index < 0)
             {
-                index = static_cast<int>(entries->size()) - 1;
+                index = static_cast<s32>(entries->size()) - 1;
             }
             SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
 
@@ -700,7 +700,7 @@ public:
             CompileEntries();
         }
 
-        pm->field_144_active_menu.field_C_selected_index = static_cast<short>(index - scrollDownIndex);
+        pm->field_144_active_menu.field_C_selected_index = static_cast<s16>(index - scrollDownIndex);
     }
 
     void Activate()
@@ -726,9 +726,9 @@ public:
 
 public:
     std::vector<CustomPauseMenuItem>* entries;
-    int index = 0;
-    int scrollDownIndex = 0;
-    int maxScrollDown = 5;
+    s32 index = 0;
+    s32 scrollDownIndex = 0;
+    s32 maxScrollDown = 5;
     std::string title;
     std::vector<PauseMenuPageEntry> compiledEntries;
     PauseMenu::PauseMenuPage mMenuPage;
@@ -778,7 +778,7 @@ CustomPauseMenu devTeleportMenu(&devTeleportMenuItems, "Level Select");
 
 void DestroyAliveObjects()
 {
-    for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+    for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
     {
         BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
         if (!pObj || pObj == pPauseMenu_5C9300 || pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) == false)
@@ -797,7 +797,7 @@ void DestroyAliveObjects()
 
 void DestroyAllObjects()
 {
-    for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+    for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
     {
         BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
         if (!pObj || pObj == pPauseMenu_5C9300)
@@ -872,7 +872,7 @@ void PauseMenu_ForceLink() {
 
     devTeleportMenuItems.clear();
 
-    for (int i = 0; i < 17; i++)
+    for (s32 i = 0; i < 17; i++)
     {
         devTeleportMenuItems.push_back({ gPerLvlData_561700[i].field_0_display_name, [](CustomPauseMenu* pm) {
             const auto levelSelectEntry = gPerLvlData_561700[pm->index];
@@ -908,12 +908,12 @@ void PauseMenu_ForceLink() {
 
 void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPage* mp)
 {
-    int i = 0;
+    s32 i = 0;
     PauseMenuPageEntry* e = &mp->field_8_menu_items[i];
 
     while (e->field_8_text)
     {
-        char textFormatted[128];
+        s8 textFormatted[128];
         String_FormatString_4969D0(e->field_8_text, textFormatted, 128, 1);
 
         auto glow = 0;
@@ -926,7 +926,7 @@ void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPag
 
         if (e->field_F_alignment != 0)
         {
-            short textMeasure = static_cast<short>(field_F4_font.MeasureWidth_433700(textFormatted));
+            s16 textMeasure = static_cast<s16>(field_F4_font.MeasureWidth_433700(textFormatted));
 
             if (textMeasure >= 608)
             {
@@ -942,7 +942,7 @@ void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPag
             }
         }
 
-        field_142_poly_offset = static_cast<short>(field_F4_font.DrawString_4337D0(
+        field_142_poly_offset = static_cast<s16>(field_F4_font.DrawString_4337D0(
             ot,
             textFormatted,
             x, // X
@@ -951,9 +951,9 @@ void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPag
             1,
             0,
             Layer::eLayer_41,
-            static_cast<char>(glow + e->field_C_r),
-            static_cast<char>(glow + e->field_D_g),
-            static_cast<char>(glow + e->field_E_b),
+            static_cast<s8>(glow + e->field_C_r),
+            static_cast<s8>(glow + e->field_D_g),
+            static_cast<s8>(glow + e->field_E_b),
             field_142_poly_offset,
             FP_FromDouble(1.0),
             640,
@@ -1003,8 +1003,8 @@ void PauseMenu::RestartPath()
     GetSoundAPI().SND_Restart();
 }
 
-const char kArrowChar = 3;
-ALIVE_ARY(1, 0x55E398, char, 2, sArrowStr_55E398, { kArrowChar, 0 });
+const s8 kArrowChar = 3;
+ALIVE_ARY(1, 0x55E398, s8, 2, sArrowStr_55E398, { kArrowChar, 0 });
 
 void PauseMenu::Page_Main_Update_4903E0()
 {
@@ -1084,7 +1084,7 @@ void PauseMenu::Page_Main_Update_4903E0()
                 gMap_5C3030.field_4_current_camera);
             // Null terminate it
             sSaveString_5C931C[8] = 0;
-            // Append the editor arrow char
+            // Append the editor arrow s8
             strcat(sSaveString_5C931C, sArrowStr_55E398);
 
 #if ORIGINAL_PS1_BEHAVIOR  // OG Change - Allow for exiting save menu using controller
@@ -1135,7 +1135,7 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
 
     if (sInputObject_5BD4E0.isHeld(0x100000))
     {
-        const int prev = ++field_138_control_action_page_index;
+        const s32 prev = ++field_138_control_action_page_index;
         if (prev < 6)
         {
             field_144_active_menu.field_8_menu_items = sControlActionsPages_55DE40[prev];
@@ -1185,8 +1185,8 @@ void PauseMenu::Page_Save_Update_491210()
 {
     static bool bWriteSaveFile_5C937C = false;
 
-    char newInput[2] = {};
-    char savFileName[40] = {};
+    s8 newInput[2] = {};
+    s8 savFileName[40] = {};
     if (field_13C_save_state == SaveState::DoSave_4)
     {
         strcpy(savFileName, sSaveString_5C931C);
@@ -1236,7 +1236,7 @@ void PauseMenu::Page_Save_Update_491210()
     else if (field_13C_save_state == SaveState::ReadingInput_0)
     {
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Exit save menu using controller
-        DWORD lastPressed = Input_GetLastPressedKey_492610();
+        u32 lastPressed = Input_GetLastPressedKey_492610();
 
         if (lastPressed == VK_ESCAPE || lastPressed == VK_RETURN) // Keyboard ESC or ENTER
         {
@@ -1253,7 +1253,7 @@ void PauseMenu::Page_Save_Update_491210()
             setSaveMenuOpen(false);
         }
 #else
-        const DWORD lastPressed = Input_GetLastPressedKey_492610();
+        const u32 lastPressed = Input_GetLastPressedKey_492610();
 #endif
 
         if (!lastPressed)
@@ -1261,7 +1261,7 @@ void PauseMenu::Page_Save_Update_491210()
             return;
         }
 
-        newInput[0] = static_cast<char>(lastPressed);
+        newInput[0] = static_cast<s8>(lastPressed);
         newInput[1] = 0;
 
         const size_t stringLen = strlen(sSaveString_5C931C);
@@ -1296,7 +1296,7 @@ void PauseMenu::Page_Save_Update_491210()
         case VK_BACK:
             if (stringLen > 1)
             {
-                // Replace last char with arrow
+                // Replace last s8 with arrow
                 sSaveString_5C931C[stringLen -2] = kArrowChar;
                 sSaveString_5C931C[stringLen -1] = 0;
                 SFX_Play_46FA90(SoundEffect::PickupItem_28, 0);
@@ -1306,7 +1306,7 @@ void PauseMenu::Page_Save_Update_491210()
             return;
         }
 
-        // Otherwise edit the file name if its an allowed char
+        // Otherwise edit the file name if its an allowed s8
         if (strspn(newInput, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-"))
         {
             // Don't allow space at the start of the name, and don't allow 2 constitutive spaces.
@@ -1319,7 +1319,7 @@ void PauseMenu::Page_Save_Update_491210()
             {
                 SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 30, 2400);
             }
-            // Append new input char
+            // Append new input s8
             else
             {
                 sSaveString_5C931C[stringLen -1] = newInput[0]; // Replace arrow with input
@@ -1394,7 +1394,7 @@ void PauseMenu::Page_Load_Update_490D50()
         word12C_flags &= ~1u;
     }
 
-    const DWORD inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+    const u32 inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
 
     // Up one save
     if (inputHeld & InputCommands::Enum::eUp)
@@ -1493,8 +1493,8 @@ void PauseMenu::Page_Load_Update_490D50()
 
 void PauseMenu::Page_Load_Render_4910A0(PrimHeader** ot, PauseMenuPage* mp)
 {
-    int saveIdx = sSavedGameToLoadIdx_BB43FC - 2;
-    for (int i = 0; i < 6; i++)
+    s32 saveIdx = sSavedGameToLoadIdx_BB43FC - 2;
+    for (s32 i = 0; i < 6; i++)
     {
         if (saveIdx < 0 || saveIdx >= sTotalSaveFilesCount_BB43E0)
         {
@@ -1528,7 +1528,7 @@ void PauseMenu::Page_Load_Render_4910A0(PrimHeader** ot, PauseMenuPage* mp)
     Page_Base_Render_490A50(ot, mp);
 }
 
-EXPORT WORD CC sub_4A2B70()
+EXPORT u16 CC sub_4A2B70()
 {
     NOT_IMPLEMENTED();
     return 1;
@@ -1548,7 +1548,7 @@ void PauseMenu::Update_48FD80()
         pControlledChar = sControlledCharacter_5C1B8C;
         if (!(sControlledCharacter_5C1B8C->field_114_flags.Get(e114_Bit10_Teleporting)))
         {
-            const __int16 heroState = sActiveHero_5C1B68->field_106_current_motion;
+            const s16 heroState = sActiveHero_5C1B68->field_106_current_motion;
             if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
                 && heroState != eAbeStates::State_119_ToShrykull_45A990
                 && heroState != eAbeStates::State_120_EndShrykull_45AB00
@@ -1596,7 +1596,7 @@ void PauseMenu::Update_48FD80()
             && !(pHero->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
             && !(pControlledChar->field_114_flags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
-            const short heroState = pHero->field_106_current_motion;
+            const s16 heroState = pHero->field_106_current_motion;
             if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
                 && heroState != eAbeStates::State_119_ToShrykull_45A990
                 && heroState != eAbeStates::State_120_EndShrykull_45AB00
@@ -1632,7 +1632,7 @@ void PauseMenu::Update_48FD80()
 
                 for (size_t i = 0; i < strlen(sScreenStringBuffer_5C92F0); i++)
                 {
-                    char currentCamChar = sScreenStringBuffer_5C92F0[i];
+                    s8 currentCamChar = sScreenStringBuffer_5C92F0[i];
                     if (currentCamChar == '.') // Chop off .CAM
                     {
                         sScreenStringBuffer_5C92F0[i] = 0;
@@ -1646,7 +1646,7 @@ void PauseMenu::Update_48FD80()
                     }
                     else
                     {
-                        sScreenStringBuffer_5C92F0[i] =  static_cast<char>(::tolower(currentCamChar));
+                        sScreenStringBuffer_5C92F0[i] =  static_cast<s8>(::tolower(currentCamChar));
                     }
                 }
 
@@ -1685,7 +1685,7 @@ void PauseMenu::Update_48FD80()
 
                         SYS_EventsPump_494580();
 
-                        for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+                        for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
                         {
                             BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
                             if (!pObj)

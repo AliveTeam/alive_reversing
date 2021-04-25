@@ -5,9 +5,9 @@
 #include "Path.hpp"
 #include "GameSpeak.hpp"
 
-enum class RingTypes : __int16;
+enum class RingTypes : s16;
 
-enum class Mud_State : __int16
+enum class Mud_State : s16
 {
     eChisle_0 = 0,
     eScrub_1 = 1,
@@ -16,7 +16,7 @@ enum class Mud_State : __int16
     eHealthRingGiver_4 = 4,
 };
 
-enum class Mud_TLV_Emotion : __int16
+enum class Mud_TLV_Emotion : s16
 {
     eNormal_0 = 0,
     eAngry_1 = 1,
@@ -30,23 +30,23 @@ struct Path_Mudokon : public Path_TLV
     Scale_short field_10_scale;
     Mud_State field_12_state;
     XDirection_short field_14_direction;
-    __int16 field_16_voice_pitch;
-    __int16 field_18_rescue_id;
+    s16 field_16_voice_pitch;
+    s16 field_18_rescue_id;
     Choice_short field_1A_bDeaf;
-    __int16 field_1C_disabled_resources;
+    s16 field_1C_disabled_resources;
     Choice_short field_1E_reset_pos_on_screen_change;
     Mud_TLV_Emotion field_20_emotion;
     Choice_short field_22_bBlind;
-    __int16 field_24_angry_trigger;
+    s16 field_24_angry_trigger;
     Choice_short field_26_stop_turning_work_wheel;
     Choice_short field_28_bGets_depressed;
-    __int16 field_2A_ring_timeout;
+    s16 field_2A_ring_timeout;
     Choice_short field_2C_bGive_ring_without_password;
-    __int16 field_2E_padding;
+    s16 field_2E_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mudokon, 0x30);
 
-enum class Mud_Emotion : __int16
+enum class Mud_Emotion : s16
 {
     eNormal_0 = 0,
     eAngry_1 = 1,
@@ -58,7 +58,7 @@ enum class Mud_Emotion : __int16
     eSick_7 = 7
 };
 
-enum class MudAction : __int16
+enum class MudAction : s16
 {
     eHelloOrAllYa_0 = 0,
     eFollowMe_1 = 1,
@@ -94,13 +94,13 @@ enum class MudAction : __int16
     ENTRY(AI_Sick_9_47A910)
 
 #define MAKE_STRINGS(VAR) #VAR,
-const char* const sMudAiStateNames[10] =
+const s8* const sMudAiStateNames[10] =
 {
     MUD_AI_STATES_ENUM(MAKE_STRINGS)
 };
 
 #define MAKE_ENUM(VAR) VAR,
-enum Mud_AI_State : unsigned __int16
+enum Mud_AI_State : u16
 {
     MUD_AI_STATES_ENUM(MAKE_ENUM)
 };
@@ -108,7 +108,7 @@ enum Mud_AI_State : unsigned __int16
 
 // Note can't use the macro magic here because there are duplicate names because
 // speak generic appears 3 times :(
-enum Mud_Motion : unsigned __int16
+enum Mud_Motion : u16
 {
     M_Idle_0_4724E0,
     M_WalkLoop_1_4728B0,
@@ -175,55 +175,55 @@ enum Mud_Motion : unsigned __int16
     M_TurnWheelEnd_59_474D30
 };
 
-enum class MudAction : __int16;
-enum class MudSounds : __int16;
+enum class MudAction : s16;
+enum class MudSounds : s16;
 
 class BirdPortal;
 
 struct Mudokon_State
 {
     AETypes field_0_type;
-    __int16 field_2_pad;
+    s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
     FP field_10_vely;
-    __int16 field_14_path_number;
+    s16 field_14_path_number;
     LevelIds field_16_lvl_number;
     FP field_18_sprite_scale;
-    __int16 field_1C_r;
-    __int16 field_1E_g;
-    __int16 field_20_b;
-    __int16 field_22_bFlipX;
-    __int16 field_24_current_motion;
-    __int16 field_26_anim_current_frame;
-    __int16 field_28_anim_frame_change_counter;
-    char field_2A_bAnimRender;
-    char field_2B_bDrawable;
+    s16 field_1C_r;
+    s16 field_1E_g;
+    s16 field_20_b;
+    s16 field_22_bFlipX;
+    s16 field_24_current_motion;
+    s16 field_26_anim_current_frame;
+    s16 field_28_anim_frame_change_counter;
+    s8 field_2A_bAnimRender;
+    s8 field_2B_bDrawable;
     FP field_2C_health;
-    __int16 field_30_current_motion;
-    __int16 field_32_next_motion;
-    __int16 field_34_lastLineYPos;
-    __int16 field_36_line_type;
-    __int16 field_38_padding;
-    __int16 field_3A_padding;
-    char field_3C_can_be_possessed;
-    char field_3D_bIsPlayer;
-    __int16 field_3E_padding;
-    int field_40_tlvInfo;
+    s16 field_30_current_motion;
+    s16 field_32_next_motion;
+    s16 field_34_lastLineYPos;
+    s16 field_36_line_type;
+    s16 field_38_padding;
+    s16 field_3A_padding;
+    s8 field_3C_can_be_possessed;
+    s8 field_3D_bIsPlayer;
+    s16 field_3E_padding;
+    s32 field_40_tlvInfo;
     FP field_44_velx_slow_by;
-    int field_48_unused;
-    int field_4C_portal_id;
-    __int16 field_50_angry_trigger;
-    __int16 field_52_padding;
-    int field_54_savedfield124; //TODO: Find out what field_124 is. It appears to be some sort of timer. -- Nemin (5/7/2020)
-    int field_58_angry_timer;
-    __int16 field_5C_unused;
-    __int16 field_5E_voice_pitch;
-    int field_60_wheel_id;
-    int field_64_unused;
+    s32 field_48_unused;
+    s32 field_4C_portal_id;
+    s16 field_50_angry_trigger;
+    s16 field_52_padding;
+    s32 field_54_savedfield124; //TODO: Find out what field_124 is. It appears to be some sort of timer. -- Nemin (5/7/2020)
+    s32 field_58_angry_timer;
+    s16 field_5C_unused;
+    s16 field_5E_voice_pitch;
+    s32 field_60_wheel_id;
+    s32 field_64_unused;
     MudSounds field_68;
-    __int16 field_6A_maxXOffset;
+    s16 field_6A_maxXOffset;
 
 
     enum Flags_6A
@@ -258,31 +258,31 @@ struct Mudokon_State
     };
     BitField16<Flags_6E> field_6E;
 
-    __int16 field_70_sub_state2;
-    __int16 field_72_stand_idle_timer;
+    s16 field_70_sub_state2;
+    s16 field_72_stand_idle_timer;
     MudAction field_74_delayed_speak;
     Mud_Emotion field_76_emo_tlb;
     GameSpeakEvents field_78;
     Mud_Motion field_7A_motion;
     Mud_AI_State field_7C_ai_state;
-    __int16 field_7E_sub_state;
-    int field_80_timer;
-    int field_84_response_entry_idx;
+    s16 field_7E_sub_state;
+    s32 field_80_timer;
+    s32 field_84_response_entry_idx;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
 
 class Mudokon : public BaseAliveGameObject
 {
 public:
-    EXPORT Mudokon* ctor_474F30(Path_Mudokon* pTlv, int tlvInfo);
+    EXPORT Mudokon* ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
     virtual void VScreenChanged() override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override
     {
         return vGetSaveState_47B080(reinterpret_cast<Mudokon_State*>(pSaveBuffer));
     }
@@ -292,7 +292,7 @@ public:
         vPossessed_4774F0();
     }
 
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override
     {
         return vTakeDamage_476270(pFrom);
     }
@@ -313,12 +313,12 @@ public:
         vUpdateAnimRes_474D80();
     }
 
-    EXPORT static int CC CreateFromSaveState_4717C0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4717C0(const u8* pBuffer);
 
 
 private:
 
-    EXPORT int vGetSaveState_47B080(Mudokon_State* pState);
+    EXPORT s32 vGetSaveState_47B080(Mudokon_State* pState);
 
 
     EXPORT void vUpdate_4757A0();
@@ -329,9 +329,9 @@ private:
 
     EXPORT void vOnTlvCollision_476EA0(Path_TLV* pTlv);
 
-    EXPORT short FacingTarget_473140(BirdPortal* pTarget);
+    EXPORT s16 FacingTarget_473140(BirdPortal* pTarget);
 
-    EXPORT Mudokon* vdtor_475770(signed int flags);
+    EXPORT Mudokon* vdtor_475770(s32 flags);
 
     EXPORT void dtor_475B60();
 
@@ -339,49 +339,49 @@ private:
 
     EXPORT void vPossessed_4774F0();
 
-    EXPORT __int16 vTakeDamage_476270(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_476270(BaseGameObject* pFrom);
 
-    __int16 TurningWheelHelloOrAllYaResponse();
+    s16 TurningWheelHelloOrAllYaResponse();
 public:
     EXPORT void vUpdateAnimRes_474D80();
 public: // AI states
-    EXPORT __int16 AI_GiveRings_0_470C10();
-    EXPORT __int16 AI_Chisel_1_47C5F0();
-    EXPORT __int16 AI_Scrub_2_47D270();
-    EXPORT __int16 AI_TurnWheel_3_47E0D0();
+    EXPORT s16 AI_GiveRings_0_470C10();
+    EXPORT s16 AI_Chisel_1_47C5F0();
+    EXPORT s16 AI_Scrub_2_47D270();
+    EXPORT s16 AI_TurnWheel_3_47E0D0();
 
-    EXPORT __int16 AI_ListeningToAbe_4_Real_477B40();
-    EXPORT __int16 AI_ListeningToAbe_4_477B40();
+    EXPORT s16 AI_ListeningToAbe_4_Real_477B40();
+    EXPORT s16 AI_ListeningToAbe_4_477B40();
 
-    __int16 AI_ListeningToAbe_State_0();
-    __int16 AI_ListeningToAbe_State_1();
-    __int16 AI_ListeningToAbe_State_2();
-    __int16 AI_ListeningToAbe_State_3();
-    __int16 AI_ListeningToAbe_State_4();
-    __int16 AI_ListeningToAbe_State_5();
-    __int16 AI_ListeningToAbe_State_6();
-    __int16 AI_ListeningToAbe_State_7();
-    __int16 AI_ListeningToAbe_State_8();
-    __int16 AI_ListeningToAbe_State_9();
-    __int16 AI_ListeningToAbe_State_10();
-    __int16 AI_ListeningToAbe_State_11();
-    __int16 AI_ListeningToAbe_State_12();
-    __int16 AI_ListeningToAbe_State_13();
-    __int16 AI_ListeningToAbe_State_14();
-    __int16 AI_ListeningToAbe_State_15();
-    __int16 AI_ListeningToAbe_State_16();
-    __int16 AI_ListeningToAbe_State_17();
-    __int16 AI_ListeningToAbe_State_18();
-    __int16 AI_ListeningToAbe_State_19();
-    __int16 AI_ListeningToAbe_State_20();
-    __int16 AI_ListeningToAbe_State_21();
-    __int16 AI_ListeningToAbe_State_22();
+    s16 AI_ListeningToAbe_State_0();
+    s16 AI_ListeningToAbe_State_1();
+    s16 AI_ListeningToAbe_State_2();
+    s16 AI_ListeningToAbe_State_3();
+    s16 AI_ListeningToAbe_State_4();
+    s16 AI_ListeningToAbe_State_5();
+    s16 AI_ListeningToAbe_State_6();
+    s16 AI_ListeningToAbe_State_7();
+    s16 AI_ListeningToAbe_State_8();
+    s16 AI_ListeningToAbe_State_9();
+    s16 AI_ListeningToAbe_State_10();
+    s16 AI_ListeningToAbe_State_11();
+    s16 AI_ListeningToAbe_State_12();
+    s16 AI_ListeningToAbe_State_13();
+    s16 AI_ListeningToAbe_State_14();
+    s16 AI_ListeningToAbe_State_15();
+    s16 AI_ListeningToAbe_State_16();
+    s16 AI_ListeningToAbe_State_17();
+    s16 AI_ListeningToAbe_State_18();
+    s16 AI_ListeningToAbe_State_19();
+    s16 AI_ListeningToAbe_State_20();
+    s16 AI_ListeningToAbe_State_21();
+    s16 AI_ListeningToAbe_State_22();
 
-    EXPORT __int16 AI_ShrivelDeath_5_4714A0();
-    EXPORT __int16 AI_Escape_6_47A560();
-    EXPORT __int16 AI_FallAndSmackDeath_7_471600();
-    EXPORT __int16 AI_AngryWorker_8_47E910();
-    EXPORT __int16 AI_Sick_9_47A910();
+    EXPORT s16 AI_ShrivelDeath_5_4714A0();
+    EXPORT s16 AI_Escape_6_47A560();
+    EXPORT s16 AI_FallAndSmackDeath_7_471600();
+    EXPORT s16 AI_AngryWorker_8_47E910();
+    EXPORT s16 AI_Sick_9_47A910();
 
 public: // Motion states
    EXPORT void M_Idle_0_4724E0();
@@ -443,23 +443,23 @@ public: // Motion states
    EXPORT void M_TurnWheelEnd_59_474D30();
 
 private:
-    EXPORT __int16 StableDelay_477570();
-    EXPORT __int16 CheckForPortal_4775E0();
+    EXPORT s16 StableDelay_477570();
+    EXPORT s16 CheckForPortal_4775E0();
     EXPORT GameSpeakEvents LastGameSpeak_476FF0();
-    EXPORT __int16 LaughingGasInCurrentScreen_4774A0();
+    EXPORT s16 LaughingGasInCurrentScreen_4774A0();
     EXPORT void Sound_475EC0(MudSounds idx);
-    EXPORT __int16 CanRespond_4770B0();
+    EXPORT s16 CanRespond_4770B0();
 
-    EXPORT BYTE** AnimBlockForMotion_474DC0(short motion);
+    EXPORT u8** AnimBlockForMotion_474DC0(s16 motion);
 
     EXPORT void ToFalling_472320();
     EXPORT void ToStand_4724A0();
 
-    EXPORT __int16 FindWheel_4777B0(FP xpos, FP ypos);
-    EXPORT __int16 GetAISubStateResponse_477AF0(MudAction action);
-    EXPORT __int16 StopAtWheel_477880();
+    EXPORT s16 FindWheel_4777B0(FP xpos, FP ypos);
+    EXPORT s16 GetAISubStateResponse_477AF0(MudAction action);
+    EXPORT s16 StopAtWheel_477880();
     EXPORT void StandingKnockBack_473190();
-    EXPORT __int16 IsMotionUnknown_4730F0();
+    EXPORT s16 IsMotionUnknown_4730F0();
     EXPORT void MoveOnLine_4720D0();
 
     EXPORT static const struct MudEmotionTableEntry* CC ResponseTo_471730(Mud_Emotion emotion, MudAction action);
@@ -467,7 +467,7 @@ private:
     void AddAlerted();
 
     void RemoveAlerted();
-    __int16 AIStartWheelTurning();
+    s16 AIStartWheelTurning();
     bool NeedToTurnAround();
 
     EXPORT void ReduceXVelocityBy_472260(FP velXScaleBy);
@@ -478,39 +478,39 @@ private:
 
     EXPORT void TakeASlap_476090(BaseGameObject *pFrom);
 
-    EXPORT int GetResponseEntryIdx_471760();
+    EXPORT s32 GetResponseEntryIdx_471760();
 
-    EXPORT static const MudEmotionTableEntry* CCSTD GetResponseEntry_471790(int idx);
+    EXPORT static const MudEmotionTableEntry* CCSTD GetResponseEntry_471790(s32 idx);
 
 private:
-    int field_118_tlvInfo;
-    int field_11C_bird_portal_id;
-    __int16 field_120_angry_trigger;
-    __int16 field_122_padding;
-    int field_124;
-    int field_128_angry_timer;
-    int field_12C_unused;
-    __int16 field_130_unused;
-    __int16 field_132_padding;
+    s32 field_118_tlvInfo;
+    s32 field_11C_bird_portal_id;
+    s16 field_120_angry_trigger;
+    s16 field_122_padding;
+    s32 field_124;
+    s32 field_128_angry_timer;
+    s32 field_12C_unused;
+    s16 field_130_unused;
+    s16 field_132_padding;
     FP field_134_xVelSlowBy;
-    int field_138_unused;
-    __int16 field_13C_voice_pitch;
-    __int16 field_13E_padding;
-    int field_140_last_event_index;
-    int field_144_padding;
-    __int16 field_148_padding;
-    __int16 field_14A_padding;
-    __int16 field_14C_padding;
-    __int16 field_14E_padding;
-    __int16 field_150_padding;
-    __int16 field_152_padding;
-    __int16 field_154_unused;
-    __int16 field_156_unused;
-    int field_158_wheel_id;
-    int field_15C_unused;
+    s32 field_138_unused;
+    s16 field_13C_voice_pitch;
+    s16 field_13E_padding;
+    s32 field_140_last_event_index;
+    s32 field_144_padding;
+    s16 field_148_padding;
+    s16 field_14A_padding;
+    s16 field_14C_padding;
+    s16 field_14E_padding;
+    s16 field_150_padding;
+    s16 field_152_padding;
+    s16 field_154_unused;
+    s16 field_156_unused;
+    s32 field_158_wheel_id;
+    s32 field_15C_unused;
     MudSounds field_160_delayed_speak;
-    __int16 field_162_maxXOffset;
-    int field_164_ring_timeout;
+    s16 field_162_maxXOffset;
+    s32 field_164_ring_timeout;
     RingTypes field_168_ring_type;
 
     enum Flags_16A
@@ -550,27 +550,27 @@ private:
         eBit3_Unknown = 0x4,
     };
     BitField16<Flags_16C> field_16C_flags;
-    __int16 field_16E_padding;
-    __int16 field_170_padding;
-    __int16 field_172_padding;
-    __int16 field_174_padding;
-    __int16 field_176_padding;
-    __int16 field_178_sub_state2;
-    __int16 field_17A_rescue_id;
-    __int16 field_17C_stand_idle_timer;
+    s16 field_16E_padding;
+    s16 field_170_padding;
+    s16 field_172_padding;
+    s16 field_174_padding;
+    s16 field_176_padding;
+    s16 field_178_sub_state2;
+    s16 field_17A_rescue_id;
+    s16 field_17C_stand_idle_timer;
     MudAction field_17E_delayed_speak;
     Mud_Emotion field_180_emo_tbl;
     GameSpeakEvents field_182;
     Mud_Motion field_184_next_motion2;
-    __int16 field_186_padding;
+    s16 field_186_padding;
     const struct MudEmotionTableEntry* field_188_pTblEntry;
-    __int16 field_18C_unused;
+    s16 field_18C_unused;
 public:
     Mud_AI_State field_18E_ai_state;
 private:
-    __int16 field_190_sub_state;
-    __int16 field_192_return_to_previous_motion;
-    int field_194_timer;
-    int field_198_turning_wheel_timer;
+    s16 field_190_sub_state;
+    s16 field_192_return_to_previous_motion;
+    s32 field_194_timer;
+    s32 field_198_turning_wheel_timer;
 };
 ALIVE_ASSERT_SIZEOF(Mudokon, 0x19C);

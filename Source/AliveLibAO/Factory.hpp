@@ -9,26 +9,26 @@ class Map;
 
 struct TlvOffsetLevelIdPathId
 {
-    WORD tlvOffset;
-    BYTE levelId;
-    BYTE pathId;
+    u16 tlvOffset;
+    u8 levelId;
+    u8 pathId;
 };
 
 struct TlvOffsetCombinedLevelIdPathId
 {
-    WORD tlvOffset;
-    WORD levelIdPathId;
+    u16 tlvOffset;
+    u16 levelIdPathId;
 };
 
 union TlvItemInfoUnion
 {
-    DWORD all;
+    u32 all;
     TlvOffsetCombinedLevelIdPathId combined;
     TlvOffsetLevelIdPathId parts;
 };
 ALIVE_ASSERT_SIZEOF(TlvItemInfoUnion, 4);
 
-enum class LoadMode : __int16
+enum class LoadMode : s16
 {
     Mode_0 = 0,
     Mode_1 = 1,

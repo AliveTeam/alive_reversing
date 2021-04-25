@@ -80,7 +80,7 @@ namespace AO {
 template<size_t arraySize>
 struct CompileTimeResourceList
 {
-    int field_0_count = arraySize;
+    s32 field_0_count = arraySize;
     ResourceManager::ResourcesToLoadList_Entry field_4_items[arraySize];
 
     CompileTimeResourceList(std::initializer_list<ResourceManager::ResourcesToLoadList_Entry> elements)
@@ -295,7 +295,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
     }
     else
     {
-        for (int idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
+        for (s32 idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(idx);
             if (!pObjIter)
@@ -307,7 +307,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
             {
                 auto pLiftObj = static_cast<LiftPoint*>(pObjIter);
 
-                const short xpos_i = FP_GetExponent(pLiftObj->field_A8_xpos);
+                const s16 xpos_i = FP_GetExponent(pLiftObj->field_A8_xpos);
                 if (pTlv->field_10_top_left.field_0_x <= xpos_i
                     && xpos_i <= pTlv->field_14_bottom_right.field_0_x
                     && pLiftObj->field_B2_lvl_number == gMap_507BA8.field_0_current_level
@@ -340,7 +340,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
         else
         {
             Path_TLV* pTlvIter = nullptr;
-            short pointNumber = 1;
+            s16 pointNumber = 1;
             while (pointNumber < 8)
             {
                 pTlvIter = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(
@@ -429,10 +429,10 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 
         auto pDoveTlv = static_cast<Path_Dove*>(pTlv);
 
-        const short width = pDoveTlv->field_14_bottom_right.field_0_x - pDoveTlv->field_10_top_left.field_0_x;
-        const short height = pDoveTlv->field_14_bottom_right.field_2_y - pDoveTlv->field_10_top_left.field_2_y;
+        const s16 width = pDoveTlv->field_14_bottom_right.field_0_x - pDoveTlv->field_10_top_left.field_0_x;
+        const s16 height = pDoveTlv->field_14_bottom_right.field_2_y - pDoveTlv->field_10_top_left.field_2_y;
 
-        for (int i = 0; i < pDoveTlv->field_18_dove_count; i++)
+        for (s32 i = 0; i < pDoveTlv->field_18_dove_count; i++)
         {
             auto pDove = ao_new<Dove>();
             if (pDove)
@@ -441,7 +441,7 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
                     pDoveTlv->field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
             }
 
-            short ypos = 0;
+            s16 ypos = 0;
             if (pDoveTlv->field_1A_pixel_perfect == Choice_short::eYes_1)
             {
                 pDove->field_A8_xpos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x);
@@ -1626,7 +1626,7 @@ EXPORT void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
         pBound->field_0_flags.Clear(TLV_Flags::eBit1_Created);
         pBound->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
 
-        for (short camX_idx = -2; camX_idx < 3; camX_idx++)
+        for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
             Path_TLV* pTlvIter = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(camX_idx, 0);
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
@@ -2259,7 +2259,7 @@ EXPORT void Factory_MenuController_481AC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
 
 EXPORT void Factory_481FB0(Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
-    LOG_ERROR("lvl = " << static_cast<int>(pMap->field_0_current_level) << " path = " << pMap->field_2_current_path << " camera = " << pMap->field_4_current_camera);
+    LOG_ERROR("lvl = " << static_cast<s32>(pMap->field_0_current_level) << " path = " << pMap->field_2_current_path << " camera = " << pMap->field_4_current_camera);
     ALIVE_FATAL("Didn't expect Factory_481FB0 to ever be used, please post the log in #oddworld_dev on discord");
 }
 
@@ -2643,7 +2643,7 @@ EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 
         struct Path_RingCancel_Corrected : public Path_RingCancel
         {
-            __int16 field_18_bShrykull_remove;
+            s16 field_18_bShrykull_remove;
         };
 
         if (pTlv->field_2_length == sizeof(Path_RingCancel_Corrected))

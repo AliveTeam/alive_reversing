@@ -16,13 +16,13 @@ enum class Game
 };
 
 template<class TlvType>
-using FnTlvFactory = std::function<std::unique_ptr<TlvObjectBase>(class TypesCollection&, TlvType*, int)>;
+using FnTlvFactory = std::function<std::unique_ptr<TlvObjectBase>(class TypesCollection&, TlvType*, s32)>;
 
 template<typename TlvEnumType, typename PathTlvType>
 class TlvFactory
 {
 public:
-    std::unique_ptr<TlvObjectBase> MakeTlvByEnum(TypesCollection& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, int instanceCount)
+    std::unique_ptr<TlvObjectBase> MakeTlvByEnum(TypesCollection& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, s32 instanceCount)
     {
         auto it = mTlvFactory.find(tlvType);
         if (it == std::end(mTlvFactory))
@@ -58,7 +58,7 @@ public:
         TlvWrapperType tmp;
         tmp.AddTypes(constructingTypes);
         const TlvEnumType tlvType = tmp.TlvType();
-        auto fnCreate = [](TypesCollection& types, PathTlvType* pTlv, int instanceCount)
+        auto fnCreate = [](TypesCollection& types, PathTlvType* pTlv, s32 instanceCount)
         {
             auto ret = std::make_unique<TlvWrapperType>(types, pTlv);
             ret->SetInstanceNumber(instanceCount);
@@ -82,10 +82,10 @@ public:
 
     void AddTlvsToJsonArray(jsonxx::Array& array);
 
-    std::unique_ptr<TlvObjectBase> MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, int instanceCount);
+    std::unique_ptr<TlvObjectBase> MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, s32 instanceCount);
     std::unique_ptr<TlvObjectBase> MakeTlvAE(const std::string& tlvTypeName, Path_TLV* pTlv);
 
-    std::unique_ptr<TlvObjectBase> MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, int instanceCount);
+    std::unique_ptr<TlvObjectBase> MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, s32 instanceCount);
     std::unique_ptr<TlvObjectBase> MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv);
 
     jsonxx::Array EnumsToJson() const
@@ -195,7 +195,7 @@ public:
     }
 
     template<class T>
-    BasicType<T>* AddBasicType(const std::string& typeName, int minVal, int maxVal)
+    BasicType<T>* AddBasicType(const std::string& typeName, s32 minVal, s32 maxVal)
     {
         BasicType<T>* ret = nullptr;
         if (!TypeName<T>().empty())

@@ -25,7 +25,7 @@ public:
         switch (field_E4_state)
         {
         case BoomMachineStates::eAlreadyUsed_1:
-            if (static_cast<int>(gnFrameCount_507670) > field_E8_timer)
+            if (static_cast<s32>(gnFrameCount_507670) > field_E8_timer)
             {
                 SFX_Play_43AE60(SoundEffect::ZPop_5, 60, -1800, 0);
                 field_E4_state = BoomMachineStates::eInactive_0;
@@ -33,7 +33,7 @@ public:
             break;
 
         case BoomMachineStates::eDropGrenadeAnimation_2:
-            if (static_cast<int>(gnFrameCount_507670) > field_E8_timer)
+            if (static_cast<s32>(gnFrameCount_507670) > field_E8_timer)
             {
                 field_E4_state = BoomMachineStates::eDropGrenade_3;
                 field_10_anim.Set_Animation_Data_402A40(3588, 0);
@@ -90,7 +90,7 @@ public:
         // Empty
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         dtor_417D10();
         if (flags & 1)
@@ -100,12 +100,12 @@ public:
         return this;
     }
 
-    int field_D4_padding[4];
+    s32 field_D4_padding[4];
     BoomMachineStates field_E4_state;
-    __int16 field_E6_padding;
-    int field_E8_timer;
-    __int16 field_EC_num_grenades;
-    __int16 field_EE_pad;
+    s16 field_E6_padding;
+    s32 field_E8_timer;
+    s16 field_EC_num_grenades;
+    s16 field_EE_pad;
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0xF0);
 
@@ -194,14 +194,14 @@ BaseGameObject* BoomMachine::dtor_41E670()
     return dtor_417D10();
 }
 
-BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
+BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
 
     SetVTable(this, 0x4BB008);
     field_4_typeId = Types::eGrenadeMachine_41;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1buttonResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1buttonResID, 1, 0);
     Animation_Init_417FD0(1600, 26, 17, ppRes, 1);
 
     field_CC_bApplyShadows &= ~1u;
@@ -232,7 +232,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
         pNozzle->ctor_417C10();
         SetVTable(pNozzle, 0x4BAFD0);
 
-        BYTE** ppNozzleRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1bpipeResID, 1, 0);
+        u8** ppNozzleRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1bpipeResID, 1, 0);
         pNozzle->Animation_Init_417FD0(3616, 66, 36, ppNozzleRes, 1);
 
         pNozzle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -241,7 +241,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
         pNozzle->field_E4_state = BoomMachineStates::eInactive_0;
         pNozzle->field_A8_xpos = field_A8_xpos + (directedScale * FP_FromInteger(30));
         pNozzle->field_AC_ypos = field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-30));
-        pNozzle->field_EC_num_grenades = static_cast<short>(pTlv->field_1E_number_of_grenades);
+        pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->field_1E_number_of_grenades);
     }
 
     pNozzle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_nozzle_side & 1);
@@ -263,12 +263,12 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* BoomMachine::VDestructor(signed int flags)
+BaseGameObject* BoomMachine::VDestructor(s32 flags)
 {
     return Vdtor_41E850(flags);
 }
 
-BoomMachine* BoomMachine::Vdtor_41E850(signed int flags)
+BoomMachine* BoomMachine::Vdtor_41E850(s32 flags)
 {
     dtor_41E670();
     if (flags & 1)

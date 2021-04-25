@@ -6,7 +6,7 @@
 
 class LiftPoint;
 
-enum class LiftMoverStates : short
+enum class LiftMoverStates : s16
 {
     eInactive_0 = 0,
     eStartMovingDown_1 = 1,
@@ -18,51 +18,51 @@ enum class LiftMoverStates : short
 
 struct LiftMover_State
 {
-    __int16 field_0_type;
-    //__int16 field_2;
-    int field_4_tlvInfo;
+    s16 field_0_type;
+    //s16 field_2;
+    s32 field_4_tlvInfo;
     LiftMoverStates field_8_state;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
 
 struct Path_LiftMover : public Path_TLV
 {
-    __int16 field_10_switch_id;
-    __int16 field_12_lift_id;
-    enum class YDirection : __int16
+    s16 field_10_switch_id;
+    s16 field_12_lift_id;
+    enum class YDirection : s16
     {
         eDown_0 = 0,
         eUp_1 = 1,
     };
     YDirection field_14_direction;
-    __int16 field_16_pad;
+    s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);
 
 class LiftMover : public BaseGameObject
 {
 public:
-    EXPORT LiftMover* ctor_40CCD0(Path_LiftMover* pTlv, int tlvInfo);
-    EXPORT static int CC CreateFromSaveState_40D180(const BYTE* pData);
+    EXPORT LiftMover* ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo);
+    EXPORT static s32 CC CreateFromSaveState_40D180(const u8* pData);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
     EXPORT void vUpdate_40CE20();
     EXPORT void dtor_40CDA0();
-    EXPORT LiftMover* vdtor_40CD70(signed int flags);
-    EXPORT int vGetSaveState_40D240(LiftMover_State* pState);
+    EXPORT LiftMover* vdtor_40CD70(s32 flags);
+    EXPORT s32 vGetSaveState_40D240(LiftMover_State* pState);
     EXPORT LiftPoint* GetLiftPoint_40D0F0();
 
 private:
-    __int16 field_20_enabled_by_switch_id;
-    __int16 field_22_target_lift_point_id;
-    int field_24_tlvInfo;
-    int field_28_lift_id;
+    s16 field_20_enabled_by_switch_id;
+    s16 field_22_target_lift_point_id;
+    s32 field_24_tlvInfo;
+    s32 field_28_lift_id;
     FP field_2C_speed;
     LiftMoverStates field_30_state;
-    __int16 field_32_bMoveInProgress;
+    s16 field_32_bMoveInProgress;
 };
 ALIVE_ASSERT_SIZEOF(LiftMover, 0x34);

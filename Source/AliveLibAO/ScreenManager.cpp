@@ -26,9 +26,9 @@ void Camera::dtor_444700()
 {
     ResourceManager::FreeResource_455550(field_C_ppBits);
 
-    for (int i = 0; i < field_0_array.Size(); i++)
+    for (s32 i = 0; i < field_0_array.Size(); i++)
     {
-        BYTE** ppRes = field_0_array.ItemAt(i);
+        u8** ppRes = field_0_array.ItemAt(i);
         if (!ppRes)
         {
             break;
@@ -58,7 +58,7 @@ void ScreenManager::MoveImage_406C40()
     PSX_MoveImage_4961A0(&rect, 0, 0);
 }
 
-void ScreenManager::DecompressCameraToVRam_407110(unsigned __int16** ppBits)
+void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
 {
     PSX_RECT rect = {};
     rect.x = 0;
@@ -66,16 +66,16 @@ void ScreenManager::DecompressCameraToVRam_407110(unsigned __int16** ppBits)
     rect.w = 16;
     rect.h = 240;
 
-    BYTE** pRes = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
+    u8** pRes = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
     if (pRes)
     {
         // Doesn't do anything since the images are not MDEC compressed in PC
         //PSX_MDEC_rest_498C30(0);
 
-        unsigned __int16* pIter = *ppBits;
-        for (short xpos = 0; xpos < 640; xpos += 16)
+        u16* pIter = *ppBits;
+        for (s16 xpos = 0; xpos < 640; xpos += 16)
         {
-            const unsigned __int16 slice_len = *pIter;
+            const u16 slice_len = *pIter;
             pIter++; // Skip len
 
             // already in correct format - no need to convert
@@ -84,10 +84,10 @@ void ScreenManager::DecompressCameraToVRam_407110(unsigned __int16** ppBits)
             rect.x = field_20_upos + xpos;
             rect.y = field_22_vpos;
             // TODO: Actually 16bit but must be uploaded as 8bit ??
-            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<BYTE*>(pIter));
+            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<u8*>(pIter));
 
             // To next slice
-            pIter += (slice_len / sizeof(__int16));
+            pIter += (slice_len / sizeof(s16));
         }
         
         ResourceManager::FreeResource_455550(pRes);
@@ -99,12 +99,12 @@ void ScreenManager::DecompressCameraToVRam_407110(unsigned __int16** ppBits)
     }
 }
 
-void ScreenManager::InvalidateRect_406CC0(int x, int y, signed int width, signed int height)
+void ScreenManager::InvalidateRect_406CC0(s32 x, s32 y, s32 width, s32 height)
 {
     InvalidateRect_406E40(x, y, width, height, field_2E_idx);
 }
 
-ScreenManager* ScreenManager::ctor_406830(BYTE** ppBits, FP_Point* pCameraOffset)
+ScreenManager* ScreenManager::ctor_406830(u8** ppBits, FP_Point* pCameraOffset)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA230);
@@ -118,7 +118,7 @@ ScreenManager* ScreenManager::ctor_406830(BYTE** ppBits, FP_Point* pCameraOffset
     return this;
 }
 
-void ScreenManager::Init_4068A0(BYTE** ppBits)
+void ScreenManager::Init_4068A0(u8** ppBits)
 {
     field_36_flags |= 1;
 
@@ -132,13 +132,13 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
     field_26_cam_height = 240;
 
     Vram_alloc_explicit_4507F0(0, 272, 640, 512);
-    DecompressCameraToVRam_407110(reinterpret_cast<WORD**>(ppBits));
+    DecompressCameraToVRam_407110(reinterpret_cast<u16**>(ppBits));
 
     field_18_screen_sprites = &sSpriteTPageBuffer_4FC8A8[0];
 
-    short xpos = 0;
-    short ypos = 0;
-    for (int i = 0; i < 300; i++)
+    s16 xpos = 0;
+    s16 ypos = 0;
+    for (s32 i = 0; i < 300; i++)
     {
         SprtTPage* pItem = &field_18_screen_sprites[i];
         Sprt_Init(&pItem->mSprt);
@@ -148,15 +148,15 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
         pItem->mSprt.field_14_w = 32;
         pItem->mSprt.field_16_h = 16;
 
-        int u0 = field_20_upos + 32 * (i % 20);
-        int v0 = field_22_vpos + 16 * (i / 20);
-        int tpage = ScreenManager::GetTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, &u0, &v0);
+        s32 u0 = field_20_upos + 32 * (i % 20);
+        s32 v0 = field_22_vpos + 16 * (i / 20);
+        s32 tpage = ScreenManager::GetTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, &u0, &v0);
 
         tpage |= 0x8000;
 
         Init_SetTPage_495FB0(&pItem->mTPage, 0, 0, tpage);
       
-        SetUV0(&pItem->mSprt, static_cast<BYTE>(u0), static_cast<BYTE>(v0));
+        SetUV0(&pItem->mSprt, static_cast<u8>(u0), static_cast<u8>(v0));
 
         xpos += 32;
         if (xpos == 640)
@@ -166,7 +166,7 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
         }
     }
 
-    for (int i = 0; i < 6; i++)
+    for (s32 i = 0; i < 6; i++)
     {
         memset(&field_58_20x16_dirty_bits[i], 0, sizeof(field_58_20x16_dirty_bits[0]));
     }
@@ -177,7 +177,7 @@ void ScreenManager::Init_4068A0(BYTE** ppBits)
 }
 
 
-BaseGameObject* ScreenManager::VDestructor(signed int flags)
+BaseGameObject* ScreenManager::VDestructor(s32 flags)
 {
     return vdtor_407290(flags);
 }
@@ -187,7 +187,7 @@ void ScreenManager::UnsetDirtyBits_FG1_406EF0()
     memset(&field_58_20x16_dirty_bits[5], 0, sizeof(this->field_58_20x16_dirty_bits[5]));
 }
 
-void ScreenManager::InvalidateRect_406E40(int x, int y, signed int width, signed int height, int idx)
+void ScreenManager::InvalidateRect_406E40(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
     x = std::max(x, 0);
     y = std::max(y, 0);
@@ -195,22 +195,22 @@ void ScreenManager::InvalidateRect_406E40(int x, int y, signed int width, signed
     width = std::min(width, 639);
     height = std::min(height, 239);
 
-    for (int tileX = x / 32; tileX <= width / 32; tileX++)
+    for (s32 tileX = x / 32; tileX <= width / 32; tileX++)
     {
-        for (int tileY = y / 16; tileY <= height / 16; tileY++)
+        for (s32 tileY = y / 16; tileY <= height / 16; tileY++)
         {
             field_58_20x16_dirty_bits[idx].SetTile(tileX, tileY, true);
         }
     }
 }
 
-void ScreenManager::InvalidateRect_Layer3_406F20(int x, int y, int width, int height)
+void ScreenManager::InvalidateRect_Layer3_406F20(s32 x, s32 y, s32 width, s32 height)
 {
     InvalidateRect_406E40(x, y, width, height, 3);
 }
 
 
-void ScreenManager::InvalidateRect_406D80(int x, int y, signed int width, signed int height, int idx)
+void ScreenManager::InvalidateRect_406D80(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
     InvalidateRect_406E40(x, y, width, height, idx + 4);
 }
@@ -226,10 +226,10 @@ void ScreenManager::VUpdate()
 }
 
 
-int ScreenManager::GetTPage(TPageMode tp, TPageAbr abr, int* xpos, int* ypos)
+s32 ScreenManager::GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
 {
-    const short clampedYPos = *ypos & 0xFF00;
-    const short clampedXPos = *xpos & 0xFFC0;
+    const s16 clampedYPos = *ypos & 0xFF00;
+    const s16 clampedXPos = *xpos & 0xFFC0;
     *xpos -= clampedXPos;
     *ypos -= clampedYPos;
     return PSX_getTPage_4965D0(tp, abr, clampedXPos, clampedYPos);
@@ -258,12 +258,12 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
 
     PSX_DrawSync_496750(0);
 
-    for (int i = 0; i < 300; i++)
+    for (s32 i = 0; i < 300; i++)
     {
         SprtTPage* pSpriteTPage = &field_18_screen_sprites[i];
 
-        const int spriteX = pSpriteTPage->mSprt.mBase.vert.x;
-        const int spriteY = pSpriteTPage->mSprt.mBase.vert.y;
+        const s32 spriteX = pSpriteTPage->mSprt.mBase.vert.x;
+        const s32 spriteY = pSpriteTPage->mSprt.mBase.vert.y;
 
         Layer layer = Layer::eLayer_0;
         if (field_58_20x16_dirty_bits[4].GetTile(spriteX / 32, spriteY / 16))
@@ -305,7 +305,7 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
 
     sub_406FF0();
 
-    for (int i = 0; i < 20; i++)
+    for (s32 i = 0; i < 20; i++)
     {
         field_58_20x16_dirty_bits[field_32_x_idx].mData[i] |= field_58_20x16_dirty_bits[3].mData[i];
     }
@@ -328,7 +328,7 @@ void ScreenManager::sub_406FF0()
         sizeof(field_58_20x16_dirty_bits[field_2E_idx]));
 }
 
-ScreenManager* ScreenManager::vdtor_407290(signed int flags)
+ScreenManager* ScreenManager::vdtor_407290(s32 flags)
 {
     dtor_487DF0();
     if (flags & 1)

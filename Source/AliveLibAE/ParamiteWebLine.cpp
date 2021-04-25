@@ -10,7 +10,7 @@
 #include "ShadowZone.hpp"
 #include "Rope.hpp"
 
-ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tlvInfo)
+ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930( 0);
     SetVTable(&field_108_anim_flare, 0x544290);
@@ -18,7 +18,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
     field_4_typeId = AETypes::eWebLine_146;
     field_100_tlv_info = tlvInfo;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID);
     Animation_Init_424E10(148, 5, 16u, ppRes, 1, 1u);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
@@ -89,7 +89,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
 
     field_F4_anim_segment_count = (field_F6_piece_length + field_FA_bottom - field_F8_top) / field_F6_piece_length;
     field_FC_pRes = reinterpret_cast<AnimationUnknown*>(ae_malloc_non_zero_4954F0(sizeof(AnimationUnknown) * field_F4_anim_segment_count));
-    for (int i = 0; i < field_F4_anim_segment_count; i++)
+    for (s32 i = 0; i < field_F4_anim_segment_count; i++)
     {
         new (&field_FC_pRes[i]) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
         SetVTable(&field_FC_pRes[i], 0x5447CC);
@@ -105,7 +105,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
     field_104_wobble_idx = 0;
     field_106_wobble_pos = field_F8_top;
 
-    BYTE** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
+    u8** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
     if (field_108_anim_flare.Init_40A030(1632, gObjList_animations_5C1A24, this, 39, 21u, ppFlareRes, 1u, 0, 0))
     {
         field_108_anim_flare.field_8_r = 100;
@@ -130,9 +130,9 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
     return this;
 }
 
-void ParamiteWebLine::Wobble_4E29D0(short ypos)
+void ParamiteWebLine::Wobble_4E29D0(s16 ypos)
 {
-    short yPosToUse = ypos;
+    s16 yPosToUse = ypos;
     if (ypos < field_F8_top)
     {
         yPosToUse = field_F8_top;
@@ -160,12 +160,12 @@ void ParamiteWebLine::VScreenChanged()
     return vScreenChanged_4E2BC0();
 }
 
-BaseGameObject* ParamiteWebLine::VDestructor(signed int flags)
+BaseGameObject* ParamiteWebLine::VDestructor(s32 flags)
 {
     return vdtor_4E2460(flags);
 }
 
-PSX_RECT* ParamiteWebLine::vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx)
+PSX_RECT* ParamiteWebLine::vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx)
 {
     return vGetBoundingRect_4E2B40(pRect, pointIdx);
 }
@@ -175,7 +175,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
     vRender_4E2530(ppOt);
 }
 
-ParamiteWebLine* ParamiteWebLine::vdtor_4E2460(signed int flags)
+ParamiteWebLine* ParamiteWebLine::vdtor_4E2460(s32 flags)
 {
     dtor_4E2490();
     if (flags & 1)
@@ -213,7 +213,7 @@ void ParamiteWebLine::vUpdate_4E2A50()
         if (field_1A0_pulse_position >field_FA_bottom)
         {
             field_1A0_pulse_position = field_F8_top;
-            SFX_Play_46FA90(static_cast<char>(Math_RandomRange_496AB0(SoundEffect::WebDrop1_103, SoundEffect::WebDrop2_104)), Math_RandomRange_496AB0(40, 80));
+            SFX_Play_46FA90(static_cast<s8>(Math_RandomRange_496AB0(SoundEffect::WebDrop1_103, SoundEffect::WebDrop2_104)), Math_RandomRange_496AB0(40, 80));
             field_106_wobble_pos = field_F8_top;
             return;
         }
@@ -221,9 +221,9 @@ void ParamiteWebLine::vUpdate_4E2A50()
     field_106_wobble_pos = field_F8_top;
 }
 
-PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, int /*idx*/)
+PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, s32 /*idx*/)
 {
-    const short xpos = FP_GetExponent(field_B8_xpos);
+    const s16 xpos = FP_GetExponent(field_B8_xpos);
 
     pRect->x = xpos - 2;
     pRect->y = field_F8_top;
@@ -234,7 +234,7 @@ PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, int /*idx*/)
     return pRect;
 }
 
-const __int16 word_563A8C[10] = { 0, 1, -3, 2, -4, 4, -6, 4, 0, 0 };
+const s16 word_563A8C[10] = { 0, 1, -3, 2, -4, 4, -6, 4, 0, 0 };
 
 void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
 {
@@ -251,13 +251,13 @@ void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
 
     field_20_animation.vRender_40B820(640, 240, ppOt, 0, 0);
 
-    int idx = 0;
-    __int16 render_ypos = field_FA_bottom;
+    s32 idx = 0;
+    s16 render_ypos = field_FA_bottom;
     while (render_ypos > field_F8_top)
     {
-        short r = field_D0_r;
-        short g = field_D2_g;
-        short b = field_D4_b;
+        s16 r = field_D0_r;
+        s16 g = field_D2_g;
+        s16 b = field_D4_b;
 
         FP xVal = field_B8_xpos;
         if (field_104_wobble_idx != 0)
@@ -284,11 +284,11 @@ void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
             }
         }
 
-        const short render_xpos = FP_GetExponent(xVal);
+        const s16 render_xpos = FP_GetExponent(xVal);
         ShadowZone::ShadowZones_Calculate_Colour_463CE0(render_xpos, render_ypos, field_D6_scale, &r, &g, &b);
-        field_FC_pRes[idx].field_8_r = static_cast<BYTE>(r);
-        field_FC_pRes[idx].field_9_g = static_cast<BYTE>(g);
-        field_FC_pRes[idx].field_A_b = static_cast<BYTE>(b);
+        field_FC_pRes[idx].field_8_r = static_cast<u8>(r);
+        field_FC_pRes[idx].field_9_g = static_cast<u8>(g);
+        field_FC_pRes[idx].field_A_b = static_cast<u8>(b);
 
         field_FC_pRes[idx].vRender_40B820(
             FP_GetExponent(FP_FromInteger(render_xpos) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),

@@ -10,13 +10,13 @@ class BaseAliveGameObject;
 class PossessionFlicker : public BaseGameObject
 {
 public:
-    EXPORT PossessionFlicker* ctor_41A8C0(BaseAliveGameObject* pToApplyFlicker, int duration, __int16 r, __int16 g, __int16 b);
+    EXPORT PossessionFlicker* ctor_41A8C0(BaseAliveGameObject* pToApplyFlicker, s32 duration, s16 r, s16 g, s16 b);
 
     EXPORT BaseGameObject* dtor_41A940();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT PossessionFlicker* vdtor_41AA70(signed int flags);
+    EXPORT PossessionFlicker* vdtor_41AA70(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -27,15 +27,15 @@ public:
     EXPORT void VUpdate_41A9B0();
 
     BaseAliveGameObject* field_10_pObj;
-    int field_14_time_to_flicker;
+    s32 field_14_time_to_flicker;
 
-    __int16 field_18_r;
-    __int16 field_1A_g;
-    __int16 field_1C_b;
+    s16 field_18_r;
+    s16 field_1A_g;
+    s16 field_1C_b;
 
-    __int16 field_1E_old_r;
-    __int16 field_20_old_g;
-    __int16 field_22_old_b;
+    s16 field_1E_old_r;
+    s16 field_20_old_g;
+    s16 field_22_old_b;
 };
 ALIVE_ASSERT_SIZEOF(PossessionFlicker, 0x24);
 

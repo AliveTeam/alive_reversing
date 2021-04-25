@@ -13,12 +13,12 @@
 class GrenadeMachineNozzle : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT GrenadeMachineNozzle* ctor_4456F0(FP xpos, FP ypos, FP scale, __int16 numGrenades)
+    EXPORT GrenadeMachineNozzle* ctor_4456F0(FP xpos, FP ypos, FP scale, s16 numGrenades)
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
         SetVTable(this, 0x54557C);
         const AnimRecord& rec = AnimRec(AnimId::Grenade_Machine_Nozzle);
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -54,7 +54,7 @@ public:
         }
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return vdtor_4457D0(flags);
     }
@@ -65,7 +65,7 @@ public:
     }
 
 private:
-    GrenadeMachineNozzle* vdtor_4457D0(signed int flags)
+    GrenadeMachineNozzle* vdtor_4457D0(s32 flags)
     {
         BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
         if (flags & 1)
@@ -83,7 +83,7 @@ private:
             LOG_WARNING("BoomMachine field_F4_state is eInactive. We're not sure if this should happen.");
             break;
         case BoomMachineStates::eAlreadyUsed_1:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_F8_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
             {
                 SFX_Play_46FBA0(SoundEffect::ZPop_4, 60, -1800);
                 field_F4_state = BoomMachineStates::eInactive_0;
@@ -91,7 +91,7 @@ private:
             break;
 
         case BoomMachineStates::eDropGrenadeAnimation_2:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_F8_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
             {
                 field_F4_state = BoomMachineStates::eDropGrenade_3;
                 const AnimRecord& animRec = AnimRec(AnimId::Grenade_Machine_Nozzle_Drop_Grenade);
@@ -149,14 +149,14 @@ private:
 
 private:
     BoomMachineStates field_F4_state;
-    __int16 field_F6_pad;
-    int field_F8_timer;
-    __int16 field_FC_numGrenades;
-    __int16 field_FE_pad;
+    s16 field_F6_pad;
+    s32 field_F8_timer;
+    s16 field_FC_numGrenades;
+    s16 field_FE_pad;
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0x100);
 
-BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo)
+BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -164,7 +164,7 @@ BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo)
     field_4_typeId = AETypes::eGrenadeMachine_66;
 
     const AnimRecord& rec = AnimRec(AnimId::Grenade_Machine_Button_Off);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_DC_bApplyShadows &= ~1u;
@@ -209,7 +209,7 @@ BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* BoomMachine::VDestructor(signed int flags)
+BaseGameObject* BoomMachine::VDestructor(s32 flags)
 {
     return vdtor_445E10(flags);
 }
@@ -306,7 +306,7 @@ void BoomMachine::dtor_445E40()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-BoomMachine* BoomMachine::vdtor_445E10(signed int flags)
+BoomMachine* BoomMachine::vdtor_445E10(s32 flags)
 {
     dtor_445E40();
     if (flags & 1)

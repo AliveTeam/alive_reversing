@@ -11,7 +11,7 @@ struct PrimHeader;
 namespace AO {
 
 
-enum class Types : __int16
+enum class Types : s16
 {
     eNone_0 = 0,
     eAlarm_1 = 1,
@@ -132,10 +132,10 @@ public:
         eCantKill_Bit11 = 0x400
     };
 
-    EXPORT BaseGameObject* ctor_487E10(__int16 arraySize);
+    EXPORT BaseGameObject* ctor_487E10(s16 arraySize);
     EXPORT BaseGameObject* dtor_487DF0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) = 0;
+    virtual BaseGameObject* VDestructor(s32 flags) = 0;
 
     virtual void VUpdate()
     {
@@ -165,10 +165,10 @@ public:
 
     Types field_4_typeId;
     BitField16<Options> field_6_flags;
-    int field_8_update_delay;
-    char field_C_refCount;
-    char field_D; // pad ?
-    __int16 field_E; // ??
+    s32 field_8_update_delay;
+    s8 field_C_refCount;
+    s8 field_D; // pad ?
+    s16 field_E; // ??
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 

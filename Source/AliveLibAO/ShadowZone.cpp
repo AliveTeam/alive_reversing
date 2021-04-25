@@ -9,7 +9,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B08, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_507B08, nullptr);
 
-ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, int tlvInfo)
+ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BB728);
@@ -49,9 +49,9 @@ ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, int tl
     return this;
 }
 
-void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(int xpos, int ypos, __int16 scale, short* r, short* g, short* b)
+void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
 {
-    for (int idx = 0; idx < sShadowZone_dArray_507B08->Size(); idx++)
+    for (s32 idx = 0; idx < sShadowZone_dArray_507B08->Size(); idx++)
     {
         ShadowZone* pShadow = sShadowZone_dArray_507B08->ItemAt(idx);
         if (!pShadow)
@@ -64,7 +64,7 @@ void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(int xpos, int ypos, __in
              FP amount = {};
              
              // TODO: This was probably a reference, refactor later
-             pShadow->GetColourAmount_435E40(&amount, static_cast<short>(xpos), static_cast<short>(ypos));
+             pShadow->GetColourAmount_435E40(&amount, static_cast<s16>(xpos), static_cast<s16>(ypos));
 
             *r = FP_GetExponent(FP_FromInteger(*r) + (pShadow->field_28_r * amount));
             *b = FP_GetExponent(FP_FromInteger(*b) + (pShadow->field_30_b * amount));
@@ -110,7 +110,7 @@ void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(int xpos, int ypos, __in
     }
 }
 
-__int16 ShadowZone::ApplysToScale(__int16 scale)
+s16 ShadowZone::ApplysToScale(s16 scale)
 {
     if (field_26_scale == ShadowZoneScale::eBoth_0)
     {
@@ -135,12 +135,12 @@ BaseGameObject* ShadowZone::dtor_435F10()
     return dtor_487DF0();
 }
 
-BaseGameObject* ShadowZone::VDestructor(signed int flags)
+BaseGameObject* ShadowZone::VDestructor(s32 flags)
 {
     return Vdtor_436180(flags);
 }
 
-ShadowZone* ShadowZone::Vdtor_436180(signed int flags)
+ShadowZone* ShadowZone::Vdtor_436180(s32 flags)
 {
     dtor_435F10();
     if (flags & 1)
@@ -173,10 +173,10 @@ void ShadowZone::VScreenChanged_435FE0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-void ShadowZone::GetColourAmount_435E40(FP* pOut, __int16 xpos, __int16 ypos)
+void ShadowZone::GetColourAmount_435E40(FP* pOut, s16 xpos, s16 ypos)
 {
-    const int deltaX = abs(xpos - field_18_centre_x);
-    const int deltaY = abs(ypos - field_1A_centre_y);
+    const s32 deltaX = abs(xpos - field_18_centre_x);
+    const s32 deltaY = abs(ypos - field_1A_centre_y);
 
     if (deltaX > field_20_mid_x || deltaY > field_22_mid_y)
     {

@@ -21,20 +21,20 @@ inline std::string ToString(const LvlFileRecord& rec)
 class LvlFileChunk
 {
 public:
-    LvlFileChunk(DWORD id, ResourceManager::ResourceType resType, const std::vector<BYTE>& data)
+    LvlFileChunk(u32 id, ResourceManager::ResourceType resType, const std::vector<u8>& data)
         : mData(data)
     {
-        mHeader.field_0_size = static_cast<DWORD>(data.size());
+        mHeader.field_0_size = static_cast<u32>(data.size());
         mHeader.field_C_id = id;
         mHeader.field_8_type = resType;
     }
 
-    DWORD Id() const
+    u32 Id() const
     {
         return mHeader.field_C_id;
     }
 
-    DWORD Size() const
+    u32 Size() const
     {
         return mHeader.field_0_size;
     }
@@ -44,25 +44,25 @@ public:
         return mHeader;
     }
 
-    const std::vector<BYTE>& Data() const
+    const std::vector<u8>& Data() const
     {
         return mData;
     }
 
 private:
     ResourceManager::Header mHeader = {};
-    std::vector<BYTE> mData;
+    std::vector<u8> mData;
 };
 
 class ChunkedLvlFile
 {
 public:
-    explicit ChunkedLvlFile(const std::vector<BYTE>& data)
+    explicit ChunkedLvlFile(const std::vector<u8>& data)
     {
         Read(data);
     }
 
-    std::optional<LvlFileChunk> ChunkById(DWORD id) const
+    std::optional<LvlFileChunk> ChunkById(u32 id) const
     {
         for (auto& chunk : mChunks)
         {
@@ -87,7 +87,7 @@ public:
         mChunks.push_back(chunkToAdd);
     }
 
-    std::vector<BYTE> Data() const
+    std::vector<u8> Data() const
     {
         std::size_t neededSize = 0;
         for (auto& chunk : mChunks)
@@ -121,7 +121,7 @@ public:
     }
 
 private:
-    void Read(const std::vector<BYTE>& data)
+    void Read(const std::vector<u8>& data)
     {
         ByteStream s(data);
         do
@@ -133,7 +133,7 @@ private:
             s.Read(resHeader.field_8_type);
             s.Read(resHeader.field_C_id);
 
-            std::vector<BYTE> tmpData(resHeader.field_0_size);
+            std::vector<u8> tmpData(resHeader.field_0_size);
             if (resHeader.field_0_size > 0)
             {
                 tmpData.resize(tmpData.size() - sizeof(ResourceManager::Header));
@@ -157,7 +157,7 @@ private:
 class LvlReader
 {
 public:
-    explicit LvlReader(const char* lvlFile)
+    explicit LvlReader(const s8* lvlFile)
     {
         mFileHandle = ::fopen(lvlFile, "rb");
         if (mFileHandle)
@@ -185,7 +185,7 @@ public:
         Close();
     }
 
-    std::optional<std::vector<BYTE>> ReadFile(const char* fileName)
+    std::optional<std::vector<u8>> ReadFile(const s8* fileName)
     {
         if (!IsOpen())
         {
@@ -202,7 +202,7 @@ public:
                     return {};
                 }
 
-                std::vector<BYTE> ret(rec.field_14_file_size);
+                std::vector<u8> ret(rec.field_14_file_size);
                 if (::fread(ret.data(), 1, ret.size(), mFileHandle) != ret.size())
                 {
                     return {};
@@ -214,17 +214,17 @@ public:
         return {};
     }
 
-    int FileCount() const
+    s32 FileCount() const
     {
         return mHeader.field_10_sub.field_0_num_files;
     }
 
-    std::string FileNameAt(int idx) const
+    std::string FileNameAt(s32 idx) const
     {
         return ToString(mFileRecords[idx]);
     }
 
-    int FileSizeAt(int idx) const
+    s32 FileSizeAt(s32 idx) const
     {
         return mFileRecords[idx].field_14_file_size;
     }
@@ -281,7 +281,7 @@ inline T RoundUp(T offset)
 class LvlWriter
 {
 public:
-    explicit LvlWriter(const char* lvlFile)
+    explicit LvlWriter(const s8* lvlFile)
         : mReader(lvlFile)
     {
 
@@ -294,7 +294,7 @@ public:
 
     bool IsOpen() const { return mReader.IsOpen(); }
 
-    std::optional<std::vector<BYTE>> ReadFile(const char* fileName)
+    std::optional<std::vector<u8>> ReadFile(const s8* fileName)
     {
         // Return added/edited file first
         auto rec = GetNewOrEditedFileRecord(fileName);
@@ -305,12 +305,12 @@ public:
         return mReader.ReadFile(fileName);
     }
 
-    void AddFile(const char* fileNameInLvl, const std::vector<BYTE>& data)
+    void AddFile(const s8* fileNameInLvl, const std::vector<u8>& data)
     {
         if (mReader.IsOpen())
         {
             bool isEditingAFile = false;
-            for (int i = 0; i < mReader.FileCount(); i++)
+            for (s32 i = 0; i < mReader.FileCount(); i++)
             {
                 const auto fileName = mReader.FileNameAt(i);
                 if (fileName == fileNameInLvl)
@@ -333,14 +333,14 @@ public:
         }
     }
 
-    bool Save(const char* lvlName = nullptr)
+    bool Save(const s8* lvlName = nullptr)
     {
         if (mNewOrEditedFiles.empty())
         {
             return true;
         }
 
-        int newFilesCount = 0;
+        s32 newFilesCount = 0;
         for (const auto& rec : mNewOrEditedFiles)
         {
             if (!rec.mEditOfExistingFile)
@@ -354,9 +354,9 @@ public:
         newHeader.field_4_ref_count = 0;
         newHeader.field_8_magic = 0x78646e49; // Idx
         newHeader.field_C_id = 0;
-        newHeader.field_10_sub.field_0_num_files = static_cast<int>(fileRecs.size());
+        newHeader.field_10_sub.field_0_num_files = static_cast<s32>(fileRecs.size());
 
-        int totalFileOffset = static_cast<int>(RoundUp((newHeader.field_10_sub.field_0_num_files * sizeof(LvlFileRecord)) + (sizeof(LvlHeader) - sizeof(LvlFileRecord))));
+        s32 totalFileOffset = static_cast<s32>(RoundUp((newHeader.field_10_sub.field_0_num_files * sizeof(LvlFileRecord)) + (sizeof(LvlHeader) - sizeof(LvlFileRecord))));
         newHeader.field_10_sub.field_4_header_size_in_sectors = newHeader.field_0_first_file_offset / 2048;
         if (newHeader.field_10_sub.field_4_header_size_in_sectors < 5)
         {
@@ -366,7 +366,7 @@ public:
         totalFileOffset = newHeader.field_0_first_file_offset;
 
         // Add existing LVL file records
-        int i = 0;
+        s32 i = 0;
         for (i = 0; i < mReader.FileCount(); i++)
         {
             const auto fileName = mReader.FileNameAt(i);
@@ -374,7 +374,7 @@ public:
             auto rec = GetNewOrEditedFileRecord(fileName.c_str());
             if (rec)
             {
-                fileRecs[i].field_14_file_size = static_cast<int>(rec->mFileData.size());
+                fileRecs[i].field_14_file_size = static_cast<s32>(rec->mFileData.size());
             }
             else
             {
@@ -394,7 +394,7 @@ public:
             if (!rec.mEditOfExistingFile)
             {
                 memcpy(fileRecs[i].field_0_file_name, rec.mFileNameInLvl.c_str(), ALIVE_COUNTOF(LvlFileRecord::field_0_file_name));
-                fileRecs[i].field_14_file_size = static_cast<int>(rec.mFileData.size());
+                fileRecs[i].field_14_file_size = static_cast<s32>(rec.mFileData.size());
                 i++;
             }
         }
@@ -427,7 +427,7 @@ public:
             }
             else
             {
-                std::optional<std::vector<BYTE>> data = mReader.ReadFile(fileName.c_str());
+                std::optional<std::vector<u8>> data = mReader.ReadFile(fileName.c_str());
                 if (!data)
                 {
                     abort();
@@ -438,7 +438,7 @@ public:
         }
 
         // Ensure termination padding to a multiple of the sector size exists at EOF
-        const long int pos = ::ftell(outFile);
+        const auto pos = ::ftell(outFile);
         if (pos == -1)
         {
             abort();
@@ -447,8 +447,8 @@ public:
         if (pos+1 != RoundUp(pos))
         {
             ::fseek(outFile, RoundUp(pos)-1, SEEK_SET);
-            BYTE emptyByte = 0;
-            ::fwrite(&emptyByte, sizeof(BYTE), 1, outFile);
+            u8 emptyByte = 0;
+            ::fwrite(&emptyByte, sizeof(u8), 1, outFile);
         }
 
         ::fclose(outFile);
@@ -459,11 +459,11 @@ private:
     struct NewOrEditedFileRecord
     {
         std::string mFileNameInLvl;
-        std::vector<BYTE> mFileData;
+        std::vector<u8> mFileData;
         bool mEditOfExistingFile;
     };
 
-    NewOrEditedFileRecord* GetNewOrEditedFileRecord(const char* fileName)
+    NewOrEditedFileRecord* GetNewOrEditedFileRecord(const s8* fileName)
     {
         for (auto& rec : mNewOrEditedFiles)
         {

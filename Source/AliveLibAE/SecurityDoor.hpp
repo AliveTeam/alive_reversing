@@ -7,15 +7,15 @@
 struct Path_SecurityDoor : public Path_TLV
 {
     Scale_short field_10_scale;
-    __int16 field_12_id;
-    __int16 field_14_code_1;
-    __int16 field_16_code_2;
-    __int16 field_18_xpos;
-    __int16 field_1A_ypos;
+    s16 field_12_id;
+    s16 field_14_code_1;
+    s16 field_16_code_2;
+    s16 field_18_xpos;
+    s16 field_1A_ypos;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityDoor, 0x1C);
 
-enum class SecurityDoorStates : __int16
+enum class SecurityDoorStates : s16
 {
     eInactive_0 = 0,
     eSuccessChime_1 = 1,
@@ -35,41 +35,41 @@ enum class SecurityDoorStates : __int16
 class SecurityDoor : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT SecurityDoor* ctor_4ABFC0(Path_SecurityDoor* pTlv, int tlvInfo);
+    EXPORT SecurityDoor* ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo);
 
     virtual void VScreenChanged() override;
 
     virtual void VUpdate() override;
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
 private:
     EXPORT void dtor_4AC260();
 
     EXPORT void vScreenChanged_4AC970();
 
-    EXPORT SecurityDoor* vdtor_4AC230(signed int flags);
+    EXPORT SecurityDoor* vdtor_4AC230(s32 flags);
 
-    EXPORT __int16 IsPlayerNear_4AC300();
+    EXPORT s16 IsPlayerNear_4AC300();
 
     EXPORT void vUpdate_4AC380();
 
 
 private:
-    int field_F4_tlvInfo;
+    s32 field_F4_tlvInfo;
     SecurityDoorStates field_F8_state;
-    __int16 field_FA_id;
-    int field_FC_code_converted;
-    __int16 field_100_code_len;
-    __int16 field_102_padding;
-    int field_104_event_idx;
-    BYTE field_108_stru[16];
-    __int16 field_118_max_idx;
-    __int16 field_11A_event_idx;
+    s16 field_FA_id;
+    s32 field_FC_code_converted;
+    s16 field_100_code_len;
+    s16 field_102_padding;
+    s32 field_104_event_idx;
+    u8 field_108_stru[16];
+    s16 field_118_max_idx;
+    s16 field_11A_event_idx;
     PSX_Point field_11C_top_left;
     PSX_Point field_120_bottom_right;
-    int field_124_timer;
-    __int16 field_128_max_idx;
-    __int16 field_12A_unused; // Gets set to 1 in vUpdate, but isn't used anywhere else. -- Nemin (6/7/2020)
+    s32 field_124_timer;
+    s16 field_128_max_idx;
+    s16 field_12A_unused; // Gets set to 1 in vUpdate, but isn't used anywhere else. -- Nemin (6/7/2020)
 };
 ALIVE_ASSERT_SIZEOF(SecurityDoor, 0x12C);

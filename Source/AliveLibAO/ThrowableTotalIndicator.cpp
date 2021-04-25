@@ -12,14 +12,14 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x504C70, WORD, bThrowableIndicatorExists_504C70, 0);
+ALIVE_VAR(1, 0x504C70, u16, bThrowableIndicatorExists_504C70, 0);
 
 void ThrowableTotalIndicator::VScreenChanged()
 {
     VScreenChanged_41BB70();
 }
 
-BaseGameObject* ThrowableTotalIndicator::Vdtor_41BB80(signed int flags)
+BaseGameObject* ThrowableTotalIndicator::Vdtor_41BB80(s32 flags)
 {
     dtor_41B610();
     if (flags & 1)
@@ -29,7 +29,7 @@ BaseGameObject* ThrowableTotalIndicator::Vdtor_41BB80(signed int flags)
     return this;
 }
 
-BaseGameObject* ThrowableTotalIndicator::VDestructor(signed int flags)
+BaseGameObject* ThrowableTotalIndicator::VDestructor(s32 flags)
 {
     return Vdtor_41BB80(flags);
 }
@@ -77,10 +77,10 @@ void ThrowableTotalIndicator::VUpdate_41B690()
     {
     case ThrowableTotalIndicatorState::eCreated_0:
     {
-        field_18_cur_xpos = field_10_xpos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<BYTE>(2 * gnFrameCount_507670)));
-        field_1C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<BYTE>(2 * gnFrameCount_507670))) + field_14_ypos;
+        field_18_cur_xpos = field_10_xpos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<u8>(2 * gnFrameCount_507670)));
+        field_1C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<u8>(2 * gnFrameCount_507670))) + field_14_ypos;
 
-        const short rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<BYTE>(3 * gnFrameCount_507670))) + 80;
+        const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<u8>(3 * gnFrameCount_507670))) + 80;
 
         field_32_r = rgb;
         field_34_g = rgb;
@@ -130,7 +130,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
     VRender_41B810(ppOt);
 }
 
-const __int16 kNum_0[17] =
+const s16 kNum_0[17] =
 {
     4,
     -3, -4, 3, -4,
@@ -139,13 +139,13 @@ const __int16 kNum_0[17] =
     -3, 3, -3, -3
 };
 
-const __int16 kNum_1[5] =
+const s16 kNum_1[5] =
 {
     1,
     2, -4, 2, 4
 };
 
-const __int16 kNum_2[21] =
+const s16 kNum_2[21] =
 {
     5,
     -5, -4, 5, -4,
@@ -155,7 +155,7 @@ const __int16 kNum_2[21] =
     -5, 4, 5, 4
 };
 
-const __int16 kNum_3[17] =
+const s16 kNum_3[17] =
 {
     4,
     -5, -4, 5, -4,
@@ -164,7 +164,7 @@ const __int16 kNum_3[17] =
     -4, 0, 4, 0,
 };
 
-const __int16 kNum_4[13] =
+const s16 kNum_4[13] =
 {
     3,
     -5, -4, -5, -1,
@@ -172,7 +172,7 @@ const __int16 kNum_4[13] =
     5, -4, 5, 4
 };
 
-const __int16 kNum_5[21] =
+const s16 kNum_5[21] =
 {
     5,
     5, -4, -5, -4,
@@ -182,7 +182,7 @@ const __int16 kNum_5[21] =
     5, 4, -5, 4
 };
 
-const __int16 kNum_6[21] =
+const s16 kNum_6[21] =
 {
     5,
     5, -4, -5, -4, -5,
@@ -191,14 +191,14 @@ const __int16 kNum_6[21] =
     1, 5, 0, -4, 0
 };
 
-const __int16 kNum_7[9] =
+const s16 kNum_7[9] =
 {
     2,
     -5, -4, 5, -4,
     5, -3, 0, 4
 };
 
-const __int16 kNum_8[21] =
+const s16 kNum_8[21] =
 {
     5,
     -5, -4, 5, -4,
@@ -208,7 +208,7 @@ const __int16 kNum_8[21] =
     -4, 0, 4, 0
 };
 
-const __int16 kNum_9[17] =
+const s16 kNum_9[17] =
 {
     4,
     5, 4, 5, -3,
@@ -217,7 +217,7 @@ const __int16 kNum_9[17] =
     -5, 0, 4, 0
 };
 
-const __int16 kInfinity[25] =
+const s16 kInfinity[25] =
 {
     6,
     -3, -2, -5, 0,
@@ -228,7 +228,7 @@ const __int16 kInfinity[25] =
     2, 3, -2, -2
 };
 
-const __int16 kCheckpoint[36] =
+const s16 kCheckpoint[36] =
 {
     8, 0, -6, 1,
     -6,
@@ -265,7 +265,7 @@ const __int16 kCheckpoint[36] =
     0
 };
 
-const __int16 *kNumbersArray_4C56A8[12] =
+const s16 *kNumbersArray_4C56A8[12] =
 {
     kNum_0,
     kNum_1,
@@ -292,10 +292,10 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
     const FP camX = FP_FromInteger(FP_GetExponent(camPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)));
     const FP camY = FP_FromInteger(FP_GetExponent(camPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)));
 
-    short xpos = 0;
-    short ypos = 0;
+    s16 xpos = 0;
+    s16 ypos = 0;
 
-    for (short counter = 0; counter < kNumbersArray_4C56A8[field_38_num_to_show][0]; counter++)
+    for (s16 counter = 0; counter < kNumbersArray_4C56A8[field_38_num_to_show][0]; counter++)
     {
         xpos = FP_GetExponent(field_18_cur_xpos - camX);
         ypos = FP_GetExponent(field_1C_cur_ypos - camY);
@@ -305,8 +305,8 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
         const FP x1 = FP_FromInteger(kNumbersArray_4C56A8[field_38_num_to_show][(4 * counter) + 3]) * field_28_scale;
         const FP y1 = FP_FromInteger(kNumbersArray_4C56A8[field_38_num_to_show][(4 * counter) + 4]) * field_28_scale;
 
-        short primBaseX = 0;
-        short primVertX = 0;
+        s16 primBaseX = 0;
+        s16 primVertX = 0;
         if (field_38_num_to_show == 11)
         {
             primBaseX = PsxToPCX(xpos);
@@ -324,9 +324,9 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
         SetXY0(pLine, primBaseX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
         SetXY1(pLine, primVertX + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
         SetRGB0(pLine,
-            static_cast<BYTE>(field_32_r),
-            static_cast<BYTE>(field_34_g),
-            static_cast<BYTE>(field_36_b)
+            static_cast<u8>(field_32_r),
+            static_cast<u8>(field_34_g),
+            static_cast<u8>(field_36_b)
         );
         Poly_Set_SemiTrans_498A40(&pLine->mBase.header, 1);
         OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &pLine->mBase.header);
@@ -344,7 +344,7 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
     );
 }
 
-ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, Layer layer, FP /*scale*/, __int16 count, __int16 bFade)
+ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, Layer layer, FP /*scale*/, s16 count, s16 bFade)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BAED8);

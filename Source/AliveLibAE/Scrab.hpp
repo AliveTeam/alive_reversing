@@ -47,12 +47,12 @@
     ENTRY(M_DeathBegin_39_4AA190)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eScrabMotions : int
+enum eScrabMotions : s32
 {
     SCRAB_MOTIONS_ENUM(MAKE_ENUM)
 };
 
-enum class ScrabSounds : unsigned __int8
+enum class ScrabSounds : u8
 {
     eHowl_0 = 0,
     eDeathHowl_1 = 1,
@@ -65,7 +65,7 @@ enum class ScrabSounds : unsigned __int8
     eYell_8 = 8,
 };
 
-enum class ScrabSpawnDirection : __int16
+enum class ScrabSpawnDirection : s16
 {
     eNone_0 = 0,
     eLeft_1 = 1,
@@ -75,87 +75,87 @@ enum class ScrabSpawnDirection : __int16
 struct Path_Scrab : public Path_TLV
 {
     Scale_short field_10_scale;
-    __int16 field_12_attack_delay;
-    __int16 field_14_patrol_type_run_or_walk_chance;
-    __int16 field_16_left_min_delay;
-    __int16 field_18_left_max_delay;
-    __int16 field_1A_right_min_delay;
-    __int16 field_1C_right_max_delay;
-    unsigned __int16 field_1E_spotting_abe_delay;
-    __int16 field_20_disabled_resources;
+    s16 field_12_attack_delay;
+    s16 field_14_patrol_type_run_or_walk_chance;
+    s16 field_16_left_min_delay;
+    s16 field_18_left_max_delay;
+    s16 field_1A_right_min_delay;
+    s16 field_1C_right_max_delay;
+    u16 field_1E_spotting_abe_delay;
+    s16 field_20_disabled_resources;
     Choice_short field_22_roar_randomly;
     Choice_short field_24_persistant;
-    __int16 field_26_whirl_attack_duration;
-    __int16 field_28_unused;
+    s16 field_26_whirl_attack_duration;
+    s16 field_28_unused;
     Choice_short field_2A_bKill_enemy;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab, 0x2C);
 
-enum class LevelIds : __int16;
-enum class GameSpeakEvents : __int16;
+enum class LevelIds : s16;
+enum class GameSpeakEvents : s16;
 
 struct Scrab_State
 {
     AETypes field_0_type;
-    __int16 field_2_padding;
-    int field_4_obj_id;
+    s16 field_2_padding;
+    s32 field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
     FP field_14_vely;
-    __int16 field_18_path_number;
+    s16 field_18_path_number;
     LevelIds field_1A_lvl_number;
     FP field_1C_sprite_scale;
-    __int16 field_20_r;
-    __int16 field_22_g;
-    __int16 field_24_b;
-    __int16 field_26_bAnimFlipX;
-    __int16 field_28_current_motion;
-    __int16 field_2A_current_frame;
-    __int16 field_2C_frame_change_counter;
-    char field_2E_bAnimRender;
-    char field_2F_bDrawable;
+    s16 field_20_r;
+    s16 field_22_g;
+    s16 field_24_b;
+    s16 field_26_bAnimFlipX;
+    s16 field_28_current_motion;
+    s16 field_2A_current_frame;
+    s16 field_2C_frame_change_counter;
+    s8 field_2E_bAnimRender;
+    s8 field_2F_bDrawable;
     FP field_30_health;
-    __int16 field_34_current_motion;
-    __int16 field_36_next_motion;
-    __int16 field_38_last_line_ypos;
-    __int16 field_3A_line_type;
-    __int16 field_3C_padding;
-    __int16 field_3E_padding;
-    char field_40_bIsControlled;
-    char field_41_padding;
-    __int16 field_42_padding;
-    int field_44_tlvInfo;
-    int field_48_ai_idx;
-    __int16 field_4C_padding;
-    __int16 field_4E_padding;
-    __int16 field_50_sub_state;
-    __int16 field_52_padding;
-    int field_54_obj_id;
-    int field_58_target_obj_id;
-    int field_5C_timer;
-    int field_60_depossession_timer;
+    s16 field_34_current_motion;
+    s16 field_36_next_motion;
+    s16 field_38_last_line_ypos;
+    s16 field_3A_line_type;
+    s16 field_3C_padding;
+    s16 field_3E_padding;
+    s8 field_40_bIsControlled;
+    s8 field_41_padding;
+    s16 field_42_padding;
+    s32 field_44_tlvInfo;
+    s32 field_48_ai_idx;
+    s16 field_4C_padding;
+    s16 field_4E_padding;
+    s16 field_50_sub_state;
+    s16 field_52_padding;
+    s32 field_54_obj_id;
+    s32 field_58_target_obj_id;
+    s32 field_5C_timer;
+    s32 field_60_depossession_timer;
     FP field_64_falling_velx_scale_factor;
-    __int16 field_68_motion_resource_block_index;
-    __int16 field_6A_padding;
-    int field_6C_spotting_abe_timer;
-    int field_70_attack_delay_timer;
-    int field_74_movement_timer;
-    int field_78_sfx_bitmask;
-    __int16 field_7C_prevent_depossession;
+    s16 field_68_motion_resource_block_index;
+    s16 field_6A_padding;
+    s32 field_6C_spotting_abe_timer;
+    s32 field_70_attack_delay_timer;
+    s32 field_74_movement_timer;
+    s32 field_78_sfx_bitmask;
+    s16 field_7C_prevent_depossession;
     LevelIds field_7E_level;
-    __int16 field_80_path;
-    __int16 field_82_camera;
-    __int16 field_84_input;
-    __int16 field_86_padding;
-    int field_88_unused;
-    __int16 field_8C_shred_power_active;
+    s16 field_80_path;
+    s16 field_82_camera;
+    s16 field_84_input;
+    s16 field_86_padding;
+    s32 field_88_unused;
+    s16 field_8C_shred_power_active;
     GameSpeakEvents field_8E_speak;
     FP field_90_max_xpos;
     FP field_94_max_ypos;
-    __int16 field_98_speak_counter;
-    __int16 field_9A_unused;
-    __int16 field_9C_unused;
+    s16 field_98_speak_counter;
+    s16 field_9A_unused;
+    s16 field_9C_unused;
 
     enum Flags_9E
     {
@@ -171,14 +171,14 @@ struct Scrab_State
 ALIVE_ASSERT_SIZEOF_ALWAYS(Scrab_State, 0xA0);
 
 class Scrab;
-using TScrabAIFn = __int16 (Scrab::*)();
+using TScrabAIFn = s16 (Scrab::*)();
 using TScrabMotionFn = void (Scrab::*)();
 
 class Scrab : public BaseAliveGameObject
 {
 public:
-    EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, ScrabSpawnDirection spawnDirection);
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection);
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
 
     virtual void VRender(PrimHeader** ppOt) override
@@ -196,7 +196,7 @@ public:
         vScreenChanged_4A5560();
     }
 
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override
     {
         return vTakeDamage_4A45E0(pFrom);
     }
@@ -206,12 +206,12 @@ public:
         return vOn_TLV_Collision_4A4B80(pTlv);
     }
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override
     {
         return vGetSaveState_4AB020(reinterpret_cast<Scrab_State*>(pSaveBuffer));
     }
 
-    virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override
+    virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override
     {
         return vOnSameYLevel_4A5400(pOther);
     }
@@ -221,21 +221,21 @@ public:
         vOnTrapDoorOpen_4A7ED0();
     }
 
-    EXPORT static int CC CreateFromSaveState_4A70A0(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4A70A0(const u8* pBuffer);
 
 private:
-    EXPORT int vGetSaveState_4AB020(Scrab_State* pState);
+    EXPORT s32 vGetSaveState_4AB020(Scrab_State* pState);
 
 
 
-    EXPORT Scrab* vdtor_4A41B0(signed int flags);
+    EXPORT Scrab* vdtor_4A41B0(s32 flags);
     EXPORT void dtor_4A42B0();
 
     EXPORT void vOnTrapDoorOpen_4A7ED0();
 
 
     EXPORT void vUpdateAnim_4A34F0();
-    EXPORT __int16 OnFloor_4A41E0();
+    EXPORT s16 OnFloor_4A41E0();
 
     EXPORT void vUpdate_4A3530();
 
@@ -243,15 +243,15 @@ private:
 
 public:
 
-    EXPORT __int16 AI_Patrol_0_4AA630();
+    EXPORT s16 AI_Patrol_0_4AA630();
 
-    __int16 AI_ChasingEnemy_State_Running_2(BaseAliveGameObject* pObj);
+    s16 AI_ChasingEnemy_State_Running_2(BaseAliveGameObject* pObj);
 
-    EXPORT __int16 AI_ChasingEnemy_1_4A6470();
-    EXPORT __int16 AI_Fighting_2_4A5840();
-    EXPORT __int16 AI_Death_3_4A62B0();
-    EXPORT __int16 AI_ShrinkDeath_4_4A6420();
-    EXPORT __int16 AI_Possessed_5_4A6180();
+    EXPORT s16 AI_ChasingEnemy_1_4A6470();
+    EXPORT s16 AI_Fighting_2_4A5840();
+    EXPORT s16 AI_Death_3_4A62B0();
+    EXPORT s16 AI_ShrinkDeath_4_4A6420();
+    EXPORT s16 AI_Possessed_5_4A6180();
 
     void SetBrain(TScrabAIFn fn);
     bool BrainIs(TScrabAIFn fn);
@@ -301,7 +301,7 @@ public:
 private:
 
 
-    EXPORT __int16 vOnSameYLevel_4A5400(BaseAnimatedWithPhysicsGameObject* pOther);
+    EXPORT s16 vOnSameYLevel_4A5400(BaseAnimatedWithPhysicsGameObject* pOther);
 
     EXPORT void ToPatrol_4AA600();
 
@@ -315,7 +315,7 @@ private:
 
     EXPORT void vPossesed_4A5620();
 
-    EXPORT BYTE** ResBlockForMotion_4A43E0(__int16 motion);
+    EXPORT u8** ResBlockForMotion_4A43E0(s16 motion);
 
     EXPORT void vScreenChanged_4A5560();
 
@@ -323,91 +323,91 @@ private:
 
     EXPORT void TryMoveOrStand_4A7570();
 
-    EXPORT __int16 ToNextMotion_4A7920();
+    EXPORT s16 ToNextMotion_4A7920();
 
-    EXPORT __int16 PlayerControlled_4A76A0();
+    EXPORT s16 PlayerControlled_4A76A0();
 
     EXPORT void ToJump_4A75E0();
 
-    EXPORT __int16 vTakeDamage_4A45E0(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_4A45E0(BaseGameObject* pFrom);
 
     EXPORT void vOn_TLV_Collision_4A4B80(Path_TLV* pTlv);
 
     EXPORT void KnockBack_4AA530();
 
-    EXPORT int Scrab_SFX_4AADB0(ScrabSounds soundId, int vol, int pitch, __int16 applyDirection);
+    EXPORT s32 Scrab_SFX_4AADB0(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
 
     EXPORT void KillTarget_4A7F20(BaseAliveGameObject* pTarget);
 
-    EXPORT __int16 FindAbeOrMud_4A4FD0();
+    EXPORT s16 FindAbeOrMud_4A4FD0();
 
-    EXPORT __int16 CanSeeAbe_4A51A0(BaseAliveGameObject* pObj);
+    EXPORT s16 CanSeeAbe_4A51A0(BaseAliveGameObject* pObj);
 
     EXPORT static BOOL CCSTD LineOfSightTo_4A52D0(Scrab* pThis, BaseAliveGameObject* pObj);
 
     EXPORT Scrab* FindScrabToFight_4A4E20();
 
-    EXPORT __int16 Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, __int16 bCheckLeftRightBounds);
+    EXPORT s16 Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, s16 bCheckLeftRightBounds);
 
     EXPORT GameSpeakEvents LastSpeak_4A56F0();
 
 private:
     TScrabAIFn field_118_brain_state;
-    __int16 field_11C_sub_state;
-    __int16 field_11E_return_to_previous_motion;
-    int field_120_obj_id;
-    int field_124_fight_target_obj_id;
-    __int16 field_128_attack_delay;
-    __int16 field_12A_patrol_type_run_or_walk_chance;
-    int field_12C_timer;
-    int field_130_depossession_timer;
+    s16 field_11C_sub_state;
+    s16 field_11E_return_to_previous_motion;
+    s32 field_120_obj_id;
+    s32 field_124_fight_target_obj_id;
+    s16 field_128_attack_delay;
+    s16 field_12A_patrol_type_run_or_walk_chance;
+    s32 field_12C_timer;
+    s32 field_130_depossession_timer;
     FP field_134_falling_velx_scale_factor;
     FP field_138_unused;
     FP field_13C_last_ypos;
-    __int16 field_140_motion_resource_block_index;
-    __int16 field_142_padding;
-    int field_144_tlvInfo;
-    int field_148_spotting_abe_delay;
-    int field_14C_spotting_abe_timer;
-    int field_150_attack_delay_timer;
-    int field_154_movement_timer;
-    __int16 field_158_left_min_delay;
-    __int16 field_15A_left_max_delay;
-    __int16 field_15C_right_min_delay;
-    __int16 field_15E_right_max_delay;
-    int field_160_sfx_bitmask;
-    __int16 field_164_prevent_depossession;
+    s16 field_140_motion_resource_block_index;
+    s16 field_142_padding;
+    s32 field_144_tlvInfo;
+    s32 field_148_spotting_abe_delay;
+    s32 field_14C_spotting_abe_timer;
+    s32 field_150_attack_delay_timer;
+    s32 field_154_movement_timer;
+    s16 field_158_left_min_delay;
+    s16 field_15A_left_max_delay;
+    s16 field_15C_right_min_delay;
+    s16 field_15E_right_max_delay;
+    s32 field_160_sfx_bitmask;
+    s16 field_164_prevent_depossession;
     LevelIds field_166_level;
-    __int16 field_168_path;
-    __int16 field_16A_camera;
-    int field_16C_input;
-    int field_170_unused;
-    __int16 field_174_whirl_attack_duration;
-    __int16 field_176_unused;
-    __int16 field_178_shred_power_active;
-    __int16 field_17A_padding;
-    int field_17C_last_event;
-    __int16 field_180_padding;
-    __int16 field_182_padding;
-    __int16 field_184_padding;
-    __int16 field_186_padding;
-    __int16 field_188_padding;
-    __int16 field_18A_padding;
-    __int16 field_18C_padding;
-    __int16 field_18E_padding;
-    __int16 field_190_unused;
-    __int16 field_192_unused;
+    s16 field_168_path;
+    s16 field_16A_camera;
+    s32 field_16C_input;
+    s32 field_170_unused;
+    s16 field_174_whirl_attack_duration;
+    s16 field_176_unused;
+    s16 field_178_shred_power_active;
+    s16 field_17A_padding;
+    s32 field_17C_last_event;
+    s16 field_180_padding;
+    s16 field_182_padding;
+    s16 field_184_padding;
+    s16 field_186_padding;
+    s16 field_188_padding;
+    s16 field_18A_padding;
+    s16 field_18C_padding;
+    s16 field_18E_padding;
+    s16 field_190_unused;
+    s16 field_192_unused;
     GameSpeakEvents field_194_speak;
-    __int16 field_196_padding;
+    s16 field_196_padding;
     FP field_198_max_xpos;
     FP field_19C_max_ypos;
-    __int16 field_1A0_speak_max;
-    __int16 field_1A2_speak_counter;
-    __int16 field_1A4_unused;
-    __int16 field_1A6_unused;
+    s16 field_1A0_speak_max;
+    s16 field_1A2_speak_counter;
+    s16 field_1A4_unused;
+    s16 field_1A6_unused;
     Choice_short field_1A8_bKill_enemy;
 
-    enum Flags_1AA : __int16
+    enum Flags_1AA : s16
     {
         eBit1_attacking = 0x1,
         eBit2_unused = 0x2,

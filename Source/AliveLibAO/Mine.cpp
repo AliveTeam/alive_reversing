@@ -13,14 +13,14 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
 
-Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
+Mine* Mine::ctor_43A330(Path_Mine* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BBA08);
     SetVTable(&field_118_animation, 0x4BA2B8);
     field_4_typeId = Types::eMine_57;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLandmineResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLandmineResID, 1, 0);
     Animation_Init_417FD0(748, 38, 13, ppRes, 1);
 
     field_6_flags.Set(Options::eCanExplode_Bit7);
@@ -46,7 +46,7 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, int tlvInfo)
     field_110_tlv = tlvInfo;
     field_114_gnframe = gnFrameCount_507670;
 
-    BYTE** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMineflshResID, 1, 0);
+    u8** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMineflshResID, 1, 0);
     field_118_animation.Init_402D20(
         772,
         gObjList_animations_505564,
@@ -159,12 +159,12 @@ BaseGameObject* Mine::dtor_43A640()
     return dtor_401000();
 }
 
-BaseGameObject* Mine::VDestructor(signed int flags)
+BaseGameObject* Mine::VDestructor(s32 flags)
 {
     return Vdtor_43AD50(flags);
 }
 
-Mine* Mine::Vdtor_43AD50(signed int flags)
+Mine* Mine::Vdtor_43AD50(s32 flags)
 {
     dtor_43A640();
     if (flags & 1)
@@ -189,12 +189,12 @@ void Mine::VScreenChanged_43AC10()
     }
 }
 
-__int16 Mine::VTakeDamage(BaseGameObject* pFrom)
+s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_43AC40(pFrom);
 }
 
-__int16 Mine::VTakeDamage_43AC40(BaseGameObject* pFrom)
+s16 Mine::VTakeDamage_43AC40(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -292,7 +292,7 @@ void Mine::VUpdate()
 
 void Mine::vUpdate_43A7F0()
 {
-    const __int16 bInCamera = gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    const s16 bInCamera = gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
         field_B2_lvl_number,
         field_B0_path_number,
         field_A8_xpos,
@@ -301,7 +301,7 @@ void Mine::vUpdate_43A7F0()
 
     if (field_10C_detonating)
     {
-        if (field_10C_detonating == 1 && static_cast<int>(gnFrameCount_507670) >= field_114_gnframe)
+        if (field_10C_detonating == 1 && static_cast<s32>(gnFrameCount_507670) >= field_114_gnframe)
         {
             auto pBaseBomb = ao_new<BaseBomb>();
             if (pBaseBomb)
@@ -346,12 +346,12 @@ void Mine::vUpdate_43A7F0()
     }
 }
 
-__int16 Mine::IsColliding_43AA60()
+s16 Mine::IsColliding_43AA60()
 {
     PSX_RECT bRect = {};
     VGetBoundingRect(&bRect, 1);
 
-    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pObj)

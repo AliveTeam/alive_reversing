@@ -20,7 +20,7 @@ void MeatSaw::VScreenChanged()
     VScreenChanged_43A060();
 }
 
-MeatSaw* MeatSaw::Vdtor_43A0B0(signed int flags)
+MeatSaw* MeatSaw::Vdtor_43A0B0(s32 flags)
 {
     dtor_4398F0();
     if (flags & 1)
@@ -30,7 +30,7 @@ MeatSaw* MeatSaw::Vdtor_43A0B0(signed int flags)
     return this;
 }
 
-BaseGameObject* MeatSaw::VDestructor(signed int flags)
+BaseGameObject* MeatSaw::VDestructor(s32 flags)
 {
     return Vdtor_43A0B0(flags);
 }
@@ -48,12 +48,12 @@ BaseGameObject* MeatSaw::dtor_4398F0()
     }
 
     field_110_anim.vCleanUp();
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
     return dtor_417D10();
 }
 
-MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
+MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB990);
@@ -61,7 +61,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
 
     SetVTable(&field_110_anim, 0x4BA2B8);
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
     Animation_Init_417FD0(15200, 104, 36, ppRes, 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
@@ -156,7 +156,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
         field_F4 = pTlv->field_1E_max_rise_time + pTlv->field_24_speed - pTlv->field_1E_max_rise_time % pTlv->field_24_speed;
     }
 
-    BYTE** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
+    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
     if (field_110_anim.Init_402D20(
         15252,
         gObjList_animations_505564,
@@ -171,9 +171,9 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, int tlvInfo)
         field_110_anim.field_C_layer = field_10_anim.field_C_layer;
         field_110_anim.field_14_scale = field_BC_sprite_scale;
 
-        field_110_anim.field_8_r = static_cast<BYTE>(field_C0_r);
-        field_110_anim.field_9_g = static_cast<BYTE>(field_C2_g);
-        field_110_anim.field_A_b = static_cast<BYTE>(field_C4_b);
+        field_110_anim.field_8_r = static_cast<u8>(field_C0_r);
+        field_110_anim.field_9_g = static_cast<u8>(field_C2_g);
+        field_110_anim.field_A_b = static_cast<u8>(field_C4_b);
 
         field_110_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
@@ -240,7 +240,7 @@ void MeatSaw::VUpdate_4399D0()
     switch (field_E4_state)
     {
     case MeatSawStates::eIdle_0:
-        if ((field_104_idle_timer <= static_cast<int>(gnFrameCount_507670) || (field_1A8_flags & 2)) &&
+        if ((field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670) || (field_1A8_flags & 2)) &&
             ((!(field_1A8_flags & 1)) ||  SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
         {
             field_E4_state = MeatSawStates::eGoingDown_1;
@@ -257,7 +257,7 @@ void MeatSaw::VUpdate_4399D0()
                 {
                     if (field_EC_off_speed)
                     {
-                        if (field_104_idle_timer <= static_cast<int>(gnFrameCount_507670))
+                        if (field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670))
                         {
                             field_E4_state = MeatSawStates::eGoingDown_1;
                             field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
@@ -298,8 +298,8 @@ void MeatSaw::VUpdate_4399D0()
         if (field_F4 <= 0)
         {
             field_E4_state = MeatSawStates::eIdle_0;
-            short minRnd = 0;
-            short maxRnd = 0;
+            s16 minRnd = 0;
+            s16 maxRnd = 0;
             if ((field_1A8_flags >> 2) & 1)
             {
                 maxRnd = field_FC_max_time_off2;
@@ -330,7 +330,7 @@ void MeatSaw::GrindUpObjects_439CD0()
     ourRect.y += field_C8_yOffset;
     ourRect.h += field_C8_yOffset;
 
-    for (int i=0; i< gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i=0; i< gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pObjIter)

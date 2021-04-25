@@ -5,13 +5,13 @@
 #include <gmock/gmock.h>
 #include "Renderer/IRenderer.hpp"
 
-const int kMaxAllocs = 512;
+const s32 kMaxAllocs = 512;
 
 ALIVE_ARY(1, 0x5cb888, PSX_RECT, kMaxAllocs, sVramAllocations_5CB888, {});
-ALIVE_VAR(1, 0x5cc888, int, sVramNumberOfAllocations_5CC888, 0);
-ALIVE_VAR(1, 0x5CC88C, WORD, unused_5CC88C, 0);
+ALIVE_VAR(1, 0x5cc888, s32, sVramNumberOfAllocations_5CC888, 0);
+ALIVE_VAR(1, 0x5CC88C, u16, unused_5CC88C, 0);
 
-EXPORT char CC Vram_calc_width_4955A0(int width, int depth)
+EXPORT s8 CC Vram_calc_width_4955A0(s32 width, s32 depth)
 {
     switch (depth)
     {
@@ -25,7 +25,7 @@ EXPORT char CC Vram_calc_width_4955A0(int width, int depth)
     return 0;
 }
 
-EXPORT int CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, int depth)
+EXPORT s32 CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, s32 depth)
 {
     pRect->x = 1024 - pRect->w;
     if (pRect->x < 0)
@@ -33,8 +33,8 @@ EXPORT int CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, int depth)
         return 0;
     }
 
-    short newX = 0;
-    const int depthShift = 2 - depth;
+    s16 newX = 0;
+    const s32 depthShift = 2 - depth;
     while (true)
     {
         if ((pRect->w << depthShift) + ((pRect->x & 63) << depthShift) > 256)
@@ -53,7 +53,7 @@ EXPORT int CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, int depth)
                 return 1;
             }
 
-            int i = 0;
+            s32 i = 0;
             while (!Vram_rects_overlap_4959E0(pRect, &sVramAllocations_5CB888[i]))
             {
                 i++;
@@ -78,7 +78,7 @@ EXPORT int CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, int depth)
     }
 }
 
-EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
+EXPORT s32 CC Vram_alloc_block_4957B0(PSX_RECT* pRect, s32 depth)
 {
     if (pRect->w > 1024 || pRect->h > 512)
     {
@@ -90,8 +90,8 @@ EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
         pRect->y = 512 - pRect->h;
         while (pRect->y >= 0)
         {
-            // Old Code: if (static_cast<unsigned __int8>(pRect->y) + pRect->h <= 256)
-            // Instead of casting to unsigned __int8 to wrap around the integer, we're
+            // Old Code: if (static_cast<u8>(pRect->y) + pRect->h <= 256)
+            // Instead of casting to u8 to wrap around the integer, we're
             // going to do it manually in case other platforms don't auto wrap integers on
             // cast.
             if ((pRect->y % 256) + pRect->h <= 256)
@@ -105,7 +105,7 @@ EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
             {
                 // v7 &= 0xFFFFFF00; // Todo: check this. was LOBYTE(v7) = 0; Doesn't seem needed
                 // to pass tests.
-                const short ypos = (pRect->y + 255) - pRect->h + 1;
+                const s16 ypos = (pRect->y + 255) - pRect->h + 1;
                 if (ypos < pRect->y)
                 {
                     pRect->y = ypos;
@@ -125,7 +125,7 @@ EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
     // Search Loop
     while (true)
     {
-        const short yPos = pRect->y;
+        const s16 yPos = pRect->y;
         if (pRect->h + yPos <= 255 || yPos >= 256)
         {
             if (!Vram_Is_Area_Free_4958F0(pRect, depth))
@@ -155,11 +155,11 @@ EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
     return 1;
 }
 
-EXPORT signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT* pRect)
+EXPORT s16 CC Vram_alloc_4956C0(u16 width, s16 height, u16 colourDepth, PSX_RECT* pRect)
 {
     PSX_RECT rect = {};
 
-    const int depth = colourDepth / 8;
+    const s32 depth = colourDepth / 8;
 
     rect.w = Vram_calc_width_4955A0(width, depth);
     rect.h = height;
@@ -177,7 +177,7 @@ EXPORT signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 heigh
 
 EXPORT void CC Vram_init_495660()
 {
-    for (int i = 0; i < kMaxAllocs; i++)
+    for (s32 i = 0; i < kMaxAllocs; i++)
     {
         sVramAllocations_5CB888[i] = {};
     }
@@ -185,7 +185,7 @@ EXPORT void CC Vram_init_495660()
     sVramNumberOfAllocations_5CC888 = 0;
 }
 
-EXPORT void CC Vram_alloc_explicit_4955F0(__int16 x, __int16 y, __int16 w, __int16 h)
+EXPORT void CC Vram_alloc_explicit_4955F0(s16 x, s16 y, s16 w, s16 h)
 {
     if (sVramNumberOfAllocations_5CC888 < kMaxAllocs)
     {
@@ -207,7 +207,7 @@ EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
     }
 #endif
     // Find the allocation
-    for (int i = 0; i < sVramNumberOfAllocations_5CC888; i++)
+    for (s32 i = 0; i < sVramNumberOfAllocations_5CC888; i++)
     {
         if (sVramAllocations_5CB888[i].x == xy.field_0_x &&
             sVramAllocations_5CB888[i].y == xy.field_2_y &&
@@ -226,15 +226,15 @@ EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
 
 EXPORT BOOL CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 {
-    const int x1 = pRect1->x;
-    const int x2 = pRect2->x;
+    const s32 x1 = pRect1->x;
+    const s32 x2 = pRect2->x;
     if (x1 >= x2 + pRect2->w)
     {
         return 0;
     }
 
-    const int y2 = pRect2->y;
-    const int y1 = pRect1->y;
+    const s32 y2 = pRect2->y;
+    const s32 y1 = pRect1->y;
     if (y1 >= y2 + pRect2->h)
     {
         return 0;
@@ -249,15 +249,15 @@ EXPORT BOOL CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT*
 }
 
 
-ALIVE_VAR(1, 0x5c9162, __int16, pal_xpos_5C9162, 0);
-ALIVE_VAR(1, 0x5c9160, __int16, pal_ypos_5C9160, 0);
+ALIVE_VAR(1, 0x5c9162, s16, pal_xpos_5C9162, 0);
+ALIVE_VAR(1, 0x5c9160, s16, pal_ypos_5C9160, 0);
 
-ALIVE_VAR(1, 0x5c915c, __int16, pal_width_5C915C, 0);
-ALIVE_VAR(1, 0x5c915e, __int16, pal_free_count_5C915E, 0);
+ALIVE_VAR(1, 0x5c915c, s16, pal_width_5C915C, 0);
+ALIVE_VAR(1, 0x5c915e, s16, pal_free_count_5C915E, 0);
 
-ALIVE_ARY(1, 0x5c9164, int, 77, sPal_table_5C9164, {}); // TODO: Actually 32 in size ?
+ALIVE_ARY(1, 0x5c9164, s32, 77, sPal_table_5C9164, {}); // TODO: Actually 32 in size ?
 
-static bool Pal_Allocate_Helper(int& i, int& palX_idx, int maskValue, int numBits)
+static bool Pal_Allocate_Helper(s32& i, s32& palX_idx, s32 maskValue, s32 numBits)
 {
     for (i = 0; i < pal_free_count_5C915E; i++)
     {
@@ -288,7 +288,7 @@ static bool Pal_Allocate_Helper(int& i, int& palX_idx, int maskValue, int numBit
     return false;
 }
 
-EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* pRect, unsigned int paletteColorCount)
+EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
 {
     if (!pal_free_count_5C915E)
     {
@@ -300,9 +300,9 @@ EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* pRect, unsigned int palet
         return 0;
     }
 
-    int pal_rect_y = 0;
-    int palX_idx = 0;
-    int palBitMask = 0;
+    s32 pal_rect_y = 0;
+    s32 palX_idx = 0;
+    s32 palBitMask = 0;
 
     if (paletteColorCount == 16)
     {
@@ -329,19 +329,19 @@ EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* pRect, unsigned int palet
         }
     }
 
-    pRect->w = static_cast<short>(paletteColorCount);
+    pRect->w = static_cast<s16>(paletteColorCount);
 
     palBitMask = palBitMask << palX_idx;
     sPal_table_5C9164[pal_rect_y] |= palBitMask;
-    pRect->x = static_cast<short>(pal_xpos_5C9162 + (16 * palX_idx));
-    pRect->y = static_cast<short>(pal_rect_y + pal_ypos_5C9160);
+    pRect->x = static_cast<s16>(pal_xpos_5C9162 + (16 * palX_idx));
+    pRect->y = static_cast<s16>(pal_rect_y + pal_ypos_5C9160);
     return 1;
 }
 
-EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
+EXPORT void CC Pal_free_483390(PSX_Point xy, s16 palDepth)
 {
-    const int palIdx = xy.field_2_y - pal_ypos_5C9160;
-    const int palWidthBits = xy.field_0_x - pal_xpos_5C9162;
+    const s32 palIdx = xy.field_2_y - pal_ypos_5C9160;
+    const s32 palWidthBits = xy.field_0_x - pal_xpos_5C9162;
 
     switch (palDepth)
     {
@@ -357,7 +357,7 @@ EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
     }
 }
 
-EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, unsigned __int16 width, unsigned __int16 height)
+EXPORT void CC Pal_Area_Init_483080(s16 xpos, s16 ypos, u16 width, u16 height)
 {
     pal_xpos_5C9162 = xpos;
     pal_ypos_5C9160 = ypos;
@@ -367,13 +367,13 @@ EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, unsigned __int16
 
     Vram_alloc_explicit_4955F0(xpos, ypos, xpos + width - 1, ypos + height - 1);
 
-    for (int i = 0; i < height; i++)
+    for (s32 i = 0; i < height; i++)
     {
         sPal_table_5C9164[i] = 0;
     }
 }
 
-EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, __int16 w, WORD* pPalData, PSX_RECT* rect)
+EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, s16 w, u16* pPalData, PSX_RECT* rect)
 {
     rect->x = pPoint.field_0_x;
     rect->y = pPoint.field_2_y;
@@ -382,12 +382,12 @@ EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, __int16 w, WORD* pPalData, PSX_
     PSX_StoreImage_4F5E90(rect, pPalData);
 }
 
-EXPORT unsigned int CC Pal_Make_Colour_4834C0(BYTE r, BYTE g, BYTE b, __int16 bOpaque)
+EXPORT u32 CC Pal_Make_Colour_4834C0(u8 r, u8 g, u8 b, s16 bOpaque)
 {
-    return (bOpaque != 0 ? 0x8000 : 0) + ((unsigned int)r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
+    return (bOpaque != 0 ? 0x8000 : 0) + ((u32)r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
 }
 
-EXPORT void CC Pal_Set_483510(PSX_Point xy, __int16 w, const BYTE* palData, PSX_RECT* rect)
+EXPORT void CC Pal_Set_483510(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect)
 {
     rect->x = xy.field_0_x;
     rect->y = xy.field_2_y;

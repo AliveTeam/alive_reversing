@@ -35,7 +35,7 @@ const TintEntry kGrinderTints_551548[18] =
 };
 
 
-Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
+Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, u32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544AD8);
@@ -43,7 +43,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     field_4_typeId = AETypes::eGrinder_30;
 
 	const AnimRecord& rec = AnimRec(AnimId::Bone_Saw_Vertical_Off);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -255,7 +255,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     return this;
 }
 
-BaseGameObject* Grinder::VDestructor(signed int flags)
+BaseGameObject* Grinder::VDestructor(s32 flags)
 {
     return vdtor_4206A0(flags);
 }
@@ -280,12 +280,12 @@ void Grinder::VStopAudio()
     vStopAudio_4215C0();
 }
 
-int Grinder::VGetSaveState(BYTE* pSaveBuffer)
+s32 Grinder::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4217B0(pSaveBuffer);
 }
 
-signed int CC Grinder::CreateFromSaveState_421600(const BYTE* pData)
+s32 CC Grinder::CreateFromSaveState_421600(const u8* pData)
 {
     const Grinder_State* pState = reinterpret_cast<const Grinder_State*>(pData);
 
@@ -453,8 +453,8 @@ void Grinder::vUpdate_420C50()
             field_F4_state = GrinderStates::State_0_Restart_Cycle;
             SFX_Play_46FC20(SoundEffect::DrillCollision_99, 50, soundDirection);
 
-            short max_off = 0;
-            short min_off = 0;
+            s16 max_off = 0;
+            s16 min_off = 0;
             if (field_128_flags.Get(Flags::eBit5_SpeedChanged))
             {
                 max_off = field_102_max_off_time_speed_change;
@@ -512,7 +512,7 @@ void Grinder::dtor_420B60()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Grinder* Grinder::vdtor_4206A0(signed int flags)
+Grinder* Grinder::vdtor_4206A0(s32 flags)
 {
     dtor_420B60();
     if (flags & 1)
@@ -608,7 +608,7 @@ void Grinder::vStopAudio_4215C0()
     }
 }
 
-int Grinder::vGetSaveState_4217B0(BYTE* pSaveBuffer)
+s32 Grinder::vGetSaveState_4217B0(u8* pSaveBuffer)
 {
     Grinder_State* pState = reinterpret_cast<Grinder_State*>(pSaveBuffer);
     pState->field_0 = 30;
@@ -623,7 +623,7 @@ void Grinder::EmitSparks_4206D0()
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        int speed = 0;
+        s32 speed = 0;
         if (field_F4_state == GrinderStates::State_1_Going_Down)
         {
             speed = -FP_GetExponent(field_11C_speed2 - FP_FromInteger(2));
@@ -724,7 +724,7 @@ void Grinder::EmitSparks_4206D0()
     }
 }
 
-__int16 Grinder::DamageTouchingObjects_421060()
+s16 Grinder::DamageTouchingObjects_421060()
 {
     PSX_RECT grinderRect = {};
     vGetBoundingRect_424FD0(&grinderRect, 1);
@@ -735,7 +735,7 @@ __int16 Grinder::DamageTouchingObjects_421060()
     }
 
     BaseAliveGameObject* pFound = nullptr;
-    for (int i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)

@@ -12,7 +12,7 @@
 #include "FallingItem.hpp"
 
 ALIVE_VAR(1, 0x5BBF68, ExplosionSet*, pExplosionSet_5BBF68, nullptr);
-ALIVE_VAR(1, 0x5C1BB6, __int16, bEnabled_5C1BB6, FALSE);
+ALIVE_VAR(1, 0x5C1BB6, s16, bEnabled_5C1BB6, FALSE);
 
 ExplosionSet* ExplosionSet::ctor_414CA0()
 {
@@ -41,7 +41,7 @@ ExplosionSet* ExplosionSet::ctor_414CA0()
     return this;
 }
 
-BaseGameObject* ExplosionSet::VDestructor(signed int flags)
+BaseGameObject* ExplosionSet::VDestructor(s32 flags)
 {
     return vdtor_414D80(flags);
 }
@@ -89,14 +89,14 @@ void ExplosionSet::Init_4151D0(Path_ExplosionSet* pTlv)
 
     if (!bEnabled_5C1BB6)
     {
-        bEnabled_5C1BB6 = static_cast<short>(pTlv->field_10_bStart_enabled);
+        bEnabled_5C1BB6 = static_cast<s16>(pTlv->field_10_bStart_enabled);
     }
 
     field_5C_flags.Set(Flags_5C::eBit3);
     field_46_spacing_multiplicator = 0;
 }
 
-ExplosionSet* ExplosionSet::vdtor_414D80(signed int flags)
+ExplosionSet* ExplosionSet::vdtor_414D80(s32 flags)
 {
     dtor_414DB0();
     if (flags & 1)
@@ -129,7 +129,7 @@ void ExplosionSet::vScreenChanged_415190()
 
 struct Point2
 {
-    signed char x, y;
+    s8 x, y;
 };
 
 const Point2 stru_550F38[12] =
@@ -198,7 +198,7 @@ void ExplosionSet::vUpdate_414E30()
                 return;
             }
 
-            short xpos = 0;
+            s16 xpos = 0;
             if (field_5C_flags.Get(Flags_5C::eBit2_flipX))
             {
                 xpos = field_48_tlv_rect.w + field_48_tlv_rect.x - (field_46_spacing_multiplicator * field_5A_increasing_grid_spacing) - field_58_grid_spacing;

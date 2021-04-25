@@ -6,16 +6,16 @@
 
 struct PrimHeaderPart_Normal
 {
-    char field_4_num_longs;
-    char field_5_unknown;
-    __int16 field_6_pad0;
+    s8 field_4_num_longs;
+    s8 field_5_unknown;
+    s16 field_6_pad0;
 };
 ALIVE_ASSERT_SIZEOF(PrimHeaderPart_Normal, 0x4);
 
 struct PrimHeaderPart_PsxRect
 {
-    short w;
-    short h;
+    s16 w;
+    s16 h;
 };
 ALIVE_ASSERT_SIZEOF(PrimHeaderPart_PsxRect, 0x4);
 
@@ -28,10 +28,10 @@ ALIVE_ASSERT_SIZEOF(PrimHeaderPart, 4);
 
 struct Prim_RGB
 {
-    BYTE r;
-    BYTE g;
-    BYTE b;
-    BYTE code_or_pad;
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 code_or_pad;
 };
 ALIVE_ASSERT_SIZEOF(Prim_RGB, 0x4);
 
@@ -48,8 +48,8 @@ ALIVE_ASSERT_SIZEOF(PrimHeader, 0xC);
 
 struct FVert
 {
-    __int16 x;
-    __int16 y;
+    s16 x;
+    s16 y;
 };
 ALIVE_ASSERT_SIZEOF(FVert, 0x4);
 
@@ -69,9 +69,9 @@ ALIVE_ASSERT_SIZEOF(Poly_Base, 0x10);
 
 struct UV
 {
-    BYTE u;
-    BYTE v;
-    WORD tpage_clut_pad;
+    u8 u;
+    u8 v;
+    u16 tpage_clut_pad;
 };
 ALIVE_ASSERT_SIZEOF(UV, 0x4);
 
@@ -160,23 +160,23 @@ struct Poly_GT3
 struct Prim_ScreenOffset
 {
     PrimHeader mBase;
-    short field_C_xoff;
-    short field_E_yoff;
+    s16 field_C_xoff;
+    s16 field_E_yoff;
 };
 ALIVE_ASSERT_SIZEOF(Prim_ScreenOffset, 0x10);
 
 struct Prim_PrimClipper
 {
     PrimHeader mBase;
-    short field_C_x;
-    short field_E_y;
+    s16 field_C_x;
+    s16 field_E_y;
 };
 ALIVE_ASSERT_SIZEOF(Prim_PrimClipper, 0x10);
 
 struct Prim_SetTPage
 {
     PrimHeader mBase;
-    int field_C_tpage;
+    s32 field_C_tpage;
 };
 ALIVE_ASSERT_SIZEOF(Prim_SetTPage, 0x10);
 
@@ -191,7 +191,7 @@ struct Line_F3
 {
     Poly_Base mBase;
     FVertWrapper mVerts[2];
-    DWORD pad;
+    u32 pad;
 };
 // TODO: Assert size
 
@@ -199,7 +199,7 @@ struct Line_F4
 {
     Poly_Base mBase;
     FVertWrapper mVerts[3];
-    DWORD pad;
+    u32 pad;
 };
 // TODO: Assert size
 
@@ -221,7 +221,7 @@ struct Line_G4
 {
     Poly_Base mBase;
     GVert mVerts[3];
-    DWORD field_28_pad;
+    u32 field_28_pad;
 };
 ALIVE_ASSERT_SIZEOF(Line_G4, 0x2C);
 
@@ -229,8 +229,8 @@ struct Prim_Sprt
 {
     Poly_Base mBase;
     UV mUv;
-    __int16 field_14_w;
-    __int16 field_16_h;
+    s16 field_14_w;
+    s16 field_16_h;
 };
 ALIVE_ASSERT_SIZEOF(Prim_Sprt, 0x18);
 
@@ -249,8 +249,8 @@ struct Prim_Sprt_8
 struct Prim_Tile
 {
     Poly_Base mBase;
-    __int16 field_14_w;
-    __int16 field_16_h;
+    s16 field_14_w;
+    s16 field_16_h;
 };
 
 struct Prim_Tile_16
@@ -316,8 +316,8 @@ enum PrimTypeCodes
 struct Prim_MoveImage
 {
     PrimHeader mPrimHeader;
-    int xPos;
-    int yPos;
+    s32 xPos;
+    s32 yPos;
     PSX_RECT rect;
 };
 
@@ -325,11 +325,11 @@ struct Prim_MoveImage
 struct Prim_GasEffect
 {
     PrimHeader mPrimHeader;
-    int x;
-    int y;
-    int w;
-    int h;
-    WORD* pData;
+    s32 x;
+    s32 y;
+    s32 w;
+    s32 h;
+    u16* pData;
 };
 
 union PrimAny
@@ -377,69 +377,69 @@ union PrimAny
 ALIVE_ASSERT_SIZEOF(PrimAny, sizeof(void*));
 
 template<class T>
-inline void SetRGB0(T* prim, BYTE r, BYTE g, BYTE b)
+inline void SetRGB0(T* prim, u8 r, u8 g, u8 b)
 {
     prim->mBase.header.rgb_code.r = r;
     prim->mBase.header.rgb_code.g = g;
     prim->mBase.header.rgb_code.b = b;
 }
 
-template<class T> inline BYTE R0(T* prim) { return prim->mBase.header.rgb_code.r; }
-template<class T> inline BYTE G0(T* prim) { return prim->mBase.header.rgb_code.g; }
-template<class T> inline BYTE B0(T* prim) { return prim->mBase.header.rgb_code.b; }
+template<class T> inline u8 R0(T* prim) { return prim->mBase.header.rgb_code.r; }
+template<class T> inline u8 G0(T* prim) { return prim->mBase.header.rgb_code.g; }
+template<class T> inline u8 B0(T* prim) { return prim->mBase.header.rgb_code.b; }
 
-template<class T> inline BYTE R_Generic(T* prim, int idx) { return prim->mVerts[idx].mRgb.r; }
-template<class T> inline BYTE G_Generic(T* prim, int idx) { return prim->mVerts[idx].mRgb.g; }
-template<class T> inline BYTE B_Generic(T* prim, int idx) { return prim->mVerts[idx].mRgb.b; }
-template<class T> inline BYTE R1(T* prim) { return R_Generic(prim, 0); }
-template<class T> inline BYTE G1(T* prim) { return G_Generic(prim, 0); }
-template<class T> inline BYTE B1(T* prim) { return B_Generic(prim, 0); }
-template<class T> inline BYTE R2(T* prim) { return R_Generic(prim, 1); }
-template<class T> inline BYTE G2(T* prim) { return G_Generic(prim, 1); }
-template<class T> inline BYTE B2(T* prim) { return B_Generic(prim, 1); }
-template<class T> inline BYTE R3(T* prim) { return R_Generic(prim, 2); }
-template<class T> inline BYTE G3(T* prim) { return G_Generic(prim, 2); }
-template<class T> inline BYTE B3(T* prim) { return B_Generic(prim, 2); }
+template<class T> inline u8 R_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.r; }
+template<class T> inline u8 G_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.g; }
+template<class T> inline u8 B_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mRgb.b; }
+template<class T> inline u8 R1(T* prim) { return R_Generic(prim, 0); }
+template<class T> inline u8 G1(T* prim) { return G_Generic(prim, 0); }
+template<class T> inline u8 B1(T* prim) { return B_Generic(prim, 0); }
+template<class T> inline u8 R2(T* prim) { return R_Generic(prim, 1); }
+template<class T> inline u8 G2(T* prim) { return G_Generic(prim, 1); }
+template<class T> inline u8 B2(T* prim) { return B_Generic(prim, 1); }
+template<class T> inline u8 R3(T* prim) { return R_Generic(prim, 2); }
+template<class T> inline u8 G3(T* prim) { return G_Generic(prim, 2); }
+template<class T> inline u8 B3(T* prim) { return B_Generic(prim, 2); }
 
-template<class T> inline short X0(T* prim) { return prim->mBase.vert.x; }
-template<class T> inline short Y0(T* prim) { return prim->mBase.vert.y; }
+template<class T> inline s16 X0(T* prim) { return prim->mBase.vert.x; }
+template<class T> inline s16 Y0(T* prim) { return prim->mBase.vert.y; }
 
-template<class T> inline short X_Generic(T* prim, int idx) { return prim->mVerts[idx].mVert.x; }
-template<class T> inline short Y_Generic(T* prim, int idx) { return prim->mVerts[idx].mVert.y; }
-template<class T> inline short X1(T* prim) { return X_Generic(prim, 0); }
-template<class T> inline short Y1(T* prim) { return Y_Generic(prim, 0); }
-template<class T> inline short X2(T* prim) { return X_Generic(prim, 1); }
-template<class T> inline short Y2(T* prim) { return Y_Generic(prim, 1); }
-template<class T> inline short X3(T* prim) { return X_Generic(prim, 2); }
-template<class T> inline short Y3(T* prim) { return Y_Generic(prim, 2); }
+template<class T> inline s16 X_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mVert.x; }
+template<class T> inline s16 Y_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mVert.y; }
+template<class T> inline s16 X1(T* prim) { return X_Generic(prim, 0); }
+template<class T> inline s16 Y1(T* prim) { return Y_Generic(prim, 0); }
+template<class T> inline s16 X2(T* prim) { return X_Generic(prim, 1); }
+template<class T> inline s16 Y2(T* prim) { return Y_Generic(prim, 1); }
+template<class T> inline s16 X3(T* prim) { return X_Generic(prim, 2); }
+template<class T> inline s16 Y3(T* prim) { return Y_Generic(prim, 2); }
 
-template<class T> inline BYTE U0(T* prim) { return prim->mUv.u; }
-template<class T> inline BYTE V0(T* prim) { return prim->mUv.v; }
-template<class T> inline BYTE U_Generic(T* prim, int idx) { return prim->mVerts[idx].mUv.u; }
-template<class T> inline BYTE V_Generic(T* prim, int idx) { return prim->mVerts[idx].mUv.v; }
-template<class T> inline BYTE U1(T* prim) { return U_Generic(prim, 0); }
-template<class T> inline BYTE V1(T* prim) { return V_Generic(prim, 0); }
-template<class T> inline BYTE U2(T* prim) { return U_Generic(prim, 1); }
-template<class T> inline BYTE V2(T* prim) { return V_Generic(prim, 1); }
-template<class T> inline BYTE U3(T* prim) { return U_Generic(prim, 2); }
-template<class T> inline BYTE V3(T* prim) { return V_Generic(prim, 2); }
+template<class T> inline u8 U0(T* prim) { return prim->mUv.u; }
+template<class T> inline u8 V0(T* prim) { return prim->mUv.v; }
+template<class T> inline u8 U_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mUv.u; }
+template<class T> inline u8 V_Generic(T* prim, s32 idx) { return prim->mVerts[idx].mUv.v; }
+template<class T> inline u8 U1(T* prim) { return U_Generic(prim, 0); }
+template<class T> inline u8 V1(T* prim) { return V_Generic(prim, 0); }
+template<class T> inline u8 U2(T* prim) { return U_Generic(prim, 1); }
+template<class T> inline u8 V2(T* prim) { return V_Generic(prim, 1); }
+template<class T> inline u8 U3(T* prim) { return U_Generic(prim, 2); }
+template<class T> inline u8 V3(T* prim) { return V_Generic(prim, 2); }
 
 template<class T>
-inline void SetXY_Generic(T* prim, int idx, short x, short y)
+inline void SetXY_Generic(T* prim, s32 idx, s16 x, s16 y)
 {
     prim->mVerts[idx].mVert.x = x;
     prim->mVerts[idx].mVert.y = y;
 }
 
 template<class T>
-inline void SetUV_Generic(T* prim, int idx, BYTE u, BYTE v)
+inline void SetUV_Generic(T* prim, s32 idx, u8 u, u8 v)
 {
     prim->mVerts[idx].mUv.u = u;
     prim->mVerts[idx].mUv.v = v;
 }
 
 template<class T>
-inline void SetRGB_Generic(T* prim, int idx, BYTE r, BYTE g, BYTE b)
+inline void SetRGB_Generic(T* prim, s32 idx, u8 r, u8 g, u8 b)
 {
     prim->mVerts[idx].mRgb.r = r;
     prim->mVerts[idx].mRgb.g = g;
@@ -447,98 +447,98 @@ inline void SetRGB_Generic(T* prim, int idx, BYTE r, BYTE g, BYTE b)
 }
 
 template<class T>
-inline void SetRGB1(T* prim, BYTE r, BYTE g, BYTE b)
+inline void SetRGB1(T* prim, u8 r, u8 g, u8 b)
 {
     SetRGB_Generic(prim, 0, r, g, b);
 }
 
 template<class T>
-inline void SetRGB2(T* prim, BYTE r, BYTE g, BYTE b)
+inline void SetRGB2(T* prim, u8 r, u8 g, u8 b)
 {
     SetRGB_Generic(prim, 1, r, g, b);
 }
 
 template<class T>
-inline void SetRGB3(T* prim, BYTE r, BYTE g, BYTE b)
+inline void SetRGB3(T* prim, u8 r, u8 g, u8 b)
 {
     SetRGB_Generic(prim, 2, r, g, b);
 }
 
 template<class T>
-inline void SetXY0(T* prim, short x, short y)
+inline void SetXY0(T* prim, s16 x, s16 y)
 {
     prim->mBase.vert.x = x;
     prim->mBase.vert.y = y;
 }
 
 template<class T>
-inline void SetUV0(T* prim, BYTE u, BYTE v)
+inline void SetUV0(T* prim, u8 u, u8 v)
 {
     prim->mUv.u = u;
     prim->mUv.v = v;
 }
 
 template<class T>
-inline void SetUV1(T* prim, BYTE u, BYTE v)
+inline void SetUV1(T* prim, u8 u, u8 v)
 {
     SetUV_Generic(prim, 0, u, v);
 }
 template<class T>
-inline void SetUV2(T* prim, BYTE u, BYTE v)
+inline void SetUV2(T* prim, u8 u, u8 v)
 {
     SetUV_Generic(prim, 1, u, v);
 }
 
 template<class T>
-inline void SetUV3(T* prim, BYTE u, BYTE v)
+inline void SetUV3(T* prim, u8 u, u8 v)
 {
     SetUV_Generic(prim, 2, u, v);
 }
 
 template<class T>
-inline void SetXY1(T* prim, short x, short y)
+inline void SetXY1(T* prim, s16 x, s16 y)
 {
     SetXY_Generic(prim, 0, x, y);
 }
 
 template<class T>
-inline void SetXY2(T* prim, short x, short y)
+inline void SetXY2(T* prim, s16 x, s16 y)
 {
     SetXY_Generic(prim, 1, x, y);
 }
 
 template<class T>
-inline void SetXY3(T* prim, short x, short y)
+inline void SetXY3(T* prim, s16 x, s16 y)
 {
     SetXY_Generic(prim, 2, x, y);
 }
 
 template<class T>
-inline void SetTPage(T* prim, short tpage)
+inline void SetTPage(T* prim, s16 tpage)
 {
     prim->mVerts[0].mUv.tpage_clut_pad = tpage;
 }
 
 template<class T>
-inline short GetTPage(T* prim)
+inline s16 GetTPage(T* prim)
 {
     return prim->mVerts[0].mUv.tpage_clut_pad;
 }
 
 template<class T>
-inline void SetClut(T* prim, short clut)
+inline void SetClut(T* prim, s16 clut)
 {
     prim->mUv.tpage_clut_pad = clut;
 }
 
 template<class T>
-inline short GetClut(T* prim)
+inline s16 GetClut(T* prim)
 {
     return prim->mUv.tpage_clut_pad;
 }
 
 template<class T>
-inline void SetXYWH(T pPoly, short x, short y, short w, short h)
+inline void SetXYWH(T pPoly, s16 x, s16 y, s16 w, s16 h)
 {
     SetXY0(pPoly, x, y);
     SetXY1(pPoly, x + w, y);
@@ -546,9 +546,9 @@ inline void SetXYWH(T pPoly, short x, short y, short w, short h)
     SetXY3(pPoly, x + w, y + h);
 }
 
-void SetCode(PrimHeader* pPrim, BYTE code);
+void SetCode(PrimHeader* pPrim, u8 code);
 void SetUnknown(PrimHeader* pPrim);
-void SetNumLongs(PrimHeader* pPrim, char numLongs);
+void SetNumLongs(PrimHeader* pPrim, s8 numLongs);
 
 void PolyF3_Init(Poly_F3* pPoly);
 void PolyFT3_Init(Poly_FT3* pPoly);
@@ -574,9 +574,9 @@ void PolyFT4_Init(Poly_FT4* pPrim);
 
 void PolyF4_Init(Poly_F4* pPrim);
 
-void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, int xpos, int ypos);
+void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, s32 xpos, s32 ypos);
 
-int PSX_Prim_Code_Without_Blending_Or_SemiTransparency(int code);
+s32 PSX_Prim_Code_Without_Blending_Or_SemiTransparency(s32 code);
 
 
 void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr);

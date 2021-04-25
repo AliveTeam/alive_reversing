@@ -10,14 +10,14 @@
 
 namespace AO {
 
-BulletShell* BulletShell::ctor_462790(FP xpos, FP ypos, __int16 direction, FP scale)
+BulletShell* BulletShell::ctor_462790(FP xpos, FP ypos, s16 direction, FP scale)
 {
     ctor_417C10();
     SetVTable(this, 0x4BC968);
 
     field_4_typeId = Types::eNone_0;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShellResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShellResID, 1, 0);
     Animation_Init_417FD0(308, 6, 5, ppRes, 1);
 
     field_BC_sprite_scale = scale;
@@ -58,12 +58,12 @@ BaseGameObject* BulletShell::dtor_4628B0()
     return dtor_417D10();
 }
 
-BaseGameObject* BulletShell::VDestructor(signed int flags)
+BaseGameObject* BulletShell::VDestructor(s32 flags)
 {
     return Vdtor_462A50(flags);
 }
 
-BulletShell* BulletShell::Vdtor_462A50(signed int flags)
+BulletShell* BulletShell::Vdtor_462A50(s32 flags)
 {
     dtor_4628B0();
     if (flags & 1)
@@ -113,7 +113,7 @@ void BulletShell::VUpdate_4628C0()
                 field_B4_velx = FP_FromInteger(1);
             }
 
-            short volume = 19 * (3 - field_EC_hitCount);
+            s16 volume = 19 * (3 - field_EC_hitCount);
             if (volume <= 19)
             {
                 volume = 19;

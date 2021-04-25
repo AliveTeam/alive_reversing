@@ -10,7 +10,7 @@ class Camera;
 
 struct SeqIds
 {
-    __int16 ids[16];
+    s16 ids[16];
 };
 
 class IMidiVars
@@ -18,32 +18,32 @@ class IMidiVars
 public:
     ~IMidiVars() { }
     virtual SeqIds& sSeq_Ids_word() = 0;
-    virtual WORD& sSnd_ReloadAbeResources() = 0;
+    virtual u16& sSnd_ReloadAbeResources() = 0;
     virtual OpenSeqHandle*& sSeqDataTable() = 0;
-    virtual __int16& sSeqsPlaying_count_word() = 0;
+    virtual s16& sSeqsPlaying_count_word() = 0;
     virtual SoundBlockInfo*& sLastLoadedSoundBlockInfo() = 0;
-    virtual __int16& sSFXPitchVariationEnabled() = 0;
-    virtual short& sNeedToHashSeqNames() = 0;
+    virtual s16& sSFXPitchVariationEnabled() = 0;
+    virtual s16& sNeedToHashSeqNames() = 0;
     virtual SoundBlockInfo& sMonkVh_Vb() = 0;
-    virtual int MidiTableSize() = 0;
+    virtual s32 MidiTableSize() = 0;
 
     // Res manager wrapper
-    virtual signed __int16 FreeResource_Impl(BYTE* handle) = 0;
-    virtual BYTE** GetLoadedResource(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock) = 0;
-    virtual signed __int16 FreeResource(BYTE** handle) = 0;
-    virtual BYTE** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) = 0;
-    virtual void LoadingLoop(__int16 bShowLoadingIcon) = 0;
-    virtual void Reclaim_Memory(unsigned int size) = 0;
-    virtual BYTE** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) = 0;
-    virtual signed __int16 LoadResourceFile(const char* pFileName, Camera* pCamera) = 0;
+    virtual s16 FreeResource_Impl(u8* handle) = 0;
+    virtual u8** GetLoadedResource(u32 type, u32 resourceID, u16 addUseCount, u16 bLock) = 0;
+    virtual s16 FreeResource(u8** handle) = 0;
+    virtual u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size) = 0;
+    virtual void LoadingLoop(s16 bShowLoadingIcon) = 0;
+    virtual void Reclaim_Memory(u32 size) = 0;
+    virtual u8** Alloc_New_Resource(u32 type, u32 id, u32 size) = 0;
+    virtual s16 LoadResourceFile(const s8* pFileName, Camera* pCamera) = 0;
 };
 
 EXPORT IMidiVars* GetMidiVars();
 EXPORT void SetMidiApiVars(IMidiVars* pVars);
 
-using TReclaimMemoryFn = void(CC*)(unsigned int);
-using TLoadResourceFileFn = signed __int16(CC*)(const char*, Camera*);
-using TGetLoadedResourceFn = BYTE * *(CC*)(DWORD, DWORD, unsigned __int16, unsigned __int16);
+using TReclaimMemoryFn = void(CC*)(u32);
+using TLoadResourceFileFn = s16(CC*)(const s8*, Camera*);
+using TGetLoadedResourceFn = u8 * *(CC*)(u32, u32, u16, u16);
 using TSNDRestart = void(CC*)();
 using TSNDStopAll = void(CC*)();
 
@@ -54,25 +54,25 @@ EXPORT void SND_StopAll_SetCallBack(TSNDStopAll cb);
 EXPORT void SND_Restart_SetCallBack(TSNDRestart cb);
 
 
-EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char* bsqFileName);
+EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const s8* bsqFileName);
 
 EXPORT void SND_Stop_All_Seqs_4CA850();
 
 EXPORT void CC SND_StopAll_4CB060();
 EXPORT void CC SND_Init_4CA1F0();
 EXPORT void CC SND_Shutdown_4CA280();
-EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask);
+EXPORT void CC SND_Stop_Channels_Mask_4CA810(u32 bitMask);
 EXPORT void SND_Reset_4C9FB0();
-EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb);
-EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName);
-EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx);
-EXPORT char CC SND_Seq_Table_Valid_4CAFE0();
-EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 repeatCount, __int16 bDontStop);
-EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight);
-EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount, __int16 volLeft, __int16 volRight);
-EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx);
-EXPORT int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, __int16 volLeft, __int16 volRight, __int16 pitch_min, __int16 pitch_max);
-EXPORT int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, __int16 volume, __int16 pitch_min, __int16 pitch_max);
+EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb);
+EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const s8* bsqFileName);
+EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx);
+EXPORT s8 CC SND_Seq_Table_Valid_4CAFE0();
+EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop);
+EXPORT void CC SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight);
+EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight);
+EXPORT s32 CC SND_SsIsEos_DeInlined_4CACD0(u16 idx);
+EXPORT s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
+EXPORT s32 CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max);
 
 enum SeqId
 {

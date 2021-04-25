@@ -23,7 +23,7 @@ void Camera::dtor_480E00()
     iter.field_4_idx = 0;
     while (iter.field_4_idx < field_0.Size())
     {
-        BYTE** pItem = field_0.ItemAt(iter.field_4_idx);
+        u8** pItem = field_0.ItemAt(iter.field_4_idx);
         iter.field_4_idx = iter.field_4_idx + 1;
         if (!pItem)
         {

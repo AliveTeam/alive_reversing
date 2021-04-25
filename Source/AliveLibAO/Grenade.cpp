@@ -16,7 +16,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5076EC, short, gInfiniteGrenades_5076EC, 0);
+ALIVE_VAR(1, 0x5076EC, s16, gInfiniteGrenades_5076EC, 0);
 
 void Grenade::VOnTrapDoorOpen()
 {
@@ -33,13 +33,13 @@ void Grenade::VScreenChanged()
     VScreenChanged_41F720();
 }
 
-Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, __int16 numGrenades)
+Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, s16 numGrenades)
 {
     ctor_401090();
     field_10E_bDead = 0;
     SetVTable(this, 0x4BB0A0);
     field_4_typeId = Types::eGrenade_40;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 1, 0);
     Animation_Init_417FD0(
         1132,
         17,
@@ -98,7 +98,7 @@ BaseGameObject* Grenade::dtor_41ECD0()
 
         if (gpThrowableArray_50E26C)
         {
-            __int16 count = 0;
+            s16 count = 0;
             if (field_10C_count >= 1u)
             {
                 count = field_10C_count;
@@ -113,12 +113,12 @@ BaseGameObject* Grenade::dtor_41ECD0()
     return dtor_401000();
 }
 
-BaseGameObject* Grenade::VDestructor(signed int flags)
+BaseGameObject* Grenade::VDestructor(s32 flags)
 {
     return Vdtor_41F9F0(flags);
 }
 
-Grenade* Grenade::Vdtor_41F9F0(signed int flags)
+Grenade* Grenade::Vdtor_41F9F0(s32 flags)
 {
     dtor_41ECD0();
     if (flags & 1)
@@ -147,7 +147,7 @@ void Grenade::AddToPlatform_41F7C0()
     {
         if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
         {
-            for (int i = 0; i < ObjListPlatforms_50766C->Size(); i++)
+            for (s32 i = 0; i < ObjListPlatforms_50766C->Size(); i++)
             {
                 BaseGameObject* pObjIter = ObjListPlatforms_50766C->ItemAt(i);
                 if (!pObjIter)
@@ -189,7 +189,7 @@ void Grenade::AddToPlatform_41F7C0()
 }
 
 
-__int16 Grenade::VCanThrow()
+s16 Grenade::VCanThrow()
 {
     return VCanThrow_453EC0();
 }
@@ -330,8 +330,8 @@ void Grenade::VUpdate_41F240()
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
 
-                const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-                const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+                const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+                const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
 
                 VOnCollisionWith(xy, wh, gBaseGameObject_list_9F2DF0, 1, (TCollisionCallBack)&Grenade::OnCollision_BounceOff_41F650);
             }
@@ -403,7 +403,7 @@ void Grenade::VOnTrapDoorOpen_41F920()
     }
 }
 
-signed __int16 Grenade::InTheAir_41EF10()
+s16 Grenade::InTheAir_41EF10()
 {
     field_120_xpos = field_A8_xpos;
     field_124_ypos = field_AC_ypos;
@@ -413,7 +413,7 @@ signed __int16 Grenade::InTheAir_41EF10()
     field_A8_xpos += field_B4_velx;
     field_AC_ypos += field_B8_vely;
 
-    WORD result = 0;
+    u16 result = 0;
     field_A8_xpos = CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 8, &result);
     field_AC_ypos = CamY_VoidSkipper_418690(field_AC_ypos, field_B8_vely, 8, &result);
 
@@ -450,7 +450,7 @@ signed __int16 Grenade::InTheAir_41EF10()
             field_B4_velx =(field_B4_velx / FP_FromInteger(2));
             if (field_118 <= 4)
             {
-                short vol = 75 - 20 * field_118;
+                s16 vol = 75 - 20 * field_118;
                 if (vol < 40)
                 {
                     vol = 40;
@@ -485,7 +485,7 @@ signed __int16 Grenade::InTheAir_41EF10()
                 field_AC_ypos = hitY;
                 field_A8_xpos = hitX;
                 field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                short vol = 75 - 20 * field_118;
+                s16 vol = 75 - 20 * field_118;
                 if (vol < 40)
                 {
                     vol = 40;
@@ -504,7 +504,7 @@ signed __int16 Grenade::InTheAir_41EF10()
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
                 field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                short vol = 75 - 20 * field_118;
+                s16 vol = 75 - 20 * field_118;
                 if (vol < 40)
                 {
 
@@ -531,7 +531,7 @@ void Grenade::VTimeToExplodeRandom()
     VTimeToExplodeRandom_41F9B0();
 }
 
-signed __int16 Grenade::OnCollision_BounceOff_41F650(BaseGameObject* pHit)
+s16 Grenade::OnCollision_BounceOff_41F650(BaseGameObject* pHit)
 {
     if (!pHit->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -560,9 +560,9 @@ signed __int16 Grenade::OnCollision_BounceOff_41F650(BaseGameObject* pHit)
     return 0;
 }
 
-signed __int16 Grenade::BlowUpAfterCountdown_41EDD0()
+s16 Grenade::BlowUpAfterCountdown_41EDD0()
 {
-    const short timer = field_112_explode_timer--;
+    const s16 timer = field_112_explode_timer--;
     if (!(timer % 16))
     {
         SFX_Play_43AD70(SoundEffect::GreenTick_3, 0, 0);
@@ -595,17 +595,17 @@ signed __int16 Grenade::BlowUpAfterCountdown_41EDD0()
     return 1;
 }
 
-__int16 Grenade::VCanThrow_453EC0()
+s16 Grenade::VCanThrow_453EC0()
 {
     return FALSE;
 }
 
-__int16 Grenade::VIsFalling()
+s16 Grenade::VIsFalling()
 {
     return VIsFalling_453ED0();
 }
 
-__int16 Grenade::VIsFalling_453ED0()
+s16 Grenade::VIsFalling_453ED0()
 {
     return FALSE;
 }

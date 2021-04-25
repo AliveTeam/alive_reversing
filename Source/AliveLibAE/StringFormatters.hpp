@@ -2,4 +2,4 @@
 
 #include "FunctionFwd.hpp"
 
-EXPORT void CC String_FormatString_4969D0(const char* src, char* dst, int bufferLen, char bUnknown);
+EXPORT void CC String_FormatString_4969D0(const s8* src, s8* dst, s32 bufferLen, s8 bUnknown);

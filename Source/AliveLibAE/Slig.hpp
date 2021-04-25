@@ -59,12 +59,12 @@
     ENTRY(M_Beat_51_4B6C00)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eSligMotions : int
+enum eSligMotions : s32
 {
     SLIG_MOTIONS_ENUM(MAKE_ENUM)
 };
 
-enum class SligSfx : __int16
+enum class SligSfx : s16
 {
     // Normal Slig
     eToStand_0 = 0,
@@ -94,7 +94,7 @@ struct Path_Slig : public Path_TLV
     Scale_short field_10_scale;
 
     // TODO: Check these - GameEnder is probably only AO for instance ?
-    enum class StartState : __int16
+    enum class StartState : s16
     {
         Listening_0 = 0,
         Paused_1 = 1,
@@ -106,44 +106,44 @@ struct Path_Slig : public Path_TLV
     };
     StartState field_12_start_state;
 
-    __int16 field_14_pause_time;
-    __int16 field_16_pause_left_min;
-    __int16 field_18_pause_left_max;
-    __int16 field_1A_pause_right_min;
-    __int16 field_1C_pause_right_max;
-    __int16 field_1E_chal_number;
-    __int16 field_20_chal_timer;
-    __int16 field_22_num_times_to_shoot;
-    __int16 field_24_padding; // TODO: or part of above field like in AO
-    __int16 field_26_code1;
-    __int16 field_28_code2;
+    s16 field_14_pause_time;
+    s16 field_16_pause_left_min;
+    s16 field_18_pause_left_max;
+    s16 field_1A_pause_right_min;
+    s16 field_1C_pause_right_max;
+    s16 field_1E_chal_number;
+    s16 field_20_chal_timer;
+    s16 field_22_num_times_to_shoot;
+    s16 field_24_padding; // TODO: or part of above field like in AO
+    s16 field_26_code1;
+    s16 field_28_code2;
     Choice_short field_2A_chase_abe_when_spotted;
     XDirection_short field_2C_start_direction;
-    __int16 field_2E_panic_timeout;
-    __int16 field_30_num_panic_sounds;
-    __int16 field_32_panic_sound_timeout;
-    __int16 field_34_stop_chase_delay;
-    __int16 field_36_time_to_wait_before_chase;
-    __int16 field_38_slig_id;
-    __int16 field_3A_listen_time;
-    __int16 field_3C_percent_say_what;
-    __int16 field_3E_percent_beat_mud;
-    __int16 field_40_talk_to_abe;
-    __int16 field_42_dont_shoot;
-    __int16 field_44_Z_shoot_delay;
+    s16 field_2E_panic_timeout;
+    s16 field_30_num_panic_sounds;
+    s16 field_32_panic_sound_timeout;
+    s16 field_34_stop_chase_delay;
+    s16 field_36_time_to_wait_before_chase;
+    s16 field_38_slig_id;
+    s16 field_3A_listen_time;
+    s16 field_3C_percent_say_what;
+    s16 field_3E_percent_beat_mud;
+    s16 field_40_talk_to_abe;
+    s16 field_42_dont_shoot;
+    s16 field_44_Z_shoot_delay;
     Choice_short field_46_stay_awake;
-    __int16 field_48_disable_resources;
-    __int16 field_4A_noise_wake_up_distance;
-    __int16 field_4C_id;
-    __int16 field_4E_unknown;
+    s16 field_48_disable_resources;
+    s16 field_4A_noise_wake_up_distance;
+    s16 field_4C_id;
+    s16 field_4E_unknown;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
 
 // This is a left bound, right bound and a persist.
 struct Path_SligBound : public Path_TLV
 {
-    __int16 field_10_slig_id;
-    __int16 field_12_disabled_resources;
+    s16 field_10_slig_id;
+    s16 field_12_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SligBound, 0x14);
 
@@ -152,78 +152,78 @@ using Path_SligRightBound = Path_SligBound;
 using Path_SligPersist = Path_SligBound;
 
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 class Slig;
-using TSligAIFn = __int16 (Slig::*)();
+using TSligAIFn = s16 (Slig::*)();
 using TSligMotionFn = void (Slig::*)();
 
 struct Slig_State
 {
     AETypes field_0_type;
-    __int16 field_2_padding;
+    s16 field_2_padding;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
     FP field_10_vely;
-    __int16 field_14_path_number;
+    s16 field_14_path_number;
     LevelIds field_16_lvl_number;
     FP field_18_sprite_scale;
-    __int16 field_1C_scale;
-    __int16 field_1E_r;
-    __int16 field_20_g;
-    __int16 field_22_b;
-    __int16 field_24_bFlipX;
-    __int16 field_26_current_motion;
-    __int16 field_28_current_frame;
-    __int16 field_2A_frame_change_counter;
-    char field_2C_bRender;
-    char field_2D_bDrawable;
-    __int16 field_2E_padding;
+    s16 field_1C_scale;
+    s16 field_1E_r;
+    s16 field_20_g;
+    s16 field_22_b;
+    s16 field_24_bFlipX;
+    s16 field_26_current_motion;
+    s16 field_28_current_frame;
+    s16 field_2A_frame_change_counter;
+    s8 field_2C_bRender;
+    s8 field_2D_bDrawable;
+    s16 field_2E_padding;
     FP field_30_health;
-    __int16 field_34_current_motion;
-    __int16 field_36_next_motion;
-    __int16 field_38_last_line_ypos;
-    __int16 field_3A_collision_line_type;
-    __int16 field_3C_padding;
-    __int16 field_3E_padding;
-    char field_40_bActiveChar;
-    char field_41_padding;
-    __int16 field_42_ai_sub_state;
-    __int16 field_44_pitch_min;
-    __int16 field_46_padding;
-    int field_48_timer;
-    __int16 field_4C_return_to_previous_motion;
-    __int16 field_4E_checked_if_off_screen;
-    __int16 field_50_input;
-    __int16 field_52_padding;
-    int field_54_timer;
+    s16 field_34_current_motion;
+    s16 field_36_next_motion;
+    s16 field_38_last_line_ypos;
+    s16 field_3A_collision_line_type;
+    s16 field_3C_padding;
+    s16 field_3E_padding;
+    s8 field_40_bActiveChar;
+    s8 field_41_padding;
+    s16 field_42_ai_sub_state;
+    s16 field_44_pitch_min;
+    s16 field_46_padding;
+    s32 field_48_timer;
+    s16 field_4C_return_to_previous_motion;
+    s16 field_4E_checked_if_off_screen;
+    s16 field_50_input;
+    s16 field_52_padding;
+    s32 field_54_timer;
     FP field_58_falling_velx_scale_factor;
-    int field_5C_tlvInfo;
-    __int16 field_60_res_idx;
-    __int16 field_62_shot_motion;
+    s32 field_5C_tlvInfo;
+    s16 field_60_res_idx;
+    s16 field_62_shot_motion;
     PSX_RECT field_64_zone_rect;
-    __int16 field_6C_unused;
-    __int16 field_6E_unused;
-    __int16 field_70_unused;
+    s16 field_6C_unused;
+    s16 field_6E_unused;
+    s16 field_70_unused;
     LevelIds field_72_level;
-    __int16 field_74_path;
-    __int16 field_76_camera;
-    int field_78_death_by_being_shot_timer;
-    int field_7C_explode_timer;
-    int field_80_brain_state_idx;
-    __int16 field_84_padding;
-    __int16 field_86_padding;
-    int field_88_unused;
-    int field_8C_num_times_to_shoot;
-    __int16 field_90_force_alive_state;
-    __int16 field_92_spotted_possessed_slig;
-    int field_94_glukkon_id;
-    __int16 field_98_state_after_speak;
-    __int16 field_9A_attention_timeout;
-    __int16 field_9C_unused;
-    __int16 field_9E_next_command_arg1;
-    __int16 field_A0_cmd_idx;
+    s16 field_74_path;
+    s16 field_76_camera;
+    s32 field_78_death_by_being_shot_timer;
+    s32 field_7C_explode_timer;
+    s32 field_80_brain_state_idx;
+    s16 field_84_padding;
+    s16 field_86_padding;
+    s32 field_88_unused;
+    s32 field_8C_num_times_to_shoot;
+    s16 field_90_force_alive_state;
+    s16 field_92_spotted_possessed_slig;
+    s32 field_94_glukkon_id;
+    s16 field_98_state_after_speak;
+    s16 field_9A_attention_timeout;
+    s16 field_9C_unused;
+    s16 field_9E_next_command_arg1;
+    s16 field_A0_cmd_idx;
     enum Flags_A2
     {
         eBit1_Padding = 0x1,
@@ -236,16 +236,16 @@ struct Slig_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_State, 0xA4);
 
-enum class GameSpeakEvents : __int16;
+enum class GameSpeakEvents : s16;
 
 class LiftPoint;
 
 class Slig : public BaseAliveGameObject
 {
 public:
-    EXPORT Slig* ctor_4B1370(Path_Slig* pTlv, int tlvInfo);
+    EXPORT Slig* ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -261,20 +261,20 @@ public:
 
     virtual void VOnTrapDoorOpen() override;
 
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    virtual __int16 vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual s16 vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static int CC CreateFromSaveState_4B3B50(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_4B3B50(const u8* pBuffer);
 
-    EXPORT static __int16 CCSTD IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
+    EXPORT static s16 CCSTD IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
 
 private:
-    EXPORT int vGetSaveState_4BFB10(Slig_State* pState);
+    EXPORT s32 vGetSaveState_4BFB10(Slig_State* pState);
 
 public:
     EXPORT void M_StandIdle_0_4B4EC0();
@@ -331,63 +331,63 @@ public:
     EXPORT void M_Beat_51_4B6C00();
 
 public:
-    EXPORT __int16 AI_Death_0_4BBFB0();
-    EXPORT __int16 AI_ReturnControlToAbeAndDie_1_4BC410();
-    EXPORT __int16 AI_Possessed_2_4BBCF0();
-    EXPORT __int16 AI_DeathDropDeath_3_4BC1E0();
-    EXPORT __int16 AI_ListeningToGlukkon_4_4B9D20();
+    EXPORT s16 AI_Death_0_4BBFB0();
+    EXPORT s16 AI_ReturnControlToAbeAndDie_1_4BC410();
+    EXPORT s16 AI_Possessed_2_4BBCF0();
+    EXPORT s16 AI_DeathDropDeath_3_4BC1E0();
+    EXPORT s16 AI_ListeningToGlukkon_4_4B9D20();
 
-    __int16 AI_ListeningToGlukkon_LostAttention();
+    s16 AI_ListeningToGlukkon_LostAttention();
 
-    __int16 AI_ListeningToGlukkon_Shooting();
+    s16 AI_ListeningToGlukkon_Shooting();
 
-    __int16 AI_ListeningToGlukkon_StoppingOnLift(LiftPoint* pPlatformObj);
+    s16 AI_ListeningToGlukkon_StoppingOnLift(LiftPoint* pPlatformObj);
 
-    __int16 AI_ListeningToGlukkon_PullingLever();
+    s16 AI_ListeningToGlukkon_PullingLever();
 
-    __int16 AI_ListenToGlukkon_StoppingNextToLever();
+    s16 AI_ListenToGlukkon_StoppingNextToLever();
 
-    __int16 AI_ListenToGlukkon_Speaking();
+    s16 AI_ListenToGlukkon_Speaking();
 
-    __int16 AI_ListenToGlukkon_NextLever(BaseAliveGameObject* pGlukkonObj);
+    s16 AI_ListenToGlukkon_NextLever(BaseAliveGameObject* pGlukkonObj);
 
-    __int16 AI_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj);
+    s16 AI_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj);
 
-    __int16 AI_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, LiftPoint* pPlatformObj);
+    s16 AI_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, LiftPoint* pPlatformObj);
 
-    __int16 AI_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonObj);
+    s16 AI_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonObj);
 
-    EXPORT __int16 AI_Empty_5_4B3220();
-    EXPORT __int16 AI_Empty_6_4B3420();
-    EXPORT __int16 AI_SpottedEnemy_7_4B3240();
-    EXPORT __int16 AI_Empty_8_4B3120();
-    EXPORT __int16 AI_Empty_9_4B3440();
-    EXPORT __int16 AI_EnemyDead_10_4B3460();
-    EXPORT __int16 AI_KilledEnemy_10_4B35C0();
-    EXPORT __int16 AI_PanicTurning_12_4BC490();
-    EXPORT __int16 AI_PanicRunning_13_4BC780();
-    EXPORT __int16 AI_PanicYelling_14_4BCA70();
-    EXPORT __int16 AI_Idle_15_4BD800();
-    EXPORT __int16 AI_StopChasing_16_4BCE30();
-    EXPORT __int16 AI_Chasing_17_4BCBD0();
-    EXPORT __int16 AI_StartChasing_18_4BCEB0();
-    EXPORT __int16 AI_Turning_19_4BDDD0();
-    EXPORT __int16 AI_StoppingNextToMudokon_20_4BF1E0();
-    EXPORT __int16 AI_Walking_21_4BE0C0();
-    EXPORT __int16 AI_GetAlertedTurn_22_4BE990();
-    EXPORT __int16 AI_GetAlerted_23_4BEC40();
-    EXPORT __int16 AI_BeatingUp_24_4BF2B0();
-    EXPORT __int16 AI_DiscussionWhat_25_4BF380();
-    EXPORT __int16 AI_Empty_26_4BF620();
-    EXPORT __int16 AI_Empty_27_4BF600();
-    EXPORT __int16 AI_ZShooting_28_4BFA70();
-    EXPORT __int16 AI_Shooting_29_4BF750();
-    EXPORT __int16 AI_ZSpottedEnemy_30_4BFA30();
-    EXPORT __int16 AI_WakingUp_31_4B9390();
-    EXPORT __int16 AI_Inactive_32_4B9430();
-    EXPORT __int16 AI_Paused_33_4B8DD0();
-    EXPORT __int16 AI_Sleeping_34_4B9170();
-    EXPORT __int16 AI_GameEnder_35_4BF640();
+    EXPORT s16 AI_Empty_5_4B3220();
+    EXPORT s16 AI_Empty_6_4B3420();
+    EXPORT s16 AI_SpottedEnemy_7_4B3240();
+    EXPORT s16 AI_Empty_8_4B3120();
+    EXPORT s16 AI_Empty_9_4B3440();
+    EXPORT s16 AI_EnemyDead_10_4B3460();
+    EXPORT s16 AI_KilledEnemy_10_4B35C0();
+    EXPORT s16 AI_PanicTurning_12_4BC490();
+    EXPORT s16 AI_PanicRunning_13_4BC780();
+    EXPORT s16 AI_PanicYelling_14_4BCA70();
+    EXPORT s16 AI_Idle_15_4BD800();
+    EXPORT s16 AI_StopChasing_16_4BCE30();
+    EXPORT s16 AI_Chasing_17_4BCBD0();
+    EXPORT s16 AI_StartChasing_18_4BCEB0();
+    EXPORT s16 AI_Turning_19_4BDDD0();
+    EXPORT s16 AI_StoppingNextToMudokon_20_4BF1E0();
+    EXPORT s16 AI_Walking_21_4BE0C0();
+    EXPORT s16 AI_GetAlertedTurn_22_4BE990();
+    EXPORT s16 AI_GetAlerted_23_4BEC40();
+    EXPORT s16 AI_BeatingUp_24_4BF2B0();
+    EXPORT s16 AI_DiscussionWhat_25_4BF380();
+    EXPORT s16 AI_Empty_26_4BF620();
+    EXPORT s16 AI_Empty_27_4BF600();
+    EXPORT s16 AI_ZShooting_28_4BFA70();
+    EXPORT s16 AI_Shooting_29_4BF750();
+    EXPORT s16 AI_ZSpottedEnemy_30_4BFA30();
+    EXPORT s16 AI_WakingUp_31_4B9390();
+    EXPORT s16 AI_Inactive_32_4B9430();
+    EXPORT s16 AI_Paused_33_4B8DD0();
+    EXPORT s16 AI_Sleeping_34_4B9170();
+    EXPORT s16 AI_GameEnder_35_4BF640();
 
 private:
     EXPORT void Init_4BB0D0();
@@ -395,7 +395,7 @@ private:
     EXPORT void dtor_4B1CF0();
 
 
-    EXPORT Slig* vdtor_4B1790(signed int flags);
+    EXPORT Slig* vdtor_4B1790(s32 flags);
 
     EXPORT void vUpdate_4B17C0();
 
@@ -422,7 +422,7 @@ private:
 
     EXPORT void ShouldStilBeAlive_4BBC00();
 
-    EXPORT BYTE** ResForMotion_4B1E90(__int16 motion);
+    EXPORT u8** ResForMotion_4B1E90(s16 motion);
 
     EXPORT void ToTurn_4BE090();
 
@@ -438,7 +438,7 @@ private:
 
     EXPORT void BlowToGibs_4B8020();
 
-    EXPORT __int16 MainMovement_4B4720();
+    EXPORT s16 MainMovement_4B4720();
 
     enum class MovementDirection
     {
@@ -449,13 +449,13 @@ private:
     void PullLever();
     void ShootOrShootZ();
 
-    __int16 ToShootZ();
-    __int16 LeftRigtMovement(MovementDirection direction);
-    __int16 GrabNearbyLift();
+    s16 ToShootZ();
+    s16 LeftRigtMovement(MovementDirection direction);
+    s16 GrabNearbyLift();
 
-    EXPORT __int16 HandlePlayerControlled_4B7800();
+    EXPORT s16 HandlePlayerControlled_4B7800();
 
-    EXPORT __int16 GetNextMotionIncGameSpeak_4B5080(int input);
+    EXPORT s16 GetNextMotionIncGameSpeak_4B5080(s32 input);
 
     EXPORT void WaitOrWalk_4BE870();
 
@@ -469,7 +469,7 @@ private:
 
     EXPORT GameSpeakEvents LastGlukkonSpeak_4B3090();
 
-    EXPORT __int16 ListenToGlukkonCommands_4B95D0();
+    EXPORT s16 ListenToGlukkonCommands_4B95D0();
 
     EXPORT void PlatformCollide_4B4E00();
 
@@ -481,7 +481,7 @@ private:
 
     EXPORT void GoAlertedOrSayWhat_4BF140();
 
-    EXPORT static int CCSTD IsFacingEffectiveLeft_4BB780(Slig* pSlig);
+    EXPORT static s32 CCSTD IsFacingEffectiveLeft_4BB780(Slig* pSlig);
 
     EXPORT void MoveOnLine_4B4C40();
 
@@ -491,109 +491,109 @@ private:
 
     EXPORT void vOnTrapDoorOpen_4B3690();
 
-    EXPORT __int16 MoveLift_4B3990(FP ySpeed);
+    EXPORT s16 MoveLift_4B3990(FP ySpeed);
 
     EXPORT void SlowDown_4B6450(FP speed);
 
     EXPORT void ToChase_4BCFF0();
 
-    EXPORT __int16 HandleEnemyStopper_4BBA00(int gridBlocks);
+    EXPORT s16 HandleEnemyStopper_4BBA00(s32 gridBlocks);
 
     EXPORT void ToPanicYelling_4BCBA0();
 
     EXPORT void ToPanicTurn_4BC750();
 
-    EXPORT static __int16 CC SligStableDelay_4B99B0();
+    EXPORT static s16 CC SligStableDelay_4B99B0();
 
     EXPORT void PlayerControlRunningSlideStopOrTurnFrame12_4B8790();
 
     EXPORT void PlayerControlRunningSlideStopOrTurnFrame4_4B85D0();
 
-    EXPORT BaseAliveGameObject* FindBeatTarget_4BD070(int a2, int gridBlocks);
+    EXPORT BaseAliveGameObject* FindBeatTarget_4BD070(s32 a2, s32 gridBlocks);
 
-    EXPORT void TurnOrWalk_4BD6A0(int a2);
+    EXPORT void TurnOrWalk_4BD6A0(s32 a2);
 
     EXPORT void ToPanicRunning_4BCA30();
 
     EXPORT void RespondToEnemyOrPatrol_4B3140();
 
 
-    EXPORT __int16 FindSwitch_4B9A50();
+    EXPORT s16 FindSwitch_4B9A50();
 
-    EXPORT __int16 NearOrFacingActiveChar_4B9930(BaseAliveGameObject* pObj);
+    EXPORT s16 NearOrFacingActiveChar_4B9930(BaseAliveGameObject* pObj);
 
-    EXPORT static __int16 CCSTD InZCover_4BB7C0(BaseAliveGameObject* pObj);
+    EXPORT static s16 CCSTD InZCover_4BB7C0(BaseAliveGameObject* pObj);
 
     EXPORT static BOOL CCSTD RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
 
-    EXPORT void NextCommand_4B9A00(__int16 speakTableIndex, __int16 responseState);
+    EXPORT void NextCommand_4B9A00(s16 speakTableIndex, s16 responseState);
 
-    EXPORT __int16 HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak);
+    EXPORT s16 HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak);
 
-    EXPORT __int16 vTakeDamage_4B2470(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_4B2470(BaseGameObject* pFrom);
 
-    EXPORT __int16 vIsFacingMe_4B23D0(BaseAnimatedWithPhysicsGameObject* pWho);
+    EXPORT s16 vIsFacingMe_4B23D0(BaseAnimatedWithPhysicsGameObject* pWho);
 
-    EXPORT __int16 vOnSameYLevel_4BB6C0(BaseAnimatedWithPhysicsGameObject* pOther);
+    EXPORT s16 vOnSameYLevel_4BB6C0(BaseAnimatedWithPhysicsGameObject* pOther);
 
-    EXPORT __int16 FindLiftPoint_4B9B40();
+    EXPORT s16 FindLiftPoint_4B9B40();
 
 public:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);
 private:
-    int field_118_tlvInfo;
+    s32 field_118_tlvInfo;
 public:
-    __int16 field_11C_ai_sub_state;
+    s16 field_11C_ai_sub_state;
 private:
-    __int16 field_11E_pitch_min;
-    int field_120_timer;
-    __int16 field_124_return_to_previous_motion;
-    __int16 field_126_checked_if_off_screen;
-    int field_128_input;
-    int field_12C_timer;
+    s16 field_11E_pitch_min;
+    s32 field_120_timer;
+    s16 field_124_return_to_previous_motion;
+    s16 field_126_checked_if_off_screen;
+    s32 field_128_input;
+    s32 field_12C_timer;
     FP field_130_falling_velx_scale_factor;
-    __int16 field_134_res_idx;
-    __int16 field_136_shot_motion;
+    s16 field_134_res_idx;
+    s16 field_136_shot_motion;
     PSX_RECT field_138_zone_rect;
-    __int16 field_140_unused;
-    __int16 field_142_unused;
-    __int16 field_144_unused;
+    s16 field_140_unused;
+    s16 field_142_unused;
+    s16 field_144_unused;
 public:
     LevelIds field_146_level;
-    __int16 field_148_path;
-    __int16 field_14A_camera;
-    int field_14C_death_by_being_shot_timer;
-    int field_150_explode_timer;
+    s16 field_148_path;
+    s16 field_14A_camera;
+    s32 field_14C_death_by_being_shot_timer;
+    s32 field_150_explode_timer;
 private:
     TSligAIFn field_154_brain_state;
-    __int16 field_158_num_times_to_shoot;
-    __int16 field_15A_unused;
-    __int16 field_15C_force_alive_state;
-    __int16 field_15E_spotted_possessed_slig;
-    int field_160_last_event_index;
-    __int16 field_164_padding;
-    __int16 field_166_padding;
-    __int16 field_168_padding;
-    __int16 field_16A_padding;
-    __int16 field_16C_padding;
-    __int16 field_16E_padding;
-    __int16 field_170_padding;
-    __int16 field_172_padding;
-    __int16 field_174_unused;
-    __int16 field_176_unused;
-    __int16 field_178_pPalAlloc[64];
+    s16 field_158_num_times_to_shoot;
+    s16 field_15A_unused;
+    s16 field_15C_force_alive_state;
+    s16 field_15E_spotted_possessed_slig;
+    s32 field_160_last_event_index;
+    s16 field_164_padding;
+    s16 field_166_padding;
+    s16 field_168_padding;
+    s16 field_16A_padding;
+    s16 field_16C_padding;
+    s16 field_16E_padding;
+    s16 field_170_padding;
+    s16 field_172_padding;
+    s16 field_174_unused;
+    s16 field_176_unused;
+    s16 field_178_pPalAlloc[64];
     PSX_RECT field_1F8_pal_rect;
-    __int16 field_200_red;
-    __int16 field_202_green;
-    __int16 field_204_blue;
-    __int16 field_206_padding;
-    int field_208_glukkon_obj_id;
-    __int16 field_20C_state_after_speak;
-    __int16 field_20E_attention_timeout;
-    __int16 field_210_unused;
-    __int16 field_212_next_command_arg1;
-    __int16 field_214_cmd_idx;
+    s16 field_200_red;
+    s16 field_202_green;
+    s16 field_204_blue;
+    s16 field_206_padding;
+    s32 field_208_glukkon_obj_id;
+    s16 field_20C_state_after_speak;
+    s16 field_20E_attention_timeout;
+    s16 field_210_unused;
+    s16 field_212_next_command_arg1;
+    s16 field_214_cmd_idx;
 
     enum Flags_216
     {
@@ -607,15 +607,15 @@ private:
 
     Path_Slig field_218_tlv_data;
     PSX_Point field_268_points[10];
-    __int16 field_290_points_count;
-    __int16 field_292_prevent_depossession;
-    int field_294_next_gamespeak_motion;
+    s16 field_290_points_count;
+    s16 field_292_prevent_depossession;
+    s32 field_294_next_gamespeak_motion;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x298);
 
-EXPORT int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData);
+EXPORT s32 CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData);
 EXPORT void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj);
 
-void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, __int16* pPalAlloc, __int16 palSize, PSX_RECT* palRect,
-    __int16& r, __int16& g, __int16& b,
-    const __int16* eyeColourIndices, __int16 eyeColourIndicesSize);
+void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPalAlloc, s16 palSize, PSX_RECT* palRect,
+    s16& r, s16& g, s16& b,
+    const s16* eyeColourIndices, s16 eyeColourIndicesSize);

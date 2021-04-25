@@ -10,14 +10,14 @@
 
 // Reference https://www.vegardno.net/2016/05/writing-reverb-filter-from-first.html
 
-const int ReverbEchos = 24;
+const s32 ReverbEchos = 24;
 static StereoSample_S16 sReverbBuffer[1024 * 32] = {};
-const float gReverbMix = 1.0f / ReverbEchos;
+const f32 gReverbMix = 1.0f / ReverbEchos;
 
 class FeedbackBuffer
 {
 public:
-    explicit FeedbackBuffer(int samples)
+    explicit FeedbackBuffer(s32 samples)
         : mSamples(samples)
     {
         mBuffer.resize(samples);
@@ -49,17 +49,17 @@ public:
         return f;
     }
 
-    int mIdx = 0;
-    int mSamples;
+    s32 mIdx = 0;
+    s32 mSamples;
     std::vector<StereoSample_S32> mBuffer;
 };
 
 static std::vector<std::unique_ptr<FeedbackBuffer>> gFeedbackBuffers;
 
-void Reverb_Init(int sampleRate)
+void Reverb_Init(s32 sampleRate)
 {
-    const int sampleGap = sampleRate / 800;
-    for (int i = 1; i <= ReverbEchos; i++)
+    const s32 sampleGap = sampleRate / 800;
+    for (s32 i = 1; i <= ReverbEchos; i++)
     {
         gFeedbackBuffers.emplace_back(new FeedbackBuffer((sampleGap + (i * 2)) * i)); // make_unique not in all supports cpp stdlibs
     }
@@ -78,7 +78,7 @@ void Reverb_PushSample(StereoSample_S16 v)
     }
 }
 
-inline void Reverb_Update(int index)
+inline void Reverb_Update(s32 index)
 {
     sReverbBuffer[index].left = 0;
     sReverbBuffer[index].right = 0;
@@ -87,14 +87,14 @@ inline void Reverb_Update(int index)
     {
         const StereoSample_S32 v = buffer->GetSample();
 
-        sReverbBuffer[index].left += static_cast<signed short>(v.left * gReverbMix);
-        sReverbBuffer[index].right += static_cast<signed short>(v.right * gReverbMix);
+        sReverbBuffer[index].left += static_cast<s16>(v.left * gReverbMix);
+        sReverbBuffer[index].right += static_cast<s16>(v.right * gReverbMix);
     }
 }
 
-void Reverb_Mix(StereoSample_S16 * dst, SDL_AudioFormat format, Uint32 len, int volume)
+void Reverb_Mix(StereoSample_S16 * dst, SDL_AudioFormat format, Uint32 len, s32 volume)
 {
-    for (unsigned int i = 0; i < len / sizeof(StereoSample_S16); i++)
+    for (u32 i = 0; i < len / sizeof(StereoSample_S16); i++)
     {
         Reverb_PushSample(dst[i]);
         Reverb_Update(i);

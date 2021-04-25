@@ -12,7 +12,7 @@ class ScreenClipper : public BaseGameObject
 public:
     EXPORT ScreenClipper* ctor_40BD60(PSX_Point xy, PSX_Point wh, Layer layer);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
@@ -22,14 +22,14 @@ public:
 private:
     EXPORT void VRender_40BEB0(PrimHeader** ppOt);
     EXPORT BaseGameObject* dtor_40BDE0();
-    EXPORT BaseGameObject* Vdtor_40BF40(unsigned int flags);
+    EXPORT BaseGameObject* Vdtor_40BF40(u32 flags);
   
     Prim_PrimClipper field_10_clippers[2];
     PSX_RECT field_30_rect;
 public:
     Layer field_38_ot_layer;
 private:
-    __int16 field_3A_pad;
+    s16 field_3A_pad;
 };
 ALIVE_ASSERT_SIZEOF(ScreenClipper, 0x3C);
 

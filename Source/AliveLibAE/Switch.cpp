@@ -31,7 +31,7 @@ const TintEntry kSwitchTints_563228[18] =
     { 0, 0u, 0u, 0u }
 };
 
-BaseGameObject* Switch::VDestructor(signed int flags)
+BaseGameObject* Switch::VDestructor(s32 flags)
 {
     return vdtor_4D5AD0(flags);
 }
@@ -46,19 +46,19 @@ void Switch::VScreenChanged()
     vScreenChanged_4D5B90();
 }
 
-__int16 Switch::VPull_4D6050(__int16 bLeftDirection)
+s16 Switch::VPull_4D6050(s16 bLeftDirection)
 {
     return vPull_4D6050(bLeftDirection);
 }
 
-Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
+Switch* Switch::ctor_4D5860(Path_Switch* pTlv, u32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547A5C);
 
     field_4_typeId = AETypes::eLever_139;
     const AnimRecord& rec = AnimRec(AnimId::Switch_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -128,7 +128,7 @@ void Switch::dtor_4D5B00()
     //Switch::dtor_4D5840(); // Omitted interface base nop.
 }
 
-Switch* Switch::vdtor_4D5AD0(signed int flags)
+Switch* Switch::vdtor_4D5AD0(s32 flags)
 {
     dtor_4D5B00();
     if (flags & 1)
@@ -191,13 +191,13 @@ void Switch::vUpdate_4D5C00()
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
 
-            const int switch_state = SwitchStates_Get_466020(field_F4_trigger_id);
+            const s32 switch_state = SwitchStates_Get_466020(field_F4_trigger_id);
             SwitchStates_Do_Operation_465F00(field_F4_trigger_id, field_102_target_action);
-            const int switch_state_after_op = SwitchStates_Get_466020(field_F4_trigger_id);
+            const s32 switch_state_after_op = SwitchStates_Get_466020(field_F4_trigger_id);
             if (switch_state != switch_state_after_op)
             {
-                int volLeft = 0;
-                int volRight = 0;
+                s32 volLeft = 0;
+                s32 volRight = 0;
 
                 if (field_108_sound_direction == SwitchSoundDirection::eLeft_1)
                 {
@@ -313,7 +313,7 @@ void Switch::vUpdate_4D5C00()
     }
 }
 
-__int16 Switch::vPull_4D6050(__int16 bLeftDirection)
+s16 Switch::vPull_4D6050(s16 bLeftDirection)
 {
     if (field_F8_state != SwitchState::eWaiting_0)
     {

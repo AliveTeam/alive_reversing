@@ -18,11 +18,11 @@
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
-EXPORT int CC SnapToXGrid_449930(FP scale, int x)
+EXPORT s32 CC SnapToXGrid_449930(FP scale, s32 x)
 {
     if (scale == FP_FromDouble(0.5))
     {
-        int v4 = (x % 375 - 6) % 13;
+        s32 v4 = (x % 375 - 6) % 13;
         if (v4 >= 7)
         {
             return x - v4 + 13;
@@ -34,7 +34,7 @@ EXPORT int CC SnapToXGrid_449930(FP scale, int x)
     }
     else if (scale == FP_FromInteger(1))
     {
-        int v3 = (x - 12) % 25;
+        s32 v3 = (x - 12) % 25;
         if (v3 >= 13)
         {
             return x - v3 + 25;
@@ -50,7 +50,7 @@ EXPORT int CC SnapToXGrid_449930(FP scale, int x)
     }
 }
 
-EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArraySize)
+EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(s16 resourceArraySize)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(resourceArraySize);
     SetVTable(this, 0x544000);
@@ -107,7 +107,7 @@ EXPORT void BaseAliveGameObject::dtor_4080B0()
 }
 
 
-BaseGameObject* BaseAliveGameObject::vdtor_408210(signed int flags)
+BaseGameObject* BaseAliveGameObject::vdtor_408210(s32 flags)
 {
     dtor_4080B0();
     if (flags & 1)
@@ -122,7 +122,7 @@ void BaseAliveGameObject::VRender(PrimHeader** ppOt)
     Render_424B90(ppOt);
 }
 
-BaseGameObject* BaseAliveGameObject::VDestructor(signed int flags)
+BaseGameObject* BaseAliveGameObject::VDestructor(s32 flags)
 {
     return vdtor_408210(flags);
 }
@@ -137,17 +137,17 @@ void BaseAliveGameObject::VPossessed_408F70()
     vPossessed_408F70();
 }
 
-void BaseAliveGameObject::VSetMotion_4081C0(__int16 state)
+void BaseAliveGameObject::VSetMotion_4081C0(s16 state)
 {
     vSetMotion_4081C0(state);
 }
 
-void BaseAliveGameObject::VOnPathTransition_408320(__int16 cameraWorldXPos, __int16 cameraWorldYPos, CameraPos direction)
+void BaseAliveGameObject::VOnPathTransition_408320(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction)
 {
     vOnPathTransition_408320(cameraWorldXPos, cameraWorldYPos, direction);
 }
 
-__int16 BaseAliveGameObject::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 BaseAliveGameObject::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_408730(pFrom);
 }
@@ -157,12 +157,12 @@ void BaseAliveGameObject::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_4087F0(pTlv);
 }
 
-void BaseAliveGameObject::VCheckCollisionLineStillValid_408A40(__int16 distance)
+void BaseAliveGameObject::VCheckCollisionLineStillValid_408A40(s16 distance)
 {
     vCheckCollisionLineStillValid_408A40(distance);
 }
 
-BirdPortal* BaseAliveGameObject::VIntoBirdPortal_408FD0(__int16 gridBlocks)
+BirdPortal* BaseAliveGameObject::VIntoBirdPortal_408FD0(s16 gridBlocks)
 {
     return vIntoBirdPortal_408FD0(gridBlocks);
 }
@@ -172,7 +172,7 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
     vOnTrapDoorOpen_4081F0();
 }
 
-__int16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* pObj)
+s16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* pObj)
 {
     /* OG unused feature to always appear as if you are in an invisible zone
     if (word_5C1BE4)
@@ -236,13 +236,13 @@ void BaseAliveGameObject::vPossessed_408F70()
     // Empty
 }
 
-void BaseAliveGameObject::vSetMotion_4081C0(__int16 state)
+void BaseAliveGameObject::vSetMotion_4081C0(s16 state)
 {
     field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
     field_106_current_motion = state;
 }
 
-EXPORT int CC MaxGridBlocks_449880(FP scale)
+EXPORT s32 CC MaxGridBlocks_449880(FP scale)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -259,7 +259,7 @@ EXPORT int CC MaxGridBlocks_449880(FP scale)
     }
 }
 
-void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __int16 cameraWorldYPos, CameraPos direction)
+void BaseAliveGameObject::vOnPathTransition_408320(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction)
 {
     const FP oldY = field_BC_ypos;
     switch (direction)
@@ -273,7 +273,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __in
             else
             {
                 // TODO: This is actually wrong!!
-                const DWORD off = field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset;
+                const u32 off = field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset;
                 field_BC_ypos = FP_FromInteger((*field_20_animation.field_20_ppBlock)[off + 5] + cameraWorldYPos + 236);
             }
             break;
@@ -350,7 +350,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __in
 
     if (field_CC_sprite_scale == FP_FromInteger(1) && field_20_animation.field_14_scale == FP_FromDouble(0.5))
     {
-        // From 0.5 to 1 scale, double velx
+        // From 0.5 to 1 scale, f64 velx
         field_C4_velx = field_C4_velx * FP_FromInteger(2);
     }
 
@@ -361,7 +361,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __in
     }
 }
 
-__int16 BaseAliveGameObject::vTakeDamage_408730(BaseGameObject* /*pFrom*/)
+s16 BaseAliveGameObject::vTakeDamage_408730(BaseGameObject* /*pFrom*/)
 {
     // Defaults to no damage.
     return 0;
@@ -372,7 +372,7 @@ void BaseAliveGameObject::vOn_TLV_Collision_4087F0(Path_TLV* /*pTlv*/)
     // Empty
 }
 
-void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(__int16 distance)
+void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(s16 distance)
 {
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
     if (!field_100_pCollisionLine)
@@ -426,9 +426,9 @@ void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(__int16 distance)
 
 }
 
-BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(__int16 numGridBlocks)
+BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(s16 numGridBlocks)
 {
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -478,11 +478,11 @@ void BaseAliveGameObject::vOnTrapDoorOpen_4081F0()
     // Empty
 }
 
-signed __int16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, int resourceID)
+s16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, s32 resourceID)
 {
     SetTint_425600(pTintArray, level_id);
 
-    BYTE** pPalResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, resourceID, 1u, 0);
+    u8** pPalResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, resourceID, 1u, 0);
 
     if (!pPalResource)
     {
@@ -494,7 +494,7 @@ signed __int16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTi
     return 1;
 }
 
-BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(__int16 direction, __int16 distance)
+BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(s16 direction, s16 distance)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
@@ -527,13 +527,13 @@ BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(__int16 direction, __int16 
         field_D6_scale != 0 ? 0xF : 0xF0) == 0;
 }
 
-BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(int idToFind, AETypes typeToFind, FP xpos, FP ypos)
+BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos)
 {
-    const short xposD = FP_GetExponent(xpos);
-    const short yposD = FP_GetExponent(ypos);
+    const s16 xposD = FP_GetExponent(xpos);
+    const s16 yposD = FP_GetExponent(ypos);
 
     BOOL bFound = FALSE;
-    for (int idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
         if (!pObj)
@@ -610,9 +610,9 @@ EXPORT void BaseAliveGameObject::SetActiveCameraDelayedFromDir_408C40()
      }
 }
 
-__int16 BaseAliveGameObject::MapFollowMe_408D10(__int16 snapToGrid)
+s16 BaseAliveGameObject::MapFollowMe_408D10(s16 snapToGrid)
 {
-    const int xposSnapped = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
+    const s32 xposSnapped = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
     if (snapToGrid)
     {
         field_B8_xpos = FP_FromInteger(xposSnapped);
@@ -734,10 +734,10 @@ BOOL BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX,
 
 BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind, FP xpos, FP ypos)
 {
-    const int xposI = FP_GetExponent(xpos);
-    const int yposI = FP_GetExponent(ypos);
+    const s32 xposI = FP_GetExponent(xpos);
+    const s32 yposI = FP_GetExponent(ypos);
 
-    for (int i=0; i<gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i=0; i<gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -764,7 +764,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind,
     return nullptr;
 }
 
-__int16 BaseAliveGameObject::OnTrapDoorIntersection_408BA0(PlatformBase* pPlatform)
+s16 BaseAliveGameObject::OnTrapDoorIntersection_408BA0(PlatformBase* pPlatform)
 {
     PSX_RECT bRect = {};
     pPlatform->vGetBoundingRect_424FD0(&bRect, 1);

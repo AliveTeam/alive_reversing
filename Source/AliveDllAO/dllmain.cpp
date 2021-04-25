@@ -2,9 +2,9 @@
 #include "Function.hpp"
 #include "ExportHooker.hpp"
 #include "BaseGameObject.hpp"
+#include "pch_shared.h"
 #include "Game.hpp"
 #include "..\AliveLibAO\WinMain.hpp"
-//#include "..\AliveLibAO\Map.hpp"
 
 bool RunningAsInjectedDll()
 {
@@ -49,7 +49,7 @@ static void AODllProcessAttach(HINSTANCE hinstDLL)
 
 BOOL WINAPI DllMain(
     _In_ HINSTANCE hinstDLL,
-    _In_ DWORD     fdwReason,
+    _In_ u32     fdwReason,
     _In_ LPVOID    /*lpvReserved*/
     )
 {

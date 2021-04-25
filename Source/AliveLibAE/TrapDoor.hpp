@@ -6,18 +6,18 @@
 
 struct Path_TrapDoor : public Path_TLV
 {
-    __int16 field_10_id;
-    __int16 field_12_start_state;
+    s16 field_10_id;
+    s16 field_12_start_state;
     Choice_short field_14_self_closing;
     Scale_short field_16_scale;
-    __int16 field_18_dest_level;
+    s16 field_18_dest_level;
     XDirection_short field_1A_direction;
-    __int16 field_1C_xOff;
-    __int16 field_1E_stay_open_time;
+    s16 field_1C_xOff;
+    s16 field_1E_stay_open_time;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x20);
 
-enum class TrapDoorState : __int16
+enum class TrapDoorState : s16
 {
     eClosed_0 = 0,
     eOpening_1 = 1,
@@ -29,34 +29,34 @@ struct TrapDoor_State
 {
     AETypes field_0_type;
     TrapDoorState field_2_state;
-    int field_4_open_time;
-    int field_8_tlvInfo;
+    s32 field_4_open_time;
+    s32 field_8_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
 
 class TrapDoor : public PlatformBase
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
-    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx) override;
 
     virtual void VAdd(BaseAliveGameObject* pObj) override;
     virtual void VRemove(BaseAliveGameObject* pObj) override;
 
-    EXPORT TrapDoor* ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvInfo);
-    EXPORT static signed int CC CreateFromSaveState_4DDED0(const BYTE* pData);
+    EXPORT TrapDoor* ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
+    EXPORT static s32 CC CreateFromSaveState_4DDED0(const u8* pData);
 
 private:
-    EXPORT BaseGameObject* vdtor_4DD8A0(signed int flags);
+    EXPORT BaseGameObject* vdtor_4DD8A0(s32 flags);
     EXPORT void vUpdate_4DDA90();
     EXPORT void vRender_4DDDD0(PrimHeader** ppOt);
     EXPORT void vScreenChanged_4DDE40();
-    EXPORT int vGetSaveState_4DE050(TrapDoor_State* pState);
-    EXPORT PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, int /*not_used*/);
+    EXPORT s32 vGetSaveState_4DE050(TrapDoor_State* pState);
+    EXPORT PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, s32 /*not_used*/);
 
 private:
 
@@ -70,14 +70,14 @@ private:
     EXPORT void dtor_4DD8D0();
 
 private:
-    __int16 field_12C_unused;
-    __int16 field_12E_padding;
-    int field_130_stay_open_time2;
-    __int16 field_134_switch_idx;
+    s16 field_12C_unused;
+    s16 field_12E_padding;
+    s32 field_130_stay_open_time2;
+    s16 field_134_switch_idx;
     TrapDoorState field_136_state;
-    __int16 field_138_switch_state;
-    __int16 field_13A_xOff;
-    __int16 field_13C_stay_open_time;
+    s16 field_138_switch_state;
+    s16 field_13A_xOff;
+    s16 field_13C_stay_open_time;
     Choice_short field_13E_self_closing;
     FP field_140_x;
     FP field_144_y;

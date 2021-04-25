@@ -7,7 +7,7 @@
 struct Tbl1
 {
     u8 mBitsToShift;
-    //char padding;
+    //s8 padding;
     u16 mOutputWord;
 };
 //#pragma pack(pop)
@@ -19,7 +19,7 @@ struct Tbl1
 struct Tbl2
 {
     u8 mBitsToShift;
-    // char padding;
+    // s8 padding;
     u16 mOutputWord1;
     u16 mOutputWord2;
     u16 mOutputWord3;

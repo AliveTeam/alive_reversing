@@ -5,7 +5,7 @@
 #include "Events.hpp"
 #include "DDCheat.hpp"
 
-BaseGameObject* BackgroundAnimation::VDestructor(signed int flags)
+BaseGameObject* BackgroundAnimation::VDestructor(s32 flags)
 {
     return vdtor_40D420(flags);
 }
@@ -46,7 +46,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* 
         (*field_F4_res)->field_4_frame_table_offset,
         (*field_F4_res)->field_0_max_w,
         (*field_F4_res)->field_2_max_h,
-        reinterpret_cast<BYTE**>(field_F4_res),
+        reinterpret_cast<u8**>(field_F4_res),
         1,
         1u);
 
@@ -57,7 +57,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* 
 
     if (pPathParams->field_1A_layer > Layer::eLayer_0)
     {
-        const int translatedLayer = static_cast<int>(pPathParams->field_1A_layer) - 1;
+        const s32 translatedLayer = static_cast<s32>(pPathParams->field_1A_layer) - 1;
         if (!translatedLayer)
         {
             field_20_animation.field_C_render_layer = Layer::eLayer_20;
@@ -99,7 +99,7 @@ void BackgroundAnimation::dtor_40D4C0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-BaseGameObject* BackgroundAnimation::vdtor_40D420(signed int flags)
+BaseGameObject* BackgroundAnimation::vdtor_40D420(s32 flags)
 {
     dtor_40D4C0();
     if (flags & 1)

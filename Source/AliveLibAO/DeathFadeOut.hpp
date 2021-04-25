@@ -9,9 +9,9 @@ namespace AO {
 class DeathFadeOut : public EffectBase
 {
 public:
-    EXPORT DeathFadeOut* ctor_419DB0(Layer layer, __int16 direction, __int16 destroyOnDone, int speed, TPageAbr abr);
+    EXPORT DeathFadeOut* ctor_419DB0(Layer layer, s16 direction, s16 destroyOnDone, s32 speed, TPageAbr abr);
 
-    EXPORT void Init_419E40(Layer layer, __int16 direction, __int16 destroyOnDone, int speed);
+    EXPORT void Init_419E40(Layer layer, s16 direction, s16 destroyOnDone, s32 speed);
 
     virtual void VScreenChanged() override;
 
@@ -23,14 +23,14 @@ public:
 
     EXPORT void VRender_419ED0(PrimHeader** ppOt);
 
-    BaseGameObject* VDestructor(signed int flags) override;
+    BaseGameObject* VDestructor(s32 flags) override;
 
-    __int16 field_68_current_fade_rgb;
-    __int16 field_6A_speed;
-    __int16 field_6C_direction;
-    __int16 field_6E_bDone;
-    __int16 field_70_destroy_on_done;
-    __int16 field_72;
+    s16 field_68_current_fade_rgb;
+    s16 field_6A_speed;
+    s16 field_6C_direction;
+    s16 field_6E_bDone;
+    s16 field_70_destroy_on_done;
+    s16 field_72;
 };
 ALIVE_ASSERT_SIZEOF(DeathFadeOut, 0x74);
 

@@ -18,11 +18,11 @@ public:
 
     EXPORT void VUpdate_48B650();
 
-    BaseGameObject* VDestructor(signed int flags) override;
+    BaseGameObject* VDestructor(s32 flags) override;
 
-    int field_D4[4];
-    __int16 field_E4_bHitSomething;
-    __int16 field_E6;
+    s32 field_D4[4];
+    s16 field_E4_bHitSomething;
+    s16 field_E6;
 };
 ALIVE_ASSERT_SIZEOF(Leaf, 0xE8);
 

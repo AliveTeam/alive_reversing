@@ -11,7 +11,7 @@
 
 namespace AO {
 
-void OrbWhirlWindParticle::CalculateRenderProperties_48BDC0(__int16 bStarted)
+void OrbWhirlWindParticle::CalculateRenderProperties_48BDC0(s16 bStarted)
 {
     field_B8_render_angle += field_BC_counter;
 
@@ -25,8 +25,8 @@ void OrbWhirlWindParticle::CalculateRenderProperties_48BDC0(__int16 bStarted)
         field_D4_radiusX += FP_FromInteger(4);
     }
 
-    field_A0_xpos_render_offset = ((field_C0_current_scale * field_D4_radiusX) * Math_Sine_451110(static_cast<BYTE>(field_B8_render_angle))) + field_CC_xpos_mid;
-    field_A4_ypos_render_offset = ((field_C0_current_scale * field_D8_radiosY) * Math_Cosine_4510A0(static_cast<BYTE>(field_B8_render_angle))) + field_D0_ypos_mid;
+    field_A0_xpos_render_offset = ((field_C0_current_scale * field_D4_radiusX) * Math_Sine_451110(static_cast<u8>(field_B8_render_angle))) + field_CC_xpos_mid;
+    field_A4_ypos_render_offset = ((field_C0_current_scale * field_D8_radiosY) * Math_Cosine_4510A0(static_cast<u8>(field_B8_render_angle))) + field_D0_ypos_mid;
     field_A8_render_as_scale = (field_C0_current_scale * field_C4_randomized_scale);
     if (field_C0_current_scale > FP_FromDouble(0.599))
     {
@@ -44,7 +44,7 @@ void OrbWhirlWindParticle::ToStop()
     field_DC_position_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 32);
 }
 
-int OrbWhirlWindParticle::IsActive()
+s32 OrbWhirlWindParticle::IsActive()
 {
     return field_4_flags & 1;
 }
@@ -53,11 +53,11 @@ void OrbWhirlWindParticle::VRender_48C430(PrimHeader** ppOt)
 {
     field_8_anim.field_14_scale = field_A8_render_as_scale;
 
-    const short xpos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
+    const s16 xpos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
         + field_A0_xpos_render_offset
         - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
 
-    const short ypos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + 5)
+    const s16 ypos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + 5)
         + field_A4_ypos_render_offset
         - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
 
@@ -78,7 +78,7 @@ void OrbWhirlWindParticle::VRender_48C430(PrimHeader** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-void OrbWhirlWindParticle::SetActive(unsigned __int8 active)
+void OrbWhirlWindParticle::SetActive(u8 active)
 {
     if (active)
     {
@@ -99,9 +99,9 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
         break;
 
     case State::State_1_Spin:
-        if (static_cast<int>(gnFrameCount_507670) < field_DC_position_timer + 16)
+        if (static_cast<s32>(gnFrameCount_507670) < field_DC_position_timer + 16)
         {
-            if (static_cast<int>(gnFrameCount_507670) >= field_DC_position_timer)
+            if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
             {
                 field_D0_ypos_mid += field_B0_ypos_increment;
                 field_D4_radiusX -= FP_FromInteger(2);
@@ -142,7 +142,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
             const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (static_cast<int>(gnFrameCount_507670) < field_DC_position_timer)
+            if (static_cast<s32>(gnFrameCount_507670) < field_DC_position_timer)
             {
                 field_C0_current_scale += field_C8_scale_offset_fly_to_target;
                 const FP v25 = FP_FromInteger(16 - (field_DC_position_timer - gnFrameCount_507670)) / FP_FromInteger(16);
@@ -169,7 +169,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
         break;
 
     case State::State_3_SpinAtTarget:
-        if (static_cast<int>(gnFrameCount_507670) >= field_DC_position_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
         {
             SetActive(IsActive() ? 0 : 1);
         }
@@ -182,7 +182,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
         break;
 
     case State::State_4_Stop:
-        if (static_cast<int>(gnFrameCount_507670) >= field_DC_position_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
         {
             SetActive(IsActive() ? 0 : 1);
         }
@@ -194,7 +194,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
     }
 }
 
-OrbWhirlWindParticle* OrbWhirlWindParticle::Vdtor_48C510(signed int flags)
+OrbWhirlWindParticle* OrbWhirlWindParticle::Vdtor_48C510(s32 flags)
 {
     SetVTable(this, 0x4BD7B8);
 
@@ -213,7 +213,7 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_48BC10(FP xpos, FP ypos, FP sca
 
     SetVTable(this, 0x4BD7B8);
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
     field_8_anim.Init_402D20(1492, gObjList_animations_505564, 0, 38, 21, ppRes, 1, 0, 0);
 
     field_8_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

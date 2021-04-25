@@ -6,7 +6,7 @@
 #include "stdlib.hpp"
 #include "Sfx.hpp"
 
-BaseGameObject* DeathBirdParticle::VDestructor(signed int flags)
+BaseGameObject* DeathBirdParticle::VDestructor(s32 flags)
 {
     return vdtor_43EE20(flags);
 }
@@ -16,14 +16,14 @@ void DeathBirdParticle::VUpdate()
     Update_43EE70();
 }
 
-DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, int start, __int16 bPlaySound, FP scale)
+DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, s32 start, s16 bPlaySound, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
     SetVTable(this, 0x545298); // vTbl_DeathBirdParticle_00545298
     field_4_typeId = AETypes::eDeathBird_62;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
     Animation_Init_424E10(9940, 122, 43, ppRes, 1, 1u);
 
     if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
@@ -62,7 +62,7 @@ void DeathBirdParticle::Update_43EE70()
     switch (field_F5_state)
     {
     case States::eAnimateDeathFlares_0:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_F8_start)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_start)
         {
             // Death "star"
             field_20_animation.Set_Animation_Data_409C80(9912, 0);
@@ -118,7 +118,7 @@ void DeathBirdParticle::dtor_43EE50()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-DeathBirdParticle* DeathBirdParticle::vdtor_43EE20(signed int flags)
+DeathBirdParticle* DeathBirdParticle::vdtor_43EE20(s32 flags)
 {
     dtor_43EE50();
     if (flags & 1)

@@ -7,7 +7,7 @@
 
 class BaseThrowable;
 
-EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, short count);
+EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, s16 count);
 
 // NOTE: This base type must exist but seems to have been decimated by the compiler, so this contains pure virtuals for
 // non common virtuals, and virtuals for common virtuals.
@@ -22,7 +22,7 @@ public:
     virtual BOOL VIsFalling_49E330() = 0;
     virtual void VTimeToExplodeRandom_411490() = 0;
 
-    virtual __int16 VGetCount_448080();
+    virtual s16 VGetCount_448080();
 
     virtual void VToDead_4114B0();
 
@@ -32,11 +32,11 @@ private:
     EXPORT void vToDead_4114B0();
     EXPORT void vOnPickUpOrSlapped_4114D0();
 
-    EXPORT __int16 vGetCount_448080();
+    EXPORT s16 vGetCount_448080();
 protected:
-    __int16 field_118_count;
-    __int16 field_11A_bDead;
+    s16 field_118_count;
+    s16 field_11A_bDead;
 };
 
-ALIVE_VAR_EXTERN(WORD, gInfiniteGrenades_5C1BDE);
+ALIVE_VAR_EXTERN(u16, gInfiniteGrenades_5C1BDE);
 extern const AETypes throwable_types_55FAFC[252];

@@ -10,7 +10,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4D148C, BYTE, sLeafRandIdx_4D148C, 8);
+ALIVE_VAR(1, 0x4D148C, u8, sLeafRandIdx_4D148C, 8);
 
 void Leaf::VUpdate_48B650()
 {
@@ -19,10 +19,10 @@ void Leaf::VUpdate_48B650()
     field_B4_velx = field_B4_velx * FP_FromDouble(0.8);
     field_B8_vely = field_B8_vely * FP_FromDouble(0.8);
 
-    const int randX = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
+    const s32 randX = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
     field_B4_velx += field_BC_sprite_scale * (FP_FromInteger(randX) / FP_FromInteger(64));
 
-    const int randY = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
+    const s32 randY = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
     field_B8_vely += (field_BC_sprite_scale * (FP_FromInteger(randY) / FP_FromInteger(64)));
 
     const FP x2 = field_B4_velx + field_A8_xpos;
@@ -102,7 +102,7 @@ Leaf* Leaf::ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     field_C2_g = 100;
     field_C4_b = 100;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWellLeafResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWellLeafResID, 1, 0);
     if (!ppRes)
     {
         return this;
@@ -138,19 +138,19 @@ Leaf* Leaf::ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 
     field_E4_bHitSomething &= ~1u;
 
-    short randLeftVol = Math_RandomRange_450F20(19, 24);
+    s16 randLeftVol = Math_RandomRange_450F20(19, 24);
     if (field_BC_sprite_scale == FP_FromDouble(0.4)) // ??
     {
         randLeftVol -= 7;
     }
 
-    const short randRightVol = Math_RandomRange_450F20(-900, -700);
+    const s16 randRightVol = Math_RandomRange_450F20(-900, -700);
     SFX_Play_43AE60(SoundEffect::Leaf_27, (3 * randLeftVol) / 4, randRightVol, nullptr);
 
     return this;
 }
 
-BaseGameObject* Leaf::VDestructor(signed int flags)
+BaseGameObject* Leaf::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

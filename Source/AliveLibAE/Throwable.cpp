@@ -10,7 +10,7 @@
 #include "PlatformBase.hpp"
 #include "Game.hpp"
 
-ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
+ALIVE_VAR(1, 0x5c1bde, u16, gInfiniteGrenades_5C1BDE, 0);
 
 // Overlay to throwable type table ??
 const AETypes throwable_types_55FAFC[252] =
@@ -42,7 +42,7 @@ const AETypes throwable_types_55FAFC[252] =
     AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
     AETypes::eNone_0,       AETypes::eNone_0 };
 
-EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, short count)
+EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, s16 count)
 {
     switch (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID])
     {
@@ -66,7 +66,7 @@ void BaseThrowable::VOnPickUpOrSlapped()
     vOnPickUpOrSlapped_4114D0();
 }
 
-__int16 BaseThrowable::VGetCount_448080()
+s16 BaseThrowable::VGetCount_448080()
 {
     return vGetCount_448080();
 }
@@ -95,7 +95,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
         {
             if (ObjList_5C1B78)
             {
-                for (int idx = 0; idx < ObjList_5C1B78->Size(); idx++)
+                for (s32 idx = 0; idx < ObjList_5C1B78->Size(); idx++)
                 {
                     BaseGameObject* pObj = ObjList_5C1B78->ItemAt(idx);
                     if (!pObj)
@@ -134,7 +134,7 @@ void BaseThrowable::vOnPickUpOrSlapped_4114D0()
     VToDead_4114B0();
 }
 
-__int16 BaseThrowable::vGetCount_448080()
+s16 BaseThrowable::vGetCount_448080()
 {
     return field_118_count;
 }

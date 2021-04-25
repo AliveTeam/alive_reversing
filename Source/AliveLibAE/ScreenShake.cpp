@@ -8,7 +8,7 @@
 #include "PsxRender.hpp"
 #include "Game.hpp"
 
-EXPORT ScreenShake* ScreenShake::ctor_4ACF70(__int16 enableShakeEvent, __int16 softerShakes)
+EXPORT ScreenShake* ScreenShake::ctor_4ACF70(s16 enableShakeEvent, s16 softerShakes)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547070); // vTbl_ScreenShake_547070
@@ -51,7 +51,7 @@ EXPORT void ScreenShake::vUpdate_4AD0E0()
     }
 }
 
-EXPORT BaseGameObject* ScreenShake::vdtor_4AD030(signed int flags)
+EXPORT BaseGameObject* ScreenShake::vdtor_4AD030(s32 flags)
 {
     dtor_4AD060();
     if (flags & 1)
@@ -63,8 +63,8 @@ EXPORT BaseGameObject* ScreenShake::vdtor_4AD030(signed int flags)
 
 struct ScreenOffset
 {
-    signed char field_0_x;
-    signed char field_1_y;
+    s8 field_0_x;
+    s8 field_1_y;
 };
 
 const ScreenOffset sShakeOffsets_560388[16] =
@@ -92,8 +92,8 @@ EXPORT void ScreenShake::vRender_4AD120(PrimHeader** ppOt)
     Prim_ScreenOffset* pPrim = &field_20_screenOffset[gPsxDisplay_5C1130.field_C_buffer_index];
     if (field_40_shakeNumber < 14)
     {
-        short xoff = 0;
-        short yoff = 0;
+        s16 xoff = 0;
+        s16 yoff = 0;
 
         if (field_44_softerShakes)
         {
@@ -167,7 +167,7 @@ EXPORT void ScreenShake::vRender_4AD120(PrimHeader** ppOt)
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-BaseGameObject* ScreenShake::VDestructor(signed int flags)
+BaseGameObject* ScreenShake::VDestructor(s32 flags)
 {
     return vdtor_4AD030(flags);
 }

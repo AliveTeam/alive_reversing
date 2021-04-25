@@ -5,7 +5,7 @@ GLShader::GLShader()
     
 }
 
-static std::string shaderReadFile(const char* filePath)
+static std::string shaderReadFile(const s8* filePath)
 {
     std::string content;
     std::ifstream fileStream(filePath, std::ios::in);
@@ -32,14 +32,14 @@ void printProgramLog(GLuint program)
     if (glIsProgram(program))
     {
         //Program log length
-        int infoLogLength = 0;
-        int maxLength = infoLogLength;
+        s32 infoLogLength = 0;
+        s32 maxLength = infoLogLength;
 
         //Get info string length
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 
         //Allocate string
-        std::vector<char> infoLog(maxLength + 1);
+        std::vector<s8> infoLog(maxLength + 1);
 
         //Get info log
         glGetProgramInfoLog(program, maxLength, &infoLogLength, infoLog.data());
@@ -55,7 +55,7 @@ void printProgramLog(GLuint program)
     }
 }
 
-bool GLShader::LoadSource(const char* vertex_Source, const char* fragment_Source)
+bool GLShader::LoadSource(const s8* vertex_Source, const s8* fragment_Source)
 {
     // Check if our handles are already created
     // so we can delete them
@@ -100,7 +100,7 @@ bool GLShader::LoadSource(const char* vertex_Source, const char* fragment_Source
     return true;
 }
 
-bool GLShader::LoadFromFile(const char* vertex_Path, const char* fragment_Path)
+bool GLShader::LoadFromFile(const s8* vertex_Path, const s8* fragment_Path)
 {
     return LoadSource(shaderReadFile(vertex_Path).c_str(), shaderReadFile(fragment_Path).c_str());
 }
@@ -110,32 +110,32 @@ GLuint GLShader::GetProgramID()
     return mProgramID;
 }
 
-GLuint GLShader::GetAttributeLocation(const char* attr)
+GLuint GLShader::GetAttributeLocation(const s8* attr)
 {
     return glGetAttribLocation(mProgramID, attr);
 }
 
-void GLShader::UniformMatrix4fv(const char * name, glm::mat4 matrix)
+void GLShader::UniformMatrix4fv(const s8 * name, glm::mat4 matrix)
 {
     glUniformMatrix4fv(glGetUniformLocation(mProgramID, name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-void GLShader::UniformVec2(const char* name, glm::vec2 vector)
+void GLShader::UniformVec2(const s8* name, glm::vec2 vector)
 {
     glUniform2f(glGetUniformLocation(mProgramID, name), vector.x, vector.y);
 }
 
-void GLShader::UniformVec3(const char* name, glm::vec3 vector)
+void GLShader::UniformVec3(const s8* name, glm::vec3 vector)
 {
     glUniform3f(glGetUniformLocation(mProgramID, name), vector.x, vector.y, vector.z);
 }
 
-void GLShader::UniformVec4(const char* name, glm::vec4 vector)
+void GLShader::UniformVec4(const s8* name, glm::vec4 vector)
 {
     glUniform4f(glGetUniformLocation(mProgramID, name), vector.x, vector.y, vector.z, vector.w);
 }
 
-void GLShader::Uniform1i(const char* name, GLint v)
+void GLShader::Uniform1i(const s8* name, GLint v)
 {
     glUniform1i(glGetUniformLocation(mProgramID, name), v);
 }
@@ -156,14 +156,14 @@ void printShaderLog(GLuint shader)
     if (glIsShader(shader))
     {
         //Shader log length
-        int infoLogLength = 0;
-        int maxLength = infoLogLength;
+        s32 infoLogLength = 0;
+        s32 maxLength = infoLogLength;
 
         //Get info string length
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
 
         //Allocate string
-        std::vector<char> infoLog(maxLength + 1);
+        std::vector<s8> infoLog(maxLength + 1);
 
         //Get info log
         glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog.data());
@@ -179,7 +179,7 @@ void printShaderLog(GLuint shader)
     }
 }
 
-GLuint GLShader::CompileShader(const char * source, GLenum shaderType)
+GLuint GLShader::CompileShader(const s8 * source, GLenum shaderType)
 {
     GLuint shaderID = glCreateShader(shaderType);
     glShaderSource(shaderID, 1, &source, NULL);
@@ -226,7 +226,7 @@ void GLShader::Free()
 
 */
 
-const char* gShader_TextureVSH = R"(
+const s8* gShader_TextureVSH = R"(
 #version 330 core
 
 layout (location = 0) in vec3 aPos;
@@ -240,14 +240,14 @@ uniform mat4 m_MVP;
 
 void main()
 {
-	gl_Position = m_MVP * vec4(aPos.x, aPos.y, aPos.z, 1.0);
-	
-	m_Color = aColor;
-	m_TexCoord = aTexCoord;
+    gl_Position = m_MVP * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+    
+    m_Color = aColor;
+    m_TexCoord = aTexCoord;
 }
 )";
 
-const char* gShader_TextureFSH = R"(
+const s8* gShader_TextureFSH = R"(
 #version 330 core
 
 #define PI 3.1415926538
@@ -274,15 +274,15 @@ const vec2 CamSize = vec2(640,240);
 
 vec4 PixelToPalette(float v)
 {
-	return texture(m_Palette, vec2((v / m_PaletteDepth) * 256, 0.5f));
+    return texture(m_Palette, vec2((v / m_PaletteDepth) * 256, 0.5f));
 }
 
 vec3 checker(in vec2 uv)
 {
-  float checkSize = 2;
-  float fmodResult = mod(floor(checkSize * uv.x) + floor(checkSize * uv.y), 2.0);
-  float fin = max(sign(fmodResult), 0.0);
-  return vec3(fin, fin, fin);
+    float checkSize = 2;
+    float fmodResult = mod(floor(checkSize * uv.x) + floor(checkSize * uv.y), 2.0);
+    float fin = max(sign(fmodResult), 0.0);
+    return vec3(fin, fin, fin);
 }
 
 void main()

@@ -6,7 +6,7 @@
 
 namespace AO {
 
-ALIVE_ARY(1, 0x4BBE30, unsigned char, 256, sRandomBytes_4BBE30,
+ALIVE_ARY(1, 0x4BBE30, u8, 256, sRandomBytes_4BBE30,
 {
         // TODO : Check this is the same, seems to be at a glance
     0x35, 0x85, 0x49, 0xE2, 0xA7, 0x42, 0xDF, 0x0B, 0x2D, 0x23, 0xDD, 0xDE, 0x1F, 0x17, 0xBB, 0xCF,
@@ -27,9 +27,9 @@ ALIVE_ARY(1, 0x4BBE30, unsigned char, 256, sRandomBytes_4BBE30,
     0xC8, 0xA4, 0x02, 0x2E, 0xD4, 0x3B, 0x6F, 0x5C, 0x87, 0x0A, 0x92, 0x0D, 0x4D, 0x16, 0x44, 0x90,
 });
 
-ALIVE_VAR(1, 0x50A228, BYTE, sRandomSeed_50A228, 0);
+ALIVE_VAR(1, 0x50A228, u8, sRandomSeed_50A228, 0);
 
-BYTE Math_NextRandom()
+u8 Math_NextRandom()
 {
     if (!RunningAsInjectedDll())
     {
@@ -38,34 +38,34 @@ BYTE Math_NextRandom()
     return ::Math_NextRandom(); // Ae ver
 }
 
-short CC Math_RandomRange_450F20(signed short min, signed short max)
+s16 CC Math_RandomRange_450F20(s16 min, s16 max)
 {
     AE_IMPLEMENTED();
     return Math_RandomRange_496AB0(min, max);
 }
 
-FP CC Math_Sine_451110(BYTE v)
+FP CC Math_Sine_451110(u8 v)
 {
     AE_IMPLEMENTED();
     return Math_Sine_496DD0(v);
 }
 
-FP CC Math_Cosine_4510A0(BYTE v)
+FP CC Math_Cosine_4510A0(u8 v)
 {
     AE_IMPLEMENTED();
     return Math_Cosine_496CD0(v);
 }
 
 
-int CC Math_Distance_451270(int x1, int y1, int x2, int y2)
+s32 CC Math_Distance_451270(s32 x1, s32 y1, s32 x2, s32 y2)
 {
-    int dx = x1 - x2;
+    s32 dx = x1 - x2;
     if (dx < 0)
     {
         dx = x2 - x1;
     }
 
-    int dy = y1 - y2;
+    s32 dy = y1 - y2;
     if (y1 - y2 < 0)
     {
         dy = y2 - y1;
@@ -81,7 +81,7 @@ int CC Math_Distance_451270(int x1, int y1, int x2, int y2)
     }
 }
 
-int CC Math_SquareRoot_Int_4511B0(int a1)
+s32 CC Math_SquareRoot_Int_4511B0(s32 a1)
 {
     AE_IMPLEMENTED();
     return Math_SquareRoot_Int_496E70(a1);
@@ -100,7 +100,7 @@ FP CC Math_SquareRoot_FP_451210(FP v)
     }
 
     FP v2 = v / FP_FromInteger(2);
-    for (int i = 6; i > 0; i--)
+    for (s32 i = 6; i > 0; i--)
     {
         FP v4 = v / v2;
         v2 = (v2 + v4) / FP_FromInteger(2);

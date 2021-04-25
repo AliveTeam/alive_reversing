@@ -11,7 +11,7 @@
 
 namespace AO {
 
-BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* pTlv, int tlvInfo)
+BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA170);
@@ -36,28 +36,28 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     {
         xMax = pTlv->field_10_top_left.field_0_x;
     }
-    field_E8_xpos = static_cast<short>(xMax);
+    field_E8_xpos = static_cast<s16>(xMax);
 
     auto wMax = pTlv->field_10_top_left.field_0_x + pHeader->field_0_max_w;
     if (wMax <= pTlv->field_10_top_left.field_0_x)
     {
         wMax = pTlv->field_10_top_left.field_0_x;
     }
-    field_EC_w = static_cast<short>(wMax);
+    field_EC_w = static_cast<s16>(wMax);
 
     auto yMax = pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h;
     if (pTlv->field_10_top_left.field_2_y <= yMax)
     {
         yMax = pTlv->field_10_top_left.field_2_y;
     }
-    field_EA_ypos = static_cast<short>(yMax);
+    field_EA_ypos = static_cast<s16>(yMax);
 
     auto hMax = pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h;
     if (pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h <= pTlv->field_10_top_left.field_2_y)
     {
         hMax = pTlv->field_10_top_left.field_2_y;
     }
-    field_EE_h = static_cast<short>(hMax);
+    field_EE_h = static_cast<s16>(hMax);
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
@@ -105,12 +105,12 @@ BaseGameObject* BackgroundAnimation::dtor_405CB0()
     return dtor_417D10();
 }
 
-BaseGameObject* BackgroundAnimation::VDestructor(signed int flags)
+BaseGameObject* BackgroundAnimation::VDestructor(s32 flags)
 {
     return Vdtor_405D70(flags);
 }
 
-BackgroundAnimation* BackgroundAnimation::Vdtor_405D70(signed int flags)
+BackgroundAnimation* BackgroundAnimation::Vdtor_405D70(s32 flags)
 {
     dtor_405CB0();
     if (flags & 1)
@@ -159,7 +159,7 @@ void BackgroundAnimation::VUpdate_405C30()
     {
         if (!field_104_sound_channels_mask && field_100_sound_effect >= 0)
         {
-            field_104_sound_channels_mask = SFX_Play_43AD70(static_cast<BYTE>(field_100_sound_effect), 0, 0);
+            field_104_sound_channels_mask = SFX_Play_43AD70(static_cast<u8>(field_100_sound_effect), 0, 0);
         }
         field_A8_xpos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
         field_AC_ypos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);

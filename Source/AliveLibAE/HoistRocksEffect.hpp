@@ -7,8 +7,8 @@
 
 struct HoistRockParticle
 {
-    __int16 field_0_state;
-    __int16 field_2;
+    s16 field_0_state;
+    s16 field_2;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_yVel;
@@ -21,22 +21,22 @@ struct Path_Hoist;
 class HoistRocksEffect : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    EXPORT HoistRocksEffect* ctor_45D270(Path_Hoist* pTlv, int tlvInfo);
+    EXPORT HoistRocksEffect* ctor_45D270(Path_Hoist* pTlv, s32 tlvInfo);
 private:
-    EXPORT HoistRocksEffect* vdtor_45D430(signed int flags);
+    EXPORT HoistRocksEffect* vdtor_45D430(s32 flags);
     EXPORT void dtor_45D6D0();
     EXPORT void Update_45D460();
     EXPORT void Render_45D7B0(PrimHeader** ppOt);
     EXPORT void vScreenChanged_45D790();
 private:
-    __int16 field_20_xpos;
-    __int16 field_22_ypos;
-    int field_24_tlvInfo;
-    int field_28_timer;
+    s16 field_20_xpos;
+    s16 field_22_ypos;
+    s32 field_24_tlvInfo;
+    s32 field_28_timer;
     FP field_2C_scale;
     HoistRockParticle field_30_rocks[4];
 };

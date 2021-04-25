@@ -13,7 +13,7 @@
 #include "Function.hpp"
 
 struct Colour {
-    short r, g, b;
+    s16 r, g, b;
 };
 
 constexpr Colour greenFart = { 32, 128, 32 };
@@ -27,7 +27,7 @@ EvilFart* EvilFart::ctor_422E30()
     field_4_typeId = AETypes::eEvilFart_45;
 
     const AnimRecord& rec = AnimRec(AnimId::Fart);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
@@ -96,7 +96,7 @@ EvilFart* EvilFart::ctor_422E30()
     return this;
 }
 
-BaseGameObject* EvilFart::VDestructor(signed int flags)
+BaseGameObject* EvilFart::VDestructor(s32 flags)
 {
     return vdtor_4230D0(flags);
 }
@@ -106,7 +106,7 @@ void EvilFart::VUpdate()
     vUpdate_423100();
 }
 
-__int16 EvilFart::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 EvilFart::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return VTakeDamage_423B70(pFrom);
 }
@@ -116,12 +116,12 @@ void EvilFart::VPossessed_408F70()
     vOnPossesed_423DA0();
 }
 
-int EvilFart::VGetSaveState(BYTE* pSaveBuffer)
+s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4283F0(reinterpret_cast<EvilFart_State*>(pSaveBuffer));
 }
 
-int CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
+s32 CC EvilFart::CreateFromSaveState_4281C0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const EvilFart_State*>(pBuffer);
 
@@ -173,7 +173,7 @@ int CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
     return sizeof(EvilFart_State);
 }
 
-int EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
+s32 EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
 {
     pState->field_0_type = AETypes::eEvilFart_45;
 
@@ -211,7 +211,7 @@ int EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
 void EvilFart::InputControlFart_423BB0()
 {
     const FP kFartSpeed = FP_FromDouble(0.2);
-    const DWORD pressedKeys = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    const u32 pressedKeys = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
     if (sInputKey_Right_5550D0 & pressedKeys)
     {
@@ -302,7 +302,7 @@ void EvilFart::ResetFartColour()
     field_D4_b = greenFart.b;
 }
 
-__int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
+s16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -347,7 +347,7 @@ void EvilFart::vUpdate_423100()
         }
     }
 
-    if (field_118_bBlowUp && static_cast<int>(sGnFrame_5C1B84) > field_12C_back_to_abe_timer)
+    if (field_118_bBlowUp && static_cast<s32>(sGnFrame_5C1B84) > field_12C_back_to_abe_timer)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -431,8 +431,8 @@ void EvilFart::vUpdate_423100()
                     (field_BC_ypos - FP_FromInteger(55)) * field_CC_sprite_scale,
                     FP_FromDouble(0.5) * field_CC_sprite_scale,
                     3,
-                    static_cast<BYTE>(field_D0_r),
-                    static_cast<BYTE>(field_D2_g),
+                    static_cast<u8>(field_D0_r),
+                    static_cast<u8>(field_D2_g),
                     0x20u);
 
 
@@ -568,7 +568,7 @@ void EvilFart::vUpdate_423100()
                 Layer::eLayer_0);
         }
 
-        if (!field_118_bBlowUp && static_cast<int>(sGnFrame_5C1B84) > field_128_timer)
+        if (!field_118_bBlowUp && static_cast<s32>(sGnFrame_5C1B84) > field_128_timer)
         {
             BlowUp();
 
@@ -614,7 +614,7 @@ void EvilFart::dtor_423D80()
     dtor_4080B0();
 }
 
-EvilFart* EvilFart::vdtor_4230D0(signed int flags)
+EvilFart* EvilFart::vdtor_4230D0(s32 flags)
 {
     dtor_423D80();
     if (flags & 1)

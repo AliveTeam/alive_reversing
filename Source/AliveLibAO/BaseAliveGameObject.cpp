@@ -18,11 +18,11 @@ void BaseAliveGameObject_ForceLink() {}
 
 ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0, nullptr);
 
-EXPORT int CC SnapToXGrid_41FAA0(FP scale, int x)
+EXPORT s32 CC SnapToXGrid_41FAA0(FP scale, s32 x)
 {
     if (scale == FP_FromDouble(0.5))
     {
-        int v4 = (x - 11) % 13;
+        s32 v4 = (x - 11) % 13;
         if (v4 >= 7)
         {
             return x - v4 + 13;
@@ -34,7 +34,7 @@ EXPORT int CC SnapToXGrid_41FAA0(FP scale, int x)
     }
     else if (scale == FP_FromInteger(1))
     {
-        int v3 = (x - 15) % 25;
+        s32 v3 = (x - 15) % 25;
         if (v3 >= 13)
         {
             return x - v3 + 25;
@@ -51,14 +51,14 @@ EXPORT int CC SnapToXGrid_41FAA0(FP scale, int x)
 }
 
 
-EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pResult)
+EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, s16 xMargin, u16* pResult)
 {
     const FP v1 = xpos - FP_FromInteger(256);
 
-    const int xDiv = FP_GetExponent(v1) / 512;
+    const s32 xDiv = FP_GetExponent(v1) / 512;
     const FP xMod = FP_FromInteger(FP_GetExponent(v1) % 512);
 
-    const int xDivEven = xDiv % 2;
+    const s32 xDivEven = xDiv % 2;
 
     FP result = {};
     if ((!xDivEven || xMod >= FP_FromInteger(512 - xMargin)) &&
@@ -88,23 +88,23 @@ EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, __int16 xMargin, WORD* pR
     return result;
 }
 
-EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, __int16 yMargin, WORD* pResult)
+EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, s16 yMargin, u16* pResult)
 {
-    const int yVal = (FP_GetExponent(ypos) - 120);
-    const int yIdx = yVal / 240;
+    const s32 yVal = (FP_GetExponent(ypos) - 120);
+    const s32 yIdx = yVal / 240;
     if (!(yIdx % 2))
     {
         *pResult = 0;  // in camera
         return ypos;
     }
     
-    const int blockNum = yVal % 240;
+    const s32 blockNum = yVal % 240;
     if ((blockNum >= 240 - yMargin) || (blockNum <= yMargin))
     {
         return ypos;
     }
 
-    int newY = 0;
+    s32 newY = 0;
     if (yvel <= FP_FromInteger(0))
     {
         *pResult = 3; // top
@@ -170,12 +170,12 @@ BaseGameObject* BaseAliveGameObject::dtor_401000()
     return dtor_417D10();
 }
 
-BaseGameObject* BaseAliveGameObject::VDestructor(signed int flags)
+BaseGameObject* BaseAliveGameObject::VDestructor(s32 flags)
 {
     return Vdtor_402540(flags);
 }
 
-BaseGameObject* BaseAliveGameObject::Vdtor_402540(signed int flags)
+BaseGameObject* BaseAliveGameObject::Vdtor_402540(s32 flags)
 {
     dtor_401000();
     if (flags & 1)
@@ -195,32 +195,32 @@ void BaseAliveGameObject::VPossessed()
     // Empty
 }
 
-void BaseAliveGameObject::VSetMotion(__int16 state)
+void BaseAliveGameObject::VSetMotion(s16 state)
 {
     VSetMotion_402520(state);
 }
 
-void BaseAliveGameObject::VSetXSpawn(__int16 camWorldX, int screenXPos)
+void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
 {
     VSetXSpawn_401150(camWorldX, screenXPos);
 }
 
-void BaseAliveGameObject::VSetYSpawn(int camWorldY, __int16 bLeft)
+void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
 {
     VSetYSpawn_401380(camWorldY, bLeft);
 }
 
-void BaseAliveGameObject::VOnPathTransition(__int16 camWorldX, int camWorldY, CameraPos direction)
+void BaseAliveGameObject::VOnPathTransition(s16 camWorldX, s32 camWorldY, CameraPos direction)
 {
     VOnPathTransition_401470(camWorldX, camWorldY, direction);
 }
 
-__int16 BaseAliveGameObject::VTakeDamage(BaseGameObject* pFrom)
+s16 BaseAliveGameObject::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_401920(pFrom);
 }
 
-__int16 BaseAliveGameObject::VTakeDamage_401920(BaseGameObject* /*pFrom*/)
+s16 BaseAliveGameObject::VTakeDamage_401920(BaseGameObject* /*pFrom*/)
 {
     // Defaults to no damage.
     return 0;
@@ -231,7 +231,7 @@ void BaseAliveGameObject::VOn_TLV_Collision(Path_TLV* /*pTlv*/)
     // Empty
 }
 
-void BaseAliveGameObject::VCheckCollisionLineStillValid(int distance)
+void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
 {
     VCheckCollisionLineStillValid_401A90(distance);
 }
@@ -241,7 +241,7 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
     // Empty
 }
 
-void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int distance)
+void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
 {
     if (field_F4_pLine)
     {
@@ -249,7 +249,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int distance)
         FP hitX = {};
         FP hitY = {};
 
-        const int mask = field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70;
+        const s32 mask = field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70;
         if (sCollisions_DArray_504C6C->RayCast_40C410(
             field_A8_xpos,
             field_AC_ypos - FP_FromInteger(distance),
@@ -306,9 +306,9 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(int distance)
     }
 }
 
-BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
+BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
 {
-    for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObjIter)
@@ -364,7 +364,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(__int16 distance)
     return 0;
 }
 
-__int16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(__int16 direction, __int16 dist)
+s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
@@ -380,7 +380,7 @@ __int16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(__int16 direction, __int
         xLoc = gridSize * FP_FromInteger(dist);
     }
 
-    const short xposRounded = FP_GetExponent(field_A8_xpos) & 1023;
+    const s16 xposRounded = FP_GetExponent(field_A8_xpos) & 1023;
     const FP xPosSnapped = FP_FromInteger((FP_GetExponent(field_A8_xpos) & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, xposRounded));
     if (xposRounded < (240+16) || xposRounded > (640-16))
     {
@@ -401,16 +401,16 @@ __int16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(__int16 direction, __int
         field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70) == 0;
 }
 
-void BaseAliveGameObject::VOnPathTransition_401470(__int16 camWorldX, int camWorldY, CameraPos direction)
+void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY, CameraPos direction)
 {
     const FP oldx = field_A8_xpos;
     const FP oldy = field_AC_ypos;
 
     // TODO: This was probably a rect ??
-    int xpos = 0;
-    int ypos = 0;
-    int height = 0;
-    int width = 0;
+    s32 xpos = 0;
+    s32 ypos = 0;
+    s32 height = 0;
+    s32 width = 0;
 
     switch (direction)
     {
@@ -422,7 +422,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(__int16 camWorldX, int camWor
         height = camWorldY + 170;
 
         // Get the fame header for the first frame in the animation and take its height
-        const int frameH = reinterpret_cast<FrameHeader*>((*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset])->field_5_height;
+        const s32 frameH = reinterpret_cast<FrameHeader*>((*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset])->field_5_height;
 
         field_A8_xpos = FP_FromInteger(camWorldX + (FP_GetExponent(oldx) % 1024));
         field_AC_ypos = FP_FromInteger(frameH + camWorldY + 356);
@@ -460,7 +460,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(__int16 camWorldX, int camWor
         break;
     }
 
-    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(static_cast<short>(xpos), static_cast<short>(ypos), static_cast<short>(width), static_cast<short>(height), TlvTypes::StartController_28);
+    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), TlvTypes::StartController_28);
     if (!field_F0_pTlv)
     {
         // Find to find one at position so just try the first one, and for some reason flip the direction ??
@@ -561,7 +561,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(__int16 camWorldX, int camWor
 }
 
 
-__int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
+s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
 {
     PSX_Point camCoords = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
@@ -573,7 +573,7 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
         field_A8_xpos < FP_FromInteger(camCoords.field_0_x + 1024))
     {
         // Snapped XPos in camera space
-        const int snappedXLocalCoords = SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camCoords.field_0_x)));
+        const s32 snappedXLocalCoords = SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camCoords.field_0_x)));
 
         // In the left camera void and moving left?
         if (snappedXLocalCoords < 256 && field_B4_velx < FP_FromInteger(0))
@@ -586,15 +586,15 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
             }
             else
             {
-                const int x_i = abs(FP_GetExponent(field_A8_xpos));
-                const int camXIndex = x_i % 1024;
+                const s32 x_i = abs(FP_GetExponent(field_A8_xpos));
+                const s32 camXIndex = x_i % 1024;
                 if (x_i > 1024)
                 {
                     UsePathTransScale_4020D0();
 
                     // Put at the right side of the camera to the left
-                    const int cam1GridBeforeRight = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, (MaxGridBlocks_41FA10(field_BC_sprite_scale) - 1));
-                    const int camRightEdge = x_i - camXIndex - 1024;
+                    const s32 cam1GridBeforeRight = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, (MaxGridBlocks_41FA10(field_BC_sprite_scale) - 1));
+                    const s32 camRightEdge = x_i - camXIndex - 1024;
                     field_A8_xpos = FP_FromInteger(camRightEdge) + FP_FromInteger(cam1GridBeforeRight) + ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
                     VCheckCollisionLineStillValid(40);
@@ -614,8 +614,8 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
             }
             else
             {
-                const int x_i = abs(FP_GetExponent(field_A8_xpos));
-                const int camXIndex = x_i % 1024;
+                const s32 x_i = abs(FP_GetExponent(field_A8_xpos));
+                const s32 camXIndex = x_i % 1024;
 
                 gMap_507BA8.Get_map_size_444870(&camCoords);
                 if (x_i < (camCoords.field_0_x - 1024))
@@ -623,8 +623,8 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
                     UsePathTransScale_4020D0();
 
                     // Put at the left side of the camera to the right
-                    const int cam1GridAfterLeft = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 1);
-                    const int camLeftEdge = x_i - camXIndex + 1024;
+                    const s32 cam1GridAfterLeft = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 1);
+                    const s32 camLeftEdge = x_i - camXIndex + 1024;
                     field_A8_xpos = FP_FromInteger(camLeftEdge) + FP_FromInteger(cam1GridAfterLeft) - ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
                     VCheckCollisionLineStillValid(40);
@@ -641,8 +641,8 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
     }
     else
     {
-        const int x_i = abs(FP_GetExponent(field_A8_xpos));
-        const int camXIndex = x_i % 1024;
+        const s32 x_i = abs(FP_GetExponent(field_A8_xpos));
+        const s32 camXIndex = x_i % 1024;
 
         // In the left camera void and moving left?
         if (camXIndex < 256 && field_B4_velx < FP_FromInteger(0))
@@ -651,8 +651,8 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
             {
                 UsePathTransScale_4020D0();
 
-                const int camRightGrid = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale));
-                const int camRightEdge = x_i - camXIndex - 1024;
+                const s32 camRightGrid = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale));
+                const s32 camRightEdge = x_i - camXIndex - 1024;
                 field_A8_xpos = FP_FromInteger(camRightEdge) + FP_FromInteger(camRightGrid) + ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
                 VCheckCollisionLineStillValid(40);
@@ -666,8 +666,8 @@ __int16 BaseAliveGameObject::MapFollowMe_401D30(__int16 snapToGrid)
             {
                 UsePathTransScale_4020D0();
 
-                const int camLeftGrid = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0);
-                const int camLeftEdge = x_i - camXIndex + 1024;
+                const s32 camLeftGrid = XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0);
+                const s32 camLeftEdge = x_i - camXIndex + 1024;
                 field_A8_xpos = FP_FromInteger(camLeftEdge) + FP_FromInteger(camLeftGrid) - ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
                 VCheckCollisionLineStillValid(40);
@@ -717,7 +717,7 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
     }
 }
 
-signed __int16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
+s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
 {
     PSX_RECT rect = {};
 
@@ -734,7 +734,7 @@ signed __int16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* 
     return 1;
 }
 
-__int16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
+s16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions_DArray_504C6C->RayCast_40C410(
@@ -748,7 +748,7 @@ __int16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
         field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60) != 0;
 }
 
-__int16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely)
+s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely)
 {
     field_B8_vely += (field_BC_sprite_scale * vely);
 
@@ -779,7 +779,7 @@ void CC BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
     ppRes->field_104_pending_resource_count--;
 }
 
-void BaseAliveGameObject::VSetXSpawn_401150(__int16 camWorldX, int screenXPos)
+void BaseAliveGameObject::VSetXSpawn_401150(s16 camWorldX, s32 screenXPos)
 {
     const FP old_x = field_A8_xpos;
     const FP old_y = field_AC_ypos;
@@ -858,7 +858,7 @@ void BaseAliveGameObject::VSetXSpawn_401150(__int16 camWorldX, int screenXPos)
     }
 }
 
-void BaseAliveGameObject::VSetYSpawn_401380(int camWorldY, __int16 bLeft)
+void BaseAliveGameObject::VSetYSpawn_401380(s32 camWorldY, s16 bLeft)
 {
     const FP oldx = field_A8_xpos;
     const FP oldy = field_AC_ypos;
@@ -893,9 +893,9 @@ void BaseAliveGameObject::VSetYSpawn_401380(int camWorldY, __int16 bLeft)
     }
 }
 
-__int16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
+s16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
 {
-    for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         auto pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObj)
@@ -914,7 +914,7 @@ __int16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
     return 0;
 }
 
-void BaseAliveGameObject::VSetMotion_402520(__int16 state)
+void BaseAliveGameObject::VSetMotion_402520(s16 state)
 {
     field_108_bMotionChanged = TRUE;
     field_FC_current_motion = state;
@@ -954,10 +954,10 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
 
 BaseGameObject* CC BaseAliveGameObject::FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos)
 {
-    const int xpos_int = FP_GetExponent(xpos);
-    const int ypos_int = FP_GetExponent(ypos);
+    const s32 xpos_int = FP_GetExponent(xpos);
+    const s32 ypos_int = FP_GetExponent(ypos);
 
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObj)

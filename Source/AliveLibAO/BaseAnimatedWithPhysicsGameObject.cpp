@@ -58,14 +58,14 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     return this;
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(int frameTableOffset, int maxW, int maxH, BYTE** ppAnimData, __int16 a6)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 a6)
 {
     const auto init = field_10_anim.Init_402D20(
         frameTableOffset,
         gObjList_animations_505564,
         this,
-        static_cast<short>(maxW),
-        static_cast<unsigned short>(maxH),
+        static_cast<u16>(maxW),
+        static_cast<u16>(maxH),
         ppAnimData,
         1, 0, 0);
 
@@ -119,9 +119,9 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
         {
             field_10_anim.field_14_scale = field_BC_sprite_scale;
 
-            __int16 r = field_C0_r;
-            __int16 g = field_C2_g;
-            __int16 b = field_C4_b;
+            s16 r = field_C0_r;
+            s16 g = field_C2_g;
+            s16 b = field_C4_b;
 
             PSX_RECT boundingRect = {};
             VGetBoundingRect(&boundingRect, 1);
@@ -137,9 +137,9 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
                     &b);
             }
 
-            field_10_anim.field_8_r = static_cast<BYTE>(r);
-            field_10_anim.field_9_g = static_cast<BYTE>(g);
-            field_10_anim.field_A_b = static_cast<BYTE>(b);
+            field_10_anim.field_8_r = static_cast<u8>(r);
+            field_10_anim.field_9_g = static_cast<u8>(g);
+            field_10_anim.field_A_b = static_cast<u8>(b);
 
             field_10_anim.vRender(
                 FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) -
@@ -171,12 +171,12 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
     }
 }
 
-BaseGameObject* BaseAnimatedWithPhysicsGameObject::VDestructor(signed int flags)
+BaseGameObject* BaseAnimatedWithPhysicsGameObject::VDestructor(s32 flags)
 {
     return Vdtor_4189C0(flags);
 }
 
-BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::Vdtor_4189C0(signed int flags)
+BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::Vdtor_4189C0(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)
@@ -192,33 +192,33 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
     VRender_417DA0(ppOt);
 }
 
-void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn)
+void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
 {
     VOnCollisionWith_418080(xy, wh, pObjList, startingPointIdx, pFn);
 }
 
 
-PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(PSX_RECT* pRect, int pointIdx)
+PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx)
 {
     return VGetBoundingRect_418120(pRect, pointIdx);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
+s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
     return VIsObjNearby_418330(radius, pOtherObj);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return VIsObj_GettingNear_On_X_418390(pOther);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return VIsFacingMe_4183F0(pOther);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return VOnSameYLevel_418450(pOther);
 }
@@ -238,7 +238,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnThrowableHit(BaseGameObject* /*pFrom*
     // Empty
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel_418450(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel_418450(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     // Get bounding rects
     PSX_RECT ourRect = {};
@@ -248,8 +248,8 @@ __int16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel_418450(BaseAnimatedWith
     pOther->VGetBoundingRect(&theirRect, 1);
 
     // Get mid Y of each
-    const int theirMidY = (theirRect.h + theirRect.y) / 2;
-    const int ourMidY = (ourRect.h + ourRect.y) / 2;
+    const s32 theirMidY = (theirRect.h + theirRect.y) / 2;
+    const s32 ourMidY = (ourRect.h + ourRect.y) / 2;
 
     if (theirMidY <= ourRect.h && theirMidY >= ourRect.y)
     {
@@ -264,7 +264,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel_418450(BaseAnimatedWith
     return FALSE;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe_4183F0(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe_4183F0(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->field_A8_xpos == field_A8_xpos
         && pOther->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -287,7 +287,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe_4183F0(BaseAnimatedWithPh
     return FALSE;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X_418390(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X_418390(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->field_A8_xpos < field_A8_xpos && pOther->field_B4_velx > field_B4_velx)
     {
@@ -305,7 +305,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X_418390(BaseAn
     return FALSE;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby_418330(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
+s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby_418330(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
     FP x_abs = FP_Abs(pOtherObj->field_A8_xpos - field_A8_xpos);
     if (x_abs > FP_FromInteger(400))
@@ -315,11 +315,11 @@ __int16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby_418330(FP radius, BaseAn
     return x_abs <= radius;
 }
 
-void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith_418080(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn)
+void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith_418080(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
 {
     if (pObjList)
     {
-        for (int i=0; i<pObjList->Size(); i++)
+        for (s32 i=0; i<pObjList->Size(); i++)
         {
             BaseGameObject* pObjIter = pObjList->ItemAt(i);
             if (!pObjIter)
@@ -351,7 +351,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith_418080(PSX_Point xy, PS
     }
 }
 
-PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* pRect, int pointIdx)
+PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* pRect, s32 pointIdx)
 {
     const FrameInfoHeader* pAnimFrameHeader = field_10_anim.Get_FrameHeader_403A00(-1);
 
@@ -384,8 +384,8 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* p
     rect.w = FP_GetExponent((FP_FromInteger(rect.w) * field_BC_sprite_scale));
     rect.h = FP_GetExponent((FP_FromInteger(rect.h) * field_BC_sprite_scale));
 
-    const short xpos = FP_GetExponent(field_A8_xpos);
-    const short ypos = FP_GetExponent(field_AC_ypos);
+    const s16 xpos = FP_GetExponent(field_A8_xpos);
+    const s16 ypos = FP_GetExponent(field_AC_ypos);
 
     rect.x += xpos;
     rect.y += ypos;
@@ -398,9 +398,9 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* p
 
 void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* pTintArray, LevelIds level_id)
 {
-    while (pTintArray->field_0_level != static_cast<int>(level_id))
+    while (pTintArray->field_0_level != static_cast<s32>(level_id))
     {
-        if (pTintArray->field_0_level == static_cast<int>(level_id) || pTintArray->field_0_level == static_cast<int>(LevelIds::eNone))
+        if (pTintArray->field_0_level == static_cast<s32>(level_id) || pTintArray->field_0_level == static_cast<s32>(LevelIds::eNone))
         {
             break;
         }
@@ -433,10 +433,10 @@ BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
     return dtor_487DF0();
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, int palId)
+s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, s32 palId)
 {
     const TintEntry* pIter = pTintArray;
-    while (pIter->field_0_level != static_cast<BYTE>(lvl))
+    while (pIter->field_0_level != static_cast<u8>(lvl))
     {
         if (pIter->field_0_level == -1) // End of entries
         {
@@ -449,7 +449,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const T
     field_C2_g = pIter->field_2_g;
     field_C4_b = pIter->field_3_b;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, palId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, palId, 1, 0);
     if (!ppRes)
     {
         return 0;
@@ -461,13 +461,13 @@ __int16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const T
 
 void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeToFind)
 {
-    const short offsets[6] =
+    const s16 offsets[6] =
     {
         0, 3, -3, 6, -6, 2
     };
 
-    int array_idx = 0;
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    s32 array_idx = 0;
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObjIter)
@@ -500,7 +500,7 @@ EXPORT CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_417CC0(
 BaseAnimatedWithPhysicsGameObject::BetweenCamPos BaseAnimatedWithPhysicsGameObject::BetweenCameras_418500()
 {
     // TODO: Try to understand how the hell these calcs are supposed to work
-    const int xPosMinusHalfCameraSpace = FP_GetExponent(field_A8_xpos - FP_FromInteger(512 / 2));
+    const s32 xPosMinusHalfCameraSpace = FP_GetExponent(field_A8_xpos - FP_FromInteger(512 / 2));
     if (xPosMinusHalfCameraSpace / 512 % 2)
     {
         return BetweenCamPos::Left_1;

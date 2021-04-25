@@ -8,7 +8,7 @@
 
 namespace AO {
 
-LiftMover* LiftMover::ctor_4054E0(Path_LiftMover* pTlv, int tlvInfo)
+LiftMover* LiftMover::ctor_4054E0(Path_LiftMover* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA158);
@@ -46,12 +46,12 @@ BaseGameObject* LiftMover::dtor_405550()
     return dtor_487DF0();
 }
 
-BaseGameObject* LiftMover::VDestructor(signed int flags)
+BaseGameObject* LiftMover::VDestructor(s32 flags)
 {
     return Vdtor_405A50(flags);
 }
 
-EXPORT LiftMover* LiftMover::Vdtor_405A50(signed int flags)
+EXPORT LiftMover* LiftMover::Vdtor_405A50(s32 flags)
 {
     dtor_405550();
     if (flags & 1)
@@ -97,9 +97,9 @@ void LiftMover::VUpdate_4055C0()
                 {
                     // Load lift point objects (I guess in case for some reason it got unloaded ??)
                     // AE doesn't do this.
-                    for (short y = 0; y < gMap_507BA8.field_26_max_cams_y; y++)
+                    for (s16 y = 0; y < gMap_507BA8.field_26_max_cams_y; y++)
                     {
-                        for (short x = 0; x < gMap_507BA8.field_24_max_cams_x; x++)
+                        for (s16 x = 0; x < gMap_507BA8.field_24_max_cams_x; x++)
                         {
                             gMap_507BA8.Loader_446590(x, y, LoadMode::Mode_0, TlvTypes::LiftPoint_8);
                         }
@@ -197,9 +197,9 @@ void LiftMover::VUpdate_4055C0()
     }
 }
 
-LiftPoint* LiftMover::FindLiftPointWithId(short id)
+LiftPoint* LiftMover::FindLiftPointWithId(s16 id)
 {
-    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         auto pItem = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pItem)

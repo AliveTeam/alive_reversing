@@ -10,7 +10,7 @@
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
 static GLuint mBackgroundTexture = 0;
-static unsigned char gDecodeBuffer[640 * 256 * 2] = {};
+static u8 gDecodeBuffer[640 * 256 * 2] = {};
 static GLuint gDecodedTextureCache = 0;
 
 static TextureCache gFakeTextureCache = {};
@@ -29,7 +29,7 @@ static bool gRenderEnable_F4 = true;
 static bool gRenderEnable_F3 = true;
 static bool gRenderEnable_F2 = true;
 
-static GLuint TextureFromFile(const char* path)
+static GLuint TextureFromFile(const s8* path)
 {
     GLuint texHandle = 0;
     FILE* fh = fopen(path, "rb");;
@@ -39,9 +39,9 @@ static GLuint TextureFromFile(const char* path)
         return 0;
     }
 
-    int x = 0, y = 0;
-    int comp = 0;
-    const unsigned char* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
+    s32 x = 0, y = 0;
+    s32 comp = 0;
+    const u8* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
 
     glGenTextures(1, &texHandle);
 
@@ -122,11 +122,11 @@ static bool Renderer_TexExists(const PSX_RECT& rect)
     return false;
 }
 
-static TextureCache* Renderer_TexFromTPage(WORD tPage, BYTE u, BYTE v)
+static TextureCache* Renderer_TexFromTPage(u16 tPage, u8 u, u8 v)
 {
-    int textureMode = static_cast<int>(((unsigned int)tPage >> 7) & 3);
-    short tpagex = ((tPage & 0xF) << 6);
-    short tpagey = (16 * (tPage & 0x10) + (((unsigned int)tPage >> 2) & 0x200)) + v;
+    s32 textureMode = static_cast<s32>(((u32)tPage >> 7) & 3);
+    s16 tpagex = ((tPage & 0xF) << 6);
+    s16 tpagey = (16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200)) + v;
 
     // Lets prims use background texture as a src even tho we dont have vram anymore.
     if (tpagex < 640 && tpagey < 240)
@@ -164,18 +164,18 @@ static TextureCache* Renderer_TexFromTPage(WORD tPage, BYTE u, BYTE v)
     return 0;
 }
 
-static PSX_Point Renderer_ClutToCoords(int tClut)
+static PSX_Point Renderer_ClutToCoords(s32 tClut)
 {
-    int x = (tClut & 63) << 4;
-    int y = ((tClut >> 6) & 0xff);
+    s32 x = (tClut & 63) << 4;
+    s32 y = ((tClut >> 6) & 0xff);
 
-    return { (short)x,(short)y };
+    return { (s16)x,(s16)y };
 }
 
-static PaletteCache* Renderer_ClutToPalette(int tClut)
+static PaletteCache* Renderer_ClutToPalette(s32 tClut)
 {
-    short x = (tClut & 63) << 4;
-    short y = ((tClut >> 6) & 0xff);
+    s16 x = (tClut & 63) << 4;
+    s16 y = ((tClut >> 6) & 0xff);
 
     for (size_t i = 0; i < gRendererPals.size(); i++)
     {
@@ -220,23 +220,23 @@ static void Renderer_FreeTexture(PSX_Point point)
     }
 }
 
-static void Renderer_DecodePalette(const BYTE* srcPalData, RGBAPixel* dst, int palDepth)
+static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 palDepth)
 {
-    const unsigned short* palShortPtr = reinterpret_cast<const unsigned short*>(srcPalData);
-    for (int i = 0; i < palDepth; i++)
+    const u16* palShortPtr = reinterpret_cast<const u16*>(srcPalData);
+    for (s32 i = 0; i < palDepth; i++)
     {
-        const unsigned short oldPixel = palShortPtr[i];
+        const u16 oldPixel = palShortPtr[i];
 
-        dst[i].R = static_cast<unsigned char>((((oldPixel >> 0) & 0x1F)) << 2);
-        dst[i].G = static_cast<unsigned char>((((oldPixel >> 5) & 0x1F)) << 2);
-        dst[i].B = static_cast<unsigned char>((((oldPixel >> 10) & 0x1F)) << 2);
-        dst[i].A = static_cast<unsigned char>((((((oldPixel) >> 15) & 0xffff)) ? 127 : 255));
+        dst[i].R = static_cast<u8>((((oldPixel >> 0) & 0x1F)) << 2);
+        dst[i].G = static_cast<u8>((((oldPixel >> 5) & 0x1F)) << 2);
+        dst[i].B = static_cast<u8>((((oldPixel >> 10) & 0x1F)) << 2);
+        dst[i].A = static_cast<u8>((((((oldPixel) >> 15) & 0xffff)) ? 127 : 255));
     }
 }
 
 static void Renderer_FreePalette(PSX_Point point)
 {
-    int i = 0;
+    s32 i = 0;
     for (auto& c : gRendererPals)
     {
         if (point.field_0_x >= c.mPalPoint.field_0_x && point.field_0_x < (c.mPalPoint.field_0_x + c.mPalDepth) && c.mPalPoint.field_2_y == point.field_2_y)
@@ -248,13 +248,13 @@ static void Renderer_FreePalette(PSX_Point point)
     }
 }
 
-static void Renderer_LoadPalette(PSX_Point point, const BYTE* palData, short palDepth)
+static void Renderer_LoadPalette(PSX_Point point, const u8* palData, s16 palDepth)
 {
     for (auto& c : gRendererPals)
     {
         if (point.field_0_x >= c.mPalPoint.field_0_x && point.field_0_x < (c.mPalPoint.field_0_x + c.mPalDepth) && c.mPalPoint.field_2_y == point.field_2_y)
         {
-            int offset = point.field_0_x - c.mPalPoint.field_0_x;
+            s32 offset = point.field_0_x - c.mPalPoint.field_0_x;
             Renderer_DecodePalette(palData, c.mPalData + offset, palDepth);
 
             if (c.mPalDepth > 0)
@@ -337,25 +337,25 @@ static void Renderer_SetBlendMode(TPageAbr blendAbr)
     }
 }
 
-static PSX_Point Renderer_VRamFromTPage(WORD tPage)
+static PSX_Point Renderer_VRamFromTPage(u16 tPage)
 {
-    short tpagex = (tPage & 0xF) << 6;
-    short tpagey = 16 * (tPage & 0x10) + (((unsigned int)tPage >> 2) & 0x200);
+    s16 tpagex = (tPage & 0xF) << 6;
+    s16 tpagey = 16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200);
 
     return { tpagex, tpagey };
 }
 
-static void Renderer_ParseTPageBlendMode(WORD tPage)
+static void Renderer_ParseTPageBlendMode(u16 tPage)
 {
-    // TPageMode textureMode = static_cast<TPageMode>(((unsigned int)tPage >> 7) & 3);
-    TPageAbr pageAbr = static_cast<TPageAbr>(((unsigned int)tPage >> 5) & 3);
+    // TPageMode textureMode = static_cast<TPageMode>(((u32)tPage >> 7) & 3);
+    TPageAbr pageAbr = static_cast<TPageAbr>(((u32)tPage >> 5) & 3);
 
     glEnable(GL_BLEND);
 
     Renderer_SetBlendMode(pageAbr);
 }
 
-//static int WidthBpp(int textureMode, int width)
+//static s32 WidthBpp(s32 textureMode, s32 width)
 //{
 //    switch (textureMode)
 //    {
@@ -368,7 +368,7 @@ static void Renderer_ParseTPageBlendMode(WORD tPage)
 //    }
 //}
 
-static int WidthBppDivide(int textureMode, int width)
+static s32 WidthBppDivide(s32 textureMode, s32 width)
 {
     switch (textureMode)
     {
@@ -381,12 +381,12 @@ static int WidthBppDivide(int textureMode, int width)
     }
 }
 
-static void Convert4bppTextureFont(const PSX_RECT& rect, const BYTE* pPixels)
+static void Convert4bppTextureFont(const PSX_RECT& rect, const u8* pPixels)
 {
-    std::vector<unsigned char> buffer(rect.w * rect.h * 4);
+    std::vector<u8> buffer(rect.w * rect.h * 4);
 
-    int pIndex = 0;
-    for (int i = 0; i < rect.w * 4 * rect.h; i += 2)
+    s32 pIndex = 0;
+    for (s32 i = 0; i < rect.w * 4 * rect.h; i += 2)
     {
         buffer[i] = pPixels[pIndex] & 0xf;
         buffer[i + 1] = (pPixels[pIndex] & 0xf0) >> 4;
@@ -396,20 +396,20 @@ static void Convert4bppTextureFont(const PSX_RECT& rect, const BYTE* pPixels)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, rect.w * 4, rect.h, 0, GL_RED, GL_UNSIGNED_BYTE, buffer.data());
 }
 
-static void Renderer_ConvertFG1BitMask(int width, int height, const BYTE* pPixels)
+static void Renderer_ConvertFG1BitMask(s32 width, s32 height, const u8* pPixels)
 {
     RGBAPixel* mDst = reinterpret_cast<RGBAPixel*>(gDecodeBuffer);
-    const unsigned long* mSrc = reinterpret_cast<const unsigned long*>(pPixels);
+    const u32* mSrc = reinterpret_cast<const u32*>(pPixels);
 
-    int pSrcIndex = 0;
-    int dstIndex = 0;
+    s32 pSrcIndex = 0;
+    s32 dstIndex = 0;
 
-    for (int y = 0; y < height; y++)
+    for (s32 y = 0; y < height; y++)
     {
-        unsigned long bitMask = mSrc[pSrcIndex];
-        for (int x = 0; x < width; x++)
+        u32 bitMask = mSrc[pSrcIndex];
+        for (s32 x = 0; x < width; x++)
         {
-            unsigned char v = (bitMask & 1) * 255;
+            u8 v = (bitMask & 1) * 255;
 
             bitMask >>= 1;
 
@@ -432,14 +432,14 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     if (gDecodedTextureCache == 0)
         gDecodedTextureCache = Renderer_CreateTexture();
 
-    unsigned short tWidth = reinterpret_cast<const unsigned short*>(GetPrimExtraPointerHack(&poly))[0];
-    unsigned short tHeight = reinterpret_cast<const unsigned short*>(GetPrimExtraPointerHack(&poly))[1];
+    u16 tWidth = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[0];
+    u16 tHeight = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[1];
 
-    TPageMode textureMode = static_cast<TPageMode>(((unsigned int)poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
+    TPageMode textureMode = static_cast<TPageMode>(((u32)poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
     
     gFakeTextureCache = {};
     gFakeTextureCache.mPalXY = Renderer_ClutToCoords(poly.mUv.tpage_clut_pad);
-    gFakeTextureCache.mVramRect = { 0,0, (short)tWidth, (short)tHeight };
+    gFakeTextureCache.mVramRect = { 0,0, (s16)tWidth, (s16)tHeight };
     gFakeTextureCache.mTextureID = gDecodedTextureCache;
     
 
@@ -447,7 +447,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     {
     case TPageMode::e4Bit_0:
         gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-        CompressionType6Ae_Decompress_40A8A0((BYTE*)pAnimFg1Data, (BYTE*)gDecodeBuffer);
+        CompressionType6Ae_Decompress_40A8A0((u8*)pAnimFg1Data, (u8*)gDecodeBuffer);
         // Hacky because palette is 16 width, but converted sprite is normalized for 16 -> 256
         // So we scale it back down for the shader.
         gFakeTextureCache.mPalNormMulti = 16; 
@@ -456,30 +456,30 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
         break;
     case TPageMode::e8Bit_1:
         gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-        CompressionType_3Ae_Decompress_40A6A0((BYTE*)pAnimFg1Data, (BYTE*)gDecodeBuffer);
+        CompressionType_3Ae_Decompress_40A6A0((u8*)pAnimFg1Data, (u8*)gDecodeBuffer);
         glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, tWidth, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
         break;
     case TPageMode::e16Bit_2:
         // TODO:  FG1's get rendered here for AE.
-        short fg1Width = poly.mVerts[0].mVert.x - poly.mBase.vert.x;
-        short fg1Height = poly.mVerts[1].mVert.y - poly.mBase.vert.y;
+        s16 fg1Width = poly.mVerts[0].mVert.x - poly.mBase.vert.x;
+        s16 fg1Height = poly.mVerts[1].mVert.y - poly.mBase.vert.y;
         gFakeTextureCache.mVramRect = { 0,0, fg1Width, fg1Height };
         gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
         gFakeTextureCache.mIsFG1 = true;
         glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
-        Renderer_ConvertFG1BitMask(fg1Width, fg1Height, (BYTE*)pAnimFg1Data);
+        Renderer_ConvertFG1BitMask(fg1Width, fg1Height, (u8*)pAnimFg1Data);
         break;
     }
 
     return &gFakeTextureCache;
 }
 
-void OpenGLRenderer::DrawTexture(GLuint pTexture, float x, float y, float width, float height)
+void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height)
 {
-    const float r = 1.0f;
-    const float g = 1.0f;
-    const float b = 1.0f;
+    const f32 r = 1.0f;
+    const f32 g = 1.0f;
+    const f32 b = 1.0f;
 
     const VertexData verts[4] = {
     { 0, 0, 0,  r, g, b,    0, 0 },
@@ -510,13 +510,13 @@ void OpenGLRenderer::InitAttributes()
     glBindVertexArray(mVAO);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), 0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (char*)NULL + 12);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*)NULL + 12);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (char*)NULL + 24);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*)NULL + 24);
     glEnableVertexAttribArray(2);
 }
 
-void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, int vertSize, const GLuint* pIndData, int indSize)
+void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
 {
     // Set our new vectors
     glBindBuffer(GL_ARRAY_BUFFER, mVBO);
@@ -542,7 +542,7 @@ void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, int vertSize, co
     }
 }
 
-void OpenGLRenderer::DrawLines(const VertexData* pVertData, int vertSize, const GLuint* pIndData, int indSize)
+void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
 {
     // Set our new vectors
     glBindBuffer(GL_ARRAY_BUFFER, mVBO);
@@ -572,7 +572,7 @@ glm::mat4 OpenGLRenderer::GetMVP()
     return m_View;
 }
 
-glm::mat4 OpenGLRenderer::GetMVP(float x, float y, float width, float height)
+glm::mat4 OpenGLRenderer::GetMVP(f32 x, f32 y, f32 width, f32 height)
 {
     glm::mat4 model = glm::mat4(1);
     model = glm::translate(model, glm::vec3(x, y, 0));
@@ -624,12 +624,12 @@ void OpenGLRenderer::DebugWindow()
 
     if (ImGui::Begin("Texture Window", nullptr, ImGuiWindowFlags_MenuBar))
     {
-        float widthSpace = ImGui::GetContentRegionAvailWidth();
-        float currentWidth = 0;
+        f32 widthSpace = ImGui::GetContentRegionAvailWidth();
+        f32 currentWidth = 0;
         for (size_t i = 0; i < gRendererTextures.size(); i++)
         {
-            float textureWidth = static_cast<float>(gRendererTextures[i].mVramRect.w);
-            float textureHeight = static_cast<float>(gRendererTextures[i].mVramRect.h);
+            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
+            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
 
             ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
             ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
@@ -658,7 +658,7 @@ void OpenGLRenderer::DebugWindow()
 
     if (ImGui::Begin("Palettes", nullptr, ImGuiWindowFlags_MenuBar))
     {
-        float width = ImGui::GetWindowContentRegionWidth();
+        f32 width = ImGui::GetWindowContentRegionWidth();
         for (auto& pal : gRendererPals)
         {
             ImGui::Image(GL_TO_IMGUI_TEX(pal.mPalTextureID), ImVec2(width, 16));
@@ -670,7 +670,7 @@ void OpenGLRenderer::DebugWindow()
     {
         ImVec2 pos = ImGui::GetWindowPos();
 
-        for (int i = 0; i < (1500 / 64); i++)
+        for (s32 i = 0; i < (1500 / 64); i++)
         {
             ImVec2 pos1Line = ImVec2(pos.x + (i * 64), pos.y);
             ImVec2 pos2Line = ImVec2(pos.x + (i * 64), pos.y + 512);
@@ -680,10 +680,10 @@ void OpenGLRenderer::DebugWindow()
 
         for (size_t i = 0; i < gRendererTextures.size(); i++)
         {
-            ImGui::SetCursorPos(ImVec2(static_cast<float>(gRendererTextures[i].mVramRect.x), static_cast<float>(gRendererTextures[i].mVramRect.y + 50)));
+            ImGui::SetCursorPos(ImVec2(static_cast<f32>(gRendererTextures[i].mVramRect.x), static_cast<f32>(gRendererTextures[i].mVramRect.y + 50)));
             ImVec2 xpos = ImGui::GetCursorScreenPos();
-            float textureWidth = static_cast<float>(gRendererTextures[i].mVramRect.w);
-            float textureHeight = static_cast<float>(gRendererTextures[i].mVramRect.h);
+            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
+            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
             
             ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
             ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), { textureWidth, textureHeight });
@@ -693,7 +693,7 @@ void OpenGLRenderer::DebugWindow()
         if (ImGui::IsWindowHovered())
         {
             ImGui::BeginTooltip();
-            ImGui::Text("%d, %d", (int)(io.MousePos.x - pos.x), (int)(io.MousePos.y - pos.y));
+            ImGui::Text("%d, %d", (s32)(io.MousePos.x - pos.x), (s32)(io.MousePos.y - pos.y));
             ImGui::EndTooltip();
         }
     }
@@ -732,7 +732,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     mWireframe = false;
 
     // Find the opengl driver
-    const int numDrivers = SDL_GetNumRenderDrivers();
+    const s32 numDrivers = SDL_GetNumRenderDrivers();
     if (numDrivers < 0)
     {
         LOG_ERROR("Failed to get driver count " << SDL_GetError());
@@ -740,8 +740,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
     LOG_INFO("Got " << numDrivers << " drivers");
 
-    int index = -1;
-    for (int i = 0; i < numDrivers; i++)
+    s32 index = -1;
+    for (s32 i = 0; i < numDrivers; i++)
     {
         SDL_RendererInfo info = {};
         if (SDL_GetRenderDriverInfo(i, &info) < 0)
@@ -806,17 +806,17 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     glGenBuffers(1, &mVBO);
 
     // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
-    m_View = glm::ortho<float>(0, 640, 240, 0, 0, 1);
+    m_View = glm::ortho<f32>(0, 640, 240, 0, 0, 1);
 
     //mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
     mTextureShader.LoadSource(gShader_TextureVSH, gShader_TextureFSH);
     return true;
 }
 
-void OpenGLRenderer::Clear(BYTE /*r*/, BYTE /*g*/, BYTE /*b*/)
+void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 {
     // hacky hot reload shaders
-   /* static int t = 999;
+   /* static s32 t = 999;
     if (t >= 10)
     {
         t = 0;
@@ -847,7 +847,7 @@ void OpenGLRenderer::Clear(BYTE /*r*/, BYTE /*g*/, BYTE /*b*/)
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    int wW, wH;
+    s32 wW, wH;
     SDL_GetWindowSize(mWindow, &wW, &wH);
     glViewport(0, 0, wW, wH);
 
@@ -858,7 +858,7 @@ void OpenGLRenderer::Clear(BYTE /*r*/, BYTE /*g*/, BYTE /*b*/)
     }
 }
 
-void OpenGLRenderer::StartFrame(int /*xOff*/, int /*yOff*/)
+void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
 
 }
@@ -882,7 +882,7 @@ bool OpenGLRenderer::PalAlloc(PalRecord& record)
     return ret;
 }
 
-void OpenGLRenderer::PalSetData(const PalRecord& record, const BYTE* pPixels)
+void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
 {
     PSX_RECT rect = {};
     rect.x = record.x;
@@ -902,34 +902,34 @@ void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect
 
 }
 
-void OpenGLRenderer::OutputSize(int* w, int* h)
+void OpenGLRenderer::OutputSize(s32* w, s32* h)
 {
     *w = 640;
     *h = 480;
     //SDL_GetRendererOutputSize(mRenderer, w, h);
 }
 
-bool OpenGLRenderer::UpdateBackBuffer(const void* /*pPixels*/, int /*pitch*/)
+bool OpenGLRenderer::UpdateBackBuffer(const void* /*pPixels*/, s32 /*pitch*/)
 {
     return true;
 }
 
-void OpenGLRenderer::CreateBackBuffer(bool /*filter*/, int /*format*/, int /*w*/, int /*h*/)
+void OpenGLRenderer::CreateBackBuffer(bool /*filter*/, s32 /*format*/, s32 /*w*/, s32 /*h*/)
 {
    
 }
 
-void OpenGLRenderer::SetTPage(short tPage)
+void OpenGLRenderer::SetTPage(s16 tPage)
 {
     Renderer_ParseTPageBlendMode(tPage);
     mLastTPage = tPage;
 }
 
-void OpenGLRenderer::SetClipDirect(int x, int y, int width, int height)
+void OpenGLRenderer::SetClipDirect(s32 x, s32 y, s32 width, s32 height)
 {
     mLastClip = glm::ivec4(x, y, width, height);
 
-    int w, h;
+    s32 w, h;
     SDL_GetWindowSize(mWindow, &w, &h);
 
     if (width <= 1 && height <= 1)
@@ -952,10 +952,10 @@ void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
 
 void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
 {
-    m_View = glm::ortho<float>(static_cast<float>(offset.field_C_xoff), 
-        static_cast<float>(640 + offset.field_C_xoff), 
-        static_cast<float>(240 + offset.field_E_yoff), 
-        static_cast<float>(offset.field_E_yoff), 0.0f, 1.0f);
+    m_View = glm::ortho<f32>(static_cast<f32>(offset.field_C_xoff), 
+        static_cast<f32>(640 + offset.field_C_xoff), 
+        static_cast<f32>(240 + offset.field_E_yoff), 
+        static_cast<f32>(offset.field_E_yoff), 0.0f, 1.0f);
 }
 
 void OpenGLRenderer::Draw(Prim_Sprt& sprt)
@@ -971,7 +971,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     }
 
     PSX_Point vramPoint = Renderer_VRamFromTPage(mLastTPage);
-    short textureMode = (mLastTPage >> 7) & 3;
+    s16 textureMode = (mLastTPage >> 7) & 3;
 
     // FG1 Blocks
     if (vramPoint.field_0_x < 640)
@@ -986,7 +986,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
     
-    TextureCache* pTexture = Renderer_TexFromVRam({ static_cast<short>(vramPoint.field_0_x + WidthBppDivide(textureMode, sprt.mUv.u)), static_cast<short>(vramPoint.field_2_y + sprt.mUv.v) });
+    TextureCache* pTexture = Renderer_TexFromVRam({ static_cast<s16>(vramPoint.field_0_x + WidthBppDivide(textureMode, sprt.mUv.u)), static_cast<s16>(vramPoint.field_2_y + sprt.mUv.v) });
     PaletteCache* pPal = Renderer_ClutToPalette(sprt.mUv.tpage_clut_pad);
 
     const VertexData verts[4] = {
@@ -1032,8 +1032,8 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     if (gasEffect.pData == nullptr)
         return;
 
-    int gasWidth = (gasEffect.w - gasEffect.x);
-    int gasHeight = (gasEffect.h - gasEffect.y);
+    s32 gasWidth = (gasEffect.w - gasEffect.x);
+    s32 gasHeight = (gasEffect.h - gasEffect.y);
 
     glBindTexture(GL_TEXTURE_2D, TempGasEffectTexture);
 
@@ -1044,7 +1044,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     mTextureShader.Uniform1i("m_DitherWidth", gasWidth);
     mTextureShader.Uniform1i("m_DitherHeight", gasHeight);
     Renderer_SetBlendMode(TPageAbr::eBlend_1);
-    DrawTexture(TempGasEffectTexture, (float)gasEffect.x, (float)gasEffect.y, (float)gasWidth, (float)gasHeight);
+    DrawTexture(TempGasEffectTexture, (f32)gasEffect.x, (f32)gasEffect.y, (f32)gasWidth, (f32)gasHeight);
     mTextureShader.Use();
     mTextureShader.Uniform1i("m_Dithered", 0);
 }
@@ -1055,9 +1055,9 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
         return;
 
     // todo: texturing ?
-    const float r = tile.mBase.header.rgb_code.r / 255.0f;
-    const float g = tile.mBase.header.rgb_code.g / 255.0f;
-    const float b = tile.mBase.header.rgb_code.b / 255.0f;
+    const f32 r = tile.mBase.header.rgb_code.r / 255.0f;
+    const f32 g = tile.mBase.header.rgb_code.g / 255.0f;
+    const f32 b = tile.mBase.header.rgb_code.b / 255.0f;
 
     const VertexData verts[4] = {
     { 0, 0, 0,  r, g, b,    0, 0 },
@@ -1089,10 +1089,10 @@ void OpenGLRenderer::Draw(Line_F2& line)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[2] = { 
-        {(float)line.mVerts[0].mVert.x, (float)line.mVerts[0].mVert.y, 0, 
+        {(f32)line.mVerts[0].mVert.x, (f32)line.mVerts[0].mVert.y, 0, 
         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f, 
         0, 0 },
-         {(float)line.mBase.vert.x, (float)line.mBase.vert.y, 0,
+         {(f32)line.mBase.vert.x, (f32)line.mBase.vert.y, 0,
         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
         0, 0 }
     };
@@ -1119,10 +1119,10 @@ void OpenGLRenderer::Draw(Line_G2& line)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[2] = {
-        {(float)line.mVerts[0].mVert.x, (float)line.mVerts[0].mVert.y, 0,
+        {(f32)line.mVerts[0].mVert.x, (f32)line.mVerts[0].mVert.y, 0,
        line.mVerts[0].mRgb.r / 255.0f, line.mVerts[0].mRgb.g / 255.0f, line.mVerts[0].mRgb.b / 255.0f,
        0, 0 },
-       {(float)line.mBase.vert.x, (float)line.mBase.vert.y, 0,
+       {(f32)line.mBase.vert.x, (f32)line.mBase.vert.y, 0,
         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
         0, 0 }
     };
@@ -1149,16 +1149,16 @@ void OpenGLRenderer::Draw(Line_G4& line)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[4] = {
-        {(float)line.mBase.vert.x, (float)line.mBase.vert.y, 0,
+        {(f32)line.mBase.vert.x, (f32)line.mBase.vert.y, 0,
         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
         0, 0 },
-        {(float)line.mVerts[0].mVert.x, (float)line.mVerts[0].mVert.y, 0,
+        {(f32)line.mVerts[0].mVert.x, (f32)line.mVerts[0].mVert.y, 0,
        line.mVerts[0].mRgb.r / 255.0f, line.mVerts[0].mRgb.g / 255.0f, line.mVerts[0].mRgb.b / 255.0f,
        0, 0 },
-       {(float)line.mVerts[1].mVert.x, (float)line.mVerts[1].mVert.y, 0,
+       {(f32)line.mVerts[1].mVert.x, (f32)line.mVerts[1].mVert.y, 0,
        line.mVerts[1].mRgb.r / 255.0f, line.mVerts[1].mRgb.g / 255.0f, line.mVerts[1].mRgb.b / 255.0f,
        0, 0 },
-       {(float)line.mVerts[2].mVert.x, (float)line.mVerts[2].mVert.y, 0,
+       {(f32)line.mVerts[2].mVert.x, (f32)line.mVerts[2].mVert.y, 0,
        line.mVerts[2].mRgb.r / 255.0f, line.mVerts[2].mRgb.g / 255.0f, line.mVerts[2].mRgb.b / 255.0f,
        0, 0 }
     };
@@ -1185,13 +1185,13 @@ void OpenGLRenderer::Draw(Poly_F3& poly)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[3] = {
-        {(float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0,
+        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0,
         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
         0, 0 },
-        {(float)poly.mVerts[0].mVert.x, (float)poly.mVerts[0].mVert.y, 0,
+        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0,
         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
         1, 0 },
-        {(float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y, 0,
+        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0,
         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
         0, 1 }
     };
@@ -1220,13 +1220,13 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[3] = {
-        {(float)poly.mVerts[0].mVert.x, (float)poly.mVerts[0].mVert.y, 0,
+        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0,
         poly.mVerts[0].mRgb.r / 255.0f, poly.mVerts[0].mRgb.g / 255.0f, poly.mVerts[0].mRgb.b / 255.0f,
         1, 0 },
-        {(float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0,
+        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0,
         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
         0, 0 },
-        {(float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y, 0,
+        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0,
         poly.mVerts[1].mRgb.r / 255.0f, poly.mVerts[1].mRgb.g / 255.0f, poly.mVerts[1].mRgb.b / 255.0f,
         0, 1 }
     };
@@ -1252,15 +1252,15 @@ void OpenGLRenderer::Draw(Poly_F4& poly)
     glDisable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    const float r = poly.mBase.header.rgb_code.r / 255.0f;
-    const float g = poly.mBase.header.rgb_code.g / 255.0f;
-    const float b = poly.mBase.header.rgb_code.b / 255.0f;
+    const f32 r = poly.mBase.header.rgb_code.r / 255.0f;
+    const f32 g = poly.mBase.header.rgb_code.g / 255.0f;
+    const f32 b = poly.mBase.header.rgb_code.b / 255.0f;
 
     const VertexData verts[4] = {
-        {(float)poly.mVerts[0].mVert.x, (float)poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0 },
-        {(float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0, r, g, b,0, 0 },
-        {(float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1 },
-        {(float)poly.mVerts[2].mVert.x, (float)poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1 }
+        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0 },
+        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0, r, g, b,0, 0 },
+        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1 },
+        {(f32)poly.mVerts[2].mVert.x, (f32)poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1 }
     };
 
     mTextureShader.Use();
@@ -1301,9 +1301,9 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     mTextureShader.Use();
 
-    float r = poly.mBase.header.rgb_code.r / 64.0f;
-    float g = poly.mBase.header.rgb_code.g / 64.0f;
-    float b = poly.mBase.header.rgb_code.b / 64.0f;
+    f32 r = poly.mBase.header.rgb_code.r / 64.0f;
+    f32 g = poly.mBase.header.rgb_code.g / 64.0f;
+    f32 b = poly.mBase.header.rgb_code.b / 64.0f;
 
     if (pTexture->mIgnoreColor)
     {
@@ -1312,8 +1312,8 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         b = 1.0f;
     }
 
-    int xOff = (pTexture->mVramRect.x & 63);
-    int bppMulti = 1;
+    s32 xOff = (pTexture->mVramRect.x & 63);
+    s32 bppMulti = 1;
 
     switch (pTexture->mBitDepth)
     {
@@ -1330,14 +1330,14 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     xOff *= bppMulti;
 
     // macros suck. todo: fix that
-#define UV_U(v) (float)(((pTexture->mUvOffset.field_0_x + v) - xOff) / (float)(pTexture->mVramRect.w * bppMulti))
-#define UV_V(v) (float)(((pTexture->mUvOffset.field_2_y + v) - static_cast<BYTE>(pTexture->mVramRect.y)) / (float)pTexture->mVramRect.h)
+#define UV_U(v) (f32)(((pTexture->mUvOffset.field_0_x + v) - xOff) / (f32)(pTexture->mVramRect.w * bppMulti))
+#define UV_V(v) (f32)(((pTexture->mUvOffset.field_2_y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (f32)pTexture->mVramRect.h)
 
     VertexData verts[4] = {
-        {(float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v) },
-        {(float)poly.mVerts[0].mVert.x, (float)poly.mVerts[0].mVert.y, 0, r, g, b, UV_U(poly.mVerts[0].mUv.u), UV_V(poly.mVerts[0].mUv.v) },
-        {(float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y, 0, r, g, b, UV_U(poly.mVerts[1].mUv.u), UV_V(poly.mVerts[1].mUv.v) },
-        {(float)poly.mVerts[2].mVert.x, (float)poly.mVerts[2].mVert.y, 0, r, g, b, UV_U(poly.mVerts[2].mUv.u), UV_V(poly.mVerts[2].mUv.v) }
+        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v) },
+        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0, r, g, b, UV_U(poly.mVerts[0].mUv.u), UV_V(poly.mVerts[0].mUv.v) },
+        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0, r, g, b, UV_U(poly.mVerts[1].mUv.u), UV_V(poly.mVerts[1].mUv.v) },
+        {(f32)poly.mVerts[2].mVert.x, (f32)poly.mVerts[2].mVert.y, 0, r, g, b, UV_U(poly.mVerts[2].mUv.u), UV_V(poly.mVerts[2].mUv.v) }
     };
 
     Renderer_BindPalette(pPal);
@@ -1345,12 +1345,12 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     if (pTexture->mIsFG1)
     {
-        const float overdraw = 0.2f; // stops weird line rendering issues.
+        const f32 overdraw = 0.2f; // stops weird line rendering issues.
         // This is an FG1, so UV's are maxed;
-        verts[0] = { (float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0, 1.0f, 1.0f, 1.0f, 0, 0 };
-        verts[1] = { (float)poly.mVerts[0].mVert.x + overdraw, (float)poly.mVerts[0].mVert.y, 0, 1.0f, 1.0f, 1.0f, 1, 0 };
-        verts[2] = { (float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 0, 1 };
-        verts[3] = { (float)poly.mVerts[2].mVert.x + overdraw, (float)poly.mVerts[2].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 1, 1 };
+        verts[0] = { (f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0, 1.0f, 1.0f, 1.0f, 0, 0 };
+        verts[1] = { (f32)poly.mVerts[0].mVert.x + overdraw, (f32)poly.mVerts[0].mVert.y, 0, 1.0f, 1.0f, 1.0f, 1, 0 };
+        verts[2] = { (f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 0, 1 };
+        verts[3] = { (f32)poly.mVerts[2].mVert.x + overdraw, (f32)poly.mVerts[2].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 1, 1 };
 
 
         // Hack, set palette texture to our background.
@@ -1409,16 +1409,16 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[4] = {
-        {(float)poly.mBase.vert.x, (float)poly.mBase.vert.y, 0,
+        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0,
         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
         0, 0 },
-        {(float)poly.mVerts[0].mVert.x, (float)poly.mVerts[0].mVert.y, 0,
+        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0,
        poly.mVerts[0].mRgb.r / 255.0f, poly.mVerts[0].mRgb.g / 255.0f, poly.mVerts[0].mRgb.b / 255.0f,
        1, 0 },
-       {(float)poly.mVerts[1].mVert.x, (float)poly.mVerts[1].mVert.y, 0,
+       {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0,
         poly.mVerts[1].mRgb.r / 255.0f, poly.mVerts[1].mRgb.g / 255.0f, poly.mVerts[1].mRgb.b / 255.0f,
         0, 1 },
-        {(float)poly.mVerts[2].mVert.x, (float)poly.mVerts[2].mVert.y, 0,
+        {(f32)poly.mVerts[2].mVert.x, (f32)poly.mVerts[2].mVert.y, 0,
         poly.mVerts[2].mRgb.r / 255.0f, poly.mVerts[2].mRgb.g / 255.0f, poly.mVerts[2].mRgb.b / 255.0f,
         1, 1 }
     };
@@ -1435,13 +1435,13 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
     mTextureShader.UnUse();
 }
 
-void ConvertAOFG1(const BYTE* srcPalData, RGBAPixel* dst, int pixelCount)
+void ConvertAOFG1(const u8* srcPalData, RGBAPixel* dst, s32 pixelCount)
 {
-    const unsigned short* palShortPtr = reinterpret_cast<const unsigned short*>(srcPalData);
-    for (int i = 0; i < pixelCount; i++)
+    const u16* palShortPtr = reinterpret_cast<const u16*>(srcPalData);
+    for (s32 i = 0; i < pixelCount; i++)
     {
-        unsigned short oldPixel = palShortPtr[i];
-        unsigned char semiTrans = (((oldPixel) >> 15) & 0x1);
+        u16 oldPixel = palShortPtr[i];
+        u8 semiTrans = (((oldPixel) >> 15) & 0x1);
         dst[i].G = ((oldPixel >> 5) & 0x1F) << 2;
         dst[i].R = ((oldPixel >> 0) & 0x1F) << 2;
         dst[i].B = ((oldPixel >> 10) & 0x1F) << 2;
@@ -1449,18 +1449,18 @@ void ConvertAOFG1(const BYTE* srcPalData, RGBAPixel* dst, int pixelCount)
     }
 }
 
-void StitchAOCam(int x, int y, int width, int height, const BYTE* pPixels)
+void StitchAOCam(s32 x, s32 y, s32 width, s32 height, const u8* pPixels)
 {
-    unsigned short* pDst = reinterpret_cast<unsigned short*>(gDecodeBuffer);
-    const unsigned short* pSrc = reinterpret_cast<const unsigned short*>(pPixels);
+    u16* pDst = reinterpret_cast<u16*>(gDecodeBuffer);
+    const u16* pSrc = reinterpret_cast<const u16*>(pPixels);
 
-    for (int y1 = y; y1 < height; y1++)
+    for (s32 y1 = y; y1 < height; y1++)
     {
-        memcpy(&pDst[x + (y1 * 640)], &pSrc[(y1 * width)], width * sizeof(short));
+        memcpy(&pDst[x + (y1 * 640)], &pSrc[(y1 * width)], width * sizeof(s16));
     }
 }
 
-void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE* pPixels)
+void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels)
 {
     // Palettes are the only texture that is 1 in height.
     // So we're gonna hook in here to steal palettes for our
@@ -1469,7 +1469,7 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE*
     {
         if (bitDepth == BitDepth::e16Bit)
         {
-            Renderer_LoadPalette({ rect.x, rect.y }, reinterpret_cast<const BYTE*>(pPixels), rect.w);
+            Renderer_LoadPalette({ rect.x, rect.y }, reinterpret_cast<const u8*>(pPixels), rect.w);
         }
         return;
     }
@@ -1489,9 +1489,9 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE*
 
     if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
     {
-        ImGui::SetCursorPos(ImVec2(static_cast<float>(tc->mVramRect.x), static_cast<float>(tc->mVramRect.y + 50)));
-        float textureWidth = static_cast<float>(tc->mVramRect.w);
-        float textureHeight = static_cast<float>(tc->mVramRect.h);
+        ImGui::SetCursorPos(ImVec2(static_cast<f32>(tc->mVramRect.x), static_cast<f32>(tc->mVramRect.y + 50)));
+        f32 textureWidth = static_cast<f32>(tc->mVramRect.w);
+        f32 textureHeight = static_cast<f32>(tc->mVramRect.h);
         ImVec2 xpos = ImGui::GetCursorScreenPos();
         ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
         ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(0.0f, 1.0f, 0.0f, 1.0f)));
@@ -1552,11 +1552,11 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE*
     
 }
 
-void HackSetBackground(const char* path)
+void HackSetBackground(const s8* path)
 {
     //return; 
 
-    const char* camSearchs[] = {
+    const s8* camSearchs[] = {
         "hd/%s.PNG",
         "hd/%s.CAM.PNG",
         "hd/%s.CAM.cam.PNG"
@@ -1564,10 +1564,10 @@ void HackSetBackground(const char* path)
 
     FILE * fh = NULL;
 
-    for (int i = 0; i < 3; i++)
+    for (s32 i = 0; i < 3; i++)
     {
-        char newPath[100];
-        char camHack[9] = {};
+        s8 newPath[100];
+        s8 camHack[9] = {};
         memcpy(camHack, path, 8);
         sprintf(newPath, camSearchs[i], camHack);
         fh = fopen(newPath, "rb");
@@ -1585,9 +1585,9 @@ void HackSetBackground(const char* path)
         return;
     }
 
-    int x = 0, y = 0;
-    int comp = 0;
-    const unsigned char* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
+    s32 x = 0, y = 0;
+    s32 comp = 0;
+    const u8* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
 
     if (mBackgroundTexture == 0)
     {

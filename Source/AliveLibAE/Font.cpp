@@ -22,7 +22,7 @@ void Font_ForceLink()
  Then its probably x *= 0.575;
  If it looks like:
 
- v17 = (signed int)(40 * x + 11 + ((unsigned __int64)(-1307163959i64 * (40 * x + 11)) >> 32)) >> 4;
+ v17 = (s32)(40 * x + 11 + ((s64)(-1307163959i64 * (40 * x + 11)) >> 32)) >> 4;
  x = (v17 >> 31) + v17;
 
  then do x /= 0.575;
@@ -53,13 +53,13 @@ EXPORT void CC static_font2context_init_433380()
 ALIVE_VAR(1, 0x5bc5c8, Font_Context, sFont1Context_5BC5C8, {});
 ALIVE_VAR(1, 0x5BC5D8, Font_Context, sFont2Context_5BC5D8, {});
 
-ALIVE_VAR(1, 0x5c9304, char, sDisableFontFlicker_5C9304, 0);
+ALIVE_VAR(1, 0x5c9304, s8, sDisableFontFlicker_5C9304, 0);
 
-ALIVE_VAR(1, 0x5ca4b4, BYTE, sFontDrawScreenSpace_5CA4B4, 0);
+ALIVE_VAR(1, 0x5ca4b4, u8, sFontDrawScreenSpace_5CA4B4, 0);
 
-ALIVE_VAR(1, 0x5BC5E8, __int16, sFontType2LoadCount_5BC5E8, 0);
+ALIVE_VAR(1, 0x5BC5E8, s16, sFontType2LoadCount_5BC5E8, 0);
 
-static std::vector<std::vector<BYTE>> sLoadedAtlas;
+static std::vector<std::vector<u8>> sLoadedAtlas;
 
 namespace Alive
 {
@@ -67,12 +67,12 @@ namespace Alive
     {
     }
 
-    Font::Font(int maxCharLength, const BYTE *palette, Font_Context *fontContext)
+    Font::Font(s32 maxCharLength, const u8 *palette, Font_Context *fontContext)
     {
         ctor_433590(maxCharLength, palette, fontContext);
     }
 
-    void Font::ctor_433590(int maxCharLength, const BYTE *palette, Font_Context *fontContext)
+    void Font::ctor_433590(s32 maxCharLength, const u8 *palette, Font_Context *fontContext)
     {
         field_34_font_context = fontContext;
 
@@ -93,7 +93,7 @@ namespace Alive
 #if DEVELOPER_MODE // Use normal memory allocating for fonts, so we don't overload the resource heap
         auto db = new void*[1];
         db[0] = ae_new_malloc_4954D0(sizeof(Poly_FT4) * 2 * maxCharLength);
-        field_20_fnt_poly_block_ptr = reinterpret_cast<BYTE**>(db);
+        field_20_fnt_poly_block_ptr = reinterpret_cast<u8**>(db);
 #else
         field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_FntP, fontContext->field_C_resource_id, sizeof(Poly_FT4) * 2 * maxCharLength);
 #endif
@@ -114,30 +114,30 @@ namespace Alive
 #endif
     }
 
-    int Font::DrawString_4337D0(PrimHeader **ppOt, const char *text, int x, __int16 y, TPageAbr abr, int bSemiTrans, int blendMode, Layer layer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int maxRenderWidth, __int16 colorRandomRange)
+    s32 Font::DrawString_4337D0(PrimHeader **ppOt, const s8 *text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
     {
         if (!sFontDrawScreenSpace_5CA4B4)
         {
-            x = static_cast<int>(x / 0.575); // 368 to 640. Convert world space to screen space coords.
+            x = static_cast<s32>(x / 0.575); // 368 to 640. Convert world space to screen space coords.
         }
 
-        int characterRenderCount = 0;
-        const int maxRenderX = static_cast<int>(maxRenderWidth / 0.575);
-        short offsetX = static_cast<short>(x);
-        int charInfoIndex = 0;
+        s32 characterRenderCount = 0;
+        const s32 maxRenderX = static_cast<s32>(maxRenderWidth / 0.575);
+        s16 offsetX = static_cast<s16>(x);
+        s32 charInfoIndex = 0;
         auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
 
-        int tpage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
-        int clut = PSX_getClut_4F6350(field_28_palette_rect.x, field_28_palette_rect.y);
+        s32 tpage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
+        s32 clut = PSX_getClut_4F6350(field_28_palette_rect.x, field_28_palette_rect.y);
 
-        for (unsigned int i = 0; i < strlen(text); i++)
+        for (u32 i = 0; i < strlen(text); i++)
         {
             if (offsetX >= maxRenderX)
             {
                 break;
             }
 
-            const unsigned char c = text[i];
+            const u8 c = text[i];
             if (c <= 0x20u || c > 0xAFu)
             {
                 if (c < 7u || c > 0x1Fu)
@@ -155,13 +155,13 @@ namespace Alive
             const auto fContext = field_34_font_context;
             const auto atlasEntry = &fContext->field_8_atlas_array[charInfoIndex];
 
-            const char charWidth = atlasEntry->field_2_width;
+            const s8 charWidth = atlasEntry->field_2_width;
             const auto charHeight = atlasEntry->field_3_height;
-            const char texture_u = static_cast<char>(atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F)));
-            const char texture_v = static_cast<char>(atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y));
+            const s8 texture_u = static_cast<s8>(atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F)));
+            const s8 texture_v = static_cast<s8>(atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y));
 
-            const short widthScaled = static_cast<short>(charWidth * FP_GetDouble(scale));
-            const short heightScaled = static_cast<short>(charHeight * FP_GetDouble(scale));
+            const s16 widthScaled = static_cast<s16>(charWidth * FP_GetDouble(scale));
+            const s16 heightScaled = static_cast<s16>(charHeight * FP_GetDouble(scale));
 
             PolyFT4_Init(poly);
             Poly_Set_SemiTrans_4F8A60(&poly->mBase.header, bSemiTrans);
@@ -170,13 +170,13 @@ namespace Alive
             SetRGB0
             (
                 poly,
-                static_cast<BYTE>(r + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
-                static_cast<BYTE>(g + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
-                static_cast<BYTE>(b + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange))
+                static_cast<u8>(r + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
+                static_cast<u8>(g + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
+                static_cast<u8>(b + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange))
             );
 
-            SetTPage(poly, static_cast<short>(tpage));
-            SetClut(poly, static_cast<short>(clut));
+            SetTPage(poly, static_cast<s16>(tpage));
+            SetClut(poly, static_cast<s16>(clut));
 
             // Padding
             poly->mVerts[1].mUv.tpage_clut_pad = 0;
@@ -202,7 +202,7 @@ namespace Alive
 
             ++characterRenderCount;
 
-            offsetX += widthScaled + static_cast<short>(field_34_font_context->field_8_atlas_array[0].field_2_width * FP_GetExponent(scale));
+            offsetX += widthScaled + static_cast<s16>(field_34_font_context->field_8_atlas_array[0].field_2_width * FP_GetExponent(scale));
 
             poly += 2;
         }
@@ -212,16 +212,16 @@ namespace Alive
         return polyOffset + characterRenderCount;
     }
 
-    int Font::MeasureWidth_433700(const char * text)
+    s32 Font::MeasureWidth_433700(const s8 * text)
     {
-        int result = 0;
+        s32 result = 0;
 
-        for (unsigned int i = 0; i < strlen(text); i++)
+        for (u32 i = 0; i < strlen(text); i++)
         {
-            const char c = text[i];
-            int charIndex = 0;
+            const s8 c = text[i];
+            s32 charIndex = 0;
 
-            if (c <= 32 || static_cast<const unsigned char>(c) > 175)
+            if (c <= 32 || static_cast<const u8>(c) > 175)
             {
                 if (c < 7 || c > 31)
                 {
@@ -244,24 +244,24 @@ namespace Alive
 
         if (!sFontDrawScreenSpace_5CA4B4)
         {
-            result = static_cast<int>(result * 0.575); // Convert screen space to world space.
+            result = static_cast<s32>(result * 0.575); // Convert screen space to world space.
         }
 
         return result;
     }
 
     // Measures the width of a string with scale applied.
-    int Font::MeasureWidth_4336C0(const char * text, FP scale)
+    s32 Font::MeasureWidth_4336C0(const s8 * text, FP scale)
     {
         FP ret = (FP_FromInteger(MeasureWidth_433700(text)) * scale) + FP_FromDouble(0.5);
         return FP_GetExponent(ret);
     }
 
     // Measures the width of a single character.
-    int Font::MeasureWidth_433630(unsigned char character)
+    s32 Font::MeasureWidth_433630(u8 character)
     {
-        int result = 0;
-        int charIndex = 0;
+        s32 result = 0;
+        s32 charIndex = 0;
 
         if (character <= 32u || character > 175u)
         {
@@ -279,17 +279,17 @@ namespace Alive
 
         if (!sFontDrawScreenSpace_5CA4B4)
         {
-            result = static_cast<int>(result * 0.575); // Convert screen space to world space.
+            result = static_cast<s32>(result * 0.575); // Convert screen space to world space.
         }
 
         return result;
     }
 
-    // Wasn't too sure what to call this. Returns the char offset of where the text is cut off. (left and right region)
-    const char * Font::SliceText_433BD0(const char * text, int left, FP scale, int right)
+    // Wasn't too sure what to call this. Returns the s8 offset of where the text is cut off. (left and right region)
+    const s8 * Font::SliceText_433BD0(const s8 * text, s32 left, FP scale, s32 right)
     {
-        int xOff = 0;
-        int rightWorldSpace = static_cast<int>(right * 0.575);
+        s32 xOff = 0;
+        s32 rightWorldSpace = static_cast<s32>(right * 0.575);
 
         if (sFontDrawScreenSpace_5CA4B4)
         {
@@ -297,14 +297,14 @@ namespace Alive
         }
         else
         {
-            xOff = static_cast<int>(left / 0.575);
+            xOff = static_cast<s32>(left / 0.575);
         }
 
 
-        for (const char *strPtr = text; *strPtr; strPtr++)
+        for (const s8 *strPtr = text; *strPtr; strPtr++)
         {
-            int atlasIdx = 0;
-            char character = *strPtr;
+            s32 atlasIdx = 0;
+            s8 character = *strPtr;
             if (xOff >= rightWorldSpace)
             {
                 return strPtr;
@@ -326,14 +326,14 @@ namespace Alive
 
             // v12 = field_34_font_context->field_8_atlas_array[atlasIdx].field_3_height;
             // Math_FixedPoint_Multiply_496C50(v12 << 16, scale);
-            xOff += static_cast<signed int>(field_34_font_context->field_8_atlas_array[atlasIdx].field_2_width * FP_GetDouble(scale)) / 0x10000 + field_34_font_context->field_8_atlas_array->field_2_width;
+            xOff += static_cast<s32>(field_34_font_context->field_8_atlas_array[atlasIdx].field_2_width * FP_GetDouble(scale)) / 0x10000 + field_34_font_context->field_8_atlas_array->field_2_width;
         }
 
         return text;
     }
 }
 
-void Font_Context::LoadFontType_433400(short resourceID)
+void Font_Context::LoadFontType_433400(s16 resourceID)
 {
     // Override game fonts with our XInput friendly ones.
 #if XINPUT_SUPPORT 
@@ -355,7 +355,7 @@ void Font_Context::LoadFontType_433400(short resourceID)
     field_C_resource_id = resourceID;
 
     Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
-    const PSX_RECT vramAllocatedRect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
+    const PSX_RECT vramAllocatedRect = { field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
     IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, vramAllocatedRect, fontFile->field_28_pixel_buffer);
 
@@ -384,7 +384,7 @@ void Font_Context::dtor_433510()
     }
 }
 
-bool Font_Context::LoadFontTypeFromFile(const char * fontPath, const char * atlasPath, char * pPaletteOut)
+bool Font_Context::LoadFontTypeFromFile(const s8 * fontPath, const s8 * atlasPath, s8 * pPaletteOut)
 {
     auto debugFont = FS::ReadFile(fontPath);
     auto debugFontAtlas = FS::ReadFile(atlasPath);
@@ -401,13 +401,13 @@ bool Font_Context::LoadFontTypeFromFile(const char * fontPath, const char * atla
     return true;
 }
 
-void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fontAtlas, char * pPaletteOut)
+void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fontAtlas, s8 * pPaletteOut)
 {
     // Give custom fonts a constant resource id for now.
     field_C_resource_id = 0xff;
 
     Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
-    const PSX_RECT vramAlloctedRect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
+    const PSX_RECT vramAlloctedRect = { field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
     if (pPaletteOut)
     {
@@ -420,7 +420,7 @@ void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fo
     field_8_atlas_array = fontAtlas;
 }
 
-bool Font_Context::LoadFontTypeFromOddFont(const char * fontPath, char * pPaletteOut)
+bool Font_Context::LoadFontTypeFromOddFont(const s8 * fontPath, s8 * pPaletteOut)
 {
     auto debugFont = FS::ReadFile(fontPath);
     if (!debugFont.size())
@@ -432,13 +432,13 @@ bool Font_Context::LoadFontTypeFromOddFont(const char * fontPath, char * pPalett
     return LoadFontTypeFromOddFontMem(debugFont.data(), pPaletteOut);
 }
 
-bool Font_Context::LoadFontTypeFromOddFontMem(BYTE * data, char * pPaletteOut)
+bool Font_Context::LoadFontTypeFromOddFontMem(u8 * data, s8 * pPaletteOut)
 {
     auto fontFile = reinterpret_cast<File_Font*>(data);
-    int * atlasCount = reinterpret_cast<int *>(fontFile->field_28_pixel_buffer + ((fontFile->field_0_width * fontFile->field_2_height) / 2));
+    s32 * atlasCount = reinterpret_cast<s32 *>(fontFile->field_28_pixel_buffer + ((fontFile->field_0_width * fontFile->field_2_height) / 2));
     Font_AtlasEntry * atlasData = reinterpret_cast<Font_AtlasEntry*>(atlasCount + 1);
 
-    auto debugFontAtlas = std::vector<BYTE>((BYTE*)atlasData, (BYTE*)atlasData + (sizeof(Font_AtlasEntry) * *atlasCount));
+    auto debugFontAtlas = std::vector<u8>((u8*)atlasData, (u8*)atlasData + (sizeof(Font_AtlasEntry) * *atlasCount));
 
     sLoadedAtlas.push_back(debugFontAtlas);
     LoadFontTypeCustom(reinterpret_cast<File_Font*>(data), reinterpret_cast<Font_AtlasEntry*>(sLoadedAtlas.back().data()), pPaletteOut);

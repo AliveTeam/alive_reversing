@@ -104,7 +104,7 @@ TEST(alive_api, EnumeratePathsAO)
 {
     auto ret = AliveAPI::EnumeratePaths(AOPath("R1.LVL"));
     ASSERT_EQ(ret.pathBndName, "R1PATH.BND");
-    const std::vector<int> paths {15, 16, 18, 19};
+    const std::vector<s32> paths {15, 16, 18, 19};
     ASSERT_EQ(ret.paths, paths);
     ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 }
@@ -116,7 +116,7 @@ TEST(alive_api, ReSaveAllPathsAO)
         auto ret = AliveAPI::EnumeratePaths(AOPath(lvl));
         ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 
-        for (int path : ret.paths)
+        for (s32 path : ret.paths)
         {
             const std::string jsonName = "OutputAO_" + lvl + "_" + std::to_string(path) + ".json";
             LOG_INFO("Save " << jsonName);
@@ -150,7 +150,7 @@ TEST(alive_api, ReSaveAllPathsAE)
         auto ret = AliveAPI::EnumeratePaths(AEPath(lvl));
         ASSERT_EQ(ret.mResult, AliveAPI::Error::None);
 
-        for (int path : ret.paths)
+        for (s32 path : ret.paths)
         {
             const std::string jsonName = "OutputAE_" + lvl + "_" + std::to_string(path) + ".json";
             LOG_INFO("Save " << jsonName);
@@ -206,9 +206,9 @@ TEST(json_upgrade, upgrade_rename_structure)
 class ArgsAdapter
 {
 public:
-    ArgsAdapter(int argc, char* argv[])
+    ArgsAdapter(s32 argc, s8* argv[])
     {
-        for (int i = 0; i < argc; i++)
+        for (s32 i = 0; i < argc; i++)
         {
             mArgs.push_back(argv[i]);
         }
@@ -220,19 +220,19 @@ public:
         mArgs.push_back(arg);
     }
 
-    int ArgC() const
+    s32 ArgC() const
     {
-        return static_cast<int>(mArgs.size());
+        return static_cast<s32>(mArgs.size());
     }
 
-    std::unique_ptr<char*[]> ArgV() const
+    std::unique_ptr<s8*[]> ArgV() const
     {
-        auto ptr = std::make_unique<char* []>(mArgs.size());
+        auto ptr = std::make_unique<s8* []>(mArgs.size());
 
-        int i = 0;
+        s32 i = 0;
         for (const auto& arg : mArgs)
         {
-            ptr[i++] = const_cast<char*>(arg.c_str());
+            ptr[i++] = const_cast<s8*>(arg.c_str());
         }
         return ptr;
     }
@@ -241,12 +241,12 @@ private:
     std::vector<std::string> mArgs;
 };
 
-int main(int argc, char* argv[])
+s32 main(s32 argc, s8* argv[])
 {
     ArgsAdapter args(argc, argv);
     args.Add("--gtest_catch_exceptions=0");
 
-    int newArgc = args.ArgC();
+    s32 newArgc = args.ArgC();
     auto newArgv = args.ArgV();
 
     ::testing::InitGoogleTest(&newArgc, newArgv.get());

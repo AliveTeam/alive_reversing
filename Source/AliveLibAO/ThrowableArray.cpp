@@ -11,10 +11,10 @@ namespace AO {
 ALIVE_VAR(1, 0x50E26C, ThrowableArray*, gpThrowableArray_50E26C, nullptr);
 
 
-EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, unsigned __int16 path)
+EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, u16 path)
 {
     BOOL bDoLoadingLoop = FALSE;
-    const BYTE throwableTypeIdx = Path_Get_Bly_Record_434650(levelNumber, path)->field_C_overlay_id & 0xFF;
+    const u8 throwableTypeIdx = Path_Get_Bly_Record_434650(levelNumber, path)->field_C_overlay_id & 0xFF;
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbepickResID, 0, 0))
     {
@@ -88,7 +88,7 @@ EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, unsigned __int16 path)
     }
 }
 
-BaseGameObject* ThrowableArray::VDestructor(signed int flags)
+BaseGameObject* ThrowableArray::VDestructor(s32 flags)
 {
     return Vdtor_454690(flags);
 }
@@ -108,7 +108,7 @@ void ThrowableArray::VScreenChanged()
     vScreenChange_454300();
 }
 
-BaseGameObject* ThrowableArray::Vdtor_454690(signed int flags)
+BaseGameObject* ThrowableArray::Vdtor_454690(s32 flags)
 {
     dtor_453F10();
     if (flags & 1)
@@ -170,7 +170,7 @@ ThrowableArray* ThrowableArray::ctor_453EE0()
     return this;
 }
 
-void ThrowableArray::Remove_4540D0(__int16 count)
+void ThrowableArray::Remove_4540D0(s16 count)
 {
     field_10_count -= count;
 
@@ -191,7 +191,7 @@ void ThrowableArray::Remove_4540D0(__int16 count)
         }
     }
 
-    BYTE** ppRes = nullptr;
+    u8** ppRes = nullptr;
     if (field_12_flags & 2)
     {
         switch (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num])
@@ -235,7 +235,7 @@ void ThrowableArray::Remove_4540D0(__int16 count)
     }
 }
 
-void ThrowableArray::Add_453F70(__int16 count)
+void ThrowableArray::Add_453F70(s16 count)
 {
     if (field_10_count == 0)
     {

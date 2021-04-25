@@ -10,7 +10,7 @@
 #include "Sound/Midi.hpp"
 #include "SwitchStates.hpp"
 
-SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, int tlvInfo)
+SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     field_104_event_idx = -1;
@@ -20,7 +20,7 @@ SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, int tlvInfo)
     SetVTable(this, 0x547028);
 
     const AnimRecord& rec = AnimRec(AnimId::Security_Door_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -96,7 +96,7 @@ void SecurityDoor::VUpdate()
     vUpdate_4AC380();
 }
 
-BaseGameObject* SecurityDoor::VDestructor(signed int flags)
+BaseGameObject* SecurityDoor::VDestructor(s32 flags)
 {
     return vdtor_4AC230(flags);
 }
@@ -108,7 +108,7 @@ void SecurityDoor::dtor_4AC260()
     {
         field_F8_state = SecurityDoorStates::eInactive_0;
     }
-    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, static_cast<__int16>(field_F8_state) + 1, 0, 0);
+    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, static_cast<s16>(field_F8_state) + 1, 0, 0);
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
@@ -117,7 +117,7 @@ void SecurityDoor::vScreenChanged_4AC970()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-SecurityDoor* SecurityDoor::vdtor_4AC230(signed int flags)
+SecurityDoor* SecurityDoor::vdtor_4AC230(s32 flags)
 {
     dtor_4AC260();
     if (flags & 1)
@@ -127,10 +127,10 @@ SecurityDoor* SecurityDoor::vdtor_4AC230(signed int flags)
     return this;
 }
 
-__int16 SecurityDoor::IsPlayerNear_4AC300()
+s16 SecurityDoor::IsPlayerNear_4AC300()
 {
-    const short xpos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
-    const short ypos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
+    const s16 xpos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
+    const s16 ypos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
 
     if (xpos < field_11C_top_left.field_0_x || xpos > field_120_bottom_right.field_0_x)
     {
@@ -155,7 +155,7 @@ void SecurityDoor::vUpdate_4AC380()
     switch (field_F8_state)
     {
     case SecurityDoorStates::eInactive_0:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
         }
@@ -172,7 +172,7 @@ void SecurityDoor::vUpdate_4AC380()
         return;
 
     case SecurityDoorStates::eSuccessChime_1:
-        if (static_cast<int>(sGnFrame_5C1B84) == field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) == field_124_timer)
         {
             SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
         }
@@ -207,14 +207,14 @@ void SecurityDoor::vUpdate_4AC380()
             }
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
         {
             field_F8_state = SecurityDoorStates::eInactive_0;
         }
         return;
 
     case SecurityDoorStates::eWaitingToSayPassword_4:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
         {
             field_F8_state = SecurityDoorStates::ePreparingToSayPassword_5;
         }
@@ -222,7 +222,7 @@ void SecurityDoor::vUpdate_4AC380()
 
     case SecurityDoorStates::ePreparingToSayPassword_5:
         field_128_max_idx = 0;
-        field_118_max_idx = static_cast<short>(GameSpeak::FillBuffer_421970(field_FC_code_converted, field_108_stru));
+        field_118_max_idx = static_cast<s16>(GameSpeak::FillBuffer_421970(field_FC_code_converted, field_108_stru));
         field_F8_state = SecurityDoorStates::eSayingPassword_6;
         return;
 
@@ -260,21 +260,21 @@ void SecurityDoor::vUpdate_4AC380()
     }
 
     case SecurityDoorStates::ePausing_7:
-        if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
         {
             field_F8_state = SecurityDoorStates::eSayingPassword_6;
         }
         return;
 
     case SecurityDoorStates::eListeningForPassword_9:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
         {
             if (field_104_event_idx != pEventSystem_5BC11C->field_28_last_event_index)
             {
                 field_104_event_idx = pEventSystem_5BC11C->field_28_last_event_index;
                 if (pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eNone_m1 && pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eSameAsLast_m2)
                 {
-                    field_11A_event_idx = static_cast<short>(pEventSystem_5BC11C->field_28_last_event_index);
+                    field_11A_event_idx = static_cast<s16>(pEventSystem_5BC11C->field_28_last_event_index);
                     field_F8_state = SecurityDoorStates::eCheckingIfPasswordMatches_10;
                 }
             }
@@ -317,7 +317,7 @@ void SecurityDoor::vUpdate_4AC380()
     }
 
     case SecurityDoorStates::eSuccess_11:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
         }
@@ -330,7 +330,7 @@ void SecurityDoor::vUpdate_4AC380()
         return;
 
     case SecurityDoorStates::eFailure_12:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
         }
@@ -340,7 +340,7 @@ void SecurityDoor::vUpdate_4AC380()
         return;
 
     case SecurityDoorStates::eLaughAtFailure_13:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
         {
             return;
         }

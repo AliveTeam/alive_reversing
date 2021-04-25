@@ -14,7 +14,7 @@
 #include "Slig.hpp"
 #include "ExplosionSet.hpp"
 
-Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
+Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, s16 bSmall)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546CB8);
@@ -24,13 +24,13 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
     if (field_F4_bSmall)
     {
         const AnimRecord& rec = AnimRec(AnimId::Explosion_Small);
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     }
     else
     {
         const AnimRecord& rec = AnimRec(AnimId::Explosion);
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     }
 
@@ -72,7 +72,7 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
     return this;
 }
 
-BaseGameObject* Explosion::VDestructor(signed int flags)
+BaseGameObject* Explosion::VDestructor(s32 flags)
 {
     return vdtor_4A14C0(flags);
 }
@@ -107,7 +107,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
     expandedRect.y += FP_GetExponent(field_BC_ypos);
     expandedRect.h += FP_GetExponent(field_BC_ypos);
 
-    for (int idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(idx);
         if (!pObj)
@@ -246,7 +246,7 @@ void Explosion::vUpdate_4A1510()
 
     if (field_20_animation.field_92_current_frame == 1)
     {
-        BYTE** ppRes = field_F4_bSmall ?
+        u8** ppRes = field_F4_bSmall ?
             Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID) :
             Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
         if (ppRes)
@@ -300,7 +300,7 @@ void Explosion::dtor_4A14F0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Explosion* Explosion::vdtor_4A14C0(signed int flags)
+Explosion* Explosion::vdtor_4A14C0(s32 flags)
 {
     dtor_4A14F0();
     if (flags & 1)

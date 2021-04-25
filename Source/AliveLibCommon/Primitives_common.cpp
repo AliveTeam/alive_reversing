@@ -1,7 +1,7 @@
 #include "stdafx_common.h"
 #include "Primitives_common.hpp"
 
-void SetCode(PrimHeader* pPrim, BYTE code)
+void SetCode(PrimHeader* pPrim, u8 code)
 {
     pPrim->rgb_code.code_or_pad = code;
 #if !_WIN32 || _WIN64
@@ -14,7 +14,7 @@ void SetUnknown(PrimHeader* pPrim)
     pPrim->header.mNormal.field_5_unknown = 0; // byte_BD146C; // Note not using the AE or AO value but shouldn't matter as its never read
 }
 
-void SetNumLongs(PrimHeader* pPrim, char numLongs)
+void SetNumLongs(PrimHeader* pPrim, s8 numLongs)
 {
     pPrim->header.mNormal.field_4_num_longs = numLongs;
 }
@@ -48,7 +48,7 @@ void PolyF4_Init(Poly_F4* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyF4);
 }
 
-void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, int xpos, int ypos)
+void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, s32 xpos, s32 ypos)
 {
     SetUnknown(&pPrim->mPrimHeader);
     SetCode(&pPrim->mPrimHeader, PrimTypeCodes::eMoveImage);
@@ -152,7 +152,7 @@ void Init_Tile(Prim_Tile* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile);
 }
 
-int PSX_Prim_Code_Without_Blending_Or_SemiTransparency(int code)
+s32 PSX_Prim_Code_Without_Blending_Or_SemiTransparency(s32 code)
 {
     // Last 2 bits are for blending and semi transparency enable
     return code & 0xFC;
@@ -165,12 +165,12 @@ void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr)
     // Store the pointer to the bit field data - this gets used by the lowest level software rendering func
     // TODO: OG game hack
     // TODO: 64bit fail
-    DWORD asPtr = *((DWORD*)&ptr);
+    u32 asPtr = *((u32*)&ptr);
 
-    signed int ptr_first_half = (signed int)asPtr >> 16;
-    __int16 ptr_second_half = (WORD)(signed int)(asPtr);
+    s32 ptr_first_half = (s32)asPtr >> 16;
+    s16 ptr_second_half = (u16)(s32)(asPtr);
     pPoly->mVerts[1].mUv.tpage_clut_pad = ptr_second_half;
-    pPoly->mVerts[2].mUv.tpage_clut_pad = static_cast<WORD>(ptr_first_half);
+    pPoly->mVerts[2].mUv.tpage_clut_pad = static_cast<u16>(ptr_first_half);
 #else
     pPoly->mBase.header.hackPtr = ptr;
 #endif

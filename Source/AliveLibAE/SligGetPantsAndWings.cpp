@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "Slig.hpp"
 
-SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, int tlvInfo)
+SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x545ED8);
@@ -16,7 +16,7 @@ SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, int tlvI
     field_4_typeId = AETypes::eSligGetPantsOrWings_80;
     field_F8_tlvInfo = tlvInfo;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_448);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_448);
     Animation_Init_424E10(4352, 37, 70u, ppRes, 1, 1);
 
     // HACK: See header for details
@@ -37,7 +37,7 @@ SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, int tlvI
     return this;
 }
 
-BaseGameObject* SligGetPantsAndWings::VDestructor(signed int flags)
+BaseGameObject* SligGetPantsAndWings::VDestructor(s32 flags)
 {
     return vdtor_465D10(flags);
 }
@@ -72,7 +72,7 @@ void SligGetPantsAndWings::vUpdate_465DD0()
             break;
 
         case State::eActive_1:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_FC_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_FC_timer)
             {
                 field_F4_state = State::eFinished_2;
                 SFX_Play_46FA90(SoundEffect::NakedSligTransformEnd_92, 0);
@@ -91,7 +91,7 @@ void SligGetPantsAndWings::vUpdate_465DD0()
     }
 }
 
-SligGetPantsAndWings* SligGetPantsAndWings::vdtor_465D10(signed int flags)
+SligGetPantsAndWings* SligGetPantsAndWings::vdtor_465D10(s32 flags)
 {
     dtor_465D40();
     if (flags & 1)

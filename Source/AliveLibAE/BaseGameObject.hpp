@@ -4,9 +4,9 @@
 #include "DynamicArray.hpp"
 #include "BitField.hpp"
 
-ALIVE_VAR_EXTERN(unsigned int, sGnFrame_5C1B84);
+ALIVE_VAR_EXTERN(u32, sGnFrame_5C1B84);
 
-enum class AETypes : __int16
+enum class AETypes : s16
 {
     eNone_0 = 0,
     eAlarm_1 = 1,
@@ -209,42 +209,42 @@ public:
     };
 
     // Order must match VTable
-    virtual BaseGameObject* VDestructor(signed int) = 0; // Not an actual dtor because the generated compiler code has the param to determine if heap allocated or not
+    virtual BaseGameObject* VDestructor(s32) = 0; // Not an actual dtor because the generated compiler code has the param to determine if heap allocated or not
     virtual void VUpdate();
     virtual void VRender(PrimHeader** pOrderingTable);
     virtual void VScreenChanged();
     virtual void VStopAudio();
-    virtual int VGetSaveState(BYTE* pSaveBuffer);
+    virtual s32 VGetSaveState(u8* pSaveBuffer);
 
     EXPORT void ScreenChanged_4DC0A0();
 
-    EXPORT BYTE** Add_Resource_4DC130(DWORD type, int resourceID);
-    EXPORT void BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resourceArraySize);
+    EXPORT u8** Add_Resource_4DC130(u32 type, s32 resourceID);
+    EXPORT void BaseGameObject_ctor_4DBFA0(s16 bAddToObjectList, s16 resourceArraySize);
     EXPORT void BaseGameObject_dtor_4DBEC0();
 
-    EXPORT static int CCSTD Find_Flags_4DC170(int objectId);
+    EXPORT static s32 CCSTD Find_Flags_4DC170(s32 objectId);
 
 protected:
     // Helper to check if a timer has expired
     template<class T>
     static inline bool Expired(const T& value)
     {
-        return static_cast<int>(sGnFrame_5C1B84) > value;
+        return static_cast<s32>(sGnFrame_5C1B84) > value;
     }
 
     template<class T>
-    static int MakeTimer(const T value)
+    static s32 MakeTimer(const T value)
     {
-        return static_cast<int>(sGnFrame_5C1B84) + value;
+        return static_cast<s32>(sGnFrame_5C1B84) + value;
     }
 
 public:
     AETypes field_4_typeId;
     BitField16<Options> field_6_flags;
-    int field_8_object_id;
-    __int32 field_C_objectId;
-    DynamicArrayT<BYTE*> field_10_resources_array;
-    int field_1C_update_delay;
+    s32 field_8_object_id;
+    s32 field_C_objectId;
+    DynamicArrayT<u8*> field_10_resources_array;
+    s32 field_1C_update_delay;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x20);
 

@@ -21,7 +21,7 @@ MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale
     SetVTable(this, 0x545FB0);
     field_4_typeId = AETypes::eRedLaser_111;
     const AnimRecord& rec = AnimRec(AnimId::Motion_Detector_Laser);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_20_animation.field_C_render_layer = layer;
     field_B8_xpos = xpos;
@@ -31,12 +31,12 @@ MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale
     return this;
 }
 
-BaseGameObject* MotionDetectorLaser::VDestructor(signed int flags)
+BaseGameObject* MotionDetectorLaser::VDestructor(s32 flags)
 {
     return vdtor_468360(flags);
 }
 
-MotionDetectorLaser* MotionDetectorLaser::vdtor_468360(signed int flags)
+MotionDetectorLaser* MotionDetectorLaser::vdtor_468360(s32 flags)
 {
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
@@ -48,14 +48,14 @@ MotionDetectorLaser* MotionDetectorLaser::vdtor_468360(signed int flags)
 
 // =====================================================================================
 
-MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner)
+MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x545FF8);
     field_4_typeId = AETypes::eGreeterBody_91;
 
     const AnimRecord& rec = AnimRec(AnimId::Motion_Detector_Flare);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -102,7 +102,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
             field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
         }
 
-        field_174_speed = FP_FromRaw((unsigned __int16)pTlv->field_16_speed_x256 << 8);
+        field_174_speed = FP_FromRaw((u16)pTlv->field_16_speed_x256 << 8);
 
         MotionDetectorLaser* pLaser = nullptr;
         if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
@@ -186,7 +186,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
 }
 
 
-BaseGameObject* MotionDetector::VDestructor(signed int flags)
+BaseGameObject* MotionDetector::VDestructor(s32 flags)
 {
     return vdtor_468850(flags);
 }
@@ -206,7 +206,7 @@ void MotionDetector::VScreenChanged()
     vScreenChanged_469460();
 }
 
-MotionDetector* MotionDetector::vdtor_468850(signed int flags)
+MotionDetector* MotionDetector::vdtor_468850(s32 flags)
 {
     dtor_468880();
     if (flags & 1)
@@ -265,13 +265,13 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
         const FP camXFp = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
         const FP camYFp = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
 
-        const short screenX = FP_GetExponent(field_B8_xpos) - FP_GetExponent(camXFp);
+        const s16 screenX = FP_GetExponent(field_B8_xpos) - FP_GetExponent(camXFp);
 
-        const short x0 = static_cast<short>(PsxToPCX(screenX, 11));
-        const short y0 = FP_GetExponent(field_BC_ypos) - FP_GetExponent(camYFp);
-        const short y1 = FP_GetExponent(pLaser->field_BC_ypos - camYFp);
-        const short y2 = y1 + bLaserRect.y - bLaserRect.h;
-        const short x1 = PsxToPCX(FP_GetExponent(pLaser->field_B8_xpos - camXFp), 11);
+        const s16 x0 = static_cast<s16>(PsxToPCX(screenX, 11));
+        const s16 y0 = FP_GetExponent(field_BC_ypos) - FP_GetExponent(camYFp);
+        const s16 y1 = FP_GetExponent(pLaser->field_BC_ypos - camYFp);
+        const s16 y2 = y1 + bLaserRect.y - bLaserRect.h;
+        const s16 x1 = PsxToPCX(FP_GetExponent(pLaser->field_B8_xpos - camXFp), 11);
 
         Poly_F3* pPrim = &field_124_prims[gPsxDisplay_5C1130.field_C_buffer_index];
         PolyF3_Init(pPrim);
@@ -287,7 +287,7 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pPrim->mBase.header);
 
         // Add tpage
-        const int tpage = PSX_getTPage_4F60E0(TPageMode::e16Bit_2, field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
+        const s32 tpage = PSX_getTPage_4F60E0(TPageMode::e16Bit_2, field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
         Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 0, 0, tpage);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTPage->mBase);
@@ -301,7 +301,7 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
     }
 }
 
-signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
+s16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
 {
     if (pWho->field_4_typeId == AETypes::eAbe_69)
     {
@@ -381,7 +381,7 @@ void MotionDetector::vUpdate_468A90()
 
         field_178_bObjectInLaser = 0;
 
-        for (int idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
+        for (s32 idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(idx);
             if (!pObj)
@@ -498,7 +498,7 @@ void MotionDetector::vUpdate_468A90()
             break;
 
         case States::eWaitThenMoveLeft_1:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_104_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_104_timer)
             {
                 field_100_state = States::eMoveLeft_2;
             }
@@ -523,7 +523,7 @@ void MotionDetector::vUpdate_468A90()
             break;
 
         case States::eWaitThenMoveRight_3:
-            if (static_cast<int>(sGnFrame_5C1B84) > field_104_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_104_timer)
             {
                 field_100_state = States::eMoveRight_0;
             }

@@ -14,7 +14,7 @@
 #include "Gibs.hpp"
 #include "Explosion.hpp"
 
-Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 bBlowUpOnCollision, __int16 unused, BaseGameObject* pOwner)
+Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, s16 numGrenades, s16 bBlowUpOnCollision, s16 unused, BaseGameObject* pOwner)
 {
     ctor_408240(0);
     SetVTable(this, 0x5456E0);
@@ -47,7 +47,7 @@ Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 bBl
     return this;
 }
 
-BaseGameObject* Grenade::VDestructor(signed int flags)
+BaseGameObject* Grenade::VDestructor(s32 flags)
 {
     return vdtor_4480E0(flags);
 }
@@ -57,7 +57,7 @@ void Grenade::VScreenChanged()
     vScreenChanged_449140();
 }
 
-int Grenade::VGetSaveState(BYTE* pSaveBuffer)
+s32 Grenade::VGetSaveState(u8* pSaveBuffer)
 {
     return GetSaveState_4496B0(reinterpret_cast<Grenade_SaveState*>(pSaveBuffer));
 }
@@ -92,7 +92,7 @@ void Grenade::VTimeToExplodeRandom_411490()
     vTimeToExplodeRandom_4480A0();
 }
 
-int CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
+s32 CC Grenade::CreateFromSaveState_449410(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Grenade_SaveState*>(pBuffer);
     auto pGrenade = ae_new<Grenade>();
@@ -137,7 +137,7 @@ int CC Grenade::CreateFromSaveState_449410(const BYTE* pBuffer)
     return sizeof(Grenade_SaveState);
 }
 
-int Grenade::GetSaveState_4496B0(Grenade_SaveState* pState)
+s32 Grenade::GetSaveState_4496B0(Grenade_SaveState* pState)
 {
     pState->field_0_type = AETypes::eGrenade_65;
 
@@ -202,7 +202,7 @@ void Grenade::Init_448110(FP xpos, FP ypos)
     }
 
     const AnimRecord& rec = AnimRec(AnimId::Grenade);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
 
@@ -276,7 +276,7 @@ void Grenade::vTimeToExplodeRandom_4480A0()
     field_122_explode_timer -= Math_NextRandom() % 16;
 }
 
-void Grenade::BlowUp_4483C0(__int16 bSmallExplosion)
+void Grenade::BlowUp_4483C0(s16 bSmallExplosion)
 {
     auto pExplosion = ae_new<Explosion>();
     if (pExplosion)
@@ -315,7 +315,7 @@ void Grenade::dtor_448220()
     dtor_4080B0();
 }
 
-Grenade* Grenade::vdtor_4480E0(signed int flags)
+Grenade* Grenade::vdtor_4480E0(s32 flags)
 {
     dtor_448220();
 
@@ -326,7 +326,7 @@ Grenade* Grenade::vdtor_4480E0(signed int flags)
     return this;
 }
 
-signed __int16 Grenade::TimeToBlowUp_448350()
+s16 Grenade::TimeToBlowUp_448350()
 {
     if (!(--field_122_explode_timer % 16))
     {
@@ -458,8 +458,8 @@ void Grenade::vUpdate_4489C0()
                 PSX_RECT bRect = {};
                 vGetBoundingRect_424FD0(&bRect, 1);
 
-                const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-                const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+                const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+                const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
                 vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Grenade::OnCollision_BounceOff_448F90);
             }
         }
@@ -504,8 +504,8 @@ void Grenade::vUpdate_4489C0()
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
 
-        const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-        const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+        const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+        const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
         vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Grenade::OnCollision_InstantExplode_4490D0);
 
         if (field_134_bExplodeNow)
@@ -517,7 +517,7 @@ void Grenade::vUpdate_4489C0()
     }
 }
 
-__int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
+s16 Grenade::InTheAir_4484F0(s16 blowUpOnFloorTouch)
 {
     sObjectIds_5C1B70.Find_449CF0(field_110_id);
 
@@ -568,7 +568,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
             field_B8_xpos = hitX;
             field_BC_ypos = hitY;
             field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
-            short vol = 75 - 20 * field_124;
+            s16 vol = 75 - 20 * field_124;
             if (vol < 40)
             {
                 vol = 40;
@@ -602,7 +602,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
 
             if (field_124 <= 4)
             {
-                short vol = 75 - 20 * field_124;
+                s16 vol = 75 - 20 * field_124;
                 if (vol < 40)
                 {
                     vol = 40;
@@ -637,7 +637,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
                 field_BC_ypos = hitY;
                 field_B8_xpos = hitX;
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
-                short vol = 75 - 20 * field_124;
+                s16 vol = 75 - 20 * field_124;
                 if (vol < 40)
                 {
                     vol = 40;
@@ -656,7 +656,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
-                short vol = 75 - 20 * field_124;
+                s16 vol = 75 - 20 * field_124;
                 if (vol < 40)
                 {
                     vol = 40;
@@ -681,7 +681,7 @@ void Grenade::AddToPlatform_449210()
     BaseAddToPlatform([](AETypes type) { return type == AETypes::eLiftPoint_78 || type == AETypes::eTrapDoor_142; });
 }
 
-__int16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
+s16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
 {
     if (!pHit->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -714,7 +714,7 @@ __int16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
     return 0;
 }
 
-__int16 Grenade::OnCollision_InstantExplode_4490D0(BaseGameObject* pHit)
+s16 Grenade::OnCollision_InstantExplode_4490D0(BaseGameObject* pHit)
 {
     if (pHit == field_138_pOwner)
     {

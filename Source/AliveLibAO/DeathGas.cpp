@@ -20,7 +20,7 @@ struct GasPolys
 
 struct Data_Byte
 {
-    BYTE data[2][5][5];
+    u8 data[2][5][5];
 };
 
 ALIVE_ARY(1, 0x5008E8, Prim_SetTPage, 2, gGasTPages_5008E8, {});
@@ -29,9 +29,9 @@ ALIVE_VAR(1, 0x4FFDE8, GasPolys, prims_dword_4FFDE8, {});
 
 ALIVE_VAR(1, 0x4FFDB0, Data_Byte, sbyte_1_4FFDB0, {});
 ALIVE_VAR(1, 0x5008B0, Data_Byte, sbyte_2_5008B0, {});
-ALIVE_VAR(1, 0x5009D0, int, gDeathGasCount_5009D0, 0);
+ALIVE_VAR(1, 0x5009D0, s32, gDeathGasCount_5009D0, 0);
 
-DeathGas* DeathGas::ctor_41CF40(Layer layer, __int16 amount)
+DeathGas* DeathGas::ctor_41CF40(Layer layer, s16 amount)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BAF08);
@@ -43,18 +43,18 @@ DeathGas* DeathGas::ctor_41CF40(Layer layer, __int16 amount)
     field_6_flags.Set(Options::eDrawable_Bit4);
     field_16_flag = 0;
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
         Init_SetTPage_495FB0(&gGasTPages_5008E8[i], 0, 1, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_1, 0, 0));
     }
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j = 0; j < 2; j++)
+        for (s32 j = 0; j < 2; j++)
         {
-            for (int k = 0; k < 4; k++)
+            for (s32 k = 0; k < 4; k++)
             {
-                for (int l = 0; l < 4; l++)
+                for (s32 l = 0; l < 4; l++)
                 {
                     Poly_G4* pPoly = &prims_dword_4FFDE8.polys[i][k][l][j];
                     PolyG4_Init_498890(pPoly);
@@ -68,11 +68,11 @@ DeathGas* DeathGas::ctor_41CF40(Layer layer, __int16 amount)
     field_10_total = 0;
     field_12_unused = 0;
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j = 0; j < 5; j++)
+        for (s32 j = 0; j < 5; j++)
         {
-            for (int k = 0; k < 5; k++)
+            for (s32 k = 0; k < 5; k++)
             {
                 sbyte_1_4FFDB0.data[i][j][k] = Math_NextRandom();
                 sbyte_2_5008B0.data[i][j][k] = (Math_NextRandom() & 3) + 2;
@@ -84,7 +84,7 @@ DeathGas* DeathGas::ctor_41CF40(Layer layer, __int16 amount)
     return this;
 }
 
-BaseGameObject* DeathGas::VDestructor(signed int flags)
+BaseGameObject* DeathGas::VDestructor(s32 flags)
 {
     return Vdtor_41D740(flags);
 }
@@ -134,7 +134,7 @@ void DeathGas::VUpdate()
     VUpdate_41D150();
 }
 
-DeathGas* DeathGas::Vdtor_41D740(signed int flags)
+DeathGas* DeathGas::Vdtor_41D740(s32 flags)
 {
     dtor_41D0E0();
     if (flags & 1)
@@ -161,11 +161,11 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
 {
     field_12_unused += 2;
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j = 0; j < 5; j++)
+        for (s32 j = 0; j < 5; j++)
         {
-            for (int k = 0; k < 5; k++)
+            for (s32 k = 0; k < 5; k++)
             {
                 xData_500908.data[i][j][k] = FP_FromInteger(10) * Math_Cosine_4510A0(sbyte_1_4FFDB0.data[i][j][k]);
                 yData_5007E8.data[i][j][k] = FP_FromInteger(10) * Math_Sine_451110(sbyte_1_4FFDB0.data[i][j][k]);
@@ -174,16 +174,16 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
         }
     }
 
-    for (int i = 0; i < 5; i++)
+    for (s32 i = 0; i < 5; i++)
     {
-        for (int j = 0; j < 5; j++)
+        for (s32 j = 0; j < 5; j++)
         {
             const FP cosVal = Math_Cosine_4510A0(sbyte_1_4FFDB0.data[0][i][j]);
             const FP sinVal = Math_Sine_451110(sbyte_1_4FFDB0.data[0][i][j]);
-            const short cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
-            const short sinMul10 = FP_GetExponent(FP_FromInteger(20) * sinVal);
+            const s16 cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
+            const s16 sinMul10 = FP_GetExponent(FP_FromInteger(20) * sinVal);
 
-            int tableVal = 0;
+            s32 tableVal = 0;
             if ((i & 1) && (j & 1))
             {
                 tableVal = std::abs(cosMul10) + 20;
@@ -196,19 +196,19 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
             {
                 tableVal = 20;
             }
-            sbyte_3_4FFD78.data[0][i][j] = static_cast<BYTE>(tableVal);
+            sbyte_3_4FFD78.data[0][i][j] = static_cast<u8>(tableVal);
         }
     }
 
     // Seems like a hacked copy paste job of the above with the sin value not being used and cos inverted ??
-    for (int i = 0; i < 5; i++)
+    for (s32 i = 0; i < 5; i++)
     {
-        for (int j = 0; j < 5; j++)
+        for (s32 j = 0; j < 5; j++)
         {
             const FP cosVal = Math_Cosine_4510A0(sbyte_1_4FFDB0.data[1][i][j]);
-            const short cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
+            const s16 cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
 
-            int tableVal = 0;
+            s32 tableVal = 0;
             if (!(i & 1) && (j & 1))
             {
                 tableVal = std::abs(cosMul10) + 20;
@@ -217,15 +217,15 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
             {
                 tableVal = 20;
             }
-            sbyte_3_4FFD78.data[1][i][j] = static_cast<BYTE>(tableVal);
+            sbyte_3_4FFD78.data[1][i][j] = static_cast<u8>(tableVal);
         }
     }
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j = 0; j < 4; j++)
+        for (s32 j = 0; j < 4; j++)
         {
-            for (int k = 0; k < 4; k++)
+            for (s32 k = 0; k < 4; k++)
             {
                 Poly_G4* pPoly = &prims_dword_4FFDE8.polys[i][j][k][gPsxDisplay_504C78.field_A_buffer_index];
 
@@ -243,26 +243,26 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
                     SetRGB3(pPoly, 0, sbyte_3_4FFD78.data[i][j + 1][k + 1], 0);
                 }
 
-                const int heightBase = (gPsxDisplay_504C78.field_2_height + 56) / 4;
+                const s32 heightBase = (gPsxDisplay_504C78.field_2_height + 56) / 4;
 
-                const int height0 = ((j + 0) * heightBase) - 28 + (8 * k);
-                const int height1 = ((j + 1) * heightBase) - 28 + (8 * k);
+                const s32 height0 = ((j + 0) * heightBase) - 28 + (8 * k);
+                const s32 height1 = ((j + 1) * heightBase) - 28 + (8 * k);
 
-                const int width0 = ((gPsxDisplay_504C78.field_0_width + 32) / 4) * (k + 0) - 16;
-                const int width1 = ((gPsxDisplay_504C78.field_0_width + 32) / 4) * (k + 1) - 16;
+                const s32 width0 = ((gPsxDisplay_504C78.field_0_width + 32) / 4) * (k + 0) - 16;
+                const s32 width1 = ((gPsxDisplay_504C78.field_0_width + 32) / 4) * (k + 1) - 16;
 
 
-                int x0 = FP_GetExponent(xData_500908.data[i][j][k]);
-                int y0 = FP_GetExponent(yData_5007E8.data[i][j][k]);
+                s32 x0 = FP_GetExponent(xData_500908.data[i][j][k]);
+                s32 y0 = FP_GetExponent(yData_5007E8.data[i][j][k]);
 
-                int x1 = FP_GetExponent(xData_500908.data[i][j][k + 1]);
-                int y1 = FP_GetExponent(yData_5007E8.data[i][j][k + 1]);
+                s32 x1 = FP_GetExponent(xData_500908.data[i][j][k + 1]);
+                s32 y1 = FP_GetExponent(yData_5007E8.data[i][j][k + 1]);
 
-                int x2 = FP_GetExponent(xData_500908.data[i][j + 1][k]);
-                int y2 = FP_GetExponent(yData_5007E8.data[i][j + 1][k]);
+                s32 x2 = FP_GetExponent(xData_500908.data[i][j + 1][k]);
+                s32 y2 = FP_GetExponent(yData_5007E8.data[i][j + 1][k]);
 
-                int x3 = FP_GetExponent(xData_500908.data[i][j + 1][k + 1]);
-                int y3 = FP_GetExponent(yData_5007E8.data[i][j + 1][k + 1]);
+                s32 x3 = FP_GetExponent(xData_500908.data[i][j + 1][k + 1]);
+                s32 y3 = FP_GetExponent(yData_5007E8.data[i][j + 1][k + 1]);
 
                 x0 += width0;
                 y0 += height0;
@@ -276,12 +276,12 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
                 x3 += width1;
                 y3 += height1 + 8;
 
-                const int yVal = (gPsxDisplay_504C78.field_2_height + 28) * (255 - field_10_total) / 255;
+                const s32 yVal = (gPsxDisplay_504C78.field_2_height + 28) * (255 - field_10_total) / 255;
 
-                SetXY0(pPoly, static_cast<short>(x0), static_cast<short>(y0 - yVal));
-                SetXY1(pPoly, static_cast<short>(x1), static_cast<short>(y1 - yVal));
-                SetXY2(pPoly, static_cast<short>(x2), static_cast<short>(y2 - yVal));
-                SetXY3(pPoly, static_cast<short>(x3), static_cast<short>(y3 - yVal));
+                SetXY0(pPoly, static_cast<s16>(x0), static_cast<s16>(y0 - yVal));
+                SetXY1(pPoly, static_cast<s16>(x1), static_cast<s16>(y1 - yVal));
+                SetXY2(pPoly, static_cast<s16>(x2), static_cast<s16>(y2 - yVal));
+                SetXY3(pPoly, static_cast<s16>(x3), static_cast<s16>(y3 - yVal));
 
                 OrderingTable_Add_498A80(OtLayer(ppOt, field_18_layer), &pPoly->mBase.header);
 
@@ -292,10 +292,10 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
                 v34 = v33 / 4;
                 v35 = v33 / 4 * v22 - 16;
                 v36 = (v32 + 56) / 4;
-                v37 = (int)a2a + v36 * v21 - 28;
+                v37 = (s32)a2a + v36 * v21 - 28;
                 v38 = k5Counter_inner_b + 1;
                 v39 = v34 * (k5Counter_inner_b + 1) - 16;
-                v40 = (int)a2a + v36 * v56 - 28;
+                v40 = (s32)a2a + v36 * v56 - 28;
                 v41 = (255 - total) * (v32 + 28) / 255;
                 *((_WORD*)pPrim + 6) = v35 + xData_500908[0][0][v26] / 0x10000;
                 *((_WORD*)pPrim + 7) = v37 + yData_5007E8[0][0][v26] / 0x10000 - v41;
@@ -310,7 +310,7 @@ void DeathGas::VRender_41D190(PrimHeader** ppOt)
                 v22 = v38;
                 ++v26;
                 v14 = __OFSUB__((_WORD)a2a + 8, 32);
-                v13 = (signed __int16)((_WORD)a2a - 24) < 0;
+                v13 = (s16)((_WORD)a2a - 24) < 0;
                 k5Counter_inner_b = v38;
                 a2a += 2;
                 v49 += 2;

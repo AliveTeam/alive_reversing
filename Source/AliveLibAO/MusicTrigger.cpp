@@ -9,16 +9,16 @@
 
 namespace AO {
 
-MusicTrigger* MusicTrigger::ctor_443A60(__int16 type, __int16 enabledBy, int id, __int16 delay)
+MusicTrigger* MusicTrigger::ctor_443A60(s16 type, s16 enabledBy, s32 id, s16 delay)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBBC0);
-    Init_443AD0(type, enabledBy, static_cast<short>(id), delay);
+    Init_443AD0(type, enabledBy, static_cast<s16>(id), delay);
     field_10_tlvInfo = -1;
     return this;
 }
 
-MusicTrigger* MusicTrigger::ctor_4439F0(Path_MusicTrigger* pTlv, int tlvInfo)
+MusicTrigger* MusicTrigger::ctor_4439F0(Path_MusicTrigger* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBBC0);
@@ -27,7 +27,7 @@ MusicTrigger* MusicTrigger::ctor_4439F0(Path_MusicTrigger* pTlv, int tlvInfo)
     return this;
 }
 
-void MusicTrigger::Init_443AD0(__int16 type, __int16 enabledBy, unsigned __int16 id, __int16 delay)
+void MusicTrigger::Init_443AD0(s16 type, s16 enabledBy, u16 id, s16 delay)
 {
     field_14_flags &= ~7u;
     field_4_typeId = Types::eNone_0;
@@ -133,12 +133,12 @@ void MusicTrigger::VScreenChanged_443DD0()
     }
 }
 
-BaseGameObject* MusicTrigger::VDestructor(signed int flags)
+BaseGameObject* MusicTrigger::VDestructor(s32 flags)
 {
     return Vdtor_443DF0(flags);
 }
 
-MusicTrigger* MusicTrigger::Vdtor_443DF0(signed int flags)
+MusicTrigger* MusicTrigger::Vdtor_443DF0(s32 flags)
 {
     dtor_443C20();
     if (flags & 1)
@@ -173,7 +173,7 @@ void MusicTrigger::VUpdate_443C90()
             MusicController::PlayMusic_443810(
                 field_1C_music_type,
                 this,
-                ((unsigned __int8)field_14_flags >> 2) & 1,
+                ((u8)field_14_flags >> 2) & 1,
                 1);
             field_14_flags |= 2u;
 
@@ -208,7 +208,7 @@ void MusicTrigger::VUpdate_443C90()
             }
         }
 
-        if (static_cast<int>(gnFrameCount_507670) < field_18_counter)
+        if (static_cast<s32>(gnFrameCount_507670) < field_18_counter)
         {
             MusicController::PlayMusic_443810(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
         }

@@ -9,7 +9,7 @@ namespace AO {
 
 Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0);
 
     auto pParticle = ao_new<Particle>();
     if (!pParticle)
@@ -35,14 +35,14 @@ Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scal
     return pParticle;
 }
 
-void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, __int16 count, __int16 type)
+void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 type)
 {
     FP velYCounter = {};
-    for (int i = 0; i < count; i++)
+    for (s32 i = 0; i < count; i++)
     {
         FP randX = (FP_FromInteger(Math_RandomRange_450F20(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 1, 0);
         auto pParticle = ao_new<Particle>();
         if (pParticle)
         {
@@ -79,7 +79,7 @@ void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, __int16 count, __
             }
 
             pParticle->field_E4_scale_amount = scale * FP_FromDouble(0.03);
-            pParticle->field_10_anim.field_10_frame_delay = static_cast<WORD>((i + 3) / 2);
+            pParticle->field_10_anim.field_10_frame_delay = static_cast<u16>((i + 3) / 2);
             if (Math_NextRandom() < 127)
             {
                 pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
@@ -117,7 +117,7 @@ void CC New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, Layer layer)
 
 void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
@@ -148,7 +148,7 @@ void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
 
 void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
@@ -174,9 +174,9 @@ void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
     }
 }
 
-void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, char direction, FP scale)
+void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
@@ -202,7 +202,7 @@ void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, char direction, FP sc
     }
 }
 
-Particle* Particle::ctor_478880(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData)
+Particle* Particle::ctor_478880(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData)
 {
     ctor_417C10();
     SetVTable(this, 0x4BCDB0);
@@ -232,7 +232,7 @@ Particle* Particle::ctor_478880(FP xpos, FP ypos, int animFrameTableOffset, int 
     return this;
 }
 
-BaseGameObject* Particle::VDestructor(signed int flags)
+BaseGameObject* Particle::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

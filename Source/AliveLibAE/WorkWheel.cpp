@@ -9,7 +9,7 @@
 #include "PathData.hpp"
 #include "GameEnderController.hpp"
 
-BaseGameObject* WorkWheel::VDestructor(signed int flags)
+BaseGameObject* WorkWheel::VDestructor(s32 flags)
 {
     return vdtor_4E3820(flags);
 }
@@ -24,7 +24,7 @@ void WorkWheel::VScreenChanged()
     vScreenChanged_4E3AD0();
 }
 
-int WorkWheel::VGetSaveState(BYTE* pSaveBuffer)
+s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4E3C40(reinterpret_cast<WorkWheel_SaveState*>(pSaveBuffer));
 }
@@ -34,12 +34,12 @@ void WorkWheel::VStartTurning()
     vStartTurning_4E3A20();
 }
 
-void WorkWheel::VStopTurning(__int16 bResetSwitch)
+void WorkWheel::VStopTurning(s16 bResetSwitch)
 {
     vStopTurning_4E3A60(bResetSwitch);
 }
 
-WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, int tlvInfo)
+WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -50,7 +50,7 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, int tlvInfo)
     field_C_objectId = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Work_Wheel_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(eBit15_bSemiTrans);
@@ -115,7 +115,7 @@ void WorkWheel::dtor_4E3850()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-WorkWheel* WorkWheel::vdtor_4E3820(signed int flags)
+WorkWheel* WorkWheel::vdtor_4E3820(s32 flags)
 {
     dtor_4E3850();
     if (flags & 1)
@@ -125,7 +125,7 @@ WorkWheel* WorkWheel::vdtor_4E3820(signed int flags)
     return this;
 }
 
-int CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
+s32 CC WorkWheel::CreateFromSaveState_4E3B10(const u8* pState)
 {
     const WorkWheel_SaveState* pData = reinterpret_cast<const WorkWheel_SaveState*>(pState);
 
@@ -156,7 +156,7 @@ int CC WorkWheel::CreateFromSaveState_4E3B10(const BYTE* pState)
     return sizeof(WorkWheel_SaveState);
 }
 
-int WorkWheel::vGetSaveState_4E3C40(WorkWheel_SaveState* pState)
+s32 WorkWheel::vGetSaveState_4E3C40(WorkWheel_SaveState* pState)
 {
     pState->field_0_id = AETypes::eWheel_148;
     pState->field_4_tlvInfo = field_F4_tlv_info;
@@ -184,7 +184,7 @@ void WorkWheel::vUpdate_4E38E0()
                 field_BC_ypos,
                 0))
         {
-            const short randomVol = Math_RandomRange_496AB0(-30, 0);
+            const s16 randomVol = Math_RandomRange_496AB0(-30, 0);
             SND_SEQ_Play_4CAB10(SeqId::WheelSqueak_19, 1, randomVol + 127, randomVol + 127);
         }
     }
@@ -234,7 +234,7 @@ void WorkWheel::vStartTurning_4E3A20()
     }
 }
 
-void WorkWheel::vStopTurning_4E3A60(__int16 bResetSwitch)
+void WorkWheel::vStopTurning_4E3A60(s16 bResetSwitch)
 {
     if (field_FC_state == WheelStates::eTurning_1)
     {

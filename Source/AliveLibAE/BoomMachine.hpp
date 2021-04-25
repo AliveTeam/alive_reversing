@@ -8,12 +8,12 @@ struct Path_BoomMachine : public Path_TLV
 {
     Scale_short field_10_scale;
     XDirection_short field_12_nozzle_side;
-    __int16 field_14_disabled_resources;
-    __int16 field_16_number_of_grenades;
+    s16 field_14_disabled_resources;
+    s16 field_16_number_of_grenades;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoomMachine, 0x18);
 
-enum class BoomMachineStates : __int16
+enum class BoomMachineStates : s16
 {
     eInactive_0,
     eAlreadyUsed_1,
@@ -24,10 +24,10 @@ enum class BoomMachineStates : __int16
 class BoomMachine : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BoomMachine* ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo);
+    EXPORT BoomMachine* ctor_445B30(Path_BoomMachine* pTlv, s32 tlvInfo);
 
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -47,11 +47,11 @@ private:
 
     EXPORT void dtor_445E40();
 
-    EXPORT BoomMachine* vdtor_445E10(signed int flags);
+    EXPORT BoomMachine* vdtor_445E10(s32 flags);
 
 private:
-    int field_F4_tlvInfo;
-    int field_F8_nozzle_id;
-    int field_FC_bIsButtonOn;
+    s32 field_F4_tlvInfo;
+    s32 field_F8_nozzle_id;
+    s32 field_FC_bIsButtonOn;
 };
 ALIVE_ASSERT_SIZEOF(BoomMachine, 0x100);

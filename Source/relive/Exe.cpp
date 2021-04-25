@@ -23,7 +23,7 @@
 #include "../AliveLibAO/Game.hpp"
 #include "../AliveLibAO/SwitchStates.hpp"
 
-enum class GameType : int
+enum class GameType : s32
 {
     eAo = 0,
     eAe = 1,
@@ -33,7 +33,7 @@ namespace AutoSplitterData
 {
     struct GuidStr
     {
-        const char guid[39];
+        const s8 guid[39];
     };
 
     struct AOGameInfo
@@ -41,13 +41,13 @@ namespace AutoSplitterData
         GuidStr guid;
         GameType* gameType;         // 0
         AO::LevelIds* levelId;      // 1
-        __int16* pathId;            // 2
-        __int16* camId;             // 3
-        unsigned int* gnFrame;      // 4
+        s16* pathId;            // 2
+        s16* camId;             // 3
+        u32* gnFrame;      // 4
         AO::Abe** pAbe;             // 5
-        int abeYOffSet;             // 6
-        short* isGameRunning;       // 7
-        char* isGameBeaten;         // 8
+        s32 abeYOffSet;             // 6
+        s16* isGameRunning;       // 7
+        s8* isGameBeaten;         // 8
     };
 
     struct AEGameInfo
@@ -56,13 +56,13 @@ namespace AutoSplitterData
         // 1 byte padding/null
         GameType* gameType;         // 0
         LevelIds* levelId;          // 1
-        __int16* pathId;            // 2
-        __int16* camId;             // 3
-        unsigned  __int16* fmvId;   // 4
-        unsigned int* gnFrame;      // 5
+        s16* pathId;                // 2
+        s16* camId;                 // 3
+        u16* fmvId;                 // 4
+        u32* gnFrame;               // 5
         Abe** pAbe;                 // 6
-        int abeYOffSet;             // 7
-        char* isPaused;             // 8
+        s32 abeYOffSet;             // 7
+        s8* isPaused;             // 8
     };
 
     extern "C"
@@ -111,7 +111,7 @@ namespace AutoSplitterData
             &AO::LocalVar_gMap_507BA8.field_4_current_camera,
             &AO::LocalVar_gnFrameCount_507670,
             &AO::LocalVar_sActiveHero_507678,
-            offsetof(AO::Abe, field_AC_ypos) + sizeof(short), // +2 for exp only
+            offsetof(AO::Abe, field_AC_ypos) + sizeof(s16), // +2 for exp only
             &AO::LocalVar_sDisableFontFlicker_5080E4,
             &AO::LocalVar_sSwitchStates_505568.mData[70]
         };
@@ -129,7 +129,7 @@ void PopulateAutoSplitterVars(GameType gameType)
     AutoSplitterData::gameType = gameType;
 }
 
-static bool FileExists(const char* fileName)
+static bool FileExists(const s8* fileName)
 {
     FILE* f = fopen(fileName, "r");
     if (f)
@@ -176,7 +176,7 @@ static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
     }
 }
 
-static int AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+static s32 AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("AO standalone starting...");
     AO::Static_Inits_AO();
@@ -184,7 +184,7 @@ static int AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
     return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 }
 
-static int AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+static s32 AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("AE standalone starting...");
     // In the real game these are called before main, but shouldn't really matter in this case
@@ -193,7 +193,7 @@ static int AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
     return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
 #if _WIN32
     ::SetUnhandledExceptionFilter(unhandled_handler);
@@ -245,13 +245,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 #if __ANDROID__
-extern "C" __attribute__((visibility("default"))) int SDL_main(int argc, char** argv)
+extern "C" __attribute__((visibility("default"))) s32 SDL_main(s32 argc, s8** argv)
 #else
-int main(int argc, char** argv)
+s32 main(s32 argc, s8** argv)
 #endif
 {
     std::string args;
-    for (int i = 0; i < argc; i++)
+    for (s32 i = 0; i < argc; i++)
     {
         args += argv[i] + std::string(" ");
     }

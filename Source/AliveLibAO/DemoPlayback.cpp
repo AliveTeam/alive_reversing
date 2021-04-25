@@ -12,9 +12,9 @@
 
 namespace AO {
 
-ALIVE_VAR_EXTERN(BYTE, sRandomSeed_50A228); //Math.cpp
+ALIVE_VAR_EXTERN(u8, sRandomSeed_50A228); //Math.cpp
 
-EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(BYTE** ppPlaybackData, __int16 a3)
+EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(u8** ppPlaybackData, s16 a3)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBF98);
@@ -48,7 +48,7 @@ EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(BYTE** ppPlaybackData, __int16 a3
     return this;
 }
 
-BaseGameObject* DemoPlayback::VDestructor(signed int flags)
+BaseGameObject* DemoPlayback::VDestructor(s32 flags)
 {
     return Vdtor_451F50(flags);
 }
@@ -72,7 +72,7 @@ BaseGameObject* DemoPlayback::dtor_4518D0()
     return dtor_487DF0();
 }
 
-DemoPlayback* DemoPlayback::Vdtor_451F50(signed int flags)
+DemoPlayback* DemoPlayback::Vdtor_451F50(s32 flags)
 {
     dtor_4518D0();
     if (flags & 1)
@@ -107,7 +107,7 @@ void DemoPlayback::VUpdate_451960()
         sActiveHero_507678->field_6_flags.Set(Options::eDrawable_Bit4);
         sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-        Input().SetDemoRes_433470(reinterpret_cast<DWORD**>(field_14_ppDemoRes));
+        Input().SetDemoRes_433470(reinterpret_cast<u32**>(field_14_ppDemoRes));
 
         field_6_flags.Set(Options::eDrawable_Bit4);
         field_10_state = States::eState_1_Playing;

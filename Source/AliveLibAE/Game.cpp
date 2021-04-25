@@ -47,45 +47,45 @@ using TExitGameCallBack = AddPointer_t<void CC()>;
 
 ALIVE_VAR(1, 0xBBFB00, TExitGameCallBack, sGame_OnExitCallback_BBFB00, nullptr);
 
-ALIVE_VAR(1, 0x5C1B84, unsigned int, sGnFrame_5C1B84, 0);
+ALIVE_VAR(1, 0x5C1B84, u32, sGnFrame_5C1B84, 0);
 
 // Timer
-ALIVE_VAR(1, 0xBBB9D4, DWORD, sTimer_period_BBB9D4, 0);
+ALIVE_VAR(1, 0xBBB9D4, u32, sTimer_period_BBB9D4, 0);
 
 // Arrays of things
 ALIVE_VAR(1, 0x5C1B78, DynamicArrayT<BaseGameObject>*, ObjList_5C1B78, nullptr);
 ALIVE_VAR(1, 0x5BD4D8, DynamicArray*, ObjList_5BD4D8, nullptr);
 ALIVE_VAR(1, 0x5C1B80, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_5C1B80, nullptr);
 
-ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);
-ALIVE_VAR(1, 0x5C1B66, short, sNum_CamSwappers_5C1B66, 0);
-ALIVE_VAR(1, 0x5C2F78, int, dword_5C2F78, 0);
-ALIVE_VAR(1, 0x5C2FA0, short, bSkipGameObjectUpdates_5C2FA0, 0);
+ALIVE_VAR(1, 0x5C2FE0, s16, sBreakGameLoop_5C2FE0, 0);
+ALIVE_VAR(1, 0x5C1B66, s16, sNum_CamSwappers_5C1B66, 0);
+ALIVE_VAR(1, 0x5C2F78, s32, dword_5C2F78, 0);
+ALIVE_VAR(1, 0x5C2FA0, s16, bSkipGameObjectUpdates_5C2FA0, 0);
 
-ALIVE_ARY(1, 0x5CA488, char, 30, sCdRomDrives_5CA488, {});
-ALIVE_VAR(1, 0x5CA4D4, int, dword_5CA4D4, 0);
-ALIVE_VAR(1, 0x55EF90, int, k1_dword_55EF90, 1);
+ALIVE_ARY(1, 0x5CA488, s8, 30, sCdRomDrives_5CA488, {});
+ALIVE_VAR(1, 0x5CA4D4, s32, dword_5CA4D4, 0);
+ALIVE_VAR(1, 0x55EF90, s32, k1_dword_55EF90, 1);
 ALIVE_VAR(1, 0x55EF88, bool, byte_55EF88, true);
 ALIVE_VAR(1, 0x5CA4D0, bool, sCommandLine_ShowFps_5CA4D0, false);
 ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false);
 ALIVE_VAR(1, 0x5CA4D2, bool, byte_5CA4D2, false);
-ALIVE_VAR(1, 0x5CA4E0, int, dword_5CA4E0, 0);
+ALIVE_VAR(1, 0x5CA4E0, s32, dword_5CA4E0, 0);
 
 // Fps calcs
-ALIVE_VAR(1, 0xBD0F08, char, bQuitting_BD0F08, 0);
-ALIVE_VAR(1, 0x55EFDC, double, sFps_55EFDC, 0.0);
-ALIVE_VAR(1, 0x5CA4DC, int, sFrameDiff_5CA4DC, 0);
-ALIVE_VAR(1, 0xC2D03C, int, sNumRenderedPrims_C2D03C, 0);
-ALIVE_VAR(1, 0x5CA300, int, sFrameCount_5CA300, 0);
+ALIVE_VAR(1, 0xBD0F08, s8, bQuitting_BD0F08, 0);
+ALIVE_VAR(1, 0x55EFDC, f64, sFps_55EFDC, 0.0);
+ALIVE_VAR(1, 0x5CA4DC, s32, sFrameDiff_5CA4DC, 0);
+ALIVE_VAR(1, 0xC2D03C, s32, sNumRenderedPrims_C2D03C, 0);
+ALIVE_VAR(1, 0x5CA300, s32, sFrameCount_5CA300, 0);
 
-ALIVE_VAR(1, 0x5C1B94, short, word_5C1B94, 0);
+ALIVE_VAR(1, 0x5C1B94, s16, word_5C1B94, 0);
 ALIVE_VAR(1, 0x5C2A4C, Abe, gAbeObj_5C2A4C, {}); // TODO: Refactor to remove global object, in fact it seems pointless since an abe can get new'ed up, just check the BaseGameObject type instead ??
 ALIVE_VAR(1, 0x554D5C, Abe*, spAbe_554D5C, &gAbeObj_5C2A4C);
 
 
-ALIVE_VAR(1, 0x5C2F6C, DWORD, dword_5C2F6C, 0);
-ALIVE_VAR(1, 0x5C1BA0, WORD, gAttract_5C1BA0, 0);
-ALIVE_VAR(1, 0x5C2F70, DWORD, dword_5C2F70, 0);
+ALIVE_VAR(1, 0x5C2F6C, u32, dword_5C2F6C, 0);
+ALIVE_VAR(1, 0x5C1BA0, u16, gAttract_5C1BA0, 0);
+ALIVE_VAR(1, 0x5C2F70, u32, dword_5C2F70, 0);
 
 
 
@@ -147,9 +147,9 @@ EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 void DestroyObjects_4A1F20()
 {
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
-    for (int iterations =0; iterations < 2; iterations++)
+    for (s32 iterations =0; iterations < 2; iterations++)
     {
-        short idx = 0;
+        s16 idx = 0;
 
 
 
@@ -180,28 +180,28 @@ void DestroyObjects_4A1F20()
 
 }
 
-EXPORT double CC Calculate_FPS_495250(int frameCount)
+EXPORT f64 CC Calculate_FPS_495250(s32 frameCount)
 {
-    static DWORD sLastTime_5CA338 = SYS_GetTicks() - 500;
-    const DWORD curTime = SYS_GetTicks();
-    const int timeDiff = curTime - sLastTime_5CA338;
+    static u32 sLastTime_5CA338 = SYS_GetTicks() - 500;
+    const u32 curTime = SYS_GetTicks();
+    const s32 timeDiff = curTime - sLastTime_5CA338;
 
-    if (static_cast<signed int>((curTime - sLastTime_5CA338)) < 500)
+    if (static_cast<s32>((curTime - sLastTime_5CA338)) < 500)
     {
         return sFps_55EFDC;
     }
 
-    const int diffFrames = frameCount - sFrameDiff_5CA4DC;
-    sFps_55EFDC = static_cast<double>(diffFrames) * 1000.0 / static_cast<double>(timeDiff);
+    const s32 diffFrames = frameCount - sFrameDiff_5CA4DC;
+    sFps_55EFDC = static_cast<f64>(diffFrames) * 1000.0 / static_cast<f64>(timeDiff);
 
     sLastTime_5CA338 = curTime;
     sFrameDiff_5CA4DC = frameCount;
     return sFps_55EFDC;
 }
 
-EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, int x, int y, float fps)
+EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, f32 fps)
 {
-    char strBuffer[125] = {};
+    s8 strBuffer[125] = {};
     sprintf(strBuffer, "%02.1f fps ", fps);
     sNumRenderedPrims_C2D03C = 0;
     BMP_Draw_String_4F2230(pBmp, x, y, 0xFF80FFu, 1, strBuffer);
@@ -224,7 +224,7 @@ EXPORT void CC Draw_Debug_Strings_4F2800()
 }
 
 
-EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
+EXPORT s32 CC Game_End_Frame_4950F0(u32 flags)
 {
     if (flags & 1)
     {
@@ -232,7 +232,7 @@ EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
         return 0;
     }
 
-    const BYTE oldShowVRam = sPsxEMU_show_vram_BD1465;
+    const u8 oldShowVRam = sPsxEMU_show_vram_BD1465;
     if (sCommandLine_DDCheatEnabled_5CA4B5)
     {
         if (Input_IsVKPressed_4EDD40(VK_SCROLL))
@@ -251,7 +251,7 @@ EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
         Add_Dirty_Area_4ED970(0, 0, 640, 240);
     }
 
-    const double fps = Calculate_FPS_495250(sFrameCount_5CA300);
+    const f64 fps = Calculate_FPS_495250(sFrameCount_5CA300);
     CheckShiftCapslock_4953B0();
     if (sCommandLine_ShowFps_5CA4D0)
     {
@@ -265,7 +265,7 @@ EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
             pVram,
             sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + 4,
             sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y + 4,
-            static_cast<float>(fps));
+            static_cast<f32>(fps));
     }
 
     Draw_Debug_Strings_4F2800();
@@ -285,18 +285,18 @@ EXPORT void CC VLC_Tables_Init_496720()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUsed*/, const char* pCommandLine)
+EXPORT void CC Main_ParseCommandLineArguments_494EA0(const s8* /*pCmdLineNotUsed*/, const s8* pCommandLine)
 {
     //nullsub_2(); // Note: Pruned
     IO_Init_494230();
 
     // Default the CD drive to C:
-    char strDrive[3] = {};
+    s8 strDrive[3] = {};
     strcpy(strDrive, "C:");
 
     // Collect up all CD rom drives
-    int pos = 0;
-    for (char drive = 'D'; drive < 'Z'; drive++)
+    s32 pos = 0;
+    for (s8 drive = 'D'; drive < 'Z'; drive++)
     {
         if (Is_Cd_Rom_Drive_495470(drive))
         {
@@ -382,7 +382,7 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
     VLC_Tables_Init_496720();
 }
 
-EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
+EXPORT s32 CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -450,7 +450,7 @@ EXPORT void CC Game_Loop_467230();
 
 EXPORT void CC Game_Init_LoadingIcon_482CD0()
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1u, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1u, 0);
     if (!ppRes)
     {
         ResourceManager::LoadResourceFile_49C170("LOADING.BAN", nullptr);
@@ -461,7 +461,7 @@ EXPORT void CC Game_Init_LoadingIcon_482CD0()
 
 EXPORT void CC Game_Free_LoadingIcon_482D40()
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 0, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_49C330(ppRes);
@@ -518,7 +518,7 @@ EXPORT void CC Game_Run_466D40()
     pScreenManager_5BB5F4 = ae_new<ScreenManager>();
     pScreenManager_5BB5F4->ctor_40E3E0(camera.field_C_pCamRes, &gMap_5C3030.field_24_camera_offset);
 
-    pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((unsigned __int16 **)camera.field_C_pCamRes);
+    pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16 **)camera.field_C_pCamRes);
     pScreenManager_5BB5F4->MoveImage_40EB70();
 
     sLvlArchive_5BC520.Free_433130();
@@ -526,7 +526,7 @@ EXPORT void CC Game_Run_466D40()
     camera.dtor_480E00();
 
     Input_Init_491BC0();
-    short cameraId = 25;
+    s16 cameraId = 25;
 #if DEVELOPER_MODE
 #if _WIN32
     if (GetKeyState(VK_LSHIFT) >= 0)
@@ -653,7 +653,7 @@ EXPORT void CC Game_Shutdown_4F2C30()
     VGA_Shutdown_4F3170();
 }
 
-EXPORT signed int TMR_Init_4EDE20()
+EXPORT s32 TMR_Init_4EDE20()
 {
 #if USE_SDL2
 	return 0;
@@ -672,13 +672,13 @@ EXPORT signed int TMR_Init_4EDE20()
 #endif
 }
 
-EXPORT signed int CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
+EXPORT s32 CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
 {
     static bool sbGameShutdownSet_BBC560 = false;
     if (!sbGameShutdownSet_BBC560)
     {
-        // OG: Change - this gets called normally anyway, using atexit results in a double call that
-        // will double free and use freed objects
+        // OG: Change - this gets called normally anyway, using atexit results in a f64 call that
+        // will f64 free and use freed objects
         //atexit(Game_Shutdown_4F2C30);
         sbGameShutdownSet_BBC560 = 1;
         gVGA_force_sys_memory_surfaces_BC0BB4 = forceSystemMemorySurfaces;
@@ -740,7 +740,7 @@ EXPORT void CC Game_Loop_467230()
         bSkipGameObjectUpdates_5C2FA0 = 0;
 
         // Update objects
-        for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+        for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
         {
             BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
 
@@ -780,7 +780,7 @@ EXPORT void CC Game_Loop_467230()
         PrimHeader** ppOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
 
         // Render objects
-        for (int i=0; i < gObjList_drawables_5C1124->Size(); i++)
+        for (s32 i=0; i < gObjList_drawables_5C1124->Size(); i++)
         {
             BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
             if (!pObj)
@@ -800,7 +800,7 @@ EXPORT void CC Game_Loop_467230()
         }
 
         // Render FG1's
-        for (int i=0; i < gFG1List_5D1E28->Size(); i++)
+        for (s32 i=0; i < gFG1List_5D1E28->Size(); i++)
         {
             FG1* pFG1 = gFG1List_5D1E28->ItemAt(i);
             if (!pFG1)
@@ -827,7 +827,7 @@ EXPORT void CC Game_Loop_467230()
         gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
 
         // Destroy objects with certain flags
-        for (short idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        for (s16 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
             if (!pObj)
@@ -890,7 +890,7 @@ EXPORT void CC Game_Loop_467230()
     {
         DynamicArrayIter iter = {};
         iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
-        for (short idx =0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        for (s16 idx =0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
             iter.field_4_idx = idx + 1;

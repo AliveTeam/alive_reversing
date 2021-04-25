@@ -13,7 +13,7 @@
 #include "Abe.hpp"
 #include "Particle.hpp"
 
-Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
+Bone* Bone::ctor_4112C0(FP xpos, FP ypos, s16 countId)
 {
     ctor_408240(0);
     field_11A_bDead = 0;
@@ -25,7 +25,7 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
     }
 
 	const AnimRecord& rec = AnimRec(AnimId::Bone);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -54,7 +54,7 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
     return this;
 }
 
-BaseGameObject* Bone::VDestructor(signed int flags)
+BaseGameObject* Bone::VDestructor(s32 flags)
 {
     return vdtor_411580(flags);
 }
@@ -99,17 +99,17 @@ BOOL Bone::VCanBeEaten_411560()
     return vCanBeEaten_411560();
 }
 
-int Bone::VGetSaveState(BYTE* pSaveBuffer)
+s32 Bone::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_412ED0(reinterpret_cast<Bone_SaveState*>(pSaveBuffer));
 }
 
-__int16 Bone::VGetCount_448080()
+s16 Bone::VGetCount_448080()
 {
     return vGetCount_412500();
 }
 
-int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
+s32 CC Bone::CreateFromSaveState_412C10(const u8* pData)
 {
     auto pState = reinterpret_cast<const Bone_SaveState*>(pData);
 
@@ -164,7 +164,7 @@ int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
     return sizeof(Bone_SaveState);
 }
 
-Bone* Bone::vdtor_411580(signed int flags)
+Bone* Bone::vdtor_411580(s32 flags)
 {
     dtor_4115B0();
 
@@ -236,7 +236,7 @@ BOOL Bone::vCanThrow_411530()
     return field_11C_state != BoneStates::eState_0_spawned && field_11C_state != BoneStates::eState_1_airborne;
 }
 
-__int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -298,7 +298,7 @@ BOOL Bone::vCanBeEaten_411560()
     return field_11C_state == BoneStates::eState_4_edible;
 }
 
-int Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
+s32 Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
 {
     pState->field_0_type = AETypes::eBone_11;
     pState->field_4_obj_id = field_C_objectId;
@@ -405,7 +405,7 @@ void Bone::InTheAir_4116C0()
                 field_BC_ypos -= FP_FromDouble(0.1);
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
                 field_C4_velx = (field_C4_velx / FP_FromInteger(2));
-                short vol = 20 * (4 - field_11E_volume_modifier);
+                s16 vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -423,7 +423,7 @@ void Bone::InTheAir_4116C0()
             {
                 field_BC_ypos = hitY;
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
-                short vol = 20 * (4 - field_11E_volume_modifier);
+                s16 vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -447,7 +447,7 @@ void Bone::InTheAir_4116C0()
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E_volume_modifier);
+                s16 vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -466,7 +466,7 @@ void Bone::InTheAir_4116C0()
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E_volume_modifier);
+                s16 vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -502,9 +502,9 @@ void Bone::vUpdate_411BC0()
     {
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
-        const short offset = field_D6_scale != 0 ? 5 : 0;
-        const PSX_Point xy{ bRect.x, static_cast<short>(bRect.y + offset) };
-        const PSX_Point wh{ bRect.w, static_cast<short>(bRect.h + offset) };
+        const s16 offset = field_D6_scale != 0 ? 5 : 0;
+        const PSX_Point xy{ bRect.x, static_cast<s16>(bRect.y + offset) };
+        const PSX_Point wh{ bRect.w, static_cast<s16>(bRect.h + offset) };
         vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Bone::OnCollision_412140);
 
         if (WallHit_408750(FP_FromInteger(5), field_C4_velx))
@@ -560,7 +560,7 @@ void Bone::vUpdate_411BC0()
             field_12C_time_to_live = sGnFrame_5C1B84 + 300;
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_128_shine_timer && !pObj)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_128_shine_timer && !pObj)
         {
             // For the shiny star twinkle effect.
             New_TintShiny_Particle_426C30(
@@ -572,7 +572,7 @@ void Bone::vUpdate_411BC0()
             field_128_shine_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
         }
 
-        if (field_12C_time_to_live < static_cast<int>(sGnFrame_5C1B84))
+        if (field_12C_time_to_live < static_cast<s32>(sGnFrame_5C1B84))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -583,9 +583,9 @@ void Bone::vUpdate_411BC0()
         InTheAir_4116C0();
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
-        const short offset = field_D6_scale != 0 ? 5 : 0;
-        const PSX_Point xy{ bRect.x, static_cast<short>(bRect.y + offset) };
-        const PSX_Point wh{ bRect.w, static_cast<short>(bRect.h + offset) };
+        const s16 offset = field_D6_scale != 0 ? 5 : 0;
+        const PSX_Point xy{ bRect.x, static_cast<s16>(bRect.y + offset) };
+        const PSX_Point wh{ bRect.w, static_cast<s16>(bRect.h + offset) };
         vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Bone::OnCollision_412140);
 
         if (field_BC_ypos > FP_FromInteger(gMap_5C3030.field_D4_ptr->field_6_bBottom))
@@ -607,7 +607,7 @@ void Bone::vUpdate_411BC0()
     }
 }
 
-__int16 Bone::vGetCount_412500()
+s16 Bone::vGetCount_412500()
 {
     if (field_11C_state == BoneStates::eState_3_on_ground && field_118_count == 0)
     {
@@ -639,16 +639,16 @@ TintEntry stru_550EC0[18] =
 };
 
 
-BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
+BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x5443B0);
     field_4_typeId = AETypes::eBoneBag_12;
 
     const AnimRecord& rec = AnimRec(AnimId::Bone_Bag_A);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     // TODO: Super super OWI hack, WTF?? Figure out exactly what this is patching in the animation
-    *((WORD *)*ppRes + 4374) = 0;
+    *((u16 *)*ppRes + 4374) = 0;
 
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -693,7 +693,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* BoneBag::VDestructor(signed int flags)
+BaseGameObject* BoneBag::VDestructor(s32 flags)
 {
     return vdtor_4127C0(flags);
 }
@@ -713,7 +713,7 @@ void BoneBag::vScreenChanged_412BF0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-BoneBag* BoneBag::vdtor_4127C0(signed int flags)
+BoneBag* BoneBag::vdtor_4127C0(s32 flags)
 {
     dtor_4127F0();
     if (flags & 1)

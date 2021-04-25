@@ -8,8 +8,8 @@ namespace AO {
 
 struct Path_HoneySack : public Path_TLV
 {
-    __int16 field_18_chase_ticks;
-    __int16 field_1A_scale;
+    s16 field_18_chase_ticks;
+    s16 field_1A_scale;
 };
 ALIVE_ASSERT_SIZEOF(Path_HoneySack, 0x1C);
 
@@ -18,13 +18,13 @@ class BeeSwarm;
 class HoneySack : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT HoneySack* ctor_42BD10(Path_HoneySack* pTlv, int tlvInfo);
+    EXPORT HoneySack* ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     
     BaseGameObject* dtor_42BF20();
 
-    EXPORT HoneySack* Vdtor_42C3B0(signed int flags);
+    EXPORT HoneySack* Vdtor_42C3B0(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -38,9 +38,9 @@ public:
 
     EXPORT void VUpdate_42BFE0();
 
-    int field_D4_padding[4];
-    int field_E4_tlvInfo;
-    enum class State : __int16
+    s32 field_D4_padding[4];
+    s32 field_E4_tlvInfo;
+    enum class State : s16
     {
         eDripHoney_0 = 0,
         eSetFallAnimation_1 = 1,
@@ -48,14 +48,14 @@ public:
         eUpdateHoneySackOnGround_3 = 3
     };
     State field_E8_state;
-    __int16 field_EA_bHit_ground;
-    int field_EC_timer;
+    s16 field_EA_bHit_ground;
+    s32 field_EC_timer;
     BeeSwarm* field_F0_pBee;
     FP field_F4_drip_target_x;
     FP field_F8_drip_target_y;
     FP field_FC_ypos2;
-    unsigned __int16 field_100_chase_ticks;
-    __int16 field_102_padding;
+    u16 field_100_chase_ticks;
+    s16 field_102_padding;
 };
 ALIVE_ASSERT_SIZEOF(HoneySack, 0x104);
 

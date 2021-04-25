@@ -11,7 +11,7 @@
 
 namespace AO {
 
-ScreenShake* ScreenShake::ctor_4624D0(__int16 enableShakeEvent)
+ScreenShake* ScreenShake::ctor_4624D0(s16 enableShakeEvent)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BC950);
@@ -51,12 +51,12 @@ void ScreenShake::VUpdate_4625B0()
     }
 }
 
-BaseGameObject* ScreenShake::VDestructor(signed int flags)
+BaseGameObject* ScreenShake::VDestructor(s32 flags)
 {
     return Vdtor_462770(flags);
 }
 
-ScreenShake* ScreenShake::Vdtor_462770(signed int flags)
+ScreenShake* ScreenShake::Vdtor_462770(s32 flags)
 {
     dtor_462550();
     if (flags & 1)
@@ -99,8 +99,8 @@ void ScreenShake::VRender_4625E0(PrimHeader** ppOt)
     {
         Prim_ScreenOffset* pPrim = &field_10_screenOffset[gPsxDisplay_504C78.field_A_buffer_index];
 
-        short xoff = 0;
-        short yoff = 0;
+        s16 xoff = 0;
+        s16 yoff = 0;
         xoff = FP_GetExponent(stru_4CF850[field_30_shakeNumber].field_0_x); // TODO: Div 16 ??
         yoff = FP_GetExponent(stru_4CF850[field_30_shakeNumber].field_4_y);
 

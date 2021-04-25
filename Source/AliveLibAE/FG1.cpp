@@ -23,22 +23,22 @@ enum eChunkTypes
 
 struct Fg1Chunk
 {
-    unsigned __int16 field_0_type;
-    unsigned __int16 field_2_layer;
-    __int16 field_4_xpos;
-    __int16 field_6_ypos;
-    unsigned __int16 field_8_width;
-    unsigned __int16 field_A_height;
+    u16 field_0_type;
+    u16 field_2_layer;
+    s16 field_4_xpos;
+    s16 field_6_ypos;
+    u16 field_8_width;
+    u16 field_A_height;
 };
 ALIVE_ASSERT_SIZEOF(Fg1Chunk, 0xC);
 
 struct FG1ResourceBlockHeader
 {
-    DWORD mCount;
+    u32 mCount;
     Fg1Chunk mChunks;
 };
 
-FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
+FG1* FG1::ctor_499FC0(u8** pFG1Res)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
 
@@ -60,13 +60,13 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
 
     // So we can extract out the count of chunks and allocate a resource for it
     field_20_unused = 0;
-    field_28_render_block_count = static_cast<short>(pHeader->mCount);
+    field_28_render_block_count = static_cast<s16>(pHeader->mCount);
     field_2C_ptr = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_CHNK, 0, pHeader->mCount * sizeof(Fg1Block));
     field_30_chnk_res = reinterpret_cast<Fg1Block*>(*field_2C_ptr);
 
     // And take a pointer to the first chunk to iterate them
     Fg1Chunk* pChunkIter = &pHeader->mChunks;
-    int render_block_idx = 0;
+    s32 render_block_idx = 0;
     for (;;) // Exit when we hit the end chunk
     {
         switch (pChunkIter->field_0_type)
@@ -78,7 +78,7 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
             Convert_Chunk_To_Render_Block_49A210(pChunkIter, pRenderBlock);
 
             // Skip to the next block - a bit more tricky as we must skip the bit field array thats used for the transparent pixels
-            BYTE* pNextChunk = reinterpret_cast<BYTE*>(pChunkIter) + ((pChunkIter->field_A_height * sizeof(DWORD)) + sizeof(Fg1Chunk));
+            u8* pNextChunk = reinterpret_cast<u8*>(pChunkIter) + ((pChunkIter->field_A_height * sizeof(u32)) + sizeof(Fg1Chunk));
             pChunkIter = reinterpret_cast<Fg1Chunk*>(pNextChunk);
         }
         break;
@@ -121,12 +121,12 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
     }
 }
 
-BaseGameObject* FG1::VDestructor(signed int flags)
+BaseGameObject* FG1::VDestructor(s32 flags)
 {
     return vdtor_49A1E0(flags);
 }
 
-BaseGameObject* FG1::vdtor_49A1E0(signed int flags)
+BaseGameObject* FG1::vdtor_49A1E0(s32 flags)
 {
     dtor_49A540();
     if (flags & 1)
@@ -144,13 +144,13 @@ void FG1::dtor_49A540()
     BaseGameObject_dtor_4DBEC0();
 }
 
-__int16 FG1::Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock)
+s16 FG1::Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 {
     // Map the layer from FG1 internal to OT layer
     pBlock->field_66_mapped_layer = sFg1_layer_to_bits_layer_5469BC[pChunk->field_2_layer];
 
     // Copy in the bits that represent the see through pixels
-    memcpy(pBlock->field_68_array_of_height, &pChunk[1], pChunk->field_A_height * sizeof(DWORD));
+    memcpy(pBlock->field_68_array_of_height, &pChunk[1], pChunk->field_A_height * sizeof(u32));
 
     for (Poly_FT4& rPoly : pBlock->field_0_polys)
     {
@@ -161,7 +161,7 @@ __int16 FG1::Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Blo
         Poly_Set_SemiTrans_4F8A60(&rPoly.mBase.header, FALSE);
         Poly_Set_Blending_4F8A20(&rPoly.mBase.header, TRUE);
 
-        SetTPage(&rPoly, static_cast<WORD>(PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0)));
+        SetTPage(&rPoly, static_cast<u16>(PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0)));
 
         SetXYWH(&rPoly, pChunk->field_4_xpos, pChunk->field_6_ypos, pChunk->field_8_width, pChunk->field_A_height);
 
@@ -177,11 +177,11 @@ void FG1::VRender(PrimHeader** ppOt)
 
 void FG1::vRender_49A3C0(PrimHeader** ppOt)
 {
-    for (int i = 0; i < field_28_render_block_count; i++)
+    for (s32 i = 0; i < field_28_render_block_count; i++)
     {
         Poly_FT4* pPoly = &field_30_chnk_res[i].field_0_polys[gPsxDisplay_5C1130.field_C_buffer_index];
-        const int xpos = X0(pPoly);
-        const int ypos = Y0(pPoly);
+        const s32 xpos = X0(pPoly);
+        const s32 ypos = Y0(pPoly);
         if (pScreenManager_5BB5F4->IsDirty_40EBC0(pScreenManager_5BB5F4->field_3A_idx, xpos, ypos) || pScreenManager_5BB5F4->IsDirty_40EBC0(3, xpos, ypos))
         {
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_30_chnk_res[i].field_66_mapped_layer), &pPoly->mBase.header);

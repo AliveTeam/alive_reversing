@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "DeathGas.hpp"
 
-const BYTE byte_5513D4[40] =
+const u8 byte_5513D4[40] =
 {
     0u,
     0u,
@@ -53,10 +53,10 @@ const BYTE byte_5513D4[40] =
     0u
 };
 
-ALIVE_VAR(1, 0x5c1be8, int, sGasTimer_5C1BE8, 0);
-ALIVE_VAR(1, 0x5C1C00, short, gGasOn_5C1C00, 0);
+ALIVE_VAR(1, 0x5c1be8, s32, sGasTimer_5C1BE8, 0);
+ALIVE_VAR(1, 0x5C1C00, s16, gGasOn_5C1C00, 0);
 
-GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, int tlvInfo)
+GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5445E0);
@@ -80,7 +80,7 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, int tlvInfo)
 
     if (sGasTimer_5C1BE8)
     {
-        field_74_time_left = static_cast<short>((field_76_gas_countdown_timer - (sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30);
+        field_74_time_left = static_cast<s16>((field_76_gas_countdown_timer - (sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30);
         if (field_74_time_left < 0)
         {
             field_74_time_left = 0;
@@ -101,7 +101,7 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* GasCountDown::VDestructor(signed int flags)
+BaseGameObject* GasCountDown::VDestructor(s32 flags)
 {
     return vdtor_4171F0(flags);
 }
@@ -131,7 +131,7 @@ void GasCountDown::dtor_417220()
     BaseGameObject_dtor_4DBEC0();
 }
 
-GasCountDown* GasCountDown::vdtor_4171F0(signed int flags)
+GasCountDown* GasCountDown::vdtor_4171F0(s32 flags)
 {
     dtor_417220();
     if (flags & 1)
@@ -153,7 +153,7 @@ void GasCountDown::vScreenChanged_417700()
 
 void GasCountDown::vRender_4175A0(PrimHeader** ppOt)
 {
-    char text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
+    s8 text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
     sprintf(text, "%02d:%02d", field_74_time_left / 60, field_74_time_left % 60);
 
     const auto textWidth = field_30_font.MeasureWidth_433700(text);
@@ -189,7 +189,7 @@ void GasCountDown::DealDamage()
         if (-field_74_time_left > 2)
         {
             sActiveHero_5C1B68->VTakeDamage_408730(this);
-            for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+            for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
             {
                 BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
                 if (!pObj)
@@ -265,9 +265,9 @@ void GasCountDown::vUpdate_4172E0()
             sGasTimer_5C1BE8++;
         }
 
-        const int old_timer = field_74_time_left;
-        const int new_timer = (field_76_gas_countdown_timer - static_cast<int>(sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30;
-        field_74_time_left = static_cast<__int16>(new_timer);
+        const s32 old_timer = field_74_time_left;
+        const s32 new_timer = (field_76_gas_countdown_timer - static_cast<s32>(sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30;
+        field_74_time_left = static_cast<s16>(new_timer);
         if (old_timer != field_74_time_left && field_74_time_left > 0)
         {
             SFX_Play_46FBA0(SoundEffect::RedTick_3, 55, -1000);

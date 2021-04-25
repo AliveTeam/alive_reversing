@@ -20,7 +20,7 @@ Bells* Bells::ctor_40A650(BellSize bellType, FP xpos, FP ypos, FP scale)
 
     field_4_typeId = Types::eBells_13;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kChimeResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kChimeResID, 1, 0);
 
     switch (bellType)
     {
@@ -69,7 +69,7 @@ void Bells::VUpdate()
 
 void Bells::VUpdate_40A770()
 {
-    if (field_F0_timer > 0 && static_cast<int>(gnFrameCount_507670) >= field_F4_timer)
+    if (field_F0_timer > 0 && static_cast<s32>(gnFrameCount_507670) >= field_F4_timer)
     {
         field_F4_timer = gnFrameCount_507670 + 4;
         field_F0_timer--;
@@ -134,7 +134,7 @@ void Bells::VUpdate_40A770()
                 }
             }
 
-            for (int i = 0; i < 4; i++)
+            for (s32 i = 0; i < 4; i++)
             {
                 const FP sparkx = field_A8_xpos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + xOff;
                 const FP sparky = field_AC_ypos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + yOff;
@@ -171,7 +171,7 @@ void Bells::PlaySounds()
     }
 }
 
-Bells* Bells::Vdtor_40AB00(signed int flags)
+Bells* Bells::Vdtor_40AB00(s32 flags)
 {
     dtor_40A760();
     if (flags & 1)
@@ -213,7 +213,7 @@ void Bells::Ring_40AA80()
     }
 }
 
-BaseGameObject* Bells::VDestructor(signed int flags)
+BaseGameObject* Bells::VDestructor(s32 flags)
 {
     return Vdtor_40AB00(flags);
 }

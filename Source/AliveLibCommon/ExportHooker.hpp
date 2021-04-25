@@ -6,6 +6,7 @@
 #include <sstream>
 #include "logger.hpp"
 #include "Function.hpp"
+#include "Types.hpp"
 
 class ExportHooker
 {
@@ -19,7 +20,7 @@ private:
     void LoadDisabledHooks();
     void ProcessExports();
 
-    static bool IsHexDigit(char letter);
+    static bool IsHexDigit(s8 letter);
 
     struct ExportInformation
     {
@@ -38,15 +39,15 @@ private:
     {
         std::string mName;
         LPVOID mCode;
-        DWORD mGameFunctionAddr;
-        DWORD mHookedGameFunctionAddr;
+        u32 mGameFunctionAddr;
+        u32 mHookedGameFunctionAddr;
         bool mIsImplemented;
     };
     std::vector<Export> mExports;
-    std::map<DWORD, ExportInformation> mUsedAddrs;
+    std::map<u32, ExportInformation> mUsedAddrs;
 
-    std::map<DWORD, DWORD> mRealStubs;
-    std::set<DWORD> mDisabledImpls;
-    int mExportCount = 0;
-    int mHookedCount = 0;
+    std::map<u32, u32> mRealStubs;
+    std::set<u32> mDisabledImpls;
+    s32 mExportCount = 0;
+    s32 mHookedCount = 0;
 };

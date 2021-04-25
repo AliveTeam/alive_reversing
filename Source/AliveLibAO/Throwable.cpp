@@ -20,7 +20,7 @@ const Types word_4CF158[54] =
     Types::eNone_0,     Types::eNone_0,      Types::eNone_0,      Types::eNone_0
 };
 
-EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, __int16 count)
+EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, s16 count)
 {
     switch (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num])
     {
@@ -74,13 +74,13 @@ void BaseThrowable::VToDead()
 }
 
 
-__int16 BaseThrowable::VGetCount_41F980()
+s16 BaseThrowable::VGetCount_41F980()
 {
     return field_10C_count;
 }
 
 
-__int16 BaseThrowable::VGetCount()
+s16 BaseThrowable::VGetCount()
 {
     return VGetCount_41F980();
 }

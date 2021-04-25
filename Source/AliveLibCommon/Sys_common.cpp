@@ -7,25 +7,25 @@
 #include <windows.h>
 #endif
 
-[[noreturn]] void ALIVE_FATAL(const char* errMsg)
+[[noreturn]] void ALIVE_FATAL(const s8* errMsg)
 {
     Sys_MessageBox(nullptr, errMsg, "ALIVE Hook fatal error.");
     abort();
 }
 
 
-DWORD SYS_GetTicks()
+u32 SYS_GetTicks()
 {
 #if USE_SDL2
     // Using this instead of SDL_GetTicks resolves a weird x64 issue on windows where
     // the tick returned is a lot faster on some machines.
-    return static_cast<DWORD>(SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000));
+    return static_cast<u32>(SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000));
 #else
     return timeGetTime();
 #endif
 }
 
-MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type)
+MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const s8* message, const s8* title, MessageBoxType type)
 {
 #if USE_SDL2
     SDL_MessageBoxData data = {};
@@ -71,7 +71,7 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* m
         data.flags = SDL_MESSAGEBOX_ERROR;
     }
 
-    int button = 0;
+    s32 button = 0;
     if (SDL_ShowMessageBox(&data, &button) == 0)
     {
         if (type == MessageBoxType::eQuestion)
@@ -89,7 +89,7 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* m
     }
     return MessageBoxButton::eOK;
 #else
-    DWORD w32type = MB_OK;
+    u32 w32type = MB_OK;
     switch (type)
     {
     case MessageBoxType::eStandard:
@@ -102,7 +102,7 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char* m
         w32type = MB_YESNO | MB_ICONQUESTION;
         break;
     }
-    const int button = ::MessageBoxA(windowHandle, message, title, w32type);
+    const s32 button = ::MessageBoxA(windowHandle, message, title, w32type);
     switch (button)
     {
     case IDNO:

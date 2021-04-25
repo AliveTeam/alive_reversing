@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 
-SlogHut* SlogHut::ctor_4C4070(Path_SlogHut* pTlv, int tlvInfo)
+SlogHut* SlogHut::ctor_4C4070(Path_SlogHut* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x54755C);
@@ -32,7 +32,7 @@ SlogHut* SlogHut::ctor_4C4070(Path_SlogHut* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* SlogHut::VDestructor(signed int flags)
+BaseGameObject* SlogHut::VDestructor(s32 flags)
 {
     return vdtor_4C4100(flags);
 }
@@ -54,7 +54,7 @@ void SlogHut::dtor_4C4130()
     BaseGameObject_dtor_4DBEC0();
 }
 
-SlogHut* SlogHut::vdtor_4C4100(signed int flags)
+SlogHut* SlogHut::vdtor_4C4100(s32 flags)
 {
     dtor_4C4130();
     if (flags & 1)
@@ -76,7 +76,7 @@ void SlogHut::vUpdate_4C41B0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (!SwitchStates_Get_466020(field_30_switch_id) && static_cast<int>(sGnFrame_5C1B84) > field_34_Zzz_timer)
+    if (!SwitchStates_Get_466020(field_30_switch_id) && static_cast<s32>(sGnFrame_5C1B84) > field_34_Zzz_timer)
     {
         auto pSnoozeParticle = ae_new<SnoozeParticle>();
         if (pSnoozeParticle)

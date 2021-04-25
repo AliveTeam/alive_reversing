@@ -33,7 +33,7 @@ RECT ClientToScreenConvert(HWND hwnd)
     return screenRect;
 }
 
-EXPORT const char* CC DX_HR_To_String_4F4EC0(HRESULT hr)
+EXPORT const s8* CC DX_HR_To_String_4F4EC0(HRESULT hr)
 {
     switch (hr)
     {
@@ -274,11 +274,11 @@ ALIVE_VAR(1, 0xBBC3C8, LPDIRECTDRAWSURFACE, sDD_primary_surface_BBC3C8, nullptr)
 ALIVE_VAR(1, 0xBBC3CC, LPDIRECTDRAWSURFACE, sDD_surface_backbuffer_BBC3CC, nullptr);
 ALIVE_VAR(1, 0xBBC3D8, LPDIRECTDRAWPALETTE, sDD_Pal_BBC3D8, nullptr);
 
-ALIVE_VAR(1, 0xBBC3AC, int, sbDD_FlipMode_BBC3AC, 0); // TODO: Make Enum
+ALIVE_VAR(1, 0xBBC3AC, s32, sbDD_FlipMode_BBC3AC, 0); // TODO: Make Enum
 ALIVE_VAR(1, 0xBBC3E0, LONG, sDD_old_win_style_BBC3E0, 0);
 
 
-EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
+EXPORT s32 CC DD_Shutdown_4F0790(s32 bDestroyDD)
 {
     if (sDDraw_BBC3D4)
     {
@@ -320,10 +320,10 @@ EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
 
 ALIVE_VAR(1, 0xBBC3B8, BOOL, sDD_Caps_BBC3B8, FALSE); // Force ram surfaces?
 ALIVE_VAR(1, 0xBBC3A0, BOOL, sDD_VideoMemory_BBC3A0, FALSE);
-ALIVE_VAR(1, 0xBBC3C0, DWORD, sDDColourKey_BBC3C0, 0);
+ALIVE_VAR(1, 0xBBC3C0, u32, sDDColourKey_BBC3C0, 0);
 ALIVE_VAR(1, 0xBBC3BC, bool, sbFullScreen_BBC3BC, 0);
 
-EXPORT LPDIRECTDRAWSURFACE CC DD_Create_Surface_4F0CB0(int width, int height, int bSetUnknownCaps)
+EXPORT LPDIRECTDRAWSURFACE CC DD_Create_Surface_4F0CB0(s32 width, s32 height, s32 bSetUnknownCaps)
 {
     DDSURFACEDESC surfaceDesc = {};
     surfaceDesc.dwSize = sizeof(surfaceDesc);
@@ -355,7 +355,7 @@ EXPORT LPDIRECTDRAWSURFACE CC DD_Create_Surface_4F0CB0(int width, int height, in
     return pSurface;
 }
 
-EXPORT signed int CC DD_RestoreSurfacesIfRequired_4F01D0(HRESULT hr, IDirectDrawSurface* pSurface1, IDirectDrawSurface* pSurface2)
+EXPORT s32 CC DD_RestoreSurfacesIfRequired_4F01D0(HRESULT hr, IDirectDrawSurface* pSurface1, IDirectDrawSurface* pSurface2)
 {
     if (hr == DDERR_SURFACELOST)
     {
@@ -409,7 +409,7 @@ EXPORT signed int CC DD_RestoreSurfacesIfRequired_4F01D0(HRESULT hr, IDirectDraw
 
 #pragma comment(lib, "ddraw.lib") // DirectDrawCreate
 
-EXPORT signed int CC DD_Init_4F02D0(HWND hwnd, bool bFullScreen, int forceSoftwareSurfaces)
+EXPORT s32 CC DD_Init_4F02D0(HWND hwnd, bool bFullScreen, s32 forceSoftwareSurfaces)
 {
     if (!sDDraw_BBC3D4)
     {
@@ -445,7 +445,7 @@ EXPORT signed int CC DD_Init_4F02D0(HWND hwnd, bool bFullScreen, int forceSoftwa
     return 1;
 }
 
-EXPORT void CC DD_Blt_4F0170(IDirectDrawSurface* pSourceSurface, LPRECT pSrcRect, IDirectDrawSurface* pTargetSurface, LPRECT pDstRect, int bltFlags)
+EXPORT void CC DD_Blt_4F0170(IDirectDrawSurface* pSourceSurface, LPRECT pSrcRect, IDirectDrawSurface* pTargetSurface, LPRECT pDstRect, s32 bltFlags)
 {
     const HRESULT hr = pTargetSurface->Blt(pDstRect, pSourceSurface, pSrcRect, bltFlags | DDBLT_WAIT, nullptr); // 0x1000000
     if (FAILED(hr))
@@ -502,7 +502,7 @@ EXPORT void CC DD_Flip_4F15D0()
     }
 }
 
-EXPORT int CC DD_SetDisplayMode_4F0730(DWORD width, DWORD height, DWORD bpp)
+EXPORT s32 CC DD_SetDisplayMode_4F0730(u32 width, u32 height, u32 bpp)
 {
     // TODO: HACK
     HWND hwnd;
@@ -531,10 +531,10 @@ EXPORT int CC DD_SetDisplayMode_4F0730(DWORD width, DWORD height, DWORD bpp)
     return sDDraw_BBC3D4->SetDisplayMode(width, height, bpp);
 }
 
-ALIVE_VAR(1, 0xBBC3A4, int, sDD_Width_BBC3A4, 0);
-ALIVE_VAR(1, 0xBBC3A8, int, sDD_Height_BBC3A8, 0);
+ALIVE_VAR(1, 0xBBC3A4, s32, sDD_Width_BBC3A4, 0);
+ALIVE_VAR(1, 0xBBC3A8, s32, sDD_Height_BBC3A8, 0);
 
-EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int bpp, int flipMode, int a6)
+EXPORT s32 CC DD_Enable_4F0380(HWND /*hwnd*/, s32 width, s32 height, s32 bpp, s32 flipMode, s32 a6)
 {
     sbDD_FlipMode_BBC3AC = flipMode;
     //byte_BBC3C4[0] = 0; // TODO: Never used?
@@ -545,9 +545,9 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
         return 0;
     }
 
-    DWORD bitsPerPixelXPlanes = 0;
-    int heightCopy = 0;
-    int widthCopy = 0;
+    u32 bitsPerPixelXPlanes = 0;
+    s32 heightCopy = 0;
+    s32 widthCopy = 0;
     if (sbFullScreen_BBC3BC)
     {
         bitsPerPixelXPlanes = bpp;
@@ -655,14 +655,14 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
         ::SystemParametersInfoA(SPI_GETWORKAREA, 0, &pvParam, 0);
         ::GetWindowRect(sDD_hWnd_BBC3B0, &rect);
 
-        int left = rect.left;
+        s32 left = rect.left;
         if (rect.left < pvParam.left)
         {
             left = pvParam.left;
             rect.left = pvParam.left;
         }
 
-        int top = rect.top;
+        s32 top = rect.top;
         if (rect.top < pvParam.top)
         {
             top = pvParam.top;
@@ -713,13 +713,13 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
 // Not used, part of 8 bpp mode
 //ALIVE_ARY(1, 0xBD2A80, PALETTEENTRY, 256, sDDPalEntry_BD2A80, {});
 
-static signed int InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
+static s32 InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
 {
     DDPIXELFORMAT pixelFormat = {};
     pixelFormat.dwSize = sizeof(DDPIXELFORMAT);
     pSurface->GetPixelFormat(&pixelFormat);
 
-    DWORD colourMask = 0;
+    u32 colourMask = 0;
     if (pixelFormat.dwRGBBitCount == 8)
     {
         colourMask = 255;
@@ -748,7 +748,7 @@ static signed int InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
     return 1;
 }
 
-static signed int CreateDDObjects(signed int backBufferCount)
+static s32 CreateDDObjects(s32 backBufferCount)
 {
     DDSURFACEDESC surfaceDesc = {};
     surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
@@ -796,7 +796,7 @@ static signed int CreateDDObjects(signed int backBufferCount)
     return InitColourKeyAndPallete(sDD_primary_surface_BBC3C8);
 }
 
-EXPORT signed int CC DD_Init_4F0840(signed int backBufferCount)
+EXPORT s32 CC DD_Init_4F0840(s32 backBufferCount)
 {
     if (!sbFullScreen_BBC3BC)
     {
@@ -859,17 +859,17 @@ EXPORT signed int CC DD_Init_4F0840(signed int backBufferCount)
     return InitColourKeyAndPallete(sDD_primary_surface_BBC3C8);
 }
 
-EXPORT void CC DD_mode_blt1_4F11E0(IDirectDrawSurface* /*pSurface*/, RECT* /*pRect*/, int /*screenMode*/)
+EXPORT void CC DD_mode_blt1_4F11E0(IDirectDrawSurface* /*pSurface*/, RECT* /*pRect*/, s32 /*screenMode*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC DD_mode_blt2_4F0F60(IDirectDrawSurface* /*pSurface*/, RECT* /*pRect*/, int /*screenMode*/)
+EXPORT void CC DD_mode_blt2_4F0F60(IDirectDrawSurface* /*pSurface*/, RECT* /*pRect*/, s32 /*screenMode*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRect, int screenMode)
+EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRect, s32 screenMode)
 {
     if (sDD_primary_surface_BBC3C8 && pSurf)
     {
@@ -914,8 +914,8 @@ EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRe
                 pRectToUse = &rect;
             }
 
-            const unsigned int rectW = pRectToUse->right - pRectToUse->left;
-            const unsigned int rectH = pRectToUse->bottom - pRectToUse->top;
+            const u32 rectW = pRectToUse->right - pRectToUse->left;
+            const u32 rectH = pRectToUse->bottom - pRectToUse->top;
 
             if (surfaceDesc1.dwWidth != 2 * rectW || surfaceDesc1.dwHeight != 2 * rectH)
             {

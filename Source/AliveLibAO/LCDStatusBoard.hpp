@@ -15,13 +15,13 @@ struct Path_LCDStatusBoard : public Path_TLV
 class LCDStatusBoard : public BaseGameObject
 {
 public:
-    EXPORT LCDStatusBoard* ctor_4418E0(Path_LCDStatusBoard* pTlv, int tlvInfo);
+    EXPORT LCDStatusBoard* ctor_4418E0(Path_LCDStatusBoard* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_4419E0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT LCDStatusBoard* Vdtor_441C80(signed int flags);
+    EXPORT LCDStatusBoard* Vdtor_441C80(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -39,9 +39,9 @@ public:
     AliveFont field_20_font1;
     AliveFont field_58_font2;
     AliveFont field_90_font3;
-    int field_C8_tlv;
-    __int16 field_CC_xpos;
-    __int16 field_CE_ypos;
+    s32 field_C8_tlv;
+    s16 field_CC_xpos;
+    s16 field_CE_ypos;
 };
 ALIVE_ASSERT_SIZEOF(LCDStatusBoard, 0xD0);
 

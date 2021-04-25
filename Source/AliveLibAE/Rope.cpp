@@ -29,31 +29,31 @@ const TintEntry kRopeTints_55FD68[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, int minY, int maxY)
+EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
-    const int d1 = minY - Y0(pPoly);
-    const short polyHeight = Y3(pPoly) - Y0(pPoly);
+    const s32 d1 = minY - Y0(pPoly);
+    const s16 polyHeight = Y3(pPoly) - Y0(pPoly);
     if (minY - Y0(pPoly) > 0 && d1 <= polyHeight)
     {
-        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (short)d1);
-        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (short)d1);
+        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (s16)d1);
+        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (s16)d1);
 
-        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (BYTE)d1);
-        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (BYTE)d1);
+        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (u8)d1);
+        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (u8)d1);
     }
 
-    const int d2 = Y3(pPoly) - maxY;
+    const s32 d2 = Y3(pPoly) - maxY;
     if (d2 > 0 && d2 <= polyHeight)
     {
-        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (short)d2);
-        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (short)d2);
+        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (s16)d2);
+        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (s16)d2);
 
-        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (BYTE)d2);
-        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (BYTE)d2);
+        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (u8)d2);
+        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (u8)d2);
     }
 }
 
-Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bottom, FP scale)
+Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546C70); // vTbl_LiftRope_00546C70
@@ -61,7 +61,7 @@ Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bot
     field_4_typeId = AETypes::eLiftRope_108;
 
     const AnimRecord& rec = AnimRec(AnimId::Lift_Rope);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     SetTint_425600(kRopeTints_55FD68, gMap_5C3030.field_0_current_level);
 
@@ -83,9 +83,9 @@ Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bot
         field_D6_scale = 0;
     };
 
-    field_20_animation.field_8_r = static_cast<BYTE>(field_D0_r);
-    field_20_animation.field_9_g = static_cast<BYTE>(field_D2_g);
-    field_20_animation.field_A_b = static_cast<BYTE>(field_D4_b);
+    field_20_animation.field_8_r = static_cast<u8>(field_D0_r);
+    field_20_animation.field_9_g = static_cast<u8>(field_D2_g);
+    field_20_animation.field_A_b = static_cast<u8>(field_D4_b);
 
     field_102_top = top;
     field_106_bottom = bottom;
@@ -100,7 +100,7 @@ Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bot
     field_F8_ppRopeRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Rope, 0, field_F4_rope_segment_count * sizeof(AnimationUnknown));
     field_FC_pRopeRes = reinterpret_cast<AnimationUnknown*>(*field_F8_ppRopeRes);
 
-    for (int i = 0; i < field_F4_rope_segment_count; i++)
+    for (s32 i = 0; i < field_F4_rope_segment_count; i++)
     {
         AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
@@ -116,7 +116,7 @@ Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bot
     return this;
 }
 
-BaseGameObject* Rope::VDestructor(signed int flags)
+BaseGameObject* Rope::VDestructor(s32 flags)
 {
     return vdtor_4A0D80(flags);
 }
@@ -138,7 +138,7 @@ void Rope::dtor_4A0DB0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Rope* Rope::vdtor_4A0D80(signed int flags)
+Rope* Rope::vdtor_4A0D80(s32 flags)
 {
     dtor_4A0DB0();
     if (flags & 1)
@@ -162,17 +162,17 @@ EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
             const FP camXPos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
             const FP camYPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
 
-            __int16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
-            __int16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);
+            s16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
+            s16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);
 
-            __int16 ypos = FP_GetExponent(field_BC_ypos);
+            s16 ypos = FP_GetExponent(field_BC_ypos);
             if (ypos > field_106_bottom)
             {
                 ypos = field_106_bottom + ((ypos - field_106_bottom) % field_F6_rope_length);
             }
 
-            short screenX = FP_GetExponent(field_B8_xpos - camXPos);
-            short screenY = ypos - FP_GetExponent(camYPos);
+            s16 screenX = FP_GetExponent(field_B8_xpos - camXPos);
+            s16 screenY = ypos - FP_GetExponent(camYPos);
 
             if (screenY > 240)
             {
@@ -194,12 +194,12 @@ EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
 
             if (screenY >= minY)
             {
-                for (int idx = 0; idx < field_F4_rope_segment_count; idx++)
+                for (s32 idx = 0; idx < field_F4_rope_segment_count; idx++)
                 {
                     // Apply shadow to the segments colour
-                    short r = field_D0_r;
-                    short g = field_D2_g;
-                    short b = field_D4_b;
+                    s16 r = field_D0_r;
+                    s16 g = field_D2_g;
+                    s16 b = field_D4_b;
 
                     ShadowZone::ShadowZones_Calculate_Colour_463CE0(
                         FP_GetExponent(field_B8_xpos),
@@ -209,9 +209,9 @@ EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
                         &g,
                         &b);
 
-                    field_FC_pRopeRes[idx].field_8_r = static_cast<BYTE>(r);
-                    field_FC_pRopeRes[idx].field_9_g = static_cast<BYTE>(g);
-                    field_FC_pRopeRes[idx].field_A_b = static_cast<BYTE>(b);
+                    field_FC_pRopeRes[idx].field_8_r = static_cast<u8>(r);
+                    field_FC_pRopeRes[idx].field_9_g = static_cast<u8>(g);
+                    field_FC_pRopeRes[idx].field_A_b = static_cast<u8>(b);
 
                     // Render the segment
                     field_FC_pRopeRes[idx].vRender_40B820(

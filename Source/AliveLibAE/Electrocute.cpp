@@ -12,7 +12,7 @@
 class PalleteOverwriter : public BaseGameObject
 {
 public:
-    EXPORT PalleteOverwriter* ctor_4228D0(PSX_Point palXY, __int16 palDepth, __int16 colour)
+    EXPORT PalleteOverwriter* ctor_4228D0(PSX_Point palXY, s16 palDepth, s16 colour)
     {
         BaseGameObject_ctor_4DBFA0(FALSE, 0);
 
@@ -40,7 +40,7 @@ public:
         return this;
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return vdtor_4229C0(flags);
     }
@@ -99,7 +99,7 @@ private:
         BaseGameObject_dtor_4DBEC0();
     }
 
-    EXPORT PalleteOverwriter* vdtor_4229C0(signed int flags)
+    EXPORT PalleteOverwriter* vdtor_4229C0(s32 flags)
     {
         dtor_4229F0();
         if (flags & 1)
@@ -114,25 +114,25 @@ private:
         if (!field_CE_bDone)
         {
             // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
-            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_20_pal_xy.field_2_y, static_cast<short>(field_20_pal_xy.field_0_x + field_C8_pal_x_index), field_CA_pal_w}, reinterpret_cast<BYTE*>(&field_B8_palBuffer[0]));
+            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_20_pal_xy.field_2_y, static_cast<s16>(field_20_pal_xy.field_0_x + field_C8_pal_x_index), field_CA_pal_w}, reinterpret_cast<u8*>(&field_B8_palBuffer[0]));
         }
     }
 
 private:
     PSX_Point field_20_pal_xy;
-    short field_24_pal_colours_count;
+    s16 field_24_pal_colours_count;
     // pad
-    int field_28_not_used[36]; // TODO: Probably something used in PSX but not PC?
-    __int16 field_B8_palBuffer[8];
-    __int16 field_C8_pal_x_index;
-    __int16 field_CA_pal_w;
-    __int16 field_CC_bFirstUpdate;
+    s32 field_28_not_used[36]; // TODO: Probably something used in PSX but not PC?
+    s16 field_B8_palBuffer[8];
+    s16 field_C8_pal_x_index;
+    s16 field_CA_pal_w;
+    s16 field_CC_bFirstUpdate;
 public:
-    __int16 field_CE_bDone;
+    s16 field_CE_bDone;
 };
 ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xD0);
 
-BaseGameObject* Electrocute::VDestructor(signed int flags)
+BaseGameObject* Electrocute::VDestructor(s32 flags)
 {
     return vdtor_4E6060(flags);
 }
@@ -152,12 +152,12 @@ void Electrocute::VStop_4E6150()
     vStop_4E6150();
 }
 
-int Electrocute::VSub_4E6630()
+s32 Electrocute::VSub_4E6630()
 {
     return vSub_4E6630();
 }
 
-Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 bExtraOverwriter, __int16 bKillTarget)
+Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter, s16 bKillTarget)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
 
@@ -177,7 +177,7 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 b
     case AETypes::eGlukkon_67:
     case AETypes::eAbe_69:
     case AETypes::eSlig_125:
-        field_40_pPalData = reinterpret_cast<WORD*>(ae_malloc_non_zero_4954F0(sizeof(WORD) * pTargetObj->field_20_animation.field_90_pal_depth));
+        field_40_pPalData = reinterpret_cast<u16*>(ae_malloc_non_zero_4954F0(sizeof(u16) * pTargetObj->field_20_animation.field_90_pal_depth));
         Pal_Copy_483560(
             pTargetObj->field_20_animation.field_8C_pal_vram_xy,
             pTargetObj->field_20_animation.field_90_pal_depth,
@@ -198,7 +198,7 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 b
     return this;
 }
 
-Electrocute* Electrocute::vdtor_4E6060(signed int flags)
+Electrocute* Electrocute::vdtor_4E6060(s32 flags)
 {
     dtor_4E6090();
     if (flags & 1)
@@ -281,7 +281,7 @@ void Electrocute::vUpdate_4E6240()
                 field_30_pPalOverwriters[0]->ctor_4228D0(
                     pTargetObj->field_20_animation.field_8C_pal_vram_xy,
                     pTargetObj->field_20_animation.field_90_pal_depth,
-                    static_cast<short>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
+                    static_cast<s16>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
             }
 
             field_30_pPalOverwriters[1] = ae_new<PalleteOverwriter>();
@@ -290,7 +290,7 @@ void Electrocute::vUpdate_4E6240()
                 field_30_pPalOverwriters[1]->ctor_4228D0(
                     pTargetObj->field_20_animation.field_8C_pal_vram_xy,
                     pTargetObj->field_20_animation.field_90_pal_depth,
-                    static_cast<short>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
+                    static_cast<s16>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
 
                 field_30_pPalOverwriters[1]->field_1C_update_delay = 4;
             }
@@ -303,7 +303,7 @@ void Electrocute::vUpdate_4E6240()
                     field_30_pPalOverwriters[2]->ctor_4228D0(
                         pTargetObj->field_20_animation.field_8C_pal_vram_xy,
                         pTargetObj->field_20_animation.field_90_pal_depth,
-                        static_cast<short>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
+                        static_cast<s16>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
 
                     field_30_pPalOverwriters[2]->field_1C_update_delay = 8;
                 }
@@ -322,7 +322,7 @@ void Electrocute::vUpdate_4E6240()
                     Pal_Set_483510(
                         pTargetObj->field_20_animation.field_8C_pal_vram_xy,
                         pTargetObj->field_20_animation.field_90_pal_depth,
-                        reinterpret_cast<const BYTE*>(field_40_pPalData),
+                        reinterpret_cast<const u8*>(field_40_pPalData),
                         &field_4C_pal_rect);
                 }
 
@@ -387,7 +387,7 @@ void Electrocute::vStop_4E6150()
             Pal_Set_483510(
                 pTarget->field_20_animation.field_8C_pal_vram_xy,
                 pTarget->field_20_animation.field_90_pal_depth,
-                reinterpret_cast<const BYTE*>(field_40_pPalData),
+                reinterpret_cast<const u8*>(field_40_pPalData),
                 &field_4C_pal_rect);
 
             pTarget->field_D0_r = field_24_r;
@@ -403,9 +403,9 @@ void Electrocute::vStop_4E6150()
 
 }
 
-int Electrocute::vSub_4E6630()
+s32 Electrocute::vSub_4E6630()
 {
-    int counter = field_2E_overwriter_count - 1;
+    s32 counter = field_2E_overwriter_count - 1;
     if (counter < 0)
     {
         return 0;

@@ -27,14 +27,14 @@ const TintEntry kGibTints_55C744[] =
     { -1, 87u, 103u, 67u }
 };
 
-ALIVE_VAR(1, 0x550e80, short, sGibRandom_550E80, 13);
+ALIVE_VAR(1, 0x550e80, s16, sGibRandom_550E80, 13);
 
 EXPORT FP CC Random_40FAF0(FP scale)
 {
     return FP_FromRaw((Math_NextRandom() - 128) << sGibRandom_550E80) * scale;
 }
 
-EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bMakeSmaller)
+EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 bMakeSmaller)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     
@@ -117,10 +117,10 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
     }
 
     // TODO: It is assumed all 3 gib parts have the same resource id - might not be true for mods
-    BYTE** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, pHeadGib->mResourceId);
+    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, pHeadGib->mResourceId);
     
     // TODO: It is assumed all 3 gib parts use the same pal - might not be true for mods
-    BYTE** ppRes = nullptr;
+    u8** ppRes = nullptr;
     if (pHeadGib->mPalOverride != PalId::Default)
     {
         ppRes = Add_Resource_4DC130(ResourceManager::Resource_Palt, PalRec(pHeadGib->mPalOverride).mResourceId);
@@ -198,7 +198,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
     field_5D4_parts_used_count = 4;
     
     GibPart* pPart = &field_104_parts[0];
-    for (short i = 0; i < field_5D4_parts_used_count; i++)
+    for (s16 i = 0; i < field_5D4_parts_used_count; i++)
     {
         if (i < 2)
         {
@@ -243,9 +243,9 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
         pPart->field_18_anim.field_14_scale = scale;
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
 
-        pPart->field_18_anim.field_8_r = static_cast<BYTE>(field_D0_r);
-        pPart->field_18_anim.field_9_g = static_cast<BYTE>(field_D2_g);
-        pPart->field_18_anim.field_A_b = static_cast<BYTE>(field_D4_b); 
+        pPart->field_18_anim.field_8_r = static_cast<u8>(field_D0_r);
+        pPart->field_18_anim.field_9_g = static_cast<u8>(field_D2_g);
+        pPart->field_18_anim.field_A_b = static_cast<u8>(field_D4_b); 
 
         pPart->field_0_x = field_B8_xpos;
         pPart->field_4_y = field_BC_ypos;
@@ -277,7 +277,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
     return this;
 }
 
-BaseGameObject* Gibs::VDestructor(signed int flags)
+BaseGameObject* Gibs::VDestructor(s32 flags)
 {
     return vdtor_410100(flags);
 }
@@ -296,7 +296,7 @@ void Gibs::dtor_410170()
 {
     SetVTable(this, 0x544248); // vTbl_Gibs_544248
 
-    for (int i = 0; i < field_5D4_parts_used_count; i++)
+    for (s32 i = 0; i < field_5D4_parts_used_count; i++)
     {
         field_104_parts[i].field_18_anim.vCleanUp_40C630();
     }
@@ -304,7 +304,7 @@ void Gibs::dtor_410170()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Gibs* Gibs::vdtor_410100(signed int flags)
+Gibs* Gibs::vdtor_410100(s32 flags)
 {
     dtor_410170();
     if (flags & 1)
@@ -329,7 +329,7 @@ void Gibs::vUpdate_410210()
         field_F8_z += dz;
     }
 
-    for (int i = 0; i < field_5D4_parts_used_count; i++)
+    for (s32 i = 0; i < field_5D4_parts_used_count; i++)
     {
         field_104_parts[i].field_0_x += field_104_parts[i].field_C_dx;
         field_104_parts[i].field_4_y += field_104_parts[i].field_10_dy;
@@ -345,7 +345,7 @@ void Gibs::vUpdate_410210()
         }
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) > field_100_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -372,7 +372,7 @@ EXPORT void Gibs::vRender_4103A0(PrimHeader** ppOt)
     const FP camXPos = pCamPos->field_0_x;
     const FP camYPos = pCamPos->field_4_y;
 
-    for (int i = 0; i < field_5D4_parts_used_count; i++)
+    for (s32 i = 0; i < field_5D4_parts_used_count; i++)
     {
         // Part is within camera X?
         if (field_104_parts[i].field_0_x >= camXPos &&
@@ -400,8 +400,8 @@ EXPORT void Gibs::vRender_4103A0(PrimHeader** ppOt)
 
                 if (field_104_parts[i].field_18_anim.field_14_scale <= FP_FromInteger(1))
                 {
-                    const int xpos = FP_GetExponent(field_104_parts[i].field_0_x - camXPos);
-                    const int ypos = FP_GetExponent(field_104_parts[i].field_4_y - camYPos);
+                    const s32 xpos = FP_GetExponent(field_104_parts[i].field_0_x - camXPos);
+                    const s32 ypos = FP_GetExponent(field_104_parts[i].field_4_y - camYPos);
 
                     field_104_parts[i].field_18_anim.vRender_40B820(xpos, ypos, ppOt, 0, 0);
 

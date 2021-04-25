@@ -35,15 +35,15 @@ enum PauseMenuAlign
 
 struct PauseMenuPageEntry
 {
-    __int16 field_0_unknown2;
-    __int16 field_2_x;
-    __int16 field_4_y;
-    __int16 field_6_unknown;
-    const char* field_8_text;
-    unsigned char field_C_r;
-    unsigned char field_D_g;
-    unsigned char field_E_b;
-    unsigned char field_F_alignment;
+    s16 field_0_unknown2;
+    s16 field_2_x;
+    s16 field_4_y;
+    s16 field_6_unknown;
+    const s8* field_8_text;
+    u8 field_C_r;
+    u8 field_D_g;
+    u8 field_E_b;
+    u8 field_F_alignment;
 };
 ALIVE_ASSERT_SIZEOF(PauseMenuPageEntry, 0x10);
 
@@ -52,7 +52,7 @@ class PauseMenu : public ::BaseAnimatedWithPhysicsGameObject
 public:
     struct PauseMenuPage;
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -61,7 +61,7 @@ public:
 
     EXPORT PauseMenu* ctor_48FB80();
     EXPORT void dtor_48FCE0();
-    EXPORT BaseGameObject* vdtor_48FCB0(signed int flags);
+    EXPORT BaseGameObject* vdtor_48FCB0(s32 flags);
 
     EXPORT void Init_491760();
 
@@ -97,13 +97,13 @@ public:
         t_PmPage_Update field_0_fn_update;
         t_PmPage_Render field_4_fn_render;
         PauseMenuPageEntry *field_8_menu_items;
-        __int16 field_C_selected_index;
-        char field_E_background_r;
-        char field_F_background_g;
-        char field_10_background_b;
-        char field_11_padding;
-        char field_12_padding;
-        char field_13_padding;
+        s16 field_C_selected_index;
+        s8 field_E_background_r;
+        s8 field_F_background_g;
+        s8 field_10_background_b;
+        s8 field_11_padding;
+        s8 field_12_padding;
+        s8 field_13_padding;
     };
     ALIVE_ASSERT_SIZEOF(PauseMenu::PauseMenuPage, 0x14);
 
@@ -112,12 +112,12 @@ private:
 
 public:
     Alive::Font field_F4_font;
-    __int16 word12C_flags;
-    __int16 field_12E_selected_glow;
-    __int16 field_130_selected_glow_counter;
-    __int16 field_132_padding;
+    s16 word12C_flags;
+    s16 field_12E_selected_glow;
+    s16 field_130_selected_glow_counter;
+    s16 field_132_padding;
 
-    enum MainPages : __int16
+    enum MainPages : s16
     {
         ePage_Continue_0 = 0,
         ePage_QuickSave_1 = 1,
@@ -129,12 +129,12 @@ public:
         ePage_Quit_7 = 7,
     };
 
-    /*MainPages*/ __int16 field_134_index_main;
-    __int16 field_136_unused;
-    __int16 field_138_control_action_page_index;
-    __int16 field_13A_unused;
+    /*MainPages*/ s16 field_134_index_main;
+    s16 field_136_unused;
+    s16 field_138_control_action_page_index;
+    s16 field_13A_unused;
 
-    enum class SaveState : __int16
+    enum class SaveState : s16
     {
         ReadingInput_0 = 0,
         DoSave_4 = 4,
@@ -142,9 +142,9 @@ public:
     };
     SaveState field_13C_save_state;
 
-    __int16 field_13E_unused;
-    __int16 field_140_unused;
-    __int16 field_142_poly_offset;
+    s16 field_13E_unused;
+    s16 field_140_unused;
+    s16 field_142_poly_offset;
     PauseMenu::PauseMenuPage field_144_active_menu;
     Animation field_158_animation;
     Prim_SetTPage field_1F0_primitives[2];
@@ -154,6 +154,6 @@ public:
 ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
 
 ALIVE_VAR_EXTERN(PauseMenu*, pPauseMenu_5C9300);
-ALIVE_VAR_EXTERN(char, sQuicksave_SaveNextFrame_5CA4D8);
-ALIVE_VAR_EXTERN(char, sQuicksave_LoadNextFrame_5CA4D9);
-ALIVE_ARY_EXTERN(BYTE, 32, pal_554474);
+ALIVE_VAR_EXTERN(s8, sQuicksave_SaveNextFrame_5CA4D8);
+ALIVE_VAR_EXTERN(s8, sQuicksave_LoadNextFrame_5CA4D9);
+ALIVE_ARY_EXTERN(u8, 32, pal_554474);

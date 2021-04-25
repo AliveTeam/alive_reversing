@@ -9,7 +9,7 @@ namespace AETest::TestsCollision
     void CollisionTests();
 }
 
-enum eLineTypes : BYTE
+enum eLineTypes : u8
 {
     eFloor_0 = 0,
     eWallLeft_1 = 1,
@@ -32,13 +32,13 @@ class PathLine
 {
 public:
     PSX_RECT field_0_rect;
-    BYTE field_8_type;
-    __int8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
-    __int16 field_A_previous;
-    __int16 field_C_next;
-    __int16 field_E_previous2; // Never used
-    __int16 field_10_next2;    // And... also never used
-    __int16 field_12_line_length;
+    u8 field_8_type;
+    s8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
+    s16 field_A_previous;
+    s16 field_C_next;
+    s16 field_E_previous2; // Never used
+    s16 field_10_next2;    // And... also never used
+    s16 field_12_line_length;
 
     EXPORT PathLine* MoveOnLine_418260(FP* xpos, FP* ypos, FP velX);
 };
@@ -49,21 +49,21 @@ struct CollisionInfo;
 class Collisions
 {
 public:
-    EXPORT Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
+    EXPORT Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
     EXPORT void dtor_4189F0();
-    EXPORT static void CC Factory_4188A0(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
-    EXPORT signed __int16 Raycast_Real_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, unsigned int modeMask);
-    EXPORT BOOL Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, unsigned int modeMask);
-    EXPORT PathLine* Add_Dynamic_Collision_Line_417FA0(__int16 x1, __int16 y1, __int16 x2, __int16 y2, char mode);
-    EXPORT PathLine* Get_Line_At_Idx_418070(__int16 idx);
+    EXPORT static void CC Factory_4188A0(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
+    EXPORT s16 Raycast_Real_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask);
+    EXPORT BOOL Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask);
+    EXPORT PathLine* Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode);
+    EXPORT PathLine* Get_Line_At_Idx_418070(s16 idx);
     EXPORT PathLine* PreviousLine_4180A0(PathLine* pLine);
     EXPORT PathLine* NextLine_418180(PathLine* pLine);
-    signed __int16 Raycast_Impl(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, unsigned int modeMask);
+    s16 Raycast_Impl(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask);
 public:
     PathLine* field_0_pArray;
-    WORD field_4_current_item_count;
-    int field_8_item_count;
-    int field_C_max_count;
+    u16 field_4_current_item_count;
+    s32 field_8_item_count;
+    s32 field_C_max_count;
 };
 ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 

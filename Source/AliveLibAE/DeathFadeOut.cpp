@@ -3,9 +3,9 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 
-ALIVE_VAR(1, 0x5bc204, int, sIsFadingOut_5BC204, 0);
+ALIVE_VAR(1, 0x5bc204, s32, sIsFadingOut_5BC204, 0);
 
-BaseGameObject* DeathFadeOut::VDestructor(signed int flags)
+BaseGameObject* DeathFadeOut::VDestructor(s32 flags)
 {
     return vdtor_4270F0(flags);
 }
@@ -25,7 +25,7 @@ void DeathFadeOut::VRender(PrimHeader** ppOt)
     vRender_427210(ppOt);
 }
 
-DeathFadeOut* DeathFadeOut::ctor_427030(Layer layer, __int16 direction, __int16 destroyOnDone, short speed, TPageAbr abr)
+DeathFadeOut* DeathFadeOut::ctor_427030(Layer layer, s16 direction, s16 destroyOnDone, s16 speed, TPageAbr abr)
 {
     ctor_4AB7A0(layer, abr);
     SetVTable(this, 0x544DA0); // vTbl_DeathFadeOut_00544DA0
@@ -49,7 +49,7 @@ DeathFadeOut* DeathFadeOut::ctor_427030(Layer layer, __int16 direction, __int16 
     return this;
 }
 
-void DeathFadeOut::Init_427140(Layer layer, __int16 direction, __int16 destroyOnDone, short speed)
+void DeathFadeOut::Init_427140(Layer layer, s16 direction, s16 destroyOnDone, s16 speed)
 {
     field_6C_layer = layer;
     field_7C_direction = direction;
@@ -82,7 +82,7 @@ void DeathFadeOut::dtor_427120()
     dtor_4AB8F0();
 }
 
-DeathFadeOut* DeathFadeOut::vdtor_4270F0(signed int flags)
+DeathFadeOut* DeathFadeOut::vdtor_4270F0(s32 flags)
 {
     dtor_427120();
     if (flags & 1)

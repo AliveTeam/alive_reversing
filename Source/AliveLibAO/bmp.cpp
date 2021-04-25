@@ -5,7 +5,7 @@
 
 namespace AO {
 
-EXPORT signed int CC BMP_ClearRect_48F810(Bitmap* pBmp, RECT* pRect, int fillColour)
+EXPORT s32 CC BMP_ClearRect_48F810(Bitmap* pBmp, RECT* pRect, s32 fillColour)
 {
     return BMP_ClearRect_4F1EE0(pBmp, pRect, fillColour);
 }

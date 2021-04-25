@@ -10,7 +10,7 @@
 
 void DebugHelpers_Init();
 
-extern char _devConsoleBuffer[1000];
+extern s8 _devConsoleBuffer[1000];
 
 #define DEV_CONSOLE_MESSAGE(message, duration) ShowDebugConsoleMessage(message, duration);
 #define DEV_CONSOLE_MESSAGE_C(message, duration, r, g, b) ShowDebugConsoleMessage(message, duration, r, g, b);
@@ -32,7 +32,7 @@ struct RaycastDebug
     FP hitX;
     FP hitY;
     PathLine * pLine;
-    unsigned int type;
+    u32 type;
 };
 
 void DebugAddRaycast(RaycastDebug rc);
@@ -40,33 +40,33 @@ void DebugAddRaycast(RaycastDebug rc);
 // File System
 namespace FS
 {
-    std::vector<BYTE> ReadFile(const std::string& filePath);
+    std::vector<u8> ReadFile(const std::string& filePath);
     std::string GetPrefPath();
 }
 
 namespace DEV
 {
-    void DebugDrawLine(PrimHeader ** ot, Layer layer, int x1, int y1, int x2, int y2, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
-    void DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, int x, int y, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent);
-    void DebugFillRect(PrimHeader ** ot, Layer layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
-    void DebugDrawRect(PrimHeader ** ot, Layer layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent = false);
+    void DebugDrawLine(PrimHeader ** ot, Layer layer, s32 x1, s32 y1, s32 x2, s32 y2, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
+    void DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent);
+    void DebugFillRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
+    void DebugDrawRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
     void DebugOnFrameDraw(PrimHeader** ppOt);
 }
 
 extern bool sDebugEnabled_VerboseEvents;
 
 // Duration in seconds
-void ShowDebugConsoleMessage(std::string message, float duration, BYTE r, BYTE g, BYTE b);
-void ShowDebugConsoleMessage(std::string message, float duration);
+void ShowDebugConsoleMessage(std::string message, f32 duration, u8 r, u8 g, u8 b);
+void ShowDebugConsoleMessage(std::string message, f32 duration);
 
-std::vector<std::string> SplitString(const std::string& s, char seperator);
+std::vector<std::string> SplitString(const std::string& s, s8 seperator);
 bool StringStartsWith(std::string mainStr, std::string toMatch);
 std::string StringToLower(std::string s);
-std::string IntToHexString(int v);
+std::string IntToHexString(s32 v);
 std::string EscapeUnknownCharacters(std::string text);
 bool IsStringNumber(const std::string& s);
 
-BaseGameObject * FindObjectOfType(int id);
+BaseGameObject * FindObjectOfType(s32 id);
 
 // In game helper functions
 void Cheat_OpenAllDoors();

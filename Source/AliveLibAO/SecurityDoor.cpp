@@ -27,7 +27,7 @@ void SecurityDoor::VUpdate()
     VUpdate_461AD0();
 }
 
-SecurityDoor* SecurityDoor::vdtor_461F90(signed int flags)
+SecurityDoor* SecurityDoor::vdtor_461F90(s32 flags)
 {
     dtor_4619C0();
     if (flags & 1)
@@ -37,7 +37,7 @@ SecurityDoor* SecurityDoor::vdtor_461F90(signed int flags)
     return this;
 }
 
-BaseGameObject* SecurityDoor::VDestructor(signed int flags)
+BaseGameObject* SecurityDoor::VDestructor(s32 flags)
 {
     return vdtor_461F90(flags);
 }
@@ -53,7 +53,7 @@ BaseGameObject* SecurityDoor::dtor_4619C0()
     return dtor_417D10();
 }
 
-SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, int tlvInfo)
+SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     field_F4_event_idx = -1;
@@ -62,7 +62,7 @@ SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, int tlvInfo)
 
     SetVTable(this, 0x4BC918);
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1sdosResID_6027, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1sdosResID_6027, 1, 0);
     Animation_Init_417FD0(976, 70, 19, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -115,8 +115,8 @@ void SecurityDoor::VScreenChanged_461F80()
 
 BOOL SecurityDoor::IsPlayerNear()
 {
-    const short xpos = FP_GetExponent(sControlledCharacter_50767C->field_A8_xpos);
-    const short ypos = FP_GetExponent(sControlledCharacter_50767C->field_AC_ypos);
+    const s16 xpos = FP_GetExponent(sControlledCharacter_50767C->field_A8_xpos);
+    const s16 ypos = FP_GetExponent(sControlledCharacter_50767C->field_AC_ypos);
 
     if (xpos < field_10C_top_left.field_0_x || xpos > field_110_bottom_right.field_0_x)
     {
@@ -141,7 +141,7 @@ void SecurityDoor::VUpdate_461AD0()
     switch (field_E8_state)
     {
     case SecurityDoorStates::eInactive_0:
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             if (IsPlayerNear())
             {
@@ -156,7 +156,7 @@ void SecurityDoor::VUpdate_461AD0()
         break;
 
     case SecurityDoorStates::eSuccessChime_1:
-        if (static_cast<int>(gnFrameCount_507670) == field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) == field_114_timer)
         {
             SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
         }
@@ -194,7 +194,7 @@ void SecurityDoor::VUpdate_461AD0()
             field_E8_state = SecurityDoorStates::eWaitingToSayPassword_4;
             field_114_timer = gnFrameCount_507670 + 30;
         }
-        else if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        else if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             field_E8_state = SecurityDoorStates::eInactive_0;
         }
@@ -202,7 +202,7 @@ void SecurityDoor::VUpdate_461AD0()
     }
 
     case SecurityDoorStates::eWaitingToSayPassword_4:
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             field_E8_state = SecurityDoorStates::ePreparingToSayPassword_5;
         }
@@ -253,7 +253,7 @@ void SecurityDoor::VUpdate_461AD0()
     }
 
     case SecurityDoorStates::ePausing_7:
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             field_E8_state = SecurityDoorStates::eSayingPassword_6;
         }
@@ -261,7 +261,7 @@ void SecurityDoor::VUpdate_461AD0()
 
     case SecurityDoorStates::eListeningForPassword_8:
     {
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             SFX_Play_43AE60(SoundEffect::Alarm_45, 60, -720, 0);
             field_E8_state = SecurityDoorStates::eLaughAtFailure_10;
@@ -316,7 +316,7 @@ void SecurityDoor::VUpdate_461AD0()
         if (last_event == GameSpeakEvents::eNone_m1)
         {
             const auto MatchBuffer = pEventSystem_4FF954->MatchBuffer_40FAA0(field_F8_stru, field_108_max_idx, field_10A_event_idx);
-            field_11A_unused = static_cast<short>(MatchBuffer);
+            field_11A_unused = static_cast<s16>(MatchBuffer);
             if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || sVoiceCheat_507708)
             {
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -336,7 +336,7 @@ void SecurityDoor::VUpdate_461AD0()
     }
 
     case SecurityDoorStates::eLaughAtFailure_10:
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             SFX_Play_43AE60(SoundEffect::SligLaugh_110, 127, -1000, 0);
             field_E8_state = SecurityDoorStates::eInactive_0;

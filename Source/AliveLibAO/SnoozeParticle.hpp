@@ -12,7 +12,7 @@ class SnoozeParticle : public BaseGameObject
 {
 public:
 
-    enum class SnoozeParticleState : __int16
+    enum class SnoozeParticleState : s16
     {
         Rising_0 = 0,
         Unused_1 = 1,
@@ -27,9 +27,9 @@ public:
 
     EXPORT BaseGameObject* dtor_4644A0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT SnoozeParticle* Vdtor_464CE0(signed int flags);
+    EXPORT SnoozeParticle* Vdtor_464CE0(s32 flags);
 
     virtual void VUpdate() override;
 
@@ -48,16 +48,16 @@ public:
     FP field_28_scale;
     FP field_2C_scale_dx;
     Layer field_30_layer;
-    __int16 field_32_r;
-    __int16 field_34_g;
-    __int16 field_36_b;
-    __int16 field_38_idx;
-    __int16 field_3A_count_down;
+    s16 field_32_r;
+    s16 field_34_g;
+    s16 field_36_b;
+    s16 field_38_idx;
+    s16 field_3A_count_down;
     Line_G4 field_3C_lines[2];
     Line_G2 field_94_lines[2][6];
     Prim_SetTPage field_1B4_tPage[2];
     SnoozeParticleState field_1D4_state;
-    __int16 field_1D6_pad;
+    s16 field_1D6_pad;
 };
 ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1D8);
 

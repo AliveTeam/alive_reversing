@@ -25,11 +25,11 @@ static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszNa
         // Resolve 1 level long jumps, not using DetourCodeFromPointer
         // as it appears to have a bug where it checks for 0xeb before 0xe9 and so
         // won't skip jmps that start with long jmps.
-        BYTE* pbCode = (BYTE*)pCode;
+        u8* pbCode = (u8*)pCode;
         if (pbCode[0] == 0xe9)
         {
             // jmp +imm32
-            PBYTE pbNew = pbCode + 5 + *(DWORD *)&pbCode[1];
+            PBYTE pbNew = pbCode + 5 + *(u32 *)&pbCode[1];
             pCode = pbNew;
         }
         reinterpret_cast<ExportHooker*>(pContext)->OnExport(pszName, pCode);
@@ -64,8 +64,8 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 
         for (const auto& e : mExports)
         {
-            char buffer[1024 * 20] = {};
-            const DWORD len = UnDecorateSymbolName(e.mName.c_str(), buffer, ALIVE_COUNTOF(buffer), UNDNAME_NAME_ONLY);
+            s8 buffer[1024 * 20] = {};
+            const u32 len = UnDecorateSymbolName(e.mName.c_str(), buffer, ALIVE_COUNTOF(buffer), UNDNAME_NAME_ONLY);
             if (len > 0)
             {
                 functionNamesStream << e.mGameFunctionAddr << "=" << buffer << "\n";
@@ -117,7 +117,7 @@ void ExportHooker::LoadDisabledHooks()
         {
             if (!line.empty())
             {
-                unsigned long addr = std::stoul(line, nullptr, 16);
+                const u32 addr = std::stoul(line, nullptr, 16);
                 mDisabledImpls.insert(addr);
             }
         }
@@ -149,9 +149,9 @@ void ExportHooker::ProcessExports()
         LOG_INFO("Hook: "
             << e.mName.c_str()
             << " From "
-            << "0x" << std::hex << (e.mIsImplemented ? e.mGameFunctionAddr : (DWORD)e.mCode)
+            << "0x" << std::hex << (e.mIsImplemented ? e.mGameFunctionAddr : (u32)e.mCode)
             << " To "
-            << "0x" << std::hex << (e.mIsImplemented ? (DWORD)e.mCode : e.mGameFunctionAddr)
+            << "0x" << std::hex << (e.mIsImplemented ? (u32)e.mCode : e.mGameFunctionAddr)
             << " Implemented: " << e.mIsImplemented
             << hookDisabledByConfig ? "(Override to OFF by config)" : "");
         */
@@ -228,13 +228,13 @@ void ExportHooker::ProcessExports()
 #endif
 }
 
-bool ExportHooker::IsHexDigit(char letter)
+bool ExportHooker::IsHexDigit(s8 letter)
 {
     if (letter >= '0' && letter <= '9')
     {
         return true;
     }
-    const char lower = static_cast<char>(::tolower(letter));
+    const s8 lower = static_cast<s8>(::tolower(letter));
     return (lower >= 'a' && lower <= 'f');
 }
 
@@ -249,11 +249,11 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
     info.mIsImplemented = false;
     info.mExportedFunctionName = exportedFunctionName;
 
-    // 4 nops, int 3, 4 nops
-    const static BYTE kPatternToFind[] = { 0x90, 0x90, 0x90, 0x90, 0xCC, 0x90, 0x90, 0x90, 0x90 };
-    BYTE codeBuffer[256] = {};
+    // 4 nops, s32 3, 4 nops
+    const static u8 kPatternToFind[] = { 0x90, 0x90, 0x90, 0x90, 0xCC, 0x90, 0x90, 0x90, 0x90 };
+    u8 codeBuffer[256] = {};
     memcpy(codeBuffer, pExportedFunctionAddress, sizeof(codeBuffer));
-    for (int i = 0; i < sizeof(codeBuffer) - sizeof(kPatternToFind); i++)
+    for (s32 i = 0; i < sizeof(codeBuffer) - sizeof(kPatternToFind); i++)
     {
         if (codeBuffer[i] == kPatternToFind[0])
         {
@@ -265,11 +265,11 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
                 // mov eax, offset to function name string
                 // pop eax
                 // Therefore extracting the pointer to unmangled offset to the function name tells us if we have the right function.
-                const char*** strAddr = reinterpret_cast<const char***>(&reinterpret_cast<BYTE*>(pExportedFunctionAddress)[i - 5]);
+                const s8*** strAddr = reinterpret_cast<const s8***>(&reinterpret_cast<u8*>(pExportedFunctionAddress)[i - 5]);
 
-                const char* pBothNames = **strAddr;
+                const s8* pBothNames = **strAddr;
                 size_t len = strlen(pBothNames);
-                const char* mangledName = pBothNames + len + 1;
+                const s8* mangledName = pBothNames + len + 1;
 
                 if (std::string(mangledName) == exportedFunctionName)
                 {
@@ -277,7 +277,7 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
 
                     if (!RunningAsInjectedDll())
                     {
-                        BYTE* ptr = &reinterpret_cast<BYTE*>(pExportedFunctionAddress)[i + 4];
+                        u8* ptr = &reinterpret_cast<u8*>(pExportedFunctionAddress)[i + 4];
                         DWORD old = 0;
                         if (!::VirtualProtect(ptr, 1, PAGE_EXECUTE_READWRITE, &old))
                         {
@@ -317,7 +317,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
     auto underScorePos = exportedFunctionName.find_first_of('_');
     while (underScorePos != std::string::npos)
     {
-        int hexNumLen = 0;
+        s32 hexNumLen = 0;
         for (size_t i = underScorePos + 1; i < exportedFunctionName.length(); i++)
         {
             if (IsHexDigit(exportedFunctionName[i]))
@@ -344,7 +344,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
             }
 
             std::string addrStr = exportedFunctionName.substr(underScorePos + 1, hexNumLen);
-            const unsigned long addr = std::stoul(addrStr, nullptr, 16);
+            const u32 addr = std::stoul(addrStr, nullptr, 16);
             if (addr >= 0x401000 && addr <= 0xC3E898)
             {
                 bool isRealFuncStub = false;
@@ -367,10 +367,10 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                         s << "Duplicated real function stub for address " << std::hex << "0x" << addr << " " << exportedFunctionName;
                         HOOK_FATAL(s.str().c_str());
                     }
-                    mRealStubs[addr] = (DWORD)pCode;
+                    mRealStubs[addr] = (u32)pCode;
                     if (!RunningAsInjectedDll())
                     {
-                        // Disable the int 3/break point in the real stub in standalone
+                        // Disable the s32 3/break point in the real stub in standalone
                         GetExportInformation(pCode, exportedFunctionName);
 
                         LOG_WARNING("Stub to real function for " << exportedFunctionName);

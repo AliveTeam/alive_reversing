@@ -136,7 +136,7 @@ public:
     template<class T>
     void WriteBasicType(T& field, jsonxx::Object& properties)
     {
-        properties << PropName(&field) << static_cast<int>(field);
+        properties << PropName(&field) << static_cast<s32>(field);
     }
 
     void PropertiesFromJson(TypesCollection& types, jsonxx::Object& properties);
@@ -160,10 +160,10 @@ public:
         // Default empty to prevent having to explicitly implement in every TLV wrapper
     }
 
-    virtual __int16 TlvLen() const = 0;
-    virtual std::vector<BYTE> GetTlvData(bool setTerminationFlag) = 0;
+    virtual s16 TlvLen() const = 0;
+    virtual std::vector<u8> GetTlvData(bool setTerminationFlag) = 0;
 
-    void SetInstanceNumber(int instanceNumber)
+    void SetInstanceNumber(s32 instanceNumber)
     {
         mInstanceNumber = instanceNumber;
     }
@@ -203,14 +203,14 @@ public:
     virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
     virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
 
-    int InstanceNumber() const
+    s32 InstanceNumber() const
     {
         return mInstanceNumber;
     }
 
 protected:
     std::string mStructTypeName;
-    int mInstanceNumber = 0;
+    s32 mInstanceNumber = 0;
 };
 
 template <class T>
@@ -290,14 +290,14 @@ public:
         ret << "object_structures_type" << Name();
     }
 
-    __int16 TlvLen() const override
+    s16 TlvLen() const override
     {
-        return static_cast<__int16>(sizeof(T));
+        return static_cast<s16>(sizeof(T));
     }
 
-    std::vector<BYTE> GetTlvData(bool setTerminationFlag) override
+    std::vector<u8> GetTlvData(bool setTerminationFlag) override
     {
-        std::vector<BYTE> ret(sizeof(T));
+        std::vector<u8> ret(sizeof(T));
         mTlv.field_0_flags.Set(TLV_Flags::eBit3_End_TLV_List, setTerminationFlag);
         memcpy(ret.data(), &mTlv, sizeof(T));
         return ret;
@@ -365,14 +365,14 @@ public:
         ret << "object_structures_type" << Name();
     }
 
-    __int16 TlvLen() const override
+    s16 TlvLen() const override
     {
-        return static_cast<__int16>(sizeof(T));
+        return static_cast<s16>(sizeof(T));
     }
 
-    std::vector<BYTE> GetTlvData(bool setTerminationFlag) override
+    std::vector<u8> GetTlvData(bool setTerminationFlag) override
     {
-        std::vector<BYTE> ret(sizeof(T));
+        std::vector<u8> ret(sizeof(T));
         mTlv.field_0_flags.Set(AO::TLV_Flags::eBit3_End_TLV_List, setTerminationFlag);
         memcpy(ret.data(), &mTlv, sizeof(T));
         return ret;

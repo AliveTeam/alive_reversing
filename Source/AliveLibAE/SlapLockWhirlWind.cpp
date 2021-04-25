@@ -9,14 +9,14 @@
 #include "ObjectIds.hpp"
 #include "Door.hpp"
 
-int CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const BYTE* pBuffer)
+s32 CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const SlapLockWhirlWind_State*>(pBuffer);
     SwitchStates_Do_Operation_465F00(pSaveState->field_2_switch_id, SwitchOp::eSetTrue_0);
     return sizeof(SlapLockWhirlWind_State);
 }
 
-SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(__int16 doorNumber, __int16 switchId, FP xpos, FP ypos, FP scale)
+SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545208);
@@ -29,9 +29,9 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(__int16 doorNumber, __int16 sw
     field_44_switch_id = switchId;
 
     bool bFoundTarget = false;
-    for (short y = 0; y < sPath_dword_BB47C0->field_8_cams_on_y; y++)
+    for (s16 y = 0; y < sPath_dword_BB47C0->field_8_cams_on_y; y++)
     {
-        for (short x = 0; x < sPath_dword_BB47C0->field_6_cams_on_x; x++)
+        for (s16 x = 0; x < sPath_dword_BB47C0->field_6_cams_on_x; x++)
         {
             Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(
                 x - gMap_5C3030.field_D0_cam_x_idx,
@@ -81,7 +81,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(__int16 doorNumber, __int16 sw
     return this;
 }
 
-BaseGameObject* SlapLockWhirlWind::VDestructor(signed int flags)
+BaseGameObject* SlapLockWhirlWind::VDestructor(s32 flags)
 {
     return vdtor_43DA40(flags);
 }
@@ -91,7 +91,7 @@ void SlapLockWhirlWind::VUpdate()
     vUpdate_43DA90();
 }
 
-int SlapLockWhirlWind::VGetSaveState(BYTE* pSaveBuffer)
+s32 SlapLockWhirlWind::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_43DC50(reinterpret_cast<SlapLockWhirlWind_State*>(pSaveBuffer));
 }
@@ -102,7 +102,7 @@ void SlapLockWhirlWind::dtor_43DA70()
     BaseGameObject_dtor_4DBEC0();
 }
 
-SlapLockWhirlWind* SlapLockWhirlWind::vdtor_43DA40(signed int flags)
+SlapLockWhirlWind* SlapLockWhirlWind::vdtor_43DA40(s32 flags)
 {
     dtor_43DA70();
     if (flags & 1)
@@ -112,7 +112,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::vdtor_43DA40(signed int flags)
     return this;
 }
 
-signed int SlapLockWhirlWind::vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState)
+s32 SlapLockWhirlWind::vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState)
 {
     pSaveState->field_0_type = AETypes::eSlapLock_OrbWhirlWind_60;
     pSaveState->field_2_switch_id = field_44_switch_id;
@@ -130,11 +130,11 @@ void SlapLockWhirlWind::vUpdate_43DA90()
         OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_38_orb_whirlwind_id));
         if (field_3C_state == 1)
         {
-            if (!(static_cast<int>(sGnFrame_5C1B84) % 10))
+            if (!(static_cast<s32>(sGnFrame_5C1B84) % 10))
             {
                 SFX_Play_46FBA0(
                     SoundEffect::FlyingSpirit2_108,
-                    static_cast<short>(127 - (static_cast<int>(sGnFrame_5C1B84) - field_40_timer) / 2),
+                    static_cast<s16>(127 - (static_cast<s32>(sGnFrame_5C1B84) - field_40_timer) / 2),
                     4 * (sGnFrame_5C1B84 - field_40_timer));
             }
 
@@ -146,9 +146,9 @@ void SlapLockWhirlWind::vUpdate_43DA90()
         }
         else if (field_3C_state == 0)
         {
-            if (!(static_cast<int>(sGnFrame_5C1B84) % 10))
+            if (!(static_cast<s32>(sGnFrame_5C1B84) % 10))
             {
-                if (static_cast<int>(sGnFrame_5C1B84) % 20)
+                if (static_cast<s32>(sGnFrame_5C1B84) % 20)
                 {
                     SFX_Play_46FA90(SoundEffect::FlyingSpirit1_107, 0);
                 }
@@ -158,7 +158,7 @@ void SlapLockWhirlWind::vUpdate_43DA90()
                 }
             }
 
-            if (static_cast<int>(sGnFrame_5C1B84) > field_40_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_40_timer)
             {
                 if (pWhirlWind)
                 {
@@ -170,7 +170,7 @@ void SlapLockWhirlWind::vUpdate_43DA90()
     }
 }
 
-__int16 SlapLockWhirlWind::SwitchId() const
+s16 SlapLockWhirlWind::SwitchId() const
 {
     return field_44_switch_id;
 }

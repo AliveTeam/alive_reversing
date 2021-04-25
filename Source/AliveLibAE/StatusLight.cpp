@@ -7,7 +7,7 @@
 #include "DDCheat.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* StatusLight::VDestructor(signed int flags)
+BaseGameObject* StatusLight::VDestructor(s32 flags)
 {
     return vdtor_4D5500(flags);
 }
@@ -22,7 +22,7 @@ void StatusLight::VScreenChanged()
     vScreenChanged_4D5820();
 }
 
-StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, DWORD tlvInfo)
+StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, u32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -54,7 +54,7 @@ StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, DWORD tlvInfo)
     field_104_bIgnore_grid_snapping = pTlv->field_1E_bIgnore_grid_snapping;
 
     const AnimRecord& rec = AnimRec(AnimId::Status_Light_Red);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_DC_bApplyShadows &= ~1u;
@@ -145,7 +145,7 @@ void StatusLight::vUpdate_4D5530()
     }
 }
 
-StatusLight* StatusLight::vdtor_4D5500(signed int flags)
+StatusLight* StatusLight::vdtor_4D5500(s32 flags)
 {
     dtor_4D5790();
     if (flags & 1)

@@ -176,7 +176,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
     }
 }
 
-EXPORT void CC Start_Slig_sounds_476960(CameraPos direction, char kZero)
+EXPORT void CC Start_Slig_sounds_476960(CameraPos direction, s8 kZero)
 {
     Sound_Ambiance_Array* pTable = nullptr;
     switch (direction)
@@ -202,7 +202,7 @@ EXPORT void CC Start_Slig_sounds_476960(CameraPos direction, char kZero)
     }
 }
 
-EXPORT void CC Stop_slig_sounds_476A20(CameraPos direction, char kZero)
+EXPORT void CC Stop_slig_sounds_476A20(CameraPos direction, s8 kZero)
 {
     Sound_Ambiance_Array* pTable = nullptr;
     switch (direction)

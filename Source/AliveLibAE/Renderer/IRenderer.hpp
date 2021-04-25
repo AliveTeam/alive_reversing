@@ -30,32 +30,32 @@ public:
 
     struct PalRecord final
     {
-        short x = 0;
-        short y = 0;
-        short depth = 0;
+        s16 x = 0;
+        s16 y = 0;
+        s16 depth = 0;
     };
 public:
     virtual ~IRenderer() {}
     virtual void Destroy() = 0;
     virtual bool Create(TWindowHandleType window) = 0;
-    virtual void Clear(BYTE r, BYTE g, BYTE b) = 0;
-    virtual void StartFrame(int xOff, int yOff) = 0;
+    virtual void Clear(u8 r, u8 g, u8 b) = 0;
+    virtual void StartFrame(s32 xOff, s32 yOff) = 0;
     virtual void EndFrame() = 0;
     virtual void BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst) = 0;
-    virtual void OutputSize(int* w, int* h) = 0;
-    virtual bool UpdateBackBuffer(const void* pPixels, int pitch) = 0;
-    virtual void CreateBackBuffer(bool filter, int format, int w, int h) = 0;
+    virtual void OutputSize(s32* w, s32* h) = 0;
+    virtual bool UpdateBackBuffer(const void* pPixels, s32 pitch) = 0;
+    virtual void CreateBackBuffer(bool filter, s32 format, s32 w, s32 h) = 0;
 
-    virtual void SetTPage(short tPage) = 0;
+    virtual void SetTPage(s16 tPage) = 0;
 
     virtual void SetClip(Prim_PrimClipper& clipper) = 0;
     virtual void SetScreenOffset(Prim_ScreenOffset& offset) = 0;
 
     virtual void PalFree(const PalRecord& record) = 0; // Use to free textures/pals via a vram point.
     [[nodiscard]] virtual bool PalAlloc(PalRecord& record) = 0;
-    virtual void PalSetData(const PalRecord& record, const BYTE* pPixels) = 0;
+    virtual void PalSetData(const PalRecord& record, const u8* pPixels) = 0;
 
-    virtual void Upload(BitDepth bitDepth, const PSX_RECT& rect, const BYTE* pPixels) = 0;
+    virtual void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) = 0;
 
     // FG1/zaplines/blood/hintfly
     virtual void Draw(Prim_Sprt& sprt) = 0;

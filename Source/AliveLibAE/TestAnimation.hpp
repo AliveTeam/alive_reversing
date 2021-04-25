@@ -12,7 +12,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VRender(PrimHeader** ppOt) override;
 

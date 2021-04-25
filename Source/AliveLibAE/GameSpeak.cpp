@@ -5,7 +5,7 @@
 
 void GameSpeak_ForceLink() { }
 
-const int code_base_560F0C[12] =
+const s32 code_base_560F0C[12] =
 {
     0,
     1,
@@ -21,9 +21,9 @@ const int code_base_560F0C[12] =
     0,
 };
 
-__int16 CC Code_Length_4C9DB0(unsigned int code)
+s16 CC Code_Length_4C9DB0(u32 code)
 {
-    __int16 i = 0;
+    s16 i = 0;
     for (i = 0; code; ++i)
     {
         code /= 10u;
@@ -31,7 +31,7 @@ __int16 CC Code_Length_4C9DB0(unsigned int code)
     return i;
 }
 
-int CC Code_Convert_4C9DF0(unsigned __int16 code1, unsigned __int16 code2)
+s32 CC Code_Convert_4C9DF0(u16 code1, u16 code2)
 {
     if (code2)
     {
@@ -44,14 +44,14 @@ int CC Code_Convert_4C9DF0(unsigned __int16 code1, unsigned __int16 code2)
 }
 
 
-GameSpeakEvents CC Code_LookUp_4C9E40(unsigned int code, unsigned __int16 idx, unsigned __int16 code_len)
+GameSpeakEvents CC Code_LookUp_4C9E40(u32 code, u16 idx, u16 code_len)
 {
     if (!code)
     {
         return GameSpeakEvents::eUnknown_0;
     }
 
-    unsigned __int16 code_len_to_use = code_len;
+    u16 code_len_to_use = code_len;
     if (code_len == 0)
     {
         code_len_to_use = Code_Length_4C9DB0(code);
@@ -75,21 +75,21 @@ GameSpeak* GameSpeak::ctor_421820()
     return this;
 }
 
-GameSpeakMatch GameSpeak::MatchBuffer_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx)
+GameSpeakMatch GameSpeak::MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_idx)
 {
     if (src_idx == -1)
     {
-        src_idx = static_cast<short>(field_28_last_event_index - max_idx);
+        src_idx = static_cast<s16>(field_28_last_event_index - max_idx);
         if (src_idx < 0)
         {
             src_idx += ALIVE_COUNTOF(field_2C_event_buffer);
         }
     }
 
-    __int16 dst_idx = 0;
+    s16 dst_idx = 0;
     while (1)
     {
-        if (field_2C_event_buffer[src_idx] == static_cast<char>(GameSpeakEvents::eNone_m1))
+        if (field_2C_event_buffer[src_idx] == static_cast<s8>(GameSpeakEvents::eNone_m1))
         {
             bool bContinue = true;
             while (src_idx != field_28_last_event_index)
@@ -137,12 +137,12 @@ GameSpeakMatch GameSpeak::MatchBuffer_4219E0(BYTE* pBuffer, __int16 max_idx, sig
     }
 }
 
-int CC GameSpeak::FillBuffer_421970(int code, BYTE* pBufffer)
+s32 CC GameSpeak::FillBuffer_421970(s32 code, u8* pBufffer)
 {
-    const __int16 len = Code_Length_4C9DB0(code);
-    for (short idx = 0; idx < len; idx++)
+    const s16 len = Code_Length_4C9DB0(code);
+    for (s16 idx = 0; idx < len; idx++)
     {
-        pBufffer[idx] = static_cast<BYTE>(Code_LookUp_4C9E40(code, idx, len));
+        pBufffer[idx] = static_cast<u8>(Code_LookUp_4C9E40(code, idx, len));
     }
     return len;
 }
@@ -153,7 +153,7 @@ void GameSpeak::dtor_4218A0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* GameSpeak::vdtor_421870(signed int flags)
+BaseGameObject* GameSpeak::vdtor_421870(s32 flags)
 {
     dtor_4218A0();
     if (flags & 1)
@@ -163,7 +163,7 @@ BaseGameObject* GameSpeak::vdtor_421870(signed int flags)
     return this;
 }
 
-BaseGameObject* GameSpeak::VDestructor(signed int flags)
+BaseGameObject* GameSpeak::VDestructor(s32 flags)
 {
     return vdtor_421870(flags);
 }
@@ -209,6 +209,6 @@ void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
     }
 
     // TODO: This isn't ever used ??
-    field_2C_event_buffer[field_28_last_event_index] = static_cast<char>(event);
+    field_2C_event_buffer[field_28_last_event_index] = static_cast<s8>(event);
     field_20_last_event = event;
 }

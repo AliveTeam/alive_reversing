@@ -15,7 +15,7 @@ void HintFly_ForceLink() {}
 
 namespace AO {
 
-const char* gHintFlyMessages_4C6A10[] =
+const s8* gHintFlyMessages_4C6A10[] =
 {
     "SNEAK TO BOMB",
     "ABE WAS HERE",
@@ -60,24 +60,24 @@ struct HintFlyParticle
 {
     FP field_0_xpos;
     FP field_4_ypos;
-    char field_8_state;
-    char field_9_pad;
-    __int16 field_A;
+    s8 field_8_state;
+    s8 field_9_pad;
+    s16 field_A;
     FP field_C_velx;
     FP field_10_vely;
     FP field_14_targetX;
     FP field_18_targetY;
-    __int16 field_1C_sound_pitch;
-    __int16 field_1E_sound_pitch_speed;
-    char field_20_angle;
-    char field_21_angle_speed;
-    char field_22_timer;
-    char field_23_pad;
+    s16 field_1C_sound_pitch;
+    s16 field_1E_sound_pitch_speed;
+    s8 field_20_angle;
+    s8 field_21_angle_speed;
+    s8 field_22_timer;
+    s8 field_23_pad;
     Prim_Sprt field_24_sprt[2];
 };
 ALIVE_ASSERT_SIZEOF(HintFlyParticle, 0x54);
 
-const BYTE byte_4C6DB0[20] =
+const u8 byte_4C6DB0[20] =
 {
     19u,
     15u,
@@ -101,7 +101,7 @@ const BYTE byte_4C6DB0[20] =
     239u
 };
 
-const BYTE byte_4C6DC8[32] =
+const u8 byte_4C6DC8[32] =
 {
     31u,
     17u,
@@ -137,7 +137,7 @@ const BYTE byte_4C6DC8[32] =
     236u
 };
 
-const BYTE byte_4C6DE8[17] =
+const u8 byte_4C6DE8[17] =
 {
     16u,
     21u,
@@ -158,7 +158,7 @@ const BYTE byte_4C6DE8[17] =
     221u,
 };
 
-const BYTE byte_4C6E00[26] =
+const u8 byte_4C6E00[26] =
 {
     25u,
     17u,
@@ -188,7 +188,7 @@ const BYTE byte_4C6E00[26] =
     236u,
 };
 
-const BYTE byte_4C6E20[27] =
+const u8 byte_4C6E20[27] =
 {
     26u,
     17u,
@@ -219,7 +219,7 @@ const BYTE byte_4C6E20[27] =
     223u,
 };
 
-const BYTE byte_4C6E40[21] =
+const u8 byte_4C6E40[21] =
 {
     20u,
     17u,
@@ -244,7 +244,7 @@ const BYTE byte_4C6E40[21] =
     209u,
 };
 
-const BYTE byte_4C6E58[22] =
+const u8 byte_4C6E58[22] =
 {
     21u,
     21u,
@@ -270,7 +270,7 @@ const BYTE byte_4C6E58[22] =
     221u,
 };
 
-const BYTE byte_4C6E70[23] =
+const u8 byte_4C6E70[23] =
 {
     22u,
     17u,
@@ -297,7 +297,7 @@ const BYTE byte_4C6E70[23] =
     223u,
 };
 
-const BYTE byte_4C6E88[21] =
+const u8 byte_4C6E88[21] =
 {
     20u,
     17u,
@@ -322,7 +322,7 @@ const BYTE byte_4C6E88[21] =
     223u,
 };
 
-const BYTE byte_4C6EA0[15] =
+const u8 byte_4C6EA0[15] =
 {
     14u,
     27u,
@@ -341,7 +341,7 @@ const BYTE byte_4C6EA0[15] =
     221u,
 };
 
-const BYTE byte_4C6EB0[23] =
+const u8 byte_4C6EB0[23] =
 {
     22u,
     17u,
@@ -368,7 +368,7 @@ const BYTE byte_4C6EB0[23] =
     255u,
 };
 
-const BYTE byte_4C6EC8[16] =
+const u8 byte_4C6EC8[16] =
 {
     14u,
     17u,
@@ -387,7 +387,7 @@ const BYTE byte_4C6EC8[16] =
     223u,
 };
 
-const BYTE byte_4C6ED8[25] =
+const u8 byte_4C6ED8[25] =
 {
     24u,
     17u,
@@ -416,7 +416,7 @@ const BYTE byte_4C6ED8[25] =
     223u,
 };
 
-const BYTE byte_4C6EF8[23] =
+const u8 byte_4C6EF8[23] =
 {
     22u,
     17u,
@@ -443,7 +443,7 @@ const BYTE byte_4C6EF8[23] =
     223u,
 };
 
-const BYTE byte_4C6F10[21] =
+const u8 byte_4C6F10[21] =
 {
     20u,
     21u,
@@ -468,7 +468,7 @@ const BYTE byte_4C6F10[21] =
     235u,
 };
 
-const BYTE byte_4C6F28[23] =
+const u8 byte_4C6F28[23] =
 {
     22u,
     17u,
@@ -495,7 +495,7 @@ const BYTE byte_4C6F28[23] =
     230u,
 };
 
-const BYTE byte_4C6F40[24] =
+const u8 byte_4C6F40[24] =
 {
     23u,
     21u,
@@ -523,7 +523,7 @@ const BYTE byte_4C6F40[24] =
     239u
 };
 
-const BYTE byte_4C6F58[27] =
+const u8 byte_4C6F58[27] =
 {
     26u,
     17u,
@@ -554,7 +554,7 @@ const BYTE byte_4C6F58[27] =
     255u,
 };
 
-const BYTE byte_4C6F78[21] =
+const u8 byte_4C6F78[21] =
 {
     20u,
     21u,
@@ -579,7 +579,7 @@ const BYTE byte_4C6F78[21] =
     221u,
 };
 
-const BYTE byte_4C6F90[15] =
+const u8 byte_4C6F90[15] =
 {
     14u,
     17u,
@@ -598,7 +598,7 @@ const BYTE byte_4C6F90[15] =
     209u,
 };
 
-const BYTE byte_4C6FA0[20] =
+const u8 byte_4C6FA0[20] =
 {
     19u,
     17u,
@@ -622,7 +622,7 @@ const BYTE byte_4C6FA0[20] =
     221u,
 };
 
-const BYTE byte_4C6FB8[16] =
+const u8 byte_4C6FB8[16] =
 {
     15u,
     17u,
@@ -642,7 +642,7 @@ const BYTE byte_4C6FB8[16] =
     209u
 };
 
-const BYTE byte_4C6FC8[25] =
+const u8 byte_4C6FC8[25] =
 {
     24u,
     16u,
@@ -671,7 +671,7 @@ const BYTE byte_4C6FC8[25] =
     222u,
 };
 
-const BYTE byte_4C6FE8[17] =
+const u8 byte_4C6FE8[17] =
 {
     16u,
     17u,
@@ -692,7 +692,7 @@ const BYTE byte_4C6FE8[17] =
     255u,
 };
 
-const BYTE byte_4C7000[13] =
+const u8 byte_4C7000[13] =
 {
     12u,
     17u,
@@ -709,7 +709,7 @@ const BYTE byte_4C7000[13] =
     225u,
 };
 
-const BYTE byte_4C7010[22] =
+const u8 byte_4C7010[22] =
 {
     21u,
     17u,
@@ -735,7 +735,7 @@ const BYTE byte_4C7010[22] =
     223u,
 };
 
-const BYTE byte_4C7028[23] =
+const u8 byte_4C7028[23] =
 {
     22u,
     15u,
@@ -762,7 +762,7 @@ const BYTE byte_4C7028[23] =
     239u,
 };
 
-const BYTE byte_4C7040[29] =
+const u8 byte_4C7040[29] =
 {
     28u,
     15u,
@@ -795,7 +795,7 @@ const BYTE byte_4C7040[29] =
     223u,
 };
 
-const BYTE byte_4C7060[21] =
+const u8 byte_4C7060[21] =
 {
     20u,
     15u,
@@ -820,7 +820,7 @@ const BYTE byte_4C7060[21] =
     239u,
 };
 
-const BYTE byte_4C7078[21] =
+const u8 byte_4C7078[21] =
 {
     20u,
     15u,
@@ -845,7 +845,7 @@ const BYTE byte_4C7078[21] =
     239u,
 };
 
-const BYTE byte_4C7090[21] =
+const u8 byte_4C7090[21] =
 {
     20u,
     15u,
@@ -870,7 +870,7 @@ const BYTE byte_4C7090[21] =
     239u,
 };
 
-const BYTE byte_4C70A8[28] =
+const u8 byte_4C70A8[28] =
 {
     27u,
     21u,
@@ -902,7 +902,7 @@ const BYTE byte_4C70A8[28] =
     223u,
 };
 
-const BYTE byte_4C70C8[20] =
+const u8 byte_4C70C8[20] =
 {
     19u,
     21u,
@@ -926,7 +926,7 @@ const BYTE byte_4C70C8[20] =
     218u,
 };
 
-const BYTE byte_4C70E0[28] =
+const u8 byte_4C70E0[28] =
 {
     27u,
     19u,
@@ -958,7 +958,7 @@ const BYTE byte_4C70E0[28] =
     223u,
 };
 
-const BYTE byte_4C7100[28] =
+const u8 byte_4C7100[28] =
 {
     27u,
     19u,
@@ -990,7 +990,7 @@ const BYTE byte_4C7100[28] =
     223u,
 };
 
-const BYTE byte_4C7120[28] =
+const u8 byte_4C7120[28] =
 {
     27u,
     19u,
@@ -1022,7 +1022,7 @@ const BYTE byte_4C7120[28] =
     223u,
 };
 
-const BYTE byte_4C7140[24] =
+const u8 byte_4C7140[24] =
 {
     23u,
     19u,
@@ -1050,7 +1050,7 @@ const BYTE byte_4C7140[24] =
     223u
 };
 
-const BYTE byte_4C7158[23] =
+const u8 byte_4C7158[23] =
 {
     22u,
     19u,
@@ -1077,7 +1077,7 @@ const BYTE byte_4C7158[23] =
     223u
 };
 
-const BYTE byte_4C7170[23] =
+const u8 byte_4C7170[23] =
 {
     22u,
     19u,
@@ -1104,7 +1104,7 @@ const BYTE byte_4C7170[23] =
     223u,
 };
 
-const BYTE byte_4C7188[24] =
+const u8 byte_4C7188[24] =
 {
     23u,
     21u,
@@ -1132,7 +1132,7 @@ const BYTE byte_4C7188[24] =
     223u
 };
 
-const BYTE byte_4C71A0[21] =
+const u8 byte_4C71A0[21] =
 {
     20u,
     24u,
@@ -1157,7 +1157,7 @@ const BYTE byte_4C71A0[21] =
     235u,
 };
 
-const BYTE byte_4C71B8[19] =
+const u8 byte_4C71B8[19] =
 {
     18u,
     24u,
@@ -1180,7 +1180,7 @@ const BYTE byte_4C71B8[19] =
     235u,
 };
 
-const BYTE byte_4C71D0[19] =
+const u8 byte_4C71D0[19] =
 {
     18u,
     24u,
@@ -1203,7 +1203,7 @@ const BYTE byte_4C71D0[19] =
     235u,
 };
 
-const BYTE byte_4C71E8[19] =
+const u8 byte_4C71E8[19] =
 {
     18u,
     24u,
@@ -1226,7 +1226,7 @@ const BYTE byte_4C71E8[19] =
     235u,
 };
 
-const BYTE byte_4C7200[22] =
+const u8 byte_4C7200[22] =
 {
     21u,
     35u,
@@ -1252,7 +1252,7 @@ const BYTE byte_4C7200[22] =
     205u,
 };
 
-const BYTE byte_4C7218[19] =
+const u8 byte_4C7218[19] =
 {
     18u,
     37u,
@@ -1275,7 +1275,7 @@ const BYTE byte_4C7218[19] =
     205u,
 };
 
-const BYTE byte_4C7230[19] =
+const u8 byte_4C7230[19] =
 {
     18u,
     37u,
@@ -1298,7 +1298,7 @@ const BYTE byte_4C7230[19] =
     205u,
 };
 
-const BYTE byte_4C7248[19] =
+const u8 byte_4C7248[19] =
 {
     18u,
     37u,
@@ -1321,12 +1321,12 @@ const BYTE byte_4C7248[19] =
     205u,
 };
 
-const BYTE byte_4C725C[3] = { 2u, 113u, 115u };
+const u8 byte_4C725C[3] = { 2u, 113u, 115u };
 
-const BYTE byte_4C7260[7] = { 6u, 42u, 74u, 106u, 138u, 170u, 202u };
+const u8 byte_4C7260[7] = { 6u, 42u, 74u, 106u, 138u, 170u, 202u };
 
 
-const BYTE* pData_4C7268[] =
+const u8* pData_4C7268[] =
 {
     byte_4C6DB0,
     byte_4C6DC8,
@@ -1356,20 +1356,20 @@ const BYTE* pData_4C7268[] =
     byte_4C7010,
 };
 
-ALIVE_VAR(1, 0x4C6AA4, BYTE, sHintFlyRndSeed_4C6AA4, 37);
+ALIVE_VAR(1, 0x4C6AA4, u8, sHintFlyRndSeed_4C6AA4, 37);
 
-static BYTE HintFly_NextRandom()
+static u8 HintFly_NextRandom()
 {
     return sRandomBytes_4BBE30[sHintFlyRndSeed_4C6AA4++];
 }
 
-HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
+HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB200);
     field_E4_ppRes = nullptr;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHintflyResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHintflyResID, 1, 0);
     if (ppRes)
     {
         Animation_Init_417FD0(556, 10, 7, ppRes, 1);
@@ -1383,14 +1383,14 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
         field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
         field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-        const char* pMsg = gHintFlyMessages_4C6A10[pTlv->field_18_message_id];
+        const s8* pMsg = gHintFlyMessages_4C6A10[pTlv->field_18_message_id];
 
         field_118_counter = 20;
         field_11A_msg_len = 0;
 
         // Find the length of the longest word (in particles)
-        short longestWordLen = 0;
-        short curWordLen = 0;
+        s16 longestWordLen = 0;
+        s16 curWordLen = 0;
         for(;;)
         {
             // End of word?
@@ -1436,7 +1436,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
                 field_110_bitMode = TPageMode::e4Bit_0;
             }
 
-            int vram_x = field_10_anim.field_84_vram_rect.x & 0x3F;
+            s32 vram_x = field_10_anim.field_84_vram_rect.x & 0x3F;
             if (field_110_bitMode == TPageMode::e8Bit_1)
             {
                 vram_x = 2 * vram_x;
@@ -1448,9 +1448,9 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
 
             const auto pHeader = reinterpret_cast<const FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
 
-            for (int i = 0; i < field_11A_msg_len; i++)
+            for (s32 i = 0; i < field_11A_msg_len; i++)
             {
-                for (int j = 0; j < 2; j++)
+                for (s32 j = 0; j < 2; j++)
                 {
                     Prim_Sprt* pSprt = &field_E8_pRes[i].field_24_sprt[j];
 
@@ -1459,7 +1459,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
                     Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);
                     Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
 
-                    SetClut(pSprt, static_cast<short>(PSX_getClut_496840(
+                    SetClut(pSprt, static_cast<s16>(PSX_getClut_496840(
                         field_10_anim.field_8C_pal_vram_xy.field_0_x,
                         field_10_anim.field_8C_pal_vram_xy.field_2_y)));
 
@@ -1476,8 +1476,8 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
 
             // Some unknown pal hack that seems to do nothing
             /*
-            const PSX_RECT rect = { static_cast<short>(field_10_anim.field_8C_pal_vram_xy.field_0_x + 1), field_10_anim.field_8C_pal_vram_xy.field_2_y, 1, 1 };
-            const BYTE data[] = { 0, 0, 0, 0 };
+            const PSX_RECT rect = { static_cast<s16>(field_10_anim.field_8C_pal_vram_xy.field_0_x + 1), field_10_anim.field_8C_pal_vram_xy.field_2_y, 1, 1 };
+            const u8 data[] = { 0, 0, 0, 0 };
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
             {
                 PSX_LoadImage16_4962A0(&rect, data);
@@ -1488,7 +1488,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, int tlvInfo)
             }
             */
 
-            for (int i = 0; i < field_118_counter; i++)
+            for (s32 i = 0; i < field_118_counter; i++)
             {
                 HintFlyParticle* pParticle = &field_E8_pRes[i];
                 InitParticle(pParticle);
@@ -1520,12 +1520,12 @@ void HintFly::InitParticle(HintFlyParticle* pParticle)
     }
 }
 
-BaseGameObject* HintFly::VDestructor(signed int flags)
+BaseGameObject* HintFly::VDestructor(s32 flags)
 {
     return Vdtor_42BCF0(flags);
 }
 
-HintFly* HintFly::Vdtor_42BCF0(signed int flags)
+HintFly* HintFly::Vdtor_42BCF0(s32 flags)
 {
     dtor_42ADF0();
     if (flags & 1)
@@ -1558,12 +1558,12 @@ BaseGameObject* HintFly::dtor_42ADF0()
 
 void HintFly::FormWordAndAdvanceToNextWord_42AF90()
 {
-    const char* msgPtr = &gHintFlyMessages_4C6A10[field_11C_message_id][field_11E_msg_idx];
+    const s8* msgPtr = &gHintFlyMessages_4C6A10[field_11C_message_id][field_11E_msg_idx];
     LOG_INFO("Word is " << msgPtr);
 
     // Find how long the word is
-    short letterCount = 0;
-    const char* pEndWord = msgPtr;
+    s16 letterCount = 0;
+    const s8* pEndWord = msgPtr;
     for (; *pEndWord != ' '; pEndWord++)
     {
         if (!*pEndWord)
@@ -1582,19 +1582,19 @@ void HintFly::FormWordAndAdvanceToNextWord_42AF90()
         field_11E_msg_idx++;
     }
 
-    const int xBase = field_114_xScreen - (16 * letterCount) / 2;
-    const int yBase = field_116_yScreen - 8;
+    const s32 xBase = field_114_xScreen - (16 * letterCount) / 2;
+    const s32 yBase = field_116_yScreen - 8;
 
     FP xBaseFP = FP_FromInteger(xBase);
     const FP yBaseFP = FP_FromInteger(yBase);
 
-    int particleIdx = 0;
-    for (int i = 0; i < letterCount; i++)
+    s32 particleIdx = 0;
+    for (s32 i = 0; i < letterCount; i++)
     {
         const auto pArray = pData_4C7268[msgPtr[i] - 'A'];
         // First element is the count of "pixels" that make up a word
-        const int total = pArray[0];
-        for (int j = 0; j < total; j++)
+        const s32 total = pArray[0];
+        for (s32 j = 0; j < total; j++)
         {
             // Position each "pixel" of the word
             HintFlyParticle* pParticleIter = &field_E8_pRes[particleIdx++];
@@ -1622,7 +1622,7 @@ void HintFly::FormWordAndAdvanceToNextWord_42AF90()
 
 void HintFly::UpdateParticles_42B1B0()
 {
-    for (int i = 0; i < field_118_counter; i++)
+    for (s32 i = 0; i < field_118_counter; i++)
     {
         HintFlyParticle* pParticle = &field_E8_pRes[i];
         if (pParticle->field_8_state == 1)
@@ -1705,7 +1705,7 @@ void HintFly::VUpdate_42B3D0()
 
             if (!Event_Get_417250(kEventAbeOhm_8))
             {
-                for (int i = 0; i < field_118_counter; i++)
+                for (s32 i = 0; i < field_118_counter; i++)
                 {
                     if (field_E8_pRes[i].field_8_state == 3)
                     {
@@ -1726,7 +1726,7 @@ void HintFly::VUpdate_42B3D0()
             }
         }
 
-        for (int i=0; i < 8; i++)
+        for (s32 i=0; i < 8; i++)
         {
             if (field_118_counter < field_122_target_count)
             {
@@ -1753,7 +1753,7 @@ void HintFly::VUpdate_42B3D0()
 
         if (!Event_Get_417250(kEventAbeOhm_8))
         {
-            for (int i = 0; i < field_118_counter; i++)
+            for (s32 i = 0; i < field_118_counter; i++)
             {
                 if (field_E8_pRes[i].field_8_state == 3)
                 {
@@ -1779,7 +1779,7 @@ void HintFly::VUpdate_42B3D0()
 
         if (!Event_Get_417250(kEventAbeOhm_8))
         {
-            for (int i = 0; i < field_118_counter; i++)
+            for (s32 i = 0; i < field_118_counter; i++)
             {
                 if (field_E8_pRes[i].field_8_state == 3)
                 {
@@ -1792,10 +1792,10 @@ void HintFly::VUpdate_42B3D0()
             return;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_10C_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
         {
-            __int16 len = 0;
-            const char* pMsgIter = gHintFlyMessages_4C6A10[field_11C_message_id] + field_11E_msg_idx;
+            s16 len = 0;
+            const s8* pMsgIter = gHintFlyMessages_4C6A10[field_11C_message_id] + field_11E_msg_idx;
             while (*pMsgIter != ' ' && *pMsgIter != '\0')
             {
                 len += pData_4C7268[(*pMsgIter) - 'A'][0];
@@ -1812,9 +1812,9 @@ void HintFly::VUpdate_42B3D0()
 
         if (Event_Get_417250(kEventAbeOhm_8))
         {
-            if (static_cast<int>(gnFrameCount_507670) > field_10C_timer)
+            if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
             {
-                for (int i = 0; i < field_118_counter; i++)
+                for (s32 i = 0; i < field_118_counter; i++)
                 {
                     if (field_E8_pRes[i].field_8_state == 3)
                     {
@@ -1828,7 +1828,7 @@ void HintFly::VUpdate_42B3D0()
         }
         else
         {
-            for (int i = 0; i < field_118_counter; i++)
+            for (s32 i = 0; i < field_118_counter; i++)
             {
                 if (field_E8_pRes[i].field_8_state == 3)
                 {
@@ -1892,13 +1892,13 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
     rect.y = -32768;
     rect.h = -32767;
 
-    for (int i = 0; i < field_118_counter; i++)
+    for (s32 i = 0; i < field_118_counter; i++)
     {
         HintFlyParticle* pParticle = &field_E8_pRes[i];
         Prim_Sprt* pSprt = &pParticle->field_24_sprt[gPsxDisplay_504C78.field_A_buffer_index];
 
-        const short flyX = FP_GetExponent(PsxToPCX(pParticle->field_0_xpos, FP_FromInteger(11)));
-        const short flyY = FP_GetExponent(pParticle->field_4_ypos);
+        const s16 flyX = FP_GetExponent(PsxToPCX(pParticle->field_0_xpos, FP_FromInteger(11)));
+        const s16 flyY = FP_GetExponent(pParticle->field_4_ypos);
 
         SetXY0(pSprt, flyX, flyY);
 
@@ -1925,13 +1925,13 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
         }
     }
 
-    short tPageY = 256;
+    s16 tPageY = 256;
     if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag) && field_10_anim.field_84_vram_rect.y < 256u)
     {
         tPageY = 0;
     }
 
-    const int tpage = PSX_getTPage_4965D0(field_110_bitMode, TPageAbr::eBlend_1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
+    const s32 tpage = PSX_getTPage_4965D0(field_110_bitMode, TPageAbr::eBlend_1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
 
     Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_39), &pTPage->mBase);

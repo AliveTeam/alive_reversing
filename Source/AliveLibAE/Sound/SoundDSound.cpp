@@ -12,13 +12,13 @@
 
 ALIVE_VAR(1, 0xbbc388, LPDIRECTSOUNDBUFFER, sPrimarySoundBuffer_BBC388, 0);
 
-ALIVE_VAR(1, 0xbbc340, int, sPrimarySoundBufferSampleRate_BBC340, 0);
-ALIVE_VAR(1, 0xbbbab0, char, sPrimarySoundBufferChannels_BBBAB0, 0);
-ALIVE_VAR(1, 0xbbc338, char, sPrimarySoundBufferBitsPerSample_BBC338, 0);
+ALIVE_VAR(1, 0xbbc340, s32, sPrimarySoundBufferSampleRate_BBC340, 0);
+ALIVE_VAR(1, 0xbbbab0, s8, sPrimarySoundBufferChannels_BBBAB0, 0);
+ALIVE_VAR(1, 0xbbc338, s8, sPrimarySoundBufferBitsPerSample_BBC338, 0);
 
-ALIVE_ARY(1, 0xBBC348, char, 64, sDSoundErrorBuffer_BBC348, {});
+ALIVE_ARY(1, 0xBBC348, s8, 64, sDSoundErrorBuffer_BBC348, {});
 
-const char* SND_HR_Err_To_String_DSound(HRESULT hr)
+const s8* SND_HR_Err_To_String_DSound(HRESULT hr)
 {
     switch (hr)
     {
@@ -59,7 +59,7 @@ const char* SND_HR_Err_To_String_DSound(HRESULT hr)
     return "";
 }
 
-signed int CC SND_CreateDS_DSound(unsigned int sampleRate, int bitsPerSample, int isStereo)
+s32 CC SND_CreateDS_DSound(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
 {
     if (sDSound_BBC344)
     {
@@ -125,7 +125,7 @@ signed int CC SND_CreateDS_DSound(unsigned int sampleRate, int bitsPerSample, in
                     {
                         if (dsCaps.dwPlayCpuOverheadSwBuffers > 10)
                         {
-                            int newBitsPerSample = bitsPerSample;
+                            s32 newBitsPerSample = bitsPerSample;
                             if (dsCaps.dwPlayCpuOverheadSwBuffers > 20)
                             {
                                 newBitsPerSample = bitsPerSample >> 1;
@@ -144,19 +144,19 @@ signed int CC SND_CreateDS_DSound(unsigned int sampleRate, int bitsPerSample, in
                 }
 
                 sPrimarySoundBufferSampleRate_BBC340 = sampleRate;
-                sPrimarySoundBufferBitsPerSample_BBC338 = static_cast<char>(bitsPerSample);
-                sPrimarySoundBufferChannels_BBBAB0 = static_cast<char>(isStereo);
+                sPrimarySoundBufferBitsPerSample_BBC338 = static_cast<s8>(bitsPerSample);
+                sPrimarySoundBufferChannels_BBBAB0 = static_cast<s8>(isStereo);
 
                 SND_InitVolumeTable_4EEF60();
 
                 if (sLoadedSoundsCount_BBC394)
                 {
-                    for (int i = 0; i < 256; i++)
+                    for (s32 i = 0; i < 256; i++)
                     {
                         if (sSoundSamples_BBBF38[i])
                         {
                             SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
-                            SND_LoadSamples_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
+                            SND_LoadSamples_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (u8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
                             if ((i + 1) == sLoadedSoundsCount_BBC394)
                                 break;
                         }
@@ -179,7 +179,7 @@ signed int CC SND_CreateDS_DSound(unsigned int sampleRate, int bitsPerSample, in
 }
 
 
-int CC SND_Clear_DSound(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
+s32 CC SND_Clear_DSound(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
 {
     if (!sDSound_BBC344)
     {
@@ -187,14 +187,14 @@ int CC SND_Clear_DSound(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsi
         return -1;
     }
 
-    const DWORD alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
-    const DWORD alignedSize = size * pSoundEntry->field_1D_blockAlign;
+    const u32 alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
+    const u32 alignedSize = size * pSoundEntry->field_1D_blockAlign;
 
     LPVOID pLocked1 = nullptr;
-    DWORD locked1Size = 0;
+    u32 locked1Size = 0;
 
     LPVOID pLocked2 = nullptr;
-    DWORD locked2Size = 0;
+    u32 locked2Size = 0;
 
     HRESULT hr = pSoundEntry->field_4_pDSoundBuffer->Lock(
         alignedOffset,
@@ -235,13 +235,13 @@ int CC SND_Clear_DSound(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsi
 
     if (pLocked1)
     {
-        BYTE* ptr = (BYTE*)pLocked1;
+        u8* ptr = (u8*)pLocked1;
         memset(ptr, 0, locked1Size);
     }
 
     if (pLocked2)
     {
-        BYTE* ptr = (BYTE*)pLocked2;
+        u8* ptr = (u8*)pLocked2;
         memset(ptr, 0, locked2Size);
     }
 
@@ -254,14 +254,14 @@ void SND_InitVolumeTable_DSound()
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 
-    for (int i = 0; i < 127; i++)
+    for (s32 i = 0; i < 127; i++)
     {
-        sVolumeTable_BBBD38[i] = static_cast<int>(min(max(log2f((i + 1) / 128.0f) / log2f(2.0f) * 1000.0f, -10000), 0));
+        sVolumeTable_BBBD38[i] = static_cast<s32>(min(max(log2f((i + 1) / 128.0f) / log2f(2.0f) * 1000.0f, -10000), 0));
     }
     sVolumeTable_BBBD38[0] = -10000;
 }
 
-EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int sampleRate, int bitsPerSample, int isStereo)
+EXPORT s8 CC SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSample, s32 isStereo)
 {
     DSBUFFERDESC bufferDesc = {};
     bufferDesc.dwSize = sizeof(DSBUFFERDESC);
@@ -277,14 +277,14 @@ EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int sampleRate, int bitsPerSa
 
     if (SUCCEEDED(sPrimarySoundBuffer_BBC388->Play(0, 0, 1)))
     {
-        return SND_SetPrimarySoundBufferFormat_4EE990(sampleRate, bitsPerSample, static_cast<unsigned char>(isStereo)) != 0 ? 0xFD : 0;
+        return SND_SetPrimarySoundBufferFormat_4EE990(sampleRate, bitsPerSample, static_cast<u8>(isStereo)) != 0 ? 0xFD : 0;
     }
 
     sPrimarySoundBuffer_BBC388->Release();
     return -2;
 }
 
-EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPerSample, unsigned __int8 isStereo)
+EXPORT s32 CC SND_SetPrimarySoundBufferFormat_4EE990(s32 sampleRate, s32 bitsPerSample, u8 isStereo)
 {
     WAVEFORMATEX pWaveFormat = {};
 
@@ -298,14 +298,14 @@ EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPer
     pWaveFormat.nAvgBytesPerSec = 0;
     pWaveFormat.nBlockAlign = 0;
     pWaveFormat.cbSize = 0;
-    SND_Init_WaveFormatEx_4EEA00(&pWaveFormat, sampleRate, static_cast<unsigned char>(bitsPerSample), isStereo);
+    SND_Init_WaveFormatEx_4EEA00(&pWaveFormat, sampleRate, static_cast<u8>(bitsPerSample), isStereo);
     return -(sPrimarySoundBuffer_BBC388->SetFormat(&pWaveFormat) != 0);
 }
 
-signed int CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
+s32 CC SND_LoadSamples_DSound(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundBuffer, u32 sampleCount)
 {
-    const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
-    const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
+    const s32 offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
+    const u32 bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
 
     if (!sDSound_BBC344)
     {
@@ -313,12 +313,12 @@ signed int CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset,
         return -1;
     }
 
-    unsigned int *leftChannelBuffer;
-    int leftChannelSize;
-    char * rightChannelBuffer;
-    int rightChannelSize;
+    u32 *leftChannelBuffer;
+    s32 leftChannelSize;
+    s8 * rightChannelBuffer;
+    s32 rightChannelSize;
 
-    int lockHR = pSnd->field_4_pDSoundBuffer->Lock(offsetBytes, bufferSizeBytes, (LPVOID *)&leftChannelBuffer, (LPDWORD)&leftChannelSize, (LPVOID *)&rightChannelBuffer, (LPDWORD)&rightChannelSize, 0);
+    s32 lockHR = pSnd->field_4_pDSoundBuffer->Lock(offsetBytes, bufferSizeBytes, (LPVOID *)&leftChannelBuffer, (LPDWORD)&leftChannelSize, (LPVOID *)&rightChannelBuffer, (LPDWORD)&rightChannelSize, 0);
 
     if (lockHR == DSERR_BUFFERLOST)
     {
@@ -340,11 +340,11 @@ signed int CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset,
     {
         if (leftChannelBuffer)
         {
-            SND_4F00B0(leftChannelBuffer, (unsigned int)pSoundBuffer, (int)leftChannelSize);
+            SND_4F00B0(leftChannelBuffer, (u32)pSoundBuffer, (s32)leftChannelSize);
         }
         if (rightChannelBuffer)
         {
-            SND_4F00B0((unsigned int *)rightChannelBuffer, (DWORD)pSoundBuffer + (unsigned int)leftChannelSize, rightChannelSize);
+            SND_4F00B0((u32 *)rightChannelBuffer, (u32)pSoundBuffer + (u32)leftChannelSize, rightChannelSize);
         }
     }
     else

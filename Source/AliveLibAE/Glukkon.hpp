@@ -32,12 +32,12 @@
     ENTRY(M_EndSingleStep_24_443990)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eGlukkonMotions : int
+enum eGlukkonMotions : s32
 {
     GLUKKON_MOTIONS_ENUM(MAKE_ENUM)
 };
 
-enum class GlukkonTypes : __int16
+enum class GlukkonTypes : s16
 {
     Normal_0 = 0,
     Aslik_1 = 1,
@@ -47,7 +47,7 @@ enum class GlukkonTypes : __int16
     Normal_5 = 5,
 };
 
-enum class GlukkonSpeak : signed char
+enum class GlukkonSpeak : s8
 {
     None = -1,
     Hey_0 = 0,
@@ -70,88 +70,88 @@ enum class GlukkonSpeak : signed char
 struct Path_Glukkon : public Path_TLV
 {
     Scale_short field_10_scale;
-    enum class StartDirection : __int16
+    enum class StartDirection : s16
     {
         eRight_0 = 0,
         eLeft_1 = 1,
     };
     StartDirection field_12_start_direction;
-    __int16 field_14_default_behaviour;
-    __int16 field_16_pre_alarmed_delay;
-    __int16 field_18_switch_id;
-    __int16 field_1A_post_alarm_delay;
-    __int16 field_1C_spawn_id;
-    __int16 field_1E_spawn_direction;
-    __int16 field_20_spawn_delay;
+    s16 field_14_default_behaviour;
+    s16 field_16_pre_alarmed_delay;
+    s16 field_18_switch_id;
+    s16 field_1A_post_alarm_delay;
+    s16 field_1C_spawn_id;
+    s16 field_1E_spawn_direction;
+    s16 field_20_spawn_delay;
     GlukkonTypes field_22_glukkon_type;
-    __int16 field_24_start_gas_id;
-    __int16 field_26_play_movie_id;
-    __int16 field_28_movie_to_play_id;
-    __int16 field_2A_padding;
+    s16 field_24_start_gas_id;
+    s16 field_26_play_movie_id;
+    s16 field_28_movie_to_play_id;
+    s16 field_2A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Glukkon, 0x2C);
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 class Glukkon;
-using TGlukkonAIFn = __int16 (Glukkon::*)();
+using TGlukkonAIFn = s16 (Glukkon::*)();
 using TGlukkonMotionFn = void (Glukkon::*)();
 
 struct Glukkon_SaveState
 {
     AETypes field_0_id;
-    __int16 field_2_padding;
-    __int32 field_4_object_id;
+    s16 field_2_padding;
+    s32 field_4_object_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_xvel;
     FP field_14_yvel;
-    __int16 field_18_path;
+    s16 field_18_path;
     LevelIds field_1A_level;
     FP field_1C_sprite_scale;
-    WORD field_20_r;
-    WORD field_22_g;
-    WORD field_24_b;
-    WORD field_26_flipX;
-    WORD field_28_current_motion;
-    WORD field_2A_current_frame;
-    WORD field_2C_frame_change_counter;
-    BYTE field_2E_render;
-    BYTE field_2F_drawable;
+    u16 field_20_r;
+    u16 field_22_g;
+    u16 field_24_b;
+    u16 field_26_flipX;
+    u16 field_28_current_motion;
+    u16 field_2A_current_frame;
+    u16 field_2C_frame_change_counter;
+    u8 field_2E_render;
+    u8 field_2F_drawable;
     FP field_30_health;
-    WORD field_34_current_motion;
-    WORD field_36_next_motion;
-    __int16 field_38_last_line_ypos;
-    char field_3A_line_type;
-    BYTE field_3B_padding;
-    __int32 field_3C_padding;
-    WORD field_40_bIsActiveChar;
-    __int16 field_42_padding;
-    __int32 field_44_tlvInfo;
-    __int32 field_48_brain_state_idx;
-    __int32 field_4C_padding;
-    __int16 field_50_sub_state;
-    __int16 field_52_padding;
-    __int32 field_54_timer;
+    u16 field_34_current_motion;
+    u16 field_36_next_motion;
+    s16 field_38_last_line_ypos;
+    s8 field_3A_line_type;
+    u8 field_3B_padding;
+    s32 field_3C_padding;
+    u16 field_40_bIsActiveChar;
+    s16 field_42_padding;
+    s32 field_44_tlvInfo;
+    s32 field_48_brain_state_idx;
+    s32 field_4C_padding;
+    s16 field_50_sub_state;
+    s16 field_52_padding;
+    s32 field_54_timer;
     FP field_58_falling_velx_scale_factor;
-    __int16 field_5C_padding;
-    __int16 field_5E_prevent_depossession;
+    s16 field_5C_padding;
+    s16 field_5E_prevent_depossession;
     LevelIds field_60_level;
-    __int16 field_62_path;
-    __int16 field_64_camera;
+    s16 field_62_path;
+    s16 field_64_camera;
     GlukkonSpeak field_66_speak;
-    __int16 field_68_gamespeak_pitch;
-    __int16 field_6A_padding;
+    s16 field_68_gamespeak_pitch;
+    s16 field_6A_padding;
     FP field_6C_previous_ypos;
-    __int32 field_70_randomish_speak_timer;
-    __int32 field_74_turn_or_help_timer;
-    __int32 field_78_panic_timer;
-    __int16 field_7C;
-    __int16 field_7E_padding;
-    __int32 field_80_knockback_delay_after_getting_shot_timer;
-    __int32 field_84_getting_shot_timer;
-    __int32 field_88_obj_id;
-    __int16 field_8C_can_be_possessed;
+    s32 field_70_randomish_speak_timer;
+    s32 field_74_turn_or_help_timer;
+    s32 field_78_panic_timer;
+    s16 field_7C;
+    s16 field_7E_padding;
+    s32 field_80_knockback_delay_after_getting_shot_timer;
+    s32 field_84_getting_shot_timer;
+    s32 field_88_obj_id;
+    s16 field_8C_can_be_possessed;
     AETypes field_8E_type_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
@@ -159,17 +159,17 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
 class Glukkon : public BaseAliveGameObject
 {
 public:
-    EXPORT Glukkon* ctor_43F030(Path_Glukkon* pTlv, int tlvInfo);
+    EXPORT Glukkon* ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT static signed int CC CreateFromSaveState_442830(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_442830(const u8* pBuffer);
 
     virtual void VUpdate() override;
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     virtual void VScreenChanged() override;
 
@@ -179,7 +179,7 @@ public:
 
     virtual void VOnTrapDoorOpen() override;
 
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
 public:
     EXPORT void M_Idle_0_442D10();
@@ -212,20 +212,20 @@ public:
     EXPORT void M_EndSingleStep_24_443990();
 
 public:
-    EXPORT __int16 AI_0_Calm_WalkAround_440B40();
-    EXPORT __int16 AI_1_Panic_4412F0();
-    EXPORT __int16 AI_2_Slapped_441720();
-    EXPORT __int16 AI_3_PlayerControlled_441A30();
-    EXPORT __int16 AI_4_Death_442010();
-    EXPORT __int16 AI_5_WaitToSpawn_442490();
+    EXPORT s16 AI_0_Calm_WalkAround_440B40();
+    EXPORT s16 AI_1_Panic_4412F0();
+    EXPORT s16 AI_2_Slapped_441720();
+    EXPORT s16 AI_3_PlayerControlled_441A30();
+    EXPORT s16 AI_4_Death_442010();
+    EXPORT s16 AI_5_WaitToSpawn_442490();
 
 public:
-    EXPORT static void CC PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon);
+    EXPORT static void CC PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Glukkon* pGlukkon);
 
 private:
     EXPORT void Init_43F260();
 
-    EXPORT Glukkon* vdtor_43F230(signed int flags);
+    EXPORT Glukkon* vdtor_43F230(s32 flags);
 
     EXPORT void dtor_43F570();
 
@@ -235,27 +235,27 @@ private:
 
     EXPORT void Update_Slurg_WatchPoints_440600();
 
-    EXPORT void SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion = FALSE);
+    EXPORT void SetAnim_43F9C0(s16 currentMotion, s16 bClearNextMotion = FALSE);
 
     EXPORT void Speak_444640(GlukkonSpeak speak);
 
     EXPORT void HandleInput_443BB0();
 
-    EXPORT __int16 ShouldPanic_440200(__int16 panicEvenIfNotFacingMe);
+    EXPORT s16 ShouldPanic_440200(s16 panicEvenIfNotFacingMe);
 
-    EXPORT __int16 PathBlocked_4442F0(FP a2, __int16 checkBounds);
+    EXPORT s16 PathBlocked_4442F0(FP a2, s16 checkBounds);
 
     EXPORT void SpeakRandomish_4405D0();
 
     EXPORT void vRender_4406C0(PrimHeader** ot);
 
-    EXPORT __int16 DoMovement_444190();
+    EXPORT s16 DoMovement_444190();
 
     EXPORT void FollowLine_443EB0();
 
     EXPORT void GetOnPlatforms_444060();
 
-    EXPORT static void CC PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon);
+    EXPORT static void CC PlaySound_4447D0(s32 sndIdx, Glukkon* pGlukkon);
 
     EXPORT void ToDead_43F640();
 
@@ -269,46 +269,46 @@ private:
 
     EXPORT void vScreenChanged_440110();
 
-    EXPORT int vGetSaveState_444B90(BYTE* pSaveBuffer);
+    EXPORT s32 vGetSaveState_444B90(u8* pSaveBuffer);
 
     EXPORT void vOnTrapDoorOpen_444120();
 
-    EXPORT __int16 vTakeDamage_43FA40(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_43FA40(BaseGameObject* pFrom);
 
 
     void SetBrain(TGlukkonAIFn fn);
     bool BrainIs(TGlukkonAIFn fn);
 
 private:
-    __int16 field_118_pPalAlloc[64];
+    s16 field_118_pPalAlloc[64];
     PSX_RECT field_198_pal_rect;
-    __int16 field_1A0_red;
-    __int16 field_1A2_green;
-    __int16 field_1A4_blue;
-    __int16 field_1A6_padding;
+    s16 field_1A0_red;
+    s16 field_1A2_green;
+    s16 field_1A4_blue;
+    s16 field_1A6_padding;
     Path_Glukkon field_1A8_tlvData;
-    __int32 field_1D4_timer;
+    s32 field_1D4_timer;
     FP field_1D8_falling_velx_scale_factor;
     FP field_1DC_previous_ypos;
-    __int16 field_1E0_gamespeak_pitch;
-    __int16 field_1E2_prevent_depossession;
+    s16 field_1E0_gamespeak_pitch;
+    s16 field_1E2_prevent_depossession;
     LevelIds field_1E4_level;
-    __int16 field_1E6_path;
-    __int16 field_1E8_camera;
+    s16 field_1E6_path;
+    s16 field_1E8_camera;
     GlukkonSpeak field_1EA_speak;
-    char field_1EB_padding;
-    int field_1EC_unused;
-    int field_1F0_randomish_speak_timer;
-    int field_1F4_turn_or_help_timer;
-    int field_1F8_panic_timer;
-    __int16 field_1FC; // When set to true, broadcasts event kEventUnknown17.
-    __int16 field_1FE_padding;
-    int field_200_knockback_delay_after_getting_shot_timer;
-    int field_204_getting_shot_timer;
-    int field_208_obj_id;
+    s8 field_1EB_padding;
+    s32 field_1EC_unused;
+    s32 field_1F0_randomish_speak_timer;
+    s32 field_1F4_turn_or_help_timer;
+    s32 field_1F8_panic_timer;
+    s16 field_1FC; // When set to true, broadcasts event kEventUnknown17.
+    s16 field_1FE_padding;
+    s32 field_200_knockback_delay_after_getting_shot_timer;
+    s32 field_204_getting_shot_timer;
+    s32 field_208_obj_id;
     TGlukkonAIFn field_20C_brain_state_fn;
-    __int16 field_210_sub_state;
-    __int16 field_212_currentWalkPitch;
-    __int32 field_214_tlv_info;
+    s16 field_210_sub_state;
+    s16 field_212_currentWalkPitch;
+    s32 field_214_tlv_info;
 };
 ALIVE_ASSERT_SIZEOF(Glukkon, 0x218);

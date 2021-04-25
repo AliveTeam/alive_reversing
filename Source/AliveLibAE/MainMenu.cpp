@@ -29,10 +29,10 @@
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
-ALIVE_VAR(1, 0xbb4400, int, sMainMenuObjectCounter_BB4400, 0);
-ALIVE_VAR(1, 0x5c1b92, __int16, sMainMenuFontLoaded_5C1B92, 0);
+ALIVE_VAR(1, 0xbb4400, s32, sMainMenuObjectCounter_BB4400, 0);
+ALIVE_VAR(1, 0x5c1b92, s16, sMainMenuFontLoaded_5C1B92, 0);
 
-unsigned char pal_560F80[] =
+u8 pal_560F80[] =
 {
     0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90,
     0xA5, 0x94, 0xE7, 0x9C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29,
@@ -40,12 +40,12 @@ unsigned char pal_560F80[] =
     0x73, 0x4E
 };
 
-ALIVE_VAR(1, 0x5c1bee, char, sEnableCheatLevelSelect_5C1BEE, 0);
-ALIVE_VAR(1, 0x5c1bec, char, sEnableCheatFMV_5C1BEC, 0);
+ALIVE_VAR(1, 0x5c1bee, s8, sEnableCheatLevelSelect_5C1BEE, 0);
+ALIVE_VAR(1, 0x5c1bec, s8, sEnableCheatFMV_5C1BEC, 0);
 
-ALIVE_VAR(1, 0x5c1b9e, __int16, sDemoIdChosenFromDemoMenu_5C1B9E, 0);
+ALIVE_VAR(1, 0x5c1b9e, s16, sDemoIdChosenFromDemoMenu_5C1B9E, 0);
 
-ALIVE_VAR(1, 0x561538, short, sMenuItemCount_561538, 0);
+ALIVE_VAR(1, 0x561538, s16, sMenuItemCount_561538, 0);
 ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerPath_5C1B50, {});
 
 union DemoOrFmv
@@ -55,7 +55,7 @@ union DemoOrFmv
 };
 
 ALIVE_VAR(1, 0xbb4414, DemoOrFmv, pDemosOrFmvs_BB4414, {});
-ALIVE_VAR(1, 0x5c2f68, const char, byte_5C2F68, 0);
+ALIVE_VAR(1, 0x5c2f68, const s8, byte_5C2F68, 0);
 
 // HACK HACK FIX ME - all of these buttons are in one contiguous array in the real game
 // we need to replicate this as the game will access this array with the index of the PREVIOUS screen
@@ -603,7 +603,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_200_highlite_glow_speed = -8;
     field_1F0_tlvOffsetLevelIdPathId = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
 
-    field_214_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(gMap_5C3030.field_4_current_camera));
+    field_214_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(gMap_5C3030.field_4_current_camera));
     field_21C_bDoScreenTransistionEffect = 1;
     field_21E_bChangeScreen = 0;
     field_1F8_page_timeout = 0;
@@ -696,7 +696,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     return this;
 }
 
-BaseGameObject* MainMenuController::vdtor_4CEF00(signed int flags)
+BaseGameObject* MainMenuController::vdtor_4CEF00(s32 flags)
 {
     dtor_4CEF30();
     if (flags & 1)
@@ -724,7 +724,7 @@ void MainMenuController::dtor_4CEF30()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-BaseGameObject* MainMenuController::VDestructor(signed int flags)
+BaseGameObject* MainMenuController::VDestructor(s32 flags)
 {
     return vdtor_4CEF00(flags);
 }
@@ -868,7 +868,7 @@ void MainMenuController::AbeSpeak_Render_4D2060(PrimHeader** ot)
     RenderOnScreenTextHelper(ot, &sAbeGameSpeak_561F38[0], ALIVE_COUNTOF(sAbeGameSpeak_561F38), 1);
 }
 
-MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
+MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
 {
     // 8 is when returning to previous screen
     if (field_230_target_entry_index != 8 && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
@@ -881,8 +881,8 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
             Particle* pParticle = ae_new<Particle>();
             if (pParticle)
             {
-                const short randX = Math_RandomRange_496AB0(-40, 40) + 184;
-                const short randY = Math_RandomRange_496AB0(30, 90);
+                const s16 randX = Math_RandomRange_496AB0(-40, 40) + 184;
+                const s16 randY = Math_RandomRange_496AB0(30, 90);
 
                 const FP xpos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromDouble(randX);
                 FP ypos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromDouble(randY);
@@ -953,7 +953,7 @@ void MainMenuController::ScrabSpeak_Render_4D2410(PrimHeader** ot)
     RenderOnScreenTextHelper(ot, &sScrabGameSpeak_562268[0], ALIVE_COUNTOF(sScrabGameSpeak_562268), 1);
 }
 
-MainMenuNextCam MainMenuController::SligSpeak_Update_4D3280(DWORD input_held)
+MainMenuNextCam MainMenuController::SligSpeak_Update_4D3280(u32 input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands::Enum cmd)
     {
@@ -995,7 +995,7 @@ void MainMenuController::SligSpeak_Load_4D3090()
     Set_Anim_4D05E0(AnimIds::eSlig_Idle);
 }
 
-MainMenuNextCam MainMenuController::GlukkonSpeak_Update_4D3670(DWORD input_held)
+MainMenuNextCam MainMenuController::GlukkonSpeak_Update_4D3670(u32 input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands::Enum cmd)
     {
@@ -1037,7 +1037,7 @@ void MainMenuController::GlukkonSpeak_Load_4D3480()
     Set_Anim_4D05E0(AnimIds::eGlukkon_Idle);
 }
 
-MainMenuNextCam MainMenuController::ScrabSpeak_Update_4D3A60(DWORD input_held)
+MainMenuNextCam MainMenuController::ScrabSpeak_Update_4D3A60(u32 input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands::Enum cmd)
     {
@@ -1084,7 +1084,7 @@ void MainMenuController::ParamiteSpeak_Render_4D2460(PrimHeader** ot)
     RenderOnScreenTextHelper(ot, &sParamiteSpeak_5622C8[0], ALIVE_COUNTOF(sParamiteSpeak_5622C8), 1);
 }
 
-MainMenuNextCam MainMenuController::ParamiteSpeak_Update_4D3D60(DWORD input_held)
+MainMenuNextCam MainMenuController::ParamiteSpeak_Update_4D3D60(u32 input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands::Enum cmd)
     {
@@ -1126,9 +1126,9 @@ void MainMenuController::ParamiteSpeak_Load_4D3B70()
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
 
-static int DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const char* text, __int16 x, __int16 y, BYTE r, BYTE g, BYTE b, int& polyOffset)
+static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const s8* text, s16 x, s16 y, u8 r, u8 g, u8 b, s32& polyOffset)
 {
-    int polyOff = polyOffset;
+    s32 polyOff = polyOffset;
     polyOff = field_120_font.DrawString_4337D0(
         ppOt,
         text,
@@ -1171,13 +1171,13 @@ ALIVE_VAR(1, 0xBB43F0, FP, sTextYPos_BB43F0, {});
 ALIVE_VAR(1, 0xBB43E4, FP, dword_BB43E4, {});
 
 static void RenderScrollableTextEntries(
-    PrimHeader** ot, int& targetEntry, int& selectedEntry, int totalItemsCount,
-    FP& TextYPos, FP& TextYPos2, const char* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, int& polyOffset
+    PrimHeader** ot, s32& targetEntry, s32& selectedEntry, s32 totalItemsCount,
+    FP& TextYPos, FP& TextYPos2, const s8* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, s32& polyOffset
 )
 {
-    int i_start = 0;
-    int i_end = 0;
-    int entryPicker = selectedEntry;
+    s32 i_start = 0;
+    s32 i_end = 0;
+    s32 entryPicker = selectedEntry;
 
     if (selectedEntry != targetEntry && TextYPos > FP_FromInteger(0))
     {
@@ -1247,18 +1247,18 @@ static void RenderScrollableTextEntries(
         i_end = 3;
     }
 
-    for (int i = i_start; i <= i_end; i++)
+    for (s32 i = i_start; i <= i_end; i++)
     {
-        int v9 = entryPicker + i;
+        s32 v9 = entryPicker + i;
         if (v9 >= 0 && v9 < totalItemsCount)
         {
             field_234_pStr = stringList[v9].field_0_fileName;
-            int currEntryWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+            s32 currEntryWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
 
             //Entry X alignment (of questionable quality) for long words
-            __int16 x = currEntryWidth >= 336 ? 16 : (368 - static_cast<__int16>(currEntryWidth)) / 2;
+            s16 x = currEntryWidth >= 336 ? 16 : (368 - static_cast<s16>(currEntryWidth)) / 2;
             //TextYPos is entry height?
-            __int16 y = FP_GetExponent(TextYPos + FP_FromDouble(0.5)) + static_cast<__int16>(26 * i) + 112;
+            s16 y = FP_GetExponent(TextYPos + FP_FromDouble(0.5)) + static_cast<s16>(26 * i) + 112;
             if (i)
             {
                 //Draw non-highlighted entry
@@ -1287,22 +1287,22 @@ const SaveFileRec aKeyboard_1[2] = //used SaveFileRec as workaround for RenderSc
     { "Game Pad", 0 }
 };
 
-ALIVE_VAR(1, 0xBB43D8, int, sControllerEntryToSelect_BB43D8, 0);
-ALIVE_VAR(1, 0xBB43F4, int, sSelectedControllerEntry_BB43F4, 0);
-ALIVE_VAR(1, 0x55E838, int, sControllerCount_55E838, ALIVE_COUNTOF(aKeyboard_1));
+ALIVE_VAR(1, 0xBB43D8, s32, sControllerEntryToSelect_BB43D8, 0);
+ALIVE_VAR(1, 0xBB43F4, s32, sSelectedControllerEntry_BB43F4, 0);
+ALIVE_VAR(1, 0x55E838, s32, sControllerCount_55E838, ALIVE_COUNTOF(aKeyboard_1));
 
 void MainMenuController::ControllerMenu_Render_Text_4D26C0(PrimHeader ** ot)
 {
-    int polyOffset = 0;
+    s32 polyOffset = 0;
     RenderScrollableTextEntries(ot, sControllerEntryToSelect_BB43D8, sSelectedControllerEntry_BB43F4, sControllerCount_55E838, sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, aKeyboard_1, field_120_font, polyOffset);
 
-    for (int i = 0; i < ALIVE_COUNTOF(sControllerMenuButtonCaptions_Text_562628); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(sControllerMenuButtonCaptions_Text_562628); i++)
     {
         MainMenuController::DrawMenuText_4D20D0(&sControllerMenuButtonCaptions_Text_562628[i], ot, &field_120_font, &polyOffset, 1);
     }
 }
 
-ALIVE_VAR(1, 0xBB4418, short, word_BB4418, 0);
+ALIVE_VAR(1, 0xBB4418, s16, word_BB4418, 0);
 
 void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
 {
@@ -1378,31 +1378,31 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
         { 331, 204, "esc", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u }
     };
 
-    int polyIndex = 0;
+    s32 polyIndex = 0;
     for (const MainMenuText& text : stru_5625F8)
     {
         DrawMenuText_4D20D0(&text, ppOt, &field_120_font, &polyIndex, 1);
     }
 
-    int loopCount = -2;
+    s32 loopCount = -2;
     do
     {
-        int idx = field_230_target_entry_index + loopCount;
+        s32 idx = field_230_target_entry_index + loopCount;
         if (idx >= 0 && idx <= sMenuItemCount_561538 - 1)
         {
             field_234_pStr = pDemosOrFmvs_BB4414.mDemoRec[idx].field_0_display_name;
-            int textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
-            short nextTextXPos = 0;
+            s32 textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+            s16 nextTextXPos = 0;
             if (textWidth >= 336)
             {
                 nextTextXPos = 16;
             }
             else
             {
-                nextTextXPos = static_cast<short>((368 - textWidth) / 2);
+                nextTextXPos = static_cast<s16>((368 - textWidth) / 2);
             }
 
-            const short textYPos = static_cast<short>((FP_GetExponent(field_254 + FP_FromDouble(0.5))) + 26 * loopCount + 117);
+            const s16 textYPos = static_cast<s16>((FP_GetExponent(field_254 + FP_FromDouble(0.5))) + 26 * loopCount + 117);
             if (loopCount)
             {
                 polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, textYPos, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_32, 210, 150, 80, polyIndex, FP_FromInteger(1), 640, 0);
@@ -1439,9 +1439,9 @@ void MainMenuController::t_Load_AbeSpeak_Res_4D4A20()
     field_25E_Inside_CheatLevelSelect_Screen = 0;
 }
 
-ALIVE_VAR(1, 0x55C128, int, dword_55C128, 0);
+ALIVE_VAR(1, 0x55C128, s32, dword_55C128, 0);
 
-MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
+MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 {
     sEnableCheatFMV_5C1BEC = 0;
     sEnableCheatLevelSelect_5C1BEE = 0;
@@ -1452,7 +1452,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_hel
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
 
-    int inputToUse = 0;
+    s32 inputToUse = 0;
     if (field_204_prev_pressed && field_204_prev_pressed == sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
     {
         field_202_input_hold_down_timer--;
@@ -1539,7 +1539,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_hel
         {
             FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(v12->field_4_level_id, v12->field_A_fmv_id);
             Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, 0, 0, &input_held, 0, 0);
-            sLevelId_dword_5CA408 = static_cast<DWORD>(v12->field_4_level_id);
+            sLevelId_dword_5CA408 = static_cast<u32>(v12->field_4_level_id);
 
             dword_55C128 = -1;
 
@@ -1562,7 +1562,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_hel
             }
             stru_5C3110.Free_433130();
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<WORD**>(gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes));
+            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes));
             pScreenManager_5BB5F4->MoveImage_40EB70();
             pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
             GetSoundAPI().SND_Restart();
@@ -1595,11 +1595,11 @@ MainMenuText sLoadButtonGraphics[2] =
     { 331, 204, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u }
 };
 
-ALIVE_VAR(1, 0xBB43E8, int, sSelectedSavedGameIdx_BB43E8, 0);
+ALIVE_VAR(1, 0xBB43E8, s32, sSelectedSavedGameIdx_BB43E8, 0);
 
 void MainMenuController::tLoadGame_Render_4D44D0(PrimHeader** ot)
 {
-    int polyOffset = 0;
+    s32 polyOffset = 0;
     RenderScrollableTextEntries(
         ot, sSavedGameToLoadIdx_BB43FC, sSelectedSavedGameIdx_BB43E8, sTotalSaveFilesCount_BB43E0,
         sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, sSaveFileRecords_BB31D8, field_120_font, polyOffset
@@ -1620,7 +1620,7 @@ void MainMenuController::AbeMotions_Render_4D25E0(PrimHeader ** ot)
     RenderOnScreenTextHelper(ot, &sAbeMotions_562448[0], ALIVE_COUNTOF(sAbeMotions_562448), 0);
 }
 
-MainMenuNextCam MainMenuController::Gamespeak_Update_4D1FC0(DWORD input_held)
+MainMenuNextCam MainMenuController::Gamespeak_Update_4D1FC0(u32 input_held)
 {
     field_230_target_entry_index = 0;
 
@@ -1651,11 +1651,11 @@ MainMenuNextCam MainMenuController::Gamespeak_Update_4D1FC0(DWORD input_held)
     }
 }
 
-void MainMenuController::RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, int count, char isSingleChar)
+void MainMenuController::RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, s32 count, s8 isSingleChar)
 {
-    int polyIndex = 0;
+    s32 polyIndex = 0;
 
-    for (int i = 0; i < count; i++)
+    for (s32 i = 0; i < count; i++)
     {
         MainMenuController::DrawMenuText_4D20D0(&menuTextArray[i], ot, &field_120_font, &polyIndex, isSingleChar);
     }
@@ -1691,7 +1691,7 @@ void MainMenuController::BackStory_Or_NewGame_Render_4D2630(PrimHeader** ot)
     RenderOnScreenTextHelper(ot, sMTxt_NewGame_562598, 2, 1);
 }
 
-MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(DWORD input)
+MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(u32 input)
 {
 #if DEVELOPER_MODE
     static bool first = true;
@@ -1787,10 +1787,10 @@ void MainMenuController::Page_Front_Render_4D24B0(PrimHeader** ot)
     RenderOnScreenTextHelper(ot, &sMMT_FrontPage_5623A0[0], ALIVE_COUNTOF(sMMT_FrontPage_5623A0), 1);
 }
 
-ALIVE_VAR(1, 0xbb43dc, short, word_BB43DC, 0);
-ALIVE_VAR(1, 0x5c1b88, int, sGameStartedFrame_5C1B88, 0);
+ALIVE_VAR(1, 0xbb43dc, s16, word_BB43DC, 0);
+ALIVE_VAR(1, 0x5c1b88, s32, sGameStartedFrame_5C1B88, 0);
 
-MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
+MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 {
     // TODO: De-dupe the big parts of duplicated code in here
     if (field_23C_T80.Get(Flags::eBit21_LoadingSave))
@@ -1945,7 +1945,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
     return MainMenuNextCam(MainMenuCams::eNoChange);
 }
 
-EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DWORD input_held)
+EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input_held)
 {
     if (input_held & InputCommands::Enum::eUnPause_OrConfirm)
     {
@@ -1957,7 +1957,7 @@ EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DW
                 SYS_EventsPump_494580();
             }
 
-            DWORD fmvSector = 0;
+            u32 fmvSector = 0;
             Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, nullptr, nullptr, &fmvSector, 0, 0);
             sLevelId_dword_5CA408 = 0;
 
@@ -1984,7 +1984,7 @@ EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DW
             }
 
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((WORD**)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
+            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager_5BB5F4->MoveImage_40EB70();
             pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
             GetSoundAPI().SND_Restart();
@@ -2039,7 +2039,7 @@ void MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0()
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
 }
 
-void MainMenuController::remove_ISO9660_Suffix_4D1660(char* out, char *in)
+void MainMenuController::remove_ISO9660_Suffix_4D1660(s8* out, s8 *in)
 {
     while (*in)
     {
@@ -2049,23 +2049,23 @@ void MainMenuController::remove_ISO9660_Suffix_4D1660(char* out, char *in)
             break;
         }
 
-        *out = (char) tolower(*in);
+        *out = (s8) tolower(*in);
         in++;
         out++;
     }
 }
 
-char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
+s8 MainMenuController::checkIfDemoFileExists_4D1430(s8* input)
 {
-    char* inputMod = input;
+    s8* inputMod = input;
     if (inputMod[0] == '\\')
     {
         inputMod++;
     }
-    char buffer[256] = {};
+    s8 buffer[256] = {};
     MainMenuController::remove_ISO9660_Suffix_4D1660(buffer, inputMod);
 
-    char fileName[256] = {};
+    s8 fileName[256] = {};
     strcpy(fileName, sCdEmu_Path1_C14620);
     strcat(fileName, buffer);
     if (access_impl(fileName, 0) == 0)
@@ -2107,16 +2107,16 @@ char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
 
 // true if demo was started manually from the demos menu,
 // false if demo was started automatically due to idling
-ALIVE_VAR(1, 0x5C1B9C, short, gIsDemoStartedManually_5C1B9C, FALSE);
+ALIVE_VAR(1, 0x5C1B9C, s16, gIsDemoStartedManually_5C1B9C, FALSE);
 
-ALIVE_VAR(1, 0x5C1BA2, BYTE, sCurrentDemoIdForIdlingDemoPlayback_5C1BA2, 0);
-MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(DWORD)
+ALIVE_VAR(1, 0x5C1BA2, u8, sCurrentDemoIdForIdlingDemoPlayback_5C1BA2, 0);
+MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 {
-    const int maxDemoId = ALIVE_COUNTOF(sDemos_5617F0);
+    const s32 maxDemoId = ALIVE_COUNTOF(sDemos_5617F0);
 
     if (field_23C_T80.Get(Flags::eBit18_Loading))
     {
-        __int16 demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
+        s16 demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
         if (!gIsDemoStartedManually_5C1B9C)
         {
             demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2;
@@ -2125,8 +2125,8 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(DWORD)
         {
             demoId = 0;
         }
-        int levelId = static_cast<int>(sDemos_5617F0[demoId].field_4_level);
-        char lvFilename[256] = {};
+        s32 levelId = static_cast<s32>(sDemos_5617F0[demoId].field_4_level);
+        s8 lvFilename[256] = {};
         strcpy(lvFilename, "ATTRACT");
         memset(&lvFilename[8], 0, 0xF8u);
         strcpy(&lvFilename[7], sPathData_559660.paths[levelId].field_20_lvl_name_cd);
@@ -2206,10 +2206,10 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(DWORD)
             demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2;
         }
 
-        char file[32] = {};
+        s8 file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
         ResourceManager::LoadResourceFile_49C170(file, nullptr);
-        BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::ResourceType::Resource_NxtP, ResourceID::kUnknownResID_0, 1, 0);
+        u8 **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::ResourceType::Resource_NxtP, ResourceID::kUnknownResID_0, 1, 0);
         sActiveQuicksaveData_BAF7F8 = *(reinterpret_cast<Quicksave*>(*resource));
         ResourceManager::FreeResource_49C330(resource);
 
@@ -2226,12 +2226,12 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(DWORD)
     return MainMenuNextCam(MainMenuCams::eNoChange);
 }
 
-MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
+MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
 {
     gAttract_5C1BA0 = 0;
     gIsDemoStartedManually_5C1B9C = FALSE;
 
-    int input_or_field_204 = input;
+    s32 input_or_field_204 = input;
     if (field_204_prev_pressed && field_204_prev_pressed == sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
     {
         field_202_input_hold_down_timer--;
@@ -2309,7 +2309,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
     return MainMenuNextCam(MainMenuCams::eNoChange); // Nothing Pressed
 }
 
-EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
+EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
 {
     bool indexChanged = false;
 
@@ -2385,7 +2385,7 @@ EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         }
 
         // Load selected save
-        char filename[40] = {};
+        s8 filename[40] = {};
         strcpy(filename, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
         strcat(filename, ".sav");
 
@@ -2424,7 +2424,7 @@ EXPORT void sub_4A2D40()
 }
 
 
-MainMenuNextCam MainMenuController::Options_Update_4D1AB0(DWORD input)
+MainMenuNextCam MainMenuController::Options_Update_4D1AB0(u32 input)
 {
     if (!(input & InputCommands::Enum::eUnPause_OrConfirm))
     {
@@ -2473,7 +2473,7 @@ MainMenuNextCam MainMenuController::Options_Update_4D1AB0(DWORD input)
     }
 }
 
-MainMenuNextCam MainMenuController::AbeMotions_Update_4D1F50(DWORD input)
+MainMenuNextCam MainMenuController::AbeMotions_Update_4D1F50(u32 input)
 {
     if (sNum_CamSwappers_5C1B66 > 0)
     {
@@ -2500,9 +2500,9 @@ MainMenuNextCam MainMenuController::AbeMotions_Update_4D1F50(DWORD input)
     }
 }
 
-MainMenuNextCam MainMenuController::PSX_Cooperative_Mode_Update_4D49B0(DWORD /*input*/)
+MainMenuNextCam MainMenuController::PSX_Cooperative_Mode_Update_4D49B0(u32 /*input*/)
 {
-    const DWORD held = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
+    const u32 held = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
     if ( held & (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack))
     {
         return MainMenuNextCam(MainMenuCams::eBackstory_Or_NewGameCam);
@@ -2511,7 +2511,7 @@ MainMenuNextCam MainMenuController::PSX_Cooperative_Mode_Update_4D49B0(DWORD /*i
     return MainMenuNextCam(MainMenuCams::eNoChange);
 }
 
-MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(DWORD input)
+MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(u32 input)
 {
     if (input & InputCommands::Enum::eUnPause_OrConfirm)
     {
@@ -2544,8 +2544,8 @@ MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(DWORD i
     return MainMenuNextCam(MainMenuCams::eNoChange);
 }
 
-ALIVE_VAR(1, 0xBB43F8, int, dword_BB43F8, 0);
-ALIVE_VAR(1, 0xBB43EC, int, sButtonToRemapIdx_BB43EC, 0);
+ALIVE_VAR(1, 0xBB43F8, s32, dword_BB43F8, 0);
+ALIVE_VAR(1, 0xBB43EC, s32, sButtonToRemapIdx_BB43EC, 0);
 
 void MainMenuController::RemapInput_Load_4D17E0()
 {
@@ -2560,7 +2560,7 @@ void MainMenuController::ControllerMenu_Load_4D16B0()
     sSelectedControllerEntry_BB43F4 = sJoystickEnabled_5C9F70;
 }
 
-const char* sInputButtonNames_562790[8] =
+const s8* sInputButtonNames_562790[8] =
 {
     "Run",
     "Sneak",
@@ -2589,7 +2589,7 @@ const MainMenuText stru_5626A0[10] =
 
 void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
 {
-    int polyIndex = 0;
+    s32 polyIndex = 0;
     if (dword_BB43F8 == 3)
     {
         if (sJoystickEnabled_5C9F70)
@@ -2601,8 +2601,8 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
             field_234_pStr = "Press key to use";
         }
 
-        int textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
-        int nextTextXPos = 0;
+        s32 textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+        s32 nextTextXPos = 0;
         if (textWidth >= 336)
         {
             nextTextXPos = 16;
@@ -2612,7 +2612,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
             nextTextXPos = (368 - textWidth) / 2;
         }
         polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 88, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
-        char buffer[512] = {};
+        s8 buffer[512] = {};
         sprintf(buffer, "for %s", sInputButtonNames_562790[sButtonToRemapIdx_BB43EC]);
         field_234_pStr = buffer;
         textWidth = field_120_font.MeasureWidth_4336C0(buffer, FP_FromInteger(1));
@@ -2658,7 +2658,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         }
 
         // Render "glowing" box around the selected buttons
-        BYTE rgb = static_cast<BYTE>(3 * field_1FE_highlite_alpha);
+        u8 rgb = static_cast<u8>(3 * field_1FE_highlite_alpha);
         field_158_animation.field_8_r = rgb;
         field_158_animation.field_A_b = rgb;
         field_158_animation.field_9_g = rgb;
@@ -2669,7 +2669,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
     }
 }
 
-MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
+MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(u32 input)
 {
     if (input & InputCommands::Enum::eUp)
     {
@@ -2728,7 +2728,7 @@ const InputCommands::Enum kIdxToInput_561F14[8] =
     InputCommands::Enum::eSpeak2
 };
 
-MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(DWORD input)
+MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
 {
     if (dword_BB43F8)
     {
@@ -2845,7 +2845,7 @@ void MainMenuController::Game_Force_Quit_Load_4D1A90()
     sBreakGameLoop_5C2FE0 = TRUE;
 }
 
-MainMenuNextCam MainMenuController::HandleGameSpeakInput(DWORD input_held, std::function<MainMenuNextCam(InputCommands::Enum cmd)> fnOnGameSpeak)
+MainMenuNextCam MainMenuController::HandleGameSpeakInput(u32 input_held, std::function<MainMenuNextCam(InputCommands::Enum cmd)> fnOnGameSpeak)
 {
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
@@ -2918,7 +2918,7 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(DWORD input_held, std::
         if (field_210_pUnused)
         {
             // TODO: Recover type
-            WORD* pUnknown = (WORD *)field_210_pUnused;
+            u16* pUnknown = (u16 *)field_210_pUnused;
             pUnknown[124] = 1;
             field_210_pUnused = nullptr;
         }
@@ -2930,7 +2930,7 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(DWORD input_held, std::
         if (field_210_pUnused)
         {
             // TODO: Recover type
-            WORD* pUnknown = (WORD *)field_210_pUnused;
+            u16* pUnknown = (u16 *)field_210_pUnused;
             pUnknown[124] = 1;
             field_210_pUnused = nullptr;
         }
@@ -2947,7 +2947,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
         return;
     }
 
-    if (field_1F4_credits_next_frame <= static_cast<int>(sGnFrame_5C1B84))
+    if (field_1F4_credits_next_frame <= static_cast<s32>(sGnFrame_5C1B84))
     {
         const auto currentCam = field_240_credits_current_cam + 1;
         field_240_credits_current_cam = currentCam;
@@ -2957,11 +2957,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 22)
             {
                 field_240_credits_current_cam = 1;
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<short>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, static_cast<short>(currentCam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, static_cast<s16>(currentCam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             }
         }
         else
@@ -2972,7 +2972,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
                 gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 return;
             }
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<short>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
         }
     }
 }
@@ -3031,7 +3031,7 @@ void MainMenuController::HandleMainMenuUpdate()
         field_1F8_page_timeout <= pPage->field_4_time_out)
     {
         const MainMenuButton* btnArray = pPage->field_18_buttons;
-        const DWORD inputHeld = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
+        const u32 inputHeld = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
 
         if (btnArray)
         {
@@ -3046,7 +3046,7 @@ void MainMenuController::HandleMainMenuUpdate()
                             field_1FC_button_index--;
                             if (field_1FC_button_index < 0)
                             {
-                                short lastIndex = 0;
+                                s16 lastIndex = 0;
                                 while (btnArray[lastIndex].field_0_type == MainMenuButtonType::eCircularSelectableButton)
                                 {
                                     lastIndex++;
@@ -3114,7 +3114,7 @@ void MainMenuController::HandleMainMenuUpdate()
             return;
         }
 
-        field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pageUpdateReturnedCam.page_update_camera));
+        field_218_target_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(pageUpdateReturnedCam.page_update_camera));
         field_21A_target_button_index = pageUpdateReturnedCam.button_idx_to_highlight;
 
         // Originally was:
@@ -3125,7 +3125,7 @@ void MainMenuController::HandleMainMenuUpdate()
     else
     {
         field_1F8_page_timeout = 0;
-        field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pPage->field_8_next_idx));
+        field_218_target_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(pPage->field_8_next_idx));
         field_21A_target_button_index = pPage->field_C_initial_button_idx_to_highlight;
         field_21C_bDoScreenTransistionEffect = pPage->field_A_transition_effect;
     }
@@ -3133,7 +3133,7 @@ void MainMenuController::HandleMainMenuUpdate()
     field_21E_bChangeScreen = 1;
 }
 
-void MainMenuController::Unload_Resource(BYTE**& res)
+void MainMenuController::Unload_Resource(u8**& res)
 {
     // Resource might be pending, wait for it to load if so
     if (!res)
@@ -3161,9 +3161,9 @@ void MainMenuController::Update_4CF010()
     }
 }
 
-int CCSTD MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
+s32 CCSTD MainMenuController::GetPageIndexFromCam_4D05A0(s32 camId)
 {
-    for (int i = 0; i < 24; i++)
+    for (s32 i = 0; i < 24; i++)
     {
         if (camId == sMainMenuPages_561960[i].field_0_cam_id)
         {
@@ -3174,7 +3174,7 @@ int CCSTD MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
     return 0;
 }
 
-void MainMenuController::Set_Anim_4D05E0(__int16 a2, __int16 a3)
+void MainMenuController::Set_Anim_4D05E0(s16 a2, s16 a3)
 {
     if (a2 != this->field_220_frame_table_idx || sMainMenuFrameTable_561CC8[a2].field_8_anim_enum == a2)
     {
@@ -3191,9 +3191,9 @@ void MainMenuController::Load_Anim_Pal_4D06A0(Animation* pAnim)
     pAnim->Load_Pal_40A530(pAnim->field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 }
 
-ALIVE_VAR(1, 0x5ca408, DWORD, sLevelId_dword_5CA408, 0);
+ALIVE_VAR(1, 0x5ca408, u32, sLevelId_dword_5CA408, 0);
 
-signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
+s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 {
     if (field_21E_bChangeScreen == 0 || field_23C_T80.Get(Flags::eBit22_GameSpeakPlaying) || field_228_res_idx != 0)
     {
@@ -3252,7 +3252,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
     case 2:
         if (sMainMenuPages_561960[field_214_page_index].field_A_transition_effect == 7)
         {
-            char buffer[256] = {};
+            s8 buffer[256] = {};
 
             // Use path 2
             strcpy(buffer, sCdEmu_Path2_C144C0);
@@ -3265,7 +3265,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 strcat(buffer, "movies");
             }
 
-            int i = 0;
+            s32 i = 0;
             for (;;) // TODO: Switch to using the len/size of sCdRomDrives_5CA488 when reversed
             {
                 if (!sCdRomDrives_5CA488[i])
@@ -3300,7 +3300,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 SYS_EventsPump_494580();
             }
 
-            DWORD v34 = 0; // Gets set to 0x11111111
+            u32 v34 = 0; // Gets set to 0x11111111
             Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, 0, 0, &v34, 0, 0);
             sLevelId_dword_5CA408 = 0;
 
@@ -3456,7 +3456,7 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             //if (field_1FC_button_index == NO_SELECTABLE_BUTTONS)
             //{
                 //MainMenuButton* pButtonsIter = targetPage.field_18_buttons;
-                //short useButtonIdx = 0;
+                //s16 useButtonIdx = 0;
                 //for (;;)
                 //{
                 //    // Last row of buttons, don't look further
@@ -3551,7 +3551,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
         switch (field_220_frame_table_idx)
         {
         case AnimIds::eAbe_Idle:
-            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(2, 0);
                 field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
@@ -3617,7 +3617,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             break;
 
         case AnimIds::eGlukkon_Idle:
-            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(28); // ??
                 field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
@@ -3625,7 +3625,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             break;
 
         case AnimIds::eScrab_Idle:
-            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(38); // ??
                 field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
@@ -3633,7 +3633,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             break;
 
         case AnimIds::eParamite_Idle:
-            if (field_224_timer_anim_delay <= static_cast<int>(sGnFrame_5C1B84))
+            if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(42); // ??
                 field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
@@ -3650,7 +3650,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
     {
         if (field_220_frame_table_idx != eParamite_Idle && field_220_frame_table_idx != eParamite_Idle2)
         {
-            int doSpeakSoundFrame = 0;
+            s32 doSpeakSoundFrame = 0;
             switch (field_220_frame_table_idx)
             {
             case eParamite_Attack:
@@ -3720,7 +3720,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             {
                 if (field_228_res_idx > 0)
                 {
-                    const __int16 sound = sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound;
+                    const s16 sound = sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound;
                     if (sound != -1)
                     {
                         switch (sMainMenuFrameTable_561CC8[field_228_res_idx].field_4_menu_res_id)
@@ -3808,9 +3808,9 @@ void MainMenuController::UpdateHighliteGlow_4D0630()
         field_200_highlite_glow_speed = -field_200_highlite_glow_speed;
     }
 
-    field_158_animation.field_8_r = static_cast<BYTE>(field_1FE_highlite_alpha);
-    field_158_animation.field_A_b = static_cast<BYTE>(field_1FE_highlite_alpha);
-    field_158_animation.field_9_g = static_cast<BYTE>(field_1FE_highlite_alpha);
+    field_158_animation.field_8_r = static_cast<u8>(field_1FE_highlite_alpha);
+    field_158_animation.field_A_b = static_cast<u8>(field_1FE_highlite_alpha);
+    field_158_animation.field_9_g = static_cast<u8>(field_1FE_highlite_alpha);
 }
 
 void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
@@ -3819,17 +3819,17 @@ void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
             ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, TRUE, FALSE);
 }
 
-void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, Alive::Font* font, int* polyIndex, char op2)
+void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, Alive::Font* font, s32* polyIndex, s8 op2)
 {
     const bool bSpeak1 = strstr(array->field_8_text, kSpeak1) != 0;
     const bool bSpeak2 = strstr(array->field_8_text, kSpeak2) != 0;
 
-    char textBuffer[32] = {};
+    s8 textBuffer[32] = {};
     String_FormatString_4969D0(array->field_8_text, textBuffer, ALIVE_COUNTOF(textBuffer), array->field_14 == 0);
 
     if (op2)
     {
-        char* plusSignIx = strchr(textBuffer, '+');
+        s8* plusSignIx = strchr(textBuffer, '+');
         if (plusSignIx)
         {
             strcpy(textBuffer, plusSignIx + 1);
@@ -3857,35 +3857,35 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
         fontScale = FP_FromDouble(array->field_10_scale);
     }
 
-    const int array_field_x = array->field_0_x;
-    const int array_field_y = array->field_4_y;
+    const s32 array_field_x = array->field_0_x;
+    const s32 array_field_y = array->field_4_y;
 
-    short text_xpos = 0;
+    s16 text_xpos = 0;
     if (array->field_C_align == 1)
     {
-        text_xpos = static_cast<short>(PsxToPCX(array_field_x));
+        text_xpos = static_cast<s16>(PsxToPCX(array_field_x));
     }
     else
     {
-        int fontWidth = font->MeasureWidth_4336C0(textBuffer, fontScale);
-        int halfFontWidth = fontWidth / -2;
+        s32 fontWidth = font->MeasureWidth_4336C0(textBuffer, fontScale);
+        s32 halfFontWidth = fontWidth / -2;
         if (array->field_C_align == 2)
         {
             halfFontWidth = -fontWidth;
         }
-        text_xpos = static_cast<short>(strlen(textBuffer) + PsxToPCX(halfFontWidth + array_field_x));
+        text_xpos = static_cast<s16>(strlen(textBuffer) + PsxToPCX(halfFontWidth + array_field_x));
     }
 
     const FP text_ypos = FP_FromInteger(-10) * fontScale; // -655360
 
-    const BYTE oldDrawInScreenSpace = sFontDrawScreenSpace_5CA4B4;
+    const u8 oldDrawInScreenSpace = sFontDrawScreenSpace_5CA4B4;
     sFontDrawScreenSpace_5CA4B4 = 1;
 
     *polyIndex = font->DrawString_4337D0(
         ot,
         textBuffer,
         text_xpos,
-        static_cast<short>(FP_GetExponent(text_ypos) + array_field_y + 1),
+        static_cast<s16>(FP_GetExponent(text_ypos) + array_field_y + 1),
         TPageAbr::eBlend_0,
         1,
         0,

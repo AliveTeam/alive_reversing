@@ -3,6 +3,7 @@
 #include <exception>
 #include <iostream>
 #include "easylogging++.h"
+#include "Types.hpp"
 
 #if _MSC_VER
 #define FNAME __FUNCTION__
@@ -31,7 +32,7 @@
 #define LOG_(msg)
 #endif
 
-[[noreturn]] inline void HOOK_FATAL(const char* errMsg)
+[[noreturn]] inline void HOOK_FATAL(const s8* errMsg)
 {
     LOG_ERROR(errMsg);
     abort();
@@ -81,7 +82,7 @@ namespace Logging
     public:
         AutoLog(const AutoLog&) = delete;
         AutoLog& operator = (const AutoLog&) = delete;
-        AutoLog(const char* funcName)
+        AutoLog(const s8* funcName)
           : mFuncName(funcName)
         {
             LOG_("[ENTER] " << mFuncName);
@@ -100,6 +101,6 @@ namespace Logging
         }
 
     private:
-        const char* mFuncName;
+        const s8* mFuncName;
     };
 }

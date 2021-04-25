@@ -12,7 +12,7 @@ void SwitchStateBooleanLogic::VUpdate()
     VUpdate_436B60();
 }
 
-BaseGameObject* SwitchStateBooleanLogic::Vdtor_436C60(signed int flags)
+BaseGameObject* SwitchStateBooleanLogic::Vdtor_436C60(s32 flags)
 {
     dtor_436B00();
 
@@ -24,7 +24,7 @@ BaseGameObject* SwitchStateBooleanLogic::Vdtor_436C60(signed int flags)
     return this;
 }
 
-BaseGameObject* SwitchStateBooleanLogic::VDestructor(signed int flags)
+BaseGameObject* SwitchStateBooleanLogic::VDestructor(s32 flags)
 {
     return Vdtor_436C60(flags);
 }
@@ -49,7 +49,7 @@ BaseGameObject* SwitchStateBooleanLogic::dtor_436B00()
     return dtor_487DF0();
 }
 
-SwitchStateBooleanLogic* SwitchStateBooleanLogic::ctor_436AB0(Path_SwitchStateBooleanLogic* pTlv, int tlvInfo)
+SwitchStateBooleanLogic* SwitchStateBooleanLogic::ctor_436AB0(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BB7B8);
@@ -69,10 +69,10 @@ SwitchStateBooleanLogic* SwitchStateBooleanLogic::ctor_436AB0(Path_SwitchStateBo
 
 void SwitchStateBooleanLogic::VUpdate_436B60()
 {
-    const short id1_value = SwitchStates_Get(field_10_input_1);
-    const short id2_value = SwitchStates_Get(field_12_input_2);
+    const s16 id1_value = SwitchStates_Get(field_10_input_1);
+    const s16 id2_value = SwitchStates_Get(field_12_input_2);
 
-    char id_value = 0;
+    s8 id_value = 0;
     switch (field_16_operator)
     {
     case BooleanOperatorType::eAnd_0:

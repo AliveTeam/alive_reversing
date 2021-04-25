@@ -96,7 +96,7 @@ std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollection& types, json
 std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load(Game gameType, TypesCollection& types, const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
-    std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
+    std::string jsonStr((std::istreambuf_iterator<s8>(inputFileStream)), std::istreambuf_iterator<s8>());
 
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))
@@ -122,13 +122,13 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
         abort();
     }
 
-    mRootInfo.mPathId = static_cast<int>(map.get<jsonxx::Number>("path_id"));
+    mRootInfo.mPathId = static_cast<s32>(map.get<jsonxx::Number>("path_id"));
 
-    mRootInfo.mXSize = static_cast<int>(map.get<jsonxx::Number>("x_size"));
-    mRootInfo.mYSize = static_cast<int>(map.get<jsonxx::Number>("y_size"));
+    mRootInfo.mXSize = static_cast<s32>(map.get<jsonxx::Number>("x_size"));
+    mRootInfo.mYSize = static_cast<s32>(map.get<jsonxx::Number>("y_size"));
 
-    mRootInfo.mXGridSize = static_cast<int>(map.get<jsonxx::Number>("x_grid_size"));
-    mRootInfo.mYGridSize = static_cast<int>(map.get<jsonxx::Number>("y_grid_size"));
+    mRootInfo.mXGridSize = static_cast<s32>(map.get<jsonxx::Number>("x_grid_size"));
+    mRootInfo.mYGridSize = static_cast<s32>(map.get<jsonxx::Number>("y_grid_size"));
 
     if (!map.has<jsonxx::Array>("cameras"))
     {
@@ -146,15 +146,15 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
             abort();
         }
 
-        const int x = static_cast<int>(camera.get<jsonxx::Number>("x"));
-        const int y = static_cast<int>(camera.get<jsonxx::Number>("y"));
+        const s32 x = static_cast<s32>(camera.get<jsonxx::Number>("x"));
+        const s32 y = static_cast<s32>(camera.get<jsonxx::Number>("y"));
         if (x > mRootInfo.mXSize || y > mRootInfo.mYSize)
         {
             abort();
         }
 
         CameraNameAndTlvBlob cameraNameBlob;
-        cameraNameBlob.mId = static_cast<int>(camera.get<jsonxx::Number>("id"));
+        cameraNameBlob.mId = static_cast<s32>(camera.get<jsonxx::Number>("id"));
         cameraNameBlob.mName = camera.get<jsonxx::String>("name");
         cameraNameBlob.x = x;
         cameraNameBlob.y = y;
@@ -215,16 +215,16 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> JsonReader
     return { mapData, lines };
 }
 
-JsonWriterAO::JsonWriterAO(int pathId, const std::string& pathBndName, const PathInfo& info)
+JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const PathInfo& info)
     : JsonWriterBase(pathId, pathBndName, info)
 {
     mMapRootInfo.mGame = "AO";
 }
 
 template<typename T>
-static void DumpTlv(const std::string& prefix, int idx, const T& tlv)
+static void DumpTlv(const std::string& prefix, s32 idx, const T& tlv)
 {
-    const std::string fileName = prefix + "_" + std::to_string(static_cast<int>(tlv.field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
+    const std::string fileName = prefix + "_" + std::to_string(static_cast<s32>(tlv.field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
     FILE* hFile = ::fopen(fileName.c_str(), "wb");
     if (!hFile)
     {
@@ -234,15 +234,15 @@ static void DumpTlv(const std::string& prefix, int idx, const T& tlv)
     ::fclose(hFile);
 }
 
-void JsonWriterAO::DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource)
+void JsonWriterAO::DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource)
 {
-    BYTE* pStart = pathResource.data() + info.mObjectOffset;
-    BYTE* pEnd = pathResource.data() + info.mIndexTableOffset;
+    u8* pStart = pathResource.data() + info.mObjectOffset;
+    u8* pEnd = pathResource.data() + info.mIndexTableOffset;
 
     AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(pStart);
     pPathTLV->RangeCheck();
-    int idx = 0;
-    if (static_cast<int>(pPathTLV->field_4_type.mType) <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+    s32 idx = 0;
+    if (static_cast<s32>(pPathTLV->field_4_type.mType) <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
     {
         while (pPathTLV)
         {
@@ -258,7 +258,7 @@ void JsonWriterAO::DumpTlvs(const std::string& prefix, const PathInfo& info, std
                     break;
                 }
 
-                if (reinterpret_cast<BYTE*>(pPathTLV) == pEnd)
+                if (reinterpret_cast<u8*>(pPathTLV) == pEnd)
                 {
                     break;
                 }
@@ -267,34 +267,34 @@ void JsonWriterAO::DumpTlvs(const std::string& prefix, const PathInfo& info, std
     }
 }
 
-void JsonWriterAE::DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<BYTE>& pathResource)
+void JsonWriterAE::DumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource)
 {
-    BYTE* pData = pathResource.data();
-    BYTE* pStart = pData + info.mObjectOffset;
-    BYTE* pEnd = pData + info.mIndexTableOffset;
+    u8* pData = pathResource.data();
+    u8* pStart = pData + info.mObjectOffset;
+    u8* pEnd = pData + info.mIndexTableOffset;
 
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(pStart);
-    int idx = 0;
-    while (pPathTLV && reinterpret_cast<BYTE*>(pPathTLV) < pEnd)
+    s32 idx = 0;
+    while (pPathTLV && reinterpret_cast<u8*>(pPathTLV) < pEnd)
     {
         idx++;
         DumpTlv(prefix, idx, *pPathTLV);
 
         // Skip length bytes to get to the start of the next TLV
-        BYTE* ptr = reinterpret_cast<BYTE*>(pPathTLV);
-        BYTE* pNext = ptr + pPathTLV->field_2_length;
+        u8* ptr = reinterpret_cast<u8*>(pPathTLV);
+        u8* pNext = ptr + pPathTLV->field_2_length;
         pPathTLV = reinterpret_cast<Path_TLV*>(pNext);
     }
 }
 
-jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr)
+jsonxx::Array JsonWriterAO::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
 {
     jsonxx::Array mapObjects;
 
     AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
     pPathTLV->RangeCheck();
 
-    if (static_cast<int>(pPathTLV->field_4_type.mType) <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+    if (static_cast<s32>(pPathTLV->field_4_type.mType) <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
     {
         while (pPathTLV)
         {
@@ -336,13 +336,13 @@ void JsonWriterAO::ResetTypeCounterMap()
     mTypeCounterMap.clear();
 }
 
-jsonxx::Array JsonWriterAO::ReadCollisionStream(BYTE* ptr, int numItems)
+jsonxx::Array JsonWriterAO::ReadCollisionStream(u8* ptr, s32 numItems)
 {
     jsonxx::Array collisionsArray;
     AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(ptr);
     TypesCollection types(Game::AO);
 
-    for (int i = 0; i < numItems; i++)
+    for (s32 i = 0; i < numItems; i++)
     {
         AOLine tmpLine(types, &pLineIter[i]);
 
@@ -355,7 +355,7 @@ jsonxx::Array JsonWriterAO::ReadCollisionStream(BYTE* ptr, int numItems)
 }
 
 
-JsonWriterBase::JsonWriterBase(int pathId, const std::string& pathBndName, const PathInfo& info)
+JsonWriterBase::JsonWriterBase(s32 pathId, const std::string& pathBndName, const PathInfo& info)
 {
     mMapInfo.mPathId = pathId;
     mMapInfo.mPathBnd = pathBndName;
@@ -368,7 +368,7 @@ JsonWriterBase::JsonWriterBase(int pathId, const std::string& pathBndName, const
     mMapRootInfo.mVersion = AliveAPI::GetApiVersion();
 }
 
-void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<BYTE>& pathResource, const std::string& fileName)
+void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName)
 {
     ResetTypeCounterMap();
 
@@ -388,10 +388,10 @@ void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<BYTE>
     rootMapObject << "y_grid_size" << mMapInfo.mYGridSize;
     rootMapObject << "y_size" << mMapInfo.mYSize;
 
-    BYTE* pPathData = pathResource.data();
+    u8* pPathData = pathResource.data();
 
 
-    BYTE* pLineIter = pPathData + info.mCollisionOffset;
+    u8* pLineIter = pPathData + info.mCollisionOffset;
     jsonxx::Array collisionsArray = ReadCollisionStream(pLineIter, info.mNumCollisionItems);
     jsonxx::Object colllisionObject;
 
@@ -410,13 +410,13 @@ void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<BYTE>
     colllisionObject << "items" << collisionsArray;
     rootMapObject << "collisions" << colllisionObject;
 
-    const int* indexTable = reinterpret_cast<const int*>(pPathData + info.mIndexTableOffset);
+    const s32* indexTable = reinterpret_cast<const s32*>(pPathData + info.mIndexTableOffset);
 
 
     jsonxx::Array cameraArray;
-    for (int y = 0; y < info.mHeight; y++)
+    for (s32 y = 0; y < info.mHeight; y++)
     {
-        for (int x = 0; x < info.mWidth; x++)
+        for (s32 x = 0; x < info.mWidth; x++)
         {
             auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[To1dIndex(info.mWidth, x, y) * sizeof(AO::CameraName)]);
             CameraObject tmpCamera;
@@ -432,7 +432,7 @@ void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<BYTE>
                     1000 * (pCamName->name[3] - '0');
             }
 
-            const int indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, x, y)];
+            const s32 indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, x, y)];
             if (indexTableEntryOffset == -1 || indexTableEntryOffset >= 0x100000)
             {
                 if (pCamName->name[0])
@@ -446,7 +446,7 @@ void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<BYTE>
                 // Can have objects that do not live in a camera, as strange as it seems (R1P15)
                 // "blank" cameras just do not have a name set.
 
-                BYTE* ptr = pPathData + indexTableEntryOffset + info.mObjectOffset;
+                u8* ptr = pPathData + indexTableEntryOffset + info.mObjectOffset;
                 jsonxx::Array mapObjects = ReadTlvStream(*globalTypes, ptr);
                 LOG_INFO("Add camera " << tmpCamera.mName);
                 cameraArray << tmpCamera.ToJsonObject(mapObjects);
@@ -477,7 +477,7 @@ void JsonWriterBase::Save(Game gameType, const PathInfo& info, std::vector<BYTE>
     }
 }
 
-JsonWriterAE::JsonWriterAE(int pathId, const std::string& pathBndName, const PathInfo& info)
+JsonWriterAE::JsonWriterAE(s32 pathId, const std::string& pathBndName, const PathInfo& info)
     : JsonWriterBase(pathId, pathBndName, info)
 {
     mMapRootInfo.mGame = "AE";
@@ -488,13 +488,13 @@ void JsonWriterAE::ResetTypeCounterMap()
     mTypeCounterMap.clear();
 }
 
-jsonxx::Array JsonWriterAE::ReadCollisionStream(BYTE* ptr, int numItems)
+jsonxx::Array JsonWriterAE::ReadCollisionStream(u8* ptr, s32 numItems)
 {
     jsonxx::Array collisionsArray;
     PathLine* pLineIter = reinterpret_cast<PathLine*>(ptr);
     TypesCollection types(Game::AE);
 
-    for (int i = 0; i < numItems; i++)
+    for (s32 i = 0; i < numItems; i++)
     {
         AELine tmpLine(types, &pLineIter[i]);
 
@@ -506,7 +506,7 @@ jsonxx::Array JsonWriterAE::ReadCollisionStream(BYTE* ptr, int numItems)
     return collisionsArray;
 }
 
-jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, BYTE* ptr)
+jsonxx::Array JsonWriterAE::ReadTlvStream(TypesCollection& globalTypes, u8* ptr)
 {
     jsonxx::Array mapObjects;
 
@@ -549,7 +549,7 @@ bool JsonMapRootInfoReader::Read(const std::string& fileName)
         abort();
     }
 
-    std::string jsonStr((std::istreambuf_iterator<char>(inputFileStream)), std::istreambuf_iterator<char>());
+    std::string jsonStr((std::istreambuf_iterator<s8>(inputFileStream)), std::istreambuf_iterator<s8>());
 
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))
@@ -561,7 +561,7 @@ bool JsonMapRootInfoReader::Read(const std::string& fileName)
     {
         abort();
     }
-    mMapRootInfo.mVersion = static_cast<int>(rootObj.get<jsonxx::Number>("api_version"));
+    mMapRootInfo.mVersion = static_cast<s32>(rootObj.get<jsonxx::Number>("api_version"));
 
     if (!rootObj.has<jsonxx::String>("game"))
     {

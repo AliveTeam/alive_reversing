@@ -16,10 +16,10 @@ public:
 
     EXPORT void VScreenChanged_431EF0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    int field_D4[4];
-    int field_E4_tlvInfo;
+    s32 field_D4[4];
+    s32 field_E4_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(Honey, 0xE8);
 

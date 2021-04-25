@@ -14,14 +14,14 @@
 
 namespace AO {
 
-Bat* Bat::ctor_4046E0(Path_Bat* pTlv, int tlvInfo)
+Bat* Bat::ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA0E8);
 
     field_4_typeId = Types::eBat_6;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBatBasicResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBatBasicResID, 1, 0);
     if (!ppRes)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -88,7 +88,7 @@ BaseGameObject* Bat::dtor_404870()
     return dtor_417D10();
 }
 
-BaseGameObject* Bat::VDestructor(signed int flags)
+BaseGameObject* Bat::VDestructor(s32 flags)
 {
     return Vdtor_404FF0(flags);
 }
@@ -103,7 +103,7 @@ void Bat::VScreenChanged_404FE0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-Bat* Bat::Vdtor_404FF0(signed int flags)
+Bat* Bat::Vdtor_404FF0(s32 flags)
 {
     dtor_404870();
     if (flags & 1)
@@ -136,8 +136,8 @@ void Bat::FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
     *ySpeed = ypos + FP_FromInteger((Math_NextRandom() & 31) - 8);
     *ySpeed = *ySpeed - field_AC_ypos;
 
-    const int ySpeedi = FP_GetExponent(*ySpeed);
-    const int xSpeedi = FP_GetExponent(*xSpeed);
+    const s32 ySpeedi = FP_GetExponent(*ySpeed);
+    const s32 xSpeedi = FP_GetExponent(*xSpeed);
     FP x_final = FP_FromInteger(Math_SquareRoot_Int_4511B0((ySpeedi * ySpeedi) + (xSpeedi * xSpeedi)));
     if (FP_GetExponent(x_final) == 0)
     {
@@ -180,7 +180,7 @@ void Bat::VUpdate_404950()
         break;
 
     case BatStates::eInit_1:
-        if (static_cast<int>(gnFrameCount_507670) > field_F8_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
         {
             field_F4_state = BatStates::eStartMoving_2;
             field_100_velx = FP_FromInteger(0);
@@ -226,7 +226,7 @@ void Bat::VUpdate_404950()
             SFX_Play_43AD70(Math_RandomRange_450F20(41, 42) & 0xFF, Math_RandomRange_450F20(20, 26), 0);
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_F8_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
         {
             SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
             field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 240);
@@ -244,7 +244,7 @@ void Bat::VUpdate_404950()
 
         if (!sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
         {
-            for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+            for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
             {
                 BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
                 if (!pObjIter)
@@ -263,7 +263,7 @@ void Bat::VUpdate_404950()
                         FP_GetExponent(field_AC_ypos) <= bObjRect.h &&
                         pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
                     {
-                        for (int j = 0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
+                        for (s32 j = 0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
                         {
                             BaseGameObject* pMaybeBat = gBaseGameObject_list_9F2DF0->ItemAt(j);
                             if (!pMaybeBat)
@@ -312,7 +312,7 @@ void Bat::VUpdate_404950()
 
         if (FP_Abs(xSpeed) < FP_FromInteger(10))
         {
-            if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<int>(gnFrameCount_507670) > field_F8_timer)
+            if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
             {
                 field_10C->VTakeDamage(this);
                 field_F8_timer = gnFrameCount_507670 + 30;
@@ -320,7 +320,7 @@ void Bat::VUpdate_404950()
             }
         }
 
-        if (field_FC_attack_duration_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_FC_attack_duration_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             field_10C->field_C_refCount--;
             field_10C = nullptr;

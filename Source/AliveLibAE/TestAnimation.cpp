@@ -32,7 +32,7 @@ void TestAnimation::DelayLoad()
         LOG_WARNING("Anim resource already loaded - BAN/BND name not verified by test animation");
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, animRec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, animRec.mResourceId);
     Animation_Init_424E10(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1, 1);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
 
@@ -49,7 +49,7 @@ void TestAnimation::DelayLoad()
             LOG_WARNING("Pal resource already loaded - BAN/BND name not verified by test animation");
         }
 
-        BYTE** ppPal = Add_Resource_4DC130(ResourceManager::Resource_Palt, palRec.mResourceId);
+        u8** ppPal = Add_Resource_4DC130(ResourceManager::Resource_Palt, palRec.mResourceId);
         if (ppPal)
         {
             field_20_animation.Load_Pal_40A530(ppPal, 0);
@@ -100,7 +100,7 @@ void TestAnimation::VScreenChanged()
     // Keep alive
 }
 
-BaseGameObject* TestAnimation::VDestructor(signed int flags)
+BaseGameObject* TestAnimation::VDestructor(s32 flags)
 {
     // TODO: Destruction of this object will likely crash, but this obj can be removed
     // once all animations are added to the table

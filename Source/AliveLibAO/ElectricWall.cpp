@@ -14,12 +14,12 @@
 
 namespace AO {
 
-ElectricWall* ElectricWall::ctor_40FCF0(Path_ElectricWall* pTlv, int tlvInfo)
+ElectricWall* ElectricWall::ctor_40FCF0(Path_ElectricWall* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA8C0);
     field_4_typeId = Types::eElectricWall_25;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElecwallResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElecwallResID, 1, 0);
     Animation_Init_417FD0(14536, 50, 80, ppRes, 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
@@ -67,12 +67,12 @@ BaseGameObject* ElectricWall::dtor_40FE80()
     return dtor_417D10();
 }
 
-BaseGameObject* ElectricWall::VDestructor(signed int flags)
+BaseGameObject* ElectricWall::VDestructor(s32 flags)
 {
     return Vdtor_410280(flags);
 }
 
-ElectricWall* ElectricWall::Vdtor_410280(signed int flags)
+ElectricWall* ElectricWall::Vdtor_410280(s32 flags)
 {
     dtor_40FE80();
     if (flags & 1)
@@ -130,7 +130,7 @@ void ElectricWall::VUpdate_40FEF0()
         }
 
          // Play sound every so often
-        if (static_cast<int>(gnFrameCount_507670) >= field_EC_sound_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_EC_sound_timer)
         {
             // set a random starting frame
             SFX_Play_43AED0(SoundEffect::BirdPortalSpark_48, 45, soundDirection);
@@ -143,11 +143,11 @@ void ElectricWall::VUpdate_40FEF0()
 
         PSX_RECT bRectBigger;
         bRectBigger.x = FP_GetExponent(field_A8_xpos - FP_FromInteger(4));
-        bRectBigger.y = static_cast<short>(bRect.y + 5);
+        bRectBigger.y = static_cast<s16>(bRect.y + 5);
         bRectBigger.w = FP_GetExponent(field_A8_xpos + FP_FromInteger(4));
-        bRectBigger.h = static_cast<short>(bRect.h + 5);
+        bRectBigger.h = static_cast<s16>(bRect.h + 5);
 
-        for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
         {
             BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
             if (!pObjIter)

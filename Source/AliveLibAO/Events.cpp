@@ -14,25 +14,25 @@ struct EventsArray
 
 struct Events
 {
-    // 2 copies for double buffering
+    // 2 copies for f64 buffering
     EventsArray field_0_events[2];
 };
 
-ALIVE_VAR(1, 0x4FFA48, short, sEventsToUse_4FFA48, 0);
+ALIVE_VAR(1, 0x4FFA48, s16, sEventsToUse_4FFA48, 0);
 ALIVE_VAR(1, 0x4FF9A8, Events, sEventPtrs_4FF9A8, {});
 
 
-BaseGameObject* CC Event_Get_417250(__int16 eventType)
+BaseGameObject* CC Event_Get_417250(s16 eventType)
 {
     return sEventPtrs_4FF9A8.field_0_events[sEventsToUse_4FFA48].field_0_event_ptrs[eventType];
 }
 
-void CC Event_Broadcast_417220(int eventType, BaseGameObject* pObject)
+void CC Event_Broadcast_417220(s32 eventType, BaseGameObject* pObject)
 {
     sEventPtrs_4FF9A8.field_0_events[!sEventsToUse_4FFA48].field_0_event_ptrs[eventType] = pObject;
 }
 
-BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(__int16 eventType, FP xpos, FP ypos, FP scale)
+BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(s16 eventType, FP xpos, FP ypos, FP scale)
 {
     BaseGameObject* pObj = sEventPtrs_4FF9A8.field_0_events[sEventsToUse_4FFA48].field_0_event_ptrs[eventType];
     if (!pObj)
@@ -70,9 +70,9 @@ void CC Events_Reset_Active_417320()
 
 void CC Event_Cancel_For_Obj_417350(BaseGameObject* pObj)
 {
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j = 0; j < ALIVE_COUNTOF(EventsArray::field_0_event_ptrs); j++)
+        for (s32 j = 0; j < ALIVE_COUNTOF(EventsArray::field_0_event_ptrs); j++)
         {
             if (sEventPtrs_4FF9A8.field_0_events[i].field_0_event_ptrs[j] == pObj)
             {

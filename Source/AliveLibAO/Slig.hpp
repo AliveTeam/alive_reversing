@@ -23,7 +23,7 @@ enum SligFlags_DisabledRes
 
 struct Path_Slig : public Path_TLV
 {
-    enum class StartState : __int16
+    enum class StartState : s16
     {
         Listening_0 = 0,
         Paused_1 = 1,
@@ -32,38 +32,38 @@ struct Path_Slig : public Path_TLV
         GameEnder_4 = 4,
         Paused_5 = 5,
     };
-    __int16 field_18_scale;
+    s16 field_18_scale;
     StartState field_1A_start_state;
-    __int16 field_1C_pause_time;
-    __int16 field_1E_pause_left_min;
-    __int16 field_20_pause_left_max;
-    __int16 field_22_pause_right_min;
-    __int16 field_24_pause_right_max;
-    __int16 field_26_chal_type;
-    __int16 field_28_chal_time;
-    __int16 field_2A_number_of_times_to_shoot;
-    __int16 field_2C_unknown; // TODO: Part of above field, check me?
-    __int16 field_2E_code1;
-    __int16 field_30_code2;
-    __int16 field_32_chase_abe;
-    __int16 field_34_start_direction;
-    __int16 field_36_panic_timeout;
-    __int16 field_38_num_panic_sounds;
-    __int16 field_3A_panic_sound_timeout;
-    __int16 field_3C_stop_chase_delay;
-    __int16 field_3E_time_to_wait_before_chase;
-    __int16 field_40_slig_id;
-    __int16 field_42_listen_time;
-    __int16 field_44_percent_say_what;
-    __int16 field_46_percent_beat_mud;
-    __int16 field_48_talk_to_abe;
-    __int16 field_4A_dont_shoot;
-    __int16 field_4C_z_shoot_delay;
-    __int16 field_4E_stay_awake;
+    s16 field_1C_pause_time;
+    s16 field_1E_pause_left_min;
+    s16 field_20_pause_left_max;
+    s16 field_22_pause_right_min;
+    s16 field_24_pause_right_max;
+    s16 field_26_chal_type;
+    s16 field_28_chal_time;
+    s16 field_2A_number_of_times_to_shoot;
+    s16 field_2C_unknown; // TODO: Part of above field, check me?
+    s16 field_2E_code1;
+    s16 field_30_code2;
+    s16 field_32_chase_abe;
+    s16 field_34_start_direction;
+    s16 field_36_panic_timeout;
+    s16 field_38_num_panic_sounds;
+    s16 field_3A_panic_sound_timeout;
+    s16 field_3C_stop_chase_delay;
+    s16 field_3E_time_to_wait_before_chase;
+    s16 field_40_slig_id;
+    s16 field_42_listen_time;
+    s16 field_44_percent_say_what;
+    s16 field_46_percent_beat_mud;
+    s16 field_48_talk_to_abe;
+    s16 field_4A_dont_shoot;
+    s16 field_4C_z_shoot_delay;
+    s16 field_4E_stay_awake;
     BitField16<SligFlags_DisabledRes> field_50_disable_resources;
-    __int16 field_52_noise_wake_up_distance;
-    __int16 field_54_id;
-    __int16 field_56_pad;
+    s16 field_52_noise_wake_up_distance;
+    s16 field_54_id;
+    s16 field_56_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_Slig, 0x58);
 
@@ -123,17 +123,17 @@ ALIVE_ASSERT_SIZEOF(Path_Slig, 0x58);
     ENTRY(State_52_Beat_46AA90)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eSligStates : int
+enum eSligStates : s32
 {
     SLIG_STATES_ENUM(MAKE_ENUM)
 };
 
 struct SligResources
 {
-    BYTE** res[17];
+    u8** res[17];
 };
 
-enum class SligSpeak : unsigned __int8
+enum class SligSpeak : u8
 {
    eHi_0 = 0,
    eHereBoy_1 = 1,
@@ -149,7 +149,7 @@ enum class SligSpeak : unsigned __int8
    eBlurgh_11 = 11
 };
 
-enum class SligSfx : __int8
+enum class SligSfx : s8
 {
     eToStand_0 = 0,
     eStandingTurn_1 = 1,
@@ -176,7 +176,7 @@ enum class SligSfx : __int8
 // This is a left bound, right bound and a persist.
 struct Path_SligBound : public Path_TLV
 {
-    __int16 field_18_slig_id;
+    s16 field_18_slig_id;
     BitField16<SligFlags_DisabledRes> field_1A_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SligBound, 0x1C);
@@ -188,13 +188,13 @@ using Path_SligPersist = Path_SligBound;
 class Slig : public BaseAliveGameObject
 {
 public:
-    EXPORT Slig* ctor_464D40(Path_Slig* pTlv, int tlvInfo);
+    EXPORT Slig* ctor_464D40(Path_Slig* pTlv, s32 tlvInfo);
     
     EXPORT BaseGameObject* dtor_465320();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT Slig* Vdtor_465DC0(signed int flags);
+    EXPORT Slig* Vdtor_465DC0(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -222,21 +222,21 @@ public:
 
     EXPORT void VPossessed_465C80();
 
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT __int16 VTakeDamage_465640(BaseGameObject* pFrom);
+    EXPORT s16 VTakeDamage_465640(BaseGameObject* pFrom);
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
     EXPORT void VOn_TLV_Collision_465CF0(Path_TLV* pTlv);
 
-    virtual __int16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    virtual __int16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    EXPORT __int16 VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* pOther);
+    EXPORT s16 VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* pOther);
 
-    EXPORT __int16 VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pObj);
+    EXPORT s16 VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pObj);
 
     EXPORT void VUpdateAnimData_464D00();
 
@@ -252,17 +252,17 @@ public:
 
     EXPORT void SlowDown_469D50(FP speed);
 
-    EXPORT signed __int16 HandlePlayerControlled_4667B0();
+    EXPORT s16 HandlePlayerControlled_4667B0();
 
     void OperateLift();
 
-    EXPORT signed __int16 MainMovement_467020();
+    EXPORT s16 MainMovement_467020();
 
     EXPORT void Slig_SoundEffect_46F310(SligSfx sfxIdx);
 
-    EXPORT BYTE** ResBlockForMotion_4654D0(__int16 motion);
+    EXPORT u8** ResBlockForMotion_4654D0(s16 motion);
 
-    EXPORT BOOL VIs8_465630(short motion);
+    EXPORT BOOL VIs8_465630(s16 motion);
 
     EXPORT void ToShoot_46F1D0();
     EXPORT void ToZShoot_46F200();
@@ -273,7 +273,7 @@ public:
 
     EXPORT void WaitOrWalk_46E440();
 
-    EXPORT int IsFacingEffectiveLeft_46BD70(Slig* pSlig);
+    EXPORT s32 IsFacingEffectiveLeft_46BD70(Slig* pSlig);
 
     EXPORT void PauseALittle_46DBD0();
 
@@ -287,37 +287,37 @@ public:
 
     EXPORT void ToKilledAbe_4662E0();
 
-    EXPORT __int16 FindBeatTarget_46D0E0(int typeToFind, int gridBlocks);
+    EXPORT s16 FindBeatTarget_46D0E0(s32 typeToFind, s32 gridBlocks);
 
-    EXPORT __int16 HandleEnemyStopper_46BF30(int gridBlocks);
+    EXPORT s16 HandleEnemyStopper_46BF30(s32 gridBlocks);
 
     EXPORT void RespondToEnemyOrPatrol_465DF0();
 
-    EXPORT void TurnOrWalk_46D5B0(int a2);
+    EXPORT void TurnOrWalk_46D5B0(s32 a2);
 
     void ToPanicTurn();
 
-    void PlayerControlRunningSlideStopOrTurn(short last_anim_frame);
+    void PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame);
 
-    EXPORT __int16 GetNextMotionIncGameSpeak_467700(unsigned __int16 input);
+    EXPORT s16 GetNextMotionIncGameSpeak_467700(u16 input);
 
     EXPORT static BOOL CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
 
-    EXPORT static __int16 CCSTD IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);
+    EXPORT static s16 CCSTD IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);
 
-    EXPORT static __int16 CCSTD IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight);
+    EXPORT static s16 CCSTD IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight);
 
-    static EXPORT void CC Slig_GameSpeak_SFX_46F560(SligSpeak effectId, int defaultVol, int pitch_min, BaseAliveGameObject* pObj);
+    static EXPORT void CC Slig_GameSpeak_SFX_46F560(SligSpeak effectId, s32 defaultVol, s32 pitch_min, BaseAliveGameObject* pObj);
 
-    static EXPORT __int16 CCSTD IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
+    static EXPORT s16 CCSTD IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
 
     void ToStand();
 
-    static EXPORT __int16 CCSTD IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj);
+    static EXPORT s16 CCSTD IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj);
 
     void CheckPlatformVanished();
 
-    EXPORT __int16 MoveLift_4665E0(FP ySpeed);
+    EXPORT s16 MoveLift_4665E0(FP ySpeed);
 
     EXPORT void GameSpeakResponse_46ED60();
 
@@ -377,37 +377,37 @@ public:
     EXPORT void State_52_Beat_46AA90();
 
     // Brains
-    EXPORT __int16 Brain_SpottedEnemy_465EB0();
-    EXPORT __int16 Brain_Paused_466030();
-    EXPORT __int16 Brain_EnemyDead_466190();
-    EXPORT __int16 Brain_KilledEnemy_4662A0();
-    EXPORT __int16 Brain_Unknown_46B250();
-    EXPORT __int16 Brain_Sleeping_46B4E0();
+    EXPORT s16 Brain_SpottedEnemy_465EB0();
+    EXPORT s16 Brain_Paused_466030();
+    EXPORT s16 Brain_EnemyDead_466190();
+    EXPORT s16 Brain_KilledEnemy_4662A0();
+    EXPORT s16 Brain_Unknown_46B250();
+    EXPORT s16 Brain_Sleeping_46B4E0();
     void WakeUp();
-    EXPORT __int16 Brain_WakingUp_46B700();
-    EXPORT __int16 Brain_Inactive_46B780();
-    EXPORT __int16 Brain_Possessed_46C190();
-    EXPORT __int16 Brain_Death_46C3A0();
-    EXPORT __int16 Brain_DeathDropDeath_46C5A0();
-    EXPORT __int16 Brain_ReturnControlToAbeAndDie_46C760();
-    EXPORT __int16 Brain_PanicTurning_46C7C0();
-    EXPORT __int16 Brain_PanicRunning_46CA20();
-    EXPORT __int16 Brain_PanicYelling_46CC50();
-    EXPORT __int16 Brain_Chasing_46CD60();
-    EXPORT __int16 Brain_StopChasing_46CF20();
-    EXPORT __int16 Brain_StartChasing_46CF90();
-    EXPORT __int16 Brain_Idle_46D6E0();
-    EXPORT __int16 Brain_Turning_46DC70();
-    EXPORT __int16 Brain_Walking_46DE90();
-    EXPORT __int16 Brain_GetAlertedTurn_46E520();
-    EXPORT __int16 Brain_GetAlerted_46E800();
-    EXPORT __int16 Brain_StoppingNextToMudokon_46EBB0();
-    EXPORT __int16 Brain_BeatingUp_46EC40();
-    EXPORT __int16 Brain_Discussion_46ECE0();
-    EXPORT __int16 Brain_GameEnder_46EEE0();
-    EXPORT __int16 Brain_Shooting_46EFD0();
-    EXPORT __int16 Brain_ZSpottedEnemy_46F260();
-    EXPORT __int16 Brain_ZShooting_46F290();
+    EXPORT s16 Brain_WakingUp_46B700();
+    EXPORT s16 Brain_Inactive_46B780();
+    EXPORT s16 Brain_Possessed_46C190();
+    EXPORT s16 Brain_Death_46C3A0();
+    EXPORT s16 Brain_DeathDropDeath_46C5A0();
+    EXPORT s16 Brain_ReturnControlToAbeAndDie_46C760();
+    EXPORT s16 Brain_PanicTurning_46C7C0();
+    EXPORT s16 Brain_PanicRunning_46CA20();
+    EXPORT s16 Brain_PanicYelling_46CC50();
+    EXPORT s16 Brain_Chasing_46CD60();
+    EXPORT s16 Brain_StopChasing_46CF20();
+    EXPORT s16 Brain_StartChasing_46CF90();
+    EXPORT s16 Brain_Idle_46D6E0();
+    EXPORT s16 Brain_Turning_46DC70();
+    EXPORT s16 Brain_Walking_46DE90();
+    EXPORT s16 Brain_GetAlertedTurn_46E520();
+    EXPORT s16 Brain_GetAlerted_46E800();
+    EXPORT s16 Brain_StoppingNextToMudokon_46EBB0();
+    EXPORT s16 Brain_BeatingUp_46EC40();
+    EXPORT s16 Brain_Discussion_46ECE0();
+    EXPORT s16 Brain_GameEnder_46EEE0();
+    EXPORT s16 Brain_Shooting_46EFD0();
+    EXPORT s16 Brain_ZSpottedEnemy_46F260();
+    EXPORT s16 Brain_ZShooting_46F290();
 
     EXPORT void BlowToGibs_4685A0();
 
@@ -418,59 +418,59 @@ public:
 
     bool BrainIs(TBrainFn fn);
 
-    __int16 field_10C;
-    __int16 field_10E_brain_state;
-    __int16 field_110_pitch_min;
-    __int16 field_112;
-    int field_114_timer;
-    int field_118;
-    __int16 field_11C;
-    __int16 field_11E;
-    __int16 field_120_checked_if_off_screen;
-    __int16 field_122;
-    __int16 field_124;
-    __int16 field_126_input;
-    int field_128_timer;
+    s16 field_10C;
+    s16 field_10E_brain_state;
+    s16 field_110_pitch_min;
+    s16 field_112;
+    s32 field_114_timer;
+    s32 field_118;
+    s16 field_11C;
+    s16 field_11E;
+    s16 field_120_checked_if_off_screen;
+    s16 field_122;
+    s16 field_124;
+    s16 field_126_input;
+    s32 field_128_timer;
     FP field_12C_falling_velx_scale_factor;
-    __int16 field_130;
-    __int16 field_132;
-    int field_134_tlvInfo;
-    __int16 field_138_res_idx;
-    __int16 field_13A;
+    s16 field_130;
+    s16 field_132;
+    s32 field_134_tlvInfo;
+    s16 field_138_res_idx;
+    s16 field_13A;
     PSX_RECT field_13C_zone_rect;
-    __int16 field_144;
-    __int16 field_146;
-    __int16 field_148;
-    __int16 field_14A;
-    __int16 field_14C_unused;
+    s16 field_144;
+    s16 field_146;
+    s16 field_148;
+    s16 field_14A;
+    s16 field_14C_unused;
     LevelIds field_14E_level;
-    __int16 field_150_path;
-    __int16 field_152_camera;
-    int field_154_death_by_being_shot_timer;
-    int field_158_explode_timer;
-    int field_15C;
-    int field_160;
-    int field_164;
-    int field_168;
-    int field_16C;
-    __int16 field_170;
-    __int16 field_172;
+    s16 field_150_path;
+    s16 field_152_camera;
+    s32 field_154_death_by_being_shot_timer;
+    s32 field_158_explode_timer;
+    s32 field_15C;
+    s32 field_160;
+    s32 field_164;
+    s32 field_168;
+    s32 field_16C;
+    s16 field_170;
+    s16 field_172;
     Path_Slig field_174_tlv;
     PSX_Point field_1CC_points[10];
-    __int16 field_1F4_points_count;
-    __int16 field_1F6;
+    s16 field_1F4_points_count;
+    s16 field_1F6;
     TBrainFn field_1F8_fn;
     TBrainFn field_1FC_fn2;
-    __int16 field_200_num_times_to_shoot;
-    __int16 field_202; // pad ?
-    int field_204;
-    int field_208;
-    __int16 field_20C_force_alive_state;
-    __int16 field_20E_spotted_possessed_slig;
+    s16 field_200_num_times_to_shoot;
+    s16 field_202; // pad ?
+    s32 field_204;
+    s32 field_208;
+    s16 field_20C_force_alive_state;
+    s16 field_20E_spotted_possessed_slig;
     SligResources field_210_resources;
-    __int16 field_254_prevent_depossession;
-    __int16 field_256;
-    int field_258_next_gamespeak_motion;
+    s16 field_254_prevent_depossession;
+    s16 field_256;
+    s32 field_258_next_gamespeak_motion;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x25C);
 

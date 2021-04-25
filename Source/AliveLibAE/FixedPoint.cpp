@@ -3,17 +3,17 @@
 #include "Function.hpp"
 #include <gtest/gtest.h>
 
-EXPORT int CC Math_SquareRoot_Shifted_496E20(unsigned int value, __int16 iterations)
+EXPORT s32 CC Math_SquareRoot_Shifted_496E20(u32 value, s16 iterations)
 {
-    unsigned int value_shifted = value;
-    int ret = 0;
-    int counter = (iterations / 2) + 15;
-    unsigned int tmp = 0;
-    for (int i = 0; i <= counter; i++)
+    u32 value_shifted = value;
+    s32 ret = 0;
+    s32 counter = (iterations / 2) + 15;
+    u32 tmp = 0;
+    for (s32 i = 0; i <= counter; i++)
     {
         ret *= 2;
         tmp = (value_shifted >> 30) | 4 * tmp; // Hm.. what?
-        const unsigned int v6 = (2 * ret) + 1;
+        const u32 v6 = (2 * ret) + 1;
         value_shifted *= 4;
         if (tmp >= v6)
         {
@@ -24,7 +24,7 @@ EXPORT int CC Math_SquareRoot_Shifted_496E20(unsigned int value, __int16 iterati
     return ret;
 }
 
-EXPORT int CC Math_SquareRoot_Int_496E70(int value)
+EXPORT s32 CC Math_SquareRoot_Int_496E70(s32 value)
 {
     return Math_SquareRoot_Shifted_496E20(value, 0); // 15 iterations
 }
@@ -39,7 +39,7 @@ void FixedPoint_ForceLink()
     FP fp = FP_FromInteger(0);
     fp += FP_FromInteger(5);
 
-    int f = FP_GetExponent(fp);
+    s32 f = FP_GetExponent(fp);
     ASSERT_EQ(f, 5);
 
     FixedPoint one = FP_FromDouble(1.0);

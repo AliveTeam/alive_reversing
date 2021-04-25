@@ -10,7 +10,7 @@ namespace AO {
 class MainMenuFade : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MainMenuFade* ctor_42A5A0(__int16 xpos, __int16 ypos, unsigned __int16 idx_1, __int16 bDestroyOnDone);
+    EXPORT MainMenuFade* ctor_42A5A0(s16 xpos, s16 ypos, u16 idx_1, s16 bDestroyOnDone);
 
     virtual void VUpdate() override;
 
@@ -20,13 +20,13 @@ public:
 
     EXPORT void VRender_42A7A0(PrimHeader** ppOt);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    int field_D4[4];
-    __int16 field_E4;
-    __int16 field_E6;
-    __int16 field_E8_bDestroyOnDone;
-    __int16 field_EA;
+    s32 field_D4[4];
+    s16 field_E4;
+    s16 field_E6;
+    s16 field_E8_bDestroyOnDone;
+    s16 field_EA;
 };
 ALIVE_ASSERT_SIZEOF(MainMenuFade, 0xEC);
 
@@ -40,7 +40,7 @@ ALIVE_ASSERT_SIZEOF(MainMenuTransition_Polys, 0x100);
 class MainMenuTransition : public BaseGameObject
 {
 public:
-    EXPORT MainMenuTransition* ctor_436370(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed, TPageAbr abr);
+    EXPORT MainMenuTransition* ctor_436370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed, TPageAbr abr);
 
     EXPORT BaseGameObject* dtor_436500();
 
@@ -52,48 +52,48 @@ public:
 
     EXPORT void VScreenChanged_4369D0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT MainMenuTransition* Vdtor_4369F0(signed int flags);
+    EXPORT MainMenuTransition* Vdtor_4369F0(s32 flags);
 
-    EXPORT void StartTrans_436560(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed);
+    EXPORT void StartTrans_436560(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed);
 
     virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT void VRender_436610(PrimHeader** ppOt);
 
-    __int16 field_10_current_Value;
-    __int16 field_12_change_by_speed;
-    __int16 field_14_fade_direction;
-    __int16 field_16_bDone;
-    __int16 field_18_bKillOnDone;
-    __int16 field_1A;
+    s16 field_10_current_Value;
+    s16 field_12_change_by_speed;
+    s16 field_14_fade_direction;
+    s16 field_16_bDone;
+    s16 field_18_bKillOnDone;
+    s16 field_1A;
     MainMenuTransition_Polys field_1C_polys[2];
     Prim_SetTPage field_21C_tPage[2];
     Layer field_23C_layer;
-    __int16 field_23E_width;
-    __int16 field_240_k120;
-    __int16 field_242_idx;
-    char field_244;
-    char field_245;
-    char field_246_colour_fade_value;
-    char field_247;
+    s16 field_23E_width;
+    s16 field_240_k120;
+    s16 field_242_idx;
+    s8 field_244;
+    s8 field_245;
+    s8 field_246_colour_fade_value;
+    s8 field_247;
 };
 ALIVE_ASSERT_SIZEOF(MainMenuTransition, 0x248);
 
 struct Path_TLV;
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 class Menu : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Menu* ctor_47A6F0(Path_TLV* pTlv, int tlvInfo);
+    EXPORT Menu* ctor_47A6F0(Path_TLV* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_47AAB0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT Menu* Vdtor_47FC40(signed int flags);
+    EXPORT Menu* Vdtor_47FC40(s32 flags);
 
     virtual void VUpdate() override;
 
@@ -159,7 +159,7 @@ public:
     EXPORT void Load_Update_47D760();
     void CycleGameSpeakIdleAnims();
 
-    EXPORT static int CC StringsEqual_47DA20(const void* pStr1, const void* pStr2);
+    EXPORT static s32 CC StringsEqual_47DA20(const void* pStr1, const void* pStr2);
 
     // Compared via address
     EXPORT void ToggleMotions_Update_47C800();
@@ -196,10 +196,10 @@ public:
 
     EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
 
-    EXPORT static void CC RenderElement_47A4E0(int xpos, int ypos, int input_command, PrimHeader** ot, AliveFont* pFont, int* pPolyOffset);
+    EXPORT static void CC RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset);
 
-    int field_D4[4];
-    BYTE** field_E4_res_array[6];
+    s32 field_D4[4];
+    u8** field_E4_res_array[6];
     AliveFont field_FC_font;
     Animation field_134_anim;
 
@@ -211,46 +211,46 @@ public:
 
     TRenderFn field_1D0_fn_render;
 
-    int field_1D4_tlvInfo;
-    int field_1D8_timer;
-    int field_1DC_idle_input_counter;
-    __int16 field_1E0_selected_index;
-    __int16 field_1E2_rgb;
-    __int16 field_1E4_colour_counter;
-    __int16 field_1E6;
+    s32 field_1D4_tlvInfo;
+    s32 field_1D8_timer;
+    s32 field_1DC_idle_input_counter;
+    s16 field_1E0_selected_index;
+    s16 field_1E2_rgb;
+    s16 field_1E4_colour_counter;
+    s16 field_1E6;
     MainMenuTransition* field_1E8_pMenuTrans;
     MainMenuFade* field_1EC_pObj1;
     MainMenuFade* field_1F0_pObj2;
-    const char* field_1F4_text;
-    __int16 field_1F8;
-    __int16 field_1FA;
-    __int16 field_1FC;
-    __int16 field_1FE;
-    __int16 field_200;
-    __int16 field_202;
-    __int16 field_204_flags;
-    __int16 field_206;
-    int field_208_camera;
-    __int16 field_20C_bStartInSpecificMap;
+    const s8* field_1F4_text;
+    s16 field_1F8;
+    s16 field_1FA;
+    s16 field_1FC;
+    s16 field_1FE;
+    s16 field_200;
+    s16 field_202;
+    s16 field_204_flags;
+    s16 field_206;
+    s32 field_208_camera;
+    s16 field_20C_bStartInSpecificMap;
     LevelIds field_20E_level;
-    __int16 field_210_path;
-    __int16 field_212_camera;
-    __int16 field_214_abe_xpos;
-    __int16 field_216_abe_ypos;
-    __int16 field_218;
-    __int16 field_21A;
+    s16 field_210_path;
+    s16 field_212_camera;
+    s16 field_214_abe_xpos;
+    s16 field_216_abe_ypos;
+    s16 field_218;
+    s16 field_21A;
     FP field_21C;
     FP field_220;
-    __int16 field_224_bToFmvSelect;
-    __int16 field_226_bToLevelSelect;
+    s16 field_224_bToFmvSelect;
+    s16 field_226_bToLevelSelect;
     FP field_228;
     FP field_22C;
-    int field_230_bGoBack;
+    s32 field_230_bGoBack;
 };
 ALIVE_ASSERT_SIZEOF(Menu, 0x234);
 
-ALIVE_VAR_EXTERN(int, gMainMenuInstanceCount_9F2DE0);
-ALIVE_VAR_EXTERN(BYTE, sJoyResId_50769C);
+ALIVE_VAR_EXTERN(s32, gMainMenuInstanceCount_9F2DE0);
+ALIVE_VAR_EXTERN(u8, sJoyResId_50769C);
 
 }
 

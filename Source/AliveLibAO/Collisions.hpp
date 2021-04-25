@@ -6,7 +6,7 @@
 
 namespace AO {
 
-enum eLineTypes : BYTE
+enum eLineTypes : u8
 {
     eFloor_0 = 0,
     eWallLeft_1 = 1,
@@ -21,12 +21,12 @@ class PathLine
 {
 public:
     PSX_RECT field_0_rect;
-    BYTE field_8_type;
-    char field_9_pad;
-    char field_A_pad;
-    char field_B_pad;
-    int field_C_previous;
-    int field_10_next;
+    u8 field_8_type;
+    s8 field_9_pad;
+    s8 field_A_pad;
+    s8 field_B_pad;
+    s32 field_C_previous;
+    s32 field_10_next;
 
     EXPORT PathLine* MoveOnLine_40CA20(FP* pXPos, FP* pYPos, const FP distToMove);
 };
@@ -37,24 +37,24 @@ struct CollisionInfo;
 class Collisions
 {
 public:
-    EXPORT static void CC Factory_40CEC0(const CollisionInfo* pCollisionInfo, const BYTE* pPathData);
+    EXPORT static void CC Factory_40CEC0(const CollisionInfo* pCollisionInfo, const u8* pPathData);
 
     EXPORT void dtor_40CFB0();
 
-    EXPORT Collisions* ctor_40CF30(const CollisionInfo* pCollisionInfo, const BYTE* pPathData);
+    EXPORT Collisions* ctor_40CF30(const CollisionInfo* pCollisionInfo, const u8* pPathData);
 
-    EXPORT PathLine* Add_Dynamic_Collision_Line_40C8A0( __int16 x1, __int16 y1, __int16 x2, __int16 y2, char mode);
+    EXPORT PathLine* Add_Dynamic_Collision_Line_40C8A0( s16 x1, s16 y1, s16 x2, s16 y2, s8 mode);
 
-    EXPORT signed __int16 RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask);
+    EXPORT s16 RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
 
     EXPORT PathLine* PreviousLine_40C940(PathLine* pLine);
 
     EXPORT PathLine* NextLine_40C9B0(PathLine* pLine);
 
     PathLine* field_0_pArray;
-    WORD field_4_current_item_count;
-    int field_8_item_count;
-    int field_C_max_count;
+    u16 field_4_current_item_count;
+    s32 field_8_item_count;
+    s32 field_C_max_count;
 };
 ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 

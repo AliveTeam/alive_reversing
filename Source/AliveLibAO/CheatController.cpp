@@ -9,10 +9,10 @@ namespace AO {
 
 ALIVE_VAR(1, 0x4FF958, CheatController*, pCheatController_4FF958, nullptr);
 
-ALIVE_VAR(1, 0x507704, short, sEnableFartGasCheat_507704, 0);
-ALIVE_VAR(1, 0x507708, short, sVoiceCheat_507708, 0);
-ALIVE_VAR(1, 0x50770C, short, sEnableCheatFMV_50770C, 0);
-ALIVE_VAR(1, 0x507710, short, sEnableCheatLevelSelect_507710, 0);
+ALIVE_VAR(1, 0x507704, s16, sEnableFartGasCheat_507704, 0);
+ALIVE_VAR(1, 0x507708, s16, sVoiceCheat_507708, 0);
+ALIVE_VAR(1, 0x50770C, s16, sEnableCheatFMV_50770C, 0);
+ALIVE_VAR(1, 0x507710, s16, sEnableCheatLevelSelect_507710, 0);
 
 EXPORT void CC CheatController_Cheat_FartGas_40FB70()
 {
@@ -42,10 +42,10 @@ EXPORT void CC CheatController_Cheat_FMV_40FBB0()
 
 struct CheatEntry
 {
-    int field_0_level_mask;
-    int field_4_cheat_code_length;
+    s32 field_0_level_mask;
+    s32 field_4_cheat_code_length;
     const InputCommands* field_8_cheat_code_ary;
-    int field_C_success_idx;
+    s32 field_C_success_idx;
     void(*field_10_callback)(void);
 };
 ALIVE_ASSERT_SIZEOF(CheatEntry, 0x14);
@@ -113,7 +113,7 @@ CheatController* CheatController::ctor_40FBF0()
     return this;
 }
 
-BaseGameObject* CheatController::VDestructor(signed int flags)
+BaseGameObject* CheatController::VDestructor(s32 flags)
 {
     return Vdtor_40FCD0(flags);
 }
@@ -131,7 +131,7 @@ BaseGameObject* CheatController::dtor_40FC20()
     return dtor_487DF0();
 }
 
-CheatController* CheatController::Vdtor_40FCD0(signed int flags)
+CheatController* CheatController::Vdtor_40FCD0(s32 flags)
 {
     dtor_40FC20();
     if (flags & 1)
@@ -148,7 +148,7 @@ void CheatController::VUpdate()
 
 void CheatController::VUpdate_40FC40()
 {
-    const unsigned __int16 held = Input().Held();
+    const u16 held = Input().Held();
     if (held)
     {
         // Only do cheat code check if shift is held
@@ -157,7 +157,7 @@ void CheatController::VUpdate_40FC40()
             for (auto& cheatEntry : stru_4C50F8)
             {
                 // Bit shift current level for level mask.
-                if ((1 << static_cast<int>(gMap_507BA8.field_0_current_level)) & cheatEntry.field_0_level_mask)
+                if ((1 << static_cast<s32>(gMap_507BA8.field_0_current_level)) & cheatEntry.field_0_level_mask)
                 {
                     if (held == cheatEntry.field_8_cheat_code_ary[cheatEntry.field_C_success_idx])
                     {

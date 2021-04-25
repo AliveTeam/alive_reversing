@@ -10,13 +10,13 @@
 
 namespace AO {
 
-EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopper* pTlv, int tlvInfo)
+EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopper* pTlv, s32 tlvInfo)
 {
     ctor_401090();
 
     SetVTable(this, 0x4BBAC8);
     field_4_typeId = Types::eRollingBallStopper_60;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnsckResID, TRUE, FALSE);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnsckResID, TRUE, FALSE);
     Animation_Init_417FD0(1256, 106, 73, ppRes, 1);
     field_10_anim.field_C_layer = Layer::eLayer_37;
     
@@ -93,7 +93,7 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
     return this;
 }
 
-BaseGameObject* RollingBallStopper::Vdtor_43C160(signed int flags)
+BaseGameObject* RollingBallStopper::Vdtor_43C160(s32 flags)
 {
     dtor_43C0A0();
     if (flags & 1)
@@ -164,7 +164,7 @@ void RollingBallStopper::VUpdate_43BF70()
     }
 }
 
-BaseGameObject* RollingBallStopper::VDestructor(signed int flags)
+BaseGameObject* RollingBallStopper::VDestructor(s32 flags)
 {
     return Vdtor_43C160(flags);
 }

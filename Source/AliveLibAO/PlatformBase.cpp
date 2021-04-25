@@ -23,7 +23,7 @@ void PlatformBase::VRemove_451680(BaseAliveGameObject* /*pObj*/)
     field_114_count--;
 }
 
-void PlatformBase::AddDynamicCollision_4512C0(int maxW, int maxH, int frameTableOffset, BYTE** ppAnimData, Path_TLV* pTlv, Map* pMap, int tlvInfo)
+void PlatformBase::AddDynamicCollision_4512C0(s32 maxW, s32 maxH, s32 frameTableOffset, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo)
 {
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
@@ -110,7 +110,7 @@ void PlatformBase::SyncCollisionLinePosition_451540()
 
 void PlatformBase::KeepThingsOnPlatform_451690(FP xpos)
 {
-    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pObjIter)
@@ -126,7 +126,7 @@ void PlatformBase::KeepThingsOnPlatform_451690(FP xpos)
     }
 }
 
-BaseGameObject* PlatformBase::Vdtor_4516F0(signed int flags)
+BaseGameObject* PlatformBase::Vdtor_4516F0(s32 flags)
 {
     dtor_451490();
 
@@ -137,7 +137,7 @@ BaseGameObject* PlatformBase::Vdtor_4516F0(signed int flags)
     return this;
 }
 
-BaseGameObject* PlatformBase::VDestructor(signed int flags)
+BaseGameObject* PlatformBase::VDestructor(s32 flags)
 {
     return Vdtor_4516F0(flags);
 }

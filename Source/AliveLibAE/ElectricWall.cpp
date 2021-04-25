@@ -11,9 +11,9 @@
 #include "Electrocute.hpp"
 #include "Function.hpp"
 
-const __int16 sElecticWallFrames_55165C[6] = { 0, 6, 10, 18, 22, 0 };
+const s16 sElecticWallFrames_55165C[6] = { 0, 6, 10, 18, 22, 0 };
 
-ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, int tlvInfo)
+ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544B60);
@@ -21,7 +21,7 @@ ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, int tlvInfo)
     field_4_typeId = AETypes::eElectricWall_39;
 
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
@@ -63,7 +63,7 @@ ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* ElectricWall::VDestructor(signed int flags)
+BaseGameObject* ElectricWall::VDestructor(s32 flags)
 {
     return vdtor_421F70(flags);
 }
@@ -78,7 +78,7 @@ void ElectricWall::VScreenChanged()
     vScreenChanged_422530();
 }
 
-ElectricWall* ElectricWall::vdtor_421F70(signed int flags)
+ElectricWall* ElectricWall::vdtor_421F70(s32 flags)
 {
     dtor_421FA0();
     if (flags & 1)
@@ -142,7 +142,7 @@ void ElectricWall::vUpdate_422030()
         }
 
         // Play sound every so often
-        if (static_cast<int>(sGnFrame_5C1B84) >= field_FC_sound_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) >= field_FC_sound_timer)
         {
             SFX_Play_46FC20(SoundEffect::BirdPortalSpark_41, 45, soundDirection, field_CC_sprite_scale);
             field_FC_sound_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(24, 40);
@@ -153,11 +153,11 @@ void ElectricWall::vUpdate_422030()
 
         PSX_RECT bRectBigger;
         bRectBigger.x = FP_GetExponent(field_B8_xpos - FP_FromInteger(4));
-        bRectBigger.y = static_cast<short>(bRect.y + 5);
+        bRectBigger.y = static_cast<s16>(bRect.y + 5);
         bRectBigger.w = FP_GetExponent(field_B8_xpos + FP_FromInteger(4));
-        bRectBigger.h = static_cast<short>(bRect.h + 5);
+        bRectBigger.h = static_cast<s16>(bRect.h + 5);
 
-        for (int i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
             if (!pObj)

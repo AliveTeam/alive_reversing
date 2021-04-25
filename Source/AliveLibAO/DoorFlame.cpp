@@ -25,7 +25,7 @@ public:
         SetVTable(this, 0x4BB330);
         field_4_typeId = Types::eNone_0;
 
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGlowResID, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGlowResID, 1, 0);
         Animation_Init_417FD0(1344, 52, 30, ppRes, 1);
 
         field_CC_bApplyShadows |= 1u;
@@ -56,12 +56,12 @@ public:
         return dtor_417D10();
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return Vdtor_432DB0(flags);
     }
 
-    EXPORT FireBackgroundGlow* Vdtor_432DB0(signed int flags)
+    EXPORT FireBackgroundGlow* Vdtor_432DB0(s32 flags)
     {
         dtor_431FF0();
         if (flags & 1)
@@ -85,9 +85,9 @@ public:
     {
         if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
         {
-            field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r);
-            field_10_anim.field_9_g = static_cast<BYTE>(field_C2_g);
-            field_10_anim.field_A_b = static_cast<BYTE>(field_C4_b);
+            field_10_anim.field_8_r = static_cast<u8>(field_C0_r);
+            field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
+            field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
 
             field_10_anim.VRender_403AE0(
                 FP_GetExponent(field_E4_xPos),
@@ -111,8 +111,8 @@ public:
     {
         PSX_Point xy = {};
 
-        __int16 frameW = 0;
-        __int16 frameH = 0;
+        s16 frameW = 0;
+        s16 frameH = 0;
 
         field_10_anim.Get_Frame_Width_Height_403E80(&frameW, &frameH);
         field_10_anim.Get_Frame_Offset_403EE0(&xy.field_0_x, &xy.field_2_y);
@@ -124,13 +124,13 @@ public:
         const FP frameWScaled = (FP_FromInteger(frameW) * field_BC_sprite_scale);
         const FP frameHScaled = (FP_FromInteger(frameH) * field_BC_sprite_scale);
 
-        const int offXScaled = FP_GetExponent(FP_FromInteger(xy.field_0_x) * field_BC_sprite_scale);
-        const int offYScaled = FP_GetExponent(FP_FromInteger(xy.field_2_y) * field_BC_sprite_scale);
+        const s32 offXScaled = FP_GetExponent(FP_FromInteger(xy.field_0_x) * field_BC_sprite_scale);
+        const s32 offYScaled = FP_GetExponent(FP_FromInteger(xy.field_2_y) * field_BC_sprite_scale);
         
          // TODO: Refactor PSX <> PC width conversion
         const FP frameWScaled_converted = ((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40); 
         // Why isn't this converted ??
-        //const short offXScaled_converted = FP_GetExponent(((FP_FromInteger(offXScaled) * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
+        //const s16 offXScaled_converted = FP_GetExponent(((FP_FromInteger(offXScaled) * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
 
      
         field_E4_xPos = screenX + FP_FromInteger(offXScaled) + FP_FromInteger(Math_NextRandom() % 3);
@@ -139,7 +139,7 @@ public:
         field_F0_yOff = screenY + FP_FromInteger(offYScaled) + frameHScaled + FP_FromInteger(Math_NextRandom() % 3);
     }
 
-    int field_D4[4];
+    s32 field_D4[4];
 
     FP field_E4_xPos;
     FP field_E8_yPos;
@@ -154,8 +154,8 @@ struct FlameSpark
     FP field_4_y;
     FP field_8_off_x;
     FP field_C_off_y;
-    __int16 field_10_random64;
-    __int16 field_12_bVisible;
+    s16 field_10_random64;
+    s16 field_12_bVisible;
     AnimationUnknown field_14;
 };
 ALIVE_ASSERT_SIZEOF(FlameSpark, 0x84);
@@ -173,7 +173,7 @@ public:
 
         SetVTable(this, 0x4BB368);
         field_4_typeId = Types::eNone_0;
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
         Animation_Init_417FD0(1532, 38, 21, ppRes, 1);
         field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -194,7 +194,7 @@ public:
             anim.field_14.field_4_flags.Set(AnimFlags::eBit3_Render);
             anim.field_14.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-            const short rndLayer = static_cast<short>(field_10_anim.field_C_layer) + Math_RandomRange_450F20(-1, 1);
+            const s16 rndLayer = static_cast<s16>(field_10_anim.field_C_layer) + Math_RandomRange_450F20(-1, 1);
             anim.field_14.field_C_layer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = field_BC_sprite_scale;
 
@@ -218,12 +218,12 @@ public:
         return dtor_417D10();
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(s32 flags) override
     {
         return Vdtor_432DD0(flags);
     }
 
-    EXPORT FlameSparks* Vdtor_432DD0(signed int flags)
+    EXPORT FlameSparks* Vdtor_432DD0(s32 flags)
     {
         dtor_432430();
         if (flags & 1)
@@ -350,9 +350,9 @@ public:
 
     }
 
-    int field_D4_padding[4];
-    __int16 field_E4_bRender;
-    __int16 field_E6_padding;
+    s32 field_D4_padding[4];
+    s16 field_E4_bRender;
+    s16 field_E6_padding;
     FlameSpark field_E8_sparks[6];
     FP field_400_xpos;
     FP field_404_ypos;
@@ -364,7 +364,7 @@ void DoorFlame::VUpdate()
     VUpdate_432BA0();
 }
 
-DoorFlame* DoorFlame::Vdtor_432DF0(signed int flags)
+DoorFlame* DoorFlame::Vdtor_432DF0(s32 flags)
 {
     dtor_432AA0();
     if (flags & 1)
@@ -374,7 +374,7 @@ DoorFlame* DoorFlame::Vdtor_432DF0(signed int flags)
     return this;
 }
 
-BaseGameObject* DoorFlame::VDestructor(signed int flags)
+BaseGameObject* DoorFlame::VDestructor(s32 flags)
 {
     return Vdtor_432DF0(flags);
 }
@@ -417,13 +417,13 @@ BaseGameObject* DoorFlame::dtor_432AA0()
     return dtor_417D10();
 }
 
-DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, int tlvInfo)
+DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB3A0);
     field_4_typeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
     Animation_Init_417FD0(5072, 51, 24, ppRes, 1);
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

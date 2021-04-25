@@ -12,7 +12,7 @@
 #include "PauseMenu.hpp" // pal_554474
 #include "Sys.hpp"
 
-BaseGameObject* Text::VDestructor(signed int flags)
+BaseGameObject* Text::VDestructor(s32 flags)
 {
     return vdtor_46AED0(flags);
 }
@@ -32,7 +32,7 @@ void Text::VScreenChanged()
     // Empty
 }
 
-EXPORT Text* Text::ctor_46ADA0(const char* pMessage, int renderCount, int bShadow)
+EXPORT Text* Text::ctor_46ADA0(const s8* pMessage, s32 renderCount, s32 bShadow)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x546148); // vTbl_Text_546148
@@ -44,9 +44,9 @@ EXPORT Text* Text::ctor_46ADA0(const char* pMessage, int renderCount, int bShado
 
     gObjList_drawables_5C1124->Push_Back(this);
 
-    field_20_font.ctor_433590(static_cast<int>((bShadow + 1) * strlen(pMessage)), pal_554474, &sFont1Context_5BC5C8);
+    field_20_font.ctor_433590(static_cast<s32>((bShadow + 1) * strlen(pMessage)), pal_554474, &sFont1Context_5BC5C8);
 
-    field_5C_xpos = static_cast<short>(field_20_font.MeasureWidth_433700(pMessage));
+    field_5C_xpos = static_cast<s16>(field_20_font.MeasureWidth_433700(pMessage));
     field_5E_ypos = 0;
 
     field_58_k0_unused = 0; // never used?
@@ -54,13 +54,13 @@ EXPORT Text* Text::ctor_46ADA0(const char* pMessage, int renderCount, int bShado
 
     memcpy(field_68_txt_buffer, pMessage, strlen(pMessage) + 1);
 
-    field_60_bShadow = static_cast<short>(bShadow);
+    field_60_bShadow = static_cast<s16>(bShadow);
     field_64_render_count = renderCount;
 
     return this;
 }
 
-EXPORT BaseGameObject* Text::vdtor_46AED0(signed int flags)
+EXPORT BaseGameObject* Text::vdtor_46AED0(s32 flags)
 {
     dtor_46AF00();
     if (flags & 1)
@@ -79,17 +79,17 @@ EXPORT void Text::dtor_46AF00()
     BaseGameObject_dtor_4DBEC0();
 }
 
-EXPORT void Text::SetYPos_46AFB0(int /*not_used*/, __int16 ypos)
+EXPORT void Text::SetYPos_46AFB0(s32 /*not_used*/, s16 ypos)
 {
     field_5E_ypos = ypos;
 }
 
 EXPORT void Text::Render_46AFD0(PrimHeader** ppOt)
 {
-    const __int16 ypos = field_5E_ypos + 100;
-    const int xpos = (368 / 2) - (field_5C_xpos / 2);
+    const s16 ypos = field_5E_ypos + 100;
+    const s32 xpos = (368 / 2) - (field_5C_xpos / 2);
 
-    int drawRet1 = field_20_font.DrawString_4337D0(
+    s32 drawRet1 = field_20_font.DrawString_4337D0(
         ppOt,
         field_68_txt_buffer,
         xpos,
@@ -109,7 +109,7 @@ EXPORT void Text::Render_46AFD0(PrimHeader** ppOt)
     // Draw again with offsets on x/y to create a shadow effect
     if (field_60_bShadow)
     {
-        int drawRet2 = field_20_font.DrawString_4337D0(
+        s32 drawRet2 = field_20_font.DrawString_4337D0(
             ppOt,
             field_68_txt_buffer,
             xpos + 2,
@@ -160,7 +160,7 @@ EXPORT void Text::Render_46AFD0(PrimHeader** ppOt)
 // MainMenuController::ChangeScreenAndIntroLogic_4CF640 will call with type 3 (Shown on boot, says Abe's Exoddus).
 
 // TODO: When above functions are reversed clean up this function to remove strange dead cases..
-EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, MessageType messageType)
+EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, MessageType messageType)
 {
     if (messageType == MessageType::eSkipMovie_1)
     {
@@ -170,7 +170,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, Mes
     auto pTextObj = ae_new<Text>();
     if (pTextObj)
     {
-        const char* pMsg = nullptr;
+        const s8* pMsg = nullptr;
         if (messageType == MessageType::eShortTitle_3)
         {
             pMsg = "    Abe's Exoddus    ";
@@ -237,14 +237,14 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, Mes
         SND_StopAll_4CB060();
     }
 
-    DWORD displayForMsecs = SYS_GetTicks() + 1000;
+    u32 displayForMsecs = SYS_GetTicks() + 1000;
 
     if (messageType == MessageType::eShortTitle_3)
     {
         displayForMsecs += 4000;
     }
 
-    char bQuitViaEnterOrTimeOut = 1;
+    s8 bQuitViaEnterOrTimeOut = 1;
     if (SYS_GetTicks() < displayForMsecs)
     {
         bool waitReturn = true;

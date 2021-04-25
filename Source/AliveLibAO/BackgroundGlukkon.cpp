@@ -17,7 +17,7 @@ void BackgroundGlukkon::VScreenChanged()
     VScreenChanged_41E0E0();
 }
 
-BackgroundGlukkon* BackgroundGlukkon::Vdtor_41E0F0(signed int flags)
+BackgroundGlukkon* BackgroundGlukkon::Vdtor_41E0F0(s32 flags)
 {
     dtor_41DCE0();
     if (flags & 1)
@@ -27,7 +27,7 @@ BackgroundGlukkon* BackgroundGlukkon::Vdtor_41E0F0(signed int flags)
     return this;
 }
 
-BaseGameObject* BackgroundGlukkon::VDestructor(signed int flags)
+BaseGameObject* BackgroundGlukkon::VDestructor(s32 flags)
 {
     return Vdtor_41E0F0(flags);
 }
@@ -48,7 +48,7 @@ BaseGameObject* BackgroundGlukkon::dtor_41DCE0()
     return dtor_401000();
 }
 
-BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_Glukkon* pTlv, int tlvInfo)
+BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_Glukkon* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BAF70);
@@ -69,7 +69,7 @@ BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_Glukkon* pTlv, int tlvInf
 
     field_BC_sprite_scale = FP_FromInteger(pTlv->field_18_scale_percent) / FP_FromInteger(100);
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, pTlv->field_1A_pal_id, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, pTlv->field_1A_pal_id, 0, 0);
     if (ppRes)
     {
         field_10_anim.LoadPal_403090(ppRes, 0);
@@ -86,12 +86,12 @@ void BackgroundGlukkon::VScreenChanged_41E0E0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-__int16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
+s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_41DF80(pFrom);
 }
 
-__int16 BackgroundGlukkon::VTakeDamage_41DF80(BaseGameObject* pFrom)
+s16 BackgroundGlukkon::VTakeDamage_41DF80(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -157,7 +157,7 @@ void BackgroundGlukkon::VUpdate_41DD60()
         break;
 
     case 2:
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer2)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer2)
         {
             const auto rndVol = Math_RandomRange_450F20(110, 127);
             const auto rndPitch =  ((Math_NextRandom() % 4) * 128) + 200;

@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 
-SlurgSpawner* SlurgSpawner::ctor_4C82E0(Path_SlurgSpawner* pTlv, int tlvInfo)
+SlurgSpawner* SlurgSpawner::ctor_4C82E0(Path_SlurgSpawner* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547704);
@@ -23,7 +23,7 @@ SlurgSpawner* SlurgSpawner::ctor_4C82E0(Path_SlurgSpawner* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* SlurgSpawner::VDestructor(signed int flags)
+BaseGameObject* SlurgSpawner::VDestructor(s32 flags)
 {
     return vdtor_4C8370(flags);
 }
@@ -45,7 +45,7 @@ void SlurgSpawner::vUpdate_4C83C0()
         DDCheat::DebugStr_4F5560("SPAWNER EXISTS/n");
     }
 
-    const short oldDelay = field_3E_delay_counter;
+    const s16 oldDelay = field_3E_delay_counter;
     field_3E_delay_counter++;
 
     if (field_3E_delay_counter < field_28_path_data.field_8_spawn_delay_between_slurgs && field_40_spawned_count < field_28_path_data.field_A_max_slurgs)
@@ -68,7 +68,7 @@ void SlurgSpawner::dtor_4C83A0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-SlurgSpawner* SlurgSpawner::vdtor_4C8370(signed int flags)
+SlurgSpawner* SlurgSpawner::vdtor_4C8370(s32 flags)
 {
     dtor_4C83A0();
     if (flags & 1)

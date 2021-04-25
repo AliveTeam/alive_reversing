@@ -16,19 +16,19 @@ namespace AO {
 
 struct LiftPointCoord
 {
-    int field_0;
-    int field_4;
+    s32 field_0;
+    s32 field_4;
 };
 
 struct LiftPointData
 {
-    int field_0_maxW_Platform;
-    int field_4_maxH_platform;
-    int field_8_platform_frame_table_offset;
-    int field_C_lift_wheel_frame_table_offset;
-    int field_10_pulley_frame_table_offset;
-    int field_14_maxW_lift_wheel_and_pulley;
-    int field_18_maxW_lift_wheel_and_pulley;
+    s32 field_0_maxW_Platform;
+    s32 field_4_maxH_platform;
+    s32 field_8_platform_frame_table_offset;
+    s32 field_C_lift_wheel_frame_table_offset;
+    s32 field_10_pulley_frame_table_offset;
+    s32 field_14_maxW_lift_wheel_and_pulley;
+    s32 field_18_maxW_lift_wheel_and_pulley;
 };
 
 const LiftPointData stru_4BB480[16] =
@@ -73,7 +73,7 @@ const LiftPointCoord stru_4BB640[16] =
 
 
 
-LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
+LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 {
     ctor_401090();
 
@@ -84,7 +84,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
 
     pTlv->field_1_unknown = 3;
 
-    BYTE** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftResID, 1, 0);
+    u8** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftResID, 1, 0);
     if (pTlv->field_20_scale)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
@@ -96,7 +96,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
         field_C6_scale = 1;
     }
 
-    const int idx = static_cast<int>(gMap_507BA8.field_0_current_level);
+    const s32 idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
     AddDynamicCollision_4512C0(
         stru_4BB480[idx].field_0_maxW_Platform,
         stru_4BB480[idx].field_4_maxH_platform,
@@ -126,13 +126,13 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
     field_118_x_offset -= xMovedBy;
     field_11A_width_offset -= xMovedBy;
 
-    BYTE** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
+    u8** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
     if (field_13C_lift_wheel.Init_402D20(
         stru_4BB480[idx].field_C_lift_wheel_frame_table_offset,
         gObjList_animations_505564,
         this,
-        static_cast<short>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
-        static_cast<short>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
+        static_cast<s16>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
+        static_cast<s16>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
         ppLiftWheelRes,
         1,
         0,
@@ -234,7 +234,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo)
     return this;
 }
 
-void LiftPoint::Move_435740(FP xSpeed, FP ySpeed, int /*not_used*/)
+void LiftPoint::Move_435740(FP xSpeed, FP ySpeed, s32 /*not_used*/)
 {
     field_B4_velx = xSpeed;
     field_B8_vely = ySpeed;
@@ -245,7 +245,7 @@ void LiftPoint::Move_435740(FP xSpeed, FP ySpeed, int /*not_used*/)
 }
 
 
-void LiftPoint::StayOnFloor(__int16 floor, Path_LiftPoint* pLiftTlv)
+void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
 {
     if (!floor)
     {
@@ -590,9 +590,9 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
             {
                 BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-                __int16 liftWheelR = field_C0_r;
-                __int16 liftWheelG = field_C2_g;
-                __int16 liftWheelB = field_C4_b;
+                s16 liftWheelR = field_C0_r;
+                s16 liftWheelG = field_C2_g;
+                s16 liftWheelB = field_C4_b;
 
                 PSX_RECT boundingRect = {};
                 VGetBoundingRect(&boundingRect, 1);
@@ -605,9 +605,9 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
                     &liftWheelG,
                     &liftWheelB);
 
-                field_13C_lift_wheel.field_8_r = static_cast<BYTE>(liftWheelR);
-                field_13C_lift_wheel.field_9_g = static_cast<BYTE>(liftWheelG);
-                field_13C_lift_wheel.field_A_b = static_cast<BYTE>(liftWheelB);
+                field_13C_lift_wheel.field_8_r = static_cast<u8>(liftWheelR);
+                field_13C_lift_wheel.field_9_g = static_cast<u8>(liftWheelG);
+                field_13C_lift_wheel.field_A_b = static_cast<u8>(liftWheelB);
 
                 const FP xOff = (FP_FromInteger(3) * field_BC_sprite_scale);
                 const FP yOff = (FP_FromInteger(-5) * field_BC_sprite_scale);
@@ -643,9 +643,9 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
                         pulley_ypos,
                         0))
                     {
-                        __int16 r = field_C0_r;
-                        __int16 g = field_C2_g;
-                        __int16 b = field_C4_b;
+                        s16 r = field_C0_r;
+                        s16 g = field_C2_g;
+                        s16 b = field_C4_b;
 
                         ShadowZone::ShadowZones_Calculate_Colour_435FF0(
                             field_26C_pulley_xpos,
@@ -655,9 +655,9 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
                             &g,
                             &b);
   
-                        field_1D4_pulley_anim.field_8_r = static_cast<BYTE>(r);
-                        field_1D4_pulley_anim.field_9_g = static_cast<BYTE>(g);
-                        field_1D4_pulley_anim.field_A_b = static_cast<BYTE>(b);
+                        field_1D4_pulley_anim.field_8_r = static_cast<u8>(r);
+                        field_1D4_pulley_anim.field_9_g = static_cast<u8>(g);
+                        field_1D4_pulley_anim.field_A_b = static_cast<u8>(b);
 
                         field_1D4_pulley_anim.VRender_403AE0(
                             FP_GetExponent(pulley_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
@@ -752,12 +752,12 @@ BaseGameObject* LiftPoint::dtor_4355E0()
     return dtor_451490();
 }
 
-BaseGameObject* LiftPoint::VDestructor(signed int flags)
+BaseGameObject* LiftPoint::VDestructor(s32 flags)
 {
     return Vdtor_435D10(flags);
 }
 
-void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
+void LiftPoint::CreatePulleyIfExists_435AE0(s16 camX, s16 camY)
 {
     auto pTlv = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(camX, camY);
     if (pTlv)
@@ -788,15 +788,15 @@ void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
 
         field_26C_pulley_xpos = FP_GetExponent(((k13_scaled + kM10_scaled) / FP_FromInteger(2)) + FP_NoFractional(field_A8_xpos));
 
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
-        const int idx = static_cast<int>(gMap_507BA8.field_0_current_level);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
+        const s32 idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
         field_1D4_pulley_anim.Init_402D20(
             stru_4BB480[idx].field_10_pulley_frame_table_offset,
             gObjList_animations_505564,
             this,
-            static_cast<short>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
-            static_cast<short>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
+            static_cast<s16>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
+            static_cast<s16>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
             ppRes,
             1,
             0,
@@ -821,7 +821,7 @@ void LiftPoint::CreatePulleyIfExists_435AE0(short camX, short camY)
     }
 }
 
-LiftPoint* LiftPoint::Vdtor_435D10(signed int flags)
+LiftPoint* LiftPoint::Vdtor_435D10(s32 flags)
 {
     dtor_4355E0();
     if (flags & 1)

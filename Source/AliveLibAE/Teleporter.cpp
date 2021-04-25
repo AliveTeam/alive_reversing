@@ -15,7 +15,7 @@
 #include "ParticleBurst.hpp"
 #include "Electrocute.hpp"
 
-Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, DWORD tlvInfo)
+Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, u32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547AE0);
@@ -40,7 +40,7 @@ Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, DWORD tlvInfo)
     return this;
 }
 
-BaseGameObject* Teleporter::VDestructor(signed int flags)
+BaseGameObject* Teleporter::VDestructor(s32 flags)
 {
     return vdtor_4DC350(flags);
 }
@@ -55,7 +55,7 @@ void Teleporter::VScreenChanged()
     vScreenChanged_4DCE80();
 }
 
-Teleporter* Teleporter::vdtor_4DC350(signed int flags)
+Teleporter* Teleporter::vdtor_4DC350(s32 flags)
 {
     dtor_4DC380();
     if (flags & 1)
@@ -105,13 +105,13 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
     PSX_Point abeSpawnPos = {};
     gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
 
-    const short xOrg = pTlvData->field_22_eletric_x - abeSpawnPos.field_0_x;
-    const short yOrg = pTlvData->field_24_electric_y - abeSpawnPos.field_2_y;
+    const s16 xOrg = pTlvData->field_22_eletric_x - abeSpawnPos.field_0_x;
+    const s16 yOrg = pTlvData->field_24_electric_y - abeSpawnPos.field_2_y;
 
     for (auto& sparkOffs : kSparkOffs_563988)
     {
-        int sparkX = 0;
-        int sparkY = 0;
+        s32 sparkX = 0;
+        s32 sparkY = 0;
         if (pTlvData->field_1C_scale != Scale_short::eFull_0)
         {
             sparkX = xOrg + (sparkOffs.field_0_x / 2);
@@ -254,7 +254,7 @@ void Teleporter::vUpdate_4DC400()
         gMap_5C3030.field_20 = 1;
 
         const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[field_34_mTlvData.field_1E_cam_swap_effect];
-        short bForceChange = 0;
+        s16 bForceChange = 0;
         if (effect == CameraSwapEffects::eEffect5_1_FMV || effect == CameraSwapEffects::eEffect11_Unknown)
         {
             bForceChange = 1;
@@ -326,7 +326,7 @@ void Teleporter::vUpdate_4DC400()
 
         sControlledCharacter_5C1B8C->MapFollowMe_408D10(TRUE);
 
-        const BYTE lineType = sControlledCharacter_5C1B8C->field_D6_scale == 0 ? 0xF0 : 0x1F;
+        const u8 lineType = sControlledCharacter_5C1B8C->field_D6_scale == 0 ? 0xF0 : 0x1F;
 
         PathLine* pPathLine = nullptr;
         FP hitX = {};

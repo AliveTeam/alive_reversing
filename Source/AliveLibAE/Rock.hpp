@@ -3,9 +3,9 @@
 #include "Throwable.hpp"
 #include "BitField.hpp"
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
-enum class RockStates : __int16
+enum class RockStates : s16
 {
     eNone_0 = 0,
     eFallingOutOfRockSack_1 = 1,
@@ -18,14 +18,14 @@ enum class RockStates : __int16
 struct RockSaveState
 {
     AETypes field_0_type;
-    __int16 field_2_padding;
-    int field_4_obj_id;
+    s16 field_2_padding;
+    s32 field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
     FP field_14_vely;
     FP field_18_sprite_scale;
-    __int16 field_1C_path_number;
+    s16 field_1C_path_number;
     LevelIds field_1E_lvl_number;
     enum RockStateFlags
     {
@@ -35,12 +35,12 @@ struct RockSaveState
         eBit4_bInteractive = 0x8
     };
     BitField16<RockStateFlags> field_20_flags;
-    __int16 field_22_padding;
-    int field_24_id;
-    __int16 field_28_line_type;
-    __int16 field_2A_count;
+    s16 field_22_padding;
+    s32 field_24_id;
+    s16 field_28_line_type;
+    s16 field_2A_count;
     RockStates field_2C_state;
-    __int16 field_2E_volume;
+    s16 field_2E_volume;
     FP field_30_xpos;
     FP field_34_ypos;
 };
@@ -49,36 +49,36 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(RockSaveState, 0x38);
 class Rock : public BaseThrowable
 {
 public:
-    EXPORT Rock* ctor_49E150(FP xpos, FP ypos, __int16 count);
+    EXPORT Rock* ctor_49E150(FP xpos, FP ypos, s16 count);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VThrow_49E460(FP velX, FP velY) override;
     virtual BOOL VCanThrow_49E350() override;
     virtual BOOL VIsFalling_49E330() override;
     virtual void VTimeToExplodeRandom_411490() override;
 
-    static int CC CreateFromSaveState_49F720(const BYTE* pData);
+    static s32 CC CreateFromSaveState_49F720(const u8* pData);
 
 private:
     EXPORT void vScreenChanged_49F030();
-    EXPORT int vGetSaveState_49F9A0(RockSaveState* pState);
+    EXPORT s32 vGetSaveState_49F9A0(RockSaveState* pState);
     EXPORT BOOL vIsFalling_49E330();
     EXPORT BOOL vCanThrow_49E350();
-    EXPORT Rock* vdtor_49E370(signed int flags);
+    EXPORT Rock* vdtor_49E370(s32 flags);
     EXPORT void dtor_49E3A0();
     EXPORT void vThrow_49E460(FP velX, FP velY);
     EXPORT void InTheAir_49E4B0();
-    EXPORT __int16 OnCollision_49EF10(BaseAliveGameObject* pObj);
+    EXPORT s16 OnCollision_49EF10(BaseAliveGameObject* pObj);
     EXPORT void vUpdate_49E9F0();
 
 private:
     RockStates field_11C_state;
-    __int16 field_11E_volume;
+    s16 field_11E_volume;
     FP field_120_xpos;
     FP field_124_ypos;
-    int field_128_shimmer_timer;
+    s32 field_128_shimmer_timer;
 };
 ALIVE_ASSERT_SIZEOF(Rock, 0x12C);

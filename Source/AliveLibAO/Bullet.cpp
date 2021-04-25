@@ -14,7 +14,7 @@
 
 namespace AO {
 
-EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, __int16 a9)
+EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 a7, FP scale, s16 a9)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA328);
@@ -33,7 +33,7 @@ EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type
     return this;
 }
 
-BaseGameObject* Bullet::VDestructor(signed int flags)
+BaseGameObject* Bullet::VDestructor(s32 flags)
 {
     dtor_487DF0();
     if (flags & 1)
@@ -61,7 +61,7 @@ void Bullet::VUpdate_408E30()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
-    const short volume = field_2C_scale != FP_FromDouble(0.5) ? 75 : 50;
+    const s16 volume = field_2C_scale != FP_FromDouble(0.5) ? 75 : 50;
 
     switch (field_10_type)
     {
@@ -280,7 +280,7 @@ BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
     }
 
     BaseAliveGameObject* pObjectToShoot = nullptr;
-    for (int idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
     {
         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(idx);
         if (!pObjIter)

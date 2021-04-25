@@ -11,22 +11,22 @@ struct Path_Slig;
 class SligSpawner : public BaseGameObject
 {
 public:
-    EXPORT SligSpawner* ctor_402850(Path_Slig* pTlv, int tlvInfo);
+    EXPORT SligSpawner* ctor_402850(Path_Slig* pTlv, s32 tlvInfo);
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
 private:
     EXPORT void VScreenChanged_402960();
     EXPORT void VUpdate_4028A0();
     EXPORT BaseGameObject* dtor_402970();
-    EXPORT SligSpawner* VDtor_4029F0(signed int flags);
+    EXPORT SligSpawner* VDtor_4029F0(s32 flags);
 
 private:
-    int field_10_tlvInfo;
-    unsigned __int16 field_14_slig_id;
-    __int16 field_16_flags;
+    s32 field_10_tlvInfo;
+    u16 field_14_slig_id;
+    s16 field_16_flags;
     Path_TLV field_18_tlv;
 };
 ALIVE_ASSERT_SIZEOF(SligSpawner, 0x30);

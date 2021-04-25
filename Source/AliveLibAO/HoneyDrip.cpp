@@ -21,7 +21,7 @@ HoneyDrip* HoneyDrip::ctor_431D10(FP xpos, FP ypos)
     field_C2_g = 128;
     field_C0_r = 128;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHoneyResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHoneyResID, 1, 0);
     Animation_Init_417FD0(3628, 62, 126, ppRes, 1);
     field_AC_ypos = ypos;
     field_A8_xpos = xpos;
@@ -50,7 +50,7 @@ void HoneyDrip::VUpdate_431DC0()
     }
 }
 
-BaseGameObject* HoneyDrip::VDestructor(signed int flags)
+BaseGameObject* HoneyDrip::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

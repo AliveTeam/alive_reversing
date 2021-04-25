@@ -13,21 +13,21 @@ bool CC RunningAsInjectedDll()
     return false;
 }
 
-static std::vector<unsigned char> ReadLvlFile(LvlArchive& archive, const char* fileName)
+static std::vector<u8> ReadLvlFile(LvlArchive& archive, const s8* fileName)
 {
     LvlFileRecord* pFileRec = archive.Find_File_Record_433160(fileName);
     if (!pFileRec)
     {
         ALIVE_FATAL("Failed find file in lvl");
     }
-    std::vector<unsigned char> fileContent;
+    std::vector<u8> fileContent;
     fileContent.resize(pFileRec->field_10_num_sectors * 2048);
     sLvlArchive_5BC520.Read_File_4330A0(pFileRec, fileContent.data());
     fileContent.resize(pFileRec->field_14_file_size);
     return fileContent;
 }
 
-static void WriteVec(const char* fileName, const std::vector<unsigned char>& vec)
+static void WriteVec(const s8* fileName, const std::vector<u8>& vec)
 {
     auto hFile = fopen(fileName, "wb");
     if (hFile)
@@ -37,14 +37,14 @@ static void WriteVec(const char* fileName, const std::vector<unsigned char>& vec
     }
 }
 
-int CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader* pVabHeader, VabBodyRecord* pVabBody, int idx);
-BOOL CC sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, int idx);
-DWORD* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, VabBodyRecord* pBodyRecords, int idx);
+s32 CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
+BOOL CC sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
+u32* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, VabBodyRecord* pBodyRecords, s32 idx);
 
-int CC SND_SoundsDat_Read(FILE* file, VabHeader* pVabHeader, VabBodyRecord* pVabBody, int idx, void* pBuffer)
+s32 CC SND_SoundsDat_Read(FILE* file, VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx, void* pBuffer)
 {
-    const int sampleOffset = *SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx); // = field_8_fileOffset
-    const int sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pVabHeader, pVabBody, idx);
+    const s32 sampleOffset = *SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx); // = field_8_fileOffset
+    const s32 sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pVabHeader, pVabBody, idx);
     if (sampleOffset == -1)
     {
         return 0;
@@ -57,7 +57,7 @@ int CC SND_SoundsDat_Read(FILE* file, VabHeader* pVabHeader, VabBodyRecord* pVab
 }
 
 
-static void PCToPsxVab(bool isAe, const char* lvlName, const char* vhName, const char* vbName)
+static void PCToPsxVab(bool isAe, const s8* lvlName, const s8* vhName, const s8* vbName)
 {
     ResourceManager::Init_49BCE0();
 
@@ -75,7 +75,7 @@ static void PCToPsxVab(bool isAe, const char* lvlName, const char* vhName, const
     auto vbData = ReadLvlFile(archive, vbName);
     auto pBody = reinterpret_cast<VabBodyRecord*>(vbData.data());
 
-    int vagCount = pHeader->field_16_num_vags;
+    s32 vagCount = pHeader->field_16_num_vags;
     if (vagCount > 255)
     {
         vagCount = 255;
@@ -89,16 +89,16 @@ static void PCToPsxVab(bool isAe, const char* lvlName, const char* vhName, const
             ALIVE_FATAL("Failed to open sounds.dat");
         }
 
-        for (int i = 0; i < vagCount; i++)
+        for (s32 i = 0; i < vagCount; i++)
         {
-            int sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pHeader, pBody, i);
+            s32 sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pHeader, pBody, i);
             if (sampleLen < 4000 && !sub_4FC470(pHeader, pBody, i))
             {
                 sampleLen *= 2;
             }
             sampleLen = pBody->field_0_length_or_duration;
 
-            std::vector<unsigned char> tempBuffer;
+            std::vector<u8> tempBuffer;
             tempBuffer.resize(sampleLen);
            // SND_SoundsDat_Read(hDat, pHeader, pBody, i, tempBuffer.data());
 
@@ -114,7 +114,7 @@ static void PCToPsxVab(bool isAe, const char* lvlName, const char* vhName, const
     archive.Free_433130();
 }
 
-int main(int /*argc*/, char** /*argv*/)
+s32 main(s32 /*argc*/, s8** /*argv*/)
 {
 #if _WIN32
     ::AllocConsole();

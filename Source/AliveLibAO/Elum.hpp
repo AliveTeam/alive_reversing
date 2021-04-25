@@ -61,12 +61,12 @@ namespace AO {
     ENTRY(State_50_Knockback_415DC0)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eElumStates : int
+enum eElumStates : s32
 {
     ELUM_STATES_ENUM(MAKE_ENUM)
 };
 
-enum class ElumSounds : unsigned __int8
+enum class ElumSounds : u8
 {
     eWalkingFootstep_0 = 0,
     eRunningFootstep_1 = 1,
@@ -82,9 +82,9 @@ enum class ElumSounds : unsigned __int8
 struct Path_ElumPathTrans : public Path_TLV
 {
     LevelIds field_18_level;
-    __int16 field_1A_path;
-    __int16 field_1C_camera;
-    __int16 field_1E_pad;
+    s16 field_1A_path;
+    s16 field_1C_camera;
+    s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_ElumPathTrans, 0x20);
 
@@ -106,32 +106,32 @@ public:
     };
     struct anythingForTheTimeBeing
     {
-        __int16 field_0;
-        __int16 field_2;
+        s16 field_0;
+        s16 field_2;
     };
 
-    EXPORT Elum* Vdtor_411710(signed int flags);
+    EXPORT Elum* Vdtor_411710(s32 flags);
     EXPORT void VUpdate_4102A0();
     EXPORT void VRender_410E40(PrimHeader** ppOt);
     EXPORT void vScreenChange_411340();
 
     EXPORT static void Spawn_410E90(TlvItemInfoUnion tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    EXPORT Elum* ctor_410870(int a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, int a5, TlvItemInfoUnion a6);
+    EXPORT Elum* ctor_410870(s32 a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, s32 a5, TlvItemInfoUnion a6);
     EXPORT BaseGameObject* dtor_410BC0();
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
     EXPORT void VOn_TLV_Collision_410F10(Path_TLV* pTlv);
 
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT __int16 VTakeDamage_411020(BaseGameObject* pFrom);
+    EXPORT s16 VTakeDamage_411020(BaseGameObject* pFrom);
 
     virtual void VOnTrapDoorOpen() override;
 
@@ -152,7 +152,7 @@ public:
 
     EXPORT BaseGameObject* dtor_base_416FE0();
 
-    EXPORT BYTE** GetResBlock_410D00(short currentMotion);
+    EXPORT u8** GetResBlock_410D00(s16 currentMotion);
 
     EXPORT void MidWalkToNextMotion_412FA0();
 
@@ -162,13 +162,13 @@ public:
 
     void CheckLiftPointGoneAndSetCamera();
 
-    EXPORT void MoveOnLine_412580(__int16 xLookAhead);
+    EXPORT void MoveOnLine_412580(s16 xLookAhead);
 
-    EXPORT void SetAbeAsPlayer_412520(__int16 abeMotion);
+    EXPORT void SetAbeAsPlayer_412520(s16 abeMotion);
 
-    EXPORT __int16 ToNextState_4120F0();
+    EXPORT s16 ToNextState_4120F0();
 
-    EXPORT __int16 ToNextStateAbeControlled_411E40();
+    EXPORT s16 ToNextStateAbeControlled_411E40();
 
     EXPORT void HandleElumPathTrans_411460();
 
@@ -176,12 +176,12 @@ public:
 
     EXPORT void FindHoney_411600();
 
-    EXPORT __int16 NearHoney_411DA0();
+    EXPORT s16 NearHoney_411DA0();
 
     // Brains
-    EXPORT __int16 Brain_0_WithoutAbe_416190();
+    EXPORT s16 Brain_0_WithoutAbe_416190();
 
-    EXPORT __int16 Brain_1_HoneyAddiction_411730();
+    EXPORT s16 Brain_1_HoneyAddiction_411730();
 
     enum class MidType
     {
@@ -250,48 +250,48 @@ public:
 
     struct ElumResources
     {
-        BYTE** res[31];
+        u8** res[31];
     };
 
-    __int16 field_10C_bFootStep2;
-    __int16 field_10E_pressed;
-    int field_110_timer;
-    int field_114_respond_timer;
+    s16 field_10C_bFootStep2;
+    s16 field_10E_pressed;
+    s32 field_110_timer;
+    s32 field_114_respond_timer;
     FP field_118_jump_velx;
-    int field_11C_padding;
-    __int16 field_120_bUnknown;
-    __int16 field_122_bDontFollowAbe;
-    __int16 field_124_bShould_IdleToWalk1;
-    __int16 field_126_res_idx;
-    __int16 field_128_brain_idx;
-    __int16 field_12A_brain_state;
-    __int16 field_12C_honey_xpos;
-    __int16 field_12E_honey_ypos;
-    int field_130_unused;
-    int field_134_padding;
+    s32 field_11C_padding;
+    s16 field_120_bUnknown;
+    s16 field_122_bDontFollowAbe;
+    s16 field_124_bShould_IdleToWalk1;
+    s16 field_126_res_idx;
+    s16 field_128_brain_idx;
+    s16 field_12A_brain_state;
+    s16 field_12C_honey_xpos;
+    s16 field_12E_honey_ypos;
+    s32 field_130_unused;
+    s32 field_134_padding;
     PSX_RECT field_138_continue_rect;
-    __int16 field_140_continue_zone_number;
-    __int16 field_142_zone_number;
-    __int16 field_144_bRespawnOnDead;
-    __int16 field_146_honey_ypos;
-    __int16 field_148_continue_path;
+    s16 field_140_continue_zone_number;
+    s16 field_142_zone_number;
+    s16 field_144_bRespawnOnDead;
+    s16 field_146_honey_ypos;
+    s16 field_148_continue_path;
     LevelIds field_14A_continue_level;
-    __int16 field_14C_continue_camera;
-    __int16 field_14E_padding;
+    s16 field_14C_continue_camera;
+    s16 field_14E_padding;
     FP field_150_continue_sprite_scale;
-    __int16 field_154_bAbeForcedDownFromElum;
-    __int16 field_156_padding;
-    int field_158_last_event_idx;
-    int field_15C_padding;
-    int field_160_padding;
-    int field_164_padding;
-    int field_168_padding;
-    __int16 field_16C_never_read;
-    __int16 field_16E_never_read;
+    s16 field_154_bAbeForcedDownFromElum;
+    s16 field_156_padding;
+    s32 field_158_last_event_idx;
+    s32 field_15C_padding;
+    s32 field_160_padding;
+    s32 field_164_padding;
+    s32 field_168_padding;
+    s16 field_16C_never_read;
+    s16 field_16E_never_read;
     BitField16<Flags_170> field_170_flags;
-    __int16 field_172_padding;
+    s16 field_172_padding;
     ElumResources field_174_resources;
-    int field_1F0_tlvInfo;
+    s32 field_1F0_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(Elum, 0x1F4);
 

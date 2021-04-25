@@ -8,7 +8,7 @@
 #include "SwitchStates.hpp"
 #include "Abe.hpp"
 
-BaseGameObject* InvisibleSwitch::VDestructor(signed int flags)
+BaseGameObject* InvisibleSwitch::VDestructor(s32 flags)
 {
     return vdtor_45FAF0(flags);
 }
@@ -23,7 +23,7 @@ void InvisibleSwitch::VScreenChanged()
     vScreenChanged_45FD80();
 }
 
-InvisibleSwitch* InvisibleSwitch::ctor_45FA70(Path_InvisibleSwitch* pTlv, DWORD tlvInfo)
+InvisibleSwitch* InvisibleSwitch::ctor_45FA70(Path_InvisibleSwitch* pTlv, u32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545A7C); // vTbl_InvisibleSwitch_545A7C
@@ -46,7 +46,7 @@ void InvisibleSwitch::dtor_45FB20()
     BaseGameObject_dtor_4DBEC0();
 }
 
-InvisibleSwitch* InvisibleSwitch::vdtor_45FAF0(signed int flags)
+InvisibleSwitch* InvisibleSwitch::vdtor_45FAF0(s32 flags)
 {
     dtor_45FB20();
     if (flags & 1)
@@ -60,7 +60,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
 {
     if (field_38_state == States::eState_WaitForDelayTimer_1)
     {
-        if (field_28_delay_timer <= static_cast<int>(sGnFrame_5C1B84))
+        if (field_28_delay_timer <= static_cast<s32>(sGnFrame_5C1B84))
         {
             // Timer expired, do the operation
             SwitchStates_Do_Operation_465F00(field_20_id, field_22_action);

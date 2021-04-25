@@ -20,14 +20,14 @@ TintEntry stru_4C3140[3] =
   { -1, 127u, 127u, 127u },
 };
 
-TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo)
+TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(&field_118_anim, 0x4BA2B8);
     SetVTable(this, 0x4BA2C8);
     field_4_typeId = Types::eTimedMine_8;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombResID, 1, 0);
     Animation_Init_417FD0(792, 35, 17, ppRes, 1);
 
     field_6_flags.Set(Options::eInteractive_Bit8);
@@ -93,7 +93,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, int tlvInfo)
 BaseGameObject* TimedMine::dtor_408690()
 {
     SetVTable(this, 0x4BA2C8);
-    if (field_10C_armed != 1 || static_cast<int>(gnFrameCount_507670) < field_114_timer)
+    if (field_10C_armed != 1 || static_cast<s32>(gnFrameCount_507670) < field_114_timer)
     {
         gMap_507BA8.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 0);
     }
@@ -115,12 +115,12 @@ BaseGameObject* TimedMine::dtor_408690()
     return dtor_401000();
 }
 
-BaseGameObject* TimedMine::VDestructor(signed int flags)
+BaseGameObject* TimedMine::VDestructor(s32 flags)
 {
     return Vdtor_408E10(flags);
 }
 
-TimedMine* TimedMine::Vdtor_408E10(signed int flags)
+TimedMine* TimedMine::Vdtor_408E10(s32 flags)
 {
     dtor_408690();
     if (flags & 1)
@@ -149,12 +149,12 @@ void TimedMine::VScreenChanged_408DD0()
     }
 }
 
-__int16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
+s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_408B90(pFrom);
 }
 
-__int16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
+s16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -244,7 +244,7 @@ void TimedMine::StickToLiftPoint_408CA0()
         {
             if (ObjListPlatforms_50766C)
             {
-                for (int i = 0; i < ObjListPlatforms_50766C->Size(); i++)
+                for (s32 i = 0; i < ObjListPlatforms_50766C->Size(); i++)
                 {
                     BaseGameObject* pObj = ObjListPlatforms_50766C->ItemAt(i);
                     if (!pObj)
@@ -300,7 +300,7 @@ void TimedMine::VUpdate_408760()
     }
     if (field_10C_armed == 1)
     {
-        if (static_cast<int>(gnFrameCount_507670) > (field_1B4 + field_1B0))
+        if (static_cast<s32>(gnFrameCount_507670) > (field_1B4 + field_1B0))
         {
             field_1B0 = gnFrameCount_507670;
             auto direction = gMap_507BA8.GetDirection(
@@ -320,7 +320,7 @@ void TimedMine::VUpdate_408760()
                 field_1B4 = (field_114_timer - gnFrameCount_507670) / 8;
             }
         }
-        if (static_cast<int>(gnFrameCount_507670) >= field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_114_timer)
         {
             auto pBaseBomb = ao_new<BaseBomb>();
             if (pBaseBomb)
@@ -369,7 +369,7 @@ void TimedMine::vOnPickUpOrSlapped_408A80()
     if (field_10C_armed != 1)
     {
         field_10C_armed = 1;
-        if ((signed int) (field_10E_explode_timeout & 0xFFFC) >= 72)
+        if ((s32) (field_10E_explode_timeout & 0xFFFC) >= 72)
         {
             field_1B4 = 18;
         }

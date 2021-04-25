@@ -5,7 +5,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
-enum class FleechSound : unsigned __int8
+enum class FleechSound : u8
 {
     PatrolCry_0 = 0,
     Burp_1 = 1,
@@ -31,99 +31,99 @@ struct Path_Fleech : public Path_TLV
     Scale_short field_10_scale;
     XDirection_short field_12_direction;
     Choice_short field_14_asleep;
-    __int16 field_16_wake_up;
-    __int16 field_18_not_used;
-    __int16 field_1A_attack_anger_increaser;
-    __int16 field_1C_attack_delay;
-    __int16 field_1E_wake_up_id1;
+    s16 field_16_wake_up;
+    s16 field_18_not_used;
+    s16 field_1A_attack_anger_increaser;
+    s16 field_1C_attack_delay;
+    s16 field_1E_wake_up_id1;
     Choice_short field_20_hanging;
-    __int16 field_22_lost_target_timeout;
+    s16 field_22_lost_target_timeout;
     Choice_short field_24_goes_to_sleep;
-    __int16 field_26_patrol_range_in_grids;
-    __int16 field_28_unused;
-    __int16 field_2A_wake_up_id2;
+    s16 field_26_patrol_range_in_grids;
+    s16 field_28_unused;
+    s16 field_2A_wake_up_id2;
     Choice_short field_2C_persistant;
-    __int16 field_2E_padding;
+    s16 field_2E_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Fleech, 0x30);
 
 struct Fleech_State
 {
     AETypes field_0_type;
-    __int16 field_2;
-    int field_4_obj_id;
+    s16 field_2;
+    s32 field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
     FP field_14_vely;
-    __int16 field_18_path_number;
+    s16 field_18_path_number;
     LevelIds field_1A_lvl_number;
     FP field_1C_sprite_scale;
-    __int16 field_20_r;
-    __int16 field_22_g;
-    __int16 field_24_b;
-    __int16 field_26_bFlipX;
-    __int16 field_28_current_motion;
-    __int16 field_2A_anim_current_frame;
-    __int16 field_2C_frame_change_counter;
-    char field_2E_bRender;
-    char field_2F_bDrawable;
+    s16 field_20_r;
+    s16 field_22_g;
+    s16 field_24_b;
+    s16 field_26_bFlipX;
+    s16 field_28_current_motion;
+    s16 field_2A_anim_current_frame;
+    s16 field_2C_frame_change_counter;
+    s8 field_2E_bRender;
+    s8 field_2F_bDrawable;
     FP field_30_health;
-    __int16 field_34_current_motion;
-    __int16 field_36_next_motion;
-    __int16 field_38_lastLineYPos;
-    __int16 field_3A_line_type;
-    int field_3C_id;
-    int field_40_tlvInfo;
-    int field_44_obj_id;
-    __int16 field_48_unused; //TODO: Saves and sets another unused field, field_120 -- Nemin (7/5/2020)
-    __int16 field_4A_save_tongue_state;
-    __int16 field_4C_save_tongue_sub_state;
-    __int16 field_4E;
-    __int16 field_50;
-    __int16 field_52_tongue_x;
-    __int16 field_54_tongue_y;
-    __int16 field_56_target_x;
-    __int16 field_58_target_y;
-    __int16 field_5A;
-    char field_5C;
-    char field_5D;
-    __int16 field_5E_brain_state;
-    __int16 field_60_state;
-    __int16 field_62;
-    int field_64;
-    char field_68_fleech_random_idx;
-    char field_69;
-    __int16 field_6A;
-    int field_6C;
+    s16 field_34_current_motion;
+    s16 field_36_next_motion;
+    s16 field_38_lastLineYPos;
+    s16 field_3A_line_type;
+    s32 field_3C_id;
+    s32 field_40_tlvInfo;
+    s32 field_44_obj_id;
+    s16 field_48_unused; //TODO: Saves and sets another unused field, field_120 -- Nemin (7/5/2020)
+    s16 field_4A_save_tongue_state;
+    s16 field_4C_save_tongue_sub_state;
+    s16 field_4E;
+    s16 field_50;
+    s16 field_52_tongue_x;
+    s16 field_54_tongue_y;
+    s16 field_56_target_x;
+    s16 field_58_target_y;
+    s16 field_5A;
+    s8 field_5C;
+    s8 field_5D;
+    s16 field_5E_brain_state;
+    s16 field_60_state;
+    s16 field_62;
+    s32 field_64;
+    s8 field_68_fleech_random_idx;
+    s8 field_69;
+    s16 field_6A;
+    s32 field_6C;
     FP field_70;
-    __int16 field_74;
-    __int16 field_76_current_anger;
-    __int16 field_78_max_anger;
-    __int16 field_7A_attack_anger;
-    __int16 field_7C_wakeup_id;
-    __int16 field_7E_tlv;
-    __int16 field_80_wake_up_switch_value;
-    __int16 field_82_use_wake_up_id;
-    __int16 field_84;
-    __int16 field_86;
-    __int16 field_88_patrol_range;
-    __int16 field_8A;
-    __int16 field_8C;
-    __int16 field_8E;
-    __int16 field_90_chase_delay;
-    __int16 field_92_chase_timer;
-    __int16 field_94_lost_target_timeout;
-    __int16 field_96;
-    __int16 field_98;
-    __int16 field_9A;
-    __int16 field_9C;
-    char field_9E_angle;
-    char field_9F;
+    s16 field_74;
+    s16 field_76_current_anger;
+    s16 field_78_max_anger;
+    s16 field_7A_attack_anger;
+    s16 field_7C_wakeup_id;
+    s16 field_7E_tlv;
+    s16 field_80_wake_up_switch_value;
+    s16 field_82_use_wake_up_id;
+    s16 field_84;
+    s16 field_86;
+    s16 field_88_patrol_range;
+    s16 field_8A;
+    s16 field_8C;
+    s16 field_8E;
+    s16 field_90_chase_delay;
+    s16 field_92_chase_timer;
+    s16 field_94_lost_target_timeout;
+    s16 field_96;
+    s16 field_98;
+    s16 field_9A;
+    s16 field_9C;
+    s8 field_9E_angle;
+    s8 field_9F;
     FP field_A0;
     FP field_A4;
-    int field_A8;
-    int field_AC_obj_id;
+    s32 field_A8;
+    s32 field_AC_obj_id;
 
     enum Flags_B0
     {
@@ -137,20 +137,20 @@ struct Fleech_State
     };
 
     BitField16<Flags_B0> field_B0;
-    __int16 field_B2;
+    s16 field_B2;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Fleech_State, 0xB4);
 
 class Fleech;
-using TFleechAIFn = __int16 (Fleech::*)();
+using TFleechAIFn = s16 (Fleech::*)();
 using TFleechMotionFn = void (Fleech::*)();
 
 class Fleech : public BaseAliveGameObject
 {
 public:
-    EXPORT Fleech* ctor_429DC0(Path_Fleech* pTlv, int tlvInfo);
+    EXPORT Fleech* ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -160,18 +160,18 @@ public:
 
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
 
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
     virtual void VOnTrapDoorOpen() override;
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static int CC CreateFromSaveState_42DD50(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_42DD50(const u8* pBuffer);
 
 private:
-    EXPORT int vGetSaveState_42FF80(Fleech_State* pState);
+    EXPORT s32 vGetSaveState_42FF80(Fleech_State* pState);
 
 
 public:
@@ -197,50 +197,50 @@ public:
     EXPORT void M_Consume_18_42FDF0();
 
 public:
-    EXPORT __int16 AI_Patrol_0_Real_430BA0();
-    EXPORT __int16 AI_Patrol_0_430BA0();
+    EXPORT s16 AI_Patrol_0_Real_430BA0();
+    EXPORT s16 AI_Patrol_0_430BA0();
 
-    __int16 AI_Patrol_State_0();
+    s16 AI_Patrol_State_0();
 
-    __int16 AI_Patrol_State_1();
+    s16 AI_Patrol_State_1();
 
-    __int16 AI_Patrol_State_2();
+    s16 AI_Patrol_State_2();
 
-    __int16 AI_Patrol_State_3();
+    s16 AI_Patrol_State_3();
 
-    __int16 AI_Patrol_State_4(BaseAliveGameObject* pTarget);
+    s16 AI_Patrol_State_4(BaseAliveGameObject* pTarget);
 
-    __int16 AI_Patrol_State_5();
+    s16 AI_Patrol_State_5();
 
-    __int16 AI_Patrol_State_6();
+    s16 AI_Patrol_State_6();
 
-    __int16 AI_Patrol_State_7();
+    s16 AI_Patrol_State_7();
 
-    __int16 AI_Patrol_State_8(BaseAliveGameObject* pTarget);
+    s16 AI_Patrol_State_8(BaseAliveGameObject* pTarget);
 
-    __int16 AI_Patrol_State_9();
+    s16 AI_Patrol_State_9();
 
-    __int16 AI_Patrol_State_10();
+    s16 AI_Patrol_State_10();
 
-    EXPORT __int16 AI_ChasingAbe_1_428760();
+    EXPORT s16 AI_ChasingAbe_1_428760();
 
-    __int16 AI_ChasingAbe_State_9(BaseAliveGameObject* pObj);
+    s16 AI_ChasingAbe_State_9(BaseAliveGameObject* pObj);
 
-    __int16 AI_ChasingAbe_State_2(BaseAliveGameObject* pObj);
+    s16 AI_ChasingAbe_State_2(BaseAliveGameObject* pObj);
 
-    __int16 AI_ChasingAbe_State_0(BaseAliveGameObject* pObj);
+    s16 AI_ChasingAbe_State_0(BaseAliveGameObject* pObj);
 
-    EXPORT __int16 AI_ChasingAbe_State_1(BaseAliveGameObject* pObj);
+    EXPORT s16 AI_ChasingAbe_State_1(BaseAliveGameObject* pObj);
 
-    __int16 AI_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj);
+    s16 AI_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj);
 
-    EXPORT __int16 AI_Scared_2_42D310();
-    EXPORT __int16 AI_Death_3_42D1E0();
+    EXPORT s16 AI_Scared_2_42D310();
+    EXPORT s16 AI_Death_3_42D1E0();
 
 private:
     EXPORT void dtor_42A3A0();
 
-    EXPORT Fleech* vdtor_42A140(signed int flags);
+    EXPORT Fleech* vdtor_42A140(s32 flags);
 
     EXPORT void vUpdate_42AB20();
 
@@ -253,7 +253,7 @@ private:
     EXPORT void vOn_Tlv_Collision_42AAB0(Path_TLV* pTlv);
 
 private:
-    EXPORT __int16 IsScrabOrParamiteNear_42B440(FP radius);
+    EXPORT s16 IsScrabOrParamiteNear_42B440(FP radius);
 
 
     EXPORT void Init_42A170();
@@ -261,27 +261,27 @@ private:
     EXPORT void SetAnim_429D80();
     EXPORT void ResetTarget_42CF70();
 
-    EXPORT __int16 GotNoTarget_42CFA0();
+    EXPORT s16 GotNoTarget_42CFA0();
 
     EXPORT void SetTarget_42CF50();
 
-    EXPORT void TongueHangingFromWall_42B9A0(__int16 a2, __int16 a3);
+    EXPORT void TongueHangingFromWall_42B9A0(s16 a2, s16 a3);
 
     EXPORT void TongueUpdate_42BD30();
 
     EXPORT void ToIdle_42E520();
 
-    EXPORT int Sound_430520(FleechSound soundId);
+    EXPORT s32 Sound_430520(FleechSound soundId);
 
-    EXPORT BYTE** ResBlockForMotion_42A530(int motion);
+    EXPORT u8** ResBlockForMotion_42A530(s32 motion);
 
-    EXPORT __int16 CanMove_42E3E0();
+    EXPORT s16 CanMove_42E3E0();
 
-    EXPORT __int16 HandleEnemyStopperOrSlamDoor_42ADC0(int velX);
+    EXPORT s16 HandleEnemyStopperOrSlamDoor_42ADC0(s32 velX);
 
-    EXPORT int UpdateWakeUpSwitchValue_4308B0();
+    EXPORT s32 UpdateWakeUpSwitchValue_4308B0();
 
-    EXPORT __int16 vTakeDamage_42A5C0(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_42A5C0(BaseGameObject* pFrom);
 
     EXPORT void sub_42B8C0();
 
@@ -291,9 +291,9 @@ private:
 
     EXPORT void IncreaseAnger_430920();
 
-    EXPORT __int16 InRange_4307C0(BaseAliveGameObject* pObj);
+    EXPORT s16 InRange_4307C0(BaseAliveGameObject* pObj);
 
-    EXPORT int TongueActive_42B8A0();
+    EXPORT s32 TongueActive_42B8A0();
 
     EXPORT void PullTargetIn_42BAF0();
 
@@ -305,59 +305,59 @@ private:
 
     EXPORT void MoveAlongFloor_42E600();
 
-    EXPORT __int16 IsNear_428670(BaseAliveGameObject* pObj);
+    EXPORT s16 IsNear_428670(BaseAliveGameObject* pObj);
 
     EXPORT void vOnThrowableHit_42A590(BaseGameObject* pFrom);
 
-    EXPORT BOOL Collision_42B290(__int16 alwaysOne);
+    EXPORT BOOL Collision_42B290(s16 alwaysOne);
 
-    EXPORT Path_Hoist* TryGetHoist_42AFD0(int xDistance, __int16 bIgnoreDirection);
+    EXPORT Path_Hoist* TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection);
 
 
 public:
-    EXPORT void vOnFrame_42BC50(signed __int16* pData);
+    EXPORT void vOnFrame_42BC50(s16* pData);
 
 private:
-    int field_118_tlvInfo;
-    int field_11C_obj_id;
-    __int16 field_120_unused;
-    __int16 field_122;
-    __int16 field_124_brain_state;
-    unsigned __int16 field_126_state;
-    __int16 field_128;
-    __int16 field_12A;
-    int field_12C;
-    __int16 field_130;
-    __int16 field_132;
-    int field_134;
+    s32 field_118_tlvInfo;
+    s32 field_11C_obj_id;
+    s16 field_120_unused;
+    s16 field_122;
+    s16 field_124_brain_state;
+    u16 field_126_state;
+    s16 field_128;
+    s16 field_12A;
+    s32 field_12C;
+    s16 field_130;
+    s16 field_132;
+    s32 field_134;
     FP field_138;
-    __int16 field_13C;
-    __int16 field_13E_current_anger;
-    unsigned __int16 field_140_max_anger;
-    __int16 field_142_attack_anger_increaser;
-    __int16 field_144_wake_up_id;
-    __int16 field_146_tlv_28;
-    __int16 field_148_wake_up_switch_value;
-    __int16 field_14A_use_wake_up_id;
-    __int16 field_14C;
-    __int16 field_14E;
-    __int16 field_150_patrol_range;
-    __int16 field_152;
-    __int16 field_154;
-    __int16 field_156;
-    __int16 field_158_chase_delay;
-    __int16 field_15A_chase_timer;
-    __int16 field_15C_lost_target_timeout;
-    __int16 field_15E;
-    __int16 field_160_hoistX;
-    __int16 field_162_hoistY;
-    __int16 field_164;
-    char field_166_angle;
-    char field_167;
+    s16 field_13C;
+    s16 field_13E_current_anger;
+    u16 field_140_max_anger;
+    s16 field_142_attack_anger_increaser;
+    s16 field_144_wake_up_id;
+    s16 field_146_tlv_28;
+    s16 field_148_wake_up_switch_value;
+    s16 field_14A_use_wake_up_id;
+    s16 field_14C;
+    s16 field_14E;
+    s16 field_150_patrol_range;
+    s16 field_152;
+    s16 field_154;
+    s16 field_156;
+    s16 field_158_chase_delay;
+    s16 field_15A_chase_timer;
+    s16 field_15C_lost_target_timeout;
+    s16 field_15E;
+    s16 field_160_hoistX;
+    s16 field_162_hoistY;
+    s16 field_164;
+    s8 field_166_angle;
+    s8 field_167;
     FP field_168;
     FP field_16C;
-    int field_170_danger_obj;
-    enum Flags_174 : __int16
+    s32 field_170_danger_obj;
+    enum Flags_174 : s16
     {
         eBit1_bHoistDone = 0x1,
         eBit2 = 0x2,
@@ -376,16 +376,16 @@ private:
         eBit15 = 0x4000,
     };
     BitField16<Flags_174> field_174_flags;
-    __int16 field_176;
-    __int16 field_178_tongue_state;
-    __int16 field_17A_tongue_sub_state;
-    __int16 field_17C;
-    __int16 field_17E;
-    __int16 field_180_tongue_x;
-    __int16 field_182_tongue_y;
-    __int16 field_184_target_x;
-    __int16 field_186_target_y;
-    __int16 field_188;
+    s16 field_176;
+    s16 field_178_tongue_state;
+    s16 field_17A_tongue_sub_state;
+    s16 field_17C;
+    s16 field_17E;
+    s16 field_180_tongue_x;
+    s16 field_182_tongue_y;
+    s16 field_184_target_x;
+    s16 field_186_target_y;
+    s16 field_188;
 
     enum Flags_18A
     {
@@ -404,4 +404,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Fleech, 0x42C);
 
-EXPORT int CC Animation_OnFrame_Fleech_449A60(void* pObj, signed __int16* pData);
+EXPORT s32 CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData);

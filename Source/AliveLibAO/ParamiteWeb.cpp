@@ -36,7 +36,7 @@ BaseGameObject* ParamiteWeb::dtor_48AAB0()
     return dtor_417D10();
 }
 
-ParamiteWeb* ParamiteWeb::Vdtor_48AEC0(signed int flags)
+ParamiteWeb* ParamiteWeb::Vdtor_48AEC0(s32 flags)
 {
     dtor_48AAB0();
     if (flags & 1)
@@ -46,12 +46,12 @@ ParamiteWeb* ParamiteWeb::Vdtor_48AEC0(signed int flags)
     return this;
 }
 
-BaseGameObject* ParamiteWeb::VDestructor(signed int flags)
+BaseGameObject* ParamiteWeb::VDestructor(s32 flags)
 {
     return Vdtor_48AEC0(flags);
 }
 
-ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, __int16 bottom, __int16 top, FP scale)
+ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, s16 bottom, s16 top, FP scale)
 {
     ctor_417C10();
     SetVTable(this, 0x4BD6F8);
@@ -68,7 +68,7 @@ ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, __int16 bottom, __int16 top, FP s
         field_E6_segment_length = 7;
     }
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 1, 0);
     Animation_Init_417FD0(88, 3, 16, ppRes, 1);
 
     field_10_anim.field_14_scale = scale;
@@ -101,7 +101,7 @@ ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, __int16 bottom, __int16 top, FP s
 
     if (field_EC_pRes)
     {
-        for (int i = 0; i < field_E4_number_of_segments; i++)
+        for (s32 i = 0; i < field_E4_number_of_segments; i++)
         {
             AnimationUnknown* pSegment = &field_EC_pRes[i];
             pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
@@ -149,18 +149,18 @@ void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
             const FP cam_y = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
             const FP cam_x = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
 
-            short minY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_E8_ttl) - cam_y);
-            short maxY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EA_ttl_remainder) - cam_y);
+            s16 minY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_E8_ttl) - cam_y);
+            s16 maxY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EA_ttl_remainder) - cam_y);
 
-            short ypos_int = FP_GetExponent(field_AC_ypos);
+            s16 ypos_int = FP_GetExponent(field_AC_ypos);
             if (ypos_int > field_EA_ttl_remainder)
             {
                 ypos_int = field_EA_ttl_remainder + (ypos_int - field_EA_ttl_remainder) % field_E6_segment_length;
             }
 
-            const short x_start = PsxToPCX<short>(FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - cam_x));
+            const s16 x_start = PsxToPCX<s16>(FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - cam_x));
 
-            short y_start = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos_int) - cam_y);
+            s16 y_start = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos_int) - cam_y);
             if (field_C8_yOffset + y_start > 240)
             {
                 y_start = y_start % field_E6_segment_length + 240;
@@ -181,15 +181,15 @@ void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
 
             if (y_start >= minY)
             {
-                for(int idx = 0; idx < field_E4_number_of_segments; ++idx)
+                for(s32 idx = 0; idx < field_E4_number_of_segments; ++idx)
                 {
-                    short r = 128;
-                    short g = 128;
-                    short b = 128;
+                    s16 r = 128;
+                    s16 g = 128;
+                    s16 b = 128;
                     ShadowZone::ShadowZones_Calculate_Colour_435FF0(FP_GetExponent(field_A8_xpos), ypos_int - (idx * field_E6_segment_length), field_C6_scale, &r, &g, &b);
-                    field_EC_pRes[idx].field_8_r = static_cast<BYTE>(r);
-                    field_EC_pRes[idx].field_9_g = static_cast<BYTE>(g);
-                    field_EC_pRes[idx].field_A_b = static_cast<BYTE>(b);
+                    field_EC_pRes[idx].field_8_r = static_cast<u8>(r);
+                    field_EC_pRes[idx].field_9_g = static_cast<u8>(g);
+                    field_EC_pRes[idx].field_A_b = static_cast<u8>(b);
                     field_EC_pRes[idx].VRender2(x_start, y_start + field_C8_yOffset, ppOt);
                     PSX_RECT rect = {};
                     field_EC_pRes[idx].GetRenderedSize_404220(&rect);

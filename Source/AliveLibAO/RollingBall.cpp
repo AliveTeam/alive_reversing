@@ -23,7 +23,7 @@ void RollingBall::VUpdate()
     VUpdate_457AF0();
 }
 
-RollingBall* RollingBall::Vdtor_458490(signed int flags)
+RollingBall* RollingBall::Vdtor_458490(s32 flags)
 {
     dtor_458230();
     if (flags & 1)
@@ -33,7 +33,7 @@ RollingBall* RollingBall::Vdtor_458490(signed int flags)
     return this;
 }
 
-BaseGameObject* RollingBall::VDestructor(signed int flags)
+BaseGameObject* RollingBall::VDestructor(s32 flags)
 {
     return Vdtor_458490(flags);
 }
@@ -62,17 +62,17 @@ BaseGameObject* RollingBall::dtor_458230()
         field_114_pRollingBallShaker = nullptr;
     }
 
-    BYTE** pRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0);
+    u8** pRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0);
     ResourceManager::FreeResource_455550(pRes);
     return dtor_401000();
 }
 
-RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, int tlvInfo)
+RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BC180);
     field_4_typeId = Types::eRollingBall_72;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnbalResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnbalResID, 1, 0);
     Animation_Init_417FD0(
         15596,
         131,
@@ -188,7 +188,7 @@ void RollingBall::VUpdate_457AF0()
     {
         if (!(field_10_anim.field_92_current_frame % 3))
         {
-            SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(71, 72)), 0, 0);
+            SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(71, 72)), 0, 0);
         }
 
         Accelerate_458410();
@@ -217,7 +217,7 @@ void RollingBall::VUpdate_457AF0()
     {
         if (!(field_10_anim.field_92_current_frame % 3))
         {
-            SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(71, 72)), 0, 0);
+            SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(71, 72)), 0, 0);
         }
 
         Accelerate_458410();
@@ -227,7 +227,7 @@ void RollingBall::VUpdate_457AF0()
             &field_AC_ypos,
             field_B4_velx);
 
-        WORD v39 = 0;
+        u16 v39 = 0;
         CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 50, &v39);
         if (v39 == 1 || v39 == 2)
         {
@@ -426,7 +426,7 @@ void RollingBall::Accelerate_458410()
 
 void RollingBall::CrushThingsInTheWay_458310()
 {
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObj)

@@ -9,7 +9,7 @@
 
 namespace AO {
 
-BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, int tlvInfo)
+BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BCEE8);
@@ -62,12 +62,12 @@ BaseGameObject* BeeNest::dtor_4810C0()
     return dtor_487DF0();
 }
 
-BaseGameObject* BeeNest::VDestructor(signed int flags)
+BaseGameObject* BeeNest::VDestructor(s32 flags)
 {
     return Vdtor_4810E0(flags);
 }
 
-BeeNest* BeeNest::Vdtor_4810E0(signed int flags)
+BeeNest* BeeNest::Vdtor_4810E0(s32 flags)
 {
     dtor_4810C0();
     if (flags & 1)

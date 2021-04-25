@@ -19,7 +19,7 @@ void Spark_ForceLink() { }
 
 namespace AO {
 
-Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max)
+Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max)
 {
     ctor_487E10(1);
     field_6_flags.Set(Options::eDrawable_Bit4);
@@ -52,10 +52,10 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
     if (field_44_ppSprxRes)
     {
         field_48_pRes = reinterpret_cast<SparkRes*>(*field_44_ppSprxRes);
-        for (int idx = 0; idx < field_4C_count; idx++)
+        for (s32 idx = 0; idx < field_4C_count; idx++)
         {
             SparkRes* pSparkIter = &field_48_pRes[idx];
-            int randAng = 0;
+            s32 randAng = 0;
             if (min >= 0)
             {
                 randAng = Math_RandomRange_450F20(min, max);
@@ -64,14 +64,14 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
             {
                 randAng = min + Math_RandomRange_450F20(0, max - min);
             }
-            pSparkIter->field_10_ang = static_cast<BYTE>(randAng);
+            pSparkIter->field_10_ang = static_cast<u8>(randAng);
             pSparkIter->field_14_radius = FP_FromInteger(0);
             pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange_450F20(2, 4));
         }
 
         field_50_timer = gnFrameCount_507670 + 3;
 
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
         auto pParticle = ao_new<Particle>();
         if (pParticle)
         {
@@ -121,12 +121,12 @@ BaseGameObject* Spark::dtor_477D40()
     return dtor_487DF0();
 }
 
-BaseGameObject* Spark::VDestructor(signed int flags)
+BaseGameObject* Spark::VDestructor(s32 flags)
 {
     return Vdtor_478290(flags);
 }
 
-Spark* Spark::Vdtor_478290(signed int flags)
+Spark* Spark::Vdtor_478290(s32 flags)
 {
     dtor_477D40();
     if (flags & 1)
@@ -159,13 +159,13 @@ void Spark::VUpdate_477DB0()
     }
     if (!sNumCamSwappers_507668)
     {
-        if (static_cast<int>(gnFrameCount_507670) < field_50_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_50_timer)
         {
-            if (static_cast<int>(gnFrameCount_507670) == field_50_timer - 1)
+            if (static_cast<s32>(gnFrameCount_507670) == field_50_timer - 1)
             {
                 field_4C_count /= 3;
             }
-            for (int idx = 0; idx < field_4C_count; idx++)
+            for (s32 idx = 0; idx < field_4C_count; idx++)
             {
                 field_48_pRes[idx].field_0_x0 = field_48_pRes[idx].field_14_radius * Math_Sine_451110(field_48_pRes[idx].field_10_ang);
                 field_48_pRes[idx].field_4_y0 = field_48_pRes[idx].field_14_radius * Math_Cosine_4510A0(field_48_pRes[idx].field_10_ang);
@@ -197,43 +197,43 @@ void Spark::VRender_477ED0(PrimHeader** ppOt)
 
     const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
 
-    const short xOrg = FP_GetExponent(field_30_xpos) - FP_GetExponent(pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
-    const short yOrg = FP_GetExponent(field_34_ypos) - FP_GetExponent(pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+    const s16 xOrg = FP_GetExponent(field_30_xpos) - FP_GetExponent(pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+    const s16 yOrg = FP_GetExponent(field_34_ypos) - FP_GetExponent(pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
-    for (int i = 0; i < field_4C_count; i++)
+    for (s32 i = 0; i < field_4C_count; i++)
     {
         SparkRes* pSpark = &field_48_pRes[i];
 
         Line_G2* pPrim = &pSpark->field_1C_pLineG2s[gPsxDisplay_504C78.field_A_buffer_index];
         LineG2_Init(pPrim);
 
-        const int y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * field_38_scale);
-        const int y1 = yOrg + FP_GetExponent(pSpark->field_C_y1 * field_38_scale);
+        const s32 y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * field_38_scale);
+        const s32 y1 = yOrg + FP_GetExponent(pSpark->field_C_y1 * field_38_scale);
 
-        const int x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * field_38_scale), 11);
-        const int x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * field_38_scale), 11);
+        const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * field_38_scale), 11);
+        const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * field_38_scale), 11);
 
-        SetXY0(pPrim, static_cast<short>(x0), static_cast<short>(y0));
-        SetXY1(pPrim, static_cast<short>(x1), static_cast<short>(y1));
+        SetXY0(pPrim, static_cast<s16>(x0), static_cast<s16>(y0));
+        SetXY1(pPrim, static_cast<s16>(x1), static_cast<s16>(y1));
 
         SetRGB0(pPrim,
-            static_cast<BYTE>(field_3C_r / 2),
-            static_cast<BYTE>(field_3E_g / 2),
-            static_cast<BYTE>(field_40_b / 2));
+            static_cast<u8>(field_3C_r / 2),
+            static_cast<u8>(field_3E_g / 2),
+            static_cast<u8>(field_40_b / 2));
 
         SetRGB1(pPrim,
-            static_cast<BYTE>(field_3C_r),
-            static_cast<BYTE>(field_3E_g),
-            static_cast<BYTE>(field_40_b));
+            static_cast<u8>(field_3C_r),
+            static_cast<u8>(field_3E_g),
+            static_cast<u8>(field_40_b));
 
         Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, TRUE);
         OrderingTable_Add_498A80(OtLayer(ppOt, field_42_layer), &pPrim->mBase.header);
         
-        rect.x = std::min(rect.x, std::min(static_cast<short>(x0), static_cast<short>(x1)));
-        rect.w = std::max(rect.w, std::max(static_cast<short>(x0), static_cast<short>(x1)));
+        rect.x = std::min(rect.x, std::min(static_cast<s16>(x0), static_cast<s16>(x1)));
+        rect.w = std::max(rect.w, std::max(static_cast<s16>(x0), static_cast<s16>(x1)));
 
-        rect.y = std::min(rect.y, std::min(static_cast<short>(y0), static_cast<short>(y1)));
-        rect.h = std::max(rect.h, std::max(static_cast<short>(y0), static_cast<short>(y1)));
+        rect.y = std::min(rect.y, std::min(static_cast<s16>(y0), static_cast<s16>(y1)));
+        rect.h = std::max(rect.h, std::max(static_cast<s16>(y0), static_cast<s16>(y1)));
     }
 
     Prim_SetTPage* pTPage = &field_10_tPage[gPsxDisplay_504C78.field_A_buffer_index];

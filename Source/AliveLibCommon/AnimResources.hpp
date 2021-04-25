@@ -591,18 +591,18 @@ enum class PalId
 struct PalRecord
 {
     PalId mId;
-    const char* mBanName;
-    int mResourceId;
+    const s8* mBanName;
+    s32 mResourceId;
 };
 
 struct AnimRecord
 {
     AnimId mId;
-    const char* mBanName;
-    int mFrameTableOffset;
-    short mMaxW;
-    short mMaxH;
-    int mResourceId;
+    const s8* mBanName;
+    s32 mFrameTableOffset;
+    s16 mMaxW;
+    s16 mMaxH;
+    s32 mResourceId;
     PalId mPalOverride;
 };
 

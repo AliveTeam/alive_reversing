@@ -10,13 +10,13 @@
 
 namespace AO {
 
-FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, int tlvInfo)
+FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BD648);
     field_4_typeId = Types::eFootSwitch36;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kTriggerResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kTriggerResID, 1, 0);
     Animation_Init_417FD0(744, 68, 15, ppRes, 1);
 
     field_10_anim.field_C_layer = Layer::eLayer_25;
@@ -41,12 +41,12 @@ FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* FootSwitch::VDestructor(signed int flags)
+BaseGameObject* FootSwitch::VDestructor(s32 flags)
 {
     return vdtor_488C10(flags);
 }
 
-FootSwitch* FootSwitch::vdtor_488C10(signed int flags)
+FootSwitch* FootSwitch::vdtor_488C10(s32 flags)
 {
     dtor_4889E0();
     if (flags & 1)
@@ -86,7 +86,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
 
     if (field_EE_trigger_by == FootSwitchTriggerBy::eAnyone_1)
     {
-        for (int i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
             if (!pObj)
@@ -101,7 +101,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
                 PSX_RECT theirRect = {};
                 pAliveObj->VGetBoundingRect(&theirRect, 1);
 
-                const int xpos = FP_GetExponent(pAliveObj->field_A8_xpos);
+                const s32 xpos = FP_GetExponent(pAliveObj->field_A8_xpos);
 
                 if (xpos > bRectSwitch.x &&
                     xpos < bRectSwitch.w &&
@@ -121,7 +121,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
         PSX_RECT bRect = {};
         sActiveHero_507678->VGetBoundingRect(&bRect, 1);
 
-        const int xpos = FP_GetExponent(sActiveHero_507678->field_A8_xpos);
+        const s32 xpos = FP_GetExponent(sActiveHero_507678->field_A8_xpos);
 
         if (xpos > bRectSwitch.x &&
             xpos < bRectSwitch.w &&

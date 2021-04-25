@@ -9,12 +9,12 @@
 
 bool gVTableHack = true;
 
-void SetVTable(void* thisPtr, DWORD vTable)
+void SetVTable(void* thisPtr, u32 vTable)
 {
 #if !_WIN64
     if (RunningAsInjectedDll() && gVTableHack)
     {
-        *reinterpret_cast<DWORD**>(thisPtr) = reinterpret_cast<DWORD*>(vTable);
+        *reinterpret_cast<u32**>(thisPtr) = reinterpret_cast<u32*>(vTable);
     }
 #else
     (void)thisPtr;
@@ -24,11 +24,11 @@ void SetVTable(void* thisPtr, DWORD vTable)
 
 struct TVarInfo
 {
-    DWORD mAddr;
-    DWORD mSize;
+    u32 mAddr;
+    u32 mSize;
     bool mIsPointerType;
     bool mIsConstData;
-    const char* mName;
+    const s8* mName;
 };
 
 static std::vector<TVarInfo>& Vars()
@@ -43,7 +43,7 @@ void CheckVars()
 
     const auto& vars = Vars();
 
-    std::set<DWORD> usedAddrs;
+    std::set<u32> usedAddrs;
     std::vector<std::string> dupVars;
     for (const auto& varToCheck : vars)
     {
@@ -74,11 +74,11 @@ void CheckVars()
             if (&varToCheck != &var)
             {
                 // TODO: check size of varToCheck within range
-                const DWORD varStart = var.mAddr;
-                const DWORD varEnd = var.mAddr + var.mSize;
+                const u32 varStart = var.mAddr;
+                const u32 varEnd = var.mAddr + var.mSize;
 
-                const DWORD toCheckStart = varToCheck.mAddr;
-                const DWORD toCheckEnd = varToCheck.mAddr + varToCheck.mSize;
+                const u32 toCheckStart = varToCheck.mAddr;
+                const u32 toCheckEnd = varToCheck.mAddr + varToCheck.mSize;
 
                 if (toCheckStart >= varStart && toCheckEnd < varEnd)
                 {
@@ -97,7 +97,7 @@ bool operator < (const TVarInfo& lhs, const TVarInfo& rhs)
     return lhs.mAddr < rhs.mAddr;
 }
 
-AliveVar::AliveVar(const char* name, DWORD addr, DWORD sizeInBytes, bool isPointerType, bool isConstData)
+AliveVar::AliveVar(const s8* name, u32 addr, u32 sizeInBytes, bool isPointerType, bool isConstData)
 {
     Vars().push_back({ addr, sizeInBytes, isPointerType, isConstData, name });
 }

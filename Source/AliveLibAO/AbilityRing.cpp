@@ -17,10 +17,10 @@
 
 namespace AO {
 
-static int MinDistance(int screenX, int screenY, int width1, int height1, int width2, int height2)
+static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 width2, s32 height2)
 {
-    const int d1 = Math_Distance_451270(screenX, screenY, width1, height1);
-    const int d2 = Math_Distance_451270(screenX, screenY, width2, height2);
+    const s32 d1 = Math_Distance_451270(screenX, screenY, width1, height1);
+    const s32 d2 = Math_Distance_451270(screenX, screenY, width2, height2);
     if (d2 <= d1)
     {
         return d1;
@@ -45,7 +45,7 @@ BaseGameObject* AbilityRing::dtor_455E50()
     return dtor_487DF0();
 }
 
-AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
+AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BC090);
@@ -72,16 +72,16 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         field_262_screenXPos = FP_GetExponent(xpos) - field_25E_screenX;
         field_264_screenYPos = FP_GetExponent(ypos) - field_260_screenY;
 
-        const int d1 = MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0);
-        const int d2 = MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height, 0, gPsxDisplay_504C78.field_2_height);
+        const s32 d1 = MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0);
+        const s32 d2 = MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height, 0, gPsxDisplay_504C78.field_2_height);
 
         if (d1 <= d2)
         {
-            field_25C_fade = static_cast<short>(MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height, 0, gPsxDisplay_504C78.field_2_height));
+            field_25C_fade = static_cast<s16>(MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height, 0, gPsxDisplay_504C78.field_2_height));
         }
         else
         {
-            field_25C_fade = static_cast<short>(MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0));
+            field_25C_fade = static_cast<s16>(MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0));
         }
 
         field_274_ring_type = type;
@@ -170,9 +170,9 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
         field_250_scaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
         field_254_scaleY = FP_FromInteger(1);
 
-        for (int y = 0; y < 2; y++)
+        for (s32 y = 0; y < 2; y++)
         {
-            for (int x = 0; x < 64; x++)
+            for (s32 x = 0; x < 64; x++)
             {
                 Poly_F4* pPoly = &field_14_pRes[x].mPolys[y];
                 PolyF4_Init(pPoly);
@@ -189,12 +189,12 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, __int16 type)
     return this;
 }
 
-BaseGameObject* AbilityRing::VDestructor(signed int flags)
+BaseGameObject* AbilityRing::VDestructor(s32 flags)
 {
     return Vdtor_456940(flags);
 }
 
-BaseGameObject* AbilityRing::Vdtor_456940(signed int flags)
+BaseGameObject* AbilityRing::Vdtor_456940(s32 flags)
 {
     dtor_455E50();
     if (flags & 1)
@@ -204,7 +204,7 @@ BaseGameObject* AbilityRing::Vdtor_456940(signed int flags)
     return this;
 }
 
-AbilityRing* CC AbilityRing::Factory_447590(FP xpos, FP ypos, __int16 type)
+AbilityRing* CC AbilityRing::Factory_447590(FP xpos, FP ypos, s16 type)
 {
     auto pAbilityRing = ao_new<AbilityRing>();
     if (pAbilityRing)
@@ -241,7 +241,7 @@ void AbilityRing::CollideWithObjects_456250()
         rect.h += field_260_screenY;
     }
 
-    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pObj)
@@ -314,9 +314,9 @@ void AbilityRing::VUpdate_455ED0()
             field_268_g = (field_268_g >> 1) + (field_268_g >> 2);
             field_26A_b = (field_26A_b >> 1) + (field_26A_b >> 2);
 
-            for (int i = 0; i < 2; i++)
+            for (s32 i = 0; i < 2; i++)
             {
-                for (int j = 0; j < 64; j++)
+                for (s32 j = 0; j < 64; j++)
                 {
                     SetRGB0(&field_14_pRes[j].mPolys[i], field_266_r & 255, field_268_g & 255, field_26A_b & 255);
                 }
@@ -402,28 +402,28 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
         0)
         )//&& !field_290_bFindingTarget) Missing part of the check from AE
     {
-        short y3 = field_264_screenYPos;
-        short y4 = field_264_screenYPos;
+        s16 y3 = field_264_screenYPos;
+        s16 y4 = field_264_screenYPos;
 
-        short x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_262_screenXPos) + (field_244_left * field_250_scaleX)), 11);
-        short x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_262_screenXPos) + (field_248_right * field_250_scaleX)), 11);
+        s16 x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_262_screenXPos) + (field_244_left * field_250_scaleX)), 11);
+        s16 x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_262_screenXPos) + (field_248_right * field_250_scaleX)), 11);
 
         //Not hardcoded in Exoddus
-        BYTE ang = 4;
+        u8 ang = 4;
         auto count = 64;
 
-        for (int i = 0; i < count; i++)
+        for (s32 i = 0; i < count; i++)
         {
-            const short x1 = (short) PsxToPCX(field_262_screenXPos + FP_GetExponent(field_244_left * Math_Sine_451110(ang) * field_250_scaleX), 11);
-            const short x2 = (short) PsxToPCX(field_262_screenXPos + FP_GetExponent(field_248_right * Math_Sine_451110(ang) * field_250_scaleX), 11);
+            const s16 x1 = (s16) PsxToPCX(field_262_screenXPos + FP_GetExponent(field_244_left * Math_Sine_451110(ang) * field_250_scaleX), 11);
+            const s16 x2 = (s16) PsxToPCX(field_262_screenXPos + FP_GetExponent(field_248_right * Math_Sine_451110(ang) * field_250_scaleX), 11);
 
-            const short y1 = field_264_screenYPos + FP_GetExponent(field_244_left * Math_Cosine_4510A0(ang) * field_254_scaleY);
-            const short y2 = field_264_screenYPos + FP_GetExponent(field_248_right * Math_Cosine_4510A0(ang) * field_254_scaleY);
+            const s16 y1 = field_264_screenYPos + FP_GetExponent(field_244_left * Math_Cosine_4510A0(ang) * field_254_scaleY);
+            const s16 y2 = field_264_screenYPos + FP_GetExponent(field_248_right * Math_Cosine_4510A0(ang) * field_254_scaleY);
 
-            const short x = std::min(std::min(x1, x3), std::min(x2, x4));
-            const short y = std::min(std::min(y1, y3), std::min(y2, y4));
-            const short w = std::max(std::max(x1, x3), std::max(x2, x4));
-            const short h = std::max(std::max(y1, y3), std::max(y2, y4));
+            const s16 x = std::min(std::min(x1, x3), std::min(x2, x4));
+            const s16 y = std::min(std::min(y1, y3), std::min(y2, y4));
+            const s16 w = std::max(std::max(x1, x3), std::max(x2, x4));
+            const s16 h = std::max(std::max(y1, y3), std::max(y2, y4));
 
             const PSX_RECT rect = { x, y, w, h };
             if (rect.w < 0 || rect.x > 640 || rect.y > 240 || rect.h < 0)

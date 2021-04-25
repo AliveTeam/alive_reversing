@@ -89,7 +89,7 @@ const TBrainStateFunc sElum_table_4C52E8[] =
     &Elum::Brain_1_HoneyAddiction_411730,
 };
 
-const int gElumFrameTables_4C5218[52] =
+const s32 gElumFrameTables_4C5218[52] =
 {
     117036,
     117036,
@@ -145,12 +145,12 @@ const int gElumFrameTables_4C5218[52] =
     0
 };
 
-BaseGameObject* Elum::VDestructor(signed int flags)
+BaseGameObject* Elum::VDestructor(s32 flags)
 {
     return Vdtor_411710(flags);
 }
 
-Elum* Elum::Vdtor_411710(signed int flags)
+Elum* Elum::Vdtor_411710(s32 flags)
 {
     dtor_410BC0();
     if (flags & 1)
@@ -164,7 +164,7 @@ EXPORT BaseGameObject *Elum::dtor_410BC0()
 {
     SetVTable(this, 0x4BA8F8);
 
-    for (BYTE**& ppRes : field_174_resources.res)
+    for (u8**& ppRes : field_174_resources.res)
     {
         if (ppRes && field_10_anim.field_20_ppBlock != ppRes)
         {
@@ -185,8 +185,8 @@ EXPORT BaseGameObject *Elum::dtor_410BC0()
     }
     field_104_pending_resource_count = 0;
 
-    const int anims[] = { 230, 222, 220, 221 };
-    for (int anim : anims)
+    const s32 anims[] = { 230, 222, 220, 221 };
+    for (s32 anim : anims)
     {
         ResourceManager::FreeResource_455550(
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim, 1, 0)
@@ -248,12 +248,12 @@ void Elum::VOn_TLV_Collision_410F10(Path_TLV* pTlv)
     }
 }
 
-__int16 Elum::VTakeDamage(BaseGameObject* pFrom)
+s16 Elum::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_411020(pFrom);
 }
 
-__int16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
+s16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
 {
     switch (pFrom->field_4_typeId)
     {
@@ -405,9 +405,9 @@ BaseGameObject* Elum::dtor_base_416FE0()
     return dtor_401000();
 }
 
-BYTE** Elum::GetResBlock_410D00(short currentMotion)
+u8** Elum::GetResBlock_410D00(s16 currentMotion)
 {
-    short new_idx = 0;
+    s16 new_idx = 0;
     if (currentMotion < eElumStates::State_21_Land_414A20)
     {
         new_idx = 0;
@@ -608,7 +608,7 @@ void Elum::CheckLiftPointGoneAndSetCamera()
     }
 }
 
-void Elum::MoveOnLine_412580(__int16 xLookAhead)
+void Elum::MoveOnLine_412580(s16 xLookAhead)
 {
     CheckLiftPointGoneAndSetCamera();
 
@@ -634,8 +634,8 @@ void Elum::MoveOnLine_412580(__int16 xLookAhead)
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
             VOnCollisionWith(
-                {bRect.x, static_cast<short>(bRect.y + 5)},
-                {bRect.w, static_cast<short>(bRect.h + 5)},
+                {bRect.x, static_cast<s16>(bRect.y + 5)},
+                {bRect.w, static_cast<s16>(bRect.h + 5)},
                 ObjListPlatforms_50766C,
                 1,
                 (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -650,7 +650,7 @@ void Elum::MoveOnLine_412580(__int16 xLookAhead)
     }
 }
 
-void Elum::SetAbeAsPlayer_412520(__int16 abeMotion)
+void Elum::SetAbeAsPlayer_412520(s16 abeMotion)
 {
     // Back to Abe
     if (sControlledCharacter_50767C == this)
@@ -673,7 +673,7 @@ void Elum::SetAbeAsPlayer_412520(__int16 abeMotion)
         this);
 }
 
-__int16 Elum::ToNextState_4120F0()
+s16 Elum::ToNextState_4120F0()
 {
     if (sControlledCharacter_50767C == this)
     {
@@ -744,7 +744,7 @@ __int16 Elum::ToNextState_4120F0()
     }
 }
 
-__int16 Elum::ToNextStateAbeControlled_411E40()
+s16 Elum::ToNextStateAbeControlled_411E40()
 {
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
     if (pLiftPoint)
@@ -921,8 +921,8 @@ void CC Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
                 pObj->field_AC_ypos);
         }
 
-        int volLeft = 0;
-        int volRight = 0;
+        s32 volLeft = 0;
+        s32 volRight = 0;
         switch (dir)
         {
         case CameraPos::eCamCurrent_0:
@@ -945,7 +945,7 @@ void CC Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
             volRight = 80;
             break;
         }
-        SFX_SfxDefinition_Play_477330(&sElumSfx_4C5398[3], (__int16) volLeft, (__int16) volRight, 0, 0);
+        SFX_SfxDefinition_Play_477330(&sElumSfx_4C5398[3], (s16) volLeft, (s16) volRight, 0, 0);
         break;
     }
 
@@ -984,7 +984,7 @@ void Elum::FindHoney_411600()
     {
         field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
 
-        for (int i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
 
@@ -1019,7 +1019,7 @@ void Elum::FindHoney_411600()
     }
 }
 
-__int16 Elum::NearHoney_411DA0()
+s16 Elum::NearHoney_411DA0()
 {
     if (field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
     {
@@ -1035,9 +1035,9 @@ __int16 Elum::NearHoney_411DA0()
     return 0;
 }
 
-__int16 Elum::Brain_0_WithoutAbe_416190()
+s16 Elum::Brain_0_WithoutAbe_416190()
 {
-    const int last_event_index = pEventSystem_4FF954->field_18_last_event_index;
+    const s32 last_event_index = pEventSystem_4FF954->field_18_last_event_index;
 
     GameSpeakEvents last_event_v1;
     GameSpeakEvents last_event_v2;
@@ -1271,7 +1271,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 2;
 
     case 5:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1369,7 +1369,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 6;
 
     case 8:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1377,7 +1377,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 6;
 
     case 9:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1385,7 +1385,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 2;
 
     case 10:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1393,7 +1393,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 6;
 
     case 11:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1401,7 +1401,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
         return 2;
 
     case 12:
-        if (static_cast<int>(gnFrameCount_507670) < field_114_respond_timer)
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
         {
             return field_12A_brain_state;
         }
@@ -1534,7 +1534,7 @@ __int16 Elum::Brain_0_WithoutAbe_416190()
     }
 }
 
-__int16 Elum::Brain_1_HoneyAddiction_411730()
+s16 Elum::Brain_1_HoneyAddiction_411730()
 {
     const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
@@ -1710,7 +1710,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         return field_12A_brain_state;
 
     case 5:
-        if (field_FC_current_motion != eElumStates::State_29_BeesStruggling_412A90 || field_110_timer > static_cast<int>(gnFrameCount_507670))
+        if (field_FC_current_motion != eElumStates::State_29_BeesStruggling_412A90 || field_110_timer > static_cast<s32>(gnFrameCount_507670))
         {
             return field_12A_brain_state;
         }
@@ -1813,7 +1813,7 @@ __int16 Elum::Brain_1_HoneyAddiction_411730()
         return 5;
 
     case 8:
-        if (field_110_timer > static_cast<int>(gnFrameCount_507670))
+        if (field_110_timer > static_cast<s32>(gnFrameCount_507670))
         {
             return field_12A_brain_state;
         }
@@ -2537,7 +2537,7 @@ void Elum::State_21_Land_414A20()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const __int16 bHit = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+    const s16 bHit = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
     if (sControlledCharacter_50767C == this)
     {
@@ -2879,8 +2879,8 @@ void Elum::State_32_HopLand_415140()
         VGetBoundingRect(&bRect, 1);
 
         VOnCollisionWith(
-            { bRect.x, static_cast<short>(bRect.y + 5) },
-            { bRect.w, static_cast<short>(bRect.h + 5) },
+            { bRect.x, static_cast<s16>(bRect.y + 5) },
+            { bRect.w, static_cast<s16>(bRect.h + 5) },
             ObjListPlatforms_50766C,
             1,
             (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -2949,8 +2949,8 @@ void Elum::State_35_RunJumpLand_415580()
         VGetBoundingRect(&bRect, 1);
 
         VOnCollisionWith(
-            { bRect.x, static_cast<short>(bRect.y + 5) },
-            { bRect.w, static_cast<short>(bRect.h + 5) },
+            { bRect.x, static_cast<s16>(bRect.y + 5) },
+            { bRect.w, static_cast<s16>(bRect.h + 5) },
             ObjListPlatforms_50766C,
             1,
             (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -3010,7 +3010,7 @@ void Elum::State_36_RunLoop_413720()
         return;
     }
 
-    __int16 gridSizeDirected = 0;
+    s16 gridSizeDirected = 0;
     if (field_B4_velx <= FP_FromInteger(0))
     {
         gridSizeDirected = FP_GetExponent(ScaleToGridSize_41FA30(field_BC_sprite_scale));
@@ -3521,7 +3521,7 @@ void Elum::State_50_Knockback_415DC0()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (field_110_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_110_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             if (field_F4_pLine)
             {
@@ -3562,7 +3562,7 @@ void Elum::VUpdate_4102A0()
         field_FC_current_motion = eElumStates::State_21_Land_414A20;
         field_F4_pLine = nullptr;
 
-        static int sElum_velx_table_4FF968[] =
+        static s32 sElum_velx_table_4FF968[] =
         {
             4,
             4,
@@ -3574,7 +3574,7 @@ void Elum::VUpdate_4102A0()
             4
         };
 
-        static int sElum_vely_table_4FF988[] =
+        static s32 sElum_vely_table_4FF988[] =
         {
              0,
              -4,
@@ -3588,7 +3588,7 @@ void Elum::VUpdate_4102A0()
 
         if (Input().IsAnyPressed(0xF000u))
         {
-            const int tableIdx = Input().Dir();
+            const s32 tableIdx = Input().Dir();
             field_B4_velx = FP_FromRaw(sElum_velx_table_4FF968[tableIdx]);
             field_B8_vely = FP_FromRaw(sElum_vely_table_4FF988[tableIdx]);
 
@@ -3708,8 +3708,8 @@ void Elum::VUpdate_4102A0()
                 VGetBoundingRect(&bRect, 1);
 
                 VOnCollisionWith(
-                    {bRect.x, static_cast<short>(bRect.y + 5)},
-                    {bRect.w, static_cast<short>(bRect.h + 5)},
+                    {bRect.x, static_cast<s16>(bRect.y + 5)},
+                    {bRect.w, static_cast<s16>(bRect.h + 5)},
                     ObjListPlatforms_50766C,
                     1,
                     (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_401C10);
@@ -3745,7 +3745,7 @@ void Elum::VUpdate_4102A0()
                 if (field_120_bUnknown)
                 {
                     field_FC_current_motion = field_E4_previous_motion;
-                    BYTE** ppRes = GetResBlock_410D00(field_E4_previous_motion);
+                    u8** ppRes = GetResBlock_410D00(field_E4_previous_motion);
                     if (!ppRes)
                     {
                         return;
@@ -3762,7 +3762,7 @@ void Elum::VUpdate_4102A0()
             }
             else
             {
-                BYTE** ppRes = GetResBlock_410D00(field_FC_current_motion);
+                u8** ppRes = GetResBlock_410D00(field_FC_current_motion);
                 if (!ppRes)
                 {
                     return;
@@ -3875,11 +3875,11 @@ void Elum::vScreenChange_411340()
     }
 }
 
-ALIVE_VAR(1, 0x4C52F0, short, word_4C52F0, 0x88);
-ALIVE_VAR(1, 0x4C52F2, short, word_4C52F2, 0x38);
-ALIVE_VAR(1, 0x4C52F4, DWORD, dword_4C52F4, 0x1C92C);
-ALIVE_VAR(1, 0x4C52F8, DWORD, dword_4C52F8, 0xC8);
-ALIVE_VAR(1, 0x4C52FA, short, word_4C52FA, 0);
+ALIVE_VAR(1, 0x4C52F0, s16, word_4C52F0, 0x88);
+ALIVE_VAR(1, 0x4C52F2, s16, word_4C52F2, 0x38);
+ALIVE_VAR(1, 0x4C52F4, u32, dword_4C52F4, 0x1C92C);
+ALIVE_VAR(1, 0x4C52F8, u32, dword_4C52F8, 0xC8);
+ALIVE_VAR(1, 0x4C52FA, s16, word_4C52FA, 0);
 
 void Elum::Spawn_410E90(TlvItemInfoUnion tlvInfo)
 {
@@ -3896,7 +3896,7 @@ void Elum::Spawn_410E90(TlvItemInfoUnion tlvInfo)
     pElum->ctor_410870(dword_4C52F4, struct2, struct1, dword_4C52F8, tlvInfo);
 }
 
-Elum* Elum::ctor_410870(int, anythingForTheTimeBeing, anythingForTheTimeBeing, int, TlvItemInfoUnion tlvInfo)
+Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemInfoUnion tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BA8F8);

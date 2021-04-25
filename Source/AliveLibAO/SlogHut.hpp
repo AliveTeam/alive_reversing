@@ -9,23 +9,23 @@ namespace AO {
 
 struct Path_SlogHut : public Path_TLV
 {
-    unsigned __int16 field_18_scale;
-    __int16 field_1A_switch_id;
-    __int16 field_1C_z_delay;
-    __int16 field_1E_pad;
+    u16 field_18_scale;
+    s16 field_1A_switch_id;
+    s16 field_1C_z_delay;
+    s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_SlogHut, 0x20);
 
 class SlogHut : public BaseGameObject
 {
 public:
-    EXPORT SlogHut* ctor_472C80(Path_SlogHut* pTlv, int tlvInfo);
+    EXPORT SlogHut* ctor_472C80(Path_SlogHut* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_472CF0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT SlogHut* Vdtor_472E30(signed int flags);
+    EXPORT SlogHut* Vdtor_472E30(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -38,12 +38,12 @@ public:
     FP field_10_xpos;
     FP field_14_ypos;
     FP field_18_scale;
-    int field_1C_tlvInfo;
-    __int16 field_20_switch_id;
-    __int16 field_22;
-    int field_24_timer;
-    __int16 field_28_z_delay;
-    __int16 field_2A;
+    s32 field_1C_tlvInfo;
+    s16 field_20_switch_id;
+    s16 field_22;
+    s32 field_24_timer;
+    s16 field_28_z_delay;
+    s16 field_2A;
 };
 ALIVE_ASSERT_SIZEOF(SlogHut, 0x2C);
 

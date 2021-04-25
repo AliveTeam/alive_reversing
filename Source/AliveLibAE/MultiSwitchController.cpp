@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* MultiSwitchController::VDestructor(signed int flags)
+BaseGameObject* MultiSwitchController::VDestructor(s32 flags)
 {
     return vdtor_4D61A0(flags);
 }
@@ -22,7 +22,7 @@ void MultiSwitchController::VScreenChanged()
     vScreenChanged_4D6860();
 }
 
-MultiSwitchController* MultiSwitchController::ctor_4D60E0(Path_MultiSwitchController* pTlv, DWORD tlvInfo)
+MultiSwitchController* MultiSwitchController::ctor_4D60E0(Path_MultiSwitchController* pTlv, u32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     field_40_flags.Clear(Flags_40::eBit1_is_on);
@@ -50,7 +50,7 @@ MultiSwitchController* MultiSwitchController::ctor_4D60E0(Path_MultiSwitchContro
     return this;
 }
 
-MultiSwitchController* MultiSwitchController::vdtor_4D61A0(signed int flags)
+MultiSwitchController* MultiSwitchController::vdtor_4D61A0(s32 flags)
 {
     dtor_4D61D0();
     if (flags & 1)
@@ -94,7 +94,7 @@ void MultiSwitchController::vUpdate_4D6250()
 
 EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
 {
-    const int id1_value = SwitchStates_Get_466020(field_20_id1);
+    const s32 id1_value = SwitchStates_Get_466020(field_20_id1);
     if (id1_value)
     {
         if (field_34_last_switch_on_time == 0 && field_20_id1 > 1u)
@@ -103,7 +103,7 @@ EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
         }
     }
 
-    const int id2_value = SwitchStates_Get_466020(field_22_id2);
+    const s32 id2_value = SwitchStates_Get_466020(field_22_id2);
     if (id2_value)
     {
         if (field_34_last_switch_on_time == 0 && field_22_id2 > 1u)
@@ -112,7 +112,7 @@ EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
         }
     }
 
-    const int id3_value = SwitchStates_Get_466020(field_24_id3);
+    const s32 id3_value = SwitchStates_Get_466020(field_24_id3);
     if (id3_value)
     {
         if (field_34_last_switch_on_time == 0 && field_24_id3 > 1u)
@@ -121,7 +121,7 @@ EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
         }
     }
 
-    const int id4_value = SwitchStates_Get_466020(field_26_id4);
+    const s32 id4_value = SwitchStates_Get_466020(field_26_id4);
     if (id4_value)
     {
         if (field_34_last_switch_on_time == 0 && field_26_id4 > 1u)
@@ -130,7 +130,7 @@ EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
         }
     }
     
-    const int id5_value = SwitchStates_Get_466020(field_28_id5);
+    const s32 id5_value = SwitchStates_Get_466020(field_28_id5);
     if (id5_value)
     {
         if (field_34_last_switch_on_time == 0 && field_28_id5 > 1u)
@@ -139,7 +139,7 @@ EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
         }
     }
 
-    const int id6_value = SwitchStates_Get_466020(field_2A_id6);
+    const s32 id6_value = SwitchStates_Get_466020(field_2A_id6);
     if (id6_value)
     {
         if (field_34_last_switch_on_time == 0 && field_2A_id6 > 1u)
@@ -175,7 +175,7 @@ EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
             field_38_all_switches_on_or_off_time = 0;
         }
     }
-    else if (static_cast<int>(sGnFrame_5C1B84) - field_34_last_switch_on_time > field_3C_delay)
+    else if (static_cast<s32>(sGnFrame_5C1B84) - field_34_last_switch_on_time > field_3C_delay)
     {
         if (field_20_id1 > 1u)
         {
@@ -213,7 +213,7 @@ EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
 
 EXPORT void MultiSwitchController::WaitingForAllOff_4D65B0()
 {
-    int id1_value = 0;
+    s32 id1_value = 0;
     if (field_20_id1 > 1u)
     {
         id1_value = SwitchStates_Get_466020(field_20_id1);
@@ -226,7 +226,7 @@ EXPORT void MultiSwitchController::WaitingForAllOff_4D65B0()
         }
     }
 
-    int id2_value = 0;
+    s32 id2_value = 0;
     if (field_22_id2 > 1u)
     {
         id2_value = SwitchStates_Get_466020(field_22_id2);
@@ -239,7 +239,7 @@ EXPORT void MultiSwitchController::WaitingForAllOff_4D65B0()
         }
     }
 
-    int id3_value = 0;
+    s32 id3_value = 0;
     if (field_24_id3 > 1u)
     {
         id3_value = SwitchStates_Get_466020(field_24_id3);
@@ -252,7 +252,7 @@ EXPORT void MultiSwitchController::WaitingForAllOff_4D65B0()
         }
     }
 
-    int id4_value = 0;
+    s32 id4_value = 0;
     if (field_26_id4 > 1u)
     {
         id4_value = SwitchStates_Get_466020(field_26_id4);
@@ -265,7 +265,7 @@ EXPORT void MultiSwitchController::WaitingForAllOff_4D65B0()
         }
     }
 
-    int id5_value = 0;
+    s32 id5_value = 0;
     if (field_28_id5 > 1u)
     {
         id5_value = SwitchStates_Get_466020(field_28_id5);
@@ -278,7 +278,7 @@ EXPORT void MultiSwitchController::WaitingForAllOff_4D65B0()
         }
     }
 
-    int id6_value = 0;
+    s32 id6_value = 0;
     if (field_2A_id6 > 1u)
     {
         id6_value = SwitchStates_Get_466020(field_2A_id6);

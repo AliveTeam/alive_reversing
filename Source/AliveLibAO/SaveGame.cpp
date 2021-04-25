@@ -12,14 +12,14 @@
 
 namespace AO {
 
-ALIVE_VAR_EXTERN(int, sGasTimer_507700);
-ALIVE_VAR_EXTERN(short, sRescuedMudokons_5076C0);
-ALIVE_VAR_EXTERN(short, sKilledMudokons_5076BC);
+ALIVE_VAR_EXTERN(s32, sGasTimer_507700);
+ALIVE_VAR_EXTERN(s16, sRescuedMudokons_5076C0);
+ALIVE_VAR_EXTERN(s16, sKilledMudokons_5076BC);
 ALIVE_VAR(1, 0x4CF2B0, Save_PSX_Header, sSaveHeader2_4CF2B0, {});
 ALIVE_VAR(1, 0x4BC250, Save_PSX_Header, sSaveHeader1_4BC250, {});
-ALIVE_VAR(1, 0x5076B4, WORD, bUseAltSaveHeader_5076B4, 0);
+ALIVE_VAR(1, 0x5076B4, u16, bUseAltSaveHeader_5076B4, 0);
 
-ALIVE_VAR(1, 0x500C184, DWORD, dword_500C18, 0);
+ALIVE_VAR(1, 0x500C184, u32, dword_500C18, 0);
 ALIVE_VAR(1, 0x500A18, SaveData, gSaveBuffer_500A18, {});
 
 ALIVE_VAR(1, 0x505668, SaveData, gSaveBuffer_505668, {});
@@ -28,9 +28,9 @@ EXPORT void Kill_Objects_451720()
 {
     ResourceManager::LoadingLoop_41EAD0(0);
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        for (int j=0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
+        for (s32 j=0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(j);
             if (!pObj)
@@ -52,12 +52,12 @@ EXPORT void Kill_Objects_451720()
     }
 }
 
-void SaveGame::LoadFromMemory_459970(SaveData* pData, int bKillObjects)
+void SaveGame::LoadFromMemory_459970(SaveData* pData, s32 bKillObjects)
 {
     TRACE_ENTRYEXIT;
 
     // Never actually used
-    //const int hash = Hash(pData);
+    //const s32 hash = Hash(pData);
 
     if (bKillObjects)
     {
@@ -92,7 +92,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, int bKillObjects)
     sActiveHero_507678->field_11C_regen_health_timer = gnFrameCount_507670;
     sActiveHero_507678->field_BC_sprite_scale = pData->field_230_ah_sprite_scale;
     sActiveHero_507678->field_118_timer = pData->field_24C_field_118;
-    sActiveHero_507678->field_19C_throwable_count = static_cast<char>(pData->field_250_throwable_count); // TODO: Type check when other save func done
+    sActiveHero_507678->field_19C_throwable_count = static_cast<s8>(pData->field_250_throwable_count); // TODO: Type check when other save func done
     sActiveHero_507678->field_106_shot = 0;
 
     sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
@@ -149,7 +149,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, int bKillObjects)
         1);
 }
 
-const char word_4BC670[6][8] =
+const s8 word_4BC670[6][8] =
 {
     { 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x00, 0x00 },
     { 0x01, 0x02, 0x03, 0x0A, 0x00, 0x00, 0x00, 0x00 },
@@ -161,7 +161,7 @@ const char word_4BC670[6][8] =
 // The text in the PSX save is in Shift JS encoding:
 // https://github.com/python/pythontestdotnet/blob/master/www/unicode/SHIFTJIS.TXT
 
-const unsigned char byte_4BC450[] =
+const u8 byte_4BC450[] =
 {
     0x82, 0x71, // R
     0x82, 0x95, // u
@@ -185,7 +185,7 @@ const unsigned char byte_4BC450[] =
     0x00, 0x00
 };
 
-const unsigned char byte_4BC478[] =
+const u8 byte_4BC478[] =
 {
     0x82, 0x71, 0x82, 0x95, 0x82, 0x90, 0x82, 0x94, 0x82, 0x95,
     0x82, 0x92, 0x82, 0x85, 0x82, 0x65, 0x82, 0x81, 0x82, 0x92,
@@ -193,7 +193,7 @@ const unsigned char byte_4BC478[] =
     0x81, 0x40, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-const unsigned char byte_4BC4A0[] =
+const u8 byte_4BC4A0[] =
 {
     0x82, 0x73, 0x82, 0x88, 0x82, 0x85, 0x81, 0x40, 0x82, 0x61,
     0x82, 0x8F, 0x82, 0x81, 0x82, 0x92, 0x82, 0x84, 0x82, 0x92,
@@ -201,7 +201,7 @@ const unsigned char byte_4BC4A0[] =
     0x81, 0x40, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-const unsigned char byte_4BC4C8[] =
+const u8 byte_4BC4C8[] =
 {
     0x82, 0x6F, 0x82, 0x81, 0x82, 0x92, 0x82, 0x81, 0x82, 0x8D,
     0x82, 0x8F, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x81, 0x40,
@@ -209,7 +209,7 @@ const unsigned char byte_4BC4C8[] =
     0x81, 0x40, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-const unsigned char byte_4BC4F0[] =
+const u8 byte_4BC4F0[] =
 {
     0x82, 0x6F, 0x82, 0x81, 0x82, 0x92, 0x82, 0x81, 0x82, 0x8D,
     0x82, 0x8F, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x82, 0x8E,
@@ -217,7 +217,7 @@ const unsigned char byte_4BC4F0[] =
     0x82, 0x8C, 0x82, 0x85, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-const unsigned char byte_4BC518[] =
+const u8 byte_4BC518[] =
 {
     0x82, 0x6F, 0x82, 0x81, 0x82, 0x92, 0x82, 0x81, 0x82, 0x8D,
     0x82, 0x8F, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x82, 0x8E,
@@ -225,7 +225,7 @@ const unsigned char byte_4BC518[] =
     0x82, 0x93, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-const unsigned char byte_4BC540[] =
+const u8 byte_4BC540[] =
 {
     0x82, 0x72, 0x82, 0x83, 0x82, 0x92, 0x82, 0x81, 0x82, 0x82,
     0x82, 0x81, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x81, 0x40,
@@ -233,7 +233,7 @@ const unsigned char byte_4BC540[] =
     0x81, 0x40, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-const unsigned char byte_4BC568[] =
+const u8 byte_4BC568[] =
 {
     0x82, 0x72, 0x82, 0x83, 0x82, 0x92, 0x82, 0x81, 0x82, 0x82,
     0x82, 0x81, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x82, 0x8E,
@@ -241,7 +241,7 @@ const unsigned char byte_4BC568[] =
     0x82, 0x8C, 0x82, 0x85, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-const unsigned char byte_4BC590[] =
+const u8 byte_4BC590[] =
 {
     0x82, 0x72, 0x82, 0x83, 0x82, 0x92, 0x82, 0x81, 0x82, 0x82,
     0x82, 0x81, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x82, 0x8E,
@@ -249,7 +249,7 @@ const unsigned char byte_4BC590[] =
     0x82, 0x93, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-const unsigned char byte_4BC5B8[] =
+const u8 byte_4BC5B8[] =
 {
     0x82, 0x72, 0x82, 0x94, 0x82, 0x8F, 0x82, 0x83, 0x82, 0x8B,
     0x82, 0x99, 0x82, 0x81, 0x82, 0x92, 0x82, 0x84, 0x81, 0x40,
@@ -257,7 +257,7 @@ const unsigned char byte_4BC5B8[] =
     0x82, 0x85, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-const unsigned char byte_4BC5E0[] =
+const u8 byte_4BC5E0[] =
 {
     0x82, 0x72, 0x82, 0x94, 0x82, 0x8F, 0x82, 0x83, 0x82, 0x8B,
     0x82, 0x99, 0x82, 0x81, 0x82, 0x92, 0x82, 0x84, 0x81, 0x40,
@@ -265,7 +265,7 @@ const unsigned char byte_4BC5E0[] =
     0x82, 0x85, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-const BYTE byte_4BC608[] =
+const u8 byte_4BC608[] =
 {
     0x82, 0x72, 0x82, 0x94, 0x82, 0x8F, 0x82, 0x83, 0x82, 0x8B,
     0x82, 0x99, 0x82, 0x81, 0x82, 0x92, 0x82, 0x84, 0x81, 0x40,
@@ -274,7 +274,7 @@ const BYTE byte_4BC608[] =
 };
 
 using byteArray = decltype(byte_4BC450);
-const unsigned char* encodedLevelNames_4BC62C[] =
+const u8* encodedLevelNames_4BC62C[] =
 {
     nullptr,
     byte_4BC450,
@@ -291,7 +291,7 @@ const unsigned char* encodedLevelNames_4BC62C[] =
     byte_4BC4A0
 };
 
-const char* rawLevelNames[] = {
+const s8* rawLevelNames[] = {
     nullptr,
     "RuptureFarms     ",
     "Stockyard Escape ",
@@ -310,12 +310,12 @@ const char* rawLevelNames[] = {
     "Scrabania Chase  ",
 };
 
-short SaveGame::GetPathId(short pathToFind, short* outFoundPathRow)
+s16 SaveGame::GetPathId(s16 pathToFind, s16* outFoundPathRow)
 {
-    short path_id = -1;
-    for (short i = 0; i < 4; i++)
+    s16 path_id = -1;
+    for (s16 i = 0; i < 4; i++)
     {
-        for (int j = 0; j < 8; j++)
+        for (s32 j = 0; j < 8; j++)
         {
             const auto path = word_4BC670[i][j];
             if (!path)
@@ -349,11 +349,11 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
 
     pSaveData->field_0_header = *pHeaderToUse;
 
-    auto lvName = rawLevelNames[static_cast<int>(gMap_507BA8.field_0_current_level)];
+    auto lvName = rawLevelNames[static_cast<s32>(gMap_507BA8.field_0_current_level)];
     if (lvName != nullptr)
     {
         memcpy(
-            reinterpret_cast<char*>(&pSaveData->field_0_header.field_0_frame_1_name[4]),
+            reinterpret_cast<s8*>(&pSaveData->field_0_header.field_0_frame_1_name[4]),
             lvName,
             18
         );
@@ -361,7 +361,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {
-        short path_id = GetPathId(gMap_507BA8.field_2_current_path);
+        s16 path_id = GetPathId(gMap_507BA8.field_2_current_path);
 
         if (path_id != -1)
         {
@@ -371,7 +371,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
 
             // 0x8250 = 1
             pSaveData->field_0_header.field_0_frame_1_name[46] = 0x82u;
-            pSaveData->field_0_header.field_0_frame_1_name[47] = static_cast<char>(path_id + 0x50);
+            pSaveData->field_0_header.field_0_frame_1_name[47] = static_cast<s8>(path_id + 0x50);
         }
     }
     pSaveData->field_234_current_level = gMap_507BA8.field_0_current_level;
@@ -409,7 +409,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     pSaveData->field_22C_ah_health = sActiveHero_507678->field_100_health;
     pSaveData->field_23C_ah_flipX = sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
     pSaveData->field_230_ah_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
-    pSaveData->field_244_stone_state = static_cast<int>(sActiveHero_507678->field_110_state.raw);
+    pSaveData->field_244_stone_state = static_cast<s32>(sActiveHero_507678->field_110_state.raw);
     pSaveData->field_248_gnFrame = sActiveHero_507678->field_114_gnFrame;
     pSaveData->field_24C_field_118 = sActiveHero_507678->field_118_timer;
     pSaveData->field_250_throwable_count = sActiveHero_507678->field_19C_throwable_count;
@@ -467,11 +467,11 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     pSaveData->field_200_hashValue = Hash(pSaveData);
 }
 
-int SaveGame::Hash(SaveData* sData)
+s32 SaveGame::Hash(SaveData* sData)
 {
-    auto table = reinterpret_cast<int*>(&sData->field_204_zone_number);
-    int counter = 0;
-    for (int hashIter = 1919; hashIter > 0; hashIter--)
+    auto table = reinterpret_cast<s32*>(&sData->field_204_zone_number);
+    s32 counter = 0;
+    for (s32 hashIter = 1919; hashIter > 0; hashIter--)
     {
         counter += *table;
         table++;
@@ -479,9 +479,9 @@ int SaveGame::Hash(SaveData* sData)
     return counter;
 }
 
-short CC SaveGame::LoadFromFile_459D30(const char* name)
+s16 CC SaveGame::LoadFromFile_459D30(const s8* name)
 {
-    char buffer[40] = {};
+    s8 buffer[40] = {};
 
     strcpy(buffer, name);
     strcat(buffer, ".sav");
@@ -515,9 +515,9 @@ short CC SaveGame::LoadFromFile_459D30(const char* name)
     }
 }
 
-BOOL CC SaveGame::SaveToFile_45A110(const char *name)
+BOOL CC SaveGame::SaveToFile_45A110(const s8 *name)
 {
-    char buffer[40] = {};
+    s8 buffer[40] = {};
 
     strcpy(buffer, name);
     strcat(buffer, ".sav");

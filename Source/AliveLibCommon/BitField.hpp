@@ -41,7 +41,7 @@ public:
         }
     }
 
-    void Set(EnumType value, int set)
+    void Set(EnumType value, s32 set)
     {
         Set(value, !!set);
     }
@@ -61,20 +61,20 @@ private:
 
 union BitFieldUnion8
 {
-    BYTE all;
+    u8 all;
 };
 template<class EnumType>
 using BitField8 = BitFieldT<BitFieldUnion8, EnumType>;
 
 struct BitFieldBytes16
 {
-    BYTE b0;
-    BYTE b1;
+    u8 b0;
+    u8 b1;
 };
 
 union BitFieldUnion16
 {
-    WORD all;
+    u16 all;
     BitFieldBytes16 bytes;
 };
 
@@ -83,21 +83,21 @@ using BitField16 = BitFieldT<BitFieldUnion16, EnumType>;
 
 struct BitFieldBytes32
 {
-    BYTE b0;
-    BYTE b1;
-    BYTE b2;
-    BYTE b3;
+    u8 b0;
+    u8 b1;
+    u8 b2;
+    u8 b3;
 };
 
 struct BitFieldWords32
 {
-    WORD loword;
-    WORD hiword;
+    u16 loword;
+    u16 hiword;
 };
 
 union BitFieldUnion32
 {
-    DWORD all;
+    u32 all;
     BitFieldBytes32 bytes;
     BitFieldWords32 words;
 };

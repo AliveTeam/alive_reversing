@@ -5,10 +5,10 @@
 #include "Game.hpp"
 #include "Map.hpp"
 
-ALIVE_VAR(1, 0x5c1b90, __int16, sDoesCreditsControllerExist_5C1B90, false);
+ALIVE_VAR(1, 0x5c1b90, s16, sDoesCreditsControllerExist_5C1B90, false);
 
 
-BaseGameObject* CreditsController::VDestructor(signed int flags)
+BaseGameObject* CreditsController::VDestructor(s32 flags)
 {
     return vdtor_418A60(flags);
 }
@@ -18,9 +18,9 @@ void CreditsController::VUpdate()
     Update_418AC0();
 }
 
-constexpr int kShowCreditScreenForTicks = 160;
+constexpr s32 kShowCreditScreenForTicks = 160;
 
-CreditsController * CreditsController::ctor_418A10(Path_TLV* /*pTlv*/, int /*tlvInfo*/)
+CreditsController * CreditsController::ctor_418A10(Path_TLV* /*pTlv*/, s32 /*tlvInfo*/)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544618);
@@ -39,7 +39,7 @@ void CreditsController::dtor_418A90()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* CreditsController::vdtor_418A60(signed int flags)
+BaseGameObject* CreditsController::vdtor_418A60(s32 flags)
 {
     dtor_418A90();
     if (flags & 1)
@@ -51,7 +51,7 @@ BaseGameObject* CreditsController::vdtor_418A60(signed int flags)
 
 void CreditsController::Update_418AC0()
 {
-    if (field_20_next_cam_frame <= static_cast<int>(sGnFrame_5C1B84))
+    if (field_20_next_cam_frame <= static_cast<s32>(sGnFrame_5C1B84))
     {
         field_24_camera_number++;
         field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;

@@ -5,7 +5,7 @@
 #include "Path.hpp"
 #include "FlyingSligSpawner.hpp"
 
-enum class LevelIds : __int16;
+enum class LevelIds : s16;
 
 class FlyingSlig;
 
@@ -40,40 +40,40 @@ using TFlyingSligFn = void(FlyingSlig::*)(void);
     ENTRY(M_TurnToHorizontalMovement_25_4389E0)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eFlyingSligMotions : int
+enum eFlyingSligMotions : s32
 {
     FLYING_SLIG_MOTIONS_ENUM(MAKE_ENUM)
 };
 
-enum class SligSpeak : signed char;
+enum class SligSpeak : s8;
 
 struct FlyingSlig_State
 {
     AETypes field_0_type;
-    __int16 field_2;
+    s16 field_2;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
     FP field_10_vely;
-    __int16 field_14_path_number;
+    s16 field_14_path_number;
     LevelIds field_16_lvl_number;
     FP field_18_sprite_scale;
-    __int16 field_1C_oldr;
-    __int16 field_1E_oldg;
-    __int16 field_20_oldb;
-    __int16 field_22_bAnimFlipX;
-    __int16 field_24_current_state;
-    __int16 field_26_current_frame;
-    __int16 field_28_frame_change_counter;
-    BYTE field_2A_bAnimRender;
-    BYTE field_2B_bDrawable;
+    s16 field_1C_oldr;
+    s16 field_1E_oldg;
+    s16 field_20_oldb;
+    s16 field_22_bAnimFlipX;
+    s16 field_24_current_state;
+    s16 field_26_current_frame;
+    s16 field_28_frame_change_counter;
+    u8 field_2A_bAnimRender;
+    u8 field_2B_bDrawable;
     FP field_2C_current_health;
-    __int16 field_30_current_state;
-    __int16 field_32_delayed_state;
-    __int16 field_34_lastLineYPos;
-    __int16 field_36_line_idx;
-    BYTE field_38_launch_id;
-    BYTE field_39_padding;
+    s16 field_30_current_state;
+    s16 field_32_delayed_state;
+    s16 field_34_lastLineYPos;
+    s16 field_36_line_idx;
+    u8 field_38_launch_id;
+    u8 field_39_padding;
     enum Flags_3A
     {
         eBit1_bPossessed = 0x1,
@@ -89,16 +89,16 @@ struct FlyingSlig_State
         eBit11_padding = 0x400,
     };
     BitField16<Flags_3A> field_3A;
-    int field_3C_tlvInfo;
-    int field_40_timer;
-    int field_44_grenade_delay;
-    int field_48_collision_reaction_timer;
+    s32 field_3C_tlvInfo;
+    s32 field_40_timer;
+    s32 field_44_grenade_delay;
+    s32 field_48_collision_reaction_timer;
     FP field_4C_xSpeed;
     FP field_50_ySpeed;
     SligSpeak field_54_next_speak;
-    char field_55_padding;
-    __int16 field_56_voice_pitch_min;
-    int field_58_obj_id;
+    s8 field_55_padding;
+    s16 field_56_voice_pitch_min;
+    s32 field_58_obj_id;
     FP field_5C;
     FP field_60;
     FP field_64;
@@ -106,22 +106,22 @@ struct FlyingSlig_State
     FP field_6C;
     FP field_70_lever_pull_range_xpos;
     FP field_74_lever_pull_range_ypos;
-    int field_78_unused;
-    int field_7C_unused;
-    int field_80_unused;
-    int field_84_unused;
+    s32 field_78_unused;
+    s32 field_7C_unused;
+    s32 field_80_unused;
+    s32 field_84_unused;
     FP field_88_nextXPos;
     FP field_8C_nextYPos;
-    int field_90_fns1_idx;
-    __int16 field_94_padding;
-    __int16 field_96_padding;
-    __int16 field_98_unused;
+    s32 field_90_fns1_idx;
+    s16 field_94_padding;
+    s16 field_96_padding;
+    s16 field_98_unused;
     LevelIds field_9A_abe_level;
-    __int16 field_9C_abe_path;
-    __int16 field_9E_abe_camera;
-    __int16 field_A0_bobbing_values_table_index;
-    __int16 field_A2_padding;
-    int field_A4_bobbing_values_index;
+    s16 field_9C_abe_path;
+    s16 field_9E_abe_camera;
+    s16 field_A0_bobbing_values_table_index;
+    s16 field_A2_padding;
+    s32 field_A4_bobbing_values_index;
     FP field_A8_bobbing_value;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
@@ -129,9 +129,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
 class FlyingSlig : public BaseAliveGameObject
 {
 public:
-    EXPORT FlyingSlig* ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo);
+    EXPORT FlyingSlig* ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUpdate() override;
 
@@ -139,25 +139,25 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
     virtual void VPossessed_408F70() override;
 
-    virtual void VSetMotion_4081C0(__int16 state) override;
+    virtual void VSetMotion_4081C0(s16 state) override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     // TODO: Remaining virtuals
 
-    EXPORT static int CC CreateFromSaveState_437E40(const BYTE* pBuffer);
+    EXPORT static s32 CC CreateFromSaveState_437E40(const u8* pBuffer);
 
 private:
-    EXPORT int vGetSaveState_43B1E0(FlyingSlig_State* pState);
+    EXPORT s32 vGetSaveState_43B1E0(FlyingSlig_State* pState);
 
 
     EXPORT void dtor_434990();
 
-    EXPORT FlyingSlig* vdtor_434870(signed int flags);
+    EXPORT FlyingSlig* vdtor_434870(s32 flags);
 
     EXPORT void vScreenChanged_434C10();
 
@@ -166,11 +166,11 @@ private:
 
     EXPORT void vRender_435130(PrimHeader** ot);
 
-    EXPORT __int16 IsPossessed_436A90();
+    EXPORT s16 IsPossessed_436A90();
     EXPORT void sub_4348A0();
     EXPORT void Movement_4396E0();
 
-    EXPORT __int16 vTakeDamage_434C90(BaseGameObject* pFrom);
+    EXPORT s16 vTakeDamage_434C90(BaseGameObject* pFrom);
 
 public:
 
@@ -220,7 +220,7 @@ public:
     EXPORT void M_HorizontalToUpMovement_24_438D60();
     EXPORT void M_TurnToHorizontalMovement_25_4389E0();
 
-    EXPORT signed __int16 IsFacingMovementDirection_43A510();
+    EXPORT s16 IsFacingMovementDirection_43A510();
 
 public:
     EXPORT void ToPlayerControlled_4360C0();
@@ -231,13 +231,13 @@ public:
 
     EXPORT void ToChase_435E10();
 
-    EXPORT __int16 CanChase_436850(BaseAliveGameObject* pObj);
+    EXPORT s16 CanChase_436850(BaseAliveGameObject* pObj);
 
-    EXPORT void Say_436A50(SligSpeak speak, __int16 pitch);
+    EXPORT void Say_436A50(SligSpeak speak, s16 pitch);
 
-    EXPORT __int16 sub_4374A0(__int16 a2);
+    EXPORT s16 sub_4374A0(s16 a2);
 
-    EXPORT static __int16 CCSTD IsAbeEnteringDoor_43B030(BaseAliveGameObject *pThis );
+    EXPORT static s16 CCSTD IsAbeEnteringDoor_43B030(BaseAliveGameObject *pThis );
 
     EXPORT static BOOL CCSTD IsWallBetween_43A550(BaseAliveGameObject *pThis, BaseAliveGameObject *pObj);
 
@@ -245,9 +245,9 @@ public:
 
     EXPORT void BlowUp_436510();
 
-    EXPORT __int16 sub_436730();
+    EXPORT s16 sub_436730();
 
-    EXPORT __int16 CanHearAbe_4369C0();
+    EXPORT s16 CanHearAbe_4369C0();
 
     EXPORT void ToSpottedEnemy_435E70();
 
@@ -257,9 +257,9 @@ public:
 
     EXPORT void ToPanicMoving_435A50();
 
-    EXPORT __int16 IsTurning_436AE0();
+    EXPORT s16 IsTurning_436AE0();
 
-    EXPORT BYTE** ResBlockForMotion_4350F0(int motion);
+    EXPORT u8** ResBlockForMotion_4350F0(s32 motion);
 
     EXPORT void ToChantShake_436270();
 
@@ -269,35 +269,35 @@ public:
 
     EXPORT void PatrolDelay_435860();
 
-    EXPORT __int16 CanThrowGrenade_43A490();
+    EXPORT s16 CanThrowGrenade_43A490();
 
     EXPORT void ToLaunchingGrenade_435F50();
 
     EXPORT void HandlePlayerControls_439340();
 
-    EXPORT __int16 sub_437C70(PathLine* pLine);
+    EXPORT s16 sub_437C70(PathLine* pLine);
 
     EXPORT TlvTypes FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
 
     EXPORT void vPossessed_434FB0();
 
-    EXPORT __int16 sub_436C60(PSX_RECT* pRect, __int16 op1);
+    EXPORT s16 sub_436C60(PSX_RECT* pRect, s16 op1);
 
     EXPORT BOOL sub_436B20();
 
     EXPORT void sub_4373B0();
 
-    EXPORT void vSetMotion_43B1B0(__int16 newMotion);
+    EXPORT void vSetMotion_43B1B0(s16 newMotion);
 
-    EXPORT __int16 CollisionUp_43A640(FP velY);
+    EXPORT s16 CollisionUp_43A640(FP velY);
 
-    EXPORT __int16 CollisionDown_43A9E0(FP velY);
+    EXPORT s16 CollisionDown_43A9E0(FP velY);
 
-    EXPORT __int16 CollisionLeftRight_43AC80(FP velX);
+    EXPORT s16 CollisionLeftRight_43AC80(FP velX);
 
     EXPORT void PullLever_436450();
 
-    EXPORT __int16 TryPullLever_439DB0();
+    EXPORT s16 TryPullLever_439DB0();
 
     EXPORT void sub_437AC0(FP a2, FP_Point* pPoint);
 
@@ -307,27 +307,27 @@ public:
 
 private:
     Path_FlyingSlig field_118_data;
-    int field_148_tlvInfo;
-    int field_14C_timer;
-    int field_150_grenade_delay;
-    int field_154_collision_reaction_timer;
-    int field_158_obj_id;
-    __int16 field_15C_voice_pitch_min;
-    __int16 field_15E_useless;
-    __int16 field_160_voice_pitch_min;
-    __int16 field_162_padding;
-    int field_164_unused;
-    __int16 field_168_padding;
-    __int16 field_16A_padding;
-    __int16 field_16C_padding;
-    __int16 field_16E_padding;
-    __int16 field_170_padding;
-    __int16 field_172_padding;
-    __int16 field_174_padding;
-    __int16 field_176_padding;
-    __int16 field_178_unused;
-    __int16 field_17A_unused;
-    BYTE field_17C_launch_id;
+    s32 field_148_tlvInfo;
+    s32 field_14C_timer;
+    s32 field_150_grenade_delay;
+    s32 field_154_collision_reaction_timer;
+    s32 field_158_obj_id;
+    s16 field_15C_voice_pitch_min;
+    s16 field_15E_useless;
+    s16 field_160_voice_pitch_min;
+    s16 field_162_padding;
+    s32 field_164_unused;
+    s16 field_168_padding;
+    s16 field_16A_padding;
+    s16 field_16C_padding;
+    s16 field_16E_padding;
+    s16 field_170_padding;
+    s16 field_172_padding;
+    s16 field_174_padding;
+    s16 field_176_padding;
+    s16 field_178_unused;
+    s16 field_17A_unused;
+    u8 field_17C_launch_id;
     SligSpeak field_17D_next_speak;
 
     enum Flags_17E
@@ -355,51 +355,51 @@ private:
     FP field_190;
     FP field_194;
     FP field_198_line_length;
-    __int16 field_19C_padding;
-    __int16 field_19E_padding;
-    __int16 field_1A0_padding;
-    __int16 field_1A2_padding;
+    s16 field_19C_padding;
+    s16 field_19E_padding;
+    s16 field_1A0_padding;
+    s16 field_1A2_padding;
     FP_Rect field_1A4_rect;
-    __int16 field_1B4_padding;
-    __int16 field_1B6_padding;
-    __int16 field_1B8_padding;
-    __int16 field_1BA_padding;
+    s16 field_1B4_padding;
+    s16 field_1B6_padding;
+    s16 field_1B8_padding;
+    s16 field_1BA_padding;
     FP field_1BC;
     FP field_1C0;
     FP field_1C4;
     FP field_1C8_lever_pull_range_xpos;
     FP field_1CC_lever_pull_range_ypos;
-    __int16 field_1D0_padding;
-    __int16 field_1D2_padding;
-    __int16 field_1D4_padding;
-    __int16 field_1D6_padding;
-    int field_1D8_unused;
-    int field_1DC_unused;
-    int field_1E0_unused;
-    int field_1E4_unused;
-    __int16 field_1E8_unused;
-    __int16 field_1EA_padding;
+    s16 field_1D0_padding;
+    s16 field_1D2_padding;
+    s16 field_1D4_padding;
+    s16 field_1D6_padding;
+    s32 field_1D8_unused;
+    s32 field_1DC_unused;
+    s32 field_1E0_unused;
+    s32 field_1E4_unused;
+    s16 field_1E8_unused;
+    s16 field_1EA_padding;
     PathLine* field_1EC_pNextLine;
     PathLine* field_1F0_pPrevLine;
-    __int16 field_1F4_pPalAlloc[64];
+    s16 field_1F4_pPalAlloc[64];
     PSX_RECT field_274_pal_rect;
-    __int16 field_27C_r;
-    __int16 field_27E_g;
-    __int16 field_280_b;
-    __int16 field_282_padding;
+    s16 field_27C_r;
+    s16 field_27E_g;
+    s16 field_280_b;
+    s16 field_282_padding;
     FP field_284_bobbing_value;
     const FP* field_288_unused;
-    __int16 field_28C_bobbing_values_table_index;
-    __int16 field_28E_padding;
-    int field_290_bobbing_values_index;
+    s16 field_28C_bobbing_values_table_index;
+    s16 field_28E_padding;
+    s32 field_290_bobbing_values_index;
 public:
     FP field_294_nextXPos;
     FP field_298_nextYPos;
     TFlyingSligFn field_29C_brain_state;
     LevelIds field_2A0_abe_level;
-    __int16 field_2A2_abe_path;
-    __int16 field_2A4_abe_camera;
-    __int16 field_2A6_padding;
+    s16 field_2A2_abe_path;
+    s16 field_2A4_abe_camera;
+    s16 field_2A6_padding;
     FP field_2A8_max_x_speed;
     FP field_2AC_up_vel;
     FP field_2B0_down_vel;

@@ -4,7 +4,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* OrbWhirlWind::VDestructor(signed int flags)
+BaseGameObject* OrbWhirlWind::VDestructor(s32 flags)
 {
     return vdtor_4E3D50(flags);
 }
@@ -19,7 +19,7 @@ void OrbWhirlWind::VRender(PrimHeader** ppOt)
     return vRender_4E3F80(ppOt);
 }
 
-OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bIsMudokonSpirit)
+OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit)
 {
     field_4_typeId = AETypes::eNone_0;
 
@@ -47,7 +47,7 @@ OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bIsM
 
 void OrbWhirlWind::ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
 {
-    for (int i = 0; i < field_28_particleIdx; i++)
+    for (s32 i = 0; i < field_28_particleIdx; i++)
     {
         if (field_2C_particles[i])
         {
@@ -62,7 +62,7 @@ void OrbWhirlWind::ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pOb
 
 void OrbWhirlWind::ToStop_4E4050()
 {
-    for (int i = 0; i < field_28_particleIdx; i++)
+    for (s32 i = 0; i < field_28_particleIdx; i++)
     {
         if (field_2C_particles[i])
         {
@@ -77,7 +77,7 @@ void OrbWhirlWind::ToStop_4E4050()
 
 void OrbWhirlWind::vRender_4E3F80(PrimHeader** ppOt)
 {
-    for (int i = 0; i < field_28_particleIdx; i++)
+    for (s32 i = 0; i < field_28_particleIdx; i++)
     {
         if (field_2C_particles[i])
         {
@@ -118,7 +118,7 @@ void OrbWhirlWind::vUpdate_4E3E20()
     else if (field_24_particles_state == ParticlesState::eActive)
     {
         bool hasInactiveParticles = false;
-        for (int i = 0; i < field_28_particleIdx; i++)
+        for (s32 i = 0; i < field_28_particleIdx; i++)
         {
             if (field_2C_particles[i])
             {
@@ -136,7 +136,7 @@ void OrbWhirlWind::vUpdate_4E3E20()
         }
     }
 
-    for (int i = 0; i < field_28_particleIdx; i++)
+    for (s32 i = 0; i < field_28_particleIdx; i++)
     {
         if (field_2C_particles[i])
         {
@@ -164,7 +164,7 @@ void OrbWhirlWind::dtor_4E3D80()
 }
 
 
-OrbWhirlWind* OrbWhirlWind::vdtor_4E3D50(signed int flags)
+OrbWhirlWind* OrbWhirlWind::vdtor_4E3D50(s32 flags)
 {
     dtor_4E3D80();
     if (flags & 1)

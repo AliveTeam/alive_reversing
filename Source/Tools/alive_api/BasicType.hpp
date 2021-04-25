@@ -6,7 +6,7 @@ template<class T>
 class BasicType : public ITypeBase
 {
 public:
-    explicit BasicType(const std::string& typeName, int minVal, int maxVal)
+    explicit BasicType(const std::string& typeName, s32 minVal, s32 maxVal)
         : ITypeBase(typeName), mTypeIndex(typeid(T)), mMinVal(minVal), mMaxVal(maxVal)
     {
 
@@ -33,6 +33,6 @@ public:
 
 private:
     std::type_index mTypeIndex;
-    int mMinVal = 0;
-    int mMaxVal = 0;
+    s32 mMinVal = 0;
+    s32 mMaxVal = 0;
 };

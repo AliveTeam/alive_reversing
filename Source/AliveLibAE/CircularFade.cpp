@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* CircularFade::VDestructor(signed int flags)
+BaseGameObject* CircularFade::VDestructor(s32 flags)
 {
     return vdtor_4CE0D0(flags);
 }
@@ -26,17 +26,17 @@ void CircularFade::VScreenChanged()
     // null sub
 }
 
-int CircularFade::VFadeIn_4CE300(__int16 direction, char destroyOnDone)
+s32 CircularFade::VFadeIn_4CE300(s16 direction, s8 destroyOnDone)
 {
     return vFadeIn_4CE300(direction, destroyOnDone);
 }
 
-int CircularFade::VDone_4CE0B0()
+s32 CircularFade::VDone_4CE0B0()
 {
     return vDone_4CE0B0();
 }
 
-CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 direction, char destroyOnDone)
+CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -55,12 +55,12 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 dire
 
     vFadeIn_4CE300(direction, destroyOnDone);
 
-    const BYTE fade_rgb = static_cast<BYTE>((field_1B8_fade_colour * 60) / 100);
+    const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
     field_D4_b = fade_rgb;
     field_D2_g = fade_rgb;
     field_D0_r = fade_rgb;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID);
     Animation_Init_424E10(1536, 57, 32, ppRes, 1, 1u);
 
     field_DC_bApplyShadows &= ~1u;
@@ -84,7 +84,7 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 dire
 
 void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
 {
-    const BYTE fade_rgb = static_cast<BYTE>((field_1B8_fade_colour * 60) / 100);
+    const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
 
     field_D4_b = fade_rgb;
     field_D2_g = fade_rgb;
@@ -133,7 +133,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
         frameRect.h = 240;
     }
 
-    const BYTE fadeColour = static_cast<BYTE>(field_1B8_fade_colour);
+    const u8 fadeColour = static_cast<u8>(field_1B8_fade_colour);
 
     Prim_Tile* pTile1 = &field_F8[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile1);
@@ -226,7 +226,7 @@ void CircularFade::vUpdate_4CE380()
     }
 }
 
-int CircularFade::vFadeIn_4CE300(__int16 direction, char destroyOnDone) // TODO: Likely no return
+s32 CircularFade::vFadeIn_4CE300(s16 direction, s8 destroyOnDone) // TODO: Likely no return
 {
     sNum_CamSwappers_5C1B66++;
 
@@ -249,7 +249,7 @@ int CircularFade::vFadeIn_4CE300(__int16 direction, char destroyOnDone) // TODO:
     return field_F4_flags.Raw().all;
 }
 
-int CircularFade::vDone_4CE0B0()
+s32 CircularFade::vDone_4CE0B0()
 {
     return field_F4_flags.Get(Flags::eBit2_Done);
 }
@@ -265,7 +265,7 @@ void CircularFade::dtor_4CE080()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-CircularFade* CircularFade::vdtor_4CE0D0(signed int flags)
+CircularFade* CircularFade::vdtor_4CE0D0(s32 flags)
 {
     dtor_4CE080();
     if (flags & 1)
@@ -275,7 +275,7 @@ CircularFade* CircularFade::vdtor_4CE0D0(signed int flags)
     return this;
 }
 
-CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, __int16 direction, char destroyOnDone, char setBit8)
+CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 setBit8)
 {
     auto pFade = ae_new<CircularFade>();
     if (!pFade)

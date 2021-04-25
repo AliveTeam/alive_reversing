@@ -121,7 +121,7 @@ void RockSack::VScreenChanged()
     VScreenChanged_457890();
 }
 
-RockSack* RockSack::Vdtor_4578A0(signed int flags)
+RockSack* RockSack::Vdtor_4578A0(s32 flags)
 {
     dtor_457580();
     if (flags & 1)
@@ -131,7 +131,7 @@ RockSack* RockSack::Vdtor_4578A0(signed int flags)
     return this;
 }
 
-BaseGameObject* RockSack::VDestructor(signed int flags)
+BaseGameObject* RockSack::VDestructor(s32 flags)
 {
     return Vdtor_4578A0(flags);
 }
@@ -143,14 +143,14 @@ BaseGameObject* RockSack::dtor_457580()
     return dtor_401000();
 }
 
-RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, int tlvInfo)
+RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BC120);
 
     field_4_typeId = Types::eRockSack_71;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP2c2bagResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP2c2bagResID, 1, 0);
 
     //  Set RockSack idle anim speed
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 6878);
@@ -190,7 +190,7 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, int tlvInfo)
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
     {
-        BYTE** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kP2c2bagResID, 0, 0);
+        u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kP2c2bagResID, 0, 0);
         field_10_anim.LoadPal_403090(ppPal, 0);
     }
 
@@ -209,7 +209,7 @@ void RockSack::VScreenChanged_457890()
 }
 
 
-Rock* Rock::ctor_456960(FP xpos, FP ypos, __int16 count)
+Rock* Rock::ctor_456960(FP xpos, FP ypos, s16 count)
 {
     ctor_401090();
     SetVTable(this, 0x4BC0A8);
@@ -217,7 +217,7 @@ Rock* Rock::ctor_456960(FP xpos, FP ypos, __int16 count)
 
     field_10E_bDead = 0;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 1, 0);
     Animation_Init_417FD0(
         500,
         18,
@@ -238,7 +238,7 @@ Rock* Rock::ctor_456960(FP xpos, FP ypos, __int16 count)
     field_10C_count = count;
     field_110_state = States::eNone_0;
 
-    BYTE** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
+    u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
     if (ppPal)
     {
         field_10_anim.LoadPal_403090(ppPal, 0);
@@ -277,12 +277,12 @@ BaseGameObject* Rock::dtor_456A90()
     return dtor_401000();
 }
 
-BaseGameObject* Rock::VDestructor(signed int flags)
+BaseGameObject* Rock::VDestructor(s32 flags)
 {
     return Vdtor_4573D0(flags);
 }
 
-Rock* Rock::Vdtor_4573D0(signed int flags)
+Rock* Rock::Vdtor_4573D0(s32 flags)
 {
     dtor_456A90();
     if (flags & 1)
@@ -335,8 +335,8 @@ void Rock::VUpdate_456EC0()
         }
         else
         {
-            const short x_exp = FP_GetExponent(field_A8_xpos);
-            const int xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+            const s16 x_exp = FP_GetExponent(field_A8_xpos);
+            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
             if (abs(xSnapped - x_exp) > 1)
             {
                 field_114_pLine = field_114_pLine->MoveOnLine_40CA20(
@@ -367,7 +367,7 @@ void Rock::VUpdate_456EC0()
         break;
 
     case States::eOnGround_3:
-        if (static_cast<int>(gnFrameCount_507670) > field_124)
+        if (static_cast<s32>(gnFrameCount_507670) > field_124)
         {
             New_Shiny_Particle_4199A0(
                 (field_BC_sprite_scale * FP_FromInteger(1)) + field_A8_xpos,
@@ -383,8 +383,8 @@ void Rock::VUpdate_456EC0()
         InTheAir_456B60();
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
-        const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-        const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+        const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+        const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
         VOnCollisionWith(
             xy,
             wh,
@@ -455,12 +455,12 @@ void Rock::VThrow_456B20(FP velX, FP velY)
     }
 }
 
-__int16 Rock::VCanThrow()
+s16 Rock::VCanThrow()
 {
     return VCanThrow_4573C0();
 }
 
-__int16 Rock::VCanThrow_4573C0()
+s16 Rock::VCanThrow_4573C0()
 {
     return field_110_state == States::eBouncing_4;
 }
@@ -480,7 +480,7 @@ void Rock::InTheAir_456B60()
     field_A8_xpos += field_B4_velx;
     field_AC_ypos += field_B8_vely;
 
-    WORD result = 0;
+    u16 result = 0;
     field_A8_xpos = CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 8, &result);
     field_AC_ypos = CamY_VoidSkipper_418690(field_AC_ypos, field_B8_vely, 8, &result);
 
@@ -511,7 +511,7 @@ void Rock::InTheAir_456B60()
                         field_AC_ypos = hitY;
                         field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
                         field_B4_velx = (field_B4_velx / FP_FromInteger(2));
-                        int vol = 20 * (4 - field_118_vol);
+                        s32 vol = 20 * (4 - field_118_vol);
                         if (vol < 40)
                         {
                             vol = 40;
@@ -549,7 +549,7 @@ void Rock::InTheAir_456B60()
                 field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
-                int vol = 20 * (4 - field_118_vol);
+                s32 vol = 20 * (4 - field_118_vol);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -567,7 +567,7 @@ void Rock::InTheAir_456B60()
                 field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
-                int vol = 20 * (4 - field_118_vol);
+                s32 vol = 20 * (4 - field_118_vol);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -585,7 +585,7 @@ void Rock::InTheAir_456B60()
     }
 }
 
-__int16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -612,7 +612,7 @@ __int16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
     return 0;
 }
 
-__int16 Rock::VIsFalling()
+s16 Rock::VIsFalling()
 {
     // Same as meat falling func - compiler seems to have made them both
     // use the same func, or should it go in the base ??

@@ -12,7 +12,7 @@
 #include "Game.hpp"
 #include "Renderer/IRenderer.hpp"
 
-unsigned char sLCDScreen_Palette[] =
+u8 sLCDScreen_Palette[] =
 {
     0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
     0x20, 0x84, 0x21, 0x84, 0x65, 0xCE, 0x65, 0x8C, 0x8C, 0xB1,
@@ -20,7 +20,7 @@ unsigned char sLCDScreen_Palette[] =
     0x18, 0xD8
 };
 
-unsigned char sLCDScreen_Palette2[] =
+u8 sLCDScreen_Palette2[] =
 {
     0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
     0x20, 0x84, 0x21, 0x84, 0x05, 0x84, 0x65, 0x8C, 0x8C, 0xB1,
@@ -32,7 +32,7 @@ unsigned char sLCDScreen_Palette2[] =
 
 
 // TODO: Remove spaces and add them at runtime.
-const char *sLCDMessageTable_555768[101] =
+const s8 *sLCDMessageTable_555768[101] =
 {
     "",
     "                               SoulStorm Mining Company is an equal opportunity employer.",
@@ -148,7 +148,7 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion item
 
     field_2AA_message_1_id = params->field_10_message_1_id;
     field_2B0_message_2_id = params->field_16_message_2_id;
-    field_2B2_toggle_message_switch_id = static_cast<WORD>(params->field_18_toggle_message_switch_id);
+    field_2B2_toggle_message_switch_id = static_cast<u16>(params->field_18_toggle_message_switch_id);
     field_2BC_tlv_item_info = itemInfo;
 
     if (!sFontType2LoadCount_5BC5E8)
@@ -189,7 +189,7 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion item
     field_A4_message_cutoff_ptr = nullptr;
     field_2AC_x_offset = 0;
     sFontDrawScreenSpace_5CA4B4 = 1;
-    field_2AE_character_width = static_cast<WORD>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
+    field_2AE_character_width = static_cast<u16>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
     sFontDrawScreenSpace_5CA4B4 = 0;
     field_2B4 = 0;
     field_2B6_message_rand_min_id = params->field_12_message_rand_min_id;
@@ -217,8 +217,8 @@ void LCDScreen::Update_460A00()
     if (field_2AC_x_offset > field_2AE_character_width)
     {
         field_2AC_x_offset -= field_2AE_character_width;
-        char lastChar = *field_A0_message;
-        field_A0_message++; // Offset char index
+        s8 lastChar = *field_A0_message;
+        field_A0_message++; // Offset s8 index
 
         if (lastChar == 0)
         {
@@ -248,7 +248,7 @@ void LCDScreen::Update_460A00()
         }
 
         sFontDrawScreenSpace_5CA4B4 = 1;
-        field_2AE_character_width = static_cast<WORD>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
+        field_2AE_character_width = static_cast<u16>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
         sFontDrawScreenSpace_5CA4B4 = 0;
     }
 
@@ -282,10 +282,10 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
     if (sNum_CamSwappers_5C1B66 == 0)
     {
         const FP_Point* camPos = pScreenManager_5BB5F4->field_20_pCamPos;
-        const int screenX = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
-        const int screenY = ((field_2C0_tlv.field_8_top_left.field_2_y + field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
-        const int screenXWorld = PsxToPCX(screenX);
-        const int maxWidth = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(camPos->field_0_x);
+        const s32 screenX = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
+        const s32 screenY = ((field_2C0_tlv.field_8_top_left.field_2_y + field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
+        const s32 screenXWorld = PsxToPCX(screenX);
+        const s32 maxWidth = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(camPos->field_0_x);
 
         PSX_RECT clipRect = {
             0,
@@ -301,8 +301,8 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
         field_60_font.DrawString_4337D0(
             ppOt,
             field_A0_message,
-            static_cast<short>(screenXWorld - field_2AC_x_offset),
-            static_cast<short>(screenY),
+            static_cast<s16>(screenXWorld - field_2AC_x_offset),
+            static_cast<s16>(screenY),
             TPageAbr::eBlend_1,
             1,
             0,
@@ -317,9 +317,9 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
         sFontDrawScreenSpace_5CA4B4 = 0;
 
         clipRect = {
-            static_cast<short>(screenXWorld),
-            static_cast<short>(screenY - 12),
-            static_cast<short>(PsxToPCX(maxWidth - screenX)),
+            static_cast<s16>(screenXWorld),
+            static_cast<s16>(screenY - 12),
+            static_cast<s16>(PsxToPCX(maxWidth - screenX)),
             48
         };
 
@@ -359,7 +359,7 @@ void LCDScreen::dtor_460920()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* LCDScreen::vdtor_4608F0(signed int flags)
+BaseGameObject* LCDScreen::vdtor_4608F0(s32 flags)
 {
     dtor_460920();
     if (flags & 1)
@@ -379,7 +379,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
     Render_460CB0(ppOt);
 }
 
-BaseGameObject* LCDScreen::VDestructor(signed int flags)
+BaseGameObject* LCDScreen::VDestructor(s32 flags)
 {
     return vdtor_4608F0(flags);
 }

@@ -6,14 +6,14 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x9F309C, int, sMovie_ref_count_9F309C, 0);
+ALIVE_VAR(1, 0x9F309C, s32, sMovie_ref_count_9F309C, 0);
 
-EXPORT void CC Get_fmvs_sectors_44FEB0(const char* /*pMovieName1*/, const char* /*pMovieName2*/, const char* /*pMovieName3*/, DWORD* /*pMovie1Sector*/, DWORD* /*pMovie2Sector*/, DWORD* /*pMovie3Sector*/)
+EXPORT void CC Get_fmvs_sectors_44FEB0(const s8* /*pMovieName1*/, const s8* /*pMovieName2*/, const s8* /*pMovieName3*/, u32* /*pMovie1Sector*/, u32* /*pMovie2Sector*/, u32* /*pMovie3Sector*/)
 {
     NOT_IMPLEMENTED();
 }
 
-Movie* Movie::ctor_489C90(int id, int /*pos*/, char bUnknown, int /*flags*/, __int16 volume)
+Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 volume)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BD6E0);
@@ -49,12 +49,12 @@ Movie* Movie::ctor_489C90(int id, int /*pos*/, char bUnknown, int /*flags*/, __i
     return this;
 }
 
-BaseGameObject* Movie::VDestructor(signed int flags)
+BaseGameObject* Movie::VDestructor(s32 flags)
 {
     return Vdtor_475FB0(flags);
 }
 
-BaseGameObject* Movie::Vdtor_475FB0(signed int flags)
+BaseGameObject* Movie::Vdtor_475FB0(s32 flags)
 {
     dtor_487DF0();
     if (flags & 1)

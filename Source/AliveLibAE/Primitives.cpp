@@ -7,7 +7,7 @@
 void Primitives_ForceLink() { }
 
 
-void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage)
+void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage)
 {
     SetUnknown(&pPrim->mBase);
     SetCode(&pPrim->mBase, PrimTypeCodes::eSetTPage);
@@ -88,7 +88,7 @@ void CC Poly_FT4_Get_Rect_409DA0(PSX_RECT* pRect, const Poly_FT4* pPoly)
     }
 }
 
-void CC Poly_Set_Blending_4F8A20(PrimHeader* pPrim, int bFlag1)
+void CC Poly_Set_Blending_4F8A20(PrimHeader* pPrim, s32 bFlag1)
 {
     SetUnknown(pPrim);
     if (bFlag1)
@@ -101,7 +101,7 @@ void CC Poly_Set_Blending_4F8A20(PrimHeader* pPrim, int bFlag1)
     }
 }
 
-void CC Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, int bSemiTrans)
+void CC Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, s32 bSemiTrans)
 {
     SetUnknown(pPrim);
     if (bSemiTrans)
@@ -137,15 +137,15 @@ void CC OrderingTable_Add_4F8AA0(PrimHeader** ppOt, PrimHeader* pItem)
 
 PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer)
 {
-    return &ppOt[static_cast<unsigned int>(layer)];
+    return &ppOt[static_cast<u32>(layer)];
 }
  
-int CC PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, int x, __int16 y)
+s32 CC PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, s32 x, s16 y)
 {
-    return ((((static_cast<char>(tp)) & 0x3) << 7) | (((static_cast<char>(abr)) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
+    return ((((static_cast<s8>(tp)) & 0x3) << 7) | (((static_cast<s8>(abr)) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
 }
 
-EXPORT int CC PSX_getClut_4F6350(int x, int y)
+EXPORT s32 CC PSX_getClut_4F6350(s32 x, s32 y)
 {
     return (y << 6) | ((x >> 4) & 63);
 }

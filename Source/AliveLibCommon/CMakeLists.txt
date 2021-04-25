@@ -24,6 +24,7 @@ SET(AliveLibSrcCommon
     PSXADPCMDecoder.h
     PSXMDECDecoder.cpp
     PSXMDECDecoder.h
+    Psx_common.hpp
     W32CrashHandler.hpp
 )
 

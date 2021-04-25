@@ -30,7 +30,7 @@
 
 namespace AO {
 
-EXPORT short* CC Animation_OnFrame_Slig_46F610(void* pObj, __int16* pData)
+EXPORT s16* CC Animation_OnFrame_Slig_46F610(void* pObj, s16* pData)
 {
     auto pSlig = static_cast<Slig*>(pObj);
     if (pSlig->field_8_update_delay != 0)
@@ -133,9 +133,9 @@ EXPORT short* CC Animation_OnFrame_Slig_46F610(void* pObj, __int16* pData)
     return pData + 2;
 }
 
-EXPORT short* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, short* pData);
+EXPORT s16* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, s16* pData);
 
-EXPORT short *CC Slog_OnFrame_471FD0(void* pObj, __int16* pData)
+EXPORT s16 *CC Slog_OnFrame_471FD0(void* pObj, s16* pData)
 {
     auto pSlog = static_cast<Slog*>(pObj);
     if (pSlog->field_10C_pTarget)
@@ -197,7 +197,7 @@ const FP_Point kAbeVelTable_4C6608[6] =
     { FP_FromInteger(4),    FP_FromInteger(-3) }
 };
 
-EXPORT short* CC Abe_OnFrame_429E30(void* pObj, __int16* pData)
+EXPORT s16* CC Abe_OnFrame_429E30(void* pObj, s16* pData)
 {
     auto pAbe = static_cast<Abe*>(pObj);
 
@@ -269,13 +269,13 @@ static IRenderer::BitDepth AnimFlagsToBitDepth(const BitField32<AnimFlags>& flag
     return IRenderer::BitDepth::e4Bit;
 }
 
-void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, short width_bpp_adjusted)
+void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted)
 {
     IRenderer& renderer = *IRenderer::GetRenderer();
     switch (pFrameHeader->field_7_compression_type)
     {
     case CompressionType::eType_0_NoCompression:
-        renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2));
+        renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2));
         break;
 
     case CompressionType::eType_1_NotUsed:
@@ -283,9 +283,9 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
         {
             // TODO: Refactor structure to get pixel data/remove casts
             Decompress_Type_1_403150(
-                (BYTE*)&pFrameHeader[1],
+                (u8*)&pFrameHeader[1],
                 *field_24_dbuf,
-                *(DWORD*)&pFrameHeader->field_8_width2,
+                *(u32*)&pFrameHeader->field_8_width2,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
             renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
         }
@@ -295,7 +295,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
         if (EnsureDecompressionBuffer())
         {
             Decompress_Type_2_403390(
-                (BYTE*)&pFrameHeader[1],
+                (u8*)&pFrameHeader[1],
                 *field_24_dbuf,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
             renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
@@ -307,9 +307,9 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
         {
             // TODO: Refactor structure to get pixel data/remove casts
             Decompress_Type_3_4031E0(
-                (BYTE*)&pFrameHeader[1],
+                (u8*)&pFrameHeader[1],
                 *field_24_dbuf,
-                *(DWORD*)&pFrameHeader->field_8_width2,
+                *(u32*)&pFrameHeader->field_8_width2,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
             renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
         }
@@ -320,13 +320,13 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
         if (EnsureDecompressionBuffer())
         {
             // TODO: Refactor structure to get pixel data/remove casts
-            Decompress_Type_4_5_461770(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
+            Decompress_Type_4_5_461770(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
             renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
         }
         break;
 
     default:
-        LOG_ERROR("Unknown compression type " << static_cast<int>(pFrameHeader->field_7_compression_type));
+        LOG_ERROR("Unknown compression type " << static_cast<s32>(pFrameHeader->field_7_compression_type));
         ALIVE_FATAL("Unknown compression type");
         break;
     }
@@ -348,8 +348,8 @@ void Animation::VDecode_403550()
     if (field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
     {
         // Loop backwards
-        const __int16 prevFrameNum = --field_92_current_frame;
-        field_E_frame_change_counter = static_cast<short>(field_10_frame_delay);
+        const s16 prevFrameNum = --field_92_current_frame;
+        field_E_frame_change_counter = static_cast<s16>(field_10_frame_delay);
 
         if (prevFrameNum < pAnimationHeader->field_4_loop_start_frame)
         {
@@ -380,8 +380,8 @@ void Animation::VDecode_403550()
     else
     {
         // Loop forwards
-        const __int16 nextFrameNum = ++field_92_current_frame;
-        field_E_frame_change_counter = static_cast<short>(field_10_frame_delay);
+        const s16 nextFrameNum = ++field_92_current_frame;
+        field_E_frame_change_counter = static_cast<s16>(field_10_frame_delay);
 
         // Animation reached end point
         if (nextFrameNum >= pAnimationHeader->field_2_num_frames)
@@ -424,12 +424,12 @@ void Animation::VDecode_403550()
         {
             FrameInfoHeader* pFrameHeaderCopy = this->Get_FrameHeader_403A00(-1);
 
-            // This data can be an array of DWORD's + other data up to field_6_count
+            // This data can be an array of u32's + other data up to field_6_count
             // which appears AFTER the usual data.
 
-            // TODO: Should be typed to short* ??
-            const DWORD* pCallBackData = reinterpret_cast<const DWORD*>(&pFrameHeaderCopy->field_8_data.points[3]);
-            for (int i = 0; i < pFrameHeaderCopy->field_6_count; i++)
+            // TODO: Should be typed to s16* ??
+            const u32* pCallBackData = reinterpret_cast<const u32*>(&pFrameHeaderCopy->field_8_data.points[3]);
+            for (s32 i = 0; i < pFrameHeaderCopy->field_6_count; i++)
             {
                 const auto pFnCallBack = field_1C_fn_ptr_array[*pCallBackData];
                 if (!pFnCallBack)
@@ -438,7 +438,7 @@ void Animation::VDecode_403550()
                 }
                 pCallBackData++; // Skip the array index
                 // Pass the data pointer into the call back which will then read and skip any extra data
-                pCallBackData += *pFnCallBack(field_94_pGameObj, (short*)pCallBackData);
+                pCallBackData += *pFnCallBack(field_94_pGameObj, (s16*)pCallBackData);
             }
         }
     }
@@ -451,7 +451,7 @@ void Animation::VDecode_403550()
         return;
     }
 
-    short width_bpp_adjusted = 0;
+    s16 width_bpp_adjusted = 0;
     if (field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
     {
         // 8 bit, divided by half
@@ -491,19 +491,19 @@ void Animation::VDecode_403550()
     UploadTexture(pFrameHeader, vram_rect, width_bpp_adjusted);
 }
 
-void Animation::vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height)
+void Animation::vRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height)
 {
     VRender_403AE0(xpos, ypos, ppOt, width, height);
 }
 
-void Animation::VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height)
+void Animation::VRender_403AE0(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height)
 {
     if (field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        BYTE** ppBlock = field_20_ppBlock;
+        u8** ppBlock = field_20_ppBlock;
         if (ppBlock)
         {
-            const BYTE* pBlock = *ppBlock;
+            const u8* pBlock = *ppBlock;
             const FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_403A00(-1);
             const FrameHeader* pFrameHeader = (const FrameHeader*)&pBlock[pFrameInfoHeader->field_0_frame_header_offset];
 
@@ -547,7 +547,7 @@ void Animation::VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, __int16 wi
                 textureMode = TPageMode::e4Bit_0;
             }
 
-            short tPageY = 0;
+            s16 tPageY = 0;
             if (field_4_flags.Get(AnimFlags::eBit10_alternating_flag) || field_84_vram_rect.y >= 256)
             {
                 tPageY = 256;
@@ -563,10 +563,10 @@ void Animation::VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, __int16 wi
             Poly_Set_Blending_498A00(&pPoly->mBase.header, field_4_flags.Get(AnimFlags::eBit16_bBlending));
 
             SetRGB0(pPoly, field_8_r, field_9_g, field_A_b);
-            SetTPage(pPoly, static_cast<short>(PSX_getTPage_4965D0(textureMode, field_B_render_mode, field_84_vram_rect.x, tPageY)));
-            SetClut(pPoly, static_cast<short>(PSX_getClut_496840(field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y)));
+            SetTPage(pPoly, static_cast<s16>(PSX_getTPage_4965D0(textureMode, field_B_render_mode, field_84_vram_rect.x, tPageY)));
+            SetClut(pPoly, static_cast<s16>(PSX_getClut_496840(field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y)));
 
-            BYTE u1 = field_84_vram_rect.x & 63;
+            u8 u1 = field_84_vram_rect.x & 63;
             if (textureMode == TPageMode::e8Bit_1)
             {
                 u1 *= 2;
@@ -580,9 +580,9 @@ void Animation::VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, __int16 wi
                 // 16 bit
             }
 
-            const BYTE v0 = static_cast<BYTE>(field_84_vram_rect.y);
-            const BYTE u0 = pFrameHeader->field_4_width + u1 - 1;
-            const BYTE v1 = pFrameHeader->field_5_height + v0 - 1;
+            const u8 v0 = static_cast<u8>(field_84_vram_rect.y);
+            const u8 u0 = pFrameHeader->field_4_width + u1 - 1;
+            const u8 v1 = pFrameHeader->field_5_height + v0 - 1;
 
             if (field_14_scale != FP_FromInteger(1))
             {
@@ -595,7 +595,7 @@ void Animation::VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, __int16 wi
                 yOffset_fixed = (yOffset_fixed * field_14_scale) - FP_FromInteger(1);
             }
 
-            int polyXPos;
+            s32 polyXPos;
             if (field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 SetUV0(pPoly, u0, v0);
@@ -615,10 +615,10 @@ void Animation::VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, __int16 wi
                 polyXPos = xpos + FP_GetExponent(xOffSet_fixed + FP_FromDouble(0.499));
             }
 
-            const short polyYPos = static_cast<short>(ypos + FP_GetExponent((yOffset_fixed + FP_FromDouble(0.499))));
-            const short xConverted = static_cast<short>(PsxToPCX(polyXPos));
-            const short width_adjusted = FP_GetExponent(PsxToPCX(frame_width_fixed) - FP_FromDouble(0.501)) + xConverted;
-            const short height_adjusted = FP_GetExponent(frame_height_fixed - FP_FromDouble(0.501)) + polyYPos;
+            const s16 polyYPos = static_cast<s16>(ypos + FP_GetExponent((yOffset_fixed + FP_FromDouble(0.499))));
+            const s16 xConverted = static_cast<s16>(PsxToPCX(polyXPos));
+            const s16 width_adjusted = FP_GetExponent(PsxToPCX(frame_width_fixed) - FP_FromDouble(0.501)) + xConverted;
+            const s16 height_adjusted = FP_GetExponent(frame_height_fixed - FP_FromDouble(0.501)) + polyYPos;
 
             SetXY0(pPoly, xConverted, polyYPos);
             SetXY1(pPoly, width_adjusted, polyYPos);
@@ -672,7 +672,7 @@ bool Animation::EnsureDecompressionBuffer()
 
 void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList)
 {
-    for (int i = 0; i < pAnimList->Size(); i++)
+    for (s32 i = 0; i < pAnimList->Size(); i++)
     {
         auto pAnim = pAnimList->ItemAt(i);
         if (!pAnim)
@@ -694,7 +694,7 @@ void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList
     }
 }
 
-signed __int16 Animation::Set_Animation_Data_402A40(int frameTableOffset, BYTE** pAnimRes)
+s16 Animation::Set_Animation_Data_402A40(s32 frameTableOffset, u8** pAnimRes)
 {
     if (pAnimRes)
     {
@@ -733,7 +733,7 @@ signed __int16 Animation::Set_Animation_Data_402A40(int frameTableOffset, BYTE**
     return 1;
 }
 
-void Animation::SetFrame_402AC0(__int16 newFrame)
+void Animation::SetFrame_402AC0(s16 newFrame)
 {
     if (field_20_ppBlock)
     {
@@ -754,7 +754,7 @@ void Animation::SetFrame_402AC0(__int16 newFrame)
     }
 }
 
-signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bAllocateVRam, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
+s16 Animation::Init_402D20(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bAllocateVRam, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
 
@@ -782,11 +782,11 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
     field_14_scale = FP_FromInteger(1);
    
     FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_403A00(0);
-    BYTE* pAnimData = *ppAnimData;
+    u8* pAnimData = *ppAnimData;
 
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
-    BYTE* pClut = &pAnimData[pFrameHeader->field_0_clut_offset];
+    u8* pClut = &pAnimData[pFrameHeader->field_0_clut_offset];
 
     field_4_flags.Clear(AnimFlags::eBit1);
     field_4_flags.Clear(AnimFlags::eBit5_FlipX);
@@ -814,8 +814,8 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
     
     field_90_pal_depth = 0;
     
-    int vram_width = 0;
-    short pal_depth = 0;
+    s32 vram_width = 0;
+    s16 pal_depth = 0;
     if (pFrameHeader->field_6_colour_depth == 4)
     {
         vram_width = (maxW % 2) + (maxW / 2);
@@ -825,7 +825,7 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
     {
         vram_width = maxW;
 
-        if (*(WORD*)pClut == 64) // CLUT entry count/len
+        if (*(u16*)pClut == 64) // CLUT entry count/len
         {
             pal_depth = 64;
         }
@@ -846,7 +846,7 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
         return 0;
     }
 
-    int bVramAllocOK = 1;
+    s32 bVramAllocOK = 1;
     if (bAllocateVRam)
     {
         bVramAllocOK = vram_alloc_450B20(maxW, maxH, pFrameHeader->field_6_colour_depth, &field_84_vram_rect);
@@ -879,7 +879,7 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
 
     if (pFrameHeader->field_7_compression_type != CompressionType::eType_0_NoCompression)
     {
-        const DWORD id = ResourceManager::Get_Header_455620(field_20_ppBlock)->field_C_id;
+        const u32 id = ResourceManager::Get_Header_455620(field_20_ppBlock)->field_C_id;
         field_24_dbuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, id, field_28_dbuf_size);
         if (!field_24_dbuf)
         {
@@ -904,7 +904,7 @@ signed __int16 Animation::Init_402D20(int frameTableOffset, DynamicArray* /*anim
     return result;
 }
 
-__int16 Animation::Get_Frame_Count_403540()
+s16 Animation::Get_Frame_Count_403540()
 {
     AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
     return pHead->field_2_num_frames;
@@ -912,7 +912,7 @@ __int16 Animation::Get_Frame_Count_403540()
 
 ALIVE_VAR(1, 0x4BA090, FrameInfoHeader, sBlankFrameInfoHeader_4BA090, {});
 
-FrameInfoHeader* Animation::Get_FrameHeader_403A00(int frame)
+FrameInfoHeader* Animation::Get_FrameHeader_403A00(s32 frame)
 {
     if (!field_20_ppBlock)
     {
@@ -925,14 +925,14 @@ FrameInfoHeader* Animation::Get_FrameHeader_403A00(int frame)
     }
 
     AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
-    DWORD frameOffset = pHead->mFrameOffsets[frame];
+    u32 frameOffset = pHead->mFrameOffsets[frame];
 
     FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
 
     // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
     // TODO: Remove it in the future when proven to be not required?
 #if defined(_MSC_VER) && !defined(_WIN64)
-    if (reinterpret_cast<DWORD>(pFrame) & 3)
+    if (reinterpret_cast<u32>(pFrame) & 3)
     {
         FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_4BA090;
         return Unknown;
@@ -942,11 +942,11 @@ FrameInfoHeader* Animation::Get_FrameHeader_403A00(int frame)
     return pFrame;
 }
 
-void Animation::LoadPal_403090(BYTE** pAnimData, int palOffset)
+void Animation::LoadPal_403090(u8** pAnimData, s32 palOffset)
 {
     if (pAnimData)
     {
-        const BYTE* pPalDataOffset = &(*pAnimData)[palOffset];
+        const u8* pPalDataOffset = &(*pAnimData)[palOffset];
         if (field_90_pal_depth != 16 && field_90_pal_depth != 64 && field_90_pal_depth != 256)
         {
             LOG_ERROR("Bad pal depth " << field_90_pal_depth);
@@ -1002,7 +1002,7 @@ EXPORT void Animation::Get_Frame_Rect_402B50(PSX_RECT* pRect)
     pRect->h = std::max(max_y0_y1, max_y2_y3);
 }
 
-EXPORT void Animation::Get_Frame_Width_Height_403E80(short* pWidth, short* pHeight)
+EXPORT void Animation::Get_Frame_Width_Height_403E80(s16* pWidth, s16* pHeight)
 {
     FrameInfoHeader* pFrameHeader = Get_FrameHeader_403A00(-1);
     if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
@@ -1017,7 +1017,7 @@ EXPORT void Animation::Get_Frame_Width_Height_403E80(short* pWidth, short* pHeig
     }
 }
 
-EXPORT void Animation::Get_Frame_Offset_403EE0(short* pBoundingX, short* pBoundingY)
+EXPORT void Animation::Get_Frame_Offset_403EE0(s16* pBoundingX, s16* pBoundingY)
 {
     FrameInfoHeader* pFrameHeader = Get_FrameHeader_403A00(-1);
     *pBoundingX = pFrameHeader->field_8_data.offsetAndRect.mOffset.x;
@@ -1029,12 +1029,12 @@ void AnimationUnknown::vCleanUp()
     VCleanUp2_404280();
 }
 
-void AnimationUnknown::VRender2(int xpos, int ypos, PrimHeader** ppOt)
+void AnimationUnknown::VRender2(s32 xpos, s32 ypos, PrimHeader** ppOt)
 {
     VRender2_403FD0(xpos, ypos, ppOt);
 }
 
-void AnimationUnknown::vRender(int /*xpos*/, int /*ypos*/, PrimHeader** /*pOt*/, __int16 /*width*/, __int16 /*height*/)
+void AnimationUnknown::vRender(s32 /*xpos*/, s32 /*ypos*/, PrimHeader** /*pOt*/, s16 /*width*/, s16 /*height*/)
 {
     // Empty @ 402A20
 }
@@ -1049,7 +1049,7 @@ void AnimationUnknown::VCleanUp2_404280()
     field_68_anim_ptr = nullptr;
 }
 
-void AnimationUnknown::VRender2_403FD0(int xpos, int ypos, PrimHeader** ppOt)
+void AnimationUnknown::VRender2_403FD0(s32 xpos, s32 ypos, PrimHeader** ppOt)
 {
     Poly_FT4* pPoly = &field_10_polys[gPsxDisplay_504C78.field_A_buffer_index];
     if (field_4_flags.Get(AnimFlags::eBit3_Render))
@@ -1061,10 +1061,10 @@ void AnimationUnknown::VRender2_403FD0(int xpos, int ypos, PrimHeader** ppOt)
 
         FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_68_anim_ptr->field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
-        int frameOffX = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
-        int frameOffY = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
-        int frameH = pFrameHeader->field_5_height;
-        int frameW = pFrameHeader->field_4_width;
+        s32 frameOffX = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
+        s32 frameOffY = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
+        s32 frameH = pFrameHeader->field_5_height;
+        s32 frameW = pFrameHeader->field_4_width;
 
         if (field_6C_scale != FP_FromInteger(1))
         {
@@ -1074,8 +1074,8 @@ void AnimationUnknown::VRender2_403FD0(int xpos, int ypos, PrimHeader** ppOt)
             frameOffY = FP_GetExponent(FP_FromInteger(frameOffY) * field_6C_scale);
         }
 
-        int polyX = 0;
-        int polyY = 0;
+        s32 polyX = 0;
+        s32 polyY = 0;
         if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit7_SwapXY))
         {
             if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit6_FlipY))
@@ -1133,12 +1133,12 @@ void AnimationUnknown::VRender2_403FD0(int xpos, int ypos, PrimHeader** ppOt)
             SetRGB0(pPoly, field_8_r, field_9_g, field_A_b);
         }
 
-        const int w = frameW + polyX - 1;
-        const int h = frameH + polyY - 1;
-        SetXY0(pPoly, static_cast<short>(polyX), static_cast<short>(polyY));
-        SetXY1(pPoly, static_cast<short>(w), static_cast<short>(polyY));
-        SetXY2(pPoly, static_cast<short>(polyX), static_cast<short>(h));
-        SetXY3(pPoly, static_cast<short>(w), static_cast<short>(h));
+        const s32 w = frameW + polyX - 1;
+        const s32 h = frameH + polyY - 1;
+        SetXY0(pPoly, static_cast<s16>(polyX), static_cast<s16>(polyY));
+        SetXY1(pPoly, static_cast<s16>(w), static_cast<s16>(polyY));
+        SetXY2(pPoly, static_cast<s16>(polyX), static_cast<s16>(h));
+        SetXY3(pPoly, static_cast<s16>(w), static_cast<s16>(h));
 
         SetPrimExtraPointerHack(pPoly, nullptr);
         OrderingTable_Add_498A80(OtLayer(ppOt, field_C_layer), &pPoly->mBase.header);

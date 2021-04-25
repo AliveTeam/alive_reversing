@@ -10,16 +10,16 @@ namespace AO {
 
 struct Path_Slog : public Path_TLV
 {
-    __int16 field_18_scale;
-    __int16 field_1A_direction;
-    __int16 field_1C_wakeup_anger;
-    __int16 field_1E_bark_anger;
-    __int16 field_20_sleeps;
-    __int16 field_22_chase_anger;
-    __int16 field_24_jump_attack_delay;
-    __int16 field_26_disabled_resources;
-    __int16 field_28_anger_trigger_id;
-    __int16 field_2A_pad;
+    s16 field_18_scale;
+    s16 field_1A_direction;
+    s16 field_1C_wakeup_anger;
+    s16 field_1E_bark_anger;
+    s16 field_20_sleeps;
+    s16 field_22_chase_anger;
+    s16 field_24_jump_attack_delay;
+    s16 field_26_disabled_resources;
+    s16 field_28_anger_trigger_id;
+    s16 field_2A_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_Slog, 0x2C);
 
@@ -51,7 +51,7 @@ ALIVE_ASSERT_SIZEOF(Path_Slog, 0x2C);
     ENTRY(State_24_Growl_475590)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eSlogStates : int
+enum eSlogStates : s32
 {
     SLOG_STATES_ENUM(MAKE_ENUM)
 };
@@ -59,27 +59,27 @@ enum eSlogStates : int
 class Slog : public BaseAliveGameObject
 {
 public:
-    EXPORT Slog* ctor_472EE0(Path_Slog* pTlv, int tlvInfo);
+    EXPORT Slog* ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo);
     EXPORT Slog* ctor_473050(FP xpos, FP ypos, FP scale);
     EXPORT BaseGameObject* dtor_473370();
 
-    EXPORT __int16 HandleEnemyStopper_473BD0();
+    EXPORT s16 HandleEnemyStopper_473BD0();
     EXPORT void ToJump_473FB0();
-    EXPORT void Sfx_475BD0(int idx);
-    EXPORT __int16 IsPlayerNear_471930();
+    EXPORT void Sfx_475BD0(s32 idx);
+    EXPORT s16 IsPlayerNear_471930();
     EXPORT BaseAliveGameObject* FindAbeMudOrSlig_4722F0();
     EXPORT void Init_473130();
-    EXPORT __int16 ToNextMotion_473CE0();
+    EXPORT s16 ToNextMotion_473CE0();
     void ToIdle();
 
-    virtual __int16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VUpdate() override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
 private:
     void VOnTrapDoorOpen_4740C0();
@@ -88,13 +88,13 @@ private:
     EXPORT void VScreenChanged_473480();
     EXPORT void VUpdate_4739C0();
     EXPORT void VOn_Tlv_Collision_473970(Path_TLV* pTlv);
-    EXPORT __int16 VTakeDamage_473610(BaseGameObject* pFrom);
-    EXPORT Slog* Vdtor_473CB0(signed int flags);
+    EXPORT s16 VTakeDamage_473610(BaseGameObject* pFrom);
+    EXPORT Slog* Vdtor_473CB0(s32 flags);
 
 public:
     void SetAnimFrame();
 
-    BYTE** ResBlockForMotion(__int16 motion);
+    u8** ResBlockForMotion(s16 motion);
 
     EXPORT void MoveOnLine_4740F0();
 
@@ -126,67 +126,67 @@ public:
     EXPORT void State_24_Growl_475590();
 
     // Brains
-    EXPORT __int16 Brain_0_ListeningToSlig_472450();
-    EXPORT __int16 Brain_1_Idle_4719C0();
-    EXPORT __int16 Brain_2_ChasingAbe_470F50();
-    EXPORT __int16 Brain_3_Dead_4721B0();
+    EXPORT s16 Brain_0_ListeningToSlig_472450();
+    EXPORT s16 Brain_1_Idle_4719C0();
+    EXPORT s16 Brain_2_ChasingAbe_470F50();
+    EXPORT s16 Brain_3_Dead_4721B0();
 
     // Inlined
-    __int16 Facing(FP xpos);
+    s16 Facing(FP xpos);
 
     // Inlined
-    void DelayedResponse(__int16 responseIdx);
+    void DelayedResponse(s16 responseIdx);
 
     BaseAliveGameObject* field_10C_pTarget;
-    __int16 field_110;
-    __int16 field_112;
-    __int16 field_114_brain_idx;
-    __int16 field_116_brain_state;
-    __int16 field_118;
-    __int16 field_11A;
-    int field_11C_timer;
-    int field_120;
-    __int16 field_124;
-    __int16 field_126_movedOffScreen;
-    int field_128;
+    s16 field_110;
+    s16 field_112;
+    s16 field_114_brain_idx;
+    s16 field_116_brain_state;
+    s16 field_118;
+    s16 field_11A;
+    s32 field_11C_timer;
+    s32 field_120;
+    s16 field_124;
+    s16 field_126_movedOffScreen;
+    s32 field_128;
     FP field_12C;
-    int field_130;
-    __int16 field_134;
-    __int16 field_136;
-    int field_138_tlvInfo;
-    __int16 field_13C_res_idx;
-    __int16 field_13E;
-    int field_140;
-    int field_144;
-    int field_148;
+    s32 field_130;
+    s16 field_134;
+    s16 field_136;
+    s32 field_138_tlvInfo;
+    s16 field_13C_res_idx;
+    s16 field_13E;
+    s32 field_140;
+    s32 field_144;
+    s32 field_148;
     BaseAliveGameObject* field_14C_pSlig;
-    __int16 field_150_waiting_counter;
-    __int16 field_152_response_index;
-    __int16 field_154_response_part;
-    __int16 field_156;
-    __int16 field_158_bark_anger;
-    __int16 field_15A;
-    __int16 field_15C;
-    __int16 field_15E;
-    int field_160;
-    int field_164_timer;
-    __int16 field_168_anger_switch_id;
-    __int16 field_16A;
+    s16 field_150_waiting_counter;
+    s16 field_152_response_index;
+    s16 field_154_response_part;
+    s16 field_156;
+    s16 field_158_bark_anger;
+    s16 field_15A;
+    s16 field_15C;
+    s16 field_15E;
+    s32 field_160;
+    s32 field_164_timer;
+    s16 field_168_anger_switch_id;
+    s16 field_16A;
     BaseAliveGameObject* field_16C;
-    __int16 field_170;
-    __int16 field_172;
-    __int16 field_174;
-    __int16 field_176;
-    __int16 field_178;
-    __int16 field_17A;
-    __int16 field_17C_res;
-    __int16 field_17E;
-    __int16 field_180;
-    __int16 field_182_pad;
-    BYTE** field_184_resources[5];
+    s16 field_170;
+    s16 field_172;
+    s16 field_174;
+    s16 field_176;
+    s16 field_178;
+    s16 field_17A;
+    s16 field_17C_res;
+    s16 field_17E;
+    s16 field_180;
+    s16 field_182_pad;
+    u8** field_184_resources[5];
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x198);
 
-ALIVE_VAR_EXTERN(short, gNumSlogs_9F11C8);
+ALIVE_VAR_EXTERN(s16, gNumSlogs_9F11C8);
 
 }

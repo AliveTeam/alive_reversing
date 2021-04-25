@@ -4,7 +4,7 @@
 
 namespace AO {
 
-EXPORT int CC IO_Init_48E1A0(char /*bAsync*/)
+EXPORT s32 CC IO_Init_48E1A0(s8 /*bAsync*/)
 {
     // TODO: This has been totally changed in AE
     NOT_IMPLEMENTED();

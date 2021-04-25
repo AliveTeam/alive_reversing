@@ -19,9 +19,9 @@ EffectBase* EffectBase::ctor_461550(Layer layer, TPageAbr abr)
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     field_10_path_id = gMap_507BA8.field_2_current_path;
     field_12_level_id = gMap_507BA8.field_0_current_level;
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
-        Init_SetTPage_495FB0(&field_3C_tPage[i], 0, 0, static_cast<short>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, abr, 0, 0)));
+        Init_SetTPage_495FB0(&field_3C_tPage[i], 0, 0, static_cast<s16>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, abr, 0, 0)));
     }
     field_5C_layer = layer;
     field_64_bSemiTrans = 1;
@@ -35,7 +35,7 @@ BaseGameObject* EffectBase::dtor_461630()
     return dtor_487DF0();
 }
 
-EffectBase* EffectBase::Vdtor_461750(signed int flags)
+EffectBase* EffectBase::Vdtor_461750(s32 flags)
 {
     dtor_461630();
     if (flags & 1)
@@ -57,9 +57,9 @@ void EffectBase::VRender_461690(PrimHeader** ppOt)
     Init_Tile(pTile);
 
     SetRGB0(pTile, 
-        static_cast<BYTE>(field_5E_r),
-        static_cast<BYTE>(field_60_g),
-        static_cast<BYTE>(field_62_b));
+        static_cast<u8>(field_5E_r),
+        static_cast<u8>(field_60_g),
+        static_cast<u8>(field_62_b));
     SetXY0(pTile, 0, 0);
 
     pTile->field_14_w = 640;
@@ -71,7 +71,7 @@ void EffectBase::VRender_461690(PrimHeader** ppOt)
     pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, gPsxDisplay_504C78.field_2_height);
 }
 
-BaseGameObject* EffectBase::VDestructor(signed int flags)
+BaseGameObject* EffectBase::VDestructor(s32 flags)
 {
     return Vdtor_461750(flags);
 }

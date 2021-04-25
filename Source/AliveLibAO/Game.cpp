@@ -40,19 +40,19 @@ namespace AO {
 
 // TODO: Move these few funcs to correct location
 #ifdef _WIN32
-EXPORT int CC Add_Dirty_Area_48D910(int, int, int, int)
+EXPORT s32 CC Add_Dirty_Area_48D910(s32, s32, s32, s32)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT int MessageBox_48E3F0(const char* /*pTitle*/, int /*lineNumber*/, const char* /*pMsg*/, ...)
+EXPORT s32 MessageBox_48E3F0(const s8* /*pTitle*/, s32 /*lineNumber*/, const s8* /*pMsg*/, ...)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+EXPORT s32 CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
 
@@ -84,11 +84,11 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
                 "14:32:52");
             Input_InitKeyStateArray_48E5F0();
         }
-        Input_SetKeyState_48E610(static_cast<int>(wParam), 1);
+        Input_SetKeyState_48E610(static_cast<s32>(wParam), 1);
         return 0;
 
     case WM_KEYUP:
-        Input_SetKeyState_48E610(static_cast<int>(wParam), 0);
+        Input_SetKeyState_48E610(static_cast<s32>(wParam), 0);
         break;
 
     case WM_SETCURSOR:
@@ -116,7 +116,7 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
 
     case WM_INITMENUPOPUP:
         // TODO: Constants for wParam
-        if ((unsigned int)lParam >> 16)
+        if ((u32)lParam >> 16)
         {
             return -1;
         }
@@ -128,7 +128,7 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
         {
             ret = -1;
         }
-        Input_SetKeyState_48E610(static_cast<int>(wParam), 1);
+        Input_SetKeyState_48E610(static_cast<s32>(wParam), 1);
         break;
 
     case WM_SYSKEYUP:
@@ -137,17 +137,17 @@ EXPORT int CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
         {
             ret = -1;
         }
-        Input_SetKeyState_48E610(static_cast<int>(wParam), 0);
+        Input_SetKeyState_48E610(static_cast<s32>(wParam), 0);
         break;
 
     case WM_TIMER:
         return 1;
     default:
-        return static_cast<int>(ret);
+        return static_cast<s32>(ret);
     }
-    return static_cast<int>(ret);
+    return static_cast<s32>(ret);
 }
-using TFilter = AddPointer_t<int CC(HWND, UINT, WPARAM, LPARAM)>;
+using TFilter = AddPointer_t<s32 CC(HWND, UINT, WPARAM, LPARAM)>;
 
 EXPORT void CC Sys_SetWindowProc_Filter_48E950(TFilter)
 {
@@ -157,7 +157,7 @@ EXPORT void CC Sys_SetWindowProc_Filter_48E950(TFilter)
 #endif
 
 
-ALIVE_VAR(1, 0x507670, unsigned int, gnFrameCount_507670, 0);
+ALIVE_VAR(1, 0x507670, u32, gnFrameCount_507670, 0);
 ALIVE_VAR(1, 0x504618, DynamicArrayT<BaseGameObject>*, gObjList_drawables_504618, nullptr);
 
 ALIVE_VAR(1, 0x50766C, DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C, nullptr);
@@ -167,29 +167,29 @@ void Game_ForceLink()
 
 }
 
-ALIVE_VAR(1, 0x5076CC, short, gbKillUnsavedMudsDone_5076CC, 0);
+ALIVE_VAR(1, 0x5076CC, s16, gbKillUnsavedMudsDone_5076CC, 0);
 
 // TODO: Move to game ender controller for AO sync
-ALIVE_VAR(1, 0x5076C4, short, gRestartRuptureFarmsKilledMuds_5076C4, 0);
-ALIVE_VAR(1, 0x5076C8, short, gRestartRuptureFarmsSavedMuds_5076C8, 0);
+ALIVE_VAR(1, 0x5076C4, s16, gRestartRuptureFarmsKilledMuds_5076C4, 0);
+ALIVE_VAR(1, 0x5076C8, s16, gRestartRuptureFarmsSavedMuds_5076C8, 0);
 
-ALIVE_VAR(1, 0x5076D0, short, gOldKilledMuds_5076D0, 0);
-ALIVE_VAR(1, 0x5076D4, short, gOldSavedMuds_5076D4, 0);
+ALIVE_VAR(1, 0x5076D0, s16, gOldKilledMuds_5076D0, 0);
+ALIVE_VAR(1, 0x5076D4, s16, gOldSavedMuds_5076D4, 0);
 
-ALIVE_VAR(1, 0x507B78, short, sBreakGameLoop_507B78, 0);
-ALIVE_VAR(1, 0x507698, short, gAttract_507698, 0);
-ALIVE_VAR(1, 0x507B0C, int, gTimeOut_NotUsed_507B0C, 0);
-ALIVE_VAR(1, 0x507B10, int, gFileOffset_NotUsed_507B10, 0);
+ALIVE_VAR(1, 0x507B78, s16, sBreakGameLoop_507B78, 0);
+ALIVE_VAR(1, 0x507698, s16, gAttract_507698, 0);
+ALIVE_VAR(1, 0x507B0C, s32, gTimeOut_NotUsed_507B0C, 0);
+ALIVE_VAR(1, 0x507B10, s32, gFileOffset_NotUsed_507B10, 0);
 ALIVE_VAR(1, 0x505564, DynamicArrayT<AnimationBase>*, gObjList_animations_505564, nullptr);
 
-ALIVE_VAR(1, 0x508BF8, char, gDDCheatMode_508BF8, 0);
-ALIVE_VAR(1, 0x508BFC, char, byte_508BFC, 0);
+ALIVE_VAR(1, 0x508BF8, s8, gDDCheatMode_508BF8, 0);
+ALIVE_VAR(1, 0x508BFC, s8, byte_508BFC, 0);
 
-ALIVE_ARY(1, 0x4CECC8, char, 3, gDriveLetter_4CECC8, { 'D', ':', '0' });
+ALIVE_ARY(1, 0x4CECC8, s8, 3, gDriveLetter_4CECC8, { 'D', ':', '0' });
 
 
 
-EXPORT int CC Game_End_Frame_4505D0(DWORD bSkip)
+EXPORT s32 CC Game_End_Frame_4505D0(u32 bSkip)
 {
     return Game_End_Frame_4950F0(bSkip);
 }
@@ -200,7 +200,7 @@ static void Main_ParseCommandLineArguments()
 
     // TODO: I guess some code got removed that picked the CD-ROM drive like in AE since this
     // doesn't really make any sense anymore.
-    char cdDrivePath[3] = {};
+    s8 cdDrivePath[3] = {};
     cdDrivePath[0] = gDriveLetter_4CECC8[0];
     cdDrivePath[1] = gDriveLetter_4CECC8[1];
     if (gDriveLetter_4CECC8[0] > 'Z')
@@ -334,7 +334,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
 
 EXPORT void CC Game_Init_LoadingIcon_445E30()
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1, 0);
     if (!ppRes)
     {
         ResourceManager::LoadResourceFile_455270("LOADING.BAN", nullptr);
@@ -345,7 +345,7 @@ EXPORT void CC Game_Init_LoadingIcon_445E30()
 
 EXPORT void CC Game_Free_LoadingIcon_445E80()
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 0, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_455550(ppRes);
@@ -368,7 +368,7 @@ EXPORT void CC Game_ExitGame_450730()
 }
 
 
-EXPORT int CC CreateTimer_48F030(int, void*)
+EXPORT s32 CC CreateTimer_48F030(s32, void*)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -401,7 +401,7 @@ EXPORT void CC Game_Loop_437630()
         Events_Reset_Active_417320();
 
         // Update objects
-        for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
             if (!pObjIter)
@@ -433,7 +433,7 @@ EXPORT void CC Game_Loop_437630()
         // Render objects
         PrimHeader** ppOt = gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer;
 
-        for (int i = 0; i < gObjList_drawables_504618->Size(); i++)
+        for (s32 i = 0; i < gObjList_drawables_504618->Size(); i++)
         {
             BaseGameObject* pDrawable = gObjList_drawables_504618->ItemAt(i);
             if (!pDrawable)
@@ -455,7 +455,7 @@ EXPORT void CC Game_Loop_437630()
         gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
 
         // Destroy objects with certain flags
-        for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
             if (!pObj)
@@ -485,7 +485,7 @@ EXPORT void CC Game_Loop_437630()
     PSX_VSync_496620(0);
     ResourceManager::WaitForPendingResources_41EA60(0);
 
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObjToKill = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObjToKill)

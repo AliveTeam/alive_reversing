@@ -10,7 +10,7 @@
 #include "Events.hpp"
 #include "Particle.hpp"
 
-Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
+Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
 {
     ctor_408240(0);
     SetVTable(this, 0x546AF8);
@@ -24,7 +24,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
     }
 
     const AnimRecord& rec = AnimRec(AnimId::Rock);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
@@ -43,7 +43,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
     field_118_count = count;
     field_11C_state = RockStates::eNone_0;
 
-    BYTE** ppPal = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
+    u8** ppPal = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
     if (ppPal)
     {
         field_20_animation.Load_Pal_40A530(ppPal, 0);
@@ -58,7 +58,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
         );
 
         //safety check in case IDA output was wrongly interpreted. TODO remove later
-        assert((DWORD *)&(*field_20_animation.field_20_ppBlock)[*(DWORD *)&(*field_20_animation.field_20_ppBlock)[*((DWORD *) *field_20_animation.field_20_ppBlock + 124)]]
+        assert((u32 *)&(*field_20_animation.field_20_ppBlock)[*(u32 *)&(*field_20_animation.field_20_ppBlock)[*((u32 *) *field_20_animation.field_20_ppBlock + 124)]]
             == &(pFrameHeader->field_0_clut_offset));
     }
 
@@ -72,7 +72,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
     return this;
 }
 
-BaseGameObject* Rock::VDestructor(signed int flags)
+BaseGameObject* Rock::VDestructor(s32 flags)
 {
     return vdtor_49E370(flags);
 }
@@ -87,7 +87,7 @@ void Rock::VScreenChanged()
     vScreenChanged_49F030();
 }
 
-int Rock::VGetSaveState(BYTE* pSaveBuffer)
+s32 Rock::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_49F9A0(reinterpret_cast<RockSaveState*>(pSaveBuffer));
 }
@@ -130,7 +130,7 @@ BOOL Rock::vCanThrow_49E350()
     return field_11C_state == RockStates::eBouncing_4;
 }
 
-Rock* Rock::vdtor_49E370(signed int flags)
+Rock* Rock::vdtor_49E370(s32 flags)
 {
     dtor_49E3A0();
     if (flags & 1)
@@ -243,7 +243,7 @@ void Rock::InTheAir_49E4B0()
                 field_C4_velx = (field_C4_velx / FP_FromInteger(2));
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
 
-                short vol = 20 * (4 - field_11E_volume);
+                s16 vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -262,7 +262,7 @@ void Rock::InTheAir_49E4B0()
             {
                 field_BC_ypos = hitY;
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
-                short vol = 20 * (4 - field_11E_volume);
+                s16 vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -286,7 +286,7 @@ void Rock::InTheAir_49E4B0()
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E_volume);
+                s16 vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -304,7 +304,7 @@ void Rock::InTheAir_49E4B0()
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E_volume);
+                s16 vol = 20 * (4 - field_11E_volume);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -318,7 +318,7 @@ void Rock::InTheAir_49E4B0()
     }
 }
 
-__int16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
+s16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
 {
     if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -425,7 +425,7 @@ void Rock::vUpdate_49E9F0()
         return;
 
     case RockStates::eOnGround_3:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_128_shimmer_timer || pObj)
+        if (static_cast<s32>(sGnFrame_5C1B84) <= field_128_shimmer_timer || pObj)
         {
             return;
         }
@@ -443,8 +443,8 @@ void Rock::vUpdate_49E9F0()
         InTheAir_49E4B0();
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
-        const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-        const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+        const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
+        const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
         vOnCollisionWith_424EE0(xy, wh,
             gBaseGameObject_list_BB47C4,
             1,
@@ -470,7 +470,7 @@ void Rock::vUpdate_49E9F0()
     }
 }
 
-signed int Rock::vGetSaveState_49F9A0(RockSaveState* pState)
+s32 Rock::vGetSaveState_49F9A0(RockSaveState* pState)
 {
     pState->field_0_type = AETypes::eRock_105;
     pState->field_4_obj_id = field_C_objectId;
@@ -509,7 +509,7 @@ signed int Rock::vGetSaveState_49F9A0(RockSaveState* pState)
     return sizeof(RockSaveState);
 }
 
-int CC Rock::CreateFromSaveState_49F720(const BYTE* pData)
+s32 CC Rock::CreateFromSaveState_49F720(const u8* pData)
 {
     auto pState = reinterpret_cast<const RockSaveState*>(pData);
 

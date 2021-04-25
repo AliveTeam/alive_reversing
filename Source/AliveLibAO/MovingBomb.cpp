@@ -29,13 +29,13 @@ const TintEntry stru_4CD310[4] =
 
 ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
 
-MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, int tlvInfo)
+MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     field_6_flags.Set(Options::eCanExplode_Bit7);
     SetVTable(this, 0x4BBA68);
     field_4_typeId = Types::eTimedMine_8;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMovebombResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMovebombResID, 1, 0);
     Animation_Init_417FD0(
         17140,
         76,
@@ -176,12 +176,12 @@ BaseGameObject* MovingBomb::dtor_43B2C0()
     return dtor_401000();
 }
 
-BaseGameObject* MovingBomb::VDestructor(signed int flags)
+BaseGameObject* MovingBomb::VDestructor(s32 flags)
 {
     return Vdtor_43BCC0(flags);
 }
 
-BaseGameObject* MovingBomb::Vdtor_43BCC0(signed int flags)
+BaseGameObject* MovingBomb::Vdtor_43BCC0(s32 flags)
 {
     dtor_43B2C0();
     if (flags & 1)
@@ -201,12 +201,12 @@ void MovingBomb::VScreenChanged_43BC90()
     }
 }
 
-__int16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
+s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_43BB60(pFrom);
 }
 
-__int16 MovingBomb::VTakeDamage_43BB60(BaseGameObject* pFrom)
+s16 MovingBomb::VTakeDamage_43BB60(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -279,11 +279,11 @@ void MovingBomb::VOnThrowableHit_43B930(BaseGameObject* /*pFrom*/)
     SFX_Play_43AD70(SoundEffect::GreenTick_3, 100, 0);
 }
 
-__int16 MovingBomb::HitObject_43B970()
+s16 MovingBomb::HitObject_43B970()
 {
     PSX_RECT ourRect = {};
     VGetBoundingRect(&ourRect, 1);
-    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pObjIter)
@@ -322,7 +322,7 @@ void MovingBomb::FollowLine_43BA40()
         field_F4_pLine = field_F4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
         if (field_F4_pLine)
         {
-            WORD a4 = 0;
+            u16 a4 = 0;
             const FP screen_x = CamX_VoidSkipper_418590(oldX, field_A8_xpos - oldX, 12, &a4);
             if (a4)
             {
@@ -492,7 +492,7 @@ void MovingBomb::VUpdate_43B440()
         break;
 
     case States::eWaitABit_4:
-        if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             field_10C_state = States::eToMoving_5;
         }
@@ -519,7 +519,7 @@ void MovingBomb::VUpdate_43B440()
         break;
 
     case States::eBlowingUp_6:
-        if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             SFX_Play_43AD70(SoundEffect::GreenTick_3, 100, 0);
 
@@ -553,7 +553,7 @@ void MovingBomb::VUpdate_43B440()
         break;
 
     case States::eKillMovingBomb_7:
-        if (field_114_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_114_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             field_6_flags.Set(Options::eDead_Bit3);
         }

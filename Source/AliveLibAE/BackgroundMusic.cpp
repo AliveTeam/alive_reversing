@@ -6,10 +6,10 @@
 #include "stdlib.hpp"
 #include "PathData.hpp"
 
-ALIVE_VAR(1, 0x560f78, short, sBackgroundMusic_seq_id_560F78, -1);
+ALIVE_VAR(1, 0x560f78, s16, sBackgroundMusic_seq_id_560F78, -1);
 
 
-BackgroundMusic* BackgroundMusic::ctor_4CB110(__int16 musicId)
+BackgroundMusic* BackgroundMusic::ctor_4CB110(s16 musicId)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x54781C); //  vTbl_BackgroundMusic_54781C
@@ -18,12 +18,12 @@ BackgroundMusic* BackgroundMusic::ctor_4CB110(__int16 musicId)
     return this;
 }
 
-BaseGameObject* BackgroundMusic::VDestructor(signed int flags)
+BaseGameObject* BackgroundMusic::VDestructor(s32 flags)
 {
     return vdtor_4CB150(flags);
 }
 
-BaseGameObject* BackgroundMusic::vdtor_4CB150(signed int flags)
+BaseGameObject* BackgroundMusic::vdtor_4CB150(s32 flags)
 {
     dtor_4CB180();
     if (flags & 1)

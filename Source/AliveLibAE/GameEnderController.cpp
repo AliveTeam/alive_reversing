@@ -13,13 +13,13 @@
 #include "Alarm.hpp"
 #include "Function.hpp"
 
-ALIVE_VAR(1, 0x5C1BC6, short, sFeeco_Restart_KilledMudCount_5C1BC6, 0);
-ALIVE_VAR(1, 0x5C1BC8, short, sFeecoRestart_SavedMudCount_5C1BC8, 0);
+ALIVE_VAR(1, 0x5C1BC6, s16, sFeeco_Restart_KilledMudCount_5C1BC6, 0);
+ALIVE_VAR(1, 0x5C1BC8, s16, sFeecoRestart_SavedMudCount_5C1BC8, 0);
 
 EXPORT void CC CreateGameEnderController_43B7A0()
 {
     // Exit if it already exists
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -42,7 +42,7 @@ EXPORT void CC CreateGameEnderController_43B7A0()
 }
 
 
-int CC GameEnderController::CreateFromSaveState_43BD10(const BYTE* pBuffer)
+s32 CC GameEnderController::CreateFromSaveState_43BD10(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const GameEnderController_State*>(pBuffer);
     auto pGameEnderController = ae_new<GameEnderController>();
@@ -66,7 +66,7 @@ GameEnderController* GameEnderController::ctor_43B840()
     return this;
 }
 
-BaseGameObject* GameEnderController::VDestructor(signed int flags)
+BaseGameObject* GameEnderController::VDestructor(s32 flags)
 {
     return vdtor_43B8D0(flags);
 }
@@ -81,12 +81,12 @@ void GameEnderController::VUpdate()
     vUpdate_43B920();
 }
 
-int GameEnderController::VGetSaveState(BYTE* pSaveBuffer)
+s32 GameEnderController::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_43BCD0(reinterpret_cast<GameEnderController_State*>(pSaveBuffer));
 }
 
-GameEnderController* GameEnderController::vdtor_43B8D0(signed int flags)
+GameEnderController* GameEnderController::vdtor_43B8D0(s32 flags)
 {
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)
@@ -112,7 +112,7 @@ void GameEnderController::vScreenChanged_43BC80()
     }
 }
 
-int GameEnderController::vGetSaveState_43BCD0(GameEnderController_State* pState)
+s32 GameEnderController::vGetSaveState_43BCD0(GameEnderController_State* pState)
 {
     pState->field_0_type = AETypes::eGameEnderController_57;
     pState->field_4_obj_id = field_C_objectId;

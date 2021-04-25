@@ -87,7 +87,7 @@
 template<size_t arraySize>
 struct CompileTimeResourceList
 {
-    int field_0_count = arraySize;
+    s32 field_0_count = arraySize;
     ResourceManager::ResourcesToLoadList_Entry field_4_items[arraySize];
 
     CompileTimeResourceList(std::initializer_list<ResourceManager::ResourcesToLoadList_Entry> elements)
@@ -240,7 +240,7 @@ EXPORT void CC Factory_Shadow_4D7200(Path_TLV* pTlv, Path* pPath, TlvItemInfoUni
 }
 
 
-static void LoadLiftPointResources(const char* ropeBan, const char* liftBan, LoadMode loadMode)
+static void LoadLiftPointResources(const s8* ropeBan, const s8* liftBan, LoadMode loadMode)
 {
     static CompileTimeResourceList<2> kResources({
         { ResourceManager::Resource_Animation, ResourceID::kPulleyResID },
@@ -300,7 +300,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     else
     {
         Path_LiftPoint* pLiftTlv = static_cast<Path_LiftPoint*>(pTlv);
-        for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
             if (!pObj)
@@ -312,7 +312,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
             {
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
-                const short xpos = FP_GetExponent(pLiftPoint->field_B8_xpos);
+                const s16 xpos = FP_GetExponent(pLiftPoint->field_B8_xpos);
                 if (pTlv->field_8_top_left.field_0_x <= xpos &&
                     xpos <= pTlv->field_C_bottom_right.field_0_x &&
                     pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_id &&
@@ -340,7 +340,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
         else
         {
             // Find out where to create the lift point
-            short pointNumber = 1;
+            s16 pointNumber = 1;
             while (pointNumber < 8)
             {
                 Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(
@@ -353,8 +353,8 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                     {
                         auto pLiftPointIter = static_cast<Path_LiftPoint*>(pTlvIter);
 
-                        const int tlvX = pTlv->field_8_top_left.field_0_x;
-                        const int absX = pTlvIter->field_8_top_left.field_0_x - tlvX >= 0 ?
+                        const s32 tlvX = pTlv->field_8_top_left.field_0_x;
+                        const s32 absX = pTlvIter->field_8_top_left.field_0_x - tlvX >= 0 ?
                             pTlvIter->field_8_top_left.field_0_x - tlvX :
                             tlvX - pTlvIter->field_8_top_left.field_0_x;
 
@@ -414,10 +414,10 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
     {
         auto pDoveTlv = static_cast<Path_Dove*>(pTlv);
 
-        const short width = pDoveTlv->field_C_bottom_right.field_0_x - pDoveTlv->field_8_top_left.field_0_x;
-        const short height = pDoveTlv->field_C_bottom_right.field_2_y - pDoveTlv->field_8_top_left.field_2_y;
+        const s16 width = pDoveTlv->field_C_bottom_right.field_0_x - pDoveTlv->field_8_top_left.field_0_x;
+        const s16 height = pDoveTlv->field_C_bottom_right.field_2_y - pDoveTlv->field_8_top_left.field_2_y;
 
-        for (int i = 0; i < pDoveTlv->field_10_dove_count; i++)
+        for (s32 i = 0; i < pDoveTlv->field_10_dove_count; i++)
         {
             auto pDove = ae_new<Dove>();
             if (pDove)
@@ -425,7 +425,7 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
                 pDove->ctor_41F430(5580, 41, 20, 60, tlvInfo.all, pDoveTlv->field_14_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
             }
 
-            short ypos = 0;
+            s16 ypos = 0;
             if (pDoveTlv->field_12_pixel_perfect)
             {
                 pDove->field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
@@ -572,7 +572,7 @@ static CompileTimeResourceList<4> kResources_5632BC(
     { ResourceManager::Resource_Animation, 360 }
 });
 
-static void LoadWalkingSligResources(__int16 disabledResources, LoadMode loadMode)
+static void LoadWalkingSligResources(s16 disabledResources, LoadMode loadMode)
 {
     gMap_5C3030.LoadResource_4DBE00("SLGLEVER.BAN", ResourceManager::Resource_Animation, 419, loadMode, disabledResources & 1);
     gMap_5C3030.LoadResource_4DBE00("SLGLIFT.BAN", ResourceManager::Resource_Animation, 420, loadMode, disabledResources & 2);
@@ -658,7 +658,7 @@ EXPORT void CC Factory_Null_4D69E0(Path_TLV* , Path*, TlvItemInfoUnion, LoadMode
 EXPORT void CC Factory_SecurityOrb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     Path_SecurityOrb* pSecurityOrbTlv = static_cast<Path_SecurityOrb*>(pTlv);
-    const __int16 disabledResources = pSecurityOrbTlv->field_12_disabled_resources;
+    const s16 disabledResources = pSecurityOrbTlv->field_12_disabled_resources;
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
     {
         gMap_5C3030.LoadResource_4DBE00("MAIMORB.BAN", ResourceManager::Resource_Animation, ResourceID::kMaimGameResID, loadMode);
@@ -923,7 +923,7 @@ EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUn
         pBound->field_0_flags.Clear(TLV_Flags::eBit1_Created);
         pBound->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
 
-        for (short camX_idx = -2; camX_idx < 3; camX_idx++)
+        for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
             Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(camX_idx, 0);
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
@@ -935,9 +935,9 @@ EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUn
                 if (pSlig)
                 {
                     tlvInfo.parts.tlvOffset +=
-                        static_cast<WORD>(
-                            reinterpret_cast<const BYTE*>(pTlvIter) -
-                            reinterpret_cast<const BYTE*>(pBound));
+                        static_cast<u16>(
+                            reinterpret_cast<const u8*>(pTlvIter) -
+                            reinterpret_cast<const u8*>(pBound));
                     pSlig->ctor_4B1370(static_cast<Path_Slig*>(pTlvIter), tlvInfo.all);
                 }
                 return;
@@ -1524,7 +1524,7 @@ EXPORT void CC Factory_WorkWheel_4D6B20(Path_TLV* pTlv , Path*, TlvItemInfoUnion
 
 EXPORT void CC Factory_Null_4DA850(Path_TLV* , Path*, TlvItemInfoUnion, LoadMode) { NOT_IMPLEMENTED(); }
 
-EXPORT void CC Create_Gas_4DA8B0(Layer layer, int neverUsed, Path_TLV* pTlv, int tlvInfo)
+EXPORT void CC Create_Gas_4DA8B0(Layer layer, s32 neverUsed, Path_TLV* pTlv, s32 tlvInfo)
 {
     if (!gGasInstanceCount_5BC214)
     {

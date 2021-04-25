@@ -15,16 +15,16 @@
 #include "VGA.hpp"
 
 // Inputs on the controller that can be used for aborting skippable movies
-const unsigned int MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
+const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
 
 ALIVE_VAR(1, 0x5ca208, SoundEntry, sDDV_SoundEntry_5CA208, {});
 
 EXPORT Masher * CC Masher_Alloc_4EAB80(
-    const char* pFileName,
+    const s8* pFileName,
     Masher_Header** ppMasherHeader,
     Masher_VideoHeader **ppMasherVideoHeader,
     Masher_AudioHeader** ppMasherAudioHeader,
-    int* errCode)
+    s32* errCode)
 {
     Masher* pMasher = reinterpret_cast<Masher*>(ae_new_malloc_4954D0(sizeof(Masher)));
     if (pMasher)
@@ -60,37 +60,37 @@ EXPORT void CC Masher_DeAlloc_4EAC00(Masher* pMasher)
     }
 }
 
-EXPORT int CC Masher_ReadNextFrame_4EAC20(Masher* pMasher)
+EXPORT s32 CC Masher_ReadNextFrame_4EAC20(Masher* pMasher)
 {
     return pMasher->sub_4E6B30();
 }
 
 EXPORT void CC Masher_MMX_Decode_4EAC40(Masher* pMasher, void* pSurface)
 {
-    pMasher->MMX_Decode_4E6C60((BYTE*)pSurface);
+    pMasher->MMX_Decode_4E6C60((u8*)pSurface);
 }
 
 ALIVE_VAR(1, 0x5CA234, bool, bHasAudio_5CA234, false);
-ALIVE_VAR(1, 0x5CA238, int, sampleOffsetPos_5CA238, 0);
-ALIVE_VAR(1, 0x5CA23C, int, sFrameInterleaveNum_5CA23C, 0);
+ALIVE_VAR(1, 0x5CA238, s32, sampleOffsetPos_5CA238, 0);
+ALIVE_VAR(1, 0x5CA23C, s32, sFrameInterleaveNum_5CA23C, 0);
 ALIVE_VAR(1, 0x5CA1E4, Masher_Header*, pMasher_header_5CA1E4, nullptr);
 ALIVE_VAR(1, 0x5CA204, Masher_VideoHeader*, pMasher_video_header_5CA204, nullptr);
 ALIVE_VAR(1, 0x5CA1E0, Masher_AudioHeader*, pMasher_audio_header_5CA1E0, nullptr);
 ALIVE_VAR(1, 0x5CA1F4, bool, bNoAudio_5CA1F4, false);
 ALIVE_VAR(1, 0x5CA1EC, Masher*, pMasherInstance_5CA1EC, nullptr);
-ALIVE_VAR(1, 0x5CA240, int, gMasher_single_audio_frame_size_5CA240, 0);
-ALIVE_VAR(1, 0x5CA1F0, int, total_audio_offset_5CA1F0, 0);
-ALIVE_VAR(1, 0x5CA1FC, int, dword_5CA1FC, 0);
-ALIVE_VAR(1, 0x5CA22C, int, oldBufferPlayPos_5CA22C, 0);
+ALIVE_VAR(1, 0x5CA240, s32, gMasher_single_audio_frame_size_5CA240, 0);
+ALIVE_VAR(1, 0x5CA1F0, s32, total_audio_offset_5CA1F0, 0);
+ALIVE_VAR(1, 0x5CA1FC, s32, dword_5CA1FC, 0);
+ALIVE_VAR(1, 0x5CA22C, s32, oldBufferPlayPos_5CA22C, 0);
 
-EXPORT char CC DDV_StartAudio_493DF0()
+EXPORT s8 CC DDV_StartAudio_493DF0()
 {
     if (!bHasAudio_5CA234)
     {
         return 1;
     }
 
-    unsigned int audioBufferStartOffset = 0;
+    u32 audioBufferStartOffset = 0;
     sampleOffsetPos_5CA238 = 0;
 
     if (sFrameInterleaveNum_5CA23C < pMasher_audio_header_5CA1E0->field_10_num_frames_interleave)
@@ -103,7 +103,7 @@ EXPORT char CC DDV_StartAudio_493DF0()
                 if (GetSoundAPI().SND_LoadSamples(
                     &sDDV_SoundEntry_5CA208,
                     sampleOffsetPos_5CA238,
-                    (unsigned char*)pAudioFrame,
+                    (u8*)pAudioFrame,
                     gMasher_single_audio_frame_size_5CA240))
                 {
                     bNoAudio_5CA1F4 = 1;
@@ -159,16 +159,16 @@ EXPORT void CC DD_Flip_4940F0()
 }
 #endif
 
-static Masher* Open_DDV(const char* pMovieName)
+static Masher* Open_DDV(const s8* pMovieName)
 {
-    char pFileName[256] = {};
+    s8 pFileName[256] = {};
     strcpy(pFileName, sCdEmu_Path1_C14620);
     strcat(pFileName, pMovieName);
 
     // Replace STR with DDV
     strcpy(strstr(pFileName, ".STR"), ".DDV");
 
-    int errCode = 0;
+    s32 errCode = 0;
 
     Masher* pMasher = Masher_Alloc_4EAB80(
         pFileName,
@@ -183,7 +183,7 @@ static Masher* Open_DDV(const char* pMovieName)
         const size_t len = strlen(pFileName);
         for (size_t i=0; i<len; i++)
         {
-            pFileName[i] = static_cast<char>(tolower(pFileName[i]));
+            pFileName[i] = static_cast<s8>(tolower(pFileName[i]));
         }
 
         pMasher = Masher_Alloc_4EAB80(
@@ -238,10 +238,10 @@ static Masher* Open_DDV(const char* pMovieName)
             strcat(pFileName, pMovieName);
             strcpy(strstr(pFileName, ".STR"), ".ddv");
 
-            char curCdDriveLetter = sCdRomDrives_5CA488[0];
+            s8 curCdDriveLetter = sCdRomDrives_5CA488[0];
             if (sCdRomDrives_5CA488[0])
             {
-                char* pCdDriveIter = sCdRomDrives_5CA488;
+                s8* pCdDriveIter = sCdRomDrives_5CA488;
                 while (*pCdDriveIter)
                 {
                     pFileName[0] = curCdDriveLetter;
@@ -301,7 +301,7 @@ static void Render_DDV_Frame(Bitmap& tmpBmp)
     }
 }
 
-EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
+EXPORT s8 CC DDV_Play_Impl_4932E0(const s8* pMovieName)
 {
     if (!*pMovieName)
     {
@@ -319,7 +319,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
         SYS_EventsPump_494580();
     }
 
-    bHasAudio_5CA234 = ((unsigned int)pMasher_header_5CA1E4->field_4_contains >> 1) & 1;
+    bHasAudio_5CA234 = ((u32)pMasher_header_5CA1E4->field_4_contains >> 1) & 1;
     gMasher_single_audio_frame_size_5CA240 = pMasher_audio_header_5CA1E0->field_C_single_audio_frame_size;
     const auto sampleLength = gMasher_single_audio_frame_size_5CA240 * (pMasher_audio_header_5CA1E0->field_10_num_frames_interleave + 6);
 
@@ -354,7 +354,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
     if (DDV_StartAudio_493DF0() && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC) && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC))
     {
-        const int dword_5CA244 = SYS_GetTicks();
+        const s32 dword_5CA244 = SYS_GetTicks();
         for (;;)
         {
             sFrameInterleaveNum_5CA23C++;
@@ -387,10 +387,10 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
             if (!bNoAudio_5CA1F4)
             {
-                void* pDecompressedAudioFrame = (BYTE *)Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
+                void* pDecompressedAudioFrame = (u8 *)Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
                 if (pDecompressedAudioFrame)
                 {
-                    if (GetSoundAPI().SND_LoadSamples(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, (unsigned char*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
+                    if (GetSoundAPI().SND_LoadSamples(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, (u8*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
                     {
                         // Reload with data fail
                         bNoAudio_5CA1F4 = 1;
@@ -448,10 +448,10 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             DD_Flip_4F15D0();
 #endif
 
-            const int bMoreFrames = Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC); // read audio and video frame
+            const s32 bMoreFrames = Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC); // read audio and video frame
             if (bNoAudio_5CA1F4)
             {
-                while ((signed int)(SYS_GetTicks() - dword_5CA244) <= (1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate))
+                while ((s32)(SYS_GetTicks() - dword_5CA244) <= (1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate))
                 {
                     // Wait for the amount of time the frame would take to display at the given framerate
                 }
@@ -460,22 +460,22 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             {
                 // Sync on where the audio playback is up to
                 total_audio_offset_5CA1F0 += gMasher_single_audio_frame_size_5CA240;
-                const DWORD soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
-                if ((signed int)(oldBufferPlayPos_5CA22C - soundBufferPlayPos) > sampleLength / 2)
+                const u32 soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
+                if ((s32)(oldBufferPlayPos_5CA22C - soundBufferPlayPos) > sampleLength / 2)
                 {
                      dword_5CA1FC++;
                 }
 
                 oldBufferPlayPos_5CA22C = soundBufferPlayPos;
 
-                const int maxWait = 1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate + 2000;
+                const s32 maxWait = 1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate + 2000;
                 if (total_audio_offset_5CA1F0 >= 0)
                 {
-                    int counter = 0;
+                    s32 counter = 0;
                     for (;;)
                     {
-                        const unsigned int soundPlayingPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
-                        const int remainderLen = oldBufferPlayPos_5CA22C - soundPlayingPos;
+                        const u32 soundPlayingPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
+                        const s32 remainderLen = oldBufferPlayPos_5CA22C - soundPlayingPos;
                         if (remainderLen > sampleLength / 2)
                         {
                             dword_5CA1FC++;
@@ -485,7 +485,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
                         ++counter;
 
-                        const int dword_5CA200 = gMasher_single_audio_frame_size_5CA240
+                        const s32 dword_5CA200 = gMasher_single_audio_frame_size_5CA240
                             * pMasher_audio_header_5CA1E0->field_10_num_frames_interleave
                             + soundPlayingPos
                             + sampleLength * dword_5CA1FC;
@@ -493,7 +493,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                         if (counter > 10000)
                         {
                             counter = 0;
-                            if ((signed int)(SYS_GetTicks() - dword_5CA244) > maxWait)
+                            if ((s32)(SYS_GetTicks() - dword_5CA244) > maxWait)
                             {
                                 // TODO: Unknown failure case
                                 bNoAudio_5CA1F4 = 1;
@@ -544,22 +544,22 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
     return 1;
 }
 
-EXPORT char CC DDV_Play_493210(const char* pDDVName)
+EXPORT s8 CC DDV_Play_493210(const s8* pDDVName)
 {
     sMovieSoundEntry_5CA230 = &sDDV_SoundEntry_5CA208;
-    const char ret = DDV_Play_Impl_4932E0(pDDVName);
+    const s8 ret = DDV_Play_Impl_4932E0(pDDVName);
     sMovieSoundEntry_5CA230 = nullptr;
     return ret;
 }
 
-ALIVE_VAR(1, 0x563a88, short, sMovie_Kill_SEQs_563A88, 1);
-ALIVE_VAR(1, 0xbb4ab2, short, word_BB4AB2, 0);
-ALIVE_VAR(1, 0xbb4ae4, int, sMovie_ref_count_BB4AE4, 0);
-ALIVE_VAR(1, 0x5ca4c4, BYTE, sMovieNameIdx_5CA4C4, 0);
+ALIVE_VAR(1, 0x563a88, s16, sMovie_Kill_SEQs_563A88, 1);
+ALIVE_VAR(1, 0xbb4ab2, s16, word_BB4AB2, 0);
+ALIVE_VAR(1, 0xbb4ae4, s32, sMovie_ref_count_BB4AE4, 0);
+ALIVE_VAR(1, 0x5ca4c4, u8, sMovieNameIdx_5CA4C4, 0);
 
 struct MovieName
 {
-    char mName[64];
+    s8 mName[64];
 };
 
 struct MovieQueue
@@ -569,7 +569,7 @@ struct MovieQueue
 
 ALIVE_VAR(1, 0x5CA348, MovieQueue, sMovieNames_5CA348, {});
 
-void CC Get_fmvs_sectors_494460(const char* pMovieName1, const char* pMovieName2, const char* pMovieName3, DWORD* pMovie1Sector, DWORD* pMovie2Sector, DWORD* pMovie3Sector)
+void CC Get_fmvs_sectors_494460(const s8* pMovieName1, const s8* pMovieName2, const s8* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
 {
     // NOTE: Unused globals that also had the "fake" sector number assigned have been omitted.
     sMovieNameIdx_5CA4C4 = 0;
@@ -593,7 +593,7 @@ void CC Get_fmvs_sectors_494460(const char* pMovieName1, const char* pMovieName2
     }
 }
 
-BaseGameObject* Movie::VDestructor(signed int flags)
+BaseGameObject* Movie::VDestructor(s32 flags)
 {
     return vdtor_4DFE80(flags);
 }
@@ -608,7 +608,7 @@ void Movie::VScreenChanged()
     // Null sub 0x4E02A0
 }
 
-void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags, __int16 volume)
+void Movie::Init_4DFF60(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume)
 {
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
@@ -647,7 +647,7 @@ void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags,
     ResourceManager::Reclaim_Memory_49C470(0);
 }
 
-Movie* Movie::ctor_4DFDE0(int id, DWORD pos, __int16 bUnknown, __int16 flags, __int16 volume)
+Movie* Movie::ctor_4DFDE0(s32 id, u32 pos, s16 bUnknown, s16 flags, s16 volume)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547EF4); // vTbl_Movie_547EF4
@@ -689,7 +689,7 @@ void Movie::vUpdate_4E0030()
     DeInit_4E0210();
 }
 
-BaseGameObject* Movie::vdtor_4DFE80(signed int flags)
+BaseGameObject* Movie::vdtor_4DFE80(s32 flags)
 {
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)

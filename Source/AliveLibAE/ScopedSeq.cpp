@@ -5,12 +5,12 @@
 #include "Sound/Midi.hpp"
 #include "stdlib.hpp"
 
-ScopedSeq* ScopedSeq::ctor_4CB210(char ambianceId, CameraPos direction)
+ScopedSeq* ScopedSeq::ctor_4CB210(s8 ambianceId, CameraPos direction)
 {
     SetVTable(this, 0x547838);
 
-    short leftVol = 0;
-    short rightVol = 0;
+    s16 leftVol = 0;
+    s16 rightVol = 0;
 
     if (direction == CameraPos::eCamLeft_3)
     {
@@ -58,12 +58,12 @@ ScopedSeq* ScopedSeq::ctor_4CB210(char ambianceId, CameraPos direction)
     return this;
 }
 
-ScopedSeq* ScopedSeq::VDestructor(signed int flags)
+ScopedSeq* ScopedSeq::VDestructor(s32 flags)
 {
     return vdtor_4CB410(flags);
 }
 
-ScopedSeq* ScopedSeq::vdtor_4CB410(signed int flags)
+ScopedSeq* ScopedSeq::vdtor_4CB410(s32 flags)
 {
     dtor_4CB440();
     if (flags & 1)

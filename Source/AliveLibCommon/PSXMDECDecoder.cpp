@@ -523,12 +523,12 @@ uint16_t *PSXMDECDecoder::RL2BLK(uint16_t *arg_mdec_rl, int16_t *arg_blk)
 
 // An overly used bit of code in the YUV2BGRA32 function. Instead of huge code repeats, this will
 // make things much more nicer.
-void PSXMDECDecoder::YUVfunction1(uint8_t arg_image[][4], int index, int r0, int g0, int b0, int y)
+void PSXMDECDecoder::YUVfunction1(uint8_t arg_image[][4], s32 index, s32 r0, s32 g0, s32 b0, s32 y)
 {
-    const int red = 2;
-    const int green = 1;
-    const int blue = 0;
-    const int alpha = 3;
+    const s32 red = 2;
+    const s32 green = 1;
+    const s32 blue = 0;
+    const s32 alpha = 3;
 
     arg_image[index][red] = BSRoundTable[r0 + y + 256];
     arg_image[index][green] = BSRoundTable[g0 + y + 256];

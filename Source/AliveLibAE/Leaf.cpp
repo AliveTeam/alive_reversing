@@ -5,7 +5,7 @@
 #include "Collisions.hpp"
 #include "stdlib.hpp"
 
-ALIVE_VAR(1, 0x563aa4, BYTE, sLeafRandIdx_563AA4, 8);
+ALIVE_VAR(1, 0x563aa4, u8, sLeafRandIdx_563AA4, 8);
 
 Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 {
@@ -17,7 +17,7 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     field_D4_b = 100;
 
     const AnimRecord& rec = AnimRec(AnimId::Well_Leaf);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_CC_sprite_scale = scale;
@@ -43,20 +43,20 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 
     field_F4_bHitSomething &= ~1u;
 
-    short randLeftVol = Math_RandomRange_496AB0(19, 24);
+    s16 randLeftVol = Math_RandomRange_496AB0(19, 24);
     if (field_CC_sprite_scale == FP_FromDouble(0.5))
     {
         randLeftVol -= 7;
     }
 
-    const short randRightVol = Math_RandomRange_496AB0(-900, -700);
+    const s16 randRightVol = Math_RandomRange_496AB0(-900, -700);
     SFX_Play_46FBA0(SoundEffect::Leaf_22, (3 * randLeftVol) / 4, randRightVol);
     field_1C_update_delay = 1;
 
     return this;
 }
 
-BaseGameObject* Leaf::VDestructor(signed int flags)
+BaseGameObject* Leaf::VDestructor(s32 flags)
 {
     return vdtor_4E32E0(flags);
 }
@@ -78,10 +78,10 @@ void Leaf::vUpdate_4E3330()
     field_C4_velx = field_C4_velx * FP_FromDouble(0.8);
     field_C8_vely = field_C8_vely * FP_FromDouble(0.8);
 
-    const int randX = (sRandomBytes_546744[sLeafRandIdx_563AA4++] - 127);
+    const s32 randX = (sRandomBytes_546744[sLeafRandIdx_563AA4++] - 127);
     field_C4_velx += (field_CC_sprite_scale * (FP_FromInteger(randX) / FP_FromInteger(64)));
 
-    const int randY = (sRandomBytes_546744[sLeafRandIdx_563AA4++] - 127);
+    const s32 randY = (sRandomBytes_546744[sLeafRandIdx_563AA4++] - 127);
     field_C8_vely += (field_CC_sprite_scale * (FP_FromInteger(randY) / FP_FromInteger(64)));
 
     const FP x2 = field_C4_velx + field_B8_xpos;
@@ -147,7 +147,7 @@ void Leaf::dtor_4E3310()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Leaf* Leaf::vdtor_4E32E0(signed int flags)
+Leaf* Leaf::vdtor_4E32E0(s32 flags)
 {
     dtor_4E3310();
 

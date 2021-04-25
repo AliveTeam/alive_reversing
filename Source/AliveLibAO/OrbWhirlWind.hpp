@@ -12,7 +12,7 @@ class BaseAliveGameObject;
 class OrbWhirlWind : public BaseGameObject
 {
 public:
-    enum class ParticlesState : __int16
+    enum class ParticlesState : s16
     {
         eCreating = 0,
         eCreated = 1,
@@ -24,9 +24,9 @@ public:
     EXPORT BaseGameObject* dtor_48B910();
 
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT OrbWhirlWind* Vdtor_48C4F0(signed int flags);
+    EXPORT OrbWhirlWind* Vdtor_48C4F0(s32 flags);
 
     virtual void VUpdate() override;
 
@@ -40,9 +40,9 @@ public:
 
     EXPORT void ToStop_48BBB0();
 
-    int field_10_particle_spawn_counter;
+    s32 field_10_particle_spawn_counter;
     ParticlesState field_14_particles_state;
-    __int16 field_16_particleIdx;
+    s16 field_16_particleIdx;
     OrbWhirlWindParticle* field_18_particles[16];
     FP field_58_xpos;
     FP field_5C_ypos;

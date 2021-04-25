@@ -12,7 +12,7 @@
 #include "Sfx.hpp"
 #include "FlyingSlig.hpp"
 
-FlyingSligSpawner* FlyingSligSpawner::ctor_433D50(Path_FlyingSligSpawner* pTlv, int tlvInfo)
+FlyingSligSpawner* FlyingSligSpawner::ctor_433D50(Path_FlyingSligSpawner* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545090);
@@ -36,7 +36,7 @@ FlyingSligSpawner* FlyingSligSpawner::ctor_433D50(Path_FlyingSligSpawner* pTlv, 
     return this;
 }
 
-BaseGameObject* FlyingSligSpawner::VDestructor(signed int flags)
+BaseGameObject* FlyingSligSpawner::VDestructor(s32 flags)
 {
     return vdtor_433DE0(flags);
 }
@@ -46,12 +46,12 @@ void FlyingSligSpawner::VUpdate()
     return vUpdate_433E10();
 }
 
-int FlyingSligSpawner::VGetSaveState(BYTE* pSaveBuffer)
+s32 FlyingSligSpawner::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_43B730(reinterpret_cast<FlyingSligSpawner_State*>(pSaveBuffer));
 }
 
-signed int CC FlyingSligSpawner::CreateFromSaveState_43B690(const BYTE* pBuffer)
+s32 CC FlyingSligSpawner::CreateFromSaveState_43B690(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const FlyingSligSpawner_State*>(pBuffer);
 
@@ -75,7 +75,7 @@ void FlyingSligSpawner::dtor_434030()
     BaseGameObject_dtor_4DBEC0();
 }
 
-FlyingSligSpawner* FlyingSligSpawner::vdtor_433DE0(signed int flags)
+FlyingSligSpawner* FlyingSligSpawner::vdtor_433DE0(s32 flags)
 {
     dtor_434030();
     if (flags & 1)
@@ -93,7 +93,7 @@ void FlyingSligSpawner::vUpdate_433E10()
         field_40_bFirstUpdate &= ~2;
         if (field_24_spawned_slig_id != -1)
         {
-            for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
             {
                 BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
                 if (!pObj)
@@ -152,7 +152,7 @@ void FlyingSligSpawner::vUpdate_433E10()
     }
 }
 
-signed int FlyingSligSpawner::vGetSaveState_43B730(FlyingSligSpawner_State* pSaveState)
+s32 FlyingSligSpawner::vGetSaveState_43B730(FlyingSligSpawner_State* pSaveState)
 {
     pSaveState->field_0_type = AETypes::eFlyingSligSpawner_55;
     pSaveState->field_4_tlvInfo = field_20_tlvInfo;

@@ -11,7 +11,7 @@
 
 namespace AO {
 
-UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
+UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(&field_11C_anim, 0x4BA2B8);
@@ -19,7 +19,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
 
     field_4_typeId = Types::eUXB_99;
 
-    BYTE** ppRes_1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kTbombResID, 1, 0);
+    u8** ppRes_1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kTbombResID, 1, 0);
     Animation_Init_417FD0(
         7740,
         59,
@@ -49,7 +49,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
     field_1B6_pattern_index = 0;
 
     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
-    field_1BA_red_blink_count = (field_1B8_pattern / static_cast<int>(pow(10, field_1B4_pattern_length - 1))) % 10;
+    field_1BA_red_blink_count = (field_1B8_pattern / static_cast<s32>(pow(10, field_1B4_pattern_length - 1))) % 10;
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
@@ -70,7 +70,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
     {
         if (pTlv->field_1E_state == UXB_State::eArmed_0)
         {
-            BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
+            u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
             field_11C_anim.LoadPal_403090(ppRes, 0);
             field_1BC_flags &= ~2u;
             field_11C_anim.Set_Animation_Data_402A40(372, 0);
@@ -100,7 +100,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
         }
         else
         {
-            BYTE** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
+            u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
             field_11C_anim.LoadPal_403090(ppPal, 0);
             field_1BC_flags &= ~2u;
             field_11C_anim.Set_Animation_Data_402A40(372, 0);
@@ -115,7 +115,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
 
     field_114_tlvInfo = tlvInfo;
     field_118_next_state_frame = gnFrameCount_507670;
-    field_110_disabled_resources = static_cast<short>(pTlv->field_20_disabled_resources);
+    field_110_disabled_resources = static_cast<s16>(pTlv->field_20_disabled_resources);
 
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0);
@@ -160,7 +160,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, int tlvInfo)
 
 void UXB::InitBlinkAnim()
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombflshResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombflshResID, 1, 0);
     if (field_11C_anim.Init_402D20(
         372,
         gObjList_animations_505564,
@@ -192,7 +192,7 @@ void UXB::InitBlinkAnim()
 BaseGameObject* UXB::dtor_4891B0()
 {
     SetVTable(this, 0x4BD680);
-    if (field_10C_state != 2 || static_cast<int>(gnFrameCount_507670) < field_118_next_state_frame)
+    if (field_10C_state != 2 || static_cast<s32>(gnFrameCount_507670) < field_118_next_state_frame)
     {
         gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, -1, 0, 0);
     }
@@ -231,7 +231,7 @@ BaseGameObject* UXB::dtor_4891B0()
     return dtor_401000();
 }
 
-BaseGameObject* UXB::Vdtor_489C70(signed int flags)
+BaseGameObject* UXB::Vdtor_489C70(s32 flags)
 {
     dtor_4891B0();
     if (flags & 1)
@@ -270,12 +270,12 @@ void UXB::VScreenChanged_489BD0()
     }
 }
 
-__int16 UXB::VTakeDamage(BaseGameObject* pFrom)
+s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_489AB0(pFrom);
 }
 
-__int16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
+s16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -348,7 +348,7 @@ void UXB::VOnPickUpOrSlapped_4897E0()
 {
     if (field_10C_state != 2)
     {
-        if (field_10C_state != 3 || field_118_next_state_frame > static_cast<int>(gnFrameCount_507670))
+        if (field_10C_state != 3 || field_118_next_state_frame > static_cast<s32>(gnFrameCount_507670))
         {
             if (field_1BA_red_blink_count)
             {
@@ -406,7 +406,7 @@ void UXB::VUpdate_489380()
             field_10C_state = 2;
             field_118_next_state_frame = gnFrameCount_507670 + 2;
         }
-        else if (field_118_next_state_frame <= static_cast<int>(gnFrameCount_507670))
+        else if (field_118_next_state_frame <= static_cast<s32>(gnFrameCount_507670))
         {
             field_10C_state = 1;
             field_11C_anim.Set_Animation_Data_402A40(384, 0);
@@ -419,7 +419,7 @@ void UXB::VUpdate_489380()
             field_10C_state = 2;
             field_118_next_state_frame = gnFrameCount_507670 + 2;
         }
-        else if (field_118_next_state_frame <= static_cast<int>(gnFrameCount_507670))
+        else if (field_118_next_state_frame <= static_cast<s32>(gnFrameCount_507670))
         {
             if (field_1BA_red_blink_count)
             {
@@ -450,7 +450,7 @@ void UXB::VUpdate_489380()
                 }
 
                 // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
-                field_1BA_red_blink_count = (field_1B8_pattern / static_cast<int>(pow(10, field_1B4_pattern_length - field_1B6_pattern_index - 1))) % 10;
+                field_1BA_red_blink_count = (field_1B8_pattern / static_cast<s32>(pow(10, field_1B4_pattern_length - field_1B6_pattern_index - 1))) % 10;
             }
 
             field_11C_anim.Set_Animation_Data_402A40(372, 0);
@@ -482,7 +482,7 @@ void UXB::VUpdate_489380()
         break;
 
     case 2:
-        if (static_cast<int>(gnFrameCount_507670) >= field_118_next_state_frame)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_118_next_state_frame)
         {
             auto explosion = ao_new<BaseBomb>();
             if (explosion)
@@ -522,12 +522,12 @@ void UXB::VUpdate_489380()
     }
 }
 
-__int16 UXB::IsColliding_489900()
+s16 UXB::IsColliding_489900()
 {
     PSX_RECT uxbBound = {};
     VGetBoundingRect(&uxbBound, 1);
 
-    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pObj)
@@ -542,8 +542,8 @@ __int16 UXB::IsColliding_489900()
                 PSX_RECT objBound = {};
                 pObj->VGetBoundingRect(&objBound, 1);
 
-                const int objX = FP_GetExponent(pObj->field_A8_xpos);
-                const int objY = FP_GetExponent(pObj->field_AC_ypos);
+                const s32 objX = FP_GetExponent(pObj->field_A8_xpos);
+                const s32 objY = FP_GetExponent(pObj->field_AC_ypos);
 
                 if (objX > uxbBound.x &&
                     objX < uxbBound.w &&
@@ -601,7 +601,7 @@ void UXB::VRender_4896C0(PrimHeader** ppOt)
     }
 }
 
-BaseGameObject* UXB::VDestructor(signed int flags)
+BaseGameObject* UXB::VDestructor(s32 flags)
 {
     return Vdtor_489C70(flags);
 }

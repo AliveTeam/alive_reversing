@@ -20,9 +20,9 @@
 namespace AO {
 
 // TODO: Index is always >=1 so first entry is redundant ??
-const int dword_4C5054[11] = { 0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
+const s32 dword_4C5054[11] = { 0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
 
-ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
+ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BA3C8);
@@ -30,7 +30,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2ChimeBallResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2ChimeBallResID, 1, 0);
     Animation_Init_417FD0(136, 16, 8, ppRes, 1);
     field_10_anim.field_C_layer = Layer::eLayer_37;
 
@@ -80,7 +80,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
 
     field_124_code1 = pTlv->field_1C_code1;
 
-    int code2 = pTlv->field_1E_code2;
+    s32 code2 = pTlv->field_1E_code2;
     if (code2)
     {
         field_120_max_idx = 0;
@@ -92,7 +92,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, signed int tlvInfo)
     }
 
     field_120_max_idx = 0;
-    for (int i = 0; i < 10; i++)
+    for (s32 i = 0; i < 10; i++)
     {
         if (!(field_124_code1 / dword_4C5054[field_120_max_idx + 1]))
         {
@@ -162,7 +162,7 @@ BaseGameObject* ChimeLock::dtor_40AE60()
     return dtor_401000();
 }
 
-ChimeLock* ChimeLock::Vdtor_40BD40(signed int flags)
+ChimeLock* ChimeLock::Vdtor_40BD40(s32 flags)
 {
     dtor_40AE60();
     if (flags & 1)
@@ -223,7 +223,7 @@ void ChimeLock::VUnPosses_40BC90()
     SFX_Play_43AE60(SoundEffect::PossessEffect_21, 70, 400, 0);
 }
 
-__int16 ChimeLock::DoNote_40BB20(__int16 note)
+s16 ChimeLock::DoNote_40BB20(s16 note)
 {
     if ((field_130_song_matching || sVoiceCheat_507708) && field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10 == note)
     {
@@ -251,7 +251,7 @@ __int16 ChimeLock::DoNote_40BB20(__int16 note)
     return 1;
 }
 
-void ChimeLock::SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, __int16 timer, __int16 xSize, __int16 ySize, __int16 bHitBell)
+void ChimeLock::SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, s16 timer, s16 xSize, s16 ySize, s16 bHitBell)
 {
     if (timer > 0)
     {
@@ -287,7 +287,7 @@ void ChimeLock::SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, __int16 tim
     }
 }
 
-__int16 ChimeLock::UpdateBall_40B8A0()
+s16 ChimeLock::UpdateBall_40B8A0()
 {
     field_15E_ball_angle++;
 
@@ -423,7 +423,7 @@ void ChimeLock::VUpdate_40AEF0()
                 Math_RandomRange_450F20(6, 9),
                 0);
 
-            if (DoNote_40BB20(static_cast<short>(Bell)))
+            if (DoNote_40BB20(static_cast<s16>(Bell)))
             {
                 field_110_state = ChimeLockStates::eNeverRead_6;
                 SwitchStates_Do_Operation_436A10(field_132_solve_id, SwitchOp::eSetTrue_0);
@@ -578,7 +578,7 @@ void ChimeLock::VUpdate_40AEF0()
             return;
         }
 
-        if (static_cast<int>(gnFrameCount_507670) >= field_12C_timer)
+        if (static_cast<s32>(gnFrameCount_507670) >= field_12C_timer)
         {
             SetTargetBellIfSpace(field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10);
             field_12C_timer = gnFrameCount_507670 + 15;
@@ -635,9 +635,9 @@ void ChimeLock::VUpdate_40AEF0()
 }
 
 
-void ChimeLock::SetTargetBellIfSpace(__int16 targetNum)
+void ChimeLock::SetTargetBellIfSpace(s16 targetNum)
 {
-    int magic = 0;
+    s32 magic = 0;
     auto pChimeLock_num = &field_164_ChimeLock_num[0];
 
     // looks like it's just doing: field_164_ChimeLock_num[0] = static_cast<BellPositions>(targetNum);
@@ -666,7 +666,7 @@ void ChimeLock::VPossessed_40BC40()
     field_164_ChimeLock_num[1] = BellPositions::eNone_0;
 }
 
-BaseGameObject* ChimeLock::VDestructor(signed int flags)
+BaseGameObject* ChimeLock::VDestructor(s32 flags)
 {
     return Vdtor_40BD40(flags);
 }

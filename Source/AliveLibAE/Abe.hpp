@@ -140,7 +140,7 @@
     ENTRY(State_129_PoisonGasDeath_4565C0)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eAbeStates : int
+enum eAbeStates : s32
 {
     ABE_STATES_ENUM(MAKE_ENUM)
 };
@@ -170,31 +170,31 @@ extern const InputCommands::Enum sInputKey_GameSpeak7_555114;
 
 struct Path_ContinuePoint : public Path_TLV
 {
-    enum class Scale : __int16
+    enum class Scale : s16
     {
         eNone_0 = 0,
         eHalf_1 = 1,
         eFull_2 = 2,
     };
     Scale field_10_scale;
-    __int16 field_12_save_file_id;
+    s16 field_12_save_file_id;
 };
 
 
 struct Path_ResetSwitchRange : public Path_TLV
 {
-    __int16 field_10_set_switches;
-    __int16 field_12_start_id;
-    __int16 field_14_end_id;
-    __int16 field_16_skip_id;
-    __int16 field_18_free_path_res;
-    __int16 field_1A_path_to_free_id;
-    __int16 field_1C_bEnabled;
-    __int16 field_1E_pad;
+    s16 field_10_set_switches;
+    s16 field_12_start_id;
+    s16 field_14_end_id;
+    s16 field_16_skip_id;
+    s16 field_18_free_path_res;
+    s16 field_1A_path_to_free_id;
+    s16 field_1C_bEnabled;
+    s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetSwitchRange, 0x20);
 
-enum class MudSounds : __int16
+enum class MudSounds : s16
 {
     eNone = -1,
     eEmpty_0 = 0,
@@ -228,7 +228,7 @@ enum class MudSounds : __int16
     eSadUgh_28 = 28,
 };
 
-enum class EnvironmentSfx : char
+enum class EnvironmentSfx : s8
 {
     eSlideStop_0 = 0,
     eWalkingFootstep_1 = 1,
@@ -248,7 +248,7 @@ enum class EnvironmentSfx : char
     eFallingDeathScreamHitGround_15 = 15 // TODO: better name
 };
 
-enum class ChantStates : unsigned __int16
+enum class ChantStates : u16
 {
     eIdleChanting_0 = 0,
     ePossessVictim_1 = 1,
@@ -259,7 +259,7 @@ enum class ChantStates : unsigned __int16
     eChantingForBirdPortal_6 = 6,
 };
 
-enum class StoneStates : unsigned __int16
+enum class StoneStates : u16
 {
     eHandstoneBegin_0 = 0,
     eGetHandstoneType_1 = 1,
@@ -271,7 +271,7 @@ enum class StoneStates : unsigned __int16
     eCircularFadeExit_7 = 7,
 };
 
-enum class DoorStates : unsigned __int16
+enum class DoorStates : u16
 {
     eAbeComesIn_0 = 0,
     ePadding_1 = 1,
@@ -282,7 +282,7 @@ enum class DoorStates : unsigned __int16
     eAbeComesOut_6 = 6
 };
 
-enum class PortalSubStates : __int16
+enum class PortalSubStates : s16
 {
     eJumpingInsidePortal_0 = 0,
     eSetNewActiveCamera_1 = 1,
@@ -291,7 +291,7 @@ enum class PortalSubStates : __int16
     eSetNewAbePosition_4 = 4
 };
 
-enum class WorkWheelStates : unsigned __int16
+enum class WorkWheelStates : u16
 {
     eTurningWheel_0 = 0,
     eCheckForNoLongerTurningWheel_1 = 1,
@@ -304,115 +304,115 @@ union AllInternalStates
     StoneStates stone;
     DoorStates door;
     WorkWheelStates wheel;
-    unsigned __int16 raw;
+    u16 raw;
 };
 
-enum class Mud_Emotion : __int16;
+enum class Mud_Emotion : s16;
 
 struct Abe_1BC_20_sub_object
 {
-    int field_0_abe_timer;
-    int field_4_regen_health_timer;
+    s32 field_0_abe_timer;
+    s32 field_4_regen_health_timer;
     FP field_8_x_vel_slow_by;
-    int field_C_unused;
-    unsigned __int16 field_10_resource_index;
+    s32 field_C_unused;
+    u16 field_10_resource_index;
     Mud_Emotion field_12_mood;
-    int field_14_rolling_motion_timer;
+    s32 field_14_rolling_motion_timer;
     MudSounds field_18_say;
-    __int16 field_1A_padding;
+    s16 field_1A_padding;
 };
 ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
-EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, BaseAliveGameObject* pHero);
+EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHero);
 
 struct Abe_SaveState
 {
     AETypes field_0_id;
-    __int16 field_2_padding;
+    s16 field_2_padding;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_c_velx;
     FP field_10_vely;
-    WORD field_14_path_number;
+    u16 field_14_path_number;
     LevelIds field_16_lvl_number;
     FP field_18_sprite_scale;
-    WORD field_1C_scale;
-    WORD field_1e_r;
-    WORD field_20_g;
-    WORD field_22_b;
-    WORD bAnimFlipX;
-    WORD current_motion;
-    WORD anim_current_frame;
-    WORD anim_frame_change_counter;
-    char anim_render_layer;
-    char bAnimRender;
-    char bDrawable;
-    char field_2F_padding;
+    u16 field_1C_scale;
+    u16 field_1e_r;
+    u16 field_20_g;
+    u16 field_22_b;
+    u16 bAnimFlipX;
+    u16 current_motion;
+    u16 anim_current_frame;
+    u16 anim_frame_change_counter;
+    s8 anim_render_layer;
+    s8 bAnimRender;
+    s8 bDrawable;
+    s8 field_2F_padding;
     FP field_30_health;
-    WORD field_34_animation_num;
-    WORD next_motion;
-    WORD last_line_ypos;
-    short field_3a_collision_line_id;
-    DWORD platform_obj_id;
-    WORD bElectrocuted;
-    WORD field_42_bInvisible;
-    char field_44_is_abe_controlled;
-    char field_45_padding;
-    __int16 field_46_padding;
+    u16 field_34_animation_num;
+    u16 next_motion;
+    u16 last_line_ypos;
+    s16 field_3a_collision_line_id;
+    u32 platform_obj_id;
+    u16 bElectrocuted;
+    u16 field_42_bInvisible;
+    s8 field_44_is_abe_controlled;
+    s8 field_45_padding;
+    s16 field_46_padding;
     FP field_48_x_vel_slow_by;
-    DWORD field_4C_unused;
-    DWORD field_50_state;
-    DWORD field_54_timer;
-    DWORD field_58_abe_timer;
-    DWORD field_5C_regen_health_timer;
+    u32 field_4C_unused;
+    u32 field_50_state;
+    u32 field_54_timer;
+    u32 field_58_abe_timer;
+    u32 field_5C_regen_health_timer;
     Mud_Emotion mood;
     MudSounds say;
-    DWORD auto_say_timer;
-    DWORD ring_pulse_timer;
-    char field_6c_rock_bone_count;
-    char bShrivel;
-    char bHaveShrykull;
-    char bHaveInvisiblity;
-    WORD prev_held;
-    WORD released_buttons;
-    WORD field_74_knockdown_motion;
-    __int16 field_76_padding;
-    DWORD field_78_rolling_motion_timer;
-    DWORD fade_obj_id;
-    DWORD circular_fade_id;
-    DWORD orb_whirl_wind_id;
-    DWORD possesed_object_id;
-    DWORD throwabe_obj_id;
-    DWORD pull_ring_rope_id;
-    DWORD slappable_or_pickup_id;
-    DWORD wheel_id;
-    DWORD invisible_timer;
-    WORD field_A0_unused;
-    WORD field_A2_invisibility_id;
-    char field_A4_cam_idx;
-    char field_A5_padding;
-    __int16 field_A6_padding;
+    u32 auto_say_timer;
+    u32 ring_pulse_timer;
+    s8 field_6c_rock_bone_count;
+    s8 bShrivel;
+    s8 bHaveShrykull;
+    s8 bHaveInvisiblity;
+    u16 prev_held;
+    u16 released_buttons;
+    u16 field_74_knockdown_motion;
+    s16 field_76_padding;
+    u32 field_78_rolling_motion_timer;
+    u32 fade_obj_id;
+    u32 circular_fade_id;
+    u32 orb_whirl_wind_id;
+    u32 possesed_object_id;
+    u32 throwabe_obj_id;
+    u32 pull_ring_rope_id;
+    u32 slappable_or_pickup_id;
+    u32 wheel_id;
+    u32 invisible_timer;
+    u16 field_A0_unused;
+    u16 field_A2_invisibility_id;
+    s8 field_A4_cam_idx;
+    s8 field_A5_padding;
+    s16 field_A6_padding;
     TlvTypes32 hand_stone_type;
-    WORD fmv_id;
-    WORD cam_id_1;
-    WORD cam_id_2;
-    WORD cam_id_3;
-    WORD field_B4_unused;
-    WORD field_B6_unused;
-    WORD field_B8_unused;
-    WORD field_BA_unused;
-    WORD field_BC_unused;
-    WORD field_BE_unused;
-    WORD bHaveEvilFart;
+    u16 fmv_id;
+    u16 cam_id_1;
+    u16 cam_id_2;
+    u16 cam_id_3;
+    u16 field_B4_unused;
+    u16 field_B6_unused;
+    u16 field_B8_unused;
+    u16 field_BA_unused;
+    u16 field_BC_unused;
+    u16 field_BE_unused;
+    u16 bHaveEvilFart;
     LevelIds to_level;
-    WORD to_path;
-    WORD to_camera;
-    WORD door_id;
-    char field_ca_throw_direction;
-    char field_CB_padding;
-    WORD field_CC_portal_sub_state;
-    __int16 field_CE_padding;
-    DWORD bird_portal_id;
+    u16 to_path;
+    u16 to_camera;
+    u16 door_id;
+    s8 field_ca_throw_direction;
+    s8 field_CB_padding;
+    u16 field_CC_portal_sub_state;
+    s16 field_CE_padding;
+    u32 bird_portal_id;
     enum Flags_D4
     {
         eD4_Bit1_lift_point_dead_while_using_lift = 0x1,
@@ -447,43 +447,43 @@ class Bullet;
 class Abe : public BaseAliveGameObject
 {
 public:
-    EXPORT Abe* ctor_44AD10(int frameTableOffset, int r, int g, int b);
+    EXPORT Abe* ctor_44AD10(s32 frameTableOffset, s32 r, s32 g, s32 b);
     EXPORT void dtor_44B380();
 
-    EXPORT static signed int CC CreateFromSaveState_44D4F0(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_44D4F0(const u8* pData);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
-    virtual BirdPortal* VIntoBirdPortal_408FD0(__int16 gridBlocks) override;
+    virtual BirdPortal* VIntoBirdPortal_408FD0(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
 
     void DoRunJump();
 
     // Virtual impls
-    EXPORT BaseGameObject* vdtor_44B350(signed int flags);
+    EXPORT BaseGameObject* vdtor_44B350(s32 flags);
     EXPORT void Update_449DC0();
     EXPORT void vRender_44B580(PrimHeader** ppOt);
     EXPORT void vScreenChanged_44D240();
-    EXPORT int vGetSaveState_457110(BYTE* pSaveBuffer);
-    EXPORT __int16 vTakeDamage_44BB50(BaseGameObject* pFrom);
+    EXPORT s32 vGetSaveState_457110(u8* pSaveBuffer);
+    EXPORT s16 vTakeDamage_44BB50(BaseGameObject* pFrom);
     EXPORT void vOn_TLV_Collision_44B5D0(Path_TLV* pTlv);
-    EXPORT BirdPortal* vIntoBirdPortal_44E970(__int16 gridBlocks);
+    EXPORT BirdPortal* vIntoBirdPortal_44E970(s16 gridBlocks);
     EXPORT void vOnTrapDoorOpen_45A570();
 
     // Non virtuals
-    EXPORT void ToKnockback_44E700(__int16 bKnockbackSound, __int16 bDelayedAnger);
+    EXPORT void ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger);
     EXPORT BaseAliveGameObject* FindObjectToPossess_44B7B0();
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
     EXPORT BOOL IsStanding_449D30();
     EXPORT void Free_Shrykull_Resources_45AA90();
 
-    EXPORT BYTE** StateToAnimResource_44AAB0(short state);
+    EXPORT u8** StateToAnimResource_44AAB0(s16 state);
 
     // States
     EXPORT void State_0_Idle_44EEB0();
@@ -625,90 +625,90 @@ public:
 
     EXPORT void ToDie_4588D0();
     EXPORT void ToIdle_44E6B0();
-    EXPORT void PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch);
+    EXPORT void PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch);
     EXPORT void Get_Shrykull_Resources_45AA20();
-    EXPORT __int16 ToLeftRightMovement_44E340();
+    EXPORT s16 ToLeftRightMovement_44E340();
     EXPORT void TryHoist_44ED30();
     EXPORT static void CC Create_Fart_421D20();
-    EXPORT __int16 TryEnterMineCar_4569E0();
-    EXPORT int NearDoorIsOpen_44EE10();
-    EXPORT __int16 HandleDoAction_455BD0();
+    EXPORT s16 TryEnterMineCar_4569E0();
+    EXPORT s32 NearDoorIsOpen_44EE10();
+    EXPORT s16 HandleDoAction_455BD0();
     EXPORT void PushWall_44E890();
     EXPORT void MoveForward_44E9A0();
-    EXPORT __int16 CrouchingGameSpeak_453E10();
+    EXPORT s16 CrouchingGameSpeak_453E10();
     EXPORT BOOL Is_Celling_Above_44E8D0();
     EXPORT void MoveWithVelocity_450FA0(FP velocityX);
-    EXPORT __int16 RunTryEnterDoor_451220();
-    EXPORT __int16 RunTryEnterWell_451060();
+    EXPORT s16 RunTryEnterDoor_451220();
+    EXPORT s16 RunTryEnterWell_451060();
     EXPORT void ToDieFinal_458910();
-    EXPORT short DoGameSpeak_45AB70(int input);
-    EXPORT __int16 CantBeDamaged_44BAB0();
+    EXPORT s16 DoGameSpeak_45AB70(s32 input);
+    EXPORT s16 CantBeDamaged_44BAB0();
     EXPORT void FallOnBombs_44EC10();
-    EXPORT __int16 ForceDownIfHoisting_44BA30();
+    EXPORT s16 ForceDownIfHoisting_44BA30();
     EXPORT void BulletDamage_44C980(Bullet* pObj);
     EXPORT void GiveControlBackToMe_44BA10();
     EXPORT PullRingRope* GetPullRope_44D120();
     EXPORT void IntoPortalStates_451990();
-    EXPORT void Calc_Well_Velocity_45C530(short xPosSource, short yPosSource, short XPosDest, short yPosDest);
+    EXPORT void Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 XPosDest, s16 yPosDest);
     EXPORT void FollowLift_45A500();
 
-    EXPORT short MoveLiftUpOrDown_45A7E0(FP yVelocity);
+    EXPORT s16 MoveLiftUpOrDown_45A7E0(FP yVelocity);
 
 
-    EXPORT __int16 GetEvilFart_4585F0(__int16 bDontLoad);
+    EXPORT s16 GetEvilFart_4585F0(s16 bDontLoad);
 
-    EXPORT void ChangeChantState_45BB90(__int16 bLaughAtChantEnd);
+    EXPORT void ChangeChantState_45BB90(s16 bLaughAtChantEnd);
 
     EXPORT void SetAsDead_459430();
 
-    EXPORT void ExitShrykull_45A9D0(__int16 bResetRingTimer);
+    EXPORT void ExitShrykull_45A9D0(s16 bResetRingTimer);
 
 public:
-    int field_118_prev_held;
-    int field_11C_released_buttons;
+    s32 field_118_prev_held;
+    s32 field_11C_released_buttons;
     AllInternalStates field_120_state;
-    __int16 field_122_knockdown_motion;
-    int field_124_timer;
+    s16 field_122_knockdown_motion;
+    s32 field_124_timer;
     Abe_1BC_20_sub_object field_128;
-    int field_144_auto_say_timer;
-    int field_148_fade_obj_id;
-    int field_14C_circular_fade_id;
-    int field_150_OrbWhirlWind_id;
-    int field_154_possessed_object_id;
-    int field_158_throwable_id;
-    int field_15C_pull_rope_id;
-    int field_160_slappable_or_pick_item_id;
-    int field_164_wheel_id;
-    int field_168_ring_pulse_timer;
-    __int16 field_16C_bHaveShrykull;
-    __int16 field_16E_bHaveInvisiblity;
-    int field_170_invisible_timer;
-    __int16 field_174_unused;
-    __int16 field_176_invisibility_id;
-    int field_178_invisible_effect_id;
-    char field_17C_cam_idx;
-    char field_17D_padding;
-    char field_17E_padding;
-    char field_17F_padding;
+    s32 field_144_auto_say_timer;
+    s32 field_148_fade_obj_id;
+    s32 field_14C_circular_fade_id;
+    s32 field_150_OrbWhirlWind_id;
+    s32 field_154_possessed_object_id;
+    s32 field_158_throwable_id;
+    s32 field_15C_pull_rope_id;
+    s32 field_160_slappable_or_pick_item_id;
+    s32 field_164_wheel_id;
+    s32 field_168_ring_pulse_timer;
+    s16 field_16C_bHaveShrykull;
+    s16 field_16E_bHaveInvisiblity;
+    s32 field_170_invisible_timer;
+    s16 field_174_unused;
+    s16 field_176_invisibility_id;
+    s32 field_178_invisible_effect_id;
+    s8 field_17C_cam_idx;
+    s8 field_17D_padding;
+    s8 field_17E_padding;
+    s8 field_17F_padding;
     TlvTypes32 field_180_hand_stone_type;
-    __int16 field_184_fmv_id;
-    __int16 field_186_to_camera_id[3];
-    __int16 field_18C_unused;
-    __int16 field_18E_unused;
-    __int16 field_190_unused;
-    __int16 field_192_unused;
-    __int16 field_194_unused;
-    __int16 field_196_unused;
-    __int16 field_198_has_evil_fart;
+    s16 field_184_fmv_id;
+    s16 field_186_to_camera_id[3];
+    s16 field_18C_unused;
+    s16 field_18E_unused;
+    s16 field_190_unused;
+    s16 field_192_unused;
+    s16 field_194_unused;
+    s16 field_196_unused;
+    s16 field_198_has_evil_fart;
     LevelIds field_19A_to_level;
-    __int16 field_19C_to_path;
-    __int16 field_19E_to_camera;
-    __int16 field_1A0_door_id;
-    char field_1A2_throwable_count;
-    char field_1A3_throw_direction;
+    s16 field_19C_to_path;
+    s16 field_19E_to_camera;
+    s16 field_1A0_door_id;
+    s8 field_1A2_throwable_count;
+    s8 field_1A3_throw_direction;
     PortalSubStates field_1A4_portal_sub_state;
-    __int16 field_1A6_padding;
-    int field_1A8_portal_id;
+    s16 field_1A6_padding;
+    s32 field_1A8_portal_id;
 
     enum Flags_1AC
     {
@@ -738,23 +738,23 @@ public:
     };
     BitField16<Flags_1AE> field_1AE_flags;
 
-    __int16 field_1B0_save_num;
+    s16 field_1B0_save_num;
 
-    int field_1B4_padding;
-    int field_1B8_padding;
+    s32 field_1B4_padding;
+    s32 field_1B8_padding;
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 
 ALIVE_VAR_EXTERN(Abe*, sActiveHero_5C1B68);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_5C1B8C);
 
-ALIVE_VAR_EXTERN(short, gAbeBulletProof_5C1BDA);
+ALIVE_VAR_EXTERN(s16, gAbeBulletProof_5C1BDA);
 
-//extern const int sAbeFrameOffsetTable_554B18[130];
-extern const char* const sAbeStateNames[130];
+//extern const s32 sAbeFrameOffsetTable_554B18[130];
+extern const s8* const sAbeStateNames[130];
 
-EXPORT int CC Environment_SFX_457A40(EnvironmentSfx sfxId, int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
+EXPORT s32 CC Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 
-EXPORT int CC Animation_OnFrame_Abe_455F80(void* pPtr, signed __int16* pData);
+EXPORT s32 CC Animation_OnFrame_Abe_455F80(void* pPtr, s16* pData);
 
-EXPORT int CC XGrid_Index_To_XPos_4498F0(FP scale, int xGridIndex);
+EXPORT s32 CC XGrid_Index_To_XPos_4498F0(FP scale, s32 xGridIndex);

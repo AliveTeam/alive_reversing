@@ -21,7 +21,7 @@ void SlogSpawner::VScreenChanged()
     VScreenChanged_475F90();
 }
 
-SlogSpawner* SlogSpawner::ctor_475DD0(Path_SlogSpawner* pTlv, int tlvInfo)
+SlogSpawner* SlogSpawner::ctor_475DD0(Path_SlogSpawner* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
 
@@ -43,7 +43,7 @@ SlogSpawner* SlogSpawner::ctor_475DD0(Path_SlogSpawner* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* SlogSpawner::VDestructor(signed int flags)
+BaseGameObject* SlogSpawner::VDestructor(s32 flags)
 {
     dtor_487DF0();
     if (flags & 1)
@@ -65,7 +65,7 @@ void SlogSpawner::VUpdate_475E30()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (static_cast<int>(gnFrameCount_507670) > field_20_spawn_timer && gNumSlogs_9F11C8 < field_28_num_at_a_time)
+    if (static_cast<s32>(gnFrameCount_507670) > field_20_spawn_timer && gNumSlogs_9F11C8 < field_28_num_at_a_time)
     {
         if (SwitchStates_Get(field_2E_start_id))
         {

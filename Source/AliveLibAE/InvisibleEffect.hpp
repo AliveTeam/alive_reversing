@@ -17,7 +17,7 @@ public:
         eIsInvisible_Bit3 = 0x4 //TODO @ 100% Remove it - Never actually checked for
     };
 
-    enum class InvisibleState : unsigned __int16
+    enum class InvisibleState : u16
     {
         eSetRenderMode1_0 = 0,
         eSetInvisibile_1 = 1,
@@ -35,24 +35,24 @@ public:
     EXPORT void ClearInvisibility_45FA50();
     EXPORT void BecomeInvisible_45F9E0();
     EXPORT void vUpdate_45F4A0();
-    EXPORT BaseGameObject* vdtor_45F3E0(signed int flags);
+    EXPORT BaseGameObject* vdtor_45F3E0(s32 flags);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
     InvisibleState field_20_state_or_op;
-    __int16 field_22;
-    WORD* field_24_pPal1;
+    s16 field_22;
+    u16* field_24_pPal1;
     PSX_RECT field_28_pal_rect1;
-    WORD* field_30_pPal2;
+    u16* field_30_pPal2;
     PSX_RECT field_34_pal_rect2;
-    int field_3C;
-    int field_40;
-    int field_44_objId;
+    s32 field_3C;
+    s32 field_40;
+    s32 field_44_objId;
     TPageAbr field_48_old_render_mode;
-    char field_49;
+    s8 field_49;
     BitField16<Flags_4A> field_4A_flags;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleEffect, 0x4C);

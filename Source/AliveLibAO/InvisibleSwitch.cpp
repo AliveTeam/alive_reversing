@@ -15,7 +15,7 @@ void InvisibleSwitch::VScreenChanged()
     VScreenChanged_433700();
 }
 
-InvisibleSwitch* InvisibleSwitch::Vdtor_433740(signed int flags)
+InvisibleSwitch* InvisibleSwitch::Vdtor_433740(s32 flags)
 {
     dtor_433540();
     if (flags & 1)
@@ -25,7 +25,7 @@ InvisibleSwitch* InvisibleSwitch::Vdtor_433740(signed int flags)
     return this;
 }
 
-BaseGameObject* InvisibleSwitch::VDestructor(signed int flags)
+BaseGameObject* InvisibleSwitch::VDestructor(s32 flags)
 {
     return Vdtor_433740(flags);
 }
@@ -37,7 +37,7 @@ BaseGameObject* InvisibleSwitch::dtor_433540()
     return dtor_487DF0();
 }
 
-InvisibleSwitch* InvisibleSwitch::ctor_4334E0(Path_InvisibleSwitch* pTlv, int tlvInfo)
+InvisibleSwitch* InvisibleSwitch::ctor_4334E0(Path_InvisibleSwitch* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BB438);
@@ -102,7 +102,7 @@ void InvisibleSwitch::VUpdate_4335A0()
         break;
 
     case 1:
-        if (field_18_delay_timer <= static_cast<int>(gnFrameCount_507670))
+        if (field_18_delay_timer <= static_cast<s32>(gnFrameCount_507670))
         {
             SwitchStates_Do_Operation_436A10(field_10_id, field_12_action);
             if (field_2A_set_off_alarm)

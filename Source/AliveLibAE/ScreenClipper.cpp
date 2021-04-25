@@ -28,7 +28,7 @@ ScreenClipper* ScreenClipper::ctor_416D60(PSX_Point xy, PSX_Point wh, Layer laye
     return this;
 }
 
-BaseGameObject* ScreenClipper::VDestructor(signed int flags)
+BaseGameObject* ScreenClipper::VDestructor(s32 flags)
 {
     return vdtor_416E00(flags);
 }
@@ -75,7 +75,7 @@ void ScreenClipper::dtor_416E30()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* ScreenClipper::vdtor_416E00(signed int flags)
+BaseGameObject* ScreenClipper::vdtor_416E00(s32 flags)
 {
     dtor_416E30();
     if (flags & 1)

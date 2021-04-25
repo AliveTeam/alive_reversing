@@ -2,23 +2,23 @@
 
 #include "FunctionFwd.hpp"
 
-typedef int(*t_InputCallback)();
+typedef s32(*t_InputCallback)();
 
-EXPORT unsigned __int8 CC Input_GetInputEnabled_4EDDE0();
+EXPORT u8 CC Input_GetInputEnabled_4EDDE0();
 EXPORT void CC Input_EnableInput_4EDDD0();
 EXPORT void CC Input_InitKeyStateArray_4EDD60();
 EXPORT void Input_SaveSettingsIni_Common(bool isAo);
 EXPORT void Input_SaveSettingsIni_492840();
 EXPORT void CC Input_DisableInputForPauseMenuAndDebug_4EDDC0();
 EXPORT void CC Input_Init_491BC0();
-EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown);
-EXPORT bool CC Input_IsVKPressed_4EDD40(int key);
-EXPORT DWORD Input_GetLastPressedKey_492610();
+EXPORT void CC Input_SetKeyState_4EDD80(s32 key, s8 bIsDown);
+EXPORT bool CC Input_IsVKPressed_4EDD40(s32 key);
+EXPORT u32 Input_GetLastPressedKey_492610();
 EXPORT void Input_Reset_492660();
-EXPORT unsigned int Input_IsChanting_45F260();
+EXPORT u32 Input_IsChanting_45F260();
 EXPORT void CC Input_Pads_Reset_4FA960();
 EXPORT void CC Input_Init_Names_491870();
-EXPORT const char* CC Input_GetButtonString_492530(const char* idx, int controllerType);
+EXPORT const s8* CC Input_GetButtonString_492530(const s8* idx, s32 controllerType);
 
 EXPORT bool Input_JoyStickEnabled();
 EXPORT void Input_SetJoyStickEnabled(bool enabled);
@@ -26,7 +26,7 @@ EXPORT bool Input_JoyStickAvailable();
 
 namespace InputCommands {
 
-enum Enum : unsigned int
+enum Enum : u32
 {
     eUp =           1u << 0,  // 0x1
     eDown =         1u << 1,  // 0x2
@@ -115,24 +115,24 @@ extern const InputCommands::Enum sInputKey_Chant;
 #define kHoistZTurn "\x1b"
 #define kDPad "\x1a"
 
-EXPORT int CC Input_Remap_492680(InputCommands::Enum inputCmd);
-EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad);
-EXPORT int CC Input_Read_Pad_4FA9C0(int padNum);
+EXPORT s32 CC Input_Remap_492680(InputCommands::Enum inputCmd);
+EXPORT void CC Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad);
+EXPORT s32 CC Input_Read_Pad_4FA9C0(s32 padNum);
 
 struct InputPadObject
 {
-    DWORD field_0_pressed;
-    BYTE field_4_dir;
-    BYTE field_5;
-    WORD field_6_padding; // Not confirmed
-    DWORD field_8_previous;
-    DWORD field_C_held;
-    DWORD field_10_released;
-    DWORD field_14_padding; // Not confirmed
+    u32 field_0_pressed;
+    u8 field_4_dir;
+    u8 field_5;
+    u16 field_6_padding; // Not confirmed
+    u32 field_8_previous;
+    u32 field_C_held;
+    u32 field_10_released;
+    u32 field_14_padding; // Not confirmed
 };
 ALIVE_ASSERT_SIZEOF(InputPadObject, 0x18);
 
-enum PsxButtonBits : unsigned int
+enum PsxButtonBits : u32
 {
     eL2 = 1 << 0,
     eR2 = 1 << 1,
@@ -155,7 +155,7 @@ enum PsxButtonBits : unsigned int
 
 struct InputBinding
 {
-    int key;
+    s32 key;
     InputCommands::Enum command;
 };
 
@@ -168,32 +168,32 @@ enum GamepadOptionFlags
 class InputObject
 {
 public:
-    EXPORT int Is_Demo_Playing_45F220();
+    EXPORT s32 Is_Demo_Playing_45F220();
     EXPORT void UnsetDemoPlaying_45F240();
-    EXPORT void SetDemoResource_45F1E0(DWORD** pDemoRes);
+    EXPORT void SetDemoResource_45F1E0(u32** pDemoRes);
     EXPORT void Update_45F040();
-    EXPORT static DWORD CC Command_To_Raw_45EE40(DWORD cmd);
-    EXPORT static char CC Raw_To_Command_45EF70(int a1);
+    EXPORT static u32 CC Command_To_Raw_45EE40(u32 cmd);
+    EXPORT static s8 CC Raw_To_Command_45EF70(s32 a1);
     EXPORT void CC ShutDown_45F020();
 public:
     InputPadObject field_0_pads[2];
-    DWORD** field_30_pDemoRes;
-    DWORD field_34_demo_command_index;
-    WORD field_38_bDemoPlaying;
-    WORD field_3A_pad_idx;
-    DWORD field_3C_command;
-    DWORD field_40_command_duration;
-    bool isPressed(DWORD command);
-    bool isHeld(DWORD command);
-    bool IsReleased(DWORD keys);
+    u32** field_30_pDemoRes;
+    u32 field_34_demo_command_index;
+    u16 field_38_bDemoPlaying;
+    u16 field_3A_pad_idx;
+    u32 field_3C_command;
+    u32 field_40_command_duration;
+    bool isPressed(u32 command);
+    bool isHeld(u32 command);
+    bool IsReleased(u32 keys);
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 
 EXPORT InputObject& Input();
 
 ALIVE_VAR_EXTERN(InputObject, sInputObject_5BD4E0);
-ALIVE_VAR_EXTERN(unsigned __int16, sCurrentControllerIndex_5C1BBE);
-ALIVE_VAR_EXTERN(DWORD, sLastPressedKey_BD30A0);
-ALIVE_VAR_EXTERN(int, sIsAKeyDown_BD309C);
-ALIVE_VAR_EXTERN(__int16, bLongerTimeoutToNextDemo_5C1B9A);
-ALIVE_VAR_EXTERN(int, sJoystickEnabled_5C9F70);
+ALIVE_VAR_EXTERN(u16, sCurrentControllerIndex_5C1BBE);
+ALIVE_VAR_EXTERN(u32, sLastPressedKey_BD30A0);
+ALIVE_VAR_EXTERN(s32, sIsAKeyDown_BD309C);
+ALIVE_VAR_EXTERN(s16, bLongerTimeoutToNextDemo_5C1B9A);
+ALIVE_VAR_EXTERN(s32, sJoystickEnabled_5C9F70);

@@ -12,7 +12,7 @@
 namespace AO {
 
 ALIVE_VAR(1, 0x5009D4, GasEmitter*, gGasEmitter_5009D4, nullptr);
-ALIVE_VAR(1, 0x5009D8, DWORD, gGasEmitterFx_5009D8, 0);
+ALIVE_VAR(1, 0x5009D8, u32, gGasEmitterFx_5009D8, 0);
 
 
 void GasEmitter::VUpdate()
@@ -30,7 +30,7 @@ void GasEmitter::VScreenChanged()
     VScreenChanged_41D900();
 }
 
-GasEmitter* GasEmitter::Vdtor_41D910(signed int flags)
+GasEmitter* GasEmitter::Vdtor_41D910(s32 flags)
 {
     dtor_41D840();
     if (flags & 1)
@@ -40,7 +40,7 @@ GasEmitter* GasEmitter::Vdtor_41D910(signed int flags)
     return this;
 }
 
-BaseGameObject* GasEmitter::VDestructor(signed int flags)
+BaseGameObject* GasEmitter::VDestructor(s32 flags)
 {
     return Vdtor_41D910(flags);
 }
@@ -76,7 +76,7 @@ BaseGameObject* GasEmitter::dtor_41D840()
     return dtor_487DF0();
 }
 
-GasEmitter* GasEmitter::ctor_41D760(Path_GasEmitter* pTlv, int tlvInfo)
+GasEmitter* GasEmitter::ctor_41D760(Path_GasEmitter* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BAF20);

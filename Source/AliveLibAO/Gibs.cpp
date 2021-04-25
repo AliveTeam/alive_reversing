@@ -42,7 +42,7 @@ static FP GibRand(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
-Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
+Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 {
     ctor_417C10();
 
@@ -53,13 +53,13 @@ Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     SetVTable(this, 0x4BA280);
 
     field_E4_pGibData = &kGibData_4C30B0[gibType];
-    BYTE** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, field_E4_pGibData->field_14_resource_id, 1, 0);
+    u8** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, field_E4_pGibData->field_14_resource_id, 1, 0);
 
     // The base class renders the head gib
     Animation_Init_417FD0(
         field_E4_pGibData->field_0_head,
-        static_cast<short>(field_E4_pGibData->field_C_max_w),
-        static_cast<short>(field_E4_pGibData->field_10_max_h),
+        static_cast<s16>(field_E4_pGibData->field_C_max_w),
+        static_cast<s16>(field_E4_pGibData->field_10_max_h),
         ppAnimData,
         1);
 
@@ -99,7 +99,7 @@ Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
         field_EC_dz = GibRand(scale) / FP_FromInteger(2);
     }
 
-    BYTE** ppPal = nullptr;
+    u8** ppPal = nullptr;
     if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
     {
         // TODO: Enum for gib types, 0 = abe, 4 = mud
@@ -126,7 +126,7 @@ Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     field_5C4_parts_used_count = 7;
 
     GibPart* pPart = &field_F4_parts[0];
-    for (short i = 0; i < field_5C4_parts_used_count; i++)
+    for (s16 i = 0; i < field_5C4_parts_used_count; i++)
     {
         if (i < 2)
         {
@@ -135,8 +135,8 @@ Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
                 field_E4_pGibData->field_4_arm,
                 gObjList_animations_505564,
                 this,
-                static_cast<short>(field_E4_pGibData->field_C_max_w),
-                static_cast<short>(field_E4_pGibData->field_10_max_h),
+                static_cast<s16>(field_E4_pGibData->field_C_max_w),
+                static_cast<s16>(field_E4_pGibData->field_10_max_h),
                 ppAnimData,
                 1,
                 0,
@@ -154,8 +154,8 @@ Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
                 field_E4_pGibData->field_8_body,
                 gObjList_animations_505564,
                 this,
-                static_cast<short>(field_E4_pGibData->field_C_max_w),
-                static_cast<short>(field_E4_pGibData->field_10_max_h),
+                static_cast<s16>(field_E4_pGibData->field_C_max_w),
+                static_cast<s16>(field_E4_pGibData->field_10_max_h),
                 ppAnimData,
                 1,
                 0,
@@ -174,9 +174,9 @@ Gibs* Gibs::ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-        pPart->field_18_anim.field_8_r = static_cast<BYTE>(field_C0_r);
-        pPart->field_18_anim.field_9_g = static_cast<BYTE>(field_C2_g);
-        pPart->field_18_anim.field_A_b = static_cast<BYTE>(field_C4_b);
+        pPart->field_18_anim.field_8_r = static_cast<u8>(field_C0_r);
+        pPart->field_18_anim.field_9_g = static_cast<u8>(field_C2_g);
+        pPart->field_18_anim.field_A_b = static_cast<u8>(field_C4_b);
 
         pPart->field_0_x = field_A8_xpos;
         pPart->field_4_y = field_AC_ypos;
@@ -225,7 +225,7 @@ void Gibs::VUpdate_4080C0()
         field_EC_dz = -field_EC_dz;
     }
 
-    for (int i = 0; i < field_5C4_parts_used_count; i++)
+    for (s32 i = 0; i < field_5C4_parts_used_count; i++)
     {
         field_F4_parts[i].field_0_x += field_F4_parts[i].field_C_dx;
         field_F4_parts[i].field_4_y += field_F4_parts[i].field_10_dy;
@@ -240,7 +240,7 @@ void Gibs::VUpdate_4080C0()
         }
     }
 
-    if (static_cast<int>(gnFrameCount_507670) > field_F0_timer)
+    if (static_cast<s32>(gnFrameCount_507670) > field_F0_timer)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -250,14 +250,14 @@ BaseGameObject* Gibs::dtor_408040()
 {
     SetVTable(this, 0x4BA280);
 
-    for (short i = 0; i < field_5C4_parts_used_count; i++)
+    for (s16 i = 0; i < field_5C4_parts_used_count; i++)
     {
         field_F4_parts[i].field_18_anim.vCleanUp();
     }
     return dtor_417D10();
 }
 
-BaseGameObject* Gibs::Vdtor_4083D0(unsigned int flags)
+BaseGameObject* Gibs::Vdtor_4083D0(u32 flags)
 {
     dtor_408040();
     if (flags & 1)
@@ -294,7 +294,7 @@ void Gibs::VRender_408200(PrimHeader** ppOt)
     const FP up = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
     const FP down = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
 
-    for (int i = 0; i < field_5C4_parts_used_count; i++)
+    for (s32 i = 0; i < field_5C4_parts_used_count; i++)
     {
         GibPart* pGib = &field_F4_parts[i];
         if (pGib->field_0_x >= left && pGib->field_0_x <= right)
@@ -331,7 +331,7 @@ void Gibs::VRender_408200(PrimHeader** ppOt)
     }
 }
 
-BaseGameObject* Gibs::VDestructor(signed int flags)
+BaseGameObject* Gibs::VDestructor(s32 flags)
 {
     return Vdtor_4083D0(flags);
 }

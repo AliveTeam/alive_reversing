@@ -112,7 +112,7 @@ bool FlyingSlig::BrainIs(TFlyingSligFn fn)
     return ::BrainIs(fn, field_29C_brain_state, sFlyingSligAITable);
 }
 
-FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
+FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
 {
     //BaseCtor_4340B0(9); // Omitted for direct call
     ctor_408240(9);
@@ -141,7 +141,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, TRUE, FALSE));
 
     const AnimRecord& rec = AnimRec(AnimId::Flying_Slig_Idle);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     //Animation_Init_424E10(116888, 107, 48u, field_10_resources_array.ItemAt(0), 1, 1u);
 
@@ -292,7 +292,7 @@ const AnimId sFlyingSligFrameTables_552408[28] =
     AnimId::Flying_Slig_Turn_Horizontal,
 };
 
-int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
+s32 CC FlyingSlig::CreateFromSaveState_437E40(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const FlyingSlig_State*>(pBuffer);
 
@@ -368,7 +368,7 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
 
     pFlyingSlig->field_106_current_motion = pSaveState->field_24_current_state;
 
-    BYTE** ppRes = pFlyingSlig->ResBlockForMotion_4350F0(pSaveState->field_24_current_state);
+    u8** ppRes = pFlyingSlig->ResBlockForMotion_4350F0(pSaveState->field_24_current_state);
 	const AnimRecord& animRec = AnimRec(sFlyingSligFrameTables_552408[pFlyingSlig->field_106_current_motion]);
     pFlyingSlig->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 
@@ -453,12 +453,12 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
     return sizeof(FlyingSlig_State);
 }
 
-int FlyingSlig::VGetSaveState(BYTE* pSaveBuffer)
+s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_43B1E0(reinterpret_cast<FlyingSlig_State*>(pSaveBuffer));
 }
 
-int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
+s32 FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
 {
     if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
@@ -497,7 +497,7 @@ int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
 
     if (field_100_pCollisionLine)
     {
-        pState->field_36_line_idx = static_cast<short>(field_100_pCollisionLine - sCollisions_DArray_5C1128->field_0_pArray);
+        pState->field_36_line_idx = static_cast<s16>(field_100_pCollisionLine - sCollisions_DArray_5C1128->field_0_pArray);
     }
 
     pState->field_38_launch_id = field_17C_launch_id;
@@ -549,7 +549,7 @@ int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     pState->field_8C_nextYPos = field_298_nextYPos;
     pState->field_90_fns1_idx = 0;
 
-    int idx = 0;
+    s32 idx = 0;
     for (const auto& fn : sFlyingSlig_AI_table_552350)
     {
         if (BrainIs(fn))
@@ -612,12 +612,12 @@ void FlyingSlig::dtor_434990()
     BaseAliveGameObject::dtor_4080B0();
 }
 
-BaseGameObject* FlyingSlig::VDestructor(signed int flags)
+BaseGameObject* FlyingSlig::VDestructor(s32 flags)
 {
     return vdtor_434870(flags);
 }
 
-FlyingSlig* FlyingSlig::vdtor_434870(signed int flags)
+FlyingSlig* FlyingSlig::vdtor_434870(s32 flags)
 {
     dtor_434990();
     if (flags & 1)
@@ -670,7 +670,7 @@ void FlyingSlig::vUpdate_434AD0()
 
         if (field_158_obj_id != -1)
         {
-            for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
             {
                 BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
                 if (!pObj)
@@ -719,7 +719,7 @@ void FlyingSlig::VRender(PrimHeader** ppOt)
 
 void FlyingSlig::vRender_435130(PrimHeader** ot)
 {
-    const __int16 eyeIndices[] = { 60, 62 };
+    const s16 eyeIndices[] = { 60, 62 };
     renderWithGlowingEyes(ot, this, &field_1F4_pPalAlloc[0], ALIVE_COUNTOF(field_1F4_pPalAlloc),
                         &field_274_pal_rect, field_27C_r, field_27E_g, field_280_b, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
@@ -733,13 +733,13 @@ void FlyingSlig::sub_4348A0()
     field_18C = FP_FromInteger(0);
     field_190 = FP_FromInteger(0);
     sub_437C70(field_100_pCollisionLine);
-    const short v5 = FP_GetExponent(field_BC_ypos - field_1A4_rect.y);
-    const short v6 = FP_GetExponent(field_B8_xpos - field_1A4_rect.x);
+    const s16 v5 = FP_GetExponent(field_BC_ypos - field_1A4_rect.y);
+    const s16 v6 = FP_GetExponent(field_B8_xpos - field_1A4_rect.x);
     field_194 = FP_FromInteger(Math_SquareRoot_Int_496E70(v5 * v5 + v6 * v6));
     field_17E_flags.Set(Flags_17E::eBit4, field_118_data.field_10_data.field_A_direction == 0);
 }
 
-const int sBobbingValuesHorizontalMovement_552500[9] =
+const s32 sBobbingValuesHorizontalMovement_552500[9] =
 {
     -163840,
     -245760,
@@ -752,7 +752,7 @@ const int sBobbingValuesHorizontalMovement_552500[9] =
     65535999
 };
 
-const int sBobbingValuesIdle_552524[11] =
+const s32 sBobbingValuesIdle_552524[11] =
 {
     74785,
     85101,
@@ -767,7 +767,7 @@ const int sBobbingValuesIdle_552524[11] =
     65535999
 };
 
-const int sBobbingValuesTurning_552550[11] =
+const s32 sBobbingValuesTurning_552550[11] =
 {
     38603,
     84930,
@@ -784,7 +784,7 @@ const int sBobbingValuesTurning_552550[11] =
 
 
 
-ALIVE_ARY(1, 0x55257C, const int*, 4, sBobbingValuesTables_55257C, { nullptr, sBobbingValuesHorizontalMovement_552500, sBobbingValuesIdle_552524, sBobbingValuesTurning_552550 });
+ALIVE_ARY(1, 0x55257C, const s32*, 4, sBobbingValuesTables_55257C, { nullptr, sBobbingValuesHorizontalMovement_552500, sBobbingValuesIdle_552524, sBobbingValuesTurning_552550 });
 
 void FlyingSlig::Movement_4396E0()
 {
@@ -838,7 +838,7 @@ void FlyingSlig::Movement_4396E0()
     }
     else
     {
-        const int newVel = Math_SquareRoot_Int_496E70(FP_GetExponent((field_C8_vely * field_C8_vely) + (field_C4_velx * field_C4_velx)));
+        const s32 newVel = Math_SquareRoot_Int_496E70(FP_GetExponent((field_C8_vely * field_C8_vely) + (field_C4_velx * field_C4_velx)));
         if (FP_Abs(FP_FromInteger(newVel)) > FP_FromDouble(0.05))
         {
             field_C4_velx = field_C4_velx - ((field_C4_velx / FP_FromInteger(newVel)) * field_2B4_max_slow_down) + field_184_xSpeed;
@@ -897,7 +897,7 @@ void FlyingSlig::Movement_4396E0()
 
     if (field_17E_flags.Get(Flags_17E::eBit5_Throw))
     {
-        if (static_cast<int>(sGnFrame_5C1B84) > field_150_grenade_delay &&
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_150_grenade_delay &&
             (
                 field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) ||
                 SwitchStates_Get_466020(field_17C_launch_id) ||
@@ -980,7 +980,7 @@ void FlyingSlig::Movement_4396E0()
         }
     }
 
-    int v37 = {};
+    s32 v37 = {};
     if (Math_Distance_496EB0(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely)) >= 0)
     {
         v37 = Math_Distance_496EB0(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely));
@@ -990,7 +990,7 @@ void FlyingSlig::Movement_4396E0()
         v37 = -Math_Distance_496EB0(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely));
     }
 
-    const int v38 = static_cast<int>(sGnFrame_5C1B84) % ((FP_FromInteger(v37) < field_2A8_max_x_speed) + 2);
+    const s32 v38 = static_cast<s32>(sGnFrame_5C1B84) % ((FP_FromInteger(v37) < field_2A8_max_x_speed) + 2);
     if (!v38 && field_10C_health > FP_FromInteger(0))
     {
         Slig_SoundEffect_4BFFE0((Math_NextRandom() % 3) ? SligSfx::ePropeller2_10 : SligSfx::ePropeller1_9, this);
@@ -1007,12 +1007,12 @@ void FlyingSlig::Movement_4396E0()
     field_190 = FP_FromInteger(0);
 }
 
-__int16 FlyingSlig::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 FlyingSlig::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_434C90(pFrom);
 }
 
-__int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
+s16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
 {
     switch (pFrom->field_4_typeId)
     {
@@ -1109,7 +1109,7 @@ __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
 
 void FlyingSlig::AI_Inactive_0_4355B0()
 {
-    if (static_cast<int>(sGnFrame_5C1B84) >= field_14C_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
     {
         ToMoving_435720();
     }
@@ -1117,7 +1117,7 @@ void FlyingSlig::AI_Inactive_0_4355B0()
 
 void FlyingSlig::AI_Death_1_4364E0()
 {
-    if (static_cast<int>(sGnFrame_5C1B84) >= field_14C_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         Event_Broadcast_422BC0(kEventMudokonComfort, this);
@@ -1141,7 +1141,7 @@ void FlyingSlig::AI_GetAlerted_3_435750()
     }
     else if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
     {
-        if (!sub_436730() && static_cast<int>(sGnFrame_5C1B84) >= field_14C_timer)
+        if (!sub_436730() && static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
         {
             ToMoving_435720();
         }
@@ -1187,7 +1187,7 @@ void FlyingSlig::AI_ChasingEnemy_4_435BC0()
         field_17E_flags.Set(Flags_17E::eBit4, field_1C4 > field_194);
         field_17E_flags.Set(Flags_17E::eBit3);
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_150_grenade_delay && CanThrowGrenade_43A490())
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_150_grenade_delay && CanThrowGrenade_43A490())
         {
             if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
             {
@@ -1209,7 +1209,7 @@ void FlyingSlig::AI_ChasingEnemy_4_435BC0()
 
 void FlyingSlig::AI_Idle_5_435820()
 {
-    if (!sub_436730() && static_cast<int>(sGnFrame_5C1B84) >= field_14C_timer)
+    if (!sub_436730() && static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
     {
         ToMoving_435720();
     }
@@ -1237,7 +1237,7 @@ void FlyingSlig::AI_PanicMoving_7_435990()
         return;
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) < field_14C_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) < field_14C_timer)
     {
         if (sub_4374A0(0) != 1)
         {
@@ -1257,7 +1257,7 @@ void FlyingSlig::AI_PanicIdle_8_435AC0()
     }
     else if (Event_Is_Event_In_Range_422C30(kEventAbeOhm, field_B8_xpos, field_BC_ypos, field_D6_scale))
     {
-        if (static_cast<int>(sGnFrame_5C1B84) >= field_14C_timer && field_106_current_motion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
+        if (static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer && field_106_current_motion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
         {
             ToPanicMoving_435A50();
         }
@@ -1270,7 +1270,7 @@ void FlyingSlig::AI_PanicIdle_8_435AC0()
 
 void FlyingSlig::AI_SpottedEnemy_9_435E40()
 {
-    if (static_cast<int>(sGnFrame_5C1B84) >= field_14C_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
     {
         ToChase_435E10();
     }
@@ -1287,11 +1287,11 @@ void FlyingSlig::AI_LaunchingGrenade_10_435F10()
 
 void FlyingSlig::AI_AbeDead_11_435FD0()
 {
-    if (static_cast<int>(sGnFrame_5C1B84) == field_14C_timer - 45)
+    if (static_cast<s32>(sGnFrame_5C1B84) == field_14C_timer - 45)
     {
         Say_436A50(SligSpeak ::eGotYa_12, 0);
     }
-    else if (static_cast<int>(sGnFrame_5C1B84) == field_14C_timer)
+    else if (static_cast<s32>(sGnFrame_5C1B84) == field_14C_timer)
     {
         Say_436A50(SligSpeak::eLaugh_3, 0);
     }
@@ -1322,7 +1322,7 @@ void FlyingSlig::AI_Possessed_12_436040()
 
 void FlyingSlig::AI_Possession_13_4360F0()
 {
-    if (static_cast<int>(sGnFrame_5C1B84) > field_14C_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) > field_14C_timer)
     {
         Say_436A50(SligSpeak ::eHi_0, 0x1FF);
         ToPlayerControlled_4360C0();
@@ -1337,9 +1337,9 @@ void FlyingSlig::AI_DePossession_14_436180()
         return;
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) <= field_14C_timer)
+    if (static_cast<s32>(sGnFrame_5C1B84) <= field_14C_timer)
     {
-        if (!(static_cast<int>(sGnFrame_5C1B84) % 4))
+        if (!(static_cast<s32>(sGnFrame_5C1B84) % 4))
         {
             const FP xOff = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20) + (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? -10 : 10)));
             const FP yOff = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
@@ -2059,7 +2059,7 @@ void FlyingSlig::M_TurnToHorizontalMovement_25_4389E0()
     }
 }
 
-signed __int16 FlyingSlig::IsFacingMovementDirection_43A510()
+s16 FlyingSlig::IsFacingMovementDirection_43A510()
 {
     return ((field_184_xSpeed > FP_FromInteger(0) && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
          || (field_184_xSpeed < FP_FromInteger(0) &&   field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)));
@@ -2090,7 +2090,7 @@ void FlyingSlig::ToChase_435E10()
     SetBrain(&FlyingSlig::AI_ChasingEnemy_4_435BC0);
 }
 
-__int16 FlyingSlig::IsPossessed_436A90()
+s16 FlyingSlig::IsPossessed_436A90()
 {
     return
         BrainIs(&FlyingSlig::AI_Possessed_12_436040) ||
@@ -2100,7 +2100,7 @@ __int16 FlyingSlig::IsPossessed_436A90()
         BrainIs(&FlyingSlig::AI_DePossession_14_436180);
 }
 
-__int16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
+s16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
 {
     if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
         !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
@@ -2125,7 +2125,7 @@ __int16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
     return 0;
 }
 
-void FlyingSlig::Say_436A50(SligSpeak speak, __int16 pitch)
+void FlyingSlig::Say_436A50(SligSpeak speak, s16 pitch)
 {
     if (field_106_current_motion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
     {
@@ -2136,7 +2136,7 @@ void FlyingSlig::Say_436A50(SligSpeak speak, __int16 pitch)
     }
 }
 
-__int16 FlyingSlig::sub_4374A0(__int16 a2)
+s16 FlyingSlig::sub_4374A0(s16 a2)
 {
     field_17E_flags.Clear(Flags_17E::eBit2_bLastLine);
 
@@ -2297,7 +2297,7 @@ __int16 FlyingSlig::sub_4374A0(__int16 a2)
     return 0;
 }
 
-__int16 CCSTD FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
+s16 CCSTD FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
 {
     return Slig::IsAbeEnteringDoor_4BB990(pThis);
 }
@@ -2356,7 +2356,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
 
     Dove::All_FlyAway_41FA60(0);
 
-    int randomisedGrenadeDelay = field_118_data.field_10_data.field_18_grenade_delay + (Math_NextRandom() & 7);
+    s32 randomisedGrenadeDelay = field_118_data.field_10_data.field_18_grenade_delay + (Math_NextRandom() & 7);
     if (randomisedGrenadeDelay < 20)
     {
         randomisedGrenadeDelay = 20;
@@ -2402,7 +2402,7 @@ void FlyingSlig::BlowUp_436510()
     field_14C_timer = sGnFrame_5C1B84 + 40;
 }
 
-__int16 FlyingSlig::sub_436730()
+s16 FlyingSlig::sub_436730()
 {
     if (CanChase_436850(sControlledCharacter_5C1B8C))
     {
@@ -2434,7 +2434,7 @@ __int16 FlyingSlig::sub_436730()
 
 }
 
-__int16 FlyingSlig::CanHearAbe_4369C0()
+s16 FlyingSlig::CanHearAbe_4369C0()
 {
     return
         sActiveHero_5C1B68 == Event_Is_Event_In_Range_422C30(kEventSuspiciousNoise, field_B8_xpos, field_BC_ypos, field_D6_scale) ||
@@ -2476,7 +2476,7 @@ void FlyingSlig::ToPanicMoving_435A50()
     SetBrain(&FlyingSlig::AI_PanicMoving_7_435990);
 }
 
-__int16 FlyingSlig::IsTurning_436AE0()
+s16 FlyingSlig::IsTurning_436AE0()
 {
     return
         field_106_current_motion == eFlyingSligMotions::M_IdleToTurn_2_4388B0 ||
@@ -2485,7 +2485,7 @@ __int16 FlyingSlig::IsTurning_436AE0()
         field_106_current_motion == eFlyingSligMotions::M_UpMovementToTurn_6_439030;
 }
 
-BYTE** FlyingSlig::ResBlockForMotion_4350F0(int /*motion*/)
+u8** FlyingSlig::ResBlockForMotion_4350F0(s32 /*motion*/)
 {
     if (field_15E_useless == 0)
     {
@@ -2516,7 +2516,7 @@ void FlyingSlig::ToPossesed_436130()
 
 void FlyingSlig::vUpdateAnimRes_4350A0()
 {
-    BYTE** ppRes = ResBlockForMotion_4350F0(field_106_current_motion);
+    u8** ppRes = ResBlockForMotion_4350F0(field_106_current_motion);
 	const AnimRecord& animRec = AnimRec(sFlyingSligFrameTables_552408[field_106_current_motion]);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }
@@ -2541,7 +2541,7 @@ void FlyingSlig::PatrolDelay_435860()
     SetBrain(&FlyingSlig::AI_Idle_5_435820);
 }
 
-__int16 FlyingSlig::CanThrowGrenade_43A490()
+s16 FlyingSlig::CanThrowGrenade_43A490()
 {
     return
         field_106_current_motion == eFlyingSligMotions::M_Idle_0_4385E0 ||
@@ -2697,7 +2697,7 @@ void FlyingSlig::HandlePlayerControls_439340()
 
 }
 
-__int16 FlyingSlig::sub_437C70(PathLine* pLine)
+s16 FlyingSlig::sub_437C70(PathLine* pLine)
 {
 
     field_100_pCollisionLine = pLine;
@@ -2779,7 +2779,7 @@ void FlyingSlig::vPossessed_434FB0()
     ToPossesed_436130();
 }
 
-__int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
+s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
 {
     if (!pRect)
     {
@@ -2794,8 +2794,8 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
     }
     else
     {
-        const int a1 = pRect->h - pRect->y;
-        const int a2 = pRect->w - pRect->x;
+        const s32 a1 = pRect->h - pRect->y;
+        const s32 a2 = pRect->w - pRect->x;
         v1 = FP_Abs(FP_FromInteger((a1) / a2));
     }
 
@@ -2812,7 +2812,7 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
         const FP r_y = FP_FromInteger(std::min(pRect->y, pRect->h));
         const FP r_h = FP_FromInteger(std::max(pRect->h, pRect->w) + 150);
 
-        int bLeftInRect = 0;
+        s32 bLeftInRect = 0;
         if (rLeft < r_x ||
             rLeft > r_w ||
             sControlledCharacter_5C1B8C->field_BC_ypos < r_y ||
@@ -2825,7 +2825,7 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
             bLeftInRect = 1;
         }
 
-        int bRightInRect = 0;
+        s32 bRightInRect = 0;
         if (rRight < r_x ||
             rRight > r_w ||
             sControlledCharacter_5C1B8C->field_BC_ypos < r_y ||
@@ -2915,7 +2915,7 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
 
             if (bLeftInRect)
             {
-                const int sqrt2_int = Math_SquareRoot_Int_496E70(
+                const s32 sqrt2_int = Math_SquareRoot_Int_496E70(
                     FP_GetExponent(yOff2 - field_1A4_rect.y) * (FP_GetExponent(yOff2 - field_1A4_rect.y)) +
                     FP_GetExponent(rLeft - field_1A4_rect.x) * (FP_GetExponent(rLeft - field_1A4_rect.x)));
 
@@ -3087,18 +3087,18 @@ void FlyingSlig::sub_4373B0()
     }
 }
 
-void FlyingSlig::VSetMotion_4081C0(__int16 state)
+void FlyingSlig::VSetMotion_4081C0(s16 state)
 {
     vSetMotion_43B1B0(state);
 }
 
-void FlyingSlig::vSetMotion_43B1B0(__int16 newMotion)
+void FlyingSlig::vSetMotion_43B1B0(s16 newMotion)
 {
     field_106_current_motion = newMotion;
     vUpdateAnimRes_4350A0();
 }
 
-__int16 FlyingSlig::CollisionUp_43A640(FP velY)
+s16 FlyingSlig::CollisionUp_43A640(FP velY)
 {
     const FP y2 = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20)) + velY;
 
@@ -3148,7 +3148,7 @@ __int16 FlyingSlig::CollisionUp_43A640(FP velY)
             VSetMotion_4081C0(eFlyingSligMotions::M_UpKnockback_20_439110);
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_154_collision_reaction_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_154_collision_reaction_timer)
         {
             Slig_GameSpeak_SFX_4C04F0(sGnFrame_5C1B84 & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange_496AB0(256, 512), this);
             field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
@@ -3173,7 +3173,7 @@ __int16 FlyingSlig::CollisionUp_43A640(FP velY)
     return 0;
 }
 
-__int16 FlyingSlig::CollisionDown_43A9E0(FP velY)
+s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
 {
     const FP y2 = (field_CC_sprite_scale * FP_FromInteger(10)) + field_BC_ypos + velY;
 
@@ -3223,7 +3223,7 @@ __int16 FlyingSlig::CollisionDown_43A9E0(FP velY)
             VSetMotion_4081C0(eFlyingSligMotions::M_DownKnockback_19_4390D0);
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_154_collision_reaction_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_154_collision_reaction_timer)
         {
             Slig_GameSpeak_SFX_4C04F0(sGnFrame_5C1B84 & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange_496AB0(256, 512), this);
             field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
@@ -3235,7 +3235,7 @@ __int16 FlyingSlig::CollisionDown_43A9E0(FP velY)
     return 0;
 }
 
-__int16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
+s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
 {
     FP newX = {};
     if (velX <= FP_FromInteger(0))
@@ -3308,7 +3308,7 @@ __int16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
 
     if (bCollision)
     {
-        if (static_cast<int>(sGnFrame_5C1B84) > field_154_collision_reaction_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_154_collision_reaction_timer)
         {
             Slig_GameSpeak_SFX_4C04F0(sGnFrame_5C1B84 & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange_496AB0(256, 512), this);
             field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
@@ -3344,7 +3344,7 @@ void FlyingSlig::PullLever_436450()
     }
 }
 
-__int16 FlyingSlig::TryPullLever_439DB0()
+s16 FlyingSlig::TryPullLever_439DB0()
 {
     if (BrainIs(&FlyingSlig::AI_FlyingSligSpawn_15_4362C0))
     {
@@ -3406,12 +3406,12 @@ __int16 FlyingSlig::TryPullLever_439DB0()
     }
 
     // TODO: Can be replaced with FP_Rect and PSX_RECT.
-    const short rect_w = FP_GetExponent(rect_w_fp);
-    const short rect_x = FP_GetExponent(rect_x_fp);
-    const short rect_h = FP_GetExponent(rect_h_fp);
-    const short rect_y = FP_GetExponent(rect_y_fp);
+    const s16 rect_w = FP_GetExponent(rect_w_fp);
+    const s16 rect_x = FP_GetExponent(rect_x_fp);
+    const s16 rect_h = FP_GetExponent(rect_h_fp);
+    const s16 rect_y = FP_GetExponent(rect_y_fp);
 
-    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)

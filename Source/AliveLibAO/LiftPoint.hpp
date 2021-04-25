@@ -10,12 +10,12 @@ namespace AO {
 
 struct Path_LiftPoint : public Path_TLV
 {
-    __int16 field_18_id;
-    __int16 field_1A_bstart_point;
-    __int16 field_1C_lift_type;
-    __int16 field_1E_lift_point_stop_type;
-    __int16 field_20_scale;
-    __int16 field_22_bIgnore_lift_mover;
+    s16 field_18_id;
+    s16 field_1A_bstart_point;
+    s16 field_1C_lift_type;
+    s16 field_1E_lift_point_stop_type;
+    s16 field_20_scale;
+    s16 field_22_bIgnore_lift_mover;
 };
 
 class Rope;
@@ -35,11 +35,11 @@ public:
         eBit7_bIgnoreLiftMover = 0x40,
         eBit8_KeepOnMiddleFloor = 0x80,
     };
-    EXPORT LiftPoint* ctor_434710(Path_LiftPoint* pTlv, Map* pPath, int tlvInfo);
+    EXPORT LiftPoint* ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo);
     
-    EXPORT void Move_435740(FP xSpeed, FP ySpeed, int not_used);
+    EXPORT void Move_435740(FP xSpeed, FP ySpeed, s32 not_used);
 
-    void StayOnFloor(__int16 floor, Path_LiftPoint* pTlv);
+    void StayOnFloor(s16 floor, Path_LiftPoint* pTlv);
 
     void Sub_Unknown(Path_TLV* pTlv);
 
@@ -71,27 +71,27 @@ public:
 
     EXPORT void VScreenChanged_435CC0();
 
-    LiftPoint* Vdtor_435D10(signed int flags);
+    LiftPoint* Vdtor_435D10(s32 flags);
 
     EXPORT BaseGameObject* dtor_4355E0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT void CreatePulleyIfExists_435AE0(short camX, short camY);
+    EXPORT void CreatePulleyIfExists_435AE0(s16 camX, s16 camY);
 
-    __int16 field_12C_bMoving;
-    __int16 field_12E;
-    __int16 field_130_stop_type;
-    __int16 field_132;
+    s16 field_12C_bMoving;
+    s16 field_12E;
+    s16 field_130_stop_type;
+    s16 field_132;
     Rope* field_134_pRope2;
     Rope* field_138_pRope1;
     Animation field_13C_lift_wheel;
     Animation field_1D4_pulley_anim;
-    __int16 field_26C_pulley_xpos;
-    __int16 field_26E_pulley_ypos;
+    s16 field_26C_pulley_xpos;
+    s16 field_26E_pulley_ypos;
     FP field_270_floorYLevel;
-    BYTE** field_274_ppRes;
-    short field_278_point_id;
+    u8** field_274_ppRes;
+    s16 field_278_point_id;
     BitField16<Flags> field_27A_flags;
 };
 

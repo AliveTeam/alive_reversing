@@ -5,7 +5,7 @@
 
 void Math_ForceLink() { }
 
-ALIVE_ARY(1, 0x546744, unsigned char, 256, sRandomBytes_546744,
+ALIVE_ARY(1, 0x546744, u8, 256, sRandomBytes_546744,
 {
     0x35, 0x85, 0x49, 0xE2, 0xA7, 0x42, 0xDF, 0x0B, 0x2D, 0x23, 0xDD, 0xDE, 0x1F, 0x17, 0xBB, 0xCF,
     0x4E, 0xA3, 0x19, 0x04, 0x71, 0x12, 0xB5, 0x50, 0x43, 0x64, 0xA0, 0x15, 0xDB, 0x22, 0xB0, 0x83,
@@ -24,13 +24,13 @@ ALIVE_ARY(1, 0x546744, unsigned char, 256, sRandomBytes_546744,
     0x2B, 0x03, 0xF5, 0xA8, 0x58, 0x3D, 0xC2, 0x31, 0x65, 0xDC, 0x27, 0xBE, 0x21, 0x68, 0xE0, 0xB3,
     0xC8, 0xA4, 0x02, 0x2E, 0xD4, 0x3B, 0x6F, 0x5C, 0x87, 0x0A, 0x92, 0x0D, 0x4D, 0x16, 0x44, 0x90,
 });
-ALIVE_VAR(1, 0x5D1E10, unsigned char, sRandomSeed_5D1E10, 0);
+ALIVE_VAR(1, 0x5D1E10, u8, sRandomSeed_5D1E10, 0);
 
-EXPORT unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed int op2)
+EXPORT u32  CC Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2)
 {
-    unsigned int op1a; // ecx
-    unsigned int op2a; // esi
-    int result; // eax
+    u32 op1a; // ecx
+    u32 op2a; // esi
+    s32 result; // eax
 
     op1a = op1;
     if (op1 < 0)
@@ -39,21 +39,21 @@ EXPORT unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed i
     if (op2 < 0)
         op2a = -op2;
     result = op2a * (op1a >> 16)
-        + (unsigned __int16)op1a * (op2a >> 16)
-        + ((unsigned __int16)op1a * (unsigned int)(unsigned __int16)op2a >> 16);
+        + (u16)op1a * (op2a >> 16)
+        + ((u16)op1a * (u32)(u16)op2a >> 16);
     if ((op1 < 0) != (op2 < 0))
         result = -result;
     return result;
 }
 
-EXPORT unsigned int CC Math_FixedPoint_Divide_496B70(signed int op1, signed int op2)
+EXPORT u32 CC Math_FixedPoint_Divide_496B70(s32 op1, s32 op2)
 {
-    signed int op1a; // ebx
-    unsigned int op1b; // edi
-    unsigned int op2a; // ecx
-    unsigned int v5; // esi
-    int v6; // edi
-    int result; // eax
+    s32 op1a; // ebx
+    u32 op1b; // edi
+    u32 op2a; // ecx
+    u32 v5; // esi
+    s32 v6; // edi
+    s32 result; // eax
 
     op1a = op1;
     op1b = op1;
@@ -78,10 +78,10 @@ EXPORT unsigned int CC Math_FixedPoint_Divide_496B70(signed int op1, signed int 
     return result;
 }
 
-EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
+EXPORT s16 CC Math_RandomRange_496AB0(s16 min, s16 max)
 {
-    short tempMax = max;
-    short tempMin = min;
+    s16 tempMax = max;
+    s16 tempMin = min;
 
     if (max >= min)
     {
@@ -98,14 +98,14 @@ EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
         tempMin = max;
     }
 
-    short result = tempMin;
-    const int rangeSize = tempMax - tempMin;
+    s16 result = tempMin;
+    const s32 rangeSize = tempMax - tempMin;
 
     if (rangeSize >= 256)
     {
-        const int randByte = (257 * sRandomBytes_546744[sRandomSeed_5D1E10]);
+        const s32 randByte = (257 * sRandomBytes_546744[sRandomSeed_5D1E10]);
         sRandomSeed_5D1E10 += 2;
-        result = static_cast<short>(result + randByte % (rangeSize + 1));
+        result = static_cast<s16>(result + randByte % (rangeSize + 1));
     }
     else
     {
@@ -116,12 +116,12 @@ EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
 }
 
 // This seems to have been inlined a lot
-EXPORT BYTE Math_NextRandom()
+EXPORT u8 Math_NextRandom()
 {
     return sRandomBytes_546744[sRandomSeed_5D1E10++];
 }
 
-const WORD sSineTable_5466C4[64] =
+const u16 sSineTable_5466C4[64] =
 {
     0,      1633,    3266,    4897,    6525,    8148,    9767,    11380,
     12985,  14582,   16171,   17749,   19316,   20872,   22414,   23942,
@@ -133,7 +133,7 @@ const WORD sSineTable_5466C4[64] =
     64539,  64803,   65026,   65209,   65351,   65453,   65514,   65535
 };
 
-EXPORT FP CC Math_Cosine_496CD0(BYTE v)
+EXPORT FP CC Math_Cosine_496CD0(u8 v)
 {
     if (v < 64u)
     {
@@ -158,16 +158,16 @@ EXPORT FP CC Math_Cosine_496D60(FP fp)
     if (fp < FP_FromInteger(0))
     {
         // TODO: Refactor to something sane
-        fp.fpValue = ((unsigned int)(0xFFFFFF - fp.fpValue) >> 24 << 24) + fp.fpValue;
+        fp.fpValue = ((u32)(0xFFFFFF - fp.fpValue) >> 24 << 24) + fp.fpValue;
     }
 
     if (fp > FP_FromInteger(255))
     {
         // TODO: Refactor to something sane
-        fp.fpValue += 0xFF000000 * ((unsigned int)(fp.fpValue + 0xFFFF) >> 24);
+        fp.fpValue += 0xFF000000 * ((u32)(fp.fpValue + 0xFFFF) >> 24);
     }
 
-    return Math_Cosine_496CD0(static_cast<BYTE>(FP_GetExponent(fp)));
+    return Math_Cosine_496CD0(static_cast<u8>(FP_GetExponent(fp)));
 }
 
 EXPORT FP CC Math_Sine_496DF0(FP fp)
@@ -176,21 +176,21 @@ EXPORT FP CC Math_Sine_496DF0(FP fp)
     return Math_Cosine_496D60(fp + FP_FromInteger(64));
 }
 
-EXPORT FP CC Math_Sine_496DD0(BYTE v)
+EXPORT FP CC Math_Sine_496DD0(u8 v)
 {
     // TODO: Relies on underflow
     return Math_Cosine_496CD0(v - 64);
 }
 
-int CC Math_Distance_496EB0(int x1, int y1, int x2, int y2)
+s32 CC Math_Distance_496EB0(s32 x1, s32 y1, s32 x2, s32 y2)
 {
-    int dx = x1 - x2;
+    s32 dx = x1 - x2;
     if (dx < 0)
     {
         dx = x2 - x1;
     }
 
-    int dy = y1 - y2;
+    s32 dy = y1 - y2;
     if (y1 - y2 < 0)
     {
         dy = y2 - y1;
@@ -210,7 +210,7 @@ EXPORT FP CC Math_Tan_496F70(const FP value1, const FP value2)
 {
     FP value1abs = FP_Abs(value1);
     FP value2abs = FP_Abs(value2);
-    int switchScenario = 0;
+    s32 switchScenario = 0;
     if (value1 < FP_FromInteger(0))
     {
         switchScenario += 4;
@@ -262,22 +262,22 @@ namespace AETest::TestsMath
 {
     void Math_Tests()
     {
-        for (BYTE i = 0; i < 64; i++)
+        for (u8 i = 0; i < 64; i++)
         {
             ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[i]), Math_Cosine_496CD0(i));
         }
 
-        for (BYTE i = 65; i < 128; i++)
+        for (u8 i = 65; i < 128; i++)
         {
             ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[127-i]), Math_Cosine_496CD0(i));
         }
 
-        for (BYTE i = 128; i < 192; i++)
+        for (u8 i = 128; i < 192; i++)
         {
             ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[i - 128]), Math_Cosine_496CD0(i));
         }
 
-        for (BYTE i = 192; i < 255; i++)
+        for (u8 i = 192; i < 255; i++)
         {
             ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[255 - i]), Math_Cosine_496CD0(i));
         }

@@ -6,7 +6,7 @@
 
 namespace AO {
 
-enum class BooleanOperatorType : __int16
+enum class BooleanOperatorType : s16
 {
     eAnd_0 = 0,
     eAndNot_1 = 1,
@@ -16,9 +16,9 @@ enum class BooleanOperatorType : __int16
 
 struct Path_SwitchStateBooleanLogic : public Path_TLV
 {
-    __int16 field_18_input1;
-    __int16 field_1A_input2;
-    __int16 field_1C_output;
+    s16 field_18_input1;
+    s16 field_1A_input2;
+    s16 field_1C_output;
     BooleanOperatorType field_1E_operator;
 };
 ALIVE_ASSERT_SIZEOF(Path_SwitchStateBooleanLogic, 0x20);
@@ -26,7 +26,7 @@ ALIVE_ASSERT_SIZEOF(Path_SwitchStateBooleanLogic, 0x20);
 class SwitchStateBooleanLogic : public BaseGameObject
 {
 public:
-    EXPORT SwitchStateBooleanLogic* ctor_436AB0(Path_SwitchStateBooleanLogic* pTlv, int tlvInfo);
+    EXPORT SwitchStateBooleanLogic* ctor_436AB0(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_436B00();
 
@@ -34,19 +34,19 @@ public:
 
     EXPORT void VScreenChanged_436C40();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT BaseGameObject* Vdtor_436C60(signed int flags);
+    EXPORT BaseGameObject* Vdtor_436C60(s32 flags);
 
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_436B60();
 
-    unsigned __int16 field_10_input_1;
-    unsigned __int16 field_12_input_2;
-    unsigned __int16 field_14_output;
+    u16 field_10_input_1;
+    u16 field_12_input_2;
+    u16 field_14_output;
     BooleanOperatorType field_16_operator;
-    int field_18_tlvInfo;
+    s32 field_18_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(SwitchStateBooleanLogic, 0x1C);
 

@@ -86,7 +86,7 @@ private:
 
 extern bool gVTableHack;
 
-void SetVTable(void* thisPtr, DWORD vTable);
+void SetVTable(void* thisPtr, u32 vTable);
 
 class DisableVTableHack
 {
@@ -100,8 +100,8 @@ template<class T>
 struct AIFunctionData
 {
     T mOurFn;
-    DWORD mOriginal;
-    const char* fnName;
+    u32 mOriginal;
+    const s8* fnName;
 };
 
 #if _WIN32 || !_WIN64
@@ -113,7 +113,7 @@ inline const AIFunctionData<AIFunctionType>& GetOriginalFn(AIFunctionType fn, co
     // game code compares the function pointer addresses (see IsBrain(x)).
     for (const auto& addrPair : table)
     {
-        if (addrPair.mOurFn == fn || memcmp(&addrPair.mOriginal, &fn, sizeof(DWORD)) == 0)
+        if (addrPair.mOurFn == fn || memcmp(&addrPair.mOriginal, &fn, sizeof(u32)) == 0)
         {
             return addrPair;
         }
@@ -129,9 +129,9 @@ inline bool BrainIs(AIFunctionType fn, AIFunctionType& brainVar, const AITable& 
 #if _WIN32 || !_WIN64
     if (RunningAsInjectedDll())
     {
-        const DWORD actualAddressToUse = GetOriginalFn(fn, table).mOriginal;
+        const u32 actualAddressToUse = GetOriginalFn(fn, table).mOriginal;
         AIFunctionType hack = nullptr;
-        memcpy(&hack, &actualAddressToUse, sizeof(DWORD));
+        memcpy(&hack, &actualAddressToUse, sizeof(u32));
         return hack == brainVar;
     }
 #endif
@@ -144,9 +144,9 @@ void SetBrain(AIFunctionType fn, AIFunctionType& brainVar, const AITable& table)
 #if _WIN32 || !_WIN64
     if (RunningAsInjectedDll())
     {
-        const DWORD actualAddressToUse = GetOriginalFn(fn, table).mOriginal;
+        const u32 actualAddressToUse = GetOriginalFn(fn, table).mOriginal;
         // Hack to overwrite the member function pointer bytes with arbitrary data
-        memcpy(&brainVar, &actualAddressToUse, sizeof(DWORD));
+        memcpy(&brainVar, &actualAddressToUse, sizeof(u32));
         return;
     }
 #endif

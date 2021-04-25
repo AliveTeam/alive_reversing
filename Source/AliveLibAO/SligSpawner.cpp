@@ -8,7 +8,7 @@
 
 namespace AO {
 
-SligSpawner* SligSpawner::ctor_402850(Path_Slig* pTlv, int tlvInfo)
+SligSpawner* SligSpawner::ctor_402850(Path_Slig* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA078);
@@ -34,7 +34,7 @@ void SligSpawner::VScreenChanged()
     VScreenChanged_402960();
 }
 
-BaseGameObject* SligSpawner::VDestructor(signed int flags)
+BaseGameObject* SligSpawner::VDestructor(s32 flags)
 {
     return VDtor_4029F0(flags);
 }
@@ -88,7 +88,7 @@ EXPORT BaseGameObject* SligSpawner::dtor_402970()
     return dtor_487DF0();
 }
 
-EXPORT SligSpawner* SligSpawner::VDtor_4029F0(signed int flags)
+EXPORT SligSpawner* SligSpawner::VDtor_4029F0(s32 flags)
 {
     dtor_402970();
     if (flags & 1)

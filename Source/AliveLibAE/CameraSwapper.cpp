@@ -14,7 +14,7 @@
 #include "ScreenClipper.hpp"
 #include "Sys_common.hpp"
 
-CameraSwapper* CameraSwapper::ctor_4E4CA0(BYTE** ppCamRes, int movieSector, int movieId, char movieFlag, __int16  movieFlags, __int16 movieVol)
+CameraSwapper* CameraSwapper::ctor_4E4CA0(u8** ppCamRes, s32 movieSector, s32 movieId, s8 movieFlag, s16 movieFlags, s16 movieVol)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
@@ -34,7 +34,7 @@ CameraSwapper* CameraSwapper::ctor_4E4CA0(BYTE** ppCamRes, int movieSector, int 
     return this;
 }
 
-CameraSwapper* CameraSwapper::ctor_4E4DC0(BYTE** ppCamRes, int moviePos1, int movieId1, int moviePos2, int movieId2, char movieFlag1, __int16 movieFlags1, __int16 movieVol1, __int16 movieFlag2, __int16 movieFlags2, __int16 movieVol2)
+CameraSwapper* CameraSwapper::ctor_4E4DC0(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
@@ -60,7 +60,7 @@ CameraSwapper* CameraSwapper::ctor_4E4DC0(BYTE** ppCamRes, int moviePos1, int mo
     return this;
 }
 
-CameraSwapper* CameraSwapper::ctor_4E4ED0(BYTE** ppCamRes, int moviePos1, int movieId1, int moviePos2, int movieId2, int moviePos3, int movieId3, char movieFlag1, __int16  movieFlags1, __int16 movieVol1, __int16 movieFlag2, __int16 movieFlags2, __int16 movieVol2, __int16 moveFlag3, __int16 movieFlags3, __int16 movieVol3)
+CameraSwapper* CameraSwapper::ctor_4E4ED0(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16  movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 moveFlag3, s16 movieFlags3, s16 movieVol3)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
@@ -91,7 +91,7 @@ CameraSwapper* CameraSwapper::ctor_4E4ED0(BYTE** ppCamRes, int moviePos1, int mo
     return this;
 }
 
-CameraSwapper* CameraSwapper::ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos)
+CameraSwapper* CameraSwapper::ctor_4E5000(u8** ppCamRes, CameraSwapEffects changeEffect, s16 xpos, s16 ypos)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
@@ -124,7 +124,7 @@ void CameraSwapper::dtor_4E5790()
     BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* CameraSwapper::vdtor_4E4D90(signed int flags)
+BaseGameObject* CameraSwapper::vdtor_4E4D90(s32 flags)
 {
     dtor_4E5790();
     if (flags & 1)
@@ -134,9 +134,9 @@ BaseGameObject* CameraSwapper::vdtor_4E4D90(signed int flags)
     return this;
 }
 
-const int kSliceWidth = 8;
+const s32 kSliceWidth = 8;
 
-void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
+void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
 {
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
@@ -150,7 +150,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
     }
     else
     {
-        pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<WORD**>(ppCamRes));
+        pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(ppCamRes));
     }
 
     sNum_CamSwappers_5C1B66++;
@@ -290,19 +290,19 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         field_52_XSlices = (gPsxDisplay_5C1130.field_0_width / 2) / kSliceWidth;
         field_54_YSlices = (gPsxDisplay_5C1130.field_2_height / 2) / kSliceWidth;
 
-        short xDiff = gPsxDisplay_5C1130.field_0_width - field_4E_xpos_converted;
+        s16 xDiff = gPsxDisplay_5C1130.field_0_width - field_4E_xpos_converted;
         if (xDiff <= field_4E_xpos_converted)
         {
             xDiff = field_4E_xpos_converted;
         }
 
-        short yDiff = gPsxDisplay_5C1130.field_2_height - field_50_ypos_converted;
+        s16 yDiff = gPsxDisplay_5C1130.field_2_height - field_50_ypos_converted;
         if (yDiff <= field_50_ypos_converted)
         {
             yDiff = field_50_ypos_converted;
         }
 
-        short startingSlice = 0;
+        s16 startingSlice = 0;
         if ((xDiff / field_52_XSlices) <= (yDiff / field_54_YSlices))
         {
             startingSlice = yDiff / field_54_YSlices;
@@ -369,15 +369,15 @@ void CameraSwapper::vUpdate_4E5850()
             return;
         }
 
-        const short xpos = field_56_slice_width * field_3A_current_slice;
-        short width = (field_56_slice_width * (field_3A_current_slice + 1));
+        const s16 xpos = field_56_slice_width * field_3A_current_slice;
+        s16 width = (field_56_slice_width * (field_3A_current_slice + 1));
         if (width > gPsxDisplay_5C1130.field_0_width - 1)
         {
             width = gPsxDisplay_5C1130.field_0_width - 1;
         }
 
         pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(xpos, 0, width, gPsxDisplay_5C1130.field_2_height);
-        field_34_pSubObject->Update_Clip_Rect_416EB0({ xpos, 0 }, { static_cast<short>(width + 1), gPsxDisplay_5C1130.field_2_height });
+        field_34_pSubObject->Update_Clip_Rect_416EB0({ xpos, 0 }, { static_cast<s16>(width + 1), gPsxDisplay_5C1130.field_2_height });
     }
     break;
 
@@ -392,8 +392,8 @@ void CameraSwapper::vUpdate_4E5850()
             return;
         }
 
-        const short ypos = field_56_slice_width * field_3A_current_slice;
-        short height = (field_56_slice_width * (field_3A_current_slice + 1));
+        const s16 ypos = field_56_slice_width * field_3A_current_slice;
+        s16 height = (field_56_slice_width * (field_3A_current_slice + 1));
 
         pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, ypos, gPsxDisplay_5C1130.field_0_width, height);
         field_34_pSubObject->Update_Clip_Rect_416EB0({ 0, ypos }, { gPsxDisplay_5C1130.field_0_width, height });
@@ -410,11 +410,11 @@ void CameraSwapper::vUpdate_4E5850()
             return;
         }
 
-        const short xpos = field_56_slice_width * field_3A_current_slice;
-        const short halfDisplayWidth = gPsxDisplay_5C1130.field_0_width / 2;
+        const s16 xpos = field_56_slice_width * field_3A_current_slice;
+        const s16 halfDisplayWidth = gPsxDisplay_5C1130.field_0_width / 2;
 
-        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(static_cast<short>(halfDisplayWidth - xpos), 0, static_cast<short>(xpos + halfDisplayWidth), gPsxDisplay_5C1130.field_2_height);
-        field_34_pSubObject->Update_Clip_Rect_416EB0({ static_cast<short>(halfDisplayWidth - xpos), 0 }, { static_cast<short>(xpos + halfDisplayWidth + 1),  gPsxDisplay_5C1130.field_2_height });
+        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(static_cast<s16>(halfDisplayWidth - xpos), 0, static_cast<s16>(xpos + halfDisplayWidth), gPsxDisplay_5C1130.field_2_height);
+        field_34_pSubObject->Update_Clip_Rect_416EB0({ static_cast<s16>(halfDisplayWidth - xpos), 0 }, { static_cast<s16>(xpos + halfDisplayWidth + 1),  gPsxDisplay_5C1130.field_2_height });
     }
     break;
 
@@ -428,11 +428,11 @@ void CameraSwapper::vUpdate_4E5850()
             return;
         }
 
-        const short ypos = field_56_slice_width * field_3A_current_slice;
-        const short halfDisplayHeight = gPsxDisplay_5C1130.field_2_height / 2;
+        const s16 ypos = field_56_slice_width * field_3A_current_slice;
+        const s16 halfDisplayHeight = gPsxDisplay_5C1130.field_2_height / 2;
 
-        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, static_cast<short>(halfDisplayHeight - ypos), 640, static_cast<short>(halfDisplayHeight + ypos));
-        field_34_pSubObject->Update_Clip_Rect_416EB0({ 0,  static_cast<short>(halfDisplayHeight - ypos) }, { 640,  static_cast<short>(halfDisplayHeight + ypos) });
+        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, static_cast<s16>(halfDisplayHeight - ypos), 640, static_cast<s16>(halfDisplayHeight + ypos));
+        field_34_pSubObject->Update_Clip_Rect_416EB0({ 0,  static_cast<s16>(halfDisplayHeight - ypos) }, { 640,  static_cast<s16>(halfDisplayHeight + ypos) });
     }
     break;
 
@@ -446,11 +446,11 @@ void CameraSwapper::vUpdate_4E5850()
             return;
         }
 
-        const short xSlicePos = field_3A_current_slice * field_52_XSlices;
-        const short width = (field_4E_xpos_converted + xSlicePos > gPsxDisplay_5C1130.field_0_width) ? gPsxDisplay_5C1130.field_0_width : field_4E_xpos_converted + xSlicePos;
+        const s16 xSlicePos = field_3A_current_slice * field_52_XSlices;
+        const s16 width = (field_4E_xpos_converted + xSlicePos > gPsxDisplay_5C1130.field_0_width) ? gPsxDisplay_5C1130.field_0_width : field_4E_xpos_converted + xSlicePos;
 
-        const short ySlicePos = field_3A_current_slice * field_54_YSlices;
-        const short height = (ySlicePos + field_50_ypos_converted > gPsxDisplay_5C1130.field_2_height) ? gPsxDisplay_5C1130.field_2_height : ySlicePos + field_50_ypos_converted;
+        const s16 ySlicePos = field_3A_current_slice * field_54_YSlices;
+        const s16 height = (ySlicePos + field_50_ypos_converted > gPsxDisplay_5C1130.field_2_height) ? gPsxDisplay_5C1130.field_2_height : ySlicePos + field_50_ypos_converted;
 
         PSX_Point rect_xy = {};
         rect_xy.field_0_x = (field_4E_xpos_converted - xSlicePos <= 0) ? 0 : field_4E_xpos_converted - xSlicePos;
@@ -488,7 +488,7 @@ void CameraSwapper::vUpdate_4E5850()
         // Now apply the camera we where storing now that the movie is finished
         if (field_30_ppCamRes)
         {
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<WORD**>(field_30_ppCamRes));
+            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(field_30_ppCamRes));
             pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0);
             pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 1);
             pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 2);
@@ -559,7 +559,7 @@ void CameraSwapper::vUpdate_4E5850()
     }
 }
 
-BaseGameObject* CameraSwapper::VDestructor(signed int flags)
+BaseGameObject* CameraSwapper::VDestructor(s32 flags)
 {
     return vdtor_4E4D90(flags);
 }

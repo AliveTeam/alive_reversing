@@ -8,12 +8,12 @@
 
 namespace AO {
 
-ScopedSeq* ScopedSeq::ctor_476400(char ambianceId, CameraPos direction)
+ScopedSeq* ScopedSeq::ctor_476400(s8 ambianceId, CameraPos direction)
 {
     SetVTable(this, 0x4BCD44);
 
-    short volLeft = 0;
-    short volRight = 0;
+    s16 volLeft = 0;
+    s16 volRight = 0;
 
     if (direction == CameraPos::eCamLeft_3)
     {
@@ -67,7 +67,7 @@ ScopedSeq* ScopedSeq::ctor_476400(char ambianceId, CameraPos direction)
     return this;
 }
 
-ScopedSeq* ScopedSeq::VDestructor(int flags)
+ScopedSeq* ScopedSeq::VDestructor(s32 flags)
 {
     SetVTable(this, 0x4BCD44);
 

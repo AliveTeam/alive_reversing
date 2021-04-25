@@ -18,7 +18,7 @@
 
 namespace AO {
 
-SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, int tlvInfo)
+SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BB7D0);
@@ -27,7 +27,7 @@ SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, int tlvInfo)
 
     field_4_typeId = Types::SecurityOrb_53;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMaimGameResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMaimGameResID, 1, 0);
     Animation_Init_417FD0(
         10864,
         52,
@@ -77,12 +77,12 @@ BaseGameObject* SecurityOrb::dtor_436D60()
     return dtor_401000();
 }
 
-BaseGameObject* SecurityOrb::VDestructor(signed int flags)
+BaseGameObject* SecurityOrb::VDestructor(s32 flags)
 {
     return Vdtor_4373B0(flags);
 }
 
-SecurityOrb* SecurityOrb::Vdtor_4373B0(signed int flags)
+SecurityOrb* SecurityOrb::Vdtor_4373B0(s32 flags)
 {
     dtor_436D60();
     if (flags & 1)
@@ -102,12 +102,12 @@ void SecurityOrb::VScreenChanged_4373A0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-signed __int16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
+s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 {
     return VTakeDamage_437280(pFrom);
 }
 
-signed __int16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
+s16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
@@ -194,13 +194,13 @@ void SecurityOrb::VUpdate_436DF0()
         break;
 
     case SecurityOrbStates::eDoZapEffects_1:
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             PSX_RECT abeRect = {};
             sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
 
-            const int width = abeRect.w + abeRect.x;
-            const int height = abeRect.h + abeRect.y;
+            const s32 width = abeRect.w + abeRect.x;
+            const s32 height = abeRect.h + abeRect.y;
 
             auto pZapLine = ao_new<ZapLine>();
             if (pZapLine)
@@ -257,7 +257,7 @@ void SecurityOrb::VUpdate_436DF0()
             }
 
 
-            for (int i = 0; i < 9; i++)
+            for (s32 i = 0; i < 9; i++)
             {
                 auto pSparks = ao_new<Sparks>();
                 if (pSparks)
@@ -276,7 +276,7 @@ void SecurityOrb::VUpdate_436DF0()
         break;
 
     case SecurityOrbStates::eDoFlashAndSound_2:
-        if (static_cast<int>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<int>(gnFrameCount_507670) == field_114_timer - 1)
+        if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<s32>(gnFrameCount_507670) == field_114_timer - 1)
         {
             auto pFlash = ao_new<Flash>();
             if (pFlash)
@@ -285,7 +285,7 @@ void SecurityOrb::VUpdate_436DF0()
             }
         }
 
-        if (static_cast<int>(gnFrameCount_507670) == field_114_timer - 4)
+        if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 4)
         {
             auto pFlash = ao_new<Flash>();
             if (pFlash)
@@ -303,7 +303,7 @@ void SecurityOrb::VUpdate_436DF0()
             SFX_Play_43AD70(SoundEffect::Zap2_58, 0, 0);
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_114_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
         {
             field_110_state = SecurityOrbStates::eIdle_0;
         }

@@ -14,13 +14,13 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4FF94C, short, bTheOneControllingTheMusic_4FF94C, 0);
+ALIVE_VAR(1, 0x4FF94C, s16, bTheOneControllingTheMusic_4FF94C, 0);
 
 ALIVE_VAR(1, 0x4FF938, DynamicArrayT<Dove>, gDovesArray_4FF938, {});
-ALIVE_VAR(1, 0x4FF948, BYTE, byte_4FF948, 0);
-ALIVE_VAR(1, 0x4FF950, int, dword_4FF950, 0);
-ALIVE_VAR(1, 0x4C50AC, short, word_4C50AC, 30);
-ALIVE_VAR(1, 0x4C50B0, short, word_4C50B0, -1);
+ALIVE_VAR(1, 0x4FF948, u8, byte_4FF948, 0);
+ALIVE_VAR(1, 0x4FF950, s32, dword_4FF950, 0);
+ALIVE_VAR(1, 0x4C50AC, s16, word_4C50AC, 30);
+ALIVE_VAR(1, 0x4C50B0, s16, word_4C50B0, -1);
 
 
 static void Dove_static_ctor()
@@ -43,12 +43,12 @@ void CC Dove_static_ctor_40EE10()
     atexit(Dove_static_dtor_40EE30);
 }
 
-Dove* Dove::ctor_40EE50(int frameTableOffset, int maxW, int maxH, int resourceID, int tlvInfo, FP scale)
+Dove* Dove::ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA858);
     field_4_typeId = Types::eBird_22;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
     Animation_Init_417FD0(
         frameTableOffset,
         maxW,
@@ -106,14 +106,14 @@ Dove* Dove::ctor_40EE50(int frameTableOffset, int maxW, int maxH, int resourceID
     return this;
 }
 
-Dove* Dove::ctor_40EFF0(int frameTableOffset, int maxW, int maxH, int resourceID, FP xpos, FP ypos, FP scale)
+Dove* Dove::ctor_40EFF0(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA858);
 
     field_4_typeId = Types::eBird_22;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
     Animation_Init_417FD0(
         frameTableOffset,
         maxW,
@@ -196,13 +196,13 @@ BaseGameObject* Dove::dtor_40F1B0()
     return dtor_417D10();
 }
 
-void Dove::AsAlmostACircle_40F300(FP xpos, FP ypos, BYTE angle)
+void Dove::AsAlmostACircle_40F300(FP xpos, FP ypos, u8 angle)
 {
     AsACircle_40F280(xpos, ypos, angle);
     field_EE_state = State::eAlmostACircle_4;
 }
 
-void Dove::AsACircle_40F280(FP xpos, FP ypos, BYTE angle)
+void Dove::AsACircle_40F280(FP xpos, FP ypos, u8 angle)
 {
     field_F0_xJoin = xpos;
     field_F4_yJoin = ypos;
@@ -220,7 +220,7 @@ void Dove::AsJoin_40F250(FP xpos, FP ypos)
     field_F8_timer = gnFrameCount_507670 + 47;
 }
 
-void Dove::FlyAway_40F8F0(__int16 a2)
+void Dove::FlyAway_40F8F0(s16 a2)
 {
     if (field_EE_state != State::eFlyAway_1)
     {
@@ -236,11 +236,11 @@ void Dove::FlyAway_40F8F0(__int16 a2)
     }
 }
 
-ALIVE_VAR(1, 0x4FF944, int, bExtraSeqStarted_4FF944, 0);
+ALIVE_VAR(1, 0x4FF944, s32, bExtraSeqStarted_4FF944, 0);
 
 void Dove::All_FlyAway_40F390()
 {
-    for (int i = 0; i < gDovesArray_4FF938.Size(); i++)
+    for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
     {
         Dove* pDove = gDovesArray_4FF938.ItemAt(i);
         if (!pDove)
@@ -268,12 +268,12 @@ void Dove::VRender_40F960(PrimHeader** ppOt)
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 }
 
-BaseGameObject* Dove::VDestructor(signed int flags)
+BaseGameObject* Dove::VDestructor(s32 flags)
 {
     return Vdtor_40F970(flags);
 }
 
-Dove* Dove::Vdtor_40F970(unsigned int flags)
+Dove* Dove::Vdtor_40F970(u32 flags)
 {
     dtor_40F1B0();
     if (flags & 1)
@@ -306,7 +306,7 @@ void Dove::VUpdate_40F430()
     case State::eOnGround_0:
         if (Event_Get_417250(kEventSpeaking_1))
         {
-            for (int i = 0; i < gDovesArray_4FF938.Size(); i++)
+            for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
             {
                 Dove* pDoveIter = gDovesArray_4FF938.ItemAt(i);
                 if (!pDoveIter)
@@ -328,7 +328,7 @@ void Dove::VUpdate_40F430()
         {
             if (Event_Get_417250(kEventNoise_0))
             {
-                for (int i = 0; i < gDovesArray_4FF938.Size(); i++)
+                for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
                 {
                     Dove* pDoveIter = gDovesArray_4FF938.ItemAt(i);
                     if (!pDoveIter)
@@ -380,7 +380,7 @@ void Dove::VUpdate_40F430()
 
     case State::eJoin_2:
     {
-        if (static_cast<int>(gnFrameCount_507670) > field_F8_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -405,7 +405,7 @@ void Dove::VUpdate_40F430()
         return;
 
     case State::eAlmostACircle_4:
-        if (dword_4FF950 != static_cast<int>(gnFrameCount_507670))
+        if (dword_4FF950 != static_cast<s32>(gnFrameCount_507670))
         {
             dword_4FF950 = gnFrameCount_507670;
             word_4C50AC += word_4C50B0;
@@ -430,13 +430,13 @@ void Dove::VUpdate_40F430()
         break;
     }
 
-    const int v11 = FP_GetExponent(FP_Abs(field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y));
+    const s32 v11 = FP_GetExponent(FP_Abs(field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y));
     if (v11 > pScreenManager_4FF7C8->field_16_ypos)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    const int v12 = FP_GetExponent(FP_Abs(field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x));
+    const s32 v12 = FP_GetExponent(FP_Abs(field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x));
     if (v12 > pScreenManager_4FF7C8->field_14_xpos)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);

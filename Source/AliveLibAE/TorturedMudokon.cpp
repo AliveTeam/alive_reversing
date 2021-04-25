@@ -10,7 +10,7 @@
 #include "Function.hpp"
 #include "Abe.hpp"
 
-TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, int tlvInfo)
+TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -61,14 +61,14 @@ void TorturedMudokon::VUpdate()
     vUpdate_47BF80();
 }
 
-BaseGameObject* TorturedMudokon::VDestructor(signed int flags)
+BaseGameObject* TorturedMudokon::VDestructor(s32 flags)
 {
     return vdtor_47BE30(flags);
 }
 
 void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
 {
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTorturedMudTearsResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTorturedMudTearsResID);
     if (pAnim->Init_40A030(500, gObjList_animations_5C1A24, this, 17, 19, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer;
@@ -85,11 +85,11 @@ void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
 
 void TorturedMudokon::SetupZapAnimation_47BEF0(Animation* pAnim)
 {
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
     if (pAnim->Init_40A030(15384, gObjList_animations_5C1A24, this, 50, 80, ppRes, 1, 0, 0))
     {
         // TODO: clean this up
-        const int layerM1 = static_cast<int>(field_20_animation.field_C_render_layer) - 1;
+        const s32 layerM1 = static_cast<s32>(field_20_animation.field_C_render_layer) - 1;
         pAnim->field_C_render_layer = static_cast<Layer>(layerM1);
         pAnim->field_14_scale = field_CC_sprite_scale;
         pAnim->field_8_r = 128;
@@ -159,7 +159,7 @@ void TorturedMudokon::dtor_47C380()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-TorturedMudokon* TorturedMudokon::vdtor_47BE30(signed int flags)
+TorturedMudokon* TorturedMudokon::vdtor_47BE30(s32 flags)
 {
     dtor_47C380();
     if (flags & 1)
@@ -177,7 +177,7 @@ void TorturedMudokon::vUpdate_47BF80()
         return;
     }
 
-    if (field_234_flash_colour_timer == static_cast<int>(sGnFrame_5C1B84))
+    if (field_234_flash_colour_timer == static_cast<s32>(sGnFrame_5C1B84))
     {
         field_238_flash_colour_counter++;
         field_234_flash_colour_timer = sGnFrame_5C1B84 + 100;
@@ -232,11 +232,11 @@ void TorturedMudokon::vUpdate_47BF80()
         }
     }
 
-    BYTE rgbBase = 0;
+    u8 rgbBase = 0;
     switch (field_238_flash_colour_counter)
     {
         case 0:
-            rgbBase = static_cast<BYTE>((field_234_flash_colour_timer & 0xFF) - sGnFrame_5C1B84);
+            rgbBase = static_cast<u8>((field_234_flash_colour_timer & 0xFF) - sGnFrame_5C1B84);
             break;
 
         case 1:
@@ -244,7 +244,7 @@ void TorturedMudokon::vUpdate_47BF80()
             break;
 
         case 2:
-            rgbBase = static_cast<BYTE>(sGnFrame_5C1B84 - (field_234_flash_colour_timer & 0xFF) + 100);
+            rgbBase = static_cast<u8>(sGnFrame_5C1B84 - (field_234_flash_colour_timer & 0xFF) + 100);
             break;
 
         case 3:
@@ -261,7 +261,7 @@ void TorturedMudokon::vUpdate_47BF80()
         }
         field_18C_zap_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         SFX_Play_46FA90(SoundEffect::ElectricZap_39, 70);
-        const short sndRnd = Math_RandomRange_496AB0(0, 3) - 1;
+        const s16 sndRnd = Math_RandomRange_496AB0(0, 3) - 1;
         if (sndRnd)
         {
             if (sndRnd == 1)

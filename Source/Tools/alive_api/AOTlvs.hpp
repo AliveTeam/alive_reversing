@@ -67,19 +67,19 @@ namespace AO
 
     struct Path_Honey : public Path_TLV
     {
-        __int16 id;
-        __int16 state;
-        int scale;
+        s16 id;
+        s16 state;
+        s32 scale;
     };
 
     struct Path_Bees : public Path_TLV
     {
-        __int16 id;
-        __int16 swarm_size;
-        __int16 chase_time;
-        __int16 speed;
-        __int16 disable_resources;
-        __int16 num_bees;
+        s16 id;
+        s16 swarm_size;
+        s16 chase_time;
+        s16 speed;
+        s16 disable_resources;
+        s16 num_bees;
     };
 
     struct Path_ScrabNoFall : public Path_TLV
@@ -104,29 +104,29 @@ namespace AO
 
     struct Path_AbeStart : public Path_TLV
     {
-        int scale;
+        s32 scale;
     };
 
     struct Path_MudokonPathTrans : public Path_TLV
     {
         LevelIds level;
-        __int16 path;
-        int camera;
+        s16 path;
+        s32 camera;
     };
 
     struct Path_Pulley : public Path_TLV
     {
-        int scale;
+        s32 scale;
     };
 
     struct Path_Preloader : public Path_TLV
     {
-        int unload_cams_ASAP;
+        s32 unload_cams_ASAP;
     };
 
     struct Path_SligSpawner : public Path_TLV
     {
-        enum class StartState : __int16
+        enum class StartState : s16
         {
             Listening_0 = 0,
             Paused_1 = 1,
@@ -135,42 +135,42 @@ namespace AO
             GameEnder_4 = 4,
             Paused_5 = 5,
         };
-        __int16 field_18_scale;
+        s16 field_18_scale;
         StartState field_1A_start_state;
-        __int16 field_1C_pause_time;
-        __int16 field_1E_pause_left_min;
-        __int16 field_20_pause_left_max;
-        __int16 field_22_pause_right_min;
-        __int16 field_24_pause_right_max;
-        __int16 field_26_chal_type;
-        __int16 field_28_chal_time;
-        __int16 field_2A_number_of_times_to_shoot;
-        __int16 field_2C_unknown; // TODO: Part of above field, check me?
-        __int16 field_2E_code1;
-        __int16 field_30_code2;
-        __int16 field_32_chase_abe;
-        __int16 field_34_start_direction;
-        __int16 field_36_panic_timeout;
-        __int16 field_38_num_panic_sounds;
-        __int16 field_3A_panic_sound_timeout;
-        __int16 field_3C_stop_chase_delay;
-        __int16 field_3E_time_to_wait_before_chase;
-        __int16 field_40_slig_id;
-        __int16 field_42_listen_time;
-        __int16 field_44_percent_say_what;
-        __int16 field_46_percent_beat_mud;
-        __int16 field_48_talk_to_abe;
-        __int16 field_4A_dont_shoot;
-        __int16 field_4C_z_shoot_delay;
-        __int16 field_4E_stay_awake;
-        __int16 field_50_disable_resources;
-        __int16 field_52_noise_wake_up_distance;
-        int field_54_id;
+        s16 field_1C_pause_time;
+        s16 field_1E_pause_left_min;
+        s16 field_20_pause_left_max;
+        s16 field_22_pause_right_min;
+        s16 field_24_pause_right_max;
+        s16 field_26_chal_type;
+        s16 field_28_chal_time;
+        s16 field_2A_number_of_times_to_shoot;
+        s16 field_2C_unknown; // TODO: Part of above field, check me?
+        s16 field_2E_code1;
+        s16 field_30_code2;
+        s16 field_32_chase_abe;
+        s16 field_34_start_direction;
+        s16 field_36_panic_timeout;
+        s16 field_38_num_panic_sounds;
+        s16 field_3A_panic_sound_timeout;
+        s16 field_3C_stop_chase_delay;
+        s16 field_3E_time_to_wait_before_chase;
+        s16 field_40_slig_id;
+        s16 field_42_listen_time;
+        s16 field_44_percent_say_what;
+        s16 field_46_percent_beat_mud;
+        s16 field_48_talk_to_abe;
+        s16 field_4A_dont_shoot;
+        s16 field_4C_z_shoot_delay;
+        s16 field_4E_stay_awake;
+        s16 field_50_disable_resources;
+        s16 field_52_noise_wake_up_distance;
+        s32 field_54_id;
     };
 
     struct Path_ContinueZone : public Path_TLV
     {
-        int field_10_zone_number;
+        s32 field_10_zone_number;
     };
 
     struct Path_StartController : public Path_TLV
@@ -185,11 +185,11 @@ namespace AO
 
     struct Path_DeathDrop : public Path_TLV
     {
-        __int16 animation;
-        __int16 sound;
-        __int16 id;
-        __int16 action;
-        int set_value;
+        s16 animation;
+        s16 sound;
+        s16 id;
+        s16 action;
+        s32 set_value;
     };
 
     struct Path_ElumStart : public Path_TLV

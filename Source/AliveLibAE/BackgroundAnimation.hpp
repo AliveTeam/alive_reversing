@@ -9,12 +9,12 @@
 
 struct Path_BackgroundAnimation : public Path_TLV
 {
-    unsigned __int16 field_10_res_id;
+    u16 field_10_res_id;
     Choice_short field_12_is_semi_trans;
     TPageAbr field_14_semi_trans_mode;
     // pad
-    __int16 field_16_sound_effect;
-    __int16 field_18_id;
+    s16 field_16_sound_effect;
+    s16 field_18_id;
     Layer field_1A_layer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BackgroundAnimation, 0x1C);
@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BackgroundAnimation, 0x1C);
 class BackgroundAnimation : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
@@ -30,7 +30,7 @@ public:
     EXPORT void vUpdate_40D450();
     EXPORT void vScreenChanged_40D550();
     EXPORT void dtor_40D4C0();
-    EXPORT BaseGameObject* vdtor_40D420(signed int flags);
+    EXPORT BaseGameObject* vdtor_40D420(s32 flags);
 private:
     AnimHeader** field_F4_res;
     TlvItemInfoUnion field_F8_tlvInfo;

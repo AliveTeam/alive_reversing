@@ -5,29 +5,29 @@
 
 namespace AO {
 
-enum class SwitchOp : __int16;
+enum class SwitchOp : s16;
 
 struct Path_InvisibleSwitch : public Path_TLV
 {
-    __int16 field_18_id;
+    s16 field_18_id;
     SwitchOp field_1A_action;
-    unsigned __int16 field_1C_delay;
-    __int16 field_1E_set_off_alarm;
-    __int16 field_20_scale;
-    __int16 field_22_pad;
+    u16 field_1C_delay;
+    s16 field_1E_set_off_alarm;
+    s16 field_20_scale;
+    s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_InvisibleSwitch, 0x24);
 
 class InvisibleSwitch : public BaseGameObject
 {
 public:
-    EXPORT InvisibleSwitch* ctor_4334E0(Path_InvisibleSwitch* pTlv, int tlvInfo);
+    EXPORT InvisibleSwitch* ctor_4334E0(Path_InvisibleSwitch* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_433540();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT InvisibleSwitch* Vdtor_433740(signed int flags);
+    EXPORT InvisibleSwitch* Vdtor_433740(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -37,17 +37,17 @@ public:
 
     EXPORT void VUpdate_4335A0();
 
-    __int16 field_10_id;
+    s16 field_10_id;
     SwitchOp field_12_action;
-    int field_14_tlvInfo;
-    int field_18_delay_timer;
-    int field_1C_delay;
+    s32 field_14_tlvInfo;
+    s32 field_18_delay_timer;
+    s32 field_1C_delay;
     PSX_Point field_20_top_left;
     PSX_Point field_24_bottom_right;
-    unsigned __int16 field_28_state;
-    __int16 field_2A_set_off_alarm;
-    __int16 field_2C_scale;
-    __int16 field_2E_pad;
+    u16 field_28_state;
+    s16 field_2A_set_off_alarm;
+    s16 field_2C_scale;
+    s16 field_2E_pad;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x30);
 

@@ -13,7 +13,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4FFA4C, short, word_4FFA4C, 0);
+ALIVE_VAR(1, 0x4FFA4C, s16, word_4FFA4C, 0);
 
 void BaseBomb::VUpdate_417580()
 {
@@ -113,7 +113,7 @@ void BaseBomb::VUpdate_417580()
 
     if (field_10_anim.field_92_current_frame == 3)
     {
-        BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 1, 0);
         if (ppRes)
         {
             Particle* pParticle = ao_new<Particle>();
@@ -153,7 +153,7 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
 {
     if (gBaseAliveGameObjects_4FC8A0)
     {
-        short min_w_x = pRect->w;
+        s16 min_w_x = pRect->w;
         if (pRect->x <= pRect->w)
         {
             min_w_x = pRect->x;
@@ -171,7 +171,7 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
             min_y_h = pRect->y;
         }
 
-        short min_h_y = pRect->h;
+        s16 min_h_y = pRect->h;
         if (pRect->h <= pRect->y)
         {
             min_h_y = pRect->y;
@@ -202,7 +202,7 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
             bottom += 240;
         }
 
-        for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
             if (!pObj)
@@ -210,10 +210,10 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
                 break;
             }
 
-            const short obj_xpos = FP_GetExponent(pObj->field_A8_xpos);
+            const s16 obj_xpos = FP_GetExponent(pObj->field_A8_xpos);
             if (obj_xpos >= left && obj_xpos <= right)
             {
-                const short obj_ypos = FP_GetExponent(pObj->field_AC_ypos);
+                const s16 obj_ypos = FP_GetExponent(pObj->field_AC_ypos);
                 if (obj_ypos >= top &&
                     obj_ypos <= bottom &&
                     field_BC_sprite_scale == (pObj->field_BC_sprite_scale * FP_FromDouble(2.75)))
@@ -225,13 +225,13 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
     }
 }
 
-BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, int /*unused*/, FP scale)
+BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, s32 /*unused*/, FP scale)
 {
     ctor_417C10();
     SetVTable(this, 0x4BAA00);
     field_4_typeId = Types::eBaseBomb_30;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 1, 0);
     Animation_Init_417FD0(51600, 214, 49, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
@@ -291,7 +291,7 @@ BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, int /*unused*/, FP scale)
     return this;
 }
 
-BaseGameObject* BaseBomb::VDestructor(signed int flags)
+BaseGameObject* BaseBomb::VDestructor(s32 flags)
 {
     dtor_417D10();
 

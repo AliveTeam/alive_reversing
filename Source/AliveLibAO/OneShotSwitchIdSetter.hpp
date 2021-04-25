@@ -8,26 +8,26 @@ namespace AO {
 
 struct Path_OneShotSwitchIdSetter : public Path_TLV
 {
-    __int16 field_18_ids_to_clear[8];
+    s16 field_18_ids_to_clear[8];
 };
 ALIVE_ASSERT_SIZEOF(Path_OneShotSwitchIdSetter, 0x28);
 
 class OneShotSwitchIdSetter : public BaseGameObject
 {
 public:
-    EXPORT BaseGameObject* ctor_432E10(Path_OneShotSwitchIdSetter* pTlv, int tlvInfo);
+    EXPORT BaseGameObject* ctor_432E10(Path_OneShotSwitchIdSetter* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_432EA0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT BaseGameObject* Vdtor_432F10(signed int flags);
+    EXPORT BaseGameObject* Vdtor_432F10(s32 flags);
 
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_432F00();
 
-    int field_10_tlvInfo;
+    s32 field_10_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(OneShotSwitchIdSetter, 0x14);
 

@@ -10,7 +10,7 @@
 
 namespace AO {
 
-using TFrameCallBackType = short* (CC*)(void*, __int16*);
+using TFrameCallBackType = s16* (CC*)(void*, s16*);
 
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[];
 extern TFrameCallBackType kSlig_Anim_Frame_Fns_4CEBF0[];
@@ -20,20 +20,20 @@ extern TFrameCallBackType kZBall_Anim_Frame_Fns_4CEBF8[];
 
 struct AnimHeader
 {
-    __int16 field_0_max_w;
-    __int16 field_2_max_h;
-    int field_4_frame_table_offset;
+    s16 field_0_max_w;
+    s16 field_2_max_h;
+    s32 field_4_frame_table_offset;
 };
 ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
 
 struct AnimationHeader
 {
     // Meta data - the offset where this record was read from
-    WORD field_0_fps;            // Seems to be 0x1 or 0x2
-    short field_2_num_frames;      // Number of frames in the set
+    u16 field_0_fps;            // Seems to be 0x1 or 0x2
+    s16 field_2_num_frames;      // Number of frames in the set
 
                                        // If loop flag set then this is the frame to loop back to
-    short field_4_loop_start_frame;
+    s16 field_4_loop_start_frame;
 
     // These where reversed by editing data in memory on PSX version
     enum eFlags
@@ -43,11 +43,11 @@ struct AnimationHeader
         eNeverUnload = 0x1,
         eLoopFlag = 0x2
     };
-    WORD field_6_flags;
-    DWORD mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
+    u16 field_6_flags;
+    u32 mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
 };
 
-enum class CompressionType : BYTE
+enum class CompressionType : u8
 {
     eType_0_NoCompression = 0,
     eType_1_NotUsed = 1,
@@ -59,19 +59,19 @@ enum class CompressionType : BYTE
 
 struct FrameHeader
 {
-    DWORD field_0_clut_offset;
-    BYTE field_4_width;
-    BYTE field_5_height;
-    BYTE field_6_colour_depth;
+    u32 field_0_clut_offset;
+    u8 field_4_width;
+    u8 field_5_height;
+    u8 field_6_colour_depth;
     CompressionType field_7_compression_type;
-    WORD field_8_width2;
-    WORD mHeight2;
+    u16 field_8_width2;
+    u16 mHeight2;
 };
 
 struct Point
 {
-    __int16 x = 0;
-    __int16 y = 0;
+    s16 x = 0;
+    s16 y = 0;
 };
 
 
@@ -92,9 +92,9 @@ union PointsUnion
 
 struct FrameInfoHeader
 {
-    DWORD field_0_frame_header_offset;
-    short field_4_magic;
-    short field_6_count;
+    u32 field_0_frame_header_offset;
+    s16 field_4_magic;
+    s16 field_6_count;
     PointsUnion field_8_data;
 };
 
@@ -183,7 +183,7 @@ class AnimationBase
 public:
     virtual void vDecode() = 0;
 
-    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height) = 0;
+    virtual void vRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height) = 0;
 
     virtual void vCleanUp() = 0;
 
@@ -192,13 +192,13 @@ public:
 
     BitField32<AnimFlags> field_4_flags;
 
-    BYTE field_8_r;
-    BYTE field_9_g;
-    BYTE field_A_b;
+    u8 field_8_r;
+    u8 field_9_g;
+    u8 field_A_b;
     TPageAbr field_B_render_mode;
 
     Layer field_C_layer;
-    __int16 field_E_frame_change_counter;
+    s16 field_E_frame_change_counter;
 };
 
 class BaseGameObject;
@@ -208,29 +208,29 @@ class Animation : public AnimationBase
 public:
     virtual void vDecode() override;
 
-    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height) override;
+    virtual void vRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height) override;
 
-    EXPORT void VRender_403AE0(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height);
+    EXPORT void VRender_403AE0(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height);
 
     EXPORT void VDecode_403550();
 
-    EXPORT signed __int16 Set_Animation_Data_402A40(int frameTable, BYTE** resBlock);
+    EXPORT s16 Set_Animation_Data_402A40(s32 frameTable, u8** resBlock);
 
-    EXPORT void SetFrame_402AC0(__int16 newFrame);
+    EXPORT void SetFrame_402AC0(s16 newFrame);
 
-    EXPORT signed __int16 Init_402D20(int frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE** ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating);
+    EXPORT s16 Init_402D20(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating);
 
-    EXPORT __int16 Get_Frame_Count_403540();
+    EXPORT s16 Get_Frame_Count_403540();
 
-    EXPORT FrameInfoHeader* Get_FrameHeader_403A00(int frame);
+    EXPORT FrameInfoHeader* Get_FrameHeader_403A00(s32 frame);
 
-    EXPORT void LoadPal_403090(BYTE** pPalData, int palOffset);
+    EXPORT void LoadPal_403090(u8** pPalData, s32 palOffset);
 
     EXPORT void Get_Frame_Rect_402B50(PSX_RECT* pRect);
 
-    EXPORT void Get_Frame_Width_Height_403E80(short* pWidth, short* pHeight);
+    EXPORT void Get_Frame_Width_Height_403E80(s16* pWidth, s16* pHeight);
 
-    EXPORT void Get_Frame_Offset_403EE0(short* pBoundingX, short* pBoundingY);
+    EXPORT void Get_Frame_Offset_403EE0(s16* pBoundingX, s16* pBoundingY);
 
     virtual void vCleanUp() override;
 
@@ -238,20 +238,20 @@ public:
 
     bool EnsureDecompressionBuffer();
 
-    void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, short width_bpp_adjusted);
+    void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted);
 
-    int field_10_frame_delay;
+    s32 field_10_frame_delay;
     FP field_14_scale;
-    int field_18_frame_table_offset;
+    s32 field_18_frame_table_offset;
     TFrameCallBackType* field_1C_fn_ptr_array;
-    BYTE** field_20_ppBlock;
-    BYTE** field_24_dbuf;
-    int field_28_dbuf_size;
+    u8** field_20_ppBlock;
+    u8** field_24_dbuf;
+    s32 field_28_dbuf_size;
     Poly_FT4 field_2C_ot_data[2];
     PSX_RECT field_84_vram_rect;
     PSX_Point field_8C_pal_vram_xy;
-    __int16 field_90_pal_depth;
-    __int16 field_92_current_frame;
+    s16 field_90_pal_depth;
+    s16 field_92_current_frame;
     BaseGameObject* field_94_pGameObj;
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
@@ -263,11 +263,11 @@ class AnimationUnknown : public AnimationBase
 public:
     virtual void vDecode() override;
 
-    virtual void vRender(int xpos, int ypos, PrimHeader** ppOt, __int16 width, __int16 height) override;
+    virtual void vRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height) override;
 
     virtual void vCleanUp() override;
 
-    virtual void VRender2(int xpos, int ypos, PrimHeader** ppOt);
+    virtual void VRender2(s32 xpos, s32 ypos, PrimHeader** ppOt);
 
     EXPORT void GetRenderedSize_404220(PSX_RECT* pRect);
 
@@ -275,7 +275,7 @@ private:
     EXPORT void VCleanUp2_404280();
 
     // New virtual
-    EXPORT void VRender2_403FD0(int xpos, int ypos, PrimHeader** ppOt);
+    EXPORT void VRender2_403FD0(s32 xpos, s32 ypos, PrimHeader** ppOt);
 
 public:
     Poly_FT4 field_10_polys[2];

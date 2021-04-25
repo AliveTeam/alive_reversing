@@ -7,7 +7,7 @@ using FP = FixedPoint;
 
 struct FixedPoint
 {
-    int fpValue;
+    s32 fpValue;
 };
 static_assert(std::is_pod<FixedPoint>::value, "FixedPoint must be a POD type, otherwise things are going to randomly break so STAP!");
 
@@ -74,14 +74,14 @@ inline bool operator != (const FixedPoint& lhs, const FixedPoint& rhs)
     return lhs.fpValue != rhs.fpValue;
 }
 
-inline FixedPoint FP_FromDouble(double v)
+inline FixedPoint FP_FromDouble(f64 v)
 {
     FixedPoint f = {};
-    f.fpValue = (static_cast<signed int>(v * 0x10000));
+    f.fpValue = (static_cast<s32>(v * 0x10000));
     return f;
 }
 
-inline FixedPoint FP_FromRaw(signed int v)
+inline FixedPoint FP_FromRaw(s32 v)
 {
     FixedPoint f = {};
     f.fpValue = v;
@@ -96,14 +96,14 @@ inline FixedPoint FP_FromInteger(T v)
     return f;
 }
 
-inline short FP_GetExponent(const FixedPoint& fp)
+inline s16 FP_GetExponent(const FixedPoint& fp)
 {
-    return static_cast<short>(fp.fpValue / 0x10000);
+    return static_cast<s16>(fp.fpValue / 0x10000);
 }
 
-inline double FP_GetDouble(FixedPoint& fp)
+inline f64 FP_GetDouble(FixedPoint& fp)
 {
-    return static_cast<double>(fp.fpValue) / 0x10000;
+    return static_cast<f64>(fp.fpValue) / 0x10000;
 }
 
 inline FixedPoint FP_NoFractional(const FixedPoint& fp)

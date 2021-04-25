@@ -8,7 +8,7 @@
 #include "Slog.hpp"
 #include "Sfx.hpp"
 
-SlogSpawner* SlogSpawner::ctor_4C7FF0(Path_SlogSpawner* pTlv, int tlvInfo)
+SlogSpawner* SlogSpawner::ctor_4C7FF0(Path_SlogSpawner* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5476E8);
@@ -34,7 +34,7 @@ SlogSpawner* SlogSpawner::ctor_4C7FF0(Path_SlogSpawner* pTlv, int tlvInfo)
     return this;
 }
 
-BaseGameObject* SlogSpawner::VDestructor(signed int flags)
+BaseGameObject* SlogSpawner::VDestructor(s32 flags)
 {
     return vdtor_4C8080(flags);
 }
@@ -49,7 +49,7 @@ void SlogSpawner::VScreenChanged()
     vScreenChanged_4C82A0();
 }
 
-SlogSpawner* SlogSpawner::vdtor_4C8080(signed int flags)
+SlogSpawner* SlogSpawner::vdtor_4C8080(s32 flags)
 {
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)
@@ -72,13 +72,13 @@ void SlogSpawner::vUpdate_4C80D0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (static_cast<int>(sGnFrame_5C1B84) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
+    if (static_cast<s32>(sGnFrame_5C1B84) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
     {
         if (SwitchStates_Get_466020(field_3E_switch_id))
         {
             field_30_spawn_timer = (field_3C_slog_spawn_delay + sGnFrame_5C1B84) + Math_NextRandom() % 8;
             auto pSlog = ae_new<Slog>();
-            pSlog->ctor_4C4540(field_28_xpos, field_2C_ypos, field_34_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1), static_cast<__int16>(field_40_listen_to_sligs), field_42_chase_delay);
+            pSlog->ctor_4C4540(field_28_xpos, field_2C_ypos, field_34_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1), static_cast<s16>(field_40_listen_to_sligs), field_42_chase_delay);
             pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_3A_direction == XDirection_short::eRight_1);
 
             ++field_24_tlv_saved_slog_count;

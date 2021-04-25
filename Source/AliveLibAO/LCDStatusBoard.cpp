@@ -9,7 +9,7 @@
 
 namespace AO {
 
-const BYTE sStatsSignFontPalette_4CD570[32] =
+const u8 sStatsSignFontPalette_4CD570[32] =
 {
     0u,
     0u,
@@ -60,7 +60,7 @@ void LCDStatusBoard::VScreenChanged()
     VScreenChanged_441C70();
 }
 
-LCDStatusBoard* LCDStatusBoard::Vdtor_441C80(signed int flags)
+LCDStatusBoard* LCDStatusBoard::Vdtor_441C80(s32 flags)
 {
     dtor_4419E0();
     if (flags & 1)
@@ -70,7 +70,7 @@ LCDStatusBoard* LCDStatusBoard::Vdtor_441C80(signed int flags)
     return this;
 }
 
-BaseGameObject* LCDStatusBoard::VDestructor(signed int flags)
+BaseGameObject* LCDStatusBoard::VDestructor(s32 flags)
 {
     return Vdtor_441C80(flags);
 }
@@ -87,7 +87,7 @@ BaseGameObject* LCDStatusBoard::dtor_4419E0()
     return dtor_487DF0();
 }
 
-LCDStatusBoard* LCDStatusBoard::ctor_4418E0(Path_LCDStatusBoard* pTlv, int tlvInfo)
+LCDStatusBoard* LCDStatusBoard::ctor_4418E0(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBB90);
@@ -121,11 +121,11 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
 
 void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
 {
-    char text[12] = {};
+    s8 text[12] = {};
     sprintf(text, "%02d", 99 - sRescuedMudokons_5076C0 - sKilledMudokons_5076BC);
 
-    const short w1 = static_cast<short>(field_90_font3.MeasureWidth_41C2B0(text));
-    const short colourRange = sDisableFontFlicker_5080E4 ? 0 : 50;
+    const s16 w1 = static_cast<s16>(field_90_font3.MeasureWidth_41C2B0(text));
+    const s16 colourRange = sDisableFontFlicker_5080E4 ? 0 : 50;
 
     field_90_font3.DrawString_41C360(
         ppOt,
@@ -145,7 +145,7 @@ void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
         colourRange);
 
     sprintf(text, "%02d", sKilledMudokons_5076BC);
-    const short w2 = static_cast<short>(field_20_font1.MeasureWidth_41C2B0(text));
+    const s16 w2 = static_cast<s16>(field_20_font1.MeasureWidth_41C2B0(text));
     field_20_font1.DrawString_41C360(
         ppOt,
         text,
@@ -164,7 +164,7 @@ void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
         colourRange);
 
     sprintf(text, "%02d", sRescuedMudokons_5076C0);
-    short w3 = static_cast<short>(field_58_font2.MeasureWidth_41C2B0(text));
+    s16 w3 = static_cast<s16>(field_58_font2.MeasureWidth_41C2B0(text));
     field_58_font2.DrawString_41C360(
         ppOt,
         text,
@@ -182,7 +182,7 @@ void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
         w3 + field_CC_xpos,
         colourRange);
 
-    int biggestW = w1;
+    s32 biggestW = w1;
     if (w2 > biggestW)
     {
         biggestW = w2;

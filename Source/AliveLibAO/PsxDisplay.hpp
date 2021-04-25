@@ -12,7 +12,7 @@ namespace AO {
 // This seems to convert from PSX coordinate space to PC coordinate space
 // anywhere you see this calc replace it with this function
 template<class T>
-inline T PsxToPCX(T x, int addToX = 0)
+inline T PsxToPCX(T x, s32 addToX = 0)
 {
     return static_cast<T>(((40 * x) + static_cast<T>(addToX)) / 23);
 }
@@ -25,7 +25,7 @@ inline FP PsxToPCX(FP x, FP addToX = FP_FromInteger(0))
 
 // 640 * 23 / 40 =  368
 template<class T>
-inline T PCToPsxX(T x, int addX = 0)
+inline T PCToPsxX(T x, s32 addX = 0)
 {
     return (((x) * 23 + static_cast<T>(addX)) / 40);
 }
@@ -33,14 +33,14 @@ inline T PCToPsxX(T x, int addX = 0)
 
 struct PSX_Display_Params
 {
-    __int16 field_0_width;
-    __int16 field_2_height;
-    __int16 field_4_bpp;
-    __int16 field_6_max_buffers;
-    __int16 field_8_buffer_size;
-    __int16 field_A_k32;
-    __int16 field_C_k1;
-    __int16 field_E;
+    s16 field_0_width;
+    s16 field_2_height;
+    s16 field_4_bpp;
+    s16 field_6_max_buffers;
+    s16 field_8_buffer_size;
+    s16 field_A_k32;
+    s16 field_C_k1;
+    s16 field_E;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Display_Params, 0x10);
 
@@ -62,14 +62,14 @@ public:
 
     EXPORT void PutCurrentDispEnv_40DE40();
 
-    EXPORT void Movie_Render_40DE60(unsigned __int16 bufferIdx);
+    EXPORT void Movie_Render_40DE60(u16 bufferIdx);
 
-    unsigned __int16 field_0_width;
-    unsigned __int16 field_2_height;
-    __int16 field_4_bpp;
-    __int16 field_6_max_buffers;
-    unsigned __int16 field_8_buffer_size;
-    unsigned __int16 field_A_buffer_index;
+    u16 field_0_width;
+    u16 field_2_height;
+    s16 field_4_bpp;
+    s16 field_6_max_buffers;
+    u16 field_8_buffer_size;
+    u16 field_A_buffer_index;
     PSX_Display_Buffer field_C_drawEnv[2];
 };
 ALIVE_ASSERT_SIZEOF(PsxDisplay, 0x8EC);
@@ -77,7 +77,7 @@ ALIVE_ASSERT_SIZEOF(PsxDisplay, 0x8EC);
 ALIVE_VAR_EXTERN(PSX_Display_Params, gPsxDisplayParams_4BB830);
 ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay_504C78);
 
-EXPORT int CC DebugFont_Init_487EC0();
+EXPORT s32 CC DebugFont_Init_487EC0();
 
 EXPORT void CC DebugFont_Flush_487F50();
 

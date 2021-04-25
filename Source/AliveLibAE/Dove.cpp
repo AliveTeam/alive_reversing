@@ -10,10 +10,10 @@
 #include "Abe.hpp"
 #include "stdlib.hpp"
 
-ALIVE_VAR(1, 0x5bc112, short, bTheOneControllingTheMusic_5BC112, 0);
+ALIVE_VAR(1, 0x5bc112, s16, bTheOneControllingTheMusic_5BC112, 0);
 
 ALIVE_VAR(1, 0x5BC100, DynamicArrayT<Dove>, gDovesArray_5BC100, {});
-ALIVE_VAR(1, 0x5BC110, BYTE, byte_5BC110, 0);
+ALIVE_VAR(1, 0x5BC110, u8, byte_5BC110, 0);
 
 EXPORT void CC Dove_static_ctor_41F3C0()
 {
@@ -36,7 +36,7 @@ EXPORT void CC Dove_static_ctor_41F3A0()
     atexit(Dove_static_dtor_41F400);
 }
 
-Dove* Dove::ctor_41F430(int frameTableOffset, int /*maxW*/, unsigned __int16 /*maxH*/, int /*resourceID*/, int tlvInfo, FP scale)
+Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 /*maxW*/, u16 /*maxH*/, s32 /*resourceID*/, s32 tlvInfo, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90);
@@ -47,7 +47,7 @@ Dove* Dove::ctor_41F430(int frameTableOffset, int /*maxW*/, unsigned __int16 /*m
     if(frameTableOffset == 5580) { a_id = AnimId::Dove_Idle; }
 
     const AnimRecord& rec = AnimRec(a_id);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -93,7 +93,7 @@ Dove* Dove::ctor_41F430(int frameTableOffset, int /*maxW*/, unsigned __int16 /*m
     return this;
 }
 
-Dove* Dove::ctor_41F660(int frameTableOffset, int /*maxW*/, __int16 /*maxH*/, int /*resourceID*/, FP xpos, FP ypos, FP scale)
+Dove* Dove::ctor_41F660(s32 frameTableOffset, s32 /*maxW*/, s16 /*maxH*/, s32 /*resourceID*/, FP xpos, FP ypos, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90); // vTbl_Dove_544A90
@@ -104,7 +104,7 @@ Dove* Dove::ctor_41F660(int frameTableOffset, int /*maxW*/, __int16 /*maxH*/, in
     if(frameTableOffset == 5580) { a_id = AnimId::Dove_Idle; }
 
     const AnimRecord& rec = AnimRec(a_id);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -154,7 +154,7 @@ Dove* Dove::ctor_41F660(int frameTableOffset, int /*maxW*/, __int16 /*maxH*/, in
     return this;
 }
 
-BaseGameObject* Dove::VDestructor(signed int flags)
+BaseGameObject* Dove::VDestructor(s32 flags)
 {
     return vdtor_41F630(flags);
 }
@@ -197,7 +197,7 @@ void Dove::dtor_41F870()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Dove* Dove::vdtor_41F630(signed int flags)
+Dove* Dove::vdtor_41F630(s32 flags)
 {
     dtor_41F870();
     if (flags & 1)
@@ -207,13 +207,13 @@ Dove* Dove::vdtor_41F630(signed int flags)
     return this;
 }
 
-void Dove::AsAlmostACircle_41FA20(FP xpos, FP ypos, BYTE angle)
+void Dove::AsAlmostACircle_41FA20(FP xpos, FP ypos, u8 angle)
 {
     AsACircle_41F980(xpos, ypos, angle);
     field_FE_state = State::State_4_AlmostACircle;
 }
 
-void Dove::AsACircle_41F980(FP xpos, FP ypos, BYTE angle)
+void Dove::AsACircle_41F980(FP xpos, FP ypos, u8 angle)
 {
     field_100_xJoin = xpos;
     field_104_yJoin = ypos;
@@ -250,11 +250,11 @@ void Dove::FlyAway_420020(BOOL spookedInstantly)
     }
 }
 
-ALIVE_VAR(1, 0x5BC10C, int, bExtraSeqStarted_5BC10C, 0);
+ALIVE_VAR(1, 0x5BC10C, s32, bExtraSeqStarted_5BC10C, 0);
 
-static int sAbePortalTimer_5BC114 = 0;
-static short sAbePortalDirection_551546 = 0;
-static short sAbePortalWidth_551544 = 0;
+static s32 sAbePortalTimer_5BC114 = 0;
+static s16 sAbePortalDirection_551546 = 0;
+static s16 sAbePortalWidth_551544 = 0;
 
 void Dove::vUpdate_41FAE0()
 {
@@ -331,7 +331,7 @@ void Dove::vUpdate_41FAE0()
 
     case State::State_2_Join:
     {
-        if (static_cast<int>(sGnFrame_5C1B84) > field_108_timer)
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_108_timer)
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -365,7 +365,7 @@ void Dove::vUpdate_41FAE0()
         return;
 
     case State::State_4_AlmostACircle:
-        if (sAbePortalTimer_5BC114 != static_cast<int>(sGnFrame_5C1B84))
+        if (sAbePortalTimer_5BC114 != static_cast<s32>(sGnFrame_5C1B84))
         {
             // increase or decrease the width of the Abe portal
             sAbePortalWidth_551544 += sAbePortalDirection_551546;
@@ -407,7 +407,7 @@ void Dove::vUpdate_41FAE0()
 
 void CC Dove::All_FlyAway_41FA60(BOOL spookedInstantly)
 {
-    for (int i = 0; i < gDovesArray_5BC100.Size(); i++)
+    for (s32 i = 0; i < gDovesArray_5BC100.Size(); i++)
     {
         Dove* pDove = gDovesArray_5BC100.ItemAt(i);
         if (!pDove)

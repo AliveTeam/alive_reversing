@@ -5,9 +5,9 @@
 #include "Collisions.hpp"
 #include "Sfx.hpp"
 
-ALIVE_VAR(1, 0xBAF7E0, short, sShellCount_BAF7E0, 0);
+ALIVE_VAR(1, 0xBAF7E0, s16, sShellCount_BAF7E0, 0);
 
-BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP scale)
+BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, s16 direction, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x54708C);
@@ -24,7 +24,7 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP sc
     {
         field_4_typeId = AETypes::eNone_0;
         const AnimRecord& rec = AnimRec(AnimId::Bullet_Casing);
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
         field_CC_sprite_scale = scale;
@@ -60,7 +60,7 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP sc
     return this;
 }
 
-BaseGameObject* BulletShell::VDestructor(signed int flags)
+BaseGameObject* BulletShell::VDestructor(s32 flags)
 {
     return vdtor_4AD4F0(flags);
 }
@@ -70,7 +70,7 @@ void BulletShell::VUpdate()
     vUpdate_4AD550();
 }
 
-BulletShell* BulletShell::vdtor_4AD4F0(signed int flags)
+BulletShell* BulletShell::vdtor_4AD4F0(s32 flags)
 {
     dtor_4AD520();
     if (flags & 1)
@@ -126,7 +126,7 @@ void BulletShell::vUpdate_4AD550()
                 field_C4_velx = FP_FromInteger(1);
             }
 
-            short volume = 19 * (3 - field_FC_hitCount);
+            s16 volume = 19 * (3 - field_FC_hitCount);
             if (volume <= 19)
             {
                 volume = 19;

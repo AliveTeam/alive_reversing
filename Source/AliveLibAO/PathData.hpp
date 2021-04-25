@@ -6,7 +6,7 @@
 
 namespace AO {
 
-enum class LevelIds : __int16
+enum class LevelIds : s16
 {
     eNone = -1,
     eMenu_0 = 0,
@@ -27,7 +27,7 @@ enum class LevelIds : __int16
     eDesertEscape = 15,
 };
 
-enum class TlvTypes : __int16
+enum class TlvTypes : s16
 {
     None_m1 = -1,
     ContinuePoint_0 = 0,
@@ -144,67 +144,67 @@ enum class TlvTypes : __int16
 struct Path_TLV;
 class Map;
 
-using TTempFn = int(CC*)();
+using TTempFn = s32(CC*)();
 
 struct PathData
 {
     TTempFn field_0;
-    __int16 field_4_bLeft;
-    __int16 field_6_bRight;
-    __int16 field_8_bTop;
-    __int16 field_A_bBottom;
-    __int16 field_C_grid_width;
-    __int16 field_E_grid_height;
-    __int16 field_10;
-    __int16 field_12;
-    int field_14_object_offset;
-    int field_18_object_index_table_offset;
+    s16 field_4_bLeft;
+    s16 field_6_bRight;
+    s16 field_8_bTop;
+    s16 field_A_bBottom;
+    s16 field_C_grid_width;
+    s16 field_E_grid_height;
+    s16 field_10;
+    s16 field_12;
+    s32 field_14_object_offset;
+    s32 field_18_object_index_table_offset;
     PathFunctionTable field_1C_object_funcs;
 };
 
 struct CollisionInfo;
 
-using TCollisionsFactory = AddPointer_t<void(const CollisionInfo* pCollisionInfo, const BYTE* pPathData)>;
+using TCollisionsFactory = AddPointer_t<void(const CollisionInfo* pCollisionInfo, const u8* pPathData)>;
 
 struct CollisionInfo
 {
     TCollisionsFactory field_0_fn_ptr;
-    __int16 field_4_left;
-    __int16 field_6_right;
-    __int16 field_8_top;
-    __int16 field_A_bottom;
-    unsigned int field_C_collision_offset;
-    unsigned int field_10_num_collision_items;
-    unsigned int field_14_grid_width;
-    unsigned int field_18_grid_height;
+    s16 field_4_left;
+    s16 field_6_right;
+    s16 field_8_top;
+    s16 field_A_bottom;
+    u32 field_C_collision_offset;
+    u32 field_10_num_collision_items;
+    u32 field_14_grid_width;
+    u32 field_18_grid_height;
 };
 
 struct PathBlyRec
 {
-    const char* field_0_blyName;
+    const s8* field_0_blyName;
     const PathData* field_4_pPathData;
     const CollisionInfo* field_8_pCollisionData;
-    WORD field_C_overlay_id;
-    WORD field_E;
+    u16 field_C_overlay_id;
+    u16 field_E;
 };
 
 struct FmvInfo
 {
-    const char* field_0_pName;
-    unsigned __int16 field_4_id;
-    __int16 field_6;
-    __int16 field_8_stop_music;
-    __int16 field_A;
-    __int16 field_C_volume;
-    __int16 field_E;
+    const s8* field_0_pName;
+    u16 field_4_id;
+    s16 field_6;
+    s16 field_8_stop_music;
+    s16 field_A;
+    s16 field_C_volume;
+    s16 field_E;
 };
 
 struct SoundBlockInfo
 {
-    const char* field_0_vab_header_name;
-    const char* field_4_vab_body_name;
-    int field_8_vab_id;
-    BYTE* field_C_pVabHeader;
+    const s8* field_0_vab_header_name;
+    const s8* field_4_vab_body_name;
+    s32 field_8_vab_id;
+    u8* field_C_pVabHeader;
 };
 
 struct PathRoot
@@ -212,20 +212,20 @@ struct PathRoot
     const PathBlyRec* field_0_pBlyArrayPtr;
     FmvInfo* field_4_pFmvArray;
     SoundBlockInfo* field_8_pMusicInfo;
-    const char* field_C_bsq_file_name;
-    __int16 field_10_reverb;
-    __int16 field_12_bg_music_id;
-    const char* field_14_lvl_name;
-    __int16 field_18_num_paths;
-    __int16 field_1A_unused; // message to display to change cd ??
-    int field_1C_overlay_idx;
-    const char* field_20_lvl_name_cd;
-    int field_24;
-    const char* field_28_ovl_name_cd;
-    int field_2C;
-    const char* field_30_mov_name_cd;
-    const char* field_34_idx_name;
-    const char* field_38_bnd_name;
+    const s8* field_C_bsq_file_name;
+    s16 field_10_reverb;
+    s16 field_12_bg_music_id;
+    const s8* field_14_lvl_name;
+    s16 field_18_num_paths;
+    s16 field_1A_unused; // message to display to change cd ??
+    s32 field_1C_overlay_idx;
+    const s8* field_20_lvl_name_cd;
+    s32 field_24;
+    const s8* field_28_ovl_name_cd;
+    s32 field_2C;
+    const s8* field_30_mov_name_cd;
+    const s8* field_34_idx_name;
+    const s8* field_38_bnd_name;
 };
 
 struct PathRootContainer
@@ -233,11 +233,11 @@ struct PathRootContainer
     PathRoot paths[16];
 };
 
-EXPORT const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, unsigned __int16 path);
+EXPORT const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, u16 path);
 
-EXPORT FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, unsigned __int16 fmvId);
+EXPORT FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId);
 
-EXPORT int CC Path_Format_CameraName_4346B0(char* pNameBuffer, LevelIds level, __int16 path, __int16 camera);
+EXPORT s32 CC Path_Format_CameraName_4346B0(s8* pNameBuffer, LevelIds level, s16 path, s16 camera);
 
 extern PathRootContainer gMapData_4CAB58;
 

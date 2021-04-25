@@ -28,10 +28,10 @@
 
 namespace AO {
 
-const int dword_4BB1B8[4] = { 6152, 6140, 6164, 0 };
+const s32 dword_4BB1B8[4] = { 6152, 6140, 6164, 0 };
 
 // TODO: Move out
-ALIVE_VAR(1, 0x507690, short, sSoundMono_507690, 0);
+ALIVE_VAR(1, 0x507690, s16, sSoundMono_507690, 0);
 
 // TODO: Move out
 EXPORT void SND_Set_Mono_477020()
@@ -47,11 +47,11 @@ EXPORT void SND_Set_Stereo_477030()
     sSoundMono_507690 = 0;
 }
 
-ALIVE_VAR(1, 0x9F2DE8, short, bWaitingForRemapInput_9F2DE8, 0);
+ALIVE_VAR(1, 0x9F2DE8, s16, bWaitingForRemapInput_9F2DE8, 0);
 
 struct Buttons
 {
-    int buttons[2][8] =
+    s32 buttons[2][8] =
     {
         { // keyboard
             InputCommands::eRun,
@@ -82,9 +82,9 @@ ALIVE_VAR(1, 0x4D0030, const Buttons, sRemappableInputs_4D0030, {});
 
 struct Menu_Button
 {
-    __int16 field_0_xpos;
-    __int16 field_2_ypos;
-    int field_4_frame_table;
+    s16 field_0_xpos;
+    s16 field_2_ypos;
+    s32 field_4_frame_table;
 };
 
 const Menu_Button sMainScreenButtons_4D00B0[5] =
@@ -123,9 +123,9 @@ const Menu_Button stru_4D00E0[13] =
 
 struct Menu_Element
 {
-    int field_0_xpos;
-    int field_4_ypos;
-    int field_8_input_command;
+    s32 field_0_xpos;
+    s32 field_4_ypos;
+    s32 field_8_input_command;
 };
 
 const Menu_Element sBtnArray_MainMenuStaticBtn_4D03F0[] = { 146, 205, InputCommands::eUnPause_OrConfirm };
@@ -195,31 +195,31 @@ const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
 
 struct SaveName
 {
-    char field_0_mName[32];
+    s8 field_0_mName[32];
 };
 
 ALIVE_ARY(1, 0x9F1DD8, SaveName, 128, sSaveNames_9F1DD8, {}); // Got more than 128 saves? Hard luck mate
 
-ALIVE_VAR(1, 0x507694, short, gDemoPlay_507694, 0);
-ALIVE_VAR(1, 0x50769C, BYTE, sJoyResId_50769C, 0);
+ALIVE_VAR(1, 0x507694, s16, gDemoPlay_507694, 0);
+ALIVE_VAR(1, 0x50769C, u8, sJoyResId_50769C, 0);
 
-ALIVE_VAR(1, 0x9F2DE0, int, gMainMenuInstanceCount_9F2DE0, 0);
-ALIVE_VAR(1, 0x507688, short, sFontLoaded_507688, 0);
-ALIVE_VAR(1, 0x4D0228, short, sListCount_4D0228, -1);
+ALIVE_VAR(1, 0x9F2DE0, s32, gMainMenuInstanceCount_9F2DE0, 0);
+ALIVE_VAR(1, 0x507688, s16, sFontLoaded_507688, 0);
+ALIVE_VAR(1, 0x4D0228, s16, sListCount_4D0228, -1);
 
 // The total number of valid controllers - includes the keyboard as well
-ALIVE_VAR(1, 0x4CE598, int, sAvailableControllers_4CE598, 0);
-ALIVE_VAR(1, 0x5079A4, int, gJoystickAvailable_5079A4, 0);
+ALIVE_VAR(1, 0x4CE598, s32, sAvailableControllers_4CE598, 0);
+ALIVE_VAR(1, 0x5079A4, s32, gJoystickAvailable_5079A4, 0);
 
-ALIVE_VAR(1, 0x9F2DDC, int, sSelectedSaveIdx_9F2DDC, 0);
-ALIVE_VAR(1, 0x9F2DD8, int, sSaveIdx_9F2DD8, 0);
+ALIVE_VAR(1, 0x9F2DDC, s32, sSelectedSaveIdx_9F2DDC, 0);
+ALIVE_VAR(1, 0x9F2DD8, s32, sSaveIdx_9F2DD8, 0);
 
 
 struct MenuFMV;
 
 ALIVE_VAR(1, 0x9F2DE4, const MenuFMV*, sActiveList_9F2DE4, nullptr);
 
-const BYTE byte_4D0090[32] =
+const u8 byte_4D0090[32] =
 {
     0u,
     0u,
@@ -257,13 +257,13 @@ const BYTE byte_4D0090[32] =
 
 struct MenuFMV
 {
-    const char* field_0_name;
+    const s8* field_0_name;
     LevelIds field_4_level_id;
-    __int16 field_6;
-    __int16 field_8;
-    __int16 field_A_fmv_id;
-    __int16 field_C;
-    __int16 field_E;
+    s16 field_6;
+    s16 field_8;
+    s16 field_A_fmv_id;
+    s16 field_C;
+    s16 field_E;
 };
 
 const MenuFMV gFmvs_4D0230[13] =
@@ -285,13 +285,13 @@ const MenuFMV gFmvs_4D0230[13] =
 
 struct MenuLevel
 {
-    const char* field_0_name;
+    const s8* field_0_name;
     LevelIds field_4_level_id;
-    __int16 field_6;
-    __int16 field_8;
-    __int16 field_A;
-    __int16 field_C;
-    __int16 field_E;
+    s16 field_6;
+    s16 field_8;
+    s16 field_A;
+    s16 field_C;
+    s16 field_E;
 };
 
 // TODO: Should be MenuFMV or there is a generic structure for "lists" of things?
@@ -314,7 +314,7 @@ const MenuFMV sLevelList_4D0300[15] =
     { "The Boardroom", LevelIds::eBoardRoom_12, 6, 1, -1, 592, 157 }
 };
 
-MainMenuFade* MainMenuFade::ctor_42A5A0(__int16 xpos, __int16 ypos, unsigned __int16 idx_1, __int16 bDestroyOnDone)
+MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, u16 idx_1, s16 bDestroyOnDone)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB1C8);
@@ -325,7 +325,7 @@ MainMenuFade* MainMenuFade::ctor_42A5A0(__int16 xpos, __int16 ypos, unsigned __i
     field_C2_g = 128;
     field_C0_r = 128;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
     Animation_Init_417FD0(
         dword_4BB1B8[idx_1],
         99,
@@ -340,7 +340,7 @@ MainMenuFade* MainMenuFade::ctor_42A5A0(__int16 xpos, __int16 ypos, unsigned __i
     field_E4 = 40;
     field_E6 = 8;
 
-    for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObj)
@@ -387,9 +387,9 @@ void MainMenuFade::VUpdate_42A730()
         field_E6 = -field_E6;
     }
 
-    field_10_anim.field_A_b = static_cast<BYTE>(field_E4);
-    field_10_anim.field_9_g = static_cast<BYTE>(field_E4);
-    field_10_anim.field_8_r = static_cast<BYTE>(field_E4);
+    field_10_anim.field_A_b = static_cast<u8>(field_E4);
+    field_10_anim.field_9_g = static_cast<u8>(field_E4);
+    field_10_anim.field_8_r = static_cast<u8>(field_E4);
 }
 
 void MainMenuFade::VRender(PrimHeader** ppOt)
@@ -416,7 +416,7 @@ void MainMenuFade::VRender_42A7A0(PrimHeader** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-BaseGameObject* MainMenuFade::VDestructor(signed int flags)
+BaseGameObject* MainMenuFade::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)
@@ -428,10 +428,10 @@ BaseGameObject* MainMenuFade::VDestructor(signed int flags)
 
 struct MainMenu_TransitionData
 {
-    __int16 field_0;
-    __int16 field_2;
-    __int16 field_4;
-    __int16 field_6;
+    s16 field_0;
+    s16 field_2;
+    s16 field_4;
+    s16 field_6;
 };
 ALIVE_ASSERT_SIZEOF(MainMenu_TransitionData, 0x8);
 
@@ -465,7 +465,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
     { -16,       0,         256, 1 },
 };
 
-BaseGameObject* MainMenuTransition::VDestructor(signed int flags)
+BaseGameObject* MainMenuTransition::VDestructor(s32 flags)
 {
     return Vdtor_4369F0(flags);
 }
@@ -510,7 +510,7 @@ void MainMenuTransition::VUpdate()
     VUpdate_4365C0();
 }
 
-MainMenuTransition* MainMenuTransition::ctor_436370(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed, TPageAbr abr)
+MainMenuTransition* MainMenuTransition::ctor_436370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed, TPageAbr abr)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BB7A0);
@@ -520,12 +520,12 @@ MainMenuTransition* MainMenuTransition::ctor_436370(Layer layer, __int16 fadeDir
 
     field_6_flags.Set(Options::eDrawable_Bit4);
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
         Init_SetTPage_495FB0(&field_21C_tPage[i], 0, 1, PSX_getTPage_4965D0(TPageMode::e16Bit_2, abr, 0, 0));
     }
 
-    for (int i = 0; i < 8; i++)
+    for (s32 i = 0; i < 8; i++)
     {
         Prim_Init_Poly_G3_498870(&field_1C_polys[0].field_0_polys[i]);
         Poly_Set_SemiTrans_498A40(&field_1C_polys[0].field_0_polys[i].mBase.header, 1);
@@ -561,7 +561,7 @@ BaseGameObject* MainMenuTransition::dtor_436500()
     return dtor_487DF0();
 }
 
-MainMenuTransition* MainMenuTransition::Vdtor_4369F0(signed int flags)
+MainMenuTransition* MainMenuTransition::Vdtor_4369F0(s32 flags)
 {
     dtor_436500();
     if (flags & 1)
@@ -571,7 +571,7 @@ MainMenuTransition* MainMenuTransition::Vdtor_4369F0(signed int flags)
     return this;
 }
 
-void MainMenuTransition::StartTrans_436560(Layer layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed)
+void MainMenuTransition::StartTrans_436560(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)
 {
     field_23C_layer = layer;
     field_14_fade_direction = fadeDirection;
@@ -612,43 +612,43 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
 void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
 {
     // TODO: The fixed point math/var needs cleaning up/refactoring in here
-    int currentValue = field_10_current_Value;
-    int v4 = (currentValue + 1) >> 4;
-    int v5 = v4 * v4 * v4 * v4 >> 8;
+    s32 currentValue = field_10_current_Value;
+    s32 v4 = (currentValue + 1) >> 4;
+    s32 v5 = v4 * v4 * v4 * v4 >> 8;
 
-    int bValue = v4 * v4 * v4 * v4 >> 8;
+    s32 bValue = v4 * v4 * v4 * v4 >> 8;
     if (v5 > 255)
     {
         bValue = -1; // LOBYTE
         v5 = 255;
     }
 
-    int rgValue = v5 * v5 >> 8;
+    s32 rgValue = v5 * v5 >> 8;
     if (rgValue > 255)
     {
         rgValue = -1; // LOBYTE
     }
 
-    int op1 = currentValue << 12;
-    int val1 = Math_Cosine_4510A0(field_246_colour_fade_value).fpValue;
-    int val2 = Math_Sine_451110(field_246_colour_fade_value).fpValue;
-    int r0g0 = -64 / ((v5 >> 2) + 1);
-    for (int i = 0; i < 8; i++)
+    s32 op1 = currentValue << 12;
+    s32 val1 = Math_Cosine_4510A0(field_246_colour_fade_value).fpValue;
+    s32 val2 = Math_Sine_451110(field_246_colour_fade_value).fpValue;
+    s32 r0g0 = -64 / ((v5 >> 2) + 1);
+    for (s32 i = 0; i < 8; i++)
     {
-        int idx = i + (8 * field_242_idx);
-        int v8 = stru_55C038[idx].field_4 << 8;
-        int v9 = stru_55C038[idx].field_2 << 16;
-        int v10 = (signed __int16)stru_55C038[idx].field_0 << 16;
-        int v11 = Math_FixedPoint_Multiply_451040(v9, val1);
-        int v12 = Math_FixedPoint_Multiply_451040(v10, val2) - v11;
-        int v13 = Math_FixedPoint_Multiply_451040(op1, v8);
-        __int16 x0 = field_23E_width + 640 * ((signed int)Math_FixedPoint_Multiply_451040(v12, v13) >> 16) / 368;
-        int v14 = Math_FixedPoint_Multiply_451040(v9, val2);
-        int v15 = Math_FixedPoint_Multiply_451040(v10, val1) + v14;
-        int v16 = Math_FixedPoint_Multiply_451040(op1, v8);
-        __int16 y0 = field_240_k120 + (Math_FixedPoint_Multiply_451040(v15, v16) >> 16);
+        s32 idx = i + (8 * field_242_idx);
+        s32 v8 = stru_55C038[idx].field_4 << 8;
+        s32 v9 = stru_55C038[idx].field_2 << 16;
+        s32 v10 = (s16)stru_55C038[idx].field_0 << 16;
+        s32 v11 = Math_FixedPoint_Multiply_451040(v9, val1);
+        s32 v12 = Math_FixedPoint_Multiply_451040(v10, val2) - v11;
+        s32 v13 = Math_FixedPoint_Multiply_451040(op1, v8);
+        s16 x0 = field_23E_width + 640 * ((s32)Math_FixedPoint_Multiply_451040(v12, v13) >> 16) / 368;
+        s32 v14 = Math_FixedPoint_Multiply_451040(v9, val2);
+        s32 v15 = Math_FixedPoint_Multiply_451040(v10, val1) + v14;
+        s32 v16 = Math_FixedPoint_Multiply_451040(op1, v8);
+        s16 y0 = field_240_k120 + (Math_FixedPoint_Multiply_451040(v15, v16) >> 16);
 
-        int v17 = 0;
+        s32 v17 = 0;
         if (i < 7)
         {
             v17 = i + 1;
@@ -658,9 +658,9 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
             v17 = 0;
         }
 
-        int idx2 = (8 * field_242_idx);
-        int v36 = (signed __int16)stru_55C038[idx2 + v17].field_0 << 16;
-        int v19 = 0;
+        s32 idx2 = (8 * field_242_idx);
+        s32 v36 = (s16)stru_55C038[idx2 + v17].field_0 << 16;
+        s32 v19 = 0;
         if (i < 7)
         {
             v19 = i + 1;
@@ -670,9 +670,9 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
             v19 = 0;
         }
 
-        int v20 = stru_55C038[idx2 + v19].field_2 << 16;
-        int v38 = v20;
-        int v21 = 0;
+        s32 v20 = stru_55C038[idx2 + v19].field_2 << 16;
+        s32 v38 = v20;
+        s32 v21 = 0;
         if (i < 7)
         {
             v21 = i + 1;
@@ -681,26 +681,26 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         {
             v21 = 0;
         }
-        int y1 = stru_55C038[v21 + idx2].field_4 << 8;
+        s32 y1 = stru_55C038[v21 + idx2].field_4 << 8;
 
-        int v23 = Math_FixedPoint_Multiply_451040(v20, val1);
-        int x1 = Math_FixedPoint_Multiply_451040(v36, val2) - v23;
-        int v25 = Math_FixedPoint_Multiply_451040(op1, y1);
+        s32 v23 = Math_FixedPoint_Multiply_451040(v20, val1);
+        s32 x1 = Math_FixedPoint_Multiply_451040(v36, val2) - v23;
+        s32 v25 = Math_FixedPoint_Multiply_451040(op1, y1);
         // TODO: Use PsxToPCX
-        x1 = field_23E_width + 40 * ((signed int)Math_FixedPoint_Multiply_451040(x1, v25) >> 16) / 23; // LOWORD
-        int v26 = Math_FixedPoint_Multiply_451040(v38, val2);
-        int v27 = v26 + Math_FixedPoint_Multiply_451040(v36, val1);
-        int v28 = Math_FixedPoint_Multiply_451040(op1, y1);
+        x1 = field_23E_width + 40 * ((s32)Math_FixedPoint_Multiply_451040(x1, v25) >> 16) / 23; // LOWORD
+        s32 v26 = Math_FixedPoint_Multiply_451040(v38, val2);
+        s32 v27 = v26 + Math_FixedPoint_Multiply_451040(v36, val1);
+        s32 v28 = Math_FixedPoint_Multiply_451040(op1, y1);
         y1 = field_240_k120 + (Math_FixedPoint_Multiply_451040(v27, v28) >> 16); // LOWORD
         Poly_G3* pPoly = &field_1C_polys[gPsxDisplay_504C78.field_A_buffer_index].field_0_polys[i];
 
-        SetRGB0(pPoly, static_cast<BYTE>(r0g0), static_cast<BYTE>(r0g0), 255);
-        SetRGB1(pPoly, static_cast<BYTE>(rgValue), static_cast<BYTE>(rgValue), static_cast<BYTE>(bValue));
-        SetRGB2(pPoly, static_cast<BYTE>(rgValue), static_cast<BYTE>(rgValue), static_cast<BYTE>(bValue));
+        SetRGB0(pPoly, static_cast<u8>(r0g0), static_cast<u8>(r0g0), 255);
+        SetRGB1(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
+        SetRGB2(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
 
         SetXY0(pPoly, field_23E_width, field_240_k120);
         SetXY1(pPoly, x0, y0);
-        SetXY2(pPoly, static_cast<short>(x1), static_cast<short>(y1));
+        SetXY2(pPoly, static_cast<s16>(x1), static_cast<s16>(y1));
 
         OrderingTable_Add_498A80(OtLayer(ppOt, field_23C_layer), &pPoly->mBase.header);
     }
@@ -719,7 +719,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
     }
 }
 
-Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
+Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BCE78);
@@ -759,7 +759,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, int tlvInfo)
     field_10_anim.field_9_g = 127;
     field_10_anim.field_8_r = 127;
 
-    BYTE** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
+    u8** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
     field_134_anim.Init_402D20(6152, gObjList_animations_505564, this, 99, 43, v8, 1, 0, 0);
 
     field_134_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
@@ -846,7 +846,7 @@ BaseGameObject* Menu::dtor_47AAB0()
     gMap_507BA8.TLV_Reset_446870(field_1D4_tlvInfo, -1, 0, 0);
     field_134_anim.vCleanUp();
 
-    for (int i = 0; i < ALIVE_COUNTOF(field_E4_res_array); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_E4_res_array); i++)
     {
         if (field_10_anim.field_20_ppBlock != field_E4_res_array[i])
         {
@@ -878,12 +878,12 @@ BaseGameObject* Menu::dtor_47AAB0()
     return dtor_417D10();
 }
 
-BaseGameObject* Menu::VDestructor(signed int flags)
+BaseGameObject* Menu::VDestructor(s32 flags)
 {
     return Vdtor_47FC40(flags);
 }
 
-Menu* Menu::Vdtor_47FC40(signed int flags)
+Menu* Menu::Vdtor_47FC40(s32 flags)
 {
     dtor_47AAB0();
     if (flags & 1)
@@ -936,9 +936,9 @@ void Menu::VUpdate_47ABB0()
         field_1E4_colour_counter = -field_1E4_colour_counter;
     }
 
-    field_134_anim.field_8_r = static_cast<BYTE>(field_1E2_rgb);
-    field_134_anim.field_A_b = static_cast<BYTE>(field_1E2_rgb);
-    field_134_anim.field_9_g = static_cast<BYTE>(field_1E2_rgb);
+    field_134_anim.field_8_r = static_cast<u8>(field_1E2_rgb);
+    field_134_anim.field_A_b = static_cast<u8>(field_1E2_rgb);
+    field_134_anim.field_9_g = static_cast<u8>(field_1E2_rgb);
 
     (this->*field_1CC_fn_update)();
 }
@@ -963,7 +963,7 @@ void Menu::WaitForDoorToOpen_47B550()
 
 void Menu::WaitForAbesHeadPoppingThroughDoor_47B5E0()
 {
-    if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+    if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
     {
         field_204_flags |= 2u;
         field_10_anim.Set_Animation_Data_402A40(37364, nullptr);
@@ -989,7 +989,7 @@ void Menu::CopyRight_Update_47B4C0()
 {
     if (gMap_507BA8.field_4_current_camera == 23)
     {
-        if (static_cast<int>(gnFrameCount_507670) > field_1D8_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_1D8_timer)
         {
             field_1D8_timer = gnFrameCount_507670 + 150;
             gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
@@ -997,7 +997,7 @@ void Menu::CopyRight_Update_47B4C0()
     }
     else
     {
-        if (static_cast<int>(gnFrameCount_507670) > field_1D8_timer || gMap_507BA8.field_4_current_camera != 10)
+        if (static_cast<s32>(gnFrameCount_507670) > field_1D8_timer || gMap_507BA8.field_4_current_camera != 10)
         {
             gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect5_1_FMV, 30102, 0);
             field_1CC_fn_update = &Menu::WaitForDoorToOpen_47B550;
@@ -1056,18 +1056,18 @@ void Menu::FMV_Select_Update_47E8D0()
                     SND_StopAll_4762D0();
 
                     const FmvInfo* pFmvRec = Path_Get_FMV_Record_434680(sActiveList_9F2DE4[field_1E0_selected_index].field_4_level_id,  sActiveList_9F2DE4[field_1E0_selected_index].field_A_fmv_id);
-                    DWORD movie1Sector = 0;
+                    u32 movie1Sector = 0;
                     Get_fmvs_sectors_44FEB0(pFmvRec->field_0_pName, 0, 0, &movie1Sector, 0, 0);
 
                     auto pMovie = ao_new<Movie>();
                     if (pMovie)
                     {
-                        pMovie->ctor_489C90(pFmvRec->field_4_id, movie1Sector, static_cast<char>(pFmvRec->field_6), pFmvRec->field_A, pFmvRec->field_C_volume);
+                        pMovie->ctor_489C90(pFmvRec->field_4_id, movie1Sector, static_cast<s8>(pFmvRec->field_6), pFmvRec->field_A, pFmvRec->field_C_volume);
                     }
 
                     while (sMovie_ref_count_9F309C)
                     {
-                        for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+                        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
                         {
                             BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
                             if (!pObj)
@@ -1090,7 +1090,7 @@ void Menu::FMV_Select_Update_47E8D0()
 
                     stru_507C90.Free_41BEB0();
                     gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
-                    pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<unsigned __int16**>(gMap_507BA8.field_34_camera_array[0]->field_C_ppBits));
+                    pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<u16**>(gMap_507BA8.field_34_camera_array[0]->field_C_ppBits));
                     pScreenManager_4FF7C8->MoveImage_406C40();
                     pScreenManager_4FF7C8->field_36_flags = pScreenManager_4FF7C8->field_36_flags & ~1 ^ 1; // Set 1 ?
                     SND_Restart_476340();
@@ -1103,7 +1103,7 @@ void Menu::FMV_Select_Update_47E8D0()
                     // The credits are re-done in this class rather than using CreditsController... go to the Sherry credit screen
                     field_208_camera = 1;
                     pScreenManager_4FF7C8->UnsetDirtyBits_FG1_406EF0();
-                    gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<short>(field_208_camera), CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<s16>(field_208_camera), CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                     field_1CC_fn_update = &Menu::To_Credits_Update_47F140;
                     field_1D0_fn_render = &Menu::Empty_Render_47AC80;
                 }
@@ -1218,31 +1218,31 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
 
     NavigateBetweenTwoPoints(field_21C, field_220);
 
-    int polyOffset = 0;
+    s32 polyOffset = 0;
 
-    int idxStart = -1;
-    int textYOff = -26;
-    int v24 = -1;
-    int v25 = -26;
+    s32 idxStart = -1;
+    s32 textYOff = -26;
+    s32 v24 = -1;
+    s32 v25 = -26;
     do
     {
-        int itemIdx = field_1E0_selected_index + idxStart;
+        s32 itemIdx = field_1E0_selected_index + idxStart;
         if (itemIdx >= 0 && itemIdx <= sListCount_4D0228 - 1)
         {
             field_1F4_text = sActiveList_9F2DE4[itemIdx].field_0_name;
-            const int textWidth = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
-            short textXOff = 0;
+            const s32 textWidth = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
+            s16 textXOff = 0;
             if (textWidth >= 336)
             {
                 textXOff = 16;
             }
             else
             {
-                textXOff = static_cast<short>((368 - textWidth) / 2);
+                textXOff = static_cast<s16>((368 - textWidth) / 2);
             }
 
-            const short textYPos = static_cast<short>((FP_GetExponent(field_21C + FP_FromDouble(0.5))) + textYOff + 114);
-            const short textXPos = textXOff + 6;
+            const s16 textYPos = static_cast<s16>((FP_GetExponent(field_21C + FP_FromDouble(0.5))) + textYOff + 114);
+            const s16 textXPos = textXOff + 6;
             polyOffset = field_FC_font.DrawString_41C360(
                 ppOt,
                 field_1F4_text,
@@ -1284,7 +1284,7 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
     } while (textYOff < 52);
 
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
         RenderElement_47A4E0(x_and_esc_4D0660[i].field_0_xpos, x_and_esc_4D0660[i].field_4_ypos, x_and_esc_4D0660[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
     }
@@ -1326,7 +1326,7 @@ void Menu::ProgressInProgressFilesLoading()
     do
     {
         LOG_INFO("Start iteration");
-        for (int i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
             if (!pObjIter)
@@ -1368,7 +1368,7 @@ void Menu::MainScreen_Render_47BED0(PrimHeader** ppOt)
         rect.h,
         pScreenManager_4FF7C8->field_2E_idx);
 
-    int polyOffset = 0;
+    s32 polyOffset = 0;
     for (const auto& element : sBtnArray_MainMenuStaticBtn_4D03F0)
     {
         RenderElement_47A4E0(element.field_0_xpos, element.field_4_ypos, element.field_8_input_command, ppOt, &field_FC_font, &polyOffset);
@@ -1378,7 +1378,7 @@ void Menu::MainScreen_Render_47BED0(PrimHeader** ppOt)
 EXPORT void Menu::MainScreen_Update_47AF60()
 {
     // Calculate idle timers for playing game play demos
-    int bSmallerTimeout = 0;
+    s32 bSmallerTimeout = 0;
     if (Input().Pressed(InputObject::PadIndex::First))
     {
         bSmallerTimeout = 0;
@@ -1418,7 +1418,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0);
         bSmallerTimeout = gDemoPlay_507694;
     }
-    const int idleMax = bSmallerTimeout != 0 ? 300 : 1500;
+    const s32 idleMax = bSmallerTimeout != 0 ? 300 : 1500;
     if (Input().IsAnyHeld(InputObject::PadIndex::First, (InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction  | InputCommands::eCheatMode | InputCommands::eBack)) || field_1DC_idle_input_counter > idleMax)
     {
         if (field_1DC_idle_input_counter <= idleMax)
@@ -1474,7 +1474,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
             field_1E0_selected_index = 1;
             gAttract_507698 = 1;
 
-            char fileNameBuf[20] = {};
+            s8 fileNameBuf[20] = {};
             sprintf(fileNameBuf, "PLAYBK%02d.JOY", sJoyResId_50769C);
             ResourceManager::LoadResourceFile_4551E0(fileNameBuf, 0, 0, 0);
 
@@ -1561,7 +1561,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
             field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
         }
     }
-    else if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+    else if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
     {
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -1759,9 +1759,9 @@ void Menu::ToGameSpeak_Update_47D620()
 void Menu::GameSpeak_Render_47D700(PrimHeader** ppOt)
 {
     // Only renders exit and keys
-    int polyOffset = 0;
-    const int count = Input_JoyStickEnabled() != 0 ? 13 : 1;
-    for (int i = 20; i < 20 + count; i++)
+    s32 polyOffset = 0;
+    const s32 count = Input_JoyStickEnabled() != 0 ? 13 : 1;
+    for (s32 i = 20; i < 20 + count; i++)
     {
         RenderElement_47A4E0(
             sBtnArray_AbeGamespeakMenuButtons_4D04A0[i].field_0_xpos,
@@ -1810,7 +1810,7 @@ void Menu::To_Load_Update_47D8E0()
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
             sSaveIdx_9F2DD8 = 0;
-            IO_EnumerateDirectory("*.sav", [](const char* fileName, DWORD /*lastWriteTime*/)
+            IO_EnumerateDirectory("*.sav", [](const s8* fileName, u32 /*lastWriteTime*/)
                 {
                     if (sSaveIdx_9F2DD8 < 128) // TODO: Array len
                     {
@@ -1871,7 +1871,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
     {
         if (field_228 != FP_FromInteger(0))
         {
-            field_1E0_selected_index = static_cast<short>(sSelectedSaveIdx_9F2DDC);
+            field_1E0_selected_index = static_cast<s16>(sSelectedSaveIdx_9F2DDC);
         }
         else
         {
@@ -1893,8 +1893,8 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
 
     NavigateBetweenTwoPoints(field_228, field_22C);
 
-    int start = 0;
-    int end = 0;
+    s32 start = 0;
+    s32 end = 0;
     if (field_228 == FP_FromInteger(0))
     {
         start = -2;
@@ -1911,7 +1911,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
         end = 2;
     }
 
-    int polyOffset = 0;
+    s32 polyOffset = 0;
     while (start <= end)
     {
         const auto curIdx = start + field_1E0_selected_index;
@@ -1920,22 +1920,22 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
             field_1F4_text = sSaveNames_9F1DD8[curIdx].field_0_mName;
 
             const auto name_width = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
-            short text_x = 0;
+            s16 text_x = 0;
             if (name_width >= 336)
             {
                 text_x = 16;
             }
             else
             {
-                text_x = static_cast<short>((368 - name_width) / 2);
+                text_x = static_cast<s16>((368 - name_width) / 2);
             }
 
-            const int yAdjust = (FP_GetExponent(field_228 + FP_FromDouble(0.5))) + 26 * start + 120;
-            const short text_y = static_cast<short>((yAdjust + FP_GetExponent(FP_FromInteger(-7) * FP_FromInteger(1))) - 1);
+            const s32 yAdjust = (FP_GetExponent(field_228 + FP_FromDouble(0.5))) + 26 * start + 120;
+            const s16 text_y = static_cast<s16>((yAdjust + FP_GetExponent(FP_FromInteger(-7) * FP_FromInteger(1))) - 1);
 
-            BYTE r = 210;
-            BYTE g = 150;
-            BYTE b = 80;
+            u8 r = 210;
+            u8 g = 150;
+            u8 b = 80;
 
             // Draw the "selected" item in another colour so you can see its selected
             if (start == 0)
@@ -1945,7 +1945,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
                 b = 140;
             }
 
-            const int nextPolyOff = field_FC_font.DrawString_41C360(
+            const s32 nextPolyOff = field_FC_font.DrawString_41C360(
                 ppOt,
                 field_1F4_text,
                 text_x,
@@ -1982,7 +1982,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
         start++;
     }
 
-    for (int i = 0; i < 2; i++)
+    for (s32 i = 0; i < 2; i++)
     {
         RenderElement_47A4E0(
             sBtnArray_LoadGameMenuButtons_4D0630[i].field_0_xpos,
@@ -2025,7 +2025,7 @@ void Menu::Options_Render_47C190(PrimHeader** ppOt)
         rect.h,
         pScreenManager_4FF7C8->field_2E_idx);
 
-    int polyOff = 0;
+    s32 polyOff = 0;
     for (const auto& element : sBtnArray_Options_4D0400)
     {
         RenderElement_47A4E0(element.field_0_xpos, element.field_4_ypos, element.field_8_input_command, ppOt, &field_FC_font, &polyOff);
@@ -2060,7 +2060,7 @@ void Menu::Loading_Update_47B870()
             {
                 if (gAttract_507698)
                 {
-                    char buffer[92] = {};
+                    s8 buffer[92] = {};
                     sprintf(buffer, "loading Joy # %d\n", sJoyResId_50769C);
                     // Never used ??
                     LOG_INFO(buffer);
@@ -2098,7 +2098,7 @@ void Menu::NewGameStart_47B9C0()
         auto pDemoPlayBackMem = ao_new<DemoPlayback>();
         if (pDemoPlayBackMem)
         {
-            BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
+            u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
             pDemoPlayBackMem->ctor_4517B0(ppRes, 0);
         }
     }
@@ -2202,7 +2202,7 @@ void Menu::Options_Update_47BF90()
             field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
         }
     }
-    else if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+    else if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
     {
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -2267,7 +2267,7 @@ void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
             field_228 = FP_FromInteger(0);
             field_1CC_fn_update = &Menu::To_Options_Controller_Update_47F2E0;
             field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
-            field_1E0_selected_index = static_cast<short>(Input_JoyStickEnabled());
+            field_1E0_selected_index = static_cast<s16>(Input_JoyStickEnabled());
             field_230_bGoBack = -1;
             field_22C = FP_FromInteger(0);
             break;
@@ -2307,7 +2307,7 @@ void Menu::To_Options_Controller_Update_47F2E0()
             field_1CC_fn_update = &Menu::Options_Controller_Update_47F210;
             field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
             field_1DC_idle_input_counter = 0;
-            field_1E0_selected_index = static_cast<short>(Input_JoyStickEnabled());
+            field_1E0_selected_index = static_cast<s16>(Input_JoyStickEnabled());
             field_228 = FP_FromInteger(0);
         }
     }
@@ -2343,7 +2343,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
     {
         if (field_228 > FP_FromInteger(0))
         {
-            field_1E0_selected_index = static_cast<short>(Input_JoyStickEnabled());
+            field_1E0_selected_index = static_cast<s16>(Input_JoyStickEnabled());
         }
         else
         {
@@ -2364,11 +2364,11 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
 
     NavigateBetweenTwoPoints(field_228, field_22C);
 
-    int yOffset = -26;
-    int polyOffset = 0;
-    for (int i = 0; i < 3; i++)
+    s32 yOffset = -26;
+    s32 polyOffset = 0;
+    for (s32 i = 0; i < 3; i++)
     {
-        int selection = field_1E0_selected_index + i - 1;
+        s32 selection = field_1E0_selected_index + i - 1;
         if (selection >= 0 && selection < sAvailableControllers_4CE598)
         {
             if (selection == 0)
@@ -2380,9 +2380,9 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
                 field_1F4_text = "Gamepad";
             }
 
-            const short fontWidth = static_cast<short>(field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1)));
-            const short x = static_cast<short>(fontWidth >= 336 ? 16 : (368 - fontWidth) / 2);
-            const short y = static_cast<short>(FP_GetExponent(field_228 + FP_FromDouble(0.5)) + yOffset + 112);
+            const s16 fontWidth = static_cast<s16>(field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1)));
+            const s16 x = static_cast<s16>(fontWidth >= 336 ? 16 : (368 - fontWidth) / 2);
+            const s16 y = static_cast<s16>(FP_GetExponent(field_228 + FP_FromDouble(0.5)) + yOffset + 112);
 
             polyOffset = field_FC_font.DrawString_41C360(
                 ppOt,
@@ -2422,7 +2422,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
         yOffset += 26;
     };
 
-    for(int i = 0; i < ALIVE_COUNTOF(controllerSelectElements_4D0678); i++)
+    for(s32 i = 0; i < ALIVE_COUNTOF(controllerSelectElements_4D0678); i++)
     {
         const auto& menuElement = controllerSelectElements_4D0678[i];
         Menu::RenderElement_47A4E0(
@@ -2478,8 +2478,8 @@ void Menu::Options_Sound_Render_47C630(PrimHeader** ppOt)
         rect.h,
         pScreenManager_4FF7C8->field_2E_idx);
 
-    int polyOffset = 0;
-    for (int i = 0; i < 2; i++)
+    s32 polyOffset = 0;
+    for (s32 i = 0; i < 2; i++)
     {
         RenderElement_47A4E0(sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_0_xpos, sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_4_ypos, sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
     }
@@ -2562,7 +2562,7 @@ void Menu::Options_Sound_Update_47C420()
             field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
         }
     }
-    else if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+    else if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
     {
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -2928,7 +2928,7 @@ void Menu::CycleGameSpeakIdleAnims()
         }
         else
         {
-            if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+            if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
             {
                 if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
@@ -3072,7 +3072,7 @@ const Menu_Button sRemapScreenButtons_4D0170[10] =
     { 302, 199, 6152 }  // Exit
 };
 
-const char* inputActions_4D0070[8] =
+const s8* inputActions_4D0070[8] =
 {
     "Run", "Sneak", "Jump", "Speak 1", "Action", "Throw", "Crouch", "Speak 2"
 };
@@ -3080,7 +3080,7 @@ const char* inputActions_4D0070[8] =
 
 void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
 {
-    int frameTable = 0;
+    s32 frameTable = 0;
     if (field_230_bGoBack == -1)
     {
         frameTable = sRemapScreenButtons_4D0170[field_1E0_selected_index].field_4_frame_table;
@@ -3091,8 +3091,8 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
     }
     field_134_anim.Set_Animation_Data_402A40(frameTable, 0);
 
-    int polyOffset = 0;
-    for (int i = 0; i < ALIVE_COUNTOF(sRemapScreenButtons_4D0170) - 2; i++)
+    s32 polyOffset = 0;
+    for (s32 i = 0; i < ALIVE_COUNTOF(sRemapScreenButtons_4D0170) - 2; i++)
     {
         RenderElement_47A4E0(
             sRemapScreenButtons_4D0170[i].field_0_xpos,
@@ -3126,7 +3126,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
     }
     if (field_230_bGoBack == 8)
     {
-        const int maxFontWidth = 336;
+        const s32 maxFontWidth = 336;
         if (Input_JoyStickEnabled())
         {
             field_1F4_text = "Press button to use";
@@ -3135,17 +3135,17 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
         {
             field_1F4_text = "Press key to use";
         }
-        int fontWidth = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
-        short calculatedXposBasedOnWidth = 0;
+        s32 fontWidth = field_FC_font.MeasureWidth_41C280(field_1F4_text, FP_FromInteger(1));
+        s16 calculatedXposBasedOnWidth = 0;
         if (fontWidth >= maxFontWidth)
         {
             calculatedXposBasedOnWidth = 16;
         }
         else
         {
-            calculatedXposBasedOnWidth = static_cast<short>((368 - fontWidth) / 2);
+            calculatedXposBasedOnWidth = static_cast<s16>((368 - fontWidth) / 2);
         }
-        int drawnStringOffset = field_FC_font.DrawString_41C360(
+        s32 drawnStringOffset = field_FC_font.DrawString_41C360(
             ppOt,
             field_1F4_text,
             calculatedXposBasedOnWidth,
@@ -3163,18 +3163,18 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             0);
         polyOffset = drawnStringOffset;
 
-        char buffer[40] = {};
+        s8 buffer[40] = {};
         sprintf(buffer, "for %s", inputActions_4D0070[field_1E0_selected_index]);
         field_1F4_text = buffer;
         auto fontWidth2 = field_FC_font.MeasureWidth_41C280(buffer, FP_FromInteger(1));
-        short calculatedXposBasedOnWidth2 = 0;
+        s16 calculatedXposBasedOnWidth2 = 0;
         if (fontWidth2 >= maxFontWidth)
         {
             calculatedXposBasedOnWidth2 = 16;
         }
         else
         {
-            calculatedXposBasedOnWidth2 = static_cast<short>((368 - fontWidth2) / 2);
+            calculatedXposBasedOnWidth2 = static_cast<s16>((368 - fontWidth2) / 2);
         }
         polyOffset = field_FC_font.DrawString_41C360(
             ppOt,
@@ -3195,14 +3195,14 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
         );
         field_1F4_text = "or Esc for none";
         auto fontWidth3 = field_FC_font.MeasureWidth_41C280("or Esc for none", FP_FromInteger(1));
-        short calculatedXposBasedOnWidth3 = 0;
+        s16 calculatedXposBasedOnWidth3 = 0;
         if (fontWidth3 >= maxFontWidth)
         {
             calculatedXposBasedOnWidth3 = 16;
         }
         else
         {
-            calculatedXposBasedOnWidth3 = static_cast<short>((368 - fontWidth3) / 2);
+            calculatedXposBasedOnWidth3 = static_cast<s16>((368 - fontWidth3) / 2);
         }
         polyOffset = field_FC_font.DrawString_41C360(
             ppOt,
@@ -3233,7 +3233,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
         pScreenManager_4FF7C8->field_2E_idx
     );
 
-    for( int i = 0; i < ALIVE_COUNTOF(chooseAndExitRemapButtons_4D0690); i++)
+    for( s32 i = 0; i < ALIVE_COUNTOF(chooseAndExitRemapButtons_4D0690); i++)
     {
         RenderElement_47A4E0(
             chooseAndExitRemapButtons_4D0690[i].field_0_xpos,
@@ -3405,11 +3405,11 @@ void Menu::SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt)
 {
     // Note: This string in OG was just "Error" which is completely useless, changed to at least
     // give people a clue about what broke.
-    const char* kErrStr = "Error loading save file";
+    const s8* kErrStr = "Error loading save file";
 
-    short xpos = 16;
-    const int fontWidth = field_FC_font.MeasureWidth_41C2B0(kErrStr);
-    const int drawWidth = field_FC_font.DrawString_41C360(
+    s16 xpos = 16;
+    const s32 fontWidth = field_FC_font.MeasureWidth_41C2B0(kErrStr);
+    const s32 drawWidth = field_FC_font.DrawString_41C360(
         ppOt,
         kErrStr,
         xpos,
@@ -3487,7 +3487,7 @@ void Menu::To_ToggleMotions_Update_47C9E0()
 
 void Menu::Credits_Update_47F190()
 {
-    if (field_1D8_timer <= static_cast<int>(gnFrameCount_507670))
+    if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
     {
         field_208_camera++;
 
@@ -3501,7 +3501,7 @@ void Menu::Credits_Update_47F190()
         else
         {
             // Next credits screen
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<short>(field_208_camera), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, static_cast<s16>(field_208_camera), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             field_1D8_timer = gnFrameCount_507670 + 60;
         }
     }
@@ -3597,9 +3597,9 @@ void Menu::Load_Update_47D760()
     }
 }
 
-int CC Menu::StringsEqual_47DA20(const void* pStr1, const void* pStr2)
+s32 CC Menu::StringsEqual_47DA20(const void* pStr1, const void* pStr2)
 {
-    return _strcmpi(static_cast<const char*>(pStr1), static_cast<const char*>(pStr2));
+    return _strcmpi(static_cast<const s8*>(pStr1), static_cast<const s8*>(pStr2));
 }
 
 void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
@@ -3613,18 +3613,18 @@ void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
 
     if (BrainIs(&Menu::ToggleMotions_Update_47C800, field_1CC_fn_update, kUpdateTable))
     {
-        int polyOffset = 0;
-        for (int i = 2; i <= 10; i++)
+        s32 polyOffset = 0;
+        for (s32 i = 2; i <= 10; i++)
         {
             RenderElement_47A4E0(sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_0_xpos, sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_4_ypos, sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
         }
     }
     else if (BrainIs(&Menu::Toggle_Motions_Screens_Update_47C8F0, field_1CC_fn_update, kUpdateTable))
     {
-        int polyOffset = 0;
+        s32 polyOffset = 0;
         if (Input_JoyStickEnabled())
         {
-            for (int i = 0; i < 20; i++)
+            for (s32 i = 0; i < 20; i++)
             {
                 RenderElement_47A4E0(
                     sBtnArray_AbeGamespeakMenuButtons_4D04A0[i].field_0_xpos,
@@ -3638,7 +3638,7 @@ void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
         }
         else
         {
-            for (int i = 9; i < 11; i++)
+            for (s32 i = 9; i < 11; i++)
             {
                 RenderElement_47A4E0(sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_0_xpos, sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_4_ypos, sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
             }
@@ -3844,18 +3844,18 @@ void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
     pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 1, 0);
 }
 
-void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, PrimHeader** ot, AliveFont* pFont, int* pPolyOffset)
+void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset)
 {
-    char text[32] = {};
+    s8 text[32] = {};
     strcpy(text, Input_GetButtonString_44F1C0(static_cast<InputCommands>(input_command), false)); // TODO: Strongly type all the way back to the button structure
     const FP scale_fp = strlen(text) > 1 ? FP_FromDouble(0.64) : FP_FromDouble(0.84);
 
     if (text[0])
     {
-        char* pTextIter = &text[0];
+        s8* pTextIter = &text[0];
         do
         {
-            *pTextIter = static_cast<char>(tolower(*pTextIter));
+            *pTextIter = static_cast<s8>(tolower(*pTextIter));
             pTextIter++;
         } while (*pTextIter);
     }
@@ -3868,14 +3868,14 @@ void CC Menu::RenderElement_47A4E0(int xpos, int ypos, int input_command, PrimHe
         text[0] = '-';
     }
 
-    const int text_width = pFont->MeasureWidth_41C280(text, scale_fp);
-    const short text_y = static_cast<short>(ypos + FP_GetExponent((FP_FromInteger(-9) * scale_fp)) + 1);
-    const short converted_x = static_cast<short>(PsxToPCX(xpos - text_width / 2, 11));
+    const s32 text_width = pFont->MeasureWidth_41C280(text, scale_fp);
+    const s16 text_y = static_cast<s16>(ypos + FP_GetExponent((FP_FromInteger(-9) * scale_fp)) + 1);
+    const s16 converted_x = static_cast<s16>(PsxToPCX(xpos - text_width / 2, 11));
 
-    const BYTE bOldValue = sFontDrawScreenSpace_508BF4;
+    const u8 bOldValue = sFontDrawScreenSpace_508BF4;
     sFontDrawScreenSpace_508BF4 = 1;
 
-    int offset = pFont->DrawString_41C360(
+    s32 offset = pFont->DrawString_41C360(
         ot,
         text,
         converted_x,

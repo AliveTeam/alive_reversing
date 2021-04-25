@@ -10,7 +10,7 @@
 
 namespace AO {
 
-LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, int tlvInfo)
+LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA1E0);
@@ -18,7 +18,7 @@ LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, int tlvInfo)
     field_4_typeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBGStarResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBGStarResID, 1, 0);
     Animation_Init_417FD0(748, 20, 12, ppRes, 1);
 
     field_EC_rnd1 = gnFrameCount_507670 + Math_RandomRange_450F20(2, 8);
@@ -53,12 +53,12 @@ BaseGameObject* LightEffect::dtor_406770()
     return dtor_417D10();
 }
 
-BaseGameObject* LightEffect::VDestructor(signed int flags)
+BaseGameObject* LightEffect::VDestructor(s32 flags)
 {
     return Vdtor_406800(flags);
 }
 
-LightEffect* LightEffect::Vdtor_406800(signed int flags)
+LightEffect* LightEffect::Vdtor_406800(s32 flags)
 {
     dtor_406770();
     if (flags & 1)
@@ -79,9 +79,9 @@ void LightEffect::VRender_4067F0(PrimHeader** /*ppOt*/)
         const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
         const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
-        field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r/4);
-        field_10_anim.field_9_g = static_cast<BYTE>(field_C2_g/4);
-        field_10_anim.field_A_b = static_cast<BYTE>(field_C4_b/4);
+        field_10_anim.field_8_r = static_cast<u8>(field_C0_r/4);
+        field_10_anim.field_9_g = static_cast<u8>(field_C2_g/4);
+        field_10_anim.field_A_b = static_cast<u8>(field_C4_b/4);
 
         field_10_anim.vRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos)))),
@@ -125,10 +125,10 @@ void LightEffect::VUpdate()
 void LightEffect::VUpdate_406610()
 {
     
-    if (static_cast<int>(gnFrameCount_507670) >= field_EC_rnd1)
+    if (static_cast<s32>(gnFrameCount_507670) >= field_EC_rnd1)
     {
-        const int v6 = field_F0_rnd2 - field_EC_rnd1;
-        if (static_cast<int>(gnFrameCount_507670) == v6 / 2)
+        const s32 v6 = field_F0_rnd2 - field_EC_rnd1;
+        if (static_cast<s32>(gnFrameCount_507670) == v6 / 2)
         {
             field_F4_rnd3 = Math_RandomRange_450F20(96, 128);
         }
@@ -136,9 +136,9 @@ void LightEffect::VUpdate_406610()
         const FP v9 = (FP_FromInteger(128) * FP_FromInteger(gnFrameCount_507670 - field_EC_rnd1) / FP_FromInteger(v6));
         const FP v11 = -Math_Cosine_4510A0(FP_GetExponent(v9) & 0xFF);
 
-        int tmp = field_F4_rnd3 + FP_GetExponent(FP_FromInteger(field_F8_rnd4) * v11);
+        s32 tmp = field_F4_rnd3 + FP_GetExponent(FP_FromInteger(field_F8_rnd4) * v11);
         
-        BYTE rgb = 0;
+        u8 rgb = 0;
         if (tmp <= 255)
         {
             rgb = tmp & 0xFF;
@@ -152,12 +152,12 @@ void LightEffect::VUpdate_406610()
         field_C2_g = rgb;
         field_C4_b = rgb;
     }
-    else if (static_cast<int>(gnFrameCount_507670) > field_F0_rnd2)
+    else if (static_cast<s32>(gnFrameCount_507670) > field_F0_rnd2)
     {
         field_EC_rnd1 = gnFrameCount_507670 + Math_RandomRange_450F20(2, 8);
         field_F0_rnd2 = field_EC_rnd1 + Math_RandomRange_450F20(4, 8);
         field_F8_rnd4 = Math_RandomRange_450F20(150, 180);
-        BYTE rgb = 96;
+        u8 rgb = 96;
 
         field_C0_r = rgb;
         field_C2_g = rgb;

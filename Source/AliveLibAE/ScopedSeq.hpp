@@ -2,24 +2,24 @@
 
 #include "FunctionFwd.hpp"
 
-enum class CameraPos : __int16;
+enum class CameraPos : s16;
 
 class ScopedSeq
 {
 public:
-    EXPORT ScopedSeq* ctor_4CB210(char ambianceId, CameraPos direction);
+    EXPORT ScopedSeq* ctor_4CB210(s8 ambianceId, CameraPos direction);
 
-    virtual ScopedSeq* VDestructor(signed int flags);
+    virtual ScopedSeq* VDestructor(s32 flags);
 
 private:
-    EXPORT ScopedSeq* vdtor_4CB410(signed int flags);
+    EXPORT ScopedSeq* vdtor_4CB410(s32 flags);
 
     EXPORT void dtor_4CB440();
 
 
 private:
-    __int16 field_4_seq_id;
-    __int16 field_6_padding;
-    int field_8_channel_mask;
+    s16 field_4_seq_id;
+    s16 field_6_padding;
+    s32 field_8_channel_mask;
 };
 ALIVE_ASSERT_SIZEOF(ScopedSeq, 0xC);

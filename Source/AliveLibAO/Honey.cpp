@@ -27,7 +27,7 @@ Honey* Honey::ctor_431E30(FP xpos, FP ypos)
     field_C2_g = 128;
     field_C0_r = 128;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHoneyResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHoneyResID, 1, 0);
     Animation_Init_417FD0(3680, 62, 126, ppRes, 1);
 
     field_AC_ypos = ypos;
@@ -43,7 +43,7 @@ void Honey::VScreenChanged_431EF0()
 }
 
 
-BaseGameObject* Honey::VDestructor(signed int flags)
+BaseGameObject* Honey::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)

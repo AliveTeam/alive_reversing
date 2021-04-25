@@ -6,19 +6,19 @@ namespace AO {
 
 struct PSX_Pad
 {
-    unsigned __int16 field_0_pressed;
-    unsigned __int8 field_2_dir;
-    char field_3;
-    __int16 field_4_previously_pressed;
-    unsigned __int16 field_6_held;
-    __int16 field_8_released;
-    __int8 field_A_prev_dir;
-    __int8 field_B;
+    u16 field_0_pressed;
+    u8 field_2_dir;
+    s8 field_3;
+    s16 field_4_previously_pressed;
+    u16 field_6_held;
+    s16 field_8_released;
+    s8 field_A_prev_dir;
+    s8 field_B;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
 
 // TODO: most of these are gonna be wrong bar the ones in abe.cpp
-enum InputCommands : unsigned int
+enum InputCommands : u32
 {
     eRightGameSpeak = 1u << 0,  // 0x1
     eSneak = 1u << 1,  // 0x2
@@ -106,25 +106,25 @@ const InputCommands sInputKey_Chant = static_cast<InputCommands>(eRightGameSpeak
 
 EXPORT BOOL CC Input_IsChanting_4334C0();
 EXPORT void Input_InitKeyStateArray_48E5F0();
-EXPORT void CC Input_SetKeyState_48E610(int key, char bIsDown);
+EXPORT void CC Input_SetKeyState_48E610(s32 key, s8 bIsDown);
 
 
 
 EXPORT void Input_GetCurrentKeyStates_48E630();
 
-EXPORT char CC Input_IsVKPressed_48E5D0(int key);
+EXPORT s8 CC Input_IsVKPressed_48E5D0(s32 key);
 
 EXPORT void CC Input_Init_44EB60();
 
 EXPORT void Input_DisableInput_48E690();
 
-EXPORT const char* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails = true);
+EXPORT const s8* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails = true);
 
-EXPORT int CC Input_Remap_44F300(InputCommands inputCmd);
+EXPORT s32 CC Input_Remap_44F300(InputCommands inputCmd);
 
-EXPORT int CC Input_SaveSettingsIni_44F460();
+EXPORT s32 CC Input_SaveSettingsIni_44F460();
 
-EXPORT char Input_GetLastPressedKey_44F2C0();
+EXPORT s8 Input_GetLastPressedKey_44F2C0();
 
 EXPORT void Input_Reset_44F2F0();
 
@@ -135,32 +135,32 @@ bool Input_JoyStickAvailable();
 class InputObject
 {
 public:
-    EXPORT void InitPad_4331A0(unsigned int padCount);
+    EXPORT void InitPad_4331A0(u32 padCount);
 
     EXPORT void Update_433250();
 
     static EXPORT void CC Shutdown_433230();
 
-    EXPORT void SetDemoRes_433470(DWORD** ppDemoRes);
+    EXPORT void SetDemoRes_433470(u32** ppDemoRes);
 
-    EXPORT int IsDemoPlaying_4334A0();
+    EXPORT s32 IsDemoPlaying_4334A0();
 
     PSX_Pad field_0_pads[2];
-    DWORD** field_18_demo_res;
-    int field_1C_demo_command_index;
-    __int16 field_20_demo_playing;
-    __int16 field_22;
-    int field_24_command;
-    int field_28_command_duration;
-    int field_2C;
+    u32** field_18_demo_res;
+    s32 field_1C_demo_command_index;
+    s16 field_20_demo_playing;
+    s16 field_22;
+    s32 field_24_command;
+    s32 field_28_command_duration;
+    s32 field_2C;
 
     // These use the active pad
-    bool IsAnyPressed(DWORD command) const;
-    bool IsAnyHeld(DWORD command) const;
-    bool IsAnyReleased(DWORD command) const;
-    unsigned __int8 Dir() const;
-    bool IsAllPressed(DWORD commands) const;
-    bool IsAllHeld(DWORD commands) const;
+    bool IsAnyPressed(u32 command) const;
+    bool IsAnyHeld(u32 command) const;
+    bool IsAnyReleased(u32 command) const;
+    u8 Dir() const;
+    bool IsAllPressed(u32 commands) const;
+    bool IsAllHeld(u32 commands) const;
 
     enum class PadIndex
     {
@@ -176,19 +176,19 @@ public:
     bool JoyStickEnabled() const;
 
     // Check a specific pad
-    bool IsAnyPressed(PadIndex padIx, DWORD command) const;
-    bool IsAnyHeld(PadIndex padIx, DWORD command) const;
-    bool IsAnyReleased(PadIndex padIx, DWORD command) const;
-    bool IsAllPressed(PadIndex padIx, DWORD commands) const;
+    bool IsAnyPressed(PadIndex padIx, u32 command) const;
+    bool IsAnyHeld(PadIndex padIx, u32 command) const;
+    bool IsAnyReleased(PadIndex padIx, u32 command) const;
+    bool IsAllPressed(PadIndex padIx, u32 commands) const;
 
-    unsigned __int16 Pressed(PadIndex padIx) const;
+    u16 Pressed(PadIndex padIx) const;
 
     // These use the active pad
-    unsigned __int16 Pressed() const;
-    unsigned short Held() const;
-    unsigned short Released() const;
+    u16 Pressed() const;
+    u16 Held() const;
+    u16 Released() const;
 
-    unsigned short Held(PadIndex padIx) const;
+    u16 Held(PadIndex padIx) const;
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
 

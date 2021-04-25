@@ -14,7 +14,7 @@ namespace AO {
 EXPORT Shadow* Shadow::ctor_461FB0()
 {
     SetVTable(&field_18_anim, 0x4BA2B8);
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 1, 0);
     field_18_anim.Init_402D20(296, gObjList_animations_505564, 0, 37, 6, ppRes, 1, 0, 0);
 
     field_14_flags.Clear(Flags::eBit1_ShadowAtBottom);
@@ -46,8 +46,8 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
     if (field_14_flags.Get(Flags::eBit2_Enabled))
     {
         // TODO: Is this the same as PsxToPCX ??
-        const short objX = (23 * frameRect->x) / 40;
-        const short objW = (23 * frameRect->w) / 40;
+        const s16 objX = (23 * frameRect->x) / 40;
+        const s16 objW = (23 * frameRect->w) / 40;
 
         FP objY = {};
         if (field_14_flags.Get(Flags::eBit1_ShadowAtBottom))
@@ -60,7 +60,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
             objY = ypos;
         }
 
-        const int lineType = spriteScale != FP_FromDouble(0.5) ? 7 : 0x70;
+        const s32 lineType = spriteScale != FP_FromDouble(0.5) ? 7 : 0x70;
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
@@ -76,8 +76,8 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
         {
             const FP camXPos = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
 
-            short lineXScreen = pLine->field_0_rect.x - FP_GetExponent(camXPos);
-            short lineWScreen = pLine->field_0_rect.w - FP_GetExponent(camXPos);
+            s16 lineXScreen = pLine->field_0_rect.x - FP_GetExponent(camXPos);
+            s16 lineWScreen = pLine->field_0_rect.w - FP_GetExponent(camXPos);
 
             if (lineWScreen < lineXScreen)
             {
@@ -134,7 +134,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
             field_0_x1 = std::max(objX, lineXScreen);
             field_4_x2 = std::min(objW, lineWScreen);
 
-            short height;
+            s16 height;
             if (FP_GetExponent(field_10_scale * FP_FromInteger(6)) <= 6)
             {
                 height = FP_GetExponent(field_10_scale * FP_FromInteger(6));
@@ -144,7 +144,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
                 height = 6;
             }
 
-            const short finalYPos = FP_GetExponent(field_C_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y) - height / 2;
+            const s16 finalYPos = FP_GetExponent(field_C_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y) - height / 2;
             field_2_y1 = finalYPos;
             field_6_y2 = finalYPos + height;
         }
@@ -171,7 +171,7 @@ void Shadow::Render_462410(PrimHeader** ppOt)
     {
         field_18_anim.field_14_scale = FP_FromInteger(1);
         
-        BYTE rgb = 63;
+        u8 rgb = 63;
         if (field_10_scale != FP_FromDouble(0.5))
         {
             rgb = 127;

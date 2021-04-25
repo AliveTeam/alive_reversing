@@ -8,22 +8,22 @@ namespace AO {
 
 struct Path_MeatSaw : public Path_TLV
 {
-    __int16 field_18_scale_background;
-    __int16 field_1A_min_time_off1;
-    __int16 field_1C_max_time_off1;
-    __int16 field_1E_max_rise_time;
-    __int16 field_20_id;
-    __int16 field_22_type;
-    __int16 field_24_speed;
-    __int16 field_26_start_state;
-    __int16 field_28_off_speed;
-    __int16 field_2A_min_time_off2;
-    __int16 field_2C_max_time_off2;
-    __int16 field_2E_inital_position;
+    s16 field_18_scale_background;
+    s16 field_1A_min_time_off1;
+    s16 field_1C_max_time_off1;
+    s16 field_1E_max_rise_time;
+    s16 field_20_id;
+    s16 field_22_type;
+    s16 field_24_speed;
+    s16 field_26_start_state;
+    s16 field_28_off_speed;
+    s16 field_2A_min_time_off2;
+    s16 field_2C_max_time_off2;
+    s16 field_2E_inital_position;
 };
 ALIVE_ASSERT_SIZEOF(Path_MeatSaw, 0x30);
 
-enum class MeatSawStates : __int16
+enum class MeatSawStates : s16
 {
     eIdle_0 = 0,
     eGoingDown_1 = 1,
@@ -33,13 +33,13 @@ enum class MeatSawStates : __int16
 class MeatSaw : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MeatSaw* ctor_439570(Path_MeatSaw* pTlv, int tlvInfo);
+    EXPORT MeatSaw* ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_4398F0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT MeatSaw* Vdtor_43A0B0(signed int flags);
+    EXPORT MeatSaw* Vdtor_43A0B0(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -55,28 +55,28 @@ public:
 
     EXPORT void VRender_439F50(PrimHeader** ppOt);
 
-    int field_D4_padding[4];
+    s32 field_D4_padding[4];
     MeatSawStates field_E4_state;
-    unsigned __int16 field_E6_max_rise_time;
-    __int16 field_E8_speed2;
-    __int16 field_EA_speed1;
-    __int16 field_EC_off_speed;
-    unsigned __int16 field_EE_switch_id;
-    __int16 field_F0_switch_value;
-    __int16 field_F2_switch_value;
-    __int16 field_F4;
-    __int16 field_F6_min_time_off1;
-    __int16 field_F8_field_1C_max_time_off1;
-    __int16 field_FA_min_time_off2;
-    __int16 field_FC_max_time_off2;
-    __int16 field_FE_padding;
-    int field_100_tlvInfo;
-    int field_104_idle_timer;
-    int field_108_SFX_timer;
-    int field_10C_FrameCount;
+    u16 field_E6_max_rise_time;
+    s16 field_E8_speed2;
+    s16 field_EA_speed1;
+    s16 field_EC_off_speed;
+    u16 field_EE_switch_id;
+    s16 field_F0_switch_value;
+    s16 field_F2_switch_value;
+    s16 field_F4;
+    s16 field_F6_min_time_off1;
+    s16 field_F8_field_1C_max_time_off1;
+    s16 field_FA_min_time_off2;
+    s16 field_FC_max_time_off2;
+    s16 field_FE_padding;
+    s32 field_100_tlvInfo;
+    s32 field_104_idle_timer;
+    s32 field_108_SFX_timer;
+    s32 field_10C_FrameCount;
     Animation field_110_anim;
-    unsigned __int16 field_1A8_flags;
-    __int16 field_1AA_padding;
+    u16 field_1A8_flags;
+    s16 field_1AA_padding;
 };
 ALIVE_ASSERT_SIZEOF(MeatSaw, 0x1AC);
 

@@ -10,7 +10,7 @@
 
 void DDCheat_ForceLink();
 
-enum class DDCheatValueType : int
+enum class DDCheatValueType : s32
 {
     eShort_1 = 1,
     eInt_2 = 2,
@@ -20,8 +20,8 @@ enum class DDCheatValueType : int
 
 union DDCheatValue
 {
-    int* pInt;
-    short* pShort;
+    s32* pInt;
+    s16* pShort;
     FP* pFixedPoint;
 
     DDCheatValue()
@@ -29,12 +29,12 @@ union DDCheatValue
         pInt = nullptr;
     }
 
-    DDCheatValue(int* v)
+    DDCheatValue(s32* v)
     {
         pInt = v;
     }
 
-    DDCheatValue(short* v)
+    DDCheatValue(s16* v)
     {
         pShort = v;
     }
@@ -47,7 +47,7 @@ union DDCheatValue
 
 struct DDCheatProperty
 {
-    const char* Name;
+    const s8* Name;
     DDCheatValueType ValueType;
     DDCheatValue ValuePtr;
 };
@@ -76,18 +76,18 @@ public:
         e3C_eBit16 = 0x8000
     };
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override { }
 
     DDCheat();
     EXPORT DDCheat* ctor_4153C0();
     EXPORT void dtor_415530();
-    EXPORT BaseGameObject* vdtor_415500(signed int flags);
+    EXPORT BaseGameObject* vdtor_415500(s32 flags);
 
-    EXPORT static void AddPropertyEntry(const char* text, DDCheatValueType valueType, DDCheatValue valuePtr);
+    EXPORT static void AddPropertyEntry(const s8* text, DDCheatValueType valueType, DDCheatValue valuePtr);
     static EXPORT void CC ClearProperties_415390();
-    static EXPORT void DebugStr_4F5560(const char *pFormatStr, ...);
+    static EXPORT void DebugStr_4F5560(const s8 *pFormatStr, ...);
 
     EXPORT void Menu_Teleport_415E20();
     EXPORT void Menu_Movies_416000();
@@ -95,30 +95,30 @@ public:
 public:
     EXPORT void Update_415780();
 public:
-    int field_20;
-    __int16 field_24_fn_idx;
-    __int16 field_26_next_fn_idx;
-    int field_28;
-    int field_2C;
-    __int16 field_30;
-    __int16 field_32;
-    int field_34;
-    int field_38_input_pressed;
+    s32 field_20;
+    s16 field_24_fn_idx;
+    s16 field_26_next_fn_idx;
+    s32 field_28;
+    s32 field_2C;
+    s16 field_30;
+    s16 field_32;
+    s32 field_34;
+    s32 field_38_input_pressed;
     BitField16<Flags_3C> field_3C_flags;
-    __int16 field_3E;
+    s16 field_3E;
 };
 
 ALIVE_ASSERT_SIZEOF(DDCheat, 0x40);
 
 ALIVE_VAR_EXTERN(bool, sDDCheat_FlyingEnabled_5C2C08);
 
-ALIVE_VAR_EXTERN(__int16, sRescuedMudokons_5C1BC2);
-ALIVE_VAR_EXTERN(__int16, sKilledMudokons_5C1BC0);
+ALIVE_VAR_EXTERN(s16, sRescuedMudokons_5C1BC2);
+ALIVE_VAR_EXTERN(s16, sKilledMudokons_5C1BC0);
 
-ALIVE_VAR_EXTERN(int, sTweakX_5C1BD0);
-ALIVE_VAR_EXTERN(int, sTweakY_5C1BD4);
+ALIVE_VAR_EXTERN(s32, sTweakX_5C1BD0);
+ALIVE_VAR_EXTERN(s32, sTweakY_5C1BD4);
 
-ALIVE_VAR_EXTERN(__int16, sVisitedBonewerks_5C1C02);
-ALIVE_VAR_EXTERN(__int16, sVisitedBarracks_5C1C04);
-ALIVE_VAR_EXTERN(__int16, sVisitedFeecoEnder_5C1C06);
+ALIVE_VAR_EXTERN(s16, sVisitedBonewerks_5C1C02);
+ALIVE_VAR_EXTERN(s16, sVisitedBarracks_5C1C04);
+ALIVE_VAR_EXTERN(s16, sVisitedFeecoEnder_5C1C06);
 ALIVE_VAR_EXTERN(bool, sDDCheat_ShowAI_Info_5C1BD8);

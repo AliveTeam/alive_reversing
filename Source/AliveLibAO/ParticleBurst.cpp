@@ -32,7 +32,7 @@ static inline FP Random_Speed(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
-ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, __int16 particleCount, FP scale, BurstType type)
+ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, FP scale, BurstType type)
 {
     ctor_417C10();
     SetVTable(this, 0x4BA480);
@@ -43,7 +43,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, __int16 particleCoun
     if (field_E4_ppRes)
     {
         field_E8_pRes = reinterpret_cast<ParticleBurst_Item*>(*field_E4_ppRes);
-        for (int i = 0; i < particleCount; i++)
+        for (s32 i = 0; i < particleCount; i++)
         {
             // Placement new each element
             new (&field_E8_pRes[i]) ParticleBurst_Item();
@@ -118,7 +118,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, __int16 particleCoun
             field_A8_xpos = xpos;
             field_AC_ypos = ypos;
 
-            for (int i = 0; i < particleCount; i++)
+            for (s32 i = 0; i < particleCount; i++)
             {
                 field_E8_pRes[i].field_18_anim.field_68_anim_ptr = &field_10_anim;
                 field_E8_pRes[i].field_18_anim.field_C_layer = field_10_anim.field_C_layer;
@@ -176,12 +176,12 @@ BaseGameObject* ParticleBurst::dtor_40D5A0()
     return dtor_417D10();
 }
 
-BaseGameObject* ParticleBurst::VDestructor(signed int flags)
+BaseGameObject* ParticleBurst::VDestructor(s32 flags)
 {
     return Vdtor_40DA40(flags);
 }
 
-ParticleBurst* ParticleBurst::Vdtor_40DA40(signed int flags)
+ParticleBurst* ParticleBurst::Vdtor_40DA40(s32 flags)
 {
     dtor_40D5A0();
     if (flags & 1)
@@ -198,7 +198,7 @@ void ParticleBurst::VUpdate()
 
 void ParticleBurst::VUpdate_40D600()
 {
-    for (int i = 0; i < field_EC_count; i++)
+    for (s32 i = 0; i < field_EC_count; i++)
     {
         ParticleBurst_Item* pItem = &field_E8_pRes[i];
 
@@ -208,7 +208,7 @@ void ParticleBurst::VUpdate_40D600()
 
         pItem->field_10_y_speed += FP_FromDouble(0.25);
 
-        WORD result = 0;
+        u16 result = 0;
         pItem->field_0_x = CamX_VoidSkipper_418590(pItem->field_0_x, pItem->field_C_x_speed, 16, &result);
         pItem->field_4_y = CamY_VoidSkipper_418690(pItem->field_4_y, pItem->field_10_y_speed, 16, &result);
 
@@ -234,9 +234,9 @@ void ParticleBurst::VUpdate_40D600()
                 // TODO: Never used by OG ??
                 // Math_RandomRange_450F20(-64, 46);
 
-                const short volume = static_cast<short>(Math_RandomRange_450F20(-10, 10) + ((field_F0_timer - gnFrameCount_507670) / 91) + 25);
+                const s16 volume = static_cast<s16>(Math_RandomRange_450F20(-10, 10) + ((field_F0_timer - gnFrameCount_507670) / 91) + 25);
 
-                const BYTE next_rand = Math_NextRandom();
+                const u8 next_rand = Math_NextRandom();
                 if (next_rand < 43)
                 {
                     SFX_Play_43AED0(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamLeft_3);
@@ -253,7 +253,7 @@ void ParticleBurst::VUpdate_40D600()
         }
     }
 
-    if (static_cast<int>(gnFrameCount_507670) > field_F0_timer)
+    if (static_cast<s32>(gnFrameCount_507670) > field_F0_timer)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -286,7 +286,7 @@ void ParticleBurst::VRender_40D7F0(PrimHeader** ppOt)
     const FP screen_bottom = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
     
     bool bFirst = true;
-    for (int i = 0; i < field_EC_count; i++)
+    for (s32 i = 0; i < field_EC_count; i++)
     {
         ParticleBurst_Item* pItem = &field_E8_pRes[i];
         if (pItem->field_0_x >= screen_left && pItem->field_0_x <= screen_right)

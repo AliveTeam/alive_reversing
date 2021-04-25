@@ -4,18 +4,18 @@
 
 namespace AO {
 
-enum class CameraPos : __int16;
+enum class CameraPos : s16;
 
 class ScopedSeq
 {
 public:
-    EXPORT ScopedSeq* ctor_476400(char ambianceId, CameraPos direction);
+    EXPORT ScopedSeq* ctor_476400(s8 ambianceId, CameraPos direction);
 
-    virtual ScopedSeq* VDestructor(int flags);
+    virtual ScopedSeq* VDestructor(s32 flags);
 
-    __int16 field_4_seq_id;
-    __int16 field_6_pad;
-    int field_8_channel_mask;
+    s16 field_4_seq_id;
+    s16 field_6_pad;
+    s32 field_8_channel_mask;
 };
 ALIVE_ASSERT_SIZEOF(ScopedSeq, 0xC);
 

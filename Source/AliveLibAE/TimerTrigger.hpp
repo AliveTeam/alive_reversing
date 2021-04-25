@@ -6,16 +6,16 @@
 
 struct Path_TimerTrigger : public Path_TLV
 {
-    __int16 field_10_id;
-    unsigned __int16 field_12_trigger_delay;
-    __int16 field_14_id1;
-    __int16 field_16_id2;
-    __int16 field_18_id3;
-    __int16 field_1A_id4;
+    s16 field_10_id;
+    u16 field_12_trigger_delay;
+    s16 field_14_id1;
+    s16 field_16_id2;
+    s16 field_18_id3;
+    s16 field_1A_id4;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimerTrigger, 0x1C);
 
-enum class TimerTriggerStates : __int16
+enum class TimerTriggerStates : s16
 {
     eWaitForEnabled_0 = 0,
     eWaitForFirstTrigger_1 = 1,
@@ -26,40 +26,40 @@ enum class TimerTriggerStates : __int16
 struct TimerTrigger_State
 {
     AETypes field_0_type;
-    int field_4_tlvInfo;
-    int field_8_delay_timer_base;
+    s32 field_4_tlvInfo;
+    s32 field_8_delay_timer_base;
     TimerTriggerStates field_C_state;
-    __int16 field_E_starting_switch_state;
+    s16 field_E_starting_switch_state;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTrigger_State, 0x10);
 
 class TimerTrigger : public BaseGameObject
 {
 public:
-    EXPORT TimerTrigger* ctor_4CDC20(Path_TimerTrigger* pTlv, int tlvInfo);
+    EXPORT TimerTrigger* ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static signed int CC CreateFromSaveState_4CDF70(const BYTE* pData);
+    EXPORT static s32 CC CreateFromSaveState_4CDF70(const u8* pData);
 
 private:
-    EXPORT TimerTrigger* vdtor_4CDD00(signed int flags);
+    EXPORT TimerTrigger* vdtor_4CDD00(s32 flags);
     EXPORT void dtor_4CDD30();
     EXPORT void vUpdate_4CDDB0();
     EXPORT void ToggleAllIds_4CDEC0();
     EXPORT void vScreenChanged_4CDF00();
-    EXPORT int vGetSaveState_4CE030(TimerTrigger_State* pState);
+    EXPORT s32 vGetSaveState_4CE030(TimerTrigger_State* pState);
 
 private:
-    __int16 field_20_id;
+    s16 field_20_id;
     TimerTriggerStates field_22_state;
-    __int16 field_24_ids[4];
-    int field_2C_tlvInfo;
-    int field_30_trigger_delay_timer;
-    int field_34_trigger_delay;
-    __int16 field_38_starting_switch_state;
+    s16 field_24_ids[4];
+    s32 field_2C_tlvInfo;
+    s32 field_30_trigger_delay_timer;
+    s32 field_34_trigger_delay;
+    s16 field_38_starting_switch_state;
 };
 ALIVE_ASSERT_SIZEOF(TimerTrigger, 0x3C);

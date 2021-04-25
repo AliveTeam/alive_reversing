@@ -11,7 +11,7 @@ void OneShotSwitchIdSetter::VScreenChanged()
     VScreenChanged_432F00();
 }
 
-BaseGameObject* OneShotSwitchIdSetter::Vdtor_432F10(signed int flags)
+BaseGameObject* OneShotSwitchIdSetter::Vdtor_432F10(s32 flags)
 {
     dtor_432EA0();
     if (flags & 1)
@@ -21,7 +21,7 @@ BaseGameObject* OneShotSwitchIdSetter::Vdtor_432F10(signed int flags)
     return this;
 }
 
-BaseGameObject* OneShotSwitchIdSetter::VDestructor(signed int flags)
+BaseGameObject* OneShotSwitchIdSetter::VDestructor(s32 flags)
 {
     return Vdtor_432F10(flags);
 }
@@ -33,7 +33,7 @@ BaseGameObject* OneShotSwitchIdSetter::dtor_432EA0()
     return dtor_487DF0();
 }
 
-BaseGameObject* OneShotSwitchIdSetter::ctor_432E10(Path_OneShotSwitchIdSetter* pTlv, int tlvInfo)
+BaseGameObject* OneShotSwitchIdSetter::ctor_432E10(Path_OneShotSwitchIdSetter* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BB3D8);

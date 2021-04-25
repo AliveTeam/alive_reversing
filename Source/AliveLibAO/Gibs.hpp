@@ -19,19 +19,19 @@ ALIVE_ASSERT_SIZEOF(GibPart, 0xB0);
 
 struct Gib_Data
 {
-    int field_0_head;
-    int field_4_arm;
-    int field_8_body;
-    int field_C_max_w;
-    int field_10_max_h;
-    int field_14_resource_id;
+    s32 field_0_head;
+    s32 field_4_arm;
+    s32 field_8_body;
+    s32 field_C_max_w;
+    s32 field_10_max_h;
+    s32 field_14_resource_id;
 };
 ALIVE_ASSERT_SIZEOF(Gib_Data, 0x18);
 
 class Gibs : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Gibs* ctor_407B20(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale);
+    EXPORT Gibs* ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale);
 
     EXPORT BaseGameObject* dtor_408040();
 
@@ -39,22 +39,22 @@ public:
 
     EXPORT void VUpdate_4080C0();
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT BaseGameObject* Vdtor_4083D0(unsigned int flags);
+    EXPORT BaseGameObject* Vdtor_4083D0(u32 flags);
 
     virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT void VRender_408200(PrimHeader** ppOt);
 
-    int field_D4[4];
+    s32 field_D4[4];
     const Gib_Data* field_E4_pGibData;
     FP field_E8_z;
     FP field_EC_dz;
-    int field_F0_timer;
+    s32 field_F0_timer;
     GibPart field_F4_parts[7];
-    __int16 field_5C4_parts_used_count;
-    __int16 field_5C6_pad;
+    s16 field_5C4_parts_used_count;
+    s16 field_5C6_pad;
 };
 ALIVE_ASSERT_SIZEOF(Gibs, 0x5C8);
 

@@ -9,8 +9,8 @@
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
 
-ALIVE_VAR(1, 0x5C1C08, WORD, sSlurg_Step_Watch_Points_Idx_5C1C08, 0);
-ALIVE_ARY(1, 0x5BD4DC, char, 2, sSlurg_Step_Watch_Points_Count_5BD4DC, {});
+ALIVE_VAR(1, 0x5C1C08, u16, sSlurg_Step_Watch_Points_Idx_5C1C08, 0);
+ALIVE_ARY(1, 0x5BD4DC, s8, 2, sSlurg_Step_Watch_Points_Count_5BD4DC, {});
 ALIVE_ARY(1, 0x5C1B28, Slurg_Step_Watch_Points, 2, sSlurg_Step_Watch_Points_5C1B28, {});
 
 EXPORT void CC Slurg::Clear_Slurg_Step_Watch_Points_449A90()
@@ -46,7 +46,7 @@ TintEntry sSlurgTints_560BCC[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
+Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x547720);
@@ -56,7 +56,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
     field_11C_state = Slurg_States::State_0_Moving;
 
     const AnimRecord& rec = AnimRec(AnimId::Slurg_Move);
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
@@ -121,7 +121,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
     return this;
 }
 
-BaseGameObject* Slurg::VDestructor(signed int flags)
+BaseGameObject* Slurg::VDestructor(s32 flags)
 {
     return vdtor_4C8760(flags);
 }
@@ -131,12 +131,12 @@ void Slurg::VUpdate()
     vUpdate_4C8790();
 }
 
-int Slurg::VGetSaveState(BYTE* pSaveBuffer)
+s32 Slurg::VGetSaveState(u8* pSaveBuffer)
 {
     return vSaveState_4C8FC0(reinterpret_cast<Slurg_State*>(pSaveBuffer));
 }
 
-__int16 Slurg::VTakeDamage_408730(BaseGameObject* pFrom)
+s16 Slurg::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_4C8BF0(pFrom);
 }
@@ -146,7 +146,7 @@ void Slurg::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_4C8C20(pTlv);
 }
 
-signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
+s32 CC Slurg::CreateFromSaveState_4C8DF0(const u8* pData)
 {
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
     auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_24_tlvInfo));
@@ -186,7 +186,7 @@ signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
     return sizeof(Slurg_State);
 }
 
-Slurg* Slurg::vdtor_4C8760(signed int flags)
+Slurg* Slurg::vdtor_4C8760(s32 flags)
 {
     dtor_4C8A40();
 
@@ -255,9 +255,9 @@ void Slurg::vUpdate_4C8790()
 
     if (field_11C_state != Slurg_States::State_2_Burst)
     {
-        const int idx = sSlurg_Step_Watch_Points_Idx_5C1C08 == 0;
-        const int max_count = sSlurg_Step_Watch_Points_Count_5BD4DC[idx];
-        for (int i = 0; i < max_count; i++)
+        const s32 idx = sSlurg_Step_Watch_Points_Idx_5C1C08 == 0;
+        const s32 max_count = sSlurg_Step_Watch_Points_Count_5BD4DC[idx];
+        for (s32 i = 0; i < max_count; i++)
         {
             const Slurg_Step_Watch_Point* pPoint = &sSlurg_Step_Watch_Points_5C1B28[idx].field_0_points[i];
             if (pPoint->field_0_xPos > bRect.x - 2 &&
@@ -330,7 +330,7 @@ void Slurg::vUpdate_4C8790()
     }
 }
 
-__int16 Slurg::vTakeDamage_4C8BF0(BaseGameObject* pFrom)
+s16 Slurg::vTakeDamage_4C8BF0(BaseGameObject* pFrom)
 {
     // Slurgs are tough little dudes, only Paramites can smack 'em up.
     if (pFrom->field_4_typeId == AETypes::eParamite_96)
@@ -379,7 +379,7 @@ void Slurg::vOn_TLV_Collision_4C8C20(Path_TLV* pTlv)
     }
 }
 
-signed int Slurg::vSaveState_4C8FC0(Slurg_State* pState)
+s32 Slurg::vSaveState_4C8FC0(Slurg_State* pState)
 {
     if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {

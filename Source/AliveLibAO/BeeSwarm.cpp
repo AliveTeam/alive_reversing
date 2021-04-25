@@ -21,10 +21,10 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5076B0, short, gBeeInstanceCount_5076B0, 0);
-ALIVE_VAR(1, 0x5076AC, short, gBeesNearAbe_5076AC, 0);
+ALIVE_VAR(1, 0x5076B0, s16, gBeeInstanceCount_5076B0, 0);
+ALIVE_VAR(1, 0x5076AC, s16, gBeesNearAbe_5076AC, 0);
 
-BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, signed __int16 numBees, int chaseTicks)
+BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks)
 {
     ctor_417C10();
 
@@ -36,14 +36,14 @@ BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, signed __int16 numBe
     SetVTable(this, 0x4BCEB0);
     field_4_typeId = Types::eBeeSwarm_95;
 
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWaspResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWaspResID, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 16, 1, 0);
     if (gMap_507BA8.field_0_current_level != LevelIds::eForestTemple_4 && gMap_507BA8.field_0_current_level != LevelIds::eDesertTemple_9)
     {
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_204, 1, 0);
     }
 
-    short numBeesToUse = 0;
+    s16 numBeesToUse = 0;
     gBeeInstanceCount_5076B0++;
     if (gBeeInstanceCount_5076B0 < 3)
     {
@@ -112,12 +112,12 @@ BaseGameObject* BeeSwarm::dtor_47FDF0()
     return dtor_417D10();
 }
 
-BaseGameObject* BeeSwarm::VDestructor(signed int flags)
+BaseGameObject* BeeSwarm::VDestructor(s32 flags)
 {
     return Vdtor_480E00(flags);
 }
 
-BeeSwarm* BeeSwarm::Vdtor_480E00(signed int flags)
+BeeSwarm* BeeSwarm::Vdtor_480E00(s32 flags)
 {
     dtor_47FDF0();
     if (flags & 1)
@@ -223,14 +223,14 @@ void BeeSwarm::VUpdate_47FF50()
     }
 
     // Play random bee sounds
-    const short volMax = field_D80_state == BeeSwarmStates::eAttackChase_1 ? 24 : 16;
-    const short volMin = field_D80_state == BeeSwarmStates::eAttackChase_1 ? 30 : 22;
-    for (int i = 0; i < 2; i++)
+    const s16 volMax = field_D80_state == BeeSwarmStates::eAttackChase_1 ? 24 : 16;
+    const s16 volMin = field_D80_state == BeeSwarmStates::eAttackChase_1 ? 30 : 22;
+    for (s32 i = 0; i < 2; i++)
     {
         if (Math_RandomRange_450F20(0, 100) < 40)
         {
             // TODO: Strongly type
-            SFX_Play_43AD70(static_cast<char>(Math_RandomRange_450F20(14, 15)), Math_RandomRange_450F20(volMin, volMax));
+            SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(14, 15)), Math_RandomRange_450F20(volMin, volMax));
         }
     }
 
@@ -249,17 +249,17 @@ void BeeSwarm::VUpdate_47FF50()
         break;
 
     case BeeSwarmStates::eAttackChase_1:
-        if (static_cast<int>(gnFrameCount_507670) > field_D9C_alive_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_D9C_alive_timer)
         {
             ToFlyAwayAndDie();
         }
         else
         {
             // Move far on X bees closer to target
-            const int toTargetXDelta = FP_GetExponent(field_D98_pChaseTarget->field_A8_xpos - field_D70_chase_target_x);
+            const s32 toTargetXDelta = FP_GetExponent(field_D98_pChaseTarget->field_A8_xpos - field_D70_chase_target_x);
             if (abs(toTargetXDelta) > 368)
             {
-                for (int i = 0; i < field_D66_bee_count; i++)
+                for (s32 i = 0; i < field_D66_bee_count; i++)
                 {
                     field_E4_bees.bees[i].field_0_xpos += FP_FromInteger(toTargetXDelta);
                 }
@@ -267,10 +267,10 @@ void BeeSwarm::VUpdate_47FF50()
             }
 
             // Move far on  Y bees closer to target
-            const int toTargetYDelta = FP_GetExponent(field_D98_pChaseTarget->field_AC_ypos - field_D74_chase_target_y);
+            const s32 toTargetYDelta = FP_GetExponent(field_D98_pChaseTarget->field_AC_ypos - field_D74_chase_target_y);
             if (abs(toTargetYDelta) > 200)
             {
-                for (int i = 0; i < field_D66_bee_count; i++)
+                for (s32 i = 0; i < field_D66_bee_count; i++)
                 {
                     field_E4_bees.bees[i].field_4_ypos += FP_FromInteger(toTargetYDelta);
                 }
@@ -297,13 +297,13 @@ void BeeSwarm::VUpdate_47FF50()
                 gBeesNearAbe_5076AC = FALSE;
             }
 
-            if (static_cast<int>(gnFrameCount_507670) <= field_DA0_do_damage_or_pain_sound_timer)
+            if (static_cast<s32>(gnFrameCount_507670) <= field_DA0_do_damage_or_pain_sound_timer)
             {
                 if (!(gnFrameCount_507670 % 10) && Math_RandomRange_450F20(0, 100) < 70)
                 {
                     // Check every single object just to see if its sActiveHero_507678 (nice algorithm lads)
                     // and play pain sounds if so and in the damage rect.
-                    for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+                    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
                     {
                         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
                         if (!pObjIter)
@@ -323,7 +323,7 @@ void BeeSwarm::VUpdate_47FF50()
                             {
                                 const MudSounds snd = Math_RandomRange_450F20(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
                                 const FP pitch_val = (FP_FromInteger(1) - sActiveHero_507678->field_100_health) / FP_FromDouble(0.15);
-                                const short pitch = Math_RandomRange_450F20(
+                                const s16 pitch = Math_RandomRange_450F20(
                                     200 * FP_GetExponent(pitch_val),
                                     200 * (FP_GetExponent(pitch_val) + 1));
                                 Mudokon_SFX_42A4D0(snd, 0, pitch, sActiveHero_507678);
@@ -336,7 +336,7 @@ void BeeSwarm::VUpdate_47FF50()
             {
                 field_DA0_do_damage_or_pain_sound_timer = gnFrameCount_507670 + 30;
 
-                for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+                for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
                 {
                     BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
                     if (!pObjIter)
@@ -378,7 +378,7 @@ void BeeSwarm::VUpdate_47FF50()
             field_D7C_pos_offset += FP_FromDouble(0.2);
         }
 
-        if (static_cast<int>(gnFrameCount_507670) > field_D9C_alive_timer)
+        if (static_cast<s32>(gnFrameCount_507670) > field_D9C_alive_timer)
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -388,11 +388,11 @@ void BeeSwarm::VUpdate_47FF50()
         break;
     }
 
-    if (!(gnFrameCount_507670 % 4) && field_DA4_update_chase_timer < static_cast<int>(gnFrameCount_507670))
+    if (!(gnFrameCount_507670 % 4) && field_DA4_update_chase_timer < static_cast<s32>(gnFrameCount_507670))
     {
         if (field_D80_state != BeeSwarmStates::eIdle_0 && field_D80_state != BeeSwarmStates::eFlyAwayAndDie_3)
         {
-            for (int i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+            for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
             {
                 BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
                 if (!pObjIter)
@@ -455,19 +455,19 @@ void BeeSwarm::VUpdate_47FF50()
     field_D94_rect_h = FP_FromInteger(-32767);
 
     // Alive bees update
-    for (int i = 0; i < field_D66_bee_count; i++)
+    for (s32 i = 0; i < field_D66_bee_count; i++)
     {
         BeeSwarmParticle* pBee = &field_E4_bees.bees[i];
 
         const FP distToTargetX = field_D70_chase_target_x - pBee->field_0_xpos;
         const FP distToTargetY = field_D74_chase_target_y - pBee->field_4_ypos;
 
-        if (field_E4_bees.bees[i].field_C_timer < static_cast<int>(gnFrameCount_507670))
+        if (field_E4_bees.bees[i].field_C_timer < static_cast<s32>(gnFrameCount_507670))
         {
             const FP abs_new_chase_x = FP_Abs(distToTargetX);
             const FP abs_new_chase_y = FP_Abs(distToTargetY);
 
-            char tmpAng = 0;
+            s8 tmpAng = 0;
             if (distToTargetY > FP_FromInteger(0))
             {
                 if (distToTargetX >= FP_FromInteger(0))
@@ -504,7 +504,7 @@ void BeeSwarm::VUpdate_47FF50()
                 angSpeed -= 255;
             }
 
-            pBee->field_9_angle_speed = static_cast<char>(angSpeed >> 2);
+            pBee->field_9_angle_speed = static_cast<s8>(angSpeed >> 2);
             pBee->field_C_timer = gnFrameCount_507670 + 5;
         }
 
@@ -612,9 +612,9 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
 void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
 {
     field_10_anim.field_C_layer = Layer::eLayer_38;
-    field_10_anim.field_8_r = static_cast<BYTE>(field_C0_r);
-    field_10_anim.field_9_g = static_cast<BYTE>(field_C2_g);
-    field_10_anim.field_A_b = static_cast<BYTE>(field_C4_b);
+    field_10_anim.field_8_r = static_cast<u8>(field_C0_r);
+    field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
+    field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
     field_10_anim.field_14_scale = field_BC_sprite_scale;
 
     const auto campos_x_delta = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
@@ -626,7 +626,7 @@ void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
     PSX_Point wh = { -32767, -32767 };
 
     BOOL bDontClear = 1;
-    for(int next = 0; next < field_D66_bee_count; next++)
+    for(s32 next = 0; next < field_D66_bee_count; next++)
     {
         auto bee = &field_E4_bees.bees[next];
         PSX_RECT out = {};

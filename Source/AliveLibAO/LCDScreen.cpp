@@ -17,7 +17,7 @@
 
 namespace AO {
 
-const BYTE sLCDScreen_Palette_4C75A8[32] =
+const u8 sLCDScreen_Palette_4C75A8[32] =
 {
     0u,
     0u,
@@ -53,7 +53,7 @@ const BYTE sLCDScreen_Palette_4C75A8[32] =
     216u
 };
 
-const BYTE sLCDScreen_Palette2_4C7588[32] =
+const u8 sLCDScreen_Palette2_4C7588[32] =
 {
     0u,
     0u,
@@ -89,7 +89,7 @@ const BYTE sLCDScreen_Palette2_4C7588[32] =
     216u
 };
 
-const char* sLCDMessageTable_4C7420[90] =
+const s8* sLCDMessageTable_4C7420[90] =
 {
     "",
     "                               The profits justify the means.",
@@ -183,7 +183,7 @@ const char* sLCDMessageTable_4C7420[90] =
     ""
 };
 
-LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, int tlvInfo)
+LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BB468);
@@ -255,12 +255,12 @@ BaseGameObject* LCDScreen::dtor_434100()
     return dtor_487DF0();
 }
 
-BaseGameObject* LCDScreen::VDestructor(signed int flags)
+BaseGameObject* LCDScreen::VDestructor(s32 flags)
 {
     return Vdtor_434630(flags);
 }
 
-BaseGameObject* LCDScreen::Vdtor_434630(signed int flags)
+BaseGameObject* LCDScreen::Vdtor_434630(s32 flags)
 {
     dtor_434100();
     if (flags & 1)
@@ -302,7 +302,7 @@ void LCDScreen::VUpdate_4341B0()
     if (field_2B0_x_offset > field_2B4_character_width)
     {
         field_2B0_x_offset -= field_2B4_character_width;
-        char* pMsg = field_A0_message;
+        s8* pMsg = field_A0_message;
         field_A0_message++;
         if (!*pMsg)
         {
@@ -358,7 +358,7 @@ void LCDScreen::VUpdate_4341B0()
     auto screenLeft = field_2BC_tlv.field_10_top_left.field_0_x - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
     auto screenRight = field_2BC_tlv.field_14_bottom_right.field_0_x - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
 
-    const char *slicedText = field_60_font.SliceText_41C6C0(
+    const s8 *slicedText = field_60_font.SliceText_41C6C0(
         field_A0_message,
         PsxToPCX(screenLeft - pScreenManager_4FF7C8->field_14_xpos, 11) - field_2B0_x_offset,
         FP_FromInteger(1),
@@ -389,15 +389,15 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
         auto endY = field_2BC_tlv.field_10_top_left.field_2_y + field_2BC_tlv.field_14_bottom_right.field_2_y;
         auto endX = pScreenManager_4FF7C8->field_14_xpos + field_2BC_tlv.field_14_bottom_right.field_0_x;
 
-        const int screenX = field_2BC_tlv.field_10_top_left.field_0_x - FP_GetExponent(camPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
-        const int screenY = endY / 2 - FP_GetExponent(camPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)) - 7;
-        const int maxWidth = FP_GetExponent(FP_FromInteger(endX) - camPos->field_0_x);
+        const s32 screenX = field_2BC_tlv.field_10_top_left.field_0_x - FP_GetExponent(camPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+        const s32 screenY = endY / 2 - FP_GetExponent(camPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)) - 7;
+        const s32 maxWidth = FP_GetExponent(FP_FromInteger(endX) - camPos->field_0_x);
 
         PSX_RECT clipRect = {
             0,
             0,
             640,
-            static_cast<short>(gPsxDisplay_504C78.field_2_height)
+            static_cast<s16>(gPsxDisplay_504C78.field_2_height)
         };
 
         auto* pClippers = &field_10_prim_clippers[0][gPsxDisplay_504C78.field_A_buffer_index];
@@ -421,8 +421,8 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
         field_60_font.DrawString_41C360(
             ppOt,
             field_A0_message,
-            static_cast<short>(PsxToPCX(screenX, 11) - field_2B0_x_offset),
-            static_cast<short>(screenY),
+            static_cast<s16>(PsxToPCX(screenX, 11) - field_2B0_x_offset),
+            static_cast<s16>(screenY),
             TPageAbr::eBlend_1,
             1,
             0,
@@ -439,9 +439,9 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
 
         PSX_RECT clipRect2 = {};
 
-        clipRect2.x = static_cast<short>(PsxToPCX(screenX, 11));
-        clipRect2.y = static_cast<short>(screenY - 12);
-        clipRect2.w = static_cast<short>(PsxToPCX(maxWidth - screenX, 51));
+        clipRect2.x = static_cast<s16>(PsxToPCX(screenX, 11));
+        clipRect2.y = static_cast<s16>(screenY - 12);
+        clipRect2.w = static_cast<s16>(PsxToPCX(maxWidth - screenX, 51));
         clipRect2.h = 48;
 
         auto* clipper = &field_10_prim_clippers[1][gPsxDisplay_504C78.field_A_buffer_index];

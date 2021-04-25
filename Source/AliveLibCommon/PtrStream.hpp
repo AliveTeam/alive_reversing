@@ -3,34 +3,34 @@
 class PtrStream
 {
 public:
-    PtrStream(const BYTE** ppStream)
+    PtrStream(const u8** ppStream)
         : mppStream(ppStream)
     {
 
     }
 
-    void Read(DWORD& v)
+    void Read(u32& v)
     {
         memcpy(&v, *mppStream, sizeof(v));
         *mppStream += sizeof(v);
     }
 
-    BYTE ReadU8()
+    u8 ReadU8()
     {
-        return ReadT<BYTE>();
+        return ReadT<u8>();
     }
 
-    WORD ReadU16()
+    u16 ReadU16()
     {
-        return ReadT<WORD>();
+        return ReadT<u16>();
     }
 
-    DWORD ReadU32()
+    u32 ReadU32()
     {
-        return ReadT<DWORD>();
+        return ReadT<u32>();
     }
 
-    const BYTE** mppStream;
+    const u8** mppStream;
 
 private:
     template<class T>

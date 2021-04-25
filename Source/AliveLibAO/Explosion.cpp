@@ -33,7 +33,7 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
     ctor_417C10();
     SetVTable(this, 0x4BC218);
     field_4_typeId = Types::eExplosion_74;
-    BYTE** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
     Animation_Init_417FD0(27376, 200, 91, ppRes, 1);
     
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
@@ -227,7 +227,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
         expandedRect.h += 240;
     }
 
-    for(int idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
+    for(s32 idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
     {
         auto pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(idx);
         if (!pObj)
@@ -262,7 +262,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
         {
             pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
             auto dir = gMap_507BA8.GetDirection_444A40(
-                static_cast<int>(gMap_507BA8.field_0_current_level),
+                static_cast<s32>(gMap_507BA8.field_0_current_level),
                 gMap_507BA8.field_2_current_path,
                 FP_FromInteger(pTlv->field_10_top_left.field_0_x),
                 FP_FromInteger(pTlv->field_10_top_left.field_2_y)
@@ -289,7 +289,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
     }
 }
 
-BaseGameObject* Explosion::VDestructor(signed int flags)
+BaseGameObject* Explosion::VDestructor(s32 flags)
 {
     dtor_417D10();
     if (flags & 1)
