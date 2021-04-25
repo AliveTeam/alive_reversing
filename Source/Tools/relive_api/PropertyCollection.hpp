@@ -14,7 +14,7 @@
 class PropertyCollection
 {
 private:
-    void ThrowOnAddPropertyError(const std::string& name, const std::string& typeName, void* key, bool visibleInEditor)
+    void ThrowOnAddPropertyError(const std::string& name, const std::string& typeName, void* key)
     {
         if (name.empty())
         {
@@ -46,7 +46,7 @@ public:
     template<typename PropertyType>
     void AddProperty(const std::string& name, const std::string& typeName, void* key, bool visibleInEditor)
     {
-        ThrowOnAddPropertyError(name, typeName, key, visibleInEditor);
+        ThrowOnAddPropertyError(name, typeName, key);
 
         // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
         mProperties[key].reset(new TypedProperty<PropertyType>(name, typeName, visibleInEditor, static_cast<PropertyType*>(key)));

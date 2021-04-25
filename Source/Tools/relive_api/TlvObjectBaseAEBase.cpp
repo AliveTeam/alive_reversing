@@ -20,8 +20,8 @@ TlvObjectBaseAEBase::TlvObjectBaseAEBase(std::size_t sizeOfT, TlvTypes tlvType, 
 TlvObjectBaseAEBase::TlvObjectBaseAEBase(std::size_t sizeOfT, TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv, Path_TLV* pTlv, CopyFn copyFn)
     : TlvObjectBase(typeName), mSizeOfT(sizeOfT), mType(tlvType), mPSelfTlv{pSelfTlv}
 {
-    mPSelfTlv->field_2_length = mSizeOfT;
     mPSelfTlv->field_4_type.mType = mType;
+    mPSelfTlv->field_2_length = static_cast<s16>(mSizeOfT);
 
     copyFn(pSelfTlv /* dst */, pTlv /* src */);
 

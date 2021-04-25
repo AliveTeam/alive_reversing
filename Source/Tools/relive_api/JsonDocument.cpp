@@ -18,8 +18,13 @@
 #include <magic_enum/include/magic_enum.hpp>
 #include <jsonxx/jsonxx.h>
 
+#include <cstddef>
 #include <fstream>
+#include <memory>
 #include <streambuf>
+#include <string>
+#include <utility>
+#include <vector>
 
 [[nodiscard]] jsonxx::Object CameraObject::ToJsonObject(jsonxx::Array mapObjectsArray) const
 {
@@ -253,7 +258,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> JsonReader
 }
 
 JsonWriterAO::JsonWriterAO(std::unique_ptr<TypesCollectionAO>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info)
-    : JsonWriterBase(*mTypesCollection, pathId, pathBndName, info)
+    : JsonWriterBase(*typesCollection, pathId, pathBndName, info), mTypesCollection{std::move(typesCollection)}
 {
     mMapRootInfo.mGame = "AO";
 }
@@ -516,7 +521,7 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, c
 }
 
 JsonWriterAE::JsonWriterAE(std::unique_ptr<TypesCollectionAE>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info)
-    : JsonWriterBase(*mTypesCollection, pathId, pathBndName, info)
+    : JsonWriterBase(*typesCollection, pathId, pathBndName, info), mTypesCollection{std::move(typesCollection)}
 {
     mMapRootInfo.mGame = "AE";
 }
