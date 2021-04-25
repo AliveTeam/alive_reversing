@@ -9,20 +9,17 @@ namespace AO {
 
 EXPORT void CC Pal_Reset_4476C0(u16 /*a1*/, u16 /*a2*/)
 {
-    AE_IMPLEMENTED();
     Pal_Area_Init_483080(0, 240, 640, 32);
 }
 
 
 EXPORT s16 CC Pal_Allocate_4476F0(PSX_RECT* pRect, u32 paletteColorCount)
 {
-    AE_IMPLEMENTED();
     return Pal_Allocate_483110(pRect, paletteColorCount);
 }
 
 EXPORT void CC Pal_Free_447870(PSX_Point xy, s16 palDepth)
 {
-    AE_IMPLEMENTED();
     Pal_free_483390(xy, palDepth);
 }
 
