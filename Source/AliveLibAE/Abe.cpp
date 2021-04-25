@@ -3582,8 +3582,8 @@ void Abe::State_2_StandingTurn_451830()
     if (currentFrame == 4 && (sInputKey_Run_5550E8 & pressed) && (sInputKey_Right_5550D0 | sInputKey_Left_5550D4) & pressed)
     {
 
-#if ORIGINAL_GAME_FIXES
-        field_108_next_motion = 0; // OG Change - Fixes "Auto-Turn" bug
+#if ORIGINAL_GAME_FIXES || ORIGINAL_GAME_FIX_AUTO_TURN
+        field_108_next_motion = eAbeStates::State_0_Idle_44EEB0; // OG Change - Fixes "Auto-Turn" bug
 #endif
 
         field_106_current_motion = eAbeStates::State_61_TurnToRun_456530;
