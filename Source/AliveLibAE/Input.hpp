@@ -13,7 +13,7 @@ EXPORT void CC Input_DisableInputForPauseMenuAndDebug_4EDDC0();
 EXPORT void CC Input_Init_491BC0();
 EXPORT void CC Input_SetKeyState_4EDD80(s32 key, s8 bIsDown);
 EXPORT bool CC Input_IsVKPressed_4EDD40(s32 key);
-EXPORT DWORD Input_GetLastPressedKey_492610();
+EXPORT u32 Input_GetLastPressedKey_492610();
 EXPORT void Input_Reset_492660();
 EXPORT u32 Input_IsChanting_45F260();
 EXPORT void CC Input_Pads_Reset_4FA960();
@@ -121,14 +121,14 @@ EXPORT s32 CC Input_Read_Pad_4FA9C0(s32 padNum);
 
 struct InputPadObject
 {
-    DWORD field_0_pressed;
+    u32 field_0_pressed;
     u8 field_4_dir;
     u8 field_5;
     WORD field_6_padding; // Not confirmed
-    DWORD field_8_previous;
-    DWORD field_C_held;
-    DWORD field_10_released;
-    DWORD field_14_padding; // Not confirmed
+    u32 field_8_previous;
+    u32 field_C_held;
+    u32 field_10_released;
+    u32 field_14_padding; // Not confirmed
 };
 ALIVE_ASSERT_SIZEOF(InputPadObject, 0x18);
 
@@ -170,22 +170,22 @@ class InputObject
 public:
     EXPORT s32 Is_Demo_Playing_45F220();
     EXPORT void UnsetDemoPlaying_45F240();
-    EXPORT void SetDemoResource_45F1E0(DWORD** pDemoRes);
+    EXPORT void SetDemoResource_45F1E0(u32** pDemoRes);
     EXPORT void Update_45F040();
-    EXPORT static DWORD CC Command_To_Raw_45EE40(DWORD cmd);
+    EXPORT static u32 CC Command_To_Raw_45EE40(u32 cmd);
     EXPORT static s8 CC Raw_To_Command_45EF70(s32 a1);
     EXPORT void CC ShutDown_45F020();
 public:
     InputPadObject field_0_pads[2];
-    DWORD** field_30_pDemoRes;
-    DWORD field_34_demo_command_index;
+    u32** field_30_pDemoRes;
+    u32 field_34_demo_command_index;
     WORD field_38_bDemoPlaying;
     WORD field_3A_pad_idx;
-    DWORD field_3C_command;
-    DWORD field_40_command_duration;
-    bool isPressed(DWORD command);
-    bool isHeld(DWORD command);
-    bool IsReleased(DWORD keys);
+    u32 field_3C_command;
+    u32 field_40_command_duration;
+    bool isPressed(u32 command);
+    bool isHeld(u32 command);
+    bool IsReleased(u32 keys);
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 
@@ -193,7 +193,7 @@ EXPORT InputObject& Input();
 
 ALIVE_VAR_EXTERN(InputObject, sInputObject_5BD4E0);
 ALIVE_VAR_EXTERN(u16, sCurrentControllerIndex_5C1BBE);
-ALIVE_VAR_EXTERN(DWORD, sLastPressedKey_BD30A0);
+ALIVE_VAR_EXTERN(u32, sLastPressedKey_BD30A0);
 ALIVE_VAR_EXTERN(s32, sIsAKeyDown_BD309C);
 ALIVE_VAR_EXTERN(s16, bLongerTimeoutToNextDemo_5C1B9A);
 ALIVE_VAR_EXTERN(s32, sJoystickEnabled_5C9F70);

@@ -97,7 +97,7 @@ struct BitFieldWords32
 
 union BitFieldUnion32
 {
-    DWORD all;
+    u32 all;
     BitFieldBytes32 bytes;
     BitFieldWords32 words;
 };

@@ -44,7 +44,7 @@ s32 BaseGameObject::VGetSaveState(u8* /*pSaveBuffer*/)
     return 0;
 }
 
-u8** BaseGameObject::Add_Resource_4DC130(DWORD type, s32 resourceID)
+u8** BaseGameObject::Add_Resource_4DC130(u32 type, s32 resourceID)
 {
     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(type, resourceID, 1, 0);
     if (ppRes)

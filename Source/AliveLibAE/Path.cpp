@@ -318,7 +318,7 @@ Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(u32 tlvOffset_levelId_PathId)
     }
 }
 
-DWORD Path::TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv)
+u32 Path::TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv)
 {
     TlvItemInfoUnion data;
     data.parts.levelId = static_cast<u8>(field_0_levelId);

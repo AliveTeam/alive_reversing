@@ -8,7 +8,7 @@
 
 void Psx_ForceLink();
 
-using TPsxEmuCallBack = AddPointer_t<s32(DWORD)>;
+using TPsxEmuCallBack = AddPointer_t<s32(u32)>;
 
 EXPORT void CC PSX_DispEnv_Set_4ED960(s32 mode);
 EXPORT s32 CC PSX_VSync_4F6170(s32 mode);

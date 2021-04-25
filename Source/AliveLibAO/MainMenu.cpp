@@ -1056,7 +1056,7 @@ void Menu::FMV_Select_Update_47E8D0()
                     SND_StopAll_4762D0();
 
                     const FmvInfo* pFmvRec = Path_Get_FMV_Record_434680(sActiveList_9F2DE4[field_1E0_selected_index].field_4_level_id,  sActiveList_9F2DE4[field_1E0_selected_index].field_A_fmv_id);
-                    DWORD movie1Sector = 0;
+                    u32 movie1Sector = 0;
                     Get_fmvs_sectors_44FEB0(pFmvRec->field_0_pName, 0, 0, &movie1Sector, 0, 0);
 
                     auto pMovie = ao_new<Movie>();
@@ -1810,7 +1810,7 @@ void Menu::To_Load_Update_47D8E0()
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
             sSaveIdx_9F2DD8 = 0;
-            IO_EnumerateDirectory("*.sav", [](const s8* fileName, DWORD /*lastWriteTime*/)
+            IO_EnumerateDirectory("*.sav", [](const s8* fileName, u32 /*lastWriteTime*/)
                 {
                     if (sSaveIdx_9F2DD8 < 128) // TODO: Array len
                     {

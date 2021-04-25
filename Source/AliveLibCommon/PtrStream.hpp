@@ -9,7 +9,7 @@ public:
 
     }
 
-    void Read(DWORD& v)
+    void Read(u32& v)
     {
         memcpy(&v, *mppStream, sizeof(v));
         *mppStream += sizeof(v);
@@ -25,9 +25,9 @@ public:
         return ReadT<WORD>();
     }
 
-    DWORD ReadU32()
+    u32 ReadU32()
     {
-        return ReadT<DWORD>();
+        return ReadT<u32>();
     }
 
     const u8** mppStream;

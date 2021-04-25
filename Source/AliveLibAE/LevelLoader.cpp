@@ -18,7 +18,7 @@ void LevelLoader::VUpdate()
     vUpdate_4DD400();
 }
 
-LevelLoader* LevelLoader::ctor_4DD330(Path_LevelLoader* pTlv, DWORD tlvInfo)
+LevelLoader* LevelLoader::ctor_4DD330(Path_LevelLoader* pTlv, u32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547B5C); // vTbl_LevelLoader_547B5C

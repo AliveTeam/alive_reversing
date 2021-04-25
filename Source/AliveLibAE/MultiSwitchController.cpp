@@ -22,7 +22,7 @@ void MultiSwitchController::VScreenChanged()
     vScreenChanged_4D6860();
 }
 
-MultiSwitchController* MultiSwitchController::ctor_4D60E0(Path_MultiSwitchController* pTlv, DWORD tlvInfo)
+MultiSwitchController* MultiSwitchController::ctor_4D60E0(Path_MultiSwitchController* pTlv, u32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     field_40_flags.Clear(Flags_40::eBit1_is_on);

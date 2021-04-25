@@ -736,9 +736,9 @@ void Animation::Invoke_CallBacks_40B7A0()
     }
 
     FrameInfoHeader* pFrameHeaderCopy = Get_FrameHeader_40B730(-1);
-    // This data can be an array of DWORD's + other data up to field_6_count
+    // This data can be an array of u32's + other data up to field_6_count
     // which appears AFTER the usual data.
-    DWORD* pCallBackData = reinterpret_cast<DWORD*>(&pFrameHeaderCopy->field_8_data.points[3]);
+    u32* pCallBackData = reinterpret_cast<u32*>(&pFrameHeaderCopy->field_8_data.points[3]);
     for (s32 i = 0; i < pFrameHeaderCopy->field_6_count; i++)
     {
         auto pFnCallBack = field_1C_fn_ptr_array[*pCallBackData];
@@ -856,14 +856,14 @@ FrameInfoHeader* Animation::Get_FrameHeader_40B730(s16 frame)
     }
 
     AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
-    DWORD frameOffset = pHead->mFrameOffsets[frame];
+    u32 frameOffset = pHead->mFrameOffsets[frame];
 
     FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
 
     // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
     // TODO: Remove it in the future when proven to be not required?
 #if defined(_MSC_VER) && !defined(_WIN64)
-    if (reinterpret_cast<DWORD>(pFrame) & 3)
+    if (reinterpret_cast<u32>(pFrame) & 3)
     {
         FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_5440AC;
         return Unknown;
@@ -954,7 +954,7 @@ s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     field_4_flags.Clear(AnimFlags::eBit22_DeadMode);
 
     // TODO: Refactor
-    if (*((DWORD *)*ppAnimData + 2) != 0)
+    if (*((u32 *)*ppAnimData + 2) != 0)
     {
         // Never in any source data ?
         field_4_flags.Set(AnimFlags::eBit22_DeadMode);
@@ -1008,7 +1008,7 @@ s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     {
         vram_width = maxW;
         field_4_flags.Set(AnimFlags::eBit13_Is8Bit);
-        if (*(DWORD *)pClut != 64) // CLUT entry count
+        if (*(u32 *)pClut != 64) // CLUT entry count
         {
             pal_depth = 256;
             b256Pal = 1; // is 256 pal

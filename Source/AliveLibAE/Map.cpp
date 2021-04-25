@@ -31,7 +31,7 @@ void Map_ForceLink() { }
 
 ALIVE_VAR(1, 0x5c311c, s16, sMap_bDoPurpleLightEffect_5C311C, 0);
 ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
-ALIVE_VAR(1, 0x5c3120, DWORD, sSoundChannelsMask_5C3120, 0);
+ALIVE_VAR(1, 0x5c3120, u32, sSoundChannelsMask_5C3120, 0);
 
 struct Path_ChangeTLV : public Path_TLV
 {
@@ -415,7 +415,7 @@ void Map::Handle_PathTransition_481610()
             break;
         }
 
-        const DWORD pCamNameOffset = sizeof(CameraName) * (field_D0_cam_x_idx + (field_D2_cam_y_idx * sPath_dword_BB47C0->field_6_cams_on_x));
+        const u32 pCamNameOffset = sizeof(CameraName) * (field_D0_cam_x_idx + (field_D2_cam_y_idx * sPath_dword_BB47C0->field_6_cams_on_x));
         const u8* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
@@ -771,7 +771,7 @@ void Map::GoTo_Camera_481890()
     s8 pStrBuffer[13] = {};
     Path_Format_CameraName_460FB0(pStrBuffer, field_A_level, field_C_path, field_E_camera);
 
-    DWORD pCamNameOffset = 0;
+    u32 pCamNameOffset = 0;
     if (sizeof(CameraName) * sPath_dword_BB47C0->field_6_cams_on_x * sPath_dword_BB47C0->field_8_cams_on_y > 0)
     {
         for (;;)
@@ -1147,9 +1147,9 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelId
         FmvInfo* pFmvRec2 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id / 100 % 100);
         FmvInfo* pFmvRec3 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id % 100);
         sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // TODO: Strongly type this, but it hasn't got the same underlaying type as the enum grr..
-        DWORD pos1 = 0;
-        DWORD pos2 = 0;
-        DWORD pos3 = 0;
+        u32 pos1 = 0;
+        u32 pos2 = 0;
+        u32 pos3 = 0;
         Get_fmvs_sectors_494460(
             pFmvRec1->field_0_pName,
             pFmvRec2->field_0_pName,
@@ -1185,8 +1185,8 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelId
         // Double FMV
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id / 100);
         FmvInfo* pFmvRec2 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id % 100);
-        DWORD cdPos1 = 0;
-        DWORD cdPos2 = 0;
+        u32 cdPos1 = 0;
+        u32 cdPos2 = 0;
         Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // HACK
         auto pSwapper = ae_new<CameraSwapper>();
@@ -1209,7 +1209,7 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelId
     {
         // Single FMV
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id);
-        DWORD cdPos = 0;
+        u32 cdPos = 0;
         Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, 0, 0, &cdPos, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // HACK
         auto pSwapper = ae_new<CameraSwapper>();

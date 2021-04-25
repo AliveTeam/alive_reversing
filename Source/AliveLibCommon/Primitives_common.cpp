@@ -165,7 +165,7 @@ void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr)
     // Store the pointer to the bit field data - this gets used by the lowest level software rendering func
     // TODO: OG game hack
     // TODO: 64bit fail
-    DWORD asPtr = *((DWORD*)&ptr);
+    u32 asPtr = *((u32*)&ptr);
 
     s32 ptr_first_half = (s32)asPtr >> 16;
     s16 ptr_second_half = (WORD)(s32)(asPtr);

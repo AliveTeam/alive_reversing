@@ -1236,7 +1236,7 @@ void PauseMenu::Page_Save_Update_491210()
     else if (field_13C_save_state == SaveState::ReadingInput_0)
     {
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Exit save menu using controller
-        DWORD lastPressed = Input_GetLastPressedKey_492610();
+        u32 lastPressed = Input_GetLastPressedKey_492610();
 
         if (lastPressed == VK_ESCAPE || lastPressed == VK_RETURN) // Keyboard ESC or ENTER
         {
@@ -1253,7 +1253,7 @@ void PauseMenu::Page_Save_Update_491210()
             setSaveMenuOpen(false);
         }
 #else
-        const DWORD lastPressed = Input_GetLastPressedKey_492610();
+        const u32 lastPressed = Input_GetLastPressedKey_492610();
 #endif
 
         if (!lastPressed)
@@ -1394,7 +1394,7 @@ void PauseMenu::Page_Load_Update_490D50()
         word12C_flags &= ~1u;
     }
 
-    const DWORD inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+    const u32 inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
 
     // Up one save
     if (inputHeld & InputCommands::Enum::eUp)

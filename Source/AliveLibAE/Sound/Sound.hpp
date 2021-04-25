@@ -19,8 +19,8 @@ typedef struct tWAVEFORMATEX
 {
     WORD        wFormatTag;
     WORD        nChannels;
-    DWORD       nSamplesPerSec;
-    DWORD       nAvgBytesPerSec;
+    u32       nSamplesPerSec;
+    u32       nAvgBytesPerSec;
     WORD        nBlockAlign;
     WORD        wBitsPerSample;
     WORD        cbSize;
@@ -34,10 +34,10 @@ typedef struct tWAVEFORMATEX
 // Note: Windows SDound type
 typedef struct _DSBUFFERDESC
 {
-    DWORD           dwSize;
-    DWORD           dwFlags;
-    DWORD           dwBufferBytes;
-    DWORD           dwReserved;
+    u32           dwSize;
+    u32           dwFlags;
+    u32           dwBufferBytes;
+    u32           dwReserved;
     LPWAVEFORMATEX  lpwfxFormat;
 #if DIRECTSOUND_VERSION >= 0x0700
     GUID            guid3DAlgorithm;
@@ -124,8 +124,8 @@ EXPORT s32 CC SND_Buffer_Set_Volume_4EFAD0(s32 idx, s32 vol);
 EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(s32 sampleIdx, s32 field10);
 EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC90(s32 idx, f32 hzChangeFreq);
 EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC00(s32 idx, f32 freq);
-EXPORT s32 CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount);
-EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/);
+EXPORT s32 CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundBuffer, u32 sampleCount);
+EXPORT u32 * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/);
 
 struct MIDI_Channel;
 EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority);

@@ -21,20 +21,20 @@ inline std::string ToString(const LvlFileRecord& rec)
 class LvlFileChunk
 {
 public:
-    LvlFileChunk(DWORD id, ResourceManager::ResourceType resType, const std::vector<u8>& data)
+    LvlFileChunk(u32 id, ResourceManager::ResourceType resType, const std::vector<u8>& data)
         : mData(data)
     {
-        mHeader.field_0_size = static_cast<DWORD>(data.size());
+        mHeader.field_0_size = static_cast<u32>(data.size());
         mHeader.field_C_id = id;
         mHeader.field_8_type = resType;
     }
 
-    DWORD Id() const
+    u32 Id() const
     {
         return mHeader.field_C_id;
     }
 
-    DWORD Size() const
+    u32 Size() const
     {
         return mHeader.field_0_size;
     }
@@ -62,7 +62,7 @@ public:
         Read(data);
     }
 
-    std::optional<LvlFileChunk> ChunkById(DWORD id) const
+    std::optional<LvlFileChunk> ChunkById(u32 id) const
     {
         for (auto& chunk : mChunks)
         {

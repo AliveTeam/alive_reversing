@@ -41,7 +41,7 @@ bool RunningAsInjectedDll();
 class AliveVar
 {
 public:
-    AliveVar(const s8* name, DWORD addr, DWORD sizeInBytes, bool isDynamicallyAllocated, bool isConstData);
+    AliveVar(const s8* name, u32 addr, u32 sizeInBytes, bool isDynamicallyAllocated, bool isConstData);
 };
 
 #define ALIVE_VAR_EXTERN(TypeName, VarName)\

@@ -191,7 +191,7 @@ struct Line_F3
 {
     Poly_Base mBase;
     FVertWrapper mVerts[2];
-    DWORD pad;
+    u32 pad;
 };
 // TODO: Assert size
 
@@ -199,7 +199,7 @@ struct Line_F4
 {
     Poly_Base mBase;
     FVertWrapper mVerts[3];
-    DWORD pad;
+    u32 pad;
 };
 // TODO: Assert size
 
@@ -221,7 +221,7 @@ struct Line_G4
 {
     Poly_Base mBase;
     GVert mVerts[3];
-    DWORD field_28_pad;
+    u32 field_28_pad;
 };
 ALIVE_ASSERT_SIZEOF(Line_G4, 0x2C);
 

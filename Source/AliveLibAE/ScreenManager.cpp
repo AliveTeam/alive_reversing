@@ -233,7 +233,7 @@ void ScreenManager::vlc_decode(WORD* aCamSeg, WORD* aDst)
     u32 camSrcPtrIndex = 0;
     u32 vlcTabIndex = 0;
 
-    // Or two source words together to make a DWORD
+    // Or two source words together to make a u32
     u32 dstVlcWord = aCamSeg[camSrcPtrIndex + 1] | (aCamSeg[camSrcPtrIndex] << 16);
     camSrcPtrIndex += 2; // Skip the two words we just OR'ed
 
@@ -362,12 +362,12 @@ void ScreenManager::vlc_decoder(s32 aR, s32 aG, s32 aB, s32 aWidth, s32 aVramX, 
 }
 
 #if RENDERER_OPENGL
-static void SetPixel16(WORD* /*pLocked*/, DWORD /*pitch*/, s32 x, s32 y, WORD colour)
+static void SetPixel16(WORD* /*pLocked*/, u32 /*pitch*/, s32 x, s32 y, WORD colour)
 {
     reinterpret_cast<WORD*>(gCamBuffer)[x + (y * 640)] = colour;
 }
 #else
-static void SetPixel16(WORD* pLocked, DWORD pitch, s32 x, s32 y, WORD colour)
+static void SetPixel16(WORD* pLocked, u32 pitch, s32 x, s32 y, WORD colour)
 {
     y += (512 / 2) + 16; // Write to lower half of vram
     pLocked[x + (y * pitch)] = colour;
@@ -379,7 +379,7 @@ void ScreenManager::write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddli
     using namespace Oddlib;
 
     WORD* pData = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels);
-    DWORD pitch = sPsxVram_C1D160.field_10_locked_pitch / 2;
+    u32 pitch = sPsxVram_C1D160.field_10_locked_pitch / 2;
 
     // Will go out of bounds due to macro blocks being 16x16, hence bounds check
     if (aVramY < 240)

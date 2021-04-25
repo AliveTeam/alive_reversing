@@ -141,12 +141,12 @@ public:
 
     static EXPORT void CC Shutdown_433230();
 
-    EXPORT void SetDemoRes_433470(DWORD** ppDemoRes);
+    EXPORT void SetDemoRes_433470(u32** ppDemoRes);
 
     EXPORT s32 IsDemoPlaying_4334A0();
 
     PSX_Pad field_0_pads[2];
-    DWORD** field_18_demo_res;
+    u32** field_18_demo_res;
     s32 field_1C_demo_command_index;
     s16 field_20_demo_playing;
     s16 field_22;
@@ -155,12 +155,12 @@ public:
     s32 field_2C;
 
     // These use the active pad
-    bool IsAnyPressed(DWORD command) const;
-    bool IsAnyHeld(DWORD command) const;
-    bool IsAnyReleased(DWORD command) const;
+    bool IsAnyPressed(u32 command) const;
+    bool IsAnyHeld(u32 command) const;
+    bool IsAnyReleased(u32 command) const;
     u8 Dir() const;
-    bool IsAllPressed(DWORD commands) const;
-    bool IsAllHeld(DWORD commands) const;
+    bool IsAllPressed(u32 commands) const;
+    bool IsAllHeld(u32 commands) const;
 
     enum class PadIndex
     {
@@ -176,10 +176,10 @@ public:
     bool JoyStickEnabled() const;
 
     // Check a specific pad
-    bool IsAnyPressed(PadIndex padIx, DWORD command) const;
-    bool IsAnyHeld(PadIndex padIx, DWORD command) const;
-    bool IsAnyReleased(PadIndex padIx, DWORD command) const;
-    bool IsAllPressed(PadIndex padIx, DWORD commands) const;
+    bool IsAnyPressed(PadIndex padIx, u32 command) const;
+    bool IsAnyHeld(PadIndex padIx, u32 command) const;
+    bool IsAnyReleased(PadIndex padIx, u32 command) const;
+    bool IsAllPressed(PadIndex padIx, u32 commands) const;
 
     u16 Pressed(PadIndex padIx) const;
 

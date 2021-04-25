@@ -51,7 +51,7 @@ s16 Switch::VPull_4D6050(s16 bLeftDirection)
     return vPull_4D6050(bLeftDirection);
 }
 
-Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
+Switch* Switch::ctor_4D5860(Path_Switch* pTlv, u32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547A5C);

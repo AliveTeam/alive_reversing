@@ -460,7 +460,7 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const s8* pMovieName)
             {
                 // Sync on where the audio playback is up to
                 total_audio_offset_5CA1F0 += gMasher_single_audio_frame_size_5CA240;
-                const DWORD soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
+                const u32 soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
                 if ((s32)(oldBufferPlayPos_5CA22C - soundBufferPlayPos) > sampleLength / 2)
                 {
                      dword_5CA1FC++;
@@ -569,7 +569,7 @@ struct MovieQueue
 
 ALIVE_VAR(1, 0x5CA348, MovieQueue, sMovieNames_5CA348, {});
 
-void CC Get_fmvs_sectors_494460(const s8* pMovieName1, const s8* pMovieName2, const s8* pMovieName3, DWORD* pMovie1Sector, DWORD* pMovie2Sector, DWORD* pMovie3Sector)
+void CC Get_fmvs_sectors_494460(const s8* pMovieName1, const s8* pMovieName2, const s8* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
 {
     // NOTE: Unused globals that also had the "fake" sector number assigned have been omitted.
     sMovieNameIdx_5CA4C4 = 0;
@@ -647,7 +647,7 @@ void Movie::Init_4DFF60(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 vol
     ResourceManager::Reclaim_Memory_49C470(0);
 }
 
-Movie* Movie::ctor_4DFDE0(s32 id, DWORD pos, s16 bUnknown, s16 flags, s16 volume)
+Movie* Movie::ctor_4DFDE0(s32 id, u32 pos, s16 bUnknown, s16 flags, s16 volume)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547EF4); // vTbl_Movie_547EF4

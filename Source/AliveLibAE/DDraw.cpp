@@ -320,7 +320,7 @@ EXPORT s32 CC DD_Shutdown_4F0790(s32 bDestroyDD)
 
 ALIVE_VAR(1, 0xBBC3B8, BOOL, sDD_Caps_BBC3B8, FALSE); // Force ram surfaces?
 ALIVE_VAR(1, 0xBBC3A0, BOOL, sDD_VideoMemory_BBC3A0, FALSE);
-ALIVE_VAR(1, 0xBBC3C0, DWORD, sDDColourKey_BBC3C0, 0);
+ALIVE_VAR(1, 0xBBC3C0, u32, sDDColourKey_BBC3C0, 0);
 ALIVE_VAR(1, 0xBBC3BC, bool, sbFullScreen_BBC3BC, 0);
 
 EXPORT LPDIRECTDRAWSURFACE CC DD_Create_Surface_4F0CB0(s32 width, s32 height, s32 bSetUnknownCaps)
@@ -502,7 +502,7 @@ EXPORT void CC DD_Flip_4F15D0()
     }
 }
 
-EXPORT s32 CC DD_SetDisplayMode_4F0730(DWORD width, DWORD height, DWORD bpp)
+EXPORT s32 CC DD_SetDisplayMode_4F0730(u32 width, u32 height, u32 bpp)
 {
     // TODO: HACK
     HWND hwnd;
@@ -545,7 +545,7 @@ EXPORT s32 CC DD_Enable_4F0380(HWND /*hwnd*/, s32 width, s32 height, s32 bpp, s3
         return 0;
     }
 
-    DWORD bitsPerPixelXPlanes = 0;
+    u32 bitsPerPixelXPlanes = 0;
     s32 heightCopy = 0;
     s32 widthCopy = 0;
     if (sbFullScreen_BBC3BC)
@@ -719,7 +719,7 @@ static s32 InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
     pixelFormat.dwSize = sizeof(DDPIXELFORMAT);
     pSurface->GetPixelFormat(&pixelFormat);
 
-    DWORD colourMask = 0;
+    u32 colourMask = 0;
     if (pixelFormat.dwRGBBitCount == 8)
     {
         colourMask = 255;

@@ -32,7 +32,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    EXPORT InvisibleSwitch* ctor_45FA70(Path_InvisibleSwitch* pTlv, DWORD tlvInfo);
+    EXPORT InvisibleSwitch* ctor_45FA70(Path_InvisibleSwitch* pTlv, u32 tlvInfo);
 private:
     EXPORT void dtor_45FB20();
     EXPORT InvisibleSwitch* vdtor_45FAF0(s32 flags);

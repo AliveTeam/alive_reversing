@@ -223,7 +223,7 @@ bool IsPowerOf2(s32 i)
     return !(i & (i - 1));
 }
 
-DWORD RoundUpPowerOf2(DWORD numToRound, s32 multiple)
+u32 RoundUpPowerOf2(u32 numToRound, s32 multiple)
 {
     assert(multiple && IsPowerOf2(multiple));
     return (numToRound + multiple - 1) & -multiple;
@@ -759,17 +759,17 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
     field_0_file_handle = sMovie_IO_BBB314.mIO_Open(movieFileName);
 
     // Read file magic
-    DWORD fileMagic = 0;
+    u32 fileMagic = 0;
     if (!field_0_file_handle ||
-        !sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)&fileMagic, sizeof(DWORD)) ||
+        !sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)&fileMagic, sizeof(u32)) ||
         !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
     {
         return 1;
     }
 
     // Verify magic
-    const DWORD kDDV_dword_68EE70 = 0x564444;
-    if (memcmp(&fileMagic, &kDDV_dword_68EE70, sizeof(DWORD)))
+    const u32 kDDV_dword_68EE70 = 0x564444;
+    if (memcmp(&fileMagic, &kDDV_dword_68EE70, sizeof(u32)))
     {
         return 3;
     }
@@ -870,7 +870,7 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
     }
 
     // Allocate buffer for frame sizes
-    const DWORD frameSizeArrayInBytes = sizeof(DWORD) * (field_2C_audio_header.field_10_num_frames_interleave + field_4_ddv_header.field_C_number_of_frames);
+    const u32 frameSizeArrayInBytes = sizeof(u32) * (field_2C_audio_header.field_10_num_frames_interleave + field_4_ddv_header.field_C_number_of_frames);
     field_70_frame_sizes_array = (s32*)malloc(frameSizeArrayInBytes);
     if (!field_70_frame_sizes_array)
     {
@@ -939,7 +939,7 @@ s32 Masher::sub_4E6B30()
         if (field_60_bHasAudio && field_61_bHasVideo)
         {
             // Contains offset to audio in the buffer
-            frameSizeToRead += sizeof(DWORD);
+            frameSizeToRead += sizeof(u32);
         }
 
         if (frameSizeToRead > 0
@@ -969,11 +969,11 @@ s32 Masher::sub_4E6B30()
     else
     {
         u8* pFrameData = (u8 *)field_80_raw_frame_data;
-        field_40_video_frame_to_decode = (void*)&pFrameData[frameOffset + sizeof(DWORD)];
+        field_40_video_frame_to_decode = (void*)&pFrameData[frameOffset + sizeof(u32)];
 
         // Skip video data + video data len to get start of sound data
-        DWORD videoDataSize = *(DWORD *)&pFrameData[frameOffset];
-        field_48_sound_frame_to_decode = (s32 *)&pFrameData[frameOffset + sizeof(DWORD) + videoDataSize];
+        u32 videoDataSize = *(u32 *)&pFrameData[frameOffset];
+        field_48_sound_frame_to_decode = (s32 *)&pFrameData[frameOffset + sizeof(u32) + videoDataSize];
     }
     return ++field_68_frame_number < field_4_ddv_header.field_C_number_of_frames + 2;
 }

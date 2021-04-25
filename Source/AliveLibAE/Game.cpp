@@ -50,7 +50,7 @@ ALIVE_VAR(1, 0xBBFB00, TExitGameCallBack, sGame_OnExitCallback_BBFB00, nullptr);
 ALIVE_VAR(1, 0x5C1B84, u32, sGnFrame_5C1B84, 0);
 
 // Timer
-ALIVE_VAR(1, 0xBBB9D4, DWORD, sTimer_period_BBB9D4, 0);
+ALIVE_VAR(1, 0xBBB9D4, u32, sTimer_period_BBB9D4, 0);
 
 // Arrays of things
 ALIVE_VAR(1, 0x5C1B78, DynamicArrayT<BaseGameObject>*, ObjList_5C1B78, nullptr);
@@ -83,9 +83,9 @@ ALIVE_VAR(1, 0x5C2A4C, Abe, gAbeObj_5C2A4C, {}); // TODO: Refactor to remove glo
 ALIVE_VAR(1, 0x554D5C, Abe*, spAbe_554D5C, &gAbeObj_5C2A4C);
 
 
-ALIVE_VAR(1, 0x5C2F6C, DWORD, dword_5C2F6C, 0);
+ALIVE_VAR(1, 0x5C2F6C, u32, dword_5C2F6C, 0);
 ALIVE_VAR(1, 0x5C1BA0, WORD, gAttract_5C1BA0, 0);
-ALIVE_VAR(1, 0x5C2F70, DWORD, dword_5C2F70, 0);
+ALIVE_VAR(1, 0x5C2F70, u32, dword_5C2F70, 0);
 
 
 
@@ -182,8 +182,8 @@ void DestroyObjects_4A1F20()
 
 EXPORT f64 CC Calculate_FPS_495250(s32 frameCount)
 {
-    static DWORD sLastTime_5CA338 = SYS_GetTicks() - 500;
-    const DWORD curTime = SYS_GetTicks();
+    static u32 sLastTime_5CA338 = SYS_GetTicks() - 500;
+    const u32 curTime = SYS_GetTicks();
     const s32 timeDiff = curTime - sLastTime_5CA338;
 
     if (static_cast<s32>((curTime - sLastTime_5CA338)) < 500)
@@ -224,7 +224,7 @@ EXPORT void CC Draw_Debug_Strings_4F2800()
 }
 
 
-EXPORT s32 CC Game_End_Frame_4950F0(DWORD flags)
+EXPORT s32 CC Game_End_Frame_4950F0(u32 flags)
 {
     if (flags & 1)
     {

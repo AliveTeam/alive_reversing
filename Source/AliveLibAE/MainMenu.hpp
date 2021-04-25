@@ -221,29 +221,29 @@ public:
 
     // Page Functions
     EXPORT void AbeSpeak_Render_4D2060(PrimHeader** ot);
-    EXPORT MainMenuNextCam AbeSpeak_Update_4D2D20(DWORD input_held);
+    EXPORT MainMenuNextCam AbeSpeak_Update_4D2D20(u32 input_held);
 
     EXPORT void SligSpeak_Render_4D2370(PrimHeader** ot);
-    EXPORT MainMenuNextCam SligSpeak_Update_4D3280(DWORD input_held);
+    EXPORT MainMenuNextCam SligSpeak_Update_4D3280(u32 input_held);
     EXPORT void SligSpeak_Unload_4D3170();
     EXPORT void SligSpeak_Load_4D3090();
 
     EXPORT void GlukkonSpeak_Render_4D23C0(PrimHeader** ot);
-    EXPORT MainMenuNextCam GlukkonSpeak_Update_4D3670(DWORD input_held);
+    EXPORT MainMenuNextCam GlukkonSpeak_Update_4D3670(u32 input_held);
     EXPORT void GlukkonSpeak_Unload_4D3560();
     EXPORT void GlukkonSpeak_Load_4D3480();
 
     EXPORT void ScrabSpeak_Render_4D2410(PrimHeader** ot);
-    EXPORT MainMenuNextCam ScrabSpeak_Update_4D3A60(DWORD input_held);
+    EXPORT MainMenuNextCam ScrabSpeak_Update_4D3A60(u32 input_held);
     EXPORT void ScrabSpeak_Unload_4D3950();
     EXPORT void ScrabSpeak_Load_4D3870();
 
     EXPORT void ParamiteSpeak_Render_4D2460(PrimHeader** ot);
-    EXPORT MainMenuNextCam ParamiteSpeak_Update_4D3D60(DWORD input_held);
+    EXPORT MainMenuNextCam ParamiteSpeak_Update_4D3D60(u32 input_held);
     EXPORT void ParamiteSpeak_Unload_4D3C50();
     EXPORT void ParamiteSpeak_Load_4D3B70();
 
-    EXPORT MainMenuNextCam Gamespeak_Update_4D1FC0(DWORD input_held);
+    EXPORT MainMenuNextCam Gamespeak_Update_4D1FC0(u32 input_held);
 
     void RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, s32 count, s8 isSingleChar);
 
@@ -260,30 +260,30 @@ public:
 
     EXPORT void t_Load_AbeSpeak_Res_4D4A20();
 
-    EXPORT MainMenuNextCam Page_FMV_Level_Update_4D4AB0(DWORD input_held);
+    EXPORT MainMenuNextCam Page_FMV_Level_Update_4D4AB0(u32 input_held);
 
     void Unload_AbeSpeakResources();
     void Load_AbeSpeakResources();
 
     // Front End
-    EXPORT MainMenuNextCam Page_Front_Update_4D0720(DWORD input);
+    EXPORT MainMenuNextCam Page_Front_Update_4D0720(u32 input);
     EXPORT void Page_Front_Render_4D24B0(PrimHeader **ot);
 
-    EXPORT MainMenuNextCam LoadNewGame_Update_4D0920(DWORD input);
+    EXPORT MainMenuNextCam LoadNewGame_Update_4D0920(u32 input);
 
-    EXPORT MainMenuNextCam BackStory_Or_NewGame_Update_4D1C60(DWORD input_held);
+    EXPORT MainMenuNextCam BackStory_Or_NewGame_Update_4D1C60(u32 input_held);
     EXPORT void BackStory_Or_NewGame_Load_4D1BA0();
     EXPORT void BackStory_Or_NewGame_Unload_4D1BE0();
 
-    EXPORT MainMenuNextCam LoadDemo_Update_4D1040(DWORD input);
-    EXPORT MainMenuNextCam DemoSelect_Update_4D0E10(DWORD input);
-    EXPORT MainMenuNextCam Options_Update_4D1AB0(DWORD input);
+    EXPORT MainMenuNextCam LoadDemo_Update_4D1040(u32 input);
+    EXPORT MainMenuNextCam DemoSelect_Update_4D0E10(u32 input);
+    EXPORT MainMenuNextCam Options_Update_4D1AB0(u32 input);
 
-    EXPORT MainMenuNextCam AbeMotions_Update_4D1F50(DWORD input);
+    EXPORT MainMenuNextCam AbeMotions_Update_4D1F50(u32 input);
 
-    EXPORT MainMenuNextCam PSX_Cooperative_Mode_Update_4D49B0(DWORD input);
+    EXPORT MainMenuNextCam PSX_Cooperative_Mode_Update_4D49B0(u32 input);
 
-    EXPORT MainMenuNextCam PSX_Gamemode_Selection_Update_4D48C0(DWORD input);
+    EXPORT MainMenuNextCam PSX_Gamemode_Selection_Update_4D48C0(u32 input);
 
     EXPORT void RemapInput_Load_4D17E0();
 
@@ -291,11 +291,11 @@ public:
 
     EXPORT void RemapInput_Render_4D2A10(PrimHeader** ot);
 
-    EXPORT MainMenuNextCam ControllerMenu_Update_4D16D0(DWORD input);
+    EXPORT MainMenuNextCam ControllerMenu_Update_4D16D0(u32 input);
 
-    EXPORT MainMenuNextCam RemapInput_Update_4D1820(DWORD input);
+    EXPORT MainMenuNextCam RemapInput_Update_4D1820(u32 input);
 
-    EXPORT MainMenuNextCam tLoadGame_Input_4D3EF0(DWORD input);
+    EXPORT MainMenuNextCam tLoadGame_Input_4D3EF0(u32 input);
     EXPORT void tLoadGame_Render_4D44D0(PrimHeader **pOt);
 
     EXPORT void tLoadGame_Load_4D42F0();
@@ -309,7 +309,7 @@ public:
 
     static MainMenuController * gMainMenuController;
 private:
-    MainMenuNextCam HandleGameSpeakInput(DWORD input_held, std::function<MainMenuNextCam(InputCommands::Enum cmd)> fnOnGameSpeak);
+    MainMenuNextCam HandleGameSpeakInput(u32 input_held, std::function<MainMenuNextCam(InputCommands::Enum cmd)> fnOnGameSpeak);
 
     void HandleCreditsControllerUpdate();
     void HandleMainMenuUpdate();
@@ -398,7 +398,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(MainMenuController, 0x260);
 
-using TFnInput = MainMenuNextCam (MainMenuController::*)(DWORD);
+using TFnInput = MainMenuNextCam (MainMenuController::*)(u32);
 using TFnRender = void (MainMenuController::*)(PrimHeader**);
 using TFnLoad = void (MainMenuController::*)();
 using TFnUnLoad = void (MainMenuController::*)();
@@ -430,5 +430,5 @@ ALIVE_VAR_EXTERN(s32, sMainMenuObjectCounter_BB4400);
 ALIVE_VAR_EXTERN(s8, sEnableCheatLevelSelect_5C1BEE);
 ALIVE_VAR_EXTERN(s8, sEnableCheatFMV_5C1BEC);
 ALIVE_VAR_EXTERN(PerPathMudStats, sSavedKilledMudsPerPath_5C1B50);
-ALIVE_VAR_EXTERN(DWORD, sLevelId_dword_5CA408);
+ALIVE_VAR_EXTERN(u32, sLevelId_dword_5CA408);
 ALIVE_VAR_EXTERN(s32, sGameStartedFrame_5C1B88);

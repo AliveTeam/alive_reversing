@@ -353,22 +353,22 @@ struct Abe_SaveState
     WORD next_motion;
     WORD last_line_ypos;
     s16 field_3a_collision_line_id;
-    DWORD platform_obj_id;
+    u32 platform_obj_id;
     WORD bElectrocuted;
     WORD field_42_bInvisible;
     s8 field_44_is_abe_controlled;
     s8 field_45_padding;
     s16 field_46_padding;
     FP field_48_x_vel_slow_by;
-    DWORD field_4C_unused;
-    DWORD field_50_state;
-    DWORD field_54_timer;
-    DWORD field_58_abe_timer;
-    DWORD field_5C_regen_health_timer;
+    u32 field_4C_unused;
+    u32 field_50_state;
+    u32 field_54_timer;
+    u32 field_58_abe_timer;
+    u32 field_5C_regen_health_timer;
     Mud_Emotion mood;
     MudSounds say;
-    DWORD auto_say_timer;
-    DWORD ring_pulse_timer;
+    u32 auto_say_timer;
+    u32 ring_pulse_timer;
     s8 field_6c_rock_bone_count;
     s8 bShrivel;
     s8 bHaveShrykull;
@@ -377,16 +377,16 @@ struct Abe_SaveState
     WORD released_buttons;
     WORD field_74_knockdown_motion;
     s16 field_76_padding;
-    DWORD field_78_rolling_motion_timer;
-    DWORD fade_obj_id;
-    DWORD circular_fade_id;
-    DWORD orb_whirl_wind_id;
-    DWORD possesed_object_id;
-    DWORD throwabe_obj_id;
-    DWORD pull_ring_rope_id;
-    DWORD slappable_or_pickup_id;
-    DWORD wheel_id;
-    DWORD invisible_timer;
+    u32 field_78_rolling_motion_timer;
+    u32 fade_obj_id;
+    u32 circular_fade_id;
+    u32 orb_whirl_wind_id;
+    u32 possesed_object_id;
+    u32 throwabe_obj_id;
+    u32 pull_ring_rope_id;
+    u32 slappable_or_pickup_id;
+    u32 wheel_id;
+    u32 invisible_timer;
     WORD field_A0_unused;
     WORD field_A2_invisibility_id;
     s8 field_A4_cam_idx;
@@ -412,7 +412,7 @@ struct Abe_SaveState
     s8 field_CB_padding;
     WORD field_CC_portal_sub_state;
     s16 field_CE_padding;
-    DWORD bird_portal_id;
+    u32 bird_portal_id;
     enum Flags_D4
     {
         eD4_Bit1_lift_point_dead_while_using_lift = 0x1,

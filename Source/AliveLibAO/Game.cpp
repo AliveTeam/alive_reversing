@@ -189,7 +189,7 @@ ALIVE_ARY(1, 0x4CECC8, s8, 3, gDriveLetter_4CECC8, { 'D', ':', '0' });
 
 
 
-EXPORT s32 CC Game_End_Frame_4505D0(DWORD bSkip)
+EXPORT s32 CC Game_End_Frame_4505D0(u32 bSkip)
 {
     return Game_End_Frame_4950F0(bSkip);
 }

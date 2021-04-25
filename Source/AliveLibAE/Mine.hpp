@@ -52,7 +52,7 @@ public:
     WORD field_118_detonating;
     WORD field_11A_disabled_resources;
     TlvItemInfoUnion field_11C_tlv;
-    DWORD field_120_gnframe;
+    u32 field_120_gnframe;
     Animation field_124_animation;
     BitField32<Mine_Flags_1BC> field_1BC_flags;
 };

@@ -31,7 +31,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    EXPORT WheelSyncer* ctor_466090(Path_WheelSyncer* pTlv, DWORD tlvInfo);
+    EXPORT WheelSyncer* ctor_466090(Path_WheelSyncer* pTlv, u32 tlvInfo);
 private:
     EXPORT void vUpdate_4661D0();
     EXPORT WheelSyncer* vdtor_466120(s32 flags);
@@ -46,6 +46,6 @@ private:
     s16 field_2A_id5;
     s16 field_2C_id6;
     WheelSyncerAction field_2E_action;
-    DWORD field_30_tlvInfo;
+    u32 field_30_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(WheelSyncer, 0x34);

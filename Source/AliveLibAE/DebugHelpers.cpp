@@ -1156,9 +1156,9 @@ public:
 
 struct PsxTimHeader
 {
-    DWORD mMagic;   // 0x10
-    DWORD mFlag;    // 0x08 4BPP, 0x09 8BPP, 0x02 16BPP
-    DWORD mUnknown;
+    u32 mMagic;   // 0x10
+    u32 mFlag;    // 0x08 4BPP, 0x09 8BPP, 0x02 16BPP
+    u32 mUnknown;
     WORD mClutX;
     WORD mClutY;
     WORD mNumClutColours;
@@ -1167,7 +1167,7 @@ struct PsxTimHeader
 
 struct PsxTimImageHeader
 {
-    DWORD mSizeInBytes; // includes header size
+    u32 mSizeInBytes; // includes header size
     PSX_RECT mImageRect;
 };
 
@@ -1185,7 +1185,7 @@ static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
     const PsxTimImageHeader* pImgHeader = nullptr;
     if (pHeader->mFlag == 2) // 16 bit
     {
-        pImgHeader = reinterpret_cast<const PsxTimImageHeader*>(timBuffer + (sizeof(DWORD) * 2)); // skip magic marker and flags
+        pImgHeader = reinterpret_cast<const PsxTimImageHeader*>(timBuffer + (sizeof(u32) * 2)); // skip magic marker and flags
         pInfo->mClut = 0;
     }
     else

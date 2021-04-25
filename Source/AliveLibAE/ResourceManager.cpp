@@ -13,8 +13,8 @@
 
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 
-ALIVE_VAR(1, 0xab4a04, DWORD, sManagedMemoryUsedSize_AB4A04, 0);
-ALIVE_VAR(1, 0xab4a08, DWORD, sPeakedManagedMemUsage_AB4A08, 0);
+ALIVE_VAR(1, 0xab4a04, u32, sManagedMemoryUsedSize_AB4A04, 0);
+ALIVE_VAR(1, 0xab4a08, u32, sPeakedManagedMemUsage_AB4A08, 0);
 
 ALIVE_VAR(1, 0x5C1B96, s16, sbLoadingInProgress_5C1B96, 0);
 ALIVE_VAR(1, 0x5C1BAA, s16, bHideLoadingIcon_5C1BAA, 0);
@@ -25,10 +25,10 @@ ALIVE_VAR(1, 0xAB4A0C, s16, sAllocationFailed_AB4A0C, 0);
 ALIVE_VAR(1, 0x5D29EC, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_5D29EC, nullptr);
 ALIVE_VAR(1, 0x5D29E8, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_5D29E8, nullptr);
 
-const DWORD kResHeapSize = 5120000;
+const u32 kResHeapSize = 5120000;
 ALIVE_ARY(1, 0x5D29F4, u8, kResHeapSize, sResourceHeap_5D29F4, {}); // Huge 5.4 MB static resource buffer
 
-const DWORD kLinkedListArraySize = 375;
+const u32 kLinkedListArraySize = 375;
 ALIVE_ARY(1, 0x5D1E30, ResourceManager::ResourceHeapItem, kLinkedListArraySize, sResourceLinkedList_5D1E30, {});
 
 ALIVE_VAR(1, 0xAB49F8, u8*, spResourceHeapEnd_AB49F8, nullptr);
@@ -326,7 +326,7 @@ void ResourceManager::ResourceManager_FileRecord::dtor_464EA0()
     field_10_file_sections_dArray.dtor_40CAD0();
 }
 
-void ResourceManager::LoadResource_464EE0(const s8* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
+void ResourceManager::LoadResource_464EE0(const s8* pFileItem, u32 type, u32 resourceID, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
 {
     u8** pLoadedRes = GetLoadedResource_49C2A0(type, resourceID, 1, 0);
     if (pLoadedRes)
@@ -743,7 +743,7 @@ s32 CC ResourceManager::SEQ_HashName_49BE30(const s8* seqFileName)
     }
 
     // Iterate each s8 to calculate hash
-    DWORD hashId = 0;
+    u32 hashId = 0;
     for (size_t index = 0; index < seqFileNameLength; index++)
     {
         s8 letter = seqFileName[index];
@@ -752,7 +752,7 @@ s32 CC ResourceManager::SEQ_HashName_49BE30(const s8* seqFileName)
             break;
         }
 
-        const DWORD temp = 10 * hashId;
+        const u32 temp = 10 * hashId;
         if (letter < '0' || letter > '9')
         {
             if (letter >= 'a')
@@ -772,7 +772,7 @@ s32 CC ResourceManager::SEQ_HashName_49BE30(const s8* seqFileName)
     return hashId;
 }
 
-u8** ResourceManager::Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, ResourceManager::BlockAllocMethod allocType)
+u8** ResourceManager::Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool locked, ResourceManager::BlockAllocMethod allocType)
 {
     u8** ppNewRes = Allocate_New_Block_49BFB0(size + sizeof(Header), allocType);
     if (!ppNewRes)
@@ -794,12 +794,12 @@ u8** ResourceManager::Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, 
     return ppNewRes;
 }
 
-u8** CC ResourceManager::Alloc_New_Resource_49BED0(DWORD type, DWORD id, DWORD size)
+u8** CC ResourceManager::Alloc_New_Resource_49BED0(u32 type, u32 id, u32 size)
 {
     return Alloc_New_Resource_Impl(type, id, size, false, BlockAllocMethod::eFirstMatching);
 }
 
-u8** CC ResourceManager::Allocate_New_Locked_Resource_49BF40(DWORD type, DWORD id, DWORD size)
+u8** CC ResourceManager::Allocate_New_Locked_Resource_49BF40(u32 type, u32 id, u32 size)
 {
     return Alloc_New_Resource_Impl(type, id, size, true, BlockAllocMethod::eLastMatching);
 }
@@ -956,20 +956,20 @@ s16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArray
         {
             // Size of next item - location of current res
             // TODO 64bit warning
-            pHeader->field_0_size = static_cast<DWORD>(pItemToAdd->field_4_pNext->field_0_ptr - (u8*)pHeader - sizeof(Header));
+            pHeader->field_0_size = static_cast<u32>(pItemToAdd->field_4_pNext->field_0_ptr - (u8*)pHeader - sizeof(Header));
         }
         else
         {
             // Isn't a next item so use ptr to end of heap - location of current res
             // TODO: 64bit warning
-            pHeader->field_0_size = static_cast<DWORD>(spResourceHeapEnd_AB49F8 - (u8 *)pHeader);
+            pHeader->field_0_size = static_cast<u32>(spResourceHeapEnd_AB49F8 - (u8 *)pHeader);
         }
         sManagedMemoryUsedSize_AB4A04 -= pHeader->field_0_size;
     }
     return 1;
 }
 
-u8** CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock)
+u8** CC ResourceManager::GetLoadedResource_49C2A0(u32 type, u32 resourceID, u16 addUseCount, u16 bLock)
 {
     // Iterate all list items
     ResourceHeapItem* pListIter = sFirstLinkedListItem_5D29EC;
@@ -1095,7 +1095,7 @@ void CC ResourceManager::Reclaim_Memory_49C470(u32 sizeToReclaim)
                 else
                 {
                     sizeToReclaim -= sizeToMove;
-                    const DWORD savedSize = pCurrentHeader->field_0_size;
+                    const u32 savedSize = pCurrentHeader->field_0_size;
                     u8* pDataStart = pNext->field_0_ptr - sizeof(Header);
                     if (sizeToMove > 0)
                     {
@@ -1148,7 +1148,7 @@ void CC ResourceManager::Set_Header_Flags_49C650(u8** ppRes, s16 flags)
     Get_Header_49C410(ppRes)->field_6_flags |= flags;
 }
 
-void CC ResourceManager::Free_Resource_Of_Type_49C6B0(DWORD type)
+void CC ResourceManager::Free_Resource_Of_Type_49C6B0(u32 type)
 {
     ResourceHeapItem* pListItem = sFirstLinkedListItem_5D29EC;
     while (pListItem)

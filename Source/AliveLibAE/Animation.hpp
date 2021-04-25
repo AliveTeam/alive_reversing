@@ -52,7 +52,7 @@ union PointsUnion
 
 struct FrameInfoHeader
 {
-    DWORD field_0_frame_header_offset;
+    u32 field_0_frame_header_offset;
     s16 field_4_magic;
     s16 field_6_count;
     PointsUnion field_8_data;
@@ -76,7 +76,7 @@ struct AnimationHeader
         eLoopFlag = 0x2
     };
     WORD field_6_flags;
-    DWORD mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
+    u32 mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
 };
 //ALIVE_ASSERT_SIZEOF(AnimationHeader, 0x8);
 
@@ -84,8 +84,8 @@ struct BanHeader
 {
     WORD mMaxW = 0;
     WORD mMaxH = 0;
-    DWORD mFrameTableOffSet = 0;
-    DWORD mPaltSize = 0;
+    u32 mFrameTableOffSet = 0;
+    u32 mPaltSize = 0;
 };
 
 enum class CompressionType : u8
@@ -103,7 +103,7 @@ enum class CompressionType : u8
 
 struct FrameHeader
 {
-    DWORD field_0_clut_offset;
+    u32 field_0_clut_offset;
     u8 field_4_width;
     u8 field_5_height;
     u8 field_6_colour_depth;
@@ -135,12 +135,12 @@ public:
     WORD field_10_frame_delay;
     WORD field_12_scale; // padding?
     FP field_14_scale;
-    DWORD field_18_frame_table_offset;
+    u32 field_18_frame_table_offset;
     s32(CC **field_1C_fn_ptr_array)(void *, s16 *);
     u8** field_20_ppBlock; // // pointer to a pointer which points to anim data
     u8** field_24_dbuf;
 
-    DWORD field_28_dbuf_size;
+    u32 field_28_dbuf_size;
     Poly_FT4 field_2C_ot_data[2];
 
     PSX_RECT field_84_vram_rect;

@@ -146,21 +146,21 @@ HRESULT SDLSoundBuffer::SetCurrentPosition(s32 position) // This offset is appar
     return S_OK;
 }
 
-HRESULT SDLSoundBuffer::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
+HRESULT SDLSoundBuffer::GetCurrentPosition(u32 * readPos, u32 * writePos)
 {
     std::lock_guard<std::mutex> lock(mLock);
 
-    *readPos = static_cast<DWORD>(mState.fPlaybackPosition * mState.iBlockAlign);
+    *readPos = static_cast<u32>(mState.fPlaybackPosition * mState.iBlockAlign);
     *writePos = 0;
 
     return S_OK;
 }
 
-HRESULT SDLSoundBuffer::GetFrequency(DWORD* freq)
+HRESULT SDLSoundBuffer::GetFrequency(u32* freq)
 {
     std::lock_guard<std::mutex> lock(mLock);
 
-    *freq = static_cast<DWORD>(mState.fFrequency * mSoundSysFreq);
+    *freq = static_cast<u32>(mState.fFrequency * mSoundSysFreq);
     return S_OK;
 }
 
@@ -180,7 +180,7 @@ void SDLSoundBuffer::Release()
     mState.bIsReleased = true;
 }
 
-HRESULT SDLSoundBuffer::GetStatus(DWORD * r)
+HRESULT SDLSoundBuffer::GetStatus(u32 * r)
 {
     std::lock_guard<std::mutex> lock(mLock);
 

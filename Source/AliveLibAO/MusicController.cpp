@@ -347,7 +347,7 @@ s16 CC MusicController::Create_4436C0()
 }
 
 #if USE_SDL2
-static DWORD sMusicControllerBaseTimeStamp = 0;
+static u32 sMusicControllerBaseTimeStamp = 0;
 #endif
 
 void CC MusicController::SetBaseTimeStamp()

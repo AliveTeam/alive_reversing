@@ -20,7 +20,7 @@ using TLoaderFn = void(CC*)(void*);
 class ResourceManager
 {
 public:
-    enum ResourceType : DWORD
+    enum ResourceType : u32
     {
         Resource_PBuf = 0x66754250,
         Resource_CHNK = 0x4B4E4843,
@@ -57,18 +57,18 @@ public:
 
     struct Header
     {
-        DWORD field_0_size;
+        u32 field_0_size;
         s16 field_4_ref_count;
         s16 field_6_flags;
-        DWORD field_8_type;
-        DWORD field_C_id;
+        u32 field_8_type;
+        u32 field_C_id;
     };
     ALIVE_ASSERT_SIZEOF(Header, 0x10);
 
     struct ResourcesToLoadList_Entry
     {
-        DWORD field_0_type;
-        DWORD field_4_res_id;
+        u32 field_0_type;
+        u32 field_4_res_id;
     };
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
 
@@ -98,8 +98,8 @@ public:
 
         const s8* field_0_fileName;
         ResourcesToLoadList* field_4_pResourcesToLoadList;
-        DWORD field_8_type;
-        DWORD field_C_resourceId;
+        u32 field_8_type;
+        u32 field_C_resourceId;
         DynamicArrayT<ResourceManager_FilePartRecord> field_10_file_sections_dArray;
         ResourceManager_FileRecord_Unknown* field_1C_pGameObjFileRec;
     };
@@ -133,11 +133,11 @@ public:
 
     static EXPORT s16 CC Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u8*>* pArray);
 
-    static u8** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, BlockAllocMethod allocType);
+    static u8** Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool locked, BlockAllocMethod allocType);
 
-    static EXPORT u8** CC Alloc_New_Resource_454F20(DWORD type, DWORD id, DWORD size);
+    static EXPORT u8** CC Alloc_New_Resource_454F20(u32 type, u32 id, u32 size);
 
-    static EXPORT u8** CC Allocate_New_Block_454FE0(DWORD sizeBytes, BlockAllocMethod allocMethod);
+    static EXPORT u8** CC Allocate_New_Block_454FE0(u32 sizeBytes, BlockAllocMethod allocMethod);
 
     static EXPORT s16 CC FreeResource_Impl_4555B0(u8* handle);
 
@@ -149,17 +149,17 @@ public:
 
     static EXPORT void CC WaitForPendingResources_41EA60(BaseGameObject* pObj);
 
-    static EXPORT void CC Reclaim_Memory_455660(DWORD sizeToReclaim);
+    static EXPORT void CC Reclaim_Memory_455660(u32 sizeToReclaim);
 
     static EXPORT s16 CC FreeResource_455550(u8** ppRes);
 
-    static EXPORT void CC LoadResource_446C90(const s8* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
+    static EXPORT void CC LoadResource_446C90(const s8* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
 
   
-    static EXPORT u8** CC GetLoadedResource_4554F0(DWORD type, DWORD resourceId, s16 addUseCount, s16 bLock);
+    static EXPORT u8** CC GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock);
 
-    static void CheckResourceIsLoaded(DWORD type, ResourceID resourceId);
-    static void CheckResourceIsLoaded(DWORD type, std::initializer_list<ResourceID>& resourceIds);
+    static void CheckResourceIsLoaded(u32 type, ResourceID resourceId);
+    static void CheckResourceIsLoaded(u32 type, std::initializer_list<ResourceID>& resourceIds);
 
     static EXPORT void CC LoadingLoop_41EAD0(s16 bShowLoadingIcon);
 
@@ -167,7 +167,7 @@ public:
 
     static EXPORT s16 CC LoadResourceFile_455270(const s8* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
 
-    static EXPORT u8** CC Allocate_New_Locked_Resource_454F80(DWORD type, DWORD id, DWORD size);
+    static EXPORT u8** CC Allocate_New_Locked_Resource_454F80(u32 type, u32 id, u32 size);
 
     static EXPORT void CC Set_Header_Flags_4557D0(u8** ppRes, s16 flags);
 
@@ -182,7 +182,7 @@ public:
 
     static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile_4551E0(const s8* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
 
-    static EXPORT void CC Free_Resource_Of_Type_455810(DWORD type);
+    static EXPORT void CC Free_Resource_Of_Type_455810(u32 type);
 
     static EXPORT void CC Free_Resources_For_Camera_447170(Camera* pCamera);
 
@@ -197,7 +197,7 @@ ALIVE_VAR_EXTERN(s32, gFilesPending_507714);
 ALIVE_VAR_EXTERN(s16, bLoadingAFile_50768C);
 ALIVE_VAR_EXTERN(DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0);
 
-ALIVE_VAR_EXTERN(DWORD, sManagedMemoryUsedSize_9F0E48);
-ALIVE_VAR_EXTERN( DWORD, sPeakedManagedMemUsage_9F0E4C);
+ALIVE_VAR_EXTERN(u32, sManagedMemoryUsedSize_9F0E48);
+ALIVE_VAR_EXTERN( u32, sPeakedManagedMemUsage_9F0E4C);
 
 }

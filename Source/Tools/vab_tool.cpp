@@ -39,7 +39,7 @@ static void WriteVec(const s8* fileName, const std::vector<u8>& vec)
 
 s32 CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
 BOOL CC sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
-DWORD* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, VabBodyRecord* pBodyRecords, s32 idx);
+u32* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, VabBodyRecord* pBodyRecords, s32 idx);
 
 s32 CC SND_SoundsDat_Read(FILE* file, VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx, void* pBuffer)
 {

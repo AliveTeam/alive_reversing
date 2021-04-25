@@ -6,7 +6,7 @@
 
 namespace AO {
 
-using TPsxEmuCallBack = AddPointer_t<s32(DWORD)>;
+using TPsxEmuCallBack = AddPointer_t<s32(u32)>;
 
 EXPORT void CC PSX_PutDispEnv_495D30(PSX_DISPENV* pDispEnv);
 

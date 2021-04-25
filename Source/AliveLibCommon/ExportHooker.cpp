@@ -29,7 +29,7 @@ static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszNa
         if (pbCode[0] == 0xe9)
         {
             // jmp +imm32
-            PBYTE pbNew = pbCode + 5 + *(DWORD *)&pbCode[1];
+            PBYTE pbNew = pbCode + 5 + *(u32 *)&pbCode[1];
             pCode = pbNew;
         }
         reinterpret_cast<ExportHooker*>(pContext)->OnExport(pszName, pCode);
@@ -65,7 +65,7 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
         for (const auto& e : mExports)
         {
             s8 buffer[1024 * 20] = {};
-            const DWORD len = UnDecorateSymbolName(e.mName.c_str(), buffer, ALIVE_COUNTOF(buffer), UNDNAME_NAME_ONLY);
+            const u32 len = UnDecorateSymbolName(e.mName.c_str(), buffer, ALIVE_COUNTOF(buffer), UNDNAME_NAME_ONLY);
             if (len > 0)
             {
                 functionNamesStream << e.mGameFunctionAddr << "=" << buffer << "\n";
@@ -117,7 +117,7 @@ void ExportHooker::LoadDisabledHooks()
         {
             if (!line.empty())
             {
-                unsigned long addr = std::stoul(line, nullptr, 16);
+                const u32 addr = std::stoul(line, nullptr, 16);
                 mDisabledImpls.insert(addr);
             }
         }
@@ -149,9 +149,9 @@ void ExportHooker::ProcessExports()
         LOG_INFO("Hook: "
             << e.mName.c_str()
             << " From "
-            << "0x" << std::hex << (e.mIsImplemented ? e.mGameFunctionAddr : (DWORD)e.mCode)
+            << "0x" << std::hex << (e.mIsImplemented ? e.mGameFunctionAddr : (u32)e.mCode)
             << " To "
-            << "0x" << std::hex << (e.mIsImplemented ? (DWORD)e.mCode : e.mGameFunctionAddr)
+            << "0x" << std::hex << (e.mIsImplemented ? (u32)e.mCode : e.mGameFunctionAddr)
             << " Implemented: " << e.mIsImplemented
             << hookDisabledByConfig ? "(Override to OFF by config)" : "");
         */
@@ -278,7 +278,7 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
                     if (!RunningAsInjectedDll())
                     {
                         u8* ptr = &reinterpret_cast<u8*>(pExportedFunctionAddress)[i + 4];
-                        DWORD old = 0;
+                        u32 old = 0;
                         if (!::VirtualProtect(ptr, 1, PAGE_EXECUTE_READWRITE, &old))
                         {
                             HOOK_FATAL("Failed to make memory writable");
@@ -344,7 +344,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
             }
 
             std::string addrStr = exportedFunctionName.substr(underScorePos + 1, hexNumLen);
-            const unsigned long addr = std::stoul(addrStr, nullptr, 16);
+            const u32 addr = std::stoul(addrStr, nullptr, 16);
             if (addr >= 0x401000 && addr <= 0xC3E898)
             {
                 bool isRealFuncStub = false;
@@ -367,7 +367,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                         s << "Duplicated real function stub for address " << std::hex << "0x" << addr << " " << exportedFunctionName;
                         HOOK_FATAL(s.str().c_str());
                     }
-                    mRealStubs[addr] = (DWORD)pCode;
+                    mRealStubs[addr] = (u32)pCode;
                     if (!RunningAsInjectedDll())
                     {
                         // Disable the s32 3/break point in the real stub in standalone

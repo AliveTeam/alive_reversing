@@ -17,11 +17,11 @@ ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
 EXPORT void CC PSX_Calc_FrameSkip_4945D0()
 {
-    static DWORD delta_time_ring_buffer_5CA310[10] = {};
-    static DWORD sPreviousTime_5CA4C8 = 0;
-    static DWORD sLastTicks_5CA4CC = 0;
+    static u32 delta_time_ring_buffer_5CA310[10] = {};
+    static u32 sPreviousTime_5CA4C8 = 0;
+    static u32 sLastTicks_5CA4CC = 0;
 
-    const DWORD currentTime = SYS_GetTicks();
+    const u32 currentTime = SYS_GetTicks();
     const s32 ticks = currentTime - sPreviousTime_5CA4C8 - delta_time_ring_buffer_5CA310[0] + sLastTicks_5CA4CC;
 
     // Move all elements down one, so the the last value is "empty"
@@ -65,7 +65,7 @@ struct DebugTexts
     u8 field_1_yMargin;
     u8 field_2_displayWidth;
     u8 field_3_displayHeight;
-    DWORD field_4_max_len;
+    u32 field_4_max_len;
     u8 field_8_bgColour;
     TextRecords field_9_text;
 };

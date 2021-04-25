@@ -3877,8 +3877,8 @@ void Elum::vScreenChange_411340()
 
 ALIVE_VAR(1, 0x4C52F0, s16, word_4C52F0, 0x88);
 ALIVE_VAR(1, 0x4C52F2, s16, word_4C52F2, 0x38);
-ALIVE_VAR(1, 0x4C52F4, DWORD, dword_4C52F4, 0x1C92C);
-ALIVE_VAR(1, 0x4C52F8, DWORD, dword_4C52F8, 0xC8);
+ALIVE_VAR(1, 0x4C52F4, u32, dword_4C52F4, 0x1C92C);
+ALIVE_VAR(1, 0x4C52F8, u32, dword_4C52F8, 0xC8);
 ALIVE_VAR(1, 0x4C52FA, s16, word_4C52FA, 0);
 
 void Elum::Spawn_410E90(TlvItemInfoUnion tlvInfo)

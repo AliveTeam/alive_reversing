@@ -23,7 +23,7 @@ void InvisibleSwitch::VScreenChanged()
     vScreenChanged_45FD80();
 }
 
-InvisibleSwitch* InvisibleSwitch::ctor_45FA70(Path_InvisibleSwitch* pTlv, DWORD tlvInfo)
+InvisibleSwitch* InvisibleSwitch::ctor_45FA70(Path_InvisibleSwitch* pTlv, u32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545A7C); // vTbl_InvisibleSwitch_545A7C

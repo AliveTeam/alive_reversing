@@ -8,7 +8,7 @@
 #include "Abe.hpp"
 #include "Game.hpp"
 
-EXPORT BaseGameObject* MusicTrigger::ctor_47FE40(Path_MusicTrigger* pTlv, DWORD tlvInfo)
+EXPORT BaseGameObject* MusicTrigger::ctor_47FE40(Path_MusicTrigger* pTlv, u32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5463DC);

@@ -19,6 +19,6 @@ void AO_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd);
 
 EXPORT s32 Sys_IsAnyKeyDown_48E6C0();
 
-ALIVE_VAR_EXTERN(DWORD, sIsAKeyDown_A8A600);
+ALIVE_VAR_EXTERN(u32, sIsAKeyDown_A8A600);
 
 }

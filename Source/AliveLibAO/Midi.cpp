@@ -93,7 +93,7 @@ public:
         return ResourceManager::FreeResource_Impl_4555B0(handle);
     }
 
-    virtual u8** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) override
+    virtual u8** GetLoadedResource(u32 type, u32 resourceID, u16 addUseCount, u16 bLock) override
     {
         return ResourceManager::GetLoadedResource_4554F0(type, resourceID, addUseCount, bLock);
     }
@@ -103,7 +103,7 @@ public:
         return ResourceManager::FreeResource_455550(handle);
     }
 
-    virtual u8** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) override
+    virtual u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size) override
     {
         return ResourceManager::Allocate_New_Locked_Resource_454F80(type, id, size);
     }
@@ -118,7 +118,7 @@ public:
         ResourceManager::Reclaim_Memory_455660(size);
     }
 
-    virtual u8** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) override
+    virtual u8** Alloc_New_Resource(u32 type, u32 id, u32 size) override
     {
         return ResourceManager::Alloc_New_Resource_454F20(type, id, size);
     }
@@ -145,7 +145,7 @@ ALIVE_VAR(1, 0xABFB40, MidiSeqSongsTable, sMidiSeqSongs_ABFB40, {});
 ALIVE_VAR(1, 0xA89198, s32, sMidi_Inited_dword_A89198, 0);
 ALIVE_VAR(1, 0xA89194, u32, sMidiTime_A89194, 0);
 ALIVE_VAR(1, 0xA89190, s8, sbDisableSeqs_A89190, 0);
-ALIVE_VAR(1, 0x4E8FD8, DWORD, sLastTime_4E8FD8, 0xFFFFFFFF);
+ALIVE_VAR(1, 0x4E8FD8, u32, sLastTime_4E8FD8, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xA8919C, u8, sControllerValue_A8919C, 0);
 
 EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx);
@@ -228,12 +228,12 @@ public:
         return sbDisableSeqs_A89190;
     }
 
-    virtual DWORD& sLastTime() override
+    virtual u32& sLastTime() override
     {
         return sLastTime_4E8FD8;
     }
 
-    virtual DWORD& sMidi_WaitUntil() override
+    virtual u32& sMidi_WaitUntil() override
     {
         // Always 0 in AO cause it dont exist
         return mMidi_WaitUntil;
@@ -261,7 +261,7 @@ public:
     }
 private:
     BOOL mSoundDatIsNull = FALSE; // Pretend we have sounds dat opened so AE funcs work
-    DWORD mMidi_WaitUntil = 0;
+    u32 mMidi_WaitUntil = 0;
 };
 
 static AOPsxSpuApiVars sAoSpuVars;
@@ -895,10 +895,10 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
 
             if (!SND_New_492790(pEntry, sampleLen, 44100, 16u, 0))
             {
-                auto pTempBuffer = (DWORD*)malloc(sampleLen * pEntry->field_1D_blockAlign);
+                auto pTempBuffer = (u32*)malloc(sampleLen * pEntry->field_1D_blockAlign);
                 if (pTempBuffer)
                 {
-                    DWORD* pSrcVB = nullptr;
+                    u32* pSrcVB = nullptr;
                     if (pVabHeader && i >= 0)
                     {
                         pSrcVB = &IterateVBRecords(pVabBody, i)->field_8_fileOffset;

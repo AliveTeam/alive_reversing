@@ -65,7 +65,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Grinder, 0x28);
 class Grinder : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Grinder* ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo);
+    EXPORT Grinder* ctor_4200D0(Path_Grinder* pTlv, u32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
@@ -94,7 +94,7 @@ private:
     s16 field_FE_max_off_time;
     s16 field_100_min_off_time_speed_change;
     s16 field_102_max_off_time_speed_change;
-    DWORD field_104_tlv;
+    u32 field_104_tlv;
     s32 field_108_off_timer;
     s32 field_10C_audio_channels_mask;
     FP field_110_xPos;

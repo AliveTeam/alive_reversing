@@ -1749,11 +1749,11 @@ s16 Glukkon::AI_3_PlayerControlled_441A30()
     case 4:
     {
         pScreenManager_5BB5F4->field_40_flags &= ~0x10000;
-        sLevelId_dword_5CA408 = static_cast<DWORD>(gMap_5C3030.field_0_current_level);
+        sLevelId_dword_5CA408 = static_cast<u32>(gMap_5C3030.field_0_current_level);
 
         const FmvInfo* pFmvRec = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, field_1A8_tlvData.field_28_movie_to_play_id);
 
-        DWORD pos = 0;
+        u32 pos = 0;
         Get_fmvs_sectors_494460(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
 
         auto pMovie = ae_new<Movie>();

@@ -218,7 +218,7 @@ public:
 
     EXPORT void ScreenChanged_4DC0A0();
 
-    EXPORT u8** Add_Resource_4DC130(DWORD type, s32 resourceID);
+    EXPORT u8** Add_Resource_4DC130(u32 type, s32 resourceID);
     EXPORT void BaseGameObject_ctor_4DBFA0(s16 bAddToObjectList, s16 resourceArraySize);
     EXPORT void BaseGameObject_dtor_4DBEC0();
 

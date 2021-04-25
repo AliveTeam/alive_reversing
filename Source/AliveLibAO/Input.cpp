@@ -12,7 +12,7 @@ ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
 ALIVE_VAR(1, 0x5076B8, u16, sCurrentControllerIndex_5076B8, 0);
 ALIVE_VAR(1, 0x508A60, s32, sJoystickEnabled_508A60, 0);
 ALIVE_VAR(1, 0x9F7710, u8, sInputEnabled_9F7710, 0);
-ALIVE_VAR(1, 0xA8A604, DWORD, sLastPressedKey_A8A604, 0);
+ALIVE_VAR(1, 0xA8A604, u32, sLastPressedKey_A8A604, 0);
 
 const InputCommands sInputKey_Right_4C6590 = eRight;
 const InputCommands sInputKey_Left_4C6594 = eLeft;
@@ -260,14 +260,14 @@ const s8* AEInputCommandToAEInputString(::InputCommands::Enum input_command)
 }
 
 
-static BitField32<::InputCommands::Enum> MakeAEInputBits(DWORD bits)
+static BitField32<::InputCommands::Enum> MakeAEInputBits(u32 bits)
 {
     BitField32<::InputCommands::Enum> r;
     r.Raw().all = bits;
     return r;
 }
 
-static BitField32<AO::InputCommands> MakeAOInputBits(DWORD bits)
+static BitField32<AO::InputCommands> MakeAOInputBits(u32 bits)
 {
     BitField32<AO::InputCommands> r;
     r.Raw().all = bits;
@@ -310,7 +310,7 @@ EXPORT void InputObject::Update_433250()
 
         if (static_cast<s32>(gnFrameCount_507670) >= field_28_command_duration)
         {
-            const DWORD command = (*field_18_demo_res)[field_1C_demo_command_index++];
+            const u32 command = (*field_18_demo_res)[field_1C_demo_command_index++];
             field_24_command = command >> 16;
             field_28_command_duration = gnFrameCount_507670 + command & 0xFFFF;
 
@@ -375,7 +375,7 @@ EXPORT void InputObject::Update_433250()
 
     //    if (static_cast<s32>(gnFrameCount_507670) >= field_28_command_duration)
     //    {
-    //        const DWORD command = (*field_18_demo_res)[field_1C_demo_command_index++];
+    //        const u32 command = (*field_18_demo_res)[field_1C_demo_command_index++];
     //        field_24_command = command >> 16;
     //        field_28_command_duration = gnFrameCount_507670 + command & 0xFFFF;
 
@@ -407,7 +407,7 @@ EXPORT void CC InputObject::Shutdown_433230()
 }
 
 
-void InputObject::SetDemoRes_433470(DWORD** ppDemoRes)
+void InputObject::SetDemoRes_433470(u32** ppDemoRes)
 {
     field_1C_demo_command_index = 2051;
     field_18_demo_res = ppDemoRes;
@@ -457,32 +457,32 @@ bool InputObject::JoyStickEnabled() const
     return Input_JoyStickEnabled();
 }
 
-bool InputObject::IsAnyPressed(DWORD command) const
+bool InputObject::IsAnyPressed(u32 command) const
 {
     return IsAnyPressed(PadIndex::Active, command);
 }
 
-bool InputObject::IsAnyPressed(PadIndex padIx, DWORD command) const
+bool InputObject::IsAnyPressed(PadIndex padIx, u32 command) const
 {
     return (field_0_pads[PadIndexToInt(padIx)].field_0_pressed & command) != 0;
 }
 
-bool InputObject::IsAnyHeld(DWORD command) const
+bool InputObject::IsAnyHeld(u32 command) const
 {
     return IsAnyHeld(PadIndex::Active, command);
 }
 
-bool InputObject::IsAnyHeld(PadIndex padIx, DWORD command) const
+bool InputObject::IsAnyHeld(PadIndex padIx, u32 command) const
 {
     return (field_0_pads[PadIndexToInt(padIx)].field_6_held & command) != 0;
 }
 
-bool InputObject::IsAnyReleased(DWORD command) const
+bool InputObject::IsAnyReleased(u32 command) const
 {
     return IsAnyReleased(PadIndex::Active, command);
 }
 
-bool InputObject::IsAnyReleased(PadIndex padIx, DWORD command) const
+bool InputObject::IsAnyReleased(PadIndex padIx, u32 command) const
 {
     return (field_0_pads[PadIndexToInt(padIx)].field_8_released & command) != 0;
 }
@@ -493,18 +493,18 @@ u8 InputObject::Dir() const
 }
 
 
-bool InputObject::IsAllPressed(DWORD commands) const
+bool InputObject::IsAllPressed(u32 commands) const
 {
     return IsAllPressed(PadIndex::Active, commands);
 }
 
-bool InputObject::IsAllPressed(PadIndex padIx, DWORD commands) const
+bool InputObject::IsAllPressed(PadIndex padIx, u32 commands) const
 {
     return (field_0_pads[PadIndexToInt(padIx)].field_0_pressed & commands) == commands;
 }
 
 
-bool InputObject::IsAllHeld(DWORD commands) const
+bool InputObject::IsAllHeld(u32 commands) const
 {
     return (field_0_pads[sCurrentControllerIndex_5076B8].field_6_held & commands) == commands;
 }
@@ -652,7 +652,7 @@ void Input_SetJoyStickEnabled(bool enabled)
     //sJoystickEnabled_508A60 = enabled;
 }
 
-ALIVE_VAR(1, 0x508A64, DWORD, dword_508A64, 0);
+ALIVE_VAR(1, 0x508A64, u32, dword_508A64, 0);
 
 EXPORT s32 CC Input_SaveSettingsIni_44F460()
 {

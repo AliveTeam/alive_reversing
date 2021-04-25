@@ -7341,7 +7341,7 @@ void Abe::State_62_LoadedSaveSpawn_45ADD0()
             if (!gElum_507680)
             {
                 TlvItemInfoUnion aux;
-                aux.all = (DWORD)-1;
+                aux.all = (u32)-1;
                 dword_4CF550[static_cast<s32>(gMap_507BA8.field_0_current_level)](aux);
             }
 
@@ -8320,7 +8320,7 @@ void Abe::State_88_HandstoneBegin_430590()
                             gMap_507BA8.field_0_current_level,
                             field_174_pathStone.dataMovie.fmvId
                         );
-                        DWORD aux = 0;
+                        u32 aux = 0;
                         Get_fmvs_sectors_44FEB0(
                             pFmvInfo->field_0_pName, 0, 0, &aux, 0, 0
                         );

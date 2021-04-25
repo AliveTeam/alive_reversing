@@ -32,7 +32,7 @@ struct SaveData
     s16 field_220_bSavedHaveShrykull;
     s16 field_222_pad;
     s32 field_224_xpos;
-    DWORD field_228_ypos;
+    u32 field_228_ypos;
     FP field_22C_ah_health;
     FP field_230_ah_sprite_scale;
     LevelIds field_234_current_level;
@@ -44,7 +44,7 @@ struct SaveData
     WORD field_240_last_anim_frame;
     s16 field_242_pad;
     s32 field_244_stone_state; //TODO @ 100%  fix type length
-    DWORD field_248_gnFrame;
+    u32 field_248_gnFrame;
     s32 field_24C_field_118;
     s16 field_250_throwable_count;
     s8 field_252_paramonia_done;
@@ -58,18 +58,18 @@ struct SaveData
     WORD field_262_elum_path_number;
     WORD field_264_bInfiniteGrenades;
     s16 field_266_pad;
-    DWORD field_268_elum_xpos;
-    DWORD field_26C_elum_ypos;
+    u32 field_268_elum_xpos;
+    u32 field_26C_elum_ypos;
     s16 field_270_elum_line_type;
     s16 field_272_elum_flipX;
     s16 field_274_elum_current_motion;
     WORD field_276_bDontFollowAbe;
     WORD field_278_brain_idx;
     WORD field_27A_elum_brain_state;
-    DWORD field_27C_honey_xpos;
+    u32 field_27C_honey_xpos;
     WORD field_280_honey_ypos;
     s16 field_282_pad;
-    DWORD field_284_unused;
+    u32 field_284_unused;
     s8 field_288_elum_StrugglingWithBees;
     s8 field_289_elum_StungByBees;
     s8 field_28A_elum_Falling;

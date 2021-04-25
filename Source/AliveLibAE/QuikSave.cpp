@@ -274,7 +274,7 @@ void QuikSave_RestoreBlyData_D481890_4C9BE0(const u8* pSaveData)
 {
     const WORD* pSaveData2 = reinterpret_cast<const WORD*>(pSaveData);
 
-    while (*reinterpret_cast<const DWORD*>(pSaveData2) != 0)
+    while (*reinterpret_cast<const u32*>(pSaveData2) != 0)
     {
         pSaveData2 += sQuicksaveLoadFunctionTable_560C34.mFns[*pSaveData2](reinterpret_cast<const u8*>(pSaveData2)) / sizeof(WORD);
     }
@@ -655,7 +655,7 @@ EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
             }
         }
 
-        // Write a DWORD of 0
+        // Write a u32 of 0
         pDataIter[0] = 0;
         pDataIter[1] = 0;
         pDataIter[2] = 0;
@@ -756,7 +756,7 @@ void CC Quicksave_FindSaves_4D4150()
 {
     sTotalSaveFilesCount_BB43E0 = 0;
 
-    IO_EnumerateDirectory("*.sav", [](const s8* fileName, DWORD lastWriteTime)
+    IO_EnumerateDirectory("*.sav", [](const s8* fileName, u32 lastWriteTime)
     {
         if (sTotalSaveFilesCount_BB43E0 < 128)
         {

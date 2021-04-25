@@ -30,7 +30,7 @@ ALIVE_VAR(1, 0x5c2c08, bool, sDDCheat_FlyingEnabled_5C2C08, false);
 ALIVE_VAR(1, 0x5c1bd8, bool, sDDCheat_ShowAI_Info_5C1BD8, false);
 ALIVE_VAR(1, 0x5bc000, bool, sDDCheat_AlwaysShow_5BC000, false);
 ALIVE_VAR(1, 0x5bc004, s32, sDDCheat_Unknown_5BC004, 0);
-ALIVE_VAR(1, 0x5bbff4, DWORD, sDDCheat_PrevDebugInput_5BBFF4, 0);
+ALIVE_VAR(1, 0x5bbff4, u32, sDDCheat_PrevDebugInput_5BBFF4, 0);
 ALIVE_VAR(1, 0x550fa8, s32, sDDCheat_DebugInputDelay_550FA8, 0);
 
 using TDDCheatMenu = decltype(&DDCheat::Menu_Teleport_415E20);
@@ -46,7 +46,7 @@ ALIVE_VAR(1, 0xab49fc, s32, sDDCheat_Unused2_AB49FC, 0);
 ALIVE_VAR(1, 0xab4a00, s32, sDDCheat_Unused1_AB4A00, 0);
 
 ALIVE_VAR(1, 0x5BBFF0, s16, sDDCheat_MovieSelectIdx_5BBFF0, 0);
-ALIVE_VAR_EXTERN(DWORD, sLevelId_dword_5CA408);
+ALIVE_VAR_EXTERN(u32, sLevelId_dword_5CA408);
 
 EXPORT void DDCheat_SaveScreenshot_415550() { NOT_IMPLEMENTED(); }
 
@@ -161,7 +161,7 @@ void DDCheat::Menu_Movies_416000()
     if (field_38_input_pressed & InputCommands::Enum::eUp)
     {
         FmvInfo *movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0);
-        DWORD pos = 0;
+        u32 pos = 0;
         Get_fmvs_sectors_494460(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(gMap_5C3030.field_0_current_level);
         auto movieToPlay = ae_new<Movie>();

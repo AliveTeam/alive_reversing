@@ -231,7 +231,7 @@ public:
     EXPORT Path_TLV* TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
     EXPORT Path_TLV* TLV_From_Offset_Lvl_Cam_4DB770(u32 tlvOffset_levelId_PathId);
 
-    EXPORT DWORD TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv);
+    EXPORT u32 TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv);
 
     EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type);
     EXPORT static void CCSTD TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2);

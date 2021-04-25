@@ -19,8 +19,8 @@ void SND_InitVolumeTable_SDL()
 
 s32 SND_Clear_SDL(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
 {
-    const DWORD alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
-    const DWORD alignedSize = size * pSoundEntry->field_1D_blockAlign;
+    const u32 alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
+    const u32 alignedSize = size * pSoundEntry->field_1D_blockAlign;
 
     // TODO: Should only clear from offset to size ??
     memset(pSoundEntry->field_4_pDSoundBuffer->GetBuffer()->data(), 0, pSoundEntry->field_14_buffer_size_bytes);
@@ -28,7 +28,7 @@ s32 SND_Clear_SDL(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
     return 0;
 }
 
-s32 SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount)
+s32 SND_LoadSamples_SDL(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundBuffer, u32 sampleCount)
 {
     const s32 offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const u32 bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;

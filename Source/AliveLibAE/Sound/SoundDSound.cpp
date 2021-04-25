@@ -187,14 +187,14 @@ s32 CC SND_Clear_DSound(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
         return -1;
     }
 
-    const DWORD alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
-    const DWORD alignedSize = size * pSoundEntry->field_1D_blockAlign;
+    const u32 alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
+    const u32 alignedSize = size * pSoundEntry->field_1D_blockAlign;
 
     LPVOID pLocked1 = nullptr;
-    DWORD locked1Size = 0;
+    u32 locked1Size = 0;
 
     LPVOID pLocked2 = nullptr;
-    DWORD locked2Size = 0;
+    u32 locked2Size = 0;
 
     HRESULT hr = pSoundEntry->field_4_pDSoundBuffer->Lock(
         alignedOffset,
@@ -302,7 +302,7 @@ EXPORT s32 CC SND_SetPrimarySoundBufferFormat_4EE990(s32 sampleRate, s32 bitsPer
     return -(sPrimarySoundBuffer_BBC388->SetFormat(&pWaveFormat) != 0);
 }
 
-s32 CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount)
+s32 CC SND_LoadSamples_DSound(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundBuffer, u32 sampleCount)
 {
     const s32 offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const u32 bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
@@ -344,7 +344,7 @@ s32 CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset, u8* pS
         }
         if (rightChannelBuffer)
         {
-            SND_4F00B0((u32 *)rightChannelBuffer, (DWORD)pSoundBuffer + (u32)leftChannelSize, rightChannelSize);
+            SND_4F00B0((u32 *)rightChannelBuffer, (u32)pSoundBuffer + (u32)leftChannelSize, rightChannelSize);
         }
     }
     else

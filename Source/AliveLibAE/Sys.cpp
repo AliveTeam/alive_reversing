@@ -926,7 +926,7 @@ static s32 CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindow
     windowClass.lpszClassName = lpClassName;
     ::RegisterClassA(&windowClass);
 
-    DWORD style = WS_CAPTION | WS_VISIBLE;
+    u32 style = WS_CAPTION | WS_VISIBLE;
 #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     style |= WS_OVERLAPPEDWINDOW;
 #endif

@@ -22,7 +22,7 @@ void StatusLight::VScreenChanged()
     vScreenChanged_4D5820();
 }
 
-StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, DWORD tlvInfo)
+StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, u32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 

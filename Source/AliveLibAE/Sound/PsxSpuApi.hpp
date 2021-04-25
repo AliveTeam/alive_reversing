@@ -43,7 +43,7 @@ struct VabBodyRecord
 {
     s32 field_0_length_or_duration;
     s32 field_4_unused;
-    DWORD field_8_fileOffset;
+    u32 field_8_fileOffset;
 };
 
 struct Converted_Vag
@@ -181,8 +181,8 @@ public:
     virtual u32& sMidiTime() = 0;
     virtual BOOL& sSoundDatIsNull() = 0;
     virtual s8& sbDisableSeqs() = 0;
-    virtual DWORD& sLastTime() = 0;
-    virtual DWORD& sMidi_WaitUntil() = 0;
+    virtual u32& sLastTime() = 0;
+    virtual u32& sMidi_WaitUntil() = 0;
     virtual IO_FileHandleType& sSoundDatFileHandle() = 0;
     virtual u8& sControllerValue() = 0;
     virtual void MIDI_ParseMidiMessage(s32 idx) = 0;

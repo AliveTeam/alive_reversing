@@ -35,7 +35,7 @@ const TintEntry kGrinderTints_551548[18] =
 };
 
 
-Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
+Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, u32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544AD8);

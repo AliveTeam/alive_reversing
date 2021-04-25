@@ -45,7 +45,7 @@ public:
 private:
     u8** field_0_0x2800_res;
 public:
-    DWORD field_4_cd_pos;
+    u32 field_4_cd_pos;
 };
 ALIVE_ASSERT_SIZEOF(LvlArchive, 0x8);
 

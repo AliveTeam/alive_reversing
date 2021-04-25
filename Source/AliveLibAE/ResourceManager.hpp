@@ -11,7 +11,7 @@ EXPORT void CC Game_ShowLoadingIcon_482D80();
 class ResourceManager : public BaseGameObject
 {
 public:
-    enum ResourceType : DWORD
+    enum ResourceType : u32
     {
         Resource_VLC = 0x20434C56,
         Resource_End = 0x21646E45,
@@ -52,18 +52,18 @@ public:
 
     struct Header
     {
-        DWORD field_0_size;
+        u32 field_0_size;
         s16 field_4_ref_count;
         s16 field_6_flags;
-        DWORD field_8_type;
-        DWORD field_C_id;
+        u32 field_8_type;
+        u32 field_C_id;
     };
     ALIVE_ASSERT_SIZEOF(Header, 0x10);
 
     struct ResourcesToLoadList_Entry
     {
-        DWORD field_0_type;
-        DWORD field_4_res_id;
+        u32 field_0_type;
+        u32 field_4_res_id;
     };
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
 
@@ -80,8 +80,8 @@ public:
 
     struct ResourceManager_FilePartRecord_18
     {
-        DWORD field_0_type;
-        DWORD field_4_id;
+        u32 field_0_type;
+        u32 field_4_id;
         Camera *field_8_pCamera;
         Camera* field_C_fn_arg_pCamera;
         TLoaderFn field_10_pFn;
@@ -94,8 +94,8 @@ public:
     {
         s8* field_0_fileName;
         ResourcesToLoadList* field_4_pResourcesToLoadList;
-        DWORD field_8_type;
-        DWORD field_C_id;
+        u32 field_8_type;
+        u32 field_C_id;
         DynamicArrayT<ResourceManager_FilePartRecord_18> field_10_file_sections_dArray;
 
         EXPORT void dtor_464EA0();
@@ -107,7 +107,7 @@ public:
     EXPORT void dtor_4649E0();
     EXPORT void vLoadFile_StateMachine_464A70();
     EXPORT void OnResourceLoaded_464CE0();
-    EXPORT void LoadResource_464EE0(const s8* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 bAddUseCount);
+    EXPORT void LoadResource_464EE0(const s8* pFileItem, u32 type, u32 resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 bAddUseCount);
     EXPORT void LoadResourcesFromList_465150(const s8* pFileName, ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 addUseCount);
     EXPORT void LoadResourceFile_465460(const s8* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, s16 a6);
     EXPORT void LoadingLoop_465590(s16 bShowLoadingIcon);
@@ -141,14 +141,14 @@ public:
     EXPORT static void CC Pop_List_Item_49BD90(ResourceHeapItem* pListItem);
     EXPORT static ResourceHeapItem* CC Split_block_49BDC0(ResourceHeapItem* pItem, s32 size);
     EXPORT static s32 CC SEQ_HashName_49BE30(const s8* seqFileName);
-    static u8** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, ResourceManager::BlockAllocMethod allocType);
-    EXPORT static u8** CC Alloc_New_Resource_49BED0(DWORD type, DWORD id, DWORD size);
-    EXPORT static u8** CC Allocate_New_Locked_Resource_49BF40(DWORD type, DWORD id, DWORD size);
+    static u8** Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool locked, ResourceManager::BlockAllocMethod allocType);
+    EXPORT static u8** CC Alloc_New_Resource_49BED0(u32 type, u32 id, u32 size);
+    EXPORT static u8** CC Allocate_New_Locked_Resource_49BF40(u32 type, u32 id, u32 size);
     EXPORT static u8** CC Allocate_New_Block_49BFB0(s32 sizeBytes, BlockAllocMethod allocMethod);
     EXPORT static s32 CC LoadResourceFile_49C130(const s8* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
     EXPORT static s16 CC LoadResourceFile_49C170(const s8* pFileName, Camera* pCamera);
     EXPORT static s16 CC Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArrayT<u8*>* pArray);
-    EXPORT static u8** CC GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock);
+    EXPORT static u8** CC GetLoadedResource_49C2A0(u32 type, u32 resourceID, u16 addUseCount, u16 bLock);
     EXPORT static void CC Inc_Ref_Count_49C310(u8 **ppRes);
     EXPORT static s16 CC FreeResource_49C330(u8** handle);
     EXPORT static s16 CC FreeResource_Impl_49C360(u8* handle);
@@ -157,7 +157,7 @@ public:
     EXPORT static void CC Increment_Pending_Count_49C5F0();
     EXPORT static void CC Decrement_Pending_Count_49C610();
     EXPORT static void CC Set_Header_Flags_49C650(u8** ppRes, s16 flags);
-    EXPORT static void CC Free_Resource_Of_Type_49C6B0(DWORD type);
+    EXPORT static void CC Free_Resource_Of_Type_49C6B0(u32 type);
     EXPORT static void CC NoEffect_49C700();
 
 
@@ -188,8 +188,8 @@ private:
 ALIVE_ASSERT_SIZEOF(ResourceManager, 0x54);
 
 ALIVE_VAR_EXTERN(ResourceManager*, pResourceManager_5C1BB0);
-ALIVE_VAR_EXTERN(DWORD, sManagedMemoryUsedSize_AB4A04);
-ALIVE_VAR_EXTERN(DWORD, sPeakedManagedMemUsage_AB4A08);
+ALIVE_VAR_EXTERN(u32, sManagedMemoryUsedSize_AB4A04);
+ALIVE_VAR_EXTERN(u32, sPeakedManagedMemUsage_AB4A08);
 ALIVE_VAR_EXTERN(s16, sbLoadingInProgress_5C1B96);
 ALIVE_VAR_EXTERN(s16, bHideLoadingIcon_5C1BAA);
 ALIVE_VAR_EXTERN(s32, loading_ticks_5C1BAC);

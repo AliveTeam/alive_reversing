@@ -37,7 +37,7 @@ struct SaveState_UXB
     AETypes field_0_id;
     s16 field_2_padding;
     TlvItemInfoUnion field_4_tlv;
-    DWORD field_8_next_state_frame;
+    u32 field_8_next_state_frame;
     UXBState field_C_state;
     UXBState field_E_starting_state;
     WORD field_10_disabled_resources;
@@ -86,7 +86,7 @@ private:
     WORD field_11C_disabled_resources;
     u8 field_11E_padding[2];
     TlvItemInfoUnion field_120_tlv;
-    DWORD field_124_next_state_frame;
+    u32 field_124_next_state_frame;
     Animation field_128_animation;
     WORD field_1C0_pattern_length;
     WORD field_1C2_pattern_index;

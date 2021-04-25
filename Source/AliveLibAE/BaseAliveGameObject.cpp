@@ -273,7 +273,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(s16 cameraWorldXPos, s16 came
             else
             {
                 // TODO: This is actually wrong!!
-                const DWORD off = field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset;
+                const u32 off = field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset;
                 field_BC_ypos = FP_FromInteger((*field_20_animation.field_20_ppBlock)[off + 5] + cameraWorldYPos + 236);
             }
             break;

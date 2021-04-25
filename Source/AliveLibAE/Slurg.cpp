@@ -46,7 +46,7 @@ TintEntry sSlurgTints_560BCC[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
+Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
 {
     ctor_408240(0);
     SetVTable(this, 0x547720);

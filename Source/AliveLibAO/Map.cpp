@@ -583,7 +583,7 @@ void Map::Handle_PathTransition_444DD0()
             break;
         }
 
-        const DWORD pCamNameOffset = (sizeof(CameraName) * (field_20_camX_idx + field_22_camY_idx * field_24_max_cams_x));
+        const u32 pCamNameOffset = (sizeof(CameraName) * (field_20_camX_idx + field_22_camY_idx * field_24_max_cams_x));
         const u8* pPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
@@ -1475,7 +1475,7 @@ void Map::sub_447430(u16 pathNum)
 
     if (counterInit > 0)
     {
-        DWORD* pObjectTable = reinterpret_cast<DWORD*>(&pPathRes[pPathData->field_18_object_index_table_offset]);
+        u32* pObjectTable = reinterpret_cast<u32*>(&pPathRes[pPathData->field_18_object_index_table_offset]);
 
         for(auto counter = 0; counter < counterInit; counter++)
         {
@@ -2082,9 +2082,9 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
             MusicController::EnableMusic_443900(0);
         }
 
-        DWORD pos1 = 0;
-        DWORD pos2 = 0;
-        DWORD pos3 = 0;
+        u32 pos1 = 0;
+        u32 pos2 = 0;
+        u32 pos3 = 0;
         Get_fmvs_sectors_44FEB0(
             pFmvRec1->field_0_pName,
             pFmvRec2->field_0_pName,
@@ -2126,8 +2126,8 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
             MusicController::EnableMusic_443900(0);
         }
 
-        DWORD cdPos1 = 0;
-        DWORD cdPos2 = 0;
+        u32 cdPos1 = 0;
+        u32 cdPos2 = 0;
         Get_fmvs_sectors_44FEB0(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
 
         auto pCameraSwapperMem = ao_new<CameraSwapper>();
@@ -2156,7 +2156,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
             MusicController::EnableMusic_443900(0);
         }
 
-        DWORD cdPos = 0;
+        u32 cdPos = 0;
         Get_fmvs_sectors_44FEB0(pFmvRecord->field_0_pName, 0, 0, &cdPos, 0, 0);
         auto pCameraSwapperMem = ao_new<CameraSwapper>();
         return pCameraSwapperMem->ctor_48C540(

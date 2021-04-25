@@ -23,7 +23,7 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
 
-    EXPORT LevelLoader* ctor_4DD330(Path_LevelLoader* pTlv, DWORD tlvInfo);
+    EXPORT LevelLoader* ctor_4DD330(Path_LevelLoader* pTlv, u32 tlvInfo);
 private:
     EXPORT void vUpdate_4DD400();
     EXPORT LevelLoader* vdtor_4DD3B0(s32 flags);
@@ -41,7 +41,7 @@ private:
     s16 field_26_path;
     s16 field_28_camera;
     s16 field_2A_movie_id;
-    DWORD field_2C_tlvInfo;
+    u32 field_2C_tlvInfo;
     s32 field_30_fade_id;
 };
 ALIVE_ASSERT_SIZEOF(LevelLoader, 0x34);

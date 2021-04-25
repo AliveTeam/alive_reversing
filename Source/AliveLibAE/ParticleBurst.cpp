@@ -50,7 +50,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
     if (field_F4_ppRes)
     {
         field_F8_pRes = reinterpret_cast<ParticleBurst_Item*>(*field_F4_ppRes);
-        for (DWORD i = 0; i < numOfParticles; i++)
+        for (u32 i = 0; i < numOfParticles; i++)
         {
             // Placement new each element
             new (&field_F8_pRes[i]) ParticleBurst_Item();
@@ -133,7 +133,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
             field_B8_xpos = xpos;
             field_BC_ypos = ypos;
 
-            for (DWORD i = 0; i < numOfParticles; i++)
+            for (u32 i = 0; i < numOfParticles; i++)
             {
                 field_F8_pRes[i].field_18_anim.field_68_anim_ptr = &field_20_animation;
                 field_F8_pRes[i].field_18_anim.field_C_render_layer = field_20_animation.field_C_render_layer;

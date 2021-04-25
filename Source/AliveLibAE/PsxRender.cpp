@@ -25,16 +25,16 @@ ALIVE_VAR(1, 0xBD0C08, s32, sOtIdxRollOver_BD0C08, 0);
 
 
 ALIVE_VAR(1, 0x578318, s16, sActiveTPage_578318, -1);
-ALIVE_VAR(1, 0xbd0f0c, DWORD, sTexture_page_x_BD0F0C, 0);
-ALIVE_VAR(1, 0xbd0f10, DWORD, sTexture_page_y_BD0F10, 0);
-ALIVE_VAR(1, 0xbd0f14, DWORD, sTexture_mode_BD0F14, 0);
-ALIVE_VAR(1, 0x57831c, DWORD, tpage_width_57831C, 10);
-ALIVE_VAR(1, 0xBD0F18, DWORD, sTexture_page_abr_BD0F18, 0);
+ALIVE_VAR(1, 0xbd0f0c, u32, sTexture_page_x_BD0F0C, 0);
+ALIVE_VAR(1, 0xbd0f10, u32, sTexture_page_y_BD0F10, 0);
+ALIVE_VAR(1, 0xbd0f14, u32, sTexture_mode_BD0F14, 0);
+ALIVE_VAR(1, 0x57831c, u32, tpage_width_57831C, 10);
+ALIVE_VAR(1, 0xBD0F18, u32, sTexture_page_abr_BD0F18, 0);
 ALIVE_VAR(1, 0xbd0f1c, WORD *, sTPage_src_ptr_BD0F1C, nullptr);
 
-ALIVE_VAR(1, 0xBD2A04, DWORD, sTile_r_BD2A04, 0);
-ALIVE_VAR(1, 0xBD2A00, DWORD, sTile_g_BD2A00, 0);
-ALIVE_VAR(1, 0xBD29FC, DWORD, sTile_b_BD29FC, 0);
+ALIVE_VAR(1, 0xBD2A04, u32, sTile_r_BD2A04, 0);
+ALIVE_VAR(1, 0xBD2A00, u32, sTile_g_BD2A00, 0);
+ALIVE_VAR(1, 0xBD29FC, u32, sTile_b_BD29FC, 0);
 
 ALIVE_ARY(1, 0xC19160, f32, 4096, sPsxEmu_float_table_C19160, {});
 ALIVE_ARY(1, 0xC1D5C0, s32, 4096, sPsxEmu_fixed_point_table_C1D5C0, {});
@@ -325,8 +325,8 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
         const s32 x_diff = x_right - x_left;
         if (x_diff > 0)
         {
-            DWORD u_left = pLeft->field_14_u;
-            const DWORD left_v = pLeft->field_18_v;
+            u32 u_left = pLeft->field_14_u;
+            const u32 left_v = pLeft->field_18_v;
             s32 x_diff_m1 = x_diff - 1;
             if (x_diff_m1 <= 0)
             {
@@ -337,7 +337,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
 
             if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
             {
-                DWORD left_v_fixed = left_v << 11;
+                u32 left_v_fixed = left_v << 11;
                 WORD* pStart = &pVRam[x_left];
                 for (WORD* pEnd = &pVRam[x_right]; pStart < pEnd; left_v_fixed += v_diff << 11)
                 {
@@ -359,11 +359,11 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
 
                 if (sActiveTPage_578318 >= 0)
                 {
-                    const DWORD v_left = pLeft->field_18_v;
+                    const u32 v_left = pLeft->field_18_v;
 
                     WORD* pStart = &pVRam[x_left];
                     WORD* pEnd2 = &pVRam[x_right];
-                    DWORD v_current = v_left << 10;
+                    u32 v_current = v_left << 10;
                     s32 v_pos = v_diff << 10;
                     while (pStart < pEnd2)
                     {
@@ -384,7 +384,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
                     WORD* pStart = &pVRam[x_left];
                     if (x_diff == 1)
                     {
-                        const DWORD v_left = pLeft->field_18_v;
+                        const u32 v_left = pLeft->field_18_v;
                         const WORD tpage_pixel = pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & (v_left << 10))) >> 10];
                         *pStart =
                             b_lut_dword_BD3348[tpage_pixel & 0x1F]
@@ -393,8 +393,8 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
                     }
                     else
                     {
-                        const DWORD v_left = pLeft->field_18_v;
-                        DWORD v_diff_fixed = v_left << 10;
+                        const u32 v_left = pLeft->field_18_v;
+                        u32 v_diff_fixed = v_left << 10;
                         const s32 u_diff_fixed = v_diff << 10;
                         WORD* pEnd = &pVRam[x_right];
                         if (pStart < pEnd)
@@ -417,8 +417,8 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
             }
             else if (sTexture_mode_BD0F14 == TextureModes::e4Bit)
             {
-                const DWORD v_left = pLeft->field_18_v;
-                DWORD v_fixed_1 = v_left << 12;
+                const u32 v_left = pLeft->field_18_v;
+                u32 v_fixed_1 = v_left << 12;
                 WORD* pStart = &pVRam[x_left];
 
                 s32 v_fixed = v_diff << 12;
@@ -707,7 +707,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* pVr
             }
 
             const s32 u_diff = (s32)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m1;
-            DWORD u_pos = pLeft->field_14_u;
+            u32 u_pos = pLeft->field_14_u;
 
             WORD* pStart = &pVram[x_left];
             WORD* pEnd = &pVram[x_right];
@@ -715,7 +715,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* pVr
             if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
             {
                 const s32 v_diff = ((s32)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) * 2048;
-                DWORD v_pos = pLeft->field_18_v * 2048;
+                u32 v_pos = pLeft->field_18_v * 2048;
                 while (pStart < pEnd)
                 {
                     // TODO: Refactor
@@ -739,12 +739,12 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* pVr
             else if (sTexture_mode_BD0F14 == TextureModes::e16Bit)
             {
                 s32 v_diff = ((s32)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) * 1024;
-                DWORD v_pos = pLeft->field_18_v * 1024;
+                u32 v_pos = pLeft->field_18_v * 1024;
 
                 while (pStart < pEnd)
                 {
                     // TODO: Refactor
-                    const DWORD tpage_idx = (u_pos + (v_pos & 0x0ff00000)) / 1024;
+                    const u32 tpage_idx = (u_pos + (v_pos & 0x0ff00000)) / 1024;
                     if (pTPage_src_BD32C8[tpage_idx] != 0) // Black pixels are transparent
                     {
                         *pStart = Calc_Abr_Pixel(abr_lut, *pStart, pTPage_src_BD32C8[tpage_idx]);
@@ -757,7 +757,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* pVr
             else if (sTexture_mode_BD0F14 == TextureModes::e4Bit)
             {
                 s32 v_diff = ((s32)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) * 4096;
-                DWORD v_pos = pLeft->field_18_v * 4096;
+                u32 v_pos = pLeft->field_18_v * 4096;
                 while (pStart < pEnd)
                 {
                     // TODO: Refactor
@@ -918,10 +918,10 @@ ALIVE_VAR(1, 0xBD3274, decltype(&PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans
 ALIVE_VAR(1, 0xBD3354, decltype(&PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590), pPSX_EMU_51C590_BD3354, nullptr);
 ALIVE_VAR(1, 0xBD335C, decltype(&PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0), pPSX_EMU_51C8D0_BD335C, nullptr);
 
-ALIVE_VAR(1, 0xc215c0, DWORD, sSemiTransShift_C215C0, 0);
-ALIVE_VAR(1, 0xc215c4, DWORD, sRedShift_C215C4, 0);
-ALIVE_VAR(1, 0xc1d180, DWORD, sGreenShift_C1D180, 0);
-ALIVE_VAR(1, 0xc19140, DWORD, sBlueShift_C19140, 0);
+ALIVE_VAR(1, 0xc215c0, u32, sSemiTransShift_C215C0, 0);
+ALIVE_VAR(1, 0xc215c4, u32, sRedShift_C215C4, 0);
+ALIVE_VAR(1, 0xc1d180, u32, sGreenShift_C1D180, 0);
+ALIVE_VAR(1, 0xc19140, u32, sBlueShift_C19140, 0);
 
 struct Psx_Data
 {
@@ -1272,7 +1272,7 @@ EXPORT void CC PSX_4F6ED0(WORD* /*pVRam*/, s32 /*width*/, s32 /*height*/, s32 /*
 static s32 sLast_TILE_r_578328 = 0;
 static s32 sLast_TILE_g_C3D0E0 = 0;
 static s32 sLast_TILE_b_C3D0DC = 0;
-static DWORD sLast_Tile_abr_57832C = 0;
+static u32 sLast_Tile_abr_57832C = 0;
 ALIVE_ARY(1, 0xC2D080, s16, 16384, word_C2D080, {});
 
 void PSX_Render_TILE_Blended_Large_Impl(WORD *pVRam, s32 width, s32 height, s32 r, s32 g, s32 b, s32 pitch)
@@ -1382,9 +1382,9 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
     const u8 b0 = pPrim->rgb_code.b;
     const u8 g0 = pPrim->rgb_code.g;
 
-    const DWORD r0_S3 = r0 >> 3;
-    const DWORD g0_S3 = g0 >> 3;
-    const DWORD b0_S3 = b0 >> 3;
+    const u32 r0_S3 = r0 >> 3;
+    const u32 g0_S3 = g0 >> 3;
+    const u32 b0_S3 = b0 >> 3;
 
     const s32 width_pitch = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
     WORD* pVRamDst = reinterpret_cast<WORD*>(spBitmap_C2D038->field_4_pLockedPixels) + (clipped_x + (clipped_y * width_pitch));
@@ -1436,7 +1436,7 @@ static inline u8 Decompress_Next_Type3(s32& control_byte, u32& dstIdx, const WOR
 {
     if (control_byte == 0)
     {
-        dstIdx = *(DWORD *)pCompressed;
+        dstIdx = *(u32 *)pCompressed;
         control_byte = 32;
         pCompressed += 2;
     }
@@ -1458,7 +1458,7 @@ static inline u8 Decompress_Next_Type6(s32& control_byte, u32& dstIdx, const WOR
 {
     if (control_byte == 0)
     {
-        dstIdx = *(DWORD *)pCompressed;
+        dstIdx = *(u32 *)pCompressed;
         control_byte = 32;
         pCompressed += 2;
     }
@@ -1727,7 +1727,7 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, s3
                 else
                 {
                     const WORD clut_entry = pClut[i];
-                    const DWORD bitSet = (clut_entry & 0x20);
+                    const u32 bitSet = (clut_entry & 0x20);
                     WORD clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
                     clut_pixel |= bitSet;
                     clut_local[i] = clut_pixel;
@@ -1938,7 +1938,7 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, s32 width, s32 heigh
 }
 
 // Only possible to be used by FG1
-EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* pPrim, s32 width, s32 height, const DWORD* pFg1Data, s32 xoffset, s32 yoffset)
+EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* pPrim, s32 width, s32 height, const u32* pFg1Data, s32 xoffset, s32 yoffset)
 {
     s32 xConverted = pPrim->field_14_verts[0].field_0_x0 / 16;
     s32 yConverted = pPrim->field_14_verts[0].field_4_y0 / 16;
@@ -1990,7 +1990,7 @@ EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* pPrim, s32 width, s32 he
 
         for (s32 yIter = 0; yIter < height_clipped; yIter++)
         {
-            DWORD bitMask = (*pFg1Data) >> skipBits;
+            u32 bitMask = (*pFg1Data) >> skipBits;
             size_t dst_off = pSrc - pDst;
             for (s32 xIter = 0; xIter < width; xIter++)
             {
@@ -2228,7 +2228,7 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
                 PSX_Render_PolyFT4_16bit_517990(pConverted,
                     (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
                     (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
-                    reinterpret_cast<const DWORD*>(pAnimOrFG1Data),
+                    reinterpret_cast<const u32*>(pAnimOrFG1Data),
                     pConverted->field_14_verts[0].field_0_x0 / 16 , pConverted->field_14_verts[0].field_4_y0 / 16);
                 break;
             }
@@ -2858,7 +2858,7 @@ EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, s32 x0, s32 y
             if (bSemiTrans)
             {
                 WORD* pVramSrcDst = &pVram[pitch * (yLine >> 16)];
-                DWORD src = *pVramSrcDst;
+                u32 src = *pVramSrcDst;
                 *pVramSrcDst =
                       abr_lut->b[(b0_fixed >> 19) & 0x1F][((src >> sBlueShift_C19140) & 0x1F)]
                     | abr_lut->g[(g0_fixed >> 19) & 0x1F][((src >> sGreenShift_C1D180) & 0x1F)]
@@ -2908,7 +2908,7 @@ EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, s32 x0, s32 y
             if (bSemiTrans)
             {
                 WORD* pVramSrcDst = &pVRam[xpos >> 16];
-                DWORD src = *pVramSrcDst;
+                u32 src = *pVramSrcDst;
                 *pVramSrcDst =
                       abr_lut->b[(b0_fixed >> 19) & 0x1F][((src >> sBlueShift_C19140) & 0x1F)]
                     | abr_lut->g[(g0_fixed >> 19) & 0x1F][((src >> sGreenShift_C1D180) & 0x1F)]
@@ -4396,8 +4396,8 @@ namespace AETest::TestsPsxRender
         memset(vramTest, 0, sizeof(vramTest));
         memcpy(pClut, kTestPal, sizeof(kTestPal));
 
-       // PSX_Render_PolyFT4_8bit_Opaque_5006E0(&otPrim, 1, 1, (DWORD*)&kSinglePixel8BitImg[0]);
-        PSX_Render_PolyFT4_8bit_SemiTrans_501B00(&otPrim, 2, 2, (DWORD*)&kSinglePixel8BitImg[0]);
+       // PSX_Render_PolyFT4_8bit_Opaque_5006E0(&otPrim, 1, 1, (u32*)&kSinglePixel8BitImg[0]);
+        PSX_Render_PolyFT4_8bit_SemiTrans_501B00(&otPrim, 2, 2, (u32*)&kSinglePixel8BitImg[0]);
     }
 
 
@@ -4426,7 +4426,7 @@ namespace AETest::TestsPsxRender
 
         PSX_EMU_SetDispType_4F9960(5);
 
-       // PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(&otPrim, 8, 4, (DWORD*)&kTestImageCompressed[0]);
+       // PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(&otPrim, 8, 4, (u32*)&kTestImageCompressed[0]);
     }
 
     static void Test_PSX_Rects_intersect_point_4FA100()

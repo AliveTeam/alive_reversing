@@ -8,7 +8,7 @@
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 
-ALIVE_VAR(1, 0x563aa0, DWORD, sWellRndSeed_563AA0, 4);
+ALIVE_VAR(1, 0x563aa0, u32, sWellRndSeed_563AA0, 4);
 
 Well* Well::ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 {

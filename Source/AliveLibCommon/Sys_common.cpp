@@ -14,12 +14,12 @@
 }
 
 
-DWORD SYS_GetTicks()
+u32 SYS_GetTicks()
 {
 #if USE_SDL2
     // Using this instead of SDL_GetTicks resolves a weird x64 issue on windows where
     // the tick returned is a lot faster on some machines.
-    return static_cast<DWORD>(SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000));
+    return static_cast<u32>(SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000));
 #else
     return timeGetTime();
 #endif
@@ -89,7 +89,7 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const s8* mes
     }
     return MessageBoxButton::eOK;
 #else
-    DWORD w32type = MB_OK;
+    u32 w32type = MB_OK;
     switch (type)
     {
     case MessageBoxType::eStandard:

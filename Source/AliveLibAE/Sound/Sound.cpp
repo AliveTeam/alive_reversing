@@ -19,7 +19,7 @@ ALIVE_ARY(1, 0xBBBAB8, SoundBuffer, 32, sSoundBuffers_BBBAB8, {});
 ALIVE_ARY(1, 0xBBBD38, s32, 127, sVolumeTable_BBBD38, {});
 ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
 
-const DWORD k127_dword_575158 = 127;
+const u32 k127_dword_575158 = 127;
 
 static SoundApi sSoundApi;
 
@@ -52,7 +52,7 @@ EXPORT s32 CC SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 si
 #endif
 }
 
-EXPORT s32 CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount)
+EXPORT s32 CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundBuffer, u32 sampleCount)
 {
 #if USE_SDL2_SOUND
     return SND_LoadSamples_SDL(pSnd, sampleOffset, pSoundBuffer, sampleCount);
@@ -178,7 +178,7 @@ EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRigh
 
     if (pSnd->field_20_isStereo & 2)
     {
-        DWORD status = 0;
+        u32 status = 0;
         if (FAILED(pDSoundBuffer->GetStatus(&status)))
         {
             return -1;
@@ -186,7 +186,7 @@ EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRigh
 
         if (status & DSBSTATUS_PLAYING) // TODO: SDL2 didn't check this flag
         {
-            pDSoundBuffer->SetFrequency(static_cast<DWORD>((pSnd->field_18_sampleRate * freq) + 0.5)); // This freq don't get clamped for some reason
+            pDSoundBuffer->SetFrequency(static_cast<u32>((pSnd->field_18_sampleRate * freq) + 0.5)); // This freq don't get clamped for some reason
             pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]); // TODO: SDL2 / 10000.0f
             pDSoundBuffer->SetCurrentPosition(0);
             return 0;
@@ -215,7 +215,7 @@ EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRigh
         }
     }
 
-    DWORD freqHz = static_cast<DWORD>((pSnd->field_18_sampleRate * freq) + 0.5);
+    u32 freqHz = static_cast<u32>((pSnd->field_18_sampleRate * freq) + 0.5);
     if (freqHz < DSBFREQUENCY_MIN)
     {
         freqHz = DSBFREQUENCY_MIN;
@@ -390,25 +390,25 @@ EXPORT s32 CC SND_Renew_4EEDD0(SoundEntry *pSnd)
 
 EXPORT u32 CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
 {
-    DWORD dwReadPos = 0;
-    DWORD dwWritePos = 0;
+    u32 dwReadPos = 0;
+    u32 dwWritePos = 0;
     pSoundEntry->field_4_pDSoundBuffer->GetCurrentPosition(&dwReadPos, &dwWritePos);
     return dwReadPos / pSoundEntry->field_1D_blockAlign;
 }
 
 // Never seems to get called?
 // TODO: Clean up!
-EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/)
+EXPORT u32 * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/)
 {
     ALIVE_FATAL("Never expected SND_4F00B0 to be called");
     //return 0;
-    //DWORD *result; // eax
+    //u32 *result; // eax
     //u32 *v4; // edx
     //u32 v5; // ecx
     //s32 v6; // esi
     //s32 v7; // esi
 
-    //result = (DWORD *)a2;
+    //result = (u32 *)a2;
     //v4 = a1;
     //v5 = a2 + a3;
     //if (a2 < a2 + a3)
@@ -426,7 +426,7 @@ EXPORT DWORD * CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/)
     //        do
     //        {
     //            *((u8 *)result + v7) = *(u8 *)result ^ 0x80;
-    //            result = (DWORD *)((s8 *)result + 1);
+    //            result = (u32 *)((s8 *)result + 1);
     //        } while ((u32)result < v5);
     //    }
     //}
@@ -467,10 +467,10 @@ EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC90(s32 idx, f32 hzChangeFreq)
         return -2;
     }
 
-    DWORD currrentFreqHz = 0;
+    u32 currrentFreqHz = 0;
     if (SUCCEEDED(pDSoundBuffer->GetFrequency(&currrentFreqHz)))
     {
-        DWORD freqHz = static_cast<DWORD>(currrentFreqHz * hzChangeFreq);
+        u32 freqHz = static_cast<u32>(currrentFreqHz * hzChangeFreq);
         if (freqHz < DSBFREQUENCY_MIN)
         {
             freqHz = DSBFREQUENCY_MIN;
@@ -493,7 +493,7 @@ EXPORT s32 CC SND_Buffer_Get_Status_4F00F0(s32 idx, s32 a2)
         return 0x40000000;
     }
 
-    DWORD status = 0;
+    u32 status = 0;
     pSoundBuffer->field_0_pDSoundBuffer->GetStatus(&status);
 
     s32 fromStatus = 0;
@@ -553,7 +553,7 @@ EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC00(s32 idx, f32 freq)
         return -1;
     }
 
-    DWORD freqHz = static_cast<DWORD>(sSoundSamples_BBBF38[pSoundBuffer->field_8_sample_idx]->field_18_sampleRate * freq);
+    u32 freqHz = static_cast<u32>(sSoundSamples_BBBF38[pSoundBuffer->field_8_sample_idx]->field_18_sampleRate * freq);
     if (freqHz < DSBFREQUENCY_MIN)
     {
         freqHz = DSBFREQUENCY_MIN;
@@ -605,7 +605,7 @@ EXPORT s32 CC SND_Get_Buffer_Status_4EE8F0(s32 idx)
         return 0;
     }
 
-    DWORD status = 0;
+    u32 status = 0;
     pBuffer->GetStatus(&status);
     if (status & 4)
     {

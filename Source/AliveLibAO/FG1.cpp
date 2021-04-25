@@ -38,7 +38,7 @@ ALIVE_ASSERT_SIZEOF(Fg1Chunk, 0xC);
 
 struct FG1ResourceBlockHeader
 {
-    DWORD mCount;
+    u32 mCount;
     Fg1Chunk mChunks;
 };
 

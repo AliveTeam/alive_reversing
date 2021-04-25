@@ -157,9 +157,9 @@ inline Fixed_24_8 operator * (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     // Whenever we see alldiv/allmul __PAIR__ and odd 64bit math its likely something like the following.
 
     // Multiply as 64bit numbers to get more precision in the results
-    unsigned long long left = lhs.fpValue;
-    unsigned long long right = rhs.fpValue;
-    unsigned long long mult = (left * right) / 256;
+    u64 left = lhs.fpValue;
+    u64 right = rhs.fpValue;
+    u64 mult = (left * right) / 256;
 
     Fixed_24_8 r;
     r.fpValue = static_cast<s32>(mult);

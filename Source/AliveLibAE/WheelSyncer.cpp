@@ -21,7 +21,7 @@ void WheelSyncer::VScreenChanged()
     vScreenChanged_466310();
 }
 
-WheelSyncer* WheelSyncer::ctor_466090(Path_WheelSyncer* pTlv, DWORD tlvInfo)
+WheelSyncer* WheelSyncer::ctor_466090(Path_WheelSyncer* pTlv, u32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
 

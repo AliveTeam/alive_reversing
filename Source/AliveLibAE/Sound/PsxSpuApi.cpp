@@ -67,8 +67,8 @@ ALIVE_VAR(1, 0xbd1cf4, s32, sMidi_Inited_dword_BD1CF4, 0);
 ALIVE_VAR(1, 0xbd1cec, u32, sMidiTime_BD1CEC, 0);
 ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, 1);
 ALIVE_VAR(1, 0xbd1ce4, s8, sbDisableSeqs_BD1CE4, 0);
-ALIVE_VAR(1, 0x578E20, DWORD, sLastTime_578E20, 0xFFFFFFFF);
-ALIVE_VAR(1, 0xbd1cf0, DWORD, sMidi_WaitUntil_BD1CF0, 0);
+ALIVE_VAR(1, 0x578E20, u32, sLastTime_578E20, 0xFFFFFFFF);
+ALIVE_VAR(1, 0xbd1cf0, u32, sMidi_WaitUntil_BD1CF0, 0);
 ALIVE_VAR(1, 0xbd1ce0, IO_FileHandleType, sSoundDatFileHandle_BD1CE0, nullptr);
 ALIVE_VAR(1, 0xbd1cfc, u8, sControllerValue_BD1CFC, 0);
 
@@ -150,12 +150,12 @@ public:
         return sbDisableSeqs_BD1CE4;
     }
 
-    virtual DWORD& sLastTime() override
+    virtual u32& sLastTime() override
     {
         return sLastTime_578E20;
     }
 
-    virtual DWORD& sMidi_WaitUntil() override
+    virtual u32& sMidi_WaitUntil() override
     {
         return sMidi_WaitUntil_BD1CF0;
     }
@@ -264,7 +264,7 @@ EXPORT void CC SsSetMVol_4FC360(s16 left, s16 right)
     gSpuVars->sGlobalVolumeLevel_right() = right;
 }
 
-EXPORT DWORD* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHeader, VabBodyRecord *pBodyRecords, s32 idx)
+EXPORT u32* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHeader, VabBodyRecord *pBodyRecords, s32 idx)
 {
     if (!pVabHeader || idx < 0)
     {
@@ -841,7 +841,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
     s16 v31 = 0; // bp
     u8 v33; // cl
     s32 v34; // eax
-    void(CC *pFn)(s32, DWORD, DWORD); // eax
+    void(CC *pFn)(s32, u32, u32); // eax
     u8 *v36; // eax
     s8 v37; // al
     s32 v38; // eax
@@ -1078,7 +1078,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
                 }
                 break;
             case 40:
-                pFn = (void(CC *)(s32, DWORD, DWORD))gSpuVars->sMidiSeqSongs(idx2).field_20_fn_ptr;
+                pFn = (void(CC *)(s32, u32, u32))gSpuVars->sMidiSeqSongs(idx2).field_20_fn_ptr;
                 if (pFn)
                 {
                     pFn(idx, 0, BYTE2(cmd));
@@ -1197,7 +1197,7 @@ EXPORT s16 CC SsSeqOpen_4FD6D0(u8* pSeqData, s16 seqIdx)
     // TODO: Figure out what these tempo calcs are actually doing
     if (quaterNoteRes >= 0)
     {
-        DWORD tempo24Bit = (seqHeader.field_A_tempo[0] << 16) | (seqHeader.field_A_tempo[1] << 8) | (seqHeader.field_A_tempo[2]);
+        u32 tempo24Bit = (seqHeader.field_A_tempo[0] << 16) | (seqHeader.field_A_tempo[1] << 8) | (seqHeader.field_A_tempo[2]);
         tempo24Bit = tempo24Bit / quaterNoteRes;
         calculatedTempo = ((((tempo24Bit >> 1) + 15000) / tempo24Bit >> 1) + 15000) / (((tempo24Bit >> 1) + 15000) / tempo24Bit);
     }
@@ -1353,7 +1353,7 @@ EXPORT void CC SsSeqCalledTbyT_4FDC80()
 {
     if (!gSpuVars->sbDisableSeqs())
     {
-        const DWORD currentTime = SYS_GetTicks();
+        const u32 currentTime = SYS_GetTicks();
         gSpuVars->sMidiTime() = currentTime;
         // First time or 30 passed?
         if (gSpuVars->sLastTime() == 0xFFFFFFFF || (s32)(currentTime - gSpuVars->sLastTime()) >= 30)

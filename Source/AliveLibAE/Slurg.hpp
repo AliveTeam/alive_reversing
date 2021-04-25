@@ -70,7 +70,7 @@ class Slurg : public BaseAliveGameObject
 public:
     EXPORT static void CC Clear_Slurg_Step_Watch_Points_449A90();
 
-    EXPORT Slurg* ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo);
+    EXPORT Slurg* ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;

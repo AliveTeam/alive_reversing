@@ -51,7 +51,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s16 VPull_4D6050(s16 bLeftDirection);
-    EXPORT Switch* ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo);
+    EXPORT Switch* ctor_4D5860(Path_Switch* pTlv, u32 tlvInfo);
 private:
     EXPORT void dtor_4D5B00();
     EXPORT Switch* vdtor_4D5AD0(s32 flags);

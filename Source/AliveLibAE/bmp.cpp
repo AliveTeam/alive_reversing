@@ -25,7 +25,7 @@ EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBm
     return -1;
 }
 
-EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
+EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
 {
     const SDL_Rect clearRect = { pRect->left, pRect->right, pRect->top, pRect->bottom };
     if (SDL_FillRect(pBmp->field_0_pSurface, &clearRect, fillColour /*SDL_MapRGB(pBmp->field_0_pSurface->format, 255, 0, 0)*/) != 0)
@@ -160,9 +160,9 @@ EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFo
         return -1;
     }
 
-    DWORD bMask = 0;
-    DWORD rMask = 0;
-    DWORD gMask = 0;
+    u32 bMask = 0;
+    u32 rMask = 0;
+    u32 gMask = 0;
 
     switch (bpp)
     {
@@ -356,10 +356,10 @@ EXPORT HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPD
 
     if (hr == DDERR_INVALIDPARAMS)
     {
-        const DWORD oldCaps = pSurfaceDesc->ddsCaps.dwCaps;
+        const u32 oldCaps = pSurfaceDesc->ddsCaps.dwCaps;
         if (!(oldCaps & DDSCAPS_SYSTEMMEMORY))
         {
-            const DWORD tempCaps = (pSurfaceDesc->ddsCaps.dwCaps & ~DDSCAPS_VIDEOMEMORY) | DDSCAPS_SYSTEMMEMORY;
+            const u32 tempCaps = (pSurfaceDesc->ddsCaps.dwCaps & ~DDSCAPS_VIDEOMEMORY) | DDSCAPS_SYSTEMMEMORY;
             pSurfaceDesc->ddsCaps.dwCaps = tempCaps;
             hr = sDDraw_BBC3D4->CreateSurface(pSurfaceDesc, ppSurface, nullptr);
             pSurfaceDesc->ddsCaps.dwCaps = oldCaps;
@@ -415,7 +415,7 @@ EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBm
 
 ALIVE_VAR(1, 0xBBC458, DDBLTFX, blt_fx_stru_BBC458, {});
 
-EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
+EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
 {
     RECT rect = *pRect;
 
@@ -644,10 +644,10 @@ EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFo
         return -1;
     }
 
-    DWORD bMask = 0;
-    DWORD rMask = 0;
-    DWORD gMask = 0;
-    DWORD flags = 0;
+    u32 bMask = 0;
+    u32 rMask = 0;
+    u32 gMask = 0;
+    u32 flags = 0;
 
     switch (bpp)
     {
@@ -856,12 +856,12 @@ namespace AETest::TestsBmp
             return mMock.CreateSurface(surfaceDesc, ppSurface, pUnk);
         }
 
-        STDMETHOD(CreateClipper)(THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR*, IUnknown FAR*)
+        STDMETHOD(CreateClipper)(THIS_ u32, LPDIRECTDRAWCLIPPER FAR*, IUnknown FAR*)
         {
             return S_OK;
         }
 
-        STDMETHOD(CreatePalette)(THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR*, IUnknown FAR*)
+        STDMETHOD(CreatePalette)(THIS_ u32, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR*, IUnknown FAR*)
         {
             return S_OK;
         }
@@ -871,12 +871,12 @@ namespace AETest::TestsBmp
             return S_OK;
         }
 
-        STDMETHOD(EnumDisplayModes)(THIS_ DWORD, LPDDSURFACEDESC, LPVOID, LPDDENUMMODESCALLBACK)
+        STDMETHOD(EnumDisplayModes)(THIS_ u32, LPDDSURFACEDESC, LPVOID, LPDDENUMMODESCALLBACK)
         {
             return S_OK;
         }
 
-        STDMETHOD(EnumSurfaces)(THIS_ DWORD, LPDDSURFACEDESC, LPVOID, LPDDENUMSURFACESCALLBACK)
+        STDMETHOD(EnumSurfaces)(THIS_ u32, LPDDSURFACEDESC, LPVOID, LPDDENUMSURFACESCALLBACK)
         {
             return S_OK;
         }
@@ -931,17 +931,17 @@ namespace AETest::TestsBmp
             return S_OK;
         }
 
-        STDMETHOD(SetCooperativeLevel)(THIS_ HWND, DWORD)
+        STDMETHOD(SetCooperativeLevel)(THIS_ HWND, u32)
         {
             return S_OK;
         }
 
-        STDMETHOD(SetDisplayMode)(THIS_ DWORD, DWORD, DWORD)
+        STDMETHOD(SetDisplayMode)(THIS_ u32, u32, u32)
         {
             return S_OK;
         }
 
-        STDMETHOD(WaitForVerticalBlank)(THIS_ DWORD, HANDLE)
+        STDMETHOD(WaitForVerticalBlank)(THIS_ u32, HANDLE)
         {
             return S_OK;
         }
@@ -1002,7 +1002,7 @@ namespace AETest::TestsBmp
         DDSURFACEDESC actualData = {};
         for (s32 i = 0; i < 32; i++)
         {
-            const DWORD flag = (1 << i);
+            const u32 flag = (1 << i);
             if (flag != DDSCAPS_SYSTEMMEMORY && flag != DDSCAPS_VIDEOMEMORY)
             {
                 StrictMock<MockedDirectDraw> mocked;
@@ -1018,7 +1018,7 @@ namespace AETest::TestsBmp
                     .WillOnce(DoAll(SaveArgPointee<0>(&actualData), Return(S_OK)));
                 ASSERT_EQ(S_OK, BMP_New_create_surface_4F1C60(&desc, &surf));
 
-                ASSERT_EQ(actualData.ddsCaps.dwCaps, static_cast<DWORD>(DDSCAPS_SYSTEMMEMORY | flag));
+                ASSERT_EQ(actualData.ddsCaps.dwCaps, static_cast<u32>(DDSCAPS_SYSTEMMEMORY | flag));
             }
         }
 
@@ -1036,7 +1036,7 @@ namespace AETest::TestsBmp
                 .WillOnce(DoAll(SaveArgPointee<0>(&actualData), Return(S_OK)));
             ASSERT_EQ(S_OK, BMP_New_create_surface_4F1C60(&desc, &surf));
 
-            ASSERT_EQ(actualData.ddsCaps.dwCaps, static_cast<DWORD>(DDSCAPS_SYSTEMMEMORY));
+            ASSERT_EQ(actualData.ddsCaps.dwCaps, static_cast<u32>(DDSCAPS_SYSTEMMEMORY));
         }
 
         sDDraw_BBC3D4 = nullptr;

@@ -50,7 +50,7 @@ private:
 public:
     WORD field_118_armed;
     WORD field_11A_explode_timeout;
-    DWORD field_11C_tlv;
+    u32 field_11C_tlv;
     u32 field_120_gnframe;
     Animation field_124_animation;
     u32 field_1BC_gnframe_2;

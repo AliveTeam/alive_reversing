@@ -4,7 +4,7 @@
 
 struct CdlLOC;
 
-EXPORT void CC Get_fmvs_sectors_494460(const s8* fmvName1, const s8* fmvName2, const s8* fmvName3, DWORD* fmvSectorPos1, DWORD* fmvSectorPos2, DWORD* fmvSectorPos3);
+EXPORT void CC Get_fmvs_sectors_494460(const s8* fmvName1, const s8* fmvName2, const s8* fmvName3, u32* fmvSectorPos1, u32* fmvSectorPos2, u32* fmvSectorPos3);
 EXPORT s8 CC DDV_Play_493210(const s8* pDDVName);
 bool AreMovieSkippingInputsHeld();
 
@@ -16,7 +16,7 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT void Init_4DFF60(s32 a2, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume);
-    EXPORT Movie* ctor_4DFDE0(s32 id, DWORD pos, s16 bUnknown, s16 flags, s16 volume);
+    EXPORT Movie* ctor_4DFDE0(s32 id, u32 pos, s16 bUnknown, s16 flags, s16 volume);
     EXPORT void vUpdate_4E0030();
     EXPORT BaseGameObject* vdtor_4DFE80(s32 flags);
 private:

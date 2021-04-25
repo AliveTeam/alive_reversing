@@ -211,7 +211,7 @@ s32 EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
 void EvilFart::InputControlFart_423BB0()
 {
     const FP kFartSpeed = FP_FromDouble(0.2);
-    const DWORD pressedKeys = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    const u32 pressedKeys = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
     if (sInputKey_Right_5550D0 & pressedKeys)
     {

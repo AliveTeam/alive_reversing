@@ -20,7 +20,7 @@ struct TlvOffsetCombinedLevelIdPathId
 
 union TlvItemInfoUnion
 {
-    DWORD all;
+    u32 all;
     TlvOffsetCombinedLevelIdPathId combined;
     TlvOffsetLevelIdPathId parts;
 };

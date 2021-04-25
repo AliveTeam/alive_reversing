@@ -58,7 +58,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
         );
 
         //safety check in case IDA output was wrongly interpreted. TODO remove later
-        assert((DWORD *)&(*field_20_animation.field_20_ppBlock)[*(DWORD *)&(*field_20_animation.field_20_ppBlock)[*((DWORD *) *field_20_animation.field_20_ppBlock + 124)]]
+        assert((u32 *)&(*field_20_animation.field_20_ppBlock)[*(u32 *)&(*field_20_animation.field_20_ppBlock)[*((u32 *) *field_20_animation.field_20_ppBlock + 124)]]
             == &(pFrameHeader->field_0_clut_offset));
     }
 

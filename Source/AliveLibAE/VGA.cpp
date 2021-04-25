@@ -100,7 +100,7 @@ EXPORT s32 CC VGA_Convert_Colour_4F4DB0(s32 r, s32 g, s32 b)
     return Bmp_Convert_Colour_4F17D0(VGA_GetBitmap_4F3F00(), r, g, b);
 }
 
-EXPORT s32 CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
+EXPORT s32 CC VGA_ClearRect_4F4CF0(RECT* pRect, u32 fillColour)
 {
     return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
@@ -395,7 +395,7 @@ EXPORT s32 CC VGA_Convert_Colour_4F4DB0(s32 r, s32 g, s32 b)
     return Bmp_Convert_Colour_4F17D0(VGA_GetBitmap_4F3F00(), r, g, b);
 }
 
-EXPORT s32 CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
+EXPORT s32 CC VGA_ClearRect_4F4CF0(RECT* pRect, u32 fillColour)
 {
     return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
@@ -583,7 +583,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
                             v23 += 4;
                             v28 = *v22 << v34;
                             ++v22;
-                            *((DWORD *)v23 - 1) = (v27 << v37) & 0xFF00 | (v27 << v47) & 0xFF0000 | (u8)v28;
+                            *((u32 *)v23 - 1) = (v27 << v37) & 0xFF00 | (v27 << v47) & 0xFF0000 | (u8)v28;
                         } while ((u32)v23 < v26);
                         v24 = v45;
                         v25 = v52;

@@ -237,7 +237,7 @@ EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, Messa
         SND_StopAll_4CB060();
     }
 
-    DWORD displayForMsecs = SYS_GetTicks() + 1000;
+    u32 displayForMsecs = SYS_GetTicks() + 1000;
 
     if (messageType == MessageType::eShortTitle_3)
     {

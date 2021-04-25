@@ -94,7 +94,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    const LiftPointData& rPlatformData = sLiftPointData_545AC8[static_cast<DWORD>(gMap_5C3030.field_0_current_level)];
+    const LiftPointData& rPlatformData = sLiftPointData_545AC8[static_cast<u32>(gMap_5C3030.field_0_current_level)];
     AddDynamicCollision_4971C0(
         rPlatformData.field_0_maxW_platform,
         rPlatformData.field_4_maxH_platform,

@@ -1091,7 +1091,7 @@ s32 CC Abe::CreateFromSaveState_44D4F0(const u8* pData)
     u8** animFromState = sActiveHero_5C1B68->StateToAnimResource_44AAB0(sActiveHero_5C1B68->field_106_current_motion);
     if (!animFromState)
     {
-        DWORD id = sAbeResourceIDTable_554D60[sActiveHero_5C1B68->field_128.field_10_resource_index];
+        u32 id = sAbeResourceIDTable_554D60[sActiveHero_5C1B68->field_128.field_10_resource_index];
         ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero_5C1B68->field_128.field_10_resource_index], 0);
         sActiveHero_5C1B68->field_10_resources_array.SetAt(sActiveHero_5C1B68->field_128.field_10_resource_index, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, id, TRUE, FALSE));
         animFromState = sActiveHero_5C1B68->field_10_resources_array.ItemAt(sActiveHero_5C1B68->field_128.field_10_resource_index);
@@ -3059,7 +3059,7 @@ void Abe::State_0_Idle_44EEB0()
     }
 
     // Go to game speak state.
-    const DWORD held = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+    const u32 held = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
     if (held & (InputCommands::Enum::eChant | InputCommands::Enum::eGameSpeak8 | InputCommands::Enum::eGameSpeak7 | InputCommands::Enum::eGameSpeak6 | InputCommands::Enum::eGameSpeak5 | InputCommands::Enum::eGameSpeak4 | InputCommands::Enum::eGameSpeak3 | InputCommands::Enum::eGameSpeak2 | InputCommands::Enum::eGameSpeak1))
     {
         field_118_prev_held = held;
@@ -3476,7 +3476,7 @@ void Abe::State_1_WalkLoop_44FBA0()
         field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9);
     }
 
-    const DWORD pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
     if (field_20_animation.field_92_current_frame != 2 && field_20_animation.field_92_current_frame != 11)
     {
@@ -3577,7 +3577,7 @@ void Abe::State_1_WalkLoop_44FBA0()
 void Abe::State_2_StandingTurn_451830()
 {
     const s16 currentFrame = field_20_animation.field_92_current_frame;
-    const DWORD pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
     if (currentFrame == 4 && (sInputKey_Run_5550E8 & pressed) && (sInputKey_Right_5550D0 | sInputKey_Left_5550D4) & pressed)
     {
@@ -4252,7 +4252,7 @@ void Abe::State_17_CrouchIdle_456BC0()
         }
     }
 
-    const DWORD held = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+    const u32 held = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
 
     // Crouching throw stuff
     if (sInputKey_ThrowItem_5550F4 & held
@@ -4545,7 +4545,7 @@ void Abe::State_25_RunSlideStop_451330()
                 MapFollowMe_408D10(FALSE);
             }
 
-            const DWORD pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+            const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
             if (field_20_animation.field_92_current_frame >= 9)
             {
                 if (field_20_animation.field_92_current_frame == 15)
@@ -5041,7 +5041,7 @@ void Abe::State_32_RunJumpLand_453460()
 
         MapFollowMe_408D10(TRUE);
 
-        const DWORD pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+        const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
         if (sInputKey_Left_5550D4 & pressed)
         {
             if (sInputKey_Hop_5550E0 & field_118_prev_held)
@@ -5383,7 +5383,7 @@ void Abe::State_40_SneakLoop_450550()
 
         if (field_106_current_motion == eAbeStates::State_40_SneakLoop_450550)
         {
-            const DWORD pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+            const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
             if (field_20_animation.field_92_current_frame == 3 || field_20_animation.field_92_current_frame == 13)
             {
@@ -6287,7 +6287,7 @@ void Abe::State_69_LedgeHangWobble_454EF0()
     }
 
     // Going up the ledge on wobble?
-    const DWORD pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
     if (sInputKey_Up_5550D8 & pressed || field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
     {
         field_1AC_flags.Clear(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds);
@@ -6977,10 +6977,10 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 pScreenManager_5BB5F4->field_40_flags |= 0x10000;
 
                 FmvInfo* pFmvRec = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, field_184_fmv_id);
-                DWORD pos = 0;
+                u32 pos = 0;
 
                 Get_fmvs_sectors_494460(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
-                sLevelId_dword_5CA408 = static_cast<DWORD>(gMap_5C3030.field_0_current_level);
+                sLevelId_dword_5CA408 = static_cast<u32>(gMap_5C3030.field_0_current_level);
 
                 Movie* pMovie = ae_new<Movie>();
                 if (pMovie)
@@ -8356,7 +8356,7 @@ void Abe::State_123_LiftGrabIdle_45A6A0()
 
     field_C8_vely = FP_FromInteger(0);
 
-    const DWORD pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
     if (sInputKey_Up_5550D8 & pressed)
     {
         if (!pLiftPoint->vOnTopFloor_461890())
@@ -8670,7 +8670,7 @@ s16 Abe::ToLeftRightMovement_44E340()
         return 0;
     }
 
-    const DWORD pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
     const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     const BOOL flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
 
@@ -9928,7 +9928,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
                 return eAbeStates::State_123_LiftGrabIdle_45A6A0;
             }
 
-            const DWORD pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+            const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
             if (sInputKey_Down_5550DC & pressed)
             {
                 return eAbeStates::State_125_LiftUseDown_45A7B0;

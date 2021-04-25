@@ -44,7 +44,7 @@ struct AnimationHeader
         eLoopFlag = 0x2
     };
     WORD field_6_flags;
-    DWORD mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
+    u32 mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
 };
 
 enum class CompressionType : u8
@@ -59,7 +59,7 @@ enum class CompressionType : u8
 
 struct FrameHeader
 {
-    DWORD field_0_clut_offset;
+    u32 field_0_clut_offset;
     u8 field_4_width;
     u8 field_5_height;
     u8 field_6_colour_depth;
@@ -92,7 +92,7 @@ union PointsUnion
 
 struct FrameInfoHeader
 {
-    DWORD field_0_frame_header_offset;
+    u32 field_0_frame_header_offset;
     s16 field_4_magic;
     s16 field_6_count;
     PointsUnion field_8_data;

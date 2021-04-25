@@ -11,8 +11,8 @@
 #include "Sys.hpp"
 
 ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
-ALIVE_VAR(1, 0x5C301C, DWORD, sMusicControllerBaseTimeStamp_5C301C, 0);
-ALIVE_VAR(1, 0x5c3024, DWORD, sMusicTime_5C3024, 0);
+ALIVE_VAR(1, 0x5C301C, u32, sMusicControllerBaseTimeStamp_5C301C, 0);
+ALIVE_VAR(1, 0x5c3024, u32, sMusicTime_5C3024, 0);
 
 struct MusicController_Record3_Sub
 {
@@ -387,7 +387,7 @@ void CC MusicController::Shutdown_47FD20()
     }
 }
 
-MusicController::MusicTypes MusicController::GetMusicType_47FA80(WORD* seq, WORD* seq2, DWORD* seqTime)
+MusicController::MusicTypes MusicController::GetMusicType_47FA80(WORD* seq, WORD* seq2, u32* seqTime)
 {
     MusicController::UpdateMusicTime_47F8B0();
     if (seq)
@@ -413,7 +413,7 @@ MusicController::MusicTypes MusicController::GetMusicType_47FA80(WORD* seq, WORD
     return field_42_type;
 }
 
-MusicController::MusicTypes CC MusicController::GetMusicType_47FDA0(WORD* seq1, WORD* seq2, DWORD* seqTime)
+MusicController::MusicTypes CC MusicController::GetMusicType_47FDA0(WORD* seq1, WORD* seq2, u32* seqTime)
 {
     if (pMusicController_5C3020)
     {

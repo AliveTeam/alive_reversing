@@ -118,17 +118,17 @@ void DDCheat::VUpdate()
 
 ALIVE_VAR(1, 0x4FF868, WORD, word_4FF868, 0);
 
-ALIVE_VAR(1, 0x4C315C, DWORD, level_4C315C, 3);
+ALIVE_VAR(1, 0x4C315C, u32, level_4C315C, 3);
 ALIVE_VAR(1, 0x4C3160, WORD, path_4C3160, 1);
-ALIVE_VAR(1, 0x4FF864, DWORD, gVox_4FF864, 0);
+ALIVE_VAR(1, 0x4FF864, u32, gVox_4FF864, 0);
 ALIVE_VAR(1, 0x4FF860, WORD, doNothing_4FF860, 0);
 ALIVE_VAR_EXTERN(s8, gDDCheatMode_508BF8);
 
-ALIVE_VAR(1, 0x9F0E40, DWORD, dword_9F0E40, 0);
-ALIVE_VAR(1, 0x9F0E44, DWORD, dword_9F0E44, 1);
+ALIVE_VAR(1, 0x9F0E40, u32, dword_9F0E40, 0);
+ALIVE_VAR(1, 0x9F0E44, u32, dword_9F0E44, 1);
 
-ALIVE_VAR(1, 0x4FF854, DWORD, currentlyPressedButtons_4FF854, 0);
-ALIVE_VAR(1, 0x4C31A8, DWORD, dword_4C31A8, 10);
+ALIVE_VAR(1, 0x4FF854, u32, currentlyPressedButtons_4FF854, 0);
+ALIVE_VAR(1, 0x4C31A8, u32, dword_4C31A8, 10);
 
 
 template <class T>
@@ -472,7 +472,7 @@ void DDCheat::Teleport_409CE0()
     else if (input & InputCommands::eThrowItem)
     {
         path_4C3160 = gMap_507BA8.field_2_current_path;
-        level_4C315C = static_cast<DWORD>(gMap_507BA8.field_0_current_level);
+        level_4C315C = static_cast<u32>(gMap_507BA8.field_0_current_level);
         camera_4C3164 = gMap_507BA8.field_4_current_camera;
     }
     else if (input & InputCommands::eDoAction)
@@ -503,7 +503,7 @@ void DDCheat::Teleport_409CE0()
     }
 }
 
-ALIVE_VAR(1, 0x4C3158, DWORD, gScale_4C3158, 100);
+ALIVE_VAR(1, 0x4C3158, u32, gScale_4C3158, 100);
 
 void DDCheat::Misc_409E90()
 {

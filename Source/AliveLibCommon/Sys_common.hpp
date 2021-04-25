@@ -77,4 +77,4 @@ inline void Alive_Show_ErrorMsg(const s8* msg)
 
 [[noreturn]] void ALIVE_FATAL(const s8* errMsg);
 
-DWORD SYS_GetTicks();
+u32 SYS_GetTicks();

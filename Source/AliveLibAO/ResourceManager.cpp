@@ -16,8 +16,8 @@ namespace AO {
 
 ALIVE_VAR(1, 0x5009E0, DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0, nullptr);
 
-ALIVE_VAR(1, 0x9F0E48, DWORD, sManagedMemoryUsedSize_9F0E48, 0);
-ALIVE_VAR(1, 0x9F0E4C, DWORD, sPeakedManagedMemUsage_9F0E4C, 0);
+ALIVE_VAR(1, 0x9F0E48, u32, sManagedMemoryUsedSize_9F0E48, 0);
+ALIVE_VAR(1, 0x9F0E4C, u32, sPeakedManagedMemUsage_9F0E4C, 0);
 
 ALIVE_VAR(1, 0x5076A0, s16, bHideLoadingIcon_5076A0, 0);
 ALIVE_VAR(1, 0x5076A4, s32, loading_ticks_5076A4, 0);
@@ -30,17 +30,17 @@ ALIVE_VAR(1, 0x9F0E50, s16, sAllocationFailed_9F0E50, 0);
 ALIVE_VAR(1, 0x50EE2C, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_50EE2C, nullptr);
 ALIVE_VAR(1, 0x50EE28, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_50EE28, nullptr);
 
-const DWORD kResHeapSize = 5120000;
+const u32 kResHeapSize = 5120000;
 ALIVE_ARY(1, 0x50EE38, u8, kResHeapSize, sResourceHeap_50EE38, {}); // Huge 5.4 MB static resource buffer
 
-const DWORD kLinkedListArraySize = 375;
+const u32 kLinkedListArraySize = 375;
 ALIVE_ARY(1, 0x50E270, ResourceManager::ResourceHeapItem, kLinkedListArraySize, sResourceLinkedList_50E270, {});
 
 ALIVE_VAR(1, 0x50EE30, u8*, spResourceHeapStart_50EE30, nullptr);
 ALIVE_VAR(1, 0x9F0E3C, u8*, spResourceHeapEnd_9F0E3C, nullptr);
 
 // TODO: move to correct location
-EXPORT void CC Odd_Sleep_48DD90(DWORD /*dwMilliseconds*/)
+EXPORT void CC Odd_Sleep_48DD90(u32 /*dwMilliseconds*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -299,7 +299,7 @@ void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
     }
 }
 
-void CC ResourceManager::LoadResource_446C90(const s8* pFileName, DWORD type, DWORD resourceId, LoadMode loadMode, s16 bDontLoad)
+void CC ResourceManager::LoadResource_446C90(const s8* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad)
 {
     if (bDontLoad)
     {
@@ -643,7 +643,7 @@ s32 CC ResourceManager::SEQ_HashName_454EA0(const s8* seqFileName)
     }
 
     // Iterate each s8 to calculate hash
-    DWORD hashId = 0;
+    u32 hashId = 0;
     for (size_t index = 0; index < seqFileNameLength; index++)
     {
         s8 letter = seqFileName[index];
@@ -652,7 +652,7 @@ s32 CC ResourceManager::SEQ_HashName_454EA0(const s8* seqFileName)
             break;
         }
 
-        const DWORD temp = 10 * hashId;
+        const u32 temp = 10 * hashId;
         if (letter < '0' || letter > '9')
         {
             if (letter >= 'a')
@@ -759,7 +759,7 @@ ResourceManager_FileRecord_Unknown* CC ResourceManager::LoadResourceFile_4551E0(
     return pLoadingFile;
 }
 
-u8** ResourceManager::Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, BlockAllocMethod allocType)
+u8** ResourceManager::Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool locked, BlockAllocMethod allocType)
 {
     u8** ppNewRes = Allocate_New_Block_454FE0(size + sizeof(Header), allocType);
     if (!ppNewRes)
@@ -780,18 +780,18 @@ u8** ResourceManager::Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, 
     return ppNewRes;
 }
 
-u8** CC ResourceManager::Alloc_New_Resource_454F20(DWORD type, DWORD id, DWORD size)
+u8** CC ResourceManager::Alloc_New_Resource_454F20(u32 type, u32 id, u32 size)
 {
   return Alloc_New_Resource_Impl(type, id, size, false, BlockAllocMethod::eFirstMatching);
 }
 
-u8** CC ResourceManager::Allocate_New_Locked_Resource_454F80(DWORD type, DWORD id, DWORD size)
+u8** CC ResourceManager::Allocate_New_Locked_Resource_454F80(u32 type, u32 id, u32 size)
 {
     return Alloc_New_Resource_Impl(type, id, size, true, BlockAllocMethod::eLastMatching);
 }
 
 
-EXPORT u8** CC ResourceManager::Allocate_New_Block_454FE0(DWORD sizeBytes, BlockAllocMethod allocMethod)
+EXPORT u8** CC ResourceManager::Allocate_New_Block_454FE0(u32 sizeBytes, BlockAllocMethod allocMethod)
 {
     ResourceHeapItem* pListItem = sFirstLinkedListItem_50EE2C;
     ResourceHeapItem* pHeapMem = nullptr;
@@ -978,13 +978,13 @@ s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArray
         {
             // Size of next item - location of current res
             // TODO 64bit warning
-            pHeader->field_0_size = static_cast<DWORD>(pItemToAdd->field_4_pNext->field_0_ptr - (u8*)pHeader - sizeof(Header));
+            pHeader->field_0_size = static_cast<u32>(pItemToAdd->field_4_pNext->field_0_ptr - (u8*)pHeader - sizeof(Header));
         }
         else
         {
             // Isn't a next item so use ptr to end of heap - location of current res
             // TODO: 64bit warning
-            pHeader->field_0_size = static_cast<DWORD>(spResourceHeapEnd_9F0E3C - (u8*)pHeader);
+            pHeader->field_0_size = static_cast<u32>(spResourceHeapEnd_9F0E3C - (u8*)pHeader);
         }
 
         sManagedMemoryUsedSize_9F0E48 -= pHeader->field_0_size;
@@ -993,7 +993,7 @@ s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArray
     return 1;
 }
 
-u8** CC ResourceManager::GetLoadedResource_4554F0(DWORD type, DWORD resourceId, s16 addUseCount, s16 bLock)
+u8** CC ResourceManager::GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock)
 {
     // Iterate all list items
     ResourceHeapItem* pListIter = sFirstLinkedListItem_50EE2C;
@@ -1022,7 +1022,7 @@ u8** CC ResourceManager::GetLoadedResource_4554F0(DWORD type, DWORD resourceId, 
 }
 
 
-void ResourceManager::CheckResourceIsLoaded(DWORD type, ResourceID resourceId)
+void ResourceManager::CheckResourceIsLoaded(u32 type, ResourceID resourceId)
 {
     u8** ppRes = GetLoadedResource_4554F0(type, resourceId, FALSE, FALSE);
     if (!ppRes)
@@ -1032,7 +1032,7 @@ void ResourceManager::CheckResourceIsLoaded(DWORD type, ResourceID resourceId)
     }
 }
 
-void ResourceManager::CheckResourceIsLoaded(DWORD type, std::initializer_list<ResourceID>& resourceIds)
+void ResourceManager::CheckResourceIsLoaded(u32 type, std::initializer_list<ResourceID>& resourceIds)
 {
     for (const auto& resourceId : resourceIds)
     {
@@ -1078,7 +1078,7 @@ ResourceManager::Header* CC ResourceManager::Get_Header_455620(u8** ppRes)
     return reinterpret_cast<Header*>((*ppRes - sizeof(Header)));
 }
 
-void CC ResourceManager::Reclaim_Memory_455660(DWORD sizeToReclaim)
+void CC ResourceManager::Reclaim_Memory_455660(u32 sizeToReclaim)
 {
     if (sResources_Pending_Loading_9F0E38 != 0)
     {
@@ -1136,7 +1136,7 @@ void CC ResourceManager::Reclaim_Memory_455660(DWORD sizeToReclaim)
                 else
                 {
                     sizeToReclaim -= sizeToMove;
-                    const DWORD savedSize = pCurrentHeader->field_0_size;
+                    const u32 savedSize = pCurrentHeader->field_0_size;
                     u8* pDataStart = pNext->field_0_ptr - sizeof(Header);
                     if (sizeToMove > 0)
                     {
@@ -1201,7 +1201,7 @@ s32 CC ResourceManager::Is_Resources_Pending_4557C0()
     return sResources_Pending_Loading_9F0E38 > 0 ? 1 : 0;
 }
 
-void CC ResourceManager::Free_Resource_Of_Type_455810(DWORD type)
+void CC ResourceManager::Free_Resource_Of_Type_455810(u32 type)
 {
     ResourceHeapItem* pListItem = sFirstLinkedListItem_50EE2C;
     while (pListItem)

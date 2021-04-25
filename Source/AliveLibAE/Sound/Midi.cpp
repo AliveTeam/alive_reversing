@@ -93,7 +93,7 @@ public:
         return ResourceManager::FreeResource_Impl_49C360(handle);
     }
 
-    virtual u8** GetLoadedResource(DWORD type, DWORD resourceID, u16 addUseCount, u16 bLock) override
+    virtual u8** GetLoadedResource(u32 type, u32 resourceID, u16 addUseCount, u16 bLock) override
     {
         return ResourceManager::GetLoadedResource_49C2A0(type, resourceID, addUseCount, bLock);
     }
@@ -103,7 +103,7 @@ public:
         return ResourceManager::FreeResource_49C330(handle);
     }
 
-    virtual u8** Allocate_New_Locked_Resource(DWORD type, DWORD id, DWORD size) override
+    virtual u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size) override
     {
         return ResourceManager::Allocate_New_Locked_Resource_49BF40(type, id, size);
     }
@@ -118,7 +118,7 @@ public:
         ResourceManager::Reclaim_Memory_49C470(size);
     }
 
-    virtual u8** Alloc_New_Resource(DWORD type, DWORD id, DWORD size) override
+    virtual u8** Alloc_New_Resource(u32 type, u32 id, u32 size) override
     {
         return ResourceManager::Alloc_New_Resource_49BED0(type, id, size);
     }
@@ -529,7 +529,7 @@ s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s
     return midiHandle;
 }
 
-EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask)
+EXPORT void CC SND_Stop_Channels_Mask_4CA810(u32 bitMask)
 {
     for (s32 i = 0; i < 24; i++) // TODO: Constant
     {

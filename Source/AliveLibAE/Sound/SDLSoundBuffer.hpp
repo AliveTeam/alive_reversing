@@ -35,11 +35,11 @@ public:
 
     HRESULT SetFrequency(s32 frequency);
     HRESULT SetCurrentPosition(s32 position);
-    HRESULT GetCurrentPosition(DWORD * readPos, DWORD * writePos);
-    HRESULT GetFrequency(DWORD * freq);
+    HRESULT GetCurrentPosition(u32 * readPos, u32 * writePos);
+    HRESULT GetFrequency(u32 * freq);
     HRESULT SetPan(s32 pan);
     void Release();
-    HRESULT GetStatus(DWORD * r);
+    HRESULT GetStatus(u32 * r);
 
     void Destroy();
 

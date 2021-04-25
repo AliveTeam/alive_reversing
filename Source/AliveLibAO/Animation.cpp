@@ -285,7 +285,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
             Decompress_Type_1_403150(
                 (u8*)&pFrameHeader[1],
                 *field_24_dbuf,
-                *(DWORD*)&pFrameHeader->field_8_width2,
+                *(u32*)&pFrameHeader->field_8_width2,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
             renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
         }
@@ -309,7 +309,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
             Decompress_Type_3_4031E0(
                 (u8*)&pFrameHeader[1],
                 *field_24_dbuf,
-                *(DWORD*)&pFrameHeader->field_8_width2,
+                *(u32*)&pFrameHeader->field_8_width2,
                 2 * pFrameHeader->field_5_height * width_bpp_adjusted);
             renderer.Upload(AnimFlagsToBitDepth(field_4_flags), vram_rect, *field_24_dbuf);
         }
@@ -424,11 +424,11 @@ void Animation::VDecode_403550()
         {
             FrameInfoHeader* pFrameHeaderCopy = this->Get_FrameHeader_403A00(-1);
 
-            // This data can be an array of DWORD's + other data up to field_6_count
+            // This data can be an array of u32's + other data up to field_6_count
             // which appears AFTER the usual data.
 
             // TODO: Should be typed to s16* ??
-            const DWORD* pCallBackData = reinterpret_cast<const DWORD*>(&pFrameHeaderCopy->field_8_data.points[3]);
+            const u32* pCallBackData = reinterpret_cast<const u32*>(&pFrameHeaderCopy->field_8_data.points[3]);
             for (s32 i = 0; i < pFrameHeaderCopy->field_6_count; i++)
             {
                 const auto pFnCallBack = field_1C_fn_ptr_array[*pCallBackData];
@@ -879,7 +879,7 @@ s16 Animation::Init_402D20(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
 
     if (pFrameHeader->field_7_compression_type != CompressionType::eType_0_NoCompression)
     {
-        const DWORD id = ResourceManager::Get_Header_455620(field_20_ppBlock)->field_C_id;
+        const u32 id = ResourceManager::Get_Header_455620(field_20_ppBlock)->field_C_id;
         field_24_dbuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, id, field_28_dbuf_size);
         if (!field_24_dbuf)
         {
@@ -925,14 +925,14 @@ FrameInfoHeader* Animation::Get_FrameHeader_403A00(s32 frame)
     }
 
     AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
-    DWORD frameOffset = pHead->mFrameOffsets[frame];
+    u32 frameOffset = pHead->mFrameOffsets[frame];
 
     FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
 
     // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
     // TODO: Remove it in the future when proven to be not required?
 #if defined(_MSC_VER) && !defined(_WIN64)
-    if (reinterpret_cast<DWORD>(pFrame) & 3)
+    if (reinterpret_cast<u32>(pFrame) & 3)
     {
         FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_4BA090;
         return Unknown;

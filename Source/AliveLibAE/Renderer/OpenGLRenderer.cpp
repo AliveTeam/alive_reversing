@@ -399,14 +399,14 @@ static void Convert4bppTextureFont(const PSX_RECT& rect, const u8* pPixels)
 static void Renderer_ConvertFG1BitMask(s32 width, s32 height, const u8* pPixels)
 {
     RGBAPixel* mDst = reinterpret_cast<RGBAPixel*>(gDecodeBuffer);
-    const unsigned long* mSrc = reinterpret_cast<const unsigned long*>(pPixels);
+    const u32* mSrc = reinterpret_cast<const u32*>(pPixels);
 
     s32 pSrcIndex = 0;
     s32 dstIndex = 0;
 
     for (s32 y = 0; y < height; y++)
     {
-        unsigned long bitMask = mSrc[pSrcIndex];
+        u32 bitMask = mSrc[pSrcIndex];
         for (s32 x = 0; x < width; x++)
         {
             u8 v = (bitMask & 1) * 255;

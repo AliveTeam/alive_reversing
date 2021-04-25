@@ -15,7 +15,7 @@
 #include "ParticleBurst.hpp"
 #include "Electrocute.hpp"
 
-Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, DWORD tlvInfo)
+Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, u32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547AE0);

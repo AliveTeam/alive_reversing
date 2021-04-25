@@ -7,9 +7,9 @@ struct Movie_IO
 {
     void(CC* mIO_Close)(void* pHandle);
     BOOL(CC* mIO_Wait)(void* pHandle);
-    BOOL(CC* mIO_Seek)(void* pHandle, DWORD offset, DWORD origin);
+    BOOL(CC* mIO_Seek)(void* pHandle, u32 offset, u32 origin);
     void* (CC* mIO_Open)(const s8* pFileName);
-    BOOL(CC* mIO_Read)(void* pHandle, void* pBuffer, DWORD size);
+    BOOL(CC* mIO_Read)(void* pHandle, void* pBuffer, u32 size);
 };
 
 Movie_IO& GetMovieIO();
@@ -26,8 +26,8 @@ ALIVE_ASSERT_SIZEOF(Masher_Header, 16);
 struct Masher_VideoHeader
 {
     s32 field_0_unknown;
-    DWORD field_4_width;
-    DWORD field_8_height;
+    u32 field_4_width;
+    u32 field_8_height;
     s32 field_C_max_audio_frame_size;
     s32 field_10_max_video_frame_size;
     s32 field_14_key_frame_rate;

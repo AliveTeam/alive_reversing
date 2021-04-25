@@ -41,7 +41,7 @@ using StereoSample_S32 = StereoSample<s32>;
 using StereoSample_F32 = StereoSample<f32>;
 
 void SND_InitVolumeTable_SDL();
-s32 SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, u8* pSoundBuffer, u32 sampleCount);
+s32 SND_LoadSamples_SDL(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundBuffer, u32 sampleCount);
 s32 SND_CreateDS_SDL(u32 sampleRate, s32 bitsPerSample, s32 isStereo);
 s32 SND_Clear_SDL(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size);
 const s8* SND_HR_Err_To_String_SDL(long hr);
