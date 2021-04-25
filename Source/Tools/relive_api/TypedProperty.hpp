@@ -8,8 +8,8 @@ public:
     BaseProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor)
         : m_name(name), m_TypeName(typeName), m_isVisibleToEditor(isVisibleToEditor) {}
     virtual ~BaseProperty() {}
-    virtual void Read(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties) = 0;
-    virtual void Write(PropertyCollection& propertyCollection, TypesCollection& types, jsonxx::Object& properties) = 0;
+    virtual void Read(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) = 0;
+    virtual void Write(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) = 0;
 
     std::string TypeName() const
     {
@@ -29,4 +29,19 @@ private:
     std::string m_name;
     std::string m_TypeName;
     bool m_isVisibleToEditor = true;
+};
+
+template<typename T>
+class TypedProperty : public BaseProperty
+{
+public:
+    TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data)
+        : BaseProperty(name, typeName, isVisibleToEditor), m_data(data) { }
+
+    void Read(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) override;
+
+    void Write(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) override;
+
+private:
+    T* m_data = nullptr;
 };
