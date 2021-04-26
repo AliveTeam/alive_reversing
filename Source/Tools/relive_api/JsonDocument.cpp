@@ -184,7 +184,7 @@ static std::string& getStaticStringBuffer()
 static void readFileContentsIntoString(std::string& target, std::ifstream& ifs)
 {
     ifs.seekg(0, std::ios::end);
-    target.resize(ifs.tellg());
+    target.resize(static_cast<std::size_t>(ifs.tellg()));
     ifs.seekg(0);
     ifs.read(target.data(), target.size());
 }
