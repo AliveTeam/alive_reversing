@@ -37,18 +37,24 @@ protected:
     {
         const auto it = mReverseMapping.find(valueString);
 
-        return it != mReverseMapping.end()
-            ? it->second
-            : throw ReliveAPI::UnknownEnumValueException(valueString);
+        if (it == mReverseMapping.end())
+        {
+            throw ReliveAPI::UnknownEnumValueException(valueString);
+        }
+
+        return it->second;
     }
 
     [[nodiscard]] const std::string& ValueToString(T valueToFind) const
     {
         const auto it = mMapping.find(valueToFind);
 
-        return it != mMapping.end()
-            ? it->second
-            : throw ReliveAPI::UnknownEnumValueException();
+        if (it == mMapping.end())
+        {
+            throw ReliveAPI::UnknownEnumValueException();
+        }
+
+        return it->second;
     }
 
     [[nodiscard]] bool IsBasicType() const override

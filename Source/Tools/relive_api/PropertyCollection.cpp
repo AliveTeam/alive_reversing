@@ -37,18 +37,24 @@ PropertyCollection::~PropertyCollection() = default;
 {
     const auto it = mProperties.find(const_cast<void*>(key));
 
-    return it != mProperties.end()
-        ? it->second->TypeName()
-        : throw ReliveAPI::PropertyNotFoundException();
+    if (it == mProperties.end())
+    {
+        throw ReliveAPI::PropertyNotFoundException();
+    }
+
+    return it->second->TypeName();
 }
 
 [[nodiscard]] const std::string& PropertyCollection::PropName(const void* key) const
 {
     const auto it = mProperties.find(const_cast<void*>(key));
 
-    return it != mProperties.end()
-        ? it->second->Name()
-        : throw ReliveAPI::PropertyNotFoundException();
+    if (it == mProperties.end())
+    {
+        throw ReliveAPI::PropertyNotFoundException();
+    }
+
+    return it->second->Name();
 }
 
 [[nodiscard]] jsonxx::Array PropertyCollection::PropertiesToJson() const

@@ -78,9 +78,12 @@ public:
     {
         const ITypeBase* ptr = FindByTypeName(enumTypeName);
 
-        return ptr != nullptr
-            ? static_cast<const EnumType<T>*>(ptr)->ValueFromString(enumValueString)
-            : throw ReliveAPI::UnknownEnumValueException(enumValueString.c_str());
+        if (ptr == nullptr)
+        {
+            throw ReliveAPI::UnknownEnumValueException(enumValueString.c_str());
+        }
+
+        return static_cast<const EnumType<T>*>(ptr)->ValueFromString(enumValueString);
     }
 
     template<class T>
@@ -88,9 +91,12 @@ public:
     {
         const ITypeBase* ptr = FindByTypeIndex(typeid(T));
 
-        return ptr != nullptr
-            ? static_cast<const EnumType<T>*>(ptr)->ValueToString(enumValue)
-            : throw ReliveAPI::UnknownEnumValueException();
+        if (ptr == nullptr)
+        {
+            throw ReliveAPI::UnknownEnumValueException();
+        }
+
+        return static_cast<const EnumType<T>*>(ptr)->ValueToString(enumValue);
     }
 
     template<class T>
