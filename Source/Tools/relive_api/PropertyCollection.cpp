@@ -35,7 +35,7 @@ PropertyCollection::~PropertyCollection() = default;
 
 [[nodiscard]] const std::string& PropertyCollection::PropType(const void* key) const
 {
-    const auto it = mProperties.find(const_cast<void*>(key));
+    const auto it = mProperties.find(key);
 
     if (it == mProperties.end())
     {
@@ -47,7 +47,7 @@ PropertyCollection::~PropertyCollection() = default;
 
 [[nodiscard]] const std::string& PropertyCollection::PropName(const void* key) const
 {
-    const auto it = mProperties.find(const_cast<void*>(key));
+    const auto it = mProperties.find(key);
 
     if (it == mProperties.end())
     {

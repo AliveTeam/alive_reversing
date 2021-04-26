@@ -72,6 +72,6 @@ public:
     void PropertiesToJson(const TypesCollectionBase& types, jsonxx::Object& properties);
 
 protected:
-    std::map<void*, std::unique_ptr<BaseProperty>> mProperties;
+    std::map<const void*, std::unique_ptr<BaseProperty>> mProperties;
     std::unordered_set<std::string> mRegisteredPropertyNames;
 };
