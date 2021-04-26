@@ -167,61 +167,67 @@ namespace ReliveAPI
     [[nodiscard]] static OpenPathBndResult OpenPathBndGeneric(std::vector<u8>& fileDataBuffer,PathBND& ret, LvlReader& lvl, Game game, s32* pathId)
     {
         const PathRootContainerAdapter adapter(game);
-        for (s32 i = 0; i < adapter.PathRootCount(); i++)
+        for (s32 i = 0; i < adapter.PathRootCount(); ++i)
         {
             const auto pathRoot = adapter.PathAt(i);
-            if (pathRoot.BndName())
+            if (!pathRoot.BndName())
             {
-                // Try to open the BND
-                const bool goodRead = lvl.ReadFileInto(fileDataBuffer, pathRoot.BndName());
-                if (goodRead)
+                continue;
+            }
+
+            // Try to open the BND
+            const bool goodRead = lvl.ReadFileInto(fileDataBuffer, pathRoot.BndName());
+            if (!goodRead)
+            {
+                continue;
+            }
+
+            ret.mPathBndName = pathRoot.BndName();
+            if (pathId)
+            {
+                // Open the specific path if we have one
+                ChunkedLvlFile pathChunks(fileDataBuffer);
+                std::optional<LvlFileChunk> chunk = pathChunks.ChunkById(*pathId);
+                if (!chunk)
                 {
-                    ret.mPathBndName = pathRoot.BndName();
-                    if (pathId)
+                    return OpenPathBndResult::PathResourceChunkNotFound;
+                }
+
+                // Save the actual path resource block data
+                ret.mFileData = std::move(chunk)->Data();
+
+                // Path id in range?
+                if (*pathId >= 0 && *pathId <= pathRoot.PathCount())
+                {
+                    // Path at this id have a name?
+                    const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(*pathId);
+                    if (pBlyRec.BlyName())
                     {
-                        // Open the specific path if we have one
-                        ChunkedLvlFile pathChunks(fileDataBuffer);
-                        std::optional<LvlFileChunk> chunk = pathChunks.ChunkById(*pathId);
-                        if (!chunk)
-                        {
-                            return OpenPathBndResult::PathResourceChunkNotFound;
-                        }
-
-                        // Save the actual path resource block data
-                        ret.mFileData = std::move(chunk)->Data();
-
-                        // Path id in range?
-                        if (*pathId >= 0 && *pathId <= pathRoot.PathCount())
-                        {
-                            // Path at this id have a name?
-                            const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(*pathId);
-                            if (pBlyRec.BlyName())
-                            {
-                                // Copy out its info
-                                ret.mPathBndName = pathRoot.BndName();
-                                ret.mPathInfo = pBlyRec.ConvertPathInfo();
-                                return OpenPathBndResult::OK;
-                            }
-                        }
-
-                        // Path id out of bounds or the entry is blank
-                        return OpenPathBndResult::PathResourceChunkNotFound;
+                        // Copy out its info
+                        ret.mPathBndName = pathRoot.BndName();
+                        ret.mPathInfo = pBlyRec.ConvertPathInfo();
+                        return OpenPathBndResult::OK;
                     }
+                }
 
-                    // Add all path ids
-                    for (s32 j = 1; j < pathRoot.PathCount(); j++)
-                    {
-                        // Only add paths that are not blank entries
-                        const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(j);
-                        if (pBlyRec.BlyName())
-                        {
-                            ret.mPaths.push_back(j);
-                        }
-                    }
-                    return OpenPathBndResult::OK;
+                // Path id out of bounds or the entry is blank
+                return OpenPathBndResult::PathResourceChunkNotFound;
+            }
+
+            // Add all path ids
+            for (s32 j = 1; j < pathRoot.PathCount(); ++j)
+            {
+                // Only add paths that are not blank entries
+                const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(j);
+                if (pBlyRec.BlyName())
+                {
+                    ret.mPaths.push_back(j);
                 }
             }
+
+            return OpenPathBndResult::OK;
         }
+
         return OpenPathBndResult::NoPaths;
     }
 

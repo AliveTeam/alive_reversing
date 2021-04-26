@@ -7,6 +7,7 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 
 #include <cstddef>
+#include <cstring>
 #include <optional>
 #include <string>
 #include <utility>
@@ -210,18 +211,18 @@ public:
 
         for (const auto& rec : mFileRecords)
         {
-            if (strncmp(rec.field_0_file_name, fileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)) == 0)
+            if (std::strncmp(rec.field_0_file_name, fileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)) == 0)
             {
                 const auto fileOffset = rec.field_C_start_sector * 2048;
                 if (::fseek(mFileHandle, fileOffset, SEEK_SET) != 0)
                 {
-                    return {};
+                    return false;
                 }
 
                 target.resize(rec.field_14_file_size);
                 if (::fread(target.data(), 1, target.size(), mFileHandle) != target.size())
                 {
-                    return {};
+                    return false;
                 }
 
                 return true;
@@ -435,7 +436,7 @@ public:
         {
             if (!rec.mEditOfExistingFile)
             {
-                memcpy(fileRecs[i].field_0_file_name, rec.mFileNameInLvl.c_str(), ALIVE_COUNTOF(LvlFileRecord::field_0_file_name));
+                std::memcpy(fileRecs[i].field_0_file_name, rec.mFileNameInLvl.c_str(), ALIVE_COUNTOF(LvlFileRecord::field_0_file_name));
                 fileRecs[i].field_14_file_size = static_cast<s32>(rec.mFileData.size());
                 i++;
             }

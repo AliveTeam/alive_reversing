@@ -120,12 +120,19 @@
 
 #endif
 
-#include <iostream>
-#include <memory>
-#include <map>
-#include <unordered_map>
-#include <gmock/gmock.h>
 #include "logger.hpp"
+
+#include <gmock/gmock.h>
+
+#include <cstddef>
+#include <cstring>
+#include <iostream>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #if USE_SDL2
 #include "SDL.h"

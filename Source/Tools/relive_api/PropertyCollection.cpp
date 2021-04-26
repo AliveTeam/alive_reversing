@@ -61,13 +61,14 @@ PropertyCollection::~PropertyCollection() = default;
         property << "Type" << value->TypeName();
         property << "Visible" << value->IsVisibleToEditor();
         property << "name" << value->Name();
+
         ret << property;
     }
 
     return ret;
 }
 
-void PropertyCollection::PropertiesFromJson(TypesCollectionBase& types, jsonxx::Object& properties)
+void PropertyCollection::PropertiesFromJson(const TypesCollectionBase& types, const jsonxx::Object& properties)
 {
     for (auto& [Key, value] : mProperties)
     {
@@ -75,7 +76,7 @@ void PropertyCollection::PropertiesFromJson(TypesCollectionBase& types, jsonxx::
     }
 }
 
-void PropertyCollection::PropertiesToJson(TypesCollectionBase& types, jsonxx::Object& properties)
+void PropertyCollection::PropertiesToJson(const TypesCollectionBase& types, jsonxx::Object& properties)
 {
     for (auto& [Key, value] : mProperties)
     {

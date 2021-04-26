@@ -43,7 +43,7 @@ TlvObjectBaseAOBase::TlvObjectBaseAOBase(std::size_t sizeOfT, TypesCollectionBas
     ADD("height", mPSelfTlv->field_14_bottom_right.field_2_y);
 }
 
-void TlvObjectBaseAOBase::InstanceFromJsonBase(jsonxx::Object& obj)
+void TlvObjectBaseAOBase::InstanceFromJsonBase(const jsonxx::Object& obj)
 {
     mStructTypeName = obj.get<std::string>("name");
 
@@ -69,7 +69,7 @@ void TlvObjectBaseAOBase::InstanceToJsonBase(jsonxx::Object& ret)
 {
     std::vector<u8> ret(mSizeOfT);
     mPSelfTlv->field_0_flags.Set(AO::TLV_Flags::eBit3_End_TLV_List, setTerminationFlag);
-    memcpy(ret.data(), mPSelfTlv, mSizeOfT);
+    std::memcpy(ret.data(), mPSelfTlv, mSizeOfT);
     return ret;
 }
 

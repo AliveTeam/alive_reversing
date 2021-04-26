@@ -143,7 +143,7 @@ TEST(alive_api, ImportPathJsonToBinaryAE)
 
 TEST(alive_api, EnumeratePathsAO)
 {
-    auto ret = ReliveAPI::EnumeratePaths(AOPath("R1.LVL"));
+    auto ret = ReliveAPI::EnumeratePaths(getStaticFileBuffer(), AOPath("R1.LVL"));
     ASSERT_EQ(ret.pathBndName, "R1PATH.BND");
     const std::vector<s32> paths {15, 16, 18, 19};
     ASSERT_EQ(ret.paths, paths);
@@ -153,7 +153,7 @@ TEST(alive_api, ReSaveAllPathsAO)
 {
     for (const auto& lvl : kAOLvls)
     {
-        auto ret = ReliveAPI::EnumeratePaths(AOPath(lvl));
+        auto ret = ReliveAPI::EnumeratePaths(getStaticFileBuffer(), AOPath(lvl));
 
         for (s32 path : ret.paths)
         {
@@ -184,7 +184,7 @@ TEST(alive_api, ReSaveAllPathsAE)
 {
     for (const auto& lvl : kAELvls)
     {
-        auto ret = ReliveAPI::EnumeratePaths(AEPath(lvl));
+        auto ret = ReliveAPI::EnumeratePaths(getStaticFileBuffer(), AEPath(lvl));
 
         for (s32 path : ret.paths)
         {

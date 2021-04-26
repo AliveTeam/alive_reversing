@@ -26,7 +26,7 @@ public:
     TlvObjectBaseAEBase(const TlvObjectBaseAEBase&) = delete;
     TlvObjectBaseAEBase(TlvObjectBaseAEBase&&) = delete;
 
-    void InstanceFromJsonBase(jsonxx::Object& obj) override;
+    void InstanceFromJsonBase(const jsonxx::Object& obj) override;
     void InstanceToJsonBase(jsonxx::Object& ret) override;
 
     [[nodiscard]] s16 TlvLen() const override;

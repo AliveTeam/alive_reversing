@@ -96,8 +96,8 @@ public:
 protected:
     std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> Load(TypesCollectionBase& types, const std::string& fileName);
 
-    std::vector<AO::PathLine> ReadAOLines(TypesCollectionBase& types, jsonxx::Array& collisionsArray);
-    std::vector<::PathLine> ReadAELines(TypesCollectionBase& types, jsonxx::Array& collisionsArray);
+    std::vector<AO::PathLine> ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray);
+    std::vector<::PathLine> ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray);
 };
 
 class JsonReaderAO : public JsonReaderBase

@@ -28,5 +28,6 @@ void BasicTypeBase::ToJson(jsonxx::Array& obj) const
     ret << "min_value" << mMinVal;
     ret << "max_value" << mMaxVal;
     ret << "name" << Name();
+
     obj << ret;
 }

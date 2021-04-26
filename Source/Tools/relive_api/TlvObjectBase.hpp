@@ -52,10 +52,10 @@ public:
     [[nodiscard]] const std::string& Name() const;
     [[nodiscard]] jsonxx::Object StructureToJson();
 
-    void InstanceFromJson(TypesCollectionBase& types, jsonxx::Object& obj);
-    [[nodiscard]]jsonxx::Object InstanceToJson(TypesCollectionBase& types);
+    void InstanceFromJson(TypesCollectionBase& types, const jsonxx::Object& obj);
+    [[nodiscard]] jsonxx::Object InstanceToJson(TypesCollectionBase& types);
 
-    virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
+    virtual void InstanceFromJsonBase(const jsonxx::Object& obj) = 0;
     virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
 
     [[nodiscard]] s32 InstanceNumber() const;

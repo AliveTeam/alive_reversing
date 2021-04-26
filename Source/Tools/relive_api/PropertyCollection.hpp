@@ -47,8 +47,7 @@ public:
             LOG_ERROR("Missing json property " << propName);
         }
 
-        const std::string jsonValue = properties.get<std::string>(propName);
-        field = types.EnumValueFromString<T>(propType, jsonValue);
+        field = types.EnumValueFromString<T>(propType, properties.get<std::string>(propName));
     }
 
     template<class T>
@@ -69,8 +68,8 @@ public:
         properties << PropName(&field) << static_cast<s32>(field);
     }
 
-    void PropertiesFromJson(TypesCollectionBase& types, jsonxx::Object& properties);
-    void PropertiesToJson(TypesCollectionBase& types, jsonxx::Object& properties);
+    void PropertiesFromJson(const TypesCollectionBase& types, const jsonxx::Object& properties);
+    void PropertiesToJson(const TypesCollectionBase& types, jsonxx::Object& properties);
 
 protected:
     std::map<void*, std::unique_ptr<BaseProperty>> mProperties;
