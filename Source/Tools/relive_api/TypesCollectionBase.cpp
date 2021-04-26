@@ -18,33 +18,47 @@ TypesCollectionBase::TypesCollectionBase()
     #undef ADD_BASIC_TYPE
 }
 
+TypesCollectionBase::~TypesCollectionBase() = default;
 
-TypesCollectionBase::~TypesCollectionBase()
+[[nodiscard]] jsonxx::Array TypesCollectionBase::EnumsToJson() const
 {
+    jsonxx::Array ret;
 
+    for (const auto& basicType : mTypes)
+    {
+        if (!basicType->IsBasicType())
+        {
+            basicType->ToJson(ret);
+        }
+    }
+
+    return ret;
 }
 
-void TypesCollectionAO::AddTlvsToJsonArray(jsonxx::Array& array)
+[[nodiscard]] jsonxx::Array TypesCollectionBase::BasicTypesToJson() const
 {
-    mTlvFactoryAO.AddTlvsToJsonArray(*this, array);
+    jsonxx::Array ret;
+
+    for (const auto& basicType : mTypes)
+    {
+        if (basicType->IsBasicType())
+        {
+            basicType->ToJson(ret);
+        }
+    }
+
+    return ret;
 }
 
-std::unique_ptr<TlvObjectBase> TypesCollectionAO::MakeTlvAO(AO::TlvTypes tlvType, AO::Path_TLV* pTlv, s32 instanceCount)
+[[nodiscard]] const std::string& TypesCollectionBase::TypeName(const std::type_index& typeIndex) const
 {
-    return mTlvFactoryAO.MakeTlvByEnum(*this, tlvType, pTlv, instanceCount);
-}
+    for (const auto& e : mTypes)
+    {
+        if (e->TypeIndex() == typeIndex)
+        {
+            return e->Name();
+        }
+    }
 
-std::unique_ptr<TlvObjectBase> TypesCollectionAO::MakeTlvAO(const std::string& tlvTypeName, AO::Path_TLV* pTlv)
-{
-    return mTlvFactoryAO.MakeTlvByName(*this, tlvTypeName, pTlv);
-}
-
-TypesCollectionAO::TypesCollectionAO()
-{
-    AddAOTypes();
-}
-
-std::unique_ptr<TlvObjectBase> TypesCollectionAO::MakeTlvFromString(const std::string& tlvTypeName)
-{
-    return mTlvFactoryAO.MakeTlvByName(*this, tlvTypeName, nullptr);
+    return mEmptyStr;
 }
