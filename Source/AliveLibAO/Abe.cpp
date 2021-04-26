@@ -2762,7 +2762,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                     {
                         ElumKnockForward_42E780(1);
                     }
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != pBullet->field_20 > FP_FromInteger(0))
+                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != (pBullet->field_20 > FP_FromInteger(0)))
                     {
                         field_FC_current_motion = eAbeStates::State_128_KnockForward_429330;
                     }
@@ -2789,7 +2789,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 }
                 case ShootKind::eRolling_2:
                 {
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) == pBullet->field_20 > FP_FromInteger(0))
+                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) == (pBullet->field_20 > FP_FromInteger(0)))
                     {
                         field_FE_next_state = eAbeStates::State_73_RollingKnockback_4291D0;
                     }
@@ -7795,7 +7795,7 @@ void Abe::State_77_WellBegin_430F10()
     {
         field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);;
 
-        field_F0_pTlv = field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+        field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
             FP_GetExponent(field_A8_xpos),
             FP_GetExponent(field_AC_ypos),
             FP_GetExponent(field_A8_xpos),

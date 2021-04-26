@@ -4390,8 +4390,8 @@ s16 Slig::Brain_Unknown_46B250()
                     ToTurn_46DE70();
                 }
                 else if (sControlledCharacter_50767C->field_BC_sprite_scale <= field_BC_sprite_scale
-                    || sControlledCharacter_50767C != sActiveHero_507678
-                    && sControlledCharacter_50767C != gElum_507680
+                    || (sControlledCharacter_50767C != sActiveHero_507678
+                    && sControlledCharacter_50767C != gElum_507680)
                     || !VIsFacingMe_4655B0(sControlledCharacter_50767C)
                     || IsInInvisibleZone_418870(sControlledCharacter_50767C)
                     || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
@@ -5440,8 +5440,8 @@ s16 Slig::Brain_Walking_46DE90()
         return 108;
     }
     else if (sControlledCharacter_50767C->field_BC_sprite_scale <= field_BC_sprite_scale
-        || sControlledCharacter_50767C != sActiveHero_507678
-        && sControlledCharacter_50767C != gElum_507680
+        || (sControlledCharacter_50767C != sActiveHero_507678
+        && sControlledCharacter_50767C != gElum_507680)
         || !VIsFacingMe(sControlledCharacter_50767C)
         || IsInInvisibleZone_418870(sControlledCharacter_50767C)
         || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(

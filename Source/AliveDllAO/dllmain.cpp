@@ -20,7 +20,7 @@ extern "C"
         // 1. The dll is statically loaded as the EXE has been patched.
         // 2. See that dll main hooks all reimplemented functions.
         // 3. WinMain is reimplemented so the real EXE's WinMain is now a jmp to WinMain_4EE631
-        // 4. Therefore the patched WinMain that jmp's to this function is overwritten before 
+        // 4. Therefore the patched WinMain that jmp's to this function is overwritten before
         // it can ever be executed.
         LOG_ERROR("Entry point was not hooked!");
         AO::WinMain_ForceLink(); // Else the entire AliveLibAO will be discarded by the linker because there are 0 calls to any of it
@@ -28,7 +28,7 @@ extern "C"
     }
 }
 
-INITIALIZE_EASYLOGGINGPP;
+INITIALIZE_EASYLOGGINGPP
 
 static void AODllProcessAttach(HINSTANCE hinstDLL)
 {
@@ -62,7 +62,7 @@ BOOL WINAPI DllMain(
     else if(fdwReason == DLL_PROCESS_DETACH)
     {
         LOG_INFO("DLL_PROCESS_DETACH");
-        
+
         RedirectIoStream(false);
     }
 

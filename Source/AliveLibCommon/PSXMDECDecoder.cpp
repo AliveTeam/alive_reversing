@@ -353,10 +353,10 @@ void PSXMDECDecoder::IDCT(int16_t *arg_block, uint8_t arg_k)
 void PSXMDECDecoder::DecodeDCTVLC(uint16_t *arg_mdec_rl,
     uint16_t *arg_mdec_bs)
 {
-    *(int32_t *)arg_mdec_rl = *(int32_t *)arg_mdec_bs;
+    *reinterpret_cast<int32_t*>(arg_mdec_rl) = *reinterpret_cast<int32_t*>(arg_mdec_bs);
     arg_mdec_rl += 2;
 
-    uint16_t *rl_end = arg_mdec_rl + (uint16_t)arg_mdec_bs[0] * 2;
+    uint16_t *rl_end = arg_mdec_rl + arg_mdec_bs[0] * 2;
     uint16_t q_code = (arg_mdec_bs[2] << 10);
     uint16_t version = arg_mdec_bs[3];
     arg_mdec_bs += 4;
@@ -384,7 +384,7 @@ void PSXMDECDecoder::DecodeDCTVLC(uint16_t *arg_mdec_rl,
                 {
                     code2 = VLC_DC_Y_TABLE_0[code2];
                     code2 = (code2 & 0xffff0000) | ((last_dc[2] +=
-                        ((int16_t)(code2 << 6) >> 6) * 4) & 0x3ff);
+                        (static_cast<int16_t>(code2 << 6) >> 6) * 4) & 0x3ff);
                 }
                 else
                 {
@@ -407,7 +407,7 @@ void PSXMDECDecoder::DecodeDCTVLC(uint16_t *arg_mdec_rl,
                 {
                     code2 = VLC_DC_UV_TABLE_0[code2];
                     code2 = (code2 & 0xffff0000) | ((last_dc[n] +=
-                        ((int16_t)(code2 << 6) >> 6) * 4) & 0x3ff);
+                        (static_cast<int16_t>(code2 << 6) >> 6) * 4) & 0x3ff);
                 }
                 else
                 {
@@ -503,7 +503,7 @@ uint16_t *PSXMDECDecoder::RL2BLK(uint16_t *arg_mdec_rl, int16_t *arg_blk)
     {
         uint16_t rl = *arg_mdec_rl++;
         uint8_t q_scale = (rl >> 10);
-        arg_blk[0] = static_cast<int16_t>(IQTable[0] * ((int16_t)(rl << 6) >> 6));
+        arg_blk[0] = static_cast<int16_t>(IQTable[0] * (static_cast<int16_t>(rl << 6) >> 6));
         uint8_t k = 0;
         for (;;)
         {
@@ -512,7 +512,7 @@ uint16_t *PSXMDECDecoder::RL2BLK(uint16_t *arg_mdec_rl, int16_t *arg_blk)
             if (rl == VLC_EOB)
                 break;
             k += (rl >> 10) + 1;
-            arg_blk[RL_ZSCAN_MATRIX[k]] = static_cast<int16_t>(IQTable[RL_ZSCAN_MATRIX[k]] * q_scale * ((int16_t)(rl << 6) >> 6) / 8);
+            arg_blk[RL_ZSCAN_MATRIX[k]] = static_cast<int16_t>(IQTable[RL_ZSCAN_MATRIX[k]] * q_scale * (static_cast<int16_t>(rl << 6) >> 6) / 8);
         }
         IDCT(arg_blk, k + 1);
         arg_blk += DCT_BLOCK_SIZE;
@@ -620,7 +620,7 @@ uint8_t PSXMDECDecoder::DecodeFrameToABGR32(uint16_t *arg_decoded_image,
         for (; arg_size > 0; arg_size -= blocksize / 2, arg_image += blocksize)
         {
             tmp_rl = RL2BLK(tmp_rl, blk);
-            YUV2BGRA32(blk, (uint8_t(*)[4])arg_image);
+            YUV2BGRA32(blk, reinterpret_cast<uint8_t(*)[4]>(arg_image));
         }
 
 

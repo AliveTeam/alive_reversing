@@ -390,6 +390,7 @@ target_link_libraries(AliveLibAO
     glm
     ${WIN32_LIBS}
     ${SDL2_LIBRARIES}
+    project_warnings
     )
 
 export(TARGETS AliveLibAO FILE AliveLibAO.cmake)

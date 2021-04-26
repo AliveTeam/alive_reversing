@@ -94,6 +94,17 @@ set_target_properties(relive_api      PROPERTIES UNITY_BUILD OFF) # too big
 set_target_properties(relive_api_test PROPERTIES UNITY_BUILD OFF) # too big
 # -----------------------------------------------------------------------------
 
+# -----------------------------------------------------------------------------
+# Setup GCC and Clang warnings
+add_library(project_warnings INTERFACE)
+export(TARGETS project_warnings FILE project_warnings.cmake)
+
+if(NOT MSVC)
+    include(cmake/CompilerWarnings.cmake)
+    set_project_warnings(project_warnings)
+endif()
+# -----------------------------------------------------------------------------
+
 
 # -----------------------------------------------------------------------------
 # Setup cross-platform PCH
