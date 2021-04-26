@@ -21,7 +21,6 @@
 #include <cstddef>
 #include <fstream>
 #include <memory>
-#include <streambuf>
 #include <string>
 #include <utility>
 #include <vector>
@@ -168,6 +167,20 @@ std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollectionBase& types, 
     return lines;
 }
 
+static std::string& getStaticStringBuffer()
+{
+    static std::string result;
+    return result;
+}
+
+static void readFileContentsIntoString(std::string& target, std::ifstream& ifs)
+{
+    ifs.seekg(0, std::ios::end);
+    target.resize(ifs.tellg());
+    ifs.seekg(0);
+    ifs.read(target.data(), target.size());
+}
+
 std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load(TypesCollectionBase& types, const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
@@ -176,7 +189,9 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
         throw ReliveAPI::IOReadException();
     }
 
-    std::string jsonStr((std::istreambuf_iterator<s8>(inputFileStream)), std::istreambuf_iterator<s8>());
+    std::string& jsonStr = getStaticStringBuffer();
+    readFileContentsIntoString(jsonStr, inputFileStream);
+
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))
     {
@@ -600,7 +615,8 @@ void JsonMapRootInfoReader::Read(const std::string& fileName)
         throw ReliveAPI::IOReadException(fileName.c_str());
     }
 
-    std::string jsonStr((std::istreambuf_iterator<s8>(inputFileStream)), std::istreambuf_iterator<s8>());
+    std::string& jsonStr = getStaticStringBuffer();
+    readFileContentsIntoString(jsonStr, inputFileStream);
 
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))

@@ -11,9 +11,9 @@
 #include <magic_enum/include/magic_enum.hpp>
 
 #include <functional>
-#include <map>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 class TlvObjectBase;
@@ -29,6 +29,9 @@ class TypesCollectionBase
 public:
     TypesCollectionBase();
     virtual ~TypesCollectionBase();
+
+    TypesCollectionBase(const TypesCollectionBase&) = delete;
+    TypesCollectionBase(TypesCollectionBase&&) = delete;
 
     virtual void AddTlvsToJsonArray(jsonxx::Array& array) = 0;
     virtual std::unique_ptr<TlvObjectBase> MakeTlvFromString(const std::string& tlvTypeName) = 0;
@@ -67,37 +70,27 @@ public:
             newEnum->Add(enumItem.mEnumValue, enumItem.mName);
         }
 
-        // `static_cast` to avoid unnecessary instantiations.
-        mTypes.emplace_back(static_cast<ITypeBase*>(newEnum));
-        return newEnum;
+        return static_cast<EnumType<T>*>(RegisterType(newEnum));
     }
 
     template<class T>
     [[nodiscard]] T EnumValueFromString(const std::string& enumTypeName, const std::string& enumValueString)
     {
-        for (const auto& e : mTypes)
-        {
-            if (e->Name() == enumTypeName)
-            {
-                return static_cast<EnumType<T>*>(e.get())->ValueFromString(enumValueString);
-            }
-        }
+        const ITypeBase* ptr = FindByTypeName(enumTypeName);
 
-        throw ReliveAPI::UnknownEnumValueException(enumValueString.c_str());
+        return ptr != nullptr
+            ? static_cast<const EnumType<T>*>(ptr)->ValueFromString(enumValueString)
+            : throw ReliveAPI::UnknownEnumValueException(enumValueString.c_str());
     }
 
     template<class T>
-    [[nodiscard]] std::string EnumValueToString(T enumValue)
+    [[nodiscard]] const std::string& EnumValueToString(T enumValue)
     {
-        for (const auto& e : mTypes)
-        {
-            if (e->TypeIndex() == typeid(T))
-            {
-                return static_cast<EnumType<T>*>(e.get())->ValueToString(enumValue);
-            }
-        }
+        const ITypeBase* ptr = FindByTypeIndex(typeid(T));
 
-        throw ReliveAPI::UnknownEnumValueException();
+        return ptr != nullptr
+            ? static_cast<const EnumType<T>*>(ptr)->ValueToString(enumValue)
+            : throw ReliveAPI::UnknownEnumValueException();
     }
 
     template<class T>
@@ -110,14 +103,16 @@ public:
         }
 
         // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
-        auto* newType = new BasicType<T>(typeName, minVal, maxVal);
-
-        // `static_cast` to avoid unnecessary instantiations.
-        mTypes.emplace_back(static_cast<ITypeBase*>(newType));
-        return newType;
+        return static_cast<BasicType<T>*>(RegisterType(new BasicType<T>(typeName, minVal, maxVal)));
     }
 
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
+    std::unordered_map<std::string, ITypeBase*> mTypesByName;
+    std::unordered_map<std::type_index, ITypeBase*> mTypesByTypeIndex;
     const std::string mEmptyStr;
+
+    [[nodiscard]] ITypeBase* RegisterType(ITypeBase* typeBase);
+    [[nodiscard]] const ITypeBase* FindByTypeName(const std::string& typeName) const;
+    [[nodiscard]] const ITypeBase* FindByTypeIndex(const std::type_index& typeIndex) const;
 };

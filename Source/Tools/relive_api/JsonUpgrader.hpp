@@ -5,7 +5,7 @@
 
 #include <memory>
 #include <string>
-#include <map>
+#include <unordered_map>
 
 class IJsonUpgrader
 {
@@ -36,5 +36,5 @@ private:
     void UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetApiVersion);
 
 protected:
-    std::map<s32, TUpgradeFactoryFn> mUpgraders;
+    std::unordered_map<s32, TUpgradeFactoryFn> mUpgraders;
 };

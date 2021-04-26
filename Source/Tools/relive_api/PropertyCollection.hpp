@@ -9,6 +9,8 @@
 
 #include <string>
 #include <map>
+#include <unordered_map>
+#include <unordered_set>
 #include <memory>
 
 class PropertyCollection
@@ -26,6 +28,7 @@ public:
 
         // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
         mProperties[key].reset(new TypedProperty<PropertyType>(name, typeName, visibleInEditor, static_cast<PropertyType*>(key)));
+        mRegisteredPropertyNames.emplace(name);
     }
 
     [[nodiscard]] const std::string& PropType(void* key) const;
@@ -71,4 +74,5 @@ public:
 
 protected:
     std::map<void*, std::unique_ptr<BaseProperty>> mProperties;
+    std::unordered_set<std::string> mRegisteredPropertyNames;
 };

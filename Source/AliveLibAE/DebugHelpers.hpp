@@ -40,8 +40,9 @@ void DebugAddRaycast(RaycastDebug rc);
 // File System
 namespace FS
 {
-    std::vector<u8> ReadFile(const std::string& filePath);
-    std::string GetPrefPath();
+    [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const std::string& filePath);
+    [[nodiscard]] std::vector<u8> ReadFile(const std::string& filePath);
+    [[nodiscard]] std::string GetPrefPath();
 }
 
 namespace DEV

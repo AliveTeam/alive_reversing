@@ -7,7 +7,7 @@
 #include <memory>
 #include <cstddef>
 #include <utility>
-#include <map>
+#include <unordered_map>
 
 enum class Game;
 class TypesCollectionBase;
@@ -150,7 +150,7 @@ private:
     [[nodiscard]] jsonxx::Array ReadTlvStream(u8* ptr) override;
     [[nodiscard]] jsonxx::Array AddCollisionLineStructureJson() override;
 
-    std::map<AO::TlvTypes, s32> mTypeCounterMap;
+    std::unordered_map<AO::TlvTypes, s32> mTypeCounterMap;
     std::unique_ptr<TypesCollectionAO> mTypesCollection;
 };
 
@@ -171,6 +171,6 @@ private:
     [[nodiscard]] jsonxx::Array ReadTlvStream(u8* ptr) override;
     [[nodiscard]] jsonxx::Array AddCollisionLineStructureJson() override;
 
-    std::map<::TlvTypes, s32> mTypeCounterMap;
+    std::unordered_map<::TlvTypes, s32> mTypeCounterMap;
     std::unique_ptr<TypesCollectionAE> mTypesCollection;
 };

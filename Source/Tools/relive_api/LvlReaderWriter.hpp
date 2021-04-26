@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 [[nodiscard]] inline std::string ToString(const LvlFileRecord& rec)
@@ -191,11 +192,11 @@ public:
         Close();
     }
 
-    [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const s8* fileName)
+    [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const s8* fileName)
     {
         if (!IsOpen())
         {
-            return {};
+            return false;
         }
 
         for (const auto& rec : mFileRecords)
@@ -208,16 +209,30 @@ public:
                     return {};
                 }
 
-                std::vector<u8> ret(rec.field_14_file_size);
-                if (::fread(ret.data(), 1, ret.size(), mFileHandle) != ret.size())
+                target.resize(rec.field_14_file_size);
+                if (::fread(target.data(), 1, target.size(), mFileHandle) != target.size())
                 {
                     return {};
                 }
 
-                return { ret };
+                return true;
             }
         }
-        return {};
+
+        return false;
+    }
+
+    [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const s8* fileName)
+    {
+        std::optional<std::vector<u8>> result;
+        result.emplace();
+
+        if(!ReadFileInto(*result, fileName))
+        {
+            return {};
+        }
+
+        return result;
     }
 
     [[nodiscard]] s32 FileCount() const
@@ -300,6 +315,19 @@ public:
 
     [[nodiscard]] bool IsOpen() const { return mReader.IsOpen(); }
 
+    [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const s8* fileName)
+    {
+        // Return added/edited file first
+        auto rec = GetNewOrEditedFileRecord(fileName);
+        if (rec)
+        {
+            target = rec->mFileData;
+            return true;
+        }
+
+        return mReader.ReadFileInto(target, fileName);
+    }
+
     [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const s8* fileName)
     {
         // Return added/edited file first
@@ -339,7 +367,7 @@ public:
         }
     }
 
-    [[nodiscard]] bool Save(const s8* lvlName = nullptr)
+    [[nodiscard]] bool Save(std::vector<u8>& fileDataBuffer, const s8* lvlName = nullptr)
     {
         if (mNewOrEditedFiles.empty())
         {
@@ -433,14 +461,14 @@ public:
             }
             else
             {
-                std::optional<std::vector<u8>> data = mReader.ReadFile(fileName.c_str());
-                if (!data)
+                const bool goodRead = mReader.ReadFileInto(fileDataBuffer, fileName.c_str());
+                if (!goodRead)
                 {
                     ::fclose(outFile);
                     throw ReliveAPI::IOReadException(fileName.c_str());
                 }
 
-                ::fwrite(data->data(), 1, data->size(), outFile);
+                ::fwrite(fileDataBuffer.data(), 1, fileDataBuffer.size(), outFile);
             }
         }
 

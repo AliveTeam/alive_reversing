@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Types.hpp"
 
 #include <map>
+#include <unordered_map>
 #include <memory>
 #include <string>
 
@@ -28,8 +29,8 @@ private:
     }
 
 public:
-    [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvByEnum(TypesCollectionBase& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, s32 instanceCount);
-    [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvByName(TypesCollectionBase& typesCollection, const std::string& tlvTypeName, PathTlvType* pTlv);
+    [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvByEnum(TypesCollectionBase& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, s32 instanceCount) const;
+    [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvByName(TypesCollectionBase& typesCollection, const std::string& tlvTypeName, PathTlvType* pTlv) const;
 
     void AddTlvsToJsonArray(TypesCollectionBase& typesCollection, jsonxx::Array& array);
 
@@ -45,5 +46,5 @@ public:
     }
 
     std::map<TlvEnumType, FnTlvFactory<PathTlvType>> mTlvFactory;
-    std::map<std::string, FnTlvFactory<PathTlvType>> mReverseTlvFactory;
+    std::unordered_map<std::string, FnTlvFactory<PathTlvType>> mReverseTlvFactory;
 };

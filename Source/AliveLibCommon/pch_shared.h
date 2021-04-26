@@ -123,6 +123,7 @@
 #include <iostream>
 #include <memory>
 #include <map>
+#include <unordered_map>
 #include <gmock/gmock.h>
 #include "logger.hpp"
 

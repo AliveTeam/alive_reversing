@@ -164,7 +164,7 @@ namespace ReliveAPI
         NoPaths
     };
 
-    [[nodiscard]] static OpenPathBndResult OpenPathBndGeneric(PathBND& ret, LvlReader& lvl, Game game, s32* pathId)
+    [[nodiscard]] static OpenPathBndResult OpenPathBndGeneric(std::vector<u8>& fileDataBuffer,PathBND& ret, LvlReader& lvl, Game game, s32* pathId)
     {
         const PathRootContainerAdapter adapter(game);
         for (s32 i = 0; i < adapter.PathRootCount(); i++)
@@ -173,14 +173,14 @@ namespace ReliveAPI
             if (pathRoot.BndName())
             {
                 // Try to open the BND
-                std::optional<std::vector<u8>> pRec = lvl.ReadFile(pathRoot.BndName());
-                if (pRec)
+                const bool goodRead = lvl.ReadFileInto(fileDataBuffer, pathRoot.BndName());
+                if (goodRead)
                 {
                     ret.mPathBndName = pathRoot.BndName();
                     if (pathId)
                     {
                         // Open the specific path if we have one
-                        ChunkedLvlFile pathChunks(*pRec);
+                        ChunkedLvlFile pathChunks(fileDataBuffer);
                         std::optional<LvlFileChunk> chunk = pathChunks.ChunkById(*pathId);
                         if (!chunk)
                         {
@@ -225,7 +225,7 @@ namespace ReliveAPI
         return OpenPathBndResult::NoPaths;
     }
 
-    [[nodiscard]] static PathBND OpenPathBnd(const std::string& inputLvlFile, Game& game, s32* pathId)
+    [[nodiscard]] static PathBND OpenPathBnd(std::vector<u8>& fileDataBuffer, const std::string& inputLvlFile, Game& game, s32* pathId)
     {
         PathBND ret = {};
 
@@ -237,17 +237,17 @@ namespace ReliveAPI
         }
 
         // Find AE Path BND
-        if (OpenPathBndGeneric(ret, lvl, Game::AE, pathId) == OpenPathBndResult::OK)
+        if (OpenPathBndGeneric(fileDataBuffer, ret, lvl, Game::AE, pathId) == OpenPathBndResult::OK)
         {
             game = Game::AE;
             return ret;
         }
 
         // Failed, look for AO Path BND
-        if (OpenPathBndGeneric(ret, lvl, Game::AO, pathId) == OpenPathBndResult::OK)
+        if (OpenPathBndGeneric(fileDataBuffer, ret, lvl, Game::AO, pathId) == OpenPathBndResult::OK)
         {
             game = Game::AO;
-           return ret;
+            return ret;
         }
 
         // Both failed
@@ -257,7 +257,10 @@ namespace ReliveAPI
     void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, s32 pathId)
     {
         Game game = {};
-        ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvlFile, game, &pathId);
+
+        std::vector<u8> buffer;
+        ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(buffer, lvlFile, game, &pathId);
+
         if (game == Game::AO)
         {
             JsonWriterAO doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
@@ -279,10 +282,11 @@ namespace ReliveAPI
         return kApiVersion;
     }
 
-    void ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId)
+    void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId)
     {
         Game game = {};
-        ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(inputLvlFile, game, &pathResourceId);
+
+        ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(fileDataBuffer, inputLvlFile, game, &pathResourceId);
 
         if (game == Game::AO)
         {
@@ -294,6 +298,12 @@ namespace ReliveAPI
             JsonWriterAE doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
             doc.Save(pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
         }
+    }
+
+    void ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId)
+    {
+        std::vector<u8> buffer;
+        ExportPathBinaryToJson(buffer, jsonOutputFile, inputLvlFile, pathResourceId);
     }
 
     void UpgradePathJson(const std::string& jsonFile)
@@ -378,7 +388,7 @@ namespace ReliveAPI
     }
 
     template<typename JsonReaderType>
-    static void SaveBinaryPathToLvl(Game gameType, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile)
+    static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile)
     {
         JsonReaderType doc;
         auto [camerasAndMapObjects, collisionLines] = doc.Load(jsonInputFile);
@@ -545,13 +555,13 @@ namespace ReliveAPI
         inputLvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), pathBndFile.Data());
 
         // Write out the updated lvl to disk
-        if (!inputLvl.Save(outputLvlFile.c_str()))
+        if (!inputLvl.Save(fileDataBuffer, outputLvlFile.c_str()))
         {
             throw ReliveAPI::IOWriteException(outputLvlFile.c_str());
         }
     }
 
-    void ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/)
+    void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/)
     {
         JsonMapRootInfoReader rootInfo;
         rootInfo.Read(jsonInputFile);
@@ -563,21 +573,33 @@ namespace ReliveAPI
 
         if (rootInfo.mMapRootInfo.mGame == "AO")
         {
-            SaveBinaryPathToLvl<JsonReaderAO>(Game::AO, jsonInputFile, inputLvl, outputLvlFile);
+            SaveBinaryPathToLvl<JsonReaderAO>(fileDataBuffer, Game::AO, jsonInputFile, inputLvl, outputLvlFile);
         }
         else
         {
-            SaveBinaryPathToLvl<JsonReaderAE>(Game::AE, jsonInputFile, inputLvl, outputLvlFile);
+            SaveBinaryPathToLvl<JsonReaderAE>(fileDataBuffer, Game::AE, jsonInputFile, inputLvl, outputLvlFile);
         }
+    }
+
+    void ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& lvlResourceSources)
+    {
+        std::vector<u8> buffer;
+        ImportPathJsonToBinary(buffer, jsonInputFile, inputLvl, outputLvlFile, lvlResourceSources);
+    }
+
+    [[nodiscard]] EnumeratePathsResult EnumeratePaths(std::vector<u8>& fileDataBuffer, const std::string& inputLvlFile)
+    {
+        EnumeratePathsResult ret = {};
+        Game game = {};
+        PathBND pathBnd = OpenPathBnd(fileDataBuffer, inputLvlFile, game, nullptr);
+        ret.paths = pathBnd.mPaths;
+        ret.pathBndName = pathBnd.mPathBndName;
+        return ret;
     }
 
     [[nodiscard]] EnumeratePathsResult EnumeratePaths(const std::string& inputLvlFile)
     {
-        EnumeratePathsResult ret = {};
-        Game game = {};
-        PathBND pathBnd = OpenPathBnd(inputLvlFile, game, nullptr);
-        ret.paths = pathBnd.mPaths;
-        ret.pathBndName = pathBnd.mPathBndName;
-        return ret;
+        std::vector<u8> buffer;
+        return EnumeratePaths(buffer, inputLvlFile);
     }
 }

@@ -6,6 +6,7 @@
 #include <jsonxx/jsonxx.h>
 
 #include <map>
+#include <unordered_map>
 #include <string>
 #include <typeinfo>
 #include <type_traits>
@@ -24,6 +25,7 @@ protected:
     void Add(T enumValue, const std::string& name)
     {
         mMapping[enumValue] = name;
+        mReverseMapping[name] = enumValue;
     }
 
     [[nodiscard]] const std::type_index& TypeIndex() const override
@@ -33,28 +35,20 @@ protected:
 
     [[nodiscard]] T ValueFromString(const std::string& valueString) const
     {
-        for (const auto& [key, value] : mMapping)
-        {
-            if (value == valueString)
-            {
-                return key;
-            }
-        }
+        const auto it = mReverseMapping.find(valueString);
 
-        throw ReliveAPI::UnknownEnumValueException(valueString);
+        return it != mReverseMapping.end()
+            ? it->second
+            : throw ReliveAPI::UnknownEnumValueException(valueString);
     }
 
     [[nodiscard]] const std::string& ValueToString(T valueToFind) const
     {
-        for (const auto& [key, value] : mMapping)
-        {
-            if (key == valueToFind)
-            {
-                return value;
-            }
-        }
+        const auto it = mMapping.find(valueToFind);
 
-        throw ReliveAPI::UnknownEnumValueException();
+        return it != mMapping.end()
+            ? it->second
+            : throw ReliveAPI::UnknownEnumValueException();
     }
 
     [[nodiscard]] bool IsBasicType() const override
@@ -79,5 +73,6 @@ protected:
 
 private:
     std::map<T, std::string> mMapping;
+    std::unordered_map<std::string, T> mReverseMapping;
     std::type_index mTypeIndex;
 };

@@ -20,17 +20,14 @@ void PropertyCollection::ThrowOnAddPropertyError(const std::string& name, const 
         throw ReliveAPI::EmptyTypeNameException();
     }
 
-    for (const auto&[keyIt, valueIt] : mProperties)
+    if (mProperties.find(key) != mProperties.end())
     {
-        if (static_cast<void*>(keyIt) == key)
-        {
-            throw ReliveAPI::DuplicatePropertyKeyException();
-        }
+        throw ReliveAPI::DuplicatePropertyKeyException();
+    }
 
-        if (name == valueIt->Name())
-        {
-            throw ReliveAPI::DuplicatePropertyNameException(name.c_str());
-        }
+    if (mRegisteredPropertyNames.find(name) != mRegisteredPropertyNames.end())
+    {
+        throw ReliveAPI::DuplicatePropertyNameException(name.c_str());
     }
 }
 
