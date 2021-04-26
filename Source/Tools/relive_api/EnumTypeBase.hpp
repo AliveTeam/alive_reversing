@@ -46,7 +46,7 @@ public:
 
     [[nodiscard]] const std::string& ValueToString(T valueToFind) const
     {
-        for (const auto [key, value] : mMapping)
+        for (const auto& [key, value] : mMapping)
         {
             if (key == valueToFind)
             {
