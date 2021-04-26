@@ -1,72 +1,44 @@
 #pragma once
 
-#include "ITypeBase.hpp"
+#include "EnumTypeBase.hpp"
 #include "relive_api.hpp"
 
+#include <jsonxx/jsonxx.h>
+
+#include <map>
+#include <string>
+#include <typeinfo>
+#include <type_traits>
+
 template<class T>
-class EnumType : public ITypeBase
+class EnumType : public EnumTypeBase<std::underlying_type_t<T>>
 {
 public:
-    explicit EnumType(const std::string& typeName)
-        : ITypeBase(typeName), mTypeIndex(typeid(T))
-    {
+    using Underlying = std::underlying_type_t<T>;
+    using Base = EnumTypeBase<Underlying>;
 
+    explicit EnumType(const std::string& typeName)
+        : Base(typeName, typeid(T))
+    {
     }
 
     void Add(T enumValue, const std::string& name)
     {
-        mMapping[enumValue] = name;
+        Base::Add(static_cast<Underlying>(enumValue), name);
     }
 
-    std::type_index TypeIndex() const override
+    [[nodiscard]] T ValueFromString(const std::string& valueString) const
     {
-        return mTypeIndex;
+        return static_cast<T>(Base::ValueFromString(valueString));
     }
 
-    T ValueFromString(const std::string& valueString) const
+    [[nodiscard]] const std::string& ValueToString(T valueToFind) const
     {
-        for (const auto [key, value] : mMapping)
-        {
-            if (value == valueString)
-            {
-                return key;
-            }
-        }
-        throw ReliveAPI::UnknownEnumValueException(valueString);
+        return Base::ValueToString(static_cast<Underlying>(valueToFind));
     }
 
-    std::string ValueToString(T valueToFind) const
-    {
-        for (const auto [key, value] : mMapping)
-        {
-            if (key == valueToFind)
-            {
-                return value;
-            }
-        }
-        throw ReliveAPI::UnknownEnumValueException();
-    }
-
-    bool IsBasicType() const override
+    [[nodiscard]] bool IsBasicType() const override
     {
         return false;
     }
-
-    void ToJson(jsonxx::Array& obj) const override
-    {
-        jsonxx::Array enumVals;
-        for (const auto& [key, value] : mMapping)
-        {
-            enumVals << value;
-        }
-
-        jsonxx::Object enumObj;
-        enumObj << "name" << Name();
-        enumObj << "values" << enumVals;
-        obj << enumObj;
-    }
-
-private:
-    std::map<T, std::string> mMapping;
-    std::type_index mTypeIndex;
 };

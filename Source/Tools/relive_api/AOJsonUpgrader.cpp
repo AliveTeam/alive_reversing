@@ -1,5 +1,6 @@
-#include "stdafx.h"
 #include "AOJsonUpgrader.hpp"
+
+#include "JsonUpgrader.hpp"
 
 void AOJsonUpgrader::AddUpgraders()
 {

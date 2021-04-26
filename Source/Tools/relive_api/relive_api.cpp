@@ -2,6 +2,8 @@
 #include "relive_api.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAE/PathData.hpp"
+#include "../AliveLibAO/Collisions.hpp"
+#include "../AliveLibAE/Collisions.hpp"
 #include "LvlReaderWriter.hpp"
 #include "AOJsonUpgrader.hpp"
 #include "AEJsonUpgrader.hpp"
