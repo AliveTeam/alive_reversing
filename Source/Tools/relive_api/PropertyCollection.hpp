@@ -31,16 +31,16 @@ public:
         mRegisteredPropertyNames.emplace(name);
     }
 
-    [[nodiscard]] const std::string& PropType(void* key) const;
-    [[nodiscard]] const std::string& PropName(void* key) const;
+    [[nodiscard]] const std::string& PropType(const void* key) const;
+    [[nodiscard]] const std::string& PropName(const void* key) const;
 
     [[nodiscard]] jsonxx::Array PropertiesToJson() const;
 
     template<class T>
-    void ReadEnumValue(TypesCollectionBase& types, T& field, jsonxx::Object& properties)
+    void ReadEnumValue(const TypesCollectionBase& types, T& field, const jsonxx::Object& properties) const
     {
-        const std::string propName = PropName(&field);
-        const std::string propType = PropType(&field);
+        const std::string& propName = PropName(&field);
+        const std::string& propType = PropType(&field);
 
         if (!properties.has<std::string>(propName))
         {
@@ -52,19 +52,19 @@ public:
     }
 
     template<class T>
-    void WriteEnumValue(TypesCollectionBase& types, jsonxx::Object& properties, T& field)
+    void WriteEnumValue(const TypesCollectionBase& types, jsonxx::Object& properties, const T& field) const
     {
         properties << PropName(&field) << types.EnumValueToString<T>(field);
     }
 
     template<class T>
-    void ReadBasicType(T& field, jsonxx::Object& properties)
+    void ReadBasicType(T& field, const jsonxx::Object& properties) const
     {
         field = static_cast<T>(properties.get<jsonxx::Number>(PropName(&field)));
     }
 
     template<class T>
-    void WriteBasicType(T& field, jsonxx::Object& properties)
+    void WriteBasicType(const T& field, jsonxx::Object& properties) const
     {
         properties << PropName(&field) << static_cast<s32>(field);
     }

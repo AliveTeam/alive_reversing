@@ -74,7 +74,7 @@ public:
     }
 
     template<class T>
-    [[nodiscard]] T EnumValueFromString(const std::string& enumTypeName, const std::string& enumValueString)
+    [[nodiscard]] T EnumValueFromString(const std::string& enumTypeName, const std::string& enumValueString) const
     {
         const ITypeBase* ptr = FindByTypeName(enumTypeName);
 
@@ -84,7 +84,7 @@ public:
     }
 
     template<class T>
-    [[nodiscard]] const std::string& EnumValueToString(T enumValue)
+    [[nodiscard]] const std::string& EnumValueToString(T enumValue) const
     {
         const ITypeBase* ptr = FindByTypeIndex(typeid(T));
 

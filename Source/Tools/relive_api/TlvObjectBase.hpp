@@ -10,7 +10,7 @@
 
 // Defined here as it depends on a full definition of PropertyCollection
 template <class T>
-void TypedProperty<T>::Read(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties)
+void TypedProperty<T>::Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const jsonxx::Object& properties)
 {
     if constexpr (std::is_enum_v<T>)
     {
@@ -24,7 +24,7 @@ void TypedProperty<T>::Read(PropertyCollection& propertyCollection, TypesCollect
 }
 
 template <class T>
-void TypedProperty<T>::Write(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties)
+void TypedProperty<T>::Write(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, jsonxx::Object& properties)
 {
     if constexpr (std::is_enum_v<T>)
     {

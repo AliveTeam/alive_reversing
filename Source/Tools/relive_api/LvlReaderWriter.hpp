@@ -15,7 +15,7 @@
 [[nodiscard]] inline std::string ToString(const LvlFileRecord& rec)
 {
     size_t i = 0;
-    for (i = 0; i < ALIVE_COUNTOF(LvlFileRecord::field_0_file_name); i++)
+    for (i = 0; i < ALIVE_COUNTOF(LvlFileRecord::field_0_file_name); ++i)
     {
         if (!rec.field_0_file_name[i])
         {
@@ -28,10 +28,10 @@
 class LvlFileChunk
 {
 public:
-    LvlFileChunk(u32 id, ResourceManager::ResourceType resType, const std::vector<u8>& data)
-        : mData(data)
+    LvlFileChunk(u32 id, ResourceManager::ResourceType resType, std::vector<u8>&& data)
+        : mData(std::move(data))
     {
-        mHeader.field_0_size = static_cast<u32>(data.size());
+        mHeader.field_0_size = static_cast<u32>(mData.size());
         mHeader.field_C_id = id;
         mHeader.field_8_type = resType;
     }
@@ -51,9 +51,14 @@ public:
         return mHeader;
     }
 
-    [[nodiscard]] const std::vector<u8>& Data() const
+    [[nodiscard]] const std::vector<u8>& Data() const&
     {
         return mData;
+    }
+
+    [[nodiscard]] std::vector<u8>&& Data() &&
+    {
+        return std::move(mData);
     }
 
 private:
@@ -69,6 +74,7 @@ public:
         Read(data);
     }
 
+    // TODO: return ptr?
     [[nodiscard]] std::optional<LvlFileChunk> ChunkById(u32 id) const
     {
         for (auto& chunk : mChunks)
@@ -81,17 +87,18 @@ public:
         return {};
     }
 
-    void AddChunk(LvlFileChunk& chunkToAdd)
+    void AddChunk(LvlFileChunk&& chunkToAdd)
     {
         for (auto& chunk : mChunks)
         {
             if (chunk.Id() == chunkToAdd.Id())
             {
-                chunk = chunkToAdd;
+                chunk = std::move(chunkToAdd);
                 return;
             }
         }
-        mChunks.push_back(chunkToAdd);
+
+        mChunks.push_back(std::move(chunkToAdd));
     }
 
     [[nodiscard]] std::vector<u8> Data() const
@@ -105,7 +112,8 @@ public:
 
         ByteStream s;
         s.ReserveSize(neededSize);
-        for (auto& chunk : mChunks)
+
+        for (const auto& chunk : mChunks)
         {
             auto adjustedHeader = chunk.Header();
             if (adjustedHeader.field_0_size > 0)
@@ -124,13 +132,15 @@ public:
                 s.Write(chunk.Data());
             }
         }
-        return s.GetBuffer();
+
+        return std::move(s).GetBuffer();
     }
 
 private:
     void Read(const std::vector<u8>& data)
     {
         ByteStream s(data);
+
         do
         {
             ResourceManager::Header resHeader = {};
@@ -147,8 +157,7 @@ private:
                 s.Read(tmpData);
             }
 
-            LvlFileChunk chunk(resHeader.field_C_id, static_cast<ResourceManager::ResourceType>(resHeader.field_8_type), tmpData);
-            mChunks.push_back(chunk);
+            mChunks.emplace_back(resHeader.field_C_id, static_cast<ResourceManager::ResourceType>(resHeader.field_8_type), std::move(tmpData));
 
             if (resHeader.field_8_type == ResourceManager::ResourceType::Resource_End)
             {
@@ -305,7 +314,6 @@ public:
     explicit LvlWriter(const s8* lvlFile)
         : mReader(lvlFile)
     {
-
     }
 
     void Close()

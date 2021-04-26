@@ -188,7 +188,7 @@ namespace ReliveAPI
                         }
 
                         // Save the actual path resource block data
-                        ret.mFileData = chunk->Data();
+                        ret.mFileData = std::move(chunk)->Data();
 
                         // Path id in range?
                         if (*pathId >= 0 && *pathId <= pathRoot.PathCount())
@@ -546,13 +546,13 @@ namespace ReliveAPI
             });
 
         // Push the path resource into a file chunk
-        LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManager::ResourceType::Resource_Path, s.GetBuffer());
+        LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManager::ResourceType::Resource_Path, std::move(s).GetBuffer());
 
         // Add or replace the original file chunk
-        pathBndFile.AddChunk(newPathBlock);
+        pathBndFile.AddChunk(std::move(newPathBlock));
 
         // Add or replace the original path BND in the lvl
-        inputLvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), pathBndFile.Data());
+        inputLvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), std::move(pathBndFile).Data());
 
         // Write out the updated lvl to disk
         if (!inputLvl.Save(fileDataBuffer, outputLvlFile.c_str()))
