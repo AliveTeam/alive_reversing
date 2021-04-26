@@ -1,56 +1,47 @@
 #pragma once
 
+#include "../AliveLibCommon/Types.hpp"
+
+#include <map>
+#include <memory>
+#include <string>
+
+namespace jsonxx { class Array; }
+
+class TlvObjectBase;
+class TypesCollectionBase;
+
 template<class TlvType>
-using FnTlvFactory = std::function<std::unique_ptr<TlvObjectBase>(class TypesCollectionBase&, TlvType*, s32)>;
+using FnTlvFactory = std::unique_ptr<TlvObjectBase>(*)(TypesCollectionBase&, TlvType*, s32);
 
 template<typename TlvEnumType, typename PathTlvType>
 class TlvFactory
 {
+private:
+    template<typename TlvWrapperType>
+    [[nodiscard]] static std::unique_ptr<TlvObjectBase> fnCreate(TypesCollectionBase& types, PathTlvType* pTlv, s32 instanceCount)
+    {
+        // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
+        auto* ret = new TlvWrapperType(types, pTlv);
+        ret->SetInstanceNumber(instanceCount);
+        return std::unique_ptr<TlvObjectBase>{static_cast<TlvObjectBase*>(ret)};
+    }
+
 public:
-    std::unique_ptr<TlvObjectBase> MakeTlvByEnum(TypesCollectionBase& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, s32 instanceCount)
-    {
-        auto it = mTlvFactory.find(tlvType);
-        if (it == std::end(mTlvFactory))
-        {
-            LOG_WARNING("Type " << magic_enum::enum_name(tlvType) << " unknown");
-            return nullptr;
-        }
-        return it->second(typesCollection, pTlv, instanceCount);
-    }
+    [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvByEnum(TypesCollectionBase& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, s32 instanceCount);
+    [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvByName(TypesCollectionBase& typesCollection, const std::string& tlvTypeName, PathTlvType* pTlv);
 
-    std::unique_ptr<TlvObjectBase> MakeTlvByName(TypesCollectionBase& typesCollection, const std::string& tlvTypeName, PathTlvType* pTlv)
-    {
-        auto it = mReverseTlvFactory.find(tlvTypeName);
-        if (it == std::end(mReverseTlvFactory))
-        {
-            LOG_WARNING("Type " << tlvTypeName << " unknown");
-            return nullptr;
-        }
-        return it->second(typesCollection, pTlv, 0);
-    }
-
-    void AddTlvsToJsonArray(TypesCollectionBase& typesCollection, jsonxx::Array& array)
-    {
-        for (auto&[key, value] : mTlvFactory)
-        {
-            array << value(typesCollection, nullptr, 0)->StructureToJson();
-        }
-    }
+    void AddTlvsToJsonArray(TypesCollectionBase& typesCollection, jsonxx::Array& array);
 
     template<typename TlvWrapperType>
     void DoRegisterType(TypesCollectionBase& constructingTypes)
     {
         TlvWrapperType tmp;
         tmp.AddTypes(constructingTypes);
+
         const TlvEnumType tlvType = tmp.TlvType();
-        auto fnCreate = [](TypesCollectionBase& types, PathTlvType* pTlv, s32 instanceCount)
-        {
-            auto ret = std::make_unique<TlvWrapperType>(types, pTlv);
-            ret->SetInstanceNumber(instanceCount);
-            return ret;
-        };
-        mReverseTlvFactory[tmp.Name()] = fnCreate;
-        mTlvFactory[tlvType] = fnCreate;
+
+        mReverseTlvFactory[tmp.Name()] = mTlvFactory[tlvType] = &fnCreate<TlvWrapperType>;
     }
 
     std::map<TlvEnumType, FnTlvFactory<PathTlvType>> mTlvFactory;

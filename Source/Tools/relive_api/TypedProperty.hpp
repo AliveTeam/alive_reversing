@@ -38,6 +38,8 @@ public:
     TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data)
         : BaseProperty(name, typeName, isVisibleToEditor), m_data(data) { }
 
+    ~TypedProperty() { }
+
     void Read(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) override;
 
     void Write(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) override;

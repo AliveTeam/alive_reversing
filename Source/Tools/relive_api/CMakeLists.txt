@@ -21,6 +21,7 @@ set(relive_api_src
     relive_api.cpp
     relive_api.hpp
     TlvFactory.hpp
+    TlvFactory.cpp
     TypesCollectionBase.hpp
     TypesCollectionBase.cpp
     TypesCollectionAO.hpp

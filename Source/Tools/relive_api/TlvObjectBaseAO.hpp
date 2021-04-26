@@ -13,6 +13,8 @@ public:
 
     }
 
+    ~TlvObjectBaseAO() { }
+
     TlvObjectBaseAO(TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
         : TlvObjectBase(typeName), mType(tlvType), mBase(&mTlv)
     {
