@@ -59,6 +59,8 @@ public:
 
     }
 
+    ~TlvObjectBase() { }
+
     virtual void AddTypes(TypesCollectionBase& /*types*/)
     {
         // Default empty to prevent having to explicitly implement in every TLV wrapper

@@ -3,7 +3,7 @@
 class PropertyCollection
 {
 public:
-    virtual ~PropertyCollection() { }
+    virtual ~PropertyCollection();
 
     template<typename PropertyType>
     void AddProperty(const std::string& name, const std::string& typeName, PropertyType* key, bool visibleInEditor)

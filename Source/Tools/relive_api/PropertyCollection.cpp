@@ -2,6 +2,8 @@
 #include "TlvObjectBase.hpp"
 #include "TypedProperty.hpp"
 
+PropertyCollection::~PropertyCollection() = default;
+
 void PropertyCollection::PropertiesFromJson(TypesCollectionBase& types, jsonxx::Object& properties)
 {
     for (auto& [Key, value] : mProperties)

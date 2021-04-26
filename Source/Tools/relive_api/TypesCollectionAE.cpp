@@ -11,6 +11,8 @@ TypesCollectionAE::TypesCollectionAE()
     AddAETypes();
 }
 
+TypesCollectionAE::~TypesCollectionAE() = default;
+
 void TypesCollectionAE::AddTlvsToJsonArray(jsonxx::Array& array)
 {
     mTlvFactoryAE.AddTlvsToJsonArray(*this, array);

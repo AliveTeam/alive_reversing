@@ -13,6 +13,8 @@ public:
 
     }
 
+    ~TlvObjectBaseAE() { }
+
     TlvObjectBaseAE(TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pTlv)
         : TlvObjectBase(typeName), mType(tlvType)
     {
