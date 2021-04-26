@@ -20,8 +20,8 @@ TlvObjectBaseAEBase::TlvObjectBaseAEBase(std::size_t sizeOfT, TlvTypes tlvType, 
 TlvObjectBaseAEBase::TlvObjectBaseAEBase(std::size_t sizeOfT, TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv, Path_TLV* pTlv, CopyFn copyFn)
     : TlvObjectBase(typeName), mSizeOfT(sizeOfT), mType(tlvType), mPSelfTlv{pSelfTlv}
 {
-    mPSelfTlv->field_4_type.mType = mType;
     mPSelfTlv->field_2_length = static_cast<s16>(mSizeOfT);
+    mPSelfTlv->field_4_type.mType = mType;
 
     copyFn(pSelfTlv /* dst */, pTlv /* src */);
 
@@ -65,7 +65,7 @@ void TlvObjectBaseAEBase::InstanceToJsonBase(jsonxx::Object& ret)
 {
     std::vector<u8> ret(mSizeOfT);
     mPSelfTlv->field_0_flags.Set(TLV_Flags::eBit3_End_TLV_List, setTerminationFlag);
-    memcpy(ret.data(), &mPSelfTlv, mSizeOfT);
+    memcpy(ret.data(), mPSelfTlv, mSizeOfT);
     return ret;
 }
 

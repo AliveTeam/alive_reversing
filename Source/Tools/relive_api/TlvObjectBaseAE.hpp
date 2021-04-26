@@ -5,38 +5,33 @@
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAE/PathData.hpp"
 
+#include <cassert>
 #include <string>
 
 template<class T>
-class TlvObjectBaseAE : public TlvObjectBaseAEBase
+class TlvObjectBaseAE : public T, public TlvObjectBaseAEBase
 {
 private:
-    [[nodiscard]] Path_TLV* initTlv()
-    {
-        mTlv = {};
-        return &mTlv;
-    }
-
     static void copyFn(Path_TLV* dst, Path_TLV* src)
     {
         if(src != nullptr)
         {
-            *(reinterpret_cast<T*>(dst)) = *(reinterpret_cast<T*>(src));
+            *(static_cast<T*>(dst)) = *(static_cast<T*>(src));
         }
     }
 
 public:
     // Used only to get "typeName"
     TlvObjectBaseAE(TlvTypes tlvType, const std::string& typeName)
-        : TlvObjectBaseAEBase(sizeof(T), tlvType, typeName, initTlv())
+        : T{}, TlvObjectBaseAEBase(sizeof(T), tlvType, typeName, &tlv())
     {
     }
 
     TlvObjectBaseAE(TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pTlv)
-        : TlvObjectBaseAEBase(sizeof(T), globalTypes, tlvType, typeName, initTlv(), pTlv, &copyFn)
+        : T{}, TlvObjectBaseAEBase(sizeof(T), globalTypes, tlvType, typeName, &tlv(), pTlv, &copyFn)
     {
     }
 
-protected:
-    T mTlv;
+    [[nodiscard]]       T& tlv()       { return static_cast<T&>(*this); }
+    [[nodiscard]] const T& tlv() const { return static_cast<T&>(*this); }
 };

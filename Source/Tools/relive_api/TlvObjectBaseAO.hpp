@@ -5,38 +5,33 @@
 #include "../AliveLibAO/Map.hpp"
 #include "../AliveLibAO/PathData.hpp"
 
+#include <cassert>
 #include <string>
 
 template<class T>
-class TlvObjectBaseAO : public TlvObjectBaseAOBase
+class TlvObjectBaseAO : public T, public TlvObjectBaseAOBase
 {
 private:
-    [[nodiscard]] AO::Path_TLV* initTlv()
-    {
-        mTlv = {};
-        return &mTlv;
-    }
-
     static void copyFn(AO::Path_TLV* dst, AO::Path_TLV* src)
     {
         if(src != nullptr)
         {
-            *(reinterpret_cast<T*>(dst)) = *(reinterpret_cast<T*>(src));
+            *(static_cast<T*>(dst)) = *(static_cast<T*>(src));
         }
     }
 
 public:
     // Used only to get "typeName"
     TlvObjectBaseAO(AO::TlvTypes tlvType, const std::string& typeName)
-        : TlvObjectBaseAOBase(sizeof(T), tlvType, typeName, initTlv())
+        : T{}, TlvObjectBaseAOBase(sizeof(T), tlvType, typeName, &tlv())
     {
     }
 
     TlvObjectBaseAO(TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
-        : TlvObjectBaseAOBase(sizeof(T), globalTypes, tlvType, typeName, initTlv(), pTlv, &copyFn)
+        : T{}, TlvObjectBaseAOBase(sizeof(T), globalTypes, tlvType, typeName, &tlv(), pTlv, &copyFn)
     {
     }
 
-protected:
-    T mTlv;
+    [[nodiscard]]       T& tlv()       { return static_cast<T&>(*this); }
+    [[nodiscard]] const T& tlv() const { return static_cast<T&>(*this); }
 };
