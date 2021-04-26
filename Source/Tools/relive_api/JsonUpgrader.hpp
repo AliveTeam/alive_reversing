@@ -1,6 +1,11 @@
 #pragma once
 
-#include "AddPointer.hpp"
+#include "../AliveLibCommon/AddPointer.hpp"
+#include "../AliveLibCommon/Types.hpp"
+
+#include <memory>
+#include <string>
+#include <map>
 
 class IJsonUpgrader
 {
@@ -17,7 +22,7 @@ public:
 
 using TUpgradeFactoryFn = AddPointer_t<std::unique_ptr<IJsonUpgrader>()>;
 
-#define ADD_UPGRADE_STEP(version, upgradeObjType)  mUpgraders[version] = []() -> std::unique_ptr<IJsonUpgrader> { return std::make_unique<upgradeObjType>(); }
+#define ADD_UPGRADE_STEP(version, upgradeObjType) mUpgraders[version] = []() -> std::unique_ptr<IJsonUpgrader> { return std::make_unique<upgradeObjType>(); }
 
 class BaseJsonUpgrader
 {

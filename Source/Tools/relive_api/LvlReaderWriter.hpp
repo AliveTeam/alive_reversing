@@ -1,11 +1,17 @@
 #pragma once
 
-#include <vector>
-#include <optional>
 #include "ByteStream.hpp"
+
 #include "../AliveLibAE/LvlArchive.hpp"
 
-inline std::string ToString(const LvlFileRecord& rec)
+#include "../AliveLibCommon/FunctionFwd.hpp"
+
+#include <cstddef>
+#include <optional>
+#include <string>
+#include <vector>
+
+[[nodiscard]] inline std::string ToString(const LvlFileRecord& rec)
 {
     size_t i = 0;
     for (i = 0; i < ALIVE_COUNTOF(LvlFileRecord::field_0_file_name); i++)
@@ -29,22 +35,22 @@ public:
         mHeader.field_8_type = resType;
     }
 
-    u32 Id() const
+    [[nodiscard]] u32 Id() const
     {
         return mHeader.field_C_id;
     }
 
-    u32 Size() const
+    [[nodiscard]] u32 Size() const
     {
         return mHeader.field_0_size;
     }
 
-    const ResourceManager::Header& Header() const
+    [[nodiscard]] const ResourceManager::Header& Header() const
     {
         return mHeader;
     }
 
-    const std::vector<u8>& Data() const
+    [[nodiscard]] const std::vector<u8>& Data() const
     {
         return mData;
     }
@@ -62,7 +68,7 @@ public:
         Read(data);
     }
 
-    std::optional<LvlFileChunk> ChunkById(u32 id) const
+    [[nodiscard]] std::optional<LvlFileChunk> ChunkById(u32 id) const
     {
         for (auto& chunk : mChunks)
         {
@@ -87,7 +93,7 @@ public:
         mChunks.push_back(chunkToAdd);
     }
 
-    std::vector<u8> Data() const
+    [[nodiscard]] std::vector<u8> Data() const
     {
         std::size_t neededSize = 0;
         for (auto& chunk : mChunks)
@@ -105,7 +111,7 @@ public:
             {
                 adjustedHeader.field_0_size += sizeof(ResourceManager::Header);
             }
-            
+
             s.Write(adjustedHeader.field_0_size);
             s.Write(adjustedHeader.field_4_ref_count);
             s.Write(adjustedHeader.field_6_flags);
@@ -169,7 +175,7 @@ public:
         }
     }
 
-    bool IsOpen() const { return mFileHandle != nullptr; }
+    [[nodiscard]] bool IsOpen() const { return mFileHandle != nullptr; }
 
     void Close()
     {
@@ -185,7 +191,7 @@ public:
         Close();
     }
 
-    std::optional<std::vector<u8>> ReadFile(const s8* fileName)
+    [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const s8* fileName)
     {
         if (!IsOpen())
         {
@@ -214,23 +220,23 @@ public:
         return {};
     }
 
-    s32 FileCount() const
+    [[nodiscard]] s32 FileCount() const
     {
         return mHeader.field_10_sub.field_0_num_files;
     }
 
-    std::string FileNameAt(s32 idx) const
+    [[nodiscard]] std::string FileNameAt(s32 idx) const
     {
         return ToString(mFileRecords[idx]);
     }
 
-    s32 FileSizeAt(s32 idx) const
+    [[nodiscard]] s32 FileSizeAt(s32 idx) const
     {
         return mFileRecords[idx].field_14_file_size;
     }
 
 protected:
-    bool ReadTOC()
+    [[nodiscard]] bool ReadTOC()
     {
         if (::fread(&mHeader, sizeof(LvlHeader) - sizeof(LvlFileRecord), 1, mFileHandle) != 1)
         {
@@ -256,7 +262,7 @@ protected:
 };
 
 template<class T>
-inline T RoundUp(T numToRound, T multiple)
+[[nodiscard]] inline T RoundUp(T numToRound, T multiple)
 {
     if (multiple == 0)
     {
@@ -273,7 +279,7 @@ inline T RoundUp(T numToRound, T multiple)
 }
 
 template<class T>
-inline T RoundUp(T offset)
+[[nodiscard]] inline T RoundUp(T offset)
 {
     return RoundUp(offset, static_cast<T>(2048));
 }
@@ -292,9 +298,9 @@ public:
         mReader.Close();
     }
 
-    bool IsOpen() const { return mReader.IsOpen(); }
+    [[nodiscard]] bool IsOpen() const { return mReader.IsOpen(); }
 
-    std::optional<std::vector<u8>> ReadFile(const s8* fileName)
+    [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const s8* fileName)
     {
         // Return added/edited file first
         auto rec = GetNewOrEditedFileRecord(fileName);
@@ -333,7 +339,7 @@ public:
         }
     }
 
-    bool Save(const s8* lvlName = nullptr)
+    [[nodiscard]] bool Save(const s8* lvlName = nullptr)
     {
         if (mNewOrEditedFiles.empty())
         {
@@ -465,7 +471,7 @@ private:
         bool mEditOfExistingFile;
     };
 
-    NewOrEditedFileRecord* GetNewOrEditedFileRecord(const s8* fileName)
+    [[nodiscard]] NewOrEditedFileRecord* GetNewOrEditedFileRecord(const s8* fileName)
     {
         for (auto& rec : mNewOrEditedFiles)
         {

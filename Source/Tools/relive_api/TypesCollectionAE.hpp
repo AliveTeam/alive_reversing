@@ -7,7 +7,6 @@ class TypesCollectionAE final : public TypesCollectionBase
 {
 public:
     TypesCollectionAE();
-    ~TypesCollectionAE();
 
     void AddTlvsToJsonArray(jsonxx::Array& array) override;
     std::unique_ptr<TlvObjectBase> MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, s32 instanceCount);
