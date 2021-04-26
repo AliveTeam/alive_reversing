@@ -84,7 +84,7 @@ void CheckVars()
                 {
                     // Var overlaps
                     std::stringstream s;
-                    s << "Var at addr 0x" << std::hex << varToCheck.mAddr << " (" << varToCheck.mName << ") overlaps other data (" << var.mName << ") offset 0x" <<  std::hex << (std::abs((LONG)(varToCheck.mAddr - var.mAddr)));
+                    s << "Var at addr 0x" << std::hex << varToCheck.mAddr << " (" << varToCheck.mName << ") overlaps other data (" << var.mName << ") offset 0x" <<  std::hex << (std::abs(static_cast<LONG>(varToCheck.mAddr - var.mAddr)));
                     HOOK_FATAL(s.str().c_str());
                 }
             }
@@ -104,12 +104,12 @@ AliveVar::AliveVar(const s8* name, u32 addr, u32 sizeInBytes, bool isPointerType
 
 ScopedDetour::~ScopedDetour()
 {
-    DoDetour(false, &(PVOID&)mReal, (PVOID)mDst);
+    DoDetour(false, &reinterpret_cast<PVOID&>(mReal), reinterpret_cast<PVOID>(mDst));
 }
 
 void ScopedDetour::Construct()
 {
-    DoDetour(true, &(PVOID&)mReal, (PVOID)mDst);
+    DoDetour(true, &reinterpret_cast<PVOID&>(mReal), reinterpret_cast<PVOID>(mDst));
 }
 
 void ScopedDetour::DoDetour(bool attach, PVOID* ppPointer, PVOID detour)

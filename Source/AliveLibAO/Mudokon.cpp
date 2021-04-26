@@ -290,7 +290,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
         field_1B2_switch_id = mudTlv->field_20_rescue_id;
 
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, mudTlv->field_1C_direction == 0); // TODO: Check
-  
+
         // TODO: Check these as well
         field_144_flags.Set(Flags_144::e144_Bit11_bDeaf, mudTlv->field_22_deaf & 1);
         field_144_flags.Set(Flags_144::e144_Bit6_bPersist, mudTlv->field_26_persist & 1);
@@ -687,7 +687,7 @@ s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
         if (field_100_health > FP_FromInteger(0))
         {
             field_100_health = FP_FromInteger(0);
-            
+
             auto pGibs = ao_new<Gibs>();
             if (pGibs)
             {
@@ -1105,7 +1105,7 @@ void Mudokon::MoveOnLine_43C7E0()
                 field_F8_pLiftPoint = nullptr;
             }
         }
-        else 
+        else
         {
             if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
             {
@@ -2318,8 +2318,8 @@ void Mudokon::State_44_JumpMid_43E960()
     PSX_RECT bRect = {};
     VGetBoundingRect(&bRect, 1);
 
-    if (field_B4_velx > FP_FromInteger(0) && (FP_FromInteger(bRect.x) > field_1AC_pBirdPortal->field_18_xpos) ||
-        (field_B4_velx < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1AC_pBirdPortal->field_18_xpos))
+    if ((field_B4_velx > FP_FromInteger(0) && (FP_FromInteger(bRect.x) > field_1AC_pBirdPortal->field_18_xpos)) ||
+        ((field_B4_velx < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1AC_pBirdPortal->field_18_xpos)))
     {
         field_144_flags.Clear(Flags_144::e144_Bit2);
         field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
@@ -2456,7 +2456,7 @@ void Mudokon::State_49_FallOfEdge_43E800()
 void Mudokon::State_50_LandSoft_43E820()
 {
     CheckFloorGone_43C9B0();
-    
+
     if (field_10_anim.field_92_current_frame == 2)
     {
         if (field_E4_previous_motion == eMudStates::State_51_Fall_43D0D0)
@@ -2699,7 +2699,7 @@ void Mudokon::State_61_DuckKnockback_43E6E0()
     }
 
     CheckFloorGone_43C9B0();
-    
+
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_FC_current_motion = eMudStates::State_55_Duck_43EB90;
@@ -3493,7 +3493,7 @@ s16 Mudokon::Brain_StandScrub_8_441F40()
         {
             field_FE_next_state = eMudStates::State_23_CrouchIdle_43E590;
             return 6;
-            
+
         }
         return field_1BA_sub_state;
 
@@ -4034,7 +4034,7 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
             field_1B4_idle_time = 0;
             return field_1BA_sub_state;
         }
-        
+
         field_1B4_idle_time++;
 
         if (field_1B4_idle_time <= 150
@@ -4178,7 +4178,7 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
             return field_1B0;
         }
         return field_1BA_sub_state;
-        
+
 
     case 14:
         if (static_cast<s32>(gnFrameCount_507670) > field_1C0_timer)
@@ -4222,7 +4222,7 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
                 const FP fart_x = field_A8_xpos - (FP_FromInteger(12) * field_BC_sprite_scale);
                 New_Smoke_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
             }
-            
+
             return field_1B0;
         }
         break;
@@ -4448,7 +4448,7 @@ s16 Mudokon::Brain_FallAndSmackDeath_13_43C700()
             if (static_cast<s32>(gnFrameCount_507670) > field_1C0_timer)
             {
                 Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
-                
+
                 auto pShake = ao_new<ScreenShake>();
                 if (pShake)
                 {

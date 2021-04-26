@@ -182,7 +182,7 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
 
     field_138_attack_duration = pTlv->field_26_attack_duration;
 
-    field_188_flags = 32 * ( pTlv->field_2A_roar_randomly & 1) | ((field_188_flags & ~0x11 | 4) & ~0x28);
+    field_188_flags = 32 * ( pTlv->field_2A_roar_randomly & 1) | (((field_188_flags & ~0x11) | 4) & ~0x28);
 
     FP hitX = {};
     FP hitY = {};
@@ -2665,7 +2665,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
     }
 
     if (field_120_pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3)
-        || field_13C_attack_timer <= static_cast<s32>(gnFrameCount_507670)
+        || (field_13C_attack_timer <= static_cast<s32>(gnFrameCount_507670)
         && !CanSeeAbe_45C100(field_120_pTarget)
         && field_120_pTarget->field_100_health > FP_FromInteger(0)
         && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
@@ -2673,7 +2673,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
             field_B0_path_number,
             field_A8_xpos,
             field_AC_ypos,
-            0))
+            0)))
     {
         bool bCloseToEdge = false;
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))

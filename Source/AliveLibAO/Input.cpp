@@ -312,7 +312,7 @@ EXPORT void InputObject::Update_433250()
         {
             const u32 command = (*field_18_demo_res)[field_1C_demo_command_index++];
             field_24_command = command >> 16;
-            field_28_command_duration = gnFrameCount_507670 + command & 0xFFFF;
+            field_28_command_duration = gnFrameCount_507670 + (command & 0xFFFF);
 
             // End demo/quit command
             if (command & 0x8000)

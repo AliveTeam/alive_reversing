@@ -1056,6 +1056,7 @@ s16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
             } while (pTlv);
         }
         // Not in Z-Cover, fall through and be shot
+        [[fallthrough]];
     }
     case AETypes::eGrinder_30:
     case AETypes::eRockSpawner_48:

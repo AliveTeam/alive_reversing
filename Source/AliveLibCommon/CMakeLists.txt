@@ -85,6 +85,7 @@ target_link_libraries(AliveLibCommon
     glm
     ${WIN32_LIBS}
     ${SDL2_LIBRARIES}
+    project_warnings
     )
 
 export(TARGETS AliveLibCommon FILE AliveLibCommon.cmake)

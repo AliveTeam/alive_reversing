@@ -4,8 +4,7 @@
 #include "Compression.hpp"
 #include "VRam.hpp"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb/stb_image.h"
+#include "StbImageImplementation.hpp"
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
@@ -436,12 +435,12 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     u16 tHeight = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[1];
 
     TPageMode textureMode = static_cast<TPageMode>(((u32)poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
-    
+
     gFakeTextureCache = {};
     gFakeTextureCache.mPalXY = Renderer_ClutToCoords(poly.mUv.tpage_clut_pad);
     gFakeTextureCache.mVramRect = { 0,0, (s16)tWidth, (s16)tHeight };
     gFakeTextureCache.mTextureID = gDecodedTextureCache;
-    
+
 
     switch (textureMode)
     {
@@ -450,7 +449,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
         CompressionType6Ae_Decompress_40A8A0((u8*)pAnimFg1Data, (u8*)gDecodeBuffer);
         // Hacky because palette is 16 width, but converted sprite is normalized for 16 -> 256
         // So we scale it back down for the shader.
-        gFakeTextureCache.mPalNormMulti = 16; 
+        gFakeTextureCache.mPalNormMulti = 16;
         glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, (tWidth+1) / 2, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
         break;
@@ -599,7 +598,7 @@ void OpenGLRenderer::DebugWindow()
                 }
                 ImGui::EndMenu();
             }
-            
+
             if (ImGui::BeginMenu("Render Elements"))
             {
                 ImGui::MenuItem("SPRT", nullptr, &gRenderEnable_SPRT);
@@ -638,7 +637,7 @@ void OpenGLRenderer::DebugWindow()
                 currentWidth = 0;
             else
                 ImGui::SameLine();
-            
+
             ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), { textureWidth, textureHeight });
             ImVec2 pos = ImGui::GetCursorScreenPos();
             if (ImGui::IsItemHovered())
@@ -684,11 +683,11 @@ void OpenGLRenderer::DebugWindow()
             ImVec2 xpos = ImGui::GetCursorScreenPos();
             f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
             f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
-            
+
             ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
             ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), { textureWidth, textureHeight });
             ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.3f)));
-            
+
         }
         if (ImGui::IsWindowHovered())
         {
@@ -698,7 +697,7 @@ void OpenGLRenderer::DebugWindow()
         }
     }
     ImGui::End();
-    
+
 }
 
 void OpenGLRenderer::Destroy()
@@ -843,7 +842,7 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
     SDL_GL_SwapWindow(mWindow);
 
     DebugWindow();
-    
+
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -894,7 +893,7 @@ void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
 
 void OpenGLRenderer::EndFrame()
 {
-    
+
 }
 
 void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
@@ -916,7 +915,7 @@ bool OpenGLRenderer::UpdateBackBuffer(const void* /*pPixels*/, s32 /*pitch*/)
 
 void OpenGLRenderer::CreateBackBuffer(bool /*filter*/, s32 /*format*/, s32 /*w*/, s32 /*h*/)
 {
-   
+
 }
 
 void OpenGLRenderer::SetTPage(s16 tPage)
@@ -952,9 +951,9 @@ void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
 
 void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
 {
-    m_View = glm::ortho<f32>(static_cast<f32>(offset.field_C_xoff), 
-        static_cast<f32>(640 + offset.field_C_xoff), 
-        static_cast<f32>(240 + offset.field_E_yoff), 
+    m_View = glm::ortho<f32>(static_cast<f32>(offset.field_C_xoff),
+        static_cast<f32>(640 + offset.field_C_xoff),
+        static_cast<f32>(240 + offset.field_E_yoff),
         static_cast<f32>(offset.field_E_yoff), 0.0f, 1.0f);
 }
 
@@ -985,7 +984,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
-    
+
     TextureCache* pTexture = Renderer_TexFromVRam({ static_cast<s16>(vramPoint.field_0_x + WidthBppDivide(textureMode, sprt.mUv.u)), static_cast<s16>(vramPoint.field_2_y + sprt.mUv.v) });
     PaletteCache* pPal = Renderer_ClutToPalette(sprt.mUv.tpage_clut_pad);
 
@@ -1038,7 +1037,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     glBindTexture(GL_TEXTURE_2D, TempGasEffectTexture);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, gasWidth / 4, gasHeight / 2, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gasEffect.pData);
-    
+
     mTextureShader.Use();
     mTextureShader.Uniform1i("m_Dithered", 1);
     mTextureShader.Uniform1i("m_DitherWidth", gasWidth);
@@ -1088,9 +1087,9 @@ void OpenGLRenderer::Draw(Line_F2& line)
     glDisable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    const VertexData verts[2] = { 
-        {(f32)line.mVerts[0].mVert.x, (f32)line.mVerts[0].mVert.y, 0, 
-        line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f, 
+    const VertexData verts[2] = {
+        {(f32)line.mVerts[0].mVert.x, (f32)line.mVerts[0].mVert.y, 0,
+        line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
         0, 0 },
          {(f32)line.mBase.vert.x, (f32)line.mBase.vert.y, 0,
         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
@@ -1497,7 +1496,7 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
         ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(0.0f, 1.0f, 0.0f, 1.0f)));
     }
     ImGui::End();
-    
+
     glBindTexture(GL_TEXTURE_2D, tc->mTextureID);
 
     bool aoFG1 = true;
@@ -1549,12 +1548,12 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
         ALIVE_FATAL("unknown bit depth");
         break;
     }
-    
+
 }
 
 void HackSetBackground(const s8* path)
 {
-    //return; 
+    //return;
 
     const s8* camSearchs[] = {
         "hd/%s.PNG",

@@ -32,8 +32,8 @@ void sdl_ellipse(SDL_Renderer* r, s32 x0, s32 y0, s32 radiusX, s32 radiusY, u8 r
     for (theta = step; theta <= pih; theta += step)//step through only a 90 arc (1 quadrant)
     {
         //get new point location
-        x1 = static_cast<s32>((f32)radiusX * cosf(theta) + 0.5); //new point (+.5 is a quick rounding method)
-        y1 = static_cast<s32>((f32)radiusY * sinf(theta) + 0.5); //new point (+.5 is a quick rounding method)
+        x1 = static_cast<s32>((f32)radiusX * cosf(theta) + 0.5f); //new point (+.5 is a quick rounding method)
+        y1 = static_cast<s32>((f32)radiusY * sinf(theta) + 0.5f); //new point (+.5 is a quick rounding method)
 
                                                  //draw line from previous point to new point, ONLY if point incremented
         if ((x != x1) || (y != y1))//only draw if coordinate changed
@@ -64,7 +64,7 @@ TouchController::TouchController()
     {
         touchDevices.push_back(SDL_GetTouchDevice(i));
     }
-    
+
 
     {
         const f32 offsetX = 1100;
@@ -160,7 +160,7 @@ void TouchController::Update()
             }
         }
     }
-    
+
 
 #if _WIN32
     for (auto t : touchButtons)

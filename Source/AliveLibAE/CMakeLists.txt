@@ -438,6 +438,7 @@ target_link_libraries(AliveLibAE
     glm
     ${WIN32_LIBS}
     ${SDL2_LIBRARIES}
+    project_warnings
     )
 
 export(TARGETS AliveLibAE FILE AliveLibAE.cmake)

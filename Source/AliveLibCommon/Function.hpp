@@ -42,7 +42,7 @@
 #define ALIVE_ARY(Redirect, Addr, TypeName, Size, VarName, ...)\
 TypeName LocalArray_##VarName[Size]=__VA_ARGS__;\
 AliveVar Var_##VarName(#VarName, Addr, sizeof(LocalArray_##VarName), std::is_pointer<TypeName>::value, std::is_const<TypeName>::value);\
-TypeName* VarName = (Redirect && RunningAsInjectedDll()) ? reinterpret_cast<TypeName*>(Addr) : reinterpret_cast<TypeName*>(&LocalArray_##VarName[0])
+TypeName* VarName = (Redirect && RunningAsInjectedDll()) ? reinterpret_cast<TypeName*>(Addr) : &LocalArray_##VarName[0]
 
 #define ALIVE_ARY_SIZEOF(VarName) sizeof(LocalArray_##VarName)
 
@@ -66,8 +66,8 @@ public:
     template<class T, class Y>
     ScopedDetour(T src, Y dst)
     {
-        mReal = (PVOID)src;
-        mDst = (PVOID)dst;
+        mReal = reinterpret_cast<PVOID>(src);
+        mDst = reinterpret_cast<PVOID>(dst);
         Construct();
     }
 

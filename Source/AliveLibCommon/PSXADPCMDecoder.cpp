@@ -46,8 +46,8 @@ static void DecodeBlock(
     f64& older)
 {
     // 4 blocks for each nibble, so 8 blocks total
-    const s32 shift = (u8)(12 - (parameters[4 + block * 2 + nibble] & 0xF));
-    const s32 filter = (s8)((parameters[4 + block * 2 + nibble] & 0x30) >> 4);
+    const s32 shift = static_cast<u8>(12 - (parameters[4 + block * 2 + nibble] & 0xF));
+    const s32 filter = static_cast<s8>((parameters[4 + block * 2 + nibble] & 0x30) >> 4);
 
     const s32 f0 = pos_adpcm_table[filter];
     const s32 f1 = neg_adpcm_table[filter];
@@ -55,8 +55,8 @@ static void DecodeBlock(
     for (s32 d = 0; d < 28; d++)
     {
         const u8 value = samples[block + d * 4];
-        const s32 t = Signed4bit((u8)((value >> (nibble * 4)) & 0xF));
-        s32 s = (s16)((t << shift) + ((old * f0 + older * f1 + 32) / 64));
+        const s32 t = Signed4bit(static_cast<u8>((value >> (nibble * 4)) & 0xF));
+        s32 s = static_cast<s16>((t << shift) + ((old * f0 + older * f1 + 32) / 64));
         s = static_cast<u16>(MinMax(s, -32768, 32767));
 
 
