@@ -16,9 +16,9 @@ public:
     virtual void Read(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) = 0;
     virtual void Write(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) = 0;
 
+    [[nodiscard]] const std::string& Name() const;
     [[nodiscard]] const std::string& TypeName() const;
     [[nodiscard]] bool IsVisibleToEditor() const;
-    [[nodiscard]] const std::string& Name() const;
 
 private:
     std::string m_name;

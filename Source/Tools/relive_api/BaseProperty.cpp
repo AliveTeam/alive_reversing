@@ -11,6 +11,11 @@ BaseProperty::BaseProperty(const std::string& name, const std::string& typeName,
 
 BaseProperty::~BaseProperty() = default;
 
+[[nodiscard]] const std::string& BaseProperty::Name() const
+{
+    return m_name;
+}
+
 [[nodiscard]] const std::string& BaseProperty::TypeName() const
 {
     return m_TypeName;
@@ -21,7 +26,3 @@ BaseProperty::~BaseProperty() = default;
     return m_isVisibleToEditor;
 }
 
-[[nodiscard]] const std::string& BaseProperty::Name() const
-{
-    return m_name;
-}
