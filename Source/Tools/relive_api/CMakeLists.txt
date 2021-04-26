@@ -31,13 +31,17 @@ set(relive_api_src
     LvlReaderWriter.hpp
     PropertyCollection.cpp
     PropertyCollection.hpp
+    relive_api_test.cpp
     relive_api.cpp
     relive_api.hpp
     TlvFactory.cpp
     TlvFactory.hpp
+    TlvObjectBase.cpp
     TlvObjectBase.hpp
     TlvObjectBaseAE.hpp
     TlvObjectBaseAO.hpp
+    TlvObjectBaseMacros.hpp
+    TypedProperty.cpp
     TypedProperty.hpp
     TypesCollectionAE.cpp
     TypesCollectionAE.hpp

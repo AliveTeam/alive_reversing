@@ -1,6 +1,8 @@
 #pragma once
 
 #include "TlvObjectBaseAE.hpp"
+#include "TlvObjectBaseMacros.hpp"
+
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAE/Switch.hpp"
 #include "../AliveLibAE/ElectricWall.hpp"

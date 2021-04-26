@@ -1,64 +1,90 @@
-#include "../AliveLibCommon/stdafx_common.h"
 #include "relive_api.hpp"
-#include "SDL.h"
-#include "logger.hpp"
+
 #include "AOTlvs.hpp"
-#include <gmock/gmock.h>
+#include "TypesCollectionAO.hpp"
+
 #include "../AliveLibAE/DebugHelpers.hpp"
 
-const std::string kAEDir = "C:\\GOG Games\\Abes Exoddus\\";
-const std::string kAODir = "C:\\GOG Games\\Abes Oddysee\\";
-const std::string kAETestLvl = "pv.lvl";
+#include "../AliveLibCommon/stdafx_common.h"
+#include "../AliveLibCommon/logger.hpp"
 
-const std::vector<std::string> kAELvls =
+#include "SDL.h"
+
+#include <gmock/gmock.h>
+
+#include <array>
+#include <memory>
+#include <sstream>
+#include <string_view>
+#include <string>
+#include <vector>
+
+namespace {
+
+using namespace std::literals::string_view_literals;
+
+constexpr std::string_view kAEDir = "C:\\GOG Games\\Abes Exoddus\\"sv;
+constexpr std::string_view kAODir = "C:\\GOG Games\\Abes Oddysee\\"sv;
+constexpr std::string_view kAETestLvl = "pv.lvl"sv;
+
+constexpr std::array kAELvls
 {
-    "ba.lvl",
-    "bm.lvl",
-    "br.lvl",
-    "bw.lvl",
-    "cr.lvl",
-    "fd.lvl",
-    "mi.lvl",
-    "ne.lvl",
-    "pv.lvl",
-    "st.lvl",
-    "sv.lvl",
+    "ba.lvl"sv,
+    "bm.lvl"sv,
+    "br.lvl"sv,
+    "bw.lvl"sv,
+    "cr.lvl"sv,
+    "fd.lvl"sv,
+    "mi.lvl"sv,
+    "ne.lvl"sv,
+    "pv.lvl"sv,
+    "st.lvl"sv,
+    "sv.lvl"sv
 };
 
-const std::vector<std::string> kAOLvls =
+constexpr std::array kAOLvls
 {
-    "c1.lvl",
-    "d1.lvl",
-    "d2.lvl",
-    "d7.lvl",
-    "e1.lvl",
-    "e2.lvl",
-    "f1.lvl",
-    "f2.lvl",
-    "f4.lvl",
-    "l1.lvl",
-    "r1.lvl",
-    "r2.lvl",
-    "r6.lvl",
-    "s1.lvl",
+    "c1.lvl"sv,
+    "d1.lvl"sv,
+    "d2.lvl"sv,
+    "d7.lvl"sv,
+    "e1.lvl"sv,
+    "e2.lvl"sv,
+    "f1.lvl"sv,
+    "f2.lvl"sv,
+    "f4.lvl"sv,
+    "l1.lvl"sv,
+    "r1.lvl"sv,
+    "r2.lvl"sv,
+    "r6.lvl"sv,
+    "s1.lvl"sv
 };
 
-
-static std::string AEPath(const std::string& fileName)
+template <typename... Ts>
+[[nodiscard]] std::string concat(const Ts&... xs)
 {
-    return kAEDir + fileName;
+    static std::ostringstream oss;
+    oss.str("");
+
+    (oss << ... << xs);
+
+    return oss.str();
 }
 
-static std::string AOPath(const std::string& fileName)
+[[nodiscard]] std::string AEPath(std::string_view fileName)
 {
-    return kAODir + fileName;
+    return concat(kAEDir, fileName);
+}
+
+[[nodiscard]] std::string AOPath(std::string_view fileName)
+{
+    return concat(kAODir, fileName);
 }
 
 TEST(alive_api, ExportPathBinaryToJsonAE)
 {
     ReliveAPI::ExportPathBinaryToJson("OutputAE.json", AEPath(kAETestLvl), 14);
 }
-
 
 TEST(alive_api, ExportPathBinaryToJsonAO)
 {
@@ -112,11 +138,11 @@ TEST(alive_api, ReSaveAllPathsAO)
 
         for (s32 path : ret.paths)
         {
-            const std::string jsonName = "OutputAO_" + lvl + "_" + std::to_string(path) + ".json";
+            const std::string jsonName = concat("OutputAO_", lvl, '_', path, ".json");
             LOG_INFO("Save " << jsonName);
             ReliveAPI::ExportPathBinaryToJson(jsonName, AOPath(lvl), path);
 
-            const std::string lvlName = "OutputAO_" + lvl + "_" + std::to_string(path) + ".lvl";
+            const std::string lvlName = concat("OutputAO_", lvl, '_', path, ".lvl");
             LOG_INFO("Resave " << lvlName);
             ReliveAPI::ImportPathJsonToBinary(jsonName, AOPath(lvl), lvlName, {});
 
@@ -143,11 +169,11 @@ TEST(alive_api, ReSaveAllPathsAE)
 
         for (s32 path : ret.paths)
         {
-            const std::string jsonName = "OutputAE_" + lvl + "_" + std::to_string(path) + ".json";
+            const std::string jsonName = concat("OutputAE_", lvl, '_', path, ".json");
             LOG_INFO("Save " << jsonName);
             ReliveAPI::ExportPathBinaryToJson(jsonName, AEPath(lvl), path);
 
-            const std::string lvlName = "OutputAE_" + lvl + "_" + std::to_string(path) + ".lvl";
+            const std::string lvlName = concat("OutputAE_", lvl, '_', path, ".lvl");
             LOG_INFO("Resave " << lvlName);
             ReliveAPI::ImportPathJsonToBinary(jsonName, AEPath(lvl), lvlName, {});
 
@@ -179,8 +205,8 @@ TEST(alive_api, tlv_reflection)
     std::unique_ptr<TlvObjectBase> pHoist = types.MakeTlvAO(AO::TlvTypes::Hoist_3, &tlv, 99);
 
     auto obj = pHoist->InstanceToJson(types);
-    pHoist->InstanceFromJson(types, obj);
-    pHoist->StructureToJson();
+    (void) pHoist->InstanceFromJson(types, obj); // TODO: check return value?
+    (void) pHoist->StructureToJson(); // TODO: check return value?
     ASSERT_EQ(pHoist->InstanceNumber(), 99);
 }
 
@@ -209,12 +235,12 @@ public:
         mArgs.push_back(arg);
     }
 
-    s32 ArgC() const
+    [[nodiscard]] s32 ArgC() const
     {
         return static_cast<s32>(mArgs.size());
     }
 
-    std::unique_ptr<s8*[]> ArgV() const
+    [[nodiscard]] std::unique_ptr<s8*[]> ArgV() const
     {
         auto ptr = std::make_unique<s8* []>(mArgs.size());
 
@@ -230,6 +256,8 @@ private:
     std::vector<std::string> mArgs;
 };
 
+}
+
 s32 main(s32 argc, s8* argv[])
 {
     ArgsAdapter args(argc, argv);
@@ -242,3 +270,4 @@ s32 main(s32 argc, s8* argv[])
     const auto ret = RUN_ALL_TESTS();
     return ret;
 }
+

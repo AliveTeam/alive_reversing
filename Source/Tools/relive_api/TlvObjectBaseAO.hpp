@@ -1,6 +1,10 @@
 #pragma once
 
 #include "TlvObjectBase.hpp"
+#include "TlvObjectBaseMacros.hpp"
+
+#include "../AliveLibAO/PathData.hpp"
+#include "../AliveLibAO/Map.hpp"
 
 template<class T>
 class TlvObjectBaseAO : public TlvObjectBase
