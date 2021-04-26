@@ -1485,3 +1485,6 @@ namespace AOTlvs
         }
     };
 }
+
+#undef EMPTY_CTOR_AO
+#undef CTOR_AO

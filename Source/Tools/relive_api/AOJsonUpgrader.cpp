@@ -1,6 +1,6 @@
 #include "AOJsonUpgrader.hpp"
 
-#include "JsonUpgrader.hpp"
+#include "JsonUpgraderMacros.hpp"
 
 void AOJsonUpgrader::AddUpgraders()
 {
