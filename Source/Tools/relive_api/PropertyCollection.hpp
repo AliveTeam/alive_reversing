@@ -14,34 +14,10 @@
 class PropertyCollection
 {
 private:
-    void ThrowOnAddPropertyError(const std::string& name, const std::string& typeName, void* key)
-    {
-        if (name.empty())
-        {
-            throw ReliveAPI::EmptyPropertyNameException();
-        }
-
-        if (typeName.empty())
-        {
-            throw ReliveAPI::EmptyTypeNameException();
-        }
-
-        for (const auto&[keyIt, valueIt] : mProperties)
-        {
-            if (static_cast<void*>(keyIt) == key)
-            {
-                throw ReliveAPI::DuplicatePropertyKeyException();
-            }
-
-            if (name == valueIt->Name())
-            {
-                throw ReliveAPI::DuplicatePropertyNameException(name.c_str());
-            }
-        }
-    }
+    void ThrowOnAddPropertyError(const std::string& name, const std::string& typeName, void* key);
 
 public:
-    virtual ~PropertyCollection() { }
+    virtual ~PropertyCollection();
 
     template<typename PropertyType>
     void AddProperty(const std::string& name, const std::string& typeName, void* key, bool visibleInEditor)
@@ -52,9 +28,10 @@ public:
         mProperties[key].reset(new TypedProperty<PropertyType>(name, typeName, visibleInEditor, static_cast<PropertyType*>(key)));
     }
 
-    [[nodiscard]] std::string PropType(void* key) const;
+    [[nodiscard]] const std::string& PropType(void* key) const;
+    [[nodiscard]] const std::string& PropName(void* key) const;
+
     [[nodiscard]] jsonxx::Array PropertiesToJson() const;
-    [[nodiscard]] std::string PropName(void* key) const;
 
     template<class T>
     void ReadEnumValue(TypesCollectionBase& types, T& field, jsonxx::Object& properties)

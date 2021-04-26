@@ -146,9 +146,9 @@ public:
 
 private:
     void ResetTypeCounterMap() override;
-    jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) override;
-    jsonxx::Array ReadTlvStream(u8* ptr) override;
-    jsonxx::Array AddCollisionLineStructureJson() override;
+    [[nodiscard]] jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) override;
+    [[nodiscard]] jsonxx::Array ReadTlvStream(u8* ptr) override;
+    [[nodiscard]] jsonxx::Array AddCollisionLineStructureJson() override;
 
     std::map<AO::TlvTypes, s32> mTypeCounterMap;
     std::unique_ptr<TypesCollectionAO> mTypesCollection;
@@ -167,9 +167,9 @@ public:
 
 private:
     void ResetTypeCounterMap() override;
-    jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) override;
-    jsonxx::Array ReadTlvStream(u8* ptr) override;
-    jsonxx::Array AddCollisionLineStructureJson() override;
+    [[nodiscard]] jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) override;
+    [[nodiscard]] jsonxx::Array ReadTlvStream(u8* ptr) override;
+    [[nodiscard]] jsonxx::Array AddCollisionLineStructureJson() override;
 
     std::map<::TlvTypes, s32> mTypeCounterMap;
     std::unique_ptr<TypesCollectionAE> mTypesCollection;

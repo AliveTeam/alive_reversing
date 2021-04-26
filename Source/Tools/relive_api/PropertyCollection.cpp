@@ -8,7 +8,35 @@
 
 #include <jsonxx/jsonxx.h>
 
-[[nodiscard]] std::string PropertyCollection::PropType(void* key) const
+void PropertyCollection::ThrowOnAddPropertyError(const std::string& name, const std::string& typeName, void* key)
+{
+    if (name.empty())
+    {
+        throw ReliveAPI::EmptyPropertyNameException();
+    }
+
+    if (typeName.empty())
+    {
+        throw ReliveAPI::EmptyTypeNameException();
+    }
+
+    for (const auto&[keyIt, valueIt] : mProperties)
+    {
+        if (static_cast<void*>(keyIt) == key)
+        {
+            throw ReliveAPI::DuplicatePropertyKeyException();
+        }
+
+        if (name == valueIt->Name())
+        {
+            throw ReliveAPI::DuplicatePropertyNameException(name.c_str());
+        }
+    }
+}
+
+PropertyCollection::~PropertyCollection() = default;
+
+[[nodiscard]] const std::string& PropertyCollection::PropType(void* key) const
 {
     auto it = mProperties.find(key);
 
@@ -18,6 +46,18 @@
     }
 
     return it->second->TypeName();
+}
+
+[[nodiscard]] const std::string& PropertyCollection::PropName(void* key) const
+{
+    auto it = mProperties.find(key);
+
+    if (it == mProperties.end())
+    {
+        throw ReliveAPI::PropertyNotFoundException();
+    }
+
+    return it->second->Name();
 }
 
 [[nodiscard]] jsonxx::Array PropertyCollection::PropertiesToJson() const
@@ -34,18 +74,6 @@
     }
 
     return ret;
-}
-
-[[nodiscard]] std::string PropertyCollection::PropName(void* key) const
-{
-    auto it = mProperties.find(key);
-
-    if (it == mProperties.end())
-    {
-        throw ReliveAPI::PropertyNotFoundException();
-    }
-
-    return it->second->Name();
 }
 
 void PropertyCollection::PropertiesFromJson(TypesCollectionBase& types, jsonxx::Object& properties)

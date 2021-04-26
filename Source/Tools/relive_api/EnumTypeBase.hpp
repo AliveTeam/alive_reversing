@@ -15,7 +15,7 @@ class EnumTypeBase : public ITypeBase
 {
     static_assert(std::is_integral_v<T> && !std::is_enum_v<T>, "Must be underlying type of enum");
 
-public:
+protected:
     explicit EnumTypeBase(const std::string& typeName, const std::type_index& typeIndex)
         : ITypeBase(typeName), mTypeIndex(typeIndex)
     {
@@ -33,7 +33,7 @@ public:
 
     [[nodiscard]] T ValueFromString(const std::string& valueString) const
     {
-        for (const auto [key, value] : mMapping)
+        for (const auto& [key, value] : mMapping)
         {
             if (value == valueString)
             {

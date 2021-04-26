@@ -336,7 +336,7 @@ void JsonWriterAE::DebugDumpTlvs(const std::string& prefix, const PathInfo& info
     }
 }
 
-jsonxx::Array JsonWriterAO::ReadTlvStream(u8* ptr)
+[[nodiscard]] jsonxx::Array JsonWriterAO::ReadTlvStream(u8* ptr)
 {
     jsonxx::Array mapObjects;
 
@@ -376,7 +376,7 @@ jsonxx::Array JsonWriterAO::ReadTlvStream(u8* ptr)
 }
 
 
-jsonxx::Array JsonWriterAO::AddCollisionLineStructureJson()
+[[nodiscard]] jsonxx::Array JsonWriterAO::AddCollisionLineStructureJson()
 {
     AOLine tmpLine(*mTypesCollection);
     return tmpLine.PropertiesToJson();
@@ -387,7 +387,7 @@ void JsonWriterAO::ResetTypeCounterMap()
     mTypeCounterMap.clear();
 }
 
-jsonxx::Array JsonWriterAO::ReadCollisionStream(u8* ptr, s32 numItems)
+[[nodiscard]] jsonxx::Array JsonWriterAO::ReadCollisionStream(u8* ptr, s32 numItems)
 {
     jsonxx::Array collisionsArray;
     AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(ptr);
@@ -538,7 +538,7 @@ void JsonWriterAE::ResetTypeCounterMap()
     mTypeCounterMap.clear();
 }
 
-jsonxx::Array JsonWriterAE::ReadCollisionStream(u8* ptr, s32 numItems)
+[[nodiscard]] jsonxx::Array JsonWriterAE::ReadCollisionStream(u8* ptr, s32 numItems)
 {
     jsonxx::Array collisionsArray;
     PathLine* pLineIter = reinterpret_cast<PathLine*>(ptr);
@@ -556,7 +556,7 @@ jsonxx::Array JsonWriterAE::ReadCollisionStream(u8* ptr, s32 numItems)
     return collisionsArray;
 }
 
-jsonxx::Array JsonWriterAE::ReadTlvStream(u8* ptr)
+[[nodiscard]] jsonxx::Array JsonWriterAE::ReadTlvStream(u8* ptr)
 {
     jsonxx::Array mapObjects;
 
@@ -586,7 +586,7 @@ jsonxx::Array JsonWriterAE::ReadTlvStream(u8* ptr)
     return mapObjects;
 }
 
-jsonxx::Array JsonWriterAE::AddCollisionLineStructureJson()
+[[nodiscard]] jsonxx::Array JsonWriterAE::AddCollisionLineStructureJson()
 {
     AELine tmpLine(*mTypesCollection);
     return tmpLine.PropertiesToJson();
