@@ -1,6 +1,9 @@
 #pragma once
 
 #include "TlvObjectBase.hpp"
+#include "TlvObjectBaseMacros.hpp"
+
+#include "../AliveLibAE/Path.hpp"
 
 template<class T>
 class TlvObjectBaseAE : public TlvObjectBase
