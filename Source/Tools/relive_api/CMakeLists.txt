@@ -8,50 +8,50 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(relive_api_src
-    TlvObjectBase.hpp
-    TlvObjectBase.cpp
-    TlvObjectBaseMacros.hpp
-    TlvObjectBaseAE.hpp
-    TlvObjectBaseAO.hpp
-    TlvObjectBaseAEBase.hpp
-    TlvObjectBaseAEBase.cpp
-    TlvObjectBaseAOBase.hpp
-    TlvObjectBaseAOBase.cpp
-    PropertyCollection.hpp
-    PropertyCollection.cpp
+    AEJsonUpgrader.cpp
+    AEJsonUpgrader.hpp
     AETlvs.hpp
+    AOJsonUpgrader.cpp
+    AOJsonUpgrader.hpp
     AOTlvs.hpp
-    ITypeBase.hpp
-    ITypeBase.cpp
+    BaseProperty.cpp
+    BaseProperty.hpp
     BasicType.hpp
-    BasicTypeBase.hpp
     BasicTypeBase.cpp
+    BasicTypeBase.hpp
+    ByteStream.hpp
     EnumType.hpp
     EnumTypeBase.hpp
-    relive_api.cpp
-    relive_api.hpp
-    TlvFactory.hpp
-    TlvFactory.cpp
-    TypesCollectionBase.hpp
-    TypesCollectionBase.cpp
-    TypesCollectionAO.hpp
-    TypesCollectionAO.cpp
-    TypesCollectionAE.hpp
-    TypesCollectionAE.cpp
+    ITypeBase.cpp
+    ITypeBase.hpp
     JsonDocument.cpp
     JsonDocument.hpp
-    JsonUpgrader.hpp
     JsonUpgrader.cpp
-    AOJsonUpgrader.hpp
-    AOJsonUpgrader.cpp
-    AEJsonUpgrader.hpp
-    AEJsonUpgrader.cpp
-    BaseProperty.hpp
-    BaseProperty.cpp
-    TypedProperty.hpp
-    TypedProperty.cpp
+    JsonUpgrader.hpp
     LvlReaderWriter.hpp
-    ByteStream.hpp
+    PropertyCollection.cpp
+    PropertyCollection.hpp
+    relive_api.cpp
+    relive_api.hpp
+    TlvFactory.cpp
+    TlvFactory.hpp
+    TlvObjectBase.cpp
+    TlvObjectBase.hpp
+    TlvObjectBaseAE.hpp
+    TlvObjectBaseAEBase.cpp
+    TlvObjectBaseAEBase.hpp
+    TlvObjectBaseAO.hpp
+    TlvObjectBaseAOBase.cpp
+    TlvObjectBaseAOBase.hpp
+    TlvObjectBaseMacros.hpp
+    TypedProperty.cpp
+    TypedProperty.hpp
+    TypesCollectionAE.cpp
+    TypesCollectionAE.hpp
+    TypesCollectionAO.cpp
+    TypesCollectionAO.hpp
+    TypesCollectionBase.cpp
+    TypesCollectionBase.hpp
 )
 add_library(relive_api ${relive_api_src})
 target_link_libraries(relive_api jsonxx AliveLibAE AliveLibAO)

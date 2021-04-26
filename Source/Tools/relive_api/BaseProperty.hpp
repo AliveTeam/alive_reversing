@@ -20,8 +20,9 @@ public:
     [[nodiscard]] const std::string& TypeName() const;
     [[nodiscard]] bool IsVisibleToEditor() const;
 
+
 private:
     std::string m_name;
-    std::string m_TypeName;
+    std::string m_typeName;
     bool m_isVisibleToEditor = true;
 };
