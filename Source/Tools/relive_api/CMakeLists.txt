@@ -8,37 +8,43 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(relive_api_src
+    AEJsonUpgrader.cpp
+    AEJsonUpgrader.hpp
+    AETlvs.hpp
+    AOJsonUpgrader.cpp
+    AOJsonUpgrader.hpp
+    AOTlvs.hpp
+    BaseProperty.cpp
+    BaseProperty.hpp
+    BasicType.hpp
+    BasicTypeBase.cpp
+    BasicTypeBase.hpp
+    ByteStream.hpp
+    EnumType.hpp
+    EnumTypeBase.hpp
+    ITypeBase.cpp
+    ITypeBase.hpp
+    JsonDocument.cpp
+    JsonDocument.hpp
+    JsonUpgrader.cpp
+    JsonUpgrader.hpp
+    LvlReaderWriter.hpp
+    PropertyCollection.cpp
+    PropertyCollection.hpp
+    relive_api.cpp
+    relive_api.hpp
+    TlvFactory.cpp
+    TlvFactory.hpp
     TlvObjectBase.hpp
     TlvObjectBaseAE.hpp
     TlvObjectBaseAO.hpp
-    PropertyCollection.hpp
-    PropertyCollection.cpp
-    AETlvs.hpp
-    AOTlvs.hpp
-    ITypeBase.hpp
-    BasicType.hpp
-    EnumType.hpp
-    relive_api.cpp
-    relive_api.hpp
-    TlvFactory.hpp
-    TlvFactory.cpp
-    TypesCollectionBase.hpp
-    TypesCollectionBase.cpp
-    TypesCollectionAO.hpp
-    TypesCollectionAO.cpp
-    TypesCollectionAE.hpp
-    TypesCollectionAE.cpp
-    JsonDocument.cpp
-    JsonDocument.hpp
-    JsonUpgrader.hpp
-    JsonUpgrader.cpp
-    AOJsonUpgrader.hpp
-    AOJsonUpgrader.cpp
-    AEJsonUpgrader.hpp
-    AEJsonUpgrader.cpp
     TypedProperty.hpp
-    LvlReaderWriter.hpp
-    ByteStream.hpp
+    TypesCollectionAE.cpp
+    TypesCollectionAE.hpp
+    TypesCollectionAO.cpp
+    TypesCollectionAO.hpp
+    TypesCollectionBase.cpp
+    TypesCollectionBase.hpp
 )
 add_library(relive_api ${relive_api_src})
 target_link_libraries(relive_api jsonxx AliveLibAE AliveLibAO)
