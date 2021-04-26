@@ -1,73 +1,37 @@
 #pragma once
 
+#include "relive_api.hpp"
+#include "TypesCollectionBase.hpp"
+#include "BaseProperty.hpp"
+#include "TypedProperty.hpp"
+
+#include <jsonxx/jsonxx.h>
+
+#include <string>
+#include <map>
+#include <memory>
+
 class PropertyCollection
 {
+private:
+    void ThrowOnAddPropertyError(const std::string& name, const std::string& typeName, void* key);
+
 public:
     virtual ~PropertyCollection();
 
     template<typename PropertyType>
-    void AddProperty(const std::string& name, const std::string& typeName, PropertyType* key, bool visibleInEditor)
+    void AddProperty(const std::string& name, const std::string& typeName, void* key, bool visibleInEditor)
     {
-        if (name.empty())
-        {
-            throw ReliveAPI::EmptyPropertyNameException();
-        }
+        ThrowOnAddPropertyError(name, typeName, key);
 
-        if (typeName.empty())
-        {
-            throw ReliveAPI::EmptyTypeNameException();
-        }
-
-        for (const auto&[keyIt, valueIt] : mProperties)
-        {
-            if (keyIt == key)
-            {
-                throw ReliveAPI::DuplicatePropertyKeyException();
-            }
-
-            if (name == valueIt->Name())
-            {
-                throw ReliveAPI::DuplicatePropertyNameException(name.c_str());
-            }
-        }
-
-        mProperties[key] = std::make_unique<TypedProperty<PropertyType>>(name, typeName, visibleInEditor, key);
+        // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
+        mProperties[key].reset(new TypedProperty<PropertyType>(name, typeName, visibleInEditor, static_cast<PropertyType*>(key)));
     }
 
-    std::string PropType(void* key) const
-    {
-        auto it = mProperties.find(key);
-        if (it == std::end(mProperties))
-        {
-            throw ReliveAPI::PropertyNotFoundException();
-        }
-        return it->second->TypeName();
-    }
+    [[nodiscard]] const std::string& PropType(void* key) const;
+    [[nodiscard]] const std::string& PropName(void* key) const;
 
-    jsonxx::Array PropertiesToJson() const
-    {
-        jsonxx::Array ret;
-        for (const auto&[key, value] : mProperties)
-        {
-            jsonxx::Object property;
-            property << "Type" << value->TypeName();
-            property << "Visible" << value->IsVisibleToEditor();
-            property << "name" << value->Name();
-            ret << property;
-        }
-        return ret;
-    }
-
-    std::string PropName(void* key) const
-    {
-        auto it = mProperties.find(key);
-        if (it == std::end(mProperties))
-        {
-            throw ReliveAPI::PropertyNotFoundException();
-        }
-        return it->second->Name();
-    }
-
+    [[nodiscard]] jsonxx::Array PropertiesToJson() const;
 
     template<class T>
     void ReadEnumValue(TypesCollectionBase& types, T& field, jsonxx::Object& properties)

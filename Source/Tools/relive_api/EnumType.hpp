@@ -37,8 +37,7 @@ public:
         return Base::ValueToString(static_cast<Underlying>(valueToFind));
     }
 
-    [[nodiscard]] bool IsBasicType() const override
-    {
-        return false;
-    }
+    using Base::IsBasicType;
+    using Base::ToJson;
+    using Base::TypeIndex;
 };

@@ -31,5 +31,4 @@ void BaseJsonUpgrader::UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetAp
 
 void DoNothingUpgrader::Upgrade()
 {
-
 }
