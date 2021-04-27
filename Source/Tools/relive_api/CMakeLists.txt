@@ -28,6 +28,7 @@ set(relive_api_src
     JsonDocument.hpp
     JsonUpgrader.cpp
     JsonUpgrader.hpp
+    JsonUpgraderMacros.hpp
     LvlReaderWriter.hpp
     PropertyCollection.cpp
     PropertyCollection.hpp

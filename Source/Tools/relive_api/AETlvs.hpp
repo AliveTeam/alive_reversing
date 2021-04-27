@@ -2014,3 +2014,6 @@ namespace AETlvs
         }
     };
 }
+
+#undef EMPTY_CTOR_AE
+#undef CTOR_AE

@@ -5,7 +5,7 @@
 
 #include <memory>
 #include <string>
-#include <map>
+#include <unordered_map>
 
 class IJsonUpgrader
 {
@@ -22,8 +22,6 @@ public:
 
 using TUpgradeFactoryFn = AddPointer_t<std::unique_ptr<IJsonUpgrader>()>;
 
-#define ADD_UPGRADE_STEP(version, upgradeObjType) mUpgraders[version] = []() -> std::unique_ptr<IJsonUpgrader> { return std::make_unique<upgradeObjType>(); }
-
 class BaseJsonUpgrader
 {
 public:
@@ -36,5 +34,5 @@ private:
     void UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetApiVersion);
 
 protected:
-    std::map<s32, TUpgradeFactoryFn> mUpgraders;
+    std::unordered_map<s32, TUpgradeFactoryFn> mUpgraders;
 };

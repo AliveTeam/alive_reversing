@@ -23,7 +23,7 @@ public:
 
     TlvObjectBaseAOBase(std::size_t sizeOfT, TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv, AO::Path_TLV* pTlv, CopyFn copyFn);
 
-    void InstanceFromJsonBase(jsonxx::Object& obj) override;
+    void InstanceFromJsonBase(const jsonxx::Object& obj) override;
     void InstanceToJsonBase(jsonxx::Object& ret) override;
 
     TlvObjectBaseAOBase(const TlvObjectBaseAOBase&) = delete;

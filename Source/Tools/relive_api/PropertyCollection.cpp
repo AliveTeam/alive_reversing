@@ -20,25 +20,22 @@ void PropertyCollection::ThrowOnAddPropertyError(const std::string& name, const 
         throw ReliveAPI::EmptyTypeNameException();
     }
 
-    for (const auto&[keyIt, valueIt] : mProperties)
+    if (mProperties.find(key) != mProperties.end())
     {
-        if (static_cast<void*>(keyIt) == key)
-        {
-            throw ReliveAPI::DuplicatePropertyKeyException();
-        }
+        throw ReliveAPI::DuplicatePropertyKeyException();
+    }
 
-        if (name == valueIt->Name())
-        {
-            throw ReliveAPI::DuplicatePropertyNameException(name.c_str());
-        }
+    if (mRegisteredPropertyNames.find(name) != mRegisteredPropertyNames.end())
+    {
+        throw ReliveAPI::DuplicatePropertyNameException(name.c_str());
     }
 }
 
 PropertyCollection::~PropertyCollection() = default;
 
-[[nodiscard]] const std::string& PropertyCollection::PropType(void* key) const
+[[nodiscard]] const std::string& PropertyCollection::PropType(const void* key) const
 {
-    auto it = mProperties.find(key);
+    const auto it = mProperties.find(key);
 
     if (it == mProperties.end())
     {
@@ -48,9 +45,9 @@ PropertyCollection::~PropertyCollection() = default;
     return it->second->TypeName();
 }
 
-[[nodiscard]] const std::string& PropertyCollection::PropName(void* key) const
+[[nodiscard]] const std::string& PropertyCollection::PropName(const void* key) const
 {
-    auto it = mProperties.find(key);
+    const auto it = mProperties.find(key);
 
     if (it == mProperties.end())
     {
@@ -70,13 +67,14 @@ PropertyCollection::~PropertyCollection() = default;
         property << "Type" << value->TypeName();
         property << "Visible" << value->IsVisibleToEditor();
         property << "name" << value->Name();
+
         ret << property;
     }
 
     return ret;
 }
 
-void PropertyCollection::PropertiesFromJson(TypesCollectionBase& types, jsonxx::Object& properties)
+void PropertyCollection::PropertiesFromJson(const TypesCollectionBase& types, const jsonxx::Object& properties)
 {
     for (auto& [Key, value] : mProperties)
     {
@@ -84,7 +82,7 @@ void PropertyCollection::PropertiesFromJson(TypesCollectionBase& types, jsonxx::
     }
 }
 
-void PropertyCollection::PropertiesToJson(TypesCollectionBase& types, jsonxx::Object& properties)
+void PropertyCollection::PropertiesToJson(const TypesCollectionBase& types, jsonxx::Object& properties)
 {
     for (auto& [Key, value] : mProperties)
     {

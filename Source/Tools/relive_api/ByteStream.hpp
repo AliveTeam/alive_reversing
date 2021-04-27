@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstring>
 #include <string>
 #include <type_traits>
 #include <vector>
@@ -83,9 +84,14 @@ public:
         WriteBytes(reinterpret_cast<const u8*>(&type[0]), type.size());
     }
 
-    [[nodiscard]] const std::vector<u8>& GetBuffer() const
+    [[nodiscard]] const std::vector<u8>& GetBuffer() const&
     {
         return mData;
+    }
+
+    [[nodiscard]] std::vector<u8>&& GetBuffer() &&
+    {
+        return std::move(mData);
     }
 
     void ReserveSize(std::size_t len)
@@ -119,7 +125,8 @@ private:
         {
             throw ReliveAPI::IOReadPastEOFException();
         }
-        memcpy(buffer, &mData[mReadPos], len);
+
+        std::memcpy(buffer, &mData[mReadPos], len);
         mReadPos += len;
     }
 
@@ -131,7 +138,8 @@ private:
             {
                 mData.resize(mWritePos + len);
             }
-            memcpy(&mData[mWritePos], buffer, len);
+
+            std::memcpy(&mData[mWritePos], buffer, len);
             mWritePos += len;
         }
     }

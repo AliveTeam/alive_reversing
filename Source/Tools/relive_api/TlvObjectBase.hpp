@@ -10,7 +10,7 @@
 
 // Defined here as it depends on a full definition of PropertyCollection
 template <class T>
-void TypedProperty<T>::Read(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties)
+void TypedProperty<T>::Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const jsonxx::Object& properties)
 {
     if constexpr (std::is_enum_v<T>)
     {
@@ -24,7 +24,7 @@ void TypedProperty<T>::Read(PropertyCollection& propertyCollection, TypesCollect
 }
 
 template <class T>
-void TypedProperty<T>::Write(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties)
+void TypedProperty<T>::Write(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, jsonxx::Object& properties)
 {
     if constexpr (std::is_enum_v<T>)
     {
@@ -52,10 +52,10 @@ public:
     [[nodiscard]] const std::string& Name() const;
     [[nodiscard]] jsonxx::Object StructureToJson();
 
-    void InstanceFromJson(TypesCollectionBase& types, jsonxx::Object& obj);
-    [[nodiscard]]jsonxx::Object InstanceToJson(TypesCollectionBase& types);
+    void InstanceFromJson(TypesCollectionBase& types, const jsonxx::Object& obj);
+    [[nodiscard]] jsonxx::Object InstanceToJson(TypesCollectionBase& types);
 
-    virtual void InstanceFromJsonBase(jsonxx::Object& obj) = 0;
+    virtual void InstanceFromJsonBase(const jsonxx::Object& obj) = 0;
     virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
 
     [[nodiscard]] s32 InstanceNumber() const;
