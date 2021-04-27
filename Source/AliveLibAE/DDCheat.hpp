@@ -78,7 +78,8 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
-    virtual void VScreenChanged() override { }
+    virtual void VScreenChanged() override
+    { }
 
     DDCheat();
     EXPORT DDCheat* ctor_4153C0();
@@ -87,13 +88,14 @@ public:
 
     EXPORT static void AddPropertyEntry(const s8* text, DDCheatValueType valueType, DDCheatValue valuePtr);
     static EXPORT void CC ClearProperties_415390();
-    static EXPORT void DebugStr_4F5560(const s8 *pFormatStr, ...);
+    static EXPORT void DebugStr_4F5560(const s8* pFormatStr, ...);
 
     EXPORT void Menu_Teleport_415E20();
     EXPORT void Menu_Movies_416000();
 
 public:
     EXPORT void Update_415780();
+
 public:
     s32 field_20;
     s16 field_24_fn_idx;

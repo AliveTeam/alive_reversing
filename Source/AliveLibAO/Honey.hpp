@@ -23,5 +23,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Honey, 0xE8);
 
-}
-
+} // namespace AO

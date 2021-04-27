@@ -18,25 +18,23 @@ namespace AO {
 
 ALIVE_VAR(1, 0x4FFA54, FallingItem*, pPrimaryFallingItem_4FFA54, nullptr);
 
-const FallingItem_Data sFallingItemData_4BAB20[16] =
-{
-  { 11504, 11544, 76, 38 },
-  { 12136, 12148, 66, 42 },
-  { 11504, 11544, 76, 38 },
-  { 11504, 11544, 76, 38 },
-  { 11504, 11544, 76, 38 },
-  { 11504, 11544, 76, 38 },
-  { 11504, 11544, 76, 38 },
-  { 11504, 11544, 76, 38 },
-  { 11504, 11544, 76, 38 },
-  { 11504, 11544, 76, 38 },
-  { 11504, 11544, 76, 38 },
-  { 11504, 11544, 76, 38 },
-  { 11504, 11544, 76, 38 },
-  { 12136, 12148, 66, 42 },
-  { 11504, 11544, 76, 38 },
-  { 11504, 11544, 76, 38 }
-};
+const FallingItem_Data sFallingItemData_4BAB20[16] = {
+    {11504, 11544, 76, 38},
+    {12136, 12148, 66, 42},
+    {11504, 11544, 76, 38},
+    {11504, 11544, 76, 38},
+    {11504, 11544, 76, 38},
+    {11504, 11544, 76, 38},
+    {11504, 11544, 76, 38},
+    {11504, 11544, 76, 38},
+    {11504, 11544, 76, 38},
+    {11504, 11544, 76, 38},
+    {11504, 11544, 76, 38},
+    {11504, 11544, 76, 38},
+    {11504, 11544, 76, 38},
+    {12136, 12148, 66, 42},
+    {11504, 11544, 76, 38},
+    {11504, 11544, 76, 38}};
 
 FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
 {
@@ -154,8 +152,7 @@ void FallingItem::DamageHitItems_41A6D0()
                 PSX_RECT objRect = {};
                 pAliveObj->VGetBoundingRect(&objRect, 1);
 
-                if (fallingItemRect.x <= objRect.w && fallingItemRect.w >= objRect.x &&
-                    fallingItemRect.y <= objRect.h && fallingItemRect.h >= objRect.y)
+                if (fallingItemRect.x <= objRect.w && fallingItemRect.w >= objRect.x && fallingItemRect.y <= objRect.h && fallingItemRect.h >= objRect.y)
                 {
                     if (pAliveObj->field_BC_sprite_scale == field_BC_sprite_scale)
                     {
@@ -189,186 +186,180 @@ void FallingItem::VUpdate_41A120()
 
     switch (field_110_state)
     {
-    case State::eState_0_WaitForIdEnable:
-        if (!SwitchStates_Get(field_112_id))
-        {
-            return;
-        }
-        [[fallthrough]];
-
-    case State::eState_1_GoWaitForDelay:
-        field_6_flags.Clear(Options::eCanExplode_Bit7);
-        field_110_state = State::eState_2_WaitForFallDelay;
-        field_B4_velx = FP_FromInteger(0);
-        field_B8_vely = FP_FromInteger(0);
-        field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_4, nullptr);
-        field_11C_delay_timer = gnFrameCount_507670 + field_118_delay_time;
-        break;
-
-    case State::eState_2_WaitForFallDelay:
-        if (static_cast<s32>(gnFrameCount_507670) >= field_11C_delay_timer)
-        {
-            field_110_state = State::eState_3_Falling;
-            field_122_do_sound_in_state_falling = TRUE;
-            field_130_sound_channels = SFX_Play_43AE60(SoundEffect::AirStream_28, 50, -2600, 0);
-        }
-        break;
-
-    case State::eState_3_Falling:
-    {
-        if (field_122_do_sound_in_state_falling)
-        {
-            if (field_AC_ypos >= sActiveHero_507678->field_AC_ypos - FP_FromInteger(120))
+        case State::eState_0_WaitForIdEnable:
+            if (!SwitchStates_Get(field_112_id))
             {
-                field_122_do_sound_in_state_falling = 0;
-                SFX_Play_43AE60(SoundEffect::AirStream_28, 127, -1300, 0);
+                return;
             }
-        }
+            [[fallthrough]];
 
-        DamageHitItems_41A6D0();
+        case State::eState_1_GoWaitForDelay:
+            field_6_flags.Clear(Options::eCanExplode_Bit7);
+            field_110_state = State::eState_2_WaitForFallDelay;
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
+            field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_4, nullptr);
+            field_11C_delay_timer = gnFrameCount_507670 + field_118_delay_time;
+            break;
 
-        if (field_B8_vely < FP_FromInteger(20))
-        {
-            field_B8_vely += field_BC_sprite_scale * FP_FromDouble(1.8);
-        }
-
-        PathLine* pLine = nullptr;
-        FP hitX = {};
-        FP hitY = {};
-
-        if (sCollisions_DArray_504C6C->RayCast_40C410(
-            field_A8_xpos,
-            field_AC_ypos,
-            field_A8_xpos,
-            field_B8_vely + field_AC_ypos,
-            &pLine,
-            &hitX,
-            &hitY,
-            field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 16) == 1)
-        {
-            field_AC_ypos = hitY;
-            field_110_state = State::eState_4_Smashed;
-
-            ScreenShake* pScreenShake = ao_new<ScreenShake>();
-            if (pScreenShake)
+        case State::eState_2_WaitForFallDelay:
+            if (static_cast<s32>(gnFrameCount_507670) >= field_11C_delay_timer)
             {
-                pScreenShake->ctor_4624D0(0);
+                field_110_state = State::eState_3_Falling;
+                field_122_do_sound_in_state_falling = TRUE;
+                field_130_sound_channels = SFX_Play_43AE60(SoundEffect::AirStream_28, 50, -2600, 0);
             }
+            break;
 
-            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
-                gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+        case State::eState_3_Falling:
+        {
+            if (field_122_do_sound_in_state_falling)
             {
-                ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
-                if (pParticleBurst)
+                if (field_AC_ypos >= sActiveHero_507678->field_AC_ypos - FP_FromInteger(120))
                 {
-                    pParticleBurst->ctor_40D0F0(
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        25,
-                        field_BC_sprite_scale,
-                        BurstType::eType_4);
-                }
-            }
-            else
-            {
-                ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
-                if (pParticleBurst)
-                {
-                    pParticleBurst->ctor_40D0F0(
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        25,
-                        field_BC_sprite_scale,
-                        BurstType::eType_0);
+                    field_122_do_sound_in_state_falling = 0;
+                    SFX_Play_43AE60(SoundEffect::AirStream_28, 127, -1300, 0);
                 }
             }
 
-            ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
-            if (pParticleBurst)
+            DamageHitItems_41A6D0();
+
+            if (field_B8_vely < FP_FromInteger(20))
             {
-                pParticleBurst->ctor_40D0F0(
+                field_B8_vely += field_BC_sprite_scale * FP_FromDouble(1.8);
+            }
+
+            PathLine* pLine = nullptr;
+            FP hitX = {};
+            FP hitY = {};
+
+            if (sCollisions_DArray_504C6C->RayCast_40C410(
                     field_A8_xpos,
                     field_AC_ypos,
-                    25,
-                    field_BC_sprite_scale,
-                    BurstType::eType_1);
-            }
-        }
-        else
-        {
-            field_AC_ypos += field_B8_vely;
-        }
-        break;
-    }
-
-    case State::eState_4_Smashed:
-    {
-        if (field_130_sound_channels)
-        {
-            SND_Stop_Channels_Mask_4774A0(field_130_sound_channels);
-            field_130_sound_channels = 0;
-        }
-
-        if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
-            gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
-        {
-            if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-                field_B2_lvl_number,
-                field_B0_path_number,
-                field_A8_xpos,
-                field_AC_ypos,
-                0))
+                    field_A8_xpos,
+                    field_B8_vely + field_AC_ypos,
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 16)
+                == 1)
             {
-                SFX_Play_43AE60(SoundEffect::KillEffect_78, 127, -700, 0);
-                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 110, 0);
+                field_AC_ypos = hitY;
+                field_110_state = State::eState_4_Smashed;
+
+                ScreenShake* pScreenShake = ao_new<ScreenShake>();
+                if (pScreenShake)
+                {
+                    pScreenShake->ctor_4624D0(0);
+                }
+
+                if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+                {
+                    ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
+                    if (pParticleBurst)
+                    {
+                        pParticleBurst->ctor_40D0F0(
+                            field_A8_xpos,
+                            field_AC_ypos,
+                            25,
+                            field_BC_sprite_scale,
+                            BurstType::eType_4);
+                    }
+                }
+                else
+                {
+                    ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
+                    if (pParticleBurst)
+                    {
+                        pParticleBurst->ctor_40D0F0(
+                            field_A8_xpos,
+                            field_AC_ypos,
+                            25,
+                            field_BC_sprite_scale,
+                            BurstType::eType_0);
+                    }
+                }
+
+                ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
+                if (pParticleBurst)
+                {
+                    pParticleBurst->ctor_40D0F0(
+                        field_A8_xpos,
+                        field_AC_ypos,
+                        25,
+                        field_BC_sprite_scale,
+                        BurstType::eType_1);
+                }
             }
             else
             {
-                SND_SEQ_Play_477760(SeqId::Unknown_25, 1, 65, 65);
-                SFX_Play_43AE60(SoundEffect::KillEffect_78, 90, -700, 0);
-                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 33, 0);
-                SFX_Play_43AE60(SoundEffect::MeatsawUp_90, 80, -400, 0);
+                field_AC_ypos += field_B8_vely;
             }
-        }
-        else
-        {
-            SFX_Play_43AD70(SoundEffect::FallingItemLand_73, 0, 0);
-            SFX_Play_43AE60(SoundEffect::FallingItemHit_53, 110, -1536, 0);
+            break;
         }
 
-        if (field_112_id)
+        case State::eState_4_Smashed:
         {
-            if (field_120_reset_id)
+            if (field_130_sound_channels)
             {
-                SwitchStates_Do_Operation_436A10(field_112_id, SwitchOp::eSetFalse_1);
+                SND_Stop_Channels_Mask_4774A0(field_130_sound_channels);
+                field_130_sound_channels = 0;
             }
+
+            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+            {
+                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                        field_B2_lvl_number,
+                        field_B0_path_number,
+                        field_A8_xpos,
+                        field_AC_ypos,
+                        0))
+                {
+                    SFX_Play_43AE60(SoundEffect::KillEffect_78, 127, -700, 0);
+                    SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 110, 0);
+                }
+                else
+                {
+                    SND_SEQ_Play_477760(SeqId::Unknown_25, 1, 65, 65);
+                    SFX_Play_43AE60(SoundEffect::KillEffect_78, 90, -700, 0);
+                    SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 33, 0);
+                    SFX_Play_43AE60(SoundEffect::MeatsawUp_90, 80, -400, 0);
+                }
+            }
+            else
+            {
+                SFX_Play_43AD70(SoundEffect::FallingItemLand_73, 0, 0);
+                SFX_Play_43AE60(SoundEffect::FallingItemHit_53, 110, -1536, 0);
+            }
+
+            if (field_112_id)
+            {
+                if (field_120_reset_id)
+                {
+                    SwitchStates_Do_Operation_436A10(field_112_id, SwitchOp::eSetFalse_1);
+                }
+            }
+
+            field_116_num_items_remaining--;
+
+            if ((field_114_num_items && field_116_num_items_remaining <= 0) || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_128_xpos, field_12C_ypos, 0))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            else
+            {
+                field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0, nullptr);
+                field_6_flags.Set(Options::eCanExplode_Bit7);
+                field_B8_vely = FP_FromInteger(0);
+                field_B4_velx = FP_FromInteger(0);
+                field_AC_ypos = field_124_yPosStart;
+                field_110_state = State::eState_0_WaitForIdEnable;
+            }
+            break;
         }
 
-        field_116_num_items_remaining--;
-
-        if ((field_114_num_items && field_116_num_items_remaining <= 0) || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-                field_B2_lvl_number,
-                field_B0_path_number,
-                field_128_xpos,
-                field_12C_ypos,
-                0))
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        else
-        {
-            field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0, nullptr);
-            field_6_flags.Set(Options::eCanExplode_Bit7);
-            field_B8_vely = FP_FromInteger(0);
-            field_B4_velx = FP_FromInteger(0);
-            field_AC_ypos = field_124_yPosStart;
-            field_110_state = State::eState_0_WaitForIdEnable;
-        }
-        break;
-    }
-
-    default:
-        return;
+        default:
+            return;
     }
 }
 
@@ -403,4 +394,4 @@ BaseGameObject* FallingItem::VDestructor(s32 flags)
     return Vdtor_41A7F0(flags);
 }
 
-}
+} // namespace AO

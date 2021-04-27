@@ -51,118 +51,118 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
     Sound_Ambiance* pAmbianceTbl = nullptr;
     switch (direction)
     {
-    case CameraPos::eCamTop_1:
-    case CameraPos::eCamBottom_2:
-        pAmbianceTbl = sTopBottomAmbiance_9F11D0.mArray;
-        break;
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+            pAmbianceTbl = sTopBottomAmbiance_9F11D0.mArray;
+            break;
 
-    case CameraPos::eCamLeft_3:
-        pAmbianceTbl = sRightAmbiance_9F1228.mArray;
-       break;
- 
-    case CameraPos::eCamRight_4:
-        pAmbianceTbl = sRightAmbiance_9F1228.mArray;
-        break;
+        case CameraPos::eCamLeft_3:
+            pAmbianceTbl = sRightAmbiance_9F1228.mArray;
+            break;
 
-    default:
-        return;
+        case CameraPos::eCamRight_4:
+            pAmbianceTbl = sRightAmbiance_9F1228.mArray;
+            break;
+
+        default:
+            return;
     }
 
     if (pAmbianceTbl)
     {
         switch (pTlv->field_4_type.mType)
         {
-        case TlvTypes::Slig_24:
-            if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == Path_Slig::StartState::Paused_1)
-            {
-                if (!pAmbianceTbl[1].field_8_pScopedSeq)
+            case TlvTypes::Slig_24:
+                if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == Path_Slig::StartState::Paused_1)
                 {
-                    pAmbianceTbl[1].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                    if (pAmbianceTbl[1].field_8_pScopedSeq)
+                    if (!pAmbianceTbl[1].field_8_pScopedSeq)
                     {
-                        pAmbianceTbl[1].field_8_pScopedSeq->ctor_476400(1, direction);
+                        pAmbianceTbl[1].field_8_pScopedSeq = ao_new<ScopedSeq>();
+                        if (pAmbianceTbl[1].field_8_pScopedSeq)
+                        {
+                            pAmbianceTbl[1].field_8_pScopedSeq->ctor_476400(1, direction);
+                        }
+                        bDangerMusic = true;
+                    }
+                }
+                else if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == Path_Slig::StartState::Sleeping_2)
+                {
+                    if (!pAmbianceTbl->field_8_pScopedSeq)
+                    {
+                        pAmbianceTbl[0].field_8_pScopedSeq = ao_new<ScopedSeq>();
+                        if (pAmbianceTbl[0].field_8_pScopedSeq)
+                        {
+                            pAmbianceTbl[0].field_8_pScopedSeq->ctor_476400(0, direction);
+                        }
+                        bDangerMusic = true;
+                    }
+                }
+                break;
+
+            case TlvTypes::Slog_25:
+                if (static_cast<Path_Slog*>(pTlv)->field_1C_wakeup_anger)
+                {
+                    if (!pAmbianceTbl[3].field_8_pScopedSeq)
+                    {
+                        pAmbianceTbl[3].field_8_pScopedSeq = ao_new<ScopedSeq>();
+                        if (pAmbianceTbl[3].field_8_pScopedSeq)
+                        {
+                            pAmbianceTbl[3].field_8_pScopedSeq->ctor_476400(3, direction);
+                        }
+                        bDangerMusic = true;
+                    }
+                }
+                else
+                {
+                    if (!pAmbianceTbl[2].field_8_pScopedSeq)
+                    {
+                        pAmbianceTbl[2].field_8_pScopedSeq = ao_new<ScopedSeq>();
+                        if (pAmbianceTbl[2].field_8_pScopedSeq)
+                        {
+                            pAmbianceTbl[2].field_8_pScopedSeq->ctor_476400(2, direction);
+                        }
+                        bDangerMusic = true;
+                    }
+                }
+                break;
+
+            case TlvTypes::Paramite_48:
+                if (!pAmbianceTbl[4].field_8_pScopedSeq)
+                {
+                    pAmbianceTbl[4].field_8_pScopedSeq = ao_new<ScopedSeq>();
+                    if (pAmbianceTbl[4].field_8_pScopedSeq)
+                    {
+                        pAmbianceTbl[4].field_8_pScopedSeq->ctor_476400(4, direction);
                     }
                     bDangerMusic = true;
                 }
-            }
-            else if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == Path_Slig::StartState::Sleeping_2)
-            {
-                if (!pAmbianceTbl->field_8_pScopedSeq)
+                break;
+
+            case TlvTypes::Scrab_72:
+                if (!pAmbianceTbl[5].field_8_pScopedSeq)
                 {
-                    pAmbianceTbl[0].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                    if (pAmbianceTbl[0].field_8_pScopedSeq)
+                    pAmbianceTbl[5].field_8_pScopedSeq = ao_new<ScopedSeq>();
+                    if (pAmbianceTbl[5].field_8_pScopedSeq)
                     {
-                        pAmbianceTbl[0].field_8_pScopedSeq->ctor_476400(0, direction);
+                        pAmbianceTbl[5].field_8_pScopedSeq->ctor_476400(5, direction);
                     }
                     bDangerMusic = true;
                 }
-            }
-            break;
+                break;
 
-        case TlvTypes::Slog_25:
-            if (static_cast<Path_Slog*>(pTlv)->field_1C_wakeup_anger)
-            {
-                if (!pAmbianceTbl[3].field_8_pScopedSeq)
+            case TlvTypes::MeatSaw_88:
+                if (!pAmbianceTbl[6].field_8_pScopedSeq)
                 {
-                    pAmbianceTbl[3].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                    if (pAmbianceTbl[3].field_8_pScopedSeq)
+                    pAmbianceTbl[6].field_8_pScopedSeq = ao_new<ScopedSeq>();
+                    if (pAmbianceTbl[6].field_8_pScopedSeq)
                     {
-                        pAmbianceTbl[3].field_8_pScopedSeq->ctor_476400(3, direction);
+                        pAmbianceTbl[6].field_8_pScopedSeq->ctor_476400(6, direction);
                     }
-                    bDangerMusic = true;
                 }
-            }
-            else
-            {
-                if (!pAmbianceTbl[2].field_8_pScopedSeq)
-                {
-                    pAmbianceTbl[2].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                    if (pAmbianceTbl[2].field_8_pScopedSeq)
-                    {
-                        pAmbianceTbl[2].field_8_pScopedSeq->ctor_476400(2, direction);
-                    }
-                    bDangerMusic = true;
-                }
-            }
-            break;
+                break;
 
-        case TlvTypes::Paramite_48:
-            if (!pAmbianceTbl[4].field_8_pScopedSeq)
-            {
-                pAmbianceTbl[4].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                if (pAmbianceTbl[4].field_8_pScopedSeq)
-                {
-                    pAmbianceTbl[4].field_8_pScopedSeq->ctor_476400(4, direction);
-                }
-                bDangerMusic = true;
-            }
-            break;
-
-        case TlvTypes::Scrab_72:
-            if (!pAmbianceTbl[5].field_8_pScopedSeq)
-            {
-                pAmbianceTbl[5].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                if (pAmbianceTbl[5].field_8_pScopedSeq)
-                {
-                    pAmbianceTbl[5].field_8_pScopedSeq->ctor_476400(5, direction);
-                }
-                bDangerMusic = true;
-            }
-            break;
-
-        case TlvTypes::MeatSaw_88:
-            if (!pAmbianceTbl[6].field_8_pScopedSeq)
-            {
-                pAmbianceTbl[6].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                if (pAmbianceTbl[6].field_8_pScopedSeq)
-                {
-                    pAmbianceTbl[6].field_8_pScopedSeq->ctor_476400(6, direction);
-                }
-            }
-            break;
-
-        default:
-            break;
+            default:
+                break;
         }
 
         if (bDangerMusic)
@@ -246,4 +246,4 @@ EXPORT void CC SND_Init_Ambiance_4765C0()
     }
 }
 
-}
+} // namespace AO

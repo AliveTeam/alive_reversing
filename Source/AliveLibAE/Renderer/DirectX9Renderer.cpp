@@ -3,9 +3,9 @@
 
 #ifdef _WIN32
 
-#undef DIRECT3D_VERSION
-#define DIRECT3D_VERSION         0x0900
-#include <d3d9.h>
+    #undef DIRECT3D_VERSION
+    #define DIRECT3D_VERSION 0x0900
+    #include <d3d9.h>
 
 
 
@@ -80,7 +80,6 @@ void DirectX9Renderer::Clear(u8 r, u8 g, u8 b)
 
 void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
-
 }
 
 void DirectX9Renderer::EndFrame()
@@ -90,7 +89,6 @@ void DirectX9Renderer::EndFrame()
 
 void DirectX9Renderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
 {
-
 }
 
 void DirectX9Renderer::OutputSize(s32* w, s32* h)
@@ -105,13 +103,11 @@ bool DirectX9Renderer::UpdateBackBuffer(const void* /*pPixels*/, s32 /*pitch*/)
 
 void DirectX9Renderer::CreateBackBuffer(bool /*filter*/, s32 /*format*/, s32 /*w*/, s32 /*h*/)
 {
-
 }
 
 
 void DirectX9Renderer::PalFree(const PalRecord& /*record*/)
 {
-
 }
 
 bool DirectX9Renderer::PalAlloc(PalRecord& /*record*/)
@@ -121,17 +117,14 @@ bool DirectX9Renderer::PalAlloc(PalRecord& /*record*/)
 
 void DirectX9Renderer::PalSetData(const PalRecord& /*record*/, const u8* /*pPixels*/)
 {
-
 }
 
 void DirectX9Renderer::SetTPage(s16 /*tPage*/)
 {
-
 }
 
 void DirectX9Renderer::SetClip(Prim_PrimClipper& /*clipper*/)
 {
-
 }
 
 void DirectX9Renderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
@@ -140,63 +133,51 @@ void DirectX9Renderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
 
 void DirectX9Renderer::Draw(Prim_Sprt& /*sprt*/)
 {
-
 }
 
 void DirectX9Renderer::Draw(Prim_GasEffect& /*gasEffect*/)
 {
-
 }
 
 void DirectX9Renderer::Draw(Prim_Tile& /*tile*/)
 {
-
 }
 
 void DirectX9Renderer::Draw(Line_F2& /*line*/)
 {
-
 }
 
 void DirectX9Renderer::Draw(Line_G2& /*line*/)
 {
-
 }
 
 void DirectX9Renderer::Draw(Line_G4& /*line*/)
 {
-
 }
 
 void DirectX9Renderer::Draw(Poly_F3& /*poly*/)
 {
-
 }
 
 void DirectX9Renderer::Draw(Poly_G3& /*poly*/)
 {
-
 }
 
 void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
 {
-
 }
 
 void DirectX9Renderer::Draw(Poly_FT4& /*poly*/)
 {
-
 }
 
 void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
 {
-
 }
 
 
 void DirectX9Renderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, const u8* /*pPixels*/)
 {
-
 }
 
 #endif

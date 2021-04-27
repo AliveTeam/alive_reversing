@@ -33,6 +33,7 @@ public:
     void Draw(Poly_G4& poly) override;
 
     void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) override;
+
 private:
     bool mFrameStarted = false;
 

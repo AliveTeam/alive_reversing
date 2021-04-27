@@ -166,7 +166,8 @@ ALIVE_ASSERT_SIZEOF(MidiSeqSongsTable, 3200);
 class IPsxSpuApiVars
 {
 public:
-    virtual ~IPsxSpuApiVars() {}
+    virtual ~IPsxSpuApiVars()
+    { }
     virtual s16& sGlobalVolumeLevel_right() = 0;
     virtual s16& sGlobalVolumeLevel_left() = 0;
     virtual VabUnknown& s512_byte() = 0;
@@ -233,7 +234,7 @@ EXPORT void CC MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo);
 EXPORT s32 CC MIDI_PlayerPlayMidiNote_4FCE80(s32 vabId, s32 program, s32 note, s32 leftVol, s32 rightVol, s32 volume);
 EXPORT s32 CC MIDI_Allocate_Channel_4FCA50(s32 not_used, s32 priority);
 
-using TVSyncCallBackFn = void(CC *)();
+using TVSyncCallBackFn = void(CC*)();
 EXPORT void CC VSyncCallback_4F8C40(TVSyncCallBackFn callBack);
 EXPORT void CC SND_CallBack_4020A4(); // TODO: Naming??
 EXPORT void CC SsSeqCalledTbyT_4FDC80();

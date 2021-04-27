@@ -109,12 +109,12 @@ void TorturedMudokon::vScreenChanged_47C440()
 
 void TorturedMudokon::vRender_47C460(PrimHeader** ppOt)
 {
-   field_F4_tears_animation.vRender_40B820(
+    field_F4_tears_animation.vRender_40B820(
         FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
         FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
-            ppOt,
-            0,
-            0);
+        ppOt,
+        0,
+        0);
     if (field_F4_tears_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         field_18C_zap_animation.vRender_40B820(

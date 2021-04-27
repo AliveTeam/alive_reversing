@@ -82,7 +82,7 @@ public:
         {
             if (chunk.Id() == id)
             {
-                return { chunk };
+                return {chunk};
             }
         }
         return {};
@@ -164,8 +164,8 @@ private:
             {
                 break;
             }
-
-        } while (!s.AtReadEnd());
+        }
+        while (!s.AtReadEnd());
     }
 
     std::vector<LvlFileChunk> mChunks;
@@ -186,7 +186,10 @@ public:
         }
     }
 
-    [[nodiscard]] bool IsOpen() const { return mFileHandle != nullptr; }
+    [[nodiscard]] bool IsOpen() const
+    {
+        return mFileHandle != nullptr;
+    }
 
     void Close()
     {
@@ -237,7 +240,7 @@ public:
         std::optional<std::vector<u8>> result;
         result.emplace();
 
-        if(!ReadFileInto(*result, fileName))
+        if (!ReadFileInto(*result, fileName))
         {
             return {};
         }
@@ -286,7 +289,7 @@ protected:
     std::vector<LvlFileRecord> mFileRecords;
 };
 
-template<class T>
+template <class T>
 [[nodiscard]] inline T RoundUp(T numToRound, T multiple)
 {
     if (multiple == 0)
@@ -303,7 +306,7 @@ template<class T>
     return numToRound + multiple - remainder;
 }
 
-template<class T>
+template <class T>
 [[nodiscard]] inline T RoundUp(T offset)
 {
     return RoundUp(offset, static_cast<T>(2048));
@@ -322,7 +325,10 @@ public:
         mReader.Close();
     }
 
-    [[nodiscard]] bool IsOpen() const { return mReader.IsOpen(); }
+    [[nodiscard]] bool IsOpen() const
+    {
+        return mReader.IsOpen();
+    }
 
     [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const s8* fileName)
     {
@@ -343,7 +349,7 @@ public:
         auto rec = GetNewOrEditedFileRecord(fileName);
         if (rec)
         {
-            return { rec->mFileData };
+            return {rec->mFileData};
         }
         return mReader.ReadFile(fileName);
     }
@@ -371,7 +377,7 @@ public:
             }
             else
             {
-                mNewOrEditedFiles.push_back({ fileNameInLvl, data, isEditingAFile });
+                mNewOrEditedFiles.push_back({fileNameInLvl, data, isEditingAFile});
             }
         }
     }
@@ -489,9 +495,9 @@ public:
             throw ReliveAPI::IOReadException(lvlName);
         }
 
-        if (pos+1 != RoundUp(pos))
+        if (pos + 1 != RoundUp(pos))
         {
-            ::fseek(outFile, RoundUp(pos)-1, SEEK_SET);
+            ::fseek(outFile, RoundUp(pos) - 1, SEEK_SET);
             u8 emptyByte = 0;
             ::fwrite(&emptyByte, sizeof(u8), 1, outFile);
         }
@@ -523,4 +529,3 @@ private:
     LvlReader mReader;
     std::vector<NewOrEditedFileRecord> mNewOrEditedFiles;
 };
-

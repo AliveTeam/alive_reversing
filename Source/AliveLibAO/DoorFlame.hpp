@@ -61,4 +61,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DoorFlame, 0x100);
 
-}
+} // namespace AO

@@ -72,5 +72,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(SecurityDoor, 0x11C);
 
-}
-
+} // namespace AO

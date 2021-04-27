@@ -82,7 +82,7 @@ public:
     {
         u32 field_0_type;
         u32 field_4_id;
-        Camera *field_8_pCamera;
+        Camera* field_8_pCamera;
         Camera* field_C_fn_arg_pCamera;
         TLoaderFn field_10_pFn;
         s16 field_14_bAddUseCount;
@@ -149,7 +149,7 @@ public:
     EXPORT static s16 CC LoadResourceFile_49C170(const s8* pFileName, Camera* pCamera);
     EXPORT static s16 CC Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArrayT<u8*>* pArray);
     EXPORT static u8** CC GetLoadedResource_49C2A0(u32 type, u32 resourceID, u16 addUseCount, u16 bLock);
-    EXPORT static void CC Inc_Ref_Count_49C310(u8 **ppRes);
+    EXPORT static void CC Inc_Ref_Count_49C310(u8** ppRes);
     EXPORT static s16 CC FreeResource_49C330(u8** handle);
     EXPORT static s16 CC FreeResource_Impl_49C360(u8* handle);
     EXPORT static Header* CC Get_Header_49C410(u8** ppRes);
@@ -162,7 +162,6 @@ public:
 
 
 private:
-
     enum LoadingStates : s16
     {
         State_Wait_For_Load_Request = 0,

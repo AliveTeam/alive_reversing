@@ -50,11 +50,10 @@
 
 struct QuickSaveRestoreTable
 {
-    s32(CC* mFns[180])(const u8 *);
+    s32(CC* mFns[180])(const u8*);
 };
 
-QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
-{
+QuickSaveRestoreTable sQuicksaveLoadFunctionTable = {
     nullptr,
     nullptr,
     &SligSpawner::CreateFromSaveState_409B10,
@@ -234,8 +233,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     nullptr,
-    nullptr
-};
+    nullptr};
 
 ALIVE_VAR(1, 0x560c34, QuickSaveRestoreTable, sQuicksaveLoadFunctionTable_560C34, sQuicksaveLoadFunctionTable);
 
@@ -244,25 +242,21 @@ struct QuickSaveFlagTypeTable
     u8 mTypes[136];
 };
 
-const QuickSaveFlagTypeTable kQuickSaveFlagsTable =
-{
-    {
-        0x02, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02, 0x00, 0x01,
-        0x00, 0x01, 0x00, 0x00, 0x01, 0x02, 0x02, 0x00, 0x00, 0x01,
-        0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x02, 0x00, 0x02, 0x00,
-        0x02, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x02, 0x01, 0x02,
-        0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02,
-        0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x02, 0x01, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02, 0x00, 0x01, 0x01,
-        0x00, 0x01, 0x01, 0x02, 0x01, 0x00, 0x02, 0x01, 0x01, 0x02,
-        0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01,
-        0x02, 0x01, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01, 0x02, 0x01,
-        0x01, 0x01, 0x02, 0x02, 0x01, 0x01, 0x02, 0x00, 0x00, 0x00,
-        0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-    }
-};
+const QuickSaveFlagTypeTable kQuickSaveFlagsTable = {
+    {0x02, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02, 0x00, 0x01,
+     0x00, 0x01, 0x00, 0x00, 0x01, 0x02, 0x02, 0x00, 0x00, 0x01,
+     0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x02, 0x00, 0x02, 0x00,
+     0x02, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x02, 0x01, 0x02,
+     0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02,
+     0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x02, 0x01, 0x00,
+     0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02, 0x00, 0x01, 0x01,
+     0x00, 0x01, 0x01, 0x02, 0x01, 0x00, 0x02, 0x01, 0x01, 0x02,
+     0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01,
+     0x02, 0x01, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01, 0x02, 0x01,
+     0x01, 0x01, 0x02, 0x02, 0x01, 0x01, 0x02, 0x00, 0x00, 0x00,
+     0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+     0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
 
 ALIVE_VAR(1, 0x547794, QuickSaveFlagTypeTable, kObjectTypeAttributesTable_byte_547794, kQuickSaveFlagsTable);
 
@@ -331,7 +325,7 @@ ALIVE_ARY(1, 0xBB31D8, SaveFileRec, 128, sSaveFileRecords_BB31D8, {});
 ALIVE_VAR(1, 0xBB43FC, s32, sSavedGameToLoadIdx_BB43FC, 0);
 ALIVE_VAR(1, 0xBB43E0, s32, sTotalSaveFilesCount_BB43E0, 0);
 
-EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave *quicksaveData)
+EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
 {
     sAccumulatedObjectCount_5C1BF4 = quicksaveData->field_200_accumulated_obj_count;
     DestroyObjects_4A1F20();
@@ -514,7 +508,7 @@ EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
                                 if (idx < 8)
                                 {
                                     pTlv->field_0_flags = sSwitchReset_Saved_States_BB233C[idx].flags;
-                                    pTlv->field_1_tlv_state = sSwitchReset_Saved_States_BB233C[idx].data ;
+                                    pTlv->field_1_tlv_state = sSwitchReset_Saved_States_BB233C[idx].data;
 
                                     idx++;
                                 }
@@ -574,11 +568,11 @@ void CC MEMCARD_Write_SJISC_String_4A2770(s8* src, s8* dst, s32 srcLength)
     }
 }
 
-EXPORT void CC MEMCARD_Generate_Timestamp_String_4A21F0(s8 *pStr)
+EXPORT void CC MEMCARD_Generate_Timestamp_String_4A21F0(s8* pStr)
 {
     sprintf(pStr, "%03d:%02d",
-        (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 / 60 % 1000,
-        (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
+            (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 / 60 % 1000,
+            (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
 }
 
 EXPORT void CC MEMCARD_Write_Timestamp_SJISC_String_4A2290(s8* dst)
@@ -633,9 +627,9 @@ EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 
         s8 src[12] = {};
         sprintf(src, "%2sP%02dC%02d",
-            sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
-            gMap_5C3030.field_2_current_path,
-            gMap_5C3030.field_4_current_camera);
+                sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
+                gMap_5C3030.field_2_current_path,
+                gMap_5C3030.field_4_current_camera);
         MEMCARD_Write_SJISC_String_4A2770(src, &pSave->field_0_header.field_0_frame_1_name[32], 8);
         Quicksave_SaveWorldInfo_4C9310(&pSave->field_204_world_info);
         pSave->field_45C_switch_states = sSwitchStates_5C1A28;
@@ -686,7 +680,7 @@ void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
     }
 
     // Last is read from another field
-    sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData)-1] = pInfo->field_17_last_saved_killed_muds_per_path;
+    sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData) - 1] = pInfo->field_17_last_saved_killed_muds_per_path;
 
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     sStatsSignCurrentArea_5C1A20 = pInfo->field_2C_stats_sign_current_area;
@@ -719,7 +713,7 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
         pInfo->field_18_saved_killed_muds_per_path[i] = sSavedKilledMudsPerPath_5C1B50.mData[i];
     }
 
-    pInfo->field_17_last_saved_killed_muds_per_path = sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData)-1];
+    pInfo->field_17_last_saved_killed_muds_per_path = sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData) - 1];
 
     pInfo->field_2C_stats_sign_current_area = sStatsSignCurrentArea_5C1A20;
     pInfo->field_12_saved_muds = sRescuedMudokons_5C1BC2;
@@ -737,7 +731,7 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_10_controlled_scale = sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0);
 }
 
-EXPORT s32 CC Sort_comparitor_4D42C0(const void *pSaveRecLeft, const void *pSaveRecRight)
+EXPORT s32 CC Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)
 {
     const s32 leftTime = reinterpret_cast<const SaveFileRec*>(pSaveRecLeft)->field_20_lastWriteTimeStamp;
     const s32 rightTime = reinterpret_cast<const SaveFileRec*>(pSaveRecRight)->field_20_lastWriteTimeStamp;
@@ -757,28 +751,27 @@ void CC Quicksave_FindSaves_4D4150()
     sTotalSaveFilesCount_BB43E0 = 0;
 
     IO_EnumerateDirectory("*.sav", [](const s8* fileName, u32 lastWriteTime)
-    {
-        if (sTotalSaveFilesCount_BB43E0 < 128)
-        {
-            size_t fileNameLen = strlen(fileName) - 4;
-            if (fileNameLen > 0)
-            {
-                // Limit length to prevent buffer overflow
-                if (fileNameLen > 20)
-                {
-                    fileNameLen = 20;
-                }
+                          {
+                              if (sTotalSaveFilesCount_BB43E0 < 128)
+                              {
+                                  size_t fileNameLen = strlen(fileName) - 4;
+                                  if (fileNameLen > 0)
+                                  {
+                                      // Limit length to prevent buffer overflow
+                                      if (fileNameLen > 20)
+                                      {
+                                          fileNameLen = 20;
+                                      }
 
-                SaveFileRec* pRec = &sSaveFileRecords_BB31D8[sTotalSaveFilesCount_BB43E0];
-                memcpy(pRec->field_0_fileName, fileName, fileNameLen);
-                pRec->field_0_fileName[fileNameLen] = 0;
+                                      SaveFileRec* pRec = &sSaveFileRecords_BB31D8[sTotalSaveFilesCount_BB43E0];
+                                      memcpy(pRec->field_0_fileName, fileName, fileNameLen);
+                                      pRec->field_0_fileName[fileNameLen] = 0;
 
-                pRec->field_20_lastWriteTimeStamp = lastWriteTime;
-                sTotalSaveFilesCount_BB43E0++;
-            }
-        }
-
-    });
+                                      pRec->field_20_lastWriteTimeStamp = lastWriteTime;
+                                      sTotalSaveFilesCount_BB43E0++;
+                                  }
+                              }
+                          });
 
     // Sort all we've found by time stamp, users probably want to load their last save first
     qsort(sSaveFileRecords_BB31D8, sTotalSaveFilesCount_BB43E0, sizeof(SaveFileRec), Sort_comparitor_4D42C0);
@@ -796,141 +789,158 @@ void CC Quicksave_FindSaves_4D4150()
     }
 }
 
-namespace AETest::TestsQuikSave
+namespace AETest::TestsQuikSave {
+class AbeSave : public Abe
 {
-    class AbeSave : public Abe
-    {
-    public:
-    };
+public:
+};
 
-    static void Compare(Abe::Flags_1AC bitToSet, Abe_SaveState::Flags_D4 bitToExpect)
-    {
-        Shadow shadow = {};
-        AbeSave abe = {};
-        abe.field_E0_pShadow = &shadow;
-        Abe_SaveState state = {};
-        abe.field_1AC_flags.Set(bitToSet);
-        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
-        ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
-    }
-
-    static void Compare(Abe::Flags_1AE bitToSet, Abe_SaveState::Flags_D4 bitToExpect)
-    {
-        Shadow shadow = {};
-        AbeSave abe = {};
-        abe.field_E0_pShadow = &shadow;
-        Abe_SaveState state = {};
-        abe.field_1AE_flags.Set(bitToSet);
-        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
-        ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
-    }
-
-    static void Compare(Flags_114 bitToSet, Abe_SaveState::Flags_D4 bitToExpect)
-    {
-        Shadow shadow = {};
-        AbeSave abe = {};
-        abe.field_E0_pShadow = &shadow;
-        Abe_SaveState state = {};
-        abe.field_114_flags.Set(bitToSet);
-        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
-        ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
-    }
-
-    template<class TComp>
-    static void Compare(Abe::Flags_1AC bitToSet, TComp comp)
-    {
-        Shadow shadow = {};
-        AbeSave abe = {};
-        abe.field_E0_pShadow = &shadow;
-        Abe_SaveState state = {};
-        abe.field_1AC_flags.Set(bitToSet);
-        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
-        comp(state);
-    }
-
-    template<class TSet>
-    static void Compare(TSet set, Abe_SaveState::Flags_D6 bitToExpect)
-    {
-        Shadow shadow = {};
-        AbeSave abe = {};
-        abe.field_E0_pShadow = &shadow;
-        Abe_SaveState state = {};
-        set(abe);
-        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
-        ASSERT_TRUE(state.field_D6_flags.Get(bitToExpect));
-    }
-
-
-    template<class TSet>
-    static void Compare(TSet set, Abe_SaveState::Flags_D4 bitToExpect)
-    {
-        Shadow shadow = {};
-        AbeSave abe = {};
-        abe.field_E0_pShadow = &shadow;
-        Abe_SaveState state = {};
-        set(abe);
-        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
-        ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
-    }
-
-    template<class TSet, class TCompare>
-    static void Compare(TSet set, TCompare comp)
-    {
-        Shadow shadow = {};
-        AbeSave abe = {};
-        abe.field_E0_pShadow = &shadow;
-        Abe_SaveState state = {};
-        set(abe);
-        abe.VGetSaveState(reinterpret_cast<u8*>(&state));
-        comp(state);
-    }
-
-    static void TestAbeSave()
-    {
-        Compare(Abe::Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift, Abe_SaveState::Flags_D4::eD4_Bit1_lift_point_dead_while_using_lift);
-        Compare(Abe::Flags_1AC::e1AC_Bit2_return_to_previous_motion, Abe_SaveState::Flags_D4::eD4_Bit2_return_to_previous_motion);
-        Compare(Abe::Flags_1AC::e1AC_Bit3_WalkToRun, Abe_SaveState::Flags_D4::eD4_Bit3_WalkToRun);
-        Compare(Abe::Flags_1AC::e1AC_Bit4_unused, Abe_SaveState::Flags_D4::eD4_Bit4_unused);
-        Compare(Abe::Flags_1AC::e1AC_Bit5_shrivel, [](Abe_SaveState& state) { ASSERT_EQ(state.bShrivel, 1); });
-        Compare(Abe::Flags_1AC::e1AC_Bit6_prevent_chanting, Abe_SaveState::Flags_D4::eD4_Bit5_prevent_chanting);
-        Compare(Abe::Flags_1AC::e1AC_Bit7_land_softly, Abe_SaveState::Flags_D4::eD4_Bit6_land_softly);
-        Compare(Abe::Flags_1AC::e1AC_Bit8_unused, Abe_SaveState::Flags_D4::eD4_Bit7_unused);
-        Compare(Abe::Flags_1AC::e1AC_Bit9_laugh_at_chant_end, Abe_SaveState::Flags_D4::eD4_Bit8_laugh_at_chant_end);
-        // Abe::Flags_1AC::e1AC_Bit10 not persisted
-        // Abe::Flags_1AC::e1AC_Bit11 not persisted
-        Compare(Abe::Flags_1AC::e1AC_Bit12_unused, Abe_SaveState::Flags_D4::eD4_Bit9_unused);
-        Compare(Abe::Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds, Abe_SaveState::Flags_D4::eD4_Bit10_play_ledge_grab_sounds);
-        Compare(Abe::Flags_1AC::e1AC_eBit14_unused, Abe_SaveState::Flags_D4::eD4_Bit11_unused);
-        Compare(Abe::Flags_1AC::e1AC_eBit15_have_healing, Abe_SaveState::Flags_D4::eD4_Bit12_have_healing);
-        // Flags_114::e114_Bit1 not persisted
-        // Flags_114::e114_MotionChanged_Bit2 not persisted
-        // Flags_114::e114_Bit3_Can_Be_Possessed not persisted
-        // Flags_114::e114_Bit4_bPossesed not persisted
-        // Flags_114::e114_Bit5 not persisted
-        // Flags_114::e114_Bit6_SetOffExplosives not persisted
-        // Flags_114::e114_Bit7_Electrocuted not persisted
-        // Flags_114::e114_Bit8_bInvisible not persisted
-        // Flags_114::e114_Bit9_RestoredFromQuickSave not persisted
-        Compare(Flags_114::e114_Bit10_Teleporting, Abe_SaveState::Flags_D4::eD4_eBit13_teleporting);
-        // Flags_114::e114_Bit11_Electrocuting will crash as it attempts to iterate the object list to find the electrocute obj but it is not persisted directly
-        Compare(Abe::Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender, Abe_SaveState::Flags_D4::eD4_eBit14_is_mudanchee_vault_ender);
-        Compare(Abe::Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender, Abe_SaveState::Flags_D4::eD4_eBit15_is_mudomo_vault_ender);
-        // Abe::Flags_1AE::e1AE_Bit2_bDoQuickSave not persisted
-        Compare([](Abe& abe) { abe.field_E0_pShadow->field_14_flags.Set(Shadow::eBit1_ShadowAtBottom); }, Abe_SaveState::Flags_D6::eD6_Bit1_shadow_at_bottom);
-
-        Compare([](Abe& abe) { abe.field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bAnimFlipX, 1); });
-        Compare([](Abe& abe) { abe.field_6_flags.Set(BaseGameObject::eDrawable_Bit4); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bDrawable, 1); });
-        Compare([](Abe& abe) { abe.field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bAnimRender, 1); });
-        Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bElectrocuted, 1); });
-        Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); }, [](Abe_SaveState& state) { ASSERT_EQ(state.field_42_bInvisible, 1); });
-
-
-        // Needs resource manager and tons of other stuff, requires too many hacks to test this call
-        //Abe::CreateFromSaveState_44D4F0(reinterpret_cast<const u8*>(&state));
-    }
-
-    void QuikSave_Tests()
-    {
-        TestAbeSave();
-    }
+static void Compare(Abe::Flags_1AC bitToSet, Abe_SaveState::Flags_D4 bitToExpect)
+{
+    Shadow shadow = {};
+    AbeSave abe = {};
+    abe.field_E0_pShadow = &shadow;
+    Abe_SaveState state = {};
+    abe.field_1AC_flags.Set(bitToSet);
+    abe.VGetSaveState(reinterpret_cast<u8*>(&state));
+    ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
 }
+
+static void Compare(Abe::Flags_1AE bitToSet, Abe_SaveState::Flags_D4 bitToExpect)
+{
+    Shadow shadow = {};
+    AbeSave abe = {};
+    abe.field_E0_pShadow = &shadow;
+    Abe_SaveState state = {};
+    abe.field_1AE_flags.Set(bitToSet);
+    abe.VGetSaveState(reinterpret_cast<u8*>(&state));
+    ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
+}
+
+static void Compare(Flags_114 bitToSet, Abe_SaveState::Flags_D4 bitToExpect)
+{
+    Shadow shadow = {};
+    AbeSave abe = {};
+    abe.field_E0_pShadow = &shadow;
+    Abe_SaveState state = {};
+    abe.field_114_flags.Set(bitToSet);
+    abe.VGetSaveState(reinterpret_cast<u8*>(&state));
+    ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
+}
+
+template <class TComp>
+static void Compare(Abe::Flags_1AC bitToSet, TComp comp)
+{
+    Shadow shadow = {};
+    AbeSave abe = {};
+    abe.field_E0_pShadow = &shadow;
+    Abe_SaveState state = {};
+    abe.field_1AC_flags.Set(bitToSet);
+    abe.VGetSaveState(reinterpret_cast<u8*>(&state));
+    comp(state);
+}
+
+template <class TSet>
+static void Compare(TSet set, Abe_SaveState::Flags_D6 bitToExpect)
+{
+    Shadow shadow = {};
+    AbeSave abe = {};
+    abe.field_E0_pShadow = &shadow;
+    Abe_SaveState state = {};
+    set(abe);
+    abe.VGetSaveState(reinterpret_cast<u8*>(&state));
+    ASSERT_TRUE(state.field_D6_flags.Get(bitToExpect));
+}
+
+
+template <class TSet>
+static void Compare(TSet set, Abe_SaveState::Flags_D4 bitToExpect)
+{
+    Shadow shadow = {};
+    AbeSave abe = {};
+    abe.field_E0_pShadow = &shadow;
+    Abe_SaveState state = {};
+    set(abe);
+    abe.VGetSaveState(reinterpret_cast<u8*>(&state));
+    ASSERT_TRUE(state.field_D4_flags.Get(bitToExpect));
+}
+
+template <class TSet, class TCompare>
+static void Compare(TSet set, TCompare comp)
+{
+    Shadow shadow = {};
+    AbeSave abe = {};
+    abe.field_E0_pShadow = &shadow;
+    Abe_SaveState state = {};
+    set(abe);
+    abe.VGetSaveState(reinterpret_cast<u8*>(&state));
+    comp(state);
+}
+
+static void TestAbeSave()
+{
+    Compare(Abe::Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift, Abe_SaveState::Flags_D4::eD4_Bit1_lift_point_dead_while_using_lift);
+    Compare(Abe::Flags_1AC::e1AC_Bit2_return_to_previous_motion, Abe_SaveState::Flags_D4::eD4_Bit2_return_to_previous_motion);
+    Compare(Abe::Flags_1AC::e1AC_Bit3_WalkToRun, Abe_SaveState::Flags_D4::eD4_Bit3_WalkToRun);
+    Compare(Abe::Flags_1AC::e1AC_Bit4_unused, Abe_SaveState::Flags_D4::eD4_Bit4_unused);
+    Compare(Abe::Flags_1AC::e1AC_Bit5_shrivel, [](Abe_SaveState& state)
+            { ASSERT_EQ(state.bShrivel, 1); });
+    Compare(Abe::Flags_1AC::e1AC_Bit6_prevent_chanting, Abe_SaveState::Flags_D4::eD4_Bit5_prevent_chanting);
+    Compare(Abe::Flags_1AC::e1AC_Bit7_land_softly, Abe_SaveState::Flags_D4::eD4_Bit6_land_softly);
+    Compare(Abe::Flags_1AC::e1AC_Bit8_unused, Abe_SaveState::Flags_D4::eD4_Bit7_unused);
+    Compare(Abe::Flags_1AC::e1AC_Bit9_laugh_at_chant_end, Abe_SaveState::Flags_D4::eD4_Bit8_laugh_at_chant_end);
+    // Abe::Flags_1AC::e1AC_Bit10 not persisted
+    // Abe::Flags_1AC::e1AC_Bit11 not persisted
+    Compare(Abe::Flags_1AC::e1AC_Bit12_unused, Abe_SaveState::Flags_D4::eD4_Bit9_unused);
+    Compare(Abe::Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds, Abe_SaveState::Flags_D4::eD4_Bit10_play_ledge_grab_sounds);
+    Compare(Abe::Flags_1AC::e1AC_eBit14_unused, Abe_SaveState::Flags_D4::eD4_Bit11_unused);
+    Compare(Abe::Flags_1AC::e1AC_eBit15_have_healing, Abe_SaveState::Flags_D4::eD4_Bit12_have_healing);
+    // Flags_114::e114_Bit1 not persisted
+    // Flags_114::e114_MotionChanged_Bit2 not persisted
+    // Flags_114::e114_Bit3_Can_Be_Possessed not persisted
+    // Flags_114::e114_Bit4_bPossesed not persisted
+    // Flags_114::e114_Bit5 not persisted
+    // Flags_114::e114_Bit6_SetOffExplosives not persisted
+    // Flags_114::e114_Bit7_Electrocuted not persisted
+    // Flags_114::e114_Bit8_bInvisible not persisted
+    // Flags_114::e114_Bit9_RestoredFromQuickSave not persisted
+    Compare(Flags_114::e114_Bit10_Teleporting, Abe_SaveState::Flags_D4::eD4_eBit13_teleporting);
+    // Flags_114::e114_Bit11_Electrocuting will crash as it attempts to iterate the object list to find the electrocute obj but it is not persisted directly
+    Compare(Abe::Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender, Abe_SaveState::Flags_D4::eD4_eBit14_is_mudanchee_vault_ender);
+    Compare(Abe::Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender, Abe_SaveState::Flags_D4::eD4_eBit15_is_mudomo_vault_ender);
+    // Abe::Flags_1AE::e1AE_Bit2_bDoQuickSave not persisted
+    Compare([](Abe& abe)
+            { abe.field_E0_pShadow->field_14_flags.Set(Shadow::eBit1_ShadowAtBottom); },
+            Abe_SaveState::Flags_D6::eD6_Bit1_shadow_at_bottom);
+
+    Compare([](Abe& abe)
+            { abe.field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX); },
+            [](Abe_SaveState& state)
+            { ASSERT_EQ(state.bAnimFlipX, 1); });
+    Compare([](Abe& abe)
+            { abe.field_6_flags.Set(BaseGameObject::eDrawable_Bit4); },
+            [](Abe_SaveState& state)
+            { ASSERT_EQ(state.bDrawable, 1); });
+    Compare([](Abe& abe)
+            { abe.field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render); },
+            [](Abe_SaveState& state)
+            { ASSERT_EQ(state.bAnimRender, 1); });
+    Compare([](Abe& abe)
+            { abe.field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted); },
+            [](Abe_SaveState& state)
+            { ASSERT_EQ(state.bElectrocuted, 1); });
+    Compare([](Abe& abe)
+            { abe.field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); },
+            [](Abe_SaveState& state)
+            { ASSERT_EQ(state.field_42_bInvisible, 1); });
+
+
+    // Needs resource manager and tons of other stuff, requires too many hacks to test this call
+    //Abe::CreateFromSaveState_44D4F0(reinterpret_cast<const u8*>(&state));
+}
+
+void QuikSave_Tests()
+{
+    TestAbeSave();
+}
+} // namespace AETest::TestsQuikSave

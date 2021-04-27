@@ -60,55 +60,55 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
         field_104_type = type;
         switch (field_104_type)
         {
-        case BurstType::eFallingRocks_0:
-            Animation_Init_424E10(6484, 71, 36, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDebrisID00), 1, 1u);
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-            break;
+            case BurstType::eFallingRocks_0:
+                Animation_Init_424E10(6484, 71, 36, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDebrisID00), 1, 1u);
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                break;
 
-        case BurstType::eSticks_1:
-            Animation_Init_424E10(1704, 49, 29, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kStickGib), 1, 1u);
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-            break;
+            case BurstType::eSticks_1:
+                Animation_Init_424E10(1704, 49, 29, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kStickGib), 1, 1u);
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                break;
 
-        case BurstType::eBigPurpleSparks_2:
-            Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-            field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-            break;
+            case BurstType::eBigPurpleSparks_2:
+                Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+                break;
 
-        case BurstType::eBigRedSparks_3:
-        case BurstType::eGreenSparks_5:
-        case BurstType::eSmallPurpleSparks_6:
-            Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
-            field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+            case BurstType::eBigRedSparks_3:
+            case BurstType::eGreenSparks_5:
+            case BurstType::eSmallPurpleSparks_6:
+                Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
+                field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
 
-            if (field_104_type == BurstType::eBigRedSparks_3)
-            {
-                field_20_animation.field_8_r = 254;
-                field_20_animation.field_9_g = 148;
-                field_20_animation.field_A_b = 18;
-            }
-            else if (field_104_type == BurstType::eSmallPurpleSparks_6)
-            {
-                field_20_animation.field_8_r = 127;
-                field_20_animation.field_9_g = 127;
-                field_20_animation.field_A_b = 127;
-            }
-            else
-            {
-                field_20_animation.field_8_r = 0;
-                field_20_animation.field_9_g = 255;
-                field_20_animation.field_A_b = 32;
-            }
-            break;
+                if (field_104_type == BurstType::eBigRedSparks_3)
+                {
+                    field_20_animation.field_8_r = 254;
+                    field_20_animation.field_9_g = 148;
+                    field_20_animation.field_A_b = 18;
+                }
+                else if (field_104_type == BurstType::eSmallPurpleSparks_6)
+                {
+                    field_20_animation.field_8_r = 127;
+                    field_20_animation.field_9_g = 127;
+                    field_20_animation.field_A_b = 127;
+                }
+                else
+                {
+                    field_20_animation.field_8_r = 0;
+                    field_20_animation.field_9_g = 255;
+                    field_20_animation.field_A_b = 32;
+                }
+                break;
 
-        default:
-            break;
+            default:
+                break;
         }
 
         if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
@@ -142,7 +142,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
                 field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
 
-                 field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, field_20_animation.field_4_flags.Get(AnimFlags::eBit15_bSemiTrans));
+                field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, field_20_animation.field_4_flags.Get(AnimFlags::eBit15_bSemiTrans));
 
                 field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending, field_20_animation.field_4_flags.Get(AnimFlags::eBit16_bBlending));
 
@@ -255,7 +255,7 @@ void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
             // TODO: Much duplicated code in each branch
             if (bFirst)
             {
-                field_20_animation.field_14_scale =  FP_FromInteger(100) /  (zPos + FP_FromInteger(300));
+                field_20_animation.field_14_scale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
                 field_20_animation.field_14_scale *= field_CC_sprite_scale;
                 field_20_animation.field_14_scale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
 
@@ -355,7 +355,6 @@ void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
                         {
                             field_F8_pRes[i].field_18_anim.field_A_b = 0;
                         }
-
                     }
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(
                         frameRect.x,

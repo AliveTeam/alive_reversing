@@ -4,27 +4,27 @@
 #include "Sound/Midi.hpp"
 
 #if USE_SDL2_SOUND
-#include "FunctionFwd.hpp"
-#include "stdlib.hpp"
-#include "SDL.h"
-#include <atomic>
+    #include "FunctionFwd.hpp"
+    #include "stdlib.hpp"
+    #include "SDL.h"
+    #include <atomic>
 
-#define DSBSTATUS_PLAYING           0x00000001
-#define DSBSTATUS_BUFFERLOST        0x00000002
-#define DSBSTATUS_LOOPING           0x00000004
-#define DSBSTATUS_TERMINATED        0x00000020
+    #define DSBSTATUS_PLAYING 0x00000001
+    #define DSBSTATUS_BUFFERLOST 0x00000002
+    #define DSBSTATUS_LOOPING 0x00000004
+    #define DSBSTATUS_TERMINATED 0x00000020
 
-#define DSBPLAY_LOOPING             0x00000001
+    #define DSBPLAY_LOOPING 0x00000001
 
-#define DSBPAN_LEFT                 -10000
-#define DSBPAN_CENTER               0
-#define DSBPAN_RIGHT                10000
+    #define DSBPAN_LEFT -10000
+    #define DSBPAN_CENTER 0
+    #define DSBPAN_RIGHT 10000
 
 
-#define DSBFREQUENCY_MIN            100
-#define DSBFREQUENCY_MAX            200000
+    #define DSBFREQUENCY_MIN 100
+    #define DSBFREQUENCY_MAX 200000
 
-#define DSERR_BUFFERLOST            0x88780096
+    #define DSERR_BUFFERLOST 0x88780096
 
 struct MIDI_Channel;
 struct SoundEntry;

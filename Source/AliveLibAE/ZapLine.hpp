@@ -34,10 +34,13 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
+
 private:
     EXPORT ZapLine* vdtor_4CCAA0(s32 flags);
+
 public:
     EXPORT void CalculateSourceAndDestinationPositions_4CCAD0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
+
 private:
     EXPORT void dtor_4CCCB0();
     EXPORT void vScreenChanged_4CDBE0();

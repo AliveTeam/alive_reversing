@@ -17,11 +17,10 @@ class TypesCollectionAE;
 class PathLine;
 enum class TlvTypes : s16;
 
-namespace AO
-{
-    class PathLine;
-    enum class TlvTypes : s16;
-}
+namespace AO {
+class PathLine;
+enum class TlvTypes : s16;
+} // namespace AO
 
 inline s32 To1dIndex(s32 width, s32 x, s32 y)
 {

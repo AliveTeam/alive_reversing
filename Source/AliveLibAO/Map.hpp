@@ -43,17 +43,17 @@ ALIVE_ASSERT_SIZEOF(Map_PathsArray, 120);
 enum class CameraSwapEffects : s16
 {
     eEffect0_InstantChange = 0,
-    eEffect1_LeftToRight = 1,       // Left to right
-    eEffect2_RightToLeft = 2,       // Right to left
-    eEffect3_TopToBottom = 3,       // Top to bottom
-    eEffect4_BottomToTop = 4,       // Bottom to top
-    eEffect5_1_FMV = 5,             // Play single fmv
-    eEffect6_VerticalSplit = 6,     // Screen splits from the middle and moves out up/down
-    eEffect7_HorizontalSplit = 7,   // Screen splits from the middle and moves out left/right
-    eEffect8_BoxOut = 8,            // A rect "grows" out from the centre of the screen
-    eEffect9_2_FMV = 9,             // Play 2 fmvs
-    eEffect10_3_FMV = 10,           // Play 3 fmvs - apparently just taking an array of fmvs is too simple ?
-    eEffect11 = 11                  // Unknown, has special handing in the map object
+    eEffect1_LeftToRight = 1,     // Left to right
+    eEffect2_RightToLeft = 2,     // Right to left
+    eEffect3_TopToBottom = 3,     // Top to bottom
+    eEffect4_BottomToTop = 4,     // Bottom to top
+    eEffect5_1_FMV = 5,           // Play single fmv
+    eEffect6_VerticalSplit = 6,   // Screen splits from the middle and moves out up/down
+    eEffect7_HorizontalSplit = 7, // Screen splits from the middle and moves out left/right
+    eEffect8_BoxOut = 8,          // A rect "grows" out from the centre of the screen
+    eEffect9_2_FMV = 9,           // Play 2 fmvs
+    eEffect10_3_FMV = 10,         // Play 3 fmvs - apparently just taking an array of fmvs is too simple ?
+    eEffect11 = 11                // Unknown, has special handing in the map object
 };
 
 extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10];
@@ -71,7 +71,7 @@ struct TlvTypes32
     TlvTypes mType;
     s16 padto32Bits;
 
-    bool operator == (TlvTypes type) const
+    bool operator==(TlvTypes type) const
     {
         return mType == type;
     }
@@ -85,7 +85,7 @@ struct Path_TLV
     s8 field_1_unknown;
     s16 field_2_length;
     TlvTypes32 field_4_type;
-    s32 field_8; // only ever used as some sort of hacky memory overwrite check, always 0 in the Path data
+    s32 field_8;                 // only ever used as some sort of hacky memory overwrite check, always 0 in the Path data
     PSX_Point field_C_sound_pos; // a completely pointless copy of field_10_top_left, the data is always the same in all released Paths
     PSX_Point field_10_top_left;
     PSX_Point field_14_bottom_right;
@@ -138,7 +138,7 @@ enum class CameraPos : s16
     eCamBottom_2 = 2,
     eCamLeft_3 = 3,
     eCamRight_4 = 4,
-    eCamNone_5 = 5,   // Not "in" the camera
+    eCamNone_5 = 5, // Not "in" the camera
 };
 
 class Map
@@ -158,10 +158,10 @@ public:
     void ctor();
 
     EXPORT void Init_443EE0(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
-    
+
     EXPORT void Shutdown_443F90();
     void Reset();
-    
+
     EXPORT s16 SetActiveCam_444660(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
 
     EXPORT s16 GetOverlayId_4440B0();
@@ -279,5 +279,4 @@ ALIVE_VAR_EXTERN(Camera*, sCameraBeingLoaded_507C98);
 
 EXPORT s32 CC MaxGridBlocks_41FA10(FP scale);
 
-}
-
+} // namespace AO

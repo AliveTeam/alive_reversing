@@ -45,6 +45,7 @@ public:
     virtual s16 VPull_49BBD0(BaseGameObject* a2);
     virtual BOOL VIsNotBeingPulled_49BC90();
     virtual void VMarkAsPulled_49B610();
+
 private:
     EXPORT PullRingRope* vdtor_49B630(s32 flags);
     EXPORT void dtor_49B660();
@@ -53,6 +54,7 @@ private:
     EXPORT s16 vPull_49BBD0(BaseGameObject* a2);
     EXPORT BOOL vIsNotBeingPulled_49BC90();
     EXPORT void vMarkAsPulled_49B610();
+
 private:
     s32 field_F4_stay_in_state_ticks;
     s32 field_F8_rope_id;

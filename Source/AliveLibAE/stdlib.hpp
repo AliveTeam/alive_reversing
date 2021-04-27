@@ -18,7 +18,7 @@ EXPORT void CC ae_non_zero_free_495560(void* ptr);
 EXPORT void* CC realloc_4F4E80(void* ptr, size_t size);
 EXPORT s32 CC ae_remove_520B27(LPCSTR lpFileName);
 
-template<typename T, typename... Args>
+template <typename T, typename... Args>
 inline T* ae_new(Args&&... args)
 {
     void* buffer = ae_new_malloc_4954D0(sizeof(T));

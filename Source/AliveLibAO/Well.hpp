@@ -8,8 +8,8 @@ namespace AO {
 
 union OffLevelOrDx
 {
-     LevelIds level;
-     s16 dx;
+    LevelIds level;
+    s16 dx;
 };
 
 struct Path_WellBase : public Path_TLV
@@ -93,5 +93,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Well, 0x104);
 
-}
-
+} // namespace AO

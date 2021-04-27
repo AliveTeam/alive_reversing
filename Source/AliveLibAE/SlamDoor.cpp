@@ -16,46 +16,43 @@ struct SlamDoor_Data
     s16 field_E_maxW;
 };
 
-const AnimId sSlamDoorData_547168[15][3] =
-{
-    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
-    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
-    { AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening },
-    { AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening },
-    { AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening },
-    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
-    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
-    { AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening },
-    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
-    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
-    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
-    { AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening },
-    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
-    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
-    { AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening },
+const AnimId sSlamDoorData_547168[15][3] = {
+    {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
+    {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
+    {AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening},
+    {AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening},
+    {AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening},
+    {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
+    {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
+    {AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening},
+    {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
+    {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
+    {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
+    {AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening},
+    {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
+    {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
+    {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
 };
 
-TintEntry sSlamDoorTints_5603B0[18] =
-{
-    { 1, 102u, 87u, 118u },
-    { 2, 102u, 87u, 118u },
-    { 3, 102u, 87u, 118u },
-    { 4, 102u, 87u, 118u },
-    { 5, 102u, 87u, 118u },
-    { 6, 102u, 87u, 118u },
-    { 7, 102u, 87u, 118u },
-    { 8, 102u, 87u, 118u },
-    { 9, 102u, 87u, 118u },
-    { 0x0A, 102u, 87u, 118u },
-    { 0x0B, 102u, 87u, 118u },
-    { 0x0C, 102u, 87u, 118u },
-    { 0x0D, 102u, 87u, 118u },
-    { 0x0E, 102u, 87u, 118u },
-    { -1, 102u, 87u, 118u },
-    { 0, 0, 0, 0 },
-    { 0, 0, 0, 0 },
-    { 0, 0, 0, 0 }
-};
+TintEntry sSlamDoorTints_5603B0[18] = {
+    {1, 102u, 87u, 118u},
+    {2, 102u, 87u, 118u},
+    {3, 102u, 87u, 118u},
+    {4, 102u, 87u, 118u},
+    {5, 102u, 87u, 118u},
+    {6, 102u, 87u, 118u},
+    {7, 102u, 87u, 118u},
+    {8, 102u, 87u, 118u},
+    {9, 102u, 87u, 118u},
+    {0x0A, 102u, 87u, 118u},
+    {0x0B, 102u, 87u, 118u},
+    {0x0C, 102u, 87u, 118u},
+    {0x0D, 102u, 87u, 118u},
+    {0x0E, 102u, 87u, 118u},
+    {-1, 102u, 87u, 118u},
+    {0, 0, 0, 0},
+    {0, 0, 0, 0},
+    {0, 0, 0, 0}};
 
 struct Quicksave_Obj_SlamDoor
 {
@@ -115,8 +112,8 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     field_4_typeId = AETypes::eSlamDoor_122;
 
     field_B8_xpos = FP_FromInteger(((pTlv->field_8_top_left.field_0_x
-        + pTlv->field_C_bottom_right.field_0_x)
-        / 2));
+                                     + pTlv->field_C_bottom_right.field_0_x)
+                                    / 2));
 
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_12C_tlvInfo = tlvInfo;
@@ -158,14 +155,15 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     FP hitY;
 
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos,
-        field_B8_xpos,
-        field_BC_ypos + FP_FromDouble(24.0),
-        &field_100_pCollisionLine,
-        &hitX,
-        &hitY,
-        field_D6_scale != 0 ? 1 : 16) == 1)
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos + FP_FromDouble(24.0),
+            &field_100_pCollisionLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 1 : 16)
+        == 1)
     {
         field_BC_ypos = hitY;
     }
@@ -197,7 +195,7 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                 2);
             const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize_4498B0(field_CC_sprite_scale);
             const FP y1 = FP_FromInteger(field_126_y1)
-                - (field_CC_sprite_scale * FP_FromDouble(80.0));
+                        - (field_CC_sprite_scale * FP_FromDouble(80.0));
             const FP x1 = ScaleToGridSize_4498B0(field_CC_sprite_scale) + FP_FromInteger(field_124_x1);
             pPathLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line_417FA0(
                 FP_GetExponent(x1),
@@ -217,7 +215,7 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                 field_126_y1,
                 6);
             const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize_4498B0(field_CC_sprite_scale);
-            const FP y1 = FP_FromInteger(field_126_y1) -(field_CC_sprite_scale * FP_FromDouble(80.0));
+            const FP y1 = FP_FromInteger(field_126_y1) - (field_CC_sprite_scale * FP_FromDouble(80.0));
             const FP x1 = ScaleToGridSize_4498B0(field_CC_sprite_scale) + FP_FromInteger(field_124_x1);
             pPathLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line_417FA0(
                 FP_GetExponent(x1),
@@ -385,8 +383,7 @@ void SlamDoor::vUpdate_4AFD50()
                         // Some hack that prevents Abe getting knocked back when rolling or falling near a closing slam door
                         bObjRect.x += 3;
 
-                        if (PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect) &&
-                            pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+                        if (PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect) && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
                         {
                             ClearInsideSlamDoor_4B0530(pObj, bRect.x, bRect.w);
                         }
@@ -432,12 +429,9 @@ void SlamDoor::vUpdate_4AFD50()
                     PSX_RECT bObjRect = {};
                     pObj->vGetBoundingRect_424FD0(&bObjRect, 1);
 
-                    if (FP_GetExponent(pObj->field_B8_xpos) > bRect.x &&
-                        FP_GetExponent(pObj->field_B8_xpos) < bRect.w &&
-                        PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
+                    if (FP_GetExponent(pObj->field_B8_xpos) > bRect.x && FP_GetExponent(pObj->field_B8_xpos) < bRect.w && PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
                     {
-                        if (pObj->field_CC_sprite_scale == field_CC_sprite_scale ||
-                            (pObj->field_4_typeId == AETypes::eSlog_126 && field_CC_sprite_scale == FP_FromInteger(1)))
+                        if (pObj->field_CC_sprite_scale == field_CC_sprite_scale || (pObj->field_4_typeId == AETypes::eSlog_126 && field_CC_sprite_scale == FP_FromInteger(1)))
                         {
                             ClearInsideSlamDoor_4B0530(pObj, bRect.x, bRect.w);
                         }
@@ -448,7 +442,6 @@ void SlamDoor::vUpdate_4AFD50()
     }
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
-
 }
 
 s32 SlamDoor::vGetSaveState_4C09D0(u8* pSaveBuffer)
@@ -492,16 +485,16 @@ s32 CC SlamDoor::CreateFromSaveState_4C08B0(const u8* pData)
     {
         switch (gMap_5C3030.field_0_current_level)
         {
-        case LevelIds::eNecrum_2:
-        case LevelIds::eMudomoVault_3:
-        case LevelIds::eMudancheeVault_4:
-        case LevelIds::eMudancheeVault_Ender_7:
-        case LevelIds::eMudomoVault_Ender_11:
-            ResourceManager::LoadResourceFile_49C170("SLAMVLTS.BAN", nullptr);
-            break;
-        default:
-            ResourceManager::LoadResourceFile_49C170("SLAM.BAN", nullptr);
-            break;
+            case LevelIds::eNecrum_2:
+            case LevelIds::eMudomoVault_3:
+            case LevelIds::eMudancheeVault_4:
+            case LevelIds::eMudancheeVault_Ender_7:
+            case LevelIds::eMudomoVault_Ender_11:
+                ResourceManager::LoadResourceFile_49C170("SLAMVLTS.BAN", nullptr);
+                break;
+            default:
+                ResourceManager::LoadResourceFile_49C170("SLAM.BAN", nullptr);
+                break;
         }
     }
 

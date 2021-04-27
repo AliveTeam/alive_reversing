@@ -23,25 +23,23 @@ struct TrapDoor_Data
 ALIVE_ASSERT_SIZEOF(TrapDoor_Data, 0x14);
 
 
-const TrapDoor_Data sTrapDoorData_4BD4A0[16] =
-{
-    { 4644, 4632, 4680, 4656, 155, 59 },
-    { 4700, 4688, 4740, 4712, 72, 41 },
-    { 4644, 4632, 4680, 4656, 155, 59 },
-    { 4644, 4632, 4680, 4656, 155, 59 },
-    { 4644, 4632, 4680, 4656, 155, 59 },
-    { 4644, 4632, 4680, 4656, 155, 59 },
-    { 4644, 4632, 4680, 4656, 155, 59 },
-    { 4644, 4632, 4680, 4656, 155, 59 },
-    { 1976, 1964, 2012, 1988, 99, 56 },
-    { 1976, 1964, 2012, 1988, 99, 56 },
-    { 1976, 1964, 2012, 1988, 99, 56 },
-    { 1976, 1964, 2012, 1988, 99, 56 },
-    { 4700, 4688, 4740, 4712, 72, 41 },
-    { 4700, 4688, 4740, 4712, 72, 41 },
-    { 4644, 4632, 4680, 4656, 155, 59 },
-    { 1976, 1964, 2012, 1988, 99, 56 }
-};
+const TrapDoor_Data sTrapDoorData_4BD4A0[16] = {
+    {4644, 4632, 4680, 4656, 155, 59},
+    {4700, 4688, 4740, 4712, 72, 41},
+    {4644, 4632, 4680, 4656, 155, 59},
+    {4644, 4632, 4680, 4656, 155, 59},
+    {4644, 4632, 4680, 4656, 155, 59},
+    {4644, 4632, 4680, 4656, 155, 59},
+    {4644, 4632, 4680, 4656, 155, 59},
+    {4644, 4632, 4680, 4656, 155, 59},
+    {1976, 1964, 2012, 1988, 99, 56},
+    {1976, 1964, 2012, 1988, 99, 56},
+    {1976, 1964, 2012, 1988, 99, 56},
+    {1976, 1964, 2012, 1988, 99, 56},
+    {4700, 4688, 4740, 4712, 72, 41},
+    {4700, 4688, 4740, 4712, 72, 41},
+    {4644, 4632, 4680, 4656, 155, 59},
+    {1976, 1964, 2012, 1988, 99, 56}};
 
 void TrapDoor::VUpdate()
 {
@@ -82,9 +80,7 @@ void TrapDoor::VAdd_4886D0(BaseAliveGameObject* pObj)
 
 void TrapDoor::VScreenChanged_488740()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
-        gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path ||
-        gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
@@ -258,80 +254,74 @@ void TrapDoor::VUpdate_4883E0()
 
     switch (field_136_state)
     {
-    case 0:
-        if (SwitchStates_Get(field_134_switch_idx) == field_138_switch_state)
-        {
-            Open();
-            field_136_state = 1;
-
-            const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
-            field_10_anim.Set_Animation_Data_402A40(
-                sTrapDoorData_4BD4A0[cur_lvl].field_8,
-                0);
-
-            SFX_Play_43AED0(SoundEffect::Trapdoor_49, 70, direction);
-
-            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
-                gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
-                gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+        case 0:
+            if (SwitchStates_Get(field_134_switch_idx) == field_138_switch_state)
             {
-                SFX_Play_43AED0(SoundEffect::IndustrialTrigger_97, 45, direction);
-                SFX_Play_43AED0(SoundEffect::IndustrialNoise1_93, 90, direction);
+                Open();
+                field_136_state = 1;
+
+                const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
+                field_10_anim.Set_Animation_Data_402A40(
+                    sTrapDoorData_4BD4A0[cur_lvl].field_8,
+                    0);
+
+                SFX_Play_43AED0(SoundEffect::Trapdoor_49, 70, direction);
+
+                if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+                {
+                    SFX_Play_43AED0(SoundEffect::IndustrialTrigger_97, 45, direction);
+                    SFX_Play_43AED0(SoundEffect::IndustrialNoise1_93, 90, direction);
+                }
             }
-        }
-        break;
+            break;
 
-    case 1:
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_136_state = 2;
-            field_130_stay_open_time = 20;
-        }
-        break;
-
-    case 2:
-        field_130_stay_open_time--;
-        if ((field_13C_set_switch_on_dead && !field_130_stay_open_time) ||
-            SwitchStates_Get(field_134_switch_idx) != SwitchStates_Get(field_138_switch_state))
-        {
-            const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
-
-            field_10_anim.Set_Animation_Data_402A40(
-                sTrapDoorData_4BD4A0[cur_lvl].field_C,
-                0);
-            field_136_state = 3;
-
-            SFX_Play_43AED0(SoundEffect::Trapdoor_49, 70, direction);
-
-            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
-                gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
-                gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+        case 1:
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                SFX_Play_43AED0(SoundEffect::IndustrialNoise3_95, 60, direction);
-                SFX_Play_43AED0(SoundEffect::IndustrialNoise2_94, 90, direction);
+                field_136_state = 2;
+                field_130_stay_open_time = 20;
             }
-        }
-        break;
+            break;
 
-    case 3:
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_120_pCollisionLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(
-                field_148_bounding_rect.x,
-                field_148_bounding_rect.y,
-                field_148_bounding_rect.w,
-                field_148_bounding_rect.y,
-                32);
-            ObjListPlatforms_50766C->Push_Back(this);
-            field_136_state = 0;
-            SwitchStates_Set(field_134_switch_idx, field_138_switch_state == 0);
-        }
-        break;
+        case 2:
+            field_130_stay_open_time--;
+            if ((field_13C_set_switch_on_dead && !field_130_stay_open_time) || SwitchStates_Get(field_134_switch_idx) != SwitchStates_Get(field_138_switch_state))
+            {
+                const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
-    default:
-        return;
+                field_10_anim.Set_Animation_Data_402A40(
+                    sTrapDoorData_4BD4A0[cur_lvl].field_C,
+                    0);
+                field_136_state = 3;
+
+                SFX_Play_43AED0(SoundEffect::Trapdoor_49, 70, direction);
+
+                if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+                {
+                    SFX_Play_43AED0(SoundEffect::IndustrialNoise3_95, 60, direction);
+                    SFX_Play_43AED0(SoundEffect::IndustrialNoise2_94, 90, direction);
+                }
+            }
+            break;
+
+        case 3:
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_120_pCollisionLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(
+                    field_148_bounding_rect.x,
+                    field_148_bounding_rect.y,
+                    field_148_bounding_rect.w,
+                    field_148_bounding_rect.y,
+                    32);
+                ObjListPlatforms_50766C->Push_Back(this);
+                field_136_state = 0;
+                SwitchStates_Set(field_134_switch_idx, field_138_switch_state == 0);
+            }
+            break;
+
+        default:
+            return;
     }
 }
 
-}
-
+} // namespace AO

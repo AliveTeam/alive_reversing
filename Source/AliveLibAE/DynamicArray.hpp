@@ -13,15 +13,25 @@ public:
     EXPORT void dtor_40CAD0();
 
     EXPORT s16 Expand_40CBE0(s16 expandSize);
-    bool IsEmpty() const { return field_4_used_size == 0; }
-    s16 Size() const { return field_4_used_size; }
+    bool IsEmpty() const
+    {
+        return field_4_used_size == 0;
+    }
+    s16 Size() const
+    {
+        return field_4_used_size;
+    }
+
 public:
     EXPORT s16 Push_Back_40CAF0(void* pValue);
+
 protected:
     EXPORT s16 Remove_Item_40CB60(void* pItemToRemove);
     void** field_0_array;
+
 public:
     s16 field_4_used_size;
+
 private:
     s16 field_6_max_size;
     s16 field_8_expand_size;
@@ -32,7 +42,7 @@ private:
 ALIVE_ASSERT_SIZEOF(DynamicArray, 0xC);
 
 // Typed wrapper for DynamicArray
-template<class T>
+template <class T>
 class DynamicArrayT : public DynamicArray
 {
 public:

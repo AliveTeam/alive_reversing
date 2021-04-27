@@ -14,14 +14,15 @@
 #include <typeinfo>
 #include <unordered_map>
 
-template<class T>
+template <class T>
 class EnumTypeBase : public ITypeBase
 {
     static_assert(std::is_integral_v<T> && !std::is_enum_v<T>, "Must be underlying type of enum");
 
 protected:
     explicit EnumTypeBase(const std::string& typeName, const std::type_index& typeIndex)
-        : ITypeBase(typeName), mTypeIndex(typeIndex)
+        : ITypeBase(typeName)
+        , mTypeIndex(typeIndex)
     {
     }
 
@@ -30,7 +31,7 @@ protected:
         {
             const auto [it, inserted] = mValueToName.emplace(enumValue, name);
 
-            if(!inserted)
+            if (!inserted)
             {
                 LOG_ERROR("Enum with value '" << enumValue << "' already present ('" << it->second << "'), could not insert '" << name << "'\n");
 
@@ -42,7 +43,7 @@ protected:
         {
             const auto [it, inserted] = mNameToValue.emplace(name, enumValue);
 
-            if(!inserted)
+            if (!inserted)
             {
                 LOG_INFO("Enum with name '" << name << "' already present ('" << it->second << "'), could not insert '" << enumValue << "'\n");
 

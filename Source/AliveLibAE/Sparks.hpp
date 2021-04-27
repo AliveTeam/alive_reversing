@@ -10,11 +10,13 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+
 private:
     EXPORT void vUpdate_416570();
     EXPORT void vScreenChanged_416720();
     EXPORT void dtor_416550();
     EXPORT Sparks* vdtor_416520(s32 flags);
+
 private:
     s32 field_F4_padding;
     s16 field_F8_padding;

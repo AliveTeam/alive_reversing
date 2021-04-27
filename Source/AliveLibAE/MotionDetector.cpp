@@ -102,7 +102,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvIn
             field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
         }
 
-        field_174_speed = FP_FromRaw((u16)pTlv->field_16_speed_x256 << 8);
+        field_174_speed = FP_FromRaw((u16) pTlv->field_16_speed_x256 << 8);
 
         MotionDetectorLaser* pLaser = nullptr;
         if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
@@ -306,14 +306,7 @@ s16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* 
     if (pWho->field_4_typeId == AETypes::eAbe_69)
     {
         // Abe is safe in these states or if electrocuted or in ddcheat fly mode.
-        if (pWho->field_106_current_motion == eAbeStates::State_0_Idle_44EEB0 ||
-            pWho->field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0 ||
-            pWho->field_106_current_motion == eAbeStates::State_67_LedgeHang_454E20 ||
-            pWho->field_106_current_motion == eAbeStates::State_60_4A3200 ||
-            pWho->field_106_current_motion == eAbeStates::State_57_Dead_4589A0 ||
-            pWho->field_106_current_motion == eAbeStates::State_117_InMineCar_4587C0 ||
-            pWho->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted) ||
-            sDDCheat_FlyingEnabled_5C2C08)
+        if (pWho->field_106_current_motion == eAbeStates::State_0_Idle_44EEB0 || pWho->field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0 || pWho->field_106_current_motion == eAbeStates::State_67_LedgeHang_454E20 || pWho->field_106_current_motion == eAbeStates::State_60_4A3200 || pWho->field_106_current_motion == eAbeStates::State_57_Dead_4589A0 || pWho->field_106_current_motion == eAbeStates::State_117_InMineCar_4587C0 || pWho->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted) || sDDCheat_FlyingEnabled_5C2C08)
         {
             return 0;
         }
@@ -479,55 +472,55 @@ void MotionDetector::vUpdate_468A90()
 
         switch (field_100_state)
         {
-        case States::eMoveRight_0:
-            if (pLaser->field_B8_xpos >= field_11C_y1_fp)
-            {
-                field_100_state = States::eWaitThenMoveLeft_1;
-                field_104_timer = sGnFrame_5C1B84 + 15;
-                const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
-                    field_C2_lvl_number,
-                    field_C0_path_number,
-                    field_B8_xpos,
-                    field_BC_ypos);
-                SFX_Play_46FC20(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
-            }
-            else
-            {
-                pLaser->field_B8_xpos += field_174_speed;
-            }
-            break;
+            case States::eMoveRight_0:
+                if (pLaser->field_B8_xpos >= field_11C_y1_fp)
+                {
+                    field_100_state = States::eWaitThenMoveLeft_1;
+                    field_104_timer = sGnFrame_5C1B84 + 15;
+                    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+                        field_C2_lvl_number,
+                        field_C0_path_number,
+                        field_B8_xpos,
+                        field_BC_ypos);
+                    SFX_Play_46FC20(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
+                }
+                else
+                {
+                    pLaser->field_B8_xpos += field_174_speed;
+                }
+                break;
 
-        case States::eWaitThenMoveLeft_1:
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_104_timer)
-            {
-                field_100_state = States::eMoveLeft_2;
-            }
-            break;
+            case States::eWaitThenMoveLeft_1:
+                if (static_cast<s32>(sGnFrame_5C1B84) > field_104_timer)
+                {
+                    field_100_state = States::eMoveLeft_2;
+                }
+                break;
 
-        case States::eMoveLeft_2:
-            if (pLaser->field_B8_xpos <= field_114_x1_fp)
-            {
-                field_100_state = States::eWaitThenMoveRight_3;
-                field_104_timer = sGnFrame_5C1B84 + 15;
-                const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
-                    field_C2_lvl_number,
-                    field_C0_path_number,
-                    field_B8_xpos,
-                    field_BC_ypos);
-                SFX_Play_46FC20(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
-            }
-            else
-            {
-                pLaser->field_B8_xpos -= field_174_speed;
-            }
-            break;
+            case States::eMoveLeft_2:
+                if (pLaser->field_B8_xpos <= field_114_x1_fp)
+                {
+                    field_100_state = States::eWaitThenMoveRight_3;
+                    field_104_timer = sGnFrame_5C1B84 + 15;
+                    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+                        field_C2_lvl_number,
+                        field_C0_path_number,
+                        field_B8_xpos,
+                        field_BC_ypos);
+                    SFX_Play_46FC20(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
+                }
+                else
+                {
+                    pLaser->field_B8_xpos -= field_174_speed;
+                }
+                break;
 
-        case States::eWaitThenMoveRight_3:
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_104_timer)
-            {
-                field_100_state = States::eMoveRight_0;
-            }
-            break;
+            case States::eWaitThenMoveRight_3:
+                if (static_cast<s32>(sGnFrame_5C1B84) > field_104_timer)
+                {
+                    field_100_state = States::eMoveRight_0;
+                }
+                break;
         }
     }
 }

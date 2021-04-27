@@ -83,7 +83,7 @@ public:
     EXPORT void Page_Status_Render_491710(PrimHeader** ot, PauseMenuPage* pPage);
 
     EXPORT void Page_Load_Update_490D50();
-    EXPORT void Page_Load_Render_4910A0(PrimHeader** ot, PauseMenuPage *mp);
+    EXPORT void Page_Load_Render_4910A0(PrimHeader** ot, PauseMenuPage* mp);
 
     using t_PmPage_Update = decltype(&PauseMenu::Page_Main_Update_4903E0);
     using t_PmPage_Render = decltype(&PauseMenu::Page_Base_Render_490A50);
@@ -96,7 +96,7 @@ public:
     {
         t_PmPage_Update field_0_fn_update;
         t_PmPage_Render field_4_fn_render;
-        PauseMenuPageEntry *field_8_menu_items;
+        PauseMenuPageEntry* field_8_menu_items;
         s16 field_C_selected_index;
         s8 field_E_background_r;
         s8 field_F_background_g;

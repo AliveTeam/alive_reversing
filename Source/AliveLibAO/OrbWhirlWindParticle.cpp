@@ -54,12 +54,12 @@ void OrbWhirlWindParticle::VRender_48C430(PrimHeader** ppOt)
     field_8_anim.field_14_scale = field_A8_render_as_scale;
 
     const s16 xpos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
-        + field_A0_xpos_render_offset
-        - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
+                                    + field_A0_xpos_render_offset
+                                    - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
 
     const s16 ypos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + 5)
-        + field_A4_ypos_render_offset
-        - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
+                                    + field_A4_ypos_render_offset
+                                    - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
 
     field_8_anim.VRender_403AE0(
         xpos,
@@ -94,103 +94,100 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
 {
     switch (field_B4_state)
     {
-    case State::State_0_Start:
-        CalculateRenderProperties_48BDC0(1);
-        break;
-
-    case State::State_1_Spin:
-        if (static_cast<s32>(gnFrameCount_507670) < field_DC_position_timer + 16)
-        {
-            if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
-            {
-                field_D0_ypos_mid += field_B0_ypos_increment;
-                field_D4_radiusX -= FP_FromInteger(2);
-                field_D8_radiosY -= FP_FromInteger(1);
-            }
+        case State::State_0_Start:
             CalculateRenderProperties_48BDC0(1);
-        }
-        else
-        {
+            break;
+
+        case State::State_1_Spin:
+            if (static_cast<s32>(gnFrameCount_507670) < field_DC_position_timer + 16)
+            {
+                if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
+                {
+                    field_D0_ypos_mid += field_B0_ypos_increment;
+                    field_D4_radiusX -= FP_FromInteger(2);
+                    field_D8_radiosY -= FP_FromInteger(1);
+                }
+                CalculateRenderProperties_48BDC0(1);
+            }
+            else
+            {
+                if (!field_E4_pObj || field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                {
+                    ToStop();
+                }
+                else
+                {
+                    field_F8_ypos_offset = field_CC_xpos_mid;
+                    field_F0_scale = field_CC_xpos_mid;
+                    field_FC_xpos_offset2 = field_D0_ypos_mid;
+                    field_F4_xpos_offset = field_D0_ypos_mid;
+                    field_C8_scale_offset_fly_to_target = (field_E4_pObj->field_BC_sprite_scale - field_C0_current_scale) / FP_FromInteger(16);
+                    field_DC_position_timer = gnFrameCount_507670 + 16;
+                    field_B4_state = State::State_2_FlyToTarget;
+                    CalculateRenderProperties_48BDC0(1);
+                }
+            }
+            break;
+
+        case State::State_2_FlyToTarget:
             if (!field_E4_pObj || field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
                 ToStop();
             }
             else
             {
-                field_F8_ypos_offset = field_CC_xpos_mid;
-                field_F0_scale = field_CC_xpos_mid;
-                field_FC_xpos_offset2 = field_D0_ypos_mid;
-                field_F4_xpos_offset = field_D0_ypos_mid;
-                field_C8_scale_offset_fly_to_target = (field_E4_pObj->field_BC_sprite_scale - field_C0_current_scale) / FP_FromInteger(16);
-                field_DC_position_timer = gnFrameCount_507670 + 16;
-                field_B4_state = State::State_2_FlyToTarget;
+                PSX_RECT bRect = {};
+                field_E4_pObj->VGetBoundingRect(&bRect, 1);
+
+                const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
+                const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
+
+                if (static_cast<s32>(gnFrameCount_507670) < field_DC_position_timer)
+                {
+                    field_C0_current_scale += field_C8_scale_offset_fly_to_target;
+                    const FP v25 = FP_FromInteger(16 - (field_DC_position_timer - gnFrameCount_507670)) / FP_FromInteger(16);
+                    field_F8_ypos_offset = ((xpos - field_F0_scale) * v25) + field_F0_scale;
+                    field_FC_xpos_offset2 = ((ypos - field_F4_xpos_offset) * v25) + field_F4_xpos_offset;
+                    field_CC_xpos_mid = field_F8_ypos_offset + ((FP_FromInteger(32) * field_C0_current_scale) * Math_Sine_451110(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
+                    field_D0_ypos_mid = field_FC_xpos_offset2 + ((FP_FromInteger(32) * field_C0_current_scale) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
+                }
+                else
+                {
+                    field_F8_ypos_offset = xpos;
+                    field_FC_xpos_offset2 = ypos;
+                    field_CC_xpos_mid = xpos;
+                    field_D0_ypos_mid = ypos;
+                    field_B8_render_angle = 192;
+                    field_D4_radiusX = FP_FromInteger(40);
+                    field_AC_radiusX_offset = field_D4_radiusX / FP_FromInteger(32);
+                    field_104_scale_offset_spin_at_target = field_C0_current_scale * FP_FromInteger(Math_RandomRange_450F20(-16, 16));
+                    field_DC_position_timer = gnFrameCount_507670 + 32;
+                    field_B4_state = State::State_3_SpinAtTarget;
+                }
                 CalculateRenderProperties_48BDC0(1);
             }
-        }
-        break;
+            break;
 
-    case State::State_2_FlyToTarget:
-        if (!field_E4_pObj || field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
-        {
-            ToStop();
-        }
-        else
-        {
-            PSX_RECT bRect = {};
-            field_E4_pObj->VGetBoundingRect(&bRect, 1);
-
-            const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
-            const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
-
-            if (static_cast<s32>(gnFrameCount_507670) < field_DC_position_timer)
+        case State::State_3_SpinAtTarget:
+            if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
             {
-                field_C0_current_scale += field_C8_scale_offset_fly_to_target;
-                const FP v25 = FP_FromInteger(16 - (field_DC_position_timer - gnFrameCount_507670)) / FP_FromInteger(16);
-                field_F8_ypos_offset = ((xpos - field_F0_scale) * v25) + field_F0_scale;
-                field_FC_xpos_offset2 = ((ypos - field_F4_xpos_offset) * v25) + field_F4_xpos_offset;
-                field_CC_xpos_mid = field_F8_ypos_offset + ((FP_FromInteger(32) * field_C0_current_scale) * Math_Sine_451110(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
-                field_D0_ypos_mid = field_FC_xpos_offset2 + ((FP_FromInteger(32) * field_C0_current_scale) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
+                SetActive(IsActive() ? 0 : 1);
             }
-            else
-            {
-                field_F8_ypos_offset = xpos;
-                field_FC_xpos_offset2 = ypos;
-                field_CC_xpos_mid = xpos;
-                field_D0_ypos_mid = ypos;
-                field_B8_render_angle = 192;
-                field_D4_radiusX = FP_FromInteger(40);
-                field_AC_radiusX_offset = field_D4_radiusX / FP_FromInteger(32);
-                field_104_scale_offset_spin_at_target = field_C0_current_scale * FP_FromInteger(Math_RandomRange_450F20(-16, 16));
-                field_DC_position_timer = gnFrameCount_507670 + 32;
-                field_B4_state = State::State_3_SpinAtTarget;
-            }
+            field_D0_ypos_mid = (field_104_scale_offset_spin_at_target * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(128) * FP_FromInteger(32 - (field_DC_position_timer + gnFrameCount_507670)) / FP_FromInteger(32)) & 0xFF)) + field_FC_xpos_offset2;
+            field_D4_radiusX -= field_AC_radiusX_offset;
             CalculateRenderProperties_48BDC0(1);
-        }
-        break;
+            break;
 
-    case State::State_3_SpinAtTarget:
-        if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
-        {
-            SetActive(IsActive() ? 0 : 1);
-        }
-        field_D0_ypos_mid = (field_104_scale_offset_spin_at_target * Math_Cosine_4510A0(
-            FP_GetExponent(
-                FP_FromInteger(128) *
-                FP_FromInteger(32 - (field_DC_position_timer + gnFrameCount_507670)) / FP_FromInteger(32)) & 0xFF)) + field_FC_xpos_offset2;
-        field_D4_radiusX -= field_AC_radiusX_offset;
-        CalculateRenderProperties_48BDC0(1);
-        break;
+        case State::State_4_Stop:
+            if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
+            {
+                SetActive(IsActive() ? 0 : 1);
+            }
+            CalculateRenderProperties_48BDC0(0);
+            break;
 
-    case State::State_4_Stop:
-        if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
-        {
-            SetActive(IsActive() ? 0 : 1);
-        }
-        CalculateRenderProperties_48BDC0(0);
-        break;
-
-    default:
-        return;
+        default:
+            return;
     }
 }
 
@@ -253,5 +250,4 @@ void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj)
     field_EC_ypos = ypos;
 }
 
-}
-
+} // namespace AO

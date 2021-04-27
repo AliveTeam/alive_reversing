@@ -21,7 +21,7 @@ public:
     EXPORT HoneySack* ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
-    
+
     BaseGameObject* dtor_42BF20();
 
     EXPORT HoneySack* Vdtor_42C3B0(s32 flags);
@@ -60,5 +60,4 @@ public:
 ALIVE_ASSERT_SIZEOF(HoneySack, 0x104);
 
 
-}
-
+} // namespace AO

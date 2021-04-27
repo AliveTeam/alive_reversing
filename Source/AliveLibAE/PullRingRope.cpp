@@ -10,27 +10,25 @@
 #include "PathData.hpp"
 #include "stdlib.hpp"
 
-const TintEntry sPullRingRopeTints_55FD1C[18] =
-{
-    { 1u, 127u, 127u, 127u },
-    { 2u, 127u, 127u, 127u },
-    { 3u, 127u, 127u, 127u },
-    { 4u, 127u, 127u, 127u },
-    { 5u, 127u, 127u, 127u },
-    { 6u, 127u, 127u, 127u },
-    { 7u, 127u, 127u, 127u },
-    { 8u, 127u, 127u, 127u },
-    { 9u, 127u, 127u, 127u },
-    { 10u, 127u, 127u, 127u },
-    { 11u, 127u, 127u, 127u },
-    { 12u, 127u, 127u, 127u },
-    { 13u, 127u, 127u, 127u },
-    { 14u, 127u, 127u, 127u },
-    { -1, 127u, 127u, 127u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u }
-};
+const TintEntry sPullRingRopeTints_55FD1C[18] = {
+    {1u, 127u, 127u, 127u},
+    {2u, 127u, 127u, 127u},
+    {3u, 127u, 127u, 127u},
+    {4u, 127u, 127u, 127u},
+    {5u, 127u, 127u, 127u},
+    {6u, 127u, 127u, 127u},
+    {7u, 127u, 127u, 127u},
+    {8u, 127u, 127u, 127u},
+    {9u, 127u, 127u, 127u},
+    {10u, 127u, 127u, 127u},
+    {11u, 127u, 127u, 127u},
+    {12u, 127u, 127u, 127u},
+    {13u, 127u, 127u, 127u},
+    {14u, 127u, 127u, 127u},
+    {-1, 127u, 127u, 127u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u}};
 
 
 PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo)
@@ -167,116 +165,113 @@ void PullRingRope::vUpdate_49B720()
 
     switch (field_100_state)
     {
-    case States::eBeingPulled_1:
-        if (field_20_animation.field_92_current_frame == 2)
-        {
-            SFX_Play_46FA90(SoundEffect::RingRopePull_56, 0);
-        }
-
-        field_BC_ypos += field_C8_vely;
-        pRingPuller->field_BC_ypos += field_C8_vely;
-        field_F4_stay_in_state_ticks--;
-
-        if (field_F4_stay_in_state_ticks == 0)
-        {
-            field_C8_vely = FP_FromInteger(0);
-            field_10C_is_pulled &= ~1u;
-            field_100_state = States::eTriggerEvent_2;
-
-            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
+        case States::eBeingPulled_1:
+            if (field_20_animation.field_92_current_frame == 2)
             {
-                SFX_Play_46FA90(SoundEffect::IndustrialTrigger_80, 0);
+                SFX_Play_46FA90(SoundEffect::RingRopePull_56, 0);
             }
-        }
-        break;
 
-    case States::eTriggerEvent_2:
-        if (field_10C_is_pulled & 1)
-        {
-            field_C8_vely = FP_FromInteger(4) * field_CC_sprite_scale;
-            field_FC_ring_puller_id = -1;
-            field_100_state = States::eReturnToIdle_3;
-            field_F4_stay_in_state_ticks = 3;
-            field_20_animation.Set_Animation_Data_409C80(3092, 0);
+            field_BC_ypos += field_C8_vely;
+            pRingPuller->field_BC_ypos += field_C8_vely;
+            field_F4_stay_in_state_ticks--;
 
-            const s32 oldSwitchValue = SwitchStates_Get_466020(field_102_id);
-            SwitchStates_Do_Operation_465F00(field_102_id, field_104_target_action);
-            if (oldSwitchValue != SwitchStates_Get_466020(field_102_id))
+            if (field_F4_stay_in_state_ticks == 0)
             {
-                s32 leftVol = 0;
-                s32 rightVol = 0;
-                if (field_10A_sound_direction == PullRingSoundDirection::eLeft_1)
-                {
-                    leftVol = 1;
-                    rightVol = 0;
-                }
-                else if (field_10A_sound_direction == PullRingSoundDirection::eRight_2)
-                {
-                    leftVol = 0;
-                    rightVol = 1;
-                }
-                else
-                {
-                    leftVol = 1;
-                    rightVol = 1;
-                }
+                field_C8_vely = FP_FromInteger(0);
+                field_10C_is_pulled &= ~1u;
+                field_100_state = States::eTriggerEvent_2;
 
-                if (SwitchStates_Get_466020(field_102_id))
+                if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
                 {
-                    switch (field_106_on_sound)
-                    {
-                    case PullRingSwitchSound::eNone_0:
-                        LOG_WARNING("PullRingRope field_106_on_sound was eNone_0. We're not sure if this should happen.");
-                        break;
-                    case PullRingSwitchSound::eWellExit_1:
-                        SFX_Play_46FB10(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
-                        break;
-                    case PullRingSwitchSound::eRingUnknownTrigger_2:
-                        SFX_Play_46FB10(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
-                        break;
-                    case PullRingSwitchSound::eDoorEffect_3:
-                        SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
-                        break;
-                    }
+                    SFX_Play_46FA90(SoundEffect::IndustrialTrigger_80, 0);
                 }
-                else
+            }
+            break;
+
+        case States::eTriggerEvent_2:
+            if (field_10C_is_pulled & 1)
+            {
+                field_C8_vely = FP_FromInteger(4) * field_CC_sprite_scale;
+                field_FC_ring_puller_id = -1;
+                field_100_state = States::eReturnToIdle_3;
+                field_F4_stay_in_state_ticks = 3;
+                field_20_animation.Set_Animation_Data_409C80(3092, 0);
+
+                const s32 oldSwitchValue = SwitchStates_Get_466020(field_102_id);
+                SwitchStates_Do_Operation_465F00(field_102_id, field_104_target_action);
+                if (oldSwitchValue != SwitchStates_Get_466020(field_102_id))
                 {
-                    switch (field_108_off_sound)
+                    s32 leftVol = 0;
+                    s32 rightVol = 0;
+                    if (field_10A_sound_direction == PullRingSoundDirection::eLeft_1)
                     {
-                    case PullRingSwitchSound::eNone_0:
-                        LOG_WARNING("PullRingRope field_108_off_sound was eNone_0. We're not sure if this should happen.");
-                        break;
-                    case PullRingSwitchSound::eWellExit_1:
-                        SFX_Play_46FB10(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
-                        break;
-                    case PullRingSwitchSound::eRingUnknownTrigger_2:
-                        SFX_Play_46FB10(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
-                        break;
-                    case PullRingSwitchSound::eDoorEffect_3:
-                        SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
-                        break;
+                        leftVol = 1;
+                        rightVol = 0;
+                    }
+                    else if (field_10A_sound_direction == PullRingSoundDirection::eRight_2)
+                    {
+                        leftVol = 0;
+                        rightVol = 1;
+                    }
+                    else
+                    {
+                        leftVol = 1;
+                        rightVol = 1;
+                    }
+
+                    if (SwitchStates_Get_466020(field_102_id))
+                    {
+                        switch (field_106_on_sound)
+                        {
+                            case PullRingSwitchSound::eNone_0:
+                                LOG_WARNING("PullRingRope field_106_on_sound was eNone_0. We're not sure if this should happen.");
+                                break;
+                            case PullRingSwitchSound::eWellExit_1:
+                                SFX_Play_46FB10(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
+                                break;
+                            case PullRingSwitchSound::eRingUnknownTrigger_2:
+                                SFX_Play_46FB10(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
+                                break;
+                            case PullRingSwitchSound::eDoorEffect_3:
+                                SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (field_108_off_sound)
+                        {
+                            case PullRingSwitchSound::eNone_0:
+                                LOG_WARNING("PullRingRope field_108_off_sound was eNone_0. We're not sure if this should happen.");
+                                break;
+                            case PullRingSwitchSound::eWellExit_1:
+                                SFX_Play_46FB10(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
+                                break;
+                            case PullRingSwitchSound::eRingUnknownTrigger_2:
+                                SFX_Play_46FB10(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
+                                break;
+                            case PullRingSwitchSound::eDoorEffect_3:
+                                SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
+                                break;
+                        }
                     }
                 }
             }
-        }
-        break;
+            break;
 
-    case States::eReturnToIdle_3:
-        field_BC_ypos -= field_C8_vely;
-        field_F4_stay_in_state_ticks--;
-        if (field_F4_stay_in_state_ticks == 0)
-        {
-            field_C8_vely = FP_FromInteger(0);
-            field_100_state = States::eIdle_0;
-            field_20_animation.Set_Animation_Data_409C80(3020, 0);
-        }
-        break;
+        case States::eReturnToIdle_3:
+            field_BC_ypos -= field_C8_vely;
+            field_F4_stay_in_state_ticks--;
+            if (field_F4_stay_in_state_ticks == 0)
+            {
+                field_C8_vely = FP_FromInteger(0);
+                field_100_state = States::eIdle_0;
+                field_20_animation.Set_Animation_Data_409C80(3020, 0);
+            }
+            break;
 
-      default: break;
+        default:
+            break;
     }
 
     if (pRope)
@@ -308,7 +303,6 @@ s16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
     field_20_animation.Set_Animation_Data_409C80(3060, 0);
     SFX_Play_46FA90(SoundEffect::RingRopePull_56, 0);
     return 1;
-
 }
 
 BOOL PullRingRope::vIsNotBeingPulled_49BC90()

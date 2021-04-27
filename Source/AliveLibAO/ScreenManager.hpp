@@ -130,4 +130,4 @@ ALIVE_ASSERT_SIZEOF(ScreenManager, 0x148);
 
 ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager_4FF7C8);
 
-}
+} // namespace AO

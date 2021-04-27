@@ -55,7 +55,6 @@ public:
     Fixed_24_8()
         : fpValue(0)
     {
-
     }
 
     explicit Fixed_24_8(s32 val)
@@ -90,31 +89,31 @@ public:
     s32 fpValue;
 };
 
-inline bool operator > (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline bool operator>(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     return lhs.fpValue > rhs.fpValue;
 }
 
-inline bool operator < (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline bool operator<(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     return lhs.fpValue < rhs.fpValue;
 }
 
-inline Fixed_24_8 operator - (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline Fixed_24_8 operator-(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     Fixed_24_8 r;
     r.fpValue = lhs.fpValue - rhs.fpValue;
     return r;
 }
 
-inline Fixed_24_8 operator + (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline Fixed_24_8 operator+(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     Fixed_24_8 r;
     r.fpValue = lhs.fpValue + rhs.fpValue;
     return r;
 }
 
-inline Fixed_24_8 operator * (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline Fixed_24_8 operator*(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     // Whenever we see alldiv/allmul __PAIR__ and odd 64bit math its likely something like the following.
 
@@ -128,7 +127,7 @@ inline Fixed_24_8 operator * (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     return r;
 }
 
-inline Fixed_24_8 operator / (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline Fixed_24_8 operator/(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     Fixed_24_8 r;
     r.fpValue = lhs.fpValue / (rhs.GetExponent());
@@ -148,13 +147,13 @@ EXPORT PSX_RECT* CCSTD Rect_Clear_418040(PSX_RECT* pRect)
     return pRect;
 }
 
-s16 Collisions::Raycast_Real_417A60(FP /*X1*/, FP /*Y1*/, FP /*X2*/, FP /*Y2*/, PathLine** /*ppLine*/, FP * /*hitX*/, FP * /*hitY*/, u32 /*modeMask*/)
+s16 Collisions::Raycast_Real_417A60(FP /*X1*/, FP /*Y1*/, FP /*X2*/, FP /*Y2*/, PathLine** /*ppLine*/, FP* /*hitX*/, FP* /*hitY*/, u32 /*modeMask*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask)
+s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
 {
     // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
 
@@ -220,9 +219,7 @@ s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16,
             continue;
         }
 
-        Fixed_24_8 unknown1 =
-            xDiffCurrent * (Fixed_24_8(pLine->field_0_rect.y) - y1) -
-            yDiffCurrent * (Fixed_24_8(pLine->field_0_rect.x) - x1);
+        Fixed_24_8 unknown1 = xDiffCurrent * (Fixed_24_8(pLine->field_0_rect.y) - y1) - yDiffCurrent * (Fixed_24_8(pLine->field_0_rect.x) - x1);
 
         if (det > Fixed_24_8(0))
         {
@@ -249,9 +246,7 @@ s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16,
             }
         }
 
-        Fixed_24_8 unknown2 =
-            xDiff * (Fixed_24_8(pLine->field_0_rect.y) - y1) -
-            yDiff * (Fixed_24_8(pLine->field_0_rect.x) - x1);
+        Fixed_24_8 unknown2 = xDiff * (Fixed_24_8(pLine->field_0_rect.y) - y1) - yDiff * (Fixed_24_8(pLine->field_0_rect.x) - x1);
 
         if (det > Fixed_24_8(0))
         {
@@ -285,7 +280,6 @@ s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16,
             nearestMatch = unknown1;
             pNearestMatch = pLine;
         }
-
     }
 
     if (nearestMatch < Fixed_24_8(2))
@@ -300,7 +294,7 @@ s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16,
         *ppLine = pNearestMatch;
 
 #if DEVELOPER_MODE
-        DebugAddRaycast({ X1_16_16,Y1_16_16,X2_16_16,Y2_16_16,*hitX,*hitY, *ppLine, modeMask });
+        DebugAddRaycast({X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, *hitX, *hitY, *ppLine, modeMask});
 #endif
 
         return TRUE;
@@ -310,7 +304,7 @@ s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16,
 
 
 #if DEVELOPER_MODE
-    DebugAddRaycast({ X1_16_16,Y1_16_16,X2_16_16,Y2_16_16,*hitX,*hitY, *ppLine, modeMask });
+    DebugAddRaycast({X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, *hitX, *hitY, *ppLine, modeMask});
 #endif
 
     return FALSE;
@@ -421,8 +415,7 @@ PathLine* Collisions::PreviousLine_4180A0(PathLine* pLine)
 
     for (s32 i = 0; i < field_C_max_count; i++)
     {
-        if (abs(pLine->field_0_rect.x - field_0_pArray[i].field_0_rect.w) <= kNearLineTollerance &&
-            abs(pLine->field_0_rect.y - field_0_pArray[i].field_0_rect.h) <= kNearLineTollerance )
+        if (abs(pLine->field_0_rect.x - field_0_pArray[i].field_0_rect.w) <= kNearLineTollerance && abs(pLine->field_0_rect.y - field_0_pArray[i].field_0_rect.h) <= kNearLineTollerance)
         {
             if ((1 << field_0_pArray[i].field_8_type % 32) & (1 << pLine->field_8_type % 32))
             {
@@ -447,8 +440,7 @@ PathLine* Collisions::NextLine_418180(PathLine* pLine)
 
     for (s32 i = 0; i < field_C_max_count; i++)
     {
-        if (abs(pLine->field_0_rect.w - field_0_pArray[i].field_0_rect.x) <= kNearLineTollerance &&
-            abs(pLine->field_0_rect.h - field_0_pArray[i].field_0_rect.y) <= kNearLineTollerance)
+        if (abs(pLine->field_0_rect.w - field_0_pArray[i].field_0_rect.x) <= kNearLineTollerance && abs(pLine->field_0_rect.h - field_0_pArray[i].field_0_rect.y) <= kNearLineTollerance)
         {
             if ((1 << field_0_pArray[i].field_8_type % 32) & (1 << pLine->field_8_type % 32))
             {
@@ -459,59 +451,56 @@ PathLine* Collisions::NextLine_418180(PathLine* pLine)
     return nullptr;
 }
 
-namespace AETest::TestsCollision
+namespace AETest::TestsCollision {
+void CollisionTests()
 {
-    void CollisionTests()
-    {
-        Collisions c;
-        FP x1 = {};
-        FP y1 = {};
-        FP x2 = {};
-        FP y2 = {};
-        PathLine* line = nullptr;
-        FP x = {};
-        FP y = {};
+    Collisions c;
+    FP x1 = {};
+    FP y1 = {};
+    FP x2 = {};
+    FP y2 = {};
+    PathLine* line = nullptr;
+    FP x = {};
+    FP y = {};
 
-        x1.fpValue = 0x03d99a00;
-        y1.fpValue = 0x014b028f;
-        x2.fpValue = 0x03d99a00;
-        y2.fpValue = 0x023b028f;
+    x1.fpValue = 0x03d99a00;
+    y1.fpValue = 0x014b028f;
+    x2.fpValue = 0x03d99a00;
+    y2.fpValue = 0x023b028f;
 
-        PathLine test =
-        {
-            { 0x02bc, 0x01cc,  0x0659, 0x01cc},
-            0,
-            0,
-            -1,
-            -1,
-            -1,
-            -1,
-            0x039d
-        };
+    PathLine test = {
+        {0x02bc, 0x01cc, 0x0659, 0x01cc},
+        0,
+        0,
+        -1,
+        -1,
+        -1,
+        -1,
+        0x039d};
 
-        c.field_0_pArray = reinterpret_cast<PathLine*>(ae_malloc_non_zero_4954F0(1 * sizeof(PathLine)));
-        memcpy(c.field_0_pArray, &test, 1 * sizeof(PathLine));
-        c.field_4_current_item_count = 1;
-        c.field_C_max_count = 1;
+    c.field_0_pArray = reinterpret_cast<PathLine*>(ae_malloc_non_zero_4954F0(1 * sizeof(PathLine)));
+    memcpy(c.field_0_pArray, &test, 1 * sizeof(PathLine));
+    c.field_4_current_item_count = 1;
+    c.field_C_max_count = 1;
 
-        s32 ret = c.Raycast_Impl(x1, y1, x2, y2, &line, &x, &y, 0xF);
-        ASSERT_EQ(TRUE, ret);
+    s32 ret = c.Raycast_Impl(x1, y1, x2, y2, &line, &x, &y, 0xF);
+    ASSERT_EQ(TRUE, ret);
 
-        FP expectedX = {};
-        expectedX.fpValue = 0x03d99a00;
+    FP expectedX = {};
+    expectedX.fpValue = 0x03d99a00;
 
-        FP expectedY = {};
-        expectedY.fpValue = 0x01cb7200;
+    FP expectedY = {};
+    expectedY.fpValue = 0x01cb7200;
 
-        ASSERT_EQ(TRUE, ret);
-        ASSERT_EQ(expectedX, x);
-        ASSERT_EQ(expectedY, y);
+    ASSERT_EQ(TRUE, ret);
+    ASSERT_EQ(expectedX, x);
+    ASSERT_EQ(expectedY, y);
 
-        ASSERT_TRUE(memcmp(&test, line, sizeof(PathLine)) == 0);
+    ASSERT_TRUE(memcmp(&test, line, sizeof(PathLine)) == 0);
 
-        c.dtor_4189F0();
-    }
+    c.dtor_4189F0();
 }
+} // namespace AETest::TestsCollision
 
 static s32 ClampMinus1To1(s32 value)
 {
@@ -633,14 +622,12 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
         if (yDiff_2 + xDiff_2 <= FP_FromInteger(180))
         {
             squareRoot = Math_SquareRoot_FP_496E90(
-                (yDiff * yDiff) +
-                (xDiff * xDiff));
+                (yDiff * yDiff) + (xDiff * xDiff));
         }
         else
         {
             squareRoot = FP_FromInteger(Math_SquareRoot_Int_496E70(
-                FP_GetExponent(xDiff) * FP_GetExponent(xDiff) +
-                FP_GetExponent(yDiff) * FP_GetExponent(yDiff)));
+                FP_GetExponent(xDiff) * FP_GetExponent(xDiff) + FP_GetExponent(yDiff) * FP_GetExponent(yDiff)));
         }
 
         // Round up to 1 to prevent divide by zero
@@ -666,12 +653,10 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
         }
 
         const FP root1 = Math_SquareRoot_FP_496E90(
-            (FP_FromInteger(field_0_rect.h) - ypos) * (FP_FromInteger(field_0_rect.h) - ypos) +
-            (FP_FromInteger(field_0_rect.w) - xpos) * (FP_FromInteger(field_0_rect.w) - xpos));
+            (FP_FromInteger(field_0_rect.h) - ypos) * (FP_FromInteger(field_0_rect.h) - ypos) + (FP_FromInteger(field_0_rect.w) - xpos) * (FP_FromInteger(field_0_rect.w) - xpos));
 
         const FP root2 = Math_SquareRoot_FP_496E90(
-            ((yPosRet - ypos) * (yPosRet - ypos)) +
-            ((xPosRet - xpos) * (xPosRet - xpos)));
+            ((yPosRet - ypos) * (yPosRet - ypos)) + ((xPosRet - xpos) * (xPosRet - xpos)));
 
         *pXPos = FP_FromInteger(pNextLine->field_0_rect.x);
         *pYPos = FP_FromInteger(pNextLine->field_0_rect.y);
@@ -691,11 +676,10 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
         }
 
         const FP root1 = Math_SquareRoot_FP_496E90(
-            (yPosRet - ypos) * (yPosRet - ypos) +
-            (xPosRet - xpos) * (xPosRet - xpos));
+            (yPosRet - ypos) * (yPosRet - ypos) + (xPosRet - xpos) * (xPosRet - xpos));
 
         const FP root2 = Math_SquareRoot_FP_496E90(
-              (FP_FromInteger(field_0_rect.y) - ypos) * (FP_FromInteger(field_0_rect.y) - ypos)
+            (FP_FromInteger(field_0_rect.y) - ypos) * (FP_FromInteger(field_0_rect.y) - ypos)
             + (FP_FromInteger(field_0_rect.x) - xpos) * (FP_FromInteger(field_0_rect.x) - xpos));
 
         *pXPos = FP_FromInteger(pPreviousLine->field_0_rect.w);

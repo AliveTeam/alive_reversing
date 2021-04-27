@@ -4,7 +4,7 @@
 #include <fstream>
 
 #if defined(_WIN32) && !defined(_WIN64)
-#include "detours.h"
+    #include "detours.h"
 #endif
 
 bool gVTableHack = true;
@@ -17,8 +17,8 @@ void SetVTable(void* thisPtr, u32 vTable)
         *reinterpret_cast<u32**>(thisPtr) = reinterpret_cast<u32*>(vTable);
     }
 #else
-    (void)thisPtr;
-    (void)vTable;
+    (void) thisPtr;
+    (void) vTable;
 #endif
 }
 
@@ -84,7 +84,7 @@ void CheckVars()
                 {
                     // Var overlaps
                     std::stringstream s;
-                    s << "Var at addr 0x" << std::hex << varToCheck.mAddr << " (" << varToCheck.mName << ") overlaps other data (" << var.mName << ") offset 0x" <<  std::hex << (std::abs(static_cast<LONG>(varToCheck.mAddr - var.mAddr)));
+                    s << "Var at addr 0x" << std::hex << varToCheck.mAddr << " (" << varToCheck.mName << ") overlaps other data (" << var.mName << ") offset 0x" << std::hex << (std::abs(static_cast<LONG>(varToCheck.mAddr - var.mAddr)));
                     HOOK_FATAL(s.str().c_str());
                 }
             }
@@ -92,14 +92,14 @@ void CheckVars()
     }
 }
 
-bool operator < (const TVarInfo& lhs, const TVarInfo& rhs)
+bool operator<(const TVarInfo& lhs, const TVarInfo& rhs)
 {
     return lhs.mAddr < rhs.mAddr;
 }
 
 AliveVar::AliveVar(const s8* name, u32 addr, u32 sizeInBytes, bool isPointerType, bool isConstData)
 {
-    Vars().push_back({ addr, sizeInBytes, isPointerType, isConstData, name });
+    Vars().push_back({addr, sizeInBytes, isPointerType, isConstData, name});
 }
 
 ScopedDetour::~ScopedDetour()
@@ -115,11 +115,11 @@ void ScopedDetour::Construct()
 void ScopedDetour::DoDetour(bool attach, PVOID* ppPointer, PVOID detour)
 {
 #if defined(_WIN32)
-#if defined(_WIN64)
-    (void)attach;
-    (void)ppPointer;
-    (void)detour;
-#else
+    #if defined(_WIN64)
+    (void) attach;
+    (void) ppPointer;
+    (void) detour;
+    #else
     LONG err = DetourTransactionBegin();
 
     if (err != NO_ERROR)
@@ -145,7 +145,7 @@ void ScopedDetour::DoDetour(bool attach, PVOID* ppPointer, PVOID detour)
     {
         abort();
     }
-#endif
+    #endif
 #endif
 }
 

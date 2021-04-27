@@ -14,10 +14,12 @@ public:
     virtual void VUpdate() override;
 
     EXPORT CreditsController* ctor_418A10(Path_TLV* pTlv, s32 tlvInfo);
+
 private:
     EXPORT void dtor_418A90();
     EXPORT BaseGameObject* vdtor_418A60(s32 flags);
     EXPORT void Update_418AC0();
+
 public:
     s32 field_20_next_cam_frame;
     s16 field_24_camera_number;

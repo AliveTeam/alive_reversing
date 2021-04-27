@@ -46,6 +46,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
+
 private:
     EXPORT void dtor_4E0880();
     EXPORT Water* vdtor_4E0850(s32 flags);
@@ -55,6 +56,7 @@ private:
     EXPORT void Add_Water_Particle_4E09A0();
     EXPORT void vUpdate_4E0B50();
     EXPORT void vRender_4E1440(PrimHeader** ppOt);
+
 private:
     u8** field_F4_ppWaterRes;
     Water_Res* field_F8_pWaterRes;

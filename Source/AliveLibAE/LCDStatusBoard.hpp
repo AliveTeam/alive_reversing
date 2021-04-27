@@ -28,6 +28,7 @@ public:
     EXPORT void vUpdate_47B8D0();
     EXPORT void vRender_47B900(PrimHeader** ppOt);
     EXPORT void vScreenChanged_47BC40();
+
 public:
     Alive::Font field_20_font1;
     Alive::Font field_58_font2;

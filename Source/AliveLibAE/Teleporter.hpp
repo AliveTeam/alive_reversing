@@ -13,11 +13,13 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+
 private:
     EXPORT Teleporter* vdtor_4DC350(s32 flags);
     EXPORT void dtor_4DC380();
     EXPORT void vScreenChanged_4DCE80();
     EXPORT void vUpdate_4DC400();
+
 private:
     EXPORT static Electrocute* CC Create_ElectrocuteEffect_4DCEB0();
     void SpawnRingSparks(Path_Teleporter_Data* pTlvData);

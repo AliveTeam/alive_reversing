@@ -183,18 +183,18 @@ void Init_VGA_AndPsxVram()
     VGA_FullScreenSet_490160(bFullScreen);
 
 #ifdef _WIN32
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    const LONG oldWinStyle = GetWindowLongA((HWND)Sys_GetWindowHandle_48E930(), GWL_STYLE) | WS_OVERLAPPEDWINDOW;
-#endif
+    #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    const LONG oldWinStyle = GetWindowLongA((HWND) Sys_GetWindowHandle_48E930(), GWL_STYLE) | WS_OVERLAPPEDWINDOW;
+    #endif
 #endif
 
     // VGA_DisplaySet_490230 resets the window style - puts it back to something sane.
     VGA_DisplaySet_490230(640u, 480u, 16, 1, 0);
 
 #ifdef _WIN32
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    SetWindowLongA((HWND)Sys_GetWindowHandle_48E930(), GWL_STYLE, oldWinStyle);
-#endif
+    #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    SetWindowLongA((HWND) Sys_GetWindowHandle_48E930(), GWL_STYLE, oldWinStyle);
+    #endif
 #endif
 
     RECT rect = {};
@@ -205,26 +205,26 @@ void Init_VGA_AndPsxVram()
     BMP_ClearRect_48F810(&sVGA_bmp_primary_A8A4C0, &rect, 0);
     switch (VGA_GetPixelFormat_490E60())
     {
-    case 8:
-        PSX_EMU_SetDispType_499E60(1);
-        break;
-    case 15:
-        PSX_EMU_SetDispType_499E60(4);
-        break;
-    case 16:
-        PSX_EMU_SetDispType_499E60(2);
-        break;
-    case 115:
-        PSX_EMU_SetDispType_499E60(5);
-        break;
-    case 116:
-        PSX_EMU_SetDispType_499E60(3);
-        break;
-    default:
-        Error_WarningMessageBox_48E470("This program requires a high-color display mode of 32768 or 65536 colors at 640x480 resolution.");
-        Error_ShowErrorStackToUser_48DF10(0);
-        exit(0);
-        return;
+        case 8:
+            PSX_EMU_SetDispType_499E60(1);
+            break;
+        case 15:
+            PSX_EMU_SetDispType_499E60(4);
+            break;
+        case 16:
+            PSX_EMU_SetDispType_499E60(2);
+            break;
+        case 115:
+            PSX_EMU_SetDispType_499E60(5);
+            break;
+        case 116:
+            PSX_EMU_SetDispType_499E60(3);
+            break;
+        default:
+            Error_WarningMessageBox_48E470("This program requires a high-color display mode of 32768 or 65536 colors at 640x480 resolution.");
+            Error_ShowErrorStackToUser_48DF10(0);
+            exit(0);
+            return;
     }
 }
 
@@ -234,4 +234,4 @@ s32 CC PSX_CD_OpenFile(const s8* pFileName, s32 bTryAllPaths)
     return PSX_CD_OpenFile_4FAE80(pFileName, bTryAllPaths);
 }
 
-}
+} // namespace AO

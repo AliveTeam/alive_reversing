@@ -78,8 +78,8 @@ public:
     {
         if (!field_BE_bDone)
         {
-             // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
-            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{ field_10_pal_xy.field_2_y, static_cast<s16>(field_10_pal_xy.field_0_x + field_B8_pal_x_index), field_BA_pal_w }, reinterpret_cast<u8*>(&field_A8_palBuffer[0]));
+            // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
+            IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_10_pal_xy.field_2_y, static_cast<s16>(field_10_pal_xy.field_0_x + field_B8_pal_x_index), field_BA_pal_w}, reinterpret_cast<u8*>(&field_A8_palBuffer[0]));
         }
     }
 
@@ -263,91 +263,91 @@ void Electrocute::VUpdate_48D5C0()
 
     switch (field_32_state)
     {
-    case States::eSetNewColour_0:
-        field_2C_r = field_10_obj_target->field_C0_r;
-        field_2E_g = field_10_obj_target->field_C2_g;
-        field_30_b = field_10_obj_target->field_C4_b;
+        case States::eSetNewColour_0:
+            field_2C_r = field_10_obj_target->field_C0_r;
+            field_2E_g = field_10_obj_target->field_C2_g;
+            field_30_b = field_10_obj_target->field_C4_b;
 
-        field_10_obj_target->field_C0_r = 255;
-        field_10_obj_target->field_C4_b = 255;
-        field_10_obj_target->field_C2_g = 255;
+            field_10_obj_target->field_C0_r = 255;
+            field_10_obj_target->field_C4_b = 255;
+            field_10_obj_target->field_C2_g = 255;
 
-        field_32_state = States::eAlphaFadeout_1;
-        return;
+            field_32_state = States::eAlphaFadeout_1;
+            return;
 
-    case States::eAlphaFadeout_1:
-        field_18_pPalOverwriters[0] = ao_new<PalleteOverwriter>();
-        if (field_18_pPalOverwriters[0])
-            field_18_pPalOverwriters[0]->ctor_416FF0(
-                field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
-                field_10_obj_target->field_10_anim.field_90_pal_depth,
-                static_cast<s16>(Pal_Make_Colour_447950(255u, 255, 255, 1)));
-
-        field_18_pPalOverwriters[1] = ao_new<PalleteOverwriter>();
-        if (field_18_pPalOverwriters[1])
-        {
-            field_18_pPalOverwriters[1]->ctor_416FF0(
-                field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
-                field_10_obj_target->field_10_anim.field_90_pal_depth,
-                static_cast<s16>(Pal_Make_Colour_447950(64u, 64, 255, 1)));
-
-            field_18_pPalOverwriters[1]->field_8_update_delay = 4;
-        }
-
-        if (field_24_extraOverwriter)
-        {
-            field_18_pPalOverwriters[2] = ao_new<PalleteOverwriter>();
-            if (field_18_pPalOverwriters[2])
-            {
-                field_18_pPalOverwriters[2]->ctor_416FF0(
+        case States::eAlphaFadeout_1:
+            field_18_pPalOverwriters[0] = ao_new<PalleteOverwriter>();
+            if (field_18_pPalOverwriters[0])
+                field_18_pPalOverwriters[0]->ctor_416FF0(
                     field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
                     field_10_obj_target->field_10_anim.field_90_pal_depth,
-                    static_cast<s16>(Pal_Make_Colour_447950(0, 0, 0, 0)));
+                    static_cast<s16>(Pal_Make_Colour_447950(255u, 255, 255, 1)));
 
-                field_18_pPalOverwriters[2]->field_8_update_delay = 8;
-                field_32_state = States::eHandleDamage_2;
-            }
-        }
-        field_32_state = States::eHandleDamage_2;
-        break;
-
-    case States::eHandleDamage_2:
-    {
-        PalleteOverwriter* pOverwritter = field_18_pPalOverwriters[field_14_overwriter_count - 1];
-        if (pOverwritter && pOverwritter->field_BE_bDone)
-        {
-            if (field_10_obj_target->field_4_typeId == Types::eAbe_43)
+            field_18_pPalOverwriters[1] = ao_new<PalleteOverwriter>();
+            if (field_18_pPalOverwriters[1])
             {
-                field_10_obj_target->VTakeDamage(this);
-                Pal_Set_447990(
+                field_18_pPalOverwriters[1]->ctor_416FF0(
                     field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
                     field_10_obj_target->field_10_anim.field_90_pal_depth,
-                    reinterpret_cast<const u8*>(field_28_pPalData),
-                    &field_38_pal_rect);
+                    static_cast<s16>(Pal_Make_Colour_447950(64u, 64, 255, 1)));
 
-                field_10_obj_target->field_C0_r = field_2C_r;
-                field_10_obj_target->field_C2_g = field_2E_g;
-                field_10_obj_target->field_C4_b = field_30_b;
-
-                field_32_state = States::eKillElectrocute_3;
+                field_18_pPalOverwriters[1]->field_8_update_delay = 4;
             }
-            else
+
+            if (field_24_extraOverwriter)
             {
-                field_10_obj_target->VTakeDamage(this);
-                field_10_obj_target->field_C_refCount--;
-                field_10_obj_target = nullptr;
-                field_32_state = States::eKillElectrocute_3;
+                field_18_pPalOverwriters[2] = ao_new<PalleteOverwriter>();
+                if (field_18_pPalOverwriters[2])
+                {
+                    field_18_pPalOverwriters[2]->ctor_416FF0(
+                        field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
+                        field_10_obj_target->field_10_anim.field_90_pal_depth,
+                        static_cast<s16>(Pal_Make_Colour_447950(0, 0, 0, 0)));
+
+                    field_18_pPalOverwriters[2]->field_8_update_delay = 8;
+                    field_32_state = States::eHandleDamage_2;
+                }
+            }
+            field_32_state = States::eHandleDamage_2;
+            break;
+
+        case States::eHandleDamage_2:
+        {
+            PalleteOverwriter* pOverwritter = field_18_pPalOverwriters[field_14_overwriter_count - 1];
+            if (pOverwritter && pOverwritter->field_BE_bDone)
+            {
+                if (field_10_obj_target->field_4_typeId == Types::eAbe_43)
+                {
+                    field_10_obj_target->VTakeDamage(this);
+                    Pal_Set_447990(
+                        field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
+                        field_10_obj_target->field_10_anim.field_90_pal_depth,
+                        reinterpret_cast<const u8*>(field_28_pPalData),
+                        &field_38_pal_rect);
+
+                    field_10_obj_target->field_C0_r = field_2C_r;
+                    field_10_obj_target->field_C2_g = field_2E_g;
+                    field_10_obj_target->field_C4_b = field_30_b;
+
+                    field_32_state = States::eKillElectrocute_3;
+                }
+                else
+                {
+                    field_10_obj_target->VTakeDamage(this);
+                    field_10_obj_target->field_C_refCount--;
+                    field_10_obj_target = nullptr;
+                    field_32_state = States::eKillElectrocute_3;
+                }
             }
         }
-    }
         break;
 
-    case States::eKillElectrocute_3:
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        break;
+        case States::eKillElectrocute_3:
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            break;
 
-    default:
-        return;
+        default:
+            return;
     }
 }
 
@@ -356,4 +356,4 @@ void Electrocute::VScreenChanged()
     VScreenChanged_48D8B0();
 }
 
-}
+} // namespace AO

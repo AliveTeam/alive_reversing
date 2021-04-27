@@ -20,20 +20,20 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo)
     s32 lvl_x_off = 0;
     switch (gMap_507BA8.field_0_current_level)
     {
-    case LevelIds::eRuptureFarms_1:
-    case LevelIds::eBoardRoom_12:
-    case LevelIds::eRuptureFarmsReturn_13:
-        Animation_Init_417FD0(4832, 33, 35, ppRes, 1);
-        lvl_x_off = -2;
-        break;
-    case LevelIds::eDesert_8:
-        Animation_Init_417FD0(2912, 32, 22, ppRes, 1);
-        lvl_x_off = 2;
-        break;
-    default:
-        Animation_Init_417FD0(2912, 32, 22, ppRes, 1);
-        lvl_x_off = 0;
-        break;
+        case LevelIds::eRuptureFarms_1:
+        case LevelIds::eBoardRoom_12:
+        case LevelIds::eRuptureFarmsReturn_13:
+            Animation_Init_417FD0(4832, 33, 35, ppRes, 1);
+            lvl_x_off = -2;
+            break;
+        case LevelIds::eDesert_8:
+            Animation_Init_417FD0(2912, 32, 22, ppRes, 1);
+            lvl_x_off = 2;
+            break;
+        default:
+            Animation_Init_417FD0(2912, 32, 22, ppRes, 1);
+            lvl_x_off = 0;
+            break;
     }
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -154,10 +154,7 @@ s16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
 
     SwitchStates_Do_Operation_436A10(field_EE_id, field_F0_action);
 
-    if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
-        gMap_507BA8.field_0_current_level == LevelIds::eRemoved_11 ||
-        gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
-        gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+    if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRemoved_11 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {
         field_10_anim.Set_Animation_Data_402A40(4872, 0);
     }
@@ -192,132 +189,126 @@ void PullRingRope::VUpdate_4549A0()
 
     switch (field_EC_state)
     {
-    case States::eBeingPulled_1:
-        if (field_10_anim.field_92_current_frame == 2)
-        {
-            SFX_Play_43AD70(SoundEffect::RingRopePull_65, 0);
-        }
-
-        field_AC_ypos += field_B8_vely;
-        field_F4_pPuller->field_AC_ypos += field_B8_vely;
-        field_E4_stay_in_state_ticks--;
-
-        if (field_E4_stay_in_state_ticks == 0)
-        {
-            field_B8_vely = FP_FromInteger(0);
-            field_EC_state = States::eTriggerEvent_2;
-
-            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
-                gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
-                gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+        case States::eBeingPulled_1:
+            if (field_10_anim.field_92_current_frame == 2)
             {
-                SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 0);
+                SFX_Play_43AD70(SoundEffect::RingRopePull_65, 0);
             }
 
-            const auto oldSwitchValue = SwitchStates_Get(field_EE_id);
-            // TODO: OG bug - operation isn't applied to the switch ??
-            const auto switchValAfterOperation = SwitchStates_Get(field_EE_id);
+            field_AC_ypos += field_B8_vely;
+            field_F4_pPuller->field_AC_ypos += field_B8_vely;
+            field_E4_stay_in_state_ticks--;
 
-            // Due to seemingly OG bug this can never execute
-            if (oldSwitchValue != switchValAfterOperation)
+            if (field_E4_stay_in_state_ticks == 0)
             {
-                s32 volLeft = 0;
-                s32 volRight = 0;
-                if (field_100_sound_direction == 1)
+                field_B8_vely = FP_FromInteger(0);
+                field_EC_state = States::eTriggerEvent_2;
+
+                if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
                 {
-                    volLeft = 1;
-                    volRight = 0;
-                }
-                else
-                {
-                    volLeft = field_100_sound_direction != 2;
-                    volRight = 1;
+                    SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 0);
                 }
 
-                if (SwitchStates_Get(field_EE_id))
+                const auto oldSwitchValue = SwitchStates_Get(field_EE_id);
+                // TODO: OG bug - operation isn't applied to the switch ??
+                const auto switchValAfterOperation = SwitchStates_Get(field_EE_id);
+
+                // Due to seemingly OG bug this can never execute
+                if (oldSwitchValue != switchValAfterOperation)
                 {
-                    switch (field_FC_on_sound)
+                    s32 volLeft = 0;
+                    s32 volRight = 0;
+                    if (field_100_sound_direction == 1)
                     {
-                    case 1:
-                        SFX_Play_43ADE0(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
-                        break;
-
-                    case 2:
-                        SFX_Play_43ADE0(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
-                        break;
-
-                    case 3:
-                        SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
-                        break;
+                        volLeft = 1;
+                        volRight = 0;
                     }
-                }
-                else
-                {
-                    switch (field_FE_off_sound)
+                    else
                     {
-                    case 1:
-                        SFX_Play_43ADE0(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
-                        break;
+                        volLeft = field_100_sound_direction != 2;
+                        volRight = 1;
+                    }
 
-                    case 2:
-                        SFX_Play_43ADE0(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
-                        break;
+                    if (SwitchStates_Get(field_EE_id))
+                    {
+                        switch (field_FC_on_sound)
+                        {
+                            case 1:
+                                SFX_Play_43ADE0(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                break;
 
-                    case 3:
-                        SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
-                        break;
+                            case 2:
+                                SFX_Play_43ADE0(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                break;
+
+                            case 3:
+                                SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (field_FE_off_sound)
+                        {
+                            case 1:
+                                SFX_Play_43ADE0(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                break;
+
+                            case 2:
+                                SFX_Play_43ADE0(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                break;
+
+                            case 3:
+                                SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
+                                break;
+                        }
                     }
                 }
             }
-        }
-        break;
+            break;
 
-    case States::eTriggerEvent_2:
-        field_B8_vely = FP_FromInteger(4);
-        field_EC_state = States::eReturnToIdle_3;
-        field_F4_pPuller->field_C_refCount--;
-        field_F4_pPuller = nullptr;
+        case States::eTriggerEvent_2:
+            field_B8_vely = FP_FromInteger(4);
+            field_EC_state = States::eReturnToIdle_3;
+            field_F4_pPuller->field_C_refCount--;
+            field_F4_pPuller = nullptr;
 
-        field_E4_stay_in_state_ticks = 3;
+            field_E4_stay_in_state_ticks = 3;
 
-        if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
-            gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
-            gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
-        {
-            field_10_anim.Set_Animation_Data_402A40(4904, nullptr);
-        }
-        else
-        {
-            field_10_anim.Set_Animation_Data_402A40(2984, nullptr);
-        }
-        break;
-
-    case States::eReturnToIdle_3:
-        field_AC_ypos -= field_B8_vely;
-        field_E4_stay_in_state_ticks--;
-        if (field_E4_stay_in_state_ticks == 0)
-        {
-            field_B8_vely = FP_FromInteger(0);
-            field_EC_state = States::eIdle_0;
-
-            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 ||
-                gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 ||
-                gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
             {
-                field_10_anim.Set_Animation_Data_402A40(4832, nullptr);
+                field_10_anim.Set_Animation_Data_402A40(4904, nullptr);
             }
             else
             {
-                field_10_anim.Set_Animation_Data_402A40(2912, nullptr);
+                field_10_anim.Set_Animation_Data_402A40(2984, nullptr);
             }
-        }
-        break;
+            break;
 
-    default:
-        break;
+        case States::eReturnToIdle_3:
+            field_AC_ypos -= field_B8_vely;
+            field_E4_stay_in_state_ticks--;
+            if (field_E4_stay_in_state_ticks == 0)
+            {
+                field_B8_vely = FP_FromInteger(0);
+                field_EC_state = States::eIdle_0;
+
+                if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+                {
+                    field_10_anim.Set_Animation_Data_402A40(4832, nullptr);
+                }
+                else
+                {
+                    field_10_anim.Set_Animation_Data_402A40(2912, nullptr);
+                }
+            }
+            break;
+
+        default:
+            break;
     }
 
     field_F8_pRope->field_AC_ypos = FP_NoFractional(FP_FromInteger(field_C8_yOffset - 16) + field_AC_ypos);
 }
 
-}
+} // namespace AO

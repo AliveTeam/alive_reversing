@@ -3,8 +3,10 @@
 #include "Function.hpp"
 #include "FixedPoint.hpp"
 
-void Math_ForceLink() { }
+void Math_ForceLink()
+{ }
 
+// clang-format off
 ALIVE_ARY(1, 0x546744, u8, 256, sRandomBytes_546744,
 {
     0x35, 0x85, 0x49, 0xE2, 0xA7, 0x42, 0xDF, 0x0B, 0x2D, 0x23, 0xDD, 0xDE, 0x1F, 0x17, 0xBB, 0xCF,
@@ -24,12 +26,14 @@ ALIVE_ARY(1, 0x546744, u8, 256, sRandomBytes_546744,
     0x2B, 0x03, 0xF5, 0xA8, 0x58, 0x3D, 0xC2, 0x31, 0x65, 0xDC, 0x27, 0xBE, 0x21, 0x68, 0xE0, 0xB3,
     0xC8, 0xA4, 0x02, 0x2E, 0xD4, 0x3B, 0x6F, 0x5C, 0x87, 0x0A, 0x92, 0x0D, 0x4D, 0x16, 0x44, 0x90,
 });
+// clang-format on
+
 ALIVE_VAR(1, 0x5D1E10, u8, sRandomSeed_5D1E10, 0);
 
-EXPORT u32  CC Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2)
+EXPORT u32 CC Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2)
 {
-    u32 op1a; // ecx
-    u32 op2a; // esi
+    u32 op1a;   // ecx
+    u32 op2a;   // esi
     s32 result; // eax
 
     op1a = op1;
@@ -39,8 +43,8 @@ EXPORT u32  CC Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2)
     if (op2 < 0)
         op2a = -op2;
     result = op2a * (op1a >> 16)
-        + (u16)op1a * (op2a >> 16)
-        + ((u16)op1a * (u32)(u16)op2a >> 16);
+           + (u16) op1a * (op2a >> 16)
+           + ((u16) op1a * (u32)(u16) op2a >> 16);
     if ((op1 < 0) != (op2 < 0))
         result = -result;
     return result;
@@ -48,11 +52,11 @@ EXPORT u32  CC Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2)
 
 EXPORT u32 CC Math_FixedPoint_Divide_496B70(s32 op1, s32 op2)
 {
-    s32 op1a; // ebx
-    u32 op1b; // edi
-    u32 op2a; // ecx
-    u32 v5; // esi
-    s32 v6; // edi
+    s32 op1a;   // ebx
+    u32 op1b;   // edi
+    u32 op2a;   // ecx
+    u32 v5;     // esi
+    s32 v6;     // edi
     s32 result; // eax
 
     op1a = op1;
@@ -121,17 +125,15 @@ EXPORT u8 Math_NextRandom()
     return sRandomBytes_546744[sRandomSeed_5D1E10++];
 }
 
-const u16 sSineTable_5466C4[64] =
-{
-    0,      1633,    3266,    4897,    6525,    8148,    9767,    11380,
-    12985,  14582,   16171,   17749,   19316,   20872,   22414,   23942,
-    25456,  26953,   28434,   29897,   31342,   32767,   34172,   35555,
-    36917,  38255,   39570,   40860,   42125,   43363,   44575,   45758,
-    46914,  48040,   49136,   50202,   51237,   52240,   53210,   54147,
-    55051,  55920,   56754,   57554,   58317,   59044,   59735,   60388,
-    61004,  61582,   62122,   62623,   63085,   63508,   63891,   64235,
-    64539,  64803,   65026,   65209,   65351,   65453,   65514,   65535
-};
+const u16 sSineTable_5466C4[64] = {
+    0, 1633, 3266, 4897, 6525, 8148, 9767, 11380,
+    12985, 14582, 16171, 17749, 19316, 20872, 22414, 23942,
+    25456, 26953, 28434, 29897, 31342, 32767, 34172, 35555,
+    36917, 38255, 39570, 40860, 42125, 43363, 44575, 45758,
+    46914, 48040, 49136, 50202, 51237, 52240, 53210, 54147,
+    55051, 55920, 56754, 57554, 58317, 59044, 59735, 60388,
+    61004, 61582, 62122, 62623, 63085, 63508, 63891, 64235,
+    64539, 64803, 65026, 65209, 65351, 65453, 65514, 65535};
 
 EXPORT FP CC Math_Cosine_496CD0(u8 v)
 {
@@ -224,7 +226,8 @@ EXPORT FP CC Math_Tan_496F70(const FP value1, const FP value2)
     switch (switchScenario)
     {
         case 0:
-            if (value2 != FP_FromInteger(0)) {
+            if (value2 != FP_FromInteger(0))
+            {
                 aux = value1abs / value2abs;
                 return aux * FP_FromInteger(32);
             }
@@ -258,28 +261,27 @@ EXPORT FP CC Math_Tan_496F70(const FP value1, const FP value2)
     return FP_FromInteger(0);
 }
 
-namespace AETest::TestsMath
+namespace AETest::TestsMath {
+void Math_Tests()
 {
-    void Math_Tests()
+    for (u8 i = 0; i < 64; i++)
     {
-        for (u8 i = 0; i < 64; i++)
-        {
-            ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[i]), Math_Cosine_496CD0(i));
-        }
+        ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[i]), Math_Cosine_496CD0(i));
+    }
 
-        for (u8 i = 65; i < 128; i++)
-        {
-            ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[127-i]), Math_Cosine_496CD0(i));
-        }
+    for (u8 i = 65; i < 128; i++)
+    {
+        ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[127 - i]), Math_Cosine_496CD0(i));
+    }
 
-        for (u8 i = 128; i < 192; i++)
-        {
-            ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[i - 128]), Math_Cosine_496CD0(i));
-        }
+    for (u8 i = 128; i < 192; i++)
+    {
+        ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[i - 128]), Math_Cosine_496CD0(i));
+    }
 
-        for (u8 i = 192; i < 255; i++)
-        {
-            ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[255 - i]), Math_Cosine_496CD0(i));
-        }
+    for (u8 i = 192; i < 255; i++)
+    {
+        ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[255 - i]), Math_Cosine_496CD0(i));
     }
 }
+} // namespace AETest::TestsMath

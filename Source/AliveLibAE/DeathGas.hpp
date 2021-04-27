@@ -29,6 +29,7 @@ private:
     EXPORT void vUpdate_43C300();
 
     EXPORT void vRender_43C350(PrimHeader** ppOt);
+
 private:
     s16 field_20_total;
     s16 field_22_unused; // Gets increased by two every vUpdate_43C300. Isn't used anywhere else -- Nemin (6/7/2020)

@@ -75,53 +75,53 @@ void ThrowableTotalIndicator::VUpdate_41B690()
 
     switch (field_19C_state)
     {
-    case ThrowableTotalIndicatorState::eCreated_0:
-    {
-        field_18_cur_xpos = field_10_xpos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<u8>(2 * gnFrameCount_507670)));
-        field_1C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<u8>(2 * gnFrameCount_507670))) + field_14_ypos;
-
-        const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<u8>(3 * gnFrameCount_507670))) + 80;
-
-        field_32_r = rgb;
-        field_34_g = rgb;
-        field_36_b = rgb;
-    }
-    break;
-
-    case ThrowableTotalIndicatorState::eFading_1:
-        if (field_1C_cur_ypos >= (field_14_ypos - FP_FromInteger(20)))
+        case ThrowableTotalIndicatorState::eCreated_0:
         {
-            if (field_32_r < 70 && field_34_g < 90 && field_36_b < 20)
+            field_18_cur_xpos = field_10_xpos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<u8>(2 * gnFrameCount_507670)));
+            field_1C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<u8>(2 * gnFrameCount_507670))) + field_14_ypos;
+
+            const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<u8>(3 * gnFrameCount_507670))) + 80;
+
+            field_32_r = rgb;
+            field_34_g = rgb;
+            field_36_b = rgb;
+        }
+        break;
+
+        case ThrowableTotalIndicatorState::eFading_1:
+            if (field_1C_cur_ypos >= (field_14_ypos - FP_FromInteger(20)))
             {
-                field_32_r += 14;
-                field_34_g += 18;
-                field_36_b += 4;
+                if (field_32_r < 70 && field_34_g < 90 && field_36_b < 20)
+                {
+                    field_32_r += 14;
+                    field_34_g += 18;
+                    field_36_b += 4;
+                }
+
+                field_28_scale += field_2C_scale_speed;
+                field_18_cur_xpos += field_20_xspeed;
+                field_1C_cur_ypos += field_24_yspeed;
+            }
+            else
+            {
+                field_19C_state = ThrowableTotalIndicatorState::eVanishing_2;
+            }
+            break;
+
+        case ThrowableTotalIndicatorState::eVanishing_2:
+            if (field_32_r < 7 && field_34_g < 7 && field_36_b < 7)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                return;
             }
 
-            field_28_scale += field_2C_scale_speed;
+            field_34_g -= 9;
+            field_36_b -= 2;
+            field_32_r -= 7;
+
             field_18_cur_xpos += field_20_xspeed;
             field_1C_cur_ypos += field_24_yspeed;
-        }
-        else
-        {
-            field_19C_state = ThrowableTotalIndicatorState::eVanishing_2;
-        }
-        break;
-
-    case ThrowableTotalIndicatorState::eVanishing_2:
-        if (field_32_r < 7 && field_34_g < 7 && field_36_b < 7)
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            return;
-        }
-
-        field_34_g -= 9;
-        field_36_b -= 2;
-        field_32_r -= 7;
-
-        field_18_cur_xpos += field_20_xspeed;
-        field_1C_cur_ypos += field_24_yspeed;
-        break;
+            break;
     }
 }
 
@@ -130,106 +130,96 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
     VRender_41B810(ppOt);
 }
 
-const s16 kNum_0[17] =
-{
+const s16 kNum_0[17] = {
     4,
     -3, -4, 3, -4,
     3, -3, 3, 3,
     3, 4, -3, 4,
-    -3, 3, -3, -3
-};
+    -3, 3, -3, -3};
 
-const s16 kNum_1[5] =
-{
+const s16 kNum_1[5] = {
     1,
-    2, -4, 2, 4
-};
+    2, -4, 2, 4};
 
-const s16 kNum_2[21] =
-{
+const s16 kNum_2[21] = {
     5,
     -5, -4, 5, -4,
     5, -3, 5, -1,
     5, 0, -5, 0,
     -5, 1, -5, 3,
-    -5, 4, 5, 4
-};
+    -5, 4, 5, 4};
 
-const s16 kNum_3[17] =
-{
+const s16 kNum_3[17] = {
     4,
-    -5, -4, 5, -4,
-    5, -3, 5, 3,
-    5, 4, -5, 4,
-    -4, 0, 4, 0,
+    -5,
+    -4,
+    5,
+    -4,
+    5,
+    -3,
+    5,
+    3,
+    5,
+    4,
+    -5,
+    4,
+    -4,
+    0,
+    4,
+    0,
 };
 
-const s16 kNum_4[13] =
-{
+const s16 kNum_4[13] = {
     3,
     -5, -4, -5, -1,
     -5, 0, 4, 0,
-    5, -4, 5, 4
-};
+    5, -4, 5, 4};
 
-const s16 kNum_5[21] =
-{
+const s16 kNum_5[21] = {
     5,
     5, -4, -5, -4,
     -5, -3, -5, -1,
     -5, 0, 5, 0,
     5, 1, 5, 3,
-    5, 4, -5, 4
-};
+    5, 4, -5, 4};
 
-const s16 kNum_6[21] =
-{
+const s16 kNum_6[21] = {
     5,
     5, -4, -5, -4, -5,
     -3, -5, 3, -5, 4,
     5, 4, 5, 3, 5,
-    1, 5, 0, -4, 0
-};
+    1, 5, 0, -4, 0};
 
-const s16 kNum_7[9] =
-{
+const s16 kNum_7[9] = {
     2,
     -5, -4, 5, -4,
-    5, -3, 0, 4
-};
+    5, -3, 0, 4};
 
-const s16 kNum_8[21] =
-{
+const s16 kNum_8[21] = {
     5,
     -5, -4, 5, -4,
     5, -3, 5, 3,
     5, 4, -5, 4,
     -5, 3, -5, -3,
-    -4, 0, 4, 0
-};
+    -4, 0, 4, 0};
 
-const s16 kNum_9[17] =
-{
+const s16 kNum_9[17] = {
     4,
     5, 4, 5, -3,
     5, -4, -5, -4,
     -5, -3, -5, -1,
-    -5, 0, 4, 0
-};
+    -5, 0, 4, 0};
 
-const s16 kInfinity[25] =
-{
+const s16 kInfinity[25] = {
     6,
     -3, -2, -5, 0,
     -5, 1, -3, 3,
     -2, 3, 2, -2,
     3, -2, 5, 0,
     5, 1, 3, 3,
-    2, 3, -2, -2
-};
+    2, 3, -2, -2};
 
-const s16 kCheckpoint[36] =
-{
+const s16 kCheckpoint[36] = {
     8, 0, -6, 1,
     -6,
     12,
@@ -262,11 +252,9 @@ const s16 kCheckpoint[36] =
     -5,
     0,
     0,
-    0
-};
+    0};
 
-const s16 *kNumbersArray_4C56A8[12] =
-{
+const s16* kNumbersArray_4C56A8[12] = {
     kNum_0,
     kNum_1,
     kNum_2,
@@ -278,8 +266,7 @@ const s16 *kNumbersArray_4C56A8[12] =
     kNum_8,
     kNum_9,
     kInfinity,
-    kCheckpoint
-};
+    kCheckpoint};
 
 void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
 {
@@ -324,10 +311,9 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
         SetXY0(pLine, primBaseX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
         SetXY1(pLine, primVertX + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
         SetRGB0(pLine,
-            static_cast<u8>(field_32_r),
-            static_cast<u8>(field_34_g),
-            static_cast<u8>(field_36_b)
-        );
+                static_cast<u8>(field_32_r),
+                static_cast<u8>(field_34_g),
+                static_cast<u8>(field_36_b));
         Poly_Set_SemiTrans_498A40(&pLine->mBase.header, 1);
         OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &pLine->mBase.header);
     }
@@ -340,8 +326,7 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
         ypos - 21,
         PsxToPCX(xpos + 31),
         ypos + 31,
-        pScreenManager_4FF7C8->field_2E_idx
-    );
+        pScreenManager_4FF7C8->field_2E_idx);
 }
 
 ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, Layer layer, FP /*scale*/, s16 count, s16 bFade)
@@ -373,7 +358,7 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, 
         field_24_yspeed = FP_FromInteger(0);
     }
 
-    field_28_scale = FP_FromInteger(1);  // OG bug - should be using scale ??
+    field_28_scale = FP_FromInteger(1); // OG bug - should be using scale ??
     field_2C_scale_speed = FP_FromInteger(0);
     field_30_layer = layer;
 
@@ -407,5 +392,4 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, 
     return this;
 }
 
-}
-
+} // namespace AO

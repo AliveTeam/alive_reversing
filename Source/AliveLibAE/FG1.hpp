@@ -27,7 +27,8 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual void VUpdate() override { }
+    virtual void VUpdate() override
+    { }
     virtual void VScreenChanged() override;
 
     EXPORT void vScreenChanged_49A520();

@@ -5,7 +5,9 @@
 #include <string>
 
 BaseProperty::BaseProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor)
-    : m_name(name), m_typeName(typeName), m_isVisibleToEditor(isVisibleToEditor)
+    : m_name(name)
+    , m_typeName(typeName)
+    , m_isVisibleToEditor(isVisibleToEditor)
 {
 }
 

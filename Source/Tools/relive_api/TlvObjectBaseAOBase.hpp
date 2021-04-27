@@ -11,12 +11,14 @@
 #include <utility>
 #include <vector>
 
-namespace jsonxx { class Object; }
+namespace jsonxx {
+class Object;
+}
 
 class TlvObjectBaseAOBase : public TlvObjectBase
 {
 public:
-    using CopyFn = void(*)(AO::Path_TLV* dst, AO::Path_TLV* src);
+    using CopyFn = void (*)(AO::Path_TLV* dst, AO::Path_TLV* src);
 
     // Ctor used only to get "typeName"
     TlvObjectBaseAOBase(std::size_t sizeOfT, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv);

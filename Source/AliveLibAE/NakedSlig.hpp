@@ -186,6 +186,7 @@ private:
     EXPORT void MoveOnLine_41C3D0();
 
     EXPORT void PlatformCollide_41C500();
+
 public:
     EXPORT s16 AI_0_Sleeping_419DE0();
     EXPORT s16 AI_1_Idle_419F60();

@@ -14,20 +14,25 @@
 #include <vector>
 
 TlvObjectBaseAOBase::TlvObjectBaseAOBase(std::size_t sizeOfT, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv)
-    : TlvObjectBase(typeName), mSizeOfT(sizeOfT), mType(tlvType), mPSelfTlv{pSelfTlv}
+    : TlvObjectBase(typeName)
+    , mSizeOfT(sizeOfT)
+    , mType(tlvType)
+    , mPSelfTlv{pSelfTlv}
 {
 }
 
 TlvObjectBaseAOBase::TlvObjectBaseAOBase(std::size_t sizeOfT, TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv, AO::Path_TLV* pTlv, CopyFn copyFn)
-    : TlvObjectBase(typeName), mSizeOfT(sizeOfT), mType(tlvType), mPSelfTlv{pSelfTlv}
+    : TlvObjectBase(typeName)
+    , mSizeOfT(sizeOfT)
+    , mType(tlvType)
+    , mPSelfTlv{pSelfTlv}
 {
     mPSelfTlv->field_2_length = static_cast<s16>(mSizeOfT);
     mPSelfTlv->field_4_type.mType = mType;
 
     copyFn(pSelfTlv /* dst */, pTlv /* src */);
 
-    if (mPSelfTlv->field_14_bottom_right.field_0_x - mPSelfTlv->field_10_top_left.field_0_x < 0 ||
-        mPSelfTlv->field_14_bottom_right.field_2_y - mPSelfTlv->field_10_top_left.field_2_y < 0)
+    if (mPSelfTlv->field_14_bottom_right.field_0_x - mPSelfTlv->field_10_top_left.field_0_x < 0 || mPSelfTlv->field_14_bottom_right.field_2_y - mPSelfTlv->field_10_top_left.field_2_y < 0)
     {
         // Sanity check on the data - passed on all OG data, left for any bad/corrupted lvls
         std::abort();

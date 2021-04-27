@@ -46,6 +46,7 @@ private:
     EXPORT void vScreenChanged_4DE650();
     EXPORT void vUpdate_4DE270();
     EXPORT BaseAliveGameObject* WhoIsStoodOnMe_4DE700();
+
 private:
     s32 field_F4_tlvInfo;
     enum class States : s16

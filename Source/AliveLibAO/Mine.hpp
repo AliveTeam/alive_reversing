@@ -64,5 +64,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Mine, 0x1B4);
 
-}
-
+} // namespace AO

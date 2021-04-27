@@ -10,7 +10,7 @@
 #include <typeinfo>
 #include <type_traits>
 
-template<class T>
+template <class T>
 class EnumType : public EnumTypeBase<std::underlying_type_t<T>>
 {
 public:

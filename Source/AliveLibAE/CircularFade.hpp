@@ -16,6 +16,7 @@ public:
     virtual s32 VDone_4CE0B0();
 
     EXPORT CircularFade* ctor_4CE100(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
+
 private:
     EXPORT void vRender_4CE3F0(PrimHeader** ppOt);
     EXPORT void vUpdate_4CE380();
@@ -23,6 +24,7 @@ private:
     EXPORT s32 vDone_4CE0B0();
     EXPORT void dtor_4CE080();
     EXPORT CircularFade* vdtor_4CE0D0(s32 flags);
+
 private:
     enum Flags
     {

@@ -93,7 +93,6 @@ public:
     Fixed_24_8()
         : fpValue(0)
     {
-
     }
 
     explicit Fixed_24_8(s32 val)
@@ -128,31 +127,31 @@ public:
     s32 fpValue;
 };
 
-inline bool operator > (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline bool operator>(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     return lhs.fpValue > rhs.fpValue;
 }
 
-inline bool operator < (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline bool operator<(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     return lhs.fpValue < rhs.fpValue;
 }
 
-inline Fixed_24_8 operator - (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline Fixed_24_8 operator-(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     Fixed_24_8 r;
     r.fpValue = lhs.fpValue - rhs.fpValue;
     return r;
 }
 
-inline Fixed_24_8 operator + (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline Fixed_24_8 operator+(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     Fixed_24_8 r;
     r.fpValue = lhs.fpValue + rhs.fpValue;
     return r;
 }
 
-inline Fixed_24_8 operator * (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline Fixed_24_8 operator*(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     // Whenever we see alldiv/allmul __PAIR__ and odd 64bit math its likely something like the following.
 
@@ -166,7 +165,7 @@ inline Fixed_24_8 operator * (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     return r;
 }
 
-inline Fixed_24_8 operator / (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+inline Fixed_24_8 operator/(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
     Fixed_24_8 r;
     r.fpValue = lhs.fpValue / (rhs.GetExponent());
@@ -239,9 +238,7 @@ s16 Collisions::RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_1
             continue;
         }
 
-        Fixed_24_8 unknown1 =
-            xDiffCurrent * (Fixed_24_8(pLine->field_0_rect.y) - y1) -
-            yDiffCurrent * (Fixed_24_8(pLine->field_0_rect.x) - x1);
+        Fixed_24_8 unknown1 = xDiffCurrent * (Fixed_24_8(pLine->field_0_rect.y) - y1) - yDiffCurrent * (Fixed_24_8(pLine->field_0_rect.x) - x1);
 
         if (det > Fixed_24_8(0))
         {
@@ -268,9 +265,7 @@ s16 Collisions::RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_1
             }
         }
 
-        Fixed_24_8 unknown2 =
-            xDiff * (Fixed_24_8(pLine->field_0_rect.y) - y1) -
-            yDiff * (Fixed_24_8(pLine->field_0_rect.x) - x1);
+        Fixed_24_8 unknown2 = xDiff * (Fixed_24_8(pLine->field_0_rect.y) - y1) - yDiff * (Fixed_24_8(pLine->field_0_rect.x) - x1);
 
         if (det > Fixed_24_8(0))
         {
@@ -304,7 +299,6 @@ s16 Collisions::RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_1
             nearestMatch = unknown1;
             pNearestMatch = pLine;
         }
-
     }
 
     if (nearestMatch < Fixed_24_8(2))
@@ -351,8 +345,7 @@ PathLine* Collisions::PreviousLine_40C940(PathLine* pLine)
 
     for (s32 i = 0; i < field_C_max_count; i++)
     {
-        if (abs(pLine->field_0_rect.x - field_0_pArray[i].field_0_rect.w) <= kNearLineTollerance &&
-            abs(pLine->field_0_rect.y - field_0_pArray[i].field_0_rect.h) <= kNearLineTollerance)
+        if (abs(pLine->field_0_rect.x - field_0_pArray[i].field_0_rect.w) <= kNearLineTollerance && abs(pLine->field_0_rect.y - field_0_pArray[i].field_0_rect.h) <= kNearLineTollerance)
         {
             return &field_0_pArray[i];
         }
@@ -375,8 +368,7 @@ PathLine* Collisions::NextLine_40C9B0(PathLine* pLine)
 
     for (s32 i = 0; i < field_C_max_count; i++)
     {
-        if (abs(pLine->field_0_rect.w - field_0_pArray[i].field_0_rect.x) <= kNearLineTollerance &&
-            abs(pLine->field_0_rect.h - field_0_pArray[i].field_0_rect.y) <= kNearLineTollerance)
+        if (abs(pLine->field_0_rect.w - field_0_pArray[i].field_0_rect.x) <= kNearLineTollerance && abs(pLine->field_0_rect.h - field_0_pArray[i].field_0_rect.y) <= kNearLineTollerance)
         {
             return &field_0_pArray[i];
         }
@@ -513,14 +505,12 @@ PathLine* PathLine::MoveOnLine_40CA20(FP* pXPos, FP* pYPos, const FP distToMove)
         if (yDiff_2 + xDiff_2 <= FP_FromInteger(180))
         {
             squareRoot = Math_SquareRoot_FP_451210(
-                (yDiff * yDiff) +
-                (xDiff * xDiff));
+                (yDiff * yDiff) + (xDiff * xDiff));
         }
         else
         {
             squareRoot = FP_FromInteger(Math_SquareRoot_Int_4511B0(
-                FP_GetExponent(xDiff) * FP_GetExponent(xDiff) +
-                FP_GetExponent(yDiff) * FP_GetExponent(yDiff)));
+                FP_GetExponent(xDiff) * FP_GetExponent(xDiff) + FP_GetExponent(yDiff) * FP_GetExponent(yDiff)));
         }
 
         // Round up to 1 to prevent divide by zero
@@ -546,12 +536,10 @@ PathLine* PathLine::MoveOnLine_40CA20(FP* pXPos, FP* pYPos, const FP distToMove)
         }
 
         const FP root1 = Math_SquareRoot_FP_451210(
-            (FP_FromInteger(field_0_rect.h) - ypos) * (FP_FromInteger(field_0_rect.h) - ypos) +
-            (FP_FromInteger(field_0_rect.w) - xpos) * (FP_FromInteger(field_0_rect.w) - xpos));
+            (FP_FromInteger(field_0_rect.h) - ypos) * (FP_FromInteger(field_0_rect.h) - ypos) + (FP_FromInteger(field_0_rect.w) - xpos) * (FP_FromInteger(field_0_rect.w) - xpos));
 
         const FP root2 = Math_SquareRoot_FP_451210(
-            ((yPosRet - ypos) * (yPosRet - ypos)) +
-            ((xPosRet - xpos) * (xPosRet - xpos)));
+            ((yPosRet - ypos) * (yPosRet - ypos)) + ((xPosRet - xpos) * (xPosRet - xpos)));
 
         *pXPos = FP_FromInteger(pNextLine->field_0_rect.x);
         *pYPos = FP_FromInteger(pNextLine->field_0_rect.y);
@@ -571,8 +559,7 @@ PathLine* PathLine::MoveOnLine_40CA20(FP* pXPos, FP* pYPos, const FP distToMove)
         }
 
         const FP root1 = Math_SquareRoot_FP_451210(
-            (yPosRet - ypos) * (yPosRet - ypos) +
-            (xPosRet - xpos) * (xPosRet - xpos));
+            (yPosRet - ypos) * (yPosRet - ypos) + (xPosRet - xpos) * (xPosRet - xpos));
 
         const FP root2 = Math_SquareRoot_FP_451210(
             (FP_FromInteger(field_0_rect.y) - ypos) * (FP_FromInteger(field_0_rect.y) - ypos)
@@ -589,4 +576,4 @@ PathLine* PathLine::MoveOnLine_40CA20(FP* pXPos, FP* pYPos, const FP distToMove)
     return this;
 }
 
-}
+} // namespace AO

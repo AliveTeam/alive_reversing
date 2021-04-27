@@ -91,7 +91,7 @@ bool AudioDecompressor::SampleMatches(s16& sample, s16 bitNum)
     return false;
 }
 
-template<class T>
+template <class T>
 void AudioDecompressor::decode_generic(T* outPtr, s32 numSamplesPerFrame, bool isLast)
 {
     const s16 useTableFlag = NextSoundBits(16);
@@ -141,8 +141,8 @@ void AudioDecompressor::decode_generic(T* outPtr, s32 numSamplesPerFrame, bool i
                 {
                     break;
                 }
-
-            } while (false);
+            }
+            while (false);
 
             const s32 previous = (5 * previousValue3) - (4 * previousValue2);
             const s32 samplePartOrTableIndex = (previousValue1 + previous) >> 1;
@@ -183,7 +183,7 @@ void AudioDecompressor::decode_16bit_audio_frame(u16* outPtr, s32 numSamplesPerF
     decode_generic(outPtr, numSamplesPerFrame, isLast);
 }
 
-u16* AudioDecompressor::SetupAudioDecodePtrs(u16 *rawFrameBuffer)
+u16* AudioDecompressor::SetupAudioDecodePtrs(u16* rawFrameBuffer)
 {
     mAudioFrameDataPtr = rawFrameBuffer;
     mWorkBits = *reinterpret_cast<u32*>(mAudioFrameDataPtr);
@@ -212,7 +212,8 @@ void AudioDecompressor::SetChannelCount(s32 numChannels)
                 i >>= 1;
             }
             gSndTbl_byte_62EEB0[index++] = static_cast<u8>(tableValue);
-        } while (index < 256);
+        }
+        while (index < 256);
     }
 }
 
@@ -239,7 +240,7 @@ static u16 GetHiWord(u32 v)
 }
 
 #ifndef MAKELONG
-#define MAKELONG(a, b)      ((((u16)(((a)) & 0xffff)) | ((u32)((u16)(((b)) & 0xffff))) << 16))
+    #define MAKELONG(a, b) ((((u16)(((a)) & 0xffff)) | ((u32)((u16)(((b)) & 0xffff))) << 16))
 #endif
 
 static void SetLoWord(u32& v, u16 lo)
@@ -268,7 +269,7 @@ static void SkipBits(u32& value, s8 numBits, s8& usedBitCount)
 static inline void GetBits(s8& usedBitCount, u16*& rawBitStreamPtr, u32& rawWord4, u32& workBits)
 {
     // I think this is used as an escape code?
-    if (usedBitCount & 16)   // 0b10000 if bit 5 set
+    if (usedBitCount & 16) // 0b10000 if bit 5 set
     {
         usedBitCount &= 15;
         rawWord4 = *rawBitStreamPtr++ << usedBitCount;
@@ -291,7 +292,6 @@ static inline void OutputWordAndAdvance(u16*& rawBitStreamPtr, u32& rawWord4, u1
 
 static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
 {
-
     u32 table_index_2 = 0;
     s32 ret = *pFrameData;
 
@@ -379,11 +379,11 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                                 *pOutput++ = static_cast<u16>(rawWord4);
 
                                 GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
-
                             }
 
                             SetLoWord(rawWord4, gTbl2[table_index_2].mOutputWord2);
-                        } while (!static_cast<u16>(rawWord4));
+                        }
+                        while (!static_cast<u16>(rawWord4));
 
 
                         if (static_cast<u16>(rawWord4) != 0x7C1F)
@@ -413,8 +413,8 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                     }
 
                     SetLoWord(rawWord4, gTbl2[table_index_2].mOutputWord3);
-
-                } while (!static_cast<u16>(rawWord4));
+                }
+                while (!static_cast<u16>(rawWord4));
 
 
                 if (static_cast<u16>(rawWord4) != 0x7C1F)
@@ -427,8 +427,8 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
             } // End while
 
             *pOutput++ = static_cast<u16>(rawWord4);
-
-        } while (static_cast<u16>(rawWord4) != MDEC_END);
+        }
+        while (static_cast<u16>(rawWord4) != MDEC_END);
 
         rawWord4 = ExtractBits(workBits, 11);
         SkipBits(workBits, 11, usedBitCount);
@@ -441,14 +441,12 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
         *pOutput++ = static_cast<u16>(rawWord4);
 
         GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
-
     }
 
     return ret;
 }
 
-const u32 gQuant1_dword_42AEC8[64] =
-{
+const u32 gQuant1_dword_42AEC8[64] = {
     0x0000000C, 0x0000000B, 0x0000000A, 0x0000000C, 0x0000000E, 0x0000000E, 0x0000000D, 0x0000000E,
     0x00000010, 0x00000018, 0x00000013, 0x00000010, 0x00000011, 0x00000012, 0x00000018, 0x00000016,
     0x00000016, 0x00000018, 0x0000001A, 0x00000028, 0x00000033, 0x0000003A, 0x00000028, 0x0000001D,
@@ -456,11 +454,9 @@ const u32 gQuant1_dword_42AEC8[64] =
     0x00000039, 0x0000003C, 0x0000003D, 0x00000037, 0x00000045, 0x00000057, 0x00000044, 0x00000040,
     0x0000004E, 0x0000005C, 0x0000005F, 0x00000057, 0x00000051, 0x0000006D, 0x00000050, 0x00000038,
     0x0000003E, 0x00000067, 0x00000068, 0x00000067, 0x00000062, 0x00000070, 0x00000079, 0x00000071,
-    0x0000004D, 0x0000005C, 0x00000078, 0x00000064, 0x00000067, 0x00000065, 0x00000063, 0x00000010
-};
+    0x0000004D, 0x0000005C, 0x00000078, 0x00000064, 0x00000067, 0x00000065, 0x00000063, 0x00000010};
 
-const u32 gQaunt2_dword_42AFC4[64] =
-{
+const u32 gQaunt2_dword_42AFC4[64] = {
     0x00000010, 0x00000012, 0x00000012, 0x00000018, 0x00000015, 0x00000018, 0x0000002F, 0x0000001A,
     0x0000001A, 0x0000002F, 0x00000063, 0x00000042, 0x00000038, 0x00000042, 0x00000063, 0x00000063,
     0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063,
@@ -468,11 +464,9 @@ const u32 gQaunt2_dword_42AFC4[64] =
     0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063,
     0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063,
     0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063,
-    0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063
-};
+    0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063};
 
-const u32 g_index_look_up_table[64] =
-{
+const u32 g_index_look_up_table[64] = {
     0x00000001, 0x00000008, 0x00000010, 0x00000009, 0x00000002, 0x00000003, 0x0000000A, 0x00000011,
     0x00000018, 0x00000020, 0x00000019, 0x00000012, 0x0000000B, 0x00000004, 0x00000005, 0x0000000C,
     0x00000013, 0x0000001A, 0x00000021, 0x00000028, 0x00000030, 0x00000029, 0x00000022, 0x0000001B,
@@ -484,8 +478,7 @@ const u32 g_index_look_up_table[64] =
 };
 
 // Same as PSXMDECDecoder::RL_ZSCAN_MATRIX
-const u32 RL_ZSCAN_MATRIX_2[64] =
-{
+const u32 RL_ZSCAN_MATRIX_2[64] = {
     0x00000000, 0x00000001, 0x00000008, 0x00000010, 0x00000009, 0x00000002, 0x00000003, 0x0000000A,
     0x00000011, 0x00000018, 0x00000020, 0x00000019, 0x00000012, 0x0000000B, 0x00000004, 0x00000005,
     0x0000000C, 0x00000013, 0x0000001A, 0x00000021, 0x00000028, 0x00000030, 0x00000029, 0x00000022,
@@ -493,11 +486,9 @@ const u32 RL_ZSCAN_MATRIX_2[64] =
     0x00000023, 0x0000002A, 0x00000031, 0x00000038, 0x00000039, 0x00000032, 0x0000002B, 0x00000024,
     0x0000001D, 0x00000016, 0x0000000F, 0x00000017, 0x0000001E, 0x00000025, 0x0000002C, 0x00000033,
     0x0000003A, 0x0000003B, 0x00000034, 0x0000002D, 0x00000026, 0x0000001F, 0x00000027, 0x0000002E,
-    0x00000035, 0x0000003C, 0x0000003D, 0x00000036, 0x0000002F, 0x00000037, 0x0000003E, 0x0000003F
-};
+    0x00000035, 0x0000003C, 0x0000003D, 0x00000036, 0x0000002F, 0x00000037, 0x0000003E, 0x0000003F};
 
-const u32 g_block_related_2_dword_42B0CC[64] =
-{
+const u32 g_block_related_2_dword_42B0CC[64] = {
     0x00000008, 0x00000010, 0x00000009, 0x00000002, 0x00000003, 0x0000000A, 0x00000011, 0x00000018,
     0x00000020, 0x00000019, 0x00000012, 0x0000000B, 0x00000004, 0x00000005, 0x0000000C, 0x00000013,
     0x0000001A, 0x00000021, 0x00000028, 0x00000030, 0x00000029, 0x00000022, 0x0000001B, 0x00000014,
@@ -505,11 +496,9 @@ const u32 g_block_related_2_dword_42B0CC[64] =
     0x00000031, 0x00000038, 0x00000039, 0x00000032, 0x0000002B, 0x00000024, 0x0000001D, 0x00000016,
     0x0000000F, 0x00000017, 0x0000001E, 0x00000025, 0x0000002C, 0x00000033, 0x0000003A, 0x0000003B,
     0x00000034, 0x0000002D, 0x00000026, 0x0000001F, 0x00000027, 0x0000002E, 0x00000035, 0x0000003C,
-    0x0000003D, 0x00000036, 0x0000002F, 0x00000037, 0x0000003E, 0x0000003F, 0x0000098E, 0x0000098E
-};
+    0x0000003D, 0x00000036, 0x0000002F, 0x00000037, 0x0000003E, 0x0000003F, 0x0000098E, 0x0000098E};
 
-const u32 g_block_related_3_dword_42B0D0[64] =
-{
+const u32 g_block_related_3_dword_42B0D0[64] = {
     0x00000010, 0x00000009, 0x00000002, 0x00000003, 0x0000000A, 0x00000011, 0x00000018, 0x00000020,
     0x00000019, 0x00000012, 0x0000000B, 0x00000004, 0x00000005, 0x0000000C, 0x00000013, 0x0000001A,
     0x00000021, 0x00000028, 0x00000030, 0x00000029, 0x00000022, 0x0000001B, 0x00000014, 0x0000000D,
@@ -517,8 +506,7 @@ const u32 g_block_related_3_dword_42B0D0[64] =
     0x00000038, 0x00000039, 0x00000032, 0x0000002B, 0x00000024, 0x0000001D, 0x00000016, 0x0000000F,
     0x00000017, 0x0000001E, 0x00000025, 0x0000002C, 0x00000033, 0x0000003A, 0x0000003B, 0x00000034,
     0x0000002D, 0x00000026, 0x0000001F, 0x00000027, 0x0000002E, 0x00000035, 0x0000003C, 0x0000003D,
-    0x00000036, 0x0000002F, 0x00000037, 0x0000003E, 0x0000003F, 0x0000098E, 0x0000098E, 0x0000F384
-};
+    0x00000036, 0x0000002F, 0x00000037, 0x0000003E, 0x0000003F, 0x0000098E, 0x0000098E, 0x0000F384};
 
 u32 g_252_buffer_unk_635A0C[64] = {};
 u32 g_252_buffer_unk_63580C[64] = {};
@@ -532,9 +520,9 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
     const u32* pTable = isYBlock ? &g_252_buffer_unk_63580C[1] : &g_252_buffer_unk_635A0C[1];
     u32 counter = 0;
     u16* pInput = reinterpret_cast<u16*>(inPtr);
-    u32* pOutput = reinterpret_cast<u32*>(outputBlockPtr);              // off 10 quantised coefficients
+    u32* pOutput = reinterpret_cast<u32*>(outputBlockPtr); // off 10 quantised coefficients
 
-                                                      // 0xFE00 == END_OF_BLOCK, hence this loop moves past the EOB
+    // 0xFE00 == END_OF_BLOCK, hence this loop moves past the EOB
     while (*pInput == 0xFE00u)
     {
         pInput++;
@@ -547,7 +535,7 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
     {
         do
         {
-            const u32 macroBlockWord = *pInput++;// bail if end
+            const u32 macroBlockWord = *pInput++; // bail if end
             if (macroBlockWord == 0xFE00)
             {
                 break;
@@ -569,15 +557,14 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
 
 
             counter++;
-        } while (counter < 63);                     // 63 AC values?
-
+        }
+        while (counter < 63); // 63 AC values?
     }
     else
     {
-
         while (1)
         {
-            const u32 macroBlockWord = *pInput++;// bail if end
+            const u32 macroBlockWord = *pInput++; // bail if end
             if (macroBlockWord == 0xFE00)
             {
                 break;
@@ -607,7 +594,7 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
             pOutput[idx] = outVal;
 
             ++counter;
-            if (counter >= 63)                      // 63 AC values?
+            if (counter >= 63) // 63 AC values?
             {
                 return reinterpret_cast<int16_t*>(pInput);
             }
@@ -630,7 +617,7 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
                 }
             }
 
-            while (counter3 != 64)              // 63 AC values?
+            while (counter3 != 64) // 63 AC values?
             {
                 pOutput[RL_ZSCAN_MATRIX_2[counter3]] = 0;
                 pOutput[g_index_look_up_table[counter3]] = 0;
@@ -641,9 +628,8 @@ int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr
         }
         else
         {
-            memset(pOutput + 1, 0, 0xFCu);            // 63 dwords buffer
+            memset(pOutput + 1, 0, 0xFCu); // 63 dwords buffer
         }
-
     }
     return reinterpret_cast<int16_t*>(pInput);
 }
@@ -724,9 +710,8 @@ static void after_block_decode_no_effect_q_impl(s32 quantScale)
             result++;
             g_252_buffer_unk_63580C[result] = quantScale * val;
             g_252_buffer_unk_635A0C[result] = quantScale * gQaunt2_dword_42AFC4[result];
-
-
-        } while (result < 63);                   // 252/4=63
+        }
+        while (result < 63); // 252/4=63
     }
     else
     {
@@ -739,7 +724,6 @@ static void after_block_decode_no_effect_q_impl(s32 quantScale)
         // memset(&g_252_buffer_unk_635A0C[1], 16, 252  /*sizeof(g_252_buffer_unk_635A0C)*/); // u32[63]
         // memset(&g_252_buffer_unk_63580C[1], 16, 252 /*sizeof(g_252_buffer_unk_63580C)*/);
     }
-
 }
 
 s32 Masher::Init_4E6770(const s8* movieFileName)
@@ -760,9 +744,7 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
 
     // Read file magic
     u32 fileMagic = 0;
-    if (!field_0_file_handle ||
-        !sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)&fileMagic, sizeof(u32)) ||
-        !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
+    if (!field_0_file_handle || !sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*) &fileMagic, sizeof(u32)) || !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
     {
         return 1;
     }
@@ -775,8 +757,7 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
     }
 
     // Read DDV header
-    if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)&field_4_ddv_header, sizeof(Masher_Header)) ||
-        !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
+    if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*) &field_4_ddv_header, sizeof(Masher_Header)) || !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
     {
         return 1;
     }
@@ -792,8 +773,7 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
     if (field_61_bHasVideo)
     {
         // Read the video header
-        if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)&field_14_video_header, sizeof(Masher_VideoHeader)) ||
-            !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
+        if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*) &field_14_video_header, sizeof(Masher_VideoHeader)) || !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
         {
             return 1;
         }
@@ -802,7 +782,7 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
         field_84_max_frame_size += field_14_video_header.field_C_max_audio_frame_size;
 
         // Allocate buffer for decoding frame data
-        field_44_decoded_frame_data_buffer = (u16*)malloc(sizeof(u16) * field_14_video_header.field_10_max_video_frame_size);
+        field_44_decoded_frame_data_buffer = (u16*) malloc(sizeof(u16) * field_14_video_header.field_10_max_video_frame_size);
         if (!field_44_decoded_frame_data_buffer)
         {
             return 2;
@@ -831,8 +811,7 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
     if (field_60_bHasAudio)
     {
         // Read audio header
-        if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)&field_2C_audio_header, sizeof(Masher_AudioHeader)) ||
-            !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
+        if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*) &field_2C_audio_header, sizeof(Masher_AudioHeader)) || !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
         {
             return 1;
         }
@@ -853,7 +832,7 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
         field_84_max_frame_size += field_2C_audio_header.field_8_max_audio_frame_size;
 
         field_4C_decoded_audio_buffer = static_cast<u8*>(malloc(field_2C_audio_header.field_C_single_audio_frame_size
-            * (field_50_num_channels * field_54_bits_per_sample / 8)));
+                                                                * (field_50_num_channels * field_54_bits_per_sample / 8)));
 
         if (!field_4C_decoded_audio_buffer)
         {
@@ -878,8 +857,7 @@ s32 Masher::Init_4E6770(const s8* movieFileName)
     }
 
     // Populate frame sizes array from disk
-    if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*)field_70_frame_sizes_array, frameSizeArrayInBytes) ||
-        !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
+    if (!sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*) field_70_frame_sizes_array, frameSizeArrayInBytes) || !sMovie_IO_BBB314.mIO_Wait(field_0_file_handle))
     {
         return 1;
     }
@@ -943,10 +921,7 @@ s32 Masher::sub_4E6B30()
         }
 
         if (frameSizeToRead > 0
-            && (!sMovie_IO_BBB314.mIO_Wait(field_0_file_handle) ||
-                !sMovie_IO_BBB314.mIO_Read(field_0_file_handle,
-                (u8*)field_80_raw_frame_data + field_88_audio_data_offset,
-                    frameSizeToRead)))
+            && (!sMovie_IO_BBB314.mIO_Wait(field_0_file_handle) || !sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*) field_80_raw_frame_data + field_88_audio_data_offset, frameSizeToRead)))
         {
             return 0;
         }
@@ -958,7 +933,7 @@ s32 Masher::sub_4E6B30()
     // Audio with no video
     if (field_60_bHasAudio && !field_61_bHasVideo)
     {
-        field_48_sound_frame_to_decode = (s32 *)((s8 *)field_80_raw_frame_data + frameOffset);
+        field_48_sound_frame_to_decode = (s32*) ((s8*) field_80_raw_frame_data + frameOffset);
     }
     // Video with no audio
     else if (!field_60_bHasAudio && field_61_bHasVideo)
@@ -983,8 +958,7 @@ s32 CC Masher::sub_4EAC30(Masher* pMasher)
     s32* pFrameSize = pMasher->field_74_pCurrentFrameSize;
     s32 sizeToRead = *pFrameSize;
     pMasher->field_74_pCurrentFrameSize = pFrameSize + 1;
-    if (!sMovie_IO_BBB314.mIO_Read(pMasher->field_0_file_handle, reinterpret_cast<u8*>(pMasher->field_80_raw_frame_data), sizeToRead) ||
-        !sMovie_IO_BBB314.mIO_Wait(pMasher->field_0_file_handle))
+    if (!sMovie_IO_BBB314.mIO_Read(pMasher->field_0_file_handle, reinterpret_cast<u8*>(pMasher->field_80_raw_frame_data), sizeToRead) || !sMovie_IO_BBB314.mIO_Wait(pMasher->field_0_file_handle))
     {
         return 0;
     }
@@ -1029,7 +1003,7 @@ void Masher::MMX_Decode_4E6C60(u8* pPixelBuffer)
         return;
     }
 
-    const s32 quantScale = decode_bitstream((u16*)field_40_video_frame_to_decode, field_44_decoded_frame_data_buffer);
+    const s32 quantScale = decode_bitstream((u16*) field_40_video_frame_to_decode, field_44_decoded_frame_data_buffer);
 
     after_block_decode_no_effect_q_impl(quantScale);
 
@@ -1071,11 +1045,11 @@ void Masher::MMX_Decode_4E6C60(u8* pPixelBuffer)
             if (pPixelBuffer)
             {
                 // TODO: Should probably be using gMasher_pitch_bytes_BB4AF8 ??
-                ConvertYuvToRgbAndBlit((u16*)pPixelBuffer, xoff, yoff,
-                    640,
-                    480,
-                    true,
-                    true);
+                ConvertYuvToRgbAndBlit((u16*) pPixelBuffer, xoff, yoff,
+                                       640,
+                                       480,
+                                       true,
+                                       true);
 
                 // pPixelBuffer += gMasher_pitch_bytes_BB4AF8;
             }
@@ -1153,8 +1127,10 @@ s32 Masher::To1d(s32 x, s32 y)
 
 u8 Masher::Clamp(f32 v)
 {
-    if (v < 0.0f) v = 0.0f;
-    if (v > 255.0f) v = 255.0f;
+    if (v < 0.0f)
+        v = 0.0f;
+    if (v > 255.0f)
+        v = 255.0f;
     return static_cast<u8>(v);
 }
 
@@ -1220,7 +1196,7 @@ void Masher::ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 wi
         f32 Cr;
     };
 
-    std::array< std::array<Macroblock_YCbCr_Struct, 16>, 16> Macroblock_YCbCr = {};
+    std::array<std::array<Macroblock_YCbCr_Struct, 16>, 16> Macroblock_YCbCr = {};
 
     for (s32 x = 0; x < 8; x++)
     {
@@ -1244,15 +1220,15 @@ void Masher::ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 wi
     }
 
     // Convert the (Y, Cb, Cr) pixels into RGB pixels
-    std::array< std::array<Macroblock_RGB_Struct, 16>, 16> Macroblock_RGB = {};
+    std::array<std::array<Macroblock_RGB_Struct, 16>, 16> Macroblock_RGB = {};
 
     for (u32 x = 0; x < kMacroBlockWidth; x++)
     {
         for (u32 y = 0; y < kMacroBlockHeight; y++)
         {
-            const f32 r = (Macroblock_YCbCr[x][y].Y) + 1.402f *  Macroblock_YCbCr[x][y].Cb;
+            const f32 r = (Macroblock_YCbCr[x][y].Y) + 1.402f * Macroblock_YCbCr[x][y].Cb;
             const f32 g = (Macroblock_YCbCr[x][y].Y) - 0.3437f * Macroblock_YCbCr[x][y].Cr - 0.7143f * Macroblock_YCbCr[x][y].Cb;
-            const f32 b = (Macroblock_YCbCr[x][y].Y) + 1.772f *  Macroblock_YCbCr[x][y].Cr;
+            const f32 b = (Macroblock_YCbCr[x][y].Y) + 1.772f * Macroblock_YCbCr[x][y].Cr;
 
             Macroblock_RGB[x][y].Red = Clamp(r);
             Macroblock_RGB[x][y].Green = Clamp(g);
@@ -1263,7 +1239,6 @@ void Masher::ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 wi
             s32 ypos = y + yoff;
             if (xpos < width && ypos < height)
             {
-
                 u16 pixel16Value = rgb888torgb565(Macroblock_RGB[x][y]);
                 // Actually is no alpha in FMVs
                 // pixelValue = (pixelValue << 8) + Macroblock_RGB[x][y].A

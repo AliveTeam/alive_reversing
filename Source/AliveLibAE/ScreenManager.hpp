@@ -29,9 +29,8 @@ struct DirtyBits
     }
 };
 
-namespace Oddlib
-{
-    struct BitsLogic;
+namespace Oddlib {
+struct BitsLogic;
 }
 
 struct SprtTPage
@@ -58,7 +57,8 @@ public:
     EXPORT void UnsetDirtyBits_FG1_40ED70();
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
-    virtual void VUpdate() override {}
+    virtual void VUpdate() override
+    { }
 
     void process_segment(u16* aVlcBufferPtr, s32 xPos);
     void vlc_decode(u16* aCamSeg, u16* aDst);
@@ -83,6 +83,7 @@ public:
     EXPORT void VRender_40E6E0(PrimHeader** ppOt);
 
     virtual void VScreenChanged() override;
+
 private:
     void AddCurrentSPRT_TPage(PrimHeader** ppOt);
 
@@ -119,7 +120,6 @@ public:
 
 ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager_5BB5F4);
 
-namespace AETest::TestsScreenManager
-{
-    void ScreenManagerTests();
+namespace AETest::TestsScreenManager {
+void ScreenManagerTests();
 }

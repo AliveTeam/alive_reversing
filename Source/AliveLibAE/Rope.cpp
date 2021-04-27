@@ -7,27 +7,25 @@
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
 
-const TintEntry kRopeTints_55FD68[18] =
-{
-    { 1u, 127u, 127u, 127u },
-    { 2u, 127u, 127u, 127u },
-    { 3u, 127u, 127u, 127u },
-    { 4u, 127u, 127u, 127u },
-    { 5u, 127u, 127u, 127u },
-    { 6u, 127u, 127u, 127u },
-    { 7u, 127u, 127u, 127u },
-    { 8u, 127u, 127u, 127u },
-    { 9u, 127u, 127u, 127u },
-    { 10u, 127u, 127u, 127u },
-    { 11u, 127u, 127u, 127u },
-    { 12u, 127u, 127u, 127u },
-    { 13u, 127u, 127u, 127u },
-    { 14u, 127u, 127u, 127u },
-    { -1, 127u, 127u, 127u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u }
-};
+const TintEntry kRopeTints_55FD68[18] = {
+    {1u, 127u, 127u, 127u},
+    {2u, 127u, 127u, 127u},
+    {3u, 127u, 127u, 127u},
+    {4u, 127u, 127u, 127u},
+    {5u, 127u, 127u, 127u},
+    {6u, 127u, 127u, 127u},
+    {7u, 127u, 127u, 127u},
+    {8u, 127u, 127u, 127u},
+    {9u, 127u, 127u, 127u},
+    {10u, 127u, 127u, 127u},
+    {11u, 127u, 127u, 127u},
+    {12u, 127u, 127u, 127u},
+    {13u, 127u, 127u, 127u},
+    {14u, 127u, 127u, 127u},
+    {-1, 127u, 127u, 127u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u}};
 
 EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
@@ -35,21 +33,21 @@ EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
     const s16 polyHeight = Y3(pPoly) - Y0(pPoly);
     if (minY - Y0(pPoly) > 0 && d1 <= polyHeight)
     {
-        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (s16)d1);
-        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (s16)d1);
+        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (s16) d1);
+        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (s16) d1);
 
-        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (u8)d1);
-        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (u8)d1);
+        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (u8) d1);
+        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (u8) d1);
     }
 
     const s32 d2 = Y3(pPoly) - maxY;
     if (d2 > 0 && d2 <= polyHeight)
     {
-        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (s16)d2);
-        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (s16)d2);
+        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (s16) d2);
+        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (s16) d2);
 
-        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (u8)d2);
-        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (u8)d2);
+        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (u8) d2);
+        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (u8) d2);
     }
 }
 
@@ -104,7 +102,7 @@ Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
     {
         AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-        SetVTable(pSegment, 0x5447CC); // vTbl_RopeSegment_5447CC
+        SetVTable(pSegment, 0x5447CC);                // vTbl_RopeSegment_5447CC
         pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
         pSegment->field_68_anim_ptr = &field_20_animation;
         pSegment->field_C_render_layer = field_20_animation.field_C_render_layer;
@@ -156,8 +154,7 @@ EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
     if (field_C2_lvl_number == gMap_5C3030.field_0_current_level && field_C0_path_number == gMap_5C3030.field_2_current_path)
     {
         // In the current camera x range?
-        if (field_B8_xpos >= FP_FromInteger(camPos.field_0_x) &&
-            field_B8_xpos <= FP_FromInteger(camPos.field_0_x + 375))
+        if (field_B8_xpos >= FP_FromInteger(camPos.field_0_x) && field_B8_xpos <= FP_FromInteger(camPos.field_0_x + 375))
         {
             const FP camXPos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
             const FP camYPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
@@ -219,8 +216,7 @@ EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
                         screenY,
                         ppOt,
                         0,
-                        0
-                    );
+                        0);
 
                     PSX_RECT rect = {};
                     field_FC_pRopeRes[idx].GetRenderedSize_40C980(&rect);
@@ -234,8 +230,7 @@ EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
                     ClipPoly_Vertically_4A09E0(
                         &field_FC_pRopeRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index],
                         minY,
-                        maxY
-                    );
+                        maxY);
 
                     screenY -= field_F6_rope_length;
 

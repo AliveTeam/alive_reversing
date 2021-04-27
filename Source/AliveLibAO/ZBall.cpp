@@ -31,10 +31,7 @@ EXPORT s16* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, s16* pData)
             PSX_RECT bRect = {};
             pAliveObj->VGetBoundingRect(&bRect, 1);
 
-            if (bRect.x <= (FP_GetExponent(pZBall->field_A8_xpos) + pData[2]) &&
-                bRect.w >= (FP_GetExponent(pZBall->field_A8_xpos) + pData[0]) &&
-                bRect.h >= (FP_GetExponent(pZBall->field_AC_ypos) + pData[1]) &&
-                bRect.y <= (FP_GetExponent(pZBall->field_AC_ypos) + pData[3]))
+            if (bRect.x <= (FP_GetExponent(pZBall->field_A8_xpos) + pData[2]) && bRect.w >= (FP_GetExponent(pZBall->field_A8_xpos) + pData[0]) && bRect.h >= (FP_GetExponent(pZBall->field_AC_ypos) + pData[1]) && bRect.y <= (FP_GetExponent(pZBall->field_AC_ypos) + pData[3]))
             {
                 pAliveObj->VTakeDamage(pZBall);
             }
@@ -56,20 +53,20 @@ ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, s32 tlvInfo)
     field_C0_r = 128;
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2zballResID, TRUE, FALSE);
-    
+
     switch (pTlv->field_1C_speed)
     {
-    case Path_ZBall::Speed::eNormal_0:
-        Animation_Init_417FD0(72172, 143, 182, ppRes, 1);
-        break;
+        case Path_ZBall::Speed::eNormal_0:
+            Animation_Init_417FD0(72172, 143, 182, ppRes, 1);
+            break;
 
-    case Path_ZBall::Speed::eFast_1:
-        Animation_Init_417FD0(72288, 143, 182, ppRes, 1);
-        break;
+        case Path_ZBall::Speed::eFast_1:
+            Animation_Init_417FD0(72288, 143, 182, ppRes, 1);
+            break;
 
-    case Path_ZBall::Speed::eSlow_2:
-        Animation_Init_417FD0(72400, 143, 182, ppRes, 1);
-        break;
+        case Path_ZBall::Speed::eSlow_2:
+            Animation_Init_417FD0(72400, 143, 182, ppRes, 1);
+            break;
     }
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
@@ -79,22 +76,22 @@ ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, s32 tlvInfo)
     {
         switch (pTlv->field_18_start_pos)
         {
-        case Path_ZBall::StartPos::eCenter_0:
-            field_10_anim.SetFrame_402AC0(6u);
-            gCenter_ZBall_9F1DCC = this;
-            field_EA_sound_pitch = -800;
-            break;
+            case Path_ZBall::StartPos::eCenter_0:
+                field_10_anim.SetFrame_402AC0(6u);
+                gCenter_ZBall_9F1DCC = this;
+                field_EA_sound_pitch = -800;
+                break;
 
-        case Path_ZBall::StartPos::eOut_1:
-            field_10_anim.SetFrame_402AC0(0);
-            gOutZBall_9F1DD0 = this;
-            field_EA_sound_pitch = -400;
-            break;
+            case Path_ZBall::StartPos::eOut_1:
+                field_10_anim.SetFrame_402AC0(0);
+                gOutZBall_9F1DD0 = this;
+                field_EA_sound_pitch = -400;
+                break;
 
-        case Path_ZBall::StartPos::eIn_2:
-            field_10_anim.SetFrame_402AC0(13u);
-            field_EA_sound_pitch = 0;
-            break;
+            case Path_ZBall::StartPos::eIn_2:
+                field_10_anim.SetFrame_402AC0(13u);
+                field_EA_sound_pitch = 0;
+                break;
         }
 
         field_10_anim.vDecode();
@@ -185,11 +182,11 @@ void ZBall::VUpdate_478720()
     field_E8_bFrameAbove12 = field_10_anim.field_92_current_frame >= 13;
 
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_B2_lvl_number,
-        field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos,
-        0))
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0))
     {
         field_6_flags.Set(Options::eDead_Bit3);
         if (field_E4_tlvInfo != -1)
@@ -199,4 +196,4 @@ void ZBall::VUpdate_478720()
     }
 }
 
-}
+} // namespace AO

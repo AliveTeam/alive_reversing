@@ -100,7 +100,7 @@ enum class AnimId
     Abe_Well,
     Abe_Well_Enter,
     Abe_Well_Enter_Start,
-    
+
     Fleech_Climb_A,
     Fleech_Climb_B,
     Fleech_Eat,
@@ -147,7 +147,7 @@ enum class AnimId
     Flying_Slig_Down_Turn_Instant,
     Flying_Slig_Move_Horizontal_To_Up,
     Flying_Slig_Turn_Horizontal,
-    
+
     Glukkon_Aslik_Fall_Over,
     Glukkon_Aslik_Idle,
     Glukkon_Aslik_Jump,
@@ -328,7 +328,7 @@ enum class AnimId
     Mudokon_Wheel,
     Mudokon_Wheel_End,
     Mudokon_Wheel_Start,
-    
+
     Paramite_Attack,
     Paramite_Climb_Down,
     Paramite_Climb_End_Down,
@@ -538,7 +538,7 @@ enum class AnimId
     Rock_Sack_B,
     Rock_Sack_Hit,
     Security_Door_Idle,
-	Security_Door_Speak,
+    Security_Door_Speak,
     Security_Orb,
     Slam_Door_Industrial_Closed,
     Slam_Door_Industrial_Closing,
@@ -547,7 +547,7 @@ enum class AnimId
     Slam_Door_Vault_Closing,
     Slam_Door_Vault_Opening,
     Slap_Lock_Idle_A,
-	Slap_Lock_Idle_B,
+    Slap_Lock_Idle_B,
     Slap_Lock_Shake,
     Sparks,
     Status_Light_Green,
@@ -578,7 +578,7 @@ enum class AnimId
     Work_Wheel_Turning,
     Zap_Line_Blue,
     Zap_Line_Red,
-    
+
     Anim_Tester, // For animation testing with the TestAnimation.cpp, ignore this.
 };
 
@@ -655,8 +655,8 @@ enum ResourceID
     kFireFlyResID = 64,
     kDovshootResID = 66,
     kElumUnknownResID_100 = 100, // AO only
-    kAneknbkResID = 106, // AO only
-    kAneedgeResID = 108, // AO only
+    kAneknbkResID = 106,         // AO only
+    kAneedgeResID = 108,         // AO only
     kElumUnknownResID_110 = 110, // AO only
     kElumUnknownResID_112 = 112, // AO only
     kAbeCarResId = 113,
@@ -677,15 +677,15 @@ enum ResourceID
     kAngryiconResID = 202,
     kNormaliconResID = 203,
     kUnknownResID_204 = 204,
-    kElmnknbkResID = 215, // AO only
+    kElmnknbkResID = 215,    // AO only
     kElmfallResID_216 = 216, // AO only
     kElmblowResID_217 = 217,
     kElumUnknownResID_220 = 220, // AO only
     kElumUnknownResID_221 = 221, // AO only
-    kElmprmntResID__222 = 222, // AO only
+    kElmprmntResID__222 = 222,   // AO only
     kElumUnknownResID_223 = 223, // AO only
     kElumUnknownResID_224 = 224, // AO only
-    kElmaloneResID_230 = 230, // AO only
+    kElmaloneResID_230 = 230,    // AO only
     kBgexpldResID = 300,
     kExplo2ResID = 301,
     kAlrmFlarResID = 302,
@@ -862,15 +862,15 @@ enum ResourceID
     kR1buttonResID = 6008,
     kR1bpipeResID = 6009,
     kGreenGlowResID_6010 = 6010, // AO only
-    kRedGlowResID_6011 = 6011, // AO only
+    kRedGlowResID_6011 = 6011,   // AO only
     kUnknownResID_6013 = 6013,
     kUnknownResID_6014 = 6014, // AO only
     kUnknownResID_6016 = 6016,
     kEvilFartResID = 6017,
     kR1sdosResID_6027 = 6027,
-    kFlintGlowResID_6028 = 6028, // AO only
+    kFlintGlowResID_6028 = 6028,      // AO only
     kGreenDoorLightResID_6031 = 6031, // AO only
-    kRedDoorLightResID_6032 = 6032, // AO only
+    kRedDoorLightResID_6032 = 6032,   // AO only
     kTwnkleResID = 7012,
     kControlsResID = 8000,
     kDoorResID = 8001,
@@ -883,8 +883,6 @@ namespace AO {
 
 enum AOResourceID
 {
-
-
 };
 
-}
+} // namespace AO

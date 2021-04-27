@@ -11,7 +11,7 @@ struct ErrorData
     s32 field_0_minusOne;
     s8 field_4_str[256];
     s32 field_104_line_num;
-    const s8 *field_108_pSourceFileName;
+    const s8* field_108_pSourceFileName;
 };
 ALIVE_ASSERT_SIZEOF(ErrorData, 0x10C);
 
@@ -117,11 +117,11 @@ EXPORT void CC Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
             allocatedString[0] = 0;
             for (s32 i = sErrorIndex_BBC564 - 1; i >= 0; i--)
             {
-                s8 buffer[256*4] = {};
+                s8 buffer[256 * 4] = {};
                 sprintf(buffer, "%4d %s: %s\n",
-                    sErrors_BBC570[sErrorIndex_BBC564].field_104_line_num,
-                    sErrors_BBC570[sErrorIndex_BBC564].field_108_pSourceFileName,
-                    sErrors_BBC570[sErrorIndex_BBC564].field_4_str);
+                        sErrors_BBC570[sErrorIndex_BBC564].field_104_line_num,
+                        sErrors_BBC570[sErrorIndex_BBC564].field_108_pSourceFileName,
+                        sErrors_BBC570[sErrorIndex_BBC564].field_4_str);
                 strcat(allocatedString, buffer);
             }
             Error_DisplayMessageBox_4F2C80("Error", 0, allocatedString);

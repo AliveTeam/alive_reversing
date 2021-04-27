@@ -69,4 +69,4 @@ public:
 ALIVE_ASSERT_SIZEOF(PullRingRope, 0x104);
 
 
-}
+} // namespace AO

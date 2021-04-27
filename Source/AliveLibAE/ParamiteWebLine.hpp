@@ -38,8 +38,8 @@ private:
     EXPORT PSX_RECT* vGetBoundingRect_4E2B40(PSX_RECT* pRect, s32 idx);
 
     EXPORT void vRender_4E2530(PrimHeader** ppOt);
-private:
 
+private:
     EXPORT void vScreenChanged_4E2BC0();
 
     s16 field_F4_anim_segment_count;

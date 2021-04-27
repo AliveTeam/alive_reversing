@@ -27,4 +27,4 @@ EXPORT void VGA_Shutdown_4900E0()
     VGA_Shutdown_4F3170();
 }
 
-}
+} // namespace AO

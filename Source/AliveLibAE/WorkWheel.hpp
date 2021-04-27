@@ -45,17 +45,21 @@ public:
     virtual void VStopTurning(s16 bResetSwitch);
 
     EXPORT WorkWheel* ctor_4E35D0(Path_WorkWheel* pTlv, s32 tlvInfo);
+
 private:
     EXPORT void dtor_4E3850();
     EXPORT WorkWheel* vdtor_4E3820(s32 flags);
+
 public:
     EXPORT static s32 CC CreateFromSaveState_4E3B10(const u8* pState);
+
 private:
     EXPORT s32 vGetSaveState_4E3C40(WorkWheel_SaveState* pState);
     EXPORT void vUpdate_4E38E0();
     EXPORT void vScreenChanged_4E3AD0();
     EXPORT void vStartTurning_4E3A20();
     EXPORT void vStopTurning_4E3A60(s16 bResetSwitch);
+
 private:
     s32 field_F4_tlv_info;
     s16 field_F8_id;

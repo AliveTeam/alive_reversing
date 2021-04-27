@@ -17,8 +17,7 @@
 
 namespace AO {
 
-const u8 sLCDScreen_Palette_4C75A8[32] =
-{
+const u8 sLCDScreen_Palette_4C75A8[32] = {
     0u,
     0u,
     1u,
@@ -50,11 +49,9 @@ const u8 sLCDScreen_Palette_4C75A8[32] =
     20u,
     161u,
     24u,
-    216u
-};
+    216u};
 
-const u8 sLCDScreen_Palette2_4C7588[32] =
-{
+const u8 sLCDScreen_Palette2_4C7588[32] = {
     0u,
     0u,
     1u,
@@ -86,11 +83,9 @@ const u8 sLCDScreen_Palette2_4C7588[32] =
     20u,
     161u,
     24u,
-    216u
-};
+    216u};
 
-const s8* sLCDMessageTable_4C7420[90] =
-{
+const s8* sLCDMessageTable_4C7420[90] = {
     "",
     "                               The profits justify the means.",
     "                               You are who you eat.",
@@ -180,8 +175,7 @@ const s8* sLCDMessageTable_4C7420[90] =
     "",
     "",
     "",
-    ""
-};
+    ""};
 
 LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
 {
@@ -218,8 +212,8 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
     else
     {
         strcpy(field_AC_message_buffer,
-            "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to"
-            " Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
+               "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to"
+               " Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
     }
 
     field_A0_message = field_AC_message_buffer;
@@ -246,7 +240,7 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
 BaseGameObject* LCDScreen::dtor_434100()
 {
     SetVTable(this, 0x4BB468);
-    IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{ field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w });
+    IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
 
     gObjList_drawables_504618->Remove_Item(this);
     gMap_507BA8.TLV_Reset_446870(field_2B8_tlv_item_info, -1, 0, 0);
@@ -312,8 +306,7 @@ void LCDScreen::VUpdate_4341B0()
             {
                 const auto rangedRandom = Math_RandomRange_450F20(
                     field_2D8_message_rand_min,
-                    field_2DC_message_rand_max
-                );
+                    field_2DC_message_rand_max);
 
                 if (Input_JoyStickEnabled() || rangedRandom != 62)
                 {
@@ -323,8 +316,7 @@ void LCDScreen::VUpdate_4341B0()
                 {
                     strcpy(
                         field_AC_message_buffer,
-                        "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!"
-                    );
+                        "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
                 }
             }
             else
@@ -335,15 +327,13 @@ void LCDScreen::VUpdate_4341B0()
                 {
                     String_FormatString_450DC0(
                         sLCDMessageTable_4C7420[field_2AC_message_1_id],
-                        field_AC_message_buffer
-                    );
+                        field_AC_message_buffer);
                 }
                 else
                 {
                     strcpy(
                         field_AC_message_buffer,
-                        "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!"
-                    );
+                        "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
                 }
             }
             auto palSwap = field_98_pal_rect;
@@ -358,12 +348,11 @@ void LCDScreen::VUpdate_4341B0()
     auto screenLeft = field_2BC_tlv.field_10_top_left.field_0_x - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
     auto screenRight = field_2BC_tlv.field_14_bottom_right.field_0_x - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
 
-    const s8 *slicedText = field_60_font.SliceText_41C6C0(
+    const s8* slicedText = field_60_font.SliceText_41C6C0(
         field_A0_message,
         PsxToPCX(screenLeft - pScreenManager_4FF7C8->field_14_xpos, 11) - field_2B0_x_offset,
         FP_FromInteger(1),
-        screenRight - pScreenManager_4FF7C8->field_14_xpos
-    );
+        screenRight - pScreenManager_4FF7C8->field_14_xpos);
     sFontDrawScreenSpace_508BF4 = 0;
     if (slicedText != field_A4_message_cutoff_ptr)
     {
@@ -397,14 +386,12 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
             0,
             0,
             640,
-            static_cast<s16>(gPsxDisplay_504C78.field_2_height)
-        };
+            static_cast<s16>(gPsxDisplay_504C78.field_2_height)};
 
         auto* pClippers = &field_10_prim_clippers[0][gPsxDisplay_504C78.field_A_buffer_index];
         Init_PrimClipper_495FD0(
             pClippers,
-            &clipRect
-        );
+            &clipRect);
         OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_22), &pClippers->mBase);
 
         auto fontFlickerAmount = 50;
@@ -433,8 +420,7 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
             0,
             FP_FromInteger(1),
             maxWidth,
-            fontFlickerAmount
-        );
+            fontFlickerAmount);
         sFontDrawScreenSpace_508BF4 = 0;
 
         PSX_RECT clipRect2 = {};
@@ -453,9 +439,8 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
             clipRect2.y,
             clipRect2.w,
             24,
-            pScreenManager_4FF7C8->field_2E_idx
-        );
+            pScreenManager_4FF7C8->field_2E_idx);
     }
 }
 
-}
+} // namespace AO

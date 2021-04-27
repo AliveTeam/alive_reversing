@@ -87,4 +87,3 @@ void SlogHut::vUpdate_4C41B0()
         field_34_Zzz_timer = sGnFrame_5C1B84 + field_38_Zzz_delay;
     }
 }
-

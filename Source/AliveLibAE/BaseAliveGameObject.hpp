@@ -53,6 +53,7 @@ public:
     virtual void VOnTrapDoorOpen();
 
     EXPORT static s16 CCSTD IsInInvisibleZone_425710(BaseAliveGameObject* pObj);
+
 private:
     EXPORT void vUnPosses_408F90();
     EXPORT void vPossessed_408F70();
@@ -63,6 +64,7 @@ private:
     EXPORT void vCheckCollisionLineStillValid_408A40(s16 distance);
     EXPORT BirdPortal* vIntoBirdPortal_408FD0(s16 gridBlocks);
     EXPORT void vOnTrapDoorOpen_4081F0();
+
 protected:
     EXPORT s16 SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, s32 resourceID);
 
@@ -73,14 +75,18 @@ protected:
 
 public:
     EXPORT void SetActiveCameraDelayedFromDir_408C40();
+
 public:
     EXPORT s16 MapFollowMe_408D10(s16 snapToGrid);
+
 protected:
     EXPORT BOOL WallHit_408750(FP offY, FP offX);
     EXPORT BOOL InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
     EXPORT BaseGameObject* FindObjectOfType_425180(AETypes typeToFind, FP xpos, FP ypos);
+
 public:
     EXPORT s16 OnTrapDoorIntersection_408BA0(PlatformBase* pOther);
+
 public:
     s16 field_F4_previous_motion;
     s16 field_F6_anim_frame;

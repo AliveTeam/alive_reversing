@@ -78,4 +78,4 @@ void Movie::VUpdate_489EA0()
 {
 }
 
-}
+} // namespace AO

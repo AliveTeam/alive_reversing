@@ -89,16 +89,13 @@ void BeeNest::VScreenChanged_481040()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
-        gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path ||
-        !field_34_pBeeSwarm)
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || !field_34_pBeeSwarm)
     {
         gMap_507BA8.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
         if (field_34_pBeeSwarm)
         {
             field_34_pBeeSwarm->field_C_refCount--;
             field_34_pBeeSwarm = nullptr;
-
         }
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -113,39 +110,39 @@ void BeeNest::VUpdate_480F30()
 {
     switch (field_2E_state)
     {
-    case BeeNestStates::eWaitForTrigger_0:
-        if (SwitchStates_Get(field_28_switch_id))
-        {
-            field_34_pBeeSwarm = ao_new<BeeSwarm>();
-            if (field_34_pBeeSwarm)
+        case BeeNestStates::eWaitForTrigger_0:
+            if (SwitchStates_Get(field_28_switch_id))
             {
-                field_34_pBeeSwarm->ctor_47FC60(
-                    field_10_bee_x,
-                    field_14_bee_y,
-                    field_30_speed,
-                    field_2A_swarm_size,
-                    field_2C_chase_ticks);
+                field_34_pBeeSwarm = ao_new<BeeSwarm>();
+                if (field_34_pBeeSwarm)
+                {
+                    field_34_pBeeSwarm->ctor_47FC60(
+                        field_10_bee_x,
+                        field_14_bee_y,
+                        field_30_speed,
+                        field_2A_swarm_size,
+                        field_2C_chase_ticks);
 
-                field_34_pBeeSwarm->field_C_refCount++;
-                field_34_pBeeSwarm->Chase_47FEB0(sActiveHero_507678);
-                field_2E_state = BeeNestStates::eResetIfDead_1;
+                    field_34_pBeeSwarm->field_C_refCount++;
+                    field_34_pBeeSwarm->Chase_47FEB0(sActiveHero_507678);
+                    field_2E_state = BeeNestStates::eResetIfDead_1;
+                }
             }
-        }
-        break;
+            break;
 
-    case BeeNestStates::eResetIfDead_1:
-        if (field_34_pBeeSwarm->field_6_flags.Get(BaseGameObject::eDead_Bit3))
-        {
-            field_2E_state = BeeNestStates::eWaitForTrigger_0;
-            field_34_pBeeSwarm->field_C_refCount--;
-            field_34_pBeeSwarm = nullptr;
-            SwitchStates_Set(field_28_switch_id, 0);
-        }
-        break;
+        case BeeNestStates::eResetIfDead_1:
+            if (field_34_pBeeSwarm->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            {
+                field_2E_state = BeeNestStates::eWaitForTrigger_0;
+                field_34_pBeeSwarm->field_C_refCount--;
+                field_34_pBeeSwarm = nullptr;
+                SwitchStates_Set(field_28_switch_id, 0);
+            }
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
-}
+} // namespace AO

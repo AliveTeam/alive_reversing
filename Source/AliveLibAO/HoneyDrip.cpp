@@ -60,4 +60,4 @@ BaseGameObject* HoneyDrip::VDestructor(s32 flags)
     return this;
 }
 
-}
+} // namespace AO

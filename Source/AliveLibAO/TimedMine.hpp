@@ -55,5 +55,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(TimedMine, 0x1BC);
 
-}
-
+} // namespace AO

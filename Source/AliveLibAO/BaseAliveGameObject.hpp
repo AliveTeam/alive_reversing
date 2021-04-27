@@ -107,11 +107,12 @@ protected:
     EXPORT s16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
 
     EXPORT s16 Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist);
+
 public:
     EXPORT s16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);
     EXPORT s16 MapFollowMe_401D30(s16 snapToGrid);
-public:
 
+public:
     FP_RECT field_D4_collection_rect;
     s16 field_E4_previous_motion;
     s16 field_E6_last_anim_frame;
@@ -133,4 +134,4 @@ ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x10C);
 
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0);
 
-}
+} // namespace AO

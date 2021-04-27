@@ -97,7 +97,6 @@ ALIVE_VAR(1, 0xBBBA54, HINSTANCE, sPrevInstance_BBBA54, nullptr);
 
 void Winmain_ForceLink()
 {
-
 }
 
 // Manual calls to construct global static objects when not running as dll/injected into the real game.

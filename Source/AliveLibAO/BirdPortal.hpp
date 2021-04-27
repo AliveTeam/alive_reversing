@@ -160,4 +160,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BirdPortal, 0x6C);
 
-}
+} // namespace AO

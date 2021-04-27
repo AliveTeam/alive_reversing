@@ -62,7 +62,6 @@ public:
     virtual void VUpdate() override;
 
 private:
-
     EXPORT void vScreenChange_41F080();
     EXPORT Door* vdtor_41E9D0(s32 flags);
     EXPORT void vUpdate_41EBE0();
@@ -78,8 +77,10 @@ protected:
         eTasksDoor_3 = 3,
     };
     s16 field_F8_door_type;
+
 public:
     s16 field_FA_door_number;
+
 protected:
     s16 field_FC_current_state;
     s16 field_FE_start_state;
@@ -110,7 +111,5 @@ private:
     EXPORT void dtor_4DD200();
 
     EXPORT void vUpdate_4DD2A0();
-
-
 };
 ALIVE_ASSERT_SIZEOF(TrainDoor, 0x114);

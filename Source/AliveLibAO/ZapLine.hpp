@@ -78,7 +78,7 @@ public:
 
     ZapLineState field_E4_state;
 
-     s16 field_E6_pad;
+    s16 field_E6_pad;
     u8** field_E8_ppRes;
     Prim_SetTPage field_EC_tPage_p8[2];
     s16 field_10C_x_position_source;
@@ -103,5 +103,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ZapLine, 0x144);
 
-}
-
+} // namespace AO

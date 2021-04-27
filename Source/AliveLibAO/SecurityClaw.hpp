@@ -24,7 +24,6 @@ public:
     BaseGameObject* VDestructor(s32 flags);
 
     BaseGameObject* Vdtor(s32 flags);
-
 };
 
 class MotionDetector;
@@ -82,5 +81,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(SecurityClaw, 0x140);
 
-}
-
+} // namespace AO

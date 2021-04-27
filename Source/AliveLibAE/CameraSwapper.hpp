@@ -9,9 +9,9 @@ class ScreenClipper;
 class CameraSwapper : public BaseGameObject
 {
 public:
-    EXPORT CameraSwapper* ctor_4E4CA0(u8** ppCamRes, s32 movieSector, s32 movieId, s8 movieFlag, s16  movieFlags, s16 movieVol);
+    EXPORT CameraSwapper* ctor_4E4CA0(u8** ppCamRes, s32 movieSector, s32 movieId, s8 movieFlag, s16 movieFlags, s16 movieVol);
     EXPORT CameraSwapper* ctor_4E4DC0(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2);
-    EXPORT CameraSwapper* ctor_4E4ED0(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16  movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 moveFlag3, s16 movieFlags3, s16 movieVol3);
+    EXPORT CameraSwapper* ctor_4E4ED0(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 moveFlag3, s16 movieFlags3, s16 movieVol3);
     EXPORT CameraSwapper* ctor_4E5000(u8** ppCamRes, CameraSwapEffects changeEffect, s16 xpos, s16 ypos);
     EXPORT void dtor_4E5790();
     EXPORT BaseGameObject* vdtor_4E4D90(s32 flags);
@@ -31,7 +31,7 @@ private:
 
     u8** field_30_ppCamRes;
     ScreenClipper* field_34_pSubObject;
-    
+
     CameraSwapEffects field_38_changeEffect;
 
     s16 field_3A_current_slice;

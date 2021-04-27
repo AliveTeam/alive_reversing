@@ -56,9 +56,9 @@ void BeeSwarmHole::VUpdate_478320()
     }
 
     field_1C_interval_timer = static_cast<s32>(gnFrameCount_507670) + field_20_interval;
-    
+
     bool bBallFillingHole = false;
-    for (s32 idx= 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
     {
         BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(idx);
         if (!pObjIter)
@@ -98,36 +98,37 @@ void BeeSwarmHole::VUpdate_478320()
 
         switch (field_24_movement_type)
         {
-        case Path_BeeSwarmHole::MovementType::eHover_0:
-            // Idle around like a chav near a victim
-            break;
+            case Path_BeeSwarmHole::MovementType::eHover_0:
+                // Idle around like a chav near a victim
+                break;
 
-        case Path_BeeSwarmHole::MovementType::eAttack_1:
-            pSwarm->Chase_47FEB0(sActiveHero_507678);
-            break;
+            case Path_BeeSwarmHole::MovementType::eAttack_1:
+                pSwarm->Chase_47FEB0(sActiveHero_507678);
+                break;
 
-        case Path_BeeSwarmHole::MovementType::eFollowPath_2:
-        {
-            PathLine* pLine = nullptr;
-            FP targetX = {};
-            FP targetY = {};
-            if (sCollisions_DArray_504C6C->RayCast_40C410(
-                FP_FromInteger(field_14_rect.x),
-                FP_FromInteger(field_14_rect.y),
-                FP_FromInteger(field_14_rect.w),
-                FP_FromInteger(field_14_rect.h),
-                &pLine,
-                &targetX,
-                &targetY,
-                0x100) == 1)
+            case Path_BeeSwarmHole::MovementType::eFollowPath_2:
             {
-                pSwarm->FollowLine_47FF10(pLine, targetX, targetY, speed + FP_FromInteger(1));
+                PathLine* pLine = nullptr;
+                FP targetX = {};
+                FP targetY = {};
+                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                        FP_FromInteger(field_14_rect.x),
+                        FP_FromInteger(field_14_rect.y),
+                        FP_FromInteger(field_14_rect.w),
+                        FP_FromInteger(field_14_rect.h),
+                        &pLine,
+                        &targetX,
+                        &targetY,
+                        0x100)
+                    == 1)
+                {
+                    pSwarm->FollowLine_47FF10(pLine, targetX, targetY, speed + FP_FromInteger(1));
+                }
             }
-        }
             break;
 
-        default:
-            break;
+            default:
+                break;
         }
     }
 }
@@ -142,4 +143,4 @@ BaseGameObject* BeeSwarmHole::VDestructor(s32 flags)
     return this;
 }
 
-}
+} // namespace AO

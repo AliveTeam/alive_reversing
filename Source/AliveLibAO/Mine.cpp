@@ -132,7 +132,6 @@ BaseGameObject* Mine::dtor_43A640()
 
     if (!(field_10E_disabled_resources & 1))
     {
-
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0));
     }
 
@@ -181,9 +180,7 @@ void Mine::VScreenChanged()
 
 void Mine::VScreenChanged_43AC10()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
-        gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path ||
-        !(field_1B0_flags & 2))
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || !(field_1B0_flags & 2))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -203,28 +200,28 @@ s16 Mine::VTakeDamage_43AC40(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case Types::eAbe_43:
-    case Types::eAbilityRing_69:
-    case Types::eExplosion_74:
-    case Types::eShrykull_85:
-    {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        auto pBaseBomb = ao_new<BaseBomb>();
-        if (pBaseBomb)
+        case Types::eAbe_43:
+        case Types::eAbilityRing_69:
+        case Types::eExplosion_74:
+        case Types::eShrykull_85:
         {
-            pBaseBomb->ctor_4173A0(
-                field_A8_xpos,
-                field_AC_ypos,
-                0,
-                field_BC_sprite_scale);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            auto pBaseBomb = ao_new<BaseBomb>();
+            if (pBaseBomb)
+            {
+                pBaseBomb->ctor_4173A0(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0,
+                    field_BC_sprite_scale);
+            }
+            field_10C_detonating = 1;
+            field_114_gnframe = gnFrameCount_507670;
+            return 1;
         }
-        field_10C_detonating = 1;
-        field_114_gnframe = gnFrameCount_507670;
-        return 1;
-    }
 
-    default:
-        return 0;
+        default:
+            return 0;
     }
 }
 
@@ -269,11 +266,11 @@ void Mine::VRender(PrimHeader** ppOt)
 void Mine::VRender_43A970(PrimHeader** ppOt)
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_B2_lvl_number,
-        field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos,
-        0))
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0))
     {
         field_118_animation.vRender(
             FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x)),
@@ -366,14 +363,7 @@ s16 Mine::IsColliding_43AA60()
                 PSX_RECT bObjRect = {};
                 pObj->VGetBoundingRect(&bObjRect, 1);
 
-                if (FP_GetExponent(pObj->field_A8_xpos) > bRect.x &&
-                    FP_GetExponent(pObj->field_A8_xpos) < bRect.w &&
-                    FP_GetExponent(pObj->field_AC_ypos) < bRect.h + 5 &&
-                    bRect.x <= bObjRect.w &&
-                    bRect.w >= bObjRect.x &&
-                    bRect.h >= bObjRect.y &&
-                    bRect.y <= bObjRect.h &&
-                    pObj->field_BC_sprite_scale == field_BC_sprite_scale)
+                if (FP_GetExponent(pObj->field_A8_xpos) > bRect.x && FP_GetExponent(pObj->field_A8_xpos) < bRect.w && FP_GetExponent(pObj->field_AC_ypos) < bRect.h + 5 && bRect.x <= bObjRect.w && bRect.w >= bObjRect.x && bRect.h >= bObjRect.y && bRect.y <= bObjRect.h && pObj->field_BC_sprite_scale == field_BC_sprite_scale)
                 {
                     return 1;
                 }
@@ -383,4 +373,4 @@ s16 Mine::IsColliding_43AA60()
     return 0;
 }
 
-}
+} // namespace AO

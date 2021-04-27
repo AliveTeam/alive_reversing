@@ -19,7 +19,7 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnsckResID, TRUE, FALSE);
     Animation_Init_417FD0(1256, 106, 73, ppRes, 1);
     field_10_anim.field_C_layer = Layer::eLayer_37;
-    
+
     field_114_switch_on_id = pTlv->field_18_id_on;
 
     if (pTlv->field_1A_scale == Scale_short::eHalf_1)
@@ -68,7 +68,7 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
     const auto oldXPos = field_A8_xpos;
     MapFollowMe_401D30(TRUE);
     field_A8_xpos = oldXPos;
-    
+
     FP lineXPos = {};
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -137,30 +137,30 @@ void RollingBallStopper::VUpdate_43BF70()
 {
     switch (field_112_state)
     {
-    case States::eWaitForTrigger_0:
-        if (SwitchStates_Get(field_114_switch_on_id))
-        {
-            Rect_Clear_40C920(&field_118_pLine->field_0_rect);
-            field_118_pLine = nullptr;
-            field_112_state = States::eMoveStopper_1;
-            SFX_Play_43AE60(SoundEffect::PickupItem_33, 100, -2400, 0);
-            SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -800, 0);
-        }
-        break;
+        case States::eWaitForTrigger_0:
+            if (SwitchStates_Get(field_114_switch_on_id))
+            {
+                Rect_Clear_40C920(&field_118_pLine->field_0_rect);
+                field_118_pLine = nullptr;
+                field_112_state = States::eMoveStopper_1;
+                SFX_Play_43AE60(SoundEffect::PickupItem_33, 100, -2400, 0);
+                SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -800, 0);
+            }
+            break;
 
-    case States::eMoveStopper_1:
-        field_B8_vely += (field_BC_sprite_scale * FP_FromInteger(25));
-        if (field_B8_vely <= (field_BC_sprite_scale * FP_FromInteger(70)))
-        {
-            field_A8_xpos += field_B4_velx;
-            field_AC_ypos += (field_BC_sprite_scale * FP_FromInteger(25));
-        }
-        else
-        {
-            field_112_state = States::eMovingDone_2;
-            SwitchStates_Set(field_116_switch_id_off, 1);
-        }
-        break;
+        case States::eMoveStopper_1:
+            field_B8_vely += (field_BC_sprite_scale * FP_FromInteger(25));
+            if (field_B8_vely <= (field_BC_sprite_scale * FP_FromInteger(70)))
+            {
+                field_A8_xpos += field_B4_velx;
+                field_AC_ypos += (field_BC_sprite_scale * FP_FromInteger(25));
+            }
+            else
+            {
+                field_112_state = States::eMovingDone_2;
+                SwitchStates_Set(field_116_switch_id_off, 1);
+            }
+            break;
     }
 }
 
@@ -179,4 +179,4 @@ void RollingBallStopper::VUpdate()
     VUpdate_43BF70();
 }
 
-}
+} // namespace AO

@@ -8,13 +8,14 @@
 #include <cassert>
 #include <string>
 
-template<class T>
-class TlvObjectBaseAO : public T, public TlvObjectBaseAOBase
+template <class T>
+class TlvObjectBaseAO : public T
+    , public TlvObjectBaseAOBase
 {
 private:
     static void copyFn(AO::Path_TLV* dst, AO::Path_TLV* src)
     {
-        if(src != nullptr)
+        if (src != nullptr)
         {
             *(static_cast<T*>(dst)) = *(static_cast<T*>(src));
         }
@@ -23,15 +24,23 @@ private:
 public:
     // Used only to get "typeName"
     TlvObjectBaseAO(AO::TlvTypes tlvType, const std::string& typeName)
-        : T{}, TlvObjectBaseAOBase(sizeof(T), tlvType, typeName, &tlv())
+        : T{}
+        , TlvObjectBaseAOBase(sizeof(T), tlvType, typeName, &tlv())
     {
     }
 
     TlvObjectBaseAO(TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
-        : T{}, TlvObjectBaseAOBase(sizeof(T), globalTypes, tlvType, typeName, &tlv(), pTlv, &copyFn)
+        : T{}
+        , TlvObjectBaseAOBase(sizeof(T), globalTypes, tlvType, typeName, &tlv(), pTlv, &copyFn)
     {
     }
 
-    [[nodiscard]]       T& tlv()       { return static_cast<T&>(*this); }
-    [[nodiscard]] const T& tlv() const { return static_cast<T&>(*this); }
+    [[nodiscard]] T& tlv()
+    {
+        return static_cast<T&>(*this);
+    }
+    [[nodiscard]] const T& tlv() const
+    {
+        return static_cast<T&>(*this);
+    }
 };

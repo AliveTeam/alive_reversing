@@ -34,7 +34,8 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VUpdate() override;
 
-    virtual void VOnThrowableHit(BaseGameObject*) override {}
+    virtual void VOnThrowableHit(BaseGameObject*) override
+    { }
 
     EXPORT SlamDoor* ctor_4AF700(Path_SlamDoor* tlv_params, TlvItemInfoUnion tlvInfo);
     EXPORT static s32 CC CreateFromSaveState_4C08B0(const u8*);

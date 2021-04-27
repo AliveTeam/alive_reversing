@@ -17,11 +17,10 @@ enum SDLSoundBufferStatus
 
 class SDLSoundBuffer
 {
-
 public:
     SDLSoundBuffer(const SDLSoundBuffer& rhs);
 
-    SDLSoundBuffer& operator = (const SDLSoundBuffer& rhs);
+    SDLSoundBuffer& operator=(const SDLSoundBuffer& rhs);
 
     SDLSoundBuffer();
 
@@ -35,16 +34,16 @@ public:
 
     HRESULT SetFrequency(s32 frequency);
     HRESULT SetCurrentPosition(s32 position);
-    HRESULT GetCurrentPosition(u32 * readPos, u32 * writePos);
-    HRESULT GetFrequency(u32 * freq);
+    HRESULT GetCurrentPosition(u32* readPos, u32* writePos);
+    HRESULT GetFrequency(u32* freq);
     HRESULT SetPan(s32 pan);
     void Release();
-    HRESULT GetStatus(u32 * r);
+    HRESULT GetStatus(u32* r);
 
     void Destroy();
 
     std::vector<u8>* GetBuffer();
-    void Duplicate(SDLSoundBuffer ** dupePtr);
+    void Duplicate(SDLSoundBuffer** dupePtr);
 
 public:
     struct AE_SDL_Voice_State
@@ -70,4 +69,3 @@ public:
     std::shared_ptr<std::vector<u8>> mBuffer;
     std::mutex mLock;
 };
-

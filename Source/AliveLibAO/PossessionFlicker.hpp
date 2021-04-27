@@ -39,5 +39,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(PossessionFlicker, 0x24);
 
-}
-
+} // namespace AO

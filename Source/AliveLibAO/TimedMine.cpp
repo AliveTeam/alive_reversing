@@ -13,11 +13,10 @@
 
 namespace AO {
 
-TintEntry stru_4C3140[3] =
-{
-  { 5, 60u, 60u, 60u },
-  { 6, 60u, 60u, 60u },
-  { -1, 127u, 127u, 127u },
+TintEntry stru_4C3140[3] = {
+    {5, 60u, 60u, 60u},
+    {6, 60u, 60u, 60u},
+    {-1, 127u, 127u, 127u},
 };
 
 TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
@@ -48,15 +47,15 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
     }
 
     if (field_118_anim.Init_402D20(
-        372,
-        gObjList_animations_505564,
-        this,
-        37,
-        21,
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombflshResID, 1, 0),
-        1,
-        0,
-        0))
+            372,
+            gObjList_animations_505564,
+            this,
+            37,
+            21,
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombflshResID, 1, 0),
+            1,
+            0,
+            0))
     {
         field_118_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
         field_118_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
@@ -81,7 +80,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
 
     SetBaseAnimPaletteTint_4187C0(stru_4C3140, gMap_507BA8.field_0_current_level, 1005);
     field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2)); 
+    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
     field_D4_collection_rect.h = field_AC_ypos;
     field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
@@ -137,8 +136,7 @@ void TimedMine::VScreenChanged()
 
 void TimedMine::VScreenChanged_408DD0()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
-        gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
     {
         field_6_flags.Set(Options::eDead_Bit3);
     }
@@ -163,27 +161,27 @@ s16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case Types::eAbe_43:
-    case Types::eAbilityRing_69:
-    case Types::eExplosion_74:
-    case Types::eShrykull_85:
-    {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        auto pBaseBomb = ao_new<BaseBomb>();
-        if (pBaseBomb)
+        case Types::eAbe_43:
+        case Types::eAbilityRing_69:
+        case Types::eExplosion_74:
+        case Types::eShrykull_85:
         {
-            pBaseBomb->ctor_4173A0(
-                field_A8_xpos,
-                field_AC_ypos,
-                0,
-                field_BC_sprite_scale);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            auto pBaseBomb = ao_new<BaseBomb>();
+            if (pBaseBomb)
+            {
+                pBaseBomb->ctor_4173A0(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0,
+                    field_BC_sprite_scale);
+            }
+            field_10C_armed = 1;
+            field_114_timer = gnFrameCount_507670;
+            return 1;
         }
-        field_10C_armed = 1;
-        field_114_timer = gnFrameCount_507670;
-        return 1;
-    }
-    default:
-        return 0;
+        default:
+            return 0;
     }
 }
 
@@ -199,17 +197,15 @@ void TimedMine::VRender_408960(PrimHeader** ppOt)
             field_B0_path_number,
             field_A8_xpos,
             field_AC_ypos,
-            0
-        ))
+            0))
     {
         field_118_anim.VRender_403AE0(
             FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
             FP_GetExponent(field_AC_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos - FP_GetExponent(field_BC_sprite_scale * FP_FromInteger(14)))
-            - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                           - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,
             0,
-            0
-        );
+            0);
 
         PSX_RECT pRect = {};
         field_118_anim.Get_Frame_Rect_402B50(&pRect);
@@ -218,8 +214,7 @@ void TimedMine::VRender_408960(PrimHeader** ppOt)
             pRect.y,
             pRect.w,
             pRect.h,
-            pScreenManager_4FF7C8->field_2E_idx
-        );
+            pScreenManager_4FF7C8->field_2E_idx);
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
@@ -228,17 +223,17 @@ void TimedMine::StickToLiftPoint_408CA0()
 {
     FP hitY = {};
     FP hitX = {};
-    PathLine *pLine = nullptr;
+    PathLine* pLine = nullptr;
     field_1B8 |= 1;
     if (sCollisions_DArray_504C6C->RayCast_40C410(
-        field_A8_xpos,
-        field_AC_ypos - FP_FromInteger(20),
-        field_A8_xpos,
-        field_AC_ypos + FP_FromInteger(20),
-        &pLine,
-        &hitX,
-        &hitY,
-        (field_BC_sprite_scale != FP_FromDouble(0.5)) ? 7 : 0x70))
+            field_A8_xpos,
+            field_AC_ypos - FP_FromInteger(20),
+            field_A8_xpos,
+            field_AC_ypos + FP_FromInteger(20),
+            &pLine,
+            &hitX,
+            &hitY,
+            (field_BC_sprite_scale != FP_FromDouble(0.5)) ? 7 : 0x70))
     {
         if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
         {
@@ -257,9 +252,7 @@ void TimedMine::StickToLiftPoint_408CA0()
                         PSX_RECT pObjRect = {};
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);
                         pLiftPoint->VGetBoundingRect(&pObjRect, 1);
-                        if (FP_GetExponent(field_A8_xpos) > pObjRect.x &&
-                            FP_GetExponent(field_A8_xpos) < pObjRect.w &&
-                            FP_GetExponent(field_AC_ypos) < pObjRect.h)
+                        if (FP_GetExponent(field_A8_xpos) > pObjRect.x && FP_GetExponent(field_A8_xpos) < pObjRect.w && FP_GetExponent(field_AC_ypos) < pObjRect.h)
                         {
                             field_F8_pLiftPoint = pLiftPoint;
                             pLiftPoint->VAdd(this);
@@ -329,8 +322,7 @@ void TimedMine::VUpdate_408760()
                     field_A8_xpos,
                     field_AC_ypos,
                     0,
-                    field_BC_sprite_scale
-                );
+                    field_BC_sprite_scale);
             }
 
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -369,7 +361,7 @@ void TimedMine::vOnPickUpOrSlapped_408A80()
     if (field_10C_armed != 1)
     {
         field_10C_armed = 1;
-        if ((s32) (field_10E_explode_timeout & 0xFFFC) >= 72)
+        if ((s32)(field_10E_explode_timeout & 0xFFFC) >= 72)
         {
             field_1B4 = 18;
         }
@@ -385,4 +377,4 @@ void TimedMine::vOnPickUpOrSlapped_408A80()
     }
 }
 
-}
+} // namespace AO

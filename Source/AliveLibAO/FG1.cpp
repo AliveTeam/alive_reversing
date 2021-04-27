@@ -52,7 +52,7 @@ struct Fg1Block
 };
 ALIVE_ASSERT_SIZEOF(Fg1Block, 0x68);
 
-const Layer sFg1_layer_to_bits_layer_4BC024[] = { Layer::eLayer_37, Layer::eLayer_18 };
+const Layer sFg1_layer_to_bits_layer_4BC024[] = {Layer::eLayer_37, Layer::eLayer_18};
 
 void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 {
@@ -66,7 +66,7 @@ void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block*
         rect.y = pBlock->field_58_rect.y;
         rect.w = width_rounded;
         rect.h = pChunk->field_A_height;
-        IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, (u8*)&pChunk[1]);
+        IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, (u8*) &pChunk[1]);
 
         const s16 tPage = static_cast<s16>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, rect.x /*& 0xFFC0*/, rect.y));
 
@@ -116,8 +116,8 @@ BaseGameObject* FG1::dtor_453DF0()
         if (field_20_chnk_res[i].field_58_rect.w > 0)
         {
             Vram_free_450CE0(
-                { field_20_chnk_res[i].field_58_rect.x, field_20_chnk_res[i].field_58_rect.y },
-                { field_20_chnk_res[i].field_58_rect.w, field_20_chnk_res[i].field_58_rect.h });
+                {field_20_chnk_res[i].field_58_rect.x, field_20_chnk_res[i].field_58_rect.y},
+                {field_20_chnk_res[i].field_58_rect.w, field_20_chnk_res[i].field_58_rect.h});
         }
     }
 
@@ -128,7 +128,7 @@ BaseGameObject* FG1::dtor_453DF0()
 FG1* FG1::ctor_4539C0(u8** ppRes)
 {
     ctor_487E10(1);
-     
+
     SetVTable(this, 0x4BC028);
 
     field_6_flags.Set(Options::eDrawable_Bit4);
@@ -139,12 +139,12 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
 
     field_10_cam_pos_x = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
     field_12_cam_pos_y = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
-    
+
     field_16_current_path = gMap_507BA8.field_2_current_path;
     field_14_current_level = gMap_507BA8.field_0_current_level;
 
     gObjList_drawables_504618->Push_Back(this);
-    
+
     // Cast to the actual FG1 resource block format
     FG1ResourceBlockHeader* pHeader = reinterpret_cast<FG1ResourceBlockHeader*>(*ppRes);
 
@@ -201,7 +201,7 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
 
                 // Compressed data size + header size
                 const s32 sizeToSkipBytes = pChunkIter->field_4_xpos_or_compressed_size + sizeof(Fg1Chunk);
-                
+
                 // Goto next block and save ptr to it
                 pSavedChunkIter = reinterpret_cast<u8**>((reinterpret_cast<u8*>(pChunkIter) + sizeToSkipBytes));
 
@@ -274,7 +274,7 @@ void FG1::VRender_453D50(PrimHeader** ppOt)
                 SetPrimExtraPointerHack(pPoly, nullptr);
 
                 OrderingTable_Add_498A80(OtLayer(ppOt, pBlock->field_66_mapped_layer), &pPoly->mBase.header);
-                
+
                 pScreenManager_4FF7C8->InvalidateRect_406E40(
                     X0(pPoly),
                     Y0(pPoly),
@@ -296,4 +296,4 @@ FG1* FG1::Vdtor_453E90(s32 flags)
     return this;
 }
 
-}
+} // namespace AO

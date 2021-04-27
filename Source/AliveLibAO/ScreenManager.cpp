@@ -80,7 +80,7 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
 
             // already in correct format - no need to convert
             //rgb_conv_44FFE0(pIter, tmpBuffer, sizeof(tmpBuffer));
-           
+
             rect.x = field_20_upos + xpos;
             rect.y = field_22_vpos;
             // TODO: Actually 16bit but must be uploaded as 8bit ??
@@ -89,7 +89,7 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
             // To next slice
             pIter += (slice_len / sizeof(s16));
         }
-        
+
         ResourceManager::FreeResource_455550(pRes);
 
         memset(&field_58_20x16_dirty_bits[0], 0, sizeof(field_58_20x16_dirty_bits[0]));
@@ -123,7 +123,7 @@ void ScreenManager::Init_4068A0(u8** ppBits)
     field_36_flags |= 1;
 
     field_4_typeId = Types::eScreenManager_4;
-    
+
     field_14_xpos = 184;
     field_16_ypos = 120;
     field_20_upos = 0;
@@ -155,7 +155,7 @@ void ScreenManager::Init_4068A0(u8** ppBits)
         tpage |= 0x8000;
 
         Init_SetTPage_495FB0(&pItem->mTPage, 0, 0, tpage);
-      
+
         SetUV0(&pItem->mSprt, static_cast<u8>(u0), static_cast<u8>(v0));
 
         xpos += 32;
@@ -242,7 +242,7 @@ void ScreenManager::VRender(PrimHeader** ppOt)
 
 void ScreenManager::VRender_406A60(PrimHeader** ppOt)
 {
-    if (!(field_36_flags & 1))  // Render enabled flag ?
+    if (!(field_36_flags & 1)) // Render enabled flag ?
     {
         return;
     }
@@ -268,10 +268,7 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
         Layer layer = Layer::eLayer_0;
         if (field_58_20x16_dirty_bits[4].GetTile(spriteX / 32, spriteY / 16))
         {
-            if (!(field_58_20x16_dirty_bits[field_2E_idx].GetTile(spriteX / 32, spriteY / 16)) &&
-                !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) &&
-                !(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) &&
-                !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            if (!(field_58_20x16_dirty_bits[field_2E_idx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
             {
                 continue;
             }
@@ -279,10 +276,7 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
         }
         else if (field_58_20x16_dirty_bits[5].GetTile(spriteX / 32, spriteY / 16))
         {
-            if (!(field_58_20x16_dirty_bits[field_2E_idx].GetTile(spriteX / 32, spriteY / 16)) &&
-                !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) &&
-                !(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) &&
-                !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            if (!(field_58_20x16_dirty_bits[field_2E_idx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
             {
                 continue;
             }
@@ -290,9 +284,7 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
         }
         else
         {
-            if (!(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) &&
-                !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) &&
-                !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            if (!(field_58_20x16_dirty_bits[field_32_x_idx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[field_30_y_idx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
             {
                 continue;
             }
@@ -338,4 +330,4 @@ ScreenManager* ScreenManager::vdtor_407290(s32 flags)
     return this;
 }
 
-}
+} // namespace AO

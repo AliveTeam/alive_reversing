@@ -203,16 +203,13 @@ EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
     auto pRend = IRenderer::GetRenderer();
     if (pRend)
     {
-        pRend->PalFree(IRenderer::PalRecord{ xy.field_0_x, xy.field_2_y, 0 });
+        pRend->PalFree(IRenderer::PalRecord{xy.field_0_x, xy.field_2_y, 0});
     }
 #endif
     // Find the allocation
     for (s32 i = 0; i < sVramNumberOfAllocations_5CC888; i++)
     {
-        if (sVramAllocations_5CB888[i].x == xy.field_0_x &&
-            sVramAllocations_5CB888[i].y == xy.field_2_y &&
-            sVramAllocations_5CB888[i].w == wh.field_0_x &&
-            sVramAllocations_5CB888[i].h == wh.field_2_y)
+        if (sVramAllocations_5CB888[i].x == xy.field_0_x && sVramAllocations_5CB888[i].y == xy.field_2_y && sVramAllocations_5CB888[i].w == wh.field_0_x && sVramAllocations_5CB888[i].h == wh.field_2_y)
         {
             // Copy the last element to this one
             sVramAllocations_5CB888[i] = sVramAllocations_5CB888[sVramNumberOfAllocations_5CC888 - 1];
@@ -295,7 +292,7 @@ EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
         return 0;
     }
 
-    if (paletteColorCount != 256 && paletteColorCount != 64 && paletteColorCount != 16 )
+    if (paletteColorCount != 256 && paletteColorCount != 64 && paletteColorCount != 16)
     {
         return 0;
     }
@@ -345,7 +342,7 @@ EXPORT void CC Pal_free_483390(PSX_Point xy, s16 palDepth)
 
     switch (palDepth)
     {
-        case 16: // 1 bit
+        case 16:                                                     // 1 bit
             sPal_table_5C9164[palIdx] ^= 1 << ((palWidthBits) / 16); // div 16 to get num bits
             break;
         case 64: // 4 bits
@@ -384,7 +381,7 @@ EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, s16 w, u16* pPalData, PSX_RECT*
 
 EXPORT u32 CC Pal_Make_Colour_4834C0(u8 r, u8 g, u8 b, s16 bOpaque)
 {
-    return (bOpaque != 0 ? 0x8000 : 0) + ((u32)r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
+    return (bOpaque != 0 ? 0x8000 : 0) + ((u32) r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
 }
 
 EXPORT void CC Pal_Set_483510(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect)
@@ -393,16 +390,15 @@ EXPORT void CC Pal_Set_483510(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* 
     rect->y = xy.field_2_y;
     rect->w = w;
     rect->h = 1;
-    IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{ xy.field_0_x, xy.field_2_y, w }, palData);
+    IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{xy.field_0_x, xy.field_2_y, w}, palData);
 }
 
 using namespace ::testing;
 
-namespace AETest::TestsVRam
+namespace AETest::TestsVRam {
+void Test_VRamAllocate()
 {
-    void Test_VRamAllocate()
-    {
-        /*
+    /*
         PSX_RECT rect;
         Vram_alloc_4956C0(64, 128, 8, &rect);
         ASSERT_EQ(rect.x, 992);
@@ -430,10 +426,10 @@ namespace AETest::TestsVRam
         Vram_free_495A60({ rect.x, rect.y }, { rect.w, rect.h });
         Vram_free_495A60({ rect3.x, rect2.y }, { rect3.w, rect3.h });
         */
-    }
-
-    void VRamTests()
-    {
-        Test_VRamAllocate();
-    }
 }
+
+void VRamTests()
+{
+    Test_VRamAllocate();
+}
+} // namespace AETest::TestsVRam

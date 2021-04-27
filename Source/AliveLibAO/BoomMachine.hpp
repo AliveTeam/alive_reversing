@@ -54,7 +54,6 @@ private:
     EXPORT void VHandleButton_41E6F0();
 
 public:
-
     s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;
     s16 field_E8_bIsButtonOn;
@@ -63,5 +62,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BoomMachine, 0xF0);
 
-}
-
+} // namespace AO

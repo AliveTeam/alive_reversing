@@ -26,7 +26,7 @@ enum class LevelIds : s16
     eCredits_16 = 16
 };
 
-struct FmvInfo 
+struct FmvInfo
 {
     const s8* field_0_pName;
     u16 field_4_id;
@@ -70,17 +70,17 @@ ALIVE_ASSERT_SIZEOF(PathData, 0x41C);
 
 struct PathBlyRec
 {
-    const s8 *field_0_blyName;
-    const PathData *field_4_pPathData;
-    const CollisionInfo *field_8_pCollisionData;
+    const s8* field_0_blyName;
+    const PathData* field_4_pPathData;
+    const CollisionInfo* field_8_pCollisionData;
     u16 field_C_overlay_id;
     u16 field_E_padding;
 };
 
 struct SoundBlockInfo
 {
-    const s8 *field_0_vab_header_name;
-    const s8 *field_4_vab_body_name;
+    const s8* field_0_vab_header_name;
+    const s8* field_4_vab_body_name;
     s32 field_8_vab_id;
     u8* field_C_pVabHeader;
 };
@@ -129,7 +129,7 @@ struct OpenSeqHandle
     s8 field_8_sound_block_idx;
     s8 field_9_volume;
     s16 field_A_id_seqOpenId;
-    u8 *field_C_ppSeq_Data;
+    u8* field_C_ppSeq_Data;
 };
 ALIVE_ASSERT_SIZEOF(OpenSeqHandle, 0x10);
 

@@ -149,11 +149,7 @@ void RockSack::vUpdate_49F3A0()
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
 
-        if (bRect.x <= bPlayerRect.w &&
-            bRect.w >= bPlayerRect.x &&
-            bRect.h >= bPlayerRect.y &&
-            bRect.y <= bPlayerRect.h &&
-            field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
+        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
         {
             if (gpThrowableArray_5D1E2C)
             {

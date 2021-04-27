@@ -44,7 +44,10 @@ Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 /*maxW*/, u16 /*maxH*/, s32 /*
     field_4_typeId = AETypes::eBird_35;
 
     AnimId a_id = AnimId::Dove_Flying;
-    if(frameTableOffset == 5580) { a_id = AnimId::Dove_Idle; }
+    if (frameTableOffset == 5580)
+    {
+        a_id = AnimId::Dove_Idle;
+    }
 
     const AnimRecord& rec = AnimRec(a_id);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -101,7 +104,10 @@ Dove* Dove::ctor_41F660(s32 frameTableOffset, s32 /*maxW*/, s16 /*maxH*/, s32 /*
     field_4_typeId = AETypes::eBird_35;
 
     AnimId a_id = AnimId::Dove_Flying;
-    if(frameTableOffset == 5580) { a_id = AnimId::Dove_Idle; }
+    if (frameTableOffset == 5580)
+    {
+        a_id = AnimId::Dove_Idle;
+    }
 
     const AnimRecord& rec = AnimRec(a_id);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -271,135 +277,135 @@ void Dove::vUpdate_41FAE0()
 
     switch (field_FE_state)
     {
-    case State::State_0_OnGround:
-        if (Event_Get_422C00(kEventSpeaking))
-        {
-            Dove::All_FlyAway_41FA60(0); // something is speaking, leg it
-        }
-
-        if (Event_Get_422C00(kEventNoise))
-        {
-            // player getting near
-            if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
+        case State::State_0_OnGround:
+            if (Event_Get_422C00(kEventSpeaking))
             {
-                Dove::All_FlyAway_41FA60(1);
+                Dove::All_FlyAway_41FA60(0); // something is speaking, leg it
             }
-            if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
-            {
-                // noise is too near, leg it
-                Dove::All_FlyAway_41FA60(0);
-            }
-        }
-        break;
 
-    case State::State_1_FlyAway:
-        field_F4_counter++;
-        if (field_F4_counter == 0)
-        {
-            field_20_animation.Set_Animation_Data_409C80(5516, 0);
-            if (!bExtraSeqStarted_5BC10C)
+            if (Event_Get_422C00(kEventNoise))
             {
-                bExtraSeqStarted_5BC10C = 13;
-                SFX_Play_46FA90(SoundEffect::Dove_13, 0);
+                // player getting near
+                if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
+                {
+                    Dove::All_FlyAway_41FA60(1);
+                }
+                if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
+                {
+                    // noise is too near, leg it
+                    Dove::All_FlyAway_41FA60(0);
+                }
             }
-        }
+            break;
 
-        if (field_F4_counter > 0)
+        case State::State_1_FlyAway:
+            field_F4_counter++;
+            if (field_F4_counter == 0)
+            {
+                field_20_animation.Set_Animation_Data_409C80(5516, 0);
+                if (!bExtraSeqStarted_5BC10C)
+                {
+                    bExtraSeqStarted_5BC10C = 13;
+                    SFX_Play_46FA90(SoundEffect::Dove_13, 0);
+                }
+            }
+
+            if (field_F4_counter > 0)
+            {
+                field_B8_xpos += field_C4_velx;
+                field_BC_ypos += field_C8_vely;
+            }
+
+            field_C8_vely = (field_C8_vely * FP_FromDouble(1.03));
+            field_C4_velx = (field_C4_velx * FP_FromDouble(1.03));
+
+            if (field_F4_counter >= (25 - (Math_NextRandom() % 8)))
+            {
+                field_F4_counter += (Math_NextRandom() % 8) - 25;
+                field_C4_velx = -field_C4_velx;
+            }
+
+            if (field_C4_velx >= FP_FromInteger(0))
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            }
+            else
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            }
+            break;
+
+        case State::State_2_Join:
         {
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_108_timer)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+
+            FP xOff = {};
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                xOff = FP_FromInteger(4);
+            }
+            else
+            {
+                xOff = FP_FromInteger(-4);
+            }
+
+            field_C4_velx = (xOff + field_100_xJoin - field_B8_xpos) / FP_FromInteger(8);
+            field_C8_vely = (field_104_yJoin - field_BC_ypos) / FP_FromInteger(8);
             field_B8_xpos += field_C4_velx;
             field_BC_ypos += field_C8_vely;
         }
+            return;
 
-        field_C8_vely = (field_C8_vely * FP_FromDouble(1.03));
-        field_C4_velx = (field_C4_velx * FP_FromDouble(1.03));
+        case State::State_3_Circle:
+            field_110_prevX = field_B8_xpos;
+            field_114_prevY = field_BC_ypos;
 
-        if (field_F4_counter >= (25 - (Math_NextRandom() % 8)))
-        {
-            field_F4_counter += (Math_NextRandom() % 8) - 25;
-            field_C4_velx = -field_C4_velx;
-        }
+            field_10C_angle += 4;
 
-        if (field_C4_velx >= FP_FromInteger(0))
-        {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-        }
-        else
-        {
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-        }
-        break;
+            // Spin around this point
+            field_B8_xpos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * field_CC_sprite_scale) + field_100_xJoin;
+            field_BC_ypos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
+            return;
 
-    case State::State_2_Join:
-    {
-        if (static_cast<s32>(sGnFrame_5C1B84) > field_108_timer)
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-
-        FP xOff = {};
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-        {
-            xOff = FP_FromInteger(4);
-        }
-        else
-        {
-            xOff = FP_FromInteger(-4);
-        }
-
-        field_C4_velx = (xOff+field_100_xJoin - field_B8_xpos) / FP_FromInteger(8);
-        field_C8_vely = (field_104_yJoin - field_BC_ypos) / FP_FromInteger(8);
-        field_B8_xpos += field_C4_velx;
-        field_BC_ypos += field_C8_vely;
-    }
-        return;
-
-    case State::State_3_Circle:
-        field_110_prevX = field_B8_xpos;
-        field_114_prevY = field_BC_ypos;
-
-        field_10C_angle += 4;
-
-        // Spin around this point
-        field_B8_xpos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * field_CC_sprite_scale) + field_100_xJoin;
-        field_BC_ypos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
-        return;
-
-    case State::State_4_AlmostACircle:
-        if (sAbePortalTimer_5BC114 != static_cast<s32>(sGnFrame_5C1B84))
-        {
-            // increase or decrease the width of the Abe portal
-            sAbePortalWidth_551544 += sAbePortalDirection_551546;
-            sAbePortalTimer_5BC114 = sGnFrame_5C1B84;
-
-            if (sAbePortalWidth_551544 == 0)
+        case State::State_4_AlmostACircle:
+            if (sAbePortalTimer_5BC114 != static_cast<s32>(sGnFrame_5C1B84))
             {
-                // expanding
-                sAbePortalDirection_551546 = 1;
-            }
-            else if (sAbePortalWidth_551544 == 30)
-            {
-                // contracting
-                sAbePortalDirection_551546 = -1;
-            }
-        }
+                // increase or decrease the width of the Abe portal
+                sAbePortalWidth_551544 += sAbePortalDirection_551546;
+                sAbePortalTimer_5BC114 = sGnFrame_5C1B84;
 
-        field_114_prevY = field_BC_ypos;
-        field_10C_angle += 4;
-        field_110_prevX = field_B8_xpos;
-        field_B8_xpos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(sAbePortalWidth_551544)) * field_CC_sprite_scale) + field_100_xJoin;
-        field_BC_ypos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
-        return;
+                if (sAbePortalWidth_551544 == 0)
+                {
+                    // expanding
+                    sAbePortalDirection_551546 = 1;
+                }
+                else if (sAbePortalWidth_551544 == 30)
+                {
+                    // contracting
+                    sAbePortalDirection_551546 = -1;
+                }
+            }
 
-    default:
-        break;
+            field_114_prevY = field_BC_ypos;
+            field_10C_angle += 4;
+            field_110_prevX = field_B8_xpos;
+            field_B8_xpos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(sAbePortalWidth_551544)) * field_CC_sprite_scale) + field_100_xJoin;
+            field_BC_ypos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
+            return;
+
+        default:
+            break;
     }
 
     if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-        field_C2_lvl_number,
-        field_C0_path_number,
-        field_B8_xpos,
-        field_BC_ypos,
-        0))
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

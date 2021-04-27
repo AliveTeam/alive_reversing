@@ -35,4 +35,4 @@ ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x14);
 
 ALIVE_VAR_EXTERN(ThrowableArray*, gpThrowableArray_50E26C);
 
-}
+} // namespace AO

@@ -12,7 +12,7 @@ enum class LevelIds : s16;
 class EffectBase : public BaseGameObject
 {
 public:
-    EXPORT EffectBase *ctor_461550(Layer layer, TPageAbr abr);
+    EXPORT EffectBase* ctor_461550(Layer layer, TPageAbr abr);
 
     EXPORT BaseGameObject* dtor_461630();
 
@@ -23,8 +23,8 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT void VRender_461690(PrimHeader** ppOt);
-protected:
 
+protected:
     s16 field_10_path_id;
     LevelIds field_12_level_id;
     Prim_Tile field_14_tile[2];
@@ -38,4 +38,4 @@ protected:
 };
 ALIVE_ASSERT_SIZEOF(EffectBase, 0x68);
 
-}
+} // namespace AO

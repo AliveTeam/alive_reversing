@@ -28,11 +28,13 @@ public:
 
     using FnTypeMatcher = AddPointer_t<bool(AETypes type)>;
     void BaseAddToPlatform(FnTypeMatcher cb);
+
 private:
     EXPORT void vToDead_4114B0();
     EXPORT void vOnPickUpOrSlapped_4114D0();
 
     EXPORT s16 vGetCount_448080();
+
 protected:
     s16 field_118_count;
     s16 field_11A_bDead;

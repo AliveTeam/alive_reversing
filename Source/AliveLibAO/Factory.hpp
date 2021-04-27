@@ -44,4 +44,4 @@ struct PathFunctionTable
 
 extern const PathFunctionTable kObjectFactory;
 
-}
+} // namespace AO

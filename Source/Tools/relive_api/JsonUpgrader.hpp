@@ -10,7 +10,8 @@
 class IJsonUpgrader
 {
 public:
-    virtual ~IJsonUpgrader() { }
+    virtual ~IJsonUpgrader()
+    { }
     virtual void Upgrade() = 0;
 };
 
@@ -25,7 +26,8 @@ using TUpgradeFactoryFn = AddPointer_t<std::unique_ptr<IJsonUpgrader>()>;
 class BaseJsonUpgrader
 {
 public:
-    virtual ~BaseJsonUpgrader() { }
+    virtual ~BaseJsonUpgrader()
+    { }
     virtual void AddUpgraders() = 0;
 
     void Upgrade(const std::string& jsonFile, s32 currentJsonVersion, s32 targetApiVersion);

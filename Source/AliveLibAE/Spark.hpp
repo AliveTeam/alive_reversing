@@ -28,12 +28,14 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     EXPORT Spark* ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max, s16 type);
+
 private:
     EXPORT void vUpdate_4CBEF0();
     EXPORT void vRender_4CC050(PrimHeader** ppOt);
     EXPORT void vScreenChange_4CC4A0();
     EXPORT Spark* vdtor_4CBE30(s32 flags);
     EXPORT void dtor_4CBE60();
+
 private:
     Prim_SetTPage field_20_tPage[2];
     FP field_40_xpos;
@@ -43,8 +45,8 @@ private:
     s16 field_4E_g;
     s16 field_50_b;
     Layer field_52_layer;
-    u8 **field_54_ppSprxRes;
-    SparkRes *field_58_pRes;
+    u8** field_54_ppSprxRes;
+    SparkRes* field_58_pRes;
     s16 field_5C_count;
     s32 field_60_timer;
     s16 field_64_type;

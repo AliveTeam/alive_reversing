@@ -119,8 +119,7 @@ void DeathFadeOut::vRender_427210(PrimHeader** ppOt)
 
     EffectBase::VRender(ppOt);
 
-    if ((field_78_current_fade_rgb == 255 && field_7C_direction) ||
-        (field_78_current_fade_rgb == 0 && !field_7C_direction))
+    if ((field_78_current_fade_rgb == 255 && field_7C_direction) || (field_78_current_fade_rgb == 0 && !field_7C_direction))
     {
         field_7E_bDone = 1;
         if (!sIsFadingOut_5BC204)

@@ -15,9 +15,11 @@ public:
 
     EXPORT EffectBase* ctor_4AB7A0(Layer layer, TPageAbr abr);
     EXPORT void dtor_4AB8F0();
+
 private:
     EXPORT EffectBase* vdtor_4AB8C0(s32 flags);
     EXPORT void vRender_4AB970(PrimHeader** ppOt);
+
 protected:
     s16 field_20_path_id;
     LevelIds field_22_level_id;

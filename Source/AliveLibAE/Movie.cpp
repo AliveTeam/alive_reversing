@@ -19,10 +19,10 @@ const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfir
 
 ALIVE_VAR(1, 0x5ca208, SoundEntry, sDDV_SoundEntry_5CA208, {});
 
-EXPORT Masher * CC Masher_Alloc_4EAB80(
+EXPORT Masher* CC Masher_Alloc_4EAB80(
     const s8* pFileName,
     Masher_Header** ppMasherHeader,
-    Masher_VideoHeader **ppMasherVideoHeader,
+    Masher_VideoHeader** ppMasherVideoHeader,
     Masher_AudioHeader** ppMasherAudioHeader,
     s32* errCode)
 {
@@ -67,7 +67,7 @@ EXPORT s32 CC Masher_ReadNextFrame_4EAC20(Masher* pMasher)
 
 EXPORT void CC Masher_MMX_Decode_4EAC40(Masher* pMasher, void* pSurface)
 {
-    pMasher->MMX_Decode_4E6C60((u8*)pSurface);
+    pMasher->MMX_Decode_4E6C60((u8*) pSurface);
 }
 
 ALIVE_VAR(1, 0x5CA234, bool, bHasAudio_5CA234, false);
@@ -101,10 +101,10 @@ EXPORT s8 CC DDV_StartAudio_493DF0()
             {
                 void* pAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
                 if (GetSoundAPI().SND_LoadSamples(
-                    &sDDV_SoundEntry_5CA208,
-                    sampleOffsetPos_5CA238,
-                    (u8*)pAudioFrame,
-                    gMasher_single_audio_frame_size_5CA240))
+                        &sDDV_SoundEntry_5CA208,
+                        sampleOffsetPos_5CA238,
+                        (u8*) pAudioFrame,
+                        gMasher_single_audio_frame_size_5CA240))
                 {
                     bNoAudio_5CA1F4 = 1;
                 }
@@ -179,19 +179,19 @@ static Masher* Open_DDV(const s8* pMovieName)
 
     if (errCode)
     {
-#if! _WIN32
+#if !_WIN32
         const size_t len = strlen(pFileName);
-        for (size_t i=0; i<len; i++)
+        for (size_t i = 0; i < len; i++)
         {
             pFileName[i] = static_cast<s8>(tolower(pFileName[i]));
         }
 
         pMasher = Masher_Alloc_4EAB80(
-                pFileName,
-                &pMasher_header_5CA1E4,
-                &pMasher_video_header_5CA204,
-                &pMasher_audio_header_5CA1E0,
-                &errCode);
+            pFileName,
+            &pMasher_header_5CA1E4,
+            &pMasher_video_header_5CA204,
+            &pMasher_audio_header_5CA1E0,
+            &errCode);
 #endif
     }
 
@@ -287,7 +287,7 @@ static void Render_DDV_Frame(Bitmap& tmpBmp)
 {
     // Copy into the emulated vram - when FMV ends the "screen" still have the last video frame "stick"
     // giving us a nice seamless transistion.
-    SDL_Rect bufferSize = { 0,0, 640, 240 };
+    SDL_Rect bufferSize = {0, 0, 640, 240};
     SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, sPsxVram_C1D160.field_0_pSurface, &bufferSize);
 
     if (sPsxEMU_show_vram_BD1465)
@@ -319,7 +319,7 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const s8* pMovieName)
         SYS_EventsPump_494580();
     }
 
-    bHasAudio_5CA234 = ((u32)pMasher_header_5CA1E4->field_4_contains >> 1) & 1;
+    bHasAudio_5CA234 = ((u32) pMasher_header_5CA1E4->field_4_contains >> 1) & 1;
     gMasher_single_audio_frame_size_5CA240 = pMasher_audio_header_5CA1E0->field_C_single_audio_frame_size;
     const auto sampleLength = gMasher_single_audio_frame_size_5CA240 * (pMasher_audio_header_5CA1E0->field_10_num_frames_interleave + 6);
 
@@ -327,11 +327,12 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const s8* pMovieName)
     if (bHasAudio_5CA234 && pMasher_audio_header_5CA1E0->field_0_audio_format)
     {
         if (GetSoundAPI().SND_New(
-            &sDDV_SoundEntry_5CA208,
-            sampleLength,
-            pMasher_audio_header_5CA1E0->field_4_samples_per_second,
-            (pMasher_audio_header_5CA1E0->field_0_audio_format & 2) != 0 ? 16 : 8,
-            (pMasher_audio_header_5CA1E0->field_0_audio_format & 1) | 6) < 0)
+                &sDDV_SoundEntry_5CA208,
+                sampleLength,
+                pMasher_audio_header_5CA1E0->field_4_samples_per_second,
+                (pMasher_audio_header_5CA1E0->field_0_audio_format & 2) != 0 ? 16 : 8,
+                (pMasher_audio_header_5CA1E0->field_0_audio_format & 1) | 6)
+            < 0)
         {
             // New fail
             sDDV_SoundEntry_5CA208.field_4_pDSoundBuffer = nullptr;
@@ -387,10 +388,10 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const s8* pMovieName)
 
             if (!bNoAudio_5CA1F4)
             {
-                void* pDecompressedAudioFrame = (u8 *)Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
+                void* pDecompressedAudioFrame = (u8*) Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
                 if (pDecompressedAudioFrame)
                 {
-                    if (GetSoundAPI().SND_LoadSamples(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, (u8*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
+                    if (GetSoundAPI().SND_LoadSamples(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, (u8*) pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
                     {
                         // Reload with data fail
                         bNoAudio_5CA1F4 = 1;
@@ -463,7 +464,7 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const s8* pMovieName)
                 const u32 soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
                 if ((s32)(oldBufferPlayPos_5CA22C - soundBufferPlayPos) > sampleLength / 2)
                 {
-                     dword_5CA1FC++;
+                    dword_5CA1FC++;
                 }
 
                 oldBufferPlayPos_5CA22C = soundBufferPlayPos;
@@ -486,9 +487,9 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const s8* pMovieName)
                         ++counter;
 
                         const s32 dword_5CA200 = gMasher_single_audio_frame_size_5CA240
-                            * pMasher_audio_header_5CA1E0->field_10_num_frames_interleave
-                            + soundPlayingPos
-                            + sampleLength * dword_5CA1FC;
+                                                   * pMasher_audio_header_5CA1E0->field_10_num_frames_interleave
+                                               + soundPlayingPos
+                                               + sampleLength * dword_5CA1FC;
 
                         if (counter > 10000)
                         {

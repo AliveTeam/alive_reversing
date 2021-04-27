@@ -216,7 +216,7 @@ EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, Messa
             break;
     }
 
-    const PSX_RECT rect = { 0, 0, 640, 240 };
+    const PSX_RECT rect = {0, 0, 640, 240};
     PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     SYS_EventsPump_494580();
     pTextObj->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);

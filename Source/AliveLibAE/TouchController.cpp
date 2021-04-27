@@ -3,7 +3,7 @@
 #include "Sys.hpp"
 #include "VGA.hpp"
 
-TouchController * gTouchController = nullptr;
+TouchController* gTouchController = nullptr;
 
 
 
@@ -15,46 +15,46 @@ void sdl_ellipse(SDL_Renderer* r, s32 x0, s32 y0, s32 radiusX, s32 radiusY, u8 r
     f32 pi = 3.14159265f;
     f32 pih = pi / 2.0f; //half of pi
 
-                          //drew  28 lines with   4x4  circle with precision of 150 0ms
-                          //drew 132 lines with  25x14 circle with precision of 150 0ms
-                          //drew 152 lines with 100x50 circle with precision of 150 3ms
+    //drew  28 lines with   4x4  circle with precision of 150 0ms
+    //drew 132 lines with  25x14 circle with precision of 150 0ms
+    //drew 152 lines with 100x50 circle with precision of 150 3ms
     const s32 prec = 27; // precision value; value of 1 will draw a diamond, 27 makes pretty smooth circles.
-    f32 theta = 0;     // angle that will be increased each loop
+    f32 theta = 0;       // angle that will be increased each loop
 
-                         //starting point
-    s32 x = (s32)((f32)radiusX * cos(theta));//start point
-    s32 y = (s32)((f32)radiusY * sin(theta));//start point
+    //starting point
+    s32 x = (s32)((f32) radiusX * cos(theta)); //start point
+    s32 y = (s32)((f32) radiusY * sin(theta)); //start point
     s32 x1 = x;
     s32 y1 = y;
 
     //repeat until theta >= 90;
-    f32 step = pih / (f32)prec; // amount to add to theta each time (degrees)
-    for (theta = step; theta <= pih; theta += step)//step through only a 90 arc (1 quadrant)
+    f32 step = pih / (f32) prec;                    // amount to add to theta each time (degrees)
+    for (theta = step; theta <= pih; theta += step) //step through only a 90 arc (1 quadrant)
     {
         //get new point location
-        x1 = static_cast<s32>((f32)radiusX * cosf(theta) + 0.5f); //new point (+.5 is a quick rounding method)
-        y1 = static_cast<s32>((f32)radiusY * sinf(theta) + 0.5f); //new point (+.5 is a quick rounding method)
+        x1 = static_cast<s32>((f32) radiusX * cosf(theta) + 0.5f); //new point (+.5 is a quick rounding method)
+        y1 = static_cast<s32>((f32) radiusY * sinf(theta) + 0.5f); //new point (+.5 is a quick rounding method)
 
-                                                 //draw line from previous point to new point, ONLY if point incremented
-        if ((x != x1) || (y != y1))//only draw if coordinate changed
+        //draw line from previous point to new point, ONLY if point incremented
+        if ((x != x1) || (y != y1)) //only draw if coordinate changed
         {
-            SDL_RenderDrawLine(r, x0 + x, y0 - y, x0 + x1, y0 - y1);//quadrant TR
-            SDL_RenderDrawLine(r, x0 - x, y0 - y, x0 - x1, y0 - y1);//quadrant TL
-            SDL_RenderDrawLine(r, x0 - x, y0 + y, x0 - x1, y0 + y1);//quadrant BL
-            SDL_RenderDrawLine(r, x0 + x, y0 + y, x0 + x1, y0 + y1);//quadrant BR
+            SDL_RenderDrawLine(r, x0 + x, y0 - y, x0 + x1, y0 - y1); //quadrant TR
+            SDL_RenderDrawLine(r, x0 - x, y0 - y, x0 - x1, y0 - y1); //quadrant TL
+            SDL_RenderDrawLine(r, x0 - x, y0 + y, x0 - x1, y0 + y1); //quadrant BL
+            SDL_RenderDrawLine(r, x0 + x, y0 + y, x0 + x1, y0 + y1); //quadrant BR
         }
         //save previous points
-        x = x1;//save new previous point
-        y = y1;//save new previous point
+        x = x1; //save new previous point
+        y = y1; //save new previous point
     }
     //arc did not finish because of rounding, so finish the arc
     if (x != 0)
     {
         x = 0;
-        SDL_RenderDrawLine(r, x0 + x, y0 - y, x0 + x1, y0 - y1);//quadrant TR
-        SDL_RenderDrawLine(r, x0 - x, y0 - y, x0 - x1, y0 - y1);//quadrant TL
-        SDL_RenderDrawLine(r, x0 - x, y0 + y, x0 - x1, y0 + y1);//quadrant BL
-        SDL_RenderDrawLine(r, x0 + x, y0 + y, x0 + x1, y0 + y1);//quadrant BR
+        SDL_RenderDrawLine(r, x0 + x, y0 - y, x0 + x1, y0 - y1); //quadrant TR
+        SDL_RenderDrawLine(r, x0 - x, y0 - y, x0 - x1, y0 - y1); //quadrant TL
+        SDL_RenderDrawLine(r, x0 - x, y0 + y, x0 - x1, y0 + y1); //quadrant BL
+        SDL_RenderDrawLine(r, x0 + x, y0 + y, x0 + x1, y0 + y1); //quadrant BR
     }
 }
 
@@ -72,10 +72,10 @@ TouchController::TouchController()
         const f32 size = 100;
         const f32 spaceMult = 1.0f;
         const f32 spaceOffset = (size * spaceMult);
-        touchButtons.push_back({ offsetX, offsetY - spaceOffset, size,TOUCH_CONTROLLER_BUTTON_Y });
-        touchButtons.push_back({ offsetX, offsetY + spaceOffset, size,TOUCH_CONTROLLER_BUTTON_A });
-        touchButtons.push_back({ offsetX - spaceOffset, offsetY, size,TOUCH_CONTROLLER_BUTTON_X });
-        touchButtons.push_back({ offsetX + spaceOffset, offsetY, size,TOUCH_CONTROLLER_BUTTON_B });
+        touchButtons.push_back({offsetX, offsetY - spaceOffset, size, TOUCH_CONTROLLER_BUTTON_Y});
+        touchButtons.push_back({offsetX, offsetY + spaceOffset, size, TOUCH_CONTROLLER_BUTTON_A});
+        touchButtons.push_back({offsetX - spaceOffset, offsetY, size, TOUCH_CONTROLLER_BUTTON_X});
+        touchButtons.push_back({offsetX + spaceOffset, offsetY, size, TOUCH_CONTROLLER_BUTTON_B});
     }
 
     {
@@ -84,23 +84,23 @@ TouchController::TouchController()
         const f32 size = 100;
         const f32 spaceMult = 1.0f;
         const f32 spaceOffset = (size * spaceMult);
-        touchButtons.push_back({ offsetX, offsetY - spaceOffset, size, TOUCH_CONTROLLER_BUTTON_DPAD_UP});
-        touchButtons.push_back({ offsetX, offsetY + spaceOffset, size, TOUCH_CONTROLLER_BUTTON_DPAD_DOWN });
-        touchButtons.push_back({ offsetX - spaceOffset, offsetY, size, TOUCH_CONTROLLER_BUTTON_DPAD_LEFT });
-        touchButtons.push_back({ offsetX + spaceOffset, offsetY, size, TOUCH_CONTROLLER_BUTTON_DPAD_RIGHT });
+        touchButtons.push_back({offsetX, offsetY - spaceOffset, size, TOUCH_CONTROLLER_BUTTON_DPAD_UP});
+        touchButtons.push_back({offsetX, offsetY + spaceOffset, size, TOUCH_CONTROLLER_BUTTON_DPAD_DOWN});
+        touchButtons.push_back({offsetX - spaceOffset, offsetY, size, TOUCH_CONTROLLER_BUTTON_DPAD_LEFT});
+        touchButtons.push_back({offsetX + spaceOffset, offsetY, size, TOUCH_CONTROLLER_BUTTON_DPAD_RIGHT});
     }
 
-    touchButtons.push_back({ 540, 100, 60, TOUCH_CONTROLLER_BUTTON_BACK });
-    touchButtons.push_back({ 740, 100, 60, TOUCH_CONTROLLER_BUTTON_START });
+    touchButtons.push_back({540, 100, 60, TOUCH_CONTROLLER_BUTTON_BACK});
+    touchButtons.push_back({740, 100, 60, TOUCH_CONTROLLER_BUTTON_START});
 
-    touchButtons.push_back({ 80, 300, 80, TOUCH_CONTROLLER_BUTTON_LEFTTRIGGER });
-    touchButtons.push_back({ 180, 300, 80, TOUCH_CONTROLLER_BUTTON_LEFTSHOULDER });
+    touchButtons.push_back({80, 300, 80, TOUCH_CONTROLLER_BUTTON_LEFTTRIGGER});
+    touchButtons.push_back({180, 300, 80, TOUCH_CONTROLLER_BUTTON_LEFTSHOULDER});
 
-    touchButtons.push_back({ 1200, 300, 80, TOUCH_CONTROLLER_BUTTON_RIGHTTRIGGER });
-    touchButtons.push_back({ 1100, 300, 80, TOUCH_CONTROLLER_BUTTON_RIGHTSHOULDER });
+    touchButtons.push_back({1200, 300, 80, TOUCH_CONTROLLER_BUTTON_RIGHTTRIGGER});
+    touchButtons.push_back({1100, 300, 80, TOUCH_CONTROLLER_BUTTON_RIGHTSHOULDER});
 
-    touchButtons.push_back({ 80, 40, 80, TOUCH_CONTROLLER_BUTTON_LEFTTRIGGER });
-    touchButtons.push_back({ 80, 40, 80, TOUCH_CONTROLLER_BUTTON_LEFTSHOULDER });
+    touchButtons.push_back({80, 40, 80, TOUCH_CONTROLLER_BUTTON_LEFTTRIGGER});
+    touchButtons.push_back({80, 40, 80, TOUCH_CONTROLLER_BUTTON_LEFTSHOULDER});
 
 #if _WIN32
     s_VGA_KeepAspectRatio = true;
@@ -141,7 +141,7 @@ void TouchController::Update()
 
         for (s32 i = 0; i < touchCount; i++)
         {
-            SDL_Finger * pFinger = SDL_GetTouchFinger(tid, i);
+            SDL_Finger* pFinger = SDL_GetTouchFinger(tid, i);
 
             for (auto t : touchButtons)
             {
@@ -152,8 +152,7 @@ void TouchController::Update()
                 const f32 fingerX = pFinger->x * 1280.0f;
                 const f32 fingerY = pFinger->y * 720.0f;
 
-                if (fingerX > x - s && fingerX < x + s &&
-                    fingerY > y - s && fingerY < y + s)
+                if (fingerX > x - s && fingerX < x + s && fingerY > y - s && fingerY < y + s)
                 {
                     setState(t.button, true);
                 }
@@ -172,8 +171,7 @@ void TouchController::Update()
         const f32 y = t.y * yRatio;
         const f32 s = t.size * yRatio * 0.5f;
 
-        if (mx > x - s && mx < x + s &&
-            my > y - s && my < y + s && ms > 0)
+        if (mx > x - s && mx < x + s && my > y - s && my < y + s && ms > 0)
         {
             setState(t.button, true);
         }
@@ -183,7 +181,7 @@ void TouchController::Update()
 
 void TouchController::Render()
 {
-    SDL_Renderer * pRenderer = SDL_GetRenderer(Sys_GetWindowHandle_4EE180());
+    SDL_Renderer* pRenderer = SDL_GetRenderer(Sys_GetWindowHandle_4EE180());
 
     s32 w, h;
     SDL_GetWindowSize(Sys_GetWindowHandle_4EE180(), &w, &h);
@@ -197,7 +195,7 @@ void TouchController::Render()
     }
 }
 
-s32 TouchController::GetGamePadData(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons)
+s32 TouchController::GetGamePadData(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
 {
     *pButtons = 0;
     *pX1 = 0;
@@ -216,7 +214,13 @@ s32 TouchController::GetGamePadData(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 
         *pY1 = 1;
 
 
-#define M_SDLTOUCHPAD_BIND(BIT, PAD_BUTTON){if (getState(PAD_BUTTON) == true) {*pButtons |= (1 << BIT);} }
+#define M_SDLTOUCHPAD_BIND(BIT, PAD_BUTTON) \
+    {                                       \
+        if (getState(PAD_BUTTON) == true)   \
+        {                                   \
+            *pButtons |= (1 << BIT);        \
+        }                                   \
+    }
 
 
     M_SDLTOUCHPAD_BIND(0, TOUCH_CONTROLLER_BUTTON_X);

@@ -2,7 +2,8 @@
 
 #include <string>
 
-ITypeBase::ITypeBase(const std::string& typeName) : mName(typeName)
+ITypeBase::ITypeBase(const std::string& typeName)
+    : mName(typeName)
 {
 }
 

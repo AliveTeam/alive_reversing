@@ -30,56 +30,56 @@ EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, u16 path)
 
     switch (word_4CF158[throwableTypeIdx])
     {
-    case Types::eGrenade_40:
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_4551E0("EXPLO2.BAN", 0, 0, 0);
-        }
+        case Types::eGrenade_40:
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_4551E0("EXPLO2.BAN", 0, 0, 0);
+            }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_4551E0("ABEBLOW.BAN", 0, 0, 0);
-        }
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_4551E0("ABEBLOW.BAN", 0, 0, 0);
+            }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_4551E0("DOGBLOW.BAN", 0, 0, 0);
-        }
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_4551E0("DOGBLOW.BAN", 0, 0, 0);
+            }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_4551E0("METAL.BAN", 0, 0, 0);
-        }
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_4551E0("METAL.BAN", 0, 0, 0);
+            }
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_4551E0("GRENADE.BAN", 0, 0, 0);
-        }
-        break;
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_4551E0("GRENADE.BAN", 0, 0, 0);
+            }
+            break;
 
-    case Types::eMeat_54:
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_4551E0("MEAT.BAN", 0, 0, 0);
-        }
-        break;
+        case Types::eMeat_54:
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_4551E0("MEAT.BAN", 0, 0, 0);
+            }
+            break;
 
-    case Types::eRock_70:
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_4551E0("PUIROCK.BAN", 0, 0, 0);
-        }
-        break;
+        case Types::eRock_70:
+            if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_4551E0("PUIROCK.BAN", 0, 0, 0);
+            }
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     if (bDoLoadingLoop)
@@ -196,40 +196,40 @@ void ThrowableArray::Remove_4540D0(s16 count)
     {
         switch (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num])
         {
-        case Types::eGrenade_40:
-            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0));
-            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0));
-            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0);
-            if (ppRes)
-            {
+            case Types::eGrenade_40:
+                ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0));
+                ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0));
+                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0);
+                if (ppRes)
+                {
+                    ResourceManager::FreeResource_455550(ppRes);
+                }
+
+                ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0));
+                ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0));
+                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID, 0, 0);
+                if (ppRes)
+                {
+                    ResourceManager::FreeResource_455550(ppRes);
+                }
+                break;
+
+            case Types::eMeat_54:
+                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0);
                 ResourceManager::FreeResource_455550(ppRes);
-            }
+                break;
 
-            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0));
-            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0));
-            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID, 0, 0);
-            if (ppRes)
-            {
-                ResourceManager::FreeResource_455550(ppRes);
-            }
-            break;
+            case Types::eRock_70:
+                ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 0, 0));
+                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
+                if (ppRes)
+                {
+                    ResourceManager::FreeResource_455550(ppRes);
+                }
+                break;
 
-        case Types::eMeat_54:
-            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0);
-              ResourceManager::FreeResource_455550(ppRes);
-            break;
-
-        case Types::eRock_70:
-            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 0, 0));
-            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
-            if (ppRes)
-            {
-                 ResourceManager::FreeResource_455550(ppRes);
-            }
-            break;
-
-        default:
-            break;
+            default:
+                break;
         }
         field_12_flags &= ~2;
     }
@@ -253,26 +253,26 @@ void ThrowableArray::Add_453F70(s16 count)
         {
             switch (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num])
             {
-            case Types::eGrenade_40:
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 1, 0);
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 1, 0);
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 1, 0);
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 1, 0);
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID, 1, 0);
-                break;
+                case Types::eGrenade_40:
+                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
+                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 1, 0);
+                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 1, 0);
+                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 1, 0);
+                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 1, 0);
+                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID, 1, 0);
+                    break;
 
-            case Types::eMeat_54:
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 1, 0);
-                break;
+                case Types::eMeat_54:
+                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 1, 0);
+                    break;
 
-            case Types::eRock_70:
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 1, 0);
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 1, 0);
-                break;
+                case Types::eRock_70:
+                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 1, 0);
+                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 1, 0);
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
 
             field_12_flags |= 2;
@@ -282,4 +282,4 @@ void ThrowableArray::Add_453F70(s16 count)
     field_10_count += count;
 }
 
-}
+} // namespace AO

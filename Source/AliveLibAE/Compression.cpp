@@ -3,7 +3,8 @@
 #include "Function.hpp"
 #include "PtrStream.hpp"
 
-void Compression_ForceLink() { }
+void Compression_ForceLink()
+{ }
 
 static bool Expand3To4Bytes(s32& remainingCount, PtrStream& stream, u8* ret, u32& dstPos)
 {
@@ -18,8 +19,8 @@ static bool Expand3To4Bytes(s32& remainingCount, PtrStream& stream, u8* ret, u32
     u32 value;
 
     // decompress each byte of the input value from least to most significant
-    value =  (u8)src3Bytes & 0x3F;
-    value |= ((u32)src3Bytes << 2) & 0x3F00;
+    value = (u8) src3Bytes & 0x3F;
+    value |= ((u32) src3Bytes << 2) & 0x3F00;
     value |= (src3Bytes << 4) & 0x3F0000;
     value |= ((src3Bytes << 4) & 0x0FC00000) << 2;
 
@@ -55,7 +56,7 @@ EXPORT void CC CompressionType2_Decompress_40AA50(const u8* pSrc, u8* pDst, u32 
     }
 }
 
-template<typename T>
+template <typename T>
 static void ReadNextSource(PtrStream& stream, s32& control_byte, T& dstIndex)
 {
     if (control_byte)
@@ -123,7 +124,8 @@ EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const u8* pData, u8* decomp
                         decompressedData[dstPos] = dstByte;
                         dstPos++;
                         --byteCount;
-                    } while (byteCount);
+                    }
+                    while (byteCount);
                 }
             }
 
@@ -132,9 +134,9 @@ EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const u8* pData, u8* decomp
                 ++dstPos;
                 ++columnNumber;
             }
-        } while (height-- != 1);
+        }
+        while (height-- != 1);
     }
-
 }
 
 // 0xxx xxxx = string of literals (1 to 128)
@@ -252,7 +254,8 @@ EXPORT void CC CompressionType6Ae_Decompress_40A8A0(const u8* pSrc, u8* pDst)
                             pDst[dstPos] = data;
                             bSkip = 1;
                         }
-                    } while (--nibble);
+                    }
+                    while (--nibble);
                 }
             }
 
@@ -268,7 +271,7 @@ EXPORT void CC CompressionType6Ae_Decompress_40A8A0(const u8* pSrc, u8* pDst)
                 }
                 bSkip = !bSkip;
             }
-
-        } while (heightCounter-- != 1);
+        }
+        while (heightCounter-- != 1);
     }
 }

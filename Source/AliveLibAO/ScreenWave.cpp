@@ -10,7 +10,8 @@
 #include "Primitives.hpp"
 #include "Math.hpp"
 
-void Forcelink_ScreenWave() {}
+void Forcelink_ScreenWave()
+{ }
 
 namespace AO {
 
@@ -19,8 +20,8 @@ static constexpr s32 kMaxPolygons = 4;
 
 struct ScreenWave_Data
 {
-    FP_Point field_0_uv1[kMaxUVCount][kMaxPolygons+1];
-    FP_Point field_500_uv2[kMaxUVCount][kMaxPolygons+1];
+    FP_Point field_0_uv1[kMaxUVCount][kMaxPolygons + 1];
+    FP_Point field_500_uv2[kMaxUVCount][kMaxPolygons + 1];
     FP_Point field_A00_xy[kMaxUVCount];
     Poly_FT4 field_B00_poly[2][kMaxUVCount][kMaxPolygons];
 };
@@ -53,7 +54,7 @@ ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP 
 
     field_6_flags.Set(Options::eDrawable_Bit4);
     field_18_xpos = xpos;
-    
+
     field_2C = FP_FromInteger(0);
 
     field_36_screen_xpos = FP_GetExponent(xpos) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
@@ -191,22 +192,20 @@ void ScreenWave::VRender(PrimHeader** ppOt)
 void ScreenWave::VRender_463130(PrimHeader** ppOt)
 {
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_3A_level,
-        field_3C_path,
-        field_18_xpos,
-        field_1C_ypos,
-        0))
+            field_3A_level,
+            field_3C_path,
+            field_18_xpos,
+            field_1C_ypos,
+            0))
     {
         return;
     }
 
     ScreenWave_Data* pScreenWaveData = *field_14_ppRes;
 
-    const PSX_Point displaySize = 
-    {
+    const PSX_Point displaySize = {
         static_cast<s16>(gPsxDisplay_504C78.field_0_width),
-        static_cast<s16>(gPsxDisplay_504C78.field_2_height)
-    };
+        static_cast<s16>(gPsxDisplay_504C78.field_2_height)};
 
     PSX_RECT clearRectSize = {};
 
@@ -234,49 +233,37 @@ void ScreenWave::VRender_463130(PrimHeader** ppOt)
 
             const s16 minX = static_cast<s16>(std::min(
                 std::min(x0, x1),
-                std::min(x2, x3)
-            ));
+                std::min(x2, x3)));
 
             const s16 minY = static_cast<s16>(std::min(
                 std::min(y0, y1),
-                std::min(y2, y3)
-            ));
+                std::min(y2, y3)));
 
             const s16 maxX = static_cast<s16>(std::max(
                 std::max(x0, x1),
-                std::max(x2, x3)
-            ));
+                std::max(x2, x3)));
 
             const s16 maxY = static_cast<s16>(std::max(
                 std::max(y0, y1),
-                std::max(y2, y3)
-            ));
+                std::max(y2, y3)));
 
             if (
-                maxX >= 0 &&
-                maxY >= 0 &&
-                minX < displaySize.field_0_x &&
-                minY < displaySize.field_2_y
-                )
+                maxX >= 0 && maxY >= 0 && minX < displaySize.field_0_x && minY < displaySize.field_2_y)
             {
                 Poly_FT4* pPoly = &pScreenWaveData->field_B00_poly[gPsxDisplay_504C78.field_A_buffer_index][i][j];
 
                 SetXY0(pPoly,
-                    static_cast<s16>(PsxToPCX(x0, 11)),
-                    static_cast<s16>(y0)
-                );
+                       static_cast<s16>(PsxToPCX(x0, 11)),
+                       static_cast<s16>(y0));
                 SetXY1(pPoly,
-                    static_cast<s16>(PsxToPCX(x1, 11)),
-                    static_cast<s16>(y1)
-                );
+                       static_cast<s16>(PsxToPCX(x1, 11)),
+                       static_cast<s16>(y1));
                 SetXY2(pPoly,
-                    static_cast<s16>(PsxToPCX(x2, 11)),
-                    static_cast<s16>(y2)
-                );
+                       static_cast<s16>(PsxToPCX(x2, 11)),
+                       static_cast<s16>(y2));
                 SetXY3(pPoly,
-                    static_cast<s16>(PsxToPCX(x3, 11)),
-                    static_cast<s16>(y3)
-                );
+                       static_cast<s16>(PsxToPCX(x3, 11)),
+                       static_cast<s16>(y3));
 
                 s16 u0 = static_cast<s16>(PsxToPCX(field_36_screen_xpos + FP_GetExponent(pScreenWaveData->field_0_uv1[i][j].field_0_x), 11));
                 const s16 v0 = field_38_screen_ypos + FP_GetExponent(pScreenWaveData->field_0_uv1[i][j].field_4_y);
@@ -292,8 +279,7 @@ void ScreenWave::VRender_463130(PrimHeader** ppOt)
 
                 const s16 minU = std::min(
                     std::min(u1, u0),
-                    std::min(u2, u3)
-                );
+                    std::min(u2, u3));
                 const s16 minU_capped = minU & 0xffC0;
 
                 u0 -= minU_capped;
@@ -302,32 +288,27 @@ void ScreenWave::VRender_463130(PrimHeader** ppOt)
                 u3 -= minU_capped;
 
                 SetTPage(pPoly, static_cast<s16>(PSX_getTPage_4965D0(
-                    TPageMode::e16Bit_2,
-                    TPageAbr::eBlend_0,
-                    static_cast<s16>(minU_capped),
-                    0
-                )));
+                                    TPageMode::e16Bit_2,
+                                    TPageAbr::eBlend_0,
+                                    static_cast<s16>(minU_capped),
+                                    0)));
 
                 SetUV0(pPoly,
-                    static_cast<u8>(u0),
-                    static_cast<u8>(v0)
-                );
+                       static_cast<u8>(u0),
+                       static_cast<u8>(v0));
                 SetUV1(pPoly,
-                    static_cast<u8>(u1),
-                    static_cast<u8>(v1)
-                );
+                       static_cast<u8>(u1),
+                       static_cast<u8>(v1));
                 SetUV2(pPoly,
-                    static_cast<u8>(u2),
-                    static_cast<u8>(v2)
-                );
+                       static_cast<u8>(u2),
+                       static_cast<u8>(v2));
                 SetUV3(pPoly,
-                    static_cast<u8>(u3),
-                    static_cast<u8>(v3)
-                );
+                       static_cast<u8>(u3),
+                       static_cast<u8>(v3));
 
                 Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, 0);
                 Poly_Set_Blending_498A00(&pPoly->mBase.header, 1);
-                
+
                 SetPrimExtraPointerHack(pPoly, nullptr);
 
                 OrderingTable_Add_498A80(OtLayer(ppOt, field_10_layer), &pPoly->mBase.header);
@@ -350,4 +331,4 @@ void ScreenWave::VRender_463130(PrimHeader** ppOt)
     }
 }
 
-}
+} // namespace AO

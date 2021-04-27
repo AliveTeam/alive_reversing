@@ -31,6 +31,7 @@ public:
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_402660();
+
 private:
     s16 field_68_r_value;
     enum class States : s16
@@ -52,4 +53,4 @@ ALIVE_ASSERT_SIZEOF(Alarm, 0x7C);
 
 ALIVE_VAR_EXTERN(s16, alarmInstanceCount_5076A8);
 
-}
+} // namespace AO

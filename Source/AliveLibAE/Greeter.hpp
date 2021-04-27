@@ -52,7 +52,7 @@ struct Greeter_State
     s16 field_3A;
     s16 field_3C;
     s16 field_3E;
-    FP  field_40_speed;
+    FP field_40_speed;
     GreeterStates field_44_state;
     s16 field_46_targetOnLeft;
     s16 field_48_targetOnRight;
@@ -106,6 +106,7 @@ private:
     EXPORT BOOL ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
     EXPORT BaseAliveGameObject* GetMudToZap_447690();
     EXPORT void vUpdate_4469B0();
+
 private:
     s32 field_118_tlvInfo;
     s32 field_11C_motionDetectorId;
@@ -118,10 +119,12 @@ private:
     s16 field_132;
     FP field_134_speed;
     Path_TLV* field_138_pTlv;
+
 public:
     GreeterStates field_13C_state;
     s16 field_13E_targetOnLeft;
     s16 field_140_targetOnRight;
+
 private:
     s16 field_142;
 };

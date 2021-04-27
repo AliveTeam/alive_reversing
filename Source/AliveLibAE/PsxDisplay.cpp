@@ -159,36 +159,35 @@ EXPORT void CC DebugFont_Flush_4DD050()
     sDebugFontTmpBuffer_BB47CC[0] = 0;
 }
 
-namespace AETest::TestsPsxDisplay
+namespace AETest::TestsPsxDisplay {
+static void Test_DebugFont_4F8AB0()
 {
-    static void Test_DebugFont_4F8AB0()
-    {
-        DebugFont_Reset_4F8B40();
+    DebugFont_Reset_4F8B40();
 
-        DebugFont_Open_4F8AB0(8, 16, 77, 200, 33, 600);
-        ASSERT_EQ(16, sTexts_C27640[0].field_1_yMargin);
-        ASSERT_EQ(0, sTexts_C27640[0].field_9_text.field_0_src_txt[0]);
-        ASSERT_EQ(0, sTexts_C27640[0].field_9_text.field_400_dst_txt[0]);
+    DebugFont_Open_4F8AB0(8, 16, 77, 200, 33, 600);
+    ASSERT_EQ(16, sTexts_C27640[0].field_1_yMargin);
+    ASSERT_EQ(0, sTexts_C27640[0].field_9_text.field_0_src_txt[0]);
+    ASSERT_EQ(0, sTexts_C27640[0].field_9_text.field_400_dst_txt[0]);
 
-        DebugFont_Open_4F8AB0(8, 22, 77, 200, 33, 600);
-        ASSERT_EQ(22, sTexts_C27640[1].field_1_yMargin);
+    DebugFont_Open_4F8AB0(8, 22, 77, 200, 33, 600);
+    ASSERT_EQ(22, sTexts_C27640[1].field_1_yMargin);
 
-        DebugFont_Open_4F8AB0(8, 33, 77, 200, 33, 600);
-        ASSERT_EQ(33, sTexts_C27640[2].field_1_yMargin);
+    DebugFont_Open_4F8AB0(8, 33, 77, 200, 33, 600);
+    ASSERT_EQ(33, sTexts_C27640[2].field_1_yMargin);
 
-        DebugFont_Open_4F8AB0(8, 55, 77, 200, 33, 600);
-        ASSERT_EQ(55, sTexts_C27640[3].field_1_yMargin);
+    DebugFont_Open_4F8AB0(8, 55, 77, 200, 33, 600);
+    ASSERT_EQ(55, sTexts_C27640[3].field_1_yMargin);
 
-        ASSERT_EQ(-1, DebugFont_Open_4F8AB0(8, 33, 77, 200, 33, 600));
+    ASSERT_EQ(-1, DebugFont_Open_4F8AB0(8, 33, 77, 200, 33, 600));
 
-        DebugFont_Reset_4F8B40();
-    }
-
-    void PsxDisplayTests()
-    {
-        Test_DebugFont_4F8AB0();
-    }
+    DebugFont_Reset_4F8B40();
 }
+
+void PsxDisplayTests()
+{
+    Test_DebugFont_4F8AB0();
+}
+} // namespace AETest::TestsPsxDisplay
 
 void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
 {
@@ -302,7 +301,6 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
         PSX_PutDispEnv_4F58E0(&field_10_drawEnv[0].field_5C_disp_env);
         PSX_ClearOTag_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
         field_C_buffer_index = 0;
-
     }
     else
     {

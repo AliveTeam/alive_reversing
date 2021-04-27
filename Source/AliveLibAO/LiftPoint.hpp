@@ -36,7 +36,7 @@ public:
         eBit8_KeepOnMiddleFloor = 0x80,
     };
     EXPORT LiftPoint* ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo);
-    
+
     EXPORT void Move_435740(FP xSpeed, FP ySpeed, s32 not_used);
 
     void StayOnFloor(s16 floor, Path_LiftPoint* pTlv);
@@ -97,5 +97,4 @@ public:
 
 ALIVE_ASSERT_SIZEOF(LiftPoint, 0x27C);
 
-}
-
+} // namespace AO

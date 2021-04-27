@@ -158,8 +158,7 @@ void BeeSwarm::VScreenChange_480D40()
         }
     }
 
-    if (!sActiveHero_507678 || (field_D98_pChaseTarget == sActiveHero_507678
-        && sActiveHero_507678->field_FC_current_motion == eAbeStates::State_156_DoorEnter_42D370))
+    if (!sActiveHero_507678 || (field_D98_pChaseTarget == sActiveHero_507678 && sActiveHero_507678->field_FC_current_motion == eAbeStates::State_156_DoorEnter_42D370))
     {
         field_6_flags.Set(Options::eDead_Bit3);
     }
@@ -236,73 +235,104 @@ void BeeSwarm::VUpdate_47FF50()
 
     switch (field_D80_state)
     {
-    case BeeSwarmStates::eIdle_0:
-        if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
-            0))
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        break;
-
-    case BeeSwarmStates::eAttackChase_1:
-        if (static_cast<s32>(gnFrameCount_507670) > field_D9C_alive_timer)
-        {
-            ToFlyAwayAndDie();
-        }
-        else
-        {
-            // Move far on X bees closer to target
-            const s32 toTargetXDelta = FP_GetExponent(field_D98_pChaseTarget->field_A8_xpos - field_D70_chase_target_x);
-            if (abs(toTargetXDelta) > 368)
+        case BeeSwarmStates::eIdle_0:
+            if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0))
             {
-                for (s32 i = 0; i < field_D66_bee_count; i++)
-                {
-                    field_E4_bees.bees[i].field_0_xpos += FP_FromInteger(toTargetXDelta);
-                }
-                field_A8_xpos += FP_FromInteger(toTargetXDelta);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
+            break;
 
-            // Move far on  Y bees closer to target
-            const s32 toTargetYDelta = FP_GetExponent(field_D98_pChaseTarget->field_AC_ypos - field_D74_chase_target_y);
-            if (abs(toTargetYDelta) > 200)
+        case BeeSwarmStates::eAttackChase_1:
+            if (static_cast<s32>(gnFrameCount_507670) > field_D9C_alive_timer)
             {
-                for (s32 i = 0; i < field_D66_bee_count; i++)
-                {
-                    field_E4_bees.bees[i].field_4_ypos += FP_FromInteger(toTargetYDelta);
-                }
-                field_AC_ypos += FP_FromInteger(toTargetYDelta);
-            }
-
-            // Update target x/y to the mid of the target rect
-            PSX_RECT targetRect = {};
-            field_D98_pChaseTarget->VGetBoundingRect(&targetRect, 1);
-            field_D74_chase_target_y = FP_FromInteger((targetRect.h + targetRect.y) / 2);
-            field_D70_chase_target_x = FP_FromInteger((targetRect.w + targetRect.x) / 2);
-
-            if (Math_Distance_451270(
-                FP_GetExponent(field_A8_xpos),
-                FP_GetExponent(field_AC_ypos),
-                FP_GetExponent(field_D70_chase_target_x),
-                FP_GetExponent(field_D74_chase_target_y)) < 60 &&
-                field_D98_pChaseTarget == sActiveHero_507678)
-            {
-                gBeesNearAbe_5076AC = TRUE;
+                ToFlyAwayAndDie();
             }
             else
             {
-                gBeesNearAbe_5076AC = FALSE;
-            }
-
-            if (static_cast<s32>(gnFrameCount_507670) <= field_DA0_do_damage_or_pain_sound_timer)
-            {
-                if (!(gnFrameCount_507670 % 10) && Math_RandomRange_450F20(0, 100) < 70)
+                // Move far on X bees closer to target
+                const s32 toTargetXDelta = FP_GetExponent(field_D98_pChaseTarget->field_A8_xpos - field_D70_chase_target_x);
+                if (abs(toTargetXDelta) > 368)
                 {
-                    // Check every single object just to see if its sActiveHero_507678 (nice algorithm lads)
-                    // and play pain sounds if so and in the damage rect.
+                    for (s32 i = 0; i < field_D66_bee_count; i++)
+                    {
+                        field_E4_bees.bees[i].field_0_xpos += FP_FromInteger(toTargetXDelta);
+                    }
+                    field_A8_xpos += FP_FromInteger(toTargetXDelta);
+                }
+
+                // Move far on  Y bees closer to target
+                const s32 toTargetYDelta = FP_GetExponent(field_D98_pChaseTarget->field_AC_ypos - field_D74_chase_target_y);
+                if (abs(toTargetYDelta) > 200)
+                {
+                    for (s32 i = 0; i < field_D66_bee_count; i++)
+                    {
+                        field_E4_bees.bees[i].field_4_ypos += FP_FromInteger(toTargetYDelta);
+                    }
+                    field_AC_ypos += FP_FromInteger(toTargetYDelta);
+                }
+
+                // Update target x/y to the mid of the target rect
+                PSX_RECT targetRect = {};
+                field_D98_pChaseTarget->VGetBoundingRect(&targetRect, 1);
+                field_D74_chase_target_y = FP_FromInteger((targetRect.h + targetRect.y) / 2);
+                field_D70_chase_target_x = FP_FromInteger((targetRect.w + targetRect.x) / 2);
+
+                if (Math_Distance_451270(
+                        FP_GetExponent(field_A8_xpos),
+                        FP_GetExponent(field_AC_ypos),
+                        FP_GetExponent(field_D70_chase_target_x),
+                        FP_GetExponent(field_D74_chase_target_y))
+                        < 60
+                    && field_D98_pChaseTarget == sActiveHero_507678)
+                {
+                    gBeesNearAbe_5076AC = TRUE;
+                }
+                else
+                {
+                    gBeesNearAbe_5076AC = FALSE;
+                }
+
+                if (static_cast<s32>(gnFrameCount_507670) <= field_DA0_do_damage_or_pain_sound_timer)
+                {
+                    if (!(gnFrameCount_507670 % 10) && Math_RandomRange_450F20(0, 100) < 70)
+                    {
+                        // Check every single object just to see if its sActiveHero_507678 (nice algorithm lads)
+                        // and play pain sounds if so and in the damage rect.
+                        for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+                        {
+                            BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+                            if (!pObjIter)
+                            {
+                                break;
+                            }
+
+                            PSX_RECT obj_rect = {};
+                            pObjIter->VGetBoundingRect(&obj_rect, 1);
+
+                            if (FP_FromInteger(obj_rect.x) <= field_D90_rect_w && FP_FromInteger(obj_rect.w) >= field_D88_rect_x && FP_FromInteger(obj_rect.h) >= field_D8C_rect_y && FP_FromInteger(obj_rect.y) <= field_D94_rect_h)
+                            {
+                                if (pObjIter == sActiveHero_507678 && sActiveHero_507678->field_100_health > FP_FromInteger(0))
+                                {
+                                    const MudSounds snd = Math_RandomRange_450F20(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
+                                    const FP pitch_val = (FP_FromInteger(1) - sActiveHero_507678->field_100_health) / FP_FromDouble(0.15);
+                                    const s16 pitch = Math_RandomRange_450F20(
+                                        200 * FP_GetExponent(pitch_val),
+                                        200 * (FP_GetExponent(pitch_val) + 1));
+                                    Mudokon_SFX_42A4D0(snd, 0, pitch, sActiveHero_507678);
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    field_DA0_do_damage_or_pain_sound_timer = gnFrameCount_507670 + 30;
+
                     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
                     {
                         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
@@ -311,81 +341,45 @@ void BeeSwarm::VUpdate_47FF50()
                             break;
                         }
 
-                        PSX_RECT obj_rect = {};
-                        pObjIter->VGetBoundingRect(&obj_rect, 1);
+                        // Get rect and check if they're in the damage rect
+                        PSX_RECT objRect = {};
+                        pObjIter->VGetBoundingRect(&objRect, 1);
 
-                        if (FP_FromInteger(obj_rect.x) <= field_D90_rect_w &&
-                            FP_FromInteger(obj_rect.w) >= field_D88_rect_x &&
-                            FP_FromInteger(obj_rect.h) >= field_D8C_rect_y &&
-                            FP_FromInteger(obj_rect.y) <= field_D94_rect_h)
+                        if (FP_FromInteger(objRect.x) <= field_D90_rect_w && FP_FromInteger(objRect.w) >= field_D88_rect_x && FP_FromInteger(objRect.h) >= field_D8C_rect_y && FP_FromInteger(objRect.y) <= field_D94_rect_h)
                         {
-                            if (pObjIter == sActiveHero_507678 && sActiveHero_507678->field_100_health > FP_FromInteger(0))
-                            {
-                                const MudSounds snd = Math_RandomRange_450F20(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
-                                const FP pitch_val = (FP_FromInteger(1) - sActiveHero_507678->field_100_health) / FP_FromDouble(0.15);
-                                const s16 pitch = Math_RandomRange_450F20(
-                                    200 * FP_GetExponent(pitch_val),
-                                    200 * (FP_GetExponent(pitch_val) + 1));
-                                Mudokon_SFX_42A4D0(snd, 0, pitch, sActiveHero_507678);
-                            }
+                            // Damage them if so
+                            pObjIter->VTakeDamage(this);
                         }
                     }
                 }
             }
-            else
+            break;
+
+        case BeeSwarmStates::eFollowPathLines_2:
+            field_DA8_pLine = field_DA8_pLine->MoveOnLine_40CA20(
+                &field_D70_chase_target_x,
+                &field_D74_chase_target_y,
+                field_DAC_line_follow_speed);
+            if (!field_DA8_pLine)
             {
-                field_DA0_do_damage_or_pain_sound_timer = gnFrameCount_507670 + 30;
-
-                for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
-                {
-                    BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
-                    if (!pObjIter)
-                    {
-                        break;
-                    }
-
-                    // Get rect and check if they're in the damage rect
-                    PSX_RECT objRect = {};
-                    pObjIter->VGetBoundingRect(&objRect, 1);
-
-                    if (FP_FromInteger(objRect.x) <= field_D90_rect_w &&
-                        FP_FromInteger(objRect.w) >= field_D88_rect_x &&
-                        FP_FromInteger(objRect.h) >= field_D8C_rect_y &&
-                        FP_FromInteger(objRect.y) <= field_D94_rect_h)
-                    {
-                        // Damage them if so
-                        pObjIter->VTakeDamage(this);
-                    }
-                }
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
-        }
-        break;
+            break;
 
-    case BeeSwarmStates::eFollowPathLines_2:
-        field_DA8_pLine = field_DA8_pLine->MoveOnLine_40CA20(
-            &field_D70_chase_target_x,
-            &field_D74_chase_target_y,
-            field_DAC_line_follow_speed);
-        if (!field_DA8_pLine)
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        break;
+        case BeeSwarmStates::eFlyAwayAndDie_3:
+            if (field_D7C_pos_offset < FP_FromInteger(4))
+            {
+                field_D7C_pos_offset += FP_FromDouble(0.2);
+            }
 
-    case BeeSwarmStates::eFlyAwayAndDie_3:
-        if (field_D7C_pos_offset < FP_FromInteger(4))
-        {
-            field_D7C_pos_offset += FP_FromDouble(0.2);
-        }
+            if (static_cast<s32>(gnFrameCount_507670) > field_D9C_alive_timer)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            break;
 
-        if (static_cast<s32>(gnFrameCount_507670) > field_D9C_alive_timer)
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        break;
-
-    default:
-        break;
+        default:
+            break;
     }
 
     if (!(gnFrameCount_507670 % 4) && field_DA4_update_chase_timer < static_cast<s32>(gnFrameCount_507670))
@@ -407,10 +401,7 @@ void BeeSwarm::VUpdate_47FF50()
                         PSX_RECT objRect = {};
                         pObjIter->VGetBoundingRect(&objRect, 1);
 
-                        if (FP_FromInteger(objRect.x) <= field_D90_rect_w &&
-                            FP_FromInteger(objRect.w) >= field_D88_rect_x &&
-                            FP_FromInteger(objRect.h) >= field_D8C_rect_y &&
-                            FP_FromInteger(objRect.y) <= field_D94_rect_h)
+                        if (FP_FromInteger(objRect.x) <= field_D90_rect_w && FP_FromInteger(objRect.w) >= field_D88_rect_x && FP_FromInteger(objRect.h) >= field_D8C_rect_y && FP_FromInteger(objRect.y) <= field_D94_rect_h)
                         {
                             LOG_INFO("Got new target");
 
@@ -553,7 +544,7 @@ void BeeSwarm::VUpdate_47FF50()
 
         if (pBee->field_4_ypos < field_D8C_rect_y)
         {
-             field_D8C_rect_y = pBee->field_4_ypos;
+            field_D8C_rect_y = pBee->field_4_ypos;
         }
         else if (pBee->field_4_ypos > field_D94_rect_h)
         {
@@ -622,16 +613,15 @@ void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
     const auto cam_x_abs = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
     const auto cam_y_abs = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
 
-    PSX_Point xy = { 32767, 32767 };
-    PSX_Point wh = { -32767, -32767 };
+    PSX_Point xy = {32767, 32767};
+    PSX_Point wh = {-32767, -32767};
 
     BOOL bDontClear = 1;
-    for(s32 next = 0; next < field_D66_bee_count; next++)
+    for (s32 next = 0; next < field_D66_bee_count; next++)
     {
         auto bee = &field_E4_bees.bees[next];
         PSX_RECT out = {};
-        if (bee->field_0_xpos >= campos_x_delta && bee->field_0_xpos <= cam_x_abs &&
-            bee->field_4_ypos >= campos_y_delta && bee->field_4_ypos <= cam_y_abs)
+        if (bee->field_0_xpos >= campos_x_delta && bee->field_0_xpos <= cam_x_abs && bee->field_4_ypos >= campos_y_delta && bee->field_4_ypos <= cam_y_abs)
         {
             if (bDontClear)
             {
@@ -640,8 +630,7 @@ void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
                     FP_GetExponent(bee->field_4_ypos - campos_y_delta),
                     ppOt,
                     0,
-                    0
-                );
+                    0);
                 bDontClear = 0;
                 field_10_anim.Get_Frame_Rect_402B50(&out);
             }
@@ -650,8 +639,7 @@ void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
                 bee->field_10_anim.VRender2(
                     FP_GetExponent(PsxToPCX((bee->field_0_xpos - campos_x_delta), FP_FromInteger(11))),
                     FP_GetExponent(bee->field_4_ypos - campos_y_delta),
-                    ppOt
-                );
+                    ppOt);
                 bee->field_10_anim.GetRenderedSize_404220(&out);
             }
 
@@ -668,10 +656,9 @@ void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
                 out.y,
                 out.w,
                 out.h,
-                pScreenManager_4FF7C8->field_2E_idx
-            );
+                pScreenManager_4FF7C8->field_2E_idx);
         }
     }
 }
 
-}
+} // namespace AO

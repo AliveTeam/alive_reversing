@@ -53,4 +53,4 @@ BaseGameObject* Honey::VDestructor(s32 flags)
     return this;
 }
 
-}
+} // namespace AO

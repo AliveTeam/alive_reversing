@@ -32,5 +32,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BellSong, 0x20);
 
-}
-
+} // namespace AO

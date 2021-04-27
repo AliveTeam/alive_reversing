@@ -26,6 +26,7 @@ private:
     EXPORT void vScreenChanged_4E1F80();
 
     EXPORT void vRender_4E1BA0(PrimHeader** ppOt);
+
 public:
     s16 field_F4_number_of_segments;
     s16 field_F6_segment_length;

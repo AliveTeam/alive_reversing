@@ -42,8 +42,10 @@ public:
     EXPORT s32 Read_File_433070(const s8* pFileName, void* pBuffer);
     EXPORT s32 Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer);
     EXPORT s32 Free_433130();
+
 private:
     u8** field_0_0x2800_res;
+
 public:
     u32 field_4_cd_pos;
 };

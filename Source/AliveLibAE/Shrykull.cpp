@@ -98,40 +98,27 @@ s16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
 {
     switch (pObj->field_4_typeId)
     {
-    case AETypes::eCrawlingSlig_26:
-    case AETypes::eNeverSet_40:
-    case AETypes::eFlyingSlig_54:
-    case AETypes::eGlukkon_67:
-    case AETypes::eMudokon2_81:
-    case AETypes::eParamite_96:
-    case AETypes::eMudokon_110:
-    case AETypes::eScrab_112:
-    case AETypes::eSlig_125:
-    case AETypes::eSlog_126:
-        return 1;
-    default:
-        return 0;
+        case AETypes::eCrawlingSlig_26:
+        case AETypes::eNeverSet_40:
+        case AETypes::eFlyingSlig_54:
+        case AETypes::eGlukkon_67:
+        case AETypes::eMudokon2_81:
+        case AETypes::eParamite_96:
+        case AETypes::eMudokon_110:
+        case AETypes::eScrab_112:
+        case AETypes::eSlig_125:
+        case AETypes::eSlog_126:
+            return 1;
+        default:
+            return 0;
     }
 }
 
 s16 CCSTD Shrykull::CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    return
-        (
-        pObj->field_4_typeId == AETypes::eTimedMine_or_MovingBomb_10 ||
-        pObj->field_4_typeId == AETypes::eMine_88 ||
-        pObj->field_4_typeId == AETypes::eUXB_143 ||
-        pObj->field_4_typeId == AETypes::eSlig_125 ||
-        pObj->field_4_typeId == AETypes::eFlyingSlig_54 ||
-        pObj->field_4_typeId == AETypes::eCrawlingSlig_26 ||
-        pObj->field_4_typeId == AETypes::eSlog_126 ||
-        pObj->field_4_typeId == AETypes::eGlukkon_67 ||
-        pObj->field_4_typeId == AETypes::eSecurityClaw_47 ||
-        pObj->field_4_typeId == AETypes::eSecurityOrb_83
-        ) &&
-        pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) &&
-        !pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) &&
-        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0);
+    return (
+               pObj->field_4_typeId == AETypes::eTimedMine_or_MovingBomb_10 || pObj->field_4_typeId == AETypes::eMine_88 || pObj->field_4_typeId == AETypes::eUXB_143 || pObj->field_4_typeId == AETypes::eSlig_125 || pObj->field_4_typeId == AETypes::eFlyingSlig_54 || pObj->field_4_typeId == AETypes::eCrawlingSlig_26 || pObj->field_4_typeId == AETypes::eSlog_126 || pObj->field_4_typeId == AETypes::eGlukkon_67 || pObj->field_4_typeId == AETypes::eSecurityClaw_47 || pObj->field_4_typeId == AETypes::eSecurityOrb_83)
+        && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) && !pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0);
 }
 
 void Shrykull::vUpdate_4AEDE0()
@@ -141,234 +128,234 @@ void Shrykull::vUpdate_4AEDE0()
 
     switch (field_118_state)
     {
-    case State::eTransform_0:
-        if (field_20_animation.field_92_current_frame == 0)
-        {
-            SFX_Play_46FBA0(SoundEffect::Shrykull1_85, 127, -2000);
-            SFX_Play_46FBA0(SoundEffect::Shrykull2_86, 127, 0);
-            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 127);
-        }
-
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
-        {
-            field_20_animation.Set_Animation_Data_409C80(82712, nullptr);
-            field_118_state = State::eZapTargets_1;
-        }
-        break;
-
-    case State::eZapTargets_1:
-        if (field_20_animation.field_92_current_frame == 0)
-        {
-            if (Math_NextRandom() >= 128u)
+        case State::eTransform_0:
+            if (field_20_animation.field_92_current_frame == 0)
             {
+                SFX_Play_46FBA0(SoundEffect::Shrykull1_85, 127, -2000);
                 SFX_Play_46FBA0(SoundEffect::Shrykull2_86, 127, 0);
-            }
-            else
-            {
-                SFX_Play_46FBA0(SoundEffect::Shrykull1_85, 127, 0);
-            }
-        }
-
-        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
-        {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
-            if (!pObj)
-            {
-                break;
+                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 127);
             }
 
-            if (CanKill_4AEC50(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit5_ZappedByShrykull))
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                field_128_obj_being_zapped_id = pObj->field_8_object_id;
+                field_20_animation.Set_Animation_Data_409C80(82712, nullptr);
+                field_118_state = State::eZapTargets_1;
+            }
+            break;
 
-                PSX_RECT objRect = {};
-                pObj->vGetBoundingRect_424FD0(&objRect, 1);
-
-                PSX_RECT ourRect = {};
-                vGetBoundingRect_424FD0(&ourRect, 1);
-
-                if (pExistingZapLine)
+        case State::eZapTargets_1:
+            if (field_20_animation.field_92_current_frame == 0)
+            {
+                if (Math_NextRandom() >= 128u)
                 {
-                    pExistingZapLine->CalculateSourceAndDestinationPositions_4CCAD0(
-                        FP_FromInteger((ourRect.x + ourRect.w) / 2),
-                        FP_FromInteger((ourRect.y + ourRect.h) / 2),
-                        FP_FromInteger((objRect.x + objRect.w) / 2),
-                        FP_FromInteger((objRect.y + objRect.h) / 2));
+                    SFX_Play_46FBA0(SoundEffect::Shrykull2_86, 127, 0);
                 }
                 else
                 {
-                    auto pZapLine = ae_new<ZapLine>();
-                    if (pZapLine)
+                    SFX_Play_46FBA0(SoundEffect::Shrykull1_85, 127, 0);
+                }
+            }
+
+            for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+            {
+                BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+                if (!pObj)
+                {
+                    break;
+                }
+
+                if (CanKill_4AEC50(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit5_ZappedByShrykull))
+                {
+                    field_128_obj_being_zapped_id = pObj->field_8_object_id;
+
+                    PSX_RECT objRect = {};
+                    pObj->vGetBoundingRect_424FD0(&objRect, 1);
+
+                    PSX_RECT ourRect = {};
+                    vGetBoundingRect_424FD0(&ourRect, 1);
+
+                    if (pExistingZapLine)
                     {
-                        pZapLine->ctor_4CC690(
+                        pExistingZapLine->CalculateSourceAndDestinationPositions_4CCAD0(
                             FP_FromInteger((ourRect.x + ourRect.w) / 2),
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
                             FP_FromInteger((objRect.x + objRect.w) / 2),
-                            FP_FromInteger((objRect.y + objRect.h) / 2),
-                            0, ZapLineType::eThin_1,
-                            Layer::eLayer_28);
+                            FP_FromInteger((objRect.y + objRect.h) / 2));
                     }
-                    field_124_zap_line_id = pZapLine->field_8_object_id;
-                }
-
-                field_12C_bElectrocute = CanElectrocute_4AED10(pObj);
-                if (field_12C_bElectrocute)
-                {
-                    auto pElectrocute = ae_new<Electrocute>();
-                    if (pElectrocute)
+                    else
                     {
-                        pElectrocute->ctor_4E5E80(pObj, 0, 1);
+                        auto pZapLine = ae_new<ZapLine>();
+                        if (pZapLine)
+                        {
+                            pZapLine->ctor_4CC690(
+                                FP_FromInteger((ourRect.x + ourRect.w) / 2),
+                                FP_FromInteger((ourRect.y + ourRect.h) / 2),
+                                FP_FromInteger((objRect.x + objRect.w) / 2),
+                                FP_FromInteger((objRect.y + objRect.h) / 2),
+                                0, ZapLineType::eThin_1,
+                                Layer::eLayer_28);
+                        }
+                        field_124_zap_line_id = pZapLine->field_8_object_id;
                     }
-                    field_120_timer = sGnFrame_5C1B84 + 3;
 
-                    if (pObj->field_4_typeId == AETypes::eGlukkon_67)
+                    field_12C_bElectrocute = CanElectrocute_4AED10(pObj);
+                    if (field_12C_bElectrocute)
                     {
-                        pObj->VTakeDamage_408730(this);
+                        auto pElectrocute = ae_new<Electrocute>();
+                        if (pElectrocute)
+                        {
+                            pElectrocute->ctor_4E5E80(pObj, 0, 1);
+                        }
+                        field_120_timer = sGnFrame_5C1B84 + 3;
+
+                        if (pObj->field_4_typeId == AETypes::eGlukkon_67)
+                        {
+                            pObj->VTakeDamage_408730(this);
+                        }
                     }
-                }
 
-                auto pFlicker1 = ae_new<PossessionFlicker>();
-                if (pFlicker1)
+                    auto pFlicker1 = ae_new<PossessionFlicker>();
+                    if (pFlicker1)
+                    {
+                        pFlicker1->ctor_4319E0(pObj, 8, 255, 255, 255);
+                    }
+
+                    AbilityRing::Factory_482F80(
+                        FP_FromInteger((objRect.x + objRect.w) / 2),
+                        FP_FromInteger((objRect.y + objRect.h) / 2),
+                        RingTypes::eShrykull_Pulse_Large_5, pObj->field_CC_sprite_scale);
+
+                    auto pFlicker2 = ae_new<PossessionFlicker>();
+                    if (pFlicker2)
+                    {
+                        pFlicker2->ctor_4319E0(this, 8, 255, 255, 255);
+                    }
+
+                    AbilityRing::Factory_482F80(
+                        FP_FromInteger((ourRect.x + ourRect.w) / 2),
+                        FP_FromInteger((ourRect.y + ourRect.h) / 2),
+                        RingTypes::eShrykull_Pulse_Large_5, field_CC_sprite_scale);
+
+                    pObj->field_114_flags.Set(Flags_114::e114_Bit5_ZappedByShrykull);
+
+                    SFX_Play_46FBA0(SoundEffect::ShrykullZap_18, 100, 2000);
+                    SFX_Play_46FA90(SoundEffect::Zap1_49, 0);
+
+                    field_118_state = State::eKillTargets_4;
+                    field_11C_timer = sGnFrame_5C1B84 + 12;
+                    field_12E_bResetRingTimer = 1;
+                    return;
+                }
+            }
+
+            if (pExistingZapLine)
+            {
+                pExistingZapLine->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                field_124_zap_line_id = -1;
+            }
+            field_118_state = State::eDetransform_2;
+            break;
+
+        case State::eDetransform_2:
+            if (field_20_animation.field_92_current_frame == 7)
+            {
+                if (Math_NextRandom() >= 0x80u)
                 {
-                    pFlicker1->ctor_4319E0(pObj, 8, 255, 255, 255);
+                    SFX_Play_46FBA0(SoundEffect::Shrykull2_86, 127, -512);
                 }
-
-                AbilityRing::Factory_482F80(
-                    FP_FromInteger((objRect.x + objRect.w) / 2),
-                    FP_FromInteger((objRect.y + objRect.h) / 2),
-                    RingTypes::eShrykull_Pulse_Large_5, pObj->field_CC_sprite_scale);
-
-                auto pFlicker2 = ae_new<PossessionFlicker>();
-                if (pFlicker2)
+                else
                 {
-                    pFlicker2->ctor_4319E0(this, 8, 255, 255, 255);
+                    SFX_Play_46FBA0(SoundEffect::Shrykull1_85, 127, -512);
                 }
-
-                AbilityRing::Factory_482F80(
-                    FP_FromInteger((ourRect.x + ourRect.w) / 2),
-                    FP_FromInteger((ourRect.y + ourRect.h) / 2),
-                    RingTypes::eShrykull_Pulse_Large_5, field_CC_sprite_scale);
-
-                pObj->field_114_flags.Set(Flags_114::e114_Bit5_ZappedByShrykull);
-
-                SFX_Play_46FBA0(SoundEffect::ShrykullZap_18, 100, 2000);
-                SFX_Play_46FA90(SoundEffect::Zap1_49, 0);
-
-                field_118_state = State::eKillTargets_4;
-                field_11C_timer = sGnFrame_5C1B84 + 12;
-                field_12E_bResetRingTimer = 1;
-                return;
             }
-        }
-
-        if (pExistingZapLine)
-        {
-            pExistingZapLine->field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            field_124_zap_line_id = -1;
-        }
-        field_118_state = State::eDetransform_2;
-        break;
-
-    case State::eDetransform_2:
-        if (field_20_animation.field_92_current_frame == 7)
-        {
-            if (Math_NextRandom() >= 0x80u)
+            else if (field_20_animation.field_92_current_frame == 20)
             {
-                SFX_Play_46FBA0(SoundEffect::Shrykull2_86, 127, -512);
-            }
-            else
-            {
-                SFX_Play_46FBA0(SoundEffect::Shrykull1_85, 127, -512);
-            }
-        }
-        else if (field_20_animation.field_92_current_frame == 20)
-        {
-            SFX_Play_46FBA0(SoundEffect::Shrykull1_85, 127, -2000);
-            SFX_Play_46FBA0(SoundEffect::Shrykull2_86, 127, 0);
-        }
-
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_20_animation.Set_Animation_Data_409C80(82824, nullptr);
-            field_118_state = State::eFinish_3;
-        }
-        break;
-
-    case State::eFinish_3:
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
-        {
-            sActiveHero_5C1B68->ExitShrykull_45A9D0(field_12E_bResetRingTimer);
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        break;
-
-    case State::eKillTargets_4:
-        if (field_20_animation.field_92_current_frame == 0)
-        {
-            if (Math_NextRandom() >= 128u)
-            {
+                SFX_Play_46FBA0(SoundEffect::Shrykull1_85, 127, -2000);
                 SFX_Play_46FBA0(SoundEffect::Shrykull2_86, 127, 0);
             }
-            else
+
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                SFX_Play_46FBA0(SoundEffect::Shrykull1_85, 127, 0);
+                field_20_animation.Set_Animation_Data_409C80(82824, nullptr);
+                field_118_state = State::eFinish_3;
             }
-        }
+            break;
 
-        if (pExistingBeingZappedObj)
-        {
-            if (pExistingBeingZappedObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        case State::eFinish_3:
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                field_128_obj_being_zapped_id = -1;
+                sActiveHero_5C1B68->ExitShrykull_45A9D0(field_12E_bResetRingTimer);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
-            else
+            break;
+
+        case State::eKillTargets_4:
+            if (field_20_animation.field_92_current_frame == 0)
             {
-                PSX_RECT zapRect = {};
-                pExistingBeingZappedObj->vGetBoundingRect_424FD0(&zapRect, 1);
-
-                PSX_RECT ourRect = {};
-                vGetBoundingRect_424FD0(&ourRect, 1);
-
-                if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer)
+                if (Math_NextRandom() >= 128u)
                 {
-                    auto pParticleBurst = ae_new<ParticleBurst>();
-                    if (pParticleBurst)
-                    {
-                        pParticleBurst->ctor_41CF50(
-                            FP_FromInteger((zapRect.x + zapRect.w) / 2),
-                            FP_FromInteger((zapRect.y + zapRect.h) / 2),
-                            20, field_CC_sprite_scale, BurstType::eBigPurpleSparks_2, 13);
-                    }
-
-                    auto pFlash = ae_new<Flash>();
-                    if (pFlash)
-                    {
-                        pFlash->ctor_428570(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
-                    }
+                    SFX_Play_46FBA0(SoundEffect::Shrykull2_86, 127, 0);
                 }
-                pExistingZapLine->CalculateSourceAndDestinationPositions_4CCAD0(
-                    FP_FromInteger((ourRect.x + ourRect.w) / 2),
-                    FP_FromInteger((ourRect.y + ourRect.h) / 2),
-                    FP_FromInteger((zapRect.x + zapRect.w) / 2),
-                    FP_FromInteger((zapRect.y + zapRect.h) / 2));
+                else
+                {
+                    SFX_Play_46FBA0(SoundEffect::Shrykull1_85, 127, 0);
+                }
             }
-        }
 
-        if (static_cast<s32>(sGnFrame_5C1B84) > field_11C_timer)
-        {
-            field_118_state = State::eZapTargets_1;
             if (pExistingBeingZappedObj)
             {
-                if (!field_12C_bElectrocute)
+                if (pExistingBeingZappedObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
                 {
-                    pExistingBeingZappedObj->VTakeDamage_408730(this);
+                    field_128_obj_being_zapped_id = -1;
                 }
-                field_128_obj_being_zapped_id = -1;
-            }
-        }
-        break;
+                else
+                {
+                    PSX_RECT zapRect = {};
+                    pExistingBeingZappedObj->vGetBoundingRect_424FD0(&zapRect, 1);
 
-    default:
-        return;
+                    PSX_RECT ourRect = {};
+                    vGetBoundingRect_424FD0(&ourRect, 1);
+
+                    if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer)
+                    {
+                        auto pParticleBurst = ae_new<ParticleBurst>();
+                        if (pParticleBurst)
+                        {
+                            pParticleBurst->ctor_41CF50(
+                                FP_FromInteger((zapRect.x + zapRect.w) / 2),
+                                FP_FromInteger((zapRect.y + zapRect.h) / 2),
+                                20, field_CC_sprite_scale, BurstType::eBigPurpleSparks_2, 13);
+                        }
+
+                        auto pFlash = ae_new<Flash>();
+                        if (pFlash)
+                        {
+                            pFlash->ctor_428570(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
+                        }
+                    }
+                    pExistingZapLine->CalculateSourceAndDestinationPositions_4CCAD0(
+                        FP_FromInteger((ourRect.x + ourRect.w) / 2),
+                        FP_FromInteger((ourRect.y + ourRect.h) / 2),
+                        FP_FromInteger((zapRect.x + zapRect.w) / 2),
+                        FP_FromInteger((zapRect.y + zapRect.h) / 2));
+                }
+            }
+
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_11C_timer)
+            {
+                field_118_state = State::eZapTargets_1;
+                if (pExistingBeingZappedObj)
+                {
+                    if (!field_12C_bElectrocute)
+                    {
+                        pExistingBeingZappedObj->VTakeDamage_408730(this);
+                    }
+                    field_128_obj_being_zapped_id = -1;
+                }
+            }
+            break;
+
+        default:
+            return;
     }
 }

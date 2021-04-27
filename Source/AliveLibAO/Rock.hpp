@@ -103,4 +103,4 @@ public:
 ALIVE_ASSERT_SIZEOF(Rock, 0x128);
 
 
-}
+} // namespace AO

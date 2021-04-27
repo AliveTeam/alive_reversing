@@ -43,5 +43,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ElectricWall, 0xF0);
 
-}
-
+} // namespace AO

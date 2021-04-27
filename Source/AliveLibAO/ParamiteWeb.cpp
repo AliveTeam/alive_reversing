@@ -181,7 +181,7 @@ void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
 
             if (y_start >= minY)
             {
-                for(s32 idx = 0; idx < field_E4_number_of_segments; ++idx)
+                for (s32 idx = 0; idx < field_E4_number_of_segments; ++idx)
                 {
                     s16 r = 128;
                     s16 g = 128;
@@ -206,5 +206,4 @@ void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
     }
 }
 
-}
-
+} // namespace AO

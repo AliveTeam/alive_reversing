@@ -11,12 +11,12 @@
 #include "Events.hpp"
 #include "PsxDisplay.hpp"
 
-void HintFly_ForceLink() {}
+void HintFly_ForceLink()
+{ }
 
 namespace AO {
 
-const s8* gHintFlyMessages_4C6A10[] =
-{
+const s8* gHintFlyMessages_4C6A10[] = {
     "SNEAK TO BOMB",
     "ABE WAS HERE",
     "TEST THREE",
@@ -53,8 +53,7 @@ const s8* gHintFlyMessages_4C6A10[] =
     "SCOUT FROM AFAR",
     "DO NOT FORGET THE FLINTLOCK",
     "THEY WONT CHASE WHAT THEY CANT SEE",
-    nullptr
-};
+    nullptr};
 
 struct HintFlyParticle
 {
@@ -77,8 +76,7 @@ struct HintFlyParticle
 };
 ALIVE_ASSERT_SIZEOF(HintFlyParticle, 0x54);
 
-const u8 byte_4C6DB0[20] =
-{
+const u8 byte_4C6DB0[20] = {
     19u,
     15u,
     29u,
@@ -98,11 +96,9 @@ const u8 byte_4C6DB0[20] =
     185u,
     203u,
     221u,
-    239u
-};
+    239u};
 
-const u8 byte_4C6DC8[32] =
-{
+const u8 byte_4C6DC8[32] = {
     31u,
     17u,
     19u,
@@ -134,11 +130,9 @@ const u8 byte_4C6DC8[32] =
     228u,
     230u,
     234u,
-    236u
-};
+    236u};
 
-const u8 byte_4C6DE8[17] =
-{
+const u8 byte_4C6DE8[17] = {
     16u,
     21u,
     23u,
@@ -158,8 +152,7 @@ const u8 byte_4C6DE8[17] =
     221u,
 };
 
-const u8 byte_4C6E00[26] =
-{
+const u8 byte_4C6E00[26] = {
     25u,
     17u,
     19u,
@@ -188,8 +181,7 @@ const u8 byte_4C6E00[26] =
     236u,
 };
 
-const u8 byte_4C6E20[27] =
-{
+const u8 byte_4C6E20[27] = {
     26u,
     17u,
     19u,
@@ -219,8 +211,7 @@ const u8 byte_4C6E20[27] =
     223u,
 };
 
-const u8 byte_4C6E40[21] =
-{
+const u8 byte_4C6E40[21] = {
     20u,
     17u,
     19u,
@@ -244,8 +235,7 @@ const u8 byte_4C6E40[21] =
     209u,
 };
 
-const u8 byte_4C6E58[22] =
-{
+const u8 byte_4C6E58[22] = {
     21u,
     21u,
     23u,
@@ -270,8 +260,7 @@ const u8 byte_4C6E58[22] =
     221u,
 };
 
-const u8 byte_4C6E70[23] =
-{
+const u8 byte_4C6E70[23] = {
     22u,
     17u,
     19u,
@@ -297,8 +286,7 @@ const u8 byte_4C6E70[23] =
     223u,
 };
 
-const u8 byte_4C6E88[21] =
-{
+const u8 byte_4C6E88[21] = {
     20u,
     17u,
     31u,
@@ -322,8 +310,7 @@ const u8 byte_4C6E88[21] =
     223u,
 };
 
-const u8 byte_4C6EA0[15] =
-{
+const u8 byte_4C6EA0[15] = {
     14u,
     27u,
     29u,
@@ -341,8 +328,7 @@ const u8 byte_4C6EA0[15] =
     221u,
 };
 
-const u8 byte_4C6EB0[23] =
-{
+const u8 byte_4C6EB0[23] = {
     22u,
     17u,
     19u,
@@ -368,8 +354,7 @@ const u8 byte_4C6EB0[23] =
     255u,
 };
 
-const u8 byte_4C6EC8[16] =
-{
+const u8 byte_4C6EC8[16] = {
     14u,
     17u,
     19u,
@@ -387,8 +372,7 @@ const u8 byte_4C6EC8[16] =
     223u,
 };
 
-const u8 byte_4C6ED8[25] =
-{
+const u8 byte_4C6ED8[25] = {
     24u,
     17u,
     19u,
@@ -416,8 +400,7 @@ const u8 byte_4C6ED8[25] =
     223u,
 };
 
-const u8 byte_4C6EF8[23] =
-{
+const u8 byte_4C6EF8[23] = {
     22u,
     17u,
     19u,
@@ -443,8 +426,7 @@ const u8 byte_4C6EF8[23] =
     223u,
 };
 
-const u8 byte_4C6F10[21] =
-{
+const u8 byte_4C6F10[21] = {
     20u,
     21u,
     23u,
@@ -468,8 +450,7 @@ const u8 byte_4C6F10[21] =
     235u,
 };
 
-const u8 byte_4C6F28[23] =
-{
+const u8 byte_4C6F28[23] = {
     22u,
     17u,
     19u,
@@ -495,8 +476,7 @@ const u8 byte_4C6F28[23] =
     230u,
 };
 
-const u8 byte_4C6F40[24] =
-{
+const u8 byte_4C6F40[24] = {
     23u,
     21u,
     23u,
@@ -520,11 +500,9 @@ const u8 byte_4C6F40[24] =
     231u,
     233u,
     235u,
-    239u
-};
+    239u};
 
-const u8 byte_4C6F58[27] =
-{
+const u8 byte_4C6F58[27] = {
     26u,
     17u,
     19u,
@@ -554,8 +532,7 @@ const u8 byte_4C6F58[27] =
     255u,
 };
 
-const u8 byte_4C6F78[21] =
-{
+const u8 byte_4C6F78[21] = {
     20u,
     21u,
     35u,
@@ -579,8 +556,7 @@ const u8 byte_4C6F78[21] =
     221u,
 };
 
-const u8 byte_4C6F90[15] =
-{
+const u8 byte_4C6F90[15] = {
     14u,
     17u,
     49u,
@@ -598,8 +574,7 @@ const u8 byte_4C6F90[15] =
     209u,
 };
 
-const u8 byte_4C6FA0[20] =
-{
+const u8 byte_4C6FA0[20] = {
     19u,
     17u,
     19u,
@@ -622,8 +597,7 @@ const u8 byte_4C6FA0[20] =
     221u,
 };
 
-const u8 byte_4C6FB8[16] =
-{
+const u8 byte_4C6FB8[16] = {
     15u,
     17u,
     35u,
@@ -639,11 +613,9 @@ const u8 byte_4C6FB8[16] =
     167u,
     181u,
     195u,
-    209u
-};
+    209u};
 
-const u8 byte_4C6FC8[25] =
-{
+const u8 byte_4C6FC8[25] = {
     24u,
     16u,
     18u,
@@ -671,8 +643,7 @@ const u8 byte_4C6FC8[25] =
     222u,
 };
 
-const u8 byte_4C6FE8[17] =
-{
+const u8 byte_4C6FE8[17] = {
     16u,
     17u,
     31u,
@@ -692,8 +663,7 @@ const u8 byte_4C6FE8[17] =
     255u,
 };
 
-const u8 byte_4C7000[13] =
-{
+const u8 byte_4C7000[13] = {
     12u,
     17u,
     51u,
@@ -709,8 +679,7 @@ const u8 byte_4C7000[13] =
     225u,
 };
 
-const u8 byte_4C7010[22] =
-{
+const u8 byte_4C7010[22] = {
     21u,
     17u,
     31u,
@@ -735,8 +704,7 @@ const u8 byte_4C7010[22] =
     223u,
 };
 
-const u8 byte_4C7028[23] =
-{
+const u8 byte_4C7028[23] = {
     22u,
     15u,
     29u,
@@ -762,8 +730,7 @@ const u8 byte_4C7028[23] =
     239u,
 };
 
-const u8 byte_4C7040[29] =
-{
+const u8 byte_4C7040[29] = {
     28u,
     15u,
     29u,
@@ -795,8 +762,7 @@ const u8 byte_4C7040[29] =
     223u,
 };
 
-const u8 byte_4C7060[21] =
-{
+const u8 byte_4C7060[21] = {
     20u,
     15u,
     29u,
@@ -820,8 +786,7 @@ const u8 byte_4C7060[21] =
     239u,
 };
 
-const u8 byte_4C7078[21] =
-{
+const u8 byte_4C7078[21] = {
     20u,
     15u,
     29u,
@@ -845,8 +810,7 @@ const u8 byte_4C7078[21] =
     239u,
 };
 
-const u8 byte_4C7090[21] =
-{
+const u8 byte_4C7090[21] = {
     20u,
     15u,
     29u,
@@ -870,8 +834,7 @@ const u8 byte_4C7090[21] =
     239u,
 };
 
-const u8 byte_4C70A8[28] =
-{
+const u8 byte_4C70A8[28] = {
     27u,
     21u,
     23u,
@@ -902,8 +865,7 @@ const u8 byte_4C70A8[28] =
     223u,
 };
 
-const u8 byte_4C70C8[20] =
-{
+const u8 byte_4C70C8[20] = {
     19u,
     21u,
     23u,
@@ -926,8 +888,7 @@ const u8 byte_4C70C8[20] =
     218u,
 };
 
-const u8 byte_4C70E0[28] =
-{
+const u8 byte_4C70E0[28] = {
     27u,
     19u,
     21u,
@@ -958,8 +919,7 @@ const u8 byte_4C70E0[28] =
     223u,
 };
 
-const u8 byte_4C7100[28] =
-{
+const u8 byte_4C7100[28] = {
     27u,
     19u,
     21u,
@@ -990,8 +950,7 @@ const u8 byte_4C7100[28] =
     223u,
 };
 
-const u8 byte_4C7120[28] =
-{
+const u8 byte_4C7120[28] = {
     27u,
     19u,
     21u,
@@ -1022,8 +981,7 @@ const u8 byte_4C7120[28] =
     223u,
 };
 
-const u8 byte_4C7140[24] =
-{
+const u8 byte_4C7140[24] = {
     23u,
     19u,
     31u,
@@ -1047,11 +1005,9 @@ const u8 byte_4C7140[24] =
     179u,
     191u,
     211u,
-    223u
-};
+    223u};
 
-const u8 byte_4C7158[23] =
-{
+const u8 byte_4C7158[23] = {
     22u,
     19u,
     31u,
@@ -1074,11 +1030,9 @@ const u8 byte_4C7158[23] =
     179u,
     191u,
     211u,
-    223u
-};
+    223u};
 
-const u8 byte_4C7170[23] =
-{
+const u8 byte_4C7170[23] = {
     22u,
     19u,
     31u,
@@ -1104,8 +1058,7 @@ const u8 byte_4C7170[23] =
     223u,
 };
 
-const u8 byte_4C7188[24] =
-{
+const u8 byte_4C7188[24] = {
     23u,
     21u,
     23u,
@@ -1129,11 +1082,9 @@ const u8 byte_4C7188[24] =
     217u,
     219u,
     221u,
-    223u
-};
+    223u};
 
-const u8 byte_4C71A0[21] =
-{
+const u8 byte_4C71A0[21] = {
     20u,
     24u,
     27u,
@@ -1157,8 +1108,7 @@ const u8 byte_4C71A0[21] =
     235u,
 };
 
-const u8 byte_4C71B8[19] =
-{
+const u8 byte_4C71B8[19] = {
     18u,
     24u,
     27u,
@@ -1180,8 +1130,7 @@ const u8 byte_4C71B8[19] =
     235u,
 };
 
-const u8 byte_4C71D0[19] =
-{
+const u8 byte_4C71D0[19] = {
     18u,
     24u,
     27u,
@@ -1203,8 +1152,7 @@ const u8 byte_4C71D0[19] =
     235u,
 };
 
-const u8 byte_4C71E8[19] =
-{
+const u8 byte_4C71E8[19] = {
     18u,
     24u,
     27u,
@@ -1226,8 +1174,7 @@ const u8 byte_4C71E8[19] =
     235u,
 };
 
-const u8 byte_4C7200[22] =
-{
+const u8 byte_4C7200[22] = {
     21u,
     35u,
     37u,
@@ -1252,8 +1199,7 @@ const u8 byte_4C7200[22] =
     205u,
 };
 
-const u8 byte_4C7218[19] =
-{
+const u8 byte_4C7218[19] = {
     18u,
     37u,
     39u,
@@ -1275,8 +1221,7 @@ const u8 byte_4C7218[19] =
     205u,
 };
 
-const u8 byte_4C7230[19] =
-{
+const u8 byte_4C7230[19] = {
     18u,
     37u,
     39u,
@@ -1298,8 +1243,7 @@ const u8 byte_4C7230[19] =
     205u,
 };
 
-const u8 byte_4C7248[19] =
-{
+const u8 byte_4C7248[19] = {
     18u,
     37u,
     39u,
@@ -1321,13 +1265,12 @@ const u8 byte_4C7248[19] =
     205u,
 };
 
-const u8 byte_4C725C[3] = { 2u, 113u, 115u };
+const u8 byte_4C725C[3] = {2u, 113u, 115u};
 
-const u8 byte_4C7260[7] = { 6u, 42u, 74u, 106u, 138u, 170u, 202u };
+const u8 byte_4C7260[7] = {6u, 42u, 74u, 106u, 138u, 170u, 202u};
 
 
-const u8* pData_4C7268[] =
-{
+const u8* pData_4C7268[] = {
     byte_4C6DB0,
     byte_4C6DC8,
     byte_4C6DE8,
@@ -1391,7 +1334,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
         // Find the length of the longest word (in particles)
         s16 longestWordLen = 0;
         s16 curWordLen = 0;
-        for(;;)
+        for (;;)
         {
             // End of word?
             if (*pMsg == ' ' || *pMsg == 0)
@@ -1460,8 +1403,8 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
                     Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
 
                     SetClut(pSprt, static_cast<s16>(PSX_getClut_496840(
-                        field_10_anim.field_8C_pal_vram_xy.field_0_x,
-                        field_10_anim.field_8C_pal_vram_xy.field_2_y)));
+                                       field_10_anim.field_8C_pal_vram_xy.field_0_x,
+                                       field_10_anim.field_8C_pal_vram_xy.field_2_y)));
 
                     SetUV0(pSprt, vram_x & 0xFF, field_10_anim.field_84_vram_rect.y & 0xFF);
 
@@ -1599,12 +1542,12 @@ void HintFly::FormWordAndAdvanceToNextWord_42AF90()
             // Position each "pixel" of the word
             HintFlyParticle* pParticleIter = &field_E8_pRes[particleIdx++];
 
-            auto xVal = FP_FromInteger(pArray[j+1] >> 4);
-            auto yVal = FP_FromInteger((pArray[j+1]) & 0xF);
+            auto xVal = FP_FromInteger(pArray[j + 1] >> 4);
+            auto yVal = FP_FromInteger((pArray[j + 1]) & 0xF);
 
             pParticleIter->field_14_targetX = (FP_FromDouble(0.8) * xVal) + xBaseFP;
             pParticleIter->field_18_targetY = (FP_FromDouble(0.8) * yVal) + yBaseFP;
-            pParticleIter->field_C_velx =  FP_FromRaw((pParticleIter->field_14_targetX.fpValue - pParticleIter->field_0_xpos.fpValue) >> 4);
+            pParticleIter->field_C_velx = FP_FromRaw((pParticleIter->field_14_targetX.fpValue - pParticleIter->field_0_xpos.fpValue) >> 4);
             pParticleIter->field_10_vely = FP_FromRaw((pParticleIter->field_18_targetY.fpValue - pParticleIter->field_4_ypos.fpValue) >> 4);
             pParticleIter->field_8_state = 1;
 
@@ -1687,20 +1630,67 @@ void HintFly::VUpdate_42B3D0()
 
     switch (field_112_state)
     {
-    case State::eIdleWaitForChanting_1:
-        UpdateParticles_42B1B0();
+        case State::eIdleWaitForChanting_1:
+            UpdateParticles_42B1B0();
 
-        if (Event_Get_417250(kEventAbeOhm_8))
-        {
-            field_11E_msg_idx = 0;
-            field_112_state = State::eState_3;
-            field_10C_timer = gnFrameCount_507670 + 15;
-        }
-        return;
+            if (Event_Get_417250(kEventAbeOhm_8))
+            {
+                field_11E_msg_idx = 0;
+                field_112_state = State::eState_3;
+                field_10C_timer = gnFrameCount_507670 + 15;
+            }
+            return;
 
-    case State::eState_2:
-        if (field_118_counter == field_122_target_count)
-        {
+        case State::eState_2:
+            if (field_118_counter == field_122_target_count)
+            {
+                UpdateParticles_42B1B0();
+
+                if (!Event_Get_417250(kEventAbeOhm_8))
+                {
+                    for (s32 i = 0; i < field_118_counter; i++)
+                    {
+                        if (field_E8_pRes[i].field_8_state == 3)
+                        {
+                            break;
+                        }
+                        field_E8_pRes[i].field_8_state = 3;
+                    }
+                    field_120_idx = 0;
+                    field_112_state = State::eState_5;
+                    return;
+                }
+
+                if (field_118_counter == field_122_target_count)
+                {
+                    FormWordAndAdvanceToNextWord_42AF90();
+                    field_112_state = State::eState_4;
+                    field_10C_timer = gnFrameCount_507670 + 30;
+                }
+            }
+
+            for (s32 i = 0; i < 8; i++)
+            {
+                if (field_118_counter < field_122_target_count)
+                {
+                    InitParticle(&field_E8_pRes[field_118_counter++]);
+                }
+                else
+                {
+                    field_118_counter--;
+                    if (field_120_idx < field_118_counter)
+                    {
+                        InitParticle(&field_E8_pRes[field_120_idx++]);
+                    }
+                }
+
+                if (field_118_counter == field_122_target_count)
+                {
+                    break;
+                }
+            }
+
+            // TODO: This block is duplicated above
             UpdateParticles_42B1B0();
 
             if (!Event_Get_417250(kEventAbeOhm_8))
@@ -1724,95 +1714,12 @@ void HintFly::VUpdate_42B3D0()
                 field_112_state = State::eState_4;
                 field_10C_timer = gnFrameCount_507670 + 30;
             }
-        }
+            break;
 
-        for (s32 i=0; i < 8; i++)
-        {
-            if (field_118_counter < field_122_target_count)
-            {
-                InitParticle(&field_E8_pRes[field_118_counter++]);
-            }
-            else
-            {
-                field_118_counter--;
-                if (field_120_idx < field_118_counter)
-                {
+        case State::eState_3:
+            UpdateParticles_42B1B0();
 
-                    InitParticle(&field_E8_pRes[field_120_idx++]);
-                }
-            }
-
-            if (field_118_counter == field_122_target_count)
-            {
-                break;
-            }
-        }
-
-        // TODO: This block is duplicated above
-        UpdateParticles_42B1B0();
-
-        if (!Event_Get_417250(kEventAbeOhm_8))
-        {
-            for (s32 i = 0; i < field_118_counter; i++)
-            {
-                if (field_E8_pRes[i].field_8_state == 3)
-                {
-                    break;
-                }
-                field_E8_pRes[i].field_8_state = 3;
-            }
-            field_120_idx = 0;
-            field_112_state = State::eState_5;
-            return;
-        }
-
-        if (field_118_counter == field_122_target_count)
-        {
-            FormWordAndAdvanceToNextWord_42AF90();
-            field_112_state = State::eState_4;
-            field_10C_timer = gnFrameCount_507670 + 30;
-        }
-        break;
-
-    case State::eState_3:
-        UpdateParticles_42B1B0();
-
-        if (!Event_Get_417250(kEventAbeOhm_8))
-        {
-            for (s32 i = 0; i < field_118_counter; i++)
-            {
-                if (field_E8_pRes[i].field_8_state == 3)
-                {
-                    break;
-                }
-                field_E8_pRes[i].field_8_state = 3;
-            }
-            field_120_idx = 0;
-            field_112_state = State::eState_5;
-            return;
-        }
-
-        if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
-        {
-            s16 len = 0;
-            const s8* pMsgIter = gHintFlyMessages_4C6A10[field_11C_message_id] + field_11E_msg_idx;
-            while (*pMsgIter != ' ' && *pMsgIter != '\0')
-            {
-                len += pData_4C7268[(*pMsgIter) - 'A'][0];
-                pMsgIter++;
-            }
-            field_120_idx = 0;
-            field_122_target_count = len + 12;
-            field_112_state = State::eState_2;
-        }
-        return;
-
-    case State::eState_4:
-        UpdateParticles_42B1B0();
-
-        if (Event_Get_417250(kEventAbeOhm_8))
-        {
-            if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
+            if (!Event_Get_417250(kEventAbeOhm_8))
             {
                 for (s32 i = 0; i < field_118_counter; i++)
                 {
@@ -1822,58 +1729,93 @@ void HintFly::VUpdate_42B3D0()
                     }
                     field_E8_pRes[i].field_8_state = 3;
                 }
-                field_112_state = State::eState_3;
-                field_10C_timer = gnFrameCount_507670 + 15;
+                field_120_idx = 0;
+                field_112_state = State::eState_5;
+                return;
             }
-        }
-        else
-        {
-            for (s32 i = 0; i < field_118_counter; i++)
-            {
-                if (field_E8_pRes[i].field_8_state == 3)
-                {
-                    break;
-                }
-                field_E8_pRes[i].field_8_state = 3;
-            }
-            field_120_idx = 0;
-            field_112_state = State::eState_5;
-        }
-        return;
 
-    case State::eState_5:
-        if (field_118_counter == 20)
-        {
+            if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
+            {
+                s16 len = 0;
+                const s8* pMsgIter = gHintFlyMessages_4C6A10[field_11C_message_id] + field_11E_msg_idx;
+                while (*pMsgIter != ' ' && *pMsgIter != '\0')
+                {
+                    len += pData_4C7268[(*pMsgIter) - 'A'][0];
+                    pMsgIter++;
+                }
+                field_120_idx = 0;
+                field_122_target_count = len + 12;
+                field_112_state = State::eState_2;
+            }
+            return;
+
+        case State::eState_4:
+            UpdateParticles_42B1B0();
+
             if (Event_Get_417250(kEventAbeOhm_8))
+            {
+                if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
+                {
+                    for (s32 i = 0; i < field_118_counter; i++)
+                    {
+                        if (field_E8_pRes[i].field_8_state == 3)
+                        {
+                            break;
+                        }
+                        field_E8_pRes[i].field_8_state = 3;
+                    }
+                    field_112_state = State::eState_3;
+                    field_10C_timer = gnFrameCount_507670 + 15;
+                }
+            }
+            else
+            {
+                for (s32 i = 0; i < field_118_counter; i++)
+                {
+                    if (field_E8_pRes[i].field_8_state == 3)
+                    {
+                        break;
+                    }
+                    field_E8_pRes[i].field_8_state = 3;
+                }
+                field_120_idx = 0;
+                field_112_state = State::eState_5;
+            }
+            return;
+
+        case State::eState_5:
+            if (field_118_counter == 20)
+            {
+                if (Event_Get_417250(kEventAbeOhm_8))
+                {
+                    field_112_state = State::eIdleWaitForChanting_1;
+                }
+            }
+            [[fallthrough]];
+
+        case State::eState_6:
+            UpdateParticles_42B1B0();
+            if (field_120_idx >= 20)
+            {
+                field_118_counter -= 8;
+                if (field_118_counter < 20)
+                {
+                    field_118_counter = 20;
+                }
+            }
+            else
+            {
+                InitParticle(&field_E8_pRes[field_120_idx++]);
+            }
+
+            if (field_118_counter == 20 && !Event_Get_417250(kEventAbeOhm_8))
             {
                 field_112_state = State::eIdleWaitForChanting_1;
             }
-        }
-        [[fallthrough]];
+            return;
 
-    case State::eState_6:
-        UpdateParticles_42B1B0();
-        if (field_120_idx >= 20)
-        {
-            field_118_counter -= 8;
-            if (field_118_counter < 20)
-            {
-                field_118_counter = 20;
-            }
-        }
-        else
-        {
-            InitParticle(&field_E8_pRes[field_120_idx++]);
-        }
-
-        if (field_118_counter == 20 && !Event_Get_417250(kEventAbeOhm_8))
-        {
-            field_112_state = State::eIdleWaitForChanting_1;
-        }
-        return;
-
-    default:
-        return;
+        default:
+            return;
     }
 }
 
@@ -1944,4 +1886,4 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-}
+} // namespace AO

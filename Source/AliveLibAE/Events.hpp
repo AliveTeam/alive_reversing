@@ -3,9 +3,8 @@
 #include "FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 
-namespace AETest::TestsEvent
-{
-    void EventTests();
+namespace AETest::TestsEvent {
+void EventTests();
 }
 
 // Note, names taken from Abe's Exoddus PC Demo

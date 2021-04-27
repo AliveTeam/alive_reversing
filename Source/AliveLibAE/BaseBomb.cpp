@@ -24,7 +24,7 @@ BaseGameObject* BaseBomb::VDestructor(s32 flags)
     return vdtor_424130(flags);
 }
 
-BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, s32 /*unused*/, FP scale)
+BaseBomb* BaseBomb::ctor_423E70(FP x, FP y, s32 /*unused*/, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544C54);
@@ -76,13 +76,11 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, s32 /*unused*/, FP scale)
             13);
     }
 
-    PSX_RECT damageRect =
-    {
+    PSX_RECT damageRect = {
         FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
         FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
         FP_GetExponent(FP_FromInteger(10) * field_f4_scale),
-        FP_GetExponent(FP_FromInteger(10) * field_f4_scale)
-    };
+        FP_GetExponent(FP_FromInteger(10) * field_f4_scale)};
     DealDamageRect_4247A0(&damageRect);
 
     // alternate between Explosion1 and Explosion2 on each call
@@ -104,92 +102,92 @@ void BaseBomb::vUpdate_424180()
 
     switch (this->field_20_animation.field_92_current_frame)
     {
-    case 0:
-        rect.x = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
-        rect.w = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
-        rect.y = FP_GetExponent(FP_FromInteger(-20) * field_f4_scale);
-        rect.h = FP_GetExponent(FP_FromInteger(20) * field_f4_scale);
-        DealDamageRect_4247A0(&rect);
-        break;
+        case 0:
+            rect.x = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
+            rect.w = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * field_f4_scale);
+            rect.h = FP_GetExponent(FP_FromInteger(20) * field_f4_scale);
+            DealDamageRect_4247A0(&rect);
+            break;
 
-    case 1:
-        rect.x = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
-        rect.w = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
-        rect.y = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
-        rect.h = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
-        DealDamageRect_4247A0(&rect);
-        break;
+        case 1:
+            rect.x = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
+            rect.w = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
+            rect.y = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
+            DealDamageRect_4247A0(&rect);
+            break;
 
-    case 2:
-        rect.x = FP_GetExponent(FP_FromInteger(-80) * field_f4_scale);
-        rect.w = FP_GetExponent(FP_FromInteger(80) * field_f4_scale);
-        rect.y = FP_GetExponent(FP_FromInteger(-40) * field_f4_scale);
-        rect.h = FP_GetExponent(FP_FromInteger(40) * field_f4_scale);
-        DealDamageRect_4247A0(&rect);
-        break;
+        case 2:
+            rect.x = FP_GetExponent(FP_FromInteger(-80) * field_f4_scale);
+            rect.w = FP_GetExponent(FP_FromInteger(80) * field_f4_scale);
+            rect.y = FP_GetExponent(FP_FromInteger(-40) * field_f4_scale);
+            rect.h = FP_GetExponent(FP_FromInteger(40) * field_f4_scale);
+            DealDamageRect_4247A0(&rect);
+            break;
 
-    case 3:
-    {
-        ParticleBurst * pParticleBurst = ae_new<ParticleBurst>();
-        if (pParticleBurst)
+        case 3:
         {
-            pParticleBurst->ctor_41CF50(
-                field_B8_xpos,
-                field_BC_ypos,
-                0x14u,
-                field_CC_sprite_scale,
-                BurstType::eBigRedSparks_3,
-                13);
+            ParticleBurst* pParticleBurst = ae_new<ParticleBurst>();
+            if (pParticleBurst)
+            {
+                pParticleBurst->ctor_41CF50(
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    0x14u,
+                    field_CC_sprite_scale,
+                    BurstType::eBigRedSparks_3,
+                    13);
+            }
+
+            Flash* pFlash = ae_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
+            }
+
+            rect.x = FP_GetExponent(FP_FromInteger(-113) * field_f4_scale);
+            rect.w = FP_GetExponent(FP_FromInteger(113) * field_f4_scale);
+            rect.y = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
+            rect.h = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
+            DealDamageRect_4247A0(&rect);
+            break;
         }
 
-        Flash* pFlash = ae_new<Flash>();
-        if (pFlash)
+        case 4:
         {
-            pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
+            Flash* pFlash = ae_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
+            }
+            break;
         }
 
-        rect.x = FP_GetExponent(FP_FromInteger(-113) * field_f4_scale);
-        rect.w = FP_GetExponent(FP_FromInteger(113) * field_f4_scale);
-        rect.y = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
-        rect.h = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
-        DealDamageRect_4247A0(&rect);
-        break;
-    }
-
-    case 4:
-    {
-        Flash* pFlash = ae_new<Flash>();
-        if (pFlash)
+        case 7:
         {
-            pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
-        }
-        break;
-    }
+            ParticleBurst* pParticleBurst = ae_new<ParticleBurst>();
+            if (pParticleBurst)
+            {
+                pParticleBurst->ctor_41CF50(
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    20u,
+                    field_CC_sprite_scale,
+                    BurstType::eBigRedSparks_3,
+                    13);
+            }
 
-    case 7:
-    {
-        ParticleBurst* pParticleBurst = ae_new<ParticleBurst>();
-        if (pParticleBurst)
-        {
-            pParticleBurst->ctor_41CF50(
-                field_B8_xpos,
-                field_BC_ypos,
-                20u,
-                field_CC_sprite_scale,
-                BurstType::eBigRedSparks_3,
-                13);
+            Flash* pFlash = ae_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
+            }
+            break;
         }
 
-        Flash* pFlash = ae_new<Flash>();
-        if (pFlash)
-        {
-            pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
-        }
-        break;
-    }
-
-    default:
-        break;
+        default:
+            break;
     }
 
     if (field_20_animation.field_92_current_frame == 3)

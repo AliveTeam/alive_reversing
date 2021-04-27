@@ -14,30 +14,29 @@
 #include "Abe.hpp"
 #include "BaseBomb.hpp"
 
-const TintEntry sTintMap_UXB_563A3C[19] =
-{
-    { 1, 127u, 127u, 127u },
-    { 2, 137u, 137u, 137u },
-    { 3, 127u, 127u, 127u },
-    { 4, 127u, 127u, 127u },
-    { 5, 127u, 127u, 127u },
-    { 6, 127u, 127u, 127u },
-    { 7, 127u, 127u, 127u },
-    { 8, 127u, 127u, 127u },
-    { 9, 127u, 127u, 127u },
-    { 10, 127u, 127u, 127u },
-    { 11, 127u, 127u, 127u },
-    { 12, 127u, 127u, 127u },
-    { 13, 127u, 127u, 127u },
-    { 14, 127u, 127u, 127u },
-    { -1, 127u, 127u, 127u },
-    { 0, 0u, 0u, 0u },
-    { 0, 0u, 0u, 0u },
-    { 0, 0u, 0u, 0u },
-    { 1, 0u, 0u, 0u }
-};
+const TintEntry sTintMap_UXB_563A3C[19] = {
+    {1, 127u, 127u, 127u},
+    {2, 137u, 137u, 137u},
+    {3, 127u, 127u, 127u},
+    {4, 127u, 127u, 127u},
+    {5, 127u, 127u, 127u},
+    {6, 127u, 127u, 127u},
+    {7, 127u, 127u, 127u},
+    {8, 127u, 127u, 127u},
+    {9, 127u, 127u, 127u},
+    {10, 127u, 127u, 127u},
+    {11, 127u, 127u, 127u},
+    {12, 127u, 127u, 127u},
+    {13, 127u, 127u, 127u},
+    {14, 127u, 127u, 127u},
+    {-1, 127u, 127u, 127u},
+    {0, 0u, 0u, 0u},
+    {0, 0u, 0u, 0u},
+    {0, 0u, 0u, 0u},
+    {1, 0u, 0u, 0u}};
 
-void UXB_ForceLink() {
+void UXB_ForceLink()
+{
 }
 
 void UXB::InitBlinkAnim_4DEED0(Animation* pAnimation)
@@ -62,11 +61,11 @@ void UXB::InitBlinkAnim_4DEED0(Animation* pAnimation)
 void UXB::PlaySFX_4DE930(u8 sfxIdx)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-        this->field_C2_lvl_number,
-        this->field_C0_path_number,
-        this->field_B8_xpos,
-        this->field_BC_ypos,
-        0))
+            this->field_C2_lvl_number,
+            this->field_C0_path_number,
+            this->field_B8_xpos,
+            this->field_BC_ypos,
+            0))
     {
         SFX_Play_46FA90(sfxIdx, 35);
     }
@@ -94,14 +93,7 @@ s32 UXB::IsColliding_4DF630()
             const s32 objX = FP_GetExponent(pObj->field_B8_xpos);
             const s32 objY = FP_GetExponent(pObj->field_BC_ypos);
 
-            if (objX > uxbBound.x &&
-                objX < uxbBound.w &&
-                objY < uxbBound.h + 5 &&
-                uxbBound.x <= objBound.w &&
-                uxbBound.w >= objBound.x &&
-                uxbBound.h >= objBound.y &&
-                uxbBound.y <= objBound.h &&
-                pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+            if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
             {
                 return 1;
             }
@@ -236,14 +228,15 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
     // Raycasts on ctor to place perfectly on the floor.
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        FP_FromInteger(tlv_params->field_8_top_left.field_2_y),
-        field_B8_xpos,
-        FP_FromInteger(tlv_params->field_8_top_left.field_2_y + 24),
-        &field_100_pCollisionLine,
-        &hitX,
-        &hitY,
-        field_D6_scale != 0 ? 1 : 16) == 1)
+            field_B8_xpos,
+            FP_FromInteger(tlv_params->field_8_top_left.field_2_y),
+            field_B8_xpos,
+            FP_FromInteger(tlv_params->field_8_top_left.field_2_y + 24),
+            &field_100_pCollisionLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 1 : 16)
+        == 1)
     {
         field_BC_ypos = hitY;
     }
@@ -306,7 +299,7 @@ EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
         {
             field_118_state = UXBState::eDelay_0;
             field_1C_update_delay = 6;
-			const AnimRecord& animRec = AnimRec(AnimId::UXB_Active);
+            const AnimRecord& animRec = AnimRec(AnimId::UXB_Active);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             PlaySFX_4DE930(SoundEffect::RedTick_3);
         }
@@ -339,22 +332,22 @@ s16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case AETypes::eAbe_69:
-    case AETypes::eMudokon_110:
-        if (field_118_state == UXBState::eDeactivated_3)
-        {
+        case AETypes::eAbe_69:
+        case AETypes::eMudokon_110:
+            if (field_118_state == UXBState::eDeactivated_3)
+            {
+                return 0;
+            }
+            break;
+
+        case AETypes::eMineCar_89:
+        case AETypes::eAbilityRing_104:
+        case AETypes::eExplosion_109:
+        case AETypes::eShrykull_121:
+            break;
+
+        default:
             return 0;
-        }
-        break;
-
-    case AETypes::eMineCar_89:
-    case AETypes::eAbilityRing_104:
-    case AETypes::eExplosion_109:
-    case AETypes::eShrykull_121:
-        break;
-
-    default:
-        return 0;
     }
 
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -521,11 +514,11 @@ void UXB::Render_4DF3D0(PrimHeader** ppOt)
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-            field_C2_lvl_number,
-            field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos,
-            0))
+                field_C2_lvl_number,
+                field_C0_path_number,
+                field_B8_xpos,
+                field_BC_ypos,
+                0))
         {
             field_128_animation.vRender_40B820(
                 FP_GetExponent((field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
@@ -629,7 +622,7 @@ EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
     {
         pUXB->field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
         pUXB->field_128_animation.Set_Animation_Data_409C80(544, 0);
-		const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
+        const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
         pUXB->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }
 

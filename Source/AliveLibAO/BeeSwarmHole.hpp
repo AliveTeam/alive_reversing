@@ -50,5 +50,4 @@ public:
 ALIVE_ASSERT_SIZEOF(BeeSwarmHole, 0x2C);
 
 
-}
-
+} // namespace AO

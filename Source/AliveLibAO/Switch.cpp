@@ -21,25 +21,23 @@ struct Switch_Data
 };
 ALIVE_ASSERT_SIZEOF(Switch_Data, 0x1C);
 
-const Switch_Data gSwitchData_4BCF40[16] =
-{
-    { 16272, 66, 41, 16284, 16336, 16372, 16424 },
-    { 16168, 67, 40, 16180, 16232, 16268, 16320 },
-    { 5440,  66, 41, 5576,  5452,  5488,  5540  },
-    { 16272, 66, 41, 16284, 16336, 16372, 16424 },
-    { 16272, 66, 41, 16284, 16336, 16372, 16424 },
-    { 16272, 66, 41, 16284, 16336, 16372, 16424 },
-    { 16168, 67, 40, 16180, 16232, 16268, 16320 },
-    { 5440,  66, 41, 5576,  5452,  5488,  5540  },
-    { 16272, 66, 41, 16284, 16336, 16372, 16424 },
-    { 16272, 66, 41, 16284, 16336, 16372, 16424 },
-    { 16272, 66, 41, 16284, 16336, 16372, 16424 },
-    { 16272, 66, 41, 16284, 16336, 16372, 16424 },
-    { 16168, 67, 40, 16180, 16232, 16268, 16320 },
-    { 16168, 67, 40, 16180, 16232, 16268, 16320 },
-    { 16272, 66, 41, 16284, 16336, 16372, 16424 },
-    { 16272, 66, 41, 16284, 16336, 16372, 16424 }
-};
+const Switch_Data gSwitchData_4BCF40[16] = {
+    {16272, 66, 41, 16284, 16336, 16372, 16424},
+    {16168, 67, 40, 16180, 16232, 16268, 16320},
+    {5440, 66, 41, 5576, 5452, 5488, 5540},
+    {16272, 66, 41, 16284, 16336, 16372, 16424},
+    {16272, 66, 41, 16284, 16336, 16372, 16424},
+    {16272, 66, 41, 16284, 16336, 16372, 16424},
+    {16168, 67, 40, 16180, 16232, 16268, 16320},
+    {5440, 66, 41, 5576, 5452, 5488, 5540},
+    {16272, 66, 41, 16284, 16336, 16372, 16424},
+    {16272, 66, 41, 16284, 16336, 16372, 16424},
+    {16272, 66, 41, 16284, 16336, 16372, 16424},
+    {16272, 66, 41, 16284, 16336, 16372, 16424},
+    {16168, 67, 40, 16180, 16232, 16268, 16320},
+    {16168, 67, 40, 16180, 16232, 16268, 16320},
+    {16272, 66, 41, 16284, 16336, 16372, 16424},
+    {16272, 66, 41, 16284, 16336, 16372, 16424}};
 
 s32 Switch::VPull(s16 a2)
 {
@@ -109,46 +107,46 @@ void Switch::VUpdate_4812D0()
                 {
                     switch (field_F4_on_sound)
                     {
-                    case 1:
-                        SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
-                        break;
-                    case 2:
-                        SFX_Play_43ADE0(SoundEffect::SwitchBellHammer_12, 100 * leftVol + 25, 100 * rightVol + 25, 0);
-                        return;
-                    case 3:
-                        SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
-                        break;
-                    case 4:
-                        SFX_Play_43ADE0(SoundEffect::Zap1_57, 35 * leftVol + 25, 35 * rightVol + 25, 0);
-                        break;
-                    case 5:
-                        SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 25, 35 * rightVol + 25, 0);
-                        break;
-                    default:
-                        return;
+                        case 1:
+                            SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
+                            break;
+                        case 2:
+                            SFX_Play_43ADE0(SoundEffect::SwitchBellHammer_12, 100 * leftVol + 25, 100 * rightVol + 25, 0);
+                            return;
+                        case 3:
+                            SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
+                            break;
+                        case 4:
+                            SFX_Play_43ADE0(SoundEffect::Zap1_57, 35 * leftVol + 25, 35 * rightVol + 25, 0);
+                            break;
+                        case 5:
+                            SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 25, 35 * rightVol + 25, 0);
+                            break;
+                        default:
+                            return;
                     }
                 }
                 else
                 {
                     switch (field_F6_off_sound)
                     {
-                    case 1:
-                        SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
-                        break;
-                    case 2:
-                        SFX_Play_43ADE0(SoundEffect::SwitchBellHammer_12, 110 * leftVol + 25, 110 * rightVol + 25, 0);
-                        break;
-                    case 3:
-                        SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
-                        break;
-                    case 4:
-                        SFX_Play_43ADE0(SoundEffect::Zap1_57, 80 * leftVol + 25, 80 * rightVol + 25, 0);
-                        break;
-                    case 5:
-                        SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 75, 35 * rightVol + 75, 0);
-                        break;
-                    default:
-                        return;
+                        case 1:
+                            SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
+                            break;
+                        case 2:
+                            SFX_Play_43ADE0(SoundEffect::SwitchBellHammer_12, 110 * leftVol + 25, 110 * rightVol + 25, 0);
+                            break;
+                        case 3:
+                            SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
+                            break;
+                        case 4:
+                            SFX_Play_43ADE0(SoundEffect::Zap1_57, 80 * leftVol + 25, 80 * rightVol + 25, 0);
+                            break;
+                        case 5:
+                            SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 75, 35 * rightVol + 75, 0);
+                            break;
+                        default:
+                            return;
                     }
                 }
             }
@@ -222,8 +220,8 @@ Switch* Switch::ctor_481110(Path_Switch* pTlv, s32 tlvInfo)
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_A8_xpos = FP_FromInteger((pTlv->field_14_bottom_right.field_0_x
-        + pTlv->field_10_top_left.field_0_x)
-        / 2);
+                                    + pTlv->field_10_top_left.field_0_x)
+                                   / 2);
 
     field_E4_switchId = pTlv->field_18_trigger_object;
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
@@ -276,5 +274,4 @@ s32 Switch::vPull_481640(s16 a2)
     return SwitchStates_Get(field_E4_switchId);
 }
 
-}
-
+} // namespace AO

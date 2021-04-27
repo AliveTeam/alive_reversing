@@ -53,47 +53,46 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
         field_F4_type = type;
         switch (type)
         {
-        case BurstType::eType_0:
-            Animation_Init_417FD0(8108, 71, 36, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0), 1);
-            field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-            break;
+            case BurstType::eType_0:
+                Animation_Init_417FD0(8108, 71, 36, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0), 1);
+                field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                break;
 
-        case BurstType::eType_1:
-            Animation_Init_417FD0(2800, 47, 29, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kStickGib, 1, 0), 1);
-            scale = FP_FromDouble(0.4) * scale;
-            field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-            break;
+            case BurstType::eType_1:
+                Animation_Init_417FD0(2800, 47, 29, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kStickGib, 1, 0), 1);
+                scale = FP_FromDouble(0.4) * scale;
+                field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                break;
 
-        case BurstType::eType_2:
-            Animation_Init_417FD0(6284, 70, 43, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0), 1);
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-            field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-            break;
+            case BurstType::eType_2:
+                Animation_Init_417FD0(6284, 70, 43, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0), 1);
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+                break;
 
-        case BurstType::eType_3:
-            Animation_Init_417FD0(6284, 70, 43, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0), 1);
+            case BurstType::eType_3:
+                Animation_Init_417FD0(6284, 70, 43, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0), 1);
 
-            field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-            field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+                field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+                field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
 
-            field_10_anim.field_8_r = 254;
-            field_10_anim.field_9_g = 148;
-            field_10_anim.field_A_b = 18;
-            break;
+                field_10_anim.field_8_r = 254;
+                field_10_anim.field_9_g = 148;
+                field_10_anim.field_A_b = 18;
+                break;
 
-        case BurstType::eType_4:
-            Animation_Init_417FD0(8908, 69, 30, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014, 1, 0), 1);
-            field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-            break;
+            case BurstType::eType_4:
+                Animation_Init_417FD0(8908, 69, 30, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014, 1, 0), 1);
+                field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                break;
 
-        default:
-            break;
-
+            default:
+                break;
         }
 
         if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
@@ -220,11 +219,11 @@ void ParticleBurst::VUpdate_40D600()
             if (field_F4_type == BurstType::eType_4)
             {
                 if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-                    gMap_507BA8.field_0_current_level,
-                    gMap_507BA8.field_2_current_path,
-                    pItem->field_0_x,
-                    pItem->field_4_y,
-                    0))
+                        gMap_507BA8.field_0_current_level,
+                        gMap_507BA8.field_2_current_path,
+                        pItem->field_0_x,
+                        pItem->field_4_y,
+                        0))
                 {
                     SFX_Play_43AE60(SoundEffect::KillEffect_78, 50, Math_RandomRange_450F20(-900, -300));
                 }
@@ -284,7 +283,7 @@ void ParticleBurst::VRender_40D7F0(PrimHeader** ppOt)
 
     const FP screen_top = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
     const FP screen_bottom = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
-    
+
     bool bFirst = true;
     for (s32 i = 0; i < field_EC_count; i++)
     {
@@ -327,4 +326,4 @@ void ParticleBurst::VRender_40D7F0(PrimHeader** ppOt)
     }
 }
 
-}
+} // namespace AO

@@ -96,5 +96,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(MotionDetector, 0x164);
 
-}
-
+} // namespace AO

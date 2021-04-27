@@ -13,34 +13,33 @@
 ALIVE_VAR(1, 0x5c1bde, u16, gInfiniteGrenades_5C1BDE, 0);
 
 // Overlay to throwable type table ??
-const AETypes throwable_types_55FAFC[252] =
-{
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eRock_105,   AETypes::eRock_105,  AETypes::eRock_105,   AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eRock_105,   AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eRock_105,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eRock_105,   AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eRock_105,     AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eRock_105,   AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eMeat_84,      AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eMeat_84,    AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eMeat_84,      AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eRock_105,   AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eBone_11,    AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eBone_11,    AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eBone_11,      AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eBone_11,      AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eGrenade_65, AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eBone_11,      AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eBone_11,      AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eBone_11,    AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eGrenade_65, AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eBone_11,      AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eGrenade_65, AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eBone_11,    AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eGrenade_65, AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eGrenade_65,   AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eGrenade_65, AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,       AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,    AETypes::eNone_0,     AETypes::eNone_0,   AETypes::eNone_0,     AETypes::eNone_0,
-    AETypes::eNone_0,       AETypes::eNone_0 };
+const AETypes throwable_types_55FAFC[252] = {
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eRock_105, AETypes::eRock_105, AETypes::eRock_105, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eRock_105, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eRock_105, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eRock_105, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eRock_105, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eRock_105, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eMeat_84, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eMeat_84, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eMeat_84, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eRock_105, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eBone_11, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eBone_11, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eBone_11, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eGrenade_65, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
+    AETypes::eNone_0, AETypes::eNone_0};
 
 EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, s16 count)
 {
@@ -82,14 +81,14 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
     FP hitY = {};
     PathLine* pLine = nullptr;
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos - FP_FromInteger(20),
-        field_B8_xpos,
-        field_BC_ypos + FP_FromInteger(20),
-        &pLine,
-        &hitX,
-        &hitY,
-        field_D6_scale == 0 ? 0xF0 : 0x10F))
+            field_B8_xpos,
+            field_BC_ypos - FP_FromInteger(20),
+            field_B8_xpos,
+            field_BC_ypos + FP_FromInteger(20),
+            &pLine,
+            &hitX,
+            &hitY,
+            field_D6_scale == 0 ? 0xF0 : 0x10F))
     {
         if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
         {
@@ -110,7 +109,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
                         PSX_RECT bRect = {};
                         pPlatform->vGetBoundingRect_424FD0(&bRect, 1);
 
-                        if (FP_GetExponent(field_B8_xpos) > bRect.x  && FP_GetExponent(field_B8_xpos) < bRect.w  && FP_GetExponent(field_BC_ypos) < bRect.h)
+                        if (FP_GetExponent(field_B8_xpos) > bRect.x && FP_GetExponent(field_B8_xpos) < bRect.w && FP_GetExponent(field_BC_ypos) < bRect.h)
                         {
                             pPlatform->VAdd(this);
                             field_110_id = pPlatform->field_8_object_id;

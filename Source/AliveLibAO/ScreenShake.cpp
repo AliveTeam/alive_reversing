@@ -72,25 +72,23 @@ void ScreenShake::VRender(PrimHeader** ppOt)
     VRender_4625E0(ppOt);
 }
 
-const FP_Point stru_4CF850[16] =
-{
-    { FP_FromInteger(0),  FP_FromInteger(-1) },
-    { FP_FromInteger(-1), FP_FromInteger(0)  },
-    { FP_FromInteger(1),  FP_FromInteger(-1) },
-    { FP_FromInteger(-1), FP_FromInteger(1)  },
-    { FP_FromInteger(0),  FP_FromInteger(-2) },
-    { FP_FromInteger(-2), FP_FromInteger(0)  },
-    { FP_FromInteger(2),  FP_FromInteger(-2) },
-    { FP_FromInteger(-2), FP_FromInteger(2)  },
-    { FP_FromInteger(0),  FP_FromInteger(-3) },
-    { FP_FromInteger(-3), FP_FromInteger(0)  },
-    { FP_FromInteger(3),  FP_FromInteger(-3) },
-    { FP_FromInteger(-3), FP_FromInteger(3)  },
-    { FP_FromInteger(0),  FP_FromInteger(-9) },
-    { FP_FromInteger(-9), FP_FromInteger(0)  },
-    { FP_FromInteger(9),  FP_FromInteger(-9) },
-    { FP_FromInteger(-9), FP_FromInteger(9)  }
-};
+const FP_Point stru_4CF850[16] = {
+    {FP_FromInteger(0), FP_FromInteger(-1)},
+    {FP_FromInteger(-1), FP_FromInteger(0)},
+    {FP_FromInteger(1), FP_FromInteger(-1)},
+    {FP_FromInteger(-1), FP_FromInteger(1)},
+    {FP_FromInteger(0), FP_FromInteger(-2)},
+    {FP_FromInteger(-2), FP_FromInteger(0)},
+    {FP_FromInteger(2), FP_FromInteger(-2)},
+    {FP_FromInteger(-2), FP_FromInteger(2)},
+    {FP_FromInteger(0), FP_FromInteger(-3)},
+    {FP_FromInteger(-3), FP_FromInteger(0)},
+    {FP_FromInteger(3), FP_FromInteger(-3)},
+    {FP_FromInteger(-3), FP_FromInteger(3)},
+    {FP_FromInteger(0), FP_FromInteger(-9)},
+    {FP_FromInteger(-9), FP_FromInteger(0)},
+    {FP_FromInteger(9), FP_FromInteger(-9)},
+    {FP_FromInteger(-9), FP_FromInteger(9)}};
 
 
 void ScreenShake::VRender_4625E0(PrimHeader** ppOt)
@@ -178,4 +176,4 @@ BaseGameObject* ScreenShake::dtor_462550()
     return dtor_487DF0();
 }
 
-}
+} // namespace AO

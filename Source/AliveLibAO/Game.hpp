@@ -32,4 +32,4 @@ EXPORT void CC Init_GameStates_41CEC0();
 
 EXPORT void Game_Main_450050();
 
-}
+} // namespace AO

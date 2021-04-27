@@ -54,5 +54,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DoorLight, 0xF4);
 
-}
-
+} // namespace AO

@@ -67,59 +67,59 @@ struct Path_Slig : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Slig, 0x58);
 
-#define SLIG_STATES_ENUM(ENTRY) \
-    ENTRY(State_0_StandIdle_467640) \
-    ENTRY(State_1_StandToWalk_4695D0) \
-    ENTRY(State_2_Walking_469130) \
-    ENTRY(State_3_StandToRun_469C00) \
-    ENTRY(State_4_Running_469690) \
+#define SLIG_STATES_ENUM(ENTRY)              \
+    ENTRY(State_0_StandIdle_467640)          \
+    ENTRY(State_1_StandToWalk_4695D0)        \
+    ENTRY(State_2_Walking_469130)            \
+    ENTRY(State_3_StandToRun_469C00)         \
+    ENTRY(State_4_Running_469690)            \
     ENTRY(State_5_TurnAroundStanding_469C80) \
-    ENTRY(State_6_Shoot_468820) \
-    ENTRY(State_7_Falling_46A1A0) \
-    ENTRY(State_8_Unknown_4673E0) \
-    ENTRY(State_9_SlidingToStand_469DF0) \
-    ENTRY(State_10_SlidingTurn_469F10) \
+    ENTRY(State_6_Shoot_468820)              \
+    ENTRY(State_7_Falling_46A1A0)            \
+    ENTRY(State_8_Unknown_4673E0)            \
+    ENTRY(State_9_SlidingToStand_469DF0)     \
+    ENTRY(State_10_SlidingTurn_469F10)       \
     ENTRY(State_11_SlidingTurnToWalk_46A120) \
-    ENTRY(State_12_SlidingTurnToRun_46A160) \
-    ENTRY(State_13_Reload_4687B0) \
-    ENTRY(State_14_ShootToStand_468810) \
-    ENTRY(State_15_SteppingToStand_469080) \
-    ENTRY(State_16_StandingToStep_468FD0) \
+    ENTRY(State_12_SlidingTurnToRun_46A160)  \
+    ENTRY(State_13_Reload_4687B0)            \
+    ENTRY(State_14_ShootToStand_468810)      \
+    ENTRY(State_15_SteppingToStand_469080)   \
+    ENTRY(State_16_StandingToStep_468FD0)    \
     ENTRY(State_17_DepossessingAbort_468750) \
-    ENTRY(State_18_GameSpeak_467B10) \
-    ENTRY(State_19_WalkToStand_469610) \
-    ENTRY(State_20_Recoil_468D30) \
-    ENTRY(State_21_SpeakHereBoy_467BD0) \
-    ENTRY(State_22_SpeakHi_467C90) \
-    ENTRY(State_23_SpeakFreeze_467D50) \
-    ENTRY(State_24_SpeakGetHim_467E10) \
-    ENTRY(State_25_SpeakLaugh_467ED0) \
-    ENTRY(State_26_SpeakBullshit1_467F90) \
-    ENTRY(State_27_SpeakLookOut_468050) \
-    ENTRY(State_28_SpeakBullshit2_468110) \
-    ENTRY(State_29_SpeakPanic_4681D0) \
-    ENTRY(State_30_SpeakWhat_468290) \
-    ENTRY(State_31_SpeakAIFreeze_468350) \
-    ENTRY(State_32_Blurgh_468410) \
-    ENTRY(State_33_Sleeping_46A410) \
-    ENTRY(State_34_SleepingToStand_46A5F0) \
-    ENTRY(State_35_Knockback_46A720) \
-    ENTRY(State_36_KnockbackToStand_46A7F0) \
-    ENTRY(State_37_Depossessing_4684D0) \
-    ENTRY(State_38_Possess_46B050) \
-    ENTRY(State_39_OutToFall_46A9E0) \
-    ENTRY(State_40_FallingInitiate_46AA60) \
-    ENTRY(State_41_LandingSoft_46A390) \
-    ENTRY(State_42_LandingFatal_46AFE0) \
-    ENTRY(State_43_ShootZ_468E30) \
-    ENTRY(State_44_ShootZtoStand_468F70) \
-    ENTRY(State_45_Smash_46A990) \
-    ENTRY(State_46_PullLever_46A590) \
-    ENTRY(State_47_LiftUp_4665A0) \
-    ENTRY(State_48_LiftDown_4665C0) \
-    ENTRY(State_49_LiftGrip_4663A0) \
-    ENTRY(State_50_LiftUngrip_466460) \
-    ENTRY(State_51_LiftGripping_466480) \
+    ENTRY(State_18_GameSpeak_467B10)         \
+    ENTRY(State_19_WalkToStand_469610)       \
+    ENTRY(State_20_Recoil_468D30)            \
+    ENTRY(State_21_SpeakHereBoy_467BD0)      \
+    ENTRY(State_22_SpeakHi_467C90)           \
+    ENTRY(State_23_SpeakFreeze_467D50)       \
+    ENTRY(State_24_SpeakGetHim_467E10)       \
+    ENTRY(State_25_SpeakLaugh_467ED0)        \
+    ENTRY(State_26_SpeakBullshit1_467F90)    \
+    ENTRY(State_27_SpeakLookOut_468050)      \
+    ENTRY(State_28_SpeakBullshit2_468110)    \
+    ENTRY(State_29_SpeakPanic_4681D0)        \
+    ENTRY(State_30_SpeakWhat_468290)         \
+    ENTRY(State_31_SpeakAIFreeze_468350)     \
+    ENTRY(State_32_Blurgh_468410)            \
+    ENTRY(State_33_Sleeping_46A410)          \
+    ENTRY(State_34_SleepingToStand_46A5F0)   \
+    ENTRY(State_35_Knockback_46A720)         \
+    ENTRY(State_36_KnockbackToStand_46A7F0)  \
+    ENTRY(State_37_Depossessing_4684D0)      \
+    ENTRY(State_38_Possess_46B050)           \
+    ENTRY(State_39_OutToFall_46A9E0)         \
+    ENTRY(State_40_FallingInitiate_46AA60)   \
+    ENTRY(State_41_LandingSoft_46A390)       \
+    ENTRY(State_42_LandingFatal_46AFE0)      \
+    ENTRY(State_43_ShootZ_468E30)            \
+    ENTRY(State_44_ShootZtoStand_468F70)     \
+    ENTRY(State_45_Smash_46A990)             \
+    ENTRY(State_46_PullLever_46A590)         \
+    ENTRY(State_47_LiftUp_4665A0)            \
+    ENTRY(State_48_LiftDown_4665C0)          \
+    ENTRY(State_49_LiftGrip_4663A0)          \
+    ENTRY(State_50_LiftUngrip_466460)        \
+    ENTRY(State_51_LiftGripping_466480)      \
     ENTRY(State_52_Beat_46AA90)
 
 #define MAKE_ENUM(VAR) VAR,
@@ -135,18 +135,18 @@ struct SligResources
 
 enum class SligSpeak : u8
 {
-   eHi_0 = 0,
-   eHereBoy_1 = 1,
-   eGetHim_2 = 2,
-   eStay_3 = 3,
-   eBullshit_4 = 4,
-   eLookOut_5 = 5,
-   eBullshit2_6 = 6,
-   eLaugh_7 = 7,
-   eFreeze_8 = 8,
-   eWhat_9 = 9,
-   eHelp_10 = 10,
-   eBlurgh_11 = 11
+    eHi_0 = 0,
+    eHereBoy_1 = 1,
+    eGetHim_2 = 2,
+    eStay_3 = 3,
+    eBullshit_4 = 4,
+    eLookOut_5 = 5,
+    eBullshit2_6 = 6,
+    eLaugh_7 = 7,
+    eFreeze_8 = 8,
+    eWhat_9 = 9,
+    eHelp_10 = 10,
+    eBlurgh_11 = 11
 };
 
 enum class SligSfx : s8
@@ -189,7 +189,7 @@ class Slig : public BaseAliveGameObject
 {
 public:
     EXPORT Slig* ctor_464D40(Path_Slig* pTlv, s32 tlvInfo);
-    
+
     EXPORT BaseGameObject* dtor_465320();
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
@@ -474,4 +474,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x25C);
 
-}
+} // namespace AO

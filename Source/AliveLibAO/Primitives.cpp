@@ -69,4 +69,4 @@ void CC InitType_ScreenOffset_496000(Prim_ScreenOffset* pPrim, const PSX_Pos16* 
     pPrim->field_E_yoff = pOffset->y;
 }
 
-}
+} // namespace AO

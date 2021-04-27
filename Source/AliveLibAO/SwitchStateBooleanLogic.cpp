@@ -75,53 +75,53 @@ void SwitchStateBooleanLogic::VUpdate_436B60()
     s8 id_value = 0;
     switch (field_16_operator)
     {
-    case BooleanOperatorType::eAnd_0:
-        if (id1_value && id2_value)
-        {
-            id_value = 1;
-        }
-        else
-        {
-            id_value = 0;
-        }
-        break;
+        case BooleanOperatorType::eAnd_0:
+            if (id1_value && id2_value)
+            {
+                id_value = 1;
+            }
+            else
+            {
+                id_value = 0;
+            }
+            break;
 
-    case BooleanOperatorType::eAndNot_1:
-        if (id1_value && !id2_value)
-        {
-            id_value = 1;
-        }
-        else
-        {
-            id_value = 0;
-        }
-        break;
+        case BooleanOperatorType::eAndNot_1:
+            if (id1_value && !id2_value)
+            {
+                id_value = 1;
+            }
+            else
+            {
+                id_value = 0;
+            }
+            break;
 
-    case BooleanOperatorType::eOr_2:
-        if (id1_value || id2_value)
-        {
-            id_value = 1;
-        }
-        else
-        {
-            id_value = 0;
-        }
-        break;
+        case BooleanOperatorType::eOr_2:
+            if (id1_value || id2_value)
+            {
+                id_value = 1;
+            }
+            else
+            {
+                id_value = 0;
+            }
+            break;
 
-    case BooleanOperatorType::eOrNot_3:
-        if (id1_value || !id2_value)
-        {
-            id_value = 1;
-        }
-        else
-        {
-            id_value = 0;
-        }
-        break;
+        case BooleanOperatorType::eOrNot_3:
+            if (id1_value || !id2_value)
+            {
+                id_value = 1;
+            }
+            else
+            {
+                id_value = 0;
+            }
+            break;
 
-    default:
-        id_value = 0;
-        break;
+        default:
+            id_value = 0;
+            break;
     }
 
     SwitchStates_Set(field_14_output, id_value);
@@ -132,5 +132,4 @@ void SwitchStateBooleanLogic::VUpdate_436B60()
     }
 }
 
-}
-
+} // namespace AO

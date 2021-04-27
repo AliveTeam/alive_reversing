@@ -12,7 +12,7 @@
 #include "PossessionFlicker.hpp"
 #include "stdlib.hpp"
 
-AbilityRing * CC AbilityRing::Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale)
+AbilityRing* CC AbilityRing::Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale)
 {
     auto pRing = ae_new<AbilityRing>();
     pRing->ctor_49C730(xpos, ypos, type, scale);
@@ -49,7 +49,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
     gObjList_drawables_5C1124->Push_Back(this);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
-     // TODO: OG issue - using frame counter as res id again
+    // TODO: OG issue - using frame counter as res id again
     field_28_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Wave, sGnFrame_5C1B84, sizeof(AbilityRing_PolyBuffer) * 64);
     if (field_28_ppRes)
     {
@@ -79,136 +79,136 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
 
         switch (field_284_ring_type)
         {
-        case RingTypes::eExplosive_Emit_1:
-        case RingTypes::eHealing_Emit_12:
-            for (PSX_RECT& r : field_4C_collide_rects)
-            {
-                r = {};
-            }
-            [[fallthrough]];
+            case RingTypes::eExplosive_Emit_1:
+            case RingTypes::eHealing_Emit_12:
+                for (PSX_RECT& r : field_4C_collide_rects)
+                {
+                    r = {};
+                }
+                [[fallthrough]];
 
-        case RingTypes::eExplosive_Emit_Effect_2:
-        case RingTypes::eInvisible_Pulse_Emit_9:
-        case RingTypes::eHealing_Emit_Effect_11:
-            field_268_ring_thickness = FP_FromInteger(8);
-            field_25C_speed = FP_FromInteger(6);
-            field_258_right = FP_FromInteger(6);
-            field_254_left = FP_FromInteger(0);
+            case RingTypes::eExplosive_Emit_Effect_2:
+            case RingTypes::eInvisible_Pulse_Emit_9:
+            case RingTypes::eHealing_Emit_Effect_11:
+                field_268_ring_thickness = FP_FromInteger(8);
+                field_25C_speed = FP_FromInteger(6);
+                field_258_right = FP_FromInteger(6);
+                field_254_left = FP_FromInteger(0);
 
-            if (field_284_ring_type == RingTypes::eInvisible_Pulse_Emit_9)
-            {
-                field_276_r = 0;
-                field_278_g = 255;
-                field_27A_b = 32;
-            }
-            else
-            {
-                if (ringType != RingTypes::eHealing_Emit_Effect_11 && ringType != RingTypes::eHealing_Emit_12)
+                if (field_284_ring_type == RingTypes::eInvisible_Pulse_Emit_9)
+                {
+                    field_276_r = 0;
+                    field_278_g = 255;
+                    field_27A_b = 32;
+                }
+                else
+                {
+                    if (ringType != RingTypes::eHealing_Emit_Effect_11 && ringType != RingTypes::eHealing_Emit_12)
+                    {
+                        field_276_r = 80;
+                        field_278_g = 0;
+                        field_27A_b = 0;
+                    }
+                    else
+                    {
+                        field_276_r = 255;
+                        field_278_g = 255;
+                        field_27A_b = 32;
+                    }
+                }
+
+                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
+                break;
+
+            case RingTypes::eExplosive_Give_3:
+            case RingTypes::eInvisible_Pulse_Give_10:
+            case RingTypes::eHealing_Give_13:
+                field_268_ring_thickness = FP_FromInteger(8);
+                field_25C_speed = FP_FromInteger(6);
+                field_258_right = FP_FromInteger(350);
+                field_254_left = FP_FromInteger(342);
+                if (ringType == RingTypes::eInvisible_Pulse_Give_10)
+                {
+                    field_276_r = 0;
+                    field_278_g = 255;
+                    field_27A_b = 32;
+                }
+                else if (ringType == RingTypes::eHealing_Give_13)
+                {
+                    field_27A_b = 32;
+                    field_276_r = 255;
+                    field_278_g = 255;
+                }
+                else
                 {
                     field_276_r = 80;
                     field_278_g = 0;
                     field_27A_b = 0;
                 }
-                else
-                {
-                    field_276_r = 255;
-                    field_278_g = 255;
-                    field_27A_b = 32;
-                }
-            }
+                break;
 
-            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
-            break;
-
-        case RingTypes::eExplosive_Give_3:
-        case RingTypes::eInvisible_Pulse_Give_10:
-        case RingTypes::eHealing_Give_13:
-            field_268_ring_thickness = FP_FromInteger(8);
-            field_25C_speed = FP_FromInteger(6);
-            field_258_right = FP_FromInteger(350);
-            field_254_left = FP_FromInteger(342);
-            if (ringType == RingTypes::eInvisible_Pulse_Give_10)
-            {
-                field_276_r = 0;
-                field_278_g = 255;
-                field_27A_b = 32;
-            }
-            else if (ringType == RingTypes::eHealing_Give_13)
-            {
-                field_27A_b = 32;
-                field_276_r = 255;
-                field_278_g = 255;
-            }
-            else
-            {
-                field_276_r = 80;
-                field_278_g = 0;
-                field_27A_b = 0;
-            }
-            break;
-
-        case RingTypes::eExplosive_Pulse_0:
-        case RingTypes::eShrykull_Pulse_Small_4:
-        case RingTypes::eInvisible_Pulse_Small_7:
-        case RingTypes::eHealing_Pulse_14:
-            vSetTarget_49D140(sActiveHero_5C1B68);
-            [[fallthrough]];
-
-        case RingTypes::eShrykull_Pulse_Large_5:
-        case RingTypes::eShrykull_Pulse_Orange_6:
-        case RingTypes::eInvisible_Pulse_Large_8:
-            field_268_ring_thickness = FP_FromInteger(5);
-            field_25C_speed = FP_FromInteger(4);
-            field_258_right = FP_FromInteger(4);
-            field_254_left = FP_FromInteger(0);
-            field_26C_fade = 50;
-
-            switch (field_284_ring_type)
-            {
             case RingTypes::eExplosive_Pulse_0:
-                field_276_r = 255;
-                field_278_g = 0;
-                field_27A_b = 0;
-                break;
-
             case RingTypes::eShrykull_Pulse_Small_4:
-                field_276_r = 0;
-                field_278_g = 0;
-                field_27A_b = 255;
-                break;
+            case RingTypes::eInvisible_Pulse_Small_7:
+            case RingTypes::eHealing_Pulse_14:
+                vSetTarget_49D140(sActiveHero_5C1B68);
+                [[fallthrough]];
 
             case RingTypes::eShrykull_Pulse_Large_5:
-                field_276_r = 0;
-                field_278_g = 0;
-                field_27A_b = 80;
-                break;
-
             case RingTypes::eShrykull_Pulse_Orange_6:
-                field_276_r = 255;
-                field_278_g = 128;
-                field_27A_b = 64;
-                break;
-
-            case RingTypes::eInvisible_Pulse_Small_7:
             case RingTypes::eInvisible_Pulse_Large_8:
-                field_276_r = 0;
-                field_278_g = 255;
-                field_27A_b = 0;
-                break;
+                field_268_ring_thickness = FP_FromInteger(5);
+                field_25C_speed = FP_FromInteger(4);
+                field_258_right = FP_FromInteger(4);
+                field_254_left = FP_FromInteger(0);
+                field_26C_fade = 50;
 
-            case RingTypes::eHealing_Pulse_14:
-                field_27A_b = 32;
-                field_276_r = 255;
-                field_278_g = 255;
+                switch (field_284_ring_type)
+                {
+                    case RingTypes::eExplosive_Pulse_0:
+                        field_276_r = 255;
+                        field_278_g = 0;
+                        field_27A_b = 0;
+                        break;
+
+                    case RingTypes::eShrykull_Pulse_Small_4:
+                        field_276_r = 0;
+                        field_278_g = 0;
+                        field_27A_b = 255;
+                        break;
+
+                    case RingTypes::eShrykull_Pulse_Large_5:
+                        field_276_r = 0;
+                        field_278_g = 0;
+                        field_27A_b = 80;
+                        break;
+
+                    case RingTypes::eShrykull_Pulse_Orange_6:
+                        field_276_r = 255;
+                        field_278_g = 128;
+                        field_27A_b = 64;
+                        break;
+
+                    case RingTypes::eInvisible_Pulse_Small_7:
+                    case RingTypes::eInvisible_Pulse_Large_8:
+                        field_276_r = 0;
+                        field_278_g = 255;
+                        field_27A_b = 0;
+                        break;
+
+                    case RingTypes::eHealing_Pulse_14:
+                        field_27A_b = 32;
+                        field_276_r = 255;
+                        field_278_g = 255;
+                        break;
+
+                    default:
+                        break;
+                }
                 break;
 
             default:
                 break;
-            }
-            break;
-
-        default:
-            break;
         }
 
         field_282_path = gMap_5C3030.field_2_current_path;
@@ -349,90 +349,90 @@ void AbilityRing::vUpdate_49D160()
 
     switch (field_284_ring_type)
     {
-    case RingTypes::eExplosive_Pulse_0:
-    case RingTypes::eShrykull_Pulse_Small_4:
-    case RingTypes::eShrykull_Pulse_Orange_6:
-    case RingTypes::eInvisible_Pulse_Small_7:
-    case RingTypes::eInvisible_Pulse_Large_8:
-    case RingTypes::eHealing_Pulse_14:
-        field_258_right += field_25C_speed;
-        field_254_left = field_258_right - field_268_ring_thickness;
-        if (field_254_left < FP_FromInteger(0))
-        {
-            field_254_left = FP_FromInteger(0);
-        }
-
-        if (FP_GetExponent(field_254_left) <= field_26C_fade)
-        {
-            field_276_r = (field_276_r >> 1) + (field_276_r >> 2);
-            field_278_g = (field_278_g >> 1) + (field_278_g >> 2);
-            field_27A_b = (field_27A_b >> 1) + (field_27A_b >> 2);
-            for (s32 j = 0; j < 2; j++)
+        case RingTypes::eExplosive_Pulse_0:
+        case RingTypes::eShrykull_Pulse_Small_4:
+        case RingTypes::eShrykull_Pulse_Orange_6:
+        case RingTypes::eInvisible_Pulse_Small_7:
+        case RingTypes::eInvisible_Pulse_Large_8:
+        case RingTypes::eHealing_Pulse_14:
+            field_258_right += field_25C_speed;
+            field_254_left = field_258_right - field_268_ring_thickness;
+            if (field_254_left < FP_FromInteger(0))
             {
-                for (s32 i = 0; i < 64; i++)
+                field_254_left = FP_FromInteger(0);
+            }
+
+            if (FP_GetExponent(field_254_left) <= field_26C_fade)
+            {
+                field_276_r = (field_276_r >> 1) + (field_276_r >> 2);
+                field_278_g = (field_278_g >> 1) + (field_278_g >> 2);
+                field_27A_b = (field_27A_b >> 1) + (field_27A_b >> 2);
+                for (s32 j = 0; j < 2; j++)
                 {
-                    SetRGB0(&field_24_pRes[i].mPolys[j], field_276_r & 255, field_278_g & 255, field_27A_b & 255);
+                    for (s32 i = 0; i < 64; i++)
+                    {
+                        SetRGB0(&field_24_pRes[i].mPolys[j], field_276_r & 255, field_278_g & 255, field_27A_b & 255);
+                    }
                 }
             }
-        }
-        else
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        return;
-
-    case RingTypes::eExplosive_Emit_1:
-    case RingTypes::eHealing_Emit_12:
-        if (field_284_ring_type == RingTypes::eHealing_Emit_12)
-        {
-            CollideWithObjects_49D5E0(FALSE);
-        }
-        else
-        {
-            CollideWithObjects_49D5E0(TRUE);
-        }
-        [[fallthrough]];
-
-    case RingTypes::eExplosive_Emit_Effect_2:
-    case RingTypes::eInvisible_Pulse_Emit_9:
-    case RingTypes::eHealing_Emit_Effect_11:
-    case RingTypes::eShrykull_Pulse_Large_5:
-        field_258_right += field_25C_speed;
-        field_254_left = field_258_right - field_268_ring_thickness;
-        if (field_254_left < FP_FromInteger(0))
-        {
-            field_254_left = FP_FromInteger(0);
-        }
-
-        if (FP_GetExponent(field_254_left) > field_26C_fade)
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        break;
-
-    case RingTypes::eExplosive_Give_3:
-    case RingTypes::eInvisible_Pulse_Give_10:
-    case RingTypes::eHealing_Give_13:
-        field_258_right -= field_25C_speed;
-        field_254_left = field_258_right - field_268_ring_thickness;
-        if (field_254_left < FP_FromInteger(0))
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            field_254_left = FP_FromInteger(0);
-            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
-            if (field_284_ring_type == RingTypes::eExplosive_Give_3)
+            else
             {
-                auto pPossessionFlicker = ae_new<PossessionFlicker>();
-                if (pPossessionFlicker)
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            return;
+
+        case RingTypes::eExplosive_Emit_1:
+        case RingTypes::eHealing_Emit_12:
+            if (field_284_ring_type == RingTypes::eHealing_Emit_12)
+            {
+                CollideWithObjects_49D5E0(FALSE);
+            }
+            else
+            {
+                CollideWithObjects_49D5E0(TRUE);
+            }
+            [[fallthrough]];
+
+        case RingTypes::eExplosive_Emit_Effect_2:
+        case RingTypes::eInvisible_Pulse_Emit_9:
+        case RingTypes::eHealing_Emit_Effect_11:
+        case RingTypes::eShrykull_Pulse_Large_5:
+            field_258_right += field_25C_speed;
+            field_254_left = field_258_right - field_268_ring_thickness;
+            if (field_254_left < FP_FromInteger(0))
+            {
+                field_254_left = FP_FromInteger(0);
+            }
+
+            if (FP_GetExponent(field_254_left) > field_26C_fade)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            break;
+
+        case RingTypes::eExplosive_Give_3:
+        case RingTypes::eInvisible_Pulse_Give_10:
+        case RingTypes::eHealing_Give_13:
+            field_258_right -= field_25C_speed;
+            field_254_left = field_258_right - field_268_ring_thickness;
+            if (field_254_left < FP_FromInteger(0))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                field_254_left = FP_FromInteger(0);
+                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
+                if (field_284_ring_type == RingTypes::eExplosive_Give_3)
                 {
-                    pPossessionFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 128, 128);
+                    auto pPossessionFlicker = ae_new<PossessionFlicker>();
+                    if (pPossessionFlicker)
+                    {
+                        pPossessionFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 128, 128);
+                    }
                 }
             }
-        }
-        break;
+            break;
 
-    default:
-        return;
+        default:
+            return;
     }
 }
 
@@ -446,7 +446,7 @@ void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
         field_4C_collide_rects[i].h += field_270_screenY;
     }
 
-    for (s32 i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)
@@ -461,10 +461,7 @@ void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
         {
             for (s32 j = 0; j < field_28C_count; j++)
             {
-                if (field_4C_collide_rects[j].x <= bRect.w &&
-                    field_4C_collide_rects[j].w >= bRect.x &&
-                    field_4C_collide_rects[j].h >= bRect.y &&
-                    field_4C_collide_rects[j].y <= bRect.h)
+                if (field_4C_collide_rects[j].x <= bRect.w && field_4C_collide_rects[j].w >= bRect.x && field_4C_collide_rects[j].h >= bRect.y && field_4C_collide_rects[j].y <= bRect.h)
                 {
                     if (bDealDamage)
                     {
@@ -492,15 +489,15 @@ void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
 void AbilityRing::vRender_49D790(PrimHeader** ppOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-        field_280_level,
-        field_282_path,
-        field_24C_xpos,
-        field_250_ypos,
-        0)
+            field_280_level,
+            field_282_path,
+            field_24C_xpos,
+            field_250_ypos,
+            0)
         && !field_290_bFindingTarget)
     {
         s16 y3 = field_274_screenYPos;
-        s16 y4  = field_274_screenYPos;
+        s16 y4 = field_274_screenYPos;
 
         s16 x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_254_left * field_260_scaleX)), 11);
         s16 x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_258_right * field_260_scaleX)), 11);
@@ -528,8 +525,8 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
         u8 ang = angIncrement;
         for (s32 i = 0; i < field_28C_count; i++)
         {
-            const s16 x1 = (s16)PsxToPCX(field_272_screenXPos + FP_GetExponent(field_254_left * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
-            const s16 x2 = (s16)PsxToPCX(field_272_screenXPos + FP_GetExponent(field_258_right * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
+            const s16 x1 = (s16) PsxToPCX(field_272_screenXPos + FP_GetExponent(field_254_left * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
+            const s16 x2 = (s16) PsxToPCX(field_272_screenXPos + FP_GetExponent(field_258_right * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
 
             const s16 y1 = field_274_screenYPos + FP_GetExponent(field_254_left * Math_Cosine_496CD0(ang) * field_264_scaleY);
             const s16 y2 = field_274_screenYPos + FP_GetExponent(field_258_right * Math_Cosine_496CD0(ang) * field_264_scaleY);
@@ -539,7 +536,7 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
             const s16 w = std::max(std::max(x1, x3), std::max(x2, x4));
             const s16 h = std::max(std::max(y1, y3), std::max(y2, y4));
 
-            const PSX_RECT rect = { x, y, w, h };
+            const PSX_RECT rect = {x, y, w, h};
             if (rect.w < 0 || rect.x > 640 || rect.y > 240 || rect.h < 0)
             {
                 //TODO untie from Render() into Update()
@@ -585,7 +582,7 @@ void AbilityRing::vScreenChanged_49DE70()
 {
     if (field_284_ring_type == RingTypes::eHealing_Emit_12)
     {
-        for (s32 i=0; i<gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
             if (!pObj)

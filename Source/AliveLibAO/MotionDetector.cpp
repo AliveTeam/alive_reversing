@@ -211,8 +211,8 @@ void MotionDetector::VUpdate_437E90()
             field_108_pLaser->VGetBoundingRect(&laserRect, 1);
 
             field_160_bObjectInLaser = FALSE;
-           
-            for (s32 i=0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+
+            for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
             {
                 BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
                 if (!pObj)
@@ -225,11 +225,7 @@ void MotionDetector::VUpdate_437E90()
                     PSX_RECT objRect = {};
                     pObj->VGetBoundingRect(&objRect, 1);
 
-                    if (laserRect.x <= (objRect.w - 8) &&
-                        laserRect.w >= (objRect.x + 8) &&
-                        laserRect.h >= objRect.y &&
-                        laserRect.y <= objRect.h &&
-                        pObj->field_BC_sprite_scale == field_BC_sprite_scale)
+                    if (laserRect.x <= (objRect.w - 8) && laserRect.w >= (objRect.x + 8) && laserRect.h >= objRect.y && laserRect.y <= objRect.h && pObj->field_BC_sprite_scale == field_BC_sprite_scale)
                     {
                         if (pObj == sActiveHero_507678)
                         {
@@ -242,18 +238,12 @@ void MotionDetector::VUpdate_437E90()
                         bool alarm = false;
                         if (pObj->field_4_typeId == Types::eAbe_43)
                         {
-                            if (pObj->field_FC_current_motion != eAbeStates::State_0_Idle_423520 &&
-                                pObj->field_FC_current_motion != eAbeStates::State_19_CrouchIdle_4284C0 &&
-                                pObj->field_FC_current_motion != eAbeStates::State_66_LedgeHang_428D90 &&
-                                pObj->field_FC_current_motion != eAbeStates::State_62_LoadedSaveSpawn_45ADD0 &&
-                                pObj->field_FC_current_motion != eAbeStates::State_60_Dead_42C4C0 &&
-                                !sDDCheat_FlyingEnabled_50771C)
+                            if (pObj->field_FC_current_motion != eAbeStates::State_0_Idle_423520 && pObj->field_FC_current_motion != eAbeStates::State_19_CrouchIdle_4284C0 && pObj->field_FC_current_motion != eAbeStates::State_66_LedgeHang_428D90 && pObj->field_FC_current_motion != eAbeStates::State_62_LoadedSaveSpawn_45ADD0 && pObj->field_FC_current_motion != eAbeStates::State_60_Dead_42C4C0 && !sDDCheat_FlyingEnabled_50771C)
                             {
                                 alarm = true;
                             }
                         }
-                        else if (FP_GetExponent(pObj->field_B4_velx) ||
-                                 FP_GetExponent(pObj->field_B8_vely))
+                        else if (FP_GetExponent(pObj->field_B4_velx) || FP_GetExponent(pObj->field_B8_vely))
                         {
                             alarm = true;
                         }
@@ -287,48 +277,48 @@ void MotionDetector::VUpdate_437E90()
 
             switch (field_E8_state)
             {
-            case States::eMoveRight_0:
-                if (field_108_pLaser->field_A8_xpos >= field_100_bottom_right_x)
-                {
-                    field_E8_state = States::eWaitThenMoveLeft_1;
-                    field_EC_timer = gnFrameCount_507670 + 15;
-                    SFX_Play_43AD70(SoundEffect::MenuNavigation_61, 0);
-                }
-                else
-                {
-                    field_108_pLaser->field_A8_xpos += field_15C_speed;
-                }
-                break;
+                case States::eMoveRight_0:
+                    if (field_108_pLaser->field_A8_xpos >= field_100_bottom_right_x)
+                    {
+                        field_E8_state = States::eWaitThenMoveLeft_1;
+                        field_EC_timer = gnFrameCount_507670 + 15;
+                        SFX_Play_43AD70(SoundEffect::MenuNavigation_61, 0);
+                    }
+                    else
+                    {
+                        field_108_pLaser->field_A8_xpos += field_15C_speed;
+                    }
+                    break;
 
-            case States::eWaitThenMoveLeft_1:
-                if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
-                {
-                    field_E8_state = States::eMoveLeft_2;
-                }
-                break;
+                case States::eWaitThenMoveLeft_1:
+                    if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
+                    {
+                        field_E8_state = States::eMoveLeft_2;
+                    }
+                    break;
 
-            case States::eMoveLeft_2:
-                if (field_108_pLaser->field_A8_xpos <= field_F8_top_left_x)
-                {
-                    field_E8_state = States::eWaitThenMoveRight_3;
-                    field_EC_timer = gnFrameCount_507670 + 15;
-                    SFX_Play_43AD70(SoundEffect::MenuNavigation_61, 0);
-                }
-                else
-                {
-                    field_108_pLaser->field_A8_xpos -= field_15C_speed;
-                }
-                break;
+                case States::eMoveLeft_2:
+                    if (field_108_pLaser->field_A8_xpos <= field_F8_top_left_x)
+                    {
+                        field_E8_state = States::eWaitThenMoveRight_3;
+                        field_EC_timer = gnFrameCount_507670 + 15;
+                        SFX_Play_43AD70(SoundEffect::MenuNavigation_61, 0);
+                    }
+                    else
+                    {
+                        field_108_pLaser->field_A8_xpos -= field_15C_speed;
+                    }
+                    break;
 
-            case States::eWaitThenMoveRight_3:
-                if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
-                {
-                    field_E8_state = States::eMoveRight_0;
-                }
-                break;
+                case States::eWaitThenMoveRight_3:
+                    if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
+                    {
+                        field_E8_state = States::eMoveRight_0;
+                    }
+                    break;
 
-            default:
-                return;
+                default:
+                    return;
             }
         }
     }
@@ -348,8 +338,8 @@ void MotionDetector::VRender_438250(PrimHeader** ppOt)
 
     if (!SwitchStates_Get(field_F0_disable_id))
     {
-        const s16 screen_top =  FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
-    
+        const s16 screen_top = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+
         const s16 screen_left = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
 
         PSX_RECT bLaserRect = {};
@@ -375,9 +365,9 @@ void MotionDetector::VRender_438250(PrimHeader** ppOt)
         OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pPrim->mBase.header);
 
         // Add tpage
-        Init_SetTPage_495FB0(&field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 0, 0,  PSX_getTPage_4965D0(TPageMode::e16Bit_2, field_160_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
+        Init_SetTPage_495FB0(&field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, field_160_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
         OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
-        
+
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             std::min(x0, std::min(x1, x1)),
             std::min(y0, std::min(y1, y2)),
@@ -397,4 +387,4 @@ BaseGameObject* MotionDetectorLaser::VDestructor(s32 flags)
     return this;
 }
 
-}
+} // namespace AO

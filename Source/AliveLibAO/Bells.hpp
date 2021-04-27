@@ -57,5 +57,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Bells, 0xF8);
 
-}
-
+} // namespace AO

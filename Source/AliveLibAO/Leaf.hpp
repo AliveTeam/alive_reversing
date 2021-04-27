@@ -26,5 +26,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Leaf, 0xE8);
 
-}
-
+} // namespace AO

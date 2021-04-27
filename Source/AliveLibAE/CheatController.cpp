@@ -7,12 +7,12 @@
 #include "MainMenu.hpp"
 #include "QuikSave.hpp"
 
-void CheatController_ForceLink() { }
+void CheatController_ForceLink()
+{ }
 
 ALIVE_VAR(1, 0x5BC120, CheatController*, pCheatController_5BC120, nullptr);
 
-const InputCommands::Enum sCheatKeyArray_MovieSelect_5515C0[8] =
-{
+const InputCommands::Enum sCheatKeyArray_MovieSelect_5515C0[8] = {
     InputCommands::Enum::eUp,
     InputCommands::Enum::eLeft,
     InputCommands::Enum::eRight,
@@ -20,11 +20,9 @@ const InputCommands::Enum sCheatKeyArray_MovieSelect_5515C0[8] =
     InputCommands::Enum::eRight,
     InputCommands::Enum::eLeft,
     InputCommands::Enum::eRight,
-    InputCommands::Enum::eDown
-};
+    InputCommands::Enum::eDown};
 
-const InputCommands::Enum sCheatKeyArray_LevelSelect_5515D0[8] =
-{
+const InputCommands::Enum sCheatKeyArray_LevelSelect_5515D0[8] = {
     InputCommands::Enum::eDown,
     InputCommands::Enum::eRight,
     InputCommands::Enum::eLeft,
@@ -32,18 +30,15 @@ const InputCommands::Enum sCheatKeyArray_LevelSelect_5515D0[8] =
     InputCommands::Enum::eLeft,
     InputCommands::Enum::eRight,
     InputCommands::Enum::eLeft,
-    InputCommands::Enum::eUp
-};
+    InputCommands::Enum::eUp};
 
-const InputCommands::Enum sCheatKeyArray_PathSkip_5515E8[6] =
-{
+const InputCommands::Enum sCheatKeyArray_PathSkip_5515E8[6] = {
     InputCommands::Enum::eLeft,
     InputCommands::Enum::eRight,
     InputCommands::Enum::eUp,
     InputCommands::Enum::eDown,
     InputCommands::Enum::eLeft,
-    InputCommands::Enum::eRight
-};
+    InputCommands::Enum::eRight};
 
 EXPORT void CC CheatController_Cheat_FMV_421AD0()
 {
@@ -69,7 +64,7 @@ EXPORT void CC CheatController_Cheat_PathSkip_421B30()
     ResourceManager::Reclaim_Memory_49C470(0);
     sprintf(nameBuffer, "NXTP%04d.SAV", sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_save_num);
     ResourceManager::LoadResourceFile_49C170(nameBuffer, 0);
-    u8 **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_NxtP, ResourceID::kUnknownResID_0, 1u, 0);
+    u8** resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_NxtP, ResourceID::kUnknownResID_0, 1u, 0);
     if (resource)
     {
         memcpy(&sActiveQuicksaveData_BAF7F8, *resource, sizeof(sActiveQuicksaveData_BAF7F8));
@@ -79,12 +74,10 @@ EXPORT void CC CheatController_Cheat_PathSkip_421B30()
     }
 }
 
-CheatEntry sCheatArray_5515F8[] =
-{
-    { 1u, ALIVE_COUNTOF(sCheatKeyArray_MovieSelect_5515C0), sCheatKeyArray_MovieSelect_5515C0, 0, &CheatController_Cheat_FMV_421AD0},
-    { 1u, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect_5515D0), sCheatKeyArray_LevelSelect_5515D0, 0, &CheatController_Cheat_LevelSelect_421B00 },
-    { 0xFFFFFFFE, ALIVE_COUNTOF(sCheatKeyArray_PathSkip_5515E8), sCheatKeyArray_PathSkip_5515E8, 0, &CheatController_Cheat_PathSkip_421B30 }
-};
+CheatEntry sCheatArray_5515F8[] = {
+    {1u, ALIVE_COUNTOF(sCheatKeyArray_MovieSelect_5515C0), sCheatKeyArray_MovieSelect_5515C0, 0, &CheatController_Cheat_FMV_421AD0},
+    {1u, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect_5515D0), sCheatKeyArray_LevelSelect_5515D0, 0, &CheatController_Cheat_LevelSelect_421B00},
+    {0xFFFFFFFE, ALIVE_COUNTOF(sCheatKeyArray_PathSkip_5515E8), sCheatKeyArray_PathSkip_5515E8, 0, &CheatController_Cheat_PathSkip_421B30}};
 
 
 CheatController* CheatController::ctor_421BD0()

@@ -10,9 +10,9 @@ struct CheatEntry
 {
     u32 field_0_level_mask;
     s32 field_4_cheat_code_length;
-    const InputCommands::Enum *field_8_cheat_code_ary;
+    const InputCommands::Enum* field_8_cheat_code_ary;
     s32 field_C_success_idx;
-    void(*field_10_callback)(void);
+    void (*field_10_callback)(void);
 };
 ALIVE_ASSERT_SIZEOF(CheatEntry, 0x14);
 

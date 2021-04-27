@@ -29,23 +29,21 @@ struct FlintLockFireData
 };
 ALIVE_ASSERT_SIZEOF(FlintLockFireData, 0x28);
 
-const FlintLockFireData sFlintLockFireData_4BAC70[] =
-{
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    { 2028, 9760, 105, 84, 2017, 11836, 11848, 125, 59, 1 },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    { 2028, 9760, 105, 84, 2017, 11836, 11848, 125, 59, 1 },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    { 2028, 9760, 105, 84, 2017, 11836, 11848, 125, 59, 1 },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
-};
+const FlintLockFireData sFlintLockFireData_4BAC70[] = {
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {2028, 9760, 105, 84, 2017, 11836, 11848, 125, 59, 1},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {2028, 9760, 105, 84, 2017, 11836, 11848, 125, 59, 1},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {2028, 9760, 105, 84, 2017, 11836, 11848, 125, 59, 1},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
 
 
@@ -247,62 +245,62 @@ void FlintLockFire::VUpdate_41AEE0()
 
     switch (field_E4_state)
     {
-    case States::eDisabled_0:
-        if (SwitchStates_Get(field_E6_switch_id))
-        {
-            field_E4_state = States::eActivating_1;
-            field_10_anim.Set_Animation_Data_402A40(
-                sFlintLockFireData_4BAC70[cur_lvl].field_18_fireFrameTable,
-                0);
-        }
-        break;
-
-    case States::eActivating_1:
-        if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
-        {
-            if (field_10_anim.field_92_current_frame == 6)
+        case States::eDisabled_0:
+            if (SwitchStates_Get(field_E6_switch_id))
             {
-                SFX_Play_43AD70(SoundEffect::FlintLock_68, 0, 0);
-                SFX_Play_43AD70(SoundEffect::PostFlint_70, 0, 0);
+                field_E4_state = States::eActivating_1;
+                field_10_anim.Set_Animation_Data_402A40(
+                    sFlintLockFireData_4BAC70[cur_lvl].field_18_fireFrameTable,
+                    0);
             }
-        }
+            break;
 
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
-        {
-            field_E4_state = States::eActivated_2;
-
-            field_F0_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+        case States::eActivating_1:
             if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
             {
-                field_188_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
-                field_188_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-
-                field_220_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
-                field_220_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-
-                field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
+                if (field_10_anim.field_92_current_frame == 6)
+                {
+                    SFX_Play_43AD70(SoundEffect::FlintLock_68, 0, 0);
+                    SFX_Play_43AD70(SoundEffect::PostFlint_70, 0, 0);
+                }
             }
 
-            auto pMusicTrigger = ao_new<MusicTrigger>();
-            if (pMusicTrigger)
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                pMusicTrigger->ctor_443A60(6, 1, 0, 15);
-            }
-        }
-        break;
+                field_E4_state = States::eActivated_2;
 
-    case States::eActivated_2:
-        if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
-        {
-            if (!field_EC_fire_sound)
+                field_F0_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+                {
+                    field_188_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                    field_188_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+                    field_220_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                    field_220_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+                    field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
+                }
+
+                auto pMusicTrigger = ao_new<MusicTrigger>();
+                if (pMusicTrigger)
+                {
+                    pMusicTrigger->ctor_443A60(6, 1, 0, 15);
+                }
+            }
+            break;
+
+        case States::eActivated_2:
+            if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
             {
-                field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
+                if (!field_EC_fire_sound)
+                {
+                    field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
+                }
             }
-        }
-        break;
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -371,7 +369,7 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
 
             field_188_anim.vRender(
                 FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos - 3)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-                FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset - 28))  - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset - 28)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
                 ppOt,
                 0,
                 0);
@@ -386,11 +384,11 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
 
         field_F0_anim.vRender(
             FP_GetExponent(field_A8_xpos
-                + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
-                - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                           + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
+                           - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
             FP_GetExponent(field_AC_ypos
-                + (FP_FromInteger(field_C8_yOffset + pScreenManager_4FF7C8->field_16_ypos))
-                - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                           + (FP_FromInteger(field_C8_yOffset + pScreenManager_4FF7C8->field_16_ypos))
+                           - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,
             0,
             0);
@@ -433,4 +431,4 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
     }
 }
 
-}
+} // namespace AO

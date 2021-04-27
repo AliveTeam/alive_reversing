@@ -278,6 +278,7 @@ private:
 public:
     s32 field_118_target_id;
     s16 field_11C_biting_target;
+
 private:
     s16 field_11E_padding;
     u16 field_120_brain_state_idx;

@@ -154,202 +154,202 @@ void SecurityDoor::vUpdate_4AC380()
 
     switch (field_F8_state)
     {
-    case SecurityDoorStates::eInactive_0:
-        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
+        case SecurityDoorStates::eInactive_0:
+            if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
+            {
+                return;
+            }
+
+            if (IsPlayerNear_4AC300())
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_F8_state = SecurityDoorStates::eSayingHi_2;
+            }
+            else
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            }
+            return;
+
+        case SecurityDoorStates::eSuccessChime_1:
+            if (static_cast<s32>(sGnFrame_5C1B84) == field_124_timer)
+            {
+                SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
+            }
+            return;
+
+        case SecurityDoorStates::eSayingHi_2:
         {
+            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHi_0, 127, -200, 0);
+            const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+            field_F8_state = SecurityDoorStates::eListeningForHi_3;
+            field_124_timer = sGnFrame_5C1B84 + 150;
             return;
         }
-
-        if (IsPlayerNear_4AC300())
-        {
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-            field_F8_state = SecurityDoorStates::eSayingHi_2;
-        }
-        else
-        {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        }
-        return;
-
-    case SecurityDoorStates::eSuccessChime_1:
-        if (static_cast<s32>(sGnFrame_5C1B84) == field_124_timer)
-        {
-            SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
-        }
-        return;
-
-    case SecurityDoorStates::eSayingHi_2:
-    {
-        Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHi_0, 127, -200, 0);
-        const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-        field_F8_state = SecurityDoorStates::eListeningForHi_3;
-        field_124_timer = sGnFrame_5C1B84 + 150;
-        return;
-    }
-    case SecurityDoorStates::eListeningForHi_3:
-        if (field_104_event_idx != pEventSystem_5BC11C->field_28_last_event_index)
-        {
-            field_104_event_idx = pEventSystem_5BC11C->field_28_last_event_index;
-            if (pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eNone_m1 && pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eSameAsLast_m2)
-            {
-                if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_Hi_27)
-                {
-                    field_F8_state = SecurityDoorStates::eWaitingToSayPassword_4;
-                    field_124_timer = sGnFrame_5C1B84 + 30;
-                    return;
-                }
-                else
-                {
-                    field_F8_state = SecurityDoorStates::eFailure_12;
-                    field_124_timer = sGnFrame_5C1B84 + 15;
-                }
-            }
-        }
-
-        if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
-        {
-            field_F8_state = SecurityDoorStates::eInactive_0;
-        }
-        return;
-
-    case SecurityDoorStates::eWaitingToSayPassword_4:
-        if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
-        {
-            field_F8_state = SecurityDoorStates::ePreparingToSayPassword_5;
-        }
-        return;
-
-    case SecurityDoorStates::ePreparingToSayPassword_5:
-        field_128_max_idx = 0;
-        field_118_max_idx = static_cast<s16>(GameSpeak::FillBuffer_421970(field_FC_code_converted, field_108_stru));
-        field_F8_state = SecurityDoorStates::eSayingPassword_6;
-        return;
-
-    case SecurityDoorStates::eSayingPassword_6:
-    {
-        const GameSpeakEvents code = Code_LookUp_4C9E40(field_FC_code_converted, field_128_max_idx, field_100_code_len) ;
-        switch (code)
-        {
-        case GameSpeakEvents::Slig_BS_5:
-            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBullshit_5, 127, -100, nullptr);
-            break;
-
-        case GameSpeakEvents::Slig_Laugh_8:
-             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eLaugh_3, 127, -100, nullptr);
-            break;
-
-        case GameSpeakEvents::Slig_BS2_7:
-            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBullshit2_7, 127, -100, nullptr);
-            break;
-        }
-
-        const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-        if (++field_128_max_idx >= field_100_code_len)
-        {
-            field_F8_state = SecurityDoorStates::eListeningForPassword_9;
-            field_124_timer = sGnFrame_5C1B84 + 60;
-        }
-        else
-        {
-            field_F8_state = SecurityDoorStates::ePausing_7;
-            field_124_timer = sGnFrame_5C1B84 + 30;
-        }
-        return;
-    }
-
-    case SecurityDoorStates::ePausing_7:
-        if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
-        {
-            field_F8_state = SecurityDoorStates::eSayingPassword_6;
-        }
-        return;
-
-    case SecurityDoorStates::eListeningForPassword_9:
-        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
-        {
+        case SecurityDoorStates::eListeningForHi_3:
             if (field_104_event_idx != pEventSystem_5BC11C->field_28_last_event_index)
             {
                 field_104_event_idx = pEventSystem_5BC11C->field_28_last_event_index;
                 if (pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eNone_m1 && pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eSameAsLast_m2)
                 {
-                    field_11A_event_idx = static_cast<s16>(pEventSystem_5BC11C->field_28_last_event_index);
-                    field_F8_state = SecurityDoorStates::eCheckingIfPasswordMatches_10;
+                    if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_Hi_27)
+                    {
+                        field_F8_state = SecurityDoorStates::eWaitingToSayPassword_4;
+                        field_124_timer = sGnFrame_5C1B84 + 30;
+                        return;
+                    }
+                    else
+                    {
+                        field_F8_state = SecurityDoorStates::eFailure_12;
+                        field_124_timer = sGnFrame_5C1B84 + 15;
+                    }
                 }
             }
-        }
-        else
-        {
-            field_F8_state = SecurityDoorStates::eFailure_12;
-            field_124_timer = sGnFrame_5C1B84 + 15;
-        }
-        return;
 
-    case SecurityDoorStates::eCheckingIfPasswordMatches_10:
-    {
-        switch (pEventSystem_5BC11C->MatchBuffer_4219E0(field_108_stru, field_118_max_idx, field_11A_event_idx))
-        {
-        case GameSpeakMatch::eNoMatch_0:
-            field_F8_state = SecurityDoorStates::eFailure_12;
-            field_124_timer = sGnFrame_5C1B84 + 15;
-            break;
-
-        case GameSpeakMatch::eFullMatch_1:
-            field_F8_state = SecurityDoorStates::eSuccess_11;
-            field_124_timer = sGnFrame_5C1B84 + 15;
-            break;
-
-        case GameSpeakMatch::ePartMatch_2:
-            if (field_104_event_idx != pEventSystem_5BC11C->field_28_last_event_index)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
             {
-                field_104_event_idx = pEventSystem_5BC11C->field_28_last_event_index;
+                field_F8_state = SecurityDoorStates::eInactive_0;
+            }
+            return;
+
+        case SecurityDoorStates::eWaitingToSayPassword_4:
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
+            {
+                field_F8_state = SecurityDoorStates::ePreparingToSayPassword_5;
+            }
+            return;
+
+        case SecurityDoorStates::ePreparingToSayPassword_5:
+            field_128_max_idx = 0;
+            field_118_max_idx = static_cast<s16>(GameSpeak::FillBuffer_421970(field_FC_code_converted, field_108_stru));
+            field_F8_state = SecurityDoorStates::eSayingPassword_6;
+            return;
+
+        case SecurityDoorStates::eSayingPassword_6:
+        {
+            const GameSpeakEvents code = Code_LookUp_4C9E40(field_FC_code_converted, field_128_max_idx, field_100_code_len);
+            switch (code)
+            {
+                case GameSpeakEvents::Slig_BS_5:
+                    Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBullshit_5, 127, -100, nullptr);
+                    break;
+
+                case GameSpeakEvents::Slig_Laugh_8:
+                    Slig_GameSpeak_SFX_4C04F0(SligSpeak::eLaugh_3, 127, -100, nullptr);
+                    break;
+
+                case GameSpeakEvents::Slig_BS2_7:
+                    Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBullshit2_7, 127, -100, nullptr);
+                    break;
             }
 
-            if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+            const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+            if (++field_128_max_idx >= field_100_code_len)
+            {
+                field_F8_state = SecurityDoorStates::eListeningForPassword_9;
+                field_124_timer = sGnFrame_5C1B84 + 60;
+            }
+            else
+            {
+                field_F8_state = SecurityDoorStates::ePausing_7;
+                field_124_timer = sGnFrame_5C1B84 + 30;
+            }
+            return;
+        }
+
+        case SecurityDoorStates::ePausing_7:
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer)
+            {
+                field_F8_state = SecurityDoorStates::eSayingPassword_6;
+            }
+            return;
+
+        case SecurityDoorStates::eListeningForPassword_9:
+            if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
+            {
+                if (field_104_event_idx != pEventSystem_5BC11C->field_28_last_event_index)
+                {
+                    field_104_event_idx = pEventSystem_5BC11C->field_28_last_event_index;
+                    if (pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eNone_m1 && pEventSystem_5BC11C->field_20_last_event != GameSpeakEvents::eSameAsLast_m2)
+                    {
+                        field_11A_event_idx = static_cast<s16>(pEventSystem_5BC11C->field_28_last_event_index);
+                        field_F8_state = SecurityDoorStates::eCheckingIfPasswordMatches_10;
+                    }
+                }
+            }
+            else
             {
                 field_F8_state = SecurityDoorStates::eFailure_12;
-                field_124_timer = sGnFrame_5C1B84;
+                field_124_timer = sGnFrame_5C1B84 + 15;
             }
-            break;
-        }
-        return;
-    }
+            return;
 
-    case SecurityDoorStates::eSuccess_11:
-        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
+        case SecurityDoorStates::eCheckingIfPasswordMatches_10:
         {
+            switch (pEventSystem_5BC11C->MatchBuffer_4219E0(field_108_stru, field_118_max_idx, field_11A_event_idx))
+            {
+                case GameSpeakMatch::eNoMatch_0:
+                    field_F8_state = SecurityDoorStates::eFailure_12;
+                    field_124_timer = sGnFrame_5C1B84 + 15;
+                    break;
+
+                case GameSpeakMatch::eFullMatch_1:
+                    field_F8_state = SecurityDoorStates::eSuccess_11;
+                    field_124_timer = sGnFrame_5C1B84 + 15;
+                    break;
+
+                case GameSpeakMatch::ePartMatch_2:
+                    if (field_104_event_idx != pEventSystem_5BC11C->field_28_last_event_index)
+                    {
+                        field_104_event_idx = pEventSystem_5BC11C->field_28_last_event_index;
+                    }
+
+                    if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+                    {
+                        field_F8_state = SecurityDoorStates::eFailure_12;
+                        field_124_timer = sGnFrame_5C1B84;
+                    }
+                    break;
+            }
             return;
         }
-        field_12A_unused = 1;
-        SwitchStates_Set_465FF0(field_FA_id, 1);
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        SFX_Play_46FBA0(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
-        field_F8_state = SecurityDoorStates::eSuccessChime_1;
-        field_124_timer = sGnFrame_5C1B84 + 15;
-        return;
 
-    case SecurityDoorStates::eFailure_12:
-        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
-        {
+        case SecurityDoorStates::eSuccess_11:
+            if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
+            {
+                return;
+            }
+            field_12A_unused = 1;
+            SwitchStates_Set_465FF0(field_FA_id, 1);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            SFX_Play_46FBA0(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
+            field_F8_state = SecurityDoorStates::eSuccessChime_1;
+            field_124_timer = sGnFrame_5C1B84 + 15;
             return;
-        }
-        SFX_Play_46FBA0(SoundEffect::SecurityDoorDeny_38, 60, -720);
-        field_F8_state = SecurityDoorStates::eLaughAtFailure_13;
-        field_124_timer = sGnFrame_5C1B84 + 15;
-        return;
 
-    case SecurityDoorStates::eLaughAtFailure_13:
-        if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
-        {
+        case SecurityDoorStates::eFailure_12:
+            if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
+            {
+                return;
+            }
+            SFX_Play_46FBA0(SoundEffect::SecurityDoorDeny_38, 60, -720);
+            field_F8_state = SecurityDoorStates::eLaughAtFailure_13;
+            field_124_timer = sGnFrame_5C1B84 + 15;
             return;
-        }
-        SFX_Play_46FBA0(SoundEffect::SecurityDoorLaugh_87, 127, -1000);
-        field_F8_state = SecurityDoorStates::eInactive_0;
-        field_124_timer = sGnFrame_5C1B84 + 90;
-        return;
 
-    default:
-        return;
+        case SecurityDoorStates::eLaughAtFailure_13:
+            if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
+            {
+                return;
+            }
+            SFX_Play_46FBA0(SoundEffect::SecurityDoorLaugh_87, 127, -1000);
+            field_F8_state = SecurityDoorStates::eInactive_0;
+            field_124_timer = sGnFrame_5C1B84 + 90;
+            return;
+
+        default:
+            return;
     }
 }

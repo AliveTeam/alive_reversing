@@ -115,5 +115,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ChimeLock, 0x168);
 
-}
-
+} // namespace AO

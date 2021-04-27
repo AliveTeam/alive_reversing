@@ -89,9 +89,7 @@ void ElectricWall::VScreenChanged()
 
 void ElectricWall::VScreenChanged_410220()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
-        gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path ||
-        gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos) == CameraPos::eCamInvalid_m1)
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos) == CameraPos::eCamInvalid_m1)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -129,7 +127,7 @@ void ElectricWall::VUpdate_40FEF0()
             field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
         }
 
-         // Play sound every so often
+        // Play sound every so often
         if (static_cast<s32>(gnFrameCount_507670) >= field_EC_sound_timer)
         {
             // set a random starting frame
@@ -137,7 +135,7 @@ void ElectricWall::VUpdate_40FEF0()
             field_EC_sound_timer = gnFrameCount_507670 + Math_RandomRange_450F20(24, 40);
         }
 
-     
+
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
 
@@ -170,7 +168,7 @@ void ElectricWall::VUpdate_40FEF0()
                         objRect.x -= 50;
                         objRect.w += 50;
 
-                         if (RectsOverlap(bRectBigger, objRect) && pObjIter->field_100_health > FP_FromInteger(0))
+                        if (RectsOverlap(bRectBigger, objRect) && pObjIter->field_100_health > FP_FromInteger(0))
                         {
                             SFX_Play_43AED0(SoundEffect::ElectricGateLoud_47, 45, soundDirection);
                         }
@@ -204,4 +202,4 @@ void ElectricWall::VUpdate_40FEF0()
     }
 }
 
-}
+} // namespace AO

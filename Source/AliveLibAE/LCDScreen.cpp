@@ -12,28 +12,22 @@
 #include "Game.hpp"
 #include "Renderer/IRenderer.hpp"
 
-u8 sLCDScreen_Palette[] =
-{
+u8 sLCDScreen_Palette[] = {
     0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
     0x20, 0x84, 0x21, 0x84, 0x65, 0xCE, 0x65, 0x8C, 0x8C, 0xB1,
     0x60, 0x8E, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
-    0x18, 0xD8
-};
+    0x18, 0xD8};
 
-u8 sLCDScreen_Palette2[] =
-{
+u8 sLCDScreen_Palette2[] = {
     0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
     0x20, 0x84, 0x21, 0x84, 0x05, 0x84, 0x65, 0x8C, 0x8C, 0xB1,
     0x13, 0x94, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
-    0x18, 0xD8
-};
-
+    0x18, 0xD8};
 
 
 
 // TODO: Remove spaces and add them at runtime.
-const s8 *sLCDMessageTable_555768[101] =
-{
+const s8* sLCDMessageTable_555768[101] = {
     "",
     "                               SoulStorm Mining Company is an equal opportunity employer.",
     "                               Work! Do it!",
@@ -137,7 +131,7 @@ const s8 *sLCDMessageTable_555768[101] =
     "",
 };
 
-LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
+LCDScreen* LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x545AAC);
@@ -260,8 +254,7 @@ void LCDScreen::Update_460A00()
         field_A0_message,
         PCToPsxX(screenLeft) - field_2AC_x_offset,
         FP_FromInteger(1),
-        screenRight
-    );
+        screenRight);
     sFontDrawScreenSpace_5CA4B4 = 0;
     if (slicedText != field_A4_message_cutoff_ptr)
     {
@@ -291,8 +284,7 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
             0,
             0,
             640,
-            240
-        };
+            240};
 
         Init_PrimClipper_4F5B80(&field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index], &clipRect);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_24), &field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index].mBase);
@@ -320,8 +312,7 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
             static_cast<s16>(screenXWorld),
             static_cast<s16>(screenY - 12),
             static_cast<s16>(PsxToPCX(maxWidth - screenX)),
-            48
-        };
+            48};
 
         auto* clipper = &field_20_prim_clippers[1][gPsxDisplay_5C1130.field_C_buffer_index];
         Init_PrimClipper_4F5B80(clipper, &clipRect);
@@ -332,8 +323,7 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
             screenY,
             clipRect.w,
             24,
-            pScreenManager_5BB5F4->field_3A_idx
-        );
+            pScreenManager_5BB5F4->field_3A_idx);
     }
 }
 
@@ -346,7 +336,7 @@ void LCDScreen::dtor_460920()
 {
     SetVTable(this, 0x545AAC); // vTbl_LCDScreen_545AAC
 
-    IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{ field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w });
+    IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
 
     gObjList_drawables_5C1124->Remove_Item(this);
     Path::TLV_Reset_4DB8E0(field_2BC_tlv_item_info.all, -1, 0, 0);

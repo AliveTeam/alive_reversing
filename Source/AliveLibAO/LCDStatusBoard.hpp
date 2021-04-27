@@ -9,7 +9,6 @@ namespace AO {
 
 struct Path_LCDStatusBoard : public Path_TLV
 {
-
 };
 
 class LCDStatusBoard : public BaseGameObject
@@ -45,5 +44,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(LCDStatusBoard, 0xD0);
 
-}
-
+} // namespace AO

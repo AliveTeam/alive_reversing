@@ -8,7 +8,6 @@
 
 class SnoozeParticle : public BaseGameObject
 {
-
 public:
     EXPORT SnoozeParticle* ctor_4B06F0(FP xpos, FP ypos, Layer layer, FP scale);
 
@@ -40,7 +39,6 @@ public:
     };
 
 private:
-
     EXPORT void dtor_4B0900();
 
     EXPORT SnoozeParticle* vdtor_4B08D0(s32 flags);
@@ -69,8 +67,10 @@ private:
     Line_G4 field_4C_G4_lines[2];
     Line_G2 field_A4_G2_lines[2][6];
     Prim_SetTPage field_1C4_tPage[2];
+
 public:
     SnoozeParticleState field_1E4_state;
+
 private:
     s16 field_1E6_padding;
 };

@@ -17,7 +17,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
     SetVTable(this, 0x547F10); // vTbl_Water_547F10
- 
+
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWaterDrop);
     if (ppRes)
     {
@@ -36,7 +36,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
 
         field_104_top_left.field_0_x += -FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
         field_104_top_left.field_2_y += -FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
-        
+
         field_108_bottom_right.field_0_x += -FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
         field_108_bottom_right.field_2_y += -FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
 
@@ -142,7 +142,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
 
             // Some sort of hack to set the first 2 pixels to black/transparent?
             const u8 zeroedData[4] = {};
-            PSX_LoadImage_4F5FB0(&rect, zeroedData);  // TODO: FIX ME - won't work with other renderers
+            PSX_LoadImage_4F5FB0(&rect, zeroedData); // TODO: FIX ME - won't work with other renderers
 
             field_144_sound_channels = 0;
         }
@@ -239,9 +239,7 @@ void Water::vScreenChanged_4E1780()
         field_144_sound_channels = 0;
     }
 
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
-        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
-        gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -270,8 +268,8 @@ void Water::Add_Water_Particle_4E09A0()
         // Find an unused particle.
         Water_Res* pWaterRes = nullptr;
         for (pWaterRes = &field_F8_pWaterRes[field_10E_current_particle_idx];
-            field_F8_pWaterRes[field_10E_current_particle_idx].field_18_enabled;
-            pWaterRes = &field_F8_pWaterRes[field_10E_current_particle_idx])
+             field_F8_pWaterRes[field_10E_current_particle_idx].field_18_enabled;
+             pWaterRes = &field_F8_pWaterRes[field_10E_current_particle_idx])
         {
             field_10E_current_particle_idx--;
             if (field_10E_current_particle_idx < 0)
@@ -280,11 +278,11 @@ void Water::Add_Water_Particle_4E09A0()
                 field_10E_current_particle_idx = field_124_tlv_data.field_10_max_drops - 1;
             }
         }
-        
+
         const u8 rand1 = Math_NextRandom();
         const FP rand2 = FP_FromRaw(Math_NextRandom() << 8);
         const FP xRand = (rand2 * field_118_radius) + FP_FromInteger(1);
-        
+
         pWaterRes->field_0_xpos = (Math_Sine_496DD0(rand1) * xRand) + field_11C_centre;
         pWaterRes->field_8_zpos = (Math_Cosine_496CD0(rand1) * rand2) * field_118_radius;
         pWaterRes->field_4_ypos = FP_FromInteger(field_104_top_left.field_2_y);
@@ -308,11 +306,11 @@ void Water::vUpdate_4E0B50()
     }
 
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-        field_C2_lvl_number,
-        field_C0_path_number,
-        field_B8_xpos,
-        field_BC_ypos,
-        0))
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0))
     {
         field_13C_not_in_camera_count = 0;
     }
@@ -528,8 +526,7 @@ void Water::vUpdate_4E0B50()
                             {
                                 pParticle->ctor_4CC4C0(
                                     FP_NoFractional(pWaterRes->field_0_xpos) + pScreenManager_5BB5F4->field_20_pCamPos->field_0_x,
-                                    FP_NoFractional(pWaterRes->field_4_ypos) + pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + 
-                                        FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
+                                    FP_NoFractional(pWaterRes->field_4_ypos) + pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
                                     332,
                                     17,
                                     7,
@@ -546,11 +543,11 @@ void Water::vUpdate_4E0B50()
 void Water::vRender_4E1440(PrimHeader** ppOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-        field_C2_lvl_number,
-        field_C0_path_number,
-        field_B8_xpos,
-        field_BC_ypos,
-        0))
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0))
     {
         s16 xMin = 32767;
         s16 wMax = -32767;
@@ -637,5 +634,4 @@ void Water::vRender_4E1440(PrimHeader** ppOt)
             hMax + 6,
             pScreenManager_5BB5F4->field_3A_idx);
     }
-
 }

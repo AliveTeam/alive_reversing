@@ -67,11 +67,11 @@ void Sparks::VUpdate_40A4F0()
     field_AC_ypos += field_B8_vely;
 
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_B2_lvl_number,
-        field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos,
-        0))
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0))
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
@@ -95,5 +95,4 @@ BaseGameObject* Sparks::VDestructor(s32 flags)
     return this;
 }
 
-}
-
+} // namespace AO

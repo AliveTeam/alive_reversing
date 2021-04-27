@@ -31,5 +31,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(SligSpawner, 0x30);
 
-}
-
+} // namespace AO

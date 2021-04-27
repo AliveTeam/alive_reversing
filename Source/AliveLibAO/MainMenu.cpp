@@ -28,7 +28,7 @@
 
 namespace AO {
 
-const s32 dword_4BB1B8[4] = { 6152, 6140, 6164, 0 };
+const s32 dword_4BB1B8[4] = {6152, 6140, 6164, 0};
 
 // TODO: Move out
 ALIVE_VAR(1, 0x507690, s16, sSoundMono_507690, 0);
@@ -51,19 +51,18 @@ ALIVE_VAR(1, 0x9F2DE8, s16, bWaitingForRemapInput_9F2DE8, 0);
 
 struct Buttons
 {
-    s32 buttons[2][8] =
-    {
-        { // keyboard
-            InputCommands::eRun,
-            InputCommands::eSneak,
-            InputCommands::eHop,
-            InputCommands::eLeftGamespeak,
-            InputCommands::eDoAction,
-            InputCommands::eThrowItem,
-            InputCommands::eCrouchOrRoll,
-            InputCommands::eRightGameSpeak
-        },
-        { // gamepad
+    s32 buttons[2][8] = {
+        {// keyboard
+         InputCommands::eRun,
+         InputCommands::eSneak,
+         InputCommands::eHop,
+         InputCommands::eLeftGamespeak,
+         InputCommands::eDoAction,
+         InputCommands::eThrowItem,
+         InputCommands::eCrouchOrRoll,
+         InputCommands::eRightGameSpeak},
+        {
+            // gamepad
             // NOTE: diversion from OG!
             // the sneak - speak1 and run - speak2 pairs are now decoupled
             // so that they can each be remapped to separate buttons
@@ -75,8 +74,7 @@ struct Buttons
             InputCommands::eThrowItem,
             InputCommands::eCrouchOrRoll,
             InputCommands::eRightGameSpeak,
-        }
-    };
+        }};
 };
 ALIVE_VAR(1, 0x4D0030, const Buttons, sRemappableInputs_4D0030, {});
 
@@ -87,39 +85,35 @@ struct Menu_Button
     s32 field_4_frame_table;
 };
 
-const Menu_Button sMainScreenButtons_4D00B0[5] =
-{
-    { 33, 64, 6152 },
-    { 33, 85, 6152 },
-    { 33, 107, 6152 },
-    { 335, 215, 6152 },
-    { 335, 240, 6152 }
-};
+const Menu_Button sMainScreenButtons_4D00B0[5] = {
+    {33, 64, 6152},
+    {33, 85, 6152},
+    {33, 107, 6152},
+    {335, 215, 6152},
+    {335, 240, 6152}};
 
-const Menu_Button stru_4D0148[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 288, 238, 6152 } };
+const Menu_Button stru_4D0148[3] = {{33, 66, 6152}, {33, 87, 6152}, {288, 238, 6152}};
 
-const Menu_Button stru_4D01C0[3] = { { 33, 66, 6152 }, { 33, 87, 6152 }, { 289, 238, 6152 } };
+const Menu_Button stru_4D01C0[3] = {{33, 66, 6152}, {33, 87, 6152}, {289, 238, 6152}};
 
-const Menu_Button stru_4D01D8[3] = { { 116, 251, 6152 }, { 116, 251, 6152 }, { 308, 240, 6152 } };
+const Menu_Button stru_4D01D8[3] = {{116, 251, 6152}, {116, 251, 6152}, {308, 240, 6152}};
 
-const Menu_Button stru_4D01F0[2] = { { 62, 204, 6152 }, { 293, 204, 6152 } };
+const Menu_Button stru_4D01F0[2] = {{62, 204, 6152}, {293, 204, 6152}};
 
-const Menu_Button stru_4D00E0[13] =
-{
-    { 50, 151, 6152 },
-    { 38, 81, 6152 },
-    { 65, 190, 6152 },
-    { 43, 118, 6152 },
-    { 322, 81, 6152 },
-    { 302, 146, 6152 },
-    { 279, 185, 6152 },
-    { 307, 116, 6152 },
-    { 157, 29, 6152 },
-    { 308, 205, 6152 },
-    { 96, 32, 6152 },
-    { 205, 29, 6152 },
-    { 305, 32, 6152 }
-};
+const Menu_Button stru_4D00E0[13] = {
+    {50, 151, 6152},
+    {38, 81, 6152},
+    {65, 190, 6152},
+    {43, 118, 6152},
+    {322, 81, 6152},
+    {302, 146, 6152},
+    {279, 185, 6152},
+    {307, 116, 6152},
+    {157, 29, 6152},
+    {308, 205, 6152},
+    {96, 32, 6152},
+    {205, 29, 6152},
+    {305, 32, 6152}};
 
 struct Menu_Element
 {
@@ -128,69 +122,65 @@ struct Menu_Element
     s32 field_8_input_command;
 };
 
-const Menu_Element sBtnArray_MainMenuStaticBtn_4D03F0[] = { 146, 205, InputCommands::eUnPause_OrConfirm };
-const Menu_Element sBtnArray_Options_4D0400[2] = { { 145, 204, InputCommands::eUnPause_OrConfirm }, { 286, 202, InputCommands::eBack } };
-const Menu_Element sBtnArray_AbeMotionsMenuButtons_4D0418[11] =
-{
-    { 144, 205, InputCommands::eUnPause_OrConfirm },
-    { 288, 203, InputCommands::eBack },
-    { 112, 87, InputCommands::eCrouchOrRoll },          // Crouch
-    { 283, 87, InputCommands::eRun },                   // Run
-    { 89, 118, InputCommands::eRun },                   // Run jump: run
-    { 124, 118, InputCommands::eHop },                  // Run jump: jump
-    { 293, 119, InputCommands::eSneak },                // Sneak
-    { 264, 151, InputCommands::eThrowItem },            // Throw
-    { 273, 183, InputCommands::eDoAction },             // Action
-    { 115, 216, InputCommands::eUnPause_OrConfirm },    // Go to Gamespeak page
-    { 307, 203, InputCommands::eBack },                 // Exit
+const Menu_Element sBtnArray_MainMenuStaticBtn_4D03F0[] = {146, 205, InputCommands::eUnPause_OrConfirm};
+const Menu_Element sBtnArray_Options_4D0400[2] = {{145, 204, InputCommands::eUnPause_OrConfirm}, {286, 202, InputCommands::eBack}};
+const Menu_Element sBtnArray_AbeMotionsMenuButtons_4D0418[11] = {
+    {144, 205, InputCommands::eUnPause_OrConfirm},
+    {288, 203, InputCommands::eBack},
+    {112, 87, InputCommands::eCrouchOrRoll},       // Crouch
+    {283, 87, InputCommands::eRun},                // Run
+    {89, 118, InputCommands::eRun},                // Run jump: run
+    {124, 118, InputCommands::eHop},               // Run jump: jump
+    {293, 119, InputCommands::eSneak},             // Sneak
+    {264, 151, InputCommands::eThrowItem},         // Throw
+    {273, 183, InputCommands::eDoAction},          // Action
+    {115, 216, InputCommands::eUnPause_OrConfirm}, // Go to Gamespeak page
+    {307, 203, InputCommands::eBack},              // Exit
 };
 
-const Menu_Element sBtnArray_AbeGamespeakMenuButtons_4D04A0[33] =
-{
-    { 115, 216, InputCommands::eUnPause_OrConfirm },    // Back to Abe Motions
-    { 307, 203, InputCommands::eBack },                 // Exit
-    { 90, 53, InputCommands::eLeftGamespeak },          // Chant first button
-    { 125, 53, InputCommands::eRightGameSpeak },        // Chant second button
-    { 81, 80, InputCommands::eLeftGamespeak },          // Hello shoulder button
-    { 125, 80, InputCommands::eHop },                   // Hello action button
-    { 79, 112, InputCommands::eLeftGamespeak },         // Angry shoulder button
-    { 122, 112, InputCommands::eThrowItem },            // Angry action button
-    { 78, 147, InputCommands::eLeftGamespeak },         // Wait shoulder button
-    { 119, 147, InputCommands::eCrouchOrRoll },         // Wait action button
-    { 82, 180, InputCommands::eLeftGamespeak },         // Follow me shoulder button
-    { 120, 180, InputCommands::eDoAction },             // Follow me action button
-    { 258, 62, InputCommands::eRightGameSpeak },        // Whistle 1 shoulder button
-    { 295, 62, InputCommands::eHop },                   // Whistle 1 action button
-    { 253, 98, InputCommands::eRightGameSpeak },        // Fart shoulder button
-    { 294, 98, InputCommands::eThrowItem },             // Fart action button
-    { 267, 139, InputCommands::eRightGameSpeak },       // Whistle 2 shoulder button
-    { 307, 139, InputCommands::eCrouchOrRoll },         // Whistle 2 action button
-    { 259, 178, InputCommands::eRightGameSpeak },       // Laugh shoulder button
-    { 296, 178, InputCommands::eDoAction },             // Laugh action button
+const Menu_Element sBtnArray_AbeGamespeakMenuButtons_4D04A0[33] = {
+    {115, 216, InputCommands::eUnPause_OrConfirm}, // Back to Abe Motions
+    {307, 203, InputCommands::eBack},              // Exit
+    {90, 53, InputCommands::eLeftGamespeak},       // Chant first button
+    {125, 53, InputCommands::eRightGameSpeak},     // Chant second button
+    {81, 80, InputCommands::eLeftGamespeak},       // Hello shoulder button
+    {125, 80, InputCommands::eHop},                // Hello action button
+    {79, 112, InputCommands::eLeftGamespeak},      // Angry shoulder button
+    {122, 112, InputCommands::eThrowItem},         // Angry action button
+    {78, 147, InputCommands::eLeftGamespeak},      // Wait shoulder button
+    {119, 147, InputCommands::eCrouchOrRoll},      // Wait action button
+    {82, 180, InputCommands::eLeftGamespeak},      // Follow me shoulder button
+    {120, 180, InputCommands::eDoAction},          // Follow me action button
+    {258, 62, InputCommands::eRightGameSpeak},     // Whistle 1 shoulder button
+    {295, 62, InputCommands::eHop},                // Whistle 1 action button
+    {253, 98, InputCommands::eRightGameSpeak},     // Fart shoulder button
+    {294, 98, InputCommands::eThrowItem},          // Fart action button
+    {267, 139, InputCommands::eRightGameSpeak},    // Whistle 2 shoulder button
+    {307, 139, InputCommands::eCrouchOrRoll},      // Whistle 2 action button
+    {259, 178, InputCommands::eRightGameSpeak},    // Laugh shoulder button
+    {296, 178, InputCommands::eDoAction},          // Laugh action button
     // ----
     // these below seem unused - maybe they are part of a different Menu_Element struct?
-    { 308, 205, InputCommands::eBack }, // end
-    { 96, 32, InputCommands::eLeftGamespeak },
-    { 305, 32, InputCommands::eRightGameSpeak },
-    { 157, 29, InputCommands::eLeftGamespeak },
-    { 205, 29, InputCommands::eRightGameSpeak },
-    { 38, 81, InputCommands::eHop },
-    { 42, 118, InputCommands::eThrowItem },
-    { 49, 151, InputCommands::eUnPause_OrConfirm },
-    { 65, 190, InputCommands::eDoAction },
-    { 322, 82, InputCommands::eHop },
-    { 307, 117, InputCommands::eThrowItem },
-    { 301, 146, InputCommands::eUnPause_OrConfirm },
-    { 278, 184, InputCommands::eDoAction }, // 1st
+    {308, 205, InputCommands::eBack}, // end
+    {96, 32, InputCommands::eLeftGamespeak},
+    {305, 32, InputCommands::eRightGameSpeak},
+    {157, 29, InputCommands::eLeftGamespeak},
+    {205, 29, InputCommands::eRightGameSpeak},
+    {38, 81, InputCommands::eHop},
+    {42, 118, InputCommands::eThrowItem},
+    {49, 151, InputCommands::eUnPause_OrConfirm},
+    {65, 190, InputCommands::eDoAction},
+    {322, 82, InputCommands::eHop},
+    {307, 117, InputCommands::eThrowItem},
+    {301, 146, InputCommands::eUnPause_OrConfirm},
+    {278, 184, InputCommands::eDoAction}, // 1st
 };
 
-const Menu_Element sBtnArray_LoadGameMenuButtons_4D0630[2] = { { 62, 204, InputCommands::eUnPause_OrConfirm }, { 293, 205, InputCommands::eBack } };
+const Menu_Element sBtnArray_LoadGameMenuButtons_4D0630[2] = {{62, 204, InputCommands::eUnPause_OrConfirm}, {293, 205, InputCommands::eBack}};
 
-const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] =
-{
-    { &Menu::ToggleMotions_Update_47C800, 0x47C800, "47C800" },
-    { &Menu::Toggle_Motions_Screens_Update_47C8F0, 0x47C8F0, "Update_47C8F0" }
-};
+const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] = {
+    {&Menu::ToggleMotions_Update_47C800, 0x47C800, "47C800"},
+    {&Menu::Toggle_Motions_Screens_Update_47C8F0, 0x47C8F0, "Update_47C8F0"}};
 
 
 struct SaveName
@@ -219,8 +209,7 @@ struct MenuFMV;
 
 ALIVE_VAR(1, 0x9F2DE4, const MenuFMV*, sActiveList_9F2DE4, nullptr);
 
-const u8 byte_4D0090[32] =
-{
+const u8 byte_4D0090[32] = {
     0u,
     0u,
     33u,
@@ -252,8 +241,7 @@ const u8 byte_4D0090[32] =
     16u,
     66u,
     115u,
-    78u
-};
+    78u};
 
 struct MenuFMV
 {
@@ -266,22 +254,20 @@ struct MenuFMV
     s16 field_E;
 };
 
-const MenuFMV gFmvs_4D0230[13] =
-{
-    { "Oddworld Intro", LevelIds::eMenu_0, -1, -1, 1, -1, -1 },
-    { "This is RuptureFarms", LevelIds::eRuptureFarms_1, -1, -1, 1, -1, -1 },
-    { "Barrel Ride", LevelIds::eStockYards_5, -1, -1, 4, -1, -1 },
-    { "Abe's Moon", LevelIds::eStockYards_5, -1, -1, 2, -1, -1 },
-    { "Paramite Scar", LevelIds::eLines_2, -1, -1, 3, -1, -1 },
-    { "Scrab Scar", LevelIds::eLines_2, -1, -1, 4, -1, -1 },
-    { "Shrykull Revealed", LevelIds::eLines_2, -1, -1, 16, -1, -1 },
-    { "Mullock Watches", LevelIds::eRuptureFarmsReturn_13, -1, -1, 2, -1, -1 },
-    { "The Factory Halts", LevelIds::eRuptureFarmsReturn_13, -1, -1, 1, -1, -1 },
-    { "What a Drag", LevelIds::eRuptureFarmsReturn_13, -1, -1, 3, -1, -1 },
-    { "Bad Ending", LevelIds::eRuptureFarmsReturn_13, -1, -1, 4, -1, -1 },
-    { "Good Ending", LevelIds::eRuptureFarmsReturn_13, -1, -1, 16, -1, -1 },
-    { "Credits", LevelIds::eCredits_10, -1, -1, -1, -1, -1 }
-};
+const MenuFMV gFmvs_4D0230[13] = {
+    {"Oddworld Intro", LevelIds::eMenu_0, -1, -1, 1, -1, -1},
+    {"This is RuptureFarms", LevelIds::eRuptureFarms_1, -1, -1, 1, -1, -1},
+    {"Barrel Ride", LevelIds::eStockYards_5, -1, -1, 4, -1, -1},
+    {"Abe's Moon", LevelIds::eStockYards_5, -1, -1, 2, -1, -1},
+    {"Paramite Scar", LevelIds::eLines_2, -1, -1, 3, -1, -1},
+    {"Scrab Scar", LevelIds::eLines_2, -1, -1, 4, -1, -1},
+    {"Shrykull Revealed", LevelIds::eLines_2, -1, -1, 16, -1, -1},
+    {"Mullock Watches", LevelIds::eRuptureFarmsReturn_13, -1, -1, 2, -1, -1},
+    {"The Factory Halts", LevelIds::eRuptureFarmsReturn_13, -1, -1, 1, -1, -1},
+    {"What a Drag", LevelIds::eRuptureFarmsReturn_13, -1, -1, 3, -1, -1},
+    {"Bad Ending", LevelIds::eRuptureFarmsReturn_13, -1, -1, 4, -1, -1},
+    {"Good Ending", LevelIds::eRuptureFarmsReturn_13, -1, -1, 16, -1, -1},
+    {"Credits", LevelIds::eCredits_10, -1, -1, -1, -1, -1}};
 
 struct MenuLevel
 {
@@ -295,24 +281,22 @@ struct MenuLevel
 };
 
 // TODO: Should be MenuFMV or there is a generic structure for "lists" of things?
-const MenuFMV sLevelList_4D0300[15] =
-{
-    { "RuptureFarms", LevelIds::eRuptureFarms_1, 15, 1, -1, 1390, 245 },
-    { "Stockyard Escape", LevelIds::eStockYards_5, 6, 6, -1, 5656, 133 },
-    { "Monsaic Lines", LevelIds::eLines_2, 1, 14, -1, 11810, 681 },
-    { "Paramonia", LevelIds::eForest_3, 1, 1, -1, 330, 660 },
-    { "Paramonian Temple", LevelIds::eForestTemple_4, 1, 1, -1, 565, 170 },
-    { "Paramonian Nests", LevelIds::eForestChase, 9, 1, -1, 2439, 2621 },
-    { "Scrabania", LevelIds::eDesert_8, 1, 1, -1, 4677, 750 },
-    { "Scrabanian Temple", LevelIds::eDesertTemple_9, 1, 1, -1, 4410, 203 },
-    { "Scrabanian Nests", LevelIds::eDesertEscape, 11, 1, -1, 466, 2124 },
-    { "Stockyards", LevelIds::eStockYardsReturn_6, 4, 7, -1, 540, 640 },
-    { "Rescue Zulag 1", LevelIds::eRuptureFarmsReturn_13, 19, 3, -1, 2589, 193 },
-    { "Rescue Zulag 2", LevelIds::eRuptureFarmsReturn_13, 1, 1, -1, 1514, 705 },
-    { "Rescue Zulag 3", LevelIds::eRuptureFarmsReturn_13, 13, 1, -1, 1389, 694 },
-    { "Rescue Zulag 4", LevelIds::eRuptureFarmsReturn_13, 14, 1, -1, 1390, 700 },
-    { "The Boardroom", LevelIds::eBoardRoom_12, 6, 1, -1, 592, 157 }
-};
+const MenuFMV sLevelList_4D0300[15] = {
+    {"RuptureFarms", LevelIds::eRuptureFarms_1, 15, 1, -1, 1390, 245},
+    {"Stockyard Escape", LevelIds::eStockYards_5, 6, 6, -1, 5656, 133},
+    {"Monsaic Lines", LevelIds::eLines_2, 1, 14, -1, 11810, 681},
+    {"Paramonia", LevelIds::eForest_3, 1, 1, -1, 330, 660},
+    {"Paramonian Temple", LevelIds::eForestTemple_4, 1, 1, -1, 565, 170},
+    {"Paramonian Nests", LevelIds::eForestChase, 9, 1, -1, 2439, 2621},
+    {"Scrabania", LevelIds::eDesert_8, 1, 1, -1, 4677, 750},
+    {"Scrabanian Temple", LevelIds::eDesertTemple_9, 1, 1, -1, 4410, 203},
+    {"Scrabanian Nests", LevelIds::eDesertEscape, 11, 1, -1, 466, 2124},
+    {"Stockyards", LevelIds::eStockYardsReturn_6, 4, 7, -1, 540, 640},
+    {"Rescue Zulag 1", LevelIds::eRuptureFarmsReturn_13, 19, 3, -1, 2589, 193},
+    {"Rescue Zulag 2", LevelIds::eRuptureFarmsReturn_13, 1, 1, -1, 1514, 705},
+    {"Rescue Zulag 3", LevelIds::eRuptureFarmsReturn_13, 13, 1, -1, 1389, 694},
+    {"Rescue Zulag 4", LevelIds::eRuptureFarmsReturn_13, 14, 1, -1, 1390, 700},
+    {"The Boardroom", LevelIds::eBoardRoom_12, 6, 1, -1, 592, 157}};
 
 MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, u16 idx_1, s16 bDestroyOnDone)
 {
@@ -347,10 +331,7 @@ MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, u16 idx_1, s16 bDest
         {
             break;
         }
-        if (pObj->field_4_typeId == Types::MainMenuFade_44 &&
-            pObj != this &&
-            static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_A8_xpos == field_A8_xpos &&
-            static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_AC_ypos == field_AC_ypos)
+        if (pObj->field_4_typeId == Types::MainMenuFade_44 && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_A8_xpos == field_A8_xpos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_AC_ypos == field_AC_ypos)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -436,33 +417,33 @@ struct MainMenu_TransitionData
 ALIVE_ASSERT_SIZEOF(MainMenu_TransitionData, 0x8);
 
 const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
-{
-    { -8,       -8,         384, 1 },
-    { 0,       -32,         256, 1 },
-    { 8,       -8,          384, 1 },
-    { 32,       0,          256, 1 },
-    { 8,        8,          384, 1 },
-    { 0,        32,         256, 1 },
-    { -8,       8,          384, 1 },
-    { -32,      0,          256, 1 },
+    {
+        {-8, -8, 384, 1},
+        {0, -32, 256, 1},
+        {8, -8, 384, 1},
+        {32, 0, 256, 1},
+        {8, 8, 384, 1},
+        {0, 32, 256, 1},
+        {-8, 8, 384, 1},
+        {-32, 0, 256, 1},
 
-    { -16,      -16,        256, 1 },
-    { 0,       -23,         256, 1 },
-    { 16,      -16,         256, 1 },
-    { 23,      0,           256, 1 },
-    { 16,      16,          256, 1 },
-    { 0,       23,          256, 1 },
-    { -16,      16,         256, 1 },
+        {-16, -16, 256, 1},
+        {0, -23, 256, 1},
+        {16, -16, 256, 1},
+        {23, 0, 256, 1},
+        {16, 16, 256, 1},
+        {0, 23, 256, 1},
+        {-16, 16, 256, 1},
 
-    { -23,      0,          256, 1 },
-    { -16,      -16,        256, 1 },
-    { 0,        -16,        256, 1 },
-    { 16,       -16,        256, 1 },
-    { 16,       0,          256, 1 },
-    { 16,       16,         256, 1 },
-    { 0,        16,         256, 1 },
-    { -16,      16,         256, 1 },
-    { -16,       0,         256, 1 },
+        {-23, 0, 256, 1},
+        {-16, -16, 256, 1},
+        {0, -16, 256, 1},
+        {16, -16, 256, 1},
+        {16, 0, 256, 1},
+        {16, 16, 256, 1},
+        {0, 16, 256, 1},
+        {-16, 16, 256, 1},
+        {-16, 0, 256, 1},
 };
 
 BaseGameObject* MainMenuTransition::VDestructor(s32 flags)
@@ -595,7 +576,6 @@ void MainMenuTransition::StartTrans_436560(Layer layer, s16 fadeDirection, s16 b
     else
     {
         field_12_change_by_speed = 2 * speed;
-
     }
 
     if (fadeDirection)
@@ -638,11 +618,11 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         s32 idx = i + (8 * field_242_idx);
         s32 v8 = stru_55C038[idx].field_4 << 8;
         s32 v9 = stru_55C038[idx].field_2 << 16;
-        s32 v10 = (s16)stru_55C038[idx].field_0 << 16;
+        s32 v10 = (s16) stru_55C038[idx].field_0 << 16;
         s32 v11 = Math_FixedPoint_Multiply_451040(v9, val1);
         s32 v12 = Math_FixedPoint_Multiply_451040(v10, val2) - v11;
         s32 v13 = Math_FixedPoint_Multiply_451040(op1, v8);
-        s16 x0 = field_23E_width + 640 * ((s32)Math_FixedPoint_Multiply_451040(v12, v13) >> 16) / 368;
+        s16 x0 = field_23E_width + 640 * ((s32) Math_FixedPoint_Multiply_451040(v12, v13) >> 16) / 368;
         s32 v14 = Math_FixedPoint_Multiply_451040(v9, val2);
         s32 v15 = Math_FixedPoint_Multiply_451040(v10, val1) + v14;
         s32 v16 = Math_FixedPoint_Multiply_451040(op1, v8);
@@ -659,7 +639,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         }
 
         s32 idx2 = (8 * field_242_idx);
-        s32 v36 = (s16)stru_55C038[idx2 + v17].field_0 << 16;
+        s32 v36 = (s16) stru_55C038[idx2 + v17].field_0 << 16;
         s32 v19 = 0;
         if (i < 7)
         {
@@ -687,7 +667,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         s32 x1 = Math_FixedPoint_Multiply_451040(v36, val2) - v23;
         s32 v25 = Math_FixedPoint_Multiply_451040(op1, y1);
         // TODO: Use PsxToPCX
-        x1 = field_23E_width + 40 * ((s32)Math_FixedPoint_Multiply_451040(x1, v25) >> 16) / 23; // LOWORD
+        x1 = field_23E_width + 40 * ((s32) Math_FixedPoint_Multiply_451040(x1, v25) >> 16) / 23; // LOWORD
         s32 v26 = Math_FixedPoint_Multiply_451040(v38, val2);
         s32 v27 = v26 + Math_FixedPoint_Multiply_451040(v36, val1);
         s32 v28 = Math_FixedPoint_Multiply_451040(op1, y1);
@@ -740,7 +720,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, s32 tlvInfo)
     field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kHighlitePalResID, 1, 0);
 
     // 30 = fmv select
-    if ( gMap_507BA8.field_4_current_camera == 30)
+    if (gMap_507BA8.field_4_current_camera == 30)
     {
         field_E4_res_array[2] = nullptr;
         field_E4_res_array[3] = nullptr;
@@ -1055,7 +1035,7 @@ void Menu::FMV_Select_Update_47E8D0()
                 {
                     SND_StopAll_4762D0();
 
-                    const FmvInfo* pFmvRec = Path_Get_FMV_Record_434680(sActiveList_9F2DE4[field_1E0_selected_index].field_4_level_id,  sActiveList_9F2DE4[field_1E0_selected_index].field_A_fmv_id);
+                    const FmvInfo* pFmvRec = Path_Get_FMV_Record_434680(sActiveList_9F2DE4[field_1E0_selected_index].field_4_level_id, sActiveList_9F2DE4[field_1E0_selected_index].field_A_fmv_id);
                     u32 movie1Sector = 0;
                     Get_fmvs_sectors_44FEB0(pFmvRec->field_0_pName, 0, 0, &movie1Sector, 0, 0);
 
@@ -1114,7 +1094,7 @@ void Menu::FMV_Select_Update_47E8D0()
 
                 field_20E_level = pRec->field_4_level_id;
                 field_210_path = pRec->field_6;
-                field_212_camera =  pRec->field_8;
+                field_212_camera = pRec->field_8;
 
                 field_214_abe_xpos = pRec->field_C;
                 field_216_abe_ypos = pRec->field_E;
@@ -1133,8 +1113,8 @@ void Menu::Empty_Render_47AC80(PrimHeader**)
     // Draw nothing
 }
 
-const Menu_Button stru_4D00D8 = { 34, 65, 6152 };
-const Menu_Element x_and_esc_4D0660[] = { { 33, 29, InputCommands::eUnPause_OrConfirm }, { 304, 165, InputCommands::eBack } };
+const Menu_Button stru_4D00D8 = {34, 65, 6152};
+const Menu_Element x_and_esc_4D0660[] = {{33, 29, InputCommands::eUnPause_OrConfirm}, {304, 165, InputCommands::eBack}};
 
 
 void NavigateBetweenTwoPoints(FP& a, FP& b)
@@ -1281,7 +1261,8 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
         textYOff += 26;
         idxStart = v24++ + 1;
         v25 = textYOff;
-    } while (textYOff < 52);
+    }
+    while (textYOff < 52);
 
 
     for (s32 i = 0; i < 2; i++)
@@ -1347,7 +1328,8 @@ void Menu::ProgressInProgressFilesLoading()
                 loadingFileExists = true;
             }
         }
-    } while (loadingFileExists);
+    }
+    while (loadingFileExists);
 }
 
 void Menu::MainScreen_Render_47BED0(PrimHeader** ppOt)
@@ -1419,7 +1401,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
         bSmallerTimeout = gDemoPlay_507694;
     }
     const s32 idleMax = bSmallerTimeout != 0 ? 300 : 1500;
-    if (Input().IsAnyHeld(InputObject::PadIndex::First, (InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction  | InputCommands::eCheatMode | InputCommands::eBack)) || field_1DC_idle_input_counter > idleMax)
+    if (Input().IsAnyHeld(InputObject::PadIndex::First, (InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction | InputCommands::eCheatMode | InputCommands::eBack)) || field_1DC_idle_input_counter > idleMax)
     {
         if (field_1DC_idle_input_counter <= idleMax)
         {
@@ -1592,53 +1574,53 @@ void Menu::GoToSelectedMenuPage_47BC50()
 
         switch (field_1E0_selected_index)
         {
-         // Gamespeak
-        case 0:
-            field_204_flags &= ~1u;
+                // Gamespeak
+            case 0:
+                field_204_flags &= ~1u;
 
-            // Diff cam depending on input method ?
-            if (Input_JoyStickEnabled())
-            {
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-            }
-            else
-            {
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 33, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-            }
+                // Diff cam depending on input method ?
+                if (Input_JoyStickEnabled())
+                {
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                }
+                else
+                {
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 33, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                }
 
-            field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
+                field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
 
-            field_134_anim.field_A_b = 127;
-            field_134_anim.field_9_g = 127;
-            field_134_anim.field_8_r = 127;
-            break;
+                field_134_anim.field_A_b = 127;
+                field_134_anim.field_9_g = 127;
+                field_134_anim.field_8_r = 127;
+                break;
 
-        // Begin
-        case 1:
-            field_1CC_fn_update = &Menu::ToLoading_47B7E0;
-            break;
+            // Begin
+            case 1:
+                field_1CC_fn_update = &Menu::ToLoading_47B7E0;
+                break;
 
-        // Quit
-        case 2:
-            sBreakGameLoop_507B78 = 1;
-            exit(0);
-            break;
+            // Quit
+            case 2:
+                sBreakGameLoop_507B78 = 1;
+                exit(0);
+                break;
 
-        // Load
-        case 3:
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-            field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
-            break;
+            // Load
+            case 3:
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
+                break;
 
-        // Options
-        case 4:
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-            field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
-            break;
+            // Options
+            case 4:
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
+                break;
 
-        default:
-            LOG_ERROR("Unknown menu item " << field_1E0_selected_index);
-            break;
+            default:
+                LOG_ERROR("Unknown menu item " << field_1E0_selected_index);
+                break;
         }
     }
 }
@@ -1682,45 +1664,45 @@ void Menu::ToNextMenuPage_47BD80()
         {
             switch (field_1E0_selected_index)
             {
-            // Gamespeak
-            case 0:
-            {
-                FrameInfoHeader* pFrameInfoHeader = field_134_anim.Get_FrameHeader_403A00(0);
-                auto pHeader = reinterpret_cast<FrameHeader*>(&(*field_134_anim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-                field_134_anim.LoadPal_403090(field_134_anim.field_20_ppBlock, pHeader->field_0_clut_offset);
-                field_1CC_fn_update = &Menu::ToGameSpeak_Update_47D620;
-                field_1D0_fn_render = &Menu::GameSpeak_Render_47D700;
-                field_1E0_selected_index = 0;
-                break;
-            }
+                // Gamespeak
+                case 0:
+                {
+                    FrameInfoHeader* pFrameInfoHeader = field_134_anim.Get_FrameHeader_403A00(0);
+                    auto pHeader = reinterpret_cast<FrameHeader*>(&(*field_134_anim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+                    field_134_anim.LoadPal_403090(field_134_anim.field_20_ppBlock, pHeader->field_0_clut_offset);
+                    field_1CC_fn_update = &Menu::ToGameSpeak_Update_47D620;
+                    field_1D0_fn_render = &Menu::GameSpeak_Render_47D700;
+                    field_1E0_selected_index = 0;
+                    break;
+                }
 
-            // ?? leads to 2 options, one starts the game, the other leads to
-            // another screen with 1 option that only starts the game
-            case 1:
-                field_1CC_fn_update = &Menu::Update_NoRefs_47E3C0;
-                field_1D0_fn_render = &Menu::Render_NoRefs_47E5B0;
-                field_1E0_selected_index = 0;
-                break;
+                // ?? leads to 2 options, one starts the game, the other leads to
+                // another screen with 1 option that only starts the game
+                case 1:
+                    field_1CC_fn_update = &Menu::Update_NoRefs_47E3C0;
+                    field_1D0_fn_render = &Menu::Render_NoRefs_47E5B0;
+                    field_1E0_selected_index = 0;
+                    break;
 
-            // Load
-            case 3:
-                field_204_flags &= ~2u;
-                field_1CC_fn_update = &Menu::To_Load_Update_47D8E0;
-                field_1D0_fn_render = &Menu::Load_Render_47DDA0;
-                field_1E0_selected_index = 0;
-                break;
+                // Load
+                case 3:
+                    field_204_flags &= ~2u;
+                    field_1CC_fn_update = &Menu::To_Load_Update_47D8E0;
+                    field_1D0_fn_render = &Menu::Load_Render_47DDA0;
+                    field_1E0_selected_index = 0;
+                    break;
 
-             // Options
-            case 4:
-                field_1CC_fn_update = &Menu::To_Options_Update_47C250;
-                field_1D0_fn_render = &Menu::Options_Render_47C190;
-                field_134_anim.Set_Animation_Data_402A40(stru_4D0148[0].field_4_frame_table, nullptr);
-                field_1E0_selected_index = 0;
-                break;
+                    // Options
+                case 4:
+                    field_1CC_fn_update = &Menu::To_Options_Update_47C250;
+                    field_1D0_fn_render = &Menu::Options_Render_47C190;
+                    field_134_anim.Set_Animation_Data_402A40(stru_4D0148[0].field_4_frame_table, nullptr);
+                    field_1E0_selected_index = 0;
+                    break;
 
-            default:
-                LOG_ERROR("Unknown menu item " << field_1E0_selected_index);
-                break;
+                default:
+                    LOG_ERROR("Unknown menu item " << field_1E0_selected_index);
+                    break;
             }
         }
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
@@ -1769,8 +1751,7 @@ void Menu::GameSpeak_Render_47D700(PrimHeader** ppOt)
             sBtnArray_AbeGamespeakMenuButtons_4D04A0[i].field_8_input_command,
             ppOt,
             &field_FC_font,
-            &polyOffset
-        );
+            &polyOffset);
     }
 }
 
@@ -1811,25 +1792,25 @@ void Menu::To_Load_Update_47D8E0()
         {
             sSaveIdx_9F2DD8 = 0;
             IO_EnumerateDirectory("*.sav", [](const s8* fileName, u32 /*lastWriteTime*/)
-                {
-                    if (sSaveIdx_9F2DD8 < 128) // TODO: Array len
-                    {
-                        size_t saveNameLen = strlen(fileName) - 4;
+                                  {
+                                      if (sSaveIdx_9F2DD8 < 128) // TODO: Array len
+                                      {
+                                          size_t saveNameLen = strlen(fileName) - 4;
 
-                        // Limit length to prevent buffer overflow
-                        if (saveNameLen > 19)
-                        {
-                            saveNameLen = 19;
-                        }
+                                          // Limit length to prevent buffer overflow
+                                          if (saveNameLen > 19)
+                                          {
+                                              saveNameLen = 19;
+                                          }
 
-                        if (saveNameLen > 0)
-                        {
-                            memcpy(sSaveNames_9F1DD8[sSaveIdx_9F2DD8].field_0_mName, fileName, saveNameLen);
-                            sSaveNames_9F1DD8[sSaveIdx_9F2DD8].field_0_mName[saveNameLen] = 0;
-                            sSaveIdx_9F2DD8++;
-                        }
-                    }
-                });
+                                          if (saveNameLen > 0)
+                                          {
+                                              memcpy(sSaveNames_9F1DD8[sSaveIdx_9F2DD8].field_0_mName, fileName, saveNameLen);
+                                              sSaveNames_9F1DD8[sSaveIdx_9F2DD8].field_0_mName[saveNameLen] = 0;
+                                              sSaveIdx_9F2DD8++;
+                                          }
+                                      }
+                                  });
             qsort(sSaveNames_9F1DD8, sSaveIdx_9F2DD8, sizeof(SaveName), &Menu::StringsEqual_47DA20);
 
             field_1DC_idle_input_counter = 0;
@@ -1880,7 +1861,6 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
                 field_228 = FP_FromInteger(-26);
                 field_22C = FP_FromDouble(4.5);
                 sSelectedSaveIdx_9F2DDC = field_1E0_selected_index;
-
             }
             else if (field_1E0_selected_index > sSelectedSaveIdx_9F2DDC)
             {
@@ -1990,8 +1970,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
             sBtnArray_LoadGameMenuButtons_4D0630[i].field_8_input_command,
             ppOt,
             &field_FC_font,
-            &polyOffset
-        );
+            &polyOffset);
     }
 }
 
@@ -2051,7 +2030,6 @@ void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
 
 void Menu::Loading_Update_47B870()
 {
-
     if (!gAttract_507698 || ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 0, 0))
     {
         if (field_1E8_pMenuTrans)
@@ -2230,24 +2208,24 @@ void Menu::Option_GoTo_Selected_Update_47C2C0()
         {
             switch (field_1E0_selected_index)
             {
-            // Controller
-            case 0:
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 40, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-                break;
+                // Controller
+                case 0:
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 40, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    break;
 
-            // Sound
-            case 1:
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 5, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-                break;
+                // Sound
+                case 1:
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 5, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    break;
 
-            // Back to main menu screen
-            case 2:
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-                break;
+                // Back to main menu screen
+                case 2:
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    break;
 
-            default:
-                LOG_ERROR("Unknown menu idx " << field_1E0_selected_index);
-                break;
+                default:
+                    LOG_ERROR("Unknown menu idx " << field_1E0_selected_index);
+                    break;
             }
 
             field_1CC_fn_update = &Menu::Options_To_Selected_After_Cam_Change_Update_47C330;
@@ -2261,36 +2239,36 @@ void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
     {
         switch (field_1E0_selected_index)
         {
-        // To controller options
-        case 0:
-            field_204_flags &= ~2u;
-            field_228 = FP_FromInteger(0);
-            field_1CC_fn_update = &Menu::To_Options_Controller_Update_47F2E0;
-            field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
-            field_1E0_selected_index = static_cast<s16>(Input_JoyStickEnabled());
-            field_230_bGoBack = -1;
-            field_22C = FP_FromInteger(0);
-            break;
+            // To controller options
+            case 0:
+                field_204_flags &= ~2u;
+                field_228 = FP_FromInteger(0);
+                field_1CC_fn_update = &Menu::To_Options_Controller_Update_47F2E0;
+                field_1D0_fn_render = &Menu::Options_Controller_Render_47F430;
+                field_1E0_selected_index = static_cast<s16>(Input_JoyStickEnabled());
+                field_230_bGoBack = -1;
+                field_22C = FP_FromInteger(0);
+                break;
 
-        // To sound options
-        case 1:
-            field_1CC_fn_update = &Menu::To_Options_Sound_Update_47C6F0;
-            field_1D0_fn_render = &Menu::Options_Sound_Render_47C630;
-            field_1E0_selected_index = sSoundMono_507690;
-            field_134_anim.Set_Animation_Data_402A40(stru_4D01C0[sSoundMono_507690].field_4_frame_table, nullptr);
-            break;
+            // To sound options
+            case 1:
+                field_1CC_fn_update = &Menu::To_Options_Sound_Update_47C6F0;
+                field_1D0_fn_render = &Menu::Options_Sound_Render_47C630;
+                field_1E0_selected_index = sSoundMono_507690;
+                field_134_anim.Set_Animation_Data_402A40(stru_4D01C0[sSoundMono_507690].field_4_frame_table, nullptr);
+                break;
 
-        // Back to main menu
-        case 2:
-            field_1CC_fn_update = &Menu::To_MainScreen_Update_47BB60;
-            field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
-            field_1E0_selected_index = 4;
-            field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[4].field_4_frame_table, nullptr);
-            break;
+            // Back to main menu
+            case 2:
+                field_1CC_fn_update = &Menu::To_MainScreen_Update_47BB60;
+                field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
+                field_1E0_selected_index = 4;
+                field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[4].field_4_frame_table, nullptr);
+                break;
 
-        default:
-            LOG_ERROR("Unknown menu idx " << field_1E0_selected_index);
-            break;
+            default:
+                LOG_ERROR("Unknown menu idx " << field_1E0_selected_index);
+                break;
         }
 
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
@@ -2313,8 +2291,8 @@ void Menu::To_Options_Controller_Update_47F2E0()
     }
 }
 
-const Menu_Button controllerSelectButtons_4D0160[2] = { { 44, 236, 6152 }, { 290, 236, 6152 } };
-const Menu_Element controllerSelectElements_4D0678[2] = { { 43, 200, InputCommands::eUnPause_OrConfirm }, { 289, 200, InputCommands::eBack } };
+const Menu_Button controllerSelectButtons_4D0160[2] = {{44, 236, 6152}, {290, 236, 6152}};
+const Menu_Element controllerSelectElements_4D0678[2] = {{43, 200, InputCommands::eUnPause_OrConfirm}, {289, 200, InputCommands::eBack}};
 
 void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
 {
@@ -2325,8 +2303,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
             controllerSelectButtons_4D0160[field_230_bGoBack].field_2_ypos,
             ppOt,
             0,
-            0
-        );
+            0);
     }
 
     PSX_RECT rect = {};
@@ -2336,8 +2313,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->field_2E_idx
-    );
+        pScreenManager_4FF7C8->field_2E_idx);
 
     if (field_1E0_selected_index != (Input_JoyStickEnabled() ? 1 : 0))
     {
@@ -2399,8 +2375,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
                 polyOffset,
                 FP_FromInteger(1),
                 640,
-                0
-            );
+                0);
             polyOffset = field_FC_font.DrawString_41C360(
                 ppOt,
                 field_1F4_text,
@@ -2416,13 +2391,12 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
                 polyOffset,
                 FP_FromInteger(1),
                 640,
-                0
-            );
+                0);
         }
         yOffset += 26;
     };
 
-    for(s32 i = 0; i < ALIVE_COUNTOF(controllerSelectElements_4D0678); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(controllerSelectElements_4D0678); i++)
     {
         const auto& menuElement = controllerSelectElements_4D0678[i];
         Menu::RenderElement_47A4E0(
@@ -2431,8 +2405,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
             menuElement.field_8_input_command,
             ppOt,
             &field_FC_font,
-            &polyOffset
-        );
+            &polyOffset);
     }
 }
 
@@ -3006,15 +2979,15 @@ void Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330()
         {
             switch (field_230_bGoBack)
             {
-            // Goto controller configuration
-            case 0:
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 41, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-                break;
+                // Goto controller configuration
+                case 0:
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 41, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    break;
 
-            // Back to main options (sound/controller)
-            case 1:
-                 gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-                 break;
+                // Back to main options (sound/controller)
+                case 1:
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    break;
             }
 
             field_1CC_fn_update = &Menu::Goto_ConfigureController_OrSave_SettingIni_Update_47F380;
@@ -3028,54 +3001,49 @@ void Menu::Goto_ConfigureController_OrSave_SettingIni_Update_47F380()
     {
         switch (field_230_bGoBack)
         {
-        // Goto controller configuration
-        case 0:
-            field_204_flags &= ~2u;
-            field_1CC_fn_update = &Menu::To_ButtonRemap_Update_47F860;
-            field_1D0_fn_render = &Menu::ButtonRemap_Render_47F940;
-            field_1E0_selected_index = 0;
-            field_230_bGoBack = -1;
-            break;
+            // Goto controller configuration
+            case 0:
+                field_204_flags &= ~2u;
+                field_1CC_fn_update = &Menu::To_ButtonRemap_Update_47F860;
+                field_1D0_fn_render = &Menu::ButtonRemap_Render_47F940;
+                field_1E0_selected_index = 0;
+                field_230_bGoBack = -1;
+                break;
 
-        // Back to main options (sound/controller)
-        case 1:
-            Input_SaveSettingsIni_44F460();
-            field_1CC_fn_update = &Menu::To_Options_Update_47C250;
-            field_1D0_fn_render = &Menu::Options_Render_47C190;
-            field_1E0_selected_index = 0;
-            field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[0].field_4_frame_table, nullptr);
-            field_204_flags |= 2u;
-            break;
+            // Back to main options (sound/controller)
+            case 1:
+                Input_SaveSettingsIni_44F460();
+                field_1CC_fn_update = &Menu::To_Options_Update_47C250;
+                field_1D0_fn_render = &Menu::Options_Render_47C190;
+                field_1E0_selected_index = 0;
+                field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[0].field_4_frame_table, nullptr);
+                field_204_flags |= 2u;
+                break;
         }
 
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
     }
 }
 
-const Menu_Element chooseAndExitRemapButtons_4D0690[2] =
-{
-    { 40, 34, InputCommands::eUnPause_OrConfirm },
-    { 301, 163, InputCommands::eBack }
+const Menu_Element chooseAndExitRemapButtons_4D0690[2] = {
+    {40, 34, InputCommands::eUnPause_OrConfirm},
+    {301, 163, InputCommands::eBack}};
+
+const Menu_Button sRemapScreenButtons_4D0170[10] = {
+    {172, 78, 6176},  // Run
+    {172, 109, 6176}, // Sneak
+    {172, 138, 6176}, // Jump
+    {172, 169, 6176}, // Speak 1
+    {258, 77, 6176},  // Action
+    {258, 109, 6176}, // Throw
+    {258, 138, 6176}, // Crouch
+    {258, 169, 6176}, // Speak 2
+    {41, 69, 6152},   // Choose button
+    {302, 199, 6152}  // Exit
 };
 
-const Menu_Button sRemapScreenButtons_4D0170[10] =
-{
-    { 172, 78, 6176 },  // Run
-    { 172, 109, 6176 }, // Sneak
-    { 172, 138, 6176 }, // Jump
-    { 172, 169, 6176 }, // Speak 1
-    { 258, 77, 6176 },  // Action
-    { 258, 109, 6176 }, // Throw
-    { 258, 138, 6176 }, // Crouch
-    { 258, 169, 6176 }, // Speak 2
-    { 41, 69, 6152 },   // Choose button
-    { 302, 199, 6152 }  // Exit
-};
-
-const s8* inputActions_4D0070[8] =
-{
-    "Run", "Sneak", "Jump", "Speak 1", "Action", "Throw", "Crouch", "Speak 2"
-};
+const s8* inputActions_4D0070[8] = {
+    "Run", "Sneak", "Jump", "Speak 1", "Action", "Throw", "Crouch", "Speak 2"};
 
 
 void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
@@ -3100,8 +3068,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             sRemappableInputs_4D0030.buttons[Input_JoyStickEnabled() != 0][i],
             ppOt,
             &field_FC_font,
-            &polyOffset
-        );
+            &polyOffset);
     }
 
     if (field_230_bGoBack == -1)
@@ -3111,8 +3078,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             sRemapScreenButtons_4D0170[field_1E0_selected_index].field_2_ypos + 1,
             ppOt,
             0,
-            0
-        );
+            0);
     }
     else
     {
@@ -3121,8 +3087,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             sRemapScreenButtons_4D0170[field_230_bGoBack].field_2_ypos,
             ppOt,
             0,
-            0
-        );
+            0);
     }
     if (field_230_bGoBack == 8)
     {
@@ -3191,8 +3156,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             polyOffset,
             FP_FromInteger(1),
             640,
-            0
-        );
+            0);
         field_1F4_text = "or Esc for none";
         auto fontWidth3 = field_FC_font.MeasureWidth_41C280("or Esc for none", FP_FromInteger(1));
         s16 calculatedXposBasedOnWidth3 = 0;
@@ -3219,8 +3183,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             polyOffset,
             FP_FromInteger(1),
             640,
-            0
-        );
+            0);
     }
 
     PSX_RECT pRect = {};
@@ -3230,10 +3193,9 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
         pRect.y,
         pRect.w,
         pRect.h,
-        pScreenManager_4FF7C8->field_2E_idx
-    );
+        pScreenManager_4FF7C8->field_2E_idx);
 
-    for( s32 i = 0; i < ALIVE_COUNTOF(chooseAndExitRemapButtons_4D0690); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(chooseAndExitRemapButtons_4D0690); i++)
     {
         RenderElement_47A4E0(
             chooseAndExitRemapButtons_4D0690[i].field_0_xpos,
@@ -3241,8 +3203,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             chooseAndExitRemapButtons_4D0690[i].field_8_input_command,
             ppOt,
             &field_FC_font,
-            &polyOffset
-        );
+            &polyOffset);
     }
 }
 
@@ -3525,7 +3486,8 @@ void Menu::Load_Update_47D760()
     }
 
     if ((Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop)
-        && !field_1FE) || field_1DC_idle_input_counter > 1000)
+         && !field_1FE)
+        || field_1DC_idle_input_counter > 1000)
     {
         field_1FA = 0;
 #if !ORIGINAL_PS1_BEHAVIOR // OG Change - Fixes automatic scroll when exiting Load Menu
@@ -3632,8 +3594,7 @@ void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
                     sBtnArray_AbeGamespeakMenuButtons_4D04A0[i].field_8_input_command,
                     ppOt,
                     &field_FC_font,
-                    &polyOffset
-                );
+                    &polyOffset);
             }
         }
         else
@@ -3857,7 +3818,8 @@ void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHe
         {
             *pTextIter = static_cast<s8>(tolower(*pTextIter));
             pTextIter++;
-        } while (*pTextIter);
+        }
+        while (*pTextIter);
     }
 
     if (text[0] < ' ')
@@ -3931,4 +3893,4 @@ void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHe
     sFontDrawScreenSpace_508BF4 = bOldValue;
 }
 
-}
+} // namespace AO

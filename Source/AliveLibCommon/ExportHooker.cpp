@@ -2,17 +2,18 @@
 #include "ExportHooker.hpp"
 
 #if defined(_WIN32) && !defined(_WIN64)
-#include "detours.h"
-#pragma warning(push)
-#pragma warning(disable:4091)
-#include <DbgHelp.h>
-#pragma warning(pop)
+    #include "detours.h"
+    #pragma warning(push)
+    #pragma warning(disable : 4091)
+    #include <DbgHelp.h>
+    #pragma warning(pop)
 
-#pragma comment(lib, "Dbghelp.lib")
+    #pragma comment(lib, "Dbghelp.lib")
 
 #endif
 
-ExportHooker::ExportHooker(HINSTANCE instance) : mhInstance(instance)
+ExportHooker::ExportHooker(HINSTANCE instance)
+    : mhInstance(instance)
 {
     mExports.reserve(5000);
 }
@@ -25,11 +26,11 @@ static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszNa
         // Resolve 1 level long jumps, not using DetourCodeFromPointer
         // as it appears to have a bug where it checks for 0xeb before 0xe9 and so
         // won't skip jmps that start with long jmps.
-        u8* pbCode = (u8*)pCode;
+        u8* pbCode = (u8*) pCode;
         if (pbCode[0] == 0xe9)
         {
             // jmp +imm32
-            PBYTE pbNew = pbCode + 5 + *(u32 *)&pbCode[1];
+            PBYTE pbNew = pbCode + 5 + *(u32*) &pbCode[1];
             pCode = pbNew;
         }
         reinterpret_cast<ExportHooker*>(pContext)->OnExport(pszName, pCode);
@@ -41,9 +42,9 @@ static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszNa
 void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 {
 #if defined(_WIN32)
-#if defined(_WIN64)
-    (void)saveImplementedFuncs;
-#else
+    #if defined(_WIN64)
+    (void) saveImplementedFuncs;
+    #else
     if (RunningAsInjectedDll())
     {
         CheckVars(); // Check for dup vars or vars that overlap in address space
@@ -103,7 +104,7 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 
     LOG_INFO("Hooked (" << mHookedCount << "/" << mExportCount << ") exports");
 
-#endif // !_WIN64
+    #endif // !_WIN64
 #endif // _WIN32
 }
 
@@ -159,13 +160,13 @@ void ExportHooker::ProcessExports()
         if (e.mIsImplemented && !hookDisabledByConfig)
         {
             // Redirect real game function to our impl
-            err = DetourAttach(&(PVOID&)e.mHookedGameFunctionAddr, e.mCode);
+            err = DetourAttach(&(PVOID&) e.mHookedGameFunctionAddr, e.mCode);
             mHookedCount++;
         }
         else
         {
             // Redirect our impl to real game function
-            err = DetourAttach(&(PVOID&)e.mCode, (PVOID)e.mHookedGameFunctionAddr);
+            err = DetourAttach(&(PVOID&) e.mCode, (PVOID) e.mHookedGameFunctionAddr);
         }
 
         if (err != NO_ERROR)
@@ -212,7 +213,7 @@ void ExportHooker::ProcessExports()
                 }
             }
 
-            err = DetourAttach(&(PVOID&)p.second, pExport == nullptr ? (PVOID)p.first : (PVOID)pExport->mHookedGameFunctionAddr);
+            err = DetourAttach(&(PVOID&) p.second, pExport == nullptr ? (PVOID) p.first : (PVOID) pExport->mHookedGameFunctionAddr);
         }
         else
         {
@@ -242,15 +243,15 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
 {
     ExportInformation info = {};
 #if defined(_WIN32)
-#if defined(_WIN64)
-    (void)pExportedFunctionAddress;
-    (void)exportedFunctionName;
-#else
+    #if defined(_WIN64)
+    (void) pExportedFunctionAddress;
+    (void) exportedFunctionName;
+    #else
     info.mIsImplemented = false;
     info.mExportedFunctionName = exportedFunctionName;
 
     // 4 nops, s32 3, 4 nops
-    const static u8 kPatternToFind[] = { 0x90, 0x90, 0x90, 0x90, 0xCC, 0x90, 0x90, 0x90, 0x90 };
+    const static u8 kPatternToFind[] = {0x90, 0x90, 0x90, 0x90, 0xCC, 0x90, 0x90, 0x90, 0x90};
     u8 codeBuffer[256] = {};
     memcpy(codeBuffer, pExportedFunctionAddress, sizeof(codeBuffer));
     for (s32 i = 0; i < sizeof(codeBuffer) - sizeof(kPatternToFind); i++)
@@ -299,7 +300,7 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
         }
     }
     info.mIsImplemented = true; // Didn't find not impl instruction pattern
-#endif
+    #endif
 #endif
     return info;
 }
@@ -307,10 +308,10 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
 void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
 {
 #if defined(_WIN32)
-#if defined(_WIN64)
-    (void)pszName;
-    (void)pCode;
-#else
+    #if defined(_WIN64)
+    (void) pszName;
+    (void) pCode;
+    #else
     mExportCount++;
 
     std::string exportedFunctionName(pszName);
@@ -367,7 +368,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                         s << "Duplicated real function stub for address " << std::hex << "0x" << addr << " " << exportedFunctionName;
                         HOOK_FATAL(s.str().c_str());
                     }
-                    mRealStubs[addr] = (u32)pCode;
+                    mRealStubs[addr] = (u32) pCode;
                     if (!RunningAsInjectedDll())
                     {
                         // Disable the s32 3/break point in the real stub in standalone
@@ -392,8 +393,8 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                     }
 
                     ExportInformation exportInfo = GetExportInformation(pCode, exportedFunctionName);
-                    mExports.push_back({ exportedFunctionName, pCode, addr, addr, exportInfo.mIsImplemented });
-                    mUsedAddrs.insert({ addr, exportInfo });
+                    mExports.push_back({exportedFunctionName, pCode, addr, addr, exportInfo.mIsImplemented});
+                    mUsedAddrs.insert({addr, exportInfo});
                     return;
                 }
             }
@@ -406,7 +407,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
         underScorePos = exportedFunctionName.find('_', underScorePos + 1);
     }
     LOG_WARNING(pszName << " was not hooked");
-#endif
+    #endif
 #endif
 }
 

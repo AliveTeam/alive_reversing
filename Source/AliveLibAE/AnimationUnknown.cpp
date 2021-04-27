@@ -117,10 +117,10 @@ void AnimationUnknown::vRender_40C690(s32 xpos, s32 ypos, PrimHeader** ppOt, s32
         }
 
         SetXYWH(pPoly,
-            static_cast<s16>(polyX),
-            static_cast<s16>(polyY),
-            static_cast<s16>(frameW - 1),
-            static_cast<s16>(frameH - 1));
+                static_cast<s16>(polyX),
+                static_cast<s16>(polyY),
+                static_cast<s16>(frameW - 1),
+                static_cast<s16>(frameH - 1));
 
         if (pFrameHeader->field_7_compression_type == CompressionType::eType_3_RLE_Blocks || pFrameHeader->field_7_compression_type == CompressionType::eType_6_RLE)
         {

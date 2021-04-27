@@ -73,5 +73,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(HoistRocksEffect, 0x2C);
 
-}
-
+} // namespace AO

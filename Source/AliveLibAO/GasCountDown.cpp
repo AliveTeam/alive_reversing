@@ -14,8 +14,7 @@
 
 namespace AO {
 
-const u8 byte_4C5080[32] =
-{
+const u8 byte_4C5080[32] = {
     0u,
     0u,
     1u,
@@ -47,8 +46,7 @@ const u8 byte_4C5080[32] =
     20u,
     161u,
     24u,
-    216u
-};
+    216u};
 
 ALIVE_VAR(1, 0x507700, s32, sGasTimer_507700, 0);
 ALIVE_VAR(1, 0x4FF888, s16, gGasOn_4FF888, 0);
@@ -68,7 +66,7 @@ GasCountDown* GasCountDown::ctor_40BF60(Path_GasCountDown* pTlv, s32 tlvInfo)
 
     field_62_time_left = 120;
 
-    field_5C_xpos = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + pTlv->field_10_top_left.field_0_x) -  pScreenManager_4FF7C8->field_10_pCamPos->field_0_x));
+    field_5C_xpos = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + pTlv->field_10_top_left.field_0_x) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x));
 
     field_5E_ypos = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + pTlv->field_10_top_left.field_2_y)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
 
@@ -105,8 +103,7 @@ void GasCountDown::VScreenChanged()
 void GasCountDown::VScreenChanged_40C3C0()
 {
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
-        gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
     {
         sGasTimer_507700 = 0;
     }
@@ -131,9 +128,7 @@ void GasCountDown::VUpdate_40C0E0()
     }
 
     // Enable
-    if (!sGasTimer_507700 && 
-        SwitchStates_Get(field_60_switch_id) &&
-        !SwitchStates_Get(70))
+    if (!sGasTimer_507700 && SwitchStates_Get(field_60_switch_id) && !SwitchStates_Get(70))
     {
         sGasTimer_507700 = gnFrameCount_507670;
         auto pAlarm = ao_new<Alarm>();
@@ -141,7 +136,6 @@ void GasCountDown::VUpdate_40C0E0()
         {
             pAlarm->ctor_402570(3600, 0, 0, Layer::eLayer_39);
         }
-
     }
 
     if (!sGasTimer_507700)
@@ -217,7 +211,7 @@ void GasCountDown::VRender(PrimHeader** ppOt)
 
 void GasCountDown::VRender_40C2F0(PrimHeader** ppOt)
 {
-    s8 text[128] = {}; 
+    s8 text[128] = {};
     sprintf(text, "%02d:%02d", field_62_time_left / 60, field_62_time_left % 60);
     const auto textWidth = field_20_font.MeasureWidth_41C2B0(text);
 
@@ -251,4 +245,4 @@ BaseGameObject* GasCountDown::VDestructor(s32 flags)
     return Vdtor_40C3F0(flags);
 }
 
-}
+} // namespace AO

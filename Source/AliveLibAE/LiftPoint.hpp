@@ -71,13 +71,14 @@ public:
     EXPORT BOOL vMovingToFloorLevel_4619B0();
 
     EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, s32 not_used);
+
 private:
     EXPORT void vRender_462730(PrimHeader** ppOt);
     EXPORT void vUpdate_461AE0();
     EXPORT void MoveObjectsOnLift_497600(FP xVelocity);
     EXPORT static void CCSTD sub_461000(Path_TLV* pTlv);
     EXPORT void vStayOnFloor_461A00(s16 floor, Path_LiftPoint* pTlv);
-    EXPORT s32 vGetSaveState_4637D0(LiftPoint_State *pState);
+    EXPORT s32 vGetSaveState_4637D0(LiftPoint_State* pState);
 
 private:
     EXPORT void CreatePulleyIfExists_462C80();
@@ -87,6 +88,7 @@ private:
 
 public:
     s16 field_12C_bMoving;
+
 private:
     s16 field_12E_pad;
     LiftPointStopType field_130_lift_point_stop_type;
@@ -99,8 +101,10 @@ private:
     s16 field_26E_pulley_ypos;
     FP field_270_floorYLevel;
     u8** field_274_ppRes;
+
 public:
     u8 field_278_lift_point_id;
+
 private:
     s8 field_279_pad;
     s16 field_27A_pad;

@@ -31,13 +31,13 @@ void PlatformBase::AddDynamicCollision_4512C0(s32 maxW, s32 maxH, s32 frameTable
     field_128_tlvInfo = tlvInfo;
 
     field_124_pMap = pMap;
-    
+
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
 
     field_10C = 0;
     field_C8_yOffset = 0;
-  
+
     field_110 = 0;
     field_114_count = 0;
 
@@ -59,9 +59,9 @@ void PlatformBase::AddDynamicCollision_4512C0(s32 maxW, s32 maxH, s32 frameTable
         field_C6_scale = 0;
     }
 
-   FrameInfoHeader* pFrameHeader = field_10_anim.Get_FrameHeader_403A00(0);
-   field_AC_ypos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * field_BC_sprite_scale);
-   field_A8_xpos = FP_FromInteger((pTlv->field_10_top_left.field_0_x + pTlv->field_14_bottom_right.field_0_x) / 2);
+    FrameInfoHeader* pFrameHeader = field_10_anim.Get_FrameHeader_403A00(0);
+    field_AC_ypos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * field_BC_sprite_scale);
+    field_A8_xpos = FP_FromInteger((pTlv->field_10_top_left.field_0_x + pTlv->field_14_bottom_right.field_0_x) / 2);
 
     field_120_pCollisionLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(
         pTlv->field_10_top_left.field_0_x,
@@ -79,7 +79,6 @@ void PlatformBase::AddDynamicCollision_4512C0(s32 maxW, s32 maxH, s32 frameTable
     {
         field_6_flags.Set(Options::eListAddFailed_Bit1);
     }
-
 }
 
 BaseGameObject* PlatformBase::dtor_451490()
@@ -90,8 +89,7 @@ BaseGameObject* PlatformBase::dtor_451490()
 
     if (field_120_pCollisionLine)
     {
-        if (gMap_507BA8.field_0_current_level == field_B2_lvl_number &&
-            gMap_507BA8.field_2_current_path == field_B0_path_number)
+        if (gMap_507BA8.field_0_current_level == field_B2_lvl_number && gMap_507BA8.field_2_current_path == field_B0_path_number)
         {
             Rect_Clear_40C920(&field_120_pCollisionLine->field_0_rect);
         }
@@ -156,5 +154,4 @@ void PlatformBase::VAdd_4515D0(BaseAliveGameObject* /*pObj*/)
     }
 }
 
-}
-
+} // namespace AO

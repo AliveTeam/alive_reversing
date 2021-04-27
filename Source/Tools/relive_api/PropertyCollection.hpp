@@ -20,7 +20,7 @@ private:
 public:
     virtual ~PropertyCollection();
 
-    template<typename PropertyType>
+    template <typename PropertyType>
     void AddProperty(const std::string& name, const std::string& typeName, void* key, bool visibleInEditor)
     {
         ThrowOnAddPropertyError(name, typeName, key);
@@ -35,7 +35,7 @@ public:
 
     [[nodiscard]] jsonxx::Array PropertiesToJson() const;
 
-    template<class T>
+    template <class T>
     void ReadEnumValue(const TypesCollectionBase& types, T& field, const jsonxx::Object& properties) const
     {
         const std::string& propName = PropName(&field);
@@ -49,19 +49,19 @@ public:
         field = types.EnumValueFromString<T>(propType, properties.get<std::string>(propName));
     }
 
-    template<class T>
+    template <class T>
     void WriteEnumValue(const TypesCollectionBase& types, jsonxx::Object& properties, const T& field) const
     {
         properties << PropName(&field) << types.EnumValueToString<T>(field);
     }
 
-    template<class T>
+    template <class T>
     void ReadBasicType(T& field, const jsonxx::Object& properties) const
     {
         field = static_cast<T>(properties.get<jsonxx::Number>(PropName(&field)));
     }
 
-    template<class T>
+    template <class T>
     void WriteBasicType(const T& field, jsonxx::Object& properties) const
     {
         properties << PropName(&field) << static_cast<s32>(field);

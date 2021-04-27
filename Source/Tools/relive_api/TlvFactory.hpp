@@ -7,19 +7,21 @@
 #include <memory>
 #include <string>
 
-namespace jsonxx { class Array; }
+namespace jsonxx {
+class Array;
+}
 
 class TlvObjectBase;
 class TypesCollectionBase;
 
-template<class TlvType>
-using FnTlvFactory = std::unique_ptr<TlvObjectBase>(*)(TypesCollectionBase&, TlvType*, s32);
+template <class TlvType>
+using FnTlvFactory = std::unique_ptr<TlvObjectBase> (*)(TypesCollectionBase&, TlvType*, s32);
 
-template<typename TlvEnumType, typename PathTlvType>
+template <typename TlvEnumType, typename PathTlvType>
 class TlvFactory
 {
 private:
-    template<typename TlvWrapperType>
+    template <typename TlvWrapperType>
     [[nodiscard]] static std::unique_ptr<TlvObjectBase> fnCreate(TypesCollectionBase& types, PathTlvType* pTlv, s32 instanceCount)
     {
         // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
@@ -34,7 +36,7 @@ public:
 
     void AddTlvsToJsonArray(TypesCollectionBase& typesCollection, jsonxx::Array& array);
 
-    template<typename TlvWrapperType>
+    template <typename TlvWrapperType>
     void DoRegisterType(TypesCollectionBase& constructingTypes)
     {
         TlvWrapperType tmp;

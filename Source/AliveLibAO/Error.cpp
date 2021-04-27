@@ -18,4 +18,4 @@ EXPORT void CC Error_ShowErrorStackToUser_48DF10(bool bDisplayAsOneMessage)
     Error_ShowErrorStackToUser_4F2A70(bDisplayAsOneMessage);
 }
 
-}
+} // namespace AO

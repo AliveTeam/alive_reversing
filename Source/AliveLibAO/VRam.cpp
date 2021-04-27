@@ -78,4 +78,4 @@ EXPORT s32 CC vram_alloc_450860(s16 width, s16 height, PSX_RECT* pRect)
     return Vram_alloc_4956C0(width, height, 16, pRect);
 }
 
-}
+} // namespace AO

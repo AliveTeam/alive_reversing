@@ -56,5 +56,4 @@ public:
 ALIVE_ASSERT_SIZEOF(IdSplitter, 0x2C);
 
 
-}
-
+} // namespace AO

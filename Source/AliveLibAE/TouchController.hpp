@@ -46,10 +46,9 @@ public:
     void Update();
     void Render();
 
-    s32 GetGamePadData(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons);
+    s32 GetGamePadData(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons);
 
 private:
-
     void setState(TouchControllerButton b, bool s);
     bool getState(TouchControllerButton b);
     Uint32 state;
@@ -61,4 +60,4 @@ private:
     std::vector<SDL_TouchID> touchDevices;
 };
 
-extern TouchController * gTouchController;
+extern TouchController* gTouchController;

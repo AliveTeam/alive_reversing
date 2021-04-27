@@ -37,7 +37,7 @@ void TypesCollectionAE::AddTlvsToJsonArray(jsonxx::Array& array)
 
 void TypesCollectionAE::AddAETypes()
 {
-    #define REGISTER_TYPE_AE(TlvWrapperType) mTlvFactoryAE.DoRegisterType<TlvWrapperType>(*this)
+#define REGISTER_TYPE_AE(TlvWrapperType) mTlvFactoryAE.DoRegisterType<TlvWrapperType>(*this)
 
     REGISTER_TYPE_AE(AETlvs::Path_Hoist);
     REGISTER_TYPE_AE(AETlvs::Path_Switch);
@@ -139,76 +139,76 @@ void TypesCollectionAE::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_MeatSack);
     REGISTER_TYPE_AE(AETlvs::Path_TorturedMudokon);
 
-    #undef REGISTER_TYPE_AE
+#undef REGISTER_TYPE_AE
 
     AddEnum<CameraSwapEffects>("Enum_CameraSwapEffects",
-        {
-             { CameraSwapEffects::eEffect0_InstantChange, "Instant Change" },
-             { CameraSwapEffects::eEffect1_LeftToRight, "Left To Right" },
-             { CameraSwapEffects::eEffect2_RightToLeft, "Right To Left" },
-             { CameraSwapEffects::eEffect3_TopToBottom, "Top To Bottom" },
-             { CameraSwapEffects::eEffect4_BottomToTop, "Bottom To Top" },
-             { CameraSwapEffects::eEffect5_1_FMV, "1 FMV" },
-             { CameraSwapEffects::eEffect6_VerticalSplit, "Left To Vertical Split" },
-             { CameraSwapEffects::eEffect7_HorizontalSplit, "Horizontal Split" },
-             { CameraSwapEffects::eEffect8_BoxOut, "Box Out" },
-             { CameraSwapEffects::eEffect9_2_FMV, "2 FMV" },
-             { CameraSwapEffects::eEffect10_3_FMV, "3 FMV" },
-             { CameraSwapEffects::eEffect11_Unknown, "Unknown" },
-        });
+                               {
+                                   {CameraSwapEffects::eEffect0_InstantChange, "Instant Change"},
+                                   {CameraSwapEffects::eEffect1_LeftToRight, "Left To Right"},
+                                   {CameraSwapEffects::eEffect2_RightToLeft, "Right To Left"},
+                                   {CameraSwapEffects::eEffect3_TopToBottom, "Top To Bottom"},
+                                   {CameraSwapEffects::eEffect4_BottomToTop, "Bottom To Top"},
+                                   {CameraSwapEffects::eEffect5_1_FMV, "1 FMV"},
+                                   {CameraSwapEffects::eEffect6_VerticalSplit, "Left To Vertical Split"},
+                                   {CameraSwapEffects::eEffect7_HorizontalSplit, "Horizontal Split"},
+                                   {CameraSwapEffects::eEffect8_BoxOut, "Box Out"},
+                                   {CameraSwapEffects::eEffect9_2_FMV, "2 FMV"},
+                                   {CameraSwapEffects::eEffect10_3_FMV, "3 FMV"},
+                                   {CameraSwapEffects::eEffect11_Unknown, "Unknown"},
+                               });
 
     AddEnum<Choice_short>("Enum_Choice_short",
-        {
-             { Choice_short::eNo_0, "No" },
-             { Choice_short::eYes_1, "Yes" },
-        });
+                          {
+                              {Choice_short::eNo_0, "No"},
+                              {Choice_short::eYes_1, "Yes"},
+                          });
 
     AddEnum<XDirection_short>("Enum_XDirection_short",
-        {
-             { XDirection_short::eLeft_0, "Left" },
-             { XDirection_short::eRight_1, "Right" },
-        });
+                              {
+                                  {XDirection_short::eLeft_0, "Left"},
+                                  {XDirection_short::eRight_1, "Right"},
+                              });
 
     AddEnum<Scale_short>("Enum_Scale_short",
-        {
-             { Scale_short::eFull_0, "Full" },
-             { Scale_short::eHalf_1, "Half" },
-        });
+                         {
+                             {Scale_short::eFull_0, "Full"},
+                             {Scale_short::eHalf_1, "Half"},
+                         });
 
     AddEnum<Scale_int>("Enum_Scale_int",
-        {
-             { Scale_int::eFull_0, "Full" },
-             { Scale_int::eHalf_1, "Half" },
-        });
+                       {
+                           {Scale_int::eFull_0, "Full"},
+                           {Scale_int::eHalf_1, "Half"},
+                       });
 
     AddEnum<SwitchOp>("Enum_SwitchOp",
-        {
-             { SwitchOp::eSetTrue_0, "SetTrue" },
-             { SwitchOp::eSetFalse_1, "SetFalse" },
-             { SwitchOp::eToggle_2, "Toggle" },
-             { SwitchOp::eIncrement_3, "Increment" },
-             { SwitchOp::eDecrement_4, "Decrement" },
-        });
+                      {
+                          {SwitchOp::eSetTrue_0, "SetTrue"},
+                          {SwitchOp::eSetFalse_1, "SetFalse"},
+                          {SwitchOp::eToggle_2, "Toggle"},
+                          {SwitchOp::eIncrement_3, "Increment"},
+                          {SwitchOp::eDecrement_4, "Decrement"},
+                      });
 
     AddEnum<LevelIds>("Enum_LevelIds",
-        {
-            {LevelIds::eNone, "None"},
-            {LevelIds::eMenu_0, "Menu"},
-            {LevelIds::eMines_1, "Mines"},
-            {LevelIds::eNecrum_2, "Necrum"},
-            {LevelIds::eMudomoVault_3, "MudomoVault"},
-            {LevelIds::eMudancheeVault_4, "MudancheeVault"},
-            {LevelIds::eFeeCoDepot_5, "FeeCoDepot"},
-            {LevelIds::eBarracks_6, "Barracks"},
-            {LevelIds::eMudancheeVault_Ender_7, "MudancheeVault_Ender"},
-            {LevelIds::eBonewerkz_8, "Bonewerkz"},
-            {LevelIds::eBrewery_9, "Brewery"},
-            {LevelIds::eBrewery_Ender_10, "Brewery_Ender"},
-            {LevelIds::eMudomoVault_Ender_11, "MudomoVault_Ender"},
-            {LevelIds::eFeeCoDepot_Ender_12, "FeeCoDepot_Ender"},
-            {LevelIds::eBarracks_Ender_13, "Barracks_Ender"},
-            {LevelIds::eBonewerkz_Ender_14, "Bonewerkz_Ender"},
-            {LevelIds::eNotUsed_15, "NotUsed"},
-            {LevelIds::eCredits_16, "Credits"},
-        });
+                      {
+                          {LevelIds::eNone, "None"},
+                          {LevelIds::eMenu_0, "Menu"},
+                          {LevelIds::eMines_1, "Mines"},
+                          {LevelIds::eNecrum_2, "Necrum"},
+                          {LevelIds::eMudomoVault_3, "MudomoVault"},
+                          {LevelIds::eMudancheeVault_4, "MudancheeVault"},
+                          {LevelIds::eFeeCoDepot_5, "FeeCoDepot"},
+                          {LevelIds::eBarracks_6, "Barracks"},
+                          {LevelIds::eMudancheeVault_Ender_7, "MudancheeVault_Ender"},
+                          {LevelIds::eBonewerkz_8, "Bonewerkz"},
+                          {LevelIds::eBrewery_9, "Brewery"},
+                          {LevelIds::eBrewery_Ender_10, "Brewery_Ender"},
+                          {LevelIds::eMudomoVault_Ender_11, "MudomoVault_Ender"},
+                          {LevelIds::eFeeCoDepot_Ender_12, "FeeCoDepot_Ender"},
+                          {LevelIds::eBarracks_Ender_13, "Barracks_Ender"},
+                          {LevelIds::eBonewerkz_Ender_14, "Bonewerkz_Ender"},
+                          {LevelIds::eNotUsed_15, "NotUsed"},
+                          {LevelIds::eCredits_16, "Credits"},
+                      });
 }

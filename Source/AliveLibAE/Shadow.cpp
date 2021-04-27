@@ -60,14 +60,14 @@ void Shadow::Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP
         FP hitY = {};
         PathLine* pLine = nullptr;
         if (sCollisions_DArray_5C1128->Raycast_417A60(
-            xpos,
-            objY,
-            xpos,
-            objY + FP_FromInteger(240),
-            &pLine,
-            &hitX,
-            &hitY,
-            lineType))
+                xpos,
+                objY,
+                xpos,
+                objY + FP_FromInteger(240),
+                &pLine,
+                &hitX,
+                &hitY,
+                lineType))
         {
             const s16 camXPos = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
             s16 lineXScreen = pLine->field_0_rect.x - camXPos;
@@ -84,20 +84,20 @@ void Shadow::Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP
             field_8_xpos = xpos;
             field_C_ypos = hitY;
 
-            field_10_scale = (FP_FromInteger(1) - (((hitY - objY) *  FP_FromDouble(0.75)) / FP_FromInteger(240))) * spriteScale;
+            field_10_scale = (FP_FromInteger(1) - (((hitY - objY) * FP_FromDouble(0.75)) / FP_FromInteger(240))) * spriteScale;
 
             // Object is before the line we hit
             if (objX < lineXScreen)
             {
                 if (sCollisions_DArray_5C1128->Raycast_417A60(
-                    FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
-                    hitY - FP_FromInteger(2),
-                    FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
-                    hitY + FP_FromInteger(2),
-                    &pLine,
-                    &hitX,
-                    &hitY,
-                    lineType))
+                        FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
+                        hitY - FP_FromInteger(2),
+                        FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
+                        hitY + FP_FromInteger(2),
+                        &pLine,
+                        &hitX,
+                        &hitY,
+                        lineType))
                 {
                     lineXScreen = std::min(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
                 }
@@ -107,14 +107,14 @@ void Shadow::Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP
             if (objW > lineWScreen)
             {
                 if (sCollisions_DArray_5C1128->Raycast_417A60(
-                    FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
-                    hitY - FP_FromInteger(2),
-                    FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
-                    hitY + FP_FromInteger(2),
-                    &pLine,
-                    &hitX,
-                    &hitY,
-                    lineType))
+                        FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
+                        hitY - FP_FromInteger(2),
+                        FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
+                        hitY + FP_FromInteger(2),
+                        &pLine,
+                        &hitX,
+                        &hitY,
+                        lineType))
                 {
                     lineWScreen = std::max(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
                 }

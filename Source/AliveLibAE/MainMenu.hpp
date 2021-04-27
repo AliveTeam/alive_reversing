@@ -66,7 +66,7 @@ struct MainMenuText
 {
     s32 field_0_x;
     s32 field_4_y;
-    const s8 *field_8_text;
+    const s8* field_8_text;
     u8 field_C_align;
     u8 field_D;
     u8 field_E;
@@ -130,7 +130,7 @@ enum MainMenuCams : u16
 
 struct MainMenuNextCam
 {
-    s16 page_update_camera; // LOWORD
+    s16 page_update_camera;      // LOWORD
     s16 button_idx_to_highlight; // HIWORD - by default, always the first button on the given page should be highlighted
 
     // ctor is needed for gcc/clang to not complain about inline struct definitions in return statements
@@ -154,7 +154,8 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual void VScreenChanged() override { }
+    virtual void VScreenChanged() override
+    { }
 
     EXPORT void Render_4CF4C0(PrimHeader** ppOt);
     EXPORT void Update_4CF010();
@@ -208,7 +209,6 @@ public:
         eParamite_AllAYa = 48,
         eParamite_Idle = 41,
         eParamite_Idle2 = 42, // Randomly moves its tenticles every so often
-
     };
 
     EXPORT void Set_Anim_4D05E0(s16 a2, s16 a3 = 0);
@@ -216,8 +216,8 @@ public:
     EXPORT s32 ChangeScreenAndIntroLogic_4CF640();
     EXPORT void AnimationAndSoundLogic_4CFE80();
     EXPORT void UpdateHighliteGlow_4D0630();
-    EXPORT static void callback_4D06E0(MainMenuController *a1);
-    EXPORT static void DrawMenuText_4D20D0(const MainMenuText *array, PrimHeader** ot, Alive::Font *font, s32 *polyIndex, s8 a5);
+    EXPORT static void callback_4D06E0(MainMenuController* a1);
+    EXPORT static void DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, Alive::Font* font, s32* polyIndex, s8 a5);
 
     // Page Functions
     EXPORT void AbeSpeak_Render_4D2060(PrimHeader** ot);
@@ -245,9 +245,9 @@ public:
 
     EXPORT MainMenuNextCam Gamespeak_Update_4D1FC0(u32 input_held);
 
-    void RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText * menuTextArray, s32 count, s8 isSingleChar);
+    void RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText* menuTextArray, s32 count, s8 isSingleChar);
 
-    EXPORT void AbeMotions_Render_4D25E0(PrimHeader **ot);
+    EXPORT void AbeMotions_Render_4D25E0(PrimHeader** ot);
     EXPORT void Gamespeak_Render_4D24F0(PrimHeader** ot);
     EXPORT void Options_Render_4D2540(PrimHeader** ot);
     EXPORT void BackStory_Or_NewGame_Render_4D2630(PrimHeader** ot);
@@ -267,7 +267,7 @@ public:
 
     // Front End
     EXPORT MainMenuNextCam Page_Front_Update_4D0720(u32 input);
-    EXPORT void Page_Front_Render_4D24B0(PrimHeader **ot);
+    EXPORT void Page_Front_Render_4D24B0(PrimHeader** ot);
 
     EXPORT MainMenuNextCam LoadNewGame_Update_4D0920(u32 input);
 
@@ -296,10 +296,10 @@ public:
     EXPORT MainMenuNextCam RemapInput_Update_4D1820(u32 input);
 
     EXPORT MainMenuNextCam tLoadGame_Input_4D3EF0(u32 input);
-    EXPORT void tLoadGame_Render_4D44D0(PrimHeader **pOt);
+    EXPORT void tLoadGame_Render_4D44D0(PrimHeader** pOt);
 
     EXPORT void tLoadGame_Load_4D42F0();
-    EXPORT static s8 CC checkIfDemoFileExists_4D1430(s8 *path);
+    EXPORT static s8 CC checkIfDemoFileExists_4D1430(s8* path);
     EXPORT static void CC remove_ISO9660_Suffix_4D1660(s8* out, s8* in);
 
     EXPORT void tLoadGame_Unload_4D4360();
@@ -307,14 +307,15 @@ public:
     // "Quit" page load
     EXPORT void Game_Force_Quit_Load_4D1A90();
 
-    static MainMenuController * gMainMenuController;
+    static MainMenuController* gMainMenuController;
+
 private:
     MainMenuNextCam HandleGameSpeakInput(u32 input_held, std::function<MainMenuNextCam(InputCommands::Enum cmd)> fnOnGameSpeak);
 
     void HandleCreditsControllerUpdate();
     void HandleMainMenuUpdate();
-public:
 
+public:
     enum Flags
     {
         eBit1_padding = 0x1,
@@ -393,6 +394,7 @@ public:
     FP field_258;
     s16 field_25C_Inside_FMV_Screen;
     s16 field_25E_Inside_CheatLevelSelect_Screen;
+
 private:
     void Unload_Resource(u8**& res);
 };
@@ -415,7 +417,7 @@ struct MainMenuPage
     s16 field_E_show_character;
     TFnInput field_10_fn_update;
     TFnRender field_14_fn_render;
-    MainMenuButton *field_18_buttons;
+    MainMenuButton* field_18_buttons;
     TFnLoad field_1C_fn_on_load;
     TFnUnLoad field_20_fn_on_free;
 };

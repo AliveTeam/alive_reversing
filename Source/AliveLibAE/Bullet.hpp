@@ -29,6 +29,7 @@ public:
 
 
     static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
+
 private:
     EXPORT Bullet* vdtor_4145E0(s32 flags);
 
@@ -37,16 +38,21 @@ private:
     EXPORT void vUpdate_413560();
 
     void PlayBulletSounds(s16 volume);
+
 public:
     BulletType field_20_type;
+
 private:
     s16 field_22_unused;
     PathLine* field_24_pLine;
     FP field_28_xpos;
+
 public:
     FP field_2C_ypos;
+
 public:
     FP field_30_x_distance;
+
 private:
     s32 field_34_unused;
     LevelIds field_38_level;

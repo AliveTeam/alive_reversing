@@ -11,7 +11,7 @@
 #include "Electrocute.hpp"
 #include "Function.hpp"
 
-const s16 sElecticWallFrames_55165C[6] = { 0, 6, 10, 18, 22, 0 };
+const s16 sElecticWallFrames_55165C[6] = {0, 6, 10, 18, 22, 0};
 
 ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, s32 tlvInfo)
 {
@@ -97,9 +97,7 @@ void ElectricWall::dtor_421FA0()
 
 void ElectricWall::vScreenChanged_422530()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
-        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
-        gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) == CameraPos::eCamInvalid_m1)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) == CameraPos::eCamInvalid_m1)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -127,7 +125,7 @@ void ElectricWall::vUpdate_422030()
         // If we are about to become visible set a random starting frame
         if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render)))
         {
-            if (field_20_animation.Get_Frame_Count_40AC70() > 0 )
+            if (field_20_animation.Get_Frame_Count_40AC70() > 0)
             {
                 field_20_animation.SetFrame_409D50(sElecticWallFrames_55165C[Math_RandomRange_496AB0(0, 4)]);
             }
@@ -157,7 +155,7 @@ void ElectricWall::vUpdate_422030()
         bRectBigger.w = FP_GetExponent(field_B8_xpos + FP_FromInteger(4));
         bRectBigger.h = static_cast<s16>(bRect.h + 5);
 
-        for (s32 i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {
             BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
             if (!pObj)
@@ -167,63 +165,63 @@ void ElectricWall::vUpdate_422030()
 
             switch (pObj->field_4_typeId)
             {
-            // Can't zap this
-            case AETypes::eBone_11:
-            case AETypes::eRockSpawner_48:
-            case AETypes::eGrenade_65:
-            case AETypes::eMeat_84:
-            case AETypes::eRock_105:
-                break;
+                // Can't zap this
+                case AETypes::eBone_11:
+                case AETypes::eRockSpawner_48:
+                case AETypes::eGrenade_65:
+                case AETypes::eMeat_84:
+                case AETypes::eRock_105:
+                    break;
 
-            default:
-                if (pObj->field_D6_scale == field_D6_scale)
-                {
-                    PSX_RECT objRect = {};
-                    pObj->vGetBoundingRect_424FD0(&objRect, 1);
-
-                    // If touching rect then we are fried
-                    if (!RectsOverlap(bRectBigger, objRect))
+                default:
+                    if (pObj->field_D6_scale == field_D6_scale)
                     {
-                        // Not touching, so every so often check if we are near
-                        if (!(sGnFrame_5C1B84 % 3))
-                        {
-                            // Make each side of the rect wider
-                            objRect.x -= 50;
-                            objRect.w += 50;
+                        PSX_RECT objRect = {};
+                        pObj->vGetBoundingRect_424FD0(&objRect, 1);
 
-                            if (RectsOverlap(bRectBigger, objRect) && pObj->field_10C_health > FP_FromInteger(0))
+                        // If touching rect then we are fried
+                        if (!RectsOverlap(bRectBigger, objRect))
+                        {
+                            // Not touching, so every so often check if we are near
+                            if (!(sGnFrame_5C1B84 % 3))
                             {
-                                // When near play the buzzing sound
-                                SFX_Play_46FC20(SoundEffect::ElectricGateLoud_40, 45, soundDirection, field_CC_sprite_scale);
+                                // Make each side of the rect wider
+                                objRect.x -= 50;
+                                objRect.w += 50;
+
+                                if (RectsOverlap(bRectBigger, objRect) && pObj->field_10C_health > FP_FromInteger(0))
+                                {
+                                    // When near play the buzzing sound
+                                    SFX_Play_46FC20(SoundEffect::ElectricGateLoud_40, 45, soundDirection, field_CC_sprite_scale);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // Touching the wall, rip
+                            if (!(pObj->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)) && (pObj != sActiveHero_5C1B68 || !gAbeBulletProof_5C1BDA))
+                            {
+                                pObj->field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted);
+
+                                auto pElectrocute = ae_new<Electrocute>();
+                                if (pElectrocute)
+                                {
+                                    pElectrocute->ctor_4E5E80(pObj, 1, 1);
+                                }
+
+                                pObj->VTakeDamage_408730(this);
+
+                                SFX_Play_46FC20(SoundEffect::ElectricZap_39, 127, soundDirection, field_CC_sprite_scale);
+
+                                auto pFlash = ae_new<Flash>();
+                                if (pFlash)
+                                {
+                                    pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
+                                }
                             }
                         }
                     }
-                    else
-                    {
-                        // Touching the wall, rip
-                        if (!(pObj->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)) && (pObj != sActiveHero_5C1B68 || !gAbeBulletProof_5C1BDA))
-                        {
-                            pObj->field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted);
-
-                            auto pElectrocute = ae_new<Electrocute>();
-                            if (pElectrocute)
-                            {
-                                pElectrocute->ctor_4E5E80(pObj, 1, 1);
-                            }
-
-                            pObj->VTakeDamage_408730(this);
-
-                            SFX_Play_46FC20(SoundEffect::ElectricZap_39, 127, soundDirection, field_CC_sprite_scale);
-
-                            auto pFlash = ae_new<Flash>();
-                            if (pFlash)
-                            {
-                                pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
-                            }
-                        }
-                    }
-                }
-                break;
+                    break;
             }
         }
     }

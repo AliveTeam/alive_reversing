@@ -21,19 +21,16 @@
 
 namespace AO {
 
-TintEntry stru_4C5488[] =
-{
-    { 5, 105u, 55u, 55u },
-    { 6, 105u, 55u, 55u },
-    { -1, 127u, 127u, 127u },
+TintEntry stru_4C5488[] = {
+    {5, 105u, 55u, 55u},
+    {6, 105u, 55u, 55u},
+    {-1, 127u, 127u, 127u},
 };
 
-TintEntry stru_4C5498[3] =
-{
-    { 5, 80u, 55u, 55u },
-    { 6, 80u, 55u, 55u },
-    { -1, 127u, 127u, 127u }
-};
+TintEntry stru_4C5498[3] = {
+    {5, 80u, 55u, 55u},
+    {6, 80u, 55u, 55u},
+    {-1, 127u, 127u, 127u}};
 
 void Claw::ctor()
 {
@@ -230,7 +227,7 @@ s16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
         else
         {
             field_12C_pDetector = 0;
-            
+
             auto pGibs = ao_new<Gibs>();
             if (pGibs)
             {
@@ -326,185 +323,185 @@ void SecurityClaw::VUpdate_418DE0()
 
     switch (field_110_state)
     {
-    case SecurityClawStates::eCamSwap_0:
-        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
-        {
-            BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
-            if (!pObjIter)
+        case SecurityClawStates::eCamSwap_0:
+            for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
             {
-                break;
+                BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+                if (!pObjIter)
+                {
+                    break;
+                }
+
+                if (pObjIter->field_4_typeId == Types::eMotionDetector_59)
+                {
+                    auto pDetector = static_cast<MotionDetector*>(pObjIter);
+                    if (!field_13C_pArray)
+                    {
+                        field_10_anim.Set_Animation_Data_402A40(22616, nullptr);
+                        field_13C_pArray = ao_new<DynamicArrayT<MotionDetector>>();
+                        if (field_13C_pArray)
+                        {
+                            field_13C_pArray->ctor_4043E0(10);
+                        }
+                    }
+
+                    pDetector->field_A8_xpos = field_A8_xpos - FP_FromInteger(1);
+                    pDetector->field_AC_ypos = field_AC_ypos - FP_FromInteger(11);
+                    pDetector->field_C_refCount++;
+                    field_13C_pArray->Push_Back(pDetector);
+                }
+            }
+            field_110_state = SecurityClawStates::eIdle_1;
+            field_6_flags.Clear(Options::eUpdateDuringCamSwap_Bit10);
+            break;
+
+        case SecurityClawStates::eIdle_1:
+            if (Event_Get_417250(kEventAbeOhm_8))
+            {
+                field_114_timer = gnFrameCount_507670 + 20;
+                field_110_state = SecurityClawStates::eDoZapEffects_2;
+                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(22420, nullptr);
+                SFX_Play_43AD70(95u, 60, 0);
+                SFX_Play_43AE60(95u, 90, -1000, 0);
             }
 
-            if (pObjIter->field_4_typeId == Types::eMotionDetector_59)
+            if (Event_Get_417250(kEvent_2))
             {
-                auto pDetector = static_cast<MotionDetector*>(pObjIter);
-                if (!field_13C_pArray)
+                if (!alarmInstanceCount_5076A8)
                 {
-                    field_10_anim.Set_Animation_Data_402A40(22616, nullptr);
-                    field_13C_pArray = ao_new<DynamicArrayT<MotionDetector>>();
-                    if (field_13C_pArray)
+                    auto pAlarm = ao_new<Alarm>();
+                    if (pAlarm)
                     {
-                        field_13C_pArray->ctor_4043E0(10);
+                        pAlarm->ctor_402570(field_11A, field_118_alarm_id, 30, Layer::eLayer_39);
+                    }
+                }
+            }
+            break;
+
+        case SecurityClawStates::eDoZapEffects_2:
+            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            {
+                PSX_RECT rect = {};
+                sActiveHero_507678->VGetBoundingRect(&rect, 1);
+                const FP hero_mid_x = FP_FromInteger((rect.w + rect.x) / 2);
+                const FP hero_mid_y = FP_FromInteger((rect.h + rect.y) / 2);
+
+                auto pScreenShake = ao_new<ScreenShake>();
+                if (pScreenShake)
+                {
+                    pScreenShake->ctor_4624D0(1);
+                }
+
+                auto pZapLine = ao_new<ZapLine>();
+                if (pZapLine)
+                {
+                    pZapLine->ctor_4789A0(
+                        field_A8_xpos - (FP_FromInteger(3) * field_BC_sprite_scale),
+                        field_AC_ypos + (FP_FromInteger(5) * field_BC_sprite_scale),
+                        hero_mid_x,
+                        hero_mid_y,
+                        8, ZapLineType::eThick_0,
+                        Layer::eLayer_28);
+                }
+
+                auto pPossessionFlicker = ao_new<PossessionFlicker>();
+                if (pPossessionFlicker)
+                {
+                    pPossessionFlicker->ctor_41A8C0(
+                        sActiveHero_507678,
+                        8,
+                        255,
+                        100,
+                        100);
+                }
+
+                sActiveHero_507678->VTakeDamage(this);
+
+                auto pSpark = ao_new<Sparks>();
+                if (pSpark)
+                {
+                    pSpark->ctor_40A3A0(
+                        field_A8_xpos,
+                        field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                        field_BC_sprite_scale);
+
+                    pSpark->field_C2_g = 65;
+                    pSpark->field_C4_b = 65;
+                    pSpark->field_C0_r = 255;
+                }
+
+
+                auto pSpark2 = ao_new<Sparks>();
+                if (pSpark2)
+                {
+                    pSpark2->ctor_40A3A0(
+                        field_A8_xpos,
+                        field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                        field_BC_sprite_scale);
+
+                    pSpark2->field_C2_g = 65;
+                    pSpark2->field_C4_b = 65;
+                    pSpark2->field_C0_r = 255;
+                }
+
+                for (s32 i = 0; i < 9; i++)
+                {
+                    auto pSpark3 = ao_new<Sparks>();
+                    if (pSpark3)
+                    {
+                        pSpark3->ctor_40A3A0(
+                            hero_mid_x,
+                            hero_mid_y,
+                            field_BC_sprite_scale);
+                        pSpark3->field_C2_g = 65;
+                        pSpark3->field_C4_b = 65;
+                        pSpark3->field_C0_r = 255;
                     }
                 }
 
-                pDetector->field_A8_xpos = field_A8_xpos - FP_FromInteger(1);
-                pDetector->field_AC_ypos = field_AC_ypos - FP_FromInteger(11);
-                pDetector->field_C_refCount++;
-                field_13C_pArray->Push_Back(pDetector);
+                field_110_state = SecurityClawStates::eAnimateClaw_DoFlashAndSound_3;
+                field_114_timer = gnFrameCount_507670 + 8;
             }
-        }
-        field_110_state = SecurityClawStates::eIdle_1;
-        field_6_flags.Clear(Options::eUpdateDuringCamSwap_Bit10);
-        break;
+            break;
 
-    case SecurityClawStates::eIdle_1:
-        if (Event_Get_417250(kEventAbeOhm_8))
-        {
-            field_114_timer = gnFrameCount_507670 + 20;
-            field_110_state = SecurityClawStates::eDoZapEffects_2;
-            field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(22420, nullptr);
-            SFX_Play_43AD70(95u, 60, 0);
-            SFX_Play_43AE60(95u, 90, -1000, 0);
-        }
-
-        if (Event_Get_417250(kEvent_2))
-        {
-            if (!alarmInstanceCount_5076A8)
+        case SecurityClawStates::eAnimateClaw_DoFlashAndSound_3:
+            if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<s32>(gnFrameCount_507670) == field_114_timer - 1)
             {
-                auto pAlarm = ao_new<Alarm>();
-                if (pAlarm)
+                auto pFlash = ao_new<Flash>();
+                if (pFlash)
                 {
-                    pAlarm->ctor_402570(field_11A, field_118_alarm_id, 30, Layer::eLayer_39);
-                }
-            }
-        }
-        break;
-
-    case SecurityClawStates::eDoZapEffects_2:
-        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
-        {
-            PSX_RECT rect = {};
-            sActiveHero_507678->VGetBoundingRect(&rect, 1);
-            const FP hero_mid_x = FP_FromInteger((rect.w + rect.x) / 2);
-            const FP hero_mid_y = FP_FromInteger((rect.h + rect.y) / 2);
-
-            auto pScreenShake = ao_new<ScreenShake>();
-            if (pScreenShake)
-            {
-                pScreenShake->ctor_4624D0(1);
-            }
-
-            auto pZapLine = ao_new<ZapLine>();
-            if (pZapLine)
-            {
-                pZapLine->ctor_4789A0(
-                    field_A8_xpos - (FP_FromInteger(3) * field_BC_sprite_scale),
-                    field_AC_ypos + (FP_FromInteger(5) * field_BC_sprite_scale),
-                    hero_mid_x,
-                    hero_mid_y,
-                    8, ZapLineType::eThick_0,
-                    Layer::eLayer_28);
-            }
-
-            auto pPossessionFlicker = ao_new<PossessionFlicker>();
-            if (pPossessionFlicker)
-            {
-                pPossessionFlicker->ctor_41A8C0(
-                    sActiveHero_507678,
-                    8,
-                    255,
-                    100,
-                    100);
-            }
-
-            sActiveHero_507678->VTakeDamage(this);
-
-            auto pSpark = ao_new<Sparks>();
-            if (pSpark)
-            {
-                pSpark->ctor_40A3A0(
-                    field_A8_xpos,
-                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
-                    field_BC_sprite_scale);
-
-                pSpark->field_C2_g = 65;
-                pSpark->field_C4_b = 65;
-                pSpark->field_C0_r = 255;
-            }
-
-
-            auto pSpark2 = ao_new<Sparks>();
-            if (pSpark2)
-            {
-                pSpark2->ctor_40A3A0(
-                    field_A8_xpos,
-                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
-                    field_BC_sprite_scale);
-
-                pSpark2->field_C2_g = 65;
-                pSpark2->field_C4_b = 65;
-                pSpark2->field_C0_r = 255;
-            }
-
-            for (s32 i = 0; i < 9; i++)
-            {
-                auto pSpark3 = ao_new<Sparks>();
-                if (pSpark3)
-                {
-                    pSpark3->ctor_40A3A0(
-                        hero_mid_x,
-                        hero_mid_y,
-                        field_BC_sprite_scale);
-                    pSpark3->field_C2_g = 65;
-                    pSpark3->field_C4_b = 65;
-                    pSpark3->field_C0_r = 255;
+                    pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0);
                 }
             }
 
-            field_110_state = SecurityClawStates::eAnimateClaw_DoFlashAndSound_3;
-            field_114_timer = gnFrameCount_507670 + 8;
-        }
-        break;
-
-    case SecurityClawStates::eAnimateClaw_DoFlashAndSound_3:
-        if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<s32>(gnFrameCount_507670) == field_114_timer - 1)
-        {
-            auto pFlash = ao_new<Flash>();
-            if (pFlash)
+            if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 4)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0);
+                auto pFlash = ao_new<Flash>();
+                if (pFlash)
+                {
+                    pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
+                }
             }
-        }
 
-        if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 4)
-        {
-            auto pFlash = ao_new<Flash>();
-            if (pFlash)
+            if (field_114_timer - gnFrameCount_507670 == 4)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
+                SFX_Play_43AD70(57u, 0, 0);
             }
-        }
+            else if (field_114_timer - gnFrameCount_507670 == 1)
+            {
+                SFX_Play_43AD70(58u, 0, 0);
+            }
 
-        if (field_114_timer - gnFrameCount_507670 == 4)
-        {
-            SFX_Play_43AD70(57u, 0, 0);
-        }
-        else if (field_114_timer - gnFrameCount_507670 == 1)
-        {
-            SFX_Play_43AD70(58u, 0, 0);
-        }
+            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            {
+                field_110_state = SecurityClawStates::eIdle_1;
+                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(22568, nullptr);
+                SFX_Play_43AD70(97u, 0, 0);
+            }
+            break;
 
-        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
-        {
-            field_110_state = SecurityClawStates::eIdle_1;
-            field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(22568, nullptr);
-            SFX_Play_43AD70(97u, 0, 0);
-        }
-        break;
-
-    default:
-        return;
+        default:
+            return;
     }
 }
 
@@ -513,4 +510,4 @@ void SecurityClaw::VOnThrowableHit(BaseGameObject* /*pFrom*/)
     // Empty
 }
 
-}
+} // namespace AO

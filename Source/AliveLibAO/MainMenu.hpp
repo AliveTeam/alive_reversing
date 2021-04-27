@@ -252,5 +252,4 @@ ALIVE_ASSERT_SIZEOF(Menu, 0x234);
 ALIVE_VAR_EXTERN(s32, gMainMenuInstanceCount_9F2DE0);
 ALIVE_VAR_EXTERN(u8, sJoyResId_50769C);
 
-}
-
+} // namespace AO

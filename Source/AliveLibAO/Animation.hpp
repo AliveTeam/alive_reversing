@@ -10,7 +10,7 @@
 
 namespace AO {
 
-using TFrameCallBackType = s16* (CC*)(void*, s16*);
+using TFrameCallBackType = s16*(CC*) (void*, s16*);
 
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[];
 extern TFrameCallBackType kSlig_Anim_Frame_Fns_4CEBF0[];
@@ -29,10 +29,10 @@ ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
 struct AnimationHeader
 {
     // Meta data - the offset where this record was read from
-    u16 field_0_fps;            // Seems to be 0x1 or 0x2
-    s16 field_2_num_frames;      // Number of frames in the set
+    u16 field_0_fps;        // Seems to be 0x1 or 0x2
+    s16 field_2_num_frames; // Number of frames in the set
 
-                                       // If loop flag set then this is the frame to loop back to
+    // If loop flag set then this is the frame to loop back to
     s16 field_4_loop_start_frame;
 
     // These where reversed by editing data in memory on PSX version
@@ -85,7 +85,8 @@ struct OffsetAndBoundingRect
 
 union PointsUnion
 {
-    PointsUnion() {}
+    PointsUnion()
+    { }
     OffsetAndBoundingRect offsetAndRect;
     Point points[3];
 };
@@ -286,4 +287,4 @@ ALIVE_ASSERT_SIZEOF(AnimationUnknown, 0x70);
 
 
 
-}
+} // namespace AO

@@ -12,4 +12,4 @@ EXPORT void CC Decompress_Type_3_4031E0(const u8* pInput, u8* pOutput, s32 len, 
 
 EXPORT void CC Decompress_Type_4_5_461770(const u8* pInput, u8* pOutput);
 
-}
+} // namespace AO

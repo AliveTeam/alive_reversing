@@ -41,20 +41,20 @@ public:
     [[nodiscard]] jsonxx::Array BasicTypesToJson() const;
     [[nodiscard]] const std::string& TypeName(const std::type_index& typeIndex) const;
 
-    template<class T>
+    template <class T>
     [[nodiscard]] const std::string& TypeName() const
     {
         return TypeName(typeid(T));
     }
 
-    template<class T>
+    template <class T>
     struct EnumPair
     {
         T mEnumValue;
         std::string mName;
     };
 
-    template<class T>
+    template <class T>
     EnumType<T>* AddEnum(const std::string& enumName, std::initializer_list<EnumPair<T>> enumItems)
     {
         if (!TypeName<T>().empty())
@@ -74,7 +74,7 @@ public:
         return static_cast<EnumType<T>*>(RegisterType(newEnum));
     }
 
-    template<class T>
+    template <class T>
     [[nodiscard]] T EnumValueFromString(const std::string& enumTypeName, const std::string& enumValueString) const
     {
         const ITypeBase* ptr = FindByTypeName(enumTypeName);
@@ -87,7 +87,7 @@ public:
         return static_cast<const EnumType<T>*>(ptr)->ValueFromString(enumValueString);
     }
 
-    template<class T>
+    template <class T>
     [[nodiscard]] const std::string& EnumValueToString(T enumValue) const
     {
         const ITypeBase* ptr = FindByTypeIndex(typeid(T));
@@ -100,7 +100,7 @@ public:
         return static_cast<const EnumType<T>*>(ptr)->ValueToString(enumValue);
     }
 
-    template<class T>
+    template <class T>
     BasicType<T>* AddBasicType(const std::string& typeName, s32 minVal, s32 maxVal)
     {
         if (!TypeName<T>().empty())

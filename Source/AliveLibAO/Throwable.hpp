@@ -37,5 +37,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BaseThrowable, 0x110);
 
-}
-
+} // namespace AO

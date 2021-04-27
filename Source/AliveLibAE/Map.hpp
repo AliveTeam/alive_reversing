@@ -25,17 +25,17 @@ enum class LevelIds : s16;
 enum class CameraSwapEffects : s16
 {
     eEffect0_InstantChange = 0,
-    eEffect1_LeftToRight = 1,       // Left to right
-    eEffect2_RightToLeft = 2,       // Right to left
-    eEffect3_TopToBottom = 3,       // Top to bottom
-    eEffect4_BottomToTop = 4,       // Bottom to top
-    eEffect5_1_FMV = 5,             // Play single fmv
-    eEffect6_VerticalSplit = 6,     // Screen splits from the middle and moves out up/down
-    eEffect7_HorizontalSplit = 7,   // Screen splits from the middle and moves out left/right
-    eEffect8_BoxOut = 8,            // A rect "grows" out from the centre of the screen
-    eEffect9_2_FMV = 9,             // Play 2 fmvs
-    eEffect10_3_FMV = 10,           // Play 3 fmvs - apparently just taking an array of fmvs is too simple ?
-    eEffect11_Unknown = 11                  // Unknown, has special handing in the map object
+    eEffect1_LeftToRight = 1,     // Left to right
+    eEffect2_RightToLeft = 2,     // Right to left
+    eEffect3_TopToBottom = 3,     // Top to bottom
+    eEffect4_BottomToTop = 4,     // Bottom to top
+    eEffect5_1_FMV = 5,           // Play single fmv
+    eEffect6_VerticalSplit = 6,   // Screen splits from the middle and moves out up/down
+    eEffect7_HorizontalSplit = 7, // Screen splits from the middle and moves out left/right
+    eEffect8_BoxOut = 8,          // A rect "grows" out from the centre of the screen
+    eEffect9_2_FMV = 9,           // Play 2 fmvs
+    eEffect10_3_FMV = 10,         // Play 3 fmvs - apparently just taking an array of fmvs is too simple ?
+    eEffect11_Unknown = 11        // Unknown, has special handing in the map object
 };
 
 struct CameraName
@@ -52,7 +52,7 @@ enum class CameraPos : s16
     eCamBottom_2 = 2,
     eCamLeft_3 = 3,
     eCamRight_4 = 4,
-    eCamNone_5 = 5,   // Not "in" the camera
+    eCamNone_5 = 5, // Not "in" the camera
 };
 
 enum class LoadMode : s16;
@@ -83,7 +83,7 @@ public:
     MapDirections field_14_direction;
     s16 field_16_padding;
 
-    BaseAliveGameObject *field_18_pAliveObj;
+    BaseAliveGameObject* field_18_pAliveObj;
 
     CameraSwapEffects field_1C;
     s16 field_1E_door;
@@ -135,13 +135,14 @@ public:
     {
         return Is_Point_In_Current_Camera_4810D0(static_cast<s32>(level), path, xpos, ypos, width);
     }
-    
+
     CameraPos GetDirection_4811A0(LevelIds level, s32 path, FP xpos, FP ypos)
     {
         return GetDirection_4811A0(static_cast<s32>(level), path, xpos, ypos);
     }
 
     EXPORT s16 Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect);
+
 private:
     EXPORT s16 Is_Point_In_Current_Camera_4810D0(s32 level, s32 path, FP xpos, FP ypos, s16 width);
     EXPORT CameraPos GetDirection_4811A0(s32 level, s32 path, FP xpos, FP ypos);

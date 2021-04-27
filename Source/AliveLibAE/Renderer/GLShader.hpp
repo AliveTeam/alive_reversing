@@ -19,7 +19,7 @@ class GLShader final
 public:
     GLShader();
 
-    bool LoadSource(const s8 * vertex_Source, const s8* fragment_Source);
+    bool LoadSource(const s8* vertex_Source, const s8* fragment_Source);
     bool LoadFromFile(const s8* vertex_Path, const s8* fragment_Path);
 
     GLuint GetProgramID();

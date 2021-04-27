@@ -90,4 +90,4 @@ EXPORT s16 CC Code_Length_475FD0(u32 code);
 EXPORT s32 CC Code_Convert_476000(u16 code1, u16 code2);
 EXPORT GameSpeakEvents CC Code_LookUp_476050(u32 code, u16 idx, u16 code_len);
 
-}
+} // namespace AO

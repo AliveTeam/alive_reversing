@@ -57,11 +57,11 @@ void HoistParticle::VUpdate_431BD0()
     if (field_B8_vely >= (field_BC_sprite_scale * FP_FromInteger(10)))
     {
         if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
-            0))
+                field_B2_lvl_number,
+                field_B0_path_number,
+                field_A8_xpos,
+                field_AC_ypos,
+                0))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -80,14 +80,14 @@ void HoistParticle::VUpdate_431BD0()
         FP hitX = {};
         FP hitY = {};
         if (sCollisions_DArray_504C6C->RayCast_40C410(
-            field_A8_xpos,
-            oldY,
-            field_A8_xpos,
-            field_AC_ypos,
-            &pLine,
-            &hitX,
-            &hitY,
-            field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+                field_A8_xpos,
+                oldY,
+                field_A8_xpos,
+                field_AC_ypos,
+                &pLine,
+                &hitX,
+                &hitY,
+                field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
         {
             field_AC_ypos = hitY;
             field_B8_vely = (field_B8_vely * FP_FromDouble(-0.3));
@@ -205,4 +205,4 @@ void HoistRocksEffect::VUpdate_431860()
     }
 }
 
-}
+} // namespace AO

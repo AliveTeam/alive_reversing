@@ -77,4 +77,4 @@ void Init_VGA_AndPsxVram();
 
 s32 CC PSX_CD_OpenFile(const s8* pFileName, s32 bTryAllPaths);
 
-}
+} // namespace AO

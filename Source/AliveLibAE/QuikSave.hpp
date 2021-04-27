@@ -4,9 +4,8 @@
 #include "MainMenu.hpp"
 #include "SwitchStates.hpp"
 
-namespace AETest::TestsQuikSave
-{
-    void QuikSave_Tests();
+namespace AETest::TestsQuikSave {
+void QuikSave_Tests();
 }
 
 struct Quicksave_PSX_Header

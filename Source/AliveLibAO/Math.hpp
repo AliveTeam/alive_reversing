@@ -21,5 +21,4 @@ EXPORT FP CC Math_SquareRoot_FP_451210(FP v);
 
 ALIVE_ARY_EXTERN(u8, 256, sRandomBytes_4BBE30);
 
-}
-
+} // namespace AO

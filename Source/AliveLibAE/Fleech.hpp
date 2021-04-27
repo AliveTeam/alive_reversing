@@ -175,7 +175,6 @@ private:
 
 
 public:
-
     EXPORT void M_Sleeping_0_42F0B0();
     EXPORT void M_WakingUp_1_42F270();
     EXPORT void M_Unknown_2_42F2F0();

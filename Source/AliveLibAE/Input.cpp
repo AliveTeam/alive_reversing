@@ -17,12 +17,12 @@
 static SDL_GameController* pSDLController = nullptr;
 static SDL_Haptic* pSDLControllerHaptic = nullptr;
 #elif _WIN32
-#include <joystickapi.h>
+    #include <joystickapi.h>
 #endif
 
 #if XINPUT_SUPPORT
-#include <Xinput.h>
-#include <algorithm>
+    #include <Xinput.h>
+    #include <algorithm>
 #endif
 
 #define INPUT_IMPL true
@@ -51,13 +51,7 @@ const InputCommands::Enum sInputKey_GameSpeak7_555114 = InputCommands::Enum::eGa
 const InputCommands::Enum sInputKey_Chant = InputCommands::Enum::eChant;
 
 // Bitmask for all menu-exclusive (navigation, entering, etc.) input commands
-const u32 AllMenuCommandsMask =
-    (
-        InputCommands::Enum::ePause |
-        InputCommands::Enum::eUnPause_OrConfirm |
-        InputCommands::Enum::eBack |
-        InputCommands::Enum::eConfigure
-    );
+const u32 AllMenuCommandsMask = (InputCommands::Enum::ePause | InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::eConfigure);
 
 // Is a joystick plugged in and can be switched to?
 ALIVE_VAR(1, 0x5C2EF4, bool, sJoystickAvailable_5C2EF4, false);
@@ -84,14 +78,14 @@ ALIVE_VAR(1, 0x5C1B9A, s16, bLongerTimeoutToNextDemo_5C1B9A, 0);
 ALIVE_VAR(1, 0xbd30a0, u32, sLastPressedKey_BD30A0, 0);
 ALIVE_VAR(1, 0xbd309c, s32, sIsAKeyDown_BD309C, 0);
 ALIVE_ARY(1, 0x5C9D30, s8, 256, sAllowedGameKeys_5C9D30, {});
-ALIVE_ARY(1, 0x5C9394, const s8 *, 256, sKeyNames_5C9394, {});
-ALIVE_ARY(1, 0x5C9908, const s8 *, 10, sJoyButtonNames_5C9908, {});
+ALIVE_ARY(1, 0x5C9394, const s8*, 256, sKeyNames_5C9394, {});
+ALIVE_ARY(1, 0x5C9908, const s8*, 10, sJoyButtonNames_5C9908, {});
 ALIVE_ARY(1, 0x5C9930, u32, 256, sKeyboardBindings_5C9930, {});
 ALIVE_ARY(1, 0x5C98E0, s32, 10, sGamePadBindings_5C98E0, {});
 ALIVE_VAR(1, 0xbd1870, t_InputCallback, sInputCallbackFunc_BD1870, 0);
 
-ALIVE_ARY(1, 0x555708, s8, 32, sGamePadStr_555708, { "Game Pad" });
-ALIVE_ARY(1, 0x55E85C, s8, 32, sGamePadStr_55E85C, { "Game Pad" });
+ALIVE_ARY(1, 0x555708, s8, 32, sGamePadStr_555708, {"Game Pad"});
+ALIVE_ARY(1, 0x55E85C, s8, 32, sGamePadStr_55E85C, {"Game Pad"});
 
 ALIVE_VAR(1, 0x5c2ee8, s32, bAbsX_5C2EE8, 0);
 ALIVE_VAR(1, 0x5c2ea4, s32, bAbsY_5C2EA4, 0);
@@ -101,57 +95,20 @@ ALIVE_VAR(1, 0x5c2ef0, s32, bAutoY_5C2EF0, 0);
 ALIVE_VAR(1, 0xbd1878, u32, sLastPad_Input_BD1878, 0);
 ALIVE_VAR(1, 0xbd1874, bool, sReadPadEnable_BD1874, false);
 
-ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyboardBindings_55EAD8, {
-    { VK_LEFT, InputCommands::Enum::eLeft },
-    { VK_RIGHT, InputCommands::Enum::eRight },
-    { VK_UP, InputCommands::Enum::eUp },
-    { VK_DOWN, InputCommands::Enum::eDown },
-    { VK_CONTROL, InputCommands::Enum::eDoAction },
-    { VK_MENU, InputCommands::Enum::eSneak },
-    { VK_SHIFT, InputCommands::Enum::eRun },
-    { VK_SPACE, InputCommands::Enum::eHop },
-    { 'Z', InputCommands::Enum::eThrowItem },
-    { 'X', static_cast<InputCommands::Enum>(InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eFartOrRoll) },
-    { VK_ESCAPE, static_cast<InputCommands::Enum>(InputCommands::Enum::ePause | InputCommands::Enum::eBack) },
-    { VK_RETURN, static_cast<InputCommands::Enum>(InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eFartOrRoll) },
-    { VK_TAB, InputCommands::Enum::eCheatMode },
-    { '1', InputCommands::Enum::eGameSpeak1 },
-    { '2', InputCommands::Enum::eGameSpeak2 },
-    { '3', InputCommands::Enum::eGameSpeak3 },
-    { '4', InputCommands::Enum::eGameSpeak4 },
-    { '5', InputCommands::Enum::eGameSpeak5 },
-    { '6', InputCommands::Enum::eGameSpeak6 },
-    { '7', InputCommands::Enum::eGameSpeak7 },
-    { '8', InputCommands::Enum::eGameSpeak8 },
-    { '0', InputCommands::Enum::eChant },
-    { VK_NUMPAD1, InputCommands::Enum::eGameSpeak1 },
-    { VK_NUMPAD2, InputCommands::Enum::eGameSpeak2 },
-    { VK_NUMPAD3, InputCommands::Enum::eGameSpeak3 },
-    { VK_NUMPAD4, InputCommands::Enum::eGameSpeak4 },
-    { VK_NUMPAD5, InputCommands::Enum::eGameSpeak5 },
-    { VK_NUMPAD6, InputCommands::Enum::eGameSpeak6 },
-    { VK_NUMPAD7, InputCommands::Enum::eGameSpeak7 },
-    { VK_NUMPAD8, InputCommands::Enum::eGameSpeak8 },
-    { VK_NUMPAD0, InputCommands::Enum::eChant },
-    { 'C', InputCommands::Enum::eConfigure },
-    { VK_PRIOR, static_cast<InputCommands::Enum>(0x20000000) },
-    { VK_NEXT, static_cast<InputCommands::Enum>(0x40000000) },
-    { VK_DELETE, static_cast<InputCommands::Enum>(0x10000000) },
-    { 0, static_cast<InputCommands::Enum>(0) }
-});
+ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyboardBindings_55EAD8, {{VK_LEFT, InputCommands::Enum::eLeft}, {VK_RIGHT, InputCommands::Enum::eRight}, {VK_UP, InputCommands::Enum::eUp}, {VK_DOWN, InputCommands::Enum::eDown}, {VK_CONTROL, InputCommands::Enum::eDoAction}, {VK_MENU, InputCommands::Enum::eSneak}, {VK_SHIFT, InputCommands::Enum::eRun}, {VK_SPACE, InputCommands::Enum::eHop}, {'Z', InputCommands::Enum::eThrowItem}, {'X', static_cast<InputCommands::Enum>(InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eFartOrRoll)}, {VK_ESCAPE, static_cast<InputCommands::Enum>(InputCommands::Enum::ePause | InputCommands::Enum::eBack)}, {VK_RETURN, static_cast<InputCommands::Enum>(InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eFartOrRoll)}, {VK_TAB, InputCommands::Enum::eCheatMode}, {'1', InputCommands::Enum::eGameSpeak1}, {'2', InputCommands::Enum::eGameSpeak2}, {'3', InputCommands::Enum::eGameSpeak3}, {'4', InputCommands::Enum::eGameSpeak4}, {'5', InputCommands::Enum::eGameSpeak5}, {'6', InputCommands::Enum::eGameSpeak6}, {'7', InputCommands::Enum::eGameSpeak7}, {'8', InputCommands::Enum::eGameSpeak8}, {'0', InputCommands::Enum::eChant}, {VK_NUMPAD1, InputCommands::Enum::eGameSpeak1}, {VK_NUMPAD2, InputCommands::Enum::eGameSpeak2}, {VK_NUMPAD3, InputCommands::Enum::eGameSpeak3}, {VK_NUMPAD4, InputCommands::Enum::eGameSpeak4}, {VK_NUMPAD5, InputCommands::Enum::eGameSpeak5}, {VK_NUMPAD6, InputCommands::Enum::eGameSpeak6}, {VK_NUMPAD7, InputCommands::Enum::eGameSpeak7}, {VK_NUMPAD8, InputCommands::Enum::eGameSpeak8}, {VK_NUMPAD0, InputCommands::Enum::eChant}, {'C', InputCommands::Enum::eConfigure}, {VK_PRIOR, static_cast<InputCommands::Enum>(0x20000000)}, {VK_NEXT, static_cast<InputCommands::Enum>(0x40000000)}, {VK_DELETE, static_cast<InputCommands::Enum>(0x10000000)}, {0, static_cast<InputCommands::Enum>(0)}});
 
 ALIVE_ARY(1, 0x55EA2C, const u32, 10, sDefaultGamepadBindings_55EA2C, {
-    InputCommands::Enum::eDoAction,                                       // Square / X
-    InputCommands::Enum::eFartOrRoll | InputCommands::Enum::eUnPause_OrConfirm, // Cross / A
-    InputCommands::Enum::eThrowItem,                                      // Circle / B
-    InputCommands::Enum::eHop | InputCommands::Enum::eBack,                     // Triangle / Y
-    InputCommands::Enum::eSpeak1,                                         // L1 / LB
-    InputCommands::Enum::eRun,                                            // R1 / RB
-    InputCommands::Enum::eSpeak2,                                         // L2 / LT
-    InputCommands::Enum::eSneak,                                          // R2 / RT
-    0,
-    InputCommands::Enum::ePause | InputCommands::Enum::eUnPause_OrConfirm       // Start / Menu
-});
+                                                                          InputCommands::Enum::eDoAction,                                             // Square / X
+                                                                          InputCommands::Enum::eFartOrRoll | InputCommands::Enum::eUnPause_OrConfirm, // Cross / A
+                                                                          InputCommands::Enum::eThrowItem,                                            // Circle / B
+                                                                          InputCommands::Enum::eHop | InputCommands::Enum::eBack,                     // Triangle / Y
+                                                                          InputCommands::Enum::eSpeak1,                                               // L1 / LB
+                                                                          InputCommands::Enum::eRun,                                                  // R1 / RB
+                                                                          InputCommands::Enum::eSpeak2,                                               // L2 / LT
+                                                                          InputCommands::Enum::eSneak,                                                // R2 / RT
+                                                                          0,
+                                                                          InputCommands::Enum::ePause | InputCommands::Enum::eUnPause_OrConfirm // Start / Menu
+                                                                      });
 
 // For joysticks with very little buttons, depending on strength of joystick, will make abe
 // automatically run/sneak.
@@ -220,104 +177,110 @@ EXPORT void CC Input_StickControl_45FF60(f32 x, f32 y, u32* buttons)
 }
 
 #if USE_SDL2
-    void Input_GetJoyState_SDL(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons)
+void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
+{
+    f32 deadzone = 0.2f;
+
+    *pButtons = 0;
+    *pX1 = 0;
+    *pY1 = 0;
+    *pX2 = 0;
+    *pY2 = 0;
+
+    if (pSDLController != nullptr)
     {
-        f32 deadzone = 0.2f;
+        sJoystickNumButtons_5C2EFC = SDL_JoystickNumButtons(SDL_GameControllerGetJoystick(pSDLController));
+        sGamepadCapFlags_5C2EF8 = 0xFFFF;
 
-        *pButtons = 0;
-        *pX1 = 0;
-        *pY1 = 0;
-        *pX2 = 0;
-        *pY2 = 0;
+        f32 f_LX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTX) / 32767.0f;
+        f32 f_LY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTY) / 32767.0f;
 
-        if (pSDLController != nullptr)
-        {
-            sJoystickNumButtons_5C2EFC = SDL_JoystickNumButtons(SDL_GameControllerGetJoystick(pSDLController));
-            sGamepadCapFlags_5C2EF8 = 0xFFFF;
+        f32 f_RX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTX) / 32767.0f;
+        f32 f_RY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTY) / 32767.0f;
 
-            f32 f_LX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTX) / 32767.0f;
-            f32 f_LY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTY) / 32767.0f;
+        // Joysticks
+        if (abs(f_LX) > deadzone)
+            *pX1 = f_LX;
+        if (abs(f_LY) > deadzone)
+            *pY1 = f_LY;
 
-            f32 f_RX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTX) / 32767.0f;
-            f32 f_RY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTY) / 32767.0f;
+        if (abs(f_RX) > deadzone)
+            *pX2 = f_RX;
+        if (abs(f_RY) > deadzone)
+            *pY2 = f_RY;
 
-            // Joysticks
-            if (abs(f_LX) > deadzone)
-                *pX1 = f_LX;
-            if (abs(f_LY) > deadzone)
-                *pY1 = f_LY;
-
-            if (abs(f_RX) > deadzone)
-                *pX2 = f_RX;
-            if (abs(f_RY) > deadzone)
-                *pY2 = f_RY;
-
-            // DPad Movement
-            if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
-                *pX1 = 1;
-            else if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_LEFT))
-                *pX1 = -1;
-            if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_UP))
-                *pY1 = -1;
-            else if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_DOWN))
-                *pY1 = 1;
+        // DPad Movement
+        if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
+            *pX1 = 1;
+        else if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_LEFT))
+            *pX1 = -1;
+        if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_UP))
+            *pY1 = -1;
+        else if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_DOWN))
+            *pY1 = 1;
 
 
-#define M_SDLGAMEPAD_BIND(BIT, PAD_BUTTON){if (SDL_GameControllerGetButton(pSDLController, PAD_BUTTON) == 1) {*pButtons |= (1 << BIT);} }
-
-
-            M_SDLGAMEPAD_BIND(0, SDL_CONTROLLER_BUTTON_X);
-            M_SDLGAMEPAD_BIND(1, SDL_CONTROLLER_BUTTON_A);
-            M_SDLGAMEPAD_BIND(2, SDL_CONTROLLER_BUTTON_B);
-            M_SDLGAMEPAD_BIND(3, SDL_CONTROLLER_BUTTON_Y);
-            M_SDLGAMEPAD_BIND(4, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
-            M_SDLGAMEPAD_BIND(5, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
-            M_SDLGAMEPAD_BIND(8, SDL_CONTROLLER_BUTTON_BACK);
-            M_SDLGAMEPAD_BIND(9, SDL_CONTROLLER_BUTTON_START);
-
-            if (SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 32)
-                *pButtons |= (1 << 6);
-            if (SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 32)
-                *pButtons |= (1 << 7);
-
-            // 0 Square
-            // 1 Cross
-            // 2 Circle
-            // 3 Triangle
-            // 4 L1
-            // 5 R1
-            // 6 L2
-            // 7 R2
-            // 8 Back
-            // 9 Start
-
-            static f32 vibrationAmount = 0.0f;
-            s32 screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
-
-            if (screenShake > 0)
-            {
-                vibrationAmount = std::min(screenShake, 30) / 30.0f;
-            }
-            else if (Event_Get_422C00(kEventScreenShake))
-            {
-                vibrationAmount = 1.0f;
-            }
-
-
-
-            if (pSDLControllerHaptic != nullptr)
-            {
-                SDL_HapticRumblePlay(pSDLControllerHaptic, vibrationAmount, 200);
-            }
-
-            vibrationAmount -= 0.2f;
-            vibrationAmount = std::max(0.0f, vibrationAmount);
+    #define M_SDLGAMEPAD_BIND(BIT, PAD_BUTTON)                                \
+        {                                                                     \
+            if (SDL_GameControllerGetButton(pSDLController, PAD_BUTTON) == 1) \
+            {                                                                 \
+                *pButtons |= (1 << BIT);                                      \
+            }                                                                 \
         }
+
+
+        M_SDLGAMEPAD_BIND(0, SDL_CONTROLLER_BUTTON_X);
+        M_SDLGAMEPAD_BIND(1, SDL_CONTROLLER_BUTTON_A);
+        M_SDLGAMEPAD_BIND(2, SDL_CONTROLLER_BUTTON_B);
+        M_SDLGAMEPAD_BIND(3, SDL_CONTROLLER_BUTTON_Y);
+        M_SDLGAMEPAD_BIND(4, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+        M_SDLGAMEPAD_BIND(5, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+        M_SDLGAMEPAD_BIND(8, SDL_CONTROLLER_BUTTON_BACK);
+        M_SDLGAMEPAD_BIND(9, SDL_CONTROLLER_BUTTON_START);
+
+        if (SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 32)
+            *pButtons |= (1 << 6);
+        if (SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 32)
+            *pButtons |= (1 << 7);
+
+        // 0 Square
+        // 1 Cross
+        // 2 Circle
+        // 3 Triangle
+        // 4 L1
+        // 5 R1
+        // 6 L2
+        // 7 R2
+        // 8 Back
+        // 9 Start
+
+        static f32 vibrationAmount = 0.0f;
+        s32 screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
+
+        if (screenShake > 0)
+        {
+            vibrationAmount = std::min(screenShake, 30) / 30.0f;
+        }
+        else if (Event_Get_422C00(kEventScreenShake))
+        {
+            vibrationAmount = 1.0f;
+        }
+
+
+
+        if (pSDLControllerHaptic != nullptr)
+        {
+            SDL_HapticRumblePlay(pSDLControllerHaptic, vibrationAmount, 200);
+        }
+
+        vibrationAmount -= 0.2f;
+        vibrationAmount = std::max(0.0f, vibrationAmount);
     }
+}
 #endif
 
 #if !USE_SDL2 && _WIN32
-void Input_GetJoyState_Impl(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons)
+void Input_GetJoyState_Impl(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
 {
     if (!sJoystickAvailable_5C2EF4)
     {
@@ -428,7 +391,7 @@ void Input_GetJoyState_Impl(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButton
 #endif
 
 #if XINPUT_SUPPORT
-void Input_XINPUT(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons)
+void Input_XINPUT(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
 {
     XINPUT_STATE state;
     ZeroMemory(&state, sizeof(XINPUT_STATE));
@@ -470,7 +433,11 @@ void Input_XINPUT(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons)
         else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
             *pY1 = 1;
 
-#define M_XINPUT_BIND(BIT, PAD_BUTTON){if (state.Gamepad.wButtons & PAD_BUTTON) *pButtons |= (1 << BIT); }
+    #define M_XINPUT_BIND(BIT, PAD_BUTTON)           \
+        {                                            \
+            if (state.Gamepad.wButtons & PAD_BUTTON) \
+                *pButtons |= (1 << BIT);             \
+        }
 
 
         M_XINPUT_BIND(0, XINPUT_GAMEPAD_X);
@@ -525,22 +492,22 @@ void Input_XINPUT(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons)
 #endif
 
 // TODO: Needs actual testing.
-EXPORT void CC Input_GetJoyState_460280(f32 *pX1, f32 *pY1, f32 *pX2, f32 *pY2, u32 *pButtons)
+EXPORT void CC Input_GetJoyState_460280(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
 {
 #if XINPUT_SUPPORT
     Input_XINPUT(pX1, pY1, pX2, pY2, pButtons);
 #else
-#if USE_SDL2
-#if MOBILE
+    #if USE_SDL2
+        #if MOBILE
     if (!gTouchController->GetGamePadData(pX1, pY1, pX2, pY2, pButtons))
     {
         Input_GetJoyState_SDL(pX1, pY1, pX2, pY2, pButtons);
     }
-#else
+        #else
     Input_GetJoyState_SDL(pX1, pY1, pX2, pY2, pButtons);
-#endif
+        #endif
     #elif _WIN32
-        Input_GetJoyState_Impl(pX1, pY1, pX2, pY2, pButtons);
+    Input_GetJoyState_Impl(pX1, pY1, pX2, pY2, pButtons);
     #endif
 #endif
 }
@@ -661,19 +628,19 @@ const s8* CC Input_GetButtonString_492530(const s8* idx, s32 controllerType)
     const s8* ret = ""; // don't crash the game if the buttonstring cannot be looked up
     if (controllerType == 0)
     {
-        ret = sKeyboardDisplayKeyNames_5C9E30.keys[*idx-1].field_0_name;
+        ret = sKeyboardDisplayKeyNames_5C9E30.keys[*idx - 1].field_0_name;
     }
     else
     {
-        if (sGamepadDisplayKeyNames_5C9798.keys[*idx-1].field_0_name[0])
+        if (sGamepadDisplayKeyNames_5C9798.keys[*idx - 1].field_0_name[0])
         {
-            ret = sGamepadDisplayKeyNames_5C9798.keys[*idx-1].field_0_name;
+            ret = sGamepadDisplayKeyNames_5C9798.keys[*idx - 1].field_0_name;
         }
         else
         {
             if (controllerType == 2)
             {
-                ret = sKeyboardDisplayKeyNames_5C9E30.keys[*idx-1].field_0_name;
+                ret = sKeyboardDisplayKeyNames_5C9E30.keys[*idx - 1].field_0_name;
             }
         }
     }
@@ -816,7 +783,7 @@ EXPORT void CC Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad)
     }
 }
 
-EXPORT InputCommands::Enum CC Input_LoadSettingsIni_GetInputCommand_492B80(const s8 *pActionName)
+EXPORT InputCommands::Enum CC Input_LoadSettingsIni_GetInputCommand_492B80(const s8* pActionName)
 {
     if (!_strcmpi(pActionName, "run"))
     {
@@ -849,7 +816,7 @@ EXPORT InputCommands::Enum CC Input_LoadSettingsIni_GetInputCommand_492B80(const
     return InputCommands::Enum::eSpeak1;
 }
 
-EXPORT s32 CC Input_GetKeyboardKeyCode_492CA0(const s8 * keyName)
+EXPORT s32 CC Input_GetKeyboardKeyCode_492CA0(const s8* keyName)
 {
     for (s32 i = 0; i < 256; i++)
     {
@@ -862,7 +829,7 @@ EXPORT s32 CC Input_GetKeyboardKeyCode_492CA0(const s8 * keyName)
     return -1;
 }
 
-EXPORT s32 CC Input_GetGamePadCode_492CF0(const s8 * buttonName )
+EXPORT s32 CC Input_GetGamePadCode_492CF0(const s8* buttonName)
 {
     for (s32 i = 0; i < 10; i++)
     {
@@ -875,7 +842,7 @@ EXPORT s32 CC Input_GetGamePadCode_492CF0(const s8 * buttonName )
     return -1;
 }
 
-EXPORT void CC Input_SetKeyboardBinding_493180(const s8 *pKeyName, s32 inputCommand)
+EXPORT void CC Input_SetKeyboardBinding_493180(const s8* pKeyName, s32 inputCommand)
 {
     s32 keyCode = Input_GetKeyboardKeyCode_492CA0(pKeyName);
     if (keyCode >= 0)
@@ -885,7 +852,7 @@ EXPORT void CC Input_SetKeyboardBinding_493180(const s8 *pKeyName, s32 inputComm
     }
 }
 
-EXPORT void CC Input_SetGamePadBinding_4931D0(const s8 *pButtonName, s32 inputCommand)
+EXPORT void CC Input_SetGamePadBinding_4931D0(const s8* pButtonName, s32 inputCommand)
 {
     s32 gamePadCode = Input_GetGamePadCode_492CF0(pButtonName);
     Input_ResetBinding_4925A0(inputCommand, 1);
@@ -920,8 +887,12 @@ std::vector<std::string> Ini_SplitParams(std::string line)
 
 union intOrBoolPointer
 {
-    intOrBoolPointer(bool* pBool) : boolVal(pBool) {}
-    intOrBoolPointer(s32* pInt) : intVal(pInt) {}
+    intOrBoolPointer(bool* pBool)
+        : boolVal(pBool)
+    { }
+    intOrBoolPointer(s32* pInt)
+        : intVal(pInt)
+    { }
 
     s32* intVal;
     bool* boolVal;
@@ -937,14 +908,14 @@ struct IniCustomSaveEntry
 bool canOverwriteIni = true;
 
 std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
-    { "keep_aspect", { &s_VGA_KeepAspectRatio }, true },
-    { "filter_screen", { &s_VGA_FilterScreen }, true },
+    {"keep_aspect", {&s_VGA_KeepAspectRatio}, true},
+    {"filter_screen", {&s_VGA_FilterScreen}, true},
 #if USE_SDL2_SOUND
-    { "reverb", { &gReverbEnabled }, true },
-    { "audio_stereo", { &gAudioStereo }, true },
+    {"reverb", {&gReverbEnabled}, true},
+    {"audio_stereo", {&gAudioStereo}, true},
 #endif
-    { "debug_mode", { &gDebugHelpersEnabled }, true },
-    { "overwrite_ini_by_game", { &canOverwriteIni }, true },
+    {"debug_mode", {&gDebugHelpersEnabled}, true},
+    {"overwrite_ini_by_game", {&canOverwriteIni}, true},
 };
 
 enum class IniCategory
@@ -961,8 +932,7 @@ const s8* iniCategories[4] = {
     "Control",
     "Keyboard",
     "Gamepad",
-    "Alive"
-};
+    "Alive"};
 
 void NewParseSettingsIni()
 {
@@ -1039,7 +1009,7 @@ void NewParseSettingsIni()
                     {
                         sJoystickEnabled_5C9F70 = 1;
                     }
-                    else if(param[0] == "controller" && param[1] == "Keyboard")
+                    else if (param[0] == "controller" && param[1] == "Keyboard")
                     {
                         sJoystickEnabled_5C9F70 = 0;
                     }
@@ -1094,7 +1064,8 @@ EXPORT void Input_SaveSettingsIni_Common(bool isAo)
     std::stringstream output;
 
     // Control remap
-    output << "[" << iniCategories[0] << "]" << "\n";
+    output << "[" << iniCategories[0] << "]"
+           << "\n";
 
     if (sJoystickEnabled_5C9F70)
     {
@@ -1113,7 +1084,8 @@ EXPORT void Input_SaveSettingsIni_Common(bool isAo)
     sJoystickEnabled_5C9F70 = 0;
 
     // Keyboard remap
-    output << "[" << iniCategories[1] << "]" << "\n";
+    output << "[" << iniCategories[1] << "]"
+           << "\n";
 
     const s8* btnString = nullptr;
 
@@ -1160,7 +1132,8 @@ EXPORT void Input_SaveSettingsIni_Common(bool isAo)
     output << "\n";
 
     // Gamepad remap
-    output << "[" << iniCategories[2] << "]" << "\n";
+    output << "[" << iniCategories[2] << "]"
+           << "\n";
     output << "buttons = " << sJoystickNumButtons_5C2EFC << "\n";
 
     btnString = Input_GetButtonString_492530(kRun, 1);
@@ -1223,7 +1196,8 @@ EXPORT void Input_SaveSettingsIni_Common(bool isAo)
     output << "\n";
 
     // New Renderer Options
-    output << "[" << iniCategories[3] << "]" << "\n";
+    output << "[" << iniCategories[3] << "]"
+           << "\n";
 
     for (const auto& s : gCustomSaveEntries)
     {
@@ -1279,13 +1253,13 @@ static bool IsChanting(s8 input_command_c_pressed, s8 input_command_delete_press
 // Temp Hax. Todo: fix up
 EXPORT s32 Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 {
-    u32 timeStamp; // eax
-    u32 buttons; // edx
-    u32 currentTime; // eax
+    u32 timeStamp;                   // eax
+    u32 buttons;                     // edx
+    u32 currentTime;                 // eax
     s8 input_command_delete_pressed; // [esp+2h] [ebp-1Ah]
-    s8 input_command_c_pressed; // [esp+3h] [ebp-19h]
-    s32 keys_down; // [esp+4h] [ebp-18h]
-    u32 pButtons; // [esp+8h] [ebp-14h]
+    s8 input_command_c_pressed;      // [esp+3h] [ebp-19h]
+    s32 keys_down;                   // [esp+4h] [ebp-18h]
+    u32 pButtons;                    // [esp+8h] [ebp-14h]
 
     if (!Input_GetInputEnabled_4EDDE0())
     {
@@ -1338,7 +1312,7 @@ EXPORT s32 Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 
         Input_GetJoyState_460280(&pX1, &pY1, &pX2, &pY2, &pButtons);
 
-        if ((sGamepadCapFlags_5C2EF8 & eDisableAutoRun) == 1 && sJoystickNumButtons_5C2EFC <= 4 && fabs(pX1) >= 0.75f)// Auto sprint
+        if ((sGamepadCapFlags_5C2EF8 & eDisableAutoRun) == 1 && sJoystickNumButtons_5C2EFC <= 4 && fabs(pX1) >= 0.75f) // Auto sprint
         {
             pressed_keyboard_keys |= InputCommands::Enum::eRun;
             keys_down = pressed_keyboard_keys;
@@ -1611,10 +1585,13 @@ EXPORT void Input_InitJoyStick_460080()
     if (!SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC | SDL_INIT_GAMECONTROLLER))
     {
         DEV_CONSOLE_PRINTF("SDL GamePads: %i", SDL_NumJoysticks());
-        for (s32 i = 0; i < SDL_NumJoysticks(); ++i) {
-            if (SDL_IsGameController(i)) {
+        for (s32 i = 0; i < SDL_NumJoysticks(); ++i)
+        {
+            if (SDL_IsGameController(i))
+            {
                 pSDLController = SDL_GameControllerOpen(i);
-                if (pSDLController) {
+                if (pSDLController)
+                {
                     sJoystickAvailable_5C2EF4 = true;
                     pSDLControllerHaptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(pSDLController));
                     if (SDL_HapticRumbleInit(pSDLControllerHaptic) < 0)
@@ -1626,7 +1603,8 @@ EXPORT void Input_InitJoyStick_460080()
                     //TODO add binding
                     break;
                 }
-                else {
+                else
+                {
                     printf("Could not open SDL GamePad %i: %s\n", i, SDL_GetError());
                 }
             }
@@ -1691,11 +1669,11 @@ EXPORT void Input_InitJoyStick_460080()
     {
         if (joyFlags & 0xC)
         {
-            f32 pY2; // [esp+Ch] [ebp-14h]
-            f32 pX2; // [esp+10h] [ebp-10h]
+            f32 pY2;      // [esp+Ch] [ebp-14h]
+            f32 pX2;      // [esp+10h] [ebp-10h]
             u32 pButtons; // [esp+14h] [ebp-Ch]
-            f32 pY1; // [esp+18h] [ebp-8h]
-            f32 pX1; // [esp+1Ch] [ebp-4h]
+            f32 pY1;      // [esp+18h] [ebp-8h]
+            f32 pX1;      // [esp+1Ch] [ebp-4h]
 
             Input_GetJoyState_460280(&pX1, &pY1, &pX2, &pY2, &pButtons);
             Input_45FDF0(pX2, pY2, (sJoystickCapFlags_5C2EDC & 4) != 0, (sJoystickCapFlags_5C2EDC & 8) != 0);
@@ -1988,10 +1966,9 @@ void InputObject::SetDemoResource_45F1E0(u32** pDemoRes)
 
 void InputObject::Update_45F040()
 {
-    const u8 byte_545A4C[20] =
-    {
-        0, // left?
-        64, // up?
+    const u8 byte_545A4C[20] = {
+        0,   // left?
+        64,  // up?
         192, // down?
         0,
         128, // right?
@@ -2009,8 +1986,7 @@ void InputObject::Update_45F040()
         0,
         0,
         0,
-        0
-    };
+        0};
 
     field_0_pads[0].field_8_previous = field_0_pads[0].field_0_pressed;
     field_0_pads[0].field_0_pressed = Input_Read_Pad_4FA9C0(0);
@@ -2189,7 +2165,7 @@ u32 CC InputObject::Command_To_Raw_45EE40(u32 cmd)
 // TODO: Refactor/implement cleanly - this should be the reverse of Command_To_Raw_45EE40
 s8 CC InputObject::Raw_To_Command_45EF70(s32 a1)
 {
-    s32 v1; // ecx
+    s32 v1;    // ecx
     s8 result; // al
 
     v1 = a1;
@@ -2243,12 +2219,12 @@ void CC InputObject::ShutDown_45F020()
 
 bool InputObject::isPressed(u32 command)
 {
-  return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & command) != 0;
+    return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & command) != 0;
 }
 
 bool InputObject::isHeld(u32 command)
 {
-  return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & command) != 0;
+    return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & command) != 0;
 }
 
 bool InputObject::IsReleased(u32 keys)

@@ -62,9 +62,7 @@ SligSpawner* SligSpawner::vdtor_409800(s32 flags)
 
 void SligSpawner::vScreenChanged_409A30()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
-        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
-        field_38_state == 0)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || field_38_state == 0)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

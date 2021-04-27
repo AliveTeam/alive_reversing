@@ -98,4 +98,4 @@ EXPORT SligSpawner* SligSpawner::VDtor_4029F0(s32 flags)
     return this;
 }
 
-}
+} // namespace AO

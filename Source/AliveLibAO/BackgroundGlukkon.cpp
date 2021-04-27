@@ -146,96 +146,96 @@ void BackgroundGlukkon::VUpdate_41DD60()
 
     switch (field_110_state)
     {
-    case 0:
-        field_110_state = 1;
-        field_118_timer1 = gnFrameCount_507670 + Math_RandomRange_450F20(20, 40);
-        break;
-
-    case 1:
-        field_110_state = 2;
-        field_114_timer2 = gnFrameCount_507670 + Math_RandomRange_450F20(12, 20);
-        break;
-
-    case 2:
-        if (static_cast<s32>(gnFrameCount_507670) > field_114_timer2)
-        {
-            const auto rndVol = Math_RandomRange_450F20(110, 127);
-            const auto rndPitch =  ((Math_NextRandom() % 4) * 128) + 200;
-
-            switch (Math_NextRandom() % 5)
-            {
-            case 0:
-                if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
-                {
-                    field_10_anim.Set_Animation_Data_402A40(46272, 0);
-                    SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
-                }
-                else
-                {
-                    field_10_anim.Set_Animation_Data_402A40(46128, 0);
-                    SFX_Play_43AE60(SoundEffect::GlukkonKillHim1_101, rndVol, rndPitch, 0);
-                }
-                field_110_state = 3;
-                break;
-
-            case 1:
-                if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
-                {
-                    field_10_anim.Set_Animation_Data_402A40(46272, 0);
-                    SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
-                }
-                else
-                {
-                    field_10_anim.Set_Animation_Data_402A40(46180, 0);
-                    SFX_Play_43AE60(SoundEffect::GlukkonKillHim2_102, rndVol, rndPitch, 0);
-                }
-                field_110_state = 3;
-                break;
-
-            case 2:
-                if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
-                {
-                    field_10_anim.Set_Animation_Data_402A40(46272, 0);
-                    SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
-                }
-                else
-                {
-                    field_10_anim.Set_Animation_Data_402A40(46128, 0);
-                    SFX_Play_43AE60(SoundEffect::Empty_105, rndVol, rndPitch, 0);
-                }
-                field_110_state = 3;
-                break;
-
-            case 3:
-                if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
-                {
-                    field_10_anim.Set_Animation_Data_402A40(46180, 0);
-                    SFX_Play_43AE60(SoundEffect::Empty_106, rndVol, rndPitch, 0);
-                }
-                field_110_state = 3;
-                break;
-
-            case 4:
-                return;
-
-            default:
-                field_110_state = 3;
-                break;
-            }
-        }
-        break;
-
-    case 3:
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_10_anim.Set_Animation_Data_402A40(46096, 0);
+        case 0:
             field_110_state = 1;
-        }
-        break;
+            field_118_timer1 = gnFrameCount_507670 + Math_RandomRange_450F20(20, 40);
+            break;
 
-    default:
-        return;
+        case 1:
+            field_110_state = 2;
+            field_114_timer2 = gnFrameCount_507670 + Math_RandomRange_450F20(12, 20);
+            break;
+
+        case 2:
+            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer2)
+            {
+                const auto rndVol = Math_RandomRange_450F20(110, 127);
+                const auto rndPitch = ((Math_NextRandom() % 4) * 128) + 200;
+
+                switch (Math_NextRandom() % 5)
+                {
+                    case 0:
+                        if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+                        {
+                            field_10_anim.Set_Animation_Data_402A40(46272, 0);
+                            SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
+                        }
+                        else
+                        {
+                            field_10_anim.Set_Animation_Data_402A40(46128, 0);
+                            SFX_Play_43AE60(SoundEffect::GlukkonKillHim1_101, rndVol, rndPitch, 0);
+                        }
+                        field_110_state = 3;
+                        break;
+
+                    case 1:
+                        if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+                        {
+                            field_10_anim.Set_Animation_Data_402A40(46272, 0);
+                            SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
+                        }
+                        else
+                        {
+                            field_10_anim.Set_Animation_Data_402A40(46180, 0);
+                            SFX_Play_43AE60(SoundEffect::GlukkonKillHim2_102, rndVol, rndPitch, 0);
+                        }
+                        field_110_state = 3;
+                        break;
+
+                    case 2:
+                        if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+                        {
+                            field_10_anim.Set_Animation_Data_402A40(46272, 0);
+                            SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
+                        }
+                        else
+                        {
+                            field_10_anim.Set_Animation_Data_402A40(46128, 0);
+                            SFX_Play_43AE60(SoundEffect::Empty_105, rndVol, rndPitch, 0);
+                        }
+                        field_110_state = 3;
+                        break;
+
+                    case 3:
+                        if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+                        {
+                            field_10_anim.Set_Animation_Data_402A40(46180, 0);
+                            SFX_Play_43AE60(SoundEffect::Empty_106, rndVol, rndPitch, 0);
+                        }
+                        field_110_state = 3;
+                        break;
+
+                    case 4:
+                        return;
+
+                    default:
+                        field_110_state = 3;
+                        break;
+                }
+            }
+            break;
+
+        case 3:
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_10_anim.Set_Animation_Data_402A40(46096, 0);
+                field_110_state = 1;
+            }
+            break;
+
+        default:
+            return;
     }
 }
 
-}
+} // namespace AO

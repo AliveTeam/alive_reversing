@@ -10,10 +10,10 @@ using TWindowProcFilter = LRESULT(CC*)(HWND, UINT, WPARAM, LPARAM);
 #if USE_SDL2
 struct SDL_Window;
 using TWindowHandleType = SDL_Window*;
-#include "SDL.h"
-#if _WIN32
+    #include "SDL.h"
+    #if _WIN32
 HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle);
-#endif
+    #endif
 #else
 using TWindowHandleType = HWND;
 #endif

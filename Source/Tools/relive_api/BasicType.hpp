@@ -7,7 +7,7 @@
 #include <string>
 #include <typeinfo>
 
-template<class T>
+template <class T>
 class BasicType : public BasicTypeBase
 {
 public:

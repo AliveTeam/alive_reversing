@@ -9,8 +9,7 @@
 
 namespace AO {
 
-const u8 sStatsSignFontPalette_4CD570[32] =
-{
+const u8 sStatsSignFontPalette_4CD570[32] = {
     0u,
     0u,
     1u,
@@ -42,8 +41,7 @@ const u8 sStatsSignFontPalette_4CD570[32] =
     20u,
     161u,
     24u,
-    216u
-};
+    216u};
 
 void LCDStatusBoard::VUpdate()
 {
@@ -101,8 +99,7 @@ LCDStatusBoard* LCDStatusBoard::ctor_4418E0(Path_LCDStatusBoard* pTlv, s32 tlvIn
     gObjList_drawables_504618->Push_Back(this);
 
     field_CC_xpos = (pScreenManager_4FF7C8->field_14_xpos + pTlv->field_10_top_left.field_0_x) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
-    field_CE_ypos = (pScreenManager_4FF7C8->field_16_ypos + pTlv->field_10_top_left.field_2_y) - FP_GetExponent
-        (pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
+    field_CE_ypos = (pScreenManager_4FF7C8->field_16_ypos + pTlv->field_10_top_left.field_2_y) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
     return this;
 }
 
@@ -200,4 +197,4 @@ void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-}
+} // namespace AO

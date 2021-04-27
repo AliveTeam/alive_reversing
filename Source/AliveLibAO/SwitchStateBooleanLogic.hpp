@@ -51,5 +51,4 @@ public:
 ALIVE_ASSERT_SIZEOF(SwitchStateBooleanLogic, 0x1C);
 
 
-}
-
+} // namespace AO

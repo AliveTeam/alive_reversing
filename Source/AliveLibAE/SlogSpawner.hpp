@@ -25,6 +25,7 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+
 private:
     EXPORT SlogSpawner* vdtor_4C8080(s32 flags);
     EXPORT void vScreenChanged_4C82A0();

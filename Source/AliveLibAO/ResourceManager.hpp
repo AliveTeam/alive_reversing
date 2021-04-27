@@ -155,7 +155,7 @@ public:
 
     static EXPORT void CC LoadResource_446C90(const s8* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
 
-  
+
     static EXPORT u8** CC GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock);
 
     static void CheckResourceIsLoaded(u32 type, ResourceID resourceId);
@@ -173,7 +173,7 @@ public:
 
     static EXPORT void CC Clear_Header_Flags_4557F0(u8** ppRes, s16 flags);
 
-    template<class T, class Y>
+    template <class T, class Y>
     static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile(const s8* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
     {
         // TODO: Change the camera types to void*'s
@@ -198,6 +198,6 @@ ALIVE_VAR_EXTERN(s16, bLoadingAFile_50768C);
 ALIVE_VAR_EXTERN(DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0);
 
 ALIVE_VAR_EXTERN(u32, sManagedMemoryUsedSize_9F0E48);
-ALIVE_VAR_EXTERN( u32, sPeakedManagedMemUsage_9F0E4C);
+ALIVE_VAR_EXTERN(u32, sPeakedManagedMemUsage_9F0E4C);
 
-}
+} // namespace AO

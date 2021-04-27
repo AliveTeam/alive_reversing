@@ -27,8 +27,7 @@ constexpr std::string_view kAEDir = "C:\\GOG Games\\Abes Exoddus\\"sv;
 constexpr std::string_view kAODir = "C:\\GOG Games\\Abes Oddysee\\"sv;
 constexpr std::string_view kAETestLvl = "pv.lvl"sv;
 
-constexpr std::array kAELvls
-{
+constexpr std::array kAELvls{
     "ba.lvl"sv,
     "bm.lvl"sv,
     "br.lvl"sv,
@@ -39,11 +38,9 @@ constexpr std::array kAELvls
     "ne.lvl"sv,
     "pv.lvl"sv,
     "st.lvl"sv,
-    "sv.lvl"sv
-};
+    "sv.lvl"sv};
 
-constexpr std::array kAOLvls
-{
+constexpr std::array kAOLvls{
     "c1.lvl"sv,
     "d1.lvl"sv,
     "d2.lvl"sv,
@@ -57,8 +54,7 @@ constexpr std::array kAOLvls
     "r1.lvl"sv,
     "r2.lvl"sv,
     "r6.lvl"sv,
-    "s1.lvl"sv
-};
+    "s1.lvl"sv};
 
 template <typename... Ts>
 [[nodiscard]] std::string concat(const Ts&... xs)
@@ -91,7 +87,7 @@ template <typename... Ts>
 {
     std::vector<u8>& buf = getStaticFileBuffer();
 
-    if(!FS::ReadFileInto(buf, filePath))
+    if (!FS::ReadFileInto(buf, filePath))
     {
         std::cerr << "Failure reading file '" << filePath << "'\n";
         std::abort();
@@ -145,7 +141,7 @@ TEST(alive_api, EnumeratePathsAO)
 {
     auto ret = ReliveAPI::EnumeratePaths(getStaticFileBuffer(), AOPath("R1.LVL"));
     ASSERT_EQ(ret.pathBndName, "R1PATH.BND");
-    const std::vector<s32> paths {15, 16, 18, 19};
+    const std::vector<s32> paths{15, 16, 18, 19};
     ASSERT_EQ(ret.paths, paths);
 }
 
@@ -225,7 +221,7 @@ TEST(alive_api, tlv_reflection)
 
     auto obj = pHoist->InstanceToJson(types);
     (void) pHoist->InstanceFromJson(types, obj); // TODO: check return value?
-    (void) pHoist->StructureToJson(); // TODO: check return value?
+    (void) pHoist->StructureToJson();            // TODO: check return value?
     ASSERT_EQ(pHoist->InstanceNumber(), 99);
 }
 
@@ -246,7 +242,6 @@ public:
         {
             mArgs.push_back(argv[i]);
         }
-
     }
 
     void Add(const std::string& arg)
@@ -259,9 +254,9 @@ public:
         return static_cast<s32>(mArgs.size());
     }
 
-    [[nodiscard]] std::unique_ptr<s8*[]> ArgV() const
+    [[nodiscard]] std::unique_ptr<s8* []> ArgV() const
     {
-        auto ptr = std::make_unique<s8* []>(mArgs.size());
+        auto ptr = std::make_unique<s8*[]>(mArgs.size());
 
         s32 i = 0;
         for (const auto& arg : mArgs)
@@ -271,11 +266,10 @@ public:
         return ptr;
     }
 
-private:
-    std::vector<std::string> mArgs;
+    private : std::vector<std::string> mArgs;
 };
 
-}
+} // namespace
 
 s32 main(s32 argc, s8* argv[])
 {
@@ -289,4 +283,3 @@ s32 main(s32 argc, s8* argv[])
     const auto ret = RUN_ALL_TESTS();
     return ret;
 }
-

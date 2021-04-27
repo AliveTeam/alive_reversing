@@ -117,13 +117,13 @@ void LaughingGas::vScreenChanged_432DE0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-const f32 dword_551C58[7] = { 1.0,  5.0,  10.0,  10.0,  5.0,  1.0,  0.0 };
+const f32 dword_551C58[7] = {1.0, 5.0, 10.0, 10.0, 5.0, 1.0, 0.0};
 
 void LaughingGas::Init_432980()
 {
     for (s32 i = 0; i < field_31F8_w_count; i++)
     {
-        const f32 v4 = (f32)i / (f32)field_31F8_w_count;
+        const f32 v4 = (f32) i / (f32) field_31F8_w_count;
         f32 val1 = 1.0f;
         for (s32 j = 0; j < 7; j++)
         {
@@ -145,7 +145,7 @@ void LaughingGas::Init_432980()
 
     for (s32 i = 0; i < field_31FC_h_count; i++)
     {
-        const f32 v4 = (f32)i / (f32)field_31FC_h_count;
+        const f32 v4 = (f32) i / (f32) field_31FC_h_count;
         f32 val1 = 1.0f;
         for (s32 j = 0; j < 7; j++)
         {
@@ -169,7 +169,7 @@ void LaughingGas::Init_432980()
     {
         for (s32 j = 0; j < 6; j++)
         {
-            field_10C_gas_x[i][j] = static_cast<f32>(gas_rand()) * 6.28f * (1.0f/32767.0f);
+            field_10C_gas_x[i][j] = static_cast<f32>(gas_rand()) * 6.28f * (1.0f / 32767.0f);
         }
     }
 
@@ -345,7 +345,7 @@ void LaughingGas::sub_4328A0()
         {
             const s32 rnd = gas_rand() - 8191;
             field_7C_gas_y[1 + i][1 + j] = (sin(field_10C_gas_x[1 + i][1 + j]) * 50.0f + 30.0f) * static_cast<f32>(FP_GetDouble(field_54_amount_on));
-            field_10C_gas_x[1 + i][1 + j] += (f32)(rnd) * 0.03f * (1.0f / 16383.0f);
+            field_10C_gas_x[1 + i][1 + j] += (f32)(rnd) *0.03f * (1.0f / 16383.0f);
         }
     }
 }

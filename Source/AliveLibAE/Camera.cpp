@@ -4,7 +4,6 @@
 
 Camera::Camera()
 {
-
 }
 
 void Camera::ctor_480DD0()

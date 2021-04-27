@@ -9,34 +9,34 @@ enum class LevelIds : s16;
 
 class FlyingSlig;
 
-using TFlyingSligFn = void(FlyingSlig::*)(void);
+using TFlyingSligFn = void (FlyingSlig::*)(void);
 
-#define FLYING_SLIG_MOTIONS_ENUM(ENTRY) \
-    ENTRY(M_Idle_0_4385E0) \
-    ENTRY(M_HorizontalMovement_1_4386A0) \
-    ENTRY(M_IdleToTurn_2_4388B0) \
-    ENTRY(M_DownMovement_3_438AA0) \
-    ENTRY(M_DownMovementToTurn_4_438CC0) \
-    ENTRY(M_UpMovement_5_438DD0) \
-    ENTRY(M_UpMovementToTurn_6_439030) \
-    ENTRY(M_LeverPull_7_439150) \
-    ENTRY(M_GameSpeak_8_4391D0) \
-    ENTRY(M_Possession_9_434290) \
-    ENTRY(M_EndHorizontalMovement_10_4387D0) \
-    ENTRY(M_BeginUpMovement_11_438E40) \
+#define FLYING_SLIG_MOTIONS_ENUM(ENTRY)         \
+    ENTRY(M_Idle_0_4385E0)                      \
+    ENTRY(M_HorizontalMovement_1_4386A0)        \
+    ENTRY(M_IdleToTurn_2_4388B0)                \
+    ENTRY(M_DownMovement_3_438AA0)              \
+    ENTRY(M_DownMovementToTurn_4_438CC0)        \
+    ENTRY(M_UpMovement_5_438DD0)                \
+    ENTRY(M_UpMovementToTurn_6_439030)          \
+    ENTRY(M_LeverPull_7_439150)                 \
+    ENTRY(M_GameSpeak_8_4391D0)                 \
+    ENTRY(M_Possession_9_434290)                \
+    ENTRY(M_EndHorizontalMovement_10_4387D0)    \
+    ENTRY(M_BeginUpMovement_11_438E40)          \
     ENTRY(M_HorizontalToDownMovement_12_438B10) \
-    ENTRY(M_UpToHorizontalMovement_13_438F60) \
+    ENTRY(M_UpToHorizontalMovement_13_438F60)   \
     ENTRY(M_DownToHorizontalMovement_14_438BF0) \
-    ENTRY(M_QuickTurn_15_4387F0) \
+    ENTRY(M_QuickTurn_15_4387F0)                \
     ENTRY(M_IdleToHorizontalMovement_16_438730) \
-    ENTRY(M_BeginDownMovement_17_438B80) \
-    ENTRY(M_EndDownMovement_18_438C90) \
-    ENTRY(M_DownKnockback_19_4390D0) \
-    ENTRY(M_UpKnockback_20_439110) \
-    ENTRY(M_EndUpMovement_21_438EB0) \
-    ENTRY(M_InstantUpXTurn_22_438EE0) \
-    ENTRY(M_InstantDownXTurn_23_438F20) \
-    ENTRY(M_HorizontalToUpMovement_24_438D60) \
+    ENTRY(M_BeginDownMovement_17_438B80)        \
+    ENTRY(M_EndDownMovement_18_438C90)          \
+    ENTRY(M_DownKnockback_19_4390D0)            \
+    ENTRY(M_UpKnockback_20_439110)              \
+    ENTRY(M_EndUpMovement_21_438EB0)            \
+    ENTRY(M_InstantUpXTurn_22_438EE0)           \
+    ENTRY(M_InstantDownXTurn_23_438F20)         \
+    ENTRY(M_HorizontalToUpMovement_24_438D60)   \
     ENTRY(M_TurnToHorizontalMovement_25_4389E0)
 
 #define MAKE_ENUM(VAR) VAR,
@@ -173,7 +173,6 @@ private:
     EXPORT s16 vTakeDamage_434C90(BaseGameObject* pFrom);
 
 public:
-
     EXPORT void AI_Inactive_0_4355B0();
     EXPORT void AI_Death_1_4364E0();
     EXPORT void AI_Moving_2_4356D0();
@@ -191,8 +190,8 @@ public:
     EXPORT void AI_DePossession_14_436180();
     EXPORT void AI_FlyingSligSpawn_15_4362C0();
     EXPORT void AI_FromNakedSlig_17_4355E0();
-public:
 
+public:
     EXPORT void M_Idle_0_4385E0();
     EXPORT void M_HorizontalMovement_1_4386A0();
     EXPORT void M_IdleToTurn_2_4388B0();
@@ -237,9 +236,9 @@ public:
 
     EXPORT s16 sub_4374A0(s16 a2);
 
-    EXPORT static s16 CCSTD IsAbeEnteringDoor_43B030(BaseAliveGameObject *pThis );
+    EXPORT static s16 CCSTD IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis);
 
-    EXPORT static BOOL CCSTD IsWallBetween_43A550(BaseAliveGameObject *pThis, BaseAliveGameObject *pObj);
+    EXPORT static BOOL CCSTD IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
 
     EXPORT void ThrowGrenade_43A1E0();
 
@@ -392,6 +391,7 @@ private:
     s16 field_28C_bobbing_values_table_index;
     s16 field_28E_padding;
     s32 field_290_bobbing_values_index;
+
 public:
     FP field_294_nextXPos;
     FP field_298_nextYPos;

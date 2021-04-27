@@ -56,10 +56,10 @@ BaseGameObject* DemoPlayback::VDestructor(s32 flags)
 BaseGameObject* DemoPlayback::dtor_4518D0()
 {
     SetVTable(this, 0x4BBF98);
-    
+
     //nullsub_59(nullsub_59);
 
-    ResourceManager::Clear_Header_Flags_4557F0(field_14_ppDemoRes,  ResourceManager::ResourceHeaderFlags::eLocked);
+    ResourceManager::Clear_Header_Flags_4557F0(field_14_ppDemoRes, ResourceManager::ResourceHeaderFlags::eLocked);
     if (field_18_ppRes)
     {
         ResourceManager::FreeResource_455550(field_18_ppRes);
@@ -103,49 +103,49 @@ void DemoPlayback::VUpdate_451960()
 
     switch (field_10_state)
     {
-    case States::eState_0_Init:
-        sActiveHero_507678->field_6_flags.Set(Options::eDrawable_Bit4);
-        sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+        case States::eState_0_Init:
+            sActiveHero_507678->field_6_flags.Set(Options::eDrawable_Bit4);
+            sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-        Input().SetDemoRes_433470(reinterpret_cast<u32**>(field_14_ppDemoRes));
+            Input().SetDemoRes_433470(reinterpret_cast<u32**>(field_14_ppDemoRes));
 
-        field_6_flags.Set(Options::eDrawable_Bit4);
-        field_10_state = States::eState_1_Playing;
-        break;
+            field_6_flags.Set(Options::eDrawable_Bit4);
+            field_10_state = States::eState_1_Playing;
+            break;
 
-    case States::eState_1_Playing:
-        if (!Input().IsDemoPlaying_4334A0())
-        {
-            if (gAttract_507698)
+        case States::eState_1_Playing:
+            if (!Input().IsDemoPlaying_4334A0())
             {
-                gAttract_507698 = 0;
-                
-                // To the next demo of 30
-                sJoyResId_50769C++;
-
-                if (sJoyResId_50769C >= 30)
+                if (gAttract_507698)
                 {
-                    sJoyResId_50769C = 0;
+                    gAttract_507698 = 0;
+
+                    // To the next demo of 30
+                    sJoyResId_50769C++;
+
+                    if (sJoyResId_50769C >= 30)
+                    {
+                        sJoyResId_50769C = 0;
+                    }
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.field_DC_free_all_anim_and_palts = 1;
                 }
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-                gMap_507BA8.field_DC_free_all_anim_and_palts = 1;
-            }
-            else
-            {
-                SaveGame::LoadFromMemory_459970(&reinterpret_cast<PlaybackData*>(*field_18_ppRes)->saveData, 1);
-            }
+                else
+                {
+                    SaveGame::LoadFromMemory_459970(&reinterpret_cast<PlaybackData*>(*field_18_ppRes)->saveData, 1);
+                }
 
-            field_10_state = States::eState_2_Done;
-            field_8_update_delay = 2;
-            field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+                field_10_state = States::eState_2_Done;
+                field_8_update_delay = 2;
+                field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            break;
+
+        case States::eState_2_Done:
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        break;
-
-    case States::eState_2_Done:
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        break;
+            break;
     }
 }
 
-}
+} // namespace AO

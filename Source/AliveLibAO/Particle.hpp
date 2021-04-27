@@ -33,4 +33,4 @@ EXPORT void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale);
 
 EXPORT void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scale);
 
-}
+} // namespace AO

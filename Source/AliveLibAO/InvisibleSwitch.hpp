@@ -52,5 +52,4 @@ public:
 ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x30);
 
 
-}
-
+} // namespace AO

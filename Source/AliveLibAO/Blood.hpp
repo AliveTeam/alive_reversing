@@ -61,5 +61,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Blood, 0x120);
 
-}
-
+} // namespace AO

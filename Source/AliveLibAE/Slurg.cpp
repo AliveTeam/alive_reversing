@@ -24,27 +24,25 @@ EXPORT void CC Slurg::Clear_Slurg_Step_Watch_Points_449A90()
     }
 }
 
-TintEntry sSlurgTints_560BCC[18] =
-{
-    { 1u, 102u, 127u, 118u },
-    { 2u, 102u, 127u, 118u },
-    { 3u, 102u, 127u, 118u },
-    { 4u, 102u, 127u, 118u },
-    { 5u, 102u, 127u, 118u },
-    { 6u, 102u, 127u, 118u },
-    { 7u, 102u, 127u, 118u },
-    { 8u, 102u, 127u, 118u },
-    { 9u, 102u, 127u, 118u },
-    { 10u, 102u, 127u, 118u },
-    { 11u, 102u, 127u, 118u },
-    { 12u, 102u, 127u, 118u },
-    { 13u, 102u, 127u, 118u },
-    { 14u, 102u, 127u, 118u },
-    { -1, 102u, 127u, 118u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u }
-};
+TintEntry sSlurgTints_560BCC[18] = {
+    {1u, 102u, 127u, 118u},
+    {2u, 102u, 127u, 118u},
+    {3u, 102u, 127u, 118u},
+    {4u, 102u, 127u, 118u},
+    {5u, 102u, 127u, 118u},
+    {6u, 102u, 127u, 118u},
+    {7u, 102u, 127u, 118u},
+    {8u, 102u, 127u, 118u},
+    {9u, 102u, 127u, 118u},
+    {10u, 102u, 127u, 118u},
+    {11u, 102u, 127u, 118u},
+    {12u, 102u, 127u, 118u},
+    {13u, 102u, 127u, 118u},
+    {14u, 102u, 127u, 118u},
+    {-1, 102u, 127u, 118u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u}};
 
 Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
 {
@@ -88,14 +86,15 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos,
-        field_B8_xpos,
-        field_BC_ypos + FP_FromInteger(24),
-        &field_124_pLine,
-        &hitX,
-        &hitY,
-        field_D6_scale != 0 ? 1 : 16) == 1)
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos + FP_FromInteger(24),
+            &field_124_pLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 1 : 16)
+        == 1)
     {
         field_BC_ypos = hitY;
     }
@@ -260,11 +259,7 @@ void Slurg::vUpdate_4C8790()
         for (s32 i = 0; i < max_count; i++)
         {
             const Slurg_Step_Watch_Point* pPoint = &sSlurg_Step_Watch_Points_5C1B28[idx].field_0_points[i];
-            if (pPoint->field_0_xPos > bRect.x - 2 &&
-                pPoint->field_0_xPos < bRect.w + 2 &&
-                pPoint->field_2_yPos > bRect.y - 4 &&
-                pPoint->field_2_yPos < bRect.h + 4
-                )
+            if (pPoint->field_0_xPos > bRect.x - 2 && pPoint->field_0_xPos < bRect.w + 2 && pPoint->field_2_yPos > bRect.y - 4 && pPoint->field_2_yPos < bRect.h + 4)
             {
                 Burst_4C8AE0();
                 break;
@@ -274,47 +269,47 @@ void Slurg::vUpdate_4C8790()
 
     switch (field_11C_state)
     {
-    case Slurg_States::State_0_Moving:
-        field_C4_velx = FP_FromInteger(1);
-        field_11E_moving_timer--;
-        if (field_118_flags.Get(SlurgFlags::Bit1_Direction))
-        {
-            field_C4_velx = -FP_FromInteger(1);
-        }
+        case Slurg_States::State_0_Moving:
+            field_C4_velx = FP_FromInteger(1);
+            field_11E_moving_timer--;
+            if (field_118_flags.Get(SlurgFlags::Bit1_Direction))
+            {
+                field_C4_velx = -FP_FromInteger(1);
+            }
 
-        field_118_flags.Toggle(SlurgFlags::Bit2_StartToMove);
+            field_118_flags.Toggle(SlurgFlags::Bit2_StartToMove);
 
-        if (field_118_flags.Get(SlurgFlags::Bit2_StartToMove))
-        {
-            field_B8_xpos += field_C4_velx;
-        }
-        break;
+            if (field_118_flags.Get(SlurgFlags::Bit2_StartToMove))
+            {
+                field_B8_xpos += field_C4_velx;
+            }
+            break;
 
-    case Slurg_States::State_1_Stopped:
-        field_C4_velx = FP_FromInteger(0);
-        if (field_20_animation.field_92_current_frame == 0
-            && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
-        {
-            SFX_Play_46FA90(SoundEffect::SlurgStop_90, 0);
-        }
+        case Slurg_States::State_1_Stopped:
+            field_C4_velx = FP_FromInteger(0);
+            if (field_20_animation.field_92_current_frame == 0
+                && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+            {
+                SFX_Play_46FA90(SoundEffect::SlurgStop_90, 0);
+            }
 
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_11C_state = Slurg_States::State_0_Moving;
-            const AnimRecord& animRec = AnimRec(AnimId::Slurg_Move);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-        }
-        break;
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_11C_state = Slurg_States::State_0_Moving;
+                const AnimRecord& animRec = AnimRec(AnimId::Slurg_Move);
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+            }
+            break;
 
-    case Slurg_States::State_2_Burst:
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        break;
+        case Slurg_States::State_2_Burst:
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     if (oldXPos != field_B8_xpos)
@@ -372,7 +367,7 @@ void Slurg::vOn_TLV_Collision_4C8C20(Path_TLV* pTlv)
     }
     else
     {
-        if (WallHit_408750(field_130_scale * FP_FromInteger(8), field_130_scale * FP_FromInteger(6))|| Check_IsOnEndOfLine_408E90(0, 1))
+        if (WallHit_408750(field_130_scale * FP_FromInteger(8), field_130_scale * FP_FromInteger(6)) || Check_IsOnEndOfLine_408E90(0, 1))
         {
             GoRight();
         }

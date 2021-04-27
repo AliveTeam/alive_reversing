@@ -19,7 +19,7 @@ void TypedProperty<T>::Read(const PropertyCollection& propertyCollection, const 
     else
     {
         propertyCollection.ReadBasicType(*m_data, properties);
-        (void)types; // statically compiled out in this branch
+        (void) types; // statically compiled out in this branch
     }
 }
 
@@ -33,7 +33,7 @@ void TypedProperty<T>::Write(const PropertyCollection& propertyCollection, const
     else
     {
         propertyCollection.WriteBasicType(*m_data, properties);
-        (void)types; // statically compiled out in this branch
+        (void) types; // statically compiled out in this branch
     }
 }
 

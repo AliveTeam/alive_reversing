@@ -46,13 +46,12 @@ struct CheatEntry
     s32 field_4_cheat_code_length;
     const InputCommands* field_8_cheat_code_ary;
     s32 field_C_success_idx;
-    void(*field_10_callback)(void);
+    void (*field_10_callback)(void);
 };
 ALIVE_ASSERT_SIZEOF(CheatEntry, 0x14);
 
 
-const InputCommands sCheatKeyArray_FartGas_4C50B8[] =
-{
+const InputCommands sCheatKeyArray_FartGas_4C50B8[] = {
     eThrowItem,
     eThrowItem,
     eThrowItem,
@@ -61,8 +60,7 @@ const InputCommands sCheatKeyArray_FartGas_4C50B8[] =
     eThrowItem,
 };
 
-const InputCommands sCheatKeyArray_VoiceLocks_4C50C8[] =
-{
+const InputCommands sCheatKeyArray_VoiceLocks_4C50C8[] = {
     eCrouchOrRoll,
     eDown,
     eThrowItem,
@@ -71,8 +69,7 @@ const InputCommands sCheatKeyArray_VoiceLocks_4C50C8[] =
     eCrouchOrRoll,
 };
 
-const InputCommands sCheatKeyArray_FMV_4C50D8[] =
-{
+const InputCommands sCheatKeyArray_FMV_4C50D8[] = {
     eUp,
     eLeft,
     eRight,
@@ -83,8 +80,7 @@ const InputCommands sCheatKeyArray_FMV_4C50D8[] =
     eDown,
 };
 
-const InputCommands sCheatKeyArray_LevelSelect_4C50E8[] =
-{
+const InputCommands sCheatKeyArray_LevelSelect_4C50E8[] = {
     eDown,
     eRight,
     eLeft,
@@ -95,13 +91,11 @@ const InputCommands sCheatKeyArray_LevelSelect_4C50E8[] =
     eUp,
 };
 
-CheatEntry stru_4C50F8[4] =
-{
-    { ~0, ALIVE_COUNTOF(sCheatKeyArray_FartGas_4C50B8), sCheatKeyArray_FartGas_4C50B8, 0, &CheatController_Cheat_FartGas_40FB70 },
-    { ~0, ALIVE_COUNTOF(sCheatKeyArray_VoiceLocks_4C50C8), sCheatKeyArray_VoiceLocks_4C50C8, 0, &CheatController_Cheat_VoiceLocks_40FB90 },
-    { 1, ALIVE_COUNTOF(sCheatKeyArray_FMV_4C50D8), sCheatKeyArray_FMV_4C50D8, 0, &CheatController_Cheat_FMV_40FBB0 },
-    { 1, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect_4C50E8), sCheatKeyArray_LevelSelect_4C50E8, 0, &CheatController_Cheat_LevelSelect_40FBD0 }
-};
+CheatEntry stru_4C50F8[4] = {
+    {~0, ALIVE_COUNTOF(sCheatKeyArray_FartGas_4C50B8), sCheatKeyArray_FartGas_4C50B8, 0, &CheatController_Cheat_FartGas_40FB70},
+    {~0, ALIVE_COUNTOF(sCheatKeyArray_VoiceLocks_4C50C8), sCheatKeyArray_VoiceLocks_4C50C8, 0, &CheatController_Cheat_VoiceLocks_40FB90},
+    {1, ALIVE_COUNTOF(sCheatKeyArray_FMV_4C50D8), sCheatKeyArray_FMV_4C50D8, 0, &CheatController_Cheat_FMV_40FBB0},
+    {1, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect_4C50E8), sCheatKeyArray_LevelSelect_4C50E8, 0, &CheatController_Cheat_LevelSelect_40FBD0}};
 
 CheatController* CheatController::ctor_40FBF0()
 {
@@ -180,4 +174,4 @@ void CheatController::VUpdate_40FC40()
     }
 }
 
-}
+} // namespace AO

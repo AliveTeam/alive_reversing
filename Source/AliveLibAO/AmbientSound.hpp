@@ -31,4 +31,4 @@ struct Sound_Ambiance_Array
     Sound_Ambiance mArray[7];
 };
 
-}
+} // namespace AO

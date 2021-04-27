@@ -17,27 +17,25 @@
 #include "Function.hpp"
 #include "Sparks.hpp"
 
-const TintEntry sSecurityOrbTints_55C1EC[18] =
-{
-    { 1u, 127u, 127u, 127u },
-    { 2u, 137u, 137u, 137u },
-    { 3u, 127u, 127u, 127u },
-    { 4u, 127u, 127u, 127u },
-    { 5u, 127u, 127u, 127u },
-    { 6u, 127u, 127u, 127u },
-    { 7u, 127u, 127u, 127u },
-    { 8u, 127u, 127u, 127u },
-    { 9u, 127u, 127u, 127u },
-    { 10u, 127u, 127u, 127u },
-    { 3u, 127u, 127u, 127u },
-    { 12u, 127u, 127u, 127u },
-    { 13u, 127u, 127u, 127u },
-    { 14u, 127u, 127u, 127u },
-    { -1, 127u, 127u, 127u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u }
-};
+const TintEntry sSecurityOrbTints_55C1EC[18] = {
+    {1u, 127u, 127u, 127u},
+    {2u, 137u, 137u, 137u},
+    {3u, 127u, 127u, 127u},
+    {4u, 127u, 127u, 127u},
+    {5u, 127u, 127u, 127u},
+    {6u, 127u, 127u, 127u},
+    {7u, 127u, 127u, 127u},
+    {8u, 127u, 127u, 127u},
+    {9u, 127u, 127u, 127u},
+    {10u, 127u, 127u, 127u},
+    {3u, 127u, 127u, 127u},
+    {12u, 127u, 127u, 127u},
+    {13u, 127u, 127u, 127u},
+    {14u, 127u, 127u, 127u},
+    {-1, 127u, 127u, 127u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u}};
 
 
 SecurityOrb* SecurityOrb::ctor_466350(Path_SecurityOrb* pTlv, s32 tlvInfo)
@@ -279,9 +277,7 @@ void SecurityOrb::vUpdate_4665A0()
     }
     else
     {
-        if (field_20_animation.field_92_current_frame == 2 ||
-            field_20_animation.field_92_current_frame == 6 ||
-            field_20_animation.field_92_current_frame == 10)
+        if (field_20_animation.field_92_current_frame == 2 || field_20_animation.field_92_current_frame == 6 || field_20_animation.field_92_current_frame == 10)
         {
             if (field_124_sound_channels_mask)
             {
@@ -300,9 +296,7 @@ void SecurityOrb::vUpdate_4665A0()
 
         if (Event_Get_422C00(kEventAbeOhm))
         {
-            if (!sActiveHero_5C1B68->field_168_ring_pulse_timer ||
-                !sActiveHero_5C1B68->field_16C_bHaveShrykull ||
-                sActiveHero_5C1B68->field_CC_sprite_scale != FP_FromInteger(1))
+            if (!sActiveHero_5C1B68->field_168_ring_pulse_timer || !sActiveHero_5C1B68->field_16C_bHaveShrykull || sActiveHero_5C1B68->field_CC_sprite_scale != FP_FromInteger(1))
             {
                 field_11C_state = 1;
                 field_120_timer = sGnFrame_5C1B84 + 20;

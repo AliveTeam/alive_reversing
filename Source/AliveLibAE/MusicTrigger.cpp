@@ -42,36 +42,36 @@ EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, Triggered
 
     switch (musicType)
     {
-    case MusicTriggerMusicType::eUnknown_0:
-        field_26_music_type = MusicController::MusicTypes::eType3;
-        field_28_counter = 400;
-        break;
-    case MusicTriggerMusicType::eDeathShort_1:
-        field_26_music_type = MusicController::MusicTypes::eDeathShort_10;
-        field_28_counter = 30;
-        break;
-    case MusicTriggerMusicType::eSecretAreaLong_2:
-        field_26_music_type = MusicController::MusicTypes::eSecretAreaLong_13;
-        field_28_counter = 30;
-        break;
-    case MusicTriggerMusicType::eChase_3:
-        field_26_music_type = MusicController::MusicTypes::eChase_8;
-        field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
-        break;
-    case MusicTriggerMusicType::eSlogChase_4:
-        field_26_music_type = MusicController::MusicTypes::eSlogChase_7;
-        field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
-        break;
-    case MusicTriggerMusicType::eChime_5:
-        field_26_music_type = MusicController::MusicTypes::eChime_2;
-        field_28_counter = musicDelay;
-        break;
-    case MusicTriggerMusicType::eSecretAreaShort_6:
-        field_26_music_type = MusicController::MusicTypes::eSecretAreaShort_12;
-        field_28_counter = 30;
-        break;
-    default:
-        break;
+        case MusicTriggerMusicType::eUnknown_0:
+            field_26_music_type = MusicController::MusicTypes::eType3;
+            field_28_counter = 400;
+            break;
+        case MusicTriggerMusicType::eDeathShort_1:
+            field_26_music_type = MusicController::MusicTypes::eDeathShort_10;
+            field_28_counter = 30;
+            break;
+        case MusicTriggerMusicType::eSecretAreaLong_2:
+            field_26_music_type = MusicController::MusicTypes::eSecretAreaLong_13;
+            field_28_counter = 30;
+            break;
+        case MusicTriggerMusicType::eChase_3:
+            field_26_music_type = MusicController::MusicTypes::eChase_8;
+            field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
+            break;
+        case MusicTriggerMusicType::eSlogChase_4:
+            field_26_music_type = MusicController::MusicTypes::eSlogChase_7;
+            field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
+            break;
+        case MusicTriggerMusicType::eChime_5:
+            field_26_music_type = MusicController::MusicTypes::eChime_2;
+            field_28_counter = musicDelay;
+            break;
+        case MusicTriggerMusicType::eSecretAreaShort_6:
+            field_26_music_type = MusicController::MusicTypes::eSecretAreaShort_12;
+            field_28_counter = 30;
+            break;
+        default:
+            break;
     }
 
     if (triggeredBy == TriggeredBy::eTimer_0)
@@ -124,8 +124,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
         FP xpos = sControlledCharacter_5C1B8C->field_B8_xpos;
         FP ypos = sControlledCharacter_5C1B8C->field_BC_ypos;
 
-        if (xpos >= FP_FromInteger(field_2C_tl.field_0_x) && xpos <= FP_FromInteger(field_30_br.field_0_x) &&
-           (ypos >= FP_FromInteger(field_2C_tl.field_2_y) && ypos <= FP_FromInteger(field_30_br.field_2_y)))
+        if (xpos >= FP_FromInteger(field_2C_tl.field_0_x) && xpos <= FP_FromInteger(field_30_br.field_0_x) && (ypos >= FP_FromInteger(field_2C_tl.field_2_y) && ypos <= FP_FromInteger(field_30_br.field_2_y)))
         {
             field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
             MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 1);

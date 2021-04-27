@@ -12,7 +12,7 @@
 
 ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930( 0);
+    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(&field_108_anim_flare, 0x544290);
     SetVTable(this, 0x547FA0);
     field_4_typeId = AETypes::eWebLine_146;
@@ -53,11 +53,11 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos,
-        field_B8_xpos + FP_FromInteger(20),
-        field_BC_ypos + FP_FromInteger(20),
-        &pLine, &hitX, &hitY, 0x100))
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos + FP_FromInteger(20),
+            field_BC_ypos + FP_FromInteger(20),
+            &pLine, &hitX, &hitY, 0x100))
     {
         field_B8_xpos = FP_FromInteger(pLine->field_0_rect.x);
 
@@ -210,7 +210,7 @@ void ParamiteWebLine::vUpdate_4E2A50()
     else
     {
         field_1A0_pulse_position += field_1A2_pulse_position_speed;
-        if (field_1A0_pulse_position >field_FA_bottom)
+        if (field_1A0_pulse_position > field_FA_bottom)
         {
             field_1A0_pulse_position = field_F8_top;
             SFX_Play_46FA90(static_cast<s8>(Math_RandomRange_496AB0(SoundEffect::WebDrop1_103, SoundEffect::WebDrop2_104)), Math_RandomRange_496AB0(40, 80));
@@ -234,7 +234,7 @@ PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, s32 /*idx*/)
     return pRect;
 }
 
-const s16 word_563A8C[10] = { 0, 1, -3, 2, -4, 4, -6, 4, 0, 0 };
+const s16 word_563A8C[10] = {0, 1, -3, 2, -4, 4, -6, 4, 0, 0};
 
 void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
 {

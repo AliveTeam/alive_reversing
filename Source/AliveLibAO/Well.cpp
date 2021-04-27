@@ -154,9 +154,8 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
         if (!FP_GetExponent(field_F8_leaf_xpos))
         {
             field_F8_leaf_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x
-                + (PsxToPCX(pTlv->field_14_bottom_right.field_0_x -
-                    pTlv->field_10_top_left.field_0_x, +11)
-                    / 2));
+                                                + (PsxToPCX(pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x, +11)
+                                                   / 2));
         }
 
         field_FC_leaf_ypos = FP_FromInteger(pTlv->field_38_leaf_y);
@@ -212,11 +211,7 @@ void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         field_F8_leaf_xpos = FP_FromInteger(pTlv->field_2E_leaf_x);
         if (!FP_GetExponent(field_F8_leaf_xpos))
         {
-            field_F8_leaf_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x +
-                (PsxToPCX(
-                    pTlv->field_14_bottom_right.field_0_x -
-                    pTlv->field_10_top_left.field_0_x, 11)
-                    / 2));
+            field_F8_leaf_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + (PsxToPCX(pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x, 11) / 2));
         }
 
         field_FC_leaf_ypos = FP_FromInteger(pTlv->field_30_leaf_y);
@@ -263,5 +258,4 @@ Well* Well::vdtor_48B4D0(s32 flags)
     return this;
 }
 
-}
-
+} // namespace AO

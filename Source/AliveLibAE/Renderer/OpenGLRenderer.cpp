@@ -31,7 +31,8 @@ static bool gRenderEnable_F2 = true;
 static GLuint TextureFromFile(const s8* path)
 {
     GLuint texHandle = 0;
-    FILE* fh = fopen(path, "rb");;
+    FILE* fh = fopen(path, "rb");
+    ;
 
     if (fh == NULL)
     {
@@ -53,7 +54,7 @@ static GLuint TextureFromFile(const s8* path)
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-    stbi_image_free((void*)data);
+    stbi_image_free((void*) data);
 
     fclose(fh);
 
@@ -81,7 +82,7 @@ static GLuint GetBackgroundTexture()
 static TextureCache* GetBackgroundTextureCache()
 {
     gFakeTextureCache.mPalXY = {};
-    gFakeTextureCache.mVramRect = { 0,0, 640, 240 };
+    gFakeTextureCache.mVramRect = {0, 0, 640, 240};
     gFakeTextureCache.mTextureID = mBackgroundTexture;
     gFakeTextureCache.mPalNormMulti = 0;
     gFakeTextureCache.mIsFG1 = false;
@@ -110,7 +111,7 @@ static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 
 static bool Renderer_TexExists(const PSX_RECT& rect)
 {
-    for (TextureCache &c : gRendererTextures)
+    for (TextureCache& c : gRendererTextures)
     {
         if (c.mVramRect.x == rect.x && c.mVramRect.y == rect.y)
         {
@@ -123,14 +124,14 @@ static bool Renderer_TexExists(const PSX_RECT& rect)
 
 static TextureCache* Renderer_TexFromTPage(u16 tPage, u8 u, u8 v)
 {
-    s32 textureMode = static_cast<s32>(((u32)tPage >> 7) & 3);
+    s32 textureMode = static_cast<s32>(((u32) tPage >> 7) & 3);
     s16 tpagex = ((tPage & 0xF) << 6);
-    s16 tpagey = (16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200)) + v;
+    s16 tpagey = (16 * (tPage & 0x10) + (((u32) tPage >> 2) & 0x200)) + v;
 
     // Lets prims use background texture as a src even tho we dont have vram anymore.
     if (tpagex < 640 && tpagey < 240)
     {
-        TextureCache * tc = GetBackgroundTextureCache();
+        TextureCache* tc = GetBackgroundTextureCache();
         tc->mUvOffset.field_0_x = tpagex;
         tc->mIgnoreColor = true;
         return tc;
@@ -138,23 +139,22 @@ static TextureCache* Renderer_TexFromTPage(u16 tPage, u8 u, u8 v)
 
     switch (textureMode)
     {
-    case 0: // e4Bit_0
-        tpagex += u / 4;
-        break;
-    case 1: // e8Bit_1
-        tpagex += u / 2;
-        break;
-    case 2: // e16Bit_2
-        tpagex += u;
-        break;
+        case 0: // e4Bit_0
+            tpagex += u / 4;
+            break;
+        case 1: // e8Bit_1
+            tpagex += u / 2;
+            break;
+        case 2: // e16Bit_2
+            tpagex += u;
+            break;
     }
 
     for (size_t i = 0; i < gRendererTextures.size(); i++)
     {
         TextureCache* c = &gRendererTextures[i];
 
-        if (tpagex >= c->mVramRect.x && tpagex < c->mVramRect.x + c->mVramRect.w &&
-            tpagey >= c->mVramRect.y && tpagey < c->mVramRect.y + c->mVramRect.h)
+        if (tpagex >= c->mVramRect.x && tpagex < c->mVramRect.x + c->mVramRect.w && tpagey >= c->mVramRect.y && tpagey < c->mVramRect.y + c->mVramRect.h)
         {
             return c;
         }
@@ -168,7 +168,7 @@ static PSX_Point Renderer_ClutToCoords(s32 tClut)
     s32 x = (tClut & 63) << 4;
     s32 y = ((tClut >> 6) & 0xff);
 
-    return { (s16)x,(s16)y };
+    return {(s16) x, (s16) y};
 }
 
 static PaletteCache* Renderer_ClutToPalette(s32 tClut)
@@ -315,39 +315,39 @@ static void Renderer_SetBlendMode(TPageAbr blendAbr)
 {
     switch (blendAbr)
     {
-    case TPageAbr::eBlend_0:
-        glBlendColor(1.0, 1.0, 1.0, 1.0);
-        glBlendEquation(GL_FUNC_ADD);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        break;
-    case TPageAbr::eBlend_1:
-        glBlendEquation(GL_FUNC_ADD);
-        glBlendFunc(GL_ONE, GL_ONE);
-        break;
-    case TPageAbr::eBlend_2:
-        glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
-        glBlendFunc(GL_ONE, GL_ONE);
-        break;
-    case TPageAbr::eBlend_3:
-        glBlendEquation(GL_FUNC_ADD);
-        glBlendColor(1.0f, 1.0f, 1.0f, 0.25f);
-        glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE);
-        break;
+        case TPageAbr::eBlend_0:
+            glBlendColor(1.0, 1.0, 1.0, 1.0);
+            glBlendEquation(GL_FUNC_ADD);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            break;
+        case TPageAbr::eBlend_1:
+            glBlendEquation(GL_FUNC_ADD);
+            glBlendFunc(GL_ONE, GL_ONE);
+            break;
+        case TPageAbr::eBlend_2:
+            glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+            glBlendFunc(GL_ONE, GL_ONE);
+            break;
+        case TPageAbr::eBlend_3:
+            glBlendEquation(GL_FUNC_ADD);
+            glBlendColor(1.0f, 1.0f, 1.0f, 0.25f);
+            glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE);
+            break;
     }
 }
 
 static PSX_Point Renderer_VRamFromTPage(u16 tPage)
 {
     s16 tpagex = (tPage & 0xF) << 6;
-    s16 tpagey = 16 * (tPage & 0x10) + (((u32)tPage >> 2) & 0x200);
+    s16 tpagey = 16 * (tPage & 0x10) + (((u32) tPage >> 2) & 0x200);
 
-    return { tpagex, tpagey };
+    return {tpagex, tpagey};
 }
 
 static void Renderer_ParseTPageBlendMode(u16 tPage)
 {
     // TPageMode textureMode = static_cast<TPageMode>(((u32)tPage >> 7) & 3);
-    TPageAbr pageAbr = static_cast<TPageAbr>(((u32)tPage >> 5) & 3);
+    TPageAbr pageAbr = static_cast<TPageAbr>(((u32) tPage >> 5) & 3);
 
     glEnable(GL_BLEND);
 
@@ -371,12 +371,12 @@ static s32 WidthBppDivide(s32 textureMode, s32 width)
 {
     switch (textureMode)
     {
-    case 1:
-        return width / 2;
-    case 0:
-        return width / 4;
-    default:
-        return width;
+        case 1:
+            return width / 2;
+        case 0:
+            return width / 4;
+        default:
+            return width;
     }
 }
 
@@ -434,41 +434,41 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     u16 tWidth = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[0];
     u16 tHeight = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[1];
 
-    TPageMode textureMode = static_cast<TPageMode>(((u32)poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
+    TPageMode textureMode = static_cast<TPageMode>(((u32) poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
 
     gFakeTextureCache = {};
     gFakeTextureCache.mPalXY = Renderer_ClutToCoords(poly.mUv.tpage_clut_pad);
-    gFakeTextureCache.mVramRect = { 0,0, (s16)tWidth, (s16)tHeight };
+    gFakeTextureCache.mVramRect = {0, 0, (s16) tWidth, (s16) tHeight};
     gFakeTextureCache.mTextureID = gDecodedTextureCache;
 
 
     switch (textureMode)
     {
-    case TPageMode::e4Bit_0:
-        gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-        CompressionType6Ae_Decompress_40A8A0((u8*)pAnimFg1Data, (u8*)gDecodeBuffer);
-        // Hacky because palette is 16 width, but converted sprite is normalized for 16 -> 256
-        // So we scale it back down for the shader.
-        gFakeTextureCache.mPalNormMulti = 16;
-        glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, (tWidth+1) / 2, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
-        break;
-    case TPageMode::e8Bit_1:
-        gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-        CompressionType_3Ae_Decompress_40A6A0((u8*)pAnimFg1Data, (u8*)gDecodeBuffer);
-        glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, tWidth, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
-        break;
-    case TPageMode::e16Bit_2:
-        // TODO:  FG1's get rendered here for AE.
-        s16 fg1Width = poly.mVerts[0].mVert.x - poly.mBase.vert.x;
-        s16 fg1Height = poly.mVerts[1].mVert.y - poly.mBase.vert.y;
-        gFakeTextureCache.mVramRect = { 0,0, fg1Width, fg1Height };
-        gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-        gFakeTextureCache.mIsFG1 = true;
-        glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
-        Renderer_ConvertFG1BitMask(fg1Width, fg1Height, (u8*)pAnimFg1Data);
-        break;
+        case TPageMode::e4Bit_0:
+            gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
+            CompressionType6Ae_Decompress_40A8A0((u8*) pAnimFg1Data, (u8*) gDecodeBuffer);
+            // Hacky because palette is 16 width, but converted sprite is normalized for 16 -> 256
+            // So we scale it back down for the shader.
+            gFakeTextureCache.mPalNormMulti = 16;
+            glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, (tWidth + 1) / 2, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
+            break;
+        case TPageMode::e8Bit_1:
+            gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
+            CompressionType_3Ae_Decompress_40A6A0((u8*) pAnimFg1Data, (u8*) gDecodeBuffer);
+            glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, tWidth, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
+            break;
+        case TPageMode::e16Bit_2:
+            // TODO:  FG1's get rendered here for AE.
+            s16 fg1Width = poly.mVerts[0].mVert.x - poly.mBase.vert.x;
+            s16 fg1Height = poly.mVerts[1].mVert.y - poly.mBase.vert.y;
+            gFakeTextureCache.mVramRect = {0, 0, fg1Width, fg1Height};
+            gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
+            gFakeTextureCache.mIsFG1 = true;
+            glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
+            Renderer_ConvertFG1BitMask(fg1Width, fg1Height, (u8*) pAnimFg1Data);
+            break;
     }
 
     return &gFakeTextureCache;
@@ -481,10 +481,10 @@ void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 h
     const f32 b = 1.0f;
 
     const VertexData verts[4] = {
-    { 0, 0, 0,  r, g, b,    0, 0 },
-    { 1, 0, 0,  r, g, b,    1, 0 },
-    { 1, 1, 0,  r, g, b,    1, 1 },
-    { 0, 1, 0,  r, g, b,    0, 1 } };
+        {0, 0, 0, r, g, b, 0, 0},
+        {1, 0, 0, r, g, b, 1, 0},
+        {1, 1, 0, r, g, b, 1, 1},
+        {0, 1, 0, r, g, b, 0, 1}};
 
     mTextureShader.Use();
 
@@ -496,7 +496,7 @@ void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 h
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, pTexture);
 
-    const GLuint indexData[6] = { 0, 1, 3, 3, 1, 2 };
+    const GLuint indexData[6] = {0, 1, 3, 3, 1, 2};
     DrawTriangles(verts, 4, indexData, 6);
 
     mTextureShader.UnUse();
@@ -509,9 +509,9 @@ void OpenGLRenderer::InitAttributes()
     glBindVertexArray(mVAO);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), 0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*)NULL + 12);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*) NULL + 12);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*)NULL + 24);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*) NULL + 24);
     glEnableVertexAttribArray(2);
 }
 
@@ -590,10 +590,12 @@ void OpenGLRenderer::DebugWindow()
         {
             if (ImGui::BeginMenu("Render Mode"))
             {
-                if (ImGui::MenuItem("Normal")) {
+                if (ImGui::MenuItem("Normal"))
+                {
                     mWireframe = false;
                 }
-                if (ImGui::MenuItem("Wireframe")) {
+                if (ImGui::MenuItem("Wireframe"))
+                {
                     mWireframe = true;
                 }
                 ImGui::EndMenu();
@@ -603,8 +605,8 @@ void OpenGLRenderer::DebugWindow()
             {
                 ImGui::MenuItem("SPRT", nullptr, &gRenderEnable_SPRT);
                 ImGui::MenuItem("TILE", nullptr, &gRenderEnable_TILE);
-                ImGui::MenuItem("GAS", nullptr,  &gRenderEnable_GAS);
-                ImGui::MenuItem("FT4", nullptr,  &gRenderEnable_FT4);
+                ImGui::MenuItem("GAS", nullptr, &gRenderEnable_GAS);
+                ImGui::MenuItem("FT4", nullptr, &gRenderEnable_FT4);
                 ImGui::MenuItem("G4", nullptr, &gRenderEnable_G4);
                 ImGui::MenuItem("G3", nullptr, &gRenderEnable_G3);
                 ImGui::MenuItem("G2", nullptr, &gRenderEnable_G2);
@@ -638,7 +640,7 @@ void OpenGLRenderer::DebugWindow()
             else
                 ImGui::SameLine();
 
-            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), { textureWidth, textureHeight });
+            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), {textureWidth, textureHeight});
             ImVec2 pos = ImGui::GetCursorScreenPos();
             if (ImGui::IsItemHovered())
             {
@@ -685,9 +687,8 @@ void OpenGLRenderer::DebugWindow()
             f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
 
             ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
-            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), { textureWidth, textureHeight });
+            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), {textureWidth, textureHeight});
             ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.3f)));
-
         }
         if (ImGui::IsWindowHovered())
         {
@@ -697,7 +698,6 @@ void OpenGLRenderer::DebugWindow()
         }
     }
     ImGui::End();
-
 }
 
 void OpenGLRenderer::Destroy()
@@ -815,7 +815,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 {
     // hacky hot reload shaders
-   /* static s32 t = 999;
+    /* static s32 t = 999;
     if (t >= 10)
     {
         t = 0;
@@ -859,16 +859,21 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 
 void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
-
 }
 
 // This function should free both vrams allocations AND palettes, cause theyre kinda the same thing.
 void OpenGLRenderer::PalFree(const PalRecord& record)
 {
-    Pal_free_483390(PSX_Point{record.x, record.y}, record.depth);   // TODO: Stop depending on this
+    Pal_free_483390(PSX_Point{record.x, record.y}, record.depth); // TODO: Stop depending on this
 
-    Renderer_FreePalette({ record.x, record.y, });
-    Renderer_FreeTexture({ record.x, record.y, });
+    Renderer_FreePalette({
+        record.x,
+        record.y,
+    });
+    Renderer_FreeTexture({
+        record.x,
+        record.y,
+    });
 }
 
 bool OpenGLRenderer::PalAlloc(PalRecord& record)
@@ -893,12 +898,10 @@ void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
 
 void OpenGLRenderer::EndFrame()
 {
-
 }
 
 void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
 {
-
 }
 
 void OpenGLRenderer::OutputSize(s32* w, s32* h)
@@ -915,7 +918,6 @@ bool OpenGLRenderer::UpdateBackBuffer(const void* /*pPixels*/, s32 /*pitch*/)
 
 void OpenGLRenderer::CreateBackBuffer(bool /*filter*/, s32 /*format*/, s32 /*w*/, s32 /*h*/)
 {
-
 }
 
 void OpenGLRenderer::SetTPage(s16 tPage)
@@ -939,9 +941,9 @@ void OpenGLRenderer::SetClipDirect(s32 x, s32 y, s32 width, s32 height)
 
     glEnable(GL_SCISSOR_TEST);
     glScissor(static_cast<GLint>((x / 640.0f) * w),
-        static_cast<GLint>(((240 - y - height) / 240.0f) * h),
-        static_cast<GLsizei>((width  / 640.0f) * w),
-        static_cast<GLsizei>((height / 240.0f) * h));
+              static_cast<GLint>(((240 - y - height) / 240.0f) * h),
+              static_cast<GLsizei>((width / 640.0f) * w),
+              static_cast<GLsizei>((height / 240.0f) * h));
 }
 
 void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
@@ -952,9 +954,9 @@ void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
 void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
 {
     m_View = glm::ortho<f32>(static_cast<f32>(offset.field_C_xoff),
-        static_cast<f32>(640 + offset.field_C_xoff),
-        static_cast<f32>(240 + offset.field_E_yoff),
-        static_cast<f32>(offset.field_E_yoff), 0.0f, 1.0f);
+                             static_cast<f32>(640 + offset.field_C_xoff),
+                             static_cast<f32>(240 + offset.field_E_yoff),
+                             static_cast<f32>(offset.field_E_yoff), 0.0f, 1.0f);
 }
 
 void OpenGLRenderer::Draw(Prim_Sprt& sprt)
@@ -985,14 +987,14 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    TextureCache* pTexture = Renderer_TexFromVRam({ static_cast<s16>(vramPoint.field_0_x + WidthBppDivide(textureMode, sprt.mUv.u)), static_cast<s16>(vramPoint.field_2_y + sprt.mUv.v) });
+    TextureCache* pTexture = Renderer_TexFromVRam({static_cast<s16>(vramPoint.field_0_x + WidthBppDivide(textureMode, sprt.mUv.u)), static_cast<s16>(vramPoint.field_2_y + sprt.mUv.v)});
     PaletteCache* pPal = Renderer_ClutToPalette(sprt.mUv.tpage_clut_pad);
 
     const VertexData verts[4] = {
-    { 0, 0, 0, 1.0f, 1.0f, 1.0f, 0, 0 },
-    { 1, 0, 0, 1.0f, 1.0f, 1.0f, 1, 0 },
-    { 1, 1, 0, 1.0f, 1.0f, 1.0f, 1, 1 },
-    { 0, 1, 0, 1.0f, 1.0f, 1.0f, 0, 1 } };
+        {0, 0, 0, 1.0f, 1.0f, 1.0f, 0, 0},
+        {1, 0, 0, 1.0f, 1.0f, 1.0f, 1, 0},
+        {1, 1, 0, 1.0f, 1.0f, 1.0f, 1, 1},
+        {0, 1, 0, 1.0f, 1.0f, 1.0f, 0, 1}};
 
     mTextureShader.Use();
 
@@ -1002,7 +1004,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
     mTextureShader.UniformMatrix4fv("m_MVP", GetMVP(sprt.mBase.vert.x, sprt.mBase.vert.y, sprt.field_14_w, sprt.field_16_h));
 
-    mTextureShader.Uniform1i("m_Sprite", 0); // Set m_Sprite to GL_TEXTURE0
+    mTextureShader.Uniform1i("m_Sprite", 0);  // Set m_Sprite to GL_TEXTURE0
     mTextureShader.Uniform1i("m_Palette", 1); // Set m_Palette to GL_TEXTURE1
     mTextureShader.Uniform1i("m_Textured", true);
     mTextureShader.Uniform1i("m_PaletteEnabled", pPal != nullptr);
@@ -1012,7 +1014,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
         mTextureShader.Uniform1i("m_PaletteDepth", pPal->mPalDepth);
     }
 
-    const GLuint indexData[6] = { 0, 1, 3, 3, 1, 2 };
+    const GLuint indexData[6] = {0, 1, 3, 3, 1, 2};
     DrawTriangles(verts, 4, indexData, 6);
 
     mTextureShader.UnUse();
@@ -1043,7 +1045,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     mTextureShader.Uniform1i("m_DitherWidth", gasWidth);
     mTextureShader.Uniform1i("m_DitherHeight", gasHeight);
     Renderer_SetBlendMode(TPageAbr::eBlend_1);
-    DrawTexture(TempGasEffectTexture, (f32)gasEffect.x, (f32)gasEffect.y, (f32)gasWidth, (f32)gasHeight);
+    DrawTexture(TempGasEffectTexture, (f32) gasEffect.x, (f32) gasEffect.y, (f32) gasWidth, (f32) gasHeight);
     mTextureShader.Use();
     mTextureShader.Uniform1i("m_Dithered", 0);
 }
@@ -1059,10 +1061,10 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
     const f32 b = tile.mBase.header.rgb_code.b / 255.0f;
 
     const VertexData verts[4] = {
-    { 0, 0, 0,  r, g, b,    0, 0 },
-    { 1, 0, 0,  r, g, b,    1, 0 },
-    { 1, 1, 0,  r, g, b,    1, 1 },
-    { 0, 1, 0,  r, g, b,    0, 1 } };
+        {0, 0, 0, r, g, b, 0, 0},
+        {1, 0, 0, r, g, b, 1, 0},
+        {1, 1, 0, r, g, b, 1, 1},
+        {0, 1, 0, r, g, b, 0, 1}};
 
     mTextureShader.Use();
 
@@ -1073,7 +1075,7 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    const GLuint indexData[6] = { 0, 1, 3, 3, 1, 2 };
+    const GLuint indexData[6] = {0, 1, 3, 3, 1, 2};
     DrawTriangles(verts, 4, indexData, 6);
 
     mTextureShader.UnUse();
@@ -1088,20 +1090,19 @@ void OpenGLRenderer::Draw(Line_F2& line)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[2] = {
-        {(f32)line.mVerts[0].mVert.x, (f32)line.mVerts[0].mVert.y, 0,
-        line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
-        0, 0 },
-         {(f32)line.mBase.vert.x, (f32)line.mBase.vert.y, 0,
-        line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
-        0, 0 }
-    };
+        {(f32) line.mVerts[0].mVert.x, (f32) line.mVerts[0].mVert.y, 0,
+         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
+         0, 0},
+        {(f32) line.mBase.vert.x, (f32) line.mBase.vert.y, 0,
+         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
+         0, 0}};
 
     mTextureShader.Use();
 
     mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
     mTextureShader.Uniform1i("m_Textured", false);
 
-    const GLuint indexData[2] = { 0, 1 };
+    const GLuint indexData[2] = {0, 1};
     DrawLines(verts, 2, indexData, 2);
 
     mTextureShader.UnUse();
@@ -1118,20 +1119,19 @@ void OpenGLRenderer::Draw(Line_G2& line)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[2] = {
-        {(f32)line.mVerts[0].mVert.x, (f32)line.mVerts[0].mVert.y, 0,
-       line.mVerts[0].mRgb.r / 255.0f, line.mVerts[0].mRgb.g / 255.0f, line.mVerts[0].mRgb.b / 255.0f,
-       0, 0 },
-       {(f32)line.mBase.vert.x, (f32)line.mBase.vert.y, 0,
-        line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
-        0, 0 }
-    };
+        {(f32) line.mVerts[0].mVert.x, (f32) line.mVerts[0].mVert.y, 0,
+         line.mVerts[0].mRgb.r / 255.0f, line.mVerts[0].mRgb.g / 255.0f, line.mVerts[0].mRgb.b / 255.0f,
+         0, 0},
+        {(f32) line.mBase.vert.x, (f32) line.mBase.vert.y, 0,
+         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
+         0, 0}};
 
     mTextureShader.Use();
 
     mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
     mTextureShader.Uniform1i("m_Textured", false);
 
-    const GLuint indexData[2] = { 0, 1 };
+    const GLuint indexData[2] = {0, 1};
     DrawLines(verts, 2, indexData, 2);
 
     mTextureShader.UnUse();
@@ -1148,26 +1148,25 @@ void OpenGLRenderer::Draw(Line_G4& line)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[4] = {
-        {(f32)line.mBase.vert.x, (f32)line.mBase.vert.y, 0,
-        line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
-        0, 0 },
-        {(f32)line.mVerts[0].mVert.x, (f32)line.mVerts[0].mVert.y, 0,
-       line.mVerts[0].mRgb.r / 255.0f, line.mVerts[0].mRgb.g / 255.0f, line.mVerts[0].mRgb.b / 255.0f,
-       0, 0 },
-       {(f32)line.mVerts[1].mVert.x, (f32)line.mVerts[1].mVert.y, 0,
-       line.mVerts[1].mRgb.r / 255.0f, line.mVerts[1].mRgb.g / 255.0f, line.mVerts[1].mRgb.b / 255.0f,
-       0, 0 },
-       {(f32)line.mVerts[2].mVert.x, (f32)line.mVerts[2].mVert.y, 0,
-       line.mVerts[2].mRgb.r / 255.0f, line.mVerts[2].mRgb.g / 255.0f, line.mVerts[2].mRgb.b / 255.0f,
-       0, 0 }
-    };
+        {(f32) line.mBase.vert.x, (f32) line.mBase.vert.y, 0,
+         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
+         0, 0},
+        {(f32) line.mVerts[0].mVert.x, (f32) line.mVerts[0].mVert.y, 0,
+         line.mVerts[0].mRgb.r / 255.0f, line.mVerts[0].mRgb.g / 255.0f, line.mVerts[0].mRgb.b / 255.0f,
+         0, 0},
+        {(f32) line.mVerts[1].mVert.x, (f32) line.mVerts[1].mVert.y, 0,
+         line.mVerts[1].mRgb.r / 255.0f, line.mVerts[1].mRgb.g / 255.0f, line.mVerts[1].mRgb.b / 255.0f,
+         0, 0},
+        {(f32) line.mVerts[2].mVert.x, (f32) line.mVerts[2].mVert.y, 0,
+         line.mVerts[2].mRgb.r / 255.0f, line.mVerts[2].mRgb.g / 255.0f, line.mVerts[2].mRgb.b / 255.0f,
+         0, 0}};
 
     mTextureShader.Use();
 
     mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
     mTextureShader.Uniform1i("m_Textured", false);
 
-    const GLuint indexData[4] = { 0, 1, 2, 3 };
+    const GLuint indexData[4] = {0, 1, 2, 3};
     DrawLines(verts, 4, indexData, 4);
 
     mTextureShader.UnUse();
@@ -1184,16 +1183,15 @@ void OpenGLRenderer::Draw(Poly_F3& poly)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[3] = {
-        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0,
-        poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
-        0, 0 },
-        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0,
-        poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
-        1, 0 },
-        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0,
-        poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
-        0, 1 }
-    };
+        {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0,
+         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
+         0, 0},
+        {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0,
+         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
+         1, 0},
+        {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0,
+         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
+         0, 1}};
 
     mTextureShader.Use();
 
@@ -1202,7 +1200,7 @@ void OpenGLRenderer::Draw(Poly_F3& poly)
 
     mTextureShader.Uniform1i("m_Textured", false);
 
-    const GLuint indexData[3] = { 0, 1, 2 };
+    const GLuint indexData[3] = {0, 1, 2};
     DrawTriangles(verts, 3, indexData, 3);
 
     mTextureShader.UnUse();
@@ -1219,16 +1217,15 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[3] = {
-        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0,
-        poly.mVerts[0].mRgb.r / 255.0f, poly.mVerts[0].mRgb.g / 255.0f, poly.mVerts[0].mRgb.b / 255.0f,
-        1, 0 },
-        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0,
-        poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
-        0, 0 },
-        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0,
-        poly.mVerts[1].mRgb.r / 255.0f, poly.mVerts[1].mRgb.g / 255.0f, poly.mVerts[1].mRgb.b / 255.0f,
-        0, 1 }
-    };
+        {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0,
+         poly.mVerts[0].mRgb.r / 255.0f, poly.mVerts[0].mRgb.g / 255.0f, poly.mVerts[0].mRgb.b / 255.0f,
+         1, 0},
+        {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0,
+         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
+         0, 0},
+        {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0,
+         poly.mVerts[1].mRgb.r / 255.0f, poly.mVerts[1].mRgb.g / 255.0f, poly.mVerts[1].mRgb.b / 255.0f,
+         0, 1}};
 
     mTextureShader.Use();
 
@@ -1237,7 +1234,7 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
 
     mTextureShader.Uniform1i("m_Textured", false);
 
-    const GLuint indexData[3] = { 0, 1, 2 };
+    const GLuint indexData[3] = {0, 1, 2};
     DrawTriangles(verts, 3, indexData, 3);
 
     mTextureShader.UnUse();
@@ -1256,11 +1253,10 @@ void OpenGLRenderer::Draw(Poly_F4& poly)
     const f32 b = poly.mBase.header.rgb_code.b / 255.0f;
 
     const VertexData verts[4] = {
-        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0 },
-        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0, r, g, b,0, 0 },
-        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1 },
-        {(f32)poly.mVerts[2].mVert.x, (f32)poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1 }
-    };
+        {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
+        {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
+        {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
+        {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
 
     mTextureShader.Use();
 
@@ -1268,7 +1264,7 @@ void OpenGLRenderer::Draw(Poly_F4& poly)
     mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
     mTextureShader.Uniform1i("m_Textured", false);
 
-    const GLuint indexData[6] = { 0, 1, 2, 0, 2, 3 };
+    const GLuint indexData[6] = {0, 1, 2, 0, 2, 3};
     DrawTriangles(verts, 4, indexData, 6);
 
     mTextureShader.UnUse();
@@ -1316,28 +1312,27 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     switch (pTexture->mBitDepth)
     {
-    case BitDepth::e8Bit:
-        bppMulti = 2;
-        break;
-    case BitDepth::e4Bit:
-        bppMulti = 4;
-        break;
-    default:
-        break;
+        case BitDepth::e8Bit:
+            bppMulti = 2;
+            break;
+        case BitDepth::e4Bit:
+            bppMulti = 4;
+            break;
+        default:
+            break;
     }
 
     xOff *= bppMulti;
 
     // macros suck. todo: fix that
 #define UV_U(v) (f32)(((pTexture->mUvOffset.field_0_x + v) - xOff) / (f32)(pTexture->mVramRect.w * bppMulti))
-#define UV_V(v) (f32)(((pTexture->mUvOffset.field_2_y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (f32)pTexture->mVramRect.h)
+#define UV_V(v) (f32)(((pTexture->mUvOffset.field_2_y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (f32) pTexture->mVramRect.h)
 
     VertexData verts[4] = {
-        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v) },
-        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0, r, g, b, UV_U(poly.mVerts[0].mUv.u), UV_V(poly.mVerts[0].mUv.v) },
-        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0, r, g, b, UV_U(poly.mVerts[1].mUv.u), UV_V(poly.mVerts[1].mUv.v) },
-        {(f32)poly.mVerts[2].mVert.x, (f32)poly.mVerts[2].mVert.y, 0, r, g, b, UV_U(poly.mVerts[2].mUv.u), UV_V(poly.mVerts[2].mUv.v) }
-    };
+        {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v)},
+        {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, UV_U(poly.mVerts[0].mUv.u), UV_V(poly.mVerts[0].mUv.v)},
+        {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, UV_U(poly.mVerts[1].mUv.u), UV_V(poly.mVerts[1].mUv.v)},
+        {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, UV_U(poly.mVerts[2].mUv.u), UV_V(poly.mVerts[2].mUv.v)}};
 
     Renderer_BindPalette(pPal);
     Renderer_BindTexture(pTexture);
@@ -1346,10 +1341,10 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     {
         const f32 overdraw = 0.2f; // stops weird line rendering issues.
         // This is an FG1, so UV's are maxed;
-        verts[0] = { (f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0, 1.0f, 1.0f, 1.0f, 0, 0 };
-        verts[1] = { (f32)poly.mVerts[0].mVert.x + overdraw, (f32)poly.mVerts[0].mVert.y, 0, 1.0f, 1.0f, 1.0f, 1, 0 };
-        verts[2] = { (f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 0, 1 };
-        verts[3] = { (f32)poly.mVerts[2].mVert.x + overdraw, (f32)poly.mVerts[2].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 1, 1 };
+        verts[0] = {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, 1.0f, 1.0f, 1.0f, 0, 0};
+        verts[1] = {(f32) poly.mVerts[0].mVert.x + overdraw, (f32) poly.mVerts[0].mVert.y, 0, 1.0f, 1.0f, 1.0f, 1, 0};
+        verts[2] = {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 0, 1};
+        verts[3] = {(f32) poly.mVerts[2].mVert.x + overdraw, (f32) poly.mVerts[2].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 1, 1};
 
 
         // Hack, set palette texture to our background.
@@ -1363,7 +1358,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
     mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
 
-    mTextureShader.Uniform1i("m_Sprite", 0); // Set m_Sprite to GL_TEXTURE0
+    mTextureShader.Uniform1i("m_Sprite", 0);  // Set m_Sprite to GL_TEXTURE0
     mTextureShader.Uniform1i("m_Palette", 1); // Set m_Palette to GL_TEXTURE1
     mTextureShader.Uniform1i("m_Textured", true);
     mTextureShader.Uniform1i("m_PaletteEnabled", pPal != nullptr);
@@ -1391,7 +1386,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     Renderer_ParseTPageBlendMode(poly.mVerts[0].mUv.tpage_clut_pad);
 
-    const GLuint indexData[6] = { 1, 0, 3, 3, 0, 2 };
+    const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
     DrawTriangles(verts, 4, indexData, 6);
 
     mTextureShader.Uniform1i("m_FG1", false);
@@ -1408,19 +1403,18 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     const VertexData verts[4] = {
-        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0,
-        poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
-        0, 0 },
-        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0,
-       poly.mVerts[0].mRgb.r / 255.0f, poly.mVerts[0].mRgb.g / 255.0f, poly.mVerts[0].mRgb.b / 255.0f,
-       1, 0 },
-       {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0,
-        poly.mVerts[1].mRgb.r / 255.0f, poly.mVerts[1].mRgb.g / 255.0f, poly.mVerts[1].mRgb.b / 255.0f,
-        0, 1 },
-        {(f32)poly.mVerts[2].mVert.x, (f32)poly.mVerts[2].mVert.y, 0,
-        poly.mVerts[2].mRgb.r / 255.0f, poly.mVerts[2].mRgb.g / 255.0f, poly.mVerts[2].mRgb.b / 255.0f,
-        1, 1 }
-    };
+        {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0,
+         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
+         0, 0},
+        {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0,
+         poly.mVerts[0].mRgb.r / 255.0f, poly.mVerts[0].mRgb.g / 255.0f, poly.mVerts[0].mRgb.b / 255.0f,
+         1, 0},
+        {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0,
+         poly.mVerts[1].mRgb.r / 255.0f, poly.mVerts[1].mRgb.g / 255.0f, poly.mVerts[1].mRgb.b / 255.0f,
+         0, 1},
+        {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0,
+         poly.mVerts[2].mRgb.r / 255.0f, poly.mVerts[2].mRgb.g / 255.0f, poly.mVerts[2].mRgb.b / 255.0f,
+         1, 1}};
 
     mTextureShader.Use();
 
@@ -1428,7 +1422,7 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
     mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
     mTextureShader.Uniform1i("m_Textured", false);
 
-    const GLuint indexData[6] = { 1, 0, 2, 1, 2, 3 };
+    const GLuint indexData[6] = {1, 0, 2, 1, 2, 3};
     DrawTriangles(verts, 4, indexData, 6);
 
     mTextureShader.UnUse();
@@ -1468,7 +1462,7 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
     {
         if (bitDepth == BitDepth::e16Bit)
         {
-            Renderer_LoadPalette({ rect.x, rect.y }, reinterpret_cast<const u8*>(pPixels), rect.w);
+            Renderer_LoadPalette({rect.x, rect.y}, reinterpret_cast<const u8*>(pPixels), rect.w);
         }
         return;
     }
@@ -1510,45 +1504,44 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
 
     switch (bitDepth)
     {
-    case BitDepth::e16Bit:
-        if (aoFG1)
-        {
-            RGBAPixel* pixelBuffer = reinterpret_cast<RGBAPixel*>(gDecodeBuffer);
-            ConvertAOFG1(pPixels, pixelBuffer, rect.w * rect.h);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, rect.w, rect.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelBuffer);
-        }
-        else
-        {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, rect.w, rect.h, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, pPixels);
-
-            if (rect.w == 16 && rect.h == 240)
+        case BitDepth::e16Bit:
+            if (aoFG1)
             {
-                StitchAOCam(rect.x, rect.y - 272, rect.w, rect.h, pPixels);
+                RGBAPixel* pixelBuffer = reinterpret_cast<RGBAPixel*>(gDecodeBuffer);
+                ConvertAOFG1(pPixels, pixelBuffer, rect.w * rect.h);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, rect.w, rect.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelBuffer);
+            }
+            else
+            {
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, rect.w, rect.h, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, pPixels);
 
-                if (rect.x == 624)
+                if (rect.w == 16 && rect.h == 240)
                 {
-                    if (mBackgroundTexture == 0)
-                        mBackgroundTexture = Renderer_CreateTexture();
+                    StitchAOCam(rect.x, rect.y - 272, rect.w, rect.h, pPixels);
 
-                    glBindTexture(GL_TEXTURE_2D, mBackgroundTexture);
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, 640, 240, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gDecodeBuffer);
+                    if (rect.x == 624)
+                    {
+                        if (mBackgroundTexture == 0)
+                            mBackgroundTexture = Renderer_CreateTexture();
+
+                        glBindTexture(GL_TEXTURE_2D, mBackgroundTexture);
+                        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, 640, 240, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gDecodeBuffer);
+                    }
                 }
             }
-        }
-        break;
+            break;
 
-    case BitDepth::e8Bit:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, rect.w * 2, rect.h, 0, GL_RED, GL_UNSIGNED_BYTE, pPixels);
-        break;
-    case BitDepth::e4Bit: // Usually only fonts.
-        Convert4bppTextureFont(rect, pPixels);
-        break;
+        case BitDepth::e8Bit:
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, rect.w * 2, rect.h, 0, GL_RED, GL_UNSIGNED_BYTE, pPixels);
+            break;
+        case BitDepth::e4Bit: // Usually only fonts.
+            Convert4bppTextureFont(rect, pPixels);
+            break;
 
-    default:
-        ALIVE_FATAL("unknown bit depth");
-        break;
+        default:
+            ALIVE_FATAL("unknown bit depth");
+            break;
     }
-
 }
 
 void HackSetBackground(const s8* path)
@@ -1558,10 +1551,9 @@ void HackSetBackground(const s8* path)
     const s8* camSearchs[] = {
         "hd/%s.PNG",
         "hd/%s.CAM.PNG",
-        "hd/%s.CAM.cam.PNG"
-    };
+        "hd/%s.CAM.cam.PNG"};
 
-    FILE * fh = NULL;
+    FILE* fh = NULL;
 
     for (s32 i = 0; i < 3; i++)
     {
@@ -1602,7 +1594,7 @@ void HackSetBackground(const s8* path)
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-    stbi_image_free((void*)data);
+    stbi_image_free((void*) data);
 
     fclose(fh);
 }

@@ -8,8 +8,8 @@
 #include "Map.hpp"
 #include "ScreenManager.hpp"
 
-const static s32 dword_5556E0[4] = { 204, 180, 192, 204 };
-const static s16 word_5556F0[12] = { 5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0 };
+const static s32 dword_5556E0[4] = {204, 180, 192, 204};
+const static s16 word_5556F0[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
 BaseGameObject* HoistRocksEffect::VDestructor(s32 flags)
 {
@@ -169,11 +169,11 @@ void HoistRocksEffect::Update_45D460()
             if (particle.field_C_yVel >= FP_FromInteger(10))
             {
                 if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-                    gMap_5C3030.field_0_current_level,
-                    gMap_5C3030.field_2_current_path,
-                    particle.field_4_xpos,
-                    particle.field_8_ypos,
-                    0))
+                        gMap_5C3030.field_0_current_level,
+                        gMap_5C3030.field_2_current_path,
+                        particle.field_4_xpos,
+                        particle.field_8_ypos,
+                        0))
                 {
                     particle.field_0_state = 0;
                 }
@@ -191,14 +191,14 @@ void HoistRocksEffect::Update_45D460()
                 FP hitX = {};
                 FP hitY = {};
                 if (sCollisions_DArray_5C1128->Raycast_417A60(
-                    particle.field_4_xpos,
-                    particle.field_8_ypos - particle.field_C_yVel,
-                    particle.field_4_xpos,
-                    particle.field_8_ypos,
-                    &pLine,
-                    &hitX,
-                    &hitY,
-                    field_2C_scale > FP_FromDouble(0.5) ? 1 : 16))
+                        particle.field_4_xpos,
+                        particle.field_8_ypos - particle.field_C_yVel,
+                        particle.field_4_xpos,
+                        particle.field_8_ypos,
+                        &pLine,
+                        &hitX,
+                        &hitY,
+                        field_2C_scale > FP_FromDouble(0.5) ? 1 : 16))
                 {
                     particle.field_8_ypos = hitY;
                     particle.field_C_yVel = particle.field_C_yVel * FP_FromDouble(-0.3);

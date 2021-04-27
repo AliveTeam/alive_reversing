@@ -25,4 +25,4 @@ EXPORT s32 CC PSX_ClearImage_496020(const PSX_RECT* pRect, u8 r, u8 g, u8 b)
     return PSX_ClearImage_4F5BD0(reinterpret_cast<const ::PSX_RECT*>(pRect), r, g, b);
 }
 
-}
+} // namespace AO

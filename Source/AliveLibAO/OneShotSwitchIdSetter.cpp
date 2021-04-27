@@ -57,5 +57,4 @@ void OneShotSwitchIdSetter::VScreenChanged_432F00()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-}
-
+} // namespace AO

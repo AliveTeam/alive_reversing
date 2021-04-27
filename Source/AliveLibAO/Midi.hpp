@@ -207,4 +207,4 @@ EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight);
 
 EXPORT void CC SND_StopAll_4762D0();
 
-}
+} // namespace AO

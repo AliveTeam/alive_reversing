@@ -24,6 +24,7 @@ public:
     EXPORT void dtor_46AF00();
     EXPORT void SetYPos_46AFB0(s32 /*not_used*/, s16 ypos);
     EXPORT void Render_46AFD0(PrimHeader** ppOt);
+
 private:
     Alive::Font field_20_font;
     s16 field_58_k0_unused;

@@ -22,7 +22,7 @@ public:
 
     EXPORT BaseGameObject* dtor_463990();
 
-    virtual void VOnThrowableHit(BaseGameObject* ) override;
+    virtual void VOnThrowableHit(BaseGameObject*) override;
 
     virtual void VUpdate() override;
 
@@ -51,5 +51,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Shrykull, 0x124);
 
-}
-
+} // namespace AO

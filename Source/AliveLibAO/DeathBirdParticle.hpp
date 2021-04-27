@@ -31,5 +31,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DeathBirdParticle, 0xF0);
 
-}
-
+} // namespace AO

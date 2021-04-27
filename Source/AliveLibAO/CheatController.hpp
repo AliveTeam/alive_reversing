@@ -34,4 +34,4 @@ ALIVE_VAR_EXTERN(s16, sVoiceCheat_507708);
 ALIVE_VAR_EXTERN(s16, sEnableCheatFMV_50770C);
 ALIVE_VAR_EXTERN(s16, sEnableCheatLevelSelect_507710);
 
-}
+} // namespace AO

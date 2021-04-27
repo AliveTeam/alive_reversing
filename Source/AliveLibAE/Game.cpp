@@ -41,7 +41,8 @@
 #include "Movie.hpp"
 #include <string>
 
-void Game_ForceLink() { }
+void Game_ForceLink()
+{ }
 
 using TExitGameCallBack = AddPointer_t<void CC()>;
 
@@ -89,7 +90,7 @@ ALIVE_VAR(1, 0x5C2F70, u32, dword_5C2F70, 0);
 
 
 
-ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
+ALIVE_VAR(1, 0x5c1b68, Abe*, sActiveHero_5C1B68, 0);
 
 bool gDebugHelpersEnabled = false;
 
@@ -147,7 +148,7 @@ EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 void DestroyObjects_4A1F20()
 {
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
-    for (s32 iterations =0; iterations < 2; iterations++)
+    for (s32 iterations = 0; iterations < 2; iterations++)
     {
         s16 idx = 0;
 
@@ -177,7 +178,6 @@ void DestroyObjects_4A1F20()
             }
         }
     }
-
 }
 
 EXPORT f64 CC Calculate_FPS_495250(s32 frameCount)
@@ -518,7 +518,7 @@ EXPORT void CC Game_Run_466D40()
     pScreenManager_5BB5F4 = ae_new<ScreenManager>();
     pScreenManager_5BB5F4->ctor_40E3E0(camera.field_C_pCamRes, &gMap_5C3030.field_24_camera_offset);
 
-    pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16 **)camera.field_C_pCamRes);
+    pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) camera.field_C_pCamRes);
     pScreenManager_5BB5F4->MoveImage_40EB70();
 
     sLvlArchive_5BC520.Free_433130();
@@ -528,13 +528,13 @@ EXPORT void CC Game_Run_466D40()
     Input_Init_491BC0();
     s16 cameraId = 25;
 #if DEVELOPER_MODE
-#if _WIN32
+    #if _WIN32
     if (GetKeyState(VK_LSHIFT) >= 0)
     {
         gBootToLoadScreen = true;
         cameraId = 1;
     }
-#endif
+    #endif
 #endif
 
     gMap_5C3030.Init_4803F0(LevelIds::eMenu_0, 1, cameraId, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
@@ -656,7 +656,7 @@ EXPORT void CC Game_Shutdown_4F2C30()
 EXPORT s32 TMR_Init_4EDE20()
 {
 #if USE_SDL2
-	return 0;
+    return 0;
 #else
     struct timecaps_tag ptc = {};
     if (::timeGetDevCaps(&ptc, sizeof(timecaps_tag)))
@@ -712,9 +712,9 @@ EXPORT void CC Game_Main_4949F0()
     Main_ParseCommandLineArguments_494EA0(Sys_GetCommandLine_4EE176(), Sys_GetCommandLine_4EE176());
     Game_SetExitCallBack_4F2BA0(Game_ExitGame_4954B0);
 #if _WIN32
-#if !USE_SDL2
+    #if !USE_SDL2
     Sys_SetWindowProc_Filter_4EE197(Sys_WindowMessageHandler_494A40);
-#endif
+    #endif
 #endif
     // Only returns once the engine is shutting down
     Game_Run_466D40();
@@ -780,7 +780,7 @@ EXPORT void CC Game_Loop_467230()
         PrimHeader** ppOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
 
         // Render objects
-        for (s32 i=0; i < gObjList_drawables_5C1124->Size(); i++)
+        for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
         {
             BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
             if (!pObj)
@@ -800,7 +800,7 @@ EXPORT void CC Game_Loop_467230()
         }
 
         // Render FG1's
-        for (s32 i=0; i < gFG1List_5D1E28->Size(); i++)
+        for (s32 i = 0; i < gFG1List_5D1E28->Size(); i++)
         {
             FG1* pFG1 = gFG1List_5D1E28->ItemAt(i);
             if (!pFG1)
@@ -890,7 +890,7 @@ EXPORT void CC Game_Loop_467230()
     {
         DynamicArrayIter iter = {};
         iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
-        for (s16 idx =0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        for (s16 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
             iter.field_4_idx = idx + 1;
@@ -905,28 +905,26 @@ EXPORT void CC Game_Loop_467230()
 }
 
 
-namespace AETest::TestsGame
+namespace AETest::TestsGame {
+static void Test_PSX_getTPage_4F60E0()
 {
-    static void Test_PSX_getTPage_4F60E0()
-    {
-        ASSERT_EQ(0, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0));
+    ASSERT_EQ(0, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0));
 
-        ASSERT_EQ(32, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
-        ASSERT_EQ(64, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
-        ASSERT_EQ(96, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_3, 0, 0));
+    ASSERT_EQ(32, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
+    ASSERT_EQ(64, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
+    ASSERT_EQ(96, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_3, 0, 0));
 
-        ASSERT_EQ(128, PSX_getTPage_4F60E0(TPageMode::e8Bit_1, TPageAbr::eBlend_0, 0, 0));
-        ASSERT_EQ(256, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0));
-        // ASSERT_EQ(384, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0));
+    ASSERT_EQ(128, PSX_getTPage_4F60E0(TPageMode::e8Bit_1, TPageAbr::eBlend_0, 0, 0));
+    ASSERT_EQ(256, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0));
+    // ASSERT_EQ(384, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0));
 
-        ASSERT_EQ(1, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 64, 0));
-        ASSERT_EQ(2, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 64 * 2, 64));
-        ASSERT_EQ(18, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 64 * 2, 64 * 4));
-
-    }
-
-    void GameTests()
-    {
-        Test_PSX_getTPage_4F60E0();
-    }
+    ASSERT_EQ(1, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 64, 0));
+    ASSERT_EQ(2, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 64 * 2, 64));
+    ASSERT_EQ(18, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 64 * 2, 64 * 4));
 }
+
+void GameTests()
+{
+    Test_PSX_getTPage_4F60E0();
+}
+} // namespace AETest::TestsGame

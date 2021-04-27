@@ -34,8 +34,10 @@ public:
         s16 y = 0;
         s16 depth = 0;
     };
+
 public:
-    virtual ~IRenderer() {}
+    virtual ~IRenderer()
+    { }
     virtual void Destroy() = 0;
     virtual bool Create(TWindowHandleType window) = 0;
     virtual void Clear(u8 r, u8 g, u8 b) = 0;
@@ -87,5 +89,4 @@ public:
 
     // Fleech (tounge), DeathGas, ColourfulMeter
     virtual void Draw(Poly_G4& poly) = 0;
-
 };

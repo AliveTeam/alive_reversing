@@ -97,4 +97,4 @@ ALIVE_VAR_EXTERN(s16, sKilledMudokons_5076BC);
 ALIVE_VAR_EXTERN(s16, showDebugCreatureInfo_5076E0);
 ALIVE_VAR_EXTERN(s16, sDDCheat_FlyingEnabled_50771C);
 
-}
+} // namespace AO

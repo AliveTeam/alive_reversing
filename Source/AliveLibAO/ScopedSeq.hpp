@@ -19,4 +19,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ScopedSeq, 0xC);
 
-}
+} // namespace AO

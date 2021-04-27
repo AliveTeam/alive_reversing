@@ -78,7 +78,6 @@ ALIVE_VAR_EXTERN(s32, sPsx_drawenv_clipw_BDCD48);
 ALIVE_VAR_EXTERN(s32, sPsx_drawenv_cliph_BDCD4C);
 
 
-namespace AETest::TestsPsx
-{
-    void PsxTests();
+namespace AETest::TestsPsx {
+void PsxTests();
 }

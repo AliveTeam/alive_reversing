@@ -7,7 +7,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-using TFrameCallBackType = s32(CC *)(void *, s16 *);
+using TFrameCallBackType = s32(CC*)(void*, s16*);
 
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_55EF98[5];
 extern TFrameCallBackType kSlig_Anim_Frame_Fns_55EFAC[4];
@@ -15,9 +15,8 @@ extern TFrameCallBackType kSlog_Anim_Frame_Fns_55EFBC[2];
 extern TFrameCallBackType kFlyingSlig_Anim_Frames_Fns_55EFC4[3];
 extern TFrameCallBackType kFleech_Anim_Frame_Fns_55EFD0[3];
 
-namespace AETest::TestsAnimation
-{
-    void AnimationTests();
+namespace AETest::TestsAnimation {
+void AnimationTests();
 }
 
 struct AnimHeader
@@ -45,7 +44,8 @@ struct OffsetAndBoundingRect
 
 union PointsUnion
 {
-    PointsUnion() {}
+    PointsUnion()
+    { }
     OffsetAndBoundingRect offsetAndRect;
     Point points[3];
 };
@@ -61,10 +61,10 @@ struct FrameInfoHeader
 struct AnimationHeader
 {
     // Meta data - the offset where this record was read from
-    u16 field_0_fps;            // Seems to be 0x1 or 0x2
-    s16 field_2_num_frames;      // Number of frames in the set
+    u16 field_0_fps;        // Seems to be 0x1 or 0x2
+    s16 field_2_num_frames; // Number of frames in the set
 
-                                       // If loop flag set then this is the frame to loop back to
+    // If loop flag set then this is the frame to loop back to
     s16 field_4_loop_start_frame;
 
     // These where reversed by editing data in memory on PSX version
@@ -136,7 +136,7 @@ public:
     u16 field_12_scale; // padding?
     FP field_14_scale;
     u32 field_18_frame_table_offset;
-    s32(CC **field_1C_fn_ptr_array)(void *, s16 *);
+    s32(CC** field_1C_fn_ptr_array)(void*, s16*);
     u8** field_20_ppBlock; // // pointer to a pointer which points to anim data
     u8** field_24_dbuf;
 
@@ -153,7 +153,7 @@ public:
 public:
     EXPORT void SetFrame_409D50(s16 newFrame);
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(s16 frame);
-    EXPORT void Get_Frame_Rect_409E10(PSX_RECT *pRect);
+    EXPORT void Get_Frame_Rect_409E10(PSX_RECT* pRect);
     EXPORT u16 Get_Frame_Count_40AC70();
     EXPORT s16 Init_40A030(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 unknown1, s32 pal_depth, s8 unknown3);
     EXPORT void Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY);

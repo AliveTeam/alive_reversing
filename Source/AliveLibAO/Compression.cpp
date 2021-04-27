@@ -20,7 +20,7 @@ EXPORT void CC Decompress_Type_2_403390(const u8* pInput, u8* pOutput, s32 decom
 }
 
 
-template<typename T>
+template <typename T>
 static void ReadNextSource(PtrStream& stream, s32& control_byte, T& workBits)
 {
     if (control_byte)
@@ -43,7 +43,7 @@ EXPORT void CC Decompress_Type_3_4031E0(const u8* pInput, u8* pOutput, s32 total
 {
     u32 inStreamLen = totalLen & ~3u;
     u32 inStreamDirectBytesLen = totalLen & 3;
- 
+
     PtrStream inStream(&pInput);
 
     const u8* pDirectBytes = pInput + (6 * inStreamLen) / 8;
@@ -124,4 +124,4 @@ EXPORT void CC Decompress_Type_4_5_461770(const u8* pInput, u8* pOutput)
     CompressionType_4Or5_Decompress_4ABAB0(pInput, pOutput);
 }
 
-}
+} // namespace AO

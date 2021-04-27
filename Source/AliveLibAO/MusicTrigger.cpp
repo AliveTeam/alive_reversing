@@ -34,78 +34,78 @@ void MusicTrigger::Init_443AD0(s16 type, s16 enabledBy, u16 id, s16 delay)
 
     switch (type)
     {
-    case 0:
-        field_1C_music_type = MusicController::MusicTypes::eType3;
-        field_18_counter = 400;
-        break;
+        case 0:
+            field_1C_music_type = MusicController::MusicTypes::eType3;
+            field_18_counter = 400;
+            break;
 
-    case 1:
-        field_1C_music_type = MusicController::MusicTypes::eDeathShort_13;
-        field_18_counter = 30;
-        break;
+        case 1:
+            field_1C_music_type = MusicController::MusicTypes::eDeathShort_13;
+            field_18_counter = 30;
+            break;
 
-    case 2:
-        field_1C_music_type = MusicController::MusicTypes::eSecretAreaLong_16;
-        field_18_counter = 30;
-        break;
+        case 2:
+            field_1C_music_type = MusicController::MusicTypes::eSecretAreaLong_16;
+            field_18_counter = 30;
+            break;
 
-    case 3:
-        field_1C_music_type = MusicController::MusicTypes::eSlogChase_5;
-        field_14_flags |= 4;
-        break;
+        case 3:
+            field_1C_music_type = MusicController::MusicTypes::eSlogChase_5;
+            field_14_flags |= 4;
+            break;
 
-    case 4:
-        field_1C_music_type = MusicController::MusicTypes::eType8;
-        field_14_flags |= 4;
-        break;
+        case 4:
+            field_1C_music_type = MusicController::MusicTypes::eType8;
+            field_14_flags |= 4;
+            break;
 
-    case 5:
-        field_1C_music_type = MusicController::MusicTypes::eType2;
-        field_18_counter = delay;
-        break;
+        case 5:
+            field_1C_music_type = MusicController::MusicTypes::eType2;
+            field_18_counter = delay;
+            break;
 
-    case 6:
-        field_1C_music_type = MusicController::MusicTypes::eSecretAreaShort_15;
-        field_18_counter = 30;
-        break;
+        case 6:
+            field_1C_music_type = MusicController::MusicTypes::eSecretAreaShort_15;
+            field_18_counter = 30;
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     switch (enabledBy)
     {
-    case 0:
-        field_8_update_delay = 0;
-        break;
+        case 0:
+            field_8_update_delay = 0;
+            break;
 
-    case 1:
-        field_8_update_delay = delay;
-        break;
+        case 1:
+            field_8_update_delay = delay;
+            break;
 
-    case 2:  // removed in AE
-        field_14_flags |= 1u;
-        field_1E_id = id;
-        field_8_update_delay = 0;
-        field_18_counter = delay;
-        if (id > 1)
-        {
-            if (SwitchStates_Get(id))
+        case 2: // removed in AE
+            field_14_flags |= 1u;
+            field_1E_id = id;
+            field_8_update_delay = 0;
+            field_18_counter = delay;
+            if (id > 1)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                if (SwitchStates_Get(id))
+                {
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                }
             }
-        }
-        break;
+            break;
 
-    case 3: // removed in AE
-        field_14_flags |= 1u;
-        field_1E_id = id;
-        field_8_update_delay = 0;
-        field_18_counter = -1;
-        break;
+        case 3: // removed in AE
+            field_14_flags |= 1u;
+            field_1E_id = id;
+            field_8_update_delay = 0;
+            field_18_counter = -1;
+            break;
 
-    default:
-        return;
+        default:
+            return;
     }
 }
 
@@ -164,7 +164,7 @@ void MusicTrigger::VUpdate_443C90()
         }
     }
 
-    if ( field_14_flags & 1 )
+    if (field_14_flags & 1)
     {
         if (SwitchStates_Get(field_1E_id))
         {
@@ -173,7 +173,7 @@ void MusicTrigger::VUpdate_443C90()
             MusicController::PlayMusic_443810(
                 field_1C_music_type,
                 this,
-                ((u8)field_14_flags >> 2) & 1,
+                ((u8) field_14_flags >> 2) & 1,
                 1);
             field_14_flags |= 2u;
 
@@ -185,7 +185,7 @@ void MusicTrigger::VUpdate_443C90()
     }
     else
     {
-        if ( !(field_14_flags & 2) )
+        if (!(field_14_flags & 2))
         {
             MusicController::PlayMusic_443810(field_1C_music_type, this, (field_14_flags >> 2) & 1, 1);
             field_14_flags |= 2u;
@@ -193,7 +193,7 @@ void MusicTrigger::VUpdate_443C90()
             return;
         }
 
-        if ( field_18_counter < 0 )
+        if (field_18_counter < 0)
         {
             if (!SwitchStates_Get(field_1E_id))
             {
@@ -203,8 +203,8 @@ void MusicTrigger::VUpdate_443C90()
 
             if (field_18_counter < 0)
             {
-                 MusicController::PlayMusic_443810(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
-                 return;
+                MusicController::PlayMusic_443810(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
+                return;
             }
         }
 
@@ -219,4 +219,4 @@ void MusicTrigger::VUpdate_443C90()
     }
 }
 
-}
+} // namespace AO

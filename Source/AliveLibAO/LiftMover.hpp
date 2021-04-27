@@ -43,4 +43,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(LiftMover, 0x24);
 
-}
+} // namespace AO

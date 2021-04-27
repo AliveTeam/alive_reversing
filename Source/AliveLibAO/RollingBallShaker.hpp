@@ -27,4 +27,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(RollingBallShaker, 0x34);
 
-}
+} // namespace AO

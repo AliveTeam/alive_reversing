@@ -9,12 +9,12 @@
 #include "ShadowZone.hpp"
 #include "BaseAliveGameObject.hpp"
 
-BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize)
+BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize)
 {
     BaseGameObject_ctor_4DBFA0(1, resourceArraySize);
 
     SetVTable(&field_20_animation, 0x544290); // gVtbl_animation_2a_544290
-    SetVTable(this, 0x544C9C); // gVtbl_BaseAnimatedWithPhysicsGameObject_544C9C
+    SetVTable(this, 0x544C9C);                // gVtbl_BaseAnimatedWithPhysicsGameObject_544C9C
 
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
@@ -121,8 +121,8 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
             if (field_DC_bApplyShadows & 1)
             {
                 ShadowZone::ShadowZones_Calculate_Colour_463CE0(
-                    FP_GetExponent(field_B8_xpos),      // Left side
-                    (boundingRect.y + boundingRect.h) / 2,  // Middle of Height
+                    FP_GetExponent(field_B8_xpos),         // Left side
+                    (boundingRect.y + boundingRect.h) / 2, // Middle of Height
                     field_D6_scale,
                     &r,
                     &g,
@@ -164,18 +164,18 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
 }
 
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8 **ppAnimData, s16 a6, u8 a7)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, s16 a6, u8 a7)
 {
     if (field_20_animation.Init_40A030(
-        frameTableOffset,
-        gObjList_animations_5C1A24,
-        this,
-        static_cast<s16>(maxW),
-        maxH,
-        ppAnimData,
-        a7,
-        0,
-        0))
+            frameTableOffset,
+            gObjList_animations_5C1A24,
+            this,
+            static_cast<s16>(maxW),
+            maxH,
+            ppAnimData,
+            a7,
+            0,
+            0))
     {
         if (field_CC_sprite_scale.fpValue == 0x10000)
         {
@@ -206,7 +206,6 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffs
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
-
 }
 
 void BaseAnimatedWithPhysicsGameObject::vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
@@ -219,7 +218,7 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::vGetBoundingRect_424FD0(PSX_RECT* p
     return GetBoundingRect_424FD0(pRect, pointIdx);
 }
 
-s16 BaseAnimatedWithPhysicsGameObject::vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj)
+s16 BaseAnimatedWithPhysicsGameObject::vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     return IsObjNearby_4253B0(radius, pObj);
 }
@@ -265,8 +264,8 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::GetBoundingRect_424FD0(PSX_RECT* pR
     // supported in the data too.
     rect.x = pAnimFrameHeader->field_8_data.points[pointIdx].x;
     rect.y = pAnimFrameHeader->field_8_data.points[pointIdx].y;
-    rect.w = pAnimFrameHeader->field_8_data.points[pointIdx +1].x;
-    rect.h = pAnimFrameHeader->field_8_data.points[pointIdx +1].y;
+    rect.w = pAnimFrameHeader->field_8_data.points[pointIdx + 1].x;
+    rect.h = pAnimFrameHeader->field_8_data.points[pointIdx + 1].y;
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -299,7 +298,7 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::GetBoundingRect_424FD0(PSX_RECT* pR
     return pRect;
 }
 
-s16 BaseAnimatedWithPhysicsGameObject::IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj)
+s16 BaseAnimatedWithPhysicsGameObject::IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     FP distance = pObj->field_B8_xpos - field_B8_xpos;
 
@@ -383,10 +382,8 @@ s16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithPhysi
 void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(AETypes typeToFind)
 {
     // For some reason this isn't const in the real game
-    const s16 kData[6] =
-    {
-        0, 3, -3, 6, -6, 2
-    };
+    const s16 kData[6] = {
+        0, 3, -3, 6, -6, 2};
 
     s32 data_idx = 0;
     for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
@@ -509,7 +506,7 @@ void BaseAnimatedWithPhysicsGameObject::OnCollisionWith_424EE0(PSX_Point xy, PSX
             {
                 PSX_RECT bRect = {};
                 pObj->GetBoundingRect_424FD0(&bRect, startingPointIdx);
-                if (xy.field_0_x <= bRect.w && xy.field_2_y <= bRect.h && wh.field_0_x >= bRect.x  && wh.field_2_y >= bRect.y && field_D6_scale == pObj->field_D6_scale)
+                if (xy.field_0_x <= bRect.w && xy.field_2_y <= bRect.h && wh.field_0_x >= bRect.x && wh.field_2_y >= bRect.y && field_D6_scale == pObj->field_D6_scale)
                 {
                     if (!(this->*(pFn))(pObj))
                     {
@@ -545,102 +542,101 @@ void BaseAnimatedWithPhysicsGameObject::SetRGB(s16 r, s16 g, s16 b)
     field_D4_b = b;
 }
 
-namespace AETest::TestsBaseAnimatedWithPhysicsGameObject
+namespace AETest::TestsBaseAnimatedWithPhysicsGameObject {
+class TestObj : public ::BaseAnimatedWithPhysicsGameObject
 {
-    class TestObj : public ::BaseAnimatedWithPhysicsGameObject
+public:
+    virtual BaseGameObject* VDestructor(s32) override
     {
-    public:
-        virtual BaseGameObject* VDestructor(s32) override
-        {
-            // Stub
-            return this;
-        }
-    };
+        // Stub
+        return this;
+    }
+};
 
-    struct TestAnimData
+struct TestAnimData
+{
+    AnimationHeader mHeader;
+    FrameInfoHeader mFrameInfoHeader[10];
+    FrameHeader mFrameHeader;
+};
+
+static void GetBoundingRect_424FD0_Test()
+{
+    TestObj t;
+
+    t.field_20_animation.field_4_flags.Raw().all = 0;
+    t.field_20_animation.field_92_current_frame = 0;
+    t.field_20_animation.field_14_scale = FP_FromDouble(1.0);
+    t.field_B8_xpos = FP_FromDouble(3.0);
+    t.field_BC_ypos = FP_FromDouble(5.0);
+
+    TestAnimData testData = {};
+    testData.mHeader.mFrameOffsets[0] = sizeof(AnimationHeader);
+    testData.mHeader.field_0_fps = 2;
+
+    testData.mFrameInfoHeader[0].field_0_frame_header_offset = sizeof(AnimationHeader) + sizeof(FrameInfoHeader);
+    testData.mFrameInfoHeader[0].field_6_count = 1;
+    testData.mFrameInfoHeader[0].field_8_data.points[0].x = 77;
+    testData.mFrameInfoHeader[0].field_8_data.points[0].y = 66;
+    testData.mFrameInfoHeader[0].field_8_data.points[1].x = 10;
+    testData.mFrameInfoHeader[0].field_8_data.points[1].y = 20;
+    testData.mFrameInfoHeader[0].field_8_data.points[2].x = 30;
+    testData.mFrameInfoHeader[0].field_8_data.points[2].y = 40;
+
+    testData.mFrameInfoHeader[1].field_8_data.points[0].x = 77;
+    testData.mFrameInfoHeader[1].field_8_data.points[0].y = 66;
+    testData.mFrameInfoHeader[1].field_8_data.points[1].x = 10;
+    testData.mFrameInfoHeader[1].field_8_data.points[1].y = 20;
+    testData.mFrameInfoHeader[1].field_8_data.points[2].x = 30;
+    testData.mFrameInfoHeader[1].field_8_data.points[2].y = 40;
+
+    //testData.mFrameHeader.field_4_width = 20;
+    //testData.mFrameHeader.field_5_height = 30;
+    testData.mFrameHeader.field_6_colour_depth = 8;
+
+    TestAnimData* pTestData = &testData;
+
+    t.field_20_animation.field_20_ppBlock = (u8**) &pTestData;
+    t.field_20_animation.field_18_frame_table_offset = 0;
+
+    t.field_CC_sprite_scale = FP_FromDouble(1.0);
+
     {
-        AnimationHeader mHeader;
-        FrameInfoHeader mFrameInfoHeader[10];
-        FrameHeader mFrameHeader;
-    };
-
-    static void GetBoundingRect_424FD0_Test()
-    {
-        TestObj t;
-
-        t.field_20_animation.field_4_flags.Raw().all = 0;
-        t.field_20_animation.field_92_current_frame = 0;
-        t.field_20_animation.field_14_scale = FP_FromDouble(1.0);
-        t.field_B8_xpos = FP_FromDouble(3.0);
-        t.field_BC_ypos = FP_FromDouble(5.0);
-
-        TestAnimData testData = {};
-        testData.mHeader.mFrameOffsets[0] = sizeof(AnimationHeader);
-        testData.mHeader.field_0_fps = 2;
-
-        testData.mFrameInfoHeader[0].field_0_frame_header_offset = sizeof(AnimationHeader) + sizeof(FrameInfoHeader);
-        testData.mFrameInfoHeader[0].field_6_count = 1;
-        testData.mFrameInfoHeader[0].field_8_data.points[0].x = 77;
-        testData.mFrameInfoHeader[0].field_8_data.points[0].y = 66;
-        testData.mFrameInfoHeader[0].field_8_data.points[1].x = 10;
-        testData.mFrameInfoHeader[0].field_8_data.points[1].y = 20;
-        testData.mFrameInfoHeader[0].field_8_data.points[2].x = 30;
-        testData.mFrameInfoHeader[0].field_8_data.points[2].y = 40;
-
-        testData.mFrameInfoHeader[1].field_8_data.points[0].x = 77;
-        testData.mFrameInfoHeader[1].field_8_data.points[0].y = 66;
-        testData.mFrameInfoHeader[1].field_8_data.points[1].x = 10;
-        testData.mFrameInfoHeader[1].field_8_data.points[1].y = 20;
-        testData.mFrameInfoHeader[1].field_8_data.points[2].x = 30;
-        testData.mFrameInfoHeader[1].field_8_data.points[2].y = 40;
-
-        //testData.mFrameHeader.field_4_width = 20;
-        //testData.mFrameHeader.field_5_height = 30;
-        testData.mFrameHeader.field_6_colour_depth = 8;
-
-        TestAnimData* pTestData = &testData;
-
-        t.field_20_animation.field_20_ppBlock = (u8 **)&pTestData;
-        t.field_20_animation.field_18_frame_table_offset = 0;
-
-        t.field_CC_sprite_scale = FP_FromDouble(1.0);
-
-        {
-            PSX_RECT bRect = {};
-            t.vGetBoundingRect_424FD0(&bRect, 2); // kinda sorta changes the frame to use ??
-            PSX_RECT expected = { 33, 45, 3, 5 };
-            ASSERT_EQ(bRect, expected);
-        }
-
-        t.field_CC_sprite_scale = FP_FromDouble(2.0);
-
-        {
-            PSX_RECT bRect = {};
-            t.vGetBoundingRect_424FD0(&bRect, 1);
-            PSX_RECT expected = { (10 * 2) + 3, (20 * 2) + 5, (30 * 2) + 3, (40 * 2) + 5 };
-            ASSERT_EQ(bRect, expected);
-        }
-
-        {
-            t.field_20_animation.field_4_flags.Set(AnimFlags::eBit6_FlipY);
-            PSX_RECT bRect = {};
-            t.vGetBoundingRect_424FD0(&bRect, 1);
-            PSX_RECT expected = { (10 * 2) + 3, -(40 * 2) + 5, (30 * 2) + 3, -(20 * 2) + 5  };
-            ASSERT_EQ(bRect, expected);
-        }
-
-        {
-            t.field_20_animation.field_4_flags.Clear(AnimFlags::eBit6_FlipY);
-            t.field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-            PSX_RECT bRect = {};
-            t.vGetBoundingRect_424FD0(&bRect, 1);
-            PSX_RECT expected = { -(30 * 2) + 3, (20 * 2) + 5, -(10 * 2) + 3, (40 * 2) + 5 };
-            ASSERT_EQ(bRect, expected);
-        }
+        PSX_RECT bRect = {};
+        t.vGetBoundingRect_424FD0(&bRect, 2); // kinda sorta changes the frame to use ??
+        PSX_RECT expected = {33, 45, 3, 5};
+        ASSERT_EQ(bRect, expected);
     }
 
-    void BaseAnimatedWithPhysicsGameObjectTests()
+    t.field_CC_sprite_scale = FP_FromDouble(2.0);
+
     {
-        GetBoundingRect_424FD0_Test();
+        PSX_RECT bRect = {};
+        t.vGetBoundingRect_424FD0(&bRect, 1);
+        PSX_RECT expected = {(10 * 2) + 3, (20 * 2) + 5, (30 * 2) + 3, (40 * 2) + 5};
+        ASSERT_EQ(bRect, expected);
+    }
+
+    {
+        t.field_20_animation.field_4_flags.Set(AnimFlags::eBit6_FlipY);
+        PSX_RECT bRect = {};
+        t.vGetBoundingRect_424FD0(&bRect, 1);
+        PSX_RECT expected = {(10 * 2) + 3, -(40 * 2) + 5, (30 * 2) + 3, -(20 * 2) + 5};
+        ASSERT_EQ(bRect, expected);
+    }
+
+    {
+        t.field_20_animation.field_4_flags.Clear(AnimFlags::eBit6_FlipY);
+        t.field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        PSX_RECT bRect = {};
+        t.vGetBoundingRect_424FD0(&bRect, 1);
+        PSX_RECT expected = {-(30 * 2) + 3, (20 * 2) + 5, -(10 * 2) + 3, (40 * 2) + 5};
+        ASSERT_EQ(bRect, expected);
     }
 }
+
+void BaseAnimatedWithPhysicsGameObjectTests()
+{
+    GetBoundingRect_424FD0_Test();
+}
+} // namespace AETest::TestsBaseAnimatedWithPhysicsGameObject

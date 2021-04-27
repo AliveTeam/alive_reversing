@@ -39,7 +39,7 @@ EXPORT void CC LvlArchive::dtor_static_443E80()
 
 EXPORT void LvlArchive::OpenArchive(const s8* fileName, s32 pos)
 {
-    // HACK: Added so that AE PSX emu lib works as we don't have a mapping of CDPos <> FileName in the AE emu 
+    // HACK: Added so that AE PSX emu lib works as we don't have a mapping of CDPos <> FileName in the AE emu
     // (it was a stupid idea so I guess they removed it in the next iteration)
     pos = PSX_CD_OpenFile(fileName, 1);
 
@@ -53,11 +53,11 @@ EXPORT void LvlArchive::OpenArchive(const s8* fileName, s32 pos)
 
     s32 retryCounter = 0;
     CdlLOC loc = {};
-    
+
     pos = 0; // AE lib hack
 
     PSX_Pos_To_CdLoc_49B340(pos, &loc);
-    
+
     field_4_cd_pos = PSX_CdLoc_To_Pos_4FAE40(&loc); // AE lib hack
 
     s32 bOk = 0;
@@ -77,7 +77,8 @@ EXPORT void LvlArchive::OpenArchive(const s8* fileName, s32 pos)
         {
             bOk = 0;
         }
-    } while (!bOk);
+    }
+    while (!bOk);
 
     // Set ref count to 1 so ResourceManager won't kill it
     pHeader->field_4_ref_count = 1;
@@ -115,7 +116,7 @@ EXPORT LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const s8* pFileName)
     {
         if (strncmp(pHeader->field_10_file_recs[i].field_0_file_name, pFileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)) == 0)
         {
-             return &pHeader->field_10_file_recs[i];
+            return &pHeader->field_10_file_recs[i];
         }
     }
 
@@ -141,4 +142,4 @@ EXPORT s16 LvlArchive::Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBu
     return ret;
 }
 
-}
+} // namespace AO

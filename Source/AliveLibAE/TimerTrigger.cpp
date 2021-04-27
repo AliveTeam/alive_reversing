@@ -56,7 +56,6 @@ EXPORT s32 CC TimerTrigger::CreateFromSaveState_4CDF70(const u8* pData)
         pTimerTrigger->field_22_state = pState->field_C_state;
         pTimerTrigger->field_30_trigger_delay_timer = sGnFrame_5C1B84 + pState->field_8_delay_timer_base;
         pTimerTrigger->field_38_starting_switch_state = pState->field_E_starting_switch_state;
-
     }
     return sizeof(TimerTrigger_State);
 }
@@ -82,37 +81,37 @@ void TimerTrigger::vUpdate_4CDDB0()
 {
     switch (field_22_state)
     {
-    case TimerTriggerStates::eWaitForEnabled_0:
-        if (SwitchStates_Get_466020(field_20_id) != field_38_starting_switch_state)
-        {
-            field_22_state = TimerTriggerStates::eWaitForFirstTrigger_1;
-            field_30_trigger_delay_timer = sGnFrame_5C1B84 + field_34_trigger_delay;
-        }
-        break;
+        case TimerTriggerStates::eWaitForEnabled_0:
+            if (SwitchStates_Get_466020(field_20_id) != field_38_starting_switch_state)
+            {
+                field_22_state = TimerTriggerStates::eWaitForFirstTrigger_1;
+                field_30_trigger_delay_timer = sGnFrame_5C1B84 + field_34_trigger_delay;
+            }
+            break;
 
-    case TimerTriggerStates::eWaitForFirstTrigger_1:
-        if (field_30_trigger_delay_timer <= static_cast<s32>(sGnFrame_5C1B84))
-        {
-            ToggleAllIds_4CDEC0();
-            field_22_state = TimerTriggerStates::eCheckForStartAgain_2;
-        }
-        break;
+        case TimerTriggerStates::eWaitForFirstTrigger_1:
+            if (field_30_trigger_delay_timer <= static_cast<s32>(sGnFrame_5C1B84))
+            {
+                ToggleAllIds_4CDEC0();
+                field_22_state = TimerTriggerStates::eCheckForStartAgain_2;
+            }
+            break;
 
-    case TimerTriggerStates::eCheckForStartAgain_2:
-        if (SwitchStates_Get_466020(field_20_id) == field_38_starting_switch_state)
-        {
-            field_22_state = TimerTriggerStates::eWaitForSecondTrigger_3;
-            field_30_trigger_delay_timer = sGnFrame_5C1B84 + field_34_trigger_delay;
-        }
-        break;
+        case TimerTriggerStates::eCheckForStartAgain_2:
+            if (SwitchStates_Get_466020(field_20_id) == field_38_starting_switch_state)
+            {
+                field_22_state = TimerTriggerStates::eWaitForSecondTrigger_3;
+                field_30_trigger_delay_timer = sGnFrame_5C1B84 + field_34_trigger_delay;
+            }
+            break;
 
-    case TimerTriggerStates::eWaitForSecondTrigger_3:
-        if (field_30_trigger_delay_timer <= (s32)sGnFrame_5C1B84)
-        {
-            ToggleAllIds_4CDEC0();
-            field_22_state = TimerTriggerStates::eWaitForEnabled_0;
-        }
-        break;
+        case TimerTriggerStates::eWaitForSecondTrigger_3:
+            if (field_30_trigger_delay_timer <= (s32) sGnFrame_5C1B84)
+            {
+                ToggleAllIds_4CDEC0();
+                field_22_state = TimerTriggerStates::eWaitForEnabled_0;
+            }
+            break;
     }
 
     if (Event_Get_422C00(kEventDeathReset))
@@ -134,10 +133,7 @@ void TimerTrigger::ToggleAllIds_4CDEC0()
 
 void TimerTrigger::vScreenChanged_4CDF00()
 {
-    if (field_22_state == TimerTriggerStates::eWaitForEnabled_0 || field_22_state == TimerTriggerStates::eCheckForStartAgain_2 ||
-        gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
-        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
-        gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
+    if (field_22_state == TimerTriggerStates::eWaitForEnabled_0 || field_22_state == TimerTriggerStates::eCheckForStartAgain_2 || gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

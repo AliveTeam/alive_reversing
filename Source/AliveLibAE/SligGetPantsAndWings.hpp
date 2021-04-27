@@ -21,11 +21,13 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+
 private:
     EXPORT void vUpdate_465DD0();
     EXPORT SligGetPantsAndWings* vdtor_465D10(s32 flags);
     EXPORT void vScreenChanged_465EE0();
     EXPORT void dtor_465D40();
+
 private:
     State field_F4_state;
     //s16 field_F6_pad;

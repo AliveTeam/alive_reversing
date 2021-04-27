@@ -174,174 +174,170 @@ void Bat::VUpdate_404950()
 
     switch (field_F4_state)
     {
-    case BatStates::eSetTimer_0:
-        field_F4_state = BatStates::eInit_1;
-        field_F8_timer = gnFrameCount_507670 + field_EC_ticks_before_moving;
-        break;
+        case BatStates::eSetTimer_0:
+            field_F4_state = BatStates::eInit_1;
+            field_F8_timer = gnFrameCount_507670 + field_EC_ticks_before_moving;
+            break;
 
-    case BatStates::eInit_1:
-        if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
-        {
-            field_F4_state = BatStates::eStartMoving_2;
-            field_100_velx = FP_FromInteger(0);
-            field_10_anim.Set_Animation_Data_402A40(6608, nullptr);
-        }
-        break;
-
-    case BatStates::eStartMoving_2:
-        if (field_100_velx < field_E8_speed)
-        {
-            field_100_velx += FP_FromDouble(1.8);
-            if (field_100_velx > field_E8_speed)
+        case BatStates::eInit_1:
+            if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
             {
-                field_100_velx = field_E8_speed;
+                field_F4_state = BatStates::eStartMoving_2;
+                field_100_velx = FP_FromInteger(0);
+                field_10_anim.Set_Animation_Data_402A40(6608, nullptr);
             }
-        }
+            break;
 
-        if (field_E4_pLine)
-        {
-            field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100_velx);
-        }
-
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_F4_state = BatStates::eFlying_3;
-            field_10_anim.Set_Animation_Data_402A40(6644, nullptr);
-            field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 90);
-        }
-        break;
-
-    case BatStates::eFlying_3:
-        if (field_100_velx < field_E8_speed)
-        {
-            field_100_velx += FP_FromDouble(1.8);
-            if (field_100_velx > field_E8_speed)
+        case BatStates::eStartMoving_2:
+            if (field_100_velx < field_E8_speed)
             {
-                field_100_velx = field_E8_speed;
-            }
-        }
-
-        if (!(field_10_anim.field_92_current_frame % 3))
-        {
-            SFX_Play_43AD70(Math_RandomRange_450F20(41, 42) & 0xFF, Math_RandomRange_450F20(20, 26), 0);
-        }
-
-        if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
-        {
-            SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
-            field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 240);
-        }
-
-        if (field_E4_pLine)
-        {
-            field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100_velx);
-        }
-
-        if (!field_E4_pLine)
-        {
-            field_6_flags.Set(Options::eDead_Bit3);
-        }
-
-        if (!sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
-        {
-            for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
-            {
-                BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
-                if (!pObjIter)
+                field_100_velx += FP_FromDouble(1.8);
+                if (field_100_velx > field_E8_speed)
                 {
-                    break;
+                    field_100_velx = field_E8_speed;
                 }
+            }
 
-                if (pObjIter->field_4_typeId != Types::SecurityOrb_53 && pObjIter->field_4_typeId != Types::eSlig_88 && pObjIter->field_4_typeId != Types::eSlog_89)
+            if (field_E4_pLine)
+            {
+                field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100_velx);
+            }
+
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_F4_state = BatStates::eFlying_3;
+                field_10_anim.Set_Animation_Data_402A40(6644, nullptr);
+                field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 90);
+            }
+            break;
+
+        case BatStates::eFlying_3:
+            if (field_100_velx < field_E8_speed)
+            {
+                field_100_velx += FP_FromDouble(1.8);
+                if (field_100_velx > field_E8_speed)
                 {
-                    PSX_RECT bObjRect = {};
-                    pObjIter->VGetBoundingRect(&bObjRect, 1);
+                    field_100_velx = field_E8_speed;
+                }
+            }
 
-                    if (FP_GetExponent(field_A8_xpos) >= bObjRect.x &&
-                        FP_GetExponent(field_A8_xpos) <= bObjRect.w &&
-                        FP_GetExponent(field_AC_ypos) >= bObjRect.y &&
-                        FP_GetExponent(field_AC_ypos) <= bObjRect.h &&
-                        pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
+            if (!(field_10_anim.field_92_current_frame % 3))
+            {
+                SFX_Play_43AD70(Math_RandomRange_450F20(41, 42) & 0xFF, Math_RandomRange_450F20(20, 26), 0);
+            }
+
+            if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
+            {
+                SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
+                field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 240);
+            }
+
+            if (field_E4_pLine)
+            {
+                field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100_velx);
+            }
+
+            if (!field_E4_pLine)
+            {
+                field_6_flags.Set(Options::eDead_Bit3);
+            }
+
+            if (!sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
+            {
+                for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+                {
+                    BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+                    if (!pObjIter)
                     {
-                        for (s32 j = 0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
+                        break;
+                    }
+
+                    if (pObjIter->field_4_typeId != Types::SecurityOrb_53 && pObjIter->field_4_typeId != Types::eSlig_88 && pObjIter->field_4_typeId != Types::eSlog_89)
+                    {
+                        PSX_RECT bObjRect = {};
+                        pObjIter->VGetBoundingRect(&bObjRect, 1);
+
+                        if (FP_GetExponent(field_A8_xpos) >= bObjRect.x && FP_GetExponent(field_A8_xpos) <= bObjRect.w && FP_GetExponent(field_AC_ypos) >= bObjRect.y && FP_GetExponent(field_AC_ypos) <= bObjRect.h && pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
                         {
-                            BaseGameObject* pMaybeBat = gBaseGameObject_list_9F2DF0->ItemAt(j);
-                            if (!pMaybeBat)
+                            for (s32 j = 0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
                             {
-                                break;
-                            }
+                                BaseGameObject* pMaybeBat = gBaseGameObject_list_9F2DF0->ItemAt(j);
+                                if (!pMaybeBat)
+                                {
+                                    break;
+                                }
 
-                            if (pMaybeBat->field_4_typeId == Types::eBat_6)
-                            {
-                                auto pBat = static_cast<Bat*>(pMaybeBat);
+                                if (pMaybeBat->field_4_typeId == Types::eBat_6)
+                                {
+                                    auto pBat = static_cast<Bat*>(pMaybeBat);
 
-                                pBat->field_10C = pObjIter;
-                                pBat->field_10C->field_C_refCount++;
+                                    pBat->field_10C = pObjIter;
+                                    pBat->field_10C->field_C_refCount++;
 
-                                pBat->field_F4_state = BatStates::eAttackTarget_4;
-                                pBat->field_10_anim.Set_Animation_Data_402A40(6644, nullptr);
+                                    pBat->field_F4_state = BatStates::eAttackTarget_4;
+                                    pBat->field_10_anim.Set_Animation_Data_402A40(6644, nullptr);
 
-                                pBat->field_F8_timer = 0;
-                                pBat->field_FC_attack_duration_timer = gnFrameCount_507670 + pBat->field_F6_attack_duration;
+                                    pBat->field_F8_timer = 0;
+                                    pBat->field_FC_attack_duration_timer = gnFrameCount_507670 + pBat->field_F6_attack_duration;
 
-                                pBat->field_104_target_xpos = pBat->field_10C->field_A8_xpos;
-                                pBat->field_108_target_ypos = pBat->field_10C->field_AC_ypos;
+                                    pBat->field_104_target_xpos = pBat->field_10C->field_A8_xpos;
+                                    pBat->field_108_target_ypos = pBat->field_10C->field_AC_ypos;
+                                }
                             }
                         }
                     }
                 }
             }
+            break;
+
+        case BatStates::eAttackTarget_4:
+        {
+            if (field_10C->field_6_flags.Get(BaseGameObject::eDead_Bit3) || Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+            {
+                field_6_flags.Set(Options::eDead_Bit3);
+                return;
+            }
+
+            PSX_RECT bRect = {};
+            field_10C->VGetBoundingRect(&bRect, 1);
+            FlyTo_404E50(
+                FP_FromInteger((bRect.w + bRect.x) / 2),
+                FP_FromInteger((bRect.h + bRect.y) / 2),
+                &xSpeed,
+                &ySpeed);
+
+            if (FP_Abs(xSpeed) < FP_FromInteger(10))
+            {
+                if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
+                {
+                    field_10C->VTakeDamage(this);
+                    field_F8_timer = gnFrameCount_507670 + 30;
+                    SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
+                }
+            }
+
+            if (field_FC_attack_duration_timer <= static_cast<s32>(gnFrameCount_507670))
+            {
+                field_10C->field_C_refCount--;
+                field_10C = nullptr;
+                field_F4_state = BatStates::eFlyAwayAndDie_5;
+            }
         }
         break;
 
-    case BatStates::eAttackTarget_4:
-    {
-        if (field_10C->field_6_flags.Get(BaseGameObject::eDead_Bit3) || Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+        case BatStates::eFlyAwayAndDie_5:
         {
-            field_6_flags.Set(Options::eDead_Bit3);
-            return;
-        }
-
-        PSX_RECT bRect = {};
-        field_10C->VGetBoundingRect(&bRect, 1);
-        FlyTo_404E50(
-            FP_FromInteger((bRect.w + bRect.x) / 2),
-            FP_FromInteger((bRect.h + bRect.y) / 2),
-            &xSpeed,
-            &ySpeed);
-
-        if (FP_Abs(xSpeed) < FP_FromInteger(10))
-        {
-            if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
+            FlyTo_404E50(field_A8_xpos, field_AC_ypos - FP_FromInteger(40), &xSpeed, &ySpeed);
+            if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
             {
-                field_10C->VTakeDamage(this);
-                field_F8_timer = gnFrameCount_507670 + 30;
-                SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
+                field_6_flags.Set(Options::eDead_Bit3);
             }
         }
+        break;
 
-        if (field_FC_attack_duration_timer <= static_cast<s32>(gnFrameCount_507670))
-        {
-            field_10C->field_C_refCount--;
-            field_10C = nullptr;
-            field_F4_state = BatStates::eFlyAwayAndDie_5;
-        }
-    }
-    break;
-
-    case BatStates::eFlyAwayAndDie_5:
-    {
-        FlyTo_404E50(field_A8_xpos, field_AC_ypos - FP_FromInteger(40), &xSpeed, &ySpeed);
-        if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
-        {
-            field_6_flags.Set(Options::eDead_Bit3);
-        }
-    }
-    break;
-
-    default:
-        return;
+        default:
+            return;
     }
 }
 
-}
+} // namespace AO

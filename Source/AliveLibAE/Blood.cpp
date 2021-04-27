@@ -30,7 +30,7 @@ void Blood::VScreenChanged()
 Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    
+
     SetVTable(this, 0x544200); // vTbl_Blood_544200
 
     field_CC_sprite_scale = scale;
@@ -121,10 +121,10 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
                 }
 
                 SetClut(pSprt,
-                    static_cast<s16>(
-                        PSX_getClut_4F6350(
-                            field_20_animation.field_8C_pal_vram_xy.field_0_x,
-                            field_20_animation.field_8C_pal_vram_xy.field_2_y)));
+                        static_cast<s16>(
+                            PSX_getClut_4F6350(
+                                field_20_animation.field_8C_pal_vram_xy.field_0_x,
+                                field_20_animation.field_8C_pal_vram_xy.field_2_y)));
 
                 SetUV0(pSprt, u0, v0);
                 pSprt->field_14_w = frameW - 1;
@@ -153,7 +153,6 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     return this;
-
 }
 
 void Blood::dtor_40F5D0()
@@ -192,13 +191,13 @@ void Blood::vUpdate_40F650()
             return;
         }
 
-        for (s32 i=0; i<field_122_to_render_count; i++)
+        for (s32 i = 0; i < field_122_to_render_count; i++)
         {
             field_F8_pResBuf[i].field_C_offy += FP_FromDouble(1.8);
 
             field_F8_pResBuf[i].field_8_offx = field_F8_pResBuf[i].field_8_offx * FP_FromDouble(0.9);
             field_F8_pResBuf[i].field_C_offy = field_F8_pResBuf[i].field_C_offy * FP_FromDouble(0.9);
-            
+
             field_F8_pResBuf[i].field_0_x += field_F8_pResBuf[i].field_8_offx;
             field_F8_pResBuf[i].field_4_y += field_F8_pResBuf[i].field_C_offy;
         }
@@ -210,14 +209,14 @@ void Blood::vUpdate_40F650()
 void Blood::vRender_40F780(PrimHeader** ppOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-        field_C2_lvl_number,
-        field_C0_path_number,
-        field_B8_xpos,
-        field_BC_ypos,
-        0))
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0))
     {
-        PSX_Point xy = { 32767, 32767 };
-        PSX_Point wh = { -32767, -32767 };
+        PSX_Point xy = {32767, 32767};
+        PSX_Point wh = {-32767, -32767};
 
         for (s32 i = 0; i < field_122_to_render_count; i++)
         {
@@ -233,12 +232,11 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
             {
                 u0 *= 4;
             }
-            
+
             SetUV0(pSprt, u0, static_cast<u8>(field_20_animation.field_84_vram_rect.y));
 
             FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(
-                &(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]
-            );
+                &(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]);
 
             pSprt->field_14_w = pFrameHeader->field_4_width - 1;
             pSprt->field_16_h = pFrameHeader->field_5_height - 1;
@@ -261,7 +259,7 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
             wh.field_0_x = std::max(x0, wh.field_0_x);
             wh.field_2_y = std::max(y0, wh.field_2_y);
         }
-        
+
         const s32 tpage = PSX_getTPage_4F60E0(
             field_11C_texture_mode,
             TPageAbr::eBlend_0,

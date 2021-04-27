@@ -33,8 +33,10 @@ private:
     s16 field_13C_textX;
     s16 field_13E_textY;
     s32 field_140_tlvInfo;
+
 public:
     s16 field_144_total_brew_count;
+
 private:
     s16 field_146_padding;
     s32 field_148_padding;

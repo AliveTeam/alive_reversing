@@ -20,22 +20,22 @@ ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
 // TODO: most of these are gonna be wrong bar the ones in abe.cpp
 enum InputCommands : u32
 {
-    eRightGameSpeak = 1u << 0,  // 0x1
-    eSneak = 1u << 1,  // 0x2
-    eLeftGamespeak = 1u << 2,  // 0x4
-    eRun = 1u << 3,  // 0x8
-    eHop = 1u << 4,  // 0x10
-    eThrowItem = 1u << 5,  // 0x20
-    eCrouchOrRoll = 1u << 6, // 0x40
-    eDoAction  = 1u << 7,  // 0x80
-    eCheatMode = 1u << 8,  // 0x100
+    eRightGameSpeak = 1u << 0,    // 0x1
+    eSneak = 1u << 1,             // 0x2
+    eLeftGamespeak = 1u << 2,     // 0x4
+    eRun = 1u << 3,               // 0x8
+    eHop = 1u << 4,               // 0x10
+    eThrowItem = 1u << 5,         // 0x20
+    eCrouchOrRoll = 1u << 6,      // 0x40
+    eDoAction = 1u << 7,          // 0x80
+    eCheatMode = 1u << 8,         // 0x100
     eUnPause_OrConfirm = 1u << 9, // 0x200 - not present/unused in OG!!
-    ePause = 1u << 10, // 0x400 - not present/unused in OG!!
-    eBack = 1u << 11, // 0x800
-    eUp = 1u << 12, // 0x1000
-    eRight = 1u << 13, // 0x2000
-    eDown = 1u << 14, // 0x4000
-    eLeft = 1u << 15, // 0x8000
+    ePause = 1u << 10,            // 0x400 - not present/unused in OG!!
+    eBack = 1u << 11,             // 0x800
+    eUp = 1u << 12,               // 0x1000
+    eRight = 1u << 13,            // 0x2000
+    eDown = 1u << 14,             // 0x4000
+    eLeft = 1u << 15,             // 0x8000
     // ---
     // anything else below this won't fit into 16-bit variables
     // ---
@@ -194,4 +194,4 @@ ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
 
 InputObject& Input();
 
-}
+} // namespace AO

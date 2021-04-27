@@ -187,7 +187,7 @@ void Well::vUpdate_4E2F60()
         if (field_24_trigger_id == 0 || SwitchStates_Get_466020(field_24_trigger_id))
         {
             // Random chance of leaves emitting.
-            if ( Well_NextRandom() < 10)
+            if (Well_NextRandom() < 10)
             {
                 auto pLeaf = ae_new<Leaf>();
                 if (pLeaf)

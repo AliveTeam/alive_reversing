@@ -47,5 +47,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(SecurityOrb, 0x11C);
 
-}
-
+} // namespace AO

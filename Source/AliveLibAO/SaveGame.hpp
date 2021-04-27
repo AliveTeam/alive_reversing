@@ -105,5 +105,4 @@ public:
 
 extern const s8 word_4BC670[6][8];
 
-}
-
+} // namespace AO

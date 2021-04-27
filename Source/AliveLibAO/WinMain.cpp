@@ -64,7 +64,6 @@ void Static_Inits_AO()
 
 void WinMain_ForceLink()
 {
-
 }
 
 void ForceLinks()
@@ -99,4 +98,4 @@ EXPORT s32 CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     return sExitCode_9F7734;
 }
 
-}
+} // namespace AO

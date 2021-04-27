@@ -7,9 +7,8 @@
 #include "AnimationUnknown.hpp"
 #include "Map.hpp"
 
-namespace AETest::TestsBaseAnimatedWithPhysicsGameObject
-{
-    void BaseAnimatedWithPhysicsGameObjectTests();
+namespace AETest::TestsBaseAnimatedWithPhysicsGameObject {
+void BaseAnimatedWithPhysicsGameObjectTests();
 }
 
 class Shadow;
@@ -31,12 +30,12 @@ class __single_inheritance BaseAnimatedWithPhysicsGameObject;
 class BaseAnimatedWithPhysicsGameObject;
 #endif
 
-using TCollisionCallBack = s16(BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
+using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
-    EXPORT BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize);
+    EXPORT BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize);
     EXPORT void BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
@@ -47,12 +46,12 @@ public:
     EXPORT void Update_424AB0();
     EXPORT void Render_424B90(PrimHeader** ppOt);
 
-    EXPORT void Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8 **ppAnimData, s16 a6, u8 a7);
+    EXPORT void Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, s16 a6, u8 a7);
 
     virtual void vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
     // TODO: Just return by value - this is odd optimization the compiler does
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx);
-    virtual s16 vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj);
+    virtual s16 vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
     virtual s16 vIsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pObj);
     virtual s16 vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther);
     virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
@@ -62,7 +61,7 @@ public:
 
 private:
     EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx);
-    EXPORT s16 IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj);
+    EXPORT s16 IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
     EXPORT s16 IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther);
     EXPORT s16 IsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther);
     EXPORT s16 OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
@@ -72,14 +71,14 @@ private:
 
 public:
     EXPORT CameraPos Is_In_Current_Camera_424A70();
-    EXPORT void DealDamageRect_4247A0(const PSX_RECT *pRect);
+    EXPORT void DealDamageRect_4247A0(const PSX_RECT* pRect);
     EXPORT void OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
     EXPORT void SetTint_425600(const TintEntry* pTintArray, LevelIds level_id);
 
 protected:
     void SetRGB(s16 r, s16 g, s16 b);
-public:
 
+public:
     Animation field_20_animation;
     FP field_B8_xpos;
     FP field_BC_ypos;

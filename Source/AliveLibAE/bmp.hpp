@@ -4,23 +4,22 @@
 #include "config.h"
 
 #ifdef _WIN32
-#if !USE_SDL2
-#define DIRECTINPUT_VERSION 0x700
-#include <dinput.h>
-#define DIRECTDRAW_VERSION 0x700
-#include <ddraw.h>
-#define DIRECT3D_VERSION 0x700
-#include "d3d.h"
-#endif
+    #if !USE_SDL2
+        #define DIRECTINPUT_VERSION 0x700
+        #include <dinput.h>
+        #define DIRECTDRAW_VERSION 0x700
+        #include <ddraw.h>
+        #define DIRECT3D_VERSION 0x700
+        #include "d3d.h"
+    #endif
 #endif
 
-namespace AETest::TestsBmp
-{
-    void BmpTests();
+namespace AETest::TestsBmp {
+void BmpTests();
 }
 
 #if USE_SDL2
-#include "SDL.h"
+    #include "SDL.h"
 using TSurfaceType = SDL_Surface;
 #else
 using TSurfaceType = IDirectDrawSurface;

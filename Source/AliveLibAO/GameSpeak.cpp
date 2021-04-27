@@ -6,8 +6,7 @@
 
 namespace AO {
 
-const s32 dword_4CFFCC[11] =
-{
+const s32 dword_4CFFCC[11] = {
     0,
     1,
     10,
@@ -18,8 +17,7 @@ const s32 dword_4CFFCC[11] =
     1000000,
     10000000,
     100000000,
-    1000000000
-};
+    1000000000};
 
 
 s16 CC Code_Length_475FD0(u32 code)
@@ -206,4 +204,4 @@ GameSpeakMatch GameSpeak::MatchBuffer_40FAA0(u8* pBuffer, s16 bufferLen, s16 buf
     }
 }
 
-}
+} // namespace AO

@@ -19,6 +19,7 @@ public:
     EXPORT Movie* ctor_4DFDE0(s32 id, u32 pos, s16 bUnknown, s16 flags, s16 volume);
     EXPORT void vUpdate_4E0030();
     EXPORT BaseGameObject* vdtor_4DFE80(s32 flags);
+
 private:
     EXPORT void DeInit_4E0210();
 

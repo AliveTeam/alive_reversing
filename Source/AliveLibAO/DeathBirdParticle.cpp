@@ -14,51 +14,51 @@ void DeathBirdParticle::VUpdate_41DA60()
 {
     switch (field_E5_state)
     {
-    case States::eAnimateDeathFlares_0:
-        if (static_cast<s32>(gnFrameCount_507670) > field_E8_start)
-        {
-            // Death "star"
-            field_10_anim.Set_Animation_Data_402A40(6284, 0);
-            field_E5_state = States::eTransformStarsToDoves_1;
-        }
-        break;
-
-    case States::eTransformStarsToDoves_1:
-        // Has the Death "star" finished animating?
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            // Yes so magic it into a dove
-            auto pDove = ao_new<Dove>();
-            if (pDove)
+        case States::eAnimateDeathFlares_0:
+            if (static_cast<s32>(gnFrameCount_507670) > field_E8_start)
             {
-                pDove->ctor_40EFF0(
-                    4988,
-                    41,
-                    20,
-                    60,
-                    field_A8_xpos,
-                    field_AC_ypos - FP_FromInteger(15),
-                    field_BC_sprite_scale);
+                // Death "star"
+                field_10_anim.Set_Animation_Data_402A40(6284, 0);
+                field_E5_state = States::eTransformStarsToDoves_1;
             }
+            break;
 
-            if (pDove->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        case States::eTransformStarsToDoves_1:
+            // Has the Death "star" finished animating?
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                pDove->field_A8_xpos += FP_FromInteger(8);
-            }
-            else
-            {
-                pDove->field_A8_xpos -= FP_FromInteger(8);
-            }
+                // Yes so magic it into a dove
+                auto pDove = ao_new<Dove>();
+                if (pDove)
+                {
+                    pDove->ctor_40EFF0(
+                        4988,
+                        41,
+                        20,
+                        60,
+                        field_A8_xpos,
+                        field_AC_ypos - FP_FromInteger(15),
+                        field_BC_sprite_scale);
+                }
 
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                if (pDove->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    pDove->field_A8_xpos += FP_FromInteger(8);
+                }
+                else
+                {
+                    pDove->field_A8_xpos -= FP_FromInteger(8);
+                }
 
-            pDove->field_BC_sprite_scale = field_BC_sprite_scale;
-            if (field_EC_bPlaySound)
-            {
-                SFX_Play_43AD70(SoundEffect::AbeDove_18, 0, 0);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+
+                pDove->field_BC_sprite_scale = field_BC_sprite_scale;
+                if (field_EC_bPlaySound)
+                {
+                    SFX_Play_43AD70(SoundEffect::AbeDove_18, 0, 0);
+                }
             }
-        }
-        break;
+            break;
     }
 
     field_A8_xpos += FP_FromInteger(2) * Math_Sine_451110(field_E4_random);
@@ -121,5 +121,4 @@ BaseGameObject* DeathBirdParticle::VDestructor(s32 flags)
     return this;
 }
 
-}
-
+} // namespace AO

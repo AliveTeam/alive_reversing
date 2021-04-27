@@ -37,7 +37,8 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    EXPORT Mine* ctor_46B120(Path_Mine *pPath, TlvItemInfoUnion tlv);
+    EXPORT Mine* ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv);
+
 private:
     EXPORT Mine* vdtor_46B4C0(s32 flags);
     EXPORT void dtor_46B4F0();
@@ -48,6 +49,7 @@ private:
     EXPORT void vOnThrowableHit_46BA40(BaseGameObject* pFrom);
     EXPORT s16 vTakeDamage_46BB20(BaseGameObject* pFrom);
     EXPORT bool IsColliding_46B8C0();
+
 public:
     u16 field_118_detonating;
     u16 field_11A_disabled_resources;

@@ -20,17 +20,13 @@
 ALIVE_VAR(1, 0x5ca4d8, s8, sQuicksave_SaveNextFrame_5CA4D8, 0);
 ALIVE_VAR(1, 0x5ca4d9, s8, sQuicksave_LoadNextFrame_5CA4D9, 0);
 
-ALIVE_ARY(1, 0x5C92F0, s8, 16, sScreenStringBuffer_5C92F0, { 0 });
+ALIVE_ARY(1, 0x5C92F0, s8, 16, sScreenStringBuffer_5C92F0, {0});
 
 
 ALIVE_ARY(1, 0x5C931C, s8, 32, sSaveString_5C931C, {});
 
 
-ALIVE_ARY(1, 0x554474, u8, 32, pal_554474, {
-    0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90,
-    0xA5, 0x14, 0xE7, 0x1C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29,
-    0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42,
-    0x73, 0x4E });
+ALIVE_ARY(1, 0x554474, u8, 32, pal_554474, {0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90, 0xA5, 0x14, 0xE7, 0x1C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29, 0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42, 0x73, 0x4E});
 
 // MENUS
 
@@ -53,186 +49,163 @@ ALIVE_ARY(1, 0x554474, u8, 32, pal_554474, {
 
 // Menu Text Data
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Main_55E1C8[11] =
-{
-    { 2, 184, 48, 0, "continue", 128u, 16u, 255u, 1u },
-    { 2, 184, 70, 0, "quiksave", 128u, 16u, 255u, 1u },
+PauseMenuPageEntry PauseMenu__PageEntryList_Main_55E1C8[11] = {
+    {2, 184, 48, 0, "continue", 128u, 16u, 255u, 1u},
+    {2, 184, 70, 0, "quiksave", 128u, 16u, 255u, 1u},
 #if DEVELOPER_MODE
-    { 2, 184, 92, 0, "developer", 33u, 127u, 33u, 1u },
+    {2, 184, 92, 0, "developer", 33u, 127u, 33u, 1u},
 #else
-    { 2, 184, 92, 0, "controls", 128u, 16u, 255u, 1u },
+    {2, 184, 92, 0, "controls", 128u, 16u, 255u, 1u},
 #endif
-    { 2, 184, 114, 0, "status", 128u, 16u, 255u, 1u },
-    { 2, 184, 136, 0, "save", 128u, 16u, 255u, 1u },
-    { 2, 184, 158, 0, "load", 128u, 16u, 255u, 1u },
-    { 2, 184, 180, 0, "restart path", 128u, 16u, 255u, 1u },
-    { 2, 184, 202, 0, "quit", 128u, 16u, 255u, 1u },
-    { 1, 184, 16, 0, "paused", 128u, 16u, 255u, 1u },
-    { 1, 280, 16, 0, sScreenStringBuffer_5C92F0, 128u, 16u, 255u, 0u },
-    { 0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+    {2, 184, 114, 0, "status", 128u, 16u, 255u, 1u},
+    {2, 184, 136, 0, "save", 128u, 16u, 255u, 1u},
+    {2, 184, 158, 0, "load", 128u, 16u, 255u, 1u},
+    {2, 184, 180, 0, "restart path", 128u, 16u, 255u, 1u},
+    {2, 184, 202, 0, "quit", 128u, 16u, 255u, 1u},
+    {1, 184, 16, 0, "paused", 128u, 16u, 255u, 1u},
+    {1, 280, 16, 0, sScreenStringBuffer_5C92F0, 128u, 16u, 255u, 0u},
+    {0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
 
-PauseMenuPageEntry PauseMenu__PageEntryList_ControlActions_55d820[17] =
-{
-    { 2, 184, 205, 0, "more", 128, 16, 255, Centre },
-    { 1, 184, 20, 0, "Actions", 127, 127, 127, Centre },
-    { 1, 180, 50, 0, kRun "+" kLeft kRight, 160, 160, 160, Right },
-    { 1, 180, 70, 0, kSneak "+" kLeft kRight, 160, 160, 160, Right },
-    { 1, 180, 90, 0, kJump, 160, 160, 160, Right },
-    { 1, 180, 110, 0, kThrow "+" kDPad, 160, 160, 160, Right },
-    { 1, 180, 135, 0, kDown, 160, 160, 160, Right },
-    { 1, 180, 150, 0, kAction, 160, 160, 160, Right },
-    { 1, 180, 173, 0, kUp, 160, 160, 160, Right },
-    { 1, 200, 50, 0, "run", 128, 16, 255, Left },
-    { 1, 200, 70, 0, "sneak", 128, 16, 255, Left },
-    { 1, 200, 90, 0, "jump", 128, 16, 255, Left },
-    { 1, 200, 110, 0, "throw", 128, 16, 255, Left },
-    { 1, 200, 130, 0, "crouch", 128, 16, 255, Left },
-    { 1, 200, 150, 0, "action", 128, 16, 255, Left },
-    { 1, 200, 170, 0, "hoist " kHoistZTurn " zturn", 128, 16, 255, Left },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_ControlActions_55d820[17] = {
+    {2, 184, 205, 0, "more", 128, 16, 255, Centre},
+    {1, 184, 20, 0, "Actions", 127, 127, 127, Centre},
+    {1, 180, 50, 0, kRun "+" kLeft kRight, 160, 160, 160, Right},
+    {1, 180, 70, 0, kSneak "+" kLeft kRight, 160, 160, 160, Right},
+    {1, 180, 90, 0, kJump, 160, 160, 160, Right},
+    {1, 180, 110, 0, kThrow "+" kDPad, 160, 160, 160, Right},
+    {1, 180, 135, 0, kDown, 160, 160, 160, Right},
+    {1, 180, 150, 0, kAction, 160, 160, 160, Right},
+    {1, 180, 173, 0, kUp, 160, 160, 160, Right},
+    {1, 200, 50, 0, "run", 128, 16, 255, Left},
+    {1, 200, 70, 0, "sneak", 128, 16, 255, Left},
+    {1, 200, 90, 0, "jump", 128, 16, 255, Left},
+    {1, 200, 110, 0, "throw", 128, 16, 255, Left},
+    {1, 200, 130, 0, "crouch", 128, 16, 255, Left},
+    {1, 200, 150, 0, "action", 128, 16, 255, Left},
+    {1, 200, 170, 0, "hoist " kHoistZTurn " zturn", 128, 16, 255, Left},
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_GameSpeak_55d930[21] =
-{
-    { 2, 184, 205, 0, "more", 128, 16, 255, Centre },
-    { 1, 184, 20, 0, "GameSpeak", 127, 127, 127, Centre },
-    { 1, 184, 55, 0, kChant, 160, 160, 160, Centre },
-    { 1, 184, 75, 0, "chant", 128, 16, 255, Centre },
-    { 1, 110, 104, 0, "hello", 128, 16, 255, Left },
-    { 1, 110, 126, 0, "follow me", 128, 16, 255, Left },
-    { 1, 110, 148, 0, "wait", 128, 16, 255, Left },
-    { 1, 110, 170, 0, "work", 128, 16, 255, Left },
-    { 1, 278, 104, 0, "anger", 128, 16, 255, Left },
-    { 1, 278, 126, 0, "all 'ya", 128, 16, 255, Left },
-    { 1, 278, 148, 0, "sympathy", 128, 16, 255, Left },
-    { 1, 278, 170, 0, "stop it!", 128, 16, 255, Left },
-    { 1, 90, 104, 0, kHello, 160, 160, 160, Right },
-    { 1, 90, 126, 0, kFollowMe, 160, 160, 160, Right },
-    { 1, 90, 148, 0, kWait, 160, 160, 160, Right },
-    { 1, 90, 170, 0, kWork, 160, 160, 160, Right },
-    { 1, 260, 104, 0, kAnger, 160, 160, 160, Right },
-    { 1, 260, 126, 0, kAllYa, 160, 160, 160, Right },
-    { 1, 260, 148, 0, kSorry, 160, 160, 160, Right },
-    { 1, 260, 170, 0, kStopIt, 160, 160, 160, Right },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_GameSpeak_55d930[21] = {
+    {2, 184, 205, 0, "more", 128, 16, 255, Centre},
+    {1, 184, 20, 0, "GameSpeak", 127, 127, 127, Centre},
+    {1, 184, 55, 0, kChant, 160, 160, 160, Centre},
+    {1, 184, 75, 0, "chant", 128, 16, 255, Centre},
+    {1, 110, 104, 0, "hello", 128, 16, 255, Left},
+    {1, 110, 126, 0, "follow me", 128, 16, 255, Left},
+    {1, 110, 148, 0, "wait", 128, 16, 255, Left},
+    {1, 110, 170, 0, "work", 128, 16, 255, Left},
+    {1, 278, 104, 0, "anger", 128, 16, 255, Left},
+    {1, 278, 126, 0, "all 'ya", 128, 16, 255, Left},
+    {1, 278, 148, 0, "sympathy", 128, 16, 255, Left},
+    {1, 278, 170, 0, "stop it!", 128, 16, 255, Left},
+    {1, 90, 104, 0, kHello, 160, 160, 160, Right},
+    {1, 90, 126, 0, kFollowMe, 160, 160, 160, Right},
+    {1, 90, 148, 0, kWait, 160, 160, 160, Right},
+    {1, 90, 170, 0, kWork, 160, 160, 160, Right},
+    {1, 260, 104, 0, kAnger, 160, 160, 160, Right},
+    {1, 260, 126, 0, kAllYa, 160, 160, 160, Right},
+    {1, 260, 148, 0, kSorry, 160, 160, 160, Right},
+    {1, 260, 170, 0, kStopIt, 160, 160, 160, Right},
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_SligSpeak_55da80[19] =
-{
-    { 2, 184, 205, 0, "more", 128, 16, 255, Centre },
-    { 1, 184, 20, 0, "SligSpeak", 127, 127, 127, Centre },
-    { 1, 110, 104, 0, "hi", 128, 16, 255, Left },
-    { 1, 110, 126, 0, "here boy", 128, 16, 255, Left },
-    { 1, 110, 148, 0, "freeze", 128, 16, 255, Left },
-    { 1, 110, 170, 0, "get 'im", 128, 16, 255, Left },
-    { 1, 278, 104, 0, "s'mo bs", 128, 16, 255, Left },
-    { 1, 278, 126, 0, "bs", 128, 16, 255, Left },
-    { 1, 278, 148, 0, "look out", 128, 16, 255, Left },
-    { 1, 278, 170, 0, "laugh", 128, 16, 255, Left },
-    { 1, 90, 104, 0, kHello, 160, 160, 160, Right },
-    { 1, 90, 126, 0, kFollowMe, 160, 160, 160, Right },
-    { 1, 90, 148, 0, kWait, 160, 160, 160, Right },
-    { 1, 90, 170, 0, kWork, 160, 160, 160, Right },
-    { 1, 260, 104, 0, kAnger, 160, 160, 160, Right },
-    { 1, 260, 126, 0, kAllYa, 160, 160, 160, Right },
-    { 1, 260, 148, 0, kSorry, 160, 160, 160, Right },
-    { 1, 260, 170, 0, kStopIt, 160, 160, 160, Right },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_SligSpeak_55da80[19] = {
+    {2, 184, 205, 0, "more", 128, 16, 255, Centre},
+    {1, 184, 20, 0, "SligSpeak", 127, 127, 127, Centre},
+    {1, 110, 104, 0, "hi", 128, 16, 255, Left},
+    {1, 110, 126, 0, "here boy", 128, 16, 255, Left},
+    {1, 110, 148, 0, "freeze", 128, 16, 255, Left},
+    {1, 110, 170, 0, "get 'im", 128, 16, 255, Left},
+    {1, 278, 104, 0, "s'mo bs", 128, 16, 255, Left},
+    {1, 278, 126, 0, "bs", 128, 16, 255, Left},
+    {1, 278, 148, 0, "look out", 128, 16, 255, Left},
+    {1, 278, 170, 0, "laugh", 128, 16, 255, Left},
+    {1, 90, 104, 0, kHello, 160, 160, 160, Right},
+    {1, 90, 126, 0, kFollowMe, 160, 160, 160, Right},
+    {1, 90, 148, 0, kWait, 160, 160, 160, Right},
+    {1, 90, 170, 0, kWork, 160, 160, 160, Right},
+    {1, 260, 104, 0, kAnger, 160, 160, 160, Right},
+    {1, 260, 126, 0, kAllYa, 160, 160, 160, Right},
+    {1, 260, 148, 0, kSorry, 160, 160, 160, Right},
+    {1, 260, 170, 0, kStopIt, 160, 160, 160, Right},
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_GlukkonSpeak_55dbb0[19] =
-{
-    { 2, 184, 205, 0, "more", 128, 16, 255, Centre },
-    { 1, 184, 20, 0, "GlukkonSpeak", 127, 127, 127, Centre },
-    { 1, 110, 104, 0, "hey!", 128, 16, 255, Left },
-    { 1, 110, 126, 0, "commere", 128, 16, 255, Left },
-    { 1, 110, 148, 0, "stay here", 128, 16, 255, Left },
-    { 1, 110, 170, 0, "do it!", 128, 16, 255, Left },
-    { 1, 278, 104, 0, "kill'em!", 128, 16, 255, Left },
-    { 1, 278, 126, 0, "all o'ya", 128, 16, 255, Left },
-    { 1, 278, 148, 0, "help!", 128, 16, 255, Left },
-    { 1, 278, 170, 0, "laugh", 128, 16, 255, Left },
-    { 1, 90, 104, 0, kHello, 160, 160, 160, Right },
-    { 1, 90, 126, 0, kFollowMe, 160, 160, 160, Right },
-    { 1, 90, 148, 0, kWait, 160, 160, 160, Right },
-    { 1, 90, 170, 0, kWork, 160, 160, 160, Right },
-    { 1, 260, 104, 0, kAnger, 160, 160, 160, Right },
-    { 1, 260, 126, 0, kAllYa, 160, 160, 160, Right },
-    { 1, 260, 148, 0, kSorry, 160, 160, 160, Right },
-    { 1, 260, 170, 0, kStopIt, 160, 160, 160, Right },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_GlukkonSpeak_55dbb0[19] = {
+    {2, 184, 205, 0, "more", 128, 16, 255, Centre},
+    {1, 184, 20, 0, "GlukkonSpeak", 127, 127, 127, Centre},
+    {1, 110, 104, 0, "hey!", 128, 16, 255, Left},
+    {1, 110, 126, 0, "commere", 128, 16, 255, Left},
+    {1, 110, 148, 0, "stay here", 128, 16, 255, Left},
+    {1, 110, 170, 0, "do it!", 128, 16, 255, Left},
+    {1, 278, 104, 0, "kill'em!", 128, 16, 255, Left},
+    {1, 278, 126, 0, "all o'ya", 128, 16, 255, Left},
+    {1, 278, 148, 0, "help!", 128, 16, 255, Left},
+    {1, 278, 170, 0, "laugh", 128, 16, 255, Left},
+    {1, 90, 104, 0, kHello, 160, 160, 160, Right},
+    {1, 90, 126, 0, kFollowMe, 160, 160, 160, Right},
+    {1, 90, 148, 0, kWait, 160, 160, 160, Right},
+    {1, 90, 170, 0, kWork, 160, 160, 160, Right},
+    {1, 260, 104, 0, kAnger, 160, 160, 160, Right},
+    {1, 260, 126, 0, kAllYa, 160, 160, 160, Right},
+    {1, 260, 148, 0, kSorry, 160, 160, 160, Right},
+    {1, 260, 170, 0, kStopIt, 160, 160, 160, Right},
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_ParamiteSpeak_55dce0[15] =
-{
-    { 2, 184, 205, 0, "more", 128, 16, 255, Centre },
-    { 1, 184, 20, 0, "ParamiteSpeak", 127, 127, 127, Centre },
-    { 1, 110, 104, 0, "howdy", 128, 16, 255, Left },
-    { 1, 110, 126, 0, "c'mon", 128, 16, 255, Left },
-    { 1, 110, 148, 0, "stay", 128, 16, 255, Left },
-    { 1, 110, 170, 0, "do it", 128, 16, 255, Left },
-    { 1, 278, 104, 0, "attack", 128, 16, 255, Left },
-    { 1, 278, 126, 0, "all a ya!", 128, 16, 255, Left },
-    { 1, 90, 104, 0, kHello, 160, 160, 160, Right },
-    { 1, 90, 126, 0, kFollowMe, 160, 160, 160, Right },
-    { 1, 90, 148, 0, kWait, 160, 160, 160, Right },
-    { 1, 90, 170, 0, kWork, 160, 160, 160, Right },
-    { 1, 260, 104, 0, kAnger, 160, 160, 160, Right },
-    { 1, 260, 126, 0, kAllYa, 160, 160, 160, Right },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_ParamiteSpeak_55dce0[15] = {
+    {2, 184, 205, 0, "more", 128, 16, 255, Centre},
+    {1, 184, 20, 0, "ParamiteSpeak", 127, 127, 127, Centre},
+    {1, 110, 104, 0, "howdy", 128, 16, 255, Left},
+    {1, 110, 126, 0, "c'mon", 128, 16, 255, Left},
+    {1, 110, 148, 0, "stay", 128, 16, 255, Left},
+    {1, 110, 170, 0, "do it", 128, 16, 255, Left},
+    {1, 278, 104, 0, "attack", 128, 16, 255, Left},
+    {1, 278, 126, 0, "all a ya!", 128, 16, 255, Left},
+    {1, 90, 104, 0, kHello, 160, 160, 160, Right},
+    {1, 90, 126, 0, kFollowMe, 160, 160, 160, Right},
+    {1, 90, 148, 0, kWait, 160, 160, 160, Right},
+    {1, 90, 170, 0, kWork, 160, 160, 160, Right},
+    {1, 260, 104, 0, kAnger, 160, 160, 160, Right},
+    {1, 260, 126, 0, kAllYa, 160, 160, 160, Right},
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_ScrabSpeak_55ddd0[7] =
-{
-    { 2, 184, 205, 0, "exit", 128, 16, 255, Centre },
-    { 1, 184, 20, 0, "ScrabSpeak", 127, 127, 127, Centre },
-    { 1, 110, 104, 0, "shred power", 128, 16, 255, Left },
-    { 1, 110, 126, 0, "howl", 128, 16, 255, Left },
-    { 1, 90, 104, 0, kHello, 160, 160, 160, Right },
-    { 1, 90, 126, 0, kFollowMe, 160, 160, 160, Right },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_ScrabSpeak_55ddd0[7] = {
+    {2, 184, 205, 0, "exit", 128, 16, 255, Centre},
+    {1, 184, 20, 0, "ScrabSpeak", 127, 127, 127, Centre},
+    {1, 110, 104, 0, "shred power", 128, 16, 255, Left},
+    {1, 110, 126, 0, "howl", 128, 16, 255, Left},
+    {1, 90, 104, 0, kHello, 160, 160, 160, Right},
+    {1, 90, 126, 0, kFollowMe, 160, 160, 160, Right},
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Save_55e4c8[4] =
-{
-    { 1, 184, 120, 0, sSaveString_5C931C, 128, 16, 255, Centre },
-    { 1, 184, 180, 0, "Enter   Save", 128, 16, 255, Centre },
-    { 1, 184, 205, 0, "Esc   Cancel", 128, 16, 255, Centre },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_Save_55e4c8[4] = {
+    {1, 184, 120, 0, sSaveString_5C931C, 128, 16, 255, Centre},
+    {1, 184, 180, 0, "Enter   Save", 128, 16, 255, Centre},
+    {1, 184, 205, 0, "Esc   Cancel", 128, 16, 255, Centre},
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_ReallyQuit_55e278[3] =
-{
-    { 1, 184, 110, 0, "REALLY QUIT?", 128, 16, 255, Centre },
-    { 1, 184, 135, 0, "Enter yes   Esc no", 160, 160, 160, Centre },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_ReallyQuit_55e278[3] = {
+    {1, 184, 110, 0, "REALLY QUIT?", 128, 16, 255, Centre},
+    {1, 184, 135, 0, "Enter yes   Esc no", 160, 160, 160, Centre},
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Status_55e738[1] =
-{
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_Status_55e738[1] = {
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Load_55e3a0[9] =
-{
-    { 1, 184, 5, 0, "", 128, 16, 255, Centre },
-    { 1, 184, 30, 0, "", 128, 16, 255, Centre },
-    { 1, 184, 55, 0, "", 128, 16, 255, Centre },
-    { 1, 184, 80, 0, "", 128, 16, 255, Centre },
-    { 1, 184, 105, 0, "", 128, 16, 255, Centre },
-    { 1, 184, 130, 0, "", 128, 16, 255, Centre },
-    { 1, 184, 188, 0, "", 128, 16, 255, Centre },
-    { 1, 184, 213, 0, "Esc  Cancel        F6  Load QuikSave", 128, 16, 255, Centre },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_Load_55e3a0[9] = {
+    {1, 184, 5, 0, "", 128, 16, 255, Centre},
+    {1, 184, 30, 0, "", 128, 16, 255, Centre},
+    {1, 184, 55, 0, "", 128, 16, 255, Centre},
+    {1, 184, 80, 0, "", 128, 16, 255, Centre},
+    {1, 184, 105, 0, "", 128, 16, 255, Centre},
+    {1, 184, 130, 0, "", 128, 16, 255, Centre},
+    {1, 184, 188, 0, "", 128, 16, 255, Centre},
+    {1, 184, 213, 0, "Esc  Cancel        F6  Load QuikSave", 128, 16, 255, Centre},
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
 
 // Menu Pages
 
-PauseMenu::PauseMenuPage sPM_Page_Main_5465B0 =
-{
+PauseMenu::PauseMenuPage sPM_Page_Main_5465B0 = {
     &PauseMenu::Page_Main_Update_4903E0,
     &PauseMenu::Page_Base_Render_490A50,
     PauseMenu__PageEntryList_Main_55E1C8,
@@ -242,11 +215,9 @@ PauseMenu::PauseMenuPage sPM_Page_Main_5465B0 =
     100u,
     0u,
     0u,
-    0u
-};
+    0u};
 
-PauseMenu::PauseMenuPage sPM_Page_Controls_Actions_546610 =
-{
+PauseMenu::PauseMenuPage sPM_Page_Controls_Actions_546610 = {
     &PauseMenu::Page_ControlsActions_Update_48FA60,
     &PauseMenu::Page_Base_Render_490A50,
     PauseMenu__PageEntryList_ControlActions_55d820,
@@ -256,11 +227,9 @@ PauseMenu::PauseMenuPage sPM_Page_Controls_Actions_546610 =
     100u,
     0u,
     0u,
-    0u
-};
+    0u};
 
-PauseMenu::PauseMenuPage sPM_Page_ReallyQuit_5465E0 =
-{
+PauseMenu::PauseMenuPage sPM_Page_ReallyQuit_5465E0 = {
     &PauseMenu::Page_ReallyQuit_Update_490930,
     &PauseMenu::Page_Base_Render_490A50,
     PauseMenu__PageEntryList_ReallyQuit_55e278,
@@ -270,11 +239,9 @@ PauseMenu::PauseMenuPage sPM_Page_ReallyQuit_5465E0 =
     100u,
     0u,
     0u,
-    0u
-};
+    0u};
 
-PauseMenu::PauseMenuPage sPM_Page_Load_546628 =
-{
+PauseMenu::PauseMenuPage sPM_Page_Load_546628 = {
     &PauseMenu::Page_Load_Update_490D50,
     &PauseMenu::Page_Load_Render_4910A0,
     PauseMenu__PageEntryList_Load_55e3a0,
@@ -284,25 +251,19 @@ PauseMenu::PauseMenuPage sPM_Page_Load_546628 =
     static_cast<s8>(160u),
     0u,
     0u,
-    0u
-};
+    0u};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Save_55E4C8[4] =
-{
-    { 1, 184, 120, 0, sSaveString_5C931C, 128u, 16u, 255u, 1u },
-    { 1, 184, 180, 0, "Enter   Save", 128u, 16u, 255u, 1u },
-    { 1, 184, 205, 0, "Esc   Cancel", 128u, 16u, 255u, 1u },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_Save_55E4C8[4] = {
+    {1, 184, 120, 0, sSaveString_5C931C, 128u, 16u, 255u, 1u},
+    {1, 184, 180, 0, "Enter   Save", 128u, 16u, 255u, 1u},
+    {1, 184, 205, 0, "Esc   Cancel", 128u, 16u, 255u, 1u},
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Save_Overwrite_Confirm_55E508[2] =
-{
-    { 1, 184, 180, 0, "Enter Overwrite  Esc Cancel", 160u, 160u, 160u, 1u },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry PauseMenu__PageEntryList_Save_Overwrite_Confirm_55E508[2] = {
+    {1, 184, 180, 0, "Enter Overwrite  Esc Cancel", 160u, 160u, 160u, 1u},
+    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenu::PauseMenuPage sPM_Page_Save_5465C8 =
-{
+PauseMenu::PauseMenuPage sPM_Page_Save_5465C8 = {
     &PauseMenu::Page_Save_Update_491210,
     &PauseMenu::Page_Save_Render_491660,
     &PauseMenu__PageEntryList_Save_55E4C8[0],
@@ -312,24 +273,20 @@ PauseMenu::PauseMenuPage sPM_Page_Save_5465C8 =
     static_cast<s8>(160u),
     0,
     0,
-    0
-};
+    0};
 
 ALIVE_ARY(1, 0x55e718, s8, 32, sPauseMenu_Of300Mudokons_55E718, {});
 ALIVE_ARY(1, 0x55e738, s8, 56, sHasBeenTerminated_55E738, {});
 
-PauseMenuPageEntry sStatusEntries_55E758[6] =
-{
-    { 2, 184, 205, 0, "EXIT", 128u, 16u, 255u, 1u },
-    { 1, 184, 20, 0, "ABE'S STATUS", 127u, 127u, 127u, 1u },
-    { 1, 184, 145, 0, sPauseMenu_Of300Mudokons_55E718, 128u, 16u, 255u, 1u },
-    { 1, 184, 170, 0, sHasBeenTerminated_55E738, 128u, 16u, 255u, 1u },
-    { 1, 184, 120, 0, "YOU HAVE RESCUED", 128u, 16u, 255u, 1u },
-    { 0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
+PauseMenuPageEntry sStatusEntries_55E758[6] = {
+    {2, 184, 205, 0, "EXIT", 128u, 16u, 255u, 1u},
+    {1, 184, 20, 0, "ABE'S STATUS", 127u, 127u, 127u, 1u},
+    {1, 184, 145, 0, sPauseMenu_Of300Mudokons_55E718, 128u, 16u, 255u, 1u},
+    {1, 184, 170, 0, sHasBeenTerminated_55E738, 128u, 16u, 255u, 1u},
+    {1, 184, 120, 0, "YOU HAVE RESCUED", 128u, 16u, 255u, 1u},
+    {0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenu::PauseMenuPage sPM_Page_Status_5465F8 =
-{
+PauseMenu::PauseMenuPage sPM_Page_Status_5465F8 = {
     &PauseMenu::Page_Status_Update_4916A0,
     &PauseMenu::Page_Status_Render_491710,
     &sStatusEntries_55E758[0],
@@ -339,18 +296,15 @@ PauseMenu::PauseMenuPage sPM_Page_Status_5465F8 =
     100u,
     0u,
     0u,
-    0u
-};
+    0u};
 
 ALIVE_ARY(1, 0x55DE40, PauseMenuPageEntry*, 6, sControlActionsPages_55DE40,
-{
-    PauseMenu__PageEntryList_ControlActions_55d820,
-    PauseMenu__PageEntryList_GameSpeak_55d930,
-    PauseMenu__PageEntryList_SligSpeak_55da80,
-    PauseMenu__PageEntryList_GlukkonSpeak_55dbb0,
-    PauseMenu__PageEntryList_ParamiteSpeak_55dce0,
-    PauseMenu__PageEntryList_ScrabSpeak_55ddd0
-});
+          {PauseMenu__PageEntryList_ControlActions_55d820,
+           PauseMenu__PageEntryList_GameSpeak_55d930,
+           PauseMenu__PageEntryList_SligSpeak_55da80,
+           PauseMenu__PageEntryList_GlukkonSpeak_55dbb0,
+           PauseMenu__PageEntryList_ParamiteSpeak_55dce0,
+           PauseMenu__PageEntryList_ScrabSpeak_55ddd0});
 
 struct DumpEntry
 {
@@ -361,17 +315,17 @@ struct DumpEntry
 void DumpMenus()
 {
     std::vector<DumpEntry> menuListArrays;
-    menuListArrays.push_back({ (void*)0x55D820, "ControlActions" });
-    menuListArrays.push_back({ (void*)0x55D930, "GameSpeak" });
-    menuListArrays.push_back({ (void*)0x55DA80, "SligSpeak" });
-    menuListArrays.push_back({ (void*)0x55DBB0, "GlukkonSpeak" });
-    menuListArrays.push_back({ (void*)0x55DCE0, "ParamiteSpeak" });
-    menuListArrays.push_back({ (void*)0x55DDD0, "ScrabSpeak" });
+    menuListArrays.push_back({(void*) 0x55D820, "ControlActions"});
+    menuListArrays.push_back({(void*) 0x55D930, "GameSpeak"});
+    menuListArrays.push_back({(void*) 0x55DA80, "SligSpeak"});
+    menuListArrays.push_back({(void*) 0x55DBB0, "GlukkonSpeak"});
+    menuListArrays.push_back({(void*) 0x55DCE0, "ParamiteSpeak"});
+    menuListArrays.push_back({(void*) 0x55DDD0, "ScrabSpeak"});
 
-    menuListArrays.push_back({ (void*)0x55E4C8, "Save" });
-    menuListArrays.push_back({ (void*)0x55E278, "ReallyQuit" });
-    menuListArrays.push_back({ (void*)0x55E738, "Status" });
-    menuListArrays.push_back({ (void*)0x55E3A0, "Load" });
+    menuListArrays.push_back({(void*) 0x55E4C8, "Save"});
+    menuListArrays.push_back({(void*) 0x55E278, "ReallyQuit"});
+    menuListArrays.push_back({(void*) 0x55E738, "Status"});
+    menuListArrays.push_back({(void*) 0x55E3A0, "Load"});
 
     // menuListArrays.push_back({ 0x55DDD0, "" });
 
@@ -401,18 +355,18 @@ void DumpMenus()
             std::string alignment;
             switch (e->field_F_alignment)
             {
-            case 0:
-                alignment = "Left";
-                break;
-            case 1:
-                alignment = "Centre";
-                break;
-            case 2:
-                alignment = "Right";
-                break;
-            default:
-                alignment = "UnknownAlignment";
-                break;
+                case 0:
+                    alignment = "Left";
+                    break;
+                case 1:
+                    alignment = "Centre";
+                    break;
+                case 2:
+                    alignment = "Right";
+                    break;
+                default:
+                    alignment = "UnknownAlignment";
+                    break;
             }
 
             output << "\t{ ";
@@ -420,10 +374,11 @@ void DumpMenus()
             output << e->field_2_x << ", ";
             output << e->field_4_y << ", ";
             output << e->field_6_unknown << ", ";
-            output << "\"" << EscapeUnknownCharacters(e->field_8_text) << "\"" << ", ";
-            output << (s32)e->field_C_r << ", ";
-            output << (s32)e->field_D_g << ", ";
-            output << (s32)e->field_E_b << ", ";
+            output << "\"" << EscapeUnknownCharacters(e->field_8_text) << "\""
+                   << ", ";
+            output << (s32) e->field_C_r << ", ";
+            output << (s32) e->field_D_g << ", ";
+            output << (s32) e->field_E_b << ", ";
             output << alignment;
             output << " },\n";
 
@@ -434,7 +389,8 @@ void DumpMenus()
     }
 
     std::ofstream fileOut("menu_dump.h");
-    fileOut << output.rdbuf() << "\n\n" << output_override.rdbuf();
+    fileOut << output.rdbuf() << "\n\n"
+            << output_override.rdbuf();
 }
 
 EXPORT s16 sub_4A2BC0()
@@ -465,10 +421,9 @@ void PauseMenu::VScreenChanged()
 
 PauseMenu::PauseMenu()
 {
-
 }
 
-PauseMenu * PauseMenu::ctor_48FB80()
+PauseMenu* PauseMenu::ctor_48FB80()
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -534,7 +489,7 @@ void PauseMenu::Init_491760()
     ResourceManager::LoadResourceFile_49C170("EMOANGRY.BAN", 0);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAngryiconResID);
     ResourceManager::LoadResourceFile_49C170("EMONORM.BAN", 0);
-    u8 **ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID);
+    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID);
 
     if (field_158_animation.Init_40A030(1248, gObjList_animations_5C1A24, this, 54, 47, ppAnimData, 1, 0, 0))
     {
@@ -564,9 +519,9 @@ void PauseMenu::Render_490BD0(PrimHeader** ot)
     Poly_Set_SemiTrans_4F8A60(&pPolys->mBase.header, TRUE);
     Poly_Set_Blending_4F8A20(&pPolys->mBase.header, FALSE);
     SetRGB0(pPolys,
-        field_144_active_menu.field_E_background_r,
-        field_144_active_menu.field_F_background_g,
-        field_144_active_menu.field_10_background_b);
+            field_144_active_menu.field_E_background_r,
+            field_144_active_menu.field_F_background_g,
+            field_144_active_menu.field_10_background_b);
     SetXY0(pPolys, 0, 0);
     SetXY1(pPolys, 640, 0);
     SetXY2(pPolys, 0, 240);
@@ -628,20 +583,20 @@ public:
             for (s32 i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
             {
                 const auto item = (*entries)[i];
-                compiledEntries.push_back({ 0, 184, (s16)(57 + (22 * o)), 0, (s8*)item.text, 0x80, 0x10, 0xFF, Centre });
+                compiledEntries.push_back({0, 184, (s16)(57 + (22 * o)), 0, (s8*) item.text, 0x80, 0x10, 0xFF, Centre});
                 o++;
             }
         }
-        compiledEntries.push_back({ 0, 184, 16, 0, (s8*)title.c_str(), 127, 127, 127, Centre });
+        compiledEntries.push_back({0, 184, 16, 0, (s8*) title.c_str(), 127, 127, 127, Centre});
         if (size > 7 && index < size - 2)
         {
-            compiledEntries.push_back({ 0, 184, 210, 0, kDown, 127, 127, 127, Centre });
+            compiledEntries.push_back({0, 184, 210, 0, kDown, 127, 127, 127, Centre});
         }
         if (index > 5)
         {
-            compiledEntries.push_back({ 0, 184, 42, 0, kUp, 127, 127, 127, Centre });
+            compiledEntries.push_back({0, 184, 42, 0, kUp, 127, 127, 127, Centre});
         }
-        compiledEntries.push_back({ 0, 0, 0, 0, nullptr, 0, 0, 0, 0 });
+        compiledEntries.push_back({0, 0, 0, 0, nullptr, 0, 0, 0, 0});
         mMenuPage.field_0_fn_update = &PauseMenu::CustomPauseMenuUpdate;
         mMenuPage.field_4_fn_render = &PauseMenu::Page_Base_Render_490A50;
         mMenuPage.field_C_selected_index = 0;
@@ -745,7 +700,8 @@ std::string optionMenuStr_WindowFilterMode;
 class OptionsMenu : public CustomPauseMenu
 {
 public:
-    OptionsMenu() : CustomPauseMenu(&optionMenuItems, "Options")
+    OptionsMenu()
+        : CustomPauseMenu(&optionMenuItems, "Options")
     {
     }
 
@@ -753,20 +709,36 @@ public:
     {
         optionMenuItems.clear();
 
-#if USE_SDL2_SOUND
+    #if USE_SDL2_SOUND
         optionMenuStr_SoundStereo = "Sound Mode: " + std::string((gAudioStereo) ? "Stereo" : "Mono");
         optionMenuStr_SoundReverb = "Reverb: " + std::string((gReverbEnabled) ? "On" : "Off");
-#endif
+    #endif
         optionMenuStr_AspectRatio = "Aspect Ratio: " + std::string((s_VGA_KeepAspectRatio) ? "Keep" : "Stretch");
         optionMenuStr_WindowFilterMode = "Screen Filter: " + std::string((s_VGA_FilterScreen) ? "On" : "Off");
 
-#if USE_SDL2_SOUND
-        optionMenuItems.push_back({ optionMenuStr_SoundStereo.c_str(), [](CustomPauseMenu *) { gAudioStereo = !gAudioStereo; Input_SaveSettingsIni_492840();  } });
-        optionMenuItems.push_back({ optionMenuStr_SoundReverb.c_str(), [](CustomPauseMenu *) { gReverbEnabled = !gReverbEnabled; Input_SaveSettingsIni_492840(); } });
-#endif
+    #if USE_SDL2_SOUND
+        optionMenuItems.push_back({optionMenuStr_SoundStereo.c_str(), [](CustomPauseMenu*)
+                                   {
+                                       gAudioStereo = !gAudioStereo;
+                                       Input_SaveSettingsIni_492840();
+                                   }});
+        optionMenuItems.push_back({optionMenuStr_SoundReverb.c_str(), [](CustomPauseMenu*)
+                                   {
+                                       gReverbEnabled = !gReverbEnabled;
+                                       Input_SaveSettingsIni_492840();
+                                   }});
+    #endif
         //optionMenuItems.push_back({ optionMenuStr_WindowMode.c_str(), [](CustomPauseMenu *) {} });
-        optionMenuItems.push_back({ optionMenuStr_AspectRatio.c_str(), [](CustomPauseMenu *) { s_VGA_KeepAspectRatio = !s_VGA_KeepAspectRatio; Input_SaveSettingsIni_492840(); } });
-        optionMenuItems.push_back({ optionMenuStr_WindowFilterMode.c_str(), [](CustomPauseMenu *) { s_VGA_FilterScreen = !s_VGA_FilterScreen; Input_SaveSettingsIni_492840(); } });
+        optionMenuItems.push_back({optionMenuStr_AspectRatio.c_str(), [](CustomPauseMenu*)
+                                   {
+                                       s_VGA_KeepAspectRatio = !s_VGA_KeepAspectRatio;
+                                       Input_SaveSettingsIni_492840();
+                                   }});
+        optionMenuItems.push_back({optionMenuStr_WindowFilterMode.c_str(), [](CustomPauseMenu*)
+                                   {
+                                       s_VGA_FilterScreen = !s_VGA_FilterScreen;
+                                       Input_SaveSettingsIni_492840();
+                                   }});
 
 
         CustomPauseMenu::CompileEntries();
@@ -815,26 +787,62 @@ void DestroyAllObjects()
 }
 
 std::vector<CustomPauseMenuItem> devCheatsMenuItems({
-    { "Destroy Alive Objs", [](CustomPauseMenu* pm) { DestroyAliveObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed Alive Objects", 4); } },
-    { "Destroy All Objects", [](CustomPauseMenu* pm) { DestroyAllObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed All Objects", 4); } },
-    { "Save All Mudokons", [](CustomPauseMenu*) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; DEV_CONSOLE_MESSAGE("(CHEAT) Saved all Mudokons", 4); } },
-    { "Kill All Mudokons", [](CustomPauseMenu*) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
-    { "Give Rocks", [](CustomPauseMenu*) { sActiveHero_5C1B68->field_1A2_throwable_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
-    { "Open All Doors", [](CustomPauseMenu* pm) {  pm->ClosePauseMenu(); Cheat_OpenAllDoors(); } },
-    { "Invisible", [](CustomPauseMenu* pm) { DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);  pm->ClosePauseMenu(); sActiveHero_5C1B68->field_170_invisible_timer = 65535; sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);  sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); } },
-    { "Give Explosive Fart", [](CustomPauseMenu * pm) {
-        DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
-        pm->ClosePauseMenu();
-        sActiveHero_5C1B68->field_198_has_evil_fart = true;
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, FALSE, FALSE))
-        {
-            ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
-        }
-        if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
-        {
-            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, TRUE, FALSE));
-        }
-    } },
+    {"Destroy Alive Objs", [](CustomPauseMenu* pm)
+     {
+         DestroyAliveObjects();
+         pm->ClosePauseMenu();
+         DEV_CONSOLE_MESSAGE("Destroyed Alive Objects", 4);
+     }},
+    {"Destroy All Objects", [](CustomPauseMenu* pm)
+     {
+         DestroyAllObjects();
+         pm->ClosePauseMenu();
+         DEV_CONSOLE_MESSAGE("Destroyed All Objects", 4);
+     }},
+    {"Save All Mudokons", [](CustomPauseMenu*)
+     {
+         sRescuedMudokons_5C1BC2 = 300;
+         sKilledMudokons_5C1BC0 = 0;
+         DEV_CONSOLE_MESSAGE("(CHEAT) Saved all Mudokons", 4);
+     }},
+    {"Kill All Mudokons", [](CustomPauseMenu*)
+     {
+         sRescuedMudokons_5C1BC2 = 0;
+         sKilledMudokons_5C1BC0 = 300;
+         DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4);
+     }},
+    {"Give Rocks", [](CustomPauseMenu*)
+     {
+         sActiveHero_5C1B68->field_1A2_throwable_count = 99;
+         DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4);
+     }},
+    {"Open All Doors", [](CustomPauseMenu* pm)
+     {
+         pm->ClosePauseMenu();
+         Cheat_OpenAllDoors();
+     }},
+    {"Invisible", [](CustomPauseMenu* pm)
+     {
+         DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);
+         pm->ClosePauseMenu();
+         sActiveHero_5C1B68->field_170_invisible_timer = 65535;
+         sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+         sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible);
+     }},
+    {"Give Explosive Fart", [](CustomPauseMenu* pm)
+     {
+         DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
+         pm->ClosePauseMenu();
+         sActiveHero_5C1B68->field_198_has_evil_fart = true;
+         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, FALSE, FALSE))
+         {
+             ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
+         }
+         if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
+         {
+             sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, TRUE, FALSE));
+         }
+     }},
 });
 
 
@@ -843,27 +851,30 @@ CustomPauseMenu devCheatsMenu(&devCheatsMenuItems, "Cheats");
 OptionsMenu optionsMenu;
 
 std::vector<CustomPauseMenuItem> devMenuItems({
-    { "Options", [](CustomPauseMenu *) { optionsMenu.Activate(); } },
-    { "Cheats", [](CustomPauseMenu * ) { devCheatsMenu.Activate(); } },
-    { "Level Select", [](CustomPauseMenu * ) { devTeleportMenu.Activate(); } },
+    {"Options", [](CustomPauseMenu*)
+     { optionsMenu.Activate(); }},
+    {"Cheats", [](CustomPauseMenu*)
+     { devCheatsMenu.Activate(); }},
+    {"Level Select", [](CustomPauseMenu*)
+     { devTeleportMenu.Activate(); }},
 });
 CustomPauseMenu devMenu(&devMenuItems, "Developer Menu");
 
 
 void PauseMenu::CustomPauseMenuUpdate()
 {
-#if DEVELOPER_MODE
+    #if DEVELOPER_MODE
     if (customMenuStack.size() > 0)
         customMenuStack[customMenuStack.size() - 1]->Update(this);
-#endif
+    #endif
 }
 
 ///// END CUSTOM CODE!!! ///
 
 #endif
 
-void PauseMenu_ForceLink() {
-
+void PauseMenu_ForceLink()
+{
 #if DEVELOPER_MODE
     if (RunningAsInjectedDll())
     {
@@ -874,32 +885,33 @@ void PauseMenu_ForceLink() {
 
     for (s32 i = 0; i < 17; i++)
     {
-        devTeleportMenuItems.push_back({ gPerLvlData_561700[i].field_0_display_name, [](CustomPauseMenu* pm) {
-            const auto levelSelectEntry = gPerLvlData_561700[pm->index];
-            pm->ClosePauseMenu();
-            sActiveHero_5C1B68->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
-            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
-            sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
-            sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
-            sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
+        devTeleportMenuItems.push_back({gPerLvlData_561700[i].field_0_display_name, [](CustomPauseMenu* pm)
+                                        {
+                                            const auto levelSelectEntry = gPerLvlData_561700[pm->index];
+                                            pm->ClosePauseMenu();
+                                            sActiveHero_5C1B68->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
+                                            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                                            sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
+                                            sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
+                                            sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
 
-            if (levelSelectEntry.field_A_id & 1)
-            {
-                sActiveHero_5C1B68->field_D6_scale = 1;
-                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
-            }
-            else
-            {
-                sActiveHero_5C1B68->field_D6_scale = 0;
-                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
-            }
+                                            if (levelSelectEntry.field_A_id & 1)
+                                            {
+                                                sActiveHero_5C1B68->field_D6_scale = 1;
+                                                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
+                                            }
+                                            else
+                                            {
+                                                sActiveHero_5C1B68->field_D6_scale = 0;
+                                                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
+                                            }
 
-            sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
-            gMap_5C3030.SetActiveCam_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-            sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
-            sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
-            DEV_CONSOLE_MESSAGE("Teleported to " + std::string(levelSelectEntry.field_0_display_name), 6);
-        } });
+                                            sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
+                                            gMap_5C3030.SetActiveCam_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                                            sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
+                                            sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
+                                            DEV_CONSOLE_MESSAGE("Teleported to " + std::string(levelSelectEntry.field_0_display_name), 6);
+                                        }});
     }
 
     //devTeleportMenu = CustomPauseMenu(&devTeleportMenuItems, "Level Select");
@@ -945,7 +957,7 @@ void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPag
         field_142_poly_offset = static_cast<s16>(field_F4_font.DrawString_4337D0(
             ot,
             textFormatted,
-            x, // X
+            x,            // X
             e->field_4_y, // Y
             TPageAbr::eBlend_0,
             1,
@@ -1004,7 +1016,7 @@ void PauseMenu::RestartPath()
 }
 
 const s8 kArrowChar = 3;
-ALIVE_ARY(1, 0x55E398, s8, 2, sArrowStr_55E398, { kArrowChar, 0 });
+ALIVE_ARY(1, 0x55E398, s8, 2, sArrowStr_55E398, {kArrowChar, 0});
 
 void PauseMenu::Page_Main_Update_4903E0()
 {
@@ -1038,86 +1050,86 @@ void PauseMenu::Page_Main_Update_4903E0()
     {
         switch (field_134_index_main)
         {
-        case MainPages::ePage_Continue_0:
-            word12C_flags &= ~1u;
-            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
-            GetSoundAPI().SND_Restart();
-            return;
+            case MainPages::ePage_Continue_0:
+                word12C_flags &= ~1u;
+                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+                GetSoundAPI().SND_Restart();
+                return;
 
-        case MainPages::ePage_QuickSave_1:
-            word12C_flags &= ~1u;
-            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
-            GetSoundAPI().SND_Restart();
-            Quicksave_4C90D0();
-            return;
+            case MainPages::ePage_QuickSave_1:
+                word12C_flags &= ~1u;
+                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+                GetSoundAPI().SND_Restart();
+                Quicksave_4C90D0();
+                return;
 
-        case MainPages::ePage_Controls_2:
+            case MainPages::ePage_Controls_2:
 #if DEVELOPER_MODE
-            devMenu.Activate();
+                devMenu.Activate();
 #else
-            field_136_unused = 1;
-            field_144_active_menu = sPM_Page_Controls_Actions_546610;
-            field_138_control_action_page_index = 0;
+                field_136_unused = 1;
+                field_144_active_menu = sPM_Page_Controls_Actions_546610;
+                field_138_control_action_page_index = 0;
 #endif
-            break;
+                break;
 
-        case MainPages::ePage_Status_3:
-            field_136_unused = 3;
-            field_144_active_menu = sPM_Page_Status_5465F8;
-            break;
+            case MainPages::ePage_Status_3:
+                field_136_unused = 3;
+                field_144_active_menu = sPM_Page_Status_5465F8;
+                break;
 
-        case MainPages::ePage_Save_4:
-            field_136_unused = 5;
-            field_144_active_menu = sPM_Page_Save_5465C8;
-            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
-            field_13C_save_state = SaveState::ReadingInput_0;
-            word12C_flags &= ~0xA;
-            field_13E_unused = -1;
-            word12C_flags |= 0x400;
-            field_13A_unused = 0;
-            Quicksave_4C90D0();
-            // Set the default save name to be the current level/path/camera
-            Path_Format_CameraName_460FB0(
-                sSaveString_5C931C,
-                gMap_5C3030.field_0_current_level,
-                gMap_5C3030.field_2_current_path,
-                gMap_5C3030.field_4_current_camera);
-            // Null terminate it
-            sSaveString_5C931C[8] = 0;
-            // Append the editor arrow s8
-            strcat(sSaveString_5C931C, sArrowStr_55E398);
+            case MainPages::ePage_Save_4:
+                field_136_unused = 5;
+                field_144_active_menu = sPM_Page_Save_5465C8;
+                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
+                field_13C_save_state = SaveState::ReadingInput_0;
+                word12C_flags &= ~0xA;
+                field_13E_unused = -1;
+                word12C_flags |= 0x400;
+                field_13A_unused = 0;
+                Quicksave_4C90D0();
+                // Set the default save name to be the current level/path/camera
+                Path_Format_CameraName_460FB0(
+                    sSaveString_5C931C,
+                    gMap_5C3030.field_0_current_level,
+                    gMap_5C3030.field_2_current_path,
+                    gMap_5C3030.field_4_current_camera);
+                // Null terminate it
+                sSaveString_5C931C[8] = 0;
+                // Append the editor arrow s8
+                strcat(sSaveString_5C931C, sArrowStr_55E398);
 
-#if ORIGINAL_PS1_BEHAVIOR  // OG Change - Allow for exiting save menu using controller
-            setSaveMenuOpen(true); // Sets saveMenuOpen bool to true, instead of disabling input
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
+                setSaveMenuOpen(true); // Sets saveMenuOpen bool to true, instead of disabling input
 #else
-            Input_DisableInputForPauseMenuAndDebug_4EDDC0();
+                Input_DisableInputForPauseMenuAndDebug_4EDDC0();
 #endif
-            return;
+                return;
 
-        case MainPages::ePage_Load_5:
-            Quicksave_FindSaves_4D4150();
-            field_136_unused = 4;
-            field_144_active_menu = sPM_Page_Load_546628;
-            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
-            word12C_flags &= ~0xA;
-            field_13C_save_state = SaveState::ReadingInput_0;
-            word12C_flags |= 0x400;
-            field_13E_unused = -1;
-            field_13A_unused = 0;
-            return;
+            case MainPages::ePage_Load_5:
+                Quicksave_FindSaves_4D4150();
+                field_136_unused = 4;
+                field_144_active_menu = sPM_Page_Load_546628;
+                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
+                word12C_flags &= ~0xA;
+                field_13C_save_state = SaveState::ReadingInput_0;
+                word12C_flags |= 0x400;
+                field_13E_unused = -1;
+                field_13A_unused = 0;
+                return;
 
-        case MainPages::ePage_RestartPath_6:
-            RestartPath();
-            return;
+            case MainPages::ePage_RestartPath_6:
+                RestartPath();
+                return;
 
-        case MainPages::ePage_Quit_7:
-            field_136_unused = 2;
-            field_144_active_menu = sPM_Page_ReallyQuit_5465E0;
-            field_134_index_main = MainPages::ePage_Continue_0;
-            break;
+            case MainPages::ePage_Quit_7:
+                field_136_unused = 2;
+                field_144_active_menu = sPM_Page_ReallyQuit_5465E0;
+                field_134_index_main = MainPages::ePage_Continue_0;
+                break;
 
-        default:
-            return;
+            default:
+                return;
         }
 
         SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
@@ -1225,7 +1237,7 @@ void PauseMenu::Page_Save_Update_491210()
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
             field_13C_save_state = SaveState::ReadingInput_0;
             strcat(sSaveString_5C931C, sArrowStr_55E398);
-#if ORIGINAL_PS1_BEHAVIOR  // OG Change - Allow for exiting save menu using controller
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
             setSaveMenuOpen(true); // Sets saveMenuOpen bool to true, instead of disabling input
 #else
             Input_DisableInputForPauseMenuAndDebug_4EDDC0();
@@ -1268,49 +1280,49 @@ void PauseMenu::Page_Save_Update_491210()
 
         switch (lastPressed)
         {
-        case VK_SHIFT:
-            return;
-        // Escape - cancel
-        case VK_ESCAPE:
-            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
-            field_136_unused = 0;
-            field_144_active_menu = sPM_Page_Main_5465B0;
-            Input_Reset_492660();
-            return;
-
-        // Enter - save
-        case VK_RETURN:
-            if (stringLen > 1)
-            {
-                // Replace arrow with null terminator
-                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
-                sSaveString_5C931C[stringLen -1] = 0;
-                field_13C_save_state = SaveState::DoSave_4;
+            case VK_SHIFT:
+                return;
+            // Escape - cancel
+            case VK_ESCAPE:
+                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+                field_136_unused = 0;
+                field_144_active_menu = sPM_Page_Main_5465B0;
                 Input_Reset_492660();
                 return;
-            }
-            SFX_Play_46FA90(SoundEffect::ElectricZap_39, 0);
-            return;
 
-        // Backspace - delete
-        case VK_BACK:
-            if (stringLen > 1)
-            {
-                // Replace last s8 with arrow
-                sSaveString_5C931C[stringLen -2] = kArrowChar;
-                sSaveString_5C931C[stringLen -1] = 0;
-                SFX_Play_46FA90(SoundEffect::PickupItem_28, 0);
+            // Enter - save
+            case VK_RETURN:
+                if (stringLen > 1)
+                {
+                    // Replace arrow with null terminator
+                    SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
+                    sSaveString_5C931C[stringLen - 1] = 0;
+                    field_13C_save_state = SaveState::DoSave_4;
+                    Input_Reset_492660();
+                    return;
+                }
+                SFX_Play_46FA90(SoundEffect::ElectricZap_39, 0);
                 return;
-            }
-            SFX_Play_46FA90(SoundEffect::ElectricZap_39, 0);
-            return;
+
+            // Backspace - delete
+            case VK_BACK:
+                if (stringLen > 1)
+                {
+                    // Replace last s8 with arrow
+                    sSaveString_5C931C[stringLen - 2] = kArrowChar;
+                    sSaveString_5C931C[stringLen - 1] = 0;
+                    SFX_Play_46FA90(SoundEffect::PickupItem_28, 0);
+                    return;
+                }
+                SFX_Play_46FA90(SoundEffect::ElectricZap_39, 0);
+                return;
         }
 
         // Otherwise edit the file name if its an allowed s8
         if (strspn(newInput, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-"))
         {
             // Don't allow space at the start of the name, and don't allow 2 constitutive spaces.
-            if (newInput[0] == ' ' && (stringLen == 1 || sSaveString_5C931C[stringLen -2] == newInput[0]))
+            if (newInput[0] == ' ' && (stringLen == 1 || sSaveString_5C931C[stringLen - 2] == newInput[0]))
             {
                 SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 30, 2600);
             }
@@ -1322,9 +1334,9 @@ void PauseMenu::Page_Save_Update_491210()
             // Append new input s8
             else
             {
-                sSaveString_5C931C[stringLen -1] = newInput[0]; // Replace arrow with input
-                sSaveString_5C931C[stringLen] = kArrowChar;    // Replace null with arrow
-                sSaveString_5C931C[stringLen +1] = 0;           // Append new null
+                sSaveString_5C931C[stringLen - 1] = newInput[0]; // Replace arrow with input
+                sSaveString_5C931C[stringLen] = kArrowChar;      // Replace null with arrow
+                sSaveString_5C931C[stringLen + 1] = 0;           // Append new null
                 SFX_Play_46FA90(SoundEffect::RockBounce_26, 0);
             }
         }
@@ -1335,8 +1347,7 @@ void PauseMenu::Page_Save_Update_491210()
     }
 }
 
-PauseMenu::PauseMenuPage sOverwriteSaveConfirmPage_55E560 =
-{
+PauseMenu::PauseMenuPage sOverwriteSaveConfirmPage_55E560 = {
     &PauseMenu::Page_Save_Update_491210,
     &PauseMenu::Page_Save_Render_491660,
     PauseMenu__PageEntryList_Save_Overwrite_Confirm_55E508,
@@ -1346,8 +1357,7 @@ PauseMenu::PauseMenuPage sOverwriteSaveConfirmPage_55E560 =
     0u,
     0u,
     0u,
-    0u
-};
+    0u};
 
 
 void PauseMenu::Page_Save_Render_491660(PrimHeader** ot, PauseMenuPage* pPage)
@@ -1646,7 +1656,7 @@ void PauseMenu::Update_48FD80()
                     }
                     else
                     {
-                        sScreenStringBuffer_5C92F0[i] =  static_cast<s8>(::tolower(currentCamChar));
+                        sScreenStringBuffer_5C92F0[i] = static_cast<s8>(::tolower(currentCamChar));
                     }
                 }
 
@@ -1733,7 +1743,8 @@ void PauseMenu::Update_48FD80()
                         }
 
                         (this->*field_144_active_menu.field_0_fn_update)();
-                    } while (word12C_flags & 1);
+                    }
+                    while (word12C_flags & 1);
                 }
                 sInputObject_5BD4E0.Update_45F040();
                 field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);

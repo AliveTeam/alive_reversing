@@ -38,9 +38,7 @@ PossessionFlicker* PossessionFlicker::ctor_4319E0(BaseAliveGameObject* pToApplyF
             break;
         }
 
-        if (pObj != this &&
-            pObj->field_4_typeId == AETypes::ePossessionFlicker_51 &&
-            static_cast<PossessionFlicker*>(pObj)->ObjectId() == field_30_obj_id)
+        if (pObj != this && pObj->field_4_typeId == AETypes::ePossessionFlicker_51 && static_cast<PossessionFlicker*>(pObj)->ObjectId() == field_30_obj_id)
         {
             // It is to don't store the id, first update will destroy this object
             field_30_obj_id = -1;

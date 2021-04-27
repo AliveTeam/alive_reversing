@@ -50,4 +50,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ZBall, 0xEC);
 
-}
+} // namespace AO

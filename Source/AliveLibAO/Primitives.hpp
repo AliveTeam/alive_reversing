@@ -16,7 +16,7 @@ enum class TPageMode : s8
     e16Bit_2 = 2,
 };
 
-enum class TPageAbr : s8 
+enum class TPageAbr : s8
 {
     eBlend_0 = 0,
     eBlend_1 = 1,
@@ -26,7 +26,7 @@ enum class TPageAbr : s8
 
 inline s32 CC PSX_getTPage_4965D0(TPageMode tp, TPageAbr abr, s32 x, s16 y)
 {
-    return ((((static_cast<s8>(tp)) & 0x3) << 7) | (((static_cast<s8>(abr)) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
+    return ((((static_cast<s8>(tp)) & 0x3) << 7) | (((static_cast<s8>(abr)) & 0x3) << 5) | (((y) &0x100) >> 4) | (((x) &0x3ff) >> 6) | (((y) &0x200) << 2));
 }
 
 EXPORT void CC Poly_Set_Blending_498A00(PrimHeader* pPrim, s32 bBlending);
@@ -52,4 +52,4 @@ EXPORT void CC Prim_Init_Poly_G3_498870(Poly_G3* pPrim);
 
 EXPORT void CC InitType_ScreenOffset_496000(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset);
 
-}
+} // namespace AO

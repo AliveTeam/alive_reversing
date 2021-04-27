@@ -43,5 +43,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(LightEffect, 0xFC);
 
-}
-
+} // namespace AO

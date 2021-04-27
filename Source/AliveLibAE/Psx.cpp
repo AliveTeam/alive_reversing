@@ -16,7 +16,8 @@
 #include "Renderer/IRenderer.hpp"
 #include <gmock/gmock.h>
 
-void Psx_ForceLink() {}
+void Psx_ForceLink()
+{ }
 
 ALIVE_VAR(1, 0x578325, s8, sVSync_Unused_578325, 0);
 ALIVE_VAR(1, 0xBD0F2C, s32, sVSyncLastMillisecond_BD0F2C, 0);
@@ -362,21 +363,21 @@ EXPORT s32 CC PSX_EMU_VideoAlloc_4F9D70()
             s32 pixelFormat = 0;
             switch (sVGA_DisplayType_BD1468)
             {
-            case 2:
-                pixelFormat = 16;
-                break;
-            case 3:
-                pixelFormat = 116;
-                break;
-            case 4:
-                pixelFormat = 15;
-                break;
-            case 5:
-                pixelFormat = 115;
-                break;
-            default:
-                pixelFormat = 0;
-                break;
+                case 2:
+                    pixelFormat = 16;
+                    break;
+                case 3:
+                    pixelFormat = 116;
+                    break;
+                case 4:
+                    pixelFormat = 15;
+                    break;
+                case 5:
+                    pixelFormat = 115;
+                    break;
+                default:
+                    pixelFormat = 0;
+                    break;
             }
 
             if (BMP_New_4F1990(&sPsxVram_C1D160, 1024, 512, pixelFormat, 1))
@@ -413,26 +414,26 @@ EXPORT void CC Init_VGA_AndPsxVram_494690()
 
     switch (VGA_GetPixelFormat_4F3EE0())
     {
-    case 8:
-        PSX_EMU_SetDispType_4F9960(1);
-        break;
-    case 15:
-        PSX_EMU_SetDispType_4F9960(4);
-        break;
-    case 32: // Allow 32bit colour
-    case 16:
-        PSX_EMU_SetDispType_4F9960(2);
-        break;
-    case 115:
-        PSX_EMU_SetDispType_4F9960(5);
-        break;
-    case 116:
-        PSX_EMU_SetDispType_4F9960(3);
-        break;
-    default:
-        Error_WarningMessageBox_4F2D80("This program requires a high-color display mode of 32768 or 65536 colors at 640x480 resolution.");
-        Error_ShowErrorStackToUser_4F2A70(false);
-        return;
+        case 8:
+            PSX_EMU_SetDispType_4F9960(1);
+            break;
+        case 15:
+            PSX_EMU_SetDispType_4F9960(4);
+            break;
+        case 32: // Allow 32bit colour
+        case 16:
+            PSX_EMU_SetDispType_4F9960(2);
+            break;
+        case 115:
+            PSX_EMU_SetDispType_4F9960(5);
+            break;
+        case 116:
+            PSX_EMU_SetDispType_4F9960(3);
+            break;
+        default:
+            Error_WarningMessageBox_4F2D80("This program requires a high-color display mode of 32768 or 65536 colors at 640x480 resolution.");
+            Error_ShowErrorStackToUser_4F2A70(false);
+            return;
     }
 }
 
@@ -640,8 +641,7 @@ EXPORT s32 CC PSX_SetDispMask_4F89F0(s32 /*mode*/)
 
 EXPORT bool CC PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect)
 {
-    return
-        pRect->x >= 0 && pRect->x < sPsxVram_C1D160.field_8_width
+    return pRect->x >= 0 && pRect->x < sPsxVram_C1D160.field_8_width
         && pRect->y >= 0
         && pRect->y < sPsxVram_C1D160.field_C_height
         && pRect->w + pRect->x - 1 >= 0
@@ -674,7 +674,7 @@ EXPORT s32 CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData)
     // TODO: Clean up more, treat as 1024x512 16bit array
     const u32 bytesPerPixel = sPsxVram_C1D160.field_14_bpp / 8;
     u32 srcWidthInBytes = pRect->w * bytesPerPixel;
-    u8* pDst = (u8 *)sPsxVram_C1D160.field_4_pLockedPixels + bytesPerPixel * (pRect->x + (pRect->y * sPsxVram_C1D160.field_8_width));
+    u8* pDst = (u8*) sPsxVram_C1D160.field_4_pLockedPixels + bytesPerPixel * (pRect->x + (pRect->y * sPsxVram_C1D160.field_8_width));
     const u8* pDataEnd = &pData[srcWidthInBytes * pRect->h];
     const u8* pDataIter = pData;
 
@@ -715,7 +715,7 @@ EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, u16* pData)
     u16* pDstIter = pData;
 
     // TODO: Refactor
-    const u16* pVramIter = (const u16 *)((s8 *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (rect->x + (rect->y << 10)));
+    const u16* pVramIter = (const u16*) ((s8*) sPsxVram_C1D160.field_4_pLockedPixels + 2 * (rect->x + (rect->y << 10)));
     const u16* pVramEnd = &pVramIter[1024 * rect->h - 1024 + rect->w];
     s32 lineRemainder = 1024 - rect->w;
     for (s32 count = 1024 - rect->w; pVramIter < pVramEnd; pVramIter += lineRemainder)
@@ -818,7 +818,7 @@ EXPORT s32 CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, s32 xpos, s32 ypos)
 
 EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(s8* pNormalized, const s8* pFileName)
 {
-    const s8 *fileNameIter = pFileName;
+    const s8* fileNameIter = pFileName;
     s8* pNormalizedIter = pNormalized;
     while (*fileNameIter)
     {
@@ -892,7 +892,8 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
             {
                 timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
                 SsSeqCalledTbyT_4FDC80();
-            } while (timeSinceLastFrame < 1000 * mode / 60);
+            }
+            while (timeSinceLastFrame < 1000 * mode / 60);
 
             frameTimeInMilliseconds = 1000 * mode / 60;
         }
@@ -909,18 +910,17 @@ EXPORT s32 CC PSX_DrawSync_4F6280(s32 /*mode*/)
     return 0;
 }
 
-namespace AETest::TestsPsx
+namespace AETest::TestsPsx {
+static void Test_PSX_ClearOTag_4F6290()
 {
-    static void Test_PSX_ClearOTag_4F6290()
-    {
-        PrimHeader* ot[5] = {};
-        PSX_ClearOTag_4F6290(ot, 5);
-        ASSERT_EQ(ot[0], (PrimHeader*)&ot[1]);
-        ASSERT_EQ(ot[4], (PrimHeader*)static_cast<size_t>(0xFFFFFFFF));
-    }
-
-    void PsxTests()
-    {
-        Test_PSX_ClearOTag_4F6290();
-    }
+    PrimHeader* ot[5] = {};
+    PSX_ClearOTag_4F6290(ot, 5);
+    ASSERT_EQ(ot[0], (PrimHeader*) &ot[1]);
+    ASSERT_EQ(ot[4], (PrimHeader*) static_cast<size_t>(0xFFFFFFFF));
 }
+
+void PsxTests()
+{
+    Test_PSX_ClearOTag_4F6290();
+}
+} // namespace AETest::TestsPsx

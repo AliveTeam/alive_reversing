@@ -37,7 +37,7 @@ void SoftwareRenderer::StartFrame(s32 xOff, s32 yOff)
 
 void SoftwareRenderer::PalFree(const IRenderer::PalRecord& record)
 {
-     Pal_free_483390(PSX_Point{record.x, record.y}, record.depth);
+    Pal_free_483390(PSX_Point{record.x, record.y}, record.depth);
 }
 
 bool SoftwareRenderer::PalAlloc(IRenderer::PalRecord& record)
@@ -98,7 +98,8 @@ void SoftwareRenderer::CreateBackBuffer(bool filter, s32 format, s32 w, s32 h)
             SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
         }
 
-        if (mBackBufferTexture) {
+        if (mBackBufferTexture)
+        {
             SDL_DestroyTexture(mBackBufferTexture);
         }
         mBackBufferTexture = SDL_CreateTexture(mRenderer, format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, w, h);
@@ -153,7 +154,7 @@ void SoftwareRenderer::Draw(Prim_Tile& tile)
 
 void SoftwareRenderer::Draw(Line_F2& line)
 {
-     PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
+    PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
 }
 
 void SoftwareRenderer::Draw(Line_G2& line)

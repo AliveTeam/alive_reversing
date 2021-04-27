@@ -65,14 +65,14 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
         FP hitX = {};
         FP hitY = {};
         if (sCollisions_DArray_504C6C->RayCast_40C410(
-            xpos,
-            objY,
-            xpos,
-            objY + FP_FromInteger(240),
-            &pLine,
-            &hitX,
-            &hitY,
-            lineType))
+                xpos,
+                objY,
+                xpos,
+                objY + FP_FromInteger(240),
+                &pLine,
+                &hitX,
+                &hitY,
+                lineType))
         {
             const FP camXPos = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
 
@@ -96,17 +96,17 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
             if (objX < lineXScreen)
             {
                 if (sCollisions_DArray_504C6C->RayCast_40C410(
-                    FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
-                    hitY - FP_FromInteger(2),
-                    FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
-                    hitY + FP_FromInteger(2),
-                    &pLine,
-                    &hitX,
-                    &hitY,
-                    lineType))
+                        FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
+                        hitY - FP_FromInteger(2),
+                        FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
+                        hitY + FP_FromInteger(2),
+                        &pLine,
+                        &hitX,
+                        &hitY,
+                        lineType))
                 {
                     lineXScreen = std::min(pLine->field_0_rect.x, pLine->field_0_rect.w)
-                        - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+                                - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
                 }
             }
 
@@ -114,20 +114,20 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
             if (objX > lineWScreen)
             {
                 const FP v23 = FP_NoFractional(((pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineWScreen + 1)))
-                    + FP_FromInteger(4);
+                             + FP_FromInteger(4);
 
                 if (sCollisions_DArray_504C6C->RayCast_40C410(
-                    v23,
-                    hitY - FP_FromInteger(2),
-                    v23,
-                    hitY + FP_FromInteger(2),
-                    &pLine,
-                    &hitX,
-                    &hitY,
-                    lineType))
+                        v23,
+                        hitY - FP_FromInteger(2),
+                        v23,
+                        hitY + FP_FromInteger(2),
+                        &pLine,
+                        &hitX,
+                        &hitY,
+                        lineType))
                 {
                     lineWScreen = std::max(pLine->field_0_rect.w, pLine->field_0_rect.x)
-                        - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+                                - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
                 }
             }
 
@@ -170,7 +170,7 @@ void Shadow::Render_462410(PrimHeader** ppOt)
     if (field_14_flags.Get(Flags::eBit2_Enabled))
     {
         field_18_anim.field_14_scale = FP_FromInteger(1);
-        
+
         u8 rgb = 63;
         if (field_10_scale != FP_FromDouble(0.5))
         {
@@ -200,4 +200,4 @@ void Shadow::Render_462410(PrimHeader** ppOt)
     }
 }
 
-}
+} // namespace AO

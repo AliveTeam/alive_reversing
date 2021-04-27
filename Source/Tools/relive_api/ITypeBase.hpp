@@ -3,7 +3,9 @@
 #include <string>
 #include <typeindex>
 
-namespace jsonxx { class Array; }
+namespace jsonxx {
+class Array;
+}
 
 class ITypeBase
 {

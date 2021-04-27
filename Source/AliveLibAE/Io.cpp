@@ -6,7 +6,7 @@
 #include "Sys_common.hpp"
 
 #if !_WIN32
-#include <dirent.h>
+    #include <dirent.h>
 #endif
 
 ALIVE_VAR(1, 0xBBC4BC, std::atomic<IO_Handle*>, sIOHandle_BBC4BC, {});
@@ -21,7 +21,7 @@ ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 
 
 // SDL/C IO Wrappers
-IO_FileHandleType IO_Open(const s8* fileName, const s8 * mode)
+IO_FileHandleType IO_Open(const s8* fileName, const s8* mode)
 {
     if (strlen(fileName) >= 3 && fileName[0] == '.' && (fileName[1] == '/' || fileName[1] == '\\'))
     {
@@ -53,7 +53,7 @@ s32 IO_Close(IO_FileHandleType pHandle)
 #endif
 }
 
-size_t IO_Read(IO_FileHandleType pHandle, void *ptr, size_t size, size_t maxnum)
+size_t IO_Read(IO_FileHandleType pHandle, void* ptr, size_t size, size_t maxnum)
 {
 #if USE_SDL2_IO
     return pHandle->read(pHandle, ptr, size, maxnum);
@@ -114,12 +114,12 @@ EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile)
     {
         do
         {
-
             Sleep(0);
-        } while (hFile->field_10_bDone);
+        }
+        while (hFile->field_10_bDone);
     }
 #else
-    (void)hFile;
+    (void) hFile;
 #endif
 }
 
@@ -161,10 +161,9 @@ EXPORT u32 WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
             {
                 while (GetMessageA(&msg, 0, 0x400u, 0x400u) == -1)
                 {
-
                 }
-
-            } while (msg.wParam != 4444 || msg.lParam != 5555 || sIO_Thread_Operation_BBC4C0 != 3);
+            }
+            while (msg.wParam != 4444 || msg.lParam != 5555 || sIO_Thread_Operation_BBC4C0 != 3);
 
             if (sIOHandle_BBC4BC.load())
             {
@@ -189,7 +188,7 @@ EXPORT u32 WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
     }
 }
 
-EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, s32 always3, void* readBuffer, size_t bytesToRead, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 /*notUsed3*/)
+EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle* hFile, s32 always3, void* readBuffer, size_t bytesToRead, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 /*notUsed3*/)
 {
     if (sIOHandle_BBC4BC.load())
     {
@@ -261,7 +260,8 @@ EXPORT u32 CCSTD IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
             pHandle->field_10_read_ret = IO_Read(pHandle->field_0_hFile, pHandle->field_4_readBuffer, 1u, pHandle->field_8_readSize) == pHandle->field_8_readSize;
             SetEvent(pHandle->field_18_hEvent);
         }
-    } while (!pHandle->field_C_bQuit);
+    }
+    while (!pHandle->field_C_bQuit);
     return 0;
 }
 
@@ -318,9 +318,9 @@ EXPORT void* CC IO_Open_ASync_4EADA0(const s8* filename)
     pHandle->field_18_hEvent = CreateEventA(0, 1, 1, 0);
     pHandle->field_10_read_ret = 1;
 
-    
+
     pHandle->field_0_hFile = IO_Open(filename, "rb");
-    
+
     if (pHandle->field_0_hFile)
     {
         return pHandle;
@@ -409,7 +409,7 @@ EXPORT void CC IO_Init_SyncOrASync_4EAC80(s32 bASync)
 #endif
     // Don't support ASync on non Windows or when using SDL IO
     {
-        (void)bASync;
+        (void) bASync;
 
         GetMovieIO().mIO_Open = IO_Open_Sync_4EAEB0;
         GetMovieIO().mIO_Close = IO_Close_Sync_4EAD90;
@@ -510,8 +510,8 @@ bool IO_DirectoryExists(const s8* pDirName)
 }
 
 #if !_WIN32
-#include <string>
-#include <regex>
+    #include <string>
+    #include <regex>
 
 static void replace_all(std::string& input, s8 find, const s8 replace)
 {
@@ -560,9 +560,7 @@ static bool WildCardMatcher(const std::string& text, std::string wildcardPattern
     replace_all(wildcardPattern, "\\*", ".*");
 
     std::regex pattern(wildcardPattern,
-        caseSensitive ?
-        std::regex_constants::ECMAScript :
-        std::regex_constants::ECMAScript | std::regex_constants::icase);
+                       caseSensitive ? std::regex_constants::ECMAScript : std::regex_constants::ECMAScript | std::regex_constants::icase);
 
     return std::regex_match(text, pattern);
 }
@@ -604,7 +602,7 @@ EXPORT void IO_EnumerateDirectory(const s8* fileName, TEnumCallBack cb)
                 if (WildCardMatcher(itemName, strFilter, true))
                 {
                     struct stat statbuf;
-                    if (stat(( + "./" + itemName).c_str(), &statbuf) == 0)
+                    if (stat((+"./" + itemName).c_str(), &statbuf) == 0)
                     {
                         const bool isFile = !S_ISDIR(statbuf.st_mode);
                         if (isFile)
@@ -614,7 +612,8 @@ EXPORT void IO_EnumerateDirectory(const s8* fileName, TEnumCallBack cb)
                     }
                 }
             }
-        } while (ent);
+        }
+        while (ent);
         closedir(dir);
     }
 #endif
