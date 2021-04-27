@@ -1125,6 +1125,9 @@ void Abe::vUpdate_41FDB0()
                     field_112_prev_motion = 0;
                     field_108_bMotionChanged = 1;
                     field_106_shot = 0;
+#if ORIGINAL_GAME_FIXES || ORIGINAL_GAME_FIX_DEATH_DELAY_AO
+                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit2_return_to_previous_motion); // OG Change - Fixes "Death Delay Glitch"
+#endif
                 }
 
                 if (Event_Get_417250(kEventScreenShake_19))
@@ -1154,7 +1157,7 @@ void Abe::vUpdate_41FDB0()
                         }
                     }
                 }
-                else if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit2))
+                else if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit2_return_to_previous_motion))
                 {
                     field_FC_current_motion = field_E4_previous_motion;
                     field_10_anim.Set_Animation_Data_402A40(
@@ -1163,7 +1166,7 @@ void Abe::vUpdate_41FDB0()
 
                     field_12C_timer = gnFrameCount_507670;
                     field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
-                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit2);
+                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
                 }
 
                 if (field_11C_regen_health_timer <= static_cast<s32>(gnFrameCount_507670) &&
@@ -5351,7 +5354,7 @@ void Abe::State_27_RunSlideStop_425B60()
             else if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590)) ||
                     (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left_4C6594)))
             {
-                field_2A8_flags.Set(Flags_2A8::e2A8_Bit2);
+                field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
                 field_E4_previous_motion = eAbeStates::State_28_RunTurn_425CE0;
                 field_E6_last_anim_frame = field_10_anim.field_92_current_frame;
             }
@@ -5651,7 +5654,7 @@ void Abe::State_31_HopLand_426940()
     if (field_10_anim.field_92_current_frame == 2  &&
         Input().IsAnyPressed(sInputKey_Hop_4C65A0))
     {
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2);
+        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
         field_E4_previous_motion = eAbeStates::State_29_HopBegin_4267B0;
         field_E6_last_anim_frame = 5;
     }
@@ -6465,7 +6468,7 @@ void Abe::State_45_MidWalkToSneak_424890()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2);
+        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
         field_E4_previous_motion = 42;
         field_E6_last_anim_frame = 10;
     }
@@ -6496,7 +6499,7 @@ void Abe::State_46_MidSneakToWalk_424AA0()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2);
+        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
         field_E4_previous_motion = 1;
         field_E6_last_anim_frame = 9;
     }
@@ -6616,7 +6619,7 @@ void Abe::State_51_MidWalkToRun_424670()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2);
+        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
         field_E4_previous_motion = 35;
         field_E6_last_anim_frame = 8;
     }
@@ -6681,7 +6684,7 @@ void Abe::State_53_MidRunToWalk_4256E0()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2);
+        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
         field_E4_previous_motion = 1;
         field_E6_last_anim_frame = 9;
     }
