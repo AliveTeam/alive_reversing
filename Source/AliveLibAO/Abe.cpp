@@ -1125,6 +1125,9 @@ void Abe::vUpdate_41FDB0()
                     field_112_prev_motion = 0;
                     field_108_bMotionChanged = 1;
                     field_106_shot = 0;
+#if ORIGINAL_GAME_FIXES || ORIGINAL_GAME_FIX_DEATH_DELAY
+                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit2); // OG Change - Fixes "Death Delay Glitch"
+#endif
                 }
 
                 if (Event_Get_417250(kEventScreenShake_19))
