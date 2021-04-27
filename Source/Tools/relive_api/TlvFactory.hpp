@@ -45,6 +45,6 @@ public:
         mReverseTlvFactory[tmp.Name()] = mTlvFactory[tlvType] = &fnCreate<TlvWrapperType>;
     }
 
-    std::map<TlvEnumType, FnTlvFactory<PathTlvType>> mTlvFactory;
+    std::unordered_map<TlvEnumType, FnTlvFactory<PathTlvType>> mTlvFactory;
     std::unordered_map<std::string, FnTlvFactory<PathTlvType>> mReverseTlvFactory;
 };

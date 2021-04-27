@@ -1,6 +1,8 @@
 Output
+.cache
 .vs
 .vscode
+compile_commands.json
 *.opensdf
 *.sdf
 *.suo

@@ -8,7 +8,6 @@
 #include <jsonxx/jsonxx.h>
 
 #include <string>
-#include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
@@ -72,6 +71,6 @@ public:
     void PropertiesToJson(const TypesCollectionBase& types, jsonxx::Object& properties);
 
 protected:
-    std::map<const void*, std::unique_ptr<BaseProperty>> mProperties;
+    std::unordered_map<const void*, std::unique_ptr<BaseProperty>> mProperties;
     std::unordered_set<std::string> mRegisteredPropertyNames;
 };

@@ -3,13 +3,17 @@
 #include "ITypeBase.hpp"
 #include "relive_api.hpp"
 
+#include "../AliveLibCommon/logger.hpp"
+
 #include <jsonxx/jsonxx.h>
 
+#include <cassert>
 #include <map>
 #include <unordered_map>
 #include <string>
-#include <typeinfo>
 #include <type_traits>
+#include <typeinfo>
+#include <unordered_map>
 
 template<class T>
 class EnumTypeBase : public ITypeBase
@@ -24,8 +28,33 @@ protected:
 
     void Add(T enumValue, const std::string& name)
     {
-        mMapping[enumValue] = name;
-        mReverseMapping[name] = enumValue;
+        {
+            const auto [it, inserted] = mValueToName.emplace(enumValue, name);
+            mOrderedValueToName.emplace(enumValue, name);
+
+            if(!inserted)
+            {
+                LOG_ERROR("Enum with value '" << enumValue << "' already present ('" << it->second << "'), could not insert '" << name << "'\n");
+
+                // We never expect to have two enumerators with the same value.
+                assert(false);
+            }
+        }
+
+        {
+            const auto [it, inserted] = mNameToValue.emplace(name, enumValue);
+            (void) it;
+            (void) inserted;
+
+            // We intentionally do not replace entries in `mNameToValue`, as we want to return the value of the first registered enumerator in case of multiple enumerators with the same name.
+
+#if 0
+            if(!inserted)
+            {
+                LOG_INFO("Enum with name '" << name << "' already present ('" << it->second << "'), could not insert '" << enumValue << "'\n");
+            }
+#endif
+        }
     }
 
     [[nodiscard]] const std::type_index& TypeIndex() const override
@@ -35,9 +64,9 @@ protected:
 
     [[nodiscard]] T ValueFromString(const std::string& valueString) const
     {
-        const auto it = mReverseMapping.find(valueString);
+        const auto it = mNameToValue.find(valueString);
 
-        if (it == mReverseMapping.end())
+        if (it == mNameToValue.end())
         {
             throw ReliveAPI::UnknownEnumValueException(valueString);
         }
@@ -47,9 +76,9 @@ protected:
 
     [[nodiscard]] const std::string& ValueToString(T valueToFind) const
     {
-        const auto it = mMapping.find(valueToFind);
+        const auto it = mValueToName.find(valueToFind);
 
-        if (it == mMapping.end())
+        if (it == mValueToName.end())
         {
             throw ReliveAPI::UnknownEnumValueException();
         }
@@ -65,7 +94,7 @@ protected:
     void ToJson(jsonxx::Array& obj) const override
     {
         jsonxx::Array enumVals;
-        for (const auto& [key, value] : mMapping)
+        for (const auto& [key, value] : mOrderedValueToName)
         {
             enumVals << value;
         }
@@ -78,7 +107,12 @@ protected:
     }
 
 private:
-    std::map<T, std::string> mMapping;
-    std::unordered_map<std::string, T> mReverseMapping;
+    // Order is important for serialization to JSON
+    std::map<T, std::string> mOrderedValueToName; 
+
+    // The unordered maps are to speed-up lookups
+    std::unordered_map<T, std::string> mValueToName;
+    std::unordered_map<std::string, T> mNameToValue;
+
     std::type_index mTypeIndex;
 };
