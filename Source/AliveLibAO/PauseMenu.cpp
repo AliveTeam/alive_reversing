@@ -297,7 +297,7 @@ void PauseMenu::VUpdate_44DFB0()
                         InputCommands::eUnPause_OrConfirm |
                         InputCommands::eDoAction |
                         InputCommands::eBack
-                    )
+                    );
 #endif
                     if (optionClicked)
                     {

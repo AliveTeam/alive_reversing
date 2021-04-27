@@ -195,7 +195,7 @@ class Bullet;
 enum Flags_2A8
 {
     e2A8_Bit1 = 0x1,
-    e2A8_Bit2 = 0x2,
+    e2A8_Bit2_return_to_previous_motion = 0x2,
     e2A8_Bit3_WalkToRun = 0x4,
     e2A8_Bit4_snap_abe = 0x8,
     e2A8_Bit5 = 0x10,
