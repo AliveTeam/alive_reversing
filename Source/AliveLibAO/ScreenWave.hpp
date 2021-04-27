@@ -55,5 +55,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ScreenWave, 0x40);
 
-}
-
+} // namespace AO

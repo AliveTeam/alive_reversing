@@ -75,6 +75,7 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     EXPORT static s32 CC CreateFromSaveState_421600(const u8* pData);
+
 private:
     EXPORT void vUpdate_420C50();
     EXPORT void dtor_420B60();
@@ -85,6 +86,7 @@ private:
     EXPORT s32 vGetSaveState_4217B0(u8* /*pSaveBuffer*/);
     EXPORT void EmitSparks_4206D0();
     EXPORT s16 DamageTouchingObjects_421060();
+
 private:
     GrinderStates field_F4_state;
     s16 field_F6_width;

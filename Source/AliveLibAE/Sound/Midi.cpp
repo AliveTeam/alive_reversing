@@ -29,14 +29,14 @@ static TSNDRestart sSNDRestartCallBack = nullptr;
 
 ALIVE_VAR(1, 0xBB2354, SeqIds, sSeq_Ids_word_BB2354, {});
 ALIVE_VAR(1, 0xbb2e3e, u16, sSnd_ReloadAbeResources_BB2E3E, 0);
-ALIVE_VAR(1, 0xbb2e38, OpenSeqHandle *, sSeqDataTable_BB2E38, nullptr);
+ALIVE_VAR(1, 0xbb2e38, OpenSeqHandle*, sSeqDataTable_BB2E38, nullptr);
 ALIVE_VAR(1, 0xbb2e3c, s16, sSeqsPlaying_count_word_BB2E3C, 0);
-ALIVE_VAR(1, 0xbb2e34, SoundBlockInfo *, sLastLoadedSoundBlockInfo_BB2E34, nullptr);
+ALIVE_VAR(1, 0xbb2e34, SoundBlockInfo*, sLastLoadedSoundBlockInfo_BB2E34, nullptr);
 ALIVE_VAR(1, 0x560f58, s16, sSFXPitchVariationEnabled_560F58, true);
 ALIVE_VAR(1, 0x560f40, s16, sNeedToHashSeqNames_560F40, 1);
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
-const SoundBlockInfo soundBlock = { "MONK.VH", "MONK.VB", -1, nullptr };
+const SoundBlockInfo soundBlock = {"MONK.VH", "MONK.VB", -1, nullptr};
 
 ALIVE_VAR(1, 0x560F48, SoundBlockInfo, sMonkVh_Vb_560F48, soundBlock);
 
@@ -127,7 +127,6 @@ public:
     {
         return ResourceManager::LoadResourceFile_49C170(pFileName, pCamera);
     }
-
 };
 
 static AEMidiVars sAEMidiVars;
@@ -186,7 +185,7 @@ EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
     {
         return 0;
     }
-    
+
     // Find the VH file record
     s32 headerSize = 0;
     LvlFileRecord* pVabHeaderFile = sLvlArchive_5BC520.Find_File_Record_433160(pSoundBlockInfo->field_0_vab_header_name);
@@ -414,14 +413,14 @@ EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, 
     else
     {
         v3 = -1 - (-pitch >> 7);
-        v4 = 127 - (-(s8)pitch & 127);
+        v4 = 127 - (-(s8) pitch & 127);
     }
 
     for (s16 i = 0; i < 24; i++) // TODO: use kNumChannels
     {
         if ((1 << i) & channelsBits)
         {
-            const s16 vabId = 0; // Not used by target func
+            const s16 vabId = 0;   // Not used by target func
             const s16 program = 0; // Not used by target func
             SsUtChangePitch_4FDF70(i, program, vabId, pSfx->field_2_note, 0, static_cast<s16>(static_cast<s32>(pSfx->field_2_note) + v3), v4);
         }
@@ -445,7 +444,7 @@ EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16
     }
 
     // Note: Inlined in psx
-    const s32 channelBits = MIDI_Play_Single_Note_4CA1B0(vabId | ((s16)program << 8), note << 8, volClamped, volClamped);
+    const s32 channelBits = MIDI_Play_Single_Note_4CA1B0(vabId | ((s16) program << 8), note << 8, volClamped, volClamped);
     if (!GetMidiVars()->sSFXPitchVariationEnabled())
     {
         return 0;
@@ -455,7 +454,7 @@ EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16
     {
         s16 randomValue = Math_RandomRange_496AB0(min, max);
 
-        s32 v9; // edi
+        s32 v9;  // edi
         s16 v10; // bx
         if (randomValue >= 0)
         {
@@ -465,7 +464,7 @@ EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16
         else
         {
             v9 = -1 - (-randomValue >> 7);
-            v10 = 127 - (-(s8)randomValue & 127);
+            v10 = 127 - (-(s8) randomValue & 127);
         }
 
         for (s16 i = 0; i < 24; i++) // TODO: Use kNumChannels

@@ -125,99 +125,99 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
 {
     switch (field_42_state)
     {
-    case State_Wait_For_Load_Request:
-        // NOTE: Pruned branches here from stub that was hard coded to return 0
-        if (!field_20_files_pending_loading.IsEmpty())
-        {
-            field_2C_pFileItem = field_20_files_pending_loading.ItemAt(0);
-
-            LvlFileRecord* pLvlFileRec1 = sLvlArchive_5BC520.Find_File_Record_433160(field_2C_pFileItem->field_0_fileName);
-            field_34_num_sectors = pLvlFileRec1->field_10_num_sectors;
-            field_30_start_sector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4_cd_pos;
-            PSX_Pos_To_CdLoc_4FADD0(field_30_start_sector, &field_44_cdLoc);
-
-            sbLoadingInProgress_5C1B96 = 1;
-            field_42_state = State_Allocate_Memory_For_File;
-        }
-        break;
-
-    case State_Allocate_Memory_For_File:
-        field_38_ppRes = ResourceManager::Allocate_New_Block_49BFB0(field_34_num_sectors << 11, BlockAllocMethod::eFirstMatching);
-        if (field_38_ppRes)
-        {
-            field_3C_pLoadingHeader = Get_Header_49C410(field_38_ppRes);
-            field_3C_pLoadingHeader->field_8_type = Resource_Pend;
-            ResourceManager::Increment_Pending_Count_49C5F0();
-            field_42_state = State_Seek_To_File;
-        }
-        else
-        {
-            // Failed to allocate, free some memory and loop around for another go
-            ResourceManager::Reclaim_Memory_49C470(200000);
-        }
-        break;
-
-    case State_Seek_To_File:
-        if (!PSX_CD_File_Seek_4FB1E0(2, &field_44_cdLoc))
-        {
-            if (field_40_seek_attempts < 20u)
+        case State_Wait_For_Load_Request:
+            // NOTE: Pruned branches here from stub that was hard coded to return 0
+            if (!field_20_files_pending_loading.IsEmpty())
             {
-                field_40_seek_attempts++;
-                return;
+                field_2C_pFileItem = field_20_files_pending_loading.ItemAt(0);
+
+                LvlFileRecord* pLvlFileRec1 = sLvlArchive_5BC520.Find_File_Record_433160(field_2C_pFileItem->field_0_fileName);
+                field_34_num_sectors = pLvlFileRec1->field_10_num_sectors;
+                field_30_start_sector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4_cd_pos;
+                PSX_Pos_To_CdLoc_4FADD0(field_30_start_sector, &field_44_cdLoc);
+
+                sbLoadingInProgress_5C1B96 = 1;
+                field_42_state = State_Allocate_Memory_For_File;
             }
+            break;
 
-            sub_465BC0(0); // Crashes if forced to be called.. ? Seems to display the can't find demo/fmv message
-
-            while (!PSX_CD_File_Seek_4FB1E0(2, &field_44_cdLoc))
+        case State_Allocate_Memory_For_File:
+            field_38_ppRes = ResourceManager::Allocate_New_Block_49BFB0(field_34_num_sectors << 11, BlockAllocMethod::eFirstMatching);
+            if (field_38_ppRes)
             {
-                // Do nothing
+                field_3C_pLoadingHeader = Get_Header_49C410(field_38_ppRes);
+                field_3C_pLoadingHeader->field_8_type = Resource_Pend;
+                ResourceManager::Increment_Pending_Count_49C5F0();
+                field_42_state = State_Seek_To_File;
             }
-        }
-        field_42_state = State_Read_Sectors_ASync;
-        field_40_seek_attempts = 0;
-        break;
+            else
+            {
+                // Failed to allocate, free some memory and loop around for another go
+                ResourceManager::Reclaim_Memory_49C470(200000);
+            }
+            break;
 
-    case State_Read_Sectors_ASync:
-        if (PSX_CD_File_Read_4FB210(field_34_num_sectors, field_3C_pLoadingHeader))
+        case State_Seek_To_File:
+            if (!PSX_CD_File_Seek_4FB1E0(2, &field_44_cdLoc))
+            {
+                if (field_40_seek_attempts < 20u)
+                {
+                    field_40_seek_attempts++;
+                    return;
+                }
+
+                sub_465BC0(0); // Crashes if forced to be called.. ? Seems to display the can't find demo/fmv message
+
+                while (!PSX_CD_File_Seek_4FB1E0(2, &field_44_cdLoc))
+                {
+                    // Do nothing
+                }
+            }
+            field_42_state = State_Read_Sectors_ASync;
+            field_40_seek_attempts = 0;
+            break;
+
+        case State_Read_Sectors_ASync:
+            if (PSX_CD_File_Read_4FB210(field_34_num_sectors, field_3C_pLoadingHeader))
+            {
+                field_42_state = State_Wait_For_Read_Complete;
+                const s32 bWaitRet = PSX_CD_FileIOWait_4FB260(1);
+                if (bWaitRet <= 0)
+                {
+                    field_42_state = bWaitRet != -1 ? State_File_Read_Completed : State_Seek_To_File;
+                }
+            }
+            else
+            {
+                field_42_state = State_Seek_To_File;
+            }
+            break;
+
+        case State_Wait_For_Read_Complete:
         {
-            field_42_state = State_Wait_For_Read_Complete;
             const s32 bWaitRet = PSX_CD_FileIOWait_4FB260(1);
             if (bWaitRet <= 0)
             {
                 field_42_state = bWaitRet != -1 ? State_File_Read_Completed : State_Seek_To_File;
             }
         }
-        else
-        {
-            field_42_state = State_Seek_To_File;
-        }
         break;
 
-    case State_Wait_For_Read_Complete:
-    {
-        const s32 bWaitRet = PSX_CD_FileIOWait_4FB260(1);
-        if (bWaitRet <= 0)
-        {
-            field_42_state = bWaitRet != -1 ? State_File_Read_Completed : State_Seek_To_File;
-        }
-    }
-    break;
+        case State_File_Read_Completed:
+            Move_Resources_To_DArray_49C1C0(field_38_ppRes, &field_48_dArray);
+            field_42_state = State_Load_Completed;
+            break;
 
-    case State_File_Read_Completed:
-        Move_Resources_To_DArray_49C1C0(field_38_ppRes, &field_48_dArray);
-        field_42_state = State_Load_Completed;
-        break;
+        case State_Load_Completed:
+            sbLoadingInProgress_5C1B96 = 0;
+            OnResourceLoaded_464CE0();
+            field_48_dArray.field_4_used_size = 0; // TODO: Needs to be private
+            Decrement_Pending_Count_49C610();
+            field_42_state = State_Wait_For_Load_Request;
+            break;
 
-    case State_Load_Completed:
-        sbLoadingInProgress_5C1B96 = 0;
-        OnResourceLoaded_464CE0();
-        field_48_dArray.field_4_used_size = 0; // TODO: Needs to be private
-        Decrement_Pending_Count_49C610();
-        field_42_state = State_Wait_For_Load_Request;
-        break;
-
-    default:
-        return;
+        default:
+            return;
     }
 }
 
@@ -241,7 +241,7 @@ void ResourceManager::OnResourceLoaded_464CE0()
         {
             // Find matching file part
             u8** ppRes = nullptr;
-            for (s32 i=0; i< field_48_dArray.Size(); i++)
+            for (s32 i = 0; i < field_48_dArray.Size(); i++)
             {
                 if (field_48_dArray.ItemAt(i))
                 {
@@ -343,7 +343,7 @@ void ResourceManager::LoadResource_464EE0(const s8* pFileItem, u32 type, u32 res
         return;
     }
 
-    for (s32 i=0; i<field_20_files_pending_loading.Size(); i++)
+    for (s32 i = 0; i < field_20_files_pending_loading.Size(); i++)
     {
         ResourceManager_FileRecord* pFileRec = field_20_files_pending_loading.ItemAt(i);
         if (!pFileRec)
@@ -426,9 +426,9 @@ void ResourceManager::LoadResourcesFromList_465150(const s8* pFileName, Resource
     for (s32 i = 0; i < pTypeAndIdList->field_0_count; i++)
     {
         if (!GetLoadedResource_49C2A0(
-            pTypeAndIdList->field_4_items[i].field_0_type,
-            pTypeAndIdList->field_4_items[i].field_4_res_id,
-            0, 0))
+                pTypeAndIdList->field_4_items[i].field_0_type,
+                pTypeAndIdList->field_4_items[i].field_4_res_id,
+                0, 0))
         {
             // A resource we need is missing
             allResourcesLoaded = false;
@@ -453,7 +453,7 @@ void ResourceManager::LoadResourcesFromList_465150(const s8* pFileName, Resource
 
     // Check if we already have a file record or not
     ResourceManager_FileRecord* pFoundFileRecord = nullptr;
-    for (s32 fileIdx1=0; fileIdx1 < field_20_files_pending_loading.Size(); fileIdx1++)
+    for (s32 fileIdx1 = 0; fileIdx1 < field_20_files_pending_loading.Size(); fileIdx1++)
     {
         ResourceManager_FileRecord* pFileRec = field_20_files_pending_loading.ItemAt(fileIdx1);
         if (!pFileRec)
@@ -538,7 +538,7 @@ void ResourceManager::LoadingLoop_465590(s16 bShowLoadingIcon)
     while (!field_20_files_pending_loading.IsEmpty())
     {
         SYS_EventsPump_494580();
-        VUpdate();  // vLoadFile_StateMachine_464A70 - process loading of files
+        VUpdate(); // vLoadFile_StateMachine_464A70 - process loading of files
         PSX_VSync_4F6170(0);
         const s32 ticks = loading_ticks_5C1BAC++ + 1;
         if (bShowLoadingIcon && !bHideLoadingIcon_5C1BAA && ticks > 180)
@@ -666,7 +666,6 @@ void ResourceManager::VScreenChanged()
 
 ResourceManager::ResourceManager()
 {
-
 }
 
 void CC ResourceManager::Init_49BCE0()
@@ -704,7 +703,7 @@ void CC ResourceManager::Pop_List_Item_49BD90(ResourceManager::ResourceHeapItem*
 {
     pListItem->field_0_ptr = nullptr;
     pListItem->field_4_pNext = sSecondLinkedListItem_5D29E8; // point to the current
-    sSecondLinkedListItem_5D29E8 = pListItem; // set current to old
+    sSecondLinkedListItem_5D29E8 = pListItem;                // set current to old
 }
 
 ResourceManager::ResourceHeapItem* CC ResourceManager::Split_block_49BDC0(ResourceManager::ResourceHeapItem* pItem, s32 size)
@@ -715,7 +714,7 @@ ResourceManager::ResourceHeapItem* CC ResourceManager::Split_block_49BDC0(Resour
     {
         ResourceHeapItem* pNewListItem = ResourceManager::Push_List_Item_49BD70();
         pNewListItem->field_4_pNext = pItem->field_4_pNext; // New item points to old
-        pItem->field_4_pNext = pNewListItem; // Old item points to new
+        pItem->field_4_pNext = pNewListItem;                // Old item points to new
 
         pNewListItem->field_0_ptr = pItem->field_0_ptr + size; // Point the split point
 
@@ -836,27 +835,27 @@ u8** CC ResourceManager::Allocate_New_Block_49BFB0(s32 sizeBytes, BlockAllocMeth
             {
                 switch (allocMethod)
                 {
-                case BlockAllocMethod::eFirstMatching:
-                    // Use first matching item
-                    sManagedMemoryUsedSize_AB4A04 += size;
-                    if (sManagedMemoryUsedSize_AB4A04 >= sPeakedManagedMemUsage_AB4A08)
-                    {
-                        sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
-                    }
-                    return &Split_block_49BDC0(pListItem, size)->field_0_ptr;
-                case BlockAllocMethod::eNearestMatching:
-                    // Find nearest matching item
-                    if (pResHeader->field_0_size < pHeaderToUse->field_0_size)
-                    {
+                    case BlockAllocMethod::eFirstMatching:
+                        // Use first matching item
+                        sManagedMemoryUsedSize_AB4A04 += size;
+                        if (sManagedMemoryUsedSize_AB4A04 >= sPeakedManagedMemUsage_AB4A08)
+                        {
+                            sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
+                        }
+                        return &Split_block_49BDC0(pListItem, size)->field_0_ptr;
+                    case BlockAllocMethod::eNearestMatching:
+                        // Find nearest matching item
+                        if (pResHeader->field_0_size < pHeaderToUse->field_0_size)
+                        {
+                            pHeapMem = pListItem;
+                            pHeaderToUse = pResHeader;
+                        }
+                        break;
+                    case BlockAllocMethod::eLastMatching:
+                        // Will always to set to the last most free item
                         pHeapMem = pListItem;
                         pHeaderToUse = pResHeader;
-                    }
-                    break;
-                case BlockAllocMethod::eLastMatching:
-                    // Will always to set to the last most free item
-                    pHeapMem = pListItem;
-                    pHeaderToUse = pResHeader;
-                    break;
+                        break;
                 }
             }
         }
@@ -879,24 +878,25 @@ u8** CC ResourceManager::Allocate_New_Block_49BFB0(s32 sizeBytes, BlockAllocMeth
 
     switch (allocMethod)
     {
-    // Note: eFirstMatching case not possible here as pHeapMem case would have early returned
-    case BlockAllocMethod::eNearestMatching:
-        return &ResourceManager::Split_block_49BDC0(pHeapMem, size)->field_0_ptr;
+        // Note: eFirstMatching case not possible here as pHeapMem case would have early returned
+        case BlockAllocMethod::eNearestMatching:
+            return &ResourceManager::Split_block_49BDC0(pHeapMem, size)->field_0_ptr;
 
-    case BlockAllocMethod::eLastMatching:
-        if (pHeaderToUse->field_0_size - size >= sizeof(Header))
-        {
-            return &Split_block_49BDC0(pHeapMem, pHeaderToUse->field_0_size - size)->field_4_pNext->field_0_ptr;
-        }
-        else
-        {
-            // No need to split as the size must be exactly the size of a resource header
-            return &pHeapMem->field_0_ptr;
-        }
-        break;
+        case BlockAllocMethod::eLastMatching:
+            if (pHeaderToUse->field_0_size - size >= sizeof(Header))
+            {
+                return &Split_block_49BDC0(pHeapMem, pHeaderToUse->field_0_size - size)->field_4_pNext->field_0_ptr;
+            }
+            else
+            {
+                // No need to split as the size must be exactly the size of a resource header
+                return &pHeapMem->field_0_ptr;
+            }
+            break;
 
-    // Should be impossible to get here
-    default: return nullptr;
+        // Should be impossible to get here
+        default:
+            return nullptr;
     }
 }
 
@@ -915,7 +915,7 @@ s16 CC ResourceManager::LoadResourceFile_49C170(const s8* pFileName, Camera* pCa
 
 s16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArrayT<u8*>* pArray)
 {
-    ResourceHeapItem* pItemToAdd = (ResourceHeapItem *)ppRes;
+    ResourceHeapItem* pItemToAdd = (ResourceHeapItem*) ppRes;
     Header* pHeader = Get_Header_49C410(&pItemToAdd->field_0_ptr);
     if (pHeader->field_8_type != Resource_End)
     {
@@ -927,7 +927,7 @@ s16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArray
                 pArray->Push_Back_40CAF0(pItemToAdd);
             }
 
-            pHeader = (Header *)((s8 *)pHeader + pHeader->field_0_size);
+            pHeader = (Header*) ((s8*) pHeader + pHeader->field_0_size);
 
             // Out of heap space
             if (pHeader->field_0_size >= kResHeapSize)
@@ -938,7 +938,7 @@ s16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArray
             ResourceHeapItem* pNewListItem = ResourceManager::Push_List_Item_49BD70();
             pNewListItem->field_4_pNext = pItemToAdd->field_4_pNext;
             pItemToAdd->field_4_pNext = pNewListItem;
-            pNewListItem->field_0_ptr = (u8*)&pHeader[1];// point after header
+            pNewListItem->field_0_ptr = (u8*) &pHeader[1]; // point after header
             pItemToAdd = pNewListItem;
 
             // No more resources to add
@@ -956,13 +956,13 @@ s16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArray
         {
             // Size of next item - location of current res
             // TODO 64bit warning
-            pHeader->field_0_size = static_cast<u32>(pItemToAdd->field_4_pNext->field_0_ptr - (u8*)pHeader - sizeof(Header));
+            pHeader->field_0_size = static_cast<u32>(pItemToAdd->field_4_pNext->field_0_ptr - (u8*) pHeader - sizeof(Header));
         }
         else
         {
             // Isn't a next item so use ptr to end of heap - location of current res
             // TODO: 64bit warning
-            pHeader->field_0_size = static_cast<u32>(spResourceHeapEnd_AB49F8 - (u8 *)pHeader);
+            pHeader->field_0_size = static_cast<u32>(spResourceHeapEnd_AB49F8 - (u8*) pHeader);
         }
         sManagedMemoryUsedSize_AB4A04 -= pHeader->field_0_size;
     }
@@ -1099,17 +1099,17 @@ void CC ResourceManager::Reclaim_Memory_49C470(u32 sizeToReclaim)
                     u8* pDataStart = pNext->field_0_ptr - sizeof(Header);
                     if (sizeToMove > 0)
                     {
-                        const size_t offset = (s8 *)pCurrentHeader - (s8 *)pNextHeader;
+                        const size_t offset = (s8*) pCurrentHeader - (s8*) pNextHeader;
                         memmove(pDataStart + offset, pDataStart, sizeToMove);
                     }
 
                     // Get resource header after the current one
-                    Header* pNextResHeader = (Header *)((s8 *)pCurrentHeader + pCurrentHeader->field_0_size);
+                    Header* pNextResHeader = (Header*) ((s8*) pCurrentHeader + pCurrentHeader->field_0_size);
                     pNextResHeader->field_0_size = savedSize;
                     pNextResHeader->field_8_type = Resource_Free;
 
-                    pNext->field_0_ptr = (u8*)&pCurrentHeader[1]; // Data starts after header
-                    pListItem->field_0_ptr = (u8*)&pNextResHeader[1]; // Data starts after header
+                    pNext->field_0_ptr = (u8*) &pCurrentHeader[1];     // Data starts after header
+                    pListItem->field_0_ptr = (u8*) &pNextResHeader[1]; // Data starts after header
                     pListItem->field_4_pNext = pNext->field_4_pNext;
                     pNext->field_4_pNext = pListItem;
 
@@ -1169,6 +1169,6 @@ void CC ResourceManager::Free_Resource_Of_Type_49C6B0(u32 type)
 
 void CC ResourceManager::NoEffect_49C700()
 {
-     // NOTE: Does nothing because the real func just seems to try to tally
-     // up some sort of stat that is never used.
+    // NOTE: Does nothing because the real func just seems to try to tally
+    // up some sort of stat that is never used.
 }

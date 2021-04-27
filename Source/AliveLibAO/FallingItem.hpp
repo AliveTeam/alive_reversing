@@ -77,9 +77,7 @@ public:
     FP field_12C_ypos;
     s32 field_130_sound_channels;
     s32 field_134_created_gnFrame;
-
 };
 ALIVE_ASSERT_SIZEOF(FallingItem, 0x138);
 
-}
-
+} // namespace AO

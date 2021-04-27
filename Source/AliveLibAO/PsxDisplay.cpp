@@ -9,7 +9,7 @@
 
 namespace AO {
 
-const PSX_Display_Params kDisplayParams = { 640, 240, 16, 1, 42, 32, 1, 0 };
+const PSX_Display_Params kDisplayParams = {640, 240, 16, 1, 42, 32, 1, 0};
 ALIVE_VAR(1, 0x4BB830, PSX_Display_Params, gPsxDisplayParams_4BB830, kDisplayParams);
 ALIVE_VAR(1, 0x504C78, PsxDisplay, gPsxDisplay_504C78, {});
 
@@ -20,7 +20,7 @@ PsxDisplay* PsxDisplay::ctor_40DAB0(const PSX_Display_Params* pParams)
     field_A_buffer_index = 0;
     field_4_bpp = pParams->field_4_bpp;
 
-    field_0_width =  pParams->field_0_width;
+    field_0_width = pParams->field_0_width;
     field_2_height = pParams->field_2_height;
 
     field_6_max_buffers = pParams->field_6_max_buffers;
@@ -33,7 +33,7 @@ PsxDisplay* PsxDisplay::ctor_40DAB0(const PSX_Display_Params* pParams)
     if (pParams->field_4_bpp == 24)
     {
         field_6_max_buffers = 1;
-        field_0_width = 3 *  pParams->field_0_width / 2;
+        field_0_width = 3 * pParams->field_0_width / 2;
     }
 
     s16 w = 0;
@@ -50,7 +50,7 @@ PsxDisplay* PsxDisplay::ctor_40DAB0(const PSX_Display_Params* pParams)
         v1 = pParams->field_2_height;
         Vram_alloc_explicit_4507F0(0, 0, w, pParams->field_A_k32 + pParams->field_2_height);
     }
-    
+
     Pal_Reset_4476C0(v1, pParams->field_A_k32);
 
     if (pParams->field_C_k1 == 2)
@@ -207,4 +207,4 @@ EXPORT void CC DebugFont_Flush_487F50()
     ::DebugFont_Flush_4DD050();
 }
 
-}
+} // namespace AO

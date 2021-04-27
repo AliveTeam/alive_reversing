@@ -20,24 +20,24 @@ void IRenderer::CreateRenderer(Renderers type)
 
     switch (type)
     {
-    case Renderers::Software:
-        gRenderer = new SoftwareRenderer();
-        break;
+        case Renderers::Software:
+            gRenderer = new SoftwareRenderer();
+            break;
 
-    case Renderers::OpenGL:
-        gRenderer = new OpenGLRenderer();
-        break;
+        case Renderers::OpenGL:
+            gRenderer = new OpenGLRenderer();
+            break;
 
 #ifdef _WIN32
-    // Windows only
-    case Renderers::DirectX9:
-         gRenderer = new DirectX9Renderer();
-        break;
+        // Windows only
+        case Renderers::DirectX9:
+            gRenderer = new DirectX9Renderer();
+            break;
 #endif
 
-    default:
-        ALIVE_FATAL("Unknown or unsupported renderer type");
-        break;
+        default:
+            ALIVE_FATAL("Unknown or unsupported renderer type");
+            break;
     }
 }
 

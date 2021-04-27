@@ -226,13 +226,13 @@ public:
 
 protected:
     // Helper to check if a timer has expired
-    template<class T>
+    template <class T>
     static inline bool Expired(const T& value)
     {
         return static_cast<s32>(sGnFrame_5C1B84) > value;
     }
 
-    template<class T>
+    template <class T>
     static s32 MakeTimer(const T value)
     {
         return static_cast<s32>(sGnFrame_5C1B84) + value;

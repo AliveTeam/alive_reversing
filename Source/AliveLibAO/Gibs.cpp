@@ -11,30 +11,25 @@
 
 namespace AO {
 
-const Gib_Data kGibData_4C30B0[6] =
-{
-    { 7208, 7248, 7288, 50, 25, 25 },
-    { 5948, 6028, 5988, 44, 26, 423 },
-    { 28376, 28416, 28416, 111, 63, 576 },
-    { 7440, 7480, 7400, 72, 43, 217 },
-    { 7208, 7248, 7288, 50, 25, 25 },
-    { 3928, 3928, 3928, 37, 30, 365 }
-};
+const Gib_Data kGibData_4C30B0[6] = {
+    {7208, 7248, 7288, 50, 25, 25},
+    {5948, 6028, 5988, 44, 26, 423},
+    {28376, 28416, 28416, 111, 63, 576},
+    {7440, 7480, 7400, 72, 43, 217},
+    {7208, 7248, 7288, 50, 25, 25},
+    {3928, 3928, 3928, 37, 30, 365}};
 
-TintEntry sAbeGibTints_4C6438[5] =
-{
-    { 5, 25u, 25u, 25u },
-    { 6, 25u, 25u, 25u },
-    { 8, 125u, 125u, 95u },
-    { 9, 120u, 120u, 90u },
-    { -1, 102u, 102u, 102u }
-};
+TintEntry sAbeGibTints_4C6438[5] = {
+    {5, 25u, 25u, 25u},
+    {6, 25u, 25u, 25u},
+    {8, 125u, 125u, 95u},
+    {9, 120u, 120u, 90u},
+    {-1, 102u, 102u, 102u}};
 
-TintEntry sMudGibTints_4CD320[3] =
-{
-    { 5, 25u, 25u, 25u },
-    { 6, 25u, 25u, 25u },
-    { -1, 87u, 103u, 67u },
+TintEntry sMudGibTints_4CD320[3] = {
+    {5, 25u, 25u, 25u},
+    {6, 25u, 25u, 25u},
+    {-1, 87u, 103u, 67u},
 };
 
 static FP GibRand(FP scale)
@@ -66,7 +61,7 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     field_BC_sprite_scale = scale;
     field_A8_xpos = xpos;
     field_AC_ypos = ypos + FP_FromInteger(2);
-    
+
     field_F0_timer = gnFrameCount_507670 + 91;
 
     if (scale == FP_FromInteger(1))
@@ -116,7 +111,6 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     if (gibType == 0)
     {
         SetTint_418750(sAbeGibTints_4C6438, gMap_507BA8.field_0_current_level);
-      
     }
     else if (gibType == 4)
     {
@@ -132,15 +126,15 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
         {
             // 2 arm parts
             if (!pPart->field_18_anim.Init_402D20(
-                field_E4_pGibData->field_4_arm,
-                gObjList_animations_505564,
-                this,
-                static_cast<s16>(field_E4_pGibData->field_C_max_w),
-                static_cast<s16>(field_E4_pGibData->field_10_max_h),
-                ppAnimData,
-                1,
-                0,
-                0))
+                    field_E4_pGibData->field_4_arm,
+                    gObjList_animations_505564,
+                    this,
+                    static_cast<s16>(field_E4_pGibData->field_C_max_w),
+                    static_cast<s16>(field_E4_pGibData->field_10_max_h),
+                    ppAnimData,
+                    1,
+                    0,
+                    0))
             {
                 field_5C4_parts_used_count = i;
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -151,15 +145,15 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
         {
             // 2 body parts
             if (!pPart->field_18_anim.Init_402D20(
-                field_E4_pGibData->field_8_body,
-                gObjList_animations_505564,
-                this,
-                static_cast<s16>(field_E4_pGibData->field_C_max_w),
-                static_cast<s16>(field_E4_pGibData->field_10_max_h),
-                ppAnimData,
-                1,
-                0,
-                0))
+                    field_E4_pGibData->field_8_body,
+                    gObjList_animations_505564,
+                    this,
+                    static_cast<s16>(field_E4_pGibData->field_C_max_w),
+                    static_cast<s16>(field_E4_pGibData->field_10_max_h),
+                    ppAnimData,
+                    1,
+                    0,
+                    0))
             {
                 field_5C4_parts_used_count = i;
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -203,7 +197,6 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     }
 
     return this;
-
 }
 
 void Gibs::VUpdate()
@@ -336,4 +329,4 @@ BaseGameObject* Gibs::VDestructor(s32 flags)
     return Vdtor_4083D0(flags);
 }
 
-}
+} // namespace AO

@@ -7,8 +7,8 @@
 
 #if !USE_SDL2_SOUND
 
-#include <mmeapi.h>
-#include <timeapi.h>
+    #include <mmeapi.h>
+    #include <timeapi.h>
 
 ALIVE_VAR(1, 0xbbc388, LPDIRECTSOUNDBUFFER, sPrimarySoundBuffer_BBC388, 0);
 
@@ -22,32 +22,32 @@ const s8* SND_HR_Err_To_String_DSound(HRESULT hr)
 {
     switch (hr)
     {
-    case S_OK:
-        return "";
-    case DSERR_INVALIDCALL:
-        return "DSERR_INVALIDCALL: This function is not valid for the current state of this object.";
-    case DSERR_PRIOLEVELNEEDED:
-        return "DSERR_PRIOLEVELNEEDED: The caller does not have the priority level required for the function to succeed.";
-    case DSERR_NODRIVER:
-        return "DSERR_NODRIVER: No sound driver is available for use.";
-    case DSERR_OTHERAPPHASPRIO:
-        return "DSERR_OTHERAPPHASPRIO: This value is obsolete and is not used.";
-    case DSERR_UNINITIALIZED:
-        return "DSERR_UNINITIALIZED: The IDirectSound::Initialize method has not been called or has not been called successfully before other methods were called.";
-    case DSERR_CONTROLUNAVAIL:
-        return "DSERR_CONTROLUNAVAIL: The control (volume, pan, and so forth) requested by the caller is not available.";
-    case DSERR_INVALIDPARAM:
-        return "DSERR_INVALIDPARAM: An invalid parameter was passed to the returning function.";
-    case DSERR_ALLOCATED:
-        return "DSERR_ALLOCATED: The request failed because resources, such as a priority level, were already in use by another caller.";
-    case DSERR_OUTOFMEMORY:
-        return "DSERR_OUTOFMEMORY: The DirectSound subsystem could not allocate sufficient memory to complete the caller's request.";
-    case DSERR_UNSUPPORTED:
-        return "DSERR_UNSUPPORTED: The function called is not supported at this time. ";
-    case DSERR_GENERIC:
-        return "DSERR_GENERIC: An undetermined error occurred inside the DirectSound subsystem.";
-    case DSERR_NOAGGREGATION:
-        return "DSERR_NOAGGREGATION: The object does not support aggregation.";
+        case S_OK:
+            return "";
+        case DSERR_INVALIDCALL:
+            return "DSERR_INVALIDCALL: This function is not valid for the current state of this object.";
+        case DSERR_PRIOLEVELNEEDED:
+            return "DSERR_PRIOLEVELNEEDED: The caller does not have the priority level required for the function to succeed.";
+        case DSERR_NODRIVER:
+            return "DSERR_NODRIVER: No sound driver is available for use.";
+        case DSERR_OTHERAPPHASPRIO:
+            return "DSERR_OTHERAPPHASPRIO: This value is obsolete and is not used.";
+        case DSERR_UNINITIALIZED:
+            return "DSERR_UNINITIALIZED: The IDirectSound::Initialize method has not been called or has not been called successfully before other methods were called.";
+        case DSERR_CONTROLUNAVAIL:
+            return "DSERR_CONTROLUNAVAIL: The control (volume, pan, and so forth) requested by the caller is not available.";
+        case DSERR_INVALIDPARAM:
+            return "DSERR_INVALIDPARAM: An invalid parameter was passed to the returning function.";
+        case DSERR_ALLOCATED:
+            return "DSERR_ALLOCATED: The request failed because resources, such as a priority level, were already in use by another caller.";
+        case DSERR_OUTOFMEMORY:
+            return "DSERR_OUTOFMEMORY: The DirectSound subsystem could not allocate sufficient memory to complete the caller's request.";
+        case DSERR_UNSUPPORTED:
+            return "DSERR_UNSUPPORTED: The function called is not supported at this time. ";
+        case DSERR_GENERIC:
+            return "DSERR_GENERIC: An undetermined error occurred inside the DirectSound subsystem.";
+        case DSERR_NOAGGREGATION:
+            return "DSERR_NOAGGREGATION: The object does not support aggregation.";
     }
 
     if (FAILED(hr))
@@ -78,11 +78,11 @@ s32 CC SND_CreateDS_DSound(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
     {
         // TODO: HACK
         HWND hwnd;
-#if USE_SDL2
+    #if USE_SDL2
         hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd_4F2C70());
-#else
+    #else
         hwnd = Sys_GetHWnd_4F2C70();
-#endif
+    #endif
 
         if (hwnd)
         {
@@ -156,7 +156,7 @@ s32 CC SND_CreateDS_DSound(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
                         if (sSoundSamples_BBBF38[i])
                         {
                             SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
-                            SND_LoadSamples_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (u8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
+                            SND_LoadSamples_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (u8) sSoundSamples_BBBF38[i]->field_1D_blockAlign);
                             if ((i + 1) == sLoadedSoundsCount_BBC394)
                                 break;
                         }
@@ -235,13 +235,13 @@ s32 CC SND_Clear_DSound(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
 
     if (pLocked1)
     {
-        u8* ptr = (u8*)pLocked1;
+        u8* ptr = (u8*) pLocked1;
         memset(ptr, 0, locked1Size);
     }
 
     if (pLocked2)
     {
-        u8* ptr = (u8*)pLocked2;
+        u8* ptr = (u8*) pLocked2;
         memset(ptr, 0, locked2Size);
     }
 
@@ -251,8 +251,8 @@ s32 CC SND_Clear_DSound(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
 
 void SND_InitVolumeTable_DSound()
 {
-#define max(a,b) (((a) > (b)) ? (a) : (b))
-#define min(a,b) (((a) < (b)) ? (a) : (b))
+    #define max(a, b) (((a) > (b)) ? (a) : (b))
+    #define min(a, b) (((a) < (b)) ? (a) : (b))
 
     for (s32 i = 0; i < 127; i++)
     {
@@ -313,12 +313,12 @@ s32 CC SND_LoadSamples_DSound(const SoundEntry* pSnd, u32 sampleOffset, u8* pSou
         return -1;
     }
 
-    u32 *leftChannelBuffer;
+    u32* leftChannelBuffer;
     s32 leftChannelSize;
-    s8 * rightChannelBuffer;
+    s8* rightChannelBuffer;
     s32 rightChannelSize;
 
-    s32 lockHR = pSnd->field_4_pDSoundBuffer->Lock(offsetBytes, bufferSizeBytes, (LPVOID *)&leftChannelBuffer, (LPDWORD)&leftChannelSize, (LPVOID *)&rightChannelBuffer, (LPDWORD)&rightChannelSize, 0);
+    s32 lockHR = pSnd->field_4_pDSoundBuffer->Lock(offsetBytes, bufferSizeBytes, (LPVOID*) &leftChannelBuffer, (LPDWORD) &leftChannelSize, (LPVOID*) &rightChannelBuffer, (LPDWORD) &rightChannelSize, 0);
 
     if (lockHR == DSERR_BUFFERLOST)
     {
@@ -327,7 +327,7 @@ s32 CC SND_LoadSamples_DSound(const SoundEntry* pSnd, u32 sampleOffset, u8* pSou
             Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 654, -1, "SND_Reload(): Cannot restore the lost ds buffer");
             return -1;
         }
-        lockHR = pSnd->field_4_pDSoundBuffer->Lock(offsetBytes, bufferSizeBytes, (LPVOID *)&leftChannelBuffer, (LPDWORD)&leftChannelSize, (LPVOID *)&rightChannelBuffer, (LPDWORD)&rightChannelSize, 0);
+        lockHR = pSnd->field_4_pDSoundBuffer->Lock(offsetBytes, bufferSizeBytes, (LPVOID*) &leftChannelBuffer, (LPDWORD) &leftChannelSize, (LPVOID*) &rightChannelBuffer, (LPDWORD) &rightChannelSize, 0);
     }
 
     if (lockHR)
@@ -340,11 +340,11 @@ s32 CC SND_LoadSamples_DSound(const SoundEntry* pSnd, u32 sampleOffset, u8* pSou
     {
         if (leftChannelBuffer)
         {
-            SND_4F00B0(leftChannelBuffer, (u32)pSoundBuffer, (s32)leftChannelSize);
+            SND_4F00B0(leftChannelBuffer, (u32) pSoundBuffer, (s32) leftChannelSize);
         }
         if (rightChannelBuffer)
         {
-            SND_4F00B0((u32 *)rightChannelBuffer, (u32)pSoundBuffer + (u32)leftChannelSize, rightChannelSize);
+            SND_4F00B0((u32*) rightChannelBuffer, (u32) pSoundBuffer + (u32) leftChannelSize, rightChannelSize);
         }
     }
     else

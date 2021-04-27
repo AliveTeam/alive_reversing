@@ -79,71 +79,71 @@ private:
     {
         switch (field_F4_state)
         {
-        case BoomMachineStates::eInactive_0:
-            LOG_WARNING("BoomMachine field_F4_state is eInactive. We're not sure if this should happen.");
-            break;
-        case BoomMachineStates::eAlreadyUsed_1:
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
-            {
-                SFX_Play_46FBA0(SoundEffect::ZPop_4, 60, -1800);
-                field_F4_state = BoomMachineStates::eInactive_0;
-            }
-            break;
-
-        case BoomMachineStates::eDropGrenadeAnimation_2:
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
-            {
-                field_F4_state = BoomMachineStates::eDropGrenade_3;
-                const AnimRecord& animRec = AnimRec(AnimId::Grenade_Machine_Nozzle_Drop_Grenade);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            }
-            break;
-
-        case BoomMachineStates::eDropGrenade_3:
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
-            {
-                SFX_Play_46FBA0(SoundEffect::PickupItem_28, 127, -900);
-
-                if (!gpThrowableArray_5D1E2C)
+            case BoomMachineStates::eInactive_0:
+                LOG_WARNING("BoomMachine field_F4_state is eInactive. We're not sure if this should happen.");
+                break;
+            case BoomMachineStates::eAlreadyUsed_1:
+                if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
                 {
-                    auto pNewArray = ae_new<ThrowableArray>();
-                    if (pNewArray)
-                    {
-                        gpThrowableArray_5D1E2C = pNewArray->ctor_49A630();
-                    }
+                    SFX_Play_46FBA0(SoundEffect::ZPop_4, 60, -1800);
+                    field_F4_state = BoomMachineStates::eInactive_0;
                 }
+                break;
 
-                gpThrowableArray_5D1E2C->Add_49A7A0(field_FC_numGrenades);
-
-                auto pGrenade = ae_new<Grenade>();
-                if (pGrenade)
+            case BoomMachineStates::eDropGrenadeAnimation_2:
+                if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
                 {
-                    FP directedScale = {};
-                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                    {
-                        directedScale = -field_CC_sprite_scale;
-                    }
-                    else
-                    {
-                        directedScale = field_CC_sprite_scale;
-                    }
-
-                    pGrenade->ctor_447F70(
-                        (FP_FromInteger(6) * directedScale) + field_B8_xpos,
-                        (-FP_FromInteger(6) * field_CC_sprite_scale) + field_BC_ypos,
-                        field_FC_numGrenades,
-                        0,
-                        0,
-                        0);
+                    field_F4_state = BoomMachineStates::eDropGrenade_3;
+                    const AnimRecord& animRec = AnimRec(AnimId::Grenade_Machine_Nozzle_Drop_Grenade);
+                    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 }
+                break;
 
-                pGrenade->VThrow_49E460((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+            case BoomMachineStates::eDropGrenade_3:
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+                {
+                    SFX_Play_46FBA0(SoundEffect::PickupItem_28, 127, -900);
 
-                const AnimRecord& animRec = AnimRec(AnimId::Grenade_Machine_Nozzle);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-                field_F4_state = BoomMachineStates::eInactive_0;
-            }
-            break;
+                    if (!gpThrowableArray_5D1E2C)
+                    {
+                        auto pNewArray = ae_new<ThrowableArray>();
+                        if (pNewArray)
+                        {
+                            gpThrowableArray_5D1E2C = pNewArray->ctor_49A630();
+                        }
+                    }
+
+                    gpThrowableArray_5D1E2C->Add_49A7A0(field_FC_numGrenades);
+
+                    auto pGrenade = ae_new<Grenade>();
+                    if (pGrenade)
+                    {
+                        FP directedScale = {};
+                        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        {
+                            directedScale = -field_CC_sprite_scale;
+                        }
+                        else
+                        {
+                            directedScale = field_CC_sprite_scale;
+                        }
+
+                        pGrenade->ctor_447F70(
+                            (FP_FromInteger(6) * directedScale) + field_B8_xpos,
+                            (-FP_FromInteger(6) * field_CC_sprite_scale) + field_BC_ypos,
+                            field_FC_numGrenades,
+                            0,
+                            0,
+                            0);
+                    }
+
+                    pGrenade->VThrow_49E460((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+
+                    const AnimRecord& animRec = AnimRec(AnimId::Grenade_Machine_Nozzle);
+                    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                    field_F4_state = BoomMachineStates::eInactive_0;
+                }
+                break;
         }
     }
 
@@ -180,7 +180,7 @@ BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, s32 tlvInfo)
         field_CC_sprite_scale = FP_FromInteger(1);
     }
 
-    field_B8_xpos = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2))  + FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    field_B8_xpos = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     auto pNozzle = ae_new<GrenadeMachineNozzle>();
@@ -315,4 +315,3 @@ BoomMachine* BoomMachine::vdtor_445E10(s32 flags)
     }
     return this;
 }
-

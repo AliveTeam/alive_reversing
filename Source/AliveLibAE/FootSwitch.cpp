@@ -11,46 +11,43 @@
 #include "Abe.hpp"
 #include "Function.hpp"
 
-const TintEntry sFootSwitchTints_5639F4[18] =
-{
-    { 1u, 127u, 127u, 127u },
-    { 2u, 127u, 127u, 127u },
-    { 3u, 127u, 127u, 127u },
-    { 4u, 127u, 127u, 127u },
-    { 5u, 127u, 127u, 127u },
-    { 6u, 127u, 127u, 127u },
-    { 7u, 127u, 127u, 127u },
-    { 8u, 127u, 127u, 127u },
-    { 9u, 127u, 127u, 127u },
-    { 10u, 127u, 127u, 127u },
-    { 11u, 127u, 127u, 127u },
-    { 12u, 127u, 127u, 127u },
-    { 13u, 127u, 127u, 127u },
-    { 14u, 127u, 127u, 127u },
-    { -1, 127u, 127u, 127u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u }
-};
+const TintEntry sFootSwitchTints_5639F4[18] = {
+    {1u, 127u, 127u, 127u},
+    {2u, 127u, 127u, 127u},
+    {3u, 127u, 127u, 127u},
+    {4u, 127u, 127u, 127u},
+    {5u, 127u, 127u, 127u},
+    {6u, 127u, 127u, 127u},
+    {7u, 127u, 127u, 127u},
+    {8u, 127u, 127u, 127u},
+    {9u, 127u, 127u, 127u},
+    {10u, 127u, 127u, 127u},
+    {11u, 127u, 127u, 127u},
+    {12u, 127u, 127u, 127u},
+    {13u, 127u, 127u, 127u},
+    {14u, 127u, 127u, 127u},
+    {-1, 127u, 127u, 127u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u}};
 
 
-const AnimId sFootSwitchData_547D60[15][2] =
-{
-    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
-    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
-    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
-    { AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed },
-    { AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed },
-    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
-    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
-    { AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed },
-    { AnimId::Foot_Switch_Bonewerkz_Idle, AnimId::Foot_Switch_Bonewerkz_Pressed },
-    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
-    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
-    { AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed },
-    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
-    { AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed },
-    { AnimId::Foot_Switch_Bonewerkz_Idle, AnimId::Foot_Switch_Bonewerkz_Pressed },
+const AnimId sFootSwitchData_547D60[15][2] = {
+    {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
+    {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
+    {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
+    {AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed},
+    {AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed},
+    {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
+    {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
+    {AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed},
+    {AnimId::Foot_Switch_Bonewerkz_Idle, AnimId::Foot_Switch_Bonewerkz_Pressed},
+    {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
+    {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
+    {AnimId::Foot_Switch_Vault_Idle, AnimId::Foot_Switch_Vault_Pressed},
+    {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
+    {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
+    {AnimId::Foot_Switch_Bonewerkz_Idle, AnimId::Foot_Switch_Bonewerkz_Pressed},
 };
 
 
@@ -172,11 +169,7 @@ void FootSwitch::vUpdate_4DE270()
                     9);
             }
 
-            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
             {
                 SFX_Play_46FBA0(SoundEffect::IndustrialTrigger_80, 30, 400);
                 SFX_Play_46FBA0(SoundEffect::IndustrialNoise1_76, 60, 800);
@@ -185,7 +178,6 @@ void FootSwitch::vUpdate_4DE270()
             {
                 SFX_Play_46FA90(SoundEffect::FootSwitchPress_55, 0);
             }
-
         }
 
         if (field_20_animation.field_92_current_frame == 0)
@@ -201,7 +193,7 @@ void FootSwitch::vUpdate_4DE270()
             {
                 pSpark->ctor_4CBBB0(
                     field_B8_xpos,
-                    field_BC_ypos + (field_CC_sprite_scale *  FP_FromInteger(6)),
+                    field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(6)),
                     field_CC_sprite_scale,
                     10,
                     100,
@@ -236,9 +228,7 @@ void FootSwitch::vUpdate_4DE270()
 
         // Have they left the switch or died?
         if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
-            pLastStoodOnMe->field_B8_xpos < FP_FromInteger(bRect.x) ||
-            pLastStoodOnMe->field_B8_xpos > FP_FromInteger(bRect.w) ||
-            pLastStoodOnMe->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            pLastStoodOnMe->field_B8_xpos < FP_FromInteger(bRect.x) || pLastStoodOnMe->field_B8_xpos > FP_FromInteger(bRect.w) || pLastStoodOnMe->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
             field_F8_state = States::eWaitForStepOnMe_0;
             const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
@@ -246,7 +236,6 @@ void FootSwitch::vUpdate_4DE270()
             field_100_obj_id = -1;
         }
     }
-
 }
 
 BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
@@ -274,13 +263,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
 
                 const s32 xpos = FP_GetExponent(pAliveObj->field_B8_xpos);
 
-                if (xpos > bRectSwitch.x &&
-                    xpos < bRectSwitch.w &&
-                    bRectSwitch.x <= bRect.w &&
-                    bRectSwitch.w >= bRect.x &&
-                    bRectSwitch.h >= bRect.y &&
-                    bRectSwitch.y <= bRect.h &&
-                    pAliveObj->field_D6_scale == field_D6_scale)
+                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && pAliveObj->field_D6_scale == field_D6_scale)
                 {
                     return pAliveObj;
                 }
@@ -294,13 +277,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
 
         const s32 xpos = FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos);
 
-        if (xpos > bRectSwitch.x &&
-            xpos < bRectSwitch.w &&
-            bRectSwitch.x <= bRect.w &&
-            bRectSwitch.w >= bRect.x &&
-            bRectSwitch.h >= bRect.y &&
-            bRectSwitch.y <= bRect.h &&
-            sActiveHero_5C1B68->field_D6_scale == field_D6_scale)
+        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero_5C1B68->field_D6_scale == field_D6_scale)
         {
             return sActiveHero_5C1B68;
         }

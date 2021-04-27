@@ -103,7 +103,6 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
     else // 0
     {
         field_1A8_flags &= ~3u;
-       
     }
 
     field_EA_speed1 = pTlv->field_24_speed;
@@ -158,15 +157,15 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
 
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
     if (field_110_anim.Init_402D20(
-        15252,
-        gObjList_animations_505564,
-        this,
-        104,
-        36,
-        ppRes2,
-        1,
-        0,
-        0))
+            15252,
+            gObjList_animations_505564,
+            this,
+            104,
+            36,
+            ppRes2,
+            1,
+            0,
+            0))
     {
         field_110_anim.field_C_layer = field_10_anim.field_C_layer;
         field_110_anim.field_14_scale = field_BC_sprite_scale;
@@ -196,9 +195,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
 
 void MeatSaw::VScreenChanged_43A060()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
-        gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path ||
-        !sControlledCharacter_50767C || // Can be nullptr during the game ender
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || !sControlledCharacter_50767C || // Can be nullptr during the game ender
         FP_Abs(sControlledCharacter_50767C->field_A8_xpos - field_A8_xpos) > FP_FromInteger(1024))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -239,86 +236,85 @@ void MeatSaw::VUpdate_4399D0()
 
     switch (field_E4_state)
     {
-    case MeatSawStates::eIdle_0:
-        if ((field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670) || (field_1A8_flags & 2)) &&
-            ((!(field_1A8_flags & 1)) ||  SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
-        {
-            field_E4_state = MeatSawStates::eGoingDown_1;
-            field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
-            field_1A8_flags &= ~4u;
-            field_E8_speed2 = field_EA_speed1;
-            field_108_SFX_timer = gnFrameCount_507670 + 2;
-        }
-        else
-        {
-            if (field_1A8_flags & 1)
+        case MeatSawStates::eIdle_0:
+            if ((field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670) || (field_1A8_flags & 2)) && ((!(field_1A8_flags & 1)) || SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
             {
-                if (!(field_1A8_flags & 2))
+                field_E4_state = MeatSawStates::eGoingDown_1;
+                field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
+                field_1A8_flags &= ~4u;
+                field_E8_speed2 = field_EA_speed1;
+                field_108_SFX_timer = gnFrameCount_507670 + 2;
+            }
+            else
+            {
+                if (field_1A8_flags & 1)
                 {
-                    if (field_EC_off_speed)
+                    if (!(field_1A8_flags & 2))
                     {
-                        if (field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670))
+                        if (field_EC_off_speed)
                         {
-                            field_E4_state = MeatSawStates::eGoingDown_1;
-                            field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
-                            field_1A8_flags |= 4u;
-                            field_E8_speed2 = field_EC_off_speed;
-                            field_108_SFX_timer = gnFrameCount_507670 + 2;
+                            if (field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670))
+                            {
+                                field_E4_state = MeatSawStates::eGoingDown_1;
+                                field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
+                                field_1A8_flags |= 4u;
+                                field_E8_speed2 = field_EC_off_speed;
+                                field_108_SFX_timer = gnFrameCount_507670 + 2;
+                            }
                         }
                     }
                 }
             }
-        }
-        break;
+            break;
 
-    case MeatSawStates::eGoingDown_1:
-        field_F4 += field_E8_speed2;
+        case MeatSawStates::eGoingDown_1:
+            field_F4 += field_E8_speed2;
 
-        if (!((gnFrameCount_507670 - field_108_SFX_timer) % 8))
-        {
-            SFX_Play_43AED0(SoundEffect::MeatsawDown_91, 50, direction);
-        }
-
-        if (field_F4 >= field_E6_max_rise_time)
-        {
-            field_E4_state = MeatSawStates::eGoingUp_2;
-            field_108_SFX_timer = gnFrameCount_507670 + 2;
-        }
-        break;
-
-    case MeatSawStates::eGoingUp_2:
-        if (!((gnFrameCount_507670 - field_108_SFX_timer) % 10))
-        {
-            field_108_SFX_timer = gnFrameCount_507670;
-            SFX_Play_43AED0(SoundEffect::MeatsawUp_90, 50, direction);
-        }
-
-        field_F4 -= field_E8_speed2;
-
-        if (field_F4 <= 0)
-        {
-            field_E4_state = MeatSawStates::eIdle_0;
-            s16 minRnd = 0;
-            s16 maxRnd = 0;
-            if ((field_1A8_flags >> 2) & 1)
+            if (!((gnFrameCount_507670 - field_108_SFX_timer) % 8))
             {
-                maxRnd = field_FC_max_time_off2;
-                minRnd = field_FA_min_time_off2;
-            }
-            else
-            {
-                maxRnd = field_F8_field_1C_max_time_off1;
-                minRnd = field_F6_min_time_off1;
+                SFX_Play_43AED0(SoundEffect::MeatsawDown_91, 50, direction);
             }
 
-            field_104_idle_timer = gnFrameCount_507670 + Math_RandomRange_450F20(minRnd, maxRnd);
-            field_10_anim.Set_Animation_Data_402A40(15200, 0);
-            if (((field_1A8_flags) >> 1) & 1)
+            if (field_F4 >= field_E6_max_rise_time)
             {
-                SwitchStates_Set(field_EE_switch_id, field_F0_switch_value == 0 ? 1 : 0);
+                field_E4_state = MeatSawStates::eGoingUp_2;
+                field_108_SFX_timer = gnFrameCount_507670 + 2;
             }
-        }
-        break;
+            break;
+
+        case MeatSawStates::eGoingUp_2:
+            if (!((gnFrameCount_507670 - field_108_SFX_timer) % 10))
+            {
+                field_108_SFX_timer = gnFrameCount_507670;
+                SFX_Play_43AED0(SoundEffect::MeatsawUp_90, 50, direction);
+            }
+
+            field_F4 -= field_E8_speed2;
+
+            if (field_F4 <= 0)
+            {
+                field_E4_state = MeatSawStates::eIdle_0;
+                s16 minRnd = 0;
+                s16 maxRnd = 0;
+                if ((field_1A8_flags >> 2) & 1)
+                {
+                    maxRnd = field_FC_max_time_off2;
+                    minRnd = field_FA_min_time_off2;
+                }
+                else
+                {
+                    maxRnd = field_F8_field_1C_max_time_off1;
+                    minRnd = field_F6_min_time_off1;
+                }
+
+                field_104_idle_timer = gnFrameCount_507670 + Math_RandomRange_450F20(minRnd, maxRnd);
+                field_10_anim.Set_Animation_Data_402A40(15200, 0);
+                if (((field_1A8_flags) >> 1) & 1)
+                {
+                    SwitchStates_Set(field_EE_switch_id, field_F0_switch_value == 0 ? 1 : 0);
+                }
+            }
+            break;
     }
 }
 
@@ -330,7 +326,7 @@ void MeatSaw::GrindUpObjects_439CD0()
     ourRect.y += field_C8_yOffset;
     ourRect.h += field_C8_yOffset;
 
-    for (s32 i=0; i< gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
         if (!pObjIter)
@@ -347,13 +343,10 @@ void MeatSaw::GrindUpObjects_439CD0()
                 {
                     PSX_RECT objRect = {};
                     pObjIter->VGetBoundingRect(&objRect, 1);
-                    
-                    if (RectsOverlap(ourRect, objRect) &&
-                        pObjIter->field_BC_sprite_scale == field_BC_sprite_scale &&
-                        pObjIter->field_100_health > FP_FromInteger(0))
+
+                    if (RectsOverlap(ourRect, objRect) && pObjIter->field_BC_sprite_scale == field_BC_sprite_scale && pObjIter->field_100_health > FP_FromInteger(0))
                     {
-                        if (pObjIter->field_A8_xpos >= FP_FromInteger(ourRect.x) &&
-                            pObjIter->field_A8_xpos <= FP_FromInteger(ourRect.w))
+                        if (pObjIter->field_A8_xpos >= FP_FromInteger(ourRect.x) && pObjIter->field_A8_xpos <= FP_FromInteger(ourRect.w))
                         {
                             if (!pObjIter->VTakeDamage(this))
                             {
@@ -414,22 +407,22 @@ void MeatSaw::VRender(PrimHeader** ppOt)
 void MeatSaw::VRender_439F50(PrimHeader** ppOt)
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_B2_lvl_number,
-        field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos,
-        0))
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0))
     {
         field_C8_yOffset = field_F4;
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
         field_110_anim.vRender(
             FP_GetExponent(field_A8_xpos
-                + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
-                - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                           + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
+                           - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
             FP_GetExponent(field_AC_ypos
-                + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_E6_max_rise_time))
-                - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                           + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_E6_max_rise_time))
+                           - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,
             0,
             0);
@@ -445,4 +438,4 @@ void MeatSaw::VRender_439F50(PrimHeader** ppOt)
     }
 }
 
-}
+} // namespace AO

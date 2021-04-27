@@ -48,9 +48,7 @@ void Leaf::VUpdate_48B650()
         return;
     }
 
-    if (field_E4_bHitSomething & 1 || !bCollision ||
-            ((field_BC_sprite_scale != FP_FromDouble(0.5) || pLine->field_8_type != 4) &&
-            (field_BC_sprite_scale != FP_FromInteger(1) || pLine->field_8_type != 0)))
+    if (field_E4_bHitSomething & 1 || !bCollision || ((field_BC_sprite_scale != FP_FromDouble(0.5) || pLine->field_8_type != 4) && (field_BC_sprite_scale != FP_FromInteger(1) || pLine->field_8_type != 0)))
     {
         field_A8_xpos = x2;
         field_AC_ypos = y2;
@@ -59,7 +57,7 @@ void Leaf::VUpdate_48B650()
     {
         field_B4_velx = FP_FromInteger(0);
         field_B8_vely = FP_FromInteger(0);
-        
+
         field_E4_bHitSomething |= 1;
 
         field_A8_xpos = hitX;
@@ -68,11 +66,11 @@ void Leaf::VUpdate_48B650()
 
     // Out of the camera, die
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_B2_lvl_number,
-        field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos,
-        0))
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -160,5 +158,4 @@ BaseGameObject* Leaf::VDestructor(s32 flags)
     return this;
 }
 
-}
-
+} // namespace AO

@@ -16,7 +16,8 @@ struct SeqIds
 class IMidiVars
 {
 public:
-    ~IMidiVars() { }
+    ~IMidiVars()
+    { }
     virtual SeqIds& sSeq_Ids_word() = 0;
     virtual u16& sSnd_ReloadAbeResources() = 0;
     virtual OpenSeqHandle*& sSeqDataTable() = 0;
@@ -43,7 +44,7 @@ EXPORT void SetMidiApiVars(IMidiVars* pVars);
 
 using TReclaimMemoryFn = void(CC*)(u32);
 using TLoadResourceFileFn = s16(CC*)(const s8*, Camera*);
-using TGetLoadedResourceFn = u8 * *(CC*)(u32, u32, u16, u16);
+using TGetLoadedResourceFn = u8**(CC*) (u32, u32, u16, u16);
 using TSNDRestart = void(CC*)();
 using TSNDStopAll = void(CC*)();
 

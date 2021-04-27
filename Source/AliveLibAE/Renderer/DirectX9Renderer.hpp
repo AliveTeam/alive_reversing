@@ -2,7 +2,7 @@
 
 #ifdef _WIN32
 
-#include "IRenderer.hpp"
+    #include "IRenderer.hpp"
 
 class DirectX9Renderer : public IRenderer
 {
@@ -35,6 +35,7 @@ public:
     void Draw(Poly_G4& poly) override;
 
     void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) override;
+
 private:
     SDL_Renderer* mRenderer = nullptr;
     IDirect3DDevice9* mDevice = nullptr;

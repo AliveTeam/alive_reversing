@@ -6,13 +6,11 @@
 #include "Events.hpp"
 #include "MinesAlarm.hpp"
 
-const u8 byte_5543D0[32] =
-{
-    0u,    0u,    1u,    128u,    1u,    132u,    32u,    132u,    33u,
-    128u,  32u,   132u,  33u,     132u,  101u,    206u,   101u,    140u,
-    140u,  177u,  19u,   148u,    100u,  206u,    101u,   206u,    215u,
-    152u,  20u,   161u,  24u,     216u
-};
+const u8 byte_5543D0[32] = {
+    0u, 0u, 1u, 128u, 1u, 132u, 32u, 132u, 33u,
+    128u, 32u, 132u, 33u, 132u, 101u, 206u, 101u, 140u,
+    140u, 177u, 19u, 148u, 100u, 206u, 101u, 206u, 215u,
+    152u, 20u, 161u, 24u, 216u};
 
 ALIVE_VAR(1, 0x5c1bfa, u8, gTotalMeterBars_5C1BFA, 0);
 ALIVE_VAR(1, 0x5c1bf8, u16, gbDrawMeterCountDown_5C1BF8, 0);
@@ -118,8 +116,7 @@ void ColourfulMeter::vScreenChanged_43D7A0()
 {
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
-        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path)
     {
         gTotalMeterBars_5C1BFA = 0;
     }
@@ -189,28 +186,27 @@ void ColourfulMeter::vUpdate_43D140()
     }
 }
 
-const PSX_Point stru_5543F0[kMeterBarsXCount] =
-{
-    { 0, 9 },
-    { 2, 7 },
-    { 4, 5 },
-    { 6, 4 },
-    { 8, 3 },
-    { 10, 2 },
-    { 13, 1 },
-    { 15, 1 },
-    { 17, 0 },
-    { 20, 0 },
-    { 22, 0 },
-    { 25, 0 },
-    { 27, 1 },
-    { 29, 1 },
-    { 32, 2 },
-    { 34, 3 },
-    { 36, 4 },
-    { 38, 5 },
-    { 40, 7 },
-    { 42, 9 },
+const PSX_Point stru_5543F0[kMeterBarsXCount] = {
+    {0, 9},
+    {2, 7},
+    {4, 5},
+    {6, 4},
+    {8, 3},
+    {10, 2},
+    {13, 1},
+    {15, 1},
+    {17, 0},
+    {20, 0},
+    {22, 0},
+    {25, 0},
+    {27, 1},
+    {29, 1},
+    {32, 2},
+    {34, 3},
+    {36, 4},
+    {38, 5},
+    {40, 7},
+    {42, 9},
 };
 
 void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
@@ -218,7 +214,7 @@ void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
     const s16 screenXOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(4));
     const s16 screenYOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(4));
 
-    for (s16 poly_idx = 0; poly_idx < field_70_polys_to_render_count && poly_idx < kMeterBarsXCount -1; poly_idx++)
+    for (s16 poly_idx = 0; poly_idx < field_70_polys_to_render_count && poly_idx < kMeterBarsXCount - 1; poly_idx++)
     {
         Poly_G4* pPolyG4 = &field_88_polyG4s[gPsxDisplay_5C1130.field_C_buffer_index][poly_idx];
         PolyG4_Init_4F88B0(pPolyG4);
@@ -237,7 +233,7 @@ void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
         SetXY2(pPolyG4, static_cast<s16>(PsxToPCX(x2)), y2);
         SetXY3(pPolyG4, static_cast<s16>(PsxToPCX(x1 + 2)), y1);
 
-        if (((poly_idx + 1)) >= (kMeterBarsXCount/2)+1)
+        if (((poly_idx + 1)) >= (kMeterBarsXCount / 2) + 1)
         {
             // 1st half
             SetRGB0(pPolyG4, 127, static_cast<u8>(240 - 12 * poly_idx), 0);

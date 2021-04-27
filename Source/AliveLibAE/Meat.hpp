@@ -87,6 +87,7 @@ private:
     FP field_124_ypos;
     s32 field_128_timer;
     s32 field_12C_deadtimer;
+
 public:
     PathLine* field_130_pLine;
 };

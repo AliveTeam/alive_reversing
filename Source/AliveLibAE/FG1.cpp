@@ -10,7 +10,7 @@
 
 ALIVE_VAR(1, 0x5D1E28, DynamicArrayT<FG1>*, gFG1List_5D1E28, nullptr);
 
-const static Layer sFg1_layer_to_bits_layer_5469BC[6] = { Layer::eLayer_4, Layer::eLayer_18, Layer::eLayer_23, Layer::eLayer_37, Layer::eLayer_0, Layer::eLayer_0 };
+const static Layer sFg1_layer_to_bits_layer_5469BC[6] = {Layer::eLayer_4, Layer::eLayer_18, Layer::eLayer_23, Layer::eLayer_37, Layer::eLayer_0, Layer::eLayer_0};
 
 enum eChunkTypes
 {
@@ -71,52 +71,52 @@ FG1* FG1::ctor_499FC0(u8** pFG1Res)
     {
         switch (pChunkIter->field_0_type)
         {
-        case ePartialChunk:
-        {
-            // Convert the raw FG1 data from disk to internal render format
-            Fg1Block* pRenderBlock = &field_30_chnk_res[render_block_idx++];
-            Convert_Chunk_To_Render_Block_49A210(pChunkIter, pRenderBlock);
+            case ePartialChunk:
+            {
+                // Convert the raw FG1 data from disk to internal render format
+                Fg1Block* pRenderBlock = &field_30_chnk_res[render_block_idx++];
+                Convert_Chunk_To_Render_Block_49A210(pChunkIter, pRenderBlock);
 
-            // Skip to the next block - a bit more tricky as we must skip the bit field array thats used for the transparent pixels
-            u8* pNextChunk = reinterpret_cast<u8*>(pChunkIter) + ((pChunkIter->field_A_height * sizeof(u32)) + sizeof(Fg1Chunk));
-            pChunkIter = reinterpret_cast<Fg1Chunk*>(pNextChunk);
-        }
-        break;
+                // Skip to the next block - a bit more tricky as we must skip the bit field array thats used for the transparent pixels
+                u8* pNextChunk = reinterpret_cast<u8*>(pChunkIter) + ((pChunkIter->field_A_height * sizeof(u32)) + sizeof(Fg1Chunk));
+                pChunkIter = reinterpret_cast<Fg1Chunk*>(pNextChunk);
+            }
+            break;
 
-        case eFullChunk:
-        {
-            // Redraw a full solid block of the background "on top"
-            pScreenManager_5BB5F4->InvalidateRect_40EC50(
-                pChunkIter->field_4_xpos,
-                pChunkIter->field_6_ypos,
-                pChunkIter->field_8_width + pChunkIter->field_4_xpos - 1,
-                pChunkIter->field_A_height + pChunkIter->field_6_ypos - 1,
-                pChunkIter->field_2_layer);
+            case eFullChunk:
+            {
+                // Redraw a full solid block of the background "on top"
+                pScreenManager_5BB5F4->InvalidateRect_40EC50(
+                    pChunkIter->field_4_xpos,
+                    pChunkIter->field_6_ypos,
+                    pChunkIter->field_8_width + pChunkIter->field_4_xpos - 1,
+                    pChunkIter->field_A_height + pChunkIter->field_6_ypos - 1,
+                    pChunkIter->field_2_layer);
 
-            // Move to the next FG1 data from disk
-            pChunkIter++;
-        }
-        break;
+                // Move to the next FG1 data from disk
+                pChunkIter++;
+            }
+            break;
 
-        case eStartCompressedData:
-        {
-            ALIVE_FATAL("eStartCompressedData is not in any AE data, impossible!");
-        }
-        break;
+            case eStartCompressedData:
+            {
+                ALIVE_FATAL("eStartCompressedData is not in any AE data, impossible!");
+            }
+            break;
 
-        case eEndCompressedData:
-        {
-            ALIVE_FATAL("eEndCompressedData is not in any AE data, impossible!");
-        }
-        break;
+            case eEndCompressedData:
+            {
+                ALIVE_FATAL("eEndCompressedData is not in any AE data, impossible!");
+            }
+            break;
 
-        case eEndChunk:
-        {
-            return this;
-        }
+            case eEndChunk:
+            {
+                return this;
+            }
 
-        default:
-            ALIVE_FATAL("Unknown FG1 block type");
+            default:
+                ALIVE_FATAL("Unknown FG1 block type");
         }
     }
 }

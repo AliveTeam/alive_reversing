@@ -31,4 +31,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BulletShell, 0xF4);
 
-}
+} // namespace AO

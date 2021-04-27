@@ -61,4 +61,4 @@ public:
 ALIVE_ASSERT_SIZEOF(FootSwitch, 0xF4);
 
 
-}
+} // namespace AO

@@ -116,8 +116,7 @@ void ExplosionSet::dtor_414DB0()
 
 void ExplosionSet::vScreenChanged_415190()
 {
-    if (gMap_5C3030.field_0_current_level == gMap_5C3030.field_A_level &&
-        gMap_5C3030.field_2_current_path == gMap_5C3030.field_C_path)
+    if (gMap_5C3030.field_0_current_level == gMap_5C3030.field_A_level && gMap_5C3030.field_2_current_path == gMap_5C3030.field_C_path)
     {
         field_5C_flags.Clear(Flags_5C::eBit3);
     }
@@ -132,21 +131,19 @@ struct Point2
     s8 x, y;
 };
 
-const Point2 stru_550F38[12] =
-{
-    { 0, -2 },
-    { -2, 0 },
-    { 2, -2 },
-    { -2, 2 },
-    { 0, -3 },
-    { -3, 0 },
-    { 3, -3 },
-    { -3, 3 },
-    { 0,  0 },
-    { 0,  0 },
-    { 0,  0 },
-    { 0,  0 }
-};
+const Point2 stru_550F38[12] = {
+    {0, -2},
+    {-2, 0},
+    {2, -2},
+    {-2, 2},
+    {0, -3},
+    {-3, 0},
+    {3, -3},
+    {-3, 3},
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {0, 0}};
 
 void ExplosionSet::vRender_4150D0(PrimHeader** ppOt)
 {

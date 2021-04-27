@@ -18,20 +18,20 @@ void BellSong::VUpdate_476130()
     if (!field_14_bDone)
     {
         const GameSpeakEvents code_looked_up = Code_LookUp_476050(field_18_code, static_cast<u16>(field_10_code_idx), field_1C_code_len);
-        switch(field_16_type)
+        switch (field_16_type)
         {
             case BellsongTypes::eChimes:
             {
                 switch (code_looked_up)
                 {
-                case GameSpeakEvents::eWhistle1_1:
-                    SFX_Play_43AD70(SoundEffect::BellChime_LowPitch_52, 0);
-                    break;
-                case GameSpeakEvents::eWhistle2_2:
-                    SFX_Play_43AD70(SoundEffect::BellChime_MediumPitch_51, 0);
-                    break;
-                default:
-                    SFX_Play_43AD70(SoundEffect::BellChime_HighPitch_50, 0);
+                    case GameSpeakEvents::eWhistle1_1:
+                        SFX_Play_43AD70(SoundEffect::BellChime_LowPitch_52, 0);
+                        break;
+                    case GameSpeakEvents::eWhistle2_2:
+                        SFX_Play_43AD70(SoundEffect::BellChime_MediumPitch_51, 0);
+                        break;
+                    default:
+                        SFX_Play_43AD70(SoundEffect::BellChime_HighPitch_50, 0);
                 }
                 field_8_update_delay = 15;
                 break;
@@ -92,5 +92,4 @@ BaseGameObject* BellSong::VDestructor(s32 flags)
     return this;
 }
 
-}
-
+} // namespace AO

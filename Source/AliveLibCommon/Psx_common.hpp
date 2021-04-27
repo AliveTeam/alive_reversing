@@ -41,21 +41,14 @@ struct PSX_Point
 };
 ALIVE_ASSERT_SIZEOF(PSX_Point, 4);
 
-inline bool operator == (const PSX_RECT& lhs, const PSX_RECT& rhs)
+inline bool operator==(const PSX_RECT& lhs, const PSX_RECT& rhs)
 {
-    return
-        (lhs.x == rhs.x) &&
-        (lhs.y == rhs.y) &&
-        (lhs.w == rhs.w) &&
-        (lhs.h == rhs.h);
+    return (lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.w == rhs.w) && (lhs.h == rhs.h);
 }
 
 inline bool RectsOverlap(const PSX_RECT& r1, const PSX_RECT& r2)
 {
-    return !(r2.x > r1.w ||
-        r2.w < r1.x ||
-        r2.y > r1.h ||
-        r2.h < r1.y);
+    return !(r2.x > r1.w || r2.w < r1.x || r2.y > r1.h || r2.h < r1.y);
 }
 
 struct PSX_Pos16
@@ -100,6 +93,5 @@ struct PSX_DISPENV
 
 inline BOOL CC PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 {
-    return (pRect1->x <= pRect2->w && pRect1->w >= pRect2->x &&
-        pRect1->y <= pRect2->h && pRect1->h >= pRect2->y);
+    return (pRect1->x <= pRect2->w && pRect1->w >= pRect2->x && pRect1->y <= pRect2->h && pRect1->h >= pRect2->y);
 }

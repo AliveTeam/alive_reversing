@@ -7,31 +7,30 @@
 #include "ScreenManager.hpp"
 #include "Primitives.hpp"
 
-void RollingBallShaker_ForceLink() {}
+void RollingBallShaker_ForceLink()
+{ }
 
 namespace AO {
 
-const static PSX_Pos16 sRollingBallShakerScreenOffsets_4BB740[18] =
-{
-  { 1, 0 },
-  { 0, 0 },
-  { -1, 1 },
-  { 0, 0 },
-  { -1, -1 },
-  { 0, 0 },
-  { 1, -1 },
-  { 0, 0 },
-  { 0, 1 },
-  { 0, 0 },
-  { 1, 0 },
-  { 0, 0 },
-  { 1, 1 },
-  { 0, 0 },
-  { -1, -1 },
-  { 0, 0 },
-  { 0, -1 },
-  { 0, 0 }
-};
+const static PSX_Pos16 sRollingBallShakerScreenOffsets_4BB740[18] = {
+    {1, 0},
+    {0, 0},
+    {-1, 1},
+    {0, 0},
+    {-1, -1},
+    {0, 0},
+    {1, -1},
+    {0, 0},
+    {0, 1},
+    {0, 0},
+    {1, 0},
+    {0, 0},
+    {1, 1},
+    {0, 0},
+    {-1, -1},
+    {0, 0},
+    {0, -1},
+    {0, 0}};
 
 RollingBallShaker* RollingBallShaker::ctor_4361A0()
 {
@@ -121,4 +120,4 @@ RollingBallShaker* RollingBallShaker::Vdtor_436350(s32 flags)
     return this;
 }
 
-}
+} // namespace AO

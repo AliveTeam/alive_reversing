@@ -70,8 +70,8 @@ void SlogSpawner::VUpdate_475E30()
         if (SwitchStates_Get(field_2E_start_id))
         {
             field_20_spawn_timer = Math_NextRandom() % 8
-                + gnFrameCount_507670
-                + field_2C_ticks_between_slogs;
+                                 + gnFrameCount_507670
+                                 + field_2C_ticks_between_slogs;
 
             auto pSlog = ao_new<Slog>();
             if (pSlog)
@@ -95,4 +95,4 @@ void SlogSpawner::VUpdate_475E30()
     }
 }
 
-}
+} // namespace AO

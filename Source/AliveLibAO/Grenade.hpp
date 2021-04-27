@@ -60,5 +60,4 @@ ALIVE_ASSERT_SIZEOF(Grenade, 0x128);
 
 ALIVE_VAR_EXTERN(s16, gInfiniteGrenades_5076EC);
 
-}
-
+} // namespace AO

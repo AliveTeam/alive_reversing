@@ -12,6 +12,7 @@ public:
 
     virtual void VUpdate() override;
     virtual BaseGameObject* VDestructor(s32 flags) override;
+
 public:
     FP field_F4_scale_amount;
 };

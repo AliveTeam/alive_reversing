@@ -46,4 +46,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(RollingBallStopper, 0x11C);
 
-}
+} // namespace AO

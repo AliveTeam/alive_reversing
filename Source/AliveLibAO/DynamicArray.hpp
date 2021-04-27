@@ -10,13 +10,17 @@ class DynamicArray
 public:
     EXPORT DynamicArray* ctor_4043E0(s16 startingSize);
     EXPORT void dtor_404440();
+
 protected:
-    EXPORT s16 Push_Back_404450(void *item);
-    EXPORT s16 Remove_Item_404520(void *item);
+    EXPORT s16 Push_Back_404450(void* item);
+    EXPORT s16 Remove_Item_404520(void* item);
+
 public:
     void** field_0_array;
+
 public:
     s16 field_4_used_size;
+
 private:
     s16 field_6_max_size;
     s16 field_8_expand_size;
@@ -27,7 +31,7 @@ ALIVE_ASSERT_SIZEOF(DynamicArray, 0xC);
 
 
 // Typed wrapper for DynamicArray
-template<class T>
+template <class T>
 class DynamicArrayT : public DynamicArray
 {
 public:
@@ -76,4 +80,4 @@ public:
     }
 };
 
-}
+} // namespace AO

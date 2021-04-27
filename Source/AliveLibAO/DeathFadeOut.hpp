@@ -34,5 +34,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DeathFadeOut, 0x74);
 
-}
-
+} // namespace AO

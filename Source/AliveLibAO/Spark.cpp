@@ -15,7 +15,8 @@
 #undef min
 #undef max
 
-void Spark_ForceLink() { }
+void Spark_ForceLink()
+{ }
 
 namespace AO {
 
@@ -26,7 +27,7 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
 
     SetVTable(this, 0x4BCD48);
     field_4_typeId = Types::eNone_0;
-    
+
     gObjList_drawables_504618->Push_Back(this);
 
     field_30_xpos = xpos;
@@ -217,18 +218,18 @@ void Spark::VRender_477ED0(PrimHeader** ppOt)
         SetXY1(pPrim, static_cast<s16>(x1), static_cast<s16>(y1));
 
         SetRGB0(pPrim,
-            static_cast<u8>(field_3C_r / 2),
-            static_cast<u8>(field_3E_g / 2),
-            static_cast<u8>(field_40_b / 2));
+                static_cast<u8>(field_3C_r / 2),
+                static_cast<u8>(field_3E_g / 2),
+                static_cast<u8>(field_40_b / 2));
 
         SetRGB1(pPrim,
-            static_cast<u8>(field_3C_r),
-            static_cast<u8>(field_3E_g),
-            static_cast<u8>(field_40_b));
+                static_cast<u8>(field_3C_r),
+                static_cast<u8>(field_3E_g),
+                static_cast<u8>(field_40_b));
 
         Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, TRUE);
         OrderingTable_Add_498A80(OtLayer(ppOt, field_42_layer), &pPrim->mBase.header);
-        
+
         rect.x = std::min(rect.x, std::min(static_cast<s16>(x0), static_cast<s16>(x1)));
         rect.w = std::max(rect.w, std::max(static_cast<s16>(x0), static_cast<s16>(x1)));
 
@@ -247,4 +248,4 @@ void Spark::VRender_477ED0(PrimHeader** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-}
+} // namespace AO

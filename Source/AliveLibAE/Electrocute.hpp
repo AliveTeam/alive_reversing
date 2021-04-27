@@ -33,6 +33,7 @@ public:
     s16 field_24_r;
     s16 field_26_g;
     s16 field_28_b;
+
 private:
     s16 field_2A_padding; // NOTE: Crashes if commented out - why?
     s16 field_2C_bKillTarget;
@@ -49,7 +50,7 @@ private:
         eKillElectrocute_3 = 3
     };
     States field_44_state;
-    s16 field_46_padding;   // Ditto
+    s16 field_46_padding; // Ditto
     s32 field_48_padding;
     PSX_RECT field_4C_pal_rect;
 };

@@ -17,7 +17,6 @@ enum AudioFilterMode
 class SDLSoundSystem
 {
 public:
-
     void Init(u32 sampleRate, s32 bitsPerSample, s32 isStereo);
 
     HRESULT DuplicateSoundBuffer(TSoundBufferType* pDSBufferOriginal, TSoundBufferType** ppDSBufferDuplicate);
@@ -27,7 +26,7 @@ public:
     HRESULT Release();
 
     // Called by audio thread - time critical
-    static void AudioCallBackStatic(void * userdata, Uint8 *stream, s32 len);
+    static void AudioCallBackStatic(void* userdata, Uint8* stream, s32 len);
 
 private:
     ~SDLSoundSystem();
@@ -54,7 +53,7 @@ private:
     std::vector<StereoSample_S16> mTempSoundBuffer;
     std::vector<StereoSample_S16> mNoReverbBuffer;
     cinder::audio::dsp::RingBufferT<StereoSample_S16> mAudioRingBuffer;
-    std::atomic_bool mRenderAudioThreadQuit{ false };
+    std::atomic_bool mRenderAudioThreadQuit{false};
     std::unique_ptr<std::thread> mRenderAudioThread;
 
 

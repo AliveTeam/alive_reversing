@@ -10,19 +10,15 @@
 
 void StatsSign_ForceLink()
 {
-
 }
 
-u8 sStatsSignFontPalette_55CF8C[] =
-{
+u8 sStatsSignFontPalette_55CF8C[] = {
     0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
     0x20, 0x84, 0x21, 0x84, 0x65, 0xCE, 0x65, 0x8C, 0x8C, 0xB1,
     0x13, 0x94, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
-    0x18, 0xD8
-};
+    0x18, 0xD8};
 
-s16 sMudsInLevelCount_55CFAC[15] =
-{ 0, 75, 10, 5, 14, 26, 49, 14, 31, 90, 90, 5, 26, 49, 31 };
+s16 sMudsInLevelCount_55CFAC[15] = {0, 75, 10, 5, 14, 26, 49, 14, 31, 90, 90, 5, 26, 49, 31};
 
 
 ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
@@ -73,7 +69,7 @@ LCDStatusBoard* LCDStatusBoard::ctor_47B600(Path_LCDStatusBoard* params, TlvItem
     field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
     field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
-    field_108_is_hidden = static_cast<s16 >(params->field_14_hidden);
+    field_108_is_hidden = static_cast<s16>(params->field_14_hidden);
     sStatsSignCurrentArea_5C1A20 = static_cast<s8>(params->field_12_zulag_number);
     return this;
 }
@@ -108,7 +104,7 @@ BaseGameObject* LCDStatusBoard::vdtor_47B7B0(s32 flags)
 }
 
 void LCDStatusBoard::vUpdate_47B8D0()
-{ 
+{
     if (Event_Get_422C00(kEventDeathReset))
     {
         field_6_flags.Set(eDead_Bit3);

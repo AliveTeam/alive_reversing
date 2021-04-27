@@ -19,11 +19,11 @@ struct Path_SlingMudokon : public Path_TLV
 ALIVE_ASSERT_SIZEOF(Path_SlingMudokon, 0x20);
 
 #define SLING_MUD_STATES_ENUM(ENTRY) \
-    ENTRY(State_0_Idle_46FCB0) \
-    ENTRY(State_1_Angry_46FCF0) \
-    ENTRY(State_2_Speak_46FD70) \
+    ENTRY(State_0_Idle_46FCB0)       \
+    ENTRY(State_1_Angry_46FCF0)      \
+    ENTRY(State_2_Speak_46FD70)      \
     ENTRY(State_3_ShootStart_46FD90) \
-    ENTRY(State_4_ShootEnd_46FEA0) \
+    ENTRY(State_4_ShootEnd_46FEA0)   \
     ENTRY(State_5_AngryToIdle_46FD50)
 
 #define MAKE_ENUM(VAR) VAR,
@@ -103,5 +103,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(SlingMudokon, 0x15C);
 
-}
-
+} // namespace AO

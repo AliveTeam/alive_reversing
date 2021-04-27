@@ -61,7 +61,7 @@ public:
     EXPORT MusicController* ctor_47EE80();
     EXPORT BaseGameObject* vdtor_47EF20(s32 flags);
     EXPORT void dtor_47EF50();
-    EXPORT MusicTypes GetMusicType_47FA80(u16 *seq, u16 *seq2, u32 *seqTime);
+    EXPORT MusicTypes GetMusicType_47FA80(u16* seq, u16* seq2, u32* seqTime);
 
     virtual void VScreenChanged() override;
     EXPORT void vsub_ScreenChange_47F8F0();

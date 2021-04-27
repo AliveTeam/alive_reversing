@@ -24,5 +24,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Flash, 0x6C);
 
-}
-
+} // namespace AO

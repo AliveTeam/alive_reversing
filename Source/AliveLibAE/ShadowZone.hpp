@@ -35,6 +35,7 @@ public:
 
     EXPORT ShadowZone* ctor_463900(Path_ShadowZone* pTlv, Path* pPath, u32 tlvInfo);
     EXPORT static void CC ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
+
 private:
     EXPORT void dtor_463BB0();
     EXPORT ShadowZone* vdtor_463A70(s32 flags);
@@ -42,10 +43,11 @@ private:
     EXPORT s16 ApplysToScale_463C70(s16 scale);
     EXPORT void vUpdate_463C40();
     EXPORT FP* GetColourAmount_463AA0(FP* pOut, s16 xpos, s16 ypos);
+
 private:
     s32 field_20_tlvInfo;
 
-    LevelIds  field_24_level;
+    LevelIds field_24_level;
     s16 field_26_path;
 
     s16 field_28_centre_x;

@@ -74,5 +74,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Dove, 0x108);
 
-}
-
+} // namespace AO

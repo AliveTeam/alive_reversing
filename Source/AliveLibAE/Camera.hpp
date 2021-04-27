@@ -11,6 +11,7 @@ class Camera // TODO: May actually just be "ResourceList" ?
 {
 public:
     Camera();
+
 public:
     EXPORT void ctor_480DD0();
     EXPORT void dtor_480E00();

@@ -61,5 +61,4 @@ public:
 ALIVE_ASSERT_SIZEOF(RollingBall, 0x12C);
 
 
-}
-
+} // namespace AO

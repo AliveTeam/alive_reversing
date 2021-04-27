@@ -63,6 +63,7 @@ private:
     EXPORT f32 Calc_Y_4326F0(f32* a2, s32 yIndex);
 
     EXPORT void sub_4328A0();
+
 private:
     s32 field_20_padding;
     s32 field_24_tlvInfo;
@@ -94,7 +95,7 @@ private:
         f32 array_4[7];
     };
 
-    Data field_1A0_x_data[321]; // (640+2)/2
+    Data field_1A0_x_data[321];  // (640+2)/2
     Data field_24D0_y_data[121]; // (480+4)/4
 
     s32 field_31F8_w_count;

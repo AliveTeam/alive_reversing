@@ -44,5 +44,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(PlatformBase, 0x12C);
 
-}
-
+} // namespace AO

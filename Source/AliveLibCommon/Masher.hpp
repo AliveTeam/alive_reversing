@@ -6,10 +6,13 @@
 struct Movie_IO
 {
     void(CC* mIO_Close)(void* pHandle);
-    BOOL(CC* mIO_Wait)(void* pHandle);
-    BOOL(CC* mIO_Seek)(void* pHandle, u32 offset, u32 origin);
-    void* (CC* mIO_Open)(const s8* pFileName);
-    BOOL(CC* mIO_Read)(void* pHandle, void* pBuffer, u32 size);
+    BOOL(CC* mIO_Wait)
+    (void* pHandle);
+    BOOL(CC* mIO_Seek)
+    (void* pHandle, u32 offset, u32 origin);
+    void*(CC* mIO_Open)(const s8* pFileName);
+    BOOL(CC* mIO_Read)
+    (void* pHandle, void* pBuffer, u32 size);
 };
 
 Movie_IO& GetMovieIO();
@@ -48,7 +51,6 @@ ALIVE_ASSERT_SIZEOF(Masher_AudioHeader, 20);
 class AudioDecompressor
 {
 public:
-
     s32 mUsedBits = 0;
     u32 mWorkBits = 0;
     s32 mAudioNumChannels = 0;
@@ -63,11 +65,11 @@ public:
     s32 SndRelated_sub_409650();
     s16 NextSoundBits(u16 numBits);
     bool SampleMatches(s16& sample, s16 bits);
-    template<class T>
+    template <class T>
     void decode_generic(T* outPtr, s32 numSamplesPerFrame, bool isLast);
     void decode_8bit_audio_frame(u8* outPtr, s32 numSamplesPerFrame, bool isLast);
     void decode_16bit_audio_frame(u16* outPtr, s32 numSamplesPerFrame, bool isLast);
-    u16* SetupAudioDecodePtrs(u16 *rawFrameBuffer);
+    u16* SetupAudioDecodePtrs(u16* rawFrameBuffer);
     void SetChannelCount(s32 channelCount);
     static void init_Snd_tbl();
 };
@@ -99,6 +101,7 @@ public:
 
     // Same as 0x52899C in MGSI.exe
     static void* CC GetDecompressedAudioFrame_4EAC60(Masher* pMasher);
+
 private:
     struct Macroblock_RGB_Struct
     {
@@ -121,15 +124,17 @@ private:
 
 
     void* field_0_file_handle;
+
 public:
     Masher_Header field_4_ddv_header;
     Masher_VideoHeader field_14_video_header;
     Masher_AudioHeader field_2C_audio_header;
+
 private:
     void* field_40_video_frame_to_decode;
-    u16 *field_44_decoded_frame_data_buffer;
+    u16* field_44_decoded_frame_data_buffer;
     s32* field_48_sound_frame_to_decode;
-    void *field_4C_decoded_audio_buffer;
+    void* field_4C_decoded_audio_buffer;
     s32 field_50_num_channels;
     s32 field_54_bits_per_sample;
     s32 field_58_macro_blocks_x;

@@ -177,5 +177,4 @@ void OrbWhirlWind::ToStop_48BBB0()
     field_14_particles_state = ParticlesState::eActive;
 }
 
-}
-
+} // namespace AO

@@ -22,7 +22,6 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     field_E4_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_18_animation_id, 1, 0);
     if (!field_E4_res)
     {
-
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return this;
@@ -166,4 +165,4 @@ void BackgroundAnimation::VUpdate_405C30()
     }
 }
 
-}
+} // namespace AO

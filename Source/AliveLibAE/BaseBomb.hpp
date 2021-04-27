@@ -10,7 +10,7 @@ public:
     virtual void VUpdate() override;
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT BaseBomb * ctor_423E70(FP x, FP y, s32 unused, FP scale);
+    EXPORT BaseBomb* ctor_423E70(FP x, FP y, s32 unused, FP scale);
 
 private:
     EXPORT void vUpdate_424180();

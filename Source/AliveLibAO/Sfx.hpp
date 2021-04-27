@@ -147,4 +147,4 @@ EXPORT s32 CC SFX_Play_43ADE0(u8 sfxId, s32 leftVol, s32 rightVol, BaseAnimatedW
 
 EXPORT s32 CC SFX_Play_43AED0(u8 sfxId, s32 volume, CameraPos direction);
 
-}
+} // namespace AO

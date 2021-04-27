@@ -109,5 +109,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(MusicController, 0x54);
 
-}
-
+} // namespace AO

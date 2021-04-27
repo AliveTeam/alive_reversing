@@ -15,13 +15,15 @@ extern s8 _devConsoleBuffer[1000];
 #define DEV_CONSOLE_MESSAGE(message, duration) ShowDebugConsoleMessage(message, duration);
 #define DEV_CONSOLE_MESSAGE_C(message, duration, r, g, b) ShowDebugConsoleMessage(message, duration, r, g, b);
 
-#define DEV_CONSOLE_PRINTF(format, ...) memset(_devConsoleBuffer, 0, sizeof(_devConsoleBuffer));\
-sprintf(_devConsoleBuffer, format, ##__VA_ARGS__);\
-DEV_CONSOLE_MESSAGE_C(_devConsoleBuffer, 5, 127, 127, 0);
+#define DEV_CONSOLE_PRINTF(format, ...)                      \
+    memset(_devConsoleBuffer, 0, sizeof(_devConsoleBuffer)); \
+    sprintf(_devConsoleBuffer, format, ##__VA_ARGS__);       \
+    DEV_CONSOLE_MESSAGE_C(_devConsoleBuffer, 5, 127, 127, 0);
 
-#define DEV_WORLD_PRINTF(x,y,ot,format, ...) memset(_devConsoleBuffer, 0, sizeof(_devConsoleBuffer));\
-sprintf(_devConsoleBuffer, format, ##__VA_ARGS__);\
-DEV::DebugDrawText(ot, 39, std::string(_devConsoleBuffer), x,y,255,255,255, true, false);
+#define DEV_WORLD_PRINTF(x, y, ot, format, ...)              \
+    memset(_devConsoleBuffer, 0, sizeof(_devConsoleBuffer)); \
+    sprintf(_devConsoleBuffer, format, ##__VA_ARGS__);       \
+    DEV::DebugDrawText(ot, 39, std::string(_devConsoleBuffer), x, y, 255, 255, 255, true, false);
 
 struct RaycastDebug
 {
@@ -31,28 +33,26 @@ struct RaycastDebug
     FP y2;
     FP hitX;
     FP hitY;
-    PathLine * pLine;
+    PathLine* pLine;
     u32 type;
 };
 
 void DebugAddRaycast(RaycastDebug rc);
 
 // File System
-namespace FS
-{
-    [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const std::string& filePath);
-    [[nodiscard]] std::vector<u8> ReadFile(const std::string& filePath);
-    [[nodiscard]] std::string GetPrefPath();
-}
+namespace FS {
+[[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const std::string& filePath);
+[[nodiscard]] std::vector<u8> ReadFile(const std::string& filePath);
+[[nodiscard]] std::string GetPrefPath();
+} // namespace FS
 
-namespace DEV
-{
-    void DebugDrawLine(PrimHeader ** ot, Layer layer, s32 x1, s32 y1, s32 x2, s32 y2, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
-    void DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent);
-    void DebugFillRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
-    void DebugDrawRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
-    void DebugOnFrameDraw(PrimHeader** ppOt);
-}
+namespace DEV {
+void DebugDrawLine(PrimHeader** ot, Layer layer, s32 x1, s32 y1, s32 x2, s32 y2, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
+void DebugDrawText(PrimHeader** ot, Layer layer, std::string& text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent);
+void DebugFillRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
+void DebugDrawRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent = false);
+void DebugOnFrameDraw(PrimHeader** ppOt);
+} // namespace DEV
 
 extern bool sDebugEnabled_VerboseEvents;
 
@@ -67,7 +67,7 @@ std::string IntToHexString(s32 v);
 std::string EscapeUnknownCharacters(std::string text);
 bool IsStringNumber(const std::string& s);
 
-BaseGameObject * FindObjectOfType(s32 id);
+BaseGameObject* FindObjectOfType(s32 id);
 
 // In game helper functions
 void Cheat_OpenAllDoors();

@@ -2,33 +2,33 @@
 
 #ifdef WIN32
 
-#include <windows.h>
-#pragma warning(push)
-#pragma warning(disable:4091) // typedef ': ignored on left of '' when no variable is declared in SDK header
-#include <Dbghelp.h>
-#pragma warning(pop)
-#include <tchar.h>
-#include <stdio.h>
-#include "SDL.h"
-#include "config.h"
-#include "Sys_common.hpp"
+    #include <windows.h>
+    #pragma warning(push)
+    #pragma warning(disable : 4091) // typedef ': ignored on left of '' when no variable is declared in SDK header
+    #include <Dbghelp.h>
+    #pragma warning(pop)
+    #include <tchar.h>
+    #include <stdio.h>
+    #include "SDL.h"
+    #include "config.h"
+    #include "Sys_common.hpp"
 
-#ifndef __MINGW32__
+    #ifndef __MINGW32__
 
-#pragma comment (lib, "dbghelp.lib")
+        #pragma comment(lib, "dbghelp.lib")
 
 inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
 {
     wchar_t fileNameW[512] = {};
     s8 fileNameA[512] = {};
 
-#ifdef BUILD_NUMBER
-   _snwprintf(fileNameW, _countof(fileNameW), L"core_pid_%d_build_%d.dmp", ::GetCurrentProcessId(), BUILD_NUMBER);
-   _snprintf(fileNameA, _countof(fileNameA), "core_pid_%d_build_%d.dmp", ::GetCurrentProcessId(), BUILD_NUMBER);
-#else
-   _snwprintf(fileNameW, _countof(fileNameW), L"core_pid_%d.dmp", ::GetCurrentProcessId());
-   _snprintf(fileNameA, _countof(fileNameA), "core_pid_%d.dmp", ::GetCurrentProcessId());
-#endif
+        #ifdef BUILD_NUMBER
+    _snwprintf(fileNameW, _countof(fileNameW), L"core_pid_%d_build_%d.dmp", ::GetCurrentProcessId(), BUILD_NUMBER);
+    _snprintf(fileNameA, _countof(fileNameA), "core_pid_%d_build_%d.dmp", ::GetCurrentProcessId(), BUILD_NUMBER);
+        #else
+    _snwprintf(fileNameW, _countof(fileNameW), L"core_pid_%d.dmp", ::GetCurrentProcessId());
+    _snprintf(fileNameA, _countof(fileNameA), "core_pid_%d.dmp", ::GetCurrentProcessId());
+        #endif
 
     HANDLE hFile = ::CreateFileW(fileNameW, GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
     if (hFile != INVALID_HANDLE_VALUE)
@@ -38,11 +38,7 @@ inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
         exceptionInfo.ExceptionPointers = apExceptionInfo;
         exceptionInfo.ClientPointers = FALSE;
 
-        const s32 flags = MiniDumpWithFullMemory |
-            MiniDumpWithFullMemoryInfo |
-            MiniDumpWithHandleData |
-            MiniDumpWithUnloadedModules |
-            MiniDumpWithThreadInfo;
+        const s32 flags = MiniDumpWithFullMemory | MiniDumpWithFullMemoryInfo | MiniDumpWithHandleData | MiniDumpWithUnloadedModules | MiniDumpWithThreadInfo;
 
         ::MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, static_cast<MINIDUMP_TYPE>(flags), &exceptionInfo, nullptr, nullptr);
         ::CloseHandle(hFile);
@@ -53,7 +49,7 @@ inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
     }
 }
 
-#else
+    #else
 
 inline void create_minidump(PEXCEPTION_POINTERS /* apExceptionInfo */)
 {
@@ -62,7 +58,7 @@ inline void create_minidump(PEXCEPTION_POINTERS /* apExceptionInfo */)
     Alive_Show_ErrorMsg(errMsg);
 }
 
-#endif
+    #endif
 
 inline LONG WINAPI unhandled_handler(PEXCEPTION_POINTERS pExceptionInfo)
 {
@@ -70,4 +66,3 @@ inline LONG WINAPI unhandled_handler(PEXCEPTION_POINTERS pExceptionInfo)
     return EXCEPTION_CONTINUE_SEARCH;
 }
 #endif
-

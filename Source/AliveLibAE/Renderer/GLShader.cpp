@@ -2,7 +2,6 @@
 
 GLShader::GLShader()
 {
-    
 }
 
 static std::string shaderReadFile(const s8* filePath)
@@ -10,13 +9,15 @@ static std::string shaderReadFile(const s8* filePath)
     std::string content;
     std::ifstream fileStream(filePath, std::ios::in);
 
-    if (!fileStream.is_open()) {
+    if (!fileStream.is_open())
+    {
         LOG_ERROR("Could not read file " << filePath << ". File does not exist.");
         return std::string();
     }
 
     std::string line = "";
-    while (!fileStream.eof()) {
+    while (!fileStream.eof())
+    {
         std::getline(fileStream, line);
         content.append(line + "\n");
     }
@@ -77,7 +78,7 @@ bool GLShader::LoadSource(const s8* vertex_Source, const s8* fragment_Source)
 
     mProgramID = glCreateProgram();
 
-    
+
     mVertexID = CompileShader(vertex_Source, GL_VERTEX_SHADER);
     mFragmentID = CompileShader(fragment_Source, GL_FRAGMENT_SHADER);
 
@@ -115,7 +116,7 @@ GLuint GLShader::GetAttributeLocation(const s8* attr)
     return glGetAttribLocation(mProgramID, attr);
 }
 
-void GLShader::UniformMatrix4fv(const s8 * name, glm::mat4 matrix)
+void GLShader::UniformMatrix4fv(const s8* name, glm::mat4 matrix)
 {
     glUniformMatrix4fv(glGetUniformLocation(mProgramID, name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
@@ -179,7 +180,7 @@ void printShaderLog(GLuint shader)
     }
 }
 
-GLuint GLShader::CompileShader(const s8 * source, GLenum shaderType)
+GLuint GLShader::CompileShader(const s8* source, GLenum shaderType)
 {
     GLuint shaderID = glCreateShader(shaderType);
     glShaderSource(shaderID, 1, &source, NULL);

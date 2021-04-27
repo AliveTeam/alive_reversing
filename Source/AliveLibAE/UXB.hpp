@@ -67,6 +67,7 @@ public:
 
     EXPORT UXB* ctor_4DE9A0(Path_UXB* params, TlvItemInfoUnion itemInfo);
     EXPORT static s32 CC CreateFromSaveState_4DFAE0(const u8*);
+
 private:
     EXPORT void vOnPickUpOrSlapped_4DF540();
     EXPORT void vOnThrowableHit_4DF7B0(BaseGameObject* pFrom);
@@ -80,6 +81,7 @@ private:
     EXPORT void InitBlinkAnim_4DEED0(Animation* pAnimation);
     EXPORT void PlaySFX_4DE930(u8 sfxIdx);
     EXPORT s32 IsColliding_4DF630();
+
 private:
     UXBState field_118_state;
     UXBState field_11A_starting_state;

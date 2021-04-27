@@ -143,7 +143,7 @@ void Alarm::vUpdate_409460()
 
     switch (field_90_state)
     {
-    case States::eWaitForSwitchEnable_0:
+        case States::eWaitForSwitchEnable_0:
             if (Event_Get_422C00(kEventDeathReset))
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);

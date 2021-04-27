@@ -241,4 +241,4 @@ EXPORT s32 CC Path_Format_CameraName_4346B0(s8* pNameBuffer, LevelIds level, s16
 
 extern PathRootContainer gMapData_4CAB58;
 
-}
+} // namespace AO

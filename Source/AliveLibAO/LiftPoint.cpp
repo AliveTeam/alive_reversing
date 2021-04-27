@@ -31,45 +31,41 @@ struct LiftPointData
     s32 field_18_maxW_lift_wheel_and_pulley;
 };
 
-const LiftPointData stru_4BB480[16] =
-{
-    { 940, 122, 12, 17108, 17144, 62, 46 },
-    { 1260, 117, 19, 24204, 24240, 124, 37 },
-    { 1524, 114, 25, 17108, 17144, 62, 46 },
-    { 940, 122, 12, 17108, 17144, 62, 46 },
-    { 940, 122, 12, 17108, 17144, 62, 46 },
-    { 940, 122, 12, 17108, 17144, 62, 46 },
-    { 940, 122, 12, 17108, 17144, 62, 46 },
-    { 1524, 114, 25, 17108, 17144, 62, 46 },
-    { 1472, 116, 20, 21900, 21936, 73, 55 },
-    { 1472, 116, 20, 21900, 21936, 73, 55 },
-    { 940, 122, 12, 17108, 17144, 62, 46 },
-    { 940, 122, 12, 17108, 17144, 62, 46 },
-    { 1260, 117, 19, 24204, 24240, 124, 37 },
-    { 1260, 117, 19, 24204, 24240, 124, 37 },
-    { 940, 122, 12, 17108, 17144, 62, 46 },
-    { 1472, 116, 20, 21900, 21936, 73, 55 }
-};
+const LiftPointData stru_4BB480[16] = {
+    {940, 122, 12, 17108, 17144, 62, 46},
+    {1260, 117, 19, 24204, 24240, 124, 37},
+    {1524, 114, 25, 17108, 17144, 62, 46},
+    {940, 122, 12, 17108, 17144, 62, 46},
+    {940, 122, 12, 17108, 17144, 62, 46},
+    {940, 122, 12, 17108, 17144, 62, 46},
+    {940, 122, 12, 17108, 17144, 62, 46},
+    {1524, 114, 25, 17108, 17144, 62, 46},
+    {1472, 116, 20, 21900, 21936, 73, 55},
+    {1472, 116, 20, 21900, 21936, 73, 55},
+    {940, 122, 12, 17108, 17144, 62, 46},
+    {940, 122, 12, 17108, 17144, 62, 46},
+    {1260, 117, 19, 24204, 24240, 124, 37},
+    {1260, 117, 19, 24204, 24240, 124, 37},
+    {940, 122, 12, 17108, 17144, 62, 46},
+    {1472, 116, 20, 21900, 21936, 73, 55}};
 
-const LiftPointCoord stru_4BB640[16] =
-{
-    { 0, 0 },
-    { 0, 0 },
-    { 0, 0 },
-    { 0, 0 },
-    { 0, 0 },
-    { 0, 0 },
-    { 0, 0 },
-    { 0, 0 },
-    { 2, 1 },
-    { 2, 1 },
-    { 0, 0 },
-    { 0, 0 },
-    { 0, 0 },
-    { 0, 0 },
-    { 0, 0 },
-    { 2, 1 }
-};
+const LiftPointCoord stru_4BB640[16] = {
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {2, 1},
+    {2, 1},
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {2, 1}};
 
 
 
@@ -115,11 +111,11 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_10_anim.field_C_layer = Layer::eLayer_6;
         field_120_pCollisionLine->field_8_type = 36;
     }
-    
+
     const FP oldX = field_A8_xpos;
     MapFollowMe_401D30(1);
     const FP newX = field_A8_xpos;
-    
+
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     const auto xMovedBy = FP_GetExponent(newX - oldX);
@@ -128,15 +124,15 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 
     u8** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
     if (field_13C_lift_wheel.Init_402D20(
-        stru_4BB480[idx].field_C_lift_wheel_frame_table_offset,
-        gObjList_animations_505564,
-        this,
-        static_cast<s16>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
-        static_cast<s16>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
-        ppLiftWheelRes,
-        1,
-        0,
-        0))
+            stru_4BB480[idx].field_C_lift_wheel_frame_table_offset,
+            gObjList_animations_505564,
+            this,
+            static_cast<s16>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
+            static_cast<s16>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
+            ppLiftWheelRes,
+            1,
+            0,
+            0))
     {
         if (pTlv->field_20_scale)
         {
@@ -153,7 +149,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
         field_27A_flags.Clear(Flags::eBit3_bMiddleFloor);
         field_27A_flags.Clear(Flags::eBit2_bTopFloor);
- 
+
         field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit2_Animate);
@@ -192,7 +188,6 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
                 field_BC_sprite_scale);
             pRopeMem2->field_C_refCount++;
             field_134_pRope2 = pRopeMem2;
-
         }
 
         field_134_pRope2->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * field_BC_sprite_scale) + FP_FromInteger(field_120_pCollisionLine->field_0_rect.y));
@@ -211,17 +206,17 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 
         switch (field_130_stop_type)
         {
-        case 0:
-            field_27A_flags.Set(Flags::eBit2_bTopFloor);
-            break;
+            case 0:
+                field_27A_flags.Set(Flags::eBit2_bTopFloor);
+                break;
 
-        case 1:
-            field_27A_flags.Set(Flags::eBit4_bBottomFloor);
-            break;
+            case 1:
+                field_27A_flags.Set(Flags::eBit4_bBottomFloor);
+                break;
 
-        case 2:
-            field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
-            break;
+            case 2:
+                field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
+                break;
         }
 
         field_27A_flags.Clear(Flags::eBit8_KeepOnMiddleFloor);
@@ -399,100 +394,100 @@ void LiftPoint::VUpdate_434D10()
 
             switch (field_130_stop_type)
             {
-            case 0:
-                if (field_B8_vely >= FP_FromInteger(0))
-                {
-                    if (field_B8_vely != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
+                case 0:
+                    if (field_B8_vely >= FP_FromInteger(0))
                     {
-                        pLiftTlv->field_1_unknown = 1;
-                        field_27A_flags.Clear(Flags::eBit2_bTopFloor);
-                    }
-                    else
-                    {
-                        field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
-                        field_12C_bMoving |= 1u;
-                        field_AC_ypos = field_270_floorYLevel - distanceToFloor;
-                        
-                        pLiftTlv->field_1_unknown = 3;
+                        if (field_B8_vely != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
+                        {
+                            pLiftTlv->field_1_unknown = 1;
+                            field_27A_flags.Clear(Flags::eBit2_bTopFloor);
+                        }
+                        else
+                        {
+                            field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
+                            field_12C_bMoving |= 1u;
+                            field_AC_ypos = field_270_floorYLevel - distanceToFloor;
 
-                        pLiftTlv->field_18_id = field_278_point_id;
+                            pLiftTlv->field_1_unknown = 3;
+
+                            pLiftTlv->field_18_id = field_278_point_id;
+                            field_27A_flags.Set(Flags::eBit2_bTopFloor);
+                        }
+                    }
+                    else if (field_B8_vely + lineY <= FP_FromInteger(pTlvIter->field_10_top_left.field_2_y))
+                    {
+                        StayOnFloor(field_27A_flags.Get(Flags::eBit2_bTopFloor), pLiftTlv);
+
                         field_27A_flags.Set(Flags::eBit2_bTopFloor);
                     }
-                }
-                else if (field_B8_vely + lineY <= FP_FromInteger(pTlvIter->field_10_top_left.field_2_y))
-                {
-                    StayOnFloor(field_27A_flags.Get(Flags::eBit2_bTopFloor), pLiftTlv);
+                    break;
 
-                    field_27A_flags.Set(Flags::eBit2_bTopFloor);
-                }
-                break;
+                case 1:
+                    if (field_B8_vely <= FP_FromInteger(0))
+                    {
+                        if (field_B8_vely != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
+                        {
+                            pLiftTlv->field_1_unknown = 1;
+                            field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
+                        }
+                        else
+                        {
+                            field_12C_bMoving |= 1u;
+                            field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
+                            field_AC_ypos = field_270_floorYLevel - distanceToFloor;
 
-            case 1:
-                if (field_B8_vely <= FP_FromInteger(0))
-                {
-                    if (field_B8_vely != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
+                            pLiftTlv->field_1_unknown = 3;
+
+                            pLiftTlv->field_18_id = field_278_point_id;
+                            field_27A_flags.Set(Flags::eBit4_bBottomFloor);
+                        }
+                    }
+                    else if (field_B8_vely + lineY >= FP_FromInteger(pTlvIter->field_10_top_left.field_2_y))
+                    {
+                        StayOnFloor(field_27A_flags.Get(Flags::eBit4_bBottomFloor), pLiftTlv);
+                        field_27A_flags.Set(Flags::eBit4_bBottomFloor);
+                    }
+                    break;
+
+                case 2:
+                    if (distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                     {
                         pLiftTlv->field_1_unknown = 1;
-                        field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
                     }
                     else
                     {
-                        field_12C_bMoving |= 1u;
-                        field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
-                        field_AC_ypos = field_270_floorYLevel - distanceToFloor;
+                        if (field_27A_flags.Get(Flags::eBit8_KeepOnMiddleFloor))
+                        {
+                            StayOnFloor(field_27A_flags.Get(Flags::eBit3_bMiddleFloor), pLiftTlv);
+                            field_27A_flags.Clear(Flags::eBit8_KeepOnMiddleFloor);
+                        }
+
+                        if (field_B8_vely == FP_FromInteger(0))
+                        {
+                            field_12C_bMoving |= 1u;
+                            field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
+                            field_AC_ypos = field_270_floorYLevel - distanceToFloor;
+                        }
 
                         pLiftTlv->field_1_unknown = 3;
-
                         pLiftTlv->field_18_id = field_278_point_id;
-                        field_27A_flags.Set(Flags::eBit4_bBottomFloor);
+                        field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
                     }
-                }
-                else if (field_B8_vely + lineY >= FP_FromInteger(pTlvIter->field_10_top_left.field_2_y))
-                {
-                    StayOnFloor(field_27A_flags.Get(Flags::eBit4_bBottomFloor), pLiftTlv);
-                    field_27A_flags.Set(Flags::eBit4_bBottomFloor);
-                }
-                break;
+                    break;
 
-            case 2:
-                if (distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
-                {
-                    pLiftTlv->field_1_unknown = 1;
-                }
-                else
-                {
-                    if (field_27A_flags.Get(Flags::eBit8_KeepOnMiddleFloor))
+                case 4:
+                    if (pLiftTlv)
                     {
-                        StayOnFloor(field_27A_flags.Get(Flags::eBit3_bMiddleFloor), pLiftTlv);
-                        field_27A_flags.Clear(Flags::eBit8_KeepOnMiddleFloor);
+                        pLiftTlv->field_1_unknown = 1;
                     }
 
-                    if (field_B8_vely == FP_FromInteger(0))
-                    {
-                        field_12C_bMoving |= 1u;
-                        field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
-                        field_AC_ypos = field_270_floorYLevel - distanceToFloor;
-                    }
+                    field_27A_flags.Clear(Flags::eBit2_bTopFloor);
+                    field_27A_flags.Clear(Flags::eBit3_bMiddleFloor);
+                    field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
+                    break;
 
-                    pLiftTlv->field_1_unknown = 3;
-                    pLiftTlv->field_18_id = field_278_point_id;
-                    field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
-                }
-                break;
-
-            case 4:
-                if (pLiftTlv)
-                {
-                    pLiftTlv->field_1_unknown = 1;
-                }
-
-                field_27A_flags.Clear(Flags::eBit2_bTopFloor);
-                field_27A_flags.Clear(Flags::eBit3_bMiddleFloor);
-                field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
-                break;
-
-            default:
-                break;
+                default:
+                    break;
             }
         }
 
@@ -562,9 +557,7 @@ void LiftPoint::VUpdate_434D10()
         }
     }
 
-    if (field_B2_lvl_number != gMap_507BA8.field_0_current_level ||
-        field_B0_path_number != gMap_507BA8.field_2_current_path ||
-        Event_Get_417250(kEventDeathReset_4))
+    if (field_B2_lvl_number != gMap_507BA8.field_0_current_level || field_B0_path_number != gMap_507BA8.field_2_current_path || Event_Get_417250(kEventDeathReset_4))
     {
         if (field_114_count <= 0)
         {
@@ -614,11 +607,11 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
 
                 field_13C_lift_wheel.VRender_403AE0(
                     FP_GetExponent(field_A8_xpos
-                        + xOff
-                        + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                                   + xOff
+                                   + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
                     FP_GetExponent(field_AC_ypos
-                        + yOff
-                        + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                                   + yOff
+                                   + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
                     ppOt,
                     0,
                     0);
@@ -637,11 +630,11 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
                     const FP pulley_xpos = FP_FromInteger(field_26C_pulley_xpos);
                     const FP pulley_ypos = FP_FromInteger(field_26E_pulley_ypos);
                     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-                        field_B2_lvl_number,
-                        field_B0_path_number,
-                        pulley_xpos,
-                        pulley_ypos,
-                        0))
+                            field_B2_lvl_number,
+                            field_B0_path_number,
+                            pulley_xpos,
+                            pulley_ypos,
+                            0))
                     {
                         s16 r = field_C0_r;
                         s16 g = field_C2_g;
@@ -654,7 +647,7 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
                             &r,
                             &g,
                             &b);
-  
+
                         field_1D4_pulley_anim.field_8_r = static_cast<u8>(r);
                         field_1D4_pulley_anim.field_9_g = static_cast<u8>(g);
                         field_1D4_pulley_anim.field_A_b = static_cast<u8>(b);
@@ -769,8 +762,7 @@ void LiftPoint::CreatePulleyIfExists_435AE0(s16 camX, s16 camY)
 
             if (pTlv->field_4_type == TlvTypes::Pulley_35)
             {
-                if (field_120_pCollisionLine->field_0_rect.x <= pTlv->field_10_top_left.field_0_x &&
-                    pTlv->field_10_top_left.field_0_x <= field_120_pCollisionLine->field_0_rect.w)
+                if (field_120_pCollisionLine->field_0_rect.x <= pTlv->field_10_top_left.field_0_x && pTlv->field_10_top_left.field_0_x <= field_120_pCollisionLine->field_0_rect.w)
                 {
                     break;
                 }
@@ -831,4 +823,4 @@ LiftPoint* LiftPoint::Vdtor_435D10(s32 flags)
     return this;
 }
 
-}
+} // namespace AO

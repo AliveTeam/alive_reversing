@@ -103,4 +103,4 @@ void SlogHut::VUpdate_472D50()
     }
 }
 
-}
+} // namespace AO

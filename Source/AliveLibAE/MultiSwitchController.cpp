@@ -129,7 +129,7 @@ EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
             field_34_last_switch_on_time = sGnFrame_5C1B84;
         }
     }
-    
+
     const s32 id5_value = SwitchStates_Get_466020(field_28_id5);
     if (id5_value)
     {
@@ -148,23 +148,12 @@ EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
         }
     }
 
-    if ((!id1_value || field_20_id1 == 1) &&
-        (!id2_value || field_22_id2 == 1) &&
-        (!id3_value || field_24_id3 == 1) &&
-        (!id4_value || field_26_id4 == 1) &&
-        (!id5_value || field_28_id5 == 1) &&
-        (!id6_value || field_2A_id6 == 1))
+    if ((!id1_value || field_20_id1 == 1) && (!id2_value || field_22_id2 == 1) && (!id3_value || field_24_id3 == 1) && (!id4_value || field_26_id4 == 1) && (!id5_value || field_28_id5 == 1) && (!id6_value || field_2A_id6 == 1))
     {
         field_34_last_switch_on_time = 0;
     }
 
-    if (id1_value &&
-        id2_value &&
-        id3_value &&
-        id4_value &&
-        id5_value &&
-        id6_value &&
-        field_38_all_switches_on_or_off_time == 0)
+    if (id1_value && id2_value && id3_value && id4_value && id5_value && id6_value && field_38_all_switches_on_or_off_time == 0)
     {
         field_38_all_switches_on_or_off_time = sGnFrame_5C1B84;
         if (field_38_all_switches_on_or_off_time - field_34_last_switch_on_time <= field_3C_delay)
@@ -291,23 +280,12 @@ EXPORT void MultiSwitchController::WaitingForAllOff_4D65B0()
         }
     }
 
-    if ((id1_value || field_20_id1 == 1) &&
-        (id2_value || field_22_id2 == 1) &&
-        (id3_value || field_24_id3 == 1) &&
-        (id4_value || field_26_id4 == 1) &&
-        (id5_value || field_28_id5 == 1) &&
-        (id6_value || field_2A_id6 == 1))
+    if ((id1_value || field_20_id1 == 1) && (id2_value || field_22_id2 == 1) && (id3_value || field_24_id3 == 1) && (id4_value || field_26_id4 == 1) && (id5_value || field_28_id5 == 1) && (id6_value || field_2A_id6 == 1))
     {
         field_34_last_switch_on_time = 0;
     }
 
-    if (!id1_value &&
-        !id2_value &&
-        !id3_value &&
-        !id4_value &&
-        !id5_value &&
-        !id6_value &&
-        field_38_all_switches_on_or_off_time == 0)
+    if (!id1_value && !id2_value && !id3_value && !id4_value && !id5_value && !id6_value && field_38_all_switches_on_or_off_time == 0)
     {
         field_38_all_switches_on_or_off_time = sGnFrame_5C1B84;
         if (field_38_all_switches_on_or_off_time - field_34_last_switch_on_time <= field_3C_delay)

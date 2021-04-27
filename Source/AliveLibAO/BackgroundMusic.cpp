@@ -77,4 +77,4 @@ void CC BackgroundMusic::Play_4762B0()
     }
 }
 
-}
+} // namespace AO

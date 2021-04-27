@@ -24,19 +24,19 @@ Bells* Bells::ctor_40A650(BellSize bellType, FP xpos, FP ypos, FP scale)
 
     switch (bellType)
     {
-    case BellSize::eBig_0:
-        field_EA_sound = Sounds::eLowPitch_0;
-        Animation_Init_417FD0(19240, 49, 46, ppRes, 1);
-        break;
+        case BellSize::eBig_0:
+            field_EA_sound = Sounds::eLowPitch_0;
+            Animation_Init_417FD0(19240, 49, 46, ppRes, 1);
+            break;
 
-    case BellSize::eMedium_1:
-        field_EA_sound = Sounds::eMediumPitch_1;
-        Animation_Init_417FD0(19368, 49, 46, ppRes, 1);
-        break;
-    case BellSize::eSmall_2:
-        field_EA_sound = Sounds::eHighPitch_2;
-        Animation_Init_417FD0(19252, 49, 46, ppRes, 1);
-        break;
+        case BellSize::eMedium_1:
+            field_EA_sound = Sounds::eMediumPitch_1;
+            Animation_Init_417FD0(19368, 49, 46, ppRes, 1);
+            break;
+        case BellSize::eSmall_2:
+            field_EA_sound = Sounds::eHighPitch_2;
+            Animation_Init_417FD0(19252, 49, 46, ppRes, 1);
+            break;
     }
 
     field_CC_bApplyShadows &= ~1u;
@@ -218,4 +218,4 @@ BaseGameObject* Bells::VDestructor(s32 flags)
     return Vdtor_40AB00(flags);
 }
 
-}
+} // namespace AO

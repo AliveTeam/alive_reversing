@@ -9,7 +9,8 @@
 #include "Game.hpp"
 #include "Math.hpp"
 
-void ZapLine_ForceLink() {}
+void ZapLine_ForceLink()
+{ }
 
 namespace AO {
 
@@ -59,8 +60,7 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLine
     field_10_anim.field_C_layer = layer;
     field_122_number_of_sprites = field_11E_number_of_segments * field_120_number_of_pieces_per_segment;
 
-    field_E8_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Spline, 0, sizeof(ZapLineSprites) * field_122_number_of_sprites
-    );
+    field_E8_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Spline, 0, sizeof(ZapLineSprites) * field_122_number_of_sprites);
     field_124_pSprts = reinterpret_cast<ZapLineSprites*>(*field_E8_ppRes);
 
     field_128_sprite_positions = reinterpret_cast<PSX_Point*>(alloc_450740(sizeof(PSX_Point) * field_122_number_of_sprites));
@@ -109,18 +109,18 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLine
         {
             for (s32 k = 0; k < field_120_number_of_pieces_per_segment; k++)
             {
-                  Prim_Sprt* pSprt = &field_124_pSprts[(j * field_120_number_of_pieces_per_segment) + k].field_0_sprts[i];
-                  Sprt_Init(pSprt);
+                Prim_Sprt* pSprt = &field_124_pSprts[(j * field_120_number_of_pieces_per_segment) + k].field_0_sprts[i];
+                Sprt_Init(pSprt);
 
-                  Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);
-                  Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
-                  SetClut(pSprt, static_cast<s16>(PSX_getClut_496840(
-                      field_10_anim.field_8C_pal_vram_xy.field_0_x,
-                      field_10_anim.field_8C_pal_vram_xy.field_2_y)));
+                Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);
+                Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
+                SetClut(pSprt, static_cast<s16>(PSX_getClut_496840(
+                                   field_10_anim.field_8C_pal_vram_xy.field_0_x,
+                                   field_10_anim.field_8C_pal_vram_xy.field_2_y)));
 
-                  SetUV0(pSprt, u0, field_10_anim.field_84_vram_rect.y & 0xFF);
-                  pSprt->field_14_w = frameW - 1;
-                  pSprt->field_16_h = frameH - 1;
+                SetUV0(pSprt, u0, field_10_anim.field_84_vram_rect.y & 0xFF);
+                pSprt->field_14_w = frameW - 1;
+                pSprt->field_16_h = frameH - 1;
             }
         }
     }
@@ -181,11 +181,11 @@ void ZapLine::VRender(PrimHeader** ppOt)
 void ZapLine::VRender_479840(PrimHeader** ppOt)
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_B2_lvl_number,
-        field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos,
-        0)
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0)
         && field_E4_state > ZapLineState::eInitSpriteVertices_2)
     {
         const auto bufferIdx = gPsxDisplay_504C78.field_A_buffer_index;
@@ -195,7 +195,7 @@ void ZapLine::VRender_479840(PrimHeader** ppOt)
             for (s32 j = 0; j < field_120_number_of_pieces_per_segment; j++)
             {
                 Prim_Sprt* pSprt = &field_124_pSprts->field_0_sprts[j + (i * field_120_number_of_pieces_per_segment)];
-                 OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pSprt[bufferIdx].mBase.header);
+                OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pSprt[bufferIdx].mBase.header);
             }
         }
 
@@ -267,50 +267,50 @@ void ZapLine::VUpdate_4796B0()
 
     switch (field_E4_state)
     {
-    case ZapLineState::eInit_0:
-        CalculateZapPoints_479380();
+        case ZapLineState::eInit_0:
+            CalculateZapPoints_479380();
 
-        if (field_11A_type == ZapLineType::eThin_1)
-        {
-            CalculateThinSpriteSegmentPositions_4791F0();
-        }
-        else if (field_11A_type == ZapLineType::eThick_0)
-        {
-            CalculateThickSpriteSegmentPositions_478F20();
-        }
-        field_E4_state = ZapLineState::eInitSpritePositions_1;
-        break;
+            if (field_11A_type == ZapLineType::eThin_1)
+            {
+                CalculateThinSpriteSegmentPositions_4791F0();
+            }
+            else if (field_11A_type == ZapLineType::eThick_0)
+            {
+                CalculateThickSpriteSegmentPositions_478F20();
+            }
+            field_E4_state = ZapLineState::eInitSpritePositions_1;
+            break;
 
-    case ZapLineState::eInitSpritePositions_1:
-        CalculateSpritePositionsOuter();
-        field_E4_state = ZapLineState::eInitSpriteVertices_2;
-        break;
+        case ZapLineState::eInitSpritePositions_1:
+            CalculateSpritePositionsOuter();
+            field_E4_state = ZapLineState::eInitSpriteVertices_2;
+            break;
 
-    case ZapLineState::eInitSpriteVertices_2:
-    case ZapLineState::eUpdateSpriteVertices_4:
-        UpdateSpriteVertexPositions_4795B0();
+        case ZapLineState::eInitSpriteVertices_2:
+        case ZapLineState::eUpdateSpriteVertices_4:
+            UpdateSpriteVertexPositions_4795B0();
 
-        if (field_116_alive_timer >= field_118_max_alive_time && field_11A_type != ZapLineType::eThin_1)
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            return;
-        }
+            if (field_116_alive_timer >= field_118_max_alive_time && field_11A_type != ZapLineType::eThin_1)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                return;
+            }
 
-        if (field_11A_type == ZapLineType::eThin_1)
-        {
-            CalculateThinSpriteSegmentPositions_4791F0();
-        }
-        else if (field_11A_type == ZapLineType::eThick_0)
-        {
-            CalculateThickSpriteSegmentPositions_478F20();
-        }
-        field_E4_state = ZapLineState::eUpdateSpritePositions_3;
-        break;
+            if (field_11A_type == ZapLineType::eThin_1)
+            {
+                CalculateThinSpriteSegmentPositions_4791F0();
+            }
+            else if (field_11A_type == ZapLineType::eThick_0)
+            {
+                CalculateThickSpriteSegmentPositions_478F20();
+            }
+            field_E4_state = ZapLineState::eUpdateSpritePositions_3;
+            break;
 
-    case ZapLineState::eUpdateSpritePositions_3:
-        CalculateSpritePositionsOuter();
-        field_E4_state = ZapLineState::eUpdateSpriteVertices_4;
-        break;
+        case ZapLineState::eUpdateSpritePositions_3:
+            CalculateSpritePositionsOuter();
+            field_E4_state = ZapLineState::eUpdateSpriteVertices_4;
+            break;
     }
 }
 
@@ -403,7 +403,7 @@ void ZapLine::CalculateThickSpriteSegmentPositions_478F20()
 
     field_130_sprite_segment_positions[field_11E_number_of_segments - 1].field_0_x = FP_FromInteger(field_110_x_position_destination);
     field_130_sprite_segment_positions[field_11E_number_of_segments - 1].field_4_y = FP_FromInteger(field_112_y_position_destination);
-    
+
     s32 angExtra = 0;
     if ((gnFrameCount_507670 / 8) & 1)
     {
@@ -424,11 +424,9 @@ void ZapLine::CalculateThickSpriteSegmentPositions_478F20()
     {
         const u8 ang = static_cast<u8>(angExtra + 18 * i);
 
-        field_130_sprite_segment_positions[i].field_0_x =
-            FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_4510A0(ang) * yDiffDiv) + FP_FromInteger(field_10C_x_position_source) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
+        field_130_sprite_segment_positions[i].field_0_x = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_4510A0(ang) * yDiffDiv) + FP_FromInteger(field_10C_x_position_source) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
 
-        field_130_sprite_segment_positions[i].field_4_y =
-            FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_4510A0(ang) * xDiffDiv) + FP_FromInteger(field_10E_y_position_source) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
+        field_130_sprite_segment_positions[i].field_4_y = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_4510A0(ang) * xDiffDiv) + FP_FromInteger(field_10E_y_position_source) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
     }
 
     field_134_rects[0].x = 0;
@@ -438,7 +436,8 @@ void ZapLine::CalculateThickSpriteSegmentPositions_478F20()
 
     field_134_rects[1].x = 0;
     field_134_rects[1].y = 0;
-    field_134_rects[1].w = gPsxDisplay_504C78.field_0_width;;
+    field_134_rects[1].w = gPsxDisplay_504C78.field_0_width;
+    ;
     field_134_rects[1].h = gPsxDisplay_504C78.field_2_height;
 }
 
@@ -473,16 +472,16 @@ void ZapLine::CalculateSpritePositionsInner_479400(s32 idx1, s32 idx2, s32 idx3,
 
         pItem->field_0_x = FP_GetExponent(
             FP_FromRaw((
-                (field_12C_zap_points[i].field_8 * x3) +
-                (field_12C_zap_points[i].field_4 * x2) +
-                (field_12C_zap_points[i].field_0 * x1)).fpValue >> 1));
+                           (field_12C_zap_points[i].field_8 * x3) + (field_12C_zap_points[i].field_4 * x2) + (field_12C_zap_points[i].field_0 * x1))
+                           .fpValue
+                       >> 1));
 
         pItem->field_2_y = FP_GetExponent(
             FP_FromRaw((
-                (field_12C_zap_points[i].field_8 * y3) +
-                (field_12C_zap_points[i].field_4 * y2) +
-                (field_12C_zap_points[i].field_0 * y1)).fpValue >> 1));
+                           (field_12C_zap_points[i].field_8 * y3) + (field_12C_zap_points[i].field_4 * y2) + (field_12C_zap_points[i].field_0 * y1))
+                           .fpValue
+                       >> 1));
     }
 }
 
-}
+} // namespace AO

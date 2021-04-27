@@ -12,15 +12,18 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
+
 private:
     EXPORT void dtor_4A0DB0();
     EXPORT Rope* vdtor_4A0D80(s32 flags);
     EXPORT void vRender_4A0E30(PrimHeader** ppOt);
+
 private:
     s16 field_F4_rope_segment_count;
+
 public:
     s16 field_F6_rope_length;
-    u8 **field_F8_ppRopeRes;
+    u8** field_F8_ppRopeRes;
     AnimationUnknown* field_FC_pRopeRes;
     s16 field_100_left;
     s16 field_102_top;

@@ -34,7 +34,7 @@ public:
 
     EXPORT TrapDoor* Vdtor_4887D0(s32 flags);
 
-     virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx) override;
+    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx) override;
 
     EXPORT PSX_RECT* VGetBoundingRect_4887B0(PSX_RECT* pRect, s32 pointIdx);
 
@@ -76,4 +76,4 @@ public:
 ALIVE_ASSERT_SIZEOF(TrapDoor, 0x150);
 
 
-}
+} // namespace AO

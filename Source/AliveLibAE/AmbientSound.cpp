@@ -81,93 +81,93 @@ EXPORT void CC Start_Sounds_for_TLV_4CB530(CameraPos direction, Path_TLV* pTlv)
     Sound_Ambiance_Array* pAmbianceTbl = nullptr;
     switch (direction)
     {
-    case CameraPos::eCamTop_1:
-    case CameraPos::eCamBottom_2:
-        pAmbianceTbl = &sTopBottomAmbiance_BB3078;
-        break;
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+            pAmbianceTbl = &sTopBottomAmbiance_BB3078;
+            break;
 
-    case CameraPos::eCamLeft_3:
-        pAmbianceTbl = &sLeftAmbiance_BB3138;
-        break;
+        case CameraPos::eCamLeft_3:
+            pAmbianceTbl = &sLeftAmbiance_BB3138;
+            break;
 
-    case CameraPos::eCamRight_4:
-        pAmbianceTbl = &sRightAmbiance_BB30D8;
-        break;
+        case CameraPos::eCamRight_4:
+            pAmbianceTbl = &sRightAmbiance_BB30D8;
+            break;
 
-    default:
-        return;
+        default:
+            return;
     }
 
     switch (pTlv->field_4_type.mType)
     {
-    case TlvTypes::Slig_15:
-    {
-        auto pSligTlv = static_cast<Path_Slig*>(pTlv);
-        if (pSligTlv->field_12_start_state == Path_Slig::StartState::Paused_1)
+        case TlvTypes::Slig_15:
         {
-            if (!pAmbianceTbl->mArray[1].field_8_pScopedSeq)
+            auto pSligTlv = static_cast<Path_Slig*>(pTlv);
+            if (pSligTlv->field_12_start_state == Path_Slig::StartState::Paused_1)
             {
-                pAmbianceTbl->mArray[1].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(1, direction);
+                if (!pAmbianceTbl->mArray[1].field_8_pScopedSeq)
+                {
+                    pAmbianceTbl->mArray[1].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(1, direction);
+                }
             }
-        }
-        else if (pSligTlv->field_12_start_state == Path_Slig::StartState::Sleeping_2)
-        {
-            if (!pAmbianceTbl->mArray[0].field_8_pScopedSeq)
+            else if (pSligTlv->field_12_start_state == Path_Slig::StartState::Sleeping_2)
             {
-                pAmbianceTbl->mArray[0].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(0, direction);
+                if (!pAmbianceTbl->mArray[0].field_8_pScopedSeq)
+                {
+                    pAmbianceTbl->mArray[0].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(0, direction);
+                }
             }
+            break;
         }
-        break;
-    }
 
-    case TlvTypes::Slog_16:
-    {
-        if (static_cast<Path_Slog*>(pTlv)->field_14_asleep)
+        case TlvTypes::Slog_16:
         {
-            if (!pAmbianceTbl->mArray[3].field_8_pScopedSeq)
+            if (static_cast<Path_Slog*>(pTlv)->field_14_asleep)
             {
-                pAmbianceTbl->mArray[3].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(3, direction);
+                if (!pAmbianceTbl->mArray[3].field_8_pScopedSeq)
+                {
+                    pAmbianceTbl->mArray[3].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(3, direction);
+                }
             }
-        }
-        else
-        {
-            if (!pAmbianceTbl->mArray[2].field_8_pScopedSeq)
+            else
             {
-                pAmbianceTbl->mArray[2].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(2, direction);
+                if (!pAmbianceTbl->mArray[2].field_8_pScopedSeq)
+                {
+                    pAmbianceTbl->mArray[2].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(2, direction);
+                }
             }
+            break;
         }
-        break;
-    }
 
-    case TlvTypes::Paramite_26:
-        if (!pAmbianceTbl->mArray[5].field_8_pScopedSeq)
-        {
-            pAmbianceTbl->mArray[5].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(5, direction);
-        }
-        break;
-
-    case TlvTypes::Scrab_41:
-        if (!pAmbianceTbl->mArray[6].field_8_pScopedSeq)
-        {
-            pAmbianceTbl->mArray[6].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(6, direction);
-        }
-        break;
-
-    case TlvTypes::Fleech_83:
-    {
-        auto pFleechTlv = static_cast<Path_Fleech*>(pTlv);
-        if ((pFleechTlv->field_14_asleep == Choice_short::eYes_1 || pFleechTlv->field_20_hanging == Choice_short::eYes_1))
-        {
-            if (!pAmbianceTbl->mArray[4].field_8_pScopedSeq)
+        case TlvTypes::Paramite_26:
+            if (!pAmbianceTbl->mArray[5].field_8_pScopedSeq)
             {
-                pAmbianceTbl->mArray[4].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(4, direction);
+                pAmbianceTbl->mArray[5].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(5, direction);
             }
-        }
-        break;
-    }
+            break;
 
-    default:
-        return;
+        case TlvTypes::Scrab_41:
+            if (!pAmbianceTbl->mArray[6].field_8_pScopedSeq)
+            {
+                pAmbianceTbl->mArray[6].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(6, direction);
+            }
+            break;
+
+        case TlvTypes::Fleech_83:
+        {
+            auto pFleechTlv = static_cast<Path_Fleech*>(pTlv);
+            if ((pFleechTlv->field_14_asleep == Choice_short::eYes_1 || pFleechTlv->field_20_hanging == Choice_short::eYes_1))
+            {
+                if (!pAmbianceTbl->mArray[4].field_8_pScopedSeq)
+                {
+                    pAmbianceTbl->mArray[4].field_8_pScopedSeq = ae_new<ScopedSeq>()->ctor_4CB210(4, direction);
+                }
+            }
+            break;
+        }
+
+        default:
+            return;
     }
 }
 
@@ -177,18 +177,18 @@ EXPORT void CC Start_Slig_sounds_4CB980(CameraPos direction, s8 kZero)
     Sound_Ambiance_Array* pTable = nullptr;
     switch (direction)
     {
-    case CameraPos::eCamTop_1:
-    case CameraPos::eCamBottom_2:
-        pTable = &sTopBottomAmbiance_BB3078;
-        break;
-    case CameraPos::eCamLeft_3:
-        pTable = &sLeftAmbiance_BB3138;
-        break;
-    case CameraPos::eCamRight_4:
-        pTable = &sRightAmbiance_BB30D8;
-        break;
-    default:
-        return;
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+            pTable = &sTopBottomAmbiance_BB3078;
+            break;
+        case CameraPos::eCamLeft_3:
+            pTable = &sLeftAmbiance_BB3138;
+            break;
+        case CameraPos::eCamRight_4:
+            pTable = &sRightAmbiance_BB30D8;
+            break;
+        default:
+            return;
     }
 
     ScopedSeq** ppSeqPtr = &pTable->mArray[kZero].field_8_pScopedSeq;
@@ -204,18 +204,18 @@ EXPORT void CC Stop_slig_sounds_4CBA70(CameraPos direction, s8 kZero)
     Sound_Ambiance_Array* pTable = nullptr;
     switch (direction)
     {
-    case CameraPos::eCamTop_1:
-    case CameraPos::eCamBottom_2:
-        pTable = &sTopBottomAmbiance_BB3078;
-        break;
-    case CameraPos::eCamLeft_3:
-        pTable = &sLeftAmbiance_BB3138;
-        break;
-    case CameraPos::eCamRight_4:
-        pTable = &sRightAmbiance_BB30D8;
-        break;
-    default:
-        return;
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+            pTable = &sTopBottomAmbiance_BB3078;
+            break;
+        case CameraPos::eCamLeft_3:
+            pTable = &sLeftAmbiance_BB3138;
+            break;
+        case CameraPos::eCamRight_4:
+            pTable = &sRightAmbiance_BB30D8;
+            break;
+        default:
+            return;
     }
 
     if (pTable->mArray[kZero].field_8_pScopedSeq)

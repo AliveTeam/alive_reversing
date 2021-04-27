@@ -156,51 +156,53 @@ BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, AETypes type)
 
 #include <gmock/gmock.h>
 
-namespace AETest::TestsObjectIds
+namespace AETest::TestsObjectIds {
+class FakeGameObject : public BaseGameObject
 {
-    class FakeGameObject : public BaseGameObject
+public:
+    virtual BaseGameObject* VDestructor(s32) override
     {
-    public:
-        virtual BaseGameObject* VDestructor(s32) override { return this; }
-    };
-
-    void ObjectIdsTests()
-    {
-        ObjectIds ids;
-        ids.ctor_449AE0(101);
-
-        FakeGameObject p;
-        p.field_4_typeId = AETypes::eAlarm_1;
-        ids.Insert_449C10(1, &p);
-
-        ASSERT_EQ(&p, ids.Find(1, AETypes::eAlarm_1));
-
-        FakeGameObject p2;
-        p2.field_4_typeId = AETypes::eAlarm_1;
-        ids.Insert_449C10(1, &p2);
-
-        ASSERT_EQ(&p2, ids.Find(1, AETypes::eAlarm_1));
-
-        ids.Remove_449C60(1);
-
-        ASSERT_EQ(&p, ids.Find(1, AETypes::eAlarm_1));
-
-        ids.Remove_449C60(1);
-
-        ASSERT_EQ(nullptr, ids.Find(1, AETypes::eAlarm_1));
-
-        ASSERT_EQ(nullptr, ids.Find(9999, AETypes::eAlarm_1));
-
-        for (s32 i = 0; i < 3000; i++)
-        {
-            ids.Insert_449C10(i, &p);
-        }
-
-        for (s32 i = 0; i < 3000; i++)
-        {
-            ids.Remove_449C60(i);
-        }
-
-        ids.Destructor();
+        return this;
     }
+};
+
+void ObjectIdsTests()
+{
+    ObjectIds ids;
+    ids.ctor_449AE0(101);
+
+    FakeGameObject p;
+    p.field_4_typeId = AETypes::eAlarm_1;
+    ids.Insert_449C10(1, &p);
+
+    ASSERT_EQ(&p, ids.Find(1, AETypes::eAlarm_1));
+
+    FakeGameObject p2;
+    p2.field_4_typeId = AETypes::eAlarm_1;
+    ids.Insert_449C10(1, &p2);
+
+    ASSERT_EQ(&p2, ids.Find(1, AETypes::eAlarm_1));
+
+    ids.Remove_449C60(1);
+
+    ASSERT_EQ(&p, ids.Find(1, AETypes::eAlarm_1));
+
+    ids.Remove_449C60(1);
+
+    ASSERT_EQ(nullptr, ids.Find(1, AETypes::eAlarm_1));
+
+    ASSERT_EQ(nullptr, ids.Find(9999, AETypes::eAlarm_1));
+
+    for (s32 i = 0; i < 3000; i++)
+    {
+        ids.Insert_449C10(i, &p);
+    }
+
+    for (s32 i = 0; i < 3000; i++)
+    {
+        ids.Remove_449C60(i);
+    }
+
+    ids.Destructor();
 }
+} // namespace AETest::TestsObjectIds

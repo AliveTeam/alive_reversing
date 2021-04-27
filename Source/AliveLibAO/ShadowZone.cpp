@@ -61,10 +61,10 @@ void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 
 
         if (pShadow->ApplysToScale(scale))
         {
-             FP amount = {};
-             
-             // TODO: This was probably a reference, refactor later
-             pShadow->GetColourAmount_435E40(&amount, static_cast<s16>(xpos), static_cast<s16>(ypos));
+            FP amount = {};
+
+            // TODO: This was probably a reference, refactor later
+            pShadow->GetColourAmount_435E40(&amount, static_cast<s16>(xpos), static_cast<s16>(ypos));
 
             *r = FP_GetExponent(FP_FromInteger(*r) + (pShadow->field_28_r * amount));
             *b = FP_GetExponent(FP_FromInteger(*b) + (pShadow->field_30_b * amount));
@@ -191,7 +191,6 @@ void ShadowZone::GetColourAmount_435E40(FP* pOut, s16 xpos, s16 ypos)
             const FP midXDistance = FP_FromInteger(field_20_mid_x - field_1C_centre_mid_x);
             const FP value = midXDistance - FP_FromInteger(deltaX - field_1C_centre_mid_x);
             *pOut = value / midXDistance;
-
         }
         else
         {
@@ -201,4 +200,4 @@ void ShadowZone::GetColourAmount_435E40(FP* pOut, s16 xpos, s16 ypos)
     }
 }
 
-}
+} // namespace AO

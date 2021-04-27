@@ -49,5 +49,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Bullet, 0x38);
 
-}
-
+} // namespace AO

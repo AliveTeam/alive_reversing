@@ -4,8 +4,7 @@
 #include "Function.hpp"
 
 // TODO: Should be const but can't be due to mlgs hacks in Font obj
-u8 byte_550F08[32] =
-{
+u8 byte_550F08[32] = {
     0u,
     0u,
     1u,
@@ -37,8 +36,7 @@ u8 byte_550F08[32] =
     20u,
     161u,
     24u,
-    216u
-};
+    216u};
 
 FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, s32 tlvInfo)
 {
@@ -77,7 +75,7 @@ FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, s32 tlvInfo)
         field_144_total_brew_count = savedBrewCount;
     }
 
-    field_13C_textX = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x +  5) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
+    field_13C_textX = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x + 5) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
     field_13E_textY = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y + 10) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y));
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);

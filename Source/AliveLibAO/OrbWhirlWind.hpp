@@ -50,5 +50,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(OrbWhirlWind, 0x64);
 
-}
-
+} // namespace AO

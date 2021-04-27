@@ -17,7 +17,7 @@
 #include "BaseBomb.hpp"
 #include "LiftPoint.hpp"
 
-static TintEntry sTimedMineTint_550EB8[1] = { { -1, 127u, 127u, 127u } };
+static TintEntry sTimedMineTint_550EB8[1] = {{-1, 127u, 127u, 127u}};
 
 void TimedMine::VUpdate()
 {
@@ -97,14 +97,14 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     FP hitX = {};
 
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos,
-        field_B8_xpos,
-        field_BC_ypos + FP_FromInteger(24),
-        &field_100_pCollisionLine,
-        &hitX,
-        &hitY,
-        field_D6_scale != 0 ? 1 : 0x10))
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos + FP_FromInteger(24),
+            &field_100_pCollisionLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 1 : 0x10))
     {
         field_BC_ypos = hitY;
     }
@@ -182,11 +182,11 @@ void TimedMine::Update_410A80()
 void TimedMine::Render_410CD0(PrimHeader** ppOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-        field_C2_lvl_number,
-        field_C0_path_number,
-        field_B8_xpos,
-        field_BC_ypos,
-        0))
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0))
     {
         field_124_animation.vRender_40B820(
             FP_GetExponent((field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
@@ -234,11 +234,11 @@ void TimedMine::StickToLiftPoint_411100()
     FP hitY = {};
     PathLine* pLine = nullptr;
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos - FP_FromInteger(20),
-        field_B8_xpos, field_BC_ypos + FP_FromInteger(20),
-        &pLine, &hitX, &hitY,
-        (field_D6_scale == 1) ? 15 : 240))
+            field_B8_xpos,
+            field_BC_ypos - FP_FromInteger(20),
+            field_B8_xpos, field_BC_ypos + FP_FromInteger(20),
+            &pLine, &hitX, &hitY,
+            (field_D6_scale == 1) ? 15 : 240))
     {
         if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
         {
@@ -257,9 +257,7 @@ void TimedMine::StickToLiftPoint_411100()
                         PSX_RECT bRect = {};
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);
                         pLiftPoint->vGetBoundingRect_424FD0(&bRect, 1);
-                        if (FP_GetExponent(field_B8_xpos) > bRect.x &&
-                            FP_GetExponent(field_B8_xpos) < bRect.w &&
-                            FP_GetExponent(field_BC_ypos) < bRect.h)
+                        if (FP_GetExponent(field_B8_xpos) > bRect.x && FP_GetExponent(field_B8_xpos) < bRect.w && FP_GetExponent(field_BC_ypos) < bRect.h)
                         {
                             pLiftPoint->VAdd(this);
                             field_110_id = pObj->field_8_object_id;
@@ -378,7 +376,7 @@ void TimedMine::vOnPickUpOrSlapped_410E30()
             field_1C0_detonation_timer = field_11A_explode_timeout >> 2;
         }
         field_1BC_gnframe_2 = sGnFrame_5C1B84;
-		const AnimRecord& animRec = AnimRec(AnimId::Timed_Mine_Armed);
+        const AnimRecord& animRec = AnimRec(AnimId::Timed_Mine_Armed);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_120_gnframe = sGnFrame_5C1B84 + field_11A_explode_timeout;
         field_124_animation.Set_Animation_Data_409C80(556, 0);

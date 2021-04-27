@@ -57,7 +57,7 @@ void Sparks::vUpdate_416570()
 
     if (field_FA_16_random == 0)
     {
-		const AnimRecord& animRec = AnimRec(AnimId::Sparks);
+        const AnimRecord& animRec = AnimRec(AnimId::Sparks);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_FA_16_random = -1;
     }

@@ -2,7 +2,7 @@
 
 #include "FunctionFwd.hpp"
 
-typedef s32(*t_InputCallback)();
+typedef s32 (*t_InputCallback)();
 
 EXPORT u8 CC Input_GetInputEnabled_4EDDE0();
 EXPORT void CC Input_EnableInput_4EDDD0();
@@ -28,41 +28,41 @@ namespace InputCommands {
 
 enum Enum : u32
 {
-    eUp =           1u << 0,  // 0x1
-    eDown =         1u << 1,  // 0x2
-    eLeft =         1u << 2,  // 0x4
-    eRight =        1u << 3,  // 0x8
-    eRun =          1u << 4,  // 0x10
-    eDoAction =     1u << 5,  // Pick up rock, pull lever etc 0x20
-    eSneak =        1u << 6,  // 0x40
-    eThrowItem =    1u << 7,  // Or I say I dunno if no items 0x80
-    eHop =          1u << 8,  // 0x100
-    eFartOrRoll =   1u << 9,  // (Only roll in AO) 0x200
-    eGameSpeak1 =   1u << 10, // Hello 0x400
-    eGameSpeak2 =   1u << 11, // (Follow Me) 0x800
-    eGameSpeak3 =   1u << 12, // Wait 0x1000
-    eGameSpeak4 =   1u << 13, // (Work) (Whistle 1) 0x2000
-    eGameSpeak5 =   1u << 14, // (Anger) 0x4000
-    eGameSpeak6 =   1u << 15, // (All ya) (Fart) 0x8000
-    eGameSpeak7 =   1u << 16, // (Sympathy) (Whistle 2) 0x10000
-    eGameSpeak8 =   1u << 17, // (Stop it) (Laugh) 0x20000
-    eChant =        1u << 18, // 0x40000
-    ePause =        1u << 19, // Or enter 0x80000
-    eUnPause_OrConfirm =      1u << 20, // Or/and back 0x100000
-    eBack =         1u << 21, // 0x200000
-    eCheatMode =    1u << 22, // 0x400000
-    eSpeak1   =    1u << 23, // 0x800000
-    eSpeak2 =      1u << 24, // 0x1000000
+    eUp = 1u << 0,                 // 0x1
+    eDown = 1u << 1,               // 0x2
+    eLeft = 1u << 2,               // 0x4
+    eRight = 1u << 3,              // 0x8
+    eRun = 1u << 4,                // 0x10
+    eDoAction = 1u << 5,           // Pick up rock, pull lever etc 0x20
+    eSneak = 1u << 6,              // 0x40
+    eThrowItem = 1u << 7,          // Or I say I dunno if no items 0x80
+    eHop = 1u << 8,                // 0x100
+    eFartOrRoll = 1u << 9,         // (Only roll in AO) 0x200
+    eGameSpeak1 = 1u << 10,        // Hello 0x400
+    eGameSpeak2 = 1u << 11,        // (Follow Me) 0x800
+    eGameSpeak3 = 1u << 12,        // Wait 0x1000
+    eGameSpeak4 = 1u << 13,        // (Work) (Whistle 1) 0x2000
+    eGameSpeak5 = 1u << 14,        // (Anger) 0x4000
+    eGameSpeak6 = 1u << 15,        // (All ya) (Fart) 0x8000
+    eGameSpeak7 = 1u << 16,        // (Sympathy) (Whistle 2) 0x10000
+    eGameSpeak8 = 1u << 17,        // (Stop it) (Laugh) 0x20000
+    eChant = 1u << 18,             // 0x40000
+    ePause = 1u << 19,             // Or enter 0x80000
+    eUnPause_OrConfirm = 1u << 20, // Or/and back 0x100000
+    eBack = 1u << 21,              // 0x200000
+    eCheatMode = 1u << 22,         // 0x400000
+    eSpeak1 = 1u << 23,            // 0x800000
+    eSpeak2 = 1u << 24,            // 0x1000000
     // 0x2000000    = nothing
     // 0x4000000    = nothing
     // 0x8000000    = nothing
     // 0x10000000   = nothing
-    ePageUp =       1u << 29, // 0x20000000
-    ePageDown =     1u << 30, // 0x40000000
-    eConfigure   = 1u << 31, // 0x80000000
+    ePageUp = 1u << 29,    // 0x20000000
+    ePageDown = 1u << 30,  // 0x40000000
+    eConfigure = 1u << 31, // 0x80000000
 };
 
-}
+} // namespace InputCommands
 
 extern const InputCommands::Enum sInputKey_Right_5550D0;
 extern const InputCommands::Enum sInputKey_Left_5550D4;
@@ -175,6 +175,7 @@ public:
     EXPORT static u32 CC Command_To_Raw_45EE40(u32 cmd);
     EXPORT static s8 CC Raw_To_Command_45EF70(s32 a1);
     EXPORT void CC ShutDown_45F020();
+
 public:
     InputPadObject field_0_pads[2];
     u32** field_30_pDemoRes;

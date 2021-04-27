@@ -5,8 +5,7 @@
 
 namespace AO {
 
-const s32 dword_4CEE78[30] =
-{
+const s32 dword_4CEE78[30] = {
     // NOTE: diversion from OG!
     // the sneak - speak1 and run - speak2 pairs are now decoupled
     // so that they can each be remapped to separate buttons
@@ -39,11 +38,9 @@ const s32 dword_4CEE78[30] =
     0,
     0,
     0,
-    0
-};
+    0};
 
-const s8* kButtonNamesOrAtlasNums_4CEDA8[] =
-{
+const s8* kButtonNamesOrAtlasNums_4CEDA8[] = {
     "esc",
     "tab",
     "alt",
@@ -144,7 +141,8 @@ EXPORT void CC String_FormatString_450DC0(const s8* pInput, s8* pOutput)
                 do
                 {
                     next_char = (pOutIter++)[1];
-                } while (next_char);
+                }
+                while (next_char);
                 pInIter++;
             }
             else
@@ -158,5 +156,4 @@ EXPORT void CC String_FormatString_450DC0(const s8* pInput, s8* pOutput)
     *pOutIter = 0;
 }
 
-}
-
+} // namespace AO

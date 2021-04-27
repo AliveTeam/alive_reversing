@@ -10,9 +10,8 @@ void Game_ForceLink();
 
 EXPORT void CC static_init_set_default_hero_43EC10();
 
-namespace AETest::TestsGame
-{
-    void GameTests();
+namespace AETest::TestsGame {
+void GameTests();
 }
 
 EXPORT void CC Game_Main_4949F0();

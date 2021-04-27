@@ -171,145 +171,145 @@ void HoneySack::VUpdate_42BFE0()
 
     switch (field_E8_state)
     {
-    case State::eDripHoney_0:
-        if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
-        {
-            auto pHoneyDrip = ao_new<HoneyDrip>();
-            if (pHoneyDrip)
+        case State::eDripHoney_0:
+            if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
             {
-                pHoneyDrip->ctor_431D10(field_F4_drip_target_x, field_F8_drip_target_y);
+                auto pHoneyDrip = ao_new<HoneyDrip>();
+                if (pHoneyDrip)
+                {
+                    pHoneyDrip->ctor_431D10(field_F4_drip_target_x, field_F8_drip_target_y);
+                }
+                field_EC_timer = gnFrameCount_507670 + 90;
             }
-            field_EC_timer = gnFrameCount_507670 + 90;
-        }
-        if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
-            0))
-        {
-            field_6_flags.Set(Options::eDead_Bit3);
-        }
-        break;
-
-    case State::eSetFallAnimation_1:
-        if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer - 68)
-        {
-            field_10_anim.Set_Animation_Data_402A40(9336, 0);
-            field_E8_state = State::eFallOnGround_2;
-            field_B4_velx = FP_FromInteger(0);
-            field_B8_vely = FP_FromInteger(0);
-        }
-        break;
-
-    case State::eFallOnGround_2:
-    {
-        if (field_B8_vely < FP_FromInteger(18))
-        {
-            field_B8_vely += FP_FromInteger(1);
-        }
-
-        const FP oldY = field_AC_ypos;
-        field_AC_ypos += field_B8_vely;
-
-        if (field_F0_pBee)
-        {
-            field_F0_pBee->field_D70_chase_target_x = field_A8_xpos;
-            field_F0_pBee->field_D74_chase_target_y = field_AC_ypos;
-        }
-
-        PathLine* pLine = nullptr;
-        FP hitX = {};
-        FP hitY = {};
-
-        if (sCollisions_DArray_504C6C->RayCast_40C410(
-            field_A8_xpos,
-            oldY,
-            field_A8_xpos,
-            field_AC_ypos,
-            &pLine,
-            &hitX,
-            &hitY,
-            field_BC_sprite_scale == FP_FromInteger(1) ? 0x01 : 0x10))
-        {
-            SFX_Play_43AD70(SoundEffect::MountingElum_38, 90, 0);
-            Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);
-            field_AC_ypos = hitY;
-            field_E8_state = State::eUpdateHoneySackOnGround_3;
-            field_10_anim.Set_Animation_Data_402A40(9280, 0);
-
-            auto pNewBee = ao_new<BeeSwarm>();
-            if (pNewBee)
-            {
-                pNewBee->ctor_47FC60(
+            if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
                     field_A8_xpos,
                     field_AC_ypos,
-                    FP_FromInteger(0),
-                    24,
-                    field_100_chase_ticks);
+                    0))
+            {
+                field_6_flags.Set(Options::eDead_Bit3);
+            }
+            break;
+
+        case State::eSetFallAnimation_1:
+            if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer - 68)
+            {
+                field_10_anim.Set_Animation_Data_402A40(9336, 0);
+                field_E8_state = State::eFallOnGround_2;
+                field_B4_velx = FP_FromInteger(0);
+                field_B8_vely = FP_FromInteger(0);
+            }
+            break;
+
+        case State::eFallOnGround_2:
+        {
+            if (field_B8_vely < FP_FromInteger(18))
+            {
+                field_B8_vely += FP_FromInteger(1);
             }
 
-            pNewBee->Chase_47FEB0(sActiveHero_507678);
+            const FP oldY = field_AC_ypos;
+            field_AC_ypos += field_B8_vely;
+
             if (field_F0_pBee)
             {
-                field_F0_pBee->field_C_refCount--;
-                field_F0_pBee->field_6_flags.Set(Options::eDead_Bit3);
-                field_F0_pBee = nullptr;
+                field_F0_pBee->field_D70_chase_target_x = field_A8_xpos;
+                field_F0_pBee->field_D74_chase_target_y = field_AC_ypos;
             }
 
-            for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+            PathLine* pLine = nullptr;
+            FP hitX = {};
+            FP hitY = {};
+
+            if (sCollisions_DArray_504C6C->RayCast_40C410(
+                    field_A8_xpos,
+                    oldY,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    field_BC_sprite_scale == FP_FromInteger(1) ? 0x01 : 0x10))
             {
-                BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
-                if (!pObj)
+                SFX_Play_43AD70(SoundEffect::MountingElum_38, 90, 0);
+                Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);
+                field_AC_ypos = hitY;
+                field_E8_state = State::eUpdateHoneySackOnGround_3;
+                field_10_anim.Set_Animation_Data_402A40(9280, 0);
+
+                auto pNewBee = ao_new<BeeSwarm>();
+                if (pNewBee)
                 {
-                    break;
+                    pNewBee->ctor_47FC60(
+                        field_A8_xpos,
+                        field_AC_ypos,
+                        FP_FromInteger(0),
+                        24,
+                        field_100_chase_ticks);
                 }
 
-                if (pObj->field_4_typeId == Types::eHoney_47)
+                pNewBee->Chase_47FEB0(sActiveHero_507678);
+                if (field_F0_pBee)
                 {
-                    pObj->field_6_flags.Set(Options::eDead_Bit3);
-                    field_EA_bHit_ground = 1;
-                    return;
+                    field_F0_pBee->field_C_refCount--;
+                    field_F0_pBee->field_6_flags.Set(Options::eDead_Bit3);
+                    field_F0_pBee = nullptr;
+                }
+
+                for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+                {
+                    BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+                    if (!pObj)
+                    {
+                        break;
+                    }
+
+                    if (pObj->field_4_typeId == Types::eHoney_47)
+                    {
+                        pObj->field_6_flags.Set(Options::eDead_Bit3);
+                        field_EA_bHit_ground = 1;
+                        return;
+                    }
                 }
             }
         }
-    }
         break;
 
-    case State::eUpdateHoneySackOnGround_3:
-        if (!field_EA_bHit_ground)
-        {
-            for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        case State::eUpdateHoneySackOnGround_3:
+            if (!field_EA_bHit_ground)
             {
-                BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
-                if (!pObj)
+                for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
                 {
-                    break;
-                }
+                    BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+                    if (!pObj)
+                    {
+                        break;
+                    }
 
-                if (pObj->field_4_typeId == Types::eHoney_47)
-                {
-                    pObj->field_6_flags.Set(Options::eDead_Bit3);
-                    field_EA_bHit_ground = 1;
-                    break;
+                    if (pObj->field_4_typeId == Types::eHoney_47)
+                    {
+                        pObj->field_6_flags.Set(Options::eDead_Bit3);
+                        field_EA_bHit_ground = 1;
+                        break;
+                    }
                 }
             }
-        }
 
-        if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
-            0))
-        {
-            field_6_flags.Set(Options::eDead_Bit3);
-        }
-        break;
+            if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0))
+            {
+                field_6_flags.Set(Options::eDead_Bit3);
+            }
+            break;
 
-    default:
-        return;
+        default:
+            return;
     }
 }
 
-}
+} // namespace AO

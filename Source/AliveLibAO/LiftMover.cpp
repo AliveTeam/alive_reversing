@@ -81,114 +81,112 @@ void LiftMover::VUpdate_4055C0()
 
     switch (field_20_state)
     {
-    case 0:
-        if (SwitchStates_Get(field_10_enabled_by_switch_id))
-        {
-            if (pLiftPoint)
+        case 0:
+            if (SwitchStates_Get(field_10_enabled_by_switch_id))
             {
-                field_20_state = 1;
+                if (pLiftPoint)
+                {
+                    field_20_state = 1;
+                }
+                else
+                {
+                    // Find the lift point
+                    field_18_pLiftPoint = FindLiftPointWithId(field_12_target_lift_point_id);
+
+                    if (!field_18_pLiftPoint)
+                    {
+                        // Load lift point objects (I guess in case for some reason it got unloaded ??)
+                        // AE doesn't do this.
+                        for (s16 y = 0; y < gMap_507BA8.field_26_max_cams_y; y++)
+                        {
+                            for (s16 x = 0; x < gMap_507BA8.field_24_max_cams_x; x++)
+                            {
+                                gMap_507BA8.Loader_446590(x, y, LoadMode::Mode_0, TlvTypes::LiftPoint_8);
+                            }
+                        }
+
+                        // And have another look now that we might have just loaded it in
+                        field_18_pLiftPoint = FindLiftPointWithId(field_12_target_lift_point_id);
+                    }
+
+                    if (field_18_pLiftPoint)
+                    {
+                        field_18_pLiftPoint->field_C_refCount++;
+                        field_20_state = 1;
+                    }
+                }
+            }
+            break;
+
+        case 1:
+            if (!pLiftPoint->OnAnyFloor())
+            {
+                pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
+                field_20_state = 2;
             }
             else
             {
-                // Find the lift point
-                field_18_pLiftPoint = FindLiftPointWithId(field_12_target_lift_point_id);
+                pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
 
-                if (!field_18_pLiftPoint)
+                if ((field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
                 {
-                    // Load lift point objects (I guess in case for some reason it got unloaded ??)
-                    // AE doesn't do this.
-                    for (s16 y = 0; y < gMap_507BA8.field_26_max_cams_y; y++)
-                    {
-                        for (s16 x = 0; x < gMap_507BA8.field_24_max_cams_x; x++)
-                        {
-                            gMap_507BA8.Loader_446590(x, y, LoadMode::Mode_0, TlvTypes::LiftPoint_8);
-                        }
-                    }
-
-                    // And have another look now that we might have just loaded it in
-                    field_18_pLiftPoint = FindLiftPointWithId(field_12_target_lift_point_id);
-                }
-
-                if (field_18_pLiftPoint)
-                {
-                    field_18_pLiftPoint->field_C_refCount++;
-                    field_20_state = 1;
+                    field_20_state = 2;
                 }
             }
-        }
-        break;
+            break;
 
-    case 1:
-        if (!pLiftPoint->OnAnyFloor())
-        {
-            pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
-            field_20_state = 2;
-        }
-        else
-        {
-            pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
-
-            if ((field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) ||
-                (field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
+        case 2:
+            if (!pLiftPoint->OnAFloorLiftMoverCanUse())
             {
-                field_20_state = 2;
+                pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
             }
-        }
-        break;
-
-    case 2:
-        if (!pLiftPoint->OnAFloorLiftMoverCanUse())
-        {
-            pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
-        }
-        else
-        {
-            pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
-            field_20_state = 5;
-        }
-        break;
-
-    case 3:
-        if (pLiftPoint->OnAFloorLiftMoverCanUse())
-        {
-            pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
-
-            if ((field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) ||
-                (field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
+            else
             {
-                field_20_state = 2;
+                pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+                field_20_state = 5;
             }
-        }
-        else
-        {
-            pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
-            field_20_state = 4;
-        }
-        break;
+            break;
 
-    case 4:
-        if (pLiftPoint->OnAFloorLiftMoverCanUse())
-        {
-            pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
-            field_20_state = 0;
-            field_1C_speed = -field_1C_speed;
-        }
-        else
-        {
-            pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
-        }
-        break;
+        case 3:
+            if (pLiftPoint->OnAFloorLiftMoverCanUse())
+            {
+                pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
 
-    case 5:
-        if (!SwitchStates_Get(field_10_enabled_by_switch_id))
-        {
-            field_20_state = 3;
-            field_1C_speed = -field_1C_speed;
-        }
-        break;
+                if ((field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
+                {
+                    field_20_state = 2;
+                }
+            }
+            else
+            {
+                pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
+                field_20_state = 4;
+            }
+            break;
 
-    default:
-        break;
+        case 4:
+            if (pLiftPoint->OnAFloorLiftMoverCanUse())
+            {
+                pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+                field_20_state = 0;
+                field_1C_speed = -field_1C_speed;
+            }
+            else
+            {
+                pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
+            }
+            break;
+
+        case 5:
+            if (!SwitchStates_Get(field_10_enabled_by_switch_id))
+            {
+                field_20_state = 3;
+                field_1C_speed = -field_1C_speed;
+            }
+            break;
+
+        default:
+            break;
     }
 
     if (Event_Get_417250(kEventDeathReset_4))
@@ -219,4 +217,4 @@ LiftPoint* LiftMover::FindLiftPointWithId(s16 id)
     return nullptr;
 }
 
-}
+} // namespace AO

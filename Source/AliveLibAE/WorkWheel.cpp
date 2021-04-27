@@ -84,14 +84,14 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos,
-        field_B8_xpos,
-        field_BC_ypos + FP_FromInteger(24),
-        &pathLine,
-        &hitX,
-        &hitY,
-        (field_D6_scale == 1) ? 15 : 240))
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos + FP_FromInteger(24),
+            &pathLine,
+            &hitX,
+            &hitY,
+            (field_D6_scale == 1) ? 15 : 240))
     {
         field_BC_ypos = hitY;
     }
@@ -216,9 +216,7 @@ void WorkWheel::vUpdate_4E38E0()
 
 void WorkWheel::vScreenChanged_4E3AD0()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
-        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
-        field_FC_state == WheelStates::eIdle_0)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || field_FC_state == WheelStates::eIdle_0)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

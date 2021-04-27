@@ -7,7 +7,7 @@ namespace AO {
 
 struct ParticleBurst_Item;
 
-enum class BurstType : s16 
+enum class BurstType : s16
 {
     eType_0 = 0,
     eType_1 = 1,
@@ -46,4 +46,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ParticleBurst, 0xF8);
 
-}
+} // namespace AO

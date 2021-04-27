@@ -35,7 +35,7 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
     field_4_typeId = Types::eExplosion_74;
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
     Animation_Init_417FD0(27376, 200, 91, ppRes, 1);
-    
+
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_E4_scale = scale;
@@ -83,72 +83,72 @@ void Explosion::VUpdate_458D00()
 
     switch (field_10_anim.field_92_current_frame)
     {
-    case 2:
-        rect.x = FP_GetExponent(FP_FromInteger(-20) * field_E4_scale);
-        rect.w = FP_GetExponent(FP_FromInteger(20) * field_E4_scale);
-        rect.y = FP_GetExponent(FP_FromInteger(-20) * field_E4_scale);
-        rect.h = FP_GetExponent(FP_FromInteger(10) * field_E4_scale);
-        DealBlastDamage_459160(&rect);
-        break;
+        case 2:
+            rect.x = FP_GetExponent(FP_FromInteger(-20) * field_E4_scale);
+            rect.w = FP_GetExponent(FP_FromInteger(20) * field_E4_scale);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * field_E4_scale);
+            rect.h = FP_GetExponent(FP_FromInteger(10) * field_E4_scale);
+            DealBlastDamage_459160(&rect);
+            break;
 
-    case 3:
-    {
-        auto pParticleBurst = ao_new<ParticleBurst>();
-        if (pParticleBurst)
+        case 3:
         {
-            pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eType_3);
+            auto pParticleBurst = ao_new<ParticleBurst>();
+            if (pParticleBurst)
+            {
+                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eType_3);
+            }
+
+            auto pFlash = ao_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
+            }
+            break;
         }
 
-        auto pFlash = ao_new<Flash>();
-        if (pFlash)
+        case 4:
         {
-            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
-        }
-        break;
-    }
+            auto pFlash = ao_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
+            }
 
-    case 4:
-    {
-        auto pFlash = ao_new<Flash>();
-        if (pFlash)
-        {
-            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
-        }
-
-        rect.x = FP_GetExponent(FP_FromInteger(-38) * field_E4_scale);
-        rect.w = FP_GetExponent(FP_FromInteger(38) * field_E4_scale);
-        rect.y = FP_GetExponent(FP_FromInteger(-38) * field_E4_scale);
-        rect.h = FP_GetExponent(FP_FromInteger(19) * field_E4_scale);
-        DealBlastDamage_459160(&rect);
-        break;
-    }
-
-    case 6:
-        rect.x = FP_GetExponent(FP_FromInteger(-60) * field_E4_scale);
-        rect.w = FP_GetExponent(FP_FromInteger(60) * field_E4_scale);
-        rect.y = FP_GetExponent(FP_FromInteger(-60) * field_E4_scale);
-        rect.h = FP_GetExponent(FP_FromInteger(30) * field_E4_scale);
-        DealBlastDamage_459160(&rect);
-        break;
-
-    case 8:
-    {
-        auto pParticleBurst = ao_new<ParticleBurst>();
-        if (pParticleBurst)
-        {
-            pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eType_3);
+            rect.x = FP_GetExponent(FP_FromInteger(-38) * field_E4_scale);
+            rect.w = FP_GetExponent(FP_FromInteger(38) * field_E4_scale);
+            rect.y = FP_GetExponent(FP_FromInteger(-38) * field_E4_scale);
+            rect.h = FP_GetExponent(FP_FromInteger(19) * field_E4_scale);
+            DealBlastDamage_459160(&rect);
+            break;
         }
 
-        auto pFlash = ao_new<Flash>();
-        if (pFlash)
-        {
-            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
-        }
-        break;
-    }
+        case 6:
+            rect.x = FP_GetExponent(FP_FromInteger(-60) * field_E4_scale);
+            rect.w = FP_GetExponent(FP_FromInteger(60) * field_E4_scale);
+            rect.y = FP_GetExponent(FP_FromInteger(-60) * field_E4_scale);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * field_E4_scale);
+            DealBlastDamage_459160(&rect);
+            break;
 
-    default:
-        break;
+        case 8:
+        {
+            auto pParticleBurst = ao_new<ParticleBurst>();
+            if (pParticleBurst)
+            {
+                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eType_3);
+            }
+
+            auto pFlash = ao_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
+            }
+            break;
+        }
+
+        default:
+            break;
     }
 
     if (field_10_anim.field_92_current_frame > 9)
@@ -227,7 +227,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
         expandedRect.h += 240;
     }
 
-    for(s32 idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
     {
         auto pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(idx);
         if (!pObj)
@@ -240,8 +240,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
             PSX_RECT rect = {};
             pObj->VGetBoundingRect(&rect, 1);
 
-            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) &&
-                field_E4_scale == pObj->field_BC_sprite_scale)
+            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) && field_E4_scale == pObj->field_BC_sprite_scale)
             {
                 pObj->VTakeDamage(this);
             }
@@ -253,8 +252,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
         expandedRect.y,
         expandedRect.w,
         expandedRect.h,
-        TlvTypes::Slig_24
-    ));
+        TlvTypes::Slig_24));
 
     if (pTlv)
     {
@@ -265,20 +263,21 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
                 static_cast<s32>(gMap_507BA8.field_0_current_level),
                 gMap_507BA8.field_2_current_path,
                 FP_FromInteger(pTlv->field_10_top_left.field_0_x),
-                FP_FromInteger(pTlv->field_10_top_left.field_2_y)
-            );
+                FP_FromInteger(pTlv->field_10_top_left.field_2_y));
 
             if (dir == CameraPos::eCamLeft_3)
             {
-                auto gibs = ao_new<Gibs>();;
+                auto gibs = ao_new<Gibs>();
+                ;
                 if (gibs)
                 {
                     gibs->ctor_407B20(1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
                 }
             }
-            else if(dir == CameraPos::eCamRight_4)
+            else if (dir == CameraPos::eCamRight_4)
             {
-                auto gibs = ao_new<Gibs>();;
+                auto gibs = ao_new<Gibs>();
+                ;
                 if (gibs)
                 {
                     gibs->ctor_407B20(1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
@@ -299,4 +298,4 @@ BaseGameObject* Explosion::VDestructor(s32 flags)
     return this;
 }
 
-}
+} // namespace AO

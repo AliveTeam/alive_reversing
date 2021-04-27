@@ -3,8 +3,8 @@
 #include <string>
 
 #if _WIN32
-#include <windows.h>
-#include "ExportHooker.hpp"
+    #include <windows.h>
+    #include "ExportHooker.hpp"
 #endif
 
 #include "../AliveLibAE/WinMain.hpp"
@@ -29,100 +29,95 @@ enum class GameType : s32
     eAe = 1,
 };
 
-namespace AutoSplitterData
+namespace AutoSplitterData {
+struct GuidStr
 {
-    struct GuidStr
-    {
-        const s8 guid[39];
-    };
+    const s8 guid[39];
+};
 
-    struct AOGameInfo
-    {
-        GuidStr guid;
-        GameType* gameType;         // 0
-        AO::LevelIds* levelId;      // 1
-        s16* pathId;            // 2
-        s16* camId;             // 3
-        u32* gnFrame;      // 4
-        AO::Abe** pAbe;             // 5
-        s32 abeYOffSet;             // 6
-        s16* isGameRunning;       // 7
-        s8* isGameBeaten;         // 8
-    };
+struct AOGameInfo
+{
+    GuidStr guid;
+    GameType* gameType;    // 0
+    AO::LevelIds* levelId; // 1
+    s16* pathId;           // 2
+    s16* camId;            // 3
+    u32* gnFrame;          // 4
+    AO::Abe** pAbe;        // 5
+    s32 abeYOffSet;        // 6
+    s16* isGameRunning;    // 7
+    s8* isGameBeaten;      // 8
+};
 
-    struct AEGameInfo
-    {
-        GuidStr guid;
-        // 1 byte padding/null
-        GameType* gameType;         // 0
-        LevelIds* levelId;          // 1
-        s16* pathId;                // 2
-        s16* camId;                 // 3
-        u16* fmvId;                 // 4
-        u32* gnFrame;               // 5
-        Abe** pAbe;                 // 6
-        s32 abeYOffSet;             // 7
-        s8* isPaused;             // 8
-    };
+struct AEGameInfo
+{
+    GuidStr guid;
+    // 1 byte padding/null
+    GameType* gameType; // 0
+    LevelIds* levelId;  // 1
+    s16* pathId;        // 2
+    s16* camId;         // 3
+    u16* fmvId;         // 4
+    u32* gnFrame;       // 5
+    Abe** pAbe;         // 6
+    s32 abeYOffSet;     // 7
+    s8* isPaused;       // 8
+};
 
-    extern "C"
-    {
-        GameType gameType = GameType::eAo;
+extern "C"
+{
+    GameType gameType = GameType::eAo;
 
-        // Auto splitter looks for this guid, if it exists then it assumes its the 64bit relive
+// Auto splitter looks for this guid, if it exists then it assumes its the 64bit relive
 #ifdef _WIN64
-        EXPORT constexpr GuidStr k64BitGuid = {"{069DDB51-609D-49AB-B69D-5CC6D13E73EE}"};
-        
-        // If not exported the var will get optimized away
-        EXPORT const void* Get64BitInfo()
-        {
-            return &k64BitGuid;
-        }
+    EXPORT constexpr GuidStr k64BitGuid = {"{069DDB51-609D-49AB-B69D-5CC6D13E73EE}"};
+
+    // If not exported the var will get optimized away
+    EXPORT const void* Get64BitInfo()
+    {
+        return &k64BitGuid;
+    }
 #endif
 
 #ifdef _WIN32
-        EXPORT constexpr AEGameInfo kAeInfo =
-        {
-            "{DBC2AE1C-A5DE-465F-A89A-C385BE1DEFCC}",
-            // 2 byte padding (32bit)
-            &gameType,
-            &LocalVar_gMap_5C3030.field_0_current_level,
-            &LocalVar_gMap_5C3030.field_2_current_path,
-            &LocalVar_gMap_5C3030.field_4_current_camera,
-            &LocalVar_gMap_5C3030.field_12_fmv_base_id,
-            &LocalVar_sGnFrame_5C1B84,
-            &LocalVar_spAbe_554D5C,
-            offsetof(Abe, field_BC_ypos),
-            &LocalVar_sDisableFontFlicker_5C9304
-        };
+    EXPORT constexpr AEGameInfo kAeInfo = {
+        "{DBC2AE1C-A5DE-465F-A89A-C385BE1DEFCC}",
+        // 2 byte padding (32bit)
+        &gameType,
+        &LocalVar_gMap_5C3030.field_0_current_level,
+        &LocalVar_gMap_5C3030.field_2_current_path,
+        &LocalVar_gMap_5C3030.field_4_current_camera,
+        &LocalVar_gMap_5C3030.field_12_fmv_base_id,
+        &LocalVar_sGnFrame_5C1B84,
+        &LocalVar_spAbe_554D5C,
+        offsetof(Abe, field_BC_ypos),
+        &LocalVar_sDisableFontFlicker_5C9304};
 
-        EXPORT const void* GetAeInfo()
-        {
-            return &kAeInfo;
-        }
-
-        EXPORT constexpr AOGameInfo kAoInfo =
-        {
-            "{1D2E2B5A-19EE-4776-A0EE-98F49F781370}",
-            // 2 byte padding (32bit)
-            &gameType,
-            &AO::LocalVar_gMap_507BA8.field_0_current_level,
-            &AO::LocalVar_gMap_507BA8.field_2_current_path,
-            &AO::LocalVar_gMap_507BA8.field_4_current_camera,
-            &AO::LocalVar_gnFrameCount_507670,
-            &AO::LocalVar_sActiveHero_507678,
-            offsetof(AO::Abe, field_AC_ypos) + sizeof(s16), // +2 for exp only
-            &AO::LocalVar_sDisableFontFlicker_5080E4,
-            &AO::LocalVar_sSwitchStates_505568.mData[70]
-        };
-
-        EXPORT const void* GetAoInfo()
-        {
-            return &kAoInfo;
-        }
-#endif
+    EXPORT const void* GetAeInfo()
+    {
+        return &kAeInfo;
     }
+
+    EXPORT constexpr AOGameInfo kAoInfo = {
+        "{1D2E2B5A-19EE-4776-A0EE-98F49F781370}",
+        // 2 byte padding (32bit)
+        &gameType,
+        &AO::LocalVar_gMap_507BA8.field_0_current_level,
+        &AO::LocalVar_gMap_507BA8.field_2_current_path,
+        &AO::LocalVar_gMap_507BA8.field_4_current_camera,
+        &AO::LocalVar_gnFrameCount_507670,
+        &AO::LocalVar_sActiveHero_507678,
+        offsetof(AO::Abe, field_AC_ypos) + sizeof(s16), // +2 for exp only
+        &AO::LocalVar_sDisableFontFlicker_5080E4,
+        &AO::LocalVar_sSwitchStates_505568.mData[70]};
+
+    EXPORT const void* GetAoInfo()
+    {
+        return &kAoInfo;
+    }
+#endif
 }
+} // namespace AutoSplitterData
 
 void PopulateAutoSplitterVars(GameType gameType)
 {

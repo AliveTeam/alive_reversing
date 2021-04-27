@@ -69,7 +69,7 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToL
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     while (pPathTLV)
     {
-        if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->field_4_type.mType) 
+        if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->field_4_type.mType)
         {
             if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
             {
@@ -184,9 +184,9 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, Tlv
 
     const s32 grid_cell_y = (top + bottom) / (2 * field_C_pPathData->field_C_grid_height);
     const s32 grid_cell_x = (right + left) / (2 * field_C_pPathData->field_A_grid_width);
-    
+
     // Check within map bounds
-    if (grid_cell_x >=field_6_cams_on_x)
+    if (grid_cell_x >= field_6_cams_on_x)
     {
         return nullptr;
     }
@@ -235,7 +235,7 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
         xyPosValid = 0;
     }
 
-    if (width_converted  < 0 || height_converted < 0)
+    if (width_converted < 0 || height_converted < 0)
     {
         width_converted = xpos_converted;
         height_converted = ypos_converted;
@@ -260,18 +260,14 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
         u8* pPathRes = *field_10_ppRes;
         const s32* pIndexTable = reinterpret_cast<const s32*>(pPathRes + pPathData->field_16_object_indextable_offset);
         const s32 indexTableEntry = pIndexTable[camX + (field_6_cams_on_x * camY)];
-        
+
         if (indexTableEntry == -1)
         {
             return nullptr;
         }
 
         pTlv = reinterpret_cast<Path_TLV*>(&pPathRes[pPathData->field_12_object_offset + indexTableEntry]);
-        if (!xyPosValid ||
-            (xpos_converted <= pTlv->field_C_bottom_right.field_0_x &&
-            width_converted >= pTlv->field_8_top_left.field_0_x &&
-            height_converted >= pTlv->field_8_top_left.field_2_y &&
-            ypos_converted <= pTlv->field_C_bottom_right.field_2_y))
+        if (!xyPosValid || (xpos_converted <= pTlv->field_C_bottom_right.field_0_x && width_converted >= pTlv->field_8_top_left.field_0_x && height_converted >= pTlv->field_8_top_left.field_2_y && ypos_converted <= pTlv->field_C_bottom_right.field_2_y))
         {
             return pTlv;
         }
@@ -285,11 +281,7 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
     while (1)
     {
         pTlv = Path::Next_TLV_4DB6A0(pTlv);
-        if (!xyPosValid || 
-            (xpos_converted <= pTlv->field_C_bottom_right.field_0_x &&
-            width_converted >= pTlv->field_8_top_left.field_0_x &&
-            height_converted >= pTlv->field_8_top_left.field_2_y &&
-            ypos_converted <= pTlv->field_C_bottom_right.field_2_y))
+        if (!xyPosValid || (xpos_converted <= pTlv->field_C_bottom_right.field_0_x && width_converted >= pTlv->field_8_top_left.field_0_x && height_converted >= pTlv->field_8_top_left.field_2_y && ypos_converted <= pTlv->field_C_bottom_right.field_2_y))
         {
             break;
         }
@@ -303,7 +295,7 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
     return pTlv;
 }
 
-Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(u32 tlvOffset_levelId_PathId)
+Path_TLV* Path::TLV_From_Offset_Lvl_Cam_4DB770(u32 tlvOffset_levelId_PathId)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
@@ -365,7 +357,7 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFla
         {
             const s32 tlvOffset = data.parts.tlvOffset + pBlyRec->field_4_pPathData->field_12_object_offset;
             Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[tlvOffset]);
-            
+
             if (bBit2 & 1)
             {
                 pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
@@ -409,7 +401,7 @@ EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos directi
 
 EXPORT void CCSTD Path::Reset_TLVs_4DBCF0(u16 pathId)
 {
-    const PathData *  pPathData = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, pathId)->field_4_pPathData;
+    const PathData* pPathData = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, pathId)->field_4_pPathData;
     const s32 camsX = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
     const s32 camsY = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
     u8** ppPath = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, pathId, TRUE, FALSE);

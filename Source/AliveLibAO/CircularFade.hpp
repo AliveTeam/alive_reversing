@@ -50,5 +50,4 @@ ALIVE_ASSERT_SIZEOF(CircularFade, 0x1AC);
 
 EXPORT CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
 
-}
-
+} // namespace AO

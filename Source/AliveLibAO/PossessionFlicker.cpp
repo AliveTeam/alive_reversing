@@ -119,4 +119,4 @@ void PossessionFlicker::VUpdate_41A9B0()
     }
 }
 
-}
+} // namespace AO

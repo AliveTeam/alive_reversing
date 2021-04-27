@@ -103,103 +103,101 @@ void ScreenManager::InvalidateRect_40EC10(s32 x, s32 y, s32 width, s32 height)
     InvalidateRect_40EC90(x, y, width, height, field_3A_idx);
 }
 
-namespace Oddlib
+namespace Oddlib {
+// NOTE: More reversing is required to fully understand these algorithms, but its something like JPEG
+// and since its enough to actually decode the data this is where the work on reversing stopped :)
+static const u16 g_red_table[] = {
+    0x00000, 0x00800, 0x01000, 0x01800, 0x02000, 0x02800, // 0
+    0x03000, 0x03800, 0x04000, 0x04800, 0x05000, 0x05800, // 6
+    0x06000, 0x06800, 0x07000, 0x07800, 0x08000, 0x08800, // 12
+    0x09000, 0x09800, 0x0A000, 0x0A800, 0x0B000, 0x0B800, // 18
+    0x0C000, 0x0C800, 0x0D000, 0x0D800, 0x0E000, 0x0E800, // 24
+    0x0F000, 0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, // 30
+    0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, // 36
+    0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, // 42
+    0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, // 48
+    0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, // 54
+    0x0F800, 0x0F800, 0x0F800, 0x0F800                    // 60-64
+};
+
+static const u16 g_blue_table[] = {
+    0, 1, 2, 3, 4, 5,                   // 0
+    6, 7, 8, 9, 0x0A, 0x0B,             // 6
+    0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, // 12
+    0x12, 0x13, 0x14, 0x15, 0x16, 0x17, // 18
+    0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, // 24
+    0x1E, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, // 30
+    0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, // 36
+    0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, // 42
+    0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, // 48
+    0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, // 54
+    0x1F, 0x1F, 0x1F, 0x1F              // 60
+};
+
+static const u16 g_green_table[] = {
+    0x000, 0x040, 0x080, 0x0C0, 0x100, 0x140, // 0
+    0x180, 0x1C0, 0x200, 0x240, 0x280, 0x2C0, // 6
+    0x300, 0x340, 0x380, 0x3C0, 0x400, 0x440, // 12
+    0x480, 0x4C0, 0x500, 0x540, 0x580, 0x5C0, // 18
+    0x600, 0x640, 0x680, 0x6C0, 0x700, 0x740, // 24
+    0x780, 0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, // 30
+    0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, // 36
+    0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, // 42
+    0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, // 48
+    0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, // 54
+    0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x000         // 60
+};
+
+// Encapsulates the logic of vlc_decoder() each call can read 3 words or 6 bytes max
+struct BitsLogic
 {
-    // NOTE: More reversing is required to fully understand these algorithms, but its something like JPEG
-    // and since its enough to actually decode the data this is where the work on reversing stopped :)
-    static const u16 g_red_table[] =
+    BitsLogic()
     {
-        0x00000, 0x00800, 0x01000, 0x01800, 0x02000, 0x02800, // 0
-        0x03000, 0x03800, 0x04000, 0x04800, 0x05000, 0x05800, // 6
-        0x06000, 0x06800, 0x07000, 0x07800, 0x08000, 0x08800, // 12
-        0x09000, 0x09800, 0x0A000, 0x0A800, 0x0B000, 0x0B800, // 18
-        0x0C000, 0x0C800, 0x0D000, 0x0D800, 0x0E000, 0x0E800, // 24
-        0x0F000, 0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, // 30
-        0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, // 36
-        0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, // 42
-        0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, // 48
-        0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, 0x0F800, // 54
-        0x0F800, 0x0F800, 0x0F800, 0x0F800                    // 60-64
-    };
+    }
 
-    static const u16 g_blue_table[] =
+    BitsLogic(s32& aPrev, ScreenManager* aStrat)
+        : param1(0)
+        , param2(0)
+        , param3(0)
+        , param4(0)
     {
-        0, 1, 2, 3, 4, 5,                   // 0
-        6, 7, 8, 9, 0x0A, 0x0B,             // 6
-        0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, // 12
-        0x12, 0x13, 0x14, 0x15, 0x16, 0x17, // 18
-        0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, // 24
-        0x1E, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, // 30
-        0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, // 36
-        0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, // 42
-        0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, // 48
-        0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, // 54
-        0x1F, 0x1F, 0x1F, 0x1F              // 60
-    };
+        // Grab 3x next bits
+        bits[0] = aStrat->next_bits();
+        bits[1] = aStrat->next_bits();
+        bits[2] = aStrat->next_bits();
 
-    static const u16 g_green_table[] =
-    {
-        0x000, 0x040, 0x080, 0x0C0, 0x100, 0x140, // 0
-        0x180, 0x1C0, 0x200, 0x240, 0x280, 0x2C0, // 6
-        0x300, 0x340, 0x380, 0x3C0, 0x400, 0x440, // 12
-        0x480, 0x4C0, 0x500, 0x540, 0x580, 0x5C0, // 18
-        0x600, 0x640, 0x680, 0x6C0, 0x700, 0x740, // 24
-        0x780, 0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, // 30
-        0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, // 36
-        0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, // 42
-        0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, // 48
-        0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x7C0, // 54
-        0x7C0, 0x7C0, 0x7C0, 0x7C0, 0x000         // 60
-    };
+        // Round 1
+        s32 calc1 = bits[2] - (bits[0] >> 1);
+        s32 calc2 = calc1 + bits[0];
+        s32 calc3 = aPrev - (bits[1] >> 1);
 
-    // Encapsulates the logic of vlc_decoder() each call can read 3 words or 6 bytes max
-    struct BitsLogic
-    {
-        BitsLogic()
-        {
+        // Round 2
+        param1 = calc3 - (calc1 >> 1);
+        param2 = param1 + calc1;                 // E.g calc1 = param2-param1, so calc3 = param1 + (calc1 >> 1) ?
+        param3 = calc3 - (calc2 >> 1) + bits[1]; // knowing calc3 and 2 should yield bits[1]?
 
-        }
+        // Final magic thats only used outside of the loop for pixel 4
+        param4 = param3 + calc2; //calc2 = param4 - param3 ?
 
-        BitsLogic(s32& aPrev, ScreenManager* aStrat)
-            : param1(0), param2(0), param3(0), param4(0)
-        {
-            // Grab 3x next bits
-            bits[0] = aStrat->next_bits();
-            bits[1] = aStrat->next_bits();
-            bits[2] = aStrat->next_bits();
+        aPrev = param3 + calc2; // how we calc bottom right
+    }
 
-            // Round 1
-            s32 calc1 = bits[2] - (bits[0] >> 1);
-            s32 calc2 = calc1 + bits[0];
-            s32 calc3 = aPrev - (bits[1] >> 1);
+    // Read from the cam file data
+    s32 bits[3] = {}; // Used outside
 
-            // Round 2
-            param1 = calc3 - (calc1 >> 1);
-            param2 = param1 + calc1; // E.g calc1 = param2-param1, so calc3 = param1 + (calc1 >> 1) ?
-            param3 = calc3 - (calc2 >> 1) + bits[1]; // knowing calc3 and 2 should yield bits[1]?
+    s32 param1 = 0;
+    s32 param2 = 0;
+    s32 param3 = 0;
 
-                                                     // Final magic thats only used outside of the loop for pixel 4
-            param4 = param3 + calc2; //calc2 = param4 - param3 ?
+    // Only used out of the loop
+    s32 param4 = 0;
+};
 
-            aPrev = param3 + calc2; // how we calc bottom right
-        }
+const auto red_mask = 0xF800;
+const auto green_mask = 0x7E0;
+const auto blue_mask = 0x1F;
 
-        // Read from the cam file data
-        s32 bits[3] = {}; // Used outside
-
-        s32 param1 = 0;
-        s32 param2 = 0;
-        s32 param3 = 0;
-
-        // Only used out of the loop
-        s32 param4 = 0;
-    };
-
-    const auto red_mask = 0xF800;
-    const auto green_mask = 0x7E0;
-    const auto blue_mask = 0x1F;
-
-}
+} // namespace Oddlib
 
 s32 ScreenManager::next_bits()
 {
@@ -309,7 +307,7 @@ void ScreenManager::vlc_decode(u16* aCamSeg, u16* aDst)
 
         if (totalBitsToShiftBy > 0xF) // Limit to 16 and pull another shifted byte in
         {
-            totalBitsToShiftBy = totalBitsToShiftBy & 0xF; // Could just assign here?
+            totalBitsToShiftBy = totalBitsToShiftBy & 0xF;                 // Could just assign here?
             dstVlcWord |= aCamSeg[camSrcPtrIndex++] << totalBitsToShiftBy; // Move the word over if 0xF!
         }
     }
@@ -319,7 +317,7 @@ void ScreenManager::vlc_decode(u16* aCamSeg, u16* aDst)
 // This function takes a 16x240 strip of bits and processes as 16x16 sized macro blocks, thus there are 240/16=15 macro blocks
 void ScreenManager::process_segment(u16* aVlcBufferPtr, s32 xPos)
 {
-    g_pointer_to_vlc_buffer = aVlcBufferPtr;       // This is decoding one 16x240 seg
+    g_pointer_to_vlc_buffer = aVlcBufferPtr; // This is decoding one 16x240 seg
 
     g_left7_array = 0;
     next_bits();
@@ -433,7 +431,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
             const u16 stripSize = *pIter;
             pIter++;
 
-            const PSX_RECT rect = { static_cast<s16>(i * kStripSize), 256 + 16, kStripSize, 240 };
+            const PSX_RECT rect = {static_cast<s16>(i * kStripSize), 256 + 16, kStripSize, 240};
             IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, reinterpret_cast<const u8*>(pIter));
             pIter += (stripSize / sizeof(u16));
         }
@@ -459,7 +457,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
                 pIter += (stripSize / sizeof(u16));
             }
 
-            const PSX_RECT vramDest = { 0,272, 640,240 };
+            const PSX_RECT vramDest = {0, 272, 640, 240};
             IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, vramDest, reinterpret_cast<const u8*>(gCamBuffer));
 #else
             if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
@@ -716,40 +714,38 @@ void ScreenManager::AddCurrentSPRT_TPage(PrimHeader** ppOt)
     }
 }
 
-namespace AETest::TestsScreenManager
+namespace AETest::TestsScreenManager {
+void DirtyBitTests()
 {
-    void DirtyBitTests()
-    {
-        gBaseGameObject_list_BB47C4 = ae_new<DynamicArrayT<BaseGameObject>>();
-        gBaseGameObject_list_BB47C4->ctor_40CA60(50);
+    gBaseGameObject_list_BB47C4 = ae_new<DynamicArrayT<BaseGameObject>>();
+    gBaseGameObject_list_BB47C4->ctor_40CA60(50);
 
-        ScreenManager sm;
-        sm.ctor_40E3E0(nullptr, nullptr);
+    ScreenManager sm;
+    sm.ctor_40E3E0(nullptr, nullptr);
 
-        sm.UnsetDirtyBits_40EDE0(0);
+    sm.UnsetDirtyBits_40EDE0(0);
 
-        ASSERT_EQ(0, sm.IsDirty_40EBC0(0, 1, 1));
+    ASSERT_EQ(0, sm.IsDirty_40EBC0(0, 1, 1));
 
-        sm.InvalidateRect_40EC10(0, 0, 32, 16);
+    sm.InvalidateRect_40EC10(0, 0, 32, 16);
 
-        // ?? should be 1 ??
-        ASSERT_EQ(0, sm.IsDirty_40EBC0(0, 0, 0));
+    // ?? should be 1 ??
+    ASSERT_EQ(0, sm.IsDirty_40EBC0(0, 0, 0));
 
-        gBaseGameObject_list_BB47C4->dtor_40CAD0();
-        gBaseGameObject_list_BB47C4 = nullptr;
+    gBaseGameObject_list_BB47C4->dtor_40CAD0();
+    gBaseGameObject_list_BB47C4 = nullptr;
 
-        // Test dirty bit helpers
+    // Test dirty bit helpers
 
-        sm.field_64_20x16_dirty_bits->SetTile(2, 8, true);
-        sm.field_64_20x16_dirty_bits->SetTile(1, 4, false);
+    sm.field_64_20x16_dirty_bits->SetTile(2, 8, true);
+    sm.field_64_20x16_dirty_bits->SetTile(1, 4, false);
 
-        ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetTile(2, 8), true);
-        ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetTile(1, 4), false);
-    }
-
-    void ScreenManagerTests()
-    {
-        //DirtyBitTests();
-    }
+    ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetTile(2, 8), true);
+    ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetTile(1, 4), false);
 }
 
+void ScreenManagerTests()
+{
+    //DirtyBitTests();
+}
+} // namespace AETest::TestsScreenManager

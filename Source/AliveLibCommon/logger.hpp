@@ -6,9 +6,9 @@
 #include "Types.hpp"
 
 #if _MSC_VER
-#define FNAME __FUNCTION__
+    #define FNAME __FUNCTION__
 #else
-#define FNAME __PRETTY_FUNCTION__
+    #define FNAME __PRETTY_FUNCTION__
 #endif
 
 
@@ -17,19 +17,19 @@
 #define LOGGING 1
 
 #ifdef LOGGING
-#define TRACE_ENTRYEXIT Logging::AutoLog __funcTrace(FNAME)
-#define LOG_TRACE(msg) LOG(INFO) << FNAME << " [T] " << msg
-#define LOG_INFO(msg) LOG(INFO) << FNAME << " [I] " << msg
-#define LOG_WARNING(msg) LOG(WARNING) << FNAME << " [W] " << msg
-#define LOG_ERROR(msg) LOG(ERROR) << FNAME << " [E] " << msg
-#define LOG_(msg) LOG(INFO) << msg;
+    #define TRACE_ENTRYEXIT Logging::AutoLog __funcTrace(FNAME)
+    #define LOG_TRACE(msg) LOG(INFO) << FNAME << " [T] " << msg
+    #define LOG_INFO(msg) LOG(INFO) << FNAME << " [I] " << msg
+    #define LOG_WARNING(msg) LOG(WARNING) << FNAME << " [W] " << msg
+    #define LOG_ERROR(msg) LOG(ERROR) << FNAME << " [E] " << msg
+    #define LOG_(msg) LOG(INFO) << msg;
 #else
-#define TRACE_ENTRYEXIT
-#define LOG_TRACE(msg)
-#define LOG_INFO(msg)
-#define LOG_WARNING(msg)
-#define LOG_ERROR(msg)
-#define LOG_(msg)
+    #define TRACE_ENTRYEXIT
+    #define LOG_TRACE(msg)
+    #define LOG_INFO(msg)
+    #define LOG_WARNING(msg)
+    #define LOG_ERROR(msg)
+    #define LOG_(msg)
 #endif
 
 [[noreturn]] inline void HOOK_FATAL(const s8* errMsg)
@@ -75,32 +75,31 @@ inline void RedirectIoStream(bool replace)
     }
 }
 
-namespace Logging
+namespace Logging {
+class AutoLog
 {
-    class AutoLog
+public:
+    AutoLog(const AutoLog&) = delete;
+    AutoLog& operator=(const AutoLog&) = delete;
+    AutoLog(const s8* funcName)
+        : mFuncName(funcName)
     {
-    public:
-        AutoLog(const AutoLog&) = delete;
-        AutoLog& operator = (const AutoLog&) = delete;
-        AutoLog(const s8* funcName)
-          : mFuncName(funcName)
-        {
-            LOG_("[ENTER] " << mFuncName);
-        }
+        LOG_("[ENTER] " << mFuncName);
+    }
 
-        ~AutoLog()
+    ~AutoLog()
+    {
+        if (std::uncaught_exceptions())
         {
-            if (std::uncaught_exceptions())
-            {
-                LOG_("[EXIT_EXCEPTION] " << mFuncName);
-            }
-            else
-            {
-                LOG_("[EXIT]  " << mFuncName);
-            }
+            LOG_("[EXIT_EXCEPTION] " << mFuncName);
         }
+        else
+        {
+            LOG_("[EXIT]  " << mFuncName);
+        }
+    }
 
-    private:
-        const s8* mFuncName;
-    };
-}
+private:
+    const s8* mFuncName;
+};
+} // namespace Logging

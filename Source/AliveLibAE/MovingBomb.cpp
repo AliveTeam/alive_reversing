@@ -16,13 +16,11 @@
 #include "Events.hpp"
 #include "SwitchStates.hpp"
 
-TintEntry stru_55C734[4] =
-{
-    { 6u, 97u, 97u, 97u },
-    { 10u, 127u, 127u, 127u },
-    { -1, 127u, 127u, 127u },
-    { 0u, 0u, 0u, 0u }
-};
+TintEntry stru_55C734[4] = {
+    {6u, 97u, 97u, 97u},
+    {10u, 127u, 127u, 127u},
+    {-1, 127u, 127u, 127u},
+    {0u, 0u, 0u, 0u}};
 
 ALIVE_VAR(1, 0x5C300C, MovingBomb*, gMovingBomb_5C300C, nullptr);
 
@@ -89,14 +87,14 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos,
-        field_B8_xpos + FP_FromInteger(24),
-        field_BC_ypos + FP_FromInteger(24),
-        &field_100_pCollisionLine,
-        &hitX,
-        &hitY,
-        0x100))
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos + FP_FromInteger(24),
+            field_BC_ypos + FP_FromInteger(24),
+            &field_100_pCollisionLine,
+            &hitX,
+            &hitY,
+            0x100))
     {
         field_BC_ypos = hitY;
         field_B8_xpos = hitX;
@@ -241,36 +239,36 @@ s16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case AETypes::eAbilityRing_104:
-    case AETypes::eExplosion_109:
-    case AETypes::eShrykull_121:
-    {
-        field_10C_health = FP_FromInteger(0);
-        auto pExplosion = ae_new<Explosion>();
-        if (pExplosion)
+        case AETypes::eAbilityRing_104:
+        case AETypes::eExplosion_109:
+        case AETypes::eShrykull_121:
         {
-            pExplosion->ctor_4A1200(field_B8_xpos, field_BC_ypos, field_CC_sprite_scale, 0);
+            field_10C_health = FP_FromInteger(0);
+            auto pExplosion = ae_new<Explosion>();
+            if (pExplosion)
+            {
+                pExplosion->ctor_4A1200(field_B8_xpos, field_BC_ypos, field_CC_sprite_scale, 0);
+            }
+
+            auto pGibs = ae_new<Gibs>();
+            if (pGibs)
+            {
+                pGibs->ctor_40FB40(GibType::Metal_5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
+            }
+
+            field_118_state = States::eKillMovingBomb_7;
+
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_120_timer = sGnFrame_5C1B84 + 4;
         }
+            return 0;
 
-        auto pGibs = ae_new<Gibs>();
-        if (pGibs)
-        {
-            pGibs->ctor_40FB40(GibType::Metal_5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
-        }
+        case AETypes::eElectrocute_150:
+            field_118_state = States::eKillMovingBomb_7;
+            return 0;
 
-        field_118_state = States::eKillMovingBomb_7;
-
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        field_120_timer = sGnFrame_5C1B84 + 4;
-    }
-        return 0;
-
-    case AETypes::eElectrocute_150:
-        field_118_state = States::eKillMovingBomb_7;
-        return 0;
-
-    default:
-        return 1;
+        default:
+            return 1;
     }
 }
 
@@ -302,12 +300,7 @@ s16 MovingBomb::HitObject_470830()
                 {
                     PSX_RECT objRect = {};
                     pObj->vGetBoundingRect_424FD0(&objRect, 1);
-                    if (bRect.x <= objRect.w &&
-                        bRect.w >= objRect.x &&
-                        bRect.h >= objRect.y &&
-                        bRect.y <= objRect.h &&
-                        pObj->field_CC_sprite_scale == field_CC_sprite_scale &&
-                        pObj->field_C0_path_number == field_C0_path_number)
+                    if (bRect.x <= objRect.w && bRect.w >= objRect.x && bRect.h >= objRect.y && bRect.y <= objRect.h && pObj->field_CC_sprite_scale == field_CC_sprite_scale && pObj->field_C0_path_number == field_C0_path_number)
                     {
                         return 1;
                     }
@@ -338,7 +331,7 @@ void MovingBomb::vUpdate_4701E0()
 
     if (gMovingBomb_5C300C == nullptr || gMovingBomb_5C300C == this)
     {
-        if (field_20_animation.field_92_current_frame != 0 &&  field_20_animation.field_92_current_frame != 7)
+        if (field_20_animation.field_92_current_frame != 0 && field_20_animation.field_92_current_frame != 7)
         {
             gMovingBomb_5C300C = this;
         }
@@ -383,128 +376,128 @@ void MovingBomb::vUpdate_4701E0()
 
     switch (field_118_state)
     {
-    case States::eTriggeredByAlarm_0:
-        if (Event_Get_422C00(kEventAlarm))
-        {
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-            field_118_state = States::eMoving_2;
-        }
-        break;
-
-    case States::eTriggeredBySwitch_1:
-        if (SwitchStates_Get_466020(field_128_switch_id))
-        {
-            field_118_state = States::eMoving_2;
-        }
-        break;
-
-    case States::eMoving_2:
-        if (field_C4_velx < field_124_speed)
-        {
-            field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
-        }
-
-        FollowLine_470950();
-
-        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            FP_GetExponent(field_B8_xpos),
-            FP_GetExponent(field_BC_ypos),
-            FP_GetExponent(field_B8_xpos),
-            FP_GetExponent(field_BC_ypos),
-            TlvTypes::MovingBombStopper_53);
-
-        if (field_FC_pPathTLV)
-        {
-            auto pStopper = static_cast<Path_MovingBombStopper*>(field_FC_pPathTLV);
-            field_12A_min = pStopper->field_10_min;
-            field_12C_max = pStopper->field_12_max;
-            field_118_state = States::eStopMoving_3;
-        }
-        break;
-
-    case States::eStopMoving_3:
-        field_C4_velx -= (field_CC_sprite_scale * FP_FromDouble(0.5));
-        if (field_C4_velx < FP_FromInteger(0))
-        {
-            field_118_state = States::eWaitABit_4;
-            field_120_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(field_12A_min, field_12C_max);
-        }
-
-        FollowLine_470950();
-        break;
-
-    case States::eWaitABit_4:
-        if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
-        {
-            field_118_state = States::eToMoving_5;
-        }
-        break;
-
-    case States::eToMoving_5:
-        if (field_C4_velx < field_124_speed)
-        {
-            field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
-        }
-
-        FollowLine_470950();
-
-        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            FP_GetExponent(field_B8_xpos),
-            FP_GetExponent(field_BC_ypos),
-            FP_GetExponent(field_B8_xpos),
-            FP_GetExponent(field_BC_ypos),
-            TlvTypes::MovingBombStopper_53);
-
-        if (!field_FC_pPathTLV)
-        {
-            field_118_state = States::eMoving_2;
-        }
-        break;
-
-    case States::eBlowingUp_6:
-        if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
-        {
-            SFX_Play_46FA90(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
-
-            field_10C_health = FP_FromInteger(0);
-
-            auto pExplosion = ae_new<Explosion>();
-            if (pExplosion)
+        case States::eTriggeredByAlarm_0:
+            if (Event_Get_422C00(kEventAlarm))
             {
-                pExplosion->ctor_4A1200(
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    field_CC_sprite_scale,
-                    0);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_118_state = States::eMoving_2;
+            }
+            break;
+
+        case States::eTriggeredBySwitch_1:
+            if (SwitchStates_Get_466020(field_128_switch_id))
+            {
+                field_118_state = States::eMoving_2;
+            }
+            break;
+
+        case States::eMoving_2:
+            if (field_C4_velx < field_124_speed)
+            {
+                field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
             }
 
-            auto pGibs = ae_new<Gibs>();
-            if (pGibs)
+            FollowLine_470950();
+
+            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                TlvTypes::MovingBombStopper_53);
+
+            if (field_FC_pPathTLV)
             {
-                pGibs->ctor_40FB40(
-                    GibType::Metal_5,
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    FP_FromInteger(0),
-                    FP_FromInteger(5),
-                    field_CC_sprite_scale,
-                    0);
+                auto pStopper = static_cast<Path_MovingBombStopper*>(field_FC_pPathTLV);
+                field_12A_min = pStopper->field_10_min;
+                field_12C_max = pStopper->field_12_max;
+                field_118_state = States::eStopMoving_3;
+            }
+            break;
+
+        case States::eStopMoving_3:
+            field_C4_velx -= (field_CC_sprite_scale * FP_FromDouble(0.5));
+            if (field_C4_velx < FP_FromInteger(0))
+            {
+                field_118_state = States::eWaitABit_4;
+                field_120_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(field_12A_min, field_12C_max);
             }
 
-            field_118_state = States::eKillMovingBomb_7;
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            field_120_timer = sGnFrame_5C1B84 + 4;
-        }
-        break;
+            FollowLine_470950();
+            break;
 
-    case States::eKillMovingBomb_7:
-        if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        break;
+        case States::eWaitABit_4:
+            if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
+            {
+                field_118_state = States::eToMoving_5;
+            }
+            break;
 
-    default:
-        return;
+        case States::eToMoving_5:
+            if (field_C4_velx < field_124_speed)
+            {
+                field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
+            }
+
+            FollowLine_470950();
+
+            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                TlvTypes::MovingBombStopper_53);
+
+            if (!field_FC_pPathTLV)
+            {
+                field_118_state = States::eMoving_2;
+            }
+            break;
+
+        case States::eBlowingUp_6:
+            if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
+            {
+                SFX_Play_46FA90(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
+
+                field_10C_health = FP_FromInteger(0);
+
+                auto pExplosion = ae_new<Explosion>();
+                if (pExplosion)
+                {
+                    pExplosion->ctor_4A1200(
+                        field_B8_xpos,
+                        field_BC_ypos,
+                        field_CC_sprite_scale,
+                        0);
+                }
+
+                auto pGibs = ae_new<Gibs>();
+                if (pGibs)
+                {
+                    pGibs->ctor_40FB40(
+                        GibType::Metal_5,
+                        field_B8_xpos,
+                        field_BC_ypos,
+                        FP_FromInteger(0),
+                        FP_FromInteger(5),
+                        field_CC_sprite_scale,
+                        0);
+                }
+
+                field_118_state = States::eKillMovingBomb_7;
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_120_timer = sGnFrame_5C1B84 + 4;
+            }
+            break;
+
+        case States::eKillMovingBomb_7:
+            if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            break;
+
+        default:
+            return;
     }
 }

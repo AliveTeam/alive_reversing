@@ -64,9 +64,9 @@ void FixedPoint_ForceLink()
     ASSERT_EQ(1, Math_SquareRoot_Int_496E70(2)); // Actually 1.414
     ASSERT_EQ(4, Math_SquareRoot_Int_496E70(16));
     ASSERT_EQ(10, Math_SquareRoot_Int_496E70(100));
-    
-    ASSERT_EQ(FP_FromRaw(1*256), Math_SquareRoot_FP_496E90(FP_FromRaw(1)));
+
+    ASSERT_EQ(FP_FromRaw(1 * 256), Math_SquareRoot_FP_496E90(FP_FromRaw(1)));
     ASSERT_EQ(FP_FromRaw(362), Math_SquareRoot_FP_496E90(FP_FromRaw(2))); // 362/256 = 1.414 these are actually 24:8 fixed point, or just 8 bits in this instance ?
-    ASSERT_EQ(FP_FromRaw(4*256), Math_SquareRoot_FP_496E90(FP_FromRaw(16)));
-    ASSERT_EQ(FP_FromRaw(10*256), Math_SquareRoot_FP_496E90(FP_FromRaw(100)));
+    ASSERT_EQ(FP_FromRaw(4 * 256), Math_SquareRoot_FP_496E90(FP_FromRaw(16)));
+    ASSERT_EQ(FP_FromRaw(10 * 256), Math_SquareRoot_FP_496E90(FP_FromRaw(100)));
 }

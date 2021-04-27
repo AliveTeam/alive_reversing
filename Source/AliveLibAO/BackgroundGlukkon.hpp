@@ -49,4 +49,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BackgroundGlukkon, 0x124);
 
-}
+} // namespace AO

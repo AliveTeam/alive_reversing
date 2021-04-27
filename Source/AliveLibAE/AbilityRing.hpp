@@ -57,7 +57,7 @@ enum class LevelIds : s16;
 class AbilityRing : public BaseGameObject
 {
 public:
-    EXPORT static AbilityRing * CC Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale);
+    EXPORT static AbilityRing* CC Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale);
     EXPORT AbilityRing* ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP scale);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
@@ -118,4 +118,3 @@ private:
 };
 
 ALIVE_ASSERT_SIZEOF(AbilityRing, 0x294);
-

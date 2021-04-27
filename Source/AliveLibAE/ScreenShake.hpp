@@ -8,7 +8,7 @@ class ScreenShake : public BaseGameObject
 {
 public:
     EXPORT ScreenShake* ctor_4ACF70(s16 enableShakeEvent, s16 softerShakes);
-   
+
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;

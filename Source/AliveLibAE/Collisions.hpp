@@ -4,9 +4,8 @@
 #include "FixedPoint.hpp"
 #include "Psx.hpp"
 
-namespace AETest::TestsCollision
-{
-    void CollisionTests();
+namespace AETest::TestsCollision {
+void CollisionTests();
 }
 
 enum eLineTypes : u8
@@ -52,13 +51,14 @@ public:
     EXPORT Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
     EXPORT void dtor_4189F0();
     EXPORT static void CC Factory_4188A0(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
-    EXPORT s16 Raycast_Real_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask);
-    EXPORT BOOL Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask);
+    EXPORT s16 Raycast_Real_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
+    EXPORT BOOL Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
     EXPORT PathLine* Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode);
     EXPORT PathLine* Get_Line_At_Idx_418070(s16 idx);
     EXPORT PathLine* PreviousLine_4180A0(PathLine* pLine);
     EXPORT PathLine* NextLine_418180(PathLine* pLine);
-    s16 Raycast_Impl(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, u32 modeMask);
+    s16 Raycast_Impl(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
+
 public:
     PathLine* field_0_pArray;
     u16 field_4_current_item_count;

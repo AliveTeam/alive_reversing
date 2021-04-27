@@ -52,12 +52,14 @@ public:
     virtual void VScreenChanged() override;
     virtual s16 VPull_4D6050(s16 bLeftDirection);
     EXPORT Switch* ctor_4D5860(Path_Switch* pTlv, u32 tlvInfo);
+
 private:
     EXPORT void dtor_4D5B00();
     EXPORT Switch* vdtor_4D5AD0(s32 flags);
     EXPORT void vUpdate_4D5C00();
     EXPORT void vScreenChanged_4D5B90();
-    EXPORT s16 vPull_4D6050( s16 bLeftDirection);
+    EXPORT s16 vPull_4D6050(s16 bLeftDirection);
+
 private:
     s16 field_F4_trigger_id;
     s16 field_F6_padding;

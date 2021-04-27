@@ -47,5 +47,4 @@ public:
 ALIVE_ASSERT_SIZEOF(SlogSpawner, 0x30);
 
 
-}
-
+} // namespace AO

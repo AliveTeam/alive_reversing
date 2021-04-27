@@ -28,4 +28,4 @@ void SwitchStates_ClearAll();
 
 ALIVE_VAR_EXTERN(SwitchStates, sSwitchStates_505568);
 
-}
+} // namespace AO

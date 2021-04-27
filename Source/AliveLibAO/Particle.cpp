@@ -260,4 +260,4 @@ void Particle::VUpdate_478930()
     }
 }
 
-}
+} // namespace AO

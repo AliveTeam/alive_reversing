@@ -6,7 +6,7 @@
 // TODO: This probably shouldn't be a atomic as it could result in samples being leaked, still better than having torn pointer values I guess
 std::atomic<SDLSoundBuffer*> sAE_ActiveVoices[MAX_VOICE_COUNT] = {};
 
-void AddVoiceToActiveList(SDLSoundBuffer * pVoice)
+void AddVoiceToActiveList(SDLSoundBuffer* pVoice)
 {
     for (s32 i = 0; i < MAX_VOICE_COUNT; i++)
     {
@@ -20,7 +20,7 @@ void AddVoiceToActiveList(SDLSoundBuffer * pVoice)
     LOG_ERROR("Failed to allocate voice! No space left");
 }
 
-void RemoveVoiceFromActiveList(SDLSoundBuffer * pVoice)
+void RemoveVoiceFromActiveList(SDLSoundBuffer* pVoice)
 {
     for (s32 i = 0; i < MAX_VOICE_COUNT; i++)
     {
@@ -146,7 +146,7 @@ HRESULT SDLSoundBuffer::SetCurrentPosition(s32 position) // This offset is appar
     return S_OK;
 }
 
-HRESULT SDLSoundBuffer::GetCurrentPosition(u32 * readPos, u32 * writePos)
+HRESULT SDLSoundBuffer::GetCurrentPosition(u32* readPos, u32* writePos)
 {
     std::lock_guard<std::mutex> lock(mLock);
 
@@ -180,7 +180,7 @@ void SDLSoundBuffer::Release()
     mState.bIsReleased = true;
 }
 
-HRESULT SDLSoundBuffer::GetStatus(u32 * r)
+HRESULT SDLSoundBuffer::GetStatus(u32* r)
 {
     std::lock_guard<std::mutex> lock(mLock);
 

@@ -6,7 +6,7 @@
 // 368*40/23 =640
 // This seems to convert from PSX coordinate space to PC coordinate space
 // anywhere you see this calc replace it with this function
-template<class T>
+template <class T>
 inline T PsxToPCX(T x, s32 addToX = 0)
 {
     return static_cast<T>(((40 * x) + static_cast<T>(addToX)) / 23);
@@ -18,10 +18,10 @@ inline FP PsxToPCX(FP x, FP addToX = FP_FromInteger(0))
 }
 
 // 640 * 23 / 40 =  368
-template<class T>
+template <class T>
 inline T PCToPsxX(T x, s32 addX = 0)
 {
-    return (((x) * 23 + static_cast<T>(addX)) / 40);
+    return (((x) *23 + static_cast<T>(addX)) / 40);
 }
 
 struct PrimHeader;
@@ -65,7 +65,6 @@ EXPORT s32 CC DebugFont_Init_4DCF40();
 
 void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect);
 
-namespace AETest::TestsPsxDisplay
-{
-    void PsxDisplayTests();
+namespace AETest::TestsPsxDisplay {
+void PsxDisplayTests();
 }

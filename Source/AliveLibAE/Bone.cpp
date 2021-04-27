@@ -24,7 +24,7 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, s16 countId)
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
 
-	const AnimRecord& rec = AnimRec(AnimId::Bone);
+    const AnimRecord& rec = AnimRec(AnimId::Bone);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
@@ -192,7 +192,8 @@ void Bone::dtor_4115B0()
 
 void Bone::AddToPlatform_412310()
 {
-    BaseAddToPlatform([](AETypes type) { return type == AETypes::eLiftPoint_78 || type == AETypes::eTrapDoor_142; });
+    BaseAddToPlatform([](AETypes type)
+                      { return type == AETypes::eLiftPoint_78 || type == AETypes::eTrapDoor_142; });
 }
 
 void Bone::vThrow_411670(FP velX, FP velY)
@@ -286,8 +287,7 @@ s16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
 
 void Bone::vScreenChanged_4122D0()
 {
-    if (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
-        gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
+    if (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -361,78 +361,79 @@ void Bone::InTheAir_4116C0()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_120_xpos,
-        field_124_ypos,
-        field_B8_xpos,
-        field_BC_ypos,
-        &field_100_pCollisionLine,
-        &hitX,
-        &hitY,
-        field_D6_scale == 1 ? 0x09 : 0x90) == 1)
+            field_120_xpos,
+            field_124_ypos,
+            field_B8_xpos,
+            field_BC_ypos,
+            &field_100_pCollisionLine,
+            &hitX,
+            &hitY,
+            field_D6_scale == 1 ? 0x09 : 0x90)
+        == 1)
     {
         switch (field_100_pCollisionLine->field_8_type)
         {
-        case 0u:
-        case 4u:
-        case 32u:
-        case 36u:
-            if (field_C8_vely <= FP_FromInteger(0))
-            {
-                break;
-            }
-
-            field_BC_ypos = hitY;
-
-            if (field_C8_vely < FP_FromInteger(1))
-            {
-                field_11C_state = BoneStates::eState_2_collided;
-
-                field_BC_ypos = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y);
-                field_C8_vely = FP_FromInteger(0);
-                if (field_C4_velx >= FP_FromInteger(0) && field_C4_velx < FP_FromInteger(1))
+            case 0u:
+            case 4u:
+            case 32u:
+            case 36u:
+                if (field_C8_vely <= FP_FromInteger(0))
                 {
-                    field_C4_velx = FP_FromInteger(1);
+                    break;
                 }
 
-                if (field_C4_velx < FP_FromInteger(0) && field_C4_velx > FP_FromInteger(-1))
-                {
-                    field_C4_velx = FP_FromInteger(-1);
-                }
-                return;
-            }
-            else
-            {
-                field_BC_ypos -= FP_FromDouble(0.1);
-                field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
-                field_C4_velx = (field_C4_velx / FP_FromInteger(2));
-                s16 vol = 20 * (4 - field_11E_volume_modifier);
-                if (vol < 40)
-                {
-                    vol = 40;
-                }
-                SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
-                Event_Broadcast_422BC0(kEventNoise, this);
-                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                field_11E_volume_modifier++;
-            }
-            break;
-
-        case 3u:
-        case 7u:
-            if (field_C8_vely < FP_FromInteger(0))
-            {
                 field_BC_ypos = hitY;
-                field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
-                s16 vol = 20 * (4 - field_11E_volume_modifier);
-                if (vol < 40)
+
+                if (field_C8_vely < FP_FromInteger(1))
                 {
-                    vol = 40;
+                    field_11C_state = BoneStates::eState_2_collided;
+
+                    field_BC_ypos = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y);
+                    field_C8_vely = FP_FromInteger(0);
+                    if (field_C4_velx >= FP_FromInteger(0) && field_C4_velx < FP_FromInteger(1))
+                    {
+                        field_C4_velx = FP_FromInteger(1);
+                    }
+
+                    if (field_C4_velx < FP_FromInteger(0) && field_C4_velx > FP_FromInteger(-1))
+                    {
+                        field_C4_velx = FP_FromInteger(-1);
+                    }
+                    return;
                 }
-                SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
-                Event_Broadcast_422BC0(kEventNoise, this);
-                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-            }
-            break;
+                else
+                {
+                    field_BC_ypos -= FP_FromDouble(0.1);
+                    field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
+                    field_C4_velx = (field_C4_velx / FP_FromInteger(2));
+                    s16 vol = 20 * (4 - field_11E_volume_modifier);
+                    if (vol < 40)
+                    {
+                        vol = 40;
+                    }
+                    SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
+                    Event_Broadcast_422BC0(kEventNoise, this);
+                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    field_11E_volume_modifier++;
+                }
+                break;
+
+            case 3u:
+            case 7u:
+                if (field_C8_vely < FP_FromInteger(0))
+                {
+                    field_BC_ypos = hitY;
+                    field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
+                    s16 vol = 20 * (4 - field_11E_volume_modifier);
+                    if (vol < 40)
+                    {
+                        vol = 40;
+                    }
+                    SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
+                    Event_Broadcast_422BC0(kEventNoise, this);
+                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                }
+                break;
         }
     }
 
@@ -440,43 +441,43 @@ void Bone::InTheAir_4116C0()
     {
         switch (field_100_pCollisionLine->field_8_type)
         {
-        case 1u:
-        case 5u:
-            if (field_C4_velx < FP_FromInteger(0))
-            {
-                field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
-                field_B8_xpos = hitX;
-                field_BC_ypos = hitY;
-                s16 vol = 20 * (4 - field_11E_volume_modifier);
-                if (vol < 40)
+            case 1u:
+            case 5u:
+                if (field_C4_velx < FP_FromInteger(0))
                 {
-                    vol = 40;
+                    field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+                    field_B8_xpos = hitX;
+                    field_BC_ypos = hitY;
+                    s16 vol = 20 * (4 - field_11E_volume_modifier);
+                    if (vol < 40)
+                    {
+                        vol = 40;
+                    }
+                    SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
+                    Event_Broadcast_422BC0(kEventNoise, this);
+                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                 }
-                SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
-                Event_Broadcast_422BC0(kEventNoise, this);
-                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-            }
-            field_100_pCollisionLine = nullptr;
-            break;
+                field_100_pCollisionLine = nullptr;
+                break;
 
-        case 2u:
-        case 6u:
-            if (field_C4_velx > FP_FromInteger(0))
-            {
-                field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
-                field_B8_xpos = hitX;
-                field_BC_ypos = hitY;
-                s16 vol = 20 * (4 - field_11E_volume_modifier);
-                if (vol < 40)
+            case 2u:
+            case 6u:
+                if (field_C4_velx > FP_FromInteger(0))
                 {
-                    vol = 40;
+                    field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+                    field_B8_xpos = hitX;
+                    field_BC_ypos = hitY;
+                    s16 vol = 20 * (4 - field_11E_volume_modifier);
+                    if (vol < 40)
+                    {
+                        vol = 40;
+                    }
+                    SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
+                    Event_Broadcast_422BC0(kEventNoise, this);
+                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                 }
-                SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
-                Event_Broadcast_422BC0(kEventNoise, this);
-                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-            }
-            field_100_pCollisionLine = nullptr;
-            break;
+                field_100_pCollisionLine = nullptr;
+                break;
         }
     }
 }
@@ -491,119 +492,119 @@ void Bone::vUpdate_411BC0()
 
     switch (field_11C_state)
     {
-    case BoneStates::eState_0_spawned:
-        break;
+        case BoneStates::eState_0_spawned:
+            break;
 
-    case BoneStates::eState_1_airborne:
-        InTheAir_4116C0();
-        return;
+        case BoneStates::eState_1_airborne:
+            InTheAir_4116C0();
+            return;
 
-    case BoneStates::eState_2_collided:
-    {
-        PSX_RECT bRect = {};
-        vGetBoundingRect_424FD0(&bRect, 1);
-        const s16 offset = field_D6_scale != 0 ? 5 : 0;
-        const PSX_Point xy{ bRect.x, static_cast<s16>(bRect.y + offset) };
-        const PSX_Point wh{ bRect.w, static_cast<s16>(bRect.h + offset) };
-        vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Bone::OnCollision_412140);
-
-        if (WallHit_408750(FP_FromInteger(5), field_C4_velx))
+        case BoneStates::eState_2_collided:
         {
-            field_C4_velx = -field_C4_velx;
-        }
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+            const s16 offset = field_D6_scale != 0 ? 5 : 0;
+            const PSX_Point xy{bRect.x, static_cast<s16>(bRect.y + offset)};
+            const PSX_Point wh{bRect.w, static_cast<s16>(bRect.h + offset)};
+            vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack) &Bone::OnCollision_412140);
 
-        if (FP_Abs(field_C4_velx) >= FP_FromInteger(1))
-        {
-            if (field_C4_velx <= FP_FromInteger(0))
+            if (WallHit_408750(FP_FromInteger(5), field_C4_velx))
             {
-                field_C4_velx = (FP_FromDouble(0.01) / field_CC_sprite_scale) + field_C4_velx;
+                field_C4_velx = -field_C4_velx;
+            }
+
+            if (FP_Abs(field_C4_velx) >= FP_FromInteger(1))
+            {
+                if (field_C4_velx <= FP_FromInteger(0))
+                {
+                    field_C4_velx = (FP_FromDouble(0.01) / field_CC_sprite_scale) + field_C4_velx;
+                }
+                else
+                {
+                    field_C4_velx = field_C4_velx - (FP_FromDouble(0.01) / field_CC_sprite_scale);
+                }
+                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
             }
             else
             {
-                field_C4_velx = field_C4_velx - (FP_FromDouble(0.01) / field_CC_sprite_scale);
-            }
-            field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
-        }
-        else
-        {
-            if (abs(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)) - FP_GetExponent(field_B8_xpos)) <= 1)
-            {
-                field_C4_velx = FP_FromInteger(0);
-                field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-                field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                field_E4_collection_rect.w = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-                field_E4_collection_rect.h = field_BC_ypos;
+                if (abs(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)) - FP_GetExponent(field_B8_xpos)) <= 1)
+                {
+                    field_C4_velx = FP_FromInteger(0);
+                    field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+                    field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                    field_E4_collection_rect.w = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+                    field_E4_collection_rect.h = field_BC_ypos;
 
-                field_11C_state = BoneStates::eState_3_on_ground;
-                field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
-                field_128_shine_timer = sGnFrame_5C1B84;
-                AddToPlatform_412310();
+                    field_11C_state = BoneStates::eState_3_on_ground;
+                    field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
+                    field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
+                    field_128_shine_timer = sGnFrame_5C1B84;
+                    AddToPlatform_412310();
+                    return;
+                }
+                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+            }
+
+            if (field_100_pCollisionLine)
+            {
                 return;
             }
-            field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
-        }
 
-        if (field_100_pCollisionLine)
-        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+            field_11C_state = BoneStates::eState_4_edible;
+        }
             return;
-        }
 
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-        field_11C_state = BoneStates::eState_4_edible;
-    }
-        return;
+        case BoneStates::eState_3_on_ground:
+            if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+            {
+                field_12C_time_to_live = sGnFrame_5C1B84 + 300;
+            }
 
-    case BoneStates::eState_3_on_ground:
-        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
-        {
-            field_12C_time_to_live = sGnFrame_5C1B84 + 300;
-        }
-
-        if (static_cast<s32>(sGnFrame_5C1B84) > field_128_shine_timer && !pObj)
-        {
-            // For the shiny star twinkle effect.
-            New_TintShiny_Particle_426C30(
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_128_shine_timer && !pObj)
+            {
+                // For the shiny star twinkle effect.
+                New_TintShiny_Particle_426C30(
                     field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(1)),
                     (field_CC_sprite_scale * FP_FromInteger(-7)) + field_BC_ypos,
                     FP_FromDouble(0.3),
                     Layer::eLayer_36);
 
-            field_128_shine_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
-        }
+                field_128_shine_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
+            }
 
-        if (field_12C_time_to_live < static_cast<s32>(sGnFrame_5C1B84))
+            if (field_12C_time_to_live < static_cast<s32>(sGnFrame_5C1B84))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            return;
+
+        case BoneStates::eState_4_edible:
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        return;
+            InTheAir_4116C0();
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+            const s16 offset = field_D6_scale != 0 ? 5 : 0;
+            const PSX_Point xy{bRect.x, static_cast<s16>(bRect.y + offset)};
+            const PSX_Point wh{bRect.w, static_cast<s16>(bRect.h + offset)};
+            vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack) &Bone::OnCollision_412140);
 
-    case BoneStates::eState_4_edible:
-    {
-        InTheAir_4116C0();
-        PSX_RECT bRect = {};
-        vGetBoundingRect_424FD0(&bRect, 1);
-        const s16 offset = field_D6_scale != 0 ? 5 : 0;
-        const PSX_Point xy{ bRect.x, static_cast<s16>(bRect.y + offset) };
-        const PSX_Point wh{ bRect.w, static_cast<s16>(bRect.h + offset) };
-        vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Bone::OnCollision_412140);
-
-        if (field_BC_ypos > FP_FromInteger(gMap_5C3030.field_D4_ptr->field_6_bBottom))
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            if (field_BC_ypos > FP_FromInteger(gMap_5C3030.field_D4_ptr->field_6_bBottom))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
         }
-    }
-    return;
+            return;
 
-    case BoneStates::eState_5_falling:
-        field_C8_vely += FP_FromInteger(1);
-        field_B8_xpos += field_C4_velx;
-        field_BC_ypos = field_C8_vely + field_BC_ypos;
-        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        return;
+        case BoneStates::eState_5_falling:
+            field_C8_vely += FP_FromInteger(1);
+            field_B8_xpos += field_C4_velx;
+            field_BC_ypos = field_C8_vely + field_BC_ypos;
+            if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            return;
     }
 }
 
@@ -616,27 +617,25 @@ s16 Bone::vGetCount_412500()
     return field_118_count;
 }
 
-TintEntry stru_550EC0[18] =
-{
-    { 1u, 127u, 127u, 127u },
-    { 2u, 137u, 137u, 137u },
-    { 3u, 127u, 127u, 127u },
-    { 4u, 127u, 127u, 127u },
-    { 5u, 127u, 127u, 127u },
-    { 6u, 127u, 127u, 127u },
-    { 7u, 127u, 127u, 127u },
-    { 8u, 127u, 127u, 127u },
-    { 9u, 127u, 127u, 127u },
-    { 10u, 127u, 127u, 127u },
-    { 11u, 127u, 127u, 127u },
-    { 12u, 127u, 127u, 127u },
-    { 13u, 127u, 127u, 127u },
-    { 14u, 127u, 127u, 127u },
-    { -1, 127u, 127u, 127u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u }
-};
+TintEntry stru_550EC0[18] = {
+    {1u, 127u, 127u, 127u},
+    {2u, 137u, 137u, 137u},
+    {3u, 127u, 127u, 127u},
+    {4u, 127u, 127u, 127u},
+    {5u, 127u, 127u, 127u},
+    {6u, 127u, 127u, 127u},
+    {7u, 127u, 127u, 127u},
+    {8u, 127u, 127u, 127u},
+    {9u, 127u, 127u, 127u},
+    {10u, 127u, 127u, 127u},
+    {11u, 127u, 127u, 127u},
+    {12u, 127u, 127u, 127u},
+    {13u, 127u, 127u, 127u},
+    {14u, 127u, 127u, 127u},
+    {-1, 127u, 127u, 127u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u}};
 
 
 BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, s32 tlvInfo)
@@ -648,7 +647,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, s32 tlvInfo)
     const AnimRecord& rec = AnimRec(AnimId::Bone_Bag_A);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     // TODO: Super super OWI hack, WTF?? Figure out exactly what this is patching in the animation
-    *((u16 *)*ppRes + 4374) = 0;
+    *((u16*) *ppRes + 4374) = 0;
 
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -783,13 +782,8 @@ void BoneBag::vUpdate_412880()
     PSX_RECT bRect = {};
     vGetBoundingRect_424FD0(&bRect, 1);
 
-    if (bRect.x <= bPlayerRect.w &&
-        bRect.w >= bPlayerRect.x &&
-        bRect.h >= bPlayerRect.y &&
-        bRect.y <= bPlayerRect.h &&
-        field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
+    if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
     {
-
         if (gpThrowableArray_5D1E2C)
         {
             if (gpThrowableArray_5D1E2C->field_20_count)

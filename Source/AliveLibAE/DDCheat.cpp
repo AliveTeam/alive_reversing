@@ -10,7 +10,8 @@
 #include "ResourceManager.hpp"
 #include "Abe.hpp"
 
-void DDCheat_ForceLink() { }
+void DDCheat_ForceLink()
+{ }
 
 ALIVE_VAR(1, 0x5c1be6, s16, sDoorsOpen_5C1BE6, 0);
 ALIVE_VAR(1, 0x5c1bd0, s32, sTweakX_5C1BD0, 0);
@@ -37,9 +38,9 @@ using TDDCheatMenu = decltype(&DDCheat::Menu_Teleport_415E20);
 
 #define DDCHEAT_MENU_COUNT 2
 ALIVE_ARY(1, 0x550f50, TDDCheatMenu, DDCHEAT_MENU_COUNT, sDDCheat_FnTable_550F50, {
-    &DDCheat::Menu_Teleport_415E20,
-    &DDCheat::Menu_Movies_416000,
-});
+                                                                                      &DDCheat::Menu_Teleport_415E20,
+                                                                                      &DDCheat::Menu_Movies_416000,
+                                                                                  });
 
 ALIVE_VAR(1, 0x5bc008, s16, sScreenshotOnNextFrame_5BC008, 0);
 ALIVE_VAR(1, 0xab49fc, s32, sDDCheat_Unused2_AB49FC, 0);
@@ -48,7 +49,10 @@ ALIVE_VAR(1, 0xab4a00, s32, sDDCheat_Unused1_AB4A00, 0);
 ALIVE_VAR(1, 0x5BBFF0, s16, sDDCheat_MovieSelectIdx_5BBFF0, 0);
 ALIVE_VAR_EXTERN(u32, sLevelId_dword_5CA408);
 
-EXPORT void DDCheat_SaveScreenshot_415550() { NOT_IMPLEMENTED(); }
+EXPORT void DDCheat_SaveScreenshot_415550()
+{
+    NOT_IMPLEMENTED();
+}
 
 struct DDCheatProperties
 {
@@ -58,25 +62,25 @@ struct DDCheatProperties
 
 ALIVE_VAR(1, 0x5BBF78, DDCheatProperties, DDCheatProperties_5BBF78, {});
 
-ALIVE_ARY(1, 0x550f64, const s8*, 17, sTeleportLevelNameTable_550F64,{
-    "Start screen",
-    "Mines",
-    "Necrum",
-    "Paramite Vault",
-    "Scrab Vault",
-    "Feeco Depot",
-    "Slig Barracks",
-    "Scrab Ender",
-    "Bonewerks",
-    "Soulstorm Brewery",
-    "Brewery Ender",
-    "Paramite Ender",
-    "Feeco Ender",
-    "Barracks Ender",
-    "Bonewerks Ender",
-    "Test Level",
-    "Credits",
-});
+ALIVE_ARY(1, 0x550f64, const s8*, 17, sTeleportLevelNameTable_550F64, {
+                                                                          "Start screen",
+                                                                          "Mines",
+                                                                          "Necrum",
+                                                                          "Paramite Vault",
+                                                                          "Scrab Vault",
+                                                                          "Feeco Depot",
+                                                                          "Slig Barracks",
+                                                                          "Scrab Ender",
+                                                                          "Bonewerks",
+                                                                          "Soulstorm Brewery",
+                                                                          "Brewery Ender",
+                                                                          "Paramite Ender",
+                                                                          "Feeco Ender",
+                                                                          "Barracks Ender",
+                                                                          "Bonewerks Ender",
+                                                                          "Test Level",
+                                                                          "Credits",
+                                                                      });
 
 
 void DDCheat::Menu_Teleport_415E20()
@@ -149,7 +153,7 @@ void DDCheat::Menu_Movies_416000()
         sDDCheat_MovieSelectIdx_5BBFF0++;
     }
 
-    if (Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id <= 0 )
+    if (Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id <= 0)
     {
         sDDCheat_MovieSelectIdx_5BBFF0 = 1;
     }
@@ -160,7 +164,7 @@ void DDCheat::Menu_Movies_416000()
     }
     if (field_38_input_pressed & InputCommands::Enum::eUp)
     {
-        FmvInfo *movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0);
+        FmvInfo* movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0);
         u32 pos = 0;
         Get_fmvs_sectors_494460(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(gMap_5C3030.field_0_current_level);
@@ -172,8 +176,7 @@ void DDCheat::Menu_Movies_416000()
                 pos,
                 movieToPlayInfo->field_6_flags & 1,
                 movieToPlayInfo->field_8_flags,
-                movieToPlayInfo->field_A_volume
-            );
+                movieToPlayInfo->field_A_volume);
         }
     }
     FmvInfo* fmvInfo = &sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_4_pFmvArray[sDDCheat_MovieSelectIdx_5BBFF0];
@@ -183,7 +186,6 @@ void DDCheat::Menu_Movies_416000()
 
 DDCheat::DDCheat()
 {
-
 }
 
 DDCheat* DDCheat::ctor_4153C0()
@@ -318,18 +320,18 @@ void DDCheat::Update_415780()
 
             switch (sControlledCharacter_5C1B8C->field_4_typeId)
             {
-            case AETypes::eGlukkon_67:
-            case AETypes::eSlig_125:
-                sControlledCharacter_5C1B8C->field_106_current_motion = 7;
-                break;
-            case AETypes::eAbe_69:
-                sControlledCharacter_5C1B8C->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
-                break;
-            case AETypes::eScrab_112:
-                sControlledCharacter_5C1B8C->field_106_current_motion = 8;
-                break;
-            default:
-                break;
+                case AETypes::eGlukkon_67:
+                case AETypes::eSlig_125:
+                    sControlledCharacter_5C1B8C->field_106_current_motion = 7;
+                    break;
+                case AETypes::eAbe_69:
+                    sControlledCharacter_5C1B8C->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
+                    break;
+                case AETypes::eScrab_112:
+                    sControlledCharacter_5C1B8C->field_106_current_motion = 8;
+                    break;
+                default:
+                    break;
             }
         }
 

@@ -169,14 +169,14 @@ void Spark::vUpdate_4CBEF0()
 void Spark::vRender_4CC050(PrimHeader** ppOt)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-        sActiveHero_5C1B68->field_C2_lvl_number,
-        sActiveHero_5C1B68->field_C0_path_number,
-        field_40_xpos,
-        field_44_ypos,
-        0))
+            sActiveHero_5C1B68->field_C2_lvl_number,
+            sActiveHero_5C1B68->field_C0_path_number,
+            field_40_xpos,
+            field_44_ypos,
+            0))
     {
-        PSX_Point xy = { 32767, 32767 };
-        PSX_Point wh = { -32767, -32767 };
+        PSX_Point xy = {32767, 32767};
+        PSX_Point wh = {-32767, -32767};
 
         const s32 xOrg = FP_GetExponent(field_40_xpos) - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
         const s32 yOrg = FP_GetExponent(field_44_ypos) - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
@@ -197,14 +197,14 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
             SetXY1(pPrim, static_cast<s16>(x1), static_cast<s16>(y1));
 
             SetRGB0(pPrim,
-                static_cast<u8>(field_4C_r / 2),
-                static_cast<u8>(field_4E_g / 2),
-                static_cast<u8>(field_50_b / 2));
+                    static_cast<u8>(field_4C_r / 2),
+                    static_cast<u8>(field_4E_g / 2),
+                    static_cast<u8>(field_50_b / 2));
 
             SetRGB1(pPrim,
-                static_cast<u8>(field_4C_r),
-                static_cast<u8>(field_4E_g),
-                static_cast<u8>(field_50_b));
+                    static_cast<u8>(field_4C_r),
+                    static_cast<u8>(field_4E_g),
+                    static_cast<u8>(field_50_b));
 
             Poly_Set_SemiTrans_4F8A60(&pPrim->mBase.header, TRUE);
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_52_layer), &pPrim->mBase.header);

@@ -124,7 +124,6 @@ void LightEffect::VUpdate()
 
 void LightEffect::VUpdate_406610()
 {
-    
     if (static_cast<s32>(gnFrameCount_507670) >= field_EC_rnd1)
     {
         const s32 v6 = field_F0_rnd2 - field_EC_rnd1;
@@ -137,7 +136,7 @@ void LightEffect::VUpdate_406610()
         const FP v11 = -Math_Cosine_4510A0(FP_GetExponent(v9) & 0xFF);
 
         s32 tmp = field_F4_rnd3 + FP_GetExponent(FP_FromInteger(field_F8_rnd4) * v11);
-        
+
         u8 rgb = 0;
         if (tmp <= 255)
         {
@@ -163,7 +162,6 @@ void LightEffect::VUpdate_406610()
         field_C2_g = rgb;
         field_C4_b = rgb;
     }
-
 }
 
-}
+} // namespace AO

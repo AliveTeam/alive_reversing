@@ -25,7 +25,6 @@ EXPORT u32 CC Pal_Make_Colour_4834C0(u8 r, u8 g, u8 b, s16 bOpaque);
 
 EXPORT void CC Pal_Set_483510(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect);
 
-namespace AETest::TestsVRam
-{
-    void VRamTests();
+namespace AETest::TestsVRam {
+void VRamTests();
 }

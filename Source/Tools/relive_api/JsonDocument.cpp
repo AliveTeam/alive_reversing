@@ -189,7 +189,7 @@ static void readFileContentsIntoString(std::string& target, std::ifstream& ifs)
     ifs.read(target.data(), target.size());
 }
 
-std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load(TypesCollectionBase& types, const std::string& fileName)
+std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Load(TypesCollectionBase& types, const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
     if (!inputFileStream.is_open())
@@ -255,7 +255,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
         mapData.push_back(std::move(cameraNameBlob));
     }
 
-    return { std::move(mapData), std::move(map) };
+    return {std::move(mapData), std::move(map)};
 }
 
 std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::Load(const std::string& fileName)
@@ -267,7 +267,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
     const jsonxx::Array& collisionsArray = ReadArray(collisionsObject, "items");
     std::vector<AO::PathLine> lines = ReadAOLines(globalTypes, collisionsArray);
 
-    return { std::move(mapData), std::move(lines) };
+    return {std::move(mapData), std::move(lines)};
 }
 
 std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> JsonReaderAE::Load(const std::string& fileName)
@@ -279,11 +279,12 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> JsonReader
     const jsonxx::Array& collisionsArray = ReadArray(collisionsObject, "items");
     std::vector<::PathLine> lines = ReadAELines(globalTypes, collisionsArray);
 
-    return { std::move(mapData), std::move(lines) };
+    return {std::move(mapData), std::move(lines)};
 }
 
 JsonWriterAO::JsonWriterAO(std::unique_ptr<TypesCollectionAO>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info)
-    : JsonWriterBase(*typesCollection, pathId, pathBndName, info), mTypesCollection{std::move(typesCollection)}
+    : JsonWriterBase(*typesCollection, pathId, pathBndName, info)
+    , mTypesCollection{std::move(typesCollection)}
 {
     mMapRootInfo.mGame = "AO";
 }
@@ -295,7 +296,7 @@ JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const Pat
 
 JsonWriterAO::~JsonWriterAO() = default;
 
-template<typename T>
+template <typename T>
 static void DebugDumpTlv(const std::string& prefix, s32 idx, const T& tlv)
 {
     const std::string fileName = prefix + "_" + std::to_string(static_cast<s32>(tlv.field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
@@ -492,11 +493,7 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, c
             if (pCamName->name[0])
             {
                 tmpCamera.mName = std::string(pCamName->name, 8);
-                tmpCamera.mId =
-                    1 * (pCamName->name[7] - '0') +
-                    10 * (pCamName->name[6] - '0') +
-                    100 * (pCamName->name[4] - '0') +
-                    1000 * (pCamName->name[3] - '0');
+                tmpCamera.mId = 1 * (pCamName->name[7] - '0') + 10 * (pCamName->name[6] - '0') + 100 * (pCamName->name[4] - '0') + 1000 * (pCamName->name[3] - '0');
             }
 
             const s32 indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, x, y)];
@@ -546,7 +543,8 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, c
 }
 
 JsonWriterAE::JsonWriterAE(std::unique_ptr<TypesCollectionAE>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info)
-    : JsonWriterBase(*typesCollection, pathId, pathBndName, info), mTypesCollection{std::move(typesCollection)}
+    : JsonWriterBase(*typesCollection, pathId, pathBndName, info)
+    , mTypesCollection{std::move(typesCollection)}
 {
     mMapRootInfo.mGame = "AE";
 }

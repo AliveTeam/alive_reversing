@@ -152,10 +152,10 @@ void OrbWhirlWindParticle::VUpdate_4E4510()
                 if (static_cast<s32>(sGnFrame_5C1B84) < field_DC_position_timer)
                 {
                     field_C0_current_scale += field_C8_scale_offset_fly_to_target;
-                    const FP v16 = FP_FromInteger(16 - (field_DC_position_timer - sGnFrame_5C1B84 )) / FP_FromInteger(16);
-                    field_FC_xpos_offset2 =  ((xpos - field_F4_xpos_offset) * v16) + field_F4_xpos_offset;
+                    const FP v16 = FP_FromInteger(16 - (field_DC_position_timer - sGnFrame_5C1B84)) / FP_FromInteger(16);
+                    field_FC_xpos_offset2 = ((xpos - field_F4_xpos_offset) * v16) + field_F4_xpos_offset;
                     field_100_ypos_offset2 = ((ypos - field_F8_ypos_offset) * v16) + field_F8_ypos_offset;
-                    field_CC_xpos_mid = (FP_FromInteger(32) * field_C0_current_scale) *   Math_Sine_496DF0(FP_FromInteger(128) * v16) + field_FC_xpos_offset2;
+                    field_CC_xpos_mid = (FP_FromInteger(32) * field_C0_current_scale) * Math_Sine_496DF0(FP_FromInteger(128) * v16) + field_FC_xpos_offset2;
                     field_D0_ypos_mid = (FP_FromInteger(32) * field_C0_current_scale) * Math_Cosine_496D60(FP_FromInteger(128) * v16) + field_100_ypos_offset2;
                 }
                 else
@@ -181,7 +181,7 @@ void OrbWhirlWindParticle::VUpdate_4E4510()
                 SetActive_4E4340(1);
             }
 
-            field_D0_ypos_mid = (field_104_scale_offset_spin_at_target * Math_Cosine_496D60((FP_FromInteger(128) * FP_FromInteger(32  - (field_DC_position_timer - sGnFrame_5C1B84)) / FP_FromInteger(32)))) + field_100_ypos_offset2;
+            field_D0_ypos_mid = (field_104_scale_offset_spin_at_target * Math_Cosine_496D60((FP_FromInteger(128) * FP_FromInteger(32 - (field_DC_position_timer - sGnFrame_5C1B84)) / FP_FromInteger(32)))) + field_100_ypos_offset2;
             field_D4_radiusX = field_D4_radiusX - field_AC_radiusX_offset;
             CalculateRenderProperties_4E4390(1);
             break;
@@ -209,7 +209,7 @@ void OrbWhirlWindParticle::VRender_4E4B10(PrimHeader** ppOt)
 
     const FP y = std::min(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y,
                           pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(239));
-          
+
     const FP h = std::max(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y,
                           pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(239));
 
@@ -261,7 +261,7 @@ void OrbWhirlWindParticle::CalculateRenderProperties_4E4390(s16 bStarted)
     field_A0_xpos_render_offset = ((field_C0_current_scale * field_D4_radiusX) * Math_Sine_496DD0(static_cast<u8>(field_B8_render_angle))) + field_CC_xpos_mid;
     field_A4_ypos_render_offset = ((field_C0_current_scale * field_D8_radiusY) * Math_Cosine_496CD0(static_cast<u8>(field_B8_render_angle))) + field_D0_ypos_mid;
     field_A8_render_as_scale = field_C0_current_scale * field_C4_randomized_scale;
-    
+
     if (field_C0_current_scale > FP_FromDouble(0.599)) // TODO: Check VS 39321
     {
         field_8_Anim.field_C_render_layer = Layer::eLayer_32;

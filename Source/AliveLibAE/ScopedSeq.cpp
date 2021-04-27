@@ -28,26 +28,26 @@ ScopedSeq* ScopedSeq::ctor_4CB210(s8 ambianceId, CameraPos direction)
 
     switch (ambianceId)
     {
-    case 0:
-        field_4_seq_id = 22;
-        break;
-    case 1:
-        field_4_seq_id = 21;
-        break;
-    case 2:
-        field_4_seq_id = 23;
-        break;
-    case 3:
-        field_4_seq_id = 24;
-        break;
-    case 4:
-        field_4_seq_id = 26;
-        break;
-    case 5:
-        field_4_seq_id = 25;
-        break;
-    default:
-        break;
+        case 0:
+            field_4_seq_id = 22;
+            break;
+        case 1:
+            field_4_seq_id = 21;
+            break;
+        case 2:
+            field_4_seq_id = 23;
+            break;
+        case 3:
+            field_4_seq_id = 24;
+            break;
+        case 4:
+            field_4_seq_id = 26;
+            break;
+        case 5:
+            field_4_seq_id = 25;
+            break;
+        default:
+            break;
     }
 
     if (field_4_seq_id != -1)

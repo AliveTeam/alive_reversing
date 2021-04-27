@@ -24,10 +24,12 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     EXPORT void UseButton_414C60();
+
 private:
     EXPORT NakedSligButton* vdtor_414A60(s32 flags);
     EXPORT void dtor_414A90();
     EXPORT void vUpdate_414B20();
+
 private:
     s32 field_F4_tlvInfo;
     s16 field_F8_id;

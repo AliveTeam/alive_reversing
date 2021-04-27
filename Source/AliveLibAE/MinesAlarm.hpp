@@ -21,6 +21,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+
 private:
     s32 vGetSaveState_4177C0(MinesAlarm_State* pState);
     EXPORT void dtor_4178E0();

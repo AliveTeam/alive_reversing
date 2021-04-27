@@ -31,5 +31,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(OneShotSwitchIdSetter, 0x14);
 
-}
-
+} // namespace AO

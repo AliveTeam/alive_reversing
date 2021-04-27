@@ -4,17 +4,21 @@
 
 #include <string>
 
-namespace jsonxx { class Object; }
+namespace jsonxx {
+class Object;
+}
 
 class TypesCollectionBase;
 class PropertyCollection;
 
-template<typename T>
+template <typename T>
 class TypedProperty : public BaseProperty
 {
 public:
     TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data)
-        : BaseProperty(name, typeName, isVisibleToEditor), m_data(data) { }
+        : BaseProperty(name, typeName, isVisibleToEditor)
+        , m_data(data)
+    { }
 
     void Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const jsonxx::Object& properties) override;
 

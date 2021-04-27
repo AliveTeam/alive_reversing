@@ -36,11 +36,9 @@ ALIVE_VAR(1, 0x50771C, s16, sDDCheat_FlyingEnabled_50771C, 0);
 
 using TDDCheatFn = decltype(&DDCheat::Teleport_409CE0);
 
-const TDDCheatFn off_4C3150[] =
-{
+const TDDCheatFn off_4C3150[] = {
     &DDCheat::Teleport_409CE0,
-    &DDCheat::Misc_409E90
-};
+    &DDCheat::Misc_409E90};
 
 DDCheat* DDCheat::ctor_4095D0()
 {
@@ -149,7 +147,7 @@ void DDCheat::ScreenShot_409720()
         {
             return;
         }
-        const PSX_RECT rect = { 0, 0, 640, static_cast<s16>(gPsxDisplay_504C78.field_2_height) };
+        const PSX_RECT rect = {0, 0, 640, static_cast<s16>(gPsxDisplay_504C78.field_2_height)};
         PSX_StoreImage_496320(&rect, pixelBuffer);
         PSX_DrawSync_496750(0);
 
@@ -159,19 +157,20 @@ void DDCheat::ScreenShot_409720()
             pixelBuffer[i] = ((pixel >> 10) & 0x1F) + (32 * (32 * (pixel & 0x1F) + ((pixel >> 5) & 0x1F)));
         }
 
-        struct {
-            s8  idlength = 0;
-            s8  colourmaptype = 0;
-            s8  datatypecode = 2;
+        struct
+        {
+            s8 idlength = 0;
+            s8 colourmaptype = 0;
+            s8 datatypecode = 2;
             s16 colourmaporigin = 0;
             s16 colourmaplength = 0;
-            s8  colourmapdepth = 0;
+            s8 colourmapdepth = 0;
             s16 x_origin = 0;
             s16 y_origin = 0;
             s16 width = 640;
             s16 height = 480;
-            s8  bitsperpixel = 16;
-            s8  imagedescriptor = 0;
+            s8 bitsperpixel = 16;
+            s8 imagedescriptor = 0;
         } headerTGA;
 
         writeHeaderElement(headerTGA.idlength, fileHandle);
@@ -187,9 +186,9 @@ void DDCheat::ScreenShot_409720()
         writeHeaderElement(headerTGA.bitsperpixel, fileHandle);
         writeHeaderElement(headerTGA.bitsperpixel, fileHandle);
 
-        u8 *rowOfPixels = reinterpret_cast<u8*>(pixelBuffer + 640 * 239);
+        u8* rowOfPixels = reinterpret_cast<u8*>(pixelBuffer + 640 * 239);
         const s32 rowNum = 240;
-        for(s32 i = 0; i < rowNum; i++)
+        for (s32 i = 0; i < rowNum; i++)
         {
             fwrite(rowOfPixels, 1, 640 * sizeof(u16), fileHandle);
             fwrite(rowOfPixels, 1, 640 * sizeof(u16), fileHandle);
@@ -379,8 +378,7 @@ void DDCheat::VUpdate_4098C0()
             }
             if (field_18)
             {
-                if (isPressed & InputCommands::eSneak &&
-                    isPressed & InputCommands::eCheatMode)
+                if (isPressed & InputCommands::eSneak && isPressed & InputCommands::eCheatMode)
                 {
                     field_14 = 0;
                 }
@@ -402,8 +400,7 @@ void DDCheat::VUpdate_4098C0()
     }
 }
 
-const s8 *lvl_names_4C3168[16] =
-{
+const s8* lvl_names_4C3168[16] = {
     "Start screen",
     "Rupture 1",
     "Lines 1",
@@ -419,8 +416,7 @@ const s8 *lvl_names_4C3168[16] =
     "Game Ender",
     "Rupture 2",
     "Forest Level Ender",
-    "Desert Level Ender"
-};
+    "Desert Level Ender"};
 
 ALIVE_VAR(1, 0x4C3164, s16, camera_4C3164, 1);
 
@@ -433,7 +429,7 @@ void DDCheat::Teleport_409CE0()
     DebugStr_495990("Teleport = [] Reset = O\n"); //TODO don't display PSX buttons
     s32 input = field_24_input;
     field_10 = 6;
-    if (input &  InputCommands::eSneak)
+    if (input & InputCommands::eSneak)
     {
         if (level_4C315C)
         {
@@ -480,10 +476,7 @@ void DDCheat::Teleport_409CE0()
         if (path_4C3160 <= 21u)
         {
             const auto pPathRec = Path_Get_Bly_Record_434650(static_cast<LevelIds>(level_4C315C), path_4C3160);
-            if (pPathRec &&
-                pPathRec->field_0_blyName &&
-                pPathRec->field_4_pPathData &&
-                pPathRec->field_8_pCollisionData)
+            if (pPathRec && pPathRec->field_0_blyName && pPathRec->field_4_pPathData && pPathRec->field_8_pCollisionData)
             {
                 if (camera_4C3164 <= 21)
                 {
@@ -494,8 +487,7 @@ void DDCheat::Teleport_409CE0()
                         camera_4C3164,
                         CameraSwapEffects::eEffect0_InstantChange,
                         0,
-                        0
-                    );
+                        0);
                     field_20 = 1;
                 }
             }
@@ -543,14 +535,14 @@ void DDCheat::Misc_409E90()
     DebugStr_495990("\nScale: up=+5 down=-5 left=100 right=50\n");
     DebugStr_495990("Scale: %d\n\n", gScale_4C3158);
 
-    const s8 *invulnerableDisplayText = "on";
+    const s8* invulnerableDisplayText = "on";
     if (!gAbeInvulnerableCheat_5076E4)
     {
         invulnerableDisplayText = "off";
     }
     DebugStr_495990("triangle=invulnerable (%s)\n", invulnerableDisplayText);
 
-    const s8 *invisibleDisplayText = "on";
+    const s8* invisibleDisplayText = "on";
     if (!gAbeInvisibleCheat_5076F8)
     {
         invisibleDisplayText = "off";
@@ -608,4 +600,4 @@ s32 DDCheat::DebugStr_495990(const s8* pStr, ...)
     return 0;
 }
 
-}
+} // namespace AO

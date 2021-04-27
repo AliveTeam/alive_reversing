@@ -83,5 +83,4 @@ ALIVE_ASSERT_SIZEOF(AbilityRing, 0x27C);
 
 
 
-}
-
+} // namespace AO

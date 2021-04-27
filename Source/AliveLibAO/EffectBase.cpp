@@ -56,10 +56,10 @@ void EffectBase::VRender_461690(PrimHeader** ppOt)
     Prim_Tile* pTile = &field_14_tile[gPsxDisplay_504C78.field_A_buffer_index];
     Init_Tile(pTile);
 
-    SetRGB0(pTile, 
-        static_cast<u8>(field_5E_r),
-        static_cast<u8>(field_60_g),
-        static_cast<u8>(field_62_b));
+    SetRGB0(pTile,
+            static_cast<u8>(field_5E_r),
+            static_cast<u8>(field_60_g),
+            static_cast<u8>(field_62_b));
     SetXY0(pTile, 0, 0);
 
     pTile->field_14_w = 640;
@@ -76,4 +76,4 @@ BaseGameObject* EffectBase::VDestructor(s32 flags)
     return Vdtor_461750(flags);
 }
 
-}
+} // namespace AO

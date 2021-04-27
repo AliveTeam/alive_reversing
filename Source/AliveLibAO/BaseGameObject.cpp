@@ -5,7 +5,8 @@
 #include "Events.hpp"
 #include "Map.hpp"
 
-void AliveLibAO_ForceLink() {}
+void AliveLibAO_ForceLink()
+{ }
 
 namespace AO {
 
@@ -66,4 +67,4 @@ void BaseGameObject::VScreenChanged_487E70()
     }
 }
 
-}
+} // namespace AO

@@ -22,4 +22,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(HoneyDrip, 0xE8);
 
-}
+} // namespace AO

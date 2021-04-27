@@ -46,4 +46,4 @@ void Flash::VUpdate()
     VUpdate_41A870();
 }
 
-}
+} // namespace AO

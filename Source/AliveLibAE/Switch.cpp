@@ -9,27 +9,25 @@
 #include "PathData.hpp"
 #include "SwitchStates.hpp"
 
-const TintEntry kSwitchTints_563228[18] =
-{
-    { 1, 127u, 127u, 127u },
-    { 2, 127u, 127u, 127u },
-    { 3, 127u, 127u, 127u },
-    { 4, 127u, 127u, 127u },
-    { 5, 127u, 127u, 127u },
-    { 6, 127u, 127u, 127u },
-    { 7, 127u, 127u, 127u },
-    { 8, 127u, 127u, 127u },
-    { 9, 127u, 127u, 127u },
-    { 10, 127u, 127u, 127u },
-    { 11, 127u, 127u, 127u },
-    { 12, 127u, 127u, 127u },
-    { 13, 127u, 127u, 127u },
-    { 14, 127u, 127u, 127u },
-    { -1, 127u, 127u, 127u },
-    { 0, 0u, 0u, 0u },
-    { 0, 0u, 0u, 0u },
-    { 0, 0u, 0u, 0u }
-};
+const TintEntry kSwitchTints_563228[18] = {
+    {1, 127u, 127u, 127u},
+    {2, 127u, 127u, 127u},
+    {3, 127u, 127u, 127u},
+    {4, 127u, 127u, 127u},
+    {5, 127u, 127u, 127u},
+    {6, 127u, 127u, 127u},
+    {7, 127u, 127u, 127u},
+    {8, 127u, 127u, 127u},
+    {9, 127u, 127u, 127u},
+    {10, 127u, 127u, 127u},
+    {11, 127u, 127u, 127u},
+    {12, 127u, 127u, 127u},
+    {13, 127u, 127u, 127u},
+    {14, 127u, 127u, 127u},
+    {-1, 127u, 127u, 127u},
+    {0, 0u, 0u, 0u},
+    {0, 0u, 0u, 0u},
+    {0, 0u, 0u, 0u}};
 
 BaseGameObject* Switch::VDestructor(s32 flags)
 {
@@ -97,14 +95,14 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, u32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos,
-        field_B8_xpos,
-        field_BC_ypos + FP_FromInteger(24),
-        &pPathLine,
-        &hitX,
-        &hitY,
-        (field_D6_scale != 0) ? 1 : 16))
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos + FP_FromInteger(24),
+            &pPathLine,
+            &hitX,
+            &hitY,
+            (field_D6_scale != 0) ? 1 : 16))
     {
         field_BC_ypos = hitY;
     }
@@ -140,10 +138,7 @@ Switch* Switch::vdtor_4D5AD0(s32 flags)
 
 void Switch::vScreenChanged_4D5B90()
 {
-    if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) ||
-        gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
-        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
-        gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
+    if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) || gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -182,7 +177,7 @@ void Switch::vUpdate_4D5C00()
 
             if (field_100_flags.Get(Flags_100::eBit1_switch_anim_left_direction))
             {
-				const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Left_B);
+                const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Left_B);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
             else

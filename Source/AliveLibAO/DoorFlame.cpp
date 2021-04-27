@@ -126,13 +126,13 @@ public:
 
         const s32 offXScaled = FP_GetExponent(FP_FromInteger(xy.field_0_x) * field_BC_sprite_scale);
         const s32 offYScaled = FP_GetExponent(FP_FromInteger(xy.field_2_y) * field_BC_sprite_scale);
-        
-         // TODO: Refactor PSX <> PC width conversion
-        const FP frameWScaled_converted = ((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40); 
+
+        // TODO: Refactor PSX <> PC width conversion
+        const FP frameWScaled_converted = ((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40);
         // Why isn't this converted ??
         //const s16 offXScaled_converted = FP_GetExponent(((FP_FromInteger(offXScaled) * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
 
-     
+
         field_E4_xPos = screenX + FP_FromInteger(offXScaled) + FP_FromInteger(Math_NextRandom() % 3);
         field_E8_yPos = screenY + FP_FromInteger(offYScaled) + FP_FromInteger((Math_NextRandom() % 3));
         field_EC_xOff = screenX + FP_FromInteger(offXScaled) + frameWScaled_converted + FP_FromInteger(Math_NextRandom() % 3);
@@ -168,7 +168,7 @@ public:
         ctor_417C10();
         for (auto& anim : field_E8_sparks)
         {
-             SetVTable(&anim.field_14, 0x4BA470);
+            SetVTable(&anim.field_14, 0x4BA470);
         }
 
         SetVTable(this, 0x4BB368);
@@ -204,7 +204,7 @@ public:
             anim.field_8_off_x = FP_FromInteger(0);
             anim.field_C_off_y = FP_FromInteger(0);
 
-            anim.field_10_random64 =Math_RandomRange_450F20(0, 64);
+            anim.field_10_random64 = Math_RandomRange_450F20(0, 64);
             anim.field_12_bVisible = 0;
         }
 
@@ -334,7 +334,7 @@ public:
                                     FP_GetExponent(anim.field_4_y - screen_top),
                                     ppOt);
 
-                               anim.field_14.GetRenderedSize_404220(&frameRect);
+                                anim.field_14.GetRenderedSize_404220(&frameRect);
                                 pScreenManager_4FF7C8->InvalidateRect_406E40(
                                     frameRect.x,
                                     frameRect.y,
@@ -347,7 +347,6 @@ public:
                 }
             }
         }
-
     }
 
     s32 field_D4_padding[4];
@@ -447,17 +446,17 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
 
     switch (pTlv->field_1C_colour)
     {
-    case Path_DoorFlame::Colour::red_1:
-        field_C0_r = 127;
-        break;
-    case Path_DoorFlame::Colour::green_2:
-        field_C2_g = 127;
-        break;
-    case Path_DoorFlame::Colour::blue_3:
-        field_C4_b = 127;
-        break;
-    default:
-        break;
+        case Path_DoorFlame::Colour::red_1:
+            field_C0_r = 127;
+            break;
+        case Path_DoorFlame::Colour::green_2:
+            field_C2_g = 127;
+            break;
+        case Path_DoorFlame::Colour::blue_3:
+            field_C4_b = 127;
+            break;
+        default:
+            break;
     }
 
     field_F8_pFireBackgroundGlow = 0;
@@ -489,86 +488,84 @@ void DoorFlame::VUpdate_432BA0()
 {
     switch (field_EC_state)
     {
-    case States::eDisabled_0:
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        if (field_FC_pFlameSparks)
-        {
-            field_FC_pFlameSparks->field_E4_bRender = 0;
-        }
-
-        if (SwitchStates_Get(field_E8_switch_id))
-        {
-            field_EC_state = States::eEnabled_1;
-        }
-
-        if (field_F8_pFireBackgroundGlow)
-        {
-            field_F8_pFireBackgroundGlow->field_C_refCount--;
-            field_F8_pFireBackgroundGlow->field_6_flags.Set(Options::eDead_Bit3);
-            field_F8_pFireBackgroundGlow = nullptr;
-        }
-        break;
-
-    case States::eEnabled_1:
-        if (!pFlameControllingTheSound_507734)
-        {
-            pFlameControllingTheSound_507734 = this;
-            field_F0_sounds_mask = SFX_Play_43AD70(SoundEffect::Fire_69, 40, 0);
-        }
-
-        if (--field_EE_2_random <= 0)
-        {
-            field_EE_2_random = 2;
-            if (field_F8_pFireBackgroundGlow)
+        case States::eDisabled_0:
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            if (field_FC_pFlameSparks)
             {
-                field_F8_pFireBackgroundGlow->Calc_Rect_432010();
-            }
-        }
-
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-        if (field_FC_pFlameSparks)
-        {
-            field_FC_pFlameSparks->field_E4_bRender = 1;
-        }
-
-        if (!SwitchStates_Get(field_E8_switch_id))
-        {
-            field_EC_state = States::eDisabled_0;
-        }
-
-        if (!field_F8_pFireBackgroundGlow)
-        {
-            field_F8_pFireBackgroundGlow = ao_new<FireBackgroundGlow>();
-            if (field_F8_pFireBackgroundGlow)
-            {
-                field_F8_pFireBackgroundGlow->ctor_431F20(
-                    field_A8_xpos,
-                    field_AC_ypos + FP_FromInteger(4),
-                    FP_FromDouble(0.5));
-
-                field_F8_pFireBackgroundGlow->field_C_refCount++;
-                field_F8_pFireBackgroundGlow->field_C0_r = field_C0_r;
-                field_F8_pFireBackgroundGlow->field_C2_g = field_C2_g;
-                field_F8_pFireBackgroundGlow->field_C4_b = field_C4_b;
+                field_FC_pFlameSparks->field_E4_bRender = 0;
             }
 
-        }
-        break;
+            if (SwitchStates_Get(field_E8_switch_id))
+            {
+                field_EC_state = States::eEnabled_1;
+            }
 
-    default:
-        break;
+            if (field_F8_pFireBackgroundGlow)
+            {
+                field_F8_pFireBackgroundGlow->field_C_refCount--;
+                field_F8_pFireBackgroundGlow->field_6_flags.Set(Options::eDead_Bit3);
+                field_F8_pFireBackgroundGlow = nullptr;
+            }
+            break;
+
+        case States::eEnabled_1:
+            if (!pFlameControllingTheSound_507734)
+            {
+                pFlameControllingTheSound_507734 = this;
+                field_F0_sounds_mask = SFX_Play_43AD70(SoundEffect::Fire_69, 40, 0);
+            }
+
+            if (--field_EE_2_random <= 0)
+            {
+                field_EE_2_random = 2;
+                if (field_F8_pFireBackgroundGlow)
+                {
+                    field_F8_pFireBackgroundGlow->Calc_Rect_432010();
+                }
+            }
+
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+            if (field_FC_pFlameSparks)
+            {
+                field_FC_pFlameSparks->field_E4_bRender = 1;
+            }
+
+            if (!SwitchStates_Get(field_E8_switch_id))
+            {
+                field_EC_state = States::eDisabled_0;
+            }
+
+            if (!field_F8_pFireBackgroundGlow)
+            {
+                field_F8_pFireBackgroundGlow = ao_new<FireBackgroundGlow>();
+                if (field_F8_pFireBackgroundGlow)
+                {
+                    field_F8_pFireBackgroundGlow->ctor_431F20(
+                        field_A8_xpos,
+                        field_AC_ypos + FP_FromInteger(4),
+                        FP_FromDouble(0.5));
+
+                    field_F8_pFireBackgroundGlow->field_C_refCount++;
+                    field_F8_pFireBackgroundGlow->field_C0_r = field_C0_r;
+                    field_F8_pFireBackgroundGlow->field_C2_g = field_C2_g;
+                    field_F8_pFireBackgroundGlow->field_C4_b = field_C4_b;
+                }
+            }
+            break;
+
+        default:
+            break;
     }
 
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_B2_lvl_number,
-        field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos,
-        0))
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
-}
-
+} // namespace AO

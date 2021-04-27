@@ -9,8 +9,7 @@
 #include "Sfx.hpp"
 #include "DeathGas.hpp"
 
-const u8 byte_5513D4[40] =
-{
+const u8 byte_5513D4[40] = {
     0u,
     0u,
     1u,
@@ -50,8 +49,7 @@ const u8 byte_5513D4[40] =
     0u,
     0u,
     0u,
-    0u
-};
+    0u};
 
 ALIVE_VAR(1, 0x5c1be8, s32, sGasTimer_5C1BE8, 0);
 ALIVE_VAR(1, 0x5C1C00, s16, gGasOn_5C1C00, 0);
@@ -144,8 +142,7 @@ GasCountDown* GasCountDown::vdtor_4171F0(s32 flags)
 void GasCountDown::vScreenChanged_417700()
 {
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
-        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path)
     {
         sGasTimer_5C1BE8 = 0;
     }
@@ -233,9 +230,7 @@ void GasCountDown::vUpdate_4172E0()
     }
 
     // Enable
-    if (!sGasTimer_5C1BE8 &&
-        SwitchStates_Get_466020(field_70_start_trigger_id) &&
-        !SwitchStates_Get_466020(field_72_stop_trigger_id))
+    if (!sGasTimer_5C1BE8 && SwitchStates_Get_466020(field_70_start_trigger_id) && !SwitchStates_Get_466020(field_72_stop_trigger_id))
     {
         sGasTimer_5C1BE8 = sGnFrame_5C1B84;
         auto pAlarm = ae_new<Alarm>();

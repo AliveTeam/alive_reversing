@@ -25,17 +25,17 @@ ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545E10); // vTbl_ShadowZone_545E10
-    
+
     sShadowZone_dArray_5C1B80->Push_Back(this);
-    
+
     field_26_path = gMap_5C3030.field_2_current_path;
     field_24_level = gMap_5C3030.field_0_current_level;
-    
+
     field_20_tlvInfo = tlvInfo;
 
     field_30_mid_x = (pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x) / 2;
     field_32_mid_y = (pTlv->field_C_bottom_right.field_2_y - pTlv->field_8_top_left.field_2_y) / 2;
-    
+
     field_28_centre_x = field_30_mid_x + pTlv->field_8_top_left.field_0_x;
     field_2C_centre_mid_x = field_30_mid_x - 75;
     if (field_2C_centre_mid_x < 0)
@@ -85,7 +85,6 @@ EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypo
             {
                 *g = FP_GetExponent(FP_FromInteger(*g) + (pShadow->field_3C_g * amount));
             }
-            
         }
     }
 

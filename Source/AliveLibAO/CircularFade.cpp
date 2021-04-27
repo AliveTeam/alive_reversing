@@ -112,8 +112,7 @@ void CircularFade::VRender_47A080(PrimHeader** ppOt)
             gPsxDisplay_504C78.field_2_height);
     }
 
-    if ((field_1A8_fade_colour == 255 && field_E4_flags.Get(CircularFade::eBit1_FadeIn)) ||
-        (field_1A8_fade_colour == 0 && !field_E4_flags.Get(CircularFade::eBit1_FadeIn)))
+    if ((field_1A8_fade_colour == 255 && field_E4_flags.Get(CircularFade::eBit1_FadeIn)) || (field_1A8_fade_colour == 0 && !field_E4_flags.Get(CircularFade::eBit1_FadeIn)))
     {
         field_E4_flags.Set(CircularFade::eBit2_Done);
 
@@ -250,4 +249,4 @@ CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, s16 direc
     return pCircularFade;
 }
 
-}
+} // namespace AO

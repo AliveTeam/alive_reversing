@@ -41,5 +41,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ParamiteWeb, 0xF4);
 
-}
-
+} // namespace AO

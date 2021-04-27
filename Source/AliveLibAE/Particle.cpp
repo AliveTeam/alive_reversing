@@ -144,7 +144,7 @@ EXPORT Particle* CC New_TintChant_Particle_426BE0(FP xpos, FP ypos, FP scale, La
 EXPORT void CC New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b)
 {
     FP velYCounter = {};
-    for (s32 i=0; i < count; i++)
+    for (s32 i = 0; i < count; i++)
     {
         FP randX = (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;

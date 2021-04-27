@@ -29,7 +29,6 @@ struct BeeSwarmParticles
 class BeeSwarm : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-
     EXPORT BeeSwarm* ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks);
 
     EXPORT BaseGameObject* dtor_47FDF0();
@@ -98,5 +97,4 @@ ALIVE_ASSERT_SIZEOF(BeeSwarm, 0xDB0);
 ALIVE_VAR_EXTERN(s16, gBeeInstanceCount_5076B0);
 ALIVE_VAR_EXTERN(s16, gBeesNearAbe_5076AC);
 
-}
-
+} // namespace AO

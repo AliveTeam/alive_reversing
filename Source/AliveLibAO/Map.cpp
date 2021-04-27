@@ -32,69 +32,66 @@ namespace AO {
 
 class BaseGameObject;
 
-void Map_ForceLink() {}
+void Map_ForceLink()
+{ }
 
 ALIVE_VAR(1, 0x507C98, Camera*, sCameraBeingLoaded_507C98, nullptr);
 
-const OverlayRecords kOverlays =
-{
-  {
-      { "\\S1.OVL;1", 5205u },
-      { "\\S1.LVL;1", 5207u },
-      { "\\S1.MOV;1", 6228u },
-      { "\\R1.OVL;1", 46992u },
-      { "\\R1.LVL;1", 47042u },
-      { "\\R1.MOV;1", 50938u },
-      { "\\E1.OVL;1", 109292u },
-      { "\\E1.LVL;1", 109358u },
-      { "\\E3.OVL;1", 109292u },
-      { "\\E4.OVL;1", 109292u },
-      { "\\E1.MOV;1", 112254u },
-      { "\\L1.OVL;1", 113848u },
-      { "\\L1.LVL;1", 113913u },
-      { "\\L2.OVL;1", 113848u },
-      { "\\L1.MOV;1", 116902u },
-      { "\\F1.OVL;1", 123206u },
-      { "\\F1.LVL;1", 123267u },
-      { "\\F1.MOV;1", 126488u },
-      { "\\F2.OVL;1", 140523u },
-      { "\\F2.LVL;1", 140605u },
-      { "\\F3.OVL;1", 140523u },
-      { "\\F2.MOV;1", 143702u },
-      { "\\F4.OVL;1", 140523u },
-      { "\\F4.LVL;1", 140523u },
-      { "\\D1.OVL;1", 149982u },
-      { "\\D1.LVL;1", 150044u },
-      { "\\D3.OVL;1", 149982u },
-      { "\\D5.OVL;1", 149982u },
-      { "\\D6.OVL;1", 149982u },
-      { "\\D1.MOV;1", 153189u },
-      { "\\D2.OVL;1", 164493u },
-      { "\\D2.LVL;1", 164554u },
-      { "\\D4.OVL;1", 164493u },
-      { "\\D2.MOV;1", 167451u },
-      { "\\D7.OVL;1", 164493u },
-      { "\\D7.LVL;1", 164493u },
-      { "\\E2.OVL;1", 174640u },
-      { "\\E2.LVL;1", 174685u },
-      { "\\E2.MOV;1", 177186u },
-      { "\\R2.OVL;1", 178780u },
-      { "\\R2.LVL;1", 178850u },
-      { "\\R3.OVL;1", 178780u },
-      { "\\R4.OVL;1", 178780u },
-      { "\\R5.OVL;1", 178780u },
-      { "\\R7.OVL;1", 178780u },
-      { "\\R8.OVL;1", 178780u },
-      { "\\R9.OVL;1", 178780u },
-      { "\\RA.OVL;1", 178780u },
-      { "\\R2.MOV;1", 182667u },
-      { "\\R6.OVL;1", 178780u },
-      { "\\R6.LVL;1", 178780u },
-      { "\\C1.OVL;1", 178780u },
-      { "\\C1.LVL;1", 178850u },
-      { "\\C1.MOV;1", 182667u }
-  }
-};
+const OverlayRecords kOverlays = {
+    {{"\\S1.OVL;1", 5205u},
+     {"\\S1.LVL;1", 5207u},
+     {"\\S1.MOV;1", 6228u},
+     {"\\R1.OVL;1", 46992u},
+     {"\\R1.LVL;1", 47042u},
+     {"\\R1.MOV;1", 50938u},
+     {"\\E1.OVL;1", 109292u},
+     {"\\E1.LVL;1", 109358u},
+     {"\\E3.OVL;1", 109292u},
+     {"\\E4.OVL;1", 109292u},
+     {"\\E1.MOV;1", 112254u},
+     {"\\L1.OVL;1", 113848u},
+     {"\\L1.LVL;1", 113913u},
+     {"\\L2.OVL;1", 113848u},
+     {"\\L1.MOV;1", 116902u},
+     {"\\F1.OVL;1", 123206u},
+     {"\\F1.LVL;1", 123267u},
+     {"\\F1.MOV;1", 126488u},
+     {"\\F2.OVL;1", 140523u},
+     {"\\F2.LVL;1", 140605u},
+     {"\\F3.OVL;1", 140523u},
+     {"\\F2.MOV;1", 143702u},
+     {"\\F4.OVL;1", 140523u},
+     {"\\F4.LVL;1", 140523u},
+     {"\\D1.OVL;1", 149982u},
+     {"\\D1.LVL;1", 150044u},
+     {"\\D3.OVL;1", 149982u},
+     {"\\D5.OVL;1", 149982u},
+     {"\\D6.OVL;1", 149982u},
+     {"\\D1.MOV;1", 153189u},
+     {"\\D2.OVL;1", 164493u},
+     {"\\D2.LVL;1", 164554u},
+     {"\\D4.OVL;1", 164493u},
+     {"\\D2.MOV;1", 167451u},
+     {"\\D7.OVL;1", 164493u},
+     {"\\D7.LVL;1", 164493u},
+     {"\\E2.OVL;1", 174640u},
+     {"\\E2.LVL;1", 174685u},
+     {"\\E2.MOV;1", 177186u},
+     {"\\R2.OVL;1", 178780u},
+     {"\\R2.LVL;1", 178850u},
+     {"\\R3.OVL;1", 178780u},
+     {"\\R4.OVL;1", 178780u},
+     {"\\R5.OVL;1", 178780u},
+     {"\\R7.OVL;1", 178780u},
+     {"\\R8.OVL;1", 178780u},
+     {"\\R9.OVL;1", 178780u},
+     {"\\RA.OVL;1", 178780u},
+     {"\\R2.MOV;1", 182667u},
+     {"\\R6.OVL;1", 178780u},
+     {"\\R6.LVL;1", 178780u},
+     {"\\C1.OVL;1", 178780u},
+     {"\\C1.LVL;1", 178850u},
+     {"\\C1.MOV;1", 182667u}}};
 
 ALIVE_VAR(1, 0x4C5AA8, OverlayRecords, sOverlayTable_4C5AA8, kOverlays);
 
@@ -124,174 +121,172 @@ ALIVE_ASSERT_SIZEOF(OpenSeqHandleAE, 0x10);
 
 // WARNING: The AO and AE OpenSeqHandle are not memory layout compatible
 // since we use the AE funcs for sound we must use the AE definition here
-OpenSeqHandleAE g_SeqTable_4C9E70[165] =
-{
-    { "D1AMB.SEQ", 0, 0, 100, -1, nullptr },
-    { "D2AMB.SEQ", 0, 0, 100, -1, nullptr },
-    { "E1AMB.SEQ", 0, 0, 60, -1, nullptr },
-    { "E2AMB.SEQ", 0, 0, 60, -1, nullptr },
-    { "E2AMB2.SEQ", 0, 0, 60, -1, nullptr },
-    { "F1AMB.SEQ", 0, 0, 60, -1, nullptr },
-    { "F2AMB.SEQ", 0, 0, 100,  -1, nullptr },
-    { "MLAMB.SEQ", 0, 0, 60, -1, nullptr },
-    { "RFAMB.SEQ", 0, 0, 70, -1, nullptr },
-    { "OPTAMB.SEQ", 0, 0, 100, -1, nullptr },
-    { "GUN.SEQ", 0, 0, 40, -1, nullptr },
-    { "OHM.SEQ", 0, 0, 80, -1, nullptr },
-    { "MUDOHM.SEQ", 0, 0, 80, -1, nullptr },
-    { "EBELL2.SEQ", 0, 0, 127, -1, nullptr },
-    { "ABEMOUNT.SEQ", 0, 0, 85, -1, nullptr },
-    { "ESCRATCH.SEQ", 0, 0, 45, -1, nullptr },
-    { "SSCRATCH.SEQ", 0, 0, 55, -1, nullptr },
-    { "PANTING.SEQ", 0, 0, 45, -1, nullptr },
-    { "BATSQUEK.SEQ", 0, 0, 55, -1, nullptr },
-    { "WHISTLE1.SEQ", 0, 0, 127, -1, nullptr },
-    { "WHISTLE2.SEQ", 0, 0, 127, -1, nullptr },
-    { "SLIGBOMB.SEQ", 0, 0, 127, -1, nullptr },
-    { "SLIGBOM2.SEQ", 0, 0, 127, -1, nullptr },
-    { "OOPS.SEQ", 0, 0, 40, -1, nullptr },
-    { "PIGEONS.SEQ", 0, 0, 40, -1, nullptr },
-    { "CHIPPER.SEQ", 0, 0, 90, -1, nullptr },
-    { "PATROL.SEQ", 0, 0, 60, -1, nullptr },
-    { "SLEEPING.SEQ", 0, 0, 60, -1, nullptr },
-    { "ONCHAIN.SEQ", 0, 0, 60, -1, nullptr },
-    { "SLOSLEEP.SEQ", 0, 0, 60, -1, nullptr },
-    { "PARAPANT.SEQ", 0, 0, 35, -1, nullptr },
-    { "GRINDER.SEQ", 0, 0, 35, -1, nullptr },
-    { "BASICTRK.SEQ", 0, 0, 90, -1, nullptr },
-    { "LE_LO_1.SEQ", 0, 0, 127, -1, nullptr },
-    { "LE_LO_2.SEQ", 0, 0, 127, -1, nullptr },
-    { "LE_LO_3.SEQ", 0, 0, 127, -1, nullptr },
-    { "LE_LO_4.SEQ", 0, 0, 127, -1, nullptr },
-    { "LE_SH_1.SEQ", 0, 0, 127, -1, nullptr },
-    { "LE_SH_2.SEQ", 0, 0, 127, -1, nullptr },
-    { "LE_SH_3.SEQ", 0, 0, 127, -1, nullptr },
-    { "LE_SH_4.SEQ", 0, 0, 127, -1, nullptr },
-    { "MYSTERY1.SEQ", 0, 0, 60, -1, nullptr },
-    { "MYSTERY2.SEQ", 0, 0, 60, -1, nullptr },
-    { "NEGATIV1.SEQ", 0, 0, 60, -1, nullptr },
-    { "NEGATIV3.SEQ", 0, 0, 60, -1, nullptr },
-    { "POSITIV1.SEQ", 0, 0, 60, -1, nullptr },
-    { "POSITIV9.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_0_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_0_2.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_0_3.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_1_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_1_2.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_1_3.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_1_4.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_1_5.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_2_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_2_2.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_2_3.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_2_4.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_2_5.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_3_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_4_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_5_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D1_6_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D2_0_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D2_0_2.SEQ", 0, 0, 60, -1, nullptr },
-    { "D2_1_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D2_1_2.SEQ", 0, 0, 60, -1, nullptr },
-    { "D2_2_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D2_2_2.SEQ", 0, 0, 60, -1, nullptr },
-    { "D2_4_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D2_5_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "D2_6_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "DE_2_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "DE_4_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "DE_5_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "E1_0_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "E1_0_2.SEQ", 0, 0, 60, -1, nullptr },
-    { "E1_0_3.SEQ", 0, 0, 60, -1, nullptr },
-    { "E1_0_4.SEQ", 0, 0, 60, -1, nullptr },
-    { "E1_0_5.SEQ", 0, 0, 60, -1, nullptr },
-    { "E1_1_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "E1_1_2.SEQ", 0, 0, 60, -1, nullptr },
-    { "E1_1_3.SEQ", 0, 0, 60, -1, nullptr },
-    { "E1_1_4.SEQ", 0, 0, 90, -1, nullptr },
-    { "E1_1_5.SEQ", 0, 0, 90, -1, nullptr },
-    { "E1_4_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "E1_5_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "E1_6_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_0_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_0_2.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_0_3.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_1_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_1_2.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_1_3.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_2_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_2_2.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_2_3.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_2_4.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_3_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_4_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_5_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F1_6_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F2_0_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F2_1_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F2_2_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F2_4_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F2_5_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "F2_6_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "FE_2_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "FE_4_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "FE_5_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_0_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_0_2.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_0_3.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_0_4.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_0_5.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_1_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_1_2.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_1_3.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_1_4.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_1_5.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_2_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_2_2.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_2_3.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_2_4.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_2_5.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_3_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_4_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_5_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "ML_6_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_0_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_0_2.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_0_3.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_0_4.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_1_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_1_2.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_1_3.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_2_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_2_2.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_2_3.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_2_4.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_4_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_5_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "RF_6_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "RE_2_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "RE_4_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "RE_5_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "OPT_0_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "OPT_0_2.SEQ", 0, 0, 60, -1, nullptr },
-    { "OPT_0_3.SEQ", 0, 0, 60, -1, nullptr },
-    { "OPT_0_4.SEQ", 0, 0, 60, -1, nullptr },
-    { "OPT_0_5.SEQ", 0, 0, 60, -1, nullptr },
-    { "OPT_1_1.SEQ", 0, 0, 60, -1, nullptr },
-    { "OPT_1_2.SEQ", 0, 0, 60, -1, nullptr },
-    { "OPT_1_3.SEQ", 0, 0, 60, -1, nullptr },
-    { "OPT_1_4.SEQ", 0, 0, 90, -1, nullptr },
-    { "OPT_1_5.SEQ", 0, 0, 90, -1, nullptr },
-    { "ALL_4_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "ALL_5_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "ALL_5_2.SEQ", 0, 0, 90, -1, nullptr },
-    { "ALL_5_3.SEQ", 0, 0, 90, -1, nullptr },
-    { "ALL_7_1.SEQ", 0, 0, 90, -1, nullptr },
-    { "ALL_8_1.SEQ", 0, 0, 90, -1, nullptr },
-    { nullptr, 0, 0, 0, 0, nullptr }
-};
+OpenSeqHandleAE g_SeqTable_4C9E70[165] = {
+    {"D1AMB.SEQ", 0, 0, 100, -1, nullptr},
+    {"D2AMB.SEQ", 0, 0, 100, -1, nullptr},
+    {"E1AMB.SEQ", 0, 0, 60, -1, nullptr},
+    {"E2AMB.SEQ", 0, 0, 60, -1, nullptr},
+    {"E2AMB2.SEQ", 0, 0, 60, -1, nullptr},
+    {"F1AMB.SEQ", 0, 0, 60, -1, nullptr},
+    {"F2AMB.SEQ", 0, 0, 100, -1, nullptr},
+    {"MLAMB.SEQ", 0, 0, 60, -1, nullptr},
+    {"RFAMB.SEQ", 0, 0, 70, -1, nullptr},
+    {"OPTAMB.SEQ", 0, 0, 100, -1, nullptr},
+    {"GUN.SEQ", 0, 0, 40, -1, nullptr},
+    {"OHM.SEQ", 0, 0, 80, -1, nullptr},
+    {"MUDOHM.SEQ", 0, 0, 80, -1, nullptr},
+    {"EBELL2.SEQ", 0, 0, 127, -1, nullptr},
+    {"ABEMOUNT.SEQ", 0, 0, 85, -1, nullptr},
+    {"ESCRATCH.SEQ", 0, 0, 45, -1, nullptr},
+    {"SSCRATCH.SEQ", 0, 0, 55, -1, nullptr},
+    {"PANTING.SEQ", 0, 0, 45, -1, nullptr},
+    {"BATSQUEK.SEQ", 0, 0, 55, -1, nullptr},
+    {"WHISTLE1.SEQ", 0, 0, 127, -1, nullptr},
+    {"WHISTLE2.SEQ", 0, 0, 127, -1, nullptr},
+    {"SLIGBOMB.SEQ", 0, 0, 127, -1, nullptr},
+    {"SLIGBOM2.SEQ", 0, 0, 127, -1, nullptr},
+    {"OOPS.SEQ", 0, 0, 40, -1, nullptr},
+    {"PIGEONS.SEQ", 0, 0, 40, -1, nullptr},
+    {"CHIPPER.SEQ", 0, 0, 90, -1, nullptr},
+    {"PATROL.SEQ", 0, 0, 60, -1, nullptr},
+    {"SLEEPING.SEQ", 0, 0, 60, -1, nullptr},
+    {"ONCHAIN.SEQ", 0, 0, 60, -1, nullptr},
+    {"SLOSLEEP.SEQ", 0, 0, 60, -1, nullptr},
+    {"PARAPANT.SEQ", 0, 0, 35, -1, nullptr},
+    {"GRINDER.SEQ", 0, 0, 35, -1, nullptr},
+    {"BASICTRK.SEQ", 0, 0, 90, -1, nullptr},
+    {"LE_LO_1.SEQ", 0, 0, 127, -1, nullptr},
+    {"LE_LO_2.SEQ", 0, 0, 127, -1, nullptr},
+    {"LE_LO_3.SEQ", 0, 0, 127, -1, nullptr},
+    {"LE_LO_4.SEQ", 0, 0, 127, -1, nullptr},
+    {"LE_SH_1.SEQ", 0, 0, 127, -1, nullptr},
+    {"LE_SH_2.SEQ", 0, 0, 127, -1, nullptr},
+    {"LE_SH_3.SEQ", 0, 0, 127, -1, nullptr},
+    {"LE_SH_4.SEQ", 0, 0, 127, -1, nullptr},
+    {"MYSTERY1.SEQ", 0, 0, 60, -1, nullptr},
+    {"MYSTERY2.SEQ", 0, 0, 60, -1, nullptr},
+    {"NEGATIV1.SEQ", 0, 0, 60, -1, nullptr},
+    {"NEGATIV3.SEQ", 0, 0, 60, -1, nullptr},
+    {"POSITIV1.SEQ", 0, 0, 60, -1, nullptr},
+    {"POSITIV9.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_0_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_0_2.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_0_3.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_1_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_1_2.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_1_3.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_1_4.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_1_5.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_2_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_2_2.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_2_3.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_2_4.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_2_5.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_3_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_4_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_5_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D1_6_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D2_0_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D2_0_2.SEQ", 0, 0, 60, -1, nullptr},
+    {"D2_1_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D2_1_2.SEQ", 0, 0, 60, -1, nullptr},
+    {"D2_2_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D2_2_2.SEQ", 0, 0, 60, -1, nullptr},
+    {"D2_4_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D2_5_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"D2_6_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"DE_2_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"DE_4_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"DE_5_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"E1_0_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"E1_0_2.SEQ", 0, 0, 60, -1, nullptr},
+    {"E1_0_3.SEQ", 0, 0, 60, -1, nullptr},
+    {"E1_0_4.SEQ", 0, 0, 60, -1, nullptr},
+    {"E1_0_5.SEQ", 0, 0, 60, -1, nullptr},
+    {"E1_1_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"E1_1_2.SEQ", 0, 0, 60, -1, nullptr},
+    {"E1_1_3.SEQ", 0, 0, 60, -1, nullptr},
+    {"E1_1_4.SEQ", 0, 0, 90, -1, nullptr},
+    {"E1_1_5.SEQ", 0, 0, 90, -1, nullptr},
+    {"E1_4_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"E1_5_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"E1_6_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_0_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_0_2.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_0_3.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_1_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_1_2.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_1_3.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_2_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_2_2.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_2_3.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_2_4.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_3_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_4_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_5_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F1_6_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F2_0_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F2_1_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F2_2_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F2_4_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F2_5_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"F2_6_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"FE_2_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"FE_4_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"FE_5_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_0_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_0_2.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_0_3.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_0_4.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_0_5.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_1_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_1_2.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_1_3.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_1_4.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_1_5.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_2_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_2_2.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_2_3.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_2_4.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_2_5.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_3_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_4_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_5_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"ML_6_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_0_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_0_2.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_0_3.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_0_4.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_1_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_1_2.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_1_3.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_2_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_2_2.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_2_3.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_2_4.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_4_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_5_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"RF_6_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"RE_2_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"RE_4_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"RE_5_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"OPT_0_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"OPT_0_2.SEQ", 0, 0, 60, -1, nullptr},
+    {"OPT_0_3.SEQ", 0, 0, 60, -1, nullptr},
+    {"OPT_0_4.SEQ", 0, 0, 60, -1, nullptr},
+    {"OPT_0_5.SEQ", 0, 0, 60, -1, nullptr},
+    {"OPT_1_1.SEQ", 0, 0, 60, -1, nullptr},
+    {"OPT_1_2.SEQ", 0, 0, 60, -1, nullptr},
+    {"OPT_1_3.SEQ", 0, 0, 60, -1, nullptr},
+    {"OPT_1_4.SEQ", 0, 0, 90, -1, nullptr},
+    {"OPT_1_5.SEQ", 0, 0, 90, -1, nullptr},
+    {"ALL_4_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"ALL_5_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"ALL_5_2.SEQ", 0, 0, 90, -1, nullptr},
+    {"ALL_5_3.SEQ", 0, 0, 90, -1, nullptr},
+    {"ALL_7_1.SEQ", 0, 0, 90, -1, nullptr},
+    {"ALL_8_1.SEQ", 0, 0, 90, -1, nullptr},
+    {nullptr, 0, 0, 0, 0, nullptr}};
 
 EXPORT s32 CC MaxGridBlocks_41FA10(FP scale)
 {
@@ -312,8 +307,7 @@ EXPORT s32 CC MaxGridBlocks_41FA10(FP scale)
 
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
-const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10] =
-{
+const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10] = {
     CameraSwapEffects::eEffect5_1_FMV,
     CameraSwapEffects::eEffect2_RightToLeft,
     CameraSwapEffects::eEffect1_LeftToRight,
@@ -323,8 +317,7 @@ const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10]
     CameraSwapEffects::eEffect6_VerticalSplit,
     CameraSwapEffects::eEffect7_HorizontalSplit,
     CameraSwapEffects::eEffect11,
-    CameraSwapEffects::eEffect0_InstantChange
-};
+    CameraSwapEffects::eEffect0_InstantChange};
 
 ALIVE_VAR(1, 0x507BA8, Map, gMap_507BA8, {});
 ALIVE_VAR(1, 0x507C9C, s16, sMap_bDoPurpleLightEffect_507C9C, 0);
@@ -491,46 +484,46 @@ void Map::Handle_PathTransition_444DD0()
 
         switch (scale)
         {
-        case 0:
-            sActiveHero_507678->field_BC_sprite_scale = FP_FromInteger(1);
-            sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_32;
-            if (gElum_507680)
-            {
-                gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
-                gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_28;
-            }
-            break;
+            case 0:
+                sActiveHero_507678->field_BC_sprite_scale = FP_FromInteger(1);
+                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_32;
+                if (gElum_507680)
+                {
+                    gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
+                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_28;
+                }
+                break;
 
-        case 1:
-            sActiveHero_507678->field_BC_sprite_scale = FP_FromDouble(0.5);
-            sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_13;
-            if (gElum_507680)
-            {
-                gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
-                gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_9;
-            }
-            break;
+            case 1:
+                sActiveHero_507678->field_BC_sprite_scale = FP_FromDouble(0.5);
+                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_13;
+                if (gElum_507680)
+                {
+                    gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
+                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_9;
+                }
+                break;
 
-        default:
-            LOG_ERROR("Invalid scale " << pTlv->field_22_scale);
-            break;
+            default:
+                LOG_ERROR("Invalid scale " << pTlv->field_22_scale);
+                break;
         }
 
         CameraPos remapped = CameraPos::eCamInvalid_m1;
         switch (field_14_direction)
         {
-        case MapDirections::eMapLeft_0:
-            remapped = CameraPos::eCamLeft_3;
-            break;
-        case MapDirections::eMapRight_1:
-            remapped = CameraPos::eCamRight_4;
-            break;
-        case MapDirections::eMapTop_2:
-            remapped = CameraPos::eCamTop_1;
-            break;
-        case MapDirections::eMapBottom_3:
-            remapped = CameraPos::eCamBottom_2;
-            break;
+            case MapDirections::eMapLeft_0:
+                remapped = CameraPos::eCamLeft_3;
+                break;
+            case MapDirections::eMapRight_1:
+                remapped = CameraPos::eCamRight_4;
+                break;
+            case MapDirections::eMapTop_2:
+                remapped = CameraPos::eCamTop_1;
+                break;
+            case MapDirections::eMapBottom_3:
+                remapped = CameraPos::eCamBottom_2;
+                break;
         }
 
         field_18_pAliveObj->VOnPathTransition(
@@ -542,45 +535,45 @@ void Map::Handle_PathTransition_444DD0()
     {
         switch (field_14_direction)
         {
-        case Map::MapDirections::eMapLeft_0:
-            field_20_camX_idx--;
-            if (field_18_pAliveObj)
-            {
-                field_18_pAliveObj->VSetXSpawn(
-                    field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
-                    MaxGridBlocks_41FA10(field_18_pAliveObj->field_BC_sprite_scale) - 1);
-            }
-            field_10_screenChangeEffect = CameraSwapEffects::eEffect2_RightToLeft;
-            break;
-        case MapDirections::eMapRight_1:
-            field_20_camX_idx++;
-            if (field_18_pAliveObj)
-            {
-                field_18_pAliveObj->VSetXSpawn(field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
-                    1);
-            }
-            field_10_screenChangeEffect = CameraSwapEffects::eEffect1_LeftToRight;
-            break;
-        case MapDirections::eMapTop_2:
-            field_22_camY_idx--;
-            if (field_18_pAliveObj)
-            {
-                field_18_pAliveObj->VSetYSpawn(field_22_camY_idx * field_D4_pPathData->field_E_grid_height,
-                    1);
-            }
-            field_10_screenChangeEffect = CameraSwapEffects::eEffect4_BottomToTop;
-            break;
-        case MapDirections::eMapBottom_3:
-            field_22_camY_idx++;
-            if (field_18_pAliveObj)
-            {
-                field_18_pAliveObj->VSetYSpawn(field_22_camY_idx * field_D4_pPathData->field_E_grid_height,
-                    2);
-            }
-            field_10_screenChangeEffect = CameraSwapEffects::eEffect3_TopToBottom;
-            break;
-        default:
-            break;
+            case Map::MapDirections::eMapLeft_0:
+                field_20_camX_idx--;
+                if (field_18_pAliveObj)
+                {
+                    field_18_pAliveObj->VSetXSpawn(
+                        field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
+                        MaxGridBlocks_41FA10(field_18_pAliveObj->field_BC_sprite_scale) - 1);
+                }
+                field_10_screenChangeEffect = CameraSwapEffects::eEffect2_RightToLeft;
+                break;
+            case MapDirections::eMapRight_1:
+                field_20_camX_idx++;
+                if (field_18_pAliveObj)
+                {
+                    field_18_pAliveObj->VSetXSpawn(field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
+                                                   1);
+                }
+                field_10_screenChangeEffect = CameraSwapEffects::eEffect1_LeftToRight;
+                break;
+            case MapDirections::eMapTop_2:
+                field_22_camY_idx--;
+                if (field_18_pAliveObj)
+                {
+                    field_18_pAliveObj->VSetYSpawn(field_22_camY_idx * field_D4_pPathData->field_E_grid_height,
+                                                   1);
+                }
+                field_10_screenChangeEffect = CameraSwapEffects::eEffect4_BottomToTop;
+                break;
+            case MapDirections::eMapBottom_3:
+                field_22_camY_idx++;
+                if (field_18_pAliveObj)
+                {
+                    field_18_pAliveObj->VSetYSpawn(field_22_camY_idx * field_D4_pPathData->field_E_grid_height,
+                                                   2);
+                }
+                field_10_screenChangeEffect = CameraSwapEffects::eEffect3_TopToBottom;
+                break;
+            default:
+                break;
         }
 
         const u32 pCamNameOffset = (sizeof(CameraName) * (field_20_camX_idx + field_22_camY_idx * field_24_max_cams_x));
@@ -588,9 +581,7 @@ void Map::Handle_PathTransition_444DD0()
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
-        field_E_camera =
-            1 * (pCameraName->name[7] - '0') +
-            10 * (pCameraName->name[6] - '0');
+        field_E_camera = 1 * (pCameraName->name[7] - '0') + 10 * (pCameraName->name[6] - '0');
 
         GoTo_Camera_445050();
     }
@@ -718,7 +709,6 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible)
                     {
                         pDrawable->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
                     }
-
                 }
             }
 
@@ -841,11 +831,7 @@ void Map::ScreenChange_4444D0()
         // TODO: Re-check this logic
         if (field_A_level != LevelIds::eMenu_0)
         {
-            if ((field_A_level != LevelIds::eRemoved_11 &&
-                field_A_level != LevelIds::eRuptureFarmsReturn_13 &&
-                field_A_level != LevelIds::eForestChase &&
-                field_A_level != LevelIds::eDesertEscape) ||
-                (field_A_level == LevelIds::eBoardRoom_12 && field_0_current_level == LevelIds::eBoardRoom_12))
+            if ((field_A_level != LevelIds::eRemoved_11 && field_A_level != LevelIds::eRuptureFarmsReturn_13 && field_A_level != LevelIds::eForestChase && field_A_level != LevelIds::eDesertEscape) || (field_A_level == LevelIds::eBoardRoom_12 && field_0_current_level == LevelIds::eBoardRoom_12))
             {
                 gSndChannels_507CA0 = 0;
             }
@@ -956,9 +942,7 @@ void Map::RestoreBlyData_446A90(const u8* pSaveData)
         {
             const PathData* pPathData = pPathRec->field_4_pPathData;
             const s32* pIndexTable = reinterpret_cast<const s32*>(&(*ppPathRes)[pPathData->field_18_object_index_table_offset]);
-            const s32 totalCameraCount =
-                (pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width *
-                ((pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height);
+            const s32 totalCameraCount = (pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width * ((pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height);
 
             for (s32 j = 0; j < totalCameraCount; j++)
             {
@@ -1017,12 +1001,9 @@ void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, s16 cam
             // Enumerate the TLVs
             for (;;)
             {
-                if (pTlv->field_10_top_left.field_0_x >= cam_global_left &&
-                    pTlv->field_10_top_left.field_0_x <= cam_global_right)
+                if (pTlv->field_10_top_left.field_0_x >= cam_global_left && pTlv->field_10_top_left.field_0_x <= cam_global_right)
                 {
-                    if (pTlv->field_10_top_left.field_2_y >= cam_y_grid_top &&
-                        pTlv->field_10_top_left.field_2_y <= cam_y_grid_bottom &&
-                        (!pTlv->field_0_flags.Get(eBit1_Created) && !pTlv->field_0_flags.Get(eBit2_Unknown)))
+                    if (pTlv->field_10_top_left.field_2_y >= cam_y_grid_top && pTlv->field_10_top_left.field_2_y <= cam_y_grid_bottom && (!pTlv->field_0_flags.Get(eBit1_Created) && !pTlv->field_0_flags.Get(eBit2_Unknown)))
                     {
                         Start_Sounds_for_TLV_476640(direction, pTlv);
                     }
@@ -1104,30 +1085,30 @@ s16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObj
     {
         switch (direction)
         {
-        case MapDirections::eMapLeft_0:
-            if (!GetCamera(CameraPos::eCamLeft_3))
-            {
-                return 0;
-            }
-            break;
-        case MapDirections::eMapRight_1:
-            if (!GetCamera(CameraPos::eCamRight_4))
-            {
-                return 0;
-            }
-            break;
-        case MapDirections::eMapBottom_3:
-            if (!GetCamera(CameraPos::eCamBottom_2))
-            {
-                return 0;
-            }
-            break;
-        case MapDirections::eMapTop_2:
-            if (!GetCamera(CameraPos::eCamTop_1))
-            {
-                return 0;
-            }
-            break;
+            case MapDirections::eMapLeft_0:
+                if (!GetCamera(CameraPos::eCamLeft_3))
+                {
+                    return 0;
+                }
+                break;
+            case MapDirections::eMapRight_1:
+                if (!GetCamera(CameraPos::eCamRight_4))
+                {
+                    return 0;
+                }
+                break;
+            case MapDirections::eMapBottom_3:
+                if (!GetCamera(CameraPos::eCamBottom_2))
+                {
+                    return 0;
+                }
+                break;
+            case MapDirections::eMapTop_2:
+                if (!GetCamera(CameraPos::eCamTop_1))
+                {
+                    return 0;
+                }
+                break;
         }
 
         field_C_path = field_2_current_path;
@@ -1271,39 +1252,39 @@ CameraPos Map::GetDirection_444A40(s32 level, s32 path, FP xpos, FP ypos)
 
     switch (ret)
     {
-    case CameraPos::eCamCurrent_0:
-        return ret;
+        case CameraPos::eCamCurrent_0:
+            return ret;
 
-    case CameraPos::eCamTop_1:
-        if (ypos < y || xpos < x || xpos > w)
-        {
+        case CameraPos::eCamTop_1:
+            if (ypos < y || xpos < x || xpos > w)
+            {
+                return CameraPos::eCamInvalid_m1;
+            }
+            return ypos > h ? CameraPos::eCamCurrent_0 : ret;
+
+        case CameraPos::eCamBottom_2:
+            if (ypos > h || xpos < x || xpos > w)
+            {
+                return CameraPos::eCamInvalid_m1;
+            }
+            return ypos < y ? CameraPos::eCamCurrent_0 : ret;
+
+        case CameraPos::eCamLeft_3:
+            if (xpos < x || ypos < y || ypos > h)
+            {
+                return CameraPos::eCamInvalid_m1;
+            }
+            return xpos > w ? CameraPos::eCamCurrent_0 : ret;
+
+        case CameraPos::eCamRight_4:
+            if (xpos > w || ypos < y || ypos > h)
+            {
+                return CameraPos::eCamInvalid_m1;
+            }
+            return xpos < x ? CameraPos::eCamCurrent_0 : ret;
+
+        default:
             return CameraPos::eCamInvalid_m1;
-        }
-        return ypos > h ? CameraPos::eCamCurrent_0 : ret;
-
-    case CameraPos::eCamBottom_2:
-        if (ypos > h || xpos < x || xpos > w)
-        {
-            return CameraPos::eCamInvalid_m1;
-        }
-        return ypos < y ? CameraPos::eCamCurrent_0 : ret;
-
-    case CameraPos::eCamLeft_3:
-        if (xpos < x || ypos < y || ypos > h)
-        {
-            return CameraPos::eCamInvalid_m1;
-        }
-        return xpos > w ? CameraPos::eCamCurrent_0 : ret;
-
-    case CameraPos::eCamRight_4:
-        if (xpos > w || ypos < y || ypos > h)
-        {
-            return CameraPos::eCamInvalid_m1;
-        }
-        return xpos < x ? CameraPos::eCamCurrent_0 : ret;
-
-    default:
-        return CameraPos::eCamInvalid_m1;
     }
 }
 
@@ -1362,10 +1343,10 @@ EXPORT Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 heigh
     pTlvIter->RangeCheck();
 
     while (right > pTlvIter->field_14_bottom_right.field_0_x
-        || left < pTlvIter->field_10_top_left.field_0_x
-        || bottom < pTlvIter->field_10_top_left.field_2_y
-        || top > pTlvIter->field_14_bottom_right.field_2_y
-        || pTlvIter->field_4_type.mType != typeToFind)
+           || left < pTlvIter->field_10_top_left.field_0_x
+           || bottom < pTlvIter->field_10_top_left.field_2_y
+           || top > pTlvIter->field_14_bottom_right.field_2_y
+           || pTlvIter->field_4_type.mType != typeToFind)
     {
         if (pTlvIter->field_0_flags.Get(eBit3_End_TLV_List))
         {
@@ -1427,11 +1408,7 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
         pTlv = reinterpret_cast<Path_TLV*>(&ppPathRes[pPathData->field_14_object_offset + indexTableEntry]);
         pTlv->RangeCheck();
 
-        if (!bContinue ||
-            (xpos_converted <= pTlv->field_14_bottom_right.field_0_x &&
-             width_converted >= pTlv->field_10_top_left.field_0_x &&
-             height_converted >= pTlv->field_10_top_left.field_2_y &&
-             ypos_converted <= pTlv->field_14_bottom_right.field_2_y))
+        if (!bContinue || (xpos_converted <= pTlv->field_14_bottom_right.field_0_x && width_converted >= pTlv->field_10_top_left.field_0_x && height_converted >= pTlv->field_10_top_left.field_2_y && ypos_converted <= pTlv->field_14_bottom_right.field_2_y))
         {
             return pTlv;
         }
@@ -1447,11 +1424,7 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
         pTlv = Path_TLV::Next_446460(pTlv);
         pTlv->RangeCheck();
 
-        if (!bContinue||
-            (xpos_converted <= pTlv->field_14_bottom_right.field_0_x &&
-            width_converted >= pTlv->field_10_top_left.field_0_x &&
-            height_converted >= pTlv->field_10_top_left.field_2_y &&
-            ypos_converted <= pTlv->field_14_bottom_right.field_2_y))
+        if (!bContinue || (xpos_converted <= pTlv->field_14_bottom_right.field_0_x && width_converted >= pTlv->field_10_top_left.field_0_x && height_converted >= pTlv->field_10_top_left.field_2_y && ypos_converted <= pTlv->field_14_bottom_right.field_2_y))
         {
             break;
         }
@@ -1470,18 +1443,18 @@ void Map::sub_447430(u16 pathNum)
     const auto pPathRes = *field_5C_path_res_array.field_0_pPathRecs[pathNum];
 
     const auto counterInit = (pPathData->field_A_bBottom - pPathData->field_6_bRight)
-        / pPathData->field_E_grid_height
-        * ((pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width);
+                           / pPathData->field_E_grid_height
+                           * ((pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width);
 
     if (counterInit > 0)
     {
         u32* pObjectTable = reinterpret_cast<u32*>(&pPathRes[pPathData->field_18_object_index_table_offset]);
 
-        for(auto counter = 0; counter < counterInit; counter++)
+        for (auto counter = 0; counter < counterInit; counter++)
         {
             if (pObjectTable[counter] != -1)
             {
-                auto pTlv = reinterpret_cast<Path_TLV *>(&pPathRes[pPathData->field_14_object_offset + pObjectTable[counter]]);
+                auto pTlv = reinterpret_cast<Path_TLV*>(&pPathRes[pPathData->field_14_object_offset + pObjectTable[counter]]);
 
                 pTlv->RangeCheck();
 
@@ -1515,7 +1488,7 @@ Path_TLV* Map::TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, s32 camX)
 
     while (pTlvIter->field_4_type.mType != type)
     {
-        pTlvIter =  Path_TLV::Next_446460(pTlvIter);
+        pTlvIter = Path_TLV::Next_446460(pTlvIter);
         if (!pTlvIter)
         {
             return nullptr;
@@ -1619,11 +1592,7 @@ Camera* Map::Create_Camera_445BE0(s16 xpos, s16 ypos, s32 /*a4*/)
     newCamera->field_18_path = field_2_current_path;
 
     // Calculate hash/resource ID of the camera
-    newCamera->field_10_resId =
-        1 * (pCamName->name[7] - '0') +
-        10 * (pCamName->name[6] - '0') +
-        100 * (pCamName->name[4] - '0') +
-        1000 * (pCamName->name[3] - '0');
+    newCamera->field_10_resId = 1 * (pCamName->name[7] - '0') + 10 * (pCamName->name[6] - '0') + 100 * (pCamName->name[4] - '0') + 1000 * (pCamName->name[3] - '0');
 
     newCamera->field_1C = field_4_current_camera;
 
@@ -1695,7 +1664,8 @@ void Map::GoTo_Camera_445050()
                     }
                 }
             }
-        } while (!pFmvRet->field_6_flags.Get(BaseGameObject::eDead_Bit3));
+        }
+        while (!pFmvRet->field_6_flags.Get(BaseGameObject::eDead_Bit3));
     }
 
     if (field_0_current_level != LevelIds::eMenu_0)
@@ -1812,7 +1782,7 @@ void Map::GoTo_Camera_445050()
     {
         auto ppPathRes = field_5C_path_res_array.field_0_pPathRecs[field_C_path];
         auto pName = reinterpret_cast<CameraName*>(&(*ppPathRes)[0]);
-        for (camIdx=0; camIdx < totalCams; camIdx++)
+        for (camIdx = 0; camIdx < totalCams; camIdx++)
         {
             if (!strncmp(pName->name, camNameBuffer, sizeof(CameraName)))
             {
@@ -2160,12 +2130,12 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
         Get_fmvs_sectors_44FEB0(pFmvRecord->field_0_pName, 0, 0, &cdPos, 0, 0);
         auto pCameraSwapperMem = ao_new<CameraSwapper>();
         return pCameraSwapperMem->ctor_48C540(
-                ppBits,
-                cdPos,
-                pFmvRecord->field_4_id,
-                static_cast<s8>(pFmvRecord->field_6),
-                pFmvRecord->field_A,
-                pFmvRecord->field_C_volume);
+            ppBits,
+            cdPos,
+            pFmvRecord->field_4_id,
+            static_cast<s8>(pFmvRecord->field_6),
+            pFmvRecord->field_A,
+            pFmvRecord->field_C_volume);
     }
 }
 
@@ -2224,4 +2194,4 @@ EXPORT Path_TLV* CCSTD Path_TLV::TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvType
     return pTlv;
 }
 
-}
+} // namespace AO

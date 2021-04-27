@@ -15,11 +15,7 @@ void IdSplitter::VUpdate()
 
 void IdSplitter::VScreenChanged_479DB0()
 {
-    if (field_12_state == State::eState_0 ||
-        field_12_state == State::eState_2 ||
-        gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
-        gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path ||
-        gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (field_12_state == State::eState_0 || field_12_state == State::eState_2 || gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -84,53 +80,53 @@ void IdSplitter::VUpdate_479C40()
 {
     switch (field_12_state)
     {
-    case State::eState_0:
-        // If the value changes from what we first saw...
-        if (SwitchStates_Get(field_10_source_id) != field_28_source_switch_value)
-        {
-            field_12_state = State::eState_1;
-            field_20_delay_timer = gnFrameCount_507670 + field_24_delay;
-        }
-        break;
-
-    case State::eState_1:
-        if (field_20_delay_timer <= static_cast<s32>(gnFrameCount_507670))
-        {
-            for (const auto& id : field_14_ids)
+        case State::eState_0:
+            // If the value changes from what we first saw...
+            if (SwitchStates_Get(field_10_source_id) != field_28_source_switch_value)
             {
-                if (id > 1)
-                {
-                    SwitchStates_Do_Operation_436A10(id, SwitchOp::eToggle_2);
-                }
+                field_12_state = State::eState_1;
+                field_20_delay_timer = gnFrameCount_507670 + field_24_delay;
             }
-            field_12_state = State::eState_2;
-        }
-        break;
+            break;
 
-    case State::eState_2:
-        if (SwitchStates_Get(field_10_source_id) == field_28_source_switch_value)
-        {
-            field_12_state = State::eState_3;
-            field_20_delay_timer = gnFrameCount_507670 + field_24_delay;
-        }
-        break;
-
-    case State::eState_3:
-        if (field_20_delay_timer <= static_cast<s32>(gnFrameCount_507670))
-        {
-            for (const auto& id : field_14_ids)
+        case State::eState_1:
+            if (field_20_delay_timer <= static_cast<s32>(gnFrameCount_507670))
             {
-                if (id > 1)
+                for (const auto& id : field_14_ids)
                 {
-                    SwitchStates_Do_Operation_436A10(id, SwitchOp::eToggle_2);
+                    if (id > 1)
+                    {
+                        SwitchStates_Do_Operation_436A10(id, SwitchOp::eToggle_2);
+                    }
                 }
+                field_12_state = State::eState_2;
             }
-            field_12_state = State::eState_0;
-        }
-        break;
+            break;
 
-    default:
-        break;
+        case State::eState_2:
+            if (SwitchStates_Get(field_10_source_id) == field_28_source_switch_value)
+            {
+                field_12_state = State::eState_3;
+                field_20_delay_timer = gnFrameCount_507670 + field_24_delay;
+            }
+            break;
+
+        case State::eState_3:
+            if (field_20_delay_timer <= static_cast<s32>(gnFrameCount_507670))
+            {
+                for (const auto& id : field_14_ids)
+                {
+                    if (id > 1)
+                    {
+                        SwitchStates_Do_Operation_436A10(id, SwitchOp::eToggle_2);
+                    }
+                }
+                field_12_state = State::eState_0;
+            }
+            break;
+
+        default:
+            break;
     }
 
     if (Event_Get_417250(kEventDeathReset_4))
@@ -139,5 +135,4 @@ void IdSplitter::VUpdate_479C40()
     }
 }
 
-}
-
+} // namespace AO

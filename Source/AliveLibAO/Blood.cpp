@@ -16,7 +16,8 @@
 
 namespace AO {
 
-void Blood_ForceLink() {}
+void Blood_ForceLink()
+{ }
 
 Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count)
 {
@@ -112,15 +113,15 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
                 else
                 {
                     Poly_Set_Blending_498A00(&pSprt->mBase.header, 0);
-     
+
                     SetRGB0(pSprt, field_10_anim.field_8_r, field_10_anim.field_9_g, field_10_anim.field_A_b);
                 }
 
-                SetClut(pSprt, 
-                   static_cast<s16>(
-                       PSX_getClut_496840(
-                            field_10_anim.field_8C_pal_vram_xy.field_0_x,
-                            field_10_anim.field_8C_pal_vram_xy.field_2_y)));
+                SetClut(pSprt,
+                        static_cast<s16>(
+                            PSX_getClut_496840(
+                                field_10_anim.field_8C_pal_vram_xy.field_0_x,
+                                field_10_anim.field_8C_pal_vram_xy.field_2_y)));
 
                 SetUV0(pSprt, u0, v0);
                 pSprt->field_14_w = frameW - 1;
@@ -227,14 +228,14 @@ void Blood::VRender_407810(PrimHeader** ppOt)
 {
     const auto bufferIdx = gPsxDisplay_504C78.field_A_buffer_index;
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_B2_lvl_number,
-        field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos,
-        0))
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0))
     {
-        PSX_Point xy = { 32767, 32767 };
-        PSX_Point wh = { -32767, -32767 };
+        PSX_Point xy = {32767, 32767};
+        PSX_Point wh = {-32767, -32767};
 
         for (s32 i = 0; i < field_112_to_render_count; i++)
         {
@@ -254,8 +255,7 @@ void Blood::VRender_407810(PrimHeader** ppOt)
             SetUV0(pSprt, u0, static_cast<u8>(field_10_anim.field_84_vram_rect.y));
 
             FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(
-                &(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]
-            );
+                &(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
 
             pSprt->field_14_w = pFrameHeader->field_4_width - 1;
             pSprt->field_16_h = pFrameHeader->field_5_height - 1;
@@ -285,13 +285,12 @@ void Blood::VRender_407810(PrimHeader** ppOt)
         {
             tpageY = 0;
         }
-        
+
         const auto tpage = PSX_getTPage_4965D0(
             field_10C_texture_mode,
             TPageAbr::eBlend_0,
             field_10_anim.field_84_vram_rect.x & 0xFFC0,
-            tpageY
-        );
+            tpageY);
         Prim_SetTPage* pTPage = &field_EC_tPages[bufferIdx];
         Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
         OrderingTable_Add_498A80(OtLayer(ppOt, field_11C_render_layer), &pTPage->mBase);
@@ -301,8 +300,7 @@ void Blood::VRender_407810(PrimHeader** ppOt)
             (xy.field_2_y - 12),
             (wh.field_0_x + 12),
             (wh.field_2_y + 12),
-            pScreenManager_4FF7C8->field_2E_idx
-        );
+            pScreenManager_4FF7C8->field_2E_idx);
     }
 }
 
@@ -311,4 +309,4 @@ void Blood::VScreenChanged()
     VScreenChanged_407AB0();
 }
 
-}
+} // namespace AO

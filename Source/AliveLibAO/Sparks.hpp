@@ -22,5 +22,4 @@ public:
     s16 field_EA_random;
 };
 
-}
-
+} // namespace AO

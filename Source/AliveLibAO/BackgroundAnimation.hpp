@@ -59,5 +59,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x108);
 
-}
-
+} // namespace AO

@@ -11,7 +11,7 @@ EXPORT void* CC ao_new_malloc_447520(s32 size);
 
 EXPORT void CC ao_delete_free_447540(void* pMemory);
 
-template<typename T, typename... Args>
+template <typename T, typename... Args>
 inline T* ao_new(Args&&... args)
 {
     void* buffer = ao_new_malloc_447520(sizeof(T));

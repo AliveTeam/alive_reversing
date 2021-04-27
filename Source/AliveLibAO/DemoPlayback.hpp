@@ -71,5 +71,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DemoPlayback, 0x84);
 
-}
-
+} // namespace AO

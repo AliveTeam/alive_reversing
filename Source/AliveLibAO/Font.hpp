@@ -81,4 +81,4 @@ ALIVE_VAR_EXTERN(FontContext, sFontContext_4FFD68);
 ALIVE_VAR_EXTERN(s16, sDisableFontFlicker_5080E4);
 ALIVE_VAR_EXTERN(u8, sFontDrawScreenSpace_508BF4);
 
-}
+} // namespace AO

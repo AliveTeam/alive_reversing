@@ -11,9 +11,11 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
+
 private:
     EXPORT Flash* vdtor_4285F0(s32 flags);
     EXPORT void vUpdate_428640();
+
 private:
     s32 field_78_flash_time;
 };

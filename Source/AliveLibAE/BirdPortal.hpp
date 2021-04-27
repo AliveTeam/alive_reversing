@@ -58,6 +58,7 @@ public:
     virtual void VScreenChanged() override;
     virtual BaseGameObject* VDestructor(s32 flags) override;
     EXPORT void Fadeout_497AC0();
+
 private:
     EXPORT BaseAnimatedWithPhysicsGameObject* vdtor_497A70(s32 flags);
 };
@@ -124,9 +125,11 @@ private:
 
 private:
     s32 field_20_tlvInfo;
+
 public:
     PortalType field_24_portal_type;
     PortalSide field_26_side;
+
 public:
     enum class PortalStates : s16
     {
@@ -155,15 +158,19 @@ public:
         FadeoutTerminators_22 = 22,
     };
     PortalStates field_28_state;
+
 private:
     s16 field_2A_pad;
+
 public:
     FP field_2C_xpos;
     FP field_30_ypos;
     FP field_34_exit_x;
     FP field_38_exit_y;
+
 public:
     FP field_3C_YPos;
+
 private:
     s32 field_40_throwable_indicator_id;
     s32 field_44_dove_ids[6];

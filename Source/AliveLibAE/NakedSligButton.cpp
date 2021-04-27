@@ -7,15 +7,14 @@
 #include "Events.hpp"
 
 // TODO: Check this is correct
-const SfxDefinition stru_544488[8] =
-{
-    { 20u, 0u, 25u, 0u, 80, 11 }, // Can never be used ??
-    { 25u, 0u, 95u, 0u, 57, 15 },
-    { 75u, 0u, 49u, 0u, 25, 35 },
-    { 48u, 0u, 25u, 0u, 35, 30 },
-    { 25u, 0u, 35u, 0u, 0, 0 },
-    { 0u, 0u, 0u, 0u, 19040, 65 },
-    { 32u, 75u, 65u, 0u, 19344, 66 },
+const SfxDefinition stru_544488[8] = {
+    {20u, 0u, 25u, 0u, 80, 11}, // Can never be used ??
+    {25u, 0u, 95u, 0u, 57, 15},
+    {75u, 0u, 49u, 0u, 25, 35},
+    {48u, 0u, 25u, 0u, 35, 30},
+    {25u, 0u, 35u, 0u, 0, 0},
+    {0u, 0u, 0u, 0u, 19040, 65},
+    {32u, 75u, 65u, 0u, 19344, 66},
     // { (s8)160u, (s8)192u, 77u, 0u, (s16)49392, 77 }
 };
 

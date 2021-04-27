@@ -12,12 +12,13 @@
 #include "Sfx.hpp"
 #include "Function.hpp"
 
-struct Colour {
+struct Colour
+{
     s16 r, g, b;
 };
 
-constexpr Colour greenFart = { 32, 128, 32 };
-constexpr Colour redFart = { 128, 38, 32 };
+constexpr Colour greenFart = {32, 128, 32};
+constexpr Colour redFart = {128, 38, 32};
 
 EvilFart* EvilFart::ctor_422E30()
 {
@@ -62,14 +63,14 @@ EvilFart* EvilFart::ctor_422E30()
     FP hitY = {};
     PathLine* pLine = nullptr;
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos - FP_FromInteger(3),
-        field_BC_ypos,
-        field_B8_xpos + FP_FromInteger(3),
-        field_BC_ypos,
-        &pLine,
-        &hitX,
-        &hitY,
-        field_D6_scale != 0 ? 0x20006 : 0x40060))
+            field_B8_xpos - FP_FromInteger(3),
+            field_BC_ypos,
+            field_B8_xpos + FP_FromInteger(3),
+            field_BC_ypos,
+            &pLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 0x20006 : 0x40060))
     {
         field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos;
     }
@@ -247,7 +248,6 @@ void EvilFart::InputControlFart_423BB0()
 
     if (!(pressedKeys & sInputKey_Right_5550D0) && !(pressedKeys & sInputKey_Left_5550D4))
     {
-
         if (field_C4_velx > FP_FromInteger(0))
         {
             field_C4_velx -= kFartSpeed;
@@ -292,7 +292,6 @@ void EvilFart::vOnPossesed_423DA0()
     field_11A_bPossesed = 1;
 
     ResetFartColour();
-
 }
 
 void EvilFart::ResetFartColour()
@@ -485,14 +484,14 @@ void EvilFart::vUpdate_423100()
         FP hitX = {};
         FP hitY = {};
         if (sCollisions_DArray_5C1128->Raycast_417A60(
-            field_B8_xpos,
-            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
-            x2Offset + field_B8_xpos + field_C4_velx,
-            y2Offset + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54)),
-            &pLine,
-            &hitX,
-            &hitY,
-            field_D6_scale != 0 ? 0x20006 : 0x40060))
+                field_B8_xpos,
+                field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
+                x2Offset + field_B8_xpos + field_C4_velx,
+                y2Offset + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54)),
+                &pLine,
+                &hitX,
+                &hitY,
+                field_D6_scale != 0 ? 0x20006 : 0x40060))
         {
             field_C4_velx = FP_FromInteger(0);
         }
@@ -502,14 +501,14 @@ void EvilFart::vUpdate_423100()
         }
 
         if (sCollisions_DArray_5C1128->Raycast_417A60(
-            field_B8_xpos,
-            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
-            field_B8_xpos + field_C4_velx + x2Offset,
-            y2Offset + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54)),
-            &pLine,
-            &hitX,
-            &hitY,
-            field_D6_scale != 0 ? 131081 : 262288))
+                field_B8_xpos,
+                field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
+                field_B8_xpos + field_C4_velx + x2Offset,
+                y2Offset + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54)),
+                &pLine,
+                &hitX,
+                &hitY,
+                field_D6_scale != 0 ? 131081 : 262288))
         {
             field_C8_vely = FP_FromInteger(0);
         }

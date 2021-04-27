@@ -40,6 +40,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+
 private:
     EXPORT GameEnderController* vdtor_43B8D0(s32 flags);
     EXPORT void vScreenChanged_43BC80();

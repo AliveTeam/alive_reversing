@@ -306,43 +306,27 @@ void Rock::VUpdate_456EC0()
 
     switch (field_110_state)
     {
-    case States::eFallingOutOfRockSack_1:
-        InTheAir_456B60();
-        break;
+        case States::eFallingOutOfRockSack_1:
+            InTheAir_456B60();
+            break;
 
-    case States::eRolling_2:
-        if (FP_Abs(field_B4_velx) >= FP_FromInteger(1))
-        {
-            if (field_B4_velx < FP_FromInteger(0))
+        case States::eRolling_2:
+            if (FP_Abs(field_B4_velx) >= FP_FromInteger(1))
             {
-                field_B4_velx += FP_FromDouble(0.01);
-            }
-            else
-            {
-                field_B4_velx -= FP_FromDouble(0.01);
-            }
+                if (field_B4_velx < FP_FromInteger(0))
+                {
+                    field_B4_velx += FP_FromDouble(0.01);
+                }
+                else
+                {
+                    field_B4_velx -= FP_FromDouble(0.01);
+                }
 
-            field_114_pLine->MoveOnLine_40CA20(
-                &field_A8_xpos,
-                &field_AC_ypos,
-                field_B4_velx);
-
-            if (!field_114_pLine)
-            {
-                field_110_state = States::eBouncing_4;
-                field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
-            }
-        }
-        else
-        {
-            const s16 x_exp = FP_GetExponent(field_A8_xpos);
-            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
-            if (abs(xSnapped - x_exp) > 1)
-            {
-                field_114_pLine = field_114_pLine->MoveOnLine_40CA20(
+                field_114_pLine->MoveOnLine_40CA20(
                     &field_A8_xpos,
                     &field_AC_ypos,
                     field_B4_velx);
+
                 if (!field_114_pLine)
                 {
                     field_110_state = States::eBouncing_4;
@@ -351,70 +335,86 @@ void Rock::VUpdate_456EC0()
             }
             else
             {
-                field_B4_velx = FP_FromInteger(0);
-                field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-                field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+                const s16 x_exp = FP_GetExponent(field_A8_xpos);
+                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+                if (abs(xSnapped - x_exp) > 1)
+                {
+                    field_114_pLine = field_114_pLine->MoveOnLine_40CA20(
+                        &field_A8_xpos,
+                        &field_AC_ypos,
+                        field_B4_velx);
+                    if (!field_114_pLine)
+                    {
+                        field_110_state = States::eBouncing_4;
+                        field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                    }
+                }
+                else
+                {
+                    field_B4_velx = FP_FromInteger(0);
+                    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+                    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
 
-                field_6_flags.Set(Options::eInteractive_Bit8);
+                    field_6_flags.Set(Options::eInteractive_Bit8);
 
-                field_10_anim.field_4_flags.Clear(AnimFlags::eBit8_Loop);
-                field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
-                field_D4_collection_rect.h = field_AC_ypos;
-                field_110_state = States::eOnGround_3;
-                field_124 = gnFrameCount_507670;
+                    field_10_anim.field_4_flags.Clear(AnimFlags::eBit8_Loop);
+                    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                    field_D4_collection_rect.h = field_AC_ypos;
+                    field_110_state = States::eOnGround_3;
+                    field_124 = gnFrameCount_507670;
+                }
+            }
+            break;
+
+        case States::eOnGround_3:
+            if (static_cast<s32>(gnFrameCount_507670) > field_124)
+            {
+                New_Shiny_Particle_4199A0(
+                    (field_BC_sprite_scale * FP_FromInteger(1)) + field_A8_xpos,
+                    (field_BC_sprite_scale * FP_FromInteger(-7)) + field_AC_ypos,
+                    FP_FromDouble(0.3),
+                    Layer::eLayer_36);
+                field_124 = (Math_NextRandom() % 16) + gnFrameCount_507670 + 60;
+            }
+            break;
+
+        case States::eBouncing_4:
+        {
+            InTheAir_456B60();
+            PSX_RECT bRect = {};
+            VGetBoundingRect(&bRect, 1);
+            const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
+            const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
+            VOnCollisionWith(
+                xy,
+                wh,
+                gBaseGameObject_list_9F2DF0,
+                1,
+                (TCollisionCallBack) &Rock::OnCollision_457240);
+
+            if (field_B8_vely > FP_FromInteger(30))
+            {
+                field_110_state = States::eFallingOutOfWorld_5;
             }
         }
         break;
 
-    case States::eOnGround_3:
-        if (static_cast<s32>(gnFrameCount_507670) > field_124)
-        {
-            New_Shiny_Particle_4199A0(
-                (field_BC_sprite_scale * FP_FromInteger(1)) + field_A8_xpos,
-                (field_BC_sprite_scale * FP_FromInteger(-7)) + field_AC_ypos,
-                FP_FromDouble(0.3),
-                Layer::eLayer_36);
-            field_124 = (Math_NextRandom() % 16) + gnFrameCount_507670 + 60;
-        }
-        break;
-
-    case States::eBouncing_4:
-    {
-        InTheAir_456B60();
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
-        const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
-        const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
-        VOnCollisionWith(
-            xy,
-            wh,
-            gBaseGameObject_list_9F2DF0,
-            1,
-            (TCollisionCallBack)&Rock::OnCollision_457240);
-
-        if (field_B8_vely > FP_FromInteger(30))
-        {
-            field_110_state = States::eFallingOutOfWorld_5;
-        }
-    }
-    break;
-
-    case States::eFallingOutOfWorld_5:
-        field_B8_vely += FP_FromInteger(1);
-        field_A8_xpos += field_B4_velx;
-        field_AC_ypos += field_B8_vely;
-        if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
-            0))
-        {
-            field_6_flags.Set(Options::eDead_Bit3);
-        }
-        break;
-    default:
-        return;
+        case States::eFallingOutOfWorld_5:
+            field_B8_vely += FP_FromInteger(1);
+            field_A8_xpos += field_B4_velx;
+            field_AC_ypos += field_B8_vely;
+            if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0))
+            {
+                field_6_flags.Set(Options::eDead_Bit3);
+            }
+            break;
+        default:
+            return;
     }
 }
 
@@ -487,100 +487,100 @@ void Rock::InTheAir_456B60()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast_40C410(
-        field_11C_xpos,
-        field_120_ypos,
-        field_A8_xpos,
-        field_AC_ypos,
-        &field_114_pLine,
-        &hitX,
-        &hitY,
-        field_BC_sprite_scale != FP_FromInteger(1) ? 0x70 : 0x07))
+            field_11C_xpos,
+            field_120_ypos,
+            field_A8_xpos,
+            field_AC_ypos,
+            &field_114_pLine,
+            &hitX,
+            &hitY,
+            field_BC_sprite_scale != FP_FromInteger(1) ? 0x70 : 0x07))
     {
         switch (field_114_pLine->field_8_type)
         {
-        case 0:
-        case 4:
-        case 32:
-        case 36:
-            if (field_B8_vely > FP_FromInteger(0))
-            {
-                if (field_110_state != States::eBouncing_4 || field_B8_vely >= FP_FromInteger(5))
+            case 0:
+            case 4:
+            case 32:
+            case 36:
+                if (field_B8_vely > FP_FromInteger(0))
                 {
-                    if (field_110_state != States::eFallingOutOfRockSack_1 || field_B8_vely >= FP_FromInteger(1))
+                    if (field_110_state != States::eBouncing_4 || field_B8_vely >= FP_FromInteger(5))
                     {
-                        field_AC_ypos = hitY;
-                        field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
-                        field_B4_velx = (field_B4_velx / FP_FromInteger(2));
-                        s32 vol = 20 * (4 - field_118_vol);
-                        if (vol < 40)
+                        if (field_110_state != States::eFallingOutOfRockSack_1 || field_B8_vely >= FP_FromInteger(1))
                         {
-                            vol = 40;
+                            field_AC_ypos = hitY;
+                            field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
+                            field_B4_velx = (field_B4_velx / FP_FromInteger(2));
+                            s32 vol = 20 * (4 - field_118_vol);
+                            if (vol < 40)
+                            {
+                                vol = 40;
+                            }
+                            SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
+                            Event_Broadcast_417220(kEventNoise_0, this);
+                            Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                            field_118_vol++;
                         }
-                        SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
-                        Event_Broadcast_417220(kEventNoise_0, this);
-                        Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-                        field_118_vol++;
+                        else
+                        {
+                            field_110_state = States::eRolling_2;
+                            if (field_B4_velx >= FP_FromInteger(0) && field_B4_velx < FP_FromInteger(1))
+                            {
+                                field_B4_velx = FP_FromInteger(1);
+                            }
+
+                            if (field_B4_velx < FP_FromInteger(0) && field_B4_velx > FP_FromInteger(-1))
+                            {
+                                field_B4_velx = FP_FromInteger(-1);
+                            }
+                        }
                     }
                     else
                     {
-                        field_110_state = States::eRolling_2;
-                        if (field_B4_velx >= FP_FromInteger(0) && field_B4_velx < FP_FromInteger(1))
-                        {
-                            field_B4_velx = FP_FromInteger(1);
-                        }
-
-                        if (field_B4_velx < FP_FromInteger(0) && field_B4_velx > FP_FromInteger(-1))
-                        {
-                            field_B4_velx = FP_FromInteger(-1);
-                        }
+                        field_110_state = States::eFallingOutOfWorld_5;
                     }
                 }
-                else
-                {
-                    field_110_state = States::eFallingOutOfWorld_5;
-                }
-            }
-            break;
+                break;
 
-        case 1:
-        case 5:
-            if (field_B4_velx < FP_FromInteger(0))
-            {
-                field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                field_A8_xpos = hitX;
-                field_AC_ypos = hitY;
-                s32 vol = 20 * (4 - field_118_vol);
-                if (vol < 40)
+            case 1:
+            case 5:
+                if (field_B4_velx < FP_FromInteger(0))
                 {
-                    vol = 40;
+                    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                    field_A8_xpos = hitX;
+                    field_AC_ypos = hitY;
+                    s32 vol = 20 * (4 - field_118_vol);
+                    if (vol < 40)
+                    {
+                        vol = 40;
+                    }
+                    SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
+                    Event_Broadcast_417220(kEventNoise_0, this);
+                    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
                 }
-                SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
-                Event_Broadcast_417220(kEventNoise_0, this);
-                Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-            }
-            break;
+                break;
 
-        case 2:
-        case 6:
-            if (field_B4_velx > FP_FromInteger(0))
-            {
-                field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                field_A8_xpos = hitX;
-                field_AC_ypos = hitY;
-                s32 vol = 20 * (4 - field_118_vol);
-                if (vol < 40)
+            case 2:
+            case 6:
+                if (field_B4_velx > FP_FromInteger(0))
                 {
-                    vol = 40;
-                }
-              
-                SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
-                Event_Broadcast_417220(kEventNoise_0, this);
-                Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-            }
-            break;
+                    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                    field_A8_xpos = hitX;
+                    field_AC_ypos = hitY;
+                    s32 vol = 20 * (4 - field_118_vol);
+                    if (vol < 40)
+                    {
+                        vol = 40;
+                    }
 
-        default:
-            return;
+                    SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
+                    Event_Broadcast_417220(kEventNoise_0, this);
+                    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                }
+                break;
+
+            default:
+                return;
         }
     }
 }
@@ -624,4 +624,4 @@ void Rock::VTimeToExplodeRandom()
     // Empty ?
 }
 
-}
+} // namespace AO

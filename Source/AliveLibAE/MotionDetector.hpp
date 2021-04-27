@@ -46,6 +46,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
+
 private:
     EXPORT MotionDetector* vdtor_468850(s32 flags);
     EXPORT void dtor_468880();
@@ -56,8 +57,10 @@ private:
 
 private:
     s32 field_F4_tlvInfo;
+
 public:
     s32 field_F8_laser_id;
+
 private:
     s32 field_FC_owner_id;
 

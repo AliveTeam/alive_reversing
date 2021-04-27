@@ -24,64 +24,64 @@ public:
     {
         switch (field_E4_state)
         {
-        case BoomMachineStates::eAlreadyUsed_1:
-            if (static_cast<s32>(gnFrameCount_507670) > field_E8_timer)
-            {
-                SFX_Play_43AE60(SoundEffect::ZPop_5, 60, -1800, 0);
-                field_E4_state = BoomMachineStates::eInactive_0;
-            }
-            break;
-
-        case BoomMachineStates::eDropGrenadeAnimation_2:
-            if (static_cast<s32>(gnFrameCount_507670) > field_E8_timer)
-            {
-                field_E4_state = BoomMachineStates::eDropGrenade_3;
-                field_10_anim.Set_Animation_Data_402A40(3588, 0);
-            }
-            break;
-
-        case BoomMachineStates::eDropGrenade_3:
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-            {
-                SFX_Play_43AE60(SoundEffect::PickupItem_33, 127, -900, 0);
-                if (!gpThrowableArray_50E26C)
+            case BoomMachineStates::eAlreadyUsed_1:
+                if (static_cast<s32>(gnFrameCount_507670) > field_E8_timer)
                 {
-                    gpThrowableArray_50E26C = ao_new<ThrowableArray>();
-                    if (gpThrowableArray_50E26C)
-                    {
-                        gpThrowableArray_50E26C->ctor_453EE0();
-                    }
+                    SFX_Play_43AE60(SoundEffect::ZPop_5, 60, -1800, 0);
+                    field_E4_state = BoomMachineStates::eInactive_0;
                 }
+                break;
 
-                gpThrowableArray_50E26C->Add_453F70(field_EC_num_grenades);
-
-                auto pNewNade = ao_new<Grenade>();
-                if (pNewNade)
+            case BoomMachineStates::eDropGrenadeAnimation_2:
+                if (static_cast<s32>(gnFrameCount_507670) > field_E8_timer)
                 {
-                    FP directedScale = {};
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                    {
-                        directedScale = -field_BC_sprite_scale;
-                    }
-                    else
-                    {
-                        directedScale = field_BC_sprite_scale;
-                    }
-       
-                    pNewNade->ctor_41EBD0(
-                        field_A8_xpos + (FP_FromInteger(6) * directedScale),
-                        field_AC_ypos + (-FP_FromInteger(6) * directedScale),
-                        field_EC_num_grenades);
+                    field_E4_state = BoomMachineStates::eDropGrenade_3;
+                    field_10_anim.Set_Animation_Data_402A40(3588, 0);
                 }
+                break;
 
-                pNewNade->VThrow(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+            case BoomMachineStates::eDropGrenade_3:
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                {
+                    SFX_Play_43AE60(SoundEffect::PickupItem_33, 127, -900, 0);
+                    if (!gpThrowableArray_50E26C)
+                    {
+                        gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                        if (gpThrowableArray_50E26C)
+                        {
+                            gpThrowableArray_50E26C->ctor_453EE0();
+                        }
+                    }
 
-                field_10_anim.Set_Animation_Data_402A40(3616, 0);
-                field_E4_state = BoomMachineStates::eInactive_0;
-            }
-            break;
-        default:
-            return;
+                    gpThrowableArray_50E26C->Add_453F70(field_EC_num_grenades);
+
+                    auto pNewNade = ao_new<Grenade>();
+                    if (pNewNade)
+                    {
+                        FP directedScale = {};
+                        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        {
+                            directedScale = -field_BC_sprite_scale;
+                        }
+                        else
+                        {
+                            directedScale = field_BC_sprite_scale;
+                        }
+
+                        pNewNade->ctor_41EBD0(
+                            field_A8_xpos + (FP_FromInteger(6) * directedScale),
+                            field_AC_ypos + (-FP_FromInteger(6) * directedScale),
+                            field_EC_num_grenades);
+                    }
+
+                    pNewNade->VThrow(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+
+                    field_10_anim.Set_Animation_Data_402A40(3616, 0);
+                    field_E4_state = BoomMachineStates::eInactive_0;
+                }
+                break;
+            default:
+                return;
         }
     }
 
@@ -288,4 +288,4 @@ void BoomMachine::VScreenChanged_41E7F0()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-}
+} // namespace AO

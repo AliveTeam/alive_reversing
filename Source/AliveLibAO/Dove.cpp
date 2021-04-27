@@ -56,7 +56,7 @@ Dove* Dove::ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID
         ppRes,
         1);
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-    
+
     gDovesArray_4FF938.Push_Back(this);
 
     field_10_anim.field_14_scale = scale;
@@ -303,30 +303,8 @@ void Dove::VUpdate_40F430()
 
     switch (field_EE_state)
     {
-    case State::eOnGround_0:
-        if (Event_Get_417250(kEventSpeaking_1))
-        {
-            for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
-            {
-                Dove* pDoveIter = gDovesArray_4FF938.ItemAt(i);
-                if (!pDoveIter)
-                {
-                    break;
-                }
-                pDoveIter->FlyAway_40F8F0(0); // something is speaking, leg it
-            }
-
-            bExtraSeqStarted_4FF944 = 0;
-            if (bTheOneControllingTheMusic_4FF94C)
-            {
-                SND_Seq_Stop_477A60(SeqId::Unknown_24);
-                bTheOneControllingTheMusic_4FF94C = 0;
-            }
-        }
-
-        if (FP_GetExponent(FP_Abs(field_A8_xpos - sControlledCharacter_50767C->field_A8_xpos)) < 100)
-        {
-            if (Event_Get_417250(kEventNoise_0))
+        case State::eOnGround_0:
+            if (Event_Get_417250(kEventSpeaking_1))
             {
                 for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
                 {
@@ -335,7 +313,7 @@ void Dove::VUpdate_40F430()
                     {
                         break;
                     }
-                    pDoveIter->FlyAway_40F8F0(0);
+                    pDoveIter->FlyAway_40F8F0(0); // something is speaking, leg it
                 }
 
                 bExtraSeqStarted_4FF944 = 0;
@@ -345,89 +323,111 @@ void Dove::VUpdate_40F430()
                     bTheOneControllingTheMusic_4FF94C = 0;
                 }
             }
-        }
-        break;
 
-    case State::eFlyAway_1:
-        field_E4_counter++;
-        if (field_E4_counter == 0)
-        {
-            field_10_anim.Set_Animation_Data_402A40(4988, nullptr);
-            if (!bExtraSeqStarted_4FF944)
+            if (FP_GetExponent(FP_Abs(field_A8_xpos - sControlledCharacter_50767C->field_A8_xpos)) < 100)
             {
-                bExtraSeqStarted_4FF944 = 16;
-                SFX_Play_43AD70(SoundEffect::Dove_16, 0, 0);
-            }
-        }
+                if (Event_Get_417250(kEventNoise_0))
+                {
+                    for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
+                    {
+                        Dove* pDoveIter = gDovesArray_4FF938.ItemAt(i);
+                        if (!pDoveIter)
+                        {
+                            break;
+                        }
+                        pDoveIter->FlyAway_40F8F0(0);
+                    }
 
-        if (field_E4_counter > 0)
+                    bExtraSeqStarted_4FF944 = 0;
+                    if (bTheOneControllingTheMusic_4FF94C)
+                    {
+                        SND_Seq_Stop_477A60(SeqId::Unknown_24);
+                        bTheOneControllingTheMusic_4FF94C = 0;
+                    }
+                }
+            }
+            break;
+
+        case State::eFlyAway_1:
+            field_E4_counter++;
+            if (field_E4_counter == 0)
+            {
+                field_10_anim.Set_Animation_Data_402A40(4988, nullptr);
+                if (!bExtraSeqStarted_4FF944)
+                {
+                    bExtraSeqStarted_4FF944 = 16;
+                    SFX_Play_43AD70(SoundEffect::Dove_16, 0, 0);
+                }
+            }
+
+            if (field_E4_counter > 0)
+            {
+                field_A8_xpos += field_B4_velx;
+                field_AC_ypos += field_B8_vely;
+            }
+
+            field_B8_vely = (field_B8_vely * FP_FromDouble(1.03));
+            field_B4_velx = (field_B4_velx * FP_FromDouble(1.03));
+
+            if (field_E4_counter >= 25 - (Math_NextRandom() & 7))
+            {
+                field_E4_counter = (Math_NextRandom() & 7) + field_E4_counter - 25;
+                field_B4_velx = -field_B4_velx;
+            }
+
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_B4_velx < FP_FromInteger(0));
+            break;
+
+        case State::eJoin_2:
         {
+            if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+
+            const FP k4Directed = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
+            field_B4_velx = (k4Directed + field_F0_xJoin - field_A8_xpos) / FP_FromInteger(8);
             field_A8_xpos += field_B4_velx;
+            field_B8_vely = (field_F4_yJoin - field_AC_ypos) / FP_FromInteger(8);
             field_AC_ypos += field_B8_vely;
         }
+            return;
 
-        field_B8_vely = (field_B8_vely * FP_FromDouble(1.03));
-        field_B4_velx = (field_B4_velx * FP_FromDouble(1.03));
- 
-        if (field_E4_counter >= 25 - (Math_NextRandom() & 7))
-        {
-            field_E4_counter = (Math_NextRandom() & 7) + field_E4_counter - 25;
-            field_B4_velx = -field_B4_velx;
-        }
+        case State::eCircle_3:
+            field_100_prevX = field_A8_xpos;
+            field_104_prevY = field_AC_ypos;
 
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_B4_velx < FP_FromInteger(0));
-        break;
+            field_FC_angle += 4;
 
-    case State::eJoin_2:
-    {
-        if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
+            // Spin around this point
+            field_A8_xpos = ((Math_Sine_451110(field_FC_angle) * FP_FromInteger(30)) * field_BC_sprite_scale) + field_F0_xJoin;
+            field_AC_ypos = ((Math_Cosine_4510A0(field_FC_angle) * FP_FromInteger(35)) * field_BC_sprite_scale) + field_F4_yJoin;
+            return;
 
-        const FP k4Directed = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
-        field_B4_velx = (k4Directed + field_F0_xJoin - field_A8_xpos) / FP_FromInteger(8);
-        field_A8_xpos += field_B4_velx;
-        field_B8_vely = (field_F4_yJoin - field_AC_ypos) / FP_FromInteger(8);
-        field_AC_ypos += field_B8_vely;
-    }
-        return;
-
-    case State::eCircle_3:
-        field_100_prevX = field_A8_xpos;
-        field_104_prevY = field_AC_ypos;
-
-        field_FC_angle += 4;
-
-        // Spin around this point
-        field_A8_xpos = ((Math_Sine_451110(field_FC_angle) * FP_FromInteger(30)) * field_BC_sprite_scale) + field_F0_xJoin;
-        field_AC_ypos = ((Math_Cosine_4510A0(field_FC_angle) * FP_FromInteger(35)) * field_BC_sprite_scale) + field_F4_yJoin;
-        return;
-
-    case State::eAlmostACircle_4:
-        if (dword_4FF950 != static_cast<s32>(gnFrameCount_507670))
-        {
-            dword_4FF950 = gnFrameCount_507670;
-            word_4C50AC += word_4C50B0;
-
-            if (word_4C50AC == 0)
+        case State::eAlmostACircle_4:
+            if (dword_4FF950 != static_cast<s32>(gnFrameCount_507670))
             {
-                word_4C50B0 = 1;
-            }
-            else if (word_4C50AC == 30)
-            {
-                word_4C50B0 = -1;
-            }
-        }
-        field_100_prevX = field_A8_xpos;
-        field_FC_angle += 4;
-        field_104_prevY = field_AC_ypos;
-        field_A8_xpos = ((Math_Sine_451110(field_FC_angle) * FP_FromInteger(word_4C50AC)) * field_BC_sprite_scale) + field_F0_xJoin;
-        field_AC_ypos = ((Math_Cosine_4510A0(field_FC_angle) * FP_FromInteger(35)) * field_BC_sprite_scale) + field_F4_yJoin;
-        return;
+                dword_4FF950 = gnFrameCount_507670;
+                word_4C50AC += word_4C50B0;
 
-    default:
-        break;
+                if (word_4C50AC == 0)
+                {
+                    word_4C50B0 = 1;
+                }
+                else if (word_4C50AC == 30)
+                {
+                    word_4C50B0 = -1;
+                }
+            }
+            field_100_prevX = field_A8_xpos;
+            field_FC_angle += 4;
+            field_104_prevY = field_AC_ypos;
+            field_A8_xpos = ((Math_Sine_451110(field_FC_angle) * FP_FromInteger(word_4C50AC)) * field_BC_sprite_scale) + field_F0_xJoin;
+            field_AC_ypos = ((Math_Cosine_4510A0(field_FC_angle) * FP_FromInteger(35)) * field_BC_sprite_scale) + field_F4_yJoin;
+            return;
+
+        default:
+            break;
     }
 
     const s32 v11 = FP_GetExponent(FP_Abs(field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y));
@@ -443,4 +443,4 @@ void Dove::VUpdate_40F430()
     }
 }
 
-}
+} // namespace AO

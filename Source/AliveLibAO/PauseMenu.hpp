@@ -33,7 +33,7 @@ public:
     {
         s16 field_0_x;
         s16 field_2_y;
-        const s8 *field_4_strBuf;
+        const s8* field_4_strBuf;
         u8 field_8_r;
         u8 field_9_g;
         u8 field_A_b;
@@ -65,4 +65,4 @@ ALIVE_ASSERT_SIZEOF(PauseMenu, 0x190);
 ALIVE_VAR_EXTERN(PauseMenu*, pPauseMenu_5080E0);
 ALIVE_VAR_EXTERN(s8, byte_A88B90);
 
-}
+} // namespace AO

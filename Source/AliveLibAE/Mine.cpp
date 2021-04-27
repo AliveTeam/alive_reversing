@@ -18,7 +18,6 @@
 
 void Mine_ForceLink()
 {
-
 }
 
 ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
@@ -60,7 +59,7 @@ s16 Mine::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_46BB20(pFrom);
 }
 
-Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
+Mine* Mine::ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv)
 {
     ctor_408240(0);
 
@@ -102,14 +101,15 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     FP hitX;
 
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        FP_FromInteger(v7 / 2),
-        v8,
-        FP_FromInteger(v7 / 2),
-        v8 + FP_FromInteger(24),
-        &field_100_pCollisionLine,
-        &hitX,
-        &hitY,
-        field_D6_scale != 0 ? 1 : 16) == 1)
+            FP_FromInteger(v7 / 2),
+            v8,
+            FP_FromInteger(v7 / 2),
+            v8 + FP_FromInteger(24),
+            &field_100_pCollisionLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 1 : 16)
+        == 1)
     {
         field_BC_ypos = hitY;
     }
@@ -144,7 +144,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     }
     if (!(field_11A_disabled_resources & 2))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID );
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
     }
 
     const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
@@ -235,9 +235,8 @@ void Mine::Update_46B5D0()
     }
     if (field_118_detonating != 1)
     {
-        BaseGameObject * pEventObj = Event_Get_422C00(kEventDeathReset);
-        if (pEventObj || field_C2_lvl_number != gMap_5C3030.field_0_current_level ||
-            field_C0_path_number != gMap_5C3030.field_2_current_path)
+        BaseGameObject* pEventObj = Event_Get_422C00(kEventDeathReset);
+        if (pEventObj || field_C2_lvl_number != gMap_5C3030.field_0_current_level || field_C0_path_number != gMap_5C3030.field_2_current_path)
         {
             field_6_flags.Set(Options::eDead_Bit3);
         }
@@ -249,17 +248,17 @@ void Mine::Render_46B7A0(PrimHeader** ppOt)
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-            field_C2_lvl_number,
-            field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos,
-            0))
+                field_C2_lvl_number,
+                field_C0_path_number,
+                field_B8_xpos,
+                field_BC_ypos,
+                0))
         {
             this->field_124_animation.vRender_40B820(FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-                FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
-                ppOt,
-                0,
-                0);
+                                                     FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                                                     ppOt,
+                                                     0,
+                                                     0);
 
             Render_424B90(ppOt);
         }
@@ -306,25 +305,26 @@ s16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    default: return 0;
+        default:
+            return 0;
 
-    case AETypes::eGreeter_64:
-    case AETypes::eAbe_69:
-    case AETypes::eMineCar_89:
-    case AETypes::eAbilityRing_104:
-    case AETypes::eExplosion_109:
-    case AETypes::eMudokon_110:
-    case AETypes::eShrykull_121:
-        auto pBomb = ae_new<BaseBomb>();
-        if (pBomb)
-        {
-            pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
-        }
+        case AETypes::eGreeter_64:
+        case AETypes::eAbe_69:
+        case AETypes::eMineCar_89:
+        case AETypes::eAbilityRing_104:
+        case AETypes::eExplosion_109:
+        case AETypes::eMudokon_110:
+        case AETypes::eShrykull_121:
+            auto pBomb = ae_new<BaseBomb>();
+            if (pBomb)
+            {
+                pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+            }
 
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        field_118_detonating = 1;
-        field_120_gnframe = sGnFrame_5C1B84;
-        return 1;
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            field_118_detonating = 1;
+            field_120_gnframe = sGnFrame_5C1B84;
+            return 1;
     }
 }
 
@@ -335,7 +335,7 @@ bool Mine::IsColliding_46B8C0()
 
     for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
-        BaseAliveGameObject * pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
 
         if (!pObj)
         {
@@ -351,14 +351,7 @@ bool Mine::IsColliding_46B8C0()
             s32 objX = FP_GetExponent(pObj->field_B8_xpos);
             s32 objY = FP_GetExponent(pObj->field_BC_ypos);
 
-            if (objX > mineBound.x &&
-                objX < mineBound.w &&
-                objY < mineBound.h + 12 &&
-                mineBound.x <= objBound.w &&
-                mineBound.w >= objBound.x &&
-                mineBound.h >= objBound.y &&
-                mineBound.y <= objBound.h &&
-                pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+            if (objX > mineBound.x && objX < mineBound.w && objY < mineBound.h + 12 && mineBound.x <= objBound.w && mineBound.w >= objBound.x && mineBound.h >= objBound.y && mineBound.y <= objBound.h && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
             {
                 return 1;
             }
@@ -367,4 +360,3 @@ bool Mine::IsColliding_46B8C0()
 
     return 0;
 }
-

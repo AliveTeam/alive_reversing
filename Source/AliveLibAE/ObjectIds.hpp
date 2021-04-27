@@ -32,6 +32,7 @@ public:
 
     // Use the "checked" Find() so the types are verified where possible (i.e its to a specific single derived type
     EXPORT BaseGameObject* Find_449CF0(TObjectId_KeyType idToFind);
+
 public:
     BaseGameObject* Find(TObjectId_KeyType idToFind, AETypes type);
 
@@ -43,7 +44,6 @@ ALIVE_ASSERT_SIZEOF(ObjectIds, 0x8);
 
 ALIVE_VAR_EXTERN(ObjectIds, sObjectIds_5C1B70);
 
-namespace AETest::TestsObjectIds
-{
-    void ObjectIdsTests();
+namespace AETest::TestsObjectIds {
+void ObjectIdsTests();
 }

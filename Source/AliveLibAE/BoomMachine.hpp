@@ -36,6 +36,7 @@ public:
     virtual BOOL VIsButtonOn_445DF0();
 
     virtual void VHandleButton_445F00();
+
 private:
     EXPORT void vUpdate_445F50();
 

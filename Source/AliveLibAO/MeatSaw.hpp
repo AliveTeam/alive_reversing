@@ -81,5 +81,4 @@ public:
 ALIVE_ASSERT_SIZEOF(MeatSaw, 0x1AC);
 
 
-}
-
+} // namespace AO

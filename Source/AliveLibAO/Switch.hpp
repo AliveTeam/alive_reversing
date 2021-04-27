@@ -60,5 +60,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Switch, 0xFC);
 
-}
-
+} // namespace AO

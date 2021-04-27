@@ -1,6 +1,6 @@
 #pragma once
 
-template<class DataType, class EnumType>
+template <class DataType, class EnumType>
 class BitFieldT
 {
 public:
@@ -55,6 +55,7 @@ public:
     {
         return mData;
     }
+
 private:
     DataType mData = {};
 };
@@ -63,7 +64,7 @@ union BitFieldUnion8
 {
     u8 all;
 };
-template<class EnumType>
+template <class EnumType>
 using BitField8 = BitFieldT<BitFieldUnion8, EnumType>;
 
 struct BitFieldBytes16
@@ -78,7 +79,7 @@ union BitFieldUnion16
     BitFieldBytes16 bytes;
 };
 
-template<class EnumType>
+template <class EnumType>
 using BitField16 = BitFieldT<BitFieldUnion16, EnumType>;
 
 struct BitFieldBytes32
@@ -102,5 +103,5 @@ union BitFieldUnion32
     BitFieldWords32 words;
 };
 
-template<class EnumType>
+template <class EnumType>
 using BitField32 = BitFieldT<BitFieldUnion32, EnumType>;

@@ -11,12 +11,14 @@
 #include <utility>
 #include <vector>
 
-namespace jsonxx { class Object; }
+namespace jsonxx {
+class Object;
+}
 
 class TlvObjectBaseAEBase : public TlvObjectBase
 {
 public:
-    using CopyFn = void(*)(Path_TLV* dst, Path_TLV* src);
+    using CopyFn = void (*)(Path_TLV* dst, Path_TLV* src);
 
     // Used only to get "typeName"
     TlvObjectBaseAEBase(std::size_t sizeOfT, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv);

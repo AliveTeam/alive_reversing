@@ -17,7 +17,7 @@ public:
     }
 
     // Read any fundamental type
-    template<class T>
+    template <class T>
     void Read(T& type)
     {
         static_assert(std::is_fundamental_v<T>, "Can only read fundamental types");
@@ -31,7 +31,7 @@ public:
     }
 
     // Read any vector of fundamental type
-    template<class T>
+    template <class T>
     void Read(std::vector<T>& type)
     {
         static_assert(std::is_fundamental_v<T>, "Can only read vectors of fundamental types");
@@ -39,7 +39,7 @@ public:
     }
 
     // Read any std::array of fundamental type
-    template<class T, std::size_t count>
+    template <class T, std::size_t count>
     void Read(std::array<T, count>& type)
     {
         static_assert(std::is_fundamental_v<T>, "Can only read vectors of fundamental types");
@@ -47,23 +47,23 @@ public:
     }
 
     // Read any fixed array of fundamental type
-    template<typename T, std::size_t count>
-    void Read(T(&value)[count])
+    template <typename T, std::size_t count>
+    void Read(T (&value)[count])
     {
         static_assert(std::is_fundamental_v<T>, "Can only read fundamental types");
         ReadBytes(reinterpret_cast<u8*>(&value[0]), sizeof(T) * count);
     }
 
     // Write any fixed array of fundamental type
-    template<typename T, std::size_t count>
-    void Write(const T(&value)[count])
+    template <typename T, std::size_t count>
+    void Write(const T (&value)[count])
     {
         static_assert(std::is_fundamental_v<T>, "Can only write fundamental types");
         WriteBytes(reinterpret_cast<const u8*>(&value[0]), sizeof(T) * count);
     }
 
     // Write any fundamental type
-    template<class T>
+    template <class T>
     void Write(const T& type)
     {
         static_assert(std::is_fundamental_v<T>, "Can only write fundamental types");
@@ -71,7 +71,7 @@ public:
     }
 
     // Write vector of any fundamental type
-    template<class T>
+    template <class T>
     void Write(const std::vector<T>& type)
     {
         static_assert(std::is_fundamental_v<T>, "Can only write vectors of fundamental types");

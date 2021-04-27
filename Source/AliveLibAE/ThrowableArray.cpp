@@ -37,78 +37,78 @@ void CC LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber)
 
     switch (throwable_types_55FAFC[throwableTypeIdx])
     {
-    case AETypes::eBone_11:
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBoneResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_49C130("BONE.BAN", 0, 0, 0);
-        }
-        break;
+        case AETypes::eBone_11:
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBoneResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_49C130("BONE.BAN", 0, 0, 0);
+            }
+            break;
 
-    case AETypes::eMetal_24:
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_49C130("METAL.BAN", 0, 0, 0);
-        }
+        case AETypes::eMetal_24:
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_49C130("METAL.BAN", 0, 0, 0);
+            }
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_49C130("GRENADE.BAN", 0, 0, 0);
-        }
-        break;
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_49C130("GRENADE.BAN", 0, 0, 0);
+            }
+            break;
 
-    case AETypes::eGrenade_65:
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_49C130("EXPLO2.BAN", 0, 0, 0);
-        }
+        case AETypes::eGrenade_65:
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_49C130("EXPLO2.BAN", 0, 0, 0);
+            }
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_49C130("ABEBLOW.BAN", 0, 0, 0);
-        }
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_49C130("ABEBLOW.BAN", 0, 0, 0);
+            }
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_49C130("DOGBLOW.BAN", 0, 0, 0);
-        }
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_49C130("DOGBLOW.BAN", 0, 0, 0);
+            }
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_49C130("METAL.BAN", 0, 0, 0);
-        }
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalGib, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_49C130("METAL.BAN", 0, 0, 0);
+            }
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_49C130("GRENADE.BAN", 0, 0, 0);
-        }
-        break;
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_49C130("GRENADE.BAN", 0, 0, 0);
+            }
+            break;
 
-    case AETypes::eMeat_84:
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_49C130("MEAT.BAN", 0, 0, 0);
-        }
-        break;
+        case AETypes::eMeat_84:
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_49C130("MEAT.BAN", 0, 0, 0);
+            }
+            break;
 
-    case AETypes::eRock_105:
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 0, 0))
-        {
-            bDoLoadingLoop = TRUE;
-            ResourceManager::LoadResourceFile_49C130("PUIROCK.BAN", 0, 0, 0);
-        }
-        break;
+        case AETypes::eRock_105:
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 0, 0))
+            {
+                bDoLoadingLoop = TRUE;
+                ResourceManager::LoadResourceFile_49C130("PUIROCK.BAN", 0, 0, 0);
+            }
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     if (bDoLoadingLoop)
@@ -204,7 +204,6 @@ void ThrowableArray::vScreenChange_49AAA0()
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
-
 }
 
 void ThrowableArray::Add_49A7A0(s16 count)
@@ -240,36 +239,36 @@ void ThrowableArray::Add_49A7A0(s16 count)
         {
             switch (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID])
             {
-            case AETypes::eBone_11:
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBoneResID);
-                break;
+                case AETypes::eBone_11:
+                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBoneResID);
+                    break;
 
-            case AETypes::eMetal_24:
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
-                Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
-                break;
+                case AETypes::eMetal_24:
+                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
+                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
+                    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
+                    break;
 
-            case AETypes::eGrenade_65:
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
-                Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
-                break;
+                case AETypes::eGrenade_65:
+                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
+                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
+                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
+                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
+                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
+                    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenadeResID);
+                    break;
 
-            case AETypes::eMeat_84:
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
-                break;
+                case AETypes::eMeat_84:
+                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
+                    break;
 
-            case AETypes::eRock_105:
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAberockResID);
-                Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kAberockResID);
-                break;
+                case AETypes::eRock_105:
+                    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAberockResID);
+                    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kAberockResID);
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
 
             field_22_flags.Set(Flags_22::eBit2_Unknown);

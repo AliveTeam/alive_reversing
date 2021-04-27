@@ -31,14 +31,13 @@ class __single_inheritance BaseAnimatedWithPhysicsGameObject;
 class BaseAnimatedWithPhysicsGameObject;
 #endif
 
-using TCollisionCallBack = s16(BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
+using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
 
 EXPORT FP CC ScaleToGridSize_41FA30(FP scale);
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
-
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VRender(PrimHeader** ppOt) override;
@@ -87,9 +86,8 @@ protected:
     EXPORT s16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, s32 palId);
 
 private:
-
     EXPORT BaseAnimatedWithPhysicsGameObject* Vdtor_4189C0(s32 flags);
-  
+
     EXPORT void VRender_417DA0(PrimHeader** ppOt);
 
     EXPORT s16 VOnSameYLevel_418450(BaseAnimatedWithPhysicsGameObject* pOther);
@@ -127,4 +125,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xD4);
 
-}
+} // namespace AO

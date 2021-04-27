@@ -21,49 +21,45 @@ struct TrapDoor_Data
     s16 field_12_frame_table_offset;
 };
 
-const TrapDoor_Data sTrapDoorData_547B78[18] =
-{
-    { 4800, 4788, 4840, 4812, 72, 41 },
-    { 4800, 4788, 4840, 4812, 72, 41 },
-    { 4800, 4788, 4840, 4812, 72, 41 },
-    { 5316, 5328, 5340, 5368, 77, 41 },
-    { 5316, 5328, 5340, 5368, 77, 41 },
-    { 4800, 4788, 4840, 4812, 72, 41 },
-    { 4800, 4788, 4840, 4812, 72, 41 },
-    { 5316, 5328, 5340, 5368, 77, 41 },
-    { 4800, 4788, 4840, 4812, 72, 41 },
-    { 4800, 4788, 4840, 4812, 72, 41 },
-    { 4800, 4788, 4840, 4812, 72, 41 },
-    { 5316, 5328, 5340, 5368, 77, 41 },
-    { 4800, 4788, 4840, 4812, 72, 41 },
-    { 4800, 4788, 4840, 4812, 72, 41 },
-    { 4800, 4788, 4840, 4812, 72, 41 },
-    { 0, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0 }
-};
+const TrapDoor_Data sTrapDoorData_547B78[18] = {
+    {4800, 4788, 4840, 4812, 72, 41},
+    {4800, 4788, 4840, 4812, 72, 41},
+    {4800, 4788, 4840, 4812, 72, 41},
+    {5316, 5328, 5340, 5368, 77, 41},
+    {5316, 5328, 5340, 5368, 77, 41},
+    {4800, 4788, 4840, 4812, 72, 41},
+    {4800, 4788, 4840, 4812, 72, 41},
+    {5316, 5328, 5340, 5368, 77, 41},
+    {4800, 4788, 4840, 4812, 72, 41},
+    {4800, 4788, 4840, 4812, 72, 41},
+    {4800, 4788, 4840, 4812, 72, 41},
+    {5316, 5328, 5340, 5368, 77, 41},
+    {4800, 4788, 4840, 4812, 72, 41},
+    {4800, 4788, 4840, 4812, 72, 41},
+    {4800, 4788, 4840, 4812, 72, 41},
+    {0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0}};
 
-const TintEntry sTrapDoorTints_5639AC[18] =
-{
-    { 1u, 127u, 127u, 127u },
-    { 2u, 127u, 127u, 127u },
-    { 3u, 127u, 127u, 127u },
-    { 4u, 127u, 127u, 127u },
-    { 5u, 127u, 127u, 127u },
-    { 6u, 127u, 127u, 127u },
-    { 7u, 127u, 127u, 127u },
-    { 8u, 127u, 127u, 127u },
-    { 9u, 127u, 127u, 127u },
-    { 10u, 127u, 127u, 127u },
-    { 11u, 127u, 127u, 127u },
-    { 12u, 127u, 127u, 127u },
-    { 13u, 127u, 127u, 127u },
-    { 14u, 127u, 127u, 127u },
-    { -1, 127u, 127u, 127u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u },
-    { 0u, 0u, 0u, 0u }
-};
+const TintEntry sTrapDoorTints_5639AC[18] = {
+    {1u, 127u, 127u, 127u},
+    {2u, 127u, 127u, 127u},
+    {3u, 127u, 127u, 127u},
+    {4u, 127u, 127u, 127u},
+    {5u, 127u, 127u, 127u},
+    {6u, 127u, 127u, 127u},
+    {7u, 127u, 127u, 127u},
+    {8u, 127u, 127u, 127u},
+    {9u, 127u, 127u, 127u},
+    {10u, 127u, 127u, 127u},
+    {11u, 127u, 127u, 127u},
+    {12u, 127u, 127u, 127u},
+    {13u, 127u, 127u, 127u},
+    {14u, 127u, 127u, 127u},
+    {-1, 127u, 127u, 127u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u},
+    {0u, 0u, 0u, 0u}};
 
 
 
@@ -198,22 +194,22 @@ s32 CC TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
 
     switch (gMap_5C3030.field_0_current_level)
     {
-    case LevelIds::eMudomoVault_3:
-    case LevelIds::eMudancheeVault_4:
-    case LevelIds::eMudancheeVault_Ender_7:
-    case LevelIds::eMudomoVault_Ender_11:
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, FALSE, FALSE))
-        {
-            ResourceManager::LoadResourceFile_49C170("VLTSTRAP.BAN", nullptr);
-        }
-        break;
+        case LevelIds::eMudomoVault_3:
+        case LevelIds::eMudancheeVault_4:
+        case LevelIds::eMudancheeVault_Ender_7:
+        case LevelIds::eMudomoVault_Ender_11:
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, FALSE, FALSE))
+            {
+                ResourceManager::LoadResourceFile_49C170("VLTSTRAP.BAN", nullptr);
+            }
+            break;
 
-    default:
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, FALSE, FALSE))
-        {
-            ResourceManager::LoadResourceFile_49C170("TRAPDOOR.BAN", nullptr);
-        }
-        break;
+        default:
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, FALSE, FALSE))
+            {
+                ResourceManager::LoadResourceFile_49C170("TRAPDOOR.BAN", nullptr);
+            }
+            break;
     }
 
     auto pTrapDoor = ae_new<TrapDoor>();
@@ -253,75 +249,59 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
 
     switch (field_136_state)
     {
-    case TrapDoorState::eClosed_0:
-        if (SwitchStates_Get_466020(field_134_switch_idx) == field_138_switch_state)
-        {
-            Open_4DD960();
-            field_136_state = TrapDoorState::eOpening_1;
-            field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_8, 0);
-
-            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_Ender_12 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_Ender_13 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
+        case TrapDoorState::eClosed_0:
+            if (SwitchStates_Get_466020(field_134_switch_idx) == field_138_switch_state)
             {
-                SFX_Play_46FC20(SoundEffect::IndustrialTrigger_80, 45, direction);
-                SFX_Play_46FC20(SoundEffect::IndustrialNoise1_76, 90, direction);
+                Open_4DD960();
+                field_136_state = TrapDoorState::eOpening_1;
+                field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_8, 0);
+
+                if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_Ender_12 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_Ender_13 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
+                {
+                    SFX_Play_46FC20(SoundEffect::IndustrialTrigger_80, 45, direction);
+                    SFX_Play_46FC20(SoundEffect::IndustrialNoise1_76, 90, direction);
+                }
             }
-        }
-        break;
+            break;
 
-    case TrapDoorState::eOpening_1:
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            SFX_Play_46FC20(SoundEffect::TrapdoorOpen_43, 70, direction);
-            field_136_state = TrapDoorState::eOpen_2;
-            field_130_stay_open_time2 = field_13C_stay_open_time;
-        }
-        break;
-
-    case TrapDoorState::eOpen_2:
-        field_130_stay_open_time2--;
-
-        if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_idx) != field_138_switch_state)
-        {
-            field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_C, 0);
-
-            field_136_state = TrapDoorState::eClosing_3;
-
-            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_Ender_12 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_Ender_13 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9 ||
-                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
+        case TrapDoorState::eOpening_1:
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                SFX_Play_46FC20(SoundEffect::IndustrialNoise3_78, 60, direction);
-                SFX_Play_46FC20(SoundEffect::IndustrialNoise2_77, 90, direction);
+                SFX_Play_46FC20(SoundEffect::TrapdoorOpen_43, 70, direction);
+                field_136_state = TrapDoorState::eOpen_2;
+                field_130_stay_open_time2 = field_13C_stay_open_time;
             }
-        }
-        break;
+            break;
 
-    case TrapDoorState::eClosing_3:
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            SFX_Play_46FC20(SoundEffect::TrapdoorClose_42, 70, direction);
-            Add_To_Collisions_Array_4DDA20();
-            field_136_state = TrapDoorState::eClosed_0;
-            SwitchStates_Set_465FF0(field_134_switch_idx, field_138_switch_state == 0);
-        }
-        break;
+        case TrapDoorState::eOpen_2:
+            field_130_stay_open_time2--;
 
-    default:
-        return;
+            if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_idx) != field_138_switch_state)
+            {
+                field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_C, 0);
+
+                field_136_state = TrapDoorState::eClosing_3;
+
+                if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_Ender_12 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_Ender_13 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
+                {
+                    SFX_Play_46FC20(SoundEffect::IndustrialNoise3_78, 60, direction);
+                    SFX_Play_46FC20(SoundEffect::IndustrialNoise2_77, 90, direction);
+                }
+            }
+            break;
+
+        case TrapDoorState::eClosing_3:
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                SFX_Play_46FC20(SoundEffect::TrapdoorClose_42, 70, direction);
+                Add_To_Collisions_Array_4DDA20();
+                field_136_state = TrapDoorState::eClosed_0;
+                SwitchStates_Set_465FF0(field_134_switch_idx, field_138_switch_state == 0);
+            }
+            break;
+
+        default:
+            return;
     }
 }
 
@@ -334,9 +314,7 @@ EXPORT void TrapDoor::vRender_4DDDD0(PrimHeader** ppOt)
 
 EXPORT void TrapDoor::vScreenChanged_4DDE40()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
-        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
-        gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         if (field_13E_self_closing == Choice_short::eYes_1)

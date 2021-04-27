@@ -15,7 +15,6 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-
     EXPORT void DealBlastDamage_4A1BD0(PSX_RECT* pRect);
 
     EXPORT void vUpdate_4A1510();

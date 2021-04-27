@@ -20,7 +20,7 @@ void CreditsController::VUpdate()
 
 constexpr s32 kShowCreditScreenForTicks = 160;
 
-CreditsController * CreditsController::ctor_418A10(Path_TLV* /*pTlv*/, s32 /*tlvInfo*/)
+CreditsController* CreditsController::ctor_418A10(Path_TLV* /*pTlv*/, s32 /*tlvInfo*/)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544618);
@@ -29,7 +29,7 @@ CreditsController * CreditsController::ctor_418A10(Path_TLV* /*pTlv*/, s32 /*tlv
     field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;
 
     sDoesCreditsControllerExist_5C1B90 = true;
-    
+
     return this;
 }
 

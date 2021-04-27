@@ -27,7 +27,7 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 82);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 94);
-    
+
     field_E6_switch_id = pTlv->field_18_id;
     field_E8_tlvInfo = tlvInfo;
 
@@ -149,43 +149,43 @@ void BellHammer::VUpdate_405320()
 {
     switch (field_E4_state)
     {
-    case BellHammerStates::eWaitForActivation_0:
-        if (SwitchStates_Get(field_E6_switch_id))
-        {
-            field_E4_state = BellHammerStates::eSmashingBell_1;
-            field_10_anim.Set_Animation_Data_402A40(4500, nullptr);
-        }
-        break;
-
-    case BellHammerStates::eSmashingBell_1:
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_E4_state = BellHammerStates::eWaitForActivation_0;
-            field_10_anim.Set_Animation_Data_402A40(4488, nullptr);
-            SwitchStates_Set(field_E6_switch_id, 0);
-
-            // Spawn the foo if he ain't already here
-            if (gElum_507680 == nullptr)
+        case BellHammerStates::eWaitForActivation_0:
+            if (SwitchStates_Get(field_E6_switch_id))
             {
-                field_F0_bSpawnElum = 1;
+                field_E4_state = BellHammerStates::eSmashingBell_1;
+                field_10_anim.Set_Animation_Data_402A40(4500, nullptr);
             }
-        }
-        else
-        {
-            // Play those bell smashing sounds
-            if (field_10_anim.field_92_current_frame == 5)
-            {
-                SFX_Play_43AD70(SoundEffect::RingBellHammer_9, 0, 0);
-            }
-            else if (field_10_anim.field_92_current_frame == 15)
-            {
-                SND_SEQ_PlaySeq_4775A0(SeqId::eRingBellHammerAndExtraSound_13, 1, 1);
-            }
-        }
-        break;
+            break;
 
-    default:
-        break;
+        case BellHammerStates::eSmashingBell_1:
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_E4_state = BellHammerStates::eWaitForActivation_0;
+                field_10_anim.Set_Animation_Data_402A40(4488, nullptr);
+                SwitchStates_Set(field_E6_switch_id, 0);
+
+                // Spawn the foo if he ain't already here
+                if (gElum_507680 == nullptr)
+                {
+                    field_F0_bSpawnElum = 1;
+                }
+            }
+            else
+            {
+                // Play those bell smashing sounds
+                if (field_10_anim.field_92_current_frame == 5)
+                {
+                    SFX_Play_43AD70(SoundEffect::RingBellHammer_9, 0, 0);
+                }
+                else if (field_10_anim.field_92_current_frame == 15)
+                {
+                    SND_SEQ_PlaySeq_4775A0(SeqId::eRingBellHammerAndExtraSound_13, 1, 1);
+                }
+            }
+            break;
+
+        default:
+            break;
     }
 
     if (field_F0_bSpawnElum)
@@ -200,7 +200,7 @@ void BellHammer::VUpdate_405320()
             PSX_Point mapCoords = {};
             gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
 
-            gElum_507680->field_A8_xpos = (FP_FromInteger(mapCoords.field_0_x +  XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0))) - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            gElum_507680->field_A8_xpos = (FP_FromInteger(mapCoords.field_0_x + XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0))) - ScaleToGridSize_41FA30(field_BC_sprite_scale);
             gElum_507680->field_AC_ypos = gElum_507680->field_AC_ypos + FP_FromInteger(450);
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAneprmntResID, 1, 0);
         }
@@ -217,4 +217,4 @@ void CC BellHammer::OnResLoaded_405210(BellHammer* pThis)
     pThis->field_EC_pending_resource_count--;
 }
 
-}
+} // namespace AO

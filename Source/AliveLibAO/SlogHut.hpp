@@ -47,4 +47,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(SlogHut, 0x2C);
 
-}
+} // namespace AO

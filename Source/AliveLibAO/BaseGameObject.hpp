@@ -158,20 +158,18 @@ public:
     }
 
 private:
-
     EXPORT void VScreenChanged_487E70();
 
 public:
-
     Types field_4_typeId;
     BitField16<Options> field_6_flags;
     s32 field_8_update_delay;
     s8 field_C_refCount;
-    s8 field_D; // pad ?
+    s8 field_D;  // pad ?
     s16 field_E; // ??
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_9F2DF0);
 
-}
+} // namespace AO

@@ -43,39 +43,39 @@ EXPORT void CC SwitchStates_Do_Operation_436A10(s16 idx, SwitchOp operation)
     {
         switch (operation)
         {
-        case SwitchOp::eSetTrue_0:
-            SwitchStates_Set(idx, 1);
-            break;
-
-        case SwitchOp::eSetFalse_1:
-            SwitchStates_Set(idx, 0);
-            break;
-
-        case SwitchOp::eToggle_2:
-            if (SwitchStates_Get(idx))
-            {
-                // Its on, so turn off
-                SwitchStates_Set(idx, 0);
-            }
-            else
-            {
-                // Its off, so turn on
+            case SwitchOp::eSetTrue_0:
                 SwitchStates_Set(idx, 1);
-            }
-            break;
+                break;
 
-        case SwitchOp::eIncrement_3:
-            SwitchStates_Add(idx, 1);
-            break;
+            case SwitchOp::eSetFalse_1:
+                SwitchStates_Set(idx, 0);
+                break;
 
-        case SwitchOp::eDecrement_4:
-            SwitchStates_Add(idx, -1);
-            break;
+            case SwitchOp::eToggle_2:
+                if (SwitchStates_Get(idx))
+                {
+                    // Its on, so turn off
+                    SwitchStates_Set(idx, 0);
+                }
+                else
+                {
+                    // Its off, so turn on
+                    SwitchStates_Set(idx, 1);
+                }
+                break;
 
-        default:
-            return;
+            case SwitchOp::eIncrement_3:
+                SwitchStates_Add(idx, 1);
+                break;
+
+            case SwitchOp::eDecrement_4:
+                SwitchStates_Add(idx, -1);
+                break;
+
+            default:
+                return;
         }
     }
 }
 
-}
+} // namespace AO

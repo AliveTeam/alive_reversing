@@ -15,7 +15,7 @@ enum TLV_Flags
     eBit3_End_TLV_List = 0x4,
 };
 
-enum class TlvTypes : s16 
+enum class TlvTypes : s16
 {
     None_m1 = -1,
     ContinuePoint_0 = 0,
@@ -138,12 +138,12 @@ struct TlvTypes32
     TlvTypes mType;
     s16 padTo32Bits;
 
-    bool operator == (TlvTypes type) const
+    bool operator==(TlvTypes type) const
     {
         return mType == type;
     }
 
-    TlvTypes32& operator = (TlvTypes type)
+    TlvTypes32& operator=(TlvTypes type)
     {
         mType = type;
         padTo32Bits = 0;
@@ -236,7 +236,7 @@ public:
     EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type);
     EXPORT static void CCSTD TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2);
     EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
-    
+
     EXPORT static void CCSTD Reset_TLVs_4DBCF0(u16 pathId);
 
     LevelIds field_0_levelId;

@@ -49,11 +49,13 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
+
 private:
     EXPORT void dtor_410170();
     EXPORT Gibs* vdtor_410100(s32 flags);
     EXPORT void vUpdate_410210();
     EXPORT void vRender_4103A0(PrimHeader** ppOt);
+
 private:
     void* field_F4_not_used; // Used to be gib data, only used in ctor and replaced with AnimRecords
     FP field_F8_z;

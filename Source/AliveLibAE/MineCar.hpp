@@ -126,15 +126,19 @@ private:
 
 private:
     s32 field_118_tlvInfo;
+
 public:
     MineCarStates field_11C_state;
+
 private:
     Scale_short field_11E_scale;
     s16 field_120_max_damage;
     s16 field_122_padding;
     Animation field_124_anim;
+
 public:
     MineCarDirs field_1BC_turn_direction;
+
 private:
     s16 field_1BE_unused;
     s16 field_1C0_unused;
@@ -145,7 +149,7 @@ private:
     s16 field_1CC_spawned_path;
     s16 field_1CE_spawned_camera;
     s32 field_1D0_sound_channels_mask;
-    s16 field_1D4_previous_input; //TODO change to InputCommands::Enum type when we can drop sizeof assert
+    s16 field_1D4_previous_input;      //TODO change to InputCommands::Enum type when we can drop sizeof assert
     s16 field_1D6_continue_move_input; //TODO change to InputCommands::Enum type when we can drop sizeof assert
 };
 ALIVE_ASSERT_SIZEOF(MineCar, 0x1D8);

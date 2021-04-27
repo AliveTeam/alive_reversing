@@ -74,5 +74,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(OrbWhirlWindParticle, 0x104);
 
-}
-
+} // namespace AO

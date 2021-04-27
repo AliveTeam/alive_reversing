@@ -78,25 +78,23 @@ struct MusicController_Record3
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record3, 0x1C);
 
-const MusicController_Record3 rec3s_4CD798[16] =
-{
-    { { { 640, 112, 116 },    { -1, 107, 111 },     { -1, 0, 0     } }, 1u, 0u },
-    { { { 320, 97, 100 },     { 640, 94, 96 },      { -1, 90, 93   } }, 1u, 0u },
-    { { { 512, 81, 85 },      { 1024, 76, 80 },     { -1, 71, 75   } }, 1u, 0u },
-    { { { 640, 54, 57 },      { 1280, 51, 53 },     { -1, 48, 50   } }, 4u, 0u },
-    { { { 512, 64, 64 },      { 1024, 63, 63 },     { -1, 62, 62   } }, 1u, 0u },
-    { { { 640, 40, 44 },      { -1, 35, 39 },       { -1, 0, 0     } }, 1u, 0u },
-    { { { 640, 40, 44 },      { -1, 35, 39 },       { -1, 0, 0     } }, 1u, 0u },
-    { { { -1, -1, -1 },       { -1, -1, -1 },       { -1, -1, -1   } }, 1u, 0u },
-    { { { 640, 14, 18 },      { 1280, 9, 13 },      { -1, 6, 8     } }, 1u, 0u },
-    { { { 448, 27, 28 },      { 896, 25, 26 },      { -1, 23, 24   } }, 1u, 0u },
-    { { { 640, 112, 116 },    { -1, 107, 111 },     { -1, 0, 0     } }, 1u, 0u },
-    { { { -1, -1, -1 },       { -1, -1, -1 },       { -1, -1, -1   } }, 1u, 0u },
-    { { { -1, -1, -1 },       { -1, -1, -1 },       { -1, -1, -1   } }, 1u, 0u },
-    { { { 320, 97, 100 },     { 640, 94, 96 },      { -1, 90, 93   } }, 1u, 0u },
-    { { { -1, 68, 68 },       { -1, -1, -1 },       { -1, -1, -1   } }, 1u, 0u },
-    { { { -1, 32, 32 },       { -1, -1, -1 },       { -1, -1, -1   } }, 1u, 0u }
-};
+const MusicController_Record3 rec3s_4CD798[16] = {
+    {{{640, 112, 116}, {-1, 107, 111}, {-1, 0, 0}}, 1u, 0u},
+    {{{320, 97, 100}, {640, 94, 96}, {-1, 90, 93}}, 1u, 0u},
+    {{{512, 81, 85}, {1024, 76, 80}, {-1, 71, 75}}, 1u, 0u},
+    {{{640, 54, 57}, {1280, 51, 53}, {-1, 48, 50}}, 4u, 0u},
+    {{{512, 64, 64}, {1024, 63, 63}, {-1, 62, 62}}, 1u, 0u},
+    {{{640, 40, 44}, {-1, 35, 39}, {-1, 0, 0}}, 1u, 0u},
+    {{{640, 40, 44}, {-1, 35, 39}, {-1, 0, 0}}, 1u, 0u},
+    {{{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}}, 1u, 0u},
+    {{{640, 14, 18}, {1280, 9, 13}, {-1, 6, 8}}, 1u, 0u},
+    {{{448, 27, 28}, {896, 25, 26}, {-1, 23, 24}}, 1u, 0u},
+    {{{640, 112, 116}, {-1, 107, 111}, {-1, 0, 0}}, 1u, 0u},
+    {{{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}}, 1u, 0u},
+    {{{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}}, 1u, 0u},
+    {{{320, 97, 100}, {640, 94, 96}, {-1, 90, 93}}, 1u, 0u},
+    {{{-1, 68, 68}, {-1, -1, -1}, {-1, -1, -1}}, 1u, 0u},
+    {{{-1, 32, 32}, {-1, -1, -1}, {-1, -1, -1}}, 1u, 0u}};
 
 struct MusicController_Record
 {
@@ -110,69 +108,63 @@ struct MusicController_Record
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record, 0x10);
 
-const MusicController_Record array_1_stru_4CD958[] =
-{
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { 101, 0, 20, 0, 0, 0, 0 },
-    { 87, 0, 16, 0, 0, 0, 0 },
-    { 59, 0, 20, 0, 0, 0, 0 },
-    { 65, 0, 16, 0, 0, 0, 0 },
-    { 45, 0, 16, 0, 0, 0, 0 },
-    { 45, 0, 16, 0, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { 20, 0, 20, 0, 0, 0, 0 },
-    { 29, 0, 16, 0, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { 101, 0, 20, 0, 0, 0, 0 },
-    { 65, 0, 16, 0, 0, 0, 0 },
-    { 29, 0, 16, 0, 0, 0, 0 }
-};
+const MusicController_Record array_1_stru_4CD958[] = {
+    {-1, 0, 1, 1, 0, 0, 0},
+    {101, 0, 20, 0, 0, 0, 0},
+    {87, 0, 16, 0, 0, 0, 0},
+    {59, 0, 20, 0, 0, 0, 0},
+    {65, 0, 16, 0, 0, 0, 0},
+    {45, 0, 16, 0, 0, 0, 0},
+    {45, 0, 16, 0, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {20, 0, 20, 0, 0, 0, 0},
+    {29, 0, 16, 0, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {101, 0, 20, 0, 0, 0, 0},
+    {65, 0, 16, 0, 0, 0, 0},
+    {29, 0, 16, 0, 0, 0, 0}};
 
-const MusicController_Record array_2_stru_4CDA58[] =
-{
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { 102, 0, 20, 0, 0, 0, 0 },
-    { 88, 0, 16, 0, 0, 0, 0 },
-    { 60, 0, 20, 0, 0, 0, 0 },
-    { 66, 0, 16, 0, 0, 0, 0 },
-    { 46, 0, 16, 0, 0, 0, 0 },
-    { 46, 0, 16, 0, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { 21, 0, 20, 0, 0, 0, 0 },
-    { 30, 0, 16, 0, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { 102, 0, 20, 0, 0, 0, 0 },
-    { 66, 0, 16, 0, 0, 0, 0 },
-    { 30, 0, 16, 0, 0, 0, 0 }
-};
+const MusicController_Record array_2_stru_4CDA58[] = {
+    {-1, 0, 1, 1, 0, 0, 0},
+    {102, 0, 20, 0, 0, 0, 0},
+    {88, 0, 16, 0, 0, 0, 0},
+    {60, 0, 20, 0, 0, 0, 0},
+    {66, 0, 16, 0, 0, 0, 0},
+    {46, 0, 16, 0, 0, 0, 0},
+    {46, 0, 16, 0, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {21, 0, 20, 0, 0, 0, 0},
+    {30, 0, 16, 0, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {102, 0, 20, 0, 0, 0, 0},
+    {66, 0, 16, 0, 0, 0, 0},
+    {30, 0, 16, 0, 0, 0, 0}};
 
-const MusicController_Record array_3_stru_4CDB58[] =
-{
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { 103, 0, 20, 0, 0, 0, 0 },
-    { 89, 0, 16, 0, 0, 0, 0 },
-    { 61, 0, 20, 0, 0, 0, 0 },
-    { 67, 0, 16, 0, 0, 0, 0 },
-    { 47, 0, 16, 0, 0, 0, 0 },
-    { 47, 0, 16, 0, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { 22, 0, 20, 0, 0, 0, 0 },
-    { 31, 0, 16, 0, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { -1, 0, 1, 1, 0, 0, 0 },
-    { 103, 0, 20, 0, 0, 0, 0 },
-    { 67, 0, 16, 0, 0, 0, 0 },
-    { 31, 0, 16, 0, 0, 0, 0 },
+const MusicController_Record array_3_stru_4CDB58[] = {
+    {-1, 0, 1, 1, 0, 0, 0},
+    {103, 0, 20, 0, 0, 0, 0},
+    {89, 0, 16, 0, 0, 0, 0},
+    {61, 0, 20, 0, 0, 0, 0},
+    {67, 0, 16, 0, 0, 0, 0},
+    {47, 0, 16, 0, 0, 0, 0},
+    {47, 0, 16, 0, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {22, 0, 20, 0, 0, 0, 0},
+    {31, 0, 16, 0, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {-1, 0, 1, 1, 0, 0, 0},
+    {103, 0, 20, 0, 0, 0, 0},
+    {67, 0, 16, 0, 0, 0, 0},
+    {31, 0, 16, 0, 0, 0, 0},
 
     // TODO: Are these part of something else?
-    { 20, 20, 1310736, 16, 16, 16, 1 },
-    { 20, 16, 65556, 1, 20, 16, 16 }
-};
+    {20, 20, 1310736, 16, 16, 16, 1},
+    {20, 16, 65556, 1, 20, 16, 16}};
 
 struct MusicController_Record2
 {
@@ -181,133 +173,131 @@ struct MusicController_Record2
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record2, 4);
 
-const MusicController_Record2 rec2s_4CD5A8[124] =
-{
-    { SeqId::Unknown_41, 320 },
-    { SeqId::Unknown_42, 320 },
-    { SeqId::Unknown_43, 320 },
-    { SeqId::Unknown_44, 320 },
-    { SeqId::eSaveTriggerMusic_45, 320 },
-    { SeqId::eSecretMusic_46, 320 },
-    { SeqId::Unknown_47, 640 },
-    { SeqId::Unknown_48, 640 },
-    { SeqId::Unknown_49, 640 },
-    { SeqId::Unknown_50, 640 },
-    { SeqId::Unknown_51, 640 },
-    { SeqId::Unknown_52, 640 },
-    { SeqId::Unknown_53, 640 },
-    { SeqId::Unknown_54, 640 },
-    { SeqId::Unknown_55, 640 },
-    { SeqId::Unknown_56, 640 },
-    { SeqId::Unknown_57, 640 },
-    { SeqId::Unknown_58, 640 },
-    { SeqId::Unknown_59, 640 },
-    { SeqId::Unknown_60, 160 },
-    { SeqId::Unknown_61, 256 },
-    { SeqId::Unknown_62, 256 },
-    { SeqId::Unknown_63, 512 },
-    { SeqId::Unknown_64, 448 },
-    { SeqId::Unknown_65, 448 },
-    { SeqId::Unknown_66, 448 },
-    { SeqId::Unknown_67, 448 },
-    { SeqId::Unknown_68, 448 },
-    { SeqId::Unknown_69, 448 },
-    { SeqId::Unknown_70, 256 },
-    { SeqId::Unknown_71, 256 },
-    { SeqId::Unknown_72, 512 },
-    { SeqId::Unknown_73, 512 },
-    { SeqId::Unknown_74, 512 },
-    { SeqId::Unknown_75, 1024 },
-    { SeqId::Unknown_76, 640 },
-    { SeqId::Unknown_77, 640 },
-    { SeqId::Unknown_78, 640 },
-    { SeqId::Unknown_79, 640 },
-    { SeqId::Unknown_80, 640 },
-    { SeqId::Unknown_81, 640 },
-    { SeqId::Unknown_82, 640 },
-    { SeqId::Unknown_83, 640 },
-    { SeqId::Unknown_84, 640 },
-    { SeqId::Unknown_85, 640 },
-    { SeqId::Unknown_86, 256 },
-    { SeqId::Unknown_87, 256 },
-    { SeqId::Unknown_88, 512 },
-    { SeqId::Unknown_89, 640 },
-    { SeqId::Unknown_90, 640 },
-    { SeqId::Unknown_91, 640 },
-    { SeqId::Unknown_92, 640 },
-    { SeqId::Unknown_93, 640 },
-    { SeqId::Unknown_94, 640 },
-    { SeqId::Unknown_95, 640 },
-    { SeqId::Unknown_96, 640 },
-    { SeqId::Unknown_97, 640 },
-    { SeqId::Unknown_98, 640 },
-    { SeqId::Unknown_99, 160 },
-    { SeqId::Unknown_100, 320 },
-    { SeqId::Unknown_101, 320 },
-    { SeqId::Unknown_102, 320 },
-    { SeqId::Unknown_103, 512 },
-    { SeqId::Unknown_104, 512 },
-    { SeqId::Unknown_105, 512 },
-    { SeqId::Unknown_106, 256 },
-    { SeqId::Unknown_107, 256 },
-    { SeqId::Unknown_108, 512 },
-    { SeqId::Unknown_109, 512 },
-    { SeqId::Unknown_110, 256 },
-    { SeqId::Unknown_111, 1024 },
-    { SeqId::Unknown_112, 512 },
-    { SeqId::Unknown_113, 512 },
-    { SeqId::Unknown_114, 512 },
-    { SeqId::Unknown_115, 512 },
-    { SeqId::Unknown_116, 512 },
-    { SeqId::Unknown_117, 512 },
-    { SeqId::Unknown_118, 512 },
-    { SeqId::Unknown_119, 512 },
-    { SeqId::Unknown_120, 512 },
-    { SeqId::Unknown_121, 512 },
-    { SeqId::Unknown_122, 512 },
-    { SeqId::Unknown_123, 512 },
-    { SeqId::Unknown_124, 512 },
-    { SeqId::Unknown_125, 512 },
-    { SeqId::Unknown_126, 512 },
-    { SeqId::Unknown_127, 256 },
-    { SeqId::Unknown_128, 256 },
-    { SeqId::Unknown_129, 256 },
-    { SeqId::Unknown_130, 512 },
-    { SeqId::Unknown_RF_131, 320 },
-    { SeqId::Unknown_RF_132, 320 },
-    { SeqId::Unknown_RF_133, 320 },
-    { SeqId::Unknown_134, 320 },
-    { SeqId::Unknown_135, 320 },
-    { SeqId::Unknown_136, 320 },
-    { SeqId::Unknown_RF_137, 320 },
-    { SeqId::Unknown_138, 320 },
-    { SeqId::Unknown_139, 320 },
-    { SeqId::Unknown_RF_140, 320 },
-    { SeqId::Unknown_141, 320 },
-    { SeqId::Unknown_142, 320 },
-    { SeqId::Unknown_143, 320 },
-    { SeqId::Unknown_144, 320 },
-    { SeqId::Unknown_145, 768 },
-    { SeqId::Unknown_146, 384 },
-    { SeqId::Unknown_147, 384 },
-    { SeqId::Unknown_148, 640 },
-    { SeqId::Unknown_149, 640 },
-    { SeqId::Unknown_150, 640 },
-    { SeqId::Unknown_151, 640 },
-    { SeqId::Unknown_152, 640 },
-    { SeqId::Unknown_153, 640 },
-    { SeqId::Unknown_154, 640 },
-    { SeqId::Unknown_155, 640 },
-    { SeqId::Unknown_156, 640 },
-    { SeqId::Unknown_157, 640 },
-    { SeqId::Unknown_158, 176 },
-    { SeqId::Unknown_159, 176 },
-    { SeqId::Unknown_160, 176 },
-    { SeqId::Unknown_161, 176 },
-    { SeqId::Unknown_162, 176 },
-    { SeqId::Unknown_163, 220 },
-    { SeqId::Unknown_0, 0 }
-};
+const MusicController_Record2 rec2s_4CD5A8[124] = {
+    {SeqId::Unknown_41, 320},
+    {SeqId::Unknown_42, 320},
+    {SeqId::Unknown_43, 320},
+    {SeqId::Unknown_44, 320},
+    {SeqId::eSaveTriggerMusic_45, 320},
+    {SeqId::eSecretMusic_46, 320},
+    {SeqId::Unknown_47, 640},
+    {SeqId::Unknown_48, 640},
+    {SeqId::Unknown_49, 640},
+    {SeqId::Unknown_50, 640},
+    {SeqId::Unknown_51, 640},
+    {SeqId::Unknown_52, 640},
+    {SeqId::Unknown_53, 640},
+    {SeqId::Unknown_54, 640},
+    {SeqId::Unknown_55, 640},
+    {SeqId::Unknown_56, 640},
+    {SeqId::Unknown_57, 640},
+    {SeqId::Unknown_58, 640},
+    {SeqId::Unknown_59, 640},
+    {SeqId::Unknown_60, 160},
+    {SeqId::Unknown_61, 256},
+    {SeqId::Unknown_62, 256},
+    {SeqId::Unknown_63, 512},
+    {SeqId::Unknown_64, 448},
+    {SeqId::Unknown_65, 448},
+    {SeqId::Unknown_66, 448},
+    {SeqId::Unknown_67, 448},
+    {SeqId::Unknown_68, 448},
+    {SeqId::Unknown_69, 448},
+    {SeqId::Unknown_70, 256},
+    {SeqId::Unknown_71, 256},
+    {SeqId::Unknown_72, 512},
+    {SeqId::Unknown_73, 512},
+    {SeqId::Unknown_74, 512},
+    {SeqId::Unknown_75, 1024},
+    {SeqId::Unknown_76, 640},
+    {SeqId::Unknown_77, 640},
+    {SeqId::Unknown_78, 640},
+    {SeqId::Unknown_79, 640},
+    {SeqId::Unknown_80, 640},
+    {SeqId::Unknown_81, 640},
+    {SeqId::Unknown_82, 640},
+    {SeqId::Unknown_83, 640},
+    {SeqId::Unknown_84, 640},
+    {SeqId::Unknown_85, 640},
+    {SeqId::Unknown_86, 256},
+    {SeqId::Unknown_87, 256},
+    {SeqId::Unknown_88, 512},
+    {SeqId::Unknown_89, 640},
+    {SeqId::Unknown_90, 640},
+    {SeqId::Unknown_91, 640},
+    {SeqId::Unknown_92, 640},
+    {SeqId::Unknown_93, 640},
+    {SeqId::Unknown_94, 640},
+    {SeqId::Unknown_95, 640},
+    {SeqId::Unknown_96, 640},
+    {SeqId::Unknown_97, 640},
+    {SeqId::Unknown_98, 640},
+    {SeqId::Unknown_99, 160},
+    {SeqId::Unknown_100, 320},
+    {SeqId::Unknown_101, 320},
+    {SeqId::Unknown_102, 320},
+    {SeqId::Unknown_103, 512},
+    {SeqId::Unknown_104, 512},
+    {SeqId::Unknown_105, 512},
+    {SeqId::Unknown_106, 256},
+    {SeqId::Unknown_107, 256},
+    {SeqId::Unknown_108, 512},
+    {SeqId::Unknown_109, 512},
+    {SeqId::Unknown_110, 256},
+    {SeqId::Unknown_111, 1024},
+    {SeqId::Unknown_112, 512},
+    {SeqId::Unknown_113, 512},
+    {SeqId::Unknown_114, 512},
+    {SeqId::Unknown_115, 512},
+    {SeqId::Unknown_116, 512},
+    {SeqId::Unknown_117, 512},
+    {SeqId::Unknown_118, 512},
+    {SeqId::Unknown_119, 512},
+    {SeqId::Unknown_120, 512},
+    {SeqId::Unknown_121, 512},
+    {SeqId::Unknown_122, 512},
+    {SeqId::Unknown_123, 512},
+    {SeqId::Unknown_124, 512},
+    {SeqId::Unknown_125, 512},
+    {SeqId::Unknown_126, 512},
+    {SeqId::Unknown_127, 256},
+    {SeqId::Unknown_128, 256},
+    {SeqId::Unknown_129, 256},
+    {SeqId::Unknown_130, 512},
+    {SeqId::Unknown_RF_131, 320},
+    {SeqId::Unknown_RF_132, 320},
+    {SeqId::Unknown_RF_133, 320},
+    {SeqId::Unknown_134, 320},
+    {SeqId::Unknown_135, 320},
+    {SeqId::Unknown_136, 320},
+    {SeqId::Unknown_RF_137, 320},
+    {SeqId::Unknown_138, 320},
+    {SeqId::Unknown_139, 320},
+    {SeqId::Unknown_RF_140, 320},
+    {SeqId::Unknown_141, 320},
+    {SeqId::Unknown_142, 320},
+    {SeqId::Unknown_143, 320},
+    {SeqId::Unknown_144, 320},
+    {SeqId::Unknown_145, 768},
+    {SeqId::Unknown_146, 384},
+    {SeqId::Unknown_147, 384},
+    {SeqId::Unknown_148, 640},
+    {SeqId::Unknown_149, 640},
+    {SeqId::Unknown_150, 640},
+    {SeqId::Unknown_151, 640},
+    {SeqId::Unknown_152, 640},
+    {SeqId::Unknown_153, 640},
+    {SeqId::Unknown_154, 640},
+    {SeqId::Unknown_155, 640},
+    {SeqId::Unknown_156, 640},
+    {SeqId::Unknown_157, 640},
+    {SeqId::Unknown_158, 176},
+    {SeqId::Unknown_159, 176},
+    {SeqId::Unknown_160, 176},
+    {SeqId::Unknown_161, 176},
+    {SeqId::Unknown_162, 176},
+    {SeqId::Unknown_163, 220},
+    {SeqId::Unknown_0, 0}};
 
 s16 CC MusicController::Create_4436C0()
 {
@@ -552,48 +542,48 @@ void MusicController::UpdateVolumeState_442A10()
 {
     switch (field_48_vol_state)
     {
-    case 0:
-        field_28_amibent_seq_duration = 0;
-        field_2C_music_start_time = GetMusicTime();
-        field_40_started_time = GetMusicTime();
-        break;
+        case 0:
+            field_28_amibent_seq_duration = 0;
+            field_2C_music_start_time = GetMusicTime();
+            field_40_started_time = GetMusicTime();
+            break;
 
-    case 1:
-        break;
+        case 1:
+            break;
 
-    case 2:
-        field_48_vol_state = 0;
-        field_4C_current_vol = 0;
+        case 2:
+            field_48_vol_state = 0;
+            field_4C_current_vol = 0;
 
-        if (field_26_ambient_seq > SeqId::None_M1)
-        {
-            SND_Seq_Stop_477A60(field_26_ambient_seq);
-            field_26_ambient_seq = SeqId::None_M1;
-        }
+            if (field_26_ambient_seq > SeqId::None_M1)
+            {
+                SND_Seq_Stop_477A60(field_26_ambient_seq);
+                field_26_ambient_seq = SeqId::None_M1;
+            }
 
-        if (field_38_music_seq > SeqId::None_M1)
-        {
-            SND_Seq_Stop_477A60(field_38_music_seq);
-            field_38_music_seq = SeqId::None_M1;
-        }
-        break;
+            if (field_38_music_seq > SeqId::None_M1)
+            {
+                SND_Seq_Stop_477A60(field_38_music_seq);
+                field_38_music_seq = SeqId::None_M1;
+            }
+            break;
 
-    case 3:
-        field_4C_current_vol = field_4E_vol;
-        field_48_vol_state = 1;
-        if (field_26_ambient_seq > SeqId::None_M1)
-        {
-            SND_SEQ_SetVol_477970(field_26_ambient_seq, field_4C_current_vol, field_4C_current_vol);
-        }
+        case 3:
+            field_4C_current_vol = field_4E_vol;
+            field_48_vol_state = 1;
+            if (field_26_ambient_seq > SeqId::None_M1)
+            {
+                SND_SEQ_SetVol_477970(field_26_ambient_seq, field_4C_current_vol, field_4C_current_vol);
+            }
 
-        if (field_38_music_seq > SeqId::None_M1)
-        {
-            SND_SEQ_SetVol_477970(field_38_music_seq, field_4C_current_vol, field_4C_current_vol);
-        }
-        break;
+            if (field_38_music_seq > SeqId::None_M1)
+            {
+                SND_SEQ_SetVol_477970(field_38_music_seq, field_4C_current_vol, field_4C_current_vol);
+            }
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -624,9 +614,7 @@ void CC MusicController::EnableMusic_443900(s16 bEnable)
             pMusicController_507B98->field_28_amibent_seq_duration = 0;
             pMusicController_507B98->field_40_started_time = GetMusicTime();
 
-            if (pMusicController_507B98->field_3A_type == MusicTypes::eType0 ||
-                pMusicController_507B98->field_3A_type == MusicTypes::eType8 ||
-                pMusicController_507B98->field_3A_type == MusicTypes::eType11)
+            if (pMusicController_507B98->field_3A_type == MusicTypes::eType0 || pMusicController_507B98->field_3A_type == MusicTypes::eType8 || pMusicController_507B98->field_3A_type == MusicTypes::eType11)
             {
                 pMusicController_507B98->field_44_bTypeChanged = 1;
             }
@@ -747,7 +735,7 @@ void MusicController::UpdateMusic_442C20()
 {
     const s32 counterVal = GetMusicTime();
 
-    if (counterVal >= field_3C_music_seq_duration  && !((counterVal - field_30_music_timer) % field_34_sync_after_beats))
+    if (counterVal >= field_3C_music_seq_duration && !((counterVal - field_30_music_timer) % field_34_sync_after_beats))
     {
         if (field_38_music_seq != SeqId::None_M1)
         {
@@ -757,218 +745,216 @@ void MusicController::UpdateMusic_442C20()
         s32 idx = 0;
         switch (field_3A_type)
         {
-        case MusicTypes::eAbeOnElum_1:
-            if (field_18_level == LevelIds::eLines_2)
-            {
-                idx = 86;
-                field_34_sync_after_beats = 16;
-            }
-            else if (field_18_level == LevelIds::eForest_3)
-            {
-                idx = 58;
-                field_34_sync_after_beats = 20;
-            }
-            else if (field_18_level == LevelIds::eDesert_8)
-            {
-                idx = 19;
-                field_34_sync_after_beats = 20;
-            }
-            else
-            {
-                idx = -1;
-                field_34_sync_after_beats = 20;
-            }
-            field_4E_vol = SetMusicVolumeDelayed(field_12_target_volume, 30);
-            field_24_bAmbientMusicEnabled = 1;
-            field_22 = 1;
-            break;
-
-        case MusicTypes::eType2:
-            field_34_sync_after_beats = 1;
-            idx = -1;
-            field_24_bAmbientMusicEnabled = 0;
-            field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
-            break;
-
-        case MusicTypes::eType3:
-            idx = field_44_bTypeChanged ?  Math_RandomRange_450F20(0, 1) : -1;
-            field_34_sync_after_beats = 1;
-            field_24_bAmbientMusicEnabled = 0;
-            field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
-            break;
-
-        case MusicTypes::eChase_4:
-            [[fallthrough]];
-        case MusicTypes::eSlogChase_5:
-        {
-            const MusicController_Record* pRec = field_3A_type == MusicTypes::eChase_4 ?
-                &array_1_stru_4CD958[static_cast<s32>(field_18_level)] :
-                &array_2_stru_4CDA58[static_cast<s32>(field_18_level)];
-            idx = pRec->field_0_seqIdx;
-            field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
-            field_34_sync_after_beats = pRec->field_4;
-            field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
-            break;
-        }
-
-        case MusicTypes::ePossessed_6:
-            if (field_44_bTypeChanged)
-            {
-                const MusicController_Record* pRec = &array_3_stru_4CDB58[static_cast<s32>(field_18_level)];
-                idx = pRec->field_0_seqIdx;
-                field_34_sync_after_beats = pRec->field_4;
-                field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
-                field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
-            }
-            else
-            {
-                idx = -1;
-                field_34_sync_after_beats = 20;
-                field_24_bAmbientMusicEnabled = 1;
-                field_4E_vol = SetMusicVolumeDelayed(field_12_target_volume, 30);
-                field_46_restart_track = 1;
-            }
-            break;
-
-        case MusicTypes::eType7:
-            idx = 117;
-            field_34_sync_after_beats = 22;
-            field_4E_vol = SetMusicVolumeDelayed(field_14, 30);
-            field_24_bAmbientMusicEnabled = 0;
-            break;
-
-        case MusicTypes::eType8:
-            if (gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
-            {
-                idx = 102;
-                field_34_sync_after_beats = 1;
-            }
-            else
-            {
-                if (field_44_bTypeChanged)
+            case MusicTypes::eAbeOnElum_1:
+                if (field_18_level == LevelIds::eLines_2)
                 {
-                    idx = 122;
+                    idx = 86;
+                    field_34_sync_after_beats = 16;
+                }
+                else if (field_18_level == LevelIds::eForest_3)
+                {
+                    idx = 58;
+                    field_34_sync_after_beats = 20;
+                }
+                else if (field_18_level == LevelIds::eDesert_8)
+                {
+                    idx = 19;
+                    field_34_sync_after_beats = 20;
                 }
                 else
                 {
-                    idx = Math_RandomRange_450F20(118, 120);
+                    idx = -1;
+                    field_34_sync_after_beats = 20;
                 }
-                field_34_sync_after_beats = 22;
+                field_4E_vol = SetMusicVolumeDelayed(field_12_target_volume, 30);
+                field_24_bAmbientMusicEnabled = 1;
+                field_22 = 1;
+                break;
+
+            case MusicTypes::eType2:
+                field_34_sync_after_beats = 1;
+                idx = -1;
+                field_24_bAmbientMusicEnabled = 0;
+                field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
+                break;
+
+            case MusicTypes::eType3:
+                idx = field_44_bTypeChanged ? Math_RandomRange_450F20(0, 1) : -1;
+                field_34_sync_after_beats = 1;
+                field_24_bAmbientMusicEnabled = 0;
+                field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
+                break;
+
+            case MusicTypes::eChase_4:
+                [[fallthrough]];
+            case MusicTypes::eSlogChase_5:
+            {
+                const MusicController_Record* pRec = field_3A_type == MusicTypes::eChase_4 ? &array_1_stru_4CD958[static_cast<s32>(field_18_level)] : &array_2_stru_4CDA58[static_cast<s32>(field_18_level)];
+                idx = pRec->field_0_seqIdx;
+                field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
+                field_34_sync_after_beats = pRec->field_4;
+                field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
+                break;
             }
 
-            field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
-            field_24_bAmbientMusicEnabled = 0;
-            break;
+            case MusicTypes::ePossessed_6:
+                if (field_44_bTypeChanged)
+                {
+                    const MusicController_Record* pRec = &array_3_stru_4CDB58[static_cast<s32>(field_18_level)];
+                    idx = pRec->field_0_seqIdx;
+                    field_34_sync_after_beats = pRec->field_4;
+                    field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
+                    field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
+                }
+                else
+                {
+                    idx = -1;
+                    field_34_sync_after_beats = 20;
+                    field_24_bAmbientMusicEnabled = 1;
+                    field_4E_vol = SetMusicVolumeDelayed(field_12_target_volume, 30);
+                    field_46_restart_track = 1;
+                }
+                break;
 
-        case MusicTypes::eType9:
-            [[fallthrough]];
+            case MusicTypes::eType7:
+                idx = 117;
+                field_34_sync_after_beats = 22;
+                field_4E_vol = SetMusicVolumeDelayed(field_14, 30);
+                field_24_bAmbientMusicEnabled = 0;
+                break;
 
-        case MusicTypes::eType10:
-            idx = field_3A_type == MusicTypes::eType9 ? 121 : 122;
-            field_34_sync_after_beats = 22;
-            field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
-            field_24_bAmbientMusicEnabled = 0;
-            break;
+            case MusicTypes::eType8:
+                if (gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
+                {
+                    idx = 102;
+                    field_34_sync_after_beats = 1;
+                }
+                else
+                {
+                    if (field_44_bTypeChanged)
+                    {
+                        idx = 122;
+                    }
+                    else
+                    {
+                        idx = Math_RandomRange_450F20(118, 120);
+                    }
+                    field_34_sync_after_beats = 22;
+                }
 
-        case MusicTypes::eType11:
-            if (field_44_bTypeChanged)
-            {
+                field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
+                field_24_bAmbientMusicEnabled = 0;
+                break;
+
+            case MusicTypes::eType9:
+                [[fallthrough]];
+
+            case MusicTypes::eType10:
+                idx = field_3A_type == MusicTypes::eType9 ? 121 : 122;
+                field_34_sync_after_beats = 22;
+                field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
+                field_24_bAmbientMusicEnabled = 0;
+                break;
+
+            case MusicTypes::eType11:
+                if (field_44_bTypeChanged)
+                {
+                    if (field_18_level == LevelIds::eForestChase)
+                    {
+                        idx = 69;
+                        field_34_sync_after_beats = 16;
+                    }
+                    else if (field_18_level == LevelIds::eDesertEscape)
+                    {
+                        idx = 33;
+                        field_34_sync_after_beats = 16;
+                    }
+                    else
+                    {
+                        idx = 117;
+                        field_34_sync_after_beats = 22;
+                    }
+
+                    field_46_restart_track = 1;
+                    field_24_bAmbientMusicEnabled = 0;
+                    field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
+                }
+                else
+                {
+                    idx = -1;
+                    field_34_sync_after_beats = 16;
+                    field_24_bAmbientMusicEnabled = 1;
+                    field_4E_vol = SetMusicVolumeDelayed(field_12_target_volume, 30);
+                    field_46_restart_track = 1;
+                }
+                break;
+
+            case MusicTypes::eType12:
                 if (field_18_level == LevelIds::eForestChase)
                 {
-                    idx = 69;
+                    idx = 70;
                     field_34_sync_after_beats = 16;
                 }
                 else if (field_18_level == LevelIds::eDesertEscape)
                 {
-                    idx = 33;
-                    field_34_sync_after_beats = 16;
+                    idx = 34;
+                    field_34_sync_after_beats = 32;
                 }
                 else
                 {
-                    idx = 117;
+                    idx = 122;
                     field_34_sync_after_beats = 22;
                 }
-
-                field_46_restart_track = 1;
                 field_24_bAmbientMusicEnabled = 0;
                 field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
-            }
-            else
-            {
+                break;
+
+            case MusicTypes::eDeathShort_13:
+                idx = field_44_bTypeChanged != 0 ? 2 : -1;
+                field_34_sync_after_beats = 1;
+                field_24_bAmbientMusicEnabled = 0;
+                field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
+                break;
+
+            case MusicTypes::eDeathLong_14:
+                field_34_sync_after_beats = 1;
+                field_24_bAmbientMusicEnabled = 0;
+                idx = field_44_bTypeChanged != 0 ? 3 : -1;
+                field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
+                break;
+
+            case MusicTypes::eSecretAreaShort_15:
+                [[fallthrough]];
+
+            case MusicTypes::eSecretAreaLong_16:
+                if (field_3A_type == MusicTypes::eSecretAreaShort_15)
+                {
+                    idx = field_44_bTypeChanged != 0 ? 4 : -1;
+                }
+                else
+                {
+                    idx = field_44_bTypeChanged != 0 ? 5 : -1;
+                }
+
+                field_34_sync_after_beats = 1;
+                field_24_bAmbientMusicEnabled = 0;
+
+                if (field_4C_current_vol != 127)
+                {
+                    field_4A_starting_volume = field_4C_current_vol;
+                    field_4E_vol = 127;
+                    field_2C_music_start_time = counterVal;
+                    field_50_music_volume_change_time = counterVal;
+                    field_48_vol_state = 3;
+                }
+                break;
+
+            default:
                 idx = -1;
-                field_34_sync_after_beats = 16;
-                field_24_bAmbientMusicEnabled = 1;
                 field_4E_vol = SetMusicVolumeDelayed(field_12_target_volume, 30);
-                field_46_restart_track = 1;
-            }
-            break;
-
-        case MusicTypes::eType12:
-            if (field_18_level == LevelIds::eForestChase)
-            {
-                idx = 70;
-                field_34_sync_after_beats = 16;
-            }
-            else if (field_18_level == LevelIds::eDesertEscape)
-            {
-                idx = 34;
-                field_34_sync_after_beats = 32;
-            }
-            else
-            {
-                idx = 122;
-                field_34_sync_after_beats = 22;
-            }
-            field_24_bAmbientMusicEnabled = 0;
-            field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
-            break;
-
-        case MusicTypes::eDeathShort_13:
-            idx = field_44_bTypeChanged != 0 ? 2 : -1;
-            field_34_sync_after_beats = 1;
-            field_24_bAmbientMusicEnabled = 0;
-            field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
-            break;
-
-        case MusicTypes::eDeathLong_14:
-            field_34_sync_after_beats = 1;
-            field_24_bAmbientMusicEnabled = 0;
-            idx = field_44_bTypeChanged != 0 ? 3 : -1;
-            field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
-            break;
-
-        case MusicTypes::eSecretAreaShort_15:
-            [[fallthrough]];
-
-        case MusicTypes::eSecretAreaLong_16:
-            if (field_3A_type == MusicTypes::eSecretAreaShort_15)
-            {
-                 idx = field_44_bTypeChanged != 0 ? 4 : -1;
-            }
-            else
-            {
-                 idx = field_44_bTypeChanged != 0 ? 5 : -1;
-            }
-
-            field_34_sync_after_beats = 1;
-            field_24_bAmbientMusicEnabled = 0;
-
-            if (field_4C_current_vol != 127)
-            {
-                field_4A_starting_volume = field_4C_current_vol;
-                field_4E_vol = 127;
-                field_2C_music_start_time = counterVal;
-                field_50_music_volume_change_time = counterVal;
-                field_48_vol_state = 3;
-            }
-            break;
-
-        default:
-            idx = -1;
-            field_4E_vol = SetMusicVolumeDelayed(field_12_target_volume, 30);
-            field_34_sync_after_beats = 1;
-            field_24_bAmbientMusicEnabled = 1;
-            break;
+                field_34_sync_after_beats = 1;
+                field_24_bAmbientMusicEnabled = 1;
+                break;
         }
 
         if (idx >= 0)
@@ -1062,4 +1048,4 @@ void MusicController::UpdateAmbiance_442AC0()
     }
 }
 
-}
+} // namespace AO

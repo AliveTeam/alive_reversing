@@ -113,9 +113,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         // Only render if in the active level, path and camera
-        if (gMap_507BA8.field_2_current_path == field_B0_path_number &&
-            gMap_507BA8.field_0_current_level == field_B2_lvl_number &&
-            Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
+        if (gMap_507BA8.field_2_current_path == field_B0_path_number && gMap_507BA8.field_0_current_level == field_B2_lvl_number && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
             field_10_anim.field_14_scale = field_BC_sprite_scale;
 
@@ -129,8 +127,8 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
             if (field_CC_bApplyShadows & 1)
             {
                 ShadowZone::ShadowZones_Calculate_Colour_435FF0(
-                    FP_GetExponent(field_A8_xpos),          // Left side
-                    (boundingRect.y + boundingRect.h) / 2,  // Middle of Height
+                    FP_GetExponent(field_A8_xpos),         // Left side
+                    (boundingRect.y + boundingRect.h) / 2, // Middle of Height
                     field_C6_scale,
                     &r,
                     &g,
@@ -142,8 +140,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
             field_10_anim.field_A_b = static_cast<u8>(b);
 
             field_10_anim.vRender(
-                FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) -
-                  pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
                 FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
                 ppOt,
                 0,
@@ -319,7 +316,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith_418080(PSX_Point xy, PS
 {
     if (pObjList)
     {
-        for (s32 i=0; i<pObjList->Size(); i++)
+        for (s32 i = 0; i < pObjList->Size(); i++)
         {
             BaseGameObject* pObjIter = pObjList->ItemAt(i);
             if (!pObjIter)
@@ -335,10 +332,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith_418080(PSX_Point xy, PS
 
                     PSX_RECT bRect = {};
                     pObj->VGetBoundingRect(&bRect, startingPointIdx);
-                    if (xy.field_0_x <= bRect.w &&
-                        wh.field_0_x >= bRect.x &&
-                        wh.field_2_y >= bRect.y &&
-                        xy.field_2_y <= bRect.h)
+                    if (xy.field_0_x <= bRect.w && wh.field_0_x >= bRect.x && wh.field_2_y >= bRect.y && xy.field_2_y <= bRect.h)
                     {
                         if (!(this->*pFn)(pObj))
                         {
@@ -461,10 +455,8 @@ s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintE
 
 void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeToFind)
 {
-    const s16 offsets[6] =
-    {
-        0, 3, -3, 6, -6, 2
-    };
+    const s16 offsets[6] = {
+        0, 3, -3, 6, -6, 2};
 
     s32 array_idx = 0;
     for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
@@ -516,4 +508,4 @@ BaseAnimatedWithPhysicsGameObject::BetweenCamPos BaseAnimatedWithPhysicsGameObje
     }
 }
 
-}
+} // namespace AO

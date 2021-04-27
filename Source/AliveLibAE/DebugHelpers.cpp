@@ -163,7 +163,7 @@ public:
 
             if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
-                auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
+                auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*) pBaseGameObject);
                 s16 x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
                 s16 y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
 
@@ -194,7 +194,7 @@ public:
     }
 
     bool isDragging = false;
-    BaseAnimatedWithPhysicsGameObject * mDragObject;
+    BaseAnimatedWithPhysicsGameObject* mDragObject;
 
     void DrawUI(PrimHeader** /*pOrderingTable*/)
     {
@@ -213,7 +213,7 @@ public:
 
             if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
-                auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
+                auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*) pBaseGameObject);
 
                 s32 x = static_cast<s32>((FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x)) / 0.575);
                 s32 y = static_cast<s32>((FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y)));
@@ -319,7 +319,6 @@ public:
 
     virtual void VUpdate() override
     {
-
     }
 
     virtual void VScreenChanged() override
@@ -327,20 +326,25 @@ public:
         // Dont kill!
     }
 
-    struct LineColor { u8 r; u8 g; u8 b; };
+    struct LineColor
+    {
+        u8 r;
+        u8 g;
+        u8 b;
+    };
     std::map<s32, LineColor> mLineColors = {
-        { 0,{ 255, 0, 0 } }, // Floor
-        { 1,{ 0, 0, 255 } }, // Left Wall
-        { 3,{ 255, 0, 0 } }, // Ceiling
-        { 2,{ 0, 0, 255 } }, // Right Wall
-        { 4,{ 100, 0, 0 } }, // Background Floor
-        { 5,{ 0, 0, 100 } }, // Background Left Wall
-        { 6,{ 0, 0, 100 } }, // Background Right Wall
-        { 8,{ 0, 255, 0 } }, // Path Group
-        { 9,{ 255, 255, 255 } }, // Comment lines
-        { 10,{ 128, 128, 128 } }, // Bullet blocking walls
-        { 17,{ 255, 255, 0 } }, // Flying Slig Collision
-        { 32,{ 255, 255, 100 } }, // Lift Platform
+        {0, {255, 0, 0}},      // Floor
+        {1, {0, 0, 255}},      // Left Wall
+        {3, {255, 0, 0}},      // Ceiling
+        {2, {0, 0, 255}},      // Right Wall
+        {4, {100, 0, 0}},      // Background Floor
+        {5, {0, 0, 100}},      // Background Left Wall
+        {6, {0, 0, 100}},      // Background Right Wall
+        {8, {0, 255, 0}},      // Path Group
+        {9, {255, 255, 255}},  // Comment lines
+        {10, {128, 128, 128}}, // Bullet blocking walls
+        {17, {255, 255, 0}},   // Flying Slig Collision
+        {32, {255, 255, 100}}, // Lift Platform
     };
 
     virtual void VRender(PrimHeader** ppOt) override
@@ -386,7 +390,7 @@ public:
             for (s32 i = 0; i < sCollisions_DArray_5C1128->field_C_max_count; i++)
             {
                 auto l = &sCollisions_DArray_5C1128->field_0_pArray[i];
-                LineColor color = { 255, 0, 255 };
+                LineColor color = {255, 0, 255};
                 s32 mode = l->field_8_type;
 
                 if (mLineColors.find(mode) != mLineColors.end())
@@ -408,7 +412,7 @@ public:
 
                 if (id_x > 0 && id_x <= 640 && id_y > 0 && id_y <= 240)
                 {
-                    pIndex = mFont.DrawString_4337D0(ppOt, std::to_string(mode).c_str(), id_x, id_y, TPageAbr::eBlend_0, 0, 0,fontLayer, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+                    pIndex = mFont.DrawString_4337D0(ppOt, std::to_string(mode).c_str(), id_x, id_y, TPageAbr::eBlend_0, 0, 0, fontLayer, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
                     pIndex = mFont.DrawString_4337D0(ppOt, std::to_string(mode).c_str(), id_x + 1, id_y + 1, TPageAbr::eBlend_0, 0, 0, fontLayer, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
                 }
             }
@@ -438,7 +442,7 @@ void ShowDebugConsoleMessage(std::string message, f32 duration, u8 r, u8 g, u8 b
 
     for (auto l : lines)
     {
-        sDebugConsoleMessages.insert(sDebugConsoleMessages.begin(), { l, static_cast<s32>(30 * duration), 250, r, g, b });
+        sDebugConsoleMessages.insert(sDebugConsoleMessages.begin(), {l, static_cast<s32>(30 * duration), 250, r, g, b});
     }
 }
 
@@ -505,7 +509,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
 
         if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
-            auto aliveObj = ((BaseAliveGameObject*)pBaseGameObject);
+            auto aliveObj = ((BaseAliveGameObject*) pBaseGameObject);
 
             auto explosion = ae_new<BaseBomb>();
             if (explosion)
@@ -546,7 +550,7 @@ void Command_HelperUpdate()
             FP xOffset = FP_FromDouble(pos.field_0_x + (subDevide * centerIndex));
             FP yOffset = FP_FromDouble(pos.field_2_y);
             if (sCollisions_DArray_5C1128->Raycast_417A60(xOffset, yOffset,
-                xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1))
+                                                          xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1))
             {
                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
                 sActiveHero_5C1B68->field_D6_scale = 1;
@@ -555,7 +559,7 @@ void Command_HelperUpdate()
                 break;
             }
             else if (sCollisions_DArray_5C1128->Raycast_417A60(xOffset, yOffset,
-                xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1 << 4))
+                                                               xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1 << 4))
             {
                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
                 sActiveHero_5C1B68->field_D6_scale = 0;
@@ -569,7 +573,7 @@ void Command_HelperUpdate()
     }
 }
 
-void Command_ToggleBool(bool * var, std::string varName)
+void Command_ToggleBool(bool* var, std::string varName)
 {
     *var = !*var;
     DEV_CONSOLE_MESSAGE(varName + " is now " + std::string(((*var) ? "On" : "Off")), 6);
@@ -585,7 +589,7 @@ void Command_Teleport(const std::vector<std::string>& args)
     else
     {
         bool found = false;
-        for (s16 i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot);i++)
+        for (s16 i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot); i++)
         {
             if (!strcmpi(sPathData_559660.paths[i].field_14_lvl_name, args[0].c_str()))
             {
@@ -644,29 +648,28 @@ void Command_Midi1(const std::vector<std::string>& args)
 
 void Command_LoadSave(const std::vector<std::string>& args)
 {
-	if (pPauseMenu_5C9300 == nullptr)
-	{
-		pPauseMenu_5C9300 = ae_new<PauseMenu>();
-		pPauseMenu_5C9300->ctor_48FB80();
-		pPauseMenu_5C9300->field_1C_update_delay = 0;
-	}
+    if (pPauseMenu_5C9300 == nullptr)
+    {
+        pPauseMenu_5C9300 = ae_new<PauseMenu>();
+        pPauseMenu_5C9300->ctor_48FB80();
+        pPauseMenu_5C9300->field_1C_update_delay = 0;
+    }
 
-	std::string filePath = args[0] + ".sav";
+    std::string filePath = args[0] + ".sav";
 
-	std::ifstream saveFile(filePath.c_str());
+    std::ifstream saveFile(filePath.c_str());
 
-	if (!saveFile.fail())
-	{
-		saveFile.read((s8*)&sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
-		Quicksave_LoadActive_4C9170();
-		saveFile.close();
-		DEV_CONSOLE_PRINTF("Loaded Save %s", filePath.c_str());
-	}
-	else
-	{
-		DEV_CONSOLE_PRINTF("Failed to load save %s", filePath.c_str());
-	}
-
+    if (!saveFile.fail())
+    {
+        saveFile.read((s8*) &sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
+        Quicksave_LoadActive_4C9170();
+        saveFile.close();
+        DEV_CONSOLE_PRINTF("Loaded Save %s", filePath.c_str());
+    }
+    else
+    {
+        DEV_CONSOLE_PRINTF("Failed to load save %s", filePath.c_str());
+    }
 }
 
 void Command_DDV(const std::vector<std::string>& args)
@@ -696,7 +699,7 @@ void Command_SetState(const std::vector<std::string>& args)
         return;
     }
 
-    s16  state = static_cast<s16 >(std::stoi(args[0]));
+    s16 state = static_cast<s16>(std::stoi(args[0]));
     Abe* pAbe = static_cast<Abe*>(sControlledCharacter_5C1B8C);
     auto resource = pAbe->StateToAnimResource_44AAB0(state);
 
@@ -747,7 +750,7 @@ void Command_Bind(const std::vector<std::string>& args)
             command += " ";
     }
 
-    gDebugKeyBinds.push_back({ key,command });
+    gDebugKeyBinds.push_back({key, command});
 
     DEV_CONSOLE_PRINTF("Added bind for key %s for command: '%s'", key.c_str(), command.c_str());
 }
@@ -762,15 +765,15 @@ void Command_Spawn(const std::vector<std::string>& args)
 
     FP hitX;
     FP hitY;
-    PathLine * pLine;
+    PathLine* pLine;
     if (sCollisions_DArray_5C1128->Raycast_417A60(FP_FromInteger(spawnX), FP_FromInteger(spawnY), FP_FromInteger(spawnX), FP_FromInteger(spawnY + 1000), &pLine, &hitX, &hitY, 1))
     {
         spawnX = FP_GetExponent(hitX);
         spawnY = FP_GetExponent(hitY);
     }
 
-    PSX_Point spawnTopLeft = { static_cast<s16>(spawnX), static_cast<s16>(spawnY - 5) };
-    PSX_Point spawnBottomRight = { static_cast<s16>(spawnX + 50), static_cast<s16>(spawnY + 30) };
+    PSX_Point spawnTopLeft = {static_cast<s16>(spawnX), static_cast<s16>(spawnY - 5)};
+    PSX_Point spawnBottomRight = {static_cast<s16>(spawnX + 50), static_cast<s16>(spawnY + 30)};
 
     TPathFunctionFn factoryFunc = nullptr;
     Path_TLV* factoryTLV = nullptr;
@@ -784,7 +787,7 @@ void Command_Spawn(const std::vector<std::string>& args)
 
     s8 blankMemory[512];
     memset(blankMemory, 0, sizeof(blankMemory));
-    Path_TLV * basicTlvPath = reinterpret_cast<Path_TLV*>(&blankMemory);
+    Path_TLV* basicTlvPath = reinterpret_cast<Path_TLV*>(&blankMemory);
     basicTlvPath->field_8_top_left = spawnTopLeft;
     basicTlvPath->field_C_bottom_right = spawnBottomRight;
 
@@ -852,34 +855,58 @@ void Command_Spawn(const std::vector<std::string>& args)
 }
 
 std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
-    { "help", -1, Command_Help, "Shows what you're looking at" },
-    { "test", -1, Command_Test, "Is this thing on?" },
-    { "die", -1, Command_Die, "Kills you." },
-    { "murder", -1, Command_Murder, "Kill everything around you." },
-    { "ddcheat", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sCommandLine_DDCheatEnabled_5CA4B5, "DDCheat"); }, "Toggle DDCheat" },
-    { "object_id", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&ObjectDebugger::Enabled, "Object ID Debugger"); }, "Shows object id's on screen" },
-    { "no_frame_skip", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sCommandLine_NoFrameSkip_5CA4D1, "No Frame Skip"); }, "Toggle No Frame Skip" },
-    { "fps", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); }, "Toggle FPS" },
+    {"help", -1, Command_Help, "Shows what you're looking at"},
+    {"test", -1, Command_Test, "Is this thing on?"},
+    {"die", -1, Command_Die, "Kills you."},
+    {"murder", -1, Command_Murder, "Kill everything around you."},
+    {"ddcheat", -1, [](const std::vector<std::string>& /*args*/)
+     { Command_ToggleBool(&sCommandLine_DDCheatEnabled_5CA4B5, "DDCheat"); },
+     "Toggle DDCheat"},
+    {"object_id", -1, [](const std::vector<std::string>& /*args*/)
+     { Command_ToggleBool(&ObjectDebugger::Enabled, "Object ID Debugger"); },
+     "Shows object id's on screen"},
+    {"no_frame_skip", -1, [](const std::vector<std::string>& /*args*/)
+     { Command_ToggleBool(&sCommandLine_NoFrameSkip_5CA4D1, "No Frame Skip"); },
+     "Toggle No Frame Skip"},
+    {"fps", -1, [](const std::vector<std::string>& /*args*/)
+     { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); },
+     "Toggle FPS"},
 #if USE_SDL2_SOUND
-    { "reverb", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&gReverbEnabled, "Reverb"); }, "Toggle Reverb (New Sound Engine)" },
+    {"reverb", -1, [](const std::vector<std::string>& /*args*/)
+     { Command_ToggleBool(&gReverbEnabled, "Reverb"); },
+     "Toggle Reverb (New Sound Engine)"},
 #endif
-    { "music", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&g_DisableMusic, "Disable Music"); }, "Disable In Game Music" },
-    { "raycast", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&g_EnabledRaycastRendering, "Raycast Debug"); }, "Toggle Raycast Debug" },
-    { "verbose_events", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sDebugEnabled_VerboseEvents, "Verbose Events"); }, "Toggle Verbose Events" },
-    { "open_doors", -1, [](const std::vector<std::string>& /*args*/) { Cheat_OpenAllDoors(); }, "Open all doors." },
-    { "teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)" },
-    { "event", 1, Command_Event, "Broadcast's an event (EVENT ID)" },
+    {"music", -1, [](const std::vector<std::string>& /*args*/)
+     { Command_ToggleBool(&g_DisableMusic, "Disable Music"); },
+     "Disable In Game Music"},
+    {"raycast", -1, [](const std::vector<std::string>& /*args*/)
+     { Command_ToggleBool(&g_EnabledRaycastRendering, "Raycast Debug"); },
+     "Toggle Raycast Debug"},
+    {"verbose_events", -1, [](const std::vector<std::string>& /*args*/)
+     { Command_ToggleBool(&sDebugEnabled_VerboseEvents, "Verbose Events"); },
+     "Toggle Verbose Events"},
+    {"open_doors", -1, [](const std::vector<std::string>& /*args*/)
+     { Cheat_OpenAllDoors(); },
+     "Open all doors."},
+    {"teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)"},
+    {"event", 1, Command_Event, "Broadcast's an event (EVENT ID)"},
     //{ "menu", 1, Command_Menu, "Changes to given menu cam" },
-    { "state", 1, Command_SetState, "Sets currently controlled objects state." },
-    { "ddv", 1, Command_DDV, "Plays a ddv" },
-    { "spawn", 1, Command_Spawn, "Spawns an object" },
-	{ "loadsave", 1, Command_LoadSave, "Loads a Save" },
-    { "bind", -1, Command_Bind, "Binds a key to a command" },
-    { "ring", 1, Command_Ring, "Emits a ring" },
-    { "midi1", 1, Command_Midi1, "Play sound using midi func 1" },
-    { "path_lines", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); }, "Renders path lines on screen" },
-    { "grid", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); }, "Renders grid on screen" },
-    { "pcopen", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(reinterpret_cast<bool*>(&sbEnable_PCOpen_5CA4B0), "PCOpen"); }, "Toggles PCOpen" },
+    {"state", 1, Command_SetState, "Sets currently controlled objects state."},
+    {"ddv", 1, Command_DDV, "Plays a ddv"},
+    {"spawn", 1, Command_Spawn, "Spawns an object"},
+    {"loadsave", 1, Command_LoadSave, "Loads a Save"},
+    {"bind", -1, Command_Bind, "Binds a key to a command"},
+    {"ring", 1, Command_Ring, "Emits a ring"},
+    {"midi1", 1, Command_Midi1, "Play sound using midi func 1"},
+    {"path_lines", -1, [](const std::vector<std::string>& /*args*/)
+     { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); },
+     "Renders path lines on screen"},
+    {"grid", -1, [](const std::vector<std::string>& /*args*/)
+     { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); },
+     "Renders grid on screen"},
+    {"pcopen", -1, [](const std::vector<std::string>& /*args*/)
+     { Command_ToggleBool(reinterpret_cast<bool*>(&sbEnable_PCOpen_5CA4B0), "PCOpen"); },
+     "Toggles PCOpen"},
 };
 //
 
@@ -985,13 +1012,13 @@ public:
 
             if (!autoRun.empty())
             {
-                std::string str = std::string(reinterpret_cast<const s8 *>(autoRun.data()));
+                std::string str = std::string(reinterpret_cast<const s8*>(autoRun.data()));
 
                 str.erase(std::remove(str.begin(), str.end(), '\r'), str.end());
 
                 auto lines = SplitString(str, '\n');
 
-                for (auto &command : lines)
+                for (auto& command : lines)
                 {
                     ParseCommand(command);
                 }
@@ -1058,36 +1085,36 @@ public:
         {
             switch (key)
             {
-            case VK_BACK:
-                if (mCommandLineInput.size() > 0)
-                {
-                    mCommandLineInput.pop_back();
-                }
-                break;
-            case VK_RETURN:
-                if (mCommandLineInput.size() > 0)
-                {
-                    ParseCommand(mCommandLineInput);
-                    mLastCommand = mCommandLineInput;
-                    mCommandLineInput.clear();
-                }
+                case VK_BACK:
+                    if (mCommandLineInput.size() > 0)
+                    {
+                        mCommandLineInput.pop_back();
+                    }
+                    break;
+                case VK_RETURN:
+                    if (mCommandLineInput.size() > 0)
+                    {
+                        ParseCommand(mCommandLineInput);
+                        mLastCommand = mCommandLineInput;
+                        mCommandLineInput.clear();
+                    }
 
-                mCommandLineEnabled = false;
-                Input_EnableInput_4EDDD0();
-                Input_Reset_492660();
-                break;
-            case VK_TAB:
-                if (mAutoComplete.size() > 0)
-                {
-                    mCommandLineInput = mAutoComplete;
-                }
-                break;
-            default:
-                if (strspn(&key, allowedChars))
-                {
-                    mCommandLineInput += key;
-                }
-                break;
+                    mCommandLineEnabled = false;
+                    Input_EnableInput_4EDDD0();
+                    Input_Reset_492660();
+                    break;
+                case VK_TAB:
+                    if (mAutoComplete.size() > 0)
+                    {
+                        mCommandLineInput = mAutoComplete;
+                    }
+                    break;
+                default:
+                    if (strspn(&key, allowedChars))
+                    {
+                        mCommandLineInput += key;
+                    }
+                    break;
             }
 
             if (mCommandLineInput.size() > 0)
@@ -1112,8 +1139,8 @@ public:
 
         s32 i = 0;
         for (std::vector<DebugConsoleMessage>::iterator it = sDebugConsoleMessages.begin();
-            it != sDebugConsoleMessages.end();
-            /*it++*/)
+             it != sDebugConsoleMessages.end();
+             /*it++*/)
         {
             auto message = it;
             s32 targetY = 232 - (i * 9) - 9;
@@ -1156,8 +1183,8 @@ public:
 
 struct PsxTimHeader
 {
-    u32 mMagic;   // 0x10
-    u32 mFlag;    // 0x08 4BPP, 0x09 8BPP, 0x02 16BPP
+    u32 mMagic; // 0x10
+    u32 mFlag;  // 0x08 4BPP, 0x09 8BPP, 0x02 16BPP
     u32 mUnknown;
     u16 mClutX;
     u16 mClutY;
@@ -1193,8 +1220,8 @@ static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
         s32 clutSkip = pHeader->mClutCount * pHeader->mNumClutColours * 2;
         pImgHeader = reinterpret_cast<const PsxTimImageHeader*>(timBuffer + sizeof(PsxTimHeader) + clutSkip);
 
-        PSX_RECT clutRect = { static_cast<s16>(pHeader->mClutX), static_cast<s16>(pHeader->mClutY), static_cast<s16>(pHeader->mNumClutColours), static_cast<s16>(1) };
-        PSX_LoadImage16_4F5E20(&clutRect, (u8*)&pHeader[1]);
+        PSX_RECT clutRect = {static_cast<s16>(pHeader->mClutX), static_cast<s16>(pHeader->mClutY), static_cast<s16>(pHeader->mNumClutColours), static_cast<s16>(1)};
+        PSX_LoadImage16_4F5E20(&clutRect, (u8*) &pHeader[1]);
 
         pInfo->mClut = static_cast<u16>(PSX_getClut_4F6350(pHeader->mClutX, pHeader->mClutY));
     }
@@ -1202,12 +1229,12 @@ static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
     if (pHeader->mFlag == 2) // 16 bit
     {
         // Raw pixel data, convert it
-        PSX_LoadImage16_4F5E20(&pImgHeader->mImageRect, (u8*)&pImgHeader[1]);
+        PSX_LoadImage16_4F5E20(&pImgHeader->mImageRect, (u8*) &pImgHeader[1]);
     }
     else
     {
         // Bytes or nibbles of pal indices, don't convert it
-        PSX_LoadImage_4F5FB0(&pImgHeader->mImageRect, (u8*)&pImgHeader[1]);
+        PSX_LoadImage_4F5FB0(&pImgHeader->mImageRect, (u8*) &pImgHeader[1]);
     }
 
     TPageMode mode = TPageMode::e16Bit_2;
@@ -1319,7 +1346,6 @@ public:
     }
 
 private:
-
     void InitTestRender()
     {
         {
@@ -1745,7 +1771,7 @@ private:
     s16 mWidth = 60;
     s16 mHeight = 150;
     s16 mXPos = 50;
-    s16 mYPos = 50/2;
+    s16 mYPos = 50 / 2;
     Poly_F3 mPolys[4];
 };
 
@@ -1804,7 +1830,6 @@ public:
 
     void Update()
     {
-
     }
 
 private:
@@ -1849,7 +1874,7 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override
     {
-        PSX_RECT screen = { 0, 0, 640, 240 };
+        PSX_RECT screen = {0, 0, 640, 240};
         PSX_ClearImage_4F5BD0(&screen, 0, 0, 0);
 
         //pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
@@ -1880,24 +1905,22 @@ static u16 RGB888toRGB565(u32 r, u32 g, u32 b)
     return static_cast<u16>((r >> 3 << 11) + (g >> 2 << 5) + (b >> 3));
 }
 
-const u16 kTestImagePal[16] =
-{
-    RGB888toRGB565(237, 28,  36),
+const u16 kTestImagePal[16] = {
+    RGB888toRGB565(237, 28, 36),
     RGB888toRGB565(255, 255, 255),
     RGB888toRGB565(127, 127, 127),
-    RGB888toRGB565(63,  72,  204),
-    RGB888toRGB565(34,  177, 76),
+    RGB888toRGB565(63, 72, 204),
+    RGB888toRGB565(34, 177, 76),
     RGB888toRGB565(255, 174, 201),
     RGB888toRGB565(255, 127, 39),
-    RGB888toRGB565(163, 73,  164),
+    RGB888toRGB565(163, 73, 164),
 };
 
-const u8 kTestImg[4][8] =
-{
-    { 0, 0, 1, 2, 2, 2, 1, 3 },
-    { 0, 0, 1, 1, 2, 1, 1, 3 },
-    { 4, 4, 5, 1, 2, 1, 6, 7 },
-    { 4, 4, 1, 5, 2, 6, 1, 7 },
+const u8 kTestImg[4][8] = {
+    {0, 0, 1, 2, 2, 2, 1, 3},
+    {0, 0, 1, 1, 2, 1, 1, 3},
+    {4, 4, 5, 1, 2, 1, 6, 7},
+    {4, 4, 1, 5, 2, 6, 1, 7},
 };
 
 inline static u8 AsByte(u8 nibble1, u8 nibble2)
@@ -1906,20 +1929,20 @@ inline static u8 AsByte(u8 nibble1, u8 nibble2)
 }
 
 // Pack kTestImg nibbles into bytes
-const u8 kTestImage[4][4] =
-{
-    { AsByte(kTestImg[0][0],kTestImg[0][1]), AsByte(kTestImg[0][2],kTestImg[0][3]), AsByte(kTestImg[0][4],kTestImg[0][5]), AsByte(kTestImg[0][6],kTestImg[0][7]) },
-    { AsByte(kTestImg[1][0],kTestImg[1][1]), AsByte(kTestImg[1][2],kTestImg[1][3]), AsByte(kTestImg[1][4],kTestImg[1][5]), AsByte(kTestImg[1][6],kTestImg[1][7]) },
-    { AsByte(kTestImg[2][0],kTestImg[2][1]), AsByte(kTestImg[2][2],kTestImg[2][3]), AsByte(kTestImg[2][4],kTestImg[2][5]), AsByte(kTestImg[2][6],kTestImg[2][7]) },
-    { AsByte(kTestImg[3][0],kTestImg[3][1]), AsByte(kTestImg[3][2],kTestImg[3][3]), AsByte(kTestImg[3][4],kTestImg[3][5]), AsByte(kTestImg[3][6],kTestImg[3][7]) },
+const u8 kTestImage[4][4] = {
+    {AsByte(kTestImg[0][0], kTestImg[0][1]), AsByte(kTestImg[0][2], kTestImg[0][3]), AsByte(kTestImg[0][4], kTestImg[0][5]), AsByte(kTestImg[0][6], kTestImg[0][7])},
+    {AsByte(kTestImg[1][0], kTestImg[1][1]), AsByte(kTestImg[1][2], kTestImg[1][3]), AsByte(kTestImg[1][4], kTestImg[1][5]), AsByte(kTestImg[1][6], kTestImg[1][7])},
+    {AsByte(kTestImg[2][0], kTestImg[2][1]), AsByte(kTestImg[2][2], kTestImg[2][3]), AsByte(kTestImg[2][4], kTestImg[2][5]), AsByte(kTestImg[2][6], kTestImg[2][7])},
+    {AsByte(kTestImg[3][0], kTestImg[3][1]), AsByte(kTestImg[3][2], kTestImg[3][3]), AsByte(kTestImg[3][4], kTestImg[3][5]), AsByte(kTestImg[3][6], kTestImg[3][7])},
 };
 
 // Pack kTestImage bytes into a RLE compressed buffer
-const u8 kTestImageCompressed[] =
-{
-    8, 0,               // u16 width
-    4, 0,               // u16 height
-    AsByte(0, 8),       // (black pixel count, direct copy count) both are limited to max 16,16 since 4 bits each
+const u8 kTestImageCompressed[] = {
+    8,
+    0, // u16 width
+    4,
+    0,            // u16 height
+    AsByte(0, 8), // (black pixel count, direct copy count) both are limited to max 16,16 since 4 bits each
     kTestImage[0][0],
     kTestImage[0][1],
     kTestImage[0][2],
@@ -1947,7 +1970,6 @@ const u8 kTestImageCompressed[] =
 class AnimRenderTest : public BaseGameObject
 {
 public:
-
     AnimRenderTest()
     {
         DisableVTableHack disableHack;
@@ -1977,7 +1999,6 @@ public:
 
     virtual void VUpdate() override
     {
-
     }
 
     virtual BaseGameObject* VDestructor(s32 flags) override
@@ -1994,6 +2015,7 @@ public:
     {
         gObjList_drawables_5C1124->Remove_Item(this);
     }
+
 private:
     void Init()
     {
@@ -2002,7 +2024,6 @@ private:
 
         for (s32 i = 0; i < 5; i++)
         {
-
             SetVTable(&mAnim[i], 0x544290);
 
             if (i < 2)
@@ -2056,7 +2077,7 @@ private:
         Pal_Allocate_483110(&pr, 16);
         pr.w = 16;
         pr.h = 1;
-        PSX_LoadImage16_4F5E20(&pr, (u8*)&kTestImagePal[0]);
+        PSX_LoadImage16_4F5E20(&pr, (u8*) &kTestImagePal[0]);
 
         for (s16 i = 0; i < 1; i++)
         {
@@ -2073,7 +2094,7 @@ private:
 
             SetXY0(&mPolyFT4[i], xpos, ypos);
             SetXY1(&mPolyFT4[i], xpos, ypos + h);
-            SetXY2(&mPolyFT4[i], xpos , ypos);
+            SetXY2(&mPolyFT4[i], xpos, ypos);
             SetXY3(&mPolyFT4[i], xpos + w, ypos + h);
 
             // This assumes the texture data is at 0,0 in the active texture page
@@ -2110,11 +2131,11 @@ void DebugHelpers_Init()
     }
 #endif
 
-//#if RENDER_TEST
+    //#if RENDER_TEST
     // Test rendering diff prim types
-   // ae_new<RenderTest>(); // Will get nuked at LVL/Path change
-   //ae_new<AnimRenderTest>();
-//#endif
+    // ae_new<RenderTest>(); // Will get nuked at LVL/Path change
+    //ae_new<AnimRenderTest>();
+    //#endif
 }
 
 [[nodiscard]] bool FS::ReadFileInto(std::vector<u8>& target, const std::string& filePath)
@@ -2125,9 +2146,9 @@ void DebugHelpers_Init()
         return false;
     }
 
-    ::fseek(hFile, 0, SEEK_END); // seek to end of file
+    ::fseek(hFile, 0, SEEK_END);                // seek to end of file
     const std::size_t fileLen = ::ftell(hFile); // get current file pointer
-    ::fseek(hFile, 0, SEEK_SET); // seek back to beginning of file
+    ::fseek(hFile, 0, SEEK_SET);                // seek back to beginning of file
 
     target.resize(fileLen);
     ::fread(target.data(), 1, target.size(), hFile);
@@ -2140,7 +2161,7 @@ void DebugHelpers_Init()
 {
     std::vector<u8> buffer;
 
-    if(!ReadFileInto(buffer, filePath))
+    if (!ReadFileInto(buffer, filePath))
     {
         return {};
     }
@@ -2151,7 +2172,7 @@ void DebugHelpers_Init()
 [[nodiscard]] std::string FS::GetPrefPath()
 {
 #if MOBILE
-    s8 * prefPath = SDL_GetPrefPath("Oddworld", "Abes Exoddus");
+    s8* prefPath = SDL_GetPrefPath("Oddworld", "Abes Exoddus");
     std::string str = std::string(prefPath);
     SDL_free(prefPath);
     return str;
@@ -2225,7 +2246,7 @@ std::string EscapeUnknownCharacters(std::string text)
         }
         else
         {
-            output << "\\x" << std::setfill('0') << std::setw(2) << std::hex << (s32)c;
+            output << "\\x" << std::setfill('0') << std::setw(2) << std::hex << (s32) c;
         }
     }
 
@@ -2264,9 +2285,9 @@ s32 sNextPolyF4Prim = 0;
 Line_G2 sLinePrimBuffer[1024];
 Poly_F4 sPolyF4PrimBuffer[1024];
 
-void DEV::DebugFillRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
+void DEV::DebugFillRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
-    Poly_F4 * mPolyF4 = &sPolyF4PrimBuffer[++sNextPolyF4Prim];
+    Poly_F4* mPolyF4 = &sPolyF4PrimBuffer[++sNextPolyF4Prim];
     *mPolyF4 = {};
     PolyF4_Init_4F8830(mPolyF4);
 
@@ -2296,7 +2317,7 @@ void DEV::DebugFillRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, 
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-void DEV::DebugDrawRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
     DebugDrawLine(ot, layer, x, y, x + width, y, r, g, b, worldspace, semiTransparent);
     DebugDrawLine(ot, layer, x + width, y, x + width, y + height, r, g, b, worldspace, semiTransparent);
@@ -2304,9 +2325,9 @@ void DEV::DebugDrawRect(PrimHeader ** ot, Layer layer, s32 x, s32 y, s32 width, 
     DebugDrawLine(ot, layer, x, y + height, x, y, r, g, b, worldspace, semiTransparent);
 }
 
-void DEV::DebugDrawLine(PrimHeader ** ot, Layer layer, s32 x1, s32 y1, s32 x2, s32 y2, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawLine(PrimHeader** ot, Layer layer, s32 x1, s32 y1, s32 x2, s32 y2, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
-    Line_G2 * mLineG2 = &sLinePrimBuffer[++sNextLinePrim];
+    Line_G2* mLineG2 = &sLinePrimBuffer[++sNextLinePrim];
     LineG2_Init(mLineG2);
 
     const auto camOffset = gMap_5C3030.field_24_camera_offset;
@@ -2336,7 +2357,7 @@ void DEV::DebugDrawLine(PrimHeader ** ot, Layer layer, s32 x1, s32 y1, s32 x2, s
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-void DEV::DebugDrawText(PrimHeader ** ot, Layer layer, std::string & text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawText(PrimHeader** ot, Layer layer, std::string& text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
     const auto camOffset = gMap_5C3030.field_24_camera_offset;
 
@@ -2383,6 +2404,7 @@ void DEV::DebugOnFrameDraw(PrimHeader** ppOt)
 
 bool IsStringNumber(const std::string& s)
 {
-    return !s.empty() && std::find_if(s.begin(),
-        s.end(), [](s8 c) { return !std::isdigit(c); }) == s.end();
+    return !s.empty() && std::find_if(s.begin(), s.end(), [](s8 c)
+                                      { return !std::isdigit(c); })
+                             == s.end();
 }

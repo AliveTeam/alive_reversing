@@ -57,5 +57,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(FlintLockFire, 0x2B8);
 
-}
-
+} // namespace AO

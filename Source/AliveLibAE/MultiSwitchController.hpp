@@ -28,6 +28,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     EXPORT MultiSwitchController* ctor_4D60E0(Path_MultiSwitchController* pTlv, u32 tlvInfo);
+
 private:
     EXPORT MultiSwitchController* vdtor_4D61A0(s32 flags);
     EXPORT void dtor_4D61D0();

@@ -30,14 +30,14 @@ const s32 kSeqTableSizeAO = 164;
 
 ALIVE_VAR(1, 0x9F12D8, SeqIds, sSeq_Ids_word_9F12D8, {});
 ALIVE_VAR(1, 0x9F1DC4, u16, sSnd_ReloadAbeResources_9F1DC4, 0);
-ALIVE_VAR(1, 0x9F1DBC, OpenSeqHandle *, sSeqDataTable_9F1DBC, nullptr);
+ALIVE_VAR(1, 0x9F1DBC, OpenSeqHandle*, sSeqDataTable_9F1DBC, nullptr);
 ALIVE_VAR(1, 0x9F1DC0, s16, sSeqsPlaying_count_word_9F1DC0, 0);
-ALIVE_VAR(1, 0x9F1DB8, SoundBlockInfo *, sLastLoadedSoundBlockInfo_9F1DB8, nullptr);
+ALIVE_VAR(1, 0x9F1DB8, SoundBlockInfo*, sLastLoadedSoundBlockInfo_9F1DB8, nullptr);
 ALIVE_VAR(1, 0x4D0018, s16, sSFXPitchVariationEnabled_4D0018, true);
 ALIVE_VAR(1, 0x4D0000, s16, sNeedToHashSeqNames_4D0000, 1);
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
-const SoundBlockInfo soundBlock = { "MONK.VH", "MONK.VB", -1, nullptr };
+const SoundBlockInfo soundBlock = {"MONK.VH", "MONK.VB", -1, nullptr};
 ALIVE_VAR(1, 0x4D0008, SoundBlockInfo, sMonkVh_Vb_4D0008, soundBlock);
 
 class AOMidiVars : public IMidiVars
@@ -127,7 +127,6 @@ public:
     {
         return ResourceManager::LoadResourceFileWrapper(pFileName, reinterpret_cast<Camera*>(pCamera));
     }
-
 };
 
 static AOMidiVars sAoMidiVars;
@@ -259,6 +258,7 @@ public:
     {
         SsUtKeyOffV_49EE50(static_cast<s16>(idx));
     }
+
 private:
     BOOL mSoundDatIsNull = FALSE; // Pretend we have sounds dat opened so AE funcs work
     u32 mMidi_WaitUntil = 0;
@@ -418,20 +418,17 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
     auto pVagOff = &GetSpuApiVars()->sConvertedVagTable().table[0][program + (vabId_ << 7)][0];
     while (1)
     {
-        if (!pVagOff->field_D_vol ||
-            pVagOff->field_8_min > noteKeyNumber ||
-            pVagOff->field_9_max < noteKeyNumber)
+        if (!pVagOff->field_D_vol || pVagOff->field_8_min > noteKeyNumber || pVagOff->field_9_max < noteKeyNumber)
         {
-
         }
         else
         {
             auto vag_vol = pVagOff->field_D_vol;
             auto vag_num = pVagOff->field_10_vag;
-            auto panLeft = vag_vol * (u16)GetSpuApiVars()->sGlobalVolumeLevel_left() * volume_ * leftVolume_ >> 21;
-            auto panRight = vag_vol * (u16)GetSpuApiVars()->sGlobalVolumeLevel_right() * volume_ * v32 >> 21;
+            auto panLeft = vag_vol * (u16) GetSpuApiVars()->sGlobalVolumeLevel_left() * volume_ * leftVolume_ >> 21;
+            auto panRight = vag_vol * (u16) GetSpuApiVars()->sGlobalVolumeLevel_right() * volume_ * v32 >> 21;
             auto bPanLeftLessThanZero = panLeft < 0;
-            auto playFlags = ((u32)pVagOff->field_C >> 2) & 1;
+            auto playFlags = ((u32) pVagOff->field_C >> 2) & 1;
 
             if (panLeft || panRight)
             {
@@ -442,7 +439,7 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
 
                 if (!bPanLeftLessThanZero && panRight >= 0)
                 {
-                    if (((u32)pVagOff->field_C >> 2) & 1)
+                    if (((u32) pVagOff->field_C >> 2) & 1)
                     {
                         if (panLeft > 90)
                         {
@@ -465,10 +462,10 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
                     {
                         auto pChannel = &GetSpuApiVars()->sMidi_Channels().channels[midiChannel];
                         auto bUnknown = playFlags
-                            && (pVagOff->field_0_adsr_attack
-                                || pVagOff->field_2_adsr_sustain_level
-                                || pVagOff->field_4_adsr_decay != 16
-                                || pVagOff->field_6_adsr_release >= 33u);
+                                     && (pVagOff->field_0_adsr_attack
+                                         || pVagOff->field_2_adsr_sustain_level
+                                         || pVagOff->field_4_adsr_decay != 16
+                                         || pVagOff->field_6_adsr_release >= 33u);
                         pChannel->field_C_vol = maxPan;
                         if (bUnknown)
                         {
@@ -480,7 +477,7 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
                             pChannel->field_1C_adsr.field_6_sustain = pVagOff->field_2_adsr_sustain_level;
                             v24 = pVagOff->field_6_adsr_release;
                             pChannel->field_1C_adsr.field_8_decay = v25;
-                            pChannel->field_1C_adsr.field_A_release = (u16)v24;
+                            pChannel->field_1C_adsr.field_A_release = (u16) v24;
                             if (pChannel->field_1C_adsr.field_4_attack)
                             {
                                 panLeft = 2;
@@ -505,17 +502,17 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
                         auto midi_time = GetSpuApiVars()->sMidiTime();
                         pChannel->field_18_rightVol = playFlags;
                         pChannel->field_14_time = midi_time;
-                        pChannel->field_1C_adsr.field_0_seq_idx = (u8)vabId;
-                        pChannel->field_1C_adsr.field_1_program = (u8)program;
+                        pChannel->field_1C_adsr.field_0_seq_idx = (u8) vabId;
+                        pChannel->field_1C_adsr.field_1_program = (u8) program;
                         auto v29 = pVagOff->field_A_shift_cen;
                         pChannel->field_1C_adsr.field_2_note_byte1 = BYTE1(note) & 0x7F;
                         auto freq = pow(1.059463094359, (f64)(note - v29) * 0.00390625);
-                        pChannel->field_10_freq = (f32)freq;
+                        pChannel->field_10_freq = (f32) freq;
                         SND_PlayEx_493040(
                             &GetSpuApiVars()->sSoundEntryTable16().table[vabId][vag_num],
                             panLeft,
                             panRight,
-                            (f32)freq,
+                            (f32) freq,
                             pChannel,
                             playFlags,
                             priority_);
@@ -606,8 +603,14 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
                 u8 param1;
                 u8 param2;
 
-                [[nodiscard]] u8 EventType() const { return status & 0xF0; }
-                [[nodiscard]] u8 Channel() const { return status & 0x0F; }
+                [[nodiscard]] u8 EventType() const
+                {
+                    return status & 0xF0;
+                }
+                [[nodiscard]] u8 Channel() const
+                {
+                    return status & 0x0F;
+                }
             };
             MidiData data = {};
 
@@ -639,125 +642,125 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
 
                 switch (data.EventType())
                 {
-                case MidiEvent::NoteOff_80:
-                {
-                    // Cant see how the ADSR compare would ever be true, the logic makes no sense
-                    const u8 program = pCtx->field_32_progVols[data.Channel()].field_0_program;
-                    const s32 programShifted = ((s32)program >> 8);
-                    const s32 vab_id = (pCtx->field_seq_idx << 8) | (programShifted & 0x1F);
-                    if (GetSpuApiVars()->sVagCounts()[vab_id])
+                    case MidiEvent::NoteOff_80:
                     {
-                        for (s16 i = 0; i < 24; i++)
+                        // Cant see how the ADSR compare would ever be true, the logic makes no sense
+                        const u8 program = pCtx->field_32_progVols[data.Channel()].field_0_program;
+                        const s32 programShifted = ((s32) program >> 8);
+                        const s32 vab_id = (pCtx->field_seq_idx << 8) | (programShifted & 0x1F);
+                        if (GetSpuApiVars()->sVagCounts()[vab_id])
                         {
-                             MIDI_ADSR_State* pAdsr = &GetSpuApiVars()->sMidi_Channels().channels[i].field_1C_adsr;
-                             if (!pAdsr->field_3_state
-                                 || pAdsr->field_0_seq_idx != (((pCtx->field_seq_idx << 8) | programShifted) & 0x1F)
-                                 || pAdsr->field_1_program != (((pCtx->field_seq_idx << 8) | programShifted) & 0x7F)
-                                 || pAdsr->field_2_note_byte1 != (data.param1 & 0x7F))
-                             {
-                                 // not a match
-                             }
-                             else
-                             {
-                                 SsUtKeyOffV_49EE50(i);
-                                 break;
-                             }
-                        }
-                    }
-                    break;
-                }
-
-                case MidiEvent::NoteOn_90:
-                {
-                    MIDI_ProgramVolume* pProgVol = &pCtx->field_32_progVols[data.Channel()];
-                    auto r_vol = pProgVol->field_2_right_vol;
-                    auto note = data.param1 << 8;
-                    auto program = pProgVol->field_0_program;
-                    auto l_vol = (s16)((u32)(pProgVol->field_1_left_vol * pCtx->field_C_volume) >> 7);
-
-                    auto freq = data.param2;
-                    MIDI_PlayerPlayMidiNote_49DAD0(pCtx->field_seq_idx, program, note, l_vol, r_vol, freq); // Note: inlined
-                    break;
-                }
-
-                case MidiEvent::ControllerChange_B0:
-                    switch (data.param1 & 0x7F)
-                    {
-                    case 6u:
-                    case 0x26u:
-                        switch (GetSpuApiVars()->sControllerValue())
-                        {
-                        case 20:    // set loop
-                            pCtx->field_24_loop_start = (u8*)ppSeqData; // ???
-                            pCtx->field_2C_loop_count = data.param2;
-                            break;
-
-                        case 30:    // loop
-                            if (pCtx->field_24_loop_start)
+                            for (s16 i = 0; i < 24; i++)
                             {
-                                if (pCtx->field_2C_loop_count > 0)
+                                MIDI_ADSR_State* pAdsr = &GetSpuApiVars()->sMidi_Channels().channels[i].field_1C_adsr;
+                                if (!pAdsr->field_3_state
+                                    || pAdsr->field_0_seq_idx != (((pCtx->field_seq_idx << 8) | programShifted) & 0x1F)
+                                    || pAdsr->field_1_program != (((pCtx->field_seq_idx << 8) | programShifted) & 0x7F)
+                                    || pAdsr->field_2_note_byte1 != (data.param1 & 0x7F))
                                 {
-                                    *ppSeqData = pCtx->field_24_loop_start;
-                                    if (pCtx->field_2C_loop_count < 127)
-                                    {
-                                        GetSpuApiVars()->sControllerValue() = 0;
-                                        pCtx->field_2C_loop_count--;
-                                    }
+                                    // not a match
+                                }
+                                else
+                                {
+                                    SsUtKeyOffV_49EE50(i);
+                                    break;
                                 }
                             }
-                            break;
+                        }
+                        break;
+                    }
 
-                        case 40:
+                    case MidiEvent::NoteOn_90:
+                    {
+                        MIDI_ProgramVolume* pProgVol = &pCtx->field_32_progVols[data.Channel()];
+                        auto r_vol = pProgVol->field_2_right_vol;
+                        auto note = data.param1 << 8;
+                        auto program = pProgVol->field_0_program;
+                        auto l_vol = (s16)((u32)(pProgVol->field_1_left_vol * pCtx->field_C_volume) >> 7);
+
+                        auto freq = data.param2;
+                        MIDI_PlayerPlayMidiNote_49DAD0(pCtx->field_seq_idx, program, note, l_vol, r_vol, freq); // Note: inlined
+                        break;
+                    }
+
+                    case MidiEvent::ControllerChange_B0:
+                        switch (data.param1 & 0x7F)
                         {
-                            auto pFn = pCtx->field_20_fn_ptr;
-                            if (pFn)
+                            case 6u:
+                            case 0x26u:
+                                switch (GetSpuApiVars()->sControllerValue())
+                                {
+                                    case 20:                                         // set loop
+                                        pCtx->field_24_loop_start = (u8*) ppSeqData; // ???
+                                        pCtx->field_2C_loop_count = data.param2;
+                                        break;
+
+                                    case 30: // loop
+                                        if (pCtx->field_24_loop_start)
+                                        {
+                                            if (pCtx->field_2C_loop_count > 0)
+                                            {
+                                                *ppSeqData = pCtx->field_24_loop_start;
+                                                if (pCtx->field_2C_loop_count < 127)
+                                                {
+                                                    GetSpuApiVars()->sControllerValue() = 0;
+                                                    pCtx->field_2C_loop_count--;
+                                                }
+                                            }
+                                        }
+                                        break;
+
+                                    case 40:
+                                    {
+                                        auto pFn = pCtx->field_20_fn_ptr;
+                                        if (pFn)
+                                        {
+                                            //((void(__cdecl*)(s32, _DWORD, _DWORD))pFn)(idx, 0, BYTE2(cmd));
+                                            GetSpuApiVars()->sControllerValue() = 0;
+                                        }
+                                        break;
+                                    }
+
+                                    default:
+                                        GetSpuApiVars()->sControllerValue() = 0;
+                                        break;
+                                }
+                                break;
+
+                            case 0x63u:
+                                GetSpuApiVars()->sControllerValue() = data.param2; // BYTE2(midiEvent);
+                                break;
+
+                            default:
+                                break;
+                        }
+                        break;
+
+                    case MidiEvent::ProgramChange_C0:
+                        pCtx->field_32_progVols[data.Channel()].field_0_program = data.param1;
+                        break;
+
+                    case MidiEvent::PitchBend_E0:
+                    {
+                        const s32 prog_num = pCtx->field_32_progVols[data.Channel()].field_0_program;
+
+                        // Inlined MIDI_PitchBend
+                        const f32 freq_conv = (f32) pow(1.059463094359, (f64)(s16)(((data.param1) - 0x4000) >> 4) * 0.0078125);
+
+                        for (s32 i = 0; i < 24; i++)
+                        {
+                            MIDI_Channel* pChannel = &GetSpuApiVars()->sMidi_Channels().channels[i];
+                            if (pChannel->field_1C_adsr.field_1_program == prog_num)
                             {
-                                //((void(__cdecl*)(s32, _DWORD, _DWORD))pFn)(idx, 0, BYTE2(cmd));
-                                GetSpuApiVars()->sControllerValue() = 0;
+                                const f32 freq_1 = freq_conv * pChannel->field_10_freq;
+                                SND_Buffer_Set_Frequency_493790(i, freq_1);
                             }
-                            break;
-                        }
-
-                        default:
-                            GetSpuApiVars()->sControllerValue() = 0;
-                            break;
                         }
                         break;
-
-                    case 0x63u:
-                        GetSpuApiVars()->sControllerValue() = data.param2;// BYTE2(midiEvent);
-                        break;
+                    }
 
                     default:
                         break;
-                    }
-                    break;
-
-                case MidiEvent::ProgramChange_C0:
-                    pCtx->field_32_progVols[data.Channel()].field_0_program = data.param1;
-                    break;
-
-                case MidiEvent::PitchBend_E0:
-                {
-                    const s32 prog_num = pCtx->field_32_progVols[data.Channel()].field_0_program;
-
-                    // Inlined MIDI_PitchBend
-                    const f32 freq_conv = (f32)pow(1.059463094359, (f64)(s16)(((data.param1) - 0x4000) >> 4) * 0.0078125);
-
-                    for (s32 i = 0; i < 24; i++)
-                    {
-                        MIDI_Channel* pChannel = &GetSpuApiVars()->sMidi_Channels().channels[i];
-                        if (pChannel->field_1C_adsr.field_1_program == prog_num)
-                        {
-                            const f32 freq_1 = freq_conv * pChannel->field_10_freq;
-                            SND_Buffer_Set_Frequency_493790(i, freq_1);
-                        }
-                    }
-                    break;
-                }
-
-                default:
-                    break;
                 }
             }
             else if (curMidiByte == MidiEvent::OtherCommands_F0 || curMidiByte == 0xF7)
@@ -765,10 +768,10 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
                 const s32 lenToSkip = MIDI_Read_Var_Len_4FD0D0(pCtx);
                 MIDI_SkipBytes_4FD6C0(pCtx, lenToSkip);
             }
-            else if (curMidiByte == 0xFF)  // Sysex len
+            else if (curMidiByte == 0xFF) // Sysex len
             {
-                u8 metaEvent =  MIDI_ReadByte_4FD6B0(pCtx);
-                if (metaEvent == 0x2F)               // End of track
+                u8 metaEvent = MIDI_ReadByte_4FD6B0(pCtx);
+                if (metaEvent == 0x2F) // End of track
                 {
                     if (pCtx->field_18_repeatCount)
                     {
@@ -788,7 +791,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
                     const s32 tempoChange = MIDI_Read_Var_Len_4FD0D0(pCtx);
                     if (tempoChange)
                     {
-                        if (metaEvent == 0x51)       // Tempo in microseconds per quarter note (24-bit value)
+                        if (metaEvent == 0x51) // Tempo in microseconds per quarter note (24-bit value)
                         {
                             const s32 tempoByte3 = MIDI_ReadByte_4FD6B0(pCtx) << 16;
                             const s32 tempoByte2 = MIDI_ReadByte_4FD6B0(pCtx) << 8;
@@ -832,9 +835,9 @@ static VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, s32 i_3)
 {
     for (s32 i = 0; i < i_3; i++)
     {
-        ret = (VabBodyRecord*)((s8*)ret
-            + ret->field_0_length_or_duration
-            + 8);
+        ret = (VabBodyRecord*) ((s8*) ret
+                                + ret->field_0_length_or_duration
+                                + 8);
     }
     return ret;
 }
@@ -895,7 +898,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
 
             if (!SND_New_492790(pEntry, sampleLen, 44100, 16u, 0))
             {
-                auto pTempBuffer = (u32*)malloc(sampleLen * pEntry->field_1D_blockAlign);
+                auto pTempBuffer = (u32*) malloc(sampleLen * pEntry->field_1D_blockAlign);
                 if (pTempBuffer)
                 {
                     u32* pSrcVB = nullptr;
@@ -1126,7 +1129,7 @@ EXPORT void CC SND_StopAll_4762D0()
     SND_Reset_Ambiance_4765E0();
     SND_Stop_All_Seqs_4774D0();
 
-    for (s32 i=0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
         if (!pObj)
@@ -1141,7 +1144,6 @@ EXPORT void CC SND_StopAll_4762D0()
     }
 
     SsUtAllKeyOff_49EDE0(0);
-
 }
 
-}
+} // namespace AO

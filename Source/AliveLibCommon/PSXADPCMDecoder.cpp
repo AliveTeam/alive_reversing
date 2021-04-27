@@ -4,8 +4,8 @@
 #include "Types.hpp"
 
 // Pos / neg Tables
-const s16 pos_adpcm_table[5] = { 0, +60, +115, +98, +122 };
-const s16 neg_adpcm_table[5] = { 0, 0, -52, -55, -60 };
+const s16 pos_adpcm_table[5] = {0, +60, +115, +98, +122};
+const s16 neg_adpcm_table[5] = {0, 0, -52, -55, -60};
 
 static s8 Signed4bit(u8 number)
 {
@@ -34,11 +34,11 @@ static s32 MinMax(s32 number, s32 min, s32 max)
     return number;
 }
 
-template<class T>
+template <class T>
 static void DecodeBlock(
     T& out,
-    const u8(&samples)[112],
-    const u8(&parameters)[16],
+    const u8 (&samples)[112],
+    const u8 (&parameters)[16],
     u8 block,
     u8 nibble,
     s16& dst,
@@ -68,7 +68,7 @@ static void DecodeBlock(
     }
 }
 
-template<class T>
+template <class T>
 static void Decode(const PSXADPCMDecoder::SoundFrame& sf, T& out)
 {
     s16 dstLeft = 0;

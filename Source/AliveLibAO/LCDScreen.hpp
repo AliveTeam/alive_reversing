@@ -61,5 +61,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(LCDScreen, 0x2E0);
 
-}
-
+} // namespace AO

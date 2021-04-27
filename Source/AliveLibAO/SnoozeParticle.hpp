@@ -11,7 +11,6 @@ namespace AO {
 class SnoozeParticle : public BaseGameObject
 {
 public:
-
     enum class SnoozeParticleState : s16
     {
         Rising_0 = 0,
@@ -62,4 +61,4 @@ public:
 ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1D8);
 
 
-}
+} // namespace AO

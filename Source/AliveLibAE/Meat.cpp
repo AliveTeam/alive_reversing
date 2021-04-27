@@ -109,8 +109,7 @@ BOOL Meat::VCanEatMe_4696A0()
 
 void Meat::vScreenChanged_46A130()
 {
-    if (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
-        gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
+    if (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -119,7 +118,8 @@ void Meat::vScreenChanged_46A130()
 void Meat::AddToPlatform_46A170()
 {
     // TODO: OG bug - why doesn't meat check for trap doors ??
-    BaseAddToPlatform([](AETypes type) { return type == AETypes::eLiftPoint_78; });
+    BaseAddToPlatform([](AETypes type)
+                      { return type == AETypes::eLiftPoint_78; });
 }
 
 void Meat::vOnTrapDoorOpen_46A2E0()
@@ -215,72 +215,72 @@ void Meat::InTheAir_4697E0()
     {
         switch (field_130_pLine->field_8_type)
         {
-        case 0u:
-        case 4u:
-        case 32u:
-        case 36u:
-            if (field_C8_vely > FP_FromInteger(0))
-            {
-                field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(hitX)));
-                field_BC_ypos = hitY;
-                field_11C_state = MeatStates::State_3_BecomeAPickUp;
-                field_C8_vely = FP_FromInteger(0);
-                field_C4_velx = FP_FromInteger(0);
-                SFX_Play_46FBA0(SoundEffect::MeatBounce_36, 0, -650);
-                Event_Broadcast_422BC0(kEventNoise, this);
-                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                AddToPlatform_46A170();
-            }
-            break;
+            case 0u:
+            case 4u:
+            case 32u:
+            case 36u:
+                if (field_C8_vely > FP_FromInteger(0))
+                {
+                    field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(hitX)));
+                    field_BC_ypos = hitY;
+                    field_11C_state = MeatStates::State_3_BecomeAPickUp;
+                    field_C8_vely = FP_FromInteger(0);
+                    field_C4_velx = FP_FromInteger(0);
+                    SFX_Play_46FBA0(SoundEffect::MeatBounce_36, 0, -650);
+                    Event_Broadcast_422BC0(kEventNoise, this);
+                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    AddToPlatform_46A170();
+                }
+                break;
 
-        case 1u:
-        case 5u:
-            if (field_C4_velx < FP_FromInteger(0))
-            {
-                field_B8_xpos = hitX;
-                field_BC_ypos = hitY;
-                field_C4_velx = (-field_C4_velx / FP_FromInteger(4));
-                SFX_Play_46FBA0(SoundEffect::MeatBounce_36, 0, -650);
-                Event_Broadcast_422BC0(kEventNoise, this);
-                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+            case 1u:
+            case 5u:
+                if (field_C4_velx < FP_FromInteger(0))
+                {
+                    field_B8_xpos = hitX;
+                    field_BC_ypos = hitY;
+                    field_C4_velx = (-field_C4_velx / FP_FromInteger(4));
+                    SFX_Play_46FBA0(SoundEffect::MeatBounce_36, 0, -650);
+                    Event_Broadcast_422BC0(kEventNoise, this);
+                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    if (field_C8_vely < FP_FromInteger(0))
+                    {
+                        field_C8_vely = FP_FromInteger(0);
+                    }
+                }
+                field_130_pLine = nullptr;
+                break;
+
+            case 2u:
+            case 6u:
+                if (field_C4_velx > FP_FromInteger(0))
+                {
+                    field_B8_xpos = hitX;
+                    field_BC_ypos = hitY;
+                    field_C4_velx = (-field_C4_velx / FP_FromInteger(4));
+                    SFX_Play_46FBA0(SoundEffect::MeatBounce_36, 0, -650);
+                    Event_Broadcast_422BC0(kEventNoise, this);
+                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    if (field_C8_vely < FP_FromInteger(0))
+                    {
+                        field_C8_vely = FP_FromInteger(0);
+                    }
+                }
+                field_130_pLine = nullptr;
+                break;
+
+            case 3u:
+            case 7u:
                 if (field_C8_vely < FP_FromInteger(0))
                 {
+                    field_B8_xpos = hitX;
+                    field_BC_ypos = hitY + FP_FromInteger(1);
                     field_C8_vely = FP_FromInteger(0);
+                    SFX_Play_46FBA0(SoundEffect::MeatBounce_36, 0, -650);
+                    Event_Broadcast_422BC0(kEventNoise, this);
+                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                 }
-            }
-            field_130_pLine = nullptr;
-            break;
-
-        case 2u:
-        case 6u:
-            if (field_C4_velx > FP_FromInteger(0))
-            {
-                field_B8_xpos = hitX;
-                field_BC_ypos = hitY;
-                field_C4_velx = (-field_C4_velx / FP_FromInteger(4));
-                SFX_Play_46FBA0(SoundEffect::MeatBounce_36, 0, -650);
-                Event_Broadcast_422BC0(kEventNoise, this);
-                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                if (field_C8_vely < FP_FromInteger(0))
-                {
-                    field_C8_vely = FP_FromInteger(0);
-                }
-            }
-            field_130_pLine = nullptr;
-            break;
-
-        case 3u:
-        case 7u:
-            if (field_C8_vely < FP_FromInteger(0))
-            {
-                field_B8_xpos = hitX;
-                field_BC_ypos = hitY + FP_FromInteger(1);
-                field_C8_vely = FP_FromInteger(0);
-                SFX_Play_46FBA0(SoundEffect::MeatBounce_36, 0, -650);
-                Event_Broadcast_422BC0(kEventNoise, this);
-                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-            }
-            break;
+                break;
         }
     }
 }
@@ -332,104 +332,104 @@ void Meat::vUpdate_469BA0()
 
         switch (field_11C_state)
         {
-        case MeatStates::State_1_Idle:
-            InTheAir_4697E0();
-            break;
+            case MeatStates::State_1_Idle:
+                InTheAir_4697E0();
+                break;
 
-        case MeatStates::State_2_BeingThrown:
-        {
-            InTheAir_4697E0();
-            PSX_RECT bRect = {};
-            vGetBoundingRect_424FD0(&bRect, 1);
-            const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
-            const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
-            vOnCollisionWith_424EE0(
-                xy,
-                wh,
-                gBaseGameObject_list_BB47C4,
-                1,
-                (TCollisionCallBack)&Meat::OnCollision_469FF0);
-
-            // TODO: OG bug - why only checking for out of the bottom of the map?? Nades check for death object - probably should check both
-            if (field_BC_ypos > FP_FromInteger(gMap_5C3030.field_D4_ptr->field_6_bBottom))
+            case MeatStates::State_2_BeingThrown:
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            }
-        }
-            break;
+                InTheAir_4697E0();
+                PSX_RECT bRect = {};
+                vGetBoundingRect_424FD0(&bRect, 1);
+                const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
+                const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
+                vOnCollisionWith_424EE0(
+                    xy,
+                    wh,
+                    gBaseGameObject_list_BB47C4,
+                    1,
+                    (TCollisionCallBack) &Meat::OnCollision_469FF0);
 
-        case MeatStates::State_3_BecomeAPickUp:
-            if (FP_Abs(field_C4_velx) < FP_FromInteger(1))
-            {
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
-            }
-
-            if (FP_Abs(field_C4_velx) >= FP_FromDouble(0.5))
-            {
-                if (field_C4_velx <= FP_FromInteger(0))
+                // TODO: OG bug - why only checking for out of the bottom of the map?? Nades check for death object - probably should check both
+                if (field_BC_ypos > FP_FromInteger(gMap_5C3030.field_D4_ptr->field_6_bBottom))
                 {
-                    field_C4_velx += FP_FromDouble(0.01);
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                }
+            }
+            break;
+
+            case MeatStates::State_3_BecomeAPickUp:
+                if (FP_Abs(field_C4_velx) < FP_FromInteger(1))
+                {
+                    field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
+                }
+
+                if (FP_Abs(field_C4_velx) >= FP_FromDouble(0.5))
+                {
+                    if (field_C4_velx <= FP_FromInteger(0))
+                    {
+                        field_C4_velx += FP_FromDouble(0.01);
+                    }
+                    else
+                    {
+                        field_C4_velx -= FP_FromDouble(0.01);
+                    }
+
+                    field_130_pLine = field_130_pLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                    if (!field_130_pLine)
+                    {
+                        field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                        field_11C_state = MeatStates::State_2_BeingThrown;
+                    }
                 }
                 else
                 {
-                    field_C4_velx -= FP_FromDouble(0.01);
-                }
+                    field_C4_velx = FP_FromInteger(0);
 
-                field_130_pLine = field_130_pLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
-                if (!field_130_pLine)
+                    field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+                    field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                    field_E4_collection_rect.w = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
+                    field_E4_collection_rect.h = field_BC_ypos;
+
+                    field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
+                    field_11C_state = MeatStates::State_4_WaitForPickUp;
+                }
+                break;
+
+            case MeatStates::State_4_WaitForPickUp:
+                if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
-                    field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-                    field_11C_state = MeatStates::State_2_BeingThrown;
+                    field_12C_deadtimer = sGnFrame_5C1B84 + 600;
                 }
-            }
-            else
-            {
-                field_C4_velx = FP_FromInteger(0);
 
-                field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-                field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                field_E4_collection_rect.w = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
-                field_E4_collection_rect.h = field_BC_ypos;
+                if (static_cast<s32>(sGnFrame_5C1B84) > field_128_timer && !v2)
+                {
+                    // That strange "shimmer" the meat gives off
+                    New_TintShiny_Particle_426C30(
+                        (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos,
+                        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-7)),
+                        FP_FromDouble(0.3),
+                        Layer::eLayer_36);
+                    field_128_timer = Math_NextRandom() % 16 + sGnFrame_5C1B84 + 60;
+                }
+                if (field_12C_deadtimer < (s32) sGnFrame_5C1B84)
+                {
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                }
+                break;
 
-                field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
-                field_11C_state = MeatStates::State_4_WaitForPickUp;
-            }
-            break;
+            case MeatStates::State_5_Fall:
+                field_C8_vely += FP_FromInteger(1);
+                field_B8_xpos += field_C4_velx;
+                field_BC_ypos = field_C8_vely + field_BC_ypos;
+                if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                {
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                }
+                break;
 
-        case MeatStates::State_4_WaitForPickUp:
-            if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
-            {
-                field_12C_deadtimer = sGnFrame_5C1B84 + 600;
-            }
-
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_128_timer && !v2)
-            {
-                // That strange "shimmer" the meat gives off
-                New_TintShiny_Particle_426C30(
-                    (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos,
-                    field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-7)),
-                    FP_FromDouble(0.3),
-                    Layer::eLayer_36);
-                field_128_timer = Math_NextRandom() % 16 + sGnFrame_5C1B84 + 60;
-            }
-            if (field_12C_deadtimer < (s32)sGnFrame_5C1B84)
-            {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            }
-            break;
-
-        case MeatStates::State_5_Fall:
-            field_C8_vely += FP_FromInteger(1);
-            field_B8_xpos += field_C4_velx;
-            field_BC_ypos = field_C8_vely + field_BC_ypos;
-            if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
-            {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            }
-            break;
-
-        default:
-            return;
+            default:
+                return;
         }
     }
 }
@@ -438,23 +438,22 @@ void Meat::vUpdate_469BA0()
 
 
 
-TintEntry stru_55C254[] =
-{
-    { 1u, 127u, 127u, 127u },
-    { 2u, 137u, 137u, 137u },
-    { 3u, 127u, 127u, 127u },
-    { 4u, 127u, 127u, 127u },
-    { 5u, 127u, 127u, 127u },
-    { 6u, 127u, 127u, 127u },
-    { 7u, 127u, 127u, 127u },
-    { 8u, 127u, 127u, 127u },
-    { 9u, 127u, 127u, 127u },
-    { 10u, 127u, 127u, 127u },
-    { 11u, 127u, 127u, 127u },
-    { 12u, 127u, 127u, 127u },
-    { 13u, 127u, 127u, 127u },
-    { 14u, 127u, 127u, 127u },
-    { -1, 127u, 127u, 127u },
+TintEntry stru_55C254[] = {
+    {1u, 127u, 127u, 127u},
+    {2u, 137u, 137u, 137u},
+    {3u, 127u, 127u, 127u},
+    {4u, 127u, 127u, 127u},
+    {5u, 127u, 127u, 127u},
+    {6u, 127u, 127u, 127u},
+    {7u, 127u, 127u, 127u},
+    {8u, 127u, 127u, 127u},
+    {9u, 127u, 127u, 127u},
+    {10u, 127u, 127u, 127u},
+    {11u, 127u, 127u, 127u},
+    {12u, 127u, 127u, 127u},
+    {13u, 127u, 127u, 127u},
+    {14u, 127u, 127u, 127u},
+    {-1, 127u, 127u, 127u},
 };
 
 
@@ -639,11 +638,7 @@ void MeatSack::vUpdate_46A6A0()
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
 
-        if (bRect.x <= bPlayerRect.w &&
-            bRect.w >= bPlayerRect.x &&
-            bRect.h >= bPlayerRect.y &&
-            bRect.y <= bPlayerRect.h &&
-            field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
+        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
         {
             if (gpThrowableArray_5D1E2C)
             {

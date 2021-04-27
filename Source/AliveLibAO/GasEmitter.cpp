@@ -111,5 +111,4 @@ void GasEmitter::VUpdate_41D7D0()
     }
 }
 
-}
-
+} // namespace AO

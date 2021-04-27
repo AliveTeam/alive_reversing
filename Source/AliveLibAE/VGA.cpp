@@ -12,7 +12,8 @@
 #include "Renderer/SoftwareRenderer.hpp"
 #include "Renderer/DirectX9Renderer.hpp"
 
-void VGA_ForceLink() {}
+void VGA_ForceLink()
+{ }
 
 
 ALIVE_VAR(1, 0xBD0BFA, bool, sVGA_own_surfaces_BD0BFA, false);
@@ -48,8 +49,8 @@ EXPORT s32 CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 
 EXPORT void CC VGA_Shutdown_4F3170()
 {
-#if _WIN32
-#if !USE_SDL2
+    #if _WIN32
+        #if !USE_SDL2
     if (sDD_primary_surface_BBC3C8)
     {
         if (!sVGA_own_surfaces_BD0BFA)
@@ -68,8 +69,8 @@ EXPORT void CC VGA_Shutdown_4F3170()
         sDD_primary_surface_BBC3C8 = nullptr;
         sDD_surface_backbuffer_BBC3CC = nullptr;
     }
-#endif
-#endif
+        #endif
+    #endif
 
     IRenderer::GetRenderer()->Destroy();
     IRenderer::FreeRenderer();
@@ -110,13 +111,11 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMod
     SDL_Rect copyRect = {};
     if (pRect)
     {
-        copyRect =
-        {
+        copyRect = {
             pRect->left,
             pRect->top,
             pRect->right,
-            pRect->bottom
-        };
+            pRect->bottom};
     }
 
     SDL_Rect* pCopyRect = pRect ? &copyRect : nullptr;
@@ -199,12 +198,12 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMod
         LOG_ERROR("Blt failure");
     }
 
-#if MOBILE
+    #if MOBILE
     if (gTouchController != nullptr)
     {
         gTouchController->Render();
     }
-#endif
+    #endif
     IRenderer::GetRenderer()->EndFrame();
 }
 
@@ -259,11 +258,9 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
 
     if (sVGA_own_surfaces_BD0BFA /*|| DD_Init_4F0840(backbufferCount)*/)
     {
-
-
         // Create primary surface
         sVGA_bmp_primary_BD2A20.field_0_pSurface = SDL_CreateRGBSurface(0, width, height, bpp, 0x7c00, 0x03e0, 0x001f, 0x0); // TODO
-//        sVGA_bmp_primary_BD2A20.field_0_pSurface = SDL_GetWindowSurface(Sys_GetHWnd_4F2C70());
+                                                                                                                             //        sVGA_bmp_primary_BD2A20.field_0_pSurface = SDL_GetWindowSurface(Sys_GetHWnd_4F2C70());
 
         sVGA_bmp_primary_BD2A20.field_8_width = width;
         sVGA_bmp_primary_BD2A20.field_10_locked_pitch = sVGA_bmp_primary_BD2A20.field_0_pSurface->pitch; // TODO: Probably wrong ?
@@ -282,11 +279,11 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
 
         //IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
 
-#if RENDERER_OPENGL
+    #if RENDERER_OPENGL
         IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL);
-#else
+    #else
         IRenderer::CreateRenderer(IRenderer::Renderers::Software);
-#endif
+    #endif
 
         if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd_4F2C70()))
         {
@@ -298,27 +295,27 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
 
         switch (sVGA_bmp_primary_BD2A20.field_0_pSurface->format->BitsPerPixel)
         {
-        case 1u:
-            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 1;
-            return 0;
-        case 2u:
-            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 2;
-            return 0;
-        case 4u:
-            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 4;
-            return 0;
-        case 8u:
-            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 8;
-            return 0;
-        case 15u:
-        case 16u:
-            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 16;
-            return 0;
-        case 32u:
-            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 32;
-            return 0;
-        default:
-            break;
+            case 1u:
+                sVGA_bmp_primary_BD2A20.field_15_pixel_format = 1;
+                return 0;
+            case 2u:
+                sVGA_bmp_primary_BD2A20.field_15_pixel_format = 2;
+                return 0;
+            case 4u:
+                sVGA_bmp_primary_BD2A20.field_15_pixel_format = 4;
+                return 0;
+            case 8u:
+                sVGA_bmp_primary_BD2A20.field_15_pixel_format = 8;
+                return 0;
+            case 15u:
+            case 16u:
+                sVGA_bmp_primary_BD2A20.field_15_pixel_format = 16;
+                return 0;
+            case 32u:
+                sVGA_bmp_primary_BD2A20.field_15_pixel_format = 32;
+                return 0;
+            default:
+                break;
         }
     }
 
@@ -339,14 +336,14 @@ EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(s32 /*always3*/)
 
 #else
 
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
 EXPORT s32 CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
-  //  NOT_IMPLEMENTED();
+    //  NOT_IMPLEMENTED();
     LOG_INFO("Stub"); // Can't be empty func otherwise NOT_IMPLEMENT'ed searcher will look into the next function
     return 0;
 }
-#endif
+    #endif
 
 
 EXPORT void CC VGA_Shutdown_4F3170()
@@ -402,35 +399,35 @@ EXPORT s32 CC VGA_ClearRect_4F4CF0(RECT* pRect, u32 fillColour)
 
 EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
 {
-    Bitmap *pBitmapToUse; // ebp
-    s32 srcWidth; // ebx
-    s8 bpp; // cl
-    s32 v7 = 0; // eax
-    u16 *v22; // esi
-    s8 *v23; // edx
-    s32 v24; // ecx
-    s8 *v25; // eax
-    u32 v26; // edi
-    u16 v27; // ax
-    s32 v28; // ebx
-    s8 v29; // bp
-    s8 v30; // bl
-    u32 v31; // edi
-    u16 v32; // ax
-    s8 v34; // [esp+10h] [ebp-438h]
-    s8 v35; // [esp+10h] [ebp-438h]
-    s8 v37; // [esp+14h] [ebp-434h]
-    s8 v38; // [esp+14h] [ebp-434h]
-    s32 v40; // [esp+18h] [ebp-430h]
-    s32 srcWidth2; // [esp+1Ch] [ebp-42Ch]
-    s32 v45; // [esp+20h] [ebp-428h]
-    LONG srcX; // [esp+24h] [ebp-424h]
-    s8 v47; // [esp+24h] [ebp-424h]
-    s32 height; // [esp+28h] [ebp-420h]
-    s32 v50; // [esp+2Ch] [ebp-41Ch]
-    s8 *v52; // [esp+30h] [ebp-418h]
-    LONG srcY; // [esp+34h] [ebp-414h]
-    RECT rect; // [esp+38h] [ebp-410h]
+    Bitmap* pBitmapToUse; // ebp
+    s32 srcWidth;         // ebx
+    s8 bpp;               // cl
+    s32 v7 = 0;           // eax
+    u16* v22;             // esi
+    s8* v23;              // edx
+    s32 v24;              // ecx
+    s8* v25;              // eax
+    u32 v26;              // edi
+    u16 v27;              // ax
+    s32 v28;              // ebx
+    s8 v29;               // bp
+    s8 v30;               // bl
+    u32 v31;              // edi
+    u16 v32;              // ax
+    s8 v34;               // [esp+10h] [ebp-438h]
+    s8 v35;               // [esp+10h] [ebp-438h]
+    s8 v37;               // [esp+14h] [ebp-434h]
+    s8 v38;               // [esp+14h] [ebp-434h]
+    s32 v40;              // [esp+18h] [ebp-430h]
+    s32 srcWidth2;        // [esp+1Ch] [ebp-42Ch]
+    s32 v45;              // [esp+20h] [ebp-428h]
+    LONG srcX;            // [esp+24h] [ebp-424h]
+    s8 v47;               // [esp+24h] [ebp-424h]
+    s32 height;           // [esp+28h] [ebp-420h]
+    s32 v50;              // [esp+2Ch] [ebp-41Ch]
+    s8* v52;              // [esp+30h] [ebp-418h]
+    LONG srcY;            // [esp+34h] [ebp-414h]
+    RECT rect;            // [esp+38h] [ebp-410h]
 
     if (sVGA_bmp_primary_BD2A20.field_8_width == 0)
     {
@@ -486,18 +483,18 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
 
             switch (bpp)
             {
-            case 8:
-                v7 = 8;
-                break;
-            case 24:
-                v7 = 24;
-                break;
-            case 32:
-                v7 = 32;
-                break;
-            default:
-                //v7 = v42;
-                break;
+                case 8:
+                    v7 = 8;
+                    break;
+                case 24:
+                    v7 = 24;
+                    break;
+                case 32:
+                    v7 = 32;
+                    break;
+                default:
+                    //v7 = v42;
+                    break;
             }
 
             if (BMP_New_4F1990(&sVGA_Bmp0_BD0BD0, srcWidth, height, v7, 1))
@@ -531,9 +528,9 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
             return;
         }
 
-        v50 = ((u32)pBitmapToUse->field_10_locked_pitch >> 1) - srcWidth;
-        v22 = (u16 *)((s8 *)pBitmapToUse->field_4_pLockedPixels
-            + 2 * (srcX + ((u32)(srcY * pBitmapToUse->field_10_locked_pitch) >> 1)));
+        v50 = ((u32) pBitmapToUse->field_10_locked_pitch >> 1) - srcWidth;
+        v22 = (u16*) ((s8*) pBitmapToUse->field_4_pLockedPixels
+                      + 2 * (srcX + ((u32)(srcY * pBitmapToUse->field_10_locked_pitch) >> 1)));
 
         if (sVGA_bmp_primary_BD2A20.field_14_bpp == 32)
         {
@@ -544,11 +541,11 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
             v40 = 3 * srcWidth2;
         }
 
-        v23 = (s8 *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels;
+        v23 = (s8*) sVGA_Bmp0_BD0BD0.field_4_pLockedPixels;
         v24 = sVGA_Bmp0_BD0BD0.field_10_locked_pitch - v40;
-        v25 = (s8 *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels + height * sVGA_Bmp0_BD0BD0.field_10_locked_pitch;
+        v25 = (s8*) sVGA_Bmp0_BD0BD0.field_4_pLockedPixels + height * sVGA_Bmp0_BD0BD0.field_10_locked_pitch;
         v45 = sVGA_Bmp0_BD0BD0.field_10_locked_pitch - v40;
-        v52 = (s8 *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels + height * sVGA_Bmp0_BD0BD0.field_10_locked_pitch;
+        v52 = (s8*) sVGA_Bmp0_BD0BD0.field_4_pLockedPixels + height * sVGA_Bmp0_BD0BD0.field_10_locked_pitch;
         if (sVGA_bmp_primary_BD2A20.field_14_bpp == 32)
         {
             if (pBitmapToUse->field_15_pixel_format == 15)
@@ -574,7 +571,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
             {
                 do
                 {
-                    v26 = (u32)&v23[v40];
+                    v26 = (u32) &v23[v40];
                     if (v23 < &v23[v40])
                     {
                         do
@@ -583,15 +580,17 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
                             v23 += 4;
                             v28 = *v22 << v34;
                             ++v22;
-                            *((u32 *)v23 - 1) = (v27 << v37) & 0xFF00 | (v27 << v47) & 0xFF0000 | (u8)v28;
-                        } while ((u32)v23 < v26);
+                            *((u32*) v23 - 1) = (v27 << v37) & 0xFF00 | (v27 << v47) & 0xFF0000 | (u8) v28;
+                        }
+                        while ((u32) v23 < v26);
                         v24 = v45;
                         v25 = v52;
                         pBitmapToUse = pBmp;
                     }
                     v23 += v24;
                     v22 += v50;
-                } while (v23 < v25);
+                }
+                while (v23 < v25);
             }
             goto LABEL_86;
         }
@@ -619,7 +618,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
         {
             do
             {
-                v31 = (u32)&v23[v40];
+                v31 = (u32) &v23[v40];
                 if (v23 < &v23[v40])
                 {
                     do
@@ -627,16 +626,18 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
                         v32 = *v22;
                         v23 += 3;
                         ++v22;
-                        *(v23 - 3) = static_cast<s8>((u32)v32 >> v29);
-                        *(v23 - 2) = static_cast<s8>((u32)v32 >> v38);
-                        *(v23 - 1) = (u8)v32 << v35;
-                    } while ((u32)v23 < v31);
+                        *(v23 - 3) = static_cast<s8>((u32) v32 >> v29);
+                        *(v23 - 2) = static_cast<s8>((u32) v32 >> v38);
+                        *(v23 - 1) = (u8) v32 << v35;
+                    }
+                    while ((u32) v23 < v31);
                     v24 = v45;
                     v25 = v52;
                 }
                 v23 += v24;
                 v22 += v50;
-            } while (v23 < v25);
+            }
+            while (v23 < v25);
         }
         pBitmapToUse = pBmp;
     LABEL_86:
@@ -699,7 +700,6 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
         {
             if (!sVGA_IsWindowMode_BD0BF8)
             {
-
                 RECT rect = {};
                 ::SetWindowPos(Sys_GetHWnd_4F2C70(), HWND_TOPMOST, 0, 0, width, height, 0x204u); // TODO: SDK constants
                 ::GetClientRect(Sys_GetHWnd_4F2C70(), &rect);
@@ -707,7 +707,6 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
                 {
                     ::SetWindowPos(Sys_GetHWnd_4F2C70(), HWND_TOPMOST, 0, 0, width - rect.right + width, height - rect.bottom + height, 0x204u); // TODO: SDK constants
                 }
-
             }
 
             if (!sVGA_own_surfaces_BD0BFA || DD_Init_4F0840(backbufferCount))
@@ -737,66 +736,66 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
                     // TODO: Refactor to own function, change if/else chain to early outs
                     switch (surfaceDesc.ddpfPixelFormat.dwRGBBitCount)
                     {
-                    case 1u:
-                        sVGA_bmp_primary_BD2A20.field_15_pixel_format = 1;
-                        return 0;
-                    case 2u:
-                        sVGA_bmp_primary_BD2A20.field_15_pixel_format = 2;
-                        return 0;
-                    case 4u:
-                        sVGA_bmp_primary_BD2A20.field_15_pixel_format = 4;
-                        return 0;
-                    case 8u:
-                        sVGA_bmp_primary_BD2A20.field_15_pixel_format = 8;
-                        return 0;
-                    case 16u:
-                        if (surfaceDesc.ddpfPixelFormat.dwRBitMask == 63488)
-                        {
-                            if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 2016 && surfaceDesc.ddpfPixelFormat.dwBBitMask == 31)
+                        case 1u:
+                            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 1;
+                            return 0;
+                        case 2u:
+                            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 2;
+                            return 0;
+                        case 4u:
+                            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 4;
+                            return 0;
+                        case 8u:
+                            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 8;
+                            return 0;
+                        case 16u:
+                            if (surfaceDesc.ddpfPixelFormat.dwRBitMask == 63488)
                             {
-                                sVGA_bmp_primary_BD2A20.field_15_pixel_format = 16;
-                                return 0;
-                            }
-                            break;
-                        }
-                        if (surfaceDesc.ddpfPixelFormat.dwRBitMask == 31)
-                        {
-                            if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 2016)
-                            {
-                                if (surfaceDesc.ddpfPixelFormat.dwBBitMask != 63488)
-                                    break;
-                                sVGA_bmp_primary_BD2A20.field_15_pixel_format = 116;
-                                return 0;
-                            }
-                        }
-                        else
-                        {
-                            if (surfaceDesc.ddpfPixelFormat.dwRBitMask == 31744)
-                            {
-                                if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 992 && surfaceDesc.ddpfPixelFormat.dwBBitMask == 31)
+                                if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 2016 && surfaceDesc.ddpfPixelFormat.dwBBitMask == 31)
                                 {
-                                    sVGA_bmp_primary_BD2A20.field_15_pixel_format = 15;
+                                    sVGA_bmp_primary_BD2A20.field_15_pixel_format = 16;
                                     return 0;
                                 }
                                 break;
                             }
-                            if (surfaceDesc.ddpfPixelFormat.dwRBitMask != 31)
-                                break;
-                        }
-                        if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 992 && surfaceDesc.ddpfPixelFormat.dwBBitMask == 31744)
-                        {
-                            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 115;
+                            if (surfaceDesc.ddpfPixelFormat.dwRBitMask == 31)
+                            {
+                                if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 2016)
+                                {
+                                    if (surfaceDesc.ddpfPixelFormat.dwBBitMask != 63488)
+                                        break;
+                                    sVGA_bmp_primary_BD2A20.field_15_pixel_format = 116;
+                                    return 0;
+                                }
+                            }
+                            else
+                            {
+                                if (surfaceDesc.ddpfPixelFormat.dwRBitMask == 31744)
+                                {
+                                    if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 992 && surfaceDesc.ddpfPixelFormat.dwBBitMask == 31)
+                                    {
+                                        sVGA_bmp_primary_BD2A20.field_15_pixel_format = 15;
+                                        return 0;
+                                    }
+                                    break;
+                                }
+                                if (surfaceDesc.ddpfPixelFormat.dwRBitMask != 31)
+                                    break;
+                            }
+                            if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 992 && surfaceDesc.ddpfPixelFormat.dwBBitMask == 31744)
+                            {
+                                sVGA_bmp_primary_BD2A20.field_15_pixel_format = 115;
+                                return 0;
+                            }
+                            break;
+                        case 24u:
+                            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 24;
                             return 0;
-                        }
-                        break;
-                    case 24u:
-                        sVGA_bmp_primary_BD2A20.field_15_pixel_format = 24;
-                        return 0;
-                    case 32u:
-                        sVGA_bmp_primary_BD2A20.field_15_pixel_format = 32;
-                        return 0;
-                    default:
-                        break;
+                        case 32u:
+                            sVGA_bmp_primary_BD2A20.field_15_pixel_format = 32;
+                            return 0;
+                        default:
+                            break;
                     }
                 }
                 result = 0;

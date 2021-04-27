@@ -5,7 +5,7 @@
 #include "FixedPoint.hpp"
 #include "BaseGameObject.hpp"
 
-void Spark_ForceLink(); 
+void Spark_ForceLink();
 
 namespace AO {
 
@@ -63,4 +63,4 @@ public:
 ALIVE_ASSERT_SIZEOF(Spark, 0x54);
 
 
-}
+} // namespace AO

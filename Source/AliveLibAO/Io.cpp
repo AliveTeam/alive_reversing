@@ -16,4 +16,4 @@ EXPORT void IO_Stop_ASync_IO_Thread_491A80()
     NOT_IMPLEMENTED();
 }
 
-}
+} // namespace AO

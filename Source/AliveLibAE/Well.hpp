@@ -16,6 +16,7 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+
 private:
     EXPORT void WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos);
     EXPORT void WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos);
@@ -23,6 +24,7 @@ private:
     EXPORT void dtor_4E3090();
     EXPORT void vScreenChanged_4E3070();
     EXPORT void vUpdate_4E2F60();
+
 private:
     s32 field_20_tlvInfo;
     s16 field_24_trigger_id;

@@ -22,6 +22,7 @@ protected:
     EXPORT void vRemoveCount_4975E0(BaseAliveGameObject* pObj);
 
     EXPORT void vAddCount_4975B0(BaseAliveGameObject* pObj);
+
 private:
     EXPORT PlatformBase* vdtor_4974B0(s32 flags);
 

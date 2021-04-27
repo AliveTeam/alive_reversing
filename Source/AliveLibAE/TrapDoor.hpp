@@ -59,7 +59,6 @@ private:
     EXPORT PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, s32 /*not_used*/);
 
 private:
-
     EXPORT void vAdd_4DDD90(BaseAliveGameObject* pObj);
     EXPORT void vRemove_4DDDB0(BaseAliveGameObject* pObj);
 

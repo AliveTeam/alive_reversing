@@ -49,9 +49,9 @@ static void AODllProcessAttach(HINSTANCE hinstDLL)
 
 BOOL WINAPI DllMain(
     _In_ HINSTANCE hinstDLL,
-    _In_ u32     fdwReason,
-    _In_ LPVOID    /*lpvReserved*/
-    )
+    _In_ u32 fdwReason,
+    _In_ LPVOID /*lpvReserved*/
+)
 {
     AliveLibAO_ForceLink();
 
@@ -59,7 +59,7 @@ BOOL WINAPI DllMain(
     {
         AODllProcessAttach(hinstDLL);
     }
-    else if(fdwReason == DLL_PROCESS_DETACH)
+    else if (fdwReason == DLL_PROCESS_DETACH)
     {
         LOG_INFO("DLL_PROCESS_DETACH");
 

@@ -6,7 +6,7 @@
 #include "Path.hpp"
 #include "Factory.hpp"
 
-extern const s8 * sLCDMessageTable_555768[101];
+extern const s8* sLCDMessageTable_555768[101];
 
 struct Path_LCDScreen : public Path_TLV
 {
@@ -20,7 +20,7 @@ struct Path_LCDScreen : public Path_TLV
 class LCDScreen : public BaseGameObject
 {
 public:
-    EXPORT LCDScreen* ctor_460680(Path_LCDScreen *params, TlvItemInfoUnion itemInfo);
+    EXPORT LCDScreen* ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemInfo);
     EXPORT void Update_460A00();
     EXPORT void Render_460CB0(PrimHeader** ppOt);
     EXPORT void vSetDead_460F10();
@@ -36,8 +36,8 @@ public:
     Prim_PrimClipper field_20_prim_clippers[2][2];
     Alive::Font field_60_font;
     PSX_RECT field_98_pal_rect;
-    const s8 *field_A0_message;
-    const s8 * field_A4_message_cutoff_ptr;
+    const s8* field_A0_message;
+    const s8* field_A4_message_cutoff_ptr;
     s8 field_A8_message_buffer[512];
     u16 field_2A8_play_sound_toggle;
     s16 field_2AA_message_1_id;

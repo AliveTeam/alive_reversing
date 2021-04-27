@@ -23,5 +23,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BaseBomb, 0xE8);
 
-}
-
+} // namespace AO

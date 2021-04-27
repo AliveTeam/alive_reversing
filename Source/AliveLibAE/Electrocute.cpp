@@ -127,6 +127,7 @@ private:
     s16 field_C8_pal_x_index;
     s16 field_CA_pal_w;
     s16 field_CC_bFirstUpdate;
+
 public:
     s16 field_CE_bDone;
 };
@@ -173,19 +174,19 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, s16 bExtr
 
     switch (pTargetObj->field_4_typeId)
     {
-    case AETypes::eFlyingSlig_54:
-    case AETypes::eGlukkon_67:
-    case AETypes::eAbe_69:
-    case AETypes::eSlig_125:
-        field_40_pPalData = reinterpret_cast<u16*>(ae_malloc_non_zero_4954F0(sizeof(u16) * pTargetObj->field_20_animation.field_90_pal_depth));
-        Pal_Copy_483560(
-            pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-            pTargetObj->field_20_animation.field_90_pal_depth,
-            field_40_pPalData,
-            &field_4C_pal_rect);
-        break;
-    default:
-        break;
+        case AETypes::eFlyingSlig_54:
+        case AETypes::eGlukkon_67:
+        case AETypes::eAbe_69:
+        case AETypes::eSlig_125:
+            field_40_pPalData = reinterpret_cast<u16*>(ae_malloc_non_zero_4954F0(sizeof(u16) * pTargetObj->field_20_animation.field_90_pal_depth));
+            Pal_Copy_483560(
+                pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                pTargetObj->field_20_animation.field_90_pal_depth,
+                field_40_pPalData,
+                &field_4C_pal_rect);
+            break;
+        default:
+            break;
     }
 
     // Note: Real game may leave a ptr un-inited depending on the count
@@ -252,107 +253,107 @@ void Electrocute::vUpdate_4E6240()
     {
         switch (field_44_state)
         {
-        case States::eSetNewColour_0:
-            if (pTargetObj->field_4_typeId == AETypes::eAbe_69)
-            {
-                field_24_r = 127;
-                field_26_g = 127;
-                field_28_b = 127;
-            }
-            else
-            {
-                field_24_r = pTargetObj->field_D0_r;
-                field_26_g = pTargetObj->field_D2_g;
-                field_28_b = pTargetObj->field_D4_b;
-            }
-
-            pTargetObj->field_114_flags.Set(Flags_114::e114_Bit11_Electrocuting);
-
-            pTargetObj->field_D4_b = 255;
-            pTargetObj->field_D2_g = 255;
-            pTargetObj->field_D0_r = 255;
-            field_44_state = States::eAlphaFadeout_1;
-            break;
-
-        case States::eAlphaFadeout_1:
-            field_30_pPalOverwriters[0] = ae_new<PalleteOverwriter>();
-            if (field_30_pPalOverwriters[0])
-            {
-                field_30_pPalOverwriters[0]->ctor_4228D0(
-                    pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                    pTargetObj->field_20_animation.field_90_pal_depth,
-                    static_cast<s16>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
-            }
-
-            field_30_pPalOverwriters[1] = ae_new<PalleteOverwriter>();
-            if (field_30_pPalOverwriters[1])
-            {
-                field_30_pPalOverwriters[1]->ctor_4228D0(
-                    pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                    pTargetObj->field_20_animation.field_90_pal_depth,
-                    static_cast<s16>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
-
-                field_30_pPalOverwriters[1]->field_1C_update_delay = 4;
-            }
-
-            if (field_3C_extraOverwriter)
-            {
-                field_30_pPalOverwriters[2] = ae_new<PalleteOverwriter>();
-                if (field_30_pPalOverwriters[2])
+            case States::eSetNewColour_0:
+                if (pTargetObj->field_4_typeId == AETypes::eAbe_69)
                 {
-                    field_30_pPalOverwriters[2]->ctor_4228D0(
-                        pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                        pTargetObj->field_20_animation.field_90_pal_depth,
-                        static_cast<s16>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
-
-                    field_30_pPalOverwriters[2]->field_1C_update_delay = 8;
-                }
-            }
-
-            field_44_state = States::eHandleDamage_2;
-            break;
-
-        case States::eHandleDamage_2:
-        {
-            PalleteOverwriter* pPalOverwriter = field_30_pPalOverwriters[field_2E_overwriter_count - 1];
-            if (!pPalOverwriter || pPalOverwriter->field_CE_bDone)
-            {
-                if (field_40_pPalData)
-                {
-                    Pal_Set_483510(
-                        pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                        pTargetObj->field_20_animation.field_90_pal_depth,
-                        reinterpret_cast<const u8*>(field_40_pPalData),
-                        &field_4C_pal_rect);
-                }
-
-                if (field_2C_bKillTarget)
-                {
-                    pTargetObj->VTakeDamage_408730(this);
+                    field_24_r = 127;
+                    field_26_g = 127;
+                    field_28_b = 127;
                 }
                 else
                 {
-                    pTargetObj->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                    field_24_r = pTargetObj->field_D0_r;
+                    field_26_g = pTargetObj->field_D2_g;
+                    field_28_b = pTargetObj->field_D4_b;
                 }
 
-                pTargetObj->field_D0_r = field_24_r;
-                pTargetObj->field_D2_g = field_26_g;
-                pTargetObj->field_D4_b = field_28_b;
+                pTargetObj->field_114_flags.Set(Flags_114::e114_Bit11_Electrocuting);
 
-                pTargetObj->field_114_flags.Clear(Flags_114::e114_Bit11_Electrocuting);
+                pTargetObj->field_D4_b = 255;
+                pTargetObj->field_D2_g = 255;
+                pTargetObj->field_D0_r = 255;
+                field_44_state = States::eAlphaFadeout_1;
+                break;
 
-                field_20_target_obj_id = -1;
-                field_44_state = States::eKillElectrocute_3;
+            case States::eAlphaFadeout_1:
+                field_30_pPalOverwriters[0] = ae_new<PalleteOverwriter>();
+                if (field_30_pPalOverwriters[0])
+                {
+                    field_30_pPalOverwriters[0]->ctor_4228D0(
+                        pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                        pTargetObj->field_20_animation.field_90_pal_depth,
+                        static_cast<s16>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
+                }
+
+                field_30_pPalOverwriters[1] = ae_new<PalleteOverwriter>();
+                if (field_30_pPalOverwriters[1])
+                {
+                    field_30_pPalOverwriters[1]->ctor_4228D0(
+                        pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                        pTargetObj->field_20_animation.field_90_pal_depth,
+                        static_cast<s16>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
+
+                    field_30_pPalOverwriters[1]->field_1C_update_delay = 4;
+                }
+
+                if (field_3C_extraOverwriter)
+                {
+                    field_30_pPalOverwriters[2] = ae_new<PalleteOverwriter>();
+                    if (field_30_pPalOverwriters[2])
+                    {
+                        field_30_pPalOverwriters[2]->ctor_4228D0(
+                            pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                            pTargetObj->field_20_animation.field_90_pal_depth,
+                            static_cast<s16>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
+
+                        field_30_pPalOverwriters[2]->field_1C_update_delay = 8;
+                    }
+                }
+
+                field_44_state = States::eHandleDamage_2;
+                break;
+
+            case States::eHandleDamage_2:
+            {
+                PalleteOverwriter* pPalOverwriter = field_30_pPalOverwriters[field_2E_overwriter_count - 1];
+                if (!pPalOverwriter || pPalOverwriter->field_CE_bDone)
+                {
+                    if (field_40_pPalData)
+                    {
+                        Pal_Set_483510(
+                            pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                            pTargetObj->field_20_animation.field_90_pal_depth,
+                            reinterpret_cast<const u8*>(field_40_pPalData),
+                            &field_4C_pal_rect);
+                    }
+
+                    if (field_2C_bKillTarget)
+                    {
+                        pTargetObj->VTakeDamage_408730(this);
+                    }
+                    else
+                    {
+                        pTargetObj->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                    }
+
+                    pTargetObj->field_D0_r = field_24_r;
+                    pTargetObj->field_D2_g = field_26_g;
+                    pTargetObj->field_D4_b = field_28_b;
+
+                    pTargetObj->field_114_flags.Clear(Flags_114::e114_Bit11_Electrocuting);
+
+                    field_20_target_obj_id = -1;
+                    field_44_state = States::eKillElectrocute_3;
+                }
             }
-        }
             break;
 
-        case States::eKillElectrocute_3:
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            break;
+            case States::eKillElectrocute_3:
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                break;
 
-        default:
-            break;
+            default:
+                break;
         }
 
         for (auto& pPalOverwriter : field_30_pPalOverwriters)
@@ -363,7 +364,6 @@ void Electrocute::vUpdate_4E6240()
             }
         }
     }
-
 }
 
 void Electrocute::vStop_4E6150()
@@ -400,7 +400,6 @@ void Electrocute::vStop_4E6150()
         pTarget->VTakeDamage_408730(this);
         field_20_target_obj_id = -1;
     }
-
 }
 
 s32 Electrocute::vSub_4E6630()

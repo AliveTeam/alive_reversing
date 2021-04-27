@@ -33,8 +33,10 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VScreenChanged() override;
+
 public:
     s16 field_20_count;
+
 private:
     enum Flags_22
     {

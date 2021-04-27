@@ -44,32 +44,32 @@ inline FixedPoint operator-(const FixedPoint& value)
     return f;
 }
 
-inline bool operator < (const FixedPoint& lhs, const FixedPoint& rhs)
+inline bool operator<(const FixedPoint& lhs, const FixedPoint& rhs)
 {
     return lhs.fpValue < rhs.fpValue;
 }
 
-inline bool operator <= (const FixedPoint& lhs, const FixedPoint& rhs)
+inline bool operator<=(const FixedPoint& lhs, const FixedPoint& rhs)
 {
     return lhs.fpValue <= rhs.fpValue;
 }
 
-inline bool operator > (const FixedPoint& lhs, const FixedPoint& rhs)
+inline bool operator>(const FixedPoint& lhs, const FixedPoint& rhs)
 {
     return lhs.fpValue > rhs.fpValue;
 }
 
-inline bool operator >= (const FixedPoint& lhs, const FixedPoint& rhs)
+inline bool operator>=(const FixedPoint& lhs, const FixedPoint& rhs)
 {
     return lhs.fpValue >= rhs.fpValue;
 }
 
-inline bool operator == (const FixedPoint& lhs, const FixedPoint& rhs)
+inline bool operator==(const FixedPoint& lhs, const FixedPoint& rhs)
 {
     return lhs.fpValue == rhs.fpValue;
 }
 
-inline bool operator != (const FixedPoint& lhs, const FixedPoint& rhs)
+inline bool operator!=(const FixedPoint& lhs, const FixedPoint& rhs)
 {
     return lhs.fpValue != rhs.fpValue;
 }
@@ -88,7 +88,7 @@ inline FixedPoint FP_FromRaw(s32 v)
     return f;
 }
 
-template<class T>
+template <class T>
 inline FixedPoint FP_FromInteger(T v)
 {
     FixedPoint f = {};

@@ -6,7 +6,6 @@ public:
     PtrStream(const u8** ppStream)
         : mppStream(ppStream)
     {
-
     }
 
     void Read(u32& v)
@@ -33,7 +32,7 @@ public:
     const u8** mppStream;
 
 private:
-    template<class T>
+    template <class T>
     T ReadT()
     {
         T v = 0;

@@ -48,9 +48,7 @@ BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(s16 eventTy
     // At this point we known the type must be BaseAnimatedWithPhysicsGameObject
     auto pDerived = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
-    if (pDerived->field_BC_sprite_scale == scale &&
-        FP_Abs(xpos - pDerived->field_A8_xpos) < FP_FromInteger(gPsxDisplay_504C78.field_0_width) &&
-        FP_Abs(ypos - pDerived->field_AC_ypos) < FP_FromInteger(gPsxDisplay_504C78.field_2_height))
+    if (pDerived->field_BC_sprite_scale == scale && FP_Abs(xpos - pDerived->field_A8_xpos) < FP_FromInteger(gPsxDisplay_504C78.field_0_width) && FP_Abs(ypos - pDerived->field_AC_ypos) < FP_FromInteger(gPsxDisplay_504C78.field_2_height))
     {
         return pDerived;
     }
@@ -82,4 +80,4 @@ void CC Event_Cancel_For_Obj_417350(BaseGameObject* pObj)
     }
 }
 
-}
+} // namespace AO

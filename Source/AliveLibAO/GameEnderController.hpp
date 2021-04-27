@@ -34,5 +34,4 @@ ALIVE_ASSERT_SIZEOF(GameEnderController, 0x18);
 
 
 
-}
-
+} // namespace AO

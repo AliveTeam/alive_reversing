@@ -27,7 +27,8 @@
 #include "Sys.hpp"
 #include <assert.h>
 
-void Map_ForceLink() { }
+void Map_ForceLink()
+{ }
 
 ALIVE_VAR(1, 0x5c311c, s16, sMap_bDoPurpleLightEffect_5C311C, 0);
 ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
@@ -45,8 +46,7 @@ struct Path_ChangeTLV : public Path_TLV
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChangeTLV, 0x1C);
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
-const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10] =
-{ 
+const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10] = {
     CameraSwapEffects::eEffect5_1_FMV,
     CameraSwapEffects::eEffect2_RightToLeft,
     CameraSwapEffects::eEffect1_LeftToRight,
@@ -56,8 +56,7 @@ const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10]
     CameraSwapEffects::eEffect6_VerticalSplit,
     CameraSwapEffects::eEffect7_HorizontalSplit,
     CameraSwapEffects::eEffect11_Unknown,
-    CameraSwapEffects::eEffect0_InstantChange
-};
+    CameraSwapEffects::eEffect0_InstantChange};
 
 EXPORT void CC static_map_construct_4802F0()
 {
@@ -139,7 +138,7 @@ void Map::ScreenChange_480B80()
     //dword_5CA4A8 = 0; // TODO: Never used?
 
     // TODO: Refactor this logic
-    if (!sMap_bDoPurpleLightEffect_5C311C && field_A_level ==field_0_current_level)
+    if (!sMap_bDoPurpleLightEffect_5C311C && field_A_level == field_0_current_level)
     {
         ScreenChange_Common();
         return;
@@ -199,8 +198,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
                 {
                     if (pBaseObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
                     {
-                        if (!pBaseObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) &&
-                            pBaseObj != sControlledCharacter_5C1B8C && gMap_5C3030.Rect_Location_Relative_To_Active_Camera_480FE0(&objRect) == CameraPos::eCamCurrent_0)
+                        if (!pBaseObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pBaseObj != sControlledCharacter_5C1B8C && gMap_5C3030.Rect_Location_Relative_To_Active_Camera_480FE0(&objRect) == CameraPos::eCamCurrent_0)
                         {
                             pObjectsWithLightsArray->Push_Back(pBaseObj);
                             const FP k60Scaled = (pBaseObj->field_CC_sprite_scale * FP_FromInteger(60));
@@ -285,7 +283,6 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
                     {
                         pDrawable->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
                     }
-
                 }
             }
 
@@ -354,36 +351,36 @@ void Map::Handle_PathTransition_481610()
 
         switch (pPathChangeTLV->field_1A_scale)
         {
-        case Scale_short::eFull_0:
-            sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_32;
-            break;
+            case Scale_short::eFull_0:
+                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
+                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_32;
+                break;
 
-        case Scale_short::eHalf_1:
-            sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_13;
-            break;
+            case Scale_short::eHalf_1:
+                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
+                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_13;
+                break;
 
-        default:
-            LOG_ERROR("Invalid scale " << (s32)pPathChangeTLV->field_1A_scale);
-            break;
+            default:
+                LOG_ERROR("Invalid scale " << (s32) pPathChangeTLV->field_1A_scale);
+                break;
         }
 
         CameraPos remapped = CameraPos::eCamInvalid_m1;
         switch (field_14_direction)
         {
-        case MapDirections::eMapLeft_0:
-            remapped = CameraPos::eCamLeft_3;
-            break;
-        case MapDirections::eMapRight_1:
-            remapped = CameraPos::eCamRight_4;
-            break;
-        case MapDirections::eMapTop_2:
-            remapped = CameraPos::eCamTop_1;
-            break;
-        case MapDirections::eMapBottom_3:
-            remapped = CameraPos::eCamBottom_2;
-            break;
+            case MapDirections::eMapLeft_0:
+                remapped = CameraPos::eCamLeft_3;
+                break;
+            case MapDirections::eMapRight_1:
+                remapped = CameraPos::eCamRight_4;
+                break;
+            case MapDirections::eMapTop_2:
+                remapped = CameraPos::eCamTop_1;
+                break;
+            case MapDirections::eMapBottom_3:
+                remapped = CameraPos::eCamBottom_2;
+                break;
         }
 
         field_18_pAliveObj->VOnPathTransition_408320(
@@ -395,24 +392,24 @@ void Map::Handle_PathTransition_481610()
     {
         switch (field_14_direction)
         {
-        case MapDirections::eMapLeft_0:
-            field_D0_cam_x_idx--;
-            field_10_screen_change_effect = CameraSwapEffects::eEffect2_RightToLeft;
-            break;
-        case MapDirections::eMapRight_1:
-            field_D0_cam_x_idx++;
-            field_10_screen_change_effect = CameraSwapEffects::eEffect1_LeftToRight;
-            break;
-        case MapDirections::eMapTop_2:
-            field_D2_cam_y_idx--;
-            field_10_screen_change_effect = CameraSwapEffects::eEffect4_BottomToTop;
-            break;
-        case MapDirections::eMapBottom_3:
-            field_D2_cam_y_idx++;
-            field_10_screen_change_effect = CameraSwapEffects::eEffect3_TopToBottom;
-            break;
-        default:
-            break;
+            case MapDirections::eMapLeft_0:
+                field_D0_cam_x_idx--;
+                field_10_screen_change_effect = CameraSwapEffects::eEffect2_RightToLeft;
+                break;
+            case MapDirections::eMapRight_1:
+                field_D0_cam_x_idx++;
+                field_10_screen_change_effect = CameraSwapEffects::eEffect1_LeftToRight;
+                break;
+            case MapDirections::eMapTop_2:
+                field_D2_cam_y_idx--;
+                field_10_screen_change_effect = CameraSwapEffects::eEffect4_BottomToTop;
+                break;
+            case MapDirections::eMapBottom_3:
+                field_D2_cam_y_idx++;
+                field_10_screen_change_effect = CameraSwapEffects::eEffect3_TopToBottom;
+                break;
+            default:
+                break;
         }
 
         const u32 pCamNameOffset = sizeof(CameraName) * (field_D0_cam_x_idx + (field_D2_cam_y_idx * sPath_dword_BB47C0->field_6_cams_on_x));
@@ -420,9 +417,7 @@ void Map::Handle_PathTransition_481610()
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
-        field_E_camera =
-            1 * (pCameraName->name[7] - '0') +
-            10 * (pCameraName->name[6] - '0');
+        field_E_camera = 1 * (pCameraName->name[7] - '0') + 10 * (pCameraName->name[6] - '0');
 
         GoTo_Camera_481890();
     }
@@ -461,39 +456,39 @@ CameraPos Map::GetDirection_4811A0(s32 level, s32 path, FP xpos, FP ypos)
 
     switch (ret)
     {
-    case CameraPos::eCamCurrent_0:
-        return ret;
+        case CameraPos::eCamCurrent_0:
+            return ret;
 
-    case CameraPos::eCamTop_1:
-        if (ypos < y  || xpos < x || xpos > w)
-        {
+        case CameraPos::eCamTop_1:
+            if (ypos < y || xpos < x || xpos > w)
+            {
+                return CameraPos::eCamInvalid_m1;
+            }
+            return ypos > h ? CameraPos::eCamCurrent_0 : ret;
+
+        case CameraPos::eCamBottom_2:
+            if (ypos > h || xpos < x || xpos > w)
+            {
+                return CameraPos::eCamInvalid_m1;
+            }
+            return ypos < y ? CameraPos::eCamCurrent_0 : ret;
+
+        case CameraPos::eCamLeft_3:
+            if (xpos < x || ypos < y || ypos > h)
+            {
+                return CameraPos::eCamInvalid_m1;
+            }
+            return xpos > w ? CameraPos::eCamCurrent_0 : ret;
+
+        case CameraPos::eCamRight_4:
+            if (xpos > w || ypos < y || ypos > h)
+            {
+                return CameraPos::eCamInvalid_m1;
+            }
+            return xpos < x ? CameraPos::eCamCurrent_0 : ret;
+
+        default:
             return CameraPos::eCamInvalid_m1;
-        }
-        return ypos > h ? CameraPos::eCamCurrent_0 : ret;
-
-    case CameraPos::eCamBottom_2:
-        if (ypos > h || xpos < x || xpos > w)
-        {
-            return CameraPos::eCamInvalid_m1;
-        }
-        return ypos < y ? CameraPos::eCamCurrent_0 : ret;
-
-    case CameraPos::eCamLeft_3:
-        if (xpos < x || ypos < y || ypos > h)
-        {
-            return CameraPos::eCamInvalid_m1;
-        }
-        return xpos > w ? CameraPos::eCamCurrent_0 : ret;
-
-    case CameraPos::eCamRight_4:
-        if (xpos > w || ypos < y || ypos > h)
-        {
-            return CameraPos::eCamInvalid_m1;
-        }
-        return xpos < x ? CameraPos::eCamCurrent_0 : ret;
-
-    default:
-        return CameraPos::eCamInvalid_m1;
     }
 }
 
@@ -518,7 +513,7 @@ void Map::Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects sc
 
     SetActiveCam_480D30(level, path, camera, screenChangeEffect, fmvBaseId, forceChange);
     GoTo_Camera_481890();
-    
+
     field_6_state = 0;
 }
 
@@ -557,7 +552,7 @@ void Map::Shutdown_4804E0()
         ae_delete_free_495540(sPath_dword_BB47C0);
     }
     sPath_dword_BB47C0 = nullptr;
-    
+
     ResourceManager::Reclaim_Memory_49C470(0);
     Reset_4805D0();
 }
@@ -594,7 +589,7 @@ void Map::GoTo_Camera_481890()
         {
             SYS_EventsPump_494580();
 
-            for (s32 i=0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
             {
                 BaseGameObject* pBaseGameObj = gBaseGameObject_list_BB47C4->ItemAt(i);
                 if (!pBaseGameObj)
@@ -617,7 +612,8 @@ void Map::GoTo_Camera_481890()
                     }
                 }
             }
-        } while (!pFmvRet->field_6_flags.Get(BaseGameObject::eDead_Bit3));
+        }
+        while (!pFmvRet->field_6_flags.Get(BaseGameObject::eDead_Bit3));
 
         if (sSoundChannelsMask_5C3120)
         {
@@ -630,8 +626,7 @@ void Map::GoTo_Camera_481890()
     {
         if (field_A_level != field_0_current_level
             || field_8_force_load
-            || (field_C_path != field_2_current_path && field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV)
-            )
+            || (field_C_path != field_2_current_path && field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV))
         {
             Game_ShowLoadingIcon_482D80();
         }
@@ -647,7 +642,7 @@ void Map::GoTo_Camera_481890()
     if (field_A_level != field_0_current_level || field_8_force_load)
     {
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
-        
+
         // Free all cameras
         for (s32 i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
         {
@@ -755,14 +750,14 @@ void Map::GoTo_Camera_481890()
 
     const PathBlyRec* pPathRec_1 = Path_Get_Bly_Record_460F30(field_A_level, field_C_path);
     field_D4_ptr = pPathRec_1->field_4_pPathData;
-    
+
     sPath_dword_BB47C0->Init_4DB200(
         field_D4_ptr,
         field_A_level,
         field_C_path,
         field_E_camera,
         field_54_path_res_array.field_0_pPathRecs[field_C_path]);
-    
+
     if (sQuickSave_saved_switchResetters_count_BB234C > 0)
     {
         Quicksave_RestoreSwitchResetterStates_4C9A30();
@@ -827,13 +822,13 @@ void Map::GoTo_Camera_481890()
         field_40_stru_5[i] = field_2C_camera_array[i];
         field_2C_camera_array[i] = nullptr;
     }
-    
-    field_2C_camera_array[0] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx,         1);
-    field_2C_camera_array[3] = Create_Camera_4829E0(field_D0_cam_x_idx - 1,  field_D2_cam_y_idx,         0);
-    field_2C_camera_array[4] = Create_Camera_4829E0(field_D0_cam_x_idx + 1,  field_D2_cam_y_idx,         0);
-    field_2C_camera_array[1] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx - 1,     0);
-    field_2C_camera_array[2] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx + 1,     0);
- 
+
+    field_2C_camera_array[0] = Create_Camera_4829E0(field_D0_cam_x_idx, field_D2_cam_y_idx, 1);
+    field_2C_camera_array[3] = Create_Camera_4829E0(field_D0_cam_x_idx - 1, field_D2_cam_y_idx, 0);
+    field_2C_camera_array[4] = Create_Camera_4829E0(field_D0_cam_x_idx + 1, field_D2_cam_y_idx, 0);
+    field_2C_camera_array[1] = Create_Camera_4829E0(field_D0_cam_x_idx, field_D2_cam_y_idx - 1, 0);
+    field_2C_camera_array[2] = Create_Camera_4829E0(field_D0_cam_x_idx, field_D2_cam_y_idx + 1, 0);
+
     // Free resources for each camera
     for (s32 i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
     {
@@ -933,7 +928,7 @@ void Map::GoTo_Camera_481890()
             else
             {
                 // TODO: Add template helpers
-                
+
                 // Teleporter transition
                 Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Teleporter_88, 0));
                 Path_Teleporter_Data teleporterData = pTeleporterTlv->field_10_data;
@@ -1279,17 +1274,11 @@ Camera* Map::Create_Camera_4829E0(s16 xpos, s16 ypos, s32 /*a4*/)
     newCamera->field_18_path = field_2_current_path;
 
     // Calculate hash/resource ID of the camera
-    newCamera->field_10_camera_resource_id =
-        1 * (pCamName->name[7] - '0') +
-        10 * (pCamName->name[6] - '0') +
-        100 * (pCamName->name[4] - '0') +
-        1000 * (pCamName->name[3] - '0');
+    newCamera->field_10_camera_resource_id = 1 * (pCamName->name[7] - '0') + 10 * (pCamName->name[6] - '0') + 100 * (pCamName->name[4] - '0') + 1000 * (pCamName->name[3] - '0');
 
     // Convert the 2 digit camera number string to an integer
-    newCamera->field_1C_camera_number = 
-        1* (pCamName->name[7] - '0') + 
-        10 *(pCamName->name[6] - '0');
-    
+    newCamera->field_1C_camera_number = 1 * (pCamName->name[7] - '0') + 10 * (pCamName->name[6] - '0');
+
     return newCamera;
 }
 
@@ -1381,33 +1370,33 @@ s16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObj
     }
     else
     {
-         switch (direction)
-         {
-         case MapDirections::eMapLeft_0:
-             if (!GetCamera(CameraPos::eCamLeft_3))
-             {
-                 return 0;
-             }
-             break;
-         case MapDirections::eMapRight_1:
-             if (!GetCamera(CameraPos::eCamRight_4))
-             {
-                 return 0;
-             }
-             break;
-         case MapDirections::eMapBottom_3:
-             if (!GetCamera(CameraPos::eCamBottom_2))
-             {
-                 return 0;
-             }
-             break;
-         case MapDirections::eMapTop_2:
-             if (!GetCamera(CameraPos::eCamTop_1))
-             {
-                 return 0;
-             }
-             break;
-         }
+        switch (direction)
+        {
+            case MapDirections::eMapLeft_0:
+                if (!GetCamera(CameraPos::eCamLeft_3))
+                {
+                    return 0;
+                }
+                break;
+            case MapDirections::eMapRight_1:
+                if (!GetCamera(CameraPos::eCamRight_4))
+                {
+                    return 0;
+                }
+                break;
+            case MapDirections::eMapBottom_3:
+                if (!GetCamera(CameraPos::eCamBottom_2))
+                {
+                    return 0;
+                }
+                break;
+            case MapDirections::eMapTop_2:
+                if (!GetCamera(CameraPos::eCamTop_1))
+                {
+                    return 0;
+                }
+                break;
+        }
 
         field_A_level = field_0_current_level;
         field_C_path = field_2_current_path;
@@ -1419,7 +1408,7 @@ s16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObj
     field_1C = convertedSwapEffect;
     field_6_state = 1;
     sMap_bDoPurpleLightEffect_5C311C = 0;
-    
+
     if (convertedSwapEffect == CameraSwapEffects::eEffect5_1_FMV || convertedSwapEffect == CameraSwapEffects::eEffect11_Unknown)
     {
         sMap_bDoPurpleLightEffect_5C311C = 1;

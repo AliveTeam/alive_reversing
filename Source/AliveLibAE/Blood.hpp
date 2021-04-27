@@ -23,6 +23,7 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT Blood* ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count);
+
 private:
     EXPORT void dtor_40F5D0();
 
@@ -30,6 +31,7 @@ private:
     EXPORT void vUpdate_40F650();
     EXPORT void vRender_40F780(PrimHeader** ppOt);
     EXPORT void vScreenChanged_40FAD0();
+
 private:
     u8** field_F4_ppResBuf;
     BloodParticle* field_F8_pResBuf;

@@ -25,90 +25,90 @@ void BaseBomb::VUpdate_417580()
 
     switch (field_10_anim.field_92_current_frame)
     {
-    case 0:
-        rect.x = FP_GetExponent(FP_FromInteger(-30) * field_E4_scale);
-        rect.w = FP_GetExponent(FP_FromInteger(30) * field_E4_scale);
-        rect.y = FP_GetExponent(FP_FromInteger(-20) * field_E4_scale);
-        rect.h = FP_GetExponent(FP_FromInteger(20) * field_E4_scale);
-        DealDamageRect_417A50(&rect);
-        break;
+        case 0:
+            rect.x = FP_GetExponent(FP_FromInteger(-30) * field_E4_scale);
+            rect.w = FP_GetExponent(FP_FromInteger(30) * field_E4_scale);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * field_E4_scale);
+            rect.h = FP_GetExponent(FP_FromInteger(20) * field_E4_scale);
+            DealDamageRect_417A50(&rect);
+            break;
 
-    case 1:
-        rect.x = FP_GetExponent(FP_FromInteger(-50) * field_E4_scale);
-        rect.w = FP_GetExponent(FP_FromInteger(50) * field_E4_scale);
-        rect.y = FP_GetExponent(FP_FromInteger(-30) * field_E4_scale);
-        rect.h = FP_GetExponent(FP_FromInteger(30) * field_E4_scale);
-        DealDamageRect_417A50(&rect);
-        break;
+        case 1:
+            rect.x = FP_GetExponent(FP_FromInteger(-50) * field_E4_scale);
+            rect.w = FP_GetExponent(FP_FromInteger(50) * field_E4_scale);
+            rect.y = FP_GetExponent(FP_FromInteger(-30) * field_E4_scale);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * field_E4_scale);
+            DealDamageRect_417A50(&rect);
+            break;
 
-    case 2:
-        rect.x = FP_GetExponent(FP_FromInteger(-80) * field_E4_scale);
-        rect.w = FP_GetExponent(FP_FromInteger(80) * field_E4_scale);
-        rect.y = FP_GetExponent(FP_FromInteger(-40) * field_E4_scale);
-        rect.h = FP_GetExponent(FP_FromInteger(40) * field_E4_scale);
-        DealDamageRect_417A50(&rect);
-        break;
+        case 2:
+            rect.x = FP_GetExponent(FP_FromInteger(-80) * field_E4_scale);
+            rect.w = FP_GetExponent(FP_FromInteger(80) * field_E4_scale);
+            rect.y = FP_GetExponent(FP_FromInteger(-40) * field_E4_scale);
+            rect.h = FP_GetExponent(FP_FromInteger(40) * field_E4_scale);
+            DealDamageRect_417A50(&rect);
+            break;
 
-    case 3:
-    {
-        ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
-        if (pParticleBurst)
+        case 3:
         {
-            pParticleBurst->ctor_40D0F0(
-                field_A8_xpos,
-                field_AC_ypos,
-                20,
-                field_BC_sprite_scale,
-                BurstType::eType_3);
+            ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
+            if (pParticleBurst)
+            {
+                pParticleBurst->ctor_40D0F0(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    20,
+                    field_BC_sprite_scale,
+                    BurstType::eType_3);
+            }
+
+
+            Flash* pFlash = ao_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
+            }
+
+            rect.x = FP_GetExponent(FP_FromInteger(-113) * field_E4_scale);
+            rect.w = FP_GetExponent(FP_FromInteger(113) * field_E4_scale);
+            rect.y = FP_GetExponent(FP_FromInteger(-50) * field_E4_scale);
+            rect.h = FP_GetExponent(FP_FromInteger(50) * field_E4_scale);
+            DealDamageRect_417A50(&rect);
+            break;
         }
 
-
-        Flash* pFlash = ao_new<Flash>();
-        if (pFlash)
+        case 4:
         {
-            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
+            Flash* pFlash = ao_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
+            }
         }
 
-        rect.x = FP_GetExponent(FP_FromInteger(-113) * field_E4_scale);
-        rect.w = FP_GetExponent(FP_FromInteger(113) * field_E4_scale);
-        rect.y = FP_GetExponent(FP_FromInteger(-50) * field_E4_scale);
-        rect.h = FP_GetExponent(FP_FromInteger(50) * field_E4_scale);
-        DealDamageRect_417A50(&rect);
-        break;
-    }
-
-    case 4:
-    {
-        Flash* pFlash = ao_new<Flash>();
-        if (pFlash)
+        case 7:
         {
-            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
-        }
-    }
+            ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
+            if (pParticleBurst)
+            {
+                pParticleBurst->ctor_40D0F0(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    20,
+                    field_BC_sprite_scale,
+                    BurstType::eType_3);
+            }
 
-    case 7:
-    {
-        ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
-        if (pParticleBurst)
-        {
-            pParticleBurst->ctor_40D0F0(
-                field_A8_xpos,
-                field_AC_ypos,
-                20,
-                field_BC_sprite_scale,
-                BurstType::eType_3);
+            Flash* pFlash = ao_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
+            }
+            break;
         }
 
-        Flash* pFlash = ao_new<Flash>();
-        if (pFlash)
-        {
-            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
-        }
-        break;
-    }
-
-    default:
-        break;
+        default:
+            break;
     }
 
     if (field_10_anim.field_92_current_frame == 3)
@@ -214,9 +214,7 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
             if (obj_xpos >= left && obj_xpos <= right)
             {
                 const s16 obj_ypos = FP_GetExponent(pObj->field_AC_ypos);
-                if (obj_ypos >= top &&
-                    obj_ypos <= bottom &&
-                    field_BC_sprite_scale == (pObj->field_BC_sprite_scale * FP_FromDouble(2.75)))
+                if (obj_ypos >= top && obj_ypos <= bottom && field_BC_sprite_scale == (pObj->field_BC_sprite_scale * FP_FromDouble(2.75)))
                 {
                     pObj->VTakeDamage(this);
                 }
@@ -276,13 +274,11 @@ BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, s32 /*unused*/, FP scale)
             BurstType::eType_0);
     }
 
-    PSX_RECT damageRect =
-    {
+    PSX_RECT damageRect = {
         FP_GetExponent(FP_FromInteger(-10) * field_E4_scale),
         FP_GetExponent(FP_FromInteger(-10) * field_E4_scale),
         FP_GetExponent(FP_FromInteger(10) * field_E4_scale),
-        FP_GetExponent(FP_FromInteger(10) * field_E4_scale)
-    };
+        FP_GetExponent(FP_FromInteger(10) * field_E4_scale)};
     DealDamageRect_417A50(&damageRect);
 
     word_4FFA4C = 0;
@@ -302,5 +298,4 @@ BaseGameObject* BaseBomb::VDestructor(s32 flags)
     return this;
 }
 
-}
-
+} // namespace AO

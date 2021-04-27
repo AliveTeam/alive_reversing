@@ -18,33 +18,33 @@ struct MainMenu_TransitionData
 ALIVE_ASSERT_SIZEOF(MainMenu_TransitionData, 0x8);
 
 const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
-{
-    { -8,       -8,         384, 1 },
-    { 0,       -32,         256, 1 },
-    { 8,       -8,          384, 1 },
-    { 32,       0,          256, 1 },
-    { 8,        8,          384, 1 },
-    { 0,        32,         256, 1 },
-    { -8,       8,          384, 1 },
-    { -32,      0,          256, 1 },
+    {
+        {-8, -8, 384, 1},
+        {0, -32, 256, 1},
+        {8, -8, 384, 1},
+        {32, 0, 256, 1},
+        {8, 8, 384, 1},
+        {0, 32, 256, 1},
+        {-8, 8, 384, 1},
+        {-32, 0, 256, 1},
 
-    { -16,      -16,        256, 1 },
-    { 0,       -23,         256, 1 },
-    { 16,      -16,         256, 1 },
-    { 23,      0,           256, 1 },
-    { 16,      16,          256, 1 },
-    { 0,       23,          256, 1 },
-    { -16,      16,         256, 1 },
+        {-16, -16, 256, 1},
+        {0, -23, 256, 1},
+        {16, -16, 256, 1},
+        {23, 0, 256, 1},
+        {16, 16, 256, 1},
+        {0, 23, 256, 1},
+        {-16, 16, 256, 1},
 
-    { -23,      0,          256, 1 },
-    { -16,      -16,        256, 1 },
-    { 0,        -16,        256, 1 },
-    { 16,       -16,        256, 1 },
-    { 16,       0,          256, 1 },
-    { 16,       16,         256, 1 },
-    { 0,        16,         256, 1 },
-    { -16,      16,         256, 1 },
-    { -16,       0,         256, 1 },
+        {-23, 0, 256, 1},
+        {-16, -16, 256, 1},
+        {0, -16, 256, 1},
+        {16, -16, 256, 1},
+        {16, 0, 256, 1},
+        {16, 16, 256, 1},
+        {0, 16, 256, 1},
+        {-16, 16, 256, 1},
+        {-16, 0, 256, 1},
 };
 
 MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 fadeSpeed, TPageAbr abr)
@@ -69,7 +69,6 @@ MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, s16 fadeDirecti
 
         PolyG3_Init_4F8890(&field_2C_polys[1].field_0_polys[i]);
         Poly_Set_SemiTrans_4F8A60(&field_2C_polys[1].field_0_polys[i].mBase.header, 1);
-
     }
 
     field_24C_layer = layer;
@@ -172,11 +171,11 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
         s32 idx = i + (8 * this->field_252_tbl_idx);
         s32 v8 = stru_55C038[idx].field_4 << 8;
         s32 v9 = stru_55C038[idx].field_2 << 16;
-        s32 v10 = (s16)stru_55C038[idx].field_0 << 16;
+        s32 v10 = (s16) stru_55C038[idx].field_0 << 16;
         s32 v11 = Math_FixedPoint_Multiply_496C50(v9, val1);
         s32 v12 = Math_FixedPoint_Multiply_496C50(v10, val2) - v11;
         s32 v13 = Math_FixedPoint_Multiply_496C50(op1, v8);
-        s16 x0 = this->field_24E_width + 640 * ((s32)Math_FixedPoint_Multiply_496C50(v12, v13) >> 16) / 368;
+        s16 x0 = this->field_24E_width + 640 * ((s32) Math_FixedPoint_Multiply_496C50(v12, v13) >> 16) / 368;
         s32 v14 = Math_FixedPoint_Multiply_496C50(v9, val2);
         s32 v15 = Math_FixedPoint_Multiply_496C50(v10, val1) + v14;
         s32 v16 = Math_FixedPoint_Multiply_496C50(op1, v8);
@@ -193,7 +192,7 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
         }
 
         s32 idx2 = (8 * this->field_252_tbl_idx);
-        s32 v36 = (s16)stru_55C038[idx2 + v17].field_0 << 16;
+        s32 v36 = (s16) stru_55C038[idx2 + v17].field_0 << 16;
         s32 v19 = 0;
         if (i < 7)
         {
@@ -221,7 +220,7 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
         s32 x1 = Math_FixedPoint_Multiply_496C50(v36, val2) - v23;
         s32 v25 = Math_FixedPoint_Multiply_496C50(op1, y1);
         // TODO: Use PsxToPCX
-        x1 = this->field_24E_width + 40 * ((s32)Math_FixedPoint_Multiply_496C50(x1, v25) >> 16) / 23; // LOWORD
+        x1 = this->field_24E_width + 40 * ((s32) Math_FixedPoint_Multiply_496C50(x1, v25) >> 16) / 23; // LOWORD
         s32 v26 = Math_FixedPoint_Multiply_496C50(v38, val2);
         s32 v27 = v26 + Math_FixedPoint_Multiply_496C50(v36, val1);
         s32 v28 = Math_FixedPoint_Multiply_496C50(op1, y1);

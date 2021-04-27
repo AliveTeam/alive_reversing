@@ -199,15 +199,9 @@ s16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* pOb
     {
         if (pTlv->field_4_type == TlvTypes::InvisibleZone_33)
         {
-            if (bRect.x >= pTlv->field_8_top_left.field_0_x &&
-                bRect.x <= pTlv->field_C_bottom_right.field_0_x &&
-                bRect.y >= pTlv->field_8_top_left.field_2_y)
+            if (bRect.x >= pTlv->field_8_top_left.field_0_x && bRect.x <= pTlv->field_C_bottom_right.field_0_x && bRect.y >= pTlv->field_8_top_left.field_2_y)
             {
-                if (bRect.y <= pTlv->field_C_bottom_right.field_2_y &&
-                    bRect.w >= pTlv->field_8_top_left.field_0_x &&
-                    bRect.w <= pTlv->field_C_bottom_right.field_0_x &&
-                    bRect.h >= pTlv->field_8_top_left.field_2_y &&
-                    bRect.h <= pTlv->field_C_bottom_right.field_2_y)
+                if (bRect.y <= pTlv->field_C_bottom_right.field_2_y && bRect.w >= pTlv->field_8_top_left.field_0_x && bRect.w <= pTlv->field_C_bottom_right.field_0_x && bRect.h >= pTlv->field_8_top_left.field_2_y && bRect.h <= pTlv->field_C_bottom_right.field_2_y)
                 {
                     return TRUE;
                 }
@@ -216,10 +210,10 @@ s16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* pOb
 
         // Check for stacked/overlaping TLV's
         pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv,
-            FP_FromInteger(bRect.x),
-            FP_FromInteger(bRect.y),
-            FP_FromInteger(bRect.w),
-            FP_FromInteger(bRect.h));
+                                                     FP_FromInteger(bRect.x),
+                                                     FP_FromInteger(bRect.y),
+                                                     FP_FromInteger(bRect.w),
+                                                     FP_FromInteger(bRect.h));
     }
     return FALSE;
 }
@@ -299,10 +293,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(s16 cameraWorldXPos, s16 came
 
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 
-    if (sActiveHero_5C1B68 == this &&
-        gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2 &&
-        gMap_5C3030.field_2_current_path == 2 &&
-        (field_106_current_motion == eAbeStates::State_23_RollLoop_453A90 || field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0))
+    if (sActiveHero_5C1B68 == this && gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2 && gMap_5C3030.field_2_current_path == 2 && (field_106_current_motion == eAbeStates::State_23_RollLoop_453A90 || field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0))
     {
         // Yummy OWI hack - hard code Abe's location when path change to Necrum's first path after the Mines :)
         field_100_pCollisionLine = nullptr;
@@ -319,9 +310,9 @@ void BaseAliveGameObject::vOnPathTransition_408320(s16 cameraWorldXPos, s16 came
         if (field_100_pCollisionLine)
         {
             if (sCollisions_DArray_5C1128->Raycast_417A60(
-                field_B8_xpos, field_BC_ypos - FP_FromInteger(40),
-                field_B8_xpos, field_BC_ypos + FP_FromInteger(40),
-                &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
+                    field_B8_xpos, field_BC_ypos - FP_FromInteger(40),
+                    field_B8_xpos, field_BC_ypos + FP_FromInteger(40),
+                    &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
             {
                 field_BC_ypos = hitY;
                 field_100_pCollisionLine = pLine;
@@ -335,9 +326,9 @@ void BaseAliveGameObject::vOnPathTransition_408320(s16 cameraWorldXPos, s16 came
         {
             field_F8_LastLineYPos = field_BC_ypos - oldY + field_F8_LastLineYPos;
             if (sCollisions_DArray_5C1128->Raycast_417A60(
-                field_B8_xpos, field_F8_LastLineYPos - FP_FromInteger(40),
-                field_B8_xpos, field_F8_LastLineYPos + FP_FromInteger(40),
-                &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
+                    field_B8_xpos, field_F8_LastLineYPos - FP_FromInteger(40),
+                    field_B8_xpos, field_F8_LastLineYPos + FP_FromInteger(40),
+                    &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
             {
                 field_BC_ypos = hitY - field_F8_LastLineYPos + field_BC_ypos;
             }
@@ -394,14 +385,14 @@ void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(s16 distance)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        yBottom,
-        field_B8_xpos,
-        yTop,
-        &pLine,
-        &hitX,
-        &hitY,
-        field_D6_scale == 1 ? 0x0F : 0xF0))
+            field_B8_xpos,
+            yBottom,
+            field_B8_xpos,
+            yTop,
+            &pLine,
+            &hitX,
+            &hitY,
+            field_D6_scale == 1 ? 0x0F : 0xF0))
     {
         field_100_pCollisionLine = pLine;
         field_BC_ypos = hitY;
@@ -411,19 +402,18 @@ void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(s16 distance)
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
 
-            PSX_Point xy = { bRect.x, bRect.y };
-            PSX_Point wh = { bRect.w, bRect.h };
+            PSX_Point xy = {bRect.x, bRect.y};
+            PSX_Point wh = {bRect.w, bRect.h};
             xy.field_2_y += 5;
             wh.field_2_y += 5;
 
-            vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+            vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
         }
     }
     else
     {
         field_100_pCollisionLine = nullptr;
     }
-
 }
 
 BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(s16 numGridBlocks)
@@ -443,8 +433,7 @@ BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(s16 numGridBlocks)
             {
                 if (pBirdPortal->field_26_side == PortalSide::eLeft_1)
                 {
-                    if (pBirdPortal->field_2C_xpos - field_B8_xpos <= (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks)) &&
-                        !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
+                    if (pBirdPortal->field_2C_xpos - field_B8_xpos <= (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks)) && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->VPortalClipper_499430(1))
                         {
@@ -517,14 +506,15 @@ BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(s16 direction, s16 distance
     FP hitX = {};
     FP hitY = {};
     return sCollisions_DArray_5C1128->Raycast_417A60(
-        xLoc + xPosSnapped,
-        field_BC_ypos - FP_FromInteger(4),
-        xLoc + xPosSnapped,
-        field_BC_ypos + FP_FromInteger(4),
-        &pLine,
-        &hitX,
-        &hitY,
-        field_D6_scale != 0 ? 0xF : 0xF0) == 0;
+               xLoc + xPosSnapped,
+               field_BC_ypos - FP_FromInteger(4),
+               xLoc + xPosSnapped,
+               field_BC_ypos + FP_FromInteger(4),
+               &pLine,
+               &hitX,
+               &hitY,
+               field_D6_scale != 0 ? 0xF : 0xF0)
+        == 0;
 }
 
 BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos)
@@ -554,10 +544,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFi
                 BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
                 pAliveObj->vGetBoundingRect_424FD0(&bRect, 1);
                 // TODO: Similar to PSX_Rects_overlap_no_adjustment
-                if (xposD >= bRect.x &&
-                    xposD <= bRect.w &&
-                    yposD >= bRect.y &&
-                    yposD <= bRect.h)
+                if (xposD >= bRect.x && xposD <= bRect.w && yposD >= bRect.y && yposD <= bRect.h)
                 {
                     return pAliveObj;
                 }
@@ -569,45 +556,46 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFi
 
 EXPORT void BaseAliveGameObject::SetActiveCameraDelayedFromDir_408C40()
 {
-     if (sControlledCharacter_5C1B8C == this)
-     {
-         switch (Is_In_Current_Camera_424A70())
-         {
-             case CameraPos::eCamTop_1:
-                 if (field_C8_vely < FP_FromInteger(0))
-                 {
-                     gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop_2, this, -1);
-                 }
-                 break;
+    if (sControlledCharacter_5C1B8C == this)
+    {
+        switch (Is_In_Current_Camera_424A70())
+        {
+            case CameraPos::eCamTop_1:
+                if (field_C8_vely < FP_FromInteger(0))
+                {
+                    gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop_2, this, -1);
+                }
+                break;
 
-             case CameraPos::eCamBottom_2:
-                 if (field_C8_vely > FP_FromInteger(0))
-                 {
-                     gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapBottom_3, this, -1);
-                 }
-                 break;
+            case CameraPos::eCamBottom_2:
+                if (field_C8_vely > FP_FromInteger(0))
+                {
+                    gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapBottom_3, this, -1);
+                }
+                break;
 
-             case CameraPos::eCamLeft_3:
-                 if (field_C4_velx < FP_FromInteger(0))
-                 {
-                     gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1);
-                 }
-                 break;
+            case CameraPos::eCamLeft_3:
+                if (field_C4_velx < FP_FromInteger(0))
+                {
+                    gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1);
+                }
+                break;
 
-             case CameraPos::eCamRight_4:
-                 if (field_C4_velx > FP_FromInteger(0))
-                 {
-                     gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1);
-                 }
-                 break;
+            case CameraPos::eCamRight_4:
+                if (field_C4_velx > FP_FromInteger(0))
+                {
+                    gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1);
+                }
+                break;
 
-             case CameraPos::eCamCurrent_0:
-             case CameraPos::eCamNone_5:
-                 return;
+            case CameraPos::eCamCurrent_0:
+            case CameraPos::eCamNone_5:
+                return;
 
-             default: return;
-         }
-     }
+            default:
+                return;
+        }
+    }
 }
 
 s16 BaseAliveGameObject::MapFollowMe_408D10(s16 snapToGrid)
@@ -648,14 +636,15 @@ EXPORT BOOL BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos - offY,
-        field_B8_xpos + offX,
-        field_BC_ypos - offY,
-        &pLine,
-        &offX,
-        &offY,
-        field_D6_scale != 0 ? 6 : 96) != 0; // TODO: Enum for line types
+               field_B8_xpos,
+               field_BC_ypos - offY,
+               field_B8_xpos + offX,
+               field_BC_ypos - offY,
+               &pLine,
+               &offX,
+               &offY,
+               field_D6_scale != 0 ? 6 : 96)
+        != 0; // TODO: Enum for line types
 }
 
 BOOL BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
@@ -737,7 +726,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind,
     const s32 xposI = FP_GetExponent(xpos);
     const s32 yposI = FP_GetExponent(ypos);
 
-    for (s32 i=0; i<gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         if (!pObj)
@@ -753,8 +742,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind,
                 PSX_RECT bRect = {};
                 pCasted->vGetBoundingRect_424FD0(&bRect, 1);
 
-                if (xposI >= bRect.x && xposI <= bRect.w &&
-                    yposI >= bRect.y && yposI <= bRect.h)
+                if (xposI >= bRect.x && xposI <= bRect.w && yposI >= bRect.y && yposI <= bRect.h)
                 {
                     return pObj;
                 }
@@ -769,9 +757,7 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection_408BA0(PlatformBase* pPlatform)
     PSX_RECT bRect = {};
     pPlatform->vGetBoundingRect_424FD0(&bRect, 1);
 
-    if (FP_GetExponent(field_B8_xpos) < bRect.x ||
-        FP_GetExponent(field_B8_xpos) > bRect.w ||
-        FP_GetExponent(field_BC_ypos) > bRect.h)
+    if (FP_GetExponent(field_B8_xpos) < bRect.x || FP_GetExponent(field_B8_xpos) > bRect.w || FP_GetExponent(field_BC_ypos) > bRect.h)
     {
         return 1;
     }

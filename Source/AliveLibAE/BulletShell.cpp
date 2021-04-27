@@ -102,14 +102,15 @@ void BulletShell::vUpdate_4AD550()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos - field_C8_vely,
-        field_B8_xpos,
-        field_BC_ypos,
-        &field_F4_pLine,
-        &hitX,
-        &hitY,
-        field_D6_scale != 0 ? 0x0F : 0xF0) == 1)
+            field_B8_xpos,
+            field_BC_ypos - field_C8_vely,
+            field_B8_xpos,
+            field_BC_ypos,
+            &field_F4_pLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 0x0F : 0xF0)
+        == 1)
     {
         if (field_F4_pLine->field_8_type == 0 || field_F4_pLine->field_8_type == 4)
         {

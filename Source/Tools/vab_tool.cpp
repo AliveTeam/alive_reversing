@@ -100,10 +100,10 @@ static void PCToPsxVab(bool isAe, const s8* lvlName, const s8* vhName, const s8*
 
             std::vector<u8> tempBuffer;
             tempBuffer.resize(sampleLen);
-           // SND_SoundsDat_Read(hDat, pHeader, pBody, i, tempBuffer.data());
+            // SND_SoundsDat_Read(hDat, pHeader, pBody, i, tempBuffer.data());
 
             fseek(hDat, pBody->field_8_fileOffset, SEEK_SET);
-            fread(tempBuffer.data(), 1, sampleLen , hDat);
+            fread(tempBuffer.data(), 1, sampleLen, hDat);
 
             const std::string name = std::string(vbName) + "_" + std::to_string(i) + ".raw";
             WriteVec(name.c_str(), tempBuffer);

@@ -8,7 +8,6 @@ namespace AO {
 
 struct Path_GasEmitter : public Path_TLV
 {
-
 };
 
 class GasEmitter : public BaseGameObject
@@ -41,5 +40,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(GasEmitter, 0x24);
 
-}
-
+} // namespace AO

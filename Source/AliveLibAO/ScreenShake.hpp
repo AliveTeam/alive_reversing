@@ -31,5 +31,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ScreenShake, 0x34);
 
-}
-
+} // namespace AO

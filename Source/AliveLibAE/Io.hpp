@@ -4,7 +4,7 @@
 #include <atomic>
 
 #if USE_SDL2
-#include "SDL.h"
+    #include "SDL.h"
 #endif
 
 #if USE_SDL2_IO
@@ -44,14 +44,14 @@ EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile);
 EXPORT s32 CC IO_Seek_4F2490(IO_Handle* hFile, s32 offset, s32 origin);
 EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile);
 EXPORT u32 WINAPI FS_IOThread_4F25A0(LPVOID lpThreadParameter);
-EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, s32 always3, void* readBuffer, size_t bytesToRead, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 /*notUsed3*/);
+EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle* hFile, s32 always3, void* readBuffer, size_t bytesToRead, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 /*notUsed3*/);
 EXPORT s32 CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount);
 EXPORT void IO_Init_494230();
 
-IO_FileHandleType IO_Open(const s8* fileName, const s8 * mode);
+IO_FileHandleType IO_Open(const s8* fileName, const s8* mode);
 s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin);
 s32 IO_Close(IO_FileHandleType pHandle);
-size_t IO_Read(IO_FileHandleType pHandle, void *ptr, size_t size, size_t maxnum);
+size_t IO_Read(IO_FileHandleType pHandle, void* ptr, size_t size, size_t maxnum);
 
 
 EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0();

@@ -71,4 +71,4 @@ void CreditsController::VUpdate_40D020()
     }
 }
 
-}
+} // namespace AO

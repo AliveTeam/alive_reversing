@@ -58,92 +58,92 @@ EXPORT s32 CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
 
     switch (msg)
     {
-    case WM_PAINT:
-    {
-        RECT rect = {};
-        PAINTSTRUCT paint = {};
-        BeginPaint(hWnd, &paint);
-        GetClientRect(hWnd, &rect);
-        PatBlt(paint.hdc, 0, 0, rect.right, rect.bottom, BLACKNESS); // use pal 0
-        EndPaint(hWnd, &paint);
-        Add_Dirty_Area_48D910(0, 0, 640, 240);
-    }
-    return 1;
-
-    case WM_CLOSE:
-        return (MessageBoxA(hWnd, "Do you really want to quit ?", "Abe's Oddysee", MB_DEFBUTTON2 | MB_ICONQUESTION | MB_YESNO) == IDNO) ? -1 : 0;
-
-    case WM_KEYDOWN:
-        if (wParam == VK_F1)
+        case WM_PAINT:
         {
-            MessageBox_48E3F0(
-                "About Abe",
-                -1,
-                "Oddworld Abe's Oddysee 2.0\nPC version by Digital Dialect\n\nBuild date: %s %s\n",
-                "Oct 22 1997",
-                "14:32:52");
-            Input_InitKeyStateArray_48E5F0();
+            RECT rect = {};
+            PAINTSTRUCT paint = {};
+            BeginPaint(hWnd, &paint);
+            GetClientRect(hWnd, &rect);
+            PatBlt(paint.hdc, 0, 0, rect.right, rect.bottom, BLACKNESS); // use pal 0
+            EndPaint(hWnd, &paint);
+            Add_Dirty_Area_48D910(0, 0, 640, 240);
         }
-        Input_SetKeyState_48E610(static_cast<s32>(wParam), 1);
-        return 0;
+            return 1;
 
-    case WM_KEYUP:
-        Input_SetKeyState_48E610(static_cast<s32>(wParam), 0);
-        break;
+        case WM_CLOSE:
+            return (MessageBoxA(hWnd, "Do you really want to quit ?", "Abe's Oddysee", MB_DEFBUTTON2 | MB_ICONQUESTION | MB_YESNO) == IDNO) ? -1 : 0;
 
-    case WM_SETCURSOR:
-    {
-        static auto hCursor = LoadCursor(nullptr, IDC_ARROW);
-        SetCursor(hCursor);
-    }
-    return -1;
+        case WM_KEYDOWN:
+            if (wParam == VK_F1)
+            {
+                MessageBox_48E3F0(
+                    "About Abe",
+                    -1,
+                    "Oddworld Abe's Oddysee 2.0\nPC version by Digital Dialect\n\nBuild date: %s %s\n",
+                    "Oct 22 1997",
+                    "14:32:52");
+                Input_InitKeyStateArray_48E5F0();
+            }
+            Input_SetKeyState_48E610(static_cast<s32>(wParam), 1);
+            return 0;
 
-#ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    case WM_NCLBUTTONDOWN:
-        // Prevent window being moved when click + dragged
-        return -1;
-#endif
+        case WM_KEYUP:
+            Input_SetKeyState_48E610(static_cast<s32>(wParam), 0);
+            break;
 
-    case WM_ACTIVATE:
-    case WM_SETFOCUS:
-    case WM_KILLFOCUS:
-    case WM_ENTERMENULOOP:
-    case WM_EXITMENULOOP:
-    case WM_ENTERSIZEMOVE:
-    case WM_EXITSIZEMOVE:
-        Input_InitKeyStateArray_48E5F0();
-        break;
-
-    case WM_INITMENUPOPUP:
-        // TODO: Constants for wParam
-        if ((u32)lParam >> 16)
+        case WM_SETCURSOR:
         {
+            static auto hCursor = LoadCursor(nullptr, IDC_ARROW);
+            SetCursor(hCursor);
+        }
             return -1;
-        }
-        break;
 
-    case WM_SYSKEYDOWN:
-        // TODO: Constants for wParam
-        if (wParam == 18 || wParam == 32)
-        {
-            ret = -1;
-        }
-        Input_SetKeyState_48E610(static_cast<s32>(wParam), 1);
-        break;
+    #ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+        case WM_NCLBUTTONDOWN:
+            // Prevent window being moved when click + dragged
+            return -1;
+    #endif
 
-    case WM_SYSKEYUP:
-        // TODO: Constants for wParam
-        if (wParam == 18 || wParam == 32)
-        {
-            ret = -1;
-        }
-        Input_SetKeyState_48E610(static_cast<s32>(wParam), 0);
-        break;
+        case WM_ACTIVATE:
+        case WM_SETFOCUS:
+        case WM_KILLFOCUS:
+        case WM_ENTERMENULOOP:
+        case WM_EXITMENULOOP:
+        case WM_ENTERSIZEMOVE:
+        case WM_EXITSIZEMOVE:
+            Input_InitKeyStateArray_48E5F0();
+            break;
 
-    case WM_TIMER:
-        return 1;
-    default:
-        return static_cast<s32>(ret);
+        case WM_INITMENUPOPUP:
+            // TODO: Constants for wParam
+            if ((u32) lParam >> 16)
+            {
+                return -1;
+            }
+            break;
+
+        case WM_SYSKEYDOWN:
+            // TODO: Constants for wParam
+            if (wParam == 18 || wParam == 32)
+            {
+                ret = -1;
+            }
+            Input_SetKeyState_48E610(static_cast<s32>(wParam), 1);
+            break;
+
+        case WM_SYSKEYUP:
+            // TODO: Constants for wParam
+            if (wParam == 18 || wParam == 32)
+            {
+                ret = -1;
+            }
+            Input_SetKeyState_48E610(static_cast<s32>(wParam), 0);
+            break;
+
+        case WM_TIMER:
+            return 1;
+        default:
+            return static_cast<s32>(ret);
     }
     return static_cast<s32>(ret);
 }
@@ -164,7 +164,6 @@ ALIVE_VAR(1, 0x50766C, DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C, 
 
 void Game_ForceLink()
 {
-
 }
 
 ALIVE_VAR(1, 0x5076CC, s16, gbKillUnsavedMudsDone_5076CC, 0);
@@ -185,7 +184,7 @@ ALIVE_VAR(1, 0x505564, DynamicArrayT<AnimationBase>*, gObjList_animations_505564
 ALIVE_VAR(1, 0x508BF8, s8, gDDCheatMode_508BF8, 0);
 ALIVE_VAR(1, 0x508BFC, s8, byte_508BFC, 0);
 
-ALIVE_ARY(1, 0x4CECC8, s8, 3, gDriveLetter_4CECC8, { 'D', ':', '0' });
+ALIVE_ARY(1, 0x4CECC8, s8, 3, gDriveLetter_4CECC8, {'D', ':', '0'});
 
 
 
@@ -312,7 +311,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
     ObjListPlatforms_50766C->ctor_4043E0(20);
 
     ObjList_5009E0 = ao_new<DynamicArrayT<ResourceManager::ResourceManager_FileRecord>>();
-    ObjList_5009E0->ctor_4043E0(10);  // not used in AE
+    ObjList_5009E0->ctor_4043E0(10); // not used in AE
 
     sShadowZone_dArray_507B08 = ao_new<DynamicArrayT<ShadowZone>>();
     sShadowZone_dArray_507B08->ctor_4043E0(4);
@@ -409,9 +408,7 @@ EXPORT void CC Game_Loop_437630()
                 break;
             }
 
-            if (pObjIter->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2) &&
-                !pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3) &&
-                (sNumCamSwappers_507668 == 0 || pObjIter->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            if (pObjIter->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (sNumCamSwappers_507668 == 0 || pObjIter->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
                 if (pObjIter->field_8_update_delay > 0)
                 {
@@ -477,9 +474,9 @@ EXPORT void CC Game_Loop_437630()
         {
             gnFrameCount_507670++;
         }
-    }  // Main loop end
+    } // Main loop end
 
-    const PSX_RECT rect = { 0, 0, 368, 480 };
+    const PSX_RECT rect = {0, 0, 368, 480};
     PSX_ClearImage_496020(&rect, 0, 0, 0);
     PSX_DrawSync_496750(0);
     PSX_VSync_496620(0);
@@ -611,5 +608,4 @@ EXPORT void Game_Main_450050()
     Game_Shutdown_48E050();
 }
 
-}
-
+} // namespace AO

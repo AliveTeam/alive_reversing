@@ -40,4 +40,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DeathGas, 0x20);
 
-}
+} // namespace AO

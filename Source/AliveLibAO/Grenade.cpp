@@ -136,14 +136,14 @@ void Grenade::AddToPlatform_41F7C0()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast_40C410(
-        field_A8_xpos,
-        field_AC_ypos - FP_FromInteger(20),
-        field_A8_xpos,
-        field_AC_ypos + FP_FromInteger(20),
-        &pLine,
-        &hitX,
-        &hitY,
-        scale != FP_FromInteger(0) ? 7 : 0x70))
+            field_A8_xpos,
+            field_AC_ypos - FP_FromInteger(20),
+            field_A8_xpos,
+            field_AC_ypos + FP_FromInteger(20),
+            &pLine,
+            &hitX,
+            &hitY,
+            scale != FP_FromInteger(0) ? 7 : 0x70))
     {
         if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
         {
@@ -162,9 +162,7 @@ void Grenade::AddToPlatform_41F7C0()
                     PSX_RECT objRect = {};
                     pPlatformBase->VGetBoundingRect(&objRect, 1);
 
-                    if (FP_GetExponent(field_A8_xpos) > objRect.x &&
-                        FP_GetExponent(field_A8_xpos) < objRect.w &&
-                        FP_GetExponent(field_AC_ypos) < objRect.h)
+                    if (FP_GetExponent(field_A8_xpos) > objRect.x && FP_GetExponent(field_A8_xpos) < objRect.w && FP_GetExponent(field_AC_ypos) < objRect.h)
                     {
                         if (field_F8_pLiftPoint)
                         {
@@ -219,8 +217,7 @@ void Grenade::VThrow_41ED90(FP velX, FP velY)
 
 void Grenade::VScreenChanged_41F720()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level ||
-        gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -235,55 +232,117 @@ void Grenade::VUpdate_41F240()
 
     switch (field_110_state)
     {
-    case States::eFallingToBeCollected_0:
-        if (!InTheAir_41EF10())
-        {
-            field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-            field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
-            field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-            field_D4_collection_rect.h = field_AC_ypos;
-
-            field_6_flags.Set(Options::eInteractive_Bit8);
-            field_110_state = States::eWaitToBeCollected_1;
-        }
-        break;
-
-    case States::eWaitToBeCollected_1:
-        if (field_B4_velx < FP_FromInteger(0))
-        {
-            field_B4_velx = FP_FromInteger(0);
-        }
-
-        if (FP_Abs(field_B4_velx) >= FP_FromInteger(1))
-        {
-            if (field_B4_velx <= FP_FromInteger(0))
+        case States::eFallingToBeCollected_0:
+            if (!InTheAir_41EF10())
             {
-                field_B4_velx += FP_FromDouble(0.01);
+                field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+                field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+                field_D4_collection_rect.h = field_AC_ypos;
+
+                field_6_flags.Set(Options::eInteractive_Bit8);
+                field_110_state = States::eWaitToBeCollected_1;
+            }
+            break;
+
+        case States::eWaitToBeCollected_1:
+            if (field_B4_velx < FP_FromInteger(0))
+            {
+                field_B4_velx = FP_FromInteger(0);
+            }
+
+            if (FP_Abs(field_B4_velx) >= FP_FromInteger(1))
+            {
+                if (field_B4_velx <= FP_FromInteger(0))
+                {
+                    field_B4_velx += FP_FromDouble(0.01);
+                }
+                else
+                {
+                    field_B4_velx -= FP_FromDouble(0.01);
+                }
+
+                const auto oldLine = field_114_pCollisionLine;
+                field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+                if (field_F8_pLiftPoint)
+                {
+                    if (field_114_pCollisionLine != oldLine)
+                    {
+                        field_F8_pLiftPoint->VRemove(this);
+                        field_F8_pLiftPoint->field_C_refCount--;
+                        field_F8_pLiftPoint = nullptr;
+                    }
+                }
+
+                if (!field_114_pCollisionLine)
+                {
+                    field_110_state = States::eFallingToBeCollected_0;
+                }
+            }
+            else if (abs(SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos)) - FP_GetExponent(field_A8_xpos)) > 1)
+            {
+                const auto oldLine = field_114_pCollisionLine;
+                field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+                if (field_F8_pLiftPoint)
+                {
+                    if (field_114_pCollisionLine != oldLine)
+                    {
+                        field_F8_pLiftPoint->VRemove(this);
+                        field_F8_pLiftPoint->field_C_refCount--;
+                        field_F8_pLiftPoint = nullptr;
+                    }
+                }
+
+                if (!field_114_pCollisionLine)
+                {
+                    field_110_state = States::eFalling_4;
+                }
             }
             else
             {
-                field_B4_velx -= FP_FromDouble(0.01);
-            }
+                field_B4_velx = FP_FromInteger(0);
 
-            const auto oldLine = field_114_pCollisionLine;
-            field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
-            if (field_F8_pLiftPoint)
+                field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+                field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+                field_D4_collection_rect.h = field_AC_ypos;
+
+                field_6_flags.Set(Options::eInteractive_Bit8);
+                field_110_state = States::eDoesNothing_2;
+            }
+            break;
+
+        case States::eDoesNothing_2:
+            break;
+
+        case States::eCountingDown_3:
+            BlowUpAfterCountdown_41EDD0();
+            break;
+
+        case States::eFalling_4:
+            if (InTheAir_41EF10())
             {
-                if (field_114_pCollisionLine != oldLine)
+                if (!BlowUpAfterCountdown_41EDD0())
                 {
-                    field_F8_pLiftPoint->VRemove(this);
-                    field_F8_pLiftPoint->field_C_refCount--;
-                    field_F8_pLiftPoint = nullptr;
+                    PSX_RECT bRect = {};
+                    VGetBoundingRect(&bRect, 1);
+
+                    const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
+                    const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
+
+                    VOnCollisionWith(xy, wh, gBaseGameObject_list_9F2DF0, 1, (TCollisionCallBack) &Grenade::OnCollision_BounceOff_41F650);
                 }
             }
-
-            if (!field_114_pCollisionLine)
+            else
             {
-                field_110_state = States::eFallingToBeCollected_0;
+                field_110_state = States::eHitGround_5;
             }
-        }
-        else if (abs(SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos)) - FP_GetExponent(field_A8_xpos)) > 1)
+            break;
+
+        case States::eHitGround_5:
         {
+            field_B4_velx = FP_FromRaw(field_B4_velx.fpValue / 2);
+
             const auto oldLine = field_114_pCollisionLine;
             field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
             if (field_F8_pLiftPoint)
@@ -300,88 +359,26 @@ void Grenade::VUpdate_41F240()
             {
                 field_110_state = States::eFalling_4;
             }
+
+            BlowUpAfterCountdown_41EDD0();
+            break;
         }
-        else
-        {
-            field_B4_velx = FP_FromInteger(0);
 
-            field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-            field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
-            field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-            field_D4_collection_rect.h = field_AC_ypos;
-
-            field_6_flags.Set(Options::eInteractive_Bit8);
-            field_110_state = States::eDoesNothing_2;
-        }
-        break;
-
-    case States::eDoesNothing_2:
-        break;
-
-    case States::eCountingDown_3:
-        BlowUpAfterCountdown_41EDD0();
-        break;
-
-    case States::eFalling_4:
-        if (InTheAir_41EF10())
-        {
-            if (!BlowUpAfterCountdown_41EDD0())
+        case States::eWaitForExplodeEnd_6:
+            if (field_11C->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
-
-                const PSX_Point xy = { bRect.x, static_cast<s16>(bRect.y + 5) };
-                const PSX_Point wh = { bRect.w, static_cast<s16>(bRect.h + 5) };
-
-                VOnCollisionWith(xy, wh, gBaseGameObject_list_9F2DF0, 1, (TCollisionCallBack)&Grenade::OnCollision_BounceOff_41F650);
+                field_110_state = States::eExploded_7;
+                field_11C->field_C_refCount--;
+                field_11C = nullptr;
             }
-        }
-        else
-        {
-            field_110_state = States::eHitGround_5;
-        }
-        break;
+            break;
 
-    case States::eHitGround_5:
-    {
-        field_B4_velx = FP_FromRaw(field_B4_velx.fpValue / 2);
+        case States::eExploded_7:
+            field_6_flags.Set(Options::eDead_Bit3);
+            break;
 
-        const auto oldLine = field_114_pCollisionLine;
-        field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
-        if (field_F8_pLiftPoint)
-        {
-            if (field_114_pCollisionLine != oldLine)
-            {
-                field_F8_pLiftPoint->VRemove(this);
-                field_F8_pLiftPoint->field_C_refCount--;
-                field_F8_pLiftPoint = nullptr;
-            }
-        }
-
-        if (!field_114_pCollisionLine)
-        {
-            field_110_state = States::eFalling_4;
-        }
-
-        BlowUpAfterCountdown_41EDD0();
-        break;
-    }
-
-    case States::eWaitForExplodeEnd_6:
-        if (field_11C->field_6_flags.Get(BaseGameObject::eDead_Bit3))
-        {
-            field_110_state = States::eExploded_7;
-            field_11C->field_C_refCount--;
-            field_11C = nullptr;
-        }
-        break;
-
-    case States::eExploded_7:
-        field_6_flags.Set(Options::eDead_Bit3);
-        break;
-
-    default:
-        return;
+        default:
+            return;
     }
 }
 
@@ -447,7 +444,7 @@ s16 Grenade::InTheAir_41EF10()
             field_A8_xpos = hitX;
             field_AC_ypos = hitY;
             field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
-            field_B4_velx =(field_B4_velx / FP_FromInteger(2));
+            field_B4_velx = (field_B4_velx / FP_FromInteger(2));
             if (field_118 <= 4)
             {
                 s16 vol = 75 - 20 * field_118;
@@ -478,48 +475,47 @@ s16 Grenade::InTheAir_41EF10()
     {
         switch (field_114_pCollisionLine->field_8_type)
         {
-        case 1:
-        case 5:
-            if (field_B4_velx < FP_FromInteger(0))
-            {
-                field_AC_ypos = hitY;
-                field_A8_xpos = hitX;
-                field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                s16 vol = 75 - 20 * field_118;
-                if (vol < 40)
+            case 1:
+            case 5:
+                if (field_B4_velx < FP_FromInteger(0))
                 {
-                    vol = 40;
+                    field_AC_ypos = hitY;
+                    field_A8_xpos = hitX;
+                    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                    s16 vol = 75 - 20 * field_118;
+                    if (vol < 40)
+                    {
+                        vol = 40;
+                    }
+                    SFX_Play_43AD70(SoundEffect::GrenadeBounce_82, vol, 0);
+                    Event_Broadcast_417220(kEventNoise_0, this);
+                    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                    Event_Broadcast_417220(kEventSpeaking_1, this);
                 }
-                SFX_Play_43AD70(SoundEffect::GrenadeBounce_82, vol, 0);
-                Event_Broadcast_417220(kEventNoise_0, this);
-                Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-                Event_Broadcast_417220(kEventSpeaking_1, this);
-            }
-            break;
+                break;
 
-        case 2:
-        case 6:
-            if (field_B4_velx > FP_FromInteger(0))
-            {
-                field_A8_xpos = hitX;
-                field_AC_ypos = hitY;
-                field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                s16 vol = 75 - 20 * field_118;
-                if (vol < 40)
+            case 2:
+            case 6:
+                if (field_B4_velx > FP_FromInteger(0))
                 {
+                    field_A8_xpos = hitX;
+                    field_AC_ypos = hitY;
+                    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                    s16 vol = 75 - 20 * field_118;
+                    if (vol < 40)
+                    {
+                        vol = 40;
+                    }
 
-                    vol = 40;
+                    SFX_Play_43AD70(SoundEffect::GrenadeBounce_82, vol, 0);
+                    Event_Broadcast_417220(kEventNoise_0, this);
+                    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                    Event_Broadcast_417220(kEventSpeaking_1, this);
                 }
+                break;
 
-                SFX_Play_43AD70(SoundEffect::GrenadeBounce_82, vol, 0);
-                Event_Broadcast_417220(kEventNoise_0, this);
-                Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-                Event_Broadcast_417220(kEventSpeaking_1, this);
-            }
-            break;
-
-        default:
-            return 1;
+            default:
+                return 1;
         }
     }
     return 1;
@@ -610,4 +606,4 @@ s16 Grenade::VIsFalling_453ED0()
     return FALSE;
 }
 
-}
+} // namespace AO

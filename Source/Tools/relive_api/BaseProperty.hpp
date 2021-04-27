@@ -2,7 +2,9 @@
 
 #include <string>
 
-namespace jsonxx { class Object; }
+namespace jsonxx {
+class Object;
+}
 
 class TypesCollectionBase;
 class PropertyCollection;

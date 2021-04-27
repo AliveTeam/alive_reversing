@@ -55,6 +55,7 @@ public:
 
 private:
     u8** field_0_0x2800_res;
+
 public:
     s32 field_4_cd_pos;
 };
@@ -63,4 +64,4 @@ ALIVE_ASSERT_SIZEOF(LvlArchive, 0x8);
 ALIVE_VAR_EXTERN(LvlArchive, sLvlArchive_4FFD60);
 ALIVE_VAR_EXTERN(LvlArchive, stru_507C90);
 
-}
+} // namespace AO

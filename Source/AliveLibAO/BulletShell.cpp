@@ -89,14 +89,15 @@ void BulletShell::VUpdate_4628C0()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast_40C410(
-        field_A8_xpos,
-        field_AC_ypos - field_B8_vely,
-        field_A8_xpos,
-        field_AC_ypos,
-        &field_E4_pLine,
-        &hitX,
-        &hitY,
-        field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70) == 1)
+            field_A8_xpos,
+            field_AC_ypos - field_B8_vely,
+            field_A8_xpos,
+            field_AC_ypos,
+            &field_E4_pLine,
+            &hitX,
+            &hitY,
+            field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70)
+        == 1)
     {
         if (field_E4_pLine->field_8_type == 0 || field_E4_pLine->field_8_type == 4)
         {
@@ -124,11 +125,11 @@ void BulletShell::VUpdate_4628C0()
     }
 
     if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_B2_lvl_number,
-        field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos,
-        0))
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
+            0))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -139,4 +140,4 @@ void BulletShell::VUpdate_4628C0()
     }
 }
 
-}
+} // namespace AO

@@ -11,7 +11,7 @@ namespace AO {
 // 368*40/23 =640
 // This seems to convert from PSX coordinate space to PC coordinate space
 // anywhere you see this calc replace it with this function
-template<class T>
+template <class T>
 inline T PsxToPCX(T x, s32 addToX = 0)
 {
     return static_cast<T>(((40 * x) + static_cast<T>(addToX)) / 23);
@@ -24,10 +24,10 @@ inline FP PsxToPCX(FP x, FP addToX = FP_FromInteger(0))
 }
 
 // 640 * 23 / 40 =  368
-template<class T>
+template <class T>
 inline T PCToPsxX(T x, s32 addX = 0)
 {
-    return (((x) * 23 + static_cast<T>(addX)) / 40);
+    return (((x) *23 + static_cast<T>(addX)) / 40);
 }
 
 
@@ -55,7 +55,6 @@ ALIVE_ASSERT_SIZEOF(PSX_Display_Buffer, 0x470);
 class PsxDisplay
 {
 public:
-
     EXPORT PsxDisplay* ctor_40DAB0(const PSX_Display_Params* pParams);
 
     EXPORT void PSX_Display_Render_OT_40DD20();
@@ -82,4 +81,4 @@ EXPORT s32 CC DebugFont_Init_487EC0();
 EXPORT void CC DebugFont_Flush_487F50();
 
 
-}
+} // namespace AO

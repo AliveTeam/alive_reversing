@@ -66,14 +66,14 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos,
-        field_B8_xpos,
-        field_BC_ypos + FP_FromInteger(24),
-        &field_100_pCollisionLine,
-        &hitX,
-        &hitY,
-        field_D6_scale ? 1 : 16))
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos + FP_FromInteger(24),
+            &field_100_pCollisionLine,
+            &hitX,
+            &hitY,
+            field_D6_scale ? 1 : 16))
     {
         field_BC_ypos = hitY;
     }
@@ -294,7 +294,7 @@ void Greeter::vScreenChanged_447DD0()
             return;
         }
 
-        const FP yDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos  - field_BC_ypos);
+        const FP yDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
         if (yDistFromPlayer > FP_FromInteger(240))
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -390,49 +390,47 @@ void Greeter::BounceBackFromShot_447B10()
 void Greeter::HandleRollingAlong_447860()
 {
     for (Path_TLV* pTlv = field_138_pTlv; pTlv;
-        pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv,
-            field_C4_velx + field_B8_xpos + field_C4_velx,
-            field_C8_vely + field_BC_ypos + field_C8_vely,
-            field_C4_velx + field_B8_xpos + field_C4_velx,
-            field_C8_vely + field_BC_ypos + field_C8_vely))
+         pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv,
+                                                      field_C4_velx + field_B8_xpos + field_C4_velx,
+                                                      field_C8_vely + field_BC_ypos + field_C8_vely,
+                                                      field_C4_velx + field_B8_xpos + field_C4_velx,
+                                                      field_C8_vely + field_BC_ypos + field_C8_vely))
     {
         switch (pTlv->field_4_type.mType)
         {
-        case TlvTypes::DeathDrop_4:
-            BlowUp_447E50();
-            break;
+            case TlvTypes::DeathDrop_4:
+                BlowUp_447E50();
+                break;
 
-        case TlvTypes::ScrabLeftBound_43:
-            if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))  && field_13C_state == GreeterStates::eState_0_Patrol)
-            {
-                ChangeDirection_447BD0();
-            }
-            break;
+            case TlvTypes::ScrabLeftBound_43:
+                if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && field_13C_state == GreeterStates::eState_0_Patrol)
+                {
+                    ChangeDirection_447BD0();
+                }
+                break;
 
-        case TlvTypes::ScrabRightBound_44:
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && field_13C_state == GreeterStates::eState_0_Patrol)
-            {
-                ChangeDirection_447BD0();
-            }
-            break;
+            case TlvTypes::ScrabRightBound_44:
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && field_13C_state == GreeterStates::eState_0_Patrol)
+                {
+                    ChangeDirection_447BD0();
+                }
+                break;
 
-        case TlvTypes::EnemyStopper_47:
-            if (field_13C_state != GreeterStates::eState_7_Fall)
-            {
-                ChangeDirection_447BD0();
-            }
-            break;
+            case TlvTypes::EnemyStopper_47:
+                if (field_13C_state != GreeterStates::eState_7_Fall)
+                {
+                    ChangeDirection_447BD0();
+                }
+                break;
 
-        default:
-            continue;
+            default:
+                continue;
         }
     }
 
     if (field_13C_state == GreeterStates::eState_0_Patrol)
     {
-        if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_408E90(0, 1)) ||
-            WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3)) ||
-            (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && Check_IsOnEndOfLine_408E90(1, 1)))
+        if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_408E90(0, 1)) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3)) || (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && Check_IsOnEndOfLine_408E90(1, 1)))
         {
             ChangeDirection_447BD0();
         }
@@ -456,67 +454,67 @@ EXPORT s16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case AETypes::eBullet_15:
-        if (static_cast<Bullet*>(pFrom)->field_30_x_distance <= FP_FromInteger(0))
-        {
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-        }
-        else
-        {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-        }
+        case AETypes::eBullet_15:
+            if (static_cast<Bullet*>(pFrom)->field_30_x_distance <= FP_FromInteger(0))
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            }
+            else
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            }
 
-        if (++field_12C <= 10)
-        {
-            BounceBackFromShot_447B10();
-        }
-        else
-        {
+            if (++field_12C <= 10)
+            {
+                BounceBackFromShot_447B10();
+            }
+            else
+            {
+                BlowUp_447E50();
+            }
+            return 1;
+
+        case AETypes::eGrinder_30:
+        case AETypes::eElectricWall_39:
+            if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            }
+            else
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            }
+
+            if (++field_12C <= 10)
+            {
+                BounceBackFromShot_447B10();
+            }
+            else
+            {
+                BlowUp_447E50();
+            }
+            return 1;
+
+        case AETypes::eBaseBomb_46:
+        case AETypes::eRockSpawner_48:
+        case AETypes::eMeatSaw_86:
+        case AETypes::eMineCar_89:
+        case AETypes::eNeverSet_107:
+        case AETypes::eExplosion_109:
             BlowUp_447E50();
-        }
-        return 1;
+            return 1;
 
-    case AETypes::eGrinder_30:
-    case AETypes::eElectricWall_39:
-        if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
-        {
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-        }
-        else
-        {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-        }
-
-        if (++field_12C <= 10)
-        {
+        case AETypes::eSlamDoor_122:
             BounceBackFromShot_447B10();
-        }
-        else
-        {
+            return 1;
+
+        case AETypes::eElectrocute_150:
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             BlowUp_447E50();
-        }
-        return 1;
+            return 1;
 
-    case AETypes::eBaseBomb_46:
-    case AETypes::eRockSpawner_48:
-    case AETypes::eMeatSaw_86:
-    case AETypes::eMineCar_89:
-    case AETypes::eNeverSet_107:
-    case AETypes::eExplosion_109:
-        BlowUp_447E50();
-        return 1;
-
-    case AETypes::eSlamDoor_122:
-        BounceBackFromShot_447B10();
-        return 1;
-
-    case AETypes::eElectrocute_150:
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        BlowUp_447E50();
-        return 1;
-
-    default:
-        return 1;
+        default:
+            return 1;
     }
 }
 
@@ -654,14 +652,15 @@ BOOL Greeter::ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObje
     FP hitY = {};
     PathLine* pLine = nullptr;
     return sCollisions_DArray_5C1128->Raycast_417A60(
-        pUs->field_B8_xpos,
-        FP_FromInteger(usRect.h + 0xFFE7),
-        pThem->field_B8_xpos,
-        FP_FromInteger(bRectThem.h + 0xFFE7),
-        &pLine,
-        &hitX,
-        &hitY,
-        pUs->field_D6_scale != 0 ? 6 : 0x60) == 1;
+               pUs->field_B8_xpos,
+               FP_FromInteger(usRect.h + 0xFFE7),
+               pThem->field_B8_xpos,
+               FP_FromInteger(bRectThem.h + 0xFFE7),
+               &pLine,
+               &hitX,
+               &hitY,
+               pUs->field_D6_scale != 0 ? 6 : 0x60)
+        == 1;
 }
 
 BaseAliveGameObject* Greeter::GetMudToZap_447690()
@@ -682,12 +681,7 @@ BaseAliveGameObject* Greeter::GetMudToZap_447690()
             const FP xMid = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP yMid = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (xMid - field_B8_xpos < (field_CC_sprite_scale * FP_FromInteger(60)) &&
-                field_B8_xpos - xMid < (field_CC_sprite_scale * FP_FromInteger(60)) &&
-                yMid - (field_BC_ypos - FP_FromInteger(4)) < (field_CC_sprite_scale * FP_FromInteger(60))&&
-                field_BC_ypos - FP_FromInteger(4) - yMid < (field_CC_sprite_scale * FP_FromInteger(60)) &&
-                !(sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)) &&
-                !ZapIsNotBlocked_447240(this, pObj))
+            if (xMid - field_B8_xpos < (field_CC_sprite_scale * FP_FromInteger(60)) && field_B8_xpos - xMid < (field_CC_sprite_scale * FP_FromInteger(60)) && yMid - (field_BC_ypos - FP_FromInteger(4)) < (field_CC_sprite_scale * FP_FromInteger(60)) && field_BC_ypos - FP_FromInteger(4) - yMid < (field_CC_sprite_scale * FP_FromInteger(60)) && !(sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)) && !ZapIsNotBlocked_447240(this, pObj))
             {
                 return pObj;
             }
@@ -705,215 +699,211 @@ void Greeter::vUpdate_4469B0()
 
     switch (field_13C_state)
     {
-    case GreeterStates::eState_0_Patrol:
-        if (!((sGnFrame_5C1B84 - field_124_last_turn_time) % 14))
-        {
-            const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
-                field_C2_lvl_number,
-                field_C0_path_number,
-                field_B8_xpos,
-                field_BC_ypos);
-            SFX_Play_46FC20(SoundEffect::WheelSqueak_31, 10, soundDirection, field_CC_sprite_scale);
-        }
+        case GreeterStates::eState_0_Patrol:
+            if (!((sGnFrame_5C1B84 - field_124_last_turn_time) % 14))
+            {
+                const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+                    field_C2_lvl_number,
+                    field_C0_path_number,
+                    field_B8_xpos,
+                    field_BC_ypos);
+                SFX_Play_46FC20(SoundEffect::WheelSqueak_31, 10, soundDirection, field_CC_sprite_scale);
+            }
 
-        field_C8_vely = FP_FromInteger(0);
-        if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) == 0)
-        {
-            field_C4_velx = -(field_CC_sprite_scale * FP_FromInteger(3));
-            if (field_13E_targetOnLeft)
-            {
-                RandomishSpeak_447A70(GreeterSpeak::Hi_0);
-                field_13C_state = GreeterStates::eState_3_ChaseSpeak;
-            }
-            else if (field_140_targetOnRight)
-            {
-                ChangeDirection_447BD0();
-                field_13C_state = GreeterStates::eState_6_ToChase;
-            }
-        }
-        else
-        {
-            field_C4_velx = (field_CC_sprite_scale * FP_FromInteger(3));
-            if (field_140_targetOnRight)
-            {
-                RandomishSpeak_447A70(GreeterSpeak::Hi_0);
-                field_13C_state = GreeterStates::eState_3_ChaseSpeak;
-            }
-            else if (field_13E_targetOnLeft)
-            {
-                ChangeDirection_447BD0();
-                field_13C_state = GreeterStates::eState_6_ToChase;
-            }
-        }
-
-        if (static_cast<s32>(sGnFrame_5C1B84) > field_128_timer)
-        {
-            RandomishSpeak_447A70(GreeterSpeak::Randomized_1000);
-        }
-        break;
-
-    case GreeterStates::eState_1_PatrolTurn:
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_13C_state = GreeterStates::eState_0_Patrol;
-		    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_C8_vely = FP_FromInteger(0);
-            field_13E_targetOnLeft = 0;
-            field_140_targetOnRight = 0;
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) == 0)
             {
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-            }
-            else
-            {
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-            }
-        }
-        break;
-
-    case GreeterStates::eState_2_Speak:
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_130 = 0;
-            field_13C_state = GreeterStates::eState_0_Patrol;
-            const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            field_C8_vely = FP_FromInteger(0);
-            field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
-        }
-        break;
-
-    case GreeterStates::eState_3_ChaseSpeak:
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            field_130 = 1;
-            field_13C_state = GreeterStates::eState_4_Chase;
-            const AnimRecord& animRec = AnimRec(AnimId::Greeter_Chase);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            field_C8_vely = FP_FromInteger(0);
-        }
-        break;
-
-    case GreeterStates::eState_4_Chase:
-    {
-        if (!(sGnFrame_5C1B84 % 8))
-        {
-            const CameraPos soundDirection2 = gMap_5C3030.GetDirection_4811A0(
-                field_C2_lvl_number,
-                field_C0_path_number,
-                field_B8_xpos,
-                field_BC_ypos);
-            SFX_Play_46FC20(SoundEffect::WheelSqueak_31, 10, soundDirection2, field_CC_sprite_scale);
-        }
-
-        field_C4_velx = -(field_CC_sprite_scale * FP_FromInteger(5));
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-        {
-            field_C4_velx = field_CC_sprite_scale* FP_FromInteger(5);
-        }
-
-        PSX_RECT bRect = {};
-        sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
-
-        const FP midX = FP_FromInteger((bRect.x + bRect.w) / 2);
-        const FP midY = FP_FromInteger((bRect.y + bRect.h) / 2);
-
-        if (midX - field_B8_xpos >= (field_CC_sprite_scale * FP_FromInteger(60)) ||
-            field_B8_xpos - midX >= (field_CC_sprite_scale * FP_FromInteger(60)) ||
-            midY - (field_BC_ypos - FP_FromInteger(4)) >= (field_CC_sprite_scale * FP_FromInteger(60)) ||
-            field_BC_ypos - FP_FromInteger(4) - midY >= (field_CC_sprite_scale * FP_FromInteger(60)) ||
-            sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted) ||
-            sActiveHero_5C1B68->CantBeDamaged_44BAB0() ||
-            ZapIsNotBlocked_447240(this, sActiveHero_5C1B68))
-        {
-            BaseAliveGameObject* pGonnaZapYa = GetMudToZap_447690();
-            if (pGonnaZapYa)
-            {
-                PSX_RECT bZapRect = {};
-                pGonnaZapYa->vGetBoundingRect_424FD0(&bZapRect, 1);
-
-                ZapTarget_447320(
-                    FP_FromInteger((bZapRect.x + bZapRect.w) / 2),
-                    FP_FromInteger((bZapRect.y + bZapRect.h) / 2),
-                    pGonnaZapYa);
-            }
-        }
-        else
-        {
-            ZapTarget_447320(midX, midY, sActiveHero_5C1B68);
-        }
-    } break;
-
-    case GreeterStates::eState_5_Knockback:
-        if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), FP_FromRaw(3 * field_C4_velx.fpValue))) // TODO: OG bug, why * 3 and not * FP 3??
-        {
-            field_C4_velx = FP_FromInteger(0);
-        }
-
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            RandomishSpeak_447A70(GreeterSpeak::What_9);
-            field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
-        }
-        break;
-
-    case GreeterStates::eState_6_ToChase:
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            RandomishSpeak_447A70(GreeterSpeak::Hi_0);
-            field_13C_state = GreeterStates::eState_3_ChaseSpeak;
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-            {
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-            }
-            else
-            {
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-            }
-        }
-        break;
-
-    case GreeterStates::eState_7_Fall:
-    {
-        FP hitX = {};
-        FP hitY = {};
-        PathLine* pLine = nullptr;
-        if (InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
-        {
-            field_C8_vely = -field_C8_vely * FP_FromDouble(0.4);
-            field_100_pCollisionLine = pLine;
-            field_BC_ypos = hitY;
-            field_F8_LastLineYPos = hitY;
-
-            const CameraPos  soundDirection3 = gMap_5C3030.GetDirection_4811A0(
-                field_C2_lvl_number,
-                field_C0_path_number,
-                field_B8_xpos,
-                hitY);
-
-            SFX_Play_46FC20(SoundEffect::GreeterLand_120, 0, soundDirection3, field_CC_sprite_scale);
-            if (field_C8_vely > -FP_FromInteger(1))
-            {
-                field_C8_vely = FP_FromInteger(0);
-                if (field_130 == 0)
+                field_C4_velx = -(field_CC_sprite_scale * FP_FromInteger(3));
+                if (field_13E_targetOnLeft)
                 {
-                    field_13C_state = GreeterStates::eState_0_Patrol;
-                    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
-                    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                    RandomishSpeak_447A70(GreeterSpeak::Hi_0);
+                    field_13C_state = GreeterStates::eState_3_ChaseSpeak;
+                }
+                else if (field_140_targetOnRight)
+                {
+                    ChangeDirection_447BD0();
+                    field_13C_state = GreeterStates::eState_6_ToChase;
+                }
+            }
+            else
+            {
+                field_C4_velx = (field_CC_sprite_scale * FP_FromInteger(3));
+                if (field_140_targetOnRight)
+                {
+                    RandomishSpeak_447A70(GreeterSpeak::Hi_0);
+                    field_13C_state = GreeterStates::eState_3_ChaseSpeak;
+                }
+                else if (field_13E_targetOnLeft)
+                {
+                    ChangeDirection_447BD0();
+                    field_13C_state = GreeterStates::eState_6_ToChase;
+                }
+            }
+
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_128_timer)
+            {
+                RandomishSpeak_447A70(GreeterSpeak::Randomized_1000);
+            }
+            break;
+
+        case GreeterStates::eState_1_PatrolTurn:
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_13C_state = GreeterStates::eState_0_Patrol;
+                const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_C8_vely = FP_FromInteger(0);
+                field_13E_targetOnLeft = 0;
+                field_140_targetOnRight = 0;
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
                 }
                 else
                 {
-                    field_13C_state = GreeterStates::eState_4_Chase;
-                    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Chase);
-                    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                }
+            }
+            break;
+
+        case GreeterStates::eState_2_Speak:
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_130 = 0;
+                field_13C_state = GreeterStates::eState_0_Patrol;
+                const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_C8_vely = FP_FromInteger(0);
+                field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
+            }
+            break;
+
+        case GreeterStates::eState_3_ChaseSpeak:
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_130 = 1;
+                field_13C_state = GreeterStates::eState_4_Chase;
+                const AnimRecord& animRec = AnimRec(AnimId::Greeter_Chase);
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_C8_vely = FP_FromInteger(0);
+            }
+            break;
+
+        case GreeterStates::eState_4_Chase:
+        {
+            if (!(sGnFrame_5C1B84 % 8))
+            {
+                const CameraPos soundDirection2 = gMap_5C3030.GetDirection_4811A0(
+                    field_C2_lvl_number,
+                    field_C0_path_number,
+                    field_B8_xpos,
+                    field_BC_ypos);
+                SFX_Play_46FC20(SoundEffect::WheelSqueak_31, 10, soundDirection2, field_CC_sprite_scale);
+            }
+
+            field_C4_velx = -(field_CC_sprite_scale * FP_FromInteger(5));
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_C4_velx = field_CC_sprite_scale * FP_FromInteger(5);
+            }
+
+            PSX_RECT bRect = {};
+            sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
+
+            const FP midX = FP_FromInteger((bRect.x + bRect.w) / 2);
+            const FP midY = FP_FromInteger((bRect.y + bRect.h) / 2);
+
+            if (midX - field_B8_xpos >= (field_CC_sprite_scale * FP_FromInteger(60)) || field_B8_xpos - midX >= (field_CC_sprite_scale * FP_FromInteger(60)) || midY - (field_BC_ypos - FP_FromInteger(4)) >= (field_CC_sprite_scale * FP_FromInteger(60)) || field_BC_ypos - FP_FromInteger(4) - midY >= (field_CC_sprite_scale * FP_FromInteger(60)) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted) || sActiveHero_5C1B68->CantBeDamaged_44BAB0() || ZapIsNotBlocked_447240(this, sActiveHero_5C1B68))
+            {
+                BaseAliveGameObject* pGonnaZapYa = GetMudToZap_447690();
+                if (pGonnaZapYa)
+                {
+                    PSX_RECT bZapRect = {};
+                    pGonnaZapYa->vGetBoundingRect_424FD0(&bZapRect, 1);
+
+                    ZapTarget_447320(
+                        FP_FromInteger((bZapRect.x + bZapRect.w) / 2),
+                        FP_FromInteger((bZapRect.y + bZapRect.h) / 2),
+                        pGonnaZapYa);
+                }
+            }
+            else
+            {
+                ZapTarget_447320(midX, midY, sActiveHero_5C1B68);
+            }
+        }
+        break;
+
+        case GreeterStates::eState_5_Knockback:
+            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), FP_FromRaw(3 * field_C4_velx.fpValue))) // TODO: OG bug, why * 3 and not * FP 3??
+            {
+                field_C4_velx = FP_FromInteger(0);
+            }
+
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                RandomishSpeak_447A70(GreeterSpeak::What_9);
+                field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
+            }
+            break;
+
+        case GreeterStates::eState_6_ToChase:
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                RandomishSpeak_447A70(GreeterSpeak::Hi_0);
+                field_13C_state = GreeterStates::eState_3_ChaseSpeak;
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+                }
+                else
+                {
+                    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                }
+            }
+            break;
+
+        case GreeterStates::eState_7_Fall:
+        {
+            FP hitX = {};
+            FP hitY = {};
+            PathLine* pLine = nullptr;
+            if (InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
+            {
+                field_C8_vely = -field_C8_vely * FP_FromDouble(0.4);
+                field_100_pCollisionLine = pLine;
+                field_BC_ypos = hitY;
+                field_F8_LastLineYPos = hitY;
+
+                const CameraPos soundDirection3 = gMap_5C3030.GetDirection_4811A0(
+                    field_C2_lvl_number,
+                    field_C0_path_number,
+                    field_B8_xpos,
+                    hitY);
+
+                SFX_Play_46FC20(SoundEffect::GreeterLand_120, 0, soundDirection3, field_CC_sprite_scale);
+                if (field_C8_vely > -FP_FromInteger(1))
+                {
+                    field_C8_vely = FP_FromInteger(0);
+                    if (field_130 == 0)
+                    {
+                        field_13C_state = GreeterStates::eState_0_Patrol;
+                        const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
+                        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                    }
+                    else
+                    {
+                        field_13C_state = GreeterStates::eState_4_Chase;
+                        const AnimRecord& animRec = AnimRec(AnimId::Greeter_Chase);
+                        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                    }
                 }
             }
         }
-    }  break;
-
-    default:
         break;
+
+        default:
+            break;
     }
 
     if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
@@ -921,14 +911,14 @@ void Greeter::vUpdate_4469B0()
         if (field_13C_state != GreeterStates::eState_7_Fall)
         {
             const FP xpos = field_C4_velx
-                + field_C4_velx
-                + field_C4_velx
-                + field_C4_velx
-                + field_B8_xpos;
+                          + field_C4_velx
+                          + field_C4_velx
+                          + field_C4_velx
+                          + field_B8_xpos;
 
             const FP ypos = field_C8_vely
-                + field_BC_ypos
-                + field_C8_vely;
+                          + field_BC_ypos
+                          + field_C8_vely;
 
             field_138_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(nullptr, xpos, ypos, xpos, ypos);
             HandleRollingAlong_447860();

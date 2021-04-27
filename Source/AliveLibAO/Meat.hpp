@@ -67,7 +67,7 @@ public:
     virtual void VThrow(FP velX, FP velY) override;
 
     EXPORT void VThrow_4386E0(FP velX, FP velY);
-   
+
     virtual s16 VCanThrow() override;
 
     EXPORT s16 VCanThrow_4390B0();
@@ -111,5 +111,4 @@ public:
 ALIVE_ASSERT_SIZEOF(Meat, 0x128);
 
 
-}
-
+} // namespace AO

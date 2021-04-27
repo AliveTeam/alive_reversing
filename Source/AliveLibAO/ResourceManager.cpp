@@ -26,7 +26,6 @@ ALIVE_VAR(1, 0x9F0E50, s16, sAllocationFailed_9F0E50, 0);
 
 
 
-
 ALIVE_VAR(1, 0x50EE2C, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_50EE2C, nullptr);
 ALIVE_VAR(1, 0x50EE28, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_50EE28, nullptr);
 
@@ -55,7 +54,7 @@ public:
     EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(s32 pos, s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)
     {
         ctor_487E10(1);
-        
+
         SetVTable(this, 0x4BB088);
 
         gFilesPending_507714++;
@@ -69,7 +68,7 @@ public:
 
         field_4_typeId = Types::eLoadingFile_39;
         field_1C_pCamera = pArray;
-        
+
         PSX_Pos_To_CdLoc_49B340(pos, &field_2A_cdLoc);
 
         field_28_state = 0;
@@ -109,37 +108,48 @@ public:
     {
         switch (field_28_state)
         {
-        case 0:
-            if (!bLoadingAFile_50768C)
-            {
-                field_20_ppRes = ResourceManager::Allocate_New_Block_454FE0(field_10_size << 11, ResourceManager::eFirstMatching);
-                if (field_20_ppRes)
+            case 0:
+                if (!bLoadingAFile_50768C)
                 {
-                    ResourceManager::Header* pHeader = ResourceManager::Get_Header_455620(field_20_ppRes);
-                    field_24_readBuffer = pHeader;
-                    pHeader->field_8_type = ResourceManager::Resource_Pend;
-                    ResourceManager::Increment_Pending_Count_4557A0();
-                    bLoadingAFile_50768C = 1;
-                    field_28_state = 1;
+                    field_20_ppRes = ResourceManager::Allocate_New_Block_454FE0(field_10_size << 11, ResourceManager::eFirstMatching);
+                    if (field_20_ppRes)
+                    {
+                        ResourceManager::Header* pHeader = ResourceManager::Get_Header_455620(field_20_ppRes);
+                        field_24_readBuffer = pHeader;
+                        pHeader->field_8_type = ResourceManager::Resource_Pend;
+                        ResourceManager::Increment_Pending_Count_4557A0();
+                        bLoadingAFile_50768C = 1;
+                        field_28_state = 1;
+                    }
+                    else
+                    {
+                        ResourceManager::Reclaim_Memory_455660(200000u);
+                    }
                 }
-                else
+                break;
+
+            case 1:
+                if (PSX_CD_File_Seek_49B670(2, &field_2A_cdLoc))
                 {
-                    ResourceManager::Reclaim_Memory_455660(200000u);
+                    field_28_state = 2;
                 }
-            }
-            break;
+                break;
 
-        case 1:
-            if (PSX_CD_File_Seek_49B670(2, &field_2A_cdLoc))
-            {
-                field_28_state = 2;
-            }
-            break;
+            case 2:
+                if (PSX_CD_File_Read_49B8B0(field_10_size, field_24_readBuffer))
+                {
+                    field_28_state = 3;
+                    const s32 ioRet = PSX_CD_FileIOWait_49B900(1);
+                    if (ioRet <= 0)
+                    {
+                        field_28_state = ioRet != -1 ? 4 : 1;
+                    }
+                    break;
+                }
+                break;
 
-        case 2:
-            if (PSX_CD_File_Read_49B8B0(field_10_size, field_24_readBuffer))
+            case 3:
             {
-                field_28_state = 3;
                 const s32 ioRet = PSX_CD_FileIOWait_49B900(1);
                 if (ioRet <= 0)
                 {
@@ -147,42 +157,31 @@ public:
                 }
                 break;
             }
-            break;
 
-        case 3:
-        {
-            const s32 ioRet = PSX_CD_FileIOWait_49B900(1);
-            if (ioRet <= 0)
-            {
-                field_28_state = ioRet != -1 ? 4 : 1;
-            }
-            break;
-        }
+            case 4:
+                ResourceManager::Move_Resources_To_DArray_455430(
+                    field_20_ppRes,
+                    &field_1C_pCamera->field_0_array);
+                field_28_state = 5;
+                break;
 
-        case 4:
-            ResourceManager::Move_Resources_To_DArray_455430(
-                field_20_ppRes,
-                &field_1C_pCamera->field_0_array);
-            field_28_state = 5;
-            break;
+            case 5:
+                if (field_14_fn)
+                {
+                    field_14_fn(field_18_fn_arg);
+                }
+                field_28_state = 6;
+                bLoadingAFile_50768C = 0;
+                break;
 
-        case 5:
-            if (field_14_fn)
-            {
-                field_14_fn(field_18_fn_arg);
-            }
-            field_28_state = 6;
-            bLoadingAFile_50768C = 0;
-            break;
+            case 6:
+                ResourceManager::Decrement_Pending_Count_4557B0();
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                field_28_state = 7;
+                break;
 
-        case 6:
-            ResourceManager::Decrement_Pending_Count_4557B0();
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            field_28_state = 7;
-            break;
-
-        default:
-            return;
+            default:
+                return;
         }
     }
 
@@ -266,7 +265,7 @@ void CC Game_ShowLoadingIcon_445EB0()
 
 void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
 {
-    for (s32 i=0; i< pLoaded->field_10_file_sections_dArray.Size(); i++)
+    for (s32 i = 0; i < pLoaded->field_10_file_sections_dArray.Size(); i++)
     {
         ResourceManager_FilePartRecord* pFilePart = pLoaded->field_10_file_sections_dArray.ItemAt(i);
         if (!pFilePart)
@@ -339,8 +338,7 @@ void CC ResourceManager::LoadResource_446C90(const s8* pFileName, u32 type, u32 
                     }
                 }
             }
-            else if (type == pExistingFileRec->field_8_type &&
-                resourceId == pExistingFileRec->field_C_resourceId)
+            else if (type == pExistingFileRec->field_8_type && resourceId == pExistingFileRec->field_C_resourceId)
             {
                 found = true;
             }
@@ -542,7 +540,7 @@ EXPORT void CC ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
     {
         SYS_EventsPump_44FF90();
 
-        for (s32 i=0; i<gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
             if (!pObjIter)
@@ -555,9 +553,8 @@ EXPORT void CC ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
                 if (!pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3))
                 {
                     pObjIter->VUpdate();
-
                 }
-                
+
                 if (pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3))
                 {
                     i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
@@ -568,7 +565,7 @@ EXPORT void CC ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
 
         Odd_Sleep_48DD90(16u);
         PSX_VSync_496620(0);
-        
+
         loading_ticks_5076A4++;
 
         if (bShowLoadingIcon)
@@ -614,7 +611,6 @@ void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
                 {
                     LOG_WARNING("OG bug fix 0x" << pFilePartRecord << " would have been deleted here!");
                 }
-                
             }
 
             // Free the containing record if its section array is now empty
@@ -682,9 +678,9 @@ void CC ResourceManager::Init_454DA0()
 
     sResourceLinkedList_50E270[kLinkedListArraySize - 1].field_4_pNext = nullptr;
 
-    sResourceLinkedList_50E270[0].field_0_ptr =  &sResourceHeap_50EE38[sizeof(Header)];
+    sResourceLinkedList_50E270[0].field_0_ptr = &sResourceHeap_50EE38[sizeof(Header)];
     sResourceLinkedList_50E270[0].field_4_pNext = nullptr;
-    
+
     Header* pHeader = Get_Header_455620(&sResourceLinkedList_50E270[0].field_0_ptr);
     pHeader->field_0_size = kResHeapSize;
     pHeader->field_8_type = Resource_Free;
@@ -693,7 +689,7 @@ void CC ResourceManager::Init_454DA0()
     sSecondLinkedListItem_50EE28 = &sResourceLinkedList_50E270[1];
 
     spResourceHeapStart_50EE30 = &sResourceHeap_50EE38[0];
-    spResourceHeapEnd_9F0E3C =  &sResourceHeap_50EE38[kResHeapSize - 1];
+    spResourceHeapEnd_9F0E3C = &sResourceHeap_50EE38[kResHeapSize - 1];
 }
 
 ResourceManager::ResourceHeapItem* ResourceManager::Push_List_Item()
@@ -708,7 +704,7 @@ void ResourceManager::Pop_List_Item(ResourceHeapItem* pListItem)
 {
     pListItem->field_0_ptr = nullptr;
     pListItem->field_4_pNext = sSecondLinkedListItem_50EE28; // point to the current
-    sSecondLinkedListItem_50EE28 = pListItem; // set current to old
+    sSecondLinkedListItem_50EE28 = pListItem;                // set current to old
 }
 
 ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager::ResourceHeapItem* pItem, s32 size)
@@ -719,7 +715,7 @@ ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager:
     {
         ResourceHeapItem* pNewListItem = ResourceManager::Push_List_Item();
         pNewListItem->field_4_pNext = pItem->field_4_pNext; // New item points to old
-        pItem->field_4_pNext = pNewListItem; // Old item points to new
+        pItem->field_4_pNext = pNewListItem;                // Old item points to new
 
         pNewListItem->field_0_ptr = pItem->field_0_ptr + size; // Point the split point
 
@@ -782,7 +778,7 @@ u8** ResourceManager::Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool l
 
 u8** CC ResourceManager::Alloc_New_Resource_454F20(u32 type, u32 id, u32 size)
 {
-  return Alloc_New_Resource_Impl(type, id, size, false, BlockAllocMethod::eFirstMatching);
+    return Alloc_New_Resource_Impl(type, id, size, false, BlockAllocMethod::eFirstMatching);
 }
 
 u8** CC ResourceManager::Allocate_New_Locked_Resource_454F80(u32 type, u32 id, u32 size)
@@ -823,27 +819,27 @@ EXPORT u8** CC ResourceManager::Allocate_New_Block_454FE0(u32 sizeBytes, BlockAl
             {
                 switch (allocMethod)
                 {
-                case BlockAllocMethod::eFirstMatching:
-                    // Use first matching item
-                    sManagedMemoryUsedSize_9F0E48 += size;
-                    if (sManagedMemoryUsedSize_9F0E48 >= sPeakedManagedMemUsage_9F0E4C)
-                    {
-                        sPeakedManagedMemUsage_9F0E4C = sManagedMemoryUsedSize_9F0E48;
-                    }
-                    return &Split_block(pListItem, size)->field_0_ptr;
-                case BlockAllocMethod::eNearestMatching:
-                    // Find nearest matching item
-                    if (pResHeader->field_0_size < pHeaderToUse->field_0_size)
-                    {
+                    case BlockAllocMethod::eFirstMatching:
+                        // Use first matching item
+                        sManagedMemoryUsedSize_9F0E48 += size;
+                        if (sManagedMemoryUsedSize_9F0E48 >= sPeakedManagedMemUsage_9F0E4C)
+                        {
+                            sPeakedManagedMemUsage_9F0E4C = sManagedMemoryUsedSize_9F0E48;
+                        }
+                        return &Split_block(pListItem, size)->field_0_ptr;
+                    case BlockAllocMethod::eNearestMatching:
+                        // Find nearest matching item
+                        if (pResHeader->field_0_size < pHeaderToUse->field_0_size)
+                        {
+                            pHeapMem = pListItem;
+                            pHeaderToUse = pResHeader;
+                        }
+                        break;
+                    case BlockAllocMethod::eLastMatching:
+                        // Will always to set to the last most free item
                         pHeapMem = pListItem;
                         pHeaderToUse = pResHeader;
-                    }
-                    break;
-                case BlockAllocMethod::eLastMatching:
-                    // Will always to set to the last most free item
-                    pHeapMem = pListItem;
-                    pHeaderToUse = pResHeader;
-                    break;
+                        break;
                 }
             }
         }
@@ -866,24 +862,25 @@ EXPORT u8** CC ResourceManager::Allocate_New_Block_454FE0(u32 sizeBytes, BlockAl
 
     switch (allocMethod)
     {
-        // Note: eFirstMatching case not possible here as pHeapMem case would have early returned
-    case BlockAllocMethod::eNearestMatching:
-        return &ResourceManager::Split_block(pHeapMem, size)->field_0_ptr;
+            // Note: eFirstMatching case not possible here as pHeapMem case would have early returned
+        case BlockAllocMethod::eNearestMatching:
+            return &ResourceManager::Split_block(pHeapMem, size)->field_0_ptr;
 
-    case BlockAllocMethod::eLastMatching:
-        if (pHeaderToUse->field_0_size - size >= sizeof(Header))
-        {
-            return &Split_block(pHeapMem, pHeaderToUse->field_0_size - size)->field_4_pNext->field_0_ptr;
-        }
-        else
-        {
-            // No need to split as the size must be exactly the size of a resource header
-            return &pHeapMem->field_0_ptr;
-        }
-        break;
+        case BlockAllocMethod::eLastMatching:
+            if (pHeaderToUse->field_0_size - size >= sizeof(Header))
+            {
+                return &Split_block(pHeapMem, pHeaderToUse->field_0_size - size)->field_4_pNext->field_0_ptr;
+            }
+            else
+            {
+                // No need to split as the size must be exactly the size of a resource header
+                return &pHeapMem->field_0_ptr;
+            }
+            break;
 
-        // Should be impossible to get here
-    default: return nullptr;
+            // Should be impossible to get here
+        default:
+            return nullptr;
     }
 }
 
@@ -903,7 +900,7 @@ EXPORT s16 CC ResourceManager::LoadResourceFile_455270(const s8* filename, Camer
     {
         return 0;
     }
-    
+
     const s32 size = pFileRec->field_10_num_sectors << 11;
     u8** ppRes = ResourceManager::Allocate_New_Block_454FE0(size, allocMethod);
     if (!ppRes)
@@ -935,21 +932,21 @@ EXPORT s16 CC ResourceManager::LoadResourceFile_455270(const s8* filename, Camer
 
 s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u8*>* pArray)
 {
-    auto pItemToAdd = (ResourceHeapItem*)ppRes;
+    auto pItemToAdd = (ResourceHeapItem*) ppRes;
     Header* pHeader = Get_Header_455620(ppRes);
     if (pHeader->field_8_type != Resource_End)
     {
         while (pHeader->field_8_type != Resource_Pend
-            && pHeader->field_0_size
-            && !(pHeader->field_0_size & 3))
+               && pHeader->field_0_size
+               && !(pHeader->field_0_size & 3))
         {
             if (pArray)
             {
-                pArray->Push_Back((u8**)pItemToAdd);
+                pArray->Push_Back((u8**) pItemToAdd);
                 pHeader->field_4_ref_count++;
             }
 
-            pHeader = (Header*)((s8*)pHeader + pHeader->field_0_size);
+            pHeader = (Header*) ((s8*) pHeader + pHeader->field_0_size);
 
             // Out of heap space
             if (pHeader->field_0_size >= kResHeapSize)
@@ -960,7 +957,7 @@ s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArray
             ResourceHeapItem* pNewListItem = Push_List_Item();
             pNewListItem->field_4_pNext = pItemToAdd->field_4_pNext;
             pItemToAdd->field_4_pNext = pNewListItem;
-            pNewListItem->field_0_ptr = (u8*)&pHeader[1];// point after header
+            pNewListItem->field_0_ptr = (u8*) &pHeader[1]; // point after header
             pItemToAdd = pNewListItem;
 
             // No more resources to add
@@ -978,13 +975,13 @@ s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArray
         {
             // Size of next item - location of current res
             // TODO 64bit warning
-            pHeader->field_0_size = static_cast<u32>(pItemToAdd->field_4_pNext->field_0_ptr - (u8*)pHeader - sizeof(Header));
+            pHeader->field_0_size = static_cast<u32>(pItemToAdd->field_4_pNext->field_0_ptr - (u8*) pHeader - sizeof(Header));
         }
         else
         {
             // Isn't a next item so use ptr to end of heap - location of current res
             // TODO: 64bit warning
-            pHeader->field_0_size = static_cast<u32>(spResourceHeapEnd_9F0E3C - (u8*)pHeader);
+            pHeader->field_0_size = static_cast<u32>(spResourceHeapEnd_9F0E3C - (u8*) pHeader);
         }
 
         sManagedMemoryUsedSize_9F0E48 -= pHeader->field_0_size;
@@ -1140,17 +1137,17 @@ void CC ResourceManager::Reclaim_Memory_455660(u32 sizeToReclaim)
                     u8* pDataStart = pNext->field_0_ptr - sizeof(Header);
                     if (sizeToMove > 0)
                     {
-                        const size_t offset = (s8*)pCurrentHeader - (s8*)pNextHeader;
+                        const size_t offset = (s8*) pCurrentHeader - (s8*) pNextHeader;
                         memmove(pDataStart + offset, pDataStart, sizeToMove);
                     }
 
                     // Get resource header after the current one
-                    Header* pNextResHeader = (Header*)((s8*)pCurrentHeader + pCurrentHeader->field_0_size);
+                    Header* pNextResHeader = (Header*) ((s8*) pCurrentHeader + pCurrentHeader->field_0_size);
                     pNextResHeader->field_0_size = savedSize;
                     pNextResHeader->field_8_type = Resource_Free;
 
-                    pNext->field_0_ptr = (u8*)&pCurrentHeader[1]; // Data starts after header
-                    pListItem->field_0_ptr = (u8*)&pNextResHeader[1]; // Data starts after header
+                    pNext->field_0_ptr = (u8*) &pCurrentHeader[1];     // Data starts after header
+                    pListItem->field_0_ptr = (u8*) &pNextResHeader[1]; // Data starts after header
                     pListItem->field_4_pNext = pNext->field_4_pNext;
                     pNext->field_4_pNext = pListItem;
 
@@ -1220,7 +1217,4 @@ void CC ResourceManager::Free_Resource_Of_Type_455810(u32 type)
     }
 }
 
-}
-
-
-
+} // namespace AO

@@ -88,77 +88,76 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
 
         switch (field_274_ring_type)
         {
-        case 1:
-            for (PSX_RECT& r : field_3C_collide_rects)
-            {
-                r = {};
-            }
-            [[fallthrough]];
+            case 1:
+                for (PSX_RECT& r : field_3C_collide_rects)
+                {
+                    r = {};
+                }
+                [[fallthrough]];
 
-        case 2:
-            field_258_ring_thickness = FP_FromInteger(8);
-            field_24C_speed = FP_FromInteger(6);
-            field_248_right = FP_FromInteger(6);
-            field_244_left = FP_FromInteger(0);
-            field_266_r = 80;
-            field_268_g = 0;
-            field_26A_b = 0;
-            SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
-            break;
+            case 2:
+                field_258_ring_thickness = FP_FromInteger(8);
+                field_24C_speed = FP_FromInteger(6);
+                field_248_right = FP_FromInteger(6);
+                field_244_left = FP_FromInteger(0);
+                field_266_r = 80;
+                field_268_g = 0;
+                field_26A_b = 0;
+                SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
+                break;
 
-        case 3:
-            field_258_ring_thickness = FP_FromInteger(8);
-            field_24C_speed = FP_FromInteger(6);
-            field_248_right = FP_FromInteger(350);
-            field_244_left = FP_FromInteger(342);
-            field_266_r = 80;
-            field_268_g = 0;
-            field_26A_b = 0;
-            break;
-
-        case 0:
-        case 4:
-            field_278_pTarget_obj = sActiveHero_507678;
-            field_278_pTarget_obj->field_C_refCount++;
-            [[fallthrough]];
-
-        case 5:
-        case 6:
-            field_258_ring_thickness = FP_FromInteger(5);
-            field_24C_speed = FP_FromInteger(4);
-            field_248_right = FP_FromInteger(4);
-            field_244_left = FP_FromInteger(0);
-            field_25C_fade = 50;
-            switch (type)
-            {
-            case 0:
-                field_266_r = 255;
+            case 3:
+                field_258_ring_thickness = FP_FromInteger(8);
+                field_24C_speed = FP_FromInteger(6);
+                field_248_right = FP_FromInteger(350);
+                field_244_left = FP_FromInteger(342);
+                field_266_r = 80;
                 field_268_g = 0;
                 field_26A_b = 0;
                 break;
+
+            case 0:
             case 4:
-                field_266_r = 0;
-                field_268_g = 0;
-                field_26A_b = 255;
-                break;
+                field_278_pTarget_obj = sActiveHero_507678;
+                field_278_pTarget_obj->field_C_refCount++;
+                [[fallthrough]];
+
             case 5:
-                field_266_r = 0;
-                field_268_g = 0;
-                field_26A_b = 80;
-                break;
             case 6:
-                field_266_r = 255;
-                field_268_g = 128;
-                field_26A_b = 64;
+                field_258_ring_thickness = FP_FromInteger(5);
+                field_24C_speed = FP_FromInteger(4);
+                field_248_right = FP_FromInteger(4);
+                field_244_left = FP_FromInteger(0);
+                field_25C_fade = 50;
+                switch (type)
+                {
+                    case 0:
+                        field_266_r = 255;
+                        field_268_g = 0;
+                        field_26A_b = 0;
+                        break;
+                    case 4:
+                        field_266_r = 0;
+                        field_268_g = 0;
+                        field_26A_b = 255;
+                        break;
+                    case 5:
+                        field_266_r = 0;
+                        field_268_g = 0;
+                        field_26A_b = 80;
+                        break;
+                    case 6:
+                        field_266_r = 255;
+                        field_268_g = 128;
+                        field_26A_b = 64;
+                        break;
+                    default:
+                        break;
+                }
                 break;
+
             default:
                 break;
-            }
-            break;
-
-        default:
-            break;
-
         }
 
         field_272_path = gMap_507BA8.field_2_current_path;
@@ -256,10 +255,7 @@ void AbilityRing::CollideWithObjects_456250()
         {
             for (auto& rect : field_3C_collide_rects)
             {
-                if (rect.x <= bRect.w &&
-                    rect.w >= bRect.x &&
-                    rect.h >= bRect.y &&
-                    rect.y <= bRect.h)
+                if (rect.x <= bRect.w && rect.w >= bRect.x && rect.h >= bRect.y && rect.y <= bRect.h)
                 {
                     pObj->VTakeDamage(this);
                 }
@@ -297,93 +293,93 @@ void AbilityRing::VUpdate_455ED0()
 
     switch (field_274_ring_type)
     {
-    case 0:
-    case 4:
-    case 6:
-        field_248_right += field_24C_speed;
-        field_244_left = field_248_right - field_258_ring_thickness;
+        case 0:
+        case 4:
+        case 6:
+            field_248_right += field_24C_speed;
+            field_244_left = field_248_right - field_258_ring_thickness;
 
-        if (field_244_left < FP_FromInteger(0))
-        {
-            field_244_left = FP_FromInteger(0);
-        }
-
-        if (FP_GetExponent(field_244_left) <= field_25C_fade)
-        {
-            field_266_r = (field_266_r >> 1) + (field_266_r >> 2);
-            field_268_g = (field_268_g >> 1) + (field_268_g >> 2);
-            field_26A_b = (field_26A_b >> 1) + (field_26A_b >> 2);
-
-            for (s32 i = 0; i < 2; i++)
+            if (field_244_left < FP_FromInteger(0))
             {
-                for (s32 j = 0; j < 64; j++)
+                field_244_left = FP_FromInteger(0);
+            }
+
+            if (FP_GetExponent(field_244_left) <= field_25C_fade)
+            {
+                field_266_r = (field_266_r >> 1) + (field_266_r >> 2);
+                field_268_g = (field_268_g >> 1) + (field_268_g >> 2);
+                field_26A_b = (field_26A_b >> 1) + (field_26A_b >> 2);
+
+                for (s32 i = 0; i < 2; i++)
                 {
-                    SetRGB0(&field_14_pRes[j].mPolys[i], field_266_r & 255, field_268_g & 255, field_26A_b & 255);
+                    for (s32 j = 0; j < 64; j++)
+                    {
+                        SetRGB0(&field_14_pRes[j].mPolys[i], field_266_r & 255, field_268_g & 255, field_26A_b & 255);
+                    }
                 }
             }
-        }
-        else
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        return;
-
-    case 1:
-        CollideWithObjects_456250();
-        [[fallthrough]];
-
-    case 2:
-        field_248_right += field_24C_speed;
-        field_244_left = field_248_right - field_258_ring_thickness;
-
-        if (field_244_left < FP_FromInteger(0))
-        {
-            field_244_left = FP_FromInteger(0);
-        }
-
-        if (FP_GetExponent(field_244_left) > field_25C_fade)
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        break;
-
-    case 3:
-        field_248_right -= field_24C_speed;
-        field_244_left = field_248_right - field_258_ring_thickness;
-        if (field_244_left < FP_FromInteger(0))
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            field_244_left = FP_FromInteger(0);
-            SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
-            auto pPossessionFlicker = ao_new<PossessionFlicker>();
-            if (pPossessionFlicker)
+            else
             {
-                pPossessionFlicker->ctor_41A8C0(sActiveHero_507678, 8, 255, 128, 128);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
-        }
-        break;
+            return;
 
-    case 5:
-        field_248_right += field_24C_speed;
-        field_244_left = field_248_right - field_258_ring_thickness;
-        if (field_244_left >= FP_FromInteger(0))
-        {
+        case 1:
+            CollideWithObjects_456250();
+            [[fallthrough]];
+
+        case 2:
+            field_248_right += field_24C_speed;
+            field_244_left = field_248_right - field_258_ring_thickness;
+
+            if (field_244_left < FP_FromInteger(0))
+            {
+                field_244_left = FP_FromInteger(0);
+            }
+
             if (FP_GetExponent(field_244_left) > field_25C_fade)
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
-        }
-        else
-        {
-            field_244_left = FP_FromInteger(0);
-            if (field_25C_fade < 0)
+            break;
+
+        case 3:
+            field_248_right -= field_24C_speed;
+            field_244_left = field_248_right - field_258_ring_thickness;
+            if (field_244_left < FP_FromInteger(0))
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                field_244_left = FP_FromInteger(0);
+                SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
+                auto pPossessionFlicker = ao_new<PossessionFlicker>();
+                if (pPossessionFlicker)
+                {
+                    pPossessionFlicker->ctor_41A8C0(sActiveHero_507678, 8, 255, 128, 128);
+                }
             }
-        }
-        break;
-    default:
-        return;
+            break;
+
+        case 5:
+            field_248_right += field_24C_speed;
+            field_244_left = field_248_right - field_258_ring_thickness;
+            if (field_244_left >= FP_FromInteger(0))
+            {
+                if (FP_GetExponent(field_244_left) > field_25C_fade)
+                {
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                }
+            }
+            else
+            {
+                field_244_left = FP_FromInteger(0);
+                if (field_25C_fade < 0)
+                {
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                }
+            }
+            break;
+        default:
+            return;
     }
 }
 
@@ -395,12 +391,11 @@ void AbilityRing::VRender(PrimHeader** ppOt)
 void AbilityRing::VRender_456340(PrimHeader** ppOt)
 {
     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-        field_270_level,
-        field_272_path,
-        field_23C_xpos,
-        field_240_ypos,
-        0)
-        )//&& !field_290_bFindingTarget) Missing part of the check from AE
+            field_270_level,
+            field_272_path,
+            field_23C_xpos,
+            field_240_ypos,
+            0)) //&& !field_290_bFindingTarget) Missing part of the check from AE
     {
         s16 y3 = field_264_screenYPos;
         s16 y4 = field_264_screenYPos;
@@ -425,7 +420,7 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
             const s16 w = std::max(std::max(x1, x3), std::max(x2, x4));
             const s16 h = std::max(std::max(y1, y3), std::max(y2, y4));
 
-            const PSX_RECT rect = { x, y, w, h };
+            const PSX_RECT rect = {x, y, w, h};
             if (rect.w < 0 || rect.x > 640 || rect.y > 240 || rect.h < 0)
             {
                 //TODO untie from Render() into Update()
@@ -467,4 +462,4 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
     }
 }
 
-}
+} // namespace AO

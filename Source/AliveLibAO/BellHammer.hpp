@@ -52,5 +52,4 @@ public:
 ALIVE_ASSERT_SIZEOF(BellHammer, 0xF4);
 
 
-}
-
+} // namespace AO

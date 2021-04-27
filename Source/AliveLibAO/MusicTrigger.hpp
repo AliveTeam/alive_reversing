@@ -49,5 +49,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(MusicTrigger, 0x20);
 
-}
-
+} // namespace AO

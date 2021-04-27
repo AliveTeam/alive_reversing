@@ -10,52 +10,50 @@
 namespace AO {
 
 // Overlay to throwable type table ??
-const Types word_4CF158[54] =
-{
-    Types::eNone_0,     Types::eNone_0,      Types::eNone_0,      Types::eGrenade_40,  Types::eNone_0,      Types::eNone_0,      Types::eRock_70,     Types::eNone_0,     Types::eRock_70,  Types::eRock_70,
-    Types::eNone_0,     Types::eRock_70,     Types::eNone_0,      Types::eRock_70,     Types::eNone_0,      Types::eRock_70,     Types::eNone_0,      Types::eNone_0,     Types::eRock_70,  Types::eNone_0,
-    Types::eMeat_54,    Types::eNone_0,      Types::eMeat_54,     Types::eNone_0,      Types::eRock_70,     Types::eNone_0,      Types::eRock_70,     Types::eRock_70,    Types::eRock_70,  Types::eNone_0,
-    Types::eRock_70,    Types::eNone_0,      Types::eRock_70,     Types::eNone_0,      Types::eRock_70,     Types::eNone_0,      Types::eRock_70,     Types::eNone_0,     Types::eNone_0,   Types::eGrenade_40,
-    Types::eNone_0,     Types::eGrenade_40,  Types::eGrenade_40,  Types::eGrenade_40,  Types::eGrenade_40,  Types::eGrenade_40,  Types::eGrenade_40,  Types::eGrenade_40, Types::eNone_0,   Types::eGrenade_40,
-    Types::eNone_0,     Types::eNone_0,      Types::eNone_0,      Types::eNone_0
-};
+const Types word_4CF158[54] = {
+    Types::eNone_0, Types::eNone_0, Types::eNone_0, Types::eGrenade_40, Types::eNone_0, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eRock_70,
+    Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eNone_0, Types::eRock_70, Types::eNone_0,
+    Types::eMeat_54, Types::eNone_0, Types::eMeat_54, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eRock_70, Types::eRock_70, Types::eNone_0,
+    Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eNone_0, Types::eGrenade_40,
+    Types::eNone_0, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eNone_0, Types::eGrenade_40,
+    Types::eNone_0, Types::eNone_0, Types::eNone_0, Types::eNone_0};
 
 EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, s16 count)
 {
     switch (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num])
     {
-    case Types::eGrenade_40:
-    {
-        auto pGrenade = ao_new<Grenade>();
-        if (pGrenade)
+        case Types::eGrenade_40:
         {
-            return pGrenade->ctor_41EBD0(xpos, ypos, count);
+            auto pGrenade = ao_new<Grenade>();
+            if (pGrenade)
+            {
+                return pGrenade->ctor_41EBD0(xpos, ypos, count);
+            }
+            break;
         }
-        break;
-    }
 
-    case Types::eMeat_54:
-    {
-        auto pMeat = ao_new<Meat>();
-        if (pMeat)
+        case Types::eMeat_54:
         {
-            return pMeat->ctor_438550(xpos, ypos, count);
+            auto pMeat = ao_new<Meat>();
+            if (pMeat)
+            {
+                return pMeat->ctor_438550(xpos, ypos, count);
+            }
+            break;
         }
-        break;
-    }
 
-    case Types::eRock_70:
-    {
-        auto pRock = ao_new<Rock>();
-        if (pRock)
+        case Types::eRock_70:
         {
-            return pRock->ctor_456960(xpos, ypos, count);
+            auto pRock = ao_new<Rock>();
+            if (pRock)
+            {
+                return pRock->ctor_456960(xpos, ypos, count);
+            }
+            break;
         }
-        break;
-    }
 
-    default:
-        break;
+        default:
+            break;
     }
     return nullptr;
 }
@@ -90,5 +88,4 @@ void BaseThrowable::VOnPickUpOrSlapped()
     VToDead();
 }
 
-}
-
+} // namespace AO

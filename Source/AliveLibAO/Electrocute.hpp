@@ -53,5 +53,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Electrocute, 0x40);
 
-}
-
+} // namespace AO

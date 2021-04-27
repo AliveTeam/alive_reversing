@@ -102,7 +102,7 @@ void ScrabSpawner::vUpdate_4AB510()
         field_40_bFindSpawnedScrab = FALSE;
         if (field_3C_spawned_scrab_id != -1)
         {
-            for (s32 i=0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
             {
                 BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
                 if (!pObj)

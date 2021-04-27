@@ -7,7 +7,7 @@
 
 TypesCollectionBase::TypesCollectionBase()
 {
-    #define ADD_BASIC_TYPE(name, type) AddBasicType<type>(name, std::numeric_limits<type>::min(), std::numeric_limits<type>::max());
+#define ADD_BASIC_TYPE(name, type) AddBasicType<type>(name, std::numeric_limits<type>::min(), std::numeric_limits<type>::max());
 
     ADD_BASIC_TYPE("Byte", u8);
     ADD_BASIC_TYPE("UInt16", u16);
@@ -15,7 +15,7 @@ TypesCollectionBase::TypesCollectionBase()
     ADD_BASIC_TYPE("SInt16", s16);
     ADD_BASIC_TYPE("SInt32", s32);
 
-    #undef ADD_BASIC_TYPE
+#undef ADD_BASIC_TYPE
 }
 
 TypesCollectionBase::~TypesCollectionBase() = default;
@@ -74,4 +74,3 @@ TypesCollectionBase::~TypesCollectionBase() = default;
     const auto it = mTypesByTypeIndex.find(typeIndex);
     return it != mTypesByTypeIndex.end() ? it->second : nullptr;
 }
-

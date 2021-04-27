@@ -31,6 +31,7 @@ public:
     EXPORT void vScreenChanged_40D550();
     EXPORT void dtor_40D4C0();
     EXPORT BaseGameObject* vdtor_40D420(s32 flags);
+
 private:
     AnimHeader** field_F4_res;
     TlvItemInfoUnion field_F8_tlvInfo;

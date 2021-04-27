@@ -18,15 +18,14 @@
 #include "Map.hpp"
 
 #if ORIGINAL_PS1_BEHAVIOR
-#include "../AliveLibAE/Sys.hpp"
+    #include "../AliveLibAE/Sys.hpp"
 #endif
 
 namespace AO {
 
 ALIVE_VAR(1, 0x5080E0, PauseMenu*, pPauseMenu_5080E0, nullptr);
 
-const u8 byte_4C5EE8[32] =
-{
+const u8 byte_4C5EE8[32] = {
     0u,
     0u,
     33u,
@@ -58,8 +57,7 @@ const u8 byte_4C5EE8[32] =
     16u,
     66u,
     115u,
-    78u
-};
+    78u};
 
 
 PauseMenu* PauseMenu::ctor_44DEA0()
@@ -149,8 +147,7 @@ struct saveName
 };
 ALIVE_VAR(1, 0x5080C6, saveName, saveNameBuffer_5080C6, {});
 
-const s8 *gLevelNames_4CE1D4[20] =
-{
+const s8* gLevelNames_4CE1D4[20] = {
     "¸",
     "RuptureFarms",
     "Monsaic Lines",
@@ -170,8 +167,7 @@ const s8 *gLevelNames_4CE1D4[20] =
     "Rescue Zulag 1",
     "Rescue Zulag 2",
     "Rescue Zulag 3",
-    "Rescue Zulag 4"
-};
+    "Rescue Zulag 4"};
 
 enum PauseMenuPages
 {
@@ -202,7 +198,7 @@ void PauseMenu::VUpdate_44DFB0()
             sDisableFontFlicker_5080E4 = 1;
             SYS_EventsPump_44FF90();
 
-            for(s32 idx = 0; idx < gObjList_drawables_504618->Size(); idx++)
+            for (s32 idx = 0; idx < gObjList_drawables_504618->Size(); idx++)
             {
                 auto pObjIter = gObjList_drawables_504618->ItemAt(idx);
                 if (!pObjIter)
@@ -218,8 +214,7 @@ void PauseMenu::VUpdate_44DFB0()
                 }
             }
             pScreenManager_4FF7C8->VRender(
-                gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer
-            );
+                gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
             PSX_DrawSync_496750(0);
             ResourceManager::Reclaim_Memory_455660(500000);
             gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
@@ -292,12 +287,7 @@ void PauseMenu::VUpdate_44DFB0()
                     const bool optionClicked = Input().IsAnyHeld(InputCommands::eUnPause_OrConfirm);
 #else
                     const bool optionClicked = Input().IsAnyHeld(
-                        InputCommands::eHop |
-                        InputCommands::eThrowItem |
-                        InputCommands::eUnPause_OrConfirm |
-                        InputCommands::eDoAction |
-                        InputCommands::eBack
-                    );
+                        InputCommands::eHop | InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction | InputCommands::eBack);
 #endif
                     if (optionClicked)
                     {
@@ -344,9 +334,9 @@ void PauseMenu::VUpdate_44DFB0()
                                     strncat(&saveNameBuffer_5080C6.characters[2], curPathIdNumBuf, 19u);
                                 }
 
-                                const s8 aux[2] = { 18, 0 };
+                                const s8 aux[2] = {18, 0};
                                 strncat(&saveNameBuffer_5080C6.characters[2], aux, 19u);
-#if ORIGINAL_PS1_BEHAVIOR  // OG Change - Allow for exiting save menu using controller
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
                                 setSaveMenuOpen(true); // Sets saveMenuOpen bool to true, instead of disabling input
 #else
                                 Input_DisableInput_48E690();
@@ -404,7 +394,7 @@ void PauseMenu::VUpdate_44DFB0()
                     }
 
                     auto last_pressed = Input_GetLastPressedKey_44F2C0();
-                    s8 lastPressedKeyNT[2] = { last_pressed, 0 };
+                    s8 lastPressedKeyNT[2] = {last_pressed, 0};
 
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Exit save menu using controller
                     if (last_pressed == VK_ESCAPE || last_pressed == VK_RETURN) // Keyboard ESC or ENTER
@@ -505,15 +495,7 @@ void PauseMenu::VUpdate_44DFB0()
                     }
 
                     if (Input().IsAnyHeld(
-                        InputCommands::eThrowItem |
-                        InputCommands::eUnPause_OrConfirm |
-                        InputCommands::eDoAction |
-                        InputCommands::eCheatMode |
-                        InputCommands::eUp |
-                        InputCommands::eRight |
-                        InputCommands::eDown |
-                        InputCommands::eLeft
-                    ))
+                            InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction | InputCommands::eCheatMode | InputCommands::eUp | InputCommands::eRight | InputCommands::eDown | InputCommands::eLeft))
                     {
                         field_128_controller_id++;
                         if (field_128_controller_id < 2)
@@ -581,109 +563,95 @@ void PauseMenu::VRender(PrimHeader** ppOt)
 
 ALIVE_VAR(1, 0xA88B90, s8, byte_A88B90, 0);
 
-PauseMenu::PauseEntry pauseEntries_4CDE50[6] =
-{
-    { 184, 85, "CONTINUE", 128u, 16u, 255u, '\x01' },
-    { 184, 110, "SAVE", 128u, 16u, 255u, '\x01' },
-    { 184, 135, "CONTROLS", 128u, 16u, 255u, '\x01' },
-    { 184, 160, "QUIT", 128u, 16u, 255u, '\x01' },
-    { 184, 42, "- paused -", 228u, 116u, 99u, '\x01' },
-    { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
-};
+PauseMenu::PauseEntry pauseEntries_4CDE50[6] = {
+    {184, 85, "CONTINUE", 128u, 16u, 255u, '\x01'},
+    {184, 110, "SAVE", 128u, 16u, 255u, '\x01'},
+    {184, 135, "CONTROLS", 128u, 16u, 255u, '\x01'},
+    {184, 160, "QUIT", 128u, 16u, 255u, '\x01'},
+    {184, 42, "- paused -", 228u, 116u, 99u, '\x01'},
+    {0, 0, nullptr, 0u, 0u, 0u, '\0'}};
 
-PauseMenu::PauseEntry PauseEntry2_4CDE98[2] =
-{
-    { 184, 205, "r1p01c01", 128u, 16u, 255u, '\x01' },
-    { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
-};
+PauseMenu::PauseEntry PauseEntry2_4CDE98[2] = {
+    {184, 205, "r1p01c01", 128u, 16u, 255u, '\x01'},
+    {0, 0, nullptr, 0u, 0u, 0u, '\0'}};
 
-PauseMenu::PauseEntry quitEntries_4CDEA8[3] =
-{
-    { 184, 110, "REALLY QUIT?", 128u, 16u, 255u, '\x01' },
-    { 184, 135, kAO_ConfirmContinue " yes   " kAO_Esc " no", 160u, 160u, 160u, '\x01' },
-    { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
-};
+PauseMenu::PauseEntry quitEntries_4CDEA8[3] = {
+    {184, 110, "REALLY QUIT?", 128u, 16u, 255u, '\x01'},
+    {184, 135, kAO_ConfirmContinue " yes   " kAO_Esc " no", 160u, 160u, 160u, '\x01'},
+    {0, 0, nullptr, 0u, 0u, 0u, '\0'}};
 
-PauseMenu::PauseEntry saveEntries_4CDED0[4] =
-{
-    { 184, 120, "DUMMY_TEXT", 128u, 16u, 255u, '\x01' },
-    { 184, 180, "enter   save", 160u, 160u, 160u, '\x01' },
-    { 184, 205, "esc   cancel", 160u, 160u, 160u, '\x01' },
-    { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
-};
+PauseMenu::PauseEntry saveEntries_4CDED0[4] = {
+    {184, 120, "DUMMY_TEXT", 128u, 16u, 255u, '\x01'},
+    {184, 180, "enter   save", 160u, 160u, 160u, '\x01'},
+    {184, 205, "esc   cancel", 160u, 160u, 160u, '\x01'},
+    {0, 0, nullptr, 0u, 0u, 0u, '\0'}};
 
-PauseMenu::PauseEntry controlsPageOne_4CDF00[17] =
-{
-    { 184, 205, kAO_ConfirmContinue " more  " kAO_Esc " exit", 128u, 16u, 255u, '\x01' },
-    { 184, 20, "Actions", 127u, 127u, 127u, '\x01' },
-    { 80, 50, kAO_Run " + " kAO_Left " " kAO_Right, 160u, 160u, 160u, '\0' },
-    { 80, 70, kAO_Sneak " + " kAO_Left " " kAO_Right, 160u, 160u, 160u, '\0' },
-    { 80, 90, kAO_Jump_Or_Hello " + " kAO_Or " " kAO_Up, 160u, 160u, 160u, '\0' },
-    { 80, 110, kAO_Crouch " + " kAO_Or " " kAO_Down, 160u, 160u, 160u, '\0' },
-    { 80, 130, kAO_Throw " + " kAO_DirectionalButtons, 160u, 160u, 160u, '\0' },
-    { 80, 150, kAO_Action, 160u, 160u, 160u, '\0' },
-    { 80, 170, kAO_Up, 160u, 160u, 160u, '\0' },
-    { 200, 50, "run", 128u, 16u, 255u, '\0' },
-    { 200, 70, "sneak", 128u, 16u, 255u, '\0' },
-    { 200, 90, "jump", 128u, 16u, 255u, '\0' },
-    { 200, 110, "crouch", 128u, 16u, 255u, '\0' },
-    { 200, 130, "throw", 128u, 16u, 255u, '\0' },
-    { 200, 150, "action", 128u, 16u, 255u, '\0' },
-    { 200, 170, "mount " kAO_Or " zturn", 128u, 16u, 255u, '\0' },
-    { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
-};
+PauseMenu::PauseEntry controlsPageOne_4CDF00[17] = {
+    {184, 205, kAO_ConfirmContinue " more  " kAO_Esc " exit", 128u, 16u, 255u, '\x01'},
+    {184, 20, "Actions", 127u, 127u, 127u, '\x01'},
+    {80, 50, kAO_Run " + " kAO_Left " " kAO_Right, 160u, 160u, 160u, '\0'},
+    {80, 70, kAO_Sneak " + " kAO_Left " " kAO_Right, 160u, 160u, 160u, '\0'},
+    {80, 90, kAO_Jump_Or_Hello " + " kAO_Or " " kAO_Up, 160u, 160u, 160u, '\0'},
+    {80, 110, kAO_Crouch " + " kAO_Or " " kAO_Down, 160u, 160u, 160u, '\0'},
+    {80, 130, kAO_Throw " + " kAO_DirectionalButtons, 160u, 160u, 160u, '\0'},
+    {80, 150, kAO_Action, 160u, 160u, 160u, '\0'},
+    {80, 170, kAO_Up, 160u, 160u, 160u, '\0'},
+    {200, 50, "run", 128u, 16u, 255u, '\0'},
+    {200, 70, "sneak", 128u, 16u, 255u, '\0'},
+    {200, 90, "jump", 128u, 16u, 255u, '\0'},
+    {200, 110, "crouch", 128u, 16u, 255u, '\0'},
+    {200, 130, "throw", 128u, 16u, 255u, '\0'},
+    {200, 150, "action", 128u, 16u, 255u, '\0'},
+    {200, 170, "mount " kAO_Or " zturn", 128u, 16u, 255u, '\0'},
+    {0, 0, nullptr, 0u, 0u, 0u, '\0'}};
 
-PauseMenu::PauseEntry gamepadGameSpeak_4CDFD0[21] =
-{
-    { 184, 205, kAO_Esc " exit", 128u, 16u, 255u, '\x01' },
-    { 184, 20, "GameSpeak", 127u, 127u, 127u, '\x01' },
-    { 184, 55, kAO_Speak1 " + " kAO_Speak2, 160u, 160u, 160u, '\x01' },
-    { 184, 75, "chant", 128u, 16u, 255u, '\x01' },
-    { 100, 104, "hello", 128u, 16u, 255u, '\0' },
-    { 100, 126, "angry", 128u, 16u, 255u, '\0' },
-    { 100, 148, "wait", 128u, 16u, 255u, '\0' },
-    { 100, 170, "follow me", 128u, 16u, 255u, '\0' },
-    { 290, 104, "whistle ", 128u, 16u, 255u, '\0' },
-    { 290, 126, "fart", 128u, 16u, 255u, '\0' },
-    { 290, 148, "whistle ", 128u, 16u, 255u, '\0' },
-    { 290, 170, "laugh", 128u, 16u, 255u, '\0' },
-    { 2, 104, kAO_Speak1 "+" kAO_Jump_Or_Hello, 160u, 160u, 160u, '\0' },
-    { 2, 126, kAO_Speak1 "+" kAO_Throw, 160u, 160u, 160u, '\0' },
-    { 2, 148, kAO_Speak1 "+" kAO_Crouch, 160u, 160u, 160u, '\0' },
-    { 2, 170, kAO_Speak1 "+" kAO_Action, 160u, 160u, 160u, '\0' },
-    { 192, 104, kAO_Speak2 "+" kAO_Jump_Or_Hello, 160u, 160u, 160u, '\0' },
-    { 192, 126, kAO_Speak2 "+" kAO_Throw, 160u, 160u, 160u, '\0' },
-    { 192, 148, kAO_Speak2 "+" kAO_Crouch, 160u, 160u, 160u, '\0' },
-    { 192, 170, kAO_Speak2 "+" kAO_Action, 160u, 160u, 160u, '\0' },
-    { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
-};
+PauseMenu::PauseEntry gamepadGameSpeak_4CDFD0[21] = {
+    {184, 205, kAO_Esc " exit", 128u, 16u, 255u, '\x01'},
+    {184, 20, "GameSpeak", 127u, 127u, 127u, '\x01'},
+    {184, 55, kAO_Speak1 " + " kAO_Speak2, 160u, 160u, 160u, '\x01'},
+    {184, 75, "chant", 128u, 16u, 255u, '\x01'},
+    {100, 104, "hello", 128u, 16u, 255u, '\0'},
+    {100, 126, "angry", 128u, 16u, 255u, '\0'},
+    {100, 148, "wait", 128u, 16u, 255u, '\0'},
+    {100, 170, "follow me", 128u, 16u, 255u, '\0'},
+    {290, 104, "whistle ", 128u, 16u, 255u, '\0'},
+    {290, 126, "fart", 128u, 16u, 255u, '\0'},
+    {290, 148, "whistle ", 128u, 16u, 255u, '\0'},
+    {290, 170, "laugh", 128u, 16u, 255u, '\0'},
+    {2, 104, kAO_Speak1 "+" kAO_Jump_Or_Hello, 160u, 160u, 160u, '\0'},
+    {2, 126, kAO_Speak1 "+" kAO_Throw, 160u, 160u, 160u, '\0'},
+    {2, 148, kAO_Speak1 "+" kAO_Crouch, 160u, 160u, 160u, '\0'},
+    {2, 170, kAO_Speak1 "+" kAO_Action, 160u, 160u, 160u, '\0'},
+    {192, 104, kAO_Speak2 "+" kAO_Jump_Or_Hello, 160u, 160u, 160u, '\0'},
+    {192, 126, kAO_Speak2 "+" kAO_Throw, 160u, 160u, 160u, '\0'},
+    {192, 148, kAO_Speak2 "+" kAO_Crouch, 160u, 160u, 160u, '\0'},
+    {192, 170, kAO_Speak2 "+" kAO_Action, 160u, 160u, 160u, '\0'},
+    {0, 0, nullptr, 0u, 0u, 0u, '\0'}};
 
-PauseMenu::PauseEntry keyboardGameSpeak_4CE0D0[21] =
-{
-    { 184, 205, kAO_Esc " exit", 128u, 16u, 255u, '\x01' },
-    { 184, 20, "GameSpeak", 127u, 127u, 127u, '\x01' },
-    { 184, 55, "0", 160u, 160u, 160u, '\x01' },
-    { 184, 75, "chant", 128u, 16u, 255u, '\x01' },
-    { 90, 104, "hello", 128u, 16u, 255u, '\0' },
-    { 90, 126, "follow me", 128u, 16u, 255u, '\0' },
-    { 90, 148, "wait", 128u, 16u, 255u, '\0' },
-    { 90, 170, "angry", 128u, 16u, 255u, '\0' },
-    { 240, 104, "laugh", 128u, 16u, 255u, '\0' },
-    { 240, 126, "whistle ", 128u, 16u, 255u, '\0' },
-    { 240, 148, "fart", 128u, 16u, 255u, '\0' },
-    { 240, 170, "whistle ", 128u, 16u, 255u, '\0' },
-    { 52, 104, "1", 160u, 160u, 160u, '\0' },
-    { 52, 126, "2", 160u, 160u, 160u, '\0' },
-    { 52, 148, "3", 160u, 160u, 160u, '\0' },
-    { 52, 170, "4", 160u, 160u, 160u, '\0' },
-    { 202, 104, "5", 160u, 160u, 160u, '\0' },
-    { 202, 126, "6", 160u, 160u, 160u, '\0' },
-    { 202, 148, "7", 160u, 160u, 160u, '\0' },
-    { 202, 170, "8", 160u, 160u, 160u, '\0' },
-    { 0, 0, nullptr, 0u, 0u, 0u, '\0' }
-};
+PauseMenu::PauseEntry keyboardGameSpeak_4CE0D0[21] = {
+    {184, 205, kAO_Esc " exit", 128u, 16u, 255u, '\x01'},
+    {184, 20, "GameSpeak", 127u, 127u, 127u, '\x01'},
+    {184, 55, "0", 160u, 160u, 160u, '\x01'},
+    {184, 75, "chant", 128u, 16u, 255u, '\x01'},
+    {90, 104, "hello", 128u, 16u, 255u, '\0'},
+    {90, 126, "follow me", 128u, 16u, 255u, '\0'},
+    {90, 148, "wait", 128u, 16u, 255u, '\0'},
+    {90, 170, "angry", 128u, 16u, 255u, '\0'},
+    {240, 104, "laugh", 128u, 16u, 255u, '\0'},
+    {240, 126, "whistle ", 128u, 16u, 255u, '\0'},
+    {240, 148, "fart", 128u, 16u, 255u, '\0'},
+    {240, 170, "whistle ", 128u, 16u, 255u, '\0'},
+    {52, 104, "1", 160u, 160u, 160u, '\0'},
+    {52, 126, "2", 160u, 160u, 160u, '\0'},
+    {52, 148, "3", 160u, 160u, 160u, '\0'},
+    {52, 170, "4", 160u, 160u, 160u, '\0'},
+    {202, 104, "5", 160u, 160u, 160u, '\0'},
+    {202, 126, "6", 160u, 160u, 160u, '\0'},
+    {202, 148, "7", 160u, 160u, 160u, '\0'},
+    {202, 170, "8", 160u, 160u, 160u, '\0'},
+    {0, 0, nullptr, 0u, 0u, 0u, '\0'}};
 
-void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, s16 selectedEntryId, s32 polyOffset = 0)
+void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEntryId, s32 polyOffset = 0)
 {
     for (s16 entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
     {
@@ -696,7 +664,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, s16 selectedEn
         {
             colourOffset = 0;
         }
-        const s8 *stringBuffer;
+        const s8* stringBuffer;
         if (&entry[entryId] == &saveEntries_4CDED0[0])
         {
             stringBuffer = &saveNameBuffer_5080C6.characters[2];
@@ -736,10 +704,9 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, s16 selectedEn
             polyOffset,
             FP_FromInteger(1),
             640,
-            0
-        );
+            0);
     }
-    Poly_F4 *pPrim = &field_158[gPsxDisplay_504C78.field_A_buffer_index];
+    Poly_F4* pPrim = &field_158[gPsxDisplay_504C78.field_A_buffer_index];
     PolyF4_Init(pPrim);
     Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, 1);
     Poly_Set_Blending_498A00(&pPrim->mBase.header, 0);
@@ -753,7 +720,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, s16 selectedEn
     SetXY1(pPrim, 640, 0);
     SetXY2(pPrim, 0, 240);
     SetXY3(pPrim, 640, 240);
-    Prim_SetTPage *prim_tpage = &field_138_tPage[gPsxDisplay_504C78.field_A_buffer_index];
+    Prim_SetTPage* prim_tpage = &field_138_tPage[gPsxDisplay_504C78.field_A_buffer_index];
     Init_SetTPage_495FB0(prim_tpage, 0, 0, PSX_getTPage_4965D0(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_41), &pPrim->mBase.header);
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_41), &prim_tpage->mBase);
@@ -762,8 +729,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry *entry, s16 selectedEn
         0,
         640,
         240,
-        pScreenManager_4FF7C8->field_2E_idx
-    );
+        pScreenManager_4FF7C8->field_2E_idx);
 }
 
 void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
@@ -783,12 +749,11 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
                 cameraNameBuffer,
                 gMap_507BA8.field_0_current_level,
                 gMap_507BA8.field_2_current_path,
-                gMap_507BA8.field_4_current_camera
-            );
+                gMap_507BA8.field_4_current_camera);
             cameraNameBuffer[8] = 0;
             if (strlen(cameraNameBuffer) != 0)
             {
-                for(unsigned idx = 0; idx < strlen(cameraNameBuffer); idx++)
+                for (unsigned idx = 0; idx < strlen(cameraNameBuffer); idx++)
                 {
                     s8 letter = cameraNameBuffer[idx];
                     s8 letterCandidate = 0;
@@ -822,8 +787,7 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
                 0,
                 FP_FromInteger(1),
                 640,
-                0
-            );
+                0);
             DrawEntries(ppOt, entries, field_124, polyOffset);
             break;
         }
@@ -834,7 +798,7 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
         }
         case PauseMenuPages::eControls_2:
         {
-            PauseEntry *entries = nullptr;
+            PauseEntry* entries = nullptr;
             if (field_128_controller_id == 1)
             {
                 if (Input().JoyStickEnabled())
@@ -860,4 +824,4 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
     }
 }
 
-}
+} // namespace AO

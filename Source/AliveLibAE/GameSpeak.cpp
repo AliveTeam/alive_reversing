@@ -3,10 +3,10 @@
 #include "stdlib.hpp"
 #include "Function.hpp"
 
-void GameSpeak_ForceLink() { }
+void GameSpeak_ForceLink()
+{ }
 
-const s32 code_base_560F0C[12] =
-{
+const s32 code_base_560F0C[12] = {
     0,
     1,
     10,
@@ -103,7 +103,7 @@ GameSpeakMatch GameSpeak::MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_i
                 if (field_2C_event_buffer[src_idx] != -1)
                 {
                     bContinue = false;
-                   break;
+                    break;
                 }
             }
 

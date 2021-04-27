@@ -87,4 +87,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(MovingBomb, 0x12C);
 
-}
+} // namespace AO

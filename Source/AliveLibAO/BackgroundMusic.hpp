@@ -31,4 +31,4 @@ ALIVE_ASSERT_SIZEOF(BackgroundMusic, 0x14);
 
 ALIVE_VAR_EXTERN(s16, sBackgroundMusic_seq_id_4CFFF8);
 
-}
+} // namespace AO

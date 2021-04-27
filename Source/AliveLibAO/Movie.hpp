@@ -44,4 +44,4 @@ ALIVE_ASSERT_SIZEOF(Movie, 0x40);
 
 ALIVE_VAR_EXTERN(s32, sMovie_ref_count_9F309C);
 
-}
+} // namespace AO

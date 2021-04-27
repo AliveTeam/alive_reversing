@@ -16,4 +16,4 @@ EXPORT s32 CC Math_FixedPoint_Divide_450FB0(s32 a1, s32 a2)
     return Math_FixedPoint_Divide_496B70(a1, a2);
 }
 
-}
+} // namespace AO
