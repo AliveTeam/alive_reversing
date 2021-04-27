@@ -21,7 +21,6 @@
 #include <cstddef>
 #include <fstream>
 #include <memory>
-#include <streambuf>
 #include <string>
 #include <utility>
 #include <vector>
@@ -106,48 +105,56 @@ public:
     PathLine mLine = {};
 };
 
-static jsonxx::Array ReadArray(jsonxx::Object& o, const std::string& key)
+[[nodiscard]] static const jsonxx::Array& ReadArray(jsonxx::Object&&, const std::string&) = delete;
+[[nodiscard]] static const jsonxx::Array& ReadArray(const jsonxx::Object& o, const std::string& key)
 {
     if (!o.has<jsonxx::Array>(key))
     {
         throw ReliveAPI::JsonKeyNotFoundException(key);
     }
+
     return o.get<jsonxx::Array>(key);
 }
 
-static jsonxx::Object ReadObject(jsonxx::Object& o, const std::string& key)
+[[nodiscard]] static const jsonxx::Object& ReadObject(jsonxx::Object&&, const std::string&) = delete;
+[[nodiscard]] static const jsonxx::Object& ReadObject(const jsonxx::Object& o, const std::string& key)
 {
     if (!o.has<jsonxx::Object>(key))
     {
         throw ReliveAPI::JsonKeyNotFoundException(key);
     }
+
     return o.get<jsonxx::Object>(key);
 }
 
-static s32 ReadNumber(jsonxx::Object& o, const std::string& key)
+[[nodiscard]] static s32 ReadNumber(jsonxx::Object&&, const std::string&) = delete;
+[[nodiscard]] static s32 ReadNumber(const jsonxx::Object& o, const std::string& key)
 {
     if (!o.has<jsonxx::Number>(key))
     {
         throw ReliveAPI::JsonKeyNotFoundException(key);
     }
+
     return static_cast<s32>(o.get<jsonxx::Number>(key));
 }
 
-static std::string ReadString(jsonxx::Object& o, const std::string& key)
+[[nodiscard]] static const std::string& ReadString(jsonxx::Object&&, const std::string&) = delete;
+[[nodiscard]] static const std::string& ReadString(const jsonxx::Object& o, const std::string& key)
 {
     if (!o.has<jsonxx::String>(key))
     {
         throw ReliveAPI::JsonKeyNotFoundException(key);
     }
+
     return o.get<jsonxx::String>(key);
 }
 
-std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollectionBase& types, jsonxx::Array& collisionsArray)
+std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray)
 {
     std::vector<AO::PathLine> lines;
     for (auto i = 0u; i < collisionsArray.values().size(); i++)
     {
-        jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
+        const jsonxx::Object& collision = collisionsArray.get<jsonxx::Object>(i);
         AOLine tmpLine(types);
         tmpLine.PropertiesFromJson(types, collision);
         lines.emplace_back(tmpLine.mLine);
@@ -155,17 +162,31 @@ std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollectionBase& types
     return lines;
 }
 
-std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollectionBase& types, jsonxx::Array& collisionsArray)
+std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray)
 {
     std::vector<::PathLine> lines;
     for (auto i = 0u; i < collisionsArray.values().size(); i++)
     {
-        jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(i);
+        const jsonxx::Object& collision = collisionsArray.get<jsonxx::Object>(i);
         AELine tmpLine(types);
         tmpLine.PropertiesFromJson(types, collision);
         lines.emplace_back(tmpLine.mLine);
     }
     return lines;
+}
+
+static std::string& getStaticStringBuffer()
+{
+    static std::string result;
+    return result;
+}
+
+static void readFileContentsIntoString(std::string& target, std::ifstream& ifs)
+{
+    ifs.seekg(0, std::ios::end);
+    target.resize(static_cast<std::size_t>(ifs.tellg()));
+    ifs.seekg(0);
+    ifs.read(target.data(), target.size());
 }
 
 std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load(TypesCollectionBase& types, const std::string& fileName)
@@ -176,14 +197,16 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
         throw ReliveAPI::IOReadException();
     }
 
-    std::string jsonStr((std::istreambuf_iterator<s8>(inputFileStream)), std::istreambuf_iterator<s8>());
+    std::string& jsonStr = getStaticStringBuffer();
+    readFileContentsIntoString(jsonStr, inputFileStream);
+
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))
     {
         throw ReliveAPI::InvalidJsonException();
     }
 
-    jsonxx::Object map = ReadObject(rootObj, "map");
+    const jsonxx::Object& map = ReadObject(rootObj, "map");
     mRootInfo.mPathBnd = ReadString(map, "path_bnd");
 
     mRootInfo.mPathId = ReadNumber(map, "path_id");
@@ -196,10 +219,10 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
 
     std::vector<CameraNameAndTlvBlob> mapData;
 
-    jsonxx::Array camerasArray = ReadArray(map, "cameras");
+    const jsonxx::Array& camerasArray = ReadArray(map, "cameras");
     for (auto i = 0u; i < camerasArray.values().size(); i++)
     {
-        jsonxx::Object camera = camerasArray.get<jsonxx::Object>(i);
+        const jsonxx::Object& camera = camerasArray.get<jsonxx::Object>(i);
 
         const s32 x = ReadNumber(camera, "x");
         const s32 y = ReadNumber(camera, "y");
@@ -214,11 +237,11 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
         cameraNameBlob.x = x;
         cameraNameBlob.y = y;
 
-        jsonxx::Array mapObjectsArray = ReadArray(camera, "map_objects");
+        const jsonxx::Array& mapObjectsArray = ReadArray(camera, "map_objects");
         for (auto j = 0u; j < mapObjectsArray.values().size(); j++)
         {
-            jsonxx::Object mapObject = mapObjectsArray.get<jsonxx::Object>(j);
-            std::string structureType = ReadString(mapObject, "object_structures_type");
+            const jsonxx::Object& mapObject = mapObjectsArray.get<jsonxx::Object>(j);
+            const std::string& structureType = ReadString(mapObject, "object_structures_type");
             std::unique_ptr<TlvObjectBase> tlv = types.MakeTlvFromString(structureType);
             if (!tlv)
             {
@@ -228,9 +251,11 @@ std::pair<std::vector<CameraNameAndTlvBlob>,jsonxx::Object> JsonReaderBase::Load
             tlv->InstanceFromJson(types, mapObject);
             cameraNameBlob.mTlvBlobs.emplace_back(tlv->GetTlvData(j == mapObjectsArray.values().size() - 1));
         }
-        mapData.push_back(cameraNameBlob);
+
+        mapData.push_back(std::move(cameraNameBlob));
     }
-    return { mapData, map };
+
+    return { std::move(mapData), std::move(map) };
 }
 
 std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::Load(const std::string& fileName)
@@ -238,11 +263,11 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonRead
     TypesCollectionAO globalTypes;
     auto [mapData, mapJsonObject] = JsonReaderBase::Load(globalTypes, fileName);
 
-    jsonxx::Object collisionsObject = ReadObject(mapJsonObject, "collisions");
-    jsonxx::Array collisionsArray = ReadArray(collisionsObject, "items");
+    const jsonxx::Object& collisionsObject = ReadObject(mapJsonObject, "collisions");
+    const jsonxx::Array& collisionsArray = ReadArray(collisionsObject, "items");
     std::vector<AO::PathLine> lines = ReadAOLines(globalTypes, collisionsArray);
 
-    return { mapData, lines };
+    return { std::move(mapData), std::move(lines) };
 }
 
 std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> JsonReaderAE::Load(const std::string& fileName)
@@ -250,11 +275,11 @@ std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> JsonReader
     TypesCollectionAE globalTypes;
     auto [mapData, mapJsonObject] = JsonReaderBase::Load(globalTypes, fileName);
 
-    jsonxx::Object collisionsObject = ReadObject(mapJsonObject, "collisions");
-    jsonxx::Array collisionsArray = ReadArray(collisionsObject, "items");
+    const jsonxx::Object& collisionsObject = ReadObject(mapJsonObject, "collisions");
+    const jsonxx::Array& collisionsArray = ReadArray(collisionsObject, "items");
     std::vector<::PathLine> lines = ReadAELines(globalTypes, collisionsArray);
 
-    return { mapData, lines };
+    return { std::move(mapData), std::move(lines) };
 }
 
 JsonWriterAO::JsonWriterAO(std::unique_ptr<TypesCollectionAO>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info)
@@ -600,7 +625,8 @@ void JsonMapRootInfoReader::Read(const std::string& fileName)
         throw ReliveAPI::IOReadException(fileName.c_str());
     }
 
-    std::string jsonStr((std::istreambuf_iterator<s8>(inputFileStream)), std::istreambuf_iterator<s8>());
+    std::string& jsonStr = getStaticStringBuffer();
+    readFileContentsIntoString(jsonStr, inputFileStream);
 
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))
