@@ -16,9 +16,9 @@ public:
     TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data)
         : BaseProperty(name, typeName, isVisibleToEditor), m_data(data) { }
 
-    void Read(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) override;
+    void Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const jsonxx::Object& properties) override;
 
-    void Write(PropertyCollection& propertyCollection, TypesCollectionBase& types, jsonxx::Object& properties) override;
+    void Write(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, jsonxx::Object& properties) override;
 
 private:
     T* m_data = nullptr;

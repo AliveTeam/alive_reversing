@@ -7,14 +7,16 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 
 #include <cstddef>
+#include <cstring>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 [[nodiscard]] inline std::string ToString(const LvlFileRecord& rec)
 {
     size_t i = 0;
-    for (i = 0; i < ALIVE_COUNTOF(LvlFileRecord::field_0_file_name); i++)
+    for (i = 0; i < ALIVE_COUNTOF(LvlFileRecord::field_0_file_name); ++i)
     {
         if (!rec.field_0_file_name[i])
         {
@@ -27,10 +29,10 @@
 class LvlFileChunk
 {
 public:
-    LvlFileChunk(u32 id, ResourceManager::ResourceType resType, const std::vector<u8>& data)
-        : mData(data)
+    LvlFileChunk(u32 id, ResourceManager::ResourceType resType, std::vector<u8>&& data)
+        : mData(std::move(data))
     {
-        mHeader.field_0_size = static_cast<u32>(data.size());
+        mHeader.field_0_size = static_cast<u32>(mData.size());
         mHeader.field_C_id = id;
         mHeader.field_8_type = resType;
     }
@@ -50,9 +52,14 @@ public:
         return mHeader;
     }
 
-    [[nodiscard]] const std::vector<u8>& Data() const
+    [[nodiscard]] const std::vector<u8>& Data() const&
     {
         return mData;
+    }
+
+    [[nodiscard]] std::vector<u8>&& Data() &&
+    {
+        return std::move(mData);
     }
 
 private:
@@ -68,6 +75,7 @@ public:
         Read(data);
     }
 
+    // TODO: return ptr?
     [[nodiscard]] std::optional<LvlFileChunk> ChunkById(u32 id) const
     {
         for (auto& chunk : mChunks)
@@ -80,17 +88,18 @@ public:
         return {};
     }
 
-    void AddChunk(LvlFileChunk& chunkToAdd)
+    void AddChunk(LvlFileChunk&& chunkToAdd)
     {
         for (auto& chunk : mChunks)
         {
             if (chunk.Id() == chunkToAdd.Id())
             {
-                chunk = chunkToAdd;
+                chunk = std::move(chunkToAdd);
                 return;
             }
         }
-        mChunks.push_back(chunkToAdd);
+
+        mChunks.push_back(std::move(chunkToAdd));
     }
 
     [[nodiscard]] std::vector<u8> Data() const
@@ -104,7 +113,8 @@ public:
 
         ByteStream s;
         s.ReserveSize(neededSize);
-        for (auto& chunk : mChunks)
+
+        for (const auto& chunk : mChunks)
         {
             auto adjustedHeader = chunk.Header();
             if (adjustedHeader.field_0_size > 0)
@@ -123,13 +133,15 @@ public:
                 s.Write(chunk.Data());
             }
         }
-        return s.GetBuffer();
+
+        return std::move(s).GetBuffer();
     }
 
 private:
     void Read(const std::vector<u8>& data)
     {
         ByteStream s(data);
+
         do
         {
             ResourceManager::Header resHeader = {};
@@ -146,8 +158,7 @@ private:
                 s.Read(tmpData);
             }
 
-            LvlFileChunk chunk(resHeader.field_C_id, static_cast<ResourceManager::ResourceType>(resHeader.field_8_type), tmpData);
-            mChunks.push_back(chunk);
+            mChunks.emplace_back(resHeader.field_C_id, static_cast<ResourceManager::ResourceType>(resHeader.field_8_type), std::move(tmpData));
 
             if (resHeader.field_8_type == ResourceManager::ResourceType::Resource_End)
             {
@@ -191,33 +202,47 @@ public:
         Close();
     }
 
-    [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const s8* fileName)
+    [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const s8* fileName)
     {
         if (!IsOpen())
         {
-            return {};
+            return false;
         }
 
         for (const auto& rec : mFileRecords)
         {
-            if (strncmp(rec.field_0_file_name, fileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)) == 0)
+            if (std::strncmp(rec.field_0_file_name, fileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)) == 0)
             {
                 const auto fileOffset = rec.field_C_start_sector * 2048;
                 if (::fseek(mFileHandle, fileOffset, SEEK_SET) != 0)
                 {
-                    return {};
+                    return false;
                 }
 
-                std::vector<u8> ret(rec.field_14_file_size);
-                if (::fread(ret.data(), 1, ret.size(), mFileHandle) != ret.size())
+                target.resize(rec.field_14_file_size);
+                if (::fread(target.data(), 1, target.size(), mFileHandle) != target.size())
                 {
-                    return {};
+                    return false;
                 }
 
-                return { ret };
+                return true;
             }
         }
-        return {};
+
+        return false;
+    }
+
+    [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const s8* fileName)
+    {
+        std::optional<std::vector<u8>> result;
+        result.emplace();
+
+        if(!ReadFileInto(*result, fileName))
+        {
+            return {};
+        }
+
+        return result;
     }
 
     [[nodiscard]] s32 FileCount() const
@@ -290,7 +315,6 @@ public:
     explicit LvlWriter(const s8* lvlFile)
         : mReader(lvlFile)
     {
-
     }
 
     void Close()
@@ -299,6 +323,19 @@ public:
     }
 
     [[nodiscard]] bool IsOpen() const { return mReader.IsOpen(); }
+
+    [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const s8* fileName)
+    {
+        // Return added/edited file first
+        auto rec = GetNewOrEditedFileRecord(fileName);
+        if (rec)
+        {
+            target = rec->mFileData;
+            return true;
+        }
+
+        return mReader.ReadFileInto(target, fileName);
+    }
 
     [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const s8* fileName)
     {
@@ -339,7 +376,7 @@ public:
         }
     }
 
-    [[nodiscard]] bool Save(const s8* lvlName = nullptr)
+    [[nodiscard]] bool Save(std::vector<u8>& fileDataBuffer, const s8* lvlName = nullptr)
     {
         if (mNewOrEditedFiles.empty())
         {
@@ -399,7 +436,7 @@ public:
         {
             if (!rec.mEditOfExistingFile)
             {
-                memcpy(fileRecs[i].field_0_file_name, rec.mFileNameInLvl.c_str(), ALIVE_COUNTOF(LvlFileRecord::field_0_file_name));
+                std::memcpy(fileRecs[i].field_0_file_name, rec.mFileNameInLvl.c_str(), ALIVE_COUNTOF(LvlFileRecord::field_0_file_name));
                 fileRecs[i].field_14_file_size = static_cast<s32>(rec.mFileData.size());
                 i++;
             }
@@ -433,14 +470,14 @@ public:
             }
             else
             {
-                std::optional<std::vector<u8>> data = mReader.ReadFile(fileName.c_str());
-                if (!data)
+                const bool goodRead = mReader.ReadFileInto(fileDataBuffer, fileName.c_str());
+                if (!goodRead)
                 {
                     ::fclose(outFile);
                     throw ReliveAPI::IOReadException(fileName.c_str());
                 }
 
-                ::fwrite(data->data(), 1, data->size(), outFile);
+                ::fwrite(fileDataBuffer.data(), 1, fileDataBuffer.size(), outFile);
             }
         }
 

@@ -2117,23 +2117,38 @@ void DebugHelpers_Init()
 //#endif
 }
 
-std::vector<u8> FS::ReadFile(const std::string& filePath)
+[[nodiscard]] bool FS::ReadFileInto(std::vector<u8>& target, const std::string& filePath)
 {
     FILE* hFile = ::fopen(filePath.c_str(), "rb");
-    if (hFile)
+    if (!hFile)
     {
-        ::fseek(hFile, 0, SEEK_END); // seek to end of file
-        const std::size_t fileLen = ::ftell(hFile); // get current file pointer
-        ::fseek(hFile, 0, SEEK_SET); // seek back to beginning of file
-        std::vector<u8> buffer(fileLen);
-        ::fread(buffer.data(), 1, buffer.size(), hFile);
-        ::fclose(hFile);
-        return buffer;
+        return false;
     }
-    return {};
+
+    ::fseek(hFile, 0, SEEK_END); // seek to end of file
+    const std::size_t fileLen = ::ftell(hFile); // get current file pointer
+    ::fseek(hFile, 0, SEEK_SET); // seek back to beginning of file
+
+    target.resize(fileLen);
+    ::fread(target.data(), 1, target.size(), hFile);
+
+    ::fclose(hFile);
+    return true;
 }
 
-std::string FS::GetPrefPath()
+[[nodiscard]] std::vector<u8> FS::ReadFile(const std::string& filePath)
+{
+    std::vector<u8> buffer;
+
+    if(!ReadFileInto(buffer, filePath))
+    {
+        return {};
+    }
+
+    return buffer;
+}
+
+[[nodiscard]] std::string FS::GetPrefPath()
 {
 #if MOBILE
     s8 * prefPath = SDL_GetPrefPath("Oddworld", "Abes Exoddus");

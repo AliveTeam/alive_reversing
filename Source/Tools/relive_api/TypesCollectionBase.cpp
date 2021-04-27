@@ -52,13 +52,26 @@ TypesCollectionBase::~TypesCollectionBase() = default;
 
 [[nodiscard]] const std::string& TypesCollectionBase::TypeName(const std::type_index& typeIndex) const
 {
-    for (const auto& e : mTypes)
-    {
-        if (e->TypeIndex() == typeIndex)
-        {
-            return e->Name();
-        }
-    }
-
-    return mEmptyStr;
+    const ITypeBase* ptr = FindByTypeIndex(typeIndex);
+    return ptr != nullptr ? ptr->Name() : mEmptyStr;
 }
+
+[[nodiscard]] ITypeBase* TypesCollectionBase::RegisterType(ITypeBase* typeBase)
+{
+    std::unique_ptr<ITypeBase>& emplaced = mTypes.emplace_back(typeBase);
+    mTypesByName[typeBase->Name()] = mTypesByTypeIndex[typeBase->TypeIndex()] = emplaced.get();
+    return emplaced.get();
+}
+
+[[nodiscard]] const ITypeBase* TypesCollectionBase::FindByTypeName(const std::string& typeName) const
+{
+    const auto it = mTypesByName.find(typeName);
+    return it != mTypesByName.end() ? it->second : nullptr;
+}
+
+[[nodiscard]] const ITypeBase* TypesCollectionBase::FindByTypeIndex(const std::type_index& typeIndex) const
+{
+    const auto it = mTypesByTypeIndex.find(typeIndex);
+    return it != mTypesByTypeIndex.end() ? it->second : nullptr;
+}
+

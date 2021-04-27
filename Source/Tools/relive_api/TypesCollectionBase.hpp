@@ -11,9 +11,10 @@
 #include <magic_enum/include/magic_enum.hpp>
 
 #include <functional>
-#include <map>
+#include <initializer_list>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 class TlvObjectBase;
@@ -29,6 +30,9 @@ class TypesCollectionBase
 public:
     TypesCollectionBase();
     virtual ~TypesCollectionBase();
+
+    TypesCollectionBase(const TypesCollectionBase&) = delete;
+    TypesCollectionBase(TypesCollectionBase&&) = delete;
 
     virtual void AddTlvsToJsonArray(jsonxx::Array& array) = 0;
     virtual std::unique_ptr<TlvObjectBase> MakeTlvFromString(const std::string& tlvTypeName) = 0;
@@ -51,7 +55,7 @@ public:
     };
 
     template<class T>
-    EnumType<T>* AddEnum(const std::string& enumName, const std::vector<EnumPair<T>>& enumItems)
+    EnumType<T>* AddEnum(const std::string& enumName, std::initializer_list<EnumPair<T>> enumItems)
     {
         if (!TypeName<T>().empty())
         {
@@ -62,42 +66,38 @@ public:
 
         // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
         auto* newEnum = new EnumType<T>(enumName);
-        for (const auto& enumItem : enumItems)
+        for (const auto& [enumValue, name] : enumItems)
         {
-            newEnum->Add(enumItem.mEnumValue, enumItem.mName);
+            newEnum->Add(enumValue, name);
         }
 
-        // `static_cast` to avoid unnecessary instantiations.
-        mTypes.emplace_back(static_cast<ITypeBase*>(newEnum));
-        return newEnum;
+        return static_cast<EnumType<T>*>(RegisterType(newEnum));
     }
 
     template<class T>
-    [[nodiscard]] T EnumValueFromString(const std::string& enumTypeName, const std::string& enumValueString)
+    [[nodiscard]] T EnumValueFromString(const std::string& enumTypeName, const std::string& enumValueString) const
     {
-        for (const auto& e : mTypes)
+        const ITypeBase* ptr = FindByTypeName(enumTypeName);
+
+        if (ptr == nullptr)
         {
-            if (e->Name() == enumTypeName)
-            {
-                return static_cast<EnumType<T>*>(e.get())->ValueFromString(enumValueString);
-            }
+            throw ReliveAPI::UnknownEnumValueException(enumValueString.c_str());
         }
 
-        throw ReliveAPI::UnknownEnumValueException(enumValueString.c_str());
+        return static_cast<const EnumType<T>*>(ptr)->ValueFromString(enumValueString);
     }
 
     template<class T>
-    [[nodiscard]] std::string EnumValueToString(T enumValue)
+    [[nodiscard]] const std::string& EnumValueToString(T enumValue) const
     {
-        for (const auto& e : mTypes)
+        const ITypeBase* ptr = FindByTypeIndex(typeid(T));
+
+        if (ptr == nullptr)
         {
-            if (e->TypeIndex() == typeid(T))
-            {
-                return static_cast<EnumType<T>*>(e.get())->ValueToString(enumValue);
-            }
+            throw ReliveAPI::UnknownEnumValueException();
         }
 
-        throw ReliveAPI::UnknownEnumValueException();
+        return static_cast<const EnumType<T>*>(ptr)->ValueToString(enumValue);
     }
 
     template<class T>
@@ -110,14 +110,16 @@ public:
         }
 
         // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
-        auto* newType = new BasicType<T>(typeName, minVal, maxVal);
-
-        // `static_cast` to avoid unnecessary instantiations.
-        mTypes.emplace_back(static_cast<ITypeBase*>(newType));
-        return newType;
+        return static_cast<BasicType<T>*>(RegisterType(new BasicType<T>(typeName, minVal, maxVal)));
     }
 
 private:
     std::vector<std::unique_ptr<ITypeBase>> mTypes;
+    std::unordered_map<std::string, ITypeBase*> mTypesByName;
+    std::unordered_map<std::type_index, ITypeBase*> mTypesByTypeIndex;
     const std::string mEmptyStr;
+
+    [[nodiscard]] ITypeBase* RegisterType(ITypeBase* typeBase);
+    [[nodiscard]] const ITypeBase* FindByTypeName(const std::string& typeName) const;
+    [[nodiscard]] const ITypeBase* FindByTypeIndex(const std::type_index& typeIndex) const;
 };

@@ -29,9 +29,9 @@ void TlvObjectBase::SetInstanceNumber(s32 instanceNumber)
     return ret;
 }
 
-void TlvObjectBase::InstanceFromJson(TypesCollectionBase& types, jsonxx::Object& obj)
+void TlvObjectBase::InstanceFromJson(TypesCollectionBase& types, const jsonxx::Object& obj)
 {
-    jsonxx::Object properties = obj.get<jsonxx::Object>("properties");
+    const jsonxx::Object& properties = obj.get<jsonxx::Object>("properties");
     PropertiesFromJson(types, properties);
     InstanceFromJsonBase(obj);
 }

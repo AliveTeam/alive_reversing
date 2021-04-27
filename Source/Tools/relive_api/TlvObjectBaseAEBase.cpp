@@ -8,6 +8,7 @@
 
 #include <jsonxx/jsonxx.h>
 
+#include <cstring>
 #include <string>
 #include <utility>
 #include <vector>
@@ -42,7 +43,7 @@ TlvObjectBaseAEBase::TlvObjectBaseAEBase(std::size_t sizeOfT, TypesCollectionBas
     ADD("height", mPSelfTlv->field_C_bottom_right.field_2_y);
 }
 
-void TlvObjectBaseAEBase::InstanceFromJsonBase(jsonxx::Object& obj)
+void TlvObjectBaseAEBase::InstanceFromJsonBase(const jsonxx::Object& obj)
 {
     mStructTypeName = obj.get<std::string>("name");
 
@@ -65,7 +66,7 @@ void TlvObjectBaseAEBase::InstanceToJsonBase(jsonxx::Object& ret)
 {
     std::vector<u8> ret(mSizeOfT);
     mPSelfTlv->field_0_flags.Set(TLV_Flags::eBit3_End_TLV_List, setTerminationFlag);
-    memcpy(ret.data(), mPSelfTlv, mSizeOfT);
+    std::memcpy(ret.data(), mPSelfTlv, mSizeOfT);
     return ret;
 }
 
