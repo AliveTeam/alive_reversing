@@ -7,9 +7,8 @@
 
 #include <jsonxx/jsonxx.h>
 
-#include <cassert>
+#include <cstdlib>
 #include <map>
-#include <unordered_map>
 #include <string>
 #include <type_traits>
 #include <typeinfo>
@@ -30,30 +29,26 @@ protected:
     {
         {
             const auto [it, inserted] = mValueToName.emplace(enumValue, name);
-            mOrderedValueToName.emplace(enumValue, name);
 
             if(!inserted)
             {
                 LOG_ERROR("Enum with value '" << enumValue << "' already present ('" << it->second << "'), could not insert '" << name << "'\n");
 
                 // We never expect to have two enumerators with the same value.
-                assert(false);
+                std::abort();
             }
         }
 
         {
             const auto [it, inserted] = mNameToValue.emplace(name, enumValue);
-            (void) it;
-            (void) inserted;
 
-            // We intentionally do not replace entries in `mNameToValue`, as we want to return the value of the first registered enumerator in case of multiple enumerators with the same name.
-
-#if 0
             if(!inserted)
             {
                 LOG_INFO("Enum with name '" << name << "' already present ('" << it->second << "'), could not insert '" << enumValue << "'\n");
+
+                // We never expect to have two enumerators with the same name.
+                std::abort();
             }
-#endif
         }
     }
 
@@ -94,7 +89,7 @@ protected:
     void ToJson(jsonxx::Array& obj) const override
     {
         jsonxx::Array enumVals;
-        for (const auto& [key, value] : mOrderedValueToName)
+        for (const auto& [key, value] : mValueToName)
         {
             enumVals << value;
         }
@@ -107,10 +102,6 @@ protected:
     }
 
 private:
-    // Order is important for serialization to JSON
-    std::map<T, std::string> mOrderedValueToName; 
-
-    // The unordered maps are to speed-up lookups
     std::unordered_map<T, std::string> mValueToName;
     std::unordered_map<std::string, T> mNameToValue;
 

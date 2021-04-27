@@ -11,6 +11,7 @@
 #include <magic_enum/include/magic_enum.hpp>
 
 #include <functional>
+#include <initializer_list>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -54,7 +55,7 @@ public:
     };
 
     template<class T>
-    EnumType<T>* AddEnum(const std::string& enumName, const std::vector<EnumPair<T>>& enumItems)
+    EnumType<T>* AddEnum(const std::string& enumName, std::initializer_list<EnumPair<T>> enumItems)
     {
         if (!TypeName<T>().empty())
         {
@@ -65,9 +66,9 @@ public:
 
         // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
         auto* newEnum = new EnumType<T>(enumName);
-        for (const auto& enumItem : enumItems)
+        for (const auto& [enumValue, name] : enumItems)
         {
-            newEnum->Add(enumItem.mEnumValue, enumItem.mName);
+            newEnum->Add(enumValue, name);
         }
 
         return static_cast<EnumType<T>*>(RegisterType(newEnum));

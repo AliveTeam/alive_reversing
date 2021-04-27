@@ -533,11 +533,11 @@ namespace AOTlvs
             types.AddEnum<AO::Path_Slig::StartState>("Enum_SligStartState",
                 {
                     {AO::Path_Slig::StartState::Listening_0, "listening"},
-                    {AO::Path_Slig::StartState::Paused_1, "paused"},
+                    {AO::Path_Slig::StartState::Paused_1, "paused1"},
                     {AO::Path_Slig::StartState::Sleeping_2, "sleeping"},
                     {AO::Path_Slig::StartState::Chase_3, "chase"},
                     {AO::Path_Slig::StartState::GameEnder_4, "game_ender"},
-                    {AO::Path_Slig::StartState::Paused_5, "paused"},
+                    {AO::Path_Slig::StartState::Paused_5, "paused2"},
                 });
         }
 
@@ -1123,11 +1123,11 @@ namespace AOTlvs
             types.AddEnum<AO::Path_SligSpawner::StartState>("Enum_SligSpawnerStartState",
                 {
                     {AO::Path_SligSpawner::StartState::Listening_0, "listening"},
-                    {AO::Path_SligSpawner::StartState::Paused_1, "paused"},
+                    {AO::Path_SligSpawner::StartState::Paused_1, "paused1"},
                     {AO::Path_SligSpawner::StartState::Sleeping_2, "sleeping"},
                     {AO::Path_SligSpawner::StartState::Chase_3, "chase"},
                     {AO::Path_SligSpawner::StartState::GameEnder_4, "game_ender"},
-                    {AO::Path_SligSpawner::StartState::Paused_5, "paused"},
+                    {AO::Path_SligSpawner::StartState::Paused_5, "paused2"},
                 });
         }
 
