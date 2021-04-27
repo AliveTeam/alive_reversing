@@ -33,7 +33,7 @@ protected:
 
             if(!inserted)
             {
-                LOG_INFO("Enum with value '" << enumValue << "' already present ('" << it->second << "'), could not insert '" << name << "'\n");
+                LOG_ERROR("Enum with value '" << enumValue << "' already present ('" << it->second << "'), could not insert '" << name << "'\n");
 
                 // We never expect to have two enumerators with the same value.
                 assert(false);
@@ -42,10 +42,12 @@ protected:
 
         {
             const auto [it, inserted] = mNameToValue.emplace(name, enumValue);
+            (void) it;
+            (void) inserted;
 
             // We intentionally do not replace entries in `mNameToValue`, as we want to return the value of the first registered enumerator in case of multiple enumerators with the same name.
 
-#ifndef NDEBUG
+#if 0
             if(!inserted)
             {
                 LOG_INFO("Enum with name '" << name << "' already present ('" << it->second << "'), could not insert '" << enumValue << "'\n");

@@ -504,7 +504,7 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, c
             {
                 if (pCamName->name[0])
                 {
-                    LOG_INFO("Add camera with no objects " << tmpCamera.mName);
+                    // LOG_INFO("Add camera with no objects " << tmpCamera.mName);
                     cameraArray << tmpCamera.ToJsonObject({});
                 }
             }
@@ -515,7 +515,7 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, c
 
                 u8* ptr = pPathData + indexTableEntryOffset + info.mObjectOffset;
                 jsonxx::Array mapObjects = ReadTlvStream(ptr);
-                LOG_INFO("Add camera " << tmpCamera.mName);
+                // LOG_INFO("Add camera " << tmpCamera.mName);
                 cameraArray << tmpCamera.ToJsonObject(mapObjects);
             }
         }

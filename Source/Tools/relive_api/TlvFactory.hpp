@@ -3,7 +3,6 @@
 #include "../AliveLibCommon/Types.hpp"
 
 #include <map>
-#include <unordered_map>
 #include <memory>
 #include <string>
 
@@ -45,6 +44,6 @@ public:
         mReverseTlvFactory[tmp.Name()] = mTlvFactory[tlvType] = &fnCreate<TlvWrapperType>;
     }
 
-    std::map<TlvEnumType, FnTlvFactory<PathTlvType>> mTlvFactory;
+    std::unordered_map<TlvEnumType, FnTlvFactory<PathTlvType>> mTlvFactory;
     std::unordered_map<std::string, FnTlvFactory<PathTlvType>> mReverseTlvFactory;
 };
