@@ -252,4 +252,18 @@ ALIVE_ASSERT_SIZEOF(Menu, 0x234);
 ALIVE_VAR_EXTERN(s32, gMainMenuInstanceCount_9F2DE0);
 ALIVE_VAR_EXTERN(u8, sJoyResId_50769C);
 
+#if ORIGINAL_PS1_BEHAVIOR
+enum class RemapOption : s16
+{
+    eRun_0 = 0,
+    eSneak_1 = 1,
+    eJump_2 = 2,
+    eSpeakLeft_3 = 3,
+    eAction_4 = 4,
+    eThrow_5 = 5,
+    eCrouch_6 = 6,
+    eSpeakRight_7 = 7
+};
+#endif
+
 } // namespace AO

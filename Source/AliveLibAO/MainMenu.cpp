@@ -3269,12 +3269,36 @@ void Menu::ButtonRemap_Update_47F6F0()
         field_1E0_selected_index--;
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
         bWaitingForRemapInput_9F2DE8 = 1;
+
+#if ORIGINAL_PS1_BEHAVIOR
+        if (!Input_JoyStickEnabled())
+        {
+            if (field_1E0_selected_index < 0)
+            {
+                field_1E0_selected_index = (int)RemapOption::eCrouch_6;
+            }
+            else if (field_1E0_selected_index == (int)RemapOption::eSpeakLeft_3 || field_1E0_selected_index == (int)RemapOption::eSpeakRight_7)
+            {
+                field_1E0_selected_index--;
+            }
+        }
+#endif
     }
     else if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eDown | InputCommands::eCheatMode))
     {
         field_1E0_selected_index++;
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
         bWaitingForRemapInput_9F2DE8 = 1;
+
+#if ORIGINAL_PS1_BEHAVIOR
+        if (!Input_JoyStickEnabled())
+        {
+            if (field_1E0_selected_index == (int)RemapOption::eSpeakLeft_3 || field_1E0_selected_index == (int)RemapOption::eSpeakRight_7)
+            {
+                field_1E0_selected_index++;
+            }
+        }
+#endif
     }
 
     if (field_1E0_selected_index < 0)
