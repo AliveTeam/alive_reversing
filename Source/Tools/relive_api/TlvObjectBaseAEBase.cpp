@@ -13,20 +13,23 @@
 #include <utility>
 #include <vector>
 
-TlvObjectBaseAEBase::TlvObjectBaseAEBase(std::size_t sizeOfT, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv)
+TlvObjectBaseAEBase::TlvObjectBaseAEBase(std::size_t sizeOfT, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv, InitFn initFn)
     : TlvObjectBase(typeName)
     , mSizeOfT(sizeOfT)
     , mType(tlvType)
     , mPSelfTlv{pSelfTlv}
 {
+    initFn(mPSelfTlv);
 }
 
-TlvObjectBaseAEBase::TlvObjectBaseAEBase(std::size_t sizeOfT, TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv, Path_TLV* pTlv, CopyFn copyFn)
+TlvObjectBaseAEBase::TlvObjectBaseAEBase(std::size_t sizeOfT, TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv, Path_TLV* pTlv, CopyFn copyFn, InitFn initFn)
     : TlvObjectBase(typeName)
     , mSizeOfT(sizeOfT)
     , mType(tlvType)
     , mPSelfTlv{pSelfTlv}
 {
+    initFn(mPSelfTlv);
+
     mPSelfTlv->field_2_length = static_cast<s16>(mSizeOfT);
     mPSelfTlv->field_4_type.mType = mType;
 

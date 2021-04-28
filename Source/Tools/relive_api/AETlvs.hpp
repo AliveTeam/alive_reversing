@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TlvObjectBaseAE.hpp"
+#include "TlvObjectBaseAEBase.hpp"
 #include "TlvObjectBaseMacros.hpp"
 
 #include "../AliveLibAE/Path.hpp"
@@ -71,10 +71,42 @@
 #include "../AliveLibAE/Meat.hpp"
 #include "../AliveLibAE/TorturedMudokon.hpp"
 
-#define CTOR_AE(className, objectTypeName, tlvType)        \
-    className() : TlvObjectBaseAE(tlvType, objectTypeName) \
-    { }                                                    \
-    className(TypesCollectionBase& globalTypes, Path_TLV* pTlv = nullptr) : TlvObjectBaseAE(globalTypes, tlvType, objectTypeName, pTlv)
+#define CTOR_AE(className, objectTypeName, tlvEnumType)\
+\
+    className() : TlvObjectBaseAEBase(sizeof(::className), tlvEnumType, objectTypeName, &tlv(), &initFn)\
+    {\
+\
+    }                                                    \
+    \
+    ::className mTlv;\
+    \
+    static void copyFn(Path_TLV* dst, Path_TLV* src)\
+    {\
+        if (src != nullptr)\
+        {\
+            *(static_cast<::className*>(dst)) = *(static_cast<::className*>(src));\
+        }\
+    }\
+\
+    static void initFn(Path_TLV* pInit)\
+    {\
+        *(static_cast<::className*>(pInit)) = {};\
+    }\
+    \
+    [[nodiscard]] ::className& tlv()\
+    {\
+        return mTlv;\
+    }\
+    \
+    [[nodiscard]] const ::className& tlv() const\
+    {\
+        return mTlv;\
+    }\
+            \
+    className(TypesCollectionBase& globalTypes, Path_TLV* pTlv = nullptr) \
+        : TlvObjectBaseAEBase(sizeof(::className), globalTypes, tlvEnumType, objectTypeName, &tlv(), pTlv, &copyFn, &initFn)
+
+
 #define EMPTY_CTOR_AE() (void) globalTypes
 
 struct Path_Null_63 : public Path_TLV
@@ -247,7 +279,7 @@ struct Path_Pulley : public Path_TLV
 };
 
 namespace AETlvs {
-struct Path_ElectricWall : public TlvObjectBaseAE<::Path_ElectricWall>
+struct Path_ElectricWall : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -265,8 +297,7 @@ struct Path_ElectricWall : public TlvObjectBaseAE<::Path_ElectricWall>
         ADD("Start State", tlv().field_14_start_state);
     }
 };
-
-struct Path_Mudokon : public TlvObjectBaseAE<::Path_Mudokon>
+struct Path_Mudokon : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -307,7 +338,7 @@ struct Path_Mudokon : public TlvObjectBaseAE<::Path_Mudokon>
     }
 };
 
-struct Path_BirdPortal : public TlvObjectBaseAE<::Path_BirdPortal>
+struct Path_BirdPortal : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -340,7 +371,7 @@ struct Path_BirdPortal : public TlvObjectBaseAE<::Path_BirdPortal>
     }
 };
 
-struct Path_LCDStatusBoard : public TlvObjectBaseAE<::Path_LCDStatusBoard>
+struct Path_LCDStatusBoard : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_LCDStatusBoard, "LCDStatusBoard", TlvTypes::LCDStatusBoard_64)
     {
@@ -349,8 +380,8 @@ struct Path_LCDStatusBoard : public TlvObjectBaseAE<::Path_LCDStatusBoard>
         ADD("Hidden", tlv().field_14_hidden);
     }
 };
-// TODO: finish
-struct Path_Door : public TlvObjectBaseAE<::Path_Door>
+
+struct Path_Door : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Door, "Door", TlvTypes::Door_5)
     {
@@ -383,7 +414,7 @@ struct Path_Door : public TlvObjectBaseAE<::Path_Door>
     }
 };
 
-struct Path_Switch : public TlvObjectBaseAE<::Path_Switch>
+struct Path_Switch : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -416,7 +447,7 @@ struct Path_Switch : public TlvObjectBaseAE<::Path_Switch>
     }
 };
 
-struct Path_Hoist : public TlvObjectBaseAE<::Path_Hoist>
+struct Path_Hoist : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -444,7 +475,7 @@ struct Path_Hoist : public TlvObjectBaseAE<::Path_Hoist>
     }
 };
 
-struct Path_BoomMachine : public TlvObjectBaseAE<::Path_BoomMachine>
+struct Path_BoomMachine : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_BoomMachine, "BoomMachine", TlvTypes::BoomMachine_59)
     {
@@ -455,7 +486,7 @@ struct Path_BoomMachine : public TlvObjectBaseAE<::Path_BoomMachine>
     }
 };
 
-struct Path_Slig : public TlvObjectBaseAE<::Path_Slig>
+struct Path_Slig : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -510,7 +541,7 @@ struct Path_Slig : public TlvObjectBaseAE<::Path_Slig>
     }
 };
 
-struct Path_Fleech : public TlvObjectBaseAE<::Path_Fleech>
+struct Path_Fleech : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Fleech, "Fleech", TlvTypes::Fleech_83)
     {
@@ -536,7 +567,7 @@ struct Path_Fleech : public TlvObjectBaseAE<::Path_Fleech>
     }
 };
 
-struct Path_EnemyStopper : public TlvObjectBaseAE<::Path_EnemyStopper>
+struct Path_EnemyStopper : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -555,7 +586,7 @@ struct Path_EnemyStopper : public TlvObjectBaseAE<::Path_EnemyStopper>
     }
 };
 
-struct Path_Teleporter : public TlvObjectBaseAE<::Path_Teleporter>
+struct Path_Teleporter : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Teleporter, "Teleporter", TlvTypes::Teleporter_88)
     {
@@ -573,7 +604,7 @@ struct Path_Teleporter : public TlvObjectBaseAE<::Path_Teleporter>
     }
 };
 
-struct Path_UXB : public TlvObjectBaseAE<::Path_UXB>
+struct Path_UXB : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -594,7 +625,7 @@ struct Path_UXB : public TlvObjectBaseAE<::Path_UXB>
     }
 };
 
-struct Path_LCDScreen : public TlvObjectBaseAE<::Path_LCDScreen>
+struct Path_LCDScreen : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_LCDScreen, "LCDScreen", TlvTypes::LCD_60)
     {
@@ -606,7 +637,7 @@ struct Path_LCDScreen : public TlvObjectBaseAE<::Path_LCDScreen>
     }
 };
 
-struct Path_Edge : public TlvObjectBaseAE<::Path_Edge>
+struct Path_Edge : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -626,7 +657,7 @@ struct Path_Edge : public TlvObjectBaseAE<::Path_Edge>
     }
 };
 
-struct Path_StatusLight : public TlvObjectBaseAE<::Path_StatusLight>
+struct Path_StatusLight : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_StatusLight, "StatusLight", TlvTypes::StatusLight_97)
     {
@@ -641,7 +672,7 @@ struct Path_StatusLight : public TlvObjectBaseAE<::Path_StatusLight>
     }
 };
 
-struct Path_ShadowZone : public TlvObjectBaseAE<::Path_ShadowZone>
+struct Path_ShadowZone : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -665,7 +696,7 @@ struct Path_ShadowZone : public TlvObjectBaseAE<::Path_ShadowZone>
     }
 };
 
-struct Path_WorkWheel : public TlvObjectBaseAE<::Path_WorkWheel>
+struct Path_WorkWheel : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_WorkWheel, "WorkWheel", TlvTypes::WorkWheel_79)
     {
@@ -677,7 +708,7 @@ struct Path_WorkWheel : public TlvObjectBaseAE<::Path_WorkWheel>
     }
 };
 
-struct Path_MusicTrigger : public TlvObjectBaseAE<::Path_MusicTrigger>
+struct Path_MusicTrigger : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -707,7 +738,7 @@ struct Path_MusicTrigger : public TlvObjectBaseAE<::Path_MusicTrigger>
     }
 };
 
-struct Path_AbeStart : public TlvObjectBaseAE<::Path_AbeStart>
+struct Path_AbeStart : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_AbeStart, "AbeStart", TlvTypes::AbeStart_22)
     {
@@ -716,7 +747,7 @@ struct Path_AbeStart : public TlvObjectBaseAE<::Path_AbeStart>
     }
 };
 
-struct Path_SoftLanding : public TlvObjectBaseAE<::Path_SoftLanding>
+struct Path_SoftLanding : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SoftLanding, "SoftLanding", TlvTypes::SoftLanding_75)
     {
@@ -724,7 +755,7 @@ struct Path_SoftLanding : public TlvObjectBaseAE<::Path_SoftLanding>
     }
 };
 
-struct Path_WellExpress : public TlvObjectBaseAE<::Path_WellExpress>
+struct Path_WellExpress : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_WellExpress, "WellExpress", TlvTypes::WellExpress_23)
     {
@@ -752,7 +783,7 @@ struct Path_WellExpress : public TlvObjectBaseAE<::Path_WellExpress>
     }
 };
 
-struct Path_SlamDoor : public TlvObjectBaseAE<::Path_SlamDoor>
+struct Path_SlamDoor : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SlamDoor, "SlamDoor", TlvTypes::SlamDoor_85)
     {
@@ -764,7 +795,7 @@ struct Path_SlamDoor : public TlvObjectBaseAE<::Path_SlamDoor>
     }
 };
 
-struct Path_HandStone : public TlvObjectBaseAE<::Path_HandStone>
+struct Path_HandStone : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_HandStone, "HandStone", TlvTypes::HandStone_61)
     {
@@ -776,7 +807,7 @@ struct Path_HandStone : public TlvObjectBaseAE<::Path_HandStone>
     }
 };
 
-struct Path_LaughingGas : public TlvObjectBaseAE<::Path_LaughingGas>
+struct Path_LaughingGas : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_LaughingGas, "LaughingGas", TlvTypes::LaughingGas_81)
     {
@@ -788,7 +819,7 @@ struct Path_LaughingGas : public TlvObjectBaseAE<::Path_LaughingGas>
     }
 };
 
-struct Path_InvisibleSwitch : public TlvObjectBaseAE<::Path_InvisibleSwitch>
+struct Path_InvisibleSwitch : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -810,7 +841,7 @@ struct Path_InvisibleSwitch : public TlvObjectBaseAE<::Path_InvisibleSwitch>
     }
 };
 
-struct Path_Water : public TlvObjectBaseAE<::Path_Water>
+struct Path_Water : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Water, "Water", TlvTypes::Water_77)
     {
@@ -823,7 +854,7 @@ struct Path_Water : public TlvObjectBaseAE<::Path_Water>
     }
 };
 
-struct Path_GasEmitter : public TlvObjectBaseAE<::Path_GasEmitter>
+struct Path_GasEmitter : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -844,7 +875,7 @@ struct Path_GasEmitter : public TlvObjectBaseAE<::Path_GasEmitter>
     }
 };
 
-struct Path_BackgroundAnimation : public TlvObjectBaseAE<::Path_BackgroundAnimation>
+struct Path_BackgroundAnimation : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -915,7 +946,7 @@ struct Path_BackgroundAnimation : public TlvObjectBaseAE<::Path_BackgroundAnimat
     }
 };
 
-struct Path_LiftPoint : public TlvObjectBaseAE<::Path_LiftPoint>
+struct Path_LiftPoint : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -940,7 +971,7 @@ struct Path_LiftPoint : public TlvObjectBaseAE<::Path_LiftPoint>
     }
 };
 
-struct Path_PullRingRope : public TlvObjectBaseAE<::Path_PullRingRope>
+struct Path_PullRingRope : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -972,7 +1003,7 @@ struct Path_PullRingRope : public TlvObjectBaseAE<::Path_PullRingRope>
     }
 };
 
-struct Path_MultiSwitchController : public TlvObjectBaseAE<::Path_MultiSwitchController>
+struct Path_MultiSwitchController : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_MultiSwitchController, "MultiSwitchController", TlvTypes::MultiSwitchController_96)
     {
@@ -988,7 +1019,7 @@ struct Path_MultiSwitchController : public TlvObjectBaseAE<::Path_MultiSwitchCon
     }
 };
 
-struct Path_SecurityOrb : public TlvObjectBaseAE<::Path_SecurityOrb>
+struct Path_SecurityOrb : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SecurityOrb, "SecurityOrb", TlvTypes::SecurityOrb_19)
     {
@@ -997,7 +1028,7 @@ struct Path_SecurityOrb : public TlvObjectBaseAE<::Path_SecurityOrb>
     }
 };
 
-struct Path_InvisibleZone : public TlvObjectBaseAE<::Path_InvisibleZone>
+struct Path_InvisibleZone : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_InvisibleZone, "InvisibleZone", TlvTypes::InvisibleZone_33)
     {
@@ -1005,7 +1036,7 @@ struct Path_InvisibleZone : public TlvObjectBaseAE<::Path_InvisibleZone>
     }
 };
 
-struct Path_ContinuePoint : public TlvObjectBaseAE<::Path_ContinuePoint>
+struct Path_ContinuePoint : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1024,7 +1055,7 @@ struct Path_ContinuePoint : public TlvObjectBaseAE<::Path_ContinuePoint>
     }
 };
 
-struct Path_WheelSyncer : public TlvObjectBaseAE<::Path_WheelSyncer>
+struct Path_WheelSyncer : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1050,7 +1081,7 @@ struct Path_WheelSyncer : public TlvObjectBaseAE<::Path_WheelSyncer>
     }
 };
 
-struct Path_LevelLoader : public TlvObjectBaseAE<::Path_LevelLoader>
+struct Path_LevelLoader : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_LevelLoader, "LevelLoader", TlvTypes::LevelLoader_86)
     {
@@ -1062,7 +1093,7 @@ struct Path_LevelLoader : public TlvObjectBaseAE<::Path_LevelLoader>
     }
 };
 // TODO: finish
-struct Path_Pulley : public TlvObjectBaseAE<::Path_Pulley>
+struct Path_Pulley : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Pulley, "Pulley", TlvTypes::Pulley_21)
     {
@@ -1071,7 +1102,7 @@ struct Path_Pulley : public TlvObjectBaseAE<::Path_Pulley>
     }
 };
 // TODO: finish
-struct Path_FlyingSlig : public TlvObjectBaseAE<::Path_FlyingSlig>
+struct Path_FlyingSlig : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_FlyingSlig, "FlyingSlig", TlvTypes::FlyingSlig_82)
     {
@@ -1094,7 +1125,7 @@ struct Path_FlyingSlig : public TlvObjectBaseAE<::Path_FlyingSlig>
     }
 };
 // TODO: finish
-struct Path_FlyingSligSpawner : public TlvObjectBaseAE<::Path_FlyingSligSpawner>
+struct Path_FlyingSligSpawner : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_FlyingSligSpawner, "FlyingSligSpawner", TlvTypes::FlyingSligSpawner_92)
     {
@@ -1117,7 +1148,7 @@ struct Path_FlyingSligSpawner : public TlvObjectBaseAE<::Path_FlyingSligSpawner>
     }
 };
 // TODO: finish
-struct Path_DeathDrop : public TlvObjectBaseAE<::Path_DeathDrop>
+struct Path_DeathDrop : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_DeathDrop, "DeathDrop", TlvTypes::DeathDrop_4)
     {
@@ -1130,7 +1161,7 @@ struct Path_DeathDrop : public TlvObjectBaseAE<::Path_DeathDrop>
     }
 };
 // TODO: finish
-struct Path_SligSpawner : public TlvObjectBaseAE<::Path_SligSpawner>
+struct Path_SligSpawner : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SligSpawner, "SligSpawner", TlvTypes::SligSpawner_37)
     {
@@ -1169,7 +1200,7 @@ struct Path_SligSpawner : public TlvObjectBaseAE<::Path_SligSpawner>
     }
 };
 
-struct Path_SligLeftBound : public TlvObjectBaseAE<::Path_SligLeftBound>
+struct Path_SligLeftBound : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SligLeftBound, "SligLeftBound", TlvTypes::SligBoundLeft_32)
     {
@@ -1178,7 +1209,7 @@ struct Path_SligLeftBound : public TlvObjectBaseAE<::Path_SligLeftBound>
     }
 };
 
-struct Path_SligRightBound : public TlvObjectBaseAE<::Path_SligRightBound>
+struct Path_SligRightBound : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SligRightBound, "SligRightBound", TlvTypes::SligBoundRight_45)
     {
@@ -1187,7 +1218,7 @@ struct Path_SligRightBound : public TlvObjectBaseAE<::Path_SligRightBound>
     }
 };
 
-struct Path_SligPersist : public TlvObjectBaseAE<::Path_SligPersist>
+struct Path_SligPersist : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SligPersist, "SligPersist", TlvTypes::SligPersist_46)
     {
@@ -1196,7 +1227,7 @@ struct Path_SligPersist : public TlvObjectBaseAE<::Path_SligPersist>
     }
 };
 
-struct Path_ZSligCover : public TlvObjectBaseAE<::Path_ZSligCover>
+struct Path_ZSligCover : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_ZSligCover, "ZSligCover", TlvTypes::ZSligCover_50)
     {
@@ -1204,7 +1235,7 @@ struct Path_ZSligCover : public TlvObjectBaseAE<::Path_ZSligCover>
     }
 };
 
-struct Path_WellLocal : public TlvObjectBaseAE<::Path_WellLocal>
+struct Path_WellLocal : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_WellLocal, "WellLocal", TlvTypes::LocalWell_8)
     {
@@ -1225,7 +1256,7 @@ struct Path_WellLocal : public TlvObjectBaseAE<::Path_WellLocal>
     }
 };
 
-struct Path_FartMachine : public TlvObjectBaseAE<::Path_FartMachine>
+struct Path_FartMachine : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_FartMachine, "FartMachine", TlvTypes::FartMachine_101)
     {
@@ -1233,7 +1264,7 @@ struct Path_FartMachine : public TlvObjectBaseAE<::Path_FartMachine>
     }
 };
 
-struct Path_Grinder : public TlvObjectBaseAE<::Path_Grinder>
+struct Path_Grinder : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1269,7 +1300,7 @@ struct Path_Grinder : public TlvObjectBaseAE<::Path_Grinder>
     }
 };
 
-struct Path_Mine : public TlvObjectBaseAE<::Path_Mine>
+struct Path_Mine : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Mine, "Mine", TlvTypes::Mine_24)
     {
@@ -1280,8 +1311,8 @@ struct Path_Mine : public TlvObjectBaseAE<::Path_Mine>
         ADD("Persist Offscreen", tlv().field_18_persist_offscreen);
     }
 };
-// TODO: finish
-struct Path_Slog : public TlvObjectBaseAE<::Path_Slog>
+
+struct Path_Slog : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Slog, "Slog", TlvTypes::Slog_16)
     {
@@ -1297,8 +1328,8 @@ struct Path_Slog : public TlvObjectBaseAE<::Path_Slog>
         ADD("bone_eating_time", tlv().field_22_bone_eating_time);
     }
 };
-// TODO: finish
-struct Path_ResetSwitchRange : public TlvObjectBaseAE<::Path_ResetSwitchRange>
+
+struct Path_ResetSwitchRange : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_ResetSwitchRange, "ResetSwitchRange", TlvTypes::ResetSwitchRange_76)
     {
@@ -1312,7 +1343,7 @@ struct Path_ResetSwitchRange : public TlvObjectBaseAE<::Path_ResetSwitchRange>
     }
 };
 
-struct Path_TrapDoor : public TlvObjectBaseAE<::Path_TrapDoor>
+struct Path_TrapDoor : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_TrapDoor, "TrapDoor", TlvTypes::TrapDoor_30)
     {
@@ -1327,7 +1358,7 @@ struct Path_TrapDoor : public TlvObjectBaseAE<::Path_TrapDoor>
     }
 };
 
-struct Path_PathTransition : public TlvObjectBaseAE<::Path_PathTransition>
+struct Path_PathTransition : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_PathTransition, "PathTransition", TlvTypes::PathTransition_1)
     {
@@ -1340,7 +1371,7 @@ struct Path_PathTransition : public TlvObjectBaseAE<::Path_PathTransition>
     }
 };
 
-struct Path_LiftMover : public TlvObjectBaseAE<::Path_LiftMover>
+struct Path_LiftMover : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1359,7 +1390,7 @@ struct Path_LiftMover : public TlvObjectBaseAE<::Path_LiftMover>
     }
 };
 
-struct Path_RockSack : public TlvObjectBaseAE<::Path_RockSack>
+struct Path_RockSack : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_RockSack, "RockSack", TlvTypes::RockSack_10)
     {
@@ -1371,7 +1402,7 @@ struct Path_RockSack : public TlvObjectBaseAE<::Path_RockSack>
     }
 };
 
-struct Path_TimerTrigger : public TlvObjectBaseAE<::Path_TimerTrigger>
+struct Path_TimerTrigger : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_TimerTrigger, "TimeTrigger", TlvTypes::TimerTrigger_57)
     {
@@ -1384,7 +1415,7 @@ struct Path_TimerTrigger : public TlvObjectBaseAE<::Path_TimerTrigger>
     }
 };
 
-struct Path_MotionDetector : public TlvObjectBaseAE<::Path_MotionDetector>
+struct Path_MotionDetector : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1409,7 +1440,7 @@ struct Path_MotionDetector : public TlvObjectBaseAE<::Path_MotionDetector>
     }
 };
 
-struct Path_MineCar : public TlvObjectBaseAE<::Path_MineCar>
+struct Path_MineCar : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_MineCar, "MineCar", TlvTypes::MineCar_93)
     {
@@ -1418,7 +1449,7 @@ struct Path_MineCar : public TlvObjectBaseAE<::Path_MineCar>
     }
 };
 
-struct Path_ExplosionSet : public TlvObjectBaseAE<::Path_ExplosionSet>
+struct Path_ExplosionSet : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_ExplosionSet, "ExplosionSet", TlvTypes::ExplosionSet_95)
     {
@@ -1434,7 +1465,7 @@ struct Path_ExplosionSet : public TlvObjectBaseAE<::Path_ExplosionSet>
     }
 };
 
-struct Path_ColourfulMeter : public TlvObjectBaseAE<::Path_ColourfulMeter>
+struct Path_ColourfulMeter : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_ColourfulMeter, "ColourfulMeter", TlvTypes::ColourfulMeter_91)
     {
@@ -1445,7 +1476,7 @@ struct Path_ColourfulMeter : public TlvObjectBaseAE<::Path_ColourfulMeter>
     }
 };
 
-struct Path_Alarm : public TlvObjectBaseAE<::Path_Alarm>
+struct Path_Alarm : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Alarm, "Alarm", TlvTypes::Alarm_100)
     {
@@ -1454,7 +1485,7 @@ struct Path_Alarm : public TlvObjectBaseAE<::Path_Alarm>
     }
 };
 
-struct Path_DemoSpawnPoint : public TlvObjectBaseAE<::Path_DemoSpawnPoint>
+struct Path_DemoSpawnPoint : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_DemoSpawnPoint, "DemoSpawnPoint", TlvTypes::DemoSpawnPoint_87)
     {
@@ -1462,7 +1493,7 @@ struct Path_DemoSpawnPoint : public TlvObjectBaseAE<::Path_DemoSpawnPoint>
     }
 };
 
-struct Path_SlapLock : public TlvObjectBaseAE<::Path_SlapLock>
+struct Path_SlapLock : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SlapLock, "SlapLock", TlvTypes::SlapLock_98)
     {
@@ -1477,7 +1508,7 @@ struct Path_SlapLock : public TlvObjectBaseAE<::Path_SlapLock>
     }
 };
 
-struct Path_Slurg : public TlvObjectBaseAE<::Path_Slurg>
+struct Path_Slurg : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Slurg, "Slurg", TlvTypes::Slurg_84)
     {
@@ -1488,7 +1519,7 @@ struct Path_Slurg : public TlvObjectBaseAE<::Path_Slurg>
     }
 };
 
-struct Path_DoorBlocker : public TlvObjectBaseAE<::Path_DoorBlocker>
+struct Path_DoorBlocker : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_DoorBlocker, "DoorBlocker", TlvTypes::DoorBlocker_109)
     {
@@ -1497,7 +1528,7 @@ struct Path_DoorBlocker : public TlvObjectBaseAE<::Path_DoorBlocker>
     }
 };
 
-struct Path_Dove : public TlvObjectBaseAE<::Path_Dove>
+struct Path_Dove : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Dove, "Dove", TlvTypes::Dove_9)
     {
@@ -1507,7 +1538,7 @@ struct Path_Dove : public TlvObjectBaseAE<::Path_Dove>
     }
 };
 
-struct Path_BirdPortalExit : public TlvObjectBaseAE<::Path_BirdPortalExit>
+struct Path_BirdPortalExit : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_BirdPortalExit, "BirdPortalExit", TlvTypes::BirdPortalExit_29)
     {
@@ -1516,7 +1547,7 @@ struct Path_BirdPortalExit : public TlvObjectBaseAE<::Path_BirdPortalExit>
     }
 };
 
-struct Path_DoorFlame : public TlvObjectBaseAE<::Path_DoorFlame>
+struct Path_DoorFlame : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_DoorFlame, "DoorFlame", TlvTypes::DoorFlame_51)
     {
@@ -1526,7 +1557,7 @@ struct Path_DoorFlame : public TlvObjectBaseAE<::Path_DoorFlame>
     }
 };
 
-struct Path_TrainDoor : public TlvObjectBaseAE<::Path_TrainDoor>
+struct Path_TrainDoor : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_TrainDoor, "TrainDoor", TlvTypes::TrainDoor_111)
     {
@@ -1534,7 +1565,7 @@ struct Path_TrainDoor : public TlvObjectBaseAE<::Path_TrainDoor>
     }
 };
 
-struct Path_Greeter : public TlvObjectBaseAE<::Path_Greeter>
+struct Path_Greeter : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Greeter, "Greeter", TlvTypes::Greeter_106)
     {
@@ -1544,7 +1575,7 @@ struct Path_Greeter : public TlvObjectBaseAE<::Path_Greeter>
     }
 };
 
-struct Path_ScrabLeftBound : public TlvObjectBaseAE<::Path_ScrabLeftBound>
+struct Path_ScrabLeftBound : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_ScrabLeftBound, "ScrabLeftBound", TlvTypes::ScrabLeftBound_43)
     {
@@ -1552,7 +1583,7 @@ struct Path_ScrabLeftBound : public TlvObjectBaseAE<::Path_ScrabLeftBound>
     }
 };
 
-struct Path_ScrabRightBound : public TlvObjectBaseAE<::Path_ScrabRightBound>
+struct Path_ScrabRightBound : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_ScrabRightBound, "ScrabRightBound", TlvTypes::ScrabRightBound_44)
     {
@@ -1560,7 +1591,7 @@ struct Path_ScrabRightBound : public TlvObjectBaseAE<::Path_ScrabRightBound>
     }
 };
 
-struct Path_CreditsController : public TlvObjectBaseAE<::Path_CreditsController>
+struct Path_CreditsController : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_CreditsController, "CreditsController", TlvTypes::CreditsController_62)
     {
@@ -1568,7 +1599,7 @@ struct Path_CreditsController : public TlvObjectBaseAE<::Path_CreditsController>
     }
 };
 
-struct Path_MovieHandstone : public TlvObjectBaseAE<::Path_MovieHandstone>
+struct Path_MovieHandstone : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_MovieHandstone, "MovieHandstone", TlvTypes::MovieHandStone_27)
     {
@@ -1579,7 +1610,7 @@ struct Path_MovieHandstone : public TlvObjectBaseAE<::Path_MovieHandstone>
     }
 };
 
-struct Path_MovingBomb : public TlvObjectBaseAE<::Path_MovingBomb>
+struct Path_MovingBomb : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_MovingBomb, "MovingBomb", TlvTypes::MovingBomb_52)
     {
@@ -1594,7 +1625,7 @@ struct Path_MovingBomb : public TlvObjectBaseAE<::Path_MovingBomb>
     }
 };
 
-struct Path_SecurityDoor : public TlvObjectBaseAE<::Path_SecurityDoor>
+struct Path_SecurityDoor : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SecurityDoor, "SecurityDoor", TlvTypes::SecurityDoor_58)
     {
@@ -1607,7 +1638,7 @@ struct Path_SecurityDoor : public TlvObjectBaseAE<::Path_SecurityDoor>
     }
 };
 
-struct Path_NakedSlig : public TlvObjectBaseAE<::Path_NakedSlig>
+struct Path_NakedSlig : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1636,8 +1667,8 @@ struct Path_NakedSlig : public TlvObjectBaseAE<::Path_NakedSlig>
         ADD("Reset On Death", tlv().field_1A_reset_on_death);
     }
 };
-// TODO: finish
-struct Path_SligGetPants : public TlvObjectBaseAE<::Path_SligGetPants>
+
+struct Path_SligGetPants : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SligGetPants, "SligGetPants", TlvTypes::SligGetPants_104)
     {
@@ -1676,7 +1707,7 @@ struct Path_SligGetPants : public TlvObjectBaseAE<::Path_SligGetPants>
     }
 };
 // TODO: finish
-struct Path_SligGetWings : public TlvObjectBaseAE<::Path_SligGetWings>
+struct Path_SligGetWings : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SligGetWings, "SligGetWings", TlvTypes::SligGetWings_105)
     {
@@ -1699,7 +1730,7 @@ struct Path_SligGetWings : public TlvObjectBaseAE<::Path_SligGetWings>
     }
 };
 
-struct Path_NakedSligButton : public TlvObjectBaseAE<::Path_NakedSligButton>
+struct Path_NakedSligButton : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_NakedSligButton, "NakedSligButton", TlvTypes::NakedSligButton_107)
     {
@@ -1712,7 +1743,7 @@ struct Path_NakedSligButton : public TlvObjectBaseAE<::Path_NakedSligButton>
     }
 };
 
-struct Path_Glukkon : public TlvObjectBaseAE<::Path_Glukkon>
+struct Path_Glukkon : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1752,7 +1783,7 @@ struct Path_Glukkon : public TlvObjectBaseAE<::Path_Glukkon>
     }
 };
 
-struct Path_GlukkonSwitch : public TlvObjectBaseAE<::Path_GlukkonSwitch>
+struct Path_GlukkonSwitch : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1773,7 +1804,7 @@ struct Path_GlukkonSwitch : public TlvObjectBaseAE<::Path_GlukkonSwitch>
     }
 };
 
-struct Path_GasCountDown : public TlvObjectBaseAE<::Path_GasCountDown>
+struct Path_GasCountDown : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_GasCountDown, "GasCountDown", TlvTypes::GasCountdown_69)
     {
@@ -1783,7 +1814,7 @@ struct Path_GasCountDown : public TlvObjectBaseAE<::Path_GasCountDown>
     }
 };
 
-struct Path_FallingItem : public TlvObjectBaseAE<::Path_FallingItem>
+struct Path_FallingItem : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_FallingItem, "FallingItem", TlvTypes::FallingItem_11)
     {
@@ -1795,7 +1826,7 @@ struct Path_FallingItem : public TlvObjectBaseAE<::Path_FallingItem>
     }
 };
 
-struct Path_BoneBag : public TlvObjectBaseAE<::Path_BoneBag>
+struct Path_BoneBag : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_BoneBag, "BoneBag", TlvTypes::BoneBag_94)
     {
@@ -1807,7 +1838,7 @@ struct Path_BoneBag : public TlvObjectBaseAE<::Path_BoneBag>
     }
 };
 
-struct Path_SecurityClaw : public TlvObjectBaseAE<::Path_SecurityClaw>
+struct Path_SecurityClaw : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SecurityClaw, "SecurityClaw", TlvTypes::SecurityClaw_35)
     {
@@ -1817,7 +1848,7 @@ struct Path_SecurityClaw : public TlvObjectBaseAE<::Path_SecurityClaw>
     }
 };
 
-struct Path_FootSwitch : public TlvObjectBaseAE<::Path_FootSwitch>
+struct Path_FootSwitch : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1837,7 +1868,7 @@ struct Path_FootSwitch : public TlvObjectBaseAE<::Path_FootSwitch>
     }
 };
 
-struct Path_SlogHut : public TlvObjectBaseAE<::Path_SlogHut>
+struct Path_SlogHut : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SlogHut, "SlogHut", TlvTypes::SlogHut_72)
     {
@@ -1847,7 +1878,7 @@ struct Path_SlogHut : public TlvObjectBaseAE<::Path_SlogHut>
     }
 };
 
-struct Path_SlogSpawner : public TlvObjectBaseAE<::Path_SlogSpawner>
+struct Path_SlogSpawner : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SlogSpawner, "SlogSpawner", TlvTypes::SlogSpawner_68)
     {
@@ -1862,7 +1893,7 @@ struct Path_SlogSpawner : public TlvObjectBaseAE<::Path_SlogSpawner>
     }
 };
 
-struct Path_MainMenuController : public TlvObjectBaseAE<::Path_MainMenuController>
+struct Path_MainMenuController : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_MainMenuController, "MainMenuController", TlvTypes::MainMenuController_54)
     {
@@ -1870,7 +1901,7 @@ struct Path_MainMenuController : public TlvObjectBaseAE<::Path_MainMenuControlle
     }
 };
 
-struct Path_Null_63 : public TlvObjectBaseAE<::Path_Null_63>
+struct Path_Null_63 : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Null_63, "Null_63", TlvTypes::Null_63)
     {
@@ -1879,7 +1910,7 @@ struct Path_Null_63 : public TlvObjectBaseAE<::Path_Null_63>
     }
 };
 
-struct Path_Scrab : public TlvObjectBaseAE<::Path_Scrab>
+struct Path_Scrab : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_Scrab, "Scrab", TlvTypes::Scrab_41)
     {
@@ -1900,7 +1931,7 @@ struct Path_Scrab : public TlvObjectBaseAE<::Path_Scrab>
     }
 };
 
-struct Path_ScrabSpawner : public TlvObjectBaseAE<::Path_ScrabSpawner>
+struct Path_ScrabSpawner : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1936,7 +1967,7 @@ struct Path_ScrabSpawner : public TlvObjectBaseAE<::Path_ScrabSpawner>
     }
 };
 
-struct Path_SlurgSpawner : public TlvObjectBaseAE<::Path_SlurgSpawner>
+struct Path_SlurgSpawner : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_SlurgSpawner, "SlurgSpawner", TlvTypes::SlurgSpawner_89)
     {
@@ -1951,7 +1982,7 @@ struct Path_SlurgSpawner : public TlvObjectBaseAE<::Path_SlurgSpawner>
     }
 };
 
-struct Path_Paramite : public TlvObjectBaseAE<::Path_Paramite>
+struct Path_Paramite : public TlvObjectBaseAEBase
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1981,7 +2012,7 @@ struct Path_Paramite : public TlvObjectBaseAE<::Path_Paramite>
     }
 };
 
-struct Path_ParamiteWebLine : public TlvObjectBaseAE<::Path_ParamiteWebLine>
+struct Path_ParamiteWebLine : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_ParamiteWebLine, "ParamiteWebLine", TlvTypes::ParamiteWebLine_99)
     {
@@ -1989,7 +2020,7 @@ struct Path_ParamiteWebLine : public TlvObjectBaseAE<::Path_ParamiteWebLine>
     }
 };
 
-struct Path_MeatSack : public TlvObjectBaseAE<::Path_MeatSack>
+struct Path_MeatSack : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_MeatSack, "MeatSack", TlvTypes::MeatSack_40)
     {
@@ -2001,7 +2032,7 @@ struct Path_MeatSack : public TlvObjectBaseAE<::Path_MeatSack>
     }
 };
 
-struct Path_TorturedMudokon : public TlvObjectBaseAE<::Path_TorturedMudokon>
+struct Path_TorturedMudokon : public TlvObjectBaseAEBase
 {
     CTOR_AE(Path_TorturedMudokon, "TorturedMudokon", TlvTypes::TorturedMudokon_110)
     {
@@ -2009,6 +2040,7 @@ struct Path_TorturedMudokon : public TlvObjectBaseAE<::Path_TorturedMudokon>
         ADD("release_id", tlv().field_12_release_id);
     }
 };
+
 } // namespace AETlvs
 
 #undef EMPTY_CTOR_AE
