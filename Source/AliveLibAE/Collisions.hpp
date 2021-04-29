@@ -27,7 +27,7 @@ enum eLineTypes : u8
     eFlyingSligCeiling_17 = 17,
 };
 
-class PathLine
+class PathLine final
 {
 public:
     PSX_RECT field_0_rect;
@@ -45,7 +45,7 @@ ALIVE_ASSERT_SIZEOF(PathLine, 0x14);
 
 struct CollisionInfo;
 
-class Collisions
+class Collisions final
 {
 public:
     EXPORT Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes);

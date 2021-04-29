@@ -4,10 +4,6 @@
 #include "MainMenu.hpp"
 #include "SwitchStates.hpp"
 
-namespace AETest::TestsQuikSave {
-void QuikSave_Tests();
-}
-
 struct Quicksave_PSX_Header
 {
     s8 field_0_frame_1_name[128];

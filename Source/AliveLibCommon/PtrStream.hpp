@@ -1,6 +1,6 @@
 #pragma once
 
-class PtrStream
+class PtrStream final
 {
 public:
     PtrStream(const u8** ppStream)

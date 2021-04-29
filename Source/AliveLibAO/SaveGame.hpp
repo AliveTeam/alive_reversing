@@ -91,7 +91,7 @@ struct SaveData
 };
 ALIVE_ASSERT_SIZEOF(SaveData, 0x2000);
 
-class SaveGame
+class SaveGame final
 {
 public:
     EXPORT static void CC LoadFromMemory_459970(SaveData* pData, s32 bKillObjects);

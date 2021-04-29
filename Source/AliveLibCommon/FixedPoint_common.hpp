@@ -5,7 +5,7 @@
 struct FixedPoint;
 using FP = FixedPoint;
 
-struct FixedPoint
+struct FixedPoint final
 {
     s32 fpValue;
 };

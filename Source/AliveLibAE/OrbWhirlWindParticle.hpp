@@ -6,7 +6,7 @@
 
 class BaseGameObject;
 
-class OrbWhirlWindParticle
+class OrbWhirlWindParticle final
 {
 public:
     EXPORT OrbWhirlWindParticle* ctor_4E40C0(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit);

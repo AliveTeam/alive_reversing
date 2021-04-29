@@ -34,7 +34,7 @@ struct TouchButton
 };
 
 
-class TouchController
+class TouchController final
 {
 public:
     TouchController();

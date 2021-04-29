@@ -165,7 +165,7 @@ enum GamepadOptionFlags
     eHasDPad = 0x2
 };
 
-class InputObject
+class InputObject final
 {
 public:
     EXPORT s32 Is_Demo_Playing_45F220();

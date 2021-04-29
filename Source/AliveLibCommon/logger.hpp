@@ -76,7 +76,7 @@ inline void RedirectIoStream(bool replace)
 }
 
 namespace Logging {
-class AutoLog
+class AutoLog final
 {
 public:
     AutoLog(const AutoLog&) = delete;

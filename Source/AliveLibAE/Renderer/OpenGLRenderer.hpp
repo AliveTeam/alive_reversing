@@ -50,7 +50,7 @@ struct PaletteCache
     RGBAPixel mPalData[256];
 };
 
-class OpenGLRenderer : public IRenderer
+class OpenGLRenderer final : public IRenderer
 {
 public:
     void Destroy() override;

@@ -4,7 +4,7 @@
 
 enum class CameraPos : s16;
 
-class ScopedSeq
+class ScopedSeq final
 {
 public:
     EXPORT ScopedSeq* ctor_4CB210(s8 ambianceId, CameraPos direction);

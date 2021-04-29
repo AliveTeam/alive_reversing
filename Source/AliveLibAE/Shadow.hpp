@@ -4,7 +4,7 @@
 #include "Animation.hpp"
 #include "BitField.hpp"
 
-class Shadow
+class Shadow final
 {
 public:
     EXPORT Shadow* ctor_4AC990();

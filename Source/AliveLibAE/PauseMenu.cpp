@@ -562,6 +562,8 @@ public:
         CompileEntries();
     }
 
+    virtual ~CustomPauseMenu() { }
+
     virtual void CompileEntries()
     {
         compiledEntries.clear();
@@ -697,7 +699,7 @@ std::string optionMenuStr_WindowMode;
 std::string optionMenuStr_AspectRatio;
 std::string optionMenuStr_WindowFilterMode;
 
-class OptionsMenu : public CustomPauseMenu
+class OptionsMenu final : public CustomPauseMenu
 {
 public:
     OptionsMenu()

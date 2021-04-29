@@ -8,7 +8,7 @@ namespace AO {
 
 class BaseAliveGameObject;
 
-class OrbWhirlWindParticle
+class OrbWhirlWindParticle final
 {
 public:
     EXPORT OrbWhirlWindParticle* ctor_48BC10(FP xpos, FP ypos, FP scale);

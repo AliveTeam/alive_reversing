@@ -132,7 +132,7 @@ bool Input_JoyStickEnabled();
 void Input_SetJoyStickEnabled(bool enabled);
 bool Input_JoyStickAvailable();
 
-class InputObject
+class InputObject final
 {
 public:
     EXPORT void InitPad_4331A0(u32 padCount);

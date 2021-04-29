@@ -7,7 +7,7 @@
 
 namespace AO {
 
-class Shadow
+class Shadow final
 {
 public:
     EXPORT Shadow* ctor_461FB0();

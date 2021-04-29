@@ -141,7 +141,7 @@ enum class CameraPos : s16
     eCamNone_5 = 5, // Not "in" the camera
 };
 
-class Map
+class Map final
 {
 public:
     enum class MapDirections : s16

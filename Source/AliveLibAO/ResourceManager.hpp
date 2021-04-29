@@ -17,7 +17,7 @@ EXPORT void CC Game_ShowLoadingIcon_445EB0();
 // TODO Argument type is always Camera* ?
 using TLoaderFn = void(CC*)(void*);
 
-class ResourceManager
+class ResourceManager final
 {
 public:
     enum ResourceType : u32
@@ -88,7 +88,7 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord, 0xc);
 
-    class ResourceManager_FileRecord
+    class ResourceManager_FileRecord final
     {
     public:
         void dtor_447510()

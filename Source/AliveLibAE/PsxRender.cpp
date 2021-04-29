@@ -159,7 +159,7 @@ EXPORT s32 CC PSX_poly_helper_fixed_point_scale_517FA0(s32 fixedPoint, s32 scale
     return (static_cast<s64>(fixedPoint) * scaleFactor) / 0x10000;
 }
 
-template <class T>
+template <typename T>
 static inline void WriteSinglePixelOfXLine(u16* pVRam, s32 xLeft, s32 xRight, T writePixel)
 {
     u16* pStart = &pVRam[xLeft];
@@ -1462,7 +1462,7 @@ static inline u8 Decompress_Next_Type6(s32& control_byte, u32& dstIdx, const u16
     return data;
 }
 
-template <class TfnWritePixel, class TfnConvertPixel, class TfnDecompress>
+template <typename TfnWritePixel, typename TfnConvertPixel, typename TfnDecompress>
 static void Scaled_Poly_FT4_Inline_Texture_Render(
     s32 xpos_clip,
     s32 ypos_clip,
@@ -1668,7 +1668,7 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     }
 }
 
-template <size_t clut_size, class TFnDecompress>
+template <size_t clut_size, typename TFnDecompress>
 static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, s32 width, s32 height, const void* pData, TFnDecompress fnDecompress)
 {
     u16 clut_local[clut_size] = {};
@@ -2023,7 +2023,7 @@ enum class EPolyType
     e3Point,
 };
 
-template <class T>
+template <typename T>
 static inline void Convert_Vertex_XY(OT_Vert* pConverted, T* pPoly, EPolyType polyType)
 {
     pConverted[0].field_0_x0 = 16 * X0(pPoly);
@@ -2052,7 +2052,7 @@ static inline void Convert_Vertex_XY(OT_Vert* pConverted, T* pPoly, EPolyType po
     }
 }
 
-template <class T>
+template <typename T>
 static inline void Convert_Vertex_RGB_Single(OT_Vert* pConverted, T* pPoly)
 {
     pConverted[0].field_1C_r = R0(pPoly) << 13;
@@ -2060,7 +2060,7 @@ static inline void Convert_Vertex_RGB_Single(OT_Vert* pConverted, T* pPoly)
     pConverted[0].field_24_b = B0(pPoly) << 13;
 }
 
-template <class T>
+template <typename T>
 static inline void Convert_Vertex_RGB(OT_Vert* pConverted, T* pPoly, EPolyType polyType, bool hasTexture)
 {
     const s32 shiftValue = hasTexture ? 0 : 13;
@@ -2091,7 +2091,7 @@ static inline void Convert_Vertex_RGB(OT_Vert* pConverted, T* pPoly, EPolyType p
     }
 }
 
-template <class T>
+template <typename T>
 static inline void Convert_Vertex_UV(OT_Vert* pConverted, T* pPoly, EPolyType polyType)
 {
     pConverted[0].field_14_u = U0(pPoly);

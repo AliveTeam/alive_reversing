@@ -1769,13 +1769,13 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 fgColour, 
     #include "gmock/gmock.h"
 
 namespace AETest::TestsBmp {
-class MockedDirectDraw
+class MockedDirectDraw final
 {
 public:
     MOCK_METHOD3(CreateSurface, HRESULT(LPDDSURFACEDESC surfaceDesc, LPDIRECTDRAWSURFACE FAR* ppSurface, IUnknown FAR* pUnk));
 };
 
-class DirectDrawMock : public IDirectDraw
+class DirectDrawMock : final  public IDirectDraw
 {
 public:
     MockedDirectDraw& mMock;

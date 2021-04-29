@@ -36,7 +36,7 @@
 
 
 
-class PSXMDECDecoder
+class PSXMDECDecoder final
 {
 public:
     PSXMDECDecoder();

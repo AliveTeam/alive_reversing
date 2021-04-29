@@ -96,7 +96,7 @@ struct Path_TrainDoor final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrainDoor, 0x14);
 
-class TrainDoor : public Door
+class TrainDoor final : public Door
 {
 public:
     EXPORT TrainDoor* ctor_4DD090(Path_TrainDoor* pTlv, s32 tlvInfo);

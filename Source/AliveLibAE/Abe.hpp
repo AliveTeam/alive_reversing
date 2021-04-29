@@ -444,7 +444,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Abe_SaveState, 216);
 
 class Bullet;
 
-class Abe : public BaseAliveGameObject
+class Abe final : public BaseAliveGameObject
 {
 public:
     EXPORT Abe* ctor_44AD10(s32 frameTableOffset, s32 r, s32 g, s32 b);

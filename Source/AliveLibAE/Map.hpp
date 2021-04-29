@@ -70,7 +70,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Change, 0x1C);
 
 enum class LoadMode : s16;
 
-class Map
+class Map final
 {
 public:
     enum class MapDirections : s16

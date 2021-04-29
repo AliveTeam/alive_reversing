@@ -7,7 +7,7 @@ enum class LevelIds : s16;
 
 #pragma pack(push)
 #pragma pack(2)
-class Camera // TODO: May actually just be "ResourceList" ?
+class Camera final // TODO: May actually just be "ResourceList" ?
 {
 public:
     Camera();

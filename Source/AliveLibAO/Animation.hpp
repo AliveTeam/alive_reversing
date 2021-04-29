@@ -204,7 +204,7 @@ public:
 
 class BaseGameObject;
 
-class Animation : public AnimationBase
+class Animation final : public AnimationBase
 {
 public:
     virtual void vDecode() override;
@@ -259,7 +259,7 @@ ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 
 
 // TODO: Figure out how this differs from the standard Animation
-class AnimationUnknown : public AnimationBase
+class AnimationUnknown final : public AnimationBase
 {
 public:
     virtual void vDecode() override;

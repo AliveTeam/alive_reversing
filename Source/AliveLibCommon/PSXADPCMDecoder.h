@@ -10,7 +10,7 @@
 #include "Types.hpp"
 #include <array>
 
-class PSXADPCMDecoder
+class PSXADPCMDecoder final
 {
 public:
     PSXADPCMDecoder() = default;

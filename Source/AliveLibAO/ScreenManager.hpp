@@ -10,7 +10,7 @@ namespace AO {
 
 enum class LevelIds : s16;
 
-class Camera
+class Camera final
 {
 public:
     EXPORT Camera* ctor_4446E0();

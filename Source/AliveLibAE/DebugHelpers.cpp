@@ -1263,7 +1263,7 @@ static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
     pInfo->mTPage = static_cast<u16>(PSX_getTPage_4F60E0(mode, abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
 }
 
-class RenderTest_AllPrims
+class RenderTest_AllPrims final
 {
 public:
     RenderTest_AllPrims()
@@ -1710,7 +1710,7 @@ private:
     Prim_PrimClipper mPrimClipper = {};
 };
 
-class Poly_F3_Test
+class Poly_F3_Test final
 {
 public:
     Poly_F3_Test()
@@ -1769,7 +1769,7 @@ private:
 };
 
 
-class Poly_F_Test
+class Poly_F_Test final
 {
 public:
     Poly_F_Test()

@@ -34,7 +34,7 @@ struct LvlHeader
 };
 
 
-class LvlArchive
+class LvlArchive final
 {
 public:
     EXPORT s32 Open_Archive_432E80(const s8* fileName);

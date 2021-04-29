@@ -49,7 +49,7 @@ void CC Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const u8
 }
 
 // 24:8 fixed type.. I guess 16:16 wasn't good enough for collision detection
-class Fixed_24_8
+class Fixed_24_8 final
 {
 public:
     Fixed_24_8()

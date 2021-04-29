@@ -4,7 +4,7 @@
 
     #include "IRenderer.hpp"
 
-class DirectX9Renderer : public IRenderer
+class DirectX9Renderer final : public IRenderer
 {
 public:
     void Destroy() override;

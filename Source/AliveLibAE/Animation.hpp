@@ -112,7 +112,7 @@ struct FrameHeader
     u16 mHeight2;
 };
 
-class Animation : public AnimationBase
+class Animation final : public AnimationBase
 {
 public:
     EXPORT s16 Set_Animation_Data_409C80(s32 frameTableOffset, u8** pAnimRes);

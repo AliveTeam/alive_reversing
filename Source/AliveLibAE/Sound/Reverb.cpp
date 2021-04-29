@@ -14,7 +14,7 @@ const s32 ReverbEchos = 24;
 static StereoSample_S16 sReverbBuffer[1024 * 32] = {};
 const f32 gReverbMix = 1.0f / ReverbEchos;
 
-class FeedbackBuffer
+class FeedbackBuffer final
 {
 public:
     explicit FeedbackBuffer(s32 samples)

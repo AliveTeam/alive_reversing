@@ -40,7 +40,7 @@ const SoundBlockInfo soundBlock = {"MONK.VH", "MONK.VB", -1, nullptr};
 
 ALIVE_VAR(1, 0x560F48, SoundBlockInfo, sMonkVh_Vb_560F48, soundBlock);
 
-class AEMidiVars : public IMidiVars
+class AEMidiVars final : public IMidiVars
 {
 public:
     virtual SeqIds& sSeq_Ids_word() override

@@ -48,7 +48,7 @@ struct Masher_AudioHeader
 ALIVE_ASSERT_SIZEOF(Masher_AudioHeader, 20);
 
 
-class AudioDecompressor
+class AudioDecompressor final
 {
 public:
     s32 mUsedBits = 0;
@@ -74,7 +74,7 @@ public:
     static void init_Snd_tbl();
 };
 
-class Masher
+class Masher final
 {
 public:
     // Same as 0x523FA0 in MGSI.exe

@@ -15,7 +15,7 @@ enum SDLSoundBufferStatus
     Playing = 2,
 };
 
-class SDLSoundBuffer
+class SDLSoundBuffer final
 {
 public:
     SDLSoundBuffer(const SDLSoundBuffer& rhs);

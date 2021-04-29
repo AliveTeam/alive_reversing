@@ -40,7 +40,7 @@ ALIVE_VAR(1, 0x4D0000, s16, sNeedToHashSeqNames_4D0000, 1);
 const SoundBlockInfo soundBlock = {"MONK.VH", "MONK.VB", -1, nullptr};
 ALIVE_VAR(1, 0x4D0008, SoundBlockInfo, sMonkVh_Vb_4D0008, soundBlock);
 
-class AOMidiVars : public IMidiVars
+class AOMidiVars final : public IMidiVars
 {
 public:
     virtual SeqIds& sSeq_Ids_word() override
@@ -150,7 +150,7 @@ ALIVE_VAR(1, 0xA8919C, u8, sControllerValue_A8919C, 0);
 EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx);
 EXPORT void CC SsUtKeyOffV_49EE50(s16 idx);
 
-class AOPsxSpuApiVars : public IPsxSpuApiVars
+class AOPsxSpuApiVars final : public IPsxSpuApiVars
 {
 public:
     virtual s16& sGlobalVolumeLevel_right() override

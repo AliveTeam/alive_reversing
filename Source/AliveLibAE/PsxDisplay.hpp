@@ -26,7 +26,7 @@ inline T PCToPsxX(T x, s32 addX = 0)
 
 struct PrimHeader;
 
-class PSX_Display_Buffer
+class PSX_Display_Buffer final
 {
 public:
     PSX_DRAWENV field_0_draw_env;
@@ -35,7 +35,7 @@ public:
 };
 // TODO: Size
 
-class PsxDisplay
+class PsxDisplay final
 {
 public:
     s16 field_0_width;
