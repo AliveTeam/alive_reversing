@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_LiftMover : public Path_TLV
+struct Path_LiftMover final : public Path_TLV
 {
     s16 field_18_switch_id;
     s16 field_1A_lift_id;

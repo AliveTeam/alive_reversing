@@ -7,7 +7,7 @@
 #include "Factory.hpp"
 #include "Layer.hpp"
 
-struct Path_BackgroundAnimation : public Path_TLV
+struct Path_BackgroundAnimation final : public Path_TLV
 {
     u16 field_10_res_id;
     Choice_short field_12_is_semi_trans;

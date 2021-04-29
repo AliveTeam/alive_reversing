@@ -79,7 +79,7 @@ enum class ElumSounds : u8
     eLickingHoney_8 = 8
 };
 
-struct Path_ElumPathTrans : public Path_TLV
+struct Path_ElumPathTrans final : public Path_TLV
 {
     LevelIds field_18_level;
     s16 field_1A_path;

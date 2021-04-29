@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_PullRingRope : public Path_TLV
+struct Path_PullRingRope final : public Path_TLV
 {
     s16 field_18_id;
     SwitchOp field_1A_action;

@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_Mine : public Path_TLV
+struct Path_Mine final : public Path_TLV
 {
     s16 field_18_num_patterns;
     s16 field_1A_pattern;

@@ -11,7 +11,7 @@ enum class TorturedMudokonState : s16
     eReleased_2 = 2
 };
 
-struct Path_TorturedMudokon : public Path_TLV
+struct Path_TorturedMudokon final : public Path_TLV
 {
     s16 field_10_speed_id;
     s16 field_12_release_id;

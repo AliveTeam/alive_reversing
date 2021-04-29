@@ -18,7 +18,7 @@ enum class DoorStates : s16
     eClosing_3 = 3,
 };
 
-struct Path_Door : public Path_TLV
+struct Path_Door final : public Path_TLV
 {
     LevelIds field_18_level;
     s16 field_1A_path;

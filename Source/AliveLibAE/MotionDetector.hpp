@@ -5,7 +5,7 @@
 #include "FunctionFwd.hpp"
 #include "Layer.hpp"
 
-struct Path_MotionDetector : public Path_TLV
+struct Path_MotionDetector final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_device_x;

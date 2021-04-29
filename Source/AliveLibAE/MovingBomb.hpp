@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_MovingBomb : public Path_TLV
+struct Path_MovingBomb final : public Path_TLV
 {
     u16 field_10_speed;
     s16 field_12_id;
@@ -17,7 +17,7 @@ struct Path_MovingBomb : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBomb, 0x20);
 
-struct Path_MovingBombStopper : public Path_TLV
+struct Path_MovingBombStopper final : public Path_TLV
 {
     s16 field_10_min;
     s16 field_12_max;

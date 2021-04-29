@@ -25,7 +25,7 @@ struct LiftMover_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
 
-struct Path_LiftMover : public Path_TLV
+struct Path_LiftMover final : public Path_TLV
 {
     s16 field_10_switch_id;
     s16 field_12_lift_id;

@@ -10,7 +10,7 @@ enum ElectricWallStartState : s16
     eOn_1 = 1,
 };
 
-struct Path_ElectricWall : public Path_TLV
+struct Path_ElectricWall final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_id;

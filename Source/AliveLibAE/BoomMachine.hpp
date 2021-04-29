@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_BoomMachine : public Path_TLV
+struct Path_BoomMachine final : public Path_TLV
 {
     Scale_short field_10_scale;
     XDirection_short field_12_nozzle_side;

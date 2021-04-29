@@ -31,7 +31,7 @@ struct Path_Water_Data
 };
 ALIVE_ASSERT_SIZEOF(Path_Water_Data, 0xC);
 
-struct Path_Water : public Path_TLV
+struct Path_Water final : public Path_TLV
 {
     Path_Water_Data field_10_data;
 };

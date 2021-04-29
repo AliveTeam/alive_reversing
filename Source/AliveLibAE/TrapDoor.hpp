@@ -4,7 +4,7 @@
 #include "PlatformBase.hpp"
 #include "Path.hpp"
 
-struct Path_TrapDoor : public Path_TLV
+struct Path_TrapDoor final : public Path_TLV
 {
     s16 field_10_id;
     s16 field_12_start_state;

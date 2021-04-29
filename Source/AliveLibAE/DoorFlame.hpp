@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_DoorFlame : public Path_TLV
+struct Path_DoorFlame final : public Path_TLV
 {
     s16 field_10_id;
     Scale_short field_12_scale;

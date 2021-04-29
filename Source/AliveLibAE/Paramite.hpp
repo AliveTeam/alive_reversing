@@ -58,7 +58,7 @@ enum eParamiteMotions : s32
 
 class Meat;
 
-struct Path_Paramite : public Path_TLV
+struct Path_Paramite final : public Path_TLV
 {
     Scale_short field_10_scale;
     enum class EntranceType : s16

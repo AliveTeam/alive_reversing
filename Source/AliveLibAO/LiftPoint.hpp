@@ -8,7 +8,7 @@
 
 namespace AO {
 
-struct Path_LiftPoint : public Path_TLV
+struct Path_LiftPoint final : public Path_TLV
 {
     s16 field_18_id;
     s16 field_1A_bstart_point;

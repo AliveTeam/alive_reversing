@@ -6,7 +6,7 @@
 #include "Primitives.hpp"
 #include "Path.hpp"
 
-struct Path_ColourfulMeter : public Path_TLV
+struct Path_ColourfulMeter final : public Path_TLV
 {
     s16 field_10_id;
     s16 field_12_number_of_meter_bars;

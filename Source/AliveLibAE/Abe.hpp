@@ -168,7 +168,7 @@ extern const InputCommands::Enum sInputKey_GameSpeak5_55510C;
 extern const InputCommands::Enum sInputKey_GameSpeak8_555110;
 extern const InputCommands::Enum sInputKey_GameSpeak7_555114;
 
-struct Path_ContinuePoint : public Path_TLV
+struct Path_ContinuePoint final : public Path_TLV
 {
     enum class Scale : s16
     {
@@ -181,7 +181,7 @@ struct Path_ContinuePoint : public Path_TLV
 };
 
 
-struct Path_ResetSwitchRange : public Path_TLV
+struct Path_ResetSwitchRange final : public Path_TLV
 {
     s16 field_10_set_switches;
     s16 field_12_start_id;

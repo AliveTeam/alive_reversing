@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_TimerTrigger : public Path_TLV
+struct Path_TimerTrigger final : public Path_TLV
 {
     s16 field_10_id;
     u16 field_12_trigger_delay;

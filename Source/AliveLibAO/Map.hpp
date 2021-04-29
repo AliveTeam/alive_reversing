@@ -107,7 +107,7 @@ struct Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_TLV, 0x18);
 
-struct Path_EnemyStopper : public Path_TLV
+struct Path_EnemyStopper final : public Path_TLV
 {
     enum class StopDirection : s16
     {
@@ -119,7 +119,7 @@ struct Path_EnemyStopper : public Path_TLV
     s16 field_1A_id;
 };
 
-struct Path_ChangeTLV : public Path_TLV
+struct Path_Change final : public Path_TLV
 {
     LevelIds field_18_level;
     s16 field_1A_path;
@@ -128,7 +128,7 @@ struct Path_ChangeTLV : public Path_TLV
     u16 field_20_wipe;
     s16 field_22_scale;
 };
-ALIVE_ASSERT_SIZEOF(Path_ChangeTLV, 0x24);
+ALIVE_ASSERT_SIZEOF(Path_Change, 0x24);
 
 enum class CameraPos : s16
 {

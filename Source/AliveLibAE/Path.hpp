@@ -195,7 +195,7 @@ struct Path_TLV
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TLV, 0x10);
 
 
-struct Path_EnemyStopper : public Path_TLV
+struct Path_EnemyStopper final : public Path_TLV
 {
     enum class StopDirection : s16
     {
@@ -270,14 +270,14 @@ struct Path_Teleporter_Data
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Teleporter_Data, 0x16);
 
-struct Path_Teleporter : public Path_TLV
+struct Path_Teleporter final : public Path_TLV
 {
     Path_Teleporter_Data field_10_data;
     s16 field_26_padding; // Actually padding here as the game won't copy these 2 bytes, but its included in the TLV length
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Teleporter, 0x28); // 0x10 for base
 
-struct Path_Hoist : public Path_TLV
+struct Path_Hoist final : public Path_TLV
 {
     enum class Type : s16
     {
@@ -302,7 +302,7 @@ struct Path_Hoist : public Path_TLV
 };
 // TODO: Size
 
-struct Path_Edge : public Path_TLV
+struct Path_Edge final : public Path_TLV
 {
     enum class GrabDirection : s16
     {
@@ -317,7 +317,7 @@ struct Path_Edge : public Path_TLV
 };
 // TODO: Size
 
-struct Path_SoftLanding : public Path_TLV
+struct Path_SoftLanding final : public Path_TLV
 {
     s32 field_10_id;
 };
@@ -333,7 +333,7 @@ struct Path_WellBase : public Path_TLV
 };
 // TODO: Size
 
-struct Path_WellLocal : public Path_WellBase
+struct Path_WellLocal final : public Path_WellBase
 {
     s16 field_18_off_dx;
     s16 field_1A_off_dy;
@@ -346,7 +346,7 @@ struct Path_WellLocal : public Path_WellBase
 };
 // TODO: Size
 
-struct Path_WellExpress : public Path_WellBase
+struct Path_WellExpress final : public Path_WellBase
 {
     s16 field_18_exit_x;
     s16 field_1A_exit_y;
@@ -365,14 +365,14 @@ struct Path_WellExpress : public Path_WellBase
 };
 // TODO: Size
 
-struct Path_Alarm : public Path_TLV
+struct Path_Alarm final : public Path_TLV
 {
     s16 field_10_id;
     u16 field_12_duration;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Alarm, 0x14);
 
-struct Path_MovieStone : public Path_TLV
+struct Path_MovieStone final : public Path_TLV
 {
     s16 field_10_movie_number;
     Scale_short field_12_scale;
@@ -380,7 +380,7 @@ struct Path_MovieStone : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovieStone, 0x18);
 
-struct Path_HandStone : public Path_TLV
+struct Path_HandStone final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_camera_id1;
@@ -390,7 +390,7 @@ struct Path_HandStone : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HandStone, 0x1C);
 
-struct Path_AbeStart : public Path_TLV
+struct Path_AbeStart final : public Path_TLV
 {
     s16 field_10_xpos;
     s16 field_12_ypos;

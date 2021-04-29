@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_GasCountDown : public Path_TLV
+struct Path_GasCountDown final : public Path_TLV
 {
     s16 field_18_start_id;
     s16 field_1A_pad;

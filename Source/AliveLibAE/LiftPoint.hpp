@@ -13,7 +13,7 @@ enum class LiftPointStopType : s16
     eStartPointOnly_4 = 4,
 };
 
-struct Path_LiftPoint : public Path_TLV
+struct Path_LiftPoint final : public Path_TLV
 {
     s16 field_10_id;
     Choice_short field_12_bStart_point;

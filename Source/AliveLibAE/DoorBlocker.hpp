@@ -4,7 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_DoorBlocker : public Path_TLV
+struct Path_DoorBlocker final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_id;

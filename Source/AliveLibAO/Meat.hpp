@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_MeatSack : public Path_TLV
+struct Path_MeatSack final : public Path_TLV
 {
     s16 field_18_side;
     u16 field_1A_x_vel;

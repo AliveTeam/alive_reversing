@@ -46,7 +46,7 @@ enum eParamiteStates : s32
 class ParamiteWeb;
 class Meat;
 
-struct Path_Paramite : public Path_TLV
+struct Path_Paramite final : public Path_TLV
 {
     Scale_short field_18_scale;
     Choice_short field_1A_bEnter_from_web;

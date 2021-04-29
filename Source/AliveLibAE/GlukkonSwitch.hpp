@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_GlukkonSwitch : public Path_TLV
+struct Path_GlukkonSwitch final : public Path_TLV
 {
     enum class Scale : s16
     {

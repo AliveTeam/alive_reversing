@@ -6,7 +6,7 @@
 
 enum class LevelIds : s16;
 
-struct Path_LevelLoader : public Path_TLV
+struct Path_LevelLoader final : public Path_TLV
 {
     s16 field_10_id;
     LevelIds field_12_dest_level;

@@ -5,7 +5,7 @@
 #include "Font.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_FartMachine : public Path_TLV
+struct Path_FartMachine final : public Path_TLV
 {
     s16 field_10_num_brews;
     s16 field_12_pad;

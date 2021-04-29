@@ -9,7 +9,7 @@ namespace AO {
 class FireBackgroundGlow;
 class FlameSparks;
 
-struct Path_DoorFlame : public Path_TLV
+struct Path_DoorFlame final : public Path_TLV
 {
     s16 field_18_id;
     u16 field_1A_scale;

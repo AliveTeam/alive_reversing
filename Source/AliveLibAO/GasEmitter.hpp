@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_GasEmitter : public Path_TLV
+struct Path_GasEmitter final : public Path_TLV
 {
 };
 

@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_Bat : public Path_TLV
+struct Path_Bat final : public Path_TLV
 {
     s16 field_18_ticks_before_moving;
     s16 field_1A_speed;

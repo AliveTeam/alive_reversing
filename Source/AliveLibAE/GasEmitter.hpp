@@ -13,7 +13,7 @@ enum class GasColour : s16
     White_4
 };
 
-struct Path_GasEmitter : public Path_TLV
+struct Path_GasEmitter final : public Path_TLV
 {
     s16 field_10_switch_id;
     GasColour field_12_colour;

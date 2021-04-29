@@ -9,7 +9,7 @@
 
 void Mine_ForceLink();
 
-struct Path_Mine : public Path_TLV
+struct Path_Mine final : public Path_TLV
 {
     s16 field_10_num_patterns;
     s16 field_12_pattern;

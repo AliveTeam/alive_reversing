@@ -8,7 +8,7 @@ namespace AO {
 
 class Bells;
 
-struct Path_ChimeLock : public Path_TLV
+struct Path_ChimeLock final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_solve_id;

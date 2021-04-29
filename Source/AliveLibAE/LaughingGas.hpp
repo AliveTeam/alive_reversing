@@ -17,7 +17,7 @@ struct Path_LaughingGas_Data
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas_Data, 0xC);
 
-struct Path_LaughingGas : public Path_TLV
+struct Path_LaughingGas final : public Path_TLV
 {
     Choice_short field_10_bLaughing_gas;
     s16 field_12_laughing_gas_id;

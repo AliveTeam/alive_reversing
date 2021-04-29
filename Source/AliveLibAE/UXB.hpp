@@ -17,7 +17,7 @@ enum class UXBState : u16
     eDeactivated_3 = 3
 };
 
-struct Path_UXB : public Path_TLV
+struct Path_UXB final : public Path_TLV
 {
     enum class StartState : s16
     {

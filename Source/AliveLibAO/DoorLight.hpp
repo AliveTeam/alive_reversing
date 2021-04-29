@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_LightEffect : public Path_TLV
+struct Path_LightEffect final : public Path_TLV
 {
     enum class Type : s16
     {

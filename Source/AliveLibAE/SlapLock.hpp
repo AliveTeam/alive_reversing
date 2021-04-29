@@ -3,7 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_SlapLock : public Path_TLV
+struct Path_SlapLock final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_target_tomb_id1;

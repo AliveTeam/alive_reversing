@@ -8,7 +8,7 @@
 
 namespace AO {
 
-struct Path_LCDScreen : public Path_TLV
+struct Path_LCDScreen final : public Path_TLV
 {
     s16 field_18_message_1_id;
     s16 field_1A_message_rand_min;

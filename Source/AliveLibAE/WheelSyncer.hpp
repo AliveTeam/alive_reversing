@@ -11,7 +11,7 @@ enum class WheelSyncerAction : s16
     eOn_3 = 3
 };
 
-struct Path_WheelSyncer : public Path_TLV
+struct Path_WheelSyncer final : public Path_TLV
 {
     s16 field_10_id1;
     s16 field_12_id2;

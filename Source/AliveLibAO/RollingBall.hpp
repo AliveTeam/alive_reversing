@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_RollingBall : public Path_TLV
+struct Path_RollingBall final : public Path_TLV
 {
     Scale_short field_18_scale;
     XDirection_short field_1A_roll_direction;

@@ -25,7 +25,7 @@ enum class Mud_TLV_Emotion : s16
     eSick_4 = 4
 };
 
-struct Path_Mudokon : public Path_TLV
+struct Path_Mudokon final : public Path_TLV
 {
     Scale_short field_10_scale;
     Mud_State field_12_state;

@@ -7,7 +7,7 @@ namespace AO {
 
 enum class SwitchOp : s16;
 
-struct Path_InvisibleSwitch : public Path_TLV
+struct Path_InvisibleSwitch final : public Path_TLV
 {
     s16 field_18_id;
     SwitchOp field_1A_action;

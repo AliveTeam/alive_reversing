@@ -13,20 +13,23 @@
 #include <utility>
 #include <vector>
 
-TlvObjectBaseAOBase::TlvObjectBaseAOBase(std::size_t sizeOfT, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv)
+TlvObjectBaseAOBase::TlvObjectBaseAOBase(std::size_t sizeOfT, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv, InitFn initFn)
     : TlvObjectBase(typeName)
     , mSizeOfT(sizeOfT)
     , mType(tlvType)
     , mPSelfTlv{pSelfTlv}
 {
+    initFn(mPSelfTlv);
 }
 
-TlvObjectBaseAOBase::TlvObjectBaseAOBase(std::size_t sizeOfT, TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv, AO::Path_TLV* pTlv, CopyFn copyFn)
+TlvObjectBaseAOBase::TlvObjectBaseAOBase(std::size_t sizeOfT, TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv, AO::Path_TLV* pTlv, CopyFn copyFn, InitFn initFn)
     : TlvObjectBase(typeName)
     , mSizeOfT(sizeOfT)
     , mType(tlvType)
     , mPSelfTlv{pSelfTlv}
 {
+    initFn(mPSelfTlv);
+
     mPSelfTlv->field_2_length = static_cast<s16>(mSizeOfT);
     mPSelfTlv->field_4_type.mType = mType;
 

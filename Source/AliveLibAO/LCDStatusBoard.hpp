@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_LCDStatusBoard : public Path_TLV
+struct Path_LCDStatusBoard final : public Path_TLV
 {
 };
 

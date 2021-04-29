@@ -92,7 +92,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Bone, 0x134);
 
-struct Path_BoneBag : public Path_TLV
+struct Path_BoneBag final : public Path_TLV
 {
     XDirection_short field_10_bone_fall_direction;
     u16 field_12_x_vel;

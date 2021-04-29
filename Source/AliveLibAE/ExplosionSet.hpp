@@ -5,7 +5,7 @@
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
 
-struct Path_ExplosionSet : public Path_TLV
+struct Path_ExplosionSet final : public Path_TLV
 {
     Choice_short field_10_bStart_enabled;
     s16 field_12_switch_id;

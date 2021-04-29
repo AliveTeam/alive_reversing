@@ -5,7 +5,7 @@
 #include "BaseGameObject.hpp"
 #include "Font.hpp"
 
-struct Path_GasCountDown : public Path_TLV
+struct Path_GasCountDown final : public Path_TLV
 {
     s16 field_10_start_trigger_id;
     u16 field_12_gas_countdown_timer;

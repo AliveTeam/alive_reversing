@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_MotionDetector : public Path_TLV
+struct Path_MotionDetector final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_device_x;

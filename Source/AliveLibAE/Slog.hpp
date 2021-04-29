@@ -6,7 +6,7 @@
 
 class Bone;
 
-struct Path_Slog : public Path_TLV
+struct Path_Slog final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_direction;

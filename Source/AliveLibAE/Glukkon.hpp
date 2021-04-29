@@ -67,7 +67,7 @@ enum class GlukkonSpeak : s8
     Unused_14 = 14
 };
 
-struct Path_Glukkon : public Path_TLV
+struct Path_Glukkon final : public Path_TLV
 {
     Scale_short field_10_scale;
     enum class StartDirection : s16

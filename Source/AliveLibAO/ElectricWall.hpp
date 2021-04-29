@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_ElectricWall : public Path_TLV
+struct Path_ElectricWall final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_id;

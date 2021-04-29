@@ -31,7 +31,7 @@ enum class SwitchSoundDirection : s16
     eRight_2 = 2,
 };
 
-struct Path_Switch : public Path_TLV
+struct Path_Switch final : public Path_TLV
 {
     SwitchOp field_10_target_action;
     Scale_short field_12_scale;

@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_Door : public Path_TLV
+struct Path_Door final : public Path_TLV
 {
     LevelIds field_10_level;
     s16 field_12_path;
@@ -90,7 +90,7 @@ protected:
 };
 ALIVE_ASSERT_SIZEOF(Door, 0x114);
 
-struct Path_TrainDoor : public Path_TLV
+struct Path_TrainDoor final : public Path_TLV
 {
     s32 field_10_direction;
 };

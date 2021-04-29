@@ -332,11 +332,11 @@ enum class EnvironmentSfx : u8
 
 struct SaveData;
 
-struct Path_RingCancel : public Path_TLV
+struct Path_RingCancel  : public Path_TLV
 {
 };
 
-struct Path_Edge : public Path_TLV
+struct Path_Edge final : public Path_TLV
 {
     enum class Type : s16
     {
@@ -348,10 +348,10 @@ struct Path_Edge : public Path_TLV
     s16 field_1A_can_grab;
 };
 
-struct Path_SoftLanding : public Path_TLV
+struct Path_SoftLanding final : public Path_TLV
 { };
 
-struct Path_ContinuePoint : public Path_TLV
+struct Path_ContinuePoint final : public Path_TLV
 {
     s16 field_18_zone_number;
     s16 field_1A_clear_from_id;
@@ -409,7 +409,7 @@ union AllStone
     u16 demoId;
 };
 
-struct Path_Stone : public Path_TLV
+struct Path_Stone final : public Path_TLV
 {
     AllStone field_18_data;
 };

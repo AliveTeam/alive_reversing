@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_BeeSwarmHole : public Path_TLV
+struct Path_BeeSwarmHole final : public Path_TLV
 {
     enum class MovementType : s16
     {

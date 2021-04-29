@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_BeeNest : public Path_TLV
+struct Path_BeeNest final : public Path_TLV
 {
     s16 field_18_id;
     s16 field_1A_swarm_size;

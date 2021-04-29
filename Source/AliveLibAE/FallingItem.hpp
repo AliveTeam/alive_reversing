@@ -13,7 +13,7 @@ struct FallingItem_Data
 };
 ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
 
-struct Path_FallingItem : public Path_TLV
+struct Path_FallingItem final : public Path_TLV
 {
     s16 field_10_id;
     Scale_short field_12_scale;

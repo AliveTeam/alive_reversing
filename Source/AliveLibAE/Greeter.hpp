@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_Greeter : public Path_TLV
+struct Path_Greeter final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_motion_detector_speed;

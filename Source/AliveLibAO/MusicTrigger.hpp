@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_MusicTrigger : public Path_TLV
+struct Path_MusicTrigger final : public Path_TLV
 {
     s16 field_18_type;
     s16 field_1A_enabled_by;

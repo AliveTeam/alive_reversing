@@ -10,7 +10,7 @@ namespace AO {
 
 struct HintFlyParticle;
 
-struct Path_HintFly : public Path_TLV
+struct Path_HintFly final : public Path_TLV
 {
     s16 field_18_message_id;
     s16 field_1A_pad;

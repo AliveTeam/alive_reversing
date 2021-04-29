@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_HoneySack : public Path_TLV
+struct Path_HoneySack final : public Path_TLV
 {
     s16 field_18_chase_ticks;
     s16 field_1A_scale;

@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
 
-struct Path_NakedSlig : public Path_TLV
+struct Path_NakedSlig final : public Path_TLV
 {
     Scale_short field_10_scale;
     XDirection_short field_12_direction;

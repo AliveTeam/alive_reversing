@@ -11,7 +11,7 @@ enum class ShadowZoneScale : s16
     eFull_2 = 2,
 };
 
-struct Path_ShadowZone : public Path_TLV
+struct Path_ShadowZone final : public Path_TLV
 {
     s16 field_10_center_w;
     s16 field_12_center_h;

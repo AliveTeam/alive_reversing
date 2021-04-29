@@ -5,7 +5,7 @@
 
 namespace AO {
 
-struct Path_SlogSpawner : public Path_TLV
+struct Path_SlogSpawner final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_num_slogs;

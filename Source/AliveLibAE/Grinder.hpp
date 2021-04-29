@@ -56,7 +56,7 @@ struct Grinder_State
 ALIVE_ASSERT_SIZEOF_ALWAYS(Grinder_State, 0x14);
 
 
-struct Path_Grinder : public Path_TLV
+struct Path_Grinder final : public Path_TLV
 {
     Path_Grinder_Data field_10_data;
 };

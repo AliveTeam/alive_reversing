@@ -6,7 +6,7 @@
 
 namespace AO {
 
-class Path_MovingBomb : public Path_TLV
+class Path_MovingBomb final : public Path_TLV
 {
 public:
     s16 field_18_speed;
@@ -20,7 +20,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Path_MovingBomb, 0x28);
 
-struct Path_MovingBombStopper : public Path_TLV
+struct Path_MovingBombStopper final : public Path_TLV
 {
     s16 field_18_min_delay;
     s16 field_1A_max_delay;

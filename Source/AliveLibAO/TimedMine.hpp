@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_TimedMine : public Path_TLV
+struct Path_TimedMine final : public Path_TLV
 {
     s16 field_18_id;
     s16 field_1A_state;

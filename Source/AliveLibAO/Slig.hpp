@@ -21,7 +21,7 @@ enum SligFlags_DisabledRes
     eDisabledRes_Bit11 = 0x400
 };
 
-struct Path_Slig : public Path_TLV
+struct Path_Slig final : public Path_TLV
 {
     enum class StartState : s16
     {
@@ -174,7 +174,7 @@ enum class SligSfx : s8
 };
 
 // This is a left bound, right bound and a persist.
-struct Path_SligBound : public Path_TLV
+struct Path_SligBound final : public Path_TLV
 {
     s16 field_18_slig_id;
     BitField16<SligFlags_DisabledRes> field_1A_disabled_resources;

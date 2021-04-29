@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_IdSplitter : public Path_TLV
+struct Path_IdSplitter final : public Path_TLV
 {
     s16 field_18_source_id;
     u16 field_1A_delay;

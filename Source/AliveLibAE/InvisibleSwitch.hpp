@@ -14,7 +14,7 @@ enum class InvisibleSwitchScale : s16
     eAny_2 = 2,
 };
 
-struct Path_InvisibleSwitch : public Path_TLV
+struct Path_InvisibleSwitch final : public Path_TLV
 {
     s16 field_10_id;
     SwitchOp field_12_action;

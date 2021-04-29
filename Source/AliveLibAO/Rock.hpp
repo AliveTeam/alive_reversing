@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_RockSack : public Path_TLV
+struct Path_RockSack final : public Path_TLV
 {
     s16 field_18_side;
     s16 field_1A_x_vel;

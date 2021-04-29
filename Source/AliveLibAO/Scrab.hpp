@@ -47,7 +47,7 @@ enum eScrabStates : s32
     SCRAB_STATES_ENUM(MAKE_ENUM)
 };
 
-struct Path_Scrab : public Path_TLV
+struct Path_Scrab final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_attack_delay;

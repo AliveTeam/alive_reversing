@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_Hoist : public Path_TLV
+struct Path_Hoist final : public Path_TLV
 {
     enum class Type : s16
     {

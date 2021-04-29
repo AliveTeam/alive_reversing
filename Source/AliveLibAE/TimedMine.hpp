@@ -7,7 +7,7 @@
 #include "Factory.hpp"
 #include "Animation.hpp"
 
-struct Path_TimedMine : public Path_TLV
+struct Path_TimedMine final : public Path_TLV
 {
     s16 field_10_id;
     s16 field_12_state;

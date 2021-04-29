@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_SlogHut : public Path_TLV
+struct Path_SlogHut final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_switch_id;

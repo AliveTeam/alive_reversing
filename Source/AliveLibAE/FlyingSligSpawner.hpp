@@ -25,13 +25,13 @@ struct Path_FlyingSlig_Data
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSlig_Data, 0x20);
 
-struct Path_FlyingSlig : public Path_TLV
+struct Path_FlyingSlig final : public Path_TLV
 {
     Path_FlyingSlig_Data field_10_data;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSlig, 0x30);
 
-struct Path_FlyingSligSpawner : public Path_TLV
+struct Path_FlyingSligSpawner final : public Path_TLV
 {
     Path_FlyingSlig_Data field_10;
 };

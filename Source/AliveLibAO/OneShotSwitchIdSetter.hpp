@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_OneShotSwitchIdSetter : public Path_TLV
+struct Path_OneShotSwitchIdSetter final : public Path_TLV
 {
     s16 field_18_ids_to_clear[8];
 };

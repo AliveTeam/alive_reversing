@@ -22,7 +22,7 @@ enum class TriggeredBy : s16
     eTouching_1 = 1
 };
 
-struct Path_MusicTrigger : public Path_TLV
+struct Path_MusicTrigger final : public Path_TLV
 {
     MusicTriggerMusicType field_10_music_type;
     TriggeredBy field_12_triggered_by;

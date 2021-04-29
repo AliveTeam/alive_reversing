@@ -9699,7 +9699,7 @@ void Abe::State_155_ElumJumpToFall_42E060()
     // Empty
 }
 
-struct Path_Reset : public Path_TLV
+struct Path_Reset final : public Path_TLV
 {
     s16 field_18_clearIds;
     s16 field_1A_from;

@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_ZBall : public Path_TLV
+struct Path_ZBall final : public Path_TLV
 {
     enum class StartPos : s16
     {

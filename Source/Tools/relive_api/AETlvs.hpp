@@ -109,19 +109,19 @@
 
 #define EMPTY_CTOR_AE() (void) globalTypes
 
-struct Path_Null_63 : public Path_TLV
+struct Path_Null_63 final : public Path_TLV
 {
     // TODO: check
     s16 padding1;
     s16 padding2;
 };
 
-struct Path_MainMenuController : public Path_TLV
+struct Path_MainMenuController final : public Path_TLV
 {
     // Empty
 };
 
-struct Path_SligGetWings : public Path_TLV
+struct Path_SligGetWings final : public Path_TLV
 {
     Scale_short scale;
     s16 state;
@@ -141,7 +141,7 @@ struct Path_SligGetWings : public Path_TLV
     s16 persistant;
 };
 
-struct Path_SligGetPants : public Path_TLV
+struct Path_SligGetPants final : public Path_TLV
 {
     // TODO: check
     Scale_short scale;
@@ -178,7 +178,7 @@ struct Path_SligGetPants : public Path_TLV
     s16 unknown32;
 };
 
-struct Path_MovieHandstone : public Path_TLV
+struct Path_MovieHandstone final : public Path_TLV
 {
     s16 padding;
     Scale_short scale;
@@ -186,27 +186,27 @@ struct Path_MovieHandstone : public Path_TLV
     s16 id;
 };
 
-struct Path_CreditsController : public Path_TLV
+struct Path_CreditsController final : public Path_TLV
 {
     // Empty
 };
 
-struct Path_ScrabLeftBound : public Path_TLV
+struct Path_ScrabLeftBound final : public Path_TLV
 {
     // Empty
 };
 
-struct Path_ScrabRightBound : public Path_TLV
+struct Path_ScrabRightBound final : public Path_TLV
 {
     // Empty
 };
 
-struct Path_DemoSpawnPoint : public Path_TLV
+struct Path_DemoSpawnPoint final : public Path_TLV
 {
     // Empty
 };
 
-struct Path_PathTransition : public Path_TLV
+struct Path_PathTransition final : public Path_TLV
 {
     s16 level;
     s16 path;
@@ -216,12 +216,12 @@ struct Path_PathTransition : public Path_TLV
     Scale_short scale;
 };
 
-struct Path_ZSligCover : public Path_TLV
+struct Path_ZSligCover final : public Path_TLV
 {
     // Empty
 };
 
-struct Path_SligSpawner : public Path_TLV
+struct Path_SligSpawner final : public Path_TLV
 {
     Scale_short scale;
     s16 start_state;
@@ -257,7 +257,7 @@ struct Path_SligSpawner : public Path_TLV
     s16 spawn_many;
 };
 
-struct Path_DeathDrop : public Path_TLV
+struct Path_DeathDrop final : public Path_TLV
 {
     s16 field_10_animation;
     s16 field_12_sound;
@@ -267,12 +267,12 @@ struct Path_DeathDrop : public Path_TLV
     s16 field_1A_unknown2;
 };
 
-struct Path_InvisibleZone : public Path_TLV
+struct Path_InvisibleZone final : public Path_TLV
 {
     // Empty
 };
 
-struct Path_Pulley : public Path_TLV
+struct Path_Pulley final : public Path_TLV
 {
     s16 field_10_unknown1;
     s16 field_12_unknown2;

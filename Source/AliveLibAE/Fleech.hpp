@@ -26,7 +26,7 @@ enum class FleechSound : u8
     CrawlRNG3_16 = 16,
 };
 
-struct Path_Fleech : public Path_TLV
+struct Path_Fleech final : public Path_TLV
 {
     Scale_short field_10_scale;
     XDirection_short field_12_direction;

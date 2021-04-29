@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_Glukkon : public Path_TLV
+struct Path_Glukkon final : public Path_TLV
 {
     s16 field_18_scale_percent;
     u16 field_1A_pal_id;

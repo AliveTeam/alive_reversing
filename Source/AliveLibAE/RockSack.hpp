@@ -3,7 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_RockSack : public Path_TLV
+struct Path_RockSack final : public Path_TLV
 {
     XDirection_short field_10_fall_direction;
     u16 field_12_x_vel;

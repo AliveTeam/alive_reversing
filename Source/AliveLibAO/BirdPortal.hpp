@@ -23,7 +23,7 @@ enum class PortalSide : s16
     eLeft_1 = 1,
 };
 
-struct Path_BirdPortal : public Path_TLV
+struct Path_BirdPortal final : public Path_TLV
 {
     PortalSide field_18_side;
     LevelIds field_1A_dest_level;
@@ -36,7 +36,7 @@ struct Path_BirdPortal : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_BirdPortal, 0x28);
 
-struct Path_BirdPortalExit : public Path_TLV
+struct Path_BirdPortalExit final : public Path_TLV
 {
     PortalSide field_18_side;
     s16 field_1A_scale;

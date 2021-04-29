@@ -4,6 +4,7 @@
 #include "FixedPoint.hpp"
 #include "Psx.hpp"
 #include "ResourceManager.hpp"
+#include "Path.hpp"
 
 void Map_ForceLink();
 
@@ -54,6 +55,18 @@ enum class CameraPos : s16
     eCamRight_4 = 4,
     eCamNone_5 = 5, // Not "in" the camera
 };
+
+// TODO: Never used in AE path data?
+struct Path_Change final : public Path_TLV
+{
+    LevelIds field_10_level;
+    s16 field_12_path;
+    s16 field_14_camera;
+    s16 field_16_movie;
+    s16 field_18_wipe;
+    Scale_short field_1A_scale;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Change, 0x1C);
 
 enum class LoadMode : s16;
 

@@ -13,7 +13,7 @@ enum class UXB_State : s16
     eDisarmed_1 = 1,
 };
 
-struct Path_UXB : public Path_TLV
+struct Path_UXB final : public Path_TLV
 {
     s16 field_18_num_patterns;
     s16 field_1A_pattern;

@@ -2555,7 +2555,7 @@ EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
         // However any level saved with the legacy level editor will have this field added which is handled by checking the size.
         bool bRemovesShrykull = false;
 
-        struct Path_RingCancel_Corrected : public Path_RingCancel
+        struct Path_RingCancel_Corrected final : public Path_RingCancel
         {
             s16 field_18_bShrykull_remove;
         };

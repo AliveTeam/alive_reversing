@@ -6,7 +6,7 @@
 
 enum class SwitchOp : s16;
 
-struct Path_MultiSwitchController : public Path_TLV
+struct Path_MultiSwitchController final : public Path_TLV
 {
     s16 field_10_id;
     SwitchOp field_12_operation;
