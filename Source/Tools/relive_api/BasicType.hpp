@@ -8,7 +8,7 @@
 #include <typeinfo>
 
 template <class T>
-class BasicType : public BasicTypeBase
+class BasicType final : public BasicTypeBase
 {
 public:
     explicit BasicType(const std::string& typeName, s32 minVal, s32 maxVal)

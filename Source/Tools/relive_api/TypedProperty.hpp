@@ -12,7 +12,7 @@ class TypesCollectionBase;
 class PropertyCollection;
 
 template <typename T>
-class TypedProperty : public BaseProperty
+class TypedProperty final : public BaseProperty
 {
 public:
     TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data)

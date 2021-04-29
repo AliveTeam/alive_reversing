@@ -11,7 +11,7 @@
 #include <type_traits>
 
 template <class T>
-class EnumType : public EnumTypeBase<std::underlying_type_t<T>>
+class EnumType final : public EnumTypeBase<std::underlying_type_t<T>>
 {
 public:
     using Underlying = std::underlying_type_t<T>;

@@ -27,7 +27,7 @@ inline s32 To1dIndex(s32 width, s32 x, s32 y)
     return x + (y * width);
 }
 
-struct CameraObject
+struct CameraObject final
 {
     std::string mName;
     s32 mId = 0;
@@ -37,7 +37,7 @@ struct CameraObject
     [[nodiscard]] jsonxx::Object ToJsonObject(jsonxx::Array mapObjectsArray) const;
 };
 
-struct PathInfo
+struct PathInfo final
 {
     s32 mGridWidth = 0;
     s32 mWidth = 0;
@@ -50,7 +50,7 @@ struct PathInfo
     s32 mCollisionOffset = 0;
 };
 
-struct CameraNameAndTlvBlob
+struct CameraNameAndTlvBlob final
 {
     s32 mId = 0;
     s32 x = 0;
@@ -61,7 +61,7 @@ struct CameraNameAndTlvBlob
     [[nodiscard]] std::size_t TotalTlvSize() const;
 };
 
-struct MapRootInfo
+struct MapRootInfo final
 {
     s32 mVersion = 0;
     std::string mGame;
@@ -99,13 +99,13 @@ protected:
     std::vector<::PathLine> ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray);
 };
 
-class JsonReaderAO : public JsonReaderBase
+class JsonReaderAO final : public JsonReaderBase
 {
 public:
     std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> Load(const std::string& fileName);
 };
 
-class JsonReaderAE : public JsonReaderBase
+class JsonReaderAE final : public JsonReaderBase
 {
 public:
     std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<::PathLine>> Load(const std::string& fileName);
@@ -132,7 +132,7 @@ protected:
     TypesCollectionBase& mBaseTypesCollection;
 };
 
-class JsonWriterAO : public JsonWriterBase
+class JsonWriterAO final : public JsonWriterBase
 {
 private:
     JsonWriterAO(std::unique_ptr<TypesCollectionAO>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info);
@@ -153,7 +153,7 @@ private:
     std::unique_ptr<TypesCollectionAO> mTypesCollection;
 };
 
-class JsonWriterAE : public JsonWriterBase
+class JsonWriterAE final : public JsonWriterBase
 {
 private:
     JsonWriterAE(std::unique_ptr<TypesCollectionAE>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info);

@@ -15,7 +15,7 @@ public:
     virtual void Upgrade() = 0;
 };
 
-class DoNothingUpgrader : public IJsonUpgrader
+class DoNothingUpgrader final : public IJsonUpgrader
 {
 public:
     void Upgrade() override;
