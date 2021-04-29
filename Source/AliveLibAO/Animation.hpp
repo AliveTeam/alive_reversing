@@ -18,7 +18,7 @@ extern TFrameCallBackType kSlog_Anim_Frame_Fns_4CEBF4[];
 extern TFrameCallBackType kZBall_Anim_Frame_Fns_4CEBF8[];
 
 
-struct AnimHeader
+struct AnimHeader final
 {
     s16 field_0_max_w;
     s16 field_2_max_h;
@@ -26,7 +26,7 @@ struct AnimHeader
 };
 ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
 
-struct AnimationHeader
+struct AnimationHeader final
 {
     // Meta data - the offset where this record was read from
     u16 field_0_fps;        // Seems to be 0x1 or 0x2
@@ -57,7 +57,7 @@ enum class CompressionType : u8
     eType_5_RLE = 5,
 };
 
-struct FrameHeader
+struct FrameHeader final
 {
     u32 field_0_clut_offset;
     u8 field_4_width;
@@ -68,7 +68,7 @@ struct FrameHeader
     u16 mHeight2;
 };
 
-struct Point
+struct Point final
 {
     s16 x = 0;
     s16 y = 0;
@@ -76,7 +76,7 @@ struct Point
 
 
 
-struct OffsetAndBoundingRect
+struct OffsetAndBoundingRect final
 {
     Point mOffset;
     Point mMin;
@@ -91,7 +91,7 @@ union PointsUnion
     Point points[3];
 };
 
-struct FrameInfoHeader
+struct FrameInfoHeader final
 {
     u32 field_0_frame_header_offset;
     s16 field_4_magic;

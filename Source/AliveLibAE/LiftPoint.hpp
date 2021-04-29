@@ -24,7 +24,7 @@ struct Path_LiftPoint final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftPoint, 0x1C);
 
-struct LiftPoint_State
+struct LiftPoint_State final
 {
     AETypes field_0_type;
     s16 field_2_pad;

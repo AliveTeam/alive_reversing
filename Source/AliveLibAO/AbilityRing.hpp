@@ -11,7 +11,7 @@ namespace AO {
 
 class BaseAliveGameObject;
 
-struct AbilityRing_PolyBuffer
+struct AbilityRing_PolyBuffer final
 {
     Poly_F4 mPolys[2];
 };

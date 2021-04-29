@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "BaseGameObject.hpp"
 
-struct Path_FlyingSlig_Data
+struct Path_FlyingSlig_Data final
 {
     Scale_short field_0_scale;
     s16 field_2_state;
@@ -37,7 +37,7 @@ struct Path_FlyingSligSpawner final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSligSpawner, 0x30);
 
-struct FlyingSligSpawner_State
+struct FlyingSligSpawner_State final
 {
     AETypes field_0_type;
     //s16 field_2_pad;

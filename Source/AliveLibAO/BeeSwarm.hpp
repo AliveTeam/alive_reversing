@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct BeeSwarmParticle
+struct BeeSwarmParticle final
 {
     FP field_0_xpos;
     FP field_4_ypos;
@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF(BeeSwarmParticle, 0x80);
 
 class PathLine;
 
-struct BeeSwarmParticles
+struct BeeSwarmParticles final
 {
     BeeSwarmParticle bees[25];
 };

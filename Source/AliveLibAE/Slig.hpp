@@ -158,7 +158,7 @@ class Slig;
 using TSligAIFn = s16 (Slig::*)();
 using TSligMotionFn = void (Slig::*)();
 
-struct Slig_State
+struct Slig_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;

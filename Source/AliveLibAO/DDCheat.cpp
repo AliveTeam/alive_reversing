@@ -18,7 +18,7 @@
 
 namespace AO {
 
-struct DDCheatProperties
+struct DDCheatProperties final
 {
     DDCheatProperty props[10];
 };

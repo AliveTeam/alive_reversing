@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Water_Res
+struct Water_Res final
 {
     FP field_0_xpos;
     FP field_4_ypos;
@@ -20,7 +20,7 @@ struct Water_Res
 };
 ALIVE_ASSERT_SIZEOF(Water_Res, 0x78);
 
-struct Path_Water_Data
+struct Path_Water_Data final
 {
     s16 field_10_max_drops;
     s16 field_12_id;

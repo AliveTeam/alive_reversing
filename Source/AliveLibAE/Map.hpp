@@ -10,7 +10,7 @@ void Map_ForceLink();
 
 EXPORT void CC static_map_init_4802D0();
 
-struct Map_PathsArray
+struct Map_PathsArray final
 {
     u8** field_0_pPathRecs[30];
 };
@@ -39,7 +39,7 @@ enum class CameraSwapEffects : s16
     eEffect11_Unknown = 11        // Unknown, has special handing in the map object
 };
 
-struct CameraName
+struct CameraName final
 {
     s8 name[8];
 };

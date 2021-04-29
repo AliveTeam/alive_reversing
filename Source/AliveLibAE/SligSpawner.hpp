@@ -7,7 +7,7 @@
 
 struct Path_Slig;
 
-struct Slig_Spawner_State
+struct Slig_Spawner_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;

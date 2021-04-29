@@ -23,7 +23,7 @@ enum class TimerTriggerStates : s16
     eWaitForSecondTrigger_3 = 3,
 };
 
-struct TimerTrigger_State
+struct TimerTrigger_State final
 {
     AETypes field_0_type;
     s32 field_4_tlvInfo;

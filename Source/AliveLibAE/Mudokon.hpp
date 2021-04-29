@@ -178,7 +178,7 @@ enum class MudSounds : s16;
 
 class BirdPortal;
 
-struct Mudokon_State
+struct Mudokon_State final
 {
     AETypes field_0_type;
     s16 field_2_pad;

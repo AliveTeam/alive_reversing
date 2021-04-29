@@ -127,7 +127,7 @@ class BaseGameObject;
 
 enum class CameraPos : s16;
 
-struct SfxDefinition
+struct SfxDefinition final
 {
     s32 field_0_block_idx;
     s32 field_4_program;

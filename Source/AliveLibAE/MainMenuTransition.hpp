@@ -4,7 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
 
-struct MainMenuTransition_Polys
+struct MainMenuTransition_Polys final
 {
     Poly_G3 field_0_polys[8];
 };

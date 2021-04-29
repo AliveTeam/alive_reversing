@@ -61,7 +61,7 @@ EXPORT BaseGameObject* ScreenShake::vdtor_4AD030(s32 flags)
     return this;
 }
 
-struct ScreenOffset
+struct ScreenOffset final
 {
     s8 field_0_x;
     s8 field_1_y;

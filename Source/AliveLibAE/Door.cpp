@@ -12,7 +12,7 @@
 #include "DDCheat.hpp"
 #include "BaseAliveGameObject.hpp"
 
-struct Door_Info
+struct Door_Info final
 {
     s32 field_0_frameTableOffset_closed;
     s32 field_4_frameTableOffset_open;

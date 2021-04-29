@@ -49,7 +49,7 @@ EXPORT void SND_Set_Stereo_477030()
 
 ALIVE_VAR(1, 0x9F2DE8, s16, bWaitingForRemapInput_9F2DE8, 0);
 
-struct Buttons
+struct Buttons final
 {
     s32 buttons[2][8] = {
         {// keyboard
@@ -78,7 +78,7 @@ struct Buttons
 };
 ALIVE_VAR(1, 0x4D0030, const Buttons, sRemappableInputs_4D0030, {});
 
-struct Menu_Button
+struct Menu_Button final
 {
     s16 field_0_xpos;
     s16 field_2_ypos;
@@ -115,7 +115,7 @@ const Menu_Button stru_4D00E0[13] = {
     {205, 29, 6152},
     {305, 32, 6152}};
 
-struct Menu_Element
+struct Menu_Element final
 {
     s32 field_0_xpos;
     s32 field_4_ypos;
@@ -183,7 +183,7 @@ const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] = {
     {&Menu::Toggle_Motions_Screens_Update_47C8F0, 0x47C8F0, "Update_47C8F0"}};
 
 
-struct SaveName
+struct SaveName final
 {
     s8 field_0_mName[32];
 };
@@ -243,7 +243,7 @@ const u8 byte_4D0090[32] = {
     115u,
     78u};
 
-struct MenuFMV
+struct MenuFMV final
 {
     const s8* field_0_name;
     LevelIds field_4_level_id;
@@ -269,7 +269,7 @@ const MenuFMV gFmvs_4D0230[13] = {
     {"Good Ending", LevelIds::eRuptureFarmsReturn_13, -1, -1, 16, -1, -1},
     {"Credits", LevelIds::eCredits_10, -1, -1, -1, -1, -1}};
 
-struct MenuLevel
+struct MenuLevel final
 {
     const s8* field_0_name;
     LevelIds field_4_level_id;
@@ -407,7 +407,7 @@ BaseGameObject* MainMenuFade::VDestructor(s32 flags)
     return this;
 }
 
-struct MainMenu_TransitionData
+struct MainMenu_TransitionData final
 {
     s16 field_0;
     s16 field_2;

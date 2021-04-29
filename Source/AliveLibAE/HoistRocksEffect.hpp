@@ -5,7 +5,7 @@
 #include "FixedPoint.hpp"
 #include "Animation.hpp"
 
-struct HoistRockParticle
+struct HoistRockParticle final
 {
     s16 field_0_state;
     s16 field_2;

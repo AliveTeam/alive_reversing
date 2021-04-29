@@ -33,7 +33,7 @@ enum PauseMenuAlign
     Right = 2,
 };
 
-struct PauseMenuPageEntry
+struct PauseMenuPageEntry final
 {
     s16 field_0_unknown2;
     s16 field_2_x;
@@ -92,7 +92,7 @@ public:
     void CustomPauseMenuUpdate();
     ///////////////////////
 
-    struct PauseMenuPage
+    struct PauseMenuPage final
     {
         t_PmPage_Update field_0_fn_update;
         t_PmPage_Render field_4_fn_render;

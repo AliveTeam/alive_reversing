@@ -47,7 +47,7 @@ enum eFlyingSligMotions : s32
 
 enum class SligSpeak : s8;
 
-struct FlyingSlig_State
+struct FlyingSlig_State final
 {
     AETypes field_0_type;
     s16 field_2;

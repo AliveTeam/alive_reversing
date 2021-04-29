@@ -8,7 +8,7 @@ struct OpenSeqHandle;
 struct SfxDefinition;
 class Camera;
 
-struct SeqIds
+struct SeqIds final
 {
     s16 ids[16];
 };

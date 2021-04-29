@@ -129,14 +129,14 @@ using FP = FixedPoint;
 
 ALIVE_ASSERT_SIZEOF(FP, 0x4);
 
-struct FP_Point
+struct FP_Point final
 {
     FP field_0_x;
     FP field_4_y;
 };
 ALIVE_ASSERT_SIZEOF(FP_Point, 8);
 
-struct FP_Rect
+struct FP_Rect final
 {
     FP x, y, w, h;
 };

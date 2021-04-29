@@ -123,7 +123,7 @@ ALIVE_ASSERT_SIZEOF(Path_LiftMudokon, 0x28);
 class LiftPoint;
 class BirdPortal;
 
-struct Mudokon_Resources
+struct Mudokon_Resources final
 {
     u8** res[15];
 };

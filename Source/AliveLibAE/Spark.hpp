@@ -6,7 +6,7 @@
 #include "Primitives.hpp"
 #include "Layer.hpp"
 
-struct SparkRes
+struct SparkRes final
 {
     FP field_0_x0;
     FP field_4_y0;

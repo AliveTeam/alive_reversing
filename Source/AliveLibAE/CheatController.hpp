@@ -6,7 +6,7 @@
 
 void CheatController_ForceLink();
 
-struct CheatEntry
+struct CheatEntry final
 {
     u32 field_0_level_mask;
     s32 field_4_cheat_code_length;

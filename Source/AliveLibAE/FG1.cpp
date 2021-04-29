@@ -21,7 +21,7 @@ enum eChunkTypes
     eEndChunk = 0xFFFF
 };
 
-struct Fg1Chunk
+struct Fg1Chunk final
 {
     u16 field_0_type;
     u16 field_2_layer;
@@ -32,7 +32,7 @@ struct Fg1Chunk
 };
 ALIVE_ASSERT_SIZEOF(Fg1Chunk, 0xC);
 
-struct FG1ResourceBlockHeader
+struct FG1ResourceBlockHeader final
 {
     u32 mCount;
     Fg1Chunk mChunks;

@@ -55,7 +55,7 @@ const s8* gHintFlyMessages_4C6A10[] = {
     "THEY WONT CHASE WHAT THEY CANT SEE",
     nullptr};
 
-struct HintFlyParticle
+struct HintFlyParticle final
 {
     FP field_0_xpos;
     FP field_4_ypos;

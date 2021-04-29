@@ -78,7 +78,7 @@
 namespace AO {
 
 template <size_t arraySize>
-struct CompileTimeResourceList
+struct CompileTimeResourceList final
 {
     s32 field_0_count = arraySize;
     ResourceManager::ResourcesToLoadList_Entry field_4_items[arraySize];

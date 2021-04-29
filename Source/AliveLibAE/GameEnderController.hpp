@@ -19,7 +19,7 @@ enum class GameEnderController_States : s16
     ePadding_9 = 9,
 };
 
-struct GameEnderController_State
+struct GameEnderController_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;

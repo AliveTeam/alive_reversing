@@ -558,12 +558,12 @@ ALIVE_VAR(1, 0xbb4ab2, s16, word_BB4AB2, 0);
 ALIVE_VAR(1, 0xbb4ae4, s32, sMovie_ref_count_BB4AE4, 0);
 ALIVE_VAR(1, 0x5ca4c4, u8, sMovieNameIdx_5CA4C4, 0);
 
-struct MovieName
+struct MovieName final
 {
     s8 mName[64];
 };
 
-struct MovieQueue
+struct MovieQueue final
 {
     MovieName mNames[3];
 };

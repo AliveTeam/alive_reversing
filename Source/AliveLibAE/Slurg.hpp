@@ -3,20 +3,20 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
-struct Slurg_Step_Watch_Point
+struct Slurg_Step_Watch_Point final
 {
     u16 field_0_xPos;
     u16 field_2_yPos;
 };
 ALIVE_ASSERT_SIZEOF(Slurg_Step_Watch_Point, 0x4);
 
-struct Slurg_Step_Watch_Points
+struct Slurg_Step_Watch_Points final
 {
     Slurg_Step_Watch_Point field_0_points[5];
 };
 ALIVE_ASSERT_SIZEOF(Slurg_Step_Watch_Points, 0x14);
 
-struct Slurg_Path_Data
+struct Slurg_Path_Data final
 {
     s16 field_0_moving_timer;
     XDirection_short field_2_direction;
@@ -43,7 +43,7 @@ enum SlurgFlags
     Bit2_StartToMove = 0x2,
 };
 
-struct Slurg_State
+struct Slurg_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;

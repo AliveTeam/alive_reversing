@@ -109,7 +109,7 @@ enum class ParamiteSpeak : s8
     None_11 = 11,
 };
 
-struct Paramite_State
+struct Paramite_State final
 {
     AETypes field_0_type;
     s16 field_2_pad;

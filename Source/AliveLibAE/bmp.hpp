@@ -25,7 +25,7 @@ using TSurfaceType = SDL_Surface;
 using TSurfaceType = IDirectDrawSurface;
 #endif
 
-struct Bitmap
+struct Bitmap final
 {
     TSurfaceType* field_0_pSurface;
     void* field_4_pLockedPixels;

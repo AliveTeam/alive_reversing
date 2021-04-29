@@ -7,14 +7,14 @@ namespace AO {
 struct Path_TLV;
 class Map;
 
-struct TlvOffsetLevelIdPathId
+struct TlvOffsetLevelIdPathId final
 {
     u16 tlvOffset;
     u8 levelId;
     u8 pathId;
 };
 
-struct TlvOffsetCombinedLevelIdPathId
+struct TlvOffsetCombinedLevelIdPathId final
 {
     u16 tlvOffset;
     u16 levelIdPathId;
@@ -37,7 +37,7 @@ enum class LoadMode : s16
 
 using TPathFunctionFn = void(CC*)(Path_TLV*, Map*, TlvItemInfoUnion, LoadMode);
 
-struct PathFunctionTable
+struct PathFunctionTable final
 {
     TPathFunctionFn object_funcs[256];
 };

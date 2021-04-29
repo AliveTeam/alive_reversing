@@ -44,7 +44,7 @@ enum class SlogSound : s32
     SlowStep_18 = 18
 };
 
-struct Slog_State
+struct Slog_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;

@@ -32,7 +32,7 @@ struct Path_UXB final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x1c);
 
-struct SaveState_UXB
+struct SaveState_UXB final
 {
     AETypes field_0_id;
     s16 field_2_padding;

@@ -7,7 +7,7 @@
 
 struct Prim_Sprt;
 
-struct DirtyBits
+struct DirtyBits final
 {
     u16 mData[20]; // 20 Columns
 
@@ -33,7 +33,7 @@ namespace Oddlib {
 struct BitsLogic;
 }
 
-struct SprtTPage
+struct SprtTPage final
 {
     Prim_Sprt mSprt;
     Prim_SetTPage mTPage;

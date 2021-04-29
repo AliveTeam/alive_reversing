@@ -597,7 +597,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
         {
             const u8 curMidiByte = MIDI_ReadByte_4FD6B0(pCtx);
 
-            struct MidiData
+            struct MidiData final
             {
                 u8 status;
                 u8 param1;

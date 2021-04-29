@@ -12,7 +12,7 @@ enum class MeatStates : s16
     State_5_Fall = 5,
 };
 
-struct Meat_SaveState
+struct Meat_SaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;

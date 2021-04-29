@@ -553,7 +553,7 @@ public:
     }
 };
 
-struct TestAnimData
+struct TestAnimData final
 {
     AnimationHeader mHeader;
     FrameInfoHeader mFrameInfoHeader[10];

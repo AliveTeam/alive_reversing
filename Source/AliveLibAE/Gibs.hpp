@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-struct GibPart
+struct GibPart final
 {
     FP field_0_x;
     FP field_4_y;
@@ -15,7 +15,7 @@ struct GibPart
 };
 ALIVE_ASSERT_SIZEOF(GibPart, 0xB0);
 
-struct Gib_Data
+struct Gib_Data final
 {
     s32 field_0_head;
     s32 field_4_arm;

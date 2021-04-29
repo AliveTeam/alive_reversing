@@ -12,7 +12,7 @@ enum class FartStates : s16
     eDechanting_2 = 2
 };
 
-struct EvilFart_State
+struct EvilFart_State final
 {
     AETypes field_0_type;
     s16 field_2_r;

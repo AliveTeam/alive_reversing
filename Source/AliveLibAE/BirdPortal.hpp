@@ -42,7 +42,7 @@ struct Path_BirdPortalExit final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 
-struct BirdPortal_State
+struct BirdPortal_State final
 {
     AETypes field_0_type;
     u8 field_2_state;

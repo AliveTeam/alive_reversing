@@ -25,7 +25,7 @@ enum class TrapDoorState : s16
     eClosing_3 = 3,
 };
 
-struct TrapDoor_State
+struct TrapDoor_State final
 {
     AETypes field_0_type;
     TrapDoorState field_2_state;

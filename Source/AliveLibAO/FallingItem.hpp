@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct FallingItem_Data
+struct FallingItem_Data final
 {
     s32 field_0;
     s32 field_4;

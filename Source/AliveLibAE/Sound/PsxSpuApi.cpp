@@ -9,7 +9,7 @@
 #include "PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
 #include "../AliveLibAE/Io.hpp"
 
-struct VagAtr
+struct VagAtr final
 {
     s8 field_0_priority;
     s8 field_1_mode;
@@ -38,7 +38,7 @@ struct VagAtr
 
 #pragma pack(push)
 #pragma pack(1)
-struct SeqHeader
+struct SeqHeader final
 {
     s32 field_0_magic;
     u32 field_4_version;

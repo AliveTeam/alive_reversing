@@ -14,7 +14,7 @@
 
 namespace AO {
 
-struct FlintLockFireData
+struct FlintLockFireData final
 {
     s32 field_0_resourceId;
     s32 field_4_frameTable2;

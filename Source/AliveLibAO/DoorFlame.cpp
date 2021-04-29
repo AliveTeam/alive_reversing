@@ -148,7 +148,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(FireBackgroundGlow, 0xF4);
 
-struct FlameSpark
+struct FlameSpark final
 {
     FP field_0_x;
     FP field_4_y;

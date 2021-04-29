@@ -29,7 +29,7 @@ enum class MineCarDirs : s16
     eUp_3 = 3,
 };
 
-struct MineCar_SaveState
+struct MineCar_SaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;

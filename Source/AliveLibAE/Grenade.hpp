@@ -16,7 +16,7 @@ enum class GrenadeStates : s16
     eFallingBlowUpOnGround_9 = 9,
 };
 
-struct Grenade_SaveState
+struct Grenade_SaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;

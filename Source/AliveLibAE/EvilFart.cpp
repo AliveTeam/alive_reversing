@@ -12,7 +12,7 @@
 #include "Sfx.hpp"
 #include "Function.hpp"
 
-struct Colour
+struct Colour final
 {
     s16 r, g, b;
 };

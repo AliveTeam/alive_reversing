@@ -4,14 +4,14 @@
 #include "FunctionFwd.hpp"
 #include "Layer.hpp"
 
-struct ZapLineSprites
+struct ZapLineSprites final
 {
     Prim_Sprt field_0_sprts[2];
 };
 ALIVE_ASSERT_SIZEOF(ZapLineSprites, 0x30);
 
 // TODO: Give better names to the ZapPoint fields.
-struct ZapPoint
+struct ZapPoint final
 {
     FP field_0_part_1;
     FP field_4_part_2;

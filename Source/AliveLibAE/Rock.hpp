@@ -15,7 +15,7 @@ enum class RockStates : s16
     eFallingOutOfWorld_5 = 5,
 };
 
-struct RockSaveState
+struct RockSaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;

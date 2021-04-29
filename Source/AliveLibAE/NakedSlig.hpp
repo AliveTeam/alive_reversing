@@ -37,7 +37,7 @@ using TNakedSligMotionFn = void (NakedSlig::*)();
 enum class LevelIds : s16;
 enum class SligSpeak : s8;
 
-struct NakedSlig_State
+struct NakedSlig_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;

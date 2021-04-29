@@ -9,7 +9,7 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-struct ParticleBurst_Item
+struct ParticleBurst_Item final
 {
     FP field_0_x;
     FP field_4_y;

@@ -13,7 +13,7 @@
 #include "VGA.hpp"
 #include "Renderer/IRenderer.hpp"
 
-struct OtUnknown
+struct OtUnknown final
 {
     s32** field_0_pOtStart;
     s32** field_4;
@@ -39,7 +39,7 @@ ALIVE_VAR(1, 0xBD29FC, u32, sTile_b_BD29FC, 0);
 ALIVE_ARY(1, 0xC19160, f32, 4096, sPsxEmu_float_table_C19160, {});
 ALIVE_ARY(1, 0xC1D5C0, s32, 4096, sPsxEmu_fixed_point_table_C1D5C0, {});
 
-struct Render_Unknown
+struct Render_Unknown final
 {
     s32 field_0_x; // 16:16 fixed ??
     s32 field_4_y;
@@ -62,7 +62,7 @@ ALIVE_VAR(1, 0xbd3200, Render_Unknown, slope_1_BD3200, {});
 ALIVE_VAR(1, 0xbd32a0, Render_Unknown, right_side_BD32A0, {});
 ALIVE_VAR(1, 0xbd32e0, Render_Unknown, slope_2_BD32E0, {});
 
-struct Psx_Test
+struct Psx_Test final
 {
     s16 r[32][32];
     s16 g[32][32];
@@ -73,7 +73,7 @@ ALIVE_ASSERT_SIZEOF(Psx_Test, 0x1800); // 3072 words
 ALIVE_ARY(1, 0xC215E0, Psx_Test, 4, sPsx_abr_lut_C215E0, {});
 
 
-struct OT_Vert
+struct OT_Vert final
 {
     s32 field_0_x0; // Note actually s16 1.3.12 FP
     s32 field_4_y0; // Note actually s16 1.3.12 FP
@@ -88,7 +88,7 @@ struct OT_Vert
 };
 ALIVE_ASSERT_SIZEOF(OT_Vert, 0x28);
 
-struct OT_Prim
+struct OT_Prim final
 {
     s32 field_0;
     s32 field_4;
@@ -917,7 +917,7 @@ ALIVE_VAR(1, 0xc215c4, u32, sRedShift_C215C4, 0);
 ALIVE_VAR(1, 0xc1d180, u32, sGreenShift_C1D180, 0);
 ALIVE_VAR(1, 0xc19140, u32, sBlueShift_C19140, 0);
 
-struct Psx_Data
+struct Psx_Data final
 {
     u8 field_0[32];
 };
@@ -1147,7 +1147,7 @@ EXPORT s32 CC PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, u8 r, u8 g, u8 b)
     return 1;
 }
 
-struct OTInformation
+struct OTInformation final
 {
     PrimHeader** mOt;
     s32 mOtSize;

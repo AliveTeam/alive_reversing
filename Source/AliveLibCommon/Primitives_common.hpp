@@ -4,7 +4,7 @@
 #include "FunctionFwd.hpp"
 
 
-struct PrimHeaderPart_Normal
+struct PrimHeaderPart_Normal final
 {
     s8 field_4_num_longs;
     s8 field_5_unknown;
@@ -12,21 +12,21 @@ struct PrimHeaderPart_Normal
 };
 ALIVE_ASSERT_SIZEOF(PrimHeaderPart_Normal, 0x4);
 
-struct PrimHeaderPart_PsxRect
+struct PrimHeaderPart_PsxRect final
 {
     s16 w;
     s16 h;
 };
 ALIVE_ASSERT_SIZEOF(PrimHeaderPart_PsxRect, 0x4);
 
-union PrimHeaderPart
+union PrimHeaderPart final
 {
     PrimHeaderPart_Normal mNormal;
     PrimHeaderPart_PsxRect mRect;
 };
 ALIVE_ASSERT_SIZEOF(PrimHeaderPart, 4);
 
-struct Prim_RGB
+struct Prim_RGB final
 {
     u8 r;
     u8 g;
@@ -46,14 +46,14 @@ struct PrimHeader
 };
 ALIVE_ASSERT_SIZEOF(PrimHeader, 0xC);
 
-struct FVert
+struct FVert final
 {
     s16 x;
     s16 y;
 };
 ALIVE_ASSERT_SIZEOF(FVert, 0x4);
 
-struct GVert
+struct GVert final
 {
     Prim_RGB mRgb;
     FVert mVert;
@@ -67,7 +67,7 @@ struct Poly_Base
 };
 ALIVE_ASSERT_SIZEOF(Poly_Base, 0x10);
 
-struct UV
+struct UV final
 {
     u8 u;
     u8 v;
@@ -75,14 +75,14 @@ struct UV
 };
 ALIVE_ASSERT_SIZEOF(UV, 0x4);
 
-struct TVert
+struct TVert final
 {
     FVert mVert;
     UV mUv;
 };
 ALIVE_ASSERT_SIZEOF(TVert, 0x8);
 
-struct TGVert
+struct TGVert final
 {
     Prim_RGB mRgb;
     FVert mVert;
@@ -90,19 +90,19 @@ struct TGVert
 };
 // TODO: Assert size
 
-struct Poly_G3
+struct Poly_G3 final
 {
     Poly_Base mBase;
     GVert mVerts[2];
 };
 ALIVE_ASSERT_SIZEOF(Poly_G3, 0x20);
 
-struct FVertWrapper
+struct FVertWrapper final
 {
     FVert mVert;
 };
 
-struct Poly_F3
+struct Poly_F3 final
 {
     Poly_Base mBase;
     FVertWrapper mVerts[2];
@@ -110,14 +110,14 @@ struct Poly_F3
 ALIVE_ASSERT_SIZEOF(Poly_F3, 0x18);
 
 
-struct Poly_F4
+struct Poly_F4 final
 {
     Poly_Base mBase;
     FVertWrapper mVerts[3];
 };
 ALIVE_ASSERT_SIZEOF(Poly_F4, 0x1C);
 
-struct Poly_FT3
+struct Poly_FT3 final
 {
     Poly_Base mBase;
     UV mUv;
@@ -125,7 +125,7 @@ struct Poly_FT3
 };
 ALIVE_ASSERT_SIZEOF(Poly_FT3, 0x24);
 
-struct Poly_FT4
+struct Poly_FT4 final
 {
     Poly_Base mBase;
     UV mUv;
@@ -133,14 +133,14 @@ struct Poly_FT4
 };
 ALIVE_ASSERT_SIZEOF(Poly_FT4, 0x2C);
 
-struct Poly_G4
+struct Poly_G4 final
 {
     Poly_Base mBase;
     GVert mVerts[3];
 };
 ALIVE_ASSERT_SIZEOF(Poly_G4, 0x28);
 
-struct Poly_GT4
+struct Poly_GT4 final
 {
     Poly_Base mBase;
     UV mUv;
@@ -148,7 +148,7 @@ struct Poly_GT4
 };
 // TODO: Assert size
 
-struct Poly_GT3
+struct Poly_GT3 final
 {
     Poly_Base mBase;
     UV mUv;
@@ -157,7 +157,7 @@ struct Poly_GT3
 // TODO: Assert size
 
 // TODO: FIX ME - in hacked window mode screen offset doesn't actually work. Notice how explosion/screen shakes do nothing.
-struct Prim_ScreenOffset
+struct Prim_ScreenOffset final
 {
     PrimHeader mBase;
     s16 field_C_xoff;
@@ -165,7 +165,7 @@ struct Prim_ScreenOffset
 };
 ALIVE_ASSERT_SIZEOF(Prim_ScreenOffset, 0x10);
 
-struct Prim_PrimClipper
+struct Prim_PrimClipper final
 {
     PrimHeader mBase;
     s16 field_C_x;
@@ -173,21 +173,21 @@ struct Prim_PrimClipper
 };
 ALIVE_ASSERT_SIZEOF(Prim_PrimClipper, 0x10);
 
-struct Prim_SetTPage
+struct Prim_SetTPage final
 {
     PrimHeader mBase;
     s32 field_C_tpage;
 };
 ALIVE_ASSERT_SIZEOF(Prim_SetTPage, 0x10);
 
-struct Line_F2
+struct Line_F2 final
 {
     Poly_Base mBase;
     FVertWrapper mVerts[1];
 };
 ALIVE_ASSERT_SIZEOF(Line_F2, 0x14);
 
-struct Line_F3
+struct Line_F3 final
 {
     Poly_Base mBase;
     FVertWrapper mVerts[2];
@@ -195,7 +195,7 @@ struct Line_F3
 };
 // TODO: Assert size
 
-struct Line_F4
+struct Line_F4 final
 {
     Poly_Base mBase;
     FVertWrapper mVerts[3];
@@ -203,21 +203,21 @@ struct Line_F4
 };
 // TODO: Assert size
 
-struct Line_G2
+struct Line_G2 final
 {
     Poly_Base mBase;
     GVert mVerts[1];
 };
 // TODO: Assert size
 
-struct Line_G3
+struct Line_G3 final
 {
     Poly_Base mBase;
     GVert mVerts[2];
 };
 // TODO: Assert size
 
-struct Line_G4
+struct Line_G4 final
 {
     Poly_Base mBase;
     GVert mVerts[3];
@@ -225,7 +225,7 @@ struct Line_G4
 };
 ALIVE_ASSERT_SIZEOF(Line_G4, 0x2C);
 
-struct Prim_Sprt
+struct Prim_Sprt final
 {
     Poly_Base mBase;
     UV mUv;
@@ -234,36 +234,36 @@ struct Prim_Sprt
 };
 ALIVE_ASSERT_SIZEOF(Prim_Sprt, 0x18);
 
-struct Prim_Sprt_16
+struct Prim_Sprt_16 final
 {
     Poly_Base mBase;
     UV mUv;
 };
 
-struct Prim_Sprt_8
+struct Prim_Sprt_8 final
 {
     Poly_Base mBase;
     UV mUv;
 };
 
-struct Prim_Tile
+struct Prim_Tile final
 {
     Poly_Base mBase;
     s16 field_14_w;
     s16 field_16_h;
 };
 
-struct Prim_Tile_16
+struct Prim_Tile_16 final
 {
     Poly_Base mBase;
 };
 
-struct Prim_Tile_8
+struct Prim_Tile_8 final
 {
     Poly_Base mBase;
 };
 
-struct Prim_Tile_1
+struct Prim_Tile_1 final
 {
     Poly_Base mBase;
 };
@@ -313,7 +313,7 @@ enum PrimTypeCodes
     eLineG4 = 0x5C
 };
 
-struct Prim_MoveImage
+struct Prim_MoveImage final
 {
     PrimHeader mPrimHeader;
     s32 xPos;
@@ -322,7 +322,7 @@ struct Prim_MoveImage
 };
 
 // Could be used for other stuff but only seen for gas so far
-struct Prim_GasEffect
+struct Prim_GasEffect final
 {
     PrimHeader mPrimHeader;
     s32 x;

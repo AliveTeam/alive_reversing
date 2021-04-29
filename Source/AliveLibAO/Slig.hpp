@@ -128,7 +128,7 @@ enum eSligStates : s32
     SLIG_STATES_ENUM(MAKE_ENUM)
 };
 
-struct SligResources
+struct SligResources final
 {
     u8** res[17];
 };

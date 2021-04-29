@@ -47,7 +47,7 @@ struct Path_Fleech final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Fleech, 0x30);
 
-struct Fleech_State
+struct Fleech_State final
 {
     AETypes field_0_type;
     s16 field_2;

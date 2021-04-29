@@ -16,7 +16,7 @@ enum class LiftMoverStates : s16
     eMovingDone_5 = 5,
 };
 
-struct LiftMover_State
+struct LiftMover_State final
 {
     s16 field_0_type;
     //s16 field_2;

@@ -25,7 +25,7 @@ enum class GreeterStates : s16
     eState_7_Fall
 };
 
-struct Greeter_State
+struct Greeter_State final
 {
     AETypes field_0_type;
     s16 field_2_r;

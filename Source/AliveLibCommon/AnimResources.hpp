@@ -588,14 +588,14 @@ enum class PalId
     BlindMud,
 };
 
-struct PalRecord
+struct PalRecord final
 {
     PalId mId;
     const s8* mBanName;
     s32 mResourceId;
 };
 
-struct AnimRecord
+struct AnimRecord final
 {
     AnimId mId;
     const s8* mBanName;

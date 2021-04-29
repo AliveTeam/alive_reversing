@@ -96,7 +96,7 @@ const OverlayRecords kOverlays = {
 ALIVE_VAR(1, 0x4C5AA8, OverlayRecords, sOverlayTable_4C5AA8, kOverlays);
 
 
-struct OpenSeqHandleAO
+struct OpenSeqHandleAO final
 {
     const s8* field_0_mBsqName;
     s32 field_4_generated_res_id;
@@ -108,7 +108,7 @@ struct OpenSeqHandleAO
 };
 ALIVE_ASSERT_SIZEOF(OpenSeqHandleAO, 0x14);
 
-struct OpenSeqHandleAE // Same as ::OpenSeqHandle
+struct OpenSeqHandleAE final // Same as ::OpenSeqHandle
 {
     const s8* field_0_mBsqName;
     s32 field_4_generated_res_id; // A hash of the named which matches the resource Id

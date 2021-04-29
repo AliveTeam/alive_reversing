@@ -25,7 +25,7 @@ extern s8 _devConsoleBuffer[1000];
     sprintf(_devConsoleBuffer, format, ##__VA_ARGS__);       \
     DEV::DebugDrawText(ot, 39, std::string(_devConsoleBuffer), x, y, 255, 255, 255, true, false);
 
-struct RaycastDebug
+struct RaycastDebug final
 {
     FP x1;
     FP y1;

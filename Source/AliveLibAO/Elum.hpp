@@ -103,7 +103,7 @@ public:
         eCanSpeak_Bit6 = 32,
         eChangedPathMounted_Bit7 = 64,
     };
-    struct anythingForTheTimeBeing
+    struct anythingForTheTimeBeing final
     {
         s16 field_0;
         s16 field_2;
@@ -247,7 +247,7 @@ public:
     EXPORT void State_49_AbeUnmountingBegin_415D00();
     EXPORT void State_50_Knockback_415DC0();
 
-    struct ElumResources
+    struct ElumResources final
     {
         u8** res[31];
     };

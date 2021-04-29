@@ -13,7 +13,7 @@
 
 namespace AO {
 
-struct Door_Data
+struct Door_Data final
 {
     s32 field_0;
     s32 field_4;

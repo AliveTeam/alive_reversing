@@ -7,13 +7,13 @@ void ZapLine_ForceLink();
 
 namespace AO {
 
-struct ZapLineSprites
+struct ZapLineSprites final
 {
     Prim_Sprt field_0_sprts[2];
 };
 ALIVE_ASSERT_SIZEOF(ZapLineSprites, 0x30);
 
-struct ZapPoint
+struct ZapPoint final
 {
     FP field_0;
     FP field_4;

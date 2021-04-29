@@ -22,7 +22,7 @@ private:
 
     static bool IsHexDigit(s8 letter);
 
-    struct ExportInformation
+    struct ExportInformation final
     {
         bool mIsImplemented;
 
@@ -35,7 +35,7 @@ private:
     static ExportInformation GetExportInformation(PVOID pExportedFunctionAddress, const std::string& exportedFunctionName);
 
     HINSTANCE mhInstance = nullptr;
-    struct Export
+    struct Export final
     {
         std::string mName;
         LPVOID mCode;

@@ -28,7 +28,7 @@ enum class SlapLockStates : s16
     eGiveInvisibility_7 = 7,
 };
 
-struct SlapLock_State
+struct SlapLock_State final
 {
     AETypes field_0_type;
     s16 field_2_render;

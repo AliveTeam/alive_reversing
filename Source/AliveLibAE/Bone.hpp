@@ -12,7 +12,7 @@ enum class BoneStates : s16
     eState_5_falling = 5,
 };
 
-struct Bone_SaveState
+struct Bone_SaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;

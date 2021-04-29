@@ -25,7 +25,7 @@ typedef enum
     TOUCH_CONTROLLER_BUTTON_MAX
 } TouchControllerButton;
 
-struct TouchButton
+struct TouchButton final
 {
     f32 x;
     f32 y;

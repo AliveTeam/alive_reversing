@@ -13,12 +13,12 @@
 
 namespace AO {
 
-struct GasPolys
+struct GasPolys final
 {
     Poly_G4 polys[2][4][4][2];
 };
 
-struct Data_Byte
+struct Data_Byte final
 {
     u8 data[2][5][5];
 };
@@ -147,7 +147,7 @@ void DeathGas::VRender(PrimHeader** ppOt)
     VRender_41D190(ppOt);
 }
 
-struct Data_FP
+struct Data_FP final
 {
     FP data[2][5][5];
 };

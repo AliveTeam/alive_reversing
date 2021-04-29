@@ -332,7 +332,7 @@ enum class EnvironmentSfx : u8
 
 struct SaveData;
 
-struct Path_RingCancel  : public Path_TLV
+struct Path_RingCancel : public Path_TLV
 {
 };
 
@@ -362,19 +362,19 @@ struct Path_ContinuePoint final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_ContinuePoint, 0x24);
 
-struct AbeResources
+struct AbeResources final
 {
     u8** res[65];
 };
 
-struct Path_Stone_camera
+struct Path_Stone_camera final
 {
     LevelIds level;
     s16 path;
     s16 camera;
 };
 
-struct Path_BellsongStone_data
+struct Path_BellsongStone_data final
 {
     s16 scale;
     BellsongTypes type;
@@ -385,7 +385,7 @@ struct Path_BellsongStone_data
 };
 ALIVE_ASSERT_SIZEOF(Path_BellsongStone_data, 12);
 
-struct Path_Handstone_data
+struct Path_Handstone_data final
 {
     s16 scale;
     Path_Stone_camera camera1;
@@ -394,7 +394,7 @@ struct Path_Handstone_data
 };
 ALIVE_ASSERT_SIZEOF(Path_Handstone_data, 0x14);
 
-struct Path_Moviestone_data
+struct Path_Moviestone_data final
 {
     s16 fmvId;
     s16 scale;

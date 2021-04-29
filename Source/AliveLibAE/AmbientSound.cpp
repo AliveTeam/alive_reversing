@@ -8,7 +8,7 @@
 #include "Fleech.hpp"
 #include "stdlib.hpp"
 
-struct Sound_Ambiance
+struct Sound_Ambiance final
 {
     s32 field_0;
     s32 field_4;
@@ -16,7 +16,7 @@ struct Sound_Ambiance
 };
 ALIVE_ASSERT_SIZEOF(Sound_Ambiance, 0xC);
 
-struct Sound_Ambiance_Array
+struct Sound_Ambiance_Array final
 {
     Sound_Ambiance mArray[8];
 };

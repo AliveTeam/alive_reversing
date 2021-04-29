@@ -4,7 +4,7 @@
 
 namespace AO {
 
-struct PSX_Pad
+struct PSX_Pad final
 {
     u16 field_0_pressed;
     u8 field_2_dir;

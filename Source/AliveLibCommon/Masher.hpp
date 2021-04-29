@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Types.hpp"
 
-struct Movie_IO
+struct Movie_IO final
 {
     void(CC* mIO_Close)(void* pHandle);
     BOOL(CC* mIO_Wait)
@@ -17,7 +17,7 @@ struct Movie_IO
 
 Movie_IO& GetMovieIO();
 
-struct Masher_Header
+struct Masher_Header final
 {
     s32 field_0_ddv_version;
     s32 field_4_contains;
@@ -26,7 +26,7 @@ struct Masher_Header
 };
 ALIVE_ASSERT_SIZEOF(Masher_Header, 16);
 
-struct Masher_VideoHeader
+struct Masher_VideoHeader final
 {
     s32 field_0_unknown;
     u32 field_4_width;
@@ -37,7 +37,7 @@ struct Masher_VideoHeader
 };
 ALIVE_ASSERT_SIZEOF(Masher_VideoHeader, 24);
 
-struct Masher_AudioHeader
+struct Masher_AudioHeader final
 {
     s32 field_0_audio_format;
     s32 field_4_samples_per_second;
@@ -103,7 +103,7 @@ public:
     static void* CC GetDecompressedAudioFrame_4EAC60(Masher* pMasher);
 
 private:
-    struct Macroblock_RGB_Struct
+    struct Macroblock_RGB_Struct final
     {
         u8 Red;
         u8 Green;

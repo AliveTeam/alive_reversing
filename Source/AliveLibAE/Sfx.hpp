@@ -129,7 +129,7 @@ enum SoundEffect
     GreeterKnockback_121 = 121,
 };
 
-struct SfxDefinition
+struct SfxDefinition final
 {
     s8 field_0_block_idx;
     s8 field_1_program;

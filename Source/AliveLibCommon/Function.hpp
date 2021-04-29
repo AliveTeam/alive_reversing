@@ -145,7 +145,7 @@ public:
 };
 
 template <class T>
-struct AIFunctionData
+struct AIFunctionData final
 {
     T mOurFn;
     u32 mOriginal;

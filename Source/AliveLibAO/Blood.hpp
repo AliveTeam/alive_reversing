@@ -10,7 +10,7 @@ namespace AO {
 
 void Blood_ForceLink();
 
-struct BloodParticle
+struct BloodParticle final
 {
     FP field_0_x;
     FP field_4_y;

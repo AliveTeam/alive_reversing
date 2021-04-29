@@ -19,7 +19,7 @@ enum class GrinderBehavior : s16
     eUse_2 = 2
 };
 
-struct Path_Grinder_Data
+struct Path_Grinder_Data final
 {
     Scale_short field_10_scale;
     s16 field_12_min_off_time;
@@ -43,7 +43,7 @@ enum class GrinderStates : s16
     State_2_GoingUp = 2,
 };
 
-struct Grinder_State
+struct Grinder_State final
 {
     s16 field_0;
     //s16 field_2_padding;

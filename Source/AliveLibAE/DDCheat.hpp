@@ -45,7 +45,7 @@ union DDCheatValue
     }
 };
 
-struct DDCheatProperty
+struct DDCheatProperty final
 {
     const s8* Name;
     DDCheatValueType ValueType;

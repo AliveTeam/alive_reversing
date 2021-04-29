@@ -3,7 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-struct MinesAlarm_State
+struct MinesAlarm_State final
 {
     AETypes field_0_type;
     s16 field_2_pad;

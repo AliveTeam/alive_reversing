@@ -141,7 +141,7 @@ EXPORT s16 Reset_Unknown_45A5B0()
     return 1;
 }
 
-struct saveName
+struct saveName final
 {
     s8 characters[26];
 };

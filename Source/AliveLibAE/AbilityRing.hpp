@@ -32,7 +32,7 @@ enum class RingTypes : s16
     eHealing_Pulse_14 = 14,
 };
 
-struct AbilityRing_State
+struct AbilityRing_State final
 {
     AETypes field_0_type;
     s16 field_2_pad;

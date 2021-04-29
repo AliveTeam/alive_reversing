@@ -5,7 +5,7 @@
 #include "DynamicArray.hpp"
 #include "Primitives.hpp"
 
-struct Fg1Block
+struct Fg1Block final
 {
     Poly_FT4 field_0_polys[2];
     s32 field_58_padding;

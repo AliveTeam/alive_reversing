@@ -4,7 +4,7 @@
 #include "FunctionFwd.hpp"
 #include "Layer.hpp"
 
-struct BloodParticle
+struct BloodParticle final
 {
     FP field_0_x;
     FP field_4_y;

@@ -20,7 +20,7 @@ EXPORT void CC static_font1context_init_433300();
 EXPORT void CC static_font2context_init_433380();
 
 
-struct File_Font
+struct File_Font final
 {
     s16 field_0_width;
     s16 field_2_height;
@@ -32,7 +32,7 @@ struct File_Font
 //ALIVE_ASSERT_SIZEOF(File_Font, 0x28);
 // Can vary in size
 
-struct Font_AtlasEntry
+struct Font_AtlasEntry final
 {
     u8 field_0_x;
     u8 field_1_y;
@@ -41,7 +41,7 @@ struct Font_AtlasEntry
 };
 ALIVE_ASSERT_SIZEOF(Font_AtlasEntry, 0x4);
 
-struct Font_Context
+struct Font_Context final
 {
     PSX_RECT field_0_rect;
     Font_AtlasEntry* field_8_atlas_array;
@@ -59,7 +59,7 @@ ALIVE_ASSERT_SIZEOF(Font_Context, 0x10);
 
 // In a space space otherwise it conflicts with the Font structure in x11.h on Linux brought in by SDL2's header
 namespace Alive {
-struct Font
+struct Font final
 {
 public:
     Font();

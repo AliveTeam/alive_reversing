@@ -13,7 +13,7 @@ using IO_FileHandleType = struct SDL_RWops*;
 using IO_FileHandleType = struct FILE*;
 #endif
 
-struct IO_Handle
+struct IO_Handle final
 {
     s32 field_0_flags;
     s32 field_4;
@@ -25,7 +25,7 @@ struct IO_Handle
 };
 ALIVE_ASSERT_SIZEOF(IO_Handle, 0x1C);
 
-struct IO_Movie_Handle
+struct IO_Movie_Handle final
 {
     IO_FileHandleType field_0_hFile;
     void* field_4_readBuffer;

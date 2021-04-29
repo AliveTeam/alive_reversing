@@ -31,7 +31,7 @@ inline T PCToPsxX(T x, s32 addX = 0)
 }
 
 
-struct PSX_Display_Params
+struct PSX_Display_Params final
 {
     s16 field_0_width;
     s16 field_2_height;
@@ -44,7 +44,7 @@ struct PSX_Display_Params
 };
 ALIVE_ASSERT_SIZEOF(PSX_Display_Params, 0x10);
 
-struct PSX_Display_Buffer
+struct PSX_Display_Buffer final
 {
     PSX_DRAWENV field_0_draw_env;
     PSX_DISPENV field_5C_disp_env;

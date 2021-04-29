@@ -97,7 +97,7 @@ class Glukkon;
 using TGlukkonAIFn = s16 (Glukkon::*)();
 using TGlukkonMotionFn = void (Glukkon::*)();
 
-struct Glukkon_SaveState
+struct Glukkon_SaveState final
 {
     AETypes field_0_id;
     s16 field_2_padding;

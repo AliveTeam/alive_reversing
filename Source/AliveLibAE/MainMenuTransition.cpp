@@ -8,7 +8,7 @@
 #include "Game.hpp"
 #include "Map.hpp"
 
-struct MainMenu_TransitionData
+struct MainMenu_TransitionData final
 {
     s16 field_0;
     s16 field_2;

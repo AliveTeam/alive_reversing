@@ -133,7 +133,7 @@ enum class TlvTypes : s16
 };
 
 // ABI fix to allow using the enum as a 32bit type
-struct TlvTypes32
+struct TlvTypes32 final
 {
     TlvTypes mType;
     s16 padTo32Bits;

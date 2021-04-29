@@ -15,25 +15,25 @@ class Camera;
 class BaseAliveGameObject;
 class CameraSwapper;
 
-struct CameraName
+struct CameraName final
 {
     s8 name[8];
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
-struct OverlayRecord
+struct OverlayRecord final
 {
     const s8* field_0_fileName;
     u32 field_4_pos;
 };
 ALIVE_ASSERT_SIZEOF(OverlayRecord, 0x8);
 
-struct OverlayRecords
+struct OverlayRecords final
 {
     OverlayRecord records[54];
 };
 
-struct Map_PathsArray
+struct Map_PathsArray final
 {
     u8** field_0_pPathRecs[30];
 };
@@ -66,7 +66,7 @@ enum TLV_Flags
 };
 
 // ABI fix to allow using the enum as a 32bit type
-struct TlvTypes32
+struct TlvTypes32 final
 {
     TlvTypes mType;
     s16 padto32Bits;

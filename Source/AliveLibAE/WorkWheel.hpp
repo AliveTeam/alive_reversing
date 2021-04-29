@@ -11,7 +11,7 @@ enum class WheelStates : s16
 };
 
 
-struct WorkWheel_SaveState
+struct WorkWheel_SaveState final
 {
     AETypes field_0_id;
     // pad

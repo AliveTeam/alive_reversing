@@ -306,7 +306,7 @@ ALIVE_ARY(1, 0x55DE40, PauseMenuPageEntry*, 6, sControlActionsPages_55DE40,
            PauseMenu__PageEntryList_ParamiteSpeak_55dce0,
            PauseMenu__PageEntryList_ScrabSpeak_55ddd0});
 
-struct DumpEntry
+struct DumpEntry final
 {
     void* address;
     std::string name;
@@ -544,7 +544,7 @@ EXPORT void PauseMenu::Remove_At_Credits_Screen_490D30()
 // CUSTOM PAUSE MENU
 
 class CustomPauseMenu;
-struct CustomPauseMenuItem
+struct CustomPauseMenuItem final
 {
     const s8* text;
     std::function<void(CustomPauseMenu*)> callback;

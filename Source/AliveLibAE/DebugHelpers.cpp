@@ -134,7 +134,7 @@ public:
 
     void DrawObjectIDs(PrimHeader** pOrderingTable)
     {
-        /*struct MainMenuButton
+        /*struct MainMenuButton final
         {
         s16 field_0_type;
         s16 field_2_x;
@@ -326,7 +326,7 @@ public:
         // Dont kill!
     }
 
-    struct LineColor
+    struct LineColor final
     {
         u8 r;
         u8 g;
@@ -426,7 +426,7 @@ public:
 bool DebugPathRenderer::Enabled = false;
 bool DebugPathRenderer::GridEnabled = false;
 
-struct DebugConsoleMessage
+struct DebugConsoleMessage final
 {
     std::string message;
     s32 time;
@@ -451,7 +451,7 @@ void ShowDebugConsoleMessage(std::string message, f32 duration)
     ShowDebugConsoleMessage(message, duration, 255, 255, 255);
 }
 
-struct DebugConsoleCommand
+struct DebugConsoleCommand final
 {
     std::string command;
     s32 paramsCount;
@@ -722,7 +722,7 @@ void Command_Ring(const std::vector<std::string>& args)
     SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 25, 2650);
 }
 
-struct DebugKeyBinds
+struct DebugKeyBinds final
 {
     std::string key;
     std::string command;
@@ -1174,7 +1174,7 @@ public:
     std::string mLastCommand;
 };
 
-struct PsxTimHeader
+struct PsxTimHeader final
 {
     u32 mMagic; // 0x10
     u32 mFlag;  // 0x08 4BPP, 0x09 8BPP, 0x02 16BPP
@@ -1185,13 +1185,13 @@ struct PsxTimHeader
     u16 mClutCount;
 };
 
-struct PsxTimImageHeader
+struct PsxTimImageHeader final
 {
     u32 mSizeInBytes; // includes header size
     PSX_RECT mImageRect;
 };
 
-struct TimInfo
+struct TimInfo final
 {
     s16 mRenderWidth;
     s16 mHeight;

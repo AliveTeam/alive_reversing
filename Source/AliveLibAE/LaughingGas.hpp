@@ -6,7 +6,7 @@
 #include "Primitives.hpp"
 
 // TODO: These can be combined
-struct Path_LaughingGas_Data
+struct Path_LaughingGas_Data final
 {
     Choice_short field_0_bLaughing_gas;
     s16 field_2_laughing_gas_id;
@@ -90,7 +90,7 @@ private:
 
     u16* field_19C_pMem;
 
-    struct Data
+    struct Data final
     {
         f32 array_4[7];
     };

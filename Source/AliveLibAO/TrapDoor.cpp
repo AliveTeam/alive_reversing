@@ -11,7 +11,7 @@
 
 namespace AO {
 
-struct TrapDoor_Data
+struct TrapDoor_Data final
 {
     s32 field_0;
     s32 field_4_maxW;

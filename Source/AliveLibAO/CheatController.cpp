@@ -40,7 +40,7 @@ EXPORT void CC CheatController_Cheat_FMV_40FBB0()
     }
 }
 
-struct CheatEntry
+struct CheatEntry final
 {
     s32 field_0_level_mask;
     s32 field_4_cheat_code_length;

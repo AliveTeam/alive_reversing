@@ -77,7 +77,7 @@ ALIVE_VAR_EXTERN(SDLSoundSystem*, sDSound_BBC344);
 ALIVE_VAR_EXTERN(LPDIRECTSOUND, sDSound_BBC344);
 #endif
 
-struct SoundEntry
+struct SoundEntry final
 {
     s32 field_0_tableIdx;
     TSoundBufferType* field_4_pDSoundBuffer;
@@ -94,7 +94,7 @@ struct SoundEntry
 };
 ALIVE_ASSERT_SIZEOF(SoundEntry, 0x24);
 
-struct SoundBuffer
+struct SoundBuffer final
 {
     TSoundBufferType* field_0_pDSoundBuffer;
     s32 field_4;
@@ -130,7 +130,7 @@ EXPORT u32* CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/);
 struct MIDI_Channel;
 EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority);
 
-struct SoundApi
+struct SoundApi final
 {
     EXPORT SoundApi();
     decltype(&SND_Get_Sound_Entry_Pos_4EF620) SND_Get_Sound_Entry_Pos;

@@ -30,7 +30,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(MainMenuFade, 0xEC);
 
-struct MainMenuTransition_Polys
+struct MainMenuTransition_Polys final
 {
     Poly_G3 field_0_polys[8];
 };

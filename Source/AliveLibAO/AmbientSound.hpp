@@ -18,7 +18,7 @@ EXPORT void CC Start_Slig_sounds_476960(CameraPos direction, s8 kZero);
 EXPORT void CC Stop_slig_sounds_476A20(CameraPos direction, s8 kZero);
 
 class ScopedSeq;
-struct Sound_Ambiance
+struct Sound_Ambiance final
 {
     s32 field_0_padding;
     s32 field_4_padding;
@@ -26,7 +26,7 @@ struct Sound_Ambiance
 };
 ALIVE_ASSERT_SIZEOF(Sound_Ambiance, 0xC);
 
-struct Sound_Ambiance_Array
+struct Sound_Ambiance_Array final
 {
     Sound_Ambiance mArray[7];
 };

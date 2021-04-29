@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct PlaybackData
+struct PlaybackData final
 {
     SaveData saveData;
     u8 randomSeed;

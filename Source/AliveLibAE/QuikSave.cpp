@@ -48,7 +48,7 @@
 #include "Grenade.hpp"
 #include "Mudokon.hpp"
 
-struct QuickSaveRestoreTable
+struct QuickSaveRestoreTable final
 {
     s32(CC* mFns[180])(const u8*);
 };
@@ -237,7 +237,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable = {
 
 ALIVE_VAR(1, 0x560c34, QuickSaveRestoreTable, sQuicksaveLoadFunctionTable_560C34, sQuicksaveLoadFunctionTable);
 
-struct QuickSaveFlagTypeTable
+struct QuickSaveFlagTypeTable final
 {
     u8 mTypes[136];
 };
@@ -422,7 +422,7 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
     // NOTE: Some values with things like total save size written here, but they are never used
 }
 
-struct SaveFlagsAndData
+struct SaveFlagsAndData final
 {
     BitField8<TLV_Flags> flags;
     u8 data;

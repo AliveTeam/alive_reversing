@@ -9,7 +9,7 @@ void Spark_ForceLink();
 
 namespace AO {
 
-struct SparkRes
+struct SparkRes final
 {
     FP field_0_x0;
     FP field_4_y0;

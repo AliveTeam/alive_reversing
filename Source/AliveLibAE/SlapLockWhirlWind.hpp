@@ -3,7 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-struct SlapLockWhirlWind_State
+struct SlapLockWhirlWind_State final
 {
     AETypes field_0_type;
     s16 field_2_switch_id;

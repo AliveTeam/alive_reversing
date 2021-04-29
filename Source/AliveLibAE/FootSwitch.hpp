@@ -21,7 +21,7 @@ struct Path_FootSwitch final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FootSwitch, 0x18);
 
-struct FootSwitch_Data
+struct FootSwitch_Data final
 {
     s32 field_0_frameTableOffset;
     s32 field_4_frameTableOffset;
