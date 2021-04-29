@@ -244,7 +244,7 @@ struct Path_MovieStone final : public Path_TLV
 
 namespace AOTlvs {
     
-struct Path_MovieStone : public TlvObjectBaseAO
+struct Path_MovieStone final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_MovieStone, "MovieStone", AO::TlvTypes::MovieStone_51)
     {
@@ -253,7 +253,7 @@ struct Path_MovieStone : public TlvObjectBaseAO
     }
 };
 
-struct Path_BellsongStone : public TlvObjectBaseAO
+struct Path_BellsongStone final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -274,7 +274,7 @@ struct Path_BellsongStone : public TlvObjectBaseAO
     }
 };
 
-struct Path_HandStone : public TlvObjectBaseAO
+struct Path_HandStone final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_HandStone, "HandStone", AO::TlvTypes::HandStone_100)
     {
@@ -294,7 +294,7 @@ struct Path_HandStone : public TlvObjectBaseAO
     }
 };
 
-struct Path_Door : public TlvObjectBaseAO
+struct Path_Door final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -336,7 +336,7 @@ struct Path_Door : public TlvObjectBaseAO
     }
 };
 
-struct Path_ContinuePoint : public TlvObjectBaseAO
+struct Path_ContinuePoint final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_ContinuePoint, "ContinuePoint", AO::TlvTypes::ContinuePoint_0)
     {
@@ -348,7 +348,7 @@ struct Path_ContinuePoint : public TlvObjectBaseAO
     }
 };
 
-struct Path_Hoist : public TlvObjectBaseAO
+struct Path_Hoist final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -375,7 +375,7 @@ struct Path_Hoist : public TlvObjectBaseAO
     }
 };
 
-struct Path_Change : public TlvObjectBaseAO
+struct Path_Change final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Change, "PathTransition", AO::TlvTypes::PathTransition_1)
     {
@@ -388,7 +388,7 @@ struct Path_Change : public TlvObjectBaseAO
     }
 };
 
-struct Path_Switch : public TlvObjectBaseAO
+struct Path_Switch final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Switch, "Switch", AO::TlvTypes::Switch_26)
     {
@@ -401,7 +401,7 @@ struct Path_Switch : public TlvObjectBaseAO
     }
 };
 
-struct Path_LightEffect : public TlvObjectBaseAO
+struct Path_LightEffect final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -425,7 +425,7 @@ struct Path_LightEffect : public TlvObjectBaseAO
     }
 };
 
-struct Path_ElectricWall : public TlvObjectBaseAO
+struct Path_ElectricWall final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_ElectricWall, "ElectricWall", AO::TlvTypes::ElectricWall_67)
     {
@@ -435,7 +435,7 @@ struct Path_ElectricWall : public TlvObjectBaseAO
     }
 };
 
-struct Path_ContinueZone : public TlvObjectBaseAO
+struct Path_ContinueZone final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_ContinueZone, "ContinueZone", AO::TlvTypes::ContinueZone_2)
     {
@@ -443,7 +443,7 @@ struct Path_ContinueZone : public TlvObjectBaseAO
     }
 };
 
-struct Path_StartController : public TlvObjectBaseAO
+struct Path_StartController final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_StartController, "StartController", AO::TlvTypes::StartController_28)
     {
@@ -451,7 +451,7 @@ struct Path_StartController : public TlvObjectBaseAO
     }
 };
 
-struct Path_Edge : public TlvObjectBaseAO
+struct Path_Edge final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -470,7 +470,7 @@ struct Path_Edge : public TlvObjectBaseAO
     }
 };
 
-struct Path_WellLocal : public TlvObjectBaseAO
+struct Path_WellLocal final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_WellLocal, "WellLocal", AO::TlvTypes::WellLocal_11)
     {
@@ -493,7 +493,7 @@ struct Path_WellLocal : public TlvObjectBaseAO
     }
 };
 
-struct Path_WellExpress : public TlvObjectBaseAO
+struct Path_WellExpress final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_WellExpress, "WellExpress", AO::TlvTypes::WellExpress_45)
     {
@@ -521,7 +521,7 @@ struct Path_WellExpress : public TlvObjectBaseAO
     }
 };
 
-struct Path_InvisibleZone : public TlvObjectBaseAO
+struct Path_InvisibleZone final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_InvisibleZone, "InvisibleZone", AO::TlvTypes::InvisibleZone_58)
     {
@@ -529,7 +529,7 @@ struct Path_InvisibleZone : public TlvObjectBaseAO
     }
 };
 
-struct Path_EnemyStopper : public TlvObjectBaseAO
+struct Path_EnemyStopper final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -548,7 +548,7 @@ struct Path_EnemyStopper : public TlvObjectBaseAO
     }
 };
 
-struct Path_Slig : public TlvObjectBaseAO
+struct Path_Slig final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -599,7 +599,7 @@ struct Path_Slig : public TlvObjectBaseAO
     }
 };
 
-struct Path_DeathDrop : public TlvObjectBaseAO
+struct Path_DeathDrop final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_DeathDrop, "DeathDrop", AO::TlvTypes::DeathDrop_5)
     {
@@ -611,7 +611,7 @@ struct Path_DeathDrop : public TlvObjectBaseAO
     }
 };
 
-struct Path_SligLeftBound : public TlvObjectBaseAO
+struct Path_SligLeftBound final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_SligLeftBound, "SligLeftBound", AO::TlvTypes::eSligBoundLeft_57)
     {
@@ -620,7 +620,7 @@ struct Path_SligLeftBound : public TlvObjectBaseAO
     }
 };
 
-struct Path_SligRightBound : public TlvObjectBaseAO
+struct Path_SligRightBound final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_SligRightBound, "SligRightBound", AO::TlvTypes::eSligBoundRight_76)
     {
@@ -629,7 +629,7 @@ struct Path_SligRightBound : public TlvObjectBaseAO
     }
 };
 
-struct Path_SligPersist : public TlvObjectBaseAO
+struct Path_SligPersist final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_SligPersist, "SligPersist", AO::TlvTypes::eSligPersist_77)
     {
@@ -638,7 +638,7 @@ struct Path_SligPersist : public TlvObjectBaseAO
     }
 };
 
-struct Path_SecurityOrb : public TlvObjectBaseAO
+struct Path_SecurityOrb final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_SecurityOrb, "SecurityOrb", AO::TlvTypes::SecurityOrb_29)
     {
@@ -647,7 +647,7 @@ struct Path_SecurityOrb : public TlvObjectBaseAO
     }
 };
 
-struct Path_FallingItem : public TlvObjectBaseAO
+struct Path_FallingItem final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_FallingItem, "FallingItem", AO::TlvTypes::FallingItem_15)
     {
@@ -659,7 +659,7 @@ struct Path_FallingItem : public TlvObjectBaseAO
     }
 };
 
-struct Path_Mine : public TlvObjectBaseAO
+struct Path_Mine final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Mine, "Mine", AO::TlvTypes::Mine_46)
     {
@@ -671,7 +671,7 @@ struct Path_Mine : public TlvObjectBaseAO
     }
 };
 
-struct Path_Dove : public TlvObjectBaseAO
+struct Path_Dove final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Dove, "Dove", AO::TlvTypes::Dove_12)
     {
@@ -681,7 +681,7 @@ struct Path_Dove : public TlvObjectBaseAO
     }
 };
 
-struct Path_UXB : public TlvObjectBaseAO
+struct Path_UXB final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -702,7 +702,7 @@ struct Path_UXB : public TlvObjectBaseAO
     }
 };
 
-struct Path_HintFly : public TlvObjectBaseAO
+struct Path_HintFly final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_HintFly, "HintFly", AO::TlvTypes::HintFly_92)
     {
@@ -710,7 +710,7 @@ struct Path_HintFly : public TlvObjectBaseAO
     }
 };
 
-struct Path_Bat : public TlvObjectBaseAO
+struct Path_Bat final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Bat, "Bat", AO::TlvTypes::Bat_49)
     {
@@ -721,7 +721,7 @@ struct Path_Bat : public TlvObjectBaseAO
     }
 };
 
-struct Path_ShadowZone : public TlvObjectBaseAO
+struct Path_ShadowZone final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -745,7 +745,7 @@ struct Path_ShadowZone : public TlvObjectBaseAO
     }
 };
 
-struct Path_BellHammer : public TlvObjectBaseAO
+struct Path_BellHammer final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_BellHammer, "BellHammer", AO::TlvTypes::BellHammer_27)
     {
@@ -756,7 +756,7 @@ struct Path_BellHammer : public TlvObjectBaseAO
     }
 };
 
-struct Path_IdSplitter : public TlvObjectBaseAO
+struct Path_IdSplitter final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_IdSplitter, "IdSplitter", AO::TlvTypes::IdSplitter_94)
     {
@@ -769,7 +769,7 @@ struct Path_IdSplitter : public TlvObjectBaseAO
     }
 };
 
-struct Path_PullRingRope : public TlvObjectBaseAO
+struct Path_PullRingRope final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_PullRingRope, "PullRingRope", AO::TlvTypes::PullRingRope_18)
     {
@@ -783,7 +783,7 @@ struct Path_PullRingRope : public TlvObjectBaseAO
     }
 };
 
-struct Path_MusicTrigger : public TlvObjectBaseAO
+struct Path_MusicTrigger final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_MusicTrigger, "MusicTrigger", AO::TlvTypes::MusicTrigger_105)
     {
@@ -794,7 +794,7 @@ struct Path_MusicTrigger : public TlvObjectBaseAO
     }
 };
 
-struct Path_ElumPathTrans : public TlvObjectBaseAO
+struct Path_ElumPathTrans final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_ElumPathTrans, "ElumPathTrans", AO::TlvTypes::ElumPathTrans_99)
     {
@@ -804,7 +804,7 @@ struct Path_ElumPathTrans : public TlvObjectBaseAO
     }
 };
 
-struct Path_ElumStart : public TlvObjectBaseAO
+struct Path_ElumStart final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_ElumStart, "ElumStart", AO::TlvTypes::ElumStart_38)
     {
@@ -812,7 +812,7 @@ struct Path_ElumStart : public TlvObjectBaseAO
     }
 };
 
-struct Path_ElumWall : public TlvObjectBaseAO
+struct Path_ElumWall final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_ElumWall, "ElumWall", AO::TlvTypes::ElumWall_40)
     {
@@ -820,7 +820,7 @@ struct Path_ElumWall : public TlvObjectBaseAO
     }
 };
 
-struct Path_LiftPoint : public TlvObjectBaseAO
+struct Path_LiftPoint final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_LiftPoint, "LiftPoint", AO::TlvTypes::LiftPoint_8)
     {
@@ -833,7 +833,7 @@ struct Path_LiftPoint : public TlvObjectBaseAO
     }
 };
 
-struct Path_MovingBomb : public TlvObjectBaseAO
+struct Path_MovingBomb final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_MovingBomb, "MovingBomb", AO::TlvTypes::MovingBomb_86)
     {
@@ -848,7 +848,7 @@ struct Path_MovingBomb : public TlvObjectBaseAO
     }
 };
 
-struct Path_MovingBombStopper : public TlvObjectBaseAO
+struct Path_MovingBombStopper final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_MovingBombStopper, "MovingBombStopper", AO::TlvTypes::MovingBombStopper_87)
     {
@@ -857,7 +857,7 @@ struct Path_MovingBombStopper : public TlvObjectBaseAO
     }
 };
 
-struct Path_RingMudokon : public TlvObjectBaseAO
+struct Path_RingMudokon final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_RingMudokon, "RingMudokon", AO::TlvTypes::RingMudokon_50)
     {
@@ -873,7 +873,7 @@ struct Path_RingMudokon : public TlvObjectBaseAO
     }
 };
 
-struct Path_RingCancel : public TlvObjectBaseAO // TODO: correct size is 24 not 28
+struct Path_RingCancel final : public TlvObjectBaseAO // TODO: correct size is 24 not 28
 {
     CTOR_AO(Path_RingCancel, "RingCancel", AO::TlvTypes::RingCancel_109)
     {
@@ -881,7 +881,7 @@ struct Path_RingCancel : public TlvObjectBaseAO // TODO: correct size is 24 not 
     }
 };
 
-struct Path_MeatSaw : public TlvObjectBaseAO
+struct Path_MeatSaw final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_MeatSaw, "MeatSaw", AO::TlvTypes::MeatSaw_88)
     {
@@ -900,7 +900,7 @@ struct Path_MeatSaw : public TlvObjectBaseAO
     }
 };
 
-struct Path_LCDScreen : public TlvObjectBaseAO
+struct Path_LCDScreen final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_LCDScreen, "LCDScreen", AO::TlvTypes::LCDScreen_98)
     {
@@ -910,7 +910,7 @@ struct Path_LCDScreen : public TlvObjectBaseAO
     }
 };
 
-struct Path_InvisibleSwitch : public TlvObjectBaseAO
+struct Path_InvisibleSwitch final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_InvisibleSwitch, "InvisibleSwitch", AO::TlvTypes::InvisibleSwitch_81)
     {
@@ -922,7 +922,7 @@ struct Path_InvisibleSwitch : public TlvObjectBaseAO
     }
 };
 
-struct Path_TrapDoor : public TlvObjectBaseAO
+struct Path_TrapDoor final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_TrapDoor, "TrapDoor", AO::TlvTypes::TrapDoor_55)
     {
@@ -936,7 +936,7 @@ struct Path_TrapDoor : public TlvObjectBaseAO
     }
 };
 
-struct Path_BirdPortal : public TlvObjectBaseAO
+struct Path_BirdPortal final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -968,7 +968,7 @@ struct Path_BirdPortal : public TlvObjectBaseAO
     }
 };
 
-struct Path_BoomMachine : public TlvObjectBaseAO
+struct Path_BoomMachine final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_BoomMachine, "BoomMachine", AO::TlvTypes::BoomMachine_97)
     {
@@ -979,7 +979,7 @@ struct Path_BoomMachine : public TlvObjectBaseAO
     }
 };
 
-struct Path_Mudokon : public TlvObjectBaseAO
+struct Path_Mudokon final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Mudokon, "Mudokon", AO::TlvTypes::Mudokon_82)
     {
@@ -994,7 +994,7 @@ struct Path_Mudokon : public TlvObjectBaseAO
     }
 };
 
-struct Path_BirdPortalExit : public TlvObjectBaseAO
+struct Path_BirdPortalExit final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_BirdPortalExit, "BirdPortalExit", AO::TlvTypes::BirdPortalExit_53)
     {
@@ -1003,7 +1003,7 @@ struct Path_BirdPortalExit : public TlvObjectBaseAO
     }
 };
 
-struct Path_Slog : public TlvObjectBaseAO
+struct Path_Slog final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Slog, "Slog", AO::TlvTypes::Slog_25)
     {
@@ -1019,7 +1019,7 @@ struct Path_Slog : public TlvObjectBaseAO
     }
 };
 
-struct Path_ChimeLock : public TlvObjectBaseAO
+struct Path_ChimeLock final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_ChimeLock, "ChimeLock", AO::TlvTypes::ChimeLock_69)
     {
@@ -1031,7 +1031,7 @@ struct Path_ChimeLock : public TlvObjectBaseAO
     }
 };
 
-struct Path_FlintLockFire : public TlvObjectBaseAO
+struct Path_FlintLockFire final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_FlintLockFire, "FlintLockFire", AO::TlvTypes::FlintLockFire_73)
     {
@@ -1040,7 +1040,7 @@ struct Path_FlintLockFire : public TlvObjectBaseAO
     }
 };
 
-struct Path_LiftMover : public TlvObjectBaseAO
+struct Path_LiftMover final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_LiftMover, "LiftMover", AO::TlvTypes::LiftMover_68)
     {
@@ -1050,7 +1050,7 @@ struct Path_LiftMover : public TlvObjectBaseAO
     }
 };
 
-struct Path_Scrab : public TlvObjectBaseAO
+struct Path_Scrab final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Scrab, "Scrab", AO::TlvTypes::Scrab_72)
     {
@@ -1067,7 +1067,7 @@ struct Path_Scrab : public TlvObjectBaseAO
     }
 };
 
-struct Path_SlogSpawner : public TlvObjectBaseAO
+struct Path_SlogSpawner final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_SlogSpawner, "SlogSpawner", AO::TlvTypes::SlogSpawner_107)
     {
@@ -1080,7 +1080,7 @@ struct Path_SlogSpawner : public TlvObjectBaseAO
     }
 };
 
-struct Path_RockSack : public TlvObjectBaseAO
+struct Path_RockSack final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_RockSack, "RockSack", AO::TlvTypes::RockSack_13)
     {
@@ -1092,7 +1092,7 @@ struct Path_RockSack : public TlvObjectBaseAO
     }
 };
 
-struct Path_SlogHut : public TlvObjectBaseAO
+struct Path_SlogHut final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_SlogHut, "SlogHut", AO::TlvTypes::SlogHut_111)
     {
@@ -1102,7 +1102,7 @@ struct Path_SlogHut : public TlvObjectBaseAO
     }
 };
 
-struct Path_SecurityClaw : public TlvObjectBaseAO
+struct Path_SecurityClaw final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_SecurityClaw, "SecurityClaw", AO::TlvTypes::SecurityClaw_61)
     {
@@ -1113,7 +1113,7 @@ struct Path_SecurityClaw : public TlvObjectBaseAO
     }
 };
 
-struct Path_SecurityDoor : public TlvObjectBaseAO
+struct Path_SecurityDoor final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_SecurityDoor, "SecurityDoor", AO::TlvTypes::SecurityDoor_95)
     {
@@ -1126,7 +1126,7 @@ struct Path_SecurityDoor : public TlvObjectBaseAO
     }
 };
 
-struct Path_TimedMine : public TlvObjectBaseAO
+struct Path_TimedMine final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_TimedMine, "TimedMine", AO::TlvTypes::TimedMine_22)
     {
@@ -1138,7 +1138,7 @@ struct Path_TimedMine : public TlvObjectBaseAO
     }
 };
 
-struct Path_SligSpawner : public TlvObjectBaseAO
+struct Path_SligSpawner final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1189,7 +1189,7 @@ struct Path_SligSpawner : public TlvObjectBaseAO
     }
 };
 
-struct Path_MotionDetector : public TlvObjectBaseAO
+struct Path_MotionDetector final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1214,7 +1214,7 @@ struct Path_MotionDetector : public TlvObjectBaseAO
     }
 };
 
-struct Path_BackgroundAnimation : public TlvObjectBaseAO
+struct Path_BackgroundAnimation final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1236,7 +1236,7 @@ struct Path_BackgroundAnimation : public TlvObjectBaseAO
     }
 };
 
-struct Path_LCDStatusBoard : public TlvObjectBaseAO
+struct Path_LCDStatusBoard final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_LCDStatusBoard, "LCDStatusBoard", AO::TlvTypes::LCDStatusBoard_103)
     {
@@ -1244,7 +1244,7 @@ struct Path_LCDStatusBoard : public TlvObjectBaseAO
     }
 };
 
-struct Path_Preloader : public TlvObjectBaseAO
+struct Path_Preloader final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Preloader, "Preloader", AO::TlvTypes::Preloader_102)
     {
@@ -1252,7 +1252,7 @@ struct Path_Preloader : public TlvObjectBaseAO
     }
 };
 
-struct Path_Pulley : public TlvObjectBaseAO
+struct Path_Pulley final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Pulley, "Pulley", AO::TlvTypes::Pulley_35)
     {
@@ -1260,7 +1260,7 @@ struct Path_Pulley : public TlvObjectBaseAO
     }
 };
 
-struct Path_SoftLanding : public TlvObjectBaseAO
+struct Path_SoftLanding final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_SoftLanding, "SoftLanding", AO::TlvTypes::SoftLanding_114)
     {
@@ -1268,7 +1268,7 @@ struct Path_SoftLanding : public TlvObjectBaseAO
     }
 };
 
-struct Path_MudokonPathTrans : public TlvObjectBaseAO
+struct Path_MudokonPathTrans final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_MudokonPathTrans, "MudokonPathTrans", AO::TlvTypes::MudokonPathTrans_89)
     {
@@ -1278,7 +1278,7 @@ struct Path_MudokonPathTrans : public TlvObjectBaseAO
     }
 };
 
-struct Path_AbeStart : public TlvObjectBaseAO
+struct Path_AbeStart final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_AbeStart, "AbeStart", AO::TlvTypes::AbeStart_37)
     {
@@ -1286,7 +1286,7 @@ struct Path_AbeStart : public TlvObjectBaseAO
     }
 };
 
-struct Path_ZSligCover : public TlvObjectBaseAO
+struct Path_ZSligCover final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_ZSligCover, "ZSligCover", AO::TlvTypes::ZSligCover_83)
     {
@@ -1294,7 +1294,7 @@ struct Path_ZSligCover : public TlvObjectBaseAO
     }
 };
 
-struct Path_ScrabLeftBound : public TlvObjectBaseAO
+struct Path_ScrabLeftBound final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_ScrabLeftBound, "ScrabLeftBound", AO::TlvTypes::ScrabLeftBound_74)
     {
@@ -1302,7 +1302,7 @@ struct Path_ScrabLeftBound : public TlvObjectBaseAO
     }
 };
 
-struct Path_ScrabRightBound : public TlvObjectBaseAO
+struct Path_ScrabRightBound final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_ScrabRightBound, "ScrabRightBound", AO::TlvTypes::ScrabRightBound_75)
     {
@@ -1310,7 +1310,7 @@ struct Path_ScrabRightBound : public TlvObjectBaseAO
     }
 };
 
-struct Path_ScrabNoFall : public TlvObjectBaseAO
+struct Path_ScrabNoFall final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_ScrabNoFall, "ScrabNoFall", AO::TlvTypes::ScrabNoFall_93)
     {
@@ -1318,7 +1318,7 @@ struct Path_ScrabNoFall : public TlvObjectBaseAO
     }
 };
 
-struct Path_LiftMudokon : public TlvObjectBaseAO
+struct Path_LiftMudokon final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_LiftMudokon, "LiftMudokon", AO::TlvTypes::LiftMudokon_32)
     {
@@ -1332,7 +1332,7 @@ struct Path_LiftMudokon : public TlvObjectBaseAO
     }
 };
 
-struct Path_HoneySack : public TlvObjectBaseAO
+struct Path_HoneySack final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_HoneySack, "HoneySack", AO::TlvTypes::HoneySack_36)
     {
@@ -1341,7 +1341,7 @@ struct Path_HoneySack : public TlvObjectBaseAO
     }
 };
 
-struct Path_SlingMudokon : public TlvObjectBaseAO
+struct Path_SlingMudokon final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_SlingMudokon, "SlingMudokon", AO::TlvTypes::SlingMudokon_41)
     {
@@ -1352,7 +1352,7 @@ struct Path_SlingMudokon : public TlvObjectBaseAO
     }
 };
 
-struct Path_BeeSwarmHole : public TlvObjectBaseAO
+struct Path_BeeSwarmHole final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1377,7 +1377,7 @@ struct Path_BeeSwarmHole : public TlvObjectBaseAO
     }
 };
 
-struct Path_MeatSack : public TlvObjectBaseAO
+struct Path_MeatSack final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_MeatSack, "MeatSack", AO::TlvTypes::MeatSack_71)
     {
@@ -1389,7 +1389,7 @@ struct Path_MeatSack : public TlvObjectBaseAO
     }
 };
 
-struct Path_RollingBall : public TlvObjectBaseAO
+struct Path_RollingBall final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_RollingBall, "RollingBall", AO::TlvTypes::RollingBall_56)
     {
@@ -1401,7 +1401,7 @@ struct Path_RollingBall : public TlvObjectBaseAO
     }
 };
 
-struct Path_RollingBallStopper : public TlvObjectBaseAO
+struct Path_RollingBallStopper final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_RollingBallStopper, "RollingBallStopper", AO::TlvTypes::RollingBallStopper_59)
     {
@@ -1412,7 +1412,7 @@ struct Path_RollingBallStopper : public TlvObjectBaseAO
     }
 };
 
-struct Path_Bees : public TlvObjectBaseAO
+struct Path_Bees final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Bees, "Bees", AO::TlvTypes::Bees_43)
     {
@@ -1425,7 +1425,7 @@ struct Path_Bees : public TlvObjectBaseAO
     }
 };
 
-struct Path_ZBall : public TlvObjectBaseAO
+struct Path_ZBall final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1452,7 +1452,7 @@ struct Path_ZBall : public TlvObjectBaseAO
     }
 };
 
-struct Path_FootSwitch : public TlvObjectBaseAO
+struct Path_FootSwitch final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
@@ -1472,7 +1472,7 @@ struct Path_FootSwitch : public TlvObjectBaseAO
     }
 };
 
-struct Path_Paramite : public TlvObjectBaseAO
+struct Path_Paramite final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Paramite, "Paramite", AO::TlvTypes::Paramite_48)
     {
@@ -1489,7 +1489,7 @@ struct Path_Paramite : public TlvObjectBaseAO
     }
 };
 
-struct Path_Honey : public TlvObjectBaseAO
+struct Path_Honey final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_Honey, "Honey", AO::TlvTypes::Honey_20)
     {
@@ -1499,7 +1499,7 @@ struct Path_Honey : public TlvObjectBaseAO
     }
 };
 
-struct Path_HoneyDripTarget : public TlvObjectBaseAO
+struct Path_HoneyDripTarget final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_HoneyDripTarget, "HoneyDripTarget", AO::TlvTypes::HoneyDripTarget_42)
     {
