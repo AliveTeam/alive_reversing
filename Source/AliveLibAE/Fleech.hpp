@@ -26,7 +26,7 @@ enum class FleechSound : u8
     CrawlRNG3_16 = 16,
 };
 
-struct Path_Fleech : public Path_TLV
+struct Path_Fleech final : public Path_TLV
 {
     Scale_short field_10_scale;
     XDirection_short field_12_direction;
@@ -47,7 +47,7 @@ struct Path_Fleech : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Fleech, 0x30);
 
-struct Fleech_State
+struct Fleech_State final
 {
     AETypes field_0_type;
     s16 field_2;
@@ -145,7 +145,7 @@ class Fleech;
 using TFleechAIFn = s16 (Fleech::*)();
 using TFleechMotionFn = void (Fleech::*)();
 
-class Fleech : public BaseAliveGameObject
+class Fleech final : public BaseAliveGameObject
 {
 public:
     EXPORT Fleech* ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo);

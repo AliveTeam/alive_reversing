@@ -16,7 +16,7 @@ enum class GrenadeStates : s16
     eFallingBlowUpOnGround_9 = 9,
 };
 
-struct Grenade_SaveState
+struct Grenade_SaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -53,7 +53,7 @@ struct Grenade_SaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Grenade_SaveState, 0x3C);
 
-class Grenade : public BaseThrowable
+class Grenade final : public BaseThrowable
 {
 public:
     EXPORT Grenade* ctor_447F70(FP xpos, FP ypos, s16 numGrenades, s16 a5, s16 a6, BaseGameObject* pOwner);

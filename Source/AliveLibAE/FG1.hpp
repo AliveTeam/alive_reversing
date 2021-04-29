@@ -5,7 +5,7 @@
 #include "DynamicArray.hpp"
 #include "Primitives.hpp"
 
-struct Fg1Block
+struct Fg1Block final
 {
     Poly_FT4 field_0_polys[2];
     s32 field_58_padding;
@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF(Fg1Block, 0xA8);
 struct Fg1Chunk;
 enum class LevelIds : s16;
 
-class FG1 : public BaseGameObject
+class FG1 final : public BaseGameObject
 {
 public:
     EXPORT FG1* ctor_499FC0(u8** pFg1Res);

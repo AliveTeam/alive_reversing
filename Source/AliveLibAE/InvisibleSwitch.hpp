@@ -14,7 +14,7 @@ enum class InvisibleSwitchScale : s16
     eAny_2 = 2,
 };
 
-struct Path_InvisibleSwitch : public Path_TLV
+struct Path_InvisibleSwitch final : public Path_TLV
 {
     s16 field_10_id;
     SwitchOp field_12_action;
@@ -25,7 +25,7 @@ struct Path_InvisibleSwitch : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x1C);
 
-class InvisibleSwitch : public BaseGameObject
+class InvisibleSwitch final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

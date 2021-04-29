@@ -96,7 +96,7 @@ const OverlayRecords kOverlays = {
 ALIVE_VAR(1, 0x4C5AA8, OverlayRecords, sOverlayTable_4C5AA8, kOverlays);
 
 
-struct OpenSeqHandleAO
+struct OpenSeqHandleAO final
 {
     const s8* field_0_mBsqName;
     s32 field_4_generated_res_id;
@@ -108,7 +108,7 @@ struct OpenSeqHandleAO
 };
 ALIVE_ASSERT_SIZEOF(OpenSeqHandleAO, 0x14);
 
-struct OpenSeqHandleAE // Same as ::OpenSeqHandle
+struct OpenSeqHandleAE final // Same as ::OpenSeqHandle
 {
     const s8* field_0_mBsqName;
     s32 field_4_generated_res_id; // A hash of the named which matches the resource Id
@@ -451,10 +451,10 @@ s16 Map::GetOverlayId_4440B0()
 
 void Map::Handle_PathTransition_444DD0()
 {
-    Path_ChangeTLV* pTlv = nullptr;
+    Path_Change* pTlv = nullptr;
     if (field_18_pAliveObj)
     {
-        pTlv = static_cast<Path_ChangeTLV*>(TLV_Get_At_446260(
+        pTlv = static_cast<Path_Change*>(TLV_Get_At_446260(
             FP_GetExponent(field_18_pAliveObj->field_A8_xpos),
             FP_GetExponent(field_18_pAliveObj->field_AC_ypos),
             FP_GetExponent(field_18_pAliveObj->field_A8_xpos),
@@ -1053,11 +1053,11 @@ Camera* Map::GetCamera(CameraPos pos)
 
 s16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect)
 {
-    Path_ChangeTLV* pPathChangeTLV = nullptr;
+    Path_Change* pPathChangeTLV = nullptr;
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eEffect0_InstantChange;
     if (pObj)
     {
-        pPathChangeTLV = static_cast<Path_ChangeTLV*>(TLV_Get_At_446260(
+        pPathChangeTLV = static_cast<Path_Change*>(TLV_Get_At_446260(
             FP_GetExponent(pObj->field_A8_xpos),
             FP_GetExponent(pObj->field_AC_ypos),
             FP_GetExponent(pObj->field_A8_xpos),

@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct FallingItem_Data
+struct FallingItem_Data final
 {
     s32 field_0;
     s32 field_4;
@@ -16,7 +16,7 @@ struct FallingItem_Data
 };
 ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
 
-struct Path_FallingItem : public Path_TLV
+struct Path_FallingItem final : public Path_TLV
 {
     s16 field_18_id;
     Scale_short field_1A_scale;
@@ -27,7 +27,7 @@ struct Path_FallingItem : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_FallingItem, 0x24);
 
-class FallingItem : public BaseAliveGameObject
+class FallingItem final : public BaseAliveGameObject
 {
 public:
     EXPORT void DamageHitItems_41A6D0();

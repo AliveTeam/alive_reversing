@@ -6,7 +6,7 @@
 
 namespace AO {
 
-class ScreenShake : public BaseGameObject
+class ScreenShake final : public BaseGameObject
 {
 public:
     EXPORT ScreenShake* ctor_4624D0(s16 enableShakeEvent);

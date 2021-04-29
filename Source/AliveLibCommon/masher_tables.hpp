@@ -4,7 +4,7 @@
 
 //#pragma pack(push)
 //#pragma pack(2)
-struct Tbl1
+struct Tbl1 final
 {
     u8 mBitsToShift;
     //s8 padding;
@@ -16,7 +16,7 @@ struct Tbl1
 
 //#pragma pack(push)
 //#pragma pack(2)
-struct Tbl2
+struct Tbl2 final
 {
     u8 mBitsToShift;
     // s8 padding;

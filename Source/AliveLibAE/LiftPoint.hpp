@@ -13,7 +13,7 @@ enum class LiftPointStopType : s16
     eStartPointOnly_4 = 4,
 };
 
-struct Path_LiftPoint : public Path_TLV
+struct Path_LiftPoint final : public Path_TLV
 {
     s16 field_10_id;
     Choice_short field_12_bStart_point;
@@ -24,7 +24,7 @@ struct Path_LiftPoint : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftPoint, 0x1C);
 
-struct LiftPoint_State
+struct LiftPoint_State final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -48,7 +48,7 @@ struct LiftPoint_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPoint_State, 0x1C);
 
-class LiftPoint : public PlatformBase
+class LiftPoint final : public PlatformBase
 {
 public:
     EXPORT LiftPoint* ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo);

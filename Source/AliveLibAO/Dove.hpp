@@ -8,7 +8,7 @@
 
 namespace AO {
 
-struct Path_Dove : public Path_TLV
+struct Path_Dove final : public Path_TLV
 {
     s16 field_18_dove_count;
     Choice_short field_1A_pixel_perfect;
@@ -19,7 +19,7 @@ ALIVE_ASSERT_SIZEOF(Path_Dove, 0x20);
 
 void CC Dove_static_ctor_40EE10();
 
-class Dove : public BaseAnimatedWithPhysicsGameObject
+class Dove final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Dove* ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale);

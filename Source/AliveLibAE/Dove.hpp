@@ -6,7 +6,7 @@
 
 EXPORT void CC Dove_static_ctor_41F3A0();
 
-struct Path_Dove : public Path_TLV
+struct Path_Dove final : public Path_TLV
 {
     s16 field_10_dove_count;
     s16 field_12_pixel_perfect;
@@ -15,7 +15,7 @@ struct Path_Dove : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x18);
 
-class Dove : public ::BaseAnimatedWithPhysicsGameObject
+class Dove final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Dove* ctor_41F430(s32 frameTableOffset, s32 maxW, u16 maxH, s32 resourceID, s32 tlvInfo, FP scale);

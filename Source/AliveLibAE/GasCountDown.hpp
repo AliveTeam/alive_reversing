@@ -5,7 +5,7 @@
 #include "BaseGameObject.hpp"
 #include "Font.hpp"
 
-struct Path_GasCountDown : public Path_TLV
+struct Path_GasCountDown final : public Path_TLV
 {
     s16 field_10_start_trigger_id;
     u16 field_12_gas_countdown_timer;
@@ -14,7 +14,7 @@ struct Path_GasCountDown : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x18);
 
-class GasCountDown : public BaseGameObject
+class GasCountDown final : public BaseGameObject
 {
 public:
     EXPORT GasCountDown* ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo);

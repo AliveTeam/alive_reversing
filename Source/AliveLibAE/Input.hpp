@@ -119,7 +119,7 @@ EXPORT s32 CC Input_Remap_492680(InputCommands::Enum inputCmd);
 EXPORT void CC Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad);
 EXPORT s32 CC Input_Read_Pad_4FA9C0(s32 padNum);
 
-struct InputPadObject
+struct InputPadObject final
 {
     u32 field_0_pressed;
     u8 field_4_dir;
@@ -153,7 +153,7 @@ enum PsxButtonBits : u32
     eDPadLeft = 1 << 15,
 };
 
-struct InputBinding
+struct InputBinding final
 {
     s32 key;
     InputCommands::Enum command;
@@ -165,7 +165,7 @@ enum GamepadOptionFlags
     eHasDPad = 0x2
 };
 
-class InputObject
+class InputObject final
 {
 public:
     EXPORT s32 Is_Demo_Playing_45F220();

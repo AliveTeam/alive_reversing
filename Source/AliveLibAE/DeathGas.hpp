@@ -6,7 +6,7 @@
 
 ALIVE_VAR_EXTERN(s32, gDeathGasCount_5BD24C);
 
-class DeathGas : public BaseGameObject
+class DeathGas final : public BaseGameObject
 {
 public:
     EXPORT DeathGas* ctor_43C030(Layer layer, s16 amount);

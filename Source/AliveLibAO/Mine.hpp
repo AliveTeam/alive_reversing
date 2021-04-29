@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_Mine : public Path_TLV
+struct Path_Mine final : public Path_TLV
 {
     s16 field_18_num_patterns;
     s16 field_1A_pattern;
@@ -18,7 +18,7 @@ struct Path_Mine : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Mine, 0x24);
 
-class Mine : public BaseAliveGameObject
+class Mine final : public BaseAliveGameObject
 {
 public:
     EXPORT Mine* ctor_43A330(Path_Mine* pTlv, s32 tlvInfo);

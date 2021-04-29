@@ -32,7 +32,7 @@ enum class RingTypes : s16
     eHealing_Pulse_14 = 14,
 };
 
-struct AbilityRing_State
+struct AbilityRing_State final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -54,7 +54,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(AbilityRing_State, 0x28);
 struct AbilityRing_PolyBuffer;
 enum class LevelIds : s16;
 
-class AbilityRing : public BaseGameObject
+class AbilityRing final : public BaseGameObject
 {
 public:
     EXPORT static AbilityRing* CC Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale);

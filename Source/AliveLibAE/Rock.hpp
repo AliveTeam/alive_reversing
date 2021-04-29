@@ -15,7 +15,7 @@ enum class RockStates : s16
     eFallingOutOfWorld_5 = 5,
 };
 
-struct RockSaveState
+struct RockSaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -46,7 +46,7 @@ struct RockSaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(RockSaveState, 0x38);
 
-class Rock : public BaseThrowable
+class Rock final : public BaseThrowable
 {
 public:
     EXPORT Rock* ctor_49E150(FP xpos, FP ypos, s16 count);

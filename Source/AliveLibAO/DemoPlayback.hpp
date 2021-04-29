@@ -6,14 +6,14 @@
 
 namespace AO {
 
-struct PlaybackData
+struct PlaybackData final
 {
     SaveData saveData;
     u8 randomSeed;
     //TODO probably more variables after
 };
 
-class DemoPlayback : public BaseGameObject
+class DemoPlayback final : public BaseGameObject
 {
 public:
     EXPORT DemoPlayback* ctor_4517B0(u8**, s16 a3);

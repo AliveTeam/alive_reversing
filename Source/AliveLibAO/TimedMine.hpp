@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_TimedMine : public Path_TLV
+struct Path_TimedMine final : public Path_TLV
 {
     s16 field_18_id;
     s16 field_1A_state;
@@ -17,7 +17,7 @@ struct Path_TimedMine : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_TimedMine, 0x24);
 
-class TimedMine : public BaseAliveGameObject
+class TimedMine final : public BaseAliveGameObject
 {
 public:
     EXPORT TimedMine* ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo);

@@ -9,7 +9,7 @@ enum class CameraSwapEffects : s16;
 
 class ScreenClipper;
 
-class CameraSwapper : public BaseGameObject
+class CameraSwapper final : public BaseGameObject
 {
 public:
     EXPORT CameraSwapper* ctor_48C540(u8** ppBits, s32 movieId, s32 movieFlag, s8 movieFlags, s16 flags, s16 volume);

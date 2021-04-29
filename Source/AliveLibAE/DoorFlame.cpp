@@ -12,7 +12,7 @@
 
 ALIVE_VAR(1, 0x5C2C6C, DoorFlame*, pFlameControllingTheSound_5C2C6C, nullptr);
 
-class FireBackgroundGlow : public ::BaseAnimatedWithPhysicsGameObject
+class FireBackgroundGlow final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FireBackgroundGlow* ctor_45D890(FP xpos, FP ypos, FP scale)
@@ -143,7 +143,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(FireBackgroundGlow, 0x104);
 
-struct FlameSpark
+struct FlameSpark final
 {
     FP field_0_x;
     FP field_4_y;
@@ -156,7 +156,7 @@ struct FlameSpark
 ALIVE_ASSERT_SIZEOF(FlameSpark, 0x84);
 
 // These flame sparks are extremely subtle and are easily missed!
-class FlameSparks : public ::BaseAnimatedWithPhysicsGameObject
+class FlameSparks final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FlameSparks* ctor_45DE00(FP xpos, FP ypos)

@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_RockSack : public Path_TLV
+struct Path_RockSack final : public Path_TLV
 {
     s16 field_18_side;
     s16 field_1A_x_vel;
@@ -18,7 +18,7 @@ struct Path_RockSack : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_RockSack, 0x24);
 
-class RockSack : public BaseAliveGameObject
+class RockSack final : public BaseAliveGameObject
 {
 public:
     EXPORT RockSack* ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo);
@@ -47,7 +47,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(RockSack, 0x120);
 
-class Rock : public BaseThrowable
+class Rock final : public BaseThrowable
 {
 public:
     EXPORT Rock* ctor_456960(FP xpos, FP ypos, s16 count);

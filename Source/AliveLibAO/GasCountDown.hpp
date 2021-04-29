@@ -7,14 +7,14 @@
 
 namespace AO {
 
-struct Path_GasCountDown : public Path_TLV
+struct Path_GasCountDown final : public Path_TLV
 {
     s16 field_18_start_id;
     s16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x1C);
 
-class GasCountDown : public BaseGameObject
+class GasCountDown final : public BaseGameObject
 {
 public:
     EXPORT GasCountDown* ctor_40BF60(Path_GasCountDown* pTlv, s32 tlvInfo);

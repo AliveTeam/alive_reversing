@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct FallingItem_Data
+struct FallingItem_Data final
 {
     s32 field_0;
     s32 field_4;
@@ -13,7 +13,7 @@ struct FallingItem_Data
 };
 ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
 
-struct Path_FallingItem : public Path_TLV
+struct Path_FallingItem final : public Path_TLV
 {
     s16 field_10_id;
     Scale_short field_12_scale;
@@ -24,7 +24,7 @@ struct Path_FallingItem : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x1C);
 
-class FallingItem : public BaseAliveGameObject
+class FallingItem final : public BaseAliveGameObject
 {
 public:
     EXPORT FallingItem* ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo);

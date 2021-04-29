@@ -4,12 +4,13 @@
 #include "FixedPoint.hpp"
 #include "Psx.hpp"
 #include "ResourceManager.hpp"
+#include "Path.hpp"
 
 void Map_ForceLink();
 
 EXPORT void CC static_map_init_4802D0();
 
-struct Map_PathsArray
+struct Map_PathsArray final
 {
     u8** field_0_pPathRecs[30];
 };
@@ -38,7 +39,7 @@ enum class CameraSwapEffects : s16
     eEffect11_Unknown = 11        // Unknown, has special handing in the map object
 };
 
-struct CameraName
+struct CameraName final
 {
     s8 name[8];
 };
@@ -55,9 +56,21 @@ enum class CameraPos : s16
     eCamNone_5 = 5, // Not "in" the camera
 };
 
+// TODO: Never used in AE path data?
+struct Path_Change final : public Path_TLV
+{
+    LevelIds field_10_level;
+    s16 field_12_path;
+    s16 field_14_camera;
+    s16 field_16_movie;
+    s16 field_18_wipe;
+    Scale_short field_1A_scale;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Change, 0x1C);
+
 enum class LoadMode : s16;
 
-class Map
+class Map final
 {
 public:
     enum class MapDirections : s16

@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-struct GibPart
+struct GibPart final
 {
     FP field_0_x;
     FP field_4_y;
@@ -15,7 +15,7 @@ struct GibPart
 };
 ALIVE_ASSERT_SIZEOF(GibPart, 0xB0);
 
-struct Gib_Data
+struct Gib_Data final
 {
     s32 field_0_head;
     s32 field_4_arm;
@@ -42,7 +42,7 @@ enum class GibType : s32
     Fleech_10 = 10,
 };
 
-class Gibs : public ::BaseAnimatedWithPhysicsGameObject
+class Gibs final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Gibs* ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 bMakeSmaller);

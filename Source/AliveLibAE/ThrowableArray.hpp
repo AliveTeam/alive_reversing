@@ -8,10 +8,10 @@ enum class LevelIds : s16;
 EXPORT void CCSTD FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray);
 EXPORT void CC LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber);
 
-class ThrowableArray : public BaseGameObject
+class ThrowableArray final : public BaseGameObject
 {
 public:
-    struct ThrowableArray_SaveState
+    struct ThrowableArray_SaveState final
     {
         s16 field_0_unused;
         s16 field_2_item_count;

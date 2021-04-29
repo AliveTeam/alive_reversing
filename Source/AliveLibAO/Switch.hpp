@@ -9,7 +9,7 @@ namespace AO {
 
 enum class SwitchOp : s16;
 
-struct Path_Switch : public Path_TLV
+struct Path_Switch final : public Path_TLV
 {
     s16 field_18_trigger_object;
     SwitchOp field_1A_trigger_object_action;
@@ -21,7 +21,7 @@ struct Path_Switch : public Path_TLV
 ALIVE_ASSERT_SIZEOF(Path_Switch, 0x24);
 
 
-class Switch : public BaseAnimatedWithPhysicsGameObject
+class Switch final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Switch* ctor_481110(Path_Switch* pTlv, s32 tlvInfo);

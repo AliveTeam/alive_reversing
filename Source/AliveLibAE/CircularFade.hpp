@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-class CircularFade : public ::BaseAnimatedWithPhysicsGameObject
+class CircularFade final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

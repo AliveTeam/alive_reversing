@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_SlogHut : public Path_TLV
+struct Path_SlogHut final : public Path_TLV
 {
     u16 field_18_scale;
     s16 field_1A_switch_id;
@@ -16,7 +16,7 @@ struct Path_SlogHut : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_SlogHut, 0x20);
 
-class SlogHut : public BaseGameObject
+class SlogHut final : public BaseGameObject
 {
 public:
     EXPORT SlogHut* ctor_472C80(Path_SlogHut* pTlv, s32 tlvInfo);

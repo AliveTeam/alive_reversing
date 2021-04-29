@@ -1,46 +1,45 @@
 #pragma once
 
-#include "TlvObjectBaseAOBase.hpp"
+#include "TlvObjectBase.hpp"
 
 #include "../AliveLibAO/Map.hpp"
-#include "../AliveLibAO/PathData.hpp"
+#include "../AliveLibAE/Path.hpp"
 
-#include <cassert>
+#include "../AliveLibCommon/Types.hpp"
+
 #include <string>
+#include <utility>
+#include <vector>
 
-template <class T>
-class TlvObjectBaseAO : public T
-    , public TlvObjectBaseAOBase
+namespace jsonxx {
+class Object;
+}
+
+class TlvObjectBaseAO : public TlvObjectBase
 {
-private:
-    static void copyFn(AO::Path_TLV* dst, AO::Path_TLV* src)
-    {
-        if (src != nullptr)
-        {
-            *(static_cast<T*>(dst)) = *(static_cast<T*>(src));
-        }
-    }
-
 public:
-    // Used only to get "typeName"
-    TlvObjectBaseAO(AO::TlvTypes tlvType, const std::string& typeName)
-        : T{}
-        , TlvObjectBaseAOBase(sizeof(T), tlvType, typeName, &tlv())
-    {
-    }
+    using CopyFn = void (*)(AO::Path_TLV* dst, const AO::Path_TLV* src);
+    using InitFn = void(*)(AO::Path_TLV* dst);
 
-    TlvObjectBaseAO(TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pTlv)
-        : T{}
-        , TlvObjectBaseAOBase(sizeof(T), globalTypes, tlvType, typeName, &tlv(), pTlv, &copyFn)
-    {
-    }
+    // Ctor used only to get "typeName"
+    TlvObjectBaseAO(std::size_t sizeOfT, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv);
 
-    [[nodiscard]] T& tlv()
-    {
-        return static_cast<T&>(*this);
-    }
-    [[nodiscard]] const T& tlv() const
-    {
-        return static_cast<T&>(*this);
-    }
+    TlvObjectBaseAO(std::size_t sizeOfT, TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv);
+
+    void InstanceFromJsonBase(const jsonxx::Object& obj) override;
+    void InstanceToJsonBase(jsonxx::Object& ret) override;
+
+    TlvObjectBaseAO(const TlvObjectBaseAO&) = delete;
+    TlvObjectBaseAO(TlvObjectBaseAO&&) = delete;
+
+    [[nodiscard]] s16 TlvLen() const override;
+    [[nodiscard]] std::vector<u8> GetTlvData(bool setTerminationFlag) override;
+    [[nodiscard]] AO::TlvTypes TlvType() const;
+
+protected:
+    void ConvertXYPos();
+
+    const std::size_t mSizeOfT;
+    const AO::TlvTypes mType;
+    AO::Path_TLV* const mPSelfTlv;
 };

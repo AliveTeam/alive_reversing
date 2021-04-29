@@ -5,7 +5,7 @@
 #include "FunctionFwd.hpp"
 #include "Layer.hpp"
 
-struct Path_MotionDetector : public Path_TLV
+struct Path_MotionDetector final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_device_x;
@@ -25,7 +25,7 @@ struct Path_MotionDetector : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MotionDetector, 0x24);
 
-class MotionDetectorLaser : public ::BaseAnimatedWithPhysicsGameObject
+class MotionDetectorLaser final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MotionDetectorLaser* ctor_468290(FP xpos, FP ypos, FP scale, Layer layer);
@@ -38,7 +38,7 @@ private:
 ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
 
 
-class MotionDetector : public ::BaseAnimatedWithPhysicsGameObject
+class MotionDetector final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MotionDetector* ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner);

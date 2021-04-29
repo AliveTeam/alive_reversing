@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class LightEffect : public BaseAnimatedWithPhysicsGameObject
+class LightEffect final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT LightEffect* ctor_4064C0(Path_LightEffect* pTlv, s32 tlvInfo);

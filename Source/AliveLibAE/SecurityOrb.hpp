@@ -4,7 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_SecurityClaw : public Path_TLV
+struct Path_SecurityClaw final : public Path_TLV
 {
     Scale_int field_10_scale;
     s16 field_12_disabled_resources;
@@ -12,14 +12,14 @@ struct Path_SecurityClaw : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityClaw, 0x18);
 
-struct Path_SecurityOrb : public Path_TLV
+struct Path_SecurityOrb final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x14);
 
-class SecurityOrb : public BaseAliveGameObject
+class SecurityOrb final : public BaseAliveGameObject
 {
 public:
     EXPORT SecurityOrb* ctor_466350(Path_SecurityOrb* pTlv, s32 tlvInfo);

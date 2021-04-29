@@ -89,7 +89,7 @@ enum class SligSfx : s16
     ePadding_16 = 16
 };
 
-struct Path_Slig : public Path_TLV
+struct Path_Slig final : public Path_TLV
 {
     Scale_short field_10_scale;
 
@@ -140,7 +140,7 @@ struct Path_Slig : public Path_TLV
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
 
 // This is a left bound, right bound and a persist.
-struct Path_SligBound : public Path_TLV
+struct Path_SligBound final : public Path_TLV
 {
     s16 field_10_slig_id;
     s16 field_12_disabled_resources;
@@ -158,7 +158,7 @@ class Slig;
 using TSligAIFn = s16 (Slig::*)();
 using TSligMotionFn = void (Slig::*)();
 
-struct Slig_State
+struct Slig_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -240,7 +240,7 @@ enum class GameSpeakEvents : s16;
 
 class LiftPoint;
 
-class Slig : public BaseAliveGameObject
+class Slig final : public BaseAliveGameObject
 {
 public:
     EXPORT Slig* ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo);

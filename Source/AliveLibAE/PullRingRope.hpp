@@ -21,7 +21,7 @@ enum class PullRingSoundDirection : s16
     eRight_2 = 2,
 };
 
-struct Path_PullRingRope : public Path_TLV
+struct Path_PullRingRope final : public Path_TLV
 {
     s16 field_10_id;
     SwitchOp field_12_target_action;
@@ -34,7 +34,7 @@ struct Path_PullRingRope : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PullRingRope, 0x20);
 
-class PullRingRope : public ::BaseAnimatedWithPhysicsGameObject
+class PullRingRope final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT PullRingRope* ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo);

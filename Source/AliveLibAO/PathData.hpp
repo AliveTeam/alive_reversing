@@ -146,7 +146,7 @@ class Map;
 
 using TTempFn = s32(CC*)();
 
-struct PathData
+struct PathData final
 {
     TTempFn field_0;
     s16 field_4_bLeft;
@@ -166,7 +166,7 @@ struct CollisionInfo;
 
 using TCollisionsFactory = AddPointer_t<void(const CollisionInfo* pCollisionInfo, const u8* pPathData)>;
 
-struct CollisionInfo
+struct CollisionInfo final
 {
     TCollisionsFactory field_0_fn_ptr;
     s16 field_4_left;
@@ -179,7 +179,7 @@ struct CollisionInfo
     u32 field_18_grid_height;
 };
 
-struct PathBlyRec
+struct PathBlyRec final
 {
     const s8* field_0_blyName;
     const PathData* field_4_pPathData;
@@ -188,7 +188,7 @@ struct PathBlyRec
     u16 field_E;
 };
 
-struct FmvInfo
+struct FmvInfo final
 {
     const s8* field_0_pName;
     u16 field_4_id;
@@ -199,7 +199,7 @@ struct FmvInfo
     s16 field_E;
 };
 
-struct SoundBlockInfo
+struct SoundBlockInfo final
 {
     const s8* field_0_vab_header_name;
     const s8* field_4_vab_body_name;
@@ -207,7 +207,7 @@ struct SoundBlockInfo
     u8* field_C_pVabHeader;
 };
 
-struct PathRoot
+struct PathRoot final
 {
     const PathBlyRec* field_0_pBlyArrayPtr;
     FmvInfo* field_4_pFmvArray;
@@ -228,7 +228,7 @@ struct PathRoot
     const s8* field_38_bnd_name;
 };
 
-struct PathRootContainer
+struct PathRootContainer final
 {
     PathRoot paths[16];
 };

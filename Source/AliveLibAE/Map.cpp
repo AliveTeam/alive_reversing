@@ -34,16 +34,6 @@ ALIVE_VAR(1, 0x5c311c, s16, sMap_bDoPurpleLightEffect_5C311C, 0);
 ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
 ALIVE_VAR(1, 0x5c3120, u32, sSoundChannelsMask_5C3120, 0);
 
-struct Path_ChangeTLV : public Path_TLV
-{
-    LevelIds field_10_level;
-    s16 field_12_path;
-    s16 field_14_camera;
-    s16 field_16_movie;
-    s16 field_18_wipe;
-    Scale_short field_1A_scale;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChangeTLV, 0x1C);
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
 const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10] = {
@@ -325,10 +315,10 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
 
 void Map::Handle_PathTransition_481610()
 {
-    Path_ChangeTLV* pPathChangeTLV = nullptr;
+    Path_Change* pPathChangeTLV = nullptr;
     if (field_18_pAliveObj)
     {
-        pPathChangeTLV = static_cast<Path_ChangeTLV*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        pPathChangeTLV = static_cast<Path_Change*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
             FP_GetExponent(field_18_pAliveObj->field_B8_xpos),
             FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
             FP_GetExponent(field_18_pAliveObj->field_B8_xpos),
@@ -1340,11 +1330,11 @@ void CC Map::LoadResourcesFromList_4DBE70(const s8* pFileName, ResourceManager::
 
 s16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect)
 {
-    Path_ChangeTLV* pPathChangeTLV = nullptr;
+    Path_Change* pPathChangeTLV = nullptr;
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eEffect0_InstantChange;
     if (pObj)
     {
-        pPathChangeTLV = reinterpret_cast<Path_ChangeTLV*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        pPathChangeTLV = reinterpret_cast<Path_Change*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
             FP_GetExponent(pObj->field_B8_xpos),
             FP_GetExponent(pObj->field_BC_ypos),
             FP_GetExponent(pObj->field_B8_xpos),

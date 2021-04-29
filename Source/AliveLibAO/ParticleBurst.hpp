@@ -16,7 +16,7 @@ enum class BurstType : s16
     eType_4 = 4,
 };
 
-class ParticleBurst : public BaseAnimatedWithPhysicsGameObject
+class ParticleBurst final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ParticleBurst* ctor_40D0F0(FP xpos, FP ypos, s16 unknown_count1, FP scale, BurstType type);

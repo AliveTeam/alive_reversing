@@ -18,19 +18,19 @@
 
 #include "GLShader.hpp"
 
-struct VertexData
+struct VertexData final
 {
     f32 x, y, z;
     f32 r, g, b;
     f32 u, v;
 };
 
-struct RGBAPixel
+struct RGBAPixel final
 {
     u8 R, G, B, A;
 };
 
-struct TextureCache
+struct TextureCache final
 {
     GLuint mTextureID;
     PSX_RECT mVramRect;
@@ -42,7 +42,7 @@ struct TextureCache
     PSX_Point mUvOffset;
 };
 
-struct PaletteCache
+struct PaletteCache final
 {
     u32 mPalTextureID;
     PSX_Point mPalPoint;
@@ -50,7 +50,7 @@ struct PaletteCache
     RGBAPixel mPalData[256];
 };
 
-class OpenGLRenderer : public IRenderer
+class OpenGLRenderer final : public IRenderer
 {
 public:
     void Destroy() override;

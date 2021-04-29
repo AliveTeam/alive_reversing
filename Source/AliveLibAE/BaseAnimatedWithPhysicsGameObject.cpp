@@ -543,7 +543,7 @@ void BaseAnimatedWithPhysicsGameObject::SetRGB(s16 r, s16 g, s16 b)
 }
 
 namespace AETest::TestsBaseAnimatedWithPhysicsGameObject {
-class TestObj : public ::BaseAnimatedWithPhysicsGameObject
+class TestObj final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32) override
@@ -553,7 +553,7 @@ public:
     }
 };
 
-struct TestAnimData
+struct TestAnimData final
 {
     AnimationHeader mHeader;
     FrameInfoHeader mFrameInfoHeader[10];

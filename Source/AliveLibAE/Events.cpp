@@ -6,13 +6,13 @@
 #include "DebugHelpers.hpp"
 #include <gmock/gmock.h>
 
-struct EventsArray
+struct EventsArray final
 {
     BaseGameObject* field_0_event_ptrs[Event::kEventMax];
 };
 ALIVE_ASSERT_SIZEOF(EventsArray, 0x58);
 
-struct Events
+struct Events final
 {
     // 2 copies for f64 buffering
     EventsArray field_0_events[2];

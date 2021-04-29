@@ -16,7 +16,7 @@ enum SlamDoor_Flags_118
     e118_Bit5_Delete = 0x10,
 };
 
-struct Path_SlamDoor : public Path_TLV
+struct Path_SlamDoor final : public Path_TLV
 {
     Choice_short field_10_bStart_closed;
     Scale_short field_12_scale;
@@ -27,7 +27,7 @@ struct Path_SlamDoor : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);
 
-class SlamDoor : public BaseAliveGameObject
+class SlamDoor final : public BaseAliveGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

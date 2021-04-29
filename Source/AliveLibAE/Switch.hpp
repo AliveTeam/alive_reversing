@@ -31,7 +31,7 @@ enum class SwitchSoundDirection : s16
     eRight_2 = 2,
 };
 
-struct Path_Switch : public Path_TLV
+struct Path_Switch final : public Path_TLV
 {
     SwitchOp field_10_target_action;
     Scale_short field_12_scale;
@@ -44,7 +44,7 @@ struct Path_Switch : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Switch, 0x20);
 
-class Switch : public ::BaseAnimatedWithPhysicsGameObject
+class Switch final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

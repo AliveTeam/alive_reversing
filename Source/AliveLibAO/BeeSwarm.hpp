@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct BeeSwarmParticle
+struct BeeSwarmParticle final
 {
     FP field_0_xpos;
     FP field_4_ypos;
@@ -21,12 +21,12 @@ ALIVE_ASSERT_SIZEOF(BeeSwarmParticle, 0x80);
 
 class PathLine;
 
-struct BeeSwarmParticles
+struct BeeSwarmParticles final
 {
     BeeSwarmParticle bees[25];
 };
 
-class BeeSwarm : public BaseAnimatedWithPhysicsGameObject
+class BeeSwarm final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BeeSwarm* ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks);

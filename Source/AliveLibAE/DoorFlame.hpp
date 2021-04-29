@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_DoorFlame : public Path_TLV
+struct Path_DoorFlame final : public Path_TLV
 {
     s16 field_10_id;
     Scale_short field_12_scale;
@@ -13,7 +13,7 @@ struct Path_DoorFlame : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x18);
 
-class DoorFlame : public ::BaseAnimatedWithPhysicsGameObject
+class DoorFlame final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT DoorFlame* ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo);

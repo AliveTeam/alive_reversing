@@ -9,7 +9,7 @@ void SlingMud_ForceLink();
 
 namespace AO {
 
-struct Path_SlingMudokon : public Path_TLV
+struct Path_SlingMudokon final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_silent;
@@ -32,7 +32,7 @@ enum eSlingMudStates : s32
     SLING_MUD_STATES_ENUM(MAKE_ENUM)
 };
 
-class SlingMudokon : public BaseAliveGameObject
+class SlingMudokon final : public BaseAliveGameObject
 {
 public:
     EXPORT SlingMudokon* ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo);

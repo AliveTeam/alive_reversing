@@ -4,7 +4,7 @@
 
 namespace AO {
 
-struct SwitchStates
+struct SwitchStates final
 {
     s8 mData[256];
 };

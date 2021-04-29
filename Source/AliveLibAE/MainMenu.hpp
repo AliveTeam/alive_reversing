@@ -14,7 +14,7 @@ void MainMenu_ForceLink();
 
 enum class LevelIds : s16;
 
-struct MenuFMV
+struct MenuFMV final
 {
     const s8* field_0_name;
     LevelIds field_4_level_id;
@@ -33,7 +33,7 @@ enum MainMenuButtonType
     eUnused_3 = 3
 };
 
-struct MainMenuButton
+struct MainMenuButton final
 {
     s16 field_0_type;
     s16 field_2_x;
@@ -57,12 +57,12 @@ enum MenuResIds
     eParamiteSpeak = 10,
 };
 
-struct MainMenuControllerResources
+struct MainMenuControllerResources final
 {
     u8** field_0_resources[11];
 };
 
-struct MainMenuText
+struct MainMenuText final
 {
     s32 field_0_x;
     s32 field_4_y;
@@ -78,7 +78,7 @@ struct MainMenuText
     u8 field_17;
 };
 
-struct MainMenuFrameTable
+struct MainMenuFrameTable final
 {
     s32 field_0_frame_offset;
     s16 field_4_menu_res_id;
@@ -128,7 +128,7 @@ enum MainMenuCams : u16
     eCheatMenu_SelectLevelCam = 31,
 };
 
-struct MainMenuNextCam
+struct MainMenuNextCam final
 {
     s16 page_update_camera;      // LOWORD
     s16 button_idx_to_highlight; // HIWORD - by default, always the first button on the given page should be highlighted
@@ -144,7 +144,7 @@ struct MainMenuNextCam
 // Indicates a button index value on a given page where there is no button to animate with a glowing outline
 const s16 NO_SELECTABLE_BUTTONS = -1;
 
-class MainMenuController : public ::BaseAnimatedWithPhysicsGameObject
+class MainMenuController final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MainMenuController* ctor_4CE9A0(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
@@ -406,7 +406,7 @@ using TFnLoad = void (MainMenuController::*)();
 using TFnUnLoad = void (MainMenuController::*)();
 
 
-struct MainMenuPage
+struct MainMenuPage final
 {
     s16 field_0_cam_id;
     s16 field_2_pad;
@@ -422,7 +422,7 @@ struct MainMenuPage
     TFnUnLoad field_20_fn_on_free;
 };
 
-struct PerPathMudStats
+struct PerPathMudStats final
 {
     s8 mData[21];
 };

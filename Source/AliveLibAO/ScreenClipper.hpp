@@ -7,7 +7,7 @@
 
 namespace AO {
 
-class ScreenClipper : public BaseGameObject
+class ScreenClipper final : public BaseGameObject
 {
 public:
     EXPORT ScreenClipper* ctor_40BD60(PSX_Point xy, PSX_Point wh, Layer layer);

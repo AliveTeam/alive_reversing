@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_ElectricWall : public Path_TLV
+struct Path_ElectricWall final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_id;
@@ -16,7 +16,7 @@ struct Path_ElectricWall : public Path_TLV
 ALIVE_ASSERT_SIZEOF(Path_ElectricWall, 0x20);
 
 
-class ElectricWall : public BaseAnimatedWithPhysicsGameObject
+class ElectricWall final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ElectricWall* ctor_40FCF0(Path_ElectricWall* pTlv, s32 tlvInfo);

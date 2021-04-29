@@ -7,7 +7,7 @@ struct Path_TLV;
 
 #pragma pack(push)
 #pragma pack(2)
-class CreditsController : public BaseGameObject
+class CreditsController final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class HoneyDrip : public BaseAnimatedWithPhysicsGameObject
+class HoneyDrip final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT HoneyDrip* ctor_431D10(FP xpos, FP ypos);

@@ -64,7 +64,6 @@ static void RunTests()
     AETest::TestsPsxRender::PsxRenderTests();
     AETest::TestsBaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObjectTests();
     AETest::TestsMath::Math_Tests();
-    AETest::TestsQuikSave::QuikSave_Tests();
 }
 
 static void InitOtherHooksAndRunTests()

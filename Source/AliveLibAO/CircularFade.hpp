@@ -6,7 +6,7 @@
 
 namespace AO {
 
-class CircularFade : public BaseAnimatedWithPhysicsGameObject
+class CircularFade final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT CircularFade* ctor_479E20(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);

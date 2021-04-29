@@ -11,7 +11,7 @@ enum class WheelSyncerAction : s16
     eOn_3 = 3
 };
 
-struct Path_WheelSyncer : public Path_TLV
+struct Path_WheelSyncer final : public Path_TLV
 {
     s16 field_10_id1;
     s16 field_12_id2;
@@ -24,7 +24,7 @@ struct Path_WheelSyncer : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WheelSyncer, 0x20);
 
-class WheelSyncer : public BaseGameObject
+class WheelSyncer final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

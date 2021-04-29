@@ -13,7 +13,7 @@ enum class ThrowableTotalIndicatorState : s16
     eVanishing_2 = 2
 };
 
-class ThrowableTotalIndicator : public BaseGameObject
+class ThrowableTotalIndicator final : public BaseGameObject
 {
 public:
     EXPORT ThrowableTotalIndicator* ctor_431CB0(FP xpos, FP ypos, Layer layer, FP scale, s16 count, s16 bFade);

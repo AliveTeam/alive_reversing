@@ -58,7 +58,7 @@ enum eParamiteMotions : s32
 
 class Meat;
 
-struct Path_Paramite : public Path_TLV
+struct Path_Paramite final : public Path_TLV
 {
     Scale_short field_10_scale;
     enum class EntranceType : s16
@@ -109,7 +109,7 @@ enum class ParamiteSpeak : s8
     None_11 = 11,
 };
 
-struct Paramite_State
+struct Paramite_State final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -171,7 +171,7 @@ struct Paramite_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Paramite_State, 0x78);
 
-class Paramite : public BaseAliveGameObject
+class Paramite final : public BaseAliveGameObject
 {
 public:
     EXPORT Paramite* ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo);

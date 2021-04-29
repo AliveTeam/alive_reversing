@@ -12,7 +12,7 @@
 #include "Sfx.hpp"
 #include "Events.hpp"
 
-struct LiftPointData
+struct LiftPointData final
 {
     s32 field_0_maxW_platform;
     s32 field_4_maxH_platform;

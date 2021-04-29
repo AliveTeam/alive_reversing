@@ -7,14 +7,14 @@
 
 void StatsSign_ForceLink();
 
-struct Path_LCDStatusBoard : public Path_TLV
+struct Path_LCDStatusBoard final : public Path_TLV
 {
     s16 field_10_number_of_muds;
     s16 field_12_zulag_number;
     s32 field_14_hidden;
 };
 
-class LCDStatusBoard : public BaseGameObject
+class LCDStatusBoard final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

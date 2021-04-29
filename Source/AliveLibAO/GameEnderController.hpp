@@ -7,7 +7,7 @@ void GameEnderController_ForceLink();
 
 namespace AO {
 
-class GameEnderController : public BaseGameObject
+class GameEnderController final : public BaseGameObject
 {
 public:
     static EXPORT void CC CreateGameEnderController_41C7D0();

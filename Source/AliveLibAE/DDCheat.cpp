@@ -54,7 +54,7 @@ EXPORT void DDCheat_SaveScreenshot_415550()
     NOT_IMPLEMENTED();
 }
 
-struct DDCheatProperties
+struct DDCheatProperties final
 {
     DDCheatProperty props[10];
 };

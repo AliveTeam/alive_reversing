@@ -17,7 +17,7 @@ enum eLineTypes : u8
     eBackGroundWallRight_6 = 6
 };
 
-class PathLine
+class PathLine final
 {
 public:
     PSX_RECT field_0_rect;
@@ -34,7 +34,7 @@ ALIVE_ASSERT_SIZEOF(PathLine, 20);
 
 struct CollisionInfo;
 
-class Collisions
+class Collisions final
 {
 public:
     EXPORT static void CC Factory_40CEC0(const CollisionInfo* pCollisionInfo, const u8* pPathData);

@@ -14,7 +14,7 @@ enum AudioFilterMode
 };
 
 // An SDL implementation of used IDirectSound API's
-class SDLSoundSystem
+class SDLSoundSystem final
 {
 public:
     void Init(u32 sampleRate, s32 bitsPerSample, s32 isStereo);

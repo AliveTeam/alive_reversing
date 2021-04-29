@@ -11,7 +11,7 @@ enum class MessageType : s32
     eShortTitle_3 = 3
 };
 
-class Text : public BaseGameObject
+class Text final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

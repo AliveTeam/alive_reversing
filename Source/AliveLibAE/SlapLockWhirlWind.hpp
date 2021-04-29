@@ -3,14 +3,14 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-struct SlapLockWhirlWind_State
+struct SlapLockWhirlWind_State final
 {
     AETypes field_0_type;
     s16 field_2_switch_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockWhirlWind_State, 0x4);
 
-class SlapLockWhirlWind : public BaseGameObject
+class SlapLockWhirlWind final : public BaseGameObject
 {
 public:
     EXPORT SlapLockWhirlWind* ctor_43D7E0(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale);

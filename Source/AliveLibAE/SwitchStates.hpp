@@ -20,7 +20,7 @@ enum class SwitchOp : s16
 
 EXPORT void CC SwitchStates_Do_Operation_465F00(s16 idx, SwitchOp operation);
 
-struct SwitchStates
+struct SwitchStates final
 {
     s8 mData[256];
 };

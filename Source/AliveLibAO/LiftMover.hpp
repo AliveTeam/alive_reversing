@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_LiftMover : public Path_TLV
+struct Path_LiftMover final : public Path_TLV
 {
     s16 field_18_switch_id;
     s16 field_1A_lift_id;
@@ -18,7 +18,7 @@ ALIVE_ASSERT_SIZEOF(Path_LiftMover, 0x20);
 
 class LiftPoint;
 
-class LiftMover : public BaseGameObject
+class LiftMover final : public BaseGameObject
 {
 public:
     EXPORT LiftMover* ctor_4054E0(Path_LiftMover* pTlv, s32 tlvInfo);

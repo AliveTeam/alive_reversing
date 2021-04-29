@@ -3,7 +3,7 @@
 #include "Animation.hpp"
 
 // TODO: Figure out how this differs from the standard Animation.
-class AnimationUnknown : public AnimationBase
+class AnimationUnknown final : public AnimationBase
 {
 public:
     virtual void vDecode_40AC90() override;

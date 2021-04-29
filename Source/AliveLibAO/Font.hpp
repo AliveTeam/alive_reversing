@@ -10,7 +10,7 @@ struct PrimHeader;
 namespace AO {
 
 
-struct File_Font
+struct File_Font final
 {
     s16 field_0_width;
     s16 field_2_height;
@@ -22,7 +22,7 @@ struct File_Font
 //ALIVE_ASSERT_SIZEOF(File_Font, 0x28);
 // Can vary in size
 
-struct Font_AtlasEntry
+struct Font_AtlasEntry final
 {
     u8 field_0_x;
     u8 field_1_y;

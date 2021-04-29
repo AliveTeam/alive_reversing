@@ -46,7 +46,7 @@ enum eParamiteStates : s32
 class ParamiteWeb;
 class Meat;
 
-struct Path_Paramite : public Path_TLV
+struct Path_Paramite final : public Path_TLV
 {
     Scale_short field_18_scale;
     Choice_short field_1A_bEnter_from_web;
@@ -61,7 +61,7 @@ struct Path_Paramite : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
 
-class Paramite : public BaseAliveGameObject
+class Paramite final : public BaseAliveGameObject
 {
 public:
     EXPORT Paramite* ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo);

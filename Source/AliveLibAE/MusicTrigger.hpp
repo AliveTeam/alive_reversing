@@ -22,7 +22,7 @@ enum class TriggeredBy : s16
     eTouching_1 = 1
 };
 
-struct Path_MusicTrigger : public Path_TLV
+struct Path_MusicTrigger final : public Path_TLV
 {
     MusicTriggerMusicType field_10_music_type;
     TriggeredBy field_12_triggered_by;
@@ -31,7 +31,7 @@ struct Path_MusicTrigger : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x18);
 
-class MusicTrigger : public BaseGameObject
+class MusicTrigger final : public BaseGameObject
 {
 public:
     EXPORT BaseGameObject* ctor_47FE40(Path_MusicTrigger* pTlv, u32 tlvInfo);

@@ -19,7 +19,7 @@ enum class GrinderBehavior : s16
     eUse_2 = 2
 };
 
-struct Path_Grinder_Data
+struct Path_Grinder_Data final
 {
     Scale_short field_10_scale;
     s16 field_12_min_off_time;
@@ -43,7 +43,7 @@ enum class GrinderStates : s16
     State_2_GoingUp = 2,
 };
 
-struct Grinder_State
+struct Grinder_State final
 {
     s16 field_0;
     //s16 field_2_padding;
@@ -56,13 +56,13 @@ struct Grinder_State
 ALIVE_ASSERT_SIZEOF_ALWAYS(Grinder_State, 0x14);
 
 
-struct Path_Grinder : public Path_TLV
+struct Path_Grinder final : public Path_TLV
 {
     Path_Grinder_Data field_10_data;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Grinder, 0x28);
 
-class Grinder : public ::BaseAnimatedWithPhysicsGameObject
+class Grinder final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Grinder* ctor_4200D0(Path_Grinder* pTlv, u32 tlvInfo);

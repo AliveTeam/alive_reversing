@@ -7,7 +7,7 @@ namespace AO {
 
 EXPORT void CC Get_fmvs_sectors_44FEB0(const s8* pMovieName1, const s8* pMovieName2, const s8* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector);
 
-class Movie : public BaseGameObject
+class Movie final : public BaseGameObject
 {
 public:
     EXPORT Movie* ctor_489C90(s32 id, s32 pos, s8 bUnknown, s32 flags, s16 volume);

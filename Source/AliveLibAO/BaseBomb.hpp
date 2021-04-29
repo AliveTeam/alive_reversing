@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class BaseBomb : public BaseAnimatedWithPhysicsGameObject
+class BaseBomb final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BaseBomb* ctor_4173A0(FP xpos, FP ypos, s32 /*unused*/, FP scale);

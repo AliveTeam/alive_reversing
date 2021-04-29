@@ -9,7 +9,7 @@
 
 void Mine_ForceLink();
 
-struct Path_Mine : public Path_TLV
+struct Path_Mine final : public Path_TLV
 {
     s16 field_10_num_patterns;
     s16 field_12_pattern;
@@ -26,7 +26,7 @@ enum Mine_Flags_1BC
     eBit1_PersistOffscreen = 0x2
 };
 
-class Mine : public BaseAliveGameObject
+class Mine final : public BaseAliveGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

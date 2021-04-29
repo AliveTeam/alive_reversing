@@ -4,7 +4,7 @@
 
 namespace AO {
 
-struct PSX_Pad
+struct PSX_Pad final
 {
     u16 field_0_pressed;
     u8 field_2_dir;
@@ -132,7 +132,7 @@ bool Input_JoyStickEnabled();
 void Input_SetJoyStickEnabled(bool enabled);
 bool Input_JoyStickAvailable();
 
-class InputObject
+class InputObject final
 {
 public:
     EXPORT void InitPad_4331A0(u32 padCount);

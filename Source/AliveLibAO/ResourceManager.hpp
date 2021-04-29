@@ -17,7 +17,7 @@ EXPORT void CC Game_ShowLoadingIcon_445EB0();
 // TODO Argument type is always Camera* ?
 using TLoaderFn = void(CC*)(void*);
 
-class ResourceManager
+class ResourceManager final
 {
 public:
     enum ResourceType : u32
@@ -55,7 +55,7 @@ public:
         eNeverFree = 0x4
     };
 
-    struct Header
+    struct Header final
     {
         u32 field_0_size;
         s16 field_4_ref_count;
@@ -65,7 +65,7 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(Header, 0x10);
 
-    struct ResourcesToLoadList_Entry
+    struct ResourcesToLoadList_Entry final
     {
         u32 field_0_type;
         u32 field_4_res_id;
@@ -73,14 +73,14 @@ public:
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
 
     // TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
-    struct ResourcesToLoadList
+    struct ResourcesToLoadList final
     {
         s32 field_0_count;
         ResourcesToLoadList_Entry field_4_items[1];
     };
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
 
-    struct ResourceManager_FilePartRecord
+    struct ResourceManager_FilePartRecord final
     {
         s32 field_0_type;
         s32 field_4_res_id;
@@ -88,7 +88,7 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord, 0xc);
 
-    class ResourceManager_FileRecord
+    class ResourceManager_FileRecord final
     {
     public:
         void dtor_447510()
@@ -105,7 +105,7 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x20);
 
-    struct ResourceHeapItem
+    struct ResourceHeapItem final
     {
         u8* field_0_ptr;
         ResourceHeapItem* field_4_pNext;

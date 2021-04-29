@@ -9,7 +9,7 @@
 #include "PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
 #include "../AliveLibAE/Io.hpp"
 
-struct VagAtr
+struct VagAtr final
 {
     s8 field_0_priority;
     s8 field_1_mode;
@@ -38,7 +38,7 @@ struct VagAtr
 
 #pragma pack(push)
 #pragma pack(1)
-struct SeqHeader
+struct SeqHeader final
 {
     s32 field_0_magic;
     u32 field_4_version;
@@ -73,7 +73,7 @@ ALIVE_VAR(1, 0xbd1ce0, IO_FileHandleType, sSoundDatFileHandle_BD1CE0, nullptr);
 ALIVE_VAR(1, 0xbd1cfc, u8, sControllerValue_BD1CFC, 0);
 
 
-class AEPsxSpuApiVars : public IPsxSpuApiVars
+class AEPsxSpuApiVars final : public IPsxSpuApiVars
 {
 public:
     virtual s16& sGlobalVolumeLevel_right() override

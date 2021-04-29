@@ -4,9 +4,7 @@
 #include "Sys.hpp"
 #include "stdlib.hpp"
 
-#define ERROR_IMPL true
-
-struct ErrorData
+struct ErrorData final
 {
     s32 field_0_minusOne;
     s8 field_4_str[256];

@@ -52,14 +52,14 @@ EXPORT void CC PSX_Calc_FrameSkip_4945D0()
     }
 }
 
-struct TextRecords
+struct TextRecords final
 {
     s8 field_0_src_txt[1024];
     s8 field_400_dst_txt[1027];
 };
 ALIVE_ASSERT_SIZEOF(TextRecords, 0x803);
 
-struct DebugTexts
+struct DebugTexts final
 {
     u8 field_0_xMargin;
     u8 field_1_yMargin;

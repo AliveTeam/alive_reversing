@@ -67,7 +67,7 @@ enum class GlukkonSpeak : s8
     Unused_14 = 14
 };
 
-struct Path_Glukkon : public Path_TLV
+struct Path_Glukkon final : public Path_TLV
 {
     Scale_short field_10_scale;
     enum class StartDirection : s16
@@ -97,7 +97,7 @@ class Glukkon;
 using TGlukkonAIFn = s16 (Glukkon::*)();
 using TGlukkonMotionFn = void (Glukkon::*)();
 
-struct Glukkon_SaveState
+struct Glukkon_SaveState final
 {
     AETypes field_0_id;
     s16 field_2_padding;
@@ -156,7 +156,7 @@ struct Glukkon_SaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
 
-class Glukkon : public BaseAliveGameObject
+class Glukkon final : public BaseAliveGameObject
 {
 public:
     EXPORT Glukkon* ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo);

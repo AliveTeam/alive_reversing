@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class BackgroundMusic : public BaseGameObject
+class BackgroundMusic final : public BaseGameObject
 {
 public:
     EXPORT BackgroundMusic* ctor_476370(s16 musicId);

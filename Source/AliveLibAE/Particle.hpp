@@ -3,7 +3,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Layer.hpp"
 
-class Particle : public ::BaseAnimatedWithPhysicsGameObject
+class Particle final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Particle* ctor_4CC4C0(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData);

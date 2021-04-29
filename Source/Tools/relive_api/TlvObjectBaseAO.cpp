@@ -1,4 +1,4 @@
-#include "TlvObjectBaseAOBase.hpp"
+#include "TlvObjectBaseAO.hpp"
 
 #include "TlvObjectBaseMacros.hpp"
 
@@ -13,42 +13,40 @@
 #include <utility>
 #include <vector>
 
-TlvObjectBaseAOBase::TlvObjectBaseAOBase(std::size_t sizeOfT, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv)
+TlvObjectBaseAO::TlvObjectBaseAO(std::size_t sizeOfT, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv)
     : TlvObjectBase(typeName)
     , mSizeOfT(sizeOfT)
     , mType(tlvType)
     , mPSelfTlv{pSelfTlv}
 {
+
 }
 
-TlvObjectBaseAOBase::TlvObjectBaseAOBase(std::size_t sizeOfT, TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv, AO::Path_TLV* pTlv, CopyFn copyFn)
+TlvObjectBaseAO::TlvObjectBaseAO(std::size_t sizeOfT, TypesCollectionBase& globalTypes, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv)
     : TlvObjectBase(typeName)
     , mSizeOfT(sizeOfT)
     , mType(tlvType)
     , mPSelfTlv{pSelfTlv}
 {
-    mPSelfTlv->field_2_length = static_cast<s16>(mSizeOfT);
-    mPSelfTlv->field_4_type.mType = mType;
-
-    copyFn(pSelfTlv /* dst */, pTlv /* src */);
-
-    if (mPSelfTlv->field_14_bottom_right.field_0_x - mPSelfTlv->field_10_top_left.field_0_x < 0 || mPSelfTlv->field_14_bottom_right.field_2_y - mPSelfTlv->field_10_top_left.field_2_y < 0)
-    {
-        // Sanity check on the data - passed on all OG data, left for any bad/corrupted lvls
-        std::abort();
-    }
-
     ADD("xpos", mPSelfTlv->field_10_top_left.field_0_x);
     ADD("ypos", mPSelfTlv->field_10_top_left.field_2_y);
-
-    mPSelfTlv->field_14_bottom_right.field_0_x -= mPSelfTlv->field_10_top_left.field_0_x;
-    mPSelfTlv->field_14_bottom_right.field_2_y -= mPSelfTlv->field_10_top_left.field_2_y;
 
     ADD("width", mPSelfTlv->field_14_bottom_right.field_0_x);
     ADD("height", mPSelfTlv->field_14_bottom_right.field_2_y);
 }
 
-void TlvObjectBaseAOBase::InstanceFromJsonBase(const jsonxx::Object& obj)
+void TlvObjectBaseAO::ConvertXYPos()
+{
+    if (mPSelfTlv->field_14_bottom_right.field_0_x - mPSelfTlv->field_10_top_left.field_0_x < 0 || mPSelfTlv->field_14_bottom_right.field_2_y - mPSelfTlv->field_10_top_left.field_2_y < 0)
+    {
+        // Sanity check on the data - passed on all OG data, left for any bad/corrupted lvls
+        std::abort();
+    }
+    mPSelfTlv->field_14_bottom_right.field_0_x -= mPSelfTlv->field_10_top_left.field_0_x;
+    mPSelfTlv->field_14_bottom_right.field_2_y -= mPSelfTlv->field_10_top_left.field_2_y;
+}
+
+void TlvObjectBaseAO::InstanceFromJsonBase(const jsonxx::Object& obj)
 {
     mStructTypeName = obj.get<std::string>("name");
 
@@ -59,18 +57,18 @@ void TlvObjectBaseAOBase::InstanceFromJsonBase(const jsonxx::Object& obj)
     mPSelfTlv->field_C_sound_pos.field_2_y = mPSelfTlv->field_10_top_left.field_2_y;
 }
 
-void TlvObjectBaseAOBase::InstanceToJsonBase(jsonxx::Object& ret)
+void TlvObjectBaseAO::InstanceToJsonBase(jsonxx::Object& ret)
 {
     ret << "name" << Name() + "_" + std::to_string(mInstanceNumber);
     ret << "object_structures_type" << Name();
 }
 
-[[nodiscard]] s16 TlvObjectBaseAOBase::TlvLen() const
+[[nodiscard]] s16 TlvObjectBaseAO::TlvLen() const
 {
     return static_cast<s16>(mSizeOfT);
 }
 
-[[nodiscard]] std::vector<u8> TlvObjectBaseAOBase::GetTlvData(bool setTerminationFlag)
+[[nodiscard]] std::vector<u8> TlvObjectBaseAO::GetTlvData(bool setTerminationFlag)
 {
     std::vector<u8> ret(mSizeOfT);
     mPSelfTlv->field_0_flags.Set(AO::TLV_Flags::eBit3_End_TLV_List, setTerminationFlag);
@@ -78,7 +76,7 @@ void TlvObjectBaseAOBase::InstanceToJsonBase(jsonxx::Object& ret)
     return ret;
 }
 
-[[nodiscard]] AO::TlvTypes TlvObjectBaseAOBase::TlvType() const
+[[nodiscard]] AO::TlvTypes TlvObjectBaseAO::TlvType() const
 {
     return mType;
 }

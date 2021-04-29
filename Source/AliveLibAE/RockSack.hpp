@@ -3,7 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_RockSack : public Path_TLV
+struct Path_RockSack final : public Path_TLV
 {
     XDirection_short field_10_fall_direction;
     u16 field_12_x_vel;
@@ -14,7 +14,7 @@ struct Path_RockSack : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RockSack, 0x1C);
 
-class RockSack : public BaseAliveGameObject
+class RockSack final : public BaseAliveGameObject
 {
 public:
     EXPORT RockSack* ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo);

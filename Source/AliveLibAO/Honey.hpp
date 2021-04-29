@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class Honey : public BaseAnimatedWithPhysicsGameObject
+class Honey final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Honey* ctor_431E30(FP xpos, FP ypos);

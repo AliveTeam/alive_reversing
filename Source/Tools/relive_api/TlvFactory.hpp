@@ -18,7 +18,7 @@ template <class TlvType>
 using FnTlvFactory = std::unique_ptr<TlvObjectBase> (*)(TypesCollectionBase&, TlvType*, s32);
 
 template <typename TlvEnumType, typename PathTlvType>
-class TlvFactory
+class TlvFactory final
 {
 private:
     template <typename TlvWrapperType>

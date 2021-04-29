@@ -10,14 +10,14 @@ namespace AO {
 
 struct HintFlyParticle;
 
-struct Path_HintFly : public Path_TLV
+struct Path_HintFly final : public Path_TLV
 {
     s16 field_18_message_id;
     s16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_HintFly, 0x1C);
 
-class HintFly : public BaseAnimatedWithPhysicsGameObject
+class HintFly final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT HintFly* ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo);

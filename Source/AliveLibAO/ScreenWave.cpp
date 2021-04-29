@@ -18,7 +18,7 @@ namespace AO {
 static constexpr s32 kMaxUVCount = 32;
 static constexpr s32 kMaxPolygons = 4;
 
-struct ScreenWave_Data
+struct ScreenWave_Data final
 {
     FP_Point field_0_uv1[kMaxUVCount][kMaxPolygons + 1];
     FP_Point field_500_uv2[kMaxUVCount][kMaxPolygons + 1];

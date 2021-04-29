@@ -10,7 +10,7 @@ namespace AO {
 
 void Blood_ForceLink();
 
-struct BloodParticle
+struct BloodParticle final
 {
     FP field_0_x;
     FP field_4_y;
@@ -20,7 +20,7 @@ struct BloodParticle
 };
 ALIVE_ASSERT_SIZEOF(BloodParticle, 0x40);
 
-class Blood : public BaseAnimatedWithPhysicsGameObject
+class Blood final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Blood* ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count);

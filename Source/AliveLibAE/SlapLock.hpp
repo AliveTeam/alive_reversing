@@ -3,7 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_SlapLock : public Path_TLV
+struct Path_SlapLock final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_target_tomb_id1;
@@ -28,7 +28,7 @@ enum class SlapLockStates : s16
     eGiveInvisibility_7 = 7,
 };
 
-struct SlapLock_State
+struct SlapLock_State final
 {
     AETypes field_0_type;
     s16 field_2_render;
@@ -42,7 +42,7 @@ struct SlapLock_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);
 
-class SlapLock : public BaseAliveGameObject
+class SlapLock final : public BaseAliveGameObject
 {
 public:
     EXPORT SlapLock* ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo);

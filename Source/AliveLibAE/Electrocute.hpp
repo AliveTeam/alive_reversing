@@ -7,7 +7,7 @@
 class BaseAliveGameObject;
 class PalleteOverwriter;
 
-class Electrocute : public BaseGameObject
+class Electrocute final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

@@ -13,7 +13,7 @@ enum class Layer : s16;
 
 struct ScreenWave_Data;
 
-class ScreenWave : public BaseGameObject
+class ScreenWave final : public BaseGameObject
 {
 public:
     EXPORT ScreenWave* ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP speed, s16 radius);

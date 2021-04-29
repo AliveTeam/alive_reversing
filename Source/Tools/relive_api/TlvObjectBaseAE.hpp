@@ -1,46 +1,42 @@
 #pragma once
 
-#include "TlvObjectBaseAEBase.hpp"
+#include "TlvObjectBase.hpp"
 
 #include "../AliveLibAE/Path.hpp"
-#include "../AliveLibAE/PathData.hpp"
 
-#include <cassert>
+#include "../AliveLibCommon/Types.hpp"
+
+#include <cstddef>
 #include <string>
+#include <utility>
+#include <vector>
 
-template <class T>
-class TlvObjectBaseAE : public T
-    , public TlvObjectBaseAEBase
+namespace jsonxx {
+class Object;
+}
+
+class TlvObjectBaseAE : public TlvObjectBase
 {
-private:
-    static void copyFn(Path_TLV* dst, Path_TLV* src)
-    {
-        if (src != nullptr)
-        {
-            *(static_cast<T*>(dst)) = *(static_cast<T*>(src));
-        }
-    }
-
 public:
     // Used only to get "typeName"
-    TlvObjectBaseAE(TlvTypes tlvType, const std::string& typeName)
-        : T{}
-        , TlvObjectBaseAEBase(sizeof(T), tlvType, typeName, &tlv())
-    {
-    }
+    TlvObjectBaseAE(std::size_t sizeOfT, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv);
 
-    TlvObjectBaseAE(TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pTlv)
-        : T{}
-        , TlvObjectBaseAEBase(sizeof(T), globalTypes, tlvType, typeName, &tlv(), pTlv, &copyFn)
-    {
-    }
+    TlvObjectBaseAE(std::size_t sizeOfT, TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv);
 
-    [[nodiscard]] T& tlv()
-    {
-        return static_cast<T&>(*this);
-    }
-    [[nodiscard]] const T& tlv() const
-    {
-        return static_cast<T&>(*this);
-    }
+    TlvObjectBaseAE(const TlvObjectBaseAE&) = delete;
+    TlvObjectBaseAE(TlvObjectBaseAE&&) = delete;
+
+    void InstanceFromJsonBase(const jsonxx::Object& obj) override;
+    void InstanceToJsonBase(jsonxx::Object& ret) override;
+
+    [[nodiscard]] s16 TlvLen() const override;
+    [[nodiscard]] std::vector<u8> GetTlvData(bool setTerminationFlag) override;
+    [[nodiscard]] TlvTypes TlvType() const;
+
+protected:
+    void ConvertXYPos();
+
+    const std::size_t mSizeOfT;
+    const TlvTypes mType;
+    Path_TLV* const mPSelfTlv;
 };

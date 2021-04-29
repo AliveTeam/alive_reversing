@@ -4,7 +4,7 @@
 #include "Sound/Sound.hpp"
 #include "Io.hpp"
 
-struct ProgAtr
+struct ProgAtr final
 {
     u8 field_0_num_tones;
     s8 field_1_vol;
@@ -18,7 +18,7 @@ struct ProgAtr
 };
 ALIVE_ASSERT_SIZEOF(ProgAtr, 0x10);
 
-struct VabHeader
+struct VabHeader final
 {
     s32 field_0_form;
     s32 field_4_version;
@@ -39,14 +39,14 @@ ALIVE_ASSERT_SIZEOF(VabHeader, 0x820);
 
 EXPORT s16 CC SsVabOpenHead_4FC620(VabHeader* pVabHeader);
 
-struct VabBodyRecord
+struct VabBodyRecord final
 {
     s32 field_0_length_or_duration;
     s32 field_4_unused;
     u32 field_8_fileOffset;
 };
 
-struct Converted_Vag
+struct Converted_Vag final
 {
     u16 field_0_adsr_attack;
     u16 field_2_adsr_sustain_level;
@@ -66,19 +66,19 @@ ALIVE_ASSERT_SIZEOF(Converted_Vag, 0x12);
 
 constexpr s32 kMaxVabs = 4;
 
-struct ConvertedVagTable
+struct ConvertedVagTable final
 {
     Converted_Vag table[kMaxVabs][128][16]; // 16 = max tones, 128 = max progs
 };
 ALIVE_ASSERT_SIZEOF(ConvertedVagTable, 147456);
 
-struct SoundEntryTable
+struct SoundEntryTable final
 {
     SoundEntry table[kMaxVabs][256];
 };
 ALIVE_ASSERT_SIZEOF(SoundEntryTable, 36864);
 
-struct VabUnknown
+struct VabUnknown final
 {
     s8 field_0[4][128];
 };
@@ -87,7 +87,7 @@ ALIVE_ASSERT_SIZEOF(VabUnknown, 512);
 const s32 kNumChannels = 24;
 
 // Only exposed for SND_PlayEx_4EF740!
-struct MIDI_ADSR_State
+struct MIDI_ADSR_State final
 {
     u8 field_0_seq_idx;
     u8 field_1_program;
@@ -103,7 +103,7 @@ struct MIDI_ADSR_State
 };
 ALIVE_ASSERT_SIZEOF(MIDI_ADSR_State, 0x10);
 
-struct MIDI_Channel
+struct MIDI_Channel final
 {
     s32 field_0_sound_buffer_field_4;
     s32 field_4_priority;
@@ -116,13 +116,13 @@ struct MIDI_Channel
 };
 ALIVE_ASSERT_SIZEOF(MIDI_Channel, 0x2C);
 
-struct MidiChannels
+struct MidiChannels final
 {
     MIDI_Channel channels[kNumChannels];
 };
 ALIVE_ASSERT_SIZEOF(MidiChannels, 1056);
 
-struct MIDI_ProgramVolume
+struct MIDI_ProgramVolume final
 {
     s8 field_0_program;
     s8 field_1_left_vol;
@@ -130,7 +130,7 @@ struct MIDI_ProgramVolume
 };
 ALIVE_ASSERT_SIZEOF(MIDI_ProgramVolume, 3);
 
-struct MIDI_SeqSong
+struct MIDI_SeqSong final
 {
     u8* field_0_seq_data;
     u32 field_4_time;
@@ -156,7 +156,7 @@ struct MIDI_SeqSong
 };
 ALIVE_ASSERT_SIZEOF(MIDI_SeqSong, 100);
 
-struct MidiSeqSongsTable
+struct MidiSeqSongsTable final
 {
     MIDI_SeqSong table[32];
 };

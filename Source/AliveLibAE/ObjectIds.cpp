@@ -157,7 +157,7 @@ BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, AETypes type)
 #include <gmock/gmock.h>
 
 namespace AETest::TestsObjectIds {
-class FakeGameObject : public BaseGameObject
+class FakeGameObject final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32) override

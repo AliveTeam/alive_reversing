@@ -7,7 +7,7 @@ namespace AO {
 
 class PathLine;
 
-class BulletShell : public BaseAnimatedWithPhysicsGameObject
+class BulletShell final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BulletShell* ctor_462790(FP xpos, FP ypos, s16 direction, FP scale);

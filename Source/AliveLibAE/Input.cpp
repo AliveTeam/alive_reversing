@@ -534,12 +534,12 @@ EXPORT void CC Input_DisableInputForPauseMenuAndDebug_4EDDC0()
     sInputEnabled_BBB9D0 = FALSE;
 }
 
-struct KeyName
+struct KeyName final
 {
     s8 field_0_name[10];
 };
 
-struct KeyNames
+struct KeyNames final
 {
     KeyName keys[32];
 };
@@ -898,7 +898,7 @@ union intOrBoolPointer
     bool* boolVal;
 };
 
-struct IniCustomSaveEntry
+struct IniCustomSaveEntry final
 {
     const s8* name;
     intOrBoolPointer data;

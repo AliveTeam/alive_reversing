@@ -8,7 +8,7 @@
 
 extern const s8* sLCDMessageTable_555768[101];
 
-struct Path_LCDScreen : public Path_TLV
+struct Path_LCDScreen final : public Path_TLV
 {
     s16 field_10_message_1_id;
     s16 field_12_message_rand_min_id;
@@ -17,7 +17,7 @@ struct Path_LCDScreen : public Path_TLV
     s32 field_18_toggle_message_switch_id;
 };
 
-class LCDScreen : public BaseGameObject
+class LCDScreen final : public BaseGameObject
 {
 public:
     EXPORT LCDScreen* ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemInfo);

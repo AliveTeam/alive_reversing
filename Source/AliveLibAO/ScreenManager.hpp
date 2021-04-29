@@ -10,7 +10,7 @@ namespace AO {
 
 enum class LevelIds : s16;
 
-class Camera
+class Camera final
 {
 public:
     EXPORT Camera* ctor_4446E0();
@@ -34,7 +34,7 @@ public:
 ALIVE_ASSERT_SIZEOF(Camera, 0x34);
 
 
-struct DirtyBits
+struct DirtyBits final
 {
     u16 mData[20]; // 20 Columns
 
@@ -57,13 +57,13 @@ struct DirtyBits
 };
 ALIVE_ASSERT_SIZEOF(DirtyBits, 0x28);
 
-struct SprtTPage
+struct SprtTPage final
 {
     Prim_Sprt mSprt;
     Prim_SetTPage mTPage;
 };
 
-class ScreenManager : public BaseGameObject
+class ScreenManager final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

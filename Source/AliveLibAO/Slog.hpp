@@ -8,7 +8,7 @@ void Slog_ForceLink();
 
 namespace AO {
 
-struct Path_Slog : public Path_TLV
+struct Path_Slog final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_direction;
@@ -56,7 +56,7 @@ enum eSlogStates : s32
     SLOG_STATES_ENUM(MAKE_ENUM)
 };
 
-class Slog : public BaseAliveGameObject
+class Slog final : public BaseAliveGameObject
 {
 public:
     EXPORT Slog* ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo);

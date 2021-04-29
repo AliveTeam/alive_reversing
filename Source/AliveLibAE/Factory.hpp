@@ -5,14 +5,14 @@
 struct Path_TLV;
 class Path;
 
-struct TlvOffsetLevelIdPathId
+struct TlvOffsetLevelIdPathId final
 {
     u16 tlvOffset;
     u8 levelId;
     u8 pathId;
 };
 
-struct TlvOffsetCombinedLevelIdPathId
+struct TlvOffsetCombinedLevelIdPathId final
 {
     u16 tlvOffset;
     u16 levelIdPathId;

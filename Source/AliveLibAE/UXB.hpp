@@ -17,7 +17,7 @@ enum class UXBState : u16
     eDeactivated_3 = 3
 };
 
-struct Path_UXB : public Path_TLV
+struct Path_UXB final : public Path_TLV
 {
     enum class StartState : s16
     {
@@ -32,7 +32,7 @@ struct Path_UXB : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x1c);
 
-struct SaveState_UXB
+struct SaveState_UXB final
 {
     AETypes field_0_id;
     s16 field_2_padding;
@@ -53,7 +53,7 @@ enum UXB_Flags_1C8
     eIsRed_Bit1 = 0x2,
 };
 
-class UXB : public BaseAliveGameObject
+class UXB final : public BaseAliveGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

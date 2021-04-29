@@ -4,7 +4,7 @@
 #include "Primitives.hpp"
 #include "BaseGameObject.hpp"
 
-class ScreenShake : public BaseGameObject
+class ScreenShake final : public BaseGameObject
 {
 public:
     EXPORT ScreenShake* ctor_4ACF70(s16 enableShakeEvent, s16 softerShakes);

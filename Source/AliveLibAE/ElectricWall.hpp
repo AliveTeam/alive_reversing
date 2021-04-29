@@ -10,7 +10,7 @@ enum ElectricWallStartState : s16
     eOn_1 = 1,
 };
 
-struct Path_ElectricWall : public Path_TLV
+struct Path_ElectricWall final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_id;
@@ -19,7 +19,7 @@ struct Path_ElectricWall : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ElectricWall, 0x18);
 
-class ElectricWall : public ::BaseAnimatedWithPhysicsGameObject
+class ElectricWall final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ElectricWall* ctor_421DA0(Path_ElectricWall* pTlv, s32 tlvInfo);

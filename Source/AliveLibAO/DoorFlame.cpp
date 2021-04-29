@@ -16,7 +16,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507734, DoorFlame*, pFlameControllingTheSound_507734, nullptr);
 
-class FireBackgroundGlow : public BaseAnimatedWithPhysicsGameObject
+class FireBackgroundGlow final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FireBackgroundGlow* ctor_431F20(FP xpos, FP ypos, FP scale)
@@ -148,7 +148,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(FireBackgroundGlow, 0xF4);
 
-struct FlameSpark
+struct FlameSpark final
 {
     FP field_0_x;
     FP field_4_y;
@@ -160,7 +160,7 @@ struct FlameSpark
 };
 ALIVE_ASSERT_SIZEOF(FlameSpark, 0x84);
 
-class FlameSparks : public BaseAnimatedWithPhysicsGameObject
+class FlameSparks final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FlameSparks* ctor_4322F0(FP xpos, FP ypos)

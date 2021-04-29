@@ -126,7 +126,7 @@ void ExplosionSet::vScreenChanged_415190()
     }
 }
 
-struct Point2
+struct Point2 final
 {
     s8 x, y;
 };

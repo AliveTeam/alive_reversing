@@ -16,7 +16,7 @@ enum class LiftMoverStates : s16
     eMovingDone_5 = 5,
 };
 
-struct LiftMover_State
+struct LiftMover_State final
 {
     s16 field_0_type;
     //s16 field_2;
@@ -25,7 +25,7 @@ struct LiftMover_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
 
-struct Path_LiftMover : public Path_TLV
+struct Path_LiftMover final : public Path_TLV
 {
     s16 field_10_switch_id;
     s16 field_12_lift_id;
@@ -39,7 +39,7 @@ struct Path_LiftMover : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);
 
-class LiftMover : public BaseGameObject
+class LiftMover final : public BaseGameObject
 {
 public:
     EXPORT LiftMover* ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo);

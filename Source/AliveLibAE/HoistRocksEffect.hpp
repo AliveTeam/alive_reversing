@@ -5,7 +5,7 @@
 #include "FixedPoint.hpp"
 #include "Animation.hpp"
 
-struct HoistRockParticle
+struct HoistRockParticle final
 {
     s16 field_0_state;
     s16 field_2;
@@ -18,7 +18,7 @@ ALIVE_ASSERT_SIZEOF(HoistRockParticle, 0xA8);
 
 struct Path_Hoist;
 
-class HoistRocksEffect : public BaseGameObject
+class HoistRocksEffect final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

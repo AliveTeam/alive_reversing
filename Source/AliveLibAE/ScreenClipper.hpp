@@ -5,7 +5,7 @@
 #include "Primitives.hpp"
 #include "Layer.hpp"
 
-class ScreenClipper : public BaseGameObject
+class ScreenClipper final : public BaseGameObject
 {
 public:
     EXPORT ScreenClipper* ctor_416D60(PSX_Point xy, PSX_Point wh, Layer layer);

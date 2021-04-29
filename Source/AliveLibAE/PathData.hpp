@@ -26,7 +26,7 @@ enum class LevelIds : s16
     eCredits_16 = 16
 };
 
-struct FmvInfo
+struct FmvInfo final
 {
     const s8* field_0_pName;
     u16 field_4_id;
@@ -36,7 +36,7 @@ struct FmvInfo
 };
 ALIVE_ASSERT_SIZEOF(FmvInfo, 0xC);
 
-struct CollisionInfo
+struct CollisionInfo final
 {
     TCollisionsFactory field_0_fn_ptr;
     s16 field_4_left;
@@ -50,7 +50,7 @@ struct CollisionInfo
 };
 ALIVE_ASSERT_SIZEOF(CollisionInfo, 0x1C);
 
-struct PathData
+struct PathData final
 {
     s16 field_0_bLeft;
     s16 field_2_bRight;
@@ -68,7 +68,7 @@ struct PathData
 };
 ALIVE_ASSERT_SIZEOF(PathData, 0x41C);
 
-struct PathBlyRec
+struct PathBlyRec final
 {
     const s8* field_0_blyName;
     const PathData* field_4_pPathData;
@@ -77,7 +77,7 @@ struct PathBlyRec
     u16 field_E_padding;
 };
 
-struct SoundBlockInfo
+struct SoundBlockInfo final
 {
     const s8* field_0_vab_header_name;
     const s8* field_4_vab_body_name;
@@ -85,7 +85,7 @@ struct SoundBlockInfo
     u8* field_C_pVabHeader;
 };
 
-struct PathRoot
+struct PathRoot final
 {
     const PathBlyRec* field_0_pBlyArrayPtr;
     FmvInfo* field_4_pFmvArray;
@@ -106,12 +106,12 @@ struct PathRoot
     const s8* field_38_bnd_name;
 };
 
-struct PathRootContainer
+struct PathRootContainer final
 {
     PathRoot paths[17];
 };
 
-struct PerLvlData
+struct PerLvlData final
 {
     const s8* field_0_display_name;
     LevelIds field_4_level;
@@ -122,7 +122,7 @@ struct PerLvlData
     u16 field_E_abe_y_off;
 };
 
-struct OpenSeqHandle
+struct OpenSeqHandle final
 {
     const s8* field_0_mBsqName;
     s32 field_4_generated_res_id; // A hash of the named which matches the resource Id
@@ -133,7 +133,7 @@ struct OpenSeqHandle
 };
 ALIVE_ASSERT_SIZEOF(OpenSeqHandle, 0x10);
 
-struct SeqHandleTable
+struct SeqHandleTable final
 {
     OpenSeqHandle mSeqs[145];
 };

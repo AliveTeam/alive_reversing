@@ -7,7 +7,7 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 
-struct SlamDoor_Data
+struct SlamDoor_Data final
 {
     s32 field_0_frameTableOffset;
     s32 field_4_ppRes;
@@ -54,7 +54,7 @@ TintEntry sSlamDoorTints_5603B0[18] = {
     {0, 0, 0, 0},
     {0, 0, 0, 0}};
 
-struct Quicksave_Obj_SlamDoor
+struct Quicksave_Obj_SlamDoor final
 {
     AETypes field_0_id;
     TlvItemInfoUnion field_4_tlv;

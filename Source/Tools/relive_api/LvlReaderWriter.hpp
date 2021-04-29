@@ -26,7 +26,7 @@
     return std::string(rec.field_0_file_name, i);
 }
 
-class LvlFileChunk
+class LvlFileChunk final
 {
 public:
     LvlFileChunk(u32 id, ResourceManager::ResourceType resType, std::vector<u8>&& data)
@@ -67,7 +67,7 @@ private:
     std::vector<u8> mData;
 };
 
-class ChunkedLvlFile
+class ChunkedLvlFile final
 {
 public:
     explicit ChunkedLvlFile(const std::vector<u8>& data)
@@ -171,7 +171,7 @@ private:
     std::vector<LvlFileChunk> mChunks;
 };
 
-class LvlReader
+class LvlReader final
 {
 public:
     explicit LvlReader(const s8* lvlFile)
@@ -312,7 +312,7 @@ template <class T>
     return RoundUp(offset, static_cast<T>(2048));
 }
 
-class LvlWriter
+class LvlWriter final
 {
 public:
     explicit LvlWriter(const s8* lvlFile)

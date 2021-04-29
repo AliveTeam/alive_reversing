@@ -11,7 +11,7 @@ enum class BellsongTypes : s16
     eChimes = 1
 };
 
-class BellSong : public BaseGameObject
+class BellSong final : public BaseGameObject
 {
 public:
     EXPORT BellSong* ctor_4760B0(BellsongTypes type, u32 code);

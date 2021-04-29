@@ -5,14 +5,14 @@
 #include "Font.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_FartMachine : public Path_TLV
+struct Path_FartMachine final : public Path_TLV
 {
     s16 field_10_num_brews;
     s16 field_12_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FartMachine, 0x14);
 
-class FartMachine : public ::BaseAnimatedWithPhysicsGameObject
+class FartMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FartMachine* ctor_413060(Path_FartMachine* pTlv, s32 tlvInfo);

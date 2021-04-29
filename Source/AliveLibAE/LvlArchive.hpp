@@ -6,7 +6,7 @@
 EXPORT void CC LvlArchive_Static_init_432E00();
 EXPORT void CC static_lvl_init_480350();
 
-struct LvlFileRecord
+struct LvlFileRecord final
 {
     s8 field_0_file_name[12];
     s32 field_C_start_sector;
@@ -23,7 +23,7 @@ struct LvlHeader_Sub
     LvlFileRecord field_10_file_recs[1]; // TODO: Strictly UB on >= 1 access
 };
 
-struct LvlHeader
+struct LvlHeader final
 {
     // TODO: Up to field_C is really a ResourceManager::Header
     s32 field_0_first_file_offset;
@@ -34,7 +34,7 @@ struct LvlHeader
 };
 
 
-class LvlArchive
+class LvlArchive final
 {
 public:
     EXPORT s32 Open_Archive_432E80(const s8* fileName);

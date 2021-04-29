@@ -8,7 +8,7 @@ EXPORT void CC static_ObjectIds_init_43EC30();
 
 using TObjectId_KeyType = s32;
 
-struct ObjectId_Record
+struct ObjectId_Record final
 {
     TObjectId_KeyType field_0_id;
     BaseGameObject* field_4_obj_ptr;

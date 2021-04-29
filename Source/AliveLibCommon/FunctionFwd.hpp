@@ -38,7 +38,7 @@ bool RunningAsInjectedDll();
     #define HIWORD(l) ((u16)((((DWORD_PTR)(l)) >> 16) & 0xffff))
 #endif
 
-class AliveVar
+class AliveVar final
 {
 public:
     AliveVar(const s8* name, u32 addr, u32 sizeInBytes, bool isDynamicallyAllocated, bool isConstData);

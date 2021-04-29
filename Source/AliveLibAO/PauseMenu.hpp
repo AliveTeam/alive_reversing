@@ -6,7 +6,7 @@
 
 namespace AO {
 
-class PauseMenu : public BaseAnimatedWithPhysicsGameObject
+class PauseMenu final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT PauseMenu* ctor_44DEA0();
@@ -29,7 +29,7 @@ public:
 
     EXPORT void VRender_44E6F0(PrimHeader** ppOt);
 
-    struct PauseEntry
+    struct PauseEntry final
     {
         s16 field_0_x;
         s16 field_2_y;

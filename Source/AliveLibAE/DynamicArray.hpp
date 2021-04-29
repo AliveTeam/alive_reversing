@@ -43,7 +43,7 @@ ALIVE_ASSERT_SIZEOF(DynamicArray, 0xC);
 
 // Typed wrapper for DynamicArray
 template <class T>
-class DynamicArrayT : public DynamicArray
+class DynamicArrayT final : public DynamicArray
 {
 public:
     s16 Push_Back(T* pValue)
@@ -67,7 +67,7 @@ public:
     }
 };
 
-class DynamicArrayIter
+class DynamicArrayIter final
 {
 public:
     EXPORT void Remove_At_Iter_40CCA0();

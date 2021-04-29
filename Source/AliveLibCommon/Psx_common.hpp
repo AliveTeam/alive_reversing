@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "FixedPoint_common.hpp"
 
-struct CdlLOC
+struct CdlLOC final
 {
     u8 field_0_minute;
     u8 field_1_second;
@@ -13,7 +13,7 @@ struct CdlLOC
 ALIVE_ASSERT_SIZEOF(CdlLOC, 0x4);
 
 
-struct CdlFILE
+struct CdlFILE final
 {
     CdlLOC field_0_loc;
     s32 field_4_pos;
@@ -22,19 +22,19 @@ struct CdlFILE
 ALIVE_ASSERT_SIZEOF(CdlFILE, 24);
 
 
-struct PSX_RECT
+struct PSX_RECT final
 {
     s16 x, y, w, h;
 };
 ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
 
-struct FP_RECT
+struct FP_RECT final
 {
     FP x, y, w, h;
 };
 ALIVE_ASSERT_SIZEOF(FP_RECT, 4 * 4);
 
-struct PSX_Point
+struct PSX_Point final
 {
     s16 field_0_x;
     s16 field_2_y;
@@ -51,20 +51,20 @@ inline bool RectsOverlap(const PSX_RECT& r1, const PSX_RECT& r2)
     return !(r2.x > r1.w || r2.w < r1.x || r2.y > r1.h || r2.h < r1.y);
 }
 
-struct PSX_Pos16
+struct PSX_Pos16 final
 {
     s16 x, y;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Pos16, 0x4);
 
-struct PSX_DR_ENV
+struct PSX_DR_ENV final
 {
     s32 field_0_tag;
     s32 field_4_code[15];
 };
 // TODO: Size
 
-struct PSX_DRAWENV
+struct PSX_DRAWENV final
 {
     PSX_RECT field_0_clip;
     s16 field_8_ofs[2];
@@ -80,7 +80,7 @@ struct PSX_DRAWENV
 };
 // TODO: Size
 
-struct PSX_DISPENV
+struct PSX_DISPENV final
 {
     PSX_RECT disp;
     PSX_RECT screen;

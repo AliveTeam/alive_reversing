@@ -4,7 +4,7 @@
 #include "PlatformBase.hpp"
 #include "Path.hpp"
 
-struct Path_TrapDoor : public Path_TLV
+struct Path_TrapDoor final : public Path_TLV
 {
     s16 field_10_id;
     s16 field_12_start_state;
@@ -25,7 +25,7 @@ enum class TrapDoorState : s16
     eClosing_3 = 3,
 };
 
-struct TrapDoor_State
+struct TrapDoor_State final
 {
     AETypes field_0_type;
     TrapDoorState field_2_state;
@@ -34,7 +34,7 @@ struct TrapDoor_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
 
-class TrapDoor : public PlatformBase
+class TrapDoor final : public PlatformBase
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

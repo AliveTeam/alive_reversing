@@ -15,7 +15,7 @@ enum SDLSoundBufferStatus
     Playing = 2,
 };
 
-class SDLSoundBuffer
+class SDLSoundBuffer final
 {
 public:
     SDLSoundBuffer(const SDLSoundBuffer& rhs);
@@ -46,7 +46,7 @@ public:
     void Duplicate(SDLSoundBuffer** dupePtr);
 
 public:
-    struct AE_SDL_Voice_State
+    struct AE_SDL_Voice_State final
     {
         s32 iVolume;
         bool bVolDirty;

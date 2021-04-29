@@ -9,7 +9,7 @@
 
 namespace AO {
 
-struct Switch_Data
+struct Switch_Data final
 {
     s32 field_0_frameTableOffset;
     s32 field_4_maxW;

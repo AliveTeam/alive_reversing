@@ -3,7 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-class DemoPlayback : public BaseGameObject
+class DemoPlayback final : public BaseGameObject
 {
 public:
     // NOTE: Inlined in real game at 0x4D6990

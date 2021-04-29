@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_TimerTrigger : public Path_TLV
+struct Path_TimerTrigger final : public Path_TLV
 {
     s16 field_10_id;
     u16 field_12_trigger_delay;
@@ -23,7 +23,7 @@ enum class TimerTriggerStates : s16
     eWaitForSecondTrigger_3 = 3,
 };
 
-struct TimerTrigger_State
+struct TimerTrigger_State final
 {
     AETypes field_0_type;
     s32 field_4_tlvInfo;
@@ -33,7 +33,7 @@ struct TimerTrigger_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTrigger_State, 0x10);
 
-class TimerTrigger : public BaseGameObject
+class TimerTrigger final : public BaseGameObject
 {
 public:
     EXPORT TimerTrigger* ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo);

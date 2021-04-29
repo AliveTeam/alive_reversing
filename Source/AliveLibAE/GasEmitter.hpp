@@ -13,14 +13,14 @@ enum class GasColour : s16
     White_4
 };
 
-struct Path_GasEmitter : public Path_TLV
+struct Path_GasEmitter final : public Path_TLV
 {
     s16 field_10_switch_id;
     GasColour field_12_colour;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasEmitter, 0x14);
 
-class GasEmitter : public BaseGameObject
+class GasEmitter final : public BaseGameObject
 {
 public:
     EXPORT GasEmitter* ctor_43CAA0(Path_GasEmitter* pTlv, s32 tlvInfo);

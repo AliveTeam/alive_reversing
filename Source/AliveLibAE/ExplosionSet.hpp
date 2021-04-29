@@ -5,7 +5,7 @@
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
 
-struct Path_ExplosionSet : public Path_TLV
+struct Path_ExplosionSet final : public Path_TLV
 {
     Choice_short field_10_bStart_enabled;
     s16 field_12_switch_id;
@@ -20,7 +20,7 @@ struct Path_ExplosionSet : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ExplosionSet, 0x24);
 
-class ExplosionSet : public BaseGameObject
+class ExplosionSet final : public BaseGameObject
 {
 public:
     EXPORT ExplosionSet* ctor_414CA0();

@@ -13,7 +13,7 @@
 #include "VGA.hpp"
 #include "Renderer/IRenderer.hpp"
 
-struct OtUnknown
+struct OtUnknown final
 {
     s32** field_0_pOtStart;
     s32** field_4;
@@ -39,7 +39,7 @@ ALIVE_VAR(1, 0xBD29FC, u32, sTile_b_BD29FC, 0);
 ALIVE_ARY(1, 0xC19160, f32, 4096, sPsxEmu_float_table_C19160, {});
 ALIVE_ARY(1, 0xC1D5C0, s32, 4096, sPsxEmu_fixed_point_table_C1D5C0, {});
 
-struct Render_Unknown
+struct Render_Unknown final
 {
     s32 field_0_x; // 16:16 fixed ??
     s32 field_4_y;
@@ -62,7 +62,7 @@ ALIVE_VAR(1, 0xbd3200, Render_Unknown, slope_1_BD3200, {});
 ALIVE_VAR(1, 0xbd32a0, Render_Unknown, right_side_BD32A0, {});
 ALIVE_VAR(1, 0xbd32e0, Render_Unknown, slope_2_BD32E0, {});
 
-struct Psx_Test
+struct Psx_Test final
 {
     s16 r[32][32];
     s16 g[32][32];
@@ -73,7 +73,7 @@ ALIVE_ASSERT_SIZEOF(Psx_Test, 0x1800); // 3072 words
 ALIVE_ARY(1, 0xC215E0, Psx_Test, 4, sPsx_abr_lut_C215E0, {});
 
 
-struct OT_Vert
+struct OT_Vert final
 {
     s32 field_0_x0; // Note actually s16 1.3.12 FP
     s32 field_4_y0; // Note actually s16 1.3.12 FP
@@ -88,7 +88,7 @@ struct OT_Vert
 };
 ALIVE_ASSERT_SIZEOF(OT_Vert, 0x28);
 
-struct OT_Prim
+struct OT_Prim final
 {
     s32 field_0;
     s32 field_4;
@@ -159,7 +159,7 @@ EXPORT s32 CC PSX_poly_helper_fixed_point_scale_517FA0(s32 fixedPoint, s32 scale
     return (static_cast<s64>(fixedPoint) * scaleFactor) / 0x10000;
 }
 
-template <class T>
+template <typename T>
 static inline void WriteSinglePixelOfXLine(u16* pVRam, s32 xLeft, s32 xRight, T writePixel)
 {
     u16* pStart = &pVRam[xLeft];
@@ -917,7 +917,7 @@ ALIVE_VAR(1, 0xc215c4, u32, sRedShift_C215C4, 0);
 ALIVE_VAR(1, 0xc1d180, u32, sGreenShift_C1D180, 0);
 ALIVE_VAR(1, 0xc19140, u32, sBlueShift_C19140, 0);
 
-struct Psx_Data
+struct Psx_Data final
 {
     u8 field_0[32];
 };
@@ -1147,7 +1147,7 @@ EXPORT s32 CC PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, u8 r, u8 g, u8 b)
     return 1;
 }
 
-struct OTInformation
+struct OTInformation final
 {
     PrimHeader** mOt;
     s32 mOtSize;
@@ -1462,7 +1462,7 @@ static inline u8 Decompress_Next_Type6(s32& control_byte, u32& dstIdx, const u16
     return data;
 }
 
-template <class TfnWritePixel, class TfnConvertPixel, class TfnDecompress>
+template <typename TfnWritePixel, typename TfnConvertPixel, typename TfnDecompress>
 static void Scaled_Poly_FT4_Inline_Texture_Render(
     s32 xpos_clip,
     s32 ypos_clip,
@@ -1668,7 +1668,7 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     }
 }
 
-template <size_t clut_size, class TFnDecompress>
+template <size_t clut_size, typename TFnDecompress>
 static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, s32 width, s32 height, const void* pData, TFnDecompress fnDecompress)
 {
     u16 clut_local[clut_size] = {};
@@ -2023,7 +2023,7 @@ enum class EPolyType
     e3Point,
 };
 
-template <class T>
+template <typename T>
 static inline void Convert_Vertex_XY(OT_Vert* pConverted, T* pPoly, EPolyType polyType)
 {
     pConverted[0].field_0_x0 = 16 * X0(pPoly);
@@ -2052,7 +2052,7 @@ static inline void Convert_Vertex_XY(OT_Vert* pConverted, T* pPoly, EPolyType po
     }
 }
 
-template <class T>
+template <typename T>
 static inline void Convert_Vertex_RGB_Single(OT_Vert* pConverted, T* pPoly)
 {
     pConverted[0].field_1C_r = R0(pPoly) << 13;
@@ -2060,7 +2060,7 @@ static inline void Convert_Vertex_RGB_Single(OT_Vert* pConverted, T* pPoly)
     pConverted[0].field_24_b = B0(pPoly) << 13;
 }
 
-template <class T>
+template <typename T>
 static inline void Convert_Vertex_RGB(OT_Vert* pConverted, T* pPoly, EPolyType polyType, bool hasTexture)
 {
     const s32 shiftValue = hasTexture ? 0 : 13;
@@ -2091,7 +2091,7 @@ static inline void Convert_Vertex_RGB(OT_Vert* pConverted, T* pPoly, EPolyType p
     }
 }
 
-template <class T>
+template <typename T>
 static inline void Convert_Vertex_UV(OT_Vert* pConverted, T* pPoly, EPolyType polyType)
 {
     pConverted[0].field_14_u = U0(pPoly);

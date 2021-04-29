@@ -133,7 +133,7 @@ const TMudAIStateFunction sMudokon_AI_Table_55CDF0[10] = {
 const s8* const sMudMotionStateNames[60] = {
     MUD_MOTION_STATES_ENUM(MAKE_STRINGS)};
 
-struct MudEmotionTableEntry
+struct MudEmotionTableEntry final
 {
     MudSounds field_0_sound;
     Mud_Motion field_2_next_motion;
@@ -141,7 +141,7 @@ struct MudEmotionTableEntry
     s16 field_6_sub_state;
 };
 
-struct MudEmotionTable
+struct MudEmotionTable final
 {
     MudEmotionTableEntry field_0_data[8][17];
 };

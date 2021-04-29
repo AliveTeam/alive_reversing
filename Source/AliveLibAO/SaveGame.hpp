@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Save_PSX_Header
+struct Save_PSX_Header final
 {
     u8 field_0_frame_1_name[128];
     s8 field_80_frame_2_padding[128];
@@ -15,7 +15,7 @@ struct Save_PSX_Header
 };
 ALIVE_ASSERT_SIZEOF(Save_PSX_Header, 0x200);
 
-struct SaveData
+struct SaveData final
 {
     Save_PSX_Header field_0_header;
     s32 field_200_hashValue;
@@ -91,7 +91,7 @@ struct SaveData
 };
 ALIVE_ASSERT_SIZEOF(SaveData, 0x2000);
 
-class SaveGame
+class SaveGame final
 {
 public:
     EXPORT static void CC LoadFromMemory_459970(SaveData* pData, s32 bKillObjects);

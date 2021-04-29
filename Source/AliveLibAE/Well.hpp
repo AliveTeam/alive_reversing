@@ -9,7 +9,7 @@ struct Path_WellBase;
 struct Path_WellLocal;
 struct Path_WellExpress;
 
-class Well : public BaseGameObject
+class Well final : public BaseGameObject
 {
 public:
     EXPORT Well* ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);

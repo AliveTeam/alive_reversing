@@ -8,7 +8,7 @@ enum class LevelIds : s16;
 
 EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, u16 path);
 
-class ThrowableArray : public BaseGameObject
+class ThrowableArray final : public BaseGameObject
 {
 public:
     EXPORT ThrowableArray* ctor_453EE0();

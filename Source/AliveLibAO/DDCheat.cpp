@@ -18,7 +18,7 @@
 
 namespace AO {
 
-struct DDCheatProperties
+struct DDCheatProperties final
 {
     DDCheatProperty props[10];
 };
@@ -129,10 +129,10 @@ ALIVE_VAR(1, 0x4FF854, u32, currentlyPressedButtons_4FF854, 0);
 ALIVE_VAR(1, 0x4C31A8, u32, dword_4C31A8, 10);
 
 
-template <class T>
+template <typename T>
 static void writeHeaderElement(const T& element, FILE* f)
 {
-    fwrite(&element, 1, sizeof(T), f);
+    ::fwrite(&element, 1, sizeof(T), f);
 }
 
 void DDCheat::ScreenShot_409720()
@@ -141,8 +141,8 @@ void DDCheat::ScreenShot_409720()
     if (pixelBuffer)
     {
         s8 fileNameBuffer[16] = {};
-        sprintf(fileNameBuffer, "SD%06ld.TGA", static_cast<long int>(gnFrameCount_507670 % 1000000));
-        const auto fileHandle = fopen(fileNameBuffer, "wb");
+        ::sprintf(fileNameBuffer, "SD%06ld.TGA", static_cast<long int>(gnFrameCount_507670 % 1000000));
+        const auto fileHandle = ::fopen(fileNameBuffer, "wb");
         if (!fileHandle)
         {
             return;
@@ -194,7 +194,7 @@ void DDCheat::ScreenShot_409720()
             fwrite(rowOfPixels, 1, 640 * sizeof(u16), fileHandle);
             rowOfPixels -= 640 * sizeof(u16);
         }
-        fclose(fileHandle);
+        ::fclose(fileHandle);
         ao_delete_free_450770(pixelBuffer);
     }
 }

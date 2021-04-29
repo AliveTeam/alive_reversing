@@ -19,7 +19,7 @@ namespace AETest::TestsAnimation {
 void AnimationTests();
 }
 
-struct AnimHeader
+struct AnimHeader final
 {
     s16 field_0_max_w;
     s16 field_2_max_h;
@@ -27,15 +27,14 @@ struct AnimHeader
 };
 ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
 
-struct Point
+struct Point final
 {
     s16 x = 0;
     s16 y = 0;
 };
 
 
-
-struct OffsetAndBoundingRect
+struct OffsetAndBoundingRect final
 {
     Point mOffset;
     Point mMin;
@@ -50,7 +49,7 @@ union PointsUnion
     Point points[3];
 };
 
-struct FrameInfoHeader
+struct FrameInfoHeader final
 {
     u32 field_0_frame_header_offset;
     s16 field_4_magic;
@@ -58,7 +57,7 @@ struct FrameInfoHeader
     PointsUnion field_8_data;
 };
 
-struct AnimationHeader
+struct AnimationHeader final
 {
     // Meta data - the offset where this record was read from
     u16 field_0_fps;        // Seems to be 0x1 or 0x2
@@ -80,7 +79,7 @@ struct AnimationHeader
 };
 //ALIVE_ASSERT_SIZEOF(AnimationHeader, 0x8);
 
-struct BanHeader
+struct BanHeader final
 {
     u16 mMaxW = 0;
     u16 mMaxH = 0;
@@ -101,7 +100,7 @@ enum class CompressionType : u8
     eType_8_NotUsed = 8,
 };
 
-struct FrameHeader
+struct FrameHeader final
 {
     u32 field_0_clut_offset;
     u8 field_4_width;
@@ -112,7 +111,7 @@ struct FrameHeader
     u16 mHeight2;
 };
 
-class Animation : public AnimationBase
+class Animation final : public AnimationBase
 {
 public:
     EXPORT s16 Set_Animation_Data_409C80(s32 frameTableOffset, u8** pAnimRes);

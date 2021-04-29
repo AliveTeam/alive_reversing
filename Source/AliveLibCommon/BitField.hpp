@@ -67,7 +67,7 @@ union BitFieldUnion8
 template <class EnumType>
 using BitField8 = BitFieldT<BitFieldUnion8, EnumType>;
 
-struct BitFieldBytes16
+struct BitFieldBytes16 final
 {
     u8 b0;
     u8 b1;
@@ -82,7 +82,7 @@ union BitFieldUnion16
 template <class EnumType>
 using BitField16 = BitFieldT<BitFieldUnion16, EnumType>;
 
-struct BitFieldBytes32
+struct BitFieldBytes32 final
 {
     u8 b0;
     u8 b1;
@@ -90,7 +90,7 @@ struct BitFieldBytes32
     u8 b3;
 };
 
-struct BitFieldWords32
+struct BitFieldWords32 final
 {
     u16 loword;
     u16 hiword;

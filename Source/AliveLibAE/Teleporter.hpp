@@ -6,7 +6,7 @@
 
 class Electrocute;
 
-class Teleporter : public BaseGameObject
+class Teleporter final : public BaseGameObject
 {
 public:
     EXPORT Teleporter* ctor_4DC1E0(Path_Teleporter* pTlv, u32 tlvInfo);

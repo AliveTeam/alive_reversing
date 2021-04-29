@@ -15,7 +15,7 @@ enum class FootSwitchTriggerBy : s16
 
 enum class SwitchOp : s16;
 
-struct Path_FootSwitch : public Path_TLV
+struct Path_FootSwitch final : public Path_TLV
 {
     s16 field_18_id;
     Scale_short field_1A_scale;
@@ -24,7 +24,7 @@ struct Path_FootSwitch : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_FootSwitch, 0x20);
 
-class FootSwitch : public BaseAnimatedWithPhysicsGameObject
+class FootSwitch final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BaseAliveGameObject* WhoIsStoodOnMe_488A60();

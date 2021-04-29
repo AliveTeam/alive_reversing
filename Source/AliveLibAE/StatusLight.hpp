@@ -4,7 +4,7 @@
 #include "FunctionFwd.hpp"
 #include "Path.hpp"
 
-struct Path_StatusLight : public Path_TLV
+struct Path_StatusLight final : public Path_TLV
 {
     s16 field_10_id;
     Scale_short field_12_scale;
@@ -17,7 +17,7 @@ struct Path_StatusLight : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_StatusLight, 0x20);
 
-class StatusLight : public ::BaseAnimatedWithPhysicsGameObject
+class StatusLight final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

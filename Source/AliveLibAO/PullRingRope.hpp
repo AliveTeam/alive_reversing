@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_PullRingRope : public Path_TLV
+struct Path_PullRingRope final : public Path_TLV
 {
     s16 field_18_id;
     SwitchOp field_1A_action;
@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF(Path_PullRingRope, 0x28);
 
 class Rope;
 
-class PullRingRope : public BaseAnimatedWithPhysicsGameObject
+class PullRingRope final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT PullRingRope* ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo);

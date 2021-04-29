@@ -2,7 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-class TestAnimation : public ::BaseAnimatedWithPhysicsGameObject
+class TestAnimation final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     void ctor();

@@ -25,7 +25,7 @@ struct Path_WellBase : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_WellBase, 0x28);
 
-struct Path_WellExpress : public Path_WellBase
+struct Path_WellExpress final : public Path_WellBase
 {
     s16 field_28_off_camera;
     s16 field_2A_off_well_id;
@@ -40,7 +40,7 @@ struct Path_WellExpress : public Path_WellBase
 };
 ALIVE_ASSERT_SIZEOF(Path_WellExpress, 0x3C);
 
-struct Path_WellLocal : public Path_WellBase
+struct Path_WellLocal final : public Path_WellBase
 {
     s16 field_28_on_dx;
     s16 field_2A_on_dy;
@@ -52,7 +52,7 @@ struct Path_WellLocal : public Path_WellBase
 
 ALIVE_ASSERT_SIZEOF(Path_WellLocal, 0x34);
 
-class Well : public BaseAnimatedWithPhysicsGameObject
+class Well final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Well* ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);

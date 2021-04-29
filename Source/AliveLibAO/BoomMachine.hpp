@@ -8,7 +8,7 @@ namespace AO {
 
 class GrenadeMachineNozzle;
 
-struct Path_BoomMachine : public Path_TLV
+struct Path_BoomMachine final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_nozzle_side;
@@ -25,7 +25,7 @@ enum class BoomMachineStates : s16
     eDropGrenade_3
 };
 
-class BoomMachine : public BaseAnimatedWithPhysicsGameObject
+class BoomMachine final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BoomMachine* ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo);

@@ -11,7 +11,7 @@ enum class WheelStates : s16
 };
 
 
-struct WorkWheel_SaveState
+struct WorkWheel_SaveState final
 {
     AETypes field_0_id;
     // pad
@@ -23,7 +23,7 @@ struct WorkWheel_SaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
 
-struct Path_WorkWheel : public Path_TLV
+struct Path_WorkWheel final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_id;
@@ -34,7 +34,7 @@ struct Path_WorkWheel : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WorkWheel, 0x1C);
 
-class WorkWheel : public ::BaseAnimatedWithPhysicsGameObject
+class WorkWheel final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

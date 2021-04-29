@@ -11,8 +11,8 @@ TypesCollectionBase::TypesCollectionBase()
 
     ADD_BASIC_TYPE("Byte", u8);
     ADD_BASIC_TYPE("UInt16", u16);
-    ADD_BASIC_TYPE("Uint32", u32);
     ADD_BASIC_TYPE("SInt16", s16);
+    ADD_BASIC_TYPE("Uint32", u32);
     ADD_BASIC_TYPE("SInt32", s32);
 
 #undef ADD_BASIC_TYPE

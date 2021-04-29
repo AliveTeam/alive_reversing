@@ -79,7 +79,7 @@ enum class ElumSounds : u8
     eLickingHoney_8 = 8
 };
 
-struct Path_ElumPathTrans : public Path_TLV
+struct Path_ElumPathTrans final : public Path_TLV
 {
     LevelIds field_18_level;
     s16 field_1A_path;
@@ -90,7 +90,7 @@ ALIVE_ASSERT_SIZEOF(Path_ElumPathTrans, 0x20);
 
 
 
-class Elum : public BaseAliveGameObject
+class Elum final : public BaseAliveGameObject
 {
 public:
     enum Flags_170
@@ -103,7 +103,7 @@ public:
         eCanSpeak_Bit6 = 32,
         eChangedPathMounted_Bit7 = 64,
     };
-    struct anythingForTheTimeBeing
+    struct anythingForTheTimeBeing final
     {
         s16 field_0;
         s16 field_2;
@@ -247,7 +247,7 @@ public:
     EXPORT void State_49_AbeUnmountingBegin_415D00();
     EXPORT void State_50_Knockback_415DC0();
 
-    struct ElumResources
+    struct ElumResources final
     {
         u8** res[31];
     };

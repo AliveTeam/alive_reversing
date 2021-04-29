@@ -11,7 +11,7 @@ class BaseAliveGameObject;
 enum class SeqId : s16;
 enum class LevelIds : s16;
 
-class MusicController : public BaseGameObject
+class MusicController final : public BaseGameObject
 {
 public:
     EXPORT static s16 CC Create_4436C0();

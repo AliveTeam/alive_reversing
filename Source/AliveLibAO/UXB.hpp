@@ -13,7 +13,7 @@ enum class UXB_State : s16
     eDisarmed_1 = 1,
 };
 
-struct Path_UXB : public Path_TLV
+struct Path_UXB final : public Path_TLV
 {
     s16 field_18_num_patterns;
     s16 field_1A_pattern;
@@ -23,7 +23,7 @@ struct Path_UXB : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_UXB, 0x24);
 
-class UXB : public BaseAliveGameObject
+class UXB final : public BaseAliveGameObject
 {
 public:
     EXPORT UXB* ctor_488C80(Path_UXB* pTlv, s32 tlvInfo);

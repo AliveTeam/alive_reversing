@@ -7,7 +7,7 @@ namespace AO {
 
 enum class SwitchOp : s16;
 
-struct Path_InvisibleSwitch : public Path_TLV
+struct Path_InvisibleSwitch final : public Path_TLV
 {
     s16 field_18_id;
     SwitchOp field_1A_action;
@@ -18,7 +18,7 @@ struct Path_InvisibleSwitch : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_InvisibleSwitch, 0x24);
 
-class InvisibleSwitch : public BaseGameObject
+class InvisibleSwitch final : public BaseGameObject
 {
 public:
     EXPORT InvisibleSwitch* ctor_4334E0(Path_InvisibleSwitch* pTlv, s32 tlvInfo);

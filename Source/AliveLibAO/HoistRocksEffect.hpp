@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_Hoist : public Path_TLV
+struct Path_Hoist final : public Path_TLV
 {
     enum class Type : s16
     {
@@ -30,7 +30,7 @@ struct Path_Hoist : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Hoist, 0x20);
 
-class HoistParticle : public BaseAnimatedWithPhysicsGameObject
+class HoistParticle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT HoistParticle* ctor_431B00(FP xpos, FP ypos, FP scale, s32 frameTableOffset);
@@ -47,7 +47,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(HoistParticle, 0xE8);
 
-class HoistRocksEffect : public BaseGameObject
+class HoistRocksEffect final : public BaseGameObject
 {
 public:
     EXPORT HoistRocksEffect* ctor_431820(Path_Hoist* pTlv, s32 tlvInfo);

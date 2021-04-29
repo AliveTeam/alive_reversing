@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Water_Res
+struct Water_Res final
 {
     FP field_0_xpos;
     FP field_4_ypos;
@@ -20,7 +20,7 @@ struct Water_Res
 };
 ALIVE_ASSERT_SIZEOF(Water_Res, 0x78);
 
-struct Path_Water_Data
+struct Path_Water_Data final
 {
     s16 field_10_max_drops;
     s16 field_12_id;
@@ -31,13 +31,13 @@ struct Path_Water_Data
 };
 ALIVE_ASSERT_SIZEOF(Path_Water_Data, 0xC);
 
-struct Path_Water : public Path_TLV
+struct Path_Water final : public Path_TLV
 {
     Path_Water_Data field_10_data;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Water, 0x1C);
 
-class Water : public ::BaseAnimatedWithPhysicsGameObject
+class Water final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Water* ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo);

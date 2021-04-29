@@ -4,7 +4,7 @@
 #include "FixedPoint.hpp"
 #include "OrbWhirlWindParticle.hpp"
 
-class OrbWhirlWind : public BaseGameObject
+class OrbWhirlWind final : public BaseGameObject
 {
 public:
     enum class ParticlesState : s16

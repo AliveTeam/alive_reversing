@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_Greeter : public Path_TLV
+struct Path_Greeter final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_motion_detector_speed;
@@ -25,7 +25,7 @@ enum class GreeterStates : s16
     eState_7_Fall
 };
 
-struct Greeter_State
+struct Greeter_State final
 {
     AETypes field_0_type;
     s16 field_2_r;
@@ -73,7 +73,7 @@ enum class GreeterSpeak : s16
     Randomized_1000 = 1000,
 };
 
-class Greeter : public BaseAliveGameObject
+class Greeter final : public BaseAliveGameObject
 {
 public:
     EXPORT Greeter* ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo);

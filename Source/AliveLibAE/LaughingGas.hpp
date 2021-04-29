@@ -6,7 +6,7 @@
 #include "Primitives.hpp"
 
 // TODO: These can be combined
-struct Path_LaughingGas_Data
+struct Path_LaughingGas_Data final
 {
     Choice_short field_0_bLaughing_gas;
     s16 field_2_laughing_gas_id;
@@ -17,7 +17,7 @@ struct Path_LaughingGas_Data
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas_Data, 0xC);
 
-struct Path_LaughingGas : public Path_TLV
+struct Path_LaughingGas final : public Path_TLV
 {
     Choice_short field_10_bLaughing_gas;
     s16 field_12_laughing_gas_id;
@@ -29,7 +29,7 @@ struct Path_LaughingGas : public Path_TLV
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas, 0x1C);
 
 
-class LaughingGas : public BaseGameObject
+class LaughingGas final : public BaseGameObject
 {
 public:
     EXPORT LaughingGas* ctor_432400(Layer layer, s32 notUsed, Path_LaughingGas* pTlv, s32 tlvInfo);
@@ -90,7 +90,7 @@ private:
 
     u16* field_19C_pMem;
 
-    struct Data
+    struct Data final
     {
         f32 array_4[7];
     };

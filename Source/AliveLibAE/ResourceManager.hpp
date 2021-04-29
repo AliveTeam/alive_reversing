@@ -8,7 +8,7 @@
 
 EXPORT void CC Game_ShowLoadingIcon_482D80();
 
-class ResourceManager : public BaseGameObject
+class ResourceManager final : public BaseGameObject
 {
 public:
     enum ResourceType : u32
@@ -50,7 +50,7 @@ public:
         eNeverFree = 0x4
     };
 
-    struct Header
+    struct Header final
     {
         u32 field_0_size;
         s16 field_4_ref_count;
@@ -60,7 +60,7 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(Header, 0x10);
 
-    struct ResourcesToLoadList_Entry
+    struct ResourcesToLoadList_Entry final
     {
         u32 field_0_type;
         u32 field_4_res_id;
@@ -68,7 +68,7 @@ public:
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
 
     // TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
-    struct ResourcesToLoadList
+    struct ResourcesToLoadList final
     {
         s32 field_0_count;
         ResourcesToLoadList_Entry field_4_items[1];
@@ -78,7 +78,7 @@ public:
 
     using TLoaderFn = AddPointer_t<void CC(Camera*)>;
 
-    struct ResourceManager_FilePartRecord_18
+    struct ResourceManager_FilePartRecord_18 final
     {
         u32 field_0_type;
         u32 field_4_id;
@@ -90,7 +90,7 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord_18, 0x18);
 
-    struct ResourceManager_FileRecord
+    struct ResourceManager_FileRecord final
     {
         s8* field_0_fileName;
         ResourcesToLoadList* field_4_pResourcesToLoadList;
@@ -122,7 +122,7 @@ public:
 
     ResourceManager();
 
-    struct ResourceHeapItem
+    struct ResourceHeapItem final
     {
         u8* field_0_ptr;
         ResourceHeapItem* field_4_pNext;

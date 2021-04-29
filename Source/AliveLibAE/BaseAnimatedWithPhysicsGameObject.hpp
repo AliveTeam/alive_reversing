@@ -13,7 +13,7 @@ void BaseAnimatedWithPhysicsGameObjectTests();
 
 class Shadow;
 
-struct TintEntry
+struct TintEntry final
 {
     s8 field_0_level;
     u8 field_1_r;

@@ -20,7 +20,7 @@ enum class PortalSide : s16
     eLeft_1 = 1,
 };
 
-struct Path_BirdPortal : public Path_TLV
+struct Path_BirdPortal final : public Path_TLV
 {
     PortalSide field_10_side;
     LevelIds field_12_dest_level;
@@ -35,14 +35,14 @@ struct Path_BirdPortal : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 
-struct Path_BirdPortalExit : public Path_TLV
+struct Path_BirdPortalExit final : public Path_TLV
 {
     PortalSide field_10_side;
     Scale_short field_12_scale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 
-struct BirdPortal_State
+struct BirdPortal_State final
 {
     AETypes field_0_type;
     u8 field_2_state;
@@ -51,7 +51,7 @@ struct BirdPortal_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
 
-class BirdPortalTerminator : public ::BaseAnimatedWithPhysicsGameObject
+class BirdPortalTerminator final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BaseAnimatedWithPhysicsGameObject* ctor_497960(FP xpos, FP ypos, FP scale, PortalType portalType);
@@ -66,7 +66,7 @@ ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xF4);
 
 class OrbWhirlWind;
 
-class BirdPortal : public BaseGameObject
+class BirdPortal final : public BaseGameObject
 {
 public:
     EXPORT BaseGameObject* ctor_497E00(Path_BirdPortal* pTlv, s32 tlvInfo);

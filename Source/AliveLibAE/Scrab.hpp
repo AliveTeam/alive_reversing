@@ -94,7 +94,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab, 0x2C);
 enum class LevelIds : s16;
 enum class GameSpeakEvents : s16;
 
-struct Scrab_State
+struct Scrab_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -174,7 +174,7 @@ class Scrab;
 using TScrabAIFn = s16 (Scrab::*)();
 using TScrabMotionFn = void (Scrab::*)();
 
-class Scrab : public BaseAliveGameObject
+class Scrab final : public BaseAliveGameObject
 {
 public:
     EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection);

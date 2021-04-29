@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "BaseGameObject.hpp"
 
-struct Path_FlyingSlig_Data
+struct Path_FlyingSlig_Data final
 {
     Scale_short field_0_scale;
     s16 field_2_state;
@@ -25,19 +25,19 @@ struct Path_FlyingSlig_Data
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSlig_Data, 0x20);
 
-struct Path_FlyingSlig : public Path_TLV
+struct Path_FlyingSlig final : public Path_TLV
 {
     Path_FlyingSlig_Data field_10_data;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSlig, 0x30);
 
-struct Path_FlyingSligSpawner : public Path_TLV
+struct Path_FlyingSligSpawner final : public Path_TLV
 {
     Path_FlyingSlig_Data field_10;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSligSpawner, 0x30);
 
-struct FlyingSligSpawner_State
+struct FlyingSligSpawner_State final
 {
     AETypes field_0_type;
     //s16 field_2_pad;
@@ -47,7 +47,7 @@ struct FlyingSligSpawner_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSpawner_State, 0x10);
 
-class FlyingSligSpawner : public BaseGameObject
+class FlyingSligSpawner final : public BaseGameObject
 {
 public:
     EXPORT static s32 CC CreateFromSaveState_43B690(const u8* pBuffer);

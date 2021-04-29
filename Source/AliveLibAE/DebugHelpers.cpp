@@ -69,7 +69,7 @@ void InitDebugFont()
     }
 }
 
-class ObjectDebugger : public BaseGameObject
+class ObjectDebugger final : public BaseGameObject
 {
 public:
     ObjectDebugger()
@@ -134,7 +134,7 @@ public:
 
     void DrawObjectIDs(PrimHeader** pOrderingTable)
     {
-        /*struct MainMenuButton
+        /*struct MainMenuButton final
         {
         s16 field_0_type;
         s16 field_2_x;
@@ -276,7 +276,7 @@ public:
 };
 bool ObjectDebugger::Enabled = false;
 
-class DebugPathRenderer : public BaseGameObject
+class DebugPathRenderer final : public BaseGameObject
 {
 public:
     DebugPathRenderer()
@@ -326,7 +326,7 @@ public:
         // Dont kill!
     }
 
-    struct LineColor
+    struct LineColor final
     {
         u8 r;
         u8 g;
@@ -426,7 +426,7 @@ public:
 bool DebugPathRenderer::Enabled = false;
 bool DebugPathRenderer::GridEnabled = false;
 
-struct DebugConsoleMessage
+struct DebugConsoleMessage final
 {
     std::string message;
     s32 time;
@@ -451,7 +451,7 @@ void ShowDebugConsoleMessage(std::string message, f32 duration)
     ShowDebugConsoleMessage(message, duration, 255, 255, 255);
 }
 
-struct DebugConsoleCommand
+struct DebugConsoleCommand final
 {
     std::string command;
     s32 paramsCount;
@@ -475,20 +475,13 @@ void Command_Test(const std::vector<std::string>& args)
     DEV_CONSOLE_MESSAGE("You called this with " + std::to_string(args.size()) + " arguments", 5);
 }
 
-class FakeMeatGrinder : public UXB
-{
-public:
-    FakeMeatGrinder()
-    {
-        field_4_typeId = AETypes::eGrinder_30;
-        field_4_typeId = AETypes::eExplosion_109;
-    }
-};
-
 void Command_Die(const std::vector<std::string>& /*args*/)
 {
-    FakeMeatGrinder fakeGrinder;
-    sControlledCharacter_5C1B8C->VTakeDamage_408730(&fakeGrinder);
+    auto explosion = ae_new<BaseBomb>();
+    if (explosion)
+    {
+        explosion->ctor_423E70(sControlledCharacter_5C1B8C->field_B8_xpos, sControlledCharacter_5C1B8C->field_BC_ypos, 0, sControlledCharacter_5C1B8C->field_CC_sprite_scale);
+    }
 }
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
@@ -509,7 +502,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
 
         if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
-            auto aliveObj = ((BaseAliveGameObject*) pBaseGameObject);
+            auto aliveObj =  static_cast<BaseAliveGameObject*>(pBaseGameObject);
 
             auto explosion = ae_new<BaseBomb>();
             if (explosion)
@@ -729,7 +722,7 @@ void Command_Ring(const std::vector<std::string>& args)
     SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 25, 2650);
 }
 
-struct DebugKeyBinds
+struct DebugKeyBinds final
 {
     std::string key;
     std::string command;
@@ -910,7 +903,7 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
 };
 //
 
-class DebugConsole : public BaseGameObject
+class DebugConsole final : public BaseGameObject
 {
 public:
     DebugConsole()
@@ -1181,7 +1174,7 @@ public:
     std::string mLastCommand;
 };
 
-struct PsxTimHeader
+struct PsxTimHeader final
 {
     u32 mMagic; // 0x10
     u32 mFlag;  // 0x08 4BPP, 0x09 8BPP, 0x02 16BPP
@@ -1192,13 +1185,13 @@ struct PsxTimHeader
     u16 mClutCount;
 };
 
-struct PsxTimImageHeader
+struct PsxTimImageHeader final
 {
     u32 mSizeInBytes; // includes header size
     PSX_RECT mImageRect;
 };
 
-struct TimInfo
+struct TimInfo final
 {
     s16 mRenderWidth;
     s16 mHeight;
@@ -1270,7 +1263,7 @@ static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
     pInfo->mTPage = static_cast<u16>(PSX_getTPage_4F60E0(mode, abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
 }
 
-class RenderTest_AllPrims
+class RenderTest_AllPrims final
 {
 public:
     RenderTest_AllPrims()
@@ -1717,7 +1710,7 @@ private:
     Prim_PrimClipper mPrimClipper = {};
 };
 
-class Poly_F3_Test
+class Poly_F3_Test final
 {
 public:
     Poly_F3_Test()
@@ -1776,7 +1769,7 @@ private:
 };
 
 
-class Poly_F_Test
+class Poly_F_Test final
 {
 public:
     Poly_F_Test()
@@ -1839,7 +1832,7 @@ private:
 };
 
 
-class RenderTest : public BaseGameObject
+class RenderTest final : public BaseGameObject
 {
 public:
     RenderTest()
@@ -1967,7 +1960,7 @@ const u8 kTestImageCompressed[] = {
     kTestImage[3][3],
 };
 
-class AnimRenderTest : public BaseGameObject
+class AnimRenderTest final : public BaseGameObject
 {
 public:
     AnimRenderTest()

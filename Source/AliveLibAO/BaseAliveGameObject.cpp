@@ -919,7 +919,7 @@ void BaseAliveGameObject::VSetMotion_402520(s16 state)
 
 void BaseAliveGameObject::UsePathTransScale_4020D0()
 {
-    auto pPathTrans = static_cast<Path_ChangeTLV*>(gMap_507BA8.TLV_Get_At_446260(
+    auto pPathTrans = static_cast<Path_Change*>(gMap_507BA8.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos),
         FP_GetExponent(field_AC_ypos),
         FP_GetExponent(field_A8_xpos),

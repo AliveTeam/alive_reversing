@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_HoneySack : public Path_TLV
+struct Path_HoneySack final : public Path_TLV
 {
     s16 field_18_chase_ticks;
     s16 field_1A_scale;
@@ -15,7 +15,7 @@ ALIVE_ASSERT_SIZEOF(Path_HoneySack, 0x1C);
 
 class BeeSwarm;
 
-class HoneySack : public BaseAnimatedWithPhysicsGameObject
+class HoneySack final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT HoneySack* ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo);

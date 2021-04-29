@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_SecurityDoor : public Path_TLV
+struct Path_SecurityDoor final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_id;
@@ -32,7 +32,7 @@ enum SecurityDoorStates : s16
     eLaughAtFailure_10 = 10
 };
 
-class SecurityDoor : public BaseAnimatedWithPhysicsGameObject
+class SecurityDoor final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     BOOL IsPlayerNear();

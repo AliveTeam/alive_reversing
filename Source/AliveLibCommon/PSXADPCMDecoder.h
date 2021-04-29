@@ -10,7 +10,7 @@
 #include "Types.hpp"
 #include <array>
 
-class PSXADPCMDecoder
+class PSXADPCMDecoder final
 {
 public:
     PSXADPCMDecoder() = default;
@@ -20,9 +20,9 @@ public:
 public:
 #pragma pack(push)
 #pragma pack(1)
-    struct SoundFrame
+    struct SoundFrame final
     {
-        struct SoundGroup
+        struct SoundGroup final
         {
             uint8_t sound_parameters[16];
             uint8_t audio_sample_bytes[112];

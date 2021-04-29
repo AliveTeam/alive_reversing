@@ -79,7 +79,7 @@ enum eMudStates : s32
     MUD_STATES_ENUM(MAKE_ENUM)
 };
 
-struct Path_Mudokon : public Path_TLV
+struct Path_Mudokon final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_job;
@@ -92,7 +92,7 @@ struct Path_Mudokon : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Mudokon, 0x28);
 
-struct Path_RingMudokon : public Path_TLV
+struct Path_RingMudokon final : public Path_TLV
 {
     s16 field_18_facing;
     s16 field_1A_abe_must_be_same_direction;
@@ -107,7 +107,7 @@ struct Path_RingMudokon : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_RingMudokon, 0x2C);
 
-struct Path_LiftMudokon : public Path_TLV
+struct Path_LiftMudokon final : public Path_TLV
 {
     s16 field_18_how_far_to_walk;
     s16 field_1A_lift_id;
@@ -123,14 +123,14 @@ ALIVE_ASSERT_SIZEOF(Path_LiftMudokon, 0x28);
 class LiftPoint;
 class BirdPortal;
 
-struct Mudokon_Resources
+struct Mudokon_Resources final
 {
     u8** res[15];
 };
 
 enum class GameSpeakEvents : s16;
 
-class Mudokon : public BaseAliveGameObject
+class Mudokon final : public BaseAliveGameObject
 {
 public:
     EXPORT Mudokon* ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo);

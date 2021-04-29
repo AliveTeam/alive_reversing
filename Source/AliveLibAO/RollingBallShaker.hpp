@@ -8,7 +8,7 @@ void RollingBallShaker_ForceLink();
 
 namespace AO {
 
-class RollingBallShaker : public BaseGameObject
+class RollingBallShaker final : public BaseGameObject
 {
 public:
     EXPORT RollingBallShaker* ctor_4361A0();

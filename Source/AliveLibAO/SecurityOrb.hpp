@@ -7,7 +7,7 @@
 
 namespace AO {
 
-struct Path_SecurityOrb : public Path_TLV
+struct Path_SecurityOrb final : public Path_TLV
 {
     Scale_short field_18_scale;
     s16 field_1A_disable_resources;
@@ -21,7 +21,7 @@ enum class SecurityOrbStates : s16
     eDoFlashAndSound_2
 };
 
-class SecurityOrb : public BaseAliveGameObject
+class SecurityOrb final : public BaseAliveGameObject
 {
 public:
     EXPORT SecurityOrb* ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo);

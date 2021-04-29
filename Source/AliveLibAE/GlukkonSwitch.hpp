@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_GlukkonSwitch : public Path_TLV
+struct Path_GlukkonSwitch final : public Path_TLV
 {
     enum class Scale : s16
     {
@@ -20,7 +20,7 @@ struct Path_GlukkonSwitch : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GlukkonSwitch, 0x1C);
 
-class GlukkonSwitch : public ::BaseAnimatedWithPhysicsGameObject
+class GlukkonSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT GlukkonSwitch* ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo);

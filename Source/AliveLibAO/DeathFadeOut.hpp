@@ -6,7 +6,7 @@
 
 namespace AO {
 
-class DeathFadeOut : public EffectBase
+class DeathFadeOut final : public EffectBase
 {
 public:
     EXPORT DeathFadeOut* ctor_419DB0(Layer layer, s16 direction, s16 destroyOnDone, s32 speed, TPageAbr abr);

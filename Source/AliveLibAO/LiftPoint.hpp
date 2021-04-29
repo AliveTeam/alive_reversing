@@ -8,7 +8,7 @@
 
 namespace AO {
 
-struct Path_LiftPoint : public Path_TLV
+struct Path_LiftPoint final : public Path_TLV
 {
     s16 field_18_id;
     s16 field_1A_bstart_point;
@@ -20,7 +20,7 @@ struct Path_LiftPoint : public Path_TLV
 
 class Rope;
 
-class LiftPoint : public PlatformBase
+class LiftPoint final : public PlatformBase
 {
 public:
     enum Flags

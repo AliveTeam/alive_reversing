@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
 
-struct Path_NakedSlig : public Path_TLV
+struct Path_NakedSlig final : public Path_TLV
 {
     Scale_short field_10_scale;
     XDirection_short field_12_direction;
@@ -37,7 +37,7 @@ using TNakedSligMotionFn = void (NakedSlig::*)();
 enum class LevelIds : s16;
 enum class SligSpeak : s8;
 
-struct NakedSlig_State
+struct NakedSlig_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -115,7 +115,7 @@ enum NakedSligMotion : s16
     M_EndPushingWall_17_41B3A0 = 17
 };
 
-class NakedSlig : public BaseAliveGameObject
+class NakedSlig final : public BaseAliveGameObject
 {
 public:
     EXPORT NakedSlig* ctor_418C70(Path_NakedSlig* pTlv, s32 tlvInfo);

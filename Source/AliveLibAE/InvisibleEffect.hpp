@@ -7,7 +7,7 @@
 
 class BaseAliveGameObject;
 
-class InvisibleEffect : public BaseGameObject
+class InvisibleEffect final : public BaseGameObject
 {
 public:
     enum Flags_4A

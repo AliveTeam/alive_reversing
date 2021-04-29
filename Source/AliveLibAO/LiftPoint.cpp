@@ -14,13 +14,13 @@
 
 namespace AO {
 
-struct LiftPointCoord
+struct LiftPointCoord final
 {
     s32 field_0;
     s32 field_4;
 };
 
-struct LiftPointData
+struct LiftPointData final
 {
     s32 field_0_maxW_Platform;
     s32 field_4_maxH_platform;

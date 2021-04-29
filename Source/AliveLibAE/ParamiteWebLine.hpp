@@ -4,14 +4,14 @@
 #include "FunctionFwd.hpp"
 #include "Path.hpp"
 
-struct Path_ParamiteWebLine : public Path_TLV
+struct Path_ParamiteWebLine final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ParamiteWebLine, 0x14);
 
-class ParamiteWebLine : public ::BaseAnimatedWithPhysicsGameObject
+class ParamiteWebLine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ParamiteWebLine* ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tlvInfo);

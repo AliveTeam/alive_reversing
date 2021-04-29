@@ -168,7 +168,7 @@ extern const InputCommands::Enum sInputKey_GameSpeak5_55510C;
 extern const InputCommands::Enum sInputKey_GameSpeak8_555110;
 extern const InputCommands::Enum sInputKey_GameSpeak7_555114;
 
-struct Path_ContinuePoint : public Path_TLV
+struct Path_ContinuePoint final : public Path_TLV
 {
     enum class Scale : s16
     {
@@ -181,7 +181,7 @@ struct Path_ContinuePoint : public Path_TLV
 };
 
 
-struct Path_ResetSwitchRange : public Path_TLV
+struct Path_ResetSwitchRange final : public Path_TLV
 {
     s16 field_10_set_switches;
     s16 field_12_start_id;
@@ -309,7 +309,7 @@ union AllInternalStates
 
 enum class Mud_Emotion : s16;
 
-struct Abe_1BC_20_sub_object
+struct Abe_1BC_20_sub_object final
 {
     s32 field_0_abe_timer;
     s32 field_4_regen_health_timer;
@@ -325,7 +325,7 @@ ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
 EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHero);
 
-struct Abe_SaveState
+struct Abe_SaveState final
 {
     AETypes field_0_id;
     s16 field_2_padding;
@@ -444,7 +444,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Abe_SaveState, 216);
 
 class Bullet;
 
-class Abe : public BaseAliveGameObject
+class Abe final : public BaseAliveGameObject
 {
 public:
     EXPORT Abe* ctor_44AD10(s32 frameTableOffset, s32 r, s32 g, s32 b);

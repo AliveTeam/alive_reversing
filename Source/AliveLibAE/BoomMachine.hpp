@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_BoomMachine : public Path_TLV
+struct Path_BoomMachine final : public Path_TLV
 {
     Scale_short field_10_scale;
     XDirection_short field_12_nozzle_side;
@@ -21,7 +21,7 @@ enum class BoomMachineStates : s16
     eDropGrenade_3
 };
 
-class BoomMachine : public ::BaseAnimatedWithPhysicsGameObject
+class BoomMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BoomMachine* ctor_445B30(Path_BoomMachine* pTlv, s32 tlvInfo);

@@ -9,7 +9,7 @@ namespace AO {
 void Alarm_ForceLink();
 
 
-class Alarm : public EffectBase
+class Alarm final : public EffectBase
 {
 public:
     EXPORT Alarm* ctor_402570(s16 a2, s16 switchId, s16 a4, Layer layer);

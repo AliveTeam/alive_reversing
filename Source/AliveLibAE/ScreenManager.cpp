@@ -149,7 +149,7 @@ static const u16 g_green_table[] = {
 };
 
 // Encapsulates the logic of vlc_decoder() each call can read 3 words or 6 bytes max
-struct BitsLogic
+struct BitsLogic final
 {
     BitsLogic()
     {

@@ -15,25 +15,25 @@ class Camera;
 class BaseAliveGameObject;
 class CameraSwapper;
 
-struct CameraName
+struct CameraName final
 {
     s8 name[8];
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
-struct OverlayRecord
+struct OverlayRecord final
 {
     const s8* field_0_fileName;
     u32 field_4_pos;
 };
 ALIVE_ASSERT_SIZEOF(OverlayRecord, 0x8);
 
-struct OverlayRecords
+struct OverlayRecords final
 {
     OverlayRecord records[54];
 };
 
-struct Map_PathsArray
+struct Map_PathsArray final
 {
     u8** field_0_pPathRecs[30];
 };
@@ -66,7 +66,7 @@ enum TLV_Flags
 };
 
 // ABI fix to allow using the enum as a 32bit type
-struct TlvTypes32
+struct TlvTypes32 final
 {
     TlvTypes mType;
     s16 padto32Bits;
@@ -107,7 +107,7 @@ struct Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_TLV, 0x18);
 
-struct Path_EnemyStopper : public Path_TLV
+struct Path_EnemyStopper final : public Path_TLV
 {
     enum class StopDirection : s16
     {
@@ -119,7 +119,7 @@ struct Path_EnemyStopper : public Path_TLV
     s16 field_1A_id;
 };
 
-struct Path_ChangeTLV : public Path_TLV
+struct Path_Change final : public Path_TLV
 {
     LevelIds field_18_level;
     s16 field_1A_path;
@@ -128,7 +128,7 @@ struct Path_ChangeTLV : public Path_TLV
     u16 field_20_wipe;
     s16 field_22_scale;
 };
-ALIVE_ASSERT_SIZEOF(Path_ChangeTLV, 0x24);
+ALIVE_ASSERT_SIZEOF(Path_Change, 0x24);
 
 enum class CameraPos : s16
 {
@@ -141,7 +141,7 @@ enum class CameraPos : s16
     eCamNone_5 = 5, // Not "in" the camera
 };
 
-class Map
+class Map final
 {
 public:
     enum class MapDirections : s16

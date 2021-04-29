@@ -6,7 +6,7 @@
 #include "Input.hpp"
 
 
-struct Path_MineCar : public Path_TLV
+struct Path_MineCar final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_max_damage;
@@ -29,7 +29,7 @@ enum class MineCarDirs : s16
     eUp_3 = 3,
 };
 
-struct MineCar_SaveState
+struct MineCar_SaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -78,7 +78,7 @@ struct MineCar_SaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(MineCar_SaveState, 0x68);
 
-class MineCar : public BaseAliveGameObject
+class MineCar final : public BaseAliveGameObject
 {
 public:
     EXPORT MineCar* ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 a4, s32 a5, s32 a6);

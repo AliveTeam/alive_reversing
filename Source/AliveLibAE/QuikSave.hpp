@@ -4,11 +4,7 @@
 #include "MainMenu.hpp"
 #include "SwitchStates.hpp"
 
-namespace AETest::TestsQuikSave {
-void QuikSave_Tests();
-}
-
-struct Quicksave_PSX_Header
+struct Quicksave_PSX_Header final
 {
     s8 field_0_frame_1_name[128];
     s8 field_80_frame_2_padding[128];
@@ -19,7 +15,7 @@ ALIVE_ASSERT_SIZEOF(Quicksave_PSX_Header, 0x200);
 
 enum class LevelIds : s16;
 
-struct Quicksave_WorldInfo
+struct Quicksave_WorldInfo final
 {
     s32 field_0_gnFrame;
     LevelIds field_4_level;
@@ -47,7 +43,7 @@ struct Quicksave_WorldInfo
 };
 ALIVE_ASSERT_SIZEOF(Quicksave_WorldInfo, 0x40);
 
-struct Quicksave
+struct Quicksave final
 {
     Quicksave_PSX_Header field_0_header;
     s32 field_200_accumulated_obj_count;
@@ -60,7 +56,7 @@ struct Quicksave
 };
 ALIVE_ASSERT_SIZEOF(Quicksave, 0x2000);
 
-struct SaveFileRec
+struct SaveFileRec final
 {
     s8 field_0_fileName[32];
     u32 field_20_lastWriteTimeStamp;

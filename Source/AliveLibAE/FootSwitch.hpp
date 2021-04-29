@@ -12,7 +12,7 @@ enum class FootSwitchTriggerBy : s16
     eAnyone_1 = 1,
 };
 
-struct Path_FootSwitch : public Path_TLV
+struct Path_FootSwitch final : public Path_TLV
 {
     s16 field_10_id;
     Scale_short field_12_scale;
@@ -21,7 +21,7 @@ struct Path_FootSwitch : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FootSwitch, 0x18);
 
-struct FootSwitch_Data
+struct FootSwitch_Data final
 {
     s32 field_0_frameTableOffset;
     s32 field_4_frameTableOffset;
@@ -31,7 +31,7 @@ struct FootSwitch_Data
 ALIVE_ASSERT_SIZEOF_ALWAYS(FootSwitch_Data, 0xC);
 
 
-class FootSwitch : public ::BaseAnimatedWithPhysicsGameObject
+class FootSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FootSwitch* ctor_4DE090(Path_FootSwitch* pTlv, s32 tlvInfo);

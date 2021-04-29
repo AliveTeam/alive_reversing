@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_TrapDoor : public Path_TLV
+struct Path_TrapDoor final : public Path_TLV
 {
     s16 field_18_id;
     s16 field_1A_start_state;
@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF(Path_TrapDoor, 0x28);
 
 class PathLine;
 
-class TrapDoor : public PlatformBase
+class TrapDoor final : public PlatformBase
 {
 public:
     EXPORT TrapDoor* ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);

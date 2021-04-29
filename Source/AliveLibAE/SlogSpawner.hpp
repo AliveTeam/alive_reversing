@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_SlogSpawner : public Path_TLV
+struct Path_SlogSpawner final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_number_of_slogs;
@@ -17,7 +17,7 @@ struct Path_SlogSpawner : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogSpawner, 0x20);
 
-class SlogSpawner : public BaseGameObject
+class SlogSpawner final : public BaseGameObject
 {
 public:
     EXPORT SlogSpawner* ctor_4C7FF0(Path_SlogSpawner* pTlv, s32 tlvInfo);

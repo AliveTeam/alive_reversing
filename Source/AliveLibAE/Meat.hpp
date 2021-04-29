@@ -12,7 +12,7 @@ enum class MeatStates : s16
     State_5_Fall = 5,
 };
 
-struct Meat_SaveState
+struct Meat_SaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -44,7 +44,7 @@ struct Meat_SaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Meat_SaveState, 60);
 
-class Meat : public BaseThrowable
+class Meat final : public BaseThrowable
 {
 public:
     EXPORT Meat* ctor_4694A0(FP xpos, FP ypos, s16 count);
@@ -93,7 +93,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Meat, 0x134);
 
-struct Path_MeatSack : public Path_TLV
+struct Path_MeatSack final : public Path_TLV
 {
     XDirection_short field_10_meat_fall_direction;
     u16 field_12_xVel;
@@ -104,7 +104,7 @@ struct Path_MeatSack : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x1C);
 
-class MeatSack : public BaseAliveGameObject
+class MeatSack final : public BaseAliveGameObject
 {
 public:
     EXPORT MeatSack* ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo);

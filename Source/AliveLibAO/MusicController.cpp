@@ -62,7 +62,7 @@ EXPORT s32 CC Psx_Root_Counter_49C370(s32 /*counter*/)
     return 0;
 }
 
-struct MusicController_Record3_Sub
+struct MusicController_Record3_Sub final
 {
     s32 field_0_count;
     s16 field_4_min;
@@ -70,7 +70,7 @@ struct MusicController_Record3_Sub
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record3_Sub, 8);
 
-struct MusicController_Record3
+struct MusicController_Record3 final
 {
     MusicController_Record3_Sub field_0[3];
     s16 field_18;
@@ -96,7 +96,7 @@ const MusicController_Record3 rec3s_4CD798[16] = {
     {{{-1, 68, 68}, {-1, -1, -1}, {-1, -1, -1}}, 1u, 0u},
     {{{-1, 32, 32}, {-1, -1, -1}, {-1, -1, -1}}, 1u, 0u}};
 
-struct MusicController_Record
+struct MusicController_Record final
 {
     s16 field_0_seqIdx;
     s16 field_2;
@@ -166,7 +166,7 @@ const MusicController_Record array_3_stru_4CDB58[] = {
     {20, 20, 1310736, 16, 16, 16, 1},
     {20, 16, 65556, 1, 20, 16, 16}};
 
-struct MusicController_Record2
+struct MusicController_Record2 final
 {
     SeqId field_0_idx;
     u16 field_2_duration;

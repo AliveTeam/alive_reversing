@@ -11,7 +11,7 @@ enum class ShadowZoneScale : s16
     eFull_2 = 2,
 };
 
-struct Path_ShadowZone : public Path_TLV
+struct Path_ShadowZone final : public Path_TLV
 {
     s16 field_10_center_w;
     s16 field_12_center_h;
@@ -26,7 +26,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ShadowZone, 0x20);
 
 enum class LevelIds : s16;
 
-class ShadowZone : public BaseGameObject
+class ShadowZone final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

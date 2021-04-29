@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_MeatSaw : public Path_TLV
+struct Path_MeatSaw final : public Path_TLV
 {
     s16 field_18_scale_background;
     s16 field_1A_min_time_off1;
@@ -30,7 +30,7 @@ enum class MeatSawStates : s16
     eGoingUp_2 = 2
 };
 
-class MeatSaw : public BaseAnimatedWithPhysicsGameObject
+class MeatSaw final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MeatSaw* ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo);

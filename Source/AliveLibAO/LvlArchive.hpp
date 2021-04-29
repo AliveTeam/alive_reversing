@@ -4,7 +4,7 @@
 
 namespace AO {
 
-struct LvlFileRecord
+struct LvlFileRecord final
 {
     s8 field_0_file_name[12];
     s32 field_C_start_sector;
@@ -13,7 +13,7 @@ struct LvlFileRecord
 };
 ALIVE_ASSERT_SIZEOF(LvlFileRecord, 0x18);
 
-struct LvlHeader_Sub
+struct LvlHeader_Sub final
 {
     s32 field_0_num_files;
     s32 field_4_unknown1;
@@ -22,7 +22,7 @@ struct LvlHeader_Sub
     LvlFileRecord field_10_file_recs[1]; // TODO: Strictly UB on >= 1 access
 };
 
-struct LvlHeader
+struct LvlHeader final
 {
     s32 field_0_first_file_offset;
     s32 field_4_ref_count;

@@ -6,7 +6,7 @@
 #include <type_traits>
 #include <vector>
 
-class ByteStream
+class ByteStream final
 {
 public:
     ByteStream() = default;

@@ -336,7 +336,7 @@ struct Path_RingCancel : public Path_TLV
 {
 };
 
-struct Path_Edge : public Path_TLV
+struct Path_Edge final : public Path_TLV
 {
     enum class Type : s16
     {
@@ -348,10 +348,10 @@ struct Path_Edge : public Path_TLV
     s16 field_1A_can_grab;
 };
 
-struct Path_SoftLanding : public Path_TLV
+struct Path_SoftLanding final : public Path_TLV
 { };
 
-struct Path_ContinuePoint : public Path_TLV
+struct Path_ContinuePoint final : public Path_TLV
 {
     s16 field_18_zone_number;
     s16 field_1A_clear_from_id;
@@ -362,19 +362,19 @@ struct Path_ContinuePoint : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_ContinuePoint, 0x24);
 
-struct AbeResources
+struct AbeResources final
 {
     u8** res[65];
 };
 
-struct Path_Stone_camera
+struct Path_Stone_camera final
 {
     LevelIds level;
     s16 path;
     s16 camera;
 };
 
-struct Path_BellsongStone_data
+struct Path_BellsongStone_data final
 {
     s16 scale;
     BellsongTypes type;
@@ -385,7 +385,7 @@ struct Path_BellsongStone_data
 };
 ALIVE_ASSERT_SIZEOF(Path_BellsongStone_data, 12);
 
-struct Path_Handstone_data
+struct Path_Handstone_data final
 {
     s16 scale;
     Path_Stone_camera camera1;
@@ -394,7 +394,7 @@ struct Path_Handstone_data
 };
 ALIVE_ASSERT_SIZEOF(Path_Handstone_data, 0x14);
 
-struct Path_Moviestone_data
+struct Path_Moviestone_data final
 {
     s16 fmvId;
     s16 scale;
@@ -409,13 +409,13 @@ union AllStone
     u16 demoId;
 };
 
-struct Path_Stone : public Path_TLV
+struct Path_Stone final : public Path_TLV
 {
     AllStone field_18_data;
 };
 ALIVE_ASSERT_SIZEOF(Path_Stone, 0x2C);
 
-class Abe : public BaseAliveGameObject
+class Abe final : public BaseAliveGameObject
 {
 public:
     BOOL Is_Celling_Above();

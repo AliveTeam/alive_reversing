@@ -4,14 +4,14 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_DoorBlocker : public Path_TLV
+struct Path_DoorBlocker final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorBlocker, 0x14);
 
-class DoorBlocker : public BaseAliveGameObject
+class DoorBlocker final : public BaseAliveGameObject
 {
 public:
     EXPORT DoorBlocker* ctor_41F0A0(Path_DoorBlocker* pTlv, s32 tlvInfo);

@@ -6,7 +6,7 @@
 
 class Bone;
 
-struct Path_Slog : public Path_TLV
+struct Path_Slog final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_direction;
@@ -44,7 +44,7 @@ enum class SlogSound : s32
     SlowStep_18 = 18
 };
 
-struct Slog_State
+struct Slog_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -113,7 +113,7 @@ class Slog;
 using TSlogAIFn = s16 (Slog::*)();
 using TSlogMotionFn = void (Slog::*)();
 
-class Slog : public BaseAliveGameObject
+class Slog final : public BaseAliveGameObject
 {
 public:
     EXPORT Slog* ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 jumpDelay);

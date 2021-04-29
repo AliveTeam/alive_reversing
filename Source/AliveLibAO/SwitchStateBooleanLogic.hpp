@@ -14,7 +14,7 @@ enum class BooleanOperatorType : s16
     eOrNot_3 = 3,
 };
 
-struct Path_SwitchStateBooleanLogic : public Path_TLV
+struct Path_SwitchStateBooleanLogic final : public Path_TLV
 {
     s16 field_18_input1;
     s16 field_1A_input2;
@@ -23,7 +23,7 @@ struct Path_SwitchStateBooleanLogic : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_SwitchStateBooleanLogic, 0x20);
 
-class SwitchStateBooleanLogic : public BaseGameObject
+class SwitchStateBooleanLogic final : public BaseGameObject
 {
 public:
     EXPORT SwitchStateBooleanLogic* ctor_436AB0(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo);

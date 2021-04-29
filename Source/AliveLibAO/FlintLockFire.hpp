@@ -6,14 +6,14 @@
 
 namespace AO {
 
-struct Path_FlintLockFire : public Path_TLV
+struct Path_FlintLockFire final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_id;
 };
 ALIVE_ASSERT_SIZEOF(Path_FlintLockFire, 0x1C);
 
-class FlintLockFire : public BaseAnimatedWithPhysicsGameObject
+class FlintLockFire final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FlintLockFire* ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo);

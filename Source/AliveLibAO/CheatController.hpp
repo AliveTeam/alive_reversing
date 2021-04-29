@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class CheatController : public BaseGameObject
+class CheatController final : public BaseGameObject
 {
 public:
     EXPORT CheatController* ctor_40FBF0();

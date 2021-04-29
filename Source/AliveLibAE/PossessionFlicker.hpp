@@ -5,7 +5,7 @@
 
 class BaseAliveGameObject;
 
-class PossessionFlicker : public BaseGameObject
+class PossessionFlicker final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

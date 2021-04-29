@@ -7,7 +7,7 @@
 #include "Factory.hpp"
 #include "Animation.hpp"
 
-struct Path_TimedMine : public Path_TLV
+struct Path_TimedMine final : public Path_TLV
 {
     s16 field_10_id;
     s16 field_12_state;
@@ -23,7 +23,7 @@ enum TimedMine_Flags_1C4
     ePadding_1 = 0x2,
 };
 
-class TimedMine : public BaseAliveGameObject
+class TimedMine final : public BaseAliveGameObject
 {
 public:
     virtual void VUpdate() override;

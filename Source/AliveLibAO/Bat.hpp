@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_Bat : public Path_TLV
+struct Path_Bat final : public Path_TLV
 {
     s16 field_18_ticks_before_moving;
     s16 field_1A_speed;
@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF(Path_Bat, 0x20);
 
 class PathLine;
 
-class Bat : public BaseAnimatedWithPhysicsGameObject
+class Bat final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Bat* ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo);

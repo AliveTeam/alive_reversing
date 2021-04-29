@@ -6,7 +6,7 @@
 
 namespace AO {
 
-struct Path_BellHammer : public Path_TLV
+struct Path_BellHammer final : public Path_TLV
 {
     s16 field_18_id;
     s16 field_1A_action;
@@ -21,7 +21,7 @@ enum class BellHammerStates : u16
     eSmashingBell_1 = 1
 };
 
-class BellHammer : public BaseAnimatedWithPhysicsGameObject
+class BellHammer final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BellHammer* ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo);

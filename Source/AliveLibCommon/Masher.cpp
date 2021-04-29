@@ -1189,7 +1189,7 @@ uint16_t Masher::rgb888torgb565(Macroblock_RGB_Struct& rgb888Pixel)
 void Masher::ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 width, s32 height, bool doubleWidth, bool doubleHeight)
 {
     // convert the Y1 Y2 Y3 Y4 and Cb and Cr blocks into a 16x16 array of (Y, Cb, Cr) pixels
-    struct Macroblock_YCbCr_Struct
+    struct Macroblock_YCbCr_Struct final
     {
         f32 Y;
         f32 Cb;

@@ -8,7 +8,7 @@ namespace AO {
 
 struct Path_Slig;
 
-class SligSpawner : public BaseGameObject
+class SligSpawner final : public BaseGameObject
 {
 public:
     EXPORT SligSpawner* ctor_402850(Path_Slig* pTlv, s32 tlvInfo);

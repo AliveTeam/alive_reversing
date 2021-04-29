@@ -25,7 +25,7 @@ enum class Mud_TLV_Emotion : s16
     eSick_4 = 4
 };
 
-struct Path_Mudokon : public Path_TLV
+struct Path_Mudokon final : public Path_TLV
 {
     Scale_short field_10_scale;
     Mud_State field_12_state;
@@ -178,7 +178,7 @@ enum class MudSounds : s16;
 
 class BirdPortal;
 
-struct Mudokon_State
+struct Mudokon_State final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -269,7 +269,7 @@ struct Mudokon_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
 
-class Mudokon : public BaseAliveGameObject
+class Mudokon final : public BaseAliveGameObject
 {
 public:
     EXPORT Mudokon* ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo);

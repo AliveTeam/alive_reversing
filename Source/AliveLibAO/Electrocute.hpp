@@ -9,7 +9,7 @@ namespace AO {
 class BaseAliveGameObject;
 class PalleteOverwriter;
 
-class Electrocute : public BaseGameObject
+class Electrocute final : public BaseGameObject
 {
 public:
     EXPORT Electrocute* ctor_48D3A0(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter);

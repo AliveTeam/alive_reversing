@@ -5,14 +5,14 @@
 #include "Path.hpp"
 #include "Scrab.hpp"
 
-struct Path_ScrabSpawner : public Path_Scrab
+struct Path_ScrabSpawner final : public Path_Scrab
 {
     s16 field_2C_switch_id;
     ScrabSpawnDirection field_2E_spawn_direction;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ScrabSpawner, 0x30);
 
-struct ScrabSpawner_State
+struct ScrabSpawner_State final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -22,7 +22,7 @@ struct ScrabSpawner_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawner_State, 0x10);
 
-class ScrabSpawner : public BaseGameObject
+class ScrabSpawner final : public BaseGameObject
 {
 public:
     EXPORT ScrabSpawner* ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo);

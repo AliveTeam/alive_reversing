@@ -6,7 +6,7 @@
 
 enum class SwitchOp : s16;
 
-struct Path_NakedSligButton : public Path_TLV
+struct Path_NakedSligButton final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_id;
@@ -17,7 +17,7 @@ struct Path_NakedSligButton : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_NakedSligButton, 0x1C);
 
-class NakedSligButton : public ::BaseAnimatedWithPhysicsGameObject
+class NakedSligButton final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT NakedSligButton* ctor_4148F0(Path_NakedSligButton* pTlv, s32 tlvInfo);

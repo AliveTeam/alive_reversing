@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_SlogHut : public Path_TLV
+struct Path_SlogHut final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_switch_id;
@@ -13,7 +13,7 @@ struct Path_SlogHut : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogHut, 0x18);
 
-class SlogHut : public BaseGameObject
+class SlogHut final : public BaseGameObject
 {
 public:
     EXPORT SlogHut* ctor_4C4070(Path_SlogHut* pTlv, s32 tlvInfo);

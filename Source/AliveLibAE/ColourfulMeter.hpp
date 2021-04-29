@@ -6,7 +6,7 @@
 #include "Primitives.hpp"
 #include "Path.hpp"
 
-struct Path_ColourfulMeter : public Path_TLV
+struct Path_ColourfulMeter final : public Path_TLV
 {
     s16 field_10_id;
     s16 field_12_number_of_meter_bars;
@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ColourfulMeter, 0x18);
 
 constexpr s16 kMeterBarsXCount = 20;
 
-class ColourfulMeter : public BaseGameObject
+class ColourfulMeter final : public BaseGameObject
 {
 public:
     EXPORT ColourfulMeter* ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvInfo);

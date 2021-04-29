@@ -19,7 +19,7 @@ AbilityRing* CC AbilityRing::Factory_482F80(FP xpos, FP ypos, RingTypes type, FP
     return pRing;
 }
 
-struct AbilityRing_PolyBuffer
+struct AbilityRing_PolyBuffer final
 {
     Poly_F4 mPolys[2];
 };

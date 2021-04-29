@@ -12,7 +12,7 @@ enum class FartStates : s16
     eDechanting_2 = 2
 };
 
-struct EvilFart_State
+struct EvilFart_State final
 {
     AETypes field_0_type;
     s16 field_2_r;
@@ -48,7 +48,7 @@ struct EvilFart_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFart_State, 60);
 
-class EvilFart : public BaseAliveGameObject
+class EvilFart final : public BaseAliveGameObject
 {
 public:
     EXPORT EvilFart* ctor_422E30();

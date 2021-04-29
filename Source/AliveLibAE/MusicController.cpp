@@ -14,7 +14,7 @@ ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
 ALIVE_VAR(1, 0x5C301C, u32, sMusicControllerBaseTimeStamp_5C301C, 0);
 ALIVE_VAR(1, 0x5c3024, u32, sMusicTime_5C3024, 0);
 
-struct MusicController_Record3_Sub
+struct MusicController_Record3_Sub final
 {
     s16 field_0;
     s8 field_2_min;
@@ -22,7 +22,7 @@ struct MusicController_Record3_Sub
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record3_Sub, 4);
 
-struct MusicController_Record3
+struct MusicController_Record3 final
 {
     MusicController_Record3_Sub field_0[3];
     u8 field_C_repeat_count;
@@ -57,7 +57,7 @@ enum class AmbientMusic : s8
     eOn = 1
 };
 
-struct MusicController_Record
+struct MusicController_Record final
 {
     s8 field_0_seq_id_idx;
     s8 field_1_unused;
@@ -200,7 +200,7 @@ const MusicController_Record slogChaseTension_55D424[17] = {
     {-1, 1u, AmbientMusic::eOn, 0u}};
 
 // TODO: 118 = max SEQs?
-struct MusicController_Record2
+struct MusicController_Record2 final
 {
     u16 field_0_idx;
     u16 field_2_duration;

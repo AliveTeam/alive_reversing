@@ -47,7 +47,7 @@ enum eFlyingSligMotions : s32
 
 enum class SligSpeak : s8;
 
-struct FlyingSlig_State
+struct FlyingSlig_State final
 {
     AETypes field_0_type;
     s16 field_2;
@@ -126,7 +126,7 @@ struct FlyingSlig_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
 
-class FlyingSlig : public BaseAliveGameObject
+class FlyingSlig final : public BaseAliveGameObject
 {
 public:
     EXPORT FlyingSlig* ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo);
