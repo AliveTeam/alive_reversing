@@ -15,19 +15,16 @@ namespace jsonxx {
 class Object;
 }
 
-class TlvObjectBaseAEBase : public TlvObjectBase
+class TlvObjectBaseAE : public TlvObjectBase
 {
 public:
-    using CopyFn = void (*)(Path_TLV* dst, Path_TLV* src);
-    using InitFn = void(*)(Path_TLV* dst);
-
     // Used only to get "typeName"
-    TlvObjectBaseAEBase(std::size_t sizeOfT, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv, InitFn initFn);
+    TlvObjectBaseAE(std::size_t sizeOfT, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv);
 
-    TlvObjectBaseAEBase(std::size_t sizeOfT, TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv, Path_TLV* pTlv, CopyFn copyFn, InitFn initFn);
+    TlvObjectBaseAE(std::size_t sizeOfT, TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv);
 
-    TlvObjectBaseAEBase(const TlvObjectBaseAEBase&) = delete;
-    TlvObjectBaseAEBase(TlvObjectBaseAEBase&&) = delete;
+    TlvObjectBaseAE(const TlvObjectBaseAE&) = delete;
+    TlvObjectBaseAE(TlvObjectBaseAE&&) = delete;
 
     void InstanceFromJsonBase(const jsonxx::Object& obj) override;
     void InstanceToJsonBase(jsonxx::Object& ret) override;
@@ -37,6 +34,8 @@ public:
     [[nodiscard]] TlvTypes TlvType() const;
 
 protected:
+    void ConvertXYPos();
+
     const std::size_t mSizeOfT;
     const TlvTypes mType;
     Path_TLV* const mPSelfTlv;

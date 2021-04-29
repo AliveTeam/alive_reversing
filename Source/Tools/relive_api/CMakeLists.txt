@@ -39,10 +39,10 @@ set(relive_api_src
     TlvFactory.hpp
     TlvObjectBase.cpp
     TlvObjectBase.hpp
-    TlvObjectBaseAEBase.cpp
-    TlvObjectBaseAEBase.hpp
-    TlvObjectBaseAOBase.cpp
-    TlvObjectBaseAOBase.hpp
+    TlvObjectBaseAE.cpp
+    TlvObjectBaseAE.hpp
+    TlvObjectBaseAO.cpp
+    TlvObjectBaseAO.hpp
     TlvObjectBaseMacros.hpp
     TypedProperty.cpp
     TypedProperty.hpp
