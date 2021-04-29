@@ -14,7 +14,7 @@ struct Path_RockSack final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RockSack, 0x1C);
 
-class RockSack : public BaseAliveGameObject
+class RockSack final : public BaseAliveGameObject
 {
 public:
     EXPORT RockSack* ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo);

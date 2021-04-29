@@ -11,7 +11,7 @@ struct Path_DoorBlocker final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorBlocker, 0x14);
 
-class DoorBlocker : public BaseAliveGameObject
+class DoorBlocker final : public BaseAliveGameObject
 {
 public:
     EXPORT DoorBlocker* ctor_41F0A0(Path_DoorBlocker* pTlv, s32 tlvInfo);

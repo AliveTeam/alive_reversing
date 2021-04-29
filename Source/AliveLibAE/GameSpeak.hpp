@@ -76,7 +76,7 @@ enum class GameSpeakMatch : s16
     ePartMatch_2 = 2,
 };
 
-class GameSpeak : public BaseGameObject
+class GameSpeak final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

@@ -25,7 +25,7 @@ struct Path_LightEffect final : public Path_TLV
 ALIVE_ASSERT_SIZEOF(Path_LightEffect, 0x20);
 
 
-class DoorLight : public BaseAnimatedWithPhysicsGameObject
+class DoorLight final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT DoorLight* ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo);

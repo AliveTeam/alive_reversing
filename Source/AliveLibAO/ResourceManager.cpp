@@ -48,7 +48,7 @@ ALIVE_VAR(1, 0x507714, s32, gFilesPending_507714, 0);
 ALIVE_VAR(1, 0x50768C, s16, bLoadingAFile_50768C, 0);
 
 // TODO: Rename to "LoadingFile"
-class ResourceManager_FileRecord_Unknown : public BaseGameObject
+class ResourceManager_FileRecord_Unknown final : public BaseGameObject
 {
 public:
     EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(s32 pos, s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)

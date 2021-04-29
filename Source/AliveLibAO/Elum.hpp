@@ -90,7 +90,7 @@ ALIVE_ASSERT_SIZEOF(Path_ElumPathTrans, 0x20);
 
 
 
-class Elum : public BaseAliveGameObject
+class Elum final : public BaseAliveGameObject
 {
 public:
     enum Flags_170

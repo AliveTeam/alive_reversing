@@ -18,7 +18,7 @@ struct Slig_Spawner_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_Spawner_State, 0x10);
 
-class SligSpawner : public BaseGameObject
+class SligSpawner final : public BaseGameObject
 {
 public:
     EXPORT SligSpawner* ctor_409740(Path_Slig* pTlv, s32 tlvInfo);

@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF(Path_PullRingRope, 0x28);
 
 class Rope;
 
-class PullRingRope : public BaseAnimatedWithPhysicsGameObject
+class PullRingRope final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT PullRingRope* ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo);

@@ -20,7 +20,7 @@ struct Path_ExplosionSet final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ExplosionSet, 0x24);
 
-class ExplosionSet : public BaseGameObject
+class ExplosionSet final : public BaseGameObject
 {
 public:
     EXPORT ExplosionSet* ctor_414CA0();

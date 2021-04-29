@@ -24,7 +24,7 @@ struct Path_FallingItem final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x1C);
 
-class FallingItem : public BaseAliveGameObject
+class FallingItem final : public BaseAliveGameObject
 {
 public:
     EXPORT FallingItem* ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo);

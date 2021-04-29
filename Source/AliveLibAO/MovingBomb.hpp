@@ -26,7 +26,7 @@ struct Path_MovingBombStopper final : public Path_TLV
     s16 field_1A_max_delay;
 };
 
-class MovingBomb : public BaseAliveGameObject
+class MovingBomb final : public BaseAliveGameObject
 {
 public:
     EXPORT MovingBomb* ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo);

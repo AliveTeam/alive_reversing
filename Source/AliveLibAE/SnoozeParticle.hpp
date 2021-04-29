@@ -6,7 +6,7 @@
 #include "FunctionFwd.hpp"
 #include "Layer.hpp"
 
-class SnoozeParticle : public BaseGameObject
+class SnoozeParticle final : public BaseGameObject
 {
 public:
     EXPORT SnoozeParticle* ctor_4B06F0(FP xpos, FP ypos, Layer layer, FP scale);

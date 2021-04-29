@@ -309,7 +309,7 @@ union AllInternalStates
 
 enum class Mud_Emotion : s16;
 
-struct Abe_1BC_20_sub_object
+struct Abe_1BC_20_sub_object final
 {
     s32 field_0_abe_timer;
     s32 field_4_regen_health_timer;
@@ -325,7 +325,7 @@ ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
 EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHero);
 
-struct Abe_SaveState
+struct Abe_SaveState final
 {
     AETypes field_0_id;
     s16 field_2_padding;

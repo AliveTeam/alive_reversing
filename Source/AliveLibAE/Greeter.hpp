@@ -73,7 +73,7 @@ enum class GreeterSpeak : s16
     Randomized_1000 = 1000,
 };
 
-class Greeter : public BaseAliveGameObject
+class Greeter final : public BaseAliveGameObject
 {
 public:
     EXPORT Greeter* ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo);

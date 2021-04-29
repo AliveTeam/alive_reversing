@@ -14,7 +14,7 @@ struct Path_GasCountDown final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x1C);
 
-class GasCountDown : public BaseGameObject
+class GasCountDown final : public BaseGameObject
 {
 public:
     EXPORT GasCountDown* ctor_40BF60(Path_GasCountDown* pTlv, s32 tlvInfo);

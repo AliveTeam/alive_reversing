@@ -13,7 +13,7 @@ enum class BellSize : s16
     eSmall_2 = 2,
 };
 
-class Bells : public BaseAnimatedWithPhysicsGameObject
+class Bells final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Bells* ctor_40A650(BellSize bellSize, FP xpos, FP ypos, FP scale);

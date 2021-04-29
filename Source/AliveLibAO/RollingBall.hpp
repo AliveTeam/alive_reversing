@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF(Path_RollingBall, 0x24);
 class RollingBallShaker;
 class PathLine;
 
-class RollingBall : public BaseAliveGameObject
+class RollingBall final : public BaseAliveGameObject
 {
 public:
     EXPORT RollingBall* ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo);

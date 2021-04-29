@@ -269,7 +269,7 @@ struct Mudokon_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
 
-class Mudokon : public BaseAliveGameObject
+class Mudokon final : public BaseAliveGameObject
 {
 public:
     EXPORT Mudokon* ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo);

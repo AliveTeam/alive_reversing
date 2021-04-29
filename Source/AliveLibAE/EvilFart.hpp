@@ -48,7 +48,7 @@ struct EvilFart_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFart_State, 60);
 
-class EvilFart : public BaseAliveGameObject
+class EvilFart final : public BaseAliveGameObject
 {
 public:
     EXPORT EvilFart* ctor_422E30();

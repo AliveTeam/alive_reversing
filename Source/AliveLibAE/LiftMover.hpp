@@ -39,7 +39,7 @@ struct Path_LiftMover final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);
 
-class LiftMover : public BaseGameObject
+class LiftMover final : public BaseGameObject
 {
 public:
     EXPORT LiftMover* ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo);

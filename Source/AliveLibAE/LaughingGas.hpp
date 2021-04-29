@@ -29,7 +29,7 @@ struct Path_LaughingGas final : public Path_TLV
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas, 0x1C);
 
 
-class LaughingGas : public BaseGameObject
+class LaughingGas final : public BaseGameObject
 {
 public:
     EXPORT LaughingGas* ctor_432400(Layer layer, s32 notUsed, Path_LaughingGas* pTlv, s32 tlvInfo);

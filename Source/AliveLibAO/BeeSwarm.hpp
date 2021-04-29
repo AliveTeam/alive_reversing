@@ -26,7 +26,7 @@ struct BeeSwarmParticles
     BeeSwarmParticle bees[25];
 };
 
-class BeeSwarm : public BaseAnimatedWithPhysicsGameObject
+class BeeSwarm final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BeeSwarm* ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks);

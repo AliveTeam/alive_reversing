@@ -27,7 +27,7 @@ struct Path_SlamDoor final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);
 
-class SlamDoor : public BaseAliveGameObject
+class SlamDoor final : public BaseAliveGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

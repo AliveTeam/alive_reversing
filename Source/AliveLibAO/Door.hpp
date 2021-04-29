@@ -47,7 +47,7 @@ struct Path_Door final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x48);
 
-class Door : public BaseAnimatedWithPhysicsGameObject
+class Door final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Door* ctor_40E010(Path_Door* pTlv, s32 tlvInfo);

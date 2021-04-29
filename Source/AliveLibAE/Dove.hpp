@@ -15,7 +15,7 @@ struct Path_Dove final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x18);
 
-class Dove : public ::BaseAnimatedWithPhysicsGameObject
+class Dove final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Dove* ctor_41F430(s32 frameTableOffset, s32 maxW, u16 maxH, s32 resourceID, s32 tlvInfo, FP scale);

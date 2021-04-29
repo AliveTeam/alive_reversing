@@ -11,7 +11,7 @@ struct MinesAlarm_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(MinesAlarm_State, 0x8);
 
-class MinesAlarm : public BaseGameObject
+class MinesAlarm final : public BaseGameObject
 {
 public:
     EXPORT static void CC Create_4177F0(s32 timer);

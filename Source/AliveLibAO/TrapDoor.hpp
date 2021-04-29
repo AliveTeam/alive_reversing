@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF(Path_TrapDoor, 0x28);
 
 class PathLine;
 
-class TrapDoor : public PlatformBase
+class TrapDoor final : public PlatformBase
 {
 public:
     EXPORT TrapDoor* ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);

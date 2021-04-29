@@ -19,7 +19,7 @@ struct Path_SecurityOrb final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x14);
 
-class SecurityOrb : public BaseAliveGameObject
+class SecurityOrb final : public BaseAliveGameObject
 {
 public:
     EXPORT SecurityOrb* ctor_466350(Path_SecurityOrb* pTlv, s32 tlvInfo);

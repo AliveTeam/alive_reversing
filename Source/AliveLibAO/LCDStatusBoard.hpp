@@ -11,7 +11,7 @@ struct Path_LCDStatusBoard final : public Path_TLV
 {
 };
 
-class LCDStatusBoard : public BaseGameObject
+class LCDStatusBoard final : public BaseGameObject
 {
 public:
     EXPORT LCDStatusBoard* ctor_4418E0(Path_LCDStatusBoard* pTlv, s32 tlvInfo);

@@ -21,7 +21,7 @@ struct Path_MultiSwitchController final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MultiSwitchController, 0x24);
 
-class MultiSwitchController : public BaseGameObject
+class MultiSwitchController final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

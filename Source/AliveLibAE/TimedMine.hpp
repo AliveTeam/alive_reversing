@@ -23,7 +23,7 @@ enum TimedMine_Flags_1C4
     ePadding_1 = 0x2,
 };
 
-class TimedMine : public BaseAliveGameObject
+class TimedMine final : public BaseAliveGameObject
 {
 public:
     virtual void VUpdate() override;

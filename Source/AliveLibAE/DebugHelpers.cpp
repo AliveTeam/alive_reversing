@@ -69,7 +69,7 @@ void InitDebugFont()
     }
 }
 
-class ObjectDebugger : public BaseGameObject
+class ObjectDebugger final : public BaseGameObject
 {
 public:
     ObjectDebugger()
@@ -276,7 +276,7 @@ public:
 };
 bool ObjectDebugger::Enabled = false;
 
-class DebugPathRenderer : public BaseGameObject
+class DebugPathRenderer final : public BaseGameObject
 {
 public:
     DebugPathRenderer()
@@ -475,20 +475,13 @@ void Command_Test(const std::vector<std::string>& args)
     DEV_CONSOLE_MESSAGE("You called this with " + std::to_string(args.size()) + " arguments", 5);
 }
 
-class FakeMeatGrinder : public UXB
-{
-public:
-    FakeMeatGrinder()
-    {
-        field_4_typeId = AETypes::eGrinder_30;
-        field_4_typeId = AETypes::eExplosion_109;
-    }
-};
-
 void Command_Die(const std::vector<std::string>& /*args*/)
 {
-    FakeMeatGrinder fakeGrinder;
-    sControlledCharacter_5C1B8C->VTakeDamage_408730(&fakeGrinder);
+    auto explosion = ae_new<BaseBomb>();
+    if (explosion)
+    {
+        explosion->ctor_423E70(sControlledCharacter_5C1B8C->field_B8_xpos, sControlledCharacter_5C1B8C->field_BC_ypos, 0, sControlledCharacter_5C1B8C->field_CC_sprite_scale);
+    }
 }
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
@@ -509,7 +502,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
 
         if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
-            auto aliveObj = ((BaseAliveGameObject*) pBaseGameObject);
+            auto aliveObj =  static_cast<BaseAliveGameObject*>(pBaseGameObject);
 
             auto explosion = ae_new<BaseBomb>();
             if (explosion)
@@ -910,7 +903,7 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
 };
 //
 
-class DebugConsole : public BaseGameObject
+class DebugConsole final : public BaseGameObject
 {
 public:
     DebugConsole()
@@ -1839,7 +1832,7 @@ private:
 };
 
 
-class RenderTest : public BaseGameObject
+class RenderTest final : public BaseGameObject
 {
 public:
     RenderTest()
@@ -1967,7 +1960,7 @@ const u8 kTestImageCompressed[] = {
     kTestImage[3][3],
 };
 
-class AnimRenderTest : public BaseGameObject
+class AnimRenderTest final : public BaseGameObject
 {
 public:
     AnimRenderTest()

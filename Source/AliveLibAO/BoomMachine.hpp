@@ -25,7 +25,7 @@ enum class BoomMachineStates : s16
     eDropGrenade_3
 };
 
-class BoomMachine : public BaseAnimatedWithPhysicsGameObject
+class BoomMachine final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BoomMachine* ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo);

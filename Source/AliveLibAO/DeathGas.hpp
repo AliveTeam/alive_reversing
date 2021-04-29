@@ -6,7 +6,7 @@
 
 namespace AO {
 
-class DeathGas : public BaseGameObject
+class DeathGas final : public BaseGameObject
 {
 public:
     EXPORT DeathGas* ctor_41CF40(Layer layer, s16 amount);

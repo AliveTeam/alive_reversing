@@ -7,7 +7,7 @@ namespace AO {
 
 class BaseAliveGameObject;
 
-class PossessionFlicker : public BaseGameObject
+class PossessionFlicker final : public BaseGameObject
 {
 public:
     EXPORT PossessionFlicker* ctor_41A8C0(BaseAliveGameObject* pToApplyFlicker, s32 duration, s16 r, s16 g, s16 b);

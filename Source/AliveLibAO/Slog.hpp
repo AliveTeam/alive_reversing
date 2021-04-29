@@ -56,7 +56,7 @@ enum eSlogStates : s32
     SLOG_STATES_ENUM(MAKE_ENUM)
 };
 
-class Slog : public BaseAliveGameObject
+class Slog final : public BaseAliveGameObject
 {
 public:
     EXPORT Slog* ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo);

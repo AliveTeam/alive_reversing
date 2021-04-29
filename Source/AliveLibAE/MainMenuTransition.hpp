@@ -10,7 +10,7 @@ struct MainMenuTransition_Polys
 };
 ALIVE_ASSERT_SIZEOF(MainMenuTransition_Polys, 0x100);
 
-class MainMenuTransition : public BaseGameObject
+class MainMenuTransition final : public BaseGameObject
 {
 public:
     EXPORT MainMenuTransition* ctor_464110(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 fadeSpeed, TPageAbr abr);

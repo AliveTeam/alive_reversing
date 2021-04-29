@@ -17,7 +17,7 @@ struct Path_MusicTrigger final : public Path_TLV
 ALIVE_ASSERT_SIZEOF(Path_MusicTrigger, 0x20);
 
 
-class MusicTrigger : public BaseGameObject
+class MusicTrigger final : public BaseGameObject
 {
 public:
     EXPORT MusicTrigger* ctor_443A60(s16 type, s16 enabledBy, s32 id, s16 delay);

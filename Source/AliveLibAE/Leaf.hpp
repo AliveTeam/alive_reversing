@@ -3,7 +3,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-class Leaf : public ::BaseAnimatedWithPhysicsGameObject
+class Leaf final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Leaf* ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale);

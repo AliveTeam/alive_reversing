@@ -43,7 +43,7 @@ struct Path_BirdPortalExit final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_BirdPortalExit, 0x1C);
 
-class BirdPortalTerminator : public BaseAnimatedWithPhysicsGameObject
+class BirdPortalTerminator final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BirdPortalTerminator* ctor_451F70(FP xpos, FP ypos, FP scale, PortalType portalType);
@@ -61,7 +61,7 @@ class ThrowableTotalIndicator;
 class ScreenClipper;
 class Dove;
 
-class BirdPortal : public BaseGameObject
+class BirdPortal final : public BaseGameObject
 {
 public:
     EXPORT BirdPortal* ctor_4520A0(Path_BirdPortal* pTlv, s32 tlvInfo);

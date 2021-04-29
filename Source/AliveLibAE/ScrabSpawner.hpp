@@ -22,7 +22,7 @@ struct ScrabSpawner_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawner_State, 0x10);
 
-class ScrabSpawner : public BaseGameObject
+class ScrabSpawner final : public BaseGameObject
 {
 public:
     EXPORT ScrabSpawner* ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo);

@@ -30,7 +30,7 @@ class Map;
 
 enum class LevelIds : s16;
 
-class ShadowZone : public BaseGameObject
+class ShadowZone final : public BaseGameObject
 {
 public:
     EXPORT ShadowZone* ctor_435D30(Path_ShadowZone* pTlv, Map* pMap, s32 tlvInfo);

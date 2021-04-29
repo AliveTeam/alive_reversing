@@ -6,7 +6,7 @@
 
 struct Path_Alarm;
 
-class Alarm : public EffectBase
+class Alarm final : public EffectBase
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

@@ -130,7 +130,7 @@ struct Mudokon_Resources
 
 enum class GameSpeakEvents : s16;
 
-class Mudokon : public BaseAliveGameObject
+class Mudokon final : public BaseAliveGameObject
 {
 public:
     EXPORT Mudokon* ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo);

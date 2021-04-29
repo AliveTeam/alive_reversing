@@ -3,7 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-class Explosion : public ::BaseAnimatedWithPhysicsGameObject
+class Explosion final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Explosion* ctor_4A1200(FP xpos, FP ypos, FP scale, s16 bSmall);

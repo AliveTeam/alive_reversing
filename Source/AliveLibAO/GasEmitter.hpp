@@ -10,7 +10,7 @@ struct Path_GasEmitter final : public Path_TLV
 {
 };
 
-class GasEmitter : public BaseGameObject
+class GasEmitter final : public BaseGameObject
 {
 public:
     EXPORT GasEmitter* ctor_41D760(Path_GasEmitter* pTlv, s32 tlvInfo);

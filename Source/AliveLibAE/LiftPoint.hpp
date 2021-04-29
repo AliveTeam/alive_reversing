@@ -48,7 +48,7 @@ struct LiftPoint_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPoint_State, 0x1C);
 
-class LiftPoint : public PlatformBase
+class LiftPoint final : public PlatformBase
 {
 public:
     EXPORT LiftPoint* ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo);

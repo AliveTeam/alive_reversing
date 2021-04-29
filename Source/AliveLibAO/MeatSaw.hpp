@@ -30,7 +30,7 @@ enum class MeatSawStates : s16
     eGoingUp_2 = 2
 };
 
-class MeatSaw : public BaseAnimatedWithPhysicsGameObject
+class MeatSaw final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MeatSaw* ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo);

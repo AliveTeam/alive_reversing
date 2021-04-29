@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class Leaf : public BaseAnimatedWithPhysicsGameObject
+class Leaf final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Leaf* ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale);

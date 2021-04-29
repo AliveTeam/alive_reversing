@@ -24,7 +24,7 @@ struct Path_FootSwitch final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_FootSwitch, 0x20);
 
-class FootSwitch : public BaseAnimatedWithPhysicsGameObject
+class FootSwitch final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BaseAliveGameObject* WhoIsStoodOnMe_488A60();

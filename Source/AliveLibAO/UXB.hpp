@@ -23,7 +23,7 @@ struct Path_UXB final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_UXB, 0x24);
 
-class UXB : public BaseAliveGameObject
+class UXB final : public BaseAliveGameObject
 {
 public:
     EXPORT UXB* ctor_488C80(Path_UXB* pTlv, s32 tlvInfo);

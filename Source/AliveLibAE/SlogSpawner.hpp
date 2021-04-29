@@ -17,7 +17,7 @@ struct Path_SlogSpawner final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogSpawner, 0x20);
 
-class SlogSpawner : public BaseGameObject
+class SlogSpawner final : public BaseGameObject
 {
 public:
     EXPORT SlogSpawner* ctor_4C7FF0(Path_SlogSpawner* pTlv, s32 tlvInfo);

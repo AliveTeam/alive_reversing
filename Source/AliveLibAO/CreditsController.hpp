@@ -7,7 +7,7 @@ namespace AO {
 
 struct Path_TLV;
 
-class CreditsController : public BaseGameObject
+class CreditsController final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

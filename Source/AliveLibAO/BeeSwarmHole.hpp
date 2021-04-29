@@ -26,7 +26,7 @@ struct Path_BeeSwarmHole final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_BeeSwarmHole, 0x28);
 
-class BeeSwarmHole : public BaseGameObject
+class BeeSwarmHole final : public BaseGameObject
 {
 public:
     EXPORT BeeSwarmHole* ctor_4782B0(Path_BeeSwarmHole* pTlv, s32 tlvInfo);

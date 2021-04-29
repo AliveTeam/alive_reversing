@@ -19,7 +19,7 @@ ALIVE_ASSERT_SIZEOF(Path_Dove, 0x20);
 
 void CC Dove_static_ctor_40EE10();
 
-class Dove : public BaseAnimatedWithPhysicsGameObject
+class Dove final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Dove* ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale);

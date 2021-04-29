@@ -17,7 +17,7 @@ struct Path_LevelLoader final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LevelLoader, 0x1C);
 
-class LevelLoader : public BaseGameObject
+class LevelLoader final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

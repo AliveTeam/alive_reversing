@@ -42,7 +42,7 @@ enum class GibType : s32
     Fleech_10 = 10,
 };
 
-class Gibs : public ::BaseAnimatedWithPhysicsGameObject
+class Gibs final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Gibs* ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 bMakeSmaller);

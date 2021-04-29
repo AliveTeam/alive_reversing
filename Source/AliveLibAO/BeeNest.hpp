@@ -27,7 +27,7 @@ class BeeSwarm;
 
 enum class LevelIds : s16;
 
-class BeeNest : public BaseGameObject
+class BeeNest final : public BaseGameObject
 {
 public:
     EXPORT BeeNest* ctor_480E20(Path_BeeNest* pTlv, s32 tlvInfo);

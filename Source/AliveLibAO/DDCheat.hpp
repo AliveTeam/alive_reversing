@@ -49,7 +49,7 @@ struct DDCheatProperty
 };
 ALIVE_ASSERT_SIZEOF(DDCheatProperty, 12);
 
-class DDCheat : public BaseGameObject
+class DDCheat final : public BaseGameObject
 {
 public:
     EXPORT DDCheat* ctor_4095D0();

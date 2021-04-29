@@ -16,7 +16,7 @@ struct Path_ElectricWall final : public Path_TLV
 ALIVE_ASSERT_SIZEOF(Path_ElectricWall, 0x20);
 
 
-class ElectricWall : public BaseAnimatedWithPhysicsGameObject
+class ElectricWall final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ElectricWall* ctor_40FCF0(Path_ElectricWall* pTlv, s32 tlvInfo);

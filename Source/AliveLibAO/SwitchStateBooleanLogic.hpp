@@ -23,7 +23,7 @@ struct Path_SwitchStateBooleanLogic final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_SwitchStateBooleanLogic, 0x20);
 
-class SwitchStateBooleanLogic : public BaseGameObject
+class SwitchStateBooleanLogic final : public BaseGameObject
 {
 public:
     EXPORT SwitchStateBooleanLogic* ctor_436AB0(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo);

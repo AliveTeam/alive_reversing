@@ -17,7 +17,7 @@ struct Path_BackgroundAnimation final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_BackgroundAnimation, 0x20);
 
-class BackgroundAnimation : public BaseAnimatedWithPhysicsGameObject
+class BackgroundAnimation final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BackgroundAnimation* ctor_405A90(Path_BackgroundAnimation* pTlv, s32 tlvInfo);

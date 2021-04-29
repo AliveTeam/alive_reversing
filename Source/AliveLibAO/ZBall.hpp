@@ -30,7 +30,7 @@ struct Path_ZBall final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_ZBall, 0x20);
 
-class ZBall : public BaseAnimatedWithPhysicsGameObject
+class ZBall final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ZBall* ctor_478590(Path_ZBall* pTlv, s32 tlvInfo);

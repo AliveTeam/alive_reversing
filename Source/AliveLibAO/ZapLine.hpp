@@ -27,7 +27,7 @@ enum class ZapLineType : s16
     eThin_1 = 1   // Used by the Shrykull.
 };
 
-class ZapLine : public BaseAnimatedWithPhysicsGameObject
+class ZapLine final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ZapLine* ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLineType type, Layer layer);

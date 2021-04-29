@@ -17,7 +17,7 @@ struct Path_HintFly final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_HintFly, 0x1C);
 
-class HintFly : public BaseAnimatedWithPhysicsGameObject
+class HintFly final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT HintFly* ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo);

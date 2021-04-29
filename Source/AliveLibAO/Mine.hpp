@@ -18,7 +18,7 @@ struct Path_Mine final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Mine, 0x24);
 
-class Mine : public BaseAliveGameObject
+class Mine final : public BaseAliveGameObject
 {
 public:
     EXPORT Mine* ctor_43A330(Path_Mine* pTlv, s32 tlvInfo);

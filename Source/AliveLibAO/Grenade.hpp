@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class Grenade : public BaseThrowable
+class Grenade final : public BaseThrowable
 {
 public:
     EXPORT void AddToPlatform_41F7C0();

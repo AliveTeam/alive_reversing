@@ -18,7 +18,7 @@ ALIVE_ASSERT_SIZEOF(Path_LiftMover, 0x20);
 
 class LiftPoint;
 
-class LiftMover : public BaseGameObject
+class LiftMover final : public BaseGameObject
 {
 public:
     EXPORT LiftMover* ctor_4054E0(Path_LiftMover* pTlv, s32 tlvInfo);

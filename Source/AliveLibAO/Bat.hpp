@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF(Path_Bat, 0x20);
 
 class PathLine;
 
-class Bat : public BaseAnimatedWithPhysicsGameObject
+class Bat final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Bat* ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo);

@@ -26,7 +26,7 @@ enum Mine_Flags_1BC
     eBit1_PersistOffscreen = 0x2
 };
 
-class Mine : public BaseAliveGameObject
+class Mine final : public BaseAliveGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

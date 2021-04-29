@@ -185,7 +185,7 @@ using Path_SligLeftBound = Path_SligBound;
 using Path_SligRightBound = Path_SligBound;
 using Path_SligPersist = Path_SligBound;
 
-class Slig : public BaseAliveGameObject
+class Slig final : public BaseAliveGameObject
 {
 public:
     EXPORT Slig* ctor_464D40(Path_Slig* pTlv, s32 tlvInfo);

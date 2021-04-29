@@ -32,7 +32,7 @@ enum eSlingMudStates : s32
     SLING_MUD_STATES_ENUM(MAKE_ENUM)
 };
 
-class SlingMudokon : public BaseAliveGameObject
+class SlingMudokon final : public BaseAliveGameObject
 {
 public:
     EXPORT SlingMudokon* ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo);

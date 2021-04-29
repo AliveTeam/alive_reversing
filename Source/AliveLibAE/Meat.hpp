@@ -44,7 +44,7 @@ struct Meat_SaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Meat_SaveState, 60);
 
-class Meat : public BaseThrowable
+class Meat final : public BaseThrowable
 {
 public:
     EXPORT Meat* ctor_4694A0(FP xpos, FP ypos, s16 count);
@@ -104,7 +104,7 @@ struct Path_MeatSack final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x1C);
 
-class MeatSack : public BaseAliveGameObject
+class MeatSack final : public BaseAliveGameObject
 {
 public:
     EXPORT MeatSack* ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo);

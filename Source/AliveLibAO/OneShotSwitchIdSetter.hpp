@@ -12,7 +12,7 @@ struct Path_OneShotSwitchIdSetter final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_OneShotSwitchIdSetter, 0x28);
 
-class OneShotSwitchIdSetter : public BaseGameObject
+class OneShotSwitchIdSetter final : public BaseGameObject
 {
 public:
     EXPORT BaseGameObject* ctor_432E10(Path_OneShotSwitchIdSetter* pTlv, s32 tlvInfo);

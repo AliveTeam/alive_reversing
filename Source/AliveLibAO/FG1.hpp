@@ -10,7 +10,7 @@ struct Fg1Chunk;
 
 enum class LevelIds : s16;
 
-class FG1 : public BaseGameObject
+class FG1 final : public BaseGameObject
 {
 public:
     EXPORT FG1* ctor_4539C0(u8** ppRes);

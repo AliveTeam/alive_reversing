@@ -32,7 +32,7 @@ enum class SecurityDoorStates : s16
     eLaughAtFailure_13 = 13,
 };
 
-class SecurityDoor : public ::BaseAnimatedWithPhysicsGameObject
+class SecurityDoor final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT SecurityDoor* ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo);

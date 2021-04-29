@@ -24,7 +24,7 @@ struct Path_WheelSyncer final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WheelSyncer, 0x20);
 
-class WheelSyncer : public BaseGameObject
+class WheelSyncer final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

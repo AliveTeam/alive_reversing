@@ -15,7 +15,7 @@ ALIVE_ASSERT_SIZEOF(Path_HoneySack, 0x1C);
 
 class BeeSwarm;
 
-class HoneySack : public BaseAnimatedWithPhysicsGameObject
+class HoneySack final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT HoneySack* ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo);

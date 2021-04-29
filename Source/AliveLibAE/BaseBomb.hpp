@@ -4,7 +4,7 @@
 #include "PlatformBase.hpp"
 #include "Path.hpp"
 
-class BaseBomb : public ::BaseAnimatedWithPhysicsGameObject
+class BaseBomb final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual void VUpdate() override;

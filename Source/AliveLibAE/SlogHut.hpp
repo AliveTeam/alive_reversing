@@ -13,7 +13,7 @@ struct Path_SlogHut final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogHut, 0x18);
 
-class SlogHut : public BaseGameObject
+class SlogHut final : public BaseGameObject
 {
 public:
     EXPORT SlogHut* ctor_4C4070(Path_SlogHut* pTlv, s32 tlvInfo);

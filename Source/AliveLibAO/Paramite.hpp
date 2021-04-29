@@ -61,7 +61,7 @@ struct Path_Paramite final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
 
-class Paramite : public BaseAliveGameObject
+class Paramite final : public BaseAliveGameObject
 {
 public:
     EXPORT Paramite* ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo);

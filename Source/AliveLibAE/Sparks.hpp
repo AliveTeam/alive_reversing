@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-class Sparks : public ::BaseAnimatedWithPhysicsGameObject
+class Sparks final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Sparks* ctor_416390(FP xpos, FP ypos, FP scale);

@@ -240,7 +240,7 @@ enum class GameSpeakEvents : s16;
 
 class LiftPoint;
 
-class Slig : public BaseAliveGameObject
+class Slig final : public BaseAliveGameObject
 {
 public:
     EXPORT Slig* ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo);

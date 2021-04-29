@@ -31,7 +31,7 @@ struct Path_MusicTrigger final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x18);
 
-class MusicTrigger : public BaseGameObject
+class MusicTrigger final : public BaseGameObject
 {
 public:
     EXPORT BaseGameObject* ctor_47FE40(Path_MusicTrigger* pTlv, u32 tlvInfo);

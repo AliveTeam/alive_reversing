@@ -415,7 +415,7 @@ struct Path_Stone final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Stone, 0x2C);
 
-class Abe : public BaseAliveGameObject
+class Abe final : public BaseAliveGameObject
 {
 public:
     BOOL Is_Celling_Above();

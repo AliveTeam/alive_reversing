@@ -19,7 +19,7 @@ struct Path_MeatSack final : public Path_TLV
 ALIVE_ASSERT_SIZEOF(Path_MeatSack, 0x24);
 
 
-class MeatSack : public BaseAliveGameObject
+class MeatSack final : public BaseAliveGameObject
 {
 public:
     EXPORT MeatSack* ctor_4390F0(Path_MeatSack* pTlv, s32 tlvInfo);
@@ -49,7 +49,7 @@ public:
 ALIVE_ASSERT_SIZEOF(MeatSack, 0x120);
 
 
-class Meat : public BaseThrowable
+class Meat final : public BaseThrowable
 {
 public:
     EXPORT Meat* ctor_438550(FP xpos, FP ypos, s16 count);

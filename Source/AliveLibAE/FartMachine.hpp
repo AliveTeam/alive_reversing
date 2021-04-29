@@ -12,7 +12,7 @@ struct Path_FartMachine final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FartMachine, 0x14);
 
-class FartMachine : public ::BaseAnimatedWithPhysicsGameObject
+class FartMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FartMachine* ctor_413060(Path_FartMachine* pTlv, s32 tlvInfo);

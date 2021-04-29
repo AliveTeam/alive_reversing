@@ -75,7 +75,7 @@ enum class ScrabSounds : u8
     eYell_8 = 8,
 };
 
-class Scrab : public BaseAliveGameObject
+class Scrab final : public BaseAliveGameObject
 {
 public:
     EXPORT Scrab* ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo);

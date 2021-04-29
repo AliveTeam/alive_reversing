@@ -37,7 +37,7 @@ struct Path_Water final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Water, 0x1C);
 
-class Water : public ::BaseAnimatedWithPhysicsGameObject
+class Water final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Water* ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo);

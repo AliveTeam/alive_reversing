@@ -32,7 +32,7 @@ enum SecurityDoorStates : s16
     eLaughAtFailure_10 = 10
 };
 
-class SecurityDoor : public BaseAnimatedWithPhysicsGameObject
+class SecurityDoor final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     BOOL IsPlayerNear();

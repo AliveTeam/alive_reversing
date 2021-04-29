@@ -115,7 +115,7 @@ enum NakedSligMotion : s16
     M_EndPushingWall_17_41B3A0 = 17
 };
 
-class NakedSlig : public BaseAliveGameObject
+class NakedSlig final : public BaseAliveGameObject
 {
 public:
     EXPORT NakedSlig* ctor_418C70(Path_NakedSlig* pTlv, s32 tlvInfo);

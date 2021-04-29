@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ColourfulMeter, 0x18);
 
 constexpr s16 kMeterBarsXCount = 20;
 
-class ColourfulMeter : public BaseGameObject
+class ColourfulMeter final : public BaseGameObject
 {
 public:
     EXPORT ColourfulMeter* ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvInfo);

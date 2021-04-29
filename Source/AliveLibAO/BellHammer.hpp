@@ -21,7 +21,7 @@ enum class BellHammerStates : u16
     eSmashingBell_1 = 1
 };
 
-class BellHammer : public BaseAnimatedWithPhysicsGameObject
+class BellHammer final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BellHammer* ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo);

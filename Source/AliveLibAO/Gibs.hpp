@@ -28,7 +28,7 @@ struct Gib_Data
 };
 ALIVE_ASSERT_SIZEOF(Gib_Data, 0x18);
 
-class Gibs : public BaseAnimatedWithPhysicsGameObject
+class Gibs final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Gibs* ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale);

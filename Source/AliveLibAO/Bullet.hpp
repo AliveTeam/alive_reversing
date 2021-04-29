@@ -17,7 +17,7 @@ enum class BulletType : s16
 
 enum class LevelIds : s16;
 
-class Bullet : public BaseGameObject
+class Bullet final : public BaseGameObject
 {
 public:
     EXPORT Bullet* ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 a7, FP scale, s16 a9);

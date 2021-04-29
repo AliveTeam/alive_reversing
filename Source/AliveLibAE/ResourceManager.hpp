@@ -8,7 +8,7 @@
 
 EXPORT void CC Game_ShowLoadingIcon_482D80();
 
-class ResourceManager : public BaseGameObject
+class ResourceManager final : public BaseGameObject
 {
 public:
     enum ResourceType : u32

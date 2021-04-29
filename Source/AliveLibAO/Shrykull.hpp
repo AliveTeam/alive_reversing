@@ -7,7 +7,7 @@ namespace AO {
 
 class ZapLine;
 
-class Shrykull : public BaseAliveGameObject
+class Shrykull final : public BaseAliveGameObject
 {
 public:
     EXPORT Shrykull* ctor_463880();

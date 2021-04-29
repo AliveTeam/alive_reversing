@@ -23,7 +23,7 @@ struct SparkRes
 };
 ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
 
-class Spark : public BaseGameObject
+class Spark final : public BaseGameObject
 {
 public:
     EXPORT Spark* ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max);

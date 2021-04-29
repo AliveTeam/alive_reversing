@@ -27,7 +27,7 @@ struct Path_FallingItem final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_FallingItem, 0x24);
 
-class FallingItem : public BaseAliveGameObject
+class FallingItem final : public BaseAliveGameObject
 {
 public:
     EXPORT void DamageHitItems_41A6D0();

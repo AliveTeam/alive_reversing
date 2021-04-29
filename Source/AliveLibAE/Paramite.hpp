@@ -171,7 +171,7 @@ struct Paramite_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Paramite_State, 0x78);
 
-class Paramite : public BaseAliveGameObject
+class Paramite final : public BaseAliveGameObject
 {
 public:
     EXPORT Paramite* ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo);

@@ -20,7 +20,7 @@ struct Path_ChimeLock final : public Path_TLV
 ALIVE_ASSERT_SIZEOF(Path_ChimeLock, 0x24);
 
 
-class ChimeLock : public BaseAliveGameObject
+class ChimeLock final : public BaseAliveGameObject
 {
 public:
     EXPORT ChimeLock* ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo);

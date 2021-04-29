@@ -24,7 +24,7 @@ struct Path_MovingBombStopper final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBombStopper, 0x14);
 
-class MovingBomb : public BaseAliveGameObject
+class MovingBomb final : public BaseAliveGameObject
 {
 public:
     EXPORT MovingBomb* ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo);

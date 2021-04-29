@@ -16,7 +16,7 @@ struct Path_SecurityClaw final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_SecurityClaw, 0x20);
 
-class Claw : public BaseAnimatedWithPhysicsGameObject
+class Claw final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     void ctor();
@@ -36,7 +36,7 @@ enum class SecurityClawStates : s16
     eAnimateClaw_DoFlashAndSound_3
 };
 
-class SecurityClaw : public BaseAliveGameObject
+class SecurityClaw final : public BaseAliveGameObject
 {
 public:
     EXPORT SecurityClaw* ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo);

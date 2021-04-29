@@ -12,7 +12,7 @@
 
 namespace AO {
 
-class GrenadeMachineNozzle : public BaseAnimatedWithPhysicsGameObject
+class GrenadeMachineNozzle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual void VUpdate() override

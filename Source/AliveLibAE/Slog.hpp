@@ -113,7 +113,7 @@ class Slog;
 using TSlogAIFn = s16 (Slog::*)();
 using TSlogMotionFn = void (Slog::*)();
 
-class Slog : public BaseAliveGameObject
+class Slog final : public BaseAliveGameObject
 {
 public:
     EXPORT Slog* ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 jumpDelay);

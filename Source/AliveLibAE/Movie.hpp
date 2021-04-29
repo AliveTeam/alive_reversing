@@ -8,7 +8,7 @@ EXPORT void CC Get_fmvs_sectors_494460(const s8* fmvName1, const s8* fmvName2, c
 EXPORT s8 CC DDV_Play_493210(const s8* pDDVName);
 bool AreMovieSkippingInputsHeld();
 
-class Movie : public BaseGameObject
+class Movie final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

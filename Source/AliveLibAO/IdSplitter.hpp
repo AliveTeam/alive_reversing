@@ -17,7 +17,7 @@ struct Path_IdSplitter final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_IdSplitter, 0x24);
 
-class IdSplitter : public BaseGameObject
+class IdSplitter final : public BaseGameObject
 {
 public:
     EXPORT IdSplitter* ctor_479B40(Path_IdSplitter* pTlv, s32 tlvInfo);

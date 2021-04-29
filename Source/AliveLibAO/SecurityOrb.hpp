@@ -21,7 +21,7 @@ enum class SecurityOrbStates : s16
     eDoFlashAndSound_2
 };
 
-class SecurityOrb : public BaseAliveGameObject
+class SecurityOrb final : public BaseAliveGameObject
 {
 public:
     EXPORT SecurityOrb* ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo);

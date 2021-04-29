@@ -78,7 +78,7 @@ struct MineCar_SaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(MineCar_SaveState, 0x68);
 
-class MineCar : public BaseAliveGameObject
+class MineCar final : public BaseAliveGameObject
 {
 public:
     EXPORT MineCar* ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 a4, s32 a5, s32 a6);

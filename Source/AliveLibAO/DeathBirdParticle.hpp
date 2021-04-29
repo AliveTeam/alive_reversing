@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class DeathBirdParticle : public BaseAnimatedWithPhysicsGameObject
+class DeathBirdParticle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT DeathBirdParticle* ctor_41D950(FP xpos, FP ypos, s32 start, s16 playSound, FP scale);

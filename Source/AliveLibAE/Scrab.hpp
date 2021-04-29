@@ -174,7 +174,7 @@ class Scrab;
 using TScrabAIFn = s16 (Scrab::*)();
 using TScrabMotionFn = void (Scrab::*)();
 
-class Scrab : public BaseAliveGameObject
+class Scrab final : public BaseAliveGameObject
 {
 public:
     EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection);

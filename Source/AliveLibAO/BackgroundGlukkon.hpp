@@ -15,7 +15,7 @@ struct Path_Glukkon final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Glukkon, 0x20);
 
-class BackgroundGlukkon : public BaseAliveGameObject
+class BackgroundGlukkon final : public BaseAliveGameObject
 {
 public:
     EXPORT BackgroundGlukkon* ctor_41DBD0(Path_Glukkon* pTlv, s32 tlvInfo);

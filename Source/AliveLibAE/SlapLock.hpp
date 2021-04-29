@@ -42,7 +42,7 @@ struct SlapLock_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);
 
-class SlapLock : public BaseAliveGameObject
+class SlapLock final : public BaseAliveGameObject
 {
 public:
     EXPORT SlapLock* ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo);

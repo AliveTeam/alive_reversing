@@ -4,7 +4,7 @@
 #include "EffectBase.hpp"
 #include "Layer.hpp"
 
-class Flash : public EffectBase
+class Flash final : public EffectBase
 {
 public:
     EXPORT Flash* ctor_428570(Layer layer, u8 r, u8 g, u8 b, s32 /*not_used*/, TPageAbr abr, s32 time);

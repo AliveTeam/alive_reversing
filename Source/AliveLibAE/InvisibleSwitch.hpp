@@ -25,7 +25,7 @@ struct Path_InvisibleSwitch final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x1C);
 
-class InvisibleSwitch : public BaseGameObject
+class InvisibleSwitch final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

@@ -19,7 +19,7 @@ struct Path_BackgroundAnimation final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BackgroundAnimation, 0x1C);
 
-class BackgroundAnimation : public ::BaseAnimatedWithPhysicsGameObject
+class BackgroundAnimation final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

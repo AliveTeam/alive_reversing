@@ -16,7 +16,7 @@ struct CheatEntry
 };
 ALIVE_ASSERT_SIZEOF(CheatEntry, 0x14);
 
-class CheatController : public BaseGameObject
+class CheatController final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

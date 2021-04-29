@@ -3,7 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "FunctionFwd.hpp"
 
-class Shrykull : public BaseAliveGameObject
+class Shrykull final : public BaseAliveGameObject
 {
 public:
     EXPORT Shrykull* ctor_4AEA20();

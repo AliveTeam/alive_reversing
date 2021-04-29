@@ -19,7 +19,7 @@ ALIVE_ASSERT_SIZEOF(AbilityRing_PolyBuffer, 56);
 
 enum class LevelIds : s16;
 
-class AbilityRing : public BaseGameObject
+class AbilityRing final : public BaseGameObject
 {
 public:
     EXPORT BaseGameObject* dtor_455E50();

@@ -20,7 +20,7 @@ struct SparkRes
 };
 ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
 
-class Spark : public BaseGameObject
+class Spark final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

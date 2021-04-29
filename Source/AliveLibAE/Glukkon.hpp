@@ -156,7 +156,7 @@ struct Glukkon_SaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
 
-class Glukkon : public BaseAliveGameObject
+class Glukkon final : public BaseAliveGameObject
 {
 public:
     EXPORT Glukkon* ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo);

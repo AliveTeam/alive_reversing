@@ -11,7 +11,7 @@ struct Path_ParamiteWebLine final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ParamiteWebLine, 0x14);
 
-class ParamiteWebLine : public ::BaseAnimatedWithPhysicsGameObject
+class ParamiteWebLine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ParamiteWebLine* ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tlvInfo);

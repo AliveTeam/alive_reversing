@@ -53,7 +53,7 @@ enum UXB_Flags_1C8
     eIsRed_Bit1 = 0x2,
 };
 
-class UXB : public BaseAliveGameObject
+class UXB final : public BaseAliveGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

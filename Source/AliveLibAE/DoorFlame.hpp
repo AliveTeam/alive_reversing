@@ -13,7 +13,7 @@ struct Path_DoorFlame final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x18);
 
-class DoorFlame : public ::BaseAnimatedWithPhysicsGameObject
+class DoorFlame final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT DoorFlame* ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo);

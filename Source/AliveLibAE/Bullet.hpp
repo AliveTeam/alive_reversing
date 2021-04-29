@@ -19,7 +19,7 @@ enum class BulletType : s16
     ZBullet_3 = 3
 };
 
-class Bullet : public BaseGameObject
+class Bullet final : public BaseGameObject
 {
 public:
     EXPORT Bullet* ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets);

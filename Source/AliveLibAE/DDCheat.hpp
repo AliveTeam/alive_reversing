@@ -53,7 +53,7 @@ struct DDCheatProperty
 };
 ALIVE_ASSERT_SIZEOF(DDCheatProperty, 12);
 
-class DDCheat : public BaseGameObject
+class DDCheat final : public BaseGameObject
 {
 public:
     enum Flags_3C

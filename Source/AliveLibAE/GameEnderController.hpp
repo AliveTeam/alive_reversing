@@ -30,7 +30,7 @@ struct GameEnderController_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderController_State, 0x10);
 
-class GameEnderController : public BaseGameObject
+class GameEnderController final : public BaseGameObject
 {
 public:
     EXPORT static s32 CC CreateFromSaveState_43BD10(const u8* pBuffer);

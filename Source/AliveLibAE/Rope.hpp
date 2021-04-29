@@ -5,7 +5,7 @@
 
 class AnimationUnknown;
 
-class Rope : public ::BaseAnimatedWithPhysicsGameObject
+class Rope final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Rope* ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale);

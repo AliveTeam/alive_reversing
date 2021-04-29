@@ -34,7 +34,7 @@ struct TrapDoor_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
 
-class TrapDoor : public PlatformBase
+class TrapDoor final : public PlatformBase
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

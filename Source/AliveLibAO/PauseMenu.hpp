@@ -6,7 +6,7 @@
 
 namespace AO {
 
-class PauseMenu : public BaseAnimatedWithPhysicsGameObject
+class PauseMenu final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT PauseMenu* ctor_44DEA0();

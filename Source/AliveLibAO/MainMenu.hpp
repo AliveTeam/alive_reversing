@@ -7,7 +7,7 @@
 
 namespace AO {
 
-class MainMenuFade : public BaseAnimatedWithPhysicsGameObject
+class MainMenuFade final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MainMenuFade* ctor_42A5A0(s16 xpos, s16 ypos, u16 idx_1, s16 bDestroyOnDone);
@@ -37,7 +37,7 @@ struct MainMenuTransition_Polys
 ALIVE_ASSERT_SIZEOF(MainMenuTransition_Polys, 0x100);
 
 // TODO: Move to own file
-class MainMenuTransition : public BaseGameObject
+class MainMenuTransition final : public BaseGameObject
 {
 public:
     EXPORT MainMenuTransition* ctor_436370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed, TPageAbr abr);
@@ -151,7 +151,7 @@ union MenuOption
     s16 raw;
 };
 
-class Menu : public BaseAnimatedWithPhysicsGameObject
+class Menu final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Menu* ctor_47A6F0(Path_TLV* pTlv, s32 tlvInfo);

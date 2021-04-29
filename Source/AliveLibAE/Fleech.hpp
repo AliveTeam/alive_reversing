@@ -145,7 +145,7 @@ class Fleech;
 using TFleechAIFn = s16 (Fleech::*)();
 using TFleechMotionFn = void (Fleech::*)();
 
-class Fleech : public BaseAliveGameObject
+class Fleech final : public BaseAliveGameObject
 {
 public:
     EXPORT Fleech* ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo);

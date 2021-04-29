@@ -27,7 +27,7 @@ struct Path_MotionDetector final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_MotionDetector, 0x2C);
 
-class MotionDetectorLaser : public BaseAnimatedWithPhysicsGameObject
+class MotionDetectorLaser final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual void VScreenChanged() override
@@ -42,7 +42,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xE4);
 
-class MotionDetector : public BaseAnimatedWithPhysicsGameObject
+class MotionDetector final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MotionDetector* ctor_437A50(Path_MotionDetector* pTlv, s32 tlvInfo);

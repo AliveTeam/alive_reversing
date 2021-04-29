@@ -8,7 +8,7 @@ class BaseAliveGameObject;
 enum class LevelIds : s16;
 
 // NOTE: Called MusicEnv in real game (derived from AE PC demo)
-class MusicController : public BaseGameObject
+class MusicController final : public BaseGameObject
 {
 public:
     enum Flags_58

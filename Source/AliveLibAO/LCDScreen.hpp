@@ -17,7 +17,7 @@ struct Path_LCDScreen final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_LCDScreen, 0x20);
 
-class LCDScreen : public BaseGameObject
+class LCDScreen final : public BaseGameObject
 {
 public:
     EXPORT LCDScreen* ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo);

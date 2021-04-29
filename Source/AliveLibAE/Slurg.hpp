@@ -65,7 +65,7 @@ struct Slurg_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slurg_State, 0x2C);
 
-class Slurg : public BaseAliveGameObject
+class Slurg final : public BaseAliveGameObject
 {
 public:
     EXPORT static void CC Clear_Slurg_Step_Watch_Points_449A90();

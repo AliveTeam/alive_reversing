@@ -52,7 +52,7 @@ struct Path_WellLocal final : public Path_WellBase
 
 ALIVE_ASSERT_SIZEOF(Path_WellLocal, 0x34);
 
-class Well : public BaseAnimatedWithPhysicsGameObject
+class Well final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Well* ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);

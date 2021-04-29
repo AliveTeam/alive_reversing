@@ -50,7 +50,7 @@ enum class GameSpeakMatch : s16
     ePartMatch_2 = 2,
 };
 
-class GameSpeak : public BaseGameObject
+class GameSpeak final : public BaseGameObject
 {
 public:
     EXPORT GameSpeak* ctor_40F990();

@@ -33,7 +33,7 @@ struct TimerTrigger_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTrigger_State, 0x10);
 
-class TimerTrigger : public BaseGameObject
+class TimerTrigger final : public BaseGameObject
 {
 public:
     EXPORT TimerTrigger* ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo);

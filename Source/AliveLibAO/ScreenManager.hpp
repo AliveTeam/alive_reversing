@@ -63,7 +63,7 @@ struct SprtTPage
     Prim_SetTPage mTPage;
 };
 
-class ScreenManager : public BaseGameObject
+class ScreenManager final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

@@ -47,7 +47,7 @@ struct Bone_SaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
 
-class Bone : public BaseThrowable
+class Bone final : public BaseThrowable
 {
 public:
     EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, s16 countId);
@@ -103,7 +103,7 @@ struct Path_BoneBag final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoneBag, 0x1C);
 
-class BoneBag : public BaseAliveGameObject
+class BoneBag final : public BaseAliveGameObject
 {
 public:
     EXPORT BoneBag* ctor_4125C0(Path_BoneBag* pTlv, s32 tlvInfo);

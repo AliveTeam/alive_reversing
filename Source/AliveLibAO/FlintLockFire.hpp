@@ -13,7 +13,7 @@ struct Path_FlintLockFire final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_FlintLockFire, 0x1C);
 
-class FlintLockFire : public BaseAnimatedWithPhysicsGameObject
+class FlintLockFire final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT FlintLockFire* ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo);

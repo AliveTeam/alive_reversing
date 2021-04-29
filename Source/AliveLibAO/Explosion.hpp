@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class Explosion : public BaseAnimatedWithPhysicsGameObject
+class Explosion final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Explosion* ctor_458B80(FP xpos, FP ypos, FP scale);

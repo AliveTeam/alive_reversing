@@ -26,7 +26,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ShadowZone, 0x20);
 
 enum class LevelIds : s16;
 
-class ShadowZone : public BaseGameObject
+class ShadowZone final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

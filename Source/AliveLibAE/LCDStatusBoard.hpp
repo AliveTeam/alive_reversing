@@ -14,7 +14,7 @@ struct Path_LCDStatusBoard final : public Path_TLV
     s32 field_14_hidden;
 };
 
-class LCDStatusBoard : public BaseGameObject
+class LCDStatusBoard final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

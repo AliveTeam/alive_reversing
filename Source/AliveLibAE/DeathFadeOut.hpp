@@ -4,7 +4,7 @@
 #include "EffectBase.hpp"
 #include "Layer.hpp"
 
-class DeathFadeOut : public EffectBase
+class DeathFadeOut final : public EffectBase
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

@@ -16,7 +16,7 @@ enum class BurstType : s16
     eSmallPurpleSparks_6 = 6,
 };
 
-class ParticleBurst : public ::BaseAnimatedWithPhysicsGameObject
+class ParticleBurst final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT ParticleBurst* ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, FP scale, BurstType type, s16 count);

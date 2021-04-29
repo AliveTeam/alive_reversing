@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlurgSpawner, 0x20);
 // NOTE: Apparently this object is never used - would kind of make sense as it reads
 // the slurg spawned count from the TLV but never updates it.
 // Also it hasn't got quiksave support.
-class SlurgSpawner : public BaseGameObject
+class SlurgSpawner final : public BaseGameObject
 {
 public:
     EXPORT SlurgSpawner* ctor_4C82E0(Path_SlurgSpawner* pTlv, s32 tlvInfo);

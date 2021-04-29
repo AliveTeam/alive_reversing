@@ -20,7 +20,7 @@ struct Path_LiftPoint final : public Path_TLV
 
 class Rope;
 
-class LiftPoint : public PlatformBase
+class LiftPoint final : public PlatformBase
 {
 public:
     enum Flags

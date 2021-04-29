@@ -44,7 +44,7 @@ struct Path_Switch final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Switch, 0x20);
 
-class Switch : public ::BaseAnimatedWithPhysicsGameObject
+class Switch final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

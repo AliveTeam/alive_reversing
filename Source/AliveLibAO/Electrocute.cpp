@@ -11,7 +11,7 @@
 
 namespace AO {
 
-class PalleteOverwriter : public BaseGameObject
+class PalleteOverwriter final : public BaseGameObject
 {
 public:
     EXPORT PalleteOverwriter* ctor_416FF0(PSX_Point palXY, s16 palDepth, s16 colour)

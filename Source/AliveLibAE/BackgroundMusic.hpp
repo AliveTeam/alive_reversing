@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
-class BackgroundMusic : public BaseGameObject
+class BackgroundMusic final : public BaseGameObject
 {
 public:
     EXPORT static void CC Stop_4CB000();

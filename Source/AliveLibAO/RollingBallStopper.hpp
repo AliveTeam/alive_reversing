@@ -18,7 +18,7 @@ struct Path_RollingBallStopper final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_RollingBallStopper, 0x20);
 
-class RollingBallStopper : public BaseAliveGameObject
+class RollingBallStopper final : public BaseAliveGameObject
 {
 public:
     EXPORT RollingBallStopper* ctor_43BCE0(Path_RollingBallStopper* pTlv, s32 tlvInfo);

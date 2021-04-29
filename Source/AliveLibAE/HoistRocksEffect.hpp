@@ -18,7 +18,7 @@ ALIVE_ASSERT_SIZEOF(HoistRockParticle, 0xA8);
 
 struct Path_Hoist;
 
-class HoistRocksEffect : public BaseGameObject
+class HoistRocksEffect final : public BaseGameObject
 {
 public:
     virtual BaseGameObject* VDestructor(s32 flags) override;

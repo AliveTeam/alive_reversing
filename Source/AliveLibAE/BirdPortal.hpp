@@ -51,7 +51,7 @@ struct BirdPortal_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
 
-class BirdPortalTerminator : public ::BaseAnimatedWithPhysicsGameObject
+class BirdPortalTerminator final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BaseAnimatedWithPhysicsGameObject* ctor_497960(FP xpos, FP ypos, FP scale, PortalType portalType);
@@ -66,7 +66,7 @@ ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xF4);
 
 class OrbWhirlWind;
 
-class BirdPortal : public BaseGameObject
+class BirdPortal final : public BaseGameObject
 {
 public:
     EXPORT BaseGameObject* ctor_497E00(Path_BirdPortal* pTlv, s32 tlvInfo);

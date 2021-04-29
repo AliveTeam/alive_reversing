@@ -17,7 +17,7 @@ struct Path_LCDScreen final : public Path_TLV
     s32 field_18_toggle_message_switch_id;
 };
 
-class LCDScreen : public BaseGameObject
+class LCDScreen final : public BaseGameObject
 {
 public:
     EXPORT LCDScreen* ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemInfo);

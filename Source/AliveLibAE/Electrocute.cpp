@@ -9,7 +9,7 @@
 #include "Renderer/IRenderer.hpp"
 
 // Overwrites a pallete 8 colours at a time one per update
-class PalleteOverwriter : public BaseGameObject
+class PalleteOverwriter final : public BaseGameObject
 {
 public:
     EXPORT PalleteOverwriter* ctor_4228D0(PSX_Point palXY, s16 palDepth, s16 colour)

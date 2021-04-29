@@ -18,7 +18,7 @@ struct Path_TorturedMudokon final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TorturedMudokon, 0x14);
 
-class TorturedMudokon : public ::BaseAnimatedWithPhysicsGameObject
+class TorturedMudokon final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT TorturedMudokon* ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tlvInfo);
