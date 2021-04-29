@@ -84,6 +84,73 @@ ALIVE_ASSERT_SIZEOF(MainMenuTransition, 0x248);
 struct Path_TLV;
 enum class LevelIds : s16;
 
+enum class MainMenuOptions : s16
+{
+    eGameSpeak_0 = 0,
+    eBegin_1 = 1,
+    eQuit_2 = 2,
+    eLoad_3 = 3,
+    eOptions_4 = 4
+};
+
+enum class GameSpeakOptions : s16
+{
+    eWait_0 = 0,
+    eHello_1 = 1,
+    eFollowMe_2 = 2,
+    eAngry_3 = 3,
+    eWhistleHigh_4 = 4,
+    eWhistleLow_5 = 5,
+    eLaugh_6 = 6,
+    eFart_7 = 7,
+    eChant_8 = 8,
+    eMainMenu_9 = 9
+};
+
+enum class OptionsMenuOptions : s16
+{
+    eController_0 = 0,
+    eSound_1 = 1,
+    eMainMenu_2 = 2
+};
+
+enum class RemapOptions : s16
+{
+    eRun_0 = 0,
+    eSneak_1 = 1,
+    eJump_2 = 2,
+    eSpeakLeft_3 = 3,
+    eAction_4 = 4,
+    eThrow_5 = 5,
+    eCrouch_6 = 6,
+    eSpeakRight_7 = 7
+};
+
+enum class MotionsOptions : s16
+{
+    eMotions_0 = 0,
+    eGameSpeak_1 = 1,
+    eExit_2 = 2
+};
+
+enum class SoundOptions : s16
+{
+    eStereo_0 = 0,
+    eMono_1 = 1,
+    eExit_2 = 2
+};
+
+union MenuOption
+{
+    MainMenuOptions mainmenu;
+    GameSpeakOptions gamespeak_menu;
+    OptionsMenuOptions options_menu;
+    RemapOptions remap_menu;
+    MotionsOptions motions_menu;
+    SoundOptions sound_menu;
+    s16 raw;
+};
+
 class Menu : public BaseAnimatedWithPhysicsGameObject
 {
 public:
@@ -214,7 +281,7 @@ public:
     s32 field_1D4_tlvInfo;
     s32 field_1D8_timer;
     s32 field_1DC_idle_input_counter;
-    s16 field_1E0_selected_index;
+    MenuOption field_1E0_selected_index;
     s16 field_1E2_rgb;
     s16 field_1E4_colour_counter;
     s16 field_1E6;
@@ -237,7 +304,7 @@ public:
     s16 field_212_camera;
     s16 field_214_abe_xpos;
     s16 field_216_abe_ypos;
-    s16 field_218;
+    s16 field_218_previous_fmv_or_level_selection;
     s16 field_21A;
     FP field_21C;
     FP field_220;
@@ -251,19 +318,5 @@ ALIVE_ASSERT_SIZEOF(Menu, 0x234);
 
 ALIVE_VAR_EXTERN(s32, gMainMenuInstanceCount_9F2DE0);
 ALIVE_VAR_EXTERN(u8, sJoyResId_50769C);
-
-#if ORIGINAL_PS1_BEHAVIOR
-enum class RemapOption : s16
-{
-    eRun_0 = 0,
-    eSneak_1 = 1,
-    eJump_2 = 2,
-    eSpeakLeft_3 = 3,
-    eAction_4 = 4,
-    eThrow_5 = 5,
-    eCrouch_6 = 6,
-    eSpeakRight_7 = 7
-};
-#endif
 
 } // namespace AO
