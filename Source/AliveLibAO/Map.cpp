@@ -530,6 +530,14 @@ void Map::Handle_PathTransition_444DD0()
             field_D4_pPathData->field_C_grid_width * field_20_camX_idx,
             field_D4_pPathData->field_E_grid_height * field_22_camY_idx,
             remapped);
+
+        if (gElum_507680)
+        {
+            gElum_507680->VOnPathTransition(
+                field_D4_pPathData->field_C_grid_width * field_20_camX_idx,
+                field_D4_pPathData->field_E_grid_height * field_22_camY_idx,
+                remapped);
+        }
     }
     else
     {
