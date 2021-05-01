@@ -264,7 +264,8 @@ bool RunningAsInjectedDll()
 static void __attribute__((constructor)) FixCWD()
 {
     char* imagePath = strdup(_dyld_get_image_name(0));
-    for (u32 i = strlen(imagePath); --i;) {
+    for (u32 i = strlen(imagePath); --i;)
+    {
         if (imagePath[i] == '/')
         {
             imagePath[i] = 0;
