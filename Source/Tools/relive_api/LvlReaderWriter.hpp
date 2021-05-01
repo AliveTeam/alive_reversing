@@ -174,7 +174,7 @@ private:
 class LvlReader final
 {
 public:
-    explicit LvlReader(const s8* lvlFile)
+    explicit LvlReader(const char_type* lvlFile)
     {
         mFileHandle = ::fopen(lvlFile, "rb");
         if (mFileHandle)
@@ -205,7 +205,7 @@ public:
         Close();
     }
 
-    [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const s8* fileName)
+    [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const char_type* fileName)
     {
         if (!IsOpen())
         {
@@ -235,7 +235,7 @@ public:
         return false;
     }
 
-    [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const s8* fileName)
+    [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const char_type* fileName)
     {
         std::optional<std::vector<u8>> result;
         result.emplace();
@@ -315,7 +315,7 @@ template <class T>
 class LvlWriter final
 {
 public:
-    explicit LvlWriter(const s8* lvlFile)
+    explicit LvlWriter(const char_type* lvlFile)
         : mReader(lvlFile)
     {
     }
@@ -330,7 +330,7 @@ public:
         return mReader.IsOpen();
     }
 
-    [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const s8* fileName)
+    [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const char_type* fileName)
     {
         // Return added/edited file first
         auto rec = GetNewOrEditedFileRecord(fileName);
@@ -343,7 +343,7 @@ public:
         return mReader.ReadFileInto(target, fileName);
     }
 
-    [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const s8* fileName)
+    [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const char_type* fileName)
     {
         // Return added/edited file first
         auto rec = GetNewOrEditedFileRecord(fileName);
@@ -354,7 +354,7 @@ public:
         return mReader.ReadFile(fileName);
     }
 
-    void AddFile(const s8* fileNameInLvl, const std::vector<u8>& data)
+    void AddFile(const char_type* fileNameInLvl, const std::vector<u8>& data)
     {
         if (mReader.IsOpen())
         {
@@ -382,7 +382,7 @@ public:
         }
     }
 
-    [[nodiscard]] bool Save(std::vector<u8>& fileDataBuffer, const s8* lvlName = nullptr)
+    [[nodiscard]] bool Save(std::vector<u8>& fileDataBuffer, const char_type* lvlName = nullptr)
     {
         if (mNewOrEditedFiles.empty())
         {
@@ -514,7 +514,7 @@ private:
         bool mEditOfExistingFile;
     };
 
-    [[nodiscard]] NewOrEditedFileRecord* GetNewOrEditedFileRecord(const s8* fileName)
+    [[nodiscard]] NewOrEditedFileRecord* GetNewOrEditedFileRecord(const char_type* fileName)
     {
         for (auto& rec : mNewOrEditedFiles)
         {

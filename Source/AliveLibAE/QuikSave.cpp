@@ -350,7 +350,7 @@ EXPORT void CC Quicksave_LoadActive_4C9170()
     Quicksave_LoadFromMemory_4C95A0(&sActiveQuicksaveData_BAF7F8);
 }
 
-static void WriteChars(s8*& pDst, u8 v1, u8 v2)
+static void WriteChars(char_type*& pDst, u8 v1, u8 v2)
 {
     *pDst = v1;
     pDst++;
@@ -528,11 +528,11 @@ EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
     sQuickSave_saved_switchResetters_count_BB234C = 0;
 }
 
-void CC MEMCARD_Write_SJISC_String_4A2770(s8* src, s8* dst, s32 srcLength)
+void CC MEMCARD_Write_SJISC_String_4A2770(char_type* src, char_type* dst, s32 srcLength)
 {
     while (srcLength > 0)
     {
-        const s8 srcChar = *src;
+        const char_type srcChar = *src;
         if (*src >= 'A' && srcChar <= 'Z')
         {
             WriteChars(dst, 0x82, *src + 0x1F);
@@ -568,16 +568,16 @@ void CC MEMCARD_Write_SJISC_String_4A2770(s8* src, s8* dst, s32 srcLength)
     }
 }
 
-EXPORT void CC MEMCARD_Generate_Timestamp_String_4A21F0(s8* pStr)
+EXPORT void CC MEMCARD_Generate_Timestamp_String_4A21F0(char_type* pStr)
 {
     sprintf(pStr, "%03d:%02d",
             (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 / 60 % 1000,
             (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
 }
 
-EXPORT void CC MEMCARD_Write_Timestamp_SJISC_String_4A2290(s8* dst)
+EXPORT void CC MEMCARD_Write_Timestamp_SJISC_String_4A2290(char_type* dst)
 {
-    s8 gameTimeStr[12] = {};
+    char_type gameTimeStr[12] = {};
     MEMCARD_Generate_Timestamp_String_4A21F0(gameTimeStr);
 
     const size_t len = strlen(gameTimeStr);
@@ -625,7 +625,7 @@ EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 
         MEMCARD_Write_Timestamp_SJISC_String_4A2290(&pSave->field_0_header.field_0_frame_1_name[50]);
 
-        s8 src[12] = {};
+        char_type src[12] = {};
         sprintf(src, "%2sP%02dC%02d",
                 sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
                 gMap_5C3030.field_2_current_path,
@@ -750,7 +750,7 @@ void CC Quicksave_FindSaves_4D4150()
 {
     sTotalSaveFilesCount_BB43E0 = 0;
 
-    IO_EnumerateDirectory("*.sav", [](const s8* fileName, u32 lastWriteTime)
+    IO_EnumerateDirectory("*.sav", [](const char_type* fileName, u32 lastWriteTime)
                           {
                               if (sTotalSaveFilesCount_BB43E0 < 128)
                               {

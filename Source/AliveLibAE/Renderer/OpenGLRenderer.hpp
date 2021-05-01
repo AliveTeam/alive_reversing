@@ -112,4 +112,4 @@ private:
     void RenderBackground();
 };
 
-void HackSetBackground(const s8* path);
+void HackSetBackground(const char_type* path);

@@ -4,7 +4,7 @@ GLShader::GLShader()
 {
 }
 
-static std::string shaderReadFile(const s8* filePath)
+static std::string shaderReadFile(const char_type* filePath)
 {
     std::string content;
     std::ifstream fileStream(filePath, std::ios::in);
@@ -40,7 +40,7 @@ void printProgramLog(GLuint program)
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 
         //Allocate string
-        std::vector<s8> infoLog(maxLength + 1);
+        std::vector<char_type> infoLog(maxLength + 1);
 
         //Get info log
         glGetProgramInfoLog(program, maxLength, &infoLogLength, infoLog.data());
@@ -56,7 +56,7 @@ void printProgramLog(GLuint program)
     }
 }
 
-bool GLShader::LoadSource(const s8* vertex_Source, const s8* fragment_Source)
+bool GLShader::LoadSource(const char_type* vertex_Source, const char_type* fragment_Source)
 {
     // Check if our handles are already created
     // so we can delete them
@@ -101,7 +101,7 @@ bool GLShader::LoadSource(const s8* vertex_Source, const s8* fragment_Source)
     return true;
 }
 
-bool GLShader::LoadFromFile(const s8* vertex_Path, const s8* fragment_Path)
+bool GLShader::LoadFromFile(const char_type* vertex_Path, const char_type* fragment_Path)
 {
     return LoadSource(shaderReadFile(vertex_Path).c_str(), shaderReadFile(fragment_Path).c_str());
 }
@@ -111,32 +111,32 @@ GLuint GLShader::GetProgramID()
     return mProgramID;
 }
 
-GLuint GLShader::GetAttributeLocation(const s8* attr)
+GLuint GLShader::GetAttributeLocation(const char_type* attr)
 {
     return glGetAttribLocation(mProgramID, attr);
 }
 
-void GLShader::UniformMatrix4fv(const s8* name, glm::mat4 matrix)
+void GLShader::UniformMatrix4fv(const char_type* name, glm::mat4 matrix)
 {
     glUniformMatrix4fv(glGetUniformLocation(mProgramID, name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-void GLShader::UniformVec2(const s8* name, glm::vec2 vector)
+void GLShader::UniformVec2(const char_type* name, glm::vec2 vector)
 {
     glUniform2f(glGetUniformLocation(mProgramID, name), vector.x, vector.y);
 }
 
-void GLShader::UniformVec3(const s8* name, glm::vec3 vector)
+void GLShader::UniformVec3(const char_type* name, glm::vec3 vector)
 {
     glUniform3f(glGetUniformLocation(mProgramID, name), vector.x, vector.y, vector.z);
 }
 
-void GLShader::UniformVec4(const s8* name, glm::vec4 vector)
+void GLShader::UniformVec4(const char_type* name, glm::vec4 vector)
 {
     glUniform4f(glGetUniformLocation(mProgramID, name), vector.x, vector.y, vector.z, vector.w);
 }
 
-void GLShader::Uniform1i(const s8* name, GLint v)
+void GLShader::Uniform1i(const char_type* name, GLint v)
 {
     glUniform1i(glGetUniformLocation(mProgramID, name), v);
 }
@@ -164,7 +164,7 @@ void printShaderLog(GLuint shader)
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
 
         //Allocate string
-        std::vector<s8> infoLog(maxLength + 1);
+        std::vector<char_type> infoLog(maxLength + 1);
 
         //Get info log
         glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog.data());
@@ -180,10 +180,10 @@ void printShaderLog(GLuint shader)
     }
 }
 
-GLuint GLShader::CompileShader(const s8* source, GLenum shaderType)
+GLuint GLShader::CompileShader(const char_type* source, GLenum shaderType)
 {
     GLuint shaderID = glCreateShader(shaderType);
-    glShaderSource(shaderID, 1, &source, NULL);
+    glShaderSource(shaderID, 1, &source, nullptr);
     glCompileShader(shaderID);
 
     GLint fShaderCompiled = GL_FALSE;
@@ -227,7 +227,7 @@ void GLShader::Free()
 
 */
 
-const s8* gShader_TextureVSH = R"(
+const char_type* gShader_TextureVSH = R"(
 #version 330 core
 
 layout (location = 0) in vec3 aPos;
@@ -248,7 +248,7 @@ void main()
 }
 )";
 
-const s8* gShader_TextureFSH = R"(
+const char_type* gShader_TextureFSH = R"(
 #version 330 core
 
 #define PI 3.1415926538

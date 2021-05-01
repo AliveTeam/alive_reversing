@@ -25,7 +25,7 @@ public:
     s16 field_18_path;
     LevelIds field_1A_level;
     s16 field_1C_camera_number;
-    s8 field_1E_cam_name[16];
+    char_type field_1E_cam_name[16];
     s16 field_2E_padding;
     s16 field_30_flags;
 };

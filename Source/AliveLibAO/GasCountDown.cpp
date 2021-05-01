@@ -211,7 +211,7 @@ void GasCountDown::VRender(PrimHeader** ppOt)
 
 void GasCountDown::VRender_40C2F0(PrimHeader** ppOt)
 {
-    s8 text[128] = {};
+    char_type text[128] = {};
     sprintf(text, "%02d:%02d", field_62_time_left / 60, field_62_time_left % 60);
     const auto textWidth = field_20_font.MeasureWidth_41C2B0(text);
 

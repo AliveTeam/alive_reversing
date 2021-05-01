@@ -43,7 +43,7 @@ s32 SND_CreateDS_SDL(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
     return 0;
 }
 
-const s8* SND_HR_Err_To_String_SDL(long)
+const char_type* SND_HR_Err_To_String_SDL(long)
 {
     return "unknown error";
 }

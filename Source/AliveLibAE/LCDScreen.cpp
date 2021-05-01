@@ -27,7 +27,7 @@ u8 sLCDScreen_Palette2[] = {
 
 
 // TODO: Remove spaces and add them at runtime.
-const s8* sLCDMessageTable_555768[101] = {
+const char_type* sLCDMessageTable_555768[101] = {
     "",
     "                               SoulStorm Mining Company is an equal opportunity employer.",
     "                               Work! Do it!",

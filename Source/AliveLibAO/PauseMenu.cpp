@@ -143,11 +143,11 @@ EXPORT s16 Reset_Unknown_45A5B0()
 
 struct saveName final
 {
-    s8 characters[26];
+    char_type characters[26];
 };
 ALIVE_VAR(1, 0x5080C6, saveName, saveNameBuffer_5080C6, {});
 
-const s8* gLevelNames_4CE1D4[20] = {
+const char_type* gLevelNames_4CE1D4[20] = {
     "¸",
     "RuptureFarms",
     "Monsaic Lines",
@@ -320,7 +320,7 @@ void PauseMenu::VUpdate_44DFB0()
                                 }
 
                                 auto curPathId = gMap_507BA8.field_2_current_path;
-                                s8 curPathIdNumBuf[12] = {};
+                                char_type curPathIdNumBuf[12] = {};
 
                                 strncpy(&saveNameBuffer_5080C6.characters[2], gLevelNames_4CE1D4[tmp], 19);
                                 if (tmp != 12 && tmp != 14 && tmp != 15)
@@ -334,7 +334,7 @@ void PauseMenu::VUpdate_44DFB0()
                                     strncat(&saveNameBuffer_5080C6.characters[2], curPathIdNumBuf, 19u);
                                 }
 
-                                const s8 aux[2] = {18, 0};
+                                const char_type aux[2] = {18, 0};
                                 strncat(&saveNameBuffer_5080C6.characters[2], aux, 19u);
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
                                 setSaveMenuOpen(true); // Sets saveMenuOpen bool to true, instead of disabling input
@@ -394,7 +394,7 @@ void PauseMenu::VUpdate_44DFB0()
                     }
 
                     auto last_pressed = Input_GetLastPressedKey_44F2C0();
-                    s8 lastPressedKeyNT[2] = {last_pressed, 0};
+                    char_type lastPressedKeyNT[2] = {last_pressed, 0};
 
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Exit save menu using controller
                     if (last_pressed == VK_ESCAPE || last_pressed == VK_RETURN) // Keyboard ESC or ENTER
@@ -664,7 +664,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
         {
             colourOffset = 0;
         }
-        const s8* stringBuffer;
+        const char_type* stringBuffer;
         if (&entry[entryId] == &saveEntries_4CDED0[0])
         {
             stringBuffer = &saveNameBuffer_5080C6.characters[2];
@@ -677,7 +677,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
         {
             break;
         }
-        s8 formattedString[128] = {};
+        char_type formattedString[128] = {};
         String_FormatString_450DC0(stringBuffer, formattedString);
         s16 clampedFontWidth;
         if (entry[entryId].field_B == 1)
@@ -744,7 +744,7 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
             {
                 entries = &pauseEntries_4CDE50[0];
             }
-            s8 cameraNameBuffer[48] = {};
+            char_type cameraNameBuffer[48] = {};
             Path_Format_CameraName_4346B0(
                 cameraNameBuffer,
                 gMap_507BA8.field_0_current_level,

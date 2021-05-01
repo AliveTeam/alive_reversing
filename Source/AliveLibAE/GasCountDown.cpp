@@ -150,7 +150,7 @@ void GasCountDown::vScreenChanged_417700()
 
 void GasCountDown::vRender_4175A0(PrimHeader** ppOt)
 {
-    s8 text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
+    char_type text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
     sprintf(text, "%02d:%02d", field_74_time_left / 60, field_74_time_left % 60);
 
     const auto textWidth = field_30_font.MeasureWidth_433700(text);

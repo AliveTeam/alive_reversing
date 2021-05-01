@@ -123,7 +123,7 @@ public:
         return ResourceManager::Alloc_New_Resource_454F20(type, id, size);
     }
 
-    virtual s16 LoadResourceFile(const s8* pFileName, ::Camera* pCamera) override
+    virtual s16 LoadResourceFile(const char_type* pFileName, ::Camera* pCamera) override
     {
         return ResourceManager::LoadResourceFileWrapper(pFileName, reinterpret_cast<Camera*>(pCamera));
     }
@@ -1023,7 +1023,7 @@ EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
     }
 }
 
-EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const s8* bsqFileName)
+EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char_type* bsqFileName)
 {
     SND_Load_Seqs_Impl(
         reinterpret_cast<::OpenSeqHandle*>(pSeqTable),

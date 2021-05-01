@@ -201,7 +201,7 @@ EXPORT f64 CC Calculate_FPS_495250(s32 frameCount)
 
 EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, f32 fps)
 {
-    s8 strBuffer[125] = {};
+    char_type strBuffer[125] = {};
     sprintf(strBuffer, "%02.1f fps ", fps);
     sNumRenderedPrims_C2D03C = 0;
     BMP_Draw_String_4F2230(pBmp, x, y, 0xFF80FFu, 1, strBuffer);
@@ -285,13 +285,13 @@ EXPORT void CC VLC_Tables_Init_496720()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC Main_ParseCommandLineArguments_494EA0(const s8* /*pCmdLineNotUsed*/, const s8* pCommandLine)
+EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/, const char_type* pCommandLine)
 {
     //nullsub_2(); // Note: Pruned
     IO_Init_494230();
 
     // Default the CD drive to C:
-    s8 strDrive[3] = {};
+    char_type strDrive[3] = {};
     strcpy(strDrive, "C:");
 
     // Collect up all CD rom drives

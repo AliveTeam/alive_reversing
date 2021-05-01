@@ -20,7 +20,7 @@ const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfir
 ALIVE_VAR(1, 0x5ca208, SoundEntry, sDDV_SoundEntry_5CA208, {});
 
 EXPORT Masher* CC Masher_Alloc_4EAB80(
-    const s8* pFileName,
+    const char_type* pFileName,
     Masher_Header** ppMasherHeader,
     Masher_VideoHeader** ppMasherVideoHeader,
     Masher_AudioHeader** ppMasherAudioHeader,
@@ -159,9 +159,9 @@ EXPORT void CC DD_Flip_4940F0()
 }
 #endif
 
-static Masher* Open_DDV(const s8* pMovieName)
+static Masher* Open_DDV(const char_type* pMovieName)
 {
-    s8 pFileName[256] = {};
+    char_type pFileName[256] = {};
     strcpy(pFileName, sCdEmu_Path1_C14620);
     strcat(pFileName, pMovieName);
 
@@ -301,7 +301,7 @@ static void Render_DDV_Frame(Bitmap& tmpBmp)
     }
 }
 
-EXPORT s8 CC DDV_Play_Impl_4932E0(const s8* pMovieName)
+EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
 {
     if (!*pMovieName)
     {
@@ -545,7 +545,7 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const s8* pMovieName)
     return 1;
 }
 
-EXPORT s8 CC DDV_Play_493210(const s8* pDDVName)
+EXPORT s8 CC DDV_Play_493210(const char_type* pDDVName)
 {
     sMovieSoundEntry_5CA230 = &sDDV_SoundEntry_5CA208;
     const s8 ret = DDV_Play_Impl_4932E0(pDDVName);
@@ -560,7 +560,7 @@ ALIVE_VAR(1, 0x5ca4c4, u8, sMovieNameIdx_5CA4C4, 0);
 
 struct MovieName final
 {
-    s8 mName[64];
+    char_type mName[64];
 };
 
 struct MovieQueue final
@@ -570,7 +570,7 @@ struct MovieQueue final
 
 ALIVE_VAR(1, 0x5CA348, MovieQueue, sMovieNames_5CA348, {});
 
-void CC Get_fmvs_sectors_494460(const s8* pMovieName1, const s8* pMovieName2, const s8* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
+void CC Get_fmvs_sectors_494460(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
 {
     // NOTE: Unused globals that also had the "fake" sector number assigned have been omitted.
     sMovieNameIdx_5CA4C4 = 0;

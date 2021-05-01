@@ -40,7 +40,7 @@
 #include "FlyingSlig.hpp"
 #include "Mudokon.hpp"
 
-s8 _devConsoleBuffer[1000];
+char_type g_devConsoleBuffer[1000];
 
 bool sDebugEnabled_VerboseEvents = false;
 
@@ -440,7 +440,7 @@ void ShowDebugConsoleMessage(std::string message, f32 duration, u8 r, u8 g, u8 b
 {
     auto lines = SplitString(message, '\n');
 
-    for (auto l : lines)
+    for (auto& l : lines)
     {
         sDebugConsoleMessages.insert(sDebugConsoleMessages.begin(), {l, static_cast<s32>(30 * duration), 250, r, g, b});
     }
@@ -650,11 +650,12 @@ void Command_LoadSave(const std::vector<std::string>& args)
 
     std::string filePath = args[0] + ".sav";
 
+    // TODO: Isn't binary, probably bugged
     std::ifstream saveFile(filePath.c_str());
 
     if (!saveFile.fail())
     {
-        saveFile.read((s8*) &sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
+        saveFile.read(reinterpret_cast<char_type*>(&sActiveQuicksaveData_BAF7F8), sizeof(sActiveQuicksaveData_BAF7F8));
         Quicksave_LoadActive_4C9170();
         saveFile.close();
         DEV_CONSOLE_PRINTF("Loaded Save %s", filePath.c_str());
@@ -1005,7 +1006,7 @@ public:
 
             if (!autoRun.empty())
             {
-                std::string str = std::string(reinterpret_cast<const s8*>(autoRun.data()));
+                std::string str = std::string(reinterpret_cast<const char_type*>(autoRun.data()));
 
                 str.erase(std::remove(str.begin(), str.end(), '\r'), str.end());
 
@@ -1022,8 +1023,8 @@ public:
 
         autoRunWait--;
 
-        s8 titleBuffer[1000];
-        s8 camBuffer[32];
+        char_type titleBuffer[1000];
+        char_type camBuffer[32];
         Path_Format_CameraName_460FB0(
             camBuffer,
             gMap_5C3030.field_0_current_level,
@@ -1034,7 +1035,7 @@ public:
 
         Command_HelperUpdate();
 
-        const s8 key = static_cast<s8>(Input_GetLastPressedKey_492610());
+        const char_type key = static_cast<char_type>(Input_GetLastPressedKey_492610());
         if (Input_IsVKPressed_4EDD40(VK_OEM_3))
         {
             mCommandLineEnabled = !mCommandLineEnabled;
@@ -1067,7 +1068,7 @@ public:
         memcpy(keyStatesPrev, keyStates, sizeof(keyStatesPrev));
 #endif
 
-        const s8* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .!-+@#$%^&*()_\"'";
+        const char_type* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .!-+@#$%^&*()_\"'";
 
         if (Input_IsVKPressed_4EDD40(VK_UP) && mCommandLineEnabled)
         {
@@ -2246,7 +2247,7 @@ std::string EscapeUnknownCharacters(std::string text)
     return output.str();
 }
 
-BaseGameObject* FindObjectOfType(AETypes id)
+[[nodiscard]] BaseGameObject* FindObjectOfType(AETypes id)
 {
     for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
     {

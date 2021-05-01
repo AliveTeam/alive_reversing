@@ -65,7 +65,7 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 
         for (const auto& e : mExports)
         {
-            s8 buffer[1024 * 20] = {};
+            char_type buffer[1024 * 20] = {};
             const u32 len = UnDecorateSymbolName(e.mName.c_str(), buffer, ALIVE_COUNTOF(buffer), UNDNAME_NAME_ONLY);
             if (len > 0)
             {
@@ -266,11 +266,11 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
                 // mov eax, offset to function name string
                 // pop eax
                 // Therefore extracting the pointer to unmangled offset to the function name tells us if we have the right function.
-                const s8*** strAddr = reinterpret_cast<const s8***>(&reinterpret_cast<u8*>(pExportedFunctionAddress)[i - 5]);
+                const char_type*** strAddr = reinterpret_cast<const char_type***>(&reinterpret_cast<char_type*>(pExportedFunctionAddress)[i - 5]);
 
-                const s8* pBothNames = **strAddr;
+                const char_type* pBothNames = **strAddr;
                 size_t len = strlen(pBothNames);
-                const s8* mangledName = pBothNames + len + 1;
+                const char_type* mangledName = pBothNames + len + 1;
 
                 if (std::string(mangledName) == exportedFunctionName)
                 {

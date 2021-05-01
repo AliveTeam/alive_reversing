@@ -18,7 +18,7 @@ EXPORT void Input_Reset_492660();
 EXPORT u32 Input_IsChanting_45F260();
 EXPORT void CC Input_Pads_Reset_4FA960();
 EXPORT void CC Input_Init_Names_491870();
-EXPORT const s8* CC Input_GetButtonString_492530(const s8* idx, s32 controllerType);
+EXPORT const char_type* CC Input_GetButtonString_492530(const char_type* idx, s32 controllerType);
 
 EXPORT bool Input_JoyStickEnabled();
 EXPORT void Input_SetJoyStickEnabled(bool enabled);

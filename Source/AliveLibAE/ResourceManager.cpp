@@ -326,7 +326,7 @@ void ResourceManager::ResourceManager_FileRecord::dtor_464EA0()
     field_10_file_sections_dArray.dtor_40CAD0();
 }
 
-void ResourceManager::LoadResource_464EE0(const s8* pFileItem, u32 type, u32 resourceID, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
+void ResourceManager::LoadResource_464EE0(const char_type* pFileItem, u32 type, u32 resourceID, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
 {
     u8** pLoadedRes = GetLoadedResource_49C2A0(type, resourceID, 1, 0);
     if (pLoadedRes)
@@ -396,7 +396,7 @@ void ResourceManager::LoadResource_464EE0(const s8* pFileItem, u32 type, u32 res
 
     auto pNewFileRec = ae_new<ResourceManager_FileRecord>();
     pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);
-    pNewFileRec->field_0_fileName = reinterpret_cast<s8*>(ae_malloc_non_zero_4954F0(strlen(pFileItem) + 1));
+    pNewFileRec->field_0_fileName = reinterpret_cast<char_type*>(ae_malloc_non_zero_4954F0(strlen(pFileItem) + 1));
     strcpy(pNewFileRec->field_0_fileName, pFileItem);
     pNewFileRec->field_4_pResourcesToLoadList = 0;
     pNewFileRec->field_8_type = type;
@@ -413,7 +413,7 @@ void ResourceManager::LoadResource_464EE0(const s8* pFileItem, u32 type, u32 res
     field_20_files_pending_loading.Push_Back(pNewFileRec);
 }
 
-void ResourceManager::LoadResourcesFromList_465150(const s8* pFileName, ResourceManager::ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, s16 addUseCount)
+void ResourceManager::LoadResourcesFromList_465150(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, s16 addUseCount)
 {
     // Already loaded flag ??
     if (!(pTypeAndIdList->field_0_count & ~0x80000000))
@@ -476,7 +476,7 @@ void ResourceManager::LoadResourcesFromList_465150(const s8* pFileName, Resource
 
         // TODO: De-inline ctor
         pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);
-        pNewFileRec->field_0_fileName = reinterpret_cast<s8*>(ae_malloc_non_zero_4954F0(strlen(pFileName) + 1));
+        pNewFileRec->field_0_fileName = reinterpret_cast<char_type*>(ae_malloc_non_zero_4954F0(strlen(pFileName) + 1));
         strcpy(pNewFileRec->field_0_fileName, pFileName);
         pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
         pNewFileRec->field_8_type = 0;
@@ -503,7 +503,7 @@ void ResourceManager::LoadResourcesFromList_465150(const s8* pFileName, Resource
     }
 }
 
-void ResourceManager::LoadResourceFile_465460(const s8* filename, Camera* pCam, Camera* pCam2, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
+void ResourceManager::LoadResourceFile_465460(const char_type* filename, Camera* pCam, Camera* pCam2, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
 {
     auto pFileRecord = ae_new<ResourceManager_FileRecord>();
     if (pFileRecord)
@@ -512,7 +512,7 @@ void ResourceManager::LoadResourceFile_465460(const s8* filename, Camera* pCam, 
         pFileRecord->field_10_file_sections_dArray.ctor_40CA60(3);
     }
 
-    pFileRecord->field_0_fileName = reinterpret_cast<s8*>(ae_malloc_non_zero_4954F0(strlen(filename) + 1));
+    pFileRecord->field_0_fileName = reinterpret_cast<char_type*>(ae_malloc_non_zero_4954F0(strlen(filename) + 1));
     strcpy(pFileRecord->field_0_fileName, filename);
     pFileRecord->field_4_pResourcesToLoadList = 0;
     pFileRecord->field_8_type = 0;
@@ -732,7 +732,7 @@ ResourceManager::ResourceHeapItem* CC ResourceManager::Split_block_49BDC0(Resour
     return pItem;
 }
 
-s32 CC ResourceManager::SEQ_HashName_49BE30(const s8* seqFileName)
+s32 CC ResourceManager::SEQ_HashName_49BE30(const char_type* seqFileName)
 {
     // Clamp max len
     size_t seqFileNameLength = strlen(seqFileName) - 1;
@@ -745,7 +745,7 @@ s32 CC ResourceManager::SEQ_HashName_49BE30(const s8* seqFileName)
     u32 hashId = 0;
     for (size_t index = 0; index < seqFileNameLength; index++)
     {
-        s8 letter = seqFileName[index];
+        char_type letter = seqFileName[index];
         if (letter == '.')
         {
             break;
@@ -900,13 +900,13 @@ u8** CC ResourceManager::Allocate_New_Block_49BFB0(s32 sizeBytes, BlockAllocMeth
     }
 }
 
-s32 CC ResourceManager::LoadResourceFile_49C130(const s8* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera)
+s32 CC ResourceManager::LoadResourceFile_49C130(const char_type* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera)
 {
     pResourceManager_5C1BB0->LoadResourceFile_465460(filename, pCamera, a4, pFn, pCamera != nullptr);
     return 0;
 }
 
-s16 CC ResourceManager::LoadResourceFile_49C170(const s8* pFileName, Camera* pCamera)
+s16 CC ResourceManager::LoadResourceFile_49C170(const char_type* pFileName, Camera* pCamera)
 {
     pResourceManager_5C1BB0->LoadResourceFile_465460(pFileName, pCamera, nullptr, nullptr, pCamera != nullptr);
     pResourceManager_5C1BB0->LoadingLoop_465590(0);

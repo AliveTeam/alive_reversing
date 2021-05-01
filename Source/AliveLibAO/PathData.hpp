@@ -181,7 +181,7 @@ struct CollisionInfo final
 
 struct PathBlyRec final
 {
-    const s8* field_0_blyName;
+    const char_type* field_0_blyName;
     const PathData* field_4_pPathData;
     const CollisionInfo* field_8_pCollisionData;
     u16 field_C_overlay_id;
@@ -190,7 +190,7 @@ struct PathBlyRec final
 
 struct FmvInfo final
 {
-    const s8* field_0_pName;
+    const char_type* field_0_pName;
     u16 field_4_id;
     s16 field_6;
     s16 field_8_stop_music;
@@ -201,8 +201,8 @@ struct FmvInfo final
 
 struct SoundBlockInfo final
 {
-    const s8* field_0_vab_header_name;
-    const s8* field_4_vab_body_name;
+    const char_type* field_0_vab_header_name;
+    const char_type* field_4_vab_body_name;
     s32 field_8_vab_id;
     u8* field_C_pVabHeader;
 };
@@ -212,20 +212,20 @@ struct PathRoot final
     const PathBlyRec* field_0_pBlyArrayPtr;
     FmvInfo* field_4_pFmvArray;
     SoundBlockInfo* field_8_pMusicInfo;
-    const s8* field_C_bsq_file_name;
+    const char_type* field_C_bsq_file_name;
     s16 field_10_reverb;
     s16 field_12_bg_music_id;
-    const s8* field_14_lvl_name;
+    const char_type* field_14_lvl_name;
     s16 field_18_num_paths;
     s16 field_1A_unused; // message to display to change cd ??
     s32 field_1C_overlay_idx;
-    const s8* field_20_lvl_name_cd;
+    const char_type* field_20_lvl_name_cd;
     s32 field_24;
-    const s8* field_28_ovl_name_cd;
+    const char_type* field_28_ovl_name_cd;
     s32 field_2C;
-    const s8* field_30_mov_name_cd;
-    const s8* field_34_idx_name;
-    const s8* field_38_bnd_name;
+    const char_type* field_30_mov_name_cd;
+    const char_type* field_34_idx_name;
+    const char_type* field_38_bnd_name;
 };
 
 struct PathRootContainer final
@@ -237,7 +237,7 @@ EXPORT const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, u16 path)
 
 EXPORT FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId);
 
-EXPORT s32 CC Path_Format_CameraName_4346B0(s8* pNameBuffer, LevelIds level, s16 path, s16 camera);
+EXPORT s32 CC Path_Format_CameraName_4346B0(char_type* pNameBuffer, LevelIds level, s16 path, s16 camera);
 
 extern PathRootContainer gMapData_4CAB58;
 

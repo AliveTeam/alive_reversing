@@ -123,7 +123,7 @@ public:
         return ResourceManager::Alloc_New_Resource_49BED0(type, id, size);
     }
 
-    virtual s16 LoadResourceFile(const s8* pFileName, Camera* pCamera) override
+    virtual s16 LoadResourceFile(const char_type* pFileName, Camera* pCamera) override
     {
         return ResourceManager::LoadResourceFile_49C170(pFileName, pCamera);
     }
@@ -757,7 +757,7 @@ EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx)
     }
 }
 
-EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const s8* bsqFileName)
+EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
 {
     if (pSeqTable && bsqFileName)
     {
@@ -795,7 +795,7 @@ EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const s8* bsqFileNam
     }
 }
 
-EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const s8* bsqFileName)
+EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
 {
     SND_Load_Seqs_Impl(pSeqTable, bsqFileName);
 }

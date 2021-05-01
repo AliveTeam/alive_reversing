@@ -20,10 +20,10 @@
 ALIVE_VAR(1, 0x5ca4d8, s8, sQuicksave_SaveNextFrame_5CA4D8, 0);
 ALIVE_VAR(1, 0x5ca4d9, s8, sQuicksave_LoadNextFrame_5CA4D9, 0);
 
-ALIVE_ARY(1, 0x5C92F0, s8, 16, sScreenStringBuffer_5C92F0, {0});
+ALIVE_ARY(1, 0x5C92F0, char_type, 16, sScreenStringBuffer_5C92F0, {0});
 
 
-ALIVE_ARY(1, 0x5C931C, s8, 32, sSaveString_5C931C, {});
+ALIVE_ARY(1, 0x5C931C, char_type, 32, sSaveString_5C931C, {});
 
 
 ALIVE_ARY(1, 0x554474, u8, 32, pal_554474, {0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90, 0xA5, 0x14, 0xE7, 0x1C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29, 0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42, 0x73, 0x4E});
@@ -275,8 +275,8 @@ PauseMenu::PauseMenuPage sPM_Page_Save_5465C8 = {
     0,
     0};
 
-ALIVE_ARY(1, 0x55e718, s8, 32, sPauseMenu_Of300Mudokons_55E718, {});
-ALIVE_ARY(1, 0x55e738, s8, 56, sHasBeenTerminated_55E738, {});
+ALIVE_ARY(1, 0x55e718, char_type, 32, sPauseMenu_Of300Mudokons_55E718, {});
+ALIVE_ARY(1, 0x55e738, char_type, 56, sHasBeenTerminated_55E738, {});
 
 PauseMenuPageEntry sStatusEntries_55E758[6] = {
     {2, 184, 205, 0, "EXIT", 128u, 16u, 255u, 1u},
@@ -927,7 +927,7 @@ void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPag
 
     while (e->field_8_text)
     {
-        s8 textFormatted[128];
+        char_type textFormatted[128];
         String_FormatString_4969D0(e->field_8_text, textFormatted, 128, 1);
 
         auto glow = 0;
@@ -1017,8 +1017,8 @@ void PauseMenu::RestartPath()
     GetSoundAPI().SND_Restart();
 }
 
-const s8 kArrowChar = 3;
-ALIVE_ARY(1, 0x55E398, s8, 2, sArrowStr_55E398, {kArrowChar, 0});
+const char_type kArrowChar = 3;
+ALIVE_ARY(1, 0x55E398, char_type, 2, sArrowStr_55E398, {kArrowChar, 0});
 
 void PauseMenu::Page_Main_Update_4903E0()
 {
@@ -1199,8 +1199,8 @@ void PauseMenu::Page_Save_Update_491210()
 {
     static bool bWriteSaveFile_5C937C = false;
 
-    s8 newInput[2] = {};
-    s8 savFileName[40] = {};
+    char_type newInput[2] = {};
+    char_type savFileName[40] = {};
     if (field_13C_save_state == SaveState::DoSave_4)
     {
         strcpy(savFileName, sSaveString_5C931C);
@@ -1396,7 +1396,7 @@ void PauseMenu::Page_Status_Render_491710(PrimHeader** ot, PauseMenuPage* pPage)
 
 void PauseMenu::Page_Load_Update_490D50()
 {
-    CHAR saveFileName[40] = {};
+    char_type saveFileName[40] = {};
 
     // When F6 is pressed
     if (sQuicksave_LoadNextFrame_5CA4D9)

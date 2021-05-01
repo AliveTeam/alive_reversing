@@ -33,7 +33,7 @@ EXPORT s32 CC PSX_EMU_VideoAlloc_4F9D70();
 EXPORT void CC Init_VGA_AndPsxVram_494690();
 EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam);
 EXPORT void CC PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPtr);
-EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const s8* pPath1, const s8* pPath2, const s8* pPath3);
+EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char_type* pPath1, const char_type* pPath2, const char_type* pPath3);
 EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(s8 mode);
 EXPORT s32 CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, s32 xpos, s32 ypos);
 EXPORT s32 CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const u8* pData);
@@ -45,8 +45,8 @@ BOOL CC PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* 
 EXPORT BOOL CC PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
 EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(s32 x, s32 y, s32 w, s32 h, s32 unknown, u8* pBuffer);
 
-EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(s8* pNormalized, const s8* pFileName);
-EXPORT s32 CC PSX_CD_OpenFile_4FAE80(const s8* pFileName, s32 bTryAllPaths);
+EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char_type* pNormalized, const char_type* pFileName);
+EXPORT s32 CC PSX_CD_OpenFile_4FAE80(const char_type* pFileName, s32 bTryAllPaths);
 
 EXPORT void CC PSX_Prevent_Rendering_4945B0();
 
@@ -68,9 +68,9 @@ ALIVE_VAR_EXTERN(u8, bDontUseXYOffsetInRender_BD1464);
 ALIVE_VAR_EXTERN(Bitmap, sBitmap_C1D1A0);
 ALIVE_VAR_EXTERN(s32, sVGA_DisplayType_BD1468);
 
-ALIVE_ARY_EXTERN(s8, 128, sCdEmu_Path1_C14620);
-ALIVE_ARY_EXTERN(s8, 128, sCdEmu_Path2_C144C0);
-ALIVE_ARY_EXTERN(s8, 128, sCdEmu_Path3_C145A0);
+ALIVE_ARY_EXTERN(char_type, 128, sCdEmu_Path1_C14620);
+ALIVE_ARY_EXTERN(char_type, 128, sCdEmu_Path2_C144C0);
+ALIVE_ARY_EXTERN(char_type, 128, sCdEmu_Path3_C145A0);
 
 ALIVE_VAR_EXTERN(s32, sPsx_drawenv_clipx_BDCD40);
 ALIVE_VAR_EXTERN(s32, sPsx_drawenv_clipy_BDCD44);

@@ -39,7 +39,7 @@ struct IO_Movie_Handle final
 ALIVE_ASSERT_SIZEOF(IO_Movie_Handle, 0x20);
 
 
-EXPORT IO_Handle* CC IO_Open_4F2320(const s8* fileName, s32 modeFlag);
+EXPORT IO_Handle* CC IO_Open_4F2320(const char_type* fileName, s32 modeFlag);
 EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile);
 EXPORT s32 CC IO_Seek_4F2490(IO_Handle* hFile, s32 offset, s32 origin);
 EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile);
@@ -48,7 +48,7 @@ EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle* hFile, s32 always3, void* re
 EXPORT s32 CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount);
 EXPORT void IO_Init_494230();
 
-IO_FileHandleType IO_Open(const s8* fileName, const s8* mode);
+IO_FileHandleType IO_Open(const char_type* fileName, const char_type* mode);
 s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin);
 s32 IO_Close(IO_FileHandleType pHandle);
 size_t IO_Read(IO_FileHandleType pHandle, void* ptr, size_t size, size_t maxnum);
@@ -56,10 +56,10 @@ size_t IO_Read(IO_FileHandleType pHandle, void* ptr, size_t size, size_t maxnum)
 
 EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0();
 bool IO_CreateThread();
-bool IO_DirectoryExists(const s8* pDirName);
+bool IO_DirectoryExists(const char_type* pDirName);
 
-using TEnumCallBack = void(const s8*, u32);
-void EXPORT IO_EnumerateDirectory(const s8* fileName, TEnumCallBack cb);
+using TEnumCallBack = void(const char_type*, u32);
+void EXPORT IO_EnumerateDirectory(const char_type* fileName, TEnumCallBack cb);
 
 ALIVE_VAR_EXTERN(u32, sIoThreadId_BBC558);
 ALIVE_VAR_EXTERN(BOOL, sIOSyncReads_BD2A5C);

@@ -116,7 +116,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
 {
     if (!field_108_is_hidden)
     {
-        s8 text[12] = {};
+        char_type text[12] = {};
         sprintf(text, "%3d", sMudsInLevelCount_55CFAC[static_cast<s32>(gMap_5C3030.field_0_current_level)]);
         s32 maxWidth = field_90_font3.MeasureWidth_433700(text);
 

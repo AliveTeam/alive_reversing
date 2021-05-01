@@ -33,7 +33,7 @@ public:
     {
         s16 field_0_x;
         s16 field_2_y;
-        const s8* field_4_strBuf;
+        const char_type* field_4_strBuf;
         u8 field_8_r;
         u8 field_9_g;
         u8 field_A_b;

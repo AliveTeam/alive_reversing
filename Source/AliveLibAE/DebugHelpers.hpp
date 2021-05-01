@@ -10,20 +10,20 @@
 
 void DebugHelpers_Init();
 
-extern s8 _devConsoleBuffer[1000];
+extern char_type g_devConsoleBuffer[1000];
 
 #define DEV_CONSOLE_MESSAGE(message, duration) ShowDebugConsoleMessage(message, duration);
 #define DEV_CONSOLE_MESSAGE_C(message, duration, r, g, b) ShowDebugConsoleMessage(message, duration, r, g, b);
 
 #define DEV_CONSOLE_PRINTF(format, ...)                      \
-    memset(_devConsoleBuffer, 0, sizeof(_devConsoleBuffer)); \
-    sprintf(_devConsoleBuffer, format, ##__VA_ARGS__);       \
-    DEV_CONSOLE_MESSAGE_C(_devConsoleBuffer, 5, 127, 127, 0);
+    memset(g_devConsoleBuffer, 0, sizeof(g_devConsoleBuffer)); \
+    sprintf(g_devConsoleBuffer, format, ##__VA_ARGS__);       \
+    DEV_CONSOLE_MESSAGE_C(g_devConsoleBuffer, 5, 127, 127, 0);
 
 #define DEV_WORLD_PRINTF(x, y, ot, format, ...)              \
-    memset(_devConsoleBuffer, 0, sizeof(_devConsoleBuffer)); \
-    sprintf(_devConsoleBuffer, format, ##__VA_ARGS__);       \
-    DEV::DebugDrawText(ot, 39, std::string(_devConsoleBuffer), x, y, 255, 255, 255, true, false);
+    memset(g_devConsoleBuffer, 0, sizeof(g_devConsoleBuffer)); \
+    sprintf(g_devConsoleBuffer, format, ##__VA_ARGS__);       \
+    DEV::DebugDrawText(ot, 39, std::string(g_devConsoleBuffer), x, y, 255, 255, 255, true, false);
 
 struct RaycastDebug final
 {
@@ -67,7 +67,7 @@ std::string IntToHexString(s32 v);
 std::string EscapeUnknownCharacters(std::string text);
 bool IsStringNumber(const std::string& s);
 
-BaseGameObject* FindObjectOfType(s32 id);
+[[nodiscard]] BaseGameObject* FindObjectOfType(s32 id);
 
 // In game helper functions
 void Cheat_OpenAllDoors();

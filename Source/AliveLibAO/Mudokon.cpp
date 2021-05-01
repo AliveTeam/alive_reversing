@@ -39,7 +39,7 @@ namespace AO {
 using TMudStateFunction = decltype(&Mudokon::State_0_Idle_43CA70);
 
 #define MAKE_STRINGS(VAR) #VAR,
-const s8* const sMudStateNames[] = {
+const char_type* const sMudStateNames[] = {
     MUD_STATES_ENUM(MAKE_STRINGS)};
 
 const TMudStateFunction gMudMotions_4CD470[] = {

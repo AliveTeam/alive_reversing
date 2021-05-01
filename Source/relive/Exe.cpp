@@ -124,7 +124,7 @@ void PopulateAutoSplitterVars(GameType gameType)
     AutoSplitterData::gameType = gameType;
 }
 
-static bool FileExists(const s8* fileName)
+static bool FileExists(const char_type* fileName)
 {
     FILE* f = fopen(fileName, "r");
     if (f)
@@ -242,7 +242,7 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #if __ANDROID__
 extern "C" __attribute__((visibility("default"))) s32 SDL_main(s32 argc, s8** argv)
 #else
-s32 main(s32 argc, s8** argv)
+s32 main(s32 argc, char_type** argv)
 #endif
 {
     std::string args;

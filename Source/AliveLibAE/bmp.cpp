@@ -1288,7 +1288,7 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 /*fgColour
 
         if (SDL_BlitSurface(pFontBmp, &srcRect, pBmp->field_0_pSurface, &dstRect) != 0)
         {
-            const s8* e = SDL_GetError();
+            const char_type* e = SDL_GetError();
             LOG_ERROR(e);
             abort();
         }

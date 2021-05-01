@@ -40,7 +40,7 @@ const s32 dword_4CEE78[30] = {
     0,
     0};
 
-const s8* kButtonNamesOrAtlasNums_4CEDA8[] = {
+const char_type* kButtonNamesOrAtlasNums_4CEDA8[] = {
     "esc",
     "tab",
     "alt",
@@ -97,13 +97,13 @@ const s8* kButtonNamesOrAtlasNums_4CEDA8[] = {
 };
 
 
-EXPORT void CC String_FormatString_450DC0(const s8* pInput, s8* pOutput)
+EXPORT void CC String_FormatString_450DC0(const char_type* pInput, char_type* pOutput)
 {
-    s8* pOutIter = pOutput;
-    const s8* pInIter = pInput;
+    char_type* pOutIter = pOutput;
+    const char_type* pInIter = pInput;
     while (1)
     {
-        const s8 in_char = *pInIter;
+        const char_type in_char = *pInIter;
         if (!*pInIter)
         {
             break;
@@ -116,8 +116,8 @@ EXPORT void CC String_FormatString_450DC0(const s8* pInput, s8* pOutput)
         }
         else
         {
-            const s8 in_char_m6 = in_char - 6;
-            const s8* pConverted = nullptr;
+            const char_type in_char_m6 = in_char - 6;
+            const char_type* pConverted = nullptr;
 
             // NOTE: diversion from OG!
             if (in_char == kAO_ConfirmContinue[0])
@@ -137,7 +137,7 @@ EXPORT void CC String_FormatString_450DC0(const s8* pInput, s8* pOutput)
 
             if (*pOutIter)
             {
-                s8 next_char = 0;
+                char_type next_char = 0;
                 do
                 {
                     next_char = (pOutIter++)[1];

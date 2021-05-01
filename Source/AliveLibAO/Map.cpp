@@ -110,7 +110,7 @@ ALIVE_ASSERT_SIZEOF(OpenSeqHandleAO, 0x14);
 
 struct OpenSeqHandleAE final // Same as ::OpenSeqHandle
 {
-    const s8* field_0_mBsqName;
+    const char_type* field_0_mBsqName;
     s32 field_4_generated_res_id; // A hash of the named which matches the resource Id
     s8 field_8_sound_block_idx;
     s8 field_9_volume;
@@ -1772,7 +1772,7 @@ void Map::GoTo_Camera_445050()
     field_24_max_cams_x = (field_D4_pPathData->field_8_bTop - field_D4_pPathData->field_4_bLeft) / field_D4_pPathData->field_C_grid_width;
     field_26_max_cams_y = (field_D4_pPathData->field_A_bBottom - field_D4_pPathData->field_6_bRight) / field_D4_pPathData->field_E_grid_height;
 
-    s8 camNameBuffer[20] = {};
+    char_type camNameBuffer[20] = {};
     Path_Format_CameraName_4346B0(camNameBuffer, field_A_level, field_C_path, field_E_camera);
 
     const auto totalCams = field_26_max_cams_y * field_24_max_cams_x;

@@ -677,7 +677,7 @@ void Map::GoTo_Camera_481890()
             if (gAttract_5C1BA0)
             {
                 // NOTE: Dead branch? Given no attract directory exists
-                s8 fileName[256] = {};
+                char_type fileName[256] = {};
                 strcpy(fileName, "ATTRACT");
                 strcat(fileName, pathData.field_20_lvl_name_cd);
                 if (sLvlArchive_5BC520.Open_Archive_432E80(fileName))
@@ -753,7 +753,7 @@ void Map::GoTo_Camera_481890()
         Quicksave_RestoreSwitchResetterStates_4C9A30();
     }
 
-    s8 pStrBuffer[13] = {};
+    char_type pStrBuffer[13] = {};
     Path_Format_CameraName_460FB0(pStrBuffer, field_A_level, field_C_path, field_E_camera);
 
     u32 pCamNameOffset = 0;
@@ -1304,7 +1304,7 @@ void CCSTD Map::Load_Path_Items_482C10(Camera* pCamera, s16 loadMode)
     }
 }
 
-void CC Map::LoadResource_4DBE00(const s8* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad)
+void CC Map::LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad)
 {
     if (!bDontLoad)
     {
@@ -1316,7 +1316,7 @@ void CC Map::LoadResource_4DBE00(const s8* pFileName, s32 type, s32 resourceId, 
     }
 }
 
-void CC Map::LoadResourcesFromList_4DBE70(const s8* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad)
+void CC Map::LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad)
 {
     if (!bDontLoad)
     {

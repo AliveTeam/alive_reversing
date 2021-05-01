@@ -298,7 +298,7 @@ void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
     }
 }
 
-void CC ResourceManager::LoadResource_446C90(const s8* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad)
+void CC ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad)
 {
     if (bDontLoad)
     {
@@ -388,7 +388,7 @@ void CC ResourceManager::LoadResource_446C90(const s8* pFileName, u32 type, u32 
     }
 }
 
-void CC ResourceManager::LoadResourcesFromList_446E80(const s8* pFileName, ResourcesToLoadList* pTypeAndIdList, LoadMode loadMode, s16 bDontLoad)
+void CC ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName, ResourcesToLoadList* pTypeAndIdList, LoadMode loadMode, s16 bDontLoad)
 {
     // Debug_Print_Stub_48DD70("Requesting tag res %s\n", pFileName);
 
@@ -629,7 +629,7 @@ void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
     }
 }
 
-s32 CC ResourceManager::SEQ_HashName_454EA0(const s8* seqFileName)
+s32 CC ResourceManager::SEQ_HashName_454EA0(const char_type* seqFileName)
 {
     // Clamp max len
     size_t seqFileNameLength = strlen(seqFileName) - 1;
@@ -733,7 +733,7 @@ ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager:
     return pItem;
 }
 
-ResourceManager_FileRecord_Unknown* CC ResourceManager::LoadResourceFile_4551E0(const s8* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
+ResourceManager_FileRecord_Unknown* CC ResourceManager::LoadResourceFile_4551E0(const char_type* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
 {
     LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(pFileName);
     if (!pFileRec)
@@ -884,12 +884,12 @@ EXPORT u8** CC ResourceManager::Allocate_New_Block_454FE0(u32 sizeBytes, BlockAl
     }
 }
 
-s16 CC ResourceManager::LoadResourceFileWrapper(const s8* filename, Camera* pCam)
+s16 CC ResourceManager::LoadResourceFileWrapper(const char_type* filename, Camera* pCam)
 {
     return LoadResourceFile_455270(filename, pCam, BlockAllocMethod::eFirstMatching);
 }
 
-EXPORT s16 CC ResourceManager::LoadResourceFile_455270(const s8* filename, Camera* pCam, BlockAllocMethod allocMethod)
+EXPORT s16 CC ResourceManager::LoadResourceFile_455270(const char_type* filename, Camera* pCam, BlockAllocMethod allocMethod)
 {
     // Note: None gPcOpenEnabled_508BF0 block not impl as never used
 

@@ -47,7 +47,7 @@ union DDCheatValue
 
 struct DDCheatProperty final
 {
-    const s8* Name;
+    const char_type* Name;
     DDCheatValueType ValueType;
     DDCheatValue ValuePtr;
 };
@@ -86,9 +86,9 @@ public:
     EXPORT void dtor_415530();
     EXPORT BaseGameObject* vdtor_415500(s32 flags);
 
-    EXPORT static void AddPropertyEntry(const s8* text, DDCheatValueType valueType, DDCheatValue valuePtr);
+    EXPORT static void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
     static EXPORT void CC ClearProperties_415390();
-    static EXPORT void DebugStr_4F5560(const s8* pFormatStr, ...);
+    static EXPORT void DebugStr_4F5560(const char_type* pFormatStr, ...);
 
     EXPORT void Menu_Teleport_415E20();
     EXPORT void Menu_Movies_416000();
