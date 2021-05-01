@@ -96,18 +96,19 @@ FP CC Math_SquareRoot_FP_451210(FP v)
         return FP_FromInteger(0);
     }
 
-    if (v == FP_FromInteger(1))
+    if (v.fpValue == 1) // Yes check against actual 1, not FP(1)
     {
-        return FP_FromInteger(1);
+        return FP_FromRaw(1); // ditto
     }
 
-    FP v2 = v / FP_FromInteger(2);
-    for (s32 i = 6; i > 0; i--)
+    const FP k2 = FP_FromInteger(2);
+
+    FP calcRoot = v / k2;
+    for (s32 i = 0; i < 6; i++)
     {
-        FP v4 = v / v2;
-        v2 = (v2 + v4) / FP_FromInteger(2);
+        calcRoot = (calcRoot + (v / calcRoot)) / k2;
     }
-    return v2;
+    return calcRoot;
 }
 
 } // namespace AO
