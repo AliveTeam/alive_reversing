@@ -257,3 +257,27 @@ bool RunningAsInjectedDll()
 {
     return false;
 }
+
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+
+static void __attribute__((constructor)) FixCWD()
+{
+    char* imagePath = strdup(_dyld_get_image_name(0));
+    if (!imagePath)
+    {
+        return;
+    }
+    
+    for (u32 i = strlen(imagePath); --i;)
+    {
+        if (imagePath[i] == '/')
+        {
+            imagePath[i] = 0;
+            chdir(imagePath);
+            break;
+        }
+    }
+    free(imagePath);
+}
+#endif
