@@ -61,7 +61,7 @@ EXPORT s32 CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, u32 sampleOffset, u
 #endif
 }
 
-EXPORT const s8* CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
+EXPORT const char_type* CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
 {
 #if USE_SDL2_SOUND
     return SND_HR_Err_To_String_SDL(hr);

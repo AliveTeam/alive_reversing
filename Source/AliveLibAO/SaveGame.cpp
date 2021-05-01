@@ -263,7 +263,7 @@ const u8* encodedLevelNames_4BC62C[] = {
     nullptr,
     byte_4BC4A0};
 
-const s8* rawLevelNames[] = {
+const char_type* rawLevelNames[] = {
     nullptr,
     "RuptureFarms     ",
     "Stockyard Escape ",
@@ -450,9 +450,9 @@ s32 SaveGame::Hash(SaveData* sData)
     return counter;
 }
 
-s16 CC SaveGame::LoadFromFile_459D30(const s8* name)
+s16 CC SaveGame::LoadFromFile_459D30(const char_type* name)
 {
-    s8 buffer[40] = {};
+    char_type buffer[40] = {};
 
     strcpy(buffer, name);
     strcat(buffer, ".sav");
@@ -486,9 +486,9 @@ s16 CC SaveGame::LoadFromFile_459D30(const s8* name)
     }
 }
 
-BOOL CC SaveGame::SaveToFile_45A110(const s8* name)
+BOOL CC SaveGame::SaveToFile_45A110(const char_type* name)
 {
-    s8 buffer[40] = {};
+    char_type buffer[40] = {};
 
     strcpy(buffer, name);
     strcat(buffer, ".sav");

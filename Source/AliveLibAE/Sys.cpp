@@ -153,7 +153,7 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
 
                 const UINT vKey = static_cast<UINT>(wParam);
                 const UINT scanCode = HIWORD(lParam);
-                s8 translated[4] = {};
+                char_type translated[4] = {};
                 // TODO: can be negative but is never checked
                 const s32 numBytesWritten = ::ToAscii(vKey, scanCode, KeyState, reinterpret_cast<u16*>(&translated), 0);
                 translated[numBytesWritten] = 0;
@@ -183,7 +183,7 @@ HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle)
     #endif
 #endif
 
-void Sys_SetWindowText(TWindowHandleType windowHandle, const s8* title)
+void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title)
 {
 #if USE_SDL2
     SDL_SetWindowTitle(windowHandle, title);

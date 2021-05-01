@@ -21,7 +21,7 @@ ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 
 
 // SDL/C IO Wrappers
-IO_FileHandleType IO_Open(const s8* fileName, const s8* mode)
+IO_FileHandleType IO_Open(const char_type* fileName, const char_type* mode)
 {
     if (strlen(fileName) >= 3 && fileName[0] == '.' && (fileName[1] == '/' || fileName[1] == '\\'))
     {
@@ -62,7 +62,7 @@ size_t IO_Read(IO_FileHandleType pHandle, void* ptr, size_t size, size_t maxnum)
 #endif
 }
 
-EXPORT IO_Handle* CC IO_Open_4F2320(const s8* fileName, s32 modeFlag)
+EXPORT IO_Handle* CC IO_Open_4F2320(const char_type* fileName, s32 modeFlag)
 {
     IO_Handle* pHandle = reinterpret_cast<IO_Handle*>(ae_malloc_4F4E60(sizeof(IO_Handle)));
     if (!pHandle)
@@ -72,7 +72,7 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const s8* fileName, s32 modeFlag)
 
     memset(pHandle, 0, sizeof(IO_Handle));
 
-    const s8* mode = nullptr;
+    const char_type* mode = nullptr;
     if ((modeFlag & 3) == 3)
     {
         mode = "rwb";
@@ -89,7 +89,7 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const s8* fileName, s32 modeFlag)
             // Somehow it can also be passed as string?? I don't think this case ever happens
             //mode = reinterpret_cast<const s8*>(modeFlag);
             LOG_ERROR("Unknown mode flag " << modeFlag);
-            ALIVE_FATAL("Unknow mode flag");
+            ALIVE_FATAL("Unknown mode flag");
         }
     }
 
@@ -362,7 +362,7 @@ EXPORT s32 CC IO_Sync_ASync_4EAF80(void* hFile, u32 offset, u32 origin)
 }
 #endif
 
-EXPORT void* CC IO_Open_Sync_4EAEB0(const s8* pFileName)
+EXPORT void* CC IO_Open_Sync_4EAEB0(const char_type* pFileName)
 {
     return IO_Open(pFileName, "rb");
 }
@@ -419,7 +419,7 @@ EXPORT void CC IO_Init_SyncOrASync_4EAC80(s32 bASync)
     }
 }
 
-EXPORT void* CC IO_fopen_494280(const s8* pFileName)
+EXPORT void* CC IO_fopen_494280(const char_type* pFileName)
 {
     return IO_Open_4F2320(pFileName, 5);
 }
@@ -487,7 +487,7 @@ bool IO_CreateThread()
     return true;
 }
 
-bool IO_DirectoryExists(const s8* pDirName)
+bool IO_DirectoryExists(const char_type* pDirName)
 {
 #if _WIN32
     WIN32_FIND_DATA sFindData = {};
@@ -566,7 +566,7 @@ static bool WildCardMatcher(const std::string& text, std::string wildcardPattern
 }
 #endif
 
-EXPORT void IO_EnumerateDirectory(const s8* fileName, TEnumCallBack cb)
+EXPORT void IO_EnumerateDirectory(const char_type* fileName, TEnumCallBack cb)
 {
 #if _WIN32
     _finddata_t findRec = {};

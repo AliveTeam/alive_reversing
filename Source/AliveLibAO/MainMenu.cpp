@@ -185,7 +185,7 @@ const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] = {
 
 struct SaveName final
 {
-    s8 field_0_mName[32];
+    char_type field_0_mName[32];
 };
 
 ALIVE_ARY(1, 0x9F1DD8, SaveName, 128, sSaveNames_9F1DD8, {}); // Got more than 128 saves? Hard luck mate
@@ -245,7 +245,7 @@ const u8 byte_4D0090[32] = {
 
 struct MenuFMV final
 {
-    const s8* field_0_name;
+    const char_type* field_0_name;
     LevelIds field_4_level_id;
     s16 field_6;
     s16 field_8;
@@ -271,7 +271,7 @@ const MenuFMV gFmvs_4D0230[13] = {
 
 struct MenuLevel final
 {
-    const s8* field_0_name;
+    const char_type* field_0_name;
     LevelIds field_4_level_id;
     s16 field_6;
     s16 field_8;
@@ -1456,7 +1456,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
             field_1E0_selected_index.mainmenu = MainMenuOptions::eBegin_1;
             gAttract_507698 = 1;
 
-            s8 fileNameBuf[20] = {};
+            char_type fileNameBuf[20] = {};
             sprintf(fileNameBuf, "PLAYBK%02d.JOY", sJoyResId_50769C);
             ResourceManager::LoadResourceFile_4551E0(fileNameBuf, 0, 0, 0);
 
@@ -1791,7 +1791,7 @@ void Menu::To_Load_Update_47D8E0()
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
             sSaveIdx_9F2DD8 = 0;
-            IO_EnumerateDirectory("*.sav", [](const s8* fileName, u32 /*lastWriteTime*/)
+            IO_EnumerateDirectory("*.sav", [](const char_type* fileName, u32 /*lastWriteTime*/)
                                   {
                                       if (sSaveIdx_9F2DD8 < 128) // TODO: Array len
                                       {
@@ -2038,7 +2038,7 @@ void Menu::Loading_Update_47B870()
             {
                 if (gAttract_507698)
                 {
-                    s8 buffer[92] = {};
+                    char_type buffer[92] = {};
                     sprintf(buffer, "loading Joy # %d\n", sJoyResId_50769C);
                     // Never used ??
                     LOG_INFO(buffer);
@@ -3042,7 +3042,7 @@ const Menu_Button sRemapScreenButtons_4D0170[10] = {
     {302, 199, 6152}  // Exit
 };
 
-const s8* inputActions_4D0070[8] = {
+const char_type* inputActions_4D0070[8] = {
     "Run", "Sneak", "Jump", "Speak 1", "Action", "Throw", "Crouch", "Speak 2"};
 
 
@@ -3128,7 +3128,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             0);
         polyOffset = drawnStringOffset;
 
-        s8 buffer[40] = {};
+        char_type buffer[40] = {};
         sprintf(buffer, "for %s", inputActions_4D0070[field_1E0_selected_index.raw]);
         field_1F4_text = buffer;
         auto fontWidth2 = field_FC_font.MeasureWidth_41C280(buffer, FP_FromInteger(1));
@@ -3390,7 +3390,7 @@ void Menu::SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt)
 {
     // Note: This string in OG was just "Error" which is completely useless, changed to at least
     // give people a clue about what broke.
-    const s8* kErrStr = "Error loading save file";
+    const char_type* kErrStr = "Error loading save file";
 
     s16 xpos = 16;
     const s32 fontWidth = field_FC_font.MeasureWidth_41C2B0(kErrStr);
@@ -3585,7 +3585,7 @@ void Menu::Load_Update_47D760()
 
 s32 CC Menu::StringsEqual_47DA20(const void* pStr1, const void* pStr2)
 {
-    return _strcmpi(static_cast<const s8*>(pStr1), static_cast<const s8*>(pStr2));
+    return _strcmpi(static_cast<const char_type*>(pStr1), static_cast<const char_type*>(pStr2));
 }
 
 void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
@@ -3831,16 +3831,16 @@ void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
 
 void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset)
 {
-    s8 text[32] = {};
+    char_type text[32] = {};
     strcpy(text, Input_GetButtonString_44F1C0(static_cast<InputCommands>(input_command), false)); // TODO: Strongly type all the way back to the button structure
     const FP scale_fp = strlen(text) > 1 ? FP_FromDouble(0.64) : FP_FromDouble(0.84);
 
     if (text[0])
     {
-        s8* pTextIter = &text[0];
+        char_type* pTextIter = &text[0];
         do
         {
-            *pTextIter = static_cast<s8>(tolower(*pTextIter));
+            *pTextIter = static_cast<char_type>(tolower(*pTextIter));
             pTextIter++;
         }
         while (*pTextIter);

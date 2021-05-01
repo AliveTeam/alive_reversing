@@ -256,7 +256,7 @@ void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
 
     if (gbDrawMeterCountDown_5C1BF8)
     {
-        s8 text[12] = {};
+        char_type text[12] = {};
         sprintf(text, "%01d:%02d", sTimerValue_5C1BFC / 1800u, sTimerValue_5C1BFC / 30u % 60);
         const s32 textWidth = field_30_font.MeasureWidth_433700(text);
 

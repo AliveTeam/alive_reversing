@@ -46,7 +46,7 @@ EXPORT s32 CC Add_Dirty_Area_48D910(s32, s32, s32, s32)
     return 0;
 }
 
-EXPORT s32 MessageBox_48E3F0(const s8* /*pTitle*/, s32 /*lineNumber*/, const s8* /*pMsg*/, ...)
+EXPORT s32 MessageBox_48E3F0(const char_type* /*pTitle*/, s32 /*lineNumber*/, const char_type* /*pMsg*/, ...)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -199,7 +199,7 @@ static void Main_ParseCommandLineArguments()
 
     // TODO: I guess some code got removed that picked the CD-ROM drive like in AE since this
     // doesn't really make any sense anymore.
-    s8 cdDrivePath[3] = {};
+    char_type cdDrivePath[3] = {};
     cdDrivePath[0] = gDriveLetter_4CECC8[0];
     cdDrivePath[1] = gDriveLetter_4CECC8[1];
     if (gDriveLetter_4CECC8[0] > 'Z')

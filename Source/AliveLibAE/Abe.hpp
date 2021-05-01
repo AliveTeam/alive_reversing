@@ -750,8 +750,7 @@ ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_5C1B8C);
 
 ALIVE_VAR_EXTERN(s16, gAbeBulletProof_5C1BDA);
 
-//extern const s32 sAbeFrameOffsetTable_554B18[130];
-extern const s8* const sAbeStateNames[130];
+extern const char_type* const sAbeStateNames[130];
 
 EXPORT s32 CC Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 

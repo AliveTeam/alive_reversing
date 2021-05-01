@@ -125,7 +125,7 @@ EXPORT s32 CC PSX_MoveImage_4961A0(const PSX_RECT* pRect, s32 xpos, s32 ypos)
     return PSX_MoveImage_4F5D50(pRect, xpos, ypos);
 }
 
-EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const s8* pPath1, const s8* pPath2, const s8* pPath3)
+EXPORT s32 CC PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char_type* pPath1, const char_type* pPath2, const char_type* pPath3)
 {
     return PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(pPath1, pPath2, pPath3);
 }
@@ -160,7 +160,7 @@ EXPORT void PSX_EMU_VideoDeAlloc_49A550()
     PSX_EMU_VideoDeAlloc_4FA010();
 }
 
-EXPORT CdlFILE* CC PSX_CdSearchFile_49B930(CdlFILE*, const s8*)
+EXPORT CdlFILE* CC PSX_CdSearchFile_49B930(CdlFILE*, const char_type*)
 {
     // Shouldn't need to be implemented if call sites changed to use file names like AE
     NOT_IMPLEMENTED();
@@ -228,7 +228,7 @@ void Init_VGA_AndPsxVram()
     }
 }
 
-s32 CC PSX_CD_OpenFile(const s8* pFileName, s32 bTryAllPaths)
+s32 CC PSX_CD_OpenFile(const char_type* pFileName, s32 bTryAllPaths)
 {
     // TODO: Need to return 0 if not using AE funcs to avoid any side effects
     return PSX_CD_OpenFile_4FAE80(pFileName, bTryAllPaths);

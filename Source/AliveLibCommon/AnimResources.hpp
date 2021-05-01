@@ -591,14 +591,14 @@ enum class PalId
 struct PalRecord final
 {
     PalId mId;
-    const s8* mBanName;
+    const char_type* mBanName;
     s32 mResourceId;
 };
 
 struct AnimRecord final
 {
     AnimId mId;
-    const s8* mBanName;
+    const char_type* mBanName;
     s32 mFrameTableOffset;
     s16 mMaxW;
     s16 mMaxH;

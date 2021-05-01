@@ -6,7 +6,7 @@
 
 struct Quicksave_PSX_Header final
 {
-    s8 field_0_frame_1_name[128];
+    char_type field_0_frame_1_name[128];
     s8 field_80_frame_2_padding[128];
     s8 field_100_frame_3_padding[128];
     s8 field_180_frame_4_padding[128];
@@ -58,7 +58,7 @@ ALIVE_ASSERT_SIZEOF(Quicksave, 0x2000);
 
 struct SaveFileRec final
 {
-    s8 field_0_fileName[32];
+    char_type field_0_fileName[32];
     u32 field_20_lastWriteTimeStamp;
 };
 ALIVE_ASSERT_SIZEOF(SaveFileRec, 0x24);

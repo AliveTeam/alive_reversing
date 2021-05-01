@@ -32,7 +32,7 @@
     #define LOG_(msg)
 #endif
 
-[[noreturn]] inline void HOOK_FATAL(const s8* errMsg)
+[[noreturn]] inline void HOOK_FATAL(const char_type* errMsg)
 {
     LOG_ERROR(errMsg);
     abort();
@@ -81,7 +81,7 @@ class AutoLog final
 public:
     AutoLog(const AutoLog&) = delete;
     AutoLog& operator=(const AutoLog&) = delete;
-    AutoLog(const s8* funcName)
+    AutoLog(const char_type* funcName)
         : mFuncName(funcName)
     {
         LOG_("[ENTER] " << mFuncName);
@@ -100,6 +100,6 @@ public:
     }
 
 private:
-    const s8* mFuncName;
+    const char_type* mFuncName;
 };
 } // namespace Logging

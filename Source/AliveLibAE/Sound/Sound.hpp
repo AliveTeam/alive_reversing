@@ -111,7 +111,7 @@ EXPORT s32 CC SND_CreateDS_4EEAA0(u32 sampleRate, s32 bitsPerSample, s32 isStere
 EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX* pWaveFormat, s32 sampleRate, u8 bitsPerSample, s32 isStereo);
 EXPORT s32 CC SND_New_4EEFF0(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo);
 EXPORT s32 CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen);
-EXPORT const s8* CC SND_HR_Err_To_String_4EEC70(HRESULT hr);
+EXPORT const char_type* CC SND_HR_Err_To_String_4EEC70(HRESULT hr);
 EXPORT s32 CC SND_Free_4EFA30(SoundEntry* pSnd);
 EXPORT void CC SND_Restart_4CB0E0();
 EXPORT s32 CC SND_SetPrimarySoundBufferFormat_4EE990(s32 sampleRate, s32 bitsPerSample, u8 isStereo);

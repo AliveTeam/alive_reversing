@@ -16,7 +16,7 @@ void HintFly_ForceLink()
 
 namespace AO {
 
-const s8* gHintFlyMessages_4C6A10[] = {
+const char_type* gHintFlyMessages_4C6A10[] = {
     "SNEAK TO BOMB",
     "ABE WAS HERE",
     "TEST THREE",
@@ -1326,7 +1326,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
         field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
         field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-        const s8* pMsg = gHintFlyMessages_4C6A10[pTlv->field_18_message_id];
+        const char_type* pMsg = gHintFlyMessages_4C6A10[pTlv->field_18_message_id];
 
         field_118_counter = 20;
         field_11A_msg_len = 0;
@@ -1501,12 +1501,12 @@ BaseGameObject* HintFly::dtor_42ADF0()
 
 void HintFly::FormWordAndAdvanceToNextWord_42AF90()
 {
-    const s8* msgPtr = &gHintFlyMessages_4C6A10[field_11C_message_id][field_11E_msg_idx];
+    const char_type* msgPtr = &gHintFlyMessages_4C6A10[field_11C_message_id][field_11E_msg_idx];
     LOG_INFO("Word is " << msgPtr);
 
     // Find how long the word is
     s16 letterCount = 0;
-    const s8* pEndWord = msgPtr;
+    const char_type* pEndWord = msgPtr;
     for (; *pEndWord != ' '; pEndWord++)
     {
         if (!*pEndWord)
@@ -1737,7 +1737,7 @@ void HintFly::VUpdate_42B3D0()
             if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
             {
                 s16 len = 0;
-                const s8* pMsgIter = gHintFlyMessages_4C6A10[field_11C_message_id] + field_11E_msg_idx;
+                const char_type* pMsgIter = gHintFlyMessages_4C6A10[field_11C_message_id] + field_11E_msg_idx;
                 while (*pMsgIter != ' ' && *pMsgIter != '\0')
                 {
                     len += pData_4C7268[(*pMsgIter) - 'A'][0];

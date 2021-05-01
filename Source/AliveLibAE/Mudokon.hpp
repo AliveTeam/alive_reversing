@@ -94,7 +94,7 @@ enum class MudAction : s16
     ENTRY(AI_Sick_9_47A910)
 
 #define MAKE_STRINGS(VAR) #VAR,
-const s8* const sMudAiStateNames[10] = {
+const char_type* const sMudAiStateNames[10] = {
     MUD_AI_STATES_ENUM(MAKE_STRINGS)};
 
 #define MAKE_ENUM(VAR) VAR,

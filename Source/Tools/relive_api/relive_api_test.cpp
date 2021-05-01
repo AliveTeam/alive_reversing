@@ -236,7 +236,7 @@ TEST(json_upgrade, upgrade_rename_structure)
 class ArgsAdapter
 {
 public:
-    ArgsAdapter(s32 argc, s8* argv[])
+    ArgsAdapter(s32 argc, char_type* argv[])
     {
         for (s32 i = 0; i < argc; i++)
         {
@@ -254,14 +254,14 @@ public:
         return static_cast<s32>(mArgs.size());
     }
 
-    [[nodiscard]] std::unique_ptr<s8* []> ArgV() const
+    [[nodiscard]] std::unique_ptr<char_type* []> ArgV() const
     {
-        auto ptr = std::make_unique<s8*[]>(mArgs.size());
+        auto ptr = std::make_unique<char_type*[]>(mArgs.size());
 
         s32 i = 0;
         for (const auto& arg : mArgs)
         {
-            ptr[i++] = const_cast<s8*>(arg.c_str());
+            ptr[i++] = const_cast<char_type*>(arg.c_str());
         }
         return ptr;
     }
@@ -271,7 +271,7 @@ public:
 
 } // namespace
 
-s32 main(s32 argc, s8* argv[])
+s32 main(s32 argc, char_type* argv[])
 {
     ArgsAdapter args(argc, argv);
     args.Add("--gtest_catch_exceptions=0");

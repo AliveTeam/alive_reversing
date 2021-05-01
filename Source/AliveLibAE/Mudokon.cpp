@@ -130,7 +130,7 @@ const TMudAIStateFunction sMudokon_AI_Table_55CDF0[10] = {
     ENTRY(M_TurnWheelLoop_58_474CC0)  \
     ENTRY(M_TurnWheelEnd_59_474D30)
 
-const s8* const sMudMotionStateNames[60] = {
+const char_type* const sMudMotionStateNames[60] = {
     MUD_MOTION_STATES_ENUM(MAKE_STRINGS)};
 
 struct MudEmotionTableEntry final

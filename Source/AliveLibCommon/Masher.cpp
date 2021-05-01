@@ -726,7 +726,7 @@ static void after_block_decode_no_effect_q_impl(s32 quantScale)
     }
 }
 
-s32 Masher::Init_4E6770(const s8* movieFileName)
+s32 Masher::Init_4E6770(const char_type* movieFileName)
 {
     field_40_video_frame_to_decode = nullptr;
     field_44_decoded_frame_data_buffer = nullptr;

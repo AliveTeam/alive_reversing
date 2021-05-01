@@ -112,7 +112,7 @@ void Font::dtor_433540()
 #endif
 }
 
-s32 Font::DrawString_4337D0(PrimHeader** ppOt, const s8* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
+s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
 {
     if (!sFontDrawScreenSpace_5CA4B4)
     {
@@ -208,7 +208,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const s8* text, s32 x, s16 y, TPa
     return polyOffset + characterRenderCount;
 }
 
-s32 Font::MeasureWidth_433700(const s8* text)
+s32 Font::MeasureWidth_433700(const char_type* text)
 {
     s32 result = 0;
 
@@ -247,14 +247,14 @@ s32 Font::MeasureWidth_433700(const s8* text)
 }
 
 // Measures the width of a string with scale applied.
-s32 Font::MeasureWidth_4336C0(const s8* text, FP scale)
+s32 Font::MeasureWidth_4336C0(const char_type* text, FP scale)
 {
     FP ret = (FP_FromInteger(MeasureWidth_433700(text)) * scale) + FP_FromDouble(0.5);
     return FP_GetExponent(ret);
 }
 
 // Measures the width of a single character.
-s32 Font::MeasureWidth_433630(u8 character)
+s32 Font::MeasureWidth_433630(char_type character)
 {
     s32 result = 0;
     s32 charIndex = 0;
@@ -282,7 +282,7 @@ s32 Font::MeasureWidth_433630(u8 character)
 }
 
 // Wasn't too sure what to call this. Returns the s8 offset of where the text is cut off. (left and right region)
-const s8* Font::SliceText_433BD0(const s8* text, s32 left, FP scale, s32 right)
+const char_type* Font::SliceText_433BD0(const char_type* text, s32 left, FP scale, s32 right)
 {
     s32 xOff = 0;
     s32 rightWorldSpace = static_cast<s32>(right * 0.575);
@@ -297,10 +297,10 @@ const s8* Font::SliceText_433BD0(const s8* text, s32 left, FP scale, s32 right)
     }
 
 
-    for (const s8* strPtr = text; *strPtr; strPtr++)
+    for (const char_type* strPtr = text; *strPtr; strPtr++)
     {
         s32 atlasIdx = 0;
-        s8 character = *strPtr;
+        char_type character = *strPtr;
         if (xOff >= rightWorldSpace)
         {
             return strPtr;
@@ -380,7 +380,7 @@ void Font_Context::dtor_433510()
     }
 }
 
-bool Font_Context::LoadFontTypeFromFile(const s8* fontPath, const s8* atlasPath, s8* pPaletteOut)
+bool Font_Context::LoadFontTypeFromFile(const char_type* fontPath, const char_type* atlasPath, s8* pPaletteOut)
 {
     auto debugFont = FS::ReadFile(fontPath);
     auto debugFontAtlas = FS::ReadFile(atlasPath);
@@ -416,7 +416,7 @@ void Font_Context::LoadFontTypeCustom(File_Font* fontFile, Font_AtlasEntry* font
     field_8_atlas_array = fontAtlas;
 }
 
-bool Font_Context::LoadFontTypeFromOddFont(const s8* fontPath, s8* pPaletteOut)
+bool Font_Context::LoadFontTypeFromOddFont(const char_type* fontPath, s8* pPaletteOut)
 {
     auto debugFont = FS::ReadFile(fontPath);
     if (!debugFont.size())

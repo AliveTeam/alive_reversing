@@ -10,7 +10,7 @@ struct Movie_IO final
     (void* pHandle);
     BOOL(CC* mIO_Seek)
     (void* pHandle, u32 offset, u32 origin);
-    void*(CC* mIO_Open)(const s8* pFileName);
+    void*(CC* mIO_Open)(const char_type* pFileName);
     BOOL(CC* mIO_Read)
     (void* pHandle, void* pBuffer, u32 size);
 };
@@ -78,7 +78,7 @@ class Masher final
 {
 public:
     // Same as 0x523FA0 in MGSI.exe
-    s32 Init_4E6770(const s8* movieFileName);
+    s32 Init_4E6770(const char_type* movieFileName);
 
     // Same as 0x524214 in MGSI.exe
     void dtor_4E6AB0();

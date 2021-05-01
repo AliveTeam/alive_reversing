@@ -68,7 +68,7 @@ ALIVE_VAR_EXTERN(SaveData, gSaveBuffer_505668);
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_423520);
 
 #define MAKE_STRINGS(VAR) #VAR,
-const s8* const sAbeStateNames[] = {
+const char_type* const sAbeStateNames[] = {
     AO_ABE_STATES_ENUM(MAKE_STRINGS)};
 
 const TAbeStateFunction sAbeStateMachineTable_4C5F08[] = {

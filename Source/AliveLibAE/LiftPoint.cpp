@@ -267,7 +267,7 @@ s32 LiftPoint::VGetSaveState(u8* pSaveBuffer)
     return vGetSaveState_4637D0(reinterpret_cast<LiftPoint_State*>(pSaveBuffer));
 }
 
-static void LoadLiftResourceBans(const s8* pRopeBanName, const s8* pLiftBanName)
+static void LoadLiftResourceBans(const char_type* pRopeBanName, const char_type* pLiftBanName)
 {
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, FALSE, FALSE))
     {

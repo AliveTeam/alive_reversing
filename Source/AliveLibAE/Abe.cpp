@@ -57,7 +57,7 @@
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
 #define MAKE_STRINGS(VAR) #VAR,
-const s8* const sAbeStateNames[] = {
+const char_type* const sAbeStateNames[] = {
     ABE_STATES_ENUM(MAKE_STRINGS)};
 
 const TAbeStateFunction sAbeStateMachineTable_554910[] = {
@@ -957,7 +957,7 @@ void Abe::dtor_44B380()
     dtor_4080B0();
 }
 
-const s8* sAbe_ResNames_545830[22] = {
+const char_type* sAbe_ResNames_545830[22] = {
     "ABEBASIC.BAN",
     "ABEBSIC1.BAN",
     "ABEPULL.BAN",

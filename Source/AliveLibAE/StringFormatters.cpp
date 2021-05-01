@@ -4,16 +4,16 @@
 #include "stdlib.hpp"
 #include "Input.hpp"
 
-void CC String_FormatString_4969D0(const s8* src, s8* dst, s32 /*bufferLen*/, s8 isAbeMotionsMenuWithAController)
+void CC String_FormatString_4969D0(const char_type* src, char_type* dst, s32 /*bufferLen*/, s8 isAbeMotionsMenuWithAController)
 {
-    const s8* pSrcIter = src;
-    s8* pDstIter = dst;
+    const char_type* pSrcIter = src;
+    char_type* pDstIter = dst;
     while (*pSrcIter)
     {
-        s8 src_char = *pSrcIter;
+        char_type src_char = *pSrcIter;
         if (src_char <= 25u) // End of medium, first 25 ASCII values are for button mappings?
         {
-            const s8* pButtonStr = nullptr;
+            const char_type* pButtonStr = nullptr;
             if (sJoystickEnabled_5C9F70)
             {
                 if (isAbeMotionsMenuWithAController) //TODO probably get rid of it, somehow

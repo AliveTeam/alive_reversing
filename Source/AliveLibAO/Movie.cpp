@@ -8,7 +8,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x9F309C, s32, sMovie_ref_count_9F309C, 0);
 
-EXPORT void CC Get_fmvs_sectors_44FEB0(const s8* /*pMovieName1*/, const s8* /*pMovieName2*/, const s8* /*pMovieName3*/, u32* /*pMovie1Sector*/, u32* /*pMovie2Sector*/, u32* /*pMovie3Sector*/)
+EXPORT void CC Get_fmvs_sectors_44FEB0(const char_type* /*pMovieName1*/, const char_type* /*pMovieName2*/, const char_type* /*pMovieName3*/, u32* /*pMovie1Sector*/, u32* /*pMovie2Sector*/, u32* /*pMovie3Sector*/)
 {
     NOT_IMPLEMENTED();
 }

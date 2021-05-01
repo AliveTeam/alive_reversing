@@ -4,7 +4,7 @@
 #include "Error.hpp"
 #include "Sys_common.hpp"
 
-s32 access_impl(s8 const* fileName, s32 accessMode)
+s32 access_impl(char_type const* fileName, s32 accessMode)
 {
 #if _WIN32
     return _access(fileName, accessMode);
@@ -44,7 +44,7 @@ EXPORT size_t CC ae_fread_520B5C(void* ptr, size_t size, size_t count, FILE* str
     return fread(ptr, size, count, stream);
 }
 
-EXPORT FILE* CC ae_fopen_520C64(const s8* filename, const s8* mode)
+EXPORT FILE* CC ae_fopen_520C64(const char_type* filename, const char_type* mode)
 {
     STDLIB_FUNCTION();
     return fopen(filename, mode);

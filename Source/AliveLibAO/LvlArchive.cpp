@@ -37,7 +37,7 @@ EXPORT void CC LvlArchive::dtor_static_443E80()
 }
 
 
-EXPORT void LvlArchive::OpenArchive(const s8* fileName, s32 pos)
+EXPORT void LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
 {
     // HACK: Added so that AE PSX emu lib works as we don't have a mapping of CDPos <> FileName in the AE emu
     // (it was a stupid idea so I guess they removed it in the next iteration)
@@ -99,7 +99,7 @@ EXPORT s16 LvlArchive::Free_41BEB0()
     return 0;
 }
 
-EXPORT LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const s8* pFileName)
+EXPORT LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const char_type* pFileName)
 {
     // NOTE: PcOpen branches removed
 

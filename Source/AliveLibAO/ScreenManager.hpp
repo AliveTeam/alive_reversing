@@ -27,7 +27,7 @@ public:
     s16 field_18_path;
     LevelIds field_1A_level;
     s16 field_1C;
-    s8 field_1E_fileName[18];
+    char_type field_1E_fileName[18];
     s16 field_30_flags;
     s16 field_32;
 };

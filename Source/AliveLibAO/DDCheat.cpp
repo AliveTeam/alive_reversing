@@ -89,7 +89,7 @@ DDCheat* DDCheat::Vdtor_40A380(s32 flags)
     return this;
 }
 
-void DDCheat::AddPropertyEntry(const s8* text, DDCheatValueType valueType, DDCheatValue valuePtr)
+void DDCheat::AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr)
 {
     for (auto& prop : DDCheatProperties_4FF7D8.props)
     {
@@ -140,7 +140,7 @@ void DDCheat::ScreenShot_409720()
     auto pixelBuffer = reinterpret_cast<u16*>(alloc_450740(640 * sizeof(u16) * gPsxDisplay_504C78.field_2_height));
     if (pixelBuffer)
     {
-        s8 fileNameBuffer[16] = {};
+        char_type fileNameBuffer[16] = {};
         ::sprintf(fileNameBuffer, "SD%06ld.TGA", static_cast<long int>(gnFrameCount_507670 % 1000000));
         const auto fileHandle = ::fopen(fileNameBuffer, "wb");
         if (!fileHandle)
@@ -400,7 +400,7 @@ void DDCheat::VUpdate_4098C0()
     }
 }
 
-const s8* lvl_names_4C3168[16] = {
+const char_type* lvl_names_4C3168[16] = {
     "Start screen",
     "Rupture 1",
     "Lines 1",
@@ -535,14 +535,14 @@ void DDCheat::Misc_409E90()
     DebugStr_495990("\nScale: up=+5 down=-5 left=100 right=50\n");
     DebugStr_495990("Scale: %d\n\n", gScale_4C3158);
 
-    const s8* invulnerableDisplayText = "on";
+    const char_type* invulnerableDisplayText = "on";
     if (!gAbeInvulnerableCheat_5076E4)
     {
         invulnerableDisplayText = "off";
     }
     DebugStr_495990("triangle=invulnerable (%s)\n", invulnerableDisplayText);
 
-    const s8* invisibleDisplayText = "on";
+    const char_type* invisibleDisplayText = "on";
     if (!gAbeInvisibleCheat_5076F8)
     {
         invisibleDisplayText = "off";
@@ -572,7 +572,7 @@ void DDCheat::Misc_409E90()
 
 
 
-s32 DDCheat::DebugFont_Printf_498B40(s32 idx, const s8* formatStr, ...)
+s32 DDCheat::DebugFont_Printf_498B40(s32 idx, const char_type* formatStr, ...)
 {
     AE_IMPLEMENTED();
 
@@ -583,18 +583,18 @@ s32 DDCheat::DebugFont_Printf_498B40(s32 idx, const s8* formatStr, ...)
         return -1;
     }
 
-    s8 buffer[1024] = {};
+    char_type buffer[1024] = {};
     vsprintf(buffer, formatStr, va);
 
     return ::DebugFont_Printf_4F8B60(idx, buffer);
 }
 
-s32 DDCheat::DebugStr_495990(const s8* pStr, ...)
+s32 DDCheat::DebugStr_495990(const char_type* pStr, ...)
 {
     va_list va;
     va_start(va, pStr);
 
-    s8 strBuffer[1024];
+    char_type strBuffer[1024];
     vsprintf(strBuffer, pStr, va);
     DDCheat::DebugFont_Printf_498B40(0, strBuffer);
     return 0;

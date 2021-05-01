@@ -43,7 +43,7 @@ union DDCheatValue
 
 struct DDCheatProperty final
 {
-    const s8* Name;
+    const char_type* Name;
     DDCheatValueType ValueType;
     DDCheatValue ValuePtr;
 };
@@ -62,7 +62,7 @@ public:
 
     EXPORT DDCheat* Vdtor_40A380(s32 flags);
 
-    void AddPropertyEntry(const s8* text, DDCheatValueType valueType, DDCheatValue valuePtr);
+    void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
 
     virtual void VScreenChanged() override;
 
@@ -76,9 +76,9 @@ public:
 
     EXPORT void Misc_409E90();
 
-    EXPORT static s32 DebugFont_Printf_498B40(s32 idx, const s8* formatStr, ...);
+    EXPORT static s32 DebugFont_Printf_498B40(s32 idx, const char_type* formatStr, ...);
 
-    EXPORT static s32 DebugStr_495990(const s8* pStr, ...);
+    EXPORT static s32 DebugStr_495990(const char_type* pStr, ...);
 
     s32 field_10;
     s32 field_14;

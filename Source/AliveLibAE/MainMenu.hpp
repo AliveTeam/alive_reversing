@@ -16,7 +16,7 @@ enum class LevelIds : s16;
 
 struct MenuFMV final
 {
-    const s8* field_0_name;
+    const char_type* field_0_name;
     LevelIds field_4_level_id;
     s16 field_6;
     s16 field_8;
@@ -66,7 +66,7 @@ struct MainMenuText final
 {
     s32 field_0_x;
     s32 field_4_y;
-    const s8* field_8_text;
+    const char_type* field_8_text;
     u8 field_C_align;
     u8 field_D;
     u8 field_E;
@@ -299,8 +299,8 @@ public:
     EXPORT void tLoadGame_Render_4D44D0(PrimHeader** pOt);
 
     EXPORT void tLoadGame_Load_4D42F0();
-    EXPORT static s8 CC checkIfDemoFileExists_4D1430(s8* path);
-    EXPORT static void CC remove_ISO9660_Suffix_4D1660(s8* out, s8* in);
+    EXPORT static s8 CC checkIfDemoFileExists_4D1430(char_type* path);
+    EXPORT static void CC remove_ISO9660_Suffix_4D1660(char_type* out, const char_type* in);
 
     EXPORT void tLoadGame_Unload_4D4360();
 
@@ -377,7 +377,7 @@ public:
     s32 field_22C_T80_animation_delay;
     s16 field_230_target_entry_index;
     s16 field_232_unused;
-    const s8* field_234_pStr;
+    const char_type* field_234_pStr;
     s16 field_238_unused;
     s16 field_23A_Inside_LoadGame_Screen;
     BitField32<Flags> field_23C_T80;

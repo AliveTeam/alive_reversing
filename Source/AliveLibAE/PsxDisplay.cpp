@@ -54,8 +54,8 @@ EXPORT void CC PSX_Calc_FrameSkip_4945D0()
 
 struct TextRecords final
 {
-    s8 field_0_src_txt[1024];
-    s8 field_400_dst_txt[1027];
+    char_type field_0_src_txt[1024];
+    char_type field_400_dst_txt[1027];
 };
 ALIVE_ASSERT_SIZEOF(TextRecords, 0x803);
 
@@ -89,7 +89,7 @@ EXPORT void CC DebugFont_Update_Text_4F8BE0(s32 idx)
     }
 }
 
-ALIVE_ARY(1, 0xBB47CC, s8, 600, sDebugFontTmpBuffer_BB47CC, {});
+ALIVE_ARY(1, 0xBB47CC, char_type, 600, sDebugFontTmpBuffer_BB47CC, {});
 ALIVE_VAR(1, 0xBB4A24, s16, sbDebugFontLoaded_BB4A24, 0);
 ALIVE_VAR(1, 0xBB47C8, s32, sDebugTextIdx_BB47C8, 0);
 
@@ -137,7 +137,7 @@ EXPORT s32 CC DebugFont_Init_4DCF40() // Font
 }
 
 
-EXPORT s32 CC DebugFont_Printf_4F8B60(s32 idx, const s8* formatStr, ...)
+EXPORT s32 CC DebugFont_Printf_4F8B60(s32 idx, const char_type* formatStr, ...)
 {
     va_list va;
     va_start(va, formatStr);
@@ -146,7 +146,7 @@ EXPORT s32 CC DebugFont_Printf_4F8B60(s32 idx, const s8* formatStr, ...)
         return -1;
     }
 
-    s8 buffer[1024] = {};
+    char_type buffer[1024] = {};
     vsprintf(buffer, formatStr, va);
     strncat(sTexts_C27640[idx].field_9_text.field_0_src_txt, buffer, sTexts_C27640[idx].field_4_max_len);
     return static_cast<s32>(strlen(sTexts_C27640[idx].field_9_text.field_0_src_txt));
@@ -203,7 +203,7 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
         const s32 xpos = rect.left + pRecord->field_0_xMargin;
         s32 ypos = rect.top + pRecord->field_1_yMargin;
         const s32 bgColour = pRecord->field_8_bgColour;
-        for (s8* j = strtok(pRecord->field_9_text.field_400_dst_txt, "\n\r"); j; j = strtok(0, "\n\r"))
+        for (char_type* j = strtok(pRecord->field_9_text.field_400_dst_txt, "\n\r"); j; j = strtok(0, "\n\r"))
         {
             s32 fontColour = Bmp_Convert_Colour_4F17D0(&sPsxVram_C1D160, 255, 255, 191);
             BMP_Draw_String_4F2230(pBmp, xpos, ypos, fontColour, bgColour, j);

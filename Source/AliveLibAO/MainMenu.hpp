@@ -288,7 +288,7 @@ public:
     MainMenuTransition* field_1E8_pMenuTrans;
     MainMenuFade* field_1EC_pObj1;
     MainMenuFade* field_1F0_pObj2;
-    const s8* field_1F4_text;
+    const char_type* field_1F4_text;
     s16 field_1F8;
     s16 field_1FA;
     s16 field_1FC;

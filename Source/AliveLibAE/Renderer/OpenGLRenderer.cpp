@@ -28,7 +28,7 @@ static bool gRenderEnable_F4 = true;
 static bool gRenderEnable_F3 = true;
 static bool gRenderEnable_F2 = true;
 
-static GLuint TextureFromFile(const s8* path)
+static GLuint TextureFromFile(const char_type* path)
 {
     GLuint texHandle = 0;
     FILE* fh = fopen(path, "rb");
@@ -1544,11 +1544,11 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
     }
 }
 
-void HackSetBackground(const s8* path)
+void HackSetBackground(const char_type* path)
 {
     //return;
 
-    const s8* camSearchs[] = {
+    const char_type* camSearchs[] = {
         "hd/%s.PNG",
         "hd/%s.CAM.PNG",
         "hd/%s.CAM.cam.PNG"};
@@ -1557,8 +1557,8 @@ void HackSetBackground(const s8* path)
 
     for (s32 i = 0; i < 3; i++)
     {
-        s8 newPath[100];
-        s8 camHack[9] = {};
+        char_type newPath[100];
+        char_type camHack[9] = {};
         memcpy(camHack, path, 8);
         sprintf(newPath, camSearchs[i], camHack);
         fh = fopen(newPath, "rb");

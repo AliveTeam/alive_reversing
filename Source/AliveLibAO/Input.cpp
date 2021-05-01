@@ -162,7 +162,7 @@ static BitField32<::InputCommands::Enum> AOInputCommandsToAEInputCommands(const 
     return r;
 }
 
-const s8* AEInputCommandToAEInputString(::InputCommands::Enum input_command)
+static const char_type* AEInputCommandToAEInputString(::InputCommands::Enum input_command)
 {
     if (input_command & ::InputCommands::Enum::eUp)
     {
@@ -578,7 +578,7 @@ void Input_InitKeyStateArray_48E5F0()
     Input_InitKeyStateArray_4EDD60();
 }
 
-EXPORT const s8* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails)
+EXPORT const char_type* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails)
 {
     const auto aeBits = static_cast<::InputCommands::Enum>(AOInputCommandsToAEInputCommands(MakeAOInputBits(input_command)).Raw().all);
     s32 controller_type = forceKeyboardLookupIfGamepadFails ? 2 : 1;

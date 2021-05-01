@@ -33,7 +33,7 @@
 #include "Sound/Midi.hpp"
 
 #define MAKE_STRINGS(VAR) #VAR,
-const s8* const sGlukkonMotionNames[25] = {
+const char_type* const sGlukkonMotionNames[25] = {
     GLUKKON_MOTIONS_ENUM(MAKE_STRINGS)};
 
 const TGlukkonMotionFn sGlukkon_motion_table_5544C0[25] = {

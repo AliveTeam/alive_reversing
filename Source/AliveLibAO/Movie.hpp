@@ -5,7 +5,7 @@
 
 namespace AO {
 
-EXPORT void CC Get_fmvs_sectors_44FEB0(const s8* pMovieName1, const s8* pMovieName2, const s8* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector);
+EXPORT void CC Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector);
 
 class Movie final : public BaseGameObject
 {

@@ -19,7 +19,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    EXPORT Text* ctor_46ADA0(const s8* pMessage, s32 renderCount, s32 bShadow);
+    EXPORT Text* ctor_46ADA0(const char_type* pMessage, s32 renderCount, s32 bShadow);
     EXPORT BaseGameObject* vdtor_46AED0(s32 flags);
     EXPORT void dtor_46AF00();
     EXPORT void SetYPos_46AFB0(s32 /*not_used*/, s16 ypos);
@@ -33,7 +33,7 @@ private:
     s16 field_5E_ypos;
     s16 field_60_bShadow;
     s32 field_64_render_count;
-    s8 field_68_txt_buffer[60];
+    char_type field_68_txt_buffer[60];
 };
 ALIVE_ASSERT_SIZEOF(Text, 0xA4);
 

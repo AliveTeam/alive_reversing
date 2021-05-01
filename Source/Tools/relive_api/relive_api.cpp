@@ -75,7 +75,7 @@ public:
     {
     }
 
-    const s8* BlyName() const
+    const char_type* BlyName() const
     {
         return mBlyRecAO ? mBlyRecAO->field_0_blyName : mBlyRecAE->field_0_blyName;
     }
@@ -103,7 +103,7 @@ public:
     {
     }
 
-    const s8* BndName() const
+    const char_type* BndName() const
     {
         return mRootAO ? mRootAO->field_38_bnd_name : mRootAE->field_38_bnd_name;
     }

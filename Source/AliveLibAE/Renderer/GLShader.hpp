@@ -19,17 +19,17 @@ class GLShader final
 public:
     GLShader();
 
-    bool LoadSource(const s8* vertex_Source, const s8* fragment_Source);
-    bool LoadFromFile(const s8* vertex_Path, const s8* fragment_Path);
+    bool LoadSource(const char_type* vertex_Source, const char_type* fragment_Source);
+    bool LoadFromFile(const char_type* vertex_Path, const char_type* fragment_Path);
 
     GLuint GetProgramID();
-    GLuint GetAttributeLocation(const s8* attr);
+    GLuint GetAttributeLocation(const char_type* attr);
 
-    void UniformMatrix4fv(const s8* name, glm::mat4 matrix);
-    void UniformVec2(const s8* name, glm::vec2 vector);
-    void UniformVec3(const s8* name, glm::vec3 vector);
-    void UniformVec4(const s8* name, glm::vec4 vector);
-    void Uniform1i(const s8* name, GLint v);
+    void UniformMatrix4fv(const char_type* name, glm::mat4 matrix);
+    void UniformVec2(const char_type* name, glm::vec2 vector);
+    void UniformVec3(const char_type* name, glm::vec3 vector);
+    void UniformVec4(const char_type* name, glm::vec4 vector);
+    void Uniform1i(const char_type* name, GLint v);
 
     void Use();
     void UnUse();
@@ -42,8 +42,8 @@ private:
     GLuint mProgramID = 0;
     GLenum mShaderType = 0;
 
-    GLuint CompileShader(const s8* source, GLenum shaderType);
+    GLuint CompileShader(const char_type* source, GLenum shaderType);
 };
 
-extern const s8* gShader_TextureVSH;
-extern const s8* gShader_TextureFSH;
+extern const char_type* gShader_TextureVSH;
+extern const char_type* gShader_TextureFSH;

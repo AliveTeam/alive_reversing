@@ -53,7 +53,7 @@ union DemoOrFmv
 };
 
 ALIVE_VAR(1, 0xbb4414, DemoOrFmv, pDemosOrFmvs_BB4414, {});
-ALIVE_VAR(1, 0x5c2f68, const s8, byte_5C2F68, 0);
+ALIVE_VAR(1, 0x5c2f68, const char_type, byte_5C2F68, 0);
 
 // HACK HACK FIX ME - all of these buttons are in one contiguous array in the real game
 // we need to replicate this as the game will access this array with the index of the PREVIOUS screen
@@ -1137,7 +1137,7 @@ void MainMenuController::ParamiteSpeak_Load_4D3B70()
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
 
-static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const s8* text, s16 x, s16 y, u8 r, u8 g, u8 b, s32& polyOffset)
+static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const char_type* text, s16 x, s16 y, u8 r, u8 g, u8 b, s32& polyOffset)
 {
     s32 polyOff = polyOffset;
     polyOff = field_120_font.DrawString_4337D0(
@@ -1181,7 +1181,7 @@ ALIVE_VAR(1, 0xBB43E4, FP, dword_BB43E4, {});
 
 static void RenderScrollableTextEntries(
     PrimHeader** ot, s32& targetEntry, s32& selectedEntry, s32 totalItemsCount,
-    FP& TextYPos, FP& TextYPos2, const s8* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, s32& polyOffset)
+    FP& TextYPos, FP& TextYPos2, const char_type* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, s32& polyOffset)
 {
     s32 i_start = 0;
     s32 i_end = 0;
@@ -2038,7 +2038,7 @@ void MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0()
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
 }
 
-void MainMenuController::remove_ISO9660_Suffix_4D1660(s8* out, s8* in)
+void MainMenuController::remove_ISO9660_Suffix_4D1660(char_type* out, const char_type* in)
 {
     while (*in)
     {
@@ -2048,23 +2048,23 @@ void MainMenuController::remove_ISO9660_Suffix_4D1660(s8* out, s8* in)
             break;
         }
 
-        *out = (s8) tolower(*in);
+        *out = static_cast<s8>(tolower(*in));
         in++;
         out++;
     }
 }
 
-s8 MainMenuController::checkIfDemoFileExists_4D1430(s8* input)
+s8 MainMenuController::checkIfDemoFileExists_4D1430(char_type* input)
 {
-    s8* inputMod = input;
+    char_type* inputMod = input;
     if (inputMod[0] == '\\')
     {
         inputMod++;
     }
-    s8 buffer[256] = {};
+    char_type buffer[256] = {};
     MainMenuController::remove_ISO9660_Suffix_4D1660(buffer, inputMod);
 
-    s8 fileName[256] = {};
+    char_type fileName[256] = {};
     strcpy(fileName, sCdEmu_Path1_C14620);
     strcat(fileName, buffer);
     if (access_impl(fileName, 0) == 0)
@@ -2125,7 +2125,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
             demoId = 0;
         }
         s32 levelId = static_cast<s32>(sDemos_5617F0[demoId].field_4_level);
-        s8 lvFilename[256] = {};
+        char_type lvFilename[256] = {};
         strcpy(lvFilename, "ATTRACT");
         memset(&lvFilename[8], 0, 0xF8u);
         strcpy(&lvFilename[7], sPathData_559660.paths[levelId].field_20_lvl_name_cd);
@@ -2205,7 +2205,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
             demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2;
         }
 
-        s8 file[32] = {};
+        char_type file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
         ResourceManager::LoadResourceFile_49C170(file, nullptr);
         u8** resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::ResourceType::Resource_NxtP, ResourceID::kUnknownResID_0, 1, 0);
@@ -2384,7 +2384,7 @@ EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
         }
 
         // Load selected save
-        s8 filename[40] = {};
+        char_type filename[40] = {};
         strcpy(filename, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
         strcat(filename, ".sav");
 
@@ -2558,7 +2558,7 @@ void MainMenuController::ControllerMenu_Load_4D16B0()
     sSelectedControllerEntry_BB43F4 = sJoystickEnabled_5C9F70;
 }
 
-const s8* sInputButtonNames_562790[8] = {
+const char_type* sInputButtonNames_562790[8] = {
     "Run",
     "Sneak",
     "Jump",
@@ -2606,7 +2606,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
             nextTextXPos = (368 - textWidth) / 2;
         }
         polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 88, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
-        s8 buffer[512] = {};
+        char_type buffer[512] = {};
         sprintf(buffer, "for %s", sInputButtonNames_562790[sButtonToRemapIdx_BB43EC]);
         field_234_pStr = buffer;
         textWidth = field_120_font.MeasureWidth_4336C0(buffer, FP_FromInteger(1));
@@ -3235,7 +3235,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
         case 2:
             if (sMainMenuPages_561960[field_214_page_index].field_A_transition_effect == 7)
             {
-                s8 buffer[256] = {};
+                char_type buffer[256] = {};
 
                 // Use path 2
                 strcpy(buffer, sCdEmu_Path2_C144C0);
@@ -3804,12 +3804,12 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
     const bool bSpeak1 = strstr(array->field_8_text, kSpeak1) != 0;
     const bool bSpeak2 = strstr(array->field_8_text, kSpeak2) != 0;
 
-    s8 textBuffer[32] = {};
+    char_type textBuffer[32] = {};
     String_FormatString_4969D0(array->field_8_text, textBuffer, ALIVE_COUNTOF(textBuffer), array->field_14 == 0);
 
     if (op2)
     {
-        s8* plusSignIx = strchr(textBuffer, '+');
+        char_type* plusSignIx = strchr(textBuffer, '+');
         if (plusSignIx)
         {
             strcpy(textBuffer, plusSignIx + 1);

@@ -17,13 +17,13 @@ class CameraSwapper;
 
 struct CameraName final
 {
-    s8 name[8];
+    char_type name[8];
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
 struct OverlayRecord final
 {
-    const s8* field_0_fileName;
+    const char_type* field_0_fileName;
     u32 field_4_pos;
 };
 ALIVE_ASSERT_SIZEOF(OverlayRecord, 0x8);

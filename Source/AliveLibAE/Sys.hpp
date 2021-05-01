@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Sys_common.hpp"
 
-void Sys_SetWindowText(TWindowHandleType windowHandle, const s8* title);
+void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title);
 POINT Sys_GetScreenMousePos();
 enum class MouseButtons
 {
