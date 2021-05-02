@@ -14,7 +14,7 @@ namespace AO {
 
 ALIVE_VAR_EXTERN(u8, sRandomSeed_50A228); //Math.cpp
 
-EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(u8** ppPlaybackData, s16 a3)
+EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(u8** ppPlaybackData, s16 bFromHandStone)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBF98);
@@ -22,7 +22,7 @@ EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(u8** ppPlaybackData, s16 a3)
     field_6_flags.Clear(Options::eDrawable_Bit4);
     field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
     field_4_typeId = Types::eDemoPlayback;
-    field_1C = a3;
+    field_1C_bFromHandStone = bFromHandStone;
     sDDCheat_FlyingEnabled_50771C = 0;
     if (gAttract_507698 == 0)
     {
