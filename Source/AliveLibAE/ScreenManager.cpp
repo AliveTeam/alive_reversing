@@ -432,7 +432,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
             pIter++;
 
             const PSX_RECT rect = {static_cast<s16>(i * kStripSize), 256 + 16, kStripSize, 240};
-            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, reinterpret_cast<const u8*>(pIter));
+            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<const u8*>(pIter));
             pIter += (stripSize / sizeof(u16));
         }
     }
