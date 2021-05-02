@@ -41,7 +41,7 @@ public:
     States field_10_state;
     u8** field_14_ppDemoRes;
     u8** field_18_ppRes;
-    s16 field_1C;
+    s16 field_1C_bFromHandStone;
     s16 field_1E;
     s32 field_20;
     s32 field_24;

@@ -209,7 +209,7 @@ struct MenuFMV;
 
 ALIVE_VAR(1, 0x9F2DE4, const MenuFMV*, sActiveList_9F2DE4, nullptr);
 
-const u8 byte_4D0090[32] = {
+const u8 sFontPal_4D0090[32] = {
     0u,
     0u,
     33u,
@@ -713,7 +713,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, s32 tlvInfo)
         sFontLoaded_507688 = 1;
     }
 
-    field_FC_font.ctor_41C170(240, byte_4D0090, &sFontContext_4FFD68);
+    field_FC_font.ctor_41C170(240, sFontPal_4D0090, &sFontContext_4FFD68);
     field_E4_res_array[0] = nullptr;
     field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, 1, 0);
     field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptionFlare, 1, 0);
@@ -2076,8 +2076,12 @@ void Menu::NewGameStart_47B9C0()
         auto pDemoPlayBackMem = ao_new<DemoPlayback>();
         if (pDemoPlayBackMem)
         {
+            // OG bug fix: the demo will load a save which will call Kill_Objects_451720 which will delete this object
+            // resulting in a crash when we try access any member vars at the end. Bump the ref count so we can kill ourselves instead.
+            field_C_refCount++;
             u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
             pDemoPlayBackMem->ctor_4517B0(ppRes, 0);
+            field_C_refCount--;
         }
     }
     else
