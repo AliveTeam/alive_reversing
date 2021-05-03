@@ -53,7 +53,7 @@ inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
 
 inline void create_minidump(PEXCEPTION_POINTERS /* apExceptionInfo */)
 {
-    s8 errMsg[1024] = {};
+    char_type errMsg[1024] = {};
     _snprintf(errMsg, _countof(errMsg), "R.E.L.I.V.E. has crashed, could not write dump file");
     Alive_Show_ErrorMsg(errMsg);
 }
