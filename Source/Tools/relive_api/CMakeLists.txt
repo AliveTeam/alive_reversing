@@ -8,12 +8,29 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(relive_api_src
-    AEJsonUpgrader.cpp
-    AEJsonUpgrader.hpp
-    AETlvs.hpp
-    AOJsonUpgrader.cpp
-    AOJsonUpgrader.hpp
-    AOTlvs.hpp
+    JsonReadUtils.hpp
+    JsonModelTypes.hpp
+    JsonModelTypes.cpp
+    JsonMapRootInfoReader.hpp
+    JsonMapRootInfoReader.cpp
+    JsonReaderBase.hpp
+    JsonReaderBase.cpp
+    JsonReaderAE.hpp
+    JsonReaderAE.cpp
+    JsonReaderAO.hpp
+    JsonReaderAO.cpp
+    JsonWriterBase.hpp
+    JsonWriterBase.cpp
+    JsonWriterAE.hpp
+    JsonWriterAE.cpp
+    JsonWriterAO.hpp
+    JsonWriterAO.cpp
+    JsonUpgraderAE.cpp
+    JsonUpgraderAE.hpp
+    TlvsAE.hpp
+    JsonUpgraderAO.cpp
+    JsonUpgraderAO.hpp
+    TlvsAO.hpp
     BaseProperty.cpp
     BaseProperty.hpp
     BasicType.hpp
@@ -25,7 +42,6 @@ set(relive_api_src
     ITypeBase.cpp
     ITypeBase.hpp
     JsonDocument.cpp
-    JsonDocument.hpp
     JsonUpgrader.cpp
     JsonUpgrader.hpp
     JsonUpgraderMacros.hpp
@@ -35,6 +51,7 @@ set(relive_api_src
     relive_api_test.cpp
     relive_api.cpp
     relive_api.hpp
+    relive_api_exceptions.hpp
     TlvFactory.cpp
     TlvFactory.hpp
     TlvObjectBase.cpp

@@ -2,7 +2,7 @@
 #include "JsonUpgrader.hpp"
 #include "relive_api.hpp"
 
-void BaseJsonUpgrader::Upgrade(const std::string& /*jsonFile*/, s32 currentJsonVersion, s32 targetApiVersion)
+void JsonUpgraderBase::Upgrade(const std::string& /*jsonFile*/, s32 currentJsonVersion, s32 targetApiVersion)
 {
     UpgradeTargetIsValid(currentJsonVersion, targetApiVersion);
 
@@ -14,7 +14,7 @@ void BaseJsonUpgrader::Upgrade(const std::string& /*jsonFile*/, s32 currentJsonV
     }
 }
 
-void BaseJsonUpgrader::UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetApiVersion)
+void JsonUpgraderBase::UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetApiVersion)
 {
     if (currentJsonVersion > targetApiVersion)
     {

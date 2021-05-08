@@ -5,11 +5,15 @@
 #include "../AliveLibAO/Collisions.hpp"
 #include "../AliveLibAE/Collisions.hpp"
 #include "LvlReaderWriter.hpp"
-#include "AOJsonUpgrader.hpp"
-#include "AEJsonUpgrader.hpp"
-
+#include "JsonUpgraderAO.hpp"
+#include "JsonUpgraderAE.hpp"
+#include "JsonModelTypes.hpp"
+#include "JsonReaderAE.hpp"
+#include "JsonReaderAO.hpp"
+#include "JsonWriterAE.hpp"
+#include "JsonWriterAO.hpp"
+#include "JsonMapRootInfoReader.hpp"
 #include <iostream>
-#include "JsonDocument.hpp"
 #include "TypesCollectionBase.hpp"
 #include <gmock/gmock.h>
 #include <type_traits>
@@ -307,12 +311,12 @@ void UpgradePathJson(const std::string& jsonFile)
 
     if (rootInfo.mMapRootInfo.mGame == "AO")
     {
-        AOJsonUpgrader upgrader;
+        JsonUpgraderAO upgrader;
         upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
     }
     else
     {
-        AEJsonUpgrader upgrader;
+        JsonUpgraderAE upgrader;
         upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
     }
 }

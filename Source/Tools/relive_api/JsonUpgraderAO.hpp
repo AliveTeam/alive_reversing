@@ -2,7 +2,7 @@
 
 #include "JsonUpgrader.hpp"
 
-class AOJsonUpgrader : public BaseJsonUpgrader
+class JsonUpgraderAO : public JsonUpgraderBase
 {
 public:
     virtual void AddUpgraders() override;
