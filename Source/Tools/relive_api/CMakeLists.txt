@@ -41,7 +41,6 @@ set(relive_api_src
     EnumTypeBase.hpp
     ITypeBase.cpp
     ITypeBase.hpp
-    JsonDocument.cpp
     JsonUpgrader.cpp
     JsonUpgrader.hpp
     JsonUpgraderMacros.hpp
