@@ -7,9 +7,13 @@
 #include "LvlReaderWriter.hpp"
 #include "JsonUpgraderAO.hpp"
 #include "JsonUpgraderAE.hpp"
-
+#include "JsonModelTypes.hpp"
+#include "JsonReaderAE.hpp"
+#include "JsonReaderAO.hpp"
+#include "JsonWriterAE.hpp"
+#include "JsonWriterAO.hpp"
+#include "JsonMapRootInfoReader.hpp"
 #include <iostream>
-#include "JsonDocument.hpp"
 #include "TypesCollectionBase.hpp"
 #include <gmock/gmock.h>
 #include <type_traits>
