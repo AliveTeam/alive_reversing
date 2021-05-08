@@ -23,10 +23,10 @@ public:
 
 using TUpgradeFactoryFn = AddPointer_t<std::unique_ptr<IJsonUpgrader>()>;
 
-class BaseJsonUpgrader
+class JsonUpgraderBase
 {
 public:
-    virtual ~BaseJsonUpgrader()
+    virtual ~JsonUpgraderBase()
     { }
     virtual void AddUpgraders() = 0;
 

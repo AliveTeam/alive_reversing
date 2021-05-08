@@ -8,12 +8,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(relive_api_src
-    AEJsonUpgrader.cpp
-    AEJsonUpgrader.hpp
-    AETlvs.hpp
-    AOJsonUpgrader.cpp
-    AOJsonUpgrader.hpp
-    AOTlvs.hpp
+    JsonUpgraderAE.cpp
+    JsonUpgraderAE.hpp
+    TlvsAE.hpp
+    JsonUpgraderAO.cpp
+    JsonUpgraderAO.hpp
+    TlvsAO.hpp
     BaseProperty.cpp
     BaseProperty.hpp
     BasicType.hpp
