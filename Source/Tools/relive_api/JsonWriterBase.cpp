@@ -119,3 +119,26 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, c
         throw ReliveAPI::IOWriteException(fileName.c_str());
     }
 }
+
+template <typename T>
+static void DebugDumpTlv(const std::string& prefix, s32 idx, const T& tlv)
+{
+    const std::string fileName = prefix + "_" + std::to_string(static_cast<s32>(tlv.field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
+    FILE* hFile = ::fopen(fileName.c_str(), "wb");
+    if (!hFile)
+    {
+        throw ReliveAPI::IOWriteException(fileName.c_str());
+    }
+    ::fwrite(&tlv, tlv.field_2_length, 1, hFile);
+    ::fclose(hFile);
+}
+
+void JsonWriterBase::DebugDumpTlv(const std::string& prefix, s32 idx, const Path_TLV& tlv)
+{
+    ::DebugDumpTlv(prefix, idx, tlv);
+}
+
+void JsonWriterBase::DebugDumpTlv(const std::string& prefix, s32 idx, const AO::Path_TLV& tlv)
+{
+    ::DebugDumpTlv(prefix, idx, tlv);
+}

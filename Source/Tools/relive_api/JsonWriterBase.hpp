@@ -2,6 +2,12 @@
 
 #include "JsonModelTypes.hpp"
 
+struct Path_TLV;
+
+namespace AO {
+    struct Path_TLV;
+}
+
 class JsonWriterBase
 {
 public:
@@ -15,18 +21,8 @@ public:
     virtual jsonxx::Array AddCollisionLineStructureJson() = 0;
 
 protected:
-    template <typename T>
-    static void DebugDumpTlv(const std::string& prefix, s32 idx, const T& tlv)
-    {
-        const std::string fileName = prefix + "_" + std::to_string(static_cast<s32>(tlv.field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
-        FILE* hFile = ::fopen(fileName.c_str(), "wb");
-        if (!hFile)
-        {
-            throw ReliveAPI::IOWriteException(fileName.c_str());
-        }
-        ::fwrite(&tlv, tlv.field_2_length, 1, hFile);
-        ::fclose(hFile);
-    }
+    static void DebugDumpTlv(const std::string& prefix, s32 idx, const Path_TLV& tlv);
+    static void DebugDumpTlv(const std::string& prefix, s32 idx, const AO::Path_TLV& tlv);
 
     virtual jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) = 0;
     virtual void ResetTypeCounterMap() = 0;
