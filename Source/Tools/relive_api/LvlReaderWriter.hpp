@@ -177,12 +177,14 @@ public:
     explicit LvlReader(const char_type* lvlFile)
     {
         mFileHandle = ::fopen(lvlFile, "rb");
-        if (mFileHandle)
+        if (!mFileHandle)
         {
-            if (!ReadTOC())
-            {
-                Close();
-            }
+            throw ReliveAPI::IOReadException(lvlFile);
+        }
+
+        if (!ReadTOC())
+        {
+            Close();
         }
     }
 

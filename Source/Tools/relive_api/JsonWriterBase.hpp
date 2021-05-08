@@ -31,3 +31,16 @@ protected:
     MapInfo mMapInfo;
     TypesCollectionBase& mBaseTypesCollection;
 };
+
+class PathCamerasEnumerator final
+{
+public:
+    PathCamerasEnumerator(const PathInfo& pathInfo, const std::vector<u8>& pathResource);
+
+    using TFnOnCamera = std::function<void(CameraObject& cam)>;
+    void Enumerate(TFnOnCamera onCamera);
+
+private:
+    const PathInfo& mPathInfo;
+    const std::vector<u8>& mPathResource;
+};
