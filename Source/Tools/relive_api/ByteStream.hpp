@@ -5,6 +5,7 @@
 #include <string>
 #include <type_traits>
 #include <vector>
+#include "relive_api_exceptions.hpp"
 
 class ByteStream final
 {

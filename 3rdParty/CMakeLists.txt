@@ -112,3 +112,16 @@ target_include_directories(glm SYSTEM INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/glm>
     )
 export(TARGETS glm FILE glm.cmake)
+
+# lodepng lib
+add_library(lodepng
+    lodepng/lodepng.cpp
+    lodepng/lodepng.h
+    )
+
+target_include_directories(lodepng SYSTEM PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lodepng>
+    $<INSTALL_INTERFACE:lodepng>)
+
+set_property(TARGET lodepng PROPERTY FOLDER "3rdParty")
+export(TARGETS lodepng FILE lodepng.cmake)

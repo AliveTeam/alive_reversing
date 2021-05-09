@@ -5,6 +5,7 @@
 #include "../AliveLibAE/LvlArchive.hpp"
 
 #include "../AliveLibCommon/FunctionFwd.hpp"
+#include "relive_api_exceptions.hpp"
 
 #include <cstddef>
 #include <cstring>
@@ -83,6 +84,18 @@ public:
             if (chunk.Id() == id)
             {
                 return {chunk};
+            }
+        }
+        return {};
+    }
+
+    [[nodiscard]] std::optional<LvlFileChunk> ChunkByType(u32 type) const
+    {
+        for (auto& chunk : mChunks)
+        {
+            if (chunk.Header().field_8_type == type)
+            {
+                return { chunk };
             }
         }
         return {};

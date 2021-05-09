@@ -60,12 +60,7 @@ void ScreenManager::MoveImage_406C40()
 
 void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
 {
-    PSX_RECT rect = {};
-    rect.x = 0;
-    rect.y = 0;
-    rect.w = 16;
-    rect.h = 240;
-
+    PSX_RECT rect = { 0, 0, 16, 240 };
     u8** pRes = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
     if (pRes)
     {
@@ -83,6 +78,7 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
 
             rect.x = field_20_upos + xpos;
             rect.y = field_22_vpos;
+
             // TODO: Actually 16bit but must be uploaded as 8bit ??
             IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<u8*>(pIter));
 
@@ -92,10 +88,10 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
 
         ResourceManager::FreeResource_455550(pRes);
 
-        memset(&field_58_20x16_dirty_bits[0], 0, sizeof(field_58_20x16_dirty_bits[0]));
-        memset(&field_58_20x16_dirty_bits[1], 0, sizeof(field_58_20x16_dirty_bits[1]));
-        memset(&field_58_20x16_dirty_bits[2], 0, sizeof(field_58_20x16_dirty_bits[2]));
-        memset(&field_58_20x16_dirty_bits[3], 0, sizeof(field_58_20x16_dirty_bits[3]));
+        field_58_20x16_dirty_bits[0] = {};
+        field_58_20x16_dirty_bits[1] = {};
+        field_58_20x16_dirty_bits[2] = {};
+        field_58_20x16_dirty_bits[3] = {};
     }
 }
 

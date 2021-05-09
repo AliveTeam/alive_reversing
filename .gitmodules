@@ -22,3 +22,6 @@
 [submodule "3rdParty/stb"]
 	path = 3rdParty/stb
 	url = https://github.com/nothings/stb.git
+[submodule "3rdParty/lodepng"]
+	path = 3rdParty/lodepng
+	url = https://github.com/lvandeve/lodepng.git

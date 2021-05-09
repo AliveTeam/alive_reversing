@@ -13,6 +13,7 @@
 #include "JsonWriterAE.hpp"
 #include "JsonWriterAO.hpp"
 #include "JsonMapRootInfoReader.hpp"
+#include "CamConverter.hpp"
 #include <iostream>
 #include "TypesCollectionBase.hpp"
 #include <gmock/gmock.h>
@@ -280,6 +281,35 @@ void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, const std::string& 
 
     LvlReader lvl(inputLvlFile.c_str());
     ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, fileDataBuffer, game, &pathResourceId);
+
+    std::vector<std::vector<u8>> base64EncodedCamPngs;
+    base64EncodedCamPngs.reserve(pathBnd.mPathInfo.mWidth * pathBnd.mPathInfo.mHeight);
+
+    PathCamerasEnumerator camEnumerator(pathBnd.mPathInfo, pathBnd.mFileData);
+    camEnumerator.Enumerate([&](const CameraObject& cam)
+        {
+            if (!cam.mName.empty())
+            {
+                const std::string cameraName = cam.mName + ".CAM";
+                if (!lvl.ReadFileInto(fileDataBuffer, cameraName.c_str()))
+                {
+                    throw ReliveAPI::IOReadException(cameraName);
+                }
+
+                ChunkedLvlFile camFile(fileDataBuffer);
+
+                if (game == Game::AO)
+                {
+                    CamConverterAO converter(camFile);
+                    base64EncodedCamPngs.emplace_back(converter.ToBase64Png());
+                }
+                else
+                {
+                    CamConverterAE converter(camFile);
+                    base64EncodedCamPngs.emplace_back(converter.ToBase64Png());
+                }
+            }
+        });
 
     if (game == Game::AO)
     {
