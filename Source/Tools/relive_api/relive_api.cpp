@@ -208,7 +208,7 @@ enum class OpenPathBndResult
         }
 
         // Add all path ids
-        for (s32 j = 1; j < pathRoot.PathCount(); ++j)
+        for (s32 j = 1; j <= pathRoot.PathCount(); ++j)
         {
             // Only add paths that are not blank entries
             const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(j);
@@ -282,9 +282,6 @@ void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, const std::string& 
     LvlReader lvl(inputLvlFile.c_str());
     ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, fileDataBuffer, game, &pathResourceId);
 
-    std::vector<std::vector<u8>> base64EncodedCamPngs;
-    base64EncodedCamPngs.reserve(pathBnd.mPathInfo.mWidth * pathBnd.mPathInfo.mHeight);
-
     PathCamerasEnumerator camEnumerator(pathBnd.mPathInfo, pathBnd.mFileData);
     camEnumerator.Enumerate([&](const CameraObject& cam)
         {
@@ -297,13 +294,11 @@ void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, const std::string& 
 
                     if (game == Game::AO)
                     {
-                        CamConverterAO converter(camFile);
-                        base64EncodedCamPngs.emplace_back(converter.ToBase64Png());
+                        CamConverterAO converter(cam.mName, camFile);
                     }
                     else
                     {
-                        CamConverterAE converter(camFile);
-                        base64EncodedCamPngs.emplace_back(converter.ToBase64Png());
+                        CamConverterAE converter(cam.mName, camFile);
                     }
                 }
                 else

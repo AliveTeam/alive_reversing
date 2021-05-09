@@ -10,6 +10,18 @@
 
 namespace AO {
 
+    
+struct Path_ResetPath final : public Path_TLV
+{
+    s16 field_18_clearIds;
+    s16 field_1A_from;
+    s16 field_1C_to;
+    s16 field_1E_exclude;
+    s16 field_20_clearObjects;
+    s16 field_22_path;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);
+
 #define AO_ABE_STATES_ENUM(ENTRY)                   \
     ENTRY(State_0_Idle_423520)                      \
     ENTRY(State_1_WalkLoop_423F90)                  \

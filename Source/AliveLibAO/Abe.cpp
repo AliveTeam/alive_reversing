@@ -9699,17 +9699,6 @@ void Abe::State_155_ElumJumpToFall_42E060()
     // Empty
 }
 
-struct Path_Reset final : public Path_TLV
-{
-    s16 field_18_clearIds;
-    s16 field_1A_from;
-    s16 field_1C_to;
-    s16 field_1E_exclude;
-    s16 field_20_clearObjects;
-    s16 field_22_path;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Reset, 0x24);
-
 void Abe::State_156_DoorEnter_42D370()
 {
     switch (field_110_state.door)
@@ -9748,7 +9737,7 @@ void Abe::State_156_DoorEnter_42D370()
             if (field_118_timer <= static_cast<s32>(gnFrameCount_507670))
             {
                 field_110_state.door = AbeDoorStates::eSetNewActiveCamera_4;
-                auto pTlv = static_cast<Path_Reset*>(gMap_507BA8.TLV_Get_At_446260(
+                auto pTlv = static_cast<Path_ResetPath*>(gMap_507BA8.TLV_Get_At_446260(
                     FP_GetExponent(field_A8_xpos),
                     FP_GetExponent(field_AC_ypos),
                     FP_GetExponent(field_A8_xpos),

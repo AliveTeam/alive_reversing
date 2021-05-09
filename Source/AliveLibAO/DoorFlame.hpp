@@ -15,6 +15,7 @@ struct Path_DoorFlame final : public Path_TLV
     u16 field_1A_scale;
     enum class Colour : s16
     {
+        unknown_0 = 0,
         red_1 = 1,
         green_2 = 2,
         blue_3 = 3

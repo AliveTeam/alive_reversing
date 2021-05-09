@@ -57,6 +57,11 @@
 #include "../AliveLibAO/FootSwitch.hpp"
 #include "../AliveLibAO/Paramite.hpp"
 #include "../AliveLibAO/Map.hpp"
+#include "../AliveLibAO/GasCountDown.hpp"
+#include "../AliveLibAO/GasEmitter.hpp"
+#include "../AliveLibAO/BackgroundGlukkon.hpp"
+#include "../AliveLibAO/CreditsController.hpp"
+#include "../AliveLibAO/DoorFlame.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvEnumType)\
     className() : TlvObjectBaseAO(sizeof(AO::className), tlvEnumType, objectTypeName, &mTlv)\
@@ -207,6 +212,16 @@ struct Path_InvisibleZone final : public Path_TLV
     // No fields
 };
 
+struct Path_KillUnsavedMuds final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_MenuController final : public Path_TLV
+{
+    // No fields
+};
+
 struct Path_DeathDrop final : public Path_TLV
 {
     s16 animation;
@@ -243,7 +258,92 @@ struct Path_MovieStone final : public Path_TLV
 } // namespace AO
 
 namespace AOTlvs {
-    
+
+struct Path_MenuController final : public TlvObjectBaseAO
+{
+    CTOR_AO(Path_MenuController, "MenuController", AO::TlvTypes::MenuController_90)
+    {
+        EMPTY_CTOR_AO();
+    }
+};
+
+struct Path_KillUnsavedMuds final : public TlvObjectBaseAO
+{
+    CTOR_AO(Path_KillUnsavedMuds, "KillUnsavedMuds", AO::TlvTypes::KillUnsavedMuds_113)
+    {
+        EMPTY_CTOR_AO();
+    }
+};
+
+struct Path_DoorFlame final : public TlvObjectBaseAO
+{
+    void AddTypes(TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::Path_DoorFlame::Colour>("Enum_DoorFlame_Colour",
+            {
+                {AO::Path_DoorFlame::Colour::unknown_0, "unknown"},
+                {AO::Path_DoorFlame::Colour::red_1, "red"},
+                {AO::Path_DoorFlame::Colour::green_2, "green"},
+                {AO::Path_DoorFlame::Colour::blue_3, "blue"}
+            });
+    }
+
+    CTOR_AO(Path_DoorFlame, "DoorFlame", AO::TlvTypes::DoorFlame_84)
+    {
+        ADD("id", mTlv.field_18_id);
+        ADD("scale", mTlv.field_1A_scale);
+        ADD("colour", mTlv.field_1C_colour);
+    }
+};
+
+struct Path_ResetPath final : public TlvObjectBaseAO
+{
+    CTOR_AO(Path_ResetPath, "ResetPath", AO::TlvTypes::ResetPath_115)
+    {
+        ADD("clear_ids", mTlv.field_18_clearIds);
+        ADD("from", mTlv.field_1A_from);
+        ADD("to", mTlv.field_1C_to);
+        ADD("exclude", mTlv.field_1E_exclude);
+        ADD("clear_objects", mTlv.field_20_clearObjects);
+        ADD("path", mTlv.field_22_path);
+    }
+};
+
+struct Path_CreditsController final : public TlvObjectBaseAO
+{
+    CTOR_AO(Path_CreditsController, "CreditsController", AO::TlvTypes::CreditsController_101)
+    {
+        EMPTY_CTOR_AO();
+    }
+};
+
+struct Path_BackgroundGlukkon final : public TlvObjectBaseAO
+{
+    CTOR_AO(Path_BackgroundGlukkon, "BackgroundGlukkon", AO::TlvTypes::BackgroundGlukkon_112)
+    {
+        ADD("scale_percent", mTlv.field_18_scale_percent);
+        ADD("pal_id", mTlv.field_1A_pal_id);
+        ADD("target_id", mTlv.field_1C_target_id);
+        ADD("voice_adjust", mTlv.field_1E_voice_adjust);
+    }
+};
+
+struct Path_GasEmitter final : public TlvObjectBaseAO
+{
+    CTOR_AO(Path_GasEmitter, "GasEmitter", AO::TlvTypes::GasEmitter_110)
+    {
+        EMPTY_CTOR_AO();
+    }
+};
+
+struct Path_GasCountDown final : public TlvObjectBaseAO
+{
+    CTOR_AO(Path_GasCountDown, "GasCountDown", AO::TlvTypes::GasCountDown_108)
+    {
+        ADD("start_id", mTlv.field_18_start_id);
+    }
+};
+
 struct Path_MovieStone final : public TlvObjectBaseAO
 {
     CTOR_AO(Path_MovieStone, "MovieStone", AO::TlvTypes::MovieStone_51)

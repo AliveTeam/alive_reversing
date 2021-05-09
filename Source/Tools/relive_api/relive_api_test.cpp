@@ -28,6 +28,7 @@ constexpr std::string_view kAODir = "C:\\GOG Games\\Abes Oddysee\\"sv;
 constexpr std::string_view kAETestLvl = "pv.lvl"sv;
 
 constexpr std::array kAELvls{
+    
     "ba.lvl"sv,
     "bm.lvl"sv,
     "br.lvl"sv,
@@ -141,7 +142,7 @@ TEST(alive_api, EnumeratePathsAO)
 {
     auto ret = ReliveAPI::EnumeratePaths(getStaticFileBuffer(), AOPath("R1.LVL"));
     ASSERT_EQ(ret.pathBndName, "R1PATH.BND");
-    const std::vector<s32> paths{15, 16, 18, 19};
+    const std::vector<s32> paths{15, 16, 18, 19, 20};
     ASSERT_EQ(ret.paths, paths);
 }
 

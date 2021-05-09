@@ -48,7 +48,7 @@ BaseGameObject* BackgroundGlukkon::dtor_41DCE0()
     return dtor_401000();
 }
 
-BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_Glukkon* pTlv, s32 tlvInfo)
+BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 {
     ctor_401090();
     SetVTable(this, 0x4BAF70);

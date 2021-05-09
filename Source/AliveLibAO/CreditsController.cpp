@@ -21,7 +21,7 @@ BaseGameObject* CreditsController::VDestructor(s32 flags)
     return Vdtor_40D090(flags);
 }
 
-CreditsController* CreditsController::ctor_40CFC0(Path_TLV* /*pTlv*/, s32 /*tlvInfo*/)
+CreditsController* CreditsController::ctor_40CFC0(Path_CreditsController* /*pTlv*/, s32 /*tlvInfo*/)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA458);
