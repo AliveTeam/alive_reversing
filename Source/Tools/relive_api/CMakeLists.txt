@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(relive_api_src
+    CamConverter.hpp
+    CamConverter.cpp
     JsonReadUtils.hpp
     JsonModelTypes.hpp
     JsonModelTypes.cpp
@@ -41,7 +43,6 @@ set(relive_api_src
     EnumTypeBase.hpp
     ITypeBase.cpp
     ITypeBase.hpp
-    JsonDocument.cpp
     JsonUpgrader.cpp
     JsonUpgrader.hpp
     JsonUpgraderMacros.hpp
@@ -71,7 +72,7 @@ set(relive_api_src
     TypesCollectionBase.hpp
 )
 add_library(relive_api ${relive_api_src})
-target_link_libraries(relive_api jsonxx AliveLibAE AliveLibAO project_warnings)
+target_link_libraries(relive_api jsonxx AliveLibAE AliveLibAO lodepng project_warnings)
 export(TARGETS relive_api FILE relive_api.cmake)
 
 

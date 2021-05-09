@@ -60,24 +60,13 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, c
 
 
     jsonxx::Array cameraArray;
-    for (s32 y = 0; y < info.mHeight; y++)
-    {
-        for (s32 x = 0; x < info.mWidth; x++)
+    PathCamerasEnumerator cameraEnumerator(info, pathResource);
+    cameraEnumerator.Enumerate([&](const CameraObject& tmpCamera) 
         {
-            auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[To1dIndex(info.mWidth, x, y) * sizeof(AO::CameraName)]);
-            CameraObject tmpCamera;
-            tmpCamera.mX = x;
-            tmpCamera.mY = y;
-            if (pCamName->name[0])
+            const s32 indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, tmpCamera.mX, tmpCamera.mY)];
+            if (indexTableEntryOffset == -1)
             {
-                tmpCamera.mName = std::string(pCamName->name, 8);
-                tmpCamera.mId = 1 * (pCamName->name[7] - '0') + 10 * (pCamName->name[6] - '0') + 100 * (pCamName->name[4] - '0') + 1000 * (pCamName->name[3] - '0');
-            }
-
-            const s32 indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, x, y)];
-            if (indexTableEntryOffset == -1 || indexTableEntryOffset >= 0x100000)
-            {
-                if (pCamName->name[0])
+                if (!tmpCamera.mName.empty())
                 {
                     // LOG_INFO("Add camera with no objects " << tmpCamera.mName);
                     cameraArray << tmpCamera.ToJsonObject({});
@@ -93,8 +82,8 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, c
                 // LOG_INFO("Add camera " << tmpCamera.mName);
                 cameraArray << tmpCamera.ToJsonObject(mapObjects);
             }
-        }
-    }
+        });
+
 
     rootMapObject << "cameras" << cameraArray;
 
@@ -141,4 +130,34 @@ void JsonWriterBase::DebugDumpTlv(const std::string& prefix, s32 idx, const Path
 void JsonWriterBase::DebugDumpTlv(const std::string& prefix, s32 idx, const AO::Path_TLV& tlv)
 {
     ::DebugDumpTlv(prefix, idx, tlv);
+}
+
+PathCamerasEnumerator::PathCamerasEnumerator(const PathInfo& pathInfo, const std::vector<u8>& pathResource)
+   : mPathInfo(pathInfo), mPathResource(pathResource)
+{
+
+}
+
+void PathCamerasEnumerator::Enumerate(TFnOnCamera onCamera)
+{
+    const u8* pPathData = mPathResource.data();
+    jsonxx::Array cameraArray;
+    for (s32 y = 0; y < mPathInfo.mHeight; y++)
+    {
+        for (s32 x = 0; x < mPathInfo.mWidth; x++)
+        {
+            // AO::CameraName is the same as AE structure
+            auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[To1dIndex(mPathInfo.mWidth, x, y) * sizeof(AO::CameraName)]);
+            CameraObject tmpCamera;
+            tmpCamera.mX = x;
+            tmpCamera.mY = y;
+            if (pCamName->name[0])
+            {
+                tmpCamera.mName = std::string(pCamName->name, 8);
+                tmpCamera.mId = 1 * (pCamName->name[7] - '0') + 10 * (pCamName->name[6] - '0') + 100 * (pCamName->name[4] - '0') + 1000 * (pCamName->name[3] - '0');
+            }
+
+            onCamera(tmpCamera);
+        }
+    }
 }

@@ -32,5 +32,4 @@ API_EXPORT void ImportPathJsonToBinary(const std::string& jsonInputFile, const s
 API_EXPORT [[nodiscard]] EnumeratePathsResult EnumeratePaths(std::vector<u8>& fileDataBuffer, const std::string& inputLvlFile);
 API_EXPORT [[nodiscard]] EnumeratePathsResult EnumeratePaths(const std::string& inputLvlFile);
 
-// TODO: Camera in/exporting
 } // namespace ReliveAPI

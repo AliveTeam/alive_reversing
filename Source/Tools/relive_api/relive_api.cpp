@@ -13,6 +13,7 @@
 #include "JsonWriterAE.hpp"
 #include "JsonWriterAO.hpp"
 #include "JsonMapRootInfoReader.hpp"
+#include "CamConverter.hpp"
 #include <iostream>
 #include "TypesCollectionBase.hpp"
 #include <gmock/gmock.h>
@@ -223,26 +224,19 @@ enum class OpenPathBndResult
     return OpenPathBndResult::NoPaths;
 }
 
-[[nodiscard]] static PathBND OpenPathBnd(std::vector<u8>& fileDataBuffer, const std::string& inputLvlFile, Game& game, s32* pathId)
+[[nodiscard]] static PathBND OpenPathBnd(LvlReader& lvlReader, std::vector<u8>& fileDataBuffer, Game& game, s32* pathId)
 {
     PathBND ret = {};
 
-    // Open the LVL
-    LvlReader lvl(inputLvlFile.c_str());
-    if (!lvl.IsOpen())
-    {
-        throw ReliveAPI::IOReadException(inputLvlFile.c_str());
-    }
-
     // Find AE Path BND
-    if (OpenPathBndGeneric(fileDataBuffer, ret, lvl, Game::AE, pathId) == OpenPathBndResult::OK)
+    if (OpenPathBndGeneric(fileDataBuffer, ret, lvlReader, Game::AE, pathId) == OpenPathBndResult::OK)
     {
         game = Game::AE;
         return ret;
     }
 
     // Failed, look for AO Path BND
-    if (OpenPathBndGeneric(fileDataBuffer, ret, lvl, Game::AO, pathId) == OpenPathBndResult::OK)
+    if (OpenPathBndGeneric(fileDataBuffer, ret, lvlReader, Game::AO, pathId) == OpenPathBndResult::OK)
     {
         game = Game::AO;
         return ret;
@@ -256,8 +250,9 @@ void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, s32 pa
 {
     Game game = {};
 
+    LvlReader lvl(lvlFile.c_str());
     std::vector<u8> buffer;
-    ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(buffer, lvlFile, game, &pathId);
+    ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, buffer, game, &pathId);
 
     if (game == Game::AO)
     {
@@ -284,7 +279,39 @@ void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, const std::string& 
 {
     Game game = {};
 
-    ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(fileDataBuffer, inputLvlFile, game, &pathResourceId);
+    LvlReader lvl(inputLvlFile.c_str());
+    ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, fileDataBuffer, game, &pathResourceId);
+
+    std::vector<std::vector<u8>> base64EncodedCamPngs;
+    base64EncodedCamPngs.reserve(pathBnd.mPathInfo.mWidth * pathBnd.mPathInfo.mHeight);
+
+    PathCamerasEnumerator camEnumerator(pathBnd.mPathInfo, pathBnd.mFileData);
+    camEnumerator.Enumerate([&](const CameraObject& cam)
+        {
+            if (!cam.mName.empty())
+            {
+                const std::string cameraName = cam.mName + ".CAM";
+                if (lvl.ReadFileInto(fileDataBuffer, cameraName.c_str()))
+                {
+                    ChunkedLvlFile camFile(fileDataBuffer);
+
+                    if (game == Game::AO)
+                    {
+                        CamConverterAO converter(camFile);
+                        base64EncodedCamPngs.emplace_back(converter.ToBase64Png());
+                    }
+                    else
+                    {
+                        CamConverterAE converter(camFile);
+                        base64EncodedCamPngs.emplace_back(converter.ToBase64Png());
+                    }
+                }
+                else
+                {
+                    LOG_WARNING("Camera " << cam.mName << " not found in the LVL");
+                }
+            }
+        });
 
     if (game == Game::AO)
     {
@@ -588,7 +615,9 @@ void ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string&
 {
     EnumeratePathsResult ret = {};
     Game game = {};
-    PathBND pathBnd = OpenPathBnd(fileDataBuffer, inputLvlFile, game, nullptr);
+
+    LvlReader lvl(inputLvlFile.c_str());
+    PathBND pathBnd = OpenPathBnd(lvl, fileDataBuffer, game, nullptr);
     ret.paths = pathBnd.mPaths;
     ret.pathBndName = pathBnd.mPathBndName;
     return ret;
