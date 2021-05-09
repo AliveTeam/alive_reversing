@@ -57,13 +57,13 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = Layer::eLayer_12;
+        field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_Half_12;
     }
     else
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = Layer::eLayer_31;
+        field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_31;
     }
 
     field_124_fall_delay = pTlv->field_14_fall_delay;
@@ -118,7 +118,7 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_C_render_layer = Layer::eLayer_31;
+    field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_31;
 
     if (id)
     {

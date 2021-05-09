@@ -343,12 +343,12 @@ void Map::Handle_PathTransition_481610()
         {
             case Scale_short::eFull_0:
                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
-                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_32;
+                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_32;
                 break;
 
             case Scale_short::eHalf_1:
                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
-                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_13;
+                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_Half_13;
                 break;
 
             default:

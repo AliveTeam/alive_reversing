@@ -60,11 +60,11 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* 
         const s32 translatedLayer = static_cast<s32>(pPathParams->field_1A_layer) - 1;
         if (!translatedLayer)
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_20;
+            field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_Half_20;
         }
         if (translatedLayer == 1)
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_39;
+            field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_39;
         }
     }
     else

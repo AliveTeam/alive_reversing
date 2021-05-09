@@ -210,13 +210,13 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
     if (field_118_data.field_10_data.field_0_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = Layer::eLayer_14;
+        field_20_animation.field_C_render_layer = Layer::eLayer_SligGreeterFarts_Half_14;
         field_D6_scale = 0;
     }
     else
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_33;
+        field_20_animation.field_C_render_layer = Layer::eLayer_SligGreeterFarts_33;
         field_D6_scale = 1;
     }
 

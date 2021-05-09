@@ -46,11 +46,11 @@ BaseBomb* BaseBomb::ctor_423E70(FP x, FP y, s32 /*unused*/, FP scale)
 
     if (scale == FP_FromDouble(1.0))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_36;
+        field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_17;
+        field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
     }
 
     field_DC_bApplyShadows &= ~1;
@@ -143,7 +143,7 @@ void BaseBomb::vUpdate_424180()
             Flash* pFlash = ae_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
+                pFlash->ctor_428570(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
             }
 
             rect.x = FP_GetExponent(FP_FromInteger(-113) * field_f4_scale);
@@ -159,7 +159,7 @@ void BaseBomb::vUpdate_424180()
             Flash* pFlash = ae_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
+                pFlash->ctor_428570(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
             }
             break;
         }
@@ -181,7 +181,7 @@ void BaseBomb::vUpdate_424180()
             Flash* pFlash = ae_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_428570(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
+                pFlash->ctor_428570(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
             }
             break;
         }

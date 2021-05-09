@@ -87,7 +87,7 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo)
         auto pAlarm = ae_new<Alarm>();
         if (pAlarm)
         {
-            pAlarm->ctor_4091F0(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_39);
+            pAlarm->ctor_4091F0(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
             return this;
         }
     }
@@ -162,7 +162,7 @@ void GasCountDown::vRender_4175A0(PrimHeader** ppOt)
         TPageAbr::eBlend_1,
         1,
         0,
-        Layer::eLayer_22,
+        Layer::eLayer_BeforeWell_22,
         127,
         127,
         127,
@@ -210,7 +210,7 @@ void GasCountDown::DealDamage()
             auto pGasEffect = ae_new<DeathGas>();
             if (pGasEffect)
             {
-                pGasEffect->ctor_43C030(Layer::eLayer_39, 2);
+                pGasEffect->ctor_43C030(Layer::eLayer_Above_FG1_39, 2);
             }
         }
     }
@@ -236,7 +236,7 @@ void GasCountDown::vUpdate_4172E0()
         auto pAlarm = ae_new<Alarm>();
         if (pAlarm)
         {
-            pAlarm->ctor_4091F0(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_39);
+            pAlarm->ctor_4091F0(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
         }
     }
 

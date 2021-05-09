@@ -2865,7 +2865,7 @@ void Slog::Init_4C46A0()
     field_118_target_id = -1;
     field_15C_bone_id = -1;
     SetTint_425600(&sSlogTints_560A48[0], gMap_5C3030.field_0_current_level);
-    field_20_animation.field_C_render_layer = Layer::eLayer_34;
+    field_20_animation.field_C_render_layer = Layer::eLayer_SlogFleech_34;
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {

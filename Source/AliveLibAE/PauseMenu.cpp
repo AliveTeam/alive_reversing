@@ -527,8 +527,8 @@ void PauseMenu::Render_490BD0(PrimHeader** ot)
     SetXY2(pPolys, 0, 240);
     SetXY3(pPolys, 640, 240);
     Init_SetTPage_4F5B60(pTPage, 0, 0, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
-    OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_41), &pPolys->mBase.header);
-    OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_41), &pTPage->mBase);
+    OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_Menu_41), &pPolys->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_Menu_41), &pTPage->mBase);
     pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, pScreenManager_5BB5F4->field_3A_idx);
 }
 
@@ -964,7 +964,7 @@ void PauseMenu::Page_Base_Render_490A50(PrimHeader** ot, PauseMenu::PauseMenuPag
             TPageAbr::eBlend_0,
             1,
             0,
-            Layer::eLayer_41,
+            Layer::eLayer_Menu_41,
             static_cast<s8>(glow + e->field_C_r),
             static_cast<s8>(glow + e->field_D_g),
             static_cast<s8>(glow + e->field_E_b),
@@ -1387,7 +1387,7 @@ void PauseMenu::Page_Status_Update_4916A0()
 void PauseMenu::Page_Status_Render_491710(PrimHeader** ot, PauseMenuPage* pPage)
 {
     // Render the status icon
-    field_158_animation.field_C_render_layer = Layer::eLayer_41;
+    field_158_animation.field_C_render_layer = Layer::eLayer_Menu_41;
     field_158_animation.vRender_40B820(180, 100, ot, 0, 0);
 
     // Render the text

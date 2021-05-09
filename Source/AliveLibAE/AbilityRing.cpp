@@ -212,14 +212,14 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
         }
 
         field_282_path = gMap_5C3030.field_2_current_path;
-        field_20_layer = Layer::eLayer_39;
+        field_20_layer = Layer::eLayer_Above_FG1_39;
         field_280_level = gMap_5C3030.field_0_current_level;
         field_27C_semiTrans = 1;
         field_27E_tPageMode = TPageAbr::eBlend_1;
 
         if (field_284_ring_type == RingTypes::eShrykull_Pulse_Orange_6 && scale == FP_FromDouble(0.5))
         {
-            field_20_layer = Layer::eLayer_16;
+            field_20_layer = Layer::eLayer_BombMineCar_Half_16;
         }
 
         field_260_scaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
@@ -613,7 +613,7 @@ s32 AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
     pSaveState->field_8_ypos = field_250_ypos;
     pSaveState->field_C_ring_type = field_284_ring_type;
 
-    if (field_20_layer == Layer::eLayer_39)
+    if (field_20_layer == Layer::eLayer_Above_FG1_39)
     {
         pSaveState->field_10_scale = FP_FromInteger(1);
     }

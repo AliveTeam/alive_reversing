@@ -81,14 +81,14 @@ Mine* Mine::ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv)
         if (pPath->field_14_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_20_animation.field_C_render_layer = Layer::eLayer_16;
+            field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_Half_16;
             field_D6_scale = 0;
         }
     }
     else
     {
         field_CC_sprite_scale = FP_FromDouble(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_35;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
         field_D6_scale = 1;
     }
 

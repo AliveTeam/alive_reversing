@@ -44,13 +44,13 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = Layer::eLayer_16;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_Half_16;
     }
     else if (pTlv->field_16_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = Layer::eLayer_35;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
     }
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);

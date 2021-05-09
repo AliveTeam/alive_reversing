@@ -90,11 +90,11 @@ EXPORT s32 CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
 
         if (pObj->field_D6_scale == 1)
         {
-            pPartical->field_20_animation.field_C_render_layer = Layer::eLayer_36;
+            pPartical->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            pPartical->field_20_animation.field_C_render_layer = Layer::eLayer_17;
+            pPartical->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
         }
 
         pPartical->field_D0_r = 45;
@@ -156,7 +156,7 @@ EXPORT s32 CC Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
     {
         pParticle->ctor_4CC4C0(xpos, ypos, 5264, 61, 44, ppAnimRes);
         pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-        pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_36;
+        pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
         pParticle->field_D0_r = 64;
         pParticle->field_D2_g = 64;
         pParticle->field_D4_b = 64;

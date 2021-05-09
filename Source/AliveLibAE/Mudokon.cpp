@@ -539,13 +539,13 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = Layer::eLayer_9;
+        field_20_animation.field_C_render_layer = Layer::eLayer_ZapLinesMuds_Half_9;
         field_D6_scale = 0;
     }
     else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_28;
+        field_20_animation.field_C_render_layer = Layer::eLayer_ZapLinesMuds_28;
         field_D6_scale = 1;
     }
 

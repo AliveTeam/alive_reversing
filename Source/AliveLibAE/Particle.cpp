@@ -81,11 +81,11 @@ EXPORT Particle* CC New_DestroyOrCreateObject_Particle_426F40(FP xpos, FP ypos, 
 
     if (scale == FP_FromInteger(1))
     {
-        pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_39;
+        pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_39;
     }
     else
     {
-        pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_17;
+        pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
     }
 
     pParticle->field_DC_bApplyShadows &= ~1u;
@@ -122,11 +122,11 @@ EXPORT Particle* CC New_Orb_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, 
     {
         if (scale == FP_FromInteger(1))
         {
-            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_36;
+            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_17;
+            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
         }
     }
 
@@ -168,11 +168,11 @@ EXPORT void CC New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, s16 count,
 
             if (scale == FP_FromInteger(1))
             {
-                pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_36;
+                pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
             }
             else
             {
-                pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_17;
+                pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
             }
 
             pParticle->field_F4_scale_amount = scale * FP_FromDouble(0.03);
@@ -213,11 +213,11 @@ void CC New_ShootingZFire_Particle_4269B0(FP xpos, FP ypos, FP scale)
         pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
         if (scale == FP_FromInteger(1))
         {
-            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_36;
+            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_17;
+            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
         }
         pParticle->field_CC_sprite_scale = scale;
     }
@@ -238,11 +238,11 @@ void CC New_ShootingFire_Particle_426890(FP xpos, FP ypos, s8 direction, FP scal
 
         if (scale == FP_FromInteger(1))
         {
-            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_36;
+            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_17;
+            pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
         }
 
         pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, direction & 1);

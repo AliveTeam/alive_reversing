@@ -173,7 +173,7 @@ void SecurityOrb::vUpdate_4665A0()
                     auto pFlash1 = ae_new<Flash>();
                     if (pFlash1)
                     {
-                        pFlash1->ctor_428570(Layer::eLayer_39, 255, 0, 0, 1, TPageAbr::eBlend_3, 1);
+                        pFlash1->ctor_428570(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_3, 1);
                     }
                 }
                 if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer - 4)
@@ -181,7 +181,7 @@ void SecurityOrb::vUpdate_4665A0()
                     auto pFlash2 = ae_new<Flash>();
                     if (pFlash2)
                     {
-                        pFlash2->ctor_428570(Layer::eLayer_39, 255, 0, 0, 1, TPageAbr::eBlend_1, 1);
+                        pFlash2->ctor_428570(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_1, 1);
                     }
                 }
 
@@ -219,7 +219,7 @@ void SecurityOrb::vUpdate_4665A0()
                     ypos,
                     8,
                     ZapLineType::eThick_0,
-                    Layer::eLayer_28);
+                    Layer::eLayer_ZapLinesMuds_28);
             }
 
             auto pFlicker = ae_new<PossessionFlicker>();

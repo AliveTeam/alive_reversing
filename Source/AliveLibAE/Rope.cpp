@@ -69,13 +69,13 @@ Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
     if (scale == FP_FromInteger(1))
     {
         field_F6_rope_length = 15;
-        field_20_animation.field_C_render_layer = Layer::eLayer_24;
+        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebGrinder_24;
         field_D6_scale = 1;
     }
     else
     {
         field_F6_rope_length = 7;
-        field_20_animation.field_C_render_layer = Layer::eLayer_5;
+        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebGrinder_Half_5;
         field_20_animation.field_14_scale = FP_FromDouble(0.7);
         field_CC_sprite_scale = FP_FromDouble(0.7);
         field_D6_scale = 0;

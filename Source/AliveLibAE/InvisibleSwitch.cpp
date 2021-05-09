@@ -71,7 +71,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
                 auto pAlarm = ae_new<Alarm>();
                 if (pAlarm)
                 {
-                    pAlarm->ctor_4091F0(150, 0, 30, Layer::eLayer_39);
+                    pAlarm->ctor_4091F0(150, 0, 30, Layer::eLayer_Above_FG1_39);
                 }
             }
 

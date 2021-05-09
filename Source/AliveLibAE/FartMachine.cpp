@@ -58,7 +58,7 @@ FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, s32 tlvInfo)
 
     field_DC_bApplyShadows &= ~1u;
     field_140_tlvInfo = tlvInfo;
-    field_20_animation.field_C_render_layer = Layer::eLayer_23;
+    field_20_animation.field_C_render_layer = Layer::eLayer_Well_23;
     field_1E4_remaining_brew_count = pTlv->field_10_num_brews;
 
     const u8 savedBrewCount = pTlv->field_1_tlv_state;
@@ -157,7 +157,7 @@ void FartMachine::vRender_4133F0(PrimHeader** ppOt)
             TPageAbr::eBlend_1,
             1,
             0,
-            Layer::eLayer_22,
+            Layer::eLayer_BeforeWell_22,
             127,
             127,
             127,

@@ -918,12 +918,12 @@ void MineCar::State_0_ParkedWithoutAbe()
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_11C_state = MineCarStates::eState_1_ParkedWithAbe;
         sControlledCharacter_5C1B8C = this;
-        field_20_animation.field_C_render_layer = Layer::eLayer_35;
-        field_124_anim.field_C_render_layer = Layer::eLayer_35;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
+        field_124_anim.field_C_render_layer = Layer::eLayer_BombMineCar_35;
         if (field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_16;
-            field_124_anim.field_C_render_layer = Layer::eLayer_16;
+            field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_Half_16;
+            field_124_anim.field_C_render_layer = Layer::eLayer_BombMineCar_Half_16;
         }
         SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, 500, field_CC_sprite_scale);
     }
