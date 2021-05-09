@@ -294,11 +294,11 @@ void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, const std::string& 
 
                     if (game == Game::AO)
                     {
-                        CamConverterAO converter(cam.mName, camFile);
+                        CamConverterAO converter(cam.mName + ".png", camFile);
                     }
                     else
                     {
-                        CamConverterAE converter(cam.mName, camFile);
+                        CamConverterAE converter(cam.mName + ".png", camFile);
                     }
                 }
                 else
