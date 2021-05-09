@@ -2332,7 +2332,7 @@ EXPORT void Factory_CreditsController_481A50(Path_TLV* pTlv, Map* /*pMap*/, TlvI
             auto pCreditsController = ao_new<CreditsController>();
             if (pCreditsController)
             {
-                pCreditsController->ctor_40CFC0(static_cast<Path_TLV*>(pTlv), tlvOffsetLevelIdPathId.all);
+                pCreditsController->ctor_40CFC0(static_cast<Path_CreditsController*>(pTlv), tlvOffsetLevelIdPathId.all);
             }
         }
     }
@@ -2656,7 +2656,7 @@ EXPORT void Factory_BackgroundGlukkon_487CE0(Path_TLV* pTlv, Map* /*pMap*/, TlvI
         auto pBackgroundGlukkon = ao_new<BackgroundGlukkon>();
         if (pBackgroundGlukkon)
         {
-            pBackgroundGlukkon->ctor_41DBD0(static_cast<Path_Glukkon*>(pTlv), tlvOffsetLevelIdPathId.all);
+            pBackgroundGlukkon->ctor_41DBD0(static_cast<Path_BackgroundGlukkon*>(pTlv), tlvOffsetLevelIdPathId.all);
         }
     }
 }

@@ -38,6 +38,14 @@ void TypesCollectionAO::AddAOTypes()
 {
 #define REGISTER_TYPE_AO(TlvWrapperType) mTlvFactoryAO.DoRegisterType<TlvWrapperType>(*this)
 
+    REGISTER_TYPE_AO(AOTlvs::Path_MenuController);
+    REGISTER_TYPE_AO(AOTlvs::Path_KillUnsavedMuds);
+    REGISTER_TYPE_AO(AOTlvs::Path_DoorFlame);
+    REGISTER_TYPE_AO(AOTlvs::Path_ResetPath);
+    REGISTER_TYPE_AO(AOTlvs::Path_CreditsController);
+    REGISTER_TYPE_AO(AOTlvs::Path_BackgroundGlukkon);
+    REGISTER_TYPE_AO(AOTlvs::Path_GasEmitter);
+    REGISTER_TYPE_AO(AOTlvs::Path_GasCountDown);
     REGISTER_TYPE_AO(AOTlvs::Path_Hoist);
     REGISTER_TYPE_AO(AOTlvs::Path_ContinuePoint);
     REGISTER_TYPE_AO(AOTlvs::Path_Door);

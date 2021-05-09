@@ -6,19 +6,19 @@
 
 namespace AO {
 
-struct Path_Glukkon final : public Path_TLV
+struct Path_BackgroundGlukkon final : public Path_TLV
 {
     s16 field_18_scale_percent;
     u16 field_1A_pal_id;
     s16 field_1C_target_id;
     s16 field_1E_voice_adjust;
 };
-ALIVE_ASSERT_SIZEOF(Path_Glukkon, 0x20);
+ALIVE_ASSERT_SIZEOF(Path_BackgroundGlukkon, 0x20);
 
 class BackgroundGlukkon final : public BaseAliveGameObject
 {
 public:
-    EXPORT BackgroundGlukkon* ctor_41DBD0(Path_Glukkon* pTlv, s32 tlvInfo);
+    EXPORT BackgroundGlukkon* ctor_41DBD0(Path_BackgroundGlukkon* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_41DCE0();
 

@@ -5,7 +5,7 @@
 
 namespace AO {
 
-struct Path_TLV;
+struct Path_CreditsController final : public Path_TLV {};
 
 class CreditsController final : public BaseGameObject
 {
@@ -13,7 +13,7 @@ public:
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
 
-    EXPORT CreditsController* ctor_40CFC0(Path_TLV* pTlv, s32 tlvInfo);
+    EXPORT CreditsController* ctor_40CFC0(Path_CreditsController* pTlv, s32 tlvInfo);
     EXPORT BaseGameObject* dtor_40D000();
     EXPORT CreditsController* Vdtor_40D090(s32 flags);
     EXPORT void VUpdate_40D020();

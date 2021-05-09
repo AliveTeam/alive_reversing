@@ -42,12 +42,7 @@ static void SaveCamPng(const u16* camBuffer, const char_type* pFileName)
     }
 }
 
-std::vector<u8> CamConverterAO::ToBase64Png() const
-{
-    return {};
-}
-
-CamConverterAO::CamConverterAO(const ChunkedLvlFile& camFile)
+CamConverterAO::CamConverterAO(const std::string& fileName, const ChunkedLvlFile& camFile)
 {
     std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
     if (bitsRes)
@@ -64,22 +59,17 @@ CamConverterAO::CamConverterAO(const ChunkedLvlFile& camFile)
             // To next slice
             pIter += (slice_len / sizeof(s16));
         }
-        SaveCamPng(camBuffer, "test.png");
+        SaveCamPng(camBuffer, (fileName + ".png").c_str());
     }
 
     std::optional<LvlFileChunk> fg1Res = camFile.ChunkByType(ResourceManager::Resource_FG1);
     if (fg1Res)
     {
-
+        // AO only has 2 FG1 layers
     }
 }
 
-std::vector<u8> CamConverterAE::ToBase64Png() const
-{
-    return {};
-}
-
-CamConverterAE::CamConverterAE(const ChunkedLvlFile& /*camFile*/)
+CamConverterAE::CamConverterAE(const std::string& /*fileName*/, const ChunkedLvlFile& /*camFile*/)
 {
 
 }

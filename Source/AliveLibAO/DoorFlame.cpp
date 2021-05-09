@@ -455,6 +455,8 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
         case Path_DoorFlame::Colour::blue_3:
             field_C4_b = 127;
             break;
+        
+        case Path_DoorFlame::Colour::unknown_0:
         default:
             break;
     }
