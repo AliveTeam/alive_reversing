@@ -291,22 +291,24 @@ void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, const std::string& 
             if (!cam.mName.empty())
             {
                 const std::string cameraName = cam.mName + ".CAM";
-                if (!lvl.ReadFileInto(fileDataBuffer, cameraName.c_str()))
+                if (lvl.ReadFileInto(fileDataBuffer, cameraName.c_str()))
                 {
-                    throw ReliveAPI::IOReadException(cameraName);
-                }
+                    ChunkedLvlFile camFile(fileDataBuffer);
 
-                ChunkedLvlFile camFile(fileDataBuffer);
-
-                if (game == Game::AO)
-                {
-                    CamConverterAO converter(camFile);
-                    base64EncodedCamPngs.emplace_back(converter.ToBase64Png());
+                    if (game == Game::AO)
+                    {
+                        CamConverterAO converter(camFile);
+                        base64EncodedCamPngs.emplace_back(converter.ToBase64Png());
+                    }
+                    else
+                    {
+                        CamConverterAE converter(camFile);
+                        base64EncodedCamPngs.emplace_back(converter.ToBase64Png());
+                    }
                 }
                 else
                 {
-                    CamConverterAE converter(camFile);
-                    base64EncodedCamPngs.emplace_back(converter.ToBase64Png());
+                    LOG_WARNING("Camera " << cam.mName << " not found in the LVL");
                 }
             }
         });
