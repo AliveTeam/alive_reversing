@@ -32,7 +32,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2ChimeBallResID, 1, 0);
     Animation_Init_417FD0(136, 16, 8, ppRes, 1);
-    field_10_anim.field_C_layer = Layer::eLayer_37;
+    field_10_anim.field_C_layer = Layer::eLayer_FG1_37;
 
     FP scale = {};
     if (pTlv->field_18_scale == 1)

@@ -236,14 +236,14 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
             field_D6_scale = 0;
-            field_20_animation.field_C_render_layer = Layer::eLayer_6;
+            field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
         }
     }
     else
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = Layer::eLayer_25;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
     }
 
     FP* xOff = &field_B8_xpos;

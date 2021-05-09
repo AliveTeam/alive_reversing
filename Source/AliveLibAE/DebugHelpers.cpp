@@ -1284,7 +1284,7 @@ public:
         xy.x = ypos;
         xy.y = ypos;
         InitType_ScreenOffset_4F5BB0(&mScreenOffset, &xy);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mScreenOffset.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mScreenOffset.mBase);
 
         static PSX_RECT clipRect = {};
         clipRect.x = 80;
@@ -1298,45 +1298,45 @@ public:
         // Tiles
         for (s32 i = 0; i < 10; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTiles[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTiles[i].mBase.header);
         }
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTile8.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTile16.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTile.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile8.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile16.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile.mBase.header);
 
         // Sprites
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt8.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt8_TPage.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt8.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt8_TPage.mBase);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt16.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt16_TPage.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt16.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt16_TPage.mBase);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt_TPage.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt_TPage.mBase);
 
         // Lines
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineF2.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineF3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineF4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF2.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF4.mBase.header);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineG2.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineG3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineG4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG2.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG4.mBase.header);
 
         for (s32 i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyFT4[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyFT4[i].mBase.header);
         }
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyGT4.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyF4.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyG4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyGT4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyF4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyG4.mBase.header);
 
         // Polys
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyF3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyG3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyFT3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyGT3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyF3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyG3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyFT3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyGT3.mBase.header);
     }
 
 private:
@@ -1738,7 +1738,7 @@ public:
     {
         for (s32 i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolys[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolys[i].mBase.header);
         }
     }
 
@@ -1815,11 +1815,11 @@ public:
     {
         for (s32 i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPoly_F4_Verts[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F4_Verts[i].mBase.header);
         }
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPoly_F3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPoly_F4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F4.mBase.header);
     }
 
     void Update()
@@ -1986,7 +1986,7 @@ public:
         mAnim[3].vRender_40B820(40 + (2 * 85), 40 + (2 * 90), ot, 0, 0);
         mAnim[4].vRender_40B820(180 + 90, 170 + 45, ot, 0, 0);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_30), &mPolyFT4[0].mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_InBirdPortal_30), &mPolyFT4[0].mBase.header);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
     }

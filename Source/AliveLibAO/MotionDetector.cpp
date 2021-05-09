@@ -30,7 +30,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
     field_10_anim.field_4_flags.Set(AnimFlags::eBit7_SwapXY);
 
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-    field_10_anim.field_C_layer = Layer::eLayer_36;
+    field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
     field_C8_yOffset = 0;
     field_C0_r = 64;
     field_C4_b = 0;
@@ -76,7 +76,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
                 ppMotionRes,
                 1);
             pMotionDetectors->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-            pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_36;
+            pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
 
             pMotionDetectors->field_A8_xpos = field_F8_top_left_x;
             pMotionDetectors->field_AC_ypos = field_104_bottom_right_y;
@@ -103,7 +103,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
                 ppMotionRes,
                 1);
             pMotionDetectors->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-            pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_36;
+            pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
             pMotionDetectors->field_A8_xpos = field_100_bottom_right_x;
             pMotionDetectors->field_AC_ypos = field_104_bottom_right_y;
             pMotionDetectors->field_BC_sprite_scale = field_BC_sprite_scale;
@@ -261,7 +261,7 @@ void MotionDetector::VUpdate_437E90()
                                         field_F4_alarm_time,
                                         field_F2_alarm_trigger,
                                         0,
-                                        Layer::eLayer_39);
+                                        Layer::eLayer_Above_FG1_39);
                                 }
 
                                 if (pObj == sActiveHero_507678)

@@ -91,11 +91,11 @@ BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP sca
     field_BC_sprite_scale = scale;
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_39;
+        field_10_anim.field_C_layer = Layer::eLayer_Above_FG1_39;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_20;
+        field_10_anim.field_C_layer = Layer::eLayer_Above_FG1_Half_20;
     }
 
     field_CC_bApplyShadows &= ~1u;
@@ -203,11 +203,11 @@ BaseGameObject* BirdPortal::dtor_452230()
         {
             if (field_34_scale == FP_FromInteger(1))
             {
-                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_32;
+                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
             }
             else
             {
-                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_13;
+                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
             }
         }
     }
@@ -702,7 +702,7 @@ void BirdPortal::VUpdate_4523D0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u);
+                pFlash->ctor_41A810(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u);
             }
             field_14_state = States::State_13;
         }
@@ -713,7 +713,7 @@ void BirdPortal::VUpdate_4523D0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_0, 1);
+                pFlash->ctor_41A810(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_0, 1);
             }
             field_14_state = States::State_14;
         }
@@ -724,7 +724,7 @@ void BirdPortal::VUpdate_4523D0()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
+                pFlash->ctor_41A810(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
             }
             field_14_state = States::State_15;
             field_30_timer = gnFrameCount_507670 + 5;
@@ -1046,12 +1046,12 @@ void BirdPortal::VExitPortal_453720()
     if (pPortalExitTlv->field_1A_scale == 1)
     {
         field_34_scale = FP_FromDouble(0.5);
-        sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_11;
+        sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_InBirdPortal_Half_11;
     }
     else
     {
         field_34_scale = FP_FromInteger(1);
-        sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_30;
+        sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_InBirdPortal_30;
     }
 
     sActiveHero_507678->field_BC_sprite_scale = field_34_scale;
@@ -1146,11 +1146,11 @@ s16 BirdPortal::VPortalClipper_4533E0(s16 bUnknown)
 
         if (field_34_scale == FP_FromInteger(1))
         {
-            field_44_pScreenClipper->field_38_ot_layer = Layer::eLayer_29;
+            field_44_pScreenClipper->field_38_ot_layer = Layer::eLayer_BirdPortal_29;
         }
         else
         {
-            field_44_pScreenClipper->field_38_ot_layer = Layer::eLayer_10;
+            field_44_pScreenClipper->field_38_ot_layer = Layer::eLayer_BirdPortal_Half_10;
         }
     }
 
@@ -1160,11 +1160,11 @@ s16 BirdPortal::VPortalClipper_4533E0(s16 bUnknown)
         field_48_pScreenClipper->ctor_40BD60({0, 0}, {640, 240}, Layer::eLayer_0);
         if (field_34_scale == FP_FromInteger(1))
         {
-            field_48_pScreenClipper->field_38_ot_layer = Layer::eLayer_31;
+            field_48_pScreenClipper->field_38_ot_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
         }
         else
         {
-            field_48_pScreenClipper->field_38_ot_layer = Layer::eLayer_12;
+            field_48_pScreenClipper->field_38_ot_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
         }
     }
 

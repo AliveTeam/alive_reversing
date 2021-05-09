@@ -52,7 +52,7 @@ struct Fg1Block final
 };
 ALIVE_ASSERT_SIZEOF(Fg1Block, 0x68);
 
-const Layer sFg1_layer_to_bits_layer_4BC024[] = {Layer::eLayer_37, Layer::eLayer_18};
+const Layer sFg1_layer_to_bits_layer_4BC024[] = {Layer::eLayer_FG1_37, Layer::eLayer_FG1_Half_18};
 
 void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 {

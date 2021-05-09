@@ -34,11 +34,11 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
 
     if (field_118_pTlv->field_10_scale != Scale_short::eFull_0)
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_6;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_25;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
     }
 
     field_120_state = SlapLockStates::eShaking_0;

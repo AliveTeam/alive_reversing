@@ -147,7 +147,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
     if (scale == FP_FromInteger(1))
     {
         field_F8_z = FP_FromInteger(0);
-        field_20_animation.field_C_render_layer = Layer::eLayer_FG1_Full_37;
+        field_20_animation.field_C_render_layer = Layer::eLayer_FG1_37;
         field_D6_scale = 1;
     }
     else if (scale == FP_FromDouble(0.5))
@@ -391,7 +391,7 @@ EXPORT void Gibs::vRender_4103A0(PrimHeader** ppOt)
                 }
                 else
                 {
-                    field_104_parts[i].field_18_anim.field_C_render_layer = Layer::eLayer_FG1_Full_37;
+                    field_104_parts[i].field_18_anim.field_C_render_layer = Layer::eLayer_FG1_37;
                 }
 
                 if (field_104_parts[i].field_18_anim.field_14_scale <= FP_FromInteger(1))

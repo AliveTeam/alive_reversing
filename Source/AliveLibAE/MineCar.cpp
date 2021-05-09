@@ -33,14 +33,14 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /
 
     field_DC_bApplyShadows |= 2u;
     field_1BE_unused = 0;
-    field_20_animation.field_C_render_layer = Layer::eLayer_26;
+    field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_26;
     field_CC_sprite_scale = FP_FromInteger(1);
     field_D6_scale = 1;
 
     if (field_11E_scale != Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = Layer::eLayer_7;
+        field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_Half_7;
         field_D6_scale = 0;
     }
 
@@ -960,13 +960,13 @@ void MineCar::State_1_ParkedWithAbe()
 
         if (field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_7;
-            field_124_anim.field_C_render_layer = Layer::eLayer_7;
+            field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_Half_7;
+            field_124_anim.field_C_render_layer = Layer::eLayer_Shadow_Half_7;
         }
         else
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_26;
-            field_124_anim.field_C_render_layer = Layer::eLayer_26;
+            field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_26;
+            field_124_anim.field_C_render_layer = Layer::eLayer_Shadow_26;
         }
 
         return;

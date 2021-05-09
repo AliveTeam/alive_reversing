@@ -820,11 +820,11 @@ s16 BirdPortal::vPortalClipper_499430(s16 bIgnoreClipping)
         field_74_screen_clipper_id = pClipper1->field_8_object_id;
         if (field_60_scale == FP_FromInteger(1))
         {
-            pClipper1->field_48_ot_layer = Layer::eLayer_BirdPortal_Half_29;
+            pClipper1->field_48_ot_layer = Layer::eLayer_BirdPortal_29;
         }
         else
         {
-            pClipper1->field_48_ot_layer = Layer::eLayer_BirdPortal_10;
+            pClipper1->field_48_ot_layer = Layer::eLayer_BirdPortal_Half_10;
         }
     }
 
@@ -949,13 +949,13 @@ void BirdPortal::vExitPortal_499870()
         if (pPortalExitTlv->field_12_scale == Scale_short::eHalf_1)
         {
             field_60_scale = FP_FromDouble(0.5);
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_11;
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_InBirdPortal_Half_11;
             sActiveHero_5C1B68->field_D6_scale = 0;
         }
         else
         {
             field_60_scale = FP_FromInteger(1);
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_30;
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_InBirdPortal_30;
             sActiveHero_5C1B68->field_D6_scale = 1;
         }
 

@@ -1844,7 +1844,7 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
 
         SetXY0(pSprt, flyX, flyY);
 
-        OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_39), &pSprt->mBase.header);
+        OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pSprt->mBase.header);
 
         if (flyX < rect.x)
         {
@@ -1876,7 +1876,7 @@ void HintFly::VRender_42BAD0(PrimHeader** ppOt)
     const s32 tpage = PSX_getTPage_4965D0(field_110_bitMode, TPageAbr::eBlend_1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
 
     Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
-    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_39), &pTPage->mBase);
+    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pTPage->mBase);
 
     pScreenManager_4FF7C8->InvalidateRect_406E40(
         rect.x - 6,

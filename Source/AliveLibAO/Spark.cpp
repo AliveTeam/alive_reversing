@@ -36,11 +36,11 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
 
     if (scale == FP_FromDouble(0.5))
     {
-        field_42_layer = Layer::eLayer_17;
+        field_42_layer = Layer::eLayer_Foreground_Half_17;
     }
     else
     {
-        field_42_layer = Layer::eLayer_36;
+        field_42_layer = Layer::eLayer_Foreground_36;
     }
 
     field_40_b = 127;
@@ -88,11 +88,11 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
 
             if (scale == FP_FromInteger(1))
             {
-                pParticle->field_10_anim.field_C_layer = Layer::eLayer_36;
+                pParticle->field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
             }
             else
             {
-                pParticle->field_10_anim.field_C_layer = Layer::eLayer_17;
+                pParticle->field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
             }
 
             pParticle->field_BC_sprite_scale = scale;

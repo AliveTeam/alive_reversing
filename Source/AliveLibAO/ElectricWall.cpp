@@ -23,7 +23,7 @@ ElectricWall* ElectricWall::ctor_40FCF0(Path_ElectricWall* pTlv, s32 tlvInfo)
     Animation_Init_417FD0(14536, 50, 80, ppRes, 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-    field_10_anim.field_C_layer = Layer::eLayer_36;
+    field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
 
     if (field_10_anim.Get_Frame_Count_403540() > 0)
     {
@@ -193,7 +193,7 @@ void ElectricWall::VUpdate_40FEF0()
                         auto pFlash = ao_new<Flash>();
                         if (pFlash)
                         {
-                            pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
+                            pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
                         }
                     }
                 }

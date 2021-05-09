@@ -486,21 +486,21 @@ void Map::Handle_PathTransition_444DD0()
         {
             case 0:
                 sActiveHero_507678->field_BC_sprite_scale = FP_FromInteger(1);
-                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_32;
+                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
                 if (gElum_507680)
                 {
                     gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
-                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_28;
+                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_ZapLinesElum_28;
                 }
                 break;
 
             case 1:
                 sActiveHero_507678->field_BC_sprite_scale = FP_FromDouble(0.5);
-                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_13;
+                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
                 if (gElum_507680)
                 {
                     gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
-                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_9;
+                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_ZapLinesElum_Half_9;
                 }
                 break;
 

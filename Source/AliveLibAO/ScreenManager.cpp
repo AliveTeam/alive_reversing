@@ -268,7 +268,7 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
             {
                 continue;
             }
-            layer = Layer::eLayer_37;
+            layer = Layer::eLayer_FG1_37;
         }
         else if (field_58_20x16_dirty_bits[5].GetTile(spriteX / 32, spriteY / 16))
         {
@@ -276,7 +276,7 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
             {
                 continue;
             }
-            layer = Layer::eLayer_18;
+            layer = Layer::eLayer_FG1_Half_18;
         }
         else
         {

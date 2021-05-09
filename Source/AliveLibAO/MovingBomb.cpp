@@ -49,13 +49,13 @@ MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
-        field_10_anim.field_C_layer = Layer::eLayer_16;
+        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_Half_16;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
         field_C6_scale = 1;
-        field_10_anim.field_C_layer = Layer::eLayer_35;
+        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
     }
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);

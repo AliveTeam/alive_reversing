@@ -37,13 +37,13 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
-        field_10_anim.field_C_layer = Layer::eLayer_16;
+        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_Half_16;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
         field_C6_scale = 1;
-        field_10_anim.field_C_layer = Layer::eLayer_35;
+        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
     }
 
     if (field_118_anim.Init_402D20(

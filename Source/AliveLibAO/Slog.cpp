@@ -625,12 +625,12 @@ void Slog::Init_473130()
 
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_34;
+        field_10_anim.field_C_layer = Layer::eLayer_Slog_34;
         field_C6_scale = 1;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_15;
+        field_10_anim.field_C_layer = Layer::eLayer_Slog_Half_15;
         field_C6_scale = 0;
     }
 

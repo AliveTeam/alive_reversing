@@ -745,7 +745,7 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, s32 tlvInfo)
     field_134_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
     field_134_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_134_anim.field_C_layer = Layer::eLayer_38;
+    field_134_anim.field_C_layer = Layer::eLayer_MainMenuButtonBees_38;
     field_134_anim.field_14_scale = field_BC_sprite_scale;
     field_134_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_134_anim.LoadPal_403090(field_E4_res_array[5], 0);
@@ -1017,12 +1017,12 @@ void Menu::FMV_Select_Update_47E8D0()
 
             if (field_1E8_pMenuTrans)
             {
-                field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+                field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             }
             else
             {
                 field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
+                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
             }
             field_1CC_fn_update = &Menu::FMV_Or_Level_Select_To_Back_Update_47EC70;
         }
@@ -1101,7 +1101,7 @@ void Menu::FMV_Select_Update_47E8D0()
 
                 field_20C_bStartInSpecificMap = 1;
 
-                field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+                field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                 field_1CC_fn_update = &Menu::Level_Cheat_To_Loading_Update_47ED50;
             }
         }
@@ -1231,7 +1231,7 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
                 TPageAbr::eBlend_0,
                 1,
                 0,
-                Layer::eLayer_32,
+                Layer::eLayer_AbeMenu_32,
                 210,
                 150,
                 80,
@@ -1248,7 +1248,7 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
                 TPageAbr::eBlend_0,
                 1,
                 0,
-                Layer::eLayer_32,
+                Layer::eLayer_AbeMenu_32,
                 0,
                 0,
                 0,
@@ -1436,12 +1436,12 @@ EXPORT void Menu::MainScreen_Update_47AF60()
             {
                 if (field_1E8_pMenuTrans)
                 {
-                    field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+                    field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                 }
                 else
                 {
                     field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                    field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
+                    field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                     field_1E8_pMenuTrans->field_C_refCount++;
                 }
 
@@ -1467,7 +1467,7 @@ EXPORT void Menu::MainScreen_Update_47AF60()
             }
 
             field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-            field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
+            field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
             field_1E8_pMenuTrans->field_C_refCount++;
             field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
         }
@@ -1489,12 +1489,12 @@ EXPORT void Menu::MainScreen_Update_47AF60()
         {
             if (field_1E8_pMenuTrans)
             {
-                field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+                field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             }
             else
             {
                 field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
+                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                 field_1E8_pMenuTrans->field_C_refCount++;
             }
 
@@ -1519,12 +1519,12 @@ EXPORT void Menu::MainScreen_Update_47AF60()
         {
             if (field_1E8_pMenuTrans)
             {
-                field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+                field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             }
             else
             {
                 field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
+                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                 field_1E8_pMenuTrans->field_C_refCount++;
             }
 
@@ -1632,12 +1632,12 @@ void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
     {
         if (field_1E8_pMenuTrans)
         {
-            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         }
         else
         {
             field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-            field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
+            field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
             field_1E8_pMenuTrans->field_C_refCount++;
         }
 
@@ -1705,7 +1705,7 @@ void Menu::ToNextMenuPage_47BD80()
                     break;
             }
         }
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
@@ -1715,7 +1715,7 @@ void Menu::ToLoading_47B7E0()
     {
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
-            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
+            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
             gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 21, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_204_flags &= ~2u;
             field_1CC_fn_update = &Menu::Loading_Update_47B870;
@@ -1933,7 +1933,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
                 TPageAbr::eBlend_0,
                 1,
                 0,
-                Layer::eLayer_32,
+                Layer::eLayer_AbeMenu_32,
                 r,
                 g,
                 b,
@@ -1950,7 +1950,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
                 TPageAbr::eBlend_0,
                 1,
                 0,
-                Layer::eLayer_32,
+                Layer::eLayer_AbeMenu_32,
                 0,
                 0,
                 0,
@@ -2017,7 +2017,7 @@ void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
     {
         ResourceManager::LoadResourceFile_455270("ABESPEAK.BAN", nullptr);
         field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 1, 0);
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
         field_1E0_selected_index.mainmenu = MainMenuOptions::eBegin_1;
         field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[1].field_4_frame_table, nullptr);
         field_204_flags |= 2u;
@@ -2199,7 +2199,7 @@ void Menu::Options_WaitForAbeSpeak_Update_47C280()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_1CC_fn_update = &Menu::Option_GoTo_Selected_Update_47C2C0;
     }
 }
@@ -2275,7 +2275,7 @@ void Menu::Options_To_Selected_After_Cam_Change_Update_47C330()
                 break;
         }
 
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
@@ -2372,7 +2372,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
                 TPageAbr::eBlend_0,
                 1,
                 0,
-                Layer::eLayer_32,
+                Layer::eLayer_AbeMenu_32,
                 210,
                 150,
                 80,
@@ -2388,7 +2388,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
                 TPageAbr::eBlend_0,
                 1,
                 0,
-                Layer::eLayer_32,
+                Layer::eLayer_AbeMenu_32,
                 0,
                 0,
                 0,
@@ -2554,7 +2554,7 @@ void Menu::Options_WaitForAbeSayOK_Update_47C720()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_1CC_fn_update = &Menu::Options_WaitForScreenTrans_Update_47C760;
     }
 }
@@ -2579,7 +2579,7 @@ void Menu::To_MainOptions_Screen_After_Camera_Change_Update_47C7A0()
         field_1D0_fn_render = &Menu::Options_Render_47C190;
         field_1E0_selected_index.options_menu = OptionsMenuOptions::eSound_1;
         field_134_anim.Set_Animation_Data_402A40(stru_4D0148[1].field_4_frame_table, nullptr);
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
@@ -2614,7 +2614,7 @@ void Menu::GameSpeak_Update_47CBD0()
                     field_E4_res_array[4]);
 
                 pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-                pParticle->field_10_anim.field_C_layer = Layer::eLayer_39;
+                pParticle->field_10_anim.field_C_layer = Layer::eLayer_Above_FG1_39;
             }
         }
 
@@ -2963,14 +2963,14 @@ void Menu::Options_Controller_Update_47F210()
     if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop))
     {
         field_230_bGoBack = 1;
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_1CC_fn_update = &Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330;
     }
 
     if (Input().IsAnyHeld(InputObject::PadIndex::First, (InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction)))
     {
         field_230_bGoBack = 0;
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_1CC_fn_update = &Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330;
     }
 }
@@ -3025,7 +3025,7 @@ void Menu::Goto_ConfigureController_OrSave_SettingIni_Update_47F380()
                 break;
         }
 
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
@@ -3122,7 +3122,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             TPageAbr::eBlend_0,
             1,
             0,
-            Layer::eLayer_41,
+            Layer::eLayer_Menu_41,
             40,
             20,
             0,
@@ -3153,7 +3153,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             TPageAbr::eBlend_0,
             1,
             0,
-            Layer::eLayer_41,
+            Layer::eLayer_Menu_41,
             40,
             20,
             0,
@@ -3180,7 +3180,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
             TPageAbr::eBlend_0,
             1,
             0,
-            Layer::eLayer_41,
+            Layer::eLayer_Menu_41,
             40,
             20,
             0,
@@ -3245,7 +3245,7 @@ void Menu::ButtonRemap_Update_47F6F0()
         }
 
         field_230_bGoBack = -1;
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
         bWaitingForRemapInput_9F2DE8 = 1;
         return;
     }
@@ -3318,7 +3318,7 @@ void Menu::ButtonRemap_Update_47F6F0()
     if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop))
     {
         // Show abe motions screen
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_230_bGoBack = 9;
         field_1CC_fn_update = &Menu::To_ShowAbeMotions_ChangeCamera_Update_47F8A0;
     }
@@ -3326,7 +3326,7 @@ void Menu::ButtonRemap_Update_47F6F0()
     if (Input().IsAnyHeld(InputObject::PadIndex::First, (InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction)))
     {
         // Rebind a key (in that horrible white blinding screen)
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_230_bGoBack = 8;
         bWaitingForRemapInput_9F2DE8 = 1;
     }
@@ -3406,7 +3406,7 @@ void Menu::SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt)
         TPageAbr::eBlend_0,
         1,
         0,
-        Layer::eLayer_37,
+        Layer::eLayer_FG1_37,
         210,
         150,
         80,
@@ -3423,7 +3423,7 @@ void Menu::SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt)
         TPageAbr::eBlend_0,
         1,
         0,
-        Layer::eLayer_37,
+        Layer::eLayer_FG1_37,
         0,
         0,
         0,
@@ -3458,7 +3458,7 @@ void Menu::To_ShowAbeMotions_SaveSettings_Update_47F8E0()
         field_1CC_fn_update = &Menu::To_ToggleMotions_Update_47C9E0;
         field_1D0_fn_render = &Menu::ToggleMotions_Render_47CAB0;
         field_1E0_selected_index.motions_menu = MotionsOptions::eMotions_0;
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
@@ -3522,7 +3522,7 @@ void Menu::Load_Update_47D760()
         field_1E0_selected_index.raw = 1; // This line causes the issue
 #endif
         field_134_anim.Set_Animation_Data_402A40(stru_4D01F0[1].field_4_frame_table, nullptr);
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
         field_202 = 0;
     }
@@ -3538,7 +3538,7 @@ void Menu::Load_Update_47D760()
             if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop))
             {
                 field_230_bGoBack = 1;
-                field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+                field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                 field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
                 field_202 = 0;
                 return;
@@ -3558,7 +3558,7 @@ void Menu::Load_Update_47D760()
                 if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop))
                 {
                     field_230_bGoBack = 1;
-                    field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+                    field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                     field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
                     field_202 = 0;
                     return;
@@ -3573,14 +3573,14 @@ void Menu::Load_Update_47D760()
         {
             field_230_bGoBack = 0;
             field_1FC = field_1E0_selected_index.raw;
-            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
             field_202 = 1;
         }
         else
         {
             field_230_bGoBack = 1;
-            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             field_1CC_fn_update = &Menu::Load_BackToMainScreen_Update_47DA40;
             field_202 = 0;
         }
@@ -3680,7 +3680,7 @@ void Menu::ToggleMotions_Update_47C800()
             // Back to options
             field_1E0_selected_index.motions_menu = MotionsOptions::eExit_2;
             field_134_anim.Set_Animation_Data_402A40(stru_4D01D8[2].field_4_frame_table, nullptr);
-            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             field_1CC_fn_update = &Menu::MotionsScreen_Back_Update_47CA10;
         }
     }
@@ -3720,7 +3720,7 @@ void Menu::Toggle_Motions_Screens_Update_47C8F0()
         {
             field_1E0_selected_index.motions_menu = MotionsOptions::eExit_2;
             field_134_anim.Set_Animation_Data_402A40(stru_4D01D8[2].field_4_frame_table, 0);
-            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+            field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             field_1CC_fn_update = &Menu::MotionsScreen_Back_Update_47CA10;
         }
     }
@@ -3747,7 +3747,7 @@ void Menu::Motions_ToOptions_Update_47CA50()
         field_1D0_fn_render = &Menu::Options_Render_47C190;
         field_1E0_selected_index.options_menu = OptionsMenuOptions::eController_0;
         field_134_anim.Set_Animation_Data_402A40(stru_4D0148[0].field_4_frame_table, nullptr);
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
@@ -3755,7 +3755,7 @@ void Menu::To_MainScreenOrLoad_Update_47DA90()
 {
     if (sNumCamSwappers_507668 <= 0)
     {
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
         if (field_202)
         {
             field_1CC_fn_update = &Menu::To_LoadSave_Update_47DB10;
@@ -3797,7 +3797,7 @@ void Menu::GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_10_anim.Set_Animation_Data_402A40(201508, field_E4_res_array[1]);
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 1, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_1CC_fn_update = &Menu::GamespeakBack_WaitForScreenTrans_Update_47D650;
     }
 }
@@ -3823,7 +3823,7 @@ void Menu::GameSpeak_To_MainScreen_Update_47D690()
         field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
         field_1E0_selected_index.mainmenu = MainMenuOptions::eGameSpeak_0;
         field_134_anim.Set_Animation_Data_402A40(sMainScreenButtons_4D00B0[0].field_4_frame_table, nullptr);
-        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_40, 0, 0, 16);
+        field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
         field_134_anim.LoadPal_403090(field_E4_res_array[5], 0);
     }
 }
@@ -3873,7 +3873,7 @@ void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHe
         TPageAbr::eBlend_0,
         1,
         0,
-        Layer::eLayer_39,
+        Layer::eLayer_Above_FG1_39,
         0,
         0,
         0,
@@ -3891,7 +3891,7 @@ void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHe
         TPageAbr::eBlend_0,
         1,
         0,
-        Layer::eLayer_39,
+        Layer::eLayer_Above_FG1_39,
         58,
         40,
         41,
@@ -3909,7 +3909,7 @@ void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHe
         TPageAbr::eBlend_3,
         1,
         0,
-        Layer::eLayer_39,
+        Layer::eLayer_Above_FG1_39,
         115,
         98,
         99,

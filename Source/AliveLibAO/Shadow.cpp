@@ -156,11 +156,11 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
 
         if (spriteScale == FP_FromDouble(0.5))
         {
-            field_18_anim.field_C_layer = Layer::eLayer_7;
+            field_18_anim.field_C_layer = Layer::eLayer_Shadow_Half_7;
         }
         else
         {
-            field_18_anim.field_C_layer = Layer::eLayer_26;
+            field_18_anim.field_C_layer = Layer::eLayer_Shadow_26;
         }
     }
 }

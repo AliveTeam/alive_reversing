@@ -25,11 +25,11 @@ SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, s32 tlvI
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = Layer::eLayer_6;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else if (pHack->field_10_scale == Scale_short::eFull_0)
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_25;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
     }
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);

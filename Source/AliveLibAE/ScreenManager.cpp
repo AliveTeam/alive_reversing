@@ -648,7 +648,7 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
 
         if (IsDirty_40EBC0(7, spriteX, spriteY))
         {
-            Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_FG1_Full_37, i, ppOt);
+            Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_FG1_37, i, ppOt);
         }
         else if (IsDirty_40EBC0(6, spriteX, spriteY))
         {

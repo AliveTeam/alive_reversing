@@ -192,13 +192,13 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
     if (pTlv->field_18_scale == 1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        layer = Layer::eLayer_6;
+        layer = Layer::eLayer_BeforeShadow_Half_6;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        layer = Layer::eLayer_25;
+        layer = Layer::eLayer_BeforeShadow_25;
         field_C6_scale = 1;
     }
 

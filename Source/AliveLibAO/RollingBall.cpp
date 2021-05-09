@@ -80,12 +80,12 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
         ppRes,
         1);
 
-    field_10_anim.field_C_layer = Layer::eLayer_31;
+    field_10_anim.field_C_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_12;
+        field_10_anim.field_C_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
         field_C6_scale = 0;
     }
 
@@ -150,7 +150,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_A8_xpos = FP_FromInteger(2522);
         field_AC_ypos = FP_FromInteger(1300);
-        field_10_anim.field_C_layer = Layer::eLayer_35;
+        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
         field_112_state = States::eCrushedBees_4;
     }
 
@@ -276,7 +276,7 @@ void RollingBall::VUpdate_457AF0()
                 auto pFlash = ao_new<Flash>();
                 if (pFlash)
                 {
-                    pFlash->ctor_41A810(Layer::eLayer_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
+                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
                 }
 
                 auto pScreenShake = ao_new<ScreenShake>();
@@ -336,7 +336,7 @@ void RollingBall::VUpdate_457AF0()
                         field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
                         field_A8_xpos = FP_FromInteger(2522);
                         field_AC_ypos = FP_FromInteger(1300);
-                        field_10_anim.field_C_layer = Layer::eLayer_35;
+                        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
                         field_112_state = States::eCrushedBees_4;
                         CrushThingsInTheWay_458310();
                         return;

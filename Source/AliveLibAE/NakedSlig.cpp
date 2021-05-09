@@ -159,11 +159,11 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, s32 tlvInfo)
     {
         if (field_CC_sprite_scale == FP_FromInteger(1))
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_25;
+            field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
         }
         else
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_6;
+            field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
         }
         Set_AnimAndMotion_419890(NakedSligMotion::M_Snoozing_9_41BD80, TRUE);
         SetBrain(&NakedSlig::AI_0_Sleeping_419DE0);

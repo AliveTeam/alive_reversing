@@ -87,11 +87,11 @@ void SlogHut::VUpdate_472D50()
             Layer snoozeLayer = Layer::eLayer_0;
             if (field_18_scale != FP_FromInteger(1))
             {
-                snoozeLayer = Layer::eLayer_20;
+                snoozeLayer = Layer::eLayer_Above_FG1_Half_20;
             }
             else
             {
-                snoozeLayer = Layer::eLayer_39;
+                snoozeLayer = Layer::eLayer_Above_FG1_39;
             }
             pSnoozeParticle->ctor_464320(
                 field_10_xpos,
