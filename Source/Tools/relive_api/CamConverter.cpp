@@ -3,6 +3,7 @@
 #include "LvlReaderWriter.hpp"
 #include "relive_api_exceptions.hpp"
 #include <lodepng/lodepng.h>
+#include "../AliveLibAE/ScreenManager.hpp"
 
 static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, const u16* pSrcPixels)
 {
@@ -66,10 +67,40 @@ CamConverterAO::CamConverterAO(const std::string& fileName, const ChunkedLvlFile
     if (fg1Res)
     {
         // AO only has 2 FG1 layers
+        // TODO: Implement later
     }
 }
 
-CamConverterAE::CamConverterAE(const std::string& /*fileName*/, const ChunkedLvlFile& /*camFile*/)
+CamConverterAE::CamConverterAE(const std::string& fileName, const ChunkedLvlFile& camFile)
 {
+    std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
+    if (bitsRes)
+    {
+        u16 camBuffer[640 * 240] = {};
+        u8 vlcBuffer[0x7E00] = {};
+        CamDecompressor decompressor;
+        const u16* pIter = reinterpret_cast<const u16*>(bitsRes->Data().data());
+        for (s16 xpos = 0; xpos < 640; xpos += 16)
+        {
+            const u16 stripSize = *pIter;
+            pIter++;
 
+            if (stripSize > 0)
+            {
+                decompressor.vlc_decode(pIter, reinterpret_cast<u16*>(vlcBuffer));
+                decompressor.process_segment(reinterpret_cast<u16*>(vlcBuffer), 0);
+                AppendCamSegment(xpos, 0, 16, 240, camBuffer, decompressor.mDecompressedStrip);
+            }
+
+            pIter += (stripSize / sizeof(u16));
+        }
+        SaveCamPng(camBuffer, (fileName + ".png").c_str());
+    }
+
+    std::optional<LvlFileChunk> fg1Res = camFile.ChunkByType(ResourceManager::Resource_FG1);
+    if (fg1Res)
+    {
+        // AE has 4 FG1 layers
+        // TODO: Implement later
+    }
 }

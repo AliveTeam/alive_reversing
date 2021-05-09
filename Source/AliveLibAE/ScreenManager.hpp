@@ -39,6 +39,21 @@ struct SprtTPage final
     Prim_SetTPage mTPage;
 };
 
+class CamDecompressor final
+{
+public:
+    void process_segment(u16* aVlcBufferPtr, s32 xPos);
+    void vlc_decode(const u16* aCamSeg, u16* aDst);
+    void vlc_decoder(s32 aR, s32 aG, s32 aB, s32 aWidth, s32 aVramX, s32 aVramY);
+    void write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddlib::BitsLogic& aG, const Oddlib::BitsLogic& aB, s32 aVramX, s32 aVramY);
+    s32 next_bits();
+    u16 mDecompressedStrip[16 * 240] = {};
+private:
+    s32 m_left7_array = 0;
+    s32 m_right25_array = 0;
+    u16* m_pointer_to_vlc_buffer = nullptr;
+};
+
 class ScreenManager final : public BaseGameObject
 {
 public:
@@ -60,10 +75,6 @@ public:
     virtual void VUpdate() override
     { }
 
-    void process_segment(u16* aVlcBufferPtr, s32 xPos);
-    void vlc_decode(u16* aCamSeg, u16* aDst);
-    void vlc_decoder(s32 aR, s32 aG, s32 aB, s32 aWidth, s32 aVramX, s32 aVramY);
-    void write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddlib::BitsLogic& aG, const Oddlib::BitsLogic& aB, s32 aVramX, s32 aVramY);
 
     EXPORT void DecompressCameraToVRam_40EF60(u16** ppBits);
 
@@ -73,7 +84,6 @@ public:
 
     EXPORT void dtor_40E490();
     EXPORT BaseGameObject* vdtor_40E460(s32 flags);
-    s32 next_bits();
 
     EXPORT static s32 CC GetTPage_40F040(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);
 
@@ -111,12 +121,8 @@ public:
     s32 field_5C_padding;
     s32 field_60_padding;
     DirtyBits field_64_20x16_dirty_bits[8];
-
-    s32 g_left7_array = 0;
-    s32 g_right25_array = 0;
-    u16* g_pointer_to_vlc_buffer = nullptr;
 };
-//ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);
+ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);
 
 ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager_5BB5F4);
 

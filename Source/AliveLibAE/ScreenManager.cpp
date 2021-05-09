@@ -13,8 +13,6 @@
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
 ALIVE_ARY(1, 0x5b86c8, SprtTPage, 300, sSpriteTPageBuffer_5B86C8, {});
 
-static u8 gCamBuffer[640 * 240 * 2];
-
 void ScreenManager::sub_40EE10()
 {
     for (s32 i = 0; i < 20; i++)
@@ -155,7 +153,7 @@ struct BitsLogic final
     {
     }
 
-    BitsLogic(s32& aPrev, ScreenManager* aStrat)
+    BitsLogic(s32& aPrev, CamDecompressor* aStrat)
         : param1(0)
         , param2(0)
         , param3(0)
@@ -199,33 +197,33 @@ const auto blue_mask = 0x1F;
 
 } // namespace Oddlib
 
-s32 ScreenManager::next_bits()
+s32 CamDecompressor::next_bits()
 {
     s32 ret = 0;
-    if (g_left7_array <= 0)
+    if (m_left7_array <= 0)
     {
-        ret = g_right25_array; // Always the previous g_right25_array! Or zero on first/ when its RLE data
+        ret = m_right25_array; // Always the previous g_right25_array! Or zero on first/ when its RLE data
 
-        u16 o = *g_pointer_to_vlc_buffer;
+        u16 o = *m_pointer_to_vlc_buffer;
 
-        g_left7_array = o >> 7;
+        m_left7_array = o >> 7;
 
         // Get 25 bits
-        g_right25_array = (o << 25) >> 25;
+        m_right25_array = (o << 25) >> 25;
 
         // To next word
-        ++g_pointer_to_vlc_buffer;
+        ++m_pointer_to_vlc_buffer;
     }
     else
     {
         // This is RLE? I.e if g_left7_array is 7 then we repeat 7 pixels?
-        --g_left7_array;
+        --m_left7_array;
     }
     return ret;
 }
 
 
-void ScreenManager::vlc_decode(u16* aCamSeg, u16* aDst)
+void CamDecompressor::vlc_decode(const u16* aCamSeg, u16* aDst)
 {
     u32 vlcPtrIndex = 0;
     u32 camSrcPtrIndex = 0;
@@ -315,11 +313,11 @@ void ScreenManager::vlc_decode(u16* aCamSeg, u16* aDst)
 
 
 // This function takes a 16x240 strip of bits and processes as 16x16 sized macro blocks, thus there are 240/16=15 macro blocks
-void ScreenManager::process_segment(u16* aVlcBufferPtr, s32 xPos)
+void CamDecompressor::process_segment(u16* aVlcBufferPtr, s32 xPos)
 {
-    g_pointer_to_vlc_buffer = aVlcBufferPtr; // This is decoding one 16x240 seg
+    m_pointer_to_vlc_buffer = aVlcBufferPtr; // This is decoding one 16x240 seg
 
-    g_left7_array = 0;
+    m_left7_array = 0;
     next_bits();
 
     // 240/16 = 15 macro blocks for this strip
@@ -333,7 +331,7 @@ void ScreenManager::process_segment(u16* aVlcBufferPtr, s32 xPos)
     }
 }
 
-void ScreenManager::vlc_decoder(s32 aR, s32 aG, s32 aB, s32 aWidth, s32 aVramX, s32 aVramY)
+void CamDecompressor::vlc_decoder(s32 aR, s32 aG, s32 aB, s32 aWidth, s32 aVramX, s32 aVramY)
 {
     while (aWidth != 2) // Quad tree through 16, 8, 4, 2 sizes
     {
@@ -359,37 +357,28 @@ void ScreenManager::vlc_decoder(s32 aR, s32 aG, s32 aB, s32 aWidth, s32 aVramX, 
     write_4_pixel_block(r, g, b, aVramX, aVramY);
 }
 
-#if RENDERER_OPENGL
-static void SetPixel16(u16* /*pLocked*/, u32 /*pitch*/, s32 x, s32 y, u16 colour)
+static void SetPixel16(u16* pLocked, s32 x, s32 y, u16 colour)
 {
-    reinterpret_cast<u16*>(gCamBuffer)[x + (y * 640)] = colour;
+    reinterpret_cast<u16*>(pLocked)[x + (y * 16)] = colour;
 }
-#else
-static void SetPixel16(u16* pLocked, u32 pitch, s32 x, s32 y, u16 colour)
-{
-    y += (512 / 2) + 16; // Write to lower half of vram
-    pLocked[x + (y * pitch)] = colour;
-}
-#endif
 
-void ScreenManager::write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddlib::BitsLogic& aG, const Oddlib::BitsLogic& aB, s32 aVramX, s32 aVramY)
+void CamDecompressor::write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddlib::BitsLogic& aG, const Oddlib::BitsLogic& aB, s32 aVramX, s32 aVramY)
 {
     using namespace Oddlib;
 
-    u16* pData = reinterpret_cast<u16*>(sPsxVram_C1D160.field_4_pLockedPixels);
-    u32 pitch = sPsxVram_C1D160.field_10_locked_pitch / 2;
+    u16* pDst = &mDecompressedStrip[0];
 
     // Will go out of bounds due to macro blocks being 16x16, hence bounds check
     if (aVramY < 240)
     {
-        SetPixel16(pData, pitch, aVramX, aVramY, g_red_table[aR.param1] | g_green_table[aG.param1] | g_blue_table[aB.param1]);
-        SetPixel16(pData, pitch, aVramX + 1, aVramY, g_red_table[aR.param2] | g_green_table[aG.param2] | g_blue_table[aB.param2]);
+        SetPixel16(pDst, aVramX, aVramY, g_red_table[aR.param1] | g_green_table[aG.param1] | g_blue_table[aB.param1]);
+        SetPixel16(pDst, aVramX + 1, aVramY, g_red_table[aR.param2] | g_green_table[aG.param2] | g_blue_table[aB.param2]);
     }
 
     if (aVramY + 1 < 240)
     {
-        SetPixel16(pData, pitch, aVramX, aVramY + 1, g_red_table[aR.param3] | g_green_table[aG.param3] | g_blue_table[aB.param3]);
-        SetPixel16(pData, pitch, aVramX + 1, aVramY + 1, g_red_table[aR.param4] | g_green_table[aG.param4] | g_blue_table[aB.param4]);
+        SetPixel16(pDst, aVramX, aVramY + 1, g_red_table[aR.param3] | g_green_table[aG.param3] | g_blue_table[aB.param3]);
+        SetPixel16(pDst, aVramX + 1, aVramY + 1, g_red_table[aR.param4] | g_green_table[aG.param4] | g_blue_table[aB.param4]);
     }
 }
 
@@ -438,47 +427,34 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
     }
     else
     {
+        // AE camera
+
         u8** ppVlc = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
         if (ppVlc)
         {
-#if RENDERER_OPENGL
+            PSX_RECT rect = { 0, 0, 16, 240 };
+            CamDecompressor decompressor;
+ 
             u16* pIter = *ppBits;
-            for (s32 i = 0; i < kNumStrips; i++)
+            for (s16 xpos = 0; xpos < 640; xpos += 16)
             {
                 const u16 stripSize = *pIter;
                 pIter++;
 
                 if (stripSize > 0)
                 {
-                    vlc_decode(pIter, reinterpret_cast<u16*>(*ppVlc));
-                    process_segment(reinterpret_cast<u16*>(*ppVlc), i * kStripSize);
+                    decompressor.vlc_decode(pIter, reinterpret_cast<u16*>(*ppVlc));
+                    decompressor.process_segment(reinterpret_cast<u16*>(*ppVlc), 0);
+
+                    rect.x = field_2C_upos + xpos;
+                    rect.y = field_2E_vpos;
+
+                    IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<const u8*>(decompressor.mDecompressedStrip));
                 }
 
                 pIter += (stripSize / sizeof(u16));
             }
 
-            const PSX_RECT vramDest = {0, 272, 640, 240};
-            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, vramDest, reinterpret_cast<const u8*>(gCamBuffer));
-#else
-            if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
-            {
-                u16* pIter = *ppBits;
-                for (s32 i = 0; i < kNumStrips; i++)
-                {
-                    const u16 stripSize = *pIter;
-                    pIter++;
-
-                    if (stripSize > 0)
-                    {
-                        vlc_decode(pIter, reinterpret_cast<u16*>(*ppVlc));
-                        process_segment(reinterpret_cast<u16*>(*ppVlc), i * kStripSize);
-                    }
-
-                    pIter += (stripSize / sizeof(u16));
-                }
-                BMP_unlock_4F2100(&sPsxVram_C1D160);
-            }
-#endif
             ResourceManager::FreeResource_49C330(ppVlc);
         }
     }
