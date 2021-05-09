@@ -34,7 +34,7 @@ public:
         field_B8_xpos = xpos;
         field_BC_ypos = ypos + FP_FromInteger(4);
 
-        field_20_animation.field_C_render_layer = Layer::eLayer_12;
+        field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_Half_12;
         field_20_animation.field_B_render_mode = TPageAbr::eBlend_3;
 
         field_D0_r = 140;
@@ -177,7 +177,7 @@ public:
         field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_DC_bApplyShadows |= 1u;
-        field_20_animation.field_C_render_layer = Layer::eLayer_17;
+        field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
 
         field_B8_xpos = xpos;
         field_BC_ypos = ypos;
@@ -378,7 +378,7 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo)
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_DC_bApplyShadows |= 1u;
-    field_20_animation.field_C_render_layer = Layer::eLayer_17;
+    field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
     field_FA_frame_count = field_20_animation.Get_Frame_Count_40AC70();
     field_20_animation.SetFrame_409D50(Math_RandomRange_496AB0(0, field_FA_frame_count - 1));
 

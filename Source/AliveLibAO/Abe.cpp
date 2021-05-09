@@ -801,7 +801,7 @@ Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_FC_current_motion = eAbeStates::State_3_Fall_42E7F0;
 
     field_112_prev_motion = -1;
-    field_10_anim.field_C_layer = Layer::eLayer_32;
+    field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
     field_15C_pThrowable = nullptr;
     field_19C_throwable_count = 0;
     field_198_pThrowable = nullptr;
@@ -6846,7 +6846,7 @@ void Abe::State_60_Dead_42C4C0()
             field_158_pDeathFadeout = ao_new<DeathFadeOut>();
             if (field_158_pDeathFadeout)
             {
-                field_158_pDeathFadeout->ctor_419DB0(Layer::eLayer_40, 1, 0, 8, TPageAbr::eBlend_2);
+                field_158_pDeathFadeout->ctor_419DB0(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
             }
 
             field_158_pDeathFadeout->field_C_refCount++;
@@ -7023,21 +7023,21 @@ void Abe::State_61_Respawn_42CD20()
             }
             if (field_BC_sprite_scale == FP_FromDouble(0.5))
             {
-                field_10_anim.field_C_layer = Layer::eLayer_13;
+                field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
                 field_C6_scale = 0;
                 if (gElum_507680)
                 {
-                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_9;
+                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_ZapLinesElum_Half_9;
                     gElum_507680->field_C6_scale = 0;
                 }
             }
             else
             {
-                field_10_anim.field_C_layer = Layer::eLayer_32;
+                field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
                 field_C6_scale = 1;
                 if (gElum_507680)
                 {
-                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_28;
+                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_ZapLinesElum_28;
                     gElum_507680->field_C6_scale = 1;
                 }
             }
@@ -7051,7 +7051,7 @@ void Abe::State_61_Respawn_42CD20()
             //}
             field_10A_flags.Clear(Flags_10A::e10A_Bit5_Electrocuted);
 
-            field_158_pDeathFadeout->Init_419E40(Layer::eLayer_40, 0, 1, 8);
+            field_158_pDeathFadeout->Init_419E40(Layer::eLayer_FadeFlash_40, 0, 1, 8);
             field_158_pDeathFadeout->field_C_refCount--;
             field_158_pDeathFadeout = nullptr;
             field_FE_next_state = eAbeStates::State_0_Idle_423520;
@@ -7124,7 +7124,7 @@ void Abe::State_61_Respawn_42CD20()
                 auto pFlash = ao_new<Flash>();
                 if (pFlash)
                 {
-                    pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 255u);
+                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
                 }
                 field_106_shot = 0;
                 field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
@@ -7652,11 +7652,11 @@ void Abe::State_74_JumpIntoWell_430EC0()
 
     if (field_BC_sprite_scale == FP_FromDouble(0.5))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_3;
+        field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_Half_3;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_22;
+        field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
     }
 
     State_77_WellBegin_430F10();
@@ -7711,11 +7711,11 @@ void Abe::State_77_WellBegin_430F10()
     {
         if (field_BC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_10_anim.field_C_layer = Layer::eLayer_3;
+            field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_Half_3;
         }
         else
         {
-            field_10_anim.field_C_layer = Layer::eLayer_22;
+            field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
         }
     }
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -7827,11 +7827,11 @@ void Abe::State_78_InsideWellLocal_4310A0()
 
         if (field_BC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_10_anim.field_C_layer = Layer::eLayer_3;
+            field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_Half_3;
         }
         else
         {
-            field_10_anim.field_C_layer = Layer::eLayer_22;
+            field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
         }
 
         field_F4_pLine = nullptr;
@@ -7867,11 +7867,11 @@ void Abe::State_79_WellShotOut_431730()
     {
         if (field_BC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_10_anim.field_C_layer = Layer::eLayer_13;
+            field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
         }
         else
         {
-            field_10_anim.field_C_layer = Layer::eLayer_32;
+            field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
         }
 
         field_D0_pShadow->field_14_flags.Set(Shadow::eBit2_Enabled);
@@ -8255,7 +8255,7 @@ void Abe::State_88_HandstoneBegin_430590()
                         auto pDeathFadeOut = ao_new<DeathFadeOut>();
                         if (pDeathFadeOut)
                         {
-                            pDeathFadeOut->ctor_419DB0(Layer::eLayer_40, 0, 0, 8, TPageAbr::eBlend_2);
+                            pDeathFadeOut->ctor_419DB0(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                         }
                         field_158_pDeathFadeout = pDeathFadeOut;
                         field_190_level = gMap_507BA8.field_0_current_level;
@@ -8341,7 +8341,7 @@ void Abe::State_88_HandstoneBegin_430590()
             {
                 if (Input().IsAnyHeld(0xF0))
                 {
-                    field_158_pDeathFadeout->Init_419E40(Layer::eLayer_40, 1, 0, 8);
+                    field_158_pDeathFadeout->Init_419E40(Layer::eLayer_FadeFlash_40, 1, 0, 8);
                     field_110_state.stone = StoneStates::eSetActiveCamToAbeOrWaitForInput_7;
                     SFX_Play_43AD70(SoundEffect::IngameTransition_107, 90, 0);
                 }
@@ -8382,7 +8382,7 @@ void Abe::State_88_HandstoneBegin_430590()
                     auto pDeathFadeOutMem = ao_new<DeathFadeOut>();
                     if (pDeathFadeOutMem)
                     {
-                        pDeathFadeOutMem->ctor_419DB0(Layer::eLayer_40, 0, 0, 8, TPageAbr::eBlend_2);
+                        pDeathFadeOutMem->ctor_419DB0(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                     }
                     field_158_pDeathFadeout = pDeathFadeOutMem;
                     gMap_507BA8.SetActiveCam_444660(camera.level, camera.path, camera.camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
@@ -9823,13 +9823,13 @@ void Abe::State_156_DoorEnter_42D370()
                 if (pPathDoor->field_1E_scale == Scale_short::eHalf_1)
                 {
                     field_BC_sprite_scale = FP_FromDouble(0.5);
-                    field_10_anim.field_C_layer = Layer::eLayer_13;
+                    field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
                     field_C6_scale = 0;
                 }
                 else
                 {
                     field_BC_sprite_scale = FP_FromInteger(1);
-                    field_10_anim.field_C_layer = Layer::eLayer_32;
+                    field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
                     field_C6_scale = 1;
                 }
             }

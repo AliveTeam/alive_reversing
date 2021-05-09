@@ -104,12 +104,12 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
             if (field_BC_sprite_scale == FP_FromInteger(1))
             {
                 field_C6_scale = 1;
-                field_10_anim.field_C_layer = Layer::eLayer_39;
+                field_10_anim.field_C_layer = Layer::eLayer_Above_FG1_39;
             }
             else
             {
                 field_C6_scale = 0;
-                field_10_anim.field_C_layer = Layer::eLayer_20;
+                field_10_anim.field_C_layer = Layer::eLayer_Above_FG1_Half_20;
             }
 
             field_EC_count = particleCount;

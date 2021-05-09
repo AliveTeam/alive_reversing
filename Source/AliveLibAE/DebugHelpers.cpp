@@ -181,8 +181,8 @@ public:
 
                 std::string text = std::to_string(static_cast<s32>(pBaseGameObject->field_4_typeId));
 
-                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
-                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
+                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_Above_FG1_39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
+                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_FadeFlash_40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
             }
         }
     }
@@ -357,7 +357,7 @@ public:
         {
             const s32 gridX = 25 / 2;
             const s32 gridY = 20;
-            const Layer layer = Layer::eLayer_22;
+            const Layer layer = Layer::eLayer_BeforeWell_22;
 
             for (s32 y = 0; y < 12; y++)
             {
@@ -398,12 +398,12 @@ public:
                     color = mLineColors[mode];
                 }
 
-                Layer fontLayer = Layer::eLayer_41;
-                Layer layer = Layer::eLayer_40;
+                Layer fontLayer = Layer::eLayer_Menu_41;
+                Layer layer = Layer::eLayer_FadeFlash_40;
                 if (mode == 4 || mode == 5 || mode == 6)
                 {
-                    layer = Layer::eLayer_23;
-                    fontLayer = Layer::eLayer_24;
+                    layer = Layer::eLayer_Well_23;
+                    fontLayer = Layer::eLayer_RopeWebGrinder_24;
                 }
                 DEV::DebugDrawLine(ppOt, layer, l->field_0_rect.x, l->field_0_rect.y, l->field_0_rect.w, l->field_0_rect.h, color.r, color.g, color.b, true, false);
 
@@ -1141,8 +1141,8 @@ public:
 
             message->y = static_cast<f32>(targetY);
 
-            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<s16>(message->y), TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
-            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<s16>(message->y) + 1, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 0, static_cast<s16>(message->y), TPageAbr::eBlend_0, 1, 0, Layer::eLayer_FadeFlash_40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, message->message.c_str(), 1, static_cast<s16>(message->y) + 1, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_FadeFlash_40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
 
             message->time--;
 
@@ -1160,8 +1160,8 @@ public:
         if (mCommandLineEnabled)
         {
             std::string trail = (sGnFrame_5C1B84 % 10 < 5) ? "" : "_";
-            pIndex = mFont.DrawString_4337D0(ppOt, (">" + mCommandLineInput + trail).c_str(), 0, 232, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
-            pIndex = mFont.DrawString_4337D0(ppOt, (" " + mAutoComplete).c_str(), 0, 232, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_40, 30, 30, 30, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, (">" + mCommandLineInput + trail).c_str(), 0, 232, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_FadeFlash_40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(ppOt, (" " + mAutoComplete).c_str(), 0, 232, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_FadeFlash_40, 30, 30, 30, pIndex, FP_FromDouble(1.0), 640, 0);
         }
     }
 
@@ -1284,7 +1284,7 @@ public:
         xy.x = ypos;
         xy.y = ypos;
         InitType_ScreenOffset_4F5BB0(&mScreenOffset, &xy);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mScreenOffset.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mScreenOffset.mBase);
 
         static PSX_RECT clipRect = {};
         clipRect.x = 80;
@@ -1298,45 +1298,45 @@ public:
         // Tiles
         for (s32 i = 0; i < 10; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTiles[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTiles[i].mBase.header);
         }
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTile8.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTile16.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mTile.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile8.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile16.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile.mBase.header);
 
         // Sprites
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt8.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt8_TPage.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt8.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt8_TPage.mBase);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt16.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt16_TPage.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt16.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt16_TPage.mBase);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mSprt_TPage.mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt_TPage.mBase);
 
         // Lines
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineF2.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineF3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineF4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF2.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF4.mBase.header);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineG2.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineG3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mLineG4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG2.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG4.mBase.header);
 
         for (s32 i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyFT4[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyFT4[i].mBase.header);
         }
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyGT4.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyF4.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyG4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyGT4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyF4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyG4.mBase.header);
 
         // Polys
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyF3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyG3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyFT3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolyGT3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyF3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyG3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyFT3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyGT3.mBase.header);
     }
 
 private:
@@ -1738,7 +1738,7 @@ public:
     {
         for (s32 i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPolys[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolys[i].mBase.header);
         }
     }
 
@@ -1815,11 +1815,11 @@ public:
     {
         for (s32 i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPoly_F4_Verts[i].mBase.header);
+            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F4_Verts[i].mBase.header);
         }
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPoly_F3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_30), &mPoly_F4.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F3.mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F4.mBase.header);
     }
 
     void Update()
@@ -1986,7 +1986,7 @@ public:
         mAnim[3].vRender_40B820(40 + (2 * 85), 40 + (2 * 90), ot, 0, 0);
         mAnim[4].vRender_40B820(180 + 90, 170 + 45, ot, 0, 0);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_30), &mPolyFT4[0].mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_InBirdPortal_30), &mPolyFT4[0].mBase.header);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
     }
@@ -2039,7 +2039,7 @@ private:
 
             mAnim[i].field_14_scale = FP_FromDouble(2.0);
 
-            mAnim[i].field_C_render_layer = Layer::eLayer_38;
+            mAnim[i].field_C_render_layer = Layer::eLayer_MainMenuButton_38;
             mAnim[i].field_B_render_mode = TPageAbr::eBlend_1;
 
             mAnim[i].field_A_b = 127;
@@ -2380,15 +2380,15 @@ void DEV::DebugOnFrameDraw(PrimHeader** ppOt)
                 const s32 hitX = FP_GetExponent(rc.hitX);
                 const s32 hitY = FP_GetExponent(rc.hitY);
 
-                DEV::DebugDrawLine(ppOt, Layer::eLayer_38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), hitX, hitY, 255, 255, 0, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButton_38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), hitX, hitY, 255, 255, 0, true, true);
 
 
-                DEV::DebugDrawLine(ppOt, Layer::eLayer_38, hitX - 1, hitY - 1, hitX + 1, hitY + 1, 255, 255, 255, true, true);
-                DEV::DebugDrawLine(ppOt, Layer::eLayer_38, hitX + 1, hitY - 1, hitX - 1, hitY + 1, 255, 255, 255, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButton_38, hitX - 1, hitY - 1, hitX + 1, hitY + 1, 255, 255, 255, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButton_38, hitX + 1, hitY - 1, hitX - 1, hitY + 1, 255, 255, 255, true, true);
             }
             else
             {
-                DEV::DebugDrawLine(ppOt, Layer::eLayer_38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), FP_GetExponent(rc.x2), FP_GetExponent(rc.y2), 0, 255, 0, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButton_38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), FP_GetExponent(rc.x2), FP_GetExponent(rc.y2), 0, 255, 0, true, true);
             }
         }
     }

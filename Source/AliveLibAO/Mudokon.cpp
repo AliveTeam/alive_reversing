@@ -306,13 +306,13 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
     if (scale == 1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_13;
+        field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = Layer::eLayer_32;
+        field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
         field_C6_scale = 1;
     }
 

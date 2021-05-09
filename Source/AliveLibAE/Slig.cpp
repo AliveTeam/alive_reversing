@@ -590,14 +590,14 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo)
         if (pTlv->field_10_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_20_animation.field_C_render_layer = Layer::eLayer_14;
+            field_20_animation.field_C_render_layer = Layer::eLayer_SligGreeterFarts_Half_14;
             field_D6_scale = 0;
         }
     }
     else
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_33;
+        field_20_animation.field_C_render_layer = Layer::eLayer_SligGreeterFarts_33;
         field_D6_scale = 1;
     }
 
@@ -898,11 +898,11 @@ s32 CC Slig::CreateFromSaveState_4B3B50(const u8* pBuffer)
 
     if (pSlig->field_CC_sprite_scale == FP_FromInteger(1))
     {
-        pSlig->field_20_animation.field_C_render_layer = Layer::eLayer_33;
+        pSlig->field_20_animation.field_C_render_layer = Layer::eLayer_SligGreeterFarts_33;
     }
     else
     {
-        pSlig->field_20_animation.field_C_render_layer = Layer::eLayer_14;
+        pSlig->field_20_animation.field_C_render_layer = Layer::eLayer_SligGreeterFarts_Half_14;
     }
 
     pSlig->field_D6_scale = pState->field_1C_scale;
@@ -6863,7 +6863,7 @@ s16 CCSTD Slig::InZCover_4BB7C0(BaseAliveGameObject* pObj)
 
 BOOL CCSTD Slig::RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis)
 {
-    return pThis->field_20_animation.field_C_render_layer == Layer::eLayer_3 || pThis->field_20_animation.field_C_render_layer == Layer::eLayer_22;
+    return pThis->field_20_animation.field_C_render_layer == Layer::eLayer_BeforeWell_Half_3 || pThis->field_20_animation.field_C_render_layer == Layer::eLayer_BeforeWell_22;
 }
 
 void Slig::NextCommand_4B9A00(s16 speakTableIndex, s16 responseState)

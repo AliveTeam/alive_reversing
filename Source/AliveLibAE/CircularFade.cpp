@@ -72,7 +72,7 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 directio
     field_B8_xpos = xpos;
     field_BC_ypos = ypos;
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_2;
-    field_20_animation.field_C_render_layer = Layer::eLayer_40;
+    field_20_animation.field_C_render_layer = Layer::eLayer_FadeFlash_40;
     field_D0_r = field_1B8_fade_colour;
     field_D2_g = field_1B8_fade_colour;
     field_D4_b = field_1B8_fade_colour;

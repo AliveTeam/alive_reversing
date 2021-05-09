@@ -102,7 +102,7 @@ void InvisibleSwitch::VUpdate_4335A0()
                     auto pAlarm = ao_new<Alarm>();
                     if (pAlarm)
                     {
-                        pAlarm->ctor_402570(150, 0, 30, Layer::eLayer_39);
+                        pAlarm->ctor_402570(150, 0, 30, Layer::eLayer_Above_FG1_39);
                     }
                 }
                 field_28_state = 0;

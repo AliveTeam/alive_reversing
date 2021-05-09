@@ -46,11 +46,11 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
-        field_12C_render_layer = Layer::eLayer_36;
+        field_12C_render_layer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        field_12C_render_layer = Layer::eLayer_17;
+        field_12C_render_layer = Layer::eLayer_Foreground_Half_17;
     }
 
     field_126_total_count = count;

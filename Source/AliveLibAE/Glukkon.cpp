@@ -1649,7 +1649,7 @@ s16 Glukkon::AI_3_PlayerControlled_441A30()
             auto pDeathFadeOutMem = ae_new<DeathFadeOut>();
             if (pDeathFadeOutMem)
             {
-                field_208_obj_id = pDeathFadeOutMem->ctor_427030(Layer::eLayer_40, 1, 0, 8, TPageAbr::eBlend_2)->field_8_object_id;
+                field_208_obj_id = pDeathFadeOutMem->ctor_427030(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2)->field_8_object_id;
             }
         }
             return 3;
@@ -1732,7 +1732,7 @@ s16 Glukkon::AI_3_PlayerControlled_441A30()
             pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes); // TODO: Cast hack
             if (pDeathFadeOut)
             {
-                pDeathFadeOut->Init_427140(Layer::eLayer_40, 0, 1, 8);
+                pDeathFadeOut->Init_427140(Layer::eLayer_FadeFlash_40, 0, 1, 8);
             }
             return 6;
 

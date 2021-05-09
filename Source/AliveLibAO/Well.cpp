@@ -92,11 +92,11 @@ void Well::VUpdate_48B270()
                     {
                         if (field_EC_scale == FP_FromDouble(0.5))
                         {
-                            pLeaf->field_10_anim.field_C_layer = Layer::eLayer_3;
+                            pLeaf->field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_Half_3;
                         }
                         else
                         {
-                            pLeaf->field_10_anim.field_C_layer = Layer::eLayer_22;
+                            pLeaf->field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
                         }
                     }
                 }
@@ -133,12 +133,12 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 
     if (pTlv->field_18_scale)
     {
-        field_10_anim.field_C_layer = Layer::eLayer_4;
+        field_10_anim.field_C_layer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_23;
+        field_10_anim.field_C_layer = Layer::eLayer_Well_23;
         field_EC_scale = FP_FromInteger(1);
     }
 
@@ -189,13 +189,13 @@ void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 
     if (pTlv->field_18_scale)
     {
-        field_10_anim.field_C_layer = Layer::eLayer_4;
+        field_10_anim.field_C_layer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_23;
+        field_10_anim.field_C_layer = Layer::eLayer_Well_23;
         field_EC_scale = FP_FromInteger(1);
         field_C6_scale = 1;
     }

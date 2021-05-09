@@ -405,7 +405,7 @@ void BirdPortal::vUpdate_498280()
             auto pFlash = ae_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_428570(Layer::eLayer_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
+                pFlash->ctor_428570(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_3, 1);
             }
             field_28_state = PortalStates::CreateFlash2_13;
         }
@@ -416,7 +416,7 @@ void BirdPortal::vUpdate_498280()
             auto pFlash = ae_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_428570(Layer::eLayer_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_0, 1);
+                pFlash->ctor_428570(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_0, 1);
             }
             field_28_state = PortalStates::CreateFlash3_14;
         }
@@ -427,7 +427,7 @@ void BirdPortal::vUpdate_498280()
             auto pFlash = ae_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_428570(Layer::eLayer_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
+                pFlash->ctor_428570(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
             }
             field_28_state = PortalStates::KillPortal_15;
             field_5C_timer = sGnFrame_5C1B84 + 5;
@@ -526,11 +526,11 @@ void BirdPortal::vUpdate_498280()
 
                 if (field_60_scale == FP_FromInteger(1))
                 {
-                    sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_32;
+                    sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_32;
                 }
                 else
                 {
-                    sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_13;
+                    sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_Half_13;
                 }
                 if (field_90_sfx_ret)
                 {
@@ -820,11 +820,11 @@ s16 BirdPortal::vPortalClipper_499430(s16 bIgnoreClipping)
         field_74_screen_clipper_id = pClipper1->field_8_object_id;
         if (field_60_scale == FP_FromInteger(1))
         {
-            pClipper1->field_48_ot_layer = Layer::eLayer_29;
+            pClipper1->field_48_ot_layer = Layer::eLayer_BirdPortal_29;
         }
         else
         {
-            pClipper1->field_48_ot_layer = Layer::eLayer_10;
+            pClipper1->field_48_ot_layer = Layer::eLayer_BirdPortal_Half_10;
         }
     }
 
@@ -836,11 +836,11 @@ s16 BirdPortal::vPortalClipper_499430(s16 bIgnoreClipping)
         field_78_screen_clipper_id = pClipper2->field_8_object_id;
         if (field_60_scale == FP_FromInteger(1))
         {
-            pClipper2->field_48_ot_layer = Layer::eLayer_31;
+            pClipper2->field_48_ot_layer = Layer::eLayer_FallingItemPortalClip_31;
         }
         else
         {
-            pClipper2->field_48_ot_layer = Layer::eLayer_12;
+            pClipper2->field_48_ot_layer = Layer::eLayer_FallingItemPortalClip_Half_12;
         }
     }
 
@@ -949,13 +949,13 @@ void BirdPortal::vExitPortal_499870()
         if (pPortalExitTlv->field_12_scale == Scale_short::eHalf_1)
         {
             field_60_scale = FP_FromDouble(0.5);
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_11;
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_InBirdPortal_Half_11;
             sActiveHero_5C1B68->field_D6_scale = 0;
         }
         else
         {
             field_60_scale = FP_FromInteger(1);
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_30;
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_InBirdPortal_30;
             sActiveHero_5C1B68->field_D6_scale = 1;
         }
 
@@ -1221,11 +1221,11 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP
     field_CC_sprite_scale = scale;
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_39;
+        field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_39;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_20;
+        field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_Half_20;
     }
 
     field_DC_bApplyShadows &= ~1u;

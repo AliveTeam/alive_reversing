@@ -697,7 +697,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
             TPageAbr::eBlend_0,
             1,
             0,
-            Layer::eLayer_41,
+            Layer::eLayer_Menu_41,
             static_cast<u8>(colourOffset + entry[entryId].field_8_r),
             static_cast<u8>(colourOffset + entry[entryId].field_9_g),
             static_cast<u8>(colourOffset + entry[entryId].field_A_b),
@@ -722,8 +722,8 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
     SetXY3(pPrim, 640, 240);
     Prim_SetTPage* prim_tpage = &field_138_tPage[gPsxDisplay_504C78.field_A_buffer_index];
     Init_SetTPage_495FB0(prim_tpage, 0, 0, PSX_getTPage_4965D0(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
-    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_41), &pPrim->mBase.header);
-    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_41), &prim_tpage->mBase);
+    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Menu_41), &pPrim->mBase.header);
+    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Menu_41), &prim_tpage->mBase);
     pScreenManager_4FF7C8->InvalidateRect_406E40(
         0,
         0,
@@ -780,7 +780,7 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
                 TPageAbr::eBlend_0,
                 1,
                 0,
-                Layer::eLayer_41,
+                Layer::eLayer_Menu_41,
                 128,
                 16,
                 255,

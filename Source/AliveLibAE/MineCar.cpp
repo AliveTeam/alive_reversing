@@ -33,14 +33,14 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /
 
     field_DC_bApplyShadows |= 2u;
     field_1BE_unused = 0;
-    field_20_animation.field_C_render_layer = Layer::eLayer_26;
+    field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_26;
     field_CC_sprite_scale = FP_FromInteger(1);
     field_D6_scale = 1;
 
     if (field_11E_scale != Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = Layer::eLayer_7;
+        field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_Half_7;
         field_D6_scale = 0;
     }
 
@@ -918,12 +918,12 @@ void MineCar::State_0_ParkedWithoutAbe()
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_11C_state = MineCarStates::eState_1_ParkedWithAbe;
         sControlledCharacter_5C1B8C = this;
-        field_20_animation.field_C_render_layer = Layer::eLayer_35;
-        field_124_anim.field_C_render_layer = Layer::eLayer_35;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
+        field_124_anim.field_C_render_layer = Layer::eLayer_BombMineCar_35;
         if (field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_16;
-            field_124_anim.field_C_render_layer = Layer::eLayer_16;
+            field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_Half_16;
+            field_124_anim.field_C_render_layer = Layer::eLayer_BombMineCar_Half_16;
         }
         SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, 500, field_CC_sprite_scale);
     }
@@ -960,13 +960,13 @@ void MineCar::State_1_ParkedWithAbe()
 
         if (field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_7;
-            field_124_anim.field_C_render_layer = Layer::eLayer_7;
+            field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_Half_7;
+            field_124_anim.field_C_render_layer = Layer::eLayer_Shadow_Half_7;
         }
         else
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_26;
-            field_124_anim.field_C_render_layer = Layer::eLayer_26;
+            field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_26;
+            field_124_anim.field_C_render_layer = Layer::eLayer_Shadow_26;
         }
 
         return;

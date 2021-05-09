@@ -1567,7 +1567,7 @@ EXPORT void CC Factory_LaughingGas_4DA870(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 {
     if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
     {
-        Create_Gas_4DA8B0(Layer::eLayer_39, 2, pTlv, tlvInfo.all);
+        Create_Gas_4DA8B0(Layer::eLayer_Above_FG1_39, 2, pTlv, tlvInfo.all);
     }
 }
 

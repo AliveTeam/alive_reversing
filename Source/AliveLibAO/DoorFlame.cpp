@@ -37,7 +37,7 @@ public:
         field_A8_xpos = xpos;
         field_AC_ypos = ypos + FP_FromInteger(4);
 
-        field_10_anim.field_C_layer = Layer::eLayer_12;
+        field_10_anim.field_C_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
         field_10_anim.field_B_render_mode = TPageAbr::eBlend_3;
 
         field_10_anim.field_8_r = 100;
@@ -178,7 +178,7 @@ public:
         field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_CC_bApplyShadows |= 1u;
-        field_10_anim.field_C_layer = Layer::eLayer_17;
+        field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
 
         field_A8_xpos = xpos;
         field_AC_ypos = ypos;
@@ -427,7 +427,7 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_CC_bApplyShadows |= 1u;
-    field_10_anim.field_C_layer = Layer::eLayer_17;
+    field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
     field_EA_frame_count = field_10_anim.Get_Frame_Count_403540();
     field_E8_switch_id = pTlv->field_18_id;
 

@@ -35,13 +35,13 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
-        field_10_anim.field_C_layer = Layer::eLayer_6;
+        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
         field_C6_scale = 1;
-        field_10_anim.field_C_layer = Layer::eLayer_25;
+        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
     }
 
     if (pTlv->field_1E_direction)

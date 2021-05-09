@@ -67,13 +67,13 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     if (scale == FP_FromInteger(1))
     {
         field_E8_z = FP_FromInteger(0);
-        field_10_anim.field_C_layer = Layer::eLayer_37;
+        field_10_anim.field_C_layer = Layer::eLayer_FG1_37;
         field_C6_scale = 1;
     }
     else if (scale == FP_FromDouble(0.5))
     {
         field_E8_z = FP_FromInteger(100);
-        field_10_anim.field_C_layer = Layer::eLayer_17;
+        field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
         field_C6_scale = 0;
     }
     else
@@ -297,11 +297,11 @@ void Gibs::VRender_408200(PrimHeader** ppOt)
                 pGib->field_18_anim.field_14_scale = FP_FromInteger(100) / (pGib->field_8_z + FP_FromInteger(100));
                 if (pGib->field_18_anim.field_14_scale < FP_FromInteger(1))
                 {
-                    pGib->field_18_anim.field_C_layer = Layer::eLayer_17;
+                    pGib->field_18_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
                 }
                 else
                 {
-                    pGib->field_18_anim.field_C_layer = Layer::eLayer_37;
+                    pGib->field_18_anim.field_C_layer = Layer::eLayer_FG1_37;
                 }
 
                 pGib->field_18_anim.VRender_403AE0(

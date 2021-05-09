@@ -50,12 +50,12 @@ void PlatformBase::AddDynamicCollision_4512C0(s32 maxW, s32 maxH, s32 frameTable
 
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_25;
+        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
         field_C6_scale = 1;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_6;
+        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
         field_C6_scale = 0;
     }
 

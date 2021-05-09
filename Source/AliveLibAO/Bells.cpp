@@ -45,7 +45,7 @@ Bells* Bells::ctor_40A650(BellSize bellType, FP xpos, FP ypos, FP scale)
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
 
-    field_10_anim.field_C_layer = Layer::eLayer_36;
+    field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
 
     field_E8_bSmashing = 0;
 
@@ -106,7 +106,7 @@ void Bells::VUpdate_40A770()
                 {
                     const FP wave_ypos = field_AC_ypos + FP_FromInteger(36);
                     const FP wave_xpos = field_A8_xpos - FP_FromInteger(35);
-                    pScreenWave->ctor_462A70(wave_xpos, wave_ypos, Layer::eLayer_37, FP_FromInteger(18), FP_FromInteger(12), 0);
+                    pScreenWave->ctor_462A70(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(18), FP_FromInteger(12), 0);
                 }
             }
             else if (field_EA_sound == Sounds::eHighPitch_2)
@@ -118,7 +118,7 @@ void Bells::VUpdate_40A770()
                 {
                     const FP wave_ypos = field_AC_ypos + FP_FromInteger(32);
                     const FP wave_xpos = field_A8_xpos + FP_FromInteger(37);
-                    pScreenWave->ctor_462A70(wave_xpos, wave_ypos, Layer::eLayer_37, FP_FromInteger(12), FP_FromInteger(12), 0);
+                    pScreenWave->ctor_462A70(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(12), FP_FromInteger(12), 0);
                 }
             }
             else if (field_EA_sound == Sounds::eMediumPitch_1)
@@ -130,7 +130,7 @@ void Bells::VUpdate_40A770()
                 {
                     const FP wave_ypos = field_AC_ypos + FP_FromInteger(24);
                     const FP wave_xpos = field_A8_xpos - FP_FromInteger(4);
-                    pScreenWave->ctor_462A70(wave_xpos, wave_ypos, Layer::eLayer_37, FP_FromInteger(14), FP_FromInteger(12), 0);
+                    pScreenWave->ctor_462A70(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(14), FP_FromInteger(12), 0);
                 }
             }
 

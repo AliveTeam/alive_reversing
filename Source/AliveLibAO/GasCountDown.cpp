@@ -134,7 +134,7 @@ void GasCountDown::VUpdate_40C0E0()
         auto pAlarm = ao_new<Alarm>();
         if (pAlarm)
         {
-            pAlarm->ctor_402570(3600, 0, 0, Layer::eLayer_39);
+            pAlarm->ctor_402570(3600, 0, 0, Layer::eLayer_Above_FG1_39);
         }
     }
 
@@ -199,7 +199,7 @@ void GasCountDown::DealDamage()
         auto pDeathGas = ao_new<DeathGas>();
         if (pDeathGas)
         {
-            pDeathGas->ctor_41CF40(Layer::eLayer_39, 2);
+            pDeathGas->ctor_41CF40(Layer::eLayer_Above_FG1_39, 2);
         }
     }
 }
@@ -223,7 +223,7 @@ void GasCountDown::VRender_40C2F0(PrimHeader** ppOt)
         TPageAbr::eBlend_1,
         1,
         0,
-        Layer::eLayer_22,
+        Layer::eLayer_BeforeWell_22,
         127,
         127,
         127,

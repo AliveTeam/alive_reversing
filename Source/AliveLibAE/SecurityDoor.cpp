@@ -27,7 +27,7 @@ SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo)
 
     field_F4_tlvInfo = tlvInfo;
 
-    field_20_animation.field_C_render_layer = Layer::eLayer_22;
+    field_20_animation.field_C_render_layer = Layer::eLayer_BeforeWell_22;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {

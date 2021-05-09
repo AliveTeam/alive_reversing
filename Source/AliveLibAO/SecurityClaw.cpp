@@ -104,7 +104,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
     {
         pClaw->ctor();
         pClaw->field_BC_sprite_scale = field_BC_sprite_scale;
-        pClaw->field_10_anim.field_C_layer = field_BC_sprite_scale == FP_FromInteger(1) ? Layer::eLayer_28 : Layer::eLayer_9;
+        pClaw->field_10_anim.field_C_layer = field_BC_sprite_scale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElum_28 : Layer::eLayer_ZapLinesElum_Half_9;
 
         field_130_pClaw = pClaw;
 
@@ -372,7 +372,7 @@ void SecurityClaw::VUpdate_418DE0()
                     auto pAlarm = ao_new<Alarm>();
                     if (pAlarm)
                     {
-                        pAlarm->ctor_402570(field_11A, field_118_alarm_id, 30, Layer::eLayer_39);
+                        pAlarm->ctor_402570(field_11A, field_118_alarm_id, 30, Layer::eLayer_Above_FG1_39);
                     }
                 }
             }
@@ -401,7 +401,7 @@ void SecurityClaw::VUpdate_418DE0()
                         hero_mid_x,
                         hero_mid_y,
                         8, ZapLineType::eThick_0,
-                        Layer::eLayer_28);
+                        Layer::eLayer_ZapLinesElum_28);
                 }
 
                 auto pPossessionFlicker = ao_new<PossessionFlicker>();
@@ -470,7 +470,7 @@ void SecurityClaw::VUpdate_418DE0()
                 auto pFlash = ao_new<Flash>();
                 if (pFlash)
                 {
-                    pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0);
+                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
                 }
             }
 
@@ -479,7 +479,7 @@ void SecurityClaw::VUpdate_418DE0()
                 auto pFlash = ao_new<Flash>();
                 if (pFlash)
                 {
-                    pFlash->ctor_41A810(Layer::eLayer_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
+                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
                 }
             }
 

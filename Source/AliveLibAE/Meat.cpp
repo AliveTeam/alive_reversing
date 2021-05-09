@@ -409,7 +409,7 @@ void Meat::vUpdate_469BA0()
                         (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos,
                         field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
-                        Layer::eLayer_36);
+                        Layer::eLayer_Foreground_36);
                     field_128_timer = Math_NextRandom() % 16 + sGnFrame_5C1B84 + 60;
                 }
                 if (field_12C_deadtimer < (s32) sGnFrame_5C1B84)

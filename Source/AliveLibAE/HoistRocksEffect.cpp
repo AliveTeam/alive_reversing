@@ -82,11 +82,11 @@ HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, s32 tlvInfo)
 
         if (pTlv->field_16_scale == Scale_short::eHalf_1)
         {
-            particle.field_10_mAnim.field_C_render_layer = Layer::eLayer_6;
+            particle.field_10_mAnim.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
         }
         else
         {
-            particle.field_10_mAnim.field_C_render_layer = Layer::eLayer_25;
+            particle.field_10_mAnim.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
         }
 
         particle.field_10_mAnim.field_B_render_mode = TPageAbr::eBlend_0;

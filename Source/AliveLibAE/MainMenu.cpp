@@ -539,7 +539,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_158_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
     field_158_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_158_animation.field_C_render_layer = Layer::eLayer_38;
+    field_158_animation.field_C_render_layer = Layer::eLayer_MainMenuButton_38;
     field_158_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
     field_1FE_highlite_alpha = 40;
@@ -831,7 +831,7 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
                 if (pParticle)
                 {
                     pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-                    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_39;
+                    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_39;
                 }
             }
         }
@@ -1148,7 +1148,7 @@ static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_fo
         TPageAbr::eBlend_0,
         1,
         0,
-        Layer::eLayer_32,
+        Layer::eLayer_AbeMenu_32,
         r,
         g,
         b,
@@ -1165,7 +1165,7 @@ static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_fo
         TPageAbr::eBlend_0,
         1,
         0,
-        Layer::eLayer_32,
+        Layer::eLayer_AbeMenu_32,
         0,
         0,
         0,
@@ -1408,13 +1408,13 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
             const s16 textYPos = static_cast<s16>((FP_GetExponent(field_254 + FP_FromDouble(0.5))) + 26 * loopCount + 117);
             if (loopCount)
             {
-                polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, textYPos, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_32, 210, 150, 80, polyIndex, FP_FromInteger(1), 640, 0);
+                polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, textYPos, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 210, 150, 80, polyIndex, FP_FromInteger(1), 640, 0);
             }
             else
             {
-                polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, textYPos, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_32, 255, 218, 140, polyIndex, FP_FromInteger(1), 640, 0);
+                polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, textYPos, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 255, 218, 140, polyIndex, FP_FromInteger(1), 640, 0);
             }
-            polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos + 2, textYPos + 2, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_32, 0, 0, 0, polyIndex, FP_FromInteger(1), 640, 0);
+            polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos + 2, textYPos + 2, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 0, 0, 0, polyIndex, FP_FromInteger(1), 640, 0);
         }
         loopCount++;
     }
@@ -1907,13 +1907,13 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         {
             sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
             sActiveHero_5C1B68->field_D6_scale = 1;
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_32;
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_32;
         }
         else if (field_24E_start_scale == -2)
         {
             sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
             sActiveHero_5C1B68->field_D6_scale = 0;
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_13;
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_Half_13;
         }
     }
     else
@@ -2605,7 +2605,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 88, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 88, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
         char_type buffer[512] = {};
         sprintf(buffer, "for %s", sInputButtonNames_562790[sButtonToRemapIdx_BB43EC]);
         field_234_pStr = buffer;
@@ -2618,7 +2618,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 120, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 120, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
         field_234_pStr = "Press BackSpace for none, Esc to exit";
         textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
         if (textWidth >= 336)
@@ -2629,7 +2629,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 152, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 152, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
     }
     else
     {
@@ -2736,7 +2736,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
             if (Input_Remap_492680(kIdxToInput_561F14[sButtonToRemapIdx_BB43EC]))
             {
                 dword_BB43F8 = 0;
-                field_208_transition_obj->StartTrans_464370(Layer::eLayer_40, 0, 0, 16);
+                field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 0, 0, 16);
             }
         }
     }
@@ -2805,7 +2805,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
 
         if (input & InputCommands::Enum::eUnPause_OrConfirm)
         {
-            field_208_transition_obj->StartTrans_464370(Layer::eLayer_40, 1, 0, 16);
+            field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             dword_BB43F8 = 1;
             return MainMenuNextCam(MainMenuCams::eNoChange);
         }
@@ -3198,7 +3198,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
                 if (field_208_transition_obj)
                 {
-                    field_208_transition_obj->StartTrans_464370(Layer::eLayer_40, 1, 0, 16);
+                    field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                     field_21E_bChangeScreen = 2;
                     return 1;
                 }
@@ -3206,7 +3206,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 field_208_transition_obj = ae_new<MainMenuTransition>();
                 if (field_208_transition_obj)
                 {
-                    field_208_transition_obj->ctor_464110(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_2);
+                    field_208_transition_obj->ctor_464110(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_2);
                     field_21E_bChangeScreen = 2;
                     return 1;
                 }
@@ -3215,7 +3215,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             {
                 if (field_208_transition_obj)
                 {
-                    field_208_transition_obj->StartTrans_464370(Layer::eLayer_40, 1, 0, 16);
+                    field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                     field_21E_bChangeScreen = 2;
                     return 1;
                 }
@@ -3223,7 +3223,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 field_208_transition_obj = ae_new<MainMenuTransition>();
                 if (field_208_transition_obj)
                 {
-                    field_208_transition_obj->ctor_464110(Layer::eLayer_40, 1, 0, 16, TPageAbr::eBlend_1);
+                    field_208_transition_obj->ctor_464110(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                     field_21E_bChangeScreen = 2;
                     return 1;
                 }
@@ -3412,7 +3412,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
             if (field_21C_bDoScreenTransistionEffect == 0 || field_21C_bDoScreenTransistionEffect == 2)
             {
-                field_208_transition_obj->StartTrans_464370(Layer::eLayer_40, 0, 0, 16);
+                field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 0, 0, 16);
             }
 
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -3869,7 +3869,7 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
         TPageAbr::eBlend_0,
         1,
         0,
-        Layer::eLayer_39,
+        Layer::eLayer_Above_FG1_39,
         0,
         255,
         0,

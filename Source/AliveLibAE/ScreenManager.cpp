@@ -648,19 +648,19 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
 
         if (IsDirty_40EBC0(7, spriteX, spriteY))
         {
-            Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_37, i, ppOt);
+            Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_FG1_37, i, ppOt);
         }
         else if (IsDirty_40EBC0(6, spriteX, spriteY))
         {
-            Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_23, i, ppOt);
+            Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_Well_23, i, ppOt);
         }
         else if (IsDirty_40EBC0(5, spriteX, spriteY))
         {
-            Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_18, i, ppOt);
+            Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_FG1_Half_18, i, ppOt);
         }
         else if (IsDirty_40EBC0(4, spriteX, spriteY))
         {
-            Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_4, i, ppOt);
+            Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_Well_Half_4, i, ppOt);
         }
         else if (IsDirty_40EBC0(field_3C_y_idx, spriteX, spriteY) || IsDirty_40EBC0(3, spriteX, spriteY))
         {

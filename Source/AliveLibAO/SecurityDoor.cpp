@@ -70,7 +70,7 @@ SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, s32 tlvInfo)
     field_E4_tlvInfo = tlvInfo;
 
     field_C8_yOffset = 0;
-    field_10_anim.field_C_layer = Layer::eLayer_22;
+    field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
 
     if (pTlv->field_18_scale == 1)
     {

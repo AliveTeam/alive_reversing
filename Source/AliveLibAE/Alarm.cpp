@@ -28,7 +28,7 @@ void Alarm::VRender(PrimHeader** ppOt)
 
 Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, s32 tlvInfo)
 {
-    ctor_4AB7A0(Layer::eLayer_39, TPageAbr::eBlend_3);
+    ctor_4AB7A0(Layer::eLayer_Above_FG1_39, TPageAbr::eBlend_3);
     field_84_tlvOffsetLevelPathCamId = tlvInfo;
 
     SetVTable(this, 0x544074); // vTbl_GlukkonPanic_544074

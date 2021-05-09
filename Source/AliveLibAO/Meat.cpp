@@ -542,7 +542,7 @@ void Meat::VUpdate_438A20()
                         field_A8_xpos + field_BC_sprite_scale,
                         field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
-                        Layer::eLayer_36);
+                        Layer::eLayer_Foreground_36);
                     field_11C_timer = Math_NextRandom() % 16 + gnFrameCount_507670 + 60;
                 }
                 if (field_120_deadtimer < static_cast<s32>(gnFrameCount_507670))

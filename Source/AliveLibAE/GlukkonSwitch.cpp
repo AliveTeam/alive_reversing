@@ -27,7 +27,7 @@ GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_F4_tlvInfo = tlvInfo;
-    field_20_animation.field_C_render_layer = Layer::eLayer_22;
+    field_20_animation.field_C_render_layer = Layer::eLayer_BeforeWell_22;
 
     if (pTlv->field_10_scale == Path_GlukkonSwitch::Scale::eFull_1)
     {

@@ -102,7 +102,7 @@ void Explosion::VUpdate_458D00()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
+                pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             }
             break;
         }
@@ -112,7 +112,7 @@ void Explosion::VUpdate_458D00()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
+                pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
             }
 
             rect.x = FP_GetExponent(FP_FromInteger(-38) * field_E4_scale);
@@ -142,7 +142,7 @@ void Explosion::VUpdate_458D00()
             auto pFlash = ao_new<Flash>();
             if (pFlash)
             {
-                pFlash->ctor_41A810(Layer::eLayer_39, 255u, 255u, 255u);
+                pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             }
             break;
         }

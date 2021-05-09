@@ -41,11 +41,11 @@ EvilFart* EvilFart::ctor_422E30()
     field_D6_scale = sActiveHero_5C1B68->field_D6_scale;
     if (field_D6_scale == 1)
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_33;
+        field_20_animation.field_C_render_layer = Layer::eLayer_SligGreeterFarts_33;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_14;
+        field_20_animation.field_C_render_layer = Layer::eLayer_SligGreeterFarts_Half_14;
     }
 
     if (sActiveHero_5C1B68->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))

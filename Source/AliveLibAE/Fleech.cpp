@@ -1710,12 +1710,12 @@ void Fleech::Init_42A170()
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_34;
+        field_20_animation.field_C_render_layer = Layer::eLayer_SlogFleech_34;
         field_D6_scale = 1;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_15;
+        field_20_animation.field_C_render_layer = Layer::eLayer_SlogFleech_Half_15;
         field_D6_scale = 0;
     }
 

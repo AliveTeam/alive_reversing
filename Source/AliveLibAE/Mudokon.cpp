@@ -539,13 +539,13 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = Layer::eLayer_9;
+        field_20_animation.field_C_render_layer = Layer::eLayer_ZapLinesMuds_Half_9;
         field_D6_scale = 0;
     }
     else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_28;
+        field_20_animation.field_C_render_layer = Layer::eLayer_ZapLinesMuds_28;
         field_D6_scale = 1;
     }
 
@@ -1022,7 +1022,7 @@ void Mudokon::vUpdate_4757A0()
                     if (field_18E_ai_state == Mud_AI_State::AI_Escape_6_47A560 && field_190_sub_state == 3)
                     {
                         static_cast<BirdPortal*>(pObj)->VPortalClipper_499430(1);
-                        field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_11 : Layer::eLayer_30;
+                        field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
                     }
                     break;
                 }

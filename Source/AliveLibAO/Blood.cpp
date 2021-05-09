@@ -37,11 +37,11 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
 
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        field_11C_render_layer = Layer::eLayer_36;
+        field_11C_render_layer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        field_11C_render_layer = Layer::eLayer_17;
+        field_11C_render_layer = Layer::eLayer_Foreground_Half_17;
     }
 
     if (field_BC_sprite_scale != FP_FromInteger(1))

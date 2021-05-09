@@ -146,11 +146,11 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_26;
+        field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_26;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_7;
+        field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_Half_7;
         field_124_pCollisionLine->field_8_type = 36;
     }
 
