@@ -87,10 +87,12 @@ set_target_properties(jsonxx        PROPERTIES UNITY_BUILD ON)
 set_target_properties(googletest    PROPERTIES UNITY_BUILD ON)
 set_target_properties(imgui         PROPERTIES UNITY_BUILD ON)
 
-set_target_properties(AliveLibCommon PROPERTIES UNITY_BUILD ON)
-set_target_properties(AliveLibAE     PROPERTIES UNITY_BUILD ON)
-set_target_properties(AliveLibAO     PROPERTIES UNITY_BUILD ON)
-set_target_properties(relive         PROPERTIES UNITY_BUILD ON)
+# Disable for now because it breaks alivehook manager by setting unity_XX 
+# to always be the "group"
+set_target_properties(AliveLibCommon PROPERTIES UNITY_BUILD OFF)
+set_target_properties(AliveLibAE     PROPERTIES UNITY_BUILD OFF)
+set_target_properties(AliveLibAO     PROPERTIES UNITY_BUILD OFF)
+set_target_properties(relive         PROPERTIES UNITY_BUILD OFF)
 
 set_target_properties(relive_api      PROPERTIES UNITY_BUILD OFF) # too big
 set_target_properties(relive_api_test PROPERTIES UNITY_BUILD OFF) # too big

@@ -60,7 +60,7 @@ CamConverterAO::CamConverterAO(const std::string& fileName, const ChunkedLvlFile
             // To next slice
             pIter += (slice_len / sizeof(s16));
         }
-        SaveCamPng(camBuffer, (fileName + ".png").c_str());
+        SaveCamPng(camBuffer, fileName.c_str());
     }
 
     std::optional<LvlFileChunk> fg1Res = camFile.ChunkByType(ResourceManager::Resource_FG1);
@@ -94,7 +94,7 @@ CamConverterAE::CamConverterAE(const std::string& fileName, const ChunkedLvlFile
 
             pIter += (stripSize / sizeof(u16));
         }
-        SaveCamPng(camBuffer, (fileName + ".png").c_str());
+        SaveCamPng(camBuffer, fileName.c_str());
     }
 
     std::optional<LvlFileChunk> fg1Res = camFile.ChunkByType(ResourceManager::Resource_FG1);
