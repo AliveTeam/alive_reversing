@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
+#include "Map.hpp"
 
 namespace AO {
 
