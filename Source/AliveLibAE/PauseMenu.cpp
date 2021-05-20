@@ -546,7 +546,7 @@ EXPORT void PauseMenu::Remove_At_Credits_Screen_490D30()
 class CustomPauseMenu;
 struct CustomPauseMenuItem final
 {
-    const s8* text;
+    const char_type* text;
     std::function<void(CustomPauseMenu*)> callback;
 };
 
@@ -555,7 +555,7 @@ std::vector<CustomPauseMenu*> customMenuStack;
 class CustomPauseMenu
 {
 public:
-    CustomPauseMenu(std::vector<CustomPauseMenuItem>* items, const s8* titleStr)
+    CustomPauseMenu(std::vector<CustomPauseMenuItem>* items, const char_type* titleStr)
     {
         entries = items;
         title = std::string(titleStr);
@@ -585,11 +585,11 @@ public:
             for (s32 i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
             {
                 const auto item = (*entries)[i];
-                compiledEntries.push_back({0, 184, (s16)(57 + (22 * o)), 0, (s8*) item.text, 0x80, 0x10, 0xFF, Centre});
+                compiledEntries.push_back({0, 184, (s16)(57 + (22 * o)), 0, item.text, 0x80, 0x10, 0xFF, Centre});
                 o++;
             }
         }
-        compiledEntries.push_back({0, 184, 16, 0, (s8*) title.c_str(), 127, 127, 127, Centre});
+        compiledEntries.push_back({0, 184, 16, 0, title.c_str(), 127, 127, 127, Centre});
         if (size > 7 && index < size - 2)
         {
             compiledEntries.push_back({0, 184, 210, 0, kDown, 127, 127, 127, Centre});
@@ -608,7 +608,7 @@ public:
         mMenuPage.field_10_background_b = 127;
     }
 
-    void SetText(s8* text)
+    void SetText(char_type* text)
     {
         (*entries)[index].text = text;
         compiledEntries[index].field_8_text = text;
