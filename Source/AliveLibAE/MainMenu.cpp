@@ -2696,7 +2696,13 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(u32 input)
         return MainMenuNextCam(MainMenuCams::eOptionsCam);
     }
 
-    if (input & InputCommands::Enum::eConfigure)
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Allows player to select "Configure Controller" using their gamepad (Square/Circle Button)
+    const bool configButtonPressed = input & (InputCommands::Enum::eConfigure | InputCommands::Enum::eDoAction | InputCommands::Enum::eThrowItem);
+#else
+    const bool configButtonPressed = input & InputCommands::Enum::eConfigure;
+#endif
+
+    if (configButtonPressed)
     {
         // c configure controller
         sJoystickEnabled_5C9F70 = sControllerEntryToSelect_BB43D8;

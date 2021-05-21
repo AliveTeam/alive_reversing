@@ -972,14 +972,14 @@ void Menu::CopyRight_Update_47B4C0()
         if (static_cast<s32>(gnFrameCount_507670) > field_1D8_timer)
         {
             field_1D8_timer = gnFrameCount_507670 + 150;
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eCopyright_10, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
         }
     }
     else
     {
         if (static_cast<s32>(gnFrameCount_507670) > field_1D8_timer || gMap_507BA8.field_4_current_camera != 10)
         {
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect5_1_FMV, 30102, 0);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eEffect5_1_FMV, 30102, 0);
             field_1CC_fn_update = &Menu::WaitForDoorToOpen_47B550;
             field_10_anim.Set_Animation_Data_402A40(41420, field_E4_res_array[3]);
         }
@@ -1560,14 +1560,14 @@ void Menu::GoToSelectedMenuPage_47BC50()
     {
         if (field_224_bToFmvSelect)
         {
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
             return;
         }
 
         if (field_226_bToLevelSelect)
         {
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 31, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eLvlSelect_31, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
             return;
         }
@@ -1581,11 +1581,11 @@ void Menu::GoToSelectedMenuPage_47BC50()
                 // Diff cam depending on input method ?
                 if (Input_JoyStickEnabled())
                 {
-                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eGamespeakGamepad_3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 }
                 else
                 {
-                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 33, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eGamespeakKeyboard_33, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 }
 
                 field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
@@ -1608,13 +1608,13 @@ void Menu::GoToSelectedMenuPage_47BC50()
 
             // Load
             case MainMenuOptions::eLoad_3:
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eLoad_6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
                 break;
 
             // Options
             case MainMenuOptions::eOptions_4:
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
                 break;
 
@@ -1716,7 +1716,7 @@ void Menu::ToLoading_47B7E0()
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
             field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 21, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eLoading_21, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_204_flags &= ~2u;
             field_1CC_fn_update = &Menu::Loading_Update_47B870;
             field_1D0_fn_render = &Menu::Empty_Render_47AC80;
@@ -1740,6 +1740,17 @@ void Menu::ToGameSpeak_Update_47D620()
 
 void Menu::GameSpeak_Render_47D700(PrimHeader** ppOt)
 {
+#if ORIGINAL_PS1_BEHAVIOR
+    if (Input_JoyStickEnabled() && gMap_507BA8.field_E_camera == CameraIds::Menu::eGamespeakKeyboard_33)
+    {
+        gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eGamespeakGamepad_3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+    }
+    else if (!Input_JoyStickEnabled() && gMap_507BA8.field_E_camera == CameraIds::Menu::eGamespeakGamepad_3)
+    {
+        gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eGamespeakKeyboard_33, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+    }
+#endif
+
     // Only renders exit and keys
     s32 polyOffset = 0;
     const s32 count = Input_JoyStickEnabled() != 0 ? 13 : 1;
@@ -2214,17 +2225,17 @@ void Menu::Option_GoTo_Selected_Update_47C2C0()
             {
                 // Controller
                 case OptionsMenuOptions::eController_0:
-                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 40, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eController_40, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                     break;
 
                 // Sound
                 case OptionsMenuOptions::eSound_1:
-                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 5, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eSound_5, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                     break;
 
                 // Back to main menu screen
                 case OptionsMenuOptions::eMainMenu_2:
-                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                     break;
 
                 default:
@@ -2565,7 +2576,7 @@ void Menu::Options_WaitForScreenTrans_Update_47C760()
     {
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_1CC_fn_update = &Menu::To_MainOptions_Screen_After_Camera_Change_Update_47C7A0;
         }
     }
@@ -2921,7 +2932,7 @@ void Menu::FMV_Or_Level_Select_To_Back_Update_47EC70()
 {
     if (field_1E8_pMenuTrans->field_16_bDone)
     {
-        gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
         field_1CC_fn_update = &Menu::FMV_Or_Level_Select_Back_Update_47ECB0;
     }
 }
@@ -2985,12 +2996,12 @@ void Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330()
             {
                 // Goto controller configuration
                 case 0:
-                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 41, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eControllerConfig_41, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                     break;
 
                 // Back to main options (sound/controller)
                 case 1:
-                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                     break;
             }
 
@@ -3441,7 +3452,7 @@ void Menu::To_ShowAbeMotions_ChangeCamera_Update_47F8A0()
         {
             if (field_230_bGoBack == 9)
             {
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 4, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMotions_4, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 field_1CC_fn_update = &Menu::To_ShowAbeMotions_SaveSettings_Update_47F8E0;
             }
         }
@@ -3483,7 +3494,7 @@ void Menu::Credits_Update_47F190()
         if (field_208_camera > 24)
         {
             // Credits done
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_1CC_fn_update = &Menu::CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170;
             gCreditsControllerExists_507684 = 0;
         }
@@ -3665,7 +3676,7 @@ void Menu::ToggleMotions_Update_47C800()
             }
             else
             {
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 37, CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMotionsGamespeakKeyboard_37, CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             }
 
             // Go to game speak toggle
@@ -3707,7 +3718,7 @@ void Menu::Toggle_Motions_Screens_Update_47C8F0()
             }
             else
             {
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 4, CameraSwapEffects::eEffect4_BottomToTop, 0, 0);
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMotions_4, CameraSwapEffects::eEffect4_BottomToTop, 0, 0);
             }
 
             SetBrain(&Menu::ToggleMotions_Update_47C800, field_1CC_fn_update, kUpdateTable);
@@ -3732,7 +3743,7 @@ void Menu::MotionsScreen_Back_Update_47CA10()
     {
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_1CC_fn_update = &Menu::Motions_ToOptions_Update_47CA50;
         }
     }
@@ -3780,11 +3791,11 @@ void Menu::Load_BackToMainScreen_Update_47DA40()
         {
             if (field_202 == 0)
             {
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             }
             else
             {
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 21, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eLoading_21, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             }
             field_200 = 0;
             field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
@@ -3809,7 +3820,7 @@ void Menu::GamespeakBack_WaitForScreenTrans_Update_47D650()
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
             field_204_flags &= ~1u;
-            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_1CC_fn_update = &Menu::GameSpeak_To_MainScreen_Update_47D690;
         }
     }

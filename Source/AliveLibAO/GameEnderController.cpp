@@ -225,7 +225,7 @@ void GameEnderController::VUpdate_41C860()
         case 4:
             if (Input().IsAnyHeld(sInputKey_FartRoll_4C65B0))
             {
-                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, 30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 gMap_507BA8.field_DC_free_all_anim_and_palts = 1;
                 field_14_state = 2;
             }
