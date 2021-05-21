@@ -39,26 +39,23 @@ struct Map_PathsArray final
 };
 ALIVE_ASSERT_SIZEOF(Map_PathsArray, 120);
 
-namespace CameraIds
+namespace CameraIds::Menu
 {
-    namespace Menu
-    {
-        const s16 eMainMenu_1 = 1;
-        const s16 eOptions_2 = 2;
-        const s16 eGamespeakGamepad_3 = 3;
-        const s16 eMotions_4 = 4;
-        const s16 eSound_5 = 5;
-        const s16 eLoad_6 = 6;
-        const s16 eMotionsGamespeakGamepad_7 = 7;
-        const s16 eCopyright_10 = 10;
-        const s16 eLoading_21 = 21;
-        const s16 eFmvSelect_30 = 30;
-        const s16 eLvlSelect_31 = 31;
-        const s16 eGamespeakKeyboard_33 = 33;
-        const s16 eMotionsGamespeakKeyboard_37 = 37;
-        const s16 eController_40 = 40;
-        const s16 eControllerConfig_41 = 41;
-    }
+    const s16 eMainMenu_1 = 1;
+    const s16 eOptions_2 = 2;
+    const s16 eGamespeakGamepad_3 = 3;
+    const s16 eMotions_4 = 4;
+    const s16 eSound_5 = 5;
+    const s16 eLoad_6 = 6;
+    const s16 eMotionsGamespeakGamepad_7 = 7;
+    const s16 eCopyright_10 = 10;
+    const s16 eLoading_21 = 21;
+    const s16 eFmvSelect_30 = 30;
+    const s16 eLvlSelect_31 = 31;
+    const s16 eGamespeakKeyboard_33 = 33;
+    const s16 eMotionsGamespeakKeyboard_37 = 37;
+    const s16 eController_40 = 40;
+    const s16 eControllerConfig_41 = 41;
 }
 
 // TODO: Assuming the same values as AE - test this

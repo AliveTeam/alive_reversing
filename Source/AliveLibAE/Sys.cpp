@@ -1023,18 +1023,18 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
-#if ORIGINAL_PS1_BEHAVIOR // OG Change - Automatically determines active controller (gamepad/keyboard)
+ #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switches active controller (gamepad/keyboard)
         if (event.type == SDL_JOYDEVICEADDED)
         {
             totalConnectedJoysticks++;
-            SDL_Log("User just inserted joystick!");
+            LOG_INFO("User just inserted joystick!");
             Input_Init_491BC0();
             sJoystickEnabled_5C9F70 = 1;
         }
         else if (event.type == SDL_JOYDEVICEREMOVED)
         {
             totalConnectedJoysticks--;
-            SDL_Log("User just removed joystick!");
+            LOG_INFO("User just removed joystick!");
 
             if (totalConnectedJoysticks > 0)
             {

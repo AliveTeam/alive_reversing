@@ -1740,7 +1740,7 @@ void Menu::ToGameSpeak_Update_47D620()
 
 void Menu::GameSpeak_Render_47D700(PrimHeader** ppOt)
 {
-#if ORIGINAL_PS1_BEHAVIOR
+#if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switch between Gamepad/Keyboard GameSpeak Menu if joystick is added/removed
     if (Input_JoyStickEnabled() && gMap_507BA8.field_E_camera == CameraIds::Menu::eGamespeakKeyboard_33)
     {
         gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eGamespeakGamepad_3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);

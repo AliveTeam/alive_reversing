@@ -10,6 +10,7 @@ option(XINPUT_SUPPORT "Adds XINPUT support to the game and replaces in game font
 option(USE_SDL2 "Use SDL2 instead of Win32 APIs." ON)
 option(USE_SDL2_SOUND "Use SDL2 for audio." ON)
 option(USE_SDL2_IO "Use SDL2 for all File/Stream IO." ON)
+option(AUTO_SWITCH_CONTROLLER "Automatically switches between keyboard/gamepad depending on what is connected." ON)
 option(ORIGINAL_PS1_BEHAVIOR "Fixes bugs in the PSX Emu layer / Gameplay to match PS1 version of the game." ON)
 option(ORIGINAL_GAME_FIXES "Fixes ALL known gameplay bugs" ON)
 option(ORIGINAL_GAME_FIX_AUTO_TURN "Fixes the auto-turn bug commonly used in speedruns" OFF)
