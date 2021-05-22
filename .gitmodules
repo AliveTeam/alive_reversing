@@ -25,3 +25,6 @@
 [submodule "3rdParty/lodepng"]
 	path = 3rdParty/lodepng
 	url = https://github.com/lvandeve/lodepng.git
+[submodule "3rdParty/fluidsynth-lite"]
+	path = 3rdParty/fluidsynth-lite
+	url = https://github.com/AliveTeam/fluidsynth-lite.git
