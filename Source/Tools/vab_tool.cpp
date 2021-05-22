@@ -61,7 +61,7 @@ s32 CC SND_SoundsDat_Read(FILE* file, VabHeader* pVabHeader, VabBodyRecord* pVab
 }
 
 
-static void PCToPsxVab(bool isAe, const char_type* lvlName, const char_type* vhName, const char_type* vbName)
+void PCToPsxVab(bool isAe, const char_type* lvlName, const char_type* vhName, const char_type* vbName)
 {
     ResourceManager::Init_49BCE0();
 
@@ -118,6 +118,54 @@ static void PCToPsxVab(bool isAe, const char_type* lvlName, const char_type* vhN
     archive.Free_433130();
 }
 
+void play_midi()
+{
+    fluid_settings_t* settings = new_fluid_settings();
+
+    fluid_synth_t* synth = new_fluid_synth(settings);
+
+    //fluid_audio_driver_t* adriver = new_fluid_audio_driver(settings, synth);
+
+    const int sfont_id = fluid_synth_sfload(synth, "C:\\Users\\paul\\Downloads\\Abe2MidiPlayer\\oddworld.sf2", 1);
+    if (sfont_id == FLUID_FAILED)
+    {
+        LOG_ERROR("Failed to load sound font");
+    }
+
+    fluid_player_t* player = new_fluid_player(synth);
+    if (fluid_player_add(player, "C:\\Users\\paul\\Downloads\\Abe2MidiPlayer\\midi\\20PS1 SEQ.mid") != FLUID_OK)
+    {
+        LOG_ERROR("Failed to open midi");
+    }
+
+    fluid_player_play(player);
+
+    FILE* outFile = fopen("output.bin", "wb");
+    if (!outFile)
+    {
+        LOG_ERROR("Failed to open out file");
+    }
+    else
+    {
+        do
+        {
+            const int lenBytes = 1024;
+            short stream[lenBytes / 2] = {};
+            fluid_synth_write_s16(synth, lenBytes / (2 * sizeof(short)), stream, 0, 2, stream, 1, 2);
+            fwrite(stream, 2, lenBytes / 2, outFile);
+        } while (fluid_player_get_status(player) != FLUID_PLAYER_DONE);
+        fclose(outFile);
+    }
+
+    fluid_player_join(player);
+
+
+    //delete_fluid_audio_driver(adriver);
+    delete_fluid_player(player);
+    delete_fluid_synth(synth);
+    delete_fluid_settings(settings);
+}
+
 s32 main(s32 /*argc*/, char_type** /*argv*/)
 {
 #if _WIN32
@@ -129,8 +177,9 @@ s32 main(s32 /*argc*/, char_type** /*argv*/)
 #endif
 
     LOG_INFO("fluid synth version: " << fluid_version_str());
+    play_midi();
 
-    PCToPsxVab(true, "ST.LVL", "MONK.VH", "MONK.VB");
+    //PCToPsxVab(true, "ST.LVL", "MONK.VH", "MONK.VB");
 
     return 0;
 }
