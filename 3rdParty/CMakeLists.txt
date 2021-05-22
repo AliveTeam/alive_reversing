@@ -125,3 +125,10 @@ target_include_directories(lodepng SYSTEM PUBLIC
 
 set_property(TARGET lodepng PROPERTY FOLDER "3rdParty")
 export(TARGETS lodepng FILE lodepng.cmake)
+
+add_subdirectory(fluidsynth-lite)
+target_include_directories(libfluidsynth SYSTEM PUBLIC
+    $<BUILD_INTERFACE:
+    ${FLUIDSYNTH_INCLUDE_DIR}>
+    $<INSTALL_INTERFACE:libfluidsynth>)
+set_property(TARGET libfluidsynth PROPERTY FOLDER "3rdParty")

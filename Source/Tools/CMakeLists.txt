@@ -22,7 +22,7 @@ if (WIN32)
         PRIVATE cxx_auto_type
         PRIVATE cxx_variadic_templates)
     target_compile_definitions(vab_tool PRIVATE "_CRT_SECURE_NO_WARNINGS")
-    target_link_libraries(vab_tool AliveLibAE AliveLibAO)
+    target_link_libraries(vab_tool AliveLibAE AliveLibAO libfluidsynth)
 
     export(TARGETS vab_tool FILE vab_tool.cmake)
     install(TARGETS vab_tool DESTINATION "${BINPATH}")

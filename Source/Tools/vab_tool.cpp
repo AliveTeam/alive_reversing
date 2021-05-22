@@ -6,6 +6,10 @@
 #include "Sys.hpp"
 #include "../AliveLibAE/Sound/PsxSpuApi.hpp"
 #include "../AliveLibAE/LvlArchive.hpp"
+
+#define FLUIDSYNTH_NOT_A_DLL
+
+#include "fluidsynth.h"
 #include <string>
 
 bool CC RunningAsInjectedDll()
@@ -124,7 +128,7 @@ s32 main(s32 /*argc*/, char_type** /*argv*/)
     RedirectIoStream(true);
 #endif
 
-    LOG_INFO("Test");
+    LOG_INFO("fluid synth version: " << fluid_version_str());
 
     PCToPsxVab(true, "ST.LVL", "MONK.VH", "MONK.VB");
 
