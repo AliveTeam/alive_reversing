@@ -3285,7 +3285,7 @@ void Menu::ButtonRemap_Update_47F6F0()
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
         bWaitingForRemapInput_9F2DE8 = 1;
 
-#if ORIGINAL_PS1_BEHAVIOR // OG Change - Prevent users from changing Speak1 and Speak2 keys on keyboard
+#if MISC_PC_MENU_FIXES // OG Change - Prevent users from changing Speak1 and Speak2 keys on keyboard
         if (!Input_JoyStickEnabled())
         {
             if (field_1E0_selected_index.remap_menu < RemapOptions::eRun_0)
@@ -3305,7 +3305,7 @@ void Menu::ButtonRemap_Update_47F6F0()
         SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 45, 400, 0); // TODO: Input constants
         bWaitingForRemapInput_9F2DE8 = 1;
 
-#if ORIGINAL_PS1_BEHAVIOR // OG Change - Prevent users from changing Speak1 and Speak2 keys on keyboard
+#if MISC_PC_MENU_FIXES // OG Change - Prevent users from changing Speak1 and Speak2 keys on keyboard
         if (!Input_JoyStickEnabled())
         {
             if (field_1E0_selected_index.remap_menu == RemapOptions::eSpeakLeft_3 || field_1E0_selected_index.remap_menu == RemapOptions::eSpeakRight_7)
@@ -3529,7 +3529,7 @@ void Menu::Load_Update_47D760()
         || field_1DC_idle_input_counter > 1000)
     {
         field_1FA = 0;
-#if !ORIGINAL_PS1_BEHAVIOR // OG Change - Fixes automatic scroll when exiting Load Menu
+#if !MISC_PC_MENU_FIXES // OG Change - Fixes automatic scroll when exiting Load Menu
         field_1E0_selected_index.raw = 1; // This line causes the issue
 #endif
         field_134_anim.Set_Animation_Data_402A40(stru_4D01F0[1].field_4_frame_table, nullptr);

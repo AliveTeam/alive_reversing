@@ -27,7 +27,7 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4();
 #ifdef _WIN32
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 #endif
-#if ORIGINAL_PS1_BEHAVIOR
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
 EXPORT void setSaveMenuOpen(bool val);
 #endif
 

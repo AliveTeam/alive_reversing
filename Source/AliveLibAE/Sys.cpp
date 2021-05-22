@@ -29,8 +29,11 @@ ALIVE_VAR(1, 0xBBB9EC, HINSTANCE, sInstance_BBB9EC, nullptr);
 ALIVE_VAR(1, 0xBBB9FC, s32, sCmdShow_BBB9FC, 0);
 ALIVE_VAR(1, 0xBBFB04, TWindowHandleType, hWnd_BBFB04, nullptr);
 
-#if ORIGINAL_PS1_BEHAVIOR
+#if AUTO_SWITCH_CONTROLLER // OG Change - Used for Auto-switching active controller (gamepad/keyboard)
 static int totalConnectedJoysticks = 0;
+#endif
+
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
 static bool saveMenuOpen = false;
 
 EXPORT void setSaveMenuOpen(bool val)
