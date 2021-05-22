@@ -45,7 +45,7 @@ const int kBytesPerSample = 2;
 const int num_frames_interleave = 0; // maybe 20 ??
 const int fmv_single_audio_frame_size_in_samples = 2016;
 const auto fmv_sound_entry_size = fmv_single_audio_frame_size_in_samples * (num_frames_interleave + 6);
-const int kSamplesPerSecond = 37800;
+const int kSamplesPerSecond = 37800; // 44100
 const int kFmvFrameRate = 15;
 
 int bNoAudioOrAudioError = 0;
@@ -252,6 +252,11 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
 
     field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
+
+    // Don't play FMVs for now till sound issues are fixed
+#if 1
+    field_6_flags.Set(Options::eDead_Bit3);
+#endif
 
     /*
     // TODO: FIX MOI
