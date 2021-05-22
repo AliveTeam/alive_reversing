@@ -2,6 +2,7 @@
 #include "Masher.hpp"
 #include "Function.hpp"
 #include "masher_tables.hpp"
+#include "Sys_common.hpp"
 #include <array>
 
 ALIVE_VAR(1, 0xbbb314, Movie_IO, sMovie_IO_BBB314, {});
@@ -329,6 +330,11 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                                         break;
                                     }
                                     const s32 table_index_1 = ExtractBits(workBits, 17); // 0x1FFFF / 131072, 131072/4=32768 entries?
+                                    if (table_index_1 > ALIVE_COUNTOF(gTbl1))
+                                    {
+                                        LOG_ERROR("Table index " << table_index_1);
+                                        ALIVE_FATAL("Table 1 index out of bounds");
+                                    }
 
                                     SkipBits(workBits, 8, usedBitCount);
 
@@ -446,7 +452,8 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
     return ret;
 }
 
-const u32 gQuant1_dword_42AEC8[64] = {
+const u32 k_YTable_Matrix_42AEC8[64] =
+{
     0x0000000C, 0x0000000B, 0x0000000A, 0x0000000C, 0x0000000E, 0x0000000E, 0x0000000D, 0x0000000E,
     0x00000010, 0x00000018, 0x00000013, 0x00000010, 0x00000011, 0x00000012, 0x00000018, 0x00000016,
     0x00000016, 0x00000018, 0x0000001A, 0x00000028, 0x00000033, 0x0000003A, 0x00000028, 0x0000001D,
@@ -456,7 +463,8 @@ const u32 gQuant1_dword_42AEC8[64] = {
     0x0000003E, 0x00000067, 0x00000068, 0x00000067, 0x00000062, 0x00000070, 0x00000079, 0x00000071,
     0x0000004D, 0x0000005C, 0x00000078, 0x00000064, 0x00000067, 0x00000065, 0x00000063, 0x00000010};
 
-const u32 gQaunt2_dword_42AFC4[64] = {
+const u32 k_CTable_Matrix_42AFC4[64] =
+{
     0x00000010, 0x00000012, 0x00000012, 0x00000018, 0x00000015, 0x00000018, 0x0000002F, 0x0000001A,
     0x0000001A, 0x0000002F, 0x00000063, 0x00000042, 0x00000038, 0x00000042, 0x00000063, 0x00000063,
     0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063, 0x00000063,
@@ -508,16 +516,16 @@ const u32 g_block_related_3_dword_42B0D0[64] = {
     0x0000002D, 0x00000026, 0x0000001F, 0x00000027, 0x0000002E, 0x00000035, 0x0000003C, 0x0000003D,
     0x00000036, 0x0000002F, 0x00000037, 0x0000003E, 0x0000003F, 0x0000098E, 0x0000098E, 0x0000F384};
 
-u32 g_252_buffer_unk_635A0C[64] = {};
-u32 g_252_buffer_unk_63580C[64] = {};
+u32 g_CTable[64] = {};
+u32 g_YTable[64] = {};
 
 // Return val becomes param 1
 
 // for Cr, Cb, Y1, Y2, Y3, Y4
-int16_t* ddv_func7_DecodeMacroBlock_impl(int16_t* inPtr, int16_t* outputBlockPtr, bool isYBlock)
+int16_t* RunLengthToBlock(int16_t* inPtr, int16_t* outputBlockPtr, bool isYBlock)
 {
     const s32 v1 = isYBlock;
-    const u32* pTable = isYBlock ? &g_252_buffer_unk_63580C[1] : &g_252_buffer_unk_635A0C[1];
+    const u32* pTable = isYBlock ? &g_YTable[1] : &g_CTable[1];
     u32 counter = 0;
     u16* pInput = reinterpret_cast<u16*>(inPtr);
     u32* pOutput = reinterpret_cast<u32*>(outputBlockPtr); // off 10 quantised coefficients
@@ -697,32 +705,34 @@ void idct(int16_t* input, T64IntsArray& pDestination) // dst is 64 dwords
 }
 
 
-static void after_block_decode_no_effect_q_impl(s32 quantScale)
+static void Populate_Y_C_Tables(int quantScale)
 {
-    g_252_buffer_unk_63580C[0] = 16;
-    g_252_buffer_unk_635A0C[0] = 16;
     if (quantScale > 0)
     {
-        s32 result = 0;
+        g_YTable[0] = 16;
+        g_CTable[0] = 16;
+        signed int result = 0;
         do
         {
-            auto val = gQuant1_dword_42AEC8[result];
-            result++;
-            g_252_buffer_unk_63580C[result] = quantScale * val;
-            g_252_buffer_unk_635A0C[result] = quantScale * gQaunt2_dword_42AFC4[result];
-        }
-        while (result < 63); // 252/4=63
+            // 0
+            auto val = k_YTable_Matrix_42AEC8[result];
+
+            result++; // TODO: Bug ?  Surely Y and C should be done the same way
+            // 1
+            g_YTable[result] = quantScale * val;
+            g_CTable[result] = quantScale * k_CTable_Matrix_42AFC4[result];
+
+
+        } while (result < 63);                   // 252/4=63
     }
     else
     {
         // These are simply null buffers to start with
         for (s32 i = 0; i < 64; i++)
         {
-            g_252_buffer_unk_635A0C[i] = 16;
-            g_252_buffer_unk_63580C[i] = 16;
+            g_CTable[i] = 16;
+            g_YTable[i] = 16;
         }
-        // memset(&g_252_buffer_unk_635A0C[1], 16, 252  /*sizeof(g_252_buffer_unk_635A0C)*/); // u32[63]
-        // memset(&g_252_buffer_unk_63580C[1], 16, 252 /*sizeof(g_252_buffer_unk_63580C)*/);
     }
 }
 
@@ -906,7 +916,7 @@ void Masher::dtor_4E6AB0()
     }
 }
 
-s32 Masher::sub_4E6B30()
+s32 Masher::ReadNextFrame_4E6B30()
 {
     // Read next frame data if we are not at the end
     if (field_68_frame_number < field_4_ddv_header.field_C_number_of_frames)
@@ -953,7 +963,7 @@ s32 Masher::sub_4E6B30()
     return ++field_68_frame_number < field_4_ddv_header.field_C_number_of_frames + 2;
 }
 
-s32 CC Masher::sub_4EAC30(Masher* pMasher)
+s32 CC Masher::ReadNextFrameToMemory_4EAC30(Masher* pMasher)
 {
     s32* pFrameSize = pMasher->field_74_pCurrentFrameSize;
     s32 sizeToRead = *pFrameSize;
@@ -969,10 +979,10 @@ s32 CC Masher::sub_4EAC30(Masher* pMasher)
 void Masher::Decode_4EA670()
 {
     // This seems to be used to just skip data without rendering ??
-    MMX_Decode_4E6C60(nullptr);
+    VideoFrameDecode_4E6C60(nullptr);
 }
 
-void Masher::MMX_Decode_4E6C60(u8* pPixelBuffer)
+void Masher::VideoFrameDecode_4E6C60(u8* pPixelBuffer)
 {
     if (!field_61_bHasVideo)
     {
@@ -1005,7 +1015,7 @@ void Masher::MMX_Decode_4E6C60(u8* pPixelBuffer)
 
     const s32 quantScale = decode_bitstream((u16*) field_40_video_frame_to_decode, field_44_decoded_frame_data_buffer);
 
-    after_block_decode_no_effect_q_impl(quantScale);
+    Populate_Y_C_Tables(quantScale);
 
     int16_t* bitstreamCurPos = reinterpret_cast<int16_t*>(field_44_decoded_frame_data_buffer);
     int16_t* block1Output = static_cast<int16_t*>(field_8C_macro_block_buffer);
@@ -1018,27 +1028,27 @@ void Masher::MMX_Decode_4E6C60(u8* pPixelBuffer)
         {
             const s32 dataSizeBytes = field_90_64_or_0 * 2; // Convert to byte count 64*4=256
 
-            int16_t* afterBlock1Ptr = ddv_func7_DecodeMacroBlock_impl(bitstreamCurPos, block1Output, 0);
+            int16_t* afterBlock1Ptr = RunLengthToBlock(bitstreamCurPos, block1Output, 0);
             idct(block1Output, Cr_block);
             int16_t* block2Output = dataSizeBytes + block1Output;
 
-            int16_t* afterBlock2Ptr = ddv_func7_DecodeMacroBlock_impl(afterBlock1Ptr, block2Output, 0);
+            int16_t* afterBlock2Ptr = RunLengthToBlock(afterBlock1Ptr, block2Output, 0);
             idct(block2Output, Cb_block);
             int16_t* block3Output = dataSizeBytes + block2Output;
 
-            int16_t* afterBlock3Ptr = ddv_func7_DecodeMacroBlock_impl(afterBlock2Ptr, block3Output, 1);
+            int16_t* afterBlock3Ptr = RunLengthToBlock(afterBlock2Ptr, block3Output, 1);
             idct(block3Output, Y1_block);
             int16_t* block4Output = dataSizeBytes + block3Output;
 
-            int16_t* afterBlock4Ptr = ddv_func7_DecodeMacroBlock_impl(afterBlock3Ptr, block4Output, 1);
+            int16_t* afterBlock4Ptr = RunLengthToBlock(afterBlock3Ptr, block4Output, 1);
             idct(block4Output, Y2_block);
             int16_t* block5Output = dataSizeBytes + block4Output;
 
-            int16_t* afterBlock5Ptr = ddv_func7_DecodeMacroBlock_impl(afterBlock4Ptr, block5Output, 1);
+            int16_t* afterBlock5Ptr = RunLengthToBlock(afterBlock4Ptr, block5Output, 1);
             idct(block5Output, Y3_block);
             int16_t* block6Output = dataSizeBytes + block5Output;
 
-            bitstreamCurPos = ddv_func7_DecodeMacroBlock_impl(afterBlock5Ptr, block6Output, 1);
+            bitstreamCurPos = RunLengthToBlock(afterBlock5Ptr, block6Output, 1);
             idct(block6Output, Y4_block);
             block1Output = dataSizeBytes + block6Output;
 
@@ -1063,13 +1073,13 @@ void Masher::MMX_Decode_4E6C60(u8* pPixelBuffer)
 ALIVE_VAR(1, 0xbbb9b4, s32, gMasher_num_channels_BBB9B4, 0);
 ALIVE_VAR(1, 0xbbb9a8, s32, gMasher_bits_per_sample_BBB9A8, 0);
 
-void CC Masher::DDV_SND_4ECFD0(s32 numChannels, s32 bitsPerSample)
+void CC Masher::DDV_Set_Channels_And_BitsPerSample_4ECFD0(s32 numChannels, s32 bitsPerSample)
 {
     gMasher_num_channels_BBB9B4 = numChannels;
     gMasher_bits_per_sample_BBB9A8 = bitsPerSample;
 }
 
-void CC Masher::DDV_SND_4ECFF0(s32* pMasherFrame, u8* pDecodedFrame, s32 frameSize)
+void CC Masher::DDV_DecompressAudioFrame_4ECFF0(s32* pMasherFrame, u8* pDecodedFrame, s32 frameSize)
 {
     AudioDecompressor decompressor;
     const s32 bytesPerSample = gMasher_bits_per_sample_BBB9A8 / 8;
@@ -1103,8 +1113,8 @@ void* CC Masher::GetDecompressedAudioFrame_4EAC60(Masher* pMasher)
     if (pMasher->field_60_bHasAudio
         && pMasher->field_64_audio_frame_idx < pMasher->field_4_ddv_header.field_C_number_of_frames)
     {
-        DDV_SND_4ECFD0(pMasher->field_50_num_channels, pMasher->field_54_bits_per_sample);
-        DDV_SND_4ECFF0(
+        DDV_Set_Channels_And_BitsPerSample_4ECFD0(pMasher->field_50_num_channels, pMasher->field_54_bits_per_sample);
+        DDV_DecompressAudioFrame_4ECFF0(
             pMasher->field_48_sound_frame_to_decode,
             static_cast<u8*>(pMasher->field_4C_decoded_audio_buffer),
             pMasher->field_2C_audio_header.field_C_single_audio_frame_size);

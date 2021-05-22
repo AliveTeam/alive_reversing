@@ -202,6 +202,12 @@ EXPORT s32 CC PSX_CD_FileIOWait_4FB260(s32 bASync)
     return sCdFileHandle_BD1CC4->field_10_bDone != 0;
 }
 
+
+Bitmap& GetPsxVram()
+{
+    return sPsxVram_C1D160;
+}
+
 ALIVE_VAR(1, 0xC1D184, TPsxEmuCallBack, sPsxEmu_put_disp_env_callback_C1D184, nullptr);
 ALIVE_VAR(1, 0xC1D17C, TPsxEmuCallBack, sPsxEmu_EndFrameFnPtr_C1D17C, nullptr);
 ALIVE_VAR(1, 0xBD0F21, u8, sPsxDontChangeDispEnv_BD0F21, 0);
