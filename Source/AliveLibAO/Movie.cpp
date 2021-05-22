@@ -12,6 +12,7 @@
 #include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibAE/VGA.hpp"
 #include "../AliveLibAE/Input.hpp"
+#include "Sound/SDLSoundBuffer.hpp"
 
 #define NO_WAVE
 #include "Sound/Sound.hpp"
@@ -167,6 +168,11 @@ public:
 
                 //return true;
             }
+            else if (w.mSectorType == 0x10101010)
+            {
+                // end of stream ??
+                return false;
+            }
             else
             {
                 abort();
@@ -305,7 +311,7 @@ void Movie::VUpdate()
 static void Render_Str_Frame(Bitmap& tmpBmp)
 {
     // Copy into the emulated vram - when FMV ends the "screen" still have the last video frame "stick"
-    // giving us a nice seamless transistion.
+    // giving us a nice seamless transition.
     SDL_Rect bufferSize = { 0,0, 640, 240 };
     SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, GetPsxVram().field_0_pSurface, &bufferSize);
 
@@ -346,7 +352,7 @@ public:
             amask = 0xff000000;
 #endif
 
-            wholeImage = SDL_CreateRGBSurface(0, 320, 192, 32, rmask, gmask, bmask, amask);
+            wholeImage = SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask);
             if (!wholeImage)
             {
                 LOG_ERROR("CreateRGBSurface failed: " << SDL_GetError());
@@ -396,161 +402,177 @@ void Movie::VUpdate_489EA0()
 {
     AE_IMPLEMENTED();
 
+    // Open the file
     void* hMovieFile = GetMovieIO().mIO_Open(sMovieNames_508B08.mNames[sMovieNameIdx_508C0C].mName);
-    if (hMovieFile)
+
+    // Go to the next movie next time we come in
+    if (sMovieNameIdx_508C0C >= 0)
     {
-        PsxStr psxStr;
-        psxStr.mFile = hMovieFile;
-
-
-        bNoAudioOrAudioError = 0;
-        fmv_audio_sample_offset = 0;
-        bStartedPlayingSound = false;
-        fmv_num_played_audio_frames = 0;
-        current_audio_offset = 0;
-        oldBufferPlayPos = 0;
-
-
-        if (GetSoundAPI().SND_New(
-            &fmv_sound_entry,
-            fmv_sound_entry_size,
-            kSamplesPerSecond,
-            16,
-            1) < 0)
+        sMovieNameIdx_508C0C++;
+        if (sMovieNameIdx_508C0C == 3)
         {
-            // SND_New failed
-            fmv_sound_entry.field_4_pDSoundBuffer = nullptr;
-            bNoAudioOrAudioError = 1;
+            sMovieNameIdx_508C0C = 0;
+        }
+    }
+
+    // Bail if failed to open
+    if (!hMovieFile)
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        return;
+    }
+
+    PsxStr psxStr;
+    psxStr.mFile = hMovieFile;
+
+    bNoAudioOrAudioError = 0;
+    fmv_audio_sample_offset = 0;
+    bStartedPlayingSound = false;
+    fmv_num_played_audio_frames = 0;
+    current_audio_offset = 0;
+    oldBufferPlayPos = 0;
+
+    if (GetSoundAPI().SND_New(
+        &fmv_sound_entry,
+        fmv_sound_entry_size,
+        kSamplesPerSecond,
+        16,
+        1) < 0)
+    {
+        // SND_New failed
+        fmv_sound_entry.field_4_pDSoundBuffer = nullptr;
+        bNoAudioOrAudioError = 1;
+    }
+
+    int fmv_num_read_frames = 0;
+
+    TempSurface tempSurface;
+    Bitmap tmpBmp = {};
+
+    // Till EOF decoding loop
+    const auto movieStartTimeStamp = SYS_GetTicks();
+    while (psxStr.DecodeAudioAndVideo())
+    {
+        fmv_num_read_frames++;
+
+        //
+        // Video frame logic
+        //
+        if (!psxStr.pixelBuffer.empty())
+        {
+            // Create if it hasn't or recreate if w/h changed
+            if (tempSurface.InitIf(psxStr.mFrameW, psxStr.mFrameH))
+            {
+                // Ditto
+                if (tmpBmp.field_0_pSurface)
+                {
+                    Bmp_Free_4F1950(&tmpBmp);
+                    tmpBmp = {};
+                }
+                BMP_New_4F1990(&tmpBmp, psxStr.mFrameW, psxStr.mFrameH, 15, 0);
+            }
+
+            // Copy decoded frame to tempSurface
+            tempSurface.SetPixels(psxStr.pixelBuffer);
+
+            // Copy temp surface to tmpBmp (colour depth conversion)
+            tempSurface.BlitScaledTo(tmpBmp.field_0_pSurface);
         }
 
-        int fmv_num_read_frames = 0;
-
-        TempSurface tempSurface;
-        Bitmap tmpBmp = {};
-
-        // Till EOF decoding loop
-        const auto movieStartTimeStamp = SYS_GetTicks();
-        while (psxStr.DecodeAudioAndVideo())
+        // Check for quitting video every 15 frames
+        if (fmv_num_read_frames > 15)
         {
-            fmv_num_read_frames++;
-
-            //
-            // Video frame logic
-            //
-            if (!psxStr.pixelBuffer.empty())
+            // TODO: Not complete
+            if (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN))
             {
-                // Create if it hasnt or recreate if w/h changed
-                if (tempSurface.InitIf(psxStr.mFrameW, psxStr.mFrameH))
+                break;
+            }
+        }
+        else
+        {
+            // This clears the pressed state to avoid the above check stopping the FMV too early.
+            // E.g user presses return before FMV starts, then after 15 frames it would quit without this call clearing the pressed flag.
+            Input_IsVKPressed_4EDD40(VK_ESCAPE);
+            Input_IsVKPressed_4EDD40(VK_RETURN);
+        }
+
+        Render_Str_Frame(tmpBmp);
+
+        if (bNoAudioOrAudioError)
+        {
+            while ((signed int)(SYS_GetTicks() - movieStartTimeStamp) <= (1000 * fmv_num_read_frames / kFmvFrameRate))
+            {
+                // Wait for the amount of time the frame would take to display at the given framerate
+            }
+        }
+        else
+        {
+            // Sync on where the audio playback is up to
+            current_audio_offset += fmv_single_audio_frame_size_in_samples;
+            const DWORD soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&fmv_sound_entry);
+            if ((signed int)(oldBufferPlayPos - soundBufferPlayPos) > fmv_sound_entry_size / 2)
+            {
+                fmv_num_played_audio_frames++;
+            }
+
+            oldBufferPlayPos = soundBufferPlayPos;
+
+            const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate + 2000;
+            if (current_audio_offset >= 0)
+            {
+                int counter = 0;
+                for (;;)
                 {
-                    // Ditto
-                    if (tmpBmp.field_0_pSurface)
+                    const unsigned int fmv_cur_audio_pos = SND_Get_Sound_Entry_Pos_4EF620(&fmv_sound_entry);
+                    const int fmv_audio_left_to_play = oldBufferPlayPos - fmv_cur_audio_pos;
+                    if (fmv_audio_left_to_play > fmv_sound_entry_size / 2)
                     {
-                        Bmp_Free_4F1950(&tmpBmp);
-                        tmpBmp = {};
+                        fmv_num_played_audio_frames++;
                     }
-                    BMP_New_4F1990(&tmpBmp, psxStr.mFrameW, psxStr.mFrameH, 15, 0);
-                }
 
-                // Copy decoded frame to tempSurface
-                tempSurface.SetPixels(psxStr.pixelBuffer);
+                    oldBufferPlayPos = fmv_cur_audio_pos;
 
-                // Copy temp surface to tmpBmp (colour depth conversion)
-                tempSurface.BlitScaledTo(tmpBmp.field_0_pSurface);
-            }
+                    counter++;
 
-            // Check for quitting video every 15 frames
-            if (fmv_num_read_frames > 15)
-            {
-                // TODO: Not complete
-                if (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN))
-                {
-                    break;
-                }
-            }
-            else
-            {
-                // This clears the pressed state to avoid the above check stopping the FMV too early.
-                // E.g user presses return before FMV starts, then after 15 frames it would quit without this call clearing the pressed flag.
-                Input_IsVKPressed_4EDD40(VK_ESCAPE);
-                Input_IsVKPressed_4EDD40(VK_RETURN);
-            }
+                    const int kTotalAudioToPlay = fmv_single_audio_frame_size_in_samples
+                        * num_frames_interleave
+                        + fmv_cur_audio_pos
+                        + (fmv_sound_entry_size * fmv_num_played_audio_frames);
 
-            Render_Str_Frame(tmpBmp);
-
-            if (bNoAudioOrAudioError)
-            {
-                while ((signed int)(SYS_GetTicks() - movieStartTimeStamp) <= (1000 * fmv_num_read_frames / kFmvFrameRate))
-                {
-                    // Wait for the amount of time the frame would take to display at the given framerate
-                }
-            }
-            else
-            {
-                // Sync on where the audio playback is up to
-                current_audio_offset += fmv_single_audio_frame_size_in_samples;
-                const DWORD soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&fmv_sound_entry);
-                if ((signed int)(oldBufferPlayPos - soundBufferPlayPos) > fmv_sound_entry_size / 2)
-                {
-                    fmv_num_played_audio_frames++;
-                }
-
-                oldBufferPlayPos = soundBufferPlayPos;
-
-                const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate + 2000;
-                if (current_audio_offset >= 0)
-                {
-                    int counter = 0;
-                    for (;;)
+                    if (counter > 10000)
                     {
-                        const unsigned int fmv_cur_audio_pos = SND_Get_Sound_Entry_Pos_4EF620(&fmv_sound_entry);
-                        const int fmv_audio_left_to_play = oldBufferPlayPos - fmv_cur_audio_pos;
-                        if (fmv_audio_left_to_play > fmv_sound_entry_size / 2)
+                        counter = 0;
+                        if ((signed int)(SYS_GetTicks() - movieStartTimeStamp) > maxAudioSyncTimeWait)
                         {
-                            fmv_num_played_audio_frames++;
-                        }
-
-                        oldBufferPlayPos = fmv_cur_audio_pos;
-
-                        counter++;
-
-                        const int kTotalAudioToPlay = fmv_single_audio_frame_size_in_samples
-                            * num_frames_interleave
-                            + fmv_cur_audio_pos
-                            + (fmv_sound_entry_size * fmv_num_played_audio_frames);
-
-                        if (counter > 10000)
-                        {
-                            counter = 0;
-                            if ((signed int)(SYS_GetTicks() - movieStartTimeStamp) > maxAudioSyncTimeWait)
-                            {
-                                // TODO: Unknown failure case
-                                //bNoAudioOrAudioError = 1;
-                                break;
-                            }
-                        }
-
-                        if (current_audio_offset < kTotalAudioToPlay)
-                        {
+                            // TODO: Unknown failure case
+                            //bNoAudioOrAudioError = 1;
                             break;
                         }
                     }
+
+                    if (current_audio_offset < kTotalAudioToPlay)
+                    {
+                        break;
+                    }
                 }
             }
-
-            SYS_EventsPump_44FF90();
-            PSX_VSync_496620(0);
         }
 
-        if (fmv_sound_entry.field_4_pDSoundBuffer)
-        {
-            GetSoundAPI().SND_Free(&fmv_sound_entry);
-            fmv_sound_entry.field_4_pDSoundBuffer = nullptr;
-        }
-
-        Bmp_Free_4F1950(&tmpBmp);
-
-        GetMovieIO().mIO_Close(hMovieFile);
+        SYS_EventsPump_44FF90();
+        PSX_VSync_496620(0);
     }
+
+    if (fmv_sound_entry.field_4_pDSoundBuffer)
+    {
+        fmv_sound_entry.field_4_pDSoundBuffer->Stop();
+
+        GetSoundAPI().SND_Free(&fmv_sound_entry);
+        fmv_sound_entry.field_4_pDSoundBuffer = nullptr;
+    }
+
+    Bmp_Free_4F1950(&tmpBmp);
+
+    GetMovieIO().mIO_Close(hMovieFile);
 
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
