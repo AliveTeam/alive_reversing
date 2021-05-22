@@ -29,7 +29,11 @@ ALIVE_VAR(1, 0xBBB9EC, HINSTANCE, sInstance_BBB9EC, nullptr);
 ALIVE_VAR(1, 0xBBB9FC, s32, sCmdShow_BBB9FC, 0);
 ALIVE_VAR(1, 0xBBFB04, TWindowHandleType, hWnd_BBFB04, nullptr);
 
-#if ORIGINAL_PS1_BEHAVIOR
+#if AUTO_SWITCH_CONTROLLER // OG Change - Used for Auto-switching active controller (gamepad/keyboard)
+static int totalConnectedJoysticks = 0;
+#endif
+
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
 static bool saveMenuOpen = false;
 
 EXPORT void setSaveMenuOpen(bool val)
@@ -1022,7 +1026,30 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
-        // Pump events
+ #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switches active controller (gamepad/keyboard)
+        if (event.type == SDL_JOYDEVICEADDED)
+        {
+            totalConnectedJoysticks++;
+            LOG_INFO("User just inserted joystick!");
+            Input_Init_491BC0();
+            sJoystickEnabled_5C9F70 = 1;
+        }
+        else if (event.type == SDL_JOYDEVICEREMOVED)
+        {
+            totalConnectedJoysticks--;
+            LOG_INFO("User just removed joystick!");
+
+            if (totalConnectedJoysticks > 0)
+            {
+                Input_Init_491BC0(); // Ensures next joystick is usable
+            }
+            else
+            {
+                sJoystickEnabled_5C9F70 = 0; // Returns to keyboard controls
+                SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+            }
+        }
+#endif
     }
 
     if (bNeedToQuit)

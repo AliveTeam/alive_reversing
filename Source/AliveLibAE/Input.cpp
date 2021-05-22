@@ -1238,7 +1238,7 @@ ALIVE_VAR(1, 0x5c9f74, u32, sPrevious_down_keyboard_keys_5C9F74, 0);
 ALIVE_VAR(1, 0x5c9f78, u32, dword_5C9F78, 0);
 ALIVE_VAR(1, 0x5c9794, s32, sKeyboardBindings_5C9794, 0);
 
-#if ORIGINAL_PS1_BEHAVIOR
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - chant with any shoulder button combo
 static bool IsChantingAnyShoulderButton(s32 shoulderButtonsPressedCount)
 {
     return (shoulderButtonsPressedCount > 1);
@@ -1389,9 +1389,7 @@ EXPORT s32 Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                         }
                     }
 
-                    // OG Change - chant with any shoulder button combo
-
-#if ORIGINAL_PS1_BEHAVIOR
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - chant with any shoulder button combo
                     const bool isChanting = IsChantingAnyShoulderButton(shoulderButtonsPressedCount);
 #else
                     const bool isChanting = IsChanting(input_command_c_pressed, input_command_delete_pressed);

@@ -1946,9 +1946,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
         return eAbeStates::State_150_Chant_42FD50;
     }
 
-    // OG Change - Faster check for GameSpeak
-
-#if ORIGINAL_PS1_BEHAVIOR
+#if ORIGINAL_PS1_BEHAVIOR // OG Change - Faster check for GameSpeak
     const bool leftGameSpeakPressed = (input & eLeftGamespeak);
     const bool rightGameSpeakPressed = (input & eRightGameSpeak);
 #else
