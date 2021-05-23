@@ -132,13 +132,19 @@ void play_midi()
         LOG_ERROR("Failed to load sound font");
     }
 
-    fluid_player_t* player = new_fluid_player(synth);
-    if (fluid_player_add(player, "C:\\Users\\paul\\Downloads\\Abe2MidiPlayer\\midi\\20PS1 SEQ.mid") != FLUID_OK)
+    fluid_player_t* player1 = new_fluid_player(synth);
+    if (fluid_player_add(player1, "C:\\Users\\paul\\Downloads\\Abe2MidiPlayer\\midi\\PS1 SEQ.mid") != FLUID_OK)
     {
         LOG_ERROR("Failed to open midi");
     }
+    fluid_player_play(player1);
 
-    fluid_player_play(player);
+    fluid_player_t* player2 = new_fluid_player(synth);
+    if (fluid_player_add(player2, "C:\\Users\\paul\\Downloads\\Abe2MidiPlayer\\midi\\19PS1 SEQ.mid") != FLUID_OK)
+    {
+        LOG_ERROR("Failed to open midi");
+    }
+    fluid_player_play(player2);
 
     FILE* outFile = fopen("output.bin", "wb");
     if (!outFile)
@@ -147,21 +153,26 @@ void play_midi()
     }
     else
     {
+        bool done = false;
         do
         {
             const int lenBytes = 1024;
             short stream[lenBytes / 2] = {};
             fluid_synth_write_s16(synth, lenBytes / (2 * sizeof(short)), stream, 0, 2, stream, 1, 2);
             fwrite(stream, 2, lenBytes / 2, outFile);
-        } while (fluid_player_get_status(player) != FLUID_PLAYER_DONE);
+            done = fluid_player_get_status(player1) == FLUID_PLAYER_DONE;
+            done |= fluid_player_get_status(player2) == FLUID_PLAYER_DONE;
+        } while (!done);
         fclose(outFile);
     }
 
-    fluid_player_join(player);
+    fluid_player_join(player1);
+    fluid_player_join(player2);
+
 
 
     //delete_fluid_audio_driver(adriver);
-    delete_fluid_player(player);
+    delete_fluid_player(player1);
     delete_fluid_synth(synth);
     delete_fluid_settings(settings);
 }
