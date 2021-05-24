@@ -8,7 +8,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (WIN32)
-    add_executable(vab_tool WIN32 vab_tool.cpp)
+    add_executable(vab_tool WIN32
+    vab_tool.cpp)
 
     if (MSVC)
         target_compile_options(vab_tool PRIVATE /W4 /wd4996 /WX /MP)
@@ -22,7 +23,7 @@ if (WIN32)
         PRIVATE cxx_auto_type
         PRIVATE cxx_variadic_templates)
     target_compile_definitions(vab_tool PRIVATE "_CRT_SECURE_NO_WARNINGS")
-    target_link_libraries(vab_tool AliveLibAE AliveLibAO libfluidsynth)
+    target_link_libraries(vab_tool AliveLibAE AliveLibAO libfluidsynth imgui libglew_static)
 
     export(TARGETS vab_tool FILE vab_tool.cmake)
     install(TARGETS vab_tool DESTINATION "${BINPATH}")
