@@ -220,7 +220,7 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         if (!CheckRequiredGameFilesExist(GameType::eAe, false))
         {
             gameToRun = GameType::eAo;
-            LOG_INFO("No AO files found, switch to AO");
+            LOG_INFO("No AE files found, switch to AO");
         }
     }
 
