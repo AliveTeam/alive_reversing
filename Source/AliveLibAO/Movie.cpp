@@ -94,7 +94,6 @@ public:
 
           
             const auto kAkik = 0x4b494b41;  // AKIK
-          
             if (w.mSectorType == kMoir)
             {
                 if (w.mAkikMagic != kAkik)
@@ -153,7 +152,7 @@ public:
                     }
 
                     // If this is the first time then start to play the buffer
-                    if (!bStartedPlayingSound && !bNoAudioOrAudioError)
+                    /*if (!bStartedPlayingSound && !bNoAudioOrAudioError)
                     {
                         bStartedPlayingSound = true;
                         if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
@@ -163,7 +162,7 @@ public:
 
                         current_audio_offset = fmv_audio_sample_offset;
                         oldBufferPlayPos = 0;
-                    }
+                    }*/
                 }
 
                 //return true;
@@ -254,7 +253,7 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     // Don't play FMVs for now till sound issues are fixed
-#if 1
+#if 0
     field_6_flags.Set(Options::eDead_Bit3);
 #endif
 
@@ -442,7 +441,7 @@ void Movie::VUpdate_489EA0()
         fmv_sound_entry_size,
         kSamplesPerSecond,
         16,
-        1) < 0)
+        7) < 0)
     {
         // SND_New failed
         fmv_sound_entry.field_4_pDSoundBuffer = nullptr;
@@ -503,7 +502,27 @@ void Movie::VUpdate_489EA0()
 
         Render_Str_Frame(tmpBmp);
 
-        if (bNoAudioOrAudioError)
+        const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate - 100;
+
+        for (;;)
+        {
+            if ((signed int)(SYS_GetTicks() - movieStartTimeStamp) > maxAudioSyncTimeWait)
+            {
+                // If this is the first time then start to play the buffer
+                if (!bStartedPlayingSound && !bNoAudioOrAudioError)
+                {
+                    bStartedPlayingSound = true;
+                    if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
+                    {
+                        bNoAudioOrAudioError = 1;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        /*if (bNoAudioOrAudioError)
         {
             while ((signed int)(SYS_GetTicks() - movieStartTimeStamp) <= (1000 * fmv_num_read_frames / kFmvFrameRate))
             {
@@ -554,14 +573,17 @@ void Movie::VUpdate_489EA0()
                             break;
                         }
                     }
-
+                    
                     if (current_audio_offset < kTotalAudioToPlay)
                     {
+                        // POSITION AND PLAYED FRAMES ARE NOT INCREMENTING!!!!!!!!!!!!
+                        //printf("pos: %i, played frames: %i\n", fmv_cur_audio_pos, fmv_num_played_audio_frames);
+                        //printf("current: %i < total: %i\n", current_audio_offset, kTotalAudioToPlay);
                         break;
                     }
                 }
             }
-        }
+        }*/
 
         SYS_EventsPump_44FF90();
         PSX_VSync_496620(0);

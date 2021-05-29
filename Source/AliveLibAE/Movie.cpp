@@ -391,7 +391,6 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
                 sDD_surface_backbuffer_BBC3CC->Unlock(0);
             }
 #endif
-
             if (!bNoAudioOrAudioError_5CA1F4)
             {
                 void* pDecompressedAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
@@ -518,6 +517,8 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
 
                         if (current_audio_offset_5CA1F0 < kTotalAudioToPlay)
                         {
+                            //printf("pos: %i, played frames: %i\n", fmv_cur_audio_pos, fmv_num_played_audio_frames_5CA1FC);
+                            //printf("current: %i < total: %i\n", current_audio_offset_5CA1F0, kTotalAudioToPlay);
                             break;
                         }
                     }
