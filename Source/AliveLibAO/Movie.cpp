@@ -42,7 +42,7 @@ const int kNumAudioChannels = 2;
 const int kBytesPerSample = 2;
 
 
-const int num_frames_interleave = 0; // maybe 20 ??
+const int num_frames_interleave = 5; // maybe 20 ??
 const int fmv_single_audio_frame_size_in_samples = 2016;
 const auto fmv_sound_entry_size = fmv_single_audio_frame_size_in_samples * (num_frames_interleave + 6);
 const int kSamplesPerSecond = 37800; // 44100
@@ -94,6 +94,7 @@ public:
 
           
             const auto kAkik = 0x4b494b41;  // AKIK
+
             if (w.mSectorType == kMoir)
             {
                 if (w.mAkikMagic != kAkik)
@@ -251,11 +252,7 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
 
     field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
-
-    // Don't play FMVs for now till sound issues are fixed
-#if 0
     field_6_flags.Set(Options::eDead_Bit3);
-#endif
 
     /*
     // TODO: FIX MOI
@@ -502,7 +499,7 @@ void Movie::VUpdate_489EA0()
 
         Render_Str_Frame(tmpBmp);
 
-        const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate - 100;
+        const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate - 200;
 
         for (;;)
         {
@@ -573,12 +570,9 @@ void Movie::VUpdate_489EA0()
                             break;
                         }
                     }
-                    
+
                     if (current_audio_offset < kTotalAudioToPlay)
                     {
-                        // POSITION AND PLAYED FRAMES ARE NOT INCREMENTING!!!!!!!!!!!!
-                        //printf("pos: %i, played frames: %i\n", fmv_cur_audio_pos, fmv_num_played_audio_frames);
-                        //printf("current: %i < total: %i\n", current_audio_offset, kTotalAudioToPlay);
                         break;
                     }
                 }
