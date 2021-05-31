@@ -152,6 +152,8 @@ public:
                     // If this is the first time then start to play the buffer
                     if (!bStartedPlayingSound && !bNoAudioOrAudioError)
                     {
+                        SND_StopAll_4CB060();
+
                         bStartedPlayingSound = true;
                         if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
                         {
