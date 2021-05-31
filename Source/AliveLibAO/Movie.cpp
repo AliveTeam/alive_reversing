@@ -42,18 +42,15 @@ const int kNumAudioChannels = 2;
 const int kBytesPerSample = 2;
 
 
-const int num_frames_interleave = 0; // maybe 20 ??
-const int fmv_single_audio_frame_size_in_samples = 2016;
+const int num_frames_interleave = 5; // maybe 20 ?? AE uses 5
+const int fmv_single_audio_frame_size_in_samples = 2016; // AE uses 2940
 const auto fmv_sound_entry_size = fmv_single_audio_frame_size_in_samples * (num_frames_interleave + 6);
-const int kSamplesPerSecond = 37800; // 44100
+const int kSamplesPerSecond = 37800; // AE uses 44100
 const int kFmvFrameRate = 15;
 
 int bNoAudioOrAudioError = 0;
 int fmv_audio_sample_offset = 0;
 bool bStartedPlayingSound = false;
-int fmv_num_played_audio_frames = 0;
-int current_audio_offset = 0;
-int oldBufferPlayPos = 0;
 
 class PsxStr
 {
@@ -94,7 +91,7 @@ public:
 
           
             const auto kAkik = 0x4b494b41;  // AKIK
-          
+
             if (w.mSectorType == kMoir)
             {
                 if (w.mAkikMagic != kAkik)
@@ -160,9 +157,6 @@ public:
                         {
                             bNoAudioOrAudioError = 1;
                         }
-
-                        current_audio_offset = fmv_audio_sample_offset;
-                        oldBufferPlayPos = 0;
                     }
                 }
 
@@ -252,11 +246,6 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
 
     field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
-
-    // Don't play FMVs for now till sound issues are fixed
-#if 1
-    field_6_flags.Set(Options::eDead_Bit3);
-#endif
 
     /*
     // TODO: FIX MOI
@@ -433,16 +422,13 @@ void Movie::VUpdate_489EA0()
     bNoAudioOrAudioError = 0;
     fmv_audio_sample_offset = 0;
     bStartedPlayingSound = false;
-    fmv_num_played_audio_frames = 0;
-    current_audio_offset = 0;
-    oldBufferPlayPos = 0;
 
     if (GetSoundAPI().SND_New(
         &fmv_sound_entry,
         fmv_sound_entry_size,
         kSamplesPerSecond,
         16,
-        1) < 0)
+        7) < 0)
     {
         // SND_New failed
         fmv_sound_entry.field_4_pDSoundBuffer = nullptr;
@@ -503,64 +489,11 @@ void Movie::VUpdate_489EA0()
 
         Render_Str_Frame(tmpBmp);
 
-        if (bNoAudioOrAudioError)
+        const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate - 200;
+
+        while ((signed int) (SYS_GetTicks() - movieStartTimeStamp) <= maxAudioSyncTimeWait)
         {
-            while ((signed int)(SYS_GetTicks() - movieStartTimeStamp) <= (1000 * fmv_num_read_frames / kFmvFrameRate))
-            {
-                // Wait for the amount of time the frame would take to display at the given framerate
-            }
-        }
-        else
-        {
-            // Sync on where the audio playback is up to
-            current_audio_offset += fmv_single_audio_frame_size_in_samples;
-            const DWORD soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&fmv_sound_entry);
-            if ((signed int)(oldBufferPlayPos - soundBufferPlayPos) > fmv_sound_entry_size / 2)
-            {
-                fmv_num_played_audio_frames++;
-            }
-
-            oldBufferPlayPos = soundBufferPlayPos;
-
-            const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate + 2000;
-            if (current_audio_offset >= 0)
-            {
-                int counter = 0;
-                for (;;)
-                {
-                    const unsigned int fmv_cur_audio_pos = SND_Get_Sound_Entry_Pos_4EF620(&fmv_sound_entry);
-                    const int fmv_audio_left_to_play = oldBufferPlayPos - fmv_cur_audio_pos;
-                    if (fmv_audio_left_to_play > fmv_sound_entry_size / 2)
-                    {
-                        fmv_num_played_audio_frames++;
-                    }
-
-                    oldBufferPlayPos = fmv_cur_audio_pos;
-
-                    counter++;
-
-                    const int kTotalAudioToPlay = fmv_single_audio_frame_size_in_samples
-                        * num_frames_interleave
-                        + fmv_cur_audio_pos
-                        + (fmv_sound_entry_size * fmv_num_played_audio_frames);
-
-                    if (counter > 10000)
-                    {
-                        counter = 0;
-                        if ((signed int)(SYS_GetTicks() - movieStartTimeStamp) > maxAudioSyncTimeWait)
-                        {
-                            // TODO: Unknown failure case
-                            //bNoAudioOrAudioError = 1;
-                            break;
-                        }
-                    }
-
-                    if (current_audio_offset < kTotalAudioToPlay)
-                    {
-                        break;
-                    }
-                }
-            }
+            // Wait for the amount of time the frame would take to display at the given framerate
         }
 
         SYS_EventsPump_44FF90();
