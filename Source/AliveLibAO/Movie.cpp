@@ -51,9 +51,6 @@ const int kFmvFrameRate = 15;
 int bNoAudioOrAudioError = 0;
 int fmv_audio_sample_offset = 0;
 bool bStartedPlayingSound = false;
-int fmv_num_played_audio_frames = 0;
-int current_audio_offset = 0;
-int oldBufferPlayPos = 0;
 
 class PsxStr
 {
@@ -160,9 +157,6 @@ public:
                         {
                             bNoAudioOrAudioError = 1;
                         }
-
-                        current_audio_offset = fmv_audio_sample_offset;
-                        oldBufferPlayPos = 0;
                     }
                 }
 
@@ -428,9 +422,6 @@ void Movie::VUpdate_489EA0()
     bNoAudioOrAudioError = 0;
     fmv_audio_sample_offset = 0;
     bStartedPlayingSound = false;
-    fmv_num_played_audio_frames = 0;
-    current_audio_offset = 0;
-    oldBufferPlayPos = 0;
 
     if (GetSoundAPI().SND_New(
         &fmv_sound_entry,
@@ -504,66 +495,6 @@ void Movie::VUpdate_489EA0()
         {
             // Wait for the amount of time the frame would take to display at the given framerate
         }
-
-        /*if (bNoAudioOrAudioError)
-        {
-            while ((signed int)(SYS_GetTicks() - movieStartTimeStamp) <= (1000 * fmv_num_read_frames / kFmvFrameRate))
-            {
-                // Wait for the amount of time the frame would take to display at the given framerate
-            }
-        }
-        else
-        {
-            // Sync on where the audio playback is up to
-            current_audio_offset += fmv_single_audio_frame_size_in_samples;
-            const DWORD soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&fmv_sound_entry);
-            if ((signed int)(oldBufferPlayPos - soundBufferPlayPos) > fmv_sound_entry_size / 2)
-            {
-                fmv_num_played_audio_frames++;
-            }
-
-            oldBufferPlayPos = soundBufferPlayPos;
-
-            const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate + 2000;
-            if (current_audio_offset >= 0)
-            {
-                int counter = 0;
-                for (;;)
-                {
-                    const unsigned int fmv_cur_audio_pos = SND_Get_Sound_Entry_Pos_4EF620(&fmv_sound_entry);
-                    const int fmv_audio_left_to_play = oldBufferPlayPos - fmv_cur_audio_pos;
-                    if (fmv_audio_left_to_play > fmv_sound_entry_size / 2)
-                    {
-                        fmv_num_played_audio_frames++;
-                    }
-
-                    oldBufferPlayPos = fmv_cur_audio_pos;
-
-                    counter++;
-
-                    const int kTotalAudioToPlay = fmv_single_audio_frame_size_in_samples
-                        * num_frames_interleave
-                        + fmv_cur_audio_pos
-                        + (fmv_sound_entry_size * fmv_num_played_audio_frames);
-
-                    if (counter > 10000)
-                    {
-                        counter = 0;
-                        if ((signed int)(SYS_GetTicks() - movieStartTimeStamp) > maxAudioSyncTimeWait)
-                        {
-                            // TODO: Unknown failure case
-                            //bNoAudioOrAudioError = 1;
-                            break;
-                        }
-                    }
-
-                    if (current_audio_offset < kTotalAudioToPlay)
-                    {
-                        break;
-                    }
-                }
-            }
-        }*/
 
         SYS_EventsPump_44FF90();
         PSX_VSync_496620(0);
