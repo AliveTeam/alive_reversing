@@ -1,4 +1,4 @@
-#include "config.h"
+#include "relive_config.h"
 #include "logger.hpp"
 #include "FunctionFwd.hpp"
 #include "SDL_main.h"

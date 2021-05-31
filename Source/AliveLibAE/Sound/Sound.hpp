@@ -1,7 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
-#include "config.h"
+#include "relive_config.h"
 
 
 #if !USE_SDL2_SOUND

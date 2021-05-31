@@ -1,7 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
-#include "config.h"
+#include "relive_config.h"
 
 #if _WIN32
 using TWindowProcFilter = LRESULT(CC*)(HWND, UINT, WPARAM, LPARAM);
