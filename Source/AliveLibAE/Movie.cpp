@@ -114,7 +114,7 @@ EXPORT s8 CC DDV_StartAudio_493DF0()
             fmv_audio_sample_offset_5CA238 += fmv_single_audio_frame_size_in_samples_5CA240;
             audioBufferStartOffset = fmv_audio_sample_offset_5CA238;
             fmv_num_read_frames_5CA23C++;
-            
+
             if (fmv_num_read_frames_5CA23C >= pMasher_audio_header_5CA1E0->field_10_num_frames_interleave)
             {
                 break;
@@ -504,8 +504,6 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
                             * pMasher_audio_header_5CA1E0->field_10_num_frames_interleave
                             + fmv_cur_audio_pos
                             + (fmv_sound_entry_size * fmv_num_played_audio_frames_5CA1FC);
-
-                        printf("%i %i %i %i %i %i\n", fmv_single_audio_frame_size_in_samples_5CA240, pMasher_audio_header_5CA1E0->field_10_num_frames_interleave, fmv_cur_audio_pos, fmv_sound_entry_size, fmv_num_played_audio_frames_5CA1FC, pMasher_audio_header_5CA1E0->field_4_samples_per_second);
 
                         if (counter > 10000)
                         {

@@ -42,10 +42,10 @@ const int kNumAudioChannels = 2;
 const int kBytesPerSample = 2;
 
 
-const int num_frames_interleave = 5; // maybe 20 ??
-const int fmv_single_audio_frame_size_in_samples = 2016;
+const int num_frames_interleave = 5; // maybe 20 ?? AE uses 5
+const int fmv_single_audio_frame_size_in_samples = 2016; // AE uses 2940
 const auto fmv_sound_entry_size = fmv_single_audio_frame_size_in_samples * (num_frames_interleave + 6);
-const int kSamplesPerSecond = 37800; // 44100
+const int kSamplesPerSecond = 37800; // AE uses 44100
 const int kFmvFrameRate = 15;
 
 int bNoAudioOrAudioError = 0;
@@ -153,7 +153,7 @@ public:
                     }
 
                     // If this is the first time then start to play the buffer
-                    /*if (!bStartedPlayingSound && !bNoAudioOrAudioError)
+                    if (!bStartedPlayingSound && !bNoAudioOrAudioError)
                     {
                         bStartedPlayingSound = true;
                         if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
@@ -163,7 +163,7 @@ public:
 
                         current_audio_offset = fmv_audio_sample_offset;
                         oldBufferPlayPos = 0;
-                    }*/
+                    }
                 }
 
                 //return true;
@@ -252,7 +252,6 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
 
     field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
-    field_6_flags.Set(Options::eDead_Bit3);
 
     /*
     // TODO: FIX MOI
@@ -501,22 +500,9 @@ void Movie::VUpdate_489EA0()
 
         const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate - 200;
 
-        for (;;)
+        while ((signed int) (SYS_GetTicks() - movieStartTimeStamp) <= maxAudioSyncTimeWait)
         {
-            if ((signed int)(SYS_GetTicks() - movieStartTimeStamp) > maxAudioSyncTimeWait)
-            {
-                // If this is the first time then start to play the buffer
-                if (!bStartedPlayingSound && !bNoAudioOrAudioError)
-                {
-                    bStartedPlayingSound = true;
-                    if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
-                    {
-                        bNoAudioOrAudioError = 1;
-                    }
-                }
-
-                break;
-            }
+            // Wait for the amount of time the frame would take to display at the given framerate
         }
 
         /*if (bNoAudioOrAudioError)
