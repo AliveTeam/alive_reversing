@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 
-#include "config.h"
+#include "relive_config.h"
 
 #include "Midi.hpp"
 #include "Function.hpp"

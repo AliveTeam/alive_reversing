@@ -6,4 +6,4 @@
 #pragma once
 
 #include "pch_shared.h"
-#include "config.h"
+#include "relive_config.h"

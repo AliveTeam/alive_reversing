@@ -10,7 +10,7 @@
     #include <tchar.h>
     #include <stdio.h>
     #include "SDL.h"
-    #include "config.h"
+    #include "relive_config.h"
     #include "Sys_common.hpp"
 
     #ifndef __MINGW32__

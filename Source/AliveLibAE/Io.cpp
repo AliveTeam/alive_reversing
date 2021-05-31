@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "relive_config.h"
 #include "Io.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"

@@ -39,7 +39,7 @@
 #include "GameEnderController.hpp"
 #include "Spark.hpp"
 #include "Events.hpp"
-#include "../AliveLibCommon/config.h"
+#include "../AliveLibCommon/relive_config.h"
 #include "Sfx.hpp"
 #include "ShadowZone.hpp"
 #include "PauseMenu.hpp"
