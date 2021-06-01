@@ -152,6 +152,7 @@ public:
                     // If this is the first time then start to play the buffer
                     if (!bStartedPlayingSound && !bNoAudioOrAudioError)
                     {
+                        // TODO: PSX Version would allow some sounds / bg music to play over certain FMV transitions
                         SND_StopAll_4CB060();
 
                         bStartedPlayingSound = true;
