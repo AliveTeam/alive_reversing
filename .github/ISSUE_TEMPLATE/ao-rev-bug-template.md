@@ -2,7 +2,7 @@
 name: AO Rev Bug
 about: Report issue that only occurs in the reversed AO game VS original AO game
 title: 'AO Rev Bug - '
-labels: AO bug
+labels: AO rev bug
 assignees: ''
 
 ---
