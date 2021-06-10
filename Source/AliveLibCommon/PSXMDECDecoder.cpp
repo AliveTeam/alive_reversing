@@ -568,13 +568,13 @@ uint16_t* PSXMDECDecoder::RL2BLK(uint16_t* arg_mdec_rl, int16_t* arg_blk)
     return arg_mdec_rl;
 }
 
-// An overly used bit of code in the YUV2BGRA32 function. Instead of huge code repeats, this will
+// An overly used bit of code in the YUV2RGBA32 function. Instead of huge code repeats, this will
 // make things much more nicer.
 void PSXMDECDecoder::YUVfunction1(uint8_t arg_image[][4], s32 index, s32 r0, s32 g0, s32 b0, s32 y)
 {
-    const s32 red = 2;
+    const s32 red = 0;
     const s32 green = 1;
-    const s32 blue = 0;
+    const s32 blue = 2;
     const s32 alpha = 3;
 
     arg_image[index][red] = BSRoundTable[r0 + y + 256];
@@ -585,7 +585,7 @@ void PSXMDECDecoder::YUVfunction1(uint8_t arg_image[][4], s32 index, s32 r0, s32
 
 // Old code was a mess. New code should be much better.
 // Could be cleaned up even more, but theres no need at the moment.
-void PSXMDECDecoder::YUV2BGRA32(int16_t* arg_blk,
+void PSXMDECDecoder::YUV2RGBA32(int16_t* arg_blk,
                                 uint8_t arg_image[][4])
 {
     f64 rConstant = 1.402;
@@ -594,19 +594,21 @@ void PSXMDECDecoder::YUV2BGRA32(int16_t* arg_blk,
     f64 bConstant = 1.772;
 
     int16_t* yblk = arg_blk + DCT_BLOCK_SIZE * 2;
-    for (uint8_t yy = 0; yy < 16; yy += 2, arg_blk += 4, yblk += 8,
-                 arg_image += 24)
+
+    for (uint8_t yy = 0; yy < 16; yy += 2, arg_blk += 4, yblk += 8, arg_image += 24)
     {
         if (yy == 8)
+        {
             yblk += DCT_BLOCK_SIZE;
+        }
         for (uint8_t x = 0; x < 4; x++, arg_blk++, yblk += 2, arg_image += 2)
         {
             int16_t r0, g0, b0;
 
             // Set up YUV stuff
-            r0 = static_cast<int16_t>(arg_blk[DCT_BLOCK_SIZE] * rConstant);
-            g0 = static_cast<int16_t>((arg_blk[0] * gConstant) + (arg_blk[DCT_BLOCK_SIZE] * g2Constant));
-            b0 = static_cast<int16_t>(arg_blk[0] * bConstant);
+            r0 = static_cast<int16_t>(arg_blk[0] * rConstant);
+            g0 = static_cast<int16_t>((arg_blk[DCT_BLOCK_SIZE] * gConstant) + (arg_blk[0] * g2Constant));
+            b0 = static_cast<int16_t>(arg_blk[DCT_BLOCK_SIZE] * bConstant);
 
             int16_t y = yblk[0] + 128;
             YUVfunction1(arg_image, 0, r0, g0, b0, y);
@@ -622,9 +624,9 @@ void PSXMDECDecoder::YUV2BGRA32(int16_t* arg_blk,
 
 
             // Set up YUV stuff again
-            r0 = static_cast<int16_t>(arg_blk[4 + DCT_BLOCK_SIZE] * rConstant);
-            g0 = static_cast<int16_t>((arg_blk[4] * gConstant) + (arg_blk[4 + DCT_BLOCK_SIZE] * g2Constant));
-            b0 = static_cast<int16_t>(arg_blk[4] * bConstant);
+            r0 = static_cast<int16_t>(arg_blk[4] * rConstant);
+            g0 = static_cast<int16_t>((arg_blk[4 + DCT_BLOCK_SIZE] * gConstant) + (arg_blk[4] * g2Constant));
+            b0 = static_cast<int16_t>(arg_blk[4 + DCT_BLOCK_SIZE] * bConstant);
 
             y = yblk[DCT_BLOCK_SIZE + 0] + 128;
             YUVfunction1(arg_image, 8, r0, g0, b0, y);
@@ -641,7 +643,7 @@ void PSXMDECDecoder::YUV2BGRA32(int16_t* arg_blk,
     }
 }
 
-uint8_t PSXMDECDecoder::DecodeFrameToABGR32(uint16_t* arg_decoded_image,
+uint8_t PSXMDECDecoder::DecodeFrameToRGBA32(uint16_t* arg_decoded_image,
                                             uint16_t* arg_bs_image,
                                             uint16_t arg_width,
                                             uint16_t arg_height)
@@ -667,7 +669,7 @@ uint8_t PSXMDECDecoder::DecodeFrameToABGR32(uint16_t* arg_decoded_image,
         for (; arg_size > 0; arg_size -= blocksize / 2, arg_image += blocksize)
         {
             tmp_rl = RL2BLK(tmp_rl, blk);
-            YUV2BGRA32(blk, reinterpret_cast<uint8_t(*)[4]>(arg_image));
+            YUV2RGBA32(blk, reinterpret_cast<uint8_t(*)[4]>(arg_image));
         }
 
 
