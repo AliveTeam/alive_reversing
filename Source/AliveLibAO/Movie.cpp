@@ -122,7 +122,7 @@ public:
                     mFrameW = frameW;
                     mFrameH = frameH;
 
-                    mMdec.DecodeFrameToABGR32((uint16_t*)pixelBuffer.data(), (uint16_t*)mDemuxBuffer.data(), frameW, frameH);
+                    mMdec.DecodeFrameToRGBA32((uint16_t*)pixelBuffer.data(), (uint16_t*)mDemuxBuffer.data(), frameW, frameH);
                     //mVideoBuffer.push_back(Frame{ mFrameCounter++, frameW, frameH, pixelBuffer });
                     return true;
                 }

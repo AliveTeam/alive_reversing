@@ -41,7 +41,7 @@ class PSXMDECDecoder final
 public:
     PSXMDECDecoder();
 
-    uint8_t DecodeFrameToABGR32(uint16_t *arg_decoded_image,
+    uint8_t DecodeFrameToRGBA32(uint16_t *arg_decoded_image,
         uint16_t *arg_bs_image,
         uint16_t arg_width,
         uint16_t arg_height);
@@ -87,7 +87,7 @@ private:
     void IQTableInit();
    
     void YUVfunction1(uint8_t arg_image[][4], s32 index, s32 r0, s32 g0, s32 b0, s32 y);
-    void YUV2BGRA32(int16_t *arg_blk,
+    void YUV2RGBA32(int16_t *arg_blk,
         uint8_t arg_image[][4]);
 
     uint16_t *RL2BLK(uint16_t *, int16_t *);
