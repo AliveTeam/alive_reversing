@@ -1786,7 +1786,7 @@ EXPORT void CC Factory_MineCar_4DACD0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 {
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("BAYROLL.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6013, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("BAYROLL.BAN", ResourceManager::Resource_Animation, ResourceID::kBayrollResID_6013, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("ABECAR.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeCarResId, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalGib, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode, 0);

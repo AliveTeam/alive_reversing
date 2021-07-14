@@ -270,22 +270,22 @@ Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo)
         case GlukkonTypes::Normal_0:
         case GlukkonTypes::Normal_4:
         case GlukkonTypes::Normal_5:
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_801);
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlukkonResID_801);
             Animation_Init_424E10(169608, 163, 79, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlkbasicResID), 1, 1);
             break;
 
         case GlukkonTypes::Aslik_1:
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_803);
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAslikResID_803);
             Animation_Init_424E10(171356, 157, 76, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlukAslikResID), 1, 1);
             break;
 
         case GlukkonTypes::Drpik_2:
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_805);
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDripikResID_805);
             Animation_Init_424E10(193064, 162, 78, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlukDripikResID), 1, 1);
             break;
 
         case GlukkonTypes::Phleg_3:
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_807);
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPhlegResID_807);
             Animation_Init_424E10(199500, 145, 72, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlukPhlegResID), 1, 1);
             break;
         default:

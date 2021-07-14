@@ -15,24 +15,24 @@ constexpr AnimRecord kAnimRecords[] = {
     {AnimId::BlindMud_Arm_Gib, "ABEBLOW.BAN", 7772, 50, 25, kAbeblowResID, PalId::BlindMud},
     {AnimId::BlindMud_Body_Gib, "ABEBLOW.BAN", 7812, 50, 25, kAbeblowResID, PalId::BlindMud},
 
-    {AnimId::Glukkon_Head_Gib, "GLUKKON.BND", 8140, 48, 28, kUnknownResID_801, PalId::Default},
-    {AnimId::Glukkon_Arm_Gib, "GLUKKON.BND", 8188, 48, 28, kUnknownResID_801, PalId::Default},
-    {AnimId::Glukkon_Body_Gib, "GLUKKON.BND", 8188, 48, 28, kUnknownResID_801, PalId::Default},
+    {AnimId::Glukkon_Head_Gib, "GLUKKON.BND", 8140, 48, 28, kGlukkonResID_801, PalId::Default},
+    {AnimId::Glukkon_Arm_Gib, "GLUKKON.BND", 8188, 48, 28, kGlukkonResID_801, PalId::Default},
+    {AnimId::Glukkon_Body_Gib, "GLUKKON.BND", 8188, 48, 28, kGlukkonResID_801, PalId::Default},
 
-    {AnimId::Aslik_Head_Gib, "ASLIK.BND", 8140, 48, 28, kUnknownResID_803, PalId::Default},
-    {AnimId::Aslik_Arm_Gib, "ASLIK.BND", 8188, 48, 28, kUnknownResID_803, PalId::Default},
-    {AnimId::Aslik_Body_Gib, "ASLIK.BND", 8188, 48, 28, kUnknownResID_803, PalId::Default},
+    {AnimId::Aslik_Head_Gib, "ASLIK.BND", 8140, 48, 28, kAslikResID_803, PalId::Default},
+    {AnimId::Aslik_Arm_Gib, "ASLIK.BND", 8188, 48, 28, kAslikResID_803, PalId::Default},
+    {AnimId::Aslik_Body_Gib, "ASLIK.BND", 8188, 48, 28, kAslikResID_803, PalId::Default},
 
-    {AnimId::Dripik_Head_Gib, "DRIPIK.BND", 8140, 48, 28, kUnknownResID_805, PalId::Default},
-    {AnimId::Dripik_Arm_Gib, "DRIPIK.BND", 8188, 48, 28, kUnknownResID_805, PalId::Default},
-    {AnimId::Dripik_Body_Gib, "DRIPIK.BND", 8188, 48, 28, kUnknownResID_805, PalId::Default},
+    {AnimId::Dripik_Head_Gib, "DRIPIK.BND", 8140, 48, 28, kDripikResID_805, PalId::Default},
+    {AnimId::Dripik_Arm_Gib, "DRIPIK.BND", 8188, 48, 28, kDripikResID_805, PalId::Default},
+    {AnimId::Dripik_Body_Gib, "DRIPIK.BND", 8188, 48, 28, kDripikResID_805, PalId::Default},
 
-    {AnimId::Phleg_Head_Gib, "PHLEG.BND", 8140, 48, 28, kUnknownResID_807, PalId::Default},
-    {AnimId::Phleg_Arm_Gib, "PHLEG.BND", 8188, 48, 28, kUnknownResID_807, PalId::Default},
-    {AnimId::Phleg_Body_Gib, "PHLEG.BND", 8188, 48, 28, kUnknownResID_807, PalId::Default},
+    {AnimId::Phleg_Head_Gib, "PHLEG.BND", 8140, 48, 28, kPhlegResID_807, PalId::Default},
+    {AnimId::Phleg_Arm_Gib, "PHLEG.BND", 8188, 48, 28, kPhlegResID_807, PalId::Default},
+    {AnimId::Phleg_Body_Gib, "PHLEG.BND", 8188, 48, 28, kPhlegResID_807, PalId::Default},
 
-    {AnimId::Fleech_Head_Gib, "FLEEBLOW.BAN", 1088, 19, 8, kUnknownResID_580, PalId::Default},
-    {AnimId::Fleech_Body_Gib, "FLEEBLOW.BAN", 1128, 19, 8, kUnknownResID_580, PalId::Default},
+    {AnimId::Fleech_Head_Gib, "FLEEBLOW.BAN", 1088, 19, 8, kFleeBlowResID_580, PalId::Default},
+    {AnimId::Fleech_Body_Gib, "FLEEBLOW.BAN", 1128, 19, 8, kFleeBlowResID_580, PalId::Default},
     // Note: Fleech hasn't got arms
 
     {AnimId::Metal_Gib, "METAL.BAN", 2244, 38, 29, kMetalGib, PalId::Default},
@@ -45,7 +45,7 @@ constexpr AnimRecord kAnimRecords[] = {
     {AnimId::Slog_Body_Gib, "DOGBLOW.BAN", 7544, 53, 28, kSlogBlowResID, PalId::Default},
     // Note: Slog hasn't got arms (apparently)
 
-    // Note: Fleech animations are sorted by order of appearance under Fleech.ccp (line 242)
+    // Note: Fleech animations are sorted by order of appearance under Fleech.cpp (line 242)
     // Lots of idle animations, they might be used for other things but I can't immediately identify their use otherwise.
     {AnimId::Fleech_Idle_A, "FLEECH.BAN", 37808, 73, 35u, kFleechResID, PalId::Default},
     {AnimId::Fleech_Unknown_A, "FLEECH.BAN", 37884, 73, 35u, kFleechResID, PalId::Default}, // Still frame of some kind
@@ -206,13 +206,13 @@ constexpr AnimRecord kAnimRecords[] = {
     {AnimId::Greeter_Chase, "GREETER.BAN", 50144, 65, 60, kGreeterResID, PalId::Default},
     {AnimId::Greeter_Falling, "GREETER.BAN", 50212, 65, 60, kGreeterResID, PalId::Default},
 
-    {AnimId::Mine_Car_Closed, "BAYROLL.BAN", 20836, 130, 62u, kUnknownResID_6013, PalId::Default},
-    {AnimId::Mine_Car_Open, "BAYROLL.BAN", 20812, 130, 62u, kUnknownResID_6013, PalId::Default},
-    {AnimId::Mine_Car_Shake_A, "BAYROLL.BAN", 20872, 130, 62u, kUnknownResID_6013, PalId::Default},
-    {AnimId::Mine_Car_Shake_B, "BAYROLL.BAN", 20900, 130, 62u, kUnknownResID_6013, PalId::Default},
-    {AnimId::Mine_Car_Tread_Idle, "BAYROLL.BAN", 20824, 130, 62u, kUnknownResID_6013, PalId::Default},
-    {AnimId::Mine_Car_Tread_Move_A, "BAYROLL.BAN", 20848, 130, 62u, kUnknownResID_6013, PalId::Default},
-    {AnimId::Mine_Car_Tread_Move_B, "BAYROLL.BAN", 20788, 130, 62u, kUnknownResID_6013, PalId::Default},
+    {AnimId::Mine_Car_Closed, "BAYROLL.BAN", 20836, 130, 62u, kBayrollResID_6013, PalId::Default},
+    {AnimId::Mine_Car_Open, "BAYROLL.BAN", 20812, 130, 62u, kBayrollResID_6013, PalId::Default},
+    {AnimId::Mine_Car_Shake_A, "BAYROLL.BAN", 20872, 130, 62u, kBayrollResID_6013, PalId::Default},
+    {AnimId::Mine_Car_Shake_B, "BAYROLL.BAN", 20900, 130, 62u, kBayrollResID_6013, PalId::Default},
+    {AnimId::Mine_Car_Tread_Idle, "BAYROLL.BAN", 20824, 130, 62u, kBayrollResID_6013, PalId::Default},
+    {AnimId::Mine_Car_Tread_Move_A, "BAYROLL.BAN", 20848, 130, 62u, kBayrollResID_6013, PalId::Default},
+    {AnimId::Mine_Car_Tread_Move_B, "BAYROLL.BAN", 20788, 130, 62u, kBayrollResID_6013, PalId::Default},
 
     // The Mudokon section includes all of abe's animations as well since they share many animations
     {AnimId::Abe_Unknown_A, "ABEBSIC1.BAN", 59112, 135, 80, kAbebsic1ResID, PalId::Default},
@@ -459,7 +459,7 @@ constexpr AnimRecord kAnimRecords[] = {
     {AnimId::Slog_Bark, "SLOG.BND", 96496, 121, 57, kDogbasicResID, PalId::Default},
     {AnimId::Slog_Run_Stop, "SLOG.BND", 96532, 121, 57, kDogbasicResID, PalId::Default},
     {AnimId::Slog_Run_Turn_Around, "SLOG.BND", 96580, 121, 57, kDogbasicResID, PalId::Default},
-    {AnimId::Slog_Unknown_A, "SLOG.BND", 96640, 121, 57, kDogbasicResID, PalId::Default}, // Very s16 animation
+    {AnimId::Slog_Unknown_A, "SLOG.BND", 96640, 121, 57, kDogbasicResID, PalId::Default}, // Very short animation
     {AnimId::Slog_Unknown_B, "SLOG.BND", 96660, 121, 57, kDogbasicResID, PalId::Default}, // ^
     {AnimId::Slog_Unknown_C, "SLOG.BND", 96876, 121, 57, kDogbasicResID, PalId::Default}, // ^
     {AnimId::Slog_Unknown_D, "SLOG.BND", 96716, 121, 57, kDogbasicResID, PalId::Default}, // Just a still frame
@@ -481,9 +481,9 @@ constexpr AnimRecord kAnimRecords[] = {
     {AnimId::Slurg_Turn_Around, "SLURG.BAN", 2740, 46, 15, kSlurgResID, PalId::Default},
 
     {AnimId::Bone, "BTHROW.BND", 456, 15, 9, kBoneResID, PalId::Default},
-    {AnimId::Bone_Bag_A, "BONEBAG.BAN", 8748, 64, 60, kUnknownResID_590, PalId::Default},
-    {AnimId::Bone_Bag_B, "BONEBAG.BAN", 8708, 64, 60, kUnknownResID_590, PalId::Default},
-    {AnimId::Bone_Bag_C, "BONEBAG.BAN", 8788, 64, 60, kUnknownResID_590, PalId::Default},
+    {AnimId::Bone_Bag_A, "BONEBAG.BAN", 8748, 64, 60, kBoneBagResID_590, PalId::Default},
+    {AnimId::Bone_Bag_B, "BONEBAG.BAN", 8708, 64, 60, kBoneBagResID_590, PalId::Default},
+    {AnimId::Bone_Bag_C, "BONEBAG.BAN", 8788, 64, 60, kBoneBagResID_590, PalId::Default},
     {AnimId::Bone_Saw_Horizontal_Off, "DRILL.BAN", 6736, 65, 33, kDrillResID, PalId::Default},
     {AnimId::Bone_Saw_Horizontal_On, "DRILL.BAN", 6712, 65, 33, kDrillResID, PalId::Default},
     {AnimId::Bone_Saw_Vertical_Off, "DRILL.BAN", 6676, 65, 33, kDrillResID, PalId::Default},
@@ -500,14 +500,14 @@ constexpr AnimRecord kAnimRecords[] = {
     {AnimId::Door_Flame, "FIRE.BAN", 5156, 22, 21u, kHubFireResID, PalId::Default},
     {AnimId::Door_Flame_Glow, "FIRE.BAN", 1400, 52, 30, kGlowResID, PalId::Default},
     {AnimId::Door_Flame_Spark, "FIRE.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
-    {AnimId::Door_Lock_Idle, "DOORLOCK.BAN", 1624, 87, 14, kUnknownResID_374, PalId::Default},
-    {AnimId::Door_Lock_Open, "DOORLOCK.BAN", 1608, 87, 14, kUnknownResID_374, PalId::Default},
+    {AnimId::Door_Lock_Idle, "DOORLOCK.BAN", 1624, 87, 14, kDoorLockResID_374, PalId::Default},
+    {AnimId::Door_Lock_Open, "DOORLOCK.BAN", 1608, 87, 14, kDoorLockResID_374, PalId::Default},
     {AnimId::Door_Mines_Closed, "DOOR.BAN", 8692, 77, 69, kF2p3dorResID, PalId::Default},
     {AnimId::Door_Mines_Closing, "DOOR.BAN", 8704, 77, 69, kF2p3dorResID, PalId::Default},
     {AnimId::Door_Temple_Closed, "DOOR.BAN", 5436, 67, 62, kF2p3dorResID, PalId::Default},
     {AnimId::Door_Temple_Closing, "DOOR.BAN", 5448, 67, 62, kF2p3dorResID, PalId::Default},
-    {AnimId::Door_Train_Closed, "DOOR.BAN", 4740, 44, 56u, kUnknownResID_2013, PalId::Default},
-    {AnimId::Door_Train_Closing, "DOOR.BAN", 4752, 44, 56u, kUnknownResID_2013, PalId::Default},
+    {AnimId::Door_Train_Closed, "DOOR.BAN", 4740, 44, 56u, kDoorResID_2013, PalId::Default},
+    {AnimId::Door_Train_Closing, "DOOR.BAN", 4752, 44, 56u, kDoorResID_2013, PalId::Default},
     {AnimId::Dove_Idle, "DOVE.BAN", 5580, 41, 20, 60, PalId::Default},
     {AnimId::Dove_Flying, "DOVE.BAN", 5516, 41, 20, 60, PalId::Default},
     {AnimId::Electric_Wall, "ELECWALL.BAN", 15384, 50, 80, kElecwallResID, PalId::Default},
@@ -548,9 +548,9 @@ constexpr AnimRecord kAnimRecords[] = {
     {AnimId::Slam_Door_Vault_Closed, "SLAMVLTS.BAN", 2384, 32, 68, kSlamResID, PalId::Default},
     {AnimId::Slam_Door_Vault_Closing, "SLAMVLTS.BAN", 2368, 32, 68, kSlamResID, PalId::Default},
     {AnimId::Slam_Door_Vault_Opening, "SLAMVLTS.BAN", 2396, 32, 68, kSlamResID, PalId::Default},
-    {AnimId::Slap_Lock_Idle_A, "GHOSTTRP.BAN", 7068, 58, 44, kUnknownResID_1053, PalId::Default},
-    {AnimId::Slap_Lock_Idle_B, "GHOSTTRP.BAN", 7056, 58, 44, kUnknownResID_1053, PalId::Default},
-    {AnimId::Slap_Lock_Shake, "GHOSTTRP.BAN", 6976, 58, 44, kUnknownResID_1053, PalId::Default},
+    {AnimId::Slap_Lock_Idle_A, "GHOSTTRP.BAN", 7068, 58, 44, kGhostTrpResID_1053, PalId::Default},
+    {AnimId::Slap_Lock_Idle_B, "GHOSTTRP.BAN", 7056, 58, 44, kGhostTrpResID_1053, PalId::Default},
+    {AnimId::Slap_Lock_Shake, "GHOSTTRP.BAN", 6976, 58, 44, kGhostTrpResID_1053, PalId::Default},
     {AnimId::Sparks, "SPARKS.BAN", 808, 19, 11, kSparksResID, PalId::Default},
     {AnimId::Status_Light_Green, "STATUSLT.BAN", 240, 14, 9u, kStatusLightResID, PalId::Default},
     {AnimId::Status_Light_Red, "STATUSLT.BAN", 252, 14, 9u, kStatusLightResID, PalId::Default},
