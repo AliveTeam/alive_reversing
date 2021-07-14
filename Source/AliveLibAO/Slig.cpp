@@ -901,8 +901,8 @@ s16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
                 if (pBlood)
                 {
                     const FP yOff = FP_FromInteger(Math_NextRandom() % 16) - FP_FromInteger(8);
-                    const FP xOff = (pBullet->field_20 <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1) * FP_FromInteger(Math_NextRandom() & 15) + FP_FromInteger(16));
-                    const FP xPos = (field_BC_sprite_scale * pBullet->field_20 <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
+                    const FP xOff = (pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1) * FP_FromInteger(Math_NextRandom() & 15) + FP_FromInteger(16));
+                    const FP xPos = (field_BC_sprite_scale * pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
 
                     pBlood->ctor_4072B0(
                         xPos + field_A8_xpos,
@@ -916,9 +916,9 @@ s16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
                 auto pBlood2 = ao_new<Blood>();
                 if (pBlood2)
                 {
-                    const FP xPos = (field_BC_sprite_scale * pBullet->field_20 <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
+                    const FP xPos = (field_BC_sprite_scale * pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
 
-                    const FP xOff = pBullet->field_20 <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
+                    const FP xOff = pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
 
                     pBlood2->ctor_4072B0(
                         xOff + field_A8_xpos,
@@ -941,7 +941,7 @@ s16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
                 field_13A = eSligStates::State_38_Possess_46B050;
                 Vshot_465C30();
                 field_108_bMotionChanged = TRUE;
-                if (pBullet->field_20 >= FP_FromInteger(0))
+                if (pBullet->field_20_x_distance >= FP_FromInteger(0))
                 {
                     field_B4_velx = FP_FromDouble(0.001);
                 }

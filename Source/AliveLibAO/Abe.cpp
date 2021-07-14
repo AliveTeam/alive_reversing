@@ -2693,7 +2693,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
         case BulletType::eNormalBullet_1:
         {
             FP bloodXOff = {};
-            if (pBullet->field_20 > FP_FromInteger(0))
+            if (pBullet->field_20_x_distance > FP_FromInteger(0))
             {
                 bloodXOff = FP_FromInteger(-24);
             }
@@ -2726,14 +2726,14 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                     {
                         ElumKnockForward_42E780(1);
                     }
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != (pBullet->field_20 > FP_FromInteger(0)))
+                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != (pBullet->field_20_x_distance > FP_FromInteger(0)))
                     {
                         field_FC_current_motion = eAbeStates::State_128_KnockForward_429330;
                     }
                     field_108_bMotionChanged = 1;
                     field_106_shot = 0;
 
-                    if (pBullet->field_20 >= FP_FromInteger(0))
+                    if (pBullet->field_20_x_distance >= FP_FromInteger(0))
                     {
                         field_B4_velx = field_BC_sprite_scale * FP_FromDouble(7.8);
                     }
@@ -2753,7 +2753,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 }
                 case ShootKind::eRolling_2:
                 {
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) == (pBullet->field_20 > FP_FromInteger(0)))
+                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) == (pBullet->field_20_x_distance > FP_FromInteger(0)))
                     {
                         field_FE_next_state = eAbeStates::State_73_RollingKnockback_4291D0;
                     }

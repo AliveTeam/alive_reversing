@@ -279,7 +279,7 @@ s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
         {
             auto pBullet = static_cast<Bullet*>(pFrom);
 
-            if (pBullet->field_20 <= FP_FromInteger(0))
+            if (pBullet->field_20_x_distance <= FP_FromInteger(0))
             {
                 auto pBlood = ao_new<Blood>();
                 if (pBlood)

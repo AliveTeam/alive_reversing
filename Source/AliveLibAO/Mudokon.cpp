@@ -713,7 +713,7 @@ s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
             {
                 auto pBullet = static_cast<Bullet*>(pFrom);
                 FP bloodXOff = {};
-                if (pBullet->field_20 <= FP_FromInteger(0))
+                if (pBullet->field_20_x_distance <= FP_FromInteger(0))
                 {
                     bloodXOff = FP_FromInteger(-24);
                 }
