@@ -12,18 +12,18 @@
 #include "PossessionFlicker.hpp"
 #include "stdlib.hpp"
 
+AbilityRing* CC AbilityRing::Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale)
+{
+    auto pAbilityRing = ae_new<AbilityRing>();
+    pAbilityRing->ctor_49C730(xpos, ypos, type, scale);
+    return pAbilityRing;
+}
+
 struct AbilityRing_PolyBuffer final
 {
     Poly_F4 mPolys[2];
 };
 ALIVE_ASSERT_SIZEOF(AbilityRing_PolyBuffer, 56);
-
-AbilityRing* CC AbilityRing::Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale)
-{
-    auto pRing = ae_new<AbilityRing>();
-    pRing->ctor_49C730(xpos, ypos, type, scale);
-    return pRing;
-}
 
 static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 width2, s32 height2)
 {
@@ -51,6 +51,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
 
     // TODO: OG issue - using frame counter as res id again
     field_28_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Wave, sGnFrame_5C1B84, sizeof(AbilityRing_PolyBuffer) * 64);
+
     if (field_28_ppRes)
     {
         field_24_pRes = reinterpret_cast<AbilityRing_PolyBuffer*>(*field_28_ppRes);
@@ -66,6 +67,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
 
         const s32 d1 = MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, 0, 0, 0);
         const s32 d2 = MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height);
+
         if (d1 <= d2)
         {
             field_26C_fade = static_cast<s16>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height));
@@ -421,11 +423,11 @@ void AbilityRing::vUpdate_49D160()
                 field_276_r = (field_276_r >> 1) + (field_276_r >> 2);
                 field_278_g = (field_278_g >> 1) + (field_278_g >> 2);
                 field_27A_b = (field_27A_b >> 1) + (field_27A_b >> 2);
-                for (s32 j = 0; j < 2; j++)
+                for (s32 i = 0; i < 2; i++)
                 {
-                    for (s32 i = 0; i < 64; i++)
+                    for (s32 j = 0; j < 64; j++)
                     {
-                        SetRGB0(&field_24_pRes[i].mPolys[j], field_276_r & 255, field_278_g & 255, field_27A_b & 255);
+                        SetRGB0(&field_24_pRes[j].mPolys[i], field_276_r & 255, field_278_g & 255, field_27A_b & 255);
                     }
                 }
             }
@@ -488,39 +490,6 @@ void AbilityRing::vUpdate_49D160()
         default:
             return;
     }
-}
-
-void AbilityRing::VScreenChanged()
-{
-    vScreenChanged_49DE70();
-}
-
-void AbilityRing::vScreenChanged_49DE70()
-{
-    if (field_284_ring_type == RingTypes::eHealing_Emit_12)
-    {
-        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
-        {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
-            if (!pObj)
-            {
-                break;
-            }
-
-            if (pObj->field_4_typeId == AETypes::eMudokon_110)
-            {
-                if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
-                {
-                    // Only heal alive muds in the same screen
-                    if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
-                    {
-                        pObj->VPossessed_408F70();
-                    }
-                }
-            }
-        }
-    }
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
@@ -642,4 +611,37 @@ void AbilityRing::VSetTarget(BaseGameObject* pTarget)
 void AbilityRing::vSetTarget_49D140(BaseGameObject* pTarget)
 {
     field_288_target_obj_id = pTarget->field_8_object_id;
+}
+
+void AbilityRing::VScreenChanged()
+{
+    vScreenChanged_49DE70();
+}
+
+void AbilityRing::vScreenChanged_49DE70()
+{
+    if (field_284_ring_type == RingTypes::eHealing_Emit_12)
+    {
+        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        {
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_4_typeId == AETypes::eMudokon_110)
+            {
+                if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
+                {
+                    // Only heal alive muds in the same screen
+                    if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
+                    {
+                        pObj->VPossessed_408F70();
+                    }
+                }
+            }
+        }
+    }
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }

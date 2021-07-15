@@ -1,10 +1,10 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "CircularFade.hpp"
-#include "stdlib.hpp"
-#include "ResourceManager.hpp"
+#include "Function.hpp"
 #include "ScreenManager.hpp"
+#include "ResourceManager.hpp"
 #include "PsxDisplay.hpp"
+#include "stdlib.hpp"
 
 namespace AO {
 
@@ -47,10 +47,8 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 directio
     field_C2_g = field_1A8_fade_colour;
     field_C4_b = field_1A8_fade_colour;
 
-    for (s32 i = 0; i < 2; i++)
-    {
-        Init_SetTPage_495FB0(&field_188_tPage[i], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
-    }
+    Init_SetTPage_495FB0(&field_188_tPage[0], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
+    Init_SetTPage_495FB0(&field_188_tPage[1], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
     return this;
 }
 

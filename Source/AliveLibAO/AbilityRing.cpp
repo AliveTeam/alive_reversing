@@ -1,17 +1,17 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "AbilityRing.hpp"
-#include "BaseAliveGameObject.hpp"
-#include "ResourceManager.hpp"
+#include "Function.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
-#include "Map.hpp"
+#include "ResourceManager.hpp"
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
-#include "Math.hpp"
-#include "Abe.hpp"
 #include "Sfx.hpp"
+#include "Map.hpp"
+#include "Abe.hpp"
+#include "BaseAliveGameObject.hpp"
 #include "PossessionFlicker.hpp"
+#include "Math.hpp"
+#include "stdlib.hpp"
 #undef min
 #undef max
 
@@ -41,7 +41,7 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
     }
 }
 
-AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
+AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, RingTypes ring_type)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BC090);
@@ -61,7 +61,6 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
         field_23C_xpos = xpos;
         field_240_ypos = ypos;
 
-
         field_25E_screenX = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
         field_260_screenY = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
@@ -80,18 +79,18 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
             field_25C_fade = static_cast<s16>(MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0));
         }
 
-        field_274_ring_type = type;
+        field_274_ring_type = ring_type;
 
         switch (field_274_ring_type)
         {
-            case 1:
+            case RingTypes::eExplosive_Emit_1:
                 for (PSX_RECT& r : field_3C_collide_rects)
                 {
                     r = {};
                 }
                 [[fallthrough]];
 
-            case 2:
+            case RingTypes::eExplosive_Emit_Effect_2:
                 field_258_ring_thickness = FP_FromInteger(8);
                 field_24C_speed = FP_FromInteger(6);
                 field_248_right = FP_FromInteger(6);
@@ -102,7 +101,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
                 SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
                 break;
 
-            case 3:
+            case RingTypes::eExplosive_Give_3:
                 field_258_ring_thickness = FP_FromInteger(8);
                 field_24C_speed = FP_FromInteger(6);
                 field_248_right = FP_FromInteger(350);
@@ -112,37 +111,36 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
                 field_26A_b = 0;
                 break;
 
-            case 0:
-            case 4:
-                field_278_pTarget_obj = sActiveHero_507678;
-                field_278_pTarget_obj->field_C_refCount++;
+            case RingTypes::eExplosive_Pulse_0:
+            case RingTypes::eShrykull_Pulse_Small_4:
+                SetTarget_455EC0(sActiveHero_507678);
                 [[fallthrough]];
 
-            case 5:
-            case 6:
+            case RingTypes::eShrykull_Pulse_Large_5:
+            case RingTypes::eShrykull_Pulse_Orange_6:
                 field_258_ring_thickness = FP_FromInteger(5);
                 field_24C_speed = FP_FromInteger(4);
                 field_248_right = FP_FromInteger(4);
                 field_244_left = FP_FromInteger(0);
                 field_25C_fade = 50;
-                switch (type)
+                switch (ring_type)
                 {
-                    case 0:
+                    case RingTypes::eExplosive_Pulse_0:
                         field_266_r = 255;
                         field_268_g = 0;
                         field_26A_b = 0;
                         break;
-                    case 4:
+                    case RingTypes::eShrykull_Pulse_Small_4:
                         field_266_r = 0;
                         field_268_g = 0;
                         field_26A_b = 255;
                         break;
-                    case 5:
+                    case RingTypes::eShrykull_Pulse_Large_5:
                         field_266_r = 0;
                         field_268_g = 0;
                         field_26A_b = 80;
                         break;
-                    case 6:
+                    case RingTypes::eShrykull_Pulse_Orange_6:
                         field_266_r = 255;
                         field_268_g = 128;
                         field_26A_b = 64;
@@ -321,9 +319,9 @@ void AbilityRing::VUpdate_455ED0()
 
     switch (field_274_ring_type)
     {
-        case 0:
-        case 4:
-        case 6:
+        case RingTypes::eExplosive_Pulse_0:
+        case RingTypes::eShrykull_Pulse_Small_4:
+        case RingTypes::eShrykull_Pulse_Orange_6:
             field_248_right += field_24C_speed;
             field_244_left = field_248_right - field_258_ring_thickness;
 
@@ -352,11 +350,11 @@ void AbilityRing::VUpdate_455ED0()
             }
             return;
 
-        case 1:
+        case RingTypes::eExplosive_Emit_1:
             CollideWithObjects_456250();
             [[fallthrough]];
 
-        case 2:
+        case RingTypes::eExplosive_Emit_Effect_2:
             field_248_right += field_24C_speed;
             field_244_left = field_248_right - field_258_ring_thickness;
 
@@ -371,7 +369,7 @@ void AbilityRing::VUpdate_455ED0()
             }
             break;
 
-        case 3:
+        case RingTypes::eExplosive_Give_3:
             field_248_right -= field_24C_speed;
             field_244_left = field_248_right - field_258_ring_thickness;
             if (field_244_left < FP_FromInteger(0))
@@ -387,7 +385,7 @@ void AbilityRing::VUpdate_455ED0()
             }
             break;
 
-        case 5:
+        case RingTypes::eShrykull_Pulse_Large_5:
             field_248_right += field_24C_speed;
             field_244_left = field_248_right - field_258_ring_thickness;
             if (field_244_left >= FP_FromInteger(0))

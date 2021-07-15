@@ -276,22 +276,21 @@ s32 CircularFade::vDone_4CE0B0()
 
 CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 setBit8)
 {
-    auto pFade = ae_new<CircularFade>();
-    if (!pFade)
+    auto pCircularFade = ae_new<CircularFade>();
+    if (!pCircularFade)
     {
         return nullptr;
     }
 
-    pFade->ctor_4CE100(xpos, ypos, scale, direction, destroyOnDone);
+    pCircularFade->ctor_4CE100(xpos, ypos, scale, direction, destroyOnDone);
 
     if (setBit8)
     {
-        pFade->field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        pCircularFade->field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     }
     else
     {
-        pFade->field_6_flags.Clear(BaseGameObject::eSurviveDeathReset_Bit9);
+        pCircularFade->field_6_flags.Clear(BaseGameObject::eSurviveDeathReset_Bit9);
     }
-
-    return pFade;
+    return pCircularFade;
 }
