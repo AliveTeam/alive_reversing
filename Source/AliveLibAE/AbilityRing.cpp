@@ -12,18 +12,18 @@
 #include "PossessionFlicker.hpp"
 #include "stdlib.hpp"
 
+struct AbilityRing_PolyBuffer final
+{
+    Poly_F4 mPolys[2];
+};
+ALIVE_ASSERT_SIZEOF(AbilityRing_PolyBuffer, 56);
+
 AbilityRing* CC AbilityRing::Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale)
 {
     auto pRing = ae_new<AbilityRing>();
     pRing->ctor_49C730(xpos, ypos, type, scale);
     return pRing;
 }
-
-struct AbilityRing_PolyBuffer final
-{
-    Poly_F4 mPolys[2];
-};
-ALIVE_ASSERT_SIZEOF(AbilityRing_PolyBuffer, 56);
 
 static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 width2, s32 height2)
 {
@@ -255,52 +255,14 @@ BaseGameObject* AbilityRing::VDestructor(s32 flags)
     return vdtor_49D080(flags);
 }
 
-void AbilityRing::VUpdate()
+AbilityRing* AbilityRing::vdtor_49D080(s32 flags)
 {
-    vUpdate_49D160();
-}
-
-void AbilityRing::VRender(PrimHeader** ppOt)
-{
-    vRender_49D790(ppOt);
-}
-
-void AbilityRing::VScreenChanged()
-{
-    vScreenChanged_49DE70();
-}
-
-s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_49E070(reinterpret_cast<AbilityRing_State*>(pSaveBuffer));
-}
-
-void AbilityRing::VSetTarget(BaseGameObject* pTarget)
-{
-    vSetTarget_49D140(pTarget);
-}
-
-s32 CC AbilityRing::CreateFromSaveState_49DF90(const u8* pBuffer)
-{
-    auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
-    auto pRing = ae_new<AbilityRing>();
-    if (pRing)
+    dtor_49D0B0();
+    if (flags & 1)
     {
-        pRing->ctor_49C730(pState->field_4_xpos, pState->field_8_ypos, pState->field_C_ring_type, pState->field_10_scale);
+        ae_delete_free_495540(this);
     }
-    pRing->field_276_r = pState->field_20_r;
-    pRing->field_278_g = pState->field_22_g;
-    pRing->field_27A_b = pState->field_24_b;
-    pRing->field_258_right = pState->field_18_right;
-    pRing->field_28C_count = pState->field_1C_count;
-    pRing->field_288_target_obj_id = pState->field_14_obj_id;
-    pRing->field_290_bFindingTarget = TRUE;
-    return sizeof(AbilityRing_State);
-}
-
-void AbilityRing::vSetTarget_49D140(BaseGameObject* pTarget)
-{
-    field_288_target_obj_id = pTarget->field_8_object_id;
+    return this;
 }
 
 void AbilityRing::dtor_49D0B0()
@@ -311,14 +273,106 @@ void AbilityRing::dtor_49D0B0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-AbilityRing* AbilityRing::vdtor_49D080(s32 flags)
+void AbilityRing::VRender(PrimHeader** ppOt)
 {
-    dtor_49D0B0();
-    if (flags & 1)
+    vRender_49D790(ppOt);
+}
+
+void AbilityRing::vRender_49D790(PrimHeader** ppOt)
+{
+    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            field_280_level,
+            field_282_path,
+            field_24C_xpos,
+            field_250_ypos,
+            0)
+        && !field_290_bFindingTarget)
     {
-        ae_delete_free_495540(this);
+        s16 y3 = field_274_screenYPos;
+        s16 y4 = field_274_screenYPos;
+
+        s16 x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_254_left * field_260_scaleX)), 11);
+        s16 x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_258_right * field_260_scaleX)), 11);
+
+        u8 angIncrement = 0;
+        if (field_258_right <= FP_FromInteger(150))
+        {
+            if (field_258_right <= FP_FromInteger(50))
+            {
+                field_28C_count = 16;
+                angIncrement = 16;
+            }
+            else
+            {
+                field_28C_count = 32;
+                angIncrement = 8;
+            }
+        }
+        else
+        {
+            field_28C_count = 64;
+            angIncrement = 4;
+        }
+
+        u8 ang = angIncrement;
+        for (s32 i = 0; i < field_28C_count; i++)
+        {
+            const s16 x1 = (s16) PsxToPCX(field_272_screenXPos + FP_GetExponent(field_254_left * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
+            const s16 x2 = (s16) PsxToPCX(field_272_screenXPos + FP_GetExponent(field_258_right * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
+
+            const s16 y1 = field_274_screenYPos + FP_GetExponent(field_254_left * Math_Cosine_496CD0(ang) * field_264_scaleY);
+            const s16 y2 = field_274_screenYPos + FP_GetExponent(field_258_right * Math_Cosine_496CD0(ang) * field_264_scaleY);
+
+            const s16 x = std::min(std::min(x1, x3), std::min(x2, x4));
+            const s16 y = std::min(std::min(y1, y3), std::min(y2, y4));
+            const s16 w = std::max(std::max(x1, x3), std::max(x2, x4));
+            const s16 h = std::max(std::max(y1, y3), std::max(y2, y4));
+
+            const PSX_RECT rect = {x, y, w, h};
+            if (rect.w < 0 || rect.x > 640 || rect.y > 240 || rect.h < 0)
+            {
+                //TODO untie from Render() into Update()
+                field_4C_collide_rects[i].x = 0;
+                field_4C_collide_rects[i].w = 0;
+                field_4C_collide_rects[i].y = 0;
+                field_4C_collide_rects[i].h = 0;
+            }
+            else
+            {
+                Poly_F4* pPoly = &field_24_pRes[i].mPolys[gPsxDisplay_5C1130.field_C_buffer_index];
+                SetXY0(pPoly, x1, y1);
+                SetXY1(pPoly, x2, y2);
+                SetXY2(pPoly, x3, y3);
+                SetXY3(pPoly, x4, y4);
+
+                OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_layer), &pPoly->mBase.header);
+
+                pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                    rect.x,
+                    rect.y,
+                    rect.w,
+                    rect.h,
+                    pScreenManager_5BB5F4->field_3A_idx);
+
+                field_4C_collide_rects[i] = rect;
+                field_4C_collide_rects[i].x = PCToPsxX(field_4C_collide_rects[i].x, 20);
+                field_4C_collide_rects[i].w = PCToPsxX(field_4C_collide_rects[i].w, 20);
+            }
+
+            x3 = x1;
+            y3 = y1;
+            x4 = x2;
+            y4 = y2;
+
+            ang += angIncrement;
+        }
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_layer), &field_2C_primSetTPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
     }
-    return this;
+}
+
+void AbilityRing::VUpdate()
+{
+    vUpdate_49D160();
 }
 
 void AbilityRing::vUpdate_49D160()
@@ -436,6 +490,100 @@ void AbilityRing::vUpdate_49D160()
     }
 }
 
+void AbilityRing::VScreenChanged()
+{
+    vScreenChanged_49DE70();
+}
+
+void AbilityRing::vScreenChanged_49DE70()
+{
+    if (field_284_ring_type == RingTypes::eHealing_Emit_12)
+    {
+        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        {
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_4_typeId == AETypes::eMudokon_110)
+            {
+                if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
+                {
+                    // Only heal alive muds in the same screen
+                    if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
+                    {
+                        pObj->VPossessed_408F70();
+                    }
+                }
+            }
+        }
+    }
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+}
+
+s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
+{
+    return vGetSaveState_49E070(reinterpret_cast<AbilityRing_State*>(pSaveBuffer));
+}
+
+s32 AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
+{
+    pSaveState->field_0_type = AETypes::eAbilityRing_104;
+    pSaveState->field_4_xpos = field_24C_xpos;
+    pSaveState->field_8_ypos = field_250_ypos;
+    pSaveState->field_C_ring_type = field_284_ring_type;
+
+    if (field_20_layer == Layer::eLayer_Above_FG1_39)
+    {
+        pSaveState->field_10_scale = FP_FromInteger(1);
+    }
+    else
+    {
+        pSaveState->field_10_scale = FP_FromDouble(0.5);
+    }
+
+    pSaveState->field_18_right = field_258_right;
+    pSaveState->field_1C_count = field_28C_count;
+
+    pSaveState->field_20_r = field_276_r;
+    pSaveState->field_22_g = field_278_g;
+    pSaveState->field_24_b = field_27A_b;
+
+    pSaveState->field_14_obj_id = -1;
+    if (field_288_target_obj_id == -1)
+    {
+        return sizeof(AbilityRing_State);
+    }
+
+    BaseGameObject* pTargetObj = sObjectIds_5C1B70.Find_449CF0(field_288_target_obj_id);
+    if (pTargetObj)
+    {
+        pSaveState->field_14_obj_id = pTargetObj->field_C_objectId;
+    }
+    return sizeof(AbilityRing_State);
+}
+
+s32 CC AbilityRing::CreateFromSaveState_49DF90(const u8* pBuffer)
+{
+    auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
+    auto pRing = ae_new<AbilityRing>();
+    if (pRing)
+    {
+        pRing->ctor_49C730(pState->field_4_xpos, pState->field_8_ypos, pState->field_C_ring_type, pState->field_10_scale);
+    }
+    pRing->field_276_r = pState->field_20_r;
+    pRing->field_278_g = pState->field_22_g;
+    pRing->field_27A_b = pState->field_24_b;
+    pRing->field_258_right = pState->field_18_right;
+    pRing->field_28C_count = pState->field_1C_count;
+    pRing->field_288_target_obj_id = pState->field_14_obj_id;
+    pRing->field_290_bFindingTarget = TRUE;
+    return sizeof(AbilityRing_State);
+}
+
+
 void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
 {
     for (s32 i = 0; i < field_28C_count; i++)
@@ -486,159 +634,12 @@ void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
     }
 }
 
-void AbilityRing::vRender_49D790(PrimHeader** ppOt)
+void AbilityRing::VSetTarget(BaseGameObject* pTarget)
 {
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-            field_280_level,
-            field_282_path,
-            field_24C_xpos,
-            field_250_ypos,
-            0)
-        && !field_290_bFindingTarget)
-    {
-        s16 y3 = field_274_screenYPos;
-        s16 y4 = field_274_screenYPos;
-
-        s16 x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_254_left * field_260_scaleX)), 11);
-        s16 x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(field_272_screenXPos) + (field_258_right * field_260_scaleX)), 11);
-
-        u8 angIncrement = 0;
-        if (field_258_right <= FP_FromInteger(150))
-        {
-            if (field_258_right <= FP_FromInteger(50))
-            {
-                field_28C_count = 16;
-                angIncrement = 16;
-            }
-            else
-            {
-                field_28C_count = 32;
-                angIncrement = 8;
-            }
-        }
-        else
-        {
-            field_28C_count = 64;
-            angIncrement = 4;
-        }
-
-        u8 ang = angIncrement;
-        for (s32 i = 0; i < field_28C_count; i++)
-        {
-            const s16 x1 = (s16) PsxToPCX(field_272_screenXPos + FP_GetExponent(field_254_left * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
-            const s16 x2 = (s16) PsxToPCX(field_272_screenXPos + FP_GetExponent(field_258_right * Math_Sine_496DD0(ang) * field_260_scaleX), 11);
-
-            const s16 y1 = field_274_screenYPos + FP_GetExponent(field_254_left * Math_Cosine_496CD0(ang) * field_264_scaleY);
-            const s16 y2 = field_274_screenYPos + FP_GetExponent(field_258_right * Math_Cosine_496CD0(ang) * field_264_scaleY);
-
-            const s16 x = std::min(std::min(x1, x3), std::min(x2, x4));
-            const s16 y = std::min(std::min(y1, y3), std::min(y2, y4));
-            const s16 w = std::max(std::max(x1, x3), std::max(x2, x4));
-            const s16 h = std::max(std::max(y1, y3), std::max(y2, y4));
-
-            const PSX_RECT rect = {x, y, w, h};
-            if (rect.w < 0 || rect.x > 640 || rect.y > 240 || rect.h < 0)
-            {
-                //TODO untie from Render() into Update()
-                field_4C_collide_rects[i].x = 0;
-                field_4C_collide_rects[i].w = 0;
-                field_4C_collide_rects[i].y = 0;
-                field_4C_collide_rects[i].h = 0;
-            }
-            else
-            {
-                Poly_F4* pPoly = &field_24_pRes[i].mPolys[gPsxDisplay_5C1130.field_C_buffer_index];
-                SetXY0(pPoly, x1, y1);
-                SetXY1(pPoly, x2, y2);
-                SetXY2(pPoly, x3, y3);
-                SetXY3(pPoly, x4, y4);
-
-                OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_layer), &pPoly->mBase.header);
-
-                pScreenManager_5BB5F4->InvalidateRect_40EC90(
-                    rect.x,
-                    rect.y,
-                    rect.w,
-                    rect.h,
-                    pScreenManager_5BB5F4->field_3A_idx);
-
-                field_4C_collide_rects[i] = rect;
-                field_4C_collide_rects[i].x = PCToPsxX(field_4C_collide_rects[i].x, 20);
-                field_4C_collide_rects[i].w = PCToPsxX(field_4C_collide_rects[i].w, 20);
-            }
-
-            x3 = x1;
-            y3 = y1;
-            x4 = x2;
-            y4 = y2;
-
-            ang += angIncrement;
-        }
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_layer), &field_2C_primSetTPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
-    }
+    vSetTarget_49D140(pTarget);
 }
 
-void AbilityRing::vScreenChanged_49DE70()
+void AbilityRing::vSetTarget_49D140(BaseGameObject* pTarget)
 {
-    if (field_284_ring_type == RingTypes::eHealing_Emit_12)
-    {
-        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
-        {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
-            if (!pObj)
-            {
-                break;
-            }
-
-            if (pObj->field_4_typeId == AETypes::eMudokon_110)
-            {
-                if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
-                {
-                    // Only heal alive muds in the same screen
-                    if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
-                    {
-                        pObj->VPossessed_408F70();
-                    }
-                }
-            }
-        }
-    }
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
-}
-
-s32 AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
-{
-    pSaveState->field_0_type = AETypes::eAbilityRing_104;
-    pSaveState->field_4_xpos = field_24C_xpos;
-    pSaveState->field_8_ypos = field_250_ypos;
-    pSaveState->field_C_ring_type = field_284_ring_type;
-
-    if (field_20_layer == Layer::eLayer_Above_FG1_39)
-    {
-        pSaveState->field_10_scale = FP_FromInteger(1);
-    }
-    else
-    {
-        pSaveState->field_10_scale = FP_FromDouble(0.5);
-    }
-
-    pSaveState->field_18_right = field_258_right;
-    pSaveState->field_1C_count = field_28C_count;
-
-    pSaveState->field_20_r = field_276_r;
-    pSaveState->field_22_g = field_278_g;
-    pSaveState->field_24_b = field_27A_b;
-
-    pSaveState->field_14_obj_id = -1;
-    if (field_288_target_obj_id == -1)
-    {
-        return sizeof(AbilityRing_State);
-    }
-
-    BaseGameObject* pTargetObj = sObjectIds_5C1B70.Find_449CF0(field_288_target_obj_id);
-    if (pTargetObj)
-    {
-        pSaveState->field_14_obj_id = pTargetObj->field_C_objectId;
-    }
-    return sizeof(AbilityRing_State);
+    field_288_target_obj_id = pTarget->field_8_object_id;
 }
