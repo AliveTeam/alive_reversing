@@ -249,7 +249,7 @@ void Shrykull::VUpdate_463AE0()
                         pRing1->ctor_455860(
                             FP_FromInteger((objRect.x + objRect.w) / 2),
                             FP_FromInteger((objRect.y + objRect.h) / 2),
-                            5);
+                            RingTypes::eShrykull_Pulse_Large_5);
                     }
 
                     auto pFlicker2 = ao_new<PossessionFlicker>();
@@ -264,7 +264,7 @@ void Shrykull::VUpdate_463AE0()
                         pAbilityRing2->ctor_455860(
                             FP_FromInteger((ourRect.x + ourRect.w) / 2),
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
-                            5);
+                            RingTypes::eShrykull_Pulse_Large_5);
                     }
 
                     field_11C_obj_being_zapped->field_10A_flags.Set(Flags_10A::e10A_Bit3);

@@ -68,6 +68,46 @@ BaseGameObject* FootSwitch::dtor_4889E0()
     return dtor_417D10();
 }
 
+void FootSwitch::VUpdate()
+{
+    VUpdate_4888E0();
+}
+
+void FootSwitch::VUpdate_4888E0()
+{
+    switch (field_E8_state)
+    {
+        case States::eWaitForStepOnMe_0:
+            field_F0_pStoodOnMe = WhoIsStoodOnMe_488A60();
+            if (field_F0_pStoodOnMe)
+            {
+                field_F0_pStoodOnMe->field_C_refCount++;
+                SwitchStates_Do_Operation_436A10(field_EA_id, field_EC_action);
+                field_E8_state = States::eWaitForGetOffMe_1;
+                field_10_anim.Set_Animation_Data_402A40(756, 0);
+                SFX_Play_43AD70(SoundEffect::FootSwitchPress_64, 0, 0);
+            }
+            break;
+
+        case States::eWaitForGetOffMe_1:
+        {
+            PSX_RECT bRect = {};
+            VGetBoundingRect(&bRect, 1);
+
+            if (field_F0_pStoodOnMe->field_A8_xpos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->field_A8_xpos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            {
+                field_E8_state = States::eWaitForStepOnMe_0;
+                field_10_anim.Set_Animation_Data_402A40(744, 0);
+                field_F0_pStoodOnMe->field_C_refCount--;
+            }
+            break;
+        }
+
+        default:
+            break;
+    }
+}
+
 void FootSwitch::VScreenChanged()
 {
     VScreenChanged_4889D0();
@@ -123,46 +163,6 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
         }
     }
     return nullptr;
-}
-
-void FootSwitch::VUpdate()
-{
-    VUpdate_4888E0();
-}
-
-void FootSwitch::VUpdate_4888E0()
-{
-    switch (field_E8_state)
-    {
-        case States::eWaitForStepOnMe_0:
-            field_F0_pStoodOnMe = WhoIsStoodOnMe_488A60();
-            if (field_F0_pStoodOnMe)
-            {
-                field_F0_pStoodOnMe->field_C_refCount++;
-                SwitchStates_Do_Operation_436A10(field_EA_id, field_EC_action);
-                field_E8_state = States::eWaitForGetOffMe_1;
-                field_10_anim.Set_Animation_Data_402A40(756, 0);
-                SFX_Play_43AD70(SoundEffect::FootSwitchPress_64, 0, 0);
-            }
-            break;
-
-        case States::eWaitForGetOffMe_1:
-        {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
-
-            if (field_F0_pStoodOnMe->field_A8_xpos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->field_A8_xpos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->field_6_flags.Get(BaseGameObject::eDead_Bit3))
-            {
-                field_E8_state = States::eWaitForStepOnMe_0;
-                field_10_anim.Set_Animation_Data_402A40(744, 0);
-                field_F0_pStoodOnMe->field_C_refCount--;
-            }
-            break;
-        }
-
-        default:
-            break;
-    }
 }
 
 } // namespace AO

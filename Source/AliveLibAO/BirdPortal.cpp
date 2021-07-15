@@ -566,11 +566,11 @@ void BirdPortal::VUpdate_4523D0()
                     AbilityRing::Factory_447590(
                         field_3C_pTerminator1->field_A8_xpos,
                         field_3C_pTerminator1->field_AC_ypos + FP_FromInteger(7),
-                        6);
+                        RingTypes::eShrykull_Pulse_Orange_6);
                     AbilityRing::Factory_447590(
                         field_40_pTerminator2->field_A8_xpos,
                         field_40_pTerminator2->field_AC_ypos + FP_FromInteger(7),
-                        6);
+                        RingTypes::eShrykull_Pulse_Orange_6);
                 }
             }
             else

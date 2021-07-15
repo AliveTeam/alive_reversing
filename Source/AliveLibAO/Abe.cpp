@@ -1172,7 +1172,7 @@ void Abe::vUpdate_41FDB0()
                                 AbilityRing::Factory_447590(
                                     FP_FromInteger((bRect.w + bRect.x) / 2),
                                     FP_FromInteger((bRect.h + bRect.y) / 2),
-                                    field_16C_bHaveShrykull != 0 ? 4 : 0);
+                                    field_16C_bHaveShrykull != 0 ? RingTypes::eShrykull_Pulse_Small_4 : RingTypes::eExplosive_Pulse_0);
                                 SFX_Play_43AE60(SoundEffect::PossessEffect_21, 25, 2650, 0);
                             }
                         }
@@ -2693,7 +2693,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
         case BulletType::eNormalBullet_1:
         {
             FP bloodXOff = {};
-            if (pBullet->field_20 > FP_FromInteger(0))
+            if (pBullet->field_20_x_distance > FP_FromInteger(0))
             {
                 bloodXOff = FP_FromInteger(-24);
             }
@@ -2726,14 +2726,14 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                     {
                         ElumKnockForward_42E780(1);
                     }
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != (pBullet->field_20 > FP_FromInteger(0)))
+                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != (pBullet->field_20_x_distance > FP_FromInteger(0)))
                     {
                         field_FC_current_motion = eAbeStates::State_128_KnockForward_429330;
                     }
                     field_108_bMotionChanged = 1;
                     field_106_shot = 0;
 
-                    if (pBullet->field_20 >= FP_FromInteger(0))
+                    if (pBullet->field_20_x_distance >= FP_FromInteger(0))
                     {
                         field_B4_velx = field_BC_sprite_scale * FP_FromDouble(7.8);
                     }
@@ -2753,7 +2753,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 }
                 case ShootKind::eRolling_2:
                 {
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) == (pBullet->field_20 > FP_FromInteger(0)))
+                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) == (pBullet->field_20_x_distance > FP_FromInteger(0)))
                     {
                         field_FE_next_state = eAbeStates::State_73_RollingKnockback_4291D0;
                     }
@@ -9446,7 +9446,7 @@ void Abe::State_150_Chant_42FD50()
                     AbilityRing::Factory_447590(
                         FP_FromInteger((rect.w + rect.x) / 2),
                         FP_FromInteger((rect.h + rect.y) / 2),
-                        1);
+                        RingTypes::eExplosive_Emit_1);
                     field_168_ring_pulse_timer = 0;
                 }
             }

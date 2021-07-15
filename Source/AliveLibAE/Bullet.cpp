@@ -1,10 +1,10 @@
 #include "stdafx.h"
+#include "Abe.hpp"
 #include "Bullet.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Abe.hpp"
 #include "Game.hpp"
 #include "Slig.hpp"
 #include "Spark.hpp"
@@ -36,43 +36,6 @@ BaseGameObject* Bullet::VDestructor(s32 flags)
     return vdtor_4145E0(flags);
 }
 
-void Bullet::VUpdate()
-{
-    vUpdate_413560();
-}
-
-bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
-{
-    Path_TLV* pZCover = nullptr;
-    while (1)
-    {
-        // Go to the next entry (or first if first call).
-        pZCover = sPath_dword_BB47C0->TLV_Get_At_4DB290(
-            pZCover,
-            xpos,
-            ypos,
-            xpos,
-            ypos);
-
-        // No more TLVs? Then no Z Cover.
-        if (!pZCover)
-        {
-            break;
-        }
-
-        // Is it a Z Cover?
-        if (pZCover->field_4_type == TlvTypes::ZSligCover_50)
-        {
-            // Within Z Cover?
-            if (objRect.x >= pZCover->field_8_top_left.field_0_x && objRect.x <= pZCover->field_C_bottom_right.field_0_x && objRect.y >= pZCover->field_8_top_left.field_2_y && objRect.y <= pZCover->field_C_bottom_right.field_2_y && objRect.w >= pZCover->field_8_top_left.field_0_x && objRect.w <= pZCover->field_C_bottom_right.field_0_x && objRect.h >= pZCover->field_8_top_left.field_2_y && objRect.h <= pZCover->field_C_bottom_right.field_2_y)
-            {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 Bullet* Bullet::vdtor_4145E0(s32 flags)
 {
     BaseGameObject_dtor_4DBEC0();
@@ -83,58 +46,9 @@ Bullet* Bullet::vdtor_4145E0(s32 flags)
     return this;
 }
 
-BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
+void Bullet::VUpdate()
 {
-    if (!gBaseAliveGameObjects_5C1B7C)
-    {
-        return nullptr;
-    }
-
-    BaseAliveGameObject* pObjectToShoot = nullptr;
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
-    {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
-        if (!pObj)
-        {
-            break;
-        }
-
-        if (pObj != field_40_pParent)
-        {
-            if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
-            {
-                if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, pObj->field_B8_xpos, pObj->field_BC_ypos, 1))
-                {
-                    if (((field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0 || field_20_type == BulletType::ePossessedSligZBullet_1) && ((pObj->field_4_typeId == AETypes::eSlig_125 && pObj->field_106_current_motion != eSligMotions::M_Possess_37_4B72C0) || pObj->field_4_typeId == AETypes::eFlyingSlig_54 || pObj->field_4_typeId == AETypes::eCrawlingSlig_26 || pObj->field_4_typeId == AETypes::eGlukkon_67 || pObj->field_4_typeId == AETypes::eMudokon_110 || pObj->field_4_typeId == AETypes::eAbe_69 || pObj->field_4_typeId == AETypes::eSlog_126 || pObj->field_4_typeId == AETypes::eGreeter_64)) ||
-
-                        pObj->field_4_typeId == AETypes::eMudokon_110 || pObj->field_4_typeId == AETypes::eAbe_69 || pObj->field_4_typeId == AETypes::eMineCar_89 || (pObj->field_4_typeId == AETypes::eSlig_125 && sControlledCharacter_5C1B8C == pObj) || (pObj->field_4_typeId == AETypes::eFlyingSlig_54 && sControlledCharacter_5C1B8C == pObj) || (pObj->field_4_typeId == AETypes::eCrawlingSlig_26 && sControlledCharacter_5C1B8C == pObj) || (pObj->field_4_typeId == AETypes::eGlukkon_67 && sControlledCharacter_5C1B8C == pObj))
-                    {
-                        PSX_RECT bRect = {};
-                        pObj->vGetBoundingRect_424FD0(&bRect, 1);
-
-                        if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
-                        {
-                            if (((field_20_type == BulletType::ZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale))
-                            {
-                                if (pObj->field_4_typeId != AETypes::eGlukkon_67 || FP_Abs(pObj->field_B8_xpos - field_28_xpos) >= ScaleToGridSize_4498B0(field_3C_scale))
-                                {
-                                    if (!pObjectToShoot)
-                                    {
-                                        pObjectToShoot = pObj;
-                                    }
-                                    else if (FP_Abs(pObj->field_B8_xpos - field_28_xpos) < FP_Abs(pObjectToShoot->field_B8_xpos - field_28_xpos))
-                                    {
-                                        pObjectToShoot = pObj;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return pObjectToShoot;
+    vUpdate_413560();
 }
 
 void Bullet::vUpdate_413560()
@@ -452,6 +366,92 @@ void Bullet::vUpdate_413560()
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
     }
+}
+
+bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
+{
+    Path_TLV* pZCover = nullptr;
+    while (1)
+    {
+        // Go to the next entry (or first if first call).
+        pZCover = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            pZCover,
+            xpos,
+            ypos,
+            xpos,
+            ypos);
+
+        // No more TLVs? Then no Z Cover.
+        if (!pZCover)
+        {
+            break;
+        }
+
+        // Is it a Z Cover?
+        if (pZCover->field_4_type == TlvTypes::ZSligCover_50)
+        {
+            // Within Z Cover?
+            if (objRect.x >= pZCover->field_8_top_left.field_0_x && objRect.x <= pZCover->field_C_bottom_right.field_0_x && objRect.y >= pZCover->field_8_top_left.field_2_y && objRect.y <= pZCover->field_C_bottom_right.field_2_y && objRect.w >= pZCover->field_8_top_left.field_0_x && objRect.w <= pZCover->field_C_bottom_right.field_0_x && objRect.h >= pZCover->field_8_top_left.field_2_y && objRect.h <= pZCover->field_C_bottom_right.field_2_y)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
+{
+    if (!gBaseAliveGameObjects_5C1B7C)
+    {
+        return nullptr;
+    }
+
+    BaseAliveGameObject* pObjectToShoot = nullptr;
+    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj != field_40_pParent)
+        {
+            if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+            {
+                if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, pObj->field_B8_xpos, pObj->field_BC_ypos, 1))
+                {
+                    if (((field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0 || field_20_type == BulletType::ePossessedSligZBullet_1) && ((pObj->field_4_typeId == AETypes::eSlig_125 && pObj->field_106_current_motion != eSligMotions::M_Possess_37_4B72C0) || pObj->field_4_typeId == AETypes::eFlyingSlig_54 || pObj->field_4_typeId == AETypes::eCrawlingSlig_26 || pObj->field_4_typeId == AETypes::eGlukkon_67 || pObj->field_4_typeId == AETypes::eMudokon_110 || pObj->field_4_typeId == AETypes::eAbe_69 || pObj->field_4_typeId == AETypes::eSlog_126 || pObj->field_4_typeId == AETypes::eGreeter_64)) ||
+
+                        pObj->field_4_typeId == AETypes::eMudokon_110 || pObj->field_4_typeId == AETypes::eAbe_69 || pObj->field_4_typeId == AETypes::eMineCar_89 || (pObj->field_4_typeId == AETypes::eSlig_125 && sControlledCharacter_5C1B8C == pObj) || (pObj->field_4_typeId == AETypes::eFlyingSlig_54 && sControlledCharacter_5C1B8C == pObj) || (pObj->field_4_typeId == AETypes::eCrawlingSlig_26 && sControlledCharacter_5C1B8C == pObj) || (pObj->field_4_typeId == AETypes::eGlukkon_67 && sControlledCharacter_5C1B8C == pObj))
+                    {
+                        PSX_RECT bRect = {};
+                        pObj->vGetBoundingRect_424FD0(&bRect, 1);
+
+                        if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
+                        {
+                            if (((field_20_type == BulletType::ZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale))
+                            {
+                                if (pObj->field_4_typeId != AETypes::eGlukkon_67 || FP_Abs(pObj->field_B8_xpos - field_28_xpos) >= ScaleToGridSize_4498B0(field_3C_scale))
+                                {
+                                    if (!pObjectToShoot)
+                                    {
+                                        pObjectToShoot = pObj;
+                                    }
+                                    else if (FP_Abs(pObj->field_B8_xpos - field_28_xpos) < FP_Abs(pObjectToShoot->field_B8_xpos - field_28_xpos))
+                                    {
+                                        pObjectToShoot = pObj;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return pObjectToShoot;
 }
 
 void Bullet::PlayBulletSounds(s16 volume)

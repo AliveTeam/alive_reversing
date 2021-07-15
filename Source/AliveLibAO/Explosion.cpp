@@ -1,34 +1,24 @@
 #include "stdafx_ao.h"
-#include "AmbientSound.hpp"
-#include "Function.hpp"
-#include "Gibs.hpp"
 #include "Explosion.hpp"
+#include "Function.hpp"
+#include "Map.hpp"
+#include "Particle.hpp"
+#include "Flash.hpp"
 #include "ScreenShake.hpp"
-#include "ResourceManager.hpp"
-#include "stdlib.hpp"
-#include "Midi.hpp"
+#include "Gibs.hpp"
 #include "Events.hpp"
 #include "ParticleBurst.hpp"
-#include "Flash.hpp"
+#include "Midi.hpp"
+#include "stdlib.hpp"
+#include "AmbientSound.hpp"
 #include "Slig.hpp"
-#include "Particle.hpp"
-#include "Map.hpp"
+#include "ResourceManager.hpp"
 #undef min
 #undef max
 
 namespace AO {
 
-void Explosion::VUpdate()
-{
-    VUpdate_458D00();
-}
-
-void Explosion::VScreenChanged()
-{
-    VScreenChanged_459470();
-}
-
-Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
+Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP exposion_size)
 {
     ctor_417C10();
     SetVTable(this, 0x4BC218);
@@ -38,9 +28,9 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-    field_E4_scale = scale;
+    field_E4_explosion_size = exposion_size;
 
-    field_BC_sprite_scale = scale * FP_FromInteger(2);
+    field_BC_sprite_scale = exposion_size * FP_FromInteger(2);
     field_CC_bApplyShadows &= ~1u;
     field_AC_ypos = ypos;
     field_A8_xpos = xpos;
@@ -52,10 +42,10 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
     }
 
     PSX_RECT rect = {};
-    rect.x = FP_GetExponent(FP_FromInteger(-10) * scale);
-    rect.y = FP_GetExponent(FP_FromInteger(-10) * scale);
-    rect.w = FP_GetExponent(FP_FromInteger(10) * scale);
-    rect.h = FP_GetExponent(FP_FromInteger(10) * scale);
+    rect.x = FP_GetExponent(FP_FromInteger(-10) * exposion_size);
+    rect.y = FP_GetExponent(FP_FromInteger(-10) * exposion_size);
+    rect.w = FP_GetExponent(FP_FromInteger(10) * exposion_size);
+    rect.h = FP_GetExponent(FP_FromInteger(10) * exposion_size);
 
     DealBlastDamage_459160(&rect);
 
@@ -64,13 +54,19 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
     return this;
 }
 
-
-void Explosion::VScreenChanged_459470()
+BaseGameObject* Explosion::VDestructor(s32 flags)
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    dtor_417D10();
+    if (flags & 1)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        ao_delete_free_447540(this);
     }
+    return this;
+}
+
+void Explosion::VUpdate()
+{
+    VUpdate_458D00();
 }
 
 void Explosion::VUpdate_458D00()
@@ -84,10 +80,10 @@ void Explosion::VUpdate_458D00()
     switch (field_10_anim.field_92_current_frame)
     {
         case 2:
-            rect.x = FP_GetExponent(FP_FromInteger(-20) * field_E4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(20) * field_E4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-20) * field_E4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(10) * field_E4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-20) * field_E4_explosion_size);
+            rect.w = FP_GetExponent(FP_FromInteger(20) * field_E4_explosion_size);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * field_E4_explosion_size);
+            rect.h = FP_GetExponent(FP_FromInteger(10) * field_E4_explosion_size);
             DealBlastDamage_459160(&rect);
             break;
 
@@ -115,19 +111,19 @@ void Explosion::VUpdate_458D00()
                 pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
             }
 
-            rect.x = FP_GetExponent(FP_FromInteger(-38) * field_E4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(38) * field_E4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-38) * field_E4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(19) * field_E4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-38) * field_E4_explosion_size);
+            rect.w = FP_GetExponent(FP_FromInteger(38) * field_E4_explosion_size);
+            rect.y = FP_GetExponent(FP_FromInteger(-38) * field_E4_explosion_size);
+            rect.h = FP_GetExponent(FP_FromInteger(19) * field_E4_explosion_size);
             DealBlastDamage_459160(&rect);
             break;
         }
 
         case 6:
-            rect.x = FP_GetExponent(FP_FromInteger(-60) * field_E4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(60) * field_E4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-60) * field_E4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(30) * field_E4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-60) * field_E4_explosion_size);
+            rect.w = FP_GetExponent(FP_FromInteger(60) * field_E4_explosion_size);
+            rect.y = FP_GetExponent(FP_FromInteger(-60) * field_E4_explosion_size);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * field_E4_explosion_size);
             DealBlastDamage_459160(&rect);
             break;
 
@@ -190,6 +186,19 @@ void Explosion::VUpdate_458D00()
     }
 }
 
+void Explosion::VScreenChanged()
+{
+    VScreenChanged_459470();
+}
+
+void Explosion::VScreenChanged_459470()
+{
+    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+}
+
 void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects_4FC8A0)
@@ -240,7 +249,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
             PSX_RECT rect = {};
             pObj->VGetBoundingRect(&rect, 1);
 
-            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) && field_E4_scale == pObj->field_BC_sprite_scale)
+            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) && field_E4_explosion_size == pObj->field_BC_sprite_scale)
             {
                 pObj->VTakeDamage(this);
             }
@@ -259,7 +268,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
         if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit2_Unknown) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2))
         {
             pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
-            auto dir = gMap_507BA8.GetDirection_444A40(
+            const CameraPos dir = gMap_507BA8.GetDirection_444A40(
                 static_cast<s32>(gMap_507BA8.field_0_current_level),
                 gMap_507BA8.field_2_current_path,
                 FP_FromInteger(pTlv->field_10_top_left.field_0_x),
@@ -267,35 +276,25 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
             if (dir == CameraPos::eCamLeft_3)
             {
-                auto gibs = ao_new<Gibs>();
-                ;
-                if (gibs)
+                auto pGibs = ao_new<Gibs>();
+
+                if (pGibs)
                 {
-                    gibs->ctor_407B20(1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                    pGibs->ctor_407B20(1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
                 }
             }
             else if (dir == CameraPos::eCamRight_4)
             {
-                auto gibs = ao_new<Gibs>();
-                ;
-                if (gibs)
+                auto pGibs = ao_new<Gibs>();
+
+                if (pGibs)
                 {
-                    gibs->ctor_407B20(1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                    pGibs->ctor_407B20(1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
                 }
             }
             Stop_slig_sounds_476A20(dir, 0);
         }
     }
-}
-
-BaseGameObject* Explosion::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

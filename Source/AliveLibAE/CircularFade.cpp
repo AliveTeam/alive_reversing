@@ -6,36 +6,6 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* CircularFade::VDestructor(s32 flags)
-{
-    return vdtor_4CE0D0(flags);
-}
-
-void CircularFade::VUpdate()
-{
-    vUpdate_4CE380();
-}
-
-void CircularFade::VRender(PrimHeader** ppOt)
-{
-    vRender_4CE3F0(ppOt);
-}
-
-void CircularFade::VScreenChanged()
-{
-    // null sub
-}
-
-s32 CircularFade::VFadeIn_4CE300(s16 direction, s8 destroyOnDone)
-{
-    return vFadeIn_4CE300(direction, destroyOnDone);
-}
-
-s32 CircularFade::VDone_4CE0B0()
-{
-    return vDone_4CE0B0();
-}
-
 CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
@@ -82,6 +52,37 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 directio
     return this;
 }
 
+BaseGameObject* CircularFade::VDestructor(s32 flags)
+{
+    return vdtor_4CE0D0(flags);
+}
+
+CircularFade* CircularFade::vdtor_4CE0D0(s32 flags)
+{
+    dtor_4CE080();
+    if (flags & 1)
+    {
+        ae_delete_free_495540(this);
+    }
+    return this;
+}
+
+void CircularFade::dtor_4CE080()
+{
+    SetVTable(this, 0x547904); // vTbl_CircularFade_547904
+
+    if (!(field_F4_flags.Get(Flags::eBit2_Done)))
+    {
+        --sNum_CamSwappers_5C1B66;
+    }
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+}
+
+void CircularFade::VRender(PrimHeader** ppOt)
+{
+    vRender_4CE3F0(ppOt);
+}
+
 void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
 {
     const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
@@ -110,8 +111,8 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
         frameRect.h,
         pScreenManager_5BB5F4->field_3A_idx);
 
-    --frameRect.h;
-    --frameRect.w;
+    frameRect.h--;
+    frameRect.w--;
 
     if (frameRect.y < 0)
     {
@@ -206,6 +207,11 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
     }
 }
 
+void CircularFade::VUpdate()
+{
+    vUpdate_4CE380();
+}
+
 void CircularFade::vUpdate_4CE380()
 {
     if ((!field_F4_flags.Get(Flags::eBit4_NeverSet) && !field_F4_flags.Get(Flags::eBit2_Done)))
@@ -223,6 +229,11 @@ void CircularFade::vUpdate_4CE380()
             field_1B8_fade_colour = 0;
         }
     }
+}
+
+s32 CircularFade::VFadeIn_4CE300(s16 direction, s8 destroyOnDone)
+{
+    return vFadeIn_4CE300(direction, destroyOnDone);
 }
 
 s32 CircularFade::vFadeIn_4CE300(s16 direction, s8 destroyOnDone) // TODO: Likely no return
@@ -248,50 +259,38 @@ s32 CircularFade::vFadeIn_4CE300(s16 direction, s8 destroyOnDone) // TODO: Likel
     return field_F4_flags.Raw().all;
 }
 
+void CircularFade::VScreenChanged()
+{
+    // null sub
+}
+
+s32 CircularFade::VDone_4CE0B0()
+{
+    return vDone_4CE0B0();
+}
+
 s32 CircularFade::vDone_4CE0B0()
 {
     return field_F4_flags.Get(Flags::eBit2_Done);
 }
 
-void CircularFade::dtor_4CE080()
-{
-    SetVTable(this, 0x547904); // vTbl_CircularFade_547904
-
-    if (!(field_F4_flags.Get(Flags::eBit2_Done)))
-    {
-        --sNum_CamSwappers_5C1B66;
-    }
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-CircularFade* CircularFade::vdtor_4CE0D0(s32 flags)
-{
-    dtor_4CE080();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
 CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 setBit8)
 {
-    auto pFade = ae_new<CircularFade>();
-    if (!pFade)
+    auto pCircularFade = ae_new<CircularFade>();
+    if (!pCircularFade)
     {
         return nullptr;
     }
 
-    pFade->ctor_4CE100(xpos, ypos, scale, direction, destroyOnDone);
+    pCircularFade->ctor_4CE100(xpos, ypos, scale, direction, destroyOnDone);
 
     if (setBit8)
     {
-        pFade->field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        pCircularFade->field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     }
     else
     {
-        pFade->field_6_flags.Clear(BaseGameObject::eSurviveDeathReset_Bit9);
+        pCircularFade->field_6_flags.Clear(BaseGameObject::eSurviveDeathReset_Bit9);
     }
-
-    return pFade;
+    return pCircularFade;
 }

@@ -1,21 +1,31 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "AbilityRing.hpp"
-#include "BaseAliveGameObject.hpp"
-#include "ResourceManager.hpp"
+#include "Function.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
-#include "Map.hpp"
+#include "ResourceManager.hpp"
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
-#include "Math.hpp"
-#include "Abe.hpp"
 #include "Sfx.hpp"
+#include "Map.hpp"
+#include "Abe.hpp"
+#include "BaseAliveGameObject.hpp"
 #include "PossessionFlicker.hpp"
+#include "Math.hpp"
+#include "stdlib.hpp"
 #undef min
 #undef max
 
 namespace AO {
+
+AbilityRing* CC AbilityRing::Factory_447590(FP xpos, FP ypos, RingTypes ring_type)
+{
+    auto pAbilityRing = ao_new<AbilityRing>();
+    if (pAbilityRing)
+    {
+        pAbilityRing->ctor_455860(xpos, ypos, ring_type);
+    }
+    return pAbilityRing;
+}
 
 static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 width2, s32 height2)
 {
@@ -31,21 +41,7 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
     }
 }
 
-BaseGameObject* AbilityRing::dtor_455E50()
-{
-    SetVTable(this, 0x4BC090);
-
-    if (field_278_pTarget_obj)
-    {
-        field_278_pTarget_obj->field_C_refCount--;
-    }
-
-    ResourceManager::FreeResource_455550(field_18_ppRes);
-    gObjList_drawables_504618->Remove_Item(this);
-    return dtor_487DF0();
-}
-
-AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
+AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, RingTypes ring_type)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BC090);
@@ -65,7 +61,6 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
         field_23C_xpos = xpos;
         field_240_ypos = ypos;
 
-
         field_25E_screenX = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
         field_260_screenY = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
@@ -84,18 +79,18 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
             field_25C_fade = static_cast<s16>(MinDistance(field_262_screenXPos, field_264_screenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0));
         }
 
-        field_274_ring_type = type;
+        field_274_ring_type = ring_type;
 
         switch (field_274_ring_type)
         {
-            case 1:
+            case RingTypes::eExplosive_Emit_1:
                 for (PSX_RECT& r : field_3C_collide_rects)
                 {
                     r = {};
                 }
                 [[fallthrough]];
 
-            case 2:
+            case RingTypes::eExplosive_Emit_Effect_2:
                 field_258_ring_thickness = FP_FromInteger(8);
                 field_24C_speed = FP_FromInteger(6);
                 field_248_right = FP_FromInteger(6);
@@ -106,7 +101,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
                 SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
                 break;
 
-            case 3:
+            case RingTypes::eExplosive_Give_3:
                 field_258_ring_thickness = FP_FromInteger(8);
                 field_24C_speed = FP_FromInteger(6);
                 field_248_right = FP_FromInteger(350);
@@ -116,37 +111,36 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
                 field_26A_b = 0;
                 break;
 
-            case 0:
-            case 4:
-                field_278_pTarget_obj = sActiveHero_507678;
-                field_278_pTarget_obj->field_C_refCount++;
+            case RingTypes::eExplosive_Pulse_0:
+            case RingTypes::eShrykull_Pulse_Small_4:
+                SetTarget_455EC0(sActiveHero_507678);
                 [[fallthrough]];
 
-            case 5:
-            case 6:
+            case RingTypes::eShrykull_Pulse_Large_5:
+            case RingTypes::eShrykull_Pulse_Orange_6:
                 field_258_ring_thickness = FP_FromInteger(5);
                 field_24C_speed = FP_FromInteger(4);
                 field_248_right = FP_FromInteger(4);
                 field_244_left = FP_FromInteger(0);
                 field_25C_fade = 50;
-                switch (type)
+                switch (ring_type)
                 {
-                    case 0:
+                    case RingTypes::eExplosive_Pulse_0:
                         field_266_r = 255;
                         field_268_g = 0;
                         field_26A_b = 0;
                         break;
-                    case 4:
+                    case RingTypes::eShrykull_Pulse_Small_4:
                         field_266_r = 0;
                         field_268_g = 0;
                         field_26A_b = 255;
                         break;
-                    case 5:
+                    case RingTypes::eShrykull_Pulse_Large_5:
                         field_266_r = 0;
                         field_268_g = 0;
                         field_26A_b = 80;
                         break;
-                    case 6:
+                    case RingTypes::eShrykull_Pulse_Orange_6:
                         field_266_r = 255;
                         field_268_g = 128;
                         field_26A_b = 64;
@@ -188,6 +182,20 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, s16 type)
     return this;
 }
 
+BaseGameObject* AbilityRing::dtor_455E50()
+{
+    SetVTable(this, 0x4BC090);
+
+    if (field_278_pTarget_obj)
+    {
+        field_278_pTarget_obj->field_C_refCount--;
+    }
+
+    ResourceManager::FreeResource_455550(field_18_ppRes);
+    gObjList_drawables_504618->Remove_Item(this);
+    return dtor_487DF0();
+}
+
 BaseGameObject* AbilityRing::VDestructor(s32 flags)
 {
     return Vdtor_456940(flags);
@@ -201,186 +209,6 @@ BaseGameObject* AbilityRing::Vdtor_456940(s32 flags)
         ao_delete_free_447540(this);
     }
     return this;
-}
-
-AbilityRing* CC AbilityRing::Factory_447590(FP xpos, FP ypos, s16 type)
-{
-    auto pAbilityRing = ao_new<AbilityRing>();
-    if (pAbilityRing)
-    {
-        pAbilityRing->ctor_455860(xpos, ypos, type);
-    }
-    return pAbilityRing;
-}
-
-
-void AbilityRing::SetTarget_455EC0(BaseAliveGameObject* pTarget)
-{
-    field_278_pTarget_obj = pTarget;
-    field_278_pTarget_obj->field_C_refCount++;
-}
-
-void AbilityRing::VScreenChanged()
-{
-    VScreenChanged_4568D0();
-}
-
-void AbilityRing::VScreenChanged_4568D0()
-{
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
-}
-
-void AbilityRing::CollideWithObjects_456250()
-{
-    for (auto& rect : field_3C_collide_rects)
-    {
-        rect.x += field_25E_screenX;
-        rect.y += field_260_screenY;
-        rect.w += field_25E_screenX;
-        rect.h += field_260_screenY;
-    }
-
-    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
-    {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
-        if (!pObj)
-        {
-            break;
-        }
-
-        PSX_RECT bRect = {};
-        pObj->VGetBoundingRect(&bRect, 1);
-
-        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
-        {
-            for (auto& rect : field_3C_collide_rects)
-            {
-                if (rect.x <= bRect.w && rect.w >= bRect.x && rect.h >= bRect.y && rect.y <= bRect.h)
-                {
-                    pObj->VTakeDamage(this);
-                }
-            }
-        }
-    }
-}
-
-void AbilityRing::VUpdate()
-{
-    VUpdate_455ED0();
-}
-
-void AbilityRing::VUpdate_455ED0()
-{
-    if (field_278_pTarget_obj)
-    {
-        if (field_278_pTarget_obj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
-        {
-            field_278_pTarget_obj->field_C_refCount--;
-            field_278_pTarget_obj = nullptr;
-        }
-        else
-        {
-            field_25E_screenX = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
-            field_260_screenY = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
-
-            PSX_RECT bRect = {};
-            field_278_pTarget_obj->VGetBoundingRect(&bRect, 1);
-
-            field_262_screenXPos = (bRect.w + bRect.x) / 2 - field_25E_screenX;
-            field_264_screenYPos = (bRect.h + bRect.y) / 2 - field_260_screenY;
-        }
-    }
-
-    switch (field_274_ring_type)
-    {
-        case 0:
-        case 4:
-        case 6:
-            field_248_right += field_24C_speed;
-            field_244_left = field_248_right - field_258_ring_thickness;
-
-            if (field_244_left < FP_FromInteger(0))
-            {
-                field_244_left = FP_FromInteger(0);
-            }
-
-            if (FP_GetExponent(field_244_left) <= field_25C_fade)
-            {
-                field_266_r = (field_266_r >> 1) + (field_266_r >> 2);
-                field_268_g = (field_268_g >> 1) + (field_268_g >> 2);
-                field_26A_b = (field_26A_b >> 1) + (field_26A_b >> 2);
-
-                for (s32 i = 0; i < 2; i++)
-                {
-                    for (s32 j = 0; j < 64; j++)
-                    {
-                        SetRGB0(&field_14_pRes[j].mPolys[i], field_266_r & 255, field_268_g & 255, field_26A_b & 255);
-                    }
-                }
-            }
-            else
-            {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            }
-            return;
-
-        case 1:
-            CollideWithObjects_456250();
-            [[fallthrough]];
-
-        case 2:
-            field_248_right += field_24C_speed;
-            field_244_left = field_248_right - field_258_ring_thickness;
-
-            if (field_244_left < FP_FromInteger(0))
-            {
-                field_244_left = FP_FromInteger(0);
-            }
-
-            if (FP_GetExponent(field_244_left) > field_25C_fade)
-            {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            }
-            break;
-
-        case 3:
-            field_248_right -= field_24C_speed;
-            field_244_left = field_248_right - field_258_ring_thickness;
-            if (field_244_left < FP_FromInteger(0))
-            {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-                field_244_left = FP_FromInteger(0);
-                SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
-                auto pPossessionFlicker = ao_new<PossessionFlicker>();
-                if (pPossessionFlicker)
-                {
-                    pPossessionFlicker->ctor_41A8C0(sActiveHero_507678, 8, 255, 128, 128);
-                }
-            }
-            break;
-
-        case 5:
-            field_248_right += field_24C_speed;
-            field_244_left = field_248_right - field_258_ring_thickness;
-            if (field_244_left >= FP_FromInteger(0))
-            {
-                if (FP_GetExponent(field_244_left) > field_25C_fade)
-                {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
-                }
-            }
-            else
-            {
-                field_244_left = FP_FromInteger(0);
-                if (field_25C_fade < 0)
-                {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
-                }
-            }
-            break;
-        default:
-            return;
-    }
 }
 
 void AbilityRing::VRender(PrimHeader** ppOt)
@@ -460,6 +288,175 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
         }
         OrderingTable_Add_498A80(OtLayer(ppOt, field_10_layer), &field_1C_primSetTPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
     }
+}
+
+void AbilityRing::VUpdate()
+{
+    VUpdate_455ED0();
+}
+
+void AbilityRing::VUpdate_455ED0()
+{
+    if (field_278_pTarget_obj)
+    {
+        if (field_278_pTarget_obj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        {
+            field_278_pTarget_obj->field_C_refCount--;
+            field_278_pTarget_obj = nullptr;
+        }
+        else
+        {
+            field_25E_screenX = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+            field_260_screenY = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+
+            PSX_RECT bRect = {};
+            field_278_pTarget_obj->VGetBoundingRect(&bRect, 1);
+
+            field_262_screenXPos = (bRect.w + bRect.x) / 2 - field_25E_screenX;
+            field_264_screenYPos = (bRect.h + bRect.y) / 2 - field_260_screenY;
+        }
+    }
+
+    switch (field_274_ring_type)
+    {
+        case RingTypes::eExplosive_Pulse_0:
+        case RingTypes::eShrykull_Pulse_Small_4:
+        case RingTypes::eShrykull_Pulse_Orange_6:
+            field_248_right += field_24C_speed;
+            field_244_left = field_248_right - field_258_ring_thickness;
+
+            if (field_244_left < FP_FromInteger(0))
+            {
+                field_244_left = FP_FromInteger(0);
+            }
+
+            if (FP_GetExponent(field_244_left) <= field_25C_fade)
+            {
+                field_266_r = (field_266_r >> 1) + (field_266_r >> 2);
+                field_268_g = (field_268_g >> 1) + (field_268_g >> 2);
+                field_26A_b = (field_26A_b >> 1) + (field_26A_b >> 2);
+
+                for (s32 i = 0; i < 2; i++)
+                {
+                    for (s32 j = 0; j < 64; j++)
+                    {
+                        SetRGB0(&field_14_pRes[j].mPolys[i], field_266_r & 255, field_268_g & 255, field_26A_b & 255);
+                    }
+                }
+            }
+            else
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            return;
+
+        case RingTypes::eExplosive_Emit_1:
+            CollideWithObjects_456250();
+            [[fallthrough]];
+
+        case RingTypes::eExplosive_Emit_Effect_2:
+            field_248_right += field_24C_speed;
+            field_244_left = field_248_right - field_258_ring_thickness;
+
+            if (field_244_left < FP_FromInteger(0))
+            {
+                field_244_left = FP_FromInteger(0);
+            }
+
+            if (FP_GetExponent(field_244_left) > field_25C_fade)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            break;
+
+        case RingTypes::eExplosive_Give_3:
+            field_248_right -= field_24C_speed;
+            field_244_left = field_248_right - field_258_ring_thickness;
+            if (field_244_left < FP_FromInteger(0))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                field_244_left = FP_FromInteger(0);
+                SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
+                auto pPossessionFlicker = ao_new<PossessionFlicker>();
+                if (pPossessionFlicker)
+                {
+                    pPossessionFlicker->ctor_41A8C0(sActiveHero_507678, 8, 255, 128, 128);
+                }
+            }
+            break;
+
+        case RingTypes::eShrykull_Pulse_Large_5:
+            field_248_right += field_24C_speed;
+            field_244_left = field_248_right - field_258_ring_thickness;
+            if (field_244_left >= FP_FromInteger(0))
+            {
+                if (FP_GetExponent(field_244_left) > field_25C_fade)
+                {
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                }
+            }
+            else
+            {
+                field_244_left = FP_FromInteger(0);
+                if (field_25C_fade < 0)
+                {
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                }
+            }
+            break;
+        default:
+            return;
+    }
+}
+
+void AbilityRing::VScreenChanged()
+{
+    VScreenChanged_4568D0();
+}
+
+void AbilityRing::VScreenChanged_4568D0()
+{
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+}
+
+void AbilityRing::CollideWithObjects_456250()
+{
+    for (auto& rect : field_3C_collide_rects)
+    {
+        rect.x += field_25E_screenX;
+        rect.y += field_260_screenY;
+        rect.w += field_25E_screenX;
+        rect.h += field_260_screenY;
+    }
+
+    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        PSX_RECT bRect = {};
+        pObj->VGetBoundingRect(&bRect, 1);
+
+        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+        {
+            for (auto& rect : field_3C_collide_rects)
+            {
+                if (rect.x <= bRect.w && rect.w >= bRect.x && rect.h >= bRect.y && rect.y <= bRect.h)
+                {
+                    pObj->VTakeDamage(this);
+                }
+            }
+        }
+    }
+}
+
+void AbilityRing::SetTarget_455EC0(BaseAliveGameObject* pTarget)
+{
+    field_278_pTarget_obj = pTarget;
+    field_278_pTarget_obj->field_C_refCount++;
 }
 
 } // namespace AO

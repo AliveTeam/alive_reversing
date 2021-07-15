@@ -1,20 +1,20 @@
 #include "stdafx_ao.h"
 #include "Abe.hpp"
 #include "Bullet.hpp"
-#include "Collisions.hpp"
-#include "Elum.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
-#include "Math.hpp"
-#include "Particle.hpp"
 #include "stdlib.hpp"
-#include "Sfx.hpp"
 #include "Spark.hpp"
+#include "Sfx.hpp"
+#include "Particle.hpp"
+#include "Collisions.hpp"
+#include "Elum.hpp"
+#include "Math.hpp"
 #include "Sparks.hpp"
 
 namespace AO {
 
-EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 a7, FP scale, s16 a9)
+EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BA328);
@@ -26,10 +26,10 @@ EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type
     field_30_pParent = pParent;
     field_28_level = gMap_507BA8.field_0_current_level;
     field_2C_scale = scale;
-    field_24 = a7;
-    field_34 = a9;
-    field_20 = xDist;
-    field_12 = 0;
+    field_24_unused = unused;
+    field_34_number_of_bullets = numberOfBullets;
+    field_20_x_distance = xDist;
+    field_12_unused = 0;
     return this;
 }
 
@@ -70,7 +70,7 @@ void Bullet::VUpdate_408E30()
             FP hitX = {};
             FP hitY = {};
             PSX_RECT shootRect = {};
-            if (field_20 > FP_FromInteger(0))
+            if (field_20_x_distance > FP_FromInteger(0))
             {
                 shootRect.x = FP_GetExponent(field_18_xpos);
                 shootRect.w = FP_GetExponent(field_18_xpos) + 640;
@@ -88,7 +88,7 @@ void Bullet::VUpdate_408E30()
             if (sCollisions_DArray_504C6C->RayCast_40C410(
                     field_18_xpos,
                     field_1C_ypos,
-                    field_20 + field_18_xpos,
+                    field_20_x_distance + field_18_xpos,
                     field_1C_ypos,
                     &field_14_pLine,
                     &hitX,
@@ -102,9 +102,10 @@ void Bullet::VUpdate_408E30()
                     distHit = FP_Abs(hitX - field_18_xpos);
                     distShot = FP_Abs(pShotObj->field_A8_xpos - field_18_xpos);
                 }
+
                 if (!pShotObj || (distShot > distHit))
                 {
-                    if (field_20 <= FP_FromInteger(0))
+                    if (field_20_x_distance <= FP_FromInteger(0))
                     {
                         auto pSpark = ao_new<Spark>();
                         if (pSpark)
@@ -145,11 +146,10 @@ void Bullet::VUpdate_408E30()
                     return;
                 }
             }
+
             if (pShotObj->VTakeDamage(this))
             {
-                SFX_Play_43AE60(SoundEffect::AirStream_28, field_2C_scale != FP_FromDouble(0.5) ? 90 : 60, 2000, 0);
-                SFX_Play_43AE60(SoundEffect::MeatBounce_43, field_2C_scale != FP_FromDouble(0.5) ? 90 : 60, Math_RandomRange_450F20(300, 700), 0);
-                SFX_Play_43AE60(SoundEffect::KillEffect_78, field_2C_scale != FP_FromDouble(0.5) ? 90 : 60, Math_RandomRange_450F20(900, 1400), 0);
+                field_2C_scale == FP_FromInteger(1) ? PlayBulletSounds(90) : PlayBulletSounds(60);
             }
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
@@ -170,11 +170,11 @@ void Bullet::VUpdate_408E30()
             {
                 if (field_18_xpos >= sActiveHero_507678->field_A8_xpos)
                 {
-                    distX_1 = sActiveHero_507678->field_A8_xpos + FP_FromInteger(field_34 * 16);
+                    distX_1 = sActiveHero_507678->field_A8_xpos + FP_FromInteger(field_34_number_of_bullets * 16);
                 }
                 else
                 {
-                    distX_1 = sActiveHero_507678->field_A8_xpos - FP_FromInteger(field_34 * 16);
+                    distX_1 = sActiveHero_507678->field_A8_xpos - FP_FromInteger(field_34_number_of_bullets * 16);
                 }
                 distX_2 = sActiveHero_507678->field_B4_velx * FP_FromInteger(2);
             }
@@ -187,16 +187,11 @@ void Bullet::VUpdate_408E30()
             shootRect.h = shootRect.y + 10;
 
             BaseAliveGameObject* pShotObj = ShootObject_409400(&shootRect);
-            if (pShotObj)
+            if (pShotObj && pShotObj->VTakeDamage(this))
             {
-                if (pShotObj->VTakeDamage(this))
-                {
-                    SFX_Play_43AE60(SoundEffect::AirStream_28, 90, 2000, 0);
-                    SFX_Play_43AE60(SoundEffect::MeatBounce_43, 90, Math_RandomRange_450F20(300, 700), 0);
-                    SFX_Play_43AE60(SoundEffect::KillEffect_78, 90, Math_RandomRange_450F20(900, 1400), 0);
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
-                    return;
-                }
+                PlayBulletSounds(90);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                return;
             }
 
             if (sCollisions_DArray_504C6C->RayCast_40C410(
@@ -232,27 +227,27 @@ void Bullet::VUpdate_408E30()
 
 bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
 {
-    Path_TLV* pTlv = nullptr;
-    while (true)
+    Path_TLV* pZCover = nullptr;
+    while (1)
     {
-        pTlv = gMap_507BA8.TLV_Get_At_446060(
-            pTlv,
+        pZCover = gMap_507BA8.TLV_Get_At_446060(
+            pZCover,
             xpos,
             ypos,
             xpos,
             ypos);
 
-        if (!pTlv)
+        if (!pZCover)
         {
             break;
         }
 
-        if (pTlv->field_4_type.mType != TlvTypes::ZSligCover_83)
+        if (pZCover->field_4_type.mType != TlvTypes::ZSligCover_83)
         {
             continue;
         }
 
-        if (objRect.x >= pTlv->field_10_top_left.field_0_x && objRect.x <= pTlv->field_14_bottom_right.field_0_x && objRect.y >= pTlv->field_10_top_left.field_2_y && objRect.y <= pTlv->field_14_bottom_right.field_2_y && objRect.w >= pTlv->field_10_top_left.field_0_x && objRect.w <= pTlv->field_14_bottom_right.field_0_x && objRect.h >= pTlv->field_10_top_left.field_2_y && objRect.h <= pTlv->field_14_bottom_right.field_2_y)
+        if (objRect.x >= pZCover->field_10_top_left.field_0_x && objRect.x <= pZCover->field_14_bottom_right.field_0_x && objRect.y >= pZCover->field_10_top_left.field_2_y && objRect.y <= pZCover->field_14_bottom_right.field_2_y && objRect.w >= pZCover->field_10_top_left.field_0_x && objRect.w <= pZCover->field_14_bottom_right.field_0_x && objRect.h >= pZCover->field_10_top_left.field_2_y && objRect.h <= pZCover->field_14_bottom_right.field_2_y)
         {
             return true;
         }
@@ -314,6 +309,13 @@ BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
         }
     }
     return pObjectToShoot;
+}
+
+void Bullet::PlayBulletSounds(s16 volume)
+{
+    SFX_Play_43AE60(SoundEffect::AirStream_28, volume, 2000, 0);
+    SFX_Play_43AE60(SoundEffect::MeatBounce_43, volume, Math_RandomRange_450F20(300, 700), 0);
+    SFX_Play_43AE60(SoundEffect::KillEffect_78, volume, Math_RandomRange_450F20(900, 1400), 0);
 }
 
 } // namespace AO

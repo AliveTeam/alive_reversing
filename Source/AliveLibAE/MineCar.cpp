@@ -147,7 +147,7 @@ s32 CC MineCar::CreateFromSaveState_467740(const u8* pBuffer)
     auto pState = reinterpret_cast<const MineCar_SaveState*>(pBuffer);
     auto pTlv = static_cast<Path_MineCar*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4C_tlvInfo));
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6013, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBayrollResID_6013, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("BAYROLL.BAN", nullptr);
     }

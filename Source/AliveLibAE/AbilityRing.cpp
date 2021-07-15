@@ -14,9 +14,9 @@
 
 AbilityRing* CC AbilityRing::Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale)
 {
-    auto pRing = ae_new<AbilityRing>();
-    pRing->ctor_49C730(xpos, ypos, type, scale);
-    return pRing;
+    auto pAbilityRing = ae_new<AbilityRing>();
+    pAbilityRing->ctor_49C730(xpos, ypos, type, scale);
+    return pAbilityRing;
 }
 
 struct AbilityRing_PolyBuffer final
@@ -51,6 +51,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
 
     // TODO: OG issue - using frame counter as res id again
     field_28_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Wave, sGnFrame_5C1B84, sizeof(AbilityRing_PolyBuffer) * 64);
+
     if (field_28_ppRes)
     {
         field_24_pRes = reinterpret_cast<AbilityRing_PolyBuffer*>(*field_28_ppRes);
@@ -66,6 +67,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
 
         const s32 d1 = MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, 0, 0, 0);
         const s32 d2 = MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height);
+
         if (d1 <= d2)
         {
             field_26C_fade = static_cast<s16>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height));
@@ -255,62 +257,6 @@ BaseGameObject* AbilityRing::VDestructor(s32 flags)
     return vdtor_49D080(flags);
 }
 
-void AbilityRing::VUpdate()
-{
-    vUpdate_49D160();
-}
-
-void AbilityRing::VRender(PrimHeader** ppOt)
-{
-    vRender_49D790(ppOt);
-}
-
-void AbilityRing::VScreenChanged()
-{
-    vScreenChanged_49DE70();
-}
-
-s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_49E070(reinterpret_cast<AbilityRing_State*>(pSaveBuffer));
-}
-
-void AbilityRing::VSetTarget(BaseGameObject* pTarget)
-{
-    vSetTarget_49D140(pTarget);
-}
-
-s32 CC AbilityRing::CreateFromSaveState_49DF90(const u8* pBuffer)
-{
-    auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
-    auto pRing = ae_new<AbilityRing>();
-    if (pRing)
-    {
-        pRing->ctor_49C730(pState->field_4_xpos, pState->field_8_ypos, pState->field_C_ring_type, pState->field_10_scale);
-    }
-    pRing->field_276_r = pState->field_20_r;
-    pRing->field_278_g = pState->field_22_g;
-    pRing->field_27A_b = pState->field_24_b;
-    pRing->field_258_right = pState->field_18_right;
-    pRing->field_28C_count = pState->field_1C_count;
-    pRing->field_288_target_obj_id = pState->field_14_obj_id;
-    pRing->field_290_bFindingTarget = TRUE;
-    return sizeof(AbilityRing_State);
-}
-
-void AbilityRing::vSetTarget_49D140(BaseGameObject* pTarget)
-{
-    field_288_target_obj_id = pTarget->field_8_object_id;
-}
-
-void AbilityRing::dtor_49D0B0()
-{
-    SetVTable(this, 0x546AB0);
-    ResourceManager::FreeResource_49C330(field_28_ppRes);
-    gObjList_drawables_5C1124->Remove_Item(this);
-    BaseGameObject_dtor_4DBEC0();
-}
-
 AbilityRing* AbilityRing::vdtor_49D080(s32 flags)
 {
     dtor_49D0B0();
@@ -321,169 +267,17 @@ AbilityRing* AbilityRing::vdtor_49D080(s32 flags)
     return this;
 }
 
-void AbilityRing::vUpdate_49D160()
+void AbilityRing::dtor_49D0B0()
 {
-    if (field_290_bFindingTarget)
-    {
-        field_290_bFindingTarget = FALSE;
-        field_288_target_obj_id = Find_Flags_4DC170(field_288_target_obj_id);
-    }
-
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_288_target_obj_id));
-    if (pTarget)
-    {
-        if (pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
-        {
-            field_288_target_obj_id = -1;
-        }
-        else
-        {
-            field_26E_screenX = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-            field_270_screenY = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
-            PSX_RECT bRect = {};
-            pTarget->vGetBoundingRect_424FD0(&bRect, 1);
-            field_272_screenXPos = (bRect.x + bRect.w) / 2 - field_26E_screenX;
-            field_274_screenYPos = (bRect.y + bRect.h) / 2 - field_270_screenY;
-        }
-    }
-
-    switch (field_284_ring_type)
-    {
-        case RingTypes::eExplosive_Pulse_0:
-        case RingTypes::eShrykull_Pulse_Small_4:
-        case RingTypes::eShrykull_Pulse_Orange_6:
-        case RingTypes::eInvisible_Pulse_Small_7:
-        case RingTypes::eInvisible_Pulse_Large_8:
-        case RingTypes::eHealing_Pulse_14:
-            field_258_right += field_25C_speed;
-            field_254_left = field_258_right - field_268_ring_thickness;
-            if (field_254_left < FP_FromInteger(0))
-            {
-                field_254_left = FP_FromInteger(0);
-            }
-
-            if (FP_GetExponent(field_254_left) <= field_26C_fade)
-            {
-                field_276_r = (field_276_r >> 1) + (field_276_r >> 2);
-                field_278_g = (field_278_g >> 1) + (field_278_g >> 2);
-                field_27A_b = (field_27A_b >> 1) + (field_27A_b >> 2);
-                for (s32 j = 0; j < 2; j++)
-                {
-                    for (s32 i = 0; i < 64; i++)
-                    {
-                        SetRGB0(&field_24_pRes[i].mPolys[j], field_276_r & 255, field_278_g & 255, field_27A_b & 255);
-                    }
-                }
-            }
-            else
-            {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            }
-            return;
-
-        case RingTypes::eExplosive_Emit_1:
-        case RingTypes::eHealing_Emit_12:
-            if (field_284_ring_type == RingTypes::eHealing_Emit_12)
-            {
-                CollideWithObjects_49D5E0(FALSE);
-            }
-            else
-            {
-                CollideWithObjects_49D5E0(TRUE);
-            }
-            [[fallthrough]];
-
-        case RingTypes::eExplosive_Emit_Effect_2:
-        case RingTypes::eInvisible_Pulse_Emit_9:
-        case RingTypes::eHealing_Emit_Effect_11:
-        case RingTypes::eShrykull_Pulse_Large_5:
-            field_258_right += field_25C_speed;
-            field_254_left = field_258_right - field_268_ring_thickness;
-            if (field_254_left < FP_FromInteger(0))
-            {
-                field_254_left = FP_FromInteger(0);
-            }
-
-            if (FP_GetExponent(field_254_left) > field_26C_fade)
-            {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            }
-            break;
-
-        case RingTypes::eExplosive_Give_3:
-        case RingTypes::eInvisible_Pulse_Give_10:
-        case RingTypes::eHealing_Give_13:
-            field_258_right -= field_25C_speed;
-            field_254_left = field_258_right - field_268_ring_thickness;
-            if (field_254_left < FP_FromInteger(0))
-            {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-                field_254_left = FP_FromInteger(0);
-                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
-                if (field_284_ring_type == RingTypes::eExplosive_Give_3)
-                {
-                    auto pPossessionFlicker = ae_new<PossessionFlicker>();
-                    if (pPossessionFlicker)
-                    {
-                        pPossessionFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 128, 128);
-                    }
-                }
-            }
-            break;
-
-        default:
-            return;
-    }
+    SetVTable(this, 0x546AB0);
+    ResourceManager::FreeResource_49C330(field_28_ppRes);
+    gObjList_drawables_5C1124->Remove_Item(this);
+    BaseGameObject_dtor_4DBEC0();
 }
 
-void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
+void AbilityRing::VRender(PrimHeader** ppOt)
 {
-    for (s32 i = 0; i < field_28C_count; i++)
-    {
-        field_4C_collide_rects[i].x += field_26E_screenX;
-        field_4C_collide_rects[i].y += field_270_screenY;
-        field_4C_collide_rects[i].w += field_26E_screenX;
-        field_4C_collide_rects[i].h += field_270_screenY;
-    }
-
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
-    {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
-        if (!pObj)
-        {
-            break;
-        }
-
-        PSX_RECT bRect = {};
-        pObj->vGetBoundingRect_424FD0(&bRect, 1);
-
-        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
-        {
-            for (s32 j = 0; j < field_28C_count; j++)
-            {
-                if (field_4C_collide_rects[j].x <= bRect.w && field_4C_collide_rects[j].w >= bRect.x && field_4C_collide_rects[j].h >= bRect.y && field_4C_collide_rects[j].y <= bRect.h)
-                {
-                    if (bDealDamage)
-                    {
-                        if (bDealDamage == 1)
-                        {
-                            pObj->VTakeDamage_408730(this);
-                        }
-                    }
-                    else if (pObj->field_4_typeId == AETypes::eMudokon_110)
-                    {
-                        if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed)) // TODO: Clearly this has another meaning for muds
-                        {
-                            if (pObj->field_10C_health > FP_FromInteger(0))
-                            {
-                                pObj->VPossessed_408F70();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    vRender_49D790(ppOt);
 }
 
 void AbilityRing::vRender_49D790(PrimHeader** ppOt)
@@ -578,32 +372,129 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
     }
 }
 
-void AbilityRing::vScreenChanged_49DE70()
+void AbilityRing::VUpdate()
 {
-    if (field_284_ring_type == RingTypes::eHealing_Emit_12)
+    vUpdate_49D160();
+}
+
+void AbilityRing::vUpdate_49D160()
+{
+    if (field_290_bFindingTarget)
     {
-        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        field_290_bFindingTarget = FALSE;
+        field_288_target_obj_id = Find_Flags_4DC170(field_288_target_obj_id);
+    }
+
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_288_target_obj_id));
+    if (pTarget)
+    {
+        if (pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
-            if (!pObj)
+            field_288_target_obj_id = -1;
+        }
+        else
+        {
+            field_26E_screenX = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
+            field_270_screenY = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+            PSX_RECT bRect = {};
+            pTarget->vGetBoundingRect_424FD0(&bRect, 1);
+            field_272_screenXPos = (bRect.x + bRect.w) / 2 - field_26E_screenX;
+            field_274_screenYPos = (bRect.y + bRect.h) / 2 - field_270_screenY;
+        }
+    }
+
+    switch (field_284_ring_type)
+    {
+        case RingTypes::eExplosive_Pulse_0:
+        case RingTypes::eShrykull_Pulse_Small_4:
+        case RingTypes::eShrykull_Pulse_Orange_6:
+        case RingTypes::eInvisible_Pulse_Small_7:
+        case RingTypes::eInvisible_Pulse_Large_8:
+        case RingTypes::eHealing_Pulse_14:
+            field_258_right += field_25C_speed;
+            field_254_left = field_258_right - field_268_ring_thickness;
+            if (field_254_left < FP_FromInteger(0))
             {
-                break;
+                field_254_left = FP_FromInteger(0);
             }
 
-            if (pObj->field_4_typeId == AETypes::eMudokon_110)
+            if (FP_GetExponent(field_254_left) <= field_26C_fade)
             {
-                if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
+                field_276_r = (field_276_r >> 1) + (field_276_r >> 2);
+                field_278_g = (field_278_g >> 1) + (field_278_g >> 2);
+                field_27A_b = (field_27A_b >> 1) + (field_27A_b >> 2);
+                for (s32 i = 0; i < 2; i++)
                 {
-                    // Only heal alive muds in the same screen
-                    if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
+                    for (s32 j = 0; j < 64; j++)
                     {
-                        pObj->VPossessed_408F70();
+                        SetRGB0(&field_24_pRes[j].mPolys[i], field_276_r & 255, field_278_g & 255, field_27A_b & 255);
                     }
                 }
             }
-        }
+            else
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            return;
+
+        case RingTypes::eExplosive_Emit_1:
+        case RingTypes::eHealing_Emit_12:
+            if (field_284_ring_type == RingTypes::eHealing_Emit_12)
+            {
+                CollideWithObjects_49D5E0(FALSE);
+            }
+            else
+            {
+                CollideWithObjects_49D5E0(TRUE);
+            }
+            [[fallthrough]];
+
+        case RingTypes::eExplosive_Emit_Effect_2:
+        case RingTypes::eInvisible_Pulse_Emit_9:
+        case RingTypes::eHealing_Emit_Effect_11:
+        case RingTypes::eShrykull_Pulse_Large_5:
+            field_258_right += field_25C_speed;
+            field_254_left = field_258_right - field_268_ring_thickness;
+            if (field_254_left < FP_FromInteger(0))
+            {
+                field_254_left = FP_FromInteger(0);
+            }
+
+            if (FP_GetExponent(field_254_left) > field_26C_fade)
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            }
+            break;
+
+        case RingTypes::eExplosive_Give_3:
+        case RingTypes::eInvisible_Pulse_Give_10:
+        case RingTypes::eHealing_Give_13:
+            field_258_right -= field_25C_speed;
+            field_254_left = field_258_right - field_268_ring_thickness;
+            if (field_254_left < FP_FromInteger(0))
+            {
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                field_254_left = FP_FromInteger(0);
+                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
+                if (field_284_ring_type == RingTypes::eExplosive_Give_3)
+                {
+                    auto pPossessionFlicker = ae_new<PossessionFlicker>();
+                    if (pPossessionFlicker)
+                    {
+                        pPossessionFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 128, 128);
+                    }
+                }
+            }
+            break;
+
+        default:
+            return;
     }
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+}
+
+s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
+{
+    return vGetSaveState_49E070(reinterpret_cast<AbilityRing_State*>(pSaveBuffer));
 }
 
 s32 AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
@@ -641,4 +532,116 @@ s32 AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
         pSaveState->field_14_obj_id = pTargetObj->field_C_objectId;
     }
     return sizeof(AbilityRing_State);
+}
+
+s32 CC AbilityRing::CreateFromSaveState_49DF90(const u8* pBuffer)
+{
+    auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
+    auto pRing = ae_new<AbilityRing>();
+    if (pRing)
+    {
+        pRing->ctor_49C730(pState->field_4_xpos, pState->field_8_ypos, pState->field_C_ring_type, pState->field_10_scale);
+    }
+    pRing->field_276_r = pState->field_20_r;
+    pRing->field_278_g = pState->field_22_g;
+    pRing->field_27A_b = pState->field_24_b;
+    pRing->field_258_right = pState->field_18_right;
+    pRing->field_28C_count = pState->field_1C_count;
+    pRing->field_288_target_obj_id = pState->field_14_obj_id;
+    pRing->field_290_bFindingTarget = TRUE;
+    return sizeof(AbilityRing_State);
+}
+
+
+void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
+{
+    for (s32 i = 0; i < field_28C_count; i++)
+    {
+        field_4C_collide_rects[i].x += field_26E_screenX;
+        field_4C_collide_rects[i].y += field_270_screenY;
+        field_4C_collide_rects[i].w += field_26E_screenX;
+        field_4C_collide_rects[i].h += field_270_screenY;
+    }
+
+    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        PSX_RECT bRect = {};
+        pObj->vGetBoundingRect_424FD0(&bRect, 1);
+
+        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+        {
+            for (s32 j = 0; j < field_28C_count; j++)
+            {
+                if (field_4C_collide_rects[j].x <= bRect.w && field_4C_collide_rects[j].w >= bRect.x && field_4C_collide_rects[j].h >= bRect.y && field_4C_collide_rects[j].y <= bRect.h)
+                {
+                    if (bDealDamage)
+                    {
+                        if (bDealDamage == 1)
+                        {
+                            pObj->VTakeDamage_408730(this);
+                        }
+                    }
+                    else if (pObj->field_4_typeId == AETypes::eMudokon_110)
+                    {
+                        if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed)) // TODO: Clearly this has another meaning for muds
+                        {
+                            if (pObj->field_10C_health > FP_FromInteger(0))
+                            {
+                                pObj->VPossessed_408F70();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void AbilityRing::VSetTarget(BaseGameObject* pTarget)
+{
+    vSetTarget_49D140(pTarget);
+}
+
+void AbilityRing::vSetTarget_49D140(BaseGameObject* pTarget)
+{
+    field_288_target_obj_id = pTarget->field_8_object_id;
+}
+
+void AbilityRing::VScreenChanged()
+{
+    vScreenChanged_49DE70();
+}
+
+void AbilityRing::vScreenChanged_49DE70()
+{
+    if (field_284_ring_type == RingTypes::eHealing_Emit_12)
+    {
+        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        {
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_4_typeId == AETypes::eMudokon_110)
+            {
+                if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
+                {
+                    // Only heal alive muds in the same screen
+                    if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
+                    {
+                        pObj->VPossessed_408F70();
+                    }
+                }
+            }
+        }
+    }
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
