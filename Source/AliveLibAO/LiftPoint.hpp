@@ -8,12 +8,21 @@
 
 namespace AO {
 
+enum class LiftPointStopType : s16
+{
+    eTopFloor_0 = 0,
+    eBottomFloor_1 = 1,
+    eMiddleFloor_2 = 2,
+    eMiddleLockFloor_3 = 3,
+    eStartPointOnly_4 = 4,
+};
+
 struct Path_LiftPoint final : public Path_TLV
 {
     s16 field_18_id;
     s16 field_1A_bstart_point;
     s16 field_1C_lift_type;
-    s16 field_1E_lift_point_stop_type;
+    LiftPointStopType field_1E_lift_point_stop_type;
     s16 field_20_scale;
     s16 field_22_bIgnore_lift_mover;
 };
@@ -81,7 +90,7 @@ public:
 
     s16 field_12C_bMoving;
     s16 field_12E;
-    s16 field_130_stop_type;
+    LiftPointStopType field_130_lift_point_stop_type;
     s16 field_132;
     Rope* field_134_pRope2;
     Rope* field_138_pRope1;
