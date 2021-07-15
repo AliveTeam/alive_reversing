@@ -7,6 +7,16 @@
 
 namespace AO {
 
+enum class SwitchSoundType : s16
+{
+    eNone = 0,
+    eWell_1 = 1,
+    eSwitchBellHammer_2 = 2,
+    eDoor_3 = 3,
+    eElectricWall_4 = 4,
+    eSecurityOrb_5 = 5
+};
+
 enum class SwitchOp : s16;
 
 struct Path_Switch final : public Path_TLV
@@ -14,8 +24,8 @@ struct Path_Switch final : public Path_TLV
     s16 field_18_trigger_object;
     SwitchOp field_1A_trigger_object_action;
     u16 field_1C_scale;
-    s16 field_1E_on_sound;
-    s16 field_20_off_sound;
+    SwitchSoundType field_1E_on_sound;
+    SwitchSoundType field_20_off_sound;
     s16 field_22_sound_direction;
 };
 ALIVE_ASSERT_SIZEOF(Path_Switch, 0x24);
@@ -53,8 +63,8 @@ public:
     s32 field_EC_tlvInfo;
     s16 field_F0;
     SwitchOp field_F2_operation;
-    s16 field_F4_on_sound;
-    s16 field_F6_off_sound;
+    SwitchSoundType field_F4_on_sound;
+    SwitchSoundType field_F6_off_sound;
     s16 field_F8_sound_direction;
     s16 field_FA_pad;
 };

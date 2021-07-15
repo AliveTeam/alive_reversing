@@ -6,6 +6,14 @@
 
 namespace AO {
 
+enum class TrapDoorState : s16
+{
+    eClosed_0 = 0,
+    eOpening_1 = 1,
+    eOpen_2 = 2,
+    eClosing_3 = 3,
+};
+
 struct Path_TrapDoor final : public Path_TLV
 {
     s16 field_18_id;
@@ -64,7 +72,7 @@ public:
     s16 field_12E_pad;
     s32 field_130_stay_open_time;
     s16 field_134_switch_idx;
-    s16 field_136_state;
+    TrapDoorState field_136_state;
     s16 field_138_switch_state;
     s16 field_13A_xOff;
     s16 field_13C_set_switch_on_dead;
