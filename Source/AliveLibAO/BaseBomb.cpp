@@ -84,6 +84,7 @@ void BaseBomb::VUpdate_417580()
             {
                 pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
             }
+            break;
         }
 
         case 7:
