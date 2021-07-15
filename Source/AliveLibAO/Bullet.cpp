@@ -1,15 +1,15 @@
 #include "stdafx_ao.h"
 #include "Abe.hpp"
 #include "Bullet.hpp"
-#include "Collisions.hpp"
-#include "Elum.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
-#include "Math.hpp"
-#include "Particle.hpp"
 #include "stdlib.hpp"
-#include "Sfx.hpp"
 #include "Spark.hpp"
+#include "Sfx.hpp"
+#include "Particle.hpp"
+#include "Collisions.hpp"
+#include "Elum.hpp"
+#include "Math.hpp"
 #include "Sparks.hpp"
 
 namespace AO {
@@ -227,27 +227,27 @@ void Bullet::VUpdate_408E30()
 
 bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
 {
-    Path_TLV* pTlv = nullptr;
-    while (true)
+    Path_TLV* pZCover = nullptr;
+    while (1)
     {
-        pTlv = gMap_507BA8.TLV_Get_At_446060(
-            pTlv,
+        pZCover = gMap_507BA8.TLV_Get_At_446060(
+            pZCover,
             xpos,
             ypos,
             xpos,
             ypos);
 
-        if (!pTlv)
+        if (!pZCover)
         {
             break;
         }
 
-        if (pTlv->field_4_type.mType != TlvTypes::ZSligCover_83)
+        if (pZCover->field_4_type.mType != TlvTypes::ZSligCover_83)
         {
             continue;
         }
 
-        if (objRect.x >= pTlv->field_10_top_left.field_0_x && objRect.x <= pTlv->field_14_bottom_right.field_0_x && objRect.y >= pTlv->field_10_top_left.field_2_y && objRect.y <= pTlv->field_14_bottom_right.field_2_y && objRect.w >= pTlv->field_10_top_left.field_0_x && objRect.w <= pTlv->field_14_bottom_right.field_0_x && objRect.h >= pTlv->field_10_top_left.field_2_y && objRect.h <= pTlv->field_14_bottom_right.field_2_y)
+        if (objRect.x >= pZCover->field_10_top_left.field_0_x && objRect.x <= pZCover->field_14_bottom_right.field_0_x && objRect.y >= pZCover->field_10_top_left.field_2_y && objRect.y <= pZCover->field_14_bottom_right.field_2_y && objRect.w >= pZCover->field_10_top_left.field_0_x && objRect.w <= pZCover->field_14_bottom_right.field_0_x && objRect.h >= pZCover->field_10_top_left.field_2_y && objRect.h <= pZCover->field_14_bottom_right.field_2_y)
         {
             return true;
         }

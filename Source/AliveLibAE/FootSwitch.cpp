@@ -1,15 +1,15 @@
 #include "stdafx.h"
+#include "Function.hpp"
 #include "FootSwitch.hpp"
+#include "SwitchStates.hpp"
 #include "stdlib.hpp"
+#include "BaseAliveGameObject.hpp"
+#include "Sfx.hpp"
+#include "Abe.hpp"
 #include "Spark.hpp"
 #include "ParticleBurst.hpp"
 #include "PathData.hpp"
-#include "BaseAliveGameObject.hpp"
 #include "ObjectIds.hpp"
-#include "SwitchStates.hpp"
-#include "Sfx.hpp"
-#include "Abe.hpp"
-#include "Function.hpp"
 
 const TintEntry sFootSwitchTints_5639F4[18] = {
     {1u, 127u, 127u, 127u},
@@ -267,12 +267,12 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
-                PSX_RECT bRect = {};
-                pAliveObj->vGetBoundingRect_424FD0(&bRect, 1);
+                PSX_RECT theirRect = {};
+                pAliveObj->vGetBoundingRect_424FD0(&theirRect, 1);
 
                 const s32 xpos = FP_GetExponent(pAliveObj->field_B8_xpos);
 
-                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && pAliveObj->field_D6_scale == field_D6_scale)
+                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->field_D6_scale == field_D6_scale)
                 {
                     return pAliveObj;
                 }
