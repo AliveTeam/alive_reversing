@@ -785,10 +785,10 @@ struct Path_UXB final : public TlvObjectBaseAO
 {
     void AddTypes(TypesCollectionBase& types) override
     {
-        types.AddEnum<AO::UXB_State>("UXB_State",
+        types.AddEnum<AO::UXBStartState>("UXBStartState",
                                      {
-                                         {AO::UXB_State::eArmed_0, "Armed"},
-                                         {AO::UXB_State::eDisarmed_1, "Disarmed"},
+                                         {AO::UXBStartState::eOn_0, "On"},
+                                         {AO::UXBStartState::eOff_1, "Off"},
                                      });
     }
 

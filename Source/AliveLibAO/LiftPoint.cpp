@@ -164,7 +164,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_10C = 1;
 
         field_B8_vely = FP_FromInteger(0);
-        field_130_stop_type = 4;
+        field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
 
         auto pRopeMem = ao_new<Rope>();
         if (pRopeMem)
@@ -202,19 +202,19 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         CreatePulleyIfExists_435AE0(0, 0);
 
         field_278_point_id = pTlv->field_18_id;
-        field_130_stop_type = pTlv->field_1E_lift_point_stop_type;
+        field_130_lift_point_stop_type = pTlv->field_1E_lift_point_stop_type;
 
-        switch (field_130_stop_type)
+        switch (field_130_lift_point_stop_type)
         {
-            case 0:
+            case LiftPointStopType::eTopFloor_0:
                 field_27A_flags.Set(Flags::eBit2_bTopFloor);
                 break;
 
-            case 1:
+            case LiftPointStopType::eBottomFloor_1:
                 field_27A_flags.Set(Flags::eBit4_bBottomFloor);
                 break;
 
-            case 2:
+            case LiftPointStopType::eMiddleFloor_2:
                 field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
                 break;
         }
@@ -341,7 +341,7 @@ void LiftPoint::VUpdate_434D10()
         }
         else
         {
-            field_130_stop_type = 4;
+            field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
             const FP lineY = FP_FromInteger(field_120_pCollisionLine->field_0_rect.y);
 
             Path_LiftPoint* pLiftTlv = nullptr;
@@ -356,7 +356,7 @@ void LiftPoint::VUpdate_434D10()
                 if (pTlvIter->field_4_type == TlvTypes::LiftPoint_8)
                 {
                     pLiftTlv = static_cast<Path_LiftPoint*>(pTlvIter);
-                    field_130_stop_type = pLiftTlv->field_1E_lift_point_stop_type;
+                    field_130_lift_point_stop_type = pLiftTlv->field_1E_lift_point_stop_type;
                     break;
                 }
                 pTlvIter = gMap_507BA8.TLV_Get_At_446060(
@@ -385,16 +385,16 @@ void LiftPoint::VUpdate_434D10()
             else
             {
                 field_270_floorYLevel = FP_FromInteger(0);
-                field_130_stop_type = 4;
+                field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
             }
 
             const auto distanceToFloor = field_270_floorYLevel - field_AC_ypos;
             const FP kMinus25Scaled = (field_BC_sprite_scale * FP_FromInteger(-25));
             const FP k30Scaled = (field_BC_sprite_scale * FP_FromInteger(30));
 
-            switch (field_130_stop_type)
+            switch (field_130_lift_point_stop_type)
             {
-                case 0:
+                case LiftPointStopType::eTopFloor_0:
                     if (field_B8_vely >= FP_FromInteger(0))
                     {
                         if (field_B8_vely != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
@@ -422,7 +422,7 @@ void LiftPoint::VUpdate_434D10()
                     }
                     break;
 
-                case 1:
+                case LiftPointStopType::eBottomFloor_1:
                     if (field_B8_vely <= FP_FromInteger(0))
                     {
                         if (field_B8_vely != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
@@ -449,7 +449,7 @@ void LiftPoint::VUpdate_434D10()
                     }
                     break;
 
-                case 2:
+                case LiftPointStopType::eMiddleFloor_2:
                     if (distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                     {
                         pLiftTlv->field_1_unknown = 1;
@@ -475,7 +475,7 @@ void LiftPoint::VUpdate_434D10()
                     }
                     break;
 
-                case 4:
+                case LiftPointStopType::eStartPointOnly_4:
                     if (pLiftTlv)
                     {
                         pLiftTlv->field_1_unknown = 1;

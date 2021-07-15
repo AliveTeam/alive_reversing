@@ -42,7 +42,7 @@ InvisibleSwitch* InvisibleSwitch::ctor_4334E0(Path_InvisibleSwitch* pTlv, s32 tl
     ctor_487E10(1);
     SetVTable(this, 0x4BB438);
     field_14_tlvInfo = tlvInfo;
-    field_28_state = 0;
+    field_28_state = States::eWaitForTrigger_0;
     field_10_id = pTlv->field_18_id;
     field_12_action = pTlv->field_1A_action;
     field_1C_delay = pTlv->field_1C_delay;
@@ -60,7 +60,7 @@ void InvisibleSwitch::VScreenChanged_433700()
         field_6_flags.Set(Options::eDead_Bit3);
     }
 
-    if (field_28_state != 1)
+    if (field_28_state != States::eWaitForDelayTimer_1)
     {
         field_6_flags.Set(Options::eDead_Bit3);
     }
@@ -75,25 +75,37 @@ void InvisibleSwitch::VUpdate_4335A0()
 {
     switch (field_28_state)
     {
-        case 0:
+        case States::eWaitForTrigger_0:
+        {
             // sControlledCharacter_50767C can be nullptr during the game ender
-            if (sControlledCharacter_50767C && sControlledCharacter_50767C->field_A8_xpos >= FP_FromInteger(field_20_top_left.field_0_x) && sControlledCharacter_50767C->field_A8_xpos <= FP_FromInteger(field_24_bottom_right.field_0_x))
+            // Within X bounds?
+            const FP charXPos = sControlledCharacter_50767C->field_A8_xpos;
+            if (sControlledCharacter_50767C && charXPos >= FP_FromInteger(field_20_top_left.field_0_x) && charXPos <= FP_FromInteger(field_24_bottom_right.field_0_x))
             {
-                if (sControlledCharacter_50767C->field_AC_ypos >= FP_FromInteger(field_20_top_left.field_2_y) && sControlledCharacter_50767C->field_AC_ypos <= FP_FromInteger(field_24_bottom_right.field_2_y))
+                // Within Y bounds?
+                const FP charYPos = sControlledCharacter_50767C->field_AC_ypos;
+                if (charYPos >= FP_FromInteger(field_20_top_left.field_2_y) && charYPos <= FP_FromInteger(field_24_bottom_right.field_2_y))
                 {
-                    if (sControlledCharacter_50767C != sActiveHero_507678 || (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_157_DoorExit_42D780 && sActiveHero_507678->field_FC_current_motion != eAbeStates::State_156_DoorEnter_42D370))
+                    // TODO: ???
+                    if (sControlledCharacter_50767C != sActiveHero_507678
+                        || (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_157_DoorExit_42D780
+                            && sActiveHero_507678->field_FC_current_motion != eAbeStates::State_156_DoorEnter_42D370))
                     {
-                        if (field_2C_scale == 2 || (field_2C_scale == 0 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromDouble(0.5)) || (field_2C_scale == 1 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromInteger(1)))
+                        // Scale matches ?
+                        if (field_2C_scale == 2
+                            || (field_2C_scale == 0 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromDouble(0.5))
+                            || (field_2C_scale == 1 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromInteger(1)))
                         {
-                            field_28_state = 1;
+                            field_28_state = States::eWaitForDelayTimer_1;
                             field_18_delay_timer = gnFrameCount_507670 + field_1C_delay;
                         }
                     }
                 }
             }
             break;
+        }
 
-        case 1:
+        case States::eWaitForDelayTimer_1:
             if (field_18_delay_timer <= static_cast<s32>(gnFrameCount_507670))
             {
                 SwitchStates_Do_Operation_436A10(field_10_id, field_12_action);
@@ -105,7 +117,7 @@ void InvisibleSwitch::VUpdate_4335A0()
                         pAlarm->ctor_402570(150, 0, 30, Layer::eLayer_Above_FG1_39);
                     }
                 }
-                field_28_state = 0;
+                field_28_state = States::eWaitForTrigger_0;
             }
             break;
     }

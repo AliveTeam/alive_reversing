@@ -7,14 +7,22 @@
 
 namespace AO {
 
+enum class PullRingSwitchSound : s16
+{
+    eNone_0 = 0,
+    eWellExit_1 = 1,
+    RingBellHammer_2 = 2,
+    eDoorEffect_3 = 3,
+};
+
 struct Path_PullRingRope final : public Path_TLV
 {
     s16 field_18_id;
     SwitchOp field_1A_action;
     u16 field_1C_rope_length;
     u16 field_1E_scale;
-    s16 field_20_on_sound;
-    s16 field_22_off_sound;
+    PullRingSwitchSound field_20_on_sound;
+    PullRingSwitchSound field_22_off_sound;
     s16 field_24_sound_direction;
     s16 field_26_pad;
 };
@@ -61,8 +69,8 @@ public:
     s16 field_F2_pad;
     BaseAliveGameObject* field_F4_pPuller;
     Rope* field_F8_pRope;
-    s16 field_FC_on_sound;
-    s16 field_FE_off_sound;
+    PullRingSwitchSound field_FC_on_sound;
+    PullRingSwitchSound field_FE_off_sound;
     s16 field_100_sound_direction;
     s16 field_102;
 };

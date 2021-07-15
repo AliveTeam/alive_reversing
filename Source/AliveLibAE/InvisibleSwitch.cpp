@@ -30,7 +30,7 @@ InvisibleSwitch* InvisibleSwitch::ctor_45FA70(Path_InvisibleSwitch* pTlv, u32 tl
     field_24_tlvInfo = tlvInfo;
     field_20_id = pTlv->field_10_id;
     field_22_action = pTlv->field_12_action;
-    field_38_state = States::eState_WaitForTrigger_0;
+    field_38_state = States::eWaitForTrigger_0;
     field_2C_delay = pTlv->field_14_delay;
     field_30_top_left = pTlv->field_8_top_left;
     field_34_bottom_right = pTlv->field_C_bottom_right;
@@ -58,7 +58,7 @@ InvisibleSwitch* InvisibleSwitch::vdtor_45FAF0(s32 flags)
 
 void InvisibleSwitch::vUpdate_45FBA0()
 {
-    if (field_38_state == States::eState_WaitForDelayTimer_1)
+    if (field_38_state == States::eWaitForDelayTimer_1)
     {
         if (field_28_delay_timer <= static_cast<s32>(sGnFrame_5C1B84))
         {
@@ -76,10 +76,10 @@ void InvisibleSwitch::vUpdate_45FBA0()
             }
 
             // Go back to waiting for trigger
-            field_38_state = States::eState_WaitForTrigger_0;
+            field_38_state = States::eWaitForTrigger_0;
         }
     }
-    else if (field_38_state == States::eState_WaitForTrigger_0)
+    else if (field_38_state == States::eWaitForTrigger_0)
     {
         // If not trying to turn off the target and the state is set
         if (field_22_action != SwitchOp::eSetFalse_1 || SwitchStates_Get_466020(field_20_id))
@@ -102,7 +102,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
                             || (field_3C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
                             || (field_3C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0)))
                         {
-                            field_38_state = States::eState_WaitForDelayTimer_1;
+                            field_38_state = States::eWaitForDelayTimer_1;
                             field_28_delay_timer = sGnFrame_5C1B84 + field_2C_delay;
                         }
                     }
@@ -120,7 +120,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
 EXPORT void InvisibleSwitch::vScreenChanged_45FD80()
 {
     BaseGameObject::VScreenChanged();
-    if (field_38_state != States::eState_WaitForDelayTimer_1)
+    if (field_38_state != States::eWaitForDelayTimer_1)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

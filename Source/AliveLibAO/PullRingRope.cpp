@@ -233,15 +233,13 @@ void PullRingRope::VUpdate_4549A0()
                     {
                         switch (field_FC_on_sound)
                         {
-                            case 1:
+                            case PullRingSwitchSound::eWellExit_1:
                                 SFX_Play_43ADE0(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
-
-                            case 2:
+                            case PullRingSwitchSound::RingBellHammer_2:
                                 SFX_Play_43ADE0(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
-
-                            case 3:
+                            case PullRingSwitchSound::eDoorEffect_3:
                                 SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
                                 break;
                         }
@@ -250,15 +248,13 @@ void PullRingRope::VUpdate_4549A0()
                     {
                         switch (field_FE_off_sound)
                         {
-                            case 1:
+                            case PullRingSwitchSound::eWellExit_1:
                                 SFX_Play_43ADE0(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
-
-                            case 2:
+                            case PullRingSwitchSound::RingBellHammer_2:
                                 SFX_Play_43ADE0(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
-
-                            case 3:
+                            case PullRingSwitchSound::eDoorEffect_3:
                                 SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
                                 break;
                         }

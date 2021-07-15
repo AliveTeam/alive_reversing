@@ -7,10 +7,18 @@
 
 namespace AO {
 
-enum class UXB_State : s16
+enum class UXBState : u16
 {
-    eArmed_0 = 0,
-    eDisarmed_1 = 1,
+    eDelay_0 = 0,
+    eActive_1 = 1,
+    eExploding_2 = 2,
+    eDeactivated_3 = 3
+};
+
+enum class UXBStartState : s16
+{
+    eOn_0 = 0,
+    eOff_1 = 1,
 };
 
 struct Path_UXB final : public Path_TLV
@@ -18,7 +26,7 @@ struct Path_UXB final : public Path_TLV
     s16 field_18_num_patterns;
     s16 field_1A_pattern;
     Scale_short field_1C_scale;
-    UXB_State field_1E_state;
+    UXBStartState field_1E_state;
     s32 field_20_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF(Path_UXB, 0x24);
@@ -62,8 +70,8 @@ public:
 
     EXPORT void VRender_4896C0(PrimHeader** ppOt);
 
-    s16 field_10C_state;
-    s16 field_10E_starting_state;
+    UXBState field_10C_state;
+    UXBState field_10E_starting_state;
     s16 field_110_disabled_resources;
     s16 field_112;
     s32 field_114_tlvInfo;

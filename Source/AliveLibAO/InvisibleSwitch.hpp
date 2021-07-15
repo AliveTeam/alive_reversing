@@ -44,7 +44,12 @@ public:
     s32 field_1C_delay;
     PSX_Point field_20_top_left;
     PSX_Point field_24_bottom_right;
-    u16 field_28_state;
+    enum class States : u16
+    {
+        eWaitForTrigger_0 = 0,
+        eWaitForDelayTimer_1 = 1,
+    };
+    States field_28_state;
     s16 field_2A_set_off_alarm;
     s16 field_2C_scale;
     s16 field_2E_pad;
