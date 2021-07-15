@@ -18,16 +18,6 @@
 
 namespace AO {
 
-void Explosion::VUpdate()
-{
-    VUpdate_458D00();
-}
-
-void Explosion::VScreenChanged()
-{
-    VScreenChanged_459470();
-}
-
 Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
 {
     ctor_417C10();
@@ -64,13 +54,19 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP scale)
     return this;
 }
 
-
-void Explosion::VScreenChanged_459470()
+BaseGameObject* Explosion::VDestructor(s32 flags)
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    dtor_417D10();
+    if (flags & 1)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        ao_delete_free_447540(this);
     }
+    return this;
+}
+
+void Explosion::VUpdate()
+{
+    VUpdate_458D00();
 }
 
 void Explosion::VUpdate_458D00()
@@ -190,6 +186,19 @@ void Explosion::VUpdate_458D00()
     }
 }
 
+void Explosion::VScreenChanged()
+{
+    VScreenChanged_459470();
+}
+
+void Explosion::VScreenChanged_459470()
+{
+    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    }
+}
+
 void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects_4FC8A0)
@@ -286,16 +295,6 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
             Stop_slig_sounds_476A20(dir, 0);
         }
     }
-}
-
-BaseGameObject* Explosion::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO
