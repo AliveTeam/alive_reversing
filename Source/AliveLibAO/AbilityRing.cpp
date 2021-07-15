@@ -17,12 +17,12 @@
 
 namespace AO {
 
-AbilityRing* CC AbilityRing::Factory_447590(FP xpos, FP ypos, s16 type)
+AbilityRing* CC AbilityRing::Factory_447590(FP xpos, FP ypos, RingTypes ring_type)
 {
     auto pAbilityRing = ao_new<AbilityRing>();
     if (pAbilityRing)
     {
-        pAbilityRing->ctor_455860(xpos, ypos, type);
+        pAbilityRing->ctor_455860(xpos, ypos, ring_type);
     }
     return pAbilityRing;
 }

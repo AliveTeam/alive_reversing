@@ -1172,7 +1172,7 @@ void Abe::vUpdate_41FDB0()
                                 AbilityRing::Factory_447590(
                                     FP_FromInteger((bRect.w + bRect.x) / 2),
                                     FP_FromInteger((bRect.h + bRect.y) / 2),
-                                    field_16C_bHaveShrykull != 0 ? 4 : 0);
+                                    field_16C_bHaveShrykull != 0 ? RingTypes::eShrykull_Pulse_Small_4 : RingTypes::eExplosive_Pulse_0);
                                 SFX_Play_43AE60(SoundEffect::PossessEffect_21, 25, 2650, 0);
                             }
                         }
@@ -9446,7 +9446,7 @@ void Abe::State_150_Chant_42FD50()
                     AbilityRing::Factory_447590(
                         FP_FromInteger((rect.w + rect.x) / 2),
                         FP_FromInteger((rect.h + rect.y) / 2),
-                        1);
+                        RingTypes::eExplosive_Emit_1);
                     field_168_ring_pulse_timer = 0;
                 }
             }

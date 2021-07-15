@@ -3323,7 +3323,7 @@ s16 Mudokon::Brain_GiveRings_7_43C2F0()
                     pMudRing->ctor_455860(
                         FP_FromInteger((ourRect.w + ourRect.x) / 2),
                         FP_FromInteger((ourRect.h + ourRect.y) / 2),
-                        2);
+                        RingTypes::eExplosive_Emit_Effect_2);
                 }
 
                 PSX_RECT heroRect = {};
@@ -3335,7 +3335,7 @@ s16 Mudokon::Brain_GiveRings_7_43C2F0()
                     pAbeRing->ctor_455860(
                         FP_FromInteger((heroRect.w + heroRect.x) / 2),
                         FP_FromInteger((heroRect.h + heroRect.y) / 2),
-                        3);
+                        RingTypes::eExplosive_Give_3);
                     pAbeRing->SetTarget_455EC0(sActiveHero_507678);
                 }
                 field_1C0_timer = gnFrameCount_507670 + 30;

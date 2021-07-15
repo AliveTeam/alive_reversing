@@ -57,7 +57,7 @@ public:
 
     EXPORT BaseGameObject* Vdtor_456940(s32 flags);
 
-    EXPORT static AbilityRing* CC Factory_447590(FP xpos, FP ypos, s16 type);
+    EXPORT static AbilityRing* CC Factory_447590(FP xpos, FP ypos, RingTypes ring_type);
 
     EXPORT void SetTarget_455EC0(BaseAliveGameObject* pTarget);
 
