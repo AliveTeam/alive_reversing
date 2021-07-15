@@ -50,8 +50,8 @@ private:
     PSX_Point field_34_bottom_right;
     enum class States : s16
     {
-        eState_WaitForTrigger_0 = 0,
-        eState_WaitForDelayTimer_1 = 1,
+        eWaitForTrigger_0 = 0,
+        eWaitForDelayTimer_1 = 1,
     };
     States field_38_state;
     Choice_short field_3A_set_off_alarm;

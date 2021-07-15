@@ -589,10 +589,12 @@ void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
                     }
                     else if (pObj->field_4_typeId == AETypes::eMudokon_110)
                     {
-                        if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed)) // TODO: Clearly this has another meaning for muds
+                        // is the mudokon sick?
+                        if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
                         {
                             if (pObj->field_10C_health > FP_FromInteger(0))
                             {
+                                // heal the sick mudokon
                                 pObj->VPossessed_408F70();
                             }
                         }

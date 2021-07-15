@@ -32,7 +32,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
 
     field_6_flags.Set(Options::eInteractive_Bit8);
     field_1BC_flags &= ~1u;
-    field_10C_state = 0;
+    field_10C_state = UXBState::eDelay_0;
 
     field_1B4_pattern_length = pTlv->field_18_num_patterns;
     if (pTlv->field_18_num_patterns < 1u || pTlv->field_18_num_patterns > 4u)
@@ -68,7 +68,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1_unknown) // Stores the activated/deactivated state for UXB
     {
-        if (pTlv->field_1E_state == UXB_State::eArmed_0)
+        if (pTlv->field_1E_state == UXBStartState::eOn_0)
         {
             u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
             field_11C_anim.LoadPal_403090(ppRes, 0);
@@ -84,19 +84,19 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
                 SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
             }
             field_10_anim.Set_Animation_Data_402A40(7884, 0);
-            field_10C_state = 3;
-            field_10E_starting_state = 0;
+            field_10C_state = UXBState::eDeactivated_3;
+            field_10E_starting_state = UXBState::eDelay_0;
         }
         else
         {
-            field_10E_starting_state = 3;
+            field_10E_starting_state = UXBState::eDeactivated_3;
         }
     }
     else
     {
-        if (pTlv->field_1E_state == UXB_State::eArmed_0)
+        if (pTlv->field_1E_state == UXBStartState::eOn_0)
         {
-            field_10E_starting_state = 0;
+            field_10E_starting_state = UXBState::eDelay_0;
         }
         else
         {
@@ -105,8 +105,8 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
             field_1BC_flags &= ~2u;
             field_11C_anim.Set_Animation_Data_402A40(372, 0);
             field_10_anim.Set_Animation_Data_402A40(7884, 0);
-            field_10E_starting_state = 3;
-            field_10C_state = 3;
+            field_10E_starting_state = UXBState::eDeactivated_3;
+            field_10C_state = UXBState::eDeactivated_3;
         }
     }
 
@@ -192,7 +192,7 @@ void UXB::InitBlinkAnim()
 BaseGameObject* UXB::dtor_4891B0()
 {
     SetVTable(this, 0x4BD680);
-    if (field_10C_state != 2 || static_cast<s32>(gnFrameCount_507670) < field_118_next_state_frame)
+    if (field_10C_state != UXBState::eExploding_2 || static_cast<s32>(gnFrameCount_507670) < field_118_next_state_frame)
     {
         gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, -1, 0, 0);
     }
@@ -250,12 +250,12 @@ void UXB::VScreenChanged_489BD0()
 {
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
     {
-        if (field_10E_starting_state == 3 && field_10C_state != 3)
+        if (field_10E_starting_state == UXBState::eDeactivated_3 && field_10C_state != UXBState::eDeactivated_3)
         {
             gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 1, 1u, 0);
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
-        else if (field_10E_starting_state != 0 || field_10C_state != 3)
+        else if (field_10E_starting_state != UXBState::eDelay_0 || field_10C_state != UXBState::eDeactivated_3)
         {
             gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 0, 1u, 0);
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -283,7 +283,7 @@ s16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
     switch (pFrom->field_4_typeId)
     {
         case Types::eAbe_43:
-            if (field_10C_state == 3)
+            if (field_10C_state == UXBState::eDeactivated_3)
             {
                 return 0;
             }
@@ -310,7 +310,7 @@ s16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
             field_BC_sprite_scale);
     }
 
-    field_10C_state = 2;
+    field_10C_state = UXBState::eExploding_2;
     field_118_next_state_frame = gnFrameCount_507670;
 
     return 1;
@@ -333,7 +333,7 @@ void UXB::VOnThrowableHit_489A30(BaseGameObject* /*pFrom*/)
             field_BC_sprite_scale);
     }
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    field_10C_state = 2;
+    field_10C_state = UXBState::eExploding_2;
     field_118_next_state_frame = gnFrameCount_507670;
 }
 
@@ -344,13 +344,13 @@ void UXB::VOnPickUpOrSlapped()
 
 void UXB::VOnPickUpOrSlapped_4897E0()
 {
-    if (field_10C_state != 2)
+    if (field_10C_state != UXBState::eExploding_2)
     {
-        if (field_10C_state != 3 || field_118_next_state_frame > static_cast<s32>(gnFrameCount_507670))
+        if (field_10C_state != UXBState::eDeactivated_3 || field_118_next_state_frame > static_cast<s32>(gnFrameCount_507670))
         {
             if (field_1BA_red_blink_count)
             {
-                field_10C_state = 2;
+                field_10C_state = UXBState::eExploding_2;
                 field_118_next_state_frame = gnFrameCount_507670 + 2;
             }
             else
@@ -366,13 +366,13 @@ void UXB::VOnPickUpOrSlapped_4897E0()
                     SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
                 }
                 field_10_anim.Set_Animation_Data_402A40(7812, 0);
-                field_10C_state = 3;
+                field_10C_state = UXBState::eDeactivated_3;
                 field_118_next_state_frame = gnFrameCount_507670 + 10;
             }
         }
         else
         {
-            field_10C_state = 0;
+            field_10C_state = UXBState::eDelay_0;
             field_8_update_delay = 6;
             field_10_anim.Set_Animation_Data_402A40(7740, 0);
             if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
@@ -398,23 +398,23 @@ void UXB::VUpdate_489380()
 {
     switch (field_10C_state)
     {
-        case 0:
+        case UXBState::eDelay_0:
             if (IsColliding_489900())
             {
-                field_10C_state = 2;
+                field_10C_state = UXBState::eExploding_2;
                 field_118_next_state_frame = gnFrameCount_507670 + 2;
             }
             else if (field_118_next_state_frame <= static_cast<s32>(gnFrameCount_507670))
             {
-                field_10C_state = 1;
+                field_10C_state = UXBState::eActive_1;
                 field_11C_anim.Set_Animation_Data_402A40(384, 0);
             }
             break;
 
-        case 1:
+        case UXBState::eActive_1:
             if (IsColliding_489900())
             {
-                field_10C_state = 2;
+                field_10C_state = UXBState::eExploding_2;
                 field_118_next_state_frame = gnFrameCount_507670 + 2;
             }
             else if (field_118_next_state_frame <= static_cast<s32>(gnFrameCount_507670))
@@ -474,12 +474,12 @@ void UXB::VUpdate_489380()
                 {
                     SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
                 }
-                field_10C_state = 0;
+                field_10C_state = UXBState::eDelay_0;
                 field_118_next_state_frame = gnFrameCount_507670 + 10; // UXB change color delay
             }
             break;
 
-        case 2:
+        case UXBState::eExploding_2:
             if (static_cast<s32>(gnFrameCount_507670) >= field_118_next_state_frame)
             {
                 auto explosion = ao_new<BaseBomb>();
@@ -496,13 +496,13 @@ void UXB::VUpdate_489380()
             break;
     }
 
-    if (field_10C_state != 2)
+    if (field_10C_state != UXBState::eExploding_2)
     {
         if (Event_Get_417250(kEventDeathReset_4))
         {
-            if (field_10E_starting_state != 3 || field_10C_state == 3)
+            if (field_10E_starting_state != UXBState::eDeactivated_3 || field_10C_state == UXBState::eDeactivated_3)
             {
-                if (field_10E_starting_state != 0 || field_10C_state != 3)
+                if (field_10E_starting_state != UXBState::eDelay_0 || field_10C_state != UXBState::eDeactivated_3)
                 {
                     gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 0, 1u, 0);
                 }
