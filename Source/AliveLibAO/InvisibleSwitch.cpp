@@ -76,6 +76,7 @@ void InvisibleSwitch::VUpdate_4335A0()
     switch (field_28_state)
     {
         case States::eWaitForTrigger_0:
+        {
             // sControlledCharacter_50767C can be nullptr during the game ender
             // Within X bounds?
             const FP charXPos = sControlledCharacter_50767C->field_A8_xpos;
@@ -87,12 +88,12 @@ void InvisibleSwitch::VUpdate_4335A0()
                 {
                     // TODO: ???
                     if (sControlledCharacter_50767C != sActiveHero_507678
-                        || (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_157_DoorExit_42D780 
+                        || (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_157_DoorExit_42D780
                             && sActiveHero_507678->field_FC_current_motion != eAbeStates::State_156_DoorEnter_42D370))
                     {
                         // Scale matches ?
-                        if (field_2C_scale == 2 
-                            || (field_2C_scale == 0 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromDouble(0.5)) 
+                        if (field_2C_scale == 2
+                            || (field_2C_scale == 0 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromDouble(0.5))
                             || (field_2C_scale == 1 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromInteger(1)))
                         {
                             field_28_state = States::eWaitForDelayTimer_1;
@@ -102,6 +103,7 @@ void InvisibleSwitch::VUpdate_4335A0()
                 }
             }
             break;
+        }
 
         case States::eWaitForDelayTimer_1:
             if (field_18_delay_timer <= static_cast<s32>(gnFrameCount_507670))
