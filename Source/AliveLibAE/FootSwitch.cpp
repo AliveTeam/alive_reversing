@@ -95,16 +95,6 @@ BaseGameObject* FootSwitch::VDestructor(s32 flags)
     return vdtor_4DE240(flags);
 }
 
-void FootSwitch::VUpdate()
-{
-    vUpdate_4DE270();
-}
-
-void FootSwitch::VScreenChanged()
-{
-    vScreenChanged_4DE650();
-}
-
 FootSwitch* FootSwitch::vdtor_4DE240(s32 flags)
 {
     dtor_4DE670();
@@ -123,9 +113,9 @@ void FootSwitch::dtor_4DE670()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void FootSwitch::vScreenChanged_4DE650()
+void FootSwitch::VUpdate()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    vUpdate_4DE270();
 }
 
 void FootSwitch::vUpdate_4DE270()
@@ -144,98 +134,117 @@ void FootSwitch::vUpdate_4DE270()
         }
     }
 
-    if (field_F8_state == States::eWaitForStepOnMe_0)
+    switch (field_F8_state)
     {
-        auto pStoodOnMeNow = WhoIsStoodOnMe_4DE700();
-        if (pStoodOnMeNow)
+        case States::eWaitForStepOnMe_0:
         {
-            field_100_obj_id = pStoodOnMeNow->field_8_object_id;
-
-            SwitchStates_Do_Operation_465F00(field_FA_id, field_FC_action);
-            field_F8_state = States::eWaitForGetOffMe_1;
-
-            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-
-            auto pParticleBurst = ae_new<ParticleBurst>();
-            if (pParticleBurst)
+            auto pStoodOnMeNow = WhoIsStoodOnMe_4DE700();
+            if (pStoodOnMeNow)
             {
-                pParticleBurst->ctor_41CF50(
-                    field_B8_xpos,
-                    field_BC_ypos + FP_FromInteger(10),
-                    3,
-                    field_CC_sprite_scale,
-                    BurstType::eBigRedSparks_3,
-                    9);
+                field_100_obj_id = pStoodOnMeNow->field_8_object_id;
+
+                SwitchStates_Do_Operation_465F00(field_FA_id, field_FC_action);
+                field_F8_state = States::eWaitForGetOffMe_1;
+
+                const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+
+                auto pParticleBurst = ae_new<ParticleBurst>();
+                if (pParticleBurst)
+                {
+                    pParticleBurst->ctor_41CF50(
+                        field_B8_xpos,
+                        field_BC_ypos + FP_FromInteger(10),
+                        3,
+                        field_CC_sprite_scale,
+                        BurstType::eBigRedSparks_3,
+                        9);
+                }
+
+                if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
+                {
+                    SFX_Play_46FBA0(SoundEffect::IndustrialTrigger_80, 30, 400);
+                    SFX_Play_46FBA0(SoundEffect::IndustrialNoise1_76, 60, 800);
+                }
+                else
+                {
+                    SFX_Play_46FA90(SoundEffect::FootSwitchPress_55, 0);
+                }
             }
 
-            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
+            if (field_20_animation.field_92_current_frame == 0)
             {
-                SFX_Play_46FBA0(SoundEffect::IndustrialTrigger_80, 30, 400);
-                SFX_Play_46FBA0(SoundEffect::IndustrialNoise1_76, 60, 800);
+                field_104_bUnknown = 1;
+                return;
             }
-            else
+
+            if (field_104_bUnknown)
             {
-                SFX_Play_46FA90(SoundEffect::FootSwitchPress_55, 0);
+                auto pSpark = ae_new<Spark>();
+                if (pSpark)
+                {
+                    pSpark->ctor_4CBBB0(
+                        field_B8_xpos,
+                        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(6)),
+                        field_CC_sprite_scale,
+                        10,
+                        100,
+                        255,
+                        0);
+                }
+
+                auto pParticleBurst = ae_new<ParticleBurst>();
+                if (pParticleBurst)
+                {
+                    pParticleBurst->ctor_41CF50(
+                        field_B8_xpos,
+                        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(10)),
+                        1,
+                        field_CC_sprite_scale,
+                        BurstType::eBigRedSparks_3,
+                        9);
+                }
+
+                field_104_bUnknown = 0;
             }
+
+            if (field_20_animation.field_92_current_frame == 0)
+            {
+                field_104_bUnknown = 1;
+            }
+            break;
         }
 
-        if (field_20_animation.field_92_current_frame == 0)
+        case States::eWaitForGetOffMe_1:
         {
-            field_104_bUnknown = 1;
-            return;
-        }
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
 
-        if (field_104_bUnknown)
-        {
-            auto pSpark = ae_new<Spark>();
-            if (pSpark)
+            // Have they left the switch or died?
+            if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
+                pLastStoodOnMe->field_B8_xpos < FP_FromInteger(bRect.x) || pLastStoodOnMe->field_B8_xpos > FP_FromInteger(bRect.w) || pLastStoodOnMe->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
-                pSpark->ctor_4CBBB0(
-                    field_B8_xpos,
-                    field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(6)),
-                    field_CC_sprite_scale,
-                    10,
-                    100,
-                    255,
-                    0);
+                field_F8_state = States::eWaitForStepOnMe_0;
+                const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_100_obj_id = -1;
             }
-
-            auto pParticleBurst = ae_new<ParticleBurst>();
-            if (pParticleBurst)
-            {
-                pParticleBurst->ctor_41CF50(
-                    field_B8_xpos,
-                    field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(10)),
-                    1,
-                    field_CC_sprite_scale,
-                    BurstType::eBigRedSparks_3,
-                    9);
-            }
-
-            field_104_bUnknown = 0;
+            break;
         }
 
-        if (field_20_animation.field_92_current_frame == 0)
-        {
-            field_104_bUnknown = 1;
-        }
+        default:
+            break;
     }
-    else if (field_F8_state == States::eWaitForGetOffMe_1)
-    {
-        PSX_RECT bRect = {};
-        vGetBoundingRect_424FD0(&bRect, 1);
+}
 
-        // Have they left the switch or died?
-        if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
-            pLastStoodOnMe->field_B8_xpos < FP_FromInteger(bRect.x) || pLastStoodOnMe->field_B8_xpos > FP_FromInteger(bRect.w) || pLastStoodOnMe->field_6_flags.Get(BaseGameObject::eDead_Bit3))
-        {
-            field_F8_state = States::eWaitForStepOnMe_0;
-            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            field_100_obj_id = -1;
-        }
-    }
+void FootSwitch::VScreenChanged()
+{
+    vScreenChanged_4DE650();
+}
+
+void FootSwitch::vScreenChanged_4DE650()
+{
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
