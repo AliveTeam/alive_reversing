@@ -24,34 +24,34 @@ struct Path_Slog final : public Path_TLV
 ALIVE_ASSERT_SIZEOF(Path_Slog, 0x2C);
 
 #define SLOG_STATES_ENUM(ENTRY)             \
-    ENTRY(State_0_Idle_4742E0)              \
-    ENTRY(State_1_Walk_4743F0)              \
-    ENTRY(State_2_Run_4749A0)               \
-    ENTRY(State_3_TurnAround_474C70)        \
-    ENTRY(State_4_Fall_4750C0)              \
-    ENTRY(State_5_Unknown_474070)           \
-    ENTRY(State_6_MoveHeadUpwards_474220)   \
-    ENTRY(State_7_SlideTurn_474DB0)         \
-    ENTRY(State_8_StopRunning_474EC0)       \
-    ENTRY(State_9_StartWalking_474690)      \
-    ENTRY(State_10_EndWalking_4747D0)       \
-    ENTRY(State_11_Land_475AB0)             \
-    ENTRY(State_12_Unknown_475B50)          \
-    ENTRY(State_13_StartFastBarking_475B70) \
-    ENTRY(State_14_EndFastBarking_475BB0)   \
-    ENTRY(State_15_Empty_475290)            \
-    ENTRY(State_16_Sleeping_4752E0)         \
-    ENTRY(State_17_FallAsleep_475510)       \
-    ENTRY(State_18_WakeUp_475460)           \
-    ENTRY(State_19_JumpForwards_475610)     \
-    ENTRY(State_20_JumpUpwards_475890)      \
-    ENTRY(State_21_Eating_475900)           \
-    ENTRY(State_22_Empty_475A90)            \
-    ENTRY(State_23_Scratch_475550)          \
-    ENTRY(State_24_Growl_475590)
+    ENTRY(Motion_0_Idle_4742E0)              \
+    ENTRY(Motion_1_Walk_4743F0)              \
+    ENTRY(Motion_2_Run_4749A0)               \
+    ENTRY(Motion_3_TurnAround_474C70)        \
+    ENTRY(Motion_4_Fall_4750C0)              \
+    ENTRY(Motion_5_Unknown_474070)           \
+    ENTRY(Motion_6_MoveHeadUpwards_474220)   \
+    ENTRY(Motion_7_SlideTurn_474DB0)         \
+    ENTRY(Motion_8_StopRunning_474EC0)       \
+    ENTRY(Motion_9_StartWalking_474690)      \
+    ENTRY(Motion_10_EndWalking_4747D0)       \
+    ENTRY(Motion_11_Land_475AB0)             \
+    ENTRY(Motion_12_Unknown_475B50)          \
+    ENTRY(Motion_13_StartFastBarking_475B70) \
+    ENTRY(Motion_14_EndFastBarking_475BB0)   \
+    ENTRY(Motion_15_Empty_475290)            \
+    ENTRY(Motion_16_Sleeping_4752E0)         \
+    ENTRY(Motion_17_FallAsleep_475510)       \
+    ENTRY(Motion_18_WakeUp_475460)           \
+    ENTRY(Motion_19_JumpForwards_475610)     \
+    ENTRY(Motion_20_JumpUpwards_475890)      \
+    ENTRY(Motion_21_Eating_475900)           \
+    ENTRY(Motion_22_Empty_475A90)            \
+    ENTRY(Motion_23_Scratch_475550)          \
+    ENTRY(Motion_24_Growl_475590)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eSlogStates : s32
+enum eSlogMotions : s32
 {
     SLOG_STATES_ENUM(MAKE_ENUM)
 };
@@ -98,32 +98,32 @@ public:
 
     EXPORT void MoveOnLine_4740F0();
 
-    // States
-    EXPORT void State_0_Idle_4742E0();
-    EXPORT void State_1_Walk_4743F0();
-    EXPORT void State_2_Run_4749A0();
-    EXPORT void State_3_TurnAround_474C70();
-    EXPORT void State_4_Fall_4750C0();
-    EXPORT void State_5_Unknown_474070();
-    EXPORT void State_6_MoveHeadUpwards_474220();
-    EXPORT void State_7_SlideTurn_474DB0();
-    EXPORT void State_8_StopRunning_474EC0();
-    EXPORT void State_9_StartWalking_474690();
-    EXPORT void State_10_EndWalking_4747D0();
-    EXPORT void State_11_Land_475AB0();
-    EXPORT void State_12_Unknown_475B50();
-    EXPORT void State_13_StartFastBarking_475B70();
-    EXPORT void State_14_EndFastBarking_475BB0();
-    EXPORT void State_15_Empty_475290();
-    EXPORT void State_16_Sleeping_4752E0();
-    EXPORT void State_17_FallAsleep_475510();
-    EXPORT void State_18_WakeUp_475460();
-    EXPORT void State_19_JumpForwards_475610();
-    EXPORT void State_20_JumpUpwards_475890();
-    EXPORT void State_21_Eating_475900();
-    EXPORT void State_22_Empty_475A90();
-    EXPORT void State_23_Scratch_475550();
-    EXPORT void State_24_Growl_475590();
+    // Motions
+    EXPORT void Motion_0_Idle_4742E0();
+    EXPORT void Motion_1_Walk_4743F0();
+    EXPORT void Motion_2_Run_4749A0();
+    EXPORT void Motion_3_TurnAround_474C70();
+    EXPORT void Motion_4_Fall_4750C0();
+    EXPORT void Motion_5_Unknown_474070();
+    EXPORT void Motion_6_MoveHeadUpwards_474220();
+    EXPORT void Motion_7_SlideTurn_474DB0();
+    EXPORT void Motion_8_StopRunning_474EC0();
+    EXPORT void Motion_9_StartWalking_474690();
+    EXPORT void Motion_10_EndWalking_4747D0();
+    EXPORT void Motion_11_Land_475AB0();
+    EXPORT void Motion_12_Unknown_475B50();
+    EXPORT void Motion_13_StartFastBarking_475B70();
+    EXPORT void Motion_14_EndFastBarking_475BB0();
+    EXPORT void Motion_15_Empty_475290();
+    EXPORT void Motion_16_Sleeping_4752E0();
+    EXPORT void Motion_17_FallAsleep_475510();
+    EXPORT void Motion_18_WakeUp_475460();
+    EXPORT void Motion_19_JumpForwards_475610();
+    EXPORT void Motion_20_JumpUpwards_475890();
+    EXPORT void Motion_21_Eating_475900();
+    EXPORT void Motion_22_Empty_475A90();
+    EXPORT void Motion_23_Scratch_475550();
+    EXPORT void Motion_24_Growl_475590();
 
     // Brains
     EXPORT s16 Brain_0_ListeningToSlig_472450();
@@ -141,8 +141,8 @@ public:
     s16 field_110;
     s16 field_112;
     s16 field_114_brain_idx;
-    s16 field_116_brain_state;
-    s16 field_118;
+    s16 field_116_brain_sub_state;
+    s16 field_118_always_zero;
     s16 field_11A;
     s32 field_11C_timer;
     s32 field_120;
@@ -172,12 +172,12 @@ public:
     s32 field_164_timer;
     s16 field_168_anger_switch_id;
     s16 field_16A;
-    BaseAliveGameObject* field_16C;
+    BaseAliveGameObject* field_16C_pUnknown;
     s16 field_170;
     s16 field_172;
     s16 field_174;
     s16 field_176;
-    s16 field_178;
+    s16 field_178_bShot; // flag in AE
     s16 field_17A;
     s16 field_17C_res;
     s16 field_17E;
