@@ -139,7 +139,7 @@ BaseAliveGameObject* BaseAliveGameObject::ctor_401090()
     field_108_bMotionChanged = 0;
     field_EC = 0;
     field_FC_current_motion = 0;
-    field_FE_next_state = 0;
+    field_FE_next_motion = 0;
     field_E4_previous_motion = 0;
     field_E6_last_anim_frame = 0;
     field_E8_LastLineYPos = FP_FromInteger(0);

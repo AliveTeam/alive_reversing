@@ -269,7 +269,7 @@ void DDCheat::VUpdate_4098C0()
                             }
                             case Types::eSlig_88:
                             {
-                                sControlledCharacter_50767C->field_FC_current_motion = eSligStates::State_7_Falling_46A1A0;
+                                sControlledCharacter_50767C->field_FC_current_motion = eSligMotions::Motion_7_Falling_46A1A0;
                                 break;
                             }
                             default:
