@@ -89,7 +89,7 @@ ALIVE_ARY(1, 0x551428, TNakedSligMotionFn, 18, sNakedSlig_motions_551428,
            &NakedSlig::M_EndPushingWall_17_41B3A0});
 
 
-const static AIFunctionData<TNakedSligAIFn> sNakedSligAITable[] = {
+const static BrainFunctionData<TNakedSligAIFn> sNakedSligAITable[] = {
     {&NakedSlig::AI_0_Sleeping_419DE0, 0x401D1B, "AI_0_Sleeping"},
     {&NakedSlig::AI_1_Idle_419F60, 0x40340E, "AI_1_Idle"},
     {&NakedSlig::AI_2_PanicGetALocker_419FE0, 0x419FE0, "AI_2_PanicGetALocker"},
@@ -1401,8 +1401,8 @@ void NakedSlig::M_UsingButton_1_41B890()
                     pWalkingSlig->field_146_level = field_1BA_prev_level;
                     pWalkingSlig->field_148_path = field_1BC_prev_path;
                     pWalkingSlig->field_14A_camera = field_1BE_prev_camera;
-                    pWalkingSlig->SetBrain(&Slig::AI_Possessed_2_4BBCF0);
-                    pWalkingSlig->field_11C_ai_sub_state = 4;
+                    pWalkingSlig->SetBrain(&Slig::Brain_Possessed_2_4BBCF0);
+                    pWalkingSlig->field_11C_brain_sub_state = 4;
                     sControlledCharacter_5C1B8C = pWalkingSlig;
                 }
                 field_10C_health = FP_FromInteger(0);

@@ -89,7 +89,7 @@ const static s32 sParamiteFrameTables_4CDD18[] = {
     11076,
     9132};
 
-static AIFunctionData<Paramite::TParamiteBrain> sParamiteAITable[]{
+static BrainFunctionData<Paramite::TParamiteBrain> sParamiteAITable[]{
     {&Paramite::Brain_Patrol_447A10, 0x447A10, "Brain_Patrol_0"},
     {&Paramite::Brain_SurpriseWeb_448D00, 0x448D00, "Brain_SurpriseWeb_1"},
     {&Paramite::Brain_Struggling_44DD70, 0x44DD70, "Brain_Struggling_2"},

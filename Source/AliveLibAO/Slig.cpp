@@ -162,7 +162,7 @@ const s32 sSligFrameTables_4CFA38[] = {
     12356,
     0};
 
-static AIFunctionData<Slig::TBrainFn> sSligAITable[]{
+static BrainFunctionData<Slig::TBrainFn> sSligAITable[]{
     {&Slig::Brain_SpottedEnemy_465EB0, 0x465EB0, "Brain_SpottedEnemy_0"},
     {&Slig::Brain_Paused_466030, 0x466030, "Brain_Paused_1"},
     {&Slig::Brain_EnemyDead_466190, 0x466190, "Brain_EnemyDead_2"},

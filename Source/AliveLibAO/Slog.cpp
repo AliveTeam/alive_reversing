@@ -68,7 +68,7 @@ const TSlogBrainFunction sSlog_fns_brain_4CFE00[] = {
     &Slog::Brain_2_ChasingAbe_470F50,
     &Slog::Brain_3_Dead_4721B0};
 
-const static AIFunctionData<TSlogBrainFunction> sSlogBrainTable[4] = {
+const static BrainFunctionData<TSlogBrainFunction> sSlogBrainTable[4] = {
     {&Slog::Brain_0_ListeningToSlig_472450, 0x472450, "Brain_0_ListeningToSlig"},
     {&Slog::Brain_1_Idle_4719C0, 0x4719C0, "Brain_1_Idle"},
     {&Slog::Brain_2_ChasingAbe_470F50, 0x470F50, "Brain_2_ChasingAbe"},

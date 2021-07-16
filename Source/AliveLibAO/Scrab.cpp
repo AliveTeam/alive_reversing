@@ -94,7 +94,7 @@ const s32 sScrabFrameTables_4CF708[30] = {
     14228,
     12724};
 
-static AIFunctionData<Scrab::TBrainType> sScrabAITable[]{
+static BrainFunctionData<Scrab::TBrainType> sScrabAITable[]{
     {&Scrab::Brain_Fighting_45C370, 0x45C370, "Brain_Fighting_45C370"},
     {&Scrab::Brain_BatDeath_45CA60, 0x45CA60, "Brain_BatDeath_45CA60"},
     {&Scrab::Brain_Death_45CB80, 0x45CB80, "Brain_Death_45CB80"},

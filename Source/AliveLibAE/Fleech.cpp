@@ -106,7 +106,7 @@ enum eFleechBrains
     eAI_Death_3_42D1E0 = 3,
 };
 
-const static AIFunctionData<TFleechAIFn> sFleechAiTable[4] = {
+const static BrainFunctionData<TFleechAIFn> sFleechAiTable[4] = {
     {&Fleech::AI_Patrol_0_430BA0, 0x430BA0, "AI_Patrol_0"},         // no stub ??
     {&Fleech::AI_ChasingAbe_1_428760, 0x428760, "AI_ChasingAbe_1"}, // no stub ??
     {&Fleech::AI_Scared_2_42D310, 0x42D310, "AI_Scared_2"},         // no stub ??

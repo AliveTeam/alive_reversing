@@ -145,7 +145,7 @@ public:
 };
 
 template <class T>
-struct AIFunctionData final
+struct BrainFunctionData final
 {
     T mOurFn;
     u32 mOriginal;
@@ -154,7 +154,7 @@ struct AIFunctionData final
 
 #if _WIN32 || !_WIN64
 template <class AIFunctionType, class AITable>
-inline const AIFunctionData<AIFunctionType>& GetOriginalFn(AIFunctionType fn, const AITable& table)
+inline const BrainFunctionData<AIFunctionType>& GetOriginalFn(AIFunctionType fn, const AITable& table)
 {
     // If not running as standalone set the address to be
     // the address of the real function rather than the reimpl as the real

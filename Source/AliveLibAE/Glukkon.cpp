@@ -234,7 +234,7 @@ s32 CC Glukkon::CreateFromSaveState_442830(const u8* pData)
     return sizeof(Glukkon_SaveState);
 }
 
-const static AIFunctionData<TGlukkonAIFn> sGlukkonAITable[6] = {
+const static BrainFunctionData<TGlukkonAIFn> sGlukkonAITable[6] = {
     {&Glukkon::AI_0_Calm_WalkAround_440B40, 0x402D60, "AI_0_Calm_WalkAround"},
     {&Glukkon::AI_1_Panic_4412F0, 0x403049, "AI_1_Panic"},
     {&Glukkon::AI_2_Slapped_441720, 0x403864, "AI_2_Slapped"},

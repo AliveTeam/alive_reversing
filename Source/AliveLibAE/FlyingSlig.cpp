@@ -79,7 +79,7 @@ const TFlyingSligFn sFlyingSlig_AI_table_552350[18] = {
     &FlyingSlig::AI_FromNakedSlig_17_4355E0,
 };
 
-const static AIFunctionData<TFlyingSligFn> sFlyingSligAITable[18] = {
+const static BrainFunctionData<TFlyingSligFn> sFlyingSligAITable[18] = {
     {&FlyingSlig::AI_Inactive_0_4355B0, 0x401802, "AI_Inactive_0"},
     {&FlyingSlig::AI_Death_1_4364E0, 0x402ABD, "AI_Death_1 (first)"},
     {&FlyingSlig::AI_Moving_2_4356D0, 0x4046BF, "AI_Moving_2"},

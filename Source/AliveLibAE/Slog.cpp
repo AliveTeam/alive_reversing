@@ -108,7 +108,7 @@ const SfxDefinition sSlogSFXList_560B00[19] = {
     {0u, 12u, 33u, 40u, -127, 0},
 };
 
-const static AIFunctionData<TSlogAIFn> sSlogAiTable[4] = {
+const static BrainFunctionData<TSlogAIFn> sSlogAiTable[4] = {
     {&Slog::AI_ListeningToSlig_0_4C3790, 0x4C3790, "AI_ListeningToSlig_0"}, // no stubs for any of these ??
     {&Slog::AI_Idle_1_4C2830, 0x4C2830, "AI_Idle_1"},
     {&Slog::AI_ChasingAbe_2_4C0A00, 0x4C0A00, "AI_ChasingAbe_2"},

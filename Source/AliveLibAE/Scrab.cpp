@@ -65,7 +65,7 @@ static const TScrabAIFn sScrab_ai_table_56029C[6] = {
     &Scrab::AI_ShrinkDeath_4_4A6420,
     &Scrab::AI_Possessed_5_4A6180};
 
-static const AIFunctionData<TScrabAIFn> sScrabAITable[6] = {
+static const BrainFunctionData<TScrabAIFn> sScrabAITable[6] = {
     {
         &Scrab::AI_Patrol_0_4AA630,
         0x404070,
