@@ -1446,7 +1446,7 @@ struct Path_SlingMudokon final : public TlvObjectBaseAO
     CTOR_AO(Path_SlingMudokon, "SlingMudokon", AO::TlvTypes::SlingMudokon_41)
     {
         ADD("scale", mTlv.field_18_scale);
-        ADD("silent", mTlv.field_1A_silent);
+        ADD("silent", mTlv.field_1A_bDontWhistlePassword);
         ADD("code1", mTlv.field_1C_code_1);
         ADD("code2", mTlv.field_1E_code_2);
     }

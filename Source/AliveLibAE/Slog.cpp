@@ -80,11 +80,11 @@ enum eSlogMotions
     M_Growl_23_4C7170
 };
 
-const TSlogAIFn sSlog_fns_ai_560A38[4] = {
-    &Slog::AI_ListeningToSlig_0_4C3790,
-    &Slog::AI_Idle_1_4C2830,
-    &Slog::AI_ChasingAbe_2_4C0A00,
-    &Slog::AI_Death_3_4C3250};
+const TSlogBrainFn sSlog_fns_brain_560A38[4] = {
+    &Slog::Brain_ListeningToSlig_0_4C3790,
+    &Slog::Brain_Idle_1_4C2830,
+    &Slog::Brain_ChasingAbe_2_4C0A00,
+    &Slog::Brain_Death_3_4C3250};
 
 const SfxDefinition sSlogSFXList_560B00[19] = {
     {0u, 12u, 38u, 30u, 0, 0},
@@ -108,11 +108,11 @@ const SfxDefinition sSlogSFXList_560B00[19] = {
     {0u, 12u, 33u, 40u, -127, 0},
 };
 
-const static AIFunctionData<TSlogAIFn> sSlogAiTable[4] = {
-    {&Slog::AI_ListeningToSlig_0_4C3790, 0x4C3790, "AI_ListeningToSlig_0"}, // no stubs for any of these ??
-    {&Slog::AI_Idle_1_4C2830, 0x4C2830, "AI_Idle_1"},
-    {&Slog::AI_ChasingAbe_2_4C0A00, 0x4C0A00, "AI_ChasingAbe_2"},
-    {&Slog::AI_Death_3_4C3250, 0x4C3250, "AI_Death_3"},
+const static BrainFunctionData<TSlogBrainFn> sSlogAiTable[4] = {
+    {&Slog::Brain_ListeningToSlig_0_4C3790, 0x4C3790, "Brain_ListeningToSlig_0"}, // no stubs for any of these ??
+    {&Slog::Brain_Idle_1_4C2830, 0x4C2830, "Brain_Idle_1"},
+    {&Slog::Brain_ChasingAbe_2_4C0A00, 0x4C0A00, "Brain_ChasingAbe_2"},
+    {&Slog::Brain_Death_3_4C3250, 0x4C3250, "Brain_Death_3"},
 };
 
 Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
@@ -1343,7 +1343,7 @@ const s16 sSlogResponseMotion_560930[3][10] = {
      -2,
      0, 0, 0, 0, 0, 0, 0, 0}};
 
-s16 Slog::AI_ListeningToSlig_0_4C3790()
+s16 Slog::Brain_ListeningToSlig_0_4C3790()
 {
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_138_listening_to_slig_id));
 
@@ -1369,25 +1369,25 @@ s16 Slog::AI_ListeningToSlig_0_4C3790()
     switch (field_122_brain_state_result)
     {
         case 0:
-            return AI_ListeningToSlig_State_0_Init();
+            return Brain_ListeningToSlig_State_0_Init();
         case 1:
-            return AI_ListeningToSlig_State_1_Idle(xpos1GridAHead);
+            return Brain_ListeningToSlig_State_1_Idle(xpos1GridAHead);
         case 2:
-            return AI_ListeningToSlig_State_2_Listening(xpos1GridAHead, pObj);
+            return Brain_ListeningToSlig_State_2_Listening(xpos1GridAHead, pObj);
         case 3:
-            return AI_ListeningToSlig_State_3_Walking(xpos1GridAHead);
+            return Brain_ListeningToSlig_State_3_Walking(xpos1GridAHead);
         case 4:
-            return AI_ListeningToSlig_State_4_Running(xpos1GridAHead);
+            return Brain_ListeningToSlig_State_4_Running(xpos1GridAHead);
         case 5:
-            return AI_ListeningToSlig_State_5_Waiting();
+            return Brain_ListeningToSlig_State_5_Waiting();
         case 6:
-            return AI_ListeningToSlig_State_6_Responding();
+            return Brain_ListeningToSlig_State_6_Responding();
         default:
             return field_122_brain_state_result;
     }
 }
 
-s16 Slog::AI_ListeningToSlig_State_6_Responding()
+s16 Slog::Brain_ListeningToSlig_State_6_Responding()
 {
     if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
     {
@@ -1408,7 +1408,7 @@ s16 Slog::AI_ListeningToSlig_State_6_Responding()
     }
 }
 
-s16 Slog::AI_ListeningToSlig_State_5_Waiting()
+s16 Slog::Brain_ListeningToSlig_State_5_Waiting()
 {
     if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
     {
@@ -1419,7 +1419,7 @@ s16 Slog::AI_ListeningToSlig_State_5_Waiting()
     return 2;
 }
 
-s16 Slog::AI_ListeningToSlig_State_4_Running(const FP xpos1GridAHead)
+s16 Slog::Brain_ListeningToSlig_State_4_Running(const FP xpos1GridAHead)
 {
     if (field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -1447,7 +1447,7 @@ s16 Slog::AI_ListeningToSlig_State_4_Running(const FP xpos1GridAHead)
     }
 }
 
-s16 Slog::AI_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead)
+s16 Slog::Brain_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead)
 {
     if (field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -1480,7 +1480,7 @@ s16 Slog::AI_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead)
     return 2;
 }
 
-s16 Slog::AI_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseAliveGameObject* pObj)
+s16 Slog::Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseAliveGameObject* pObj)
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -1631,7 +1631,7 @@ s16 Slog::AI_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseAliv
     return field_122_brain_state_result;
 }
 
-s16 Slog::AI_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead)
+s16 Slog::Brain_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead)
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -1652,7 +1652,7 @@ s16 Slog::AI_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead)
     return 2;
 }
 
-s16 Slog::AI_ListeningToSlig_State_0_Init()
+s16 Slog::Brain_ListeningToSlig_State_0_Init()
 {
     field_108_next_motion = eSlogMotions::M_Idle_0_4C5F90;
     field_13C_waiting_counter = 0;
@@ -1660,7 +1660,7 @@ s16 Slog::AI_ListeningToSlig_State_0_Init()
     return 1;
 }
 
-s16 Slog::AI_Idle_1_4C2830()
+s16 Slog::Brain_Idle_1_4C2830()
 {
     BaseGameObject* pTarget = sObjectIds_5C1B70.Find_449CF0(field_118_target_id);
 
@@ -1879,7 +1879,7 @@ s16 Slog::AI_Idle_1_4C2830()
     }
 }
 
-s16 Slog::AI_ChasingAbe_2_4C0A00()
+s16 Slog::Brain_ChasingAbe_2_4C0A00()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_118_target_id));
     if (field_160_flags.Get(Flags_160::eBit2_ListenToSligs))
@@ -1939,49 +1939,49 @@ s16 Slog::AI_ChasingAbe_2_4C0A00()
     switch (field_122_brain_state_result)
     {
         case 0:
-            return AI_ChasingAbe_State_0_Init();
+            return Brain_ChasingAbe_State_0_Init();
         case 1:
-            return AI_ChasingAbe_State_1_Waiting();
+            return Brain_ChasingAbe_State_1_Waiting();
         case 2:
-            return AI_ChasingAbe_State_2_Thinking(pTarget);
+            return Brain_ChasingAbe_State_2_Thinking(pTarget);
         case 3:
-            return AI_ChasingAbe_State_3_GrowlOrScratch(pTarget);
+            return Brain_ChasingAbe_State_3_GrowlOrScratch(pTarget);
         case 4:
-            return AI_ChasingAbe_State_4_LungingAtTarget(pTarget);
+            return Brain_ChasingAbe_State_4_LungingAtTarget(pTarget);
         case 7:
-            return AI_ChasingAbe_State_7_EatingTarget(pTarget);
+            return Brain_ChasingAbe_State_7_EatingTarget(pTarget);
         case 8:
-            return AI_ChasingAbe_State_8_ToIdle();
+            return Brain_ChasingAbe_State_8_ToIdle();
         case 9:
-            return AI_ChasingAbe_State_9_Falling();
+            return Brain_ChasingAbe_State_9_Falling();
         case 10:
-            return AI_ChasingAbe_State_10_HungryForBone();
+            return Brain_ChasingAbe_State_10_HungryForBone();
         case 11:
-            return AI_ChasingAbe_State_11_ChasingAfterBone();
+            return Brain_ChasingAbe_State_11_ChasingAfterBone();
         case 12:
-            return AI_ChasingAbe_State_12_WalkingToBone();
+            return Brain_ChasingAbe_State_12_WalkingToBone();
         case 13:
-            return AI_ChasingAbe_State_13_EatingBone();
+            return Brain_ChasingAbe_State_13_EatingBone();
         case 14:
-            return AI_ChasingAbe_State_14_CheckingIfBoneNearby();
+            return Brain_ChasingAbe_State_14_CheckingIfBoneNearby();
         case 15:
-            return AI_ChasingAbe_State_15_ChasingAfterTarget(pTarget);
+            return Brain_ChasingAbe_State_15_ChasingAfterTarget(pTarget);
         case 16:
-            return AI_ChasingAbe_State_16_JumpingUpwards();
+            return Brain_ChasingAbe_State_16_JumpingUpwards();
         case 17:
-            return AI_ChasingAbe_State_17_WaitingToChase(pTarget);
+            return Brain_ChasingAbe_State_17_WaitingToChase(pTarget);
         case 18:
-            return AI_ChasingAbe_State_18_WaitingToJump(pTarget);
+            return Brain_ChasingAbe_State_18_WaitingToJump(pTarget);
         case 19:
-            return AI_ChasingAbe_State_19_AboutToCollide(pTarget);
+            return Brain_ChasingAbe_State_19_AboutToCollide(pTarget);
         case 20:
-            return AI_ChasingAbe_State_20_Collided(pTarget);
+            return Brain_ChasingAbe_State_20_Collided(pTarget);
         default:
             return field_122_brain_state_result;
     }
 }
 
-s16 Slog::AI_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget)
 {
     FP gridSize = {};
 
@@ -2016,10 +2016,10 @@ s16 Slog::AI_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget)
         field_106_current_motion = eSlogMotions::M_MoveHeadUpwards_5_4C5F20;
         return field_122_brain_state_result;
     }
-    return AI_ChasingAbe_State_20_Collided(pTarget);
+    return Brain_ChasingAbe_State_20_Collided(pTarget);
 }
 
-s16 Slog::AI_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget)
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2036,7 +2036,7 @@ s16 Slog::AI_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget)
     return 2;
 }
 
-s16 Slog::AI_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget)
 {
     if (field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2063,7 +2063,7 @@ s16 Slog::AI_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget)
     return 2;
 }
 
-s16 Slog::AI_ChasingAbe_State_16_JumpingUpwards()
+s16 Slog::Brain_ChasingAbe_State_16_JumpingUpwards()
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2073,7 +2073,7 @@ s16 Slog::AI_ChasingAbe_State_16_JumpingUpwards()
     return 15;
 }
 
-s16 Slog::AI_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTarget)
 {
     if (field_C4_velx > FP_FromInteger(0) && HandleEnemyStopper_4C5340())
     {
@@ -2149,7 +2149,7 @@ s16 Slog::AI_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTarget
     return 17;
 }
 
-s16 Slog::AI_ChasingAbe_State_14_CheckingIfBoneNearby()
+s16 Slog::Brain_ChasingAbe_State_14_CheckingIfBoneNearby()
 {
     auto pBone = static_cast<Bone*>(sObjectIds_5C1B70.Find_449CF0(field_15C_bone_id));
     if (!pBone)
@@ -2199,7 +2199,7 @@ s16 Slog::AI_ChasingAbe_State_14_CheckingIfBoneNearby()
     return 2;
 }
 
-s16 Slog::AI_ChasingAbe_State_13_EatingBone()
+s16 Slog::Brain_ChasingAbe_State_13_EatingBone()
 {
     auto pBone = static_cast<Bone*>(sObjectIds_5C1B70.Find_449CF0(field_15C_bone_id));
     if (!pBone || pBone->VIsFalling_49E330())
@@ -2237,7 +2237,7 @@ s16 Slog::AI_ChasingAbe_State_13_EatingBone()
     return 2;
 }
 
-s16 Slog::AI_ChasingAbe_State_12_WalkingToBone()
+s16 Slog::Brain_ChasingAbe_State_12_WalkingToBone()
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90 && field_106_current_motion != eSlogMotions::M_Walk_1_4C60C0)
     {
@@ -2284,7 +2284,7 @@ s16 Slog::AI_ChasingAbe_State_12_WalkingToBone()
     return 2;
 }
 
-s16 Slog::AI_ChasingAbe_State_11_ChasingAfterBone()
+s16 Slog::Brain_ChasingAbe_State_11_ChasingAfterBone()
 {
     auto pBone = static_cast<Bone*>(sObjectIds_5C1B70.Find_449CF0(field_15C_bone_id));
     if (!pBone || pBone->VIsFalling_49E330())
@@ -2382,7 +2382,7 @@ s16 Slog::AI_ChasingAbe_State_11_ChasingAfterBone()
     return 2;
 }
 
-s16 Slog::AI_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget)
 {
     auto pBone = FindBone_4C25B0();
     if (pBone)
@@ -2429,7 +2429,7 @@ s16 Slog::AI_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget)
     return field_122_brain_state_result;
 }
 
-s16 Slog::AI_ChasingAbe_State_10_HungryForBone()
+s16 Slog::Brain_ChasingAbe_State_10_HungryForBone()
 {
     if (field_106_current_motion == eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2470,7 +2470,7 @@ s16 Slog::AI_ChasingAbe_State_10_HungryForBone()
     return 2;
 }
 
-s16 Slog::AI_ChasingAbe_State_9_Falling()
+s16 Slog::Brain_ChasingAbe_State_9_Falling()
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2480,7 +2480,7 @@ s16 Slog::AI_ChasingAbe_State_9_Falling()
     return 2;
 }
 
-s16 Slog::AI_ChasingAbe_State_8_ToIdle()
+s16 Slog::Brain_ChasingAbe_State_8_ToIdle()
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2492,7 +2492,7 @@ s16 Slog::AI_ChasingAbe_State_8_ToIdle()
     return 0;
 }
 
-s16 Slog::AI_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget)
 {
     if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer && pTarget->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -2509,7 +2509,7 @@ s16 Slog::AI_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget)
     return 8;
 }
 
-s16 Slog::AI_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget)
 {
     if (field_106_current_motion == eSlogMotions::M_Run_2_4C6340)
     {
@@ -2554,7 +2554,7 @@ s16 Slog::AI_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget)
     return 9;
 }
 
-s16 Slog::AI_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget)
 {
     if (field_106_current_motion != eSlogMotions::M_Idle_0_4C5F90)
     {
@@ -2589,7 +2589,7 @@ s16 Slog::AI_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget)
     return field_122_brain_state_result;
 }
 
-s16 Slog::AI_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
 {
     if (field_C4_velx > FP_FromInteger(0) && HandleEnemyStopper_4C5340())
     {
@@ -2724,7 +2724,7 @@ s16 Slog::AI_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
     return 15;
 }
 
-s16 Slog::AI_ChasingAbe_State_1_Waiting()
+s16 Slog::Brain_ChasingAbe_State_1_Waiting()
 {
     if (field_124_timer > static_cast<s32>(sGnFrame_5C1B84))
     {
@@ -2734,7 +2734,7 @@ s16 Slog::AI_ChasingAbe_State_1_Waiting()
     return 2;
 }
 
-s16 Slog::AI_ChasingAbe_State_0_Init()
+s16 Slog::Brain_ChasingAbe_State_0_Init()
 {
     field_11C_biting_target = 0;
     field_15A_jump_counter = 0;
@@ -2744,7 +2744,7 @@ s16 Slog::AI_ChasingAbe_State_0_Init()
     return 1;
 }
 
-s16 Slog::AI_Death_3_4C3250()
+s16 Slog::Brain_Death_3_4C3250()
 {
     field_138_listening_to_slig_id = -1;
     field_118_target_id = -1;
@@ -2955,8 +2955,8 @@ void Slog::vUpdate_4C50D0()
         }
 
         const auto oldMotion = field_106_current_motion;
-        const auto oldBrain = sSlog_fns_ai_560A38[field_120_brain_state_idx];
-        field_122_brain_state_result = (this->*sSlog_fns_ai_560A38[field_120_brain_state_idx])();
+        const auto oldBrain = sSlog_fns_brain_560A38[field_120_brain_state_idx];
+        field_122_brain_state_result = (this->*sSlog_fns_brain_560A38[field_120_brain_state_idx])();
         if (sDDCheat_ShowAI_Info_5C1BD8)
         {
             DDCheat::DebugStr_4F5560("Slog:  Motion=%d  BrainState=%d\n", field_106_current_motion, field_122_brain_state_result);
@@ -2979,9 +2979,9 @@ void Slog::vUpdate_4C50D0()
         }
 
         // TODO: This is extra debug logging to figure out the motion names
-        if (oldBrain != sSlog_fns_ai_560A38[field_120_brain_state_idx])
+        if (oldBrain != sSlog_fns_brain_560A38[field_120_brain_state_idx])
         {
-            LOG_INFO("Slog: Old brain = " << GetOriginalFn(oldBrain, sSlogAiTable).fnName << " new brain = " << GetOriginalFn(sSlog_fns_ai_560A38[field_120_brain_state_idx], sSlogAiTable).fnName);
+            LOG_INFO("Slog: Old brain = " << GetOriginalFn(oldBrain, sSlogAiTable).fnName << " new brain = " << GetOriginalFn(sSlog_fns_brain_560A38[field_120_brain_state_idx], sSlogAiTable).fnName);
 
             //LOG_INFO("Slog: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
         }

@@ -110,7 +110,7 @@ struct Slog_State final
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slog_State, 0x78);
 
 class Slog;
-using TSlogAIFn = s16 (Slog::*)();
+using TSlogBrainFn = s16 (Slog::*)();
 using TSlogMotionFn = void (Slog::*)();
 
 class Slog final : public BaseAliveGameObject
@@ -142,6 +142,7 @@ private:
 
 
 public:
+    // Motions
     EXPORT void M_Idle_0_4C5F90();
     EXPORT void M_Walk_1_4C60C0();
     EXPORT void M_Run_2_4C6340();
@@ -168,64 +169,42 @@ public:
     EXPORT void M_Growl_23_4C7170();
 
 public:
-    EXPORT s16 AI_ListeningToSlig_0_4C3790();
+    EXPORT s16 Brain_ListeningToSlig_0_4C3790();
 
-    s16 AI_ListeningToSlig_State_6_Responding();
+    s16 Brain_ListeningToSlig_State_0_Init();
+    s16 Brain_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead);
+    s16 Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseAliveGameObject* pObj);
+    s16 Brain_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead);
+    s16 Brain_ListeningToSlig_State_4_Running(const FP xpos1GridAHead);
+    s16 Brain_ListeningToSlig_State_5_Waiting();
+    s16 Brain_ListeningToSlig_State_6_Responding();
 
-    s16 AI_ListeningToSlig_State_5_Waiting();
+    EXPORT s16 Brain_Idle_1_4C2830();
 
-    s16 AI_ListeningToSlig_State_4_Running(const FP xpos1GridAHead);
+    EXPORT s16 Brain_ChasingAbe_2_4C0A00();
+    s16 Brain_ChasingAbe_State_0_Init();
+    s16 Brain_ChasingAbe_State_1_Waiting();
+    s16 Brain_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget);
 
-    s16 AI_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead);
 
-    s16 AI_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseAliveGameObject* pObj);
+    s16 Brain_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_8_ToIdle();
+    s16 Brain_ChasingAbe_State_9_Falling();
+    s16 Brain_ChasingAbe_State_10_HungryForBone();
+    s16 Brain_ChasingAbe_State_11_ChasingAfterBone();
+    s16 Brain_ChasingAbe_State_12_WalkingToBone();
+    s16 Brain_ChasingAbe_State_13_EatingBone();
+    s16 Brain_ChasingAbe_State_14_CheckingIfBoneNearby();
+    s16 Brain_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_16_JumpingUpwards();
+    s16 Brain_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget);
 
-    s16 AI_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead);
-
-    s16 AI_ListeningToSlig_State_0_Init();
-
-    EXPORT s16 AI_Idle_1_4C2830();
-    EXPORT s16 AI_ChasingAbe_2_4C0A00();
-
-    s16 AI_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget);
-
-    s16 AI_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget);
-
-    s16 AI_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget);
-
-    s16 AI_ChasingAbe_State_16_JumpingUpwards();
-
-    s16 AI_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTarget);
-
-    s16 AI_ChasingAbe_State_14_CheckingIfBoneNearby();
-
-    s16 AI_ChasingAbe_State_13_EatingBone();
-
-    s16 AI_ChasingAbe_State_12_WalkingToBone();
-
-    s16 AI_ChasingAbe_State_11_ChasingAfterBone();
-
-    s16 AI_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget);
-
-    s16 AI_ChasingAbe_State_10_HungryForBone();
-
-    s16 AI_ChasingAbe_State_9_Falling();
-
-    s16 AI_ChasingAbe_State_8_ToIdle();
-
-    s16 AI_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget);
-
-    s16 AI_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget);
-
-    s16 AI_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget);
-
-    s16 AI_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget);
-
-    s16 AI_ChasingAbe_State_1_Waiting();
-
-    s16 AI_ChasingAbe_State_0_Init();
-
-    EXPORT s16 AI_Death_3_4C3250();
+    EXPORT s16 Brain_Death_3_4C3250();
 
 private:
     EXPORT u8** ResBlockForMotion_4C4A80(s16 motion);

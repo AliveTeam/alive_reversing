@@ -29,7 +29,7 @@ void CC GameEnderController::CreateGameEnderController_41C7D0()
         pGameEnderController->ctor_487E10(1);
         SetVTable(pGameEnderController, 0x4BAEF0);
         pGameEnderController->field_4_typeId = Types::eGameEnderController_37;
-        pGameEnderController->field_14_state = 0;
+        pGameEnderController->field_14_state = GameEnderController_States::eInit_0;
     }
 }
 
@@ -81,15 +81,15 @@ void GameEnderController::VUpdate_41C860()
 
     switch (field_14_state)
     {
-        case 0:
+        case GameEnderController_States::eInit_0:
             if (sSwitchStates_505568.mData[70])
             {
-                field_14_state = 1;
+                field_14_state = GameEnderController_States::eDetermineEnding_1;
                 field_10_timer = gnFrameCount_507670 + 50;
             }
             break;
 
-        case 1:
+        case GameEnderController_States::eDetermineEnding_1:
             if (field_10_timer <= static_cast<s32>(gnFrameCount_507670))
             {
                 // Wait for murdering everyone to finish
@@ -122,7 +122,7 @@ void GameEnderController::VUpdate_41C860()
                             gInfiniteGrenades_5076EC = FALSE;
 
                             gMap_507BA8.SetActiveCam_444660(LevelIds::eBoardRoom_12, 6, 10, CameraSwapEffects::eEffect11, 304, 0);
-                            field_14_state = 3;
+                            field_14_state = GameEnderController_States::eBadEnding_3;
                             sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
                             sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
                         }
@@ -178,7 +178,7 @@ void GameEnderController::VUpdate_41C860()
 
                             gMap_507BA8.SetActiveCam_444660(LevelIds::eBoardRoom_12, 6, 9, CameraSwapEffects::eEffect11, 304, 0);
 
-                            field_14_state = 3;
+                            field_14_state = GameEnderController_States::eBadEnding_3;
                         }
                     }
                     else
@@ -200,34 +200,34 @@ void GameEnderController::VUpdate_41C860()
                         {
                             // Meh good enough ending
                             gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, 1, CameraSwapEffects::eEffect11, 316, 0);
-                            field_14_state = 2;
+                            field_14_state = GameEnderController_States::eFinish_2;
                         }
                         else
                         {
                             // Perfect ending
                             sActiveHero_507678->field_6_flags.Set(Options::eDead_Bit3);
                             gMap_507BA8.SetActiveCam_444660(LevelIds::eBoardRoom_12, 6, 11, CameraSwapEffects::eEffect11, 316, 0);
-                            field_14_state = 4;
+                            field_14_state = GameEnderController_States::ePerfectEnding_4;
                         }
                     }
                 }
             }
             break;
 
-        case 3:
+        case GameEnderController_States::eBadEnding_3:
             if (Input().IsAnyHeld(sInputKey_FartRoll_4C65B0))
             {
                 gMap_507BA8.SetActiveCam_444660(LevelIds::eRuptureFarmsReturn_13, 19, 3, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-                field_14_state = 2;
+                field_14_state = GameEnderController_States::eFinish_2;
             }
             break;
 
-        case 4:
+        case GameEnderController_States::ePerfectEnding_4:
             if (Input().IsAnyHeld(sInputKey_FartRoll_4C65B0))
             {
                 gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 gMap_507BA8.field_DC_free_all_anim_and_palts = 1;
-                field_14_state = 2;
+                field_14_state = GameEnderController_States::eFinish_2;
             }
             break;
 

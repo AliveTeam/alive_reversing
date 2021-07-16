@@ -178,7 +178,7 @@ const Menu_Element sBtnArray_AbeGamespeakMenuButtons_4D04A0[33] = {
 
 const Menu_Element sBtnArray_LoadGameMenuButtons_4D0630[2] = {{62, 204, InputCommands::eUnPause_OrConfirm}, {293, 205, InputCommands::eBack}};
 
-const AIFunctionData<Menu::TUpdateFn> kUpdateTable[] = {
+const BrainFunctionData<Menu::TUpdateFn> kUpdateTable[] = {
     {&Menu::ToggleMotions_Update_47C800, 0x47C800, "47C800"},
     {&Menu::Toggle_Motions_Screens_Update_47C8F0, 0x47C8F0, "Update_47C8F0"}};
 

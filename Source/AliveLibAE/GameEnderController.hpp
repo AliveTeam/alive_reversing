@@ -10,7 +10,7 @@ enum class GameEnderController_States : s16
     eInit_0 = 0,
     eDetermineEnding_1 = 1,
     eFinish_2 = 2,
-    eBadOrBlackEnding_3 = 3,
+    eBadEnding_3 = 3,
     eGoodEnding_4 = 4,
     eAngelicEnding_5 = 5,
     eAngelicEndingCredits_6 = 6,

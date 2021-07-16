@@ -145,7 +145,7 @@ public:
 };
 
 template <class T>
-struct AIFunctionData final
+struct BrainFunctionData final
 {
     T mOurFn;
     u32 mOriginal;
@@ -153,8 +153,8 @@ struct AIFunctionData final
 };
 
 #if _WIN32 || !_WIN64
-template <class AIFunctionType, class AITable>
-inline const AIFunctionData<AIFunctionType>& GetOriginalFn(AIFunctionType fn, const AITable& table)
+template <class BrainFunctionType, class BrainTable>
+inline const BrainFunctionData<BrainFunctionType>& GetOriginalFn(BrainFunctionType fn, const BrainTable& table)
 {
     // If not running as standalone set the address to be
     // the address of the real function rather than the reimpl as the real
@@ -171,14 +171,14 @@ inline const AIFunctionData<AIFunctionType>& GetOriginalFn(AIFunctionType fn, co
 }
 #endif
 
-template <class AIFunctionType, class AITable>
-inline bool BrainIs(AIFunctionType fn, AIFunctionType& brainVar, const AITable& table)
+template <class BrainFunctionType, class BrainTable>
+inline bool BrainIs(BrainFunctionType fn, BrainFunctionType& brainVar, const BrainTable& table)
 {
 #if _WIN32 || !_WIN64
     if (RunningAsInjectedDll())
     {
         const u32 actualAddressToUse = GetOriginalFn(fn, table).mOriginal;
-        AIFunctionType hack = nullptr;
+        BrainFunctionType hack = nullptr;
         memcpy(&hack, &actualAddressToUse, sizeof(u32));
         return hack == brainVar;
     }
@@ -186,8 +186,8 @@ inline bool BrainIs(AIFunctionType fn, AIFunctionType& brainVar, const AITable& 
     return brainVar == fn;
 }
 
-template <class AIFunctionType, class AITable>
-void SetBrain(AIFunctionType fn, AIFunctionType& brainVar, const AITable& table)
+template <class BrainFunctionType, class BrainTable>
+void SetBrain(BrainFunctionType fn, BrainFunctionType& brainVar, const BrainTable& table)
 {
 #if _WIN32 || !_WIN64
     if (RunningAsInjectedDll())

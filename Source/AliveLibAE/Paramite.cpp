@@ -52,7 +52,7 @@ const TParamiteAIFn sParamite_ai_table_55D710[10] = {
     &Paramite::AI_ParamiteSpawn_9_48ED80};
 
 
-const static AIFunctionData<TParamiteAIFn> sParamiteAITable[10] = {
+const static BrainFunctionData<TParamiteAIFn> sParamiteAITable[10] = {
     {&Paramite::AI_Patrol_0_4835B0, 0x402A7C, "AI_Patrol_0"},
     {&Paramite::AI_Death_1_484CD0, 0x404223, "AI_Death_1"},
     {&Paramite::AI_ChasingAbe_2_4859D0, 0x401799, "AI_ChasingAbe_2"},

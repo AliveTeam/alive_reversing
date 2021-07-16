@@ -155,7 +155,7 @@ using Path_SligPersist = Path_SligBound;
 enum class LevelIds : s16;
 
 class Slig;
-using TSligAIFn = s16 (Slig::*)();
+using TSligBrainFn = s16 (Slig::*)();
 using TSligMotionFn = void (Slig::*)();
 
 struct Slig_State final
@@ -189,7 +189,7 @@ struct Slig_State final
     s16 field_3E_padding;
     s8 field_40_bActiveChar;
     s8 field_41_padding;
-    s16 field_42_ai_sub_state;
+    s16 field_42_brain_sub_state;
     s16 field_44_pitch_min;
     s16 field_46_padding;
     s32 field_48_timer;
@@ -331,63 +331,63 @@ public:
     EXPORT void M_Beat_51_4B6C00();
 
 public:
-    EXPORT s16 AI_Death_0_4BBFB0();
-    EXPORT s16 AI_ReturnControlToAbeAndDie_1_4BC410();
-    EXPORT s16 AI_Possessed_2_4BBCF0();
-    EXPORT s16 AI_DeathDropDeath_3_4BC1E0();
-    EXPORT s16 AI_ListeningToGlukkon_4_4B9D20();
+    EXPORT s16 Brain_Death_0_4BBFB0();
+    EXPORT s16 Brain_ReturnControlToAbeAndDie_1_4BC410();
+    EXPORT s16 Brain_Possessed_2_4BBCF0();
+    EXPORT s16 Brain_DeathDropDeath_3_4BC1E0();
+    EXPORT s16 Brain_ListeningToGlukkon_4_4B9D20();
 
-    s16 AI_ListeningToGlukkon_LostAttention();
+    s16 Brain_ListeningToGlukkon_LostAttention();
 
-    s16 AI_ListeningToGlukkon_Shooting();
+    s16 Brain_ListeningToGlukkon_Shooting();
 
-    s16 AI_ListeningToGlukkon_StoppingOnLift(LiftPoint* pPlatformObj);
+    s16 Brain_ListeningToGlukkon_StoppingOnLift(LiftPoint* pPlatformObj);
 
-    s16 AI_ListeningToGlukkon_PullingLever();
+    s16 Brain_ListeningToGlukkon_PullingLever();
 
-    s16 AI_ListenToGlukkon_StoppingNextToLever();
+    s16 Brain_ListenToGlukkon_StoppingNextToLever();
 
-    s16 AI_ListenToGlukkon_Speaking();
+    s16 Brain_ListenToGlukkon_Speaking();
 
-    s16 AI_ListenToGlukkon_NextLever(BaseAliveGameObject* pGlukkonObj);
+    s16 Brain_ListenToGlukkon_NextLever(BaseAliveGameObject* pGlukkonObj);
 
-    s16 AI_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj);
+    s16 Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj);
 
-    s16 AI_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, LiftPoint* pPlatformObj);
+    s16 Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, LiftPoint* pPlatformObj);
 
-    s16 AI_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonObj);
+    s16 Brain_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonObj);
 
-    EXPORT s16 AI_Empty_5_4B3220();
-    EXPORT s16 AI_Empty_6_4B3420();
-    EXPORT s16 AI_SpottedEnemy_7_4B3240();
-    EXPORT s16 AI_Empty_8_4B3120();
-    EXPORT s16 AI_Empty_9_4B3440();
-    EXPORT s16 AI_EnemyDead_10_4B3460();
-    EXPORT s16 AI_KilledEnemy_10_4B35C0();
-    EXPORT s16 AI_PanicTurning_12_4BC490();
-    EXPORT s16 AI_PanicRunning_13_4BC780();
-    EXPORT s16 AI_PanicYelling_14_4BCA70();
-    EXPORT s16 AI_Idle_15_4BD800();
-    EXPORT s16 AI_StopChasing_16_4BCE30();
-    EXPORT s16 AI_Chasing_17_4BCBD0();
-    EXPORT s16 AI_StartChasing_18_4BCEB0();
-    EXPORT s16 AI_Turning_19_4BDDD0();
-    EXPORT s16 AI_StoppingNextToMudokon_20_4BF1E0();
-    EXPORT s16 AI_Walking_21_4BE0C0();
-    EXPORT s16 AI_GetAlertedTurn_22_4BE990();
-    EXPORT s16 AI_GetAlerted_23_4BEC40();
-    EXPORT s16 AI_BeatingUp_24_4BF2B0();
-    EXPORT s16 AI_DiscussionWhat_25_4BF380();
-    EXPORT s16 AI_Empty_26_4BF620();
-    EXPORT s16 AI_Empty_27_4BF600();
-    EXPORT s16 AI_ZShooting_28_4BFA70();
-    EXPORT s16 AI_Shooting_29_4BF750();
-    EXPORT s16 AI_ZSpottedEnemy_30_4BFA30();
-    EXPORT s16 AI_WakingUp_31_4B9390();
-    EXPORT s16 AI_Inactive_32_4B9430();
-    EXPORT s16 AI_Paused_33_4B8DD0();
-    EXPORT s16 AI_Sleeping_34_4B9170();
-    EXPORT s16 AI_GameEnder_35_4BF640();
+    EXPORT s16 Brain_Empty_5_4B3220();
+    EXPORT s16 Brain_Empty_6_4B3420();
+    EXPORT s16 Brain_SpottedEnemy_7_4B3240();
+    EXPORT s16 Brain_Empty_8_4B3120();
+    EXPORT s16 Brain_Empty_9_4B3440();
+    EXPORT s16 Brain_EnemyDead_10_4B3460();
+    EXPORT s16 Brain_KilledEnemy_10_4B35C0();
+    EXPORT s16 Brain_PanicTurning_12_4BC490();
+    EXPORT s16 Brain_PanicRunning_13_4BC780();
+    EXPORT s16 Brain_PanicYelling_14_4BCA70();
+    EXPORT s16 Brain_Idle_15_4BD800();
+    EXPORT s16 Brain_StopChasing_16_4BCE30();
+    EXPORT s16 Brain_Chasing_17_4BCBD0();
+    EXPORT s16 Brain_StartChasing_18_4BCEB0();
+    EXPORT s16 Brain_Turning_19_4BDDD0();
+    EXPORT s16 Brain_StoppingNextToMudokon_20_4BF1E0();
+    EXPORT s16 Brain_Walking_21_4BE0C0();
+    EXPORT s16 Brain_GetAlertedTurn_22_4BE990();
+    EXPORT s16 Brain_GetAlerted_23_4BEC40();
+    EXPORT s16 Brain_BeatingUp_24_4BF2B0();
+    EXPORT s16 Brain_DiscussionWhat_25_4BF380();
+    EXPORT s16 Brain_Empty_26_4BF620();
+    EXPORT s16 Brain_Empty_27_4BF600();
+    EXPORT s16 Brain_ZShooting_28_4BFA70();
+    EXPORT s16 Brain_Shooting_29_4BF750();
+    EXPORT s16 Brain_ZSpottedEnemy_30_4BFA30();
+    EXPORT s16 Brain_WakingUp_31_4B9390();
+    EXPORT s16 Brain_Inactive_32_4B9430();
+    EXPORT s16 Brain_Paused_33_4B8DD0();
+    EXPORT s16 Brain_Sleeping_34_4B9170();
+    EXPORT s16 Brain_GameEnder_35_4BF640();
 
 private:
     EXPORT void Init_4BB0D0();
@@ -539,14 +539,14 @@ private:
     EXPORT s16 FindLiftPoint_4B9B40();
 
 public:
-    void SetBrain(TSligAIFn fn);
-    bool BrainIs(TSligAIFn fn);
+    void SetBrain(TSligBrainFn fn);
+    bool BrainIs(TSligBrainFn fn);
 
 private:
     s32 field_118_tlvInfo;
 
 public:
-    s16 field_11C_ai_sub_state;
+    s16 field_11C_brain_sub_state;
 
 private:
     s16 field_11E_pitch_min;
@@ -571,7 +571,7 @@ public:
     s32 field_150_explode_timer;
 
 private:
-    TSligAIFn field_154_brain_state;
+    TSligBrainFn field_154_brain_state;
     s16 field_158_num_times_to_shoot;
     s16 field_15A_unused;
     s16 field_15C_force_alive_state;

@@ -123,7 +123,7 @@ public:
     PathLine* field_F4_pLine;
     PlatformBase* field_F8_pLiftPoint;
     s16 field_FC_current_motion;
-    s16 field_FE_next_state;
+    s16 field_FE_next_motion;
     FP field_100_health;
     s16 field_104_pending_resource_count;
     s16 field_106_shot;
