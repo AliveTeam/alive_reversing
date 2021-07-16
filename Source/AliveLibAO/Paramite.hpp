@@ -9,38 +9,38 @@ void Paramite_ForceLink();
 
 namespace AO {
 
-#define PARAMITE_STATES_ENUM(ENTRY)         \
-    ENTRY(State_0_Idle_44B900)              \
-    ENTRY(State_1_WalkBegin_44BCA0)         \
-    ENTRY(State_2_Walking_44B9E0)           \
-    ENTRY(State_3_Running_44C070)           \
-    ENTRY(State_4_Unknown_44B6C0)           \
-    ENTRY(State_5_Turn_44C8E0)              \
-    ENTRY(State_6_Hop_44CB20)               \
-    ENTRY(State_7_Unknown_44BF10)           \
-    ENTRY(State_8_WalkRunTransition_44C790) \
-    ENTRY(State_9_WalkEnd_44BDE0)           \
-    ENTRY(State_10_RunBegin_44C4C0)         \
-    ENTRY(State_11_RunEnd_44C620)           \
-    ENTRY(State_12_Falling_44C960)          \
-    ENTRY(State_13_GameSpeakBegin_44D050)   \
-    ENTRY(State_14_PreHiss_44D170)          \
-    ENTRY(State_15_Hiss_44D300)             \
-    ENTRY(State_16_PostHiss_44D440)         \
-    ENTRY(State_17_GameSpeakEnd_44D4F0)     \
-    ENTRY(State_18_RunningAttack_44D5D0)    \
-    ENTRY(State_19_Empty_44D990)            \
-    ENTRY(State_20_SurpriseWeb_44D9A0)      \
-    ENTRY(State_21_WebLeave_44DB00)         \
-    ENTRY(State_22_Unknown_44D8F0)          \
-    ENTRY(State_23_Eating_44B970)           \
-    ENTRY(State_24_Struggle_44DB70)         \
-    ENTRY(State_25_Death_44DB90)
+#define PARAMITE_MOTIONS_ENUM(ENTRY)         \
+    ENTRY(Motion_0_Idle_44B900)              \
+    ENTRY(Motion_1_WalkBegin_44BCA0)         \
+    ENTRY(Motion_2_Walking_44B9E0)           \
+    ENTRY(Motion_3_Running_44C070)           \
+    ENTRY(Motion_4_Unknown_44B6C0)           \
+    ENTRY(Motion_5_Turn_44C8E0)              \
+    ENTRY(Motion_6_Hop_44CB20)               \
+    ENTRY(Motion_7_Unknown_44BF10)           \
+    ENTRY(Motion_8_WalkRunTransition_44C790) \
+    ENTRY(Motion_9_WalkEnd_44BDE0)           \
+    ENTRY(Motion_10_RunBegin_44C4C0)         \
+    ENTRY(Motion_11_RunEnd_44C620)           \
+    ENTRY(Motion_12_Falling_44C960)          \
+    ENTRY(Motion_13_GameSpeakBegin_44D050)   \
+    ENTRY(Motion_14_PreHiss_44D170)          \
+    ENTRY(Motion_15_Hiss_44D300)             \
+    ENTRY(Motion_16_PostHiss_44D440)         \
+    ENTRY(Motion_17_GameSpeakEnd_44D4F0)     \
+    ENTRY(Motion_18_RunningAttack_44D5D0)    \
+    ENTRY(Motion_19_Empty_44D990)            \
+    ENTRY(Motion_20_SurpriseWeb_44D9A0)      \
+    ENTRY(Motion_21_WebLeave_44DB00)         \
+    ENTRY(Motion_22_Unknown_44D8F0)          \
+    ENTRY(Motion_23_Eating_44B970)           \
+    ENTRY(Motion_24_Struggle_44DB70)         \
+    ENTRY(Motion_25_Death_44DB90)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eParamiteStates : s32
+enum eParamiteMotions : s32
 {
-    PARAMITE_STATES_ENUM(MAKE_ENUM)
+    PARAMITE_MOTIONS_ENUM(MAKE_ENUM)
 };
 
 class ParamiteWeb;
@@ -123,20 +123,15 @@ public:
     void SetMusic();
 
     // Brains
-    EXPORT s16 Brain_Patrol_447A10();
-
-    EXPORT s16 Brain_SurpriseWeb_448D00();
-
-    EXPORT s16 Brain_Struggling_44DD70();
-
-    EXPORT s16 Brain_Death_448BF0();
-
-    EXPORT s16 Brain_ChasingAbe_449170();
-
-    EXPORT s16 Brain_SpottedMeat_449CD0();
+    EXPORT s16 Brain_0_Patrol_447A10();
+    EXPORT s16 Brain_1_SurpriseWeb_448D00();
+    EXPORT s16 Brain_2_Struggling_44DD70();
+    EXPORT s16 Brain_3_Death_448BF0();
+    EXPORT s16 Brain_4_ChasingAbe_449170();
+    EXPORT s16 Brain_5_SpottedMeat_449CD0();
 
 
-    using TParamiteBrain = decltype(&Paramite::Brain_Patrol_447A10);
+    using TParamiteBrain = decltype(&Paramite::Brain_0_Patrol_447A10);
 
     void SetBrain(TParamiteBrain fn);
 
@@ -150,37 +145,37 @@ public:
 
     s16 HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirection dir);
 
-    // States
-    EXPORT void State_0_Idle_44B900();
-    EXPORT void State_1_WalkBegin_44BCA0();
-    EXPORT void State_2_Walking_44B9E0();
-    EXPORT void State_3_Running_44C070();
-    EXPORT void State_4_Unknown_44B6C0();
-    EXPORT void State_5_Turn_44C8E0();
-    EXPORT void State_6_Hop_44CB20();
-    EXPORT void State_7_Unknown_44BF10();
-    EXPORT void State_8_WalkRunTransition_44C790();
-    EXPORT void State_9_WalkEnd_44BDE0();
-    EXPORT void State_10_RunBegin_44C4C0();
-    EXPORT void State_11_RunEnd_44C620();
-    EXPORT void State_12_Falling_44C960();
-    EXPORT void State_13_GameSpeakBegin_44D050();
-    EXPORT void State_14_PreHiss_44D170();
-    EXPORT void State_15_Hiss_44D300();
-    EXPORT void State_16_PostHiss_44D440();
-    EXPORT void State_17_GameSpeakEnd_44D4F0();
-    EXPORT void State_18_RunningAttack_44D5D0();
-    EXPORT void State_19_Empty_44D990();
-    EXPORT void State_20_SurpriseWeb_44D9A0();
-    EXPORT void State_21_WebLeave_44DB00();
-    EXPORT void State_22_Unknown_44D8F0();
-    EXPORT void State_23_Eating_44B970();
-    EXPORT void State_24_Struggle_44DB70();
-    EXPORT void State_25_Death_44DB90();
+    // Motions
+    EXPORT void Motion_0_Idle_44B900();
+    EXPORT void Motion_1_WalkBegin_44BCA0();
+    EXPORT void Motion_2_Walking_44B9E0();
+    EXPORT void Motion_3_Running_44C070();
+    EXPORT void Motion_4_Unknown_44B6C0();
+    EXPORT void Motion_5_Turn_44C8E0();
+    EXPORT void Motion_6_Hop_44CB20();
+    EXPORT void Motion_7_Unknown_44BF10();
+    EXPORT void Motion_8_WalkRunTransition_44C790();
+    EXPORT void Motion_9_WalkEnd_44BDE0();
+    EXPORT void Motion_10_RunBegin_44C4C0();
+    EXPORT void Motion_11_RunEnd_44C620();
+    EXPORT void Motion_12_Falling_44C960();
+    EXPORT void Motion_13_GameSpeakBegin_44D050();
+    EXPORT void Motion_14_PreHiss_44D170();
+    EXPORT void Motion_15_Hiss_44D300();
+    EXPORT void Motion_16_PostHiss_44D440();
+    EXPORT void Motion_17_GameSpeakEnd_44D4F0();
+    EXPORT void Motion_18_RunningAttack_44D5D0();
+    EXPORT void Motion_19_Empty_44D990();
+    EXPORT void Motion_20_SurpriseWeb_44D9A0();
+    EXPORT void Motion_21_WebLeave_44DB00();
+    EXPORT void Motion_22_Unknown_44D8F0();
+    EXPORT void Motion_23_Eating_44B970();
+    EXPORT void Motion_24_Struggle_44DB70();
+    EXPORT void Motion_25_Death_44DB90();
 
 
     TParamiteBrain field_10C_fn;
-    s16 field_110_state;
+    s16 field_110_brain_sub_state;
     s16 field_112_drop_in_timer;
     s32 field_114_timer;
     s32 field_118_not_used;
