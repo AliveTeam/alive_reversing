@@ -1443,7 +1443,7 @@ void NakedSlig::M_UsingButton_1_41B890()
                 }
                 else
                 {
-                    pFlyingSlig->SetBrain(&FlyingSlig::AI_FromNakedSlig_17_4355E0);
+                    pFlyingSlig->SetBrain(&FlyingSlig::Brain_17_FromNakedSlig_4355E0);
                 }
                 field_10C_health = FP_FromInteger(0);
             }

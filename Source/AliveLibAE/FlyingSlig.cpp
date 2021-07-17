@@ -28,7 +28,7 @@
 #include "Switch.hpp"
 #include "Sys_common.hpp"
 
-ALIVE_ARY(1, 0x5523A0, TFlyingSligFn, 26, sFlyingSlig_motion_table_5523A0,
+ALIVE_ARY(1, 0x5523A0, TFlyingSligBrainFn, 26, sFlyingSlig_motion_table_5523A0,
           {
               &FlyingSlig::M_Idle_0_4385E0,
               &FlyingSlig::M_HorizontalMovement_1_4386A0,
@@ -58,56 +58,56 @@ ALIVE_ARY(1, 0x5523A0, TFlyingSligFn, 26, sFlyingSlig_motion_table_5523A0,
               &FlyingSlig::M_TurnToHorizontalMovement_25_4389E0,
           });
 
-const TFlyingSligFn sFlyingSlig_AI_table_552350[18] = {
-    &FlyingSlig::AI_Inactive_0_4355B0,
-    &FlyingSlig::AI_Death_1_4364E0,
-    &FlyingSlig::AI_Moving_2_4356D0,
-    &FlyingSlig::AI_GetAlerted_3_435750,
-    &FlyingSlig::AI_ChasingEnemy_4_435BC0,
-    &FlyingSlig::AI_Idle_5_435820,
-    &FlyingSlig::AI_GameSpeakToMoving_6_435940,
-    &FlyingSlig::AI_PanicMoving_7_435990,
-    &FlyingSlig::AI_PanicIdle_8_435AC0,
-    &FlyingSlig::AI_SpottedEnemy_9_435E40,
-    &FlyingSlig::AI_LaunchingGrenade_10_435F10,
-    &FlyingSlig::AI_AbeDead_11_435FD0,
-    &FlyingSlig::AI_Possessed_12_436040,
-    &FlyingSlig::AI_Possession_13_4360F0,
-    &FlyingSlig::AI_DePossession_14_436180,
-    &FlyingSlig::AI_FlyingSligSpawn_15_4362C0,
-    &FlyingSlig::AI_Death_1_4364E0,
-    &FlyingSlig::AI_FromNakedSlig_17_4355E0,
+const TFlyingSligBrainFn sFlyingSlig_Brain_table_552350[18] = {
+    &FlyingSlig::Brain_0_Inactive_4355B0,
+    &FlyingSlig::Brain_1_Death_4364E0,
+    &FlyingSlig::Brain_2_Moving_4356D0,
+    &FlyingSlig::Brain_3_GetAlerted_435750,
+    &FlyingSlig::Brain_4_ChasingEnemy_435BC0,
+    &FlyingSlig::Brain_5_Idle_435820,
+    &FlyingSlig::Brain_6_GameSpeakToMoving_435940,
+    &FlyingSlig::Brain_7_PanicMoving_435990,
+    &FlyingSlig::Brain_8_PanicIdle_435AC0,
+    &FlyingSlig::Brain_9_SpottedEnemy_435E40,
+    &FlyingSlig::Brain_10_LaunchingGrenade_435F10,
+    &FlyingSlig::Brain_11_AbeDead_435FD0,
+    &FlyingSlig::Brain_12_Possessed_436040,
+    &FlyingSlig::Brain_13_Possession_4360F0,
+    &FlyingSlig::Brain_14_DePossession_436180,
+    &FlyingSlig::Brain_15_FlyingSligSpawn_4362C0,
+    &FlyingSlig::Brain_1_Death_4364E0,
+    &FlyingSlig::Brain_17_FromNakedSlig_4355E0,
 };
 
-const static BrainFunctionData<TFlyingSligFn> sFlyingSligAITable[18] = {
-    {&FlyingSlig::AI_Inactive_0_4355B0, 0x401802, "AI_Inactive_0"},
-    {&FlyingSlig::AI_Death_1_4364E0, 0x402ABD, "AI_Death_1 (first)"},
-    {&FlyingSlig::AI_Moving_2_4356D0, 0x4046BF, "AI_Moving_2"},
-    {&FlyingSlig::AI_GetAlerted_3_435750, 0x402603, "AI_GetAlerted_3"},
-    {&FlyingSlig::AI_ChasingEnemy_4_435BC0, 0x402086, "AI_ChasingEnemy_4"},
-    {&FlyingSlig::AI_Idle_5_435820, 0x4028A6, "AI_Idle_5"},
-    {&FlyingSlig::AI_GameSpeakToMoving_6_435940, 0x403E31, "AI_GameSpeakToMoving_6"},
-    {&FlyingSlig::AI_PanicMoving_7_435990, 0x404453, "AI_PanicMoving_7"},
-    {&FlyingSlig::AI_PanicIdle_8_435AC0, 0x4013A2, "AI_PanicIdle_8"},
-    {&FlyingSlig::AI_SpottedEnemy_9_435E40, 0x40394A, "AI_SpottedEnemy_9"},
-    {&FlyingSlig::AI_LaunchingGrenade_10_435F10, 0x40253B, "AI_LaunchingGrenade_10"},
-    {&FlyingSlig::AI_AbeDead_11_435FD0, 0x40469C, "AI_AbeDead_11"},
-    {&FlyingSlig::AI_Possessed_12_436040, 0x404480, "AI_Possessed_12"},
-    {&FlyingSlig::AI_Possession_13_4360F0, 0x40241E, "AI_Possession_13"},
-    {&FlyingSlig::AI_DePossession_14_436180, 0x403DBE, "AI_DePossession_14"},
-    {&FlyingSlig::AI_FlyingSligSpawn_15_4362C0, 0x40128A, "AI_FlyingSligSpawn_15"},
-    {&FlyingSlig::AI_Death_1_4364E0, 0x402ABD, "AI_Death_1 (second)"},
-    {&FlyingSlig::AI_FromNakedSlig_17_4355E0, 0x401749, "AI_FromNakedSlig_17"},
+const static BrainFunctionData<TFlyingSligBrainFn> sFlyingSligBrainTable[18] = {
+    {&FlyingSlig::Brain_0_Inactive_4355B0, 0x401802, "Brain_0_Inactive"},
+    {&FlyingSlig::Brain_1_Death_4364E0, 0x402ABD, "Brain_1_Death (first)"},
+    {&FlyingSlig::Brain_2_Moving_4356D0, 0x4046BF, "Brain_2_Moving"},
+    {&FlyingSlig::Brain_3_GetAlerted_435750, 0x402603, "Brain_3_GetAlerted"},
+    {&FlyingSlig::Brain_4_ChasingEnemy_435BC0, 0x402086, "Brain_4_ChasingEnemy"},
+    {&FlyingSlig::Brain_5_Idle_435820, 0x4028A6, "Brain_5_Idle"},
+    {&FlyingSlig::Brain_6_GameSpeakToMoving_435940, 0x403E31, "Brain_6_GameSpeakToMoving"},
+    {&FlyingSlig::Brain_7_PanicMoving_435990, 0x404453, "Brain_7_PanicMoving"},
+    {&FlyingSlig::Brain_8_PanicIdle_435AC0, 0x4013A2, "Brain_8_PanicIdle"},
+    {&FlyingSlig::Brain_9_SpottedEnemy_435E40, 0x40394A, "Brain_9_SpottedEnemy"},
+    {&FlyingSlig::Brain_10_LaunchingGrenade_435F10, 0x40253B, "Brain_10_LaunchingGrenade"},
+    {&FlyingSlig::Brain_11_AbeDead_435FD0, 0x40469C, "Brain_11_AbeDead"},
+    {&FlyingSlig::Brain_12_Possessed_436040, 0x404480, "Brain_12_Possessed"},
+    {&FlyingSlig::Brain_13_Possession_4360F0, 0x40241E, "Brain_13_Possession"},
+    {&FlyingSlig::Brain_14_DePossession_436180, 0x403DBE, "Brain_14_DePossession"},
+    {&FlyingSlig::Brain_15_FlyingSligSpawn_4362C0, 0x40128A, "Brain_15_FlyingSligSpawn"},
+    {&FlyingSlig::Brain_1_Death_4364E0, 0x402ABD, "Brain_1_Death (second)"},
+    {&FlyingSlig::Brain_17_FromNakedSlig_4355E0, 0x401749, "Brain_17_FromNakedSlig"},
 };
 
-void FlyingSlig::SetBrain(TFlyingSligFn fn)
+void FlyingSlig::SetBrain(TFlyingSligBrainFn fn)
 {
-    ::SetBrain(fn, field_29C_brain_state, sFlyingSligAITable);
+    ::SetBrain(fn, field_29C_brain_state, sFlyingSligBrainTable);
 }
 
-bool FlyingSlig::BrainIs(TFlyingSligFn fn)
+bool FlyingSlig::BrainIs(TFlyingSligBrainFn fn)
 {
-    return ::BrainIs(fn, field_29C_brain_state, sFlyingSligAITable);
+    return ::BrainIs(fn, field_29C_brain_state, sFlyingSligBrainTable);
 }
 
 FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
@@ -186,7 +186,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     field_148_tlvInfo = tlvInfo;
 
-    SetBrain(&FlyingSlig::AI_Inactive_0_4355B0);
+    SetBrain(&FlyingSlig::Brain_0_Inactive_4355B0);
 
     field_106_current_motion = eFlyingSligMotions::M_Idle_0_4385E0;
 
@@ -439,7 +439,7 @@ s32 CC FlyingSlig::CreateFromSaveState_437E40(const u8* pBuffer)
     pFlyingSlig->field_1E4_unused = pSaveState->field_84_unused;
     pFlyingSlig->field_294_nextXPos = pSaveState->field_88_nextXPos;
     pFlyingSlig->field_298_nextYPos = pSaveState->field_8C_nextYPos;
-    pFlyingSlig->SetBrain(sFlyingSlig_AI_table_552350[pSaveState->field_90_fns1_idx]);
+    pFlyingSlig->SetBrain(sFlyingSlig_Brain_table_552350[pSaveState->field_90_fns1_idx]);
     pFlyingSlig->field_1E8_unused = pSaveState->field_98_unused;
     pFlyingSlig->field_2A0_abe_level = pSaveState->field_9A_abe_level;
     pFlyingSlig->field_2A2_abe_path = pSaveState->field_9C_abe_path;
@@ -547,7 +547,7 @@ s32 FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     pState->field_90_fns1_idx = 0;
 
     s32 idx = 0;
-    for (const auto& fn : sFlyingSlig_AI_table_552350)
+    for (const auto& fn : sFlyingSlig_Brain_table_552350)
     {
         if (BrainIs(fn))
         {
@@ -1041,7 +1041,7 @@ s16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
         case AETypes::eNeverSet_107:
         case AETypes::eSlog_126:
         {
-            if (BrainIs(&FlyingSlig::AI_Death_1_4364E0))
+            if (BrainIs(&FlyingSlig::Brain_1_Death_4364E0))
             {
                 return 1;
             }
@@ -1061,18 +1061,18 @@ s16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
 
         case AETypes::eBaseBomb_46:
         case AETypes::eExplosion_109:
-            if (!BrainIs(&FlyingSlig::AI_Death_1_4364E0))
+            if (!BrainIs(&FlyingSlig::Brain_1_Death_4364E0))
             {
                 BlowUp_436510();
             }
             break;
 
         case AETypes::eElectrocute_150:
-            if (!BrainIs(&FlyingSlig::AI_Death_1_4364E0))
+            if (!BrainIs(&FlyingSlig::Brain_1_Death_4364E0))
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_10C_health = FP_FromInteger(0);
-                SetBrain(&FlyingSlig::AI_Death_1_4364E0);
+                SetBrain(&FlyingSlig::Brain_1_Death_4364E0);
                 field_14C_timer = sGnFrame_5C1B84;
             }
             break;
@@ -1083,7 +1083,7 @@ s16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
     return 1;
 }
 
-void FlyingSlig::AI_Inactive_0_4355B0()
+void FlyingSlig::Brain_0_Inactive_4355B0()
 {
     if (static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
     {
@@ -1091,7 +1091,7 @@ void FlyingSlig::AI_Inactive_0_4355B0()
     }
 }
 
-void FlyingSlig::AI_Death_1_4364E0()
+void FlyingSlig::Brain_1_Death_4364E0()
 {
     if (static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
     {
@@ -1100,7 +1100,7 @@ void FlyingSlig::AI_Death_1_4364E0()
     }
 }
 
-void FlyingSlig::AI_Moving_2_4356D0()
+void FlyingSlig::Brain_2_Moving_4356D0()
 {
     if (!sub_436730() && sub_4374A0(1) == 1)
     {
@@ -1109,7 +1109,7 @@ void FlyingSlig::AI_Moving_2_4356D0()
     }
 }
 
-void FlyingSlig::AI_GetAlerted_3_435750()
+void FlyingSlig::Brain_3_GetAlerted_435750()
 {
     if (field_106_current_motion != eFlyingSligMotions::M_Idle_0_4385E0)
     {
@@ -1129,7 +1129,7 @@ void FlyingSlig::AI_GetAlerted_3_435750()
     }
 }
 
-void FlyingSlig::AI_ChasingEnemy_4_435BC0()
+void FlyingSlig::Brain_4_ChasingEnemy_435BC0()
 {
     field_17E_flags.Clear(Flags_17E::eBit3);
 
@@ -1176,7 +1176,7 @@ void FlyingSlig::AI_ChasingEnemy_4_435BC0()
     sub_4374A0(0);
 }
 
-void FlyingSlig::AI_Idle_5_435820()
+void FlyingSlig::Brain_5_Idle_435820()
 {
     if (!sub_436730() && static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
     {
@@ -1184,7 +1184,7 @@ void FlyingSlig::AI_Idle_5_435820()
     }
 }
 
-void FlyingSlig::AI_GameSpeakToMoving_6_435940()
+void FlyingSlig::Brain_6_GameSpeakToMoving_435940()
 {
     if (field_106_current_motion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
     {
@@ -1192,7 +1192,7 @@ void FlyingSlig::AI_GameSpeakToMoving_6_435940()
     }
 }
 
-void FlyingSlig::AI_PanicMoving_7_435990()
+void FlyingSlig::Brain_7_PanicMoving_435990()
 {
     if (CanChase_436850(sControlledCharacter_5C1B8C))
     {
@@ -1218,7 +1218,7 @@ void FlyingSlig::AI_PanicMoving_7_435990()
     ToPanicIdle_435B50();
 }
 
-void FlyingSlig::AI_PanicIdle_8_435AC0()
+void FlyingSlig::Brain_8_PanicIdle_435AC0()
 {
     if (CanChase_436850(sControlledCharacter_5C1B8C))
     {
@@ -1237,7 +1237,7 @@ void FlyingSlig::AI_PanicIdle_8_435AC0()
     }
 }
 
-void FlyingSlig::AI_SpottedEnemy_9_435E40()
+void FlyingSlig::Brain_9_SpottedEnemy_435E40()
 {
     if (static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
     {
@@ -1245,7 +1245,7 @@ void FlyingSlig::AI_SpottedEnemy_9_435E40()
     }
 }
 
-void FlyingSlig::AI_LaunchingGrenade_10_435F10()
+void FlyingSlig::Brain_10_LaunchingGrenade_435F10()
 {
     if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
     {
@@ -1254,7 +1254,7 @@ void FlyingSlig::AI_LaunchingGrenade_10_435F10()
     ToChase_435E10();
 }
 
-void FlyingSlig::AI_AbeDead_11_435FD0()
+void FlyingSlig::Brain_11_AbeDead_435FD0()
 {
     if (static_cast<s32>(sGnFrame_5C1B84) == field_14C_timer - 45)
     {
@@ -1266,7 +1266,7 @@ void FlyingSlig::AI_AbeDead_11_435FD0()
     }
 }
 
-void FlyingSlig::AI_Possessed_12_436040()
+void FlyingSlig::Brain_12_Possessed_436040()
 {
     if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
     {
@@ -1289,7 +1289,7 @@ void FlyingSlig::AI_Possessed_12_436040()
     HandlePlayerControls_439340();
 }
 
-void FlyingSlig::AI_Possession_13_4360F0()
+void FlyingSlig::Brain_13_Possession_4360F0()
 {
     if (static_cast<s32>(sGnFrame_5C1B84) > field_14C_timer)
     {
@@ -1298,7 +1298,7 @@ void FlyingSlig::AI_Possession_13_4360F0()
     }
 }
 
-void FlyingSlig::AI_DePossession_14_436180()
+void FlyingSlig::Brain_14_DePossession_436180()
 {
     if (!Input_IsChanting_45F260())
     {
@@ -1325,7 +1325,7 @@ void FlyingSlig::AI_DePossession_14_436180()
     }
 }
 
-void FlyingSlig::AI_FlyingSligSpawn_15_4362C0()
+void FlyingSlig::Brain_15_FlyingSligSpawn_4362C0()
 {
     if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
     {
@@ -1374,7 +1374,7 @@ void FlyingSlig::AI_FlyingSligSpawn_15_4362C0()
     }
 }
 
-void FlyingSlig::AI_FromNakedSlig_17_4355E0()
+void FlyingSlig::Brain_17_FromNakedSlig_4355E0()
 {
     FP hitX = {};
     FP hitY = {};
@@ -1647,7 +1647,7 @@ void FlyingSlig::M_GameSpeak_8_4391D0()
     {
         field_17E_flags.Clear(Flags_17E::eBit1_Speaking_flag1);
 
-        if (BrainIs(&FlyingSlig::AI_Possessed_12_436040))
+        if (BrainIs(&FlyingSlig::Brain_12_Possessed_436040))
         {
             switch (field_17D_next_speak)
             {
@@ -2036,31 +2036,31 @@ s16 FlyingSlig::IsFacingMovementDirection_43A510()
 void FlyingSlig::ToPlayerControlled_4360C0()
 {
     VSetMotion_4081C0(eFlyingSligMotions::M_Idle_0_4385E0);
-    SetBrain(&FlyingSlig::AI_Possessed_12_436040);
+    SetBrain(&FlyingSlig::Brain_12_Possessed_436040);
 }
 
 void FlyingSlig::ToMoving_435720()
 {
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
-    SetBrain(&FlyingSlig::AI_Moving_2_4356D0);
+    SetBrain(&FlyingSlig::Brain_2_Moving_4356D0);
 }
 
 void FlyingSlig::ToPanicIdle_435B50()
 {
     Say_436A50(SligSpeak::eHelp_10, 0);
     field_14C_timer = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + field_118_data.field_10_data.field_C_panic_delay;
-    SetBrain(&FlyingSlig::AI_PanicIdle_8_435AC0);
+    SetBrain(&FlyingSlig::Brain_8_PanicIdle_435AC0);
 }
 
 void FlyingSlig::ToChase_435E10()
 {
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
-    SetBrain(&FlyingSlig::AI_ChasingEnemy_4_435BC0);
+    SetBrain(&FlyingSlig::Brain_4_ChasingEnemy_435BC0);
 }
 
 s16 FlyingSlig::IsPossessed_436A90()
 {
-    return BrainIs(&FlyingSlig::AI_Possessed_12_436040) || BrainIs(&FlyingSlig::AI_FlyingSligSpawn_15_4362C0) || BrainIs(&FlyingSlig::AI_FromNakedSlig_17_4355E0) || BrainIs(&FlyingSlig::AI_Possession_13_4360F0) || BrainIs(&FlyingSlig::AI_DePossession_14_436180);
+    return BrainIs(&FlyingSlig::Brain_12_Possessed_436040) || BrainIs(&FlyingSlig::Brain_15_FlyingSligSpawn_4362C0) || BrainIs(&FlyingSlig::Brain_17_FromNakedSlig_4355E0) || BrainIs(&FlyingSlig::Brain_13_Possession_4360F0) || BrainIs(&FlyingSlig::Brain_14_DePossession_436180);
 }
 
 s16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
@@ -2357,7 +2357,7 @@ void FlyingSlig::BlowUp_436510()
     field_188_ySpeed = FP_FromInteger(0);
     field_184_xSpeed = FP_FromInteger(0);
     field_10C_health = FP_FromInteger(0);
-    SetBrain(&FlyingSlig::AI_Death_1_4364E0);
+    SetBrain(&FlyingSlig::Brain_1_Death_4364E0);
     field_14C_timer = sGnFrame_5C1B84 + 40;
 }
 
@@ -2368,7 +2368,7 @@ s16 FlyingSlig::sub_436730()
         ToSpottedEnemy_435E70();
         return 1;
     }
-    else if (CanHearAbe_4369C0() && !BrainIs(&FlyingSlig::AI_GetAlerted_3_435750))
+    else if (CanHearAbe_4369C0() && !BrainIs(&FlyingSlig::Brain_3_GetAlerted_435750))
     {
         ToAlerted_4357E0();
         return 1;
@@ -2400,7 +2400,7 @@ void FlyingSlig::ToSpottedEnemy_435E70()
     {
         Say_436A50(SligSpeak ::eFreeze_8, 0);
         field_14C_timer = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + field_118_data.field_10_data.field_10_prechase_delay;
-        SetBrain(&FlyingSlig::AI_SpottedEnemy_9_435E40);
+        SetBrain(&FlyingSlig::Brain_9_SpottedEnemy_435E40);
     }
     else
     {
@@ -2411,14 +2411,14 @@ void FlyingSlig::ToSpottedEnemy_435E70()
 
 void FlyingSlig::ToAbeDead_436010()
 {
-    SetBrain(&FlyingSlig::AI_AbeDead_11_435FD0);
+    SetBrain(&FlyingSlig::Brain_11_AbeDead_435FD0);
     field_14C_timer = sGnFrame_5C1B84 + 70;
 }
 
 void FlyingSlig::ToAlerted_4357E0()
 {
     Say_436A50(SligSpeak ::eWhat_9, 0);
-    SetBrain(&FlyingSlig::AI_GetAlerted_3_435750);
+    SetBrain(&FlyingSlig::Brain_3_GetAlerted_435750);
     field_14C_timer = sGnFrame_5C1B84 + field_118_data.field_10_data.field_14_listen_time;
 }
 
@@ -2426,7 +2426,7 @@ void FlyingSlig::ToPanicMoving_435A50()
 {
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
     field_14C_timer = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + 12;
-    SetBrain(&FlyingSlig::AI_PanicMoving_7_435990);
+    SetBrain(&FlyingSlig::Brain_7_PanicMoving_435990);
 }
 
 s16 FlyingSlig::IsTurning_436AE0()
@@ -2451,7 +2451,7 @@ void FlyingSlig::ToChantShake_436270()
 {
     SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
     VSetMotion_4081C0(eFlyingSligMotions::M_Possession_9_434290);
-    SetBrain(&FlyingSlig::AI_DePossession_14_436180);
+    SetBrain(&FlyingSlig::Brain_14_DePossession_436180);
     field_14C_timer = sGnFrame_5C1B84 + 45;
 }
 
@@ -2459,7 +2459,7 @@ void FlyingSlig::ToPossesed_436130()
 {
     Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_15C_voice_pitch_min, this);
     VSetMotion_4081C0(eFlyingSligMotions::M_Possession_9_434290);
-    SetBrain(&FlyingSlig::AI_Possession_13_4360F0);
+    SetBrain(&FlyingSlig::Brain_13_Possession_4360F0);
     field_14C_timer = sGnFrame_5C1B84 + 35;
 }
 
@@ -2472,22 +2472,22 @@ void FlyingSlig::vUpdateAnimRes_4350A0()
 
 void FlyingSlig::PatrolDelay_435860()
 {
-    if (BrainIs(&FlyingSlig::AI_ChasingEnemy_4_435BC0))
+    if (BrainIs(&FlyingSlig::Brain_4_ChasingEnemy_435BC0))
     {
         field_14C_timer = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + field_118_data.field_10_data.field_E_give_up_chase_delay;
-        SetBrain(&FlyingSlig::AI_Idle_5_435820);
+        SetBrain(&FlyingSlig::Brain_5_Idle_435820);
         return;
     }
 
     field_14C_timer = field_118_data.field_10_data.field_6_patrol_pause_min + sGnFrame_5C1B84;
     if (field_118_data.field_10_data.field_6_patrol_pause_min <= field_118_data.field_10_data.field_8_patrol_pause_max)
     {
-        SetBrain(&FlyingSlig::AI_Idle_5_435820);
+        SetBrain(&FlyingSlig::Brain_5_Idle_435820);
         return;
     }
 
     field_14C_timer += Math_NextRandom() % (field_118_data.field_10_data.field_6_patrol_pause_min - field_118_data.field_10_data.field_8_patrol_pause_max);
-    SetBrain(&FlyingSlig::AI_Idle_5_435820);
+    SetBrain(&FlyingSlig::Brain_5_Idle_435820);
 }
 
 s16 FlyingSlig::CanThrowGrenade_43A490()
@@ -2505,7 +2505,7 @@ void FlyingSlig::ToLaunchingGrenade_435F50()
         }
         field_17E_flags.Toggle(Flags_17E::eBit4);
     }
-    SetBrain(&FlyingSlig::AI_LaunchingGrenade_10_435F10);
+    SetBrain(&FlyingSlig::Brain_10_LaunchingGrenade_435F10);
 }
 
 void FlyingSlig::HandlePlayerControls_439340()
@@ -3268,13 +3268,13 @@ void FlyingSlig::PullLever_436450()
     }
     else
     {
-        SetBrain(&FlyingSlig::AI_FlyingSligSpawn_15_4362C0);
+        SetBrain(&FlyingSlig::Brain_15_FlyingSligSpawn_4362C0);
     }
 }
 
 s16 FlyingSlig::TryPullLever_439DB0()
 {
-    if (BrainIs(&FlyingSlig::AI_FlyingSligSpawn_15_4362C0))
+    if (BrainIs(&FlyingSlig::Brain_15_FlyingSligSpawn_4362C0))
     {
         return 0;
     }
