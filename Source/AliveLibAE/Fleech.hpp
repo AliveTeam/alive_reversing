@@ -142,7 +142,7 @@ struct Fleech_State final
 ALIVE_ASSERT_SIZEOF_ALWAYS(Fleech_State, 0xB4);
 
 class Fleech;
-using TFleechAIFn = s16 (Fleech::*)();
+using TFleechBrainFn = s16 (Fleech::*)();
 using TFleechMotionFn = void (Fleech::*)();
 
 class Fleech final : public BaseAliveGameObject
@@ -196,45 +196,30 @@ public:
     EXPORT void M_Consume_18_42FDF0();
 
 public:
-    EXPORT s16 AI_Patrol_0_Real_430BA0();
-    EXPORT s16 AI_Patrol_0_430BA0();
+    EXPORT s16 Brain_0_Patrol_430BA0();
+    s16 Brain_Patrol_State_0();
+    s16 Brain_Patrol_State_1();
+    s16 Brain_Patrol_State_2();
+    s16 Brain_Patrol_State_3();
+    s16 Brain_Patrol_State_4(BaseAliveGameObject* pTarget);
+    s16 Brain_Patrol_State_5();
+    s16 Brain_Patrol_State_6();
+    s16 Brain_Patrol_State_7();
+    s16 Brain_Patrol_State_8(BaseAliveGameObject* pTarget);
+    s16 Brain_Patrol_State_9();
+    s16 Brain_Patrol_State_10();
 
-    s16 AI_Patrol_State_0();
+    EXPORT s16 Brain_1_ChasingAbe_428760();
+	s16 Brain_ChasingAbe_State_0(BaseAliveGameObject* pObj);
 
-    s16 AI_Patrol_State_1();
+	EXPORT s16 Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj);
 
-    s16 AI_Patrol_State_2();
+	s16 Brain_ChasingAbe_State_2(BaseAliveGameObject* pObj);
+    s16 Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj);
 
-    s16 AI_Patrol_State_3();
-
-    s16 AI_Patrol_State_4(BaseAliveGameObject* pTarget);
-
-    s16 AI_Patrol_State_5();
-
-    s16 AI_Patrol_State_6();
-
-    s16 AI_Patrol_State_7();
-
-    s16 AI_Patrol_State_8(BaseAliveGameObject* pTarget);
-
-    s16 AI_Patrol_State_9();
-
-    s16 AI_Patrol_State_10();
-
-    EXPORT s16 AI_ChasingAbe_1_428760();
-
-    s16 AI_ChasingAbe_State_9(BaseAliveGameObject* pObj);
-
-    s16 AI_ChasingAbe_State_2(BaseAliveGameObject* pObj);
-
-    s16 AI_ChasingAbe_State_0(BaseAliveGameObject* pObj);
-
-    EXPORT s16 AI_ChasingAbe_State_1(BaseAliveGameObject* pObj);
-
-    s16 AI_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj);
-
-    EXPORT s16 AI_Scared_2_42D310();
-    EXPORT s16 AI_Death_3_42D1E0();
+    EXPORT s16 Brain_2_Scared_42D310();
+    EXPORT s16 Brain_3_Death_42D1E0();
 
 private:
     EXPORT void dtor_42A3A0();
