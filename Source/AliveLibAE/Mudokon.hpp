@@ -82,16 +82,16 @@ enum class MudAction : s16
 
 
 #define MUD_BRAIN_STATES_ENUM(ENTRY)        \
-    ENTRY(Brain_GiveRings_0_470C10)         \
-    ENTRY(Brain_Chisel_1_47C5F0)            \
-    ENTRY(Brain_Scrub_2_47D270)             \
-    ENTRY(Brain_TurnWheel_3_47E0D0)         \
-    ENTRY(Brain_ListeningToAbe_4_477B40)    \
-    ENTRY(Brain_ShrivelDeath_5_4714A0)      \
-    ENTRY(Brain_Escape_6_47A560)            \
-    ENTRY(Brain_FallAndSmackDeath_7_471600) \
-    ENTRY(Brain_AngryWorker_8_47E910)       \
-    ENTRY(Brain_Sick_9_47A910)
+    ENTRY(Brain_0_GiveRings_470C10)         \
+    ENTRY(Brain_1_Chisel_47C5F0)            \
+    ENTRY(Brain_2_Scrub_47D270)             \
+    ENTRY(Brain_3_TurnWheel_47E0D0)         \
+    ENTRY(Brain_4_ListeningToAbe_477B40)    \
+    ENTRY(Brain_5_ShrivelDeath_4714A0)      \
+    ENTRY(Brain_6_Escape_47A560)            \
+    ENTRY(Brain_7_FallAndSmackDeath_471600) \
+    ENTRY(Brain_8_AngryWorker_47E910)       \
+    ENTRY(Brain_9_Sick_47A910)
 
 #define MAKE_STRINGS(VAR) #VAR,
 const char_type* const sMudBrainStateNames[10] = {
@@ -344,13 +344,12 @@ public:
     EXPORT void vUpdateAnimRes_474D80();
 
 public: // Brains
-    EXPORT s16 Brain_GiveRings_0_470C10();
-    EXPORT s16 Brain_Chisel_1_47C5F0();
-    EXPORT s16 Brain_Scrub_2_47D270();
-    EXPORT s16 Brain_TurnWheel_3_47E0D0();
+    EXPORT s16 Brain_0_GiveRings_470C10();
+    EXPORT s16 Brain_1_Chisel_47C5F0();
+    EXPORT s16 Brain_2_Scrub_47D270();
+    EXPORT s16 Brain_3_TurnWheel_47E0D0();
 
-    EXPORT s16 Brain_ListeningToAbe_4_Real_477B40();
-    EXPORT s16 Brain_ListeningToAbe_4_477B40();
+    EXPORT s16 Brain_4_ListeningToAbe_477B40();
 
     s16 Brain_ListeningToAbe_State_0();
     s16 Brain_ListeningToAbe_State_1();
@@ -376,11 +375,11 @@ public: // Brains
     s16 Brain_ListeningToAbe_State_21();
     s16 Brain_ListeningToAbe_State_22();
 
-    EXPORT s16 Brain_ShrivelDeath_5_4714A0();
-    EXPORT s16 Brain_Escape_6_47A560();
-    EXPORT s16 Brain_FallAndSmackDeath_7_471600();
-    EXPORT s16 Brain_AngryWorker_8_47E910();
-    EXPORT s16 Brain_Sick_9_47A910();
+    EXPORT s16 Brain_5_ShrivelDeath_4714A0();
+    EXPORT s16 Brain_6_Escape_47A560();
+    EXPORT s16 Brain_7_FallAndSmackDeath_471600();
+    EXPORT s16 Brain_8_AngryWorker_47E910();
+    EXPORT s16 Brain_9_Sick_47A910();
 
 public: // Motions
     EXPORT void M_Idle_0_4724E0();
