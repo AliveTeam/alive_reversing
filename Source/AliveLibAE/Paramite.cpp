@@ -53,16 +53,16 @@ const TParamiteBrainFn sParamite_brain_table_55D710[10] = {
 
 
 const static BrainFunctionData<TParamiteBrainFn> sParamiteBrainTable[10] = {
-    {&Paramite::Brain_0_Patrol_4835B0, 0x402A7C, "AI_0_Patrol"},
-    {&Paramite::Brain_1_Death_484CD0, 0x404223, "AI_1_Death"},
-    {&Paramite::Brain_2_ChasingAbe_4859D0, 0x401799, "AI_2_ChasingAbe"},
-    {&Paramite::Brain_3_SurpriseWeb_4851B0, 0x401645, "AI_3_SurpriseWeb"},
-    {&Paramite::Brain_4_Unused_48F8F0, 0x48F8F0, "AI_4_Unused_4"},
-    {&Paramite::Brain_5_SpottedMeat_486880, 0x4012E4, "AI_5_SpottedMeat"},
-    {&Paramite::Brain_6_Possessed_484BC0, 0x40187F, "AI_6_Possessed"},
-    {&Paramite::Brain_7_DeathDrop_484FF0, 0x4021A3, "AI_7_DeathDrop"},
-    {&Paramite::Brain_8_ControlledByGameSpeak_48DFC0, 0x4010B4, "AI_8_ControlledByGameSpeak_8"},
-    {&Paramite::Brain_9_ParamiteSpawn_48ED80, 0x401EE7, "AI_9_ParamiteSpawn"},
+    {&Paramite::Brain_0_Patrol_4835B0, 0x402A7C, "Brain_0_Patrol"},
+    {&Paramite::Brain_1_Death_484CD0, 0x404223, "Brain_1_Death"},
+    {&Paramite::Brain_2_ChasingAbe_4859D0, 0x401799, "Brain_2_ChasingAbe"},
+    {&Paramite::Brain_3_SurpriseWeb_4851B0, 0x401645, "Brain_3_SurpriseWeb"},
+    {&Paramite::Brain_4_Unused_48F8F0, 0x48F8F0, "Brain_4_Unused_4"},
+    {&Paramite::Brain_5_SpottedMeat_486880, 0x4012E4, "Brain_5_SpottedMeat"},
+    {&Paramite::Brain_6_Possessed_484BC0, 0x40187F, "Brain_6_Possessed"},
+    {&Paramite::Brain_7_DeathDrop_484FF0, 0x4021A3, "Brain_7_DeathDrop"},
+    {&Paramite::Brain_8_ControlledByGameSpeak_48DFC0, 0x4010B4, "Brain_8_ControlledByGameSpeak_8"},
+    {&Paramite::Brain_9_ParamiteSpawn_48ED80, 0x401EE7, "Brain_9_ParamiteSpawn"},
 };
 
 void Paramite::SetBrain(TParamiteBrainFn fn)
