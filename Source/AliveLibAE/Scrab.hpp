@@ -126,7 +126,7 @@ struct Scrab_State final
     s8 field_41_padding;
     s16 field_42_padding;
     s32 field_44_tlvInfo;
-    s32 field_48_ai_idx;
+    s32 field_48_brain_idx;
     s16 field_4C_padding;
     s16 field_4E_padding;
     s16 field_50_sub_state;
@@ -171,7 +171,7 @@ struct Scrab_State final
 ALIVE_ASSERT_SIZEOF_ALWAYS(Scrab_State, 0xA0);
 
 class Scrab;
-using TScrabAIFn = s16 (Scrab::*)();
+using TScrabBrainFn = s16 (Scrab::*)();
 using TScrabMotionFn = void (Scrab::*)();
 
 class Scrab final : public BaseAliveGameObject
@@ -242,18 +242,18 @@ private:
     EXPORT void Update_Slurg_Step_Watch_Points_4A5780();
 
 public:
-    EXPORT s16 AI_Patrol_0_4AA630();
+    EXPORT s16 Brain_0_Patrol_4AA630();
 
-    s16 AI_ChasingEnemy_State_Running_2(BaseAliveGameObject* pObj);
+    s16 Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj);
 
-    EXPORT s16 AI_ChasingEnemy_1_4A6470();
-    EXPORT s16 AI_Fighting_2_4A5840();
-    EXPORT s16 AI_Death_3_4A62B0();
-    EXPORT s16 AI_ShrinkDeath_4_4A6420();
-    EXPORT s16 AI_Possessed_5_4A6180();
+    EXPORT s16 Brain_1_ChasingEnemy_4A6470();
+    EXPORT s16 Brain_2_Fighting_4A5840();
+    EXPORT s16 Brain_3_Death_4A62B0();
+    EXPORT s16 Brain_4_ShrinkDeath_4A6420();
+    EXPORT s16 Brain_5_Possessed_4A6180();
 
-    void SetBrain(TScrabAIFn fn);
-    bool BrainIs(TScrabAIFn fn);
+    void SetBrain(TScrabBrainFn fn);
+    bool BrainIs(TScrabBrainFn fn);
 
 public:
     EXPORT void M_Stand_0_4A8220();
@@ -350,8 +350,8 @@ private:
     EXPORT GameSpeakEvents LastSpeak_4A56F0();
 
 private:
-    TScrabAIFn field_118_brain_state;
-    s16 field_11C_sub_state;
+    TScrabBrainFn field_118_brain_state;
+    s16 field_11C_brain_sub_state;
     s16 field_11E_return_to_previous_motion;
     s32 field_120_obj_id;
     s32 field_124_fight_target_obj_id;
