@@ -74,7 +74,7 @@ enum class Types : s16
     eParamite_62 = 62,
     eDemoPlayback = 64,
     eBirdPortal_65 = 65,
-    e66 = 66,
+    eBirdPortalTerminator_66 = 66,
     eFG1_67 = 67,
     ePullRingRope_68 = 68,
     eAbilityRing_69 = 69,

@@ -85,6 +85,8 @@ public:
     virtual void VGetMapChange(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
 private:
+    void CreateDovesAndShrykullNumber();
+    void CreateTerminators();
     EXPORT s16 VPortalClipper_4533E0(s16 bUnknown);
     EXPORT void VMudSaved_453830();
     EXPORT void VGetMapChange_453840(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
@@ -103,33 +105,33 @@ private:
 public:
     PortalType field_10_portal_type;
     PortalSide field_12_side;
-    enum class States : s16
+    enum class PortalStates : s16
     {
-        State_0 = 0,
-        State_1 = 1,
-        State_2 = 2,
-        State_3 = 3,
-        State_4 = 4,
-        State_5 = 5,
-        State_6 = 6,
-        State_7 = 7,
+        CreatePortal_0 = 0,
+        IdlePortal_1 = 1,
+        JoinBirdsInCenter_2 = 2,
+        KillBirds_3 = 3,
+        CreateTerminators_4 = 4,
+        ExpandTerminators_5 = 5,
+        ActivePortal_6 = 6,
+        ShrykullGetDoves_7 = 7,
         State_8 = 8,
-        State_9 = 9,
-        State_10 = 10,
-        State_11 = 11,
-        State_12 = 12,
-        State_13 = 13,
-        State_14 = 14,
-        State_15 = 15,
+        GetShrykull_9 = 9,
+        CollapseTerminators_10 = 10,
+        StopSound_11 = 11,
+        CreateFlash1_12 = 12,
+        CreateFlash2_13 = 13,
+        CreateFlash3_14 = 14,
+        KillPortal_15 = 15,
         State_16 = 16,
-        State_17 = 17,
-        State_18 = 18,
-        State_19 = 19,
+        PortalExit_SetPosition_17 = 17,
+        PortalExit_CreateTerminators_18 = 18,
+        PortalExit_ExpandTerminators_19 = 19,
         State_20 = 20,
-        State_21 = 21,
-        State_22 = 22,
+        KillPortalClipper_21 = 21,
+        FadeoutTerminators_22 = 22,
     };
-    States field_14_state;
+    PortalStates field_14_state;
     s16 field_16;
     FP field_18_xpos;
     FP field_1C_ypos;
@@ -143,14 +145,14 @@ public:
     s16 field_3A;
     BirdPortalTerminator* field_3C_pTerminator1;
     BirdPortalTerminator* field_40_pTerminator2;
-    ScreenClipper* field_44_pScreenClipper;
-    ScreenClipper* field_48_pScreenClipper;
+    ScreenClipper* field_44_pScreenClipper1;
+    ScreenClipper* field_48_pScreenClipper2;
     DynamicArrayT<Dove>* field_4C_pDovesArray;
     LevelIds field_50_dest_level;
     s16 field_52_dest_path;
     s16 field_54_dest_camera;
     s16 field_56_num_muds_for_shrykull;
-    s16 field_58;
+    s16 field_58_received_doves;
     s16 field_5A;
     ThrowableTotalIndicator* field_5C_pThrowableTotalIndicator;
     OrbWhirlWind* field_60_pOrbWhirlWind;

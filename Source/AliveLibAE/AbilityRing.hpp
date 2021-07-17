@@ -39,7 +39,7 @@ struct AbilityRing_State final
     FP field_4_xpos;
     FP field_8_ypos;
     RingTypes field_C_ring_type;
-    s16 field_E;
+    s16 field_E_padding;
     FP field_10_scale;
     s32 field_14_obj_id;
     FP field_18_right;
@@ -96,7 +96,7 @@ private:
     FP field_260_scaleX;
     FP field_264_scaleY;
     FP field_268_ring_thickness;
-    s16 field_26C_fade; // Something to do with the fade out amount/time ??
+    s16 field_26C_fadeout_distance;
     s16 field_26E_screenX;
     s16 field_270_screenY;
     s16 field_272_screenXPos;

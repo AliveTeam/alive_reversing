@@ -88,7 +88,7 @@ void Alarm::dtor_409380()
 
     if (field_90_state != States::eWaitForSwitchEnable_0)
     {
-        --alarmInstanceCount_5C1BB4;
+        alarmInstanceCount_5C1BB4--;
     }
 
     if (sAlarmObjId_550D70 == field_8_object_id)
