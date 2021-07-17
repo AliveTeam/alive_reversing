@@ -35,7 +35,7 @@ public:
 
     EXPORT void VUpdate_404950();
 
-    s32 field_D4[4];
+    s32 field_D4_padding[4];
     PathLine* field_E4_pLine;
     FP field_E8_speed;
     s32 field_EC_ticks_before_moving;

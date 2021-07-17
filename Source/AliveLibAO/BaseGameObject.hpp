@@ -165,8 +165,8 @@ public:
     BitField16<Options> field_6_flags;
     s32 field_8_update_delay;
     s8 field_C_refCount;
-    s8 field_D;  // pad ?
-    s16 field_E; // ??
+    s8 field_D_padding;
+    s16 field_E_padding;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 

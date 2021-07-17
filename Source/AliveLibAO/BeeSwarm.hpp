@@ -55,7 +55,7 @@ public:
 
     EXPORT void VRender_480AC0(PrimHeader** ppOt);
 
-    s32 field_D4[4];
+    s32 field_D4_padding[4];
     BeeSwarmParticles field_E4_bees;
     s16 field_D64_num_bees;
     s16 field_D66_bee_count;

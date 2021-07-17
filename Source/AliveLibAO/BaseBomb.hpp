@@ -18,7 +18,7 @@ public:
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    s32 field_D4[4];
+    s32 field_D4_padding[4];
     FP field_E4_scale;
 };
 ALIVE_ASSERT_SIZEOF(BaseBomb, 0xE8);

@@ -48,12 +48,12 @@ public:
         eHighPitch_2 = 2
     };
     Sounds field_EA_sound;
-    s32 field_EC_timer;
-    s8 field_F0_timer;
+    s32 field_EC_bDoScreenWave;
+    s8 field_F0_sound_pitch_factor;
     s8 field_F1_padding;
     s8 field_F2_padding;
     s8 field_F3_padding;
-    s32 field_F4_timer;
+    s32 field_F4_sound_cooldown_timer;
 };
 ALIVE_ASSERT_SIZEOF(Bells, 0xF8);
 
