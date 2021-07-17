@@ -456,14 +456,14 @@ void MotionDetector::vUpdate_468A90()
             field_118_x2_fp = pOwner->field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20));
             field_120_y2_fp = pOwner->field_BC_ypos;
 
-            if (pOwner->field_13C_state == GreeterStates::eState_0_Patrol || pOwner->field_13C_state == GreeterStates::eState_1_PatrolTurn)
+            if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_1_PatrolTurn)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 pLaser->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 pLaser->field_BC_ypos = pOwner->field_BC_ypos;
             }
 
-            if (pOwner->field_13C_state == GreeterStates::eState_4_Chase || pOwner->field_13C_state == GreeterStates::eState_6_ToChase)
+            if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_4_Chase || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_6_ToChase)
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 pLaser->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);

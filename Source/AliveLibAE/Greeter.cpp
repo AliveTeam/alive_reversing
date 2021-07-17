@@ -56,7 +56,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
     }
 
     field_134_speed = FP_FromInteger(pTlv->field_12_motion_detector_speed);
-    field_13C_state = GreeterStates::eState_0_Patrol;
+    field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
     field_12E = 1;
     field_118_tlvInfo = tlvInfo;
 
@@ -212,7 +212,7 @@ s32 CC Greeter::CreateFromSaveState_446040(const u8* pBuffer)
     pGreeter->field_12E = pState->field_3A;
     pGreeter->field_130 = pState->field_3C;
     pGreeter->field_134_speed = pState->field_40_speed;
-    pGreeter->field_13C_state = pState->field_44_state;
+    pGreeter->field_13C_brain_state = pState->field_44_brain_state;
     pGreeter->field_13E_targetOnLeft = pState->field_46_targetOnLeft;
     pGreeter->field_140_targetOnRight = pState->field_48_targetOnRight;
 
@@ -260,7 +260,7 @@ s32 Greeter::vGetSaveState_446400(Greeter_State* pState)
     pState->field_3C = field_130;
 
     pState->field_40_speed = field_134_speed;
-    pState->field_44_state = field_13C_state;
+    pState->field_44_brain_state = field_13C_brain_state;
     pState->field_46_targetOnLeft = field_13E_targetOnLeft;
     pState->field_48_targetOnRight = field_140_targetOnRight;
 
@@ -357,7 +357,7 @@ EXPORT void Greeter::BlowUp_447E50()
 
 void Greeter::ChangeDirection_447BD0()
 {
-    field_13C_state = GreeterStates::eState_1_PatrolTurn;
+    field_13C_brain_state = GreeterBrainStates::eBrain_1_PatrolTurn;
     field_C4_velx = FP_FromInteger(0);
     const AnimRecord& animRec = AnimRec(AnimId::Greeter_Turn_Around);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -366,7 +366,7 @@ void Greeter::ChangeDirection_447BD0()
 
 void Greeter::BounceBackFromShot_447B10()
 {
-    field_13C_state = GreeterStates::eState_5_Knockback;
+    field_13C_brain_state = GreeterBrainStates::eBrain_5_Knockback;
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -403,21 +403,21 @@ void Greeter::HandleRollingAlong_447860()
                 break;
 
             case TlvTypes::ScrabLeftBound_43:
-                if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && field_13C_state == GreeterStates::eState_0_Patrol)
+                if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol)
                 {
                     ChangeDirection_447BD0();
                 }
                 break;
 
             case TlvTypes::ScrabRightBound_44:
-                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && field_13C_state == GreeterStates::eState_0_Patrol)
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol)
                 {
                     ChangeDirection_447BD0();
                 }
                 break;
 
             case TlvTypes::EnemyStopper_47:
-                if (field_13C_state != GreeterStates::eState_7_Fall)
+                if (field_13C_brain_state != GreeterBrainStates::eBrain_7_Fall)
                 {
                     ChangeDirection_447BD0();
                 }
@@ -428,7 +428,7 @@ void Greeter::HandleRollingAlong_447860()
         }
     }
 
-    if (field_13C_state == GreeterStates::eState_0_Patrol)
+    if (field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol)
     {
         if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_408E90(0, 1)) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3)) || (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && Check_IsOnEndOfLine_408E90(1, 1)))
         {
@@ -436,7 +436,7 @@ void Greeter::HandleRollingAlong_447860()
         }
     }
 
-    if (field_13C_state == GreeterStates::eState_4_Chase)
+    if (field_13C_brain_state == GreeterBrainStates::eBrain_4_Chase)
     {
         if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3))) // TODO: OG bug, raw * 3 here ??
         {
@@ -622,7 +622,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 
 void Greeter::RandomishSpeak_447A70(GreeterSpeak effect)
 {
-    field_13C_state = GreeterStates::eState_2_Speak;
+    field_13C_brain_state = GreeterBrainStates::eBrain_2_Speak;
     field_C4_velx = FP_FromInteger(0);
     const AnimRecord& animRec = AnimRec(AnimId::Greeter_Speak);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -697,9 +697,9 @@ void Greeter::vUpdate_4469B0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    switch (field_13C_state)
+    switch (field_13C_brain_state)
     {
-        case GreeterStates::eState_0_Patrol:
+        case GreeterBrainStates::eBrain_0_Patrol:
             if (!((sGnFrame_5C1B84 - field_124_last_turn_time) % 14))
             {
                 const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
@@ -717,12 +717,12 @@ void Greeter::vUpdate_4469B0()
                 if (field_13E_targetOnLeft)
                 {
                     RandomishSpeak_447A70(GreeterSpeak::Hi_0);
-                    field_13C_state = GreeterStates::eState_3_ChaseSpeak;
+                    field_13C_brain_state = GreeterBrainStates::eBrain_3_ChaseSpeak;
                 }
                 else if (field_140_targetOnRight)
                 {
                     ChangeDirection_447BD0();
-                    field_13C_state = GreeterStates::eState_6_ToChase;
+                    field_13C_brain_state = GreeterBrainStates::eBrain_6_ToChase;
                 }
             }
             else
@@ -731,12 +731,12 @@ void Greeter::vUpdate_4469B0()
                 if (field_140_targetOnRight)
                 {
                     RandomishSpeak_447A70(GreeterSpeak::Hi_0);
-                    field_13C_state = GreeterStates::eState_3_ChaseSpeak;
+                    field_13C_brain_state = GreeterBrainStates::eBrain_3_ChaseSpeak;
                 }
                 else if (field_13E_targetOnLeft)
                 {
                     ChangeDirection_447BD0();
-                    field_13C_state = GreeterStates::eState_6_ToChase;
+                    field_13C_brain_state = GreeterBrainStates::eBrain_6_ToChase;
                 }
             }
 
@@ -746,10 +746,10 @@ void Greeter::vUpdate_4469B0()
             }
             break;
 
-        case GreeterStates::eState_1_PatrolTurn:
+        case GreeterBrainStates::eBrain_1_PatrolTurn:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_13C_state = GreeterStates::eState_0_Patrol;
+                field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
                 const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 field_C8_vely = FP_FromInteger(0);
@@ -766,11 +766,11 @@ void Greeter::vUpdate_4469B0()
             }
             break;
 
-        case GreeterStates::eState_2_Speak:
+        case GreeterBrainStates::eBrain_2_Speak:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_130 = 0;
-                field_13C_state = GreeterStates::eState_0_Patrol;
+                field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
                 const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 field_C8_vely = FP_FromInteger(0);
@@ -778,18 +778,18 @@ void Greeter::vUpdate_4469B0()
             }
             break;
 
-        case GreeterStates::eState_3_ChaseSpeak:
+        case GreeterBrainStates::eBrain_3_ChaseSpeak:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_130 = 1;
-                field_13C_state = GreeterStates::eState_4_Chase;
+                field_13C_brain_state = GreeterBrainStates::eBrain_4_Chase;
                 const AnimRecord& animRec = AnimRec(AnimId::Greeter_Chase);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 field_C8_vely = FP_FromInteger(0);
             }
             break;
 
-        case GreeterStates::eState_4_Chase:
+        case GreeterBrainStates::eBrain_4_Chase:
         {
             if (!(sGnFrame_5C1B84 % 8))
             {
@@ -834,7 +834,7 @@ void Greeter::vUpdate_4469B0()
         }
         break;
 
-        case GreeterStates::eState_5_Knockback:
+        case GreeterBrainStates::eBrain_5_Knockback:
             if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), FP_FromRaw(3 * field_C4_velx.fpValue))) // TODO: OG bug, why * 3 and not * FP 3??
             {
                 field_C4_velx = FP_FromInteger(0);
@@ -847,11 +847,11 @@ void Greeter::vUpdate_4469B0()
             }
             break;
 
-        case GreeterStates::eState_6_ToChase:
+        case GreeterBrainStates::eBrain_6_ToChase:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 RandomishSpeak_447A70(GreeterSpeak::Hi_0);
-                field_13C_state = GreeterStates::eState_3_ChaseSpeak;
+                field_13C_brain_state = GreeterBrainStates::eBrain_3_ChaseSpeak;
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
                     field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
@@ -863,7 +863,7 @@ void Greeter::vUpdate_4469B0()
             }
             break;
 
-        case GreeterStates::eState_7_Fall:
+        case GreeterBrainStates::eBrain_7_Fall:
         {
             FP hitX = {};
             FP hitY = {};
@@ -887,13 +887,13 @@ void Greeter::vUpdate_4469B0()
                     field_C8_vely = FP_FromInteger(0);
                     if (field_130 == 0)
                     {
-                        field_13C_state = GreeterStates::eState_0_Patrol;
+                        field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
                         const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
                         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                     }
                     else
                     {
-                        field_13C_state = GreeterStates::eState_4_Chase;
+                        field_13C_brain_state = GreeterBrainStates::eBrain_4_Chase;
                         const AnimRecord& animRec = AnimRec(AnimId::Greeter_Chase);
                         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                     }
@@ -908,7 +908,7 @@ void Greeter::vUpdate_4469B0()
 
     if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
     {
-        if (field_13C_state != GreeterStates::eState_7_Fall)
+        if (field_13C_brain_state != GreeterBrainStates::eBrain_7_Fall)
         {
             const FP xpos = field_C4_velx
                           + field_C4_velx
@@ -926,7 +926,7 @@ void Greeter::vUpdate_4469B0()
     }
 
     bool collisionCheck = true;
-    if (field_13C_state == GreeterStates::eState_7_Fall)
+    if (field_13C_brain_state == GreeterBrainStates::eBrain_7_Fall)
     {
         field_138_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
             nullptr,
@@ -935,7 +935,7 @@ void Greeter::vUpdate_4469B0()
             field_B8_xpos,
             field_BC_ypos);
         HandleRollingAlong_447860();
-        if (field_13C_state == GreeterStates::eState_7_Fall)
+        if (field_13C_brain_state == GreeterBrainStates::eBrain_7_Fall)
         {
             collisionCheck = false;
         }
@@ -945,13 +945,13 @@ void Greeter::vUpdate_4469B0()
     {
         if (Check_IsOnEndOfLine_408E90(0, 0))
         {
-            field_13C_state = GreeterStates::eState_7_Fall;
+            field_13C_brain_state = GreeterBrainStates::eBrain_7_Fall;
             const AnimRecord& animRec = AnimRec(AnimId::Greeter_Falling);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         }
     }
 
-    if (field_13C_state != GreeterStates::eState_7_Fall)
+    if (field_13C_brain_state != GreeterBrainStates::eBrain_7_Fall)
     {
         field_B8_xpos += field_C4_velx;
         field_BC_ypos += field_C8_vely;

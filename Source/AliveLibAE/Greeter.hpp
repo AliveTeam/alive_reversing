@@ -13,16 +13,16 @@ struct Path_Greeter final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Greeter, 0x18);
 
-enum class GreeterStates : s16
+enum class GreeterBrainStates : s16
 {
-    eState_0_Patrol,
-    eState_1_PatrolTurn,
-    eState_2_Speak,
-    eState_3_ChaseSpeak,
-    eState_4_Chase,
-    eState_5_Knockback,
-    eState_6_ToChase,
-    eState_7_Fall
+    eBrain_0_Patrol,
+    eBrain_1_PatrolTurn,
+    eBrain_2_Speak,
+    eBrain_3_ChaseSpeak,
+    eBrain_4_Chase,
+    eBrain_5_Knockback,
+    eBrain_6_ToChase,
+    eBrain_7_Fall
 };
 
 struct Greeter_State final
@@ -53,7 +53,7 @@ struct Greeter_State final
     s16 field_3C;
     s16 field_3E;
     FP field_40_speed;
-    GreeterStates field_44_state;
+    GreeterBrainStates field_44_brain_state;
     s16 field_46_targetOnLeft;
     s16 field_48_targetOnRight;
     s16 field_4A;
@@ -121,7 +121,7 @@ private:
     Path_TLV* field_138_pTlv;
 
 public:
-    GreeterStates field_13C_state;
+    GreeterBrainStates field_13C_brain_state;
     s16 field_13E_targetOnLeft;
     s16 field_140_targetOnRight;
 
