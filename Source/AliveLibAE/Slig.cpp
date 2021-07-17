@@ -6665,7 +6665,7 @@ void Slig::RespondToEnemyOrPatrol_4B3140()
 
 s16 CCSTD Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
 {
-    if (((pThis->field_4_typeId == AETypes::eAbe_69) && (pThis->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 && pThis->field_20_animation.field_92_current_frame > 7)) || (pThis->field_106_current_motion == eAbeStates::State_115_DoorExit_459A40 && pThis->field_20_animation.field_92_current_frame < 4))
+    if (((pThis->field_4_typeId == AETypes::eAbe_69) && (pThis->field_106_current_motion == eAbeMotions::Motion_114_DoorEnter_459470 && pThis->field_20_animation.field_92_current_frame > 7)) || (pThis->field_106_current_motion == eAbeMotions::Motion_115_DoorExit_459A40 && pThis->field_20_animation.field_92_current_frame < 4))
     {
         return 1;
     }

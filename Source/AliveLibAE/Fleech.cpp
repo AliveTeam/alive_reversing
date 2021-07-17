@@ -3771,7 +3771,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     }
 
     // Can we get to a hanging abe?
-    if (pObj == sActiveHero_5C1B68 && pObj->field_106_current_motion == eAbeStates::State_67_LedgeHang_454E20 && field_BC_ypos > pObj->field_BC_ypos)
+    if (pObj == sActiveHero_5C1B68 && pObj->field_106_current_motion == eAbeMotions::Motion_67_LedgeHang_454E20 && field_BC_ypos > pObj->field_BC_ypos)
     {
         if (field_BC_ypos - pObj->field_BC_ypos <= (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(6)))
         {

@@ -4166,7 +4166,7 @@ s16 Scrab::CanSeeAbe_4A51A0(BaseAliveGameObject* pObj)
 
     if (pObj == sActiveHero_5C1B68)
     {
-        if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_67_LedgeHang_454E20 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_69_LedgeHangWobble_454EF0)
+        if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_67_LedgeHang_454E20 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_69_LedgeHangWobble_454EF0)
         {
             return vOnSameYLevel_425520(pObj);
         }

@@ -1206,7 +1206,7 @@ void Slog::M_JumpUpwards_19_4C7470()
 
     if (field_20_animation.field_92_current_frame == 5)
     {
-        if (field_160_flags.Get(Flags_160::eBit4_Hungry) && field_118_target_id == sActiveHero_5C1B68->field_8_object_id && sActiveHero_5C1B68->field_D6_scale == field_D6_scale && (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_104_RockThrowStandingHold_455DF0 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_107_RockThrowCrouchingHold_454410))
+        if (field_160_flags.Get(Flags_160::eBit4_Hungry) && field_118_target_id == sActiveHero_5C1B68->field_8_object_id && sActiveHero_5C1B68->field_D6_scale == field_D6_scale && (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_104_RockThrowStandingHold_455DF0 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_107_RockThrowCrouchingHold_454410))
         {
             Sfx_4C7D30(SlogSound::HungryYip_13);
         }
@@ -2693,7 +2693,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
         field_106_current_motion = eSlogMotions::M_TurnAround_3_4C65C0;
     }
 
-    if (field_160_flags.Get(Flags_160::eBit4_Hungry) && pTarget == sActiveHero_5C1B68 && pTarget->field_D6_scale == field_D6_scale && (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_104_RockThrowStandingHold_455DF0 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_107_RockThrowCrouchingHold_454410))
+    if (field_160_flags.Get(Flags_160::eBit4_Hungry) && pTarget == sActiveHero_5C1B68 && pTarget->field_D6_scale == field_D6_scale && (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_104_RockThrowStandingHold_455DF0 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_107_RockThrowCrouchingHold_454410))
     {
         field_108_next_motion = eSlogMotions::M_StopRunning_6_4C66C0;
         field_124_timer = sGnFrame_5C1B84 + 90;

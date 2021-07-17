@@ -891,7 +891,7 @@ void PauseMenu_ForceLink()
                                         {
                                             const auto levelSelectEntry = gPerLvlData_561700[pm->index];
                                             pm->ClosePauseMenu();
-                                            sActiveHero_5C1B68->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
+                                            sActiveHero_5C1B68->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
                                             sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                                             sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
                                             sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
@@ -1561,18 +1561,18 @@ void PauseMenu::Update_48FD80()
         if (!(sControlledCharacter_5C1B8C->field_114_flags.Get(e114_Bit10_Teleporting)))
         {
             const s16 heroState = sActiveHero_5C1B68->field_106_current_motion;
-            if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
-                && heroState != eAbeStates::State_119_ToShrykull_45A990
-                && heroState != eAbeStates::State_120_EndShrykull_45AB00
-                && heroState != eAbeStates::State_75_JumpIntoWell_45C7B0
-                && heroState != eAbeStates::State_76_ToInsideOfAWellLocal_45CA40
-                && heroState != eAbeStates::State_77_ToWellShotOut_45D130
-                && heroState != eAbeStates::State_78_WellBegin_45C810
-                && heroState != eAbeStates::State_79_InsideWellLocal_45CA60
-                && heroState != eAbeStates::State_80_WellShotOut_45D150
-                && heroState != eAbeStates::jState_81_WellBegin_45C7F0
-                && heroState != eAbeStates::State_82_InsideWellExpress_45CC80
-                && heroState != eAbeStates::State_83_WellExpressShotOut_45CF70
+            if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00
+                && heroState != eAbeMotions::Motion_119_ToShrykull_45A990
+                && heroState != eAbeMotions::Motion_120_EndShrykull_45AB00
+                && heroState != eAbeMotions::Motion_75_JumpIntoWell_45C7B0
+                && heroState != eAbeMotions::Motion_76_ToInsideOfAWellLocal_45CA40
+                && heroState != eAbeMotions::Motion_77_ToWellShotOut_45D130
+                && heroState != eAbeMotions::Motion_78_WellBegin_45C810
+                && heroState != eAbeMotions::Motion_79_InsideWellLocal_45CA60
+                && heroState != eAbeMotions::Motion_80_WellShotOut_45D150
+                && heroState != eAbeMotions::jMotion_81_WellBegin_45C7F0
+                && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
+                && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
                 && (sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eEvilFart_45 || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
                 && sActiveHero_5C1B68->field_1A8_portal_id == -1)
             {
@@ -1609,18 +1609,18 @@ void PauseMenu::Update_48FD80()
             && !(pControlledChar->field_114_flags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
             const s16 heroState = pHero->field_106_current_motion;
-            if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
-                && heroState != eAbeStates::State_119_ToShrykull_45A990
-                && heroState != eAbeStates::State_120_EndShrykull_45AB00
-                && heroState != eAbeStates::State_75_JumpIntoWell_45C7B0
-                && heroState != eAbeStates::State_76_ToInsideOfAWellLocal_45CA40
-                && heroState != eAbeStates::State_77_ToWellShotOut_45D130
-                && heroState != eAbeStates::State_78_WellBegin_45C810
-                && heroState != eAbeStates::State_79_InsideWellLocal_45CA60
-                && heroState != eAbeStates::State_80_WellShotOut_45D150
-                && heroState != eAbeStates::jState_81_WellBegin_45C7F0
-                && heroState != eAbeStates::State_82_InsideWellExpress_45CC80
-                && heroState != eAbeStates::State_83_WellExpressShotOut_45CF70
+            if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00
+                && heroState != eAbeMotions::Motion_119_ToShrykull_45A990
+                && heroState != eAbeMotions::Motion_120_EndShrykull_45AB00
+                && heroState != eAbeMotions::Motion_75_JumpIntoWell_45C7B0
+                && heroState != eAbeMotions::Motion_76_ToInsideOfAWellLocal_45CA40
+                && heroState != eAbeMotions::Motion_77_ToWellShotOut_45D130
+                && heroState != eAbeMotions::Motion_78_WellBegin_45C810
+                && heroState != eAbeMotions::Motion_79_InsideWellLocal_45CA60
+                && heroState != eAbeMotions::Motion_80_WellShotOut_45D150
+                && heroState != eAbeMotions::jMotion_81_WellBegin_45C7F0
+                && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
+                && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
                 && (pControlledChar->field_4_typeId != AETypes::eEvilFart_45 || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_timer) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
                 && pHero->field_1A8_portal_id == -1)
             {

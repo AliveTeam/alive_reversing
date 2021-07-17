@@ -3173,7 +3173,7 @@ s16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
             break;
 
         case AETypes::eAbe_69:
-            if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_62_Punch_454750)
+            if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_62_Punch_454750)
             {
                 if (Math_NextRandom() <= 32u)
                 {

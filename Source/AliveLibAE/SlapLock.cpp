@@ -474,7 +474,7 @@ s16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_62_Punch_454750)
+    if (sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_62_Punch_454750)
     {
         // If Abe isn't slapping then he can't hurt me
         return 0;

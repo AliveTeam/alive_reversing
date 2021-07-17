@@ -346,7 +346,7 @@ void BirdPortal::vUpdate_498280()
                 sActiveHero_5C1B68->field_16C_bHaveShrykull = TRUE;
                 sActiveHero_5C1B68->field_16E_bHaveInvisiblity = 0;
                 field_28_state = PortalStates::CollapseTerminators_10;
-                if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_112_Chant_45B1C0)
+                if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_112_Chant_45B1C0)
                 {
                     sActiveHero_5C1B68->ChangeChantState_45BB90(0);
                 }
@@ -896,7 +896,7 @@ void BirdPortal::vGiveShrukull_499680(s16 bPlaySound)
                     0);
             }
 
-            if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_112_Chant_45B1C0)
+            if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_112_Chant_45B1C0)
             {
                 sActiveHero_5C1B68->ChangeChantState_45BB90(1);
             }
@@ -904,7 +904,7 @@ void BirdPortal::vGiveShrukull_499680(s16 bPlaySound)
         else
         {
             field_28_state = PortalStates::CollapseTerminators_10;
-            if ((field_24_portal_type == PortalType::eWorker_1 || field_24_portal_type == PortalType::eShrykull_2) && sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_112_Chant_45B1C0)
+            if ((field_24_portal_type == PortalType::eWorker_1 || field_24_portal_type == PortalType::eShrykull_2) && sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_112_Chant_45B1C0)
             {
                 sActiveHero_5C1B68->ChangeChantState_45BB90(0);
             }

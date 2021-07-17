@@ -325,7 +325,7 @@ void DDCheat::Update_415780()
                     sControlledCharacter_5C1B8C->field_106_current_motion = 7;
                     break;
                 case AETypes::eAbe_69:
-                    sControlledCharacter_5C1B8C->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
+                    sControlledCharacter_5C1B8C->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
                     break;
                 case AETypes::eScrab_112:
                     sControlledCharacter_5C1B8C->field_106_current_motion = 8;
@@ -373,7 +373,7 @@ void DDCheat::Update_415780()
 
                 if (sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eAbe_69)
                 {
-                    DebugStr_4F5560("\nStateName=%s", sAbeStateNames[sControlledCharacter_5C1B8C->field_106_current_motion]);
+                    DebugStr_4F5560("\nStateName=%s", sAbeMotionNames[sControlledCharacter_5C1B8C->field_106_current_motion]);
                 }
             }
 #else

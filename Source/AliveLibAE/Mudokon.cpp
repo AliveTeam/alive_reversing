@@ -1572,7 +1572,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             return 1;
 
         case AETypes::eAbe_69:
-            if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_62_Punch_454750)
+            if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_62_Punch_454750)
             {
                 if (field_10C_health > FP_FromInteger(0))
                 {
@@ -1580,7 +1580,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
                     TakeASlap_476090(pFrom);
                 }
             }
-            else if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_63_Sorry_454670)
+            else if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_63_Sorry_454670)
             {
                 field_17E_delayed_speak = MudAction::eSorry_8;
             }
@@ -3933,7 +3933,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_5()
     }
 
     bool bWalkOrSneak = false;
-    if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_33_RunLoop_4508E0 && sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_23_RollLoop_453A90 && field_180_emo_tbl != Mud_Emotion::eWired_6)
+    if (sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_33_RunLoop_4508E0 && sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_23_RollLoop_453A90 && field_180_emo_tbl != Mud_Emotion::eWired_6)
     {
         bWalkOrSneak = true;
     }
@@ -3945,13 +3945,13 @@ s16 Mudokon::Brain_ListeningToAbe_State_5()
 
     if (bWalkOrSneak)
     {
-        if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_40_SneakLoop_450550
+        if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_40_SneakLoop_450550
             && field_106_current_motion == Mud_Motion::M_WalkLoop_1_4728B0
             && !field_16A_flags.Get(Flags_16A::eBit4_blind))
         {
             field_108_next_motion = Mud_Motion::M_SneakLoop_27_473C40;
         }
-        if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_1_WalkLoop_44FBA0 || field_106_current_motion != Mud_Motion::M_SneakLoop_27_473C40)
+        if (sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_1_WalkLoop_44FBA0 || field_106_current_motion != Mud_Motion::M_SneakLoop_27_473C40)
         {
             return field_190_brain_sub_state;
         }
@@ -4029,14 +4029,14 @@ s16 Mudokon::Brain_ListeningToAbe_State_6()
     }
 
     bool gotoTurn = false;
-    if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_40_SneakLoop_450550 || field_180_emo_tbl == Mud_Emotion::eWired_6)
+    if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_40_SneakLoop_450550 || field_180_emo_tbl == Mud_Emotion::eWired_6)
     {
         if (field_180_emo_tbl != Mud_Emotion::eWired_6)
         {
             field_108_next_motion = Mud_Motion::M_WalkLoop_1_4728B0;
             return Brain_ListeningToAbe::eState4_Walking_5;
         }
-        if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_25_RunSlideStop_451330 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_0_Idle_44EEB0 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_71_Knockback_455090 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0)
+        if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_25_RunSlideStop_451330 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_0_Idle_44EEB0 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_71_Knockback_455090 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_17_CrouchIdle_456BC0)
         {
             field_108_next_motion = Mud_Motion::M_Idle_0_4724E0;
             field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 20;
@@ -4052,7 +4052,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_6()
 
     if (!gotoTurn)
     {
-        if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_33_RunLoop_4508E0)
+        if (sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_33_RunLoop_4508E0)
         {
             if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4), sActiveHero_5C1B68))
             {
@@ -7356,7 +7356,7 @@ void Mudokon::StandingKnockBack_473190()
 // TODO: Abe sneaking or walking check ??
 s16 Mudokon::IsMotionUnknown_4730F0()
 {
-    return sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_40_SneakLoop_450550 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_45_SneakBegin_4507A0 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_41_WalkToSneak_450250 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_43_MidWalkToSneak_450380 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_42_SneakToWalk_4503D0 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_44_MidSneakToWalk_450500;
+    return sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_40_SneakLoop_450550 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_45_SneakBegin_4507A0 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_41_WalkToSneak_450250 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_43_MidWalkToSneak_450380 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_42_SneakToWalk_4503D0 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_44_MidSneakToWalk_450500;
 }
 
 void Mudokon::MoveOnLine_4720D0()

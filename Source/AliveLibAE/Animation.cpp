@@ -72,12 +72,12 @@ EXPORT s32 CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
         ypos -= FP_FromInteger(14);
     }
 
-    if (pObj->field_106_current_motion == eAbeStates::State_71_Knockback_455090 && pObj->field_CC_sprite_scale == FP_FromDouble(0.5))
+    if (pObj->field_106_current_motion == eAbeMotions::Motion_71_Knockback_455090 && pObj->field_CC_sprite_scale == FP_FromDouble(0.5))
     {
         ypos += FP_FromInteger(5);
     }
 
-    if (pObj->field_106_current_motion == eAbeStates::State_1_WalkLoop_44FBA0)
+    if (pObj->field_106_current_motion == eAbeMotions::Motion_1_WalkLoop_44FBA0)
     {
         ypos -= FP_FromInteger(5);
     }
@@ -103,15 +103,15 @@ EXPORT s32 CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
 
         switch (pObj->field_106_current_motion)
         {
-            case eAbeStates::State_1_WalkLoop_44FBA0:
+            case eAbeMotions::Motion_1_WalkLoop_44FBA0:
                 pPartical->field_CC_sprite_scale = FP_FromDouble(0.3) * pObj->field_CC_sprite_scale;
                 break;
 
-            case eAbeStates::State_40_SneakLoop_450550:
+            case eAbeMotions::Motion_40_SneakLoop_450550:
                 pPartical->field_CC_sprite_scale = FP_FromInteger(0);
                 break;
 
-            case eAbeStates::State_71_Knockback_455090:
+            case eAbeMotions::Motion_71_Knockback_455090:
                 pPartical->field_CC_sprite_scale = FP_FromInteger(1) * pObj->field_CC_sprite_scale;
                 break;
 
@@ -174,7 +174,7 @@ s32 CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
         return 1;
     }
 
-    if ((pTarget->field_4_typeId == AETypes::eAbe_69 && pTarget->field_106_current_motion == eAbeStates::State_68_ToOffScreenHoist_454B80) || pSlog->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if ((pTarget->field_4_typeId == AETypes::eAbe_69 && pTarget->field_106_current_motion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         return 1;
     }
