@@ -663,7 +663,7 @@ s16 Elum::ToNextMotion_4120F0()
 {
     if (sControlledCharacter_50767C == this)
     {
-        return ToNextStateAbeControlled_411E40();
+        return ToNextMotionAbeControlled_411E40();
     }
 
     switch (field_FE_next_motion)
@@ -730,7 +730,7 @@ s16 Elum::ToNextMotion_4120F0()
     }
 }
 
-s16 Elum::ToNextStateAbeControlled_411E40()
+s16 Elum::ToNextMotionAbeControlled_411E40()
 {
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
     if (pLiftPoint)

@@ -7,7 +7,7 @@
 
 namespace AO {
 
-#define ELUM_STATES_ENUM(ENTRY)                \
+#define ELUM_MOTIONS_ENUM(ENTRY)                \
     ENTRY(Motion_0_Respawn_414C60)              \
     ENTRY(Motion_1_Idle_412990)                 \
     ENTRY(Motion_2_Unknown_412C30)              \
@@ -63,7 +63,7 @@ namespace AO {
 #define MAKE_ENUM(VAR) VAR,
 enum eElumMotions : s32
 {
-    ELUM_STATES_ENUM(MAKE_ENUM)
+    ELUM_MOTIONS_ENUM(MAKE_ENUM)
 };
 
 enum class ElumSounds : u8
@@ -167,7 +167,7 @@ public:
 
     EXPORT s16 ToNextMotion_4120F0();
 
-    EXPORT s16 ToNextStateAbeControlled_411E40();
+    EXPORT s16 ToNextMotionAbeControlled_411E40();
 
     EXPORT void HandleElumPathTrans_411460();
 
