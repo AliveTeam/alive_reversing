@@ -92,25 +92,25 @@ const SfxDefinition stru_5518E0[20] = {
     {0u, 0u, 0u, 0u, 0, 0}};
 
 
-const TFleechAIFn sFleech_ai_table_551830[4] = {
-    &Fleech::AI_Patrol_0_430BA0,
-    &Fleech::AI_ChasingAbe_1_428760,
-    &Fleech::AI_Scared_2_42D310,
-    &Fleech::AI_Death_3_42D1E0};
+const TFleechBrainFn sFleech_brain_table_551830[4] = {
+    &Fleech::Brain_0_Patrol_430BA0,
+    &Fleech::Brain_1_ChasingAbe_428760,
+    &Fleech::Brain_2_Scared_42D310,
+    &Fleech::Brain_3_Death_42D1E0};
 
 enum eFleechBrains
 {
-    eAI_Patrol_0_430BA0 = 0,
-    eAI_ChasingAbe_1_428760 = 1,
-    eAI_Scared_2_42D310 = 2,
-    eAI_Death_3_42D1E0 = 3,
+    eBrain_0_Patrol_430BA0 = 0,
+    eBrain_1_ChasingAbe_428760 = 1,
+    eBrain_2_Scared_42D310 = 2,
+    eBrain_3_Death_42D1E0 = 3
 };
 
-const static BrainFunctionData<TFleechAIFn> sFleechAiTable[4] = {
-    {&Fleech::AI_Patrol_0_430BA0, 0x430BA0, "AI_Patrol_0"},         // no stub ??
-    {&Fleech::AI_ChasingAbe_1_428760, 0x428760, "AI_ChasingAbe_1"}, // no stub ??
-    {&Fleech::AI_Scared_2_42D310, 0x42D310, "AI_Scared_2"},         // no stub ??
-    {&Fleech::AI_Death_3_42D1E0, 0x42D1E0, "AI_Death_3"},           // no stub ??
+const static BrainFunctionData<TFleechBrainFn> sFleechAiTable[4] = {
+    {&Fleech::Brain_0_Patrol_430BA0, 0x430BA0, "Brain_0_Patrol"},         // no stub ??
+    {&Fleech::Brain_1_ChasingAbe_428760, 0x428760, "Brain_1_ChasingAbe"}, // no stub ??
+    {&Fleech::Brain_2_Scared_42D310, 0x42D310, "Brain_2_Scared"},         // no stub ??
+    {&Fleech::Brain_3_Death_42D1E0, 0x42D1E0, "Brain_3_Death"},           // no stub ??
 };
 
 static u8 Fleech_NextRandom()
@@ -138,7 +138,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo)
     Init_42A170();
 
     field_118_tlvInfo = tlvInfo;
-    field_124_brain_state = eFleechBrains::eAI_Patrol_0_430BA0;
+    field_124_brain_state = eFleechBrains::eBrain_0_Patrol_430BA0;
     field_11C_obj_id = -1;
     field_170_danger_obj = -1;
 
@@ -1105,7 +1105,7 @@ void Fleech::M_DeathByFalling_16_42FCE0()
         Sound_430520(FleechSound::Scared_7);
 
         field_10C_health = FP_FromInteger(0);
-        field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
+        field_124_brain_state = eFleechBrains::eBrain_3_Death_42D1E0;
         field_174_flags.Set(Flags_174::eBit3);
         field_108_next_motion = -1;
         field_12C = sGnFrame_5C1B84 + 127;
@@ -1197,12 +1197,6 @@ void Fleech::M_Consume_18_42FDF0()
     }
 }
 
-EXPORT s16 Fleech::AI_Patrol_0_Real_430BA0()
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 void Fleech::dtor_42A3A0()
 {
     SetVTable(this, 0x544F28);
@@ -1281,7 +1275,7 @@ void Fleech::vUpdate_42AB20()
     {
         const auto oldMotion = field_106_current_motion;
 
-        field_126_state = (this->*sFleech_ai_table_551830[field_124_brain_state])();
+        field_126_state = (this->*sFleech_brain_table_551830[field_124_brain_state])();
 
         TongueUpdate_42BD30();
 
@@ -2286,7 +2280,7 @@ s16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         case AETypes::eRockSpawner_48:
             Sound_430520(FleechSound::Scared_7);
             field_10C_health = FP_FromInteger(0);
-            field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
+            field_124_brain_state = eFleechBrains::eBrain_3_Death_42D1E0;
             field_108_next_motion = -1;
             field_12C = sGnFrame_5C1B84 + 127;
             field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
@@ -2330,7 +2324,7 @@ s16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
             }
 
             field_10C_health = FP_FromInteger(0);
-            field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
+            field_124_brain_state = eFleechBrains::eBrain_3_Death_42D1E0;
             field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
             field_12C = sGnFrame_5C1B84 + 127;
             field_108_next_motion = -1;
@@ -2345,7 +2339,7 @@ s16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         case AETypes::eElectrocute_150:
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_10C_health = FP_FromInteger(0);
-            field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
+            field_124_brain_state = eFleechBrains::eBrain_3_Death_42D1E0;
             break;
 
         default:
@@ -2557,7 +2551,7 @@ void Fleech::MoveAlongFloor_42E600()
                 vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
             }
         }
-        else if (field_124_brain_state != eFleechBrains::eAI_Patrol_0_430BA0)
+        else if (field_124_brain_state != eFleechBrains::eBrain_0_Patrol_430BA0)
         {
             VOnTrapDoorOpen();
             field_138 = FP_FromInteger(0);
@@ -2742,7 +2736,7 @@ enum PatrolStates
     State_10 = 10,
 };
 
-s16 Fleech::AI_Patrol_0_430BA0()
+s16 Fleech::Brain_0_Patrol_430BA0()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
     if (!pTarget || pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3) || pTarget->field_10C_health <= FP_FromInteger(0) || pTarget->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
@@ -2763,45 +2757,44 @@ s16 Fleech::AI_Patrol_0_430BA0()
     switch (field_126_state)
     {
         case PatrolStates::State_0_Init:
-            return AI_Patrol_State_0();
-            //return AI_Patrol_0_Real_430BA0();
+            return Brain_Patrol_State_0();
+
         case PatrolStates::State_1_Sleeping:
-            return AI_Patrol_State_1();
-            //return AI_Patrol_0_Real_430BA0();
+            return Brain_Patrol_State_1();
+
         case PatrolStates::State_2:
-            return AI_Patrol_State_2();
-            //return AI_Patrol_0_Real_430BA0();
+            return Brain_Patrol_State_2();
+
         case PatrolStates::State_3_To_Sleep:
-            return AI_Patrol_State_3();
-            //return AI_Patrol_0_Real_430BA0();
+            return Brain_Patrol_State_3();
+
         case PatrolStates::State_4_Alert:
-            return AI_Patrol_State_4(pTarget);
-            //return AI_Patrol_0_Real_430BA0();
+            return Brain_Patrol_State_4(pTarget);
+
         case PatrolStates::State_5:
-            return AI_Patrol_State_5();
-            //return AI_Patrol_0_Real_430BA0();
+            return Brain_Patrol_State_5();
+
         case PatrolStates::State_6:
-            return AI_Patrol_State_6();
-            //return AI_Patrol_0_Real_430BA0();
+            return Brain_Patrol_State_6();
+
         case PatrolStates::State_7:
-            return AI_Patrol_State_7();
-            //return AI_Patrol_0_Real_430BA0();
+            return Brain_Patrol_State_7();
+
         case PatrolStates::State_8:
-            return AI_Patrol_State_8(pTarget);
-            // return AI_Patrol_0_Real_430BA0();
+            return Brain_Patrol_State_8(pTarget);
+
         case PatrolStates::State_9:
-            return AI_Patrol_State_9();
-            //return AI_Patrol_0_Real_430BA0();
+            return Brain_Patrol_State_9();
+
         case PatrolStates::State_10:
-            return AI_Patrol_State_10();
-            // return AI_Patrol_0_Real_430BA0();
+            return Brain_Patrol_State_10();
 
         default:
             return field_126_state;
     }
 }
 
-s16 Fleech::AI_Patrol_State_0()
+s16 Fleech::Brain_Patrol_State_0()
 {
     field_156 = Fleech_NextRandom() & 0x3F;
     field_15A_chase_timer = 0;
@@ -2832,7 +2825,7 @@ s16 Fleech::AI_Patrol_State_0()
     return PatrolStates::State_3_To_Sleep;
 }
 
-s16 Fleech::AI_Patrol_State_1()
+s16 Fleech::Brain_Patrol_State_1()
 {
     if (!SwitchStates_Get_466020(field_14A_use_wake_up_id))
     {
@@ -2904,7 +2897,7 @@ s16 Fleech::AI_Patrol_State_1()
     return PatrolStates::State_2;
 }
 
-s16 Fleech::AI_Patrol_State_2()
+s16 Fleech::Brain_Patrol_State_2()
 {
     if (field_106_current_motion != eFleechMotions::M_WakingUp_1_42F270)
     {
@@ -2923,7 +2916,7 @@ s16 Fleech::AI_Patrol_State_2()
     return PatrolStates::State_4_Alert;
 }
 
-s16 Fleech::AI_Patrol_State_3()
+s16 Fleech::Brain_Patrol_State_3()
 {
     if (field_106_current_motion == eFleechMotions::M_Idle_3_42E850)
     {
@@ -2940,7 +2933,7 @@ s16 Fleech::AI_Patrol_State_3()
     return PatrolStates::State_1_Sleeping;
 }
 
-s16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
+s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
 {
     if (field_11C_obj_id == -1)
     {
@@ -2964,7 +2957,7 @@ s16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
         auto pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj));
         if (pDangerObj == sControlledCharacter_5C1B8C)
         {
-            field_124_brain_state = eFleechBrains::eAI_Scared_2_42D310;
+            field_124_brain_state = eFleechBrains::eBrain_2_Scared_42D310;
             return 0;
         }
 
@@ -3158,7 +3151,7 @@ s16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
     return PatrolStates::State_3_To_Sleep;
 }
 
-s16 Fleech::AI_Patrol_State_5()
+s16 Fleech::Brain_Patrol_State_5()
 {
     if (field_106_current_motion == eFleechMotions::M_StopCrawling_7_42EBB0 || field_106_current_motion == eFleechMotions::M_Knockback_6_42EAF0)
     {
@@ -3187,7 +3180,7 @@ s16 Fleech::AI_Patrol_State_5()
     return PatrolStates::State_6;
 }
 
-s16 Fleech::AI_Patrol_State_6()
+s16 Fleech::Brain_Patrol_State_6()
 {
     auto pDangerObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj));
     if (field_106_current_motion != eFleechMotions::M_Crawl_4_42E960 || (pDangerObj && (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(5), pDangerObj))))
@@ -3204,7 +3197,7 @@ s16 Fleech::AI_Patrol_State_6()
     return PatrolStates::State_7;
 }
 
-s16 Fleech::AI_Patrol_State_7()
+s16 Fleech::Brain_Patrol_State_7()
 {
     if (field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
     {
@@ -3213,7 +3206,7 @@ s16 Fleech::AI_Patrol_State_7()
     return PatrolStates::State_4_Alert;
 }
 
-s16 Fleech::AI_Patrol_State_8(BaseAliveGameObject* pTarget)
+s16 Fleech::Brain_Patrol_State_8(BaseAliveGameObject* pTarget)
 {
     if (pTarget == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
@@ -3226,11 +3219,11 @@ s16 Fleech::AI_Patrol_State_8(BaseAliveGameObject* pTarget)
         return field_126_state;
     }
 
-    field_124_brain_state = eFleechBrains::eAI_ChasingAbe_1_428760;
+    field_124_brain_state = eFleechBrains::eBrain_1_ChasingAbe_428760;
     return 0;
 }
 
-s16 Fleech::AI_Patrol_State_9()
+s16 Fleech::Brain_Patrol_State_9()
 {
     if (field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
     {
@@ -3245,7 +3238,7 @@ s16 Fleech::AI_Patrol_State_9()
     return PatrolStates::State_10;
 }
 
-s16 Fleech::AI_Patrol_State_10()
+s16 Fleech::Brain_Patrol_State_10()
 {
     if (field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
     {
@@ -3275,7 +3268,7 @@ const s8 byte_551784[] = {
     7,
     0};
 
-s16 Fleech::AI_ChasingAbe_1_428760()
+s16 Fleech::Brain_1_ChasingAbe_428760()
 {
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
     if (pObj)
@@ -3299,11 +3292,11 @@ s16 Fleech::AI_ChasingAbe_1_428760()
     switch (field_126_state)
     {
         case 0u:
-            return AI_ChasingAbe_State_0(pObj);
+            return Brain_ChasingAbe_State_0(pObj);
         case 1u:
-            return AI_ChasingAbe_State_1(pObj);
+            return Brain_ChasingAbe_State_1(pObj);
         case 2u:
-            return AI_ChasingAbe_State_2(pObj);
+            return Brain_ChasingAbe_State_2(pObj);
         case 3u:
         case 16u:
             if (field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
@@ -3418,7 +3411,7 @@ s16 Fleech::AI_ChasingAbe_1_428760()
             return 9;
 
         case 9u:
-            return AI_ChasingAbe_State_9(pObj);
+            return Brain_ChasingAbe_State_9(pObj);
 
         case 10u:
             if (pObj)
@@ -3482,7 +3475,7 @@ s16 Fleech::AI_ChasingAbe_1_428760()
 
         case 13u:
             field_108_next_motion = eFleechMotions::M_Idle_3_42E850;
-            field_124_brain_state = eFleechBrains::eAI_Patrol_0_430BA0;
+            field_124_brain_state = eFleechBrains::eBrain_0_Patrol_430BA0;
             field_13E_current_anger = field_140_max_anger + (field_142_attack_anger_increaser - field_140_max_anger) / 2;
             return 0;
 
@@ -3511,7 +3504,7 @@ s16 Fleech::AI_ChasingAbe_1_428760()
     }
 }
 
-s16 Fleech::AI_ChasingAbe_State_9(BaseAliveGameObject* pObj)
+s16 Fleech::Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj)
 {
     if (!IsScrabOrParamiteNear_42B440(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(6)))
     {
@@ -3524,7 +3517,7 @@ s16 Fleech::AI_ChasingAbe_State_9(BaseAliveGameObject* pObj)
         if (Collision_42B290(1) || HandleEnemyStopperOrSlamDoor_42ADC0(1) || WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1)))
         {
             field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
-            field_124_brain_state = eFleechBrains::eAI_Scared_2_42D310;
+            field_124_brain_state = eFleechBrains::eBrain_2_Scared_42D310;
             return 0;
         }
     }
@@ -3585,7 +3578,7 @@ s16 Fleech::AI_ChasingAbe_State_9(BaseAliveGameObject* pObj)
     return field_126_state;
 }
 
-s16 Fleech::AI_ChasingAbe_State_2(BaseAliveGameObject* pObj)
+s16 Fleech::Brain_ChasingAbe_State_2(BaseAliveGameObject* pObj)
 {
     if (!pObj || pObj->field_10C_health <= FP_FromInteger(0))
     {
@@ -3637,7 +3630,7 @@ s16 Fleech::AI_ChasingAbe_State_2(BaseAliveGameObject* pObj)
         }
 
         field_15E = 0;
-        field_124_brain_state = eFleechBrains::eAI_Patrol_0_430BA0;
+        field_124_brain_state = eFleechBrains::eBrain_0_Patrol_430BA0;
         field_13E_current_anger = field_142_attack_anger_increaser - 1;
         return 0;
     }
@@ -3653,7 +3646,7 @@ s16 Fleech::AI_ChasingAbe_State_2(BaseAliveGameObject* pObj)
     }
 }
 
-s16 Fleech::AI_ChasingAbe_State_0(BaseAliveGameObject* pObj)
+s16 Fleech::Brain_ChasingAbe_State_0(BaseAliveGameObject* pObj)
 {
     if (!pObj)
     {
@@ -3672,7 +3665,7 @@ s16 Fleech::AI_ChasingAbe_State_0(BaseAliveGameObject* pObj)
     return 1;
 }
 
-s16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
+s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
 {
     if (!pObj || pObj->field_10C_health <= FP_FromInteger(0))
     {
@@ -3778,7 +3771,7 @@ s16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     }
 
     // Can we get to a hanging abe?
-    if (pObj == sActiveHero_5C1B68 && pObj->field_106_current_motion == eAbeStates::State_67_LedgeHang_454E20 && field_BC_ypos > pObj->field_BC_ypos)
+    if (pObj == sActiveHero_5C1B68 && pObj->field_106_current_motion == eAbeMotions::Motion_67_LedgeHang_454E20 && field_BC_ypos > pObj->field_BC_ypos)
     {
         if (field_BC_ypos - pObj->field_BC_ypos <= (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(6)))
         {
@@ -3797,7 +3790,7 @@ s16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
 
     if (pObj->field_BC_ypos >= field_BC_ypos - (FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 18 : 9)) || pObj->field_CC_sprite_scale != field_CC_sprite_scale)
     {
-        return AI_ChasingAbe_State1_Helper(pObj);
+        return Brain_ChasingAbe_State1_Helper(pObj);
     }
 
     // Find hoist in front us?
@@ -3881,12 +3874,12 @@ s16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
 
         if (++k8BlocksCheck > 8)
         {
-            return AI_ChasingAbe_State1_Helper(pObj);
+            return Brain_ChasingAbe_State1_Helper(pObj);
         }
     }
 }
 
-s16 Fleech::AI_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj)
+s16 Fleech::Brain_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj)
 {
     if (pObj->field_BC_ypos < field_BC_ypos - FP_FromInteger((field_CC_sprite_scale >= FP_FromInteger(1) ? 18 : 9)) && pObj->field_CC_sprite_scale == field_CC_sprite_scale && IsNear_428670(pObj))
     {
@@ -3970,7 +3963,7 @@ const s8 byte_5518B0[16] = {
     0,
     0};
 
-s16 Fleech::AI_Scared_2_42D310()
+s16 Fleech::Brain_2_Scared_42D310()
 {
     auto pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj));
     if (pDangerObj && pDangerObj->field_10C_health > FP_FromInteger(0))
@@ -4287,7 +4280,7 @@ s16 Fleech::AI_Scared_2_42D310()
             field_108_next_motion = eFleechMotions::M_Idle_3_42E850;
             field_170_danger_obj = -1;
             field_11C_obj_id = -1;
-            field_124_brain_state = eFleechBrains::eAI_Patrol_0_430BA0;
+            field_124_brain_state = eFleechBrains::eBrain_0_Patrol_430BA0;
             return 0;
 
         case 10u:
@@ -4319,7 +4312,7 @@ s16 Fleech::AI_Scared_2_42D310()
     }
 }
 
-s16 Fleech::AI_Death_3_42D1E0()
+s16 Fleech::Brain_3_Death_42D1E0()
 {
     field_11C_obj_id = -1;
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);

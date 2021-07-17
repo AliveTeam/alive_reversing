@@ -293,7 +293,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(s16 cameraWorldXPos, s16 came
 
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 
-    if (sActiveHero_5C1B68 == this && gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2 && gMap_5C3030.field_2_current_path == 2 && (field_106_current_motion == eAbeStates::State_23_RollLoop_453A90 || field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0))
+    if (sActiveHero_5C1B68 == this && gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2 && gMap_5C3030.field_2_current_path == 2 && (field_106_current_motion == eAbeMotions::Motion_23_RollLoop_453A90 || field_106_current_motion == eAbeMotions::Motion_17_CrouchIdle_456BC0))
     {
         // Yummy OWI hack - hard code Abe's location when path change to Necrum's first path after the Mines :)
         field_100_pCollisionLine = nullptr;

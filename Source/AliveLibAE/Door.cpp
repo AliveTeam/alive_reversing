@@ -179,7 +179,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
         }
     }
 
-    if ((sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_115_DoorExit_459A40) && field_FC_current_state == eClosed_1 && field_FA_door_number == sActiveHero_5C1B68->field_1A0_door_id)
+    if ((sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_115_DoorExit_459A40) && field_FC_current_state == eClosed_1 && field_FA_door_number == sActiveHero_5C1B68->field_1A0_door_id)
     {
         // Force open is abe is in the door
         field_FC_current_state = eOpen_0;
@@ -386,7 +386,7 @@ void Door::vUpdate_41EBE0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_115_DoorExit_459A40)
+    if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_115_DoorExit_459A40)
     {
         if (field_FC_current_state == Door::eStates::eClosed_1 && field_FA_door_number == sActiveHero_5C1B68->field_1A0_door_id)
         {
@@ -596,7 +596,7 @@ void TrainDoor::vUpdate_4DD2A0()
     if (field_FC_current_state == eOpen_0)
     {
         // Wait for Abe to GTFO
-        if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_115_DoorExit_459A40 && sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_114_DoorEnter_459470)
+        if (sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_115_DoorExit_459A40 && sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_114_DoorEnter_459470)
         {
             // Then close
             const AnimRecord& animRec = AnimRec(AnimId::Door_Train_Closing);

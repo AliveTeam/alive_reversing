@@ -135,7 +135,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, s32 bKillObjects)
     }
 
     sActiveHero_507678->field_2AC_pSaveData = pData;
-    sActiveHero_507678->field_FC_current_motion = eAbeStates::State_62_LoadedSaveSpawn_45ADD0;
+    sActiveHero_507678->field_FC_current_motion = eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0;
     sActiveHero_507678->field_114_gnFrame = 0;
 
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, sActiveHero_507678, 0, 0);
@@ -415,7 +415,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
         pSaveData->field_278_brain_idx = gElum_507680->field_128_brain_idx;
         pSaveData->field_276_bDontFollowAbe = gElum_507680->field_122_bDontFollowAbe;
         pSaveData->field_27C_honey_xpos = gElum_507680->field_12C_honey_xpos;
-        pSaveData->field_27A_elum_brain_state = gElum_507680->field_12A_brain_state;
+        pSaveData->field_27A_elum_brain_state = gElum_507680->field_12A_brain_sub_state;
         pSaveData->field_284_unused = gElum_507680->field_130_unused;
         pSaveData->field_280_honey_ypos = gElum_507680->field_146_honey_ypos;
         pSaveData->field_288_elum_StrugglingWithBees = gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1);

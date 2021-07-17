@@ -88,8 +88,8 @@ void InvisibleSwitch::VUpdate_4335A0()
                 {
                     // TODO: ???
                     if (sControlledCharacter_50767C != sActiveHero_507678
-                        || (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_157_DoorExit_42D780
-                            && sActiveHero_507678->field_FC_current_motion != eAbeStates::State_156_DoorEnter_42D370))
+                        || (sActiveHero_507678->field_FC_current_motion != eAbeMotions::Motion_157_DoorExit_42D780
+                            && sActiveHero_507678->field_FC_current_motion != eAbeMotions::Motion_156_DoorEnter_42D370))
                     {
                         // Scale matches ?
                         if (field_2C_scale == 2

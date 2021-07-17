@@ -31,7 +31,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_NakedSlig, 0x1C);
 
 class NakedSlig;
 
-using TNakedSligAIFn = s16 (NakedSlig::*)();
+using TNakedSligBrainFn = s16 (NakedSlig::*)();
 using TNakedSligMotionFn = void (NakedSlig::*)();
 
 enum class LevelIds : s16;
@@ -69,7 +69,7 @@ struct NakedSlig_State final
     s8 field_41_padding;
     s16 field_42_padding;
     s32 field_44_tlvInfo;
-    s32 field_48_ai_idx;
+    s32 field_48_brain_idx;
     s16 field_4C_padding;
     s16 field_4E_padding;
     s16 field_50_brain_sub_state;
@@ -168,8 +168,8 @@ private:
     EXPORT s16 vTakeDamage_4192B0(BaseGameObject* pFrom);
 
 private:
-    void SetBrain(TNakedSligAIFn fn);
-    bool BrainIs(TNakedSligAIFn fn);
+    void SetBrain(TNakedSligBrainFn fn);
+    bool BrainIs(TNakedSligBrainFn fn);
 
     EXPORT void dtor_418FE0();
 
@@ -188,12 +188,12 @@ private:
     EXPORT void PlatformCollide_41C500();
 
 public:
-    EXPORT s16 AI_0_Sleeping_419DE0();
-    EXPORT s16 AI_1_Idle_419F60();
-    EXPORT s16 AI_2_PanicGetALocker_419FE0();
-    EXPORT s16 AI_3_Possessed_41A5B0();
-    EXPORT s16 AI_4_GetKilled_41A880();
-    EXPORT s16 AI_5_Transformed_41ADF0();
+    EXPORT s16 Brain_0_Sleeping_419DE0();
+    EXPORT s16 Brain_1_Idle_419F60();
+    EXPORT s16 Brain_2_PanicGetALocker_419FE0();
+    EXPORT s16 Brain_3_Possessed_41A5B0();
+    EXPORT s16 Brain_4_GetKilled_41A880();
+    EXPORT s16 Brain_5_Transformed_41ADF0();
 
 
     EXPORT void M_Idle_0_41B260();
@@ -250,7 +250,7 @@ private:
     s16 field_1E2_padding;
     Path_TLV* field_1E4_pPantsOrWingsTlv;
     Path_NakedSlig field_1E8_tlv;
-    TNakedSligAIFn field_204_brain_state;
+    TNakedSligBrainFn field_204_brain_state;
     s16 field_208_brain_sub_state;
     s16 field_20A_padding;
 };

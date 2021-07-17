@@ -22,177 +22,177 @@ struct Path_ResetPath final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);
 
-#define AO_ABE_STATES_ENUM(ENTRY)                   \
-    ENTRY(State_0_Idle_423520)                      \
-    ENTRY(State_1_WalkLoop_423F90)                  \
-    ENTRY(State_2_StandingTurn_426040)              \
-    ENTRY(State_3_Fall_42E7F0)                      \
-    ENTRY(State_4_WalkToIdle_4243C0)                \
-    ENTRY(State_5_MidWalkToIdle_424490)             \
-    ENTRY(State_6_WalkBegin_424300)                 \
-    ENTRY(State_7_Speak_42F950)                     \
-    ENTRY(State_8_Speak_42F9D0)                     \
-    ENTRY(State_9_Speak_42FA50)                     \
-    ENTRY(State_10_Speak_42FAD0)                    \
-    ENTRY(State_11_Speak_42FB50)                    \
-    ENTRY(State_12_Speak_42FBD0)                    \
-    ENTRY(State_13_Speak_42FC50)                    \
-    ENTRY(State_14_Speak_42FCD0)                    \
-    ENTRY(State_15_Null_42A210)                     \
-    ENTRY(State_16_HoistBegin_426E40)               \
-    ENTRY(State_17_HoistIdle_4269E0)                \
-    ENTRY(State_18_HoistLand_426EB0)                \
-    ENTRY(State_19_CrouchIdle_4284C0)               \
-    ENTRY(State_20_CrouchToStand_428AF0)            \
-    ENTRY(State_21_StandToCrouch_427F40)            \
-    ENTRY(State_22_CrouchSpeak_428A30)              \
-    ENTRY(State_23_CrouchSpeak_428A90)              \
-    ENTRY(State_24_RollBegin_427A20)                \
-    ENTRY(State_25_RollLoop_427BB0)                 \
-    ENTRY(State_26_RollEnd_427EA0)                  \
-    ENTRY(State_27_RunSlideStop_425B60)             \
-    ENTRY(State_28_RunTurn_425CE0)                  \
-    ENTRY(State_29_HopBegin_4267B0)                 \
-    ENTRY(State_30_HopMid_4264D0)                   \
-    ENTRY(State_31_HopLand_426940)                  \
-    ENTRY(State_32_RunJumpBegin_427440)             \
-    ENTRY(State_33_RunJumpMid_426FA0)               \
-    ENTRY(State_34_RunJumpLand_427560)              \
-    ENTRY(State_35_RunLoop_425060)                  \
-    ENTRY(State_36_DunnoBegin_423260)               \
-    ENTRY(State_37_DunnoMid_4232C0)                 \
-    ENTRY(State_38_DunnoEnd_423310)                 \
-    ENTRY(State_39_CrouchTurn_4288C0)               \
-    ENTRY(State_40_RunToRoll_427AE0)                \
-    ENTRY(State_41_StandingToRun_425530)            \
-    ENTRY(State_42_SneakLoop_424BB0)                \
-    ENTRY(State_43_WalkToSneak_424790)              \
-    ENTRY(State_44_SneakToWalk_4249A0)              \
-    ENTRY(State_45_MidWalkToSneak_424890)           \
-    ENTRY(State_46_MidSneakToWalk_424AA0)           \
-    ENTRY(State_47_SneakBegin_424ED0)               \
-    ENTRY(State_48_SneakToIdle_424F80)              \
-    ENTRY(State_49_MidSneakToIdle_424FF0)           \
-    ENTRY(State_50_WalkToRun_424560)                \
-    ENTRY(State_51_MidWalkToRun_424670)             \
-    ENTRY(State_52_RunToWalk_4255E0)                \
-    ENTRY(State_53_MidRunToWalk_4256E0)             \
-    ENTRY(State_54_RunTurnToRun_425EA0)             \
-    ENTRY(State_55_RunTurnToWalk_425F70)            \
-    ENTRY(State_56_RunJumpLandRun_4278E0)           \
-    ENTRY(State_57_RunJumpLand_Walk_427980)         \
-    ENTRY(State_58_ToSpeak_42F8D0)                  \
-    ENTRY(State_59_DeathDropFall_42CBE0)            \
-    ENTRY(State_60_Dead_42C4C0)                     \
-    ENTRY(State_61_Respawn_42CD20)                  \
-    ENTRY(State_62_LoadedSaveSpawn_45ADD0)          \
-    ENTRY(State_63_TurnToRun_42A0A0)                \
-    ENTRY(State_64_LedgeAscend_428B60)              \
-    ENTRY(State_65_LedgeDescend_428C00)             \
-    ENTRY(State_66_LedgeHang_428D90)                \
-    ENTRY(State_67_ToOffScreenHoist_428C50)         \
-    ENTRY(State_68_LedgeHangWobble_428E50)          \
-    ENTRY(State_69_RingRopePull_4299B0)             \
-    ENTRY(State_70_Knockback_428FB0)                \
-    ENTRY(State_71_KnockbackGetUp_429240)           \
-    ENTRY(State_72_PushWall_4292A0)                 \
-    ENTRY(State_73_RollingKnockback_4291D0)         \
-    ENTRY(State_74_JumpIntoWell_430EC0)             \
-    ENTRY(State_75_ToInsideOfAWellLocal_431090)     \
-    ENTRY(State_76_ToWellShotOut_431720)            \
-    ENTRY(State_77_WellBegin_430F10)                \
-    ENTRY(State_78_InsideWellLocal_4310A0)          \
-    ENTRY(State_79_WellShotOut_431730)              \
-    ENTRY(State_80_430EF0)                          \
-    ENTRY(State_81_InsideWellExpress_431320)        \
-    ENTRY(State_82_WellExpressShotOut_4315A0)       \
-    ENTRY(State_83_430F00)                          \
-    ENTRY(State_84_431080)                          \
-    ENTRY(State_85_431710)                          \
-    ENTRY(State_86_FallLandDie_42EDD0)              \
-    ENTRY(State_87_428FA0)                          \
-    ENTRY(State_88_HandstoneBegin_430590)           \
-    ENTRY(State_89_HandstoneEnd_430E80)             \
-    ENTRY(State_90_GrenadeMachineUse_430EA0)        \
-    ENTRY(State_91_FallingFromGrab_429780)          \
-    ENTRY(State_92_ForceDownFromHoist_4297C0)       \
-    ENTRY(State_93_WalkOffEdge_429840)              \
-    ENTRY(State_94_RunOffEdge_429860)               \
-    ENTRY(State_95_SneakOffEdge_429880)             \
-    ENTRY(State_96_HopToFall_4298A0)                \
-    ENTRY(State_97_RunJumpToFall_429930)            \
-    ENTRY(State_98_LandSoft_42ED40)                 \
-    ENTRY(State_99_LedgeHoistUp_426DC0)             \
-    ENTRY(State_100_RollOffLedge_429950)            \
-    ENTRY(State_101_LeverUse_429970)                \
-    ENTRY(State_102_ElumWalkLoop_42DCA0)            \
-    ENTRY(State_103_ElumIdle_42DCD0)                \
-    ENTRY(State_104_ElumRunSlideStop_42DF00)        \
-    ENTRY(State_105_ElumRunTurn_42DF10)             \
-    ENTRY(State_106_42DF20)                         \
-    ENTRY(State_107_ElumHopBegin_42DF30)            \
-    ENTRY(State_108_ElumHopMid_42DF40)              \
-    ENTRY(State_109_ElumHopLand_42DF50)             \
-    ENTRY(State_110_ElumRunJumpBegin_42DF60)        \
-    ENTRY(State_111_ElumRunJumpMid_42DF70)          \
-    ENTRY(State_112_ElumRunJumpLand_42DF80)         \
-    ENTRY(State_113_ElumTurn_42DF90)                \
-    ENTRY(State_114_ElumRunLoop_42DFA0)             \
-    ENTRY(State_115_ElumSpeak_4299F0)               \
-    ENTRY(State_116_42DFB0)                         \
-    ENTRY(State_117_ElumWalkBegin_42DFC0)           \
-    ENTRY(State_118_ElumRunBegin_42DFD0)            \
-    ENTRY(State_119_42DFE0)                         \
-    ENTRY(State_120_ElumRunToWalk_42DFF0)           \
-    ENTRY(State_121_ElumMidRunToWalk_42E000)        \
-    ENTRY(State_122_ElumRunTurnToRun_42E010)        \
-    ENTRY(State_123_ElumRunTurnToWalk_42E020)       \
-    ENTRY(State_124_ElumWalkEnd_42DCB0)             \
-    ENTRY(State_125_ElumMidWalkEnd_42DCC0)          \
-    ENTRY(State_126_ElumBeesStruggling_42E080)      \
-    ENTRY(State_127_SlapBomb_429A20)                \
-    ENTRY(State_128_KnockForward_429330)            \
-    ENTRY(State_129_RollingKnockForward_4294F0)     \
-    ENTRY(State_130_KnockForwardGetUp_429560)       \
-    ENTRY(State_131_LiftUseUp_42F150)               \
-    ENTRY(State_132_LiftUseDown_42F170)             \
-    ENTRY(State_133_LiftGrabBegin_42EF20)           \
-    ENTRY(State_134_LiftGrabEnd_42EFE0)             \
-    ENTRY(State_135_LiftGrabIdle_42F000)            \
-    ENTRY(State_136_ElumMountEnd_42E110)            \
-    ENTRY(State_137_ElumUnmountBegin_42E2B0)        \
-    ENTRY(State_138_ElumUnmountEnd_42E390)          \
-    ENTRY(State_139_ElumMountBegin_42E090)          \
-    ENTRY(State_140_BeesStruggling_423F30)          \
-    ENTRY(State_141_BeesStrugglingOnLift_42F390)    \
-    ENTRY(State_142_RockThrowStandingHold_429CE0)   \
-    ENTRY(State_143_RockThrowStandingThrow_429FD0)  \
-    ENTRY(State_144_RockThrowStandingEnd_429DE0)    \
-    ENTRY(State_145_RockThrowCrouchingHold_428930)  \
-    ENTRY(State_146_RockThrowCrouchingThrow_4289F0) \
-    ENTRY(State_147_ShotRolling_4295C0)             \
-    ENTRY(State_148_Shot_4296A0)                    \
-    ENTRY(State_149_PickupItem_42A030)              \
-    ENTRY(State_150_Chant_42FD50)                   \
-    ENTRY(State_151_ChantEnd_430530)                \
-    ENTRY(State_152_ElumFallOffEdge_42E030)         \
-    ENTRY(State_153_ElumFall_42E040)                \
-    ENTRY(State_154_ElumLand_42E050)                \
-    ENTRY(State_155_ElumJumpToFall_42E060)          \
-    ENTRY(State_156_DoorEnter_42D370)               \
-    ENTRY(State_157_DoorExit_42D780)                \
-    ENTRY(State_158_ElumKnockback_42E070)           \
-    ENTRY(State_159_Idle_RubEyes_423360)            \
-    ENTRY(State_160_Idle_Stretch_Arms_4233A0)       \
-    ENTRY(State_161_Idle_Yawn_4233E0)               \
-    ENTRY(State_162_ToShrykull_42F410)              \
-    ENTRY(State_163_ShrykullEnd_42F520)             \
-    ENTRY(State_164_PoisonGasDeath_42A120)
+#define AO_ABE_MOTIONS_ENUM(ENTRY)                   \
+    ENTRY(Motion_0_Idle_423520)                      \
+    ENTRY(Motion_1_WalkLoop_423F90)                  \
+    ENTRY(Motion_2_StandingTurn_426040)              \
+    ENTRY(Motion_3_Fall_42E7F0)                      \
+    ENTRY(Motion_4_WalkToIdle_4243C0)                \
+    ENTRY(Motion_5_MidWalkToIdle_424490)             \
+    ENTRY(Motion_6_WalkBegin_424300)                 \
+    ENTRY(Motion_7_Speak_42F950)                     \
+    ENTRY(Motion_8_Speak_42F9D0)                     \
+    ENTRY(Motion_9_Speak_42FA50)                     \
+    ENTRY(Motion_10_Speak_42FAD0)                    \
+    ENTRY(Motion_11_Speak_42FB50)                    \
+    ENTRY(Motion_12_Speak_42FBD0)                    \
+    ENTRY(Motion_13_Speak_42FC50)                    \
+    ENTRY(Motion_14_Speak_42FCD0)                    \
+    ENTRY(Motion_15_Null_42A210)                     \
+    ENTRY(Motion_16_HoistBegin_426E40)               \
+    ENTRY(Motion_17_HoistIdle_4269E0)                \
+    ENTRY(Motion_18_HoistLand_426EB0)                \
+    ENTRY(Motion_19_CrouchIdle_4284C0)               \
+    ENTRY(Motion_20_CrouchToStand_428AF0)            \
+    ENTRY(Motion_21_StandToCrouch_427F40)            \
+    ENTRY(Motion_22_CrouchSpeak_428A30)              \
+    ENTRY(Motion_23_CrouchSpeak_428A90)              \
+    ENTRY(Motion_24_RollBegin_427A20)                \
+    ENTRY(Motion_25_RollLoop_427BB0)                 \
+    ENTRY(Motion_26_RollEnd_427EA0)                  \
+    ENTRY(Motion_27_RunSlideStop_425B60)             \
+    ENTRY(Motion_28_RunTurn_425CE0)                  \
+    ENTRY(Motion_29_HopBegin_4267B0)                 \
+    ENTRY(Motion_30_HopMid_4264D0)                   \
+    ENTRY(Motion_31_HopLand_426940)                  \
+    ENTRY(Motion_32_RunJumpBegin_427440)             \
+    ENTRY(Motion_33_RunJumpMid_426FA0)               \
+    ENTRY(Motion_34_RunJumpLand_427560)              \
+    ENTRY(Motion_35_RunLoop_425060)                  \
+    ENTRY(Motion_36_DunnoBegin_423260)               \
+    ENTRY(Motion_37_DunnoMid_4232C0)                 \
+    ENTRY(Motion_38_DunnoEnd_423310)                 \
+    ENTRY(Motion_39_CrouchTurn_4288C0)               \
+    ENTRY(Motion_40_RunToRoll_427AE0)                \
+    ENTRY(Motion_41_StandingToRun_425530)            \
+    ENTRY(Motion_42_SneakLoop_424BB0)                \
+    ENTRY(Motion_43_WalkToSneak_424790)              \
+    ENTRY(Motion_44_SneakToWalk_4249A0)              \
+    ENTRY(Motion_45_MidWalkToSneak_424890)           \
+    ENTRY(Motion_46_MidSneakToWalk_424AA0)           \
+    ENTRY(Motion_47_SneakBegin_424ED0)               \
+    ENTRY(Motion_48_SneakToIdle_424F80)              \
+    ENTRY(Motion_49_MidSneakToIdle_424FF0)           \
+    ENTRY(Motion_50_WalkToRun_424560)                \
+    ENTRY(Motion_51_MidWalkToRun_424670)             \
+    ENTRY(Motion_52_RunToWalk_4255E0)                \
+    ENTRY(Motion_53_MidRunToWalk_4256E0)             \
+    ENTRY(Motion_54_RunTurnToRun_425EA0)             \
+    ENTRY(Motion_55_RunTurnToWalk_425F70)            \
+    ENTRY(Motion_56_RunJumpLandRun_4278E0)           \
+    ENTRY(Motion_57_RunJumpLand_Walk_427980)         \
+    ENTRY(Motion_58_ToSpeak_42F8D0)                  \
+    ENTRY(Motion_59_DeathDropFall_42CBE0)            \
+    ENTRY(Motion_60_Dead_42C4C0)                     \
+    ENTRY(Motion_61_Respawn_42CD20)                  \
+    ENTRY(Motion_62_LoadedSaveSpawn_45ADD0)          \
+    ENTRY(Motion_63_TurnToRun_42A0A0)                \
+    ENTRY(Motion_64_LedgeAscend_428B60)              \
+    ENTRY(Motion_65_LedgeDescend_428C00)             \
+    ENTRY(Motion_66_LedgeHang_428D90)                \
+    ENTRY(Motion_67_ToOffScreenHoist_428C50)         \
+    ENTRY(Motion_68_LedgeHangWobble_428E50)          \
+    ENTRY(Motion_69_RingRopePull_4299B0)             \
+    ENTRY(Motion_70_Knockback_428FB0)                \
+    ENTRY(Motion_71_KnockbackGetUp_429240)           \
+    ENTRY(Motion_72_PushWall_4292A0)                 \
+    ENTRY(Motion_73_RollingKnockback_4291D0)         \
+    ENTRY(Motion_74_JumpIntoWell_430EC0)             \
+    ENTRY(Motion_75_ToInsideOfAWellLocal_431090)     \
+    ENTRY(Motion_76_ToWellShotOut_431720)            \
+    ENTRY(Motion_77_WellBegin_430F10)                \
+    ENTRY(Motion_78_InsideWellLocal_4310A0)          \
+    ENTRY(Motion_79_WellShotOut_431730)              \
+    ENTRY(Motion_80_430EF0)                          \
+    ENTRY(Motion_81_InsideWellExpress_431320)        \
+    ENTRY(Motion_82_WellExpressShotOut_4315A0)       \
+    ENTRY(Motion_83_430F00)                          \
+    ENTRY(Motion_84_431080)                          \
+    ENTRY(Motion_85_431710)                          \
+    ENTRY(Motion_86_FallLandDie_42EDD0)              \
+    ENTRY(Motion_87_428FA0)                          \
+    ENTRY(Motion_88_HandstoneBegin_430590)           \
+    ENTRY(Motion_89_HandstoneEnd_430E80)             \
+    ENTRY(Motion_90_GrenadeMachineUse_430EA0)        \
+    ENTRY(Motion_91_FallingFromGrab_429780)          \
+    ENTRY(Motion_92_ForceDownFromHoist_4297C0)       \
+    ENTRY(Motion_93_WalkOffEdge_429840)              \
+    ENTRY(Motion_94_RunOffEdge_429860)               \
+    ENTRY(Motion_95_SneakOffEdge_429880)             \
+    ENTRY(Motion_96_HopToFall_4298A0)                \
+    ENTRY(Motion_97_RunJumpToFall_429930)            \
+    ENTRY(Motion_98_LandSoft_42ED40)                 \
+    ENTRY(Motion_99_LedgeHoistUp_426DC0)             \
+    ENTRY(Motion_100_RollOffLedge_429950)            \
+    ENTRY(Motion_101_LeverUse_429970)                \
+    ENTRY(Motion_102_ElumWalkLoop_42DCA0)            \
+    ENTRY(Motion_103_ElumIdle_42DCD0)                \
+    ENTRY(Motion_104_ElumRunSlideStop_42DF00)        \
+    ENTRY(Motion_105_ElumRunTurn_42DF10)             \
+    ENTRY(Motion_106_42DF20)                         \
+    ENTRY(Motion_107_ElumHopBegin_42DF30)            \
+    ENTRY(Motion_108_ElumHopMid_42DF40)              \
+    ENTRY(Motion_109_ElumHopLand_42DF50)             \
+    ENTRY(Motion_110_ElumRunJumpBegin_42DF60)        \
+    ENTRY(Motion_111_ElumRunJumpMid_42DF70)          \
+    ENTRY(Motion_112_ElumRunJumpLand_42DF80)         \
+    ENTRY(Motion_113_ElumTurn_42DF90)                \
+    ENTRY(Motion_114_ElumRunLoop_42DFA0)             \
+    ENTRY(Motion_115_ElumSpeak_4299F0)               \
+    ENTRY(Motion_116_42DFB0)                         \
+    ENTRY(Motion_117_ElumWalkBegin_42DFC0)           \
+    ENTRY(Motion_118_ElumRunBegin_42DFD0)            \
+    ENTRY(Motion_119_42DFE0)                         \
+    ENTRY(Motion_120_ElumRunToWalk_42DFF0)           \
+    ENTRY(Motion_121_ElumMidRunToWalk_42E000)        \
+    ENTRY(Motion_122_ElumRunTurnToRun_42E010)        \
+    ENTRY(Motion_123_ElumRunTurnToWalk_42E020)       \
+    ENTRY(Motion_124_ElumWalkEnd_42DCB0)             \
+    ENTRY(Motion_125_ElumMidWalkEnd_42DCC0)          \
+    ENTRY(Motion_126_ElumBeesStruggling_42E080)      \
+    ENTRY(Motion_127_SlapBomb_429A20)                \
+    ENTRY(Motion_128_KnockForward_429330)            \
+    ENTRY(Motion_129_RollingKnockForward_4294F0)     \
+    ENTRY(Motion_130_KnockForwardGetUp_429560)       \
+    ENTRY(Motion_131_LiftUseUp_42F150)               \
+    ENTRY(Motion_132_LiftUseDown_42F170)             \
+    ENTRY(Motion_133_LiftGrabBegin_42EF20)           \
+    ENTRY(Motion_134_LiftGrabEnd_42EFE0)             \
+    ENTRY(Motion_135_LiftGrabIdle_42F000)            \
+    ENTRY(Motion_136_ElumMountEnd_42E110)            \
+    ENTRY(Motion_137_ElumUnmountBegin_42E2B0)        \
+    ENTRY(Motion_138_ElumUnmountEnd_42E390)          \
+    ENTRY(Motion_139_ElumMountBegin_42E090)          \
+    ENTRY(Motion_140_BeesStruggling_423F30)          \
+    ENTRY(Motion_141_BeesStrugglingOnLift_42F390)    \
+    ENTRY(Motion_142_RockThrowStandingHold_429CE0)   \
+    ENTRY(Motion_143_RockThrowStandingThrow_429FD0)  \
+    ENTRY(Motion_144_RockThrowStandingEnd_429DE0)    \
+    ENTRY(Motion_145_RockThrowCrouchingHold_428930)  \
+    ENTRY(Motion_146_RockThrowCrouchingThrow_4289F0) \
+    ENTRY(Motion_147_ShotRolling_4295C0)             \
+    ENTRY(Motion_148_Shot_4296A0)                    \
+    ENTRY(Motion_149_PickupItem_42A030)              \
+    ENTRY(Motion_150_Chant_42FD50)                   \
+    ENTRY(Motion_151_ChantEnd_430530)                \
+    ENTRY(Motion_152_ElumFallOffEdge_42E030)         \
+    ENTRY(Motion_153_ElumFall_42E040)                \
+    ENTRY(Motion_154_ElumLand_42E050)                \
+    ENTRY(Motion_155_ElumJumpToFall_42E060)          \
+    ENTRY(Motion_156_DoorEnter_42D370)               \
+    ENTRY(Motion_157_DoorExit_42D780)                \
+    ENTRY(Motion_158_ElumKnockback_42E070)           \
+    ENTRY(Motion_159_Idle_RubEyes_423360)            \
+    ENTRY(Motion_160_Idle_Stretch_Arms_4233A0)       \
+    ENTRY(Motion_161_Idle_Yawn_4233E0)               \
+    ENTRY(Motion_162_ToShrykull_42F410)              \
+    ENTRY(Motion_163_ShrykullEnd_42F520)             \
+    ENTRY(Motion_164_PoisonGasDeath_42A120)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eAbeStates : s16
+enum eAbeMotions : s16
 {
-    AO_ABE_STATES_ENUM(MAKE_ENUM)
+    AO_ABE_MOTIONS_ENUM(MAKE_ENUM)
 };
 
 class DeathFadeOut;
@@ -542,172 +542,172 @@ public:
 
     void New_RandomizedChant_Particle();
 
-    // States
-    EXPORT void State_0_Idle_423520();
-    EXPORT void State_1_WalkLoop_423F90();
-    EXPORT void State_2_StandingTurn_426040();
-    EXPORT void State_3_Fall_42E7F0();
-    EXPORT void State_4_WalkToIdle_4243C0();
-    EXPORT void State_5_MidWalkToIdle_424490();
-    EXPORT void State_6_WalkBegin_424300();
-    EXPORT void State_7_Speak_42F950();
-    EXPORT void State_8_Speak_42F9D0();
-    EXPORT void State_9_Speak_42FA50();
-    EXPORT void State_10_Speak_42FAD0();
-    EXPORT void State_11_Speak_42FB50();
-    EXPORT void State_12_Speak_42FBD0();
-    EXPORT void State_13_Speak_42FC50();
-    EXPORT void State_14_Speak_42FCD0();
-    EXPORT void State_15_Null_42A210();
-    EXPORT void State_16_HoistBegin_426E40();
-    EXPORT void State_17_HoistIdle_4269E0();
-    EXPORT void State_18_HoistLand_426EB0();
-    EXPORT void State_19_CrouchIdle_4284C0();
-    EXPORT void State_20_CrouchToStand_428AF0();
-    EXPORT void State_21_StandToCrouch_427F40();
-    EXPORT void State_22_CrouchSpeak_428A30();
-    EXPORT void State_23_CrouchSpeak_428A90();
-    EXPORT void State_24_RollBegin_427A20();
-    EXPORT void State_25_RollLoop_427BB0();
-    EXPORT void State_26_RollEnd_427EA0();
-    EXPORT void State_27_RunSlideStop_425B60();
-    EXPORT void State_28_RunTurn_425CE0();
-    EXPORT void State_29_HopBegin_4267B0();
-    EXPORT void State_30_HopMid_4264D0();
-    EXPORT void State_31_HopLand_426940();
-    EXPORT void State_32_RunJumpBegin_427440();
-    EXPORT void State_33_RunJumpMid_426FA0();
-    EXPORT void State_34_RunJumpLand_427560();
-    EXPORT void State_35_RunLoop_425060();
-    EXPORT void State_36_DunnoBegin_423260();
-    EXPORT void State_37_DunnoMid_4232C0();
-    EXPORT void State_38_DunnoEnd_423310();
-    EXPORT void State_39_CrouchTurn_4288C0();
-    EXPORT void State_40_RunToRoll_427AE0();
-    EXPORT void State_41_StandingToRun_425530();
-    EXPORT void State_42_SneakLoop_424BB0();
-    EXPORT void State_43_WalkToSneak_424790();
-    EXPORT void State_44_SneakToWalk_4249A0();
-    EXPORT void State_45_MidWalkToSneak_424890();
-    EXPORT void State_46_MidSneakToWalk_424AA0();
-    EXPORT void State_47_SneakBegin_424ED0();
-    EXPORT void State_48_SneakToIdle_424F80();
-    EXPORT void State_49_MidSneakToIdle_424FF0();
-    EXPORT void State_50_WalkToRun_424560();
-    EXPORT void State_51_MidWalkToRun_424670();
-    EXPORT void State_52_RunToWalk_4255E0();
-    EXPORT void State_53_MidRunToWalk_4256E0();
-    EXPORT void State_54_RunTurnToRun_425EA0();
-    EXPORT void State_55_RunTurnToWalk_425F70();
-    EXPORT void State_56_RunJumpLandRun_4278E0();
-    EXPORT void State_57_RunJumpLand_Walk_427980();
-    EXPORT void State_58_ToSpeak_42F8D0();
-    EXPORT void State_59_DeathDropFall_42CBE0();
-    EXPORT void State_60_Dead_42C4C0();
-    EXPORT void State_61_Respawn_42CD20();
-    EXPORT void State_62_LoadedSaveSpawn_45ADD0();
-    EXPORT void State_63_TurnToRun_42A0A0();
-    EXPORT void State_64_LedgeAscend_428B60();
-    EXPORT void State_65_LedgeDescend_428C00();
-    EXPORT void State_66_LedgeHang_428D90();
-    EXPORT void State_67_ToOffScreenHoist_428C50();
-    EXPORT void State_68_LedgeHangWobble_428E50();
-    EXPORT void State_69_RingRopePull_4299B0();
-    EXPORT void State_70_Knockback_428FB0();
-    EXPORT void State_71_KnockbackGetUp_429240();
-    EXPORT void State_72_PushWall_4292A0();
-    EXPORT void State_73_RollingKnockback_4291D0();
-    EXPORT void State_74_JumpIntoWell_430EC0();
-    EXPORT void State_75_ToInsideOfAWellLocal_431090();
-    EXPORT void State_76_ToWellShotOut_431720();
-    EXPORT void State_77_WellBegin_430F10();
-    EXPORT void State_78_InsideWellLocal_4310A0();
-    EXPORT void State_79_WellShotOut_431730();
-    EXPORT void State_80_430EF0();
-    EXPORT void State_81_InsideWellExpress_431320();
-    EXPORT void State_82_WellExpressShotOut_4315A0();
-    EXPORT void State_83_430F00();
-    EXPORT void State_84_431080();
-    EXPORT void State_85_431710();
-    EXPORT void State_86_FallLandDie_42EDD0();
-    EXPORT void State_87_428FA0();
-    EXPORT void State_88_HandstoneBegin_430590();
-    EXPORT void State_89_HandstoneEnd_430E80();
-    EXPORT void State_90_GrenadeMachineUse_430EA0();
-    EXPORT void State_91_FallingFromGrab_429780();
-    EXPORT void State_92_ForceDownFromHoist_4297C0();
-    EXPORT void State_93_WalkOffEdge_429840();
-    EXPORT void State_94_RunOffEdge_429860();
-    EXPORT void State_95_SneakOffEdge_429880();
-    EXPORT void State_96_HopToFall_4298A0();
-    EXPORT void State_97_RunJumpToFall_429930();
-    EXPORT void State_98_LandSoft_42ED40();
-    EXPORT void State_99_LedgeHoistUp_426DC0();
-    EXPORT void State_100_RollOffLedge_429950();
-    EXPORT void State_101_LeverUse_429970();
-    EXPORT void State_102_ElumWalkLoop_42DCA0();
-    EXPORT void State_103_ElumIdle_42DCD0();
-    EXPORT void State_104_ElumRunSlideStop_42DF00();
-    EXPORT void State_105_ElumRunTurn_42DF10();
-    EXPORT void State_106_42DF20();
-    EXPORT void State_107_ElumHopBegin_42DF30();
-    EXPORT void State_108_ElumHopMid_42DF40();
-    EXPORT void State_109_ElumHopLand_42DF50();
-    EXPORT void State_110_ElumRunJumpBegin_42DF60();
-    EXPORT void State_111_ElumRunJumpMid_42DF70();
-    EXPORT void State_112_ElumRunJumpLand_42DF80();
-    EXPORT void State_113_ElumTurn_42DF90();
-    EXPORT void State_114_ElumRunLoop_42DFA0();
-    EXPORT void State_115_ElumSpeak_4299F0();
-    EXPORT void State_116_42DFB0();
-    EXPORT void State_117_ElumWalkBegin_42DFC0();
-    EXPORT void State_118_ElumRunBegin_42DFD0();
-    EXPORT void State_119_42DFE0();
-    EXPORT void State_120_ElumRunToWalk_42DFF0();
-    EXPORT void State_121_ElumMidRunToWalk_42E000();
-    EXPORT void State_122_ElumRunTurnToRun_42E010();
-    EXPORT void State_123_ElumRunTurnToWalk_42E020();
-    EXPORT void State_124_ElumWalkEnd_42DCB0();
-    EXPORT void State_125_ElumMidWalkEnd_42DCC0();
-    EXPORT void State_126_ElumBeesStruggling_42E080();
-    EXPORT void State_127_SlapBomb_429A20();
-    EXPORT void State_128_KnockForward_429330();
-    EXPORT void State_129_RollingKnockForward_4294F0();
-    EXPORT void State_130_KnockForwardGetUp_429560();
-    EXPORT void State_131_LiftUseUp_42F150();
-    EXPORT void State_132_LiftUseDown_42F170();
-    EXPORT void State_133_LiftGrabBegin_42EF20();
-    EXPORT void State_134_LiftGrabEnd_42EFE0();
-    EXPORT void State_135_LiftGrabIdle_42F000();
-    EXPORT void State_136_ElumMountEnd_42E110();
-    EXPORT void State_137_ElumUnmountBegin_42E2B0();
-    EXPORT void State_138_ElumUnmountEnd_42E390();
-    EXPORT void State_139_ElumMountBegin_42E090();
-    EXPORT void State_140_BeesStruggling_423F30();
-    EXPORT void State_141_BeesStrugglingOnLift_42F390();
-    EXPORT void State_142_RockThrowStandingHold_429CE0();
-    EXPORT void State_143_RockThrowStandingThrow_429FD0();
-    EXPORT void State_144_RockThrowStandingEnd_429DE0();
-    EXPORT void State_145_RockThrowCrouchingHold_428930();
-    EXPORT void State_146_RockThrowCrouchingThrow_4289F0();
-    EXPORT void State_147_ShotRolling_4295C0();
-    EXPORT void State_148_Shot_4296A0();
-    EXPORT void State_149_PickupItem_42A030();
-    EXPORT void State_150_Chant_42FD50();
-    EXPORT void State_151_ChantEnd_430530();
-    EXPORT void State_152_ElumFallOffEdge_42E030();
-    EXPORT void State_153_ElumFall_42E040();
-    EXPORT void State_154_ElumLand_42E050();
-    EXPORT void State_155_ElumJumpToFall_42E060();
-    EXPORT void State_156_DoorEnter_42D370();
-    EXPORT void State_157_DoorExit_42D780();
-    EXPORT void State_158_ElumKnockback_42E070();
-    EXPORT void State_159_Idle_RubEyes_423360();
-    EXPORT void State_160_Idle_Stretch_Arms_4233A0();
-    EXPORT void State_161_Idle_Yawn_4233E0();
-    EXPORT void State_162_ToShrykull_42F410();
-    EXPORT void State_163_ShrykullEnd_42F520();
-    EXPORT void State_164_PoisonGasDeath_42A120();
+    // Motions
+    EXPORT void Motion_0_Idle_423520();
+    EXPORT void Motion_1_WalkLoop_423F90();
+    EXPORT void Motion_2_StandingTurn_426040();
+    EXPORT void Motion_3_Fall_42E7F0();
+    EXPORT void Motion_4_WalkToIdle_4243C0();
+    EXPORT void Motion_5_MidWalkToIdle_424490();
+    EXPORT void Motion_6_WalkBegin_424300();
+    EXPORT void Motion_7_Speak_42F950();
+    EXPORT void Motion_8_Speak_42F9D0();
+    EXPORT void Motion_9_Speak_42FA50();
+    EXPORT void Motion_10_Speak_42FAD0();
+    EXPORT void Motion_11_Speak_42FB50();
+    EXPORT void Motion_12_Speak_42FBD0();
+    EXPORT void Motion_13_Speak_42FC50();
+    EXPORT void Motion_14_Speak_42FCD0();
+    EXPORT void Motion_15_Null_42A210();
+    EXPORT void Motion_16_HoistBegin_426E40();
+    EXPORT void Motion_17_HoistIdle_4269E0();
+    EXPORT void Motion_18_HoistLand_426EB0();
+    EXPORT void Motion_19_CrouchIdle_4284C0();
+    EXPORT void Motion_20_CrouchToStand_428AF0();
+    EXPORT void Motion_21_StandToCrouch_427F40();
+    EXPORT void Motion_22_CrouchSpeak_428A30();
+    EXPORT void Motion_23_CrouchSpeak_428A90();
+    EXPORT void Motion_24_RollBegin_427A20();
+    EXPORT void Motion_25_RollLoop_427BB0();
+    EXPORT void Motion_26_RollEnd_427EA0();
+    EXPORT void Motion_27_RunSlideStop_425B60();
+    EXPORT void Motion_28_RunTurn_425CE0();
+    EXPORT void Motion_29_HopBegin_4267B0();
+    EXPORT void Motion_30_HopMid_4264D0();
+    EXPORT void Motion_31_HopLand_426940();
+    EXPORT void Motion_32_RunJumpBegin_427440();
+    EXPORT void Motion_33_RunJumpMid_426FA0();
+    EXPORT void Motion_34_RunJumpLand_427560();
+    EXPORT void Motion_35_RunLoop_425060();
+    EXPORT void Motion_36_DunnoBegin_423260();
+    EXPORT void Motion_37_DunnoMid_4232C0();
+    EXPORT void Motion_38_DunnoEnd_423310();
+    EXPORT void Motion_39_CrouchTurn_4288C0();
+    EXPORT void Motion_40_RunToRoll_427AE0();
+    EXPORT void Motion_41_StandingToRun_425530();
+    EXPORT void Motion_42_SneakLoop_424BB0();
+    EXPORT void Motion_43_WalkToSneak_424790();
+    EXPORT void Motion_44_SneakToWalk_4249A0();
+    EXPORT void Motion_45_MidWalkToSneak_424890();
+    EXPORT void Motion_46_MidSneakToWalk_424AA0();
+    EXPORT void Motion_47_SneakBegin_424ED0();
+    EXPORT void Motion_48_SneakToIdle_424F80();
+    EXPORT void Motion_49_MidSneakToIdle_424FF0();
+    EXPORT void Motion_50_WalkToRun_424560();
+    EXPORT void Motion_51_MidWalkToRun_424670();
+    EXPORT void Motion_52_RunToWalk_4255E0();
+    EXPORT void Motion_53_MidRunToWalk_4256E0();
+    EXPORT void Motion_54_RunTurnToRun_425EA0();
+    EXPORT void Motion_55_RunTurnToWalk_425F70();
+    EXPORT void Motion_56_RunJumpLandRun_4278E0();
+    EXPORT void Motion_57_RunJumpLand_Walk_427980();
+    EXPORT void Motion_58_ToSpeak_42F8D0();
+    EXPORT void Motion_59_DeathDropFall_42CBE0();
+    EXPORT void Motion_60_Dead_42C4C0();
+    EXPORT void Motion_61_Respawn_42CD20();
+    EXPORT void Motion_62_LoadedSaveSpawn_45ADD0();
+    EXPORT void Motion_63_TurnToRun_42A0A0();
+    EXPORT void Motion_64_LedgeAscend_428B60();
+    EXPORT void Motion_65_LedgeDescend_428C00();
+    EXPORT void Motion_66_LedgeHang_428D90();
+    EXPORT void Motion_67_ToOffScreenHoist_428C50();
+    EXPORT void Motion_68_LedgeHangWobble_428E50();
+    EXPORT void Motion_69_RingRopePull_4299B0();
+    EXPORT void Motion_70_Knockback_428FB0();
+    EXPORT void Motion_71_KnockbackGetUp_429240();
+    EXPORT void Motion_72_PushWall_4292A0();
+    EXPORT void Motion_73_RollingKnockback_4291D0();
+    EXPORT void Motion_74_JumpIntoWell_430EC0();
+    EXPORT void Motion_75_ToInsideOfAWellLocal_431090();
+    EXPORT void Motion_76_ToWellShotOut_431720();
+    EXPORT void Motion_77_WellBegin_430F10();
+    EXPORT void Motion_78_InsideWellLocal_4310A0();
+    EXPORT void Motion_79_WellShotOut_431730();
+    EXPORT void Motion_80_430EF0();
+    EXPORT void Motion_81_InsideWellExpress_431320();
+    EXPORT void Motion_82_WellExpressShotOut_4315A0();
+    EXPORT void Motion_83_430F00();
+    EXPORT void Motion_84_431080();
+    EXPORT void Motion_85_431710();
+    EXPORT void Motion_86_FallLandDie_42EDD0();
+    EXPORT void Motion_87_428FA0();
+    EXPORT void Motion_88_HandstoneBegin_430590();
+    EXPORT void Motion_89_HandstoneEnd_430E80();
+    EXPORT void Motion_90_GrenadeMachineUse_430EA0();
+    EXPORT void Motion_91_FallingFromGrab_429780();
+    EXPORT void Motion_92_ForceDownFromHoist_4297C0();
+    EXPORT void Motion_93_WalkOffEdge_429840();
+    EXPORT void Motion_94_RunOffEdge_429860();
+    EXPORT void Motion_95_SneakOffEdge_429880();
+    EXPORT void Motion_96_HopToFall_4298A0();
+    EXPORT void Motion_97_RunJumpToFall_429930();
+    EXPORT void Motion_98_LandSoft_42ED40();
+    EXPORT void Motion_99_LedgeHoistUp_426DC0();
+    EXPORT void Motion_100_RollOffLedge_429950();
+    EXPORT void Motion_101_LeverUse_429970();
+    EXPORT void Motion_102_ElumWalkLoop_42DCA0();
+    EXPORT void Motion_103_ElumIdle_42DCD0();
+    EXPORT void Motion_104_ElumRunSlideStop_42DF00();
+    EXPORT void Motion_105_ElumRunTurn_42DF10();
+    EXPORT void Motion_106_42DF20();
+    EXPORT void Motion_107_ElumHopBegin_42DF30();
+    EXPORT void Motion_108_ElumHopMid_42DF40();
+    EXPORT void Motion_109_ElumHopLand_42DF50();
+    EXPORT void Motion_110_ElumRunJumpBegin_42DF60();
+    EXPORT void Motion_111_ElumRunJumpMid_42DF70();
+    EXPORT void Motion_112_ElumRunJumpLand_42DF80();
+    EXPORT void Motion_113_ElumTurn_42DF90();
+    EXPORT void Motion_114_ElumRunLoop_42DFA0();
+    EXPORT void Motion_115_ElumSpeak_4299F0();
+    EXPORT void Motion_116_42DFB0();
+    EXPORT void Motion_117_ElumWalkBegin_42DFC0();
+    EXPORT void Motion_118_ElumRunBegin_42DFD0();
+    EXPORT void Motion_119_42DFE0();
+    EXPORT void Motion_120_ElumRunToWalk_42DFF0();
+    EXPORT void Motion_121_ElumMidRunToWalk_42E000();
+    EXPORT void Motion_122_ElumRunTurnToRun_42E010();
+    EXPORT void Motion_123_ElumRunTurnToWalk_42E020();
+    EXPORT void Motion_124_ElumWalkEnd_42DCB0();
+    EXPORT void Motion_125_ElumMidWalkEnd_42DCC0();
+    EXPORT void Motion_126_ElumBeesStruggling_42E080();
+    EXPORT void Motion_127_SlapBomb_429A20();
+    EXPORT void Motion_128_KnockForward_429330();
+    EXPORT void Motion_129_RollingKnockForward_4294F0();
+    EXPORT void Motion_130_KnockForwardGetUp_429560();
+    EXPORT void Motion_131_LiftUseUp_42F150();
+    EXPORT void Motion_132_LiftUseDown_42F170();
+    EXPORT void Motion_133_LiftGrabBegin_42EF20();
+    EXPORT void Motion_134_LiftGrabEnd_42EFE0();
+    EXPORT void Motion_135_LiftGrabIdle_42F000();
+    EXPORT void Motion_136_ElumMountEnd_42E110();
+    EXPORT void Motion_137_ElumUnmountBegin_42E2B0();
+    EXPORT void Motion_138_ElumUnmountEnd_42E390();
+    EXPORT void Motion_139_ElumMountBegin_42E090();
+    EXPORT void Motion_140_BeesStruggling_423F30();
+    EXPORT void Motion_141_BeesStrugglingOnLift_42F390();
+    EXPORT void Motion_142_RockThrowStandingHold_429CE0();
+    EXPORT void Motion_143_RockThrowStandingThrow_429FD0();
+    EXPORT void Motion_144_RockThrowStandingEnd_429DE0();
+    EXPORT void Motion_145_RockThrowCrouchingHold_428930();
+    EXPORT void Motion_146_RockThrowCrouchingThrow_4289F0();
+    EXPORT void Motion_147_ShotRolling_4295C0();
+    EXPORT void Motion_148_Shot_4296A0();
+    EXPORT void Motion_149_PickupItem_42A030();
+    EXPORT void Motion_150_Chant_42FD50();
+    EXPORT void Motion_151_ChantEnd_430530();
+    EXPORT void Motion_152_ElumFallOffEdge_42E030();
+    EXPORT void Motion_153_ElumFall_42E040();
+    EXPORT void Motion_154_ElumLand_42E050();
+    EXPORT void Motion_155_ElumJumpToFall_42E060();
+    EXPORT void Motion_156_DoorEnter_42D370();
+    EXPORT void Motion_157_DoorExit_42D780();
+    EXPORT void Motion_158_ElumKnockback_42E070();
+    EXPORT void Motion_159_Idle_RubEyes_423360();
+    EXPORT void Motion_160_Idle_Stretch_Arms_4233A0();
+    EXPORT void Motion_161_Idle_Yawn_4233E0();
+    EXPORT void Motion_162_ToShrykull_42F410();
+    EXPORT void Motion_163_ShrykullEnd_42F520();
+    EXPORT void Motion_164_PoisonGasDeath_42A120();
 
     s16 field_10C_prev_held;
     s16 field_10E_released_buttons;

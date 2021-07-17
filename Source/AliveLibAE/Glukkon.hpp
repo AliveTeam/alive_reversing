@@ -94,7 +94,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Glukkon, 0x2C);
 enum class LevelIds : s16;
 
 class Glukkon;
-using TGlukkonAIFn = s16 (Glukkon::*)();
+using TGlukkonBrainFn = s16 (Glukkon::*)();
 using TGlukkonMotionFn = void (Glukkon::*)();
 
 struct Glukkon_SaveState final
@@ -130,7 +130,7 @@ struct Glukkon_SaveState final
     s32 field_44_tlvInfo;
     s32 field_48_brain_state_idx;
     s32 field_4C_padding;
-    s16 field_50_sub_state;
+    s16 field_50_brain_sub_state;
     s16 field_52_padding;
     s32 field_54_timer;
     FP field_58_falling_velx_scale_factor;
@@ -212,12 +212,12 @@ public:
     EXPORT void M_EndSingleStep_24_443990();
 
 public:
-    EXPORT s16 AI_0_Calm_WalkAround_440B40();
-    EXPORT s16 AI_1_Panic_4412F0();
-    EXPORT s16 AI_2_Slapped_441720();
-    EXPORT s16 AI_3_PlayerControlled_441A30();
-    EXPORT s16 AI_4_Death_442010();
-    EXPORT s16 AI_5_WaitToSpawn_442490();
+    EXPORT s16 Brain_0_Calm_WalkAround_440B40();
+    EXPORT s16 Brain_1_Panic_4412F0();
+    EXPORT s16 Brain_2_Slapped_441720();
+    EXPORT s16 Brain_3_PlayerControlled_441A30();
+    EXPORT s16 Brain_4_Death_442010();
+    EXPORT s16 Brain_5_WaitToSpawn_442490();
 
 public:
     EXPORT static void CC PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Glukkon* pGlukkon);
@@ -276,8 +276,8 @@ private:
     EXPORT s16 vTakeDamage_43FA40(BaseGameObject* pFrom);
 
 
-    void SetBrain(TGlukkonAIFn fn);
-    bool BrainIs(TGlukkonAIFn fn);
+    void SetBrain(TGlukkonBrainFn fn);
+    bool BrainIs(TGlukkonBrainFn fn);
 
 private:
     s16 field_118_pPalAlloc[64];
@@ -306,8 +306,8 @@ private:
     s32 field_200_knockback_delay_after_getting_shot_timer;
     s32 field_204_getting_shot_timer;
     s32 field_208_obj_id;
-    TGlukkonAIFn field_20C_brain_state_fn;
-    s16 field_210_sub_state;
+    TGlukkonBrainFn field_20C_brain_state_fn;
+    s16 field_210_brain_sub_state;
     s16 field_212_currentWalkPitch;
     s32 field_214_tlv_info;
 };

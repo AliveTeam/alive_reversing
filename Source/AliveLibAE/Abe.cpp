@@ -54,143 +54,143 @@
 #include "Spark.hpp"
 #include "TestAnimation.hpp"
 
-using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
+using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_44EEB0);
 
 #define MAKE_STRINGS(VAR) #VAR,
-const char_type* const sAbeStateNames[] = {
-    ABE_STATES_ENUM(MAKE_STRINGS)};
+const char_type* const sAbeMotionNames[] = {
+    ABE_MOTIONS_ENUM(MAKE_STRINGS)};
 
-const TAbeStateFunction sAbeStateMachineTable_554910[] = {
-    &Abe::State_0_Idle_44EEB0,
-    &Abe::State_1_WalkLoop_44FBA0,
-    &Abe::State_2_StandingTurn_451830,
-    &Abe::State_3_Fall_459B60,
-    &Abe::State_4_WalkToIdle_44FFC0,
-    &Abe::State_5_MidWalkToIdle_450080,
-    &Abe::State_6_WalkBegin_44FEE0,
-    &Abe::State_7_Speak_45B140,
-    &Abe::State_8_Speak_45B160,
-    &Abe::State_9_Speak_45B180,
-    &Abe::State_10_Fart_45B1A0,
-    &Abe::State_11_ToSpeak_45B0A0,
-    &Abe::State_12_Null_4569C0,
-    &Abe::State_13_HoistBegin_452B20,
-    &Abe::State_14_HoistIdle_452440,
-    &Abe::State_15_HoistLand_452BA0,
-    &Abe::State_16_LandSoft_45A360,
-    &Abe::State_17_CrouchIdle_456BC0,
-    &Abe::State_18_CrouchToStand_454600,
-    &Abe::State_19_StandToCrouch_453DC0,
-    &Abe::State_20_CrouchSpeak_454550,
-    &Abe::jState_21_ToCrouchSpeak_4545E0,
-    &Abe::State_22_RollBegin_4539A0,
-    &Abe::State_23_RollLoop_453A90,
-    &Abe::State_24_453D00,
-    &Abe::State_25_RunSlideStop_451330,
-    &Abe::State_26_RunTurn_451500,
-    &Abe::State_27_HopBegin_4521C0,
-    &Abe::State_28_HopMid_451C50,
-    &Abe::State_29_HopLand_4523D0,
-    &Abe::State_30_RunJumpBegin_4532E0,
-    &Abe::State_31_RunJumpMid_452C10,
-    &Abe::State_32_RunJumpLand_453460,
-    &Abe::State_33_RunLoop_4508E0,
-    &Abe::State_34_DunnoBegin_44ECF0,
-    &Abe::State_35_DunnoEnd_44ED10,
-    &Abe::State_36_Null_45BC50,
-    &Abe::State_37_CrouchTurn_454390,
-    &Abe::jState_38_RunToRoll_453A70,
-    &Abe::State_39_StandingToRun_450D40,
-    &Abe::State_40_SneakLoop_450550,
-    &Abe::State_41_WalkToSneak_450250,
-    &Abe::State_42_SneakToWalk_4503D0,
-    &Abe::State_43_MidWalkToSneak_450380,
-    &Abe::State_44_MidSneakToWalk_450500,
-    &Abe::State_45_SneakBegin_4507A0,
-    &Abe::State_46_SneakToIdle_450870,
-    &Abe::jState_47_MidSneakToIdle_4508C0,
-    &Abe::State_48_WalkToRun_4500A0,
-    &Abe::State_49_MidWalkToRun_450200,
-    &Abe::State_50_RunToWalk_450E20,
-    &Abe::State_51_MidRunToWalk_450F50,
-    &Abe::State_52_RunTurnToRun_451710,
-    &Abe::State_53_RunTurnToWalk_451800,
-    &Abe::State_54_RunJumpLandRun_4538F0,
-    &Abe::State_55_RunJumpLandWalk_453970,
-    &Abe::State_56_DeathDropFall_4591F0,
-    &Abe::State_57_Dead_4589A0,
-    &Abe::State_58_DeadPre_4593E0,
-    &Abe::State_59_Null_459450,
-    &Abe::State_60_4A3200,
-    &Abe::State_61_TurnToRun_456530,
-    &Abe::State_62_Punch_454750,
-    &Abe::State_63_Sorry_454670,
-    &Abe::State_64_AfterSorry_454730,
-    &Abe::State_65_LedgeAscend_4548E0,
-    &Abe::State_66_LedgeDescend_454970,
-    &Abe::State_67_LedgeHang_454E20,
-    &Abe::State_68_ToOffScreenHoist_454B80,
-    &Abe::State_69_LedgeHangWobble_454EF0,
-    &Abe::State_70_RingRopePullHang_455AF0,
-    &Abe::State_71_Knockback_455090,
-    &Abe::State_72_KnockbackGetUp_455340,
-    &Abe::State_73_PushWall_4553A0,
-    &Abe::State_74_RollingKnockback_455290,
-    &Abe::State_75_JumpIntoWell_45C7B0,
-    &Abe::State_76_ToInsideOfAWellLocal_45CA40,
-    &Abe::State_77_ToWellShotOut_45D130,
-    &Abe::State_78_WellBegin_45C810,
-    &Abe::State_79_InsideWellLocal_45CA60,
-    &Abe::State_80_WellShotOut_45D150,
-    &Abe::jState_81_WellBegin_45C7F0,
-    &Abe::State_82_InsideWellExpress_45CC80,
-    &Abe::State_83_WellExpressShotOut_45CF70,
-    &Abe::State_84_FallLandDie_45A420,
-    &Abe::jState_85_Fall_455070,
-    &Abe::State_86_HandstoneBegin_45BD00,
-    &Abe::State_87_HandstoneEnd_45C4F0,
-    &Abe::State_88_GrenadeMachineUse_45C510,
-    &Abe::State_89_BrewMachineBegin_4584C0,
-    &Abe::State_90_BrewMachineEnd_4585B0,
-    &Abe::State_91_FallingFromGrab_4557B0,
-    &Abe::State_92_ForceDownFromHoist_455800,
-    &Abe::State_93_WalkOffEdge_455970,
-    &Abe::State_94_RunOffEdge_4559A0,
-    &Abe::State_95_SneakOffEdge_4559C0,
-    &Abe::State_96_HopToFall_4559E0,
-    &Abe::State_97_RunJumpToFall_455A80,
-    &Abe::State_98_RollOffEdge_455AA0,
-    &Abe::State_99_LeverUse_455AC0,
-    &Abe::State_100_SlapBomb_455B60,
-    &Abe::State_101_KnockForward_455420,
-    &Abe::State_102_RollingKnockForward_455310,
-    &Abe::jState_103_KnockForwardGetUp_455380,
-    &Abe::State_104_RockThrowStandingHold_455DF0,
-    &Abe::State_105_RockThrowStandingThrow_456460,
-    &Abe::State_106_RockThrowStandingEnd_455F20,
-    &Abe::State_107_RockThrowCrouchingHold_454410,
-    &Abe::State_108_RockThrowCrouchingThrow_454500,
-    &Abe::State_109_ZShotRolling_455550,
-    &Abe::State_110_ZShot_455670,
-    &Abe::State_111_PickupItem_4564A0,
-    &Abe::State_112_Chant_45B1C0,
-    &Abe::State_113_ChantEnd_45BBE0,
-    &Abe::State_114_DoorEnter_459470,
-    &Abe::State_115_DoorExit_459A40,
-    &Abe::State_116_MineCarEnter_458780,
-    &Abe::State_117_InMineCar_4587C0,
-    &Abe::State_118_MineCarExit_458890,
-    &Abe::State_119_ToShrykull_45A990,
-    &Abe::State_120_EndShrykull_45AB00,
-    &Abe::State_121_LiftGrabBegin_45A600,
-    &Abe::State_122_LiftGrabEnd_45A670,
-    &Abe::State_123_LiftGrabIdle_45A6A0,
-    &Abe::State_124_LiftUseUp_45A780,
-    &Abe::State_125_LiftUseDown_45A7B0,
-    &Abe::State_126_TurnWheelBegin_456700,
-    &Abe::State_127_TurnWheelLoop_456750,
-    &Abe::State_128_TurnWheelEnd_4569A0,
-    &Abe::State_129_PoisonGasDeath_4565C0};
+const TAbeMotionFunction sAbeMotionMachineTable_554910[] = {
+    &Abe::Motion_0_Idle_44EEB0,
+    &Abe::Motion_1_WalkLoop_44FBA0,
+    &Abe::Motion_2_StandingTurn_451830,
+    &Abe::Motion_3_Fall_459B60,
+    &Abe::Motion_4_WalkToIdle_44FFC0,
+    &Abe::Motion_5_MidWalkToIdle_450080,
+    &Abe::Motion_6_WalkBegin_44FEE0,
+    &Abe::Motion_7_Speak_45B140,
+    &Abe::Motion_8_Speak_45B160,
+    &Abe::Motion_9_Speak_45B180,
+    &Abe::Motion_10_Fart_45B1A0,
+    &Abe::Motion_11_ToSpeak_45B0A0,
+    &Abe::Motion_12_Null_4569C0,
+    &Abe::Motion_13_HoistBegin_452B20,
+    &Abe::Motion_14_HoistIdle_452440,
+    &Abe::Motion_15_HoistLand_452BA0,
+    &Abe::Motion_16_LandSoft_45A360,
+    &Abe::Motion_17_CrouchIdle_456BC0,
+    &Abe::Motion_18_CrouchToStand_454600,
+    &Abe::Motion_19_StandToCrouch_453DC0,
+    &Abe::Motion_20_CrouchSpeak_454550,
+    &Abe::jMotion_21_ToCrouchSpeak_4545E0,
+    &Abe::Motion_22_RollBegin_4539A0,
+    &Abe::Motion_23_RollLoop_453A90,
+    &Abe::Motion_24_453D00,
+    &Abe::Motion_25_RunSlideStop_451330,
+    &Abe::Motion_26_RunTurn_451500,
+    &Abe::Motion_27_HopBegin_4521C0,
+    &Abe::Motion_28_HopMid_451C50,
+    &Abe::Motion_29_HopLand_4523D0,
+    &Abe::Motion_30_RunJumpBegin_4532E0,
+    &Abe::Motion_31_RunJumpMid_452C10,
+    &Abe::Motion_32_RunJumpLand_453460,
+    &Abe::Motion_33_RunLoop_4508E0,
+    &Abe::Motion_34_DunnoBegin_44ECF0,
+    &Abe::Motion_35_DunnoEnd_44ED10,
+    &Abe::Motion_36_Null_45BC50,
+    &Abe::Motion_37_CrouchTurn_454390,
+    &Abe::jMotion_38_RunToRoll_453A70,
+    &Abe::Motion_39_StandingToRun_450D40,
+    &Abe::Motion_40_SneakLoop_450550,
+    &Abe::Motion_41_WalkToSneak_450250,
+    &Abe::Motion_42_SneakToWalk_4503D0,
+    &Abe::Motion_43_MidWalkToSneak_450380,
+    &Abe::Motion_44_MidSneakToWalk_450500,
+    &Abe::Motion_45_SneakBegin_4507A0,
+    &Abe::Motion_46_SneakToIdle_450870,
+    &Abe::jMotion_47_MidSneakToIdle_4508C0,
+    &Abe::Motion_48_WalkToRun_4500A0,
+    &Abe::Motion_49_MidWalkToRun_450200,
+    &Abe::Motion_50_RunToWalk_450E20,
+    &Abe::Motion_51_MidRunToWalk_450F50,
+    &Abe::Motion_52_RunTurnToRun_451710,
+    &Abe::Motion_53_RunTurnToWalk_451800,
+    &Abe::Motion_54_RunJumpLandRun_4538F0,
+    &Abe::Motion_55_RunJumpLandWalk_453970,
+    &Abe::Motion_56_DeathDropFall_4591F0,
+    &Abe::Motion_57_Dead_4589A0,
+    &Abe::Motion_58_DeadPre_4593E0,
+    &Abe::Motion_59_Null_459450,
+    &Abe::Motion_60_4A3200,
+    &Abe::Motion_61_TurnToRun_456530,
+    &Abe::Motion_62_Punch_454750,
+    &Abe::Motion_63_Sorry_454670,
+    &Abe::Motion_64_AfterSorry_454730,
+    &Abe::Motion_65_LedgeAscend_4548E0,
+    &Abe::Motion_66_LedgeDescend_454970,
+    &Abe::Motion_67_LedgeHang_454E20,
+    &Abe::Motion_68_ToOffScreenHoist_454B80,
+    &Abe::Motion_69_LedgeHangWobble_454EF0,
+    &Abe::Motion_70_RingRopePullHang_455AF0,
+    &Abe::Motion_71_Knockback_455090,
+    &Abe::Motion_72_KnockbackGetUp_455340,
+    &Abe::Motion_73_PushWall_4553A0,
+    &Abe::Motion_74_RollingKnockback_455290,
+    &Abe::Motion_75_JumpIntoWell_45C7B0,
+    &Abe::Motion_76_ToInsideOfAWellLocal_45CA40,
+    &Abe::Motion_77_ToWellShotOut_45D130,
+    &Abe::Motion_78_WellBegin_45C810,
+    &Abe::Motion_79_InsideWellLocal_45CA60,
+    &Abe::Motion_80_WellShotOut_45D150,
+    &Abe::jMotion_81_WellBegin_45C7F0,
+    &Abe::Motion_82_InsideWellExpress_45CC80,
+    &Abe::Motion_83_WellExpressShotOut_45CF70,
+    &Abe::Motion_84_FallLandDie_45A420,
+    &Abe::jMotion_85_Fall_455070,
+    &Abe::Motion_86_HandstoneBegin_45BD00,
+    &Abe::Motion_87_HandstoneEnd_45C4F0,
+    &Abe::Motion_88_GrenadeMachineUse_45C510,
+    &Abe::Motion_89_BrewMachineBegin_4584C0,
+    &Abe::Motion_90_BrewMachineEnd_4585B0,
+    &Abe::Motion_91_FallingFromGrab_4557B0,
+    &Abe::Motion_92_ForceDownFromHoist_455800,
+    &Abe::Motion_93_WalkOffEdge_455970,
+    &Abe::Motion_94_RunOffEdge_4559A0,
+    &Abe::Motion_95_SneakOffEdge_4559C0,
+    &Abe::Motion_96_HopToFall_4559E0,
+    &Abe::Motion_97_RunJumpToFall_455A80,
+    &Abe::Motion_98_RollOffEdge_455AA0,
+    &Abe::Motion_99_LeverUse_455AC0,
+    &Abe::Motion_100_SlapBomb_455B60,
+    &Abe::Motion_101_KnockForward_455420,
+    &Abe::Motion_102_RollingKnockForward_455310,
+    &Abe::jMotion_103_KnockForwardGetUp_455380,
+    &Abe::Motion_104_RockThrowStandingHold_455DF0,
+    &Abe::Motion_105_RockThrowStandingThrow_456460,
+    &Abe::Motion_106_RockThrowStandingEnd_455F20,
+    &Abe::Motion_107_RockThrowCrouchingHold_454410,
+    &Abe::Motion_108_RockThrowCrouchingThrow_454500,
+    &Abe::Motion_109_ZShotRolling_455550,
+    &Abe::Motion_110_ZShot_455670,
+    &Abe::Motion_111_PickupItem_4564A0,
+    &Abe::Motion_112_Chant_45B1C0,
+    &Abe::Motion_113_ChantEnd_45BBE0,
+    &Abe::Motion_114_DoorEnter_459470,
+    &Abe::Motion_115_DoorExit_459A40,
+    &Abe::Motion_116_MineCarEnter_458780,
+    &Abe::Motion_117_InMineCar_4587C0,
+    &Abe::Motion_118_MineCarExit_458890,
+    &Abe::Motion_119_ToShrykull_45A990,
+    &Abe::Motion_120_EndShrykull_45AB00,
+    &Abe::Motion_121_LiftGrabBegin_45A600,
+    &Abe::Motion_122_LiftGrabEnd_45A670,
+    &Abe::Motion_123_LiftGrabIdle_45A6A0,
+    &Abe::Motion_124_LiftUseUp_45A780,
+    &Abe::Motion_125_LiftUseDown_45A7B0,
+    &Abe::Motion_126_TurnWheelBegin_456700,
+    &Abe::Motion_127_TurnWheelLoop_456750,
+    &Abe::Motion_128_TurnWheelEnd_4569A0,
+    &Abe::Motion_129_PoisonGasDeath_4565C0};
 
 const SfxDefinition sAbeSFXList_555250[41] = {
     {0u, 0u, 0u, 0u, 0, 0},
@@ -819,7 +819,7 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
     field_100_pCollisionLine = nullptr;
-    field_106_current_motion = eAbeStates::State_3_Fall_459B60;
+    field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
     field_122_knockdown_motion = -1;
     field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_32;
     field_198_has_evil_fart = 0;
@@ -1070,7 +1070,7 @@ s32 CC Abe::CreateFromSaveState_44D4F0(const u8* pData)
     sActiveHero_5C1B68->field_106_current_motion = pSaveState->current_motion;
 
     const AnimRecord& animRec = AnimRec(sAbeFrameTables[sActiveHero_5C1B68->field_106_current_motion]);
-    u8** animFromState = sActiveHero_5C1B68->StateToAnimResource_44AAB0(sActiveHero_5C1B68->field_106_current_motion);
+    u8** animFromState = sActiveHero_5C1B68->MotionToAnimResource_44AAB0(sActiveHero_5C1B68->field_106_current_motion);
     if (!animFromState)
     {
         u32 id = sAbeResourceIDTable_554D60[sActiveHero_5C1B68->field_128.field_10_resource_index];
@@ -1416,7 +1416,7 @@ void Abe::Update_449DC0()
 
         field_F8_LastLineYPos = field_BC_ypos;
         field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5_shrivel);
-        field_106_current_motion = eAbeStates::jState_85_Fall_455070;
+        field_106_current_motion = eAbeMotions::jMotion_85_Fall_455070;
         field_100_pCollisionLine = nullptr;
 
         if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp))
@@ -1477,12 +1477,12 @@ void Abe::Update_449DC0()
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
-        s16 state_idx = field_106_current_motion;
+        s16 motion_idx = field_106_current_motion;
 
-        // Execute the current state
+        // Execute the current motion
         const FP oldXPos = field_B8_xpos;
         const FP oldYPos = field_BC_ypos;
-        (this->*(sAbeStateMachineTable_554910)[state_idx])();
+        (this->*(sAbeMotionMachineTable_554910)[motion_idx])();
 
         if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave) || field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel))
         {
@@ -1510,16 +1510,16 @@ void Abe::Update_449DC0()
 
         if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
         {
-            state_idx = field_122_knockdown_motion;
+            motion_idx = field_122_knockdown_motion;
             ToKnockback_44E700(1, 1);
-            if (state_idx != -1)
+            if (motion_idx != -1)
             {
-                field_106_current_motion = state_idx;
+                field_106_current_motion = motion_idx;
             }
 
             field_108_next_motion = 0;
             field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
-            field_122_knockdown_motion = eAbeStates::State_0_Idle_44EEB0;
+            field_122_knockdown_motion = eAbeMotions::Motion_0_Idle_44EEB0;
             field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
             field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
         }
@@ -1535,11 +1535,11 @@ void Abe::Update_449DC0()
         if (field_128.field_18_say != MudSounds::eNone && static_cast<s32>(sGnFrame_5C1B84) >= field_144_auto_say_timer)
         {
             if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
-                || (field_106_current_motion == eAbeStates::State_112_Chant_45B1C0)
-                || field_106_current_motion == eAbeStates::State_7_Speak_45B140
-                || field_106_current_motion == eAbeStates::State_8_Speak_45B160
-                || field_106_current_motion == eAbeStates::State_9_Speak_45B180
-                || field_106_current_motion == eAbeStates::State_10_Fart_45B1A0)
+                || (field_106_current_motion == eAbeMotions::Motion_112_Chant_45B1C0)
+                || field_106_current_motion == eAbeMotions::Motion_7_Speak_45B140
+                || field_106_current_motion == eAbeMotions::Motion_8_Speak_45B160
+                || field_106_current_motion == eAbeMotions::Motion_9_Speak_45B180
+                || field_106_current_motion == eAbeMotions::Motion_10_Fart_45B1A0)
             {
                 // Prevents f64 laugh when blowing up a slig as we prevent saying anything while chanting or various other states
                 // or when abe isn't in the active screen
@@ -1547,22 +1547,22 @@ void Abe::Update_449DC0()
             }
             else
             {
-                if (field_106_current_motion == eAbeStates::State_0_Idle_44EEB0 || field_106_current_motion == eAbeStates::State_12_Null_4569C0)
+                if (field_106_current_motion == eAbeMotions::Motion_0_Idle_44EEB0 || field_106_current_motion == eAbeMotions::Motion_12_Null_4569C0)
                 {
                     field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
                     switch (field_128.field_18_say)
                     {
                         case MudSounds::eOops_14:
-                            field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
+                            field_106_current_motion = eAbeMotions::Motion_34_DunnoBegin_44ECF0;
                             break;
                         case MudSounds::eAnger_5:
-                            field_106_current_motion = eAbeStates::State_10_Fart_45B1A0;
+                            field_106_current_motion = eAbeMotions::Motion_10_Fart_45B1A0;
                             break;
                         case MudSounds::eSadUgh_28:
-                            field_106_current_motion = eAbeStates::State_10_Fart_45B1A0;
+                            field_106_current_motion = eAbeMotions::Motion_10_Fart_45B1A0;
                             break;
                         default:
-                            field_106_current_motion = eAbeStates::State_9_Speak_45B180;
+                            field_106_current_motion = eAbeMotions::Motion_9_Speak_45B180;
                             break;
                     }
                 }
@@ -1587,18 +1587,18 @@ void Abe::Update_449DC0()
             }
         }
 
-        if (state_idx != field_106_current_motion || field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))
+        if (motion_idx != field_106_current_motion || field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))
         {
             field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
-            if (field_106_current_motion != eAbeStates::State_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)))
+            if (field_106_current_motion != eAbeMotions::Motion_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)))
             {
                 const AnimRecord& animRec = AnimRec(sAbeFrameTables[field_106_current_motion]);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, StateToAnimResource_44AAB0(field_106_current_motion));
-                //field_20_animation.Set_Animation_Data_409C80( sAbeFrameTables[field_106_current_motion], StateToAnimResource_44AAB0(field_106_current_motion));
+                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, MotionToAnimResource_44AAB0(field_106_current_motion));
+                //field_20_animation.Set_Animation_Data_409C80( sAbeFrameTables[field_106_current_motion], MotionToAnimResource_44AAB0(field_106_current_motion));
 
                 field_128.field_14_rolling_motion_timer = sGnFrame_5C1B84;
 
-                if (state_idx == eAbeStates::State_12_Null_4569C0 || state_idx == eAbeStates::State_60_4A3200)
+                if (motion_idx == eAbeMotions::Motion_12_Null_4569C0 || motion_idx == eAbeMotions::Motion_60_4A3200)
                 {
                     field_20_animation.SetFrame_409D50(field_F6_anim_frame);
                 }
@@ -1610,8 +1610,8 @@ void Abe::Update_449DC0()
             field_106_current_motion = field_F4_previous_motion;
 
             const AnimRecord& animRec = AnimRec(sAbeFrameTables[field_106_current_motion]);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, StateToAnimResource_44AAB0(field_106_current_motion));
-            //field_20_animation.Set_Animation_Data_409C80( sAbeFrameTables[field_106_current_motion], StateToAnimResource_44AAB0(field_106_current_motion));
+            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, MotionToAnimResource_44AAB0(field_106_current_motion));
+            //field_20_animation.Set_Animation_Data_409C80( sAbeFrameTables[field_106_current_motion], MotionToAnimResource_44AAB0(field_106_current_motion));
 
             field_128.field_14_rolling_motion_timer = sGnFrame_5C1B84;
             field_20_animation.SetFrame_409D50(field_F6_anim_frame);
@@ -1749,7 +1749,7 @@ void Abe::vOnTrapDoorOpen_45A570()
     {
         if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)))
         {
-            VSetMotion_4081C0(eAbeStates::State_93_WalkOffEdge_455970);
+            VSetMotion_4081C0(eAbeMotions::Motion_93_WalkOffEdge_455970);
         }
 
         pPlatform->VRemove(this);
@@ -1806,7 +1806,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
             Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 32767, this);
         }
 
-        field_106_current_motion = eAbeStates::State_71_Knockback_455090;
+        field_106_current_motion = eAbeMotions::Motion_71_Knockback_455090;
 
         if (bDelayedAnger)
         {
@@ -1834,7 +1834,7 @@ void Abe::vRender_44B580(PrimHeader** ppOt)
         field_20_animation.field_14_scale = field_CC_sprite_scale;
     }
 
-    if (field_106_current_motion != eAbeStates::State_79_InsideWellLocal_45CA60 && field_106_current_motion != eAbeStates::State_82_InsideWellExpress_45CC80 && field_106_current_motion != eAbeStates::State_76_ToInsideOfAWellLocal_45CA40)
+    if (field_106_current_motion != eAbeMotions::Motion_79_InsideWellLocal_45CA60 && field_106_current_motion != eAbeMotions::Motion_82_InsideWellExpress_45CC80 && field_106_current_motion != eAbeMotions::Motion_76_ToInsideOfAWellLocal_45CA40)
     {
         Render_424B90(ppOt);
     }
@@ -2220,12 +2220,12 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
                 {
                     field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
                     field_10C_health = FP_FromInteger(0);
-                    field_106_current_motion = eAbeStates::State_129_PoisonGasDeath_4565C0;
+                    field_106_current_motion = eAbeMotions::Motion_129_PoisonGasDeath_4565C0;
                     field_124_timer = 1;
                 }
                 else
                 {
-                    if (field_106_current_motion != eAbeStates::State_71_Knockback_455090 && field_106_current_motion != eAbeStates::State_72_KnockbackGetUp_455340)
+                    if (field_106_current_motion != eAbeMotions::Motion_71_Knockback_455090 && field_106_current_motion != eAbeMotions::Motion_72_KnockbackGetUp_455340)
                     {
                         ToKnockback_44E700(1, 1);
                         field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
@@ -2286,8 +2286,8 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
                 if (field_10C_health > FP_FromInteger(0))
                 {
                     field_114_flags.Set(Flags_114::e114_Bit1_bShot);
-                    field_122_knockdown_motion = eAbeStates::State_71_Knockback_455090;
-                    field_108_next_motion = eAbeStates::State_71_Knockback_455090;
+                    field_122_knockdown_motion = eAbeMotions::Motion_71_Knockback_455090;
+                    field_108_next_motion = eAbeMotions::Motion_71_Knockback_455090;
                 }
 
                 field_10C_health = FP_FromInteger(0);
@@ -2315,7 +2315,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         case AETypes::eSecurityOrb_83:
             field_128.field_18_say = MudSounds::eAnger_5;
             field_144_auto_say_timer = sGnFrame_5C1B84 + 27;
-            if (field_106_current_motion != eAbeStates::State_123_LiftGrabIdle_45A6A0 && field_106_current_motion != eAbeStates::State_124_LiftUseUp_45A780 && field_106_current_motion != eAbeStates::State_125_LiftUseDown_45A7B0)
+            if (field_106_current_motion != eAbeMotions::Motion_123_LiftGrabIdle_45A6A0 && field_106_current_motion != eAbeMotions::Motion_124_LiftUseUp_45A780 && field_106_current_motion != eAbeMotions::Motion_125_LiftUseDown_45A7B0)
             {
                 ToKnockback_44E700(1, 1);
                 field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
@@ -2408,12 +2408,12 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 
                 if (pAliveObj->field_B8_xpos < field_B8_xpos && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    field_106_current_motion = eAbeStates::State_101_KnockForward_455420;
+                    field_106_current_motion = eAbeMotions::Motion_101_KnockForward_455420;
                 }
 
                 if (pAliveObj->field_B8_xpos > field_B8_xpos && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                 {
-                    field_106_current_motion = eAbeStates::State_101_KnockForward_455420;
+                    field_106_current_motion = eAbeMotions::Motion_101_KnockForward_455420;
                 }
 
                 if (pAliveObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -2439,8 +2439,8 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             Mudokon_SFX_457EC0(MudSounds::eHurt2_9, 0, 0, this);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
             field_114_flags.Set(Flags_114::e114_Bit1_bShot);
-            field_122_knockdown_motion = eAbeStates::State_101_KnockForward_455420;
-            field_108_next_motion = eAbeStates::State_101_KnockForward_455420;
+            field_122_knockdown_motion = eAbeMotions::Motion_101_KnockForward_455420;
+            field_108_next_motion = eAbeMotions::Motion_101_KnockForward_455420;
             field_10C_health = FP_FromInteger(0);
 
             if (!ForceDownIfHoisting_44BA30())
@@ -2486,7 +2486,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
                 {
                     if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                     {
-                        field_106_current_motion = eAbeStates::State_101_KnockForward_455420;
+                        field_106_current_motion = eAbeMotions::Motion_101_KnockForward_455420;
                     }
                 }
 
@@ -2494,7 +2494,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
                 {
                     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        field_106_current_motion = eAbeStates::State_101_KnockForward_455420;
+                        field_106_current_motion = eAbeMotions::Motion_101_KnockForward_455420;
                     }
                 }
 
@@ -2538,7 +2538,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
                 {
                     if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                     {
-                        field_106_current_motion = eAbeStates::State_101_KnockForward_455420;
+                        field_106_current_motion = eAbeMotions::Motion_101_KnockForward_455420;
                     }
                 }
 
@@ -2546,7 +2546,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
                 {
                     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        field_106_current_motion = eAbeStates::State_101_KnockForward_455420;
+                        field_106_current_motion = eAbeMotions::Motion_101_KnockForward_455420;
                     }
                 }
 
@@ -2564,10 +2564,10 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             break;
 
         case AETypes::eMudokon_110:
-            if (field_10C_health > FP_FromInteger(0) && field_106_current_motion != eAbeStates::State_71_Knockback_455090)
+            if (field_10C_health > FP_FromInteger(0) && field_106_current_motion != eAbeMotions::Motion_71_Knockback_455090)
             {
                 field_10C_health -= FP_FromDouble(0.07);
-                if (field_10C_health <= FP_FromInteger(0) || (field_106_current_motion != eAbeStates::State_123_LiftGrabIdle_45A6A0 && field_106_current_motion != eAbeStates::State_124_LiftUseUp_45A780 && field_106_current_motion != eAbeStates::State_125_LiftUseDown_45A7B0))
+                if (field_10C_health <= FP_FromInteger(0) || (field_106_current_motion != eAbeMotions::Motion_123_LiftGrabIdle_45A6A0 && field_106_current_motion != eAbeMotions::Motion_124_LiftUseUp_45A780 && field_106_current_motion != eAbeMotions::Motion_125_LiftUseDown_45A7B0))
                 {
                     ToKnockback_44E700(1, 1);
                     field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
@@ -2798,21 +2798,21 @@ void Abe::Free_Resources_44D420()
 
 EXPORT BOOL Abe::IsStanding_449D30()
 {
-    return field_106_current_motion == eAbeStates::State_0_Idle_44EEB0
-        || field_106_current_motion == eAbeStates::State_2_StandingTurn_451830
-        || field_106_current_motion == eAbeStates::State_34_DunnoBegin_44ECF0
-        || field_106_current_motion == eAbeStates::State_35_DunnoEnd_44ED10
-        || field_106_current_motion == eAbeStates::State_11_Speak_45B0A0
-        || field_106_current_motion == eAbeStates::State_7_Speak_45B140
-        || field_106_current_motion == eAbeStates::State_8_Speak_45B160
-        || field_106_current_motion == eAbeStates::State_9_Speak_45B180
-        || field_106_current_motion == eAbeStates::State_10_Fart_45B1A0
-        || field_106_current_motion == eAbeStates::State_99_LeverUse_455AC0
-        || field_106_current_motion == eAbeStates::State_105_RockThrowStandingThrow_456460
-        || field_106_current_motion == eAbeStates::State_104_RockThrowStandingHold_455DF0
-        || field_106_current_motion == eAbeStates::State_106_RockThrowStandingEnd_455F20
-        || field_106_current_motion == eAbeStates::State_112_Chant_45B1C0
-        || field_106_current_motion == eAbeStates::State_113_ChantEnd_45BBE0;
+    return field_106_current_motion == eAbeMotions::Motion_0_Idle_44EEB0
+        || field_106_current_motion == eAbeMotions::Motion_2_StandingTurn_451830
+        || field_106_current_motion == eAbeMotions::Motion_34_DunnoBegin_44ECF0
+        || field_106_current_motion == eAbeMotions::Motion_35_DunnoEnd_44ED10
+        || field_106_current_motion == eAbeMotions::Motion_11_Speak_45B0A0
+        || field_106_current_motion == eAbeMotions::Motion_7_Speak_45B140
+        || field_106_current_motion == eAbeMotions::Motion_8_Speak_45B160
+        || field_106_current_motion == eAbeMotions::Motion_9_Speak_45B180
+        || field_106_current_motion == eAbeMotions::Motion_10_Fart_45B1A0
+        || field_106_current_motion == eAbeMotions::Motion_99_LeverUse_455AC0
+        || field_106_current_motion == eAbeMotions::Motion_105_RockThrowStandingThrow_456460
+        || field_106_current_motion == eAbeMotions::Motion_104_RockThrowStandingHold_455DF0
+        || field_106_current_motion == eAbeMotions::Motion_106_RockThrowStandingEnd_455F20
+        || field_106_current_motion == eAbeMotions::Motion_112_Chant_45B1C0
+        || field_106_current_motion == eAbeMotions::Motion_113_ChantEnd_45BBE0;
 }
 
 void Abe::Free_Shrykull_Resources_45AA90()
@@ -2827,101 +2827,101 @@ void Abe::Free_Shrykull_Resources_45AA90()
     field_10_resources_array.SetAt(27, nullptr);
 }
 
-u8** Abe::StateToAnimResource_44AAB0(s16 state)
+u8** Abe::MotionToAnimResource_44AAB0(s16 motion)
 {
     s16 mapped = ResourceIndices::eBasic_0;
-    if (state < eAbeStates::State_12_Null_4569C0)
+    if (motion < eAbeMotions::Motion_12_Null_4569C0)
     {
         mapped = ResourceIndices::eBasic1_1;
     }
-    else if (state < eAbeStates::State_65_LedgeAscend_4548E0)
+    else if (motion < eAbeMotions::Motion_65_LedgeAscend_4548E0)
     {
         mapped = ResourceIndices::eBasic_0;
     }
-    else if (state < eAbeStates::State_71_Knockback_455090)
+    else if (motion < eAbeMotions::Motion_71_Knockback_455090)
     {
         mapped = ResourceIndices::eHosit_12;
     }
-    else if (state < eAbeStates::State_75_JumpIntoWell_45C7B0)
+    else if (motion < eAbeMotions::Motion_75_JumpIntoWell_45C7B0)
     {
         mapped = ResourceIndices::eKnockBack_9;
     }
-    else if (state < eAbeStates::State_84_FallLandDie_45A420)
+    else if (motion < eAbeMotions::Motion_84_FallLandDie_45A420)
     {
         mapped = ResourceIndices::eWell_15;
     }
-    else if (state < eAbeStates::jState_85_Fall_455070)
+    else if (motion < eAbeMotions::jMotion_85_Fall_455070)
     {
         mapped = ResourceIndices::eSmash_6;
     }
-    else if (state < eAbeStates::State_86_HandstoneBegin_45BD00)
+    else if (motion < eAbeMotions::Motion_86_HandstoneBegin_45BD00)
     {
         mapped = ResourceIndices::eFall_7;
     }
-    else if (state < eAbeStates::State_91_FallingFromGrab_4557B0)
+    else if (motion < eAbeMotions::Motion_91_FallingFromGrab_4557B0)
     {
         mapped = ResourceIndices::eStone_8;
     }
-    else if (state < eAbeStates::State_99_LeverUse_455AC0)
+    else if (motion < eAbeMotions::Motion_99_LeverUse_455AC0)
     {
         mapped = ResourceIndices::eEdge_13;
     }
-    else if (state < eAbeStates::State_100_SlapBomb_455B60)
+    else if (motion < eAbeMotions::Motion_100_SlapBomb_455B60)
     {
         mapped = ResourceIndices::ePull_2;
     }
-    else if (state < eAbeStates::State_101_KnockForward_455420)
+    else if (motion < eAbeMotions::Motion_101_KnockForward_455420)
     {
         mapped = ResourceIndices::eBomb_4;
     }
-    else if (state < eAbeStates::State_104_RockThrowStandingHold_455DF0)
+    else if (motion < eAbeMotions::Motion_104_RockThrowStandingHold_455DF0)
     {
         mapped = ResourceIndices::eKnockFd_10;
     }
-    else if (state < eAbeStates::State_109_ZShotRolling_455550)
+    else if (motion < eAbeMotions::Motion_109_ZShotRolling_455550)
     {
         mapped = ResourceIndices::eThrow_5;
     }
-    else if (state < eAbeStates::State_111_PickupItem_4564A0)
+    else if (motion < eAbeMotions::Motion_111_PickupItem_4564A0)
     {
         mapped = ResourceIndices::eKnockZ_11;
     }
-    else if (state < eAbeStates::State_112_Chant_45B1C0)
+    else if (motion < eAbeMotions::Motion_112_Chant_45B1C0)
     {
         mapped = ResourceIndices::ePick_3;
     }
-    else if (state < eAbeStates::State_114_DoorEnter_459470)
+    else if (motion < eAbeMotions::Motion_114_DoorEnter_459470)
     {
         mapped = ResourceIndices::eChant_16;
     }
-    else if (state < eAbeStates::State_116_MineCarEnter_458780)
+    else if (motion < eAbeMotions::Motion_116_MineCarEnter_458780)
     {
         mapped = ResourceIndices::eDoor_14;
     }
-    else if (state < eAbeStates::State_119_ToShrykull_45A990)
+    else if (motion < eAbeMotions::Motion_119_ToShrykull_45A990)
     {
         mapped = ResourceIndices::eMineCar_18;
     }
-    else if (state < eAbeStates::State_121_LiftGrabBegin_45A600)
+    else if (motion < eAbeMotions::Motion_121_LiftGrabBegin_45A600)
     {
         mapped = ResourceIndices::eMorph_19;
     }
-    else if (state < eAbeStates::State_126_TurnWheelBegin_456700)
+    else if (motion < eAbeMotions::Motion_126_TurnWheelBegin_456700)
     {
         mapped = ResourceIndices::eLift_17;
     }
-    else if (state < eAbeStates::State_129_PoisonGasDeath_4565C0)
+    else if (motion < eAbeMotions::Motion_129_PoisonGasDeath_4565C0)
     {
         mapped = ResourceIndices::eWork_20;
     }
     else
     {
         mapped = ResourceIndices::eGas_21;
-        if (state >= 130) // max states
+        if (motion >= 130) // max motions
         {
             // Impossible case?
-            LOG_ERROR("State is out of bounds !!! " << state);
-            mapped = static_cast<s16>(state);
+            LOG_ERROR("Motion is out of bounds !!! " << motion);
+            mapped = static_cast<s16>(motion);
         }
     }
 
@@ -3005,31 +3005,31 @@ static bool isEdgeGrabbable(Path_Edge* pEdge, BaseAliveGameObject* pObj)
     return false;
 }
 
-void Abe::State_0_Idle_44EEB0()
+void Abe::Motion_0_Idle_44EEB0()
 {
     if (Input_IsChanting_45F260() && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit6_prevent_chanting)))
     {
         if (field_168_ring_pulse_timer && field_16C_bHaveShrykull)
         {
-            field_106_current_motion = eAbeStates::State_119_ToShrykull_45A990;
+            field_106_current_motion = eAbeMotions::Motion_119_ToShrykull_45A990;
         }
         else
         {
             // Go to chanting.
             field_124_timer = sGnFrame_5C1B84 + 90;
-            field_106_current_motion = eAbeStates::State_112_Chant_45B1C0;
+            field_106_current_motion = eAbeMotions::Motion_112_Chant_45B1C0;
             SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant1_10, 0, 1);
         }
         field_120_state.raw = 0;
         return;
     }
 
-    // Go to game speak state.
+    // Go to game speak motion.
     const u32 held = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
     if (held & (InputCommands::Enum::eChant | InputCommands::Enum::eGameSpeak8 | InputCommands::Enum::eGameSpeak7 | InputCommands::Enum::eGameSpeak6 | InputCommands::Enum::eGameSpeak5 | InputCommands::Enum::eGameSpeak4 | InputCommands::Enum::eGameSpeak3 | InputCommands::Enum::eGameSpeak2 | InputCommands::Enum::eGameSpeak1))
     {
         field_118_prev_held = held;
-        field_106_current_motion = eAbeStates::State_11_Speak_45B0A0;
+        field_106_current_motion = eAbeMotions::Motion_11_Speak_45B0A0;
         return;
     }
 
@@ -3042,7 +3042,7 @@ void Abe::State_0_Idle_44EEB0()
         }
         else
         {
-            field_106_current_motion = eAbeStates::State_27_HopBegin_4521C0;
+            field_106_current_motion = eAbeMotions::Motion_27_HopBegin_4521C0;
 
             BaseGameObject* pObj = VIntoBirdPortal_408FD0(2);
             if (pObj)
@@ -3073,7 +3073,7 @@ void Abe::State_0_Idle_44EEB0()
                 const FP xPosToMidLiftPlatformDistance = (field_B8_xpos - liftPlatformXMidPoint) >= FP_FromInteger(0) ? field_B8_xpos - liftPlatformXMidPoint : liftPlatformXMidPoint - field_B8_xpos;
                 if (xPosToMidLiftPlatformDistance < halfGrid)
                 {
-                    field_106_current_motion = eAbeStates::State_121_LiftGrabBegin_45A600;
+                    field_106_current_motion = eAbeMotions::Motion_121_LiftGrabBegin_45A600;
                     return;
                 }
             }
@@ -3097,27 +3097,27 @@ void Abe::State_0_Idle_44EEB0()
             if (IsFacingSameDirectionAsHoist(pHoist, this))
             {
                 // Yeah go down
-                field_106_current_motion = eAbeStates::State_66_LedgeDescend_454970;
+                field_106_current_motion = eAbeMotions::Motion_66_LedgeDescend_454970;
             }
             else
             {
                 if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth)
                 {
                     // We can hoist down from any side
-                    field_106_current_motion = eAbeStates::State_66_LedgeDescend_454970;
+                    field_106_current_motion = eAbeMotions::Motion_66_LedgeDescend_454970;
                 }
                 else
                 {
                     // Otherwise gotta turn around
-                    field_108_next_motion = eAbeStates::State_66_LedgeDescend_454970;
-                    field_106_current_motion = eAbeStates::State_2_StandingTurn_451830;
+                    field_108_next_motion = eAbeMotions::Motion_66_LedgeDescend_454970;
+                    field_106_current_motion = eAbeMotions::Motion_2_StandingTurn_451830;
                 }
             }
         }
         else
         {
             // Isn't a hoist so just crouch
-            field_106_current_motion = eAbeStates::State_19_StandToCrouch_453DC0;
+            field_106_current_motion = eAbeMotions::Motion_19_StandToCrouch_453DC0;
         }
         return;
     }
@@ -3142,7 +3142,7 @@ void Abe::State_0_Idle_44EEB0()
             {
                 ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(22));
                 field_10_resources_array.SetAt(22, nullptr);
-                field_106_current_motion = eAbeStates::State_10_Fart_45B1A0;
+                field_106_current_motion = eAbeMotions::Motion_10_Fart_45B1A0;
                 return;
             }
         }
@@ -3165,7 +3165,7 @@ void Abe::State_0_Idle_44EEB0()
             New_Smoke_Particles_426C70(fartXPos, fartYPos, fartScale, 3, 32u, 128u, 32u);
         }
 
-        field_106_current_motion = eAbeStates::State_10_Fart_45B1A0;
+        field_106_current_motion = eAbeMotions::Motion_10_Fart_45B1A0;
         return;
     }
 
@@ -3183,7 +3183,7 @@ void Abe::State_0_Idle_44EEB0()
                 const FP xPosToMidLiftPlatformDistance = FP_Abs(field_B8_xpos - liftPlatformXMidPoint);
                 if (xPosToMidLiftPlatformDistance < halfGrid)
                 {
-                    field_106_current_motion = eAbeStates::State_121_LiftGrabBegin_45A600;
+                    field_106_current_motion = eAbeMotions::Motion_121_LiftGrabBegin_45A600;
                     return;
                 }
             }
@@ -3207,7 +3207,7 @@ void Abe::State_0_Idle_44EEB0()
                     {
                         field_FC_pPathTLV = pTlv;
                         field_120_state.door = DoorStates::eAbeComesIn_0;
-                        field_106_current_motion = eAbeStates::State_114_DoorEnter_459470;
+                        field_106_current_motion = eAbeMotions::Motion_114_DoorEnter_459470;
                     }
                     else
                     {
@@ -3215,7 +3215,7 @@ void Abe::State_0_Idle_44EEB0()
                         // loop the dunno while up button is down.
                         if (Input().isHeld(sInputKey_Up_5550D8))
                         {
-                            field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
+                            field_106_current_motion = eAbeMotions::Motion_34_DunnoBegin_44ECF0;
                         }
                     }
                     return;
@@ -3236,7 +3236,7 @@ void Abe::State_0_Idle_44EEB0()
 
                     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                     field_FC_pPathTLV = pTlv;
-                    field_106_current_motion = eAbeStates::State_78_WellBegin_45C810;
+                    field_106_current_motion = eAbeMotions::Motion_78_WellBegin_45C810;
                 }
                     return;
 
@@ -3256,14 +3256,14 @@ void Abe::State_0_Idle_44EEB0()
 
                     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                     field_FC_pPathTLV = pTlv;
-                    field_106_current_motion = eAbeStates::jState_81_WellBegin_45C7F0;
+                    field_106_current_motion = eAbeMotions::jMotion_81_WellBegin_45C7F0;
                 }
                     return;
 
                 case TlvTypes::MovieHandStone_27:
                 case TlvTypes::HandStone_61:
                     field_FC_pPathTLV = pTlv;
-                    field_106_current_motion = eAbeStates::State_86_HandstoneBegin_45BD00;
+                    field_106_current_motion = eAbeMotions::Motion_86_HandstoneBegin_45BD00;
                     field_120_state.stone = StoneStates::eHandstoneBegin_0;
                     return;
 
@@ -3276,11 +3276,11 @@ void Abe::State_0_Idle_44EEB0()
                     if (pMachineButton)
                     {
                         pMachineButton->VHandleButton_445F00();
-                        field_106_current_motion = eAbeStates::State_88_GrenadeMachineUse_45C510;
+                        field_106_current_motion = eAbeMotions::Motion_88_GrenadeMachineUse_45C510;
                     }
                     else
                     {
-                        field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
+                        field_106_current_motion = eAbeMotions::Motion_34_DunnoBegin_44ECF0;
                     }
                 }
                 break;
@@ -3324,7 +3324,7 @@ void Abe::State_0_Idle_44EEB0()
 
                     if (bCanUseWheel)
                     {
-                        field_106_current_motion = eAbeStates::State_126_TurnWheelBegin_456700;
+                        field_106_current_motion = eAbeMotions::Motion_126_TurnWheelBegin_456700;
                         BaseGameObject* pObj_148 = FindObjectOfType_425180(AETypes::eWheel_148, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)));
                         if (pObj_148)
                         {
@@ -3335,7 +3335,7 @@ void Abe::State_0_Idle_44EEB0()
                 break;
 
                 case TlvTypes::FartMachine_101:
-                    field_106_current_motion = eAbeStates::State_89_BrewMachineBegin_4584C0;
+                    field_106_current_motion = eAbeMotions::Motion_89_BrewMachineBegin_4584C0;
                     field_120_state.raw = 0;
                     break;
 
@@ -3354,7 +3354,7 @@ void Abe::State_0_Idle_44EEB0()
 
         if (!TryEnterMineCar_4569E0())
         {
-            if (field_106_current_motion == eAbeStates::State_0_Idle_44EEB0)
+            if (field_106_current_motion == eAbeMotions::Motion_0_Idle_44EEB0)
             {
                 TryHoist_44ED30();
             }
@@ -3364,7 +3364,7 @@ void Abe::State_0_Idle_44EEB0()
 
     if (!Input().isPressed(sInputKey_Up_5550D8) || handleDoActionOrThrow)
     {
-        if ((sInputKey_ThrowItem_5550F4 & held) && field_106_current_motion == eAbeStates::State_0_Idle_44EEB0)
+        if ((sInputKey_ThrowItem_5550F4 & held) && field_106_current_motion == eAbeMotions::Motion_0_Idle_44EEB0)
         {
             if (field_1A2_throwable_count > 0 || gInfiniteGrenades_5C1BDE)
             {
@@ -3391,7 +3391,7 @@ void Abe::State_0_Idle_44EEB0()
                     }
                 }
 
-                field_106_current_motion = eAbeStates::State_104_RockThrowStandingHold_455DF0;
+                field_106_current_motion = eAbeMotions::Motion_104_RockThrowStandingHold_455DF0;
 
                 if (!gInfiniteGrenades_5C1BDE)
                 {
@@ -3400,7 +3400,7 @@ void Abe::State_0_Idle_44EEB0()
             }
             else
             {
-                field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
+                field_106_current_motion = eAbeMotions::Motion_34_DunnoBegin_44ECF0;
             }
         }
         else
@@ -3413,7 +3413,7 @@ void Abe::State_0_Idle_44EEB0()
     }
 }
 
-void Abe::State_1_WalkLoop_44FBA0()
+void Abe::Motion_1_WalkLoop_44FBA0()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
@@ -3422,7 +3422,7 @@ void Abe::State_1_WalkLoop_44FBA0()
 
     MoveForward_44E9A0();
 
-    if (field_106_current_motion != eAbeStates::State_1_WalkLoop_44FBA0)
+    if (field_106_current_motion != eAbeMotions::Motion_1_WalkLoop_44FBA0)
     {
         return;
     }
@@ -3454,11 +3454,11 @@ void Abe::State_1_WalkLoop_44FBA0()
             // Walk to run
             if (field_20_animation.field_92_current_frame == 5)
             {
-                field_106_current_motion = eAbeStates::State_49_MidWalkToRun_450200;
+                field_106_current_motion = eAbeMotions::Motion_49_MidWalkToRun_450200;
             }
             else
             {
-                field_106_current_motion = eAbeStates::State_48_WalkToRun_4500A0;
+                field_106_current_motion = eAbeMotions::Motion_48_WalkToRun_4500A0;
             }
         }
         else if (pressed & sInputKey_Sneak_5550EC)
@@ -3466,11 +3466,11 @@ void Abe::State_1_WalkLoop_44FBA0()
             // Walk to sneak
             if (field_20_animation.field_92_current_frame != 5)
             {
-                field_106_current_motion = eAbeStates::State_43_MidWalkToSneak_450380;
+                field_106_current_motion = eAbeMotions::Motion_43_MidWalkToSneak_450380;
             }
             else
             {
-                field_106_current_motion = eAbeStates::State_41_WalkToSneak_450250;
+                field_106_current_motion = eAbeMotions::Motion_41_WalkToSneak_450250;
             }
         }
         return;
@@ -3486,7 +3486,7 @@ void Abe::State_1_WalkLoop_44FBA0()
     // Hopping
     if (sInputKey_Hop_5550E0 & field_118_prev_held)
     {
-        field_108_next_motion = eAbeStates::State_28_HopMid_451C50;
+        field_108_next_motion = eAbeMotions::Motion_28_HopMid_451C50;
         bEndWalking = true;
     }
 
@@ -3522,17 +3522,17 @@ void Abe::State_1_WalkLoop_44FBA0()
     {
         if (field_20_animation.field_92_current_frame == 2)
         {
-            field_106_current_motion = eAbeStates::State_5_MidWalkToIdle_450080;
+            field_106_current_motion = eAbeMotions::Motion_5_MidWalkToIdle_450080;
         }
         else
         {
-            field_106_current_motion = eAbeStates::State_4_WalkToIdle_44FFC0;
+            field_106_current_motion = eAbeMotions::Motion_4_WalkToIdle_44FFC0;
         }
         field_118_prev_held = 0;
     }
 }
 
-void Abe::State_2_StandingTurn_451830()
+void Abe::Motion_2_StandingTurn_451830()
 {
     const s16 currentFrame = field_20_animation.field_92_current_frame;
     const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
@@ -3540,10 +3540,10 @@ void Abe::State_2_StandingTurn_451830()
     if (currentFrame == 4 && (sInputKey_Run_5550E8 & pressed) && (sInputKey_Right_5550D0 | sInputKey_Left_5550D4) & pressed)
     {
 #if ORIGINAL_GAME_FIXES || ORIGINAL_GAME_FIX_AUTO_TURN
-        field_108_next_motion = eAbeStates::State_0_Idle_44EEB0; // OG Change - Fixes "Auto-Turn" bug
+        field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0; // OG Change - Fixes "Auto-Turn" bug
 #endif
 
-        field_106_current_motion = eAbeStates::State_61_TurnToRun_456530;
+        field_106_current_motion = eAbeMotions::Motion_61_TurnToRun_456530;
         field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -3579,7 +3579,7 @@ void Abe::State_2_StandingTurn_451830()
     }
 }
 
-void Abe::State_3_Fall_459B60()
+void Abe::Motion_3_Fall_459B60()
 {
     if (field_C4_velx > FP_FromInteger(0))
     {
@@ -3636,7 +3636,7 @@ void Abe::State_3_Fall_459B60()
                     || (pWellBase->field_0_scale == Scale_short::eHalf_1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun);
-                    field_106_current_motion = eAbeStates::State_75_JumpIntoWell_45C7B0;
+                    field_106_current_motion = eAbeMotions::Motion_75_JumpIntoWell_45C7B0;
                     return;
                 }
             }
@@ -3679,17 +3679,17 @@ void Abe::State_3_Fall_459B60()
                     || ((field_BC_ypos - field_F8_LastLineYPos) < (field_CC_sprite_scale * FP_FromInteger(180)) // Check we didn't fall far enough to be killed
                         && (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA)))                   //TODO possibly OG bug: those conditions should probably be grouped the following way: ((A || B || C ) && D)
                 {
-                    field_106_current_motion = eAbeStates::State_16_LandSoft_45A360;
+                    field_106_current_motion = eAbeMotions::Motion_16_LandSoft_45A360;
                 }
                 else
                 {
                     // Slam into the floor and break all your bones
                     field_10C_health = FP_FromInteger(0);
-                    field_106_current_motion = eAbeStates::State_84_FallLandDie_45A420;
+                    field_106_current_motion = eAbeMotions::Motion_84_FallLandDie_45A420;
                     field_128.field_4_regen_health_timer = sGnFrame_5C1B84 + 900;
                 }
 
-                field_F4_previous_motion = eAbeStates::State_3_Fall_459B60;
+                field_F4_previous_motion = eAbeMotions::Motion_3_Fall_459B60;
 
                 PSX_Point xy{FP_GetExponent(field_B8_xpos - FP_FromInteger(10)), FP_GetExponent(field_BC_ypos - FP_FromInteger(10))};
                 PSX_Point wh{FP_GetExponent(field_B8_xpos + FP_FromInteger(10)), FP_GetExponent(field_BC_ypos + FP_FromInteger(10))};
@@ -3787,20 +3787,20 @@ void Abe::State_3_Fall_459B60()
         field_C4_velx = FP_FromInteger(0);
         if (field_FC_pPathTLV->field_4_type.mType != TlvTypes::Hoist_2 || (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y)) >= (field_CC_sprite_scale * FP_FromInteger(70)))
         {
-            field_106_current_motion = eAbeStates::State_69_LedgeHangWobble_454EF0;
+            field_106_current_motion = eAbeMotions::Motion_69_LedgeHangWobble_454EF0;
             field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
         }
         else
         {
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
-            field_F4_previous_motion = eAbeStates::State_65_LedgeAscend_4548E0;
+            field_F4_previous_motion = eAbeMotions::Motion_65_LedgeAscend_4548E0;
             field_F6_anim_frame = 12;
             field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
         }
     }
 }
 
-void Abe::State_4_WalkToIdle_44FFC0()
+void Abe::Motion_4_WalkToIdle_44FFC0()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -3813,10 +3813,10 @@ void Abe::State_4_WalkToIdle_44FFC0()
         {
             MapFollowMe_408D10(TRUE);
 
-            if (field_108_next_motion == eAbeStates::State_28_HopMid_451C50)
+            if (field_108_next_motion == eAbeMotions::Motion_28_HopMid_451C50)
             {
-                field_108_next_motion = eAbeStates::State_0_Idle_44EEB0;
-                field_106_current_motion = eAbeStates::State_27_HopBegin_4521C0;
+                field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
+                field_106_current_motion = eAbeMotions::Motion_27_HopBegin_4521C0;
                 BaseGameObject* pObj = VIntoBirdPortal_408FD0(2);
                 if (pObj)
                 {
@@ -3836,13 +3836,13 @@ void Abe::State_4_WalkToIdle_44FFC0()
     }
 }
 
-void Abe::State_5_MidWalkToIdle_450080()
+void Abe::Motion_5_MidWalkToIdle_450080()
 {
     // TODO Jump func omitted jState_WalkEndLeftFoot_40459
-    State_4_WalkToIdle_44FFC0();
+    Motion_4_WalkToIdle_44FFC0();
 }
 
-void Abe::State_6_WalkBegin_44FEE0()
+void Abe::Motion_6_WalkBegin_44FEE0()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
@@ -3852,7 +3852,7 @@ void Abe::State_6_WalkBegin_44FEE0()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_1_WalkLoop_44FBA0;
+        field_106_current_motion = eAbeMotions::Motion_1_WalkLoop_44FBA0;
     }
 
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
@@ -3865,31 +3865,31 @@ void Abe::State_6_WalkBegin_44FEE0()
     }
 }
 
-void Abe::State_7_Speak_45B140()
+void Abe::Motion_7_Speak_45B140()
 {
-    // TODO: Note jState_11_Speak_40388C omitted
-    State_11_ToSpeak_45B0A0();
+    // TODO: Note jMotion_11_Speak_40388C omitted
+    Motion_11_ToSpeak_45B0A0();
 }
 
-void Abe::State_8_Speak_45B160()
+void Abe::Motion_8_Speak_45B160()
 {
-    // TODO: Note jState_11_Speak_40388C omitted
-    State_11_ToSpeak_45B0A0();
+    // TODO: Note jMotion_11_Speak_40388C omitted
+    Motion_11_ToSpeak_45B0A0();
 }
 
-void Abe::State_9_Speak_45B180()
+void Abe::Motion_9_Speak_45B180()
 {
-    // TODO: Note jState_11_Speak_40388C omitted
-    State_11_ToSpeak_45B0A0();
+    // TODO: Note jMotion_11_Speak_40388C omitted
+    Motion_11_ToSpeak_45B0A0();
 }
 
-void Abe::State_10_Fart_45B1A0()
+void Abe::Motion_10_Fart_45B1A0()
 {
-    // TODO: Note jState_11_Speak_40388C omitted
-    State_11_ToSpeak_45B0A0();
+    // TODO: Note jMotion_11_Speak_40388C omitted
+    Motion_11_ToSpeak_45B0A0();
 }
 
-void Abe::State_11_ToSpeak_45B0A0()
+void Abe::Motion_11_ToSpeak_45B0A0()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3901,7 +3901,7 @@ void Abe::State_11_ToSpeak_45B0A0()
         }
         else
         {
-            if (field_106_current_motion != eAbeStates::State_62_Punch_454750)
+            if (field_106_current_motion != eAbeMotions::Motion_62_Punch_454750)
             {
                 Event_Broadcast_422BC0(kEventSpeaking, this);
             }
@@ -3911,11 +3911,11 @@ void Abe::State_11_ToSpeak_45B0A0()
     }
 }
 
-void Abe::State_12_Null_4569C0()
+void Abe::Motion_12_Null_4569C0()
 {
 }
 
-void Abe::State_13_HoistBegin_452B20()
+void Abe::Motion_13_HoistBegin_452B20()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -3924,12 +3924,12 @@ void Abe::State_13_HoistBegin_452B20()
         field_C8_vely = velY;
         field_BC_ypos += velY;
         VOnTrapDoorOpen();
-        field_106_current_motion = eAbeStates::State_14_HoistIdle_452440;
+        field_106_current_motion = eAbeMotions::Motion_14_HoistIdle_452440;
         field_100_pCollisionLine = nullptr;
     }
 }
 
-void Abe::State_14_HoistIdle_452440()
+void Abe::Motion_14_HoistIdle_452440()
 {
     //sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id); // NOTE: Return never used
     BaseGameObject* pfield_110_id = sObjectIds_5C1B70.Find_449CF0(field_110_id);
@@ -3961,8 +3961,8 @@ void Abe::State_14_HoistIdle_452440()
 
                 field_100_pCollisionLine = pLine;
 
-                field_106_current_motion = eAbeStates::State_15_HoistLand_452BA0;
-                field_F4_previous_motion = eAbeStates::State_14_HoistIdle_452440;
+                field_106_current_motion = eAbeMotions::Motion_15_HoistLand_452BA0;
+                field_F4_previous_motion = eAbeMotions::Motion_14_HoistIdle_452440;
 
                 vOnCollisionWith_424EE0(
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
@@ -3981,8 +3981,8 @@ void Abe::State_14_HoistIdle_452440()
     {
         if (pPullRope->VPull_49BBD0(this))
         {
-            field_106_current_motion = eAbeStates::State_70_RingRopePullHang_455AF0;
-            field_108_next_motion = eAbeStates::State_0_Idle_44EEB0;
+            field_106_current_motion = eAbeMotions::Motion_70_RingRopePullHang_455AF0;
+            field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
             field_15C_pull_rope_id = pPullRope->field_8_object_id;
             return;
         }
@@ -4021,7 +4021,7 @@ void Abe::State_14_HoistIdle_452440()
                 if (gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop_2, this, -1))
                 {
                     PSX_Prevent_Rendering_4945B0();
-                    field_106_current_motion = eAbeStates::State_68_ToOffScreenHoist_454B80;
+                    field_106_current_motion = eAbeMotions::Motion_68_ToOffScreenHoist_454B80;
                     return;
                 }
 
@@ -4030,12 +4030,12 @@ void Abe::State_14_HoistIdle_452440()
                 if (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y)
                     >= field_CC_sprite_scale * FP_FromInteger(70))
                 {
-                    field_106_current_motion = eAbeStates::State_67_LedgeHang_454E20;
+                    field_106_current_motion = eAbeMotions::Motion_67_LedgeHang_454E20;
                 }
                 else
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
-                    field_F4_previous_motion = eAbeStates::State_65_LedgeAscend_4548E0;
+                    field_F4_previous_motion = eAbeMotions::Motion_65_LedgeAscend_4548E0;
                     field_F6_anim_frame = 12;
                 }
                 field_BC_ypos -= field_CC_sprite_scale * FP_FromInteger(75);
@@ -4046,12 +4046,12 @@ void Abe::State_14_HoistIdle_452440()
                 Environment_SFX_457A40(EnvironmentSfx::eWalkingFootstep_1, 0, 127, this);
                 if (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y) >= field_CC_sprite_scale * FP_FromInteger(70))
                 {
-                    field_106_current_motion = eAbeStates::State_67_LedgeHang_454E20;
+                    field_106_current_motion = eAbeMotions::Motion_67_LedgeHang_454E20;
                 }
                 else
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
-                    field_F4_previous_motion = eAbeStates::State_65_LedgeAscend_4548E0;
+                    field_F4_previous_motion = eAbeMotions::Motion_65_LedgeAscend_4548E0;
                     field_F6_anim_frame = 12;
                 }
             }
@@ -4085,7 +4085,7 @@ void Abe::State_14_HoistIdle_452440()
             }
             else
             {
-                field_106_current_motion = eAbeStates::State_14_HoistIdle_452440;
+                field_106_current_motion = eAbeMotions::Motion_14_HoistIdle_452440;
             }
         }
     }
@@ -4100,14 +4100,14 @@ void Abe::State_14_HoistIdle_452440()
     }
 }
 
-void Abe::State_15_HoistLand_452BA0()
+void Abe::Motion_15_HoistLand_452BA0()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
     if (field_20_animation.field_92_current_frame == 2)
     {
-        if (field_F4_previous_motion == eAbeStates::State_3_Fall_459B60)
+        if (field_F4_previous_motion == eAbeMotions::Motion_3_Fall_459B60)
         {
             Environment_SFX_457A40(EnvironmentSfx::eLandingSoft_5, 0, 32767, this);
         }
@@ -4124,7 +4124,7 @@ void Abe::State_15_HoistLand_452BA0()
     }
 }
 
-void Abe::State_16_LandSoft_45A360()
+void Abe::Motion_16_LandSoft_45A360()
 {
     if (field_20_animation.field_92_current_frame == 2)
     {
@@ -4138,7 +4138,7 @@ void Abe::State_16_LandSoft_45A360()
         field_1AC_flags.Clear(Flags_1AC::e1AC_Bit7_land_softly);
 
         // Hitting the floor sounds.
-        if (field_F4_previous_motion == eAbeStates::State_3_Fall_459B60)
+        if (field_F4_previous_motion == eAbeMotions::Motion_3_Fall_459B60)
         {
             Environment_SFX_457A40(EnvironmentSfx::eLandingSoft_5, 0, 0x7FFF, this);
         }
@@ -4150,7 +4150,7 @@ void Abe::State_16_LandSoft_45A360()
         if (sControlledCharacter_5C1B8C != this)
         {
             // If Abe is controlling something else then must be standing and chanting.
-            field_106_current_motion = eAbeStates::State_112_Chant_45B1C0;
+            field_106_current_motion = eAbeMotions::Motion_112_Chant_45B1C0;
         }
 
         if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft))
@@ -4165,11 +4165,11 @@ void Abe::State_16_LandSoft_45A360()
     }
 }
 
-void Abe::State_17_CrouchIdle_456BC0()
+void Abe::Motion_17_CrouchIdle_456BC0()
 {
     if (!field_100_pCollisionLine)
     {
-        field_106_current_motion = eAbeStates::State_98_RollOffEdge_455AA0;
+        field_106_current_motion = eAbeMotions::Motion_98_RollOffEdge_455AA0;
         return;
     }
 
@@ -4206,7 +4206,7 @@ void Abe::State_17_CrouchIdle_456BC0()
 
     // Crouching throw stuff
     if (sInputKey_ThrowItem_5550F4 & held
-        && field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0
+        && field_106_current_motion == eAbeMotions::Motion_17_CrouchIdle_456BC0
         && (field_1A2_throwable_count > 0 || gInfiniteGrenades_5C1BDE))
     {
         field_158_throwable_id = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), 0)->field_8_object_id;
@@ -4227,7 +4227,7 @@ void Abe::State_17_CrouchIdle_456BC0()
             }
         }
 
-        field_106_current_motion = eAbeStates::State_107_RockThrowCrouchingHold_454410;
+        field_106_current_motion = eAbeMotions::Motion_107_RockThrowCrouchingHold_454410;
 
         if (!gInfiniteGrenades_5C1BDE)
         {
@@ -4239,7 +4239,7 @@ void Abe::State_17_CrouchIdle_456BC0()
         // Try to stand up
         if (held & sInputKey_Up_5550D8 && !Is_Celling_Above_44E8D0())
         {
-            field_106_current_motion = eAbeStates::State_18_CrouchToStand_454600;
+            field_106_current_motion = eAbeMotions::Motion_18_CrouchToStand_454600;
             return;
         }
 
@@ -4277,7 +4277,7 @@ void Abe::State_17_CrouchIdle_456BC0()
                 New_Smoke_Particles_426C70(xpos, ypos, scale, 3, 32u, 128u, 32u);
             }
 
-            field_106_current_motion = eAbeStates::State_20_CrouchSpeak_454550;
+            field_106_current_motion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         }
         else
         {
@@ -4286,11 +4286,11 @@ void Abe::State_17_CrouchIdle_456BC0()
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    field_106_current_motion = eAbeStates::State_37_CrouchTurn_454390;
+                    field_106_current_motion = eAbeMotions::Motion_37_CrouchTurn_454390;
                 }
                 else
                 {
-                    field_106_current_motion = eAbeStates::State_22_RollBegin_4539A0;
+                    field_106_current_motion = eAbeMotions::Motion_22_RollBegin_4539A0;
                     field_11C_released_buttons = 0;
                 }
             }
@@ -4299,19 +4299,19 @@ void Abe::State_17_CrouchIdle_456BC0()
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    field_106_current_motion = eAbeStates::State_22_RollBegin_4539A0;
+                    field_106_current_motion = eAbeMotions::Motion_22_RollBegin_4539A0;
                     field_11C_released_buttons = 0;
                 }
                 else
                 {
-                    field_106_current_motion = eAbeStates::State_37_CrouchTurn_454390;
+                    field_106_current_motion = eAbeMotions::Motion_37_CrouchTurn_454390;
                 }
             }
         }
     }
 }
 
-void Abe::State_18_CrouchToStand_454600()
+void Abe::Motion_18_CrouchToStand_454600()
 {
     if (field_20_animation.field_92_current_frame == 3)
     {
@@ -4328,27 +4328,27 @@ void Abe::State_18_CrouchToStand_454600()
     }
 }
 
-void Abe::State_19_StandToCrouch_453DC0()
+void Abe::Motion_19_StandToCrouch_453DC0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         PickUpThrowabe_Or_PressBomb_454090(field_B8_xpos, FP_GetExponent(field_BC_ypos - FP_FromInteger(5)), 1);
-        field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+        field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
     }
 }
 
 // TODO: End crouching game speak/fart?
-void Abe::State_20_CrouchSpeak_454550()
+void Abe::Motion_20_CrouchSpeak_454550()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+        field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
 
         CrouchingGameSpeak_453E10();
 
-        if (field_106_current_motion == eAbeStates::State_20_CrouchSpeak_454550 || field_106_current_motion == eAbeStates::jState_21_ToCrouchSpeak_4545E0)
+        if (field_106_current_motion == eAbeMotions::Motion_20_CrouchSpeak_454550 || field_106_current_motion == eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0)
         {
             Event_Broadcast_422BC0(kEventSpeaking, this);
         }
@@ -4356,13 +4356,13 @@ void Abe::State_20_CrouchSpeak_454550()
     }
 }
 
-void Abe::jState_21_ToCrouchSpeak_4545E0()
+void Abe::jMotion_21_ToCrouchSpeak_4545E0()
 {
     // Note j_401389 omitted
-    State_20_CrouchSpeak_454550();
+    Motion_20_CrouchSpeak_454550();
 }
 
-void Abe::State_22_RollBegin_4539A0()
+void Abe::Motion_22_RollBegin_4539A0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -4377,19 +4377,19 @@ void Abe::State_22_RollBegin_4539A0()
     if (WallHit_408750(xpos, field_C4_velx))
     {
         ToKnockback_44E700(1, 1);
-        field_106_current_motion = eAbeStates::State_74_RollingKnockback_455290;
+        field_106_current_motion = eAbeMotions::Motion_74_RollingKnockback_455290;
     }
     else
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_106_current_motion = eAbeStates::State_23_RollLoop_453A90;
+            field_106_current_motion = eAbeMotions::Motion_23_RollLoop_453A90;
         }
         MoveForward_44E9A0();
     }
 }
 
-void Abe::State_23_RollLoop_453A90()
+void Abe::Motion_23_RollLoop_453A90()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -4399,13 +4399,13 @@ void Abe::State_23_RollLoop_453A90()
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToKnockback_44E700(1, 1);
-        field_106_current_motion = eAbeStates::State_74_RollingKnockback_455290;
+        field_106_current_motion = eAbeMotions::Motion_74_RollingKnockback_455290;
     }
     else
     {
         MoveForward_44E9A0();
 
-        if (field_106_current_motion == eAbeStates::State_23_RollLoop_453A90)
+        if (field_106_current_motion == eAbeMotions::Motion_23_RollLoop_453A90)
         {
             if (field_20_animation.field_92_current_frame == 1 || field_20_animation.field_92_current_frame == 5 || field_20_animation.field_92_current_frame == 9)
             {
@@ -4435,7 +4435,7 @@ void Abe::State_23_RollLoop_453A90()
 
                 if ((field_C4_velx > FP_FromInteger(0) && !Input().isPressed(sInputKey_Right_5550D0)) || (field_C4_velx < FP_FromInteger(0) && !Input().isPressed(sInputKey_Left_5550D4)))
                 {
-                    field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+                    field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
                     field_C4_velx = FP_FromInteger(0);
                 }
             }
@@ -4449,31 +4449,31 @@ void Abe::State_23_RollLoop_453A90()
 }
 
 //TODO: probably unused?
-void Abe::State_24_453D00()
+void Abe::Motion_24_453D00()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToKnockback_44E700(1, 1);
-        field_106_current_motion = eAbeStates::State_74_RollingKnockback_455290;
+        field_106_current_motion = eAbeMotions::Motion_74_RollingKnockback_455290;
     }
     else
     {
         MoveForward_44E9A0();
-        if (field_106_current_motion == eAbeStates::State_24_453D00)
+        if (field_106_current_motion == eAbeMotions::Motion_24_453D00)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 MapFollowMe_408D10(TRUE);
-                field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+                field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
                 field_C4_velx = FP_FromInteger(0);
             }
         }
     }
 }
 
-void Abe::State_25_RunSlideStop_451330()
+void Abe::Motion_25_RunSlideStop_451330()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -4486,7 +4486,7 @@ void Abe::State_25_RunSlideStop_451330()
     {
         MoveWithVelocity_450FA0(FP_FromDouble(0.375));
 
-        if (field_106_current_motion == eAbeStates::State_25_RunSlideStop_451330 && !RunTryEnterWell_451060() && !RunTryEnterDoor_451220())
+        if (field_106_current_motion == eAbeMotions::Motion_25_RunSlideStop_451330 && !RunTryEnterWell_451060() && !RunTryEnterDoor_451220())
         {
             if (field_20_animation.field_92_current_frame != 15)
             {
@@ -4510,14 +4510,14 @@ void Abe::State_25_RunSlideStop_451330()
             else if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && (sInputKey_Right_5550D0 & pressed)) || (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && (sInputKey_Left_5550D4 & pressed)))
             {
                 field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
-                field_F4_previous_motion = eAbeStates::State_26_RunTurn_451500;
+                field_F4_previous_motion = eAbeMotions::Motion_26_RunTurn_451500;
                 field_F6_anim_frame = field_20_animation.field_92_current_frame;
             }
         }
     }
 }
 
-void Abe::State_26_RunTurn_451500()
+void Abe::Motion_26_RunTurn_451500()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -4529,7 +4529,7 @@ void Abe::State_26_RunTurn_451500()
     else
     {
         MoveWithVelocity_450FA0(FP_FromDouble(0.375));
-        if (field_106_current_motion == eAbeStates::State_26_RunTurn_451500
+        if (field_106_current_motion == eAbeMotions::Motion_26_RunTurn_451500
             && !RunTryEnterWell_451060()
             && !RunTryEnterDoor_451220())
         {
@@ -4542,12 +4542,12 @@ void Abe::State_26_RunTurn_451500()
                     if (sInputKey_Run_5550E8 & Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
                     {
                         field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4);
-                        field_106_current_motion = eAbeStates::State_52_RunTurnToRun_451710;
+                        field_106_current_motion = eAbeMotions::Motion_52_RunTurnToRun_451710;
                     }
                     else
                     {
                         field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9);
-                        field_106_current_motion = eAbeStates::State_53_RunTurnToWalk_451800;
+                        field_106_current_motion = eAbeMotions::Motion_53_RunTurnToWalk_451800;
                     }
                 }
                 else
@@ -4555,12 +4555,12 @@ void Abe::State_26_RunTurn_451500()
                     if (sInputKey_Run_5550E8 & Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
                     {
                         field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
-                        field_106_current_motion = eAbeStates::State_52_RunTurnToRun_451710;
+                        field_106_current_motion = eAbeMotions::Motion_52_RunTurnToRun_451710;
                     }
                     else
                     {
                         field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
-                        field_106_current_motion = eAbeStates::State_53_RunTurnToWalk_451800;
+                        field_106_current_motion = eAbeMotions::Motion_53_RunTurnToWalk_451800;
                     }
                 }
             }
@@ -4568,7 +4568,7 @@ void Abe::State_26_RunTurn_451500()
     }
 }
 
-void Abe::State_27_HopBegin_4521C0()
+void Abe::Motion_27_HopBegin_4521C0()
 {
     if (field_20_animation.field_92_current_frame == 9)
     {
@@ -4606,7 +4606,7 @@ void Abe::State_27_HopBegin_4521C0()
 
         VOnTrapDoorOpen();
 
-        field_106_current_motion = eAbeStates::State_28_HopMid_451C50;
+        field_106_current_motion = eAbeMotions::Motion_28_HopMid_451C50;
         field_100_pCollisionLine = nullptr;
 
         if (field_1A8_portal_id == -1)
@@ -4621,7 +4621,7 @@ void Abe::State_27_HopBegin_4521C0()
     }
 }
 
-void Abe::State_28_HopMid_451C50()
+void Abe::Motion_28_HopMid_451C50()
 {
     if (field_1A8_portal_id != -1)
     {
@@ -4634,7 +4634,7 @@ void Abe::State_28_HopMid_451C50()
     {
         Event_Broadcast_422BC0(kEventNoise, this);
         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-        field_108_next_motion = eAbeStates::State_0_Idle_44EEB0;
+        field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
         ToKnockback_44E700(1, 1);
         return;
     }
@@ -4672,8 +4672,8 @@ void Abe::State_28_HopMid_451C50()
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
 
                 MapFollowMe_408D10(TRUE);
-                field_106_current_motion = eAbeStates::State_29_HopLand_4523D0;
-                field_108_next_motion = eAbeStates::State_0_Idle_44EEB0;
+                field_106_current_motion = eAbeMotions::Motion_29_HopLand_4523D0;
+                field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
                 return;
         }
     }
@@ -4715,7 +4715,7 @@ void Abe::State_28_HopMid_451C50()
                 field_100_pCollisionLine = pLine;
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
-                field_106_current_motion = eAbeStates::State_69_LedgeHangWobble_454EF0;
+                field_106_current_motion = eAbeMotions::Motion_69_LedgeHangWobble_454EF0;
                 field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
             }
         }
@@ -4726,7 +4726,7 @@ void Abe::State_28_HopMid_451C50()
         return;
     }
 
-    if (field_106_current_motion != eAbeStates::State_28_HopMid_451C50)
+    if (field_106_current_motion != eAbeMotions::Motion_28_HopMid_451C50)
     {
         return;
     }
@@ -4745,17 +4745,17 @@ void Abe::State_28_HopMid_451C50()
     field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(2);
 
     field_128.field_8_x_vel_slow_by = FP_FromDouble(0.55);
-    field_106_current_motion = eAbeStates::State_96_HopToFall_4559E0;
-    field_108_next_motion = eAbeStates::State_0_Idle_44EEB0;
+    field_106_current_motion = eAbeMotions::Motion_96_HopToFall_4559E0;
+    field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
 }
 
-void Abe::State_29_HopLand_4523D0()
+void Abe::Motion_29_HopLand_4523D0()
 {
     if (field_20_animation.field_92_current_frame == 2
         && sInputKey_Hop_5550E0 & Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
     {
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
-        field_F4_previous_motion = eAbeStates::State_27_HopBegin_4521C0;
+        field_F4_previous_motion = eAbeMotions::Motion_27_HopBegin_4521C0;
         field_F6_anim_frame = 5;
     }
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -4764,7 +4764,7 @@ void Abe::State_29_HopLand_4523D0()
     }
 }
 
-void Abe::State_30_RunJumpBegin_4532E0()
+void Abe::Motion_30_RunJumpBegin_4532E0()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -4796,13 +4796,13 @@ void Abe::State_30_RunJumpBegin_4532E0()
 
             VOnTrapDoorOpen();
 
-            field_106_current_motion = eAbeStates::State_31_RunJumpMid_452C10;
+            field_106_current_motion = eAbeMotions::Motion_31_RunJumpMid_452C10;
             field_100_pCollisionLine = nullptr;
         }
     }
 }
 
-void Abe::State_31_RunJumpMid_452C10()
+void Abe::Motion_31_RunJumpMid_452C10()
 {
     BaseGameObject* pfield_110_id = sObjectIds_5C1B70.Find_449CF0(field_110_id);
     Event_Broadcast_422BC0(kEventNoise, this);
@@ -4815,7 +4815,7 @@ void Abe::State_31_RunJumpMid_452C10()
 
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) || WallHit_408750(FP_FromInteger(10), field_C4_velx) || Is_Celling_Above_44E8D0())
     {
-        field_108_next_motion = eAbeStates::State_0_Idle_44EEB0;
+        field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
         ToKnockback_44E700(1, 1);
         return;
     }
@@ -4836,7 +4836,7 @@ void Abe::State_31_RunJumpMid_452C10()
             case 32u:
             case 36u:
                 field_100_pCollisionLine = pLine;
-                field_106_current_motion = eAbeStates::State_32_RunJumpLand_453460;
+                field_106_current_motion = eAbeMotions::Motion_32_RunJumpLand_453460;
                 field_B8_xpos = hitX;
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
                 if (pLine->field_8_type == 32)
@@ -4848,7 +4848,7 @@ void Abe::State_31_RunJumpMid_452C10()
                         1,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
                 }
-                field_108_next_motion = eAbeStates::State_0_Idle_44EEB0;
+                field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
                 return;
         }
     }
@@ -4911,18 +4911,18 @@ void Abe::State_31_RunJumpMid_452C10()
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
                 field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
                 field_100_pCollisionLine = pLine;
-                field_108_next_motion = eAbeStates::State_0_Idle_44EEB0;
+                field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
                 field_C4_velx = FP_FromInteger(0);
                 field_C8_vely = FP_FromInteger(0);
 
                 if (field_FC_pPathTLV->field_4_type.mType != TlvTypes::Hoist_2 || FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y) >= field_CC_sprite_scale * FP_FromInteger(70))
                 {
-                    field_106_current_motion = eAbeStates::State_69_LedgeHangWobble_454EF0;
+                    field_106_current_motion = eAbeMotions::Motion_69_LedgeHangWobble_454EF0;
                 }
                 else
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
-                    field_F4_previous_motion = eAbeStates::State_65_LedgeAscend_4548E0;
+                    field_F4_previous_motion = eAbeMotions::Motion_65_LedgeAscend_4548E0;
                     field_F6_anim_frame = 12;
                 }
 
@@ -4956,17 +4956,17 @@ void Abe::State_31_RunJumpMid_452C10()
         return;
     }
 
-    if (field_106_current_motion != eAbeStates::State_31_RunJumpMid_452C10)
+    if (field_106_current_motion != eAbeMotions::Motion_31_RunJumpMid_452C10)
     {
         return;
     }
 
     field_128.field_8_x_vel_slow_by = FP_FromDouble(0.75);
-    field_106_current_motion = eAbeStates::State_97_RunJumpToFall_455A80;
-    field_108_next_motion = eAbeStates::State_0_Idle_44EEB0;
+    field_106_current_motion = eAbeMotions::Motion_97_RunJumpToFall_455A80;
+    field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
 }
 
-void Abe::State_32_RunJumpLand_453460()
+void Abe::Motion_32_RunJumpLand_453460()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -4987,11 +4987,11 @@ void Abe::State_32_RunJumpLand_453460()
                 {
                     field_1A4_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
                     field_1A8_portal_id = pPortal->field_8_object_id;
-                    field_106_current_motion = eAbeStates::State_30_RunJumpBegin_4532E0;
+                    field_106_current_motion = eAbeMotions::Motion_30_RunJumpBegin_4532E0;
                     field_118_prev_held = 0;
                     return;
                 }
-                field_106_current_motion = eAbeStates::State_30_RunJumpBegin_4532E0;
+                field_106_current_motion = eAbeMotions::Motion_30_RunJumpBegin_4532E0;
                 field_118_prev_held = 0;
                 return;
             }
@@ -5000,26 +5000,26 @@ void Abe::State_32_RunJumpLand_453460()
             {
                 if (pressed & sInputKey_Run_5550E8)
                 {
-                    field_106_current_motion = eAbeStates::State_54_RunJumpLandRun_4538F0;
+                    field_106_current_motion = eAbeMotions::Motion_54_RunJumpLandRun_4538F0;
                     field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
                 }
                 else
                 {
                     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), -ScaleToGridSize_4498B0(field_CC_sprite_scale)))
                     {
-                        field_106_current_motion = eAbeStates::State_25_RunSlideStop_451330;
+                        field_106_current_motion = eAbeMotions::Motion_25_RunSlideStop_451330;
                         field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
                     }
                     else
                     {
-                        field_106_current_motion = eAbeStates::State_55_RunJumpLandWalk_453970;
+                        field_106_current_motion = eAbeMotions::Motion_55_RunJumpLandWalk_453970;
                         field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
                     }
                 }
             }
             else
             {
-                field_106_current_motion = eAbeStates::State_26_RunTurn_451500;
+                field_106_current_motion = eAbeMotions::Motion_26_RunTurn_451500;
                 field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4);
                 Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
             }
@@ -5034,33 +5034,33 @@ void Abe::State_32_RunJumpLand_453460()
                     field_1A4_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
                     field_1A8_portal_id = pPortal->field_8_object_id;
                 }
-                field_106_current_motion = eAbeStates::State_30_RunJumpBegin_4532E0;
+                field_106_current_motion = eAbeMotions::Motion_30_RunJumpBegin_4532E0;
                 field_118_prev_held = 0;
                 return;
             }
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_106_current_motion = eAbeStates::State_26_RunTurn_451500;
+                field_106_current_motion = eAbeMotions::Motion_26_RunTurn_451500;
                 field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
                 Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
             }
             else if (pressed & sInputKey_Run_5550E8)
             {
                 field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4);
-                field_106_current_motion = eAbeStates::State_54_RunJumpLandRun_4538F0;
+                field_106_current_motion = eAbeMotions::Motion_54_RunJumpLandRun_4538F0;
             }
             else
             {
                 if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), ScaleToGridSize_4498B0(field_CC_sprite_scale)))
                 {
-                    field_106_current_motion = eAbeStates::State_25_RunSlideStop_451330;
+                    field_106_current_motion = eAbeMotions::Motion_25_RunSlideStop_451330;
                     field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4);
                 }
                 else
                 {
                     field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9);
-                    field_106_current_motion = eAbeStates::State_55_RunJumpLandWalk_453970;
+                    field_106_current_motion = eAbeMotions::Motion_55_RunJumpLandWalk_453970;
                 }
             }
         }
@@ -5072,12 +5072,12 @@ void Abe::State_32_RunJumpLand_453460()
                 field_1A4_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
                 field_1A8_portal_id = pPortal->field_8_object_id;
             }
-            field_106_current_motion = eAbeStates::State_27_HopBegin_4521C0;
+            field_106_current_motion = eAbeMotions::Motion_27_HopBegin_4521C0;
             field_118_prev_held = 0;
         }
         else
         {
-            field_106_current_motion = eAbeStates::State_25_RunSlideStop_451330;
+            field_106_current_motion = eAbeMotions::Motion_25_RunSlideStop_451330;
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
@@ -5101,11 +5101,11 @@ void Abe::DoRunJump()
     }
 
     field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
-    field_106_current_motion = eAbeStates::State_30_RunJumpBegin_4532E0;
+    field_106_current_motion = eAbeMotions::Motion_30_RunJumpBegin_4532E0;
     field_118_prev_held = 0;
 }
 
-void Abe::State_33_RunLoop_4508E0()
+void Abe::Motion_33_RunLoop_4508E0()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
@@ -5131,7 +5131,7 @@ void Abe::State_33_RunLoop_4508E0()
 
     MoveForward_44E9A0();
 
-    if (field_106_current_motion != eAbeStates::State_33_RunLoop_4508E0)
+    if (field_106_current_motion != eAbeMotions::Motion_33_RunLoop_4508E0)
     {
         field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
         return;
@@ -5149,7 +5149,7 @@ void Abe::State_33_RunLoop_4508E0()
             if ((field_C4_velx > FP_FromInteger(0) && Input().isPressed(sInputKey_Left_5550D4)) || (field_C4_velx < FP_FromInteger(0) && Input().isPressed(sInputKey_Right_5550D0)))
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
-                field_106_current_motion = eAbeStates::State_26_RunTurn_451500;
+                field_106_current_motion = eAbeMotions::Motion_26_RunTurn_451500;
                 Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
                 field_118_prev_held = 0;
                 return;
@@ -5165,7 +5165,7 @@ void Abe::State_33_RunLoop_4508E0()
             if (field_118_prev_held & sInputKey_FartRoll_5550F0)
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
-                field_106_current_motion = eAbeStates::jState_38_RunToRoll_453A70;
+                field_106_current_motion = eAbeMotions::jMotion_38_RunToRoll_453A70;
                 field_11C_released_buttons = 0;
                 field_118_prev_held = 0;
                 return;
@@ -5199,18 +5199,18 @@ void Abe::State_33_RunLoop_4508E0()
                     // Run to walk
                     if (field_20_animation.field_92_current_frame != 4)
                     {
-                        field_106_current_motion = eAbeStates::State_50_RunToWalk_450E20;
+                        field_106_current_motion = eAbeMotions::Motion_50_RunToWalk_450E20;
                     }
                     else
                     {
-                        field_106_current_motion = eAbeStates::State_51_MidRunToWalk_450F50;
+                        field_106_current_motion = eAbeMotions::Motion_51_MidRunToWalk_450F50;
                     }
                 }
             }
             else
             {
                 // No longer running or even moving, so slide stop
-                field_106_current_motion = eAbeStates::State_25_RunSlideStop_451330;
+                field_106_current_motion = eAbeMotions::Motion_25_RunSlideStop_451330;
                 Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
             }
 
@@ -5228,15 +5228,15 @@ void Abe::State_33_RunLoop_4508E0()
     }
 }
 
-void Abe::State_34_DunnoBegin_44ECF0()
+void Abe::Motion_34_DunnoBegin_44ECF0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_35_DunnoEnd_44ED10;
+        field_106_current_motion = eAbeMotions::Motion_35_DunnoEnd_44ED10;
     }
 }
 
-void Abe::State_35_DunnoEnd_44ED10()
+void Abe::Motion_35_DunnoEnd_44ED10()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -5244,11 +5244,11 @@ void Abe::State_35_DunnoEnd_44ED10()
     }
 }
 
-void Abe::State_36_Null_45BC50()
+void Abe::Motion_36_Null_45BC50()
 {
 }
 
-void Abe::State_37_CrouchTurn_454390()
+void Abe::Motion_37_CrouchTurn_454390()
 {
     if (field_20_animation.field_92_current_frame != 0)
     {
@@ -5262,7 +5262,7 @@ void Abe::State_37_CrouchTurn_454390()
             }
             else
             {
-                field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+                field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
             }
         }
     }
@@ -5272,17 +5272,17 @@ void Abe::State_37_CrouchTurn_454390()
     }
 }
 
-void Abe::jState_38_RunToRoll_453A70()
+void Abe::jMotion_38_RunToRoll_453A70()
 {
-    State_22_RollBegin_4539A0();
+    Motion_22_RollBegin_4539A0();
 }
 
-// Almost the same as State_6_WalkBegin_44FEE0
-void Abe::State_39_StandingToRun_450D40()
+// Almost the same as Motion_6_WalkBegin_44FEE0
+void Abe::Motion_39_StandingToRun_450D40()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_33_RunLoop_4508E0;
+        field_106_current_motion = eAbeMotions::Motion_33_RunLoop_4508E0;
     }
 
     Event_Broadcast_422BC0(kEventNoise, this);
@@ -5300,7 +5300,7 @@ void Abe::State_39_StandingToRun_450D40()
     }
 }
 
-void Abe::State_40_SneakLoop_450550()
+void Abe::Motion_40_SneakLoop_450550()
 {
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
     {
@@ -5311,7 +5311,7 @@ void Abe::State_40_SneakLoop_450550()
     {
         MoveForward_44E9A0();
 
-        if (field_106_current_motion == eAbeStates::State_40_SneakLoop_450550)
+        if (field_106_current_motion == eAbeMotions::Motion_40_SneakLoop_450550)
         {
             const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
@@ -5335,11 +5335,11 @@ void Abe::State_40_SneakLoop_450550()
                 {
                     if (field_20_animation.field_92_current_frame != 3)
                     {
-                        field_106_current_motion = eAbeStates::State_46_SneakToIdle_450870;
+                        field_106_current_motion = eAbeMotions::Motion_46_SneakToIdle_450870;
                     }
                     else
                     {
-                        field_106_current_motion = eAbeStates::jState_47_MidSneakToIdle_4508C0;
+                        field_106_current_motion = eAbeMotions::jMotion_47_MidSneakToIdle_4508C0;
                     }
                 }
             }
@@ -5354,11 +5354,11 @@ void Abe::State_40_SneakLoop_450550()
                     {
                         if (field_20_animation.field_92_current_frame != 6)
                         {
-                            field_106_current_motion = eAbeStates::State_44_MidSneakToWalk_450500;
+                            field_106_current_motion = eAbeMotions::Motion_44_MidSneakToWalk_450500;
                         }
                         else
                         {
-                            field_106_current_motion = eAbeStates::State_42_SneakToWalk_4503D0;
+                            field_106_current_motion = eAbeMotions::Motion_42_SneakToWalk_4503D0;
                         }
                     }
                 }
@@ -5368,7 +5368,7 @@ void Abe::State_40_SneakLoop_450550()
     }
 }
 
-void Abe::State_41_WalkToSneak_450250()
+void Abe::Motion_41_WalkToSneak_450250()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
@@ -5383,7 +5383,7 @@ void Abe::State_41_WalkToSneak_450250()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_40_SneakLoop_450550;
+        field_106_current_motion = eAbeMotions::Motion_40_SneakLoop_450550;
     }
 
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
@@ -5397,7 +5397,7 @@ void Abe::State_41_WalkToSneak_450250()
     }
 }
 
-void Abe::State_42_SneakToWalk_4503D0()
+void Abe::Motion_42_SneakToWalk_4503D0()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
@@ -5412,7 +5412,7 @@ void Abe::State_42_SneakToWalk_4503D0()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_1_WalkLoop_44FBA0;
+        field_106_current_motion = eAbeMotions::Motion_1_WalkLoop_44FBA0;
     }
 
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
@@ -5426,39 +5426,39 @@ void Abe::State_42_SneakToWalk_4503D0()
     }
 }
 
-void Abe::State_43_MidWalkToSneak_450380()
+void Abe::Motion_43_MidWalkToSneak_450380()
 {
-    State_41_WalkToSneak_450250();
+    Motion_41_WalkToSneak_450250();
 
-    if (field_106_current_motion == eAbeStates::State_40_SneakLoop_450550)
+    if (field_106_current_motion == eAbeMotions::Motion_40_SneakLoop_450550)
     {
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
-        field_106_current_motion = eAbeStates::State_43_MidWalkToSneak_450380;
-        field_F4_previous_motion = eAbeStates::State_40_SneakLoop_450550;
+        field_106_current_motion = eAbeMotions::Motion_43_MidWalkToSneak_450380;
+        field_F4_previous_motion = eAbeMotions::Motion_40_SneakLoop_450550;
         field_F6_anim_frame = 10;
     }
 }
 
-void Abe::State_44_MidSneakToWalk_450500()
+void Abe::Motion_44_MidSneakToWalk_450500()
 {
-    State_42_SneakToWalk_4503D0();
+    Motion_42_SneakToWalk_4503D0();
 
-    if (field_106_current_motion == eAbeStates::State_1_WalkLoop_44FBA0)
+    if (field_106_current_motion == eAbeMotions::Motion_1_WalkLoop_44FBA0)
     {
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
-        field_106_current_motion = eAbeStates::State_44_MidSneakToWalk_450500;
-        field_F4_previous_motion = eAbeStates::State_1_WalkLoop_44FBA0;
+        field_106_current_motion = eAbeMotions::Motion_44_MidSneakToWalk_450500;
+        field_F4_previous_motion = eAbeMotions::Motion_1_WalkLoop_44FBA0;
         field_F6_anim_frame = 9;
     }
 }
 
-void Abe::State_45_SneakBegin_4507A0()
+void Abe::Motion_45_SneakBegin_4507A0()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_40_SneakLoop_450550;
+        field_106_current_motion = eAbeMotions::Motion_40_SneakLoop_450550;
     }
 
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
@@ -5472,7 +5472,7 @@ void Abe::State_45_SneakBegin_4507A0()
     }
 }
 
-void Abe::State_46_SneakToIdle_450870()
+void Abe::Motion_46_SneakToIdle_450870()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
@@ -5488,13 +5488,13 @@ void Abe::State_46_SneakToIdle_450870()
     }
 }
 
-void Abe::jState_47_MidSneakToIdle_4508C0()
+void Abe::jMotion_47_MidSneakToIdle_4508C0()
 {
     // TODO: Skipped jmp func jAbe::State_SneakEnd_40330F
-    State_46_SneakToIdle_450870();
+    Motion_46_SneakToIdle_450870();
 }
 
-void Abe::State_48_WalkToRun_4500A0()
+void Abe::Motion_48_WalkToRun_4500A0()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
@@ -5512,7 +5512,7 @@ void Abe::State_48_WalkToRun_4500A0()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_33_RunLoop_4508E0;
+        field_106_current_motion = eAbeMotions::Motion_33_RunLoop_4508E0;
         field_118_prev_held = 0;
     }
 
@@ -5527,20 +5527,20 @@ void Abe::State_48_WalkToRun_4500A0()
     }
 }
 
-void Abe::State_49_MidWalkToRun_450200()
+void Abe::Motion_49_MidWalkToRun_450200()
 {
-    State_48_WalkToRun_4500A0();
+    Motion_48_WalkToRun_4500A0();
 
-    if (field_106_current_motion == eAbeStates::State_33_RunLoop_4508E0)
+    if (field_106_current_motion == eAbeMotions::Motion_33_RunLoop_4508E0)
     {
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
-        field_106_current_motion = eAbeStates::State_49_MidWalkToRun_450200;
-        field_F4_previous_motion = eAbeStates::State_33_RunLoop_4508E0;
+        field_106_current_motion = eAbeMotions::Motion_49_MidWalkToRun_450200;
+        field_F4_previous_motion = eAbeMotions::Motion_33_RunLoop_4508E0;
         field_F6_anim_frame = 8;
     }
 }
 
-void Abe::State_50_RunToWalk_450E20()
+void Abe::Motion_50_RunToWalk_450E20()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
@@ -5558,7 +5558,7 @@ void Abe::State_50_RunToWalk_450E20()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_1_WalkLoop_44FBA0;
+        field_106_current_motion = eAbeMotions::Motion_1_WalkLoop_44FBA0;
     }
 
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
@@ -5571,20 +5571,20 @@ void Abe::State_50_RunToWalk_450E20()
     }
 }
 
-void Abe::State_51_MidRunToWalk_450F50()
+void Abe::Motion_51_MidRunToWalk_450F50()
 {
-    State_50_RunToWalk_450E20();
+    Motion_50_RunToWalk_450E20();
 
-    if (field_106_current_motion == eAbeStates::State_1_WalkLoop_44FBA0)
+    if (field_106_current_motion == eAbeMotions::Motion_1_WalkLoop_44FBA0)
     {
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
-        field_106_current_motion = eAbeStates::State_51_MidRunToWalk_450F50;
-        field_F4_previous_motion = eAbeStates::State_1_WalkLoop_44FBA0;
+        field_106_current_motion = eAbeMotions::Motion_51_MidRunToWalk_450F50;
+        field_F4_previous_motion = eAbeMotions::Motion_1_WalkLoop_44FBA0;
         field_F6_anim_frame = 9;
     }
 }
 
-void Abe::State_52_RunTurnToRun_451710()
+void Abe::Motion_52_RunTurnToRun_451710()
 {
     field_118_prev_held |= Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
@@ -5601,23 +5601,23 @@ void Abe::State_52_RunTurnToRun_451710()
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_106_current_motion = eAbeStates::State_33_RunLoop_4508E0;
+            field_106_current_motion = eAbeMotions::Motion_33_RunLoop_4508E0;
             field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
         }
     }
 }
 
-void Abe::State_53_RunTurnToWalk_451800()
+void Abe::Motion_53_RunTurnToWalk_451800()
 {
-    State_52_RunTurnToRun_451710();
+    Motion_52_RunTurnToRun_451710();
 
-    if (field_106_current_motion == eAbeStates::State_33_RunLoop_4508E0)
+    if (field_106_current_motion == eAbeMotions::Motion_33_RunLoop_4508E0)
     {
-        field_106_current_motion = eAbeStates::State_1_WalkLoop_44FBA0;
+        field_106_current_motion = eAbeMotions::Motion_1_WalkLoop_44FBA0;
     }
 }
 
-void Abe::State_54_RunJumpLandRun_4538F0()
+void Abe::Motion_54_RunJumpLandRun_4538F0()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -5631,22 +5631,22 @@ void Abe::State_54_RunJumpLandRun_4538F0()
         MoveForward_44E9A0();
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_106_current_motion = eAbeStates::State_33_RunLoop_4508E0;
+            field_106_current_motion = eAbeMotions::Motion_33_RunLoop_4508E0;
         }
     }
 }
 
-void Abe::State_55_RunJumpLandWalk_453970()
+void Abe::Motion_55_RunJumpLandWalk_453970()
 {
-    State_54_RunJumpLandRun_4538F0();
+    Motion_54_RunJumpLandRun_4538F0();
 
-    if (field_106_current_motion == eAbeStates::State_33_RunLoop_4508E0)
+    if (field_106_current_motion == eAbeMotions::Motion_33_RunLoop_4508E0)
     {
-        field_106_current_motion = eAbeStates::State_1_WalkLoop_44FBA0;
+        field_106_current_motion = eAbeMotions::Motion_1_WalkLoop_44FBA0;
     }
 }
 
-void Abe::State_56_DeathDropFall_4591F0()
+void Abe::Motion_56_DeathDropFall_4591F0()
 {
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
     if (field_124_timer == 0)
@@ -5680,7 +5680,7 @@ void Abe::State_56_DeathDropFall_4591F0()
     }
 }
 
-void Abe::State_57_Dead_4589A0()
+void Abe::Motion_57_Dead_4589A0()
 {
     DeathFadeOut* pDeathFade_1 = static_cast<DeathFadeOut*>(sObjectIds_5C1B70.Find_449CF0(field_148_fade_obj_id));
     CircularFade* pCircularFade = static_cast<CircularFade*>(sObjectIds_5C1B70.Find_449CF0(field_14C_circular_fade_id));
@@ -5873,11 +5873,11 @@ void Abe::State_57_Dead_4589A0()
     }
 }
 
-void Abe::State_58_DeadPre_4593E0()
+void Abe::Motion_58_DeadPre_4593E0()
 {
     if (field_120_state.raw == 1)
     {
-        field_106_current_motion = eAbeStates::State_57_Dead_4589A0;
+        field_106_current_motion = eAbeMotions::Motion_57_Dead_4589A0;
         field_124_timer = 2;
         field_128.field_0_abe_timer = sGnFrame_5C1B84 + 60;
     }
@@ -5887,17 +5887,17 @@ void Abe::State_58_DeadPre_4593E0()
     }
 }
 
-void Abe::State_59_Null_459450()
+void Abe::Motion_59_Null_459450()
 {
 }
 
 //TODO: probably unused?
-void Abe::State_60_4A3200()
+void Abe::Motion_60_4A3200()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_61_TurnToRun_456530()
+void Abe::Motion_61_TurnToRun_456530()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -5911,17 +5911,17 @@ void Abe::State_61_TurnToRun_456530()
     {
         MoveForward_44E9A0();
 
-        if (field_106_current_motion == eAbeStates::State_61_TurnToRun_456530)
+        if (field_106_current_motion == eAbeMotions::Motion_61_TurnToRun_456530)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_106_current_motion = eAbeStates::State_33_RunLoop_4508E0;
+                field_106_current_motion = eAbeMotions::Motion_33_RunLoop_4508E0;
             }
         }
     }
 }
 
-void Abe::State_62_Punch_454750()
+void Abe::Motion_62_Punch_454750()
 {
     if (field_20_animation.field_92_current_frame == 5)
     {
@@ -5939,9 +5939,9 @@ void Abe::State_62_Punch_454750()
         BaseGameObject* pSlapTarget = FindObjectOfType_425180(AETypes::eMudokon_110, gridSize, field_BC_ypos - kFP5);
         while (pSlapTarget)
         {
-            // Is it in a state where we can slap it?
-            const s16 mud_state = static_cast<Mudokon*>(pSlapTarget)->field_106_current_motion;
-            if (mud_state != 46 && mud_state != 47)
+            // Is it in a motion where we can slap it?
+            const s16 mud_motion = static_cast<Mudokon*>(pSlapTarget)->field_106_current_motion;
+            if (mud_motion != 46 && mud_motion != 47)
             {
                 // Can slap, so exit
                 break;
@@ -5983,7 +5983,7 @@ void Abe::State_62_Punch_454750()
     }
 }
 
-void Abe::State_63_Sorry_454670()
+void Abe::Motion_63_Sorry_454670()
 {
     if (field_20_animation.field_92_current_frame == 4)
     {
@@ -6011,11 +6011,11 @@ void Abe::State_63_Sorry_454670()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_64_AfterSorry_454730;
+        field_106_current_motion = eAbeMotions::Motion_64_AfterSorry_454730;
     }
 }
 
-void Abe::State_64_AfterSorry_454730()
+void Abe::Motion_64_AfterSorry_454730()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -6023,7 +6023,7 @@ void Abe::State_64_AfterSorry_454730()
     }
 }
 
-void Abe::State_65_LedgeAscend_4548E0()
+void Abe::Motion_65_LedgeAscend_4548E0()
 {
     const s16 curFrameNum = field_20_animation.field_92_current_frame;
     if (curFrameNum == 0)
@@ -6044,7 +6044,7 @@ void Abe::State_65_LedgeAscend_4548E0()
     }
 }
 
-void Abe::State_66_LedgeDescend_454970()
+void Abe::Motion_66_LedgeDescend_454970()
 {
     const s16 curFrameNum = field_20_animation.field_92_current_frame;
     if (curFrameNum == 2)
@@ -6083,7 +6083,7 @@ void Abe::State_66_LedgeDescend_454970()
                 {
                     field_100_pCollisionLine = pLine;
                     field_BC_ypos = hitY;
-                    field_106_current_motion = eAbeStates::State_16_LandSoft_45A360;
+                    field_106_current_motion = eAbeMotions::Motion_16_LandSoft_45A360;
                     field_E0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit1_ShadowAtBottom);
                 }
                 else
@@ -6095,30 +6095,30 @@ void Abe::State_66_LedgeDescend_454970()
     }
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_67_LedgeHang_454E20;
+        field_106_current_motion = eAbeMotions::Motion_67_LedgeHang_454E20;
     }
 }
 
-void Abe::State_67_LedgeHang_454E20()
+void Abe::Motion_67_LedgeHang_454E20()
 {
     field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
     const s32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
     if (sInputKey_Up_5550D8 & pressed || field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
     {
-        field_106_current_motion = eAbeStates::State_65_LedgeAscend_4548E0;
+        field_106_current_motion = eAbeMotions::Motion_65_LedgeAscend_4548E0;
     }
     else if (pressed & sInputKey_Down_5550DC)
     {
         VOnTrapDoorOpen();
         field_100_pCollisionLine = nullptr;
-        field_106_current_motion = eAbeStates::State_91_FallingFromGrab_4557B0;
+        field_106_current_motion = eAbeMotions::Motion_91_FallingFromGrab_4557B0;
         field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(75);
         field_E0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit1_ShadowAtBottom);
         field_F8_LastLineYPos = field_BC_ypos;
     }
 }
 
-void Abe::State_68_ToOffScreenHoist_454B80()
+void Abe::Motion_68_ToOffScreenHoist_454B80()
 {
     BaseGameObject* pfield_110_id = sObjectIds_5C1B70.Find_449CF0(field_110_id);
 
@@ -6165,15 +6165,15 @@ void Abe::State_68_ToOffScreenHoist_454B80()
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
             }
         }
-        field_106_current_motion = eAbeStates::State_67_LedgeHang_454E20;
+        field_106_current_motion = eAbeMotions::Motion_67_LedgeHang_454E20;
     }
     else
     {
-        field_106_current_motion = eAbeStates::State_14_HoistIdle_452440;
+        field_106_current_motion = eAbeMotions::Motion_14_HoistIdle_452440;
     }
 }
 
-void Abe::State_69_LedgeHangWobble_454EF0()
+void Abe::Motion_69_LedgeHangWobble_454EF0()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
@@ -6204,7 +6204,7 @@ void Abe::State_69_LedgeHangWobble_454EF0()
     if (sInputKey_Up_5550D8 & pressed || field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
     {
         field_1AC_flags.Clear(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds);
-        field_106_current_motion = eAbeStates::State_65_LedgeAscend_4548E0;
+        field_106_current_motion = eAbeMotions::Motion_65_LedgeAscend_4548E0;
     }
     // Going down the ledge wobble?
     else if (pressed & sInputKey_Down_5550DC)
@@ -6212,7 +6212,7 @@ void Abe::State_69_LedgeHangWobble_454EF0()
         field_1AC_flags.Clear(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds);
         VOnTrapDoorOpen();
         field_100_pCollisionLine = nullptr;
-        field_106_current_motion = eAbeStates::State_91_FallingFromGrab_4557B0;
+        field_106_current_motion = eAbeMotions::Motion_91_FallingFromGrab_4557B0;
         field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(75);
         field_E0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit1_ShadowAtBottom);
         field_F8_LastLineYPos = field_BC_ypos;
@@ -6221,11 +6221,11 @@ void Abe::State_69_LedgeHangWobble_454EF0()
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_1AC_flags.Clear(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds);
-        field_106_current_motion = eAbeStates::State_67_LedgeHang_454E20;
+        field_106_current_motion = eAbeMotions::Motion_67_LedgeHang_454E20;
     }
 }
 
-void Abe::State_70_RingRopePullHang_455AF0()
+void Abe::Motion_70_RingRopePullHang_455AF0()
 {
     PullRingRope* pPullRing = static_cast<PullRingRope*>(sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id));
     if (pPullRing)
@@ -6239,10 +6239,10 @@ void Abe::State_70_RingRopePullHang_455AF0()
 
     field_15C_pull_rope_id = -1;
     field_C8_vely = FP_FromInteger(0);
-    field_106_current_motion = eAbeStates::State_91_FallingFromGrab_4557B0;
+    field_106_current_motion = eAbeMotions::Motion_91_FallingFromGrab_4557B0;
 }
 
-void Abe::State_71_Knockback_455090()
+void Abe::Motion_71_Knockback_455090()
 {
     if (field_20_animation.field_92_current_frame == 12)
     {
@@ -6279,17 +6279,17 @@ void Abe::State_71_Knockback_455090()
                 field_20_animation.SetFrame_409D50(5);
             }
 
-            State_3_Fall_459B60();
+            Motion_3_Fall_459B60();
 
-            if (field_106_current_motion == eAbeStates::State_84_FallLandDie_45A420)
+            if (field_106_current_motion == eAbeMotions::Motion_84_FallLandDie_45A420)
             {
-                field_106_current_motion = eAbeStates::State_71_Knockback_455090;
+                field_106_current_motion = eAbeMotions::Motion_71_Knockback_455090;
                 SFX_Play_46FA90(SoundEffect::KillEffect_64, 85);
                 SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 95, 95);
             }
-            else if (field_106_current_motion == eAbeStates::State_16_LandSoft_45A360)
+            else if (field_106_current_motion == eAbeMotions::Motion_16_LandSoft_45A360)
             {
-                field_106_current_motion = eAbeStates::State_71_Knockback_455090;
+                field_106_current_motion = eAbeMotions::Motion_71_Knockback_455090;
                 Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
             }
         }
@@ -6301,7 +6301,7 @@ void Abe::State_71_Knockback_455090()
         {
             if (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
             {
-                field_106_current_motion = eAbeStates::State_72_KnockbackGetUp_455340;
+                field_106_current_motion = eAbeMotions::Motion_72_KnockbackGetUp_455340;
             }
             else
             {
@@ -6311,7 +6311,7 @@ void Abe::State_71_Knockback_455090()
     }
 }
 
-void Abe::State_72_KnockbackGetUp_455340()
+void Abe::Motion_72_KnockbackGetUp_455340()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -6322,7 +6322,7 @@ void Abe::State_72_KnockbackGetUp_455340()
     }
 }
 
-void Abe::State_73_PushWall_4553A0()
+void Abe::Motion_73_PushWall_4553A0()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -6339,7 +6339,7 @@ void Abe::State_73_PushWall_4553A0()
     }
 }
 
-void Abe::State_74_RollingKnockback_455290()
+void Abe::Motion_74_RollingKnockback_455290()
 {
     if (field_20_animation.field_92_current_frame == 12)
     {
@@ -6355,7 +6355,7 @@ void Abe::State_74_RollingKnockback_455290()
         {
             if (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA)
             {
-                field_106_current_motion = eAbeStates::State_72_KnockbackGetUp_455340;
+                field_106_current_motion = eAbeMotions::Motion_72_KnockbackGetUp_455340;
             }
             else
             {
@@ -6365,7 +6365,7 @@ void Abe::State_74_RollingKnockback_455290()
     }
 }
 
-void Abe::State_75_JumpIntoWell_45C7B0()
+void Abe::Motion_75_JumpIntoWell_45C7B0()
 {
     field_E0_pShadow->field_14_flags.Clear(Shadow::eBit2_Enabled);
 
@@ -6377,20 +6377,20 @@ void Abe::State_75_JumpIntoWell_45C7B0()
     {
         field_20_animation.field_C_render_layer = Layer::eLayer_BeforeWell_22;
     }
-    jState_81_WellBegin_4017F8();
+    jMotion_81_WellBegin_4017F8();
 }
 
-void Abe::State_76_ToInsideOfAWellLocal_45CA40()
+void Abe::Motion_76_ToInsideOfAWellLocal_45CA40()
 {
-    State_79_InsideWellLocal_45CA60();
+    Motion_79_InsideWellLocal_45CA60();
 }
 
-void Abe::State_77_ToWellShotOut_45D130()
+void Abe::Motion_77_ToWellShotOut_45D130()
 {
-    State_80_WellShotOut_45D150();
+    Motion_80_WellShotOut_45D150();
 }
 
-void Abe::State_78_WellBegin_45C810()
+void Abe::Motion_78_WellBegin_45C810()
 {
     if (field_20_animation.field_92_current_frame > 10)
     {
@@ -6452,16 +6452,16 @@ void Abe::State_78_WellBegin_45C810()
                 FP_GetExponent(field_BC_ypos),
                 TlvTypes::WellExpress_23))
         {
-            field_106_current_motion = eAbeStates::State_82_InsideWellExpress_45CC80;
+            field_106_current_motion = eAbeMotions::Motion_82_InsideWellExpress_45CC80;
         }
         else
         {
-            field_106_current_motion = eAbeStates::State_79_InsideWellLocal_45CA60;
+            field_106_current_motion = eAbeMotions::Motion_79_InsideWellLocal_45CA60;
         }
     }
 }
 
-void Abe::State_79_InsideWellLocal_45CA60()
+void Abe::Motion_79_InsideWellLocal_45CA60()
 {
     const s32 gnFrame = field_124_timer;
     field_124_timer = gnFrame - 1;
@@ -6549,11 +6549,11 @@ void Abe::State_79_InsideWellLocal_45CA60()
     }
 }
 
-void Abe::State_80_WellShotOut_45D150()
+void Abe::Motion_80_WellShotOut_45D150()
 {
     if (field_C8_vely >= FP_FromInteger(0))
     {
-        State_3_Fall_459B60();
+        Motion_3_Fall_459B60();
     }
     else
     {
@@ -6572,7 +6572,7 @@ void Abe::State_80_WellShotOut_45D150()
             field_BC_ypos);
     }
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted) || (field_106_current_motion != eAbeStates::State_80_WellShotOut_45D150 && field_106_current_motion != eAbeStates::State_77_ToWellShotOut_45D130))
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted) || (field_106_current_motion != eAbeMotions::Motion_80_WellShotOut_45D150 && field_106_current_motion != eAbeMotions::Motion_77_ToWellShotOut_45D130))
     {
         if (field_CC_sprite_scale == FP_FromDouble(0.5))
         {
@@ -6586,19 +6586,19 @@ void Abe::State_80_WellShotOut_45D150()
         field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit2_Enabled);
     }
 
-    if (field_106_current_motion == eAbeStates::State_84_FallLandDie_45A420)
+    if (field_106_current_motion == eAbeMotions::Motion_84_FallLandDie_45A420)
     {
         field_10C_health = FP_FromInteger(1);
-        field_106_current_motion = eAbeStates::State_16_LandSoft_45A360;
+        field_106_current_motion = eAbeMotions::Motion_16_LandSoft_45A360;
     }
 }
 
-void Abe::jState_81_WellBegin_45C7F0()
+void Abe::jMotion_81_WellBegin_45C7F0()
 {
-    jState_81_WellBegin_4017F8();
+    jMotion_81_WellBegin_4017F8();
 }
 
-void Abe::State_82_InsideWellExpress_45CC80()
+void Abe::Motion_82_InsideWellExpress_45CC80()
 {
     field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(field_B8_xpos),
@@ -6658,27 +6658,27 @@ void Abe::State_82_InsideWellExpress_45CC80()
             field_BC_ypos = FP_FromInteger(270);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit7_land_softly);
-            field_106_current_motion = eAbeStates::jState_85_Fall_455070;
+            field_106_current_motion = eAbeMotions::jMotion_85_Fall_455070;
             field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_32;
         }
         else
         {
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            field_106_current_motion = eAbeStates::State_83_WellExpressShotOut_45CF70;
+            field_106_current_motion = eAbeMotions::Motion_83_WellExpressShotOut_45CF70;
         }
     }
     else
     {
-        State_83_WellExpressShotOut_45CF70();
+        Motion_83_WellExpressShotOut_45CF70();
         field_BC_ypos -= field_C8_vely * field_CC_sprite_scale;
         field_C8_vely = FP_FromInteger(0);
         field_C4_velx = FP_FromInteger(0);
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun);
-        field_106_current_motion = eAbeStates::State_79_InsideWellLocal_45CA60;
+        field_106_current_motion = eAbeMotions::Motion_79_InsideWellLocal_45CA60;
     }
 }
 
-void Abe::State_83_WellExpressShotOut_45CF70()
+void Abe::Motion_83_WellExpressShotOut_45CF70()
 {
     PSX_Point camPos = {};
     gMap_5C3030.GetCurrentCamCoords_480680(&camPos);
@@ -6737,7 +6737,7 @@ void Abe::State_83_WellExpressShotOut_45CF70()
         field_FC_pPathTLV = pWell;
 
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun);
-        field_106_current_motion = eAbeStates::State_79_InsideWellLocal_45CA60;
+        field_106_current_motion = eAbeMotions::Motion_79_InsideWellLocal_45CA60;
     }
     else
     {
@@ -6748,7 +6748,7 @@ void Abe::State_83_WellExpressShotOut_45CF70()
     }
 }
 
-void Abe::State_84_FallLandDie_45A420()
+void Abe::Motion_84_FallLandDie_45A420()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -6773,14 +6773,14 @@ void Abe::State_84_FallLandDie_45A420()
     }
 }
 
-void Abe::jState_85_Fall_455070()
+void Abe::jMotion_85_Fall_455070()
 {
-    State_3_Fall_459B60();
+    Motion_3_Fall_459B60();
 }
 
 ALIVE_VAR(1, 0x5c2c68, s32, sHandstoneSoundChannels_5C2C68, 0);
 
-void Abe::State_86_HandstoneBegin_45BD00()
+void Abe::Motion_86_HandstoneBegin_45BD00()
 {
     CircularFade* pCircularFade = static_cast<CircularFade*>(sObjectIds_5C1B70.Find_449CF0(field_14C_circular_fade_id));
     DeathFadeOut* pFade = static_cast<DeathFadeOut*>(sObjectIds_5C1B70.Find_449CF0(field_148_fade_obj_id));
@@ -6870,7 +6870,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 }
                 else
                 {
-                    field_106_current_motion = eAbeStates::State_87_HandstoneEnd_45C4F0;
+                    field_106_current_motion = eAbeMotions::Motion_87_HandstoneEnd_45C4F0;
                 }
             }
             break;
@@ -6932,7 +6932,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 pCircularFade->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 field_14C_circular_fade_id = -1;
 
-                field_106_current_motion = eAbeStates::State_87_HandstoneEnd_45C4F0;
+                field_106_current_motion = eAbeMotions::Motion_87_HandstoneEnd_45C4F0;
 
                 if (sHandstoneSoundChannels_5C2C68)
                 {
@@ -7035,7 +7035,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
     }
 }
 
-void Abe::State_87_HandstoneEnd_45C4F0()
+void Abe::Motion_87_HandstoneEnd_45C4F0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
@@ -7043,7 +7043,7 @@ void Abe::State_87_HandstoneEnd_45C4F0()
     }
 }
 
-void Abe::State_88_GrenadeMachineUse_45C510()
+void Abe::Motion_88_GrenadeMachineUse_45C510()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
@@ -7051,7 +7051,7 @@ void Abe::State_88_GrenadeMachineUse_45C510()
     }
 }
 
-void Abe::State_89_BrewMachineBegin_4584C0()
+void Abe::Motion_89_BrewMachineBegin_4584C0()
 {
     if (field_120_state.raw > 0)
     {
@@ -7065,7 +7065,7 @@ void Abe::State_89_BrewMachineBegin_4584C0()
         }
         else
         {
-            field_106_current_motion = eAbeStates::State_90_BrewMachineEnd_4585B0;
+            field_106_current_motion = eAbeMotions::Motion_90_BrewMachineEnd_4585B0;
         }
     }
     else if (field_20_animation.field_92_current_frame == 8)
@@ -7088,40 +7088,40 @@ void Abe::State_89_BrewMachineBegin_4584C0()
         }
         else
         {
-            field_106_current_motion = eAbeStates::State_90_BrewMachineEnd_4585B0;
+            field_106_current_motion = eAbeMotions::Motion_90_BrewMachineEnd_4585B0;
         }
     }
 }
 
-void Abe::State_90_BrewMachineEnd_4585B0()
+void Abe::Motion_90_BrewMachineEnd_4585B0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
-        field_106_current_motion = eAbeStates::State_0_Idle_44EEB0;
+        field_106_current_motion = eAbeMotions::Motion_0_Idle_44EEB0;
         field_124_timer = 1;
     }
 }
 
 // Let go of an edge/hoist/pull ring
-void Abe::State_91_FallingFromGrab_4557B0()
+void Abe::Motion_91_FallingFromGrab_4557B0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::jState_85_Fall_455070;
+        field_106_current_motion = eAbeMotions::jMotion_85_Fall_455070;
     }
 
-    State_3_Fall_459B60();
+    Motion_3_Fall_459B60();
 
-    if (field_106_current_motion == eAbeStates::State_84_FallLandDie_45A420)
+    if (field_106_current_motion == eAbeMotions::Motion_84_FallLandDie_45A420)
     {
-        field_106_current_motion = eAbeStates::State_16_LandSoft_45A360;
+        field_106_current_motion = eAbeMotions::Motion_16_LandSoft_45A360;
     }
 
-    field_F4_previous_motion = eAbeStates::State_91_FallingFromGrab_4557B0;
+    field_F4_previous_motion = eAbeMotions::Motion_91_FallingFromGrab_4557B0;
 }
 
-void Abe::State_92_ForceDownFromHoist_455800()
+void Abe::Motion_92_ForceDownFromHoist_455800()
 {
     if (!field_124_timer)
     {
@@ -7141,7 +7141,7 @@ void Abe::State_92_ForceDownFromHoist_455800()
             == 1)
         {
             field_BC_ypos = hitY;
-            field_106_current_motion = eAbeStates::State_84_FallLandDie_45A420;
+            field_106_current_motion = eAbeMotions::Motion_84_FallLandDie_45A420;
             field_128.field_4_regen_health_timer = sGnFrame_5C1B84 + 900;
             field_F4_previous_motion = 3;
             return;
@@ -7151,29 +7151,29 @@ void Abe::State_92_ForceDownFromHoist_455800()
         field_100_pCollisionLine = nullptr;
         field_124_timer = field_124_timer + 1;
     }
-    State_3_Fall_459B60();
+    Motion_3_Fall_459B60();
 }
 
-void Abe::State_93_WalkOffEdge_455970()
+void Abe::Motion_93_WalkOffEdge_455970()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::jState_85_Fall_455070;
+        field_106_current_motion = eAbeMotions::jMotion_85_Fall_455070;
     }
-    State_3_Fall_459B60();
+    Motion_3_Fall_459B60();
 }
 
-void Abe::State_94_RunOffEdge_4559A0()
+void Abe::Motion_94_RunOffEdge_4559A0()
 {
-    State_93_WalkOffEdge_455970();
+    Motion_93_WalkOffEdge_455970();
 }
 
-void Abe::State_95_SneakOffEdge_4559C0()
+void Abe::Motion_95_SneakOffEdge_4559C0()
 {
-    State_93_WalkOffEdge_455970();
+    Motion_93_WalkOffEdge_455970();
 }
 
-void Abe::State_96_HopToFall_4559E0()
+void Abe::Motion_96_HopToFall_4559E0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -7185,26 +7185,26 @@ void Abe::State_96_HopToFall_4559E0()
     }
 
     field_C8_vely += (field_CC_sprite_scale * FP_FromInteger(4));
-    State_93_WalkOffEdge_455970();
+    Motion_93_WalkOffEdge_455970();
 }
 
-void Abe::State_97_RunJumpToFall_455A80()
+void Abe::Motion_97_RunJumpToFall_455A80()
 {
-    State_93_WalkOffEdge_455970();
+    Motion_93_WalkOffEdge_455970();
 }
 
-void Abe::State_98_RollOffEdge_455AA0()
+void Abe::Motion_98_RollOffEdge_455AA0()
 {
-    State_93_WalkOffEdge_455970();
+    Motion_93_WalkOffEdge_455970();
 }
 
-void Abe::State_99_LeverUse_455AC0()
+void Abe::Motion_99_LeverUse_455AC0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
         {
-            field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
+            field_106_current_motion = eAbeMotions::Motion_34_DunnoBegin_44ECF0;
         }
         else
         {
@@ -7213,7 +7213,7 @@ void Abe::State_99_LeverUse_455AC0()
     }
 }
 
-void Abe::State_100_SlapBomb_455B60()
+void Abe::Motion_100_SlapBomb_455B60()
 {
     BaseAliveGameObject* pItem = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_160_slappable_or_pick_item_id));
     if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame >= 6)
@@ -7227,11 +7227,11 @@ void Abe::State_100_SlapBomb_455B60()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+        field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
     }
 }
 
-void Abe::State_101_KnockForward_455420()
+void Abe::Motion_101_KnockForward_455420()
 {
     if (field_20_animation.field_92_current_frame == 12)
     {
@@ -7253,10 +7253,10 @@ void Abe::State_101_KnockForward_455420()
         }
         else
         {
-            State_3_Fall_459B60();
-            if (field_106_current_motion == eAbeStates::State_84_FallLandDie_45A420 || field_106_current_motion == eAbeStates::State_16_LandSoft_45A360)
+            Motion_3_Fall_459B60();
+            if (field_106_current_motion == eAbeMotions::Motion_84_FallLandDie_45A420 || field_106_current_motion == eAbeMotions::Motion_16_LandSoft_45A360)
             {
-                field_106_current_motion = eAbeStates::State_101_KnockForward_455420;
+                field_106_current_motion = eAbeMotions::Motion_101_KnockForward_455420;
             }
         }
     }
@@ -7267,7 +7267,7 @@ void Abe::State_101_KnockForward_455420()
         {
             if (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA)
             {
-                field_106_current_motion = eAbeStates::jState_103_KnockForwardGetUp_455380;
+                field_106_current_motion = eAbeMotions::jMotion_103_KnockForwardGetUp_455380;
             }
             else
             {
@@ -7277,21 +7277,21 @@ void Abe::State_101_KnockForward_455420()
     }
 }
 
-void Abe::State_102_RollingKnockForward_455310()
+void Abe::Motion_102_RollingKnockForward_455310()
 {
-    State_74_RollingKnockback_455290();
-    if (field_106_current_motion == eAbeStates::State_72_KnockbackGetUp_455340)
+    Motion_74_RollingKnockback_455290();
+    if (field_106_current_motion == eAbeMotions::Motion_72_KnockbackGetUp_455340)
     {
-        field_106_current_motion = eAbeStates::jState_103_KnockForwardGetUp_455380;
+        field_106_current_motion = eAbeMotions::jMotion_103_KnockForwardGetUp_455380;
     }
 }
 
-void Abe::jState_103_KnockForwardGetUp_455380()
+void Abe::jMotion_103_KnockForwardGetUp_455380()
 {
-    State_72_KnockbackGetUp_455340();
+    Motion_72_KnockbackGetUp_455340();
 }
 
-void Abe::State_104_RockThrowStandingHold_455DF0()
+void Abe::Motion_104_RockThrowStandingHold_455DF0()
 {
     auto pRock = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id));
     if (field_20_animation.field_92_current_frame >= 4)
@@ -7329,7 +7329,7 @@ void Abe::State_104_RockThrowStandingHold_455DF0()
                 // Down
                 field_1A3_throw_direction = 3;
             }
-            field_106_current_motion = eAbeStates::State_105_RockThrowStandingThrow_456460;
+            field_106_current_motion = eAbeMotions::Motion_105_RockThrowStandingThrow_456460;
         }
     }
 
@@ -7337,7 +7337,7 @@ void Abe::State_104_RockThrowStandingHold_455DF0()
     {
         pRock->VToDead_4114B0();
         field_158_throwable_id = -1;
-        field_106_current_motion = eAbeStates::State_106_RockThrowStandingEnd_455F20;
+        field_106_current_motion = eAbeMotions::Motion_106_RockThrowStandingEnd_455F20;
         if (!gInfiniteGrenades_5C1BDE)
         {
             field_1A2_throwable_count++;
@@ -7345,7 +7345,7 @@ void Abe::State_104_RockThrowStandingHold_455DF0()
     }
 }
 
-void Abe::State_105_RockThrowStandingThrow_456460()
+void Abe::Motion_105_RockThrowStandingThrow_456460()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
@@ -7358,7 +7358,7 @@ void Abe::State_105_RockThrowStandingThrow_456460()
     }
 }
 
-void Abe::State_106_RockThrowStandingEnd_455F20()
+void Abe::Motion_106_RockThrowStandingEnd_455F20()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -7366,7 +7366,7 @@ void Abe::State_106_RockThrowStandingEnd_455F20()
     }
 }
 
-void Abe::State_107_RockThrowCrouchingHold_454410()
+void Abe::Motion_107_RockThrowCrouchingHold_454410()
 {
     auto pRock = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id));
     if (field_20_animation.field_92_current_frame >= 4)
@@ -7374,7 +7374,7 @@ void Abe::State_107_RockThrowCrouchingHold_454410()
         if (Input().isPressed(sInputKey_Left_5550D4 | sInputKey_Right_5550D0 | sInputKey_Up_5550D8 | sInputKey_Down_5550DC))
         {
             field_1A3_throw_direction = 4;
-            field_106_current_motion = eAbeStates::State_108_RockThrowCrouchingThrow_454500;
+            field_106_current_motion = eAbeMotions::Motion_108_RockThrowCrouchingThrow_454500;
             if (pRock->field_4_typeId == AETypes::eMeat_84)
             {
                 field_1A3_throw_direction = 5;
@@ -7386,7 +7386,7 @@ void Abe::State_107_RockThrowCrouchingHold_454410()
     {
         pRock->VToDead_4114B0();
         field_158_throwable_id = -1;
-        field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+        field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
         if (!gInfiniteGrenades_5C1BDE)
         {
             field_1A2_throwable_count++;
@@ -7394,7 +7394,7 @@ void Abe::State_107_RockThrowCrouchingHold_454410()
     }
 }
 
-void Abe::State_108_RockThrowCrouchingThrow_454500()
+void Abe::Motion_108_RockThrowCrouchingThrow_454500()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
@@ -7403,23 +7403,23 @@ void Abe::State_108_RockThrowCrouchingThrow_454500()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+        field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
     }
 }
 
-void Abe::State_109_ZShotRolling_455550()
+void Abe::Motion_109_ZShotRolling_455550()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-    State_3_Fall_459B60();
+    Motion_3_Fall_459B60();
 
-    if (field_106_current_motion != eAbeStates::State_109_ZShotRolling_455550 && !gAbeBulletProof_5C1BDA)
+    if (field_106_current_motion != eAbeMotions::Motion_109_ZShotRolling_455550 && !gAbeBulletProof_5C1BDA)
     {
         if (field_110_id != -1)
         {
             VOnTrapDoorOpen();
         }
-        field_106_current_motion = eAbeStates::State_109_ZShotRolling_455550;
+        field_106_current_motion = eAbeMotions::Motion_109_ZShotRolling_455550;
         field_100_pCollisionLine = nullptr;
         field_BC_ypos += (field_CC_sprite_scale * FP_FromInteger(4));
     }
@@ -7438,13 +7438,13 @@ void Abe::State_109_ZShotRolling_455550()
     }
 }
 
-void Abe::State_110_ZShot_455670()
+void Abe::Motion_110_ZShot_455670()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-    State_3_Fall_459B60();
+    Motion_3_Fall_459B60();
 
-    if (field_106_current_motion != eAbeStates::State_110_ZShot_455670 && !gAbeBulletProof_5C1BDA)
+    if (field_106_current_motion != eAbeMotions::Motion_110_ZShot_455670 && !gAbeBulletProof_5C1BDA)
     {
         if (field_110_id != -1)
         {
@@ -7455,7 +7455,7 @@ void Abe::State_110_ZShot_455670()
             }
             VOnTrapDoorOpen();
         }
-        field_106_current_motion = eAbeStates::State_110_ZShot_455670;
+        field_106_current_motion = eAbeMotions::Motion_110_ZShot_455670;
         field_100_pCollisionLine = nullptr;
         field_BC_ypos += (field_CC_sprite_scale * FP_FromInteger(4));
     }
@@ -7468,7 +7468,7 @@ void Abe::State_110_ZShot_455670()
     }
 }
 
-void Abe::State_111_PickupItem_4564A0()
+void Abe::Motion_111_PickupItem_4564A0()
 {
     auto pRock = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_160_slappable_or_pick_item_id));
 
@@ -7479,7 +7479,7 @@ void Abe::State_111_PickupItem_4564A0()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+        field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
     }
 
     if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame >= 5)
@@ -7492,7 +7492,7 @@ void Abe::State_111_PickupItem_4564A0()
     }
 }
 
-void Abe::State_112_Chant_45B1C0()
+void Abe::Motion_112_Chant_45B1C0()
 {
     BaseAliveGameObject* pPossessTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_154_possessed_object_id));
     OrbWhirlWind* pOrbWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
@@ -7610,7 +7610,7 @@ void Abe::State_112_Chant_45B1C0()
             // Stopped chanting?
             if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || field_20_animation.field_92_current_frame == 3) && !Input_IsChanting_45F260())
             {
-                field_106_current_motion = eAbeStates::State_113_ChantEnd_45BBE0;
+                field_106_current_motion = eAbeMotions::Motion_113_ChantEnd_45BBE0;
                 field_154_possessed_object_id = -1;
                 if (pOrbWhirlWind)
                 {
@@ -7704,7 +7704,7 @@ void Abe::State_112_Chant_45B1C0()
             {
                 if (!pPossessTarget || pPossessTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3) || pPossessTarget->field_10C_health <= FP_FromInteger(0) || pPossessTarget->Is_In_Current_Camera_424A70() != CameraPos::eCamCurrent_0)
                 {
-                    field_106_current_motion = eAbeStates::State_113_ChantEnd_45BBE0;
+                    field_106_current_motion = eAbeMotions::Motion_113_ChantEnd_45BBE0;
                     field_154_possessed_object_id = -1;
                     if (pOrbWhirlWind)
                     {
@@ -7730,7 +7730,7 @@ void Abe::State_112_Chant_45B1C0()
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
-                    field_106_current_motion = eAbeStates::State_113_ChantEnd_45BBE0;
+                    field_106_current_motion = eAbeMotions::Motion_113_ChantEnd_45BBE0;
                 }
                 return;
             }
@@ -7744,7 +7744,7 @@ void Abe::State_112_Chant_45B1C0()
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
-                    field_106_current_motion = eAbeStates::State_113_ChantEnd_45BBE0;
+                    field_106_current_motion = eAbeMotions::Motion_113_ChantEnd_45BBE0;
                 }
                 return;
             }
@@ -7803,7 +7803,7 @@ void Abe::State_112_Chant_45B1C0()
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_106_current_motion = eAbeStates::State_113_ChantEnd_45BBE0;
+                field_106_current_motion = eAbeMotions::Motion_113_ChantEnd_45BBE0;
             }
         }
             return;
@@ -7824,7 +7824,7 @@ void Abe::State_112_Chant_45B1C0()
     }
 }
 
-void Abe::State_113_ChantEnd_45BBE0()
+void Abe::Motion_113_ChantEnd_45BBE0()
 {
     SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
 
@@ -7832,7 +7832,7 @@ void Abe::State_113_ChantEnd_45BBE0()
     {
         if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit9_laugh_at_chant_end))
         {
-            field_106_current_motion = eAbeStates::State_9_Speak_45B180;
+            field_106_current_motion = eAbeMotions::Motion_9_Speak_45B180;
             Mudokon_SFX_457EC0(MudSounds::eGiggle_8, 0, 0, this);
             field_1AC_flags.Clear(Flags_1AC::e1AC_Bit9_laugh_at_chant_end);
         }
@@ -7843,7 +7843,7 @@ void Abe::State_113_ChantEnd_45BBE0()
     }
 }
 
-void Abe::State_114_DoorEnter_459470()
+void Abe::Motion_114_DoorEnter_459470()
 {
     switch (field_120_state.door)
     {
@@ -7919,7 +7919,7 @@ void Abe::State_114_DoorEnter_459470()
                 field_BC_ypos = FP_FromInteger(800);
                 field_1AC_flags.Set(Flags_1AC::e1AC_Bit7_land_softly);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-                field_106_current_motion = eAbeStates::jState_85_Fall_455070;
+                field_106_current_motion = eAbeMotions::jMotion_85_Fall_455070;
                 field_CC_sprite_scale = FP_FromInteger(1);
                 field_D6_scale = 1;
                 field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_32;
@@ -8048,13 +8048,13 @@ void Abe::State_114_DoorEnter_459470()
             if (field_100_pCollisionLine)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-                field_106_current_motion = eAbeStates::State_115_DoorExit_459A40;
+                field_106_current_motion = eAbeMotions::Motion_115_DoorExit_459A40;
             }
             else
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 // Abe opens the door and he falls through the floor.
-                field_106_current_motion = eAbeStates::jState_85_Fall_455070;
+                field_106_current_motion = eAbeMotions::jMotion_85_Fall_455070;
             }
             return;
 
@@ -8063,7 +8063,7 @@ void Abe::State_114_DoorEnter_459470()
     }
 }
 
-void Abe::State_115_DoorExit_459A40()
+void Abe::Motion_115_DoorExit_459A40()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -8116,7 +8116,7 @@ void Abe::State_115_DoorExit_459A40()
     }
 }
 
-void Abe::State_116_MineCarEnter_458780()
+void Abe::Motion_116_MineCarEnter_458780()
 {
     if (field_120_state.raw == 0)
     {
@@ -8125,12 +8125,12 @@ void Abe::State_116_MineCarEnter_458780()
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
             field_120_state.raw = 1;
-            field_106_current_motion = eAbeStates::State_117_InMineCar_4587C0;
+            field_106_current_motion = eAbeMotions::Motion_117_InMineCar_4587C0;
         }
     }
 }
 
-void Abe::State_117_InMineCar_4587C0()
+void Abe::Motion_117_InMineCar_4587C0()
 {
     if (Input().isPressed(sInputKey_DoAction_5550E4))
     {
@@ -8153,23 +8153,23 @@ void Abe::State_117_InMineCar_4587C0()
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-                field_106_current_motion = eAbeStates::State_118_MineCarExit_458890;
+                field_106_current_motion = eAbeMotions::Motion_118_MineCarExit_458890;
             }
         }
     }
 }
 
-void Abe::State_118_MineCarExit_458890()
+void Abe::Motion_118_MineCarExit_458890()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
-        field_106_current_motion = eAbeStates::State_0_Idle_44EEB0;
+        field_106_current_motion = eAbeMotions::Motion_0_Idle_44EEB0;
         field_124_timer = 1;
     }
 }
 
-void Abe::State_119_ToShrykull_45A990()
+void Abe::Motion_119_ToShrykull_45A990()
 {
     if (field_120_state.raw == 0)
     {
@@ -8189,7 +8189,7 @@ void Abe::State_119_ToShrykull_45A990()
     }
 }
 
-void Abe::State_120_EndShrykull_45AB00()
+void Abe::Motion_120_EndShrykull_45AB00()
 {
     if (field_124_timer)
     {
@@ -8203,12 +8203,12 @@ void Abe::State_120_EndShrykull_45AB00()
         }
 
         // Abe finds transforming into a god rather funny.
-        field_106_current_motion = eAbeStates::State_9_Speak_45B180;
+        field_106_current_motion = eAbeMotions::Motion_9_Speak_45B180;
         Mudokon_SFX_457EC0(MudSounds::eGiggle_8, 0, 0, this);
     }
 }
 
-void Abe::State_121_LiftGrabBegin_45A600()
+void Abe::Motion_121_LiftGrabBegin_45A600()
 {
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
     if (pLiftPoint)
@@ -8220,11 +8220,11 @@ void Abe::State_121_LiftGrabBegin_45A600()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eAbeStates::State_123_LiftGrabIdle_45A6A0;
+        field_106_current_motion = eAbeMotions::Motion_123_LiftGrabIdle_45A6A0;
     }
 }
 
-void Abe::State_122_LiftGrabEnd_45A670()
+void Abe::Motion_122_LiftGrabEnd_45A670()
 {
     field_C8_vely = FP_FromInteger(0);
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -8233,7 +8233,7 @@ void Abe::State_122_LiftGrabEnd_45A670()
     }
 }
 
-void Abe::State_123_LiftGrabIdle_45A6A0()
+void Abe::Motion_123_LiftGrabIdle_45A6A0()
 {
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
 
@@ -8251,34 +8251,34 @@ void Abe::State_123_LiftGrabIdle_45A6A0()
     {
         if (!pLiftPoint->vOnTopFloor_461890())
         {
-            field_106_current_motion = eAbeStates::State_124_LiftUseUp_45A780;
+            field_106_current_motion = eAbeMotions::Motion_124_LiftUseUp_45A780;
         }
     }
     else if (pressed & sInputKey_Down_5550DC)
     {
         if (!pLiftPoint->vOnBottomFloor_4618F0())
         {
-            field_106_current_motion = eAbeStates::State_125_LiftUseDown_45A7B0;
+            field_106_current_motion = eAbeMotions::Motion_125_LiftUseDown_45A7B0;
         }
     }
     else if (pLiftPoint->vOnAnyFloor_461920())
     {
         // You ain't letting go unless you are on a floor where you can walk off.
-        field_106_current_motion = eAbeStates::State_122_LiftGrabEnd_45A670;
+        field_106_current_motion = eAbeMotions::Motion_122_LiftGrabEnd_45A670;
     }
 }
 
-void Abe::State_124_LiftUseUp_45A780()
+void Abe::Motion_124_LiftUseUp_45A780()
 {
     field_106_current_motion = MoveLiftUpOrDown_45A7E0(FP_FromInteger(-4));
 }
 
-void Abe::State_125_LiftUseDown_45A7B0()
+void Abe::Motion_125_LiftUseDown_45A7B0()
 {
     field_106_current_motion = MoveLiftUpOrDown_45A7E0(FP_FromInteger(4));
 }
 
-void Abe::State_126_TurnWheelBegin_456700()
+void Abe::Motion_126_TurnWheelBegin_456700()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -8287,12 +8287,12 @@ void Abe::State_126_TurnWheelBegin_456700()
         {
             pWheel->VStartTurning();
         }
-        field_106_current_motion = eAbeStates::State_127_TurnWheelLoop_456750;
+        field_106_current_motion = eAbeMotions::Motion_127_TurnWheelLoop_456750;
         field_120_state.wheel = WorkWheelStates::eTurningWheel_0;
     }
 }
 
-void Abe::State_127_TurnWheelLoop_456750()
+void Abe::Motion_127_TurnWheelLoop_456750()
 {
     if (field_120_state.wheel == WorkWheelStates::eTurningWheel_0 || field_120_state.wheel == WorkWheelStates::eCheckForNoLongerTurningWheel_1) // The state we enter the main state at.
     {
@@ -8326,7 +8326,7 @@ void Abe::State_127_TurnWheelLoop_456750()
                 pWheel->VStopTurning(1);
             }
             field_164_wheel_id = -1;
-            field_106_current_motion = eAbeStates::State_128_TurnWheelEnd_4569A0;
+            field_106_current_motion = eAbeMotions::Motion_128_TurnWheelEnd_4569A0;
         }
     }
     else if (field_120_state.wheel == WorkWheelStates::eMapChanging_2)
@@ -8355,13 +8355,13 @@ void Abe::State_127_TurnWheelLoop_456750()
             // TODO: OG bug, scale not read from the TLV ??
 
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-            field_106_current_motion = eAbeStates::jState_85_Fall_455070;
+            field_106_current_motion = eAbeMotions::jMotion_85_Fall_455070;
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit7_land_softly);
         }
     }
 }
 
-void Abe::State_128_TurnWheelEnd_4569A0()
+void Abe::Motion_128_TurnWheelEnd_4569A0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -8369,7 +8369,7 @@ void Abe::State_128_TurnWheelEnd_4569A0()
     }
 }
 
-void Abe::State_129_PoisonGasDeath_4565C0()
+void Abe::Motion_129_PoisonGasDeath_4565C0()
 {
     // Play various choke/cough/death sounds as the dying animation progresses.
     switch (field_20_animation.field_92_current_frame)
@@ -8407,9 +8407,9 @@ void Abe::State_129_PoisonGasDeath_4565C0()
     }
 }
 
-void Abe::jState_81_WellBegin_4017F8()
+void Abe::jMotion_81_WellBegin_4017F8()
 {
-    State_78_WellBegin_45C810();
+    Motion_78_WellBegin_45C810();
 }
 
 void Abe::FleechDeath_459350()
@@ -8424,7 +8424,7 @@ void Abe::FleechDeath_459350()
         }
     }
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_shrivel);
-    field_106_current_motion = eAbeStates::State_58_DeadPre_4593E0;
+    field_106_current_motion = eAbeMotions::Motion_58_DeadPre_4593E0;
     field_120_state.raw = 0;
     field_10C_health = FP_FromInteger(0);
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
@@ -8434,7 +8434,7 @@ void Abe::FleechDeath_459350()
 void Abe::ToDie_4588D0()
 {
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_shrivel);
-    field_106_current_motion = eAbeStates::State_56_DeathDropFall_4591F0;
+    field_106_current_motion = eAbeMotions::Motion_56_DeathDropFall_4591F0;
     field_124_timer = 0;
     field_10C_health = FP_FromInteger(0);
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 1, 0);
@@ -8446,7 +8446,7 @@ void Abe::ToIdle_44E6B0()
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
     field_124_timer = sGnFrame_5C1B84;
-    field_106_current_motion = eAbeStates::State_0_Idle_44EEB0;
+    field_106_current_motion = eAbeMotions::Motion_0_Idle_44EEB0;
     field_118_prev_held = 0;
     field_11C_released_buttons = 0;
     MapFollowMe_408D10(TRUE);
@@ -8485,7 +8485,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
         {
             case AETypes::eTimedMine_or_MovingBomb_10:
             case AETypes::eUXB_143:
-                field_106_current_motion = eAbeStates::State_100_SlapBomb_455B60;
+                field_106_current_motion = eAbeMotions::Motion_100_SlapBomb_455B60;
                 if (bStandToCrouch)
                 {
                     field_160_slappable_or_pick_item_id = -1;
@@ -8497,7 +8497,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
             case AETypes::eGrenade_65:
             case AETypes::eMeat_84:
             case AETypes::eRock_105:
-                field_106_current_motion = eAbeStates::State_111_PickupItem_4564A0;
+                field_106_current_motion = eAbeMotions::Motion_111_PickupItem_4564A0;
                 field_1A2_throwable_count += static_cast<s8>(static_cast<BaseThrowable*>(pSlappableOrCollectable)->VGetCount_448080()); // TODO: Check types are correct.
                 if (!bThrowableIndicatorExists_5C112C)
                 {
@@ -8528,14 +8528,14 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
 
         if (trySlapOrCollect)
         {
-            if (field_106_current_motion == eAbeStates::State_111_PickupItem_4564A0)
+            if (field_106_current_motion == eAbeMotions::Motion_111_PickupItem_4564A0)
             {
                 if (bStandToCrouch)
                 {
                     SFX_Play_46FA90(SoundEffect::PickupItem_28, 0, field_CC_sprite_scale);
                     pSlappableOrCollectable->VOnPickUpOrSlapped();
                     field_160_slappable_or_pick_item_id = -1;
-                    field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+                    field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
                 }
             }
         }
@@ -8563,7 +8563,7 @@ s16 Abe::ToLeftRightMovement_44E340()
 
     if ((flipX && (pressed & sInputKey_Right_5550D0)) || (!flipX && (pressed & sInputKey_Left_5550D4)))
     {
-        field_106_current_motion = eAbeStates::State_2_StandingTurn_451830;
+        field_106_current_motion = eAbeMotions::Motion_2_StandingTurn_451830;
         return 1;
     }
 
@@ -8574,17 +8574,17 @@ s16 Abe::ToLeftRightMovement_44E340()
         if (pressed & sInputKey_Run_5550E8)
         {
             field_C4_velx = directionX * (gridSize / FP_FromInteger(4));
-            field_106_current_motion = eAbeStates::State_39_StandingToRun_450D40;
+            field_106_current_motion = eAbeMotions::Motion_39_StandingToRun_450D40;
         }
         else if (pressed & sInputKey_Sneak_5550EC)
         {
             field_C4_velx = directionX * (gridSize / FP_FromInteger(10));
-            field_106_current_motion = eAbeStates::State_45_SneakBegin_4507A0;
+            field_106_current_motion = eAbeMotions::Motion_45_SneakBegin_4507A0;
         }
         else
         {
             field_C4_velx = directionX * (gridSize / FP_FromInteger(9));
-            field_106_current_motion = eAbeStates::State_6_WalkBegin_44FEE0;
+            field_106_current_motion = eAbeMotions::Motion_6_WalkBegin_44FEE0;
         }
 
         if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), directionX * gridSize))
@@ -8602,7 +8602,7 @@ s16 Abe::ToLeftRightMovement_44E340()
             return 0;
         }
 
-        field_106_current_motion = eAbeStates::State_19_StandToCrouch_453DC0;
+        field_106_current_motion = eAbeMotions::Motion_19_StandToCrouch_453DC0;
         return 1;
     }
 
@@ -8611,7 +8611,7 @@ s16 Abe::ToLeftRightMovement_44E340()
 
 void Abe::TryHoist_44ED30()
 {
-    field_106_current_motion = eAbeStates::State_13_HoistBegin_452B20;
+    field_106_current_motion = eAbeMotions::Motion_13_HoistBegin_452B20;
 
     const FP xpos = field_B8_xpos;
     const FP ypos = field_BC_ypos - FP_FromInteger(10); // Look up 10 for a hoist.
@@ -8631,7 +8631,7 @@ void Abe::TryHoist_44ED30()
             {
                 // No, so auto turn around to face it.
                 field_108_next_motion = field_106_current_motion;
-                field_106_current_motion = eAbeStates::State_2_StandingTurn_451830;
+                field_106_current_motion = eAbeMotions::Motion_2_StandingTurn_451830;
             }
         }
 
@@ -8673,7 +8673,7 @@ s16 Abe::TryEnterMineCar_4569E0()
                         if (pObj->field_B8_xpos - field_B8_xpos < distanceCheck)
                         {
                             field_120_state.raw = 0;
-                            field_106_current_motion = eAbeStates::State_116_MineCarEnter_458780;
+                            field_106_current_motion = eAbeMotions::Motion_116_MineCarEnter_458780;
                             field_B8_xpos = FP_FromInteger((mineCarRect.x + mineCarRect.w) / 2);
                             MapFollowMe_408D10(TRUE);
                             return 1;
@@ -8721,7 +8721,7 @@ s16 Abe::HandleDoAction_455BD0()
     if (!pTlv)
     {
         // Why ya trying to use nothing?
-        return eAbeStates::State_34_DunnoBegin_44ECF0;
+        return eAbeMotions::Motion_34_DunnoBegin_44ECF0;
     }
 
     for (;;)
@@ -8730,7 +8730,7 @@ s16 Abe::HandleDoAction_455BD0()
         {
             case TlvTypes::LocalWell_8:
                 field_FC_pPathTLV = pTlv;
-                return eAbeStates::State_78_WellBegin_45C810;
+                return eAbeMotions::Motion_78_WellBegin_45C810;
 
             case TlvTypes::Switch_17:
             {
@@ -8750,25 +8750,25 @@ s16 Abe::HandleDoAction_455BD0()
                 Switch* pSwitch = static_cast<Switch*>(FindObjectOfType_425180(AETypes::eLever_139, ypos, xpos));
                 if (!pSwitch || !(pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos)))
                 {
-                    return eAbeStates::State_34_DunnoBegin_44ECF0;
+                    return eAbeMotions::Motion_34_DunnoBegin_44ECF0;
                 }
 
-                return eAbeStates::State_99_LeverUse_455AC0;
+                return eAbeMotions::Motion_99_LeverUse_455AC0;
             }
 
             case TlvTypes::WellExpress_23:
                 field_FC_pPathTLV = pTlv;
-                return eAbeStates::State_78_WellBegin_45C810;
+                return eAbeMotions::Motion_78_WellBegin_45C810;
 
             case TlvTypes::BoomMachine_59:
             {
                 auto pGrenadeMachine = static_cast<BoomMachine*>(FindObjectOfType_425180(AETypes::eGrenadeMachine_66, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25))));
                 if (!pGrenadeMachine || !(pGrenadeMachine->VIsButtonOn_445DF0()))
                 {
-                    return eAbeStates::State_34_DunnoBegin_44ECF0;
+                    return eAbeMotions::Motion_34_DunnoBegin_44ECF0;
                 }
                 pGrenadeMachine->VHandleButton_445F00();
-                return eAbeStates::State_88_GrenadeMachineUse_45C510;
+                return eAbeMotions::Motion_88_GrenadeMachineUse_45C510;
             }
 
             default:
@@ -8782,7 +8782,7 @@ s16 Abe::HandleDoAction_455BD0()
 
                 if (!pTlv)
                 {
-                    return eAbeStates::State_34_DunnoBegin_44ECF0;
+                    return eAbeMotions::Motion_34_DunnoBegin_44ECF0;
                 }
                 continue;
         }
@@ -8792,7 +8792,7 @@ s16 Abe::HandleDoAction_455BD0()
 void Abe::PushWall_44E890()
 {
     field_C4_velx = FP_FromInteger(0);
-    field_106_current_motion = eAbeStates::State_73_PushWall_4553A0;
+    field_106_current_motion = eAbeMotions::Motion_73_PushWall_4553A0;
     Environment_SFX_457A40(EnvironmentSfx::eGenericMovement_9, 0, 32767, this);
 }
 
@@ -8848,27 +8848,27 @@ void Abe::MoveForward_44E9A0()
 
         switch (field_106_current_motion)
         {
-            case eAbeStates::State_1_WalkLoop_44FBA0:
-            case eAbeStates::State_6_WalkBegin_44FEE0:
-            case eAbeStates::State_4_WalkToIdle_44FFC0:
-            case eAbeStates::State_5_MidWalkToIdle_450080:
-                field_106_current_motion = eAbeStates::State_93_WalkOffEdge_455970;
+            case eAbeMotions::Motion_1_WalkLoop_44FBA0:
+            case eAbeMotions::Motion_6_WalkBegin_44FEE0:
+            case eAbeMotions::Motion_4_WalkToIdle_44FFC0:
+            case eAbeMotions::Motion_5_MidWalkToIdle_450080:
+                field_106_current_motion = eAbeMotions::Motion_93_WalkOffEdge_455970;
                 break;
 
-            case eAbeStates::State_33_RunLoop_4508E0:
-            case eAbeStates::State_39_StandingToRun_450D40:
-                field_106_current_motion = eAbeStates::State_94_RunOffEdge_4559A0;
+            case eAbeMotions::Motion_33_RunLoop_4508E0:
+            case eAbeMotions::Motion_39_StandingToRun_450D40:
+                field_106_current_motion = eAbeMotions::Motion_94_RunOffEdge_4559A0;
                 break;
 
-            case eAbeStates::jState_38_RunToRoll_453A70:
-            case eAbeStates::State_22_RollBegin_4539A0:
-            case eAbeStates::State_23_RollLoop_453A90:
-            case eAbeStates::State_24_453D00:
-                field_106_current_motion = eAbeStates::State_98_RollOffEdge_455AA0;
+            case eAbeMotions::jMotion_38_RunToRoll_453A70:
+            case eAbeMotions::Motion_22_RollBegin_4539A0:
+            case eAbeMotions::Motion_23_RollLoop_453A90:
+            case eAbeMotions::Motion_24_453D00:
+                field_106_current_motion = eAbeMotions::Motion_98_RollOffEdge_455AA0;
                 break;
 
             default:
-                field_106_current_motion = eAbeStates::State_95_SneakOffEdge_4559C0;
+                field_106_current_motion = eAbeMotions::Motion_95_SneakOffEdge_4559C0;
                 break;
         }
 
@@ -8877,7 +8877,7 @@ void Abe::MoveForward_44E9A0()
         field_F8_LastLineYPos = field_BC_ypos;
 
         // TODO: OG bug, dead code due to switch default case?
-        if (field_106_current_motion == eAbeStates::State_71_Knockback_455090 || field_106_current_motion == eAbeStates::State_101_KnockForward_455420)
+        if (field_106_current_motion == eAbeMotions::Motion_71_Knockback_455090 || field_106_current_motion == eAbeMotions::Motion_101_KnockForward_455420)
         {
             field_128.field_8_x_vel_slow_by = FP_FromDouble(0.67); // TODO: Check.
         }
@@ -8892,14 +8892,14 @@ s16 Abe::CrouchingGameSpeak_453E10()
     {
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eFollowMe_10);
         Mudokon_SFX_457EC0(MudSounds::eFollowMe_4, 0, 0, this);
-        field_106_current_motion = eAbeStates::State_20_CrouchSpeak_454550;
+        field_106_current_motion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         return TRUE;
     }
     else if (sInputKey_GameSpeak3_555100 & field_118_prev_held)
     {
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eWait_12);
         Mudokon_SFX_457EC0(MudSounds::eWait_6, 0, 0, this);
-        field_106_current_motion = eAbeStates::jState_21_ToCrouchSpeak_4545E0;
+        field_106_current_motion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return TRUE;
     }
     else if (field_118_prev_held & sInputKey_GameSpeak1_555104)
@@ -8909,7 +8909,7 @@ s16 Abe::CrouchingGameSpeak_453E10()
         if (field_128.field_12_mood == Mud_Emotion::eHappy_5 || field_128.field_12_mood == Mud_Emotion::eWired_6)
         {
             Mudokon_SFX_457EC0(MudSounds::eHiHappy_19, 0, 0, this);
-            field_106_current_motion = eAbeStates::State_20_CrouchSpeak_454550;
+            field_106_current_motion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         }
         else
         {
@@ -8921,7 +8921,7 @@ s16 Abe::CrouchingGameSpeak_453E10()
             {
                 Mudokon_SFX_457EC0(MudSounds::eHelloNeutral_3, 0, 0, this);
             }
-            field_106_current_motion = eAbeStates::State_20_CrouchSpeak_454550;
+            field_106_current_motion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         }
         return TRUE;
     }
@@ -8929,35 +8929,35 @@ s16 Abe::CrouchingGameSpeak_453E10()
     {
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eWork_21);
         Mudokon_SFX_457EC0(MudSounds::eWork_25, 0, 0, this);
-        field_106_current_motion = eAbeStates::jState_21_ToCrouchSpeak_4545E0;
+        field_106_current_motion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return TRUE;
     }
     else if (field_118_prev_held & sInputKey_GameSpeak6_555108)
     {
         Mudokon_SFX_457EC0(MudSounds::eAllOYa_17, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eAllYa_23);
-        field_106_current_motion = eAbeStates::jState_21_ToCrouchSpeak_4545E0;
+        field_106_current_motion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return TRUE;
     }
     else if (field_118_prev_held & sInputKey_GameSpeak5_55510C)
     {
         Mudokon_SFX_457EC0(MudSounds::eAnger_5, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eAnger_11);
-        field_106_current_motion = eAbeStates::State_20_CrouchSpeak_454550;
+        field_106_current_motion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         return TRUE;
     }
     else if (field_118_prev_held & sInputKey_GameSpeak8_555110)
     {
         Mudokon_SFX_457EC0(MudSounds::eStopIt_26, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eStopIt_22);
-        field_106_current_motion = eAbeStates::jState_21_ToCrouchSpeak_4545E0;
+        field_106_current_motion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return TRUE;
     }
     else if (field_118_prev_held & sInputKey_GameSpeak7_555114)
     {
         Mudokon_SFX_457EC0(MudSounds::eSadUgh_28, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eSorry_24);
-        field_106_current_motion = eAbeStates::State_20_CrouchSpeak_454550;
+        field_106_current_motion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         return TRUE;
     }
     else
@@ -9048,7 +9048,7 @@ s16 Abe::RunTryEnterDoor_451220()
 
     field_FC_pPathTLV = pDoorTlv;
     field_120_state.raw = 0;
-    field_106_current_motion = eAbeStates::State_114_DoorEnter_459470;
+    field_106_current_motion = eAbeMotions::Motion_114_DoorEnter_459470;
     field_B8_xpos = FP_FromInteger((pDoorTlv->field_8_top_left.field_0_x + pDoorTlv->field_C_bottom_right.field_0_x) / 2);
     MapFollowMe_408D10(TRUE);
     return 1;
@@ -9075,7 +9075,7 @@ s16 Abe::RunTryEnterWell_451060()
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                 field_FC_pPathTLV = pWellLocal;
-                field_106_current_motion = eAbeStates::State_78_WellBegin_45C810;
+                field_106_current_motion = eAbeMotions::Motion_78_WellBegin_45C810;
                 return 1;
             }
         }
@@ -9095,7 +9095,7 @@ s16 Abe::RunTryEnterWell_451060()
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                 field_FC_pPathTLV = pWellExpress;
-                field_106_current_motion = eAbeStates::jState_81_WellBegin_45C7F0;
+                field_106_current_motion = eAbeMotions::jMotion_81_WellBegin_45C7F0;
                 return 1;
             }
         }
@@ -9118,7 +9118,7 @@ void Abe::ToDieFinal_458910()
 
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_shrivel);
     field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
-    field_106_current_motion = eAbeStates::State_57_Dead_4589A0;
+    field_106_current_motion = eAbeMotions::Motion_57_Dead_4589A0;
     field_124_timer = 0;
     field_10C_health = FP_FromInteger(0);
 
@@ -9127,7 +9127,7 @@ void Abe::ToDieFinal_458910()
 
 s16 Abe::DoGameSpeak_45AB70(s32 input)
 {
-    s16 nextState = -1;
+    s16 nextMotion = -1;
     if (Input_IsChanting_45F260())
     {
         // Fixes an OG bug where Abe doesn't transform into Shrykull when you immediately chant after using GameSpeak.
@@ -9136,20 +9136,20 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
             field_124_timer = sGnFrame_5C1B84 + 90;
             SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant1_10, 0, 1);
             field_120_state.chant = ChantStates::eIdleChanting_0;
-            nextState = eAbeStates::State_112_Chant_45B1C0;
+            nextMotion = eAbeMotions::Motion_112_Chant_45B1C0;
         }
     }
     else if (input & sInputKey_GameSpeak2_5550F8)
     {
         Mudokon_SFX_457EC0(MudSounds::eFollowMe_4, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eFollowMe_10);
-        nextState = eAbeStates::State_7_Speak_45B140;
+        nextMotion = eAbeMotions::Motion_7_Speak_45B140;
     }
     else if (input & sInputKey_GameSpeak3_555100)
     {
         Mudokon_SFX_457EC0(MudSounds::eWait_6, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eWait_12);
-        nextState = eAbeStates::State_8_Speak_45B160;
+        nextMotion = eAbeMotions::Motion_8_Speak_45B160;
     }
     else if (input & sInputKey_GameSpeak1_555104)
     {
@@ -9157,7 +9157,7 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
         if (field_128.field_12_mood == Mud_Emotion::eHappy_5 || field_128.field_12_mood == Mud_Emotion::eWired_6)
         {
             Mudokon_SFX_457EC0(MudSounds::eHiHappy_19, 0, 0, this);
-            nextState = eAbeStates::State_9_Speak_45B180;
+            nextMotion = eAbeMotions::Motion_9_Speak_45B180;
         }
         else
         {
@@ -9169,20 +9169,20 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
             {
                 Mudokon_SFX_457EC0(MudSounds::eHelloNeutral_3, 0, 0, this);
             }
-            nextState = eAbeStates::State_9_Speak_45B180;
+            nextMotion = eAbeMotions::Motion_9_Speak_45B180;
         }
     }
     else if (input & sInputKey_GameSpeak4_5550FC)
     {
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eWork_21);
         Mudokon_SFX_457EC0(MudSounds::eWork_25, 0, 0, this);
-        nextState = eAbeStates::State_10_Fart_45B1A0;
+        nextMotion = eAbeMotions::Motion_10_Fart_45B1A0;
     }
     else if (input & sInputKey_GameSpeak6_555108)
     {
         Mudokon_SFX_457EC0(MudSounds::eAllOYa_17, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eAllYa_23);
-        nextState = eAbeStates::State_9_Speak_45B180;
+        nextMotion = eAbeMotions::Motion_9_Speak_45B180;
     }
     else if (input & sInputKey_GameSpeak5_55510C)
     {
@@ -9198,11 +9198,11 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
 
         if (FindObjectOfType_425180(AETypes::eMudokon_110, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
         {
-            nextState = eAbeStates::State_62_Punch_454750;
+            nextMotion = eAbeMotions::Motion_62_Punch_454750;
         }
         else if (FindObjectOfType_425180(AETypes::eMudokon_110, field_B8_xpos + (gridSize * FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
         {
-            nextState = eAbeStates::State_62_Punch_454750;
+            nextMotion = eAbeMotions::Motion_62_Punch_454750;
         }
         else
         {
@@ -9210,30 +9210,30 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
             BaseAnimatedWithPhysicsGameObject* pLockedSoul = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(AETypes::eLockedSoul_61, field_B8_xpos + gridSize, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale)));
             if (pLockedSoul && pLockedSoul->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
-                nextState = eAbeStates::State_62_Punch_454750;
+                nextMotion = eAbeMotions::Motion_62_Punch_454750;
             }
             else if (FindObjectOfType_425180(AETypes::eSlig_125, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
             {
-                nextState = eAbeStates::State_62_Punch_454750;
+                nextMotion = eAbeMotions::Motion_62_Punch_454750;
             }
             else if (FindObjectOfType_425180(AETypes::eSlig_125, field_B8_xpos + (gridSize * FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
             {
-                nextState = eAbeStates::State_62_Punch_454750;
+                nextMotion = eAbeMotions::Motion_62_Punch_454750;
             }
             else if (FindObjectOfType_425180(AETypes::eGlukkon_67, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
             {
-                nextState = eAbeStates::State_62_Punch_454750;
+                nextMotion = eAbeMotions::Motion_62_Punch_454750;
             }
             else if (FindObjectOfType_425180(AETypes::eGlukkon_67, field_B8_xpos + (gridSize * FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
             {
-                nextState = eAbeStates::State_62_Punch_454750;
+                nextMotion = eAbeMotions::Motion_62_Punch_454750;
             }
             else
             {
                 // Didn't hit anything, just anger.
                 Mudokon_SFX_457EC0(MudSounds::eAnger_5, 0, 0, this);
                 pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eAnger_11);
-                nextState = eAbeStates::State_8_Speak_45B160;
+                nextMotion = eAbeMotions::Motion_8_Speak_45B160;
             }
         }
     }
@@ -9241,7 +9241,7 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
     {
         Mudokon_SFX_457EC0(MudSounds::eStopIt_26, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eStopIt_22);
-        nextState = eAbeStates::State_7_Speak_45B140;
+        nextMotion = eAbeMotions::Motion_7_Speak_45B140;
     }
     else if (input & sInputKey_GameSpeak7_555114)
     {
@@ -9258,35 +9258,35 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eSorry_24);
         if (FindObjectOfType_425180(AETypes::eMudokon_110, field_B8_xpos + gridSize, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(40))))
         {
-            nextState = eAbeStates::State_63_Sorry_454670;
+            nextMotion = eAbeMotions::Motion_63_Sorry_454670;
         }
         else
         {
             Mudokon_SFX_457EC0(MudSounds::eSadUgh_28, 0, 0, this);
-            nextState = eAbeStates::State_10_Fart_45B1A0; // TODO: Correct but isn't fart in this case ??
+            nextMotion = eAbeMotions::Motion_10_Fart_45B1A0; // TODO: Correct but isn't fart in this case ??
         }
     }
 
-    return nextState;
+    return nextMotion;
 }
 
 s16 Abe::CantBeDamaged_44BAB0()
 {
     switch (field_106_current_motion)
     {
-        case eAbeStates::State_75_JumpIntoWell_45C7B0:
-        case eAbeStates::State_76_ToInsideOfAWellLocal_45CA40:
-        case eAbeStates::State_77_ToWellShotOut_45D130:
-        case eAbeStates::State_78_WellBegin_45C810:
-        case eAbeStates::State_79_InsideWellLocal_45CA60:
-        case eAbeStates::State_80_WellShotOut_45D150:
-        case eAbeStates::jState_81_WellBegin_45C7F0:
-        case eAbeStates::State_82_InsideWellExpress_45CC80:
-        case eAbeStates::State_83_WellExpressShotOut_45CF70:
-        case eAbeStates::State_114_DoorEnter_459470:
-        case eAbeStates::State_115_DoorExit_459A40:
-        case eAbeStates::State_119_ToShrykull_45A990:
-        case eAbeStates::State_120_EndShrykull_45AB00:
+        case eAbeMotions::Motion_75_JumpIntoWell_45C7B0:
+        case eAbeMotions::Motion_76_ToInsideOfAWellLocal_45CA40:
+        case eAbeMotions::Motion_77_ToWellShotOut_45D130:
+        case eAbeMotions::Motion_78_WellBegin_45C810:
+        case eAbeMotions::Motion_79_InsideWellLocal_45CA60:
+        case eAbeMotions::Motion_80_WellShotOut_45D150:
+        case eAbeMotions::jMotion_81_WellBegin_45C7F0:
+        case eAbeMotions::Motion_82_InsideWellExpress_45CC80:
+        case eAbeMotions::Motion_83_WellExpressShotOut_45CF70:
+        case eAbeMotions::Motion_114_DoorEnter_459470:
+        case eAbeMotions::Motion_115_DoorExit_459A40:
+        case eAbeMotions::Motion_119_ToShrykull_45A990:
+        case eAbeMotions::Motion_120_EndShrykull_45AB00:
             return TRUE;
     }
 
@@ -9328,12 +9328,12 @@ void Abe::FallOnBombs_44EC10()
 
 s16 Abe::ForceDownIfHoisting_44BA30()
 {
-    if (field_106_current_motion != eAbeStates::State_65_LedgeAscend_4548E0 && field_106_current_motion != eAbeStates::State_67_LedgeHang_454E20 && field_106_current_motion != eAbeStates::State_69_LedgeHangWobble_454EF0 && field_106_current_motion != eAbeStates::State_66_LedgeDescend_454970 && field_106_current_motion != eAbeStates::State_68_ToOffScreenHoist_454B80)
+    if (field_106_current_motion != eAbeMotions::Motion_65_LedgeAscend_4548E0 && field_106_current_motion != eAbeMotions::Motion_67_LedgeHang_454E20 && field_106_current_motion != eAbeMotions::Motion_69_LedgeHangWobble_454EF0 && field_106_current_motion != eAbeMotions::Motion_66_LedgeDescend_454970 && field_106_current_motion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80)
     {
         return 0;
     }
 
-    field_106_current_motion = eAbeStates::State_92_ForceDownFromHoist_455800;
+    field_106_current_motion = eAbeMotions::Motion_92_ForceDownFromHoist_455800;
 
     field_124_timer = 0;
 
@@ -9361,11 +9361,11 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
     }
 
     ShootKind shootKind = ShootKind::eEverythingElse_0;
-    if (field_106_current_motion == eAbeStates::State_22_RollBegin_4539A0 || field_106_current_motion == eAbeStates::State_23_RollLoop_453A90 || field_106_current_motion == eAbeStates::State_24_453D00 || field_106_current_motion == eAbeStates::State_37_CrouchTurn_454390 || field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0)
+    if (field_106_current_motion == eAbeMotions::Motion_22_RollBegin_4539A0 || field_106_current_motion == eAbeMotions::Motion_23_RollLoop_453A90 || field_106_current_motion == eAbeMotions::Motion_24_453D00 || field_106_current_motion == eAbeMotions::Motion_37_CrouchTurn_454390 || field_106_current_motion == eAbeMotions::Motion_17_CrouchIdle_456BC0)
     {
         shootKind = ShootKind::eRolling_2;
     }
-    else if (field_106_current_motion == eAbeStates::State_65_LedgeAscend_4548E0 || field_106_current_motion == eAbeStates::State_67_LedgeHang_454E20 || field_106_current_motion == eAbeStates::State_69_LedgeHangWobble_454EF0 || field_106_current_motion == eAbeStates::State_66_LedgeDescend_454970 || field_106_current_motion == eAbeStates::State_68_ToOffScreenHoist_454B80)
+    else if (field_106_current_motion == eAbeMotions::Motion_65_LedgeAscend_4548E0 || field_106_current_motion == eAbeMotions::Motion_67_LedgeHang_454E20 || field_106_current_motion == eAbeMotions::Motion_69_LedgeHangWobble_454EF0 || field_106_current_motion == eAbeMotions::Motion_66_LedgeDescend_454970 || field_106_current_motion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80)
     {
         shootKind = ShootKind::eHanging_1;
     }
@@ -9459,7 +9459,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                     ToKnockback_44E700(1, 1);
                     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != (pBullet->field_30_x_distance > FP_FromInteger(0)))
                     {
-                        field_106_current_motion = eAbeStates::State_101_KnockForward_455420;
+                        field_106_current_motion = eAbeMotions::Motion_101_KnockForward_455420;
                     }
                     field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
                     field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
@@ -9472,7 +9472,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 }
                 case ShootKind::eHanging_1:
                 {
-                    field_106_current_motion = eAbeStates::State_92_ForceDownFromHoist_455800;
+                    field_106_current_motion = eAbeMotions::Motion_92_ForceDownFromHoist_455800;
                     field_124_timer = 0;
                     field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
                     field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
@@ -9482,11 +9482,11 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 {
                     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) == (pBullet->field_30_x_distance > FP_FromInteger(0)))
                     {
-                        field_108_next_motion = eAbeStates::State_74_RollingKnockback_455290;
+                        field_108_next_motion = eAbeMotions::Motion_74_RollingKnockback_455290;
                     }
                     else
                     {
-                        field_108_next_motion = eAbeStates::State_102_RollingKnockForward_455310;
+                        field_108_next_motion = eAbeMotions::Motion_102_RollingKnockForward_455310;
                     }
                     break;
                 }
@@ -9518,12 +9518,12 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             if (shootKind == ShootKind::eEverythingElse_0)
             {
                 yOffset = (FP_FromInteger(-45) * field_CC_sprite_scale);
-                field_108_next_motion = eAbeStates::State_110_ZShot_455670;
+                field_108_next_motion = eAbeMotions::Motion_110_ZShot_455670;
             }
             else if (shootKind == ShootKind::eHanging_1)
             {
                 yOffset = (FP_FromInteger(45) * field_CC_sprite_scale);
-                field_106_current_motion = eAbeStates::State_92_ForceDownFromHoist_455800;
+                field_106_current_motion = eAbeMotions::Motion_92_ForceDownFromHoist_455800;
                 field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
                 field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
                 field_124_timer = 0;
@@ -9531,7 +9531,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             else if (shootKind == ShootKind::eRolling_2)
             {
                 yOffset = (FP_FromInteger(-25) * field_CC_sprite_scale);
-                field_108_next_motion = eAbeStates::State_109_ZShotRolling_455550;
+                field_108_next_motion = eAbeMotions::Motion_109_ZShotRolling_455550;
             }
 
             auto pBlood = ae_new<Blood>();
@@ -9645,7 +9645,7 @@ void Abe::IntoPortalStates_451990()
                 {
                     pBirdPortal->VPortalClipper_499430(0);
                     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-                    field_106_current_motion = eAbeStates::State_27_HopBegin_4521C0;
+                    field_106_current_motion = eAbeMotions::Motion_27_HopBegin_4521C0;
                     pBirdPortal->VKillPortalClipper_499A20();
                     field_1A8_portal_id = -1;
                 }
@@ -9768,7 +9768,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
     if (!pLiftPoint)
     {
-        return eAbeStates::State_123_LiftGrabIdle_45A6A0;
+        return eAbeMotions::Motion_123_LiftGrabIdle_45A6A0;
     }
 
     pLiftPoint->vMove_4626A0(FP_FromInteger(0), yVelocity, 0);
@@ -9785,18 +9785,18 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
         {
             if (pLiftPoint->vOnBottomFloor_4618F0())
             {
-                return eAbeStates::State_123_LiftGrabIdle_45A6A0;
+                return eAbeMotions::Motion_123_LiftGrabIdle_45A6A0;
             }
 
             const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
             if (sInputKey_Down_5550DC & pressed)
             {
-                return eAbeStates::State_125_LiftUseDown_45A7B0;
+                return eAbeMotions::Motion_125_LiftUseDown_45A7B0;
             }
 
             if (pressed & sInputKey_Up_5550D8)
             {
-                return eAbeStates::State_124_LiftUseUp_45A780;
+                return eAbeMotions::Motion_124_LiftUseUp_45A780;
             }
         }
     }
@@ -9804,27 +9804,27 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
     {
         if (pLiftPoint->vOnTopFloor_461890())
         {
-            return eAbeStates::State_123_LiftGrabIdle_45A6A0;
+            return eAbeMotions::Motion_123_LiftGrabIdle_45A6A0;
         }
 
         if (Input().isPressed(sInputKey_Up_5550D8))
         {
-            return eAbeStates::State_124_LiftUseUp_45A780;
+            return eAbeMotions::Motion_124_LiftUseUp_45A780;
         }
 
         if (Input().isPressed(sInputKey_Down_5550DC))
         {
-            return eAbeStates::State_125_LiftUseDown_45A7B0;
+            return eAbeMotions::Motion_125_LiftUseDown_45A7B0;
         }
     }
 
     if (Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed && pLiftPoint->vOnAnyFloor_461920() && !(pLiftPoint->field_12C_bMoving & 1))
     {
-        return eAbeStates::State_122_LiftGrabEnd_45A670;
+        return eAbeMotions::Motion_122_LiftGrabEnd_45A670;
     }
 
     pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
-    return eAbeStates::State_123_LiftGrabIdle_45A6A0;
+    return eAbeMotions::Motion_123_LiftGrabIdle_45A6A0;
 }
 
 s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
@@ -9905,7 +9905,7 @@ void Abe::ExitShrykull_45A9D0(s16 bResetRingTimer)
 
     field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
 
-    field_106_current_motion = eAbeStates::State_120_EndShrykull_45AB00;
+    field_106_current_motion = eAbeMotions::Motion_120_EndShrykull_45AB00;
     field_124_timer = 1;
 
     if (bResetRingTimer)

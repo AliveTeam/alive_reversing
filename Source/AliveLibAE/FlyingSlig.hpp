@@ -9,7 +9,7 @@ enum class LevelIds : s16;
 
 class FlyingSlig;
 
-using TFlyingSligFn = void (FlyingSlig::*)(void);
+using TFlyingSligBrainFn = void (FlyingSlig::*)(void);
 
 #define FLYING_SLIG_MOTIONS_ENUM(ENTRY)         \
     ENTRY(M_Idle_0_4385E0)                      \
@@ -173,23 +173,23 @@ private:
     EXPORT s16 vTakeDamage_434C90(BaseGameObject* pFrom);
 
 public:
-    EXPORT void AI_Inactive_0_4355B0();
-    EXPORT void AI_Death_1_4364E0();
-    EXPORT void AI_Moving_2_4356D0();
-    EXPORT void AI_GetAlerted_3_435750();
-    EXPORT void AI_ChasingEnemy_4_435BC0();
-    EXPORT void AI_Idle_5_435820();
-    EXPORT void AI_GameSpeakToMoving_6_435940();
-    EXPORT void AI_PanicMoving_7_435990();
-    EXPORT void AI_PanicIdle_8_435AC0();
-    EXPORT void AI_SpottedEnemy_9_435E40();
-    EXPORT void AI_LaunchingGrenade_10_435F10();
-    EXPORT void AI_AbeDead_11_435FD0();
-    EXPORT void AI_Possessed_12_436040();
-    EXPORT void AI_Possession_13_4360F0();
-    EXPORT void AI_DePossession_14_436180();
-    EXPORT void AI_FlyingSligSpawn_15_4362C0();
-    EXPORT void AI_FromNakedSlig_17_4355E0();
+    EXPORT void Brain_0_Inactive_4355B0();
+    EXPORT void Brain_1_Death_4364E0();
+    EXPORT void Brain_2_Moving_4356D0();
+    EXPORT void Brain_3_GetAlerted_435750();
+    EXPORT void Brain_4_ChasingEnemy_435BC0();
+    EXPORT void Brain_5_Idle_435820();
+    EXPORT void Brain_6_GameSpeakToMoving_435940();
+    EXPORT void Brain_7_PanicMoving_435990();
+    EXPORT void Brain_8_PanicIdle_435AC0();
+    EXPORT void Brain_9_SpottedEnemy_435E40();
+    EXPORT void Brain_10_LaunchingGrenade_435F10();
+    EXPORT void Brain_11_AbeDead_435FD0();
+    EXPORT void Brain_12_Possessed_436040();
+    EXPORT void Brain_13_Possession_4360F0();
+    EXPORT void Brain_14_DePossession_436180();
+    EXPORT void Brain_15_FlyingSligSpawn_4362C0();
+    EXPORT void Brain_17_FromNakedSlig_4355E0();
 
 public:
     EXPORT void M_Idle_0_4385E0();
@@ -301,8 +301,8 @@ public:
     EXPORT void sub_437AC0(FP a2, FP_Point* pPoint);
 
 
-    void SetBrain(TFlyingSligFn fn);
-    bool BrainIs(TFlyingSligFn fn);
+    void SetBrain(TFlyingSligBrainFn fn);
+    bool BrainIs(TFlyingSligBrainFn fn);
 
 private:
     Path_FlyingSlig field_118_data;
@@ -395,7 +395,7 @@ private:
 public:
     FP field_294_nextXPos;
     FP field_298_nextYPos;
-    TFlyingSligFn field_29C_brain_state;
+    TFlyingSligBrainFn field_29C_brain_state;
     LevelIds field_2A0_abe_level;
     s16 field_2A2_abe_path;
     s16 field_2A4_abe_camera;

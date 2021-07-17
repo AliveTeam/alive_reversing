@@ -524,7 +524,7 @@ void Command_HelperUpdate()
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
         sHasTeleported = false;
-        sActiveHero_5C1B68->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
+        sActiveHero_5C1B68->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
         sActiveHero_5C1B68->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7_land_softly);
         sActiveHero_5C1B68->field_C2_lvl_number = gMap_5C3030.field_0_current_level;
         sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.field_2_current_path;
@@ -689,23 +689,23 @@ void Command_SetState(const std::vector<std::string>& args)
 {
     if (sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eAbe_69)
     {
-        DEV_CONSOLE_MESSAGE_C("Setting state not supported on this object (only allowed for abe)!", 6, 255, 0, 0);
+        DEV_CONSOLE_MESSAGE_C("Setting motion not supported on this object (only allowed for abe)!", 6, 255, 0, 0);
         return;
     }
 
-    s16 state = static_cast<s16>(std::stoi(args[0]));
+    s16 motion = static_cast<s16>(std::stoi(args[0]));
     Abe* pAbe = static_cast<Abe*>(sControlledCharacter_5C1B8C);
-    auto resource = pAbe->StateToAnimResource_44AAB0(state);
+    auto resource = pAbe->MotionToAnimResource_44AAB0(motion);
 
     if (resource != nullptr)
     {
-        pAbe->field_106_current_motion = state;
-        //pAbe->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[state], resource);
-        DEV_CONSOLE_PRINTF("Set state to %i", state);
+        pAbe->field_106_current_motion = motion;
+        //pAbe->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[motion], resource);
+        DEV_CONSOLE_PRINTF("Set motion to %i", motion);
     }
     else
     {
-        DEV_CONSOLE_PRINTF("Cannot set state to %i! Resource NULL", state);
+        DEV_CONSOLE_PRINTF("Cannot set motion to %i! Resource NULL", motion);
     }
 }
 
@@ -885,7 +885,7 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     {"teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)"},
     {"event", 1, Command_Event, "Broadcast's an event (EVENT ID)"},
     //{ "menu", 1, Command_Menu, "Changes to given menu cam" },
-    {"state", 1, Command_SetState, "Sets currently controlled objects state."},
+    {"motion", 1, Command_SetState, "Sets currently controlled objects motion."},
     {"ddv", 1, Command_DDV, "Plays a ddv"},
     {"spawn", 1, Command_Spawn, "Spawns an object"},
     {"loadsave", 1, Command_LoadSave, "Loads a Save"},

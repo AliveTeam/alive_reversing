@@ -84,7 +84,7 @@ struct Path_Paramite final : public Path_TLV
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Paramite, 0x28);
 
 class Paramite;
-using TParamiteAIFn = s16 (Paramite::*)();
+using TParamiteBrainFn = s16 (Paramite::*)();
 using TParamiteMotionFn = void (Paramite::*)();
 
 enum class LevelIds : s16;
@@ -141,7 +141,7 @@ struct Paramite_State final
     s32 field_44_web_id;
     s32 field_48_obj_id;
     s32 field_4C_pull_ring_rope_id;
-    s32 field_50_ai_idx;
+    s32 field_50_brain_idx;
     s16 field_54_padding;
     s16 field_56_padding;
     s16 field_58_brain_ret;
@@ -228,79 +228,51 @@ private:
 
 
 public:
-    EXPORT s16 AI_Patrol_0_4835B0();
+    EXPORT s16 Brain_0_Patrol_4835B0();
+	s16 Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj);
+	s16 Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj);
+	s16 Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj);
+	s16 Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj);
+	s16 Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj);
+	s16 Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj);
+    s16 Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj);
 
-    s16 AI_Patrol_State_Idle_12(BaseAliveGameObject* pObj);
+    EXPORT s16 Brain_1_Death_484CD0();
 
-    s16 AI_Patrol_State_StopApproachingAbe_5(BaseAliveGameObject* pObj);
+    EXPORT s16 Brain_2_ChasingAbe_4859D0();
+	s16 Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State_2_ToWarning();
+	s16 Brain_ChasingAbe_State_3_Warning();
+	s16 Brain_ChasingAbe_State_4_CloseAttack();
+	s16 Brain_ChasingAbe_State_5_ToChasing(BaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State_6_QuickAttack();
+	s16 Brain_ChasingAbe_State_7_Chasing(BaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State_8_Jumping();
+	s16 Brain_ChasingAbe_State_9_TurningWhileChasing();
+	s16 Brain_ChasingAbe_State_10_Turning(BaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State_11_Walking(BaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State_12_WalkingToHop(BaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State_13_Eating();
+	s16 Brain_ChasingAbe_State_14_Idle();
+    s16 Brain_ChasingAbe_State_15_Panic();
 
-    s16 AI_Patrol_State_ApproachingAbe_4(BaseAliveGameObject* pObj);
+    EXPORT s16 Brain_3_SurpriseWeb_4851B0();
+    EXPORT s16 Brain_4_Unused_48F8F0();
 
-    s16 AI_Patrol_State_RunningFromAbe_3(BaseAliveGameObject* pObj);
+    EXPORT s16 Brain_5_SpottedMeat_486880();
+	s16 Brain_SpottedMeat_State_0_Idle(Meat* pMeat);
+	s16 Brain_SpottedMeat_State_1_Running(Meat* pMeat);
+	s16 Brain_SpottedMeat_State_2_Walking(Meat* pMeat);
+	s16 Brain_SpottedMeat_State_3_Jumping();
+	s16 Brain_SpottedMeat_State_4_Turning(Meat* pMeat);
+	s16 Brain_SpottedMeat_State_5_AttentiveToMeat(Meat* pMeat);
+    s16 Brain_SpottedMeat_State_6_Eating(Meat* pMeat);
 
-    s16 AI_Patrol_State_StuckToWall_8(BaseAliveGameObject* pObj);
-
-    s16 AI_Patrol_State_IdleForAbe_1(BaseAliveGameObject* pObj);
-
-    s16 AI_Patrol_State_FearingAbe_2(BaseAliveGameObject* pObj);
-
-    EXPORT s16 AI_Death_1_484CD0();
-    EXPORT s16 AI_ChasingAbe_2_4859D0();
-
-    s16 AI_ChasingAbe_State_Panic_15();
-
-    s16 AI_ChasingAbe_State_Idle_14();
-
-    s16 AI_ChasingAbe_State_TurningWhileChasing_9();
-
-    s16 AI_ChasingAbe_State_Eating_13();
-
-    s16 AI_ChasingAbe_State_Jumping_8();
-
-    s16 AI_ChasingAbe_State_QuickAttack_6();
-
-    s16 AI_ChasingAbe_State_Warning_3();
-
-    s16 AI_ChasingAbe_State_CloseAttack_4();
-
-    s16 AI_ChasingAbe_State_ToWarning_2();
-
-    s16 AI_ChasingAbe_State_Walking_11(BaseAliveGameObject* pObj);
-
-    s16 AI_ChasingAbe_State_Chasing_7(BaseAliveGameObject* pObj);
-
-    s16 AI_ChasingAbe_State_WalkingToHop_12(BaseAliveGameObject* pObj);
-
-    s16 AI_ChasingAbe_State_Turning_10(BaseAliveGameObject* pObj);
-
-    s16 AI_ChasingAbe_State_ToChasing_5(BaseAliveGameObject* pObj);
-
-    s16 AI_ChasingAbe_State_Attacking_1(BaseAliveGameObject* pObj);
-
-    s16 AI_ChasingAbe_State_Inactive_0(BaseAliveGameObject* pObj);
-
-    EXPORT s16 AI_SurpriseWeb_3_4851B0();
-    EXPORT s16 AI_Unused_4_48F8F0();
-    EXPORT s16 AI_SpottedMeat_5_486880();
-
-    s16 AI_SpottedMeat_State_Eating_6(Meat* pMeat);
-
-    s16 AI_SpottedMeat_State_AttentiveToMeat_5(Meat* pMeat);
-
-    s16 AI_SpottedMeat_State_Turning_4(Meat* pMeat);
-
-    s16 AI_SpottedMeat_State_Jumping_3();
-
-    s16 AI_SpottedMeat_State_Walking_2(Meat* pMeat);
-
-    s16 AI_SpottedMeat_State_Running_1(Meat* pMeat);
-
-    s16 AI_SpottedMeat_State_Idle_0(Meat* pMeat);
-
-    EXPORT s16 AI_Possessed_6_484BC0();
-    EXPORT s16 AI_DeathDrop_7_484FF0();
-    EXPORT s16 AI_ControlledByGameSpeak_8_48DFC0();
-    EXPORT s16 AI_ParamiteSpawn_9_48ED80();
+    EXPORT s16 Brain_6_Possessed_484BC0();
+    EXPORT s16 Brain_7_DeathDrop_484FF0();
+    EXPORT s16 Brain_8_ControlledByGameSpeak_48DFC0();
+    EXPORT s16 Brain_9_ParamiteSpawn_48ED80();
 
 public:
     EXPORT void M_Idle_0_489FB0();
@@ -349,8 +321,8 @@ public:
     EXPORT void M_Attack_43_48DB70();
 
 private:
-    void SetBrain(TParamiteAIFn fn);
-    bool BrainIs(TParamiteAIFn fn);
+    void SetBrain(TParamiteBrainFn fn);
+    bool BrainIs(TParamiteBrainFn fn);
 
 private:
     EXPORT void dtor_487FC0();
@@ -426,7 +398,7 @@ private:
     s32 field_11C_web_id;
     s32 field_120_obj_id;
     s32 field_124_pull_ring_rope_id;
-    TParamiteAIFn field_128_fn_brainState;
+    TParamiteBrainFn field_128_fn_brainState;
     s16 field_12C_brain_ret;
     s16 field_12E_surprise_web_delay_timer;
     s32 field_130_timer;

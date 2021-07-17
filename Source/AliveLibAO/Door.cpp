@@ -70,7 +70,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
 
     field_EC_current_state = (field_EE_door_closed == Choice_short::eNo_0) == SwitchStates_Get(field_F0_switch_id) ? DoorStates::eClosed_1 : DoorStates::eOpen_0;
 
-    if ((sActiveHero_507678->field_FC_current_motion == eAbeStates::State_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_157_DoorExit_42D780) && field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero_507678->field_196_door_id)
+    if ((sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780) && field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero_507678->field_196_door_id)
     {
         field_EC_current_state = DoorStates::eOpen_0;
     }
@@ -402,7 +402,7 @@ void Door::VUpdate_40E870()
         field_6_flags.Set(Options::eDead_Bit3);
     }
 
-    if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_157_DoorExit_42D780)
+    if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780)
     {
         if (field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero_507678->field_196_door_id)
         {

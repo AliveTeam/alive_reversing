@@ -238,7 +238,7 @@ void MotionDetector::VUpdate_437E90()
                         bool alarm = false;
                         if (pObj->field_4_typeId == Types::eAbe_43)
                         {
-                            if (pObj->field_FC_current_motion != eAbeStates::State_0_Idle_423520 && pObj->field_FC_current_motion != eAbeStates::State_19_CrouchIdle_4284C0 && pObj->field_FC_current_motion != eAbeStates::State_66_LedgeHang_428D90 && pObj->field_FC_current_motion != eAbeStates::State_62_LoadedSaveSpawn_45ADD0 && pObj->field_FC_current_motion != eAbeStates::State_60_Dead_42C4C0 && !sDDCheat_FlyingEnabled_50771C)
+                            if (pObj->field_FC_current_motion != eAbeMotions::Motion_0_Idle_423520 && pObj->field_FC_current_motion != eAbeMotions::Motion_19_CrouchIdle_4284C0 && pObj->field_FC_current_motion != eAbeMotions::Motion_66_LedgeHang_428D90 && pObj->field_FC_current_motion != eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0 && pObj->field_FC_current_motion != eAbeMotions::Motion_60_Dead_42C4C0 && !sDDCheat_FlyingEnabled_50771C)
                             {
                                 alarm = true;
                             }

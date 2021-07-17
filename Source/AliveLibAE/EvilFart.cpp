@@ -323,12 +323,12 @@ void EvilFart::vUpdate_423100()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_86_HandstoneBegin_45BD00)
+    if (sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_86_HandstoneBegin_45BD00)
     {
         field_11C_alive_timer--;
     }
 
-    if ((sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_86_HandstoneBegin_45BD00) && field_11C_alive_timer + 1 <= 0)
+    if ((sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_86_HandstoneBegin_45BD00) && field_11C_alive_timer + 1 <= 0)
     {
         if (!field_118_bBlowUp)
         {

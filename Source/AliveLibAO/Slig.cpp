@@ -566,7 +566,7 @@ void Slig::Init_46B890()
             {
                 SetBrain(&Slig::Brain_Sleeping_46B4E0);
                 SetBrain2(&Slig::Brain_Sleeping_46B4E0);
-                field_FC_current_motion = eAbeStates::State_33_RunJumpMid_426FA0;
+                field_FC_current_motion = eAbeMotions::Motion_33_RunJumpMid_426FA0;
                 VUpdateAnimData_464D00();
             }
             break;
@@ -1756,7 +1756,7 @@ BOOL CCSTD Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
 
 s16 CCSTD Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
 {
-    if (((pThis->field_4_typeId == Types::eAbe_43) && (pThis->field_FC_current_motion == eAbeStates::State_156_DoorEnter_42D370 && pThis->field_10_anim.field_92_current_frame > 7)) || (pThis->field_FC_current_motion == eAbeStates::State_157_DoorExit_42D780 && pThis->field_10_anim.field_92_current_frame < 4))
+    if (((pThis->field_4_typeId == Types::eAbe_43) && (pThis->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 && pThis->field_10_anim.field_92_current_frame > 7)) || (pThis->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780 && pThis->field_10_anim.field_92_current_frame < 4))
     {
         return 1;
     }
@@ -5629,10 +5629,10 @@ s16 Slig::Brain_Shooting_46EFD0()
         field_200_num_times_to_shoot++;
 
         if (field_200_num_times_to_shoot < field_174_tlv.field_2A_number_of_times_to_shoot
-            || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_137_ElumUnmountBegin_42E2B0
-            || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_139_ElumMountBegin_42E090
-            || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_138_ElumUnmountEnd_42E390
-            || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_136_ElumMountEnd_42E110)
+            || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0
+            || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_139_ElumMountBegin_42E090
+            || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_138_ElumUnmountEnd_42E390
+            || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_136_ElumMountEnd_42E110)
         {
             field_FE_next_motion = eSligMotions::Motion_6_Shoot_468820;
             return 111;
@@ -5722,10 +5722,10 @@ s16 Slig::Brain_ZShooting_46F290()
         return 127;
     }
 
-    if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_138_ElumUnmountEnd_42E390
-        || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_136_ElumMountEnd_42E110
-        || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_137_ElumUnmountBegin_42E2B0
-        || sActiveHero_507678->field_FC_current_motion == eAbeStates::State_139_ElumMountBegin_42E090)
+    if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_138_ElumUnmountEnd_42E390
+        || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_136_ElumMountEnd_42E110
+        || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0
+        || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_139_ElumMountBegin_42E090)
     {
         return 127;
     }

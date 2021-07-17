@@ -89,13 +89,13 @@ ALIVE_ARY(1, 0x551428, TNakedSligMotionFn, 18, sNakedSlig_motions_551428,
            &NakedSlig::M_EndPushingWall_17_41B3A0});
 
 
-const static BrainFunctionData<TNakedSligAIFn> sNakedSligAITable[] = {
-    {&NakedSlig::AI_0_Sleeping_419DE0, 0x401D1B, "AI_0_Sleeping"},
-    {&NakedSlig::AI_1_Idle_419F60, 0x40340E, "AI_1_Idle"},
-    {&NakedSlig::AI_2_PanicGetALocker_419FE0, 0x419FE0, "AI_2_PanicGetALocker"},
-    {&NakedSlig::AI_3_Possessed_41A5B0, 0x404539, "AI_3_Possessed"},
-    {&NakedSlig::AI_4_GetKilled_41A880, 0x403265, "AI_4_GetKilled"},
-    {&NakedSlig::AI_5_Transformed_41ADF0, 0x40484A, "AI_5_Transformed"},
+const static BrainFunctionData<TNakedSligBrainFn> sNakedSligBrainTable[] = {
+    {&NakedSlig::Brain_0_Sleeping_419DE0, 0x401D1B, "Brain_0_Sleeping"},
+    {&NakedSlig::Brain_1_Idle_419F60, 0x40340E, "Brain_1_Idle"},
+    {&NakedSlig::Brain_2_PanicGetALocker_419FE0, 0x419FE0, "Brain_2_PanicGetALocker"},
+    {&NakedSlig::Brain_3_Possessed_41A5B0, 0x404539, "Brain_3_Possessed"},
+    {&NakedSlig::Brain_4_GetKilled_41A880, 0x403265, "Brain_4_GetKilled"},
+    {&NakedSlig::Brain_5_Transformed_41ADF0, 0x40484A, "Brain_5_Transformed"},
 };
 
 NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, s32 tlvInfo)
@@ -153,7 +153,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, s32 tlvInfo)
     if (field_1E8_tlv.field_14_state == Path_NakedSlig::State::eAwake_2)
     {
         Set_AnimAndMotion_419890(NakedSligMotion::M_Idle_0_41B260, TRUE);
-        SetBrain(&NakedSlig::AI_1_Idle_419F60);
+        SetBrain(&NakedSlig::Brain_1_Idle_419F60);
     }
     else
     {
@@ -166,7 +166,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, s32 tlvInfo)
             field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
         }
         Set_AnimAndMotion_419890(NakedSligMotion::M_Snoozing_9_41BD80, TRUE);
-        SetBrain(&NakedSlig::AI_0_Sleeping_419DE0);
+        SetBrain(&NakedSlig::Brain_0_Sleeping_419DE0);
     }
 
     field_208_brain_sub_state = 0;
@@ -319,7 +319,7 @@ s32 CC NakedSlig::CreateFromSaveState_41AE80(const u8* pBuffer)
     pNakedSlig->field_1AC_timer = pState->field_54_timer;
     pNakedSlig->field_104_collision_line_type = pState->field_3A_line_type;
     pNakedSlig->field_118_tlvInfo = pState->field_44_tlvInfo;
-    pNakedSlig->SetBrain(sNakedSligAITable[pState->field_48_ai_idx].mOurFn);
+    pNakedSlig->SetBrain(sNakedSligBrainTable[pState->field_48_brain_idx].mOurFn);
     pNakedSlig->field_208_brain_sub_state = pState->field_50_brain_sub_state;
     pNakedSlig->field_1B8_bChanting = pState->field_5E_bChanting;
     pNakedSlig->field_1BA_prev_level = pState->field_60_prev_leve;
@@ -383,14 +383,14 @@ s32 NakedSlig::vGetSaveState_41C9A0(NakedSlig_State* pState)
     pState->field_40_bIsControlled = (this == sControlledCharacter_5C1B8C);
     pState->field_54_timer = field_1AC_timer;
     pState->field_44_tlvInfo = field_118_tlvInfo;
-    pState->field_48_ai_idx = 0;
+    pState->field_48_brain_idx = 0;
 
     s32 idx = 0;
-    for (const auto& fn : sNakedSligAITable)
+    for (const auto& fn : sNakedSligBrainTable)
     {
         if (BrainIs(fn.mOurFn))
         {
-            pState->field_48_ai_idx = idx;
+            pState->field_48_brain_idx = idx;
             break;
         }
         idx++;
@@ -417,7 +417,7 @@ void NakedSlig::vPossessed_4195F0()
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
     field_1B8_bChanting = TRUE;
     Set_AnimAndMotion_419890(NakedSligMotion::M_Shaking_12_418C30, TRUE);
-    SetBrain(&NakedSlig::AI_3_Possessed_41A5B0);
+    SetBrain(&NakedSlig::Brain_3_Possessed_41A5B0);
     field_208_brain_sub_state = 0;
     field_1AC_timer = sGnFrame_5C1B84 + 35;
     field_1BA_prev_level = gMap_5C3030.field_0_current_level;
@@ -612,7 +612,7 @@ void NakedSlig::vOn_TLV_Collision_419680(Path_TLV* pTlv)
             if (field_10C_health > FP_FromInteger(0))
             {
                 field_10C_health = FP_FromInteger(0);
-                SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
+                SetBrain(&NakedSlig::Brain_4_GetKilled_41A880);
                 field_208_brain_sub_state = 5;
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
@@ -633,7 +633,7 @@ void NakedSlig::vOn_TLV_Collision_419680(Path_TLV* pTlv)
 
 s16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
 {
-    if (!BrainIs(&NakedSlig::AI_5_Transformed_41ADF0))
+    if (!BrainIs(&NakedSlig::Brain_5_Transformed_41ADF0))
     {
         switch (pFrom->field_4_typeId)
         {
@@ -645,9 +645,9 @@ s16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
             case AETypes::eMineCar_89:
             case AETypes::eNeverSet_107:
             case AETypes::eExplosion_109:
-                if (!BrainIs(&NakedSlig::AI_4_GetKilled_41A880))
+                if (!BrainIs(&NakedSlig::Brain_4_GetKilled_41A880))
                 {
-                    SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
+                    SetBrain(&NakedSlig::Brain_4_GetKilled_41A880);
                     field_208_brain_sub_state = 2;
                     Event_Broadcast_422BC0(kEventMudokonComfort, this);
                 }
@@ -665,7 +665,7 @@ s16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
 
                 if (field_10C_health <= FP_FromInteger(0))
                 {
-                    SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
+                    SetBrain(&NakedSlig::Brain_4_GetKilled_41A880);
                     field_208_brain_sub_state = 2;
                     return 0;
                 }
@@ -673,26 +673,26 @@ s16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
                 Set_AnimAndMotion_419890(eSligMotions::M_Falling_7_4B42D0, TRUE);
                 Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, 0, this);
 
-                if (BrainIs(&NakedSlig::AI_2_PanicGetALocker_419FE0))
+                if (BrainIs(&NakedSlig::Brain_2_PanicGetALocker_419FE0))
                 {
                     field_208_brain_sub_state = 10;
                 }
-                else if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
+                else if (BrainIs(&NakedSlig::Brain_3_Possessed_41A5B0))
                 {
                     field_208_brain_sub_state = 3;
                 }
                 else
                 {
-                    SetBrain(&NakedSlig::AI_2_PanicGetALocker_419FE0);
+                    SetBrain(&NakedSlig::Brain_2_PanicGetALocker_419FE0);
                     field_208_brain_sub_state = 10;
                 }
             }
                 return 1;
 
             case AETypes::eSlog_126:
-                if (!BrainIs(&NakedSlig::AI_4_GetKilled_41A880))
+                if (!BrainIs(&NakedSlig::Brain_4_GetKilled_41A880))
                 {
-                    SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
+                    SetBrain(&NakedSlig::Brain_4_GetKilled_41A880);
                     field_208_brain_sub_state = 4;
                     field_C8_vely = FP_FromInteger(0);
                     field_C4_velx = FP_FromInteger(0);
@@ -705,12 +705,12 @@ s16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
                 return 1;
 
             case AETypes::eElectrocute_150:
-                if (!BrainIs(&NakedSlig::AI_4_GetKilled_41A880))
+                if (!BrainIs(&NakedSlig::Brain_4_GetKilled_41A880))
                 {
                     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                     field_10C_health = FP_FromInteger(0);
                     field_1AC_timer = sGnFrame_5C1B84 + 1;
-                    SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
+                    SetBrain(&NakedSlig::Brain_4_GetKilled_41A880);
                     field_208_brain_sub_state = 3;
                     Event_Broadcast_422BC0(kEventMudokonComfort, this);
                 }
@@ -723,14 +723,14 @@ s16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
     return 1;
 }
 
-void NakedSlig::SetBrain(TNakedSligAIFn fn)
+void NakedSlig::SetBrain(TNakedSligBrainFn fn)
 {
-    ::SetBrain(fn, field_204_brain_state, sNakedSligAITable);
+    ::SetBrain(fn, field_204_brain_state, sNakedSligBrainTable);
 }
 
-bool NakedSlig::BrainIs(TNakedSligAIFn fn)
+bool NakedSlig::BrainIs(TNakedSligBrainFn fn)
 {
-    return ::BrainIs(fn, field_204_brain_state, sNakedSligAITable);
+    return ::BrainIs(fn, field_204_brain_state, sNakedSligBrainTable);
 }
 
 void NakedSlig::dtor_418FE0()
@@ -788,7 +788,7 @@ void NakedSlig::ToIdle_41C070()
     MapFollowMe_408D10(TRUE);
 }
 
-s16 NakedSlig::AI_0_Sleeping_419DE0()
+s16 NakedSlig::Brain_0_Sleeping_419DE0()
 {
     if (gMap_5C3030.GetDirection_4811A0(
             field_C2_lvl_number,
@@ -847,11 +847,11 @@ s16 NakedSlig::AI_0_Sleeping_419DE0()
     }
 
     ToIdle_41C070();
-    SetBrain(&NakedSlig::AI_2_PanicGetALocker_419FE0);
+    SetBrain(&NakedSlig::Brain_2_PanicGetALocker_419FE0);
     return 0;
 }
 
-s16 NakedSlig::AI_1_Idle_419F60()
+s16 NakedSlig::Brain_1_Idle_419F60()
 {
     if (gMap_5C3030.GetDirection_4811A0(
             field_C2_lvl_number,
@@ -865,12 +865,12 @@ s16 NakedSlig::AI_1_Idle_419F60()
 
     if (PanicOn_419810())
     {
-        SetBrain(&NakedSlig::AI_2_PanicGetALocker_419FE0);
+        SetBrain(&NakedSlig::Brain_2_PanicGetALocker_419FE0);
     }
     return 0;
 }
 
-s16 NakedSlig::AI_2_PanicGetALocker_419FE0()
+s16 NakedSlig::Brain_2_PanicGetALocker_419FE0()
 {
     if (gMap_5C3030.GetDirection_4811A0(
             field_C2_lvl_number,
@@ -1088,7 +1088,7 @@ s16 NakedSlig::AI_2_PanicGetALocker_419FE0()
     }
 }
 
-s16 NakedSlig::AI_3_Possessed_41A5B0()
+s16 NakedSlig::Brain_3_Possessed_41A5B0()
 {
     if (gMap_5C3030.GetDirection_4811A0(
             field_C2_lvl_number,
@@ -1140,7 +1140,7 @@ s16 NakedSlig::AI_3_Possessed_41A5B0()
                 sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
                 field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
                 gMap_5C3030.SetActiveCam_480D30(field_1BA_prev_level, field_1BC_prev_path, field_1BE_prev_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-                SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
+                SetBrain(&NakedSlig::Brain_4_GetKilled_41A880);
                 MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
                 return field_208_brain_sub_state;
             }
@@ -1176,7 +1176,7 @@ s16 NakedSlig::AI_3_Possessed_41A5B0()
     return field_208_brain_sub_state;
 }
 
-s16 NakedSlig::AI_4_GetKilled_41A880()
+s16 NakedSlig::Brain_4_GetKilled_41A880()
 {
     if (gMap_5C3030.GetDirection_4811A0(
             field_C2_lvl_number,
@@ -1326,7 +1326,7 @@ s16 NakedSlig::AI_4_GetKilled_41A880()
     }
 }
 
-s16 NakedSlig::AI_5_Transformed_41ADF0()
+s16 NakedSlig::Brain_5_Transformed_41ADF0()
 {
     BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_1D8_obj_id);
     if (gMap_5C3030.GetDirection_4811A0(
@@ -1395,7 +1395,7 @@ void NakedSlig::M_UsingButton_1_41B890()
 
                 pWalkingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 
-                if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
+                if (BrainIs(&NakedSlig::Brain_3_Possessed_41A5B0))
                 {
                     pWalkingSlig->field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
                     pWalkingSlig->field_146_level = field_1BA_prev_level;
@@ -1427,7 +1427,7 @@ void NakedSlig::M_UsingButton_1_41B890()
                 pFlyingSlig->field_CC_sprite_scale = field_CC_sprite_scale;
                 pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 
-                if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
+                if (BrainIs(&NakedSlig::Brain_3_Possessed_41A5B0))
                 {
                     pFlyingSlig->ToPlayerControlled_4360C0();
                     pFlyingSlig->field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
@@ -1443,7 +1443,7 @@ void NakedSlig::M_UsingButton_1_41B890()
                 }
                 else
                 {
-                    pFlyingSlig->SetBrain(&FlyingSlig::AI_FromNakedSlig_17_4355E0);
+                    pFlyingSlig->SetBrain(&FlyingSlig::Brain_17_FromNakedSlig_4355E0);
                 }
                 field_10C_health = FP_FromInteger(0);
             }
@@ -1454,7 +1454,7 @@ void NakedSlig::M_UsingButton_1_41B890()
 
             // Final transform
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
-            SetBrain(&NakedSlig::AI_5_Transformed_41ADF0);
+            SetBrain(&NakedSlig::Brain_5_Transformed_41ADF0);
             field_C8_vely = FP_FromInteger(0);
             field_C4_velx = FP_FromInteger(0);
             Set_AnimAndMotion_419890(0, TRUE);
@@ -1556,7 +1556,7 @@ void NakedSlig::M_Falling_5_41B650()
     FP hitY = {};
     const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
-    if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
+    if (BrainIs(&NakedSlig::Brain_3_Possessed_41A5B0))
     {
         SetActiveCameraDelayedFromDir_408C40();
     }
@@ -1576,7 +1576,7 @@ void NakedSlig::M_Falling_5_41B650()
                 MapFollowMe_408D10(TRUE);
                 if ((hitY - field_F8_LastLineYPos) > (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(5)))
                 {
-                    SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
+                    SetBrain(&NakedSlig::Brain_4_GetKilled_41A880);
                     field_208_brain_sub_state = 2;
                 }
                 else
@@ -1691,7 +1691,7 @@ void NakedSlig::M_PushingWall_10_41B400()
         Slig_SoundEffect_4BFFE0(static_cast<SligSfx>(Math_RandomRange_496AB0(14, 16)), this);
     }
 
-    if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0))
+    if (BrainIs(&NakedSlig::Brain_3_Possessed_41A5B0))
     {
         const bool flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
         if ((!flipX && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft)) || (flipX && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight)) || !(sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
@@ -1791,7 +1791,7 @@ void NakedSlig::HandleCommon_41C0B0()
 {
     MapFollowMe_408D10(TRUE);
 
-    if (BrainIs(&NakedSlig::AI_3_Possessed_41A5B0) && field_208_brain_sub_state == 1)
+    if (BrainIs(&NakedSlig::Brain_3_Possessed_41A5B0) && field_208_brain_sub_state == 1)
     {
         if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight))
         {
