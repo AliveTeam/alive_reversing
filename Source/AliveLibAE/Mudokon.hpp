@@ -81,26 +81,26 @@ enum class MudAction : s16
 };
 
 
-#define MUD_AI_STATES_ENUM(ENTRY)        \
-    ENTRY(AI_GiveRings_0_470C10)         \
-    ENTRY(AI_Chisel_1_47C5F0)            \
-    ENTRY(AI_Scrub_2_47D270)             \
-    ENTRY(AI_TurnWheel_3_47E0D0)         \
-    ENTRY(AI_ListeningToAbe_4_477B40)    \
-    ENTRY(AI_ShrivelDeath_5_4714A0)      \
-    ENTRY(AI_Escape_6_47A560)            \
-    ENTRY(AI_FallAndSmackDeath_7_471600) \
-    ENTRY(AI_AngryWorker_8_47E910)       \
-    ENTRY(AI_Sick_9_47A910)
+#define MUD_BRAIN_STATES_ENUM(ENTRY)        \
+    ENTRY(Brain_GiveRings_0_470C10)         \
+    ENTRY(Brain_Chisel_1_47C5F0)            \
+    ENTRY(Brain_Scrub_2_47D270)             \
+    ENTRY(Brain_TurnWheel_3_47E0D0)         \
+    ENTRY(Brain_ListeningToAbe_4_477B40)    \
+    ENTRY(Brain_ShrivelDeath_5_4714A0)      \
+    ENTRY(Brain_Escape_6_47A560)            \
+    ENTRY(Brain_FallAndSmackDeath_7_471600) \
+    ENTRY(Brain_AngryWorker_8_47E910)       \
+    ENTRY(Brain_Sick_9_47A910)
 
 #define MAKE_STRINGS(VAR) #VAR,
-const char_type* const sMudAiStateNames[10] = {
-    MUD_AI_STATES_ENUM(MAKE_STRINGS)};
+const char_type* const sMudBrainStateNames[10] = {
+    MUD_BRAIN_STATES_ENUM(MAKE_STRINGS)};
 
 #define MAKE_ENUM(VAR) VAR,
-enum Mud_AI_State : u16
+enum Mud_Brain_State : u16
 {
-    MUD_AI_STATES_ENUM(MAKE_ENUM)
+    MUD_BRAIN_STATES_ENUM(MAKE_ENUM)
 };
 
 
@@ -256,14 +256,14 @@ struct Mudokon_State final
     };
     BitField16<Flags_6E> field_6E;
 
-    s16 field_70_sub_state2;
+    s16 field_70_brain_sub_state2;
     s16 field_72_stand_idle_timer;
     MudAction field_74_delayed_speak;
     Mud_Emotion field_76_emo_tlb;
     GameSpeakEvents field_78;
     Mud_Motion field_7A_motion;
-    Mud_AI_State field_7C_ai_state;
-    s16 field_7E_sub_state;
+    Mud_Brain_State field_7C_brain_state;
+    s16 field_7E_brain_sub_state;
     s32 field_80_timer;
     s32 field_84_response_entry_idx;
 };
@@ -343,46 +343,46 @@ private:
 public:
     EXPORT void vUpdateAnimRes_474D80();
 
-public: // AI states
-    EXPORT s16 AI_GiveRings_0_470C10();
-    EXPORT s16 AI_Chisel_1_47C5F0();
-    EXPORT s16 AI_Scrub_2_47D270();
-    EXPORT s16 AI_TurnWheel_3_47E0D0();
+public: // Brains
+    EXPORT s16 Brain_GiveRings_0_470C10();
+    EXPORT s16 Brain_Chisel_1_47C5F0();
+    EXPORT s16 Brain_Scrub_2_47D270();
+    EXPORT s16 Brain_TurnWheel_3_47E0D0();
 
-    EXPORT s16 AI_ListeningToAbe_4_Real_477B40();
-    EXPORT s16 AI_ListeningToAbe_4_477B40();
+    EXPORT s16 Brain_ListeningToAbe_4_Real_477B40();
+    EXPORT s16 Brain_ListeningToAbe_4_477B40();
 
-    s16 AI_ListeningToAbe_State_0();
-    s16 AI_ListeningToAbe_State_1();
-    s16 AI_ListeningToAbe_State_2();
-    s16 AI_ListeningToAbe_State_3();
-    s16 AI_ListeningToAbe_State_4();
-    s16 AI_ListeningToAbe_State_5();
-    s16 AI_ListeningToAbe_State_6();
-    s16 AI_ListeningToAbe_State_7();
-    s16 AI_ListeningToAbe_State_8();
-    s16 AI_ListeningToAbe_State_9();
-    s16 AI_ListeningToAbe_State_10();
-    s16 AI_ListeningToAbe_State_11();
-    s16 AI_ListeningToAbe_State_12();
-    s16 AI_ListeningToAbe_State_13();
-    s16 AI_ListeningToAbe_State_14();
-    s16 AI_ListeningToAbe_State_15();
-    s16 AI_ListeningToAbe_State_16();
-    s16 AI_ListeningToAbe_State_17();
-    s16 AI_ListeningToAbe_State_18();
-    s16 AI_ListeningToAbe_State_19();
-    s16 AI_ListeningToAbe_State_20();
-    s16 AI_ListeningToAbe_State_21();
-    s16 AI_ListeningToAbe_State_22();
+    s16 Brain_ListeningToAbe_State_0();
+    s16 Brain_ListeningToAbe_State_1();
+    s16 Brain_ListeningToAbe_State_2();
+    s16 Brain_ListeningToAbe_State_3();
+    s16 Brain_ListeningToAbe_State_4();
+    s16 Brain_ListeningToAbe_State_5();
+    s16 Brain_ListeningToAbe_State_6();
+    s16 Brain_ListeningToAbe_State_7();
+    s16 Brain_ListeningToAbe_State_8();
+    s16 Brain_ListeningToAbe_State_9();
+    s16 Brain_ListeningToAbe_State_10();
+    s16 Brain_ListeningToAbe_State_11();
+    s16 Brain_ListeningToAbe_State_12();
+    s16 Brain_ListeningToAbe_State_13();
+    s16 Brain_ListeningToAbe_State_14();
+    s16 Brain_ListeningToAbe_State_15();
+    s16 Brain_ListeningToAbe_State_16();
+    s16 Brain_ListeningToAbe_State_17();
+    s16 Brain_ListeningToAbe_State_18();
+    s16 Brain_ListeningToAbe_State_19();
+    s16 Brain_ListeningToAbe_State_20();
+    s16 Brain_ListeningToAbe_State_21();
+    s16 Brain_ListeningToAbe_State_22();
 
-    EXPORT s16 AI_ShrivelDeath_5_4714A0();
-    EXPORT s16 AI_Escape_6_47A560();
-    EXPORT s16 AI_FallAndSmackDeath_7_471600();
-    EXPORT s16 AI_AngryWorker_8_47E910();
-    EXPORT s16 AI_Sick_9_47A910();
+    EXPORT s16 Brain_ShrivelDeath_5_4714A0();
+    EXPORT s16 Brain_Escape_6_47A560();
+    EXPORT s16 Brain_FallAndSmackDeath_7_471600();
+    EXPORT s16 Brain_AngryWorker_8_47E910();
+    EXPORT s16 Brain_Sick_9_47A910();
 
-public: // Motion states
+public: // Motions
     EXPORT void M_Idle_0_4724E0();
     EXPORT void M_WalkLoop_1_4728B0();
     EXPORT void M_StandingTurn_2_472BF0();
@@ -455,7 +455,7 @@ private:
     EXPORT void ToStand_4724A0();
 
     EXPORT s16 FindWheel_4777B0(FP xpos, FP ypos);
-    EXPORT s16 GetAISubStateResponse_477AF0(MudAction action);
+    EXPORT s16 GetBrainSubStateResponse_477AF0(MudAction action);
     EXPORT s16 StopAtWheel_477880();
     EXPORT void StandingKnockBack_473190();
     EXPORT s16 IsMotionUnknown_4730F0();
@@ -466,7 +466,7 @@ private:
     void AddAlerted();
 
     void RemoveAlerted();
-    s16 AIStartWheelTurning();
+    s16 BrainStartWheelTurning();
     bool NeedToTurnAround();
 
     EXPORT void ReduceXVelocityBy_472260(FP velXScaleBy);
@@ -554,7 +554,7 @@ private:
     s16 field_172_padding;
     s16 field_174_padding;
     s16 field_176_padding;
-    s16 field_178_sub_state2;
+    s16 field_178_brain_sub_state2;
     s16 field_17A_rescue_id;
     s16 field_17C_stand_idle_timer;
     MudAction field_17E_delayed_speak;
@@ -566,10 +566,10 @@ private:
     s16 field_18C_unused;
 
 public:
-    Mud_AI_State field_18E_ai_state;
+    Mud_Brain_State field_18E_brain_state;
 
 private:
-    s16 field_190_sub_state;
+    s16 field_190_brain_sub_state;
     s16 field_192_return_to_previous_motion;
     s32 field_194_timer;
     s32 field_198_turning_wheel_timer;
