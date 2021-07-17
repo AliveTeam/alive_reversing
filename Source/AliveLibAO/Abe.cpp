@@ -1075,10 +1075,10 @@ void Abe::vUpdate_41FDB0()
 
 
             // Execute the current state
-            s16 state_idx = field_FC_current_motion;
+            s16 motion_idx = field_FC_current_motion;
             const FP oldX = field_A8_xpos;
             const FP oldY = field_AC_ypos;
-            (this->*sAbeMotionMachineTable_4C5F08[state_idx])();
+            (this->*sAbeMotionMachineTable_4C5F08[motion_idx])();
 
             if (field_F4_pLine)
             {
@@ -1104,9 +1104,9 @@ void Abe::vUpdate_41FDB0()
 
                 if (field_106_shot)
                 {
-                    state_idx = field_112_prev_motion;
+                    motion_idx = field_112_prev_motion;
                     ToKnockback_422D90(1, 0);
-                    field_FC_current_motion = state_idx;
+                    field_FC_current_motion = motion_idx;
                     field_FE_next_motion = 0;
                     field_112_prev_motion = 0;
                     field_108_bMotionChanged = 1;
@@ -1124,7 +1124,7 @@ void Abe::vUpdate_41FDB0()
                     }
                 }
 
-                if (state_idx != field_FC_current_motion || field_108_bMotionChanged)
+                if (motion_idx != field_FC_current_motion || field_108_bMotionChanged)
                 {
                     field_108_bMotionChanged = FALSE;
 
@@ -1136,7 +1136,7 @@ void Abe::vUpdate_41FDB0()
 
                         field_12C_timer = gnFrameCount_507670;
 
-                        if (state_idx == eAbeMotions::Motion_15_Null_42A210 || state_idx == eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0)
+                        if (motion_idx == eAbeMotions::Motion_15_Null_42A210 || motion_idx == eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0)
                         {
                             field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
                         }
@@ -1909,7 +1909,7 @@ void Abe::ElumFree_4228F0()
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_223, 1, 0));
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmprmntResID__222, 0, 0));
 
-        if (gElum_507680->field_FC_current_motion != eElumStates::State_1_Idle_412990)
+        if (gElum_507680->field_FC_current_motion != eElumMotions::Motion_1_Idle_412990)
         {
             gElum_507680->Vsub_416120();
         }
@@ -1929,7 +1929,7 @@ void Abe::ElumFree_4228F0()
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_224, 1, 0));
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_221, 0, 0));
 
-        if (gElum_507680->field_FC_current_motion != eElumStates::State_1_Idle_412990)
+        if (gElum_507680->field_FC_current_motion != eElumMotions::Motion_1_Idle_412990)
         {
             gElum_507680->Vsub_416120();
         }
@@ -2070,148 +2070,148 @@ void Abe::SyncToElum_42D850(s16 elumMotion)
     {
         switch (elumMotion)
         {
-            case eElumStates::State_1_Idle_412990:
+            case eElumMotions::Motion_1_Idle_412990:
                 field_FC_current_motion = eAbeMotions::Motion_103_ElumIdle_42DCD0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 field_F4_pLine = gElum_507680->field_F4_pLine;
                 break;
 
-            case eElumStates::State_3_WalkLoop_412C90:
+            case eElumMotions::Motion_3_WalkLoop_412C90:
                 field_FC_current_motion = eAbeMotions::Motion_102_ElumWalkLoop_42DCA0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 field_F4_pLine = gElum_507680->field_F4_pLine;
                 break;
 
-            case eElumStates::State_4_Turn_4140F0:
+            case eElumMotions::Motion_4_Turn_4140F0:
                 field_FC_current_motion = eAbeMotions::Motion_113_ElumTurn_42DF90;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_5_WalkToIdle_4132D0:
+            case eElumMotions::Motion_5_WalkToIdle_4132D0:
                 field_FC_current_motion = eAbeMotions::Motion_124_ElumWalkEnd_42DCB0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_6_MidWalkToIdle_4133F0:
+            case eElumMotions::Motion_6_MidWalkToIdle_4133F0:
                 field_FC_current_motion = eAbeMotions::Motion_125_ElumMidWalkEnd_42DCC0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_7_IdleToWalk1_413200:
+            case eElumMotions::Motion_7_IdleToWalk1_413200:
                 field_FC_current_motion = eAbeMotions::Motion_116_42DFB0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_8_IdleToWalk2_413270:
+            case eElumMotions::Motion_8_IdleToWalk2_413270:
                 field_FC_current_motion = eAbeMotions::Motion_117_ElumWalkBegin_42DFC0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_12_RunTurn_414520:
+            case eElumMotions::Motion_12_RunTurn_414520:
                 field_FC_current_motion = eAbeMotions::Motion_105_ElumRunTurn_42DF10;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_13_RunTurnToWalk_4147C0:
+            case eElumMotions::Motion_13_RunTurnToWalk_4147C0:
                 field_FC_current_motion = eAbeMotions::Motion_123_ElumRunTurnToWalk_42E020;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_21_Land_414A20:
+            case eElumMotions::Motion_21_Land_414A20:
                 field_FC_current_motion = eAbeMotions::Motion_153_ElumFall_42E040;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 field_F4_pLine = nullptr;
                 break;
 
-            case eElumStates::State_22_RunOffEdge_415810:
+            case eElumMotions::Motion_22_RunOffEdge_415810:
                 field_FC_current_motion = eAbeMotions::Motion_154_ElumLand_42E050;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 field_F4_pLine = gElum_507680->field_F4_pLine;
                 break;
 
-            case eElumStates::State_23_WalkOffEdge_415E90:
+            case eElumMotions::Motion_23_WalkOffEdge_415E90:
                 field_FC_current_motion = eAbeMotions::Motion_152_ElumFallOffEdge_42E030;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 field_F4_pLine = nullptr;
                 break;
 
-            case eElumStates::State_24_JumpToFall_415ED0:
+            case eElumMotions::Motion_24_JumpToFall_415ED0:
                 field_FC_current_motion = eAbeMotions::Motion_155_ElumJumpToFall_42E060;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 field_F4_pLine = nullptr;
                 break;
 
-            case eElumStates::State_30_HopBegin_414E30:
+            case eElumMotions::Motion_30_HopBegin_414E30:
                 field_FC_current_motion = eAbeMotions::Motion_107_ElumHopBegin_42DF30;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 field_F4_pLine = nullptr;
                 break;
 
-            case eElumStates::State_31_HopMid_414C70:
+            case eElumMotions::Motion_31_HopMid_414C70:
                 field_FC_current_motion = eAbeMotions::Motion_108_ElumHopMid_42DF40;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_32_HopLand_415140:
+            case eElumMotions::Motion_32_HopLand_415140:
                 field_FC_current_motion = eAbeMotions::Motion_109_ElumHopLand_42DF50;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 field_F4_pLine = gElum_507680->field_F4_pLine;
                 break;
 
-            case eElumStates::State_33_RunJumpBegin_415400:
+            case eElumMotions::Motion_33_RunJumpBegin_415400:
                 field_FC_current_motion = eAbeMotions::Motion_110_ElumRunJumpBegin_42DF60;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 field_F4_pLine = nullptr;
                 break;
 
-            case eElumStates::State_34_RunJumpMid_415240:
+            case eElumMotions::Motion_34_RunJumpMid_415240:
                 field_FC_current_motion = eAbeMotions::Motion_111_ElumRunJumpMid_42DF70;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_35_RunJumpLand_415580:
+            case eElumMotions::Motion_35_RunJumpLand_415580:
                 field_FC_current_motion = eAbeMotions::Motion_112_ElumRunJumpLand_42DF80;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 field_F4_pLine = gElum_507680->field_F4_pLine;
                 break;
 
-            case eElumStates::State_36_RunLoop_413720:
+            case eElumMotions::Motion_36_RunLoop_413720:
                 field_FC_current_motion = eAbeMotions::Motion_114_ElumRunLoop_42DFA0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 field_F4_pLine = gElum_507680->field_F4_pLine;
                 break;
 
-            case eElumStates::State_37_RunSlideStop_4142E0:
+            case eElumMotions::Motion_37_RunSlideStop_4142E0:
                 field_FC_current_motion = eAbeMotions::Motion_104_ElumRunSlideStop_42DF00;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_38_RunTurnToRun_414810:
+            case eElumMotions::Motion_38_RunTurnToRun_414810:
                 field_FC_current_motion = eAbeMotions::Motion_122_ElumRunTurnToRun_42E010;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_39_IdleToRun_413B00:
+            case eElumMotions::Motion_39_IdleToRun_413B00:
                 field_FC_current_motion = eAbeMotions::Motion_118_ElumRunBegin_42DFD0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_40_WalkToRun_4134B0:
+            case eElumMotions::Motion_40_WalkToRun_4134B0:
                 field_FC_current_motion = eAbeMotions::Motion_119_42DFE0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_41_MidWalkToRun_413560:
+            case eElumMotions::Motion_41_MidWalkToRun_413560:
                 field_FC_current_motion = eAbeMotions::Motion_120_ElumRunToWalk_42DFF0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_43_MidRunToWalk_413E20:
+            case eElumMotions::Motion_43_MidRunToWalk_413E20:
                 field_FC_current_motion = eAbeMotions::Motion_121_ElumMidRunToWalk_42E000;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
-            case eElumStates::State_50_Knockback_415DC0:
+            case eElumMotions::Motion_50_Knockback_415DC0:
                 field_FC_current_motion = eAbeMotions::Motion_158_ElumKnockback_42E070;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
@@ -2625,7 +2625,7 @@ s16 Abe::TryMountElum_42E600()
                 return eAbeMotions::Motion_2_StandingTurn_426040;
             }
 
-            if (gElum_507680->field_FC_current_motion != eElumStates::State_1_Idle_412990
+            if (gElum_507680->field_FC_current_motion != eElumMotions::Motion_1_Idle_412990
                 || gElum_507680->field_128_brain_idx == 1
                 || gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1))
             {
@@ -4309,7 +4309,7 @@ void Abe::Motion_2_StandingTurn_426040()
 
             if (gElum_507680)
             {
-                if (gElum_507680->field_FC_current_motion == eElumStates::State_1_Idle_412990 && !(gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1)))
+                if (gElum_507680->field_FC_current_motion == eElumMotions::Motion_1_Idle_412990 && !(gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1)))
                 {
                     LoadMountElumResources_42E690();
                     field_FE_next_motion = eAbeMotions::Motion_0_Idle_423520;
@@ -7252,7 +7252,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
             gElum_507680->field_120_bUnknown = 1;
             gElum_507680->field_122_bDontFollowAbe = pSaveData->field_276_bDontFollowAbe;
             gElum_507680->field_128_brain_idx = pSaveData->field_278_brain_idx;
-            gElum_507680->field_12A_brain_state = pSaveData->field_27A_elum_brain_state;
+            gElum_507680->field_12A_brain_sub_state = pSaveData->field_27A_elum_brain_state;
             gElum_507680->field_12C_honey_xpos = static_cast<s16>(pSaveData->field_27C_honey_xpos);
             gElum_507680->field_146_honey_ypos = pSaveData->field_280_honey_ypos;
             gElum_507680->field_130_unused = pSaveData->field_284_unused;
@@ -7278,13 +7278,13 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
                             1 << pSaveData->field_270_elum_line_type))
                     {
                         gElum_507680->field_F4_pLine = pLine;
-                        gElum_507680->field_FC_current_motion = eElumStates::State_1_Idle_412990;
-                        gElum_507680->field_E4_previous_motion = eElumStates::State_1_Idle_412990;
+                        gElum_507680->field_FC_current_motion = eElumMotions::Motion_1_Idle_412990;
+                        gElum_507680->field_E4_previous_motion = eElumMotions::Motion_1_Idle_412990;
                     }
                     else
                     {
-                        gElum_507680->field_FC_current_motion = eElumStates::State_21_Land_414A20;
-                        gElum_507680->field_E4_previous_motion = eElumStates::State_21_Land_414A20;
+                        gElum_507680->field_FC_current_motion = eElumMotions::Motion_21_Land_414A20;
+                        gElum_507680->field_E4_previous_motion = eElumMotions::Motion_21_Land_414A20;
                     }
                 }
             }
@@ -7299,8 +7299,8 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
                 {
                     ResourceManager::LoadResourceFile_455270("ELMHONEY.BAN", 0);
                 }
-                gElum_507680->field_FC_current_motion = eElumStates::State_25_LickingHoney_415B50;
-                gElum_507680->field_E4_previous_motion = eElumStates::State_25_LickingHoney_415B50;
+                gElum_507680->field_FC_current_motion = eElumMotions::Motion_25_LickingHoney_415B50;
+                gElum_507680->field_E4_previous_motion = eElumMotions::Motion_25_LickingHoney_415B50;
             }
             gElum_507680->MapFollowMe_401D30(TRUE);
             gElum_507680->field_6_flags.Set(Options::eUpdatable_Bit2);

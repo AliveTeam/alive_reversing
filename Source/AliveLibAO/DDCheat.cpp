@@ -259,7 +259,7 @@ void DDCheat::VUpdate_4098C0()
                         {
                             case Types::eElum_26:
                             {
-                                sControlledCharacter_50767C->field_FC_current_motion = eElumStates::State_21_Land_414A20;
+                                sControlledCharacter_50767C->field_FC_current_motion = eElumMotions::Motion_21_Land_414A20;
                                 break;
                             }
                             case Types::eAbe_43:
