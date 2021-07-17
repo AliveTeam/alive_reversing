@@ -39,10 +39,18 @@ public:
     EXPORT void VUpdate_41DD60();
 
     s32 field_10C_tlvInfo;
-    s16 field_110_state;
+    enum class State : s16
+    {
+        eToSetSpeakPauseTimer_0 = 0,
+        eSetSpeakPauseTimer_1 = 1,
+        eRandomizedLaugh_2 = 2,
+        eAfterLaugh_SetSpeakPauseTimer_3 = 3,
+        eKilledByShrykull_7 = 7
+    };
+    State field_110_state;
     s16 field_112_pad;
-    s32 field_114_timer2;
-    s32 field_118_timer1;
+    s32 field_114_speak_pause_timer;
+    s32 field_118_never_read;
     s32 field_11C_voice_adjust;
     s16 field_120_target_id;
     s16 field_122_padding;
