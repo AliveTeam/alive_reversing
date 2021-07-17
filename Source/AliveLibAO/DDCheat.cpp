@@ -264,7 +264,7 @@ void DDCheat::VUpdate_4098C0()
                             }
                             case Types::eAbe_43:
                             {
-                                sControlledCharacter_50767C->field_FC_current_motion = eAbeStates::State_3_Fall_42E7F0;
+                                sControlledCharacter_50767C->field_FC_current_motion = eAbeMotions::Motion_3_Fall_42E7F0;
                                 break;
                             }
                             case Types::eSlig_88:

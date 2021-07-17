@@ -135,7 +135,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, s32 bKillObjects)
     }
 
     sActiveHero_507678->field_2AC_pSaveData = pData;
-    sActiveHero_507678->field_FC_current_motion = eAbeStates::State_62_LoadedSaveSpawn_45ADD0;
+    sActiveHero_507678->field_FC_current_motion = eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0;
     sActiveHero_507678->field_114_gnFrame = 0;
 
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, sActiveHero_507678, 0, 0);

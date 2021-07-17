@@ -102,7 +102,7 @@ void RockSack::VUpdate_4575F0()
                 Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
             }
 
-            if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_33_RunJumpMid_426FA0)
+            if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
             {
                 field_10_anim.Set_Animation_Data_402A40(13708, 0);
             }

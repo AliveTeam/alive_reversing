@@ -1144,7 +1144,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 }
             }
 
-            if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_139_ElumMountBegin_42E090)
+            if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_139_ElumMountBegin_42E090)
             {
                 field_FC_current_motion = eElumStates::State_48_AbeMoutingBegin_415C40;
                 return 16;
@@ -1281,7 +1281,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return 7;
             }
 
-            if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_139_ElumMountBegin_42E090)
+            if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_139_ElumMountBegin_42E090)
             {
                 field_FC_current_motion = eElumStates::State_48_AbeMoutingBegin_415C40;
                 return 16;
@@ -1548,7 +1548,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                         field_FE_next_motion = eElumStates::State_25_LickingHoney_415B50;
                         if (sControlledCharacter_50767C == this)
                         {
-                            SetAbeAsPlayer_412520(eAbeStates::State_128_KnockForward_429330);
+                            SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward_429330);
                         }
                         return 3;
                     }
@@ -1572,7 +1572,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                         field_FE_next_motion = eElumStates::State_25_LickingHoney_415B50;
                         if (sControlledCharacter_50767C == this)
                         {
-                            SetAbeAsPlayer_412520(eAbeStates::State_128_KnockForward_429330);
+                            SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward_429330);
                         }
                         return 3;
                     }
@@ -1600,7 +1600,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                     field_FE_next_motion = eElumStates::State_25_LickingHoney_415B50;
                     if (sControlledCharacter_50767C == this)
                     {
-                        SetAbeAsPlayer_412520(eAbeStates::State_128_KnockForward_429330);
+                        SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward_429330);
                     }
                     return 3;
                 }
@@ -1613,7 +1613,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                     field_FE_next_motion = eElumStates::State_25_LickingHoney_415B50;
                     if (sControlledCharacter_50767C == this)
                     {
-                        SetAbeAsPlayer_412520(eAbeStates::State_128_KnockForward_429330);
+                        SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward_429330);
                     }
                     return 3;
                 }
@@ -1638,7 +1638,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
 
             if (sControlledCharacter_50767C == this)
             {
-                SetAbeAsPlayer_412520(eAbeStates::State_128_KnockForward_429330);
+                SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward_429330);
             }
 
             field_FE_next_motion = eElumStates::State_25_LickingHoney_415B50;
@@ -1883,13 +1883,13 @@ void Elum::State_1_Idle_412990()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_115_ElumSpeak_4299F0 && !ToNextState_4120F0())
+    if (sActiveHero_507678->field_FC_current_motion != eAbeMotions::Motion_115_ElumSpeak_4299F0 && !ToNextState_4120F0())
     {
-        if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_150_Chant_42FD50 && sControlledCharacter_50767C == sActiveHero_507678)
+        if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_150_Chant_42FD50 && sControlledCharacter_50767C == sActiveHero_507678)
         {
             field_FC_current_motion = eElumStates::State_9_ToYell_415890;
         }
-        else if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_137_ElumUnmountBegin_42E2B0)
+        else if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0)
         {
             ResourceManager::FreeResource_455550(field_174_resources.res[20]);
             field_174_resources.res[20] = nullptr;
@@ -2652,7 +2652,7 @@ void Elum::State_26_LickingToStruggling_415AC0()
 
 void Elum::State_27_AbeMountingEnd_415CA0()
 {
-    if (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_136_ElumMountEnd_42E110 && field_104_pending_resource_count == 0)
+    if (sActiveHero_507678->field_FC_current_motion != eAbeMotions::Motion_136_ElumMountEnd_42E110 && field_104_pending_resource_count == 0)
     {
         VLoadMountedResources_411300();
         ToIdle();
@@ -2661,7 +2661,7 @@ void Elum::State_27_AbeMountingEnd_415CA0()
 
 void Elum::State_28_AbeUnmountingEnd_415D60()
 {
-    if (sActiveHero_507678->field_FC_current_motion != State_138_ElumUnmountEnd_42E390
+    if (sActiveHero_507678->field_FC_current_motion != eAbeMotions::Motion_138_ElumUnmountEnd_42E390
         && !field_104_pending_resource_count)
     {
         VLoadUnmountedResources_411260();
@@ -3125,7 +3125,7 @@ void Elum::State_37_RunSlideStop_4142E0()
             field_118_jump_velx = FP_FromInteger(0);
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
-            field_FC_current_motion = eAbeStates::State_1_WalkLoop_423F90;
+            field_FC_current_motion = eAbeMotions::Motion_1_WalkLoop_423F90;
             field_110_timer = gnFrameCount_507670;
             field_10E_pressed = 0;
             MapFollowMe_401D30(TRUE);
@@ -3431,7 +3431,7 @@ void Elum::State_47_Unknown_415A30()
 
 void Elum::State_48_AbeMoutingBegin_415C40()
 {
-    if (sActiveHero_507678->field_FC_current_motion == eAbeStates::State_136_ElumMountEnd_42E110)
+    if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_136_ElumMountEnd_42E110)
     {
         VFreeUnmountedResources_4112B0();
 
@@ -3453,7 +3453,7 @@ void Elum::State_48_AbeMoutingBegin_415C40()
 
 void Elum::State_49_AbeUnmountingBegin_415D00()
 {
-    if (sActiveHero_507678->field_FC_current_motion != eAbeStates::State_137_ElumUnmountBegin_42E2B0)
+    if (sActiveHero_507678->field_FC_current_motion != eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0)
     {
         VFreeMountedResources_411200();
 
