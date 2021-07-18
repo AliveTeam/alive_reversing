@@ -49,9 +49,9 @@ Bells* Bells::ctor_40A650(BellSize bellType, FP xpos, FP ypos, FP scale)
 
     field_E8_bSmashing = 0;
 
-    field_EC_timer = 0;
-    field_F4_timer = 0;
-    field_F0_timer = 0;
+    field_EC_bDoScreenWave = 0;
+    field_F4_sound_cooldown_timer = 0;
+    field_F0_sound_pitch_factor = 0;
 
     return this;
 }
@@ -69,10 +69,10 @@ void Bells::VUpdate()
 
 void Bells::VUpdate_40A770()
 {
-    if (field_F0_timer > 0 && static_cast<s32>(gnFrameCount_507670) >= field_F4_timer)
+    if (field_F0_sound_pitch_factor > 0 && static_cast<s32>(gnFrameCount_507670) >= field_F4_sound_cooldown_timer)
     {
-        field_F4_timer = gnFrameCount_507670 + 4;
-        field_F0_timer--;
+        field_F4_sound_cooldown_timer = gnFrameCount_507670 + 4;
+        field_F0_sound_pitch_factor--;
 
         if (field_EA_sound == Sounds::eLowPitch_0)
         {
@@ -80,20 +80,19 @@ void Bells::VUpdate_40A770()
         }
         else if (field_EA_sound == Sounds::eMediumPitch_1)
         {
-            SFX_Play_43AE60(SoundEffect::BellChime_MediumPitch_51, 45 * (field_F0_timer + 1), 128 - (field_F0_timer << 7), 0);
+            SFX_Play_43AE60(SoundEffect::BellChime_MediumPitch_51, 45 * (field_F0_sound_pitch_factor + 1), 128 - (field_F0_sound_pitch_factor << 7), 0);
         }
         else if (field_EA_sound == Sounds::eHighPitch_2)
         {
-            SFX_Play_43AE60(SoundEffect::BellChime_HighPitch_50, 30 * (field_F0_timer + 1), (2 - field_F0_timer) << 7, 0);
+            SFX_Play_43AE60(SoundEffect::BellChime_HighPitch_50, 30 * (field_F0_sound_pitch_factor + 1), (2 - field_F0_sound_pitch_factor) << 7, 0);
         }
     }
 
-
     if (field_E8_bSmashing == 1)
     {
-        if (field_EC_timer > 0)
+        if (field_EC_bDoScreenWave > 0)
         {
-            field_EC_timer--;
+            field_EC_bDoScreenWave--;
 
             FP xOff = {};
             FP yOff = {};
@@ -192,22 +191,22 @@ void Bells::Ring_40AA80()
     if (field_E8_bSmashing == 0)
     {
         field_E8_bSmashing = 1;
-        field_EC_timer = 1;
-        field_F4_timer = 0;
+        field_EC_bDoScreenWave = 1;
+        field_F4_sound_cooldown_timer = 0;
 
         if (field_EA_sound == Sounds::eLowPitch_0)
         {
-            field_F0_timer = 1;
+            field_F0_sound_pitch_factor = 1;
             field_10_anim.Set_Animation_Data_402A40(19380, 0);
         }
         else if (field_EA_sound == Sounds::eMediumPitch_1)
         {
-            field_F0_timer = 2;
+            field_F0_sound_pitch_factor = 2;
             field_10_anim.Set_Animation_Data_402A40(19312, 0);
         }
         else if (field_EA_sound == Sounds::eHighPitch_2)
         {
-            field_F0_timer = 3;
+            field_F0_sound_pitch_factor = 3;
             field_10_anim.Set_Animation_Data_402A40(19264, 0);
         }
     }

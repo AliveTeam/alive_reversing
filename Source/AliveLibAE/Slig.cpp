@@ -2319,7 +2319,7 @@ void Slig::M_ShootZ_42_4B7560()
         }
         else
         {
-            bulletType = BulletType::ZBullet_3;
+            bulletType = BulletType::eZBullet_3;
         }
 
         auto pBullet = ae_new<Bullet>();
@@ -6967,7 +6967,7 @@ s16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
                 }
 
                 case BulletType::ePossessedSligZBullet_1:
-                case BulletType::ZBullet_3:
+                case BulletType::eZBullet_3:
                 {
                     PSX_RECT myRect = {};
                     vGetBoundingRect_424FD0(&myRect, 1);

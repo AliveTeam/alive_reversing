@@ -74,7 +74,7 @@ enum class Types : s16
     eParamite_62 = 62,
     eDemoPlayback = 64,
     eBirdPortal_65 = 65,
-    e66 = 66,
+    eBirdPortalTerminator_66 = 66,
     eFG1_67 = 67,
     ePullRingRope_68 = 68,
     eAbilityRing_69 = 69,
@@ -165,8 +165,8 @@ public:
     BitField16<Options> field_6_flags;
     s32 field_8_update_delay;
     s8 field_C_refCount;
-    s8 field_D;  // pad ?
-    s16 field_E; // ??
+    s8 field_D_padding;
+    s16 field_E_padding;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 

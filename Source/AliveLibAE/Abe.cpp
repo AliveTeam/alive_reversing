@@ -9411,7 +9411,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 field_D6_scale != 0 ? 1 : 16)
             == 1)
         {
-            if (pBullet->field_20_type != BulletType::ePossessedSligZBullet_1 && pBullet->field_20_type != BulletType::ZBullet_3)
+            if (pBullet->field_20_type != BulletType::ePossessedSligZBullet_1 && pBullet->field_20_type != BulletType::eZBullet_3)
             {
                 auto pSpark = ae_new<Spark>();
                 if (pSpark)
@@ -9497,7 +9497,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         }
 
         case BulletType::ePossessedSligZBullet_1:
-        case BulletType::ZBullet_3:
+        case BulletType::eZBullet_3:
         {
             if (field_CC_sprite_scale == FP_FromDouble(0.5))
             {

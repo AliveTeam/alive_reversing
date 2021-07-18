@@ -3437,7 +3437,7 @@ s16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
                     break;
 
                 case BulletType::ePossessedSligZBullet_1:
-                case BulletType::ZBullet_3:
+                case BulletType::eZBullet_3:
                 {
                     auto pBlood = ae_new<Blood>();
                     if (pBlood)

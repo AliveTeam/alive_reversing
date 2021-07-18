@@ -22,7 +22,7 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
     Animation_Init_417FD0(4488, 71, 69, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-    field_F0_bSpawnElum = 0;
+    field_F0_bSpawnElum = FALSE;
     field_E4_state = BellHammerStates::eWaitForActivation_0;
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 82);
@@ -167,7 +167,7 @@ void BellHammer::VUpdate_405320()
                 // Spawn the foo if he ain't already here
                 if (gElum_507680 == nullptr)
                 {
-                    field_F0_bSpawnElum = 1;
+                    field_F0_bSpawnElum = TRUE;
                 }
             }
             else
@@ -192,7 +192,7 @@ void BellHammer::VUpdate_405320()
     {
         if (field_EC_pending_resource_count == 0)
         {
-            field_F0_bSpawnElum = 0;
+            field_F0_bSpawnElum = FALSE;
             TlvItemInfoUnion info;
             info.all = field_E8_tlvInfo;
             Elum::Spawn_410E90(info);

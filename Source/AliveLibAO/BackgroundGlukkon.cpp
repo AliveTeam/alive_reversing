@@ -77,7 +77,7 @@ BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_BackgroundGlukkon* pTlv, 
 
     field_120_target_id = pTlv->field_1C_target_id;
     field_11C_voice_adjust = pTlv->field_1E_voice_adjust;
-    field_110_state = 0;
+    field_110_state = BackgroundGlukkon::State::eToSetSpeakPauseTimer_0;
     return this;
 }
 
@@ -114,7 +114,7 @@ s16 BackgroundGlukkon::VTakeDamage_41DF80(BaseGameObject* pFrom)
         }
 
         field_10_anim.Set_Animation_Data_402A40(46232, 0);
-        field_110_state = 7;
+        field_110_state = BackgroundGlukkon::State::eKilledByShrykull_7;
     }
     else if (pFrom->field_4_typeId == Types::eElectrocute_103 && field_100_health > FP_FromInteger(0))
     {
@@ -146,18 +146,18 @@ void BackgroundGlukkon::VUpdate_41DD60()
 
     switch (field_110_state)
     {
-        case 0:
-            field_110_state = 1;
-            field_118_timer1 = gnFrameCount_507670 + Math_RandomRange_450F20(20, 40);
+        case BackgroundGlukkon::State::eToSetSpeakPauseTimer_0:
+            field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;
+            field_118_never_read = gnFrameCount_507670 + Math_RandomRange_450F20(20, 40);
             break;
 
-        case 1:
-            field_110_state = 2;
-            field_114_timer2 = gnFrameCount_507670 + Math_RandomRange_450F20(12, 20);
+        case BackgroundGlukkon::State::eSetSpeakPauseTimer_1:
+            field_110_state = BackgroundGlukkon::State::eRandomizedLaugh_2;
+            field_114_speak_pause_timer = gnFrameCount_507670 + Math_RandomRange_450F20(12, 20);
             break;
 
-        case 2:
-            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer2)
+        case BackgroundGlukkon::State::eRandomizedLaugh_2:
+            if (static_cast<s32>(gnFrameCount_507670) > field_114_speak_pause_timer)
             {
                 const auto rndVol = Math_RandomRange_450F20(110, 127);
                 const auto rndPitch = ((Math_NextRandom() % 4) * 128) + 200;
@@ -175,7 +175,7 @@ void BackgroundGlukkon::VUpdate_41DD60()
                             field_10_anim.Set_Animation_Data_402A40(46128, 0);
                             SFX_Play_43AE60(SoundEffect::GlukkonKillHim1_101, rndVol, rndPitch, 0);
                         }
-                        field_110_state = 3;
+                        field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
 
                     case 1:
@@ -189,7 +189,7 @@ void BackgroundGlukkon::VUpdate_41DD60()
                             field_10_anim.Set_Animation_Data_402A40(46180, 0);
                             SFX_Play_43AE60(SoundEffect::GlukkonKillHim2_102, rndVol, rndPitch, 0);
                         }
-                        field_110_state = 3;
+                        field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
 
                     case 2:
@@ -203,7 +203,7 @@ void BackgroundGlukkon::VUpdate_41DD60()
                             field_10_anim.Set_Animation_Data_402A40(46128, 0);
                             SFX_Play_43AE60(SoundEffect::Empty_105, rndVol, rndPitch, 0);
                         }
-                        field_110_state = 3;
+                        field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
 
                     case 3:
@@ -212,24 +212,24 @@ void BackgroundGlukkon::VUpdate_41DD60()
                             field_10_anim.Set_Animation_Data_402A40(46180, 0);
                             SFX_Play_43AE60(SoundEffect::Empty_106, rndVol, rndPitch, 0);
                         }
-                        field_110_state = 3;
+                        field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
 
                     case 4:
                         return;
 
                     default:
-                        field_110_state = 3;
+                        field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
                 }
             }
             break;
 
-        case 3:
+        case BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3:
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_10_anim.Set_Animation_Data_402A40(46096, 0);
-                field_110_state = 1;
+                field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;
             }
             break;
 

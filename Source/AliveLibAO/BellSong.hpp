@@ -28,7 +28,7 @@ public:
     BellsongTypes field_16_type;
     s32 field_18_code;
     s16 field_1C_code_len;
-    s16 field_1E;
+    s16 field_1E_padding;
 };
 ALIVE_ASSERT_SIZEOF(BellSong, 0x20);
 

@@ -22,6 +22,7 @@
 #include "OrbWhirlWind.hpp"
 #include "ScreenClipper.hpp"
 #include "Sys_common.hpp"
+#include "AbilityRing.hpp"
 
 BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, s32 tlvInfo)
 {
@@ -272,6 +273,20 @@ void BirdPortal::vUpdate_498280()
                     }
                     ResourceManager::FreeResource_49C330(ppLightRes);
                 }
+                // add the ring effects from AO because why not :)
+                if (!(sGnFrame_5C1B84 % 8))
+                {
+                    AbilityRing::Factory_482F80(
+                        pTerminator1->field_B8_xpos,
+                        pTerminator1->field_BC_ypos,
+                        RingTypes::eShrykull_Pulse_Orange_6,
+                        field_60_scale);
+                    AbilityRing::Factory_482F80(
+                        pTerminator2->field_B8_xpos,
+                        pTerminator2->field_BC_ypos,
+                        RingTypes::eShrykull_Pulse_Orange_6,
+                        field_60_scale);
+                }
             }
             else
             {
@@ -286,7 +301,7 @@ void BirdPortal::vUpdate_498280()
 
         case PortalStates::ShrykullGetDoves_7:
             BirdPortal::KillTerminators_499220();
-            if (field_84 >= 7)
+            if (field_84_received_doves >= 7)
             {
                 field_28_state = PortalStates::GetShrykull_9;
                 field_5C_timer = sGnFrame_5C1B84 + 20;
@@ -324,8 +339,8 @@ void BirdPortal::vUpdate_498280()
                     SFX_Play_46FA90(SoundEffect::Dove_13, 70, field_60_scale);
                     pDove_1->field_CC_sprite_scale = field_60_scale;
                     pDove_1->AsJoin_41F940(sActiveHero_5C1B68->field_B8_xpos, FP_FromInteger(Math_RandomRange_496AB0(-36, 4)) + sActiveHero_5C1B68->field_BC_ypos);
-
-                    if (++field_84 == 6)
+                    field_84_received_doves++;
+                    if (field_84_received_doves == 6)
                     {
                         field_88_pWhirlWind->ToSpin_4E3FD0(
                             sActiveHero_5C1B68->field_B8_xpos,
@@ -458,27 +473,7 @@ void BirdPortal::vUpdate_498280()
                 gPsxDisplay_5C1130.field_2_height,
                 pScreenManager_5BB5F4->field_3A_idx);
 
-            auto pNewTerminator1 = ae_new<BirdPortalTerminator>();
-            if (pNewTerminator1)
-            {
-                pNewTerminator1->ctor_497960(
-                    field_2C_xpos,
-                    field_30_ypos,
-                    field_60_scale,
-                    field_24_portal_type);
-                field_6C_terminator_id = pNewTerminator1->field_8_object_id;
-            }
-
-            auto pNewTerminator2 = ae_new<BirdPortalTerminator>();
-            if (pNewTerminator2)
-            {
-                pNewTerminator2->ctor_497960(
-                    field_2C_xpos,
-                    field_30_ypos,
-                    field_60_scale,
-                    field_24_portal_type);
-                field_70_terminator_id = pNewTerminator2->field_8_object_id;
-            }
+            CreateTerminators_497D10();
 
             field_28_state = PortalStates::PortalExit_CreateTerminators_18;
             field_90_sfx_ret = SFX_Play_46FA90(SoundEffect::PortalOpening_58, 0, field_60_scale);
@@ -680,7 +675,7 @@ BOOL BirdPortal::VActivePortal_499830()
 
 void BirdPortal::VGiveShrukull_499680(s16 bPlaySound)
 {
-    return vGiveShrukull_499680(bPlaySound);
+    return vGiveShryukull_499680(bPlaySound);
 }
 
 BOOL BirdPortal::VAbeInsidePortal_499850()
@@ -875,7 +870,7 @@ BOOL BirdPortal::vActivePortal_499830()
     return field_28_state == PortalStates::ActivePortal_6;
 }
 
-void BirdPortal::vGiveShrukull_499680(s16 bPlaySound)
+void BirdPortal::vGiveShryukull_499680(s16 bPlaySound)
 {
     if (sActiveHero_5C1B68 != spAbe_554D5C)
     {
@@ -884,7 +879,7 @@ void BirdPortal::vGiveShrukull_499680(s16 bPlaySound)
             SND_SEQ_Play_4CAB10(SeqId::SecretMusic_32, 1, 127, 127);
             field_28_state = PortalStates::ShrykullGetDoves_7;
             field_5C_timer = sGnFrame_5C1B84 + 12;
-            field_84 = 0;
+            field_84_received_doves = 0;
 
             field_88_pWhirlWind = ae_new<OrbWhirlWind>();
             if (field_88_pWhirlWind)

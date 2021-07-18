@@ -39,10 +39,10 @@ public:
 
     static EXPORT void CC OnResLoaded_405210(BellHammer* pThis);
 
-    s32 field_D4;
-    s32 field_D8;
-    s32 field_DC;
-    s32 field_E0;
+    s32 field_D4_padding;
+    s32 field_D8_padding;
+    s32 field_DC_padding;
+    s32 field_E0_padding;
     BellHammerStates field_E4_state;
     s16 field_E6_switch_id;
     s32 field_E8_tlvInfo;

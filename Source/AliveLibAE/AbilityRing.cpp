@@ -70,11 +70,11 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
 
         if (d1 <= d2)
         {
-            field_26C_fade = static_cast<s16>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height));
+            field_26C_fadeout_distance = static_cast<s16>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0, gPsxDisplay_5C1130.field_2_height));
         }
         else
         {
-            field_26C_fade = static_cast<s16>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, 0, 0, 0));
+            field_26C_fadeout_distance = static_cast<s16>(MinDistance(field_272_screenXPos, field_274_screenYPos, gPsxDisplay_5C1130.field_0_width, 0, 0, 0));
         }
 
         field_284_ring_type = ringType;
@@ -163,7 +163,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
                 field_25C_speed = FP_FromInteger(4);
                 field_258_right = FP_FromInteger(4);
                 field_254_left = FP_FromInteger(0);
-                field_26C_fade = 50;
+                field_26C_fadeout_distance = 50;
 
                 switch (field_284_ring_type)
                 {
@@ -418,7 +418,7 @@ void AbilityRing::vUpdate_49D160()
                 field_254_left = FP_FromInteger(0);
             }
 
-            if (FP_GetExponent(field_254_left) <= field_26C_fade)
+            if (FP_GetExponent(field_254_left) <= field_26C_fadeout_distance)
             {
                 field_276_r = (field_276_r >> 1) + (field_276_r >> 2);
                 field_278_g = (field_278_g >> 1) + (field_278_g >> 2);
@@ -460,7 +460,7 @@ void AbilityRing::vUpdate_49D160()
                 field_254_left = FP_FromInteger(0);
             }
 
-            if (FP_GetExponent(field_254_left) > field_26C_fade)
+            if (FP_GetExponent(field_254_left) > field_26C_fadeout_distance)
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
