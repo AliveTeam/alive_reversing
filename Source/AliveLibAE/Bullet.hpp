@@ -16,7 +16,7 @@ enum class BulletType : s16
     eSligPossessedOrUnderGlukkonCommand_0 = 0,
     ePossessedSligZBullet_1 = 1,
     eNormalBullet_2 = 2,
-    ZBullet_3 = 3
+    eZBullet_3 = 3
 };
 
 class Bullet final : public BaseGameObject

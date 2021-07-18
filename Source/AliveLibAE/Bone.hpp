@@ -4,12 +4,12 @@
 
 enum class BoneStates : s16
 {
-    eState_0_spawned = 0,
-    eState_1_airborne = 1,
-    eState_2_collided = 2,
-    eState_3_on_ground = 3,
-    eState_4_edible = 4,
-    eState_5_falling = 5,
+    eSpawned_0 = 0,
+    eAirborne_1 = 1,
+    eCollided_2 = 2,
+    eOnGround_3 = 3,
+    eEdible_4 = 4,
+    eFalling_5 = 5
 };
 
 struct Bone_SaveState final

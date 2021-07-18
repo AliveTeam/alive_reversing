@@ -310,7 +310,7 @@ void Bullet::vUpdate_413560()
             return;
         }
 
-        case BulletType::ZBullet_3:
+        case BulletType::eZBullet_3:
         {
             FP rectXPos = {};
             // TODO: Check field_44_number_of_bullets << 20 is FP_FromInt * 16.
@@ -431,7 +431,7 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
 
                         if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
                         {
-                            if (((field_20_type == BulletType::ZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale))
+                            if (((field_20_type == BulletType::eZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale))
                             {
                                 if (pObj->field_4_typeId != AETypes::eGlukkon_67 || FP_Abs(pObj->field_B8_xpos - field_28_xpos) >= ScaleToGridSize_4498B0(field_3C_scale))
                                 {

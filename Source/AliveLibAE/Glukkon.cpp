@@ -3090,7 +3090,7 @@ s16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
                 break;
 
                 case BulletType::ePossessedSligZBullet_1:
-                case BulletType::ZBullet_3:
+                case BulletType::eZBullet_3:
                 {
                     auto pBlood2 = ae_new<Blood>();
                     if (pBlood2)
