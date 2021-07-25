@@ -30,7 +30,7 @@ void TestAnimation::DelayLoad()
 
     mLoaded = true; // Only do code below once
 
-    const AnimRecord& animRec = AnimRec(AnimId::Anim_Tester);
+    const AnimRecord& animRec = AO::AnimRec(AnimId::Anim_Tester);
 
     if (!AO::ResourceManager::GetLoadedResource_4554F0(AO::ResourceManager::Resource_Animation, animRec.mResourceId, 0, 0))
     {
@@ -83,9 +83,6 @@ void TestAnimation::ctor()
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_6_flags.Set(BaseGameObject::eCantKill_Bit11);
-
-    AO::gObjList_drawables_504618->Push_Back(this);
-  //  field_C_refCount = 1;
 }
 
 void TestAnimation::SyncToAbePos()

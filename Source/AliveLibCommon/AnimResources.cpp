@@ -591,7 +591,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::BG_Heat_Extractor_Fan, { "MIP04C18.CAM", 7104, 89, 24, 1204, PalId::Default}, kNullAnimDetails },
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    {AnimId::Anim_Tester, { "SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Anim_Tester, { "SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default}, { "ABEBLOW.BAN", 7208, 50, 25, kAbeblowResID, PalId::Default} },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
