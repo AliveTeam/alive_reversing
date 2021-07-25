@@ -58,6 +58,8 @@
 
 #include "Sys_common.hpp"
 
+#include "TestAnimation.hpp"
+
 namespace AO {
 
 ALIVE_VAR(1, 0x5076E4, s16, gAbeInvulnerableCheat_5076E4, 0);
@@ -861,6 +863,11 @@ Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     {
         field_D0_pShadow->ctor_461FB0();
     }
+
+    // Animation test code
+    auto testAnim = ao_new<TestAnimation>();
+    testAnim->ctor();
+
 
     return this;
 }

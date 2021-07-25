@@ -588,11 +588,34 @@ enum class PalId
     BlindMud,
 };
 
+struct PalDetails final
+{
+    const char_type* mBanName;
+    s32 mResourceId;
+};
+
+struct CombinedPalRecord final
+{
+    PalId mId;
+    PalDetails mAEData;
+    PalDetails mAOData;
+};
+
 struct PalRecord final
 {
     PalId mId;
     const char_type* mBanName;
     s32 mResourceId;
+};
+
+struct AnimDetails final
+{
+    const char_type* mBanName;
+    s32 mFrameTableOffset;
+    s16 mMaxW;
+    s16 mMaxH;
+    s32 mResourceId;
+    PalId mPalOverride;
 };
 
 struct AnimRecord final
@@ -606,8 +629,21 @@ struct AnimRecord final
     PalId mPalOverride;
 };
 
-const PalRecord& PalRec(PalId toFind);
-const AnimRecord& AnimRec(AnimId toFind);
+struct CombinedAnimRecord final
+{
+    AnimId mId;
+    AnimDetails mAEData;
+    AnimDetails mAOData;
+};
+
+const PalRecord PalRec(PalId toFind);
+const AnimRecord AnimRec(AnimId toFind);
+
+namespace AO 
+{
+    const PalRecord PalRec(PalId toFind);
+    const AnimRecord AnimRec(AnimId toFind);
+}
 
 // AE and AO resource ids
 enum ResourceID

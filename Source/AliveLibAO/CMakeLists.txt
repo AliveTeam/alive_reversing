@@ -3,6 +3,8 @@ project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 SET(AliveLibSrcAO
    Error.hpp
    Error.cpp
+   TestAnimation.cpp
+   TestAnimation.hpp
    Sys.hpp
    Sys.cpp
    VGA.hpp
