@@ -884,7 +884,7 @@ u16 Animation::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
+s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
@@ -922,7 +922,7 @@ s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     field_84_vram_rect.w = 0;
     field_90_pal_depth = 0;
 
-    if (bFlag_17)
+    if (bOwnsPalData)
     {
         field_4_flags.Set(AnimFlags::eBit17_bOwnPal);
     }

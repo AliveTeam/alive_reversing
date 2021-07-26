@@ -164,7 +164,7 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
 }
 
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, s16 a6, u8 a7)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData)
 {
     if (field_20_animation.Init_40A030(
             frameTableOffset,
@@ -173,7 +173,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffs
             static_cast<s16>(maxW),
             maxH,
             ppAnimData,
-            a7,
+            bOwnsPalData,
             0,
             0))
     {
@@ -187,7 +187,13 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffs
             field_D6_scale = 0;
         }
 
-        if (!a6 || (gObjList_drawables_5C1124->Push_Back_40CAF0(this)))
+        bool added = true;
+        if (bAddToDrawableList)
+        {
+            added = gObjList_drawables_5C1124->Push_Back_40CAF0(this) ? true : false;
+        }
+
+        if (added)
         {
             field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
 
