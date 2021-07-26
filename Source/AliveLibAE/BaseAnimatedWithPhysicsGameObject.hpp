@@ -46,7 +46,7 @@ public:
     EXPORT void Update_424AB0();
     EXPORT void Render_424B90(PrimHeader** ppOt);
 
-    EXPORT void Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, s16 a6, u8 a7);
+    EXPORT void Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData);
 
     virtual void vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
     // TODO: Just return by value - this is odd optimization the compiler does
