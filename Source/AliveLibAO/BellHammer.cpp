@@ -18,8 +18,9 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eBellHammer_27;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHammerResID, 1, 0);
-    Animation_Init_417FD0(4488, 71, 69, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Bell_Hammer);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_F0_bSpawnElum = FALSE;

@@ -16,8 +16,9 @@ FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BD648);
     field_4_typeId = Types::eFootSwitch36;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kTriggerResID, 1, 0);
-    Animation_Init_417FD0(744, 68, 15, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Foot_Switch_Temple);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
 

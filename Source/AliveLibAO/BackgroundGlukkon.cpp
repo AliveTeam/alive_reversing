@@ -55,12 +55,9 @@ BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_BackgroundGlukkon* pTlv, 
 
     field_4_typeId = Types::eBackgroundGlukkon_42;
 
-    Animation_Init_417FD0(
-        46096,
-        68,
-        60,
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGlkbasicResID, 1, 0),
-        1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Background_Glukkon);
+    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
 
     field_10C_tlvInfo = tlvInfo;
 

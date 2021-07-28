@@ -23,8 +23,9 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP exposion_size)
     ctor_417C10();
     SetVTable(this, 0x4BC218);
     field_4_typeId = Types::eExplosion_74;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
-    Animation_Init_417FD0(27376, 200, 91, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Explosion);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;

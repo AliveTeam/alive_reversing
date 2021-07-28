@@ -17,8 +17,9 @@ BulletShell* BulletShell::ctor_462790(FP xpos, FP ypos, s16 direction, FP scale)
 
     field_4_typeId = Types::eNone_0;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShellResID, 1, 0);
-    Animation_Init_417FD0(308, 6, 5, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Bullet_Casing);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_BC_sprite_scale = scale;
 

@@ -16,8 +16,10 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
 
     SetVTable(this, 0x4BBAC8);
     field_4_typeId = Types::eRollingBallStopper_60;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnsckResID, TRUE, FALSE);
-    Animation_Init_417FD0(1256, 106, 73, ppRes, 1);
+    
+    const AnimRecord rec = AO::AnimRec(AnimId::Stone_Ball_Stopper);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     field_10_anim.field_C_layer = Layer::eLayer_FG1_37;
 
     field_114_switch_on_id = pTlv->field_18_id_on;

@@ -30,8 +30,9 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 directio
     field_C2_g = fade_rgb;
     field_C0_r = fade_rgb;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, 1, 0);
-    Animation_Init_417FD0(2472, 57, 32, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Circular_Fade);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_CC_bApplyShadows &= ~1u;
 

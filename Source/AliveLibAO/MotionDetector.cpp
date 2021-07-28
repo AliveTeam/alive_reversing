@@ -25,10 +25,10 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
     ctor_417C10();
     SetVTable(this, 0x4BB878);
     field_4_typeId = Types::eMotionDetector_59;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMflareResID, 1, 0);
-    Animation_Init_417FD0(1108, 32, 22, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Motion_Detector_Flare);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit7_SwapXY);
-
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
     field_C8_yOffset = 0;
@@ -61,6 +61,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
 
     if (pTlv->field_20_start_move_direction == Path_MotionDetector::StartMoveDirection::eRight_0)
     {
+        
         field_E8_state = States::eMoveRight_0;
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
         if (pMotionDetectors)
@@ -68,13 +69,11 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
             pMotionDetectors->ctor_417C10();
             SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
-            u8** ppMotionRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMotionResID, 1, 0);
-            pMotionDetectors->Animation_Init_417FD0(
-                23660,
-                37,
-                60,
-                ppMotionRes,
-                1);
+            
+            const AnimRecord rec = AO::AnimRec(AnimId::Motion_Detector_Laser);
+            u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+            pMotionDetectors->Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
+            
             pMotionDetectors->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
             pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
 
@@ -95,13 +94,11 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
             pMotionDetectors->ctor_417C10();
             SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
-            u8** ppMotionRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMotionResID, 1, 0);
-            pMotionDetectors->Animation_Init_417FD0(
-                23660,
-                37,
-                60,
-                ppMotionRes,
-                1);
+            
+            const AnimRecord rec = AO::AnimRec(AnimId::Motion_Detector_Laser);
+            u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+            pMotionDetectors->Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
+            
             pMotionDetectors->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
             pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
             pMotionDetectors->field_A8_xpos = field_100_bottom_right_x;

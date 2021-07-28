@@ -21,7 +21,9 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eBat_6;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBatBasicResID, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::Bat);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    
     if (!ppRes)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -29,7 +31,7 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo)
         return this;
     }
 
-    Animation_Init_417FD0(6560, 48, 17, ppRes, 1);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     field_10_anim.field_C_layer = Layer::eLayer_SligBat_33;
 
     FP hitX = {};

@@ -15,7 +15,13 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo)
     ctor_417C10();
     SetVTable(this, 0x4BC058);
     field_4_typeId = Types::ePullRingRope_68;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPullringResID, 1, 0);
+    
+    const AnimRecord rec1 = AO::AnimRec(AnimId::Pullring_Farms);
+    u8** ppRes1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
+    const AnimRecord rec2 = AO::AnimRec(AnimId::Pullring_Desert);
+    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
+    
+    //u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPullringResID, 1, 0);
 
     s32 lvl_x_off = 0;
     switch (gMap_507BA8.field_0_current_level)
@@ -23,15 +29,15 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo)
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eBoardRoom_12:
         case LevelIds::eRuptureFarmsReturn_13:
-            Animation_Init_417FD0(4832, 33, 35, ppRes, 1);
+            Animation_Init_417FD0(rec1.mFrameTableOffset, rec1.mMaxW, rec1.mMaxH, ppRes1, 1);
             lvl_x_off = -2;
             break;
         case LevelIds::eDesert_8:
-            Animation_Init_417FD0(2912, 32, 22, ppRes, 1);
+            Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
             lvl_x_off = 2;
             break;
         default:
-            Animation_Init_417FD0(2912, 32, 22, ppRes, 1);
+            Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
             lvl_x_off = 0;
             break;
     }

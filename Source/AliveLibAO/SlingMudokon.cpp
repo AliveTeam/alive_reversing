@@ -52,13 +52,9 @@ SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo)
     field_136 = -1;
     field_150_res = 0;
 
-    field_150_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlingmudResID_508, 1, 0);
-    Animation_Init_417FD0(
-        22636,
-        96,
-        55,
-        field_150_res,
-        1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Mudokon_Sling);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_FC_current_motion = eSlingMudMotions::Motion_0_Idle_46FCB0;
 

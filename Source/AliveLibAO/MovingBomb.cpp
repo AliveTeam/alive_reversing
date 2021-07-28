@@ -33,13 +33,9 @@ MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo)
     field_6_flags.Set(Options::eCanExplode_Bit7);
     SetVTable(this, 0x4BBA68);
     field_4_typeId = Types::eTimedMine_8;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMovebombResID, 1, 0);
-    Animation_Init_417FD0(
-        17140,
-        76,
-        30,
-        ppRes,
-        1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Moving_Bomb);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
