@@ -59,6 +59,11 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
 
     field_15C_speed = FP_FromRaw(pTlv->field_1E_speed_x256 << 8);
 
+    const AnimRecord rec1 = AO::AnimRec(AnimId::Motion_Detector_Laser);
+    u8** ppRes1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
+    const AnimRecord rec2 = AO::AnimRec(AnimId::Motion_Detector_Laser);
+    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
+
     if (pTlv->field_20_start_move_direction == Path_MotionDetector::StartMoveDirection::eRight_0)
     {
         
@@ -70,9 +75,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
             SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
             
-            const AnimRecord rec = AO::AnimRec(AnimId::Motion_Detector_Laser);
-            u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-            pMotionDetectors->Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
+            pMotionDetectors->Animation_Init_417FD0(rec1.mFrameTableOffset, rec1.mMaxW, rec1.mMaxH, ppRes1, 1);
             
             pMotionDetectors->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
             pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
@@ -95,9 +98,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
             SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
             
-            const AnimRecord rec = AO::AnimRec(AnimId::Motion_Detector_Laser);
-            u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-            pMotionDetectors->Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
+            pMotionDetectors->Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
             
             pMotionDetectors->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
             pMotionDetectors->field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;

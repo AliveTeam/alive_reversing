@@ -481,7 +481,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
     {AnimId::Background_Glukkon, kNullAnimDetails, { "GLUKKON.BND", 46096, 68, 60, kGlkbasicResID, PalId::Default} },
     {AnimId::Bell_Hammer, kNullAnimDetails, { "TESTANIM.BAN", 4488, 71, 69, kHammerResID, PalId::Default} },
-    {AnimId::Bird_Portal_Orb, kNullAnimDetails, { "TESTANIM.BAN", 3860, 31, 18, kPortalTerminatorID, PalId::Default} },
+    {AnimId::Bird_Portal_Orb, kNullAnimDetails, { "PORTAL.BAN", 3860, 31, 18, kPortalTerminatorID, PalId::Default} },
     {AnimId::Blood, kNullAnimDetails, { "BLOOD.BAN", 276, 6, 7, kBloodropResID, PalId::Default} },
     {AnimId::Bone, { "BTHROW.BND", 456, 15, 9, kBoneResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Bone_Bag_A, { "BONEBAG.BAN", 8748, 64, 60, kBoneBagResID_590, PalId::Default}, kNullAnimDetails },
