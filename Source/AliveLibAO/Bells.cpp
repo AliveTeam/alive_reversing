@@ -20,22 +20,25 @@ Bells* Bells::ctor_40A650(BellSize bellType, FP xpos, FP ypos, FP scale)
 
     field_4_typeId = Types::eBells_13;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kChimeResID, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::Chime_A);
+    const AnimRecord rec2 = AO::AnimRec(AnimId::Chime_B);
+    const AnimRecord rec3 = AO::AnimRec(AnimId::Chime_C);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     switch (bellType)
     {
         case BellSize::eBig_0:
             field_EA_sound = Sounds::eLowPitch_0;
-            Animation_Init_417FD0(19240, 49, 46, ppRes, 1);
+            Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
             break;
 
         case BellSize::eMedium_1:
             field_EA_sound = Sounds::eMediumPitch_1;
-            Animation_Init_417FD0(19368, 49, 46, ppRes, 1);
+            Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes, 1);
             break;
         case BellSize::eSmall_2:
             field_EA_sound = Sounds::eHighPitch_2;
-            Animation_Init_417FD0(19252, 49, 46, ppRes, 1);
+            Animation_Init_417FD0(rec3.mFrameTableOffset, rec3.mMaxW, rec3.mMaxH, ppRes, 1);
             break;
     }
 

@@ -864,11 +864,10 @@ Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
         field_D0_pShadow->ctor_461FB0();
     }
 
-    /*
+    
     // Animation test code
-    auto testAnim = ao_new<TestAnimation>();
-    testAnim->ctor();
-    */
+    //auto testAnim = ao_new<TestAnimation>();
+    //testAnim->ctor();
 
     return this;
 }

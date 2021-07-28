@@ -150,13 +150,14 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eRockSack_71;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP2c2bagResID, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::Rock_Sack_A);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     //  Set RockSack idle anim speed
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 6878);
     pAnimationHeader->field_0_fps = 0;
 
-    Animation_Init_417FD0(13756, 71, 60, ppRes, 1);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -217,13 +218,9 @@ Rock* Rock::ctor_456960(FP xpos, FP ypos, s16 count)
 
     field_10E_bDead = 0;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 1, 0);
-    Animation_Init_417FD0(
-        500,
-        18,
-        9,
-        ppRes,
-        1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Rock);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_6_flags.Clear(Options::eInteractive_Bit8);
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);

@@ -19,8 +19,9 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB238);
     field_4_typeId = Types::eHoneySack_45;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP2c3HiveResID, 1, 0);
-    Animation_Init_417FD0(9312, 140, 38, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Honey_Hive);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_6_flags.Set(Options::eCanExplode_Bit7);
     field_E4_tlvInfo = tlvInfo;

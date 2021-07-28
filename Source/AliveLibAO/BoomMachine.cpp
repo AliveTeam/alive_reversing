@@ -201,8 +201,9 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB008);
     field_4_typeId = Types::eGrenadeMachine_41;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1buttonResID, 1, 0);
-    Animation_Init_417FD0(1600, 26, 17, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Grenade_Machine_Button_On);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_CC_bApplyShadows &= ~1u;
     field_E4_tlvInfo = tlvInfo;
@@ -232,8 +233,9 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
         pNozzle->ctor_417C10();
         SetVTable(pNozzle, 0x4BAFD0);
 
-        u8** ppNozzleRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kR1bpipeResID, 1, 0);
-        pNozzle->Animation_Init_417FD0(3616, 66, 36, ppNozzleRes, 1);
+        const AnimRecord rec2 = AO::AnimRec(AnimId::Grenade_Machine_Nozzle);
+        u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
+        pNozzle->Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
 
         pNozzle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
         pNozzle->field_BC_sprite_scale = field_BC_sprite_scale;

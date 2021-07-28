@@ -19,8 +19,10 @@ ElectricWall* ElectricWall::ctor_40FCF0(Path_ElectricWall* pTlv, s32 tlvInfo)
     ctor_417C10();
     SetVTable(this, 0x4BA8C0);
     field_4_typeId = Types::eElectricWall_25;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElecwallResID, 1, 0);
-    Animation_Init_417FD0(14536, 50, 80, ppRes, 1);
+
+    const AnimRecord rec = AO::AnimRec(AnimId::Electric_Wall);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;

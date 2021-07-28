@@ -26,8 +26,11 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
-    Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Meat);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    //u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
+    //Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -464,8 +467,11 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
 
     field_4_typeId = AETypes::eMeatSack_85;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
-    Animation_Init_424E10(15848, 93, 86, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Meat_Sack);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    //u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
+    //Animation_Init_424E10(15848, 93, 86, ppRes, 1, 1);
     SetTint_425600(&stru_55C254[0], gMap_5C3030.field_0_current_level);
 
     field_DC_bApplyShadows &= ~1u;
