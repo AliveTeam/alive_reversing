@@ -263,7 +263,7 @@ void FallingItem::VUpdate_41A120()
                             field_AC_ypos,
                             25,
                             field_BC_sprite_scale,
-                            BurstType::eType_4);
+                            BurstType::eMeat_4);
                     }
                 }
                 else
@@ -276,7 +276,7 @@ void FallingItem::VUpdate_41A120()
                             field_AC_ypos,
                             25,
                             field_BC_sprite_scale,
-                            BurstType::eType_0);
+                            BurstType::eFallingRocks_0);
                     }
                 }
 
@@ -288,7 +288,7 @@ void FallingItem::VUpdate_41A120()
                         field_AC_ypos,
                         25,
                         field_BC_sprite_scale,
-                        BurstType::eType_1);
+                        BurstType::eSticks_1);
                 }
             }
             else
