@@ -57,11 +57,11 @@ private:
     s32 field_118_tlvInfo;
     enum class State : s16
     {
-        eState_0_WaitForIdEnable = 0,
-        eState_1_GoWaitForDelay = 1,
-        eState_2_WaitForFallDelay = 2,
-        eState_3_Falling = 3,
-        eState_4_Smashed = 4,
+        eWaitForIdEnable_0 = 0,
+        eGoWaitForDelay_1 = 1,
+        eWaitForFallDelay_2 = 2,
+        eFalling_3 = 3,
+        eSmashed_4 = 4
     };
     State field_11C_state;
     s16 field_11E_id;

@@ -49,9 +49,9 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2rockResID, 1, 0);
     const s32 lvlIdx = static_cast<s32>(gMap_507BA8.field_0_current_level);
     Animation_Init_417FD0(
-        sFallingItemData_4BAB20[lvlIdx].field_0,
-        sFallingItemData_4BAB20[lvlIdx].field_8,
-        sFallingItemData_4BAB20[lvlIdx].field_A,
+        sFallingItemData_4BAB20[lvlIdx].field_0_frameTableOffset,
+        sFallingItemData_4BAB20[lvlIdx].field_8_maxW,
+        sFallingItemData_4BAB20[lvlIdx].field_A_maxH,
         ppRes,
         1);
 
@@ -90,7 +90,7 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
     field_12C_ypos = FP_FromInteger(pTlv->field_14_bottom_right.field_2_y);
 
     field_124_yPosStart = field_AC_ypos;
-    field_110_state = State::eState_0_WaitForIdEnable;
+    field_110_state = State::eWaitForIdEnable_0;
     field_130_sound_channels = 0;
 
     // Not sure why this rupture farms primary item hack is required
@@ -186,32 +186,32 @@ void FallingItem::VUpdate_41A120()
 
     switch (field_110_state)
     {
-        case State::eState_0_WaitForIdEnable:
+        case State::eWaitForIdEnable_0:
             if (!SwitchStates_Get(field_112_id))
             {
                 return;
             }
             [[fallthrough]];
 
-        case State::eState_1_GoWaitForDelay:
+        case State::eGoWaitForDelay_1:
             field_6_flags.Clear(Options::eCanExplode_Bit7);
-            field_110_state = State::eState_2_WaitForFallDelay;
+            field_110_state = State::eWaitForFallDelay_2;
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
             field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_4, nullptr);
             field_11C_delay_timer = gnFrameCount_507670 + field_118_delay_time;
             break;
 
-        case State::eState_2_WaitForFallDelay:
+        case State::eWaitForFallDelay_2:
             if (static_cast<s32>(gnFrameCount_507670) >= field_11C_delay_timer)
             {
-                field_110_state = State::eState_3_Falling;
+                field_110_state = State::eFalling_3;
                 field_122_do_sound_in_state_falling = TRUE;
                 field_130_sound_channels = SFX_Play_43AE60(SoundEffect::AirStream_28, 50, -2600, 0);
             }
             break;
 
-        case State::eState_3_Falling:
+        case State::eFalling_3:
         {
             if (field_122_do_sound_in_state_falling)
             {
@@ -245,7 +245,7 @@ void FallingItem::VUpdate_41A120()
                 == 1)
             {
                 field_AC_ypos = hitY;
-                field_110_state = State::eState_4_Smashed;
+                field_110_state = State::eSmashed_4;
 
                 ScreenShake* pScreenShake = ao_new<ScreenShake>();
                 if (pScreenShake)
@@ -298,7 +298,7 @@ void FallingItem::VUpdate_41A120()
             break;
         }
 
-        case State::eState_4_Smashed:
+        case State::eSmashed_4:
         {
             if (field_130_sound_channels)
             {
@@ -348,12 +348,12 @@ void FallingItem::VUpdate_41A120()
             }
             else
             {
-                field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0, nullptr);
+                field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0_frameTableOffset, nullptr);
                 field_6_flags.Set(Options::eCanExplode_Bit7);
                 field_B8_vely = FP_FromInteger(0);
                 field_B4_velx = FP_FromInteger(0);
                 field_AC_ypos = field_124_yPosStart;
-                field_110_state = State::eState_0_WaitForIdEnable;
+                field_110_state = State::eWaitForIdEnable_0;
             }
             break;
         }
@@ -372,7 +372,7 @@ void FallingItem::VScreenChanged_41A7C0()
 {
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
         || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
-        || field_110_state != State::eState_3_Falling)
+        || field_110_state != State::eFalling_3)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

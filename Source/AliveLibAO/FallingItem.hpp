@@ -9,10 +9,10 @@ namespace AO {
 
 struct FallingItem_Data final
 {
-    s32 field_0;
+    s32 field_0_frameTableOffset;
     s32 field_4;
-    s16 field_8;
-    s16 field_A;
+    s16 field_8_maxW;
+    s16 field_A_maxH;
 };
 ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
 
@@ -54,11 +54,11 @@ public:
 private:
     enum class State : s16
     {
-        eState_0_WaitForIdEnable = 0,
-        eState_1_GoWaitForDelay = 1,
-        eState_2_WaitForFallDelay = 2,
-        eState_3_Falling = 3,
-        eState_4_Smashed = 4,
+        eWaitForIdEnable_0 = 0,
+        eGoWaitForDelay_1 = 1,
+        eWaitForFallDelay_2 = 2,
+        eFalling_3 = 3,
+        eSmashed_4 = 4
     };
 
 public:
@@ -68,7 +68,7 @@ public:
     s16 field_114_num_items;
     s16 field_116_num_items_remaining;
     s16 field_118_delay_time;
-    s16 field_11A;
+    s16 field_11A_padding;
     s32 field_11C_delay_timer;
     s16 field_120_reset_id;
     s16 field_122_do_sound_in_state_falling;

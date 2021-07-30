@@ -84,7 +84,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, s32 tlvInfo)
     field_F8_state = States::eWaitForStepOnMe_0;
     field_DC_bApplyShadows |= 2u;
     field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
-    field_104_bUnknown = 0;
+    field_104_bCreateSparks = 0;
     field_F4_tlvInfo = tlvInfo;
     field_106_bFindStander = 1;
     return this;
@@ -174,11 +174,11 @@ void FootSwitch::vUpdate_4DE270()
 
             if (field_20_animation.field_92_current_frame == 0)
             {
-                field_104_bUnknown = 1;
+                field_104_bCreateSparks = 1;
                 return;
             }
 
-            if (field_104_bUnknown)
+            if (field_104_bCreateSparks)
             {
                 auto pSpark = ae_new<Spark>();
                 if (pSpark)
@@ -205,12 +205,12 @@ void FootSwitch::vUpdate_4DE270()
                         9);
                 }
 
-                field_104_bUnknown = 0;
+                field_104_bCreateSparks = 0;
             }
 
             if (field_20_animation.field_92_current_frame == 0)
             {
-                field_104_bUnknown = 1;
+                field_104_bCreateSparks = 1;
             }
             break;
         }
