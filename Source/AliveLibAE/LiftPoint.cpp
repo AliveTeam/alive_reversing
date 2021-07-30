@@ -882,7 +882,7 @@ void LiftPoint::MoveObjectsOnLift_497600(FP xVelocity)
 void CCSTD LiftPoint::sub_461000(Path_TLV* pTlv)
 {
     pTlv->field_0_flags.Clear(eBit1_Created);
-    pTlv->field_0_flags.Clear(eBit2_Unknown);
+    pTlv->field_0_flags.Clear(eBit2_Destroyed);
     pTlv->field_1_tlv_state |= 1;
 }
 

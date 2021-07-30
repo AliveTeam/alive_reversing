@@ -398,7 +398,7 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
                                 if (flags.Get(TLV_Flags::eBit1_Created))
                                 {
                                     flags.Clear(TLV_Flags::eBit1_Created);
-                                    flags.Clear(TLV_Flags::eBit2_Unknown);
+                                    flags.Clear(TLV_Flags::eBit2_Destroyed);
                                 }
                                 WriteFlags(pSaveBuffer, pTlv, flags);
                             }

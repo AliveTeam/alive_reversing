@@ -71,12 +71,12 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToL
     {
         if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->field_4_type.mType)
         {
-            if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
+            if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Destroyed)))
             {
                 if (loadMode == LoadMode::Mode_0)
                 {
                     pPathTLV->field_0_flags.Set(TLV_Flags::eBit1_Created);
-                    pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                    pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
                 }
 
                 TlvItemInfoUnion data;
@@ -344,7 +344,7 @@ Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type)
     return pTlv;
 }
 
-EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2)
+EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
@@ -358,13 +358,13 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFla
             const s32 tlvOffset = data.parts.tlvOffset + pBlyRec->field_4_pPathData->field_12_object_offset;
             Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[tlvOffset]);
 
-            if (bBit2 & 1)
+            if (bSetDestroyed & 1)
             {
-                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
             }
             else
             {
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
             }
 
             if (bSetCreated & 1)
@@ -391,7 +391,7 @@ EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos directi
     Path_TLV* pTlv = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(cam_x_idx, cam_y_idx);
     while (pTlv)
     {
-        if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit1_Created) || (pTlv->field_0_flags.Get(TLV_Flags::eBit2_Unknown))))
+        if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit1_Created) || (pTlv->field_0_flags.Get(TLV_Flags::eBit2_Destroyed))))
         {
             Start_Sounds_for_TLV_4CB530(direction, pTlv);
         }
@@ -417,7 +417,7 @@ EXPORT void CCSTD Path::Reset_TLVs_4DBCF0(u16 pathId)
                 while (pTlv)
                 {
                     pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                    pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                    pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
                     pTlv = Path::Next_TLV_4DB6A0(pTlv);
                 }
             }

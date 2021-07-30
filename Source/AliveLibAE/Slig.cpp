@@ -4821,12 +4821,12 @@ void Slig::dtor_4B1CF0()
             if (field_10C_health <= FP_FromInteger(0))
             {
                 pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
             }
             else
             {
                 pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
             }
         }
     }

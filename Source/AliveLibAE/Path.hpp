@@ -11,7 +11,7 @@ struct PathData;
 enum TLV_Flags
 {
     eBit1_Created = 0x1,
-    eBit2_Unknown = 0x2,
+    eBit2_Destroyed = 0x2,
     eBit3_End_TLV_List = 0x4,
 };
 
@@ -234,7 +234,7 @@ public:
     EXPORT u32 TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv);
 
     EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type);
-    EXPORT static void CCSTD TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2);
+    EXPORT static void CCSTD TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
     EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
 
     EXPORT static void CCSTD Reset_TLVs_4DBCF0(u16 pathId);
