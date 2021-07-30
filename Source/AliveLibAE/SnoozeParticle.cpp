@@ -98,7 +98,7 @@ SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, Layer layer, FP sc
     field_42_r = 0;
     field_44_g = 0;
     field_46_b = 0;
-    field_1E4_state = SnoozeParticleState::Rising_0;
+    field_1E4_state = SnoozeParticleState::eRising_0;
     field_4A_count_down = 1;
     field_48_idx = Math_NextRandom() % 36;
     field_30_dx = FP_FromDouble(xPositionDeltaEntries_560408[field_48_idx]);
@@ -136,7 +136,7 @@ void SnoozeParticle::Update_4B0980()
     {
         switch (field_1E4_state)
         {
-            case SnoozeParticleState::Rising_0:
+            case SnoozeParticleState::eRising_0:
                 if (field_2C_y >= field_24_y_start - FP_FromInteger(20))
                 {
                     if (field_42_r < 70 && field_44_g < 70 && field_46_b < 20)
@@ -161,14 +161,14 @@ void SnoozeParticle::Update_4B0980()
                 }
                 else
                 {
-                    field_1E4_state = SnoozeParticleState::BlowingUp_2;
+                    field_1E4_state = SnoozeParticleState::eBlowingUp_2;
                 }
                 break;
 
-            case SnoozeParticleState::Unused_1:
+            case SnoozeParticleState::eUnused_1:
                 break;
 
-            case SnoozeParticleState::BlowingUp_2:
+            case SnoozeParticleState::eBlowingUp_2:
                 field_42_r /= 2; //fade to transparent
                 field_44_g /= 2;
                 field_46_b /= 2;
@@ -195,7 +195,7 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
     FP_Point* pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
     const s16 bufIdx = gPsxDisplay_5C1130.field_C_buffer_index;
 
-    if (field_1E4_state == SnoozeParticleState::BlowingUp_2)
+    if (field_1E4_state == SnoozeParticleState::eBlowingUp_2)
     {
         const s16 xInScreen = FP_GetExponent(field_28_x - pCamPos->field_0_x);
         const s16 yInScreen = FP_GetExponent(field_2C_y - pCamPos->field_4_y);

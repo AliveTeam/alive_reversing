@@ -162,21 +162,21 @@ s32 CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
 }
 
 TintEntry sSligTint_560570[15] = {
-    {1u, 102u, 127u, 118u},
-    {2u, 102u, 127u, 118u},
-    {3u, 102u, 127u, 118u},
-    {4u, 102u, 127u, 118u},
-    {5u, 102u, 127u, 118u},
-    {6u, 102u, 127u, 118u},
-    {7u, 102u, 127u, 118u},
-    {8u, 102u, 127u, 118u},
-    {9u, 102u, 127u, 118u},
-    {10u, 102u, 127u, 118u},
-    {11u, 102u, 127u, 118u},
-    {12u, 102u, 127u, 118u},
-    {13u, 102u, 127u, 118u},
-    {14u, 102u, 127u, 118u},
-    {-1, 102u, 127u, 118u}};
+    {LevelIds_s8::eMines_1, 102u, 127u, 118u},
+    {LevelIds_s8::eNecrum_2, 102u, 127u, 118u},
+    {LevelIds_s8::eMudomoVault_3, 102u, 127u, 118u},
+    {LevelIds_s8::eMudancheeVault_4, 102u, 127u, 118u},
+    {LevelIds_s8::eFeeCoDepot_5, 102u, 127u, 118u},
+    {LevelIds_s8::eBarracks_6, 102u, 127u, 118u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 102u, 127u, 118u},
+    {LevelIds_s8::eBonewerkz_8, 102u, 127u, 118u},
+    {LevelIds_s8::eBrewery_9, 102u, 127u, 118u},
+    {LevelIds_s8::eBrewery_Ender_10, 102u, 127u, 118u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 102u, 127u, 118u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 102u, 127u, 118u},
+    {LevelIds_s8::eBarracks_Ender_13, 102u, 127u, 118u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 102u, 127u, 118u},
+    {LevelIds_s8::eNone, 102u, 127u, 118u}};
 
 ALIVE_VAR(1, 0xBAF7E4, s32, unused_BAF7E4, 0);
 ALIVE_VAR(1, 0xBAF7E8, s16, sSligsUnderControlCount_BAF7E8, 0);
@@ -1947,7 +1947,7 @@ void Slig::M_SleepingToStand_33_4B8C50()
 
         if (pObj->field_4_typeId == AETypes::eSnoozeParticle_124)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 
@@ -4821,12 +4821,12 @@ void Slig::dtor_4B1CF0()
             if (field_10C_health <= FP_FromInteger(0))
             {
                 pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
             }
             else
             {
                 pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
             }
         }
     }

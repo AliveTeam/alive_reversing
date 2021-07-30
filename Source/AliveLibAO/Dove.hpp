@@ -50,9 +50,9 @@ public:
 
     EXPORT void VUpdate_40F430();
 
-    s32 field_D4[4];
+    s32 field_D4_padding[4];
     s16 field_E4_counter;
-    s16 field_E6;
+    s16 field_E6_padding;
     s32 field_E8_tlvInfo;
     s16 field_EC_keepInGlobalArray;
     enum class State : s16

@@ -59,7 +59,7 @@ private:
     SwitchOp field_FC_action;
     FootSwitchTriggerBy field_FE_trigger_by;
     s32 field_100_obj_id;
-    s16 field_104_bUnknown;
+    s16 field_104_bCreateSparks;
     s16 field_106_bFindStander;
 };
 ALIVE_ASSERT_SIZEOF(FootSwitch, 0x108);

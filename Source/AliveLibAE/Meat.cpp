@@ -441,22 +441,22 @@ void Meat::vUpdate_469BA0()
 
 
 
-TintEntry stru_55C254[] = {
-    {1u, 127u, 127u, 127u},
-    {2u, 137u, 137u, 137u},
-    {3u, 127u, 127u, 127u},
-    {4u, 127u, 127u, 127u},
-    {5u, 127u, 127u, 127u},
-    {6u, 127u, 127u, 127u},
-    {7u, 127u, 127u, 127u},
-    {8u, 127u, 127u, 127u},
-    {9u, 127u, 127u, 127u},
-    {10u, 127u, 127u, 127u},
-    {11u, 127u, 127u, 127u},
-    {12u, 127u, 127u, 127u},
-    {13u, 127u, 127u, 127u},
-    {14u, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u},
+const TintEntry kMeatTints_55C254[] = {
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 137u, 137u, 137u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u},
 };
 
 
@@ -472,7 +472,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     //u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
     //Animation_Init_424E10(15848, 93, 86, ppRes, 1, 1);
-    SetTint_425600(&stru_55C254[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&kMeatTints_55C254[0], gMap_5C3030.field_0_current_level);
 
     field_DC_bApplyShadows &= ~1u;
     field_118_tlvInfo = tlvInfo;

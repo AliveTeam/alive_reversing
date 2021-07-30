@@ -188,9 +188,9 @@ void PauseMenu::VUpdate_44DFB0()
         field_124 = 0;
         field_126_page = PauseMenuPages::ePause_0;
         Reset_Unknown_45A5B0();
-        field_132 = 0;
-        field_11E = 52;
-        field_120 = 8;
+        field_132_always_0 = 0;
+        field_11E_selected_glow = 52;
+        field_120_selected_glow_counter = 8;
 
         // This is bad, let's nuke it later :)
         while (1)
@@ -220,27 +220,27 @@ void PauseMenu::VUpdate_44DFB0()
             gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
             Input().Update_433250();
 
-            if (field_120 > 0)
+            if (field_120_selected_glow_counter > 0)
             {
-                field_11E += 8;
+                field_11E_selected_glow += 8;
             }
 
-            if (field_11E <= 100 || field_120 <= 0)
+            if (field_11E_selected_glow <= 100 || field_120_selected_glow_counter <= 0)
             {
-                if (field_120 <= 0)
+                if (field_120_selected_glow_counter <= 0)
                 {
-                    field_11E -= 8;
-                    if (field_11E < 52)
+                    field_11E_selected_glow -= 8;
+                    if (field_11E_selected_glow < 52)
                     {
-                        field_120 = -field_120;
-                        field_11E += field_120;
+                        field_120_selected_glow_counter = -field_120_selected_glow_counter;
+                        field_11E_selected_glow += field_120_selected_glow_counter;
                     }
                 }
             }
             else
             {
-                field_120 = -field_120;
-                field_11E += field_120;
+                field_120_selected_glow_counter = -field_120_selected_glow_counter;
+                field_11E_selected_glow += field_120_selected_glow_counter;
             }
 
             enum Page1Selectables
@@ -656,9 +656,9 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
     for (s16 entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
     {
         s16 colourOffset;
-        if (entryId == selectedEntryId && (field_126_page != 1 || field_132))
+        if (entryId == selectedEntryId && (field_126_page != 1 || field_132_always_0))
         {
-            colourOffset = field_11E;
+            colourOffset = field_11E_selected_glow;
         }
         else
         {

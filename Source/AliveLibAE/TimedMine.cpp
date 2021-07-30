@@ -17,7 +17,7 @@
 #include "BaseBomb.hpp"
 #include "LiftPoint.hpp"
 
-static TintEntry sTimedMineTint_550EB8[1] = {{-1, 127u, 127u, 127u}};
+static TintEntry sTimedMineTint_550EB8[1] = {{LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 void TimedMine::VUpdate()
 {

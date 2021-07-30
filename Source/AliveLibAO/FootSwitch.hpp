@@ -45,7 +45,7 @@ public:
 
     EXPORT void VScreenChanged_4889D0();
 
-    s32 field_D4[4];
+    s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;
     enum class States : s16
     {

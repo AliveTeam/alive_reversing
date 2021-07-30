@@ -344,7 +344,7 @@ void Shrykull::VUpdate_463AE0()
                                 FP_FromInteger((zapRect.y + zapRect.h) / 2),
                                 20,
                                 field_BC_sprite_scale,
-                                BurstType::eType_2);
+                                BurstType::eBigPurpleSparks_2);
                         }
 
                         auto pFlash = ao_new<Flash>();

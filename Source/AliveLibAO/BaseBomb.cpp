@@ -59,7 +59,7 @@ void BaseBomb::VUpdate_417580()
                     field_AC_ypos,
                     20,
                     field_BC_sprite_scale,
-                    BurstType::eType_3);
+                    BurstType::eBigRedSparks_3);
             }
 
 
@@ -97,7 +97,7 @@ void BaseBomb::VUpdate_417580()
                     field_AC_ypos,
                     20,
                     field_BC_sprite_scale,
-                    BurstType::eType_3);
+                    BurstType::eBigRedSparks_3);
             }
 
             Flash* pFlash = ao_new<Flash>();
@@ -273,7 +273,7 @@ BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, s32 /*unused*/, FP scale)
             field_AC_ypos,
             35,
             field_E4_scale,
-            BurstType::eType_0);
+            BurstType::eFallingRocks_0);
     }
 
     PSX_RECT damageRect = {

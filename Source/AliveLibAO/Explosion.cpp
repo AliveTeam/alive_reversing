@@ -93,7 +93,7 @@ void Explosion::VUpdate_458D00()
             auto pParticleBurst = ao_new<ParticleBurst>();
             if (pParticleBurst)
             {
-                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eType_3);
+                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
             }
 
             auto pFlash = ao_new<Flash>();
@@ -133,7 +133,7 @@ void Explosion::VUpdate_458D00()
             auto pParticleBurst = ao_new<ParticleBurst>();
             if (pParticleBurst)
             {
-                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eType_3);
+                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
             }
 
             auto pFlash = ao_new<Flash>();

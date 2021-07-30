@@ -84,7 +84,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
     field_138_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_13C_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
     field_130_yPosStart = field_BC_ypos;
-    field_11C_state = State::eState_0_WaitForIdEnable;
+    field_11C_state = State::eWaitForIdEnable_0;
     field_140_sound_channels = 0;
 
     if (!pPrimaryFallingItem_5BC208)
@@ -156,7 +156,7 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
     field_138_xpos = xFixed;
     field_13C_ypos = yFixed;
     field_130_yPosStart = yFixed;
-    field_11C_state = State::eState_0_WaitForIdEnable;
+    field_11C_state = State::eWaitForIdEnable_0;
     field_140_sound_channels = 0;
 
     if (!pPrimaryFallingItem_5BC208)
@@ -212,7 +212,7 @@ FallingItem* FallingItem::vdtor_427530(s32 flags)
 
 void FallingItem::vScreenChanged_428180()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || field_11C_state != State::eState_3_Falling)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || field_11C_state != State::eFalling_3)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -255,11 +255,11 @@ EXPORT void FallingItem::vUpdate_427780()
 
     switch (field_11C_state)
     {
-        case State::eState_0_WaitForIdEnable:
+        case State::eWaitForIdEnable_0:
             if (field_11E_id && SwitchStates_Get_466020(field_11E_id))
             {
                 field_6_flags.Clear(BaseGameObject::eCanExplode_Bit7);
-                field_11C_state = State::eState_2_WaitForFallDelay;
+                field_11C_state = State::eWaitForFallDelay_2;
                 field_C4_velx = FP_FromInteger(0);
                 field_C8_vely = FP_FromInteger(0);
 
@@ -271,10 +271,10 @@ EXPORT void FallingItem::vUpdate_427780()
             break;
 
         // TODO: Must only be set outside of the object
-        case State::eState_1_GoWaitForDelay:
+        case State::eGoWaitForDelay_1:
         {
             field_6_flags.Clear(BaseGameObject::eCanExplode_Bit7);
-            field_11C_state = State::eState_2_WaitForFallDelay;
+            field_11C_state = State::eWaitForFallDelay_2;
             field_C4_velx = FP_FromInteger(0);
             field_C8_vely = FP_FromInteger(0);
 
@@ -285,10 +285,10 @@ EXPORT void FallingItem::vUpdate_427780()
             break;
         }
 
-        case State::eState_2_WaitForFallDelay:
+        case State::eWaitForFallDelay_2:
             if (static_cast<s32>(sGnFrame_5C1B84) >= field_128_delay_timer)
             {
-                field_11C_state = State::eState_3_Falling;
+                field_11C_state = State::eFalling_3;
                 field_12E_do_sound_in_state_falling = TRUE;
                 if (field_D6_scale == 1)
                 {
@@ -301,7 +301,7 @@ EXPORT void FallingItem::vUpdate_427780()
             }
             break;
 
-        case State::eState_3_Falling:
+        case State::eFalling_3:
         {
             if (field_12E_do_sound_in_state_falling)
             {
@@ -352,7 +352,7 @@ EXPORT void FallingItem::vUpdate_427780()
             }
 
             field_134_bHitGrinderOrMineCar = FALSE;
-            field_11C_state = State::eState_4_Smashed;
+            field_11C_state = State::eSmashed_4;
 
             auto pShake = ae_new<ScreenShake>();
             if (pShake)
@@ -407,7 +407,7 @@ EXPORT void FallingItem::vUpdate_427780()
         }
         break;
 
-        case State::eState_4_Smashed:
+        case State::eSmashed_4:
             if (field_140_sound_channels)
             {
                 SND_Stop_Channels_Mask_4CA810(field_140_sound_channels);
@@ -448,7 +448,7 @@ EXPORT void FallingItem::vUpdate_427780()
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
                 field_BC_ypos = field_130_yPosStart;
-                field_11C_state = State::eState_0_WaitForIdEnable;
+                field_11C_state = State::eWaitForIdEnable_0;
             }
             break;
 

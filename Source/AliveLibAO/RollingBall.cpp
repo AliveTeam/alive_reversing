@@ -267,7 +267,7 @@ void RollingBall::VUpdate_457AF0()
                         field_AC_ypos - FP_FromInteger(30),
                         150,
                         field_BC_sprite_scale,
-                        BurstType::eType_0);
+                        BurstType::eFallingRocks_0);
                 }
 
                 auto pFlash = ao_new<Flash>();

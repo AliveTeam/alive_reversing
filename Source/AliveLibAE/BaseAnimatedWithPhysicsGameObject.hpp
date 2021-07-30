@@ -6,6 +6,7 @@
 #include "Animation.hpp"
 #include "AnimationUnknown.hpp"
 #include "Map.hpp"
+#include "PathData.hpp"
 
 namespace AETest::TestsBaseAnimatedWithPhysicsGameObject {
 void BaseAnimatedWithPhysicsGameObjectTests();
@@ -15,7 +16,7 @@ class Shadow;
 
 struct TintEntry final
 {
-    s8 field_0_level;
+    LevelIds_s8 field_0_level;
     u8 field_1_r;
     u8 field_2_g;
     u8 field_3_b;

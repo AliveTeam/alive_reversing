@@ -4,7 +4,7 @@
 #include "Function.hpp"
 
 // TODO: Should be const but can't be due to mlgs hacks in Font obj
-u8 byte_550F08[32] = {
+u8 fontPalette_550F08[32] = {
     0u,
     0u,
     1u,
@@ -47,7 +47,7 @@ FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, s32 tlvInfo)
     field_4_typeId = AETypes::eBrewMachine_13;
 
     field_F4_font_context.LoadFontType_433400(2);
-    field_104_font.ctor_433590(3, byte_550F08, &field_F4_font_context);
+    field_104_font.ctor_433590(3, fontPalette_550F08, &field_F4_font_context);
 
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6016);
     Animation_Init_424E10(316, 19, 11, ppRes, 1, 1u);

@@ -32,9 +32,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slurg, 0x18);
 
 enum class Slurg_States : s16
 {
-    State_0_Moving = 0,
-    State_1_Stopped = 1,
-    State_2_Burst = 2,
+    eMoving_0 = 0,
+    eStopped_1 = 1,
+    eBurst_2 = 2
 };
 
 enum SlurgFlags

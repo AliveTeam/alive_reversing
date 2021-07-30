@@ -57,7 +57,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
 
     field_134_speed = FP_FromInteger(pTlv->field_12_motion_detector_speed);
     field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
-    field_12E = 1;
+    field_12E_bDontSetDestroyed = 1;
     field_118_tlvInfo = tlvInfo;
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -94,7 +94,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
 
-    field_12C = 0;
+    field_12C_timesShot = 0;
 
     field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
@@ -103,7 +103,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
     }
 
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
-    field_130 = 0;
+    field_130_bChasing = 0;
 
     return this;
 }
@@ -205,12 +205,12 @@ s32 CC Greeter::CreateFromSaveState_446040(const u8* pBuffer)
     }
 
     pGreeter->field_118_tlvInfo = pState->field_28_tlvInfo;
-    pGreeter->field_120 = pState->field_2C;
+    pGreeter->field_120_unused = pState->field_2C_unused;
     pGreeter->field_124_last_turn_time = pState->field_30_last_turn_time;
     pGreeter->field_128_timer = pState->field_34_timer;
-    pGreeter->field_12C = pState->field_38;
-    pGreeter->field_12E = pState->field_3A;
-    pGreeter->field_130 = pState->field_3C;
+    pGreeter->field_12C_timesShot = pState->field_38_timesShot;
+    pGreeter->field_12E_bDontSetDestroyed = pState->field_3A_bDontSetDestroyed;
+    pGreeter->field_130_bChasing = pState->field_3C_bChasing;
     pGreeter->field_134_speed = pState->field_40_speed;
     pGreeter->field_13C_brain_state = pState->field_44_brain_state;
     pGreeter->field_13E_targetOnLeft = pState->field_46_targetOnLeft;
@@ -251,13 +251,13 @@ s32 Greeter::vGetSaveState_446400(Greeter_State* pState)
     pState->field_25_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_24_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_28_tlvInfo = field_118_tlvInfo;
-    pState->field_2C = field_120;
+    pState->field_2C_unused = field_120_unused;
     pState->field_30_last_turn_time = field_124_last_turn_time;
     pState->field_34_timer = field_128_timer;
 
-    pState->field_38 = field_12C;
-    pState->field_3A = field_12E;
-    pState->field_3C = field_130;
+    pState->field_38_timesShot = field_12C_timesShot;
+    pState->field_3A_bDontSetDestroyed = field_12E_bDontSetDestroyed;
+    pState->field_3C_bChasing = field_130_bChasing;
 
     pState->field_40_speed = field_134_speed;
     pState->field_44_brain_state = field_13C_brain_state;
@@ -307,7 +307,7 @@ void Greeter::dtor_4468E0()
 {
     SetVTable(this, 0x54566C);
 
-    if (field_12E)
+    if (field_12E_bDontSetDestroyed)
     {
         Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
     }
@@ -352,7 +352,7 @@ EXPORT void Greeter::BlowUp_447E50()
     }
 
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    field_12E = 0;
+    field_12E_bDontSetDestroyed = 0;
 }
 
 void Greeter::ChangeDirection_447BD0()
@@ -464,7 +464,8 @@ EXPORT s16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
             }
 
-            if (++field_12C <= 10)
+            field_12C_timesShot++;
+            if (field_12C_timesShot <= 10)
             {
                 BounceBackFromShot_447B10();
             }
@@ -485,7 +486,7 @@ EXPORT s16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
             }
 
-            if (++field_12C <= 10)
+            if (++field_12C_timesShot <= 10)
             {
                 BounceBackFromShot_447B10();
             }
@@ -613,7 +614,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
     SFX_Play_46FC20(SoundEffect::Zap1_49, 0, soundDirection, field_CC_sprite_scale);
     SFX_Play_46FC20(SoundEffect::Zap2_50, 0, soundDirection, field_CC_sprite_scale);
 
-    RandomishSpeak_447A70(GreeterSpeak::Laugh_3);
+    RandomishSpeak_447A70(GreeterSpeak::eLaugh_3);
 
     field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
     field_13E_targetOnLeft = 0;
@@ -626,9 +627,9 @@ void Greeter::RandomishSpeak_447A70(GreeterSpeak effect)
     field_C4_velx = FP_FromInteger(0);
     const AnimRecord& animRec = AnimRec(AnimId::Greeter_Speak);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-    field_120 = sGnFrame_5C1B84 + 25;
+    field_120_unused = sGnFrame_5C1B84 + 25;
 
-    if (effect == GreeterSpeak::Randomized_1000)
+    if (effect == GreeterSpeak::eRandomized_1000)
     {
         const s32 randomSpeak = static_cast<s32>(sGnFrame_5C1B84 % 4);
         // Will be one of: Hi_0, HereBoy_1,  GetHim_2 or Laugh_3
@@ -716,7 +717,7 @@ void Greeter::vUpdate_4469B0()
                 field_C4_velx = -(field_CC_sprite_scale * FP_FromInteger(3));
                 if (field_13E_targetOnLeft)
                 {
-                    RandomishSpeak_447A70(GreeterSpeak::Hi_0);
+                    RandomishSpeak_447A70(GreeterSpeak::eHi_0);
                     field_13C_brain_state = GreeterBrainStates::eBrain_3_ChaseSpeak;
                 }
                 else if (field_140_targetOnRight)
@@ -730,7 +731,7 @@ void Greeter::vUpdate_4469B0()
                 field_C4_velx = (field_CC_sprite_scale * FP_FromInteger(3));
                 if (field_140_targetOnRight)
                 {
-                    RandomishSpeak_447A70(GreeterSpeak::Hi_0);
+                    RandomishSpeak_447A70(GreeterSpeak::eHi_0);
                     field_13C_brain_state = GreeterBrainStates::eBrain_3_ChaseSpeak;
                 }
                 else if (field_13E_targetOnLeft)
@@ -742,7 +743,7 @@ void Greeter::vUpdate_4469B0()
 
             if (static_cast<s32>(sGnFrame_5C1B84) > field_128_timer)
             {
-                RandomishSpeak_447A70(GreeterSpeak::Randomized_1000);
+                RandomishSpeak_447A70(GreeterSpeak::eRandomized_1000);
             }
             break;
 
@@ -769,7 +770,7 @@ void Greeter::vUpdate_4469B0()
         case GreeterBrainStates::eBrain_2_Speak:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_130 = 0;
+                field_130_bChasing = 0;
                 field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
                 const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -781,7 +782,7 @@ void Greeter::vUpdate_4469B0()
         case GreeterBrainStates::eBrain_3_ChaseSpeak:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_130 = 1;
+                field_130_bChasing = 1;
                 field_13C_brain_state = GreeterBrainStates::eBrain_4_Chase;
                 const AnimRecord& animRec = AnimRec(AnimId::Greeter_Chase);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -842,7 +843,7 @@ void Greeter::vUpdate_4469B0()
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                RandomishSpeak_447A70(GreeterSpeak::What_9);
+                RandomishSpeak_447A70(GreeterSpeak::eWhat_9);
                 field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
             }
             break;
@@ -850,7 +851,7 @@ void Greeter::vUpdate_4469B0()
         case GreeterBrainStates::eBrain_6_ToChase:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                RandomishSpeak_447A70(GreeterSpeak::Hi_0);
+                RandomishSpeak_447A70(GreeterSpeak::eHi_0);
                 field_13C_brain_state = GreeterBrainStates::eBrain_3_ChaseSpeak;
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -885,7 +886,7 @@ void Greeter::vUpdate_4469B0()
                 if (field_C8_vely > -FP_FromInteger(1))
                 {
                     field_C8_vely = FP_FromInteger(0);
-                    if (field_130 == 0)
+                    if (!field_130_bChasing)
                     {
                         field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
                         const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);

@@ -35,24 +35,21 @@
 ALIVE_VAR(1, 0x5C3012, s16, sGoingToBirdPortalMudCount_5C3012, 0);
 
 const TintEntry kMudTints_55C744[18] = {
-    {1, 87u, 103u, 67u},
-    {2, 87u, 103u, 67u},
-    {3, 87u, 103u, 67u},
-    {4, 87u, 103u, 67u},
-    {5, 87u, 103u, 67u},
-    {6, 87u, 103u, 67u},
-    {7, 87u, 103u, 67u},
-    {8, 87u, 103u, 67u},
-    {9, 87u, 103u, 67u},
-    {10, 87u, 103u, 67u},
-    {11, 87u, 103u, 67u},
-    {12, 87u, 103u, 67u},
-    {13, 87u, 103u, 67u},
-    {14, 87u, 103u, 67u},
-    {-1, 87u, 103u, 67u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u}};
+    {LevelIds_s8::eMines_1, 87u, 103u, 67u},
+    {LevelIds_s8::eNecrum_2, 87u, 103u, 67u},
+    {LevelIds_s8::eMudomoVault_3, 87u, 103u, 67u},
+    {LevelIds_s8::eMudancheeVault_4, 87u, 103u, 67u},
+    {LevelIds_s8::eFeeCoDepot_5, 87u, 103u, 67u},
+    {LevelIds_s8::eBarracks_6, 87u, 103u, 67u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 87u, 103u, 67u},
+    {LevelIds_s8::eBonewerkz_8, 87u, 103u, 67u},
+    {LevelIds_s8::eBrewery_9, 87u, 103u, 67u},
+    {LevelIds_s8::eBrewery_Ender_10, 87u, 103u, 67u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 87u, 103u, 67u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 87u, 103u, 67u},
+    {LevelIds_s8::eBarracks_Ender_13, 87u, 103u, 67u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 87u, 103u, 67u},
+    {LevelIds_s8::eNone, 87u, 103u, 67u}};
 
 using TMudBrainStateFunction = decltype(&Mudokon::Brain_0_GiveRings_470C10);
 

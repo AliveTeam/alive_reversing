@@ -42,21 +42,21 @@ struct Greeter_State final
     s16 field_22_frame_change_counter;
     s8 field_24_bAnimRender;
     s8 field_25_bDrawable;
-    s8 field_26;
-    s8 field_27;
+    s8 field_26_padding;
+    s8 field_27_padding;
     s32 field_28_tlvInfo;
-    s32 field_2C;
+    s32 field_2C_unused;
     s32 field_30_last_turn_time;
     s32 field_34_timer;
-    s16 field_38;
-    s16 field_3A;
-    s16 field_3C;
-    s16 field_3E;
+    s16 field_38_timesShot;
+    s16 field_3A_bDontSetDestroyed;
+    s16 field_3C_bChasing;
+    s16 field_3E_padding;
     FP field_40_speed;
     GreeterBrainStates field_44_brain_state;
     s16 field_46_targetOnLeft;
     s16 field_48_targetOnRight;
-    s16 field_4A;
+    s16 field_4A_padding;
     FP field_4C_motion_laser_xpos;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Greeter_State, 0x50);
@@ -65,12 +65,12 @@ class PathLine;
 
 enum class GreeterSpeak : s16
 {
-    Hi_0 = 0,
-    HereBoy_1 = 1,
-    GetHim_2 = 2,
-    Laugh_3 = 3,
-    What_9 = 9,
-    Randomized_1000 = 1000,
+    eHi_0 = 0,
+    eHereBoy_1 = 1,
+    eGetHim_2 = 2,
+    eLaugh_3 = 3,
+    eWhat_9 = 9,
+    eRandomized_1000 = 1000,
 };
 
 class Greeter final : public BaseAliveGameObject
@@ -110,13 +110,13 @@ private:
 private:
     s32 field_118_tlvInfo;
     s32 field_11C_motionDetectorId;
-    s32 field_120;
+    s32 field_120_unused;
     s32 field_124_last_turn_time;
     s32 field_128_timer;
-    s16 field_12C;
-    s16 field_12E;
-    s16 field_130;
-    s16 field_132;
+    s16 field_12C_timesShot;
+    s16 field_12E_bDontSetDestroyed;
+    s16 field_130_bChasing;
+    s16 field_132_padding;
     FP field_134_speed;
     Path_TLV* field_138_pTlv;
 
@@ -126,6 +126,6 @@ public:
     s16 field_140_targetOnRight;
 
 private:
-    s16 field_142;
+    s16 field_142_padding;
 };
 ALIVE_ASSERT_SIZEOF(Greeter, 0x144);

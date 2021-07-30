@@ -558,11 +558,11 @@ void EvilFart::vUpdate_423100()
                 return;
             }
 
-            const FP v18 = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
-            const FP v19 = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20)));
+            const FP yposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
+            const FP xposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20)));
             New_TintChant_Particle_426BE0(
-                v19 + field_B8_xpos,
-                v18 + field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
+                xposOffset + field_B8_xpos,
+                yposOffset + field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
                 field_CC_sprite_scale,
                 Layer::eLayer_0);
         }
