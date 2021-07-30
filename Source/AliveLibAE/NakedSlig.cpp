@@ -28,25 +28,22 @@
 #include "Sfx.hpp"
 #include "SlamDoor.hpp"
 
-TintEntry stru_5514B8[18] = {
-    {1u, 127u, 127u, 127u},
-    {2u, 137u, 137u, 137u},
-    {3u, 127u, 127u, 127u},
-    {4u, 127u, 127u, 127u},
-    {5u, 127u, 127u, 127u},
-    {6u, 127u, 127u, 127u},
-    {7u, 127u, 127u, 127u},
-    {8u, 127u, 127u, 127u},
-    {9u, 127u, 127u, 127u},
-    {10u, 127u, 127u, 127u},
-    {11u, 127u, 127u, 127u},
-    {12u, 127u, 127u, 127u},
-    {13u, 127u, 127u, 127u},
-    {14u, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u}};
+const TintEntry kNakedSligTints_5514B8[18] = {
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 137u, 137u, 137u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 const s32 sNakedSligFrameTableOffsets_551470[18] = {
     53684,
@@ -110,7 +107,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, s32 tlvInfo)
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, 1, 0));
     Animation_Init_424E10(53684, 109, 37, field_10_resources_array.ItemAt(0), 1, 1);
 
-    SetTint_425600(&stru_5514B8[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&kNakedSligTints_5514B8[0], gMap_5C3030.field_0_current_level);
 
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
 
@@ -1484,7 +1481,7 @@ void NakedSlig::M_WakingUp_2_41BF00()
 
         if (pObj->field_4_typeId == AETypes::eSnoozeParticle_124)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 

@@ -93,25 +93,22 @@ const AnimId dword_554524[4][25] = {
      AnimId::Glukkon_Phleg_Unknown_F, AnimId::Glukkon_Phleg_Unknown_G, AnimId::Glukkon_Phleg_Unknown_H, AnimId::Glukkon_Phleg_Unknown_I, AnimId::Glukkon_Phleg_Unknown_J,
      AnimId::Glukkon_Phleg_Stand_Up_A, AnimId::Glukkon_Phleg_Possessed_B, AnimId::Glukkon_Phleg_Stand_Up_B, AnimId::Glukkon_Phleg_Speak_C, AnimId::Glukkon_Phleg_Unknown_K}};
 
-TintEntry stru_5546B4[18] = {
-    {1u, 137u, 137u, 137u},
-    {2u, 137u, 137u, 137u},
-    {3u, 137u, 137u, 137u},
-    {4u, 137u, 137u, 137u},
-    {5u, 137u, 137u, 137u},
-    {6u, 137u, 137u, 137u},
-    {7u, 137u, 137u, 137u},
-    {8u, 137u, 137u, 137u},
-    {9u, 137u, 137u, 137u},
-    {10u, 137u, 137u, 137u},
-    {11u, 137u, 137u, 137u},
-    {12u, 137u, 137u, 137u},
-    {13u, 137u, 137u, 137u},
-    {14u, 137u, 137u, 137u},
-    {-1, 137u, 137u, 137u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u}};
+const TintEntry kGlukkonTints_5546B4[18] = {
+    {LevelIds_s8::eMines_1, 137u, 137u, 137u},
+    {LevelIds_s8::eNecrum_2, 137u, 137u, 137u},
+    {LevelIds_s8::eMudomoVault_3, 137u, 137u, 137u},
+    {LevelIds_s8::eMudancheeVault_4, 137u, 137u, 137u},
+    {LevelIds_s8::eFeeCoDepot_5, 137u, 137u, 137u},
+    {LevelIds_s8::eBarracks_6, 137u, 137u, 137u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 137u, 137u, 137u},
+    {LevelIds_s8::eBonewerkz_8, 137u, 137u, 137u},
+    {LevelIds_s8::eBrewery_9, 137u, 137u, 137u},
+    {LevelIds_s8::eBrewery_Ender_10, 137u, 137u, 137u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 137u, 137u, 137u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 137u, 137u, 137u},
+    {LevelIds_s8::eBarracks_Ender_13, 137u, 137u, 137u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 137u, 137u, 137u},
+    {LevelIds_s8::eNone, 137u, 137u, 137u}};
 
 s32 CC Glukkon::CreateFromSaveState_442830(const u8* pData)
 {
@@ -2017,7 +2014,7 @@ void Glukkon::Init_43F260()
 
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
-    SetTint_425600(&stru_5546B4[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&kGlukkonTints_5546B4[0], gMap_5C3030.field_0_current_level);
     field_B8_xpos = FP_FromInteger((field_1A8_tlvData.field_8_top_left.field_0_x + field_1A8_tlvData.field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(field_1A8_tlvData.field_8_top_left.field_2_y);
 

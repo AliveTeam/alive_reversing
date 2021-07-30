@@ -27,10 +27,10 @@
 #include "ParamiteWebLine.hpp"
 #include "ScreenShake.hpp"
 
-TintEntry stru_55D73C[24] = {
-    {3u, 105u, 105u, 105u},
-    {11u, 105u, 105u, 105u},
-    {-1, 105u, 105u, 105u}};
+const TintEntry kParamiteTints_55D73C[24] = {
+    {LevelIds_s8::eMudomoVault_3, 105u, 105u, 105u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 105u, 105u, 105u},
+    {LevelIds_s8::eNone, 105u, 105u, 105u}};
 
 
 const TParamiteMotionFn sParamite_motion_table_55D5B0[44] = {
@@ -103,7 +103,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    SetTint_425600(&stru_55D73C[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&kParamiteTints_55D73C[0], gMap_5C3030.field_0_current_level);
 
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);

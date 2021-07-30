@@ -10,24 +10,21 @@
 #include "SwitchStates.hpp"
 
 const TintEntry kSwitchTints_563228[18] = {
-    {1, 127u, 127u, 127u},
-    {2, 127u, 127u, 127u},
-    {3, 127u, 127u, 127u},
-    {4, 127u, 127u, 127u},
-    {5, 127u, 127u, 127u},
-    {6, 127u, 127u, 127u},
-    {7, 127u, 127u, 127u},
-    {8, 127u, 127u, 127u},
-    {9, 127u, 127u, 127u},
-    {10, 127u, 127u, 127u},
-    {11, 127u, 127u, 127u},
-    {12, 127u, 127u, 127u},
-    {13, 127u, 127u, 127u},
-    {14, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u},
-    {0, 0u, 0u, 0u},
-    {0, 0u, 0u, 0u},
-    {0, 0u, 0u, 0u}};
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 BaseGameObject* Switch::VDestructor(s32 flags)
 {

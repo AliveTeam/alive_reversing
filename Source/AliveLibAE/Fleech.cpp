@@ -581,7 +581,7 @@ void Fleech::M_WakingUp_1_42F270()
 
         if (pObj->field_4_typeId == AETypes::eSnoozeParticle_124)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 
@@ -1649,22 +1649,22 @@ s16 Fleech::IsScrabOrParamiteNear_42B440(FP radius)
     return 0;
 }
 
-TintEntry stru_551844[15] = {
-    {1u, 127u, 127u, 127u},
-    {2u, 137u, 137u, 137u},
-    {3u, 127u, 127u, 127u},
-    {4u, 127u, 127u, 127u},
-    {5u, 127u, 127u, 127u},
-    {6u, 127u, 127u, 127u},
-    {7u, 127u, 127u, 127u},
-    {8u, 127u, 127u, 127u},
-    {9u, 127u, 127u, 127u},
-    {10u, 127u, 127u, 127u},
-    {11u, 127u, 127u, 127u},
-    {12u, 127u, 127u, 127u},
-    {13u, 127u, 127u, 127u},
-    {14u, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u}};
+const TintEntry kFleechTints_551844[15] = {
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 137u, 137u, 137u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 s32 CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData)
 {
@@ -1700,7 +1700,7 @@ void Fleech::Init_42A170()
     field_170_danger_obj = -1;
     field_15E = 0;
 
-    SetTint_425600(&stru_551844[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&kFleechTints_551844[0], gMap_5C3030.field_0_current_level);
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {

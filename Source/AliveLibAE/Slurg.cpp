@@ -8,6 +8,7 @@
 #include "Events.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
+#include "PathData.hpp"
 
 ALIVE_VAR(1, 0x5C1C08, u16, sSlurg_Step_Watch_Points_Idx_5C1C08, 0);
 ALIVE_ARY(1, 0x5BD4DC, s8, 2, sSlurg_Step_Watch_Points_Count_5BD4DC, {});
@@ -25,24 +26,21 @@ EXPORT void CC Slurg::Clear_Slurg_Step_Watch_Points_449A90()
 }
 
 TintEntry sSlurgTints_560BCC[18] = {
-    {1u, 102u, 127u, 118u},
-    {2u, 102u, 127u, 118u},
-    {3u, 102u, 127u, 118u},
-    {4u, 102u, 127u, 118u},
-    {5u, 102u, 127u, 118u},
-    {6u, 102u, 127u, 118u},
-    {7u, 102u, 127u, 118u},
-    {8u, 102u, 127u, 118u},
-    {9u, 102u, 127u, 118u},
-    {10u, 102u, 127u, 118u},
-    {11u, 102u, 127u, 118u},
-    {12u, 102u, 127u, 118u},
-    {13u, 102u, 127u, 118u},
-    {14u, 102u, 127u, 118u},
-    {-1, 102u, 127u, 118u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u}};
+    {LevelIds_s8::eMines_1, 102u, 127u, 118u},
+    {LevelIds_s8::eNecrum_2, 102u, 127u, 118u},
+    {LevelIds_s8::eMudomoVault_3, 102u, 127u, 118u},
+    {LevelIds_s8::eMudancheeVault_4, 102u, 127u, 118u},
+    {LevelIds_s8::eFeeCoDepot_5, 102u, 127u, 118u},
+    {LevelIds_s8::eBarracks_6, 102u, 127u, 118u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 102u, 127u, 118u},
+    {LevelIds_s8::eBonewerkz_8, 102u, 127u, 118u},
+    {LevelIds_s8::eBrewery_9, 102u, 127u, 118u},
+    {LevelIds_s8::eBrewery_Ender_10, 102u, 127u, 118u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 102u, 127u, 118u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 102u, 127u, 118u},
+    {LevelIds_s8::eBarracks_Ender_13, 102u, 127u, 118u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 102u, 127u, 118u},
+    {LevelIds_s8::eNone, 102u, 127u, 118u}};
 
 Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
 {
@@ -51,7 +49,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
 
     field_128_pTlv = pTlv;
 
-    field_11C_state = Slurg_States::State_0_Moving;
+    field_11C_state = Slurg_States::eMoving_0;
 
     const AnimRecord& rec = AnimRec(AnimId::Slurg_Move);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -201,14 +199,14 @@ void Slurg::dtor_4C8A40()
     SetVTable(this, 0x547720);
     if (field_12C_tlvInfo == -1)
     {
-        Path::TLV_Reset_4DB8E0(0xFFFFFFFF, -1, 0, field_11C_state == Slurg_States::State_2_Burst);
+        Path::TLV_Reset_4DB8E0(0xFFFFFFFF, -1, 0, field_11C_state == Slurg_States::eBurst_2);
     }
     dtor_4080B0();
 }
 
 void Slurg::Burst_4C8AE0()
 {
-    field_11C_state = Slurg_States::State_2_Burst;
+    field_11C_state = Slurg_States::eBurst_2;
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Burst);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
@@ -244,7 +242,7 @@ void Slurg::vUpdate_4C8790()
     if (field_11E_moving_timer == 0)
     {
         field_11E_moving_timer = Math_RandomRange_496AB0(field_120_delay_random, field_120_delay_random + 20);
-        field_11C_state = Slurg_States::State_1_Stopped;
+        field_11C_state = Slurg_States::eStopped_1;
         const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }
@@ -252,7 +250,7 @@ void Slurg::vUpdate_4C8790()
     PSX_RECT bRect = {};
     vGetBoundingRect_424FD0(&bRect, 1);
 
-    if (field_11C_state != Slurg_States::State_2_Burst)
+    if (field_11C_state != Slurg_States::eBurst_2)
     {
         const s32 idx = sSlurg_Step_Watch_Points_Idx_5C1C08 == 0;
         const s32 max_count = sSlurg_Step_Watch_Points_Count_5BD4DC[idx];
@@ -269,7 +267,7 @@ void Slurg::vUpdate_4C8790()
 
     switch (field_11C_state)
     {
-        case Slurg_States::State_0_Moving:
+        case Slurg_States::eMoving_0:
             field_C4_velx = FP_FromInteger(1);
             field_11E_moving_timer--;
             if (field_118_flags.Get(SlurgFlags::Bit1_Direction))
@@ -285,7 +283,7 @@ void Slurg::vUpdate_4C8790()
             }
             break;
 
-        case Slurg_States::State_1_Stopped:
+        case Slurg_States::eStopped_1:
             field_C4_velx = FP_FromInteger(0);
             if (field_20_animation.field_92_current_frame == 0
                 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
@@ -295,13 +293,13 @@ void Slurg::vUpdate_4C8790()
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_11C_state = Slurg_States::State_0_Moving;
+                field_11C_state = Slurg_States::eMoving_0;
                 const AnimRecord& animRec = AnimRec(AnimId::Slurg_Move);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
             break;
 
-        case Slurg_States::State_2_Burst:
+        case Slurg_States::eBurst_2:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -405,7 +403,7 @@ void Slurg::GoLeft()
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
     field_118_flags.Clear(SlurgFlags::Bit1_Direction);
 
-    field_11C_state = Slurg_States::State_1_Stopped;
+    field_11C_state = Slurg_States::eStopped_1;
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 }
@@ -415,7 +413,7 @@ void Slurg::GoRight()
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     field_118_flags.Set(SlurgFlags::Bit1_Direction);
 
-    field_11C_state = Slurg_States::State_1_Stopped;
+    field_11C_state = Slurg_States::eStopped_1;
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 }

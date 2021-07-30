@@ -368,21 +368,21 @@ const AnimId sAbeFrameTables[130] = {
     AnimId::Abe_Death_Gas};
 
 const TintEntry sTintTable_Abe_554D20[15] = {
-    {1, 102u, 102u, 102u},
-    {2, 102u, 102u, 80u},
-    {3, 120u, 90u, 120u},
-    {4, 102u, 70u, 90u},
-    {5, 120u, 102u, 82u},
-    {6, 102u, 102u, 102u},
-    {7, 102u, 70u, 90u},
-    {8, 102u, 102u, 102u},
-    {9, 102u, 102u, 102u},
-    {10, 102u, 102u, 102u},
-    {11, 120u, 90u, 120u},
-    {12, 120u, 102u, 82u},
-    {13, 102u, 102u, 102u},
-    {14, 120u, 90u, 80u},
-    {-1, 102u, 102u, 102u}};
+    {LevelIds_s8::eMines_1, 102u, 102u, 102u},
+    {LevelIds_s8::eNecrum_2, 102u, 102u, 80u},
+    {LevelIds_s8::eMudomoVault_3, 120u, 90u, 120u},
+    {LevelIds_s8::eMudancheeVault_4, 102u, 70u, 90u},
+    {LevelIds_s8::eFeeCoDepot_5, 120u, 102u, 82u},
+    {LevelIds_s8::eBarracks_6, 102u, 102u, 102u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 102u, 70u, 90u},
+    {LevelIds_s8::eBonewerkz_8, 102u, 102u, 102u},
+    {LevelIds_s8::eBrewery_9, 102u, 102u, 102u},
+    {LevelIds_s8::eBrewery_Ender_10, 102u, 102u, 102u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 120u, 90u, 120u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 120u, 102u, 82u},
+    {LevelIds_s8::eBarracks_Ender_13, 102u, 102u, 102u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 120u, 90u, 80u},
+    {LevelIds_s8::eNone, 102u, 102u, 102u}};
 
 const SfxDefinition sSFXList_555160[] = {
     {0u, 3u, 69u, 60u, -1, 1},
