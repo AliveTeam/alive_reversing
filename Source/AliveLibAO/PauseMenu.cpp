@@ -393,7 +393,7 @@ void PauseMenu::VUpdate_44DFB0()
                         break;
                     }
 
-                    auto last_pressed = Input_GetLastPressedKey_44F2C0();
+                    auto last_pressed = static_cast<char_type>(Input_GetLastPressedKey_44F2C0());
                     char_type lastPressedKeyNT[2] = {last_pressed, 0};
 
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Exit save menu using controller
