@@ -44,8 +44,8 @@ public:
     s32 field_D4[4];
     AliveFont field_E4_font;
     s16 field_11C;
-    s16 field_11E;
-    s16 field_120;
+    s16 field_11E_selected_glow;
+    s16 field_120_selected_glow_counter;
     s16 field_122;
     s16 field_124;
     s16 field_126_page;
@@ -54,7 +54,7 @@ public:
     s16 field_12C;
     s16 field_12E;
     s16 field_130;
-    s16 field_132;
+    s16 field_132_always_0;
     s16 field_134;
     s16 field_136;
     Prim_SetTPage field_138_tPage[2];
