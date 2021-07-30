@@ -31,7 +31,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_6_flags.Set(Options::eInteractive_Bit8);
-    field_1B8 &= ~1u;
+    field_1B8_flags.Clear(TimedMine_Flags_1B8::eStickToLiftPoint_0);
     field_10C_armed = 0;
 
     if (pTlv->field_1C_scale == 1)
@@ -225,7 +225,7 @@ void TimedMine::StickToLiftPoint_408CA0()
     FP hitY = {};
     FP hitX = {};
     PathLine* pLine = nullptr;
-    field_1B8 |= 1;
+    field_1B8_flags.Set(TimedMine_Flags_1B8::eStickToLiftPoint_0);
     if (sCollisions_DArray_504C6C->RayCast_40C410(
             field_A8_xpos,
             field_AC_ypos - FP_FromInteger(20),
@@ -280,7 +280,7 @@ void TimedMine::VUpdate_408760()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (!(field_1B8 & 1))
+    if (!field_1B8_flags.Get(TimedMine_Flags_1B8::eStickToLiftPoint_0))
     {
         StickToLiftPoint_408CA0();
     }
@@ -294,9 +294,9 @@ void TimedMine::VUpdate_408760()
     }
     if (field_10C_armed == 1)
     {
-        if (static_cast<s32>(gnFrameCount_507670) > (field_1B4 + field_1B0))
+        if (static_cast<s32>(gnFrameCount_507670) > (field_1B4_detonation_timer + field_1B0_gnFrame_2))
         {
-            field_1B0 = gnFrameCount_507670;
+            field_1B0_gnFrame_2 = gnFrameCount_507670;
             auto direction = gMap_507BA8.GetDirection(
                 field_B2_lvl_number,
                 field_B0_path_number,
@@ -307,11 +307,11 @@ void TimedMine::VUpdate_408760()
             //~7 limits the number to multiples of 8
             if (((field_114_timer - gnFrameCount_507670) & ~7) >= 18 * 8)
             {
-                field_1B4 = 18;
+                field_1B4_detonation_timer = 18;
             }
             else
             {
-                field_1B4 = (field_114_timer - gnFrameCount_507670) / 8;
+                field_1B4_detonation_timer = (field_114_timer - gnFrameCount_507670) / 8;
             }
         }
         if (static_cast<s32>(gnFrameCount_507670) >= field_114_timer)
@@ -364,13 +364,13 @@ void TimedMine::vOnPickUpOrSlapped_408A80()
         field_10C_armed = 1;
         if ((s32)(field_10E_explode_timeout & 0xFFFC) >= 72)
         {
-            field_1B4 = 18;
+            field_1B4_detonation_timer = 18;
         }
         else
         {
-            field_1B4 = field_10E_explode_timeout >> 2;
+            field_1B4_detonation_timer = field_10E_explode_timeout >> 2;
         }
-        field_1B0 = gnFrameCount_507670;
+        field_1B0_gnFrame_2 = gnFrameCount_507670;
         field_10_anim.Set_Animation_Data_402A40(804, 0);
         field_114_timer = gnFrameCount_507670 + field_10E_explode_timeout;
         field_118_anim.Set_Animation_Data_402A40(384, 0);

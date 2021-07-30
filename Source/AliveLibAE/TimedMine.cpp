@@ -150,9 +150,9 @@ void TimedMine::Update_410A80()
 
     if (field_118_armed == 1)
     {
-        if (sGnFrame_5C1B84 > field_1BC_gnframe_2 + field_1C0_detonation_timer)
+        if (sGnFrame_5C1B84 > field_1BC_gnFrame_2 + field_1C0_detonation_timer)
         {
-            field_1BC_gnframe_2 = sGnFrame_5C1B84;
+            field_1BC_gnFrame_2 = sGnFrame_5C1B84;
             const CameraPos soundDir = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
             SFX_Play_46FC20(SoundEffect::GreenTick_2, 50, soundDir);
 
@@ -375,7 +375,7 @@ void TimedMine::vOnPickUpOrSlapped_410E30()
         {
             field_1C0_detonation_timer = field_11A_explode_timeout >> 2;
         }
-        field_1BC_gnframe_2 = sGnFrame_5C1B84;
+        field_1BC_gnFrame_2 = sGnFrame_5C1B84;
         const AnimRecord& animRec = AnimRec(AnimId::Timed_Mine_Armed);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_120_gnframe = sGnFrame_5C1B84 + field_11A_explode_timeout;

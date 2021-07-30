@@ -17,6 +17,11 @@ struct Path_TimedMine final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_TimedMine, 0x24);
 
+enum TimedMine_Flags_1B8
+{
+    eStickToLiftPoint_0 = 0x1
+};
+
 class TimedMine final : public BaseAliveGameObject
 {
 public:
@@ -47,11 +52,11 @@ public:
     s32 field_110_tlvInfo;
     s32 field_114_timer;
     Animation field_118_anim;
-    s32 field_1B0;
-    s32 field_1B4;
-    s16 field_1B8;
-    s8 field_1BA;
-    s8 field_1BB;
+    s32 field_1B0_gnFrame_2;
+    s32 field_1B4_detonation_timer;
+    BitField16<TimedMine_Flags_1B8> field_1B8_flags;
+    s8 field_1BA_padding;
+    s8 field_1BB_padding;
 };
 ALIVE_ASSERT_SIZEOF(TimedMine, 0x1BC);
 
