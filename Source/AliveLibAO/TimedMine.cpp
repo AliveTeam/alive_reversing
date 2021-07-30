@@ -13,10 +13,10 @@
 
 namespace AO {
 
-TintEntry stru_4C3140[3] = {
-    {5, 60u, 60u, 60u},
-    {6, 60u, 60u, 60u},
-    {-1, 127u, 127u, 127u},
+const TintEntry kTimedMineTints_4C3140[3] = {
+    {LevelIds_s8::eStockYards_5, 60u, 60u, 60u},
+    {LevelIds_s8::eStockYardsReturn_6, 60u, 60u, 60u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u},
 };
 
 TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
@@ -79,7 +79,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
     field_114_timer = gnFrameCount_507670;
     field_110_tlvInfo = tlvInfo;
 
-    SetBaseAnimPaletteTint_4187C0(stru_4C3140, gMap_507BA8.field_0_current_level, 1005);
+    SetBaseAnimPaletteTint_4187C0(kTimedMineTints_4C3140, gMap_507BA8.field_0_current_level, 1005);
     field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
     field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
     field_D4_collection_rect.h = field_AC_ypos;

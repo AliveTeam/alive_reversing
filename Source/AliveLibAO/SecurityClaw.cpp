@@ -21,16 +21,16 @@
 
 namespace AO {
 
-TintEntry stru_4C5488[] = {
-    {5, 105u, 55u, 55u},
-    {6, 105u, 55u, 55u},
-    {-1, 127u, 127u, 127u},
+const TintEntry kSecurityClawTints_4C5488[] = {
+    {LevelIds_s8::eStockYards_5, 105u, 55u, 55u},
+    {LevelIds_s8::eStockYardsReturn_6, 105u, 55u, 55u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u},
 };
 
-TintEntry stru_4C5498[3] = {
-    {5, 80u, 55u, 55u},
-    {6, 80u, 55u, 55u},
-    {-1, 127u, 127u, 127u}};
+const TintEntry kClawTints_4C5498[3] = {
+    {LevelIds_s8::eStockYards_5, 80u, 55u, 55u},
+    {LevelIds_s8::eStockYardsReturn_6, 80u, 55u, 55u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 void Claw::ctor()
 {
@@ -92,7 +92,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
     field_A8_xpos = field_11C_clawX + ((Math_Sine_451110(0) * field_BC_sprite_scale) * FP_FromInteger(8)) * FP_FromDouble(0.25);
     field_AC_ypos = field_120_clawY + ((Math_Cosine_4510A0(0) * field_BC_sprite_scale) * FP_FromInteger(8));
-    SetTint_418750(&stru_4C5488[0], gMap_507BA8.field_0_current_level);
+    SetTint_418750(&kSecurityClawTints_4C5488[0], gMap_507BA8.field_0_current_level);
 
     field_134 = pTlv->field_10_top_left;
     field_138 = pTlv->field_14_bottom_right;
@@ -113,7 +113,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
         pClaw->field_A8_xpos = field_11C_clawX;
         pClaw->field_AC_ypos = field_120_clawY;
-        pClaw->SetTint_418750(&stru_4C5498[0], gMap_507BA8.field_0_current_level);
+        pClaw->SetTint_418750(&kClawTints_4C5498[0], gMap_507BA8.field_0_current_level);
     }
 
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);

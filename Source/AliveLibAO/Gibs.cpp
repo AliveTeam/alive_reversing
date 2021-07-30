@@ -19,17 +19,17 @@ const Gib_Data kGibData_4C30B0[6] = {
     {7208, 7248, 7288, 50, 25, 25},
     {3928, 3928, 3928, 37, 30, 365}};
 
-TintEntry sAbeGibTints_4C6438[5] = {
-    {5, 25u, 25u, 25u},
-    {6, 25u, 25u, 25u},
-    {8, 125u, 125u, 95u},
-    {9, 120u, 120u, 90u},
-    {-1, 102u, 102u, 102u}};
+const TintEntry sAbeGibTints_4C6438[5] = {
+    {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
+    {LevelIds_s8::eStockYardsReturn_6, 25u, 25u, 25u},
+    {LevelIds_s8::eDesert_8, 125u, 125u, 95u},
+    {LevelIds_s8::eDesertTemple_9, 120u, 120u, 90u},
+    {LevelIds_s8::eNone, 102u, 102u, 102u}};
 
-TintEntry sMudGibTints_4CD320[3] = {
-    {5, 25u, 25u, 25u},
-    {6, 25u, 25u, 25u},
-    {-1, 87u, 103u, 67u},
+const TintEntry sMudGibTints_4CD320[3] = {
+    {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
+    {LevelIds_s8::eStockYardsReturn_6, 25u, 25u, 25u},
+    {LevelIds_s8::eNone , 87u, 103u, 67u},
 };
 
 static FP GibRand(FP scale)

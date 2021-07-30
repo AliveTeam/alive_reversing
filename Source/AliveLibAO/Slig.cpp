@@ -43,10 +43,10 @@ namespace AO {
 ALIVE_VAR(1, 0x9F11BC, s32, dword_9F11BC, 0);
 ALIVE_VAR(1, 0x9F11C0, s32, dword_9F11C0, 0);
 
-TintEntry stru_4CFB10[3] = {
-    {5, 127u, 127u, 127u},
-    {6, 127u, 127u, 127u},
-    {-1, 102u, 127u, 118u}};
+const TintEntry kSligTints_4CFB10[3] = {
+    {LevelIds_s8::eStockYards_5, 127u, 127u, 127u},
+    {LevelIds_s8::eStockYardsReturn_6, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 102u, 127u, 118u}};
 
 using TSligStateFunction = decltype(&Slig::Motion_0_StandIdle_467640);
 
@@ -359,7 +359,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, s32 tlvInfo)
     }
 
     SetBaseAnimPaletteTint_4187C0(
-        &stru_4CFB10[0],
+        &kSligTints_4CFB10[0],
         gMap_507BA8.field_0_current_level,
         412);
 

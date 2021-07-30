@@ -27,6 +27,27 @@ enum class LevelIds : s16
     eDesertEscape = 15,
 };
 
+enum LevelIds_s8 : s8
+{
+    eNone = -1,
+    eMenu_0 = 0,
+    eRuptureFarms_1 = 1,
+    eLines_2 = 2,
+    eForest_3 = 3,
+    eForestTemple_4 = 4,
+    eStockYards_5 = 5,
+    eStockYardsReturn_6 = 6,
+    eRemoved_7 = 7,
+    eDesert_8 = 8,
+    eDesertTemple_9 = 9,
+    eCredits_10 = 10,
+    eRemoved_11 = 11,
+    eBoardRoom_12 = 12,
+    eRuptureFarmsReturn_13 = 13,
+    eForestChase = 14,
+    eDesertEscape = 15,
+};
+
 enum class TlvTypes : s16
 {
     None_m1 = -1,

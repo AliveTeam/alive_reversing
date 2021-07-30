@@ -572,9 +572,9 @@ void Slog::MoveOnLine_4740F0()
 }
 
 const TintEntry sSlogTints_4CFE10[3] = {
-    {5, 48u, 48u, 48u},
-    {6, 48u, 48u, 48u},
-    {-1, 127u, 127u, 127u}};
+    {LevelIds_s8::eStockYards_5, 48u, 48u, 48u},
+    {LevelIds_s8::eStockYardsReturn_6, 48u, 48u, 48u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 void Slog::Init_473130()
 {
