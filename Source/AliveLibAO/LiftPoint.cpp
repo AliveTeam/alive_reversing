@@ -262,7 +262,7 @@ void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
 void LiftPoint::Sub_Unknown(Path_TLV* pTlv)
 {
     pTlv->field_0_flags.Clear(eBit1_Created);
-    pTlv->field_0_flags.Clear(eBit2_Unknown);
+    pTlv->field_0_flags.Clear(eBit2_Destroyed);
     pTlv->field_1_unknown |= 1;
 }
 

@@ -1545,7 +1545,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
-        if (pTlvIter->field_4_type == TlvTypes::Slig_24 && pTlv->field_18_slig_id == static_cast<Path_Slig*>(pTlvIter)->field_40_slig_id && !pTlvIter->field_0_flags.Get(TLV_Flags::eBit2_Unknown))
+        if (pTlvIter->field_4_type == TlvTypes::Slig_24 && pTlv->field_18_slig_id == static_cast<Path_Slig*>(pTlvIter)->field_40_slig_id && !pTlvIter->field_0_flags.Get(TLV_Flags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -1566,7 +1566,7 @@ EXPORT void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
     else
     {
         pBound->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-        pBound->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+        pBound->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
@@ -1575,7 +1575,7 @@ EXPORT void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
             if (pTlvIter)
             {
                 pTlvIter->field_0_flags.Set(TLV_Flags::eBit1_Created);
-                pTlvIter->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                pTlvIter->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
                 auto pSlig = ao_new<Slig>();
                 if (pSlig)
                 {

@@ -440,13 +440,13 @@ BaseGameObject* Slig::dtor_465320()
         if (pTlv)
         {
             pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
         }
     }
     else if (pTlv)
     {
         pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-        pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+        pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
     }
 
     for (u8**& ppRes : field_210_resources.res)

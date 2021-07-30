@@ -80,7 +80,7 @@ extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CD
 enum TLV_Flags
 {
     eBit1_Created = 0x1,
-    eBit2_Unknown = 0x2,
+    eBit2_Destroyed = 0x2,
     eBit3_End_TLV_List = 0x4,
 };
 
@@ -191,7 +191,7 @@ public:
 
     EXPORT void Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad);
 
-    EXPORT void TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2);
+    EXPORT void TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
 
     EXPORT void RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible);
 
