@@ -34,7 +34,7 @@
 #include "VRam.hpp"
 #include "Electrocute.hpp"
 
-const SfxDefinition stru_5607E0[17] = {
+const SfxDefinition kSfxInfoTable_5607E0[17] = {
     {0u, 1u, 58u, 40u, -256, -256},
     {0u, 1u, 58u, 35u, 0, 0},
     {0u, 1u, 59u, 55u, 0, 0},
@@ -55,7 +55,7 @@ const SfxDefinition stru_5607E0[17] = {
 
 void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
 {
-    const SfxDefinition* pEffect = &stru_5607E0[static_cast<s32>(effect)];
+    const SfxDefinition* pEffect = &kSfxInfoTable_5607E0[static_cast<s32>(effect)];
     s16 vLeft = 0;
     s16 vRight = 0;
     if (Calc_Slig_Sound_Direction_4C01B0(pObj, 0, pEffect, &vLeft, &vRight))
