@@ -225,9 +225,9 @@ void RollingBall::VUpdate_457AF0()
                 &field_AC_ypos,
                 field_B4_velx);
 
-            u16 v39 = 0;
-            CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 50, &v39);
-            if (v39 == 1 || v39 == 2)
+            u16 result = 0;
+            CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 50, &result);
+            if (result == 1 || result == 2)
             {
                 MapFollowMe_401D30(0);
             }

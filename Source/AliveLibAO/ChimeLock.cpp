@@ -267,8 +267,8 @@ void ChimeLock::SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, s16 timer, 
         field_144_ball_start_x = field_A8_xpos;
         field_148_ball_start_y = field_AC_ypos;
 
-        field_150 = FP_FromInteger(256) / timerFP;
-        field_154 = FP_FromInteger(256) / timerFP;
+        field_150_xpos_offset = FP_FromInteger(256) / timerFP;
+        field_154_ypos_offset = FP_FromInteger(256) / timerFP;
 
         field_158_xSize = xSize;
         field_15A_ySize = ySize;
@@ -303,8 +303,8 @@ s16 ChimeLock::UpdateBall_40B8A0()
         case BallStates::eMovingBackToIdle_2:
             field_144_ball_start_x += field_B4_velx;
             field_148_ball_start_y += field_B8_vely;
-            field_A8_xpos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150) & 0xFF)) + field_144_ball_start_x;
-            field_AC_ypos = (FP_FromInteger(field_15A_ySize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154) & 0xFF)) + field_148_ball_start_y;
+            field_A8_xpos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150_xpos_offset) & 0xFF)) + field_144_ball_start_x;
+            field_AC_ypos = (FP_FromInteger(field_15A_ySize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154_ypos_offset) & 0xFF)) + field_148_ball_start_y;
             if (field_15E_ball_angle >= field_160_ball_timer)
             {
                 field_15E_ball_angle = 0;
