@@ -34,7 +34,7 @@ const TFleechMotionFn sFleech_motion_table_551798[19] = {
     &Fleech::M_PatrolCry_5_42E810,
     &Fleech::M_Knockback_6_42EAF0,
     &Fleech::M_StopCrawling_7_42EBB0,      //Stop due to being aligned vertically with target
-    &Fleech::M_StopMidCrawlCycle_8_42EB20, //Stop mid-crawl cycle
+    &Fleech::M_StopMidCrawlCycle_8_42EB20,
     &Fleech::M_Fall_9_42ECD0,
     &Fleech::M_Land_10_42F330,
     &Fleech::M_RaiseHead_11_42F590,
@@ -233,25 +233,25 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
 
 
 const static AnimId sFleechFrameTableOffsets_5517E4[19] = {
-    AnimId::Fleech_Idle_A,
-    AnimId::Fleech_Unknown_A,
+    AnimId::Fleech_Sleeping,
+    AnimId::Fleech_WakingUp,
     AnimId::Fleech_Unknown_B,
-    AnimId::Fleech_Idle_B,
-    AnimId::Fleech_Walk,
-    AnimId::Fleech_Speak,
-    AnimId::Fleech_Unknown_C,
-    AnimId::Fleech_Idle_C,
-    AnimId::Fleech_Idle_D,
-    AnimId::Fleech_Falling,
-    AnimId::Fleech_Landing,
-    AnimId::Fleech_Tongue,
-    AnimId::Fleech_Climb_A,
-    AnimId::Fleech_Climb_B,
-    AnimId::Fleech_Unknown_D,
-    AnimId::Fleech_Unknown_E,
-    AnimId::Fleech_Unknown_F,
-    AnimId::Fleech_Sleep,
-    AnimId::Fleech_Eat};
+    AnimId::Fleech_Idle,
+    AnimId::Fleech_Crawl,
+    AnimId::Fleech_PatrolCry,
+    AnimId::Fleech_Knockback,
+    AnimId::Fleech_StopCrawling,
+    AnimId::Fleech_StopMidCrawlCycle,
+    AnimId::Fleech_Fall,
+    AnimId::Fleech_Land,
+    AnimId::Fleech_RaiseHead,
+    AnimId::Fleech_Climb,
+    AnimId::Fleech_SettleOnGround,
+    AnimId::Fleech_ExtendTongueFromEnemy,
+    AnimId::Fleech_RetractTongueFromEnemey,
+    AnimId::Fleech_DeathByFalling,
+    AnimId::Fleech_SleepingWithTongue,
+    AnimId::Fleech_Consume};
 
 ALIVE_VAR(1, 0x551840, s32, current_target_object_id_551840, -1);
 

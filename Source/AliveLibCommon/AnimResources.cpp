@@ -43,27 +43,27 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
     {AnimId::Bat, kNullAnimDetails, { "BATBASIC.BAN", 6560, 48, 17, kBatBasicResID, PalId::Default} },
     {AnimId::Bee_Swarm, kNullAnimDetails, { "WASP.BAN", 636, 7, 4, kWaspResID, PalId::Default} },
-    // Note: Fleech animations are sorted by order of appearance under Fleech.cpp (line 242)
-    // Lots of idle animations, they might be used for other things but I can't immediately identify their use otherwise.
-    {AnimId::Fleech_Idle_A, { "FLEECH.BAN", 37808, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Unknown_A, { "FLEECH.BAN", 37884, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Still frame of some kind
+
+    // Note: Fleech animations are sorted by order of appearance under Fleech.cpp (line 235)
+    {AnimId::Fleech_Sleeping, { "FLEECH.BAN", 37808, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_WakingUp, { "FLEECH.BAN", 37884, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Fleech_Unknown_B, { "FLEECH.BAN", 37896, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Slow broken animation, probably unused
-    {AnimId::Fleech_Idle_B, { "FLEECH.BAN", 37704, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Walk, { "FLEECH.BAN", 37748, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Speak, { "FLEECH.BAN", 37784, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Unknown_C, { "FLEECH.BAN", 37924, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Another still frame
-    {AnimId::Fleech_Idle_C, { "FLEECH.BAN", 37936, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Idle_D, { "FLEECH.BAN", 37960, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Falling, { "FLEECH.BAN", 37984, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Landing, { "FLEECH.BAN", 38060, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Tongue, { "FLEECH.BAN", 38112, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },    // Used when the fleech attacks or grabbing a ledge
-    {AnimId::Fleech_Climb_A, { "FLEECH.BAN", 38156, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },   // Used while swinging up a ledge
-    {AnimId::Fleech_Climb_B, { "FLEECH.BAN", 38208, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },   // Used when fleech has reached the top of a ledge
-    {AnimId::Fleech_Unknown_D, { "FLEECH.BAN", 38260, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Some sort of quick 2 frame animation
-    {AnimId::Fleech_Unknown_E, { "FLEECH.BAN", 37848, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Seems to be a much slowed down version of Fleech_Tongue
-    {AnimId::Fleech_Unknown_F, { "FLEECH.BAN", 38248, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Another still frame
-    {AnimId::Fleech_Sleep, { "FLEECH.BAN", 38396, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Eat, { "FLEECH.BAN", 38276, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Idle, { "FLEECH.BAN", 37704, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Crawl, { "FLEECH.BAN", 37748, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_PatrolCry, { "FLEECH.BAN", 37784, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Knockback, { "FLEECH.BAN", 37924, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_StopCrawling, { "FLEECH.BAN", 37936, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_StopMidCrawlCycle, { "FLEECH.BAN", 37960, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Fall, { "FLEECH.BAN", 37984, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Land, { "FLEECH.BAN", 38060, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_RaiseHead, { "FLEECH.BAN", 38112, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Climb, { "FLEECH.BAN", 38156, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_SettleOnGround, { "FLEECH.BAN", 38208, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_ExtendTongueFromEnemy, { "FLEECH.BAN", 38260, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_RetractTongueFromEnemey, { "FLEECH.BAN", 37848, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_DeathByFalling, { "FLEECH.BAN", 38248, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_SleepingWithTongue, { "FLEECH.BAN", 38396, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Consume, { "FLEECH.BAN", 38276, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
 
     {AnimId::Flying_Slig_Idle, { "FLYSLIG.BND", 116888, 107, 48u, kFlySligResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Flying_Slig_Move_Horizontal, { "FLYSLIG.BND", 116912, 107, 48u, kFlySligResID, PalId::Default}, kNullAnimDetails },
