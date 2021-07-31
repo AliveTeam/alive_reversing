@@ -679,7 +679,7 @@ s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        4,
+                        GibType::Mud_4,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),
@@ -691,7 +691,7 @@ s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        4,
+                        GibType::Mud_4,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),

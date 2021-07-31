@@ -268,7 +268,7 @@ s16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        3,
+                        GibType::Elum_3,
                         field_A8_xpos,
                         field_AC_ypos,
                         field_B4_velx,

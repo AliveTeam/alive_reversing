@@ -37,7 +37,7 @@ static FP GibRand(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
-Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
+Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 {
     ctor_417C10();
 
@@ -97,22 +97,21 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     u8** ppPal = nullptr;
     if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
     {
-        // TODO: Enum for gib types, 0 = abe, 4 = mud
-        if (gibType == 0 || gibType == 4)
+        if (gibType == GibType::Abe_0 || gibType == GibType::Mud_4)
         {
             ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, 0, 0);
         }
-        else if (gibType == 2)
+        else if (gibType == GibType::Slog_2)
         {
             ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, 0, 0);
         }
     }
 
-    if (gibType == 0)
+    if (gibType == GibType::Abe_0)
     {
         SetTint_418750(sAbeGibTints_4C6438, gMap_507BA8.field_0_current_level);
     }
-    else if (gibType == 4)
+    else if (gibType == GibType::Mud_4)
     {
         SetTint_418750(sMudGibTints_4CD320, gMap_507BA8.field_0_current_level);
     }

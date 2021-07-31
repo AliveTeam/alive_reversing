@@ -359,7 +359,7 @@ s16 Paramite::VTakeDamage_44ACC0(BaseGameObject* pFrom)
             if (pGibs)
             {
                 pGibs->ctor_407B20(
-                    2,
+                    GibType::Slog_2,
                     field_A8_xpos,
                     field_AC_ypos,
                     field_B4_velx,

@@ -583,7 +583,7 @@ s16 Grenade::BlowUpAfterCountdown_41EDD0()
     auto pGibs = ao_new<Gibs>();
     if (pGibs)
     {
-        pGibs->ctor_407B20(5, field_A8_xpos, field_AC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_BC_sprite_scale);
+        pGibs->ctor_407B20(GibType::Metal_5, field_A8_xpos, field_AC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_BC_sprite_scale);
     }
     return 1;
 }

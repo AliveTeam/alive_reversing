@@ -229,7 +229,7 @@ s16 MovingBomb::VTakeDamage_43BB60(BaseGameObject* pFrom)
     if (pGibs)
     {
         pGibs->ctor_407B20(
-            5,
+            GibType::Metal_5,
             field_A8_xpos,
             field_AC_ypos,
             FP_FromInteger(0),
@@ -523,7 +523,7 @@ void MovingBomb::VUpdate_43B440()
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        5,
+                        GibType::Metal_5,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),

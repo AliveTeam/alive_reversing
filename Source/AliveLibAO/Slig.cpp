@@ -979,7 +979,7 @@ s16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        1,
+                        GibType::Slig_1,
                         field_A8_xpos,
                         field_AC_ypos,
                         field_B4_velx,
@@ -3749,7 +3749,7 @@ void Slig::Motion_38_Possess_46B050()
             if (pGibs)
             {
                 pGibs->ctor_407B20(
-                    1,
+                    GibType::Slig_1,
                     field_A8_xpos,
                     field_AC_ypos,
                     xOff,
@@ -5749,7 +5749,7 @@ void Slig::BlowToGibs_4685A0()
     if (pGibs)
     {
         pGibs->ctor_407B20(
-            1,
+            GibType::Slig_1,
             field_A8_xpos,
             field_AC_ypos,
             field_B4_velx,

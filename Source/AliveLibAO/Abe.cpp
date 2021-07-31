@@ -3359,7 +3359,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        0,
+                        GibType::Abe_0,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),
@@ -3427,7 +3427,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        0,
+                        GibType::Abe_0,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),
@@ -3439,7 +3439,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                 if (pGibs_1)
                 {
                     pGibs_1->ctor_407B20(
-                        0,
+                        GibType::Abe_0,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),

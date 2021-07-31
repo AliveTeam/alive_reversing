@@ -219,7 +219,7 @@ s16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
             if (pGibs)
             {
                 pGibs->ctor_407B20(
-                    5,
+                    GibType::Metal_5,
                     field_A8_xpos,
                     field_AC_ypos + FP_FromInteger(50),
                     FP_FromInteger(0),
@@ -235,7 +235,7 @@ s16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
             if (pGibs)
             {
                 pGibs->ctor_407B20(
-                    5,
+                    GibType::Metal_5,
                     field_A8_xpos,
                     field_AC_ypos + FP_FromInteger(50),
                     FP_FromInteger(0),
@@ -247,7 +247,7 @@ s16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
             if (pGibs)
             {
                 pGibs->ctor_407B20(
-                    5,
+                    GibType::Metal_5,
                     field_A8_xpos,
                     field_AC_ypos + FP_FromInteger(50),
                     FP_FromInteger(0),

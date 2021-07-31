@@ -281,7 +281,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
                 if (pGibs)
                 {
-                    pGibs->ctor_407B20(1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                    pGibs->ctor_407B20(GibType::Slig_1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
                 }
             }
             else if (dir == CameraPos::eCamRight_4)
@@ -290,7 +290,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
                 if (pGibs)
                 {
-                    pGibs->ctor_407B20(1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                    pGibs->ctor_407B20(GibType::Slig_1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
                 }
             }
             Stop_slig_sounds_476A20(dir, 0);
