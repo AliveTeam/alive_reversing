@@ -103,6 +103,8 @@ SET(AliveLibSrcAO
    Throwable.cpp
    Rock.hpp
    Rock.cpp
+   RockSack.hpp
+   RockSack.cpp
    BackgroundGlukkon.hpp
    BackgroundGlukkon.cpp
    ThrowableTotalIndicator.hpp

@@ -31,7 +31,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Fleech_Head_Gib, { "FLEEBLOW.BAN", 1088, 19, 8, kFleeBlowResID_580, PalId::Default}, kNullAnimDetails },
     {AnimId::Fleech_Body_Gib, { "FLEEBLOW.BAN", 1128, 19, 8, kFleeBlowResID_580, PalId::Default}, kNullAnimDetails },
     
-    {AnimId::Meat_Gib, kNullAnimDetails, { "R1MEAT.BAN", 8908, 69, 30, kUnknownResID_6014, PalId::Default} },
+    {AnimId::Meat_Gib, kNullAnimDetails, { "R1MEAT.BAN", 8908, 69, 30, kMeatGibResID_6014, PalId::Default} },
     {AnimId::Metal_Gib, { "METAL.BAN", 2244, 38, 29, kMetalGib, PalId::Default}, kNullAnimDetails },
     {AnimId::Rock_Gib, kNullAnimDetails, { "DEBRIS00.BAN", 8108, 71, 36, kDebrisID00, PalId::Default} },
     {AnimId::Slig_Head_Gib, { "SLGBLOW.BAN", 6480, 44, 26, kSligBlowResID, PalId::Default}, kNullAnimDetails },
@@ -43,27 +43,27 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
     {AnimId::Bat, kNullAnimDetails, { "BATBASIC.BAN", 6560, 48, 17, kBatBasicResID, PalId::Default} },
     {AnimId::Bee_Swarm, kNullAnimDetails, { "WASP.BAN", 636, 7, 4, kWaspResID, PalId::Default} },
-    // Note: Fleech animations are sorted by order of appearance under Fleech.cpp (line 242)
-    // Lots of idle animations, they might be used for other things but I can't immediately identify their use otherwise.
-    {AnimId::Fleech_Idle_A, { "FLEECH.BAN", 37808, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Unknown_A, { "FLEECH.BAN", 37884, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Still frame of some kind
+
+    // Note: Fleech animations are sorted by order of appearance under Fleech.cpp (line 235)
+    {AnimId::Fleech_Sleeping, { "FLEECH.BAN", 37808, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_WakingUp, { "FLEECH.BAN", 37884, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Fleech_Unknown_B, { "FLEECH.BAN", 37896, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Slow broken animation, probably unused
-    {AnimId::Fleech_Idle_B, { "FLEECH.BAN", 37704, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Walk, { "FLEECH.BAN", 37748, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Speak, { "FLEECH.BAN", 37784, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Unknown_C, { "FLEECH.BAN", 37924, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Another still frame
-    {AnimId::Fleech_Idle_C, { "FLEECH.BAN", 37936, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Idle_D, { "FLEECH.BAN", 37960, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Falling, { "FLEECH.BAN", 37984, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Landing, { "FLEECH.BAN", 38060, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Tongue, { "FLEECH.BAN", 38112, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },    // Used when the fleech attacks or grabbing a ledge
-    {AnimId::Fleech_Climb_A, { "FLEECH.BAN", 38156, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },   // Used while swinging up a ledge
-    {AnimId::Fleech_Climb_B, { "FLEECH.BAN", 38208, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },   // Used when fleech has reached the top of a ledge
-    {AnimId::Fleech_Unknown_D, { "FLEECH.BAN", 38260, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Some sort of quick 2 frame animation
-    {AnimId::Fleech_Unknown_E, { "FLEECH.BAN", 37848, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Seems to be a much slowed down version of Fleech_Tongue
-    {AnimId::Fleech_Unknown_F, { "FLEECH.BAN", 38248, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails }, // Another still frame
-    {AnimId::Fleech_Sleep, { "FLEECH.BAN", 38396, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Fleech_Eat, { "FLEECH.BAN", 38276, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Idle, { "FLEECH.BAN", 37704, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Crawl, { "FLEECH.BAN", 37748, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_PatrolCry, { "FLEECH.BAN", 37784, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Knockback, { "FLEECH.BAN", 37924, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_StopCrawling, { "FLEECH.BAN", 37936, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_StopMidCrawlCycle, { "FLEECH.BAN", 37960, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Fall, { "FLEECH.BAN", 37984, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Land, { "FLEECH.BAN", 38060, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_RaiseHead, { "FLEECH.BAN", 38112, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Climb, { "FLEECH.BAN", 38156, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_SettleOnGround, { "FLEECH.BAN", 38208, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_ExtendTongueFromEnemy, { "FLEECH.BAN", 38260, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_RetractTongueFromEnemey, { "FLEECH.BAN", 37848, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_DeathByFalling, { "FLEECH.BAN", 38248, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_SleepingWithTongue, { "FLEECH.BAN", 38396, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Fleech_Consume, { "FLEECH.BAN", 38276, 73, 35u, kFleechResID, PalId::Default}, kNullAnimDetails },
 
     {AnimId::Flying_Slig_Idle, { "FLYSLIG.BND", 116888, 107, 48u, kFlySligResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Flying_Slig_Move_Horizontal, { "FLYSLIG.BND", 116912, 107, 48u, kFlySligResID, PalId::Default}, kNullAnimDetails },
@@ -450,30 +450,30 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Slig_Lift_Move_B, { "SLGLIFT.BAN", 23096, 160, 68, kSlgliftResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Slig_Beat, { "SLGBEAT.BAN", 12660, 160, 68, kSlgbeatResID, PalId::Default}, kNullAnimDetails },
 
-    {AnimId::Slog_Idle_A, { "SLOG.BND", 96464, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_Idle, { "SLOG.BND", 96464, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Slog_Walk, { "SLOG.BND", 96344, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Slog_Run, { "SLOG.BND", 96424, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Turn_Around, { "SLOG.BND", 96764, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Falling, { "SLOG.BND", 96692, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Bark, { "SLOG.BND", 96496, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Run_Stop, { "SLOG.BND", 96532, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Run_Turn_Around, { "SLOG.BND", 96580, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Unknown_A, { "SLOG.BND", 96640, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails }, // Very short animation
-    {AnimId::Slog_Unknown_B, { "SLOG.BND", 96660, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails }, // ^
-    {AnimId::Slog_Unknown_C, { "SLOG.BND", 96876, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails }, // ^
-    {AnimId::Slog_Unknown_D, { "SLOG.BND", 96716, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails }, // Just a still frame
-    {AnimId::Slog_Bark_Short_A, { "SLOG.BND", 96728, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Unknown_E, { "SLOG.BND", 96752, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails }, // Another still frame
-    {AnimId::Slog_Bark_Short_B, { "SLOG.BND", 15068, 121, 57, kDogrstnResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Sleep_A, { "SLOG.BND", 15108, 121, 57, kDogrstnResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Sleep_B, { "SLOG.BND", 15156, 121, 57, kDogrstnResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Sleep_C, { "SLOG.BND", 15132, 121, 57, kDogrstnResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Lunge, { "SLOG.BND", 38904, 121, 57, kDogattkResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Jump_Up, { "SLOG.BND", 38960, 121, 57, kDogattkResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Eat, { "SLOG.BND", 39064, 121, 57, kDogattkResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Die, { "SLOG.BND", 12412, 121, 57, kDogknfdResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_TurnAround, { "SLOG.BND", 96764, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_Fall, { "SLOG.BND", 96692, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_MoveHeadUpwards, { "SLOG.BND", 96496, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_StopRunning, { "SLOG.BND", 96532, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_SlideTurn, { "SLOG.BND", 96580, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_StartWalking, { "SLOG.BND", 96640, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_EndWalking, { "SLOG.BND", 96660, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_Land, { "SLOG.BND", 96876, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_Unused, { "SLOG.BND", 96716, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails }, // Just a still frame
+    {AnimId::Slog_StartFastBarking, { "SLOG.BND", 96728, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_EndFastBarking, { "SLOG.BND", 96752, 121, 57, kDogbasicResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_AngryBark, { "SLOG.BND", 15068, 121, 57, kDogrstnResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_Sleeping, { "SLOG.BND", 15108, 121, 57, kDogrstnResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_MoveHeadDownwards, { "SLOG.BND", 15156, 121, 57, kDogrstnResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_Bark, { "SLOG.BND", 15132, 121, 57, kDogrstnResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_JumpForwards, { "SLOG.BND", 38904, 121, 57, kDogattkResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_JumpUpwards, { "SLOG.BND", 38960, 121, 57, kDogattkResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_Eating, { "SLOG.BND", 39064, 121, 57, kDogattkResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_Dying, { "SLOG.BND", 12412, 121, 57, kDogknfdResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Slog_Scratch, { "SLOG.BND", 12724, 121, 57, kDogidleResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Slog_Idle_B, { "SLOG.BND", 12812, 121, 57, kDogidleResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Slog_Growl, { "SLOG.BND", 12812, 121, 57, kDogidleResID, PalId::Default}, kNullAnimDetails },
 
     {AnimId::Slurg_Move, { "SLURG.BAN", 2708, 46, 15, kSlurgResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Slurg_Burst, { "SLURG.BAN", 2808, 46, 15, kSlurgResID, PalId::Default}, kNullAnimDetails },

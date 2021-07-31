@@ -74,6 +74,7 @@
 #include "SwitchStateBooleanLogic.hpp"
 #include "LiftPoint.hpp"
 #include "Sys_common.hpp"
+#include "RockSack.hpp"
 
 namespace AO {
 
@@ -507,7 +508,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
                 ResourceManager::LoadResource_446C90("R1BARREL.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
                 ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadMode);
                 ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
-                ResourceManager::LoadResource_446C90("R1MEAT.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014, loadMode);
+                ResourceManager::LoadResource_446C90("R1MEAT.BAN", ResourceManager::Resource_Animation, ResourceID::kMeatGibResID_6014, loadMode);
                 break;
 
             case LevelIds::eLines_2:
@@ -548,7 +549,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         {
             case LevelIds::eRuptureFarms_1:
             case LevelIds::eRuptureFarmsReturn_13:
-                ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014);
+                ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMeatGibResID_6014);
                 break;
 
             case LevelIds::eLines_2:

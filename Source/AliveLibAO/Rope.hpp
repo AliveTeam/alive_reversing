@@ -24,7 +24,7 @@ public:
 
     EXPORT void VRender_458780(PrimHeader** ppOt);
 
-    s32 field_D4[4];
+    s32 field_D4_padding[4];
     s16 field_E4_rope_segment_count;
     s16 field_E6_rope_length;
     AnimationUnknown* field_E8_pRopeRes;

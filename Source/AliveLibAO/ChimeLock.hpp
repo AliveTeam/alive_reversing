@@ -88,8 +88,8 @@ public:
     FP field_144_ball_start_x;
     FP field_148_ball_start_y;
     FP field_14C_increase_vely_by;
-    FP field_150;
-    FP field_154;
+    FP field_150_xpos_offset;
+    FP field_154_ypos_offset;
     s16 field_158_xSize;
     s16 field_15A_ySize;
     enum class BallStates : s16
