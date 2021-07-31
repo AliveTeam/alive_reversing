@@ -68,22 +68,15 @@ public:
 
     // Motions
     EXPORT void Motion_0_Idle_46FCB0();
-
     EXPORT void Motion_1_Angry_46FCF0();
-
     EXPORT void Motion_2_Speak_46FD70();
-
     EXPORT void Motion_3_ShootStart_46FD90();
-
     EXPORT void Motion_4_ShootEnd_46FEA0();
-
     EXPORT void Motion_5_AngryToIdle_46FD50();
 
     // Brains
     EXPORT s16 Brain_0_GiveCode_46FEC0();
-
     EXPORT s16 Brain_1_Spawn_470230();
-
     EXPORT s16 Brain_2_AskForPassword_4707B0();
 
     s32 field_10C_padding;
@@ -91,14 +84,23 @@ public:
     s32 field_114_paddding;
     s32 field_118_code_converted;
     s16 field_11C_code_length;
-    s16 field_11E_flags;
+
+    enum Flags_11E
+    {
+        eBit1_bDontSetDestroyed = 0x1,
+        eBit2_unused = 0x2,
+        eBit3_padding = 0x4,
+        eBit4_bAbeGettingCloser = 0x8
+    };
+    BitField16<Flags_11E> field_11E_flags;
+
     s32 field_120_last_event_idx;
     u8 field_124_code_buffer[16];
     s16 field_134_buffer_start;
-    s16 field_136;
+    s16 field_136_buffer_idx;
     u16 field_138_brain_state;
     s16 field_13A_brain_sub_state;
-    s16 field_13C;
+    s16 field_13C_redundant;
     s16 field_13E_padding;
     s32 field_140_timer;
     s32 field_144_timer2;
