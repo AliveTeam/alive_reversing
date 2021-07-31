@@ -37,7 +37,7 @@ public:
         eNone_0 = 0,
         eType1 = 1,
         eChime_2 = 2,
-        eType3 = 3,
+        eDrumAmbience_3 = 3,
         eTension_4 = 4,
         eSlogTension_5 = 5,
         eSlogChaseTension_6 = 6,

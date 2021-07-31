@@ -33,7 +33,7 @@ public:
 
     s32 field_10_tlvInfo;
     s16 field_14_spawned_count;
-    s16 field_16;
+    s16 field_16_padding;
     FP field_18_xPos;
     FP field_1C_yPos;
     s32 field_20_spawn_timer;

@@ -724,7 +724,7 @@ void MusicController::UpdateMusic_47F260()
         || !SND_SsIsEos_DeInlined_4CACD0(field_40_flags_and_idx)
         || (field_58_flags.Get(Flags_58::e58_UnPause_Bit6)
             && (field_42_type == MusicTypes::eChime_2
-                || field_42_type == MusicTypes::eType3
+                || field_42_type == MusicTypes::eDrumAmbience_3
                 || field_42_type == MusicTypes::eDeathShort_10
                 || field_42_type == MusicTypes::eDeathLong_11
                 || field_42_type == MusicTypes::eSecretAreaShort_12
@@ -744,7 +744,7 @@ void MusicController::UpdateMusic_47F260()
                 field_3C_unused = 1;
                 SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
                 break;
-            case MusicTypes::eType3: // The rupture farms screen change random ambiance?
+            case MusicTypes::eDrumAmbience_3: // The rupture farms screen change random ambiance?
                 if (field_58_flags.Get(Flags_58::e58_UnPause_Bit6))
                 {
                     idx = Math_RandomRange_496AB0(0, 1);
