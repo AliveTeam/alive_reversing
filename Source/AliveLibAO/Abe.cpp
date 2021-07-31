@@ -703,12 +703,12 @@ void Abe::VOnTrapDoorOpen_42EED0()
     }
 }
 
-const TintEntry sTintTable_Abe_4C6438[] = {
-    {5, 25u, 25u, 25u},
-    {6, 25u, 25u, 25u},
-    {8, 125u, 125u, 95u},
-    {9, 120u, 120u, 90u},
-    {-1, 102u, 102u, 102u}};
+const TintEntry sAbeTints_4C6438[] = {
+    {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
+    {LevelIds_s8::eStockYardsReturn_6, 25u, 25u, 25u},
+    {LevelIds_s8::eDesert_8, 125u, 125u, 95u},
+    {LevelIds_s8::eDesertTemple_9, 120u, 120u, 90u},
+    {LevelIds_s8::eNone, 102u, 102u, 102u}};
 
 
 Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
@@ -836,7 +836,7 @@ Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
 
     // Changes Abe's "default" colour depending on the level we are in
-    SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_0_current_level);
+    SetTint_418750(sAbeTints_4C6438, gMap_507BA8.field_0_current_level);
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
@@ -2991,7 +2991,7 @@ void Abe::vScreenChanged_422640()
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level)
     {
         // Set the correct tint for this map
-        SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_A_level);
+        SetTint_418750(sAbeTints_4C6438, gMap_507BA8.field_A_level);
 
         if (gMap_507BA8.field_0_current_level != LevelIds::eMenu_0)
         {
@@ -3359,7 +3359,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        0,
+                        GibType::Abe_0,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),
@@ -3427,7 +3427,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        0,
+                        GibType::Abe_0,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),
@@ -3439,7 +3439,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                 if (pGibs_1)
                 {
                     pGibs_1->ctor_407B20(
-                        0,
+                        GibType::Abe_0,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),
@@ -7021,7 +7021,7 @@ void Abe::Motion_61_Respawn_42CD20()
 
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_2A8_flags.Get(Flags_2A8::e2A8_eBit16_AbeSpawnDir));
             MapFollowMe_401D30(TRUE);
-            SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_0_current_level);
+            SetTint_418750(sAbeTints_4C6438, gMap_507BA8.field_0_current_level);
             if (gElum_507680)
             {
                 gElum_507680->field_BC_sprite_scale = field_BC_sprite_scale;

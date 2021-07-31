@@ -134,9 +134,9 @@ const TMudBrain gMudBrains_4CD430[] = {
 
 
 static const TintEntry sMudTints_4CD320[] = {
-    {5, 25u, 25u, 25u},
-    {6, 25u, 25u, 25u},
-    {-1, 87u, 103u, 67u}};
+    {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
+    {LevelIds_s8::eStockYardsReturn_6, 25u, 25u, 25u},
+    {LevelIds_s8::eNone, 87u, 103u, 67u}};
 
 ALIVE_VAR(1, 0x507B90, s16, sAlertedMudCount_507B90, 0);
 ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);
@@ -679,7 +679,7 @@ s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        4,
+                        GibType::Mud_4,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),
@@ -691,7 +691,7 @@ s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        4,
+                        GibType::Mud_4,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),

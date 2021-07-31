@@ -919,7 +919,7 @@ void Map::SaveBlyData_446900(u8* pSaveBuffer)
                         if (flags.Get(eBit1_Created))
                         {
                             flags.Clear(eBit1_Created);
-                            flags.Clear(eBit2_Unknown);
+                            flags.Clear(eBit2_Destroyed);
                         }
 
                         // Save the flags
@@ -1016,7 +1016,7 @@ void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, s16 cam
             {
                 if (pTlv->field_10_top_left.field_0_x >= cam_global_left && pTlv->field_10_top_left.field_0_x <= cam_global_right)
                 {
-                    if (pTlv->field_10_top_left.field_2_y >= cam_y_grid_top && pTlv->field_10_top_left.field_2_y <= cam_y_grid_bottom && (!pTlv->field_0_flags.Get(eBit1_Created) && !pTlv->field_0_flags.Get(eBit2_Unknown)))
+                    if (pTlv->field_10_top_left.field_2_y >= cam_y_grid_top && pTlv->field_10_top_left.field_2_y <= cam_y_grid_bottom && (!pTlv->field_0_flags.Get(eBit1_Created) && !pTlv->field_0_flags.Get(eBit2_Destroyed)))
                     {
                         Start_Sounds_for_TLV_476640(direction, pTlv);
                     }
@@ -1472,7 +1472,7 @@ void Map::sub_447430(u16 pathNum)
                 pTlv->RangeCheck();
 
                 pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
                 while (!pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
                 {
                     pTlv = Path_TLV::Next_NoCheck(pTlv);
@@ -1484,7 +1484,7 @@ void Map::sub_447430(u16 pathNum)
                     }
 
                     pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                    pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                    pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
                 }
             }
         }
@@ -1981,7 +1981,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
         {
             if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->field_4_type.mType)
             {
-                if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
+                if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Destroyed)))
                 {
                     TlvItemInfoUnion data;
                     data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
@@ -1994,7 +1994,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
                     if (loadMode == LoadMode::Mode_0)
                     {
                         pPathTLV->field_0_flags.Set(TLV_Flags::eBit1_Created);
-                        pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                        pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
                     }
                 }
             }
@@ -2012,7 +2012,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
     }
 }
 
-EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2)
+EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
@@ -2023,13 +2023,13 @@ EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 
 
         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>((*field_5C_path_res_array.field_0_pPathRecs[data.parts.pathId]) + pBlyRec->field_4_pPathData->field_14_object_offset + data.parts.tlvOffset);
 
-        if (bBit2 & 1)
+        if (bSetDestroyed & 1)
         {
-            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
         }
         else
         {
-            pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+            pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
         }
 
         if (bSetCreated & 1)

@@ -266,9 +266,9 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
     if (pTlv)
     {
-        if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit2_Unknown) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2))
+        if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit2_Destroyed) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2))
         {
-            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
             const CameraPos dir = gMap_507BA8.GetDirection_444A40(
                 static_cast<s32>(gMap_507BA8.field_0_current_level),
                 gMap_507BA8.field_2_current_path,
@@ -281,7 +281,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
                 if (pGibs)
                 {
-                    pGibs->ctor_407B20(1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                    pGibs->ctor_407B20(GibType::Slig_1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
                 }
             }
             else if (dir == CameraPos::eCamRight_4)
@@ -290,7 +290,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
                 if (pGibs)
                 {
-                    pGibs->ctor_407B20(1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                    pGibs->ctor_407B20(GibType::Slig_1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
                 }
             }
             Stop_slig_sounds_476A20(dir, 0);

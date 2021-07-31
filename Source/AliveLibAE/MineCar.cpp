@@ -63,7 +63,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /
     }
 
     field_118_tlvInfo = tlvInfo;
-    field_11C_state = MineCarStates::eState_0_ParkedWithoutAbe;
+    field_11C_state = MineCarStates::eParkedWithoutAbe_0;
 
     LoadAnimation_46BF80(&field_124_anim);
 
@@ -475,7 +475,7 @@ void MineCar::vRender_46E760(PrimHeader** ppOt)
 
 void MineCar::Stop_46E570()
 {
-    field_11C_state = MineCarStates::eState_1_ParkedWithAbe;
+    field_11C_state = MineCarStates::eParkedWithAbe_1;
     if (field_1D0_sound_channels_mask)
     {
         SND_Stop_Channels_Mask_4CA810(field_1D0_sound_channels_mask);
@@ -494,7 +494,7 @@ void MineCar::Stop_46E570()
 void MineCar::Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs turnDirection, s8 bChangeDirection)
 {
     field_20_animation.Set_Animation_Data_409C80(frameTabeOffset, nullptr);
-    field_11C_state = MineCarStates::eState_2_Moving;
+    field_11C_state = MineCarStates::eMoving_2;
     field_1C8_frame_mod_16 = static_cast<s32>(sGnFrame_5C1B84) % 16;
 
     if (!field_1D0_sound_channels_mask)
@@ -719,58 +719,58 @@ s32 MineCar::vGetSaveState_467E10(MineCar_SaveState* pState)
 
     switch (field_20_animation.field_18_frame_table_offset)
     {
-        case 20788:
+        case 20788: // Mine_Car_Tread_Move_B
             pState->field_24_frame_table = 10860;
             break;
-        case 20812:
+        case 20812: // Mine_Car_Open
             pState->field_24_frame_table = 10884;
             break;
-        case 20824:
+        case 20824: // Mine_Car_Tread_Idle
             pState->field_24_frame_table = 10896;
             break;
-        case 20836:
+        case 20836: // Mine_Car_Closed
             pState->field_24_frame_table = 10908;
             break;
-        case 20848:
+        case 20848: // Mine_Car_Tread_Move_A
             pState->field_24_frame_table = 10920;
             break;
-        case 20872:
+        case 20872: // Mine_Car_Shake_A
             pState->field_24_frame_table = 10944;
             break;
-        case 20900:
+        case 20900: // Mine_Car_Shake_B
             pState->field_24_frame_table = 10972;
             break;
         default:
             break;
     }
 
-    pState->field_34 = field_124_anim.field_92_current_frame;
-    pState->field_36 = field_124_anim.field_E_frame_change_counter;
+    pState->field_34_unused = field_124_anim.field_92_current_frame;
+    pState->field_36_unused = field_124_anim.field_E_frame_change_counter;
 
-    pState->field_32 = field_124_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
-    pState->field_30 = field_124_anim.field_4_flags.Get(AnimFlags::eBit3_Render);
-
+    pState->field_32_unused = field_124_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_30_unused = field_124_anim.field_4_flags.Get(AnimFlags::eBit3_Render);
+    
     switch (field_124_anim.field_18_frame_table_offset)
     {
-        case 20788:
+        case 20788: // Mine_Car_Tread_Move_B
             pState->field_38_frame_table_offset2 = 10860;
             break;
-        case 20812:
+        case 20812: // Mine_Car_Open
             pState->field_38_frame_table_offset2 = 10884;
             break;
-        case 20824:
+        case 20824: // Mine_Car_Tread_Idle
             pState->field_38_frame_table_offset2 = 10896;
             break;
-        case 20836:
+        case 20836: // Mine_Car_Closed
             pState->field_38_frame_table_offset2 = 10908;
             break;
-        case 20848:
+        case 20848: // Mine_Car_Tread_Move_A
             pState->field_38_frame_table_offset2 = 10920;
             break;
-        case 20872:
+        case 20872: // Mine_Car_Shake_A
             pState->field_38_frame_table_offset2 = 10944;
             break;
-        case 20900:
+        case 20900: // Mine_Car_Shake_B
             pState->field_38_frame_table_offset2 = 10972;
             break;
         default:
@@ -852,19 +852,19 @@ void MineCar::vUpdate_46C010()
 
     switch (field_11C_state)
     {
-        case MineCarStates::eState_0_ParkedWithoutAbe:
+        case MineCarStates::eParkedWithoutAbe_0:
             State_0_ParkedWithoutAbe();
             break;
 
-        case MineCarStates::eState_1_ParkedWithAbe:
+        case MineCarStates::eParkedWithAbe_1:
             State_1_ParkedWithAbe();
             break;
 
-        case MineCarStates::eState_2_Moving:
+        case MineCarStates::eMoving_2:
             State_2_Moving();
             break;
 
-        case MineCarStates::eState_3_Falling:
+        case MineCarStates::eFalling_3:
             State_3_Falling();
             break;
 
@@ -876,9 +876,9 @@ void MineCar::vUpdate_46C010()
     {
         if ((field_1BC_turn_direction != MineCarDirs::eUp_3 && !IsBlocked_46F4A0(3, 0)) || !IsBlocked_46F4A0(3, 0))
         {
-            if (field_11C_state != MineCarStates::eState_0_ParkedWithoutAbe)
+            if (field_11C_state != MineCarStates::eParkedWithoutAbe_0)
             {
-                field_11C_state = MineCarStates::eState_3_Falling;
+                field_11C_state = MineCarStates::eFalling_3;
             }
         }
     }
@@ -900,7 +900,7 @@ void MineCar::vUpdate_46C010()
             field_BC_ypos + field_C8_vely - ((k12Scaled + kGridScale) * FP_FromDouble(0.5)),
             &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x1000 : 0x8000))
     {
-        field_11C_state = MineCarStates::eState_3_Falling;
+        field_11C_state = MineCarStates::eFalling_3;
     }
 }
 
@@ -916,7 +916,7 @@ void MineCar::State_0_ParkedWithoutAbe()
     {
         const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Closed);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-        field_11C_state = MineCarStates::eState_1_ParkedWithAbe;
+        field_11C_state = MineCarStates::eParkedWithAbe_1;
         sControlledCharacter_5C1B8C = this;
         field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
         field_124_anim.field_C_render_layer = Layer::eLayer_BombMineCar_35;
@@ -946,7 +946,7 @@ void MineCar::State_1_ParkedWithAbe()
     {
         sActiveHero_5C1B68->field_B8_xpos = field_B8_xpos;
         sActiveHero_5C1B68->field_BC_ypos = field_BC_ypos;
-        field_11C_state = MineCarStates::eState_0_ParkedWithoutAbe;
+        field_11C_state = MineCarStates::eParkedWithoutAbe_0;
         const AnimRecord& animRec2 = AnimRec(AnimId::Mine_Car_Tread_Idle);
         field_124_anim.Set_Animation_Data_409C80(animRec2.mFrameTableOffset, nullptr);
         const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Open);
@@ -1168,7 +1168,7 @@ void MineCar::HandleUpDown()
 }
 
 // TODO: Probably 7?
-const FP dword_5461D8[9] = {
+const FP velXTable_5461D8[9] = {
     FP_FromInteger(6),
     FP_FromInteger(5),
     FP_FromInteger(4),
@@ -1210,7 +1210,7 @@ void MineCar::State_2_Moving()
             &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 4096 : 0x8000)
         && field_C8_vely > FP_FromInteger(0))
     {
-        field_11C_state = MineCarStates::eState_3_Falling;
+        field_11C_state = MineCarStates::eFalling_3;
         return;
     }
 
@@ -1225,7 +1225,7 @@ void MineCar::State_2_Moving()
             field_D6_scale != 0 ? 0x2000 : 0x10000)
         && field_1BC_turn_direction == MineCarDirs::eDown_0)
     {
-        field_11C_state = MineCarStates::eState_3_Falling;
+        field_11C_state = MineCarStates::eFalling_3;
         return;
     }
 
@@ -1254,11 +1254,11 @@ void MineCar::State_2_Moving()
 
         if (field_C4_velx <= FP_FromInteger(0))
         {
-            field_C4_velx = -dword_5461D8[field_1C4_velx_index];
+            field_C4_velx = -velXTable_5461D8[field_1C4_velx_index];
         }
         else
         {
-            field_C4_velx = dword_5461D8[field_1C4_velx_index];
+            field_C4_velx = velXTable_5461D8[field_1C4_velx_index];
         }
 
         if (++field_1C4_velx_index == 2)
@@ -1282,11 +1282,11 @@ void MineCar::State_2_Moving()
         {
             if (field_C4_velx <= FP_FromInteger(0))
             {
-                field_C4_velx = -dword_5461D8[0];
+                field_C4_velx = -velXTable_5461D8[0];
             }
             else
             {
-                field_C4_velx = dword_5461D8[0];
+                field_C4_velx = velXTable_5461D8[0];
             }
             ++field_1C4_velx_index;
         }

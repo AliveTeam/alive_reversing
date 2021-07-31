@@ -19,11 +19,10 @@
 
 namespace AO {
 
-const TintEntry stru_4CD310[4] = {
-    {5, 30u, 30u, 55u},
-    {6, 30u, 30u, 55u},
-    {-1, 127u, 127u, 127u},
-    {0, 0u, 0u, 0u}};
+const TintEntry kMovingBombTints_4CD310[4] = {
+    {LevelIds_s8::eStockYards_5, 30u, 30u, 55u},
+    {LevelIds_s8::eStockYardsReturn_6, 30u, 30u, 55u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
 
@@ -75,7 +74,7 @@ MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo)
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
 
-    SetTint_418750(stru_4CD310, gMap_507BA8.field_0_current_level);
+    SetTint_418750(kMovingBombTints_4CD310, gMap_507BA8.field_0_current_level);
 
     field_128_disabled_resources = pTlv->field_22_disabled_resources;
 
@@ -230,7 +229,7 @@ s16 MovingBomb::VTakeDamage_43BB60(BaseGameObject* pFrom)
     if (pGibs)
     {
         pGibs->ctor_407B20(
-            5,
+            GibType::Metal_5,
             field_A8_xpos,
             field_AC_ypos,
             FP_FromInteger(0),
@@ -524,7 +523,7 @@ void MovingBomb::VUpdate_43B440()
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        5,
+                        GibType::Metal_5,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),

@@ -5,6 +5,7 @@
 #include "FixedPoint_common.hpp"
 #include "Psx_common.hpp"
 #include "FunctionFwd.hpp"
+#include "PathData.hpp"
 
 namespace AO {
 
@@ -13,7 +14,7 @@ class BaseAliveGameObject;
 
 struct TintEntry
 {
-    s8 field_0_level;
+    LevelIds_s8 field_0_level;
     u8 field_1_r;
     u8 field_2_g;
     u8 field_3_b;

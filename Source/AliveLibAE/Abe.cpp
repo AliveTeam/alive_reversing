@@ -8135,7 +8135,7 @@ void Abe::Motion_117_InMineCar_4587C0()
     if (Input().isPressed(sInputKey_DoAction_5550E4))
     {
         auto pMineCar = static_cast<MineCar*>(sControlledCharacter_5C1B8C);
-        if (pMineCar->field_11C_state == MineCarStates::eState_1_ParkedWithAbe && pMineCar->field_1BC_turn_direction == MineCarDirs::eUp_3)
+        if (pMineCar->field_11C_state == MineCarStates::eParkedWithAbe_1 && pMineCar->field_1BC_turn_direction == MineCarDirs::eUp_3)
         {
             PathLine* pLine = nullptr;
             FP hitX = {};

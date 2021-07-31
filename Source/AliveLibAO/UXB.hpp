@@ -73,7 +73,7 @@ public:
     UXBState field_10C_state;
     UXBState field_10E_starting_state;
     s16 field_110_disabled_resources;
-    s16 field_112;
+    s16 field_112_padding;
     s32 field_114_tlvInfo;
     s32 field_118_next_state_frame;
     Animation field_11C_anim;
@@ -82,7 +82,7 @@ public:
     s16 field_1B8_pattern;
     s16 field_1BA_red_blink_count;
     s16 field_1BC_flags;
-    s16 field_1BE;
+    s16 field_1BE_padding;
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1C0);
 

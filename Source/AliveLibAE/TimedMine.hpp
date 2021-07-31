@@ -53,7 +53,7 @@ public:
     u32 field_11C_tlv;
     u32 field_120_gnframe;
     Animation field_124_animation;
-    u32 field_1BC_gnframe_2;
+    u32 field_1BC_gnFrame_2;
     u32 field_1C0_detonation_timer;
     BitField32<TimedMine_Flags_1C4> field_1C4_flags;
 };

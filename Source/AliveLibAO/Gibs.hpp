@@ -28,10 +28,21 @@ struct Gib_Data final
 };
 ALIVE_ASSERT_SIZEOF(Gib_Data, 0x18);
 
+
+enum GibType : s32
+{
+    Abe_0 = 0,
+    Slig_1 = 1,
+    Slog_2 = 2,
+    Elum_3 = 3,
+    Mud_4 = 4,
+    Metal_5 = 5
+};
+
 class Gibs final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Gibs* ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale);
+    EXPORT Gibs* ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale);
 
     EXPORT BaseGameObject* dtor_408040();
 
@@ -47,7 +58,7 @@ public:
 
     EXPORT void VRender_408200(PrimHeader** ppOt);
 
-    s32 field_D4[4];
+    s32 field_D4_padding[4];
     const Gib_Data* field_E4_pGibData;
     FP field_E8_z;
     FP field_EC_dz;
