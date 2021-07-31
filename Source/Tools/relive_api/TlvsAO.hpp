@@ -40,6 +40,7 @@
 #include "../AliveLibAO/Scrab.hpp"
 #include "../AliveLibAO/SlogSpawner.hpp"
 #include "../AliveLibAO/Rock.hpp"
+#include "../AliveLibAO/RockSack.hpp"
 #include "../AliveLibAO/SlogHut.hpp"
 #include "../AliveLibAO/SecurityClaw.hpp"
 #include "../AliveLibAO/SecurityDoor.hpp"

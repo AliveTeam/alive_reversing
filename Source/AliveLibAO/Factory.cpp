@@ -74,6 +74,7 @@
 #include "SwitchStateBooleanLogic.hpp"
 #include "LiftPoint.hpp"
 #include "Sys_common.hpp"
+#include "RockSack.hpp"
 
 namespace AO {
 
