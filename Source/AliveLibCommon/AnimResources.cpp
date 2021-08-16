@@ -1,6 +1,7 @@
 #include "stdafx_common.h"
 #include "AnimResources.hpp"
 #include "Sys_common.hpp"
+#include "magic_enum/include/magic_enum.hpp"
 
 constexpr PalDetails kNullPalDetails = {};
 constexpr CombinedPalRecord kPalRecords[] = {
@@ -266,7 +267,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Abe_Door_Exit, { "ABEDOOR.BAN", 19088, 135, 80, kAbedoorResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Abe_Mine_Car_Enter, { "ABECAR.BAN", 8540, 135, 80, kAbeCarResId, PalId::Default}, kNullAnimDetails },
     {AnimId::Abe_Mine_Car_Exit, { "ABECAR.BAN", 8588, 135, 80, kAbeCarResId, PalId::Default}, kNullAnimDetails },
-    {AnimId::Abe_Shrykull_Start, { "ABEMORPH.BAN", 8732, 135, 80, kAbemorphResID, PalId::Default}, { "ABEMORPH.BAN", 92004, 121, 79, kShrmorphResID, PalId::Default} },
+    {AnimId::Abe_Shrykull_Start, 
+        { "ABEMORPH.BAN", 8732, 135, 80, kAbemorphResID, PalId::Default},
+        { "ABEMORPH.BAN", 92004, 121, 79, kShrmorphResID, PalId::Default} 
+    },
     {AnimId::Abe_Shrykull_End, { "ABEMORPH.BAN", 8772, 135, 80, kAbemorphResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Abe_Lift_Start, { "ABELIFT.BAN", 22548, 135, 80, kAbeliftResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Abe_Lift_End, { "ABELIFT.BAN", 22572, 135, 80, kAbeliftResID, PalId::Default}, kNullAnimDetails },
@@ -481,7 +485,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
     {AnimId::Background_Glukkon, kNullAnimDetails, { "GLUKKON.BND", 46096, 68, 60, kGlkbasicResID, PalId::Default} },
     {AnimId::Bell_Hammer, kNullAnimDetails, { "TESTANIM.BAN", 4488, 71, 69, kHammerResID, PalId::Default} },
-    {AnimId::Bird_Portal_Orb, kNullAnimDetails, { "PORTAL.BAN", 3860, 31, 18, kPortalTerminatorID, PalId::Default} },
+    {AnimId::Bird_Portal_Orb,
+        { "PORTAL.BAN", 4144, 32, 18, kPortalTerminatorID, PalId::Default},
+        { "PORTAL.BAN", 3860, 31, 18, kPortalTerminatorID, PalId::Default}
+    },
     {AnimId::Blood, kNullAnimDetails, { "BLOOD.BAN", 276, 6, 7, kBloodropResID, PalId::Default} },
     {AnimId::Bone, { "BTHROW.BND", 456, 15, 9, kBoneResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Bone_Bag_A, { "BONEBAG.BAN", 8748, 64, 60, kBoneBagResID_590, PalId::Default}, kNullAnimDetails },
@@ -491,7 +498,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Bone_Saw_Horizontal_On, { "DRILL.BAN", 6712, 65, 33, kDrillResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Bone_Saw_Vertical_Off, { "DRILL.BAN", 6676, 65, 33, kDrillResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Bone_Saw_Vertical_On, { "DRILL.BAN", 6688, 65, 33, kDrillResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Bullet_Casing, { "SHELL.BAN", 320, 5, 5u, kShellResID, PalId::Default}, { "SHELL.BAN", 308, 6, 5, kShellResID, PalId::Default} },
+    {AnimId::Bullet_Casing, 
+        { "SHELL.BAN", 320, 5, 5u, kShellResID, PalId::Default},
+        { "SHELL.BAN", 308, 6, 5, kShellResID, PalId::Default} 
+    },
     {AnimId::Chime_A, kNullAnimDetails, { "CHIMES.BAN", 19240, 49, 46, kChimeResID, PalId::Default} },
     {AnimId::Chime_B, kNullAnimDetails, { "CHIMES.BAN", 19368, 49, 46, kChimeResID, PalId::Default} },
     {AnimId::Chime_C, kNullAnimDetails, { "CHIMES.BAN", 19252, 49, 46, kChimeResID, PalId::Default} },
@@ -507,9 +517,18 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Door_Brewery_Closing, { "DOOR.BAN", 6236, 54, 71, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Feeco_Closed, { "DOOR.BAN", 7636, 62, 70, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Feeco_Closing, { "DOOR.BAN", 7648, 62, 70, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Door_Flame, { "FIRE.BAN", 5156, 22, 21u, kHubFireResID, PalId::Default}, { "FIRE.BAN", 5072, 51, 24, kHubFireResID, PalId::Default} },
-    {AnimId::Door_Flame_Glow, { "FIRE.BAN", 1400, 52, 30, kGlowResID, PalId::Default}, { "FIRE.BAN", 1344, 52, 30, kGlowResID, PalId::Default} },
-    {AnimId::Door_Flame_Spark, { "FIRE.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default}, { "FIRE.BAN", 1532, 38, 21, kOmmflareResID, PalId::Default} },
+    {AnimId::Door_Flame, 
+        { "FIRE.BAN", 5156, 22, 21u, kHubFireResID, PalId::Default},
+        { "FIRE.BAN", 5072, 51, 24, kHubFireResID, PalId::Default}
+    },
+    {AnimId::Door_Flame_Glow,
+        { "FIRE.BAN", 1400, 52, 30, kGlowResID, PalId::Default},
+        { "FIRE.BAN", 1344, 52, 30, kGlowResID, PalId::Default} 
+    },
+    {AnimId::Door_Flame_Spark, 
+        { "FIRE.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
+        { "FIRE.BAN", 1532, 38, 21, kOmmflareResID, PalId::Default} 
+    },
     {AnimId::Door_Lock_Idle, { "DOORLOCK.BAN", 1624, 87, 14, kDoorLockResID_374, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Lock_Open, { "DOORLOCK.BAN", 1608, 87, 14, kDoorLockResID_374, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Mines_Closed, { "DOOR.BAN", 8692, 77, 69, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
@@ -520,9 +539,18 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Door_Train_Closing, { "DOOR.BAN", 4752, 44, 56u, kDoorResID_2013, PalId::Default}, kNullAnimDetails },
     {AnimId::Dove_Idle, { "DOVE.BAN", 5580, 41, 20, 60, PalId::Default}, kNullAnimDetails },
     {AnimId::Dove_Flying, { "DOVE.BAN", 5516, 41, 20, 60, PalId::Default}, kNullAnimDetails },
-    {AnimId::Electric_Wall, { "ELECWALL.BAN", 15384, 50, 80, kElecwallResID, PalId::Default}, { "ELECWALL.BAN", 14536, 50, 80, kElecwallResID, PalId::Default} },
-    {AnimId::Explosion, { "EXPLO2.BAN", 51156, 202, 91, kExplo2ResID, PalId::Default}, { "EXPLO2.BAN", 27376, 200, 91, kExplo2ResID, PalId::Default} },
-    {AnimId::Explosion_Mine, { "EXPLODE.BND", 51588, 214, 0x31u, kBgexpldResID, PalId::Default}, { "EXPLODE.BND", 51600, 214, 49, kBgexpldResID, PalId::Default} },
+    {AnimId::Electric_Wall,
+        { "ELECWALL.BAN", 15384, 50, 80, kElecwallResID, PalId::Default},
+        { "ELECWALL.BAN", 14536, 50, 80, kElecwallResID, PalId::Default} 
+    },
+    {AnimId::Explosion, 
+        { "EXPLO2.BAN", 51156, 202, 91, kExplo2ResID, PalId::Default},
+        { "EXPLO2.BAN", 27376, 200, 91, kExplo2ResID, PalId::Default} 
+    },
+    {AnimId::Explosion_Mine, 
+        { "EXPLODE.BND", 51588, 214, 0x31u, kBgexpldResID, PalId::Default},
+        { "EXPLODE.BND", 51600, 214, 49, kBgexpldResID, PalId::Default}
+    },
     {AnimId::Explosion_Small, { "SMEXP.BAN", 14108, 99, 46, kSmallExplo2ResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Falling_Crate_A, { "FALLBONZ.BAN", 8076, 86, 47, kF2rockResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Falling_Crate_B, { "FALLBONZ.BAN", 8100, 86, 47, kF2rockResID, PalId::Default}, kNullAnimDetails },
@@ -536,28 +564,64 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Foot_Switch_Temple, kNullAnimDetails, { "TRIGGER.BAN", 744, 68, 15, kTriggerResID, PalId::Default} },
     {AnimId::Foot_Switch_Vault_Idle, { "VLTTRIGR.BAN", 972, 72, 18, kTriggerResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Foot_Switch_Vault_Pressed, { "VLTTRIGR.BAN", 992, 72, 18, kTriggerResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Grenade, { "GRENADE.BAN", 1252, 17, 11, kGrenadeResID, PalId::Default}, { "GRENADE.BAN", 1132, 17, 11, kGrenadeResID, PalId::Default} },
+    {AnimId::Grenade, 
+        { "GRENADE.BAN", 1252, 17, 11, kGrenadeResID, PalId::Default},
+        { "GRENADE.BAN", 1132, 17, 11, kGrenadeResID, PalId::Default}
+    },
     {AnimId::Grenade_Machine_Button_Off, { "GMACHINE.BND1", 1736, 26, 17u, kR1buttonResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Grenade_Machine_Button_On, { "GMACHINE.BND1", 1708, 26, 17u, kR1buttonResID, PalId::Default}, { "GMACHINE.BND1", 1600, 26, 17, kR1buttonResID, PalId::Default} },
-    {AnimId::Grenade_Machine_Nozzle, { "GMACHINE.BND1", 3700, 67, 36u, kR1bpipeResID, PalId::Default}, { "GMACHINE.BND1", 3616, 66, 36, kR1bpipeResID, PalId::Default} },
+    {AnimId::Grenade_Machine_Button_On, 
+        { "GMACHINE.BND1", 1708, 26, 17u, kR1buttonResID, PalId::Default},
+        { "GMACHINE.BND1", 1600, 26, 17, kR1buttonResID, PalId::Default} 
+    },
+    {AnimId::Grenade_Machine_Nozzle,
+        { "GMACHINE.BND1", 3700, 67, 36u, kR1bpipeResID, PalId::Default},
+        { "GMACHINE.BND1", 3616, 66, 36, kR1bpipeResID, PalId::Default}
+    },
     {AnimId::Grenade_Machine_Nozzle_Drop_Grenade, { "GMACHINE.BND1", 3672, 67, 36u, kR1bpipeResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Hint_Fly, kNullAnimDetails, { "HINTFLY.BAN", 556, 10, 7, kHintflyResID, PalId::Default} },
     {AnimId::Honey, kNullAnimDetails, { "HONEY.BAN", 3680, 62, 126, kHoneyResID, PalId::Default} },
     {AnimId::Honey_Drip, kNullAnimDetails, { "HONEY.BAN", 3628, 62, 126, kHoneyResID, PalId::Default} },
     {AnimId::Honey_Hive, kNullAnimDetails, { "HIVE.BND", 9312, 140, 38, kP2c3HiveResID, PalId::Default} },
     {AnimId::Lift_Rope, { "ROPES.BAN", 748, 9, 16, kRopesResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Meat, { "MEAT.BAN", 488, 17, 9, kMeatResID, PalId::Default}, { "MEAT.BAN", 500, 18, 9, kMeatResID, PalId::Default} },
-    {AnimId::Meat_Sack, { "D2ELUM.BAN", 15848, 93, 86, kD2elumResID, PalId::Default}, { "D2ELUM.BAN", 15688, 92, 86, kD2elumResID, PalId::Default} },
+    {AnimId::Meat, 
+        { "MEAT.BAN", 488, 17, 9, kMeatResID, PalId::Default},
+        { "MEAT.BAN", 500, 18, 9, kMeatResID, PalId::Default}
+    },
+    {AnimId::Meat_Sack,
+        { "D2ELUM.BAN", 15848, 93, 86, kD2elumResID, PalId::Default},
+        { "D2ELUM.BAN", 15688, 92, 86, kD2elumResID, PalId::Default}
+    },
     {AnimId::Meat_Saw, kNullAnimDetails, { "R1METSAW.BAN", 15200, 104, 36, kMeatsawResID, PalId::Default} },
-    {AnimId::Mine, { "MINE.BND", 784, 38, 13, kLandmineResID, PalId::Default }, { "MINE.BND", 748, 38, 13, kLandmineResID, PalId::Default } },
-    {AnimId::Motion_Detector_Flare, { "MFLARE.BAN", 1736, 55, 22, kMflareResID, PalId::Default}, { "MFLARE.BAN", 1108, 32, 22, kMflareResID, PalId::Default} },
-    {AnimId::Motion_Detector_Laser, { "MOTION.BAN", 23280, 37, 60, kMotionResID, PalId::Default}, { "MOTION.BAN", 23660, 37, 60, kMotionResID, PalId::Default} },
-    {AnimId::Moving_Bomb, { "MOVEBOMB.BAN", 17548, 76, 30, kMovebombResID, PalId::Default}, { "MOVEBOMB.BAN", 17140, 76, 30, kMovebombResID, PalId::Default} },
-    {AnimId::Paramite_Web, { "WEB.BAN", 148, 5, 16, kWebResID, PalId::Default}, { "WEB.BAN", 88, 3, 16, kWebResID, PalId::Default} },
+    {AnimId::Mine, 
+        { "MINE.BND", 784, 38, 13, kLandmineResID, PalId::Default },
+        { "MINE.BND", 748, 38, 13, kLandmineResID, PalId::Default }
+    },
+    {AnimId::Motion_Detector_Flare, 
+        { "MFLARE.BAN", 1736, 55, 22, kMflareResID, PalId::Default},
+        { "MFLARE.BAN", 1108, 32, 22, kMflareResID, PalId::Default}
+    },
+    {AnimId::Motion_Detector_Laser, 
+        { "MOTION.BAN", 23280, 37, 60, kMotionResID, PalId::Default},
+        { "MOTION.BAN", 23660, 37, 60, kMotionResID, PalId::Default}
+    },
+    {AnimId::Moving_Bomb, 
+        { "MOVEBOMB.BAN", 17548, 76, 30, kMovebombResID, PalId::Default},
+        { "MOVEBOMB.BAN", 17140, 76, 30, kMovebombResID, PalId::Default}
+    },
+    {AnimId::Paramite_Web, 
+        { "WEB.BAN", 148, 5, 16, kWebResID, PalId::Default},
+        { "WEB.BAN", 88, 3, 16, kWebResID, PalId::Default}
+    },
     {AnimId::Pullring_Desert, kNullAnimDetails, { "R1PULRNG.BAN", 2912, 32, 22, kPullringResID, PalId::Default} },
     {AnimId::Pullring_Farms, kNullAnimDetails, { "R1PULRNG.BAN", 4832, 33, 35, kPullringResID, PalId::Default} },
-    {AnimId::Rock, { "RTHROW.BND", 488, 17, 9, kAberockResID, PalId::Default}, { "RTHROW.BND", 500, 18, 9, kAberockResID, PalId::Default} },
-    {AnimId::Rock_Sack_A, { "ROCKBAG.BAN", 29748, 71, 60u, kP2c2bagResID, PalId::Default}, { "ROCKBAG.BAN", 13756, 71, 60, kP2c2bagResID, PalId::Default} },
+    {AnimId::Rock, 
+        { "RTHROW.BND", 488, 17, 9, kAberockResID, PalId::Default},
+        { "RTHROW.BND", 500, 18, 9, kAberockResID, PalId::Default}
+    },
+    {AnimId::Rock_Sack_A, 
+        { "ROCKBAG.BAN", 29748, 71, 60u, kP2c2bagResID, PalId::Default},
+        { "ROCKBAG.BAN", 13756, 71, 60, kP2c2bagResID, PalId::Default}
+    },
     {AnimId::Rock_Sack_B, { "ROCKBAG.BAN", 29772, 71, 60u, kP2c2bagResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Rock_Sack_Hit, { "ROCKBAG.BAN", 29700, 71, 60u, kP2c2bagResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Rope_A, kNullAnimDetails, { "ROPES.BAN", 636, 4, 16, kRopesResID, PalId::Default} },
@@ -567,7 +631,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Security_Door, kNullAnimDetails, { "R1SDOS.BAN", 976, 70, 19, kR1sdosResID_6027, PalId::Default} },
     {AnimId::Security_Door_Idle, { "SECDOOR.BAN", 1512, 70, 19u, kR1sdosResID_6027, PalId::Default}, kNullAnimDetails },
     {AnimId::Security_Door_Speak, { "SECDOOR.BAN", 1528, 70, 19u, kR1sdosResID_6027, PalId::Default}, kNullAnimDetails },
-    {AnimId::Security_Orb, { "MAIMORB.BAN", 2228, 53, 28u, kMaimGameResID, PalId::Default}, { "F2MAMORB.BAN", 10864, 53, 28, kMaimGameResID, PalId::Default} },
+    {AnimId::Security_Orb, 
+        { "MAIMORB.BAN", 2228, 53, 28u, kMaimGameResID, PalId::Default},
+        { "F2MAMORB.BAN", 10864, 53, 28, kMaimGameResID, PalId::Default}
+    },
     {AnimId::Slam_Door_Industrial_Closed, { "SLAM.BAN", 2688, 29, 68, kSlamResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Slam_Door_Industrial_Closing, { "SLAM.BAN", 2672, 29, 68, kSlamResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Slam_Door_Industrial_Opening, { "SLAM.BAN", 2640, 29, 68, kSlamResID, PalId::Default}, kNullAnimDetails },
@@ -592,7 +659,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Switch_Pull_Right_A, { "SWITCH1.BAN", 5796, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Switch_Pull_Right_B, { "SWITCH1.BAN", 5848, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Timed_Mine_Armed, { "BOMB.BND", 848, 35, 0x11u, kBombResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Timed_Mine_Idle, { "BOMB.BND", 836, 35, 0x11u, kBombResID, PalId::Default}, { "BOMB.BND", 792, 35, 17, kBombResID, PalId::Default} },
+    {AnimId::Timed_Mine_Idle, 
+        { "BOMB.BND", 836, 35, 0x11u, kBombResID, PalId::Default},
+        { "BOMB.BND", 792, 35, 17, kBombResID, PalId::Default}
+    },
     {AnimId::Tortured_Modukon, { "MUDTORT.BAN", 20892, 101, 0x44u, kTorturedMud, PalId::Default}, kNullAnimDetails },
     {AnimId::Tortured_Modukon_Released, { "MUDTORT.BAN", 20864, 101, 0x44u, kTorturedMud, PalId::Default}, kNullAnimDetails },
     {AnimId::Tortured_Modukon_Zap, { "MUDTORT.BAN", 21000, 101, 0x44u, kTorturedMud, PalId::Default}, kNullAnimDetails },
@@ -604,7 +674,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Trap_Door_Tribal_Closing, { "VLTSTRAP.BAN", 5368, 72, 41, kP6c1trapResID, PalId::Default}, kNullAnimDetails }, // ^
     {AnimId::Trap_Door_Tribal_Open, { "VLTSTRAP.BAN", 5316, 72, 41, kP6c1trapResID, PalId::Default}, kNullAnimDetails },    // ^
     {AnimId::Trap_Door_Tribal_Opening, { "VLTSTRAP.BAN", 5340, 72, 41, kP6c1trapResID, PalId::Default}, kNullAnimDetails }, // ^
-    {AnimId::UXB_Active, { "UXB.BND", 8048, 59, 19, kTbombResID, PalId::Default}, { "UXB.BND", 7740, 59, 19, kTbombResID, PalId::Default} },
+    {AnimId::UXB_Active,
+        { "UXB.BND", 8048, 59, 19, kTbombResID, PalId::Default},
+        { "UXB.BND", 7740, 59, 19, kTbombResID, PalId::Default}
+    },
     {AnimId::UXB_Toggle, { "UXB.BND", 8120, 59, 19, kTbombResID, PalId::Default}, kNullAnimDetails },
     {AnimId::UXB_Disabled, { "UXB.BND", 0x2000, 59, 19, kTbombResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Well_Leaf, { "WELLLEAF.BAN", 476, 16, 11, kWellLeafResID, PalId::Default}, kNullAnimDetails },

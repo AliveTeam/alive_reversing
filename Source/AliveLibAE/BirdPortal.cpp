@@ -1209,8 +1209,9 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP
 
     field_4_typeId = AETypes::eEyeOrbPart_74;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID);
-    Animation_Init_424E10(4144, 32, 18, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Bird_Portal_Orb);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_CC_sprite_scale = scale;

@@ -18,8 +18,9 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     field_4_typeId = AETypes::eWebLine_146;
     field_100_tlv_info = tlvInfo;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID);
-    Animation_Init_424E10(148, 5, 16u, ppRes, 1, 1u);
+    const AnimRecord& rec = AnimRec(AnimId::Paramite_Web);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
