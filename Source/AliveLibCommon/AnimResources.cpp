@@ -1,7 +1,6 @@
 #include "stdafx_common.h"
 #include "AnimResources.hpp"
 #include "Sys_common.hpp"
-#include "magic_enum/include/magic_enum.hpp"
 
 constexpr PalDetails kNullPalDetails = {};
 constexpr CombinedPalRecord kPalRecords[] = {
