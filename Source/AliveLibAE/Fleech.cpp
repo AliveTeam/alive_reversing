@@ -236,7 +236,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
 const static AnimId sFleechFrameTableOffsets_5517E4[19] = {
     AnimId::Fleech_Sleeping,
     AnimId::Fleech_WakingUp,
-    AnimId::Fleech_Unknown_B,
+    AnimId::Fleech_Unused,
     AnimId::Fleech_Idle,
     AnimId::Fleech_Crawl,
     AnimId::Fleech_PatrolCry,
@@ -1678,10 +1678,11 @@ s32 CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData)
 
 void Fleech::Init_42A170()
 {
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kFleechResID, TRUE, FALSE));
+    const AnimRecord& rec = AnimRec(AnimId::Fleech_Idle);
+    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFleeBlowResID_580, TRUE, FALSE));
 
-    Animation_Init_424E10(37704, 73, 35u, field_10_resources_array.ItemAt(0), 1, 1);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1, 1);
 
     field_20_animation.field_1C_fn_ptr_array = kFleech_Anim_Frame_Fns_55EFD0;
 
