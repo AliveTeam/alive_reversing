@@ -45,25 +45,26 @@ const TintEntry kNakedSligTints_5514B8[18] = {
     {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
-const s32 sNakedSligFrameTableOffsets_551470[18] = {
-    53684,
-    53852,
-    53964,
-    53560,
-    53720,
-    53736,
-    53752,
-    53780,
-    53816,
-    53928,
-    54032,
-    53616,
-    54000,
-    53780,
-    54096,
-    54076,
-    54160,
-    54188};
+const AnimId sNakedSligFrameTableOffsets_551470[18] = {
+    AnimId::Naked_Slig_Idle,
+    AnimId::Naked_Slig_UsingButton,
+    AnimId::Naked_Slig_WakingUp,
+    AnimId::Naked_Slig_Crawling,
+    AnimId::Naked_Slig_StartFalling,
+    AnimId::Naked_Slig_Falling,
+    AnimId::Naked_Slig_Landing,
+    AnimId::Naked_Slig_ToShakingToIdle,
+    AnimId::Naked_Slig_Speaking,
+    AnimId::Naked_Slig_Snoozing,
+    AnimId::Naked_Slig_PushingWall,
+    AnimId::Naked_Slig_TurnAround,
+    AnimId::Naked_Slig_Shaking,
+    AnimId::Naked_Slig_Empty,
+    AnimId::Naked_Slig_ShakingToIdle,
+    AnimId::Naked_Slig_EndCrawling,
+    AnimId::Naked_Slig_IdleToPushingWall,
+    AnimId::Naked_Slig_EndPushingWall 
+};
 
 ALIVE_ARY(1, 0x551428, TNakedSligMotionFn, 18, sNakedSlig_motions_551428,
           {&NakedSlig::M_Idle_0_41B260,
@@ -103,9 +104,10 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, s32 tlvInfo)
     SetVTable(this, 0x5446A8);
     field_4_typeId = AETypes::eCrawlingSlig_26;
 
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::bUnknownResID_449, 1, 0));
+    const AnimRecord& rec = AnimRec(AnimId::Naked_Slig_Idle);
+    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, 1, 0));
-    Animation_Init_424E10(53684, 109, 37, field_10_resources_array.ItemAt(0), 1, 1);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1, 1);
 
     SetTint_425600(&kNakedSligTints_5514B8[0], gMap_5C3030.field_0_current_level);
 
@@ -249,7 +251,7 @@ s32 CC NakedSlig::CreateFromSaveState_41AE80(const u8* pBuffer)
     auto pState = reinterpret_cast<const NakedSlig_State*>(pBuffer);
 
     auto pTlv = static_cast<Path_NakedSlig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_44_tlvInfo));
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::bUnknownResID_449, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kNakedSligResID_449, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("CRAWLSLG.BND", nullptr);
     }
@@ -293,7 +295,9 @@ s32 CC NakedSlig::CreateFromSaveState_41AE80(const u8* pBuffer)
     pNakedSlig->field_D4_b = pState->field_24_b;
 
     pNakedSlig->field_106_current_motion = pState->field_28_current_motion;
-    pNakedSlig->field_20_animation.Set_Animation_Data_409C80(sNakedSligFrameTableOffsets_551470[pState->field_28_current_motion], nullptr);
+
+    const AnimRecord& rec = AnimRec(sNakedSligFrameTableOffsets_551470[pState->field_28_current_motion]);
+    pNakedSlig->field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
     pNakedSlig->field_20_animation.field_92_current_frame = pState->field_2A_anim_cur_frame;
 
     pNakedSlig->field_20_animation.field_E_frame_change_counter = pState->field_2C_anim_frame_change_counter;
@@ -424,7 +428,8 @@ void NakedSlig::vPossessed_4195F0()
 
 void NakedSlig::Set_AnimAndMotion_419890(s16 currentMotion, s16 bClearNextMotion)
 {
-    field_20_animation.Set_Animation_Data_409C80(sNakedSligFrameTableOffsets_551470[currentMotion], nullptr);
+    const AnimRecord& rec = AnimRec(sNakedSligFrameTableOffsets_551470[currentMotion]);
+    field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
     field_106_current_motion = currentMotion;
 
     UpdateAnimBlock_419900();
@@ -443,7 +448,8 @@ void NakedSlig::UpdateAnimBlock_419900()
         field_106_current_motion = 0;
         ppRes = GetAnimBlock_419950(0);
     }
-    field_20_animation.Set_Animation_Data_409C80(sNakedSligFrameTableOffsets_551470[field_106_current_motion], ppRes);
+    const AnimRecord& rec = AnimRec(sNakedSligFrameTableOffsets_551470[field_106_current_motion]);
+    field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, ppRes);
 }
 
 u8** NakedSlig::GetAnimBlock_419950(s32 /*currentMotion*/)
