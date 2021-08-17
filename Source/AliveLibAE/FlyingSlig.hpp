@@ -189,7 +189,7 @@ public:
     EXPORT void Brain_13_Possession_4360F0();
     EXPORT void Brain_14_DePossession_436180();
     EXPORT void Brain_15_FlyingSligSpawn_4362C0();
-    EXPORT void Brain_17_FromNakedSlig_4355E0();
+    EXPORT void Brain_17_FromCrawlingSlig_4355E0();
 
 public:
     EXPORT void M_Idle_0_4385E0();

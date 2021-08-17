@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
 
-struct Path_NakedSlig final : public Path_TLV
+struct Path_CrawlingSlig final : public Path_TLV
 {
     Scale_short field_10_scale;
     XDirection_short field_12_direction;
@@ -27,17 +27,17 @@ struct Path_NakedSlig final : public Path_TLV
     s16 field_18_panic_id;
     Choice_short field_1A_reset_on_death;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_NakedSlig, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_CrawlingSlig, 0x1C);
 
-class NakedSlig;
+class CrawlingSlig;
 
-using TNakedSligBrainFn = s16 (NakedSlig::*)();
-using TNakedSligMotionFn = void (NakedSlig::*)();
+using TCrawlingSligBrainFn = s16 (CrawlingSlig::*)();
+using TCrawlingSligMotionFn = void (CrawlingSlig::*)();
 
 enum class LevelIds : s16;
 enum class SligSpeak : s8;
 
-struct NakedSlig_State final
+struct CrawlingSlig_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -91,9 +91,9 @@ struct NakedSlig_State final
     s16 field_7A_unused_counter;
     s32 field_7C_say_help_timer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(NakedSlig_State, 0x80);
+ALIVE_ASSERT_SIZEOF_ALWAYS(CrawlingSlig_State, 0x80);
 
-enum NakedSligMotion : s16
+enum CrawlingSligMotion : s16
 {
     M_Idle_0_41B260 = 0,
     M_UsingButton_1_41B890 = 1,
@@ -115,10 +115,10 @@ enum NakedSligMotion : s16
     M_EndPushingWall_17_41B3A0 = 17
 };
 
-class NakedSlig final : public BaseAliveGameObject
+class CrawlingSlig final : public BaseAliveGameObject
 {
 public:
-    EXPORT NakedSlig* ctor_418C70(Path_NakedSlig* pTlv, s32 tlvInfo);
+    EXPORT CrawlingSlig* ctor_418C70(Path_CrawlingSlig* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -139,7 +139,7 @@ public:
     EXPORT static s32 CC CreateFromSaveState_41AE80(const u8* pBuffer);
 
 private:
-    EXPORT s32 vGetSaveState_41C9A0(NakedSlig_State* pState);
+    EXPORT s32 vGetSaveState_41C9A0(CrawlingSlig_State* pState);
 
     EXPORT void vPossessed_4195F0();
 
@@ -168,12 +168,12 @@ private:
     EXPORT s16 vTakeDamage_4192B0(BaseGameObject* pFrom);
 
 private:
-    void SetBrain(TNakedSligBrainFn fn);
-    bool BrainIs(TNakedSligBrainFn fn);
+    void SetBrain(TCrawlingSligBrainFn fn);
+    bool BrainIs(TCrawlingSligBrainFn fn);
 
     EXPORT void dtor_418FE0();
 
-    EXPORT NakedSlig* vdtor_418FB0(s32 flags);
+    EXPORT CrawlingSlig* vdtor_418FB0(s32 flags);
 
     EXPORT BOOL PanicOn_419810();
 
@@ -246,12 +246,12 @@ private:
     s32 field_1D4_obj_id;
     s32 field_1D8_obj_id;
     s32 field_1DC_unused;
-    Path_NakedSlig::CrawlDirection field_1E0_crawl_direction;
+    Path_CrawlingSlig::CrawlDirection field_1E0_crawl_direction;
     s16 field_1E2_padding;
     Path_TLV* field_1E4_pPantsOrWingsTlv;
-    Path_NakedSlig field_1E8_tlv;
-    TNakedSligBrainFn field_204_brain_state;
+    Path_CrawlingSlig field_1E8_tlv;
+    TCrawlingSligBrainFn field_204_brain_state;
     s16 field_208_brain_sub_state;
     s16 field_20A_padding;
 };
-ALIVE_ASSERT_SIZEOF(NakedSlig, 0x20C);
+ALIVE_ASSERT_SIZEOF(CrawlingSlig, 0x20C);

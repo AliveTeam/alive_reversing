@@ -53,8 +53,8 @@
 #include "../AliveLibAE/Greeter.hpp"
 #include "../AliveLibAE/MovingBomb.hpp"
 #include "../AliveLibAE/SecurityDoor.hpp"
-#include "../AliveLibAE/NakedSlig.hpp"
-#include "../AliveLibAE/NakedSligButton.hpp"
+#include "../AliveLibAE/CrawlingSlig.hpp"
+#include "../AliveLibAE/CrawlingSligButton.hpp"
 #include "../AliveLibAE/Glukkon.hpp"
 #include "../AliveLibAE/GlukkonSwitch.hpp"
 #include "../AliveLibAE/GasCountDown.hpp"
@@ -1625,26 +1625,26 @@ struct Path_SecurityDoor final : public TlvObjectBaseAE
     }
 };
 
-struct Path_NakedSlig final : public TlvObjectBaseAE
+struct Path_CrawlingSlig final : public TlvObjectBaseAE
 {
     void AddTypes(TypesCollectionBase& types) override
     {
-        types.AddEnum<::Path_NakedSlig::State>("Enum_NakedSligState",
+        types.AddEnum<::Path_CrawlingSlig::State>("Enum_CrawlingSligState",
                                                {
-                                                   {::Path_NakedSlig::State::eSleeping_0, "Sleeping"},
-                                                   {::Path_NakedSlig::State::eSleeping_1, "Sleeping2 (Duplicate)"},
-                                                   {::Path_NakedSlig::State::eAwake_2, "Awake"},
+                                                   {::Path_CrawlingSlig::State::eSleeping_0, "Sleeping"},
+                                                   {::Path_CrawlingSlig::State::eSleeping_1, "Sleeping2 (Duplicate)"},
+                                                   {::Path_CrawlingSlig::State::eAwake_2, "Awake"},
                                                });
 
-        types.AddEnum<::Path_NakedSlig::CrawlDirection>("Enum_CrawlDirection",
+        types.AddEnum<::Path_CrawlingSlig::CrawlDirection>("Enum_CrawlDirection",
                                                         {
-                                                            {::Path_NakedSlig::CrawlDirection::eLeft_0, "Left"},
-                                                            {::Path_NakedSlig::CrawlDirection::eRight_1, "Right"},
-                                                            {::Path_NakedSlig::CrawlDirection::eRandom_2, "Random"},
+                                                            {::Path_CrawlingSlig::CrawlDirection::eLeft_0, "Left"},
+                                                            {::Path_CrawlingSlig::CrawlDirection::eRight_1, "Right"},
+                                                            {::Path_CrawlingSlig::CrawlDirection::eRandom_2, "Random"},
                                                         });
     }
 
-    CTOR_AE(Path_NakedSlig, "NakedSlig", TlvTypes::NakedSlig_103)
+    CTOR_AE(Path_CrawlingSlig, "CrawlingSlig", TlvTypes::CrawlingSlig_103)
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Direction (Unused?)", mTlv.field_12_direction);
@@ -1717,9 +1717,9 @@ struct Path_SligGetWings final : public TlvObjectBaseAE
     }
 };
 
-struct Path_NakedSligButton final : public TlvObjectBaseAE
+struct Path_CrawlingSligButton final : public TlvObjectBaseAE
 {
-    CTOR_AE(Path_NakedSligButton, "NakedSligButton", TlvTypes::NakedSligButton_107)
+    CTOR_AE(Path_CrawlingSligButton, "CrawlingSligButton", TlvTypes::CrawlingSligButton_107)
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("ID", mTlv.field_12_id);

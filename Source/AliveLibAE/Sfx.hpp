@@ -98,7 +98,7 @@ enum SoundEffect
     SlurgStop_90 = 90,
     Chisel_91 = 91,
     NakedSligTransformEnd_92 = 92,
-    NakedSligTransformStart_93 = 93,
+    CrawlingSligTransformStart_93 = 93,
     WaterStart_94 = 94,
     WaterFall_95 = 95,
     WaterEnd_96 = 96,

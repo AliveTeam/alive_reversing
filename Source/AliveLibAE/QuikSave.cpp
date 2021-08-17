@@ -41,7 +41,7 @@
 #include "ColourfulMeter.hpp"
 #include "MinesAlarm.hpp"
 #include "EvilFart.hpp"
-#include "NakedSlig.hpp"
+#include "CrawlingSlig.hpp"
 #include "Fleech.hpp"
 #include "Greeter.hpp"
 #include "Slog.hpp"
@@ -80,7 +80,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable = {
     nullptr,
     nullptr,
     &MinesAlarm::CreateFromSaveState_417740,
-    &NakedSlig::CreateFromSaveState_41AE80,
+    &CrawlingSlig::CreateFromSaveState_41AE80,
     nullptr,
     nullptr,
     nullptr,
