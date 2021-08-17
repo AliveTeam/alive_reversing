@@ -23,7 +23,7 @@ void PlatformBase::VRemove_451680(BaseAliveGameObject* /*pObj*/)
     field_114_count--;
 }
 
-void PlatformBase::AddDynamicCollision_4512C0(s32 maxW, s32 maxH, s32 frameTableOffset, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo)
+void PlatformBase::AddDynamicCollision_4512C0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo)
 {
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
@@ -42,9 +42,9 @@ void PlatformBase::AddDynamicCollision_4512C0(s32 maxW, s32 maxH, s32 frameTable
     field_114_count = 0;
 
     Animation_Init_417FD0(
+        frameTableOffset,
         maxW,
         maxH,
-        frameTableOffset,
         ppAnimData,
         1);
 
