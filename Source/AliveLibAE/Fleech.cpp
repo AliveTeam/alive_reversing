@@ -21,6 +21,7 @@
 #include "Sfx.hpp"
 #include "SlamDoor.hpp"
 #include "Sound/Midi.hpp"
+#include "Sys_common.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, u8, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);
@@ -28,7 +29,7 @@ ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);
 const TFleechMotionFn sFleech_motion_table_551798[19] = {
     &Fleech::M_Sleeping_0_42F0B0,
     &Fleech::M_WakingUp_1_42F270,
-    &Fleech::M_Unknown_2_42F2F0,
+    &Fleech::M_Unused_2_42F2F0,
     &Fleech::M_Idle_3_42E850,
     &Fleech::M_Crawl_4_42E960,
     &Fleech::M_PatrolCry_5_42E810,
@@ -235,7 +236,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
 const static AnimId sFleechFrameTableOffsets_5517E4[19] = {
     AnimId::Fleech_Sleeping,
     AnimId::Fleech_WakingUp,
-    AnimId::Fleech_Unknown_B,
+    AnimId::Fleech_Unused,
     AnimId::Fleech_Idle,
     AnimId::Fleech_Crawl,
     AnimId::Fleech_PatrolCry,
@@ -596,8 +597,11 @@ void Fleech::M_WakingUp_1_42F270()
     }
 }
 
-void Fleech::M_Unknown_2_42F2F0()
+void Fleech::M_Unused_2_42F2F0()
 {
+    if (true)
+        ALIVE_FATAL("never expected Fleech::M_Unused_2_42F2F0() to be called");
+
     if (field_108_next_motion != -1)
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1674,10 +1678,11 @@ s32 CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData)
 
 void Fleech::Init_42A170()
 {
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kFleechResID, TRUE, FALSE));
+    const AnimRecord& rec = AnimRec(AnimId::Fleech_Idle);
+    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFleeBlowResID_580, TRUE, FALSE));
 
-    Animation_Init_424E10(37704, 73, 35u, field_10_resources_array.ItemAt(0), 1, 1);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1, 1);
 
     field_20_animation.field_1C_fn_ptr_array = kFleech_Anim_Frame_Fns_55EFD0;
 

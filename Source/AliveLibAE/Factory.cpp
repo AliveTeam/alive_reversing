@@ -59,7 +59,7 @@
 #include "Slurg.hpp"
 #include "SlurgSpawner.hpp"
 #include "DoorFlame.hpp"
-#include "NakedSlig.hpp"
+#include "CrawlingSlig.hpp"
 #include "Scrab.hpp"
 #include "Paramite.hpp"
 #include "Fleech.hpp"
@@ -67,7 +67,7 @@
 #include "Slig.hpp"
 #include "GasCountDown.hpp"
 #include "GlukkonSwitch.hpp"
-#include "NakedSligButton.hpp"
+#include "CrawlingSligButton.hpp"
 #include "SligGetPantsAndWings.hpp"
 #include "BoomMachine.hpp"
 #include "Meat.hpp"
@@ -1987,10 +1987,10 @@ EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
     else
     {
-        auto pNakedSlig = ae_new<NakedSlig>();
+        auto pNakedSlig = ae_new<CrawlingSlig>();
         if (pNakedSlig)
         {
-            pNakedSlig->ctor_418C70(static_cast<Path_NakedSlig*>(pTlv), tlvInfo.all);
+            pNakedSlig->ctor_418C70(static_cast<Path_CrawlingSlig*>(pTlv), tlvInfo.all);
         }
     }
 }
@@ -2061,10 +2061,10 @@ EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* pTlv, Path*, TlvItemInfo
     }
     else
     {
-        auto pSligButton = ae_new<NakedSligButton>();
+        auto pSligButton = ae_new<CrawlingSligButton>();
         if (pSligButton)
         {
-            pSligButton->ctor_4148F0(static_cast<Path_NakedSligButton*>(pTlv), tlvInfo.all);
+            pSligButton->ctor_4148F0(static_cast<Path_CrawlingSligButton*>(pTlv), tlvInfo.all);
         }
     }
 }

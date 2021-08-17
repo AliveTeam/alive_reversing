@@ -11,7 +11,7 @@
 #include "MusicController.hpp"
 #include "DDCheat.hpp"
 #include "BaseGameObject.hpp"
-#include "NakedSlig.hpp" // TODO: SFX playing only
+#include "CrawlingSlig.hpp" // TODO: SFX playing only
 #include "SnoozeParticle.hpp"
 #include "Events.hpp"
 #include "Sfx.hpp"

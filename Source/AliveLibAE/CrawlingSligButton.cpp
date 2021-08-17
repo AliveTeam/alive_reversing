@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "NakedSligButton.hpp"
+#include "CrawlingSligButton.hpp"
 #include "Sfx.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
@@ -18,7 +18,7 @@ const SfxDefinition stru_544488[8] = {
     // { (s8)160u, (s8)192u, 77u, 0u, (s16)49392, 77 }
 };
 
-NakedSligButton* NakedSligButton::ctor_4148F0(Path_NakedSligButton* pTlv, s32 tlvInfo)
+CrawlingSligButton* CrawlingSligButton::ctor_4148F0(Path_CrawlingSligButton* pTlv, s32 tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5444B4);
@@ -54,17 +54,17 @@ NakedSligButton* NakedSligButton::ctor_4148F0(Path_NakedSligButton* pTlv, s32 tl
     return this;
 }
 
-BaseGameObject* NakedSligButton::VDestructor(s32 flags)
+BaseGameObject* CrawlingSligButton::VDestructor(s32 flags)
 {
     return vdtor_414A60(flags);
 }
 
-void NakedSligButton::VUpdate()
+void CrawlingSligButton::VUpdate()
 {
     vUpdate_414B20();
 }
 
-void NakedSligButton::UseButton_414C60()
+void CrawlingSligButton::UseButton_414C60()
 {
     if (!field_102_in_use)
     {
@@ -73,7 +73,7 @@ void NakedSligButton::UseButton_414C60()
     }
 }
 
-NakedSligButton* NakedSligButton::vdtor_414A60(s32 flags)
+CrawlingSligButton* CrawlingSligButton::vdtor_414A60(s32 flags)
 {
     dtor_414A90();
     if (flags & 1)
@@ -83,14 +83,14 @@ NakedSligButton* NakedSligButton::vdtor_414A60(s32 flags)
     return this;
 }
 
-void NakedSligButton::dtor_414A90()
+void CrawlingSligButton::dtor_414A90()
 {
     SetVTable(this, 0x5444B4);
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void NakedSligButton::vUpdate_414B20()
+void CrawlingSligButton::vUpdate_414B20()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
