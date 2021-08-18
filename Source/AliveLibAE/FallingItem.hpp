@@ -73,7 +73,7 @@ private:
     s16 field_12C_reset_id;
     s16 field_12E_do_sound_in_state_falling;
     FP field_130_yPosStart;
-    s16 field_134_bHitGrinderOrMineCar;
+    s16 field_134_bHitDrillOrMineCar;
     //s16 field_136_pad;
     FP field_138_xpos;
     FP field_13C_ypos;

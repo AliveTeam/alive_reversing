@@ -2251,7 +2251,7 @@ s16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
     switch (pFrom->field_4_typeId)
     {
         case AETypes::eBullet_15:
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eExplosion_109:
         case AETypes::eSlig_125:

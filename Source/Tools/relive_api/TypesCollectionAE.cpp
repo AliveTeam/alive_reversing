@@ -87,7 +87,7 @@ void TypesCollectionAE::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_ZSligCover);
     REGISTER_TYPE_AE(AETlvs::Path_WellLocal);
     REGISTER_TYPE_AE(AETlvs::Path_FartMachine);
-    REGISTER_TYPE_AE(AETlvs::Path_Grinder);
+    REGISTER_TYPE_AE(AETlvs::Path_Drill);
     REGISTER_TYPE_AE(AETlvs::Path_Mine);
     REGISTER_TYPE_AE(AETlvs::Path_Slog);
     REGISTER_TYPE_AE(AETlvs::Path_ResetSwitchRange);

@@ -641,7 +641,7 @@ s16 CrawlingSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
         switch (pFrom->field_4_typeId)
         {
             case AETypes::eBullet_15:
-            case AETypes::eGrinder_30:
+            case AETypes::eDrill_30:
             case AETypes::eBaseBomb_46:
             case AETypes::eRockSpawner_48:
             case AETypes::eMeatSaw_86:

@@ -69,7 +69,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
     field_124_fall_delay = pTlv->field_14_fall_delay;
     field_120_max_falling_items = pTlv->field_16_max_falling_items;
     field_122_remaining_falling_items = pTlv->field_16_max_falling_items;
-    field_134_bHitGrinderOrMineCar = FALSE;
+    field_134_bHitDrillOrMineCar = FALSE;
     field_12C_reset_id = pTlv->field_18_reset_id;
     field_12E_do_sound_in_state_falling = TRUE;
 
@@ -149,7 +149,7 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
     const FP yFixed = FP_FromInteger(ypos);
 
     field_12C_reset_id = resetId;
-    field_134_bHitGrinderOrMineCar = FALSE;
+    field_134_bHitDrillOrMineCar = FALSE;
     field_12E_do_sound_in_state_falling = TRUE;
     field_B8_xpos = xFixed;
     field_BC_ypos = yFixed;
@@ -340,18 +340,18 @@ EXPORT void FallingItem::vUpdate_427780()
                     field_D6_scale != 0 ? 1 : 16)
                 == 1)
             {
-                if (!field_134_bHitGrinderOrMineCar)
+                if (!field_134_bHitDrillOrMineCar)
                 {
                     field_BC_ypos = hitY;
                 }
             }
-            else if (!field_134_bHitGrinderOrMineCar)
+            else if (!field_134_bHitDrillOrMineCar)
             {
                 field_BC_ypos += field_C8_vely;
                 return;
             }
 
-            field_134_bHitGrinderOrMineCar = FALSE;
+            field_134_bHitDrillOrMineCar = FALSE;
             field_11C_state = State::eSmashed_4;
 
             auto pShake = ae_new<ScreenShake>();
@@ -469,7 +469,7 @@ void FallingItem::DamageHitItems_427F40()
 
         if (pObj != this)
         {
-            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->field_4_typeId == AETypes::eGrinder_30)
+            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->field_4_typeId == AETypes::eDrill_30)
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
@@ -481,7 +481,7 @@ void FallingItem::DamageHitItems_427F40()
 
                 if (pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
                 {
-                    if (pAliveObj->field_4_typeId == AETypes::eGrinder_30 || pAliveObj->field_4_typeId == AETypes::eMineCar_89)
+                    if (pAliveObj->field_4_typeId == AETypes::eDrill_30 || pAliveObj->field_4_typeId == AETypes::eMineCar_89)
                     {
                         objRect.x += pAliveObj->field_DA_xOffset;
                         objRect.y += pAliveObj->field_D8_yOffset;
@@ -492,15 +492,15 @@ void FallingItem::DamageHitItems_427F40()
 
                     if (PSX_Rects_overlap_no_adjustment(&fallingItemRect, &objRect))
                     {
-                        if (pAliveObj->field_4_typeId == AETypes::eGrinder_30)
+                        if (pAliveObj->field_4_typeId == AETypes::eDrill_30)
                         {
-                            // Grinder is not a type that implements VTakeDamage
-                            field_134_bHitGrinderOrMineCar = TRUE;
+                            // Drill is not a type that implements VTakeDamage
+                            field_134_bHitDrillOrMineCar = TRUE;
                         }
                         else if (pAliveObj->field_4_typeId == AETypes::eMineCar_89)
                         {
                             // ?? Could still call VTakeDamage here but OG doesn't ??
-                            field_134_bHitGrinderOrMineCar = TRUE;
+                            field_134_bHitDrillOrMineCar = TRUE;
                         }
                         else
                         {

@@ -2234,7 +2234,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             }
             break;
 
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         {
             if (field_10C_health <= FP_FromInteger(0))
             {

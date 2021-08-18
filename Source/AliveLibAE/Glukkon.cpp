@@ -3166,7 +3166,7 @@ s16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         }
         break;
 
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eMeatSaw_86:
         case AETypes::eExplosion_109:

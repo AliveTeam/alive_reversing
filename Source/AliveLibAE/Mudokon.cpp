@@ -1442,7 +1442,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             SetPal_4772D0(Mud_Emotion::eNormal_0);
             return 1;
 
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eMeatSaw_86:
         case AETypes::eExplosion_109:

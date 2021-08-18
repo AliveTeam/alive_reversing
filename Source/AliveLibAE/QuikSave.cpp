@@ -13,7 +13,7 @@
 #include "DDCheat.hpp"
 #include "Events.hpp"
 #include "WorkWheel.hpp"
-#include "Grinder.hpp"
+#include "Drill.hpp"
 #include "ScreenManager.hpp"
 #include "Io.hpp"
 #include "LiftPoint.hpp"
@@ -84,7 +84,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable = {
     nullptr,
     nullptr,
     nullptr,
-    &Grinder::CreateFromSaveState_421600,
+    &Drill::CreateFromSaveState_421600,
     nullptr,
     nullptr,
     nullptr,

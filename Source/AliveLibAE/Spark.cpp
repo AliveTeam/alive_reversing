@@ -90,7 +90,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
         }
         else
         {
-            // Normal drill/grinder type sparks
+            // Normal drill type sparks
             u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID);
             auto pParticle = ae_new<Particle>();
             if (pParticle)

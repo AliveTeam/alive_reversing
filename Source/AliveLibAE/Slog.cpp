@@ -3467,7 +3467,7 @@ s16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
             break;
         }
 
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eExplosion_109:
         {

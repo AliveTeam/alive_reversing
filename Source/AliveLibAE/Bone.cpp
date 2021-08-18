@@ -641,7 +641,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, s32 tlvInfo)
     SetVTable(this, 0x5443B0);
     field_4_typeId = AETypes::eBoneBag_12;
 
-    const AnimRecord& rec = AnimRec(AnimId::Bone_Bag_A);
+    const AnimRecord& rec = AnimRec(AnimId::BoneBag_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     // TODO: Super super OWI hack, WTF?? Figure out exactly what this is patching in the animation
     *((u16*) *ppRes + 4374) = 0;
@@ -650,7 +650,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, s32 tlvInfo)
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     SetTint_425600(&kBoneTints_550EC0[0], gMap_5C3030.field_0_current_level);
 
-    field_11C_is_hit = 0;
+    field_11C_bIs_hit = 0;
     field_118_tlvInfo = tlvInfo;
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -750,9 +750,9 @@ void BoneBag::vUpdate_412880()
         field_120_allow_sound = 0;
     }
 
-    if (field_11C_is_hit)
+    if (field_11C_bIs_hit)
     {
-        if (field_11C_is_hit != 1)
+        if (field_11C_bIs_hit != 1)
         {
             return;
         }
@@ -762,9 +762,9 @@ void BoneBag::vUpdate_412880()
             return;
         }
 
-        const AnimRecord& animRec = AnimRec(AnimId::Bone_Bag_A);
+        const AnimRecord& animRec = AnimRec(AnimId::BoneBag_Idle);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-        field_11C_is_hit = 0;
+        field_11C_bIs_hit = 0;
         return;
     }
 
@@ -787,15 +787,15 @@ void BoneBag::vUpdate_412880()
             {
                 if (sActiveHero_5C1B68->field_106_current_motion == 31)
                 {
-                    const AnimRecord& animRec = AnimRec(AnimId::Bone_Bag_B);
+                    const AnimRecord& animRec = AnimRec(AnimId::BoneBag_HardHit);
                     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 }
                 else
                 {
-                    const AnimRecord& animRec = AnimRec(AnimId::Bone_Bag_C);
+                    const AnimRecord& animRec = AnimRec(AnimId::BoneBag_SoftHit);
                     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 }
-                field_11C_is_hit = 1;
+                field_11C_bIs_hit = 1;
                 return;
             }
         }
@@ -820,15 +820,15 @@ void BoneBag::vUpdate_412880()
 
         if (sActiveHero_5C1B68->field_106_current_motion == 31)
         {
-            const AnimRecord& animRec = AnimRec(AnimId::Bone_Bag_B);
+            const AnimRecord& animRec = AnimRec(AnimId::BoneBag_HardHit);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         }
         else
         {
-            const AnimRecord& animRec = AnimRec(AnimId::Bone_Bag_C);
+            const AnimRecord& animRec = AnimRec(AnimId::BoneBag_SoftHit);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         }
 
-        field_11C_is_hit = 1;
+        field_11C_bIs_hit = 1;
     }
 }

@@ -403,7 +403,7 @@ public:
                 if (mode == 4 || mode == 5 || mode == 6)
                 {
                     layer = Layer::eLayer_Well_23;
-                    fontLayer = Layer::eLayer_RopeWebGrinder_24;
+                    fontLayer = Layer::eLayer_RopeWebDrill_24;
                 }
                 DEV::DebugDrawLine(ppOt, layer, l->field_0_rect.x, l->field_0_rect.y, l->field_0_rect.w, l->field_0_rect.h, color.r, color.g, color.b, true, false);
 

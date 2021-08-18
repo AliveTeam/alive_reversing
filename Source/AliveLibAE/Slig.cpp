@@ -7042,7 +7042,7 @@ s16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
             return 1;
         }
 
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eExplosion_109:
         {

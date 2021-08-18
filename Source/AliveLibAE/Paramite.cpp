@@ -5459,7 +5459,7 @@ s16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eExplosion_109:
         {
