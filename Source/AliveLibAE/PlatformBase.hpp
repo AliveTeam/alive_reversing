@@ -14,7 +14,7 @@ public:
     // TODO: New virtuals
 
 protected:
-    EXPORT void AddDynamicCollision_4971C0(s32 maxW, s32 maxH, u16 frameTableOffset, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
+    EXPORT void AddDynamicCollision_4971C0(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
 
     EXPORT void dtor_4973E0();
 

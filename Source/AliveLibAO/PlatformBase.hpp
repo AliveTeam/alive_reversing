@@ -18,7 +18,7 @@ public:
 
     EXPORT void VRemove_451680(BaseAliveGameObject* pObj);
 
-    EXPORT void AddDynamicCollision_4512C0(s32 maxW, s32 maxH, s32 frameTableOffset, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
+    EXPORT void AddDynamicCollision_4512C0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_451490();
 
