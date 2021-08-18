@@ -2881,7 +2881,7 @@ void Glukkon::ToDead_43F640()
                 field_1E4_level,
                 field_1E6_path,
                 field_1E8_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }

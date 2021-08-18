@@ -2631,7 +2631,7 @@ s16 Slig::Brain_Death_0_4BBFB0()
         {
             sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
             MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-            gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
 
@@ -2662,7 +2662,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_1_4BC410()
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-        gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -2812,7 +2812,7 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
                 {
                     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
                     sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-                    gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
@@ -4807,7 +4807,7 @@ void Slig::dtor_4B1CF0()
                 field_146_level,
                 field_148_path,
                 field_14A_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }

@@ -539,10 +539,10 @@ EXPORT void Game_Run_4373D0()
 
 #if DEVELOPER_MODE
     // Boot directly to the "abe hello" screen
-    gMap_507BA8.Init_443EE0(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+    gMap_507BA8.Init_443EE0(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
 #else
     // Normal copy right screen boot
-    gMap_507BA8.Init_443EE0(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+    gMap_507BA8.Init_443EE0(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eInstantChange_0, 0, 0);
 #endif
 
     DDCheat_Allocate_409560();

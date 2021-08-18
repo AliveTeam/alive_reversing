@@ -6642,11 +6642,11 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
 
         if (pExpressWell->field_32_movie_id)
         {
-            gMap_5C3030.SetActiveCam_480D30(field_19A_to_level, field_19C_to_path, field_19E_to_camera, CameraSwapEffects::eEffect5_1_FMV, pExpressWell->field_32_movie_id, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_19A_to_level, field_19C_to_path, field_19E_to_camera, CameraSwapEffects::ePlay1FMV_5, pExpressWell->field_32_movie_id, 0);
         }
         else
         {
-            gMap_5C3030.SetActiveCam_480D30(field_19A_to_level, field_19C_to_path, field_19E_to_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_19A_to_level, field_19C_to_path, field_19E_to_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
 
         // FeeCo hack!
@@ -6910,7 +6910,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
 
                     field_148_fade_obj_id = pFade33->field_8_object_id;
                     field_19E_to_camera = gMap_5C3030.field_4_current_camera;
-                    gMap_5C3030.SetActiveCam_480D30(field_C2_lvl_number, field_C0_path_number, field_186_to_camera_id[0], CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_5C3030.SetActiveCam_480D30(field_C2_lvl_number, field_C0_path_number, field_186_to_camera_id[0], CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }
             break;
@@ -6978,7 +6978,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                         field_C2_lvl_number,
                         field_C0_path_number,
                         field_186_to_camera_id[field_17C_cam_idx++],
-                        CameraSwapEffects::eEffect0_InstantChange,
+                        CameraSwapEffects::eInstantChange_0,
                         0,
                         0);
                 }
@@ -6998,7 +6998,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                     field_C2_lvl_number,
                     field_C0_path_number,
                     field_19E_to_camera,
-                    CameraSwapEffects::eEffect0_InstantChange,
+                    CameraSwapEffects::eInstantChange_0,
                     0,
                     0);
             }
@@ -7912,7 +7912,7 @@ void Abe::Motion_114_DoorEnter_459470()
             {
                 // Plays FMV where the weirdos give Abe the drunk mud healing power and then dumps Abe at the portal that leads
                 // back to Necrum mines.
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eNecrum_2, 3, 10, CameraSwapEffects::eEffect5_1_FMV, 22, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eNecrum_2, 3, 10, CameraSwapEffects::ePlay1FMV_5, 22, 0);
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
                 field_B8_xpos = FP_FromInteger(2287);
@@ -7929,7 +7929,7 @@ void Abe::Motion_114_DoorEnter_459470()
             gMap_5C3030.field_1E_door = 1;
             s16 bForceChange = 0;
             const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pDoorTlv->field_32_wipe_effect];
-            if (effect == CameraSwapEffects::eEffect5_1_FMV || effect == CameraSwapEffects::eEffect11_Unknown)
+            if (effect == CameraSwapEffects::ePlay1FMV_5 || effect == CameraSwapEffects::eUnknown_11)
             {
                 bForceChange = 1;
             }

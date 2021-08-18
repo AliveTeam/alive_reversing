@@ -584,7 +584,7 @@ void FlyingSlig::dtor_434990()
                 field_2A0_abe_level,
                 field_2A2_abe_path,
                 field_2A4_abe_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }

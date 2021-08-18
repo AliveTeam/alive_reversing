@@ -1079,14 +1079,14 @@ void BirdPortal::VGetMapChange_453840(LevelIds* level, u16* path, u16* camera, C
     if (field_38_movie_id > 0)
     {
         *movieId = field_38_movie_id;
-        *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
+        *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;
         return;
     }
 
     // Zero
     if (field_38_movie_id == 0)
     {
-        *screenChangeEffect = CameraSwapEffects::eEffect0_InstantChange;
+        *screenChangeEffect = CameraSwapEffects::eInstantChange_0;
         return;
     }
 
@@ -1094,12 +1094,12 @@ void BirdPortal::VGetMapChange_453840(LevelIds* level, u16* path, u16* camera, C
     if (sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) && sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
     {
         *movieId = 1617 - (10000 * field_38_movie_id);
-        *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
+        *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;
         return;
     }
 
     *movieId = 17 - (100 * field_38_movie_id);
-    *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
+    *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;
 }
 
 s16 BirdPortal::VPortalClipper_4533E0(s16 bUnknown)

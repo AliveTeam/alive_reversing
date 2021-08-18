@@ -7975,11 +7975,11 @@ void Abe::Motion_81_InsideWellExpress_431320()
         field_114_gnFrame = 1;
         if (pExpressWell->field_3A_movie_id)
         {
-            gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eEffect5_1_FMV, pExpressWell->field_3A_movie_id, 0);
+            gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::ePlay1FMV_5, pExpressWell->field_3A_movie_id, 0);
         }
         else
         {
-            gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         field_FC_current_motion = eAbeMotions::Motion_82_WellExpressShotOut_4315A0;
     }
@@ -8270,7 +8270,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                             field_174_pathStone.dataHandstone.camera1.level,
                             field_174_pathStone.dataHandstone.camera1.path,
                             field_174_pathStone.dataHandstone.camera1.camera,
-                            CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                            CameraSwapEffects::eInstantChange_0, 0, 0);
                         break;
                     }
                     default:
@@ -8390,7 +8390,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         pDeathFadeOutMem->ctor_419DB0(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                     }
                     field_158_pDeathFadeout = pDeathFadeOutMem;
-                    gMap_507BA8.SetActiveCam_444660(camera.level, camera.path, camera.camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(camera.level, camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }
             break;
@@ -8400,7 +8400,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
             {
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_110_state.stone = StoneStates::eCircularFadeExit_13;
-                gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
             }
             break;
         case StoneStates::eCircularFadeExit_13:
@@ -9781,7 +9781,7 @@ void Abe::Motion_156_DoorEnter_42D370()
             gMap_507BA8.field_1E_door = 1;
             const auto changeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pDoorTlv->field_3A_wipe_effect];
             s16 flag = 0;
-            if (changeEffect == CameraSwapEffects::eEffect5_1_FMV || changeEffect == CameraSwapEffects::eEffect11)
+            if (changeEffect == CameraSwapEffects::ePlay1FMV_5 || changeEffect == CameraSwapEffects::eUnknown_11)
             {
                 flag = 1;
             }

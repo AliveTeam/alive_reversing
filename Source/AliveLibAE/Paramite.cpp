@@ -1351,7 +1351,7 @@ s16 Paramite::Brain_1_Death_484CD0()
         if (field_130_timer < static_cast<s32>(sGnFrame_5C1B84))
         {
             sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
 
@@ -2518,7 +2518,7 @@ s16 Paramite::Brain_7_DeathDrop_484FF0()
         if (sControlledCharacter_5C1B8C == this)
         {
             sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
 
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -4446,7 +4446,7 @@ void Paramite::M_GetDepossessedBegin_29_48D9D0()
             field_106_current_motion = eParamiteMotions::M_GetDepossessedEnd_30_48DB50;
             SetBrain(&Paramite::Brain_0_Patrol_4835B0);
             field_12C_brain_ret = 0;
-            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
             if (field_152_return_camera != gMap_5C3030.field_4_current_camera)
             {
                 if (field_178_flags.Get(Flags_178::eBit6_spawned))
@@ -5085,7 +5085,7 @@ void Paramite::dtor_487FC0()
                 field_14E_return_level,
                 field_150_return_path,
                 field_152_return_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }

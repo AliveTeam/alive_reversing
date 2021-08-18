@@ -137,7 +137,7 @@ void DDCheat::Menu_Teleport_415E20()
     {
         sDDCheat_FlyingEnabled_5C2C08 = true;
 
-        gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(sTeleport_Level_550F5C), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(sTeleport_Level_550F5C), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eInstantChange_0, 0, 0);
         field_3C_flags.Set(DDCheat::Flags_3C::eOnTeleport_Bit3);
     }
 }

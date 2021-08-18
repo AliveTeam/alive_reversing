@@ -1584,7 +1584,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             sDoesCreditsControllerExist_5C1B90 = 1;
             field_240_credits_current_cam = 1;
             field_1F4_credits_next_frame = sGnFrame_5C1B84 + 160;
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
@@ -1909,7 +1909,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
 
         sActiveHero_5C1B68->field_1C_update_delay = 1;
-        gMap_5C3030.SetActiveCam_480D30(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
 
         const PathBlyRec* pPathData = Path_Get_Bly_Record_460F30(field_244_lvl_id, field_246_path_id);
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(field_24A_abeXOff - pPathData->field_4_pPathData->field_1A_abe_start_xpos);
@@ -1930,7 +1930,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     }
     else
     {
-        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMines_1, 1, 4, CameraSwapEffects::eEffect5_1_FMV, 12402, 0);
+        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMines_1, 1, 4, CameraSwapEffects::ePlay1FMV_5, 12402, 0);
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(837);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(1300);
         sActiveHero_5C1B68->field_F8_LastLineYPos = FP_FromInteger(1400);
@@ -2958,7 +2958,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
     if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eBack))
     {
         sDoesCreditsControllerExist_5C1B90 = 0;
-        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
         return;
     }
 
@@ -2972,11 +2972,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 22)
             {
                 field_240_credits_current_cam = 1;
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, static_cast<s16>(currentCam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, static_cast<s16>(currentCam), CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
         }
         else
@@ -2984,10 +2984,10 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 36)
             {
                 sDoesCreditsControllerExist_5C1B90 = 0;
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
                 return;
             }
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
         }
     }
 }
@@ -3206,7 +3206,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
         return 0;
     }
 
-    CameraSwapEffects screenChangeEffect = CameraSwapEffects::eEffect0_InstantChange;
+    CameraSwapEffects screenChangeEffect = CameraSwapEffects::eInstantChange_0;
 
     switch (field_21E_changeScreenState)
     {
@@ -3367,7 +3367,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
                 gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
 
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect5_1_FMV, 10502, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::ePlay1FMV_5, 10502, 0);
                 const AnimRecord& rec = AnimRec(AnimId::MenuDoor);
                 field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor]);
                 Load_Anim_Pal_4D06A0(&field_20_animation);
@@ -3390,19 +3390,19 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 return 1;
 
             case camTransEffectState::eTopToBottom_3:
-                screenChangeEffect = CameraSwapEffects::eEffect3_TopToBottom;
+                screenChangeEffect = CameraSwapEffects::eTopToBottom_3;
                 break;
 
             case camTransEffectState::eBottomToTop_4:
-                screenChangeEffect = CameraSwapEffects::eEffect4_BottomToTop;
+                screenChangeEffect = CameraSwapEffects::eBottomToTop_4;
                 break;
 
             case camTransEffectState::eLeftToRight_5:
-                screenChangeEffect = CameraSwapEffects::eEffect1_LeftToRight;
+                screenChangeEffect = CameraSwapEffects::eLeftToRight_1;
                 break;
 
             case camTransEffectState::eRightToLeft_6:
-                screenChangeEffect = CameraSwapEffects::eEffect2_RightToLeft;
+                screenChangeEffect = CameraSwapEffects::eRightToLeft_2;
                 break;
 
             default:
