@@ -3,6 +3,7 @@
 
 enum class AnimId
 {
+    None = 0,
     Abe_Head_Gib,
     Abe_Arm_Gib,
     Abe_Body_Gib,
@@ -252,9 +253,9 @@ enum class AnimId
     Greeter_Chase,
     Greeter_Falling,
     Greeter_Hit,
-    Greeter_Idle,
+    Greeter_Moving,
     Greeter_Speak,
-    Greeter_Turn_Around,
+    Greeter_Turn,
 
     Mine_Car_Closed,
     Mine_Car_Open,
@@ -459,6 +460,61 @@ enum class AnimId
     Slig_Gamespeak,
     Slig_WalkToStand,
     Slig_SleepingToStand,
+
+    SligSpeak_Idle,
+    SligSpeak_Hi,
+    SligSpeak_HereBoy,
+    SligSpeak_Freeze,
+    SligSpeak_GetEm,
+    SligSpeak_SmoBs,
+    SligSpeak_Bs,
+    SligSpeak_LookOut,
+    SligSpeak_Laugh,
+
+    MenuDoor,
+
+    AbeIntro,
+
+    AbeSpeak_Hello,
+    AbeSpeak_Idle,
+    AbeSpeak_IdleBlink,
+    AbeSpeak_Ok,
+
+    AbeSpeak_FollowMe,
+    AbeSpeak_Wait,
+    AbeSpeak_Work,
+    AbeSpeak_Anger,
+    AbeSpeak_AllYa,
+    AbeSpeak_Sympathy,
+    AbeSpeak_StopIt,
+    AbeSpeak_Chant,
+    AbeSpeak_ChantEnd,
+    AbeSpeak_Goodbye,
+
+    GlukkonSpeak_Idle,
+    GlukkonSpeak_IdleVariation,
+    GlukkonSpeak_Hey,
+    GlukkonSpeak_Commere,
+    GlukkonSpeak_StayHere,
+    GlukkonSpeak_DoIt,
+    GlukkonSpeak_KillEm,
+    GlukkonSpeak_AllOYa,
+    GlukkonSpeak_Help,
+    GlukkonSpeak_Laugh,
+
+    ScrabSpeak_Idle,
+    ScrabSpeak_IdleVariation,
+    ScrabSpeak_ShredPower,
+    ScrabSpeak_Howl,
+
+    ParamiteSpeak_Howdy,
+    ParamiteSpeak_Idle,
+    ParamiteSpeak_IdleVariation,
+    ParamiteSpeak_Cmon,
+    ParamiteSpeak_Stay,
+    ParamiteSpeak_DoIt,
+    ParamiteSpeak_Attack,
+    ParamiteSpeak_AllAYa,
 
     Slog_MoveHeadUpwards,
     Slog_StartFastBarking,
@@ -972,7 +1028,7 @@ enum ResourceID
     kRedDoorLightResID_6032 = 6032,   // AO only
     kTwnkleResID = 7012,
     kControlsResID = 8000,
-    kDoorResID = 8001,
+    kMenuDoorResID = 8001,
     kHighliteResID = 8002,
     kHighlitePalResID = 8003,
     kLoadingResID = 8010,
