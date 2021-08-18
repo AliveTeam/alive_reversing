@@ -25,7 +25,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
     ctor_417C10();
     SetVTable(this, 0x4BB878);
     field_4_typeId = Types::eMotionDetector_59;
-    const AnimRecord rec = AO::AnimRec(AnimId::Motion_Detector_Flare);
+    const AnimRecord rec = AO::AnimRec(AnimId::MotionDetector_Flare);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit7_SwapXY);
@@ -59,9 +59,9 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
 
     field_15C_speed = FP_FromRaw(pTlv->field_1E_speed_x256 << 8);
 
-    const AnimRecord rec1 = AO::AnimRec(AnimId::Motion_Detector_Laser);
+    const AnimRecord rec1 = AO::AnimRec(AnimId::MotionDetector_Laser);
     u8** ppRes1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
-    const AnimRecord rec2 = AO::AnimRec(AnimId::Motion_Detector_Laser);
+    const AnimRecord rec2 = AO::AnimRec(AnimId::MotionDetector_Laser);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
 
     if (pTlv->field_20_start_move_direction == Path_MotionDetector::StartMoveDirection::eRight_0)

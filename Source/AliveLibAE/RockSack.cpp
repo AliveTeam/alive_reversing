@@ -16,7 +16,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo)
 
     field_4_typeId = AETypes::eRockSack_106;
 
-    const AnimRecord& rec = AnimRec(AnimId::Rock_Sack_A);
+    const AnimRecord& rec = AnimRec(AnimId::RockSack_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
 
     // Set RockSack idle animation speed.
@@ -131,7 +131,7 @@ void RockSack::vUpdate_49F3A0()
     {
         if (field_11C_has_been_hit == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            const AnimRecord& animRec = AnimRec(AnimId::Rock_Sack_A);
+            const AnimRecord& animRec = AnimRec(AnimId::RockSack_Idle);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             field_11C_has_been_hit = 0;
         }
@@ -157,12 +157,12 @@ void RockSack::vUpdate_49F3A0()
                 {
                     if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                     {
-                        const AnimRecord& animRec = AnimRec(AnimId::Rock_Sack_Hit);
+                        const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
                         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                     }
                     else
                     {
-                        const AnimRecord& animRec = AnimRec(AnimId::Rock_Sack_B);
+                        const AnimRecord& animRec = AnimRec(AnimId::RockSack_SoftHit);
                         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                     }
                     field_11C_has_been_hit = 1;
@@ -190,12 +190,12 @@ void RockSack::vUpdate_49F3A0()
 
             if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_31_RunJumpMid_452C10)
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Rock_Sack_Hit);
+                const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
             else
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Rock_Sack_B);
+                const AnimRecord& animRec = AnimRec(AnimId::RockSack_SoftHit);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
             field_11C_has_been_hit = 1;

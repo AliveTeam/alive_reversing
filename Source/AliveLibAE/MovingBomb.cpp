@@ -31,7 +31,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
     SetVTable(this, 0x546270);
     field_4_typeId = AETypes::eTimedMine_or_MovingBomb_10;
 
-    const AnimRecord& rec = AnimRec(AnimId::Moving_Bomb);
+    const AnimRecord& rec = AnimRec(AnimId::MovingBomb);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
