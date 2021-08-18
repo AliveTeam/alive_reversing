@@ -24,7 +24,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
     SetVTable(this, 0x54566C);
 
     field_4_typeId = AETypes::eGreeter_64;
-    const AnimRecord& rec = AnimRec(AnimId::Greeter_Idle);
+    const AnimRecord& rec = AnimRec(AnimId::Greeter_Moving);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
@@ -359,7 +359,7 @@ void Greeter::ChangeDirection_447BD0()
 {
     field_13C_brain_state = GreeterBrainStates::eBrain_1_PatrolTurn;
     field_C4_velx = FP_FromInteger(0);
-    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Turn_Around);
+    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Turn);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     field_124_last_turn_time = sGnFrame_5C1B84;
 }
@@ -751,7 +751,7 @@ void Greeter::vUpdate_4469B0()
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
-                const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
+                const AnimRecord& animRec = AnimRec(AnimId::Greeter_Moving);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 field_C8_vely = FP_FromInteger(0);
                 field_13E_targetOnLeft = 0;
@@ -772,7 +772,7 @@ void Greeter::vUpdate_4469B0()
             {
                 field_130_bChasing = 0;
                 field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
-                const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
+                const AnimRecord& animRec = AnimRec(AnimId::Greeter_Moving);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 field_C8_vely = FP_FromInteger(0);
                 field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
@@ -889,7 +889,7 @@ void Greeter::vUpdate_4469B0()
                     if (!field_130_bChasing)
                     {
                         field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
-                        const AnimRecord& animRec = AnimRec(AnimId::Greeter_Idle);
+                        const AnimRecord& animRec = AnimRec(AnimId::Greeter_Moving);
                         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                     }
                     else

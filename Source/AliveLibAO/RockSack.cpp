@@ -103,11 +103,13 @@ void RockSack::VUpdate_4575F0()
 
             if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
             {
-                field_10_anim.Set_Animation_Data_402A40(13708, 0);
+                const AnimRecord& hardHitRec = AO::AnimRec(AnimId::RockSack_HardHit);
+                field_10_anim.Set_Animation_Data_402A40(hardHitRec.mFrameTableOffset, 0);
             }
             else
             {
-                field_10_anim.Set_Animation_Data_402A40(13780, 0);
+                const AnimRecord& softHitRec = AO::AnimRec(AnimId::RockSack_SoftHit);
+                field_10_anim.Set_Animation_Data_402A40(softHitRec.mFrameTableOffset, 0);
             }
 
             field_110_has_been_hit = 1;
@@ -149,7 +151,7 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eRockSack_71;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Rock_Sack_A);
+    const AnimRecord rec = AO::AnimRec(AnimId::RockSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     //  Set RockSack idle anim speed

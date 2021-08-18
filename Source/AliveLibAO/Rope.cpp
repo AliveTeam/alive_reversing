@@ -74,9 +74,9 @@ Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
         field_E6_rope_length = 7;
     }
 
-    const AnimRecord rec1 = AO::AnimRec(AnimId::Rope_A);
+    const AnimRecord rec1 = AO::AnimRec(AnimId::Rope_R1);
     u8** ppRes1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
-    const AnimRecord rec2 = AO::AnimRec(AnimId::Rope_B);
+    const AnimRecord rec2 = AO::AnimRec(AnimId::Rope_Lines);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
 
     switch (gMap_507BA8.field_0_current_level)

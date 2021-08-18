@@ -28,7 +28,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
         field_CC_sprite_scale = FP_FromDouble(0.5);
     }
 
-    const AnimRecord& rec = AnimRec(AnimId::Slap_Lock_Idle_A);
+    const AnimRecord& rec = AnimRec(AnimId::SlapLock_Initiate);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
@@ -280,7 +280,7 @@ void SlapLock::vUpdate_43DF90()
                     return;
                 }
 
-                const AnimRecord& animRec = AnimRec(AnimId::Slap_Lock_Shake);
+                const AnimRecord& animRec = AnimRec(AnimId::SlapLock_Shaking);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
                 field_120_state = SlapLockStates::eIdle_1;
@@ -306,7 +306,7 @@ void SlapLock::vUpdate_43DF90()
                     return;
                 }
 
-                const AnimRecord& animRec = AnimRec(AnimId::Slap_Lock_Idle_A);
+                const AnimRecord& animRec = AnimRec(AnimId::SlapLock_Initiate);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
                 field_120_state = SlapLockStates::eShaking_0;
@@ -529,7 +529,7 @@ s16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
             11);
     }
 
-    const AnimRecord& animRec = AnimRec(AnimId::Slap_Lock_Idle_B);
+    const AnimRecord& animRec = AnimRec(AnimId::SlapLock_Punched);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
     field_118_pTlv->field_1_tlv_state = 1;

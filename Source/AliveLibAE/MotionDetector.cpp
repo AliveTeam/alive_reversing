@@ -20,7 +20,7 @@ MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x545FB0);
     field_4_typeId = AETypes::eRedLaser_111;
-    const AnimRecord& rec = AnimRec(AnimId::Motion_Detector_Laser);
+    const AnimRecord& rec = AnimRec(AnimId::MotionDetector_Laser);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_20_animation.field_C_render_layer = layer;
@@ -54,7 +54,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvIn
     SetVTable(this, 0x545FF8);
     field_4_typeId = AETypes::eGreeterBody_91;
 
-    const AnimRecord& rec = AnimRec(AnimId::Motion_Detector_Flare);
+    const AnimRecord& rec = AnimRec(AnimId::MotionDetector_Flare);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 

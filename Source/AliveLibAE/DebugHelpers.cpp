@@ -625,7 +625,7 @@ void Command_Menu(const std::vector<std::string>& args)
     {
         MainMenuController::gMainMenuController->field_21A_target_button_index = static_cast<s16>(menuCam);
         MainMenuController::gMainMenuController->field_218_target_page_index = static_cast<s16>(MainMenuController::GetPageIndexFromCam_4D05A0(menuCam));
-        MainMenuController::gMainMenuController->field_21C_bDoScreenTransistionEffect = static_cast<s16>(menuCam);
+        MainMenuController::gMainMenuController->field_21C_camSwapEffectState = static_cast<camTransEffectState>(menuCam);
         MainMenuController::gMainMenuController->field_23C_T80.Set(MainMenuController::Flags::eBit22_GameSpeakPlaying);
     }
 }
