@@ -534,7 +534,8 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
 
 
     field_F4_resources.field_0_resources[MenuResIds::eResHighLite] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kHighliteResID, TRUE, FALSE);
-    field_158_animation.Init_40A030(13912, gObjList_animations_5C1A24, this, 150, 0x41u, field_F4_resources.field_0_resources[MenuResIds::eResHighLite], 1, 0, 0);
+    const AnimRecord& rec = AnimRec(AnimId::MenuHighlight_Circle);
+    field_158_animation.Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eResHighLite], 1, 0, 0);
 
     field_158_animation.field_14_scale = field_CC_sprite_scale;
 
@@ -1810,8 +1811,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
             {
                 pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
             }
-            const AnimRecord& rec = AnimRec(AnimId::AbeSpeak_Idle);
-            field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+            const AnimRecord& abeSpeakRec = AnimRec(AnimId::AbeSpeak_Idle);
+            field_20_animation.Set_Animation_Data_409C80(abeSpeakRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
 
             ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
             field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
@@ -1832,8 +1833,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
                 sActiveHero_5C1B68 = ae_new<Abe>();
                 if (sActiveHero_5C1B68)
                 {
-                    // TODO: 
-                    sActiveHero_5C1B68->ctor_44AD10(58808, 85, 57, 55);
+                    const AnimRecord& mudWalkRec = AnimRec(AnimId::Mudokon_Walk);
+                    sActiveHero_5C1B68->ctor_44AD10(mudWalkRec.mFrameTableOffset, 85, 57, 55);
                 }
             }
 
@@ -1898,7 +1899,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         sActiveHero_5C1B68 = ae_new<Abe>();
         if (sActiveHero_5C1B68)
         {
-            sActiveHero_5C1B68->ctor_44AD10(58808, 85, 57, 55);
+            const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
+            sActiveHero_5C1B68->ctor_44AD10(rec.mFrameTableOffset, 85, 57, 55);
         }
     }
 
@@ -2162,14 +2164,14 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
             }
         }
 
-        if (field_F4_resources.field_0_resources[0] == 0)
+        if (field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] == 0)
         {
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
         const AnimRecord& abeIdleRec = AnimRec(AnimId::AbeSpeak_Idle);
-        field_20_animation.Set_Animation_Data_409C80(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[1]);
-        ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[0]);
-        field_F4_resources.field_0_resources[0] = nullptr;
+        field_20_animation.Set_Animation_Data_409C80(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+        ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
+        field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
         ResourceManager::Reclaim_Memory_49C470(0);
 
         if (sActiveHero_5C1B68 == spAbe_554D5C)
@@ -2465,7 +2467,7 @@ MainMenuNextCam MainMenuController::Options_Update_4D1AB0(u32 input)
             pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
             sMenuItemCount_561538 = ALIVE_COUNTOF(sDemos_5617F0);
             const AnimRecord& abeIdleRec = AnimRec(AnimId::AbeSpeak_Idle);
-            field_20_animation.Set_Animation_Data_409C80(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[1]); // TODO: enum
+            field_20_animation.Set_Animation_Data_409C80(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
             Load_Anim_Pal_4D06A0(&field_20_animation);
             field_230_target_entry_index = 0;
             return MainMenuNextCam(MainMenuCams::eDemoSelectionCam, NO_SELECTABLE_BUTTONS);
@@ -2560,8 +2562,8 @@ ALIVE_VAR(1, 0xBB43EC, s32, sButtonToRemapIdx_BB43EC, 0);
 
 void MainMenuController::RemapInput_Load_4D17E0()
 {
-    // TODO: AnimId
-    field_158_animation.Set_Animation_Data_409C80(13936, nullptr);
+    const AnimRecord& rec = AnimRec(AnimId::MenuHighlight_ButtonRemapSquare);
+    field_158_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
     sButtonToRemapIdx_BB43EC = 0;
     dword_BB43F8 = 0;
 }
@@ -2763,7 +2765,8 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
     else
     {
         // prepare animating the blinking outline of the rectangular input slots
-        field_158_animation.Set_Animation_Data_409C80(13936, nullptr);
+        const AnimRecord& rec = AnimRec(AnimId::MenuHighlight_ButtonRemapSquare);
+        field_158_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
 
         if (input & InputCommands::Enum::eUp)
         {
@@ -3064,7 +3067,7 @@ void MainMenuController::HandleMainMenuUpdate()
                         }
                     }
 
-                    field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
+                    field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_frameTableOffset, 0);
 
                     SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
                 }
@@ -3088,7 +3091,7 @@ void MainMenuController::HandleMainMenuUpdate()
                         }
                     }
 
-                    field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
+                    field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_frameTableOffset, 0);
                     SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
                 }
             }
@@ -3488,7 +3491,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     // prepare for animating the blinking outline of the currently highlighted button
                     field_158_animation.Set_Animation_Data_409C80(
-                        targetPage.field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset,
+                        targetPage.field_18_buttons[field_1FC_button_index].field_8_frameTableOffset,
                         nullptr);
                 }
             }

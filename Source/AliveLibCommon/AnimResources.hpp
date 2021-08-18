@@ -471,6 +471,11 @@ enum class AnimId
     SligSpeak_LookOut,
     SligSpeak_Laugh,
 
+    MenuHighlight_ButtonRemapSquare,
+    MenuHighlight_Circle,
+    MenuHighlight_Square,
+    MenuHighlight_Triangle,
+
     MenuDoor,
 
     AbeIntro,

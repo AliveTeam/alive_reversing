@@ -483,6 +483,13 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::SligSpeak_LookOut, { "SLGSPEAK.BAN", 1105884, 233, 125, kSligSpeakResID, PalId::Default}, kNullAnimDetails },
     {AnimId::SligSpeak_Laugh, { "SLGSPEAK.BAN", 1105816, 233, 125, kSligSpeakResID, PalId::Default }, kNullAnimDetails },
 
+    {AnimId::MenuHighlight_Circle, { "HIGHLITE.BAN", 13912, 150, 65, kHighliteResID, PalId::Default }, kNullAnimDetails },
+    {AnimId::MenuHighlight_ButtonRemapSquare, { "HIGHLITE.BAN", 13936, 150, 65, kHighliteResID, PalId::Default }, kNullAnimDetails },
+
+    // just guessing the AnimId names
+    {AnimId::MenuHighlight_Square, { "HIGHLITE.BAN", 13924, 150, 65, kHighliteResID, PalId::Default }, kNullAnimDetails },
+    {AnimId::MenuHighlight_Triangle, { "HIGHLITE.BAN", 13900, 150, 65, kHighliteResID, PalId::Default }, kNullAnimDetails },
+
     {AnimId::MenuDoor, { "STDOOR.BAN", 50212, 233, 125, kMenuDoorResID, PalId::Default }, kNullAnimDetails },
 
     {AnimId::AbeIntro, { "ABEINTRO.BAN", 25888, 233, 125, kAbeintroResID, PalId::Default }, kNullAnimDetails },
