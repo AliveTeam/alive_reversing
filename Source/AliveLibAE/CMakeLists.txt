@@ -223,8 +223,8 @@ SET(AliveLibAESrc
     MultiSwitchController.cpp
     ShadowZone.hpp
     ShadowZone.cpp
-    Grinder.cpp
-    Grinder.hpp
+    Drill.cpp
+    Drill.hpp
     Teleporter.cpp
     Teleporter.hpp
     Spark.cpp

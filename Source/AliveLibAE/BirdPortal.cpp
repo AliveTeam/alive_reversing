@@ -981,12 +981,12 @@ void BirdPortal::vGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, C
 
     if (field_64_movie_id <= 0)
     {
-        *screenChangeEffect = CameraSwapEffects::eEffect0_InstantChange;
+        *screenChangeEffect = CameraSwapEffects::eInstantChange_0;
     }
     else
     {
         *movieId = field_64_movie_id;
-        *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
+        *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;
     }
 }
 

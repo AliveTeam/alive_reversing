@@ -403,7 +403,7 @@ public:
                 if (mode == 4 || mode == 5 || mode == 6)
                 {
                     layer = Layer::eLayer_Well_23;
-                    fontLayer = Layer::eLayer_RopeWebGrinder_24;
+                    fontLayer = Layer::eLayer_RopeWebDrill_24;
                 }
                 DEV::DebugDrawLine(ppOt, layer, l->field_0_rect.x, l->field_0_rect.y, l->field_0_rect.w, l->field_0_rect.h, color.r, color.g, color.b, true, false);
 
@@ -599,7 +599,7 @@ void Command_Teleport(const std::vector<std::string>& args)
     }
     s16 path = static_cast<s16>(std::stoi(args[1]));
     s16 cam = static_cast<s16>(std::stoi(args[2]));
-    gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::eEffect5_1_FMV, 0, 0);
+    gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::ePlay1FMV_5, 0, 0);
 
 
     sHasTeleported = true;

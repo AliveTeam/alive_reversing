@@ -238,134 +238,134 @@ const SfxDefinition sAbeSFXList_555250[41] = {
 const AnimId sAbeFrameTables[130] = {
     AnimId::Mudokon_Idle,
     AnimId::Mudokon_Walk,
-    AnimId::Mudokon_Turn_Around,
+    AnimId::Mudokon_StandingTurn,
     AnimId::Mudokon_Idle,
-    AnimId::Mudokon_Unknown_B,
-    AnimId::Mudokon_Unknown_C,
-    AnimId::Mudokon_Unknown_A,
-    AnimId::Mudokon_Talk_A,
-    AnimId::Mudokon_Talk_C,
-    AnimId::Mudokon_Talk_B,
-    AnimId::Mudokon_Talk_D,
-    AnimId::Abe_Unknown_A,
-    AnimId::Abe_Unknown_B,
-    AnimId::Mudokon_Hoist_Start,
-    AnimId::Mudokon_Hoist,
-    AnimId::Mudokon_Hoist_End,
-    AnimId::Mudokon_Hoist_End,
-    AnimId::Mudokon_Crouch,
-    AnimId::Mudokon_Crouch_To_Stand,
-    AnimId::Mudokon_Stand_To_Crouch,
-    AnimId::Abe_Crouch_Talk_A,
-    AnimId::Abe_Crouch_Talk_B,
-    AnimId::Abe_Roll_Start,
-    AnimId::Abe_Roll,
-    AnimId::Abe_Roll_End,
-    AnimId::Mudokon_Run_End_A,
-    AnimId::Mudokon_Run_End_B,
-    AnimId::Abe_Hop_Start,
-    AnimId::Abe_Hop,
-    AnimId::Abe_Hop_End,
-    AnimId::Mudokon_Run_Jump_Start,
-    AnimId::Mudokon_Run_Jump,
-    AnimId::Abe_Unknown_C,
+    AnimId::Mudokon_WalkToIdle,
+    AnimId::Mudokon_MidWalkToIdle,
+    AnimId::Mudokon_WalkBegin,
+    AnimId::Mudokon_Speak1,
+    AnimId::Mudokon_Speak2,
+    AnimId::Mudokon_Speak3,
+    AnimId::Mudokon_SpeakFart,
+    AnimId::Mudokon_ToSpeak,
+    AnimId::Mudokon_Null,
+    AnimId::Mudokon_HoistBegin,
+    AnimId::Mudokon_HoistIdle,
+    AnimId::Mudokon_LandSoft,
+    AnimId::Mudokon_LandSoft,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchToStand,
+    AnimId::Mudokon_StandToCrouch,
+    AnimId::Mudokon_CrouchSpeak,
+    AnimId::Mudokon_ToCrouchSpeak,
+    AnimId::Mudokon_RollBegin,
+    AnimId::Mudokon_Rolling,
+    AnimId::Mudokon_RollingEnd_Unused,
+    AnimId::Mudokon_RunSlideStop,
+    AnimId::Mudokon_RunTurn,
+    AnimId::Mudokon_HopBegin,
+    AnimId::Mudokon_HopMid,
+    AnimId::Mudokon_HopLand,
+    AnimId::Mudokon_RunJumpBegin,
+    AnimId::Mudokon_RunJumpMid,
+    AnimId::Mudokon_RunJumpLand,
     AnimId::Mudokon_Run,
-    AnimId::Mudokon_Shrug_Start,
-    AnimId::Abe_Shrug_End,
-    AnimId::Mudokon_Shrug_Start,
-    AnimId::Mudokon_Crouch_Turn_Around,
-    AnimId::Abe_Crouch_Start,
-    AnimId::Mudokon_Unknown_R,
+    AnimId::Mudokon_DunnoBegin,
+    AnimId::Mudokon_DunnoEnd,
+    AnimId::Mudokon_DunnoBegin,
+    AnimId::Mudokon_CrouchTurn,
+    AnimId::Mudokon_RunToRoll,
+    AnimId::Mudokon_StandingToRun,
     AnimId::Mudokon_Sneak,
-    AnimId::Mudokon_Sneak_Start,
-    AnimId::Mudokon_Unknown_L,
-    AnimId::Mudokon_Unknown_M,
-    AnimId::Mudokon_Unknown_N,
-    AnimId::Mudokon_Unknown_O,
-    AnimId::Mudokon_Unknown_P,
-    AnimId::Mudokon_Unknown_Q,
-    AnimId::Mudokon_Unknown_G,
-    AnimId::Mudokon_Unknown_H,
-    AnimId::Mudokon_Unknown_I,
-    AnimId::Mudokon_Unknown_J,
-    AnimId::Mudokon_Unknown_K,
-    AnimId::Abe_Unknown_D,
-    AnimId::Abe_Unknown_E,
-    AnimId::Abe_Unknown_F,
-    AnimId::Mudokon_Crouch,
-    AnimId::Mudokon_Crouch,
-    AnimId::Mudokon_Crouch,
-    AnimId::Mudokon_Crouch,
-    AnimId::Mudokon_Crouch,
-    AnimId::Abe_Unknown_G,
-    AnimId::Mudokon_Slap,
-    AnimId::Abe_Sorry_Start,
-    AnimId::Abe_Sorry_End,
-    AnimId::Abe_Hoist_Up,
-    AnimId::Abe_Hoist_Down,
-    AnimId::Abe_Hoist,
-    AnimId::Abe_Hoist,
-    AnimId::Abe_Hoist_Swing,
-    AnimId::Abe_Hoist_High,
-    AnimId::Mudokon_Knocked_Back_Face_Up,
-    AnimId::Mudokon_Get_Up,
-    AnimId::Abe_Push,
-    AnimId::Abe_Knock_Back,
-    AnimId::Abe_Well_Enter_Start,
-    AnimId::Abe_Well,
-    AnimId::Abe_Well,
-    AnimId::Abe_Well_Enter,
-    AnimId::Abe_Well,
-    AnimId::Abe_Well,
-    AnimId::Abe_Well_Enter,
-    AnimId::Abe_Well,
-    AnimId::Abe_Well,
-    AnimId::Abe_Death_Fall,
-    AnimId::Abe_Fall_A,
-    AnimId::Abe_Handstone_Start,
-    AnimId::Abe_Handstone_End,
-    AnimId::Abe_Handstone_Short,
-    AnimId::Abe_Handstone_Start,
-    AnimId::Abe_Handstone_End,
-    AnimId::Mudokon_Unknown_S,
-    AnimId::Mudokon_Unknown_S,
+    AnimId::Mudokon_WalkToSneak,
+    AnimId::Mudokon_SneakToWalk,
+    AnimId::Mudokon_MidWalkToSneak,
+    AnimId::Mudokon_MidSneakToWalk,
+    AnimId::Mudokon_SneakBegin,
+    AnimId::Mudokon_SneakToIdle,
+    AnimId::Mudokon_MidSneakToIdle,
+    AnimId::Mudokon_WalkToRun,
+    AnimId::Mudokon_MidWalkToRun,
+    AnimId::Mudokon_RunToWalk,
+    AnimId::Mudokon_MidRunToWalk,
+    AnimId::Mudokon_RunTurnToRun,
+    AnimId::Mudokon_RunTurnToWalk,
+    AnimId::Mudokon_RunJumpLandRun,
+    AnimId::Mudokon_RunJumpLandWalk,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_TurnToRun,
+    AnimId::Mudokon_Punch,
+    AnimId::Mudokon_Sorry,
+    AnimId::Mudokon_AfterSorry,
+    AnimId::Mudokon_LedgeAscend,
+    AnimId::Mudokon_LedgeDescend,
+    AnimId::Mudokon_LedgeHang,
+    AnimId::Mudokon_LedgeHang,
+    AnimId::Mudokon_LedgeHangWobble,
+    AnimId::Mudokon_RingRopePullHang,
+    AnimId::Mudokon_Knockback,
+    AnimId::Mudokon_KnockbackGetUp,
+    AnimId::Mudokon_PushWall,
+    AnimId::Mudokon_RollingKnockback,
+    AnimId::Mudokon_JumpIntoWell,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_WellBegin,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_WellBegin,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_FallLandDie,
     AnimId::Mudokon_Fall,
-    AnimId::Abe_Fall_B,
-    AnimId::Abe_Fall_C,
-    AnimId::Abe_Unknown_H,
-    AnimId::Abe_Unknown_I,
-    AnimId::Abe_Unknown_J,
-    AnimId::Mudokon_Lever_Pull,
-    AnimId::Abe_Slap_Bomb,
-    AnimId::Mudokon_Knocked_Back_Face_Down,
-    AnimId::Abe_Knock_Forward,
-    AnimId::Mudokon_Idle,
-    AnimId::Abe_Rock,
-    AnimId::Abe_Rock_Throw,
-    AnimId::Abe_Rock_Cancel,
-    AnimId::Abe_Rock_Crouch,
-    AnimId::Abe_Rock_Crouch_Throw,
-    AnimId::Abe_Death_Z_A,
-    AnimId::Abe_Death_Z_B,
-    AnimId::Abe_Item_Grab,
+    AnimId::Mudokon_HandstoneBegin,
+    AnimId::Mudokon_HandstoneEnd,
+    AnimId::Mudokon_GrenadeMachineUse,
+    AnimId::Mudokon_HandstoneBegin,
+    AnimId::Mudokon_HandstoneEnd,
+    AnimId::Mudokon_FallingFromGrab,
+    AnimId::Mudokon_FallingFromGrab,
+    AnimId::Mudokon_WalkOffEdge,
+    AnimId::Mudokon_RunOffEdge,
+    AnimId::Mudokon_SneakOffEdge,
+    AnimId::Mudokon_HopToFall,
+    AnimId::Mudokon_RunJumpToFall,
+    AnimId::Mudokon_RollOffEdge,
+    AnimId::Mudokon_LeverUse,
+    AnimId::Mudokon_SlapBomb,
+    AnimId::Mudokon_KnockForward,
+    AnimId::Mudokon_RollingKnockForward,
+    AnimId::Mudokon_Idle, // KnockForwardGetUp?
+    AnimId::Mudokon_RockThrowStandingHold,
+    AnimId::Mudokon_RockThrowStandingThrow,
+    AnimId::Mudokon_RockThrowStandingEnd,
+    AnimId::Mudokon_RockThrowCrouchingHold,
+    AnimId::Mudokon_RockThrowCrouchingThrow,
+    AnimId::Mudokon_ZShotRolling,
+    AnimId::Mudokon_ZShot,
+    AnimId::Mudokon_PickupItem,
     AnimId::Mudokon_Chant,
-    AnimId::Mudokon_Chant_End,
-    AnimId::Abe_Door_Enter,
-    AnimId::Abe_Door_Exit,
-    AnimId::Abe_Mine_Car_Enter,
-    AnimId::Abe_Mine_Car_Enter,
-    AnimId::Abe_Mine_Car_Exit,
-    AnimId::Abe_Shrykull_Start,
-    AnimId::Abe_Shrykull_End,
-    AnimId::Abe_Lift_Start,
-    AnimId::Abe_Lift_End,
-    AnimId::Abe_Lift,
-    AnimId::Abe_Lift_Up,
-    AnimId::Abe_Lift_Down,
-    AnimId::Mudokon_Wheel_Start,
-    AnimId::Mudokon_Wheel,
-    AnimId::Mudokon_Wheel_End,
-    AnimId::Abe_Death_Gas};
+    AnimId::Mudokon_ChantEnd,
+    AnimId::Mudokon_DoorEnter,
+    AnimId::Mudokon_DoorExit,
+    AnimId::Mudokon_MineCarEnter,
+    AnimId::Mudokon_MineCarEnter,
+    AnimId::Mudokon_MineCarExit,
+    AnimId::Mudokon_ToShrykull,
+    AnimId::Mudokon_EndShrykull,
+    AnimId::Mudokon_LiftGrabBegin,
+    AnimId::Mudokon_LiftGrabEnd,
+    AnimId::Mudokon_LiftGrabIdle,
+    AnimId::Mudokon_LiftUseUp,
+    AnimId::Mudokon_LiftUseDown,
+    AnimId::Mudokon_TurnWheelBegin,
+    AnimId::Mudokon_TurnWheel,
+    AnimId::Mudokon_TurnWheelEnd,
+    AnimId::Mudokon_PoisonGasDeath};
 
 const TintEntry sTintTable_Abe_554D20[15] = {
     {LevelIds_s8::eMines_1, 102u, 102u, 102u},
@@ -758,7 +758,7 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     // When falling into a well the abe well entering animation isn't loaded if there wasn't a well in the current 4 cameras. As such the animation is set to
     // junk memory and sometimes you can get stuck because the frame delay in the random memory is some stupidly high value, also unsurprisingly this
     // memory corruption can lead to a crash later on. I think this gets freed by the base class OK.
-    const auto& wellRec = AnimRec(AnimId::Abe_Well);
+    const auto& wellRec = AnimRec(AnimId::Mudokon_Well_Idle);
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, wellRec.mResourceId, TRUE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170(wellRec.mBanName, nullptr);
@@ -2234,7 +2234,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             }
             break;
 
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         {
             if (field_10C_health <= FP_FromInteger(0))
             {
@@ -4451,6 +4451,7 @@ void Abe::Motion_23_RollLoop_453A90()
 //TODO: probably unused?
 void Abe::Motion_24_453D00()
 {
+    LOG_WARNING("never expected Motion_24_453D00 (roll loop end) to be called");
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
@@ -6642,11 +6643,11 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
 
         if (pExpressWell->field_32_movie_id)
         {
-            gMap_5C3030.SetActiveCam_480D30(field_19A_to_level, field_19C_to_path, field_19E_to_camera, CameraSwapEffects::eEffect5_1_FMV, pExpressWell->field_32_movie_id, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_19A_to_level, field_19C_to_path, field_19E_to_camera, CameraSwapEffects::ePlay1FMV_5, pExpressWell->field_32_movie_id, 0);
         }
         else
         {
-            gMap_5C3030.SetActiveCam_480D30(field_19A_to_level, field_19C_to_path, field_19E_to_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_19A_to_level, field_19C_to_path, field_19E_to_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
 
         // FeeCo hack!
@@ -6910,7 +6911,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
 
                     field_148_fade_obj_id = pFade33->field_8_object_id;
                     field_19E_to_camera = gMap_5C3030.field_4_current_camera;
-                    gMap_5C3030.SetActiveCam_480D30(field_C2_lvl_number, field_C0_path_number, field_186_to_camera_id[0], CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_5C3030.SetActiveCam_480D30(field_C2_lvl_number, field_C0_path_number, field_186_to_camera_id[0], CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }
             break;
@@ -6978,7 +6979,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                         field_C2_lvl_number,
                         field_C0_path_number,
                         field_186_to_camera_id[field_17C_cam_idx++],
-                        CameraSwapEffects::eEffect0_InstantChange,
+                        CameraSwapEffects::eInstantChange_0,
                         0,
                         0);
                 }
@@ -6998,7 +6999,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                     field_C2_lvl_number,
                     field_C0_path_number,
                     field_19E_to_camera,
-                    CameraSwapEffects::eEffect0_InstantChange,
+                    CameraSwapEffects::eInstantChange_0,
                     0,
                     0);
             }
@@ -7912,7 +7913,7 @@ void Abe::Motion_114_DoorEnter_459470()
             {
                 // Plays FMV where the weirdos give Abe the drunk mud healing power and then dumps Abe at the portal that leads
                 // back to Necrum mines.
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eNecrum_2, 3, 10, CameraSwapEffects::eEffect5_1_FMV, 22, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eNecrum_2, 3, 10, CameraSwapEffects::ePlay1FMV_5, 22, 0);
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
                 field_B8_xpos = FP_FromInteger(2287);
@@ -7929,7 +7930,7 @@ void Abe::Motion_114_DoorEnter_459470()
             gMap_5C3030.field_1E_door = 1;
             s16 bForceChange = 0;
             const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pDoorTlv->field_32_wipe_effect];
-            if (effect == CameraSwapEffects::eEffect5_1_FMV || effect == CameraSwapEffects::eEffect11_Unknown)
+            if (effect == CameraSwapEffects::ePlay1FMV_5 || effect == CameraSwapEffects::eUnknown_11)
             {
                 bForceChange = 1;
             }

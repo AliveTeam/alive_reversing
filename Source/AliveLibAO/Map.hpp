@@ -61,18 +61,18 @@ namespace CameraIds::Menu
 // TODO: Assuming the same values as AE - test this
 enum class CameraSwapEffects : s16
 {
-    eEffect0_InstantChange = 0,
-    eEffect1_LeftToRight = 1,     // Left to right
-    eEffect2_RightToLeft = 2,     // Right to left
-    eEffect3_TopToBottom = 3,     // Top to bottom
-    eEffect4_BottomToTop = 4,     // Bottom to top
-    eEffect5_1_FMV = 5,           // Play single fmv
-    eEffect6_VerticalSplit = 6,   // Screen splits from the middle and moves out up/down
-    eEffect7_HorizontalSplit = 7, // Screen splits from the middle and moves out left/right
-    eEffect8_BoxOut = 8,          // A rect "grows" out from the centre of the screen
-    eEffect9_2_FMV = 9,           // Play 2 fmvs
-    eEffect10_3_FMV = 10,         // Play 3 fmvs - apparently just taking an array of fmvs is too simple ?
-    eEffect11 = 11                // Unknown, has special handing in the map object
+    eInstantChange_0 = 0,
+    eLeftToRight_1 = 1,     // Left to right
+    eRightToLeft_2 = 2,     // Right to left
+    eTopToBottom_3 = 3,     // Top to bottom
+    eBottomToTop_4 = 4,     // Bottom to top
+    ePlay1FMV_5 = 5,        // Play single fmv
+    eVerticalSplit_6 = 6,   // Screen splits from the middle and moves out up/down
+    eHorizontalSplit_7 = 7, // Screen splits from the middle and moves out left/right
+    eBoxOut_8 = 8,          // A rect "grows" out from the centre of the screen
+    ePlay2FMVs_9 = 9,       // Play 2 fmvs
+    ePlay3FMVs_10 = 10,     // Play 3 fmvs - apparently just taking an array of fmvs is too simple ?
+    eUnknown_11 = 11        // Unknown, has special handing in the map object
 };
 
 extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10];

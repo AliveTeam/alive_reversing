@@ -28,7 +28,7 @@ enum class AETypes : s16
     eMinesAlarm_25 = 25,
     eCrawlingSlig_26 = 26,
     eParticleBurst_29 = 29,
-    eGrinder_30 = 30,
+    eDrill_30 = 30,
     eLaughingGas_31 = 31,
     eDoor_33 = 33,
     eDoorLock_34 = 34,

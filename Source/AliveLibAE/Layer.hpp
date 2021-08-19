@@ -10,7 +10,7 @@ enum class Layer : s16
     eLayer_NotUsed_2 = 2,
     eLayer_BeforeWell_Half_3 = 3,
     eLayer_Well_Half_4 = 4,
-    eLayer_RopeWebGrinder_Half_5 = 5,
+    eLayer_RopeWebDrill_Half_5 = 5,
     eLayer_BeforeShadow_Half_6 = 6,
     eLayer_Shadow_Half_7 = 7,  // Shadow in AO - more stuff is on it in AE
     eLayer_8 = 8,
@@ -31,7 +31,7 @@ enum class Layer : s16
     eLayer_NotUsed_21 = 21,
     eLayer_BeforeWell_22 = 22,
     eLayer_Well_23 = 23,
-    eLayer_RopeWebGrinder_24 = 24,
+    eLayer_RopeWebDrill_24 = 24,
     eLayer_BeforeShadow_25 = 25,
     eLayer_Shadow_26 = 26, // Shadow in AO - more stuff is on it in AE
     eLayer_27 = 27,

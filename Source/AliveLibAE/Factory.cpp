@@ -21,7 +21,7 @@
 #include "Switch.hpp"
 #include "MultiSwitchController.hpp"
 #include "ShadowZone.hpp"
-#include "Grinder.hpp"
+#include "Drill.hpp"
 #include "Teleporter.hpp"
 #include "Well.hpp"
 #include "Water.hpp"
@@ -1721,7 +1721,7 @@ EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_Grinder_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+EXPORT void CC Factory_Drill_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::Mode_1 || loadmode == LoadMode::Mode_2)
     {
@@ -1731,10 +1731,10 @@ EXPORT void CC Factory_Grinder_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
     else
     {
-        auto pGrinder = ae_new<Grinder>();
-        if (pGrinder)
+        auto pDrill = ae_new<Drill>();
+        if (pDrill)
         {
-            pGrinder->ctor_4200D0(static_cast<Path_Grinder*>(pTlv), tlvInfo.all);
+            pDrill->ctor_4200D0(static_cast<Path_Drill*>(pTlv), tlvInfo.all);
         }
     }
 }
@@ -2229,7 +2229,7 @@ const PathFunctionTable kObjectFactory = {
      Factory_DemoSpawnPoint_4D6990,
      Factory_Teleporter_4DAA90,
      Factory_SlurgSpawner_4DAB50,
-     Factory_Grinder_4DABC0,
+     Factory_Drill_4DABC0,
      Factory_ColorfulMeter_4DAC60,
      Factory_FlyingSligSpawner_4D9440,
      Factory_MineCar_4DACD0,

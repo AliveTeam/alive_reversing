@@ -641,7 +641,7 @@ s16 CrawlingSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
         switch (pFrom->field_4_typeId)
         {
             case AETypes::eBullet_15:
-            case AETypes::eGrinder_30:
+            case AETypes::eDrill_30:
             case AETypes::eBaseBomb_46:
             case AETypes::eRockSpawner_48:
             case AETypes::eMeatSaw_86:
@@ -750,7 +750,7 @@ void CrawlingSlig::dtor_418FE0()
                 field_1BA_prev_level,
                 field_1BC_prev_path,
                 field_1BE_prev_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }
@@ -1142,7 +1142,7 @@ s16 CrawlingSlig::Brain_3_Possessed_41A5B0()
 
                 sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
                 field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
-                gMap_5C3030.SetActiveCam_480D30(field_1BA_prev_level, field_1BC_prev_path, field_1BE_prev_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(field_1BA_prev_level, field_1BC_prev_path, field_1BE_prev_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 SetBrain(&CrawlingSlig::Brain_4_GetKilled_41A880);
                 MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
                 return field_208_brain_sub_state;

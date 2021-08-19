@@ -475,7 +475,7 @@ EXPORT s16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
             }
             return 1;
 
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eElectricWall_39:
             if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
             {

@@ -108,7 +108,7 @@ enum class TlvTypes : s16
     DemoSpawnPoint_87 = 87,
     Teleporter_88 = 88,
     SlurgSpawner_89 = 89,
-    Grinder_90 = 90,
+    Drill_90 = 90,
     ColourfulMeter_91 = 91,
     FlyingSligSpawner_92 = 92,
     MineCar_93 = 93,

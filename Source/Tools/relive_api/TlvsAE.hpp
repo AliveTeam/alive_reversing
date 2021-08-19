@@ -34,7 +34,7 @@
 #include "../AliveLibAE/LevelLoader.hpp"
 #include "../AliveLibAE/FlyingSligSpawner.hpp"
 #include "../AliveLibAE/FartMachine.hpp"
-#include "../AliveLibAE/Grinder.hpp"
+#include "../AliveLibAE/Drill.hpp"
 #include "../AliveLibAE/Mine.hpp"
 #include "../AliveLibAE/Slog.hpp"
 #include "../AliveLibAE/TrapDoor.hpp"
@@ -881,7 +881,7 @@ struct Path_BackgroundAnimation final : public TlvObjectBaseAE
                                    {::Layer::eLayer_NotUsed_2, "Layer_2"},
                                    {::Layer::eLayer_BeforeWell_Half_3, "Layer_3"},
                                    {::Layer::eLayer_Well_Half_4, "Layer_4"},
-                                   {::Layer::eLayer_RopeWebGrinder_Half_5, "Layer_5"},
+                                   {::Layer::eLayer_RopeWebDrill_Half_5, "Layer_5"},
                                    {::Layer::eLayer_BeforeShadow_Half_6, "Layer_6"},
                                    {::Layer::eLayer_Shadow_Half_7, "Layer_7"},
                                    {::Layer::eLayer_8, "Layer_8"},
@@ -900,7 +900,7 @@ struct Path_BackgroundAnimation final : public TlvObjectBaseAE
                                    {::Layer::eLayer_NotUsed_21, "Layer_21"},
                                    {::Layer::eLayer_BeforeWell_22, "Layer_22"},
                                    {::Layer::eLayer_Well_23, "Layer_23"},
-                                   {::Layer::eLayer_RopeWebGrinder_24, "Layer_24"},
+                                   {::Layer::eLayer_RopeWebDrill_24, "Layer_24"},
                                    {::Layer::eLayer_BeforeShadow_25, "Layer_25"},
                                    {::Layer::eLayer_Shadow_26, "Layer_26"},
                                    {::Layer::eLayer_27, "Layer_27"},
@@ -1251,26 +1251,26 @@ struct Path_FartMachine final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Grinder final : public TlvObjectBaseAE
+struct Path_Drill final : public TlvObjectBaseAE
 {
     void AddTypes(TypesCollectionBase& types) override
     {
-        types.AddEnum<::GrinderBehavior>("Enum_GrinderBehavior",
+        types.AddEnum<::DrillBehavior>("Enum_DrillBehavior",
                                          {
-                                             {::GrinderBehavior::eNotInteractable_0, "Not Interactable"},
-                                             {::GrinderBehavior::eToggle_1, "Toggle"},
-                                             {::GrinderBehavior::eUse_2, "Use"},
+                                             {::DrillBehavior::eNotInteractable_0, "Not Interactable"},
+                                             {::DrillBehavior::eToggle_1, "Toggle"},
+                                             {::DrillBehavior::eUse_2, "Use"},
                                          });
 
-        types.AddEnum<::GrinderDirection>("Enum_GrinderDirection",
+        types.AddEnum<::DrillDirection>("Enum_DrillDirection",
                                           {
-                                              {::GrinderDirection::eDown_0, "Down"},
-                                              {::GrinderDirection::eRight_1, "Right"},
-                                              {::GrinderDirection::eLeft_2, "Left"},
+                                              {::DrillDirection::eDown_0, "Down"},
+                                              {::DrillDirection::eRight_1, "Right"},
+                                              {::DrillDirection::eLeft_2, "Left"},
                                           });
     }
 
-    CTOR_AE(Path_Grinder, "Grinder", TlvTypes::Grinder_90)
+    CTOR_AE(Path_Drill, "Drill", TlvTypes::Drill_90)
     {
         ADD("Scale", mTlv.field_10_data.field_10_scale);
         ADD("Min Off Time", mTlv.field_10_data.field_12_min_off_time);

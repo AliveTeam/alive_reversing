@@ -350,7 +350,7 @@ void EvilFart::vUpdate_423100()
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        gMap_5C3030.SetActiveCam_480D30(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 
     // Show the count to the boom

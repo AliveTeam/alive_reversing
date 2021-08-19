@@ -571,7 +571,7 @@ void Scrab::dtor_4A42B0()
                 field_166_level,
                 field_168_path,
                 field_16A_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }
@@ -2024,7 +2024,7 @@ s16 Scrab::Brain_5_Possessed_4A6180()
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
         ToPatrol_4AA600();
         field_11C_brain_sub_state = Brain_0_Patrol::eBrain0_ToMoving_0;
-        gMap_5C3030.SetActiveCam_480D30(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         return field_11C_brain_sub_state;
     }
 
@@ -3149,7 +3149,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
             field_106_current_motion = eScrabMotions::M_GetDepossessedEnd_29_4AA3C0;
             ToPatrol_4AA600();
             field_11C_brain_sub_state = Brain_0_Patrol::eBrain0_ToMoving_0;
-            gMap_5C3030.SetActiveCam_480D30(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
 }

@@ -37,16 +37,16 @@ ALIVE_VAR(1, 0x5c3120, u32, sSoundChannelsMask_5C3120, 0);
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
 const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10] = {
-    CameraSwapEffects::eEffect5_1_FMV,
-    CameraSwapEffects::eEffect2_RightToLeft,
-    CameraSwapEffects::eEffect1_LeftToRight,
-    CameraSwapEffects::eEffect4_BottomToTop,
-    CameraSwapEffects::eEffect3_TopToBottom,
-    CameraSwapEffects::eEffect8_BoxOut,
-    CameraSwapEffects::eEffect6_VerticalSplit,
-    CameraSwapEffects::eEffect7_HorizontalSplit,
-    CameraSwapEffects::eEffect11_Unknown,
-    CameraSwapEffects::eEffect0_InstantChange};
+    CameraSwapEffects::ePlay1FMV_5,
+    CameraSwapEffects::eRightToLeft_2,
+    CameraSwapEffects::eLeftToRight_1,
+    CameraSwapEffects::eBottomToTop_4,
+    CameraSwapEffects::eTopToBottom_3,
+    CameraSwapEffects::eBoxOut_8,
+    CameraSwapEffects::eVerticalSplit_6,
+    CameraSwapEffects::eHorizontalSplit_7,
+    CameraSwapEffects::eUnknown_11,
+    CameraSwapEffects::eInstantChange_0};
 
 EXPORT void CC static_map_construct_4802F0()
 {
@@ -384,19 +384,19 @@ void Map::Handle_PathTransition_481610()
         {
             case MapDirections::eMapLeft_0:
                 field_D0_cam_x_idx--;
-                field_10_screen_change_effect = CameraSwapEffects::eEffect2_RightToLeft;
+                field_10_screen_change_effect = CameraSwapEffects::eRightToLeft_2;
                 break;
             case MapDirections::eMapRight_1:
                 field_D0_cam_x_idx++;
-                field_10_screen_change_effect = CameraSwapEffects::eEffect1_LeftToRight;
+                field_10_screen_change_effect = CameraSwapEffects::eLeftToRight_1;
                 break;
             case MapDirections::eMapTop_2:
                 field_D2_cam_y_idx--;
-                field_10_screen_change_effect = CameraSwapEffects::eEffect4_BottomToTop;
+                field_10_screen_change_effect = CameraSwapEffects::eBottomToTop_4;
                 break;
             case MapDirections::eMapBottom_3:
                 field_D2_cam_y_idx++;
-                field_10_screen_change_effect = CameraSwapEffects::eEffect3_TopToBottom;
+                field_10_screen_change_effect = CameraSwapEffects::eTopToBottom_3;
                 break;
             default:
                 break;
@@ -572,7 +572,7 @@ void Map::GoTo_Camera_481890()
         bShowLoadingIcon = TRUE;
     }
 
-    if (field_10_screen_change_effect == CameraSwapEffects::eEffect11_Unknown)
+    if (field_10_screen_change_effect == CameraSwapEffects::eUnknown_11)
     {
         BaseGameObject* pFmvRet = FMV_Camera_Change_482650(nullptr, this, field_0_current_level);
         do
@@ -616,7 +616,7 @@ void Map::GoTo_Camera_481890()
     {
         if (field_A_level != field_0_current_level
             || field_8_force_load
-            || (field_C_path != field_2_current_path && field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV))
+            || (field_C_path != field_2_current_path && field_10_screen_change_effect == CameraSwapEffects::ePlay1FMV_5))
         {
             Game_ShowLoadingIcon_482D80();
         }
@@ -872,12 +872,12 @@ void Map::GoTo_Camera_481890()
 
     Create_FG1s_480F10();
 
-    if (field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV)
+    if (field_10_screen_change_effect == CameraSwapEffects::ePlay1FMV_5)
     {
         Map::FMV_Camera_Change_482650(field_2C_camera_array[0]->field_C_pCamRes, this, field_A_level);
     }
 
-    if (field_10_screen_change_effect == CameraSwapEffects::eEffect11_Unknown)
+    if (field_10_screen_change_effect == CameraSwapEffects::eUnknown_11)
     {
         pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(field_2C_camera_array[0]->field_C_pCamRes));
         pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
@@ -890,7 +890,7 @@ void Map::GoTo_Camera_481890()
         pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
     }
 
-    if (field_10_screen_change_effect != CameraSwapEffects::eEffect5_1_FMV && field_10_screen_change_effect != CameraSwapEffects::eEffect11_Unknown)
+    if (field_10_screen_change_effect != CameraSwapEffects::ePlay1FMV_5 && field_10_screen_change_effect != CameraSwapEffects::eUnknown_11)
     {
         if (field_1E_door)
         {
@@ -1111,7 +1111,7 @@ s16 Map::SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffect
 
     field_6_state = 2;
 
-    if (screenChangeEffect == CameraSwapEffects::eEffect5_1_FMV || screenChangeEffect == CameraSwapEffects::eEffect11_Unknown)
+    if (screenChangeEffect == CameraSwapEffects::ePlay1FMV_5 || screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
         sMap_bDoPurpleLightEffect_5C311C = 1;
     }
@@ -1331,7 +1331,7 @@ void CC Map::LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceMa
 s16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect)
 {
     Path_Change* pPathChangeTLV = nullptr;
-    CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eEffect0_InstantChange;
+    CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;
     if (pObj)
     {
         pPathChangeTLV = reinterpret_cast<Path_Change*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
@@ -1399,7 +1399,7 @@ s16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObj
     field_6_state = 1;
     sMap_bDoPurpleLightEffect_5C311C = 0;
 
-    if (convertedSwapEffect == CameraSwapEffects::eEffect5_1_FMV || convertedSwapEffect == CameraSwapEffects::eEffect11_Unknown)
+    if (convertedSwapEffect == CameraSwapEffects::ePlay1FMV_5 || convertedSwapEffect == CameraSwapEffects::eUnknown_11)
     {
         sMap_bDoPurpleLightEffect_5C311C = 1;
     }

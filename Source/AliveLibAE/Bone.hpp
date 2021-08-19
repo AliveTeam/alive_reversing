@@ -119,7 +119,7 @@ private:
 
 private:
     s32 field_118_tlvInfo;
-    s16 field_11C_is_hit;
+    s16 field_11C_bIs_hit;
     s16 field_11E_count;
     s16 field_120_allow_sound;
     s16 field_122_force_play_sound;

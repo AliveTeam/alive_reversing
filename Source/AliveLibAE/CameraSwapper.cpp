@@ -19,7 +19,7 @@ CameraSwapper* CameraSwapper::ctor_4E4CA0(u8** ppCamRes, s32 movieSector, s32 mo
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
 
-    Init_4E50C0(ppCamRes, CameraSwapEffects::eEffect5_1_FMV);
+    Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay1FMV_5);
 
     PSX_ResetCallBack_4FAA20();
 
@@ -39,7 +39,7 @@ CameraSwapper* CameraSwapper::ctor_4E4DC0(u8** ppCamRes, s32 moviePos1, s32 movi
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
 
-    Init_4E50C0(ppCamRes, CameraSwapEffects::eEffect9_2_FMV);
+    Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay2FMVs_9);
 
     PSX_ResetCallBack_4FAA20();
 
@@ -65,7 +65,7 @@ CameraSwapper* CameraSwapper::ctor_4E4ED0(u8** ppCamRes, s32 moviePos1, s32 movi
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
 
-    Init_4E50C0(ppCamRes, CameraSwapEffects::eEffect10_3_FMV);
+    Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay3FMVs_10);
 
     PSX_ResetCallBack_4FAA20();
     Movie* pMovie = ae_new<Movie>();
@@ -144,7 +144,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
 
     field_34_pSubObject = nullptr;
 
-    if (changeEffect == CameraSwapEffects::eEffect5_1_FMV || changeEffect == CameraSwapEffects::eEffect9_2_FMV || changeEffect == CameraSwapEffects::eEffect10_3_FMV)
+    if (changeEffect == CameraSwapEffects::ePlay1FMV_5 || changeEffect == CameraSwapEffects::ePlay2FMVs_9 || changeEffect == CameraSwapEffects::ePlay3FMVs_10)
     {
         field_30_ppCamRes = ppCamRes;
     }
@@ -171,13 +171,13 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
 
     switch (changeEffect)
     {
-        case CameraSwapEffects::eEffect0_InstantChange:
+        case CameraSwapEffects::eInstantChange_0:
             pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_34_pSubObject = nullptr;
             return;
 
-        case CameraSwapEffects::eEffect1_LeftToRight:
+        case CameraSwapEffects::eLeftToRight_1:
             field_56_slice_width = gPsxDisplay_5C1130.field_0_width / kSliceWidth;
             field_3C_slices_per_tick = -1;
             field_3E_total_slices = gPsxDisplay_5C1130.field_0_width / field_56_slice_width;
@@ -195,7 +195,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
             break;
 
-        case CameraSwapEffects::eEffect2_RightToLeft:
+        case CameraSwapEffects::eRightToLeft_2:
             field_56_slice_width = gPsxDisplay_5C1130.field_0_width / kSliceWidth;
             field_3C_slices_per_tick = 1;
             field_3E_total_slices = gPsxDisplay_5C1130.field_0_width / field_56_slice_width;
@@ -213,7 +213,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
             break;
 
-        case CameraSwapEffects::eEffect3_TopToBottom:
+        case CameraSwapEffects::eTopToBottom_3:
             field_56_slice_width = gPsxDisplay_5C1130.field_2_height / kSliceWidth;
             field_3C_slices_per_tick = -1;
             field_3E_total_slices = gPsxDisplay_5C1130.field_2_height / field_56_slice_width;
@@ -231,7 +231,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
             break;
 
-        case CameraSwapEffects::eEffect4_BottomToTop:
+        case CameraSwapEffects::eBottomToTop_4:
             field_56_slice_width = gPsxDisplay_5C1130.field_2_height / kSliceWidth;
             field_3C_slices_per_tick = 1;
             field_3E_total_slices = gPsxDisplay_5C1130.field_2_height / field_56_slice_width;
@@ -249,7 +249,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
             break;
 
-        case CameraSwapEffects::eEffect6_VerticalSplit:
+        case CameraSwapEffects::eVerticalSplit_6:
             field_56_slice_width = (gPsxDisplay_5C1130.field_0_width / 2) / kSliceWidth;
             field_3C_slices_per_tick = 1;
             field_3E_total_slices = (gPsxDisplay_5C1130.field_0_width / 2) / field_56_slice_width;
@@ -267,7 +267,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
             break;
 
-        case CameraSwapEffects::eEffect7_HorizontalSplit:
+        case CameraSwapEffects::eHorizontalSplit_7:
             field_56_slice_width = (gPsxDisplay_5C1130.field_2_height / 2) / kSliceWidth;
             field_3C_slices_per_tick = 1;
             field_3E_total_slices = (gPsxDisplay_5C1130.field_2_height / 2) / field_56_slice_width;
@@ -285,7 +285,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
             break;
 
-        case CameraSwapEffects::eEffect8_BoxOut:
+        case CameraSwapEffects::eBoxOut_8:
         {
             field_52_XSlices = (gPsxDisplay_5C1130.field_0_width / 2) / kSliceWidth;
             field_54_YSlices = (gPsxDisplay_5C1130.field_2_height / 2) / kSliceWidth;
@@ -329,9 +329,9 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
         }
         break;
 
-        case CameraSwapEffects::eEffect5_1_FMV:
-        case CameraSwapEffects::eEffect9_2_FMV:
-        case CameraSwapEffects::eEffect10_3_FMV:
+        case CameraSwapEffects::ePlay1FMV_5:
+        case CameraSwapEffects::ePlay2FMVs_9:
+        case CameraSwapEffects::ePlay3FMVs_10:
             pScreenManager_5BB5F4->field_44_unused = 1;
 
             field_34_pSubObject = ae_new<ScreenClipper>();
@@ -357,8 +357,8 @@ void CameraSwapper::vUpdate_4E5850()
 
     switch (field_38_changeEffect)
     {
-        case CameraSwapEffects::eEffect1_LeftToRight:
-        case CameraSwapEffects::eEffect2_RightToLeft:
+        case CameraSwapEffects::eLeftToRight_1:
+        case CameraSwapEffects::eRightToLeft_2:
         {
             field_3A_current_slice += field_3C_slices_per_tick;
             if (field_3A_current_slice < 0 || field_3A_current_slice >= field_3E_total_slices)
@@ -380,8 +380,8 @@ void CameraSwapper::vUpdate_4E5850()
         }
         break;
 
-        case CameraSwapEffects::eEffect3_TopToBottom:
-        case CameraSwapEffects::eEffect4_BottomToTop:
+        case CameraSwapEffects::eTopToBottom_3:
+        case CameraSwapEffects::eBottomToTop_4:
         {
             field_3A_current_slice += field_3C_slices_per_tick;
             if (field_3A_current_slice < 0 || field_3A_current_slice >= field_3E_total_slices)
@@ -399,7 +399,7 @@ void CameraSwapper::vUpdate_4E5850()
         }
         break;
 
-        case CameraSwapEffects::eEffect6_VerticalSplit:
+        case CameraSwapEffects::eVerticalSplit_6:
         {
             field_3A_current_slice += field_3C_slices_per_tick;
             if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
@@ -417,7 +417,7 @@ void CameraSwapper::vUpdate_4E5850()
         }
         break;
 
-        case CameraSwapEffects::eEffect7_HorizontalSplit:
+        case CameraSwapEffects::eHorizontalSplit_7:
         {
             field_3A_current_slice += field_3C_slices_per_tick;
             if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
@@ -435,7 +435,7 @@ void CameraSwapper::vUpdate_4E5850()
         }
         break;
 
-        case CameraSwapEffects::eEffect8_BoxOut:
+        case CameraSwapEffects::eBoxOut_8:
         {
             field_3A_current_slice += field_3C_slices_per_tick;
             if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
@@ -469,7 +469,7 @@ void CameraSwapper::vUpdate_4E5850()
         }
         break;
 
-        case CameraSwapEffects::eEffect5_1_FMV:
+        case CameraSwapEffects::ePlay1FMV_5:
         {
             if (sMovie_ref_count_BB4AE4)
             {
@@ -498,7 +498,7 @@ void CameraSwapper::vUpdate_4E5850()
         break;
 
         // TODO: 2 and 3 FMV cases can be de-duped
-        case CameraSwapEffects::eEffect9_2_FMV:
+        case CameraSwapEffects::ePlay2FMVs_9:
             if (field_3A_current_slice < 1)
             {
                 field_3A_current_slice++;
@@ -521,12 +521,12 @@ void CameraSwapper::vUpdate_4E5850()
                         field_42_movie_flags_3,
                         field_44_movie_vol_3);
                 }
-                field_38_changeEffect = CameraSwapEffects::eEffect5_1_FMV;
+                field_38_changeEffect = CameraSwapEffects::ePlay1FMV_5;
                 field_4C_movie_bPutDispEnv = field_48_movie_flags_2;
             }
             break;
 
-        case CameraSwapEffects::eEffect10_3_FMV:
+        case CameraSwapEffects::ePlay3FMVs_10:
             if (field_3A_current_slice < 1)
             {
                 field_3A_current_slice++;
@@ -549,7 +549,7 @@ void CameraSwapper::vUpdate_4E5850()
                         field_48_movie_flags_2,
                         field_4A_movie_vol_2);
                 }
-                field_38_changeEffect = CameraSwapEffects::eEffect9_2_FMV;
+                field_38_changeEffect = CameraSwapEffects::ePlay2FMVs_9;
                 field_4C_movie_bPutDispEnv = field_48_movie_flags_2;
             }
             break;

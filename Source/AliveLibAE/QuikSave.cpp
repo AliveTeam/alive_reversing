@@ -13,7 +13,7 @@
 #include "DDCheat.hpp"
 #include "Events.hpp"
 #include "WorkWheel.hpp"
-#include "Grinder.hpp"
+#include "Drill.hpp"
 #include "ScreenManager.hpp"
 #include "Io.hpp"
 #include "LiftPoint.hpp"
@@ -84,7 +84,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable = {
     nullptr,
     nullptr,
     nullptr,
-    &Grinder::CreateFromSaveState_421600,
+    &Drill::CreateFromSaveState_421600,
     nullptr,
     nullptr,
     nullptr,
@@ -338,7 +338,7 @@ EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
         quicksaveData->field_204_world_info.field_4_level,
         quicksaveData->field_204_world_info.field_6_path,
         quicksaveData->field_204_world_info.field_8_cam,
-        CameraSwapEffects::eEffect0_InstantChange,
+        CameraSwapEffects::eInstantChange_0,
         0,
         1);
     gMap_5C3030.field_8_force_load = 1;

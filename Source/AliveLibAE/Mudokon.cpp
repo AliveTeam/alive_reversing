@@ -614,18 +614,18 @@ void Mudokon::VScreenChanged()
 
 
 const AnimId kMudFrameTableOffsets_55CD00[60] = {
-    AnimId::Mudokon_Idle, AnimId::Mudokon_Walk, AnimId::Mudokon_Turn_Around, AnimId::Mudokon_Talk_A, AnimId::Mudokon_Talk_B,
-    AnimId::Mudokon_Talk_C, AnimId::Mudokon_Talk_D, AnimId::Mudokon_Unknown_A, AnimId::Mudokon_Unknown_B, AnimId::Mudokon_Unknown_C,
-    AnimId::Mudokon_Lever_Pull, AnimId::Mudokon_Chisel_Mining, AnimId::Mudokon_Unknown_E, AnimId::Mudokon_Unknown_F, AnimId::Mudokon_Scrub_Cleaning,
-    AnimId::Mudokon_Crouch, AnimId::Mudokon_Crouch_Turn_Around, AnimId::Mudokon_Stand_To_Crouch, AnimId::Mudokon_Crouch_To_Stand, AnimId::Mudokon_Unknown_G,
-    AnimId::Mudokon_Unknown_H, AnimId::Mudokon_Run, AnimId::Mudokon_Unknown_I, AnimId::Mudokon_Unknown_J, AnimId::Mudokon_Run_End_A,
-    AnimId::Mudokon_Run_End_B, AnimId::Mudokon_Unknown_K, AnimId::Mudokon_Sneak, AnimId::Mudokon_Sneak_Start, AnimId::Mudokon_Unknown_L,
-    AnimId::Mudokon_Unknown_M, AnimId::Mudokon_Unknown_N, AnimId::Mudokon_Unknown_O, AnimId::Mudokon_Unknown_P, AnimId::Mudokon_Unknown_Q,
-    AnimId::Mudokon_Run_Jump_Start, AnimId::Mudokon_Run_Jump, AnimId::Mudokon_Unknown_R, AnimId::Mudokon_Slap, AnimId::Mudokon_Hoist_Start,
-    AnimId::Mudokon_Hoist, AnimId::Mudokon_Hoist_End, AnimId::Mudokon_Hoist_End, AnimId::Mudokon_Shrug_Start, AnimId::Mudokon_Shrug_End, // duplicates: 269928
-    AnimId::Mudokon_Knocked_Back_Face_Down, AnimId::Mudokon_Knocked_Back_Face_Up, AnimId::Mudokon_Get_Up, AnimId::Mudokon_Fall, AnimId::Mudokon_Unknown_S,
-    AnimId::Mudokon_Chant, AnimId::Mudokon_Chant_End, AnimId::Mudokon_Crouch_To_Duck, AnimId::Mudokon_Duck, AnimId::Mudokon_Duck_To_Crouch,
-    AnimId::Mudokon_Unknown_T, AnimId::Mudokon_Hit_Self, AnimId::Mudokon_Wheel_Start, AnimId::Mudokon_Wheel, AnimId::Mudokon_Wheel_End};
+    AnimId::Mudokon_Idle, AnimId::Mudokon_Walk, AnimId::Mudokon_StandingTurn, AnimId::Mudokon_Speak1, AnimId::Mudokon_Speak3,
+    AnimId::Mudokon_Speak2, AnimId::Mudokon_SpeakFart, AnimId::Mudokon_WalkBegin, AnimId::Mudokon_WalkToIdle, AnimId::Mudokon_MidWalkToIdle,
+    AnimId::Mudokon_LeverUse, AnimId::Mudokon_Chisel_Mining, AnimId::Mudokon_Unknown_E, AnimId::Mudokon_Unknown_F, AnimId::Mudokon_Scrub_Cleaning,
+    AnimId::Mudokon_CrouchIdle, AnimId::Mudokon_CrouchTurn, AnimId::Mudokon_StandToCrouch, AnimId::Mudokon_CrouchToStand, AnimId::Mudokon_WalkToRun,
+    AnimId::Mudokon_MidWalkToRun, AnimId::Mudokon_Run, AnimId::Mudokon_RunToWalk, AnimId::Mudokon_MidRunToWalk, AnimId::Mudokon_RunSlideStop,
+    AnimId::Mudokon_RunTurn, AnimId::Mudokon_RunTurnToRun, AnimId::Mudokon_Sneak, AnimId::Mudokon_WalkToSneak, AnimId::Mudokon_SneakToWalk,
+    AnimId::Mudokon_MidWalkToSneak, AnimId::Mudokon_MidSneakToWalk, AnimId::Mudokon_SneakBegin, AnimId::Mudokon_SneakToIdle, AnimId::Mudokon_MidSneakToIdle,
+    AnimId::Mudokon_RunJumpBegin, AnimId::Mudokon_RunJumpMid, AnimId::Mudokon_StandingToRun, AnimId::Mudokon_Punch, AnimId::Mudokon_HoistBegin,
+    AnimId::Mudokon_HoistIdle, AnimId::Mudokon_LandSoft, AnimId::Mudokon_LandSoft, AnimId::Mudokon_DunnoBegin, AnimId::Mudokon_Shrug_End, // duplicates: 269928
+    AnimId::Mudokon_KnockForward, AnimId::Mudokon_Knockback, AnimId::Mudokon_KnockbackGetUp, AnimId::Mudokon_WalkOffEdge, AnimId::Mudokon_FallingFromGrab,
+    AnimId::Mudokon_Chant, AnimId::Mudokon_ChantEnd, AnimId::Mudokon_Crouch_To_Duck, AnimId::Mudokon_Duck, AnimId::Mudokon_Duck_To_Crouch,
+    AnimId::Mudokon_Unknown_T, AnimId::Mudokon_Hit_Self, AnimId::Mudokon_TurnWheelBegin, AnimId::Mudokon_TurnWheel, AnimId::Mudokon_TurnWheelEnd};
 
 ALIVE_VAR(1, 0x5C3010, s16, sAlertedMudCount_5C3010, 0);
 ALIVE_VAR(1, 0x5C3018, s16, sIsMudStandingUp_5C3018, 0);
@@ -1442,7 +1442,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             SetPal_4772D0(Mud_Emotion::eNormal_0);
             return 1;
 
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eMeatSaw_86:
         case AETypes::eExplosion_109:

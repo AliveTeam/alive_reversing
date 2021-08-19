@@ -2881,7 +2881,7 @@ void Glukkon::ToDead_43F640()
                 field_1E4_level,
                 field_1E6_path,
                 field_1E8_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }
@@ -3166,7 +3166,7 @@ s16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         }
         break;
 
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eMeatSaw_86:
         case AETypes::eExplosion_109:

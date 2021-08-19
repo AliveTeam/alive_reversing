@@ -423,7 +423,7 @@ BaseGameObject* Slig::dtor_465320()
                 field_14E_level,
                 field_150_path,
                 field_152_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
     }
@@ -4628,7 +4628,7 @@ s16 Slig::Brain_Death_46C3A0()
                 field_14E_level,
                 field_150_path,
                 field_152_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }
@@ -4702,7 +4702,7 @@ s16 Slig::Brain_DeathDropDeath_46C5A0()
                 {
                     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
                     sControlledCharacter_50767C = sActiveHero_507678;
-                    gMap_507BA8.SetActiveCam_444660(field_14E_level, field_150_path, field_152_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(field_14E_level, field_150_path, field_152_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
@@ -4723,7 +4723,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
             field_14E_level,
             field_150_path,
             field_152_camera,
-            CameraSwapEffects::eEffect0_InstantChange,
+            CameraSwapEffects::eInstantChange_0,
             0,
             0);
     }

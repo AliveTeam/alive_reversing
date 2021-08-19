@@ -485,7 +485,7 @@ void DDCheat::Teleport_409CE0()
                         static_cast<LevelIds>(level_4C315C),
                         path_4C3160,
                         camera_4C3164,
-                        CameraSwapEffects::eEffect0_InstantChange,
+                        CameraSwapEffects::eInstantChange_0,
                         0,
                         0);
                     field_20 = 1;
