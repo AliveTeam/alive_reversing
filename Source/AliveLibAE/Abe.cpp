@@ -780,8 +780,9 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     ResourceManager::LoadResourceFile_49C170("DUST.BAN", nullptr);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDustResID);
 
-    ResourceManager::LoadResourceFile_49C170("BLOODROP.BAN", nullptr);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBloodropResID);
+    const AnimRecord& bloodDropRec = AnimRec(AnimId::BloodDrop);
+    ResourceManager::LoadResourceFile_49C170(bloodDropRec.mBanName, nullptr);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, bloodDropRec.mResourceId);
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, FALSE, FALSE))
     {

@@ -723,6 +723,7 @@ s32 CC BirdPortal::CreateFromSaveState_499C90(const u8* pBuffer)
         {
             ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
         }
+
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, FALSE, FALSE))
         {
             ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", nullptr);

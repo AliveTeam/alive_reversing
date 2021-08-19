@@ -274,7 +274,7 @@ enum class AnimId
     Mudokon_CrouchTurn,
     Mudokon_Duck,
     Mudokon_Duck_To_Crouch,
-    Mudokon_Fall, // walk off edge
+    Mudokon_Fall,
     Mudokon_KnockbackGetUp,
     Mudokon_Hit_Self,
     Mudokon_HoistIdle,
@@ -460,6 +460,17 @@ enum class AnimId
     Slig_Gamespeak,
     Slig_WalkToStand,
     Slig_SleepingToStand,
+
+    CrawlingSligButton,
+    CrawlingSligButtonUse,
+    BloodDrop,
+    SpotLight,
+    ShrykullStart,
+    ShrykullTransform,
+    ShrykullDetransform,
+    NormalMudIcon,
+    AngryMudIcon,
+    HappyMudIcon,
 
     MenuHighlight_ButtonRemapSquare,
     MenuHighlight_Circle,
@@ -983,7 +994,7 @@ enum ResourceID
     kMineflshResID = 1040,
     kP1c3tubeResID = 1050,
     kGhostTrpResID_1053 = 1053,
-    kUnknwonResID_1057 = 1057,
+    kCrawlingSligButtonResID_1057 = 1057,
     kDebrisID00 = 1105,
     kTubeResID = 1200,
 

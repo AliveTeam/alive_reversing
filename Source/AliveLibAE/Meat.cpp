@@ -632,7 +632,8 @@ void MeatSack::vUpdate_46A6A0()
     {
         if (field_11C == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_20_animation.Set_Animation_Data_409C80(15848, 0);
+            const AnimRecord& rec = AnimRec(AnimId::MeatSack);
+            field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
             field_11C = 0;
         }
     }

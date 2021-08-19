@@ -8,7 +8,7 @@
 #include "Map.hpp"
 #include "ScreenManager.hpp"
 
-const static s32 dword_5556E0[4] = {204, 180, 192, 204};
+const static s32 HoistRocksFrameTableOffsets_5556E0[4] = {204, 180, 192, 204};
 const static s16 word_5556F0[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
 BaseGameObject* HoistRocksEffect::VDestructor(s32 flags)
@@ -157,7 +157,7 @@ void HoistRocksEffect::Update_45D460()
             field_30_rocks[idx].field_0_state = 1;
 
             const s32 randomAnimAndUpdate = 2 * Math_RandomRange_496AB0(0, 3);
-            field_30_rocks[idx].field_10_mAnim.Set_Animation_Data_409C80(dword_5556E0[randomAnimAndUpdate / 2], nullptr);
+            field_30_rocks[idx].field_10_mAnim.Set_Animation_Data_409C80(HoistRocksFrameTableOffsets_5556E0[randomAnimAndUpdate / 2], nullptr);
             field_28_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(word_5556F0[randomAnimAndUpdate], 2 * word_5556F0[randomAnimAndUpdate]);
         }
     }

@@ -472,6 +472,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Slig_LiftDown, { "SLGLIFT.BAN", 23096, 160, 68, kSlgliftResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Slig_Beat, { "SLGBEAT.BAN", 12660, 160, 68, kSlgbeatResID, PalId::Default}, kNullAnimDetails },
 
+    // apparently these both look exactly the same?
+    {AnimId::CrawlingSligButton, {"CSLGBUTN.BAN", 408, 25, 12, kCrawlingSligButtonResID_1057, PalId::Default}, kNullAnimDetails},
+    {AnimId::CrawlingSligButtonUse, {"CSLGBUTN.BAN", 420, 25, 12, kCrawlingSligButtonResID_1057, PalId::Default}, kNullAnimDetails},
 
     // main menu gamespeak
     { AnimId::MenuAbeSpeak_Hello, {"ABESPEK2.BAN", 247620, 233, 125, kAbespek2ResID, PalId::Default}, kNullAnimDetails },
@@ -571,6 +574,30 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "PORTAL.BAN", 4144, 32, 18, kPortalTerminatorID, PalId::Default},
         { "PORTAL.BAN", 3860, 31, 18, kPortalTerminatorID, PalId::Default}
     },
+
+    
+    // TODO: add AE AnimId's for framtableoffset:
+    // 4068, 4168, 9912, 6616, 204, 180, 192, 15888
+    // 3092, 3020, 3060,
+    // slig get pants and wings 4364, 4352
+    // timed mine 556
+    // UXB 544, 556
+
+    // TODO: figure out if this is the correct BAN/BND
+    {AnimId::ShrykullStart, {"SHRYPORT.BND", 82676, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShrykullTransform, {"SHRYPORT.BND", 82712, 123, 79, kAbemorphResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShrykullDetransform, {"SHRYPORT.BND", 82824, 123, 79, kAbemorphResID, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::NormalMudIcon, {"EMONORM.BAN", 1248, 54, 47, kNormaliconResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::AngryMudIcon, {"EMOANGRY.BAN", 1076, 54, 47, kAngryiconResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::HappyMudIcon, {"EMOHAP.BAN", 1252, 54, 47, kHappyiconResID, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::SpotLight, {"BLOODROP.BAN", 1536, 57, 32, kSpotliteResID, PalId::Default}, kNullAnimDetails},
+        
+    // blood drop and blood are not the same animations.
+    // TODO: check if AO blood.ban is blood or blood drop
+    {AnimId::BloodDrop, {"BLOODROP.BAN", 308, 11, 7, kBloodropResID, PalId::Default}, kNullAnimDetails},
+
     {AnimId::Blood, kNullAnimDetails, { "BLOOD.BAN", 276, 6, 7, kBloodropResID, PalId::Default} },
     {AnimId::Bone, { "BTHROW.BND", 456, 15, 9, kBoneResID, PalId::Default}, kNullAnimDetails },
     {AnimId::BoneBag_Idle, { "BONEBAG.BAN", 8748, 64, 60, kBoneBagResID_590, PalId::Default}, kNullAnimDetails },

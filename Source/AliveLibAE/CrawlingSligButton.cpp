@@ -25,8 +25,9 @@ CrawlingSligButton* CrawlingSligButton::ctor_4148F0(Path_CrawlingSligButton* pTl
 
     field_4_typeId = AETypes::eSligButton_16;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknwonResID_1057);
-    Animation_Init_424E10(408, 25, 12, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_F4_tlvInfo = tlvInfo;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
@@ -69,7 +70,8 @@ void CrawlingSligButton::UseButton_414C60()
     if (!field_102_in_use)
     {
         field_102_in_use = 1;
-        field_20_animation.Set_Animation_Data_409C80(420, nullptr);
+        const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButtonUse);
+        field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
     }
 }
 
@@ -121,6 +123,7 @@ void CrawlingSligButton::vUpdate_414B20()
         }
 
         field_102_in_use = 0;
-        field_20_animation.Set_Animation_Data_409C80(408, nullptr);
+        const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
+        field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
     }
 }
