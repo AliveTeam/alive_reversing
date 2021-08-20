@@ -754,7 +754,7 @@ EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
         Map::LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, kSlogBlowResID, loadmode, uxb_tlv->field_18_disabled_resources & 2);
 
         static CompileTimeResourceList<3> sUXBResourceList_563390({
-            {ResourceManager::Resource_Animation, kTbombResID},
+            {ResourceManager::Resource_Animation, kUXBResID},
             {ResourceManager::Resource_Animation, kBombflshResID},
             {ResourceManager::Resource_Palt, kGrenflshResID},
         });

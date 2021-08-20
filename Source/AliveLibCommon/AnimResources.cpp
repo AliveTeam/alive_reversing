@@ -588,6 +588,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::PullRingRope_UseBegin, {"PULLRING.BAN", 3060, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
     {AnimId::PullRingRope_UseEnd, {"PULLRING.BAN", 3092, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
 
+    {AnimId::CrawlingSligLocker_Closed, {"LOCKER.BAN", 4352, 37, 70, kCrawlingSligLockerResID_448, PalId::Default}, kNullAnimDetails},
+    {AnimId::CrawlingSligLocker_Open, {"LOCKER.BAN", 4364, 37, 70, kCrawlingSligLockerResID_448, PalId::Default}, kNullAnimDetails},
+
     // TODO: figure out if this is the correct BAN/BND
     {AnimId::ShrykullStart, {"SHRYPORT.BND", 82676, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
     {AnimId::ShrykullTransform, {"SHRYPORT.BND", 82712, 123, 79, kAbemorphResID, PalId::Default}, kNullAnimDetails},
@@ -795,9 +798,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Switch_Pull_Left_B, { "SWITCH1.BAN", 5760, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Switch_Pull_Right_A, { "SWITCH1.BAN", 5796, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Switch_Pull_Right_B, { "SWITCH1.BAN", 5848, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Timed_Mine_Armed, { "BOMB.BND", 848, 35, 0x11u, kBombResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Timed_Mine_Idle, 
-        { "BOMB.BND", 836, 35, 0x11u, kBombResID, PalId::Default},
+    {AnimId::TimedMine_Activated, { "BOMB.BND", 848, 35, 17, kBombResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::TimedMine_Idle, 
+        { "BOMB.BND", 836, 35, 17, kBombResID, PalId::Default},
         { "BOMB.BND", 792, 35, 17, kBombResID, PalId::Default}
     },
     {AnimId::Tortured_Mudokon, { "MUDTORT.BAN", 20892, 101, 0x44u, kTorturedMud, PalId::Default}, kNullAnimDetails },
@@ -826,12 +829,13 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Desert_TrapDoor_Opening, kNullAnimDetails, { "D2TRAP.BAN", 2012, 99, 56, kP6c1trapResID, PalId::Default} },
     {AnimId::Desert_TrapDoor_Closing, kNullAnimDetails, { "D2TRAP.BAN", 1988, 99, 56, kP6c1trapResID, PalId::Default} },
 
+    {AnimId::UXB_Flash, {"UXB.BND", 544, 36, 21, kBombflshResID, PalId::Default}, kNullAnimDetails},
     {AnimId::UXB_Active,
-        { "UXB.BND", 8048, 59, 19, kTbombResID, PalId::Default},
-        { "UXB.BND", 7740, 59, 19, kTbombResID, PalId::Default}
+        { "UXB.BND", 8048, 59, 19, kUXBResID, PalId::Default},
+        { "UXB.BND", 7740, 59, 19, kUXBResID, PalId::Default}
     },
-    {AnimId::UXB_Toggle, { "UXB.BND", 8120, 59, 19, kTbombResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::UXB_Disabled, { "UXB.BND", 0x2000, 59, 19, kTbombResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::UXB_Toggle, { "UXB.BND", 8120, 59, 19, kUXBResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::UXB_Disabled, { "UXB.BND", 8192, 59, 19, kUXBResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Well_Leaf, { "WELLLEAF.BAN", 476, 16, 11, kWellLeafResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Work_Wheel_Idle, { "WORKWHEL.BAN", 2716, 49, 24, kWorkwhelResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Work_Wheel_Turning, { "WORKWHEL.BAN", 2728, 49, 24, kWorkwhelResID, PalId::Default}, kNullAnimDetails },
@@ -848,14 +852,11 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     // TODO: add AE AnimId's for framtableoffset:
     // pTerminator: 4068, 4168,
     // door anim 6616
-    // slig get pants and wings 4364, 4352
-    // timed mine 556
-    // UXB 544, 556
-
+    // TimedMine.cpp 556
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
-     {"DRPROCK.BAN", 192, 7, 4, kHoistRocks, PalId::Default},
+     {"SHDOOR.BAN", 6616, 51, 62, kF2p3dorResID, PalId::Default},
     { "WASP.BAN", 636, 7, 4, kWaspResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
