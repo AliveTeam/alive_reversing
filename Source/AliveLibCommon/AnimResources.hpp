@@ -595,8 +595,15 @@ enum class AnimId
     HoistRock1,
     HoistRock2,
     HoistRock3,
+    BrewMachine_Button,
     CrawlingSligLocker_Closed,
     CrawlingSligLocker_Open, 
+    LiftPlatform_Mines,
+    LiftBottomWheel_Mines,
+    LiftTopWheel_Mines,
+    LiftPlatform_Necrum,
+    LiftBottomWheel_Necrum,
+    LiftTopWheel_Necrum,
     Door_Barracks_Closed,
     Door_Barracks_Closing,
     Door_Bonewerkz_Closed,
@@ -984,7 +991,7 @@ enum ResourceID
     kGlukaquaResID = 828,
     kFleechResID = 900,
     kRopesResID = 1000,
-    kPulleyResID = 1001,
+    kLiftWheelsResID = 1001,
     kP2c2bagResID = 1002,
     kP5c1wlkResID = 1003,
     kP6c1trapResID = 1004,
@@ -1048,7 +1055,7 @@ enum ResourceID
     kRedGlowResID_6011 = 6011,   // AO only
     kBayrollResID_6013 = 6013,
     kMeatGibResID_6014 = 6014, // AO only
-    kUnknownResID_6016 = 6016,
+    kBrewButtonResID_6016 = 6016,
     kEvilFartResID = 6017,
     kR1sdosResID_6027 = 6027,
     kFlintGlowResID_6028 = 6028,      // AO only

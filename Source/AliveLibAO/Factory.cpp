@@ -251,7 +251,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
 {
     static CompileTimeResourceList<3> kResources = {
         {ResourceManager::Resource_Animation, ResourceID::kAbeliftResID},
-        {ResourceManager::Resource_Animation, ResourceID::kPulleyResID},
+        {ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID},
         {ResourceManager::Resource_Animation, ResourceID::kLiftResID}};
 
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)

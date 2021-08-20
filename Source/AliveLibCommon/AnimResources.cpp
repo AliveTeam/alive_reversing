@@ -584,12 +584,22 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::HoistRock2, {"DRPROCK.BAN", 180, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
     {AnimId::HoistRock3, {"DRPROCK.BAN", 192, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
 
+    {AnimId::BrewMachine_Button, {"BREWBTN.BAN", 316, 19, 11, kBrewButtonResID_6016, PalId::Default}, kNullAnimDetails},
+
     {AnimId::PullRingRope_Idle, {"PULLRING.BAN", 3020, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
     {AnimId::PullRingRope_UseBegin, {"PULLRING.BAN", 3060, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
     {AnimId::PullRingRope_UseEnd, {"PULLRING.BAN", 3092, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
 
     {AnimId::CrawlingSligLocker_Closed, {"LOCKER.BAN", 4352, 37, 70, kCrawlingSligLockerResID_448, PalId::Default}, kNullAnimDetails},
     {AnimId::CrawlingSligLocker_Open, {"LOCKER.BAN", 4364, 37, 70, kCrawlingSligLockerResID_448, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::LiftPlatform_Mines, {"MILIFT.BND", 1936, 136, 31, kLiftResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::LiftBottomWheel_Mines, {"MILIFT.BND", 4760, 47, 24, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::LiftTopWheel_Mines, {"MILIFT.BND", 4784, 47, 24, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::LiftPlatform_Necrum, {"NELIFT.BND", 1312, 135, 17, kLiftResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::LiftBottomWheel_Necrum, {"NELIFT.BND", 8664, 69, 34, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::LiftTopWheel_Necrum, {"NELIFT.BND", 8700, 69, 34, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
 
     // TODO: figure out if this is the correct BAN/BND
     {AnimId::ShrykullStart, {"SHRYPORT.BND", 82676, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
@@ -854,9 +864,11 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     // door anim 6616
     // TimedMine.cpp 556
 
+
+    // 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
-     {"SHDOOR.BAN", 6616, 51, 62, kF2p3dorResID, PalId::Default},
+     {"BREWBTN.BAN", 316, 19, 11, kBrewButtonResID_6016, PalId::Default},
     { "WASP.BAN", 636, 7, 4, kWaspResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////

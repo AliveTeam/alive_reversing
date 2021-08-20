@@ -252,7 +252,7 @@ EXPORT void CC Factory_Shadow_4D7200(Path_TLV* pTlv, Path* pPath, TlvItemInfoUni
 static void LoadLiftPointResources(const char_type* ropeBan, const char_type* liftBan, LoadMode loadMode)
 {
     static CompileTimeResourceList<2> kResources({
-        {ResourceManager::Resource_Animation, ResourceID::kPulleyResID},
+        {ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID},
         {ResourceManager::Resource_Animation, ResourceID::kLiftResID},
     });
 
@@ -1937,7 +1937,7 @@ EXPORT void CC Factory_FartMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     {
         gMap_5C3030.LoadResource_4DBE00("ABESTONE.BAN", ResourceManager::Resource_Animation, ResourceID::kAbestoneResID, loadmode);
         gMap_5C3030.LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::Resource_Font, 2, loadmode);
-        gMap_5C3030.LoadResource_4DBE00("BREWBTN.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6016, loadmode);
+        gMap_5C3030.LoadResource_4DBE00("BREWBTN.BAN", ResourceManager::Resource_Animation, ResourceID::kBrewButtonResID_6016, loadmode);
         gMap_5C3030.LoadResource_4DBE00("EVILFART.BAN", ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, loadmode);
         gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadmode);
         gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadmode);
