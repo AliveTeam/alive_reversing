@@ -251,7 +251,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
 {
     static CompileTimeResourceList<3> kResources = {
         {ResourceManager::Resource_Animation, ResourceID::kAbeliftResID},
-        {ResourceManager::Resource_Animation, ResourceID::kPulleyResID},
+        {ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID},
         {ResourceManager::Resource_Animation, ResourceID::kLiftResID}};
 
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
@@ -1276,13 +1276,13 @@ EXPORT void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, pUxbTlv->field_20_disabled_resources & 4);
         if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
         {
-            ResourceManager::LoadResource_446C90("TBMBPAL.BAN", ResourceManager::Resource_Palt, ResourceID::kTbombResID, loadMode);
+            ResourceManager::LoadResource_446C90("TBMBPAL.BAN", ResourceManager::Resource_Palt, ResourceID::kUXBResID, loadMode);
             ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, loadMode);
             ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, loadMode);
         }
 
         static CompileTimeResourceList<3> kResourcesUxb = {
-            {ResourceManager::Resource_Animation, ResourceID::kTbombResID},
+            {ResourceManager::Resource_Animation, ResourceID::kUXBResID},
             {ResourceManager::Resource_Animation, ResourceID::kBombflshResID},
             {ResourceManager::Resource_Palt, ResourceID::kGrenflshResID}};
         ResourceManager::LoadResourcesFromList_446E80("UXB.BND", kResourcesUxb.AsList(), loadMode, 0);
@@ -1297,7 +1297,7 @@ EXPORT void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
     {
         auto kResources = {
             ResourceID::kAbebombResID,
-            ResourceID::kTbombResID,
+            ResourceID::kUXBResID,
             ResourceID::kBombflshResID,
             ResourceID::kBgexpldResID,
         };

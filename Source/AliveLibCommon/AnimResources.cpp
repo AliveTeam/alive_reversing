@@ -472,6 +472,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Slig_LiftDown, { "SLGLIFT.BAN", 23096, 160, 68, kSlgliftResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Slig_Beat, { "SLGBEAT.BAN", 12660, 160, 68, kSlgbeatResID, PalId::Default}, kNullAnimDetails },
 
+    // apparently these both look exactly the same?
+    {AnimId::CrawlingSligButton, {"CSLGBUTN.BAN", 408, 25, 12, kCrawlingSligButtonResID_1057, PalId::Default}, kNullAnimDetails},
+    {AnimId::CrawlingSligButtonUse, {"CSLGBUTN.BAN", 420, 25, 12, kCrawlingSligButtonResID_1057, PalId::Default}, kNullAnimDetails},
 
     // main menu gamespeak
     { AnimId::MenuAbeSpeak_Hello, {"ABESPEK2.BAN", 247620, 233, 125, kAbespek2ResID, PalId::Default}, kNullAnimDetails },
@@ -566,11 +569,53 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Slurg_Turn_Around, { "SLURG.BAN", 2740, 46, 15, kSlurgResID, PalId::Default}, kNullAnimDetails },
 
     {AnimId::Background_Glukkon, kNullAnimDetails, { "GLUKKON.BND", 46096, 68, 60, kGlkbasicResID, PalId::Default} },
-    {AnimId::Bell_Hammer, kNullAnimDetails, { "TESTANIM.BAN", 4488, 71, 69, kHammerResID, PalId::Default} },
-    {AnimId::Bird_Portal_Orb,
-        { "PORTAL.BAN", 4144, 32, 18, kPortalTerminatorID, PalId::Default},
-        { "PORTAL.BAN", 3860, 31, 18, kPortalTerminatorID, PalId::Default}
+
+    // pTerminator1->field_20_animation.Set_Animation_Data_409C80(4068, 0);
+    // TODO: what is 4068?
+
+    {AnimId::BirdPortal_Sparks, {"PORTAL.BND", 4256, 32, 69, kPortliteResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::BirdPortal_Flash, {"PORTAL.BND", 13576, 145, 74, kPortlitResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::BirdPortal_Terminator,
+        { "PORTAL.BND", 4144, 32, 18, kPortalTerminatorID, PalId::Default},
+        { "PORTAL.BND", 3860, 31, 18, kPortalTerminatorID, PalId::Default}
     },
+
+    {AnimId::HoistRock1, {"DRPROCK.BAN", 204, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
+    {AnimId::HoistRock2, {"DRPROCK.BAN", 180, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
+    {AnimId::HoistRock3, {"DRPROCK.BAN", 192, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::BrewMachine_Button, {"BREWBTN.BAN", 316, 19, 11, kBrewButtonResID_6016, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::PullRingRope_Idle, {"PULLRING.BAN", 3020, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::PullRingRope_UseBegin, {"PULLRING.BAN", 3060, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::PullRingRope_UseEnd, {"PULLRING.BAN", 3092, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::CrawlingSligLocker_Closed, {"LOCKER.BAN", 4352, 37, 70, kCrawlingSligLockerResID_448, PalId::Default}, kNullAnimDetails},
+    {AnimId::CrawlingSligLocker_Open, {"LOCKER.BAN", 4364, 37, 70, kCrawlingSligLockerResID_448, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::LiftPlatform_Mines, {"MILIFT.BND", 1936, 136, 31, kLiftResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::LiftBottomWheel_Mines, {"MILIFT.BND", 4760, 47, 24, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::LiftTopWheel_Mines, {"MILIFT.BND", 4784, 47, 24, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::LiftPlatform_Necrum, {"NELIFT.BND", 1312, 135, 17, kLiftResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::LiftBottomWheel_Necrum, {"NELIFT.BND", 8664, 69, 34, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::LiftTopWheel_Necrum, {"NELIFT.BND", 8700, 69, 34, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
+
+    // TODO: figure out if this is the correct BAN/BND
+    {AnimId::ShrykullStart, {"SHRYPORT.BND", 82676, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShrykullTransform, {"SHRYPORT.BND", 82712, 123, 79, kAbemorphResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShrykullDetransform, {"SHRYPORT.BND", 82824, 123, 79, kAbemorphResID, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::NormalMudIcon, {"EMONORM.BAN", 1248, 54, 47, kNormaliconResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::AngryMudIcon, {"EMOANGRY.BAN", 1076, 54, 47, kAngryiconResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::HappyMudIcon, {"EMOHAP.BAN", 1252, 54, 47, kHappyiconResID, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::SpotLight, {"BLOODROP.BAN", 1536, 57, 32, kSpotliteResID, PalId::Default}, kNullAnimDetails},
+        
+    // blood drop and blood are not the same animations.
+    // TODO: check if AO blood.ban is blood or blood drop
+    {AnimId::BloodDrop, {"BLOODROP.BAN", 308, 11, 7, kBloodropResID, PalId::Default}, kNullAnimDetails},
+
     {AnimId::Blood, kNullAnimDetails, { "BLOOD.BAN", 276, 6, 7, kBloodropResID, PalId::Default} },
     {AnimId::Bone, { "BTHROW.BND", 456, 15, 9, kBoneResID, PalId::Default}, kNullAnimDetails },
     {AnimId::BoneBag_Idle, { "BONEBAG.BAN", 8748, 64, 60, kBoneBagResID_590, PalId::Default}, kNullAnimDetails },
@@ -589,11 +634,14 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Chime_C, kNullAnimDetails, { "CHIMES.BAN", 19252, 49, 46, kChimeResID, PalId::Default} },
     {AnimId::Chime_Ball, kNullAnimDetails, { "F2CHMBAL.BAN", 136, 16, 8, kF2ChimeBallResID, PalId::Default} },
     {AnimId::Circular_Fade, kNullAnimDetails, { "SPOTLITE.BAN", 2472, 57, 32, kSpotliteResID, PalId::Default} },
-    {AnimId::Death_Bird_Flare,
+    {AnimId::DeathFlare_1,
         { "MFLARE.BAN", 9940, 122, 43, kDeathFlareResID, PalId::Default},
         { "MFLARE.BAN", 6312, 70, 43, kDeathFlareResID, PalId::Default}
     },
-    {AnimId::Death_Flare, kNullAnimDetails, { "MFLARE.BAN", 6284, 70, 43, kDeathFlareResID, PalId::Default} },
+    {AnimId::DeathFlare_2,
+        { "MFLARE.BAN", 9912, 122, 43, kDeathFlareResID, PalId::Default},
+        { "MFLARE.BAN", 6284, 70, 43, kDeathFlareResID, PalId::Default} },
+
     {AnimId::Door_Barracks_Closed, { "DOOR.BAN", 5652, 56, 62, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Barracks_Closing, { "DOOR.BAN", 5664, 56, 62, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Bonewerkz_Closed, { "DOOR.BAN", 6304, 59, 58, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
@@ -672,10 +720,11 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "MEAT.BAN", 488, 17, 9, kMeatResID, PalId::Default},
         { "MEAT.BAN", 500, 18, 9, kMeatResID, PalId::Default}
     },
-    {AnimId::MeatSack,
+    {AnimId::MeatSack_Idle,
         { "MEATSACK.BAN", 15848, 93, 86, kMeatSackResID, PalId::Default},
         { "D2ELUM.BAN", 15688, 92, 86, kMeatSackResID, PalId::Default}
     },
+    {AnimId::MeatSack_Hit, {"MEATSACK.BAN", 15888, 93, 86, kMeatSackResID, PalId::Default}, kNullAnimDetails},
     {AnimId::MeatSaw, kNullAnimDetails, { "R1METSAW.BAN", 15200, 104, 36, kMeatSawResID, PalId::Default} },
 
     {AnimId::Mine, 
@@ -759,9 +808,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Switch_Pull_Left_B, { "SWITCH1.BAN", 5760, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Switch_Pull_Right_A, { "SWITCH1.BAN", 5796, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Switch_Pull_Right_B, { "SWITCH1.BAN", 5848, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Timed_Mine_Armed, { "BOMB.BND", 848, 35, 0x11u, kBombResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Timed_Mine_Idle, 
-        { "BOMB.BND", 836, 35, 0x11u, kBombResID, PalId::Default},
+    {AnimId::TimedMine_Activated, { "BOMB.BND", 848, 35, 17, kBombResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::TimedMine_Idle, 
+        { "BOMB.BND", 836, 35, 17, kBombResID, PalId::Default},
         { "BOMB.BND", 792, 35, 17, kBombResID, PalId::Default}
     },
     {AnimId::Tortured_Mudokon, { "MUDTORT.BAN", 20892, 101, 0x44u, kTorturedMud, PalId::Default}, kNullAnimDetails },
@@ -790,12 +839,13 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Desert_TrapDoor_Opening, kNullAnimDetails, { "D2TRAP.BAN", 2012, 99, 56, kP6c1trapResID, PalId::Default} },
     {AnimId::Desert_TrapDoor_Closing, kNullAnimDetails, { "D2TRAP.BAN", 1988, 99, 56, kP6c1trapResID, PalId::Default} },
 
+    {AnimId::UXB_Flash, {"UXB.BND", 544, 36, 21, kBombflshResID, PalId::Default}, kNullAnimDetails},
     {AnimId::UXB_Active,
-        { "UXB.BND", 8048, 59, 19, kTbombResID, PalId::Default},
-        { "UXB.BND", 7740, 59, 19, kTbombResID, PalId::Default}
+        { "UXB.BND", 8048, 59, 19, kUXBResID, PalId::Default},
+        { "UXB.BND", 7740, 59, 19, kUXBResID, PalId::Default}
     },
-    {AnimId::UXB_Toggle, { "UXB.BND", 8120, 59, 19, kTbombResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::UXB_Disabled, { "UXB.BND", 0x2000, 59, 19, kTbombResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::UXB_Toggle, { "UXB.BND", 8120, 59, 19, kUXBResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::UXB_Disabled, { "UXB.BND", 8192, 59, 19, kUXBResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Well_Leaf, { "WELLLEAF.BAN", 476, 16, 11, kWellLeafResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Work_Wheel_Idle, { "WORKWHEL.BAN", 2716, 49, 24, kWorkwhelResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Work_Wheel_Turning, { "WORKWHEL.BAN", 2728, 49, 24, kWorkwhelResID, PalId::Default}, kNullAnimDetails },
@@ -809,9 +859,16 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::BG_Feeco_Small_Fan, { "FDP01C01.CAM", 4208, 57, 28, 1202, PalId::Default}, kNullAnimDetails },
     {AnimId::BG_Heat_Extractor_Fan, { "MIP04C18.CAM", 7104, 89, 24, 1204, PalId::Default}, kNullAnimDetails },
     
+    // TODO: add AE AnimId's for framtableoffset:
+    // pTerminator: 4068, 4168,
+    // door anim 6616
+    // TimedMine.cpp 556
+
+
+    // 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
-    { "SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default},
+     {"BREWBTN.BAN", 316, 19, 11, kBrewButtonResID_6016, PalId::Default},
     { "WASP.BAN", 636, 7, 4, kWaspResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////

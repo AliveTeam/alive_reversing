@@ -4,12 +4,12 @@
 
 enum class MeatStates : s16
 {
-    State_0 = 0,
-    State_1_Idle = 1,
-    State_2_BeingThrown = 2,
-    State_3_BecomeAPickUp = 3,
-    State_4_WaitForPickUp = 4,
-    State_5_Fall = 5,
+    eCreated_0 = 0,
+    eIdle_1 = 1,
+    eBeingThrown_2 = 2,
+    eBecomeAPickUp_3 = 3,
+    eWaitForPickUp_4 = 4,
+    eFall_5 = 5,
 };
 
 struct Meat_SaveState final
@@ -121,10 +121,10 @@ private:
 
 private:
     s32 field_118_tlvInfo;
-    s16 field_11C;
+    s16 field_11C_bDoMeatSackIdleAnim;
     s16 field_11E_meat_amount;
-    s16 field_120;
-    s16 field_122;
+    s16 field_120_bPlayWobbleSound;
+    s16 field_122_always_0;
     FP field_124_velX;
     FP field_128_velY;
 };

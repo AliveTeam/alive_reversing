@@ -5,24 +5,24 @@
 #include "Font.hpp"
 #include "FunctionFwd.hpp"
 
-struct Path_FartMachine final : public Path_TLV
+struct Path_BrewMachine final : public Path_TLV
 {
     s16 field_10_num_brews;
     s16 field_12_pad;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FartMachine, 0x14);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BrewMachine, 0x14);
 
-class FartMachine final : public ::BaseAnimatedWithPhysicsGameObject
+class BrewMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT FartMachine* ctor_413060(Path_FartMachine* pTlv, s32 tlvInfo);
+    EXPORT BrewMachine* ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT FartMachine* vdtor_413290(s32 flags);
+    EXPORT BrewMachine* vdtor_413290(s32 flags);
     EXPORT void dtor_413330();
     EXPORT void vUpdate_4132C0();
     EXPORT void vRender_4133F0(PrimHeader** ppOt);
@@ -44,4 +44,4 @@ private:
     s16 field_1E4_remaining_brew_count;
     s16 field_1E6_cam_id;
 };
-ALIVE_ASSERT_SIZEOF(FartMachine, 0x1E8);
+ALIVE_ASSERT_SIZEOF(BrewMachine, 0x1E8);

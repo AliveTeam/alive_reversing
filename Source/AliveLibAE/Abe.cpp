@@ -41,7 +41,7 @@
 #include "Throwable.hpp"
 #include "LiftPoint.hpp"
 #include "PullRingRope.hpp"
-#include "FartMachine.hpp"
+#include "BrewMachine.hpp"
 #include "MineCar.hpp"
 #include "EvilFart.hpp"
 #include "Particle.hpp"
@@ -780,8 +780,9 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     ResourceManager::LoadResourceFile_49C170("DUST.BAN", nullptr);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDustResID);
 
-    ResourceManager::LoadResourceFile_49C170("BLOODROP.BAN", nullptr);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBloodropResID);
+    const AnimRecord& bloodDropRec = AnimRec(AnimId::BloodDrop);
+    ResourceManager::LoadResourceFile_49C170(bloodDropRec.mBanName, nullptr);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, bloodDropRec.mResourceId);
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, FALSE, FALSE))
     {
@@ -882,8 +883,7 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
 
 
     // Animation test code
-    //auto testAnim = ae_new<TestAnimation>();
-    //testAnim->ctor();
+    //auto testAnim = ae_new<TestAnimation>(); testAnim->ctor();
 
 
     return this;
@@ -3334,7 +3334,7 @@ void Abe::Motion_0_Idle_44EEB0()
                 }
                 break;
 
-                case TlvTypes::FartMachine_101:
+                case TlvTypes::BrewMachine_101:
                     field_106_current_motion = eAbeMotions::Motion_89_BrewMachineBegin_4584C0;
                     field_120_state.raw = 0;
                     break;
@@ -9833,7 +9833,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
     PSX_RECT abeRect = {};
     vGetBoundingRect_424FD0(&abeRect, 1);
 
-    FartMachine* pBrewMachine = nullptr;
+    BrewMachine* pBrewMachine = nullptr;
     for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
@@ -9844,7 +9844,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
 
         if (pObj->field_4_typeId == AETypes::eBrewMachine_13)
         {
-            pBrewMachine = static_cast<FartMachine*>(pObj);
+            pBrewMachine = static_cast<BrewMachine*>(pObj);
 
             PSX_RECT bRect = {};
             pBrewMachine->vGetBoundingRect_424FD0(&bRect, 1);

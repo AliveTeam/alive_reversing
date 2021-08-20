@@ -35,8 +35,9 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo)
 
     field_4_typeId = AETypes::ePullRope_103;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPullringResID);
-    Animation_Init_424E10(3020, 35, 0x16u, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     SetTint_425600(sPullRingRopeTints_55FD1C, gMap_5C3030.field_0_current_level);
 
@@ -104,9 +105,9 @@ void PullRingRope::VScreenChanged()
     vScreenChanged_49BCB0();
 }
 
-s16 PullRingRope::VPull_49BBD0(BaseGameObject* a2)
+s16 PullRingRope::VPull_49BBD0(BaseGameObject* pObj)
 {
-    return vPull_49BBD0(a2);
+    return vPull_49BBD0(pObj);
 }
 
 BOOL PullRingRope::VIsNotBeingPulled_49BC90()
@@ -192,7 +193,8 @@ void PullRingRope::vUpdate_49B720()
                 field_FC_ring_puller_id = -1;
                 field_100_state = States::eReturnToIdle_3;
                 field_F4_stay_in_state_ticks = 3;
-                field_20_animation.Set_Animation_Data_409C80(3092, 0);
+                const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseEnd);
+                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
 
                 const s32 oldSwitchValue = SwitchStates_Get_466020(field_102_id);
                 SwitchStates_Do_Operation_465F00(field_102_id, field_104_target_action);
@@ -263,7 +265,8 @@ void PullRingRope::vUpdate_49B720()
             {
                 field_C8_vely = FP_FromInteger(0);
                 field_100_state = States::eIdle_0;
-                field_20_animation.Set_Animation_Data_409C80(3020, 0);
+                const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
+                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
             }
             break;
 
@@ -297,7 +300,8 @@ s16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
     field_100_state = States::eBeingPulled_1;
     field_C8_vely = FP_FromInteger(2) * field_CC_sprite_scale;
     field_F4_stay_in_state_ticks = 6;
-    field_20_animation.Set_Animation_Data_409C80(3060, 0);
+    const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseBegin);
+    field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
     SFX_Play_46FA90(SoundEffect::RingRopePull_56, 0);
     return 1;
 }

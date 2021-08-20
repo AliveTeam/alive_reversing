@@ -35,8 +35,9 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
 
     field_CC_sprite_scale = scale;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBloodropResID);
-    Animation_Init_424E10(308, 11, 7, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::BloodDrop);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);

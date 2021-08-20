@@ -33,7 +33,7 @@
 #include "../AliveLibAE/WheelSyncer.hpp"
 #include "../AliveLibAE/LevelLoader.hpp"
 #include "../AliveLibAE/FlyingSligSpawner.hpp"
-#include "../AliveLibAE/FartMachine.hpp"
+#include "../AliveLibAE/BrewMachine.hpp"
 #include "../AliveLibAE/Drill.hpp"
 #include "../AliveLibAE/Mine.hpp"
 #include "../AliveLibAE/Slog.hpp"
@@ -1243,9 +1243,9 @@ struct Path_WellLocal final : public TlvObjectBaseAE
     }
 };
 
-struct Path_FartMachine final : public TlvObjectBaseAE
+struct Path_BrewMachine final : public TlvObjectBaseAE
 {
-    CTOR_AE(Path_FartMachine, "FartMachine", TlvTypes::FartMachine_101)
+    CTOR_AE(Path_BrewMachine, "BrewMachine", TlvTypes::BrewMachine_101)
     {
         ADD("num_brews", mTlv.field_10_num_brews);
     }

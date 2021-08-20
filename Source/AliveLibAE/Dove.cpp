@@ -302,7 +302,8 @@ void Dove::vUpdate_41FAE0()
             field_F4_counter++;
             if (field_F4_counter == 0)
             {
-                field_20_animation.Set_Animation_Data_409C80(5516, 0);
+                const AnimRecord& rec = AnimRec(AnimId::Dove_Flying);
+                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
                 if (!bExtraSeqStarted_5BC10C)
                 {
                     bExtraSeqStarted_5BC10C = 13;

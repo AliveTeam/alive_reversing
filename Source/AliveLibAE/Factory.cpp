@@ -36,7 +36,7 @@
 #include "TimerTrigger.hpp"
 #include "CreditsController.hpp"
 #include "FootSwitch.hpp"
-#include "FartMachine.hpp"
+#include "BrewMachine.hpp"
 #include "FallingItem.hpp"
 #include "MineCar.hpp"
 #include "ElectricWall.hpp"
@@ -252,7 +252,7 @@ EXPORT void CC Factory_Shadow_4D7200(Path_TLV* pTlv, Path* pPath, TlvItemInfoUni
 static void LoadLiftPointResources(const char_type* ropeBan, const char_type* liftBan, LoadMode loadMode)
 {
     static CompileTimeResourceList<2> kResources({
-        {ResourceManager::Resource_Animation, ResourceID::kPulleyResID},
+        {ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID},
         {ResourceManager::Resource_Animation, ResourceID::kLiftResID},
     });
 
@@ -754,7 +754,7 @@ EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
         Map::LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, kSlogBlowResID, loadmode, uxb_tlv->field_18_disabled_resources & 2);
 
         static CompileTimeResourceList<3> sUXBResourceList_563390({
-            {ResourceManager::Resource_Animation, kTbombResID},
+            {ResourceManager::Resource_Animation, kUXBResID},
             {ResourceManager::Resource_Animation, kBombflshResID},
             {ResourceManager::Resource_Palt, kGrenflshResID},
         });
@@ -1931,23 +1931,23 @@ EXPORT void CC Factory_Alarm_4DAF90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfo
     }
 }
 
-EXPORT void CC Factory_FartMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+EXPORT void CC Factory_BrewMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::Mode_1 || loadmode == LoadMode::Mode_2)
     {
         gMap_5C3030.LoadResource_4DBE00("ABESTONE.BAN", ResourceManager::Resource_Animation, ResourceID::kAbestoneResID, loadmode);
         gMap_5C3030.LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::Resource_Font, 2, loadmode);
-        gMap_5C3030.LoadResource_4DBE00("BREWBTN.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6016, loadmode);
+        gMap_5C3030.LoadResource_4DBE00("BREWBTN.BAN", ResourceManager::Resource_Animation, ResourceID::kBrewButtonResID_6016, loadmode);
         gMap_5C3030.LoadResource_4DBE00("EVILFART.BAN", ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, loadmode);
         gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadmode);
         gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadmode);
     }
     else
     {
-        auto pFartMachine = ae_new<FartMachine>();
-        if (pFartMachine)
+        auto pBrewMachine = ae_new<BrewMachine>();
+        if (pBrewMachine)
         {
-            pFartMachine->ctor_413060(static_cast<Path_FartMachine*>(pTlv), tlvInfo.all);
+            pBrewMachine->ctor_413060(static_cast<Path_BrewMachine*>(pTlv), tlvInfo.all);
         }
     }
 }
@@ -2057,7 +2057,7 @@ EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* pTlv, Path*, TlvItemInfo
 {
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("CSLGBUTN.BAN", ResourceManager::Resource_Animation, 1057, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("CSLGBUTN.BAN", ResourceManager::Resource_Animation, ResourceID::kCrawlingSligButtonResID_1057, loadMode);
     }
     else
     {
@@ -2240,7 +2240,7 @@ const PathFunctionTable kObjectFactory = {
      Factory_SlapLock_4DAF20,
      Factory_ParamiteWebLine_4D9120,
      Factory_Alarm_4DAF90,
-     Factory_FartMachine_4DA2B0,
+     Factory_BrewMachine_4DA2B0,
      Factory_ScrabSpawner_4D9270,
      Factory_NakedSlig_4D95A0,
      Factory_SligGetPants_4D9700,

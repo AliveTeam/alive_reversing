@@ -247,12 +247,13 @@ void BirdPortal::vUpdate_498280()
                         auto pParticle = ae_new<Particle>();
                         if (pParticle)
                         {
+                            const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Sparks);
                             pParticle->ctor_4CC4C0(
                                 pTerminator2->field_B8_xpos,
                                 (FP_FromInteger(10) * field_60_scale) + pTerminator2->field_BC_ypos,
-                                4256,
-                                32,
-                                69,
+                                rec.mFrameTableOffset,
+                                rec.mMaxW,
+                                rec.mMaxH,
                                 ppLightRes);
                         }
                         pParticle->field_DC_bApplyShadows &= ~1u;
@@ -380,12 +381,13 @@ void BirdPortal::vUpdate_498280()
                     auto pParticle = ae_new<Particle>();
                     if (pParticle)
                     {
+                        const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Flash);
                         pParticle->ctor_4CC4C0(
                             pTerminator2->field_B8_xpos,
                             pTerminator2->field_BC_ypos,
-                            13576,
-                            145,
-                            74,
+                            rec.mFrameTableOffset,
+                            rec.mMaxW,
+                            rec.mMaxH,
                             ppLightRes);
                     }
                     pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
@@ -723,6 +725,7 @@ s32 CC BirdPortal::CreateFromSaveState_499C90(const u8* pBuffer)
         {
             ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
         }
+
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, FALSE, FALSE))
         {
             ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", nullptr);
@@ -1209,7 +1212,7 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP
 
     field_4_typeId = AETypes::eEyeOrbPart_74;
 
-    const AnimRecord& rec = AnimRec(AnimId::Bird_Portal_Orb);
+    const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Terminator);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 

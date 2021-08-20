@@ -54,7 +54,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
         u8** ppRes1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
         const AnimRecord rec2 = AO::AnimRec(AnimId::Stick_Gib);
         u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
-        const AnimRecord rec3 = AO::AnimRec(AnimId::Death_Flare);
+        const AnimRecord rec3 = AO::AnimRec(AnimId::DeathFlare_2);
         u8** ppRes3 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec3.mResourceId, 1, 0);
         const AnimRecord rec4 = AO::AnimRec(AnimId::Meat_Gib);
         u8** ppRes4 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec4.mResourceId, 1, 0);

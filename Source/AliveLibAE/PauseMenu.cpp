@@ -491,7 +491,8 @@ void PauseMenu::Init_491760()
     ResourceManager::LoadResourceFile_49C170("EMONORM.BAN", 0);
     u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID);
 
-    if (field_158_animation.Init_40A030(1248, gObjList_animations_5C1A24, this, 54, 47, ppAnimData, 1, 0, 0))
+    const AnimRecord& rec = AnimRec(AnimId::NormalMudIcon);
+    if (field_158_animation.Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppAnimData, 1, 0, 0))
     {
         this->field_158_animation.field_C_render_layer = field_20_animation.field_C_render_layer;
         this->field_158_animation.field_14_scale = field_CC_sprite_scale;
@@ -1668,15 +1669,18 @@ void PauseMenu::Update_48FD80()
 
                 if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eNormal_0)
                 {
-                    field_158_animation.Set_Animation_Data_409C80(1248, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID, 1u, 0));
+                    const AnimRecord& normalRec = AnimRec(AnimId::NormalMudIcon);
+                    field_158_animation.Set_Animation_Data_409C80(normalRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, normalRec.mResourceId, 1u, 0));
                 }
                 else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eSad_3)
                 {
-                    field_158_animation.Set_Animation_Data_409C80(1076, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAngryiconResID, 1u, 0));
+                    const AnimRecord& angryRec = AnimRec(AnimId::AngryMudIcon);
+                    field_158_animation.Set_Animation_Data_409C80(angryRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, angryRec.mResourceId, 1u, 0));
                 }
                 else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eHappy_5)
                 {
-                    field_158_animation.Set_Animation_Data_409C80(1252, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kHappyiconResID, 1u, 0));
+                    const AnimRecord& happyRec = AnimRec(AnimId::HappyMudIcon);
+                    field_158_animation.Set_Animation_Data_409C80(happyRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, happyRec.mResourceId, 1u, 0));
                 }
 
                 FrameInfoHeader* pFrameInfoHeader = field_158_animation.Get_FrameHeader_40B730(0);

@@ -122,7 +122,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     field_118_x_offset -= xMovedBy;
     field_11A_width_offset -= xMovedBy;
 
-    u8** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
+    u8** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID, 1, 0);
     if (field_13C_lift_wheel.Init_402D20(
             stru_4BB480[idx].field_C_lift_wheel_frame_table_offset,
             gObjList_animations_505564,
@@ -780,7 +780,7 @@ void LiftPoint::CreatePulleyIfExists_435AE0(s16 camX, s16 camY)
 
         field_26C_pulley_xpos = FP_GetExponent(((k13_scaled + kM10_scaled) / FP_FromInteger(2)) + FP_NoFractional(field_A8_xpos));
 
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPulleyResID, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID, 1, 0);
         const s32 idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
         field_1D4_pulley_anim.Init_402D20(
