@@ -78,7 +78,7 @@ DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, s32 start, s
     SetVTable(this, 0x4BAF38);
     field_4_typeId = Types::eDeathBird_38;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Death_Bird_Flare);
+    const AnimRecord rec = AO::AnimRec(AnimId::DeathFlare_1);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

@@ -8,7 +8,11 @@
 #include "Map.hpp"
 #include "ScreenManager.hpp"
 
-const static s32 HoistRocksFrameTableOffsets_5556E0[4] = {204, 180, 192, 204};
+const static AnimId HoistRocksAnimIdTable_5556E0[4] = 
+{AnimId::HoistRock1,
+AnimId::HoistRock2,
+AnimId::HoistRock3,
+AnimId::HoistRock1};
 const static s16 word_5556F0[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
 BaseGameObject* HoistRocksEffect::VDestructor(s32 flags)
@@ -65,12 +69,13 @@ HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, s32 tlvInfo)
     u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kHoistRocks);
     for (HoistRockParticle& particle : field_30_rocks)
     {
+        const AnimRecord& rec = AnimRec(AnimId::HoistRock1);
         particle.field_10_mAnim.Init_40A030(
-            204,
+            rec.mFrameTableOffset,
             gObjList_animations_5C1A24,
             this,
-            7,
-            4u,
+            rec.mMaxW,
+            rec.mMaxH,
             ppAnimData,
             1u,
             0,
@@ -157,7 +162,8 @@ void HoistRocksEffect::Update_45D460()
             field_30_rocks[idx].field_0_state = 1;
 
             const s32 randomAnimAndUpdate = 2 * Math_RandomRange_496AB0(0, 3);
-            field_30_rocks[idx].field_10_mAnim.Set_Animation_Data_409C80(HoistRocksFrameTableOffsets_5556E0[randomAnimAndUpdate / 2], nullptr);
+            const AnimRecord& rec = AnimRec(HoistRocksAnimIdTable_5556E0[randomAnimAndUpdate / 2]);
+            field_30_rocks[idx].field_10_mAnim.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
             field_28_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(word_5556F0[randomAnimAndUpdate], 2 * word_5556F0[randomAnimAndUpdate]);
         }
     }

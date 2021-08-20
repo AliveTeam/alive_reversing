@@ -569,19 +569,24 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Slurg_Turn_Around, { "SLURG.BAN", 2740, 46, 15, kSlurgResID, PalId::Default}, kNullAnimDetails },
 
     {AnimId::Background_Glukkon, kNullAnimDetails, { "GLUKKON.BND", 46096, 68, 60, kGlkbasicResID, PalId::Default} },
-    {AnimId::Bell_Hammer, kNullAnimDetails, { "TESTANIM.BAN", 4488, 71, 69, kHammerResID, PalId::Default} },
-    {AnimId::Bird_Portal_Orb,
-        { "PORTAL.BAN", 4144, 32, 18, kPortalTerminatorID, PalId::Default},
-        { "PORTAL.BAN", 3860, 31, 18, kPortalTerminatorID, PalId::Default}
+
+    // pTerminator1->field_20_animation.Set_Animation_Data_409C80(4068, 0);
+    // TODO: what is 4068?
+
+    {AnimId::BirdPortal_Sparks, {"PORTAL.BND", 4256, 32, 69, kPortliteResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::BirdPortal_Flash, {"PORTAL.BND", 13576, 145, 74, kPortlitResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::BirdPortal_Terminator,
+        { "PORTAL.BND", 4144, 32, 18, kPortalTerminatorID, PalId::Default},
+        { "PORTAL.BND", 3860, 31, 18, kPortalTerminatorID, PalId::Default}
     },
 
-    
-    // TODO: add AE AnimId's for framtableoffset:
-    // 4068, 4168, 9912, 6616, 204, 180, 192, 15888
-    // 3092, 3020, 3060,
-    // slig get pants and wings 4364, 4352
-    // timed mine 556
-    // UXB 544, 556
+    {AnimId::HoistRock1, {"DRPROCK.BAN", 204, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
+    {AnimId::HoistRock2, {"DRPROCK.BAN", 180, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
+    {AnimId::HoistRock3, {"DRPROCK.BAN", 192, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::PullRingRope_Idle, {"PULLRING.BAN", 3020, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::PullRingRope_UseBegin, {"PULLRING.BAN", 3060, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::PullRingRope_UseEnd, {"PULLRING.BAN", 3092, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
 
     // TODO: figure out if this is the correct BAN/BND
     {AnimId::ShrykullStart, {"SHRYPORT.BND", 82676, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
@@ -616,11 +621,14 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Chime_C, kNullAnimDetails, { "CHIMES.BAN", 19252, 49, 46, kChimeResID, PalId::Default} },
     {AnimId::Chime_Ball, kNullAnimDetails, { "F2CHMBAL.BAN", 136, 16, 8, kF2ChimeBallResID, PalId::Default} },
     {AnimId::Circular_Fade, kNullAnimDetails, { "SPOTLITE.BAN", 2472, 57, 32, kSpotliteResID, PalId::Default} },
-    {AnimId::Death_Bird_Flare,
+    {AnimId::DeathFlare_1,
         { "MFLARE.BAN", 9940, 122, 43, kDeathFlareResID, PalId::Default},
         { "MFLARE.BAN", 6312, 70, 43, kDeathFlareResID, PalId::Default}
     },
-    {AnimId::Death_Flare, kNullAnimDetails, { "MFLARE.BAN", 6284, 70, 43, kDeathFlareResID, PalId::Default} },
+    {AnimId::DeathFlare_2,
+        { "MFLARE.BAN", 9912, 122, 43, kDeathFlareResID, PalId::Default},
+        { "MFLARE.BAN", 6284, 70, 43, kDeathFlareResID, PalId::Default} },
+
     {AnimId::Door_Barracks_Closed, { "DOOR.BAN", 5652, 56, 62, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Barracks_Closing, { "DOOR.BAN", 5664, 56, 62, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Bonewerkz_Closed, { "DOOR.BAN", 6304, 59, 58, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
@@ -699,10 +707,11 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "MEAT.BAN", 488, 17, 9, kMeatResID, PalId::Default},
         { "MEAT.BAN", 500, 18, 9, kMeatResID, PalId::Default}
     },
-    {AnimId::MeatSack,
+    {AnimId::MeatSack_Idle,
         { "MEATSACK.BAN", 15848, 93, 86, kMeatSackResID, PalId::Default},
         { "D2ELUM.BAN", 15688, 92, 86, kMeatSackResID, PalId::Default}
     },
+    {AnimId::MeatSack_Hit, {"MEATSACK.BAN", 15888, 93, 86, kMeatSackResID, PalId::Default}, kNullAnimDetails},
     {AnimId::MeatSaw, kNullAnimDetails, { "R1METSAW.BAN", 15200, 104, 36, kMeatSawResID, PalId::Default} },
 
     {AnimId::Mine, 
@@ -836,9 +845,17 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::BG_Feeco_Small_Fan, { "FDP01C01.CAM", 4208, 57, 28, 1202, PalId::Default}, kNullAnimDetails },
     {AnimId::BG_Heat_Extractor_Fan, { "MIP04C18.CAM", 7104, 89, 24, 1204, PalId::Default}, kNullAnimDetails },
     
+    // TODO: add AE AnimId's for framtableoffset:
+    // pTerminator: 4068, 4168,
+    // door anim 6616
+    // slig get pants and wings 4364, 4352
+    // timed mine 556
+    // UXB 544, 556
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
-    { "SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default},
+     {"DRPROCK.BAN", 192, 7, 4, kHoistRocks, PalId::Default},
     { "WASP.BAN", 636, 7, 4, kWaspResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
