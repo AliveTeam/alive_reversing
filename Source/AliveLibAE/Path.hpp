@@ -119,7 +119,7 @@ enum class TlvTypes : s16
     SlapLock_98 = 98,
     ParamiteWebLine_99 = 99,
     Alarm_100 = 100,
-    FartMachine_101 = 101,
+    BrewMachine_101 = 101,
     ScrabSpawner_102 = 102,
     CrawlingSlig_103 = 103,
     SligGetPants_104 = 104,

@@ -36,7 +36,7 @@
 #include "TimerTrigger.hpp"
 #include "CreditsController.hpp"
 #include "FootSwitch.hpp"
-#include "FartMachine.hpp"
+#include "BrewMachine.hpp"
 #include "FallingItem.hpp"
 #include "MineCar.hpp"
 #include "ElectricWall.hpp"
@@ -1931,7 +1931,7 @@ EXPORT void CC Factory_Alarm_4DAF90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfo
     }
 }
 
-EXPORT void CC Factory_FartMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+EXPORT void CC Factory_BrewMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::Mode_1 || loadmode == LoadMode::Mode_2)
     {
@@ -1944,10 +1944,10 @@ EXPORT void CC Factory_FartMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
     else
     {
-        auto pFartMachine = ae_new<FartMachine>();
-        if (pFartMachine)
+        auto pBrewMachine = ae_new<BrewMachine>();
+        if (pBrewMachine)
         {
-            pFartMachine->ctor_413060(static_cast<Path_FartMachine*>(pTlv), tlvInfo.all);
+            pBrewMachine->ctor_413060(static_cast<Path_BrewMachine*>(pTlv), tlvInfo.all);
         }
     }
 }
@@ -2240,7 +2240,7 @@ const PathFunctionTable kObjectFactory = {
      Factory_SlapLock_4DAF20,
      Factory_ParamiteWebLine_4D9120,
      Factory_Alarm_4DAF90,
-     Factory_FartMachine_4DA2B0,
+     Factory_BrewMachine_4DA2B0,
      Factory_ScrabSpawner_4D9270,
      Factory_NakedSlig_4D95A0,
      Factory_SligGetPants_4D9700,

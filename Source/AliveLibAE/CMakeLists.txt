@@ -251,8 +251,8 @@ SET(AliveLibAESrc
     FootSwitch.hpp
     ParticleBurst.cpp
     ParticleBurst.hpp
-    FartMachine.cpp
-    FartMachine.hpp
+    BrewMachine.cpp
+    BrewMachine.hpp
     FallingItem.cpp
     FallingItem.hpp
     MineCar.cpp
