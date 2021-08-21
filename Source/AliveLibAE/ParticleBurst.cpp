@@ -61,28 +61,39 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
         switch (field_104_type)
         {
             case BurstType::eFallingRocks_0:
-                Animation_Init_424E10(6484, 71, 36, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDebrisID00), 1, 1u);
+            {
+                const AnimRecord& rocksRec = AnimRec(AnimId::Explosion_Rocks);
+                Animation_Init_424E10(rocksRec.mFrameTableOffset, rocksRec.mMaxW, rocksRec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, rocksRec.mResourceId), 1, 1u);
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 break;
+            }
 
             case BurstType::eSticks_1:
-                Animation_Init_424E10(1704, 49, 29, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kStickGib), 1, 1u);
+            {
+                const AnimRecord& sticksRec = AnimRec(AnimId::Explosion_Sticks);
+                Animation_Init_424E10(sticksRec.mFrameTableOffset, sticksRec.mMaxW, sticksRec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, sticksRec.mResourceId), 1, 1u);
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 break;
+            }
 
             case BurstType::eBigPurpleSparks_2:
-                Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
+            {
+                const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
+                Animation_Init_424E10(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, flareRec.mResourceId), 1, 1u);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                 break;
+            }
 
             case BurstType::eBigRedSparks_3:
             case BurstType::eGreenSparks_5:
             case BurstType::eSmallPurpleSparks_6:
-                Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
+            {
+                const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
+                Animation_Init_424E10(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, flareRec.mResourceId), 1, 1u);
                 field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
@@ -106,7 +117,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
                     field_20_animation.field_A_b = 32;
                 }
                 break;
-
+            }
             default:
                 break;
         }

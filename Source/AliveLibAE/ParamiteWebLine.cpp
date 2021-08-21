@@ -106,8 +106,9 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     field_104_wobble_idx = 0;
     field_106_wobble_pos = field_F8_top;
 
-    u8** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
-    if (field_108_anim_flare.Init_40A030(1632, gObjList_animations_5C1A24, this, 39, 21u, ppFlareRes, 1u, 0, 0))
+    const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
+    u8** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
+    if (field_108_anim_flare.Init_40A030(orbRec.mFrameTableOffset, gObjList_animations_5C1A24, this, orbRec.mMaxW, orbRec.mMaxH, ppFlareRes, 1u, 0, 0))
     {
         field_108_anim_flare.field_8_r = 100;
         field_108_anim_flare.field_9_g = 100;

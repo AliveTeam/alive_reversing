@@ -115,7 +115,8 @@ Mine* Mine::ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv)
     }
     field_11C_tlv = tlv;
     field_120_gnframe = sGnFrame_5C1B84;
-    field_124_animation.Init_40A030(400, gObjList_animations_5C1A24, this, 36, 8u, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMineflshResID), 1u, 0, 0);
+    const AnimRecord& mineFlashrec = AnimRec(AnimId::Mine_Flash);
+    field_124_animation.Init_40A030(mineFlashrec.mFrameTableOffset, gObjList_animations_5C1A24, this, mineFlashrec.mMaxW, mineFlashrec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, mineFlashrec.mResourceId), 1u, 0, 0);
 
     field_124_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_124_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);

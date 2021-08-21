@@ -532,6 +532,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::MenuHighlight_ButtonRemapSquare, { "HIGHLITE.BAN", 13936, 150, 65, kHighliteResID, PalId::Default }, kNullAnimDetails },
 
     // just guessing the AnimId names
+    // probably STARTANIM.BND as well?
     {AnimId::MenuHighlight_Square, { "HIGHLITE.BAN", 13924, 150, 65, kHighliteResID, PalId::Default }, kNullAnimDetails },
     {AnimId::MenuHighlight_Triangle, { "HIGHLITE.BAN", 13900, 150, 65, kHighliteResID, PalId::Default }, kNullAnimDetails },
 
@@ -571,7 +572,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Background_Glukkon, kNullAnimDetails, { "GLUKKON.BND", 46096, 68, 60, kGlkbasicResID, PalId::Default} },
 
     // pTerminator1->field_20_animation.Set_Animation_Data_409C80(4068, 0);
-    // TODO: what is 4068?
+    // TODO: what is 4068 and 4168
 
     {AnimId::BirdPortal_Sparks, {"PORTAL.BND", 4256, 32, 69, kPortliteResID, PalId::Default}, kNullAnimDetails},
     {AnimId::BirdPortal_Flash, {"PORTAL.BND", 13576, 145, 74, kPortlitResID, PalId::Default}, kNullAnimDetails},
@@ -839,7 +840,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Desert_TrapDoor_Opening, kNullAnimDetails, { "D2TRAP.BAN", 2012, 99, 56, kP6c1trapResID, PalId::Default} },
     {AnimId::Desert_TrapDoor_Closing, kNullAnimDetails, { "D2TRAP.BAN", 1988, 99, 56, kP6c1trapResID, PalId::Default} },
 
-    {AnimId::UXB_Flash, {"UXB.BND", 544, 36, 21, kBombflshResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Bomb_Flash, {"BOMB.BND", 556, 36, 21, kBombflshResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Bomb_RedGreenTick, {"BOMB.BND", 544, 36, 21, kBombflshResID, PalId::Default}, kNullAnimDetails},
+
     {AnimId::UXB_Active,
         { "UXB.BND", 8048, 59, 19, kUXBResID, PalId::Default},
         { "UXB.BND", 7740, 59, 19, kUXBResID, PalId::Default}
@@ -861,18 +864,57 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     
     // TODO: add AE AnimId's for framtableoffset:
     // pTerminator: 4068, 4168,
-    // door anim 6616
-    // TimedMine.cpp 556
+    // barracks cage door anim, open to closed 6616
+    // barracks cage door anim, closed to open 6604
+
+    {AnimId::Dust_Particle, {"DUST.BAN", 4488, 61, 44, kDustResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Loading_Icon, {"LOADING.BAN", 900, 150, 65, kLoadingResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Vaporize_Particle, {"VAPOR.BAN", 5264, 61, 44, kVaporResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShootingFire_Particle, {"BIGFLASH.BAN", 960, 86, 17, kBigflashResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ChantOrb_Particle, {"OMMFLARE.BAN", 1632, 39, 21, kOmmflareResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::SquibSmoke_Particle, {"SQBSMK.BAN", 5084, 61, 44, kSquibSmokeResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Explosion_Rocks, {"DEBRIS00.BAN", 6484, 71, 36, kDebrisID00, PalId::Default}, kNullAnimDetails},
+    {AnimId::Explosion_Sticks, {"STICK.BAN", 1704, 49, 29, kStickGib, PalId::Default}, kNullAnimDetails},
+    {AnimId::Mine_Flash, {"MINE.BND", 400, 36, 8, kMineflshResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::OptionChantOrb_Particle, {"STARTANIM.BND", 4176, 92, 47, kOptionFlare, PalId::Default}, kNullAnimDetails},
+
+    // figure out the correct BAN/BND
+    {AnimId::ShootingZFire_Particle, {"STARTANIM.BND", 2832, 126, 44, kZflashResID, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::WaterDrop, {"WDROP.BAN", 104, 11, 7, kWaterDrop, PalId::Default}, kNullAnimDetails},
+    {AnimId::WaterSplash, {"SPLASH.BAN", 332, 17, 7, kSplashResID, PalId::Default}, kNullAnimDetails},
 
 
-    // 
+    // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
-     {"BREWBTN.BAN", 316, 19, 11, kBrewButtonResID_6016, PalId::Default},
+     {"BOMB.BND", 544, 36, 21, kBombflshResID, PalId::Default},
     { "WASP.BAN", 636, 7, 4, kWaspResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };
+
+void FrameTableOffsetExists(int frameTableOffset, bool isAe)
+{
+    for (const auto& entry : kAnimRecords)
+    {
+        if (isAe)
+        {
+            if (entry.mAEData.mFrameTableOffset == frameTableOffset)
+            {
+                return;
+            }
+        }
+        else
+        {
+            if (entry.mAOData.mFrameTableOffset == frameTableOffset)
+            {
+                return;
+            }
+        }
+    }
+    LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset);
+}
 
 static const PalRecord PalRec(bool isAe, PalId toFind)
 {

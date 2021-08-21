@@ -595,6 +595,19 @@ enum class AnimId
     HoistRock1,
     HoistRock2,
     HoistRock3,
+    Dust_Particle,
+    Loading_Icon,
+    Vaporize_Particle,
+    ShootingFire_Particle,
+    ChantOrb_Particle,
+    SquibSmoke_Particle,
+    Explosion_Rocks,
+    Explosion_Sticks,
+    Mine_Flash,
+    OptionChantOrb_Particle,
+    ShootingZFire_Particle,
+    WaterSplash,
+    WaterDrop,
     BrewMachine_Button,
     CrawlingSligLocker_Closed,
     CrawlingSligLocker_Open, 
@@ -725,7 +738,8 @@ enum class AnimId
     UXB_Active,
     UXB_Disabled,
     UXB_Toggle,
-    UXB_Flash,
+    Bomb_Flash,
+    Bomb_RedGreenTick,
     Well_Leaf,
     Work_Wheel_Idle,
     Work_Wheel_Turning,
@@ -792,6 +806,7 @@ struct CombinedAnimRecord final
 
 const PalRecord PalRec(PalId toFind);
 const AnimRecord AnimRec(AnimId toFind);
+void FrameTableOffsetExists(int frameTableOffset, bool isAe);
 
 namespace AO 
 {

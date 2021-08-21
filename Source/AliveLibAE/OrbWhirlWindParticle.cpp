@@ -12,10 +12,11 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_4E40C0(FP xpos, FP ypos, FP sca
 
     SetVTable(this, 0x5480D4);
 
-    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, TRUE, FALSE);
+    const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, TRUE, FALSE);
     field_108_res = ppRes;
 
-    field_8_Anim.Init_40A030(1632, gObjList_animations_5C1A24, 0, 39, 21, ppRes, 1, 0, 0);
+    field_8_Anim.Init_40A030(orbRec.mFrameTableOffset, gObjList_animations_5C1A24, 0, orbRec.mMaxW, orbRec.mMaxH, ppRes, 1, 0, 0);
 
     field_B6_unused = bIsMudokonSpirit;
 
