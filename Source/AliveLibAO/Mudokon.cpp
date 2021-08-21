@@ -2870,14 +2870,14 @@ s16 Mudokon::Brain_SingSequenceSing_3_441510()
         case 1:
             switch (Code_LookUp_476050(field_1A4, field_19E, field_1A8))
             {
-                case GameSpeakEvents::eWhistle1_1:
+                case GameSpeakEvents::eWhistleHigh_1:
                     field_FE_next_motion = eMudMotions::Motion_4_Speak_43D440;
-                    Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+                    Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, this);
                     break;
 
-                case GameSpeakEvents::eWhistle2_2:
+                case GameSpeakEvents::eWhistleLow_2:
                     field_FE_next_motion = eMudMotions::Motion_5_Speak_43D440;
-                    Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+                    Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, this);
                     break;
 
                 case GameSpeakEvents::eFart_3:
@@ -3788,10 +3788,10 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
 
                     switch (last_speak)
                     {
-                        case GameSpeakEvents::eWhistle1_1:
+                        case GameSpeakEvents::eWhistleHigh_1:
                             return 17;
 
-                        case GameSpeakEvents::eWhistle2_2:
+                        case GameSpeakEvents::eWhistleLow_2:
                             return 18;
 
                         case GameSpeakEvents::eFart_3:
@@ -4060,10 +4060,10 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
 
                 switch (speak)
                 {
-                    case GameSpeakEvents::eWhistle1_1:
+                    case GameSpeakEvents::eWhistleHigh_1:
                         return 17;
 
-                    case GameSpeakEvents::eWhistle2_2:
+                    case GameSpeakEvents::eWhistleLow_2:
                         return 18;
 
                     case GameSpeakEvents::eFart_3:
@@ -4215,7 +4215,7 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
         case 17:
             if (static_cast<s32>(gnFrameCount_507670) > field_1C0_timer)
             {
-                Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+                Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, this);
                 field_FE_next_motion = eMudMotions::Motion_4_Speak_43D440;
                 return field_1B0;
             }
@@ -4224,7 +4224,7 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
         case 18:
             if (static_cast<s32>(gnFrameCount_507670) > field_1C0_timer)
             {
-                Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+                Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, this);
                 field_FE_next_motion = eMudMotions::Motion_5_Speak_43D440;
                 return field_1B0;
             }

@@ -267,16 +267,16 @@ enum class AnimId
 
     Mudokon_Chant,
     Mudokon_ChantEnd,
-    Mudokon_Chisel_Mining,
+    Mudokon_Chisel,
     Mudokon_CrouchIdle,
-    Mudokon_Crouch_To_Duck,
+    Mudokon_ToDuck,
     Mudokon_CrouchToStand,
     Mudokon_CrouchTurn,
     Mudokon_Duck,
-    Mudokon_Duck_To_Crouch,
+    Mudokon_DuckToCrouch,
     Mudokon_Fall,
     Mudokon_KnockbackGetUp,
-    Mudokon_Hit_Self,
+    Mudokon_SlapOwnHead,
     Mudokon_HoistIdle,
     Mudokon_LandSoft,
     Mudokon_HoistBegin,
@@ -290,7 +290,7 @@ enum class AnimId
     Mudokon_Run_End_C,
     Mudokon_RunJumpMid,
     Mudokon_RunJumpBegin,
-    Mudokon_Scrub_Cleaning,
+    Mudokon_CrouchScrub,
     Mudokon_DunnoBegin,
     Mudokon_Shrug_End,
     Mudokon_Punch,
@@ -307,8 +307,8 @@ enum class AnimId
     Mudokon_WalkBegin,
     Mudokon_WalkToIdle,
     Mudokon_MidWalkToIdle,
-    Mudokon_Unknown_E,
-    Mudokon_Unknown_F,
+    Mudokon_StartChisel,
+    Mudokon_StopChisel,
     Mudokon_WalkToRun,
     Mudokon_MidWalkToRun,
     Mudokon_RunToWalk,
@@ -322,7 +322,7 @@ enum class AnimId
     Mudokon_MidSneakToIdle,
     Mudokon_StandingToRun,
     Mudokon_FallingFromGrab,
-    Mudokon_Unknown_T,
+    Mudokon_DuckKnockback,
     Mudokon_Walk,
     Mudokon_TurnWheel,
     Mudokon_TurnWheelEnd,
@@ -481,6 +481,10 @@ enum class AnimId
 
     AbeIntro,
 
+    MenuAbeSpeak_Laugh,
+    MenuAbeSpeak_WhistleHigh,
+    MenuAbeSpeak_WhistleLow,
+    MenuAbeSpeak_Fart,
     MenuAbeSpeak_Hello,
     MenuAbeSpeak_Idle,
     MenuAbeSpeak_IdleBlink,
@@ -750,6 +754,13 @@ enum class AnimId
     Zap_Line_Blue,
     Zap_Line_Red,
     Zap_Sparks,
+    GoldGlow,
+    GreenGlow,
+    FlintGlow,
+    GreenDoorLight,
+    GreenHubLight,
+    RedDoorLight,
+    RedHubLight,
 
     Anim_Tester, // For animation testing with the TestAnimation.cpp, ignore this.
 };
@@ -1071,7 +1082,7 @@ enum ResourceID
     kR1buttonResID = 6008,
     kR1bpipeResID = 6009,
     kGreenGlowResID_6010 = 6010, // AO only
-    kRedGlowResID_6011 = 6011,   // AO only
+    kGoldGlowResID_6011 = 6011,   // AO only
     kBayrollResID_6013 = 6013,
     kMeatGibResID_6014 = 6014, // AO only
     kBrewButtonResID_6016 = 6016,

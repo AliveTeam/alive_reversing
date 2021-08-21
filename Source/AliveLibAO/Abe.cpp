@@ -2009,8 +2009,8 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
     {
         if (input & sInputKey_GameSpeak6_4C65E8)
         {
-            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle1_1);
-            Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleHigh_1);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, this);
             if (field_FC_current_motion == eAbeMotions::Motion_9_Speak_42FA50)
             {
                 field_108_bMotionChanged = 1;
@@ -2019,8 +2019,8 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
         }
         if (input & sInputKey_GameSpeak5_4C65EC)
         {
-            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle2_2);
-            Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleLow_2);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, this);
             if (field_FC_current_motion == eAbeMotions::Motion_8_Speak_42F9D0)
             {
                 field_108_bMotionChanged = 1;
@@ -2361,14 +2361,14 @@ void Abe::CrouchingGameSpeak_427F90()
     {
         if (field_10C_prev_held & sInputKey_GameSpeak6_4C65E8)
         {
-            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle1_1);
-            Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleHigh_1);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, this);
             field_FC_current_motion = eAbeMotions::Motion_23_CrouchSpeak_428A90;
         }
         else if (field_10C_prev_held & sInputKey_GameSpeak5_4C65EC)
         {
-            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle2_2);
-            Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleLow_2);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, this);
             field_FC_current_motion = eAbeMotions::Motion_22_CrouchSpeak_428A30;
         }
         else if (field_10C_prev_held & sInputKey_GameSpeak8_4C65E0)
@@ -8647,13 +8647,13 @@ void Abe::Motion_103_ElumIdle_42DCD0()
         {
             if (Input().IsAnyHeld(sInputKey_GameSpeak6_4C65E8))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle1_1);
-                Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleHigh_1);
+                Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, this);
             }
             else if (Input().IsAnyHeld(sInputKey_GameSpeak5_4C65EC))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle2_2);
-                Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleLow_2);
+                Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, this);
             }
             else if (Input().IsAnyHeld(sInputKey_GameSpeak8_4C65E0))
             {

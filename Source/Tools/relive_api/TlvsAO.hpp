@@ -509,7 +509,7 @@ struct Path_LightEffect final : public TlvObjectBaseAO
         types.AddEnum<AO::Path_LightEffect::Type>("Enum_LightType",
                                                   {
                                                       {AO::Path_LightEffect::Type::Star_0, "Star"},
-                                                      {AO::Path_LightEffect::Type::RedGlow_1, "RedGlow"},
+                                                      {AO::Path_LightEffect::Type::GoldGlow_1, "GoldGlow"},
                                                       {AO::Path_LightEffect::Type::GreenGlow_2, "GreenGlow"},
                                                       {AO::Path_LightEffect::Type::FlintGlow_3, "FlintGlow"},
                                                       {AO::Path_LightEffect::Type::Switchable_RedGreenDoorLights_4, "RedGreenDoorLight"},

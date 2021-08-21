@@ -94,7 +94,8 @@ void CC New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, Layer layer)
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
-        pParticle->ctor_478880(xpos, ypos, 1492, 38, 21, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0));
+        const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
+        pParticle->ctor_478880(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0));
         pParticle->field_CC_bApplyShadows &= ~1u;
         pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
 
@@ -117,11 +118,12 @@ void CC New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, Layer layer)
 
 void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
+    const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
-        pParticle->ctor_478880(xpos, ypos, 1492, 38, 21, ppRes);
+        pParticle->ctor_478880(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ppRes);
 
         pParticle->field_CC_bApplyShadows &= ~1u;
         pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;

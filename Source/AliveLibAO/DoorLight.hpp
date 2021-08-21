@@ -11,7 +11,7 @@ struct Path_LightEffect final : public Path_TLV
     enum class Type : s16
     {
         Star_0 = 0,
-        RedGlow_1 = 1,
+        GoldGlow_1 = 1,
         GreenGlow_2 = 2,
         FlintGlow_3 = 3,
         Switchable_RedGreenDoorLights_4 = 4,

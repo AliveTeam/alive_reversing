@@ -1948,8 +1948,8 @@ void Slig::GameSpeakResponse_46ED60()
 
     switch (speak)
     {
-        case GameSpeakEvents::eWhistle1_1:
-        case GameSpeakEvents::eWhistle2_2:
+        case GameSpeakEvents::eWhistleHigh_1:
+        case GameSpeakEvents::eWhistleLow_2:
             if (!(Math_NextRandom() & 4))
             {
                 field_258_next_gamespeak_motion = eSligMotions::Motion_26_SpeakBullshit1_467F90;

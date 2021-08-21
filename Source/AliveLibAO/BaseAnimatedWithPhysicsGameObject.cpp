@@ -8,6 +8,7 @@
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
 #include "ResourceManager.hpp"
+#include "AnimResources.hpp"
 
 namespace AO {
 
@@ -60,6 +61,7 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
 
 void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList)
 {
+    FrameTableOffsetExists(frameTableOffset, false);
     const auto init = field_10_anim.Init_402D20(
         frameTableOffset,
         gObjList_animations_505564,
