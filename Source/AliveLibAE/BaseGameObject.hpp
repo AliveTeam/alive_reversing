@@ -32,7 +32,7 @@ enum class AETypes : s16
     eLaughingGas_31 = 31,
     eDoor_33 = 33,
     eDoorLock_34 = 34,
-    eBird_35 = 35,
+    eDove_35 = 35,
     eGameSpeak_38 = 38,
     eElectricWall_39 = 39,
     ePalOverwriter_44 = 44,

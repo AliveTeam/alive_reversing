@@ -2108,7 +2108,7 @@ EXPORT void CC Factory_TorturedMudokon_4D8430(Path_TLV* pTlv, Path*, TlvItemInfo
         if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
         {
             gMap_5C3030.LoadResource_4DBE00("MUDTORT.BAN", ResourceManager::Resource_Animation, ResourceID::kTorturedMud, loadMode);
-            gMap_5C3030.LoadResource_4DBE00("TEARS.BAN", ResourceManager::Resource_Animation, 375, loadMode); // TODO: Add ID
+            gMap_5C3030.LoadResource_4DBE00("TEARS.BAN", ResourceManager::Resource_Animation, ResourceID::kTorturedMudTearsResID, loadMode);
             gMap_5C3030.LoadResource_4DBE00("ELECWALL.BAN", ResourceManager::Resource_Animation, ResourceID::kElecwallResID, loadMode);
         }
         else
@@ -2126,7 +2126,7 @@ EXPORT void CC Factory_TrainDoor_4D6E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
 {
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("TRAINDOR.BAN", ResourceManager::Resource_Animation, 2013, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("TRAINDOR.BAN", ResourceManager::Resource_Animation, ResourceID::kTrainDoorResID_2013, loadMode);
     }
     else
     {

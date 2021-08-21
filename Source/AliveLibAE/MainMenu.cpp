@@ -814,7 +814,8 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
         if (field_230_target_entry_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
         {
             // Spawn chant star/flare particle at random locations around abes head
-            field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptionFlare, FALSE, FALSE);
+            const AnimRecord& flareRec = AnimRec(AnimId::OptionChantOrb_Particle);
+            field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, flareRec.mResourceId, FALSE, FALSE);
             Particle* pParticle = ae_new<Particle>();
             if (pParticle)
             {
@@ -828,9 +829,9 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
                 pParticle->ctor_4CC4C0(
                     xpos,
                     ypos,
-                    4176, // frame table
-                    92,   // max w
-                    47,   // max h
+                    flareRec.mFrameTableOffset,
+                    flareRec.mMaxW,
+                    flareRec.mMaxH,
                     field_F4_resources.field_0_resources[MenuResIds::eOptionFlare]);
 
                 if (pParticle)

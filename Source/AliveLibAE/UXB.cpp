@@ -37,8 +37,8 @@ void UXB_ForceLink()
 
 void UXB::InitBlinkAnim_4DEED0(Animation* pAnimation)
 {
-    const AnimRecord& rec = AnimRec(AnimId::UXB_Flash);
-    if (pAnimation->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, 36, 21, Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1u, 0, 0))
+    const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
+    if (pAnimation->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1u, 0, 0))
     {
         pAnimation->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnimation->field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -185,7 +185,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         {
             field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
-            const AnimRecord& flashRec = AnimRec(AnimId::UXB_Flash);
+            const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
             field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
             PlaySFX_4DE930(SoundEffect::GreenTick_2);
 
@@ -209,7 +209,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         {
             field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
-            const AnimRecord& flashRec = AnimRec(AnimId::UXB_Flash);
+            const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
             field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
 
             const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
@@ -284,7 +284,7 @@ EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
             }
             else
             {
-                const AnimRecord& flashRec = AnimRec(AnimId::UXB_Flash);
+                const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
                 field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
                 PlaySFX_4DE930(SoundEffect::GreenTick_2);
 
@@ -410,8 +410,9 @@ void UXB::Update_4DF030()
             }
             else if (field_124_next_state_frame <= sGnFrame_5C1B84)
             {
+                const AnimRecord& flashRec = AnimRec(AnimId::Bomb_Flash);
                 field_118_state = UXBState::eActive_1;
-                field_128_animation.Set_Animation_Data_409C80(556, 0);
+                field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
                 field_124_next_state_frame = sGnFrame_5C1B84 + 2;
             }
             break;
@@ -456,7 +457,7 @@ void UXB::Update_4DF030()
                     field_1C6_red_blink_count = (field_1C4_pattern / static_cast<s32>(pow(10, field_1C0_pattern_length - field_1C2_pattern_index - 1))) % 10;
                 }
 
-                const AnimRecord& rec = AnimRec(AnimId::UXB_Flash);
+                const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
                 field_128_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
 
                 if (field_1C8_flags.Get(UXB_Flags_1C8::eIsRed_Bit1))
@@ -622,8 +623,8 @@ EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
     if (pSaveState->field_C_state == UXBState::eDeactivated_3)
     {
         pUXB->field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
-        const AnimRecord& flashRec = AnimRec(AnimId::UXB_Flash);
-        pUXB->field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
+        const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
+        pUXB->field_128_animation.Set_Animation_Data_409C80(tickRec.mFrameTableOffset, 0);
         const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
         pUXB->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }

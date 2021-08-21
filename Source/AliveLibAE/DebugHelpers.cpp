@@ -2013,8 +2013,10 @@ public:
 private:
     void Init()
     {
-        ResourceManager::LoadResourceFile_49C170("LOADING.BAN", nullptr);
-        ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
+        const AnimRecord& loadingRec = AnimRec(AnimId::Loading_Icon);
+        const AnimRecord& abeGibRec = AnimRec(AnimId::Abe_Body_Gib);
+        ResourceManager::LoadResourceFile_49C170(loadingRec.mBanName, nullptr);
+        ResourceManager::LoadResourceFile_49C170(abeGibRec.mBanName, nullptr);
 
         for (s32 i = 0; i < 5; i++)
         {
@@ -2023,14 +2025,14 @@ private:
             if (i < 2)
             {
                 // 4 bit
-                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kLoadingResID, TRUE, FALSE);
-                mAnim[i].Init_40A030(900, gObjList_animations_5C1A24, this, 150, 0x41u, mAnimRes[i], 1, 0, 0);
+                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, loadingRec.mResourceId, TRUE, FALSE);
+                mAnim[i].Init_40A030(loadingRec.mFrameTableOffset, gObjList_animations_5C1A24, this, loadingRec.mMaxW, loadingRec.mMaxH, mAnimRes[i], 1, 0, 0);
             }
             else
             {
                 // 8 bit
-                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, TRUE, FALSE);
-                mAnim[i].Init_40A030(7812, gObjList_animations_5C1A24, this, 50, 25, mAnimRes[i], 1, 0, 0);
+                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, abeGibRec.mResourceId, TRUE, FALSE);
+                mAnim[i].Init_40A030(abeGibRec.mFrameTableOffset, gObjList_animations_5C1A24, this, abeGibRec.mMaxW, abeGibRec.mMaxH, mAnimRes[i], 1, 0, 0);
             }
             // No 16 bit test case because there are simply no 16bit sprites at all in the game data
 

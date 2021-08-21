@@ -211,7 +211,8 @@ void TimedMine::Render_410CD0(PrimHeader** ppOt)
 
 void TimedMine::InitBlinkAnimation_4108E0(Animation* pAnimation)
 {
-    if (pAnimation->Init_40A030(544, gObjList_animations_5C1A24, this, 36, 0x15u, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBombflshResID), 1, 0, 0))
+    const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
+    if (pAnimation->Init_40A030(tickRec.mFrameTableOffset, gObjList_animations_5C1A24, this, tickRec.mMaxW, tickRec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, tickRec.mResourceId), 1, 0, 0))
     {
         pAnimation->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnimation->field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -378,8 +379,9 @@ void TimedMine::vOnPickUpOrSlapped_410E30()
         field_1BC_gnFrame_2 = sGnFrame_5C1B84;
         const AnimRecord& animRec = AnimRec(AnimId::TimedMine_Activated);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        const AnimRecord& flashRec = AnimRec(AnimId::Bomb_Flash);
         field_120_gnframe = sGnFrame_5C1B84 + field_11A_explode_timeout;
-        field_124_animation.Set_Animation_Data_409C80(556, 0);
+        field_124_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
         SFX_Play_46FA90(SoundEffect::GreenTick_2, 0);
     }
 }

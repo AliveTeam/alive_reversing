@@ -8,6 +8,7 @@
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "AnimResources.hpp"
 
 BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize)
 {
@@ -166,6 +167,7 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
 
 void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData)
 {
+    FrameTableOffsetExists(frameTableOffset, true);
     if (field_20_animation.Init_40A030(
             frameTableOffset,
             gObjList_animations_5C1A24,
