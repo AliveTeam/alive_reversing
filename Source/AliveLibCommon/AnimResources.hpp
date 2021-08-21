@@ -750,6 +750,13 @@ enum class AnimId
     Zap_Line_Blue,
     Zap_Line_Red,
     Zap_Sparks,
+    GoldGlow,
+    GreenGlow,
+    FlintGlow,
+    GreenDoorLight,
+    GreenHubLight,
+    RedDoorLight,
+    RedHubLight,
 
     Anim_Tester, // For animation testing with the TestAnimation.cpp, ignore this.
 };
@@ -1071,7 +1078,7 @@ enum ResourceID
     kR1buttonResID = 6008,
     kR1bpipeResID = 6009,
     kGreenGlowResID_6010 = 6010, // AO only
-    kRedGlowResID_6011 = 6011,   // AO only
+    kGoldGlowResID_6011 = 6011,   // AO only
     kBayrollResID_6013 = 6013,
     kMeatGibResID_6014 = 6014, // AO only
     kBrewButtonResID_6016 = 6016,

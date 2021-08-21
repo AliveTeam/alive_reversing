@@ -278,7 +278,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_LiftUseDown, { "ABELIFT.BAN", 22496, 135, 80, kAbeliftResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_PoisonGasDeath, { "ABEGAS.BAN", 28824, 135, 80, kAbegasResID, PalId::Default}, kNullAnimDetails },
 
-    {AnimId::Mudokon_Idle, { "ABEBSIC1.BAN", 58888, 135, 80, kAbebsic1ResID, PalId::Default}, kNullAnimDetails },
+    // TODO: check AO maxW/maxH
+    {AnimId::Mudokon_Idle, 
+        { "ABEBSIC1.BAN", 58888, 135, 80, kAbebsic1ResID, PalId::Default}, 
+        {"ABEBSIC1.BAN", 55968, 121, 79, kAbebsic1ResID, PalId::Default}},
     {AnimId::Mudokon_Walk, { "ABEBSIC1.BAN", 58808, 135, 80, kAbebsic1ResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_StandingTurn, { "ABEBSIC1.BAN", 59064, 135, 80, kAbebsic1ResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_Speak1, { "ABEBSIC1.BAN", 59028, 135, 80, kAbebsic1ResID, PalId::Default}, kNullAnimDetails },
@@ -290,8 +293,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_MidWalkToIdle, { "ABEBSIC1.BAN", 58748, 135, 80, kAbebsic1ResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_LeverUse, { "ABEPULL.BAN", 11396, 135, 80, kAbepullResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_Chisel, { "MUDCHSL.BAN", 5276, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Mudokon_StartChisel, { "MUDCHSL.BAN", 5308, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails }, // might be scrubbing anim
-    {AnimId::Mudokon_StopChisel, { "MUDCHSL.BAN", 5320, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails }, // ^
+    {AnimId::Mudokon_StartChisel, { "MUDCHSL.BAN", 5308, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Mudokon_StopChisel, { "MUDCHSL.BAN", 5320, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_CrouchScrub, { "MUDSCRUB.BAN", 9388, 135, 80, kMudscrubResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_CrouchIdle, { "ABEBSIC.BAN", 270092, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_CrouchTurn, { "ABEBSIC.BAN", 270428, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
@@ -581,6 +584,25 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "PORTAL.BND", 3860, 31, 18, kPortalTerminatorID, PalId::Default}
     },
 
+    {AnimId::Dust_Particle, {"DUST.BAN", 4488, 61, 44, kDustResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Loading_Icon, {"LOADING.BAN", 900, 150, 65, kLoadingResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Vaporize_Particle, {"VAPOR.BAN", 5264, 61, 44, kVaporResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShootingFire_Particle, {"BIGFLASH.BAN", 960, 86, 17, kBigflashResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ChantOrb_Particle, 
+        {"OMMFLARE.BAN", 1632, 39, 21, kOmmflareResID, PalId::Default},
+        {"OMMFLARE.BAN", 1492, 38, 21, kOmmflareResID, PalId::Default}},
+    {AnimId::SquibSmoke_Particle, {"SQBSMK.BAN", 5084, 61, 44, kSquibSmokeResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Explosion_Rocks, {"DEBRIS00.BAN", 6484, 71, 36, kDebrisID00, PalId::Default}, kNullAnimDetails},
+    {AnimId::Explosion_Sticks, {"STICK.BAN", 1704, 49, 29, kStickGib, PalId::Default}, kNullAnimDetails},
+    {AnimId::Mine_Flash, {"MINE.BND", 400, 36, 8, kMineflshResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::OptionChantOrb_Particle, {"STARTANIM.BND", 4176, 92, 47, kOptionFlare, PalId::Default}, kNullAnimDetails},
+
+    // figure out the correct BAN/BND
+    {AnimId::ShootingZFire_Particle, {"STARTANIM.BND", 2832, 126, 44, kZflashResID, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::WaterDrop, {"WDROP.BAN", 104, 11, 7, kWaterDrop, PalId::Default}, kNullAnimDetails},
+    {AnimId::WaterSplash, {"SPLASH.BAN", 332, 17, 7, kSplashResID, PalId::Default}, kNullAnimDetails},
+
     {AnimId::HoistRock1, {"DRPROCK.BAN", 204, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
     {AnimId::HoistRock2, {"DRPROCK.BAN", 180, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
     {AnimId::HoistRock3, {"DRPROCK.BAN", 192, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
@@ -866,22 +888,16 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::BG_Feeco_Small_Fan, { "FDP01C01.CAM", 4208, 57, 28, 1202, PalId::Default}, kNullAnimDetails },
     {AnimId::BG_Heat_Extractor_Fan, { "MIP04C18.CAM", 7104, 89, 24, 1204, PalId::Default}, kNullAnimDetails },
 
-    {AnimId::Dust_Particle, {"DUST.BAN", 4488, 61, 44, kDustResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::Loading_Icon, {"LOADING.BAN", 900, 150, 65, kLoadingResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::Vaporize_Particle, {"VAPOR.BAN", 5264, 61, 44, kVaporResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::ShootingFire_Particle, {"BIGFLASH.BAN", 960, 86, 17, kBigflashResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::ChantOrb_Particle, {"OMMFLARE.BAN", 1632, 39, 21, kOmmflareResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::SquibSmoke_Particle, {"SQBSMK.BAN", 5084, 61, 44, kSquibSmokeResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::Explosion_Rocks, {"DEBRIS00.BAN", 6484, 71, 36, kDebrisID00, PalId::Default}, kNullAnimDetails},
-    {AnimId::Explosion_Sticks, {"STICK.BAN", 1704, 49, 29, kStickGib, PalId::Default}, kNullAnimDetails},
-    {AnimId::Mine_Flash, {"MINE.BND", 400, 36, 8, kMineflshResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::OptionChantOrb_Particle, {"STARTANIM.BND", 4176, 92, 47, kOptionFlare, PalId::Default}, kNullAnimDetails},
 
-    // figure out the correct BAN/BND
-    {AnimId::ShootingZFire_Particle, {"STARTANIM.BND", 2832, 126, 44, kZflashResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::GoldGlow, kNullAnimDetails, {"GOLDGLOW.BAN", 236, 19, 15, kGoldGlowResID_6011, PalId::Default}},
+    {AnimId::GreenGlow, kNullAnimDetails, {"GRENGLOW.BAN", 96, 5, 6, kGreenGlowResID_6010, PalId::Default}},
+    {AnimId::FlintGlow, kNullAnimDetails, {"FLNT.BAN", 756, 59, 54, kFlintGlowResID_6028, PalId::Default}},
 
-    {AnimId::WaterDrop, {"WDROP.BAN", 104, 11, 7, kWaterDrop, PalId::Default}, kNullAnimDetails},
-    {AnimId::WaterSplash, {"SPLASH.BAN", 332, 17, 7, kSplashResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::GreenDoorLight, kNullAnimDetails, {"HUBLIGHT.BAN", 448, 20, 11, kGreenDoorLightResID_6031, PalId::Default}},
+    {AnimId::GreenHubLight, kNullAnimDetails, {"HUBLIGHT.BAN", 460, 20, 11, kGreenDoorLightResID_6031, PalId::Default}},
+
+    {AnimId::RedDoorLight, kNullAnimDetails, {"HUBRED.BAN", 460, 20, 11, kRedDoorLightResID_6032, PalId::Default}},
+    {AnimId::RedHubLight, kNullAnimDetails, {"HUBRED.BAN", 448, 20, 11, kRedDoorLightResID_6032, PalId::Default}},
 
 
     // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester

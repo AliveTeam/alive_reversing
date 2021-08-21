@@ -2398,8 +2398,8 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
                 ResourceManager::LoadResource_446C90("STAR.BAN", ResourceManager::Resource_Animation, ResourceID::kBGStarResID, loadMode);
                 break;
 
-            case Path_LightEffect::Type::RedGlow_1:
-                ResourceManager::LoadResource_446C90("GOLDGLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRedGlowResID_6011, loadMode);
+            case Path_LightEffect::Type::GoldGlow_1:
+                ResourceManager::LoadResource_446C90("GOLDGLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kGoldGlowResID_6011, loadMode);
                 break;
 
             case Path_LightEffect::Type::GreenGlow_2:
@@ -2439,9 +2439,9 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
                 break;
             }
 
-            case Path_LightEffect::Type::RedGlow_1:
+            case Path_LightEffect::Type::GoldGlow_1:
             {
-                ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kRedGlowResID_6011);
+                ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kGoldGlowResID_6011);
                 auto pLight = ao_new<DoorLight>();
                 if (pLight)
                 {
