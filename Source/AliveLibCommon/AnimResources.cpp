@@ -480,7 +480,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::CrawlingSligButtonUse, {"CSLGBUTN.BAN", 420, 25, 12, kCrawlingSligButtonResID_1057, PalId::Default}, kNullAnimDetails},
 
     // main menu gamespeak
-    // use normal abespeak resource id?
     {AnimId::MenuAbeSpeak_Laugh, kNullAnimDetails, {"ABESPEAK.BAN", 2115576, 134, 90, kAbespeakResID, PalId::Default}},
     {AnimId::MenuAbeSpeak_WhistleHigh, kNullAnimDetails, {"ABESPEAK.BAN", 2115712, 134, 90, kAbespeakResID, PalId::Default}},
     {AnimId::MenuAbeSpeak_WhistleLow, kNullAnimDetails, {"ABESPEAK.BAN", 2115824, 134, 90, kAbespeakResID, PalId::Default}},
