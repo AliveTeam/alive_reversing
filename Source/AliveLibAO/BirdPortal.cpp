@@ -85,7 +85,7 @@ BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP sca
 
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::BirdPortal_Terminator);
+    const AnimRecord rec = AO::AnimRec(AnimId::BirdPortal_TerminatorShrink);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     
@@ -466,24 +466,24 @@ void BirdPortal::VUpdate_4523D0()
                 }
 
                 field_30_timer = gnFrameCount_507670 + 15;
-                field_14_state = PortalStates::JoinBirdsInCenter_2;
+                field_14_state = PortalStates::JoinDovesInCenter_2;
                 Event_Broadcast_417220(18, this);
                 SFX_Play_43AD70(SoundEffect::Dove_16, 70, 0);
             }
         }
         break;
 
-        case PortalStates::JoinBirdsInCenter_2:
+        case PortalStates::JoinDovesInCenter_2:
             Event_Broadcast_417220(kEvent_18, this);
             if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
             {
                 CreateTerminators();
                 field_30_timer = gnFrameCount_507670 + 5;
-                field_14_state = PortalStates::KillBirds_3;
+                field_14_state = PortalStates::KillDoves_3;
             }
             break;
 
-        case PortalStates::KillBirds_3:
+        case PortalStates::KillDoves_3:
             Event_Broadcast_417220(kEvent_18, this);
             if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
             {

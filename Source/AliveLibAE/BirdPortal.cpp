@@ -158,7 +158,7 @@ void BirdPortal::vUpdate_498280()
                     }
                 }
 
-                field_28_state = PortalStates::JoinBirdsInCenter_2;
+                field_28_state = PortalStates::JoinDovesInCenter_2;
                 field_5C_timer = sGnFrame_5C1B84 + 15;
                 Event_Broadcast_422BC0(GetEvent_499A70(), this);
                 SFX_Play_46FA90(SoundEffect::Dove_13, 70, field_60_scale);
@@ -186,17 +186,17 @@ void BirdPortal::vUpdate_498280()
             }
             break;
 
-        case PortalStates::JoinBirdsInCenter_2:
+        case PortalStates::JoinDovesInCenter_2:
             Event_Broadcast_422BC0(GetEvent_499A70(), this);
             if (static_cast<s32>(sGnFrame_5C1B84) > field_5C_timer)
             {
                 CreateTerminators_497D10();
-                field_28_state = PortalStates::KillBirds_3;
+                field_28_state = PortalStates::KillDoves_3;
                 field_5C_timer = sGnFrame_5C1B84 + 5;
             }
             break;
 
-        case PortalStates::KillBirds_3:
+        case PortalStates::KillDoves_3:
             Event_Broadcast_422BC0(GetEvent_499A70(), this);
             if (static_cast<s32>(sGnFrame_5C1B84) > field_5C_timer)
             {
@@ -216,8 +216,9 @@ void BirdPortal::vUpdate_498280()
             Event_Broadcast_422BC0(GetEvent_499A70(), this);
             if (pTerminator1->field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                pTerminator1->field_20_animation.Set_Animation_Data_409C80(4068, 0);
-                pTerminator2->field_20_animation.Set_Animation_Data_409C80(4068, 0);
+                const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorIdle);
+                pTerminator1->field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
+                pTerminator2->field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
                 field_5C_timer = sGnFrame_5C1B84 + 12;
                 field_28_state = PortalStates::ExpandTerminators_5;
                 field_90_sfx_ret = SFX_Play_46FA90(SoundEffect::PortalOpening_58, 0, field_60_scale);
@@ -485,8 +486,9 @@ void BirdPortal::vUpdate_498280()
         case PortalStates::PortalExit_CreateTerminators_18:
             if (pTerminator1->field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                pTerminator1->field_20_animation.Set_Animation_Data_409C80(4068, 0);
-                pTerminator2->field_20_animation.Set_Animation_Data_409C80(4068, 0);
+                const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorIdle);
+                pTerminator1->field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
+                pTerminator2->field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
                 field_28_state = PortalStates::PortalExit_ExpandTerminators_19;
                 field_5C_timer = sGnFrame_5C1B84 + 12;
             }
@@ -504,8 +506,9 @@ void BirdPortal::vUpdate_498280()
         case PortalStates::KillPortalClipper_21:
             if (static_cast<s32>(sGnFrame_5C1B84) > field_5C_timer)
             {
-                pTerminator1->field_20_animation.Set_Animation_Data_409C80(4168, 0);
-                pTerminator2->field_20_animation.Set_Animation_Data_409C80(4168, 0);
+                const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorGrow);
+                pTerminator1->field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
+                pTerminator2->field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
                 field_28_state = PortalStates::FadeoutTerminators_22;
                 field_5C_timer = sGnFrame_5C1B84 + 30;
 
@@ -740,8 +743,8 @@ s32 CC BirdPortal::CreateFromSaveState_499C90(const u8* pBuffer)
     const auto savedState = static_cast<PortalStates>(pSaveState->field_2_state);
     switch (savedState)
     {
-        case PortalStates::JoinBirdsInCenter_2:
-        case PortalStates::KillBirds_3:
+        case PortalStates::JoinDovesInCenter_2:
+        case PortalStates::KillDoves_3:
         case PortalStates::CreateTerminators_4:
         case PortalStates::ExpandTerminators_5:
         case PortalStates::ActivePortal_6:
@@ -1110,7 +1113,8 @@ void BirdPortal::CreateDovesAndShrykullNumber_497B50()
         auto pDove = ae_new<Dove>();
         if (pDove)
         {
-            pDove->ctor_41F660(5516, 41, 20u, 60, field_2C_xpos, field_30_ypos, field_60_scale);
+            const AnimRecord& doveRec = AnimRec(AnimId::Dove_Flying);
+            pDove->ctor_41F660(doveRec.mFrameTableOffset, doveRec.mMaxW, doveRec.mMaxH, doveRec.mResourceId, field_2C_xpos, field_30_ypos, field_60_scale);
         }
         field_44_dove_ids[i] = pDove->field_8_object_id;
 
@@ -1212,7 +1216,7 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP
 
     field_4_typeId = AETypes::eEyeOrbPart_74;
 
-    const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Terminator);
+    const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorShrink);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 

@@ -21,23 +21,23 @@ struct Door_Info final
 };
 ALIVE_ASSERT_SIZEOF(Door_Info, 0x10);
 
-const AnimId sDoorFrameTable[16][2] = {
-    {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Closing},
-    {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Closing},
-    {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Closing},
-    {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Closing},
-    {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Closing},
-    {AnimId::Door_Feeco_Closed, AnimId::Door_Feeco_Closing},
-    {AnimId::Door_Barracks_Closed, AnimId::Door_Barracks_Closing},
-    {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Closing},
-    {AnimId::Door_Bonewerkz_Closed, AnimId::Door_Bonewerkz_Closing},
-    {AnimId::Door_Brewery_Closed, AnimId::Door_Brewery_Closing},
-    {AnimId::Door_Brewery_Closed, AnimId::Door_Brewery_Closing},
-    {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Closing},
-    {AnimId::Door_Feeco_Closed, AnimId::Door_Feeco_Closing},
-    {AnimId::Door_Barracks_Closed, AnimId::Door_Barracks_Closing},
-    {AnimId::Door_Bonewerkz_Closed, AnimId::Door_Bonewerkz_Closing},
-    {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Closing}};
+const AnimId sDoorAnimIdTable_544888[16][2] = {
+    {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Open},
+    {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Open},
+    {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Open},
+    {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Open},
+    {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Open},
+    {AnimId::Door_Feeco_Closed, AnimId::Door_Feeco_Open},
+    {AnimId::Door_Barracks_Closed, AnimId::Door_Barracks_Open},
+    {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Open},
+    {AnimId::Door_Bonewerkz_Closed, AnimId::Door_Bonewerkz_Open},
+    {AnimId::Door_Brewery_Closed, AnimId::Door_Brewery_Open},
+    {AnimId::Door_Brewery_Closed, AnimId::Door_Brewery_Open},
+    {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Open},
+    {AnimId::Door_Feeco_Closed, AnimId::Door_Feeco_Open},
+    {AnimId::Door_Barracks_Closed, AnimId::Door_Barracks_Open},
+    {AnimId::Door_Bonewerkz_Closed, AnimId::Door_Bonewerkz_Open},
+    {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Open}};
 
 
 Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
@@ -197,10 +197,10 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
         field_102_hub_ids[7] = pTlvData->field_22_hub8;
     }
 
-    const AnimRecord& rec_open = AnimRec(sDoorFrameTable[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
-    const AnimRecord& rec_closed = AnimRec(sDoorFrameTable[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
+    const AnimRecord& closedRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
+    const AnimRecord& openRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID);
-    if (!ppRes || rec_closed.mFrameTableOffset == 0)
+    if (!ppRes || openRec.mFrameTableOffset == 0)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -211,22 +211,24 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
     {
         if (gMap_5C3030.field_22_overlayID == 108)
         {
-            Animation_Init_424E10(6616, 51, 62, ppRes, 1, 1u); // Not sure what this door animation is but it crashes on all maps
+            const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
+            Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
         }
         else
         {
-            Animation_Init_424E10(rec_closed.mFrameTableOffset, rec_closed.mMaxW, rec_closed.mMaxH, ppRes, 1, 1u);
+            Animation_Init_424E10(openRec.mFrameTableOffset, openRec.mMaxW, openRec.mMaxH, ppRes, 1, 1u);
         }
     }
     else
     {
         if (gMap_5C3030.field_22_overlayID == 108)
         {
-            Animation_Init_424E10(6604, 51, 62, ppRes, 1, 1u); // Same as above
+            const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Closed);
+            Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
         }
         else
         {
-            Animation_Init_424E10(rec_open.mFrameTableOffset, rec_open.mMaxW, rec_open.mMaxH, ppRes, 1, 1u);
+            Animation_Init_424E10(closedRec.mFrameTableOffset, closedRec.mMaxW, closedRec.mMaxH, ppRes, 1, 1u);
         }
     }
 
@@ -435,11 +437,12 @@ void Door::vUpdate_41EBE0()
                     field_FC_current_state = Door::eStates::eClosing_3;
                     if (gMap_5C3030.field_22_overlayID == 108)
                     {
-                        field_20_animation.Set_Animation_Data_409C80(6616, nullptr);
+                        const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
+                        field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
                     }
                     else
                     {
-                        const AnimRecord& animRec = AnimRec(sDoorFrameTable[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
+                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
                         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                     }
 
@@ -457,11 +460,12 @@ void Door::vUpdate_41EBE0()
                     field_FC_current_state = Door::eStates::eOpening_2;
                     if (gMap_5C3030.field_22_overlayID == 108)
                     {
-                        field_20_animation.Set_Animation_Data_409C80(6616, nullptr);
+                        const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
+                        field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
                     }
                     else
                     {
-                        const AnimRecord& animRec = AnimRec(sDoorFrameTable[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
+                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
                         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                     }
 

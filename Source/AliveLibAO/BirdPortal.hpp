@@ -109,8 +109,8 @@ public:
     {
         CreatePortal_0 = 0,
         IdlePortal_1 = 1,
-        JoinBirdsInCenter_2 = 2,
-        KillBirds_3 = 3,
+        JoinDovesInCenter_2 = 2,
+        KillDoves_3 = 3,
         CreateTerminators_4 = 4,
         ExpandTerminators_5 = 5,
         ActivePortal_6 = 6,
