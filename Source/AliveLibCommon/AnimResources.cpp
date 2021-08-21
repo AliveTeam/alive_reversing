@@ -289,10 +289,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_WalkToIdle, { "ABEBSIC1.BAN", 58788, 135, 80, kAbebsic1ResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_MidWalkToIdle, { "ABEBSIC1.BAN", 58748, 135, 80, kAbebsic1ResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_LeverUse, { "ABEPULL.BAN", 11396, 135, 80, kAbepullResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Mudokon_Chisel_Mining, { "MUDCHSL.BAN", 5276, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Mudokon_Unknown_E, { "MUDCHSL.BAN", 5308, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails }, // might be scrubbing anim
-    {AnimId::Mudokon_Unknown_F, { "MUDCHSL.BAN", 5320, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails }, // ^
-    {AnimId::Mudokon_Scrub_Cleaning, { "MUDSCRUB.BAN", 9388, 135, 80, kMudscrubResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Mudokon_Chisel, { "MUDCHSL.BAN", 5276, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Mudokon_StartChisel, { "MUDCHSL.BAN", 5308, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails }, // might be scrubbing anim
+    {AnimId::Mudokon_StopChisel, { "MUDCHSL.BAN", 5320, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails }, // ^
+    {AnimId::Mudokon_CrouchScrub, { "MUDSCRUB.BAN", 9388, 135, 80, kMudscrubResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_CrouchIdle, { "ABEBSIC.BAN", 270092, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_CrouchTurn, { "ABEBSIC.BAN", 270428, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_StandToCrouch, { "ABEBSIC.BAN", 269876, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
@@ -329,11 +329,11 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_FallingFromGrab, { "ABEEDGE.BAN", 32012, 135, 80, kAbeedgeResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_Chant, { "ABEOMM.BAN", 9992, 135, 80, kAbeommResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_ChantEnd, { "ABEOMM.BAN", 10040, 135, 80, kAbeommResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Mudokon_Crouch_To_Duck, { "MUDWORK.BND", 5236, 135, 80, kMudoduckResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Mudokon_ToDuck, { "MUDWORK.BND", 5236, 135, 80, kMudoduckResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_Duck, { "MUDWORK.BND", 5256, 135, 80, kMudoduckResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Mudokon_Duck_To_Crouch, { "MUDWORK.BND", 5280, 135, 80, kMudoduckResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Mudokon_Unknown_T, { "MUDBTLNK.BAN", 5328, 135, 80, kMudbtlnkResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Mudokon_Hit_Self, { "MUDIDLE.BAN", 9640, 135, 80, kMudidleResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Mudokon_DuckToCrouch, { "MUDWORK.BND", 5280, 135, 80, kMudoduckResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Mudokon_DuckKnockback, { "MUDBTLNK.BAN", 5328, 135, 80, kMudbtlnkResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Mudokon_SlapOwnHead, { "MUDIDLE.BAN", 9640, 135, 80, kMudidleResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_TurnWheelBegin, { "ABEWORK.BAN", 11856, 135, 80, kAbeworkResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_TurnWheel, { "ABEWORK.BAN", 11816, 135, 80, kAbeworkResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_TurnWheelEnd, { "ABEWORK.BAN", 11888, 135, 80, kAbeworkResID, PalId::Default}, kNullAnimDetails },
