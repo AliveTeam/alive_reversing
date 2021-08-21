@@ -481,6 +481,10 @@ enum class AnimId
 
     AbeIntro,
 
+    MenuAbeSpeak_Laugh,
+    MenuAbeSpeak_WhistleHigh,
+    MenuAbeSpeak_WhistleLow,
+    MenuAbeSpeak_Fart,
     MenuAbeSpeak_Hello,
     MenuAbeSpeak_Idle,
     MenuAbeSpeak_IdleBlink,

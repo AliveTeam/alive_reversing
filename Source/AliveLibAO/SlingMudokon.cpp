@@ -410,11 +410,11 @@ s16 SlingMudokon::Brain_0_GiveCode_46FEC0()
                 field_FE_next_motion = 2;
                 switch (Code_LookUp_476050(field_118_code_converted, field_158_code_pos, field_11C_code_length))
                 {
-                    case GameSpeakEvents::eWhistle1_1:
-                        Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+                    case GameSpeakEvents::eWhistleHigh_1:
+                        Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, this);
                         break;
-                    case GameSpeakEvents::eWhistle2_2:
-                        Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+                    case GameSpeakEvents::eWhistleLow_2:
+                        Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, this);
                         break;
                     case GameSpeakEvents::eFart_3:
                         Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 300, this);

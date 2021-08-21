@@ -24,10 +24,10 @@ void BellSong::VUpdate_476130()
             {
                 switch (code_looked_up)
                 {
-                    case GameSpeakEvents::eWhistle1_1:
+                    case GameSpeakEvents::eWhistleHigh_1:
                         SFX_Play_43AD70(SoundEffect::BellChime_LowPitch_52, 0);
                         break;
-                    case GameSpeakEvents::eWhistle2_2:
+                    case GameSpeakEvents::eWhistleLow_2:
                         SFX_Play_43AD70(SoundEffect::BellChime_MediumPitch_51, 0);
                         break;
                     default:
@@ -40,11 +40,11 @@ void BellSong::VUpdate_476130()
             {
                 switch (code_looked_up)
                 {
-                    case GameSpeakEvents::eWhistle1_1:
-                        Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, 0);
+                    case GameSpeakEvents::eWhistleHigh_1:
+                        Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, 0);
                         break;
-                    case GameSpeakEvents::eWhistle2_2:
-                        Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, 0);
+                    case GameSpeakEvents::eWhistleLow_2:
+                        Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, 0);
                         break;
                     default:
                         Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, 0);
