@@ -870,7 +870,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "E1BAG.BAN", 13708, 71, 60, kP2c2bagResID, PalId::Default} },
 
     {AnimId::Rope_R1, kNullAnimDetails, { "R1ROPES.BAN", 636, 4, 16, kRopesResID, PalId::Default} },
-    {AnimId::Rope_Lines, kNullAnimDetails, { "D1ROPES.BAN", 680, 5, 16, kRopesResID, PalId::Default} },
+    {AnimId::Rope_Lines, kNullAnimDetails, { "ROPES.BAN", 680, 5, 16, kRopesResID, PalId::Default} },
 
     {AnimId::Security_Claw_Lower, kNullAnimDetails, { "F2EYEORB.BAN", 22468, 152, 31, kF2eyeorbResID, PalId::Default} },
     {AnimId::Security_Claw_Upper, kNullAnimDetails, { "F2EYEORB.BAN", 22480, 152, 31, kF2eyeorbResID, PalId::Default} },
@@ -1003,6 +1003,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::LiftTopWheel_Desert, kNullAnimDetails, {"D1LIFT.BND", 21936, 73, 55, kLiftWheelsResID, PalId::Default}},
     {AnimId::LiftTopWheel_Desert2, kNullAnimDetails, {"D2LIFT.BND", 21936, 73, 55, kLiftWheelsResID, PalId::Default}},
 
+    // TODO: correct BAN/BND
+    {AnimId::Bell_Hammer, kNullAnimDetails, {"D2LIFT.BND", 4488, 71, 69, kHammerResID, PalId::Default}},
 
     // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester
     ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1032,7 +1034,7 @@ void FrameTableOffsetExists(int frameTableOffset, bool isAe)
             }
         }
     }
-    LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset);
+    //LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset);
 }
 
 static const PalRecord PalRec(bool isAe, PalId toFind)
