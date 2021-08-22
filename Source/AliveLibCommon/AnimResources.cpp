@@ -979,10 +979,29 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::RedHubLight, kNullAnimDetails, {"HUBRED.BAN", 448, 20, 11, kRedDoorLightResID_6032, PalId::Default}},
 
 
-    //
     {AnimId::FlintLock_Hammers_Activating, kNullAnimDetails, {"F2FLINT.BAN", 11848, 125, 59, kFlintLockResID, PalId::Default}},
     {AnimId::FlintLock_Hammers_Disabled, kNullAnimDetails, {"F2FLINT.BAN", 11836, 125, 59, kFlintLockResID, PalId::Default}},
     {AnimId::FlintLock_Gourd, kNullAnimDetails, {"GOURD.BAN", 9760, 105, 84, kGourdResID, PalId::Default}},
+
+    {AnimId::LiftPlatform_RuptureFarms, kNullAnimDetails, {"RLIFT.BND", 1260, 117, 19, kLiftResID, PalId::Default}},
+    {AnimId::LiftPlatform_Lines, kNullAnimDetails, {"LLIFT.BND", 1524, 114, 25, kLiftResID, PalId::Default}},
+    {AnimId::LiftPlatform_Forest, kNullAnimDetails, {"FLIFT.BND", 940, 122, 12, kLiftResID, PalId::Default}},
+    {AnimId::LiftPlatform_Desert, kNullAnimDetails, {"D1LIFT.BND", 1472, 116, 20, kLiftResID, PalId::Default}},
+    {AnimId::LiftPlatform_Desert2, kNullAnimDetails, {"D2LIFT.BND", 1472, 116, 20, kLiftResID, PalId::Default}},
+
+    {AnimId::LiftBottomWheel_RuptureFarms, kNullAnimDetails, {"RLIFT.BND", 24204, 124, 37, kLiftWheelsResID, PalId::Default}},
+    {AnimId::LiftBottomWheel_Lines, kNullAnimDetails, {"LLIFT.BND", 17108, 62, 46, kLiftWheelsResID, PalId::Default}},
+    {AnimId::LiftBottomWheel_Forest, kNullAnimDetails, {"FLIFT.BND", 17108, 62, 46, kLiftWheelsResID, PalId::Default}},
+    {AnimId::LiftBottomWheel_Desert, kNullAnimDetails, {"D1LIFT.BND", 21900, 73, 55, kLiftWheelsResID, PalId::Default}},
+    {AnimId::LiftBottomWheel_Desert2, kNullAnimDetails, {"D2LIFT.BND", 21900, 73, 55, kLiftWheelsResID, PalId::Default}},
+
+    {AnimId::LiftTopWheel_RuptureFarms, kNullAnimDetails, {"RLIFT.BND", 24240, 124, 37, kLiftWheelsResID, PalId::Default}},
+    {AnimId::LiftTopWheel_Lines, kNullAnimDetails, {"LLIFT.BND", 17144, 62, 46, kLiftWheelsResID, PalId::Default}},
+    {AnimId::LiftTopWheel_Forest, kNullAnimDetails, {"FLIFT.BND", 17144, 62, 46, kLiftWheelsResID, PalId::Default}},
+    {AnimId::LiftTopWheel_Desert, kNullAnimDetails, {"D1LIFT.BND", 21936, 73, 55, kLiftWheelsResID, PalId::Default}},
+    {AnimId::LiftTopWheel_Desert2, kNullAnimDetails, {"D2LIFT.BND", 21936, 73, 55, kLiftWheelsResID, PalId::Default}},
+
+
     // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,

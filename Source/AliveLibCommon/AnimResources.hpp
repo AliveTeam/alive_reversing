@@ -767,6 +767,21 @@ enum class AnimId
     FlintLock_Hammers_Activating,
     FlintLock_Hammers_Disabled,
     FlintLock_Gourd,
+    LiftPlatform_Forest,
+    LiftPlatform_RuptureFarms,
+    LiftPlatform_Desert,
+    LiftPlatform_Desert2,
+    LiftPlatform_Lines,
+    LiftBottomWheel_RuptureFarms,
+    LiftBottomWheel_Lines,
+    LiftBottomWheel_Forest,
+    LiftBottomWheel_Desert,
+    LiftBottomWheel_Desert2,
+    LiftTopWheel_RuptureFarms,
+    LiftTopWheel_Lines,
+    LiftTopWheel_Forest,
+    LiftTopWheel_Desert,
+    LiftTopWheel_Desert2,
 
     Anim_Tester, // For animation testing with the TestAnimation.cpp, ignore this.
 };
