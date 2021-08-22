@@ -746,7 +746,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Door_Brewery_Open, { "BRDOOR.BAN", 6236, 54, 71, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Feeco_Closed, { "FDDOOR.BAN", 7636, 62, 70, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Feeco_Open, { "FDDOOR.BAN", 7648, 62, 70, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Door_Flame, 
+    {AnimId::Fire, 
         { "FIRE.BAN", 5156, 22, 21u, kHubFireResID, PalId::Default},
         { "FIRE.BAN", 5072, 51, 24, kHubFireResID, PalId::Default}
     },
@@ -946,7 +946,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     },
     {AnimId::UXB_Toggle, { "UXB.BND", 8120, 59, 19, kUXBResID, PalId::Default}, kNullAnimDetails },
     {AnimId::UXB_Disabled, { "UXB.BND", 8192, 59, 19, kUXBResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Well_Leaf, { "WELLLEAF.BAN", 476, 16, 11, kWellLeafResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::Well_Leaf,
+        {"WELLLEAF.BAN", 476, 16, 11, kWellLeafResID, PalId::Default},
+        {"WELLLEAF.BAN", 428, 9, 11, kWellLeafResID, PalId::Default}},
+
     {AnimId::Work_Wheel_Idle, { "WORKWHEL.BAN", 2716, 49, 24, kWorkwhelResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Work_Wheel_Turning, { "WORKWHEL.BAN", 2728, 49, 24, kWorkwhelResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Zap_Line_Blue,
@@ -976,11 +979,15 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::RedHubLight, kNullAnimDetails, {"HUBRED.BAN", 448, 20, 11, kRedDoorLightResID_6032, PalId::Default}},
 
 
+    //
+    {AnimId::FlintLock_Hammers_Activating, kNullAnimDetails, {"F2FLINT.BAN", 11848, 125, 59, kFlintLockResID, PalId::Default}},
+    {AnimId::FlintLock_Hammers_Disabled, kNullAnimDetails, {"F2FLINT.BAN", 11836, 125, 59, kFlintLockResID, PalId::Default}},
+    {AnimId::FlintLock_Gourd, kNullAnimDetails, {"GOURD.BAN", 9760, 105, 84, kGourdResID, PalId::Default}},
     // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
      {"PORTAL.BND", 4144, 32, 18, kPortalTerminatorID, PalId::Default},
-    { "WASP.BAN", 636, 7, 4, kWaspResID, PalId::Default}
+     {"GOURD.BAN", 9760, 105, 84, kGourdResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };

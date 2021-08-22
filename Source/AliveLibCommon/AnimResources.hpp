@@ -636,7 +636,7 @@ enum class AnimId
     Door_Brewery_Open,
     Door_Feeco_Closed,
     Door_Feeco_Open,
-    Door_Flame,
+    Fire,
     Door_Flame_Glow,
     Door_Flame_Spark,
     Door_Lock_Idle,
@@ -764,6 +764,9 @@ enum class AnimId
     GreenHubLight,
     RedDoorLight,
     RedHubLight,
+    FlintLock_Hammers_Activating,
+    FlintLock_Hammers_Disabled,
+    FlintLock_Gourd,
 
     Anim_Tester, // For animation testing with the TestAnimation.cpp, ignore this.
 };
