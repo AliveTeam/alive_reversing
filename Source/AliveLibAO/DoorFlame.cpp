@@ -424,7 +424,7 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB3A0);
     field_4_typeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
-    const AnimRecord rec = AO::AnimRec(AnimId::Door_Flame);
+    const AnimRecord rec = AO::AnimRec(AnimId::Fire);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

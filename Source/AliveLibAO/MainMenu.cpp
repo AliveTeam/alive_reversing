@@ -28,7 +28,6 @@
 
 namespace AO {
 
-// button frametableoffsets?
 const s32 buttonFrameTableOffsets_4BB1B8[4] = {6152, 6140, 6164, 0};
 
 // TODO: Move out

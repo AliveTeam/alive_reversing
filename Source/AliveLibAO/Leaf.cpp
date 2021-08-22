@@ -100,17 +100,17 @@ Leaf* Leaf::ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     field_C2_g = 100;
     field_C4_b = 100;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWellLeafResID, 1, 0);
+    const AnimRecord& leafRec = AO::AnimRec(AnimId::Well_Leaf);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, leafRec.mResourceId, 1, 0);
     if (!ppRes)
     {
         return this;
     }
 
-    auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
     Animation_Init_417FD0(
-        pHeader->field_4_frame_table_offset,
-        pHeader->field_0_max_w,
-        pHeader->field_2_max_h,
+        leafRec.mFrameTableOffset,
+        leafRec.mMaxW,
+        leafRec.mMaxH,
         ppRes,
         1);
 

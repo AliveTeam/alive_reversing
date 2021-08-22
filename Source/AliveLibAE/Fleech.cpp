@@ -1179,7 +1179,15 @@ void Fleech::M_Consume_18_42FDF0()
             auto pDove = ae_new<Dove>();
             if (pDove)
             {
-                pDove->ctor_41F660(5516, 41, 20u, 60, field_B8_xpos, field_BC_ypos + FP_FromInteger(10), field_CC_sprite_scale);
+                const AnimRecord& doveRec = AnimRec(AnimId::Dove_Flying);
+                pDove->ctor_41F660(
+                    doveRec.mFrameTableOffset,
+                    doveRec.mMaxW,
+                    doveRec.mMaxH,
+                    doveRec.mResourceId,
+                    field_B8_xpos,
+                    field_BC_ypos + FP_FromInteger(10),
+                    field_CC_sprite_scale);
             }
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))

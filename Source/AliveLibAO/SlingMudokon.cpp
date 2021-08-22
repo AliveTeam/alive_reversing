@@ -678,11 +678,12 @@ s16 SlingMudokon::Brain_1_Spawn_470230()
                     auto pDove = ao_new<Dove>();
                     if (pDove)
                     {
+                        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                         pDove->ctor_40EFF0(
-                            4988,
-                            41,
-                            20,
-                            60,
+                            doveRec.mFrameTableOffset,
+                            doveRec.mMaxW,
+                            doveRec.mMaxH,
+                            doveRec.mResourceId,
                             field_A8_xpos + FP_FromInteger(Math_NextRandom() % 16),
                             field_AC_ypos - FP_FromInteger(Math_NextRandom() % 16),
                             field_BC_sprite_scale);
@@ -972,11 +973,12 @@ s16 SlingMudokon::Brain_2_AskForPassword_4707B0()
                     auto pDove = ao_new<Dove>();
                     if (pDove)
                     {
+                        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                         pDove->ctor_40EFF0(
-                            4988,
-                            41,
-                            20,
-                            60,
+                            doveRec.mFrameTableOffset,
+                            doveRec.mMaxW,
+                            doveRec.mMaxH,
+                            doveRec.mResourceId,
                             field_A8_xpos + FP_FromInteger(Math_NextRandom() % 16),
                             field_AC_ypos - FP_FromInteger(Math_NextRandom() % 16),
                             field_BC_sprite_scale);

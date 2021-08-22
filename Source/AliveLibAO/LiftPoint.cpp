@@ -22,32 +22,32 @@ struct LiftPointCoord final
 
 struct LiftPointData final
 {
-    s32 field_0_maxW_Platform;
-    s32 field_4_maxH_platform;
-    s32 field_8_platform_frame_table_offset;
-    s32 field_C_lift_wheel_frame_table_offset;
-    s32 field_10_pulley_frame_table_offset;
-    s32 field_14_maxW_lift_wheel_and_pulley;
-    s32 field_18_maxW_lift_wheel_and_pulley;
+    AnimId field_0_platform_anim_id;
+    s32 field_4_maxW_platform;
+    s32 field_8_maxH_platform;
+    AnimId field_C_lift_bottom_wheel_anim_id;
+    AnimId field_10_lift_top_wheel_anim_id;
+    s32 field_14_maxW_lift_wheels;
+    s32 field_18_maxH_lift_wheels;
 };
 
-const LiftPointData stru_4BB480[16] = {
-    {940, 122, 12, 17108, 17144, 62, 46},
-    {1260, 117, 19, 24204, 24240, 124, 37},
-    {1524, 114, 25, 17108, 17144, 62, 46},
-    {940, 122, 12, 17108, 17144, 62, 46},
-    {940, 122, 12, 17108, 17144, 62, 46},
-    {940, 122, 12, 17108, 17144, 62, 46},
-    {940, 122, 12, 17108, 17144, 62, 46},
-    {1524, 114, 25, 17108, 17144, 62, 46},
-    {1472, 116, 20, 21900, 21936, 73, 55},
-    {1472, 116, 20, 21900, 21936, 73, 55},
-    {940, 122, 12, 17108, 17144, 62, 46},
-    {940, 122, 12, 17108, 17144, 62, 46},
-    {1260, 117, 19, 24204, 24240, 124, 37},
-    {1260, 117, 19, 24204, 24240, 124, 37},
-    {940, 122, 12, 17108, 17144, 62, 46},
-    {1472, 116, 20, 21900, 21936, 73, 55}};
+const LiftPointData sLiftPointData_4BB480[16] = {
+    {AnimId::LiftPlatform_Forest, 122, 12, AnimId::LiftBottomWheel_Forest, AnimId::LiftTopWheel_Forest, 62, 46},                    // menu
+    {AnimId::LiftPlatform_RuptureFarms, 117, 19, AnimId::LiftBottomWheel_RuptureFarms, AnimId::LiftTopWheel_RuptureFarms, 124, 37}, // ruputure farms
+    {AnimId::LiftPlatform_Lines, 114, 25, AnimId::LiftBottomWheel_Lines, AnimId::LiftTopWheel_Lines, 62, 46},                       // lines
+    {AnimId::LiftPlatform_Forest, 122, 12, AnimId::LiftBottomWheel_Forest, AnimId::LiftTopWheel_Forest, 62, 46},                    // forest
+    {AnimId::LiftPlatform_Forest, 122, 12, AnimId::LiftBottomWheel_Forest, AnimId::LiftTopWheel_Forest, 62, 46},                    // forest temple
+    {AnimId::LiftPlatform_Forest, 122, 12, AnimId::LiftBottomWheel_Forest, AnimId::LiftTopWheel_Forest, 62, 46},                    // stock yards
+    {AnimId::LiftPlatform_Forest, 122, 12, AnimId::LiftBottomWheel_Forest, AnimId::LiftTopWheel_Forest, 62, 46},                    // stock yards return
+    {AnimId::LiftPlatform_Lines, 114, 25, AnimId::LiftBottomWheel_Lines, AnimId::LiftTopWheel_Lines, 62, 46},                       // removed
+    {AnimId::LiftPlatform_Desert, 116, 20, AnimId::LiftBottomWheel_Desert, AnimId::LiftTopWheel_Desert, 73, 55},                    // desert
+    {AnimId::LiftPlatform_Desert2, 116, 20, AnimId::LiftBottomWheel_Desert2, AnimId::LiftTopWheel_Desert2, 73, 55},                 // desert temple
+    {AnimId::LiftPlatform_Forest, 122, 12, AnimId::LiftBottomWheel_Forest, AnimId::LiftTopWheel_Forest, 62, 46},                    // credits
+    {AnimId::LiftPlatform_Forest, 122, 12, AnimId::LiftBottomWheel_Forest, AnimId::LiftTopWheel_Forest, 62, 46},                    // removed
+    {AnimId::LiftPlatform_RuptureFarms, 117, 19, AnimId::LiftBottomWheel_RuptureFarms, AnimId::LiftTopWheel_RuptureFarms, 124, 37}, // board room
+    {AnimId::LiftPlatform_RuptureFarms, 117, 19, AnimId::LiftBottomWheel_RuptureFarms, AnimId::LiftTopWheel_RuptureFarms, 124, 37}, // rupture farms return
+    {AnimId::LiftPlatform_Forest, 122, 12, AnimId::LiftBottomWheel_Forest, AnimId::LiftTopWheel_Forest, 62, 46},                    // forest chase
+    {AnimId::LiftPlatform_Desert2, 116, 20, AnimId::LiftBottomWheel_Desert2, AnimId::LiftTopWheel_Desert2, 73, 55}};                // desert escape
 
 const LiftPointCoord stru_4BB640[16] = {
     {0, 0},
@@ -80,7 +80,9 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 
     pTlv->field_1_unknown = 3;
 
-    u8** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftResID, 1, 0);
+    const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
+    const AnimRecord& platformRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_0_platform_anim_id);
+    u8** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, platformRec.mResourceId, 1, 0);
     if (pTlv->field_20_scale)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
@@ -92,11 +94,10 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_C6_scale = 1;
     }
 
-    const s32 idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
     AddDynamicCollision_4512C0(
-        stru_4BB480[idx].field_0_maxW_Platform,
-        stru_4BB480[idx].field_4_maxH_platform,
-        stru_4BB480[idx].field_8_platform_frame_table_offset,
+        platformRec.mFrameTableOffset,
+        platformRec.mMaxW,
+        platformRec.mMaxH,
         ppLiftRes,
         pTlv,
         pPath,
@@ -122,13 +123,14 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     field_118_x_offset -= xMovedBy;
     field_11A_width_offset -= xMovedBy;
 
-    u8** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID, 1, 0);
+    const AnimRecord& bottomWheelRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_C_lift_bottom_wheel_anim_id);
+    u8** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, bottomWheelRec.mResourceId, 1, 0);
     if (field_13C_lift_wheel.Init_402D20(
-            stru_4BB480[idx].field_C_lift_wheel_frame_table_offset,
+            bottomWheelRec.mFrameTableOffset,
             gObjList_animations_505564,
             this,
-            static_cast<s16>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
-            static_cast<s16>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
+            static_cast<s16>(bottomWheelRec.mMaxW),
+            static_cast<s16>(bottomWheelRec.mMaxH),
             ppLiftWheelRes,
             1,
             0,
@@ -170,7 +172,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         if (pRopeMem)
         {
             pRopeMem->ctor_458520(
-                FP_GetExponent(field_A8_xpos + (FP_FromInteger(13) * field_BC_sprite_scale) + FP_FromInteger(stru_4BB640[idx].field_4)),
+                FP_GetExponent(field_A8_xpos + (FP_FromInteger(13) * field_BC_sprite_scale) + FP_FromInteger(stru_4BB640[lvl_idx].field_4)),
                 0,
                 FP_GetExponent(field_AC_ypos + (FP_FromInteger(25) * field_BC_sprite_scale)),
                 field_BC_sprite_scale);
@@ -182,7 +184,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         if (pRopeMem2)
         {
             pRopeMem2->ctor_458520(
-                FP_GetExponent(field_A8_xpos + (FP_FromInteger(-10) * field_BC_sprite_scale) + FP_FromInteger(stru_4BB640[idx].field_0)),
+                FP_GetExponent(field_A8_xpos + (FP_FromInteger(-10) * field_BC_sprite_scale) + FP_FromInteger(stru_4BB640[lvl_idx].field_0)),
                 0,
                 FP_GetExponent(field_AC_ypos + (FP_FromInteger(25) * field_BC_sprite_scale)),
                 field_BC_sprite_scale);
@@ -780,15 +782,16 @@ void LiftPoint::CreatePulleyIfExists_435AE0(s16 camX, s16 camY)
 
         field_26C_pulley_xpos = FP_GetExponent(((k13_scaled + kM10_scaled) / FP_FromInteger(2)) + FP_NoFractional(field_A8_xpos));
 
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID, 1, 0);
-        const s32 idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
+        const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
+        const AnimRecord& topWheelRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_10_lift_top_wheel_anim_id);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, topWheelRec.mResourceId, 1, 0);
 
         field_1D4_pulley_anim.Init_402D20(
-            stru_4BB480[idx].field_10_pulley_frame_table_offset,
+            topWheelRec.mFrameTableOffset,
             gObjList_animations_505564,
             this,
-            static_cast<s16>(stru_4BB480[idx].field_14_maxW_lift_wheel_and_pulley),
-            static_cast<s16>(stru_4BB480[idx].field_18_maxW_lift_wheel_and_pulley),
+            static_cast<s16>(topWheelRec.mMaxW),
+            static_cast<s16>(topWheelRec.mMaxH),
             ppRes,
             1,
             0,

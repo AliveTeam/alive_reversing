@@ -866,8 +866,7 @@ Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
 
     
     // Animation test code
-    //auto testAnim = ao_new<TestAnimation>();
-    //testAnim->ctor();
+    //auto testAnim = ao_new<TestAnimation>(); testAnim->ctor();
 
     return this;
 }
@@ -7076,11 +7075,12 @@ void Abe::Motion_61_Respawn_42CD20()
                     auto pDove = ao_new<Dove>();
                     if (pDove)
                     {
+                        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                         pDove->ctor_40EFF0(
-                            4988,
-                            41,
-                            20,
-                            60,
+                            doveRec.mFrameTableOffset,
+                            doveRec.mMaxW,
+                            doveRec.mMaxH,
+                            doveRec.mResourceId,
                             xDiff + FP_FromInteger(Math_NextRandom() * 2),
                             yDiff - FP_FromInteger(Math_NextRandom() % 32),
                             field_BC_sprite_scale);

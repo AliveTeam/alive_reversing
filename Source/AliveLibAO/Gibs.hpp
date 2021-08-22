@@ -2,7 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-
+#include "AnimResources.hpp"
 namespace AO {
 
 struct GibPart final
@@ -19,14 +19,14 @@ ALIVE_ASSERT_SIZEOF(GibPart, 0xB0);
 
 struct Gib_Data final
 {
-    s32 field_0_head;
-    s32 field_4_arm;
-    s32 field_8_body;
-    s32 field_C_max_w;
-    s32 field_10_max_h;
-    s32 field_14_resource_id;
+    AnimId field_0_head;
+    AnimId field_4_arm;
+    AnimId field_8_body;
+    //s32 field_C_max_w;
+    //s32 field_10_max_h;
+    //s32 field_14_resource_id;
 };
-ALIVE_ASSERT_SIZEOF(Gib_Data, 0x18);
+//ALIVE_ASSERT_SIZEOF(Gib_Data, 0x18);
 
 
 enum GibType : s32

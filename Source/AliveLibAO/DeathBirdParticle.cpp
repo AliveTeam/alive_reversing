@@ -31,11 +31,12 @@ void DeathBirdParticle::VUpdate_41DA60()
                 auto pDove = ao_new<Dove>();
                 if (pDove)
                 {
+                    const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                     pDove->ctor_40EFF0(
-                        4988,
-                        41,
-                        20,
-                        60,
+                        doveRec.mFrameTableOffset,
+                        doveRec.mMaxW,
+                        doveRec.mMaxH,
+                        doveRec.mResourceId,
                         field_A8_xpos,
                         field_AC_ypos - FP_FromInteger(15),
                         field_BC_sprite_scale);
