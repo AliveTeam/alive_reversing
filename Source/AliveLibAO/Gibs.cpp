@@ -12,12 +12,12 @@
 namespace AO {
 
 const Gib_Data kGibData_4C30B0[6] = {
-    {7208, 7248, 7288, 50, 25, 25},
-    {5948, 6028, 5988, 44, 26, 423},
-    {28376, 28416, 28416, 111, 63, 576},
-    {7440, 7480, 7400, 72, 43, 217},
-    {7208, 7248, 7288, 50, 25, 25},
-    {3928, 3928, 3928, 37, 30, 365}};
+    {AnimId::Abe_Head_Gib, AnimId::Abe_Arm_Gib, AnimId::Abe_Body_Gib},
+    {AnimId::Slig_Head_Gib, AnimId::Slig_Arm_Gib, AnimId::Slig_Body_Gib},
+    {AnimId::Slog_Head_Gib, AnimId::Slog_Body_Gib, AnimId::Slog_Body_Gib},
+    {AnimId::Elum_Head_Gib, AnimId::Elum_Arm_Gib, AnimId::Elum_Body_Gib},
+    {AnimId::Abe_Head_Gib, AnimId::Abe_Arm_Gib, AnimId::Abe_Body_Gib},
+    {AnimId::Metal_Gib, AnimId::Metal_Gib, AnimId::Metal_Gib}};
 
 const TintEntry sAbeGibTints_4C6438[5] = {
     {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
@@ -48,13 +48,16 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
     SetVTable(this, 0x4BA280);
 
     field_E4_pGibData = &kGibData_4C30B0[gibType];
-    u8** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, field_E4_pGibData->field_14_resource_id, 1, 0);
+    const AnimRecord& headRec = AO::AnimRec(field_E4_pGibData->field_0_head);
+    const AnimRecord& armRec = AO::AnimRec(field_E4_pGibData->field_4_arm);
+    const AnimRecord& bodyRec = AO::AnimRec(field_E4_pGibData->field_8_body);
+    u8** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0);
 
     // The base class renders the head gib
     Animation_Init_417FD0(
-        field_E4_pGibData->field_0_head,
-        static_cast<s16>(field_E4_pGibData->field_C_max_w),
-        static_cast<s16>(field_E4_pGibData->field_10_max_h),
+        headRec.mFrameTableOffset,
+        static_cast<s16>(headRec.mMaxW),
+        static_cast<s16>(headRec.mMaxH),
         ppAnimData,
         1);
 
@@ -125,11 +128,11 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
         {
             // 2 arm parts
             if (!pPart->field_18_anim.Init_402D20(
-                    field_E4_pGibData->field_4_arm,
+                    armRec.mFrameTableOffset,
                     gObjList_animations_505564,
                     this,
-                    static_cast<s16>(field_E4_pGibData->field_C_max_w),
-                    static_cast<s16>(field_E4_pGibData->field_10_max_h),
+                    static_cast<s16>(armRec.mMaxW),
+                    static_cast<s16>(armRec.mMaxH),
                     ppAnimData,
                     1,
                     0,
@@ -144,11 +147,11 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
         {
             // 2 body parts
             if (!pPart->field_18_anim.Init_402D20(
-                    field_E4_pGibData->field_8_body,
+                    bodyRec.mFrameTableOffset,
                     gObjList_animations_505564,
                     this,
-                    static_cast<s16>(field_E4_pGibData->field_C_max_w),
-                    static_cast<s16>(field_E4_pGibData->field_10_max_h),
+                    static_cast<s16>(bodyRec.mMaxW),
+                    static_cast<s16>(bodyRec.mMaxH),
                     ppAnimData,
                     1,
                     0,

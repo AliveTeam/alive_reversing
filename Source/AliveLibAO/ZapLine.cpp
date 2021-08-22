@@ -37,24 +37,25 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLine
     field_4_typeId = Types::eZapLine_94;
     field_11A_type = type;
 
-    s32 frameTable = 0;
+    AnimId animId = AnimId::None;
     if (field_11A_type == ZapLineType::eThin_1)
     {
         field_120_number_of_pieces_per_segment = 20;
         field_11E_number_of_segments = 12;
-        frameTable = 228;
+        animId = AnimId::Zap_Line_Blue;
         field_11C_tPageAbr = TPageAbr::eBlend_3;
     }
     else if (field_11A_type == ZapLineType::eThick_0)
     {
         field_120_number_of_pieces_per_segment = 10;
         field_11E_number_of_segments = 28;
-        frameTable = 240;
+        animId = AnimId::Zap_Line_Red;
         field_11C_tPageAbr = TPageAbr::eBlend_1;
     }
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, 1, 0);
-    Animation_Init_417FD0(frameTable, 9, 9, ppRes, 1);
+    const AnimRecord& rec = AO::AnimRec(animId);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_C_layer = layer;
