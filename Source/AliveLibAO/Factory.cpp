@@ -426,8 +426,14 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
             auto pDove = ao_new<Dove>();
             if (pDove)
             {
-                pDove->ctor_40EE50(5052, 41, 20, 60, tlvOffsetLevelIdPathId.all,
-                                   pDoveTlv->field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+                const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Idle);
+                pDove->ctor_40EE50(
+                    doveRec.mFrameTableOffset,
+                    doveRec.mMaxW,
+                    doveRec.mMaxH,
+                    doveRec.mResourceId,
+                    tlvOffsetLevelIdPathId.all,
+                    pDoveTlv->field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
             }
 
             s16 ypos = 0;

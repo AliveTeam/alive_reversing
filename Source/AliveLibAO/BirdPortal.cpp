@@ -300,11 +300,12 @@ void BirdPortal::CreateDovesAndShrykullNumber()
         auto pDove = ao_new<Dove>();
         if (pDove)
         {
+            const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
             pDove->ctor_40EFF0(
-                4988,
-                41,
-                20,
-                60,
+                doveRec.mFrameTableOffset,
+                doveRec.mMaxW,
+                doveRec.mMaxH,
+                doveRec.mResourceId,
                 field_18_xpos,
                 field_1C_ypos,
                 field_34_scale);
@@ -619,11 +620,12 @@ void BirdPortal::VUpdate_4523D0()
                     auto pDoveMem = ao_new<Dove>();
                     if (pDoveMem)
                     {
+                        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                         pDoveMem->ctor_40EFF0(
-                            4988,
-                            41,
-                            20,
-                            60,
+                            doveRec.mFrameTableOffset,
+                            doveRec.mMaxW,
+                            doveRec.mMaxH,
+                            doveRec.mResourceId,
                             field_18_xpos + FP_FromInteger(FP_GetExponent(xOff)),
                             field_1C_ypos + FP_FromInteger(Math_RandomRange_450F20(-scale32, scale32)),
                             field_34_scale);

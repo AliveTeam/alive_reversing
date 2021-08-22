@@ -767,20 +767,22 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Door_Train_Closed, { "TRAINDOR.BAN", 4740, 44, 56u, kTrainDoorResID_2013, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Train_Closing, { "TRAINDOR.BAN", 4752, 44, 56u, kTrainDoorResID_2013, PalId::Default}, kNullAnimDetails },
 
-    {AnimId::Dove_Idle, {"DOVE.BAN", 5580, 41, 20, kDovbasicResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::Dove_Flying, {"DOVE.BAN", 5516, 41, 20, kDovbasicResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Dove_Idle,
+        {"DOVBASIC.BAN", 5580, 41, 20, kDovbasicResID, PalId::Default},
+        {"DOVBASIC.BAN", 5052, 41, 20, kDovbasicResID, PalId::Default}},
+    {AnimId::Dove_Flying,
+        {"DOVBASIC.BAN", 5516, 41, 20, kDovbasicResID, PalId::Default},
+        {"DOVBASIC.BAN", 4988, 41, 20, kDovbasicResID, PalId::Default}},
     {AnimId::Electric_Wall,
-        { "ELECWALL.BAN", 15384, 50, 80, kElecwallResID, PalId::Default},
-        { "ELECWALL.BAN", 14536, 50, 80, kElecwallResID, PalId::Default} 
-    },
+        {"ELECWALL.BAN", 15384, 50, 80, kElecwallResID, PalId::Default},
+        {"ELECWALL.BAN", 14536, 50, 80, kElecwallResID, PalId::Default}},
     {AnimId::Explosion, 
-        { "EXPLO2.BAN", 51156, 202, 91, kExplo2ResID, PalId::Default},
-        { "EXPLO2.BAN", 27376, 200, 91, kExplo2ResID, PalId::Default} 
-    },
+        {"EXPLO2.BAN", 51156, 202, 91, kExplo2ResID, PalId::Default},
+        {"EXPLO2.BAN", 27376, 200, 91, kExplo2ResID, PalId::Default}},
     {AnimId::Explosion_Mine, 
-        { "EXPLODE.BND", 51588, 214, 0x31u, kBgexpldResID, PalId::Default},
-        { "EXPLODE.BND", 51600, 214, 49, kBgexpldResID, PalId::Default}
-    },
+        {"EXPLODE.BND", 51588, 214, 0x31u, kBgexpldResID, PalId::Default},
+        {"EXPLODE.BND", 51600, 214, 49, kBgexpldResID, PalId::Default}},
+
     {AnimId::Explosion_Small, { "SMEXP.BAN", 14108, 99, 46, kSmallExplo2ResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Falling_Crate_A, { "FALLBONZ.BAN", 8076, 86, 47, kF2rockResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Falling_Crate_B, { "FALLBONZ.BAN", 8100, 86, 47, kF2rockResID, PalId::Default}, kNullAnimDetails },

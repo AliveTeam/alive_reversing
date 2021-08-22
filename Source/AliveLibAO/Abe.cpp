@@ -7075,11 +7075,12 @@ void Abe::Motion_61_Respawn_42CD20()
                     auto pDove = ao_new<Dove>();
                     if (pDove)
                     {
+                        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                         pDove->ctor_40EFF0(
-                            4988,
-                            41,
-                            20,
-                            60,
+                            doveRec.mFrameTableOffset,
+                            doveRec.mMaxW,
+                            doveRec.mMaxH,
+                            doveRec.mResourceId,
                             xDiff + FP_FromInteger(Math_NextRandom() * 2),
                             yDiff - FP_FromInteger(Math_NextRandom() % 32),
                             field_BC_sprite_scale);
