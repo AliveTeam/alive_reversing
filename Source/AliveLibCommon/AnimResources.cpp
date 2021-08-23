@@ -1069,7 +1069,7 @@ void FrameTableOffsetExists(int frameTableOffset, bool isAe, int maxW, int maxH)
             }
         }
     }
-    LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset << " maxW " << maxW << " maxH " << maxH);
+    //LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset << " maxW " << maxW << " maxH " << maxH);
 }
 
 void FrameTableOffsetExists(int frameTableOffset, bool isAe)
@@ -1091,7 +1091,7 @@ void FrameTableOffsetExists(int frameTableOffset, bool isAe)
             }
         }
     }
-    LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset);
+    //LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset);
 }
 
 static const PalRecord PalRec(bool isAe, PalId toFind)
