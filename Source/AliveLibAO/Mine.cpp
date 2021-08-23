@@ -49,14 +49,15 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, s32 tlvInfo)
     field_110_tlv = tlvInfo;
     field_114_gnframe = gnFrameCount_507670;
 
-    u8** v8 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMineflshResID, 1, 0);
+    const AnimRecord& flashRec = AO::AnimRec(AnimId::Mine_Flash);
+    u8** ppFLashRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, flashRec.mResourceId, 1, 0);
     field_118_animation.Init_402D20(
-        772,
+        flashRec.mFrameTableOffset,
         gObjList_animations_505564,
         this,
-        36,
-        8,
-        v8,
+        flashRec.mMaxW,
+        flashRec.mMaxH,
+        ppFLashRes,
         1,
         0,
         0);

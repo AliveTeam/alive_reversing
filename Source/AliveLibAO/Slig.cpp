@@ -296,12 +296,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, s32 tlvInfo)
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 1, 0);
     field_210_resources.res[0] = ppRes;
-    Animation_Init_417FD0(
-        132740,
-        160,
-        68,
-        ppRes,
-        1);
+    Animation_Init_417FD0(132740, 160, 68, ppRes, 1);
 
     field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_10A_flags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);

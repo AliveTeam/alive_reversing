@@ -25,7 +25,7 @@ public:
         SetVTable(this, 0x4BB330);
         field_4_typeId = Types::eNone_0;
 
-        const AnimRecord rec = AO::AnimRec(AnimId::Door_Flame_Glow);
+        const AnimRecord rec = AO::AnimRec(AnimId::Door_FireBackgroundGlow);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

@@ -120,12 +120,7 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo)
 
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 1, 0);
 
-    Animation_Init_417FD0(
-        57152,
-        138,
-        49,
-        field_150_resources[0],
-        1);
+    Animation_Init_417FD0(57152, 138, 49, field_150_resources[0], 1);
 
     field_12A_res_idx = 0;
 

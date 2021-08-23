@@ -42,7 +42,8 @@ EXPORT void CCSTD sub_465BC0(s32 /*a1*/)
 // TODO: Move to own file
 EXPORT void CC Game_ShowLoadingIcon_482D80()
 {
-    u8** ppLoadingAnimRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, FALSE, FALSE);
+    const AnimRecord& loadingRec = AnimRec(AnimId::Loading_Icon2);
+    u8** ppLoadingAnimRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, loadingRec.mResourceId, FALSE, FALSE);
     if (!ppLoadingAnimRes)
     {
         return;
@@ -50,7 +51,7 @@ EXPORT void CC Game_ShowLoadingIcon_482D80()
     PSX_Display_Buffer dispBuffer = {};
 
     Particle* pParticle = ae_new<Particle>();
-    pParticle->ctor_4CC4C0(FP_FromInteger(0), FP_FromInteger(0), 900, 50, 38, ppLoadingAnimRes);
+    pParticle->ctor_4CC4C0(FP_FromInteger(0), FP_FromInteger(0), loadingRec.mFrameTableOffset, loadingRec.mMaxW, loadingRec.mMaxH, ppLoadingAnimRes);
 
     // TODO: May need to clear all other low word bits ?
     pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);

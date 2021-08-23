@@ -47,12 +47,13 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
         field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
     }
 
+    const AnimRecord& tickRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
     if (field_118_anim.Init_402D20(
-            372,
+            tickRec.mFrameTableOffset,
             gObjList_animations_505564,
             this,
-            37,
-            21,
+            tickRec.mMaxW,
+            tickRec.mMaxH,
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombflshResID, 1, 0),
             1,
             0,

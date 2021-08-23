@@ -775,11 +775,11 @@ Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("BLOODROP.BAN", nullptr);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBloodropResID, 1, 0);
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_455270("SHADOW.BAN", nullptr);
     }
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("DEADFLR.BAN", nullptr);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("DOVBASIC.BAN", nullptr);
@@ -921,7 +921,7 @@ BaseGameObject* Abe::dtor_420C80()
     ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBloodropResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
     ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 0, 0);

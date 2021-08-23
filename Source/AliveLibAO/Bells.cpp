@@ -20,9 +20,9 @@ Bells* Bells::ctor_40A650(BellSize bellType, FP xpos, FP ypos, FP scale)
 
     field_4_typeId = Types::eBells_13;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Chime_A);
-    const AnimRecord rec2 = AO::AnimRec(AnimId::Chime_B);
-    const AnimRecord rec3 = AO::AnimRec(AnimId::Chime_C);
+    const AnimRecord rec = AO::AnimRec(AnimId::BigChime);
+    const AnimRecord rec2 = AO::AnimRec(AnimId::MediumChime);
+    const AnimRecord rec3 = AO::AnimRec(AnimId::SmallChime);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     switch (bellType)

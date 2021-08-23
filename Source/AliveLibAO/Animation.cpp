@@ -753,7 +753,7 @@ void Animation::SetFrame_402AC0(s16 newFrame)
 
 s16 Animation::Init_402D20(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bAllocateVRam, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
 {
-    FrameTableOffsetExists(frameTableOffset, false);
+    FrameTableOffsetExists(frameTableOffset, false, maxW, maxH);
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
 
     field_18_frame_table_offset = frameTableOffset;

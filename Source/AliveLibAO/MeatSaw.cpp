@@ -157,13 +157,14 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
         field_F4 = pTlv->field_1E_max_rise_time + pTlv->field_24_speed - pTlv->field_1E_max_rise_time % pTlv->field_24_speed;
     }
 
-    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatSawResID, 1, 0);
+    const AnimRecord& motorRec = AO::AnimRec(AnimId::MeatSawMotor);
+    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, motorRec.mResourceId, 1, 0);
     if (field_110_anim.Init_402D20(
-            15252,
+            motorRec.mFrameTableOffset,
             gObjList_animations_505564,
             this,
-            104,
-            36,
+            motorRec.mMaxW,
+            motorRec.mMaxH,
             ppRes2,
             1,
             0,
