@@ -59,10 +59,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
     {AnimId::Slog_Head_Gib,
     { "DOGBLOW.BAN", 7504, 53, 28, kSlogBlowResID, PalId::Default},
-     {"DOGBLOW.BAN", 7504, 111, 63, kSlogBlowResID, PalId::Default}},
+     {"DOGBLOW.BAN", 28376, 111, 63, kSlogBlowResID, PalId::Default}},
     {AnimId::Slog_Body_Gib,
     { "DOGBLOW.BAN", 7544, 53, 28, kSlogBlowResID, PalId::Default},
-     {"DOGBLOW.BAN", 7504, 111, 63, kSlogBlowResID, PalId::Default}},
+     {"DOGBLOW.BAN", 28416, 111, 63, kSlogBlowResID, PalId::Default}},
 
     {AnimId::Stick_Gib, kNullAnimDetails, { "STICK.BAN", 2800, 47, 29, kStickGib, PalId::Default} },
 
