@@ -474,7 +474,7 @@ EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
         {
             gMap_5C3030.LoadResource_4DBE00("FALLBONZ.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadmode);
             gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadmode);
-            gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadmode);
+            gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, loadmode);
             gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadmode);
             gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadmode);
         }
@@ -482,7 +482,7 @@ EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
         {
             gMap_5C3030.LoadResource_4DBE00("FALLROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadmode);
             gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadmode);
-            gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadmode);
+            gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, loadmode);
             gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadmode);
         }
     }
@@ -1144,7 +1144,7 @@ EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
         gMap_5C3030.LoadResource_4DBE00("ABEKNFD.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeknfdResID, loadMode);
         gMap_5C3030.LoadResource_4DBE00("ABEKNBK.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeknbkResID, loadMode);
         gMap_5C3030.LoadResource_4DBE00("ABEEDGE.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeedgeResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, loadMode);
         gMap_5C3030.LoadResource_4DBE00("MUDIDLE.BAN", ResourceManager::Resource_Animation, ResourceID::kMudidleResID, loadMode);
 
         static CompileTimeResourceList<5> kPalResources(
@@ -1847,7 +1847,7 @@ EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* pTlv, Path*, TlvItemInfoUni
             gMap_5C3030.LoadResource_4DBE00("FALLROCK.BAN", ResourceManager::Resource_Animation, kF2rockResID, loadMode);
         }
         gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, kStickGib, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, kRockShadowResID, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, kObjectShadowResID, loadMode);
         gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, kDebrisID00, loadMode);
         gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, kExplo2ResID, loadMode);
     }

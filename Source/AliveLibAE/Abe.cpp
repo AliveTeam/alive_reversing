@@ -784,11 +784,11 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     ResourceManager::LoadResourceFile_49C170(bloodDropRec.mBanName, nullptr);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, bloodDropRec.mResourceId);
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
     }
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID);
 
     ResourceManager::LoadResourceFile_49C170("DEADFLR.BAN", nullptr);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);

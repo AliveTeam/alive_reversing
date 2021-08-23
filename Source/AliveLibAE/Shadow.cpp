@@ -9,8 +9,9 @@ Shadow* Shadow::ctor_4AC990()
 {
     SetVTable(&field_18_animation, 0x544290); // gVtbl_animation_2a_544290
 
-    u8** ppAnimRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, TRUE, FALSE);
-    field_18_animation.Init_40A030(240, gObjList_animations_5C1A24, 0, 64, 6, ppAnimRes, 1, 0, 0);
+    const AnimRecord& shadowRec = AnimRec(AnimId::ObjectShadow);
+    u8** ppAnimRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
+    field_18_animation.Init_40A030(shadowRec.mFrameTableOffset, gObjList_animations_5C1A24, 0, shadowRec.mMaxW, shadowRec.mMaxH, ppAnimRes, 1, 0, 0);
 
     field_14_flags.Clear(Flags::eBit1_ShadowAtBottom);
     field_14_flags.Set(Flags::eBit2_Enabled);

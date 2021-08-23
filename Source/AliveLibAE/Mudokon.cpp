@@ -703,7 +703,7 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABEEDGE.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
     }

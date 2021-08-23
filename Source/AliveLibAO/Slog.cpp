@@ -590,12 +590,7 @@ void Slog::Init_473130()
     field_184_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, 1, 0);
     field_184_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogidleResID, 1, 0);
 
-    Animation_Init_417FD0(
-        94456,
-        121,
-        57,
-        field_184_resources[0],
-        1);
+    Animation_Init_417FD0(94456, 121, 57, field_184_resources[0], 1);
 
     field_6_flags.Set(Options::eCanExplode_Bit7);
     field_10_anim.field_1C_fn_ptr_array = kSlog_Anim_Frame_Fns_4CEBF4;

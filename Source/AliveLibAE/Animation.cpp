@@ -898,7 +898,7 @@ u16 Animation::Get_Frame_Count_40AC70()
 
 s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
 {
-    FrameTableOffsetExists(frameTableOffset, true);
+    FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
 

@@ -28,7 +28,11 @@
 
 namespace AO {
 
-const s32 buttonFrameTableOffsets_4BB1B8[4] = {6152, 6140, 6164, 0};
+const s32 buttonFrameTableOffsets_4BB1B8[4] = {
+    6152,
+    6140,
+    6164,
+    0};
 
 // TODO: Move out
 ALIVE_VAR(1, 0x507690, s16, sSoundMono_507690, 0);

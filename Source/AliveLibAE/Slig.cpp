@@ -872,7 +872,7 @@ s32 CC Slig::CreateFromSaveState_4B3B50(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
     }

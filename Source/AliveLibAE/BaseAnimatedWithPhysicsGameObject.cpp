@@ -167,7 +167,7 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
 
 void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData)
 {
-    FrameTableOffsetExists(frameTableOffset, true);
+    FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     if (field_20_animation.Init_40A030(
             frameTableOffset,
             gObjList_animations_5C1A24,
@@ -179,7 +179,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffs
             0,
             0))
     {
-        if (field_CC_sprite_scale.fpValue == 0x10000)
+        if (field_CC_sprite_scale == FP_FromInteger(1))
         {
             field_20_animation.field_C_render_layer = Layer::eLayer_27;
         }
