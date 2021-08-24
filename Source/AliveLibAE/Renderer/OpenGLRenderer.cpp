@@ -727,6 +727,8 @@ void OpenGLRenderer::Destroy()
 
 bool OpenGLRenderer::Create(TWindowHandleType window)
 {
+    rendererType = Renderers::OpenGL;
+
     mWindow = window;
     mWireframe = false;
 
@@ -1544,42 +1546,39 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
     }
 }
 
-void HackSetBackground(const char_type* path)
+void OpenGLRenderer::LoadCustomCAM(const char* path, const unsigned char* key, int keyLength)
 {
-    //return;
+    std::vector<BYTE> fileData;
 
-    const char_type* camSearchs[] = {
-        "hd/%s.PNG",
-        "hd/%s.CAM.PNG",
-        "hd/%s.CAM.cam.PNG"};
+    // Try to keep all paths and filenames lowercase for our linux friends.
+    std::ifstream file("hd/" + std::string(path).substr(0, 8) + ".cam2", std::ios::binary);
 
-    FILE* fh = NULL;
-
-    for (s32 i = 0; i < 3; i++)
+    if (file.is_open())
     {
-        char_type newPath[100];
-        char_type camHack[9] = {};
-        memcpy(camHack, path, 8);
-        sprintf(newPath, camSearchs[i], camHack);
-        fh = fopen(newPath, "rb");
-
-        if (fh != NULL)
-        {
-            break;
-        }
+        fileData = std::vector<BYTE>((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        file.close();
     }
 
-    if (fh == NULL)
+    if (fileData.size() == 0)
     {
-        /*glDeleteTextures(1, &mBackgroundTexture);
-        mBackgroundTexture = 0;*/
+        glDeleteTextures(1, &mBackgroundTexture);
+        mBackgroundTexture = 0;
         return;
     }
 
-    s32 x = 0, y = 0;
-    s32 comp = 0;
-    const u8* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
+    BYTE* fPtr = fileData.data();
 
+    // XOR the custom cam file with the data from the original game.
+    // You wouldn't steal an Abe? https://www.youtube.com/watch?v=HmZm8vNHBSU
+    for (int i = 0; i < fileData.size(); i++)
+    {
+        fPtr[i] ^= key[i % keyLength];
+    }
+
+    int x = 0, y = 0, comp = 0;
+    const unsigned char* data = stbi_load_from_memory(fileData.data(), static_cast<int>(fileData.size()), &x, &y, &comp, 4);
+
+    // Check if we've created a texture handle already, if not, do so.
     if (mBackgroundTexture == 0)
     {
         glGenTextures(1, &mBackgroundTexture);
@@ -1594,7 +1593,5 @@ void HackSetBackground(const char_type* path)
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-    stbi_image_free((void*) data);
-
-    fclose(fh);
+    stbi_image_free((void*)data);
 }

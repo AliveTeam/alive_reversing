@@ -82,6 +82,8 @@ public:
 
     void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) override;
 
+    void LoadCustomCAM(const char* path, const unsigned char* key, int keyLength) override;
+
 private:
     SDL_Window* mWindow = nullptr;
     SDL_GLContext mContext = nullptr;
@@ -111,5 +113,3 @@ private:
 
     void RenderBackground();
 };
-
-void HackSetBackground(const char_type* path);

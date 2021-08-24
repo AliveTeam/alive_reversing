@@ -9,6 +9,10 @@
 #include "VRam.hpp"
 #include "Psx.hpp"
 #include "Renderer/IRenderer.hpp"
+#include "Map.hpp"
+#include "PathData.hpp"
+#include "Renderer/IRenderer.hpp"
+#include "Renderer/OpenGLRenderer.hpp"
 
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
 ALIVE_ARY(1, 0x5b86c8, SprtTPage, 300, sSpriteTPageBuffer_5B86C8, {});
@@ -463,6 +467,15 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
     UnsetDirtyBits_40EDE0(1);
     UnsetDirtyBits_40EDE0(2);
     UnsetDirtyBits_40EDE0(3);
+
+    static char camName[12] = {};
+    Path_Format_CameraName_460FB0(
+        camName,
+        gMap_5C3030.field_0_current_level,
+        gMap_5C3030.field_2_current_path,
+        gMap_5C3030.field_4_current_camera);
+
+    gRenderer->LoadCustomCAM(camName, reinterpret_cast<const unsigned char*>(*ppBits), 512);
 }
 
 ScreenManager* ScreenManager::ctor_40E3E0(u8** ppBits, FP_Point* pCameraOffset)

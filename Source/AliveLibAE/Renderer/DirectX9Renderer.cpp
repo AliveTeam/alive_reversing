@@ -20,6 +20,8 @@ void DirectX9Renderer::Destroy()
 
 bool DirectX9Renderer::Create(TWindowHandleType window)
 {
+    rendererType = Renderers::DirectX9;
+
     // Find the directx9 driver
     const s32 numDrivers = SDL_GetNumRenderDrivers();
     if (numDrivers < 0)
@@ -177,6 +179,10 @@ void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
 
 
 void DirectX9Renderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, const u8* /*pPixels*/)
+{
+}
+
+void DirectX9Renderer::LoadCustomCAM(const char* /*path*/, const unsigned char* /*key*/, int /*keyLength*/)
 {
 }
 

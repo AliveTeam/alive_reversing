@@ -36,6 +36,8 @@ public:
 
     void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) override;
 
+    void LoadCustomCAM(const char* path, const unsigned char* key, int keyLength) override;
+
 private:
     SDL_Renderer* mRenderer = nullptr;
     IDirect3DDevice9* mDevice = nullptr;

@@ -11,6 +11,7 @@ void SoftwareRenderer::Destroy()
 
 bool SoftwareRenderer::Create(TWindowHandleType window)
 {
+    rendererType = Renderers::Software;
     mRenderer = SDL_CreateRenderer(window, -1, 0);
     return mRenderer != nullptr;
 }
@@ -230,4 +231,9 @@ void SoftwareRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8*
             ALIVE_FATAL("unknown bit depth");
             break;
     }
+}
+
+void SoftwareRenderer::LoadCustomCAM(const char* /*path*/, const unsigned char* /*key*/, int /*keyLength*/)
+{
+    
 }

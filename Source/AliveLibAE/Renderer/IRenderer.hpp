@@ -12,6 +12,7 @@ class IRenderer
 public:
     enum class Renderers
     {
+        None = 0,
         Software,
         DirectX9,
         OpenGL,
@@ -36,6 +37,8 @@ public:
     };
 
 public:
+    Renderers rendererType = Renderers::None;
+
     virtual ~IRenderer()
     { }
     virtual void Destroy() = 0;
@@ -58,6 +61,8 @@ public:
     virtual void PalSetData(const PalRecord& record, const u8* pPixels) = 0;
 
     virtual void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) = 0;
+
+    virtual void LoadCustomCAM(const char* path, const unsigned char* key, int keyLength) = 0;
 
     // FG1/zaplines/blood/hintfly
     virtual void Draw(Prim_Sprt& sprt) = 0;
@@ -90,3 +95,5 @@ public:
     // Fleech (tounge), DeathGas, ColourfulMeter
     virtual void Draw(Poly_G4& poly) = 0;
 };
+
+extern IRenderer* gRenderer;
