@@ -121,7 +121,7 @@ const TAbeMotionFunction sAbeMotionMachineTable_554910[] = {
     &Abe::Motion_57_Dead_4589A0,
     &Abe::Motion_58_DeadPre_4593E0,
     &Abe::Motion_59_Null_459450,
-    &Abe::Motion_60_4A3200,
+    &Abe::Motion_60_Unused_4A3200,
     &Abe::Motion_61_TurnToRun_456530,
     &Abe::Motion_62_Punch_454750,
     &Abe::Motion_63_Sorry_454670,
@@ -1598,7 +1598,7 @@ void Abe::Update_449DC0()
 
                 field_128.field_14_rolling_motion_timer = sGnFrame_5C1B84;
 
-                if (motion_idx == eAbeMotions::Motion_12_Null_4569C0 || motion_idx == eAbeMotions::Motion_60_4A3200)
+                if (motion_idx == eAbeMotions::Motion_12_Null_4569C0 || motion_idx == eAbeMotions::Motion_60_Unused_4A3200)
                 {
                     field_20_animation.SetFrame_409D50(field_F6_anim_frame);
                 }
@@ -5892,8 +5892,7 @@ void Abe::Motion_59_Null_459450()
 {
 }
 
-//TODO: probably unused?
-void Abe::Motion_60_4A3200()
+void Abe::Motion_60_Unused_4A3200()
 {
     NOT_IMPLEMENTED();
 }

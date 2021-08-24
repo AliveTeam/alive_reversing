@@ -92,7 +92,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);
     ENTRY(Motion_66_LedgeHang_428D90)                \
     ENTRY(Motion_67_ToOffScreenHoist_428C50)         \
     ENTRY(Motion_68_LedgeHangWobble_428E50)          \
-    ENTRY(Motion_69_RingRopePull_4299B0)             \
+    ENTRY(Motion_69_RingRopePullHang_4299B0)             \
     ENTRY(Motion_70_Knockback_428FB0)                \
     ENTRY(Motion_71_KnockbackGetUp_429240)           \
     ENTRY(Motion_72_PushWall_4292A0)                 \
@@ -612,7 +612,7 @@ public:
     EXPORT void Motion_66_LedgeHang_428D90();
     EXPORT void Motion_67_ToOffScreenHoist_428C50();
     EXPORT void Motion_68_LedgeHangWobble_428E50();
-    EXPORT void Motion_69_RingRopePull_4299B0();
+    EXPORT void Motion_69_RingRopePullHang_4299B0();
     EXPORT void Motion_70_Knockback_428FB0();
     EXPORT void Motion_71_KnockbackGetUp_429240();
     EXPORT void Motion_72_PushWall_4292A0();
