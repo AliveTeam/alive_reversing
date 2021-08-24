@@ -262,7 +262,7 @@ const AnimId sAbeFrameTables[130] = {
     AnimId::Mudokon_Rolling,
     AnimId::Mudokon_RollingEnd_Unused,
     AnimId::Mudokon_RunSlideStop,
-    AnimId::Mudokon_RunTurn,
+    AnimId::Mudokon_RunSlideTurn,
     AnimId::Mudokon_HopBegin,
     AnimId::Mudokon_HopMid,
     AnimId::Mudokon_HopLand,

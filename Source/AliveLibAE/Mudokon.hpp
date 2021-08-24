@@ -146,8 +146,8 @@ enum Mud_Motion : u16
     M_SneakBegin_32_473F80,
     M_SneakToIdle_33_473FF0,
     M_MidSneakToIdle_34_474020,
-    M_JumpBegin_35_474460,
-    M_JumpMid_36_474570,
+    M_RunJumpBegin_35_474460,
+    M_RunJumpMid_36_474570,
     M_WalkToRun_37_4749A0,
     M_Punch_38_474AA0,
     M_HoistBegin_39_4748E0,
@@ -404,7 +404,7 @@ public: // Motions
     EXPORT void M_RunToWalk_22_4738E0();
     EXPORT void M_MidRunToWalk_23_4739B0();
     EXPORT void M_RunSlideStop_24_473A00();
-    EXPORT void M_RunTurn_25_473AA0();
+    EXPORT void M_RunSlideTurn_25_473AA0();
     EXPORT void M_RunTurnToRun_26_473BB0();
     EXPORT void M_SneakLoop_27_473C40();
     EXPORT void M_WalkToSneak_28_473D60();
@@ -414,8 +414,8 @@ public: // Motions
     EXPORT void M_SneakBegin_32_473F80();
     EXPORT void M_SneakToIdle_33_473FF0();
     EXPORT void M_MidSneakToIdle_34_474020();
-    EXPORT void M_JumpBegin_35_474460();
-    EXPORT void M_JumpMid_36_474570();
+    EXPORT void M_RunJumpBegin_35_474460();
+    EXPORT void M_RunJumpMid_36_474570();
     EXPORT void M_WalkToRun_37_4749A0();
     EXPORT void M_Punch_38_474AA0();
     EXPORT void M_HoistBegin_39_4748E0();
@@ -456,7 +456,7 @@ private:
     EXPORT s16 FindWheel_4777B0(FP xpos, FP ypos);
     EXPORT s16 GetBrainSubStateResponse_477AF0(MudAction action);
     EXPORT s16 StopAtWheel_477880();
-    EXPORT void StandingKnockBack_473190();
+    EXPORT void ToKnockback_473190();
     EXPORT s16 IsMotionUnknown_4730F0();
     EXPORT void MoveOnLine_4720D0();
 

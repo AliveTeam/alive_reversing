@@ -52,8 +52,8 @@ namespace AO {
     ENTRY(Motion_40_SneakBegin_43E4E0)            \
     ENTRY(Motion_41_SneakToIdle_43E530)           \
     ENTRY(Motion_42_MidSneakToIdle_43E560)        \
-    ENTRY(Motion_43_JumpBegin_43E870)             \
-    ENTRY(Motion_44_JumpMid_43E960)               \
+    ENTRY(Motion_43_RunJumpBegin_43E870)             \
+    ENTRY(Motion_44_RunJumpMid_43E960)               \
     ENTRY(Motion_45_ToRunToPortal_43EB00)         \
     ENTRY(Motion_46_FallLandDie_43E660)           \
     ENTRY(Motion_47_Knockback_43E730)             \
@@ -71,7 +71,7 @@ namespace AO {
     ENTRY(Motion_59_CrouchChant_43EC20)           \
     ENTRY(Motion_60_CrouchChantToSruggle_43ED50)  \
     ENTRY(Motion_61_DuckKnockback_43E6E0)         \
-    ENTRY(Motion_62_Choke_43ED70)
+    ENTRY(Motion_62_PoisonGasDeath_43ED70)
 
 #define MAKE_ENUM(VAR) VAR,
 enum eMudMotions : s32
@@ -179,9 +179,9 @@ public:
 
     EXPORT static s16 CC IsAbeSneaking_43D660(Mudokon* pMud);
 
-    EXPORT void ToKnockBack_43D6E0();
+    EXPORT void ToKnockback_43D6E0();
 
-    EXPORT void SlowOnX_43C920(FP amount);
+    EXPORT void ReduceXVelocityBy_43C920(FP amount);
 
     EXPORT void MoveOnLine_43C7E0();
 
@@ -244,8 +244,8 @@ public:
 	EXPORT void Motion_40_SneakBegin_43E4E0();
 	EXPORT void Motion_41_SneakToIdle_43E530();
     EXPORT void Motion_42_MidSneakToIdle_43E560();
-    EXPORT void Motion_43_JumpBegin_43E870();
-    EXPORT void Motion_44_JumpMid_43E960();
+    EXPORT void Motion_43_RunJumpBegin_43E870();
+    EXPORT void Motion_44_RunJumpMid_43E960();
     EXPORT void Motion_45_ToRunToPortal_43EB00();
     EXPORT void Motion_46_FallLandDie_43E660();
     EXPORT void Motion_47_Knockback_43E730();
@@ -263,7 +263,7 @@ public:
     EXPORT void Motion_59_CrouchChant_43EC20();
     EXPORT void Motion_60_CrouchChantToSruggle_43ED50();
     EXPORT void Motion_61_DuckKnockback_43E6E0();
-    EXPORT void Motion_62_Choke_43ED70();
+    EXPORT void Motion_62_PoisonGasDeath_43ED70();
 
     // Brains
     EXPORT s16 Brain_ComingIn_0_441DE0();
