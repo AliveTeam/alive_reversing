@@ -13,7 +13,7 @@
 #include "DDCheat.hpp"
 #include "Events.hpp"
 #include "WorkWheel.hpp"
-#include "Grinder.hpp"
+#include "Drill.hpp"
 #include "ScreenManager.hpp"
 #include "Io.hpp"
 #include "LiftPoint.hpp"
@@ -41,7 +41,7 @@
 #include "ColourfulMeter.hpp"
 #include "MinesAlarm.hpp"
 #include "EvilFart.hpp"
-#include "NakedSlig.hpp"
+#include "CrawlingSlig.hpp"
 #include "Fleech.hpp"
 #include "Greeter.hpp"
 #include "Slog.hpp"
@@ -80,11 +80,11 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable = {
     nullptr,
     nullptr,
     &MinesAlarm::CreateFromSaveState_417740,
-    &NakedSlig::CreateFromSaveState_41AE80,
+    &CrawlingSlig::CreateFromSaveState_41AE80,
     nullptr,
     nullptr,
     nullptr,
-    &Grinder::CreateFromSaveState_421600,
+    &Drill::CreateFromSaveState_421600,
     nullptr,
     nullptr,
     nullptr,
@@ -338,7 +338,7 @@ EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
         quicksaveData->field_204_world_info.field_4_level,
         quicksaveData->field_204_world_info.field_6_path,
         quicksaveData->field_204_world_info.field_8_cam,
-        CameraSwapEffects::eEffect0_InstantChange,
+        CameraSwapEffects::eInstantChange_0,
         0,
         1);
     gMap_5C3030.field_8_force_load = 1;
@@ -398,7 +398,7 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
                                 if (flags.Get(TLV_Flags::eBit1_Created))
                                 {
                                     flags.Clear(TLV_Flags::eBit1_Created);
-                                    flags.Clear(TLV_Flags::eBit2_Unknown);
+                                    flags.Clear(TLV_Flags::eBit2_Destroyed);
                                 }
                                 WriteFlags(pSaveBuffer, pTlv, flags);
                             }

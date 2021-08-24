@@ -268,7 +268,7 @@ s16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        3,
+                        GibType::Elum_3,
                         field_A8_xpos,
                         field_AC_ypos,
                         field_B4_velx,
@@ -3912,10 +3912,11 @@ Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s
 
     field_126_res_idx = 16;
 
+    const AnimRecord& fallRec = AO::AnimRec(AnimId::Elum_FallUnknown1);
     Animation_Init_417FD0(
-        40404,
-        169,
-        169,
+        fallRec.mFrameTableOffset,
+        fallRec.mMaxW,
+        fallRec.mMaxH,
         field_174_resources.res[16],
         1);
 

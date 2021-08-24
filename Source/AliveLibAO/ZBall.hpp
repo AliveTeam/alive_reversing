@@ -42,7 +42,7 @@ public:
     EXPORT BaseGameObject* dtor_478710();
     EXPORT void VUpdate_478720();
 
-    s32 field_D4[4];
+    s32 field_D4_padding[4];
 
     s32 field_E4_tlvInfo;
     s16 field_E8_bFrameAbove12;

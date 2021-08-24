@@ -25,8 +25,9 @@ public:
         SetVTable(this, 0x4BB330);
         field_4_typeId = Types::eNone_0;
 
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGlowResID, 1, 0);
-        Animation_Init_417FD0(1344, 52, 30, ppRes, 1);
+        const AnimRecord rec = AO::AnimRec(AnimId::Door_FireBackgroundGlow);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+        Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
         field_CC_bApplyShadows |= 1u;
 
@@ -173,8 +174,9 @@ public:
 
         SetVTable(this, 0x4BB368);
         field_4_typeId = Types::eNone_0;
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
-        Animation_Init_417FD0(1532, 38, 21, ppRes, 1);
+        const AnimRecord rec = AO::AnimRec(AnimId::Door_Flame_Spark);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+        Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
         field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_CC_bApplyShadows |= 1u;
@@ -422,8 +424,9 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB3A0);
     field_4_typeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubFireResID, 1, 0);
-    Animation_Init_417FD0(5072, 51, 24, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Fire);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_CC_bApplyShadows |= 1u;

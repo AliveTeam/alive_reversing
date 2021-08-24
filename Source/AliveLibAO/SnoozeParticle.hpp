@@ -13,9 +13,9 @@ class SnoozeParticle final : public BaseGameObject
 public:
     enum class SnoozeParticleState : s16
     {
-        Rising_0 = 0,
-        Unused_1 = 1,
-        BlowingUp_2 = 2
+        eRising_0 = 0,
+        eUnused_1 = 1,
+        eBlowingUp_2 = 2
     };
 
     EXPORT SnoozeParticle* ctor_464320(FP xpos, FP ypos, Layer layer, FP scale);

@@ -43,10 +43,10 @@ namespace AO {
 ALIVE_VAR(1, 0x9F11BC, s32, dword_9F11BC, 0);
 ALIVE_VAR(1, 0x9F11C0, s32, dword_9F11C0, 0);
 
-TintEntry stru_4CFB10[3] = {
-    {5, 127u, 127u, 127u},
-    {6, 127u, 127u, 127u},
-    {-1, 102u, 127u, 118u}};
+const TintEntry kSligTints_4CFB10[3] = {
+    {LevelIds_s8::eStockYards_5, 127u, 127u, 127u},
+    {LevelIds_s8::eStockYardsReturn_6, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 102u, 127u, 118u}};
 
 using TSligStateFunction = decltype(&Slig::Motion_0_StandIdle_467640);
 
@@ -296,12 +296,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, s32 tlvInfo)
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 1, 0);
     field_210_resources.res[0] = ppRes;
-    Animation_Init_417FD0(
-        132740,
-        160,
-        68,
-        ppRes,
-        1);
+    Animation_Init_417FD0(132740, 160, 68, ppRes, 1);
 
     field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_10A_flags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
@@ -359,7 +354,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, s32 tlvInfo)
     }
 
     SetBaseAnimPaletteTint_4187C0(
-        &stru_4CFB10[0],
+        &kSligTints_4CFB10[0],
         gMap_507BA8.field_0_current_level,
         412);
 
@@ -423,7 +418,7 @@ BaseGameObject* Slig::dtor_465320()
                 field_14E_level,
                 field_150_path,
                 field_152_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
     }
@@ -440,13 +435,13 @@ BaseGameObject* Slig::dtor_465320()
         if (pTlv)
         {
             pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
         }
     }
     else if (pTlv)
     {
         pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-        pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+        pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
     }
 
     for (u8**& ppRes : field_210_resources.res)
@@ -979,7 +974,7 @@ s16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        1,
+                        GibType::Slig_1,
                         field_A8_xpos,
                         field_AC_ypos,
                         field_B4_velx,
@@ -1948,8 +1943,8 @@ void Slig::GameSpeakResponse_46ED60()
 
     switch (speak)
     {
-        case GameSpeakEvents::eWhistle1_1:
-        case GameSpeakEvents::eWhistle2_2:
+        case GameSpeakEvents::eWhistleHigh_1:
+        case GameSpeakEvents::eWhistleLow_2:
             if (!(Math_NextRandom() & 4))
             {
                 field_258_next_gamespeak_motion = eSligMotions::Motion_26_SpeakBullshit1_467F90;
@@ -3523,7 +3518,7 @@ void Slig::Motion_34_SleepingToStand_46A5F0()
 
         if (pObj->field_4_typeId == Types::eSnoozParticle_87)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1D4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->field_1D4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 
@@ -3749,7 +3744,7 @@ void Slig::Motion_38_Possess_46B050()
             if (pGibs)
             {
                 pGibs->ctor_407B20(
-                    1,
+                    GibType::Slig_1,
                     field_A8_xpos,
                     field_AC_ypos,
                     xOff,
@@ -4628,7 +4623,7 @@ s16 Slig::Brain_Death_46C3A0()
                 field_14E_level,
                 field_150_path,
                 field_152_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }
@@ -4702,7 +4697,7 @@ s16 Slig::Brain_DeathDropDeath_46C5A0()
                 {
                     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
                     sControlledCharacter_50767C = sActiveHero_507678;
-                    gMap_507BA8.SetActiveCam_444660(field_14E_level, field_150_path, field_152_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(field_14E_level, field_150_path, field_152_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
@@ -4723,7 +4718,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
             field_14E_level,
             field_150_path,
             field_152_camera,
-            CameraSwapEffects::eEffect0_InstantChange,
+            CameraSwapEffects::eInstantChange_0,
             0,
             0);
     }
@@ -5749,7 +5744,7 @@ void Slig::BlowToGibs_4685A0()
     if (pGibs)
     {
         pGibs->ctor_407B20(
-            1,
+            GibType::Slig_1,
             field_A8_xpos,
             field_AC_ypos,
             field_B4_velx,

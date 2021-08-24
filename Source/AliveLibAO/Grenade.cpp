@@ -39,13 +39,10 @@ Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, s16 numGrenades)
     field_10E_bDead = 0;
     SetVTable(this, 0x4BB0A0);
     field_4_typeId = Types::eGrenade_40;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 1, 0);
-    Animation_Init_417FD0(
-        1132,
-        17,
-        11,
-        ppRes,
-        1);
+
+    const AnimRecord rec = AO::AnimRec(AnimId::Grenade);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_6_flags.Clear(Options::eInteractive_Bit8);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
@@ -586,7 +583,7 @@ s16 Grenade::BlowUpAfterCountdown_41EDD0()
     auto pGibs = ao_new<Gibs>();
     if (pGibs)
     {
-        pGibs->ctor_407B20(5, field_A8_xpos, field_AC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_BC_sprite_scale);
+        pGibs->ctor_407B20(GibType::Metal_5, field_A8_xpos, field_AC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_BC_sprite_scale);
     }
     return 1;
 }

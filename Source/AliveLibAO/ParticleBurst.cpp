@@ -50,31 +50,40 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
             SetVTable(&field_E8_pRes[i].field_18_anim, 0x4BA470);
         }
 
+        const AnimRecord rec1 = AO::AnimRec(AnimId::Rock_Gib);
+        u8** ppRes1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
+        const AnimRecord rec2 = AO::AnimRec(AnimId::Stick_Gib);
+        u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
+        const AnimRecord rec3 = AO::AnimRec(AnimId::DeathFlare_2);
+        u8** ppRes3 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec3.mResourceId, 1, 0);
+        const AnimRecord rec4 = AO::AnimRec(AnimId::Meat_Gib);
+        u8** ppRes4 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec4.mResourceId, 1, 0);
+
         field_F4_type = type;
         switch (type)
         {
-            case BurstType::eType_0:
-                Animation_Init_417FD0(8108, 71, 36, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0), 1);
+            case BurstType::eFallingRocks_0:
+                Animation_Init_417FD0(rec1.mFrameTableOffset, rec1.mMaxW, rec1.mMaxH, ppRes1, 1);
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 break;
 
-            case BurstType::eType_1:
-                Animation_Init_417FD0(2800, 47, 29, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kStickGib, 1, 0), 1);
+            case BurstType::eSticks_1:
+                Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
                 scale = FP_FromDouble(0.4) * scale;
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 break;
 
-            case BurstType::eType_2:
-                Animation_Init_417FD0(6284, 70, 43, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0), 1);
+            case BurstType::eBigPurpleSparks_2:
+                Animation_Init_417FD0(rec3.mFrameTableOffset, rec3.mMaxW, rec3.mMaxH, ppRes3, 1);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
                 break;
 
-            case BurstType::eType_3:
-                Animation_Init_417FD0(6284, 70, 43, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0), 1);
+            case BurstType::eBigRedSparks_3:
+                Animation_Init_417FD0(rec3.mFrameTableOffset, rec3.mMaxW, rec3.mMaxH, ppRes3, 1);
 
                 field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -85,8 +94,8 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
                 field_10_anim.field_A_b = 18;
                 break;
 
-            case BurstType::eType_4:
-                Animation_Init_417FD0(8908, 69, 30, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014, 1, 0), 1);
+            case BurstType::eMeat_4:
+                Animation_Init_417FD0(rec4.mFrameTableOffset, rec4.mMaxW, rec4.mMaxH, ppRes4, 1);
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 break;
@@ -129,7 +138,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
 
                 field_E8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending, field_10_anim.field_4_flags.Get(AnimFlags::eBit16_bBlending));
 
-                if (type == BurstType::eType_2)
+                if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {
@@ -216,7 +225,7 @@ void ParticleBurst::VUpdate_40D600()
             pItem->field_14_z_speed = -pItem->field_14_z_speed;
             pItem->field_8_z += pItem->field_14_z_speed;
 
-            if (field_F4_type == BurstType::eType_4)
+            if (field_F4_type == BurstType::eMeat_4)
             {
                 if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                         gMap_507BA8.field_0_current_level,

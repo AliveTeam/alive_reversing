@@ -333,7 +333,7 @@ s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
             if (pGibs)
             {
                 pGibs->ctor_407B20(
-                    2,
+                    GibType::Slog_2,
                     field_A8_xpos,
                     field_AC_ypos,
                     field_B4_velx,
@@ -572,9 +572,9 @@ void Slog::MoveOnLine_4740F0()
 }
 
 const TintEntry sSlogTints_4CFE10[3] = {
-    {5, 48u, 48u, 48u},
-    {6, 48u, 48u, 48u},
-    {-1, 127u, 127u, 127u}};
+    {LevelIds_s8::eStockYards_5, 48u, 48u, 48u},
+    {LevelIds_s8::eStockYardsReturn_6, 48u, 48u, 48u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 void Slog::Init_473130()
 {
@@ -590,12 +590,7 @@ void Slog::Init_473130()
     field_184_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, 1, 0);
     field_184_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogidleResID, 1, 0);
 
-    Animation_Init_417FD0(
-        94456,
-        121,
-        57,
-        field_184_resources[0],
-        1);
+    Animation_Init_417FD0(94456, 121, 57, field_184_resources[0], 1);
 
     field_6_flags.Set(Options::eCanExplode_Bit7);
     field_10_anim.field_1C_fn_ptr_array = kSlog_Anim_Frame_Fns_4CEBF4;
@@ -1648,7 +1643,7 @@ void Slog::Motion_18_WakeUp_475460()
 
         if (pObj->field_4_typeId == Types::eSnoozParticle_87)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1D4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->field_1D4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 

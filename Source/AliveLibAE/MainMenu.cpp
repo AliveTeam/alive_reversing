@@ -429,55 +429,55 @@ PerLvlData sDemos_5617F0[23] = {
     {"Greeters Go Boom", LevelIds::eBrewery_9, 28, 4, 25, 0, 0}};
 
 MainMenuFrameTable sMainMenuFrameTable_561CC8[49] = {
-    {0, 0, 0, 0, 0},
-    {247808, 1, -1, 1, 0},
-    {247684, 1, -1, 1, 0},
-    {247620, 1, 3, 1, 0},
-    {247924, 1, 12, 1, 14},
-    {693672, 0, 4, 1, 0},
-    {693504, 0, 11, 1, 14},
-    {693912, 0, 6, 1, 0},
-    {693556, 0, 5, 1, 14},
-    {50212, 3, -1, 10, 0},
-    {25888, 2, -1, 11, 0},
-    {247684, 1, -1, 3, 0},
-    {693772, 0, -1, 0, 0},
-    {693748, 0, -1, 1, 0},
-    {694084, 0, 25, 1, 0},
-    {694132, 0, 17, 1, 0},
-    {694200, 0, 26, 1, 0},
-    {693956, 0, 27, 1, 14},
-    {1105688, 7, -1, 18, 0},
-    {1105420, 7, 8, 18, 0},
-    {1105516, 7, 2, 18, 0},
-    {1105600, 7, 1, 18, 0},
-    {1105816, 7, 3, 18, 14},
-    {1105884, 7, 6, 18, 14},
-    {1105964, 7, 5, 18, 0},
-    {1106020, 7, 7, 18, 0},
-    {1106072, 7, 0, 18, 0},
-    {1371728, 8, -1, 27, 0},
-    {1371876, 8, -1, 27, 0},
-    {1372024, 8, 8, 27, 17},
-    {1372108, 8, 7, 27, 0},
-    {1372192, 8, 2, 27, 0},
-    {1371452, 8, 3, 27, 17},
-    {1371520, 8, 1, 27, 17},
-    {1371580, 8, 6, 27, 17},
-    {1371660, 8, 0, 27, 0},
-    {1372292, 8, 4, 27, 0},
-    {506044, 9, -1, 37, 0},
-    {506160, 9, -1, 37, 0},
-    {505836, 9, 8, 37, 0},
-    {505756, 9, 0, 37, 0},
-    {888448, 10, -1, 41, 0},
-    {888572, 10, -1, 41, 0},
-    {888936, 10, 9, 41, 0},
-    {888240, 10, 5, 41, 14},
-    {888308, 10, 0, 41, 14},
-    {888696, 10, 1, 41, 14},
-    {888824, 10, 2, 41, 14},
-    {889016, 10, 0, 41, 14}};
+    {AnimId::None, 0, 0, 0, 0},
+    {AnimId::MenuAbeSpeak_Idle, 1, -1, 1, 0},
+    {AnimId::MenuAbeSpeak_IdleBlink, 1, -1, 1, 0},
+    {AnimId::MenuAbeSpeak_Hello, 1, 3, 1, 0},
+    {AnimId::MenuAbeSpeak_Ok, 1, 12, 1, 14},
+    {AnimId::MenuAbeSpeak_FollowMe, 0, 4, 1, 0},
+    {AnimId::MenuAbeSpeak_Goodbye, 0, 11, 1, 14},
+    {AnimId::MenuAbeSpeak_Wait, 0, 6, 1, 0},
+    {AnimId::MenuAbeSpeak_Anger, 0, 5, 1, 14},
+    {AnimId::MenuDoor, 3, -1, 10, 0},
+    {AnimId::AbeIntro, 2, -1, 11, 0},
+    {AnimId::MenuAbeSpeak_IdleBlink, 1, -1, 3, 0},
+    {AnimId::MenuAbeSpeak_Chant, 0, -1, 0, 0},
+    {AnimId::MenuAbeSpeak_ChantEnd, 0, -1, 1, 0},
+    {AnimId::MenuAbeSpeak_Work, 0, 25, 1, 0},
+    {AnimId::MenuAbeSpeak_AllYa, 0, 17, 1, 0},
+    {AnimId::MenuAbeSpeak_StopIt, 0, 26, 1, 0},
+    {AnimId::MenuAbeSpeak_Sympathy, 0, 27, 1, 14},
+    {AnimId::MenuSligSpeak_Idle, 7, -1, 18, 0},
+    {AnimId::MenuSligSpeak_Freeze, 7, 8, 18, 0},
+    {AnimId::MenuSligSpeak_GetEm, 7, 2, 18, 0},
+    {AnimId::MenuSligSpeak_HereBoy, 7, 1, 18, 0},
+    {AnimId::MenuSligSpeak_Laugh, 7, 3, 18, 14},
+    {AnimId::MenuSligSpeak_LookOut, 7, 6, 18, 14},
+    {AnimId::MenuSligSpeak_Bs, 7, 5, 18, 0},
+    {AnimId::MenuSligSpeak_SmoBs, 7, 7, 18, 0},
+    {AnimId::MenuSligSpeak_Hi, 7, 0, 18, 0},
+    {AnimId::MenuGlukkonSpeak_Idle, 8, -1, 27, 0},
+    {AnimId::MenuGlukkonSpeak_IdleVariation, 8, -1, 27, 0},
+    {AnimId::MenuGlukkonSpeak_KillEm, 8, 8, 27, 17},
+    {AnimId::MenuGlukkonSpeak_Laugh, 8, 7, 27, 0},
+    {AnimId::MenuGlukkonSpeak_StayHere, 8, 2, 27, 0},
+    {AnimId::MenuGlukkonSpeak_Commere, 8, 3, 27, 17},
+    {AnimId::MenuGlukkonSpeak_DoIt, 8, 1, 27, 17},
+    {AnimId::MenuGlukkonSpeak_Help, 8, 6, 27, 17},
+    {AnimId::MenuGlukkonSpeak_Hey, 8, 0, 27, 0},
+    {AnimId::MenuGlukkonSpeak_AllOYa, 8, 4, 27, 0},
+    {AnimId::MenuScrabSpeak_Idle, 9, -1, 37, 0},
+    {AnimId::MenuScrabSpeak_IdleVariation, 9, -1, 37, 0},
+    {AnimId::MenuScrabSpeak_ShredPower, 9, 8, 37, 0},
+    {AnimId::MenuScrabSpeak_Howl, 9, 0, 37, 0},
+    {AnimId::MenuParamiteSpeak_Idle, 10, -1, 41, 0},
+    {AnimId::MenuParamiteSpeak_IdleVariation, 10, -1, 41, 0},
+    {AnimId::MenuParamiteSpeak_Attack, 10, 9, 41, 0},
+    {AnimId::MenuParamiteSpeak_Howdy, 10, 5, 41, 14},
+    {AnimId::MenuParamiteSpeak_Cmon, 10, 0, 41, 14},
+    {AnimId::MenuParamiteSpeak_Stay, 10, 1, 41, 14},
+    {AnimId::MenuParamiteSpeak_DoIt, 10, 2, 41, 14},
+    {AnimId::MenuParamiteSpeak_AllAYa, 10, 0, 41, 14}};
 
 #if DEVELOPER_MODE
 bool gBootToLoadScreen = false;
@@ -514,16 +514,18 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     if (gMap_5C3030.field_4_current_camera == MainMenuCams::eCheatMenu_SelectFMVCam)
     {
         field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = nullptr;
-        field_F4_resources.field_0_resources[MenuResIds::eDoor] = nullptr;
-        Animation_Init_424E10(247808, 233, 0x7Du, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2], 1, 1);
+        field_F4_resources.field_0_resources[MenuResIds::eMenuDoor] = nullptr;
+        const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
+        Animation_Init_424E10(abeIdleRec.mFrameTableOffset, abeIdleRec.mMaxW, abeIdleRec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2], 1, 1);
     }
     else
     {
         ResourceManager::LoadResourceFile_49C170("ABEINTRO.BAN", nullptr);
         field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeintroResID, TRUE, FALSE);
         ResourceManager::LoadResourceFile_49C170("STDOOR.BAN", nullptr);
-        field_F4_resources.field_0_resources[MenuResIds::eDoor] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDoorResID, TRUE, FALSE);
-        Animation_Init_424E10(50212, 233, 0x7Du, field_F4_resources.field_0_resources[MenuResIds::eDoor], 1, 1);
+        field_F4_resources.field_0_resources[MenuResIds::eMenuDoor] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMenuDoorResID, TRUE, FALSE);
+        const AnimRecord& rec = AnimRec(AnimId::MenuDoor);
+        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor], 1, 1);
     }
 
     field_20_animation.field_A_b = 127;
@@ -532,7 +534,8 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
 
 
     field_F4_resources.field_0_resources[MenuResIds::eResHighLite] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kHighliteResID, TRUE, FALSE);
-    field_158_animation.Init_40A030(13912, gObjList_animations_5C1A24, this, 150, 0x41u, field_F4_resources.field_0_resources[MenuResIds::eResHighLite], 1, 0, 0);
+    const AnimRecord& rec = AnimRec(AnimId::MenuHighlight_Circle);
+    field_158_animation.Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eResHighLite], 1, 0, 0);
 
     field_158_animation.field_14_scale = field_CC_sprite_scale;
 
@@ -547,8 +550,8 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_1F0_tlvOffsetLevelIdPathId = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
 
     field_214_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(gMap_5C3030.field_4_current_camera));
-    field_21C_bDoScreenTransistionEffect = 1;
-    field_21E_bChangeScreen = 0;
+    field_21C_camSwapEffectState = camTransEffectState::eConstructed_1;
+    field_21E_changeScreenState = 0;
     field_1F8_page_timeout = 0;
     field_220_frame_table_idx = 1;
     field_228_res_idx = 0;
@@ -567,7 +570,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
 
     if (gMap_5C3030.field_4_current_camera == MainMenuCams::eMainMenuCam)
     {
-        MainMenuController::Set_Anim_4D05E0(9, 0);
+        MainMenuController::Set_Anim_4D05E0(eAbe_EnterThroughDoor, 0);
         field_23C_T80.Set(Flags::eBit17_bDisableChangingSelection);
 #if DEVELOPER_MODE
         if (gBootToLoadScreen)
@@ -612,7 +615,8 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         field_25C_Inside_FMV_Screen = 1;
         pDemosOrFmvs_BB4414.mFmvRec = &sFmvs_561540[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sFmvs_561540);
-        field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+        const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
+        field_20_animation.Set_Animation_Data_409C80(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
         return this;
     }
@@ -633,7 +637,8 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sDemos_5617F0);
         field_230_target_entry_index = sDemoIdChosenFromDemoMenu_5C1B9E;
-        field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+        const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
+        field_20_animation.Set_Animation_Data_409C80(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
     }
     return this;
@@ -809,7 +814,8 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
         if (field_230_target_entry_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
         {
             // Spawn chant star/flare particle at random locations around abes head
-            field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptionFlare, FALSE, FALSE);
+            const AnimRecord& flareRec = AnimRec(AnimId::OptionChantOrb_Particle);
+            field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, flareRec.mResourceId, FALSE, FALSE);
             Particle* pParticle = ae_new<Particle>();
             if (pParticle)
             {
@@ -823,9 +829,9 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
                 pParticle->ctor_4CC4C0(
                     xpos,
                     ypos,
-                    4176, // frame table
-                    92,   // max w
-                    47,   // max h
+                    flareRec.mFrameTableOffset,
+                    flareRec.mMaxW,
+                    flareRec.mMaxH,
                     field_F4_resources.field_0_resources[MenuResIds::eOptionFlare]);
 
                 if (pParticle)
@@ -843,34 +849,34 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
                                     switch (cmd)
                                     {
                                         case InputCommands::Enum::eChant:
-                                            Set_Anim_4D05E0(AnimIds::eAbe_Chant);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Chant);
                                             break;
                                         case InputCommands::Enum::eGameSpeak1:
-                                            Set_Anim_4D05E0(AnimIds::eAbe_Hello);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Hello);
                                             break;
                                         case InputCommands::Enum::eGameSpeak2:
-                                            Set_Anim_4D05E0(AnimIds::eAbe_FollowMe);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_FollowMe);
                                             break;
                                         case InputCommands::Enum::eGameSpeak3:
-                                            Set_Anim_4D05E0(AnimIds::eAbe_Wait);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Wait);
                                             break;
                                         case InputCommands::Enum::eGameSpeak4:
-                                            Set_Anim_4D05E0(AnimIds::eAbe_Work);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Work);
                                             break;
                                         case InputCommands::Enum::eGameSpeak5:
-                                            Set_Anim_4D05E0(AnimIds::eAbe_Anger);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Anger);
                                             break;
                                         case InputCommands::Enum::eGameSpeak6:
-                                            Set_Anim_4D05E0(AnimIds::eAbe_AllYa);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_AllYa);
                                             break;
                                         case InputCommands::Enum::eGameSpeak7:
-                                            Set_Anim_4D05E0(AnimIds::eAbe_Sympathy);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Sympathy);
                                             break;
                                         case InputCommands::Enum::eGameSpeak8:
-                                            Set_Anim_4D05E0(AnimIds::eAbe_StopIt);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_StopIt);
                                             break;
                                         case InputCommands::Enum::eBack:
-                                            Set_Anim_4D05E0(AnimIds::eAbe_GoodBye);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_GoodBye);
                                             // Stop chanting music
                                             SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
 
@@ -911,31 +917,31 @@ MainMenuNextCam MainMenuController::SligSpeak_Update_4D3280(u32 input_held)
                                     switch (cmd)
                                     {
                                         case InputCommands::Enum::eGameSpeak1:
-                                            Set_Anim_4D05E0(AnimIds::eSlig_Hi);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_Hi);
                                             break;
                                         case InputCommands::Enum::eGameSpeak2:
-                                            Set_Anim_4D05E0(AnimIds::eSlig_HereBoy);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_HereBoy);
                                             break;
                                         case InputCommands::Enum::eGameSpeak3:
-                                            Set_Anim_4D05E0(AnimIds::eSlig_Freeze);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_Freeze);
                                             break;
                                         case InputCommands::Enum::eGameSpeak4:
-                                            Set_Anim_4D05E0(AnimIds::eSlig_GetEm);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_GetEm);
                                             break;
                                         case InputCommands::Enum::eGameSpeak5:
-                                            Set_Anim_4D05E0(AnimIds::eSlig_SmoBs);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_SmoBs);
                                             break;
                                         case InputCommands::Enum::eGameSpeak6:
-                                            Set_Anim_4D05E0(AnimIds::eSlig_Bs);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_Bs);
                                             break;
                                         case InputCommands::Enum::eGameSpeak7:
-                                            Set_Anim_4D05E0(AnimIds::eSlig_LookOut);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_LookOut);
                                             break;
                                         case InputCommands::Enum::eGameSpeak8:
-                                            Set_Anim_4D05E0(AnimIds::eSlig_Laugh);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_Laugh);
                                             break;
                                         case InputCommands::Enum::eBack:
-                                            Set_Anim_4D05E0(AnimIds::eSlig_Laugh);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_Laugh);
                                             return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam, 1);
 
                                         default:
@@ -950,7 +956,7 @@ void MainMenuController::SligSpeak_Unload_4D3170()
 {
     Unload_Resource(field_F4_resources.field_0_resources[MenuResIds::eSligSpeak]);
     Load_AbeSpeakResources();
-    Set_Anim_4D05E0(AnimIds::eAbe_Idle);
+    Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Idle);
 }
 
 void MainMenuController::SligSpeak_Load_4D3090()
@@ -959,8 +965,9 @@ void MainMenuController::SligSpeak_Load_4D3090()
 
     ResourceManager::LoadResourceFile_49C170("SLGSPEAK.BAN", nullptr);
     field_F4_resources.field_0_resources[MenuResIds::eSligSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligSpeakResID, TRUE, FALSE);
-    field_20_animation.Set_Animation_Data_409C80(0x10DF18, field_F4_resources.field_0_resources[MenuResIds::eSligSpeak]);
-    Set_Anim_4D05E0(AnimIds::eSlig_Idle);
+    const AnimRecord& rec = AnimRec(AnimId::MenuSligSpeak_Idle);
+    field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eSligSpeak]);
+    Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_Idle);
 }
 
 MainMenuNextCam MainMenuController::GlukkonSpeak_Update_4D3670(u32 input_held)
@@ -970,31 +977,31 @@ MainMenuNextCam MainMenuController::GlukkonSpeak_Update_4D3670(u32 input_held)
                                     switch (cmd)
                                     {
                                         case InputCommands::Enum::eGameSpeak1:
-                                            Set_Anim_4D05E0(AnimIds::eGlukkon_Hey);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_Hey);
                                             break;
                                         case InputCommands::Enum::eGameSpeak2:
-                                            Set_Anim_4D05E0(AnimIds::eGlukkon_Commere);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_Commere);
                                             break;
                                         case InputCommands::Enum::eGameSpeak3:
-                                            Set_Anim_4D05E0(AnimIds::eGlukkon_StayHere);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_StayHere);
                                             break;
                                         case InputCommands::Enum::eGameSpeak4:
-                                            Set_Anim_4D05E0(AnimIds::eGlukkon_DoIt);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_DoIt);
                                             break;
                                         case InputCommands::Enum::eGameSpeak5:
-                                            Set_Anim_4D05E0(AnimIds::eGlukkon_KillEm);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_KillEm);
                                             break;
                                         case InputCommands::Enum::eGameSpeak6:
-                                            Set_Anim_4D05E0(AnimIds::eGlukkon_AllOYa);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_AllOYa);
                                             break;
                                         case InputCommands::Enum::eGameSpeak7:
-                                            Set_Anim_4D05E0(AnimIds::eGlukkon_Help);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_Help);
                                             break;
                                         case InputCommands::Enum::eGameSpeak8:
-                                            Set_Anim_4D05E0(AnimIds::eGlukkon_Laugh);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_Laugh);
                                             break;
                                         case InputCommands::Enum::eBack:
-                                            Set_Anim_4D05E0(AnimIds::eGlukkon_Laugh);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_Laugh);
                                             return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam, 2);
 
                                         default:
@@ -1009,7 +1016,7 @@ void MainMenuController::GlukkonSpeak_Unload_4D3560()
 {
     Unload_Resource(field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak]);
     Load_AbeSpeakResources();
-    Set_Anim_4D05E0(AnimIds::eAbe_Idle);
+    Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Idle);
 }
 
 void MainMenuController::GlukkonSpeak_Load_4D3480()
@@ -1018,8 +1025,9 @@ void MainMenuController::GlukkonSpeak_Load_4D3480()
 
     ResourceManager::LoadResourceFile_49C170("GLKSPEAK.BAN", nullptr);
     field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlukkonSpeakResID, TRUE, FALSE);
-    field_20_animation.Set_Animation_Data_409C80(0x14EE50, field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak]);
-    Set_Anim_4D05E0(AnimIds::eGlukkon_Idle);
+    const AnimRecord& rec = AnimRec(AnimId::MenuGlukkonSpeak_Idle);
+    field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak]);
+    Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_Idle);
 }
 
 MainMenuNextCam MainMenuController::ScrabSpeak_Update_4D3A60(u32 input_held)
@@ -1029,10 +1037,10 @@ MainMenuNextCam MainMenuController::ScrabSpeak_Update_4D3A60(u32 input_held)
                                     switch (cmd)
                                     {
                                         case InputCommands::Enum::eGameSpeak1:
-                                            Set_Anim_4D05E0(AnimIds::eScrab_ShredPower);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eScrab_ShredPower);
                                             break;
                                         case InputCommands::Enum::eGameSpeak2:
-                                            Set_Anim_4D05E0(AnimIds::eScrab_Howl);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eScrab_Howl);
                                             break;
                                         case InputCommands::Enum::eGameSpeak3:
                                             break; // Scrabs don't have much to say.
@@ -1047,7 +1055,7 @@ MainMenuNextCam MainMenuController::ScrabSpeak_Update_4D3A60(u32 input_held)
                                         case InputCommands::Enum::eGameSpeak8:
                                             break;
                                         case InputCommands::Enum::eBack:
-                                            Set_Anim_4D05E0(AnimIds::eScrab_ShredPower);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eScrab_ShredPower);
                                             return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam, 3);
 
                                         default:
@@ -1062,7 +1070,7 @@ void MainMenuController::ScrabSpeak_Unload_4D3950()
 {
     Unload_Resource(field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak]);
     Load_AbeSpeakResources();
-    Set_Anim_4D05E0(AnimIds::eAbe_Idle);
+    Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Idle);
 }
 
 void MainMenuController::ScrabSpeak_Load_4D3870()
@@ -1071,8 +1079,9 @@ void MainMenuController::ScrabSpeak_Load_4D3870()
 
     ResourceManager::LoadResourceFile_49C170("SCRSPEAK.BAN", nullptr);
     field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kScrabSpeakResID, TRUE, FALSE);
-    field_20_animation.Set_Animation_Data_409C80(0x7B8BC, field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak]);
-    Set_Anim_4D05E0(AnimIds::eScrab_Idle);
+    const AnimRecord& rec = AnimRec(AnimId::MenuScrabSpeak_Idle);
+    field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak]);
+    Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eScrab_Idle);
 }
 
 void MainMenuController::ParamiteSpeak_Render_4D2460(PrimHeader** ot)
@@ -1087,29 +1096,29 @@ MainMenuNextCam MainMenuController::ParamiteSpeak_Update_4D3D60(u32 input_held)
                                     switch (cmd)
                                     {
                                         case InputCommands::Enum::eGameSpeak1:
-                                            Set_Anim_4D05E0(AnimIds::eParamite_Howdy);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_Howdy);
                                             break;
                                         case InputCommands::Enum::eGameSpeak2:
-                                            Set_Anim_4D05E0(AnimIds::eParamite_Cmon);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_Cmon);
                                             break;
                                         case InputCommands::Enum::eGameSpeak3:
-                                            Set_Anim_4D05E0(AnimIds::eParamite_Stay);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_Stay);
                                             break;
                                         case InputCommands::Enum::eGameSpeak4:
-                                            Set_Anim_4D05E0(AnimIds::eParamite_DoIt);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_DoIt);
                                             break;
                                         case InputCommands::Enum::eGameSpeak5:
-                                            Set_Anim_4D05E0(AnimIds::eParamite_Attack);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_Attack);
                                             break;
                                         case InputCommands::Enum::eGameSpeak6:
-                                            Set_Anim_4D05E0(AnimIds::eParamite_AllAYa);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_AllAYa);
                                             break;
                                         case InputCommands::Enum::eGameSpeak7:
                                             break; // Paramites don't have as much to say.
                                         case InputCommands::Enum::eGameSpeak8:
                                             break;
                                         case InputCommands::Enum::eBack:
-                                            Set_Anim_4D05E0(AnimIds::eParamite_Attack);
+                                            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_Attack);
                                             return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam, 4);
 
                                         default:
@@ -1124,7 +1133,7 @@ void MainMenuController::ParamiteSpeak_Unload_4D3C50()
 {
     Unload_Resource(field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak]);
     Load_AbeSpeakResources();
-    Set_Anim_4D05E0(AnimIds::eAbe_Idle);
+    Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Idle);
 }
 
 void MainMenuController::ParamiteSpeak_Load_4D3B70()
@@ -1133,8 +1142,9 @@ void MainMenuController::ParamiteSpeak_Load_4D3B70()
 
     ResourceManager::LoadResourceFile_49C170("PARSPEAK.BAN", nullptr);
     field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kParamiteSpeakResID, TRUE, FALSE);
-    field_20_animation.Set_Animation_Data_409C80(0xD8E80, field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak]);
-    Set_Anim_4D05E0(AnimIds::eParamite_Idle);
+    const AnimRecord& rec = AnimRec(AnimId::MenuParamiteSpeak_Idle);
+    field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak]);
+    Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_Idle);
 }
 
 static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const char_type* text, s16 x, s16 y, u8 r, u8 g, u8 b, s32& polyOffset)
@@ -1575,7 +1585,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             sDoesCreditsControllerExist_5C1B90 = 1;
             field_240_credits_current_cam = 1;
             field_1F4_credits_next_frame = sGnFrame_5C1B84 + 160;
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
@@ -1725,7 +1735,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(u32 input)
     {
         if (field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak])
         {
-            Set_Anim_4D05E0(AnimIds::eAbe_OK);
+            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_OK);
         }
 
         switch (field_1FC_button_index)
@@ -1735,7 +1745,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(u32 input)
                 return MainMenuNextCam(MainMenuCams::eBackstory_Or_NewGameCam);
             case 1:
                 // Quit
-                Set_Anim_4D05E0(AnimIds::eAbe_GoodBye);
+                Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_GoodBye);
                 return MainMenuNextCam(MainMenuCams::eDummyBlankCam);
             case 2:
                 // Load
@@ -1802,8 +1812,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
             {
                 pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
             }
-
-            field_20_animation.Set_Animation_Data_409C80(0x3C800, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+            const AnimRecord& abeSpeakRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
+            field_20_animation.Set_Animation_Data_409C80(abeSpeakRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
 
             ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
             field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
@@ -1824,7 +1834,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
                 sActiveHero_5C1B68 = ae_new<Abe>();
                 if (sActiveHero_5C1B68)
                 {
-                    sActiveHero_5C1B68->ctor_44AD10(58808, 85, 57, 55);
+                    const AnimRecord& mudWalkRec = AnimRec(AnimId::Mudokon_Walk);
+                    sActiveHero_5C1B68->ctor_44AD10(mudWalkRec.mFrameTableOffset, 85, 57, 55);
                 }
             }
 
@@ -1868,7 +1879,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
     }
 
-    field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+    const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
+    field_20_animation.Set_Animation_Data_409C80(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
 
     ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
@@ -1888,7 +1900,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         sActiveHero_5C1B68 = ae_new<Abe>();
         if (sActiveHero_5C1B68)
         {
-            sActiveHero_5C1B68->ctor_44AD10(58808, 85, 57, 55);
+            const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
+            sActiveHero_5C1B68->ctor_44AD10(rec.mFrameTableOffset, 85, 57, 55);
         }
     }
 
@@ -1897,7 +1910,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
 
         sActiveHero_5C1B68->field_1C_update_delay = 1;
-        gMap_5C3030.SetActiveCam_480D30(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
 
         const PathBlyRec* pPathData = Path_Get_Bly_Record_460F30(field_244_lvl_id, field_246_path_id);
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(field_24A_abeXOff - pPathData->field_4_pPathData->field_1A_abe_start_xpos);
@@ -1918,7 +1931,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     }
     else
     {
-        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMines_1, 1, 4, CameraSwapEffects::eEffect5_1_FMV, 12402, 0);
+        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMines_1, 1, 4, CameraSwapEffects::ePlay1FMV_5, 12402, 0);
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(837);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(1300);
         sActiveHero_5C1B68->field_F8_LastLineYPos = FP_FromInteger(1400);
@@ -2152,13 +2165,14 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
             }
         }
 
-        if (field_F4_resources.field_0_resources[0] == 0)
+        if (field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] == 0)
         {
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
-        field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
-        ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[0]);
-        field_F4_resources.field_0_resources[0] = nullptr;
+        const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
+        field_20_animation.Set_Animation_Data_409C80(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+        ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
+        field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
         ResourceManager::Reclaim_Memory_49C470(0);
 
         if (sActiveHero_5C1B68 == spAbe_554D5C)
@@ -2166,7 +2180,8 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
             auto abe = ae_new<Abe>();
             if (abe)
             {
-                sActiveHero_5C1B68 = abe->ctor_44AD10(58808, 85, 57, 55);
+                const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
+                sActiveHero_5C1B68 = abe->ctor_44AD10(rec.mFrameTableOffset, 85, 57, 55);
                 sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
                 sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
             }
@@ -2429,7 +2444,7 @@ MainMenuNextCam MainMenuController::Options_Update_4D1AB0(u32 input)
     {
         if (input & InputCommands::Enum::eBack)
         {
-            Set_Anim_4D05E0(AnimIds::eAbe_OK, 0);
+            Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_OK, 0);
             return MainMenuNextCam(MainMenuCams::eMainMenuCam);
         }
         else
@@ -2437,7 +2452,7 @@ MainMenuNextCam MainMenuController::Options_Update_4D1AB0(u32 input)
             return MainMenuNextCam(MainMenuCams::eNoChange);
         }
     }
-    Set_Anim_4D05E0(AnimIds::eAbe_OK, 0);
+    Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_OK, 0);
 
     switch (field_1FC_button_index)
     {
@@ -2452,7 +2467,8 @@ MainMenuNextCam MainMenuController::Options_Update_4D1AB0(u32 input)
             field_258 = FP_FromInteger(0);
             pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
             sMenuItemCount_561538 = ALIVE_COUNTOF(sDemos_5617F0);
-            field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
+            const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
+            field_20_animation.Set_Animation_Data_409C80(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
             Load_Anim_Pal_4D06A0(&field_20_animation);
             field_230_target_entry_index = 0;
             return MainMenuNextCam(MainMenuCams::eDemoSelectionCam, NO_SELECTABLE_BUTTONS);
@@ -2461,7 +2477,7 @@ MainMenuNextCam MainMenuController::Options_Update_4D1AB0(u32 input)
         {
             if (input & InputCommands::Enum::eBack)
             {
-                Set_Anim_4D05E0(AnimIds::eAbe_OK, 0);
+                Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_OK, 0);
                 return MainMenuNextCam(MainMenuCams::eMainMenuCam);
             }
             else
@@ -2518,7 +2534,7 @@ MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(u32 inp
         sCurrentControllerIndex_5C1BBE = 0;
         const BOOL twoPlayerModeSelected = field_1FC_button_index == 1;
 
-        MainMenuController::Set_Anim_4D05E0(AnimIds::eAbe_FollowMe);
+        MainMenuController::Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_FollowMe);
         if (field_23C_T80.Get(Flags::eBit25_CheatLevelSelectLoading))
         {
             return MainMenuNextCam(MainMenuCams::eGameIsLoading_ShaddapCam);
@@ -2535,7 +2551,7 @@ MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(u32 inp
             return MainMenuNextCam(MainMenuCams::eCheatMenu_SelectLevelCam);
         }
 
-        MainMenuController::Set_Anim_4D05E0(AnimIds::eAbe_OK);
+        MainMenuController::Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_OK);
         return MainMenuNextCam(MainMenuCams::eMainMenuCam);
     }
 
@@ -2547,7 +2563,8 @@ ALIVE_VAR(1, 0xBB43EC, s32, sButtonToRemapIdx_BB43EC, 0);
 
 void MainMenuController::RemapInput_Load_4D17E0()
 {
-    field_158_animation.Set_Animation_Data_409C80(13936, nullptr);
+    const AnimRecord& rec = AnimRec(AnimId::MenuHighlight_ButtonRemapSquare);
+    field_158_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
     sButtonToRemapIdx_BB43EC = 0;
     dword_BB43F8 = 0;
 }
@@ -2569,7 +2586,7 @@ const char_type* sInputButtonNames_562790[8] = {
     "Speak 2"};
 
 
-const MainMenuText stru_5626A0[10] = {
+const MainMenuText kTextInfo_5626A0[10] = {
     {35, 34, "x", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u},
     {331, 204, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u},
     {152, 75, kRun, 3u, 0u, 0u, 0u, 0.88f, 1u, 0u, 0u, 0u},
@@ -2636,17 +2653,17 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         if (!sJoystickEnabled_5C9F70)
         {
             // Speak 1
-            const MainMenuText stru_562760 = {152, 174, "-", 3u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u};
+            const MainMenuText speak1Stru_562760 = {152, 174, "-", 3u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u};
 
             // Speak 2
-            const MainMenuText stru_562778 = {250, 174, "-", 3u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u};
+            const MainMenuText speak2Stru_562778 = {250, 174, "-", 3u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u};
 
-            DrawMenuText_4D20D0(&stru_562760, ppOt, &field_120_font, &polyIndex, 1);
-            DrawMenuText_4D20D0(&stru_562778, ppOt, &field_120_font, &polyIndex, 1);
+            DrawMenuText_4D20D0(&speak1Stru_562760, ppOt, &field_120_font, &polyIndex, 1);
+            DrawMenuText_4D20D0(&speak2Stru_562778, ppOt, &field_120_font, &polyIndex, 1);
         }
 
         // Note: OG renders this list backwards
-        for (const MainMenuText& item : stru_5626A0)
+        for (const MainMenuText& item : kTextInfo_5626A0)
         {
             DrawMenuText_4D20D0(&item, ppOt, &field_120_font, &polyIndex, 1);
         }
@@ -2657,8 +2674,8 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         field_158_animation.field_A_b = rgb;
         field_158_animation.field_9_g = rgb;
         field_158_animation.vRender_40B820(
-            stru_5626A0[sButtonToRemapIdx_BB43EC + 2].field_0_x - 18,
-            stru_5626A0[sButtonToRemapIdx_BB43EC + 2].field_4_y + 8,
+            kTextInfo_5626A0[sButtonToRemapIdx_BB43EC + 2].field_0_x - 18,
+            kTextInfo_5626A0[sButtonToRemapIdx_BB43EC + 2].field_4_y + 8,
             ppOt, 0, 0);
     }
 }
@@ -2749,7 +2766,8 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
     else
     {
         // prepare animating the blinking outline of the rectangular input slots
-        field_158_animation.Set_Animation_Data_409C80(13936, nullptr);
+        const AnimRecord& rec = AnimRec(AnimId::MenuHighlight_ButtonRemapSquare);
+        field_158_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
 
         if (input & InputCommands::Enum::eUp)
         {
@@ -2941,7 +2959,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
     if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eBack))
     {
         sDoesCreditsControllerExist_5C1B90 = 0;
-        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
         return;
     }
 
@@ -2955,11 +2973,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 22)
             {
                 field_240_credits_current_cam = 1;
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, static_cast<s16>(currentCam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, static_cast<s16>(currentCam), CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
         }
         else
@@ -2967,10 +2985,10 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 36)
             {
                 sDoesCreditsControllerExist_5C1B90 = 0;
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
                 return;
             }
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
         }
     }
 }
@@ -3050,7 +3068,7 @@ void MainMenuController::HandleMainMenuUpdate()
                         }
                     }
 
-                    field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
+                    field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_frameTableOffset, 0);
 
                     SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
                 }
@@ -3074,13 +3092,13 @@ void MainMenuController::HandleMainMenuUpdate()
                         }
                     }
 
-                    field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
+                    field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_frameTableOffset, 0);
                     SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
                 }
             }
         }
 
-        if (field_21E_bChangeScreen)
+        if (field_21E_changeScreenState)
         {
             return;
         }
@@ -3109,17 +3127,17 @@ void MainMenuController::HandleMainMenuUpdate()
         // Originally was:
         //field_21C_bDoScreenTransistionEffect = BYTE1(pageUpdateReturnedCam.page_update_camera);
         // No need to read BYTE1 of the cam though, as it's always 0.
-        field_21C_bDoScreenTransistionEffect = 0;
+        field_21C_camSwapEffectState = camTransEffectState::eDone_0;
     }
     else
     {
         field_1F8_page_timeout = 0;
         field_218_target_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(pPage->field_8_next_idx));
         field_21A_target_button_index = pPage->field_C_initial_button_idx_to_highlight;
-        field_21C_bDoScreenTransistionEffect = pPage->field_A_transition_effect;
+        field_21C_camSwapEffectState = static_cast<camTransEffectState>(pPage->field_A_transition_effect);
     }
 
-    field_21E_bChangeScreen = 1;
+    field_21E_changeScreenState = 1;
 }
 
 void MainMenuController::Unload_Resource(u8**& res)
@@ -3163,12 +3181,12 @@ s32 CCSTD MainMenuController::GetPageIndexFromCam_4D05A0(s32 camId)
     return 0;
 }
 
-void MainMenuController::Set_Anim_4D05E0(s16 a2, s16 a3)
+void MainMenuController::Set_Anim_4D05E0(s16 frameTableIdx, s16 animFrameNum)
 {
-    if (a2 != this->field_220_frame_table_idx || sMainMenuFrameTable_561CC8[a2].field_8_anim_enum == a2)
+    if (frameTableIdx != this->field_220_frame_table_idx || sMainMenuFrameTable_561CC8[frameTableIdx].field_8_anim_enum == frameTableIdx)
     {
-        this->field_228_res_idx = a2;
-        this->field_22A_anim_frame_num = a3;
+        this->field_228_res_idx = frameTableIdx;
+        this->field_22A_anim_frame_num = animFrameNum;
     }
 }
 
@@ -3184,28 +3202,28 @@ ALIVE_VAR(1, 0x5ca408, u32, sLevelId_dword_5CA408, 0);
 
 s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 {
-    if (field_21E_bChangeScreen == 0 || field_23C_T80.Get(Flags::eBit22_GameSpeakPlaying) || field_228_res_idx != 0)
+    if (field_21E_changeScreenState == 0 || field_23C_T80.Get(Flags::eBit22_GameSpeakPlaying) || field_228_res_idx != 0)
     {
         return 0;
     }
 
-    CameraSwapEffects screenChangeEffect = CameraSwapEffects::eEffect0_InstantChange;
+    CameraSwapEffects screenChangeEffect = CameraSwapEffects::eInstantChange_0;
 
-    switch (field_21E_bChangeScreen)
+    switch (field_21E_changeScreenState)
     {
         case 1:
-            if (field_21C_bDoScreenTransistionEffect != 0)
+            if (field_21C_camSwapEffectState != camTransEffectState::eDone_0)
             {
-                if (field_21C_bDoScreenTransistionEffect != 2)
+                if (field_21C_camSwapEffectState != camTransEffectState::eDone_2)
                 {
-                    field_21E_bChangeScreen = 2;
+                    field_21E_changeScreenState = 2;
                     return 1;
                 }
 
                 if (field_208_transition_obj)
                 {
                     field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 1, 0, 16);
-                    field_21E_bChangeScreen = 2;
+                    field_21E_changeScreenState = 2;
                     return 1;
                 }
 
@@ -3213,7 +3231,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 if (field_208_transition_obj)
                 {
                     field_208_transition_obj->ctor_464110(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_2);
-                    field_21E_bChangeScreen = 2;
+                    field_21E_changeScreenState = 2;
                     return 1;
                 }
             }
@@ -3222,7 +3240,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 if (field_208_transition_obj)
                 {
                     field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 1, 0, 16);
-                    field_21E_bChangeScreen = 2;
+                    field_21E_changeScreenState = 2;
                     return 1;
                 }
 
@@ -3230,19 +3248,18 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 if (field_208_transition_obj)
                 {
                     field_208_transition_obj->ctor_464110(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
-                    field_21E_bChangeScreen = 2;
+                    field_21E_changeScreenState = 2;
                     return 1;
                 }
             }
             // ae_new failure case
-            field_21E_bChangeScreen = 2;
+            field_21E_changeScreenState = 2;
             return 1;
 
         case 2:
-            if (sMainMenuPages_561960[field_214_page_index].field_A_transition_effect == 7)
+            if (sMainMenuPages_561960[field_214_page_index].field_A_transition_effect == camTransEffectState::eUnknown_7)
             {
                 char_type buffer[256] = {};
-
                 // Use path 2
                 strcpy(buffer, sCdEmu_Path2_C144C0);
                 strcat(buffer, "movies");
@@ -3289,8 +3306,8 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     SYS_EventsPump_494580();
                 }
 
-                u32 v34 = 0; // Gets set to 0x11111111
-                Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, 0, 0, &v34, 0, 0);
+                u32 pos = 0; // Gets set to 0x11111111
+                Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, 0, 0, &pos, 0, 0);
                 sLevelId_dword_5CA408 = 0;
 
                 // Create a movie object for the GTI logo
@@ -3299,7 +3316,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     pMovie->ctor_4DFDE0(
                         pFmvRecord->field_4_id,
-                        v34,
+                        pos,
                         pFmvRecord->field_6_flags & 1,
                         pFmvRecord->field_8_flags,
                         pFmvRecord->field_A_volume);
@@ -3323,7 +3340,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 }
 
                 // Create movie object for the DD logo
-                Get_fmvs_sectors_494460("DDLOGO.STR", 0, 0, &v34, 0, 0);
+                Get_fmvs_sectors_494460("DDLOGO.STR", 0, 0, &pos, 0, 0);
                 sLevelId_dword_5CA408 = 0;
                 pMovie = ae_new<Movie>();
 
@@ -3331,7 +3348,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     pMovie->ctor_4DFDE0(
                         pFmvRecord->field_4_id,
-                        v34,
+                        pos,
                         pFmvRecord->field_6_flags & 1,
                         pFmvRecord->field_8_flags,
                         pFmvRecord->field_A_volume);
@@ -3351,41 +3368,46 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
                 gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
 
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect5_1_FMV, 10502, 0);
-
-                field_20_animation.Set_Animation_Data_409C80(0xC424, field_F4_resources.field_0_resources[MenuResIds::eDoor]);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::ePlay1FMV_5, 10502, 0);
+                const AnimRecord& rec = AnimRec(AnimId::MenuDoor);
+                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor]);
                 Load_Anim_Pal_4D06A0(&field_20_animation);
 
                 field_23C_T80.Set(Flags::eBit17_bDisableChangingSelection);
                 field_220_frame_table_idx = 9;
                 field_228_res_idx = 0;
-                field_21E_bChangeScreen = 3;
+                field_21E_changeScreenState = 3;
                 return 1;
             }
 
-            switch (field_21C_bDoScreenTransistionEffect)
+            switch (field_21C_camSwapEffectState)
             {
-                case 0:
-                case 2:
-                    if (field_208_transition_obj->field_26_bDone)
-                    {
-                        break;
-                    }
-                    return 1;
-                case 3:
-                    screenChangeEffect = CameraSwapEffects::eEffect3_TopToBottom;
+            case camTransEffectState::eDone_0:
+            case camTransEffectState::eDone_2:
+                if (field_208_transition_obj->field_26_bDone)
+                {
                     break;
-                case 4:
-                    screenChangeEffect = CameraSwapEffects::eEffect4_BottomToTop;
-                    break;
-                case 5:
-                    screenChangeEffect = CameraSwapEffects::eEffect1_LeftToRight;
-                    break;
-                case 6:
-                    screenChangeEffect = CameraSwapEffects::eEffect2_RightToLeft;
-                    break;
-                default:
-                    break;
+                }
+                return 1;
+
+            case camTransEffectState::eTopToBottom_3:
+                screenChangeEffect = CameraSwapEffects::eTopToBottom_3;
+                break;
+
+            case camTransEffectState::eBottomToTop_4:
+                screenChangeEffect = CameraSwapEffects::eBottomToTop_4;
+                break;
+
+            case camTransEffectState::eLeftToRight_5:
+                screenChangeEffect = CameraSwapEffects::eLeftToRight_1;
+                break;
+
+            case camTransEffectState::eRightToLeft_6:
+                screenChangeEffect = CameraSwapEffects::eRightToLeft_2;
+                break;
+
+            default:
+                break;
             }
 
             gMap_5C3030.SetActiveCam_480D30(
@@ -3398,7 +3420,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
-            field_21E_bChangeScreen = 3;
+            field_21E_changeScreenState = 3;
             return 1;
 
         case 3:
@@ -3406,7 +3428,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             {
                 (this->*sMainMenuPages_561960[field_214_page_index].field_20_fn_on_free)();
             }
-            field_21E_bChangeScreen = 4;
+            field_21E_changeScreenState = 4;
             return 1;
 
         case 4:
@@ -3416,7 +3438,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 return 1;
             }
 
-            if (field_21C_bDoScreenTransistionEffect == 0 || field_21C_bDoScreenTransistionEffect == 2)
+            if (field_21C_camSwapEffectState == camTransEffectState::eDone_0 || field_21C_camSwapEffectState == camTransEffectState::eDone_2)
             {
                 field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 0, 0, 16);
             }
@@ -3424,7 +3446,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             field_216_previous_page_index = field_214_page_index;
             field_214_page_index = field_218_target_page_index;
-            field_21E_bChangeScreen = 5;
+            field_21E_changeScreenState = 5;
             const MainMenuPage targetPage = sMainMenuPages_561960[field_218_target_page_index];
 
             if (targetPage.field_18_buttons != nullptr)
@@ -3470,7 +3492,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     // prepare for animating the blinking outline of the currently highlighted button
                     field_158_animation.Set_Animation_Data_409C80(
-                        targetPage.field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset,
+                        targetPage.field_18_buttons[field_1FC_button_index].field_8_frameTableOffset,
                         nullptr);
                 }
             }
@@ -3485,18 +3507,19 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
         }
 
         case 5:
-            if (field_21C_bDoScreenTransistionEffect != 7)
+            if (field_21C_camSwapEffectState != camTransEffectState::eUnknown_7)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             }
 
-            if ((field_21C_bDoScreenTransistionEffect == 0 || field_21C_bDoScreenTransistionEffect == 2) && !field_208_transition_obj->field_26_bDone)
+            if ((field_21C_camSwapEffectState == camTransEffectState::eDone_0 || field_21C_camSwapEffectState == camTransEffectState::eDone_2) 
+                && !field_208_transition_obj->field_26_bDone)
             {
                 return 1;
             }
 
-            field_21E_bChangeScreen = 0;
+            field_21E_changeScreenState = 0;
             return 0;
         default:
             return 0;
@@ -3537,15 +3560,15 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
         switch (field_220_frame_table_idx)
         {
-            case AnimIds::eAbe_Idle:
+            case MainMenuGamespeakAnimIds::eAbe_Idle:
                 if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
                 {
-                    Set_Anim_4D05E0(2, 0);
+                    Set_Anim_4D05E0(eAbe_IdleBlinking, 0);
                     field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
                 }
                 break;
 
-            case 9: // ??
+            case MainMenuGamespeakAnimIds::eAbe_EnterThroughDoor:
                 field_6_flags.Clear(BaseGameObject::eUpdateDuringCamSwap_Bit10);
                 field_22C_T80_animation_delay = 15;
 
@@ -3557,12 +3580,12 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                                                              reinterpret_cast<Camera*>(this), nullptr);
                 }
                 [[fallthrough]];
-            case 10: // ??
+            case MainMenuGamespeakAnimIds::eAbe_EnterThroughDoor2:
                 ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id]);
                 field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id] = nullptr;
                 break;
 
-            case 11: // ??
+            case MainMenuGamespeakAnimIds::eAbe_EnterThroughDoorHello:
                 ResourceManager::Reclaim_Memory_49C470(0);
                 if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 0, 0))
                 {
@@ -3575,10 +3598,10 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(300, 450);
                 break;
 
-            case AnimIds::eAbe_Chant:
+            case MainMenuGamespeakAnimIds::eAbe_Chant:
                 if (Input_IsChanting_45F260())
                 {
-                    Set_Anim_4D05E0(0);
+                    Set_Anim_4D05E0(0); // what??
                 }
                 else
                 {
@@ -3596,33 +3619,33 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
 
                     field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
-                    Set_Anim_4D05E0(13);
+                    Set_Anim_4D05E0(eAbe_ChantEnd);
                 }
                 break;
 
-            case AnimIds::eSlig_Idle:
+            case MainMenuGamespeakAnimIds::eSlig_Idle:
                 break;
 
-            case AnimIds::eGlukkon_Idle:
+            case MainMenuGamespeakAnimIds::eGlukkon_Idle:
                 if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
                 {
-                    Set_Anim_4D05E0(28); // ??
+                    Set_Anim_4D05E0(eGlukkon_IdleVariation);
                     field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
                 }
                 break;
 
-            case AnimIds::eScrab_Idle:
+            case MainMenuGamespeakAnimIds::eScrab_Idle:
                 if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
                 {
-                    Set_Anim_4D05E0(38); // ??
+                    Set_Anim_4D05E0(eScrab_IdleVariation);
                     field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
                 }
                 break;
 
-            case AnimIds::eParamite_Idle:
+            case MainMenuGamespeakAnimIds::eParamite_Idle:
                 if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
                 {
-                    Set_Anim_4D05E0(42); // ??
+                    Set_Anim_4D05E0(eParamite_IdleVariation);
                     field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
                 }
                 break;
@@ -3635,7 +3658,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
     if (sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id == eParamiteSpeak)
     {
-        if (field_220_frame_table_idx != eParamite_Idle && field_220_frame_table_idx != eParamite_Idle2)
+        if (field_220_frame_table_idx != eParamite_Idle && field_220_frame_table_idx != eParamite_IdleVariation)
         {
             s32 doSpeakSoundFrame = 0;
             switch (field_220_frame_table_idx)
@@ -3692,14 +3715,14 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)
         || field_220_frame_table_idx == eAbe_Idle
-        || field_220_frame_table_idx == 2
+        || field_220_frame_table_idx == eAbe_IdleBlinking
         || field_220_frame_table_idx == eSlig_Idle
         || field_220_frame_table_idx == eGlukkon_Idle
-        || field_220_frame_table_idx == 28
+        || field_220_frame_table_idx == eGlukkon_IdleVariation
         || field_220_frame_table_idx == eScrab_Idle
-        || field_220_frame_table_idx == 38
+        || field_220_frame_table_idx == eScrab_IdleVariation
         || field_220_frame_table_idx == eParamite_Idle
-        || field_220_frame_table_idx == 42)
+        || field_220_frame_table_idx == eParamite_IdleVariation)
     {
         if (!field_22C_T80_animation_delay)
         {
@@ -3749,6 +3772,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
                     if (field_228_res_idx > 0)
                     {
+
                         if (field_228_res_idx == eAbe_Chant)
                         {
                             SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant1_10, 0, 1);
@@ -3757,10 +3781,10 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
                         field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
+                        const AnimRecord& rec = AnimRec(sMainMenuFrameTable_561CC8[field_228_res_idx].field_0_animation);
                         field_20_animation.Set_Animation_Data_409C80(
-                            sMainMenuFrameTable_561CC8[field_228_res_idx].field_0_frame_offset,
+                            rec.mFrameTableOffset,
                             field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_228_res_idx].field_4_menu_res_id]);
-
                         if (sMainMenuFrameTable_561CC8[field_228_res_idx].field_4_menu_res_id != sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id)
                         {
                             Load_Anim_Pal_4D06A0(&field_20_animation);

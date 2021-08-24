@@ -308,16 +308,16 @@ EXPORT s32 CC MaxGridBlocks_41FA10(FP scale)
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
 const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10] = {
-    CameraSwapEffects::eEffect5_1_FMV,
-    CameraSwapEffects::eEffect2_RightToLeft,
-    CameraSwapEffects::eEffect1_LeftToRight,
-    CameraSwapEffects::eEffect4_BottomToTop,
-    CameraSwapEffects::eEffect3_TopToBottom,
-    CameraSwapEffects::eEffect8_BoxOut,
-    CameraSwapEffects::eEffect6_VerticalSplit,
-    CameraSwapEffects::eEffect7_HorizontalSplit,
-    CameraSwapEffects::eEffect11,
-    CameraSwapEffects::eEffect0_InstantChange};
+    CameraSwapEffects::ePlay1FMV_5,
+    CameraSwapEffects::eRightToLeft_2,
+    CameraSwapEffects::eLeftToRight_1,
+    CameraSwapEffects::eBottomToTop_4,
+    CameraSwapEffects::eTopToBottom_3,
+    CameraSwapEffects::eBoxOut_8,
+    CameraSwapEffects::eVerticalSplit_6,
+    CameraSwapEffects::eHorizontalSplit_7,
+    CameraSwapEffects::eUnknown_11,
+    CameraSwapEffects::eInstantChange_0};
 
 ALIVE_VAR(1, 0x507BA8, Map, gMap_507BA8, {});
 ALIVE_VAR(1, 0x507C9C, s16, sMap_bDoPurpleLightEffect_507C9C, 0);
@@ -432,7 +432,7 @@ s16 Map::SetActiveCam_444660(LevelIds level, s16 path, s16 cam, CameraSwapEffect
     field_6_state = 2;
 
 
-    if (screenChangeEffect == CameraSwapEffects::eEffect5_1_FMV || screenChangeEffect == CameraSwapEffects::eEffect11)
+    if (screenChangeEffect == CameraSwapEffects::ePlay1FMV_5 || screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
         sMap_bDoPurpleLightEffect_507C9C = 1;
     }
@@ -556,7 +556,7 @@ void Map::Handle_PathTransition_444DD0()
                         field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
                         MaxGridBlocks_41FA10(field_18_pAliveObj->field_BC_sprite_scale) - 1);
                 }
-                field_10_screenChangeEffect = CameraSwapEffects::eEffect2_RightToLeft;
+                field_10_screenChangeEffect = CameraSwapEffects::eRightToLeft_2;
                 break;
             case MapDirections::eMapRight_1:
                 field_20_camX_idx++;
@@ -565,7 +565,7 @@ void Map::Handle_PathTransition_444DD0()
                     field_18_pAliveObj->VSetXSpawn(field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
                                                    1);
                 }
-                field_10_screenChangeEffect = CameraSwapEffects::eEffect1_LeftToRight;
+                field_10_screenChangeEffect = CameraSwapEffects::eLeftToRight_1;
                 break;
             case MapDirections::eMapTop_2:
                 field_22_camY_idx--;
@@ -574,7 +574,7 @@ void Map::Handle_PathTransition_444DD0()
                     field_18_pAliveObj->VSetYSpawn(field_22_camY_idx * field_D4_pPathData->field_E_grid_height,
                                                    1);
                 }
-                field_10_screenChangeEffect = CameraSwapEffects::eEffect4_BottomToTop;
+                field_10_screenChangeEffect = CameraSwapEffects::eBottomToTop_4;
                 break;
             case MapDirections::eMapBottom_3:
                 field_22_camY_idx++;
@@ -583,7 +583,7 @@ void Map::Handle_PathTransition_444DD0()
                     field_18_pAliveObj->VSetYSpawn(field_22_camY_idx * field_D4_pPathData->field_E_grid_height,
                                                    2);
                 }
-                field_10_screenChangeEffect = CameraSwapEffects::eEffect3_TopToBottom;
+                field_10_screenChangeEffect = CameraSwapEffects::eTopToBottom_3;
                 break;
             default:
                 break;
@@ -919,7 +919,7 @@ void Map::SaveBlyData_446900(u8* pSaveBuffer)
                         if (flags.Get(eBit1_Created))
                         {
                             flags.Clear(eBit1_Created);
-                            flags.Clear(eBit2_Unknown);
+                            flags.Clear(eBit2_Destroyed);
                         }
 
                         // Save the flags
@@ -1016,7 +1016,7 @@ void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, s16 cam
             {
                 if (pTlv->field_10_top_left.field_0_x >= cam_global_left && pTlv->field_10_top_left.field_0_x <= cam_global_right)
                 {
-                    if (pTlv->field_10_top_left.field_2_y >= cam_y_grid_top && pTlv->field_10_top_left.field_2_y <= cam_y_grid_bottom && (!pTlv->field_0_flags.Get(eBit1_Created) && !pTlv->field_0_flags.Get(eBit2_Unknown)))
+                    if (pTlv->field_10_top_left.field_2_y >= cam_y_grid_top && pTlv->field_10_top_left.field_2_y <= cam_y_grid_bottom && (!pTlv->field_0_flags.Get(eBit1_Created) && !pTlv->field_0_flags.Get(eBit2_Destroyed)))
                     {
                         Start_Sounds_for_TLV_476640(direction, pTlv);
                     }
@@ -1067,7 +1067,7 @@ Camera* Map::GetCamera(CameraPos pos)
 s16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect)
 {
     Path_Change* pPathChangeTLV = nullptr;
-    CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eEffect0_InstantChange;
+    CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;
     if (pObj)
     {
         pPathChangeTLV = static_cast<Path_Change*>(TLV_Get_At_446260(
@@ -1134,7 +1134,7 @@ s16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObj
     field_6_state = 1;
     sMap_bDoPurpleLightEffect_507C9C = 0;
 
-    if (field_1C_cameraSwapEffect == CameraSwapEffects::eEffect5_1_FMV || field_1C_cameraSwapEffect == CameraSwapEffects::eEffect11)
+    if (field_1C_cameraSwapEffect == CameraSwapEffects::ePlay1FMV_5 || field_1C_cameraSwapEffect == CameraSwapEffects::eUnknown_11)
     {
         sMap_bDoPurpleLightEffect_507C9C = 1;
     }
@@ -1472,7 +1472,7 @@ void Map::sub_447430(u16 pathNum)
                 pTlv->RangeCheck();
 
                 pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
                 while (!pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
                 {
                     pTlv = Path_TLV::Next_NoCheck(pTlv);
@@ -1484,7 +1484,7 @@ void Map::sub_447430(u16 pathNum)
                     }
 
                     pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                    pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                    pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
                 }
             }
         }
@@ -1648,7 +1648,7 @@ void Map::GoTo_Camera_445050()
         bShowLoadingIcon = TRUE;
     }
 
-    if (field_10_screenChangeEffect == CameraSwapEffects::eEffect11)
+    if (field_10_screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
         CameraSwapper* pFmvRet = FMV_Camera_Change_4458D0(nullptr, this, field_0_current_level);
         do
@@ -1683,7 +1683,7 @@ void Map::GoTo_Camera_445050()
 
     if (field_0_current_level != LevelIds::eMenu_0)
     {
-        if (field_A_level != field_0_current_level || (field_C_path != field_2_current_path && field_10_screenChangeEffect == CameraSwapEffects::eEffect5_1_FMV))
+        if (field_A_level != field_0_current_level || (field_C_path != field_2_current_path && field_10_screenChangeEffect == CameraSwapEffects::ePlay1FMV_5))
         {
             Game_ShowLoadingIcon_445EB0();
         }
@@ -1914,12 +1914,12 @@ void Map::GoTo_Camera_445050()
 
     Create_FG1s_4447D0();
 
-    if (field_10_screenChangeEffect == CameraSwapEffects::eEffect5_1_FMV)
+    if (field_10_screenChangeEffect == CameraSwapEffects::ePlay1FMV_5)
     {
         FMV_Camera_Change_4458D0(field_34_camera_array[0]->field_C_ppBits, this, field_A_level);
     }
 
-    if (field_10_screenChangeEffect == CameraSwapEffects::eEffect11)
+    if (field_10_screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
         pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<u16**>(field_34_camera_array[0]->field_C_ppBits));
         pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, 240);
@@ -1927,7 +1927,7 @@ void Map::GoTo_Camera_445050()
         pScreenManager_4FF7C8->field_36_flags = (pScreenManager_4FF7C8->field_36_flags & ~1) ^ 1;
     }
 
-    if (field_10_screenChangeEffect != CameraSwapEffects::eEffect5_1_FMV && field_10_screenChangeEffect != CameraSwapEffects::eEffect11)
+    if (field_10_screenChangeEffect != CameraSwapEffects::ePlay1FMV_5 && field_10_screenChangeEffect != CameraSwapEffects::eUnknown_11)
     {
         if (field_1E_door)
         {
@@ -1981,7 +1981,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
         {
             if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->field_4_type.mType)
             {
-                if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
+                if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Destroyed)))
                 {
                     TlvItemInfoUnion data;
                     data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
@@ -1994,7 +1994,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
                     if (loadMode == LoadMode::Mode_0)
                     {
                         pPathTLV->field_0_flags.Set(TLV_Flags::eBit1_Created);
-                        pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                        pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
                     }
                 }
             }
@@ -2012,7 +2012,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
     }
 }
 
-EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2)
+EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
@@ -2023,13 +2023,13 @@ EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 
 
         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>((*field_5C_path_res_array.field_0_pPathRecs[data.parts.pathId]) + pBlyRec->field_4_pPathData->field_14_object_offset + data.parts.tlvOffset);
 
-        if (bBit2 & 1)
+        if (bSetDestroyed & 1)
         {
-            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
         }
         else
         {
-            pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+            pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
         }
 
         if (bSetCreated & 1)

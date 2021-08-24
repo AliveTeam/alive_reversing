@@ -13,53 +13,47 @@
 
 struct TrapDoor_Data final
 {
-    s32 field_0;
-    s32 field_4_maxW;
-    s32 field_8;
-    s32 field_C;
-    s16 field_10_maxH;
-    s16 field_12_frame_table_offset;
+    AnimId field_0_open;
+    AnimId field_4_closed;
+    AnimId field_8_opening;
+    AnimId field_C_closing;
+    //s16 field_10_maxW;
+    //s16 field_12_maxH;
 };
 
 const TrapDoor_Data sTrapDoorData_547B78[18] = {
-    {4800, 4788, 4840, 4812, 72, 41},
-    {4800, 4788, 4840, 4812, 72, 41},
-    {4800, 4788, 4840, 4812, 72, 41},
-    {5316, 5328, 5340, 5368, 77, 41},
-    {5316, 5328, 5340, 5368, 77, 41},
-    {4800, 4788, 4840, 4812, 72, 41},
-    {4800, 4788, 4840, 4812, 72, 41},
-    {5316, 5328, 5340, 5368, 77, 41},
-    {4800, 4788, 4840, 4812, 72, 41},
-    {4800, 4788, 4840, 4812, 72, 41},
-    {4800, 4788, 4840, 4812, 72, 41},
-    {5316, 5328, 5340, 5368, 77, 41},
-    {4800, 4788, 4840, 4812, 72, 41},
-    {4800, 4788, 4840, 4812, 72, 41},
-    {4800, 4788, 4840, 4812, 72, 41},
-    {0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0}};
+    {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
+    {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
+    {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
+    {AnimId::Trap_Door_Tribal_Open, AnimId::Trap_Door_Tribal_Closed, AnimId::Trap_Door_Tribal_Opening, AnimId::Trap_Door_Tribal_Closing},
+    {AnimId::Trap_Door_Tribal_Open, AnimId::Trap_Door_Tribal_Closed, AnimId::Trap_Door_Tribal_Opening, AnimId::Trap_Door_Tribal_Closing},
+    {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
+    {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
+    {AnimId::Trap_Door_Tribal_Open, AnimId::Trap_Door_Tribal_Closed, AnimId::Trap_Door_Tribal_Opening, AnimId::Trap_Door_Tribal_Closing},
+    {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
+    {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
+    {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
+    {AnimId::Trap_Door_Tribal_Open, AnimId::Trap_Door_Tribal_Closed, AnimId::Trap_Door_Tribal_Opening, AnimId::Trap_Door_Tribal_Closing},
+    {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
+    {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
+    {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing}};
 
 const TintEntry sTrapDoorTints_5639AC[18] = {
-    {1u, 127u, 127u, 127u},
-    {2u, 127u, 127u, 127u},
-    {3u, 127u, 127u, 127u},
-    {4u, 127u, 127u, 127u},
-    {5u, 127u, 127u, 127u},
-    {6u, 127u, 127u, 127u},
-    {7u, 127u, 127u, 127u},
-    {8u, 127u, 127u, 127u},
-    {9u, 127u, 127u, 127u},
-    {10u, 127u, 127u, 127u},
-    {11u, 127u, 127u, 127u},
-    {12u, 127u, 127u, 127u},
-    {13u, 127u, 127u, 127u},
-    {14u, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u}};
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 
 
@@ -110,15 +104,17 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
     const s32 levelIdx = static_cast<s32>(gMap_5C3030.field_0_current_level);
 
     s32 frameTableOffset = 0;
+    const AnimRecord& closedRec = AnimRec(sTrapDoorData_547B78[levelIdx].field_4_closed);
     if (field_138_switch_state == SwitchStates_Get_466020(field_134_switch_idx))
     {
         field_136_state = TrapDoorState::eOpen_2;
-        frameTableOffset = sTrapDoorData_547B78[levelIdx].field_0;
+        const AnimRecord& openRec = AnimRec(sTrapDoorData_547B78[levelIdx].field_0_open);
+        frameTableOffset = openRec.mFrameTableOffset;
     }
     else
     {
         field_136_state = TrapDoorState::eClosed_0;
-        frameTableOffset = sTrapDoorData_547B78[levelIdx].field_4_maxW;
+        frameTableOffset = closedRec.mFrameTableOffset;
     }
 
     field_13E_self_closing = pTlv->field_14_self_closing;
@@ -136,9 +132,9 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID);
 
     AddDynamicCollision_4971C0(
-        sTrapDoorData_547B78[levelIdx].field_4_maxW,
-        sTrapDoorData_547B78[levelIdx].field_10_maxH,
-        sTrapDoorData_547B78[levelIdx].field_12_frame_table_offset,
+        closedRec.mFrameTableOffset,
+        closedRec.mMaxW,
+        closedRec.mMaxH,
         ppRes,
         pTlv,
         pMap,
@@ -254,7 +250,8 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
             {
                 Open_4DD960();
                 field_136_state = TrapDoorState::eOpening_1;
-                field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_8, 0);
+                const AnimRecord& openingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_8_opening);
+                field_20_animation.Set_Animation_Data_409C80(openingRec.mFrameTableOffset, 0);
 
                 if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_Ender_12 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_Ender_13 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
                 {
@@ -278,7 +275,8 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
 
             if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_idx) != field_138_switch_state)
             {
-                field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_C, 0);
+                const AnimRecord& closingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_C_closing);
+                field_20_animation.Set_Animation_Data_409C80(closingRec.mFrameTableOffset, 0);
 
                 field_136_state = TrapDoorState::eClosing_3;
 

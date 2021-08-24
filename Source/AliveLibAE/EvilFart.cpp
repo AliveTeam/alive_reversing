@@ -350,7 +350,7 @@ void EvilFart::vUpdate_423100()
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        gMap_5C3030.SetActiveCam_480D30(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 
     // Show the count to the boom
@@ -558,11 +558,11 @@ void EvilFart::vUpdate_423100()
                 return;
             }
 
-            const FP v18 = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
-            const FP v19 = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20)));
+            const FP yposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
+            const FP xposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20)));
             New_TintChant_Particle_426BE0(
-                v19 + field_B8_xpos,
-                v18 + field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
+                xposOffset + field_B8_xpos,
+                yposOffset + field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
                 field_CC_sprite_scale,
                 Layer::eLayer_0);
         }

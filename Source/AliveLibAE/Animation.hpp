@@ -154,7 +154,7 @@ public:
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(s16 frame);
     EXPORT void Get_Frame_Rect_409E10(PSX_RECT* pRect);
     EXPORT u16 Get_Frame_Count_40AC70();
-    EXPORT s16 Init_40A030(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 unknown1, s32 pal_depth, s8 unknown3);
+    EXPORT s16 Init_40A030(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData, s32 pal_depth, s8 unknown3);
     EXPORT void Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY);
     EXPORT void Get_Frame_Width_Height_40C400(s16* pWidth, s16* pHeight);
 

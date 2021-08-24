@@ -65,7 +65,7 @@ void LevelLoader::vUpdate_4DD400()
                         field_24_level,
                         field_26_path,
                         field_28_camera,
-                        CameraSwapEffects::eEffect5_1_FMV,
+                        CameraSwapEffects::ePlay1FMV_5,
                         field_2A_movie_id,
                         0);
                 }
@@ -75,7 +75,7 @@ void LevelLoader::vUpdate_4DD400()
                         field_24_level,
                         field_26_path,
                         field_28_camera,
-                        CameraSwapEffects::eEffect0_InstantChange,
+                        CameraSwapEffects::eInstantChange_0,
                         0,
                         0);
                 }

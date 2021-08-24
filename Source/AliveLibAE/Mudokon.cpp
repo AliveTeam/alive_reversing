@@ -35,24 +35,21 @@
 ALIVE_VAR(1, 0x5C3012, s16, sGoingToBirdPortalMudCount_5C3012, 0);
 
 const TintEntry kMudTints_55C744[18] = {
-    {1, 87u, 103u, 67u},
-    {2, 87u, 103u, 67u},
-    {3, 87u, 103u, 67u},
-    {4, 87u, 103u, 67u},
-    {5, 87u, 103u, 67u},
-    {6, 87u, 103u, 67u},
-    {7, 87u, 103u, 67u},
-    {8, 87u, 103u, 67u},
-    {9, 87u, 103u, 67u},
-    {10, 87u, 103u, 67u},
-    {11, 87u, 103u, 67u},
-    {12, 87u, 103u, 67u},
-    {13, 87u, 103u, 67u},
-    {14, 87u, 103u, 67u},
-    {-1, 87u, 103u, 67u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u}};
+    {LevelIds_s8::eMines_1, 87u, 103u, 67u},
+    {LevelIds_s8::eNecrum_2, 87u, 103u, 67u},
+    {LevelIds_s8::eMudomoVault_3, 87u, 103u, 67u},
+    {LevelIds_s8::eMudancheeVault_4, 87u, 103u, 67u},
+    {LevelIds_s8::eFeeCoDepot_5, 87u, 103u, 67u},
+    {LevelIds_s8::eBarracks_6, 87u, 103u, 67u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 87u, 103u, 67u},
+    {LevelIds_s8::eBonewerkz_8, 87u, 103u, 67u},
+    {LevelIds_s8::eBrewery_9, 87u, 103u, 67u},
+    {LevelIds_s8::eBrewery_Ender_10, 87u, 103u, 67u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 87u, 103u, 67u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 87u, 103u, 67u},
+    {LevelIds_s8::eBarracks_Ender_13, 87u, 103u, 67u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 87u, 103u, 67u},
+    {LevelIds_s8::eNone, 87u, 103u, 67u}};
 
 using TMudBrainStateFunction = decltype(&Mudokon::Brain_0_GiveRings_470C10);
 
@@ -615,20 +612,67 @@ void Mudokon::VScreenChanged()
     vScreenChanged_476F30();
 }
 
-
 const AnimId kMudFrameTableOffsets_55CD00[60] = {
-    AnimId::Mudokon_Idle, AnimId::Mudokon_Walk, AnimId::Mudokon_Turn_Around, AnimId::Mudokon_Talk_A, AnimId::Mudokon_Talk_B,
-    AnimId::Mudokon_Talk_C, AnimId::Mudokon_Talk_D, AnimId::Mudokon_Unknown_A, AnimId::Mudokon_Unknown_B, AnimId::Mudokon_Unknown_C,
-    AnimId::Mudokon_Lever_Pull, AnimId::Mudokon_Chisel_Mining, AnimId::Mudokon_Unknown_E, AnimId::Mudokon_Unknown_F, AnimId::Mudokon_Scrub_Cleaning,
-    AnimId::Mudokon_Crouch, AnimId::Mudokon_Crouch_Turn_Around, AnimId::Mudokon_Stand_To_Crouch, AnimId::Mudokon_Crouch_To_Stand, AnimId::Mudokon_Unknown_G,
-    AnimId::Mudokon_Unknown_H, AnimId::Mudokon_Run, AnimId::Mudokon_Unknown_I, AnimId::Mudokon_Unknown_J, AnimId::Mudokon_Run_End_A,
-    AnimId::Mudokon_Run_End_B, AnimId::Mudokon_Unknown_K, AnimId::Mudokon_Sneak, AnimId::Mudokon_Sneak_Start, AnimId::Mudokon_Unknown_L,
-    AnimId::Mudokon_Unknown_M, AnimId::Mudokon_Unknown_N, AnimId::Mudokon_Unknown_O, AnimId::Mudokon_Unknown_P, AnimId::Mudokon_Unknown_Q,
-    AnimId::Mudokon_Run_Jump_Start, AnimId::Mudokon_Run_Jump, AnimId::Mudokon_Unknown_R, AnimId::Mudokon_Slap, AnimId::Mudokon_Hoist_Start,
-    AnimId::Mudokon_Hoist, AnimId::Mudokon_Hoist_End, AnimId::Mudokon_Hoist_End, AnimId::Mudokon_Shrug_Start, AnimId::Mudokon_Shrug_End, // duplicates: 269928
-    AnimId::Mudokon_Knocked_Back_Face_Down, AnimId::Mudokon_Knocked_Back_Face_Up, AnimId::Mudokon_Get_Up, AnimId::Mudokon_Fall, AnimId::Mudokon_Unknown_S,
-    AnimId::Mudokon_Chant, AnimId::Mudokon_Chant_End, AnimId::Mudokon_Crouch_To_Duck, AnimId::Mudokon_Duck, AnimId::Mudokon_Duck_To_Crouch,
-    AnimId::Mudokon_Unknown_T, AnimId::Mudokon_Hit_Self, AnimId::Mudokon_Wheel_Start, AnimId::Mudokon_Wheel, AnimId::Mudokon_Wheel_End};
+    AnimId::Mudokon_Idle,
+    AnimId::Mudokon_Walk,
+    AnimId::Mudokon_StandingTurn,
+    AnimId::Mudokon_Speak1,
+    AnimId::Mudokon_Speak3,
+    AnimId::Mudokon_Speak2,
+    AnimId::Mudokon_SpeakFart,
+    AnimId::Mudokon_WalkBegin,
+    AnimId::Mudokon_WalkToIdle,
+    AnimId::Mudokon_MidWalkToIdle,
+    AnimId::Mudokon_LeverUse,
+    AnimId::Mudokon_Chisel,
+    AnimId::Mudokon_StartChisel,
+    AnimId::Mudokon_StopChisel,
+    AnimId::Mudokon_CrouchScrub,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchTurn,
+    AnimId::Mudokon_StandToCrouch,
+    AnimId::Mudokon_CrouchToStand,
+    AnimId::Mudokon_WalkToRun,
+    AnimId::Mudokon_MidWalkToRun,
+    AnimId::Mudokon_Run,
+    AnimId::Mudokon_RunToWalk,
+    AnimId::Mudokon_MidRunToWalk,
+    AnimId::Mudokon_RunSlideStop,
+    AnimId::Mudokon_RunTurn,
+    AnimId::Mudokon_RunTurnToRun,
+    AnimId::Mudokon_Sneak,
+    AnimId::Mudokon_WalkToSneak,
+    AnimId::Mudokon_SneakToWalk,
+    AnimId::Mudokon_MidWalkToSneak,
+    AnimId::Mudokon_MidSneakToWalk,
+    AnimId::Mudokon_SneakBegin,
+    AnimId::Mudokon_SneakToIdle,
+    AnimId::Mudokon_MidSneakToIdle,
+    AnimId::Mudokon_RunJumpBegin,
+    AnimId::Mudokon_RunJumpMid,
+    AnimId::Mudokon_StandingToRun,
+    AnimId::Mudokon_Punch,
+    AnimId::Mudokon_HoistBegin,
+    AnimId::Mudokon_HoistIdle,
+    AnimId::Mudokon_LandSoft,
+    AnimId::Mudokon_LandSoft,
+    AnimId::Mudokon_DunnoBegin,
+    AnimId::Mudokon_Shrug_End, // duplicates: 269928
+    AnimId::Mudokon_KnockForward,
+    AnimId::Mudokon_Knockback,
+    AnimId::Mudokon_KnockbackGetUp,
+    AnimId::Mudokon_WalkOffEdge,
+    AnimId::Mudokon_FallingFromGrab,
+    AnimId::Mudokon_Chant,
+    AnimId::Mudokon_ChantEnd,
+    AnimId::Mudokon_ToDuck,
+    AnimId::Mudokon_Duck,
+    AnimId::Mudokon_DuckToCrouch,
+    AnimId::Mudokon_DuckKnockback,
+    AnimId::Mudokon_SlapOwnHead,
+    AnimId::Mudokon_TurnWheelBegin,
+    AnimId::Mudokon_TurnWheel,
+    AnimId::Mudokon_TurnWheelEnd};
 
 ALIVE_VAR(1, 0x5C3010, s16, sAlertedMudCount_5C3010, 0);
 ALIVE_VAR(1, 0x5C3018, s16, sIsMudStandingUp_5C3018, 0);
@@ -659,7 +703,7 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABEEDGE.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
     }
@@ -1445,7 +1489,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             SetPal_4772D0(Mud_Emotion::eNormal_0);
             return 1;
 
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eMeatSaw_86:
         case AETypes::eExplosion_109:

@@ -34,7 +34,8 @@ EXPORT s32 CC Animation_OnFrame_Null_455F60(void*, s16*)
 EXPORT s32 CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
-    u8** ppAnimData = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDustResID, FALSE, FALSE);
+    const AnimRecord& dustRec = AnimRec(AnimId::Dust_Particle);
+    u8** ppAnimData = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, dustRec.mResourceId, FALSE, FALSE);
 
     FP xOff = {};
     if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -85,7 +86,7 @@ EXPORT s32 CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
     auto pPartical = ae_new<Particle>();
     if (pPartical)
     {
-        pPartical->ctor_4CC4C0(xpos, ypos, 4488, 61, 44, ppAnimData);
+        pPartical->ctor_4CC4C0(xpos, ypos, dustRec.mFrameTableOffset, dustRec.mMaxW, dustRec.mMaxH, ppAnimData);
         pPartical->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
         if (pObj->field_D6_scale == 1)
@@ -123,15 +124,24 @@ EXPORT s32 CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
     return 1;
 }
 
-// Render smoke from flying Slig engine - not sure what it renders for abe
 EXPORT s32 CC Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
+
+    if (pObj->field_4_typeId == AETypes::eAbe_69 ||
+        pObj->field_4_typeId == AETypes::eMudokon_110 ||
+        pObj->field_4_typeId == AETypes::eMudokon2_81)
+    {
+        LOG_ERROR("never expected pObj type id to be abe or mudokon in Animation_OnFrame_Common_434130");
+        ALIVE_FATAL("got wrong type id");
+    }
+
     if (pObj->field_10C_health <= FP_FromInteger(0))
     {
         return 1;
     }
 
+    // flying slig: kVaporResID
     u8** ppAnimRes = pObj->field_10_resources_array.ItemAt(7);
     FP xOff = {};
     if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -154,7 +164,8 @@ EXPORT s32 CC Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
     auto pParticle = ae_new<Particle>();
     if (pParticle)
     {
-        pParticle->ctor_4CC4C0(xpos, ypos, 5264, 61, 44, ppAnimRes);
+        const AnimRecord& vaporizeRec = AnimRec(AnimId::Vaporize_Particle);
+        pParticle->ctor_4CC4C0(xpos, ypos, vaporizeRec.mFrameTableOffset, vaporizeRec.mMaxW, vaporizeRec.mMaxH, ppAnimRes);
         pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
         pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
         pParticle->field_D0_r = 64;
@@ -734,6 +745,7 @@ void Animation::Invoke_CallBacks_40B7A0()
 
 s16 Animation::Set_Animation_Data_409C80(s32 frameTableOffset, u8** pAnimRes)
 {
+    FrameTableOffsetExists(frameTableOffset, true);
     if (pAnimRes)
     {
         // Animation block must match what was previously set
@@ -884,8 +896,9 @@ u16 Animation::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
+s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
 {
+    FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
 
@@ -922,7 +935,7 @@ s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     field_84_vram_rect.w = 0;
     field_90_pal_depth = 0;
 
-    if (bFlag_17)
+    if (bOwnsPalData)
     {
         field_4_flags.Set(AnimFlags::eBit17_bOwnPal);
     }

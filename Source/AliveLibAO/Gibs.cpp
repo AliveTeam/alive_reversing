@@ -12,24 +12,24 @@
 namespace AO {
 
 const Gib_Data kGibData_4C30B0[6] = {
-    {7208, 7248, 7288, 50, 25, 25},
-    {5948, 6028, 5988, 44, 26, 423},
-    {28376, 28416, 28416, 111, 63, 576},
-    {7440, 7480, 7400, 72, 43, 217},
-    {7208, 7248, 7288, 50, 25, 25},
-    {3928, 3928, 3928, 37, 30, 365}};
+    {AnimId::Abe_Head_Gib, AnimId::Abe_Arm_Gib, AnimId::Abe_Body_Gib},
+    {AnimId::Slig_Head_Gib, AnimId::Slig_Arm_Gib, AnimId::Slig_Body_Gib},
+    {AnimId::Slog_Head_Gib, AnimId::Slog_Body_Gib, AnimId::Slog_Body_Gib},
+    {AnimId::Elum_Head_Gib, AnimId::Elum_Arm_Gib, AnimId::Elum_Body_Gib},
+    {AnimId::Abe_Head_Gib, AnimId::Abe_Arm_Gib, AnimId::Abe_Body_Gib},
+    {AnimId::Metal_Gib, AnimId::Metal_Gib, AnimId::Metal_Gib}};
 
-TintEntry sAbeGibTints_4C6438[5] = {
-    {5, 25u, 25u, 25u},
-    {6, 25u, 25u, 25u},
-    {8, 125u, 125u, 95u},
-    {9, 120u, 120u, 90u},
-    {-1, 102u, 102u, 102u}};
+const TintEntry sAbeGibTints_4C6438[5] = {
+    {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
+    {LevelIds_s8::eStockYardsReturn_6, 25u, 25u, 25u},
+    {LevelIds_s8::eDesert_8, 125u, 125u, 95u},
+    {LevelIds_s8::eDesertTemple_9, 120u, 120u, 90u},
+    {LevelIds_s8::eNone, 102u, 102u, 102u}};
 
-TintEntry sMudGibTints_4CD320[3] = {
-    {5, 25u, 25u, 25u},
-    {6, 25u, 25u, 25u},
-    {-1, 87u, 103u, 67u},
+const TintEntry sMudGibTints_4CD320[3] = {
+    {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
+    {LevelIds_s8::eStockYardsReturn_6, 25u, 25u, 25u},
+    {LevelIds_s8::eNone , 87u, 103u, 67u},
 };
 
 static FP GibRand(FP scale)
@@ -37,7 +37,7 @@ static FP GibRand(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
-Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
+Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 {
     ctor_417C10();
 
@@ -48,13 +48,16 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     SetVTable(this, 0x4BA280);
 
     field_E4_pGibData = &kGibData_4C30B0[gibType];
-    u8** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, field_E4_pGibData->field_14_resource_id, 1, 0);
+    const AnimRecord& headRec = AO::AnimRec(field_E4_pGibData->field_0_head);
+    const AnimRecord& armRec = AO::AnimRec(field_E4_pGibData->field_4_arm);
+    const AnimRecord& bodyRec = AO::AnimRec(field_E4_pGibData->field_8_body);
+    u8** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0);
 
     // The base class renders the head gib
     Animation_Init_417FD0(
-        field_E4_pGibData->field_0_head,
-        static_cast<s16>(field_E4_pGibData->field_C_max_w),
-        static_cast<s16>(field_E4_pGibData->field_10_max_h),
+        headRec.mFrameTableOffset,
+        static_cast<s16>(headRec.mMaxW),
+        static_cast<s16>(headRec.mMaxH),
         ppAnimData,
         1);
 
@@ -97,22 +100,21 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
     u8** ppPal = nullptr;
     if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
     {
-        // TODO: Enum for gib types, 0 = abe, 4 = mud
-        if (gibType == 0 || gibType == 4)
+        if (gibType == GibType::Abe_0 || gibType == GibType::Mud_4)
         {
             ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, 0, 0);
         }
-        else if (gibType == 2)
+        else if (gibType == GibType::Slog_2)
         {
             ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, 0, 0);
         }
     }
 
-    if (gibType == 0)
+    if (gibType == GibType::Abe_0)
     {
         SetTint_418750(sAbeGibTints_4C6438, gMap_507BA8.field_0_current_level);
     }
-    else if (gibType == 4)
+    else if (gibType == GibType::Mud_4)
     {
         SetTint_418750(sMudGibTints_4CD320, gMap_507BA8.field_0_current_level);
     }
@@ -126,11 +128,11 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
         {
             // 2 arm parts
             if (!pPart->field_18_anim.Init_402D20(
-                    field_E4_pGibData->field_4_arm,
+                    armRec.mFrameTableOffset,
                     gObjList_animations_505564,
                     this,
-                    static_cast<s16>(field_E4_pGibData->field_C_max_w),
-                    static_cast<s16>(field_E4_pGibData->field_10_max_h),
+                    static_cast<s16>(armRec.mMaxW),
+                    static_cast<s16>(armRec.mMaxH),
                     ppAnimData,
                     1,
                     0,
@@ -145,11 +147,11 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
         {
             // 2 body parts
             if (!pPart->field_18_anim.Init_402D20(
-                    field_E4_pGibData->field_8_body,
+                    bodyRec.mFrameTableOffset,
                     gObjList_animations_505564,
                     this,
-                    static_cast<s16>(field_E4_pGibData->field_C_max_w),
-                    static_cast<s16>(field_E4_pGibData->field_10_max_h),
+                    static_cast<s16>(bodyRec.mMaxW),
+                    static_cast<s16>(bodyRec.mMaxH),
                     ppAnimData,
                     1,
                     0,
@@ -164,7 +166,7 @@ Gibs* Gibs::ctor_407B20(s32 gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scal
         pPart->field_18_anim.field_C_layer = field_10_anim.field_C_layer;
         pPart->field_18_anim.field_14_scale = scale;
 
-        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit17_bFreeResource); // Else the gibs seem to kill meat grinders and other objects ??
+        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit17_bFreeResource); // Else the gibs seem to kill drills and other objects ??
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 

@@ -14,55 +14,49 @@
 
 struct LiftPointData final
 {
-    s32 field_0_maxW_platform;
-    s32 field_4_maxH_platform;
-    s32 field_8_platfom_frame_table_offset;
-    s32 field_C_lift_wheel_frame_table_offset;
-    s32 field_10_pulley_frame_table_offset;
-    s32 field_14_maxW_lift_wheel_and_pulley;
-    s32 field_18_maxH_lift_wheel_and_pulley;
+    AnimId field_0_platform_anim_id;
+    s32 field_4_maxW_platform;
+    s32 field_8_maxH_platform;
+    AnimId field_C_lift_bottom_wheel_anim_id;
+    AnimId field_10_lift_top_wheel_anim_id;
+    s32 field_14_maxW_lift_wheels;
+    s32 field_18_maxH_lift_wheels;
 };
 ALIVE_ASSERT_SIZEOF(LiftPointData, 0x1C);
 
 const LiftPointData sLiftPointData_545AC8[18] = {
-    {1936, 136, 31, 4760, 4784, 47, 24},
-    {1936, 136, 31, 4760, 4784, 47, 24},
-    {1312, 135, 17, 8664, 8700, 69, 34},
-    {1312, 135, 17, 8664, 8700, 69, 34},
-    {1312, 135, 17, 8664, 8700, 69, 34},
-    {1936, 136, 31, 4760, 4784, 47, 24},
-    {1936, 136, 31, 4760, 4784, 47, 24},
-    {1312, 135, 17, 8664, 8700, 69, 34},
-    {1936, 136, 31, 4760, 4784, 47, 24},
-    {1936, 136, 31, 4760, 4784, 47, 24},
-    {1936, 136, 31, 4760, 4784, 47, 24},
-    {1312, 135, 17, 8664, 8700, 69, 34},
-    {1936, 136, 31, 4760, 4784, 47, 24},
-    {1936, 136, 31, 4760, 4784, 47, 24},
-    {1936, 136, 31, 4760, 4784, 47, 24},
-    {0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0}};
+    {AnimId::LiftPlatform_Mines, 136, 31, AnimId::LiftBottomWheel_Mines, AnimId::LiftTopWheel_Mines, 47, 24},
+    {AnimId::LiftPlatform_Mines, 136, 31, AnimId::LiftBottomWheel_Mines, AnimId::LiftTopWheel_Mines, 47, 24},
+    {AnimId::LiftPlatform_Necrum, 135, 17, AnimId::LiftBottomWheel_Necrum, AnimId::LiftTopWheel_Necrum, 69, 34},
+    {AnimId::LiftPlatform_Necrum, 135, 17, AnimId::LiftBottomWheel_Necrum, AnimId::LiftTopWheel_Necrum, 69, 34},
+    {AnimId::LiftPlatform_Necrum, 135, 17, AnimId::LiftBottomWheel_Necrum, AnimId::LiftTopWheel_Necrum, 69, 34},
+    {AnimId::LiftPlatform_Mines, 136, 31, AnimId::LiftBottomWheel_Mines, AnimId::LiftTopWheel_Mines, 47, 24},
+    {AnimId::LiftPlatform_Mines, 136, 31, AnimId::LiftBottomWheel_Mines, AnimId::LiftTopWheel_Mines, 47, 24},
+    {AnimId::LiftPlatform_Necrum, 135, 17, AnimId::LiftBottomWheel_Necrum, AnimId::LiftTopWheel_Necrum, 69, 34},
+    {AnimId::LiftPlatform_Mines, 136, 31, AnimId::LiftBottomWheel_Mines, AnimId::LiftTopWheel_Mines, 47, 24},
+    {AnimId::LiftPlatform_Mines, 136, 31, AnimId::LiftBottomWheel_Mines, AnimId::LiftTopWheel_Mines, 47, 24},
+    {AnimId::LiftPlatform_Mines, 136, 31, AnimId::LiftBottomWheel_Mines, AnimId::LiftTopWheel_Mines, 47, 24},
+    {AnimId::LiftPlatform_Necrum, 135, 17, AnimId::LiftBottomWheel_Necrum, AnimId::LiftTopWheel_Necrum, 69, 34},
+    {AnimId::LiftPlatform_Mines, 136, 31, AnimId::LiftBottomWheel_Mines, AnimId::LiftTopWheel_Mines, 47, 24},
+    {AnimId::LiftPlatform_Mines, 136, 31, AnimId::LiftBottomWheel_Mines, AnimId::LiftTopWheel_Mines, 47, 24},
+    {AnimId::LiftPlatform_Mines, 136, 31, AnimId::LiftBottomWheel_Mines, AnimId::LiftTopWheel_Mines, 47, 24}};
 
 const TintEntry sLiftTints_55BF50[18] = {
-    {1u, 127u, 127u, 127u},
-    {2u, 127u, 127u, 127u},
-    {3u, 127u, 127u, 127u},
-    {4u, 127u, 127u, 127u},
-    {5u, 127u, 127u, 127u},
-    {6u, 107u, 107u, 107u},
-    {7u, 127u, 127u, 127u},
-    {8u, 127u, 127u, 127u},
-    {9u, 127u, 127u, 127u},
-    {10u, 127u, 127u, 127u},
-    {11u, 127u, 127u, 127u},
-    {12u, 127u, 127u, 127u},
-    {13u, 127u, 127u, 127u},
-    {14u, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u}};
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 107u, 107u, 107u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
 {
@@ -91,10 +85,11 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
     }
 
     const LiftPointData& rPlatformData = sLiftPointData_545AC8[static_cast<u32>(gMap_5C3030.field_0_current_level)];
+    const AnimRecord& platformRec = AnimRec(rPlatformData.field_0_platform_anim_id);
     AddDynamicCollision_4971C0(
-        rPlatformData.field_0_maxW_platform,
-        rPlatformData.field_4_maxH_platform,
-        static_cast<u16>(rPlatformData.field_8_platfom_frame_table_offset),
+        platformRec.mFrameTableOffset,
+        platformRec.mMaxW,
+        static_cast<u16>(platformRec.mMaxH),
         ppRes,
         pTlv,
         &gMap_5C3030,
@@ -121,15 +116,16 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
 
-    u8** ppPulleyAnim = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
+    u8** ppLiftWheels = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID);
     const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<s32>(gMap_5C3030.field_0_current_level)];
+    const AnimRecord& bottomWheelRec = AnimRec(rLiftWheelData.field_C_lift_bottom_wheel_anim_id);
     if (field_13C_lift_wheel.Init_40A030(
-            rLiftWheelData.field_C_lift_wheel_frame_table_offset,
+            bottomWheelRec.mFrameTableOffset,
             gObjList_animations_5C1A24,
             this,
-            static_cast<u16>(rLiftWheelData.field_14_maxW_lift_wheel_and_pulley),
-            static_cast<u16>(rLiftWheelData.field_18_maxH_lift_wheel_and_pulley),
-            ppPulleyAnim,
+            static_cast<u16>(bottomWheelRec.mMaxW),
+            static_cast<u16>(bottomWheelRec.mMaxH),
+            ppLiftWheels,
             1u,
             0,
             0))
@@ -882,7 +878,7 @@ void LiftPoint::MoveObjectsOnLift_497600(FP xVelocity)
 void CCSTD LiftPoint::sub_461000(Path_TLV* pTlv)
 {
     pTlv->field_0_flags.Clear(eBit1_Created);
-    pTlv->field_0_flags.Clear(eBit2_Unknown);
+    pTlv->field_0_flags.Clear(eBit2_Destroyed);
     pTlv->field_1_tlv_state |= 1;
 }
 
@@ -979,14 +975,15 @@ void LiftPoint::CreatePulleyIfExists_462C80()
     field_26C_pulley_xpos = FP_GetExponent(((kM10_scaled + k13_scaled) / FP_FromInteger(2)) + FP_NoFractional(field_B8_xpos));
     field_26E_pulley_ypos = pFound->field_8_top_left.field_2_y;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID);
     const LiftPointData& data = sLiftPointData_545AC8[static_cast<s32>(gMap_5C3030.field_0_current_level)];
+    const AnimRecord& topWheelRec = AnimRec(data.field_10_lift_top_wheel_anim_id);
     field_1D4_pulley_anim.Init_40A030(
-        data.field_10_pulley_frame_table_offset,
+        topWheelRec.mFrameTableOffset,
         gObjList_animations_5C1A24,
         this,
-        static_cast<s16>(data.field_14_maxW_lift_wheel_and_pulley),
-        static_cast<s16>(data.field_18_maxH_lift_wheel_and_pulley),
+        static_cast<s16>(topWheelRec.mMaxW),
+        static_cast<s16>(topWheelRec.mMaxH),
         ppRes,
         1,
         0,

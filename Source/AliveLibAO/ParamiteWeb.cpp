@@ -68,8 +68,9 @@ ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, s16 bottom, s16 top, FP scale)
         field_E6_segment_length = 7;
     }
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 1, 0);
-    Animation_Init_417FD0(88, 3, 16, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::ParamiteWeb);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10_anim.field_14_scale = scale;
     field_BC_sprite_scale = scale;

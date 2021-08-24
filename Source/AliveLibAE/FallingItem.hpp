@@ -57,11 +57,11 @@ private:
     s32 field_118_tlvInfo;
     enum class State : s16
     {
-        eState_0_WaitForIdEnable = 0,
-        eState_1_GoWaitForDelay = 1,
-        eState_2_WaitForFallDelay = 2,
-        eState_3_Falling = 3,
-        eState_4_Smashed = 4,
+        eWaitForIdEnable_0 = 0,
+        eGoWaitForDelay_1 = 1,
+        eWaitForFallDelay_2 = 2,
+        eFalling_3 = 3,
+        eSmashed_4 = 4
     };
     State field_11C_state;
     s16 field_11E_id;
@@ -73,7 +73,7 @@ private:
     s16 field_12C_reset_id;
     s16 field_12E_do_sound_in_state_falling;
     FP field_130_yPosStart;
-    s16 field_134_bHitGrinderOrMineCar;
+    s16 field_134_bHitDrillOrMineCar;
     //s16 field_136_pad;
     FP field_138_xpos;
     FP field_13C_ypos;

@@ -30,8 +30,9 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 directio
     field_D2_g = fade_rgb;
     field_D0_r = fade_rgb;
 
+    const AnimRecord& spotLightRec = AnimRec(AnimId::SpotLight);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID);
-    Animation_Init_424E10(1536, 57, 32, ppRes, 1, 1u);
+    Animation_Init_424E10(spotLightRec.mFrameTableOffset, spotLightRec.mMaxW, spotLightRec.mMaxH, ppRes, 1, 1u);
 
     field_DC_bApplyShadows &= ~1u;
 

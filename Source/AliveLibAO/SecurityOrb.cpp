@@ -27,13 +27,9 @@ SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::SecurityOrb_53;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMaimGameResID, 1, 0);
-    Animation_Init_417FD0(
-        10864,
-        52,
-        28,
-        ppRes,
-        1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Security_Orb);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
@@ -132,7 +128,7 @@ s16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
             if (pGibs)
             {
                 pGibs->ctor_407B20(
-                    5,
+                    GibType::Metal_5,
                     field_A8_xpos,
                     field_AC_ypos,
                     FP_FromInteger(0),

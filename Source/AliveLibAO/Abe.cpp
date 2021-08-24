@@ -58,6 +58,8 @@
 
 #include "Sys_common.hpp"
 
+#include "TestAnimation.hpp"
+
 namespace AO {
 
 ALIVE_VAR(1, 0x5076E4, s16, gAbeInvulnerableCheat_5076E4, 0);
@@ -701,12 +703,12 @@ void Abe::VOnTrapDoorOpen_42EED0()
     }
 }
 
-const TintEntry sTintTable_Abe_4C6438[] = {
-    {5, 25u, 25u, 25u},
-    {6, 25u, 25u, 25u},
-    {8, 125u, 125u, 95u},
-    {9, 120u, 120u, 90u},
-    {-1, 102u, 102u, 102u}};
+const TintEntry sAbeTints_4C6438[] = {
+    {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
+    {LevelIds_s8::eStockYardsReturn_6, 25u, 25u, 25u},
+    {LevelIds_s8::eDesert_8, 125u, 125u, 95u},
+    {LevelIds_s8::eDesertTemple_9, 120u, 120u, 90u},
+    {LevelIds_s8::eNone, 102u, 102u, 102u}};
 
 
 Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
@@ -773,11 +775,11 @@ Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("BLOODROP.BAN", nullptr);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBloodropResID, 1, 0);
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_455270("SHADOW.BAN", nullptr);
     }
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("DEADFLR.BAN", nullptr);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("DOVBASIC.BAN", nullptr);
@@ -834,7 +836,7 @@ Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
 
     // Changes Abe's "default" colour depending on the level we are in
-    SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_0_current_level);
+    SetTint_418750(sAbeTints_4C6438, gMap_507BA8.field_0_current_level);
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
@@ -861,6 +863,10 @@ Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     {
         field_D0_pShadow->ctor_461FB0();
     }
+
+    
+    // Animation test code
+    //auto testAnim = ao_new<TestAnimation>(); testAnim->ctor();
 
     return this;
 }
@@ -915,7 +921,7 @@ BaseGameObject* Abe::dtor_420C80()
     ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBloodropResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
     ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 0, 0);
@@ -2002,8 +2008,8 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
     {
         if (input & sInputKey_GameSpeak6_4C65E8)
         {
-            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle1_1);
-            Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleHigh_1);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, this);
             if (field_FC_current_motion == eAbeMotions::Motion_9_Speak_42FA50)
             {
                 field_108_bMotionChanged = 1;
@@ -2012,8 +2018,8 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
         }
         if (input & sInputKey_GameSpeak5_4C65EC)
         {
-            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle2_2);
-            Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleLow_2);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, this);
             if (field_FC_current_motion == eAbeMotions::Motion_8_Speak_42F9D0)
             {
                 field_108_bMotionChanged = 1;
@@ -2354,14 +2360,14 @@ void Abe::CrouchingGameSpeak_427F90()
     {
         if (field_10C_prev_held & sInputKey_GameSpeak6_4C65E8)
         {
-            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle1_1);
-            Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleHigh_1);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, this);
             field_FC_current_motion = eAbeMotions::Motion_23_CrouchSpeak_428A90;
         }
         else if (field_10C_prev_held & sInputKey_GameSpeak5_4C65EC)
         {
-            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle2_2);
-            Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+            pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleLow_2);
+            Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, this);
             field_FC_current_motion = eAbeMotions::Motion_22_CrouchSpeak_428A30;
         }
         else if (field_10C_prev_held & sInputKey_GameSpeak8_4C65E0)
@@ -2984,7 +2990,7 @@ void Abe::vScreenChanged_422640()
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level)
     {
         // Set the correct tint for this map
-        SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_A_level);
+        SetTint_418750(sAbeTints_4C6438, gMap_507BA8.field_A_level);
 
         if (gMap_507BA8.field_0_current_level != LevelIds::eMenu_0)
         {
@@ -3352,7 +3358,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        0,
+                        GibType::Abe_0,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),
@@ -3420,7 +3426,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        0,
+                        GibType::Abe_0,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),
@@ -3432,7 +3438,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                 if (pGibs_1)
                 {
                     pGibs_1->ctor_407B20(
-                        0,
+                        GibType::Abe_0,
                         field_A8_xpos,
                         field_AC_ypos,
                         FP_FromInteger(0),
@@ -7014,7 +7020,7 @@ void Abe::Motion_61_Respawn_42CD20()
 
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_2A8_flags.Get(Flags_2A8::e2A8_eBit16_AbeSpawnDir));
             MapFollowMe_401D30(TRUE);
-            SetTint_418750(sTintTable_Abe_4C6438, gMap_507BA8.field_0_current_level);
+            SetTint_418750(sAbeTints_4C6438, gMap_507BA8.field_0_current_level);
             if (gElum_507680)
             {
                 gElum_507680->field_BC_sprite_scale = field_BC_sprite_scale;
@@ -7069,11 +7075,12 @@ void Abe::Motion_61_Respawn_42CD20()
                     auto pDove = ao_new<Dove>();
                     if (pDove)
                     {
+                        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                         pDove->ctor_40EFF0(
-                            4988,
-                            41,
-                            20,
-                            60,
+                            doveRec.mFrameTableOffset,
+                            doveRec.mMaxW,
+                            doveRec.mMaxH,
+                            doveRec.mResourceId,
                             xDiff + FP_FromInteger(Math_NextRandom() * 2),
                             yDiff - FP_FromInteger(Math_NextRandom() % 32),
                             field_BC_sprite_scale);
@@ -7968,11 +7975,11 @@ void Abe::Motion_81_InsideWellExpress_431320()
         field_114_gnFrame = 1;
         if (pExpressWell->field_3A_movie_id)
         {
-            gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eEffect5_1_FMV, pExpressWell->field_3A_movie_id, 0);
+            gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::ePlay1FMV_5, pExpressWell->field_3A_movie_id, 0);
         }
         else
         {
-            gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         field_FC_current_motion = eAbeMotions::Motion_82_WellExpressShotOut_4315A0;
     }
@@ -8263,7 +8270,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                             field_174_pathStone.dataHandstone.camera1.level,
                             field_174_pathStone.dataHandstone.camera1.path,
                             field_174_pathStone.dataHandstone.camera1.camera,
-                            CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                            CameraSwapEffects::eInstantChange_0, 0, 0);
                         break;
                     }
                     default:
@@ -8383,7 +8390,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         pDeathFadeOutMem->ctor_419DB0(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                     }
                     field_158_pDeathFadeout = pDeathFadeOutMem;
-                    gMap_507BA8.SetActiveCam_444660(camera.level, camera.path, camera.camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_507BA8.SetActiveCam_444660(camera.level, camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }
             break;
@@ -8393,7 +8400,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
             {
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_110_state.stone = StoneStates::eCircularFadeExit_13;
-                gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_507BA8.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
             }
             break;
         case StoneStates::eCircularFadeExit_13:
@@ -8640,13 +8647,13 @@ void Abe::Motion_103_ElumIdle_42DCD0()
         {
             if (Input().IsAnyHeld(sInputKey_GameSpeak6_4C65E8))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle1_1);
-                Mudokon_SFX_42A4D0(MudSounds::eWhistle1_1, 0, 0, this);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleHigh_1);
+                Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, this);
             }
             else if (Input().IsAnyHeld(sInputKey_GameSpeak5_4C65EC))
             {
-                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistle2_2);
-                Mudokon_SFX_42A4D0(MudSounds::eWhistle2_2, 0, 0, this);
+                pEventSystem_4FF954->VPushEvent_40F9E0(GameSpeakEvents::eWhistleLow_2);
+                Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, this);
             }
             else if (Input().IsAnyHeld(sInputKey_GameSpeak8_4C65E0))
             {
@@ -9774,7 +9781,7 @@ void Abe::Motion_156_DoorEnter_42D370()
             gMap_507BA8.field_1E_door = 1;
             const auto changeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pDoorTlv->field_3A_wipe_effect];
             s16 flag = 0;
-            if (changeEffect == CameraSwapEffects::eEffect5_1_FMV || changeEffect == CameraSwapEffects::eEffect11)
+            if (changeEffect == CameraSwapEffects::ePlay1FMV_5 || changeEffect == CameraSwapEffects::eUnknown_11)
             {
                 flag = 1;
             }

@@ -15,25 +15,21 @@
 #include "BaseBomb.hpp"
 
 const TintEntry sTintMap_UXB_563A3C[19] = {
-    {1, 127u, 127u, 127u},
-    {2, 137u, 137u, 137u},
-    {3, 127u, 127u, 127u},
-    {4, 127u, 127u, 127u},
-    {5, 127u, 127u, 127u},
-    {6, 127u, 127u, 127u},
-    {7, 127u, 127u, 127u},
-    {8, 127u, 127u, 127u},
-    {9, 127u, 127u, 127u},
-    {10, 127u, 127u, 127u},
-    {11, 127u, 127u, 127u},
-    {12, 127u, 127u, 127u},
-    {13, 127u, 127u, 127u},
-    {14, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u},
-    {0, 0u, 0u, 0u},
-    {0, 0u, 0u, 0u},
-    {0, 0u, 0u, 0u},
-    {1, 0u, 0u, 0u}};
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 137u, 137u, 137u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 void UXB_ForceLink()
 {
@@ -41,7 +37,8 @@ void UXB_ForceLink()
 
 void UXB::InitBlinkAnim_4DEED0(Animation* pAnimation)
 {
-    if (pAnimation->Init_40A030(544, gObjList_animations_5C1A24, this, 36, 0x15u, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBombflshResID), 1u, 0, 0))
+    const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
+    if (pAnimation->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1u, 0, 0))
     {
         pAnimation->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnimation->field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -135,9 +132,9 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     SetVTable(this, 0x547E80);
     field_4_typeId = AETypes::eUXB_143;
 
-    auto pResource = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTbombResID);
-
-    Animation_Init_424E10(8048, 59, 19, pResource, 1, 1u);
+    const AnimRecord& activeRec = AnimRec(AnimId::UXB_Active);
+    auto pResource = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, activeRec.mResourceId);
+    Animation_Init_424E10(activeRec.mFrameTableOffset, activeRec.mMaxW, activeRec.mMaxH, pResource, 1, 1u);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
@@ -188,7 +185,8 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         {
             field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
-            field_128_animation.Set_Animation_Data_409C80(544, 0);
+            const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
+            field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
             PlaySFX_4DE930(SoundEffect::GreenTick_2);
 
             const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
@@ -211,7 +209,8 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         {
             field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
-            field_128_animation.Set_Animation_Data_409C80(544, 0);
+            const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
+            field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
 
             const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -285,7 +284,8 @@ EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
             }
             else
             {
-                field_128_animation.Set_Animation_Data_409C80(544, 0);
+                const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
+                field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
                 PlaySFX_4DE930(SoundEffect::GreenTick_2);
 
                 const AnimRecord& animRec = AnimRec(AnimId::UXB_Toggle);
@@ -410,8 +410,9 @@ void UXB::Update_4DF030()
             }
             else if (field_124_next_state_frame <= sGnFrame_5C1B84)
             {
+                const AnimRecord& flashRec = AnimRec(AnimId::Bomb_Flash);
                 field_118_state = UXBState::eActive_1;
-                field_128_animation.Set_Animation_Data_409C80(556, 0);
+                field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
                 field_124_next_state_frame = sGnFrame_5C1B84 + 2;
             }
             break;
@@ -456,7 +457,8 @@ void UXB::Update_4DF030()
                     field_1C6_red_blink_count = (field_1C4_pattern / static_cast<s32>(pow(10, field_1C0_pattern_length - field_1C2_pattern_index - 1))) % 10;
                 }
 
-                field_128_animation.Set_Animation_Data_409C80(544, 0);
+                const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
+                field_128_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
 
                 if (field_1C8_flags.Get(UXB_Flags_1C8::eIsRed_Bit1))
                 {
@@ -603,7 +605,7 @@ EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
     {
         ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", 0);
     }
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kTbombResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUXBResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("UXB.BND", 0);
     }
@@ -621,7 +623,8 @@ EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
     if (pSaveState->field_C_state == UXBState::eDeactivated_3)
     {
         pUXB->field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
-        pUXB->field_128_animation.Set_Animation_Data_409C80(544, 0);
+        const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
+        pUXB->field_128_animation.Set_Animation_Data_409C80(tickRec.mFrameTableOffset, 0);
         const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
         pUXB->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }

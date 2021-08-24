@@ -35,45 +35,62 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo)
     s32 xOff = 0;
     switch (pTlv->field_18_type)
     {
-        case Path_LightEffect::Type::RedGlow_1:
-            Animation_Init_417FD0(236, 19, 15, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRedGlowResID_6011, 1, 0), 1);
+        case Path_LightEffect::Type::GoldGlow_1:
+        {
+            const AnimRecord& goldRec = AO::AnimRec(AnimId::GoldGlow);
+            Animation_Init_417FD0(goldRec.mFrameTableOffset, goldRec.mMaxW, goldRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, goldRec.mResourceId, 1, 0), 1);
             break;
+        }
 
         case Path_LightEffect::Type::GreenGlow_2:
-            Animation_Init_417FD0(96, 5, 6, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGreenGlowResID_6010, 1, 0), 1);
+        {
+            const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenGlow);
+            Animation_Init_417FD0(greenRec.mFrameTableOffset, greenRec.mMaxW, greenRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
             break;
+        }
 
         case Path_LightEffect::Type::FlintGlow_3:
-            Animation_Init_417FD0(756, 59, 54, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kFlintGlowResID_6028, 1, 0), 1);
+        {
+            const AnimRecord& flintRec = AO::AnimRec(AnimId::FlintGlow);
+            Animation_Init_417FD0(flintRec.mFrameTableOffset, flintRec.mMaxW, flintRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, flintRec.mResourceId, 1, 0), 1);
             field_EC_bHasID = 1;
             break;
+        }
 
         case Path_LightEffect::Type::Switchable_RedGreenDoorLights_4:
+        {
             field_E8_width = 0;
             field_EA_height = 0;
             if (SwitchStates_Get(pTlv->field_1C_id))
             {
-                Animation_Init_417FD0(448, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGreenDoorLightResID_6031, 1, 0), 1);
+                const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenDoorLight);
+                Animation_Init_417FD0(greenRec.mFrameTableOffset, greenRec.mMaxW, greenRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
             }
             else
             {
-                Animation_Init_417FD0(460, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRedDoorLightResID_6032, 1, 0), 1);
+                const AnimRecord& redRec = AO::AnimRec(AnimId::RedDoorLight);
+                Animation_Init_417FD0(redRec.mFrameTableOffset, redRec.mMaxW, redRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0), 1);
                 xOff = 6;
             }
             break;
+        }
 
         case Path_LightEffect::Type::Switchable_RedGreenHubLight_5:
+        {
             field_E8_width = 0;
             field_EA_height = 0;
             if (SwitchStates_Get(pTlv->field_1C_id))
             {
-                Animation_Init_417FD0(460, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kGreenDoorLightResID_6031, 1, 0), 1);
+                const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenHubLight);
+                Animation_Init_417FD0(greenRec.mFrameTableOffset, greenRec.mMaxW, greenRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
             }
             else
             {
-                Animation_Init_417FD0(448, 20, 11, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRedDoorLightResID_6032, 1, 0), 1);
+                const AnimRecord& redRec = AO::AnimRec(AnimId::RedHubLight);
+                Animation_Init_417FD0(redRec.mFrameTableOffset, redRec.mMaxW, redRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0), 1);
             }
             break;
+        }
 
         default:
             break;

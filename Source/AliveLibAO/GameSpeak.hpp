@@ -10,8 +10,8 @@ enum class GameSpeakEvents : s16
     eSameAsLast_m2 = -2,
     eNone_m1 = -1,
 
-    eWhistle1_1 = 1,
-    eWhistle2_2 = 2,
+    eWhistleHigh_1 = 1,
+    eWhistleLow_2 = 2,
     eFart_3 = 3,
     eLaugh_4 = 4,
     eUnknown_5 = 5,

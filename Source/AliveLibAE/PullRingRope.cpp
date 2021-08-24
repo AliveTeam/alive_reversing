@@ -11,24 +11,21 @@
 #include "stdlib.hpp"
 
 const TintEntry sPullRingRopeTints_55FD1C[18] = {
-    {1u, 127u, 127u, 127u},
-    {2u, 127u, 127u, 127u},
-    {3u, 127u, 127u, 127u},
-    {4u, 127u, 127u, 127u},
-    {5u, 127u, 127u, 127u},
-    {6u, 127u, 127u, 127u},
-    {7u, 127u, 127u, 127u},
-    {8u, 127u, 127u, 127u},
-    {9u, 127u, 127u, 127u},
-    {10u, 127u, 127u, 127u},
-    {11u, 127u, 127u, 127u},
-    {12u, 127u, 127u, 127u},
-    {13u, 127u, 127u, 127u},
-    {14u, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u}};
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 
 PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo)
@@ -38,8 +35,9 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo)
 
     field_4_typeId = AETypes::ePullRope_103;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPullringResID);
-    Animation_Init_424E10(3020, 35, 0x16u, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     SetTint_425600(sPullRingRopeTints_55FD1C, gMap_5C3030.field_0_current_level);
 
@@ -107,9 +105,9 @@ void PullRingRope::VScreenChanged()
     vScreenChanged_49BCB0();
 }
 
-s16 PullRingRope::VPull_49BBD0(BaseGameObject* a2)
+s16 PullRingRope::VPull_49BBD0(BaseGameObject* pObj)
 {
-    return vPull_49BBD0(a2);
+    return vPull_49BBD0(pObj);
 }
 
 BOOL PullRingRope::VIsNotBeingPulled_49BC90()
@@ -195,7 +193,8 @@ void PullRingRope::vUpdate_49B720()
                 field_FC_ring_puller_id = -1;
                 field_100_state = States::eReturnToIdle_3;
                 field_F4_stay_in_state_ticks = 3;
-                field_20_animation.Set_Animation_Data_409C80(3092, 0);
+                const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseEnd);
+                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
 
                 const s32 oldSwitchValue = SwitchStates_Get_466020(field_102_id);
                 SwitchStates_Do_Operation_465F00(field_102_id, field_104_target_action);
@@ -266,7 +265,8 @@ void PullRingRope::vUpdate_49B720()
             {
                 field_C8_vely = FP_FromInteger(0);
                 field_100_state = States::eIdle_0;
-                field_20_animation.Set_Animation_Data_409C80(3020, 0);
+                const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
+                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
             }
             break;
 
@@ -300,7 +300,8 @@ s16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
     field_100_state = States::eBeingPulled_1;
     field_C8_vely = FP_FromInteger(2) * field_CC_sprite_scale;
     field_F4_stay_in_state_ticks = 6;
-    field_20_animation.Set_Animation_Data_409C80(3060, 0);
+    const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseBegin);
+    field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
     SFX_Play_46FA90(SoundEffect::RingRopePull_56, 0);
     return 1;
 }

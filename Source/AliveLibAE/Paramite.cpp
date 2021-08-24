@@ -27,10 +27,10 @@
 #include "ParamiteWebLine.hpp"
 #include "ScreenShake.hpp"
 
-TintEntry stru_55D73C[24] = {
-    {3u, 105u, 105u, 105u},
-    {11u, 105u, 105u, 105u},
-    {-1, 105u, 105u, 105u}};
+const TintEntry kParamiteTints_55D73C[24] = {
+    {LevelIds_s8::eMudomoVault_3, 105u, 105u, 105u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 105u, 105u, 105u},
+    {LevelIds_s8::eNone, 105u, 105u, 105u}};
 
 
 const TParamiteMotionFn sParamite_motion_table_55D5B0[44] = {
@@ -103,7 +103,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    SetTint_425600(&stru_55D73C[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&kParamiteTints_55D73C[0], gMap_5C3030.field_0_current_level);
 
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
@@ -238,48 +238,48 @@ void Paramite::VUpdate()
 
 const AnimId sParamiteFrameTableOffsets_55D660[44] = {
     AnimId::Paramite_Idle,
-    AnimId::Paramite_Idle_To_Move,
-    AnimId::Paramite_Move,
-    AnimId::Paramite_Run_A,
-    AnimId::Paramite_Turn_Around,
-    AnimId::Paramite_Run_B,
-    AnimId::Paramite_Unknown_A,
-    AnimId::Paramite_Unknown_B,
-    AnimId::Paramite_Unknown_C,
-    AnimId::Paramite_Unknown_D,
-    AnimId::Paramite_Unknown_E,
-    AnimId::Paramite_Unknown_F,
-    AnimId::Paramite_Jump_Up_Start,
-    AnimId::Paramite_Jump_Up,
-    AnimId::Paramite_Jump_Up_End,
-    AnimId::Paramite_Unknown_G,
-    AnimId::Paramite_Unknown_H,
-    AnimId::Paramite_Unknown_I,
-    AnimId::Paramite_Unknown_J,
-    AnimId::Paramite_Unknown_K,
-    AnimId::Paramite_Talk_Start,
-    AnimId::Paramite_Scared,
-    AnimId::Paramite_Yell_A,
-    AnimId::Paramite_Yell_A,
-    AnimId::Paramite_Yell_A,
-    AnimId::Paramite_Talk,
-    AnimId::Paramite_Yell_A,
-    AnimId::Paramite_Yell_B,
-    AnimId::Paramite_Talk_End,
-    AnimId::Paramite_Yell_A,
-    AnimId::Paramite_Yell_B,
-    AnimId::Paramite_Pounce,
-    AnimId::Paramite_Web_Sling,
-    AnimId::Paramite_Web_Sling,
-    AnimId::Paramite_Climb_End_Down,
-    AnimId::Paramite_Climb_Idle,
-    AnimId::Paramite_Climb_Up,
-    AnimId::Paramite_Climb_Down,
-    AnimId::Paramite_Climb_Start_Down,
-    AnimId::Paramite_Climb_End_Up,
-    AnimId::Paramite_Eat,
-    AnimId::Paramite_Fall_Death,
-    AnimId::Paramite_Wasps,
+    AnimId::Paramite_WalkBegin,
+    AnimId::Paramite_Walking,
+    AnimId::Paramite_Running,
+    AnimId::Paramite_Turn,
+    AnimId::Paramite_Hop,
+    AnimId::Paramite_Unused,
+    AnimId::Paramite_WalkRunTransition,
+    AnimId::Paramite_WalkEnd,
+    AnimId::Paramite_RunBegin,
+    AnimId::Paramite_RunEnd,
+    AnimId::Paramite_Falling,
+    AnimId::Paramite_JumpUpBegin,
+    AnimId::Paramite_JumpUpMidair,
+    AnimId::Paramite_JumpUpLand,
+    AnimId::Paramite_RopePull,
+    AnimId::Paramite_CloseAttack,
+    AnimId::Paramite_Landing,
+    AnimId::Paramite_Unused2,
+    AnimId::Paramite_Knockback,
+    AnimId::Paramite_GameSpeakBegin,
+    AnimId::Paramite_PreHiss,
+    AnimId::Paramite_Hiss,
+    AnimId::Paramite_Hiss,
+    AnimId::Paramite_Hiss,
+    AnimId::Paramite_AllOYaGameSpeakBegin,
+    AnimId::Paramite_Hiss,
+    AnimId::Paramite_PostHiss,
+    AnimId::Paramite_GameSpeakEnd,
+    AnimId::Paramite_Hiss,
+    AnimId::Paramite_PostHiss,
+    AnimId::Paramite_RunningAttack,
+    AnimId::Paramite_SurpriseWeb,
+    AnimId::Paramite_SurpriseWeb,
+    AnimId::Paramite_WebLeaveDown,
+    AnimId::Paramite_WebIdle,
+    AnimId::Paramite_WebGoingUp,
+    AnimId::Paramite_WebGoingDown,
+    AnimId::Paramite_WebGrab,
+    AnimId::Paramite_WebLeaveUp,
+    AnimId::Paramite_Eating,
+    AnimId::Paramite_Death,
+    AnimId::Paramite_Squawk,
     AnimId::Paramite_Attack};
 
 s32 CC Paramite::CreateFromSaveState_4855A0(const u8* pBuffer)
@@ -1351,7 +1351,7 @@ s16 Paramite::Brain_1_Death_484CD0()
         if (field_130_timer < static_cast<s32>(sGnFrame_5C1B84))
         {
             sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
 
@@ -2518,7 +2518,7 @@ s16 Paramite::Brain_7_DeathDrop_484FF0()
         if (sControlledCharacter_5C1B8C == this)
         {
             sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
 
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -4446,7 +4446,7 @@ void Paramite::M_GetDepossessedBegin_29_48D9D0()
             field_106_current_motion = eParamiteMotions::M_GetDepossessedEnd_30_48DB50;
             SetBrain(&Paramite::Brain_0_Patrol_4835B0);
             field_12C_brain_ret = 0;
-            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
             if (field_152_return_camera != gMap_5C3030.field_4_current_camera)
             {
                 if (field_178_flags.Get(Flags_178::eBit6_spawned))
@@ -5085,7 +5085,7 @@ void Paramite::dtor_487FC0()
                 field_14E_return_level,
                 field_150_return_path,
                 field_152_return_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }
@@ -5459,7 +5459,7 @@ s16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eExplosion_109:
         {

@@ -70,13 +70,10 @@ Shrykull* Shrykull::ctor_463880()
     field_6_flags.Set(Options::eCanExplode_Bit7);
     SetVTable(this, 0x4BC9B8);
     field_4_typeId = Types::eShrykull_85;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID, 1, 0);
-    Animation_Init_417FD0(
-        92004,
-        121,
-        79,
-        ppRes,
-        1);
+    
+    const AnimRecord rec = AO::AnimRec(AnimId::Mudokon_ToShrykull);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     field_118_zap_line = nullptr;
     field_11C_obj_being_zapped = nullptr;
 
@@ -347,7 +344,7 @@ void Shrykull::VUpdate_463AE0()
                                 FP_FromInteger((zapRect.y + zapRect.h) / 2),
                                 20,
                                 field_BC_sprite_scale,
-                                BurstType::eType_2);
+                                BurstType::eBigPurpleSparks_2);
                         }
 
                         auto pFlash = ao_new<Flash>();

@@ -95,14 +95,15 @@ EXPORT Particle* CC New_DestroyOrCreateObject_Particle_426F40(FP xpos, FP ypos, 
 
 EXPORT Particle* CC New_Orb_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, u8 r, u8 b, u8 g)
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
+    const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
     auto pParticle = ae_new<Particle>();
     if (!pParticle)
     {
         return nullptr;
     }
 
-    pParticle->ctor_4CC4C0(xpos, ypos, 1632, 39, 21, ppRes);
+    pParticle->ctor_4CC4C0(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ppRes);
     pParticle->field_D0_r = r;
     pParticle->field_D4_b = g;
     pParticle->field_D2_g = b;
@@ -148,11 +149,12 @@ EXPORT void CC New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, s16 count,
     {
         FP randX = (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
-        u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 0, 0);
+        const AnimRecord& squibSmokeRec = AnimRec(AnimId::SquibSmoke_Particle);
+        u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, squibSmokeRec.mResourceId, 0, 0);
         auto pParticle = ae_new<Particle>();
         if (pParticle)
         {
-            pParticle->ctor_4CC4C0(randX, particleY, 5084, 61, 44, ppRes);
+            pParticle->ctor_4CC4C0(randX, particleY, squibSmokeRec.mFrameTableOffset, squibSmokeRec.mMaxW, squibSmokeRec.mMaxH, ppRes);
             pParticle->field_DC_bApplyShadows &= ~1u;
             pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
             pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -200,12 +202,12 @@ Particle* CC New_TintShiny_Particle_426C30(FP xpos, FP ypos, FP scale, Layer lay
 
 void CC New_ShootingZFire_Particle_4269B0(FP xpos, FP ypos, FP scale)
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 0, 0);
-
+    const AnimRecord& ZFireRec = AnimRec(AnimId::ShootingZFire_Particle);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ZFireRec.mResourceId, 0, 0);
     auto pParticle = ae_new<Particle>();
     if (pParticle)
     {
-        pParticle->ctor_4CC4C0(xpos, ypos, 2832, 126, 44, ppRes);
+        pParticle->ctor_4CC4C0(xpos, ypos, ZFireRec.mFrameTableOffset, ZFireRec.mMaxW, ZFireRec.mMaxH, ppRes);
         pParticle->field_DC_bApplyShadows &= ~1u;
         pParticle->field_D4_b = 55;
         pParticle->field_D2_g = 55;
@@ -225,11 +227,12 @@ void CC New_ShootingZFire_Particle_4269B0(FP xpos, FP ypos, FP scale)
 
 void CC New_ShootingFire_Particle_426890(FP xpos, FP ypos, s8 direction, FP scale)
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 0, 0);
+    const AnimRecord& shootingFireRec = AnimRec(AnimId::ShootingFire_Particle);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, shootingFireRec.mResourceId, 0, 0);
     auto pParticle = ae_new<Particle>();
     if (pParticle)
     {
-        pParticle->ctor_4CC4C0(xpos, ypos, 960, 86, 17, ppRes);
+        pParticle->ctor_4CC4C0(xpos, ypos, shootingFireRec.mFrameTableOffset, shootingFireRec.mMaxW, shootingFireRec.mMaxH, ppRes);
         pParticle->field_DC_bApplyShadows &= ~1u;
         pParticle->field_D4_b = 55;
         pParticle->field_D2_g = 55;

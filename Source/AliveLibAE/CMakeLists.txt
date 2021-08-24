@@ -223,8 +223,8 @@ SET(AliveLibAESrc
     MultiSwitchController.cpp
     ShadowZone.hpp
     ShadowZone.cpp
-    Grinder.cpp
-    Grinder.hpp
+    Drill.cpp
+    Drill.hpp
     Teleporter.cpp
     Teleporter.hpp
     Spark.cpp
@@ -251,8 +251,8 @@ SET(AliveLibAESrc
     FootSwitch.hpp
     ParticleBurst.cpp
     ParticleBurst.hpp
-    FartMachine.cpp
-    FartMachine.hpp
+    BrewMachine.cpp
+    BrewMachine.hpp
     FallingItem.cpp
     FallingItem.hpp
     MineCar.cpp
@@ -307,8 +307,8 @@ SET(AliveLibAESrc
     MovingBomb.cpp
     DoorFlame.cpp
     DoorFlame.hpp
-    NakedSlig.cpp
-    NakedSlig.hpp
+    CrawlingSlig.cpp
+    CrawlingSlig.hpp
     SnoozeParticle.cpp
     SnoozeParticle.hpp
     Fleech.cpp
@@ -327,8 +327,8 @@ SET(AliveLibAESrc
     GlukkonSwitch.cpp
     Bullet.hpp
     Bullet.cpp
-    NakedSligButton.hpp
-    NakedSligButton.cpp
+    CrawlingSligButton.hpp
+    CrawlingSligButton.cpp
     SligGetPantsAndWings.hpp
     SligGetPantsAndWings.cpp
     BoomMachine.hpp

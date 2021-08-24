@@ -31,11 +31,12 @@ void DeathBirdParticle::VUpdate_41DA60()
                 auto pDove = ao_new<Dove>();
                 if (pDove)
                 {
+                    const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                     pDove->ctor_40EFF0(
-                        4988,
-                        41,
-                        20,
-                        60,
+                        doveRec.mFrameTableOffset,
+                        doveRec.mMaxW,
+                        doveRec.mMaxH,
+                        doveRec.mResourceId,
                         field_A8_xpos,
                         field_AC_ypos - FP_FromInteger(15),
                         field_BC_sprite_scale);
@@ -78,8 +79,9 @@ DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, s32 start, s
     SetVTable(this, 0x4BAF38);
     field_4_typeId = Types::eDeathBird_38;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0);
-    Animation_Init_417FD0(6312, 70, 43, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::DeathFlare_1);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
     {

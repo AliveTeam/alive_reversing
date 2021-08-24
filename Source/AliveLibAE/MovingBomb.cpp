@@ -16,11 +16,10 @@
 #include "Events.hpp"
 #include "SwitchStates.hpp"
 
-TintEntry stru_55C734[4] = {
-    {6u, 97u, 97u, 97u},
-    {10u, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u},
-    {0u, 0u, 0u, 0u}};
+const TintEntry kMovingBombTints_55C734[4] = {
+    {LevelIds_s8::eBarracks_6, 97u, 97u, 97u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 ALIVE_VAR(1, 0x5C300C, MovingBomb*, gMovingBomb_5C300C, nullptr);
 
@@ -32,7 +31,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
     SetVTable(this, 0x546270);
     field_4_typeId = AETypes::eTimedMine_or_MovingBomb_10;
 
-    const AnimRecord& rec = AnimRec(AnimId::Moving_Bomb);
+    const AnimRecord& rec = AnimRec(AnimId::MovingBomb);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
@@ -71,7 +70,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
 
-    SetTint_425600(&stru_55C734[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&kMovingBombTints_55C734[0], gMap_5C3030.field_0_current_level);
 
     field_134_disable_resources = pTlv->field_1A_disable_resources;
     if (!(field_134_disable_resources & 1))

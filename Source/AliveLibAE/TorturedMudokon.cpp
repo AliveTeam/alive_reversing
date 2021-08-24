@@ -21,7 +21,7 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tl
     field_4_typeId = AETypes::eTorturedMud_141;
     field_230_tlvInfo = tlvInfo;
 
-    const AnimRecord& rec = AnimRec(AnimId::Tortured_Modukon);
+    const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon);
     field_224_ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     if (field_224_ppRes)
     {
@@ -193,7 +193,7 @@ void TorturedMudokon::vUpdate_47BF80()
             if (SwitchStates_Get_466020(field_23A_speed_id))
             {
                 field_23E_state = TorturedMudokonState::eKilled_1;
-                const AnimRecord& animRec = AnimRec(AnimId::Tortured_Modukon_Zap);
+                const AnimRecord& animRec = AnimRec(AnimId::Tortured_Mudokon_Zap);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
             break;
@@ -287,7 +287,7 @@ void TorturedMudokon::vUpdate_47BF80()
     if (SwitchStates_Get_466020(field_23C_release_id))
     {
         field_23E_state = TorturedMudokonState::eReleased_2;
-        const AnimRecord& animRec = AnimRec(AnimId::Tortured_Modukon_Released);
+        const AnimRecord& animRec = AnimRec(AnimId::Tortured_Mudokon_Released);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_F4_tears_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_18C_zap_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);

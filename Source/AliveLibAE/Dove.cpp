@@ -36,22 +36,15 @@ EXPORT void CC Dove_static_ctor_41F3A0()
     atexit(Dove_static_dtor_41F400);
 }
 
-Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 /*maxW*/, u16 /*maxH*/, s32 /*resourceID*/, s32 tlvInfo, FP scale)
+Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 maxW, u16 maxH, s32 resourceID, s32 tlvInfo, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90);
 
-    field_4_typeId = AETypes::eBird_35;
+    field_4_typeId = AETypes::eDove_35;
 
-    AnimId a_id = AnimId::Dove_Flying;
-    if (frameTableOffset == 5580)
-    {
-        a_id = AnimId::Dove_Idle;
-    }
-
-    const AnimRecord& rec = AnimRec(a_id);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
+    Animation_Init_424E10(frameTableOffset, maxW, maxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -81,7 +74,7 @@ Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 /*maxW*/, u16 /*maxH*/, s32 /*
     }
 
     field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() % 4));
-    field_FE_state = State::State_0_OnGround;
+    field_FE_state = State::eOnGround_0;
     field_20_animation.SetFrame_409D50(Math_NextRandom() % 8);
     field_FC_keepInGlobalArray = FALSE;
     field_F8_tlvInfo = tlvInfo;
@@ -96,22 +89,15 @@ Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 /*maxW*/, u16 /*maxH*/, s32 /*
     return this;
 }
 
-Dove* Dove::ctor_41F660(s32 frameTableOffset, s32 /*maxW*/, s16 /*maxH*/, s32 /*resourceID*/, FP xpos, FP ypos, FP scale)
+Dove* Dove::ctor_41F660(s32 frameTableOffset, s32 maxW, s16 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90); // vTbl_Dove_544A90
 
-    field_4_typeId = AETypes::eBird_35;
+    field_4_typeId = AETypes::eDove_35;
 
-    AnimId a_id = AnimId::Dove_Flying;
-    if (frameTableOffset == 5580)
-    {
-        a_id = AnimId::Dove_Idle;
-    }
-
-    const AnimRecord& rec = AnimRec(a_id);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
+    Animation_Init_424E10(frameTableOffset, maxW, maxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_14_scale = scale;
@@ -137,7 +123,7 @@ Dove* Dove::ctor_41F660(s32 frameTableOffset, s32 /*maxW*/, s16 /*maxH*/, s32 /*
     }
 
     field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() % 4));
-    field_FE_state = State::State_1_FlyAway;
+    field_FE_state = State::eFlyAway_1;
     field_FC_keepInGlobalArray = TRUE;
     field_F4_counter = 0;
 
@@ -216,7 +202,7 @@ Dove* Dove::vdtor_41F630(s32 flags)
 void Dove::AsAlmostACircle_41FA20(FP xpos, FP ypos, u8 angle)
 {
     AsACircle_41F980(xpos, ypos, angle);
-    field_FE_state = State::State_4_AlmostACircle;
+    field_FE_state = State::eAlmostACircle_4;
 }
 
 void Dove::AsACircle_41F980(FP xpos, FP ypos, u8 angle)
@@ -224,7 +210,7 @@ void Dove::AsACircle_41F980(FP xpos, FP ypos, u8 angle)
     field_100_xJoin = xpos;
     field_104_yJoin = ypos;
     field_10C_angle = angle;
-    field_FE_state = State::State_3_Circle;
+    field_FE_state = State::eCircle_3;
 
     // TODO: Result thrown away.. some old removed behavior ??
     //(Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * field_CC_sprite_scale;
@@ -235,15 +221,15 @@ void Dove::AsJoin_41F940(FP xpos, FP ypos)
 {
     field_100_xJoin = xpos;
     field_104_yJoin = ypos;
-    field_FE_state = State::State_2_Join;
+    field_FE_state = State::eJoin_2;
     field_108_timer = sGnFrame_5C1B84 + 47;
 }
 
 void Dove::FlyAway_420020(BOOL spookedInstantly)
 {
-    if (field_FE_state != State::State_1_FlyAway)
+    if (field_FE_state != State::eFlyAway_1)
     {
-        field_FE_state = State::State_1_FlyAway;
+        field_FE_state = State::eFlyAway_1;
         if (spookedInstantly)
         {
             field_F4_counter = -1;
@@ -277,7 +263,7 @@ void Dove::vUpdate_41FAE0()
 
     switch (field_FE_state)
     {
-        case State::State_0_OnGround:
+        case State::eOnGround_0:
             if (Event_Get_422C00(kEventSpeaking))
             {
                 Dove::All_FlyAway_41FA60(0); // something is speaking, leg it
@@ -298,11 +284,12 @@ void Dove::vUpdate_41FAE0()
             }
             break;
 
-        case State::State_1_FlyAway:
+        case State::eFlyAway_1:
             field_F4_counter++;
             if (field_F4_counter == 0)
             {
-                field_20_animation.Set_Animation_Data_409C80(5516, 0);
+                const AnimRecord& rec = AnimRec(AnimId::Dove_Flying);
+                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
                 if (!bExtraSeqStarted_5BC10C)
                 {
                     bExtraSeqStarted_5BC10C = 13;
@@ -335,7 +322,7 @@ void Dove::vUpdate_41FAE0()
             }
             break;
 
-        case State::State_2_Join:
+        case State::eJoin_2:
         {
             if (static_cast<s32>(sGnFrame_5C1B84) > field_108_timer)
             {
@@ -359,7 +346,7 @@ void Dove::vUpdate_41FAE0()
         }
             return;
 
-        case State::State_3_Circle:
+        case State::eCircle_3:
             field_110_prevX = field_B8_xpos;
             field_114_prevY = field_BC_ypos;
 
@@ -370,7 +357,7 @@ void Dove::vUpdate_41FAE0()
             field_BC_ypos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
             return;
 
-        case State::State_4_AlmostACircle:
+        case State::eAlmostACircle_4:
             if (sAbePortalTimer_5BC114 != static_cast<s32>(sGnFrame_5C1B84))
             {
                 // increase or decrease the width of the Abe portal

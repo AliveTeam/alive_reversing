@@ -8,6 +8,7 @@
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
 #include "ResourceManager.hpp"
+#include "AnimResources.hpp"
 
 namespace AO {
 
@@ -58,8 +59,9 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     return this;
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 a6)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList)
 {
+    FrameTableOffsetExists(frameTableOffset, false, maxW, maxH);
     const auto init = field_10_anim.Init_402D20(
         frameTableOffset,
         gObjList_animations_505564,
@@ -81,7 +83,13 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
             field_C6_scale = 0;
         }
 
-        if (!a6 || gObjList_drawables_504618->Push_Back(this))
+        bool added = true;
+        if (bAddToDrawableList)
+        {
+            added = gObjList_drawables_504618->Push_Back(this) ? true : false;
+        }
+
+        if (added)
         {
             field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);

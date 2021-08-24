@@ -72,13 +72,10 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
     ctor_401090();
     SetVTable(this, 0x4BC180);
     field_4_typeId = Types::eRollingBall_72;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2stnbalResID, 1, 0);
-    Animation_Init_417FD0(
-        15596,
-        131,
-        64,
-        ppRes,
-        1);
+    
+    const AnimRecord rec = AO::AnimRec(AnimId::Stone_Ball);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10_anim.field_C_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
 
@@ -228,9 +225,9 @@ void RollingBall::VUpdate_457AF0()
                 &field_AC_ypos,
                 field_B4_velx);
 
-            u16 v39 = 0;
-            CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 50, &v39);
-            if (v39 == 1 || v39 == 2)
+            u16 result = 0;
+            CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 50, &result);
+            if (result == 1 || result == 2)
             {
                 MapFollowMe_401D30(0);
             }
@@ -270,7 +267,7 @@ void RollingBall::VUpdate_457AF0()
                         field_AC_ypos - FP_FromInteger(30),
                         150,
                         field_BC_sprite_scale,
-                        BurstType::eType_0);
+                        BurstType::eFallingRocks_0);
                 }
 
                 auto pFlash = ao_new<Flash>();

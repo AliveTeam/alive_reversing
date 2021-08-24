@@ -1312,10 +1312,11 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB200);
     field_E4_ppRes = nullptr;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHintflyResID, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::HintFly);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     if (ppRes)
     {
-        Animation_Init_417FD0(556, 10, 7, ppRes, 1);
+        Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_124_tlvInfo = tlvInfo;

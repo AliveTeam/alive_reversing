@@ -21,21 +21,21 @@
 #include "Slurg.hpp"
 
 static const TintEntry sScrabTints_560260[15] = {
-    {1u, 127u, 127u, 127u},
-    {2u, 137u, 137u, 137u},
-    {3u, 127u, 127u, 127u},
-    {4u, 127u, 127u, 127u},
-    {5u, 127u, 127u, 127u},
-    {6u, 127u, 127u, 127u},
-    {7u, 127u, 127u, 127u},
-    {8u, 127u, 127u, 127u},
-    {9u, 127u, 127u, 127u},
-    {10u, 127u, 127u, 127u},
-    {11u, 127u, 127u, 127u},
-    {12u, 127u, 127u, 127u},
-    {13u, 127u, 127u, 127u},
-    {14u, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u}};
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 137u, 137u, 137u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 // TODO: repetition with `MainMenu.cpp`
 static const SfxDefinition scrab_sScrabSfx_560330[9] = {
@@ -284,43 +284,43 @@ const AnimId sScrabFrameTableOffsets_5601C0[40] = {
     AnimId::Scrab_Idle,
     AnimId::Scrab_Walk,
     AnimId::Scrab_Run,
-    AnimId::Scrab_Turn_Around,
-    AnimId::Scrab_Run_Stop,
-    AnimId::Scrab_Landing_A,
+    AnimId::Scrab_Turn,
+    AnimId::Scrab_RunToStand,
+    AnimId::Scrab_HopBegin,
     AnimId::Scrab_Jump,
-    AnimId::Scrab_Landing_B,
-    AnimId::Scrab_Unknown_A,
-    AnimId::Scrab_Unknown_B,
-    AnimId::Scrab_Unknown_C,
-    AnimId::Scrab_Unknown_D,
+    AnimId::Scrab_Landing,
+    AnimId::Scrab_JumpAndRunToFall,
+    AnimId::Scrab_StandToWalk,
+    AnimId::Scrab_StandToRun,
+    AnimId::Scrab_WalkToStand,
     AnimId::Scrab_Jump,
-    AnimId::Scrab_Landing_B,
-    AnimId::Scrab_Unknown_E,
-    AnimId::Scrab_Unknown_A,
-    AnimId::Scrab_Unknown_F,
-    AnimId::Scrab_Unknown_G,
-    AnimId::Scrab_Landing_C,
-    AnimId::Scrab_Unknown_H,
-    AnimId::Scrab_Landing_B,
+    AnimId::Scrab_Landing,
+    AnimId::Scrab_WalkToFall,
+    AnimId::Scrab_JumpAndRunToFall,
+    AnimId::Scrab_WalkToRun,
+    AnimId::Scrab_RunToWalk,
+    AnimId::Scrab_Knockback,
+    AnimId::Scrab_GetEaten,
+    AnimId::Scrab_Landing,
     AnimId::Scrab_Dance,
     AnimId::Scrab_Dance,
-    AnimId::Scrab_Dead,
-    AnimId::Scrab_Dead,
-    AnimId::Scrab_Unknown_I,
-    AnimId::Scrab_Showl,
-    AnimId::Scrab_Showl_Start,
-    AnimId::Scrab_Showl,
-    AnimId::Scrab_Showl_Start,
-    AnimId::Scrab_Roar,
-    AnimId::Scrab_Whirl_Fight,
-    AnimId::Scrab_Whirl,
-    AnimId::Scrab_Chew,
-    AnimId::Scrab_Unknown_J,
-    AnimId::Scrab_Eat_Start,
-    AnimId::Scrab_Eat,
-    AnimId::Scrab_Unknown_K,
-    AnimId::Scrab_Kick,
-    AnimId::Scrab_Unknown_L};
+    AnimId::Scrab_DeathEnd,
+    AnimId::Scrab_DeathEnd,
+    AnimId::Scrab_Empty,
+    AnimId::Scrab_HowlBegin,
+    AnimId::Scrab_HowlEnd,
+    AnimId::Scrab_HowlBegin,
+    AnimId::Scrab_HowlEnd,
+    AnimId::Scrab_Shriek,
+    AnimId::Scrab_ScrabBattleAnim,
+    AnimId::Scrab_AttackSpin,
+    AnimId::Scrab_FeedToGulp,
+    AnimId::Scrab_GulpToStand,
+    AnimId::Scrab_StandToFeed,
+    AnimId::Scrab_Feed,
+    AnimId::Scrab_AttackLunge,
+    AnimId::Scrab_LegKick,
+    AnimId::Scrab_DeathBegin};
 
 s32 CC Scrab::CreateFromSaveState_4A70A0(const u8* pBuffer)
 {
@@ -571,7 +571,7 @@ void Scrab::dtor_4A42B0()
                 field_166_level,
                 field_168_path,
                 field_16A_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }
@@ -2024,7 +2024,7 @@ s16 Scrab::Brain_5_Possessed_4A6180()
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
         ToPatrol_4AA600();
         field_11C_brain_sub_state = Brain_0_Patrol::eBrain0_ToMoving_0;
-        gMap_5C3030.SetActiveCam_480D30(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         return field_11C_brain_sub_state;
     }
 
@@ -3149,7 +3149,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
             field_106_current_motion = eScrabMotions::M_GetDepossessedEnd_29_4AA3C0;
             ToPatrol_4AA600();
             field_11C_brain_sub_state = Brain_0_Patrol::eBrain0_ToMoving_0;
-            gMap_5C3030.SetActiveCam_480D30(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
 }

@@ -20,9 +20,9 @@ public:
 
     BaseGameObject* VDestructor(s32 flags) override;
 
-    s32 field_D4[4];
+    s32 field_D4_padding[4];
     s16 field_E4_bHitSomething;
-    s16 field_E6;
+    s16 field_E6_padding;
 };
 ALIVE_ASSERT_SIZEOF(Leaf, 0xE8);
 

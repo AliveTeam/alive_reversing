@@ -11,7 +11,7 @@
 #include "MusicController.hpp"
 #include "DDCheat.hpp"
 #include "BaseGameObject.hpp"
-#include "NakedSlig.hpp" // TODO: SFX playing only
+#include "CrawlingSlig.hpp" // TODO: SFX playing only
 #include "SnoozeParticle.hpp"
 #include "Events.hpp"
 #include "Sfx.hpp"
@@ -34,7 +34,7 @@
 #include "VRam.hpp"
 #include "Electrocute.hpp"
 
-const SfxDefinition stru_5607E0[17] = {
+const SfxDefinition kSfxInfoTable_5607E0[17] = {
     {0u, 1u, 58u, 40u, -256, -256},
     {0u, 1u, 58u, 35u, 0, 0},
     {0u, 1u, 59u, 55u, 0, 0},
@@ -55,7 +55,7 @@ const SfxDefinition stru_5607E0[17] = {
 
 void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
 {
-    const SfxDefinition* pEffect = &stru_5607E0[static_cast<s32>(effect)];
+    const SfxDefinition* pEffect = &kSfxInfoTable_5607E0[static_cast<s32>(effect)];
     s16 vLeft = 0;
     s16 vRight = 0;
     if (Calc_Slig_Sound_Direction_4C01B0(pObj, 0, pEffect, &vLeft, &vRight))
@@ -162,77 +162,77 @@ s32 CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
 }
 
 TintEntry sSligTint_560570[15] = {
-    {1u, 102u, 127u, 118u},
-    {2u, 102u, 127u, 118u},
-    {3u, 102u, 127u, 118u},
-    {4u, 102u, 127u, 118u},
-    {5u, 102u, 127u, 118u},
-    {6u, 102u, 127u, 118u},
-    {7u, 102u, 127u, 118u},
-    {8u, 102u, 127u, 118u},
-    {9u, 102u, 127u, 118u},
-    {10u, 102u, 127u, 118u},
-    {11u, 102u, 127u, 118u},
-    {12u, 102u, 127u, 118u},
-    {13u, 102u, 127u, 118u},
-    {14u, 102u, 127u, 118u},
-    {-1, 102u, 127u, 118u}};
+    {LevelIds_s8::eMines_1, 102u, 127u, 118u},
+    {LevelIds_s8::eNecrum_2, 102u, 127u, 118u},
+    {LevelIds_s8::eMudomoVault_3, 102u, 127u, 118u},
+    {LevelIds_s8::eMudancheeVault_4, 102u, 127u, 118u},
+    {LevelIds_s8::eFeeCoDepot_5, 102u, 127u, 118u},
+    {LevelIds_s8::eBarracks_6, 102u, 127u, 118u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 102u, 127u, 118u},
+    {LevelIds_s8::eBonewerkz_8, 102u, 127u, 118u},
+    {LevelIds_s8::eBrewery_9, 102u, 127u, 118u},
+    {LevelIds_s8::eBrewery_Ender_10, 102u, 127u, 118u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 102u, 127u, 118u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 102u, 127u, 118u},
+    {LevelIds_s8::eBarracks_Ender_13, 102u, 127u, 118u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 102u, 127u, 118u},
+    {LevelIds_s8::eNone, 102u, 127u, 118u}};
 
 ALIVE_VAR(1, 0xBAF7E4, s32, unused_BAF7E4, 0);
 ALIVE_VAR(1, 0xBAF7E8, s16, sSligsUnderControlCount_BAF7E8, 0);
 
 const AnimId sSligFrameTables_547318[52] = {
     AnimId::Slig_Idle,
-    AnimId::Slig_Walk_Start,
-    AnimId::Slig_Walk,
-    AnimId::Slig_Run_Start,
-    AnimId::Slig_Run,
-    AnimId::Slig_Turn_Around,
+    AnimId::Slig_StandToWalk,
+    AnimId::Slig_Walking,
+    AnimId::Slig_StandToRun,
+    AnimId::Slig_Running,
+    AnimId::Slig_TurnAroundStanding,
     AnimId::Slig_Shoot,
     AnimId::Slig_Idle,
-    AnimId::Slig_Run_Stop,
-    AnimId::Slig_Run_Turn_Around,
-    AnimId::Slig_Unknown_A,
-    AnimId::Slig_Unknown_B,
-    AnimId::Slig_Reload,
-    AnimId::Slig_Idle_To_Shoot,
-    AnimId::Slig_Shuffle,
-    AnimId::Slig_Unknown_C,
+    AnimId::Slig_SlidingToStand,
+    AnimId::Slig_SlidingTurn,
+    AnimId::Slig_SlidingTurnToWalk,
+    AnimId::Slig_SlidingTurnToRun,
+    AnimId::Slig_ReloadGun,
+    AnimId::Slig_ShootToStand,
+    AnimId::Slig_SteppingToStand,
+    AnimId::Slig_StandingToStep,
     AnimId::Slig_Idle,
-    AnimId::Slig_Unknown_D,
-    AnimId::Slig_Unknown_E,
-    AnimId::Slig_Shoot_Step,
-    AnimId::Slig_Talk_A,
-    AnimId::Slig_Talk_B,
-    AnimId::Slig_Talk_C,
-    AnimId::Slig_Talk_D,
-    AnimId::Slig_Talk_A,
-    AnimId::Slig_Talk_B,
-    AnimId::Slig_Talk_C,
-    AnimId::Slig_Talk_D,
-    AnimId::Slig_Talk_A,
-    AnimId::Slig_Talk_B,
-    AnimId::Slig_Talk_C,
-    AnimId::Slig_Talk_D,
-    AnimId::Slig_Sleep,
-    AnimId::Slig_Wake_Up,
-    AnimId::Slig_Knocked_Down,
-    AnimId::Slig_Get_Up,
-    AnimId::Slig_Possessed,
-    AnimId::Slig_Possessed,
-    AnimId::Slig_Fall,
-    AnimId::Slig_Fall_Start,
-    AnimId::Slig_Fall_End,
-    AnimId::Slig_Fall_Death_A,
-    AnimId::Slig_Shoot_Z,
-    AnimId::Slig_Shoot_Z_End,
-    AnimId::Slig_Fall_Death_B,
-    AnimId::Slig_Lever,
-    AnimId::Slig_Lift_Start_A,
-    AnimId::Slig_Lift_Start_B,
-    AnimId::Slig_Lift_Idle,
-    AnimId::Slig_Lift_Move_A,
-    AnimId::Slig_Lift_Move_B,
+    AnimId::Slig_Gamespeak,
+    AnimId::Slig_WalkToStand,
+    AnimId::Slig_Recoil,
+    AnimId::Slig_Speak1,
+    AnimId::Slig_Speak2,
+    AnimId::Slig_Speak3,
+    AnimId::Slig_Speak4,
+    AnimId::Slig_Speak1,
+    AnimId::Slig_Speak2,
+    AnimId::Slig_Speak3,
+    AnimId::Slig_Speak4,
+    AnimId::Slig_Speak1,
+    AnimId::Slig_Speak2,
+    AnimId::Slig_Speak3,
+    AnimId::Slig_Speak4,
+    AnimId::Slig_Sleeping,
+    AnimId::Slig_SleepingToStand,
+    AnimId::Slig_Knockeback,
+    AnimId::Slig_KnockbackToStand,
+    AnimId::Slig_PossessShake,
+    AnimId::Slig_PossessShake,
+    AnimId::Slig_OutToFall,
+    AnimId::Slig_FallingInitiate,
+    AnimId::Slig_LandingSoft,
+    AnimId::Slig_LandingFatal,
+    AnimId::Slig_ShootZ,
+    AnimId::Slig_ShootZtoStand,
+    AnimId::Slig_Smash,
+    AnimId::Slig_PullLever,
+    AnimId::Slig_LiftGrip,
+    AnimId::Slig_LiftUngrip,
+    AnimId::Slig_LiftGripping,
+    AnimId::Slig_LiftUp,
+    AnimId::Slig_LiftDown,
     AnimId::Slig_Beat};
 
 const TSligMotionFn sSlig_motion_table_5604A0[52] = {
@@ -872,7 +872,7 @@ s32 CC Slig::CreateFromSaveState_4B3B50(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
     }
@@ -1947,7 +1947,7 @@ void Slig::M_SleepingToStand_33_4B8C50()
 
         if (pObj->field_4_typeId == AETypes::eSnoozeParticle_124)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 
@@ -2631,7 +2631,7 @@ s16 Slig::Brain_Death_0_4BBFB0()
         {
             sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
             MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-            gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
 
@@ -2662,7 +2662,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_1_4BC410()
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-        gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -2812,7 +2812,7 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
                 {
                     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
                     sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-                    gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                    gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
@@ -4807,7 +4807,7 @@ void Slig::dtor_4B1CF0()
                 field_146_level,
                 field_148_path,
                 field_14A_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }
@@ -4821,12 +4821,12 @@ void Slig::dtor_4B1CF0()
             if (field_10C_health <= FP_FromInteger(0))
             {
                 pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
             }
             else
             {
                 pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
             }
         }
     }
@@ -7042,7 +7042,7 @@ s16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
             return 1;
         }
 
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eExplosion_109:
         {

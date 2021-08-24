@@ -17,7 +17,7 @@
 #include "Slig.hpp"
 #include "Grenade.hpp"
 #include "Dove.hpp"
-#include "NakedSlig.hpp"
+#include "CrawlingSlig.hpp"
 #include "Particle.hpp"
 #include "Gibs.hpp"
 #include "Blood.hpp"
@@ -76,7 +76,7 @@ const TFlyingSligBrainFn sFlyingSlig_Brain_table_552350[18] = {
     &FlyingSlig::Brain_14_DePossession_436180,
     &FlyingSlig::Brain_15_FlyingSligSpawn_4362C0,
     &FlyingSlig::Brain_1_Death_4364E0,
-    &FlyingSlig::Brain_17_FromNakedSlig_4355E0,
+    &FlyingSlig::Brain_17_FromCrawlingSlig_4355E0,
 };
 
 const static BrainFunctionData<TFlyingSligBrainFn> sFlyingSligBrainTable[18] = {
@@ -97,7 +97,7 @@ const static BrainFunctionData<TFlyingSligBrainFn> sFlyingSligBrainTable[18] = {
     {&FlyingSlig::Brain_14_DePossession_436180, 0x403DBE, "Brain_14_DePossession"},
     {&FlyingSlig::Brain_15_FlyingSligSpawn_4362C0, 0x40128A, "Brain_15_FlyingSligSpawn"},
     {&FlyingSlig::Brain_1_Death_4364E0, 0x402ABD, "Brain_1_Death (second)"},
-    {&FlyingSlig::Brain_17_FromNakedSlig_4355E0, 0x401749, "Brain_17_FromNakedSlig"},
+    {&FlyingSlig::Brain_17_FromCrawlingSlig_4355E0, 0x401749, "Brain_17_FromNakedSlig"},
 };
 
 void FlyingSlig::SetBrain(TFlyingSligBrainFn fn)
@@ -278,15 +278,15 @@ const AnimId sFlyingSligFrameTables_552408[28] = {
     AnimId::Flying_Slig_Move_Down_To_Horizontal,
     AnimId::Flying_Slig_Turn_Quick,
     AnimId::Flying_Slig_Idle_To_Horizontal,
-    AnimId::Flying_Slig_Move_Down_Start,
-    AnimId::Flying_Slig_Move_Down_End,
-    AnimId::Flying_Slig_Knockback_Down,
-    AnimId::Flying_Slig_Knockback_Up,
-    AnimId::Flying_Slig_Move_Up_End,
-    AnimId::Flying_Slig_Up_Turn_Instant,
-    AnimId::Flying_Slig_Down_Turn_Instant,
-    AnimId::Flying_Slig_Move_Horizontal_To_Up,
-    AnimId::Flying_Slig_Turn_Horizontal,
+    AnimId::FlyingSlig_BeginDownMovement,
+    AnimId::FlyingSlig_EndDownMovement,
+    AnimId::FlyingSlig_DownKnockback,
+    AnimId::FlyingSlig_UpKnockback,
+    AnimId::FlyingSlig_EndUpMovement,
+    AnimId::FlyingSlig_InstantUpXTurn,
+    AnimId::FlyingSlig_InstantDownXTurn,
+    AnimId::FlyingSlig_HorizontalToUpMovement,
+    AnimId::FlyingSlig_TurnToHorizontalMovement,
 };
 
 s32 CC FlyingSlig::CreateFromSaveState_437E40(const u8* pBuffer)
@@ -584,7 +584,7 @@ void FlyingSlig::dtor_434990()
                 field_2A0_abe_level,
                 field_2A2_abe_path,
                 field_2A4_abe_camera,
-                CameraSwapEffects::eEffect0_InstantChange,
+                CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
         }
@@ -1033,7 +1033,7 @@ s16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
             // Not in Z-Cover, fall through and be shot
             [[fallthrough]];
         }
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eRockSpawner_48:
         case AETypes::eAbe_69:
         case AETypes::eMeatSaw_86:
@@ -1374,7 +1374,7 @@ void FlyingSlig::Brain_15_FlyingSligSpawn_4362C0()
     }
 }
 
-void FlyingSlig::Brain_17_FromNakedSlig_4355E0()
+void FlyingSlig::Brain_17_FromCrawlingSlig_4355E0()
 {
     FP hitX = {};
     FP hitY = {};
@@ -2060,7 +2060,7 @@ void FlyingSlig::ToChase_435E10()
 
 s16 FlyingSlig::IsPossessed_436A90()
 {
-    return BrainIs(&FlyingSlig::Brain_12_Possessed_436040) || BrainIs(&FlyingSlig::Brain_15_FlyingSligSpawn_4362C0) || BrainIs(&FlyingSlig::Brain_17_FromNakedSlig_4355E0) || BrainIs(&FlyingSlig::Brain_13_Possession_4360F0) || BrainIs(&FlyingSlig::Brain_14_DePossession_436180);
+    return BrainIs(&FlyingSlig::Brain_12_Possessed_436040) || BrainIs(&FlyingSlig::Brain_15_FlyingSligSpawn_4362C0) || BrainIs(&FlyingSlig::Brain_17_FromCrawlingSlig_4355E0) || BrainIs(&FlyingSlig::Brain_13_Possession_4360F0) || BrainIs(&FlyingSlig::Brain_14_DePossession_436180);
 }
 
 s16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)

@@ -23,8 +23,9 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP exposion_size)
     ctor_417C10();
     SetVTable(this, 0x4BC218);
     field_4_typeId = Types::eExplosion_74;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
-    Animation_Init_417FD0(27376, 200, 91, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Explosion);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
@@ -92,7 +93,7 @@ void Explosion::VUpdate_458D00()
             auto pParticleBurst = ao_new<ParticleBurst>();
             if (pParticleBurst)
             {
-                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eType_3);
+                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
             }
 
             auto pFlash = ao_new<Flash>();
@@ -132,7 +133,7 @@ void Explosion::VUpdate_458D00()
             auto pParticleBurst = ao_new<ParticleBurst>();
             if (pParticleBurst)
             {
-                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eType_3);
+                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
             }
 
             auto pFlash = ao_new<Flash>();
@@ -265,9 +266,9 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
     if (pTlv)
     {
-        if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit2_Unknown) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2))
+        if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit2_Destroyed) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2))
         {
-            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
             const CameraPos dir = gMap_507BA8.GetDirection_444A40(
                 static_cast<s32>(gMap_507BA8.field_0_current_level),
                 gMap_507BA8.field_2_current_path,
@@ -280,7 +281,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
                 if (pGibs)
                 {
-                    pGibs->ctor_407B20(1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                    pGibs->ctor_407B20(GibType::Slig_1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
                 }
             }
             else if (dir == CameraPos::eCamRight_4)
@@ -289,7 +290,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
                 if (pGibs)
                 {
-                    pGibs->ctor_407B20(1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                    pGibs->ctor_407B20(GibType::Slig_1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
                 }
             }
             Stop_slig_sounds_476A20(dir, 0);

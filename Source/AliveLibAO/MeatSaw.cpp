@@ -60,9 +60,11 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
     field_4_typeId = Types::eMeatSaw_56;
 
     SetVTable(&field_110_anim, 0x4BA2B8);
-
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
-    Animation_Init_417FD0(15200, 104, 36, ppRes, 1);
+    
+    const AnimRecord rec = AO::AnimRec(AnimId::MeatSaw);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
@@ -155,13 +157,14 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
         field_F4 = pTlv->field_1E_max_rise_time + pTlv->field_24_speed - pTlv->field_1E_max_rise_time % pTlv->field_24_speed;
     }
 
-    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, 1, 0);
+    const AnimRecord& motorRec = AO::AnimRec(AnimId::MeatSawMotor);
+    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, motorRec.mResourceId, 1, 0);
     if (field_110_anim.Init_402D20(
-            15252,
+            motorRec.mFrameTableOffset,
             gObjList_animations_505564,
             this,
-            104,
-            36,
+            motorRec.mMaxW,
+            motorRec.mMaxH,
             ppRes2,
             1,
             0,

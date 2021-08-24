@@ -74,6 +74,7 @@
 #include "SwitchStateBooleanLogic.hpp"
 #include "LiftPoint.hpp"
 #include "Sys_common.hpp"
+#include "RockSack.hpp"
 
 namespace AO {
 
@@ -250,7 +251,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
 {
     static CompileTimeResourceList<3> kResources = {
         {ResourceManager::Resource_Animation, ResourceID::kAbeliftResID},
-        {ResourceManager::Resource_Animation, ResourceID::kPulleyResID},
+        {ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID},
         {ResourceManager::Resource_Animation, ResourceID::kLiftResID}};
 
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
@@ -425,8 +426,14 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
             auto pDove = ao_new<Dove>();
             if (pDove)
             {
-                pDove->ctor_40EE50(5052, 41, 20, 60, tlvOffsetLevelIdPathId.all,
-                                   pDoveTlv->field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+                const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Idle);
+                pDove->ctor_40EE50(
+                    doveRec.mFrameTableOffset,
+                    doveRec.mMaxW,
+                    doveRec.mMaxH,
+                    doveRec.mResourceId,
+                    tlvOffsetLevelIdPathId.all,
+                    pDoveTlv->field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
             }
 
             s16 ypos = 0;
@@ -506,22 +513,22 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             case LevelIds::eRuptureFarmsReturn_13:
                 ResourceManager::LoadResource_446C90("R1BARREL.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
                 ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadMode);
-                ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
-                ResourceManager::LoadResource_446C90("R1MEAT.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014, loadMode);
+                ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, loadMode);
+                ResourceManager::LoadResource_446C90("R1MEAT.BAN", ResourceManager::Resource_Animation, ResourceID::kMeatGibResID_6014, loadMode);
                 break;
 
             case LevelIds::eLines_2:
             case LevelIds::eBoardRoom_12:
                 ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
                 ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadMode);
-                ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
+                ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, loadMode);
                 ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
                 break;
 
             case LevelIds::eStockYards_5:
                 ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
                 ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadMode);
-                ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
+                ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, loadMode);
                 ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
                 break;
 
@@ -530,14 +537,14 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
             case LevelIds::eDesertEscape:
                 ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
                 ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadMode);
-                ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
+                ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, loadMode);
                 ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
                 break;
 
             default:
                 ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadMode);
                 ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickGib, loadMode);
-                ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
+                ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, loadMode);
                 ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
                 break;
         }
@@ -548,7 +555,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         {
             case LevelIds::eRuptureFarms_1:
             case LevelIds::eRuptureFarmsReturn_13:
-                ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6014);
+                ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMeatGibResID_6014);
                 break;
 
             case LevelIds::eLines_2:
@@ -568,7 +575,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
         auto kResourcesToCheck = {
             ResourceID::kF2rockResID,
             ResourceID::kStickGib,
-            ResourceID::kRockShadowResID,
+            ResourceID::kObjectShadowResID,
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourcesToCheck);
 
@@ -781,7 +788,7 @@ static void LoadWalkingSligResources(LoadMode loadMode, BitField16<SligFlags_Dis
             0);
 
         ResourceManager::LoadResource_446C90("SLGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, loadMode, 0);
-        ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode, 0);
+        ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, loadMode, 0);
 
         if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
         {
@@ -834,7 +841,7 @@ static void LoadWalkingSligResources(LoadMode loadMode, BitField16<SligFlags_Dis
 
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kBigflashResID);
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kShellResID);
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID);
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID);
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID);
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID);
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kSlgknbkResID);
@@ -1275,13 +1282,13 @@ EXPORT void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, loadMode, pUxbTlv->field_20_disabled_resources & 4);
         if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
         {
-            ResourceManager::LoadResource_446C90("TBMBPAL.BAN", ResourceManager::Resource_Palt, ResourceID::kTbombResID, loadMode);
+            ResourceManager::LoadResource_446C90("TBMBPAL.BAN", ResourceManager::Resource_Palt, ResourceID::kUXBResID, loadMode);
             ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, loadMode);
             ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, loadMode);
         }
 
         static CompileTimeResourceList<3> kResourcesUxb = {
-            {ResourceManager::Resource_Animation, ResourceID::kTbombResID},
+            {ResourceManager::Resource_Animation, ResourceID::kUXBResID},
             {ResourceManager::Resource_Animation, ResourceID::kBombflshResID},
             {ResourceManager::Resource_Palt, ResourceID::kGrenflshResID}};
         ResourceManager::LoadResourcesFromList_446E80("UXB.BND", kResourcesUxb.AsList(), loadMode, 0);
@@ -1296,7 +1303,7 @@ EXPORT void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
     {
         auto kResources = {
             ResourceID::kAbebombResID,
-            ResourceID::kTbombResID,
+            ResourceID::kUXBResID,
             ResourceID::kBombflshResID,
             ResourceID::kBgexpldResID,
         };
@@ -1545,7 +1552,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
-        if (pTlvIter->field_4_type == TlvTypes::Slig_24 && pTlv->field_18_slig_id == static_cast<Path_Slig*>(pTlvIter)->field_40_slig_id && !pTlvIter->field_0_flags.Get(TLV_Flags::eBit2_Unknown))
+        if (pTlvIter->field_4_type == TlvTypes::Slig_24 && pTlv->field_18_slig_id == static_cast<Path_Slig*>(pTlvIter)->field_40_slig_id && !pTlvIter->field_0_flags.Get(TLV_Flags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -1566,7 +1573,7 @@ EXPORT void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
     else
     {
         pBound->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-        pBound->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+        pBound->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
@@ -1575,7 +1582,7 @@ EXPORT void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
             if (pTlvIter)
             {
                 pTlvIter->field_0_flags.Set(TLV_Flags::eBit1_Created);
-                pTlvIter->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                pTlvIter->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
                 auto pSlig = ao_new<Slig>();
                 if (pSlig)
                 {
@@ -1812,7 +1819,7 @@ EXPORT void Factory_MeatSack_483790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
     }
     else
     {
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
+        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMeatSackResID);
 
         auto pMeatSack = ao_new<MeatSack>();
         if (pMeatSack)
@@ -1987,7 +1994,7 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
         ResourceManager::LoadResource_446C90("ABEKNFD.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeknfdResID, loadMode);
         ResourceManager::LoadResource_446C90("ABEKNBK.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeknbkResID, loadMode);
         ResourceManager::LoadResource_446C90("ABEEDGE.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeedgeResID, loadMode);
-        ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, loadMode);
+        ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, loadMode);
 
         switch (pMudTlv->field_1A_job)
         {
@@ -2121,13 +2128,13 @@ EXPORT void Factory_MeatSaw_483F70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUni
 {
     if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
     {
-        ResourceManager::LoadResource_446C90("R1METSAW.BAN", ResourceManager::Resource_Animation, ResourceID::kMeatsawResID, loadMode);
+        ResourceManager::LoadResource_446C90("R1METSAW.BAN", ResourceManager::Resource_Animation, ResourceID::kMeatSawResID, loadMode);
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode);
     }
     else
     {
         auto kResources = {
-            ResourceID::kMeatsawResID,
+            ResourceID::kMeatSawResID,
             ResourceID::kAbeblowResID,
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
@@ -2397,8 +2404,8 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
                 ResourceManager::LoadResource_446C90("STAR.BAN", ResourceManager::Resource_Animation, ResourceID::kBGStarResID, loadMode);
                 break;
 
-            case Path_LightEffect::Type::RedGlow_1:
-                ResourceManager::LoadResource_446C90("GOLDGLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kRedGlowResID_6011, loadMode);
+            case Path_LightEffect::Type::GoldGlow_1:
+                ResourceManager::LoadResource_446C90("GOLDGLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kGoldGlowResID_6011, loadMode);
                 break;
 
             case Path_LightEffect::Type::GreenGlow_2:
@@ -2438,9 +2445,9 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
                 break;
             }
 
-            case Path_LightEffect::Type::RedGlow_1:
+            case Path_LightEffect::Type::GoldGlow_1:
             {
-                ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kRedGlowResID_6011);
+                ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kGoldGlowResID_6011);
                 auto pLight = ao_new<DoorLight>();
                 if (pLight)
                 {

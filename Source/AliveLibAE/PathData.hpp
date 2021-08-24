@@ -26,6 +26,28 @@ enum class LevelIds : s16
     eCredits_16 = 16
 };
 
+enum LevelIds_s8 : s8
+{
+    eNone = -1,
+    eMenu_0 = 0,
+    eMines_1 = 1,
+    eNecrum_2 = 2,
+    eMudomoVault_3 = 3,
+    eMudancheeVault_4 = 4,
+    eFeeCoDepot_5 = 5,
+    eBarracks_6 = 6,
+    eMudancheeVault_Ender_7 = 7,
+    eBonewerkz_8 = 8,
+    eBrewery_9 = 9,
+    eBrewery_Ender_10 = 10,
+    eMudomoVault_Ender_11 = 11,
+    eFeeCoDepot_Ender_12 = 12,
+    eBarracks_Ender_13 = 13,
+    eBonewerkz_Ender_14 = 14,
+    eNotUsed_15 = 15, // Probably test level?
+    eCredits_16 = 16
+};
+
 struct FmvInfo final
 {
     const char_type* field_0_pName;

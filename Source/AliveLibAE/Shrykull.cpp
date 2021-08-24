@@ -26,8 +26,9 @@ Shrykull* Shrykull::ctor_4AEA20()
     field_128_obj_being_zapped_id = -1;
     field_124_zap_line_id = -1;
 
+    const AnimRecord& shrykullRec = AnimRec(AnimId::ShrykullStart);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID);
-    Animation_Init_424E10(82676, 123, 79u, ppRes, 1, 1u);
+    Animation_Init_424E10(shrykullRec.mFrameTableOffset, shrykullRec.mMaxW, shrykullRec.mMaxH, ppRes, 1, 1u);
 
     field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos;
     field_BC_ypos = sActiveHero_5C1B68->field_BC_ypos;
@@ -138,7 +139,8 @@ void Shrykull::vUpdate_4AEDE0()
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                field_20_animation.Set_Animation_Data_409C80(82712, nullptr);
+                const AnimRecord& rec = AnimRec(AnimId::ShrykullTransform);
+                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
                 field_118_state = State::eZapTargets_1;
             }
             break;
@@ -276,7 +278,8 @@ void Shrykull::vUpdate_4AEDE0()
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_20_animation.Set_Animation_Data_409C80(82824, nullptr);
+                const AnimRecord& rec = AnimRec(AnimId::ShrykullDetransform);
+                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
                 field_118_state = State::eFinish_3;
             }
             break;

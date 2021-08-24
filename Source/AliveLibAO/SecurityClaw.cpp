@@ -21,24 +21,26 @@
 
 namespace AO {
 
-TintEntry stru_4C5488[] = {
-    {5, 105u, 55u, 55u},
-    {6, 105u, 55u, 55u},
-    {-1, 127u, 127u, 127u},
+const TintEntry kSecurityClawTints_4C5488[] = {
+    {LevelIds_s8::eStockYards_5, 105u, 55u, 55u},
+    {LevelIds_s8::eStockYardsReturn_6, 105u, 55u, 55u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u},
 };
 
-TintEntry stru_4C5498[3] = {
-    {5, 80u, 55u, 55u},
-    {6, 80u, 55u, 55u},
-    {-1, 127u, 127u, 127u}};
+const TintEntry kClawTints_4C5498[3] = {
+    {LevelIds_s8::eStockYards_5, 80u, 55u, 55u},
+    {LevelIds_s8::eStockYardsReturn_6, 80u, 55u, 55u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 void Claw::ctor()
 {
     ctor_417C10();
     SetVTable(this, 0x4BAA70);
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2eyeorbResID, 1, 0);
-    Animation_Init_417FD0(22468, 152, 31, ppRes, 1);
+    
+    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Lower);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 }
 
 BaseGameObject* Claw::VDestructor(s32 flags)
@@ -66,8 +68,9 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
     field_6_flags.Set(Options::eCanExplode_Bit7);
     field_12C_pDetector = 1;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2eyeorbResID, 1, 0);
-    Animation_Init_417FD0(22480, 152, 31, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Upper);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10C_tlvInfo = tlvInfo;
 
@@ -89,7 +92,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
     field_A8_xpos = field_11C_clawX + ((Math_Sine_451110(0) * field_BC_sprite_scale) * FP_FromInteger(8)) * FP_FromDouble(0.25);
     field_AC_ypos = field_120_clawY + ((Math_Cosine_4510A0(0) * field_BC_sprite_scale) * FP_FromInteger(8));
-    SetTint_418750(&stru_4C5488[0], gMap_507BA8.field_0_current_level);
+    SetTint_418750(&kSecurityClawTints_4C5488[0], gMap_507BA8.field_0_current_level);
 
     field_134 = pTlv->field_10_top_left;
     field_138 = pTlv->field_14_bottom_right;
@@ -110,7 +113,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
         pClaw->field_A8_xpos = field_11C_clawX;
         pClaw->field_AC_ypos = field_120_clawY;
-        pClaw->SetTint_418750(&stru_4C5498[0], gMap_507BA8.field_0_current_level);
+        pClaw->SetTint_418750(&kClawTints_4C5498[0], gMap_507BA8.field_0_current_level);
     }
 
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
@@ -216,7 +219,7 @@ s16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
             if (pGibs)
             {
                 pGibs->ctor_407B20(
-                    5,
+                    GibType::Metal_5,
                     field_A8_xpos,
                     field_AC_ypos + FP_FromInteger(50),
                     FP_FromInteger(0),
@@ -232,7 +235,7 @@ s16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
             if (pGibs)
             {
                 pGibs->ctor_407B20(
-                    5,
+                    GibType::Metal_5,
                     field_A8_xpos,
                     field_AC_ypos + FP_FromInteger(50),
                     FP_FromInteger(0),
@@ -244,7 +247,7 @@ s16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
             if (pGibs)
             {
                 pGibs->ctor_407B20(
-                    5,
+                    GibType::Metal_5,
                     field_A8_xpos,
                     field_AC_ypos + FP_FromInteger(50),
                     FP_FromInteger(0),

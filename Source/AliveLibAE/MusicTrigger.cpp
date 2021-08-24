@@ -43,7 +43,7 @@ EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, Triggered
     switch (musicType)
     {
         case MusicTriggerMusicType::eUnknown_0:
-            field_26_music_type = MusicController::MusicTypes::eType3;
+            field_26_music_type = MusicController::MusicTypes::eDrumAmbience_3;
             field_28_counter = 400;
             break;
         case MusicTriggerMusicType::eDeathShort_1:

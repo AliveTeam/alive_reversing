@@ -9,21 +9,21 @@
 #include "AnimResources.hpp"
 
 const TintEntry kGibTints_55C744[] = {
-    {1, 87u, 103u, 67u},
-    {2, 87u, 103u, 67u},
-    {3, 87u, 103u, 67u},
-    {4, 87u, 103u, 67u},
-    {5, 87u, 103u, 67u},
-    {6, 87u, 103u, 67u},
-    {7, 87u, 103u, 67u},
-    {8, 87u, 103u, 67u},
-    {9, 87u, 103u, 67u},
-    {10, 87u, 103u, 67u},
-    {11, 87u, 103u, 67u},
-    {12, 87u, 103u, 67u},
-    {13, 87u, 103u, 67u},
-    {14, 87u, 103u, 67u},
-    {-1, 87u, 103u, 67u}};
+    {LevelIds_s8::eMines_1, 87u, 103u, 67u},
+    {LevelIds_s8::eNecrum_2, 87u, 103u, 67u},
+    {LevelIds_s8::eMudomoVault_3, 87u, 103u, 67u},
+    {LevelIds_s8::eMudancheeVault_4, 87u, 103u, 67u},
+    {LevelIds_s8::eFeeCoDepot_5, 87u, 103u, 67u},
+    {LevelIds_s8::eBarracks_6, 87u, 103u, 67u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 87u, 103u, 67u},
+    {LevelIds_s8::eBonewerkz_8, 87u, 103u, 67u},
+    {LevelIds_s8::eBrewery_9, 87u, 103u, 67u},
+    {LevelIds_s8::eBrewery_Ender_10, 87u, 103u, 67u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 87u, 103u, 67u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 87u, 103u, 67u},
+    {LevelIds_s8::eBarracks_Ender_13, 87u, 103u, 67u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 87u, 103u, 67u},
+    {LevelIds_s8::eNone, 87u, 103u, 67u}};
 
 ALIVE_VAR(1, 0x550e80, s16, sGibRandom_550E80, 13);
 
@@ -44,91 +44,92 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
 
     field_F4_not_used = nullptr;
 
-    const AnimRecord* pHeadGib = nullptr;
-    const AnimRecord* pArmGib = nullptr;
-    const AnimRecord* pBodyGib = nullptr;
+    AnimRecord headGib = {};
+    AnimRecord armGib = {};
+    AnimRecord bodyGib = {};
 
     switch (gibType)
     {
         case GibType::Abe_0:
-            // fallthrough
+            [[fallthrough]];
+
         case GibType::Mud_3:
-            pHeadGib = &AnimRec(AnimId::Abe_Head_Gib);
-            pArmGib = &AnimRec(AnimId::Abe_Arm_Gib);
-            pBodyGib = &AnimRec(AnimId::Abe_Body_Gib);
+            headGib = AnimRec(AnimId::Abe_Head_Gib);
+            armGib = AnimRec(AnimId::Abe_Arm_Gib);
+            bodyGib = AnimRec(AnimId::Abe_Body_Gib);
             break;
 
         case GibType::Slig_1:
-            pHeadGib = &AnimRec(AnimId::Slig_Head_Gib);
-            pArmGib = &AnimRec(AnimId::Slig_Arm_Gib);
-            pBodyGib = &AnimRec(AnimId::Slig_Body_Gib);
+            headGib = AnimRec(AnimId::Slig_Head_Gib);
+            armGib = AnimRec(AnimId::Slig_Arm_Gib);
+            bodyGib = AnimRec(AnimId::Slig_Body_Gib);
             break;
 
         case GibType::Slog_2:
-            pHeadGib = &AnimRec(AnimId::Slog_Head_Gib);
-            pArmGib = &AnimRec(AnimId::Slog_Body_Gib); // No arms
-            pBodyGib = &AnimRec(AnimId::Slog_Body_Gib);
+            headGib = AnimRec(AnimId::Slog_Head_Gib);
+            armGib = AnimRec(AnimId::Slog_Body_Gib); // No arms
+            bodyGib = AnimRec(AnimId::Slog_Body_Gib);
             break;
 
         case GibType::BlindMud_4:
-            pHeadGib = &AnimRec(AnimId::BlindMud_Head_Gib);
-            pArmGib = &AnimRec(AnimId::BlindMud_Arm_Gib);
-            pBodyGib = &AnimRec(AnimId::BlindMud_Body_Gib);
+            headGib = AnimRec(AnimId::BlindMud_Head_Gib);
+            armGib = AnimRec(AnimId::BlindMud_Arm_Gib);
+            bodyGib = AnimRec(AnimId::BlindMud_Body_Gib);
             break;
 
         case GibType::Metal_5:
             // No body parts, all metal
-            pHeadGib = &AnimRec(AnimId::Metal_Gib);
-            pArmGib = &AnimRec(AnimId::Metal_Gib);
-            pBodyGib = &AnimRec(AnimId::Metal_Gib);
+            headGib = AnimRec(AnimId::Metal_Gib);
+            armGib = AnimRec(AnimId::Metal_Gib);
+            bodyGib = AnimRec(AnimId::Metal_Gib);
             break;
 
         case GibType::Glukkon_6:
-            pHeadGib = &AnimRec(AnimId::Glukkon_Head_Gib);
-            pArmGib = &AnimRec(AnimId::Glukkon_Arm_Gib);
-            pBodyGib = &AnimRec(AnimId::Glukkon_Body_Gib);
+            headGib = AnimRec(AnimId::Glukkon_Head_Gib);
+            armGib = AnimRec(AnimId::Glukkon_Arm_Gib);
+            bodyGib = AnimRec(AnimId::Glukkon_Body_Gib);
             break;
 
         case GibType::Aslik_7:
-            pHeadGib = &AnimRec(AnimId::Aslik_Head_Gib);
-            pArmGib = &AnimRec(AnimId::Aslik_Arm_Gib);
-            pBodyGib = &AnimRec(AnimId::Aslik_Body_Gib);
+            headGib = AnimRec(AnimId::Aslik_Head_Gib);
+            armGib = AnimRec(AnimId::Aslik_Arm_Gib);
+            bodyGib = AnimRec(AnimId::Aslik_Body_Gib);
             break;
 
         case GibType::Dripik_8:
-            pHeadGib = &AnimRec(AnimId::Dripik_Head_Gib);
-            pArmGib = &AnimRec(AnimId::Dripik_Arm_Gib);
-            pBodyGib = &AnimRec(AnimId::Dripik_Body_Gib);
+            headGib = AnimRec(AnimId::Dripik_Head_Gib);
+            armGib = AnimRec(AnimId::Dripik_Arm_Gib);
+            bodyGib = AnimRec(AnimId::Dripik_Body_Gib);
             break;
 
         case GibType::Phleg_9:
-            pHeadGib = &AnimRec(AnimId::Phleg_Head_Gib);
-            pArmGib = &AnimRec(AnimId::Phleg_Arm_Gib);
-            pBodyGib = &AnimRec(AnimId::Phleg_Body_Gib);
+            headGib = AnimRec(AnimId::Phleg_Head_Gib);
+            armGib = AnimRec(AnimId::Phleg_Arm_Gib);
+            bodyGib = AnimRec(AnimId::Phleg_Body_Gib);
             break;
 
         case GibType::Fleech_10:
-            pHeadGib = &AnimRec(AnimId::Fleech_Head_Gib);
-            pArmGib = &AnimRec(AnimId::Fleech_Body_Gib); // No arms
-            pBodyGib = &AnimRec(AnimId::Fleech_Body_Gib);
+            headGib = AnimRec(AnimId::Fleech_Head_Gib);
+            armGib = AnimRec(AnimId::Fleech_Body_Gib); // No arms
+            bodyGib = AnimRec(AnimId::Fleech_Body_Gib);
             break;
     }
 
     // TODO: It is assumed all 3 gib parts have the same resource id - might not be true for mods
-    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, pHeadGib->mResourceId);
+    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, headGib.mResourceId);
 
     // TODO: It is assumed all 3 gib parts use the same pal - might not be true for mods
     u8** ppRes = nullptr;
-    if (pHeadGib->mPalOverride != PalId::Default)
+    if (headGib.mPalOverride != PalId::Default)
     {
-        ppRes = Add_Resource_4DC130(ResourceManager::Resource_Palt, PalRec(pHeadGib->mPalOverride).mResourceId);
+        ppRes = Add_Resource_4DC130(ResourceManager::Resource_Palt, PalRec(headGib.mPalOverride).mResourceId);
     }
 
     // The base class renders the head gib
     Animation_Init_424E10(
-        pHeadGib->mFrameTableOffset,
-        pHeadGib->mMaxW,
-        pHeadGib->mMaxH,
+        headGib.mFrameTableOffset,
+        headGib.mMaxW,
+        headGib.mMaxH,
         ppAnimData,
         1,
         1);
@@ -202,11 +203,11 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
         {
             // 2 arm parts
             if (!pPart->field_18_anim.Init_40A030(
-                    pArmGib->mFrameTableOffset,
+                    armGib.mFrameTableOffset,
                     gObjList_animations_5C1A24,
                     this,
-                    pArmGib->mMaxW,
-                    pArmGib->mMaxH,
+                    armGib.mMaxW,
+                    armGib.mMaxH,
                     ppAnimData,
                     1,
                     0,
@@ -221,11 +222,11 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
         {
             // 2 body parts
             if (!pPart->field_18_anim.Init_40A030(
-                    pBodyGib->mFrameTableOffset,
+                    bodyGib.mFrameTableOffset,
                     gObjList_animations_5C1A24,
                     this,
-                    pBodyGib->mMaxW,
-                    pBodyGib->mMaxH,
+                    bodyGib.mMaxW,
+                    bodyGib.mMaxH,
                     ppAnimData,
                     1u,
                     0,

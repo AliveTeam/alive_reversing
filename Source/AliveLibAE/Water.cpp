@@ -18,10 +18,11 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
 
     SetVTable(this, 0x547F10); // vTbl_Water_547F10
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWaterDrop);
+    const AnimRecord& waterDropRec = AnimRec(AnimId::WaterDrop);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, waterDropRec.mResourceId);
     if (ppRes)
     {
-        Animation_Init_424E10(104, 11, 7, ppRes, 1, 1);
+        Animation_Init_424E10(waterDropRec.mFrameTableOffset, waterDropRec.mMaxW, waterDropRec.mMaxH, ppRes, 1, 1);
         field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -524,12 +525,13 @@ void Water::vUpdate_4E0B50()
                             auto pParticle = ae_new<Particle>();
                             if (pParticle)
                             {
+                                const AnimRecord& splashRec = AnimRec(AnimId::WaterSplash);
                                 pParticle->ctor_4CC4C0(
                                     FP_NoFractional(pWaterRes->field_0_xpos) + pScreenManager_5BB5F4->field_20_pCamPos->field_0_x,
                                     FP_NoFractional(pWaterRes->field_4_ypos) + pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
-                                    332,
-                                    17,
-                                    7,
+                                    splashRec.mFrameTableOffset,
+                                    splashRec.mMaxW,
+                                    splashRec.mMaxH,
                                     field_10_resources_array.ItemAt(1));
                             }
                         }

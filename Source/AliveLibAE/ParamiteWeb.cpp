@@ -21,18 +21,21 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, s16 bottom, s16 top, FP scale)
     {
         field_F6_segment_length = 7;
     }
-    Animation_Init_424E10(148, 5, 16, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID), 1, 1u);
+
+    const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     if (scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebGrinder_24;
+        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_24;
         field_D6_scale = 1;
         field_20_animation.field_14_scale = FP_FromInteger(1);
         field_CC_sprite_scale = FP_FromInteger(1);
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebGrinder_Half_5;
+        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_Half_5;
         field_20_animation.field_14_scale = FP_FromDouble(0.7);
         field_CC_sprite_scale = FP_FromDouble(0.7);
         field_D6_scale = 0;

@@ -39,7 +39,7 @@ struct MainMenuButton final
     s16 field_2_x;
     s16 field_4_y;
     s16 field_6;
-    s32 field_8_anim_frame_offset;
+    s32 field_8_frameTableOffset;
 };
 
 enum MenuResIds
@@ -47,7 +47,7 @@ enum MenuResIds
     eAbeSpeak = 0,
     eAbeSpeak2 = 1,
     eAbeIntro = 2,
-    eDoor = 3,
+    eMenuDoor = 3,
     eOptionFlare = 4,
     eUnknown = 5,
     eResHighLite = 6,
@@ -80,7 +80,7 @@ struct MainMenuText final
 
 struct MainMenuFrameTable final
 {
-    s32 field_0_frame_offset;
+    AnimId field_0_animation;
     s16 field_4_menu_res_id;
     s16 field_6_sound;
     s16 field_8_anim_enum;
@@ -128,6 +128,18 @@ enum MainMenuCams : u16
     eCheatMenu_SelectLevelCam = 31,
 };
 
+enum camTransEffectState : s16
+{
+    eDone_0 = 0,
+    eConstructed_1 = 1,
+    eDone_2 = 2,
+    eTopToBottom_3 = 3,
+    eBottomToTop_4 = 4,
+    eLeftToRight_5 = 5,
+    eRightToLeft_6 = 6,
+    eUnknown_7 = 7
+};
+
 struct MainMenuNextCam final
 {
     s16 page_update_camera;      // LOWORD
@@ -162,14 +174,19 @@ public:
 
     EXPORT static s32 CCSTD GetPageIndexFromCam_4D05A0(s32 camId);
 
-    enum AnimIds
+    enum MainMenuGamespeakAnimIds
     {
         eAbe_Idle = 1,
+        eAbe_IdleBlinking = 2,
+        eAbe_EnterThroughDoor = 9,
+        eAbe_EnterThroughDoor2 = 10,
+        eAbe_EnterThroughDoorHello = 11,
         eAbe_GoodBye = 6,
         eAbe_Hello = 3,
         eAbe_OK = 4,
         eAbe_FollowMe = 5,
         eAbe_Chant = 12,
+        eAbe_ChantEnd = 13,
         eAbe_Wait = 7,
         eAbe_Work = 14,
         eAbe_Anger = 8,
@@ -188,6 +205,7 @@ public:
         eSlig_Laugh = 22,
 
         eGlukkon_Idle = 27,
+        eGlukkon_IdleVariation = 28,
         eGlukkon_Hey = 35,
         eGlukkon_Commere = 32,
         eGlukkon_StayHere = 31,
@@ -197,6 +215,7 @@ public:
         eGlukkon_Help = 34,
         eGlukkon_Laugh = 30,
 
+        eScrab_IdleVariation = 38,
         eScrab_ShredPower = 39,
         eScrab_Howl = 40,
         eScrab_Idle = 37,
@@ -208,7 +227,7 @@ public:
         eParamite_Attack = 43,
         eParamite_AllAYa = 48,
         eParamite_Idle = 41,
-        eParamite_Idle2 = 42, // Randomly moves its tenticles every so often
+        eParamite_IdleVariation = 42, // Randomly moves its tenticles every so often
     };
 
     EXPORT void Set_Anim_4D05E0(s16 a2, s16 a3 = 0);
@@ -367,8 +386,8 @@ public:
     s16 field_216_previous_page_index;
     s16 field_218_target_page_index;
     s16 field_21A_target_button_index;
-    s16 field_21C_bDoScreenTransistionEffect;
-    s16 field_21E_bChangeScreen;
+    camTransEffectState field_21C_camSwapEffectState;
+    s16 field_21E_changeScreenState;
     s16 field_220_frame_table_idx;
     s8 field_222_unused;
     s32 field_224_timer_anim_delay;

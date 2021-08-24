@@ -113,7 +113,7 @@ SnoozeParticle* SnoozeParticle::ctor_464320(FP xpos, FP ypos, Layer layer, FP sc
     field_32_r = 0;
     field_34_g = 0;
     field_36_b = 0;
-    field_1D4_state = SnoozeParticleState::Rising_0;
+    field_1D4_state = SnoozeParticleState::eRising_0;
     field_3A_count_down = 1;
     field_38_idx = Math_NextRandom() % 36;
     field_20_dx = FP_FromInteger(xPositionDeltaEntries_4CF8E0[field_38_idx]);
@@ -147,7 +147,7 @@ void SnoozeParticle::VUpdate_464500()
     {
         switch (field_1D4_state)
         {
-            case SnoozeParticleState::Rising_0:
+            case SnoozeParticleState::eRising_0:
                 if (field_1C_y >= field_14_y_start - FP_FromInteger(20))
                 {
                     if (field_32_r < 70 && field_34_g < 70 && field_36_b < 20)
@@ -172,14 +172,14 @@ void SnoozeParticle::VUpdate_464500()
                 }
                 else
                 {
-                    field_1D4_state = SnoozeParticleState::BlowingUp_2;
+                    field_1D4_state = SnoozeParticleState::eBlowingUp_2;
                 }
                 break;
 
-            case SnoozeParticleState::Unused_1:
+            case SnoozeParticleState::eUnused_1:
                 break;
 
-            case SnoozeParticleState::BlowingUp_2:
+            case SnoozeParticleState::eBlowingUp_2:
                 field_32_r /= 2;
                 field_34_g /= 2;
                 field_36_b /= 2;
@@ -230,7 +230,7 @@ void SnoozeParticle::VRender_464620(PrimHeader** ppOt)
     FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
     const s16 bufIdx = gPsxDisplay_504C78.field_A_buffer_index;
 
-    if (field_1D4_state == SnoozeParticleState::BlowingUp_2)
+    if (field_1D4_state == SnoozeParticleState::eBlowingUp_2)
     {
         const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->field_0_x) + pScreenManager_4FF7C8->field_14_xpos;
         const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->field_4_y) + pScreenManager_4FF7C8->field_16_ypos;

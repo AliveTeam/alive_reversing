@@ -9,11 +9,11 @@ struct ParticleBurst_Item;
 
 enum class BurstType : s16
 {
-    eType_0 = 0,
-    eType_1 = 1,
-    eType_2 = 2,
-    eType_3 = 3,
-    eType_4 = 4,
+    eFallingRocks_0 = 0,
+    eSticks_1 = 1,
+    eBigPurpleSparks_2 = 2,
+    eBigRedSparks_3 = 3,
+    eMeat_4 = 4,
 };
 
 class ParticleBurst final : public BaseAnimatedWithPhysicsGameObject
@@ -35,14 +35,14 @@ public:
 
     EXPORT void VRender_40D7F0(PrimHeader** ppOt);
 
-    s32 field_D4[4];
+    s32 field_D4_padding[4];
     u8** field_E4_ppRes;
     ParticleBurst_Item* field_E8_pRes;
     s16 field_EC_count;
-    s16 field_EE;
+    s16 field_EE_padding;
     s32 field_F0_timer;
     BurstType field_F4_type;
-    s16 field_F6;
+    s16 field_F6_padding;
 };
 ALIVE_ASSERT_SIZEOF(ParticleBurst, 0xF8);
 

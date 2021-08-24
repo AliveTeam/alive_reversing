@@ -33,8 +33,8 @@
 #include "../AliveLibAE/WheelSyncer.hpp"
 #include "../AliveLibAE/LevelLoader.hpp"
 #include "../AliveLibAE/FlyingSligSpawner.hpp"
-#include "../AliveLibAE/FartMachine.hpp"
-#include "../AliveLibAE/Grinder.hpp"
+#include "../AliveLibAE/BrewMachine.hpp"
+#include "../AliveLibAE/Drill.hpp"
 #include "../AliveLibAE/Mine.hpp"
 #include "../AliveLibAE/Slog.hpp"
 #include "../AliveLibAE/TrapDoor.hpp"
@@ -53,8 +53,8 @@
 #include "../AliveLibAE/Greeter.hpp"
 #include "../AliveLibAE/MovingBomb.hpp"
 #include "../AliveLibAE/SecurityDoor.hpp"
-#include "../AliveLibAE/NakedSlig.hpp"
-#include "../AliveLibAE/NakedSligButton.hpp"
+#include "../AliveLibAE/CrawlingSlig.hpp"
+#include "../AliveLibAE/CrawlingSligButton.hpp"
 #include "../AliveLibAE/Glukkon.hpp"
 #include "../AliveLibAE/GlukkonSwitch.hpp"
 #include "../AliveLibAE/GasCountDown.hpp"
@@ -881,7 +881,7 @@ struct Path_BackgroundAnimation final : public TlvObjectBaseAE
                                    {::Layer::eLayer_NotUsed_2, "Layer_2"},
                                    {::Layer::eLayer_BeforeWell_Half_3, "Layer_3"},
                                    {::Layer::eLayer_Well_Half_4, "Layer_4"},
-                                   {::Layer::eLayer_RopeWebGrinder_Half_5, "Layer_5"},
+                                   {::Layer::eLayer_RopeWebDrill_Half_5, "Layer_5"},
                                    {::Layer::eLayer_BeforeShadow_Half_6, "Layer_6"},
                                    {::Layer::eLayer_Shadow_Half_7, "Layer_7"},
                                    {::Layer::eLayer_8, "Layer_8"},
@@ -900,7 +900,7 @@ struct Path_BackgroundAnimation final : public TlvObjectBaseAE
                                    {::Layer::eLayer_NotUsed_21, "Layer_21"},
                                    {::Layer::eLayer_BeforeWell_22, "Layer_22"},
                                    {::Layer::eLayer_Well_23, "Layer_23"},
-                                   {::Layer::eLayer_RopeWebGrinder_24, "Layer_24"},
+                                   {::Layer::eLayer_RopeWebDrill_24, "Layer_24"},
                                    {::Layer::eLayer_BeforeShadow_25, "Layer_25"},
                                    {::Layer::eLayer_Shadow_26, "Layer_26"},
                                    {::Layer::eLayer_27, "Layer_27"},
@@ -1243,34 +1243,34 @@ struct Path_WellLocal final : public TlvObjectBaseAE
     }
 };
 
-struct Path_FartMachine final : public TlvObjectBaseAE
+struct Path_BrewMachine final : public TlvObjectBaseAE
 {
-    CTOR_AE(Path_FartMachine, "FartMachine", TlvTypes::FartMachine_101)
+    CTOR_AE(Path_BrewMachine, "BrewMachine", TlvTypes::BrewMachine_101)
     {
         ADD("num_brews", mTlv.field_10_num_brews);
     }
 };
 
-struct Path_Grinder final : public TlvObjectBaseAE
+struct Path_Drill final : public TlvObjectBaseAE
 {
     void AddTypes(TypesCollectionBase& types) override
     {
-        types.AddEnum<::GrinderBehavior>("Enum_GrinderBehavior",
+        types.AddEnum<::DrillBehavior>("Enum_DrillBehavior",
                                          {
-                                             {::GrinderBehavior::eNotInteractable_0, "Not Interactable"},
-                                             {::GrinderBehavior::eToggle_1, "Toggle"},
-                                             {::GrinderBehavior::eUse_2, "Use"},
+                                             {::DrillBehavior::eNotInteractable_0, "Not Interactable"},
+                                             {::DrillBehavior::eToggle_1, "Toggle"},
+                                             {::DrillBehavior::eUse_2, "Use"},
                                          });
 
-        types.AddEnum<::GrinderDirection>("Enum_GrinderDirection",
+        types.AddEnum<::DrillDirection>("Enum_DrillDirection",
                                           {
-                                              {::GrinderDirection::eDown_0, "Down"},
-                                              {::GrinderDirection::eRight_1, "Right"},
-                                              {::GrinderDirection::eLeft_2, "Left"},
+                                              {::DrillDirection::eDown_0, "Down"},
+                                              {::DrillDirection::eRight_1, "Right"},
+                                              {::DrillDirection::eLeft_2, "Left"},
                                           });
     }
 
-    CTOR_AE(Path_Grinder, "Grinder", TlvTypes::Grinder_90)
+    CTOR_AE(Path_Drill, "Drill", TlvTypes::Drill_90)
     {
         ADD("Scale", mTlv.field_10_data.field_10_scale);
         ADD("Min Off Time", mTlv.field_10_data.field_12_min_off_time);
@@ -1625,26 +1625,26 @@ struct Path_SecurityDoor final : public TlvObjectBaseAE
     }
 };
 
-struct Path_NakedSlig final : public TlvObjectBaseAE
+struct Path_CrawlingSlig final : public TlvObjectBaseAE
 {
     void AddTypes(TypesCollectionBase& types) override
     {
-        types.AddEnum<::Path_NakedSlig::State>("Enum_NakedSligState",
+        types.AddEnum<::Path_CrawlingSlig::State>("Enum_CrawlingSligState",
                                                {
-                                                   {::Path_NakedSlig::State::eSleeping_0, "Sleeping"},
-                                                   {::Path_NakedSlig::State::eSleeping_1, "Sleeping2 (Duplicate)"},
-                                                   {::Path_NakedSlig::State::eAwake_2, "Awake"},
+                                                   {::Path_CrawlingSlig::State::eSleeping_0, "Sleeping"},
+                                                   {::Path_CrawlingSlig::State::eSleeping_1, "Sleeping2 (Duplicate)"},
+                                                   {::Path_CrawlingSlig::State::eAwake_2, "Awake"},
                                                });
 
-        types.AddEnum<::Path_NakedSlig::CrawlDirection>("Enum_CrawlDirection",
+        types.AddEnum<::Path_CrawlingSlig::CrawlDirection>("Enum_CrawlDirection",
                                                         {
-                                                            {::Path_NakedSlig::CrawlDirection::eLeft_0, "Left"},
-                                                            {::Path_NakedSlig::CrawlDirection::eRight_1, "Right"},
-                                                            {::Path_NakedSlig::CrawlDirection::eRandom_2, "Random"},
+                                                            {::Path_CrawlingSlig::CrawlDirection::eLeft_0, "Left"},
+                                                            {::Path_CrawlingSlig::CrawlDirection::eRight_1, "Right"},
+                                                            {::Path_CrawlingSlig::CrawlDirection::eRandom_2, "Random"},
                                                         });
     }
 
-    CTOR_AE(Path_NakedSlig, "NakedSlig", TlvTypes::NakedSlig_103)
+    CTOR_AE(Path_CrawlingSlig, "CrawlingSlig", TlvTypes::CrawlingSlig_103)
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Direction (Unused?)", mTlv.field_12_direction);
@@ -1717,9 +1717,9 @@ struct Path_SligGetWings final : public TlvObjectBaseAE
     }
 };
 
-struct Path_NakedSligButton final : public TlvObjectBaseAE
+struct Path_CrawlingSligButton final : public TlvObjectBaseAE
 {
-    CTOR_AE(Path_NakedSligButton, "NakedSligButton", TlvTypes::NakedSligButton_107)
+    CTOR_AE(Path_CrawlingSligButton, "CrawlingSligButton", TlvTypes::CrawlingSligButton_107)
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("ID", mTlv.field_12_id);

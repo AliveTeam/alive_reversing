@@ -13,33 +13,33 @@ namespace AO {
 
 struct TrapDoor_Data final
 {
-    s32 field_0;
-    s32 field_4_maxW;
-    s32 field_8;
-    s32 field_C;
-    s16 field_10_maxH;
-    s16 field_12_frame_table_offset;
+    AnimId field_0_open;
+    AnimId field_4_closed;
+    AnimId field_8_opening;
+    AnimId field_C_closing;
+    //s16 field_10_maxW;
+    //s16 field_12_maxH;
 };
-ALIVE_ASSERT_SIZEOF(TrapDoor_Data, 0x14);
+//ALIVE_ASSERT_SIZEOF(TrapDoor_Data, 0x14);
 
 
 const TrapDoor_Data sTrapDoorData_4BD4A0[16] = {
-    {4644, 4632, 4680, 4656, 155, 59},
-    {4700, 4688, 4740, 4712, 72, 41},
-    {4644, 4632, 4680, 4656, 155, 59},
-    {4644, 4632, 4680, 4656, 155, 59},
-    {4644, 4632, 4680, 4656, 155, 59},
-    {4644, 4632, 4680, 4656, 155, 59},
-    {4644, 4632, 4680, 4656, 155, 59},
-    {4644, 4632, 4680, 4656, 155, 59},
-    {1976, 1964, 2012, 1988, 99, 56},
-    {1976, 1964, 2012, 1988, 99, 56},
-    {1976, 1964, 2012, 1988, 99, 56},
-    {1976, 1964, 2012, 1988, 99, 56},
-    {4700, 4688, 4740, 4712, 72, 41},
-    {4700, 4688, 4740, 4712, 72, 41},
-    {4644, 4632, 4680, 4656, 155, 59},
-    {1976, 1964, 2012, 1988, 99, 56}};
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing}, // menu
+    {AnimId::R1_TrapDoor_Open, AnimId::R1_TrapDoor_Closed, AnimId::R1_TrapDoor_Opening, AnimId::R1_TrapDoor_Closing}, // rapture farms
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing}, // lines
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing}, // forest
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing}, // forest temple
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing}, // stock yards
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing}, // stock yards return
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing}, // removed
+    {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing}, // desert
+    {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing}, // desert temple
+    {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing}, // credits
+    {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing}, // removed
+    {AnimId::R1_TrapDoor_Open, AnimId::R1_TrapDoor_Closed, AnimId::R1_TrapDoor_Opening, AnimId::R1_TrapDoor_Closing}, // board room
+    {AnimId::R1_TrapDoor_Open, AnimId::R1_TrapDoor_Closed, AnimId::R1_TrapDoor_Opening, AnimId::R1_TrapDoor_Closing}, // rupture farms return
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing}, // forest chase
+    {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing}}; // desert escape
 
 void TrapDoor::VUpdate()
 {
@@ -175,15 +175,17 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
     s32 frame_table_offset_1 = 0;
+    const AnimRecord& closedRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_4_closed);
     if (field_138_switch_state == SwitchStates_Get(pTlv->field_18_id))
     {
         field_136_state = TrapDoorState::eOpen_2;
-        frame_table_offset_1 = sTrapDoorData_4BD4A0[cur_lvl].field_0;
+        const AnimRecord& openRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_0_open);
+        frame_table_offset_1 = openRec.mFrameTableOffset;
     }
     else
     {
         field_136_state = TrapDoorState::eClosed_0;
-        frame_table_offset_1 = sTrapDoorData_4BD4A0[cur_lvl].field_4_maxW;
+        frame_table_offset_1 = closedRec.mFrameTableOffset;
     }
 
     field_13C_set_switch_on_dead = pTlv->field_1C_self_closing;
@@ -201,9 +203,9 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, 1, 0);
 
     AddDynamicCollision_4512C0(
-        sTrapDoorData_4BD4A0[cur_lvl].field_4_maxW,
-        sTrapDoorData_4BD4A0[cur_lvl].field_10_maxH,
-        sTrapDoorData_4BD4A0[cur_lvl].field_12_frame_table_offset,
+        closedRec.mFrameTableOffset,
+        closedRec.mMaxW,
+        closedRec.mMaxH,
         ppRes,
         pTlv,
         pMap,
@@ -261,8 +263,9 @@ void TrapDoor::VUpdate_4883E0()
                 field_136_state = TrapDoorState::eOpening_1;
 
                 const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
+                const AnimRecord& openingRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_8_opening);
                 field_10_anim.Set_Animation_Data_402A40(
-                    sTrapDoorData_4BD4A0[cur_lvl].field_8,
+                    openingRec.mFrameTableOffset,
                     0);
 
                 SFX_Play_43AED0(SoundEffect::Trapdoor_49, 70, direction);
@@ -288,9 +291,9 @@ void TrapDoor::VUpdate_4883E0()
             if ((field_13C_set_switch_on_dead && !field_130_stay_open_time) || SwitchStates_Get(field_134_switch_idx) != SwitchStates_Get(field_138_switch_state))
             {
                 const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
-
+                const AnimRecord& closingRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_C_closing);
                 field_10_anim.Set_Animation_Data_402A40(
-                    sTrapDoorData_4BD4A0[cur_lvl].field_C,
+                    closingRec.mFrameTableOffset,
                     0);
                 field_136_state = TrapDoorState::eClosing_3;
 

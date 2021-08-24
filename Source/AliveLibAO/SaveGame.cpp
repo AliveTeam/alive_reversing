@@ -144,7 +144,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, s32 bKillObjects)
         pData->field_234_current_level,
         pData->field_236_current_path,
         pData->field_238_current_camera,
-        CameraSwapEffects::eEffect0_InstantChange,
+        CameraSwapEffects::eInstantChange_0,
         0,
         1);
 }

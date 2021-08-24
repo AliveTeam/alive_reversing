@@ -23,6 +23,7 @@
 #include "Slog.hpp"
 #include "Blood.hpp"
 #include "Renderer/IRenderer.hpp"
+#include "AnimResources.hpp"
 
 // Fix pollution from windows.h
 #undef min
@@ -691,6 +692,7 @@ void CC AnimationBase::AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList
 
 s16 Animation::Set_Animation_Data_402A40(s32 frameTableOffset, u8** pAnimRes)
 {
+    FrameTableOffsetExists(frameTableOffset, false);
     if (pAnimRes)
     {
         field_20_ppBlock = pAnimRes;
@@ -751,6 +753,7 @@ void Animation::SetFrame_402AC0(s16 newFrame)
 
 s16 Animation::Init_402D20(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bAllocateVRam, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
 {
+    FrameTableOffsetExists(frameTableOffset, false, maxW, maxH);
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
 
     field_18_frame_table_offset = frameTableOffset;

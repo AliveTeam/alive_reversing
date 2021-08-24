@@ -5,6 +5,7 @@
 #include "FixedPoint_common.hpp"
 #include "Psx_common.hpp"
 #include "FunctionFwd.hpp"
+#include "PathData.hpp"
 
 namespace AO {
 
@@ -13,7 +14,7 @@ class BaseAliveGameObject;
 
 struct TintEntry
 {
-    s8 field_0_level;
+    LevelIds_s8 field_0_level;
     u8 field_1_r;
     u8 field_2_g;
     u8 field_3_b;
@@ -66,7 +67,7 @@ public:
 
     EXPORT CameraPos Is_In_Current_Camera_417CC0();
 
-    EXPORT void Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 a6);
+    EXPORT void Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList);
 
 protected:
     // Note inlined in AO everywhere

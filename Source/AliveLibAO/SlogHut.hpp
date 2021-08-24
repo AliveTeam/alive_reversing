@@ -40,10 +40,10 @@ public:
     FP field_18_scale;
     s32 field_1C_tlvInfo;
     s16 field_20_switch_id;
-    s16 field_22;
+    s16 field_22_padding;
     s32 field_24_timer;
     s16 field_28_z_delay;
-    s16 field_2A;
+    s16 field_2A_padding;
 };
 ALIVE_ASSERT_SIZEOF(SlogHut, 0x2C);
 

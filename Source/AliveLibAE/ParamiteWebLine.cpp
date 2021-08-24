@@ -18,12 +18,13 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     field_4_typeId = AETypes::eWebLine_146;
     field_100_tlv_info = tlvInfo;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kWebResID);
-    Animation_Init_424E10(148, 5, 16u, ppRes, 1, 1u);
+    const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebGrinder_Half_5;
+        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_Half_5;
         field_20_animation.field_14_scale = FP_FromDouble(0.7);
         field_CC_sprite_scale = FP_FromDouble(0.7);
         field_D6_scale = 0;
@@ -35,7 +36,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebGrinder_24;
+        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_24;
         field_20_animation.field_14_scale = FP_FromInteger(1);
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;
@@ -105,8 +106,9 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     field_104_wobble_idx = 0;
     field_106_wobble_pos = field_F8_top;
 
-    u8** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
-    if (field_108_anim_flare.Init_40A030(1632, gObjList_animations_5C1A24, this, 39, 21u, ppFlareRes, 1u, 0, 0))
+    const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
+    u8** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
+    if (field_108_anim_flare.Init_40A030(orbRec.mFrameTableOffset, gObjList_animations_5C1A24, this, orbRec.mMaxW, orbRec.mMaxH, ppFlareRes, 1u, 0, 0))
     {
         field_108_anim_flare.field_8_r = 100;
         field_108_anim_flare.field_9_g = 100;

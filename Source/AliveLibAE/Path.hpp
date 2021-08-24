@@ -11,7 +11,7 @@ struct PathData;
 enum TLV_Flags
 {
     eBit1_Created = 0x1,
-    eBit2_Unknown = 0x2,
+    eBit2_Destroyed = 0x2,
     eBit3_End_TLV_List = 0x4,
 };
 
@@ -108,7 +108,7 @@ enum class TlvTypes : s16
     DemoSpawnPoint_87 = 87,
     Teleporter_88 = 88,
     SlurgSpawner_89 = 89,
-    Grinder_90 = 90,
+    Drill_90 = 90,
     ColourfulMeter_91 = 91,
     FlyingSligSpawner_92 = 92,
     MineCar_93 = 93,
@@ -119,13 +119,13 @@ enum class TlvTypes : s16
     SlapLock_98 = 98,
     ParamiteWebLine_99 = 99,
     Alarm_100 = 100,
-    FartMachine_101 = 101,
+    BrewMachine_101 = 101,
     ScrabSpawner_102 = 102,
-    NakedSlig_103 = 103,
+    CrawlingSlig_103 = 103,
     SligGetPants_104 = 104,
     SligGetWings_105 = 105,
     Greeter_106 = 106,
-    NakedSligButton_107 = 107,
+    CrawlingSligButton_107 = 107,
     GlukkonSwitch_108 = 108,
     DoorBlocker_109 = 109,
     TorturedMudokon_110 = 110,
@@ -234,7 +234,7 @@ public:
     EXPORT u32 TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv);
 
     EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type);
-    EXPORT static void CCSTD TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bBit2);
+    EXPORT static void CCSTD TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
     EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
 
     EXPORT static void CCSTD Reset_TLVs_4DBCF0(u16 pathId);

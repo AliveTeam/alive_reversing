@@ -16,8 +16,9 @@ SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, s32 tlvI
     field_4_typeId = AETypes::eSligGetPantsOrWings_80;
     field_F8_tlvInfo = tlvInfo;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_448);
-    Animation_Init_424E10(4352, 37, 70u, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     // HACK: See header for details
     auto pHack = static_cast<Path_Slig*>(pTlv);
@@ -76,7 +77,8 @@ void SligGetPantsAndWings::vUpdate_465DD0()
             {
                 field_F4_state = State::eFinished_2;
                 SFX_Play_46FA90(SoundEffect::NakedSligTransformEnd_92, 0);
-                field_20_animation.Set_Animation_Data_409C80(4364, nullptr);
+                const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Open);
+                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
             }
             break;
 
@@ -84,7 +86,8 @@ void SligGetPantsAndWings::vUpdate_465DD0()
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_F4_state = State::eWaiting_0;
-                field_20_animation.Set_Animation_Data_409C80(4352, nullptr);
+                const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
+                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
                 pTlv->field_1_tlv_state = 0;
             }
             break;

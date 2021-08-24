@@ -12,24 +12,21 @@
 #include "ObjectIds.hpp"
 
 const TintEntry sFootSwitchTints_5639F4[18] = {
-    {1u, 127u, 127u, 127u},
-    {2u, 127u, 127u, 127u},
-    {3u, 127u, 127u, 127u},
-    {4u, 127u, 127u, 127u},
-    {5u, 127u, 127u, 127u},
-    {6u, 127u, 127u, 127u},
-    {7u, 127u, 127u, 127u},
-    {8u, 127u, 127u, 127u},
-    {9u, 127u, 127u, 127u},
-    {10u, 127u, 127u, 127u},
-    {11u, 127u, 127u, 127u},
-    {12u, 127u, 127u, 127u},
-    {13u, 127u, 127u, 127u},
-    {14u, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u}};
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 
 const AnimId sFootSwitchData_547D60[15][2] = {
@@ -84,7 +81,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, s32 tlvInfo)
     field_F8_state = States::eWaitForStepOnMe_0;
     field_DC_bApplyShadows |= 2u;
     field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
-    field_104_bUnknown = 0;
+    field_104_bCreateSparks = 0;
     field_F4_tlvInfo = tlvInfo;
     field_106_bFindStander = 1;
     return this;
@@ -174,11 +171,11 @@ void FootSwitch::vUpdate_4DE270()
 
             if (field_20_animation.field_92_current_frame == 0)
             {
-                field_104_bUnknown = 1;
+                field_104_bCreateSparks = 1;
                 return;
             }
 
-            if (field_104_bUnknown)
+            if (field_104_bCreateSparks)
             {
                 auto pSpark = ae_new<Spark>();
                 if (pSpark)
@@ -205,12 +202,12 @@ void FootSwitch::vUpdate_4DE270()
                         9);
                 }
 
-                field_104_bUnknown = 0;
+                field_104_bCreateSparks = 0;
             }
 
             if (field_20_animation.field_92_current_frame == 0)
             {
-                field_104_bUnknown = 1;
+                field_104_bCreateSparks = 1;
             }
             break;
         }

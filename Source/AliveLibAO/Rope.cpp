@@ -74,7 +74,11 @@ Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
         field_E6_rope_length = 7;
     }
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRopesResID, 1, 0);
+    const AnimRecord rec1 = AO::AnimRec(AnimId::Rope_R1);
+    u8** ppRes1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
+    const AnimRecord rec2 = AO::AnimRec(AnimId::Rope_Lines);
+    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
+
     switch (gMap_507BA8.field_0_current_level)
     {
         case LevelIds::eRuptureFarms_1:
@@ -83,11 +87,11 @@ Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
         case LevelIds::eBoardRoom_12:
         case LevelIds::eRuptureFarmsReturn_13:
         case LevelIds::eDesertEscape:
-            Animation_Init_417FD0(636, 4, 16, ppRes, 1);
+            Animation_Init_417FD0(rec1.mFrameTableOffset, rec1.mMaxW, rec1.mMaxH, ppRes1, 1);
             break;
 
         default:
-            Animation_Init_417FD0(680, 5, 16, ppRes, 1);
+            Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
             break;
     }
     field_10_anim.field_14_scale = scale;

@@ -21,6 +21,7 @@
 #include "Sfx.hpp"
 #include "SlamDoor.hpp"
 #include "Sound/Midi.hpp"
+#include "Sys_common.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, u8, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);
@@ -28,13 +29,13 @@ ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);
 const TFleechMotionFn sFleech_motion_table_551798[19] = {
     &Fleech::M_Sleeping_0_42F0B0,
     &Fleech::M_WakingUp_1_42F270,
-    &Fleech::M_Unknown_2_42F2F0,
+    &Fleech::M_Unused_2_42F2F0,
     &Fleech::M_Idle_3_42E850,
     &Fleech::M_Crawl_4_42E960,
     &Fleech::M_PatrolCry_5_42E810,
     &Fleech::M_Knockback_6_42EAF0,
     &Fleech::M_StopCrawling_7_42EBB0,      //Stop due to being aligned vertically with target
-    &Fleech::M_StopMidCrawlCycle_8_42EB20, //Stop mid-crawl cycle
+    &Fleech::M_StopMidCrawlCycle_8_42EB20,
     &Fleech::M_Fall_9_42ECD0,
     &Fleech::M_Land_10_42F330,
     &Fleech::M_RaiseHead_11_42F590,
@@ -233,25 +234,25 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
 
 
 const static AnimId sFleechFrameTableOffsets_5517E4[19] = {
-    AnimId::Fleech_Idle_A,
-    AnimId::Fleech_Unknown_A,
-    AnimId::Fleech_Unknown_B,
-    AnimId::Fleech_Idle_B,
-    AnimId::Fleech_Walk,
-    AnimId::Fleech_Speak,
-    AnimId::Fleech_Unknown_C,
-    AnimId::Fleech_Idle_C,
-    AnimId::Fleech_Idle_D,
-    AnimId::Fleech_Falling,
-    AnimId::Fleech_Landing,
-    AnimId::Fleech_Tongue,
-    AnimId::Fleech_Climb_A,
-    AnimId::Fleech_Climb_B,
-    AnimId::Fleech_Unknown_D,
-    AnimId::Fleech_Unknown_E,
-    AnimId::Fleech_Unknown_F,
-    AnimId::Fleech_Sleep,
-    AnimId::Fleech_Eat};
+    AnimId::Fleech_Sleeping,
+    AnimId::Fleech_WakingUp,
+    AnimId::Fleech_Unused,
+    AnimId::Fleech_Idle,
+    AnimId::Fleech_Crawl,
+    AnimId::Fleech_PatrolCry,
+    AnimId::Fleech_Knockback,
+    AnimId::Fleech_StopCrawling,
+    AnimId::Fleech_StopMidCrawlCycle,
+    AnimId::Fleech_Fall,
+    AnimId::Fleech_Land,
+    AnimId::Fleech_RaiseHead,
+    AnimId::Fleech_Climb,
+    AnimId::Fleech_SettleOnGround,
+    AnimId::Fleech_ExtendTongueFromEnemy,
+    AnimId::Fleech_RetractTongueFromEnemey,
+    AnimId::Fleech_DeathByFalling,
+    AnimId::Fleech_SleepingWithTongue,
+    AnimId::Fleech_Consume};
 
 ALIVE_VAR(1, 0x551840, s32, current_target_object_id_551840, -1);
 
@@ -581,7 +582,7 @@ void Fleech::M_WakingUp_1_42F270()
 
         if (pObj->field_4_typeId == AETypes::eSnoozeParticle_124)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 
@@ -596,8 +597,11 @@ void Fleech::M_WakingUp_1_42F270()
     }
 }
 
-void Fleech::M_Unknown_2_42F2F0()
+void Fleech::M_Unused_2_42F2F0()
 {
+    if (true)
+        ALIVE_FATAL("never expected Fleech::M_Unused_2_42F2F0() to be called");
+
     if (field_108_next_motion != -1)
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1175,7 +1179,15 @@ void Fleech::M_Consume_18_42FDF0()
             auto pDove = ae_new<Dove>();
             if (pDove)
             {
-                pDove->ctor_41F660(5516, 41, 20u, 60, field_B8_xpos, field_BC_ypos + FP_FromInteger(10), field_CC_sprite_scale);
+                const AnimRecord& doveRec = AnimRec(AnimId::Dove_Flying);
+                pDove->ctor_41F660(
+                    doveRec.mFrameTableOffset,
+                    doveRec.mMaxW,
+                    doveRec.mMaxH,
+                    doveRec.mResourceId,
+                    field_B8_xpos,
+                    field_BC_ypos + FP_FromInteger(10),
+                    field_CC_sprite_scale);
             }
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -1649,22 +1661,22 @@ s16 Fleech::IsScrabOrParamiteNear_42B440(FP radius)
     return 0;
 }
 
-TintEntry stru_551844[15] = {
-    {1u, 127u, 127u, 127u},
-    {2u, 137u, 137u, 137u},
-    {3u, 127u, 127u, 127u},
-    {4u, 127u, 127u, 127u},
-    {5u, 127u, 127u, 127u},
-    {6u, 127u, 127u, 127u},
-    {7u, 127u, 127u, 127u},
-    {8u, 127u, 127u, 127u},
-    {9u, 127u, 127u, 127u},
-    {10u, 127u, 127u, 127u},
-    {11u, 127u, 127u, 127u},
-    {12u, 127u, 127u, 127u},
-    {13u, 127u, 127u, 127u},
-    {14u, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u}};
+const TintEntry kFleechTints_551844[15] = {
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 137u, 137u, 137u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 s32 CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData)
 {
@@ -1674,10 +1686,11 @@ s32 CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData)
 
 void Fleech::Init_42A170()
 {
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kFleechResID, TRUE, FALSE));
+    const AnimRecord& rec = AnimRec(AnimId::Fleech_Idle);
+    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFleeBlowResID_580, TRUE, FALSE));
 
-    Animation_Init_424E10(37704, 73, 35u, field_10_resources_array.ItemAt(0), 1, 1);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1, 1);
 
     field_20_animation.field_1C_fn_ptr_array = kFleech_Anim_Frame_Fns_55EFD0;
 
@@ -1700,7 +1713,7 @@ void Fleech::Init_42A170()
     field_170_danger_obj = -1;
     field_15E = 0;
 
-    SetTint_425600(&stru_551844[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&kFleechTints_551844[0], gMap_5C3030.field_0_current_level);
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
@@ -2246,7 +2259,7 @@ s16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
     switch (pFrom->field_4_typeId)
     {
         case AETypes::eBullet_15:
-        case AETypes::eGrinder_30:
+        case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
         case AETypes::eExplosion_109:
         case AETypes::eSlig_125:

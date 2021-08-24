@@ -403,7 +403,7 @@ public:
                 if (mode == 4 || mode == 5 || mode == 6)
                 {
                     layer = Layer::eLayer_Well_23;
-                    fontLayer = Layer::eLayer_RopeWebGrinder_24;
+                    fontLayer = Layer::eLayer_RopeWebDrill_24;
                 }
                 DEV::DebugDrawLine(ppOt, layer, l->field_0_rect.x, l->field_0_rect.y, l->field_0_rect.w, l->field_0_rect.h, color.r, color.g, color.b, true, false);
 
@@ -599,7 +599,7 @@ void Command_Teleport(const std::vector<std::string>& args)
     }
     s16 path = static_cast<s16>(std::stoi(args[1]));
     s16 cam = static_cast<s16>(std::stoi(args[2]));
-    gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::eEffect5_1_FMV, 0, 0);
+    gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::ePlay1FMV_5, 0, 0);
 
 
     sHasTeleported = true;
@@ -625,7 +625,7 @@ void Command_Menu(const std::vector<std::string>& args)
     {
         MainMenuController::gMainMenuController->field_21A_target_button_index = static_cast<s16>(menuCam);
         MainMenuController::gMainMenuController->field_218_target_page_index = static_cast<s16>(MainMenuController::GetPageIndexFromCam_4D05A0(menuCam));
-        MainMenuController::gMainMenuController->field_21C_bDoScreenTransistionEffect = static_cast<s16>(menuCam);
+        MainMenuController::gMainMenuController->field_21C_camSwapEffectState = static_cast<camTransEffectState>(menuCam);
         MainMenuController::gMainMenuController->field_23C_T80.Set(MainMenuController::Flags::eBit22_GameSpeakPlaying);
     }
 }
@@ -2013,8 +2013,10 @@ public:
 private:
     void Init()
     {
-        ResourceManager::LoadResourceFile_49C170("LOADING.BAN", nullptr);
-        ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
+        const AnimRecord& loadingRec = AnimRec(AnimId::Loading_Icon);
+        const AnimRecord& abeGibRec = AnimRec(AnimId::Abe_Body_Gib);
+        ResourceManager::LoadResourceFile_49C170(loadingRec.mBanName, nullptr);
+        ResourceManager::LoadResourceFile_49C170(abeGibRec.mBanName, nullptr);
 
         for (s32 i = 0; i < 5; i++)
         {
@@ -2023,14 +2025,14 @@ private:
             if (i < 2)
             {
                 // 4 bit
-                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kLoadingResID, TRUE, FALSE);
-                mAnim[i].Init_40A030(900, gObjList_animations_5C1A24, this, 150, 0x41u, mAnimRes[i], 1, 0, 0);
+                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, loadingRec.mResourceId, TRUE, FALSE);
+                mAnim[i].Init_40A030(loadingRec.mFrameTableOffset, gObjList_animations_5C1A24, this, loadingRec.mMaxW, loadingRec.mMaxH, mAnimRes[i], 1, 0, 0);
             }
             else
             {
                 // 8 bit
-                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, TRUE, FALSE);
-                mAnim[i].Init_40A030(7812, gObjList_animations_5C1A24, this, 50, 25, mAnimRes[i], 1, 0, 0);
+                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, abeGibRec.mResourceId, TRUE, FALSE);
+                mAnim[i].Init_40A030(abeGibRec.mFrameTableOffset, gObjList_animations_5C1A24, this, abeGibRec.mMaxW, abeGibRec.mMaxH, mAnimRes[i], 1, 0, 0);
             }
             // No 16 bit test case because there are simply no 16bit sprites at all in the game data
 

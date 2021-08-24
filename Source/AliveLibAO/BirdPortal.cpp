@@ -85,8 +85,10 @@ BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP sca
 
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID, 1, 0);
-    Animation_Init_417FD0(3860, 31, 18, ppRes, 1);
+    const AnimRecord rec = AO::AnimRec(AnimId::BirdPortal_TerminatorShrink);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_BC_sprite_scale = scale;
     if (scale == FP_FromInteger(1))
@@ -298,11 +300,12 @@ void BirdPortal::CreateDovesAndShrykullNumber()
         auto pDove = ao_new<Dove>();
         if (pDove)
         {
+            const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
             pDove->ctor_40EFF0(
-                4988,
-                41,
-                20,
-                60,
+                doveRec.mFrameTableOffset,
+                doveRec.mMaxW,
+                doveRec.mMaxH,
+                doveRec.mResourceId,
                 field_18_xpos,
                 field_1C_ypos,
                 field_34_scale);
@@ -464,24 +467,24 @@ void BirdPortal::VUpdate_4523D0()
                 }
 
                 field_30_timer = gnFrameCount_507670 + 15;
-                field_14_state = PortalStates::JoinBirdsInCenter_2;
+                field_14_state = PortalStates::JoinDovesInCenter_2;
                 Event_Broadcast_417220(18, this);
                 SFX_Play_43AD70(SoundEffect::Dove_16, 70, 0);
             }
         }
         break;
 
-        case PortalStates::JoinBirdsInCenter_2:
+        case PortalStates::JoinDovesInCenter_2:
             Event_Broadcast_417220(kEvent_18, this);
             if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
             {
                 CreateTerminators();
                 field_30_timer = gnFrameCount_507670 + 5;
-                field_14_state = PortalStates::KillBirds_3;
+                field_14_state = PortalStates::KillDoves_3;
             }
             break;
 
-        case PortalStates::KillBirds_3:
+        case PortalStates::KillDoves_3:
             Event_Broadcast_417220(kEvent_18, this);
             if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
             {
@@ -617,11 +620,12 @@ void BirdPortal::VUpdate_4523D0()
                     auto pDoveMem = ao_new<Dove>();
                     if (pDoveMem)
                     {
+                        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                         pDoveMem->ctor_40EFF0(
-                            4988,
-                            41,
-                            20,
-                            60,
+                            doveRec.mFrameTableOffset,
+                            doveRec.mMaxW,
+                            doveRec.mMaxH,
+                            doveRec.mResourceId,
                             field_18_xpos + FP_FromInteger(FP_GetExponent(xOff)),
                             field_1C_ypos + FP_FromInteger(Math_RandomRange_450F20(-scale32, scale32)),
                             field_34_scale);
@@ -1077,14 +1081,14 @@ void BirdPortal::VGetMapChange_453840(LevelIds* level, u16* path, u16* camera, C
     if (field_38_movie_id > 0)
     {
         *movieId = field_38_movie_id;
-        *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
+        *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;
         return;
     }
 
     // Zero
     if (field_38_movie_id == 0)
     {
-        *screenChangeEffect = CameraSwapEffects::eEffect0_InstantChange;
+        *screenChangeEffect = CameraSwapEffects::eInstantChange_0;
         return;
     }
 
@@ -1092,12 +1096,12 @@ void BirdPortal::VGetMapChange_453840(LevelIds* level, u16* path, u16* camera, C
     if (sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) && sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
     {
         *movieId = 1617 - (10000 * field_38_movie_id);
-        *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
+        *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;
         return;
     }
 
     *movieId = 17 - (100 * field_38_movie_id);
-    *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
+    *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;
 }
 
 s16 BirdPortal::VPortalClipper_4533E0(s16 bUnknown)

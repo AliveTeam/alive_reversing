@@ -26,8 +26,11 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
-    Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
+    const AnimRecord& rec = AnimRec(AnimId::Meat);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    //u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
+    //Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -47,7 +50,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
     field_12C_deadtimer = sGnFrame_5C1B84 + 600;
     field_130_pLine = 0;
     field_118_count = count;
-    field_11C_state = MeatStates::State_0;
+    field_11C_state = MeatStates::eCreated_0;
 
     field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
@@ -129,21 +132,21 @@ void Meat::vOnTrapDoorOpen_46A2E0()
     {
         pPlatform->VRemove(this);
         field_110_id = -1;
-        if (field_11C_state == MeatStates::State_3_BecomeAPickUp || field_11C_state == MeatStates::State_4_WaitForPickUp)
+        if (field_11C_state == MeatStates::eBecomeAPickUp_3 || field_11C_state == MeatStates::eWaitForPickUp_4)
         {
-            field_11C_state = MeatStates::State_1_Idle;
+            field_11C_state = MeatStates::eIdle_1;
         }
     }
 }
 
 BOOL Meat::vIsFalling_469660()
 {
-    return field_11C_state == MeatStates::State_5_Fall;
+    return field_11C_state == MeatStates::eFall_5;
 }
 
 BOOL Meat::vCanThrow_469680()
 {
-    return field_11C_state == MeatStates::State_2_BeingThrown;
+    return field_11C_state == MeatStates::eBeingThrown_2;
 }
 
 void Meat::dtor_4696F0()
@@ -178,17 +181,17 @@ void Meat::vThrow_469790(FP velX, FP velY)
 
     if (field_118_count == 0)
     {
-        field_11C_state = MeatStates::State_2_BeingThrown;
+        field_11C_state = MeatStates::eBeingThrown_2;
     }
     else
     {
-        field_11C_state = MeatStates::State_1_Idle;
+        field_11C_state = MeatStates::eIdle_1;
     }
 }
 
 s16 Meat::vGetCount_46A350()
 {
-    if (field_11C_state == MeatStates::State_4_WaitForPickUp && field_118_count == 0)
+    if (field_11C_state == MeatStates::eWaitForPickUp_4 && field_118_count == 0)
     {
         return 1;
     }
@@ -223,7 +226,7 @@ void Meat::InTheAir_4697E0()
                 {
                     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(hitX)));
                     field_BC_ypos = hitY;
-                    field_11C_state = MeatStates::State_3_BecomeAPickUp;
+                    field_11C_state = MeatStates::eBecomeAPickUp_3;
                     field_C8_vely = FP_FromInteger(0);
                     field_C4_velx = FP_FromInteger(0);
                     SFX_Play_46FBA0(SoundEffect::MeatBounce_36, 0, -650);
@@ -332,11 +335,11 @@ void Meat::vUpdate_469BA0()
 
         switch (field_11C_state)
         {
-            case MeatStates::State_1_Idle:
+            case MeatStates::eIdle_1:
                 InTheAir_4697E0();
                 break;
 
-            case MeatStates::State_2_BeingThrown:
+            case MeatStates::eBeingThrown_2:
             {
                 InTheAir_4697E0();
                 PSX_RECT bRect = {};
@@ -358,7 +361,7 @@ void Meat::vUpdate_469BA0()
             }
             break;
 
-            case MeatStates::State_3_BecomeAPickUp:
+            case MeatStates::eBecomeAPickUp_3:
                 if (FP_Abs(field_C4_velx) < FP_FromInteger(1))
                 {
                     field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
@@ -379,7 +382,7 @@ void Meat::vUpdate_469BA0()
                     if (!field_130_pLine)
                     {
                         field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-                        field_11C_state = MeatStates::State_2_BeingThrown;
+                        field_11C_state = MeatStates::eBeingThrown_2;
                     }
                 }
                 else
@@ -392,11 +395,11 @@ void Meat::vUpdate_469BA0()
                     field_E4_collection_rect.h = field_BC_ypos;
 
                     field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
-                    field_11C_state = MeatStates::State_4_WaitForPickUp;
+                    field_11C_state = MeatStates::eWaitForPickUp_4;
                 }
                 break;
 
-            case MeatStates::State_4_WaitForPickUp:
+            case MeatStates::eWaitForPickUp_4:
                 if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
                     field_12C_deadtimer = sGnFrame_5C1B84 + 600;
@@ -418,7 +421,7 @@ void Meat::vUpdate_469BA0()
                 }
                 break;
 
-            case MeatStates::State_5_Fall:
+            case MeatStates::eFall_5:
                 field_C8_vely += FP_FromInteger(1);
                 field_B8_xpos += field_C4_velx;
                 field_BC_ypos = field_C8_vely + field_BC_ypos;
@@ -438,22 +441,22 @@ void Meat::vUpdate_469BA0()
 
 
 
-TintEntry stru_55C254[] = {
-    {1u, 127u, 127u, 127u},
-    {2u, 137u, 137u, 137u},
-    {3u, 127u, 127u, 127u},
-    {4u, 127u, 127u, 127u},
-    {5u, 127u, 127u, 127u},
-    {6u, 127u, 127u, 127u},
-    {7u, 127u, 127u, 127u},
-    {8u, 127u, 127u, 127u},
-    {9u, 127u, 127u, 127u},
-    {10u, 127u, 127u, 127u},
-    {11u, 127u, 127u, 127u},
-    {12u, 127u, 127u, 127u},
-    {13u, 127u, 127u, 127u},
-    {14u, 127u, 127u, 127u},
-    {-1, 127u, 127u, 127u},
+const TintEntry kMeatTints_55C254[] = {
+    {LevelIds_s8::eMines_1, 127u, 127u, 127u},
+    {LevelIds_s8::eNecrum_2, 137u, 137u, 137u},
+    {LevelIds_s8::eMudomoVault_3, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_4, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_5, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_6, 127u, 127u, 127u},
+    {LevelIds_s8::eMudancheeVault_Ender_7, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_8, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_9, 127u, 127u, 127u},
+    {LevelIds_s8::eBrewery_Ender_10, 127u, 127u, 127u},
+    {LevelIds_s8::eMudomoVault_Ender_11, 127u, 127u, 127u},
+    {LevelIds_s8::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
+    {LevelIds_s8::eBarracks_Ender_13, 127u, 127u, 127u},
+    {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
+    {LevelIds_s8::eNone, 127u, 127u, 127u},
 };
 
 
@@ -464,14 +467,15 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
 
     field_4_typeId = AETypes::eMeatSack_85;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
-    Animation_Init_424E10(15848, 93, 86, ppRes, 1, 1);
-    SetTint_425600(&stru_55C254[0], gMap_5C3030.field_0_current_level);
+    const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    SetTint_425600(&kMeatTints_55C254[0], gMap_5C3030.field_0_current_level);
 
     field_DC_bApplyShadows &= ~1u;
     field_118_tlvInfo = tlvInfo;
 
-    field_11C = 0;
+    field_11C_bDoMeatSackIdleAnim = 0;
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -607,27 +611,28 @@ void MeatSack::vUpdate_46A6A0()
 
     if (field_20_animation.field_92_current_frame == 2)
     {
-        if (field_120)
+        if (field_120_bPlayWobbleSound)
         {
-            if (Math_NextRandom() < 40u || field_122)
+            if (Math_NextRandom() < 40u || field_122_always_0)
             {
-                field_120 = 0;
-                field_122 = 0;
+                field_120_bPlayWobbleSound = 0;
+                field_122_always_0 = 0;
                 SFX_Play_46FBA0(SoundEffect::SackWobble_29, 24, Math_RandomRange_496AB0(-2400, -2200));
             }
         }
     }
     else
     {
-        field_120 = 1;
+        field_120_bPlayWobbleSound = 1;
     }
 
-    if (field_11C)
+    if (field_11C_bDoMeatSackIdleAnim)
     {
-        if (field_11C == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_11C_bDoMeatSackIdleAnim == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_20_animation.Set_Animation_Data_409C80(15848, 0);
-            field_11C = 0;
+            const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
+            field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
+            field_11C_bDoMeatSackIdleAnim = 0;
         }
     }
     else
@@ -640,12 +645,13 @@ void MeatSack::vUpdate_46A6A0()
 
         if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
         {
+            const AnimRecord& MeatSackHitRec = AnimRec(AnimId::MeatSack_Hit);
             if (gpThrowableArray_5D1E2C)
             {
                 if (gpThrowableArray_5D1E2C->field_20_count)
                 {
-                    field_20_animation.Set_Animation_Data_409C80(15888, 0);
-                    field_11C = 1;
+                    field_20_animation.Set_Animation_Data_409C80(MeatSackHitRec.mFrameTableOffset, 0);
+                    field_11C_bDoMeatSackIdleAnim = 1;
                     return;
                 }
             }
@@ -669,8 +675,8 @@ void MeatSack::vUpdate_46A6A0()
             SFX_Play_46FA90(SoundEffect::SackHit_25, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
-            field_20_animation.Set_Animation_Data_409C80(15888, 0);
-            field_11C = 1;
+            field_20_animation.Set_Animation_Data_409C80(MeatSackHitRec.mFrameTableOffset, 0);
+            field_11C_bDoMeatSackIdleAnim = 1;
         }
     }
 }
@@ -720,5 +726,5 @@ s32 Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
 
 BOOL Meat::vCanEatMe_4696A0()
 {
-    return field_11C_state != MeatStates::State_0;
+    return field_11C_state != MeatStates::eCreated_0;
 }

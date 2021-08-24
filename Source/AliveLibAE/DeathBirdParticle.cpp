@@ -23,8 +23,9 @@ DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, s32 start, s
     SetVTable(this, 0x545298); // vTbl_DeathBirdParticle_00545298
     field_4_typeId = AETypes::eDeathBird_62;
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
-    Animation_Init_424E10(9940, 122, 43, ppRes, 1, 1u);
+    const AnimRecord& rec = AnimRec(AnimId::DeathFlare_1);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
 
     if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
     {

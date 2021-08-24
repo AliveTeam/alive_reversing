@@ -128,12 +128,7 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
     field_150_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArswhirlResID, 1, 0);
     field_150_resources[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArscrshResID, 1, 0);
 
-    Animation_Init_417FD0(
-        168644,
-        168,
-        69,
-        field_150_resources[0],
-        1);
+    Animation_Init_417FD0(168644, 168, 69, field_150_resources[0], 1);
 
 
     field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
@@ -452,7 +447,7 @@ s16 Scrab::VTakeDamage_45BC10(BaseGameObject* pFrom)
                 if (pGibs)
                 {
                     pGibs->ctor_407B20(
-                        2,
+                        GibType::Slog_2,
                         field_A8_xpos,
                         field_AC_ypos,
                         field_B4_velx,

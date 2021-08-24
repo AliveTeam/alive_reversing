@@ -79,12 +79,12 @@ void DemoPlayback::vUpdate_4978E0()
         if (gIsDemoStartedManually_5C1B9C)
         {
             // go back to the demo selection menu
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 30, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 30, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         else
         {
             // go back to the main screen
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
 
         gMap_5C3030.field_CE_free_all_anim_and_palts = 1;

@@ -295,8 +295,8 @@ union AllInternalStates
 enum class MudSounds : u8
 {
     eUnknown_0 = 0, // empty?
-    eWhistle1_1 = 1,
-    eWhistle2_2 = 2,
+    eWhistleHigh_1 = 1,
+    eWhistleLow_2 = 2,
     eHello_3 = 3,
     eFollowMe_4 = 4,
     eAngry_5 = 5,
