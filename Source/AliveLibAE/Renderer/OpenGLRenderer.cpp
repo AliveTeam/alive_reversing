@@ -1570,7 +1570,7 @@ void OpenGLRenderer::LoadCustomCAM(const char* path, const unsigned char* key, i
 
     // XOR the custom cam file with the data from the original game.
     // You wouldn't steal an Abe? https://www.youtube.com/watch?v=HmZm8vNHBSU
-    for (int i = 0; i < fileData.size(); i++)
+    for (unsigned int i = 0; i < fileData.size(); i++)
     {
         fPtr[i] ^= key[i % keyLength];
     }
