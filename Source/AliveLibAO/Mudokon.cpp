@@ -73,8 +73,8 @@ const TMudStateFunction gMudMotions_4CD470[] = {
     &Mudokon::Motion_24_CrouchTurn_43E5F0,
     &Mudokon::Motion_25_StandToCrouch_43E620,
     &Mudokon::Motion_26_CrouchToStand_43E640,
-    &Mudokon::Motion_27_RunToWalk_43D980,
-    &Mudokon::Motion_28_MidRunToWalk_43DA40,
+    &Mudokon::Motion_27_WalkToRun_43D980,
+    &Mudokon::Motion_28_MidWalkToRun_43DA40,
     &Mudokon::Motion_29_RunLoop_43DB10,
     &Mudokon::Motion_30_RunToWalk_43DD50,
     &Mudokon::Motion_31_MidRunToWalk_43DE10,
@@ -82,20 +82,20 @@ const TMudStateFunction gMudMotions_4CD470[] = {
     &Mudokon::Motion_33_RunSlideTurn_43DF80,
     &Mudokon::Motion_34_RunTurnToRun_43E070,
     &Mudokon::Motion_35_SneakLoop_43E0F0,
-    &Mudokon::Motion_36_WalkToSneak_43E240,
+    &Mudokon::Motion_36_MidWalkToSneak_43E240,
     &Mudokon::Motion_37_SneakToWalk_43E2E0,
-    &Mudokon::Motion_38_MidWalkToSneak_43E380,
+    &Mudokon::Motion_38_WalkToSneak_43E380,
     &Mudokon::Motion_39_MidSneakToWalk_43E430,
     &Mudokon::Motion_40_SneakBegin_43E4E0,
     &Mudokon::Motion_41_SneakToIdle_43E530,
     &Mudokon::Motion_42_MidSneakToIdle_43E560,
     &Mudokon::Motion_43_RunJumpBegin_43E870,
     &Mudokon::Motion_44_RunJumpMid_43E960,
-    &Mudokon::Motion_45_ToRunToPortal_43EB00,
+    &Mudokon::Motion_45_StandToRun_43EB00,
     &Mudokon::Motion_46_FallLandDie_43E660,
     &Mudokon::Motion_47_Knockback_43E730,
     &Mudokon::Motion_48_KnockbackGetUp_43E7D0,
-    &Mudokon::Motion_49_FallOfEdge_43E800,
+    &Mudokon::Motion_49_WalkOffEdge_43E800,
     &Mudokon::Motion_50_LandSoft_43E820,
     &Mudokon::Motion_51_Fall_43D0D0,
     &Mudokon::Motion_52_Chant_43D520,
@@ -538,70 +538,69 @@ void Mudokon::VUpdate_43F560()
 }
 
 const AnimId sMudFrameTables_4CD330[64] = {
-    // + means already added to the anim id list
-    AnimId::Mudokon_Idle, // idle +
-    AnimId::Mudokon_Walk, // walk +
-    AnimId::Mudokon_StandingTurn, // standingTurn +
-    AnimId::Mudokon_Speak1,       // speak 1 +
-    AnimId::Mudokon_Speak2,       // speak 2  +
-    AnimId::Mudokon_Speak3,       // speak 3 +
-    AnimId::Mudokon_SpeakFart,    // speak 4 +
-    AnimId::Mudokon_WalkBegin,    // walk begin +
-    AnimId::Mudokon_WalkToIdle,   // walk to idle +
-    AnimId::Mudokon_MidWalkToIdle, // mid walk to idle +
-    AnimId::Mudokon_AO_Unused,     // unused - kAbebsic1ResID until here +
-    AnimId::Mudokon_AO_Null, // null +
-    AnimId::Mudokon_AO_LiftUse,            // lift use
-    AnimId::Mudokon_LiftGrabBegin,         // lift grab begin +
-    AnimId::Mudokon_LiftGrabEnd,           // lift grab end kAbeliftResID until here
-    AnimId::Mudokon_LeverUse, // lever use - kAbepullResID single +
-    AnimId::Mudokon_StandScrubLoop, // stand scrub loop +
-    AnimId::Mudokon_StandScrubLoopToPause, // stand scrub loop to pause +
-    AnimId::Mudokon_StandScrubPauseToLoop, // stand scrub pause to loop +
-    AnimId::Mudokon_StandScrubPause,       // stand scrub pause +
-    AnimId::Mudokon_IdleToStandScrub,      // idle to stand scrub +
-    AnimId::Mudokon_StandScrubToIdle,      // stand scrub to idle - kMudchslResID until here +
-    AnimId::Mudokon_CrouchScrub,           // crouch scrub - kMudscrubResID single +
-    AnimId::Mudokon_CrouchIdle,            // crouch idle  +
-    AnimId::Mudokon_CrouchTurn,            // crouch turn +
-    AnimId::Mudokon_StandToCrouch,         // stand to crouch +
-    AnimId::Mudokon_CrouchToStand,         // crouch to stand +
-    AnimId::Mudokon_AO_RunToWalk2,         // run to walk TODO: duplicated name
-    AnimId::Mudokon_MidWalkToRun,          // mid run to walk +
-    AnimId::Mudokon_Run,                   // run loop +
-    AnimId::Mudokon_RunToWalk,             // run to walk +
-    AnimId::Mudokon_MidRunToWalk,          // mid run to walk +
-    AnimId::Mudokon_RunSlideStop,          // run slide stop +
-    AnimId::Mudokon_RunSlideTurn,          // run slide turn +
-    AnimId::Mudokon_RunTurnToRun,          // run turn to run +
-    AnimId::Mudokon_Sneak,                 // sneak loop +
-    AnimId::Mudokon_WalkToSneak,           // walk to sneak +
-    AnimId::Mudokon_SneakToWalk,           // sneak to walk +
-    AnimId::Mudokon_MidWalkToSneak,        // mid walk to sneak +
-    AnimId::Mudokon_MidSneakToWalk,        // mid sneak to walk +
-    AnimId::Mudokon_SneakBegin,            // sneak begin +
-    AnimId::Mudokon_SneakToIdle,           // sneak to idle +
-    AnimId::Mudokon_MidSneakToIdle,        // mid sneak to idle +
-    AnimId::Mudokon_RunJumpBegin,          // run jump begin +
-    AnimId::Mudokon_RunJumpMid,            // run jump mid +
-    AnimId::Mudokon_AO_ToRunToPortal,      // to run to portal - kAbebasicResID until here
-    AnimId::Mudokon_FallLandDie,           // fall land die - kAbeknfdResID single
-    AnimId::Mudokon_Knockback,             // knockback + 
-    AnimId::Mudokon_KnockbackGetUp,        // knockback get up - kAbeknbkResID until here +
-    AnimId::Mudokon_AO_FallOfEdge,         // fall of edge <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    AnimId::Mudokon_LandSoft,              // land soft +
-    AnimId::Mudokon_Fall,                  // fall - kAbeedgeResID until here <<<<<<<<<<<<<<<<<<<<
-    AnimId::Mudokon_Chant,                 // chant + 
-    AnimId::Mudokon_ChantEnd,              // chant end - kAbeommResID until here + 
-    AnimId::Mudokon_ToDuck,                // to duck +
-    AnimId::Mudokon_Duck,                  // duck +
-    AnimId::Mudokon_DuckToCrouch,          // duck to crouch - kMudoduckResID until here +
-    AnimId::Mudokon_Struggle,              // struggle - kAbewaspResID single +
-    AnimId::Mudokon_StruggleToCrouchChant, // struggle to crouch chant +
-    AnimId::Mudokon_CrouchChant,           // crouch chant +
-    AnimId::Mudokon_CrouchChantToStruggle, // crouch chant to struggle - until here kMudltusResID +
-    AnimId::Mudokon_DuckKnockback,         // duck knockback - kMudbtlnkResID single +
-    AnimId::Mudokon_PoisonGasDeath,        // poison gas death - kAbegasResID single +
+    AnimId::Mudokon_Idle,
+    AnimId::Mudokon_Walk,
+    AnimId::Mudokon_StandingTurn,
+    AnimId::Mudokon_Speak1,
+    AnimId::Mudokon_Speak2,
+    AnimId::Mudokon_Speak3,
+    AnimId::Mudokon_SpeakFart,
+    AnimId::Mudokon_WalkBegin,
+    AnimId::Mudokon_WalkToIdle,
+    AnimId::Mudokon_MidWalkToIdle,
+    AnimId::Mudokon_AO_Unused,     // unused - kAbebsic1ResID
+    AnimId::Mudokon_AO_Null,
+    AnimId::Mudokon_AO_LiftUse,
+    AnimId::Mudokon_LiftGrabBegin,
+    AnimId::Mudokon_LiftGrabEnd,
+    AnimId::Mudokon_LeverUse,
+    AnimId::Mudokon_StandScrubLoop,
+    AnimId::Mudokon_StandScrubLoopToPause,
+    AnimId::Mudokon_StandScrubPauseToLoop,
+    AnimId::Mudokon_StandScrubPause,
+    AnimId::Mudokon_IdleToStandScrub,
+    AnimId::Mudokon_StandScrubToIdle,
+    AnimId::Mudokon_CrouchScrub,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchTurn,
+    AnimId::Mudokon_StandToCrouch,
+    AnimId::Mudokon_CrouchToStand,
+    AnimId::Mudokon_WalkToRun,
+    AnimId::Mudokon_MidWalkToRun,
+    AnimId::Mudokon_Run,
+    AnimId::Mudokon_RunToWalk,
+    AnimId::Mudokon_MidRunToWalk,
+    AnimId::Mudokon_RunSlideStop,
+    AnimId::Mudokon_RunSlideTurn,
+    AnimId::Mudokon_RunTurnToRun,
+    AnimId::Mudokon_Sneak,
+    AnimId::Mudokon_WalkToSneak,
+    AnimId::Mudokon_SneakToWalk,
+    AnimId::Mudokon_MidWalkToSneak,
+    AnimId::Mudokon_MidSneakToWalk,
+    AnimId::Mudokon_SneakBegin,
+    AnimId::Mudokon_SneakToIdle,
+    AnimId::Mudokon_MidSneakToIdle,
+    AnimId::Mudokon_RunJumpBegin,
+    AnimId::Mudokon_RunJumpMid,
+    AnimId::Mudokon_StandToRun,
+    AnimId::Mudokon_FallLandDie,
+    AnimId::Mudokon_Knockback,
+    AnimId::Mudokon_KnockbackGetUp,
+    AnimId::Mudokon_WalkOffEdge,
+    AnimId::Mudokon_LandSoft,
+    AnimId::Mudokon_Fall,
+    AnimId::Mudokon_Chant,
+    AnimId::Mudokon_ChantEnd,
+    AnimId::Mudokon_ToDuck,
+    AnimId::Mudokon_Duck,
+    AnimId::Mudokon_DuckToCrouch,
+    AnimId::Mudokon_Struggle,
+    AnimId::Mudokon_StruggleToCrouchChant,
+    AnimId::Mudokon_CrouchChant,
+    AnimId::Mudokon_CrouchChantToStruggle,
+    AnimId::Mudokon_DuckKnockback,
+    AnimId::Mudokon_PoisonGasDeath,
     AnimId::None};
 
 void Mudokon::VUpdateResBlock_43EDB0()
@@ -884,7 +883,7 @@ u8** Mudokon::GetResBlockForMotion_43EDE0(s16 motion)
     {
         return field_148_res_array.res[6];
     }
-    if (motion < eMudMotions::Motion_49_FallOfEdge_43E800)
+    if (motion < eMudMotions::Motion_49_WalkOffEdge_43E800)
     {
         return field_148_res_array.res[7];
     }
@@ -1113,9 +1112,9 @@ void Mudokon::MoveOnLine_43C7E0()
     }
     else
     {
-        field_11C = FP_FromInteger(0);
+        field_11C = FP_FromInteger(0); // TODO: is 0 wrong? check AE
         field_E8_LastLineYPos = field_AC_ypos;
-        field_FC_current_motion = eMudMotions::Motion_49_FallOfEdge_43E800;
+        field_FC_current_motion = eMudMotions::Motion_49_WalkOffEdge_43E800;
         field_A8_xpos = old_xpos + field_B4_velx;
     }
 }
@@ -1262,7 +1261,7 @@ void Mudokon::VOnTrapDoorOpen_43C9F0()
         }
         else
         {
-            VSetMotion(eMudMotions::Motion_49_FallOfEdge_43E800);
+            VSetMotion(eMudMotions::Motion_49_WalkOffEdge_43E800);
         }
 
         field_F8_pLiftPoint->VRemove(this);
@@ -1340,7 +1339,7 @@ void Mudokon::Motion_0_Idle_43CA70()
             {
                 field_B4_velx = ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4);
             }
-            field_FC_current_motion = eMudMotions::Motion_45_ToRunToPortal_43EB00;
+            field_FC_current_motion = eMudMotions::Motion_45_StandToRun_43EB00;
             field_FE_next_motion = -1;
             break;
 
@@ -1411,12 +1410,12 @@ void Mudokon::Motion_1_WalkLoop_43CC80()
 
                     if (field_FE_next_motion == eMudMotions::Motion_29_RunLoop_43DB10)
                     {
-                        field_FC_current_motion = eMudMotions::Motion_28_MidRunToWalk_43DA40;
+                        field_FC_current_motion = eMudMotions::Motion_28_MidWalkToRun_43DA40;
                         field_FE_next_motion = -1;
                     }
                     else if (field_FE_next_motion == eMudMotions::Motion_35_SneakLoop_43E0F0)
                     {
-                        field_FC_current_motion = eMudMotions::Motion_36_WalkToSneak_43E240;
+                        field_FC_current_motion = eMudMotions::Motion_36_MidWalkToSneak_43E240;
                         field_FE_next_motion = -1;
                     }
                     break;
@@ -1439,12 +1438,12 @@ void Mudokon::Motion_1_WalkLoop_43CC80()
 
                     if (field_FE_next_motion == eMudMotions::Motion_29_RunLoop_43DB10)
                     {
-                        field_FC_current_motion = eMudMotions::Motion_27_RunToWalk_43D980;
+                        field_FC_current_motion = eMudMotions::Motion_27_WalkToRun_43D980;
                         field_FE_next_motion = -1;
                     }
                     else if (field_FE_next_motion == eMudMotions::Motion_35_SneakLoop_43E0F0)
                     {
-                        field_FC_current_motion = eMudMotions::Motion_38_MidWalkToSneak_43E380;
+                        field_FC_current_motion = eMudMotions::Motion_38_WalkToSneak_43E380;
                         field_FE_next_motion = -1;
                     }
                     break;
@@ -1774,7 +1773,7 @@ void Mudokon::Motion_26_CrouchToStand_43E640()
     }
 }
 
-void Mudokon::Motion_27_RunToWalk_43D980()
+void Mudokon::Motion_27_WalkToRun_43D980()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -1803,7 +1802,7 @@ void Mudokon::Motion_27_RunToWalk_43D980()
     }
 }
 
-void Mudokon::Motion_28_MidRunToWalk_43DA40()
+void Mudokon::Motion_28_MidWalkToRun_43DA40()
 {
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
@@ -1888,7 +1887,7 @@ void Mudokon::Motion_29_RunLoop_43DB10()
                     /*case eMudMotions::Motion_29_RunLoop_43DB10:
                 if (field_10_anim.field_92_current_frame == 12)
                 {
-                    field_FC_current_motion = eMudMotions::Motion_28_MidRunToWalk_43DA40;
+                    field_FC_current_motion = eMudMotions::Motion_28_MidWalkToRun_43DA40;
                     field_FE_next_state = -1;
                 }
                 return;*/
@@ -2112,7 +2111,7 @@ void Mudokon::Motion_35_SneakLoop_43E0F0()
     }
 }
 
-void Mudokon::Motion_36_WalkToSneak_43E240()
+void Mudokon::Motion_36_MidWalkToSneak_43E240()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -2164,7 +2163,7 @@ void Mudokon::Motion_37_SneakToWalk_43E2E0()
     }
 }
 
-void Mudokon::Motion_38_MidWalkToSneak_43E380()
+void Mudokon::Motion_38_WalkToSneak_43E380()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -2343,7 +2342,7 @@ void Mudokon::Motion_44_RunJumpMid_43E960()
     field_AC_ypos += field_B8_vely;
 }
 
-void Mudokon::Motion_45_ToRunToPortal_43EB00()
+void Mudokon::Motion_45_StandToRun_43EB00()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2432,7 +2431,7 @@ void Mudokon::Motion_48_KnockbackGetUp_43E7D0()
     }
 }
 
-void Mudokon::Motion_49_FallOfEdge_43E800()
+void Mudokon::Motion_49_WalkOffEdge_43E800()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {

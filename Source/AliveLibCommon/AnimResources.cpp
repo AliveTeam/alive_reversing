@@ -389,7 +389,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
      {"ABEBSIC.BAN", 255568, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_WalkToRun,
         { "ABEBSIC.BAN", 270120, 135, 80, kAbebasicResID, PalId::Default},
-     {"ABEBSIC.BAN", 11396, 135, 80, kAbebasicResID, PalId::Default}},
+     {"MUDLOTUS.BND", 255628, 96, 55, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_MidWalkToRun,
         { "ABEBSIC.BAN", 270268, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEBSIC.BAN", 255808, 135, 80, kAbebasicResID, PalId::Default}},
@@ -444,9 +444,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
 
     // 11396 for AO means no frametableoffset specified yet
-    {AnimId::Mudokon_StandingToRun,
+    {AnimId::Mudokon_StandToRun,
         { "ABEBSIC.BAN", 270252, 135, 80, kAbebasicResID, PalId::Default},
-     {"ABEPULL.BAN", 11396, 135, 80, kAbebasicResID, PalId::Default}},
+     {"MUDLOTUS.BND", 255788, 96, 55, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_Punch,
         { "ABEBSIC.BAN", 271152, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEPULL.BAN", 11396, 135, 80, kAbebasicResID, PalId::Default}},
@@ -477,7 +477,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
      {"ABEKNBK.BAN", 48332, 135, 80, kAbeknbkResID, PalId::Default}},
     {AnimId::Mudokon_WalkOffEdge,
         { "ABEEDGE.BAN", 32040, 135, 80, kAbeedgeResID, PalId::Default},
-     {"ABEKNFD.BAN", 17240, 135, 80, kAbeknfdResID, PalId::Default}},
+     {"MUDLOTUS.BND", 40680, 96, 55, kAbeedgeResID, PalId::Default}},
     {AnimId::Mudokon_FallingFromGrab,
         { "ABEEDGE.BAN", 32012, 135, 80, kAbeedgeResID, PalId::Default},
      {"ABEKNFD.BAN", 17240, 135, 80, kAbeknfdResID, PalId::Default}},
@@ -516,10 +516,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_StruggleToCrouchChant, kNullAnimDetails, {"MUDLOTUS.BND", 10960, 96, 55, kMudltusResID, PalId::Default}},
     {AnimId::Mudokon_CrouchChant, kNullAnimDetails, {"MUDLOTUS.BND", 11052, 96, 55, kMudltusResID, PalId::Default}},
     {AnimId::Mudokon_CrouchChantToStruggle, kNullAnimDetails, {"MUDLOTUS.BND", 10996, 96, 55, kMudltusResID, PalId::Default}},
-
-    {AnimId::Mudokon_AO_RunToWalk2, kNullAnimDetails, {"MUDLOTUS.BND", 255628, 96, 55, kAbebasicResID, PalId::Default}},
-    {AnimId::Mudokon_AO_ToRunToPortal, kNullAnimDetails, {"MUDLOTUS.BND", 255788, 96, 55, kAbebasicResID, PalId::Default}},
-    {AnimId::Mudokon_AO_FallOfEdge, kNullAnimDetails, {"MUDLOTUS.BND", 40680, 96, 55, kAbeedgeResID, PalId::Default}},
 
      // AE only
     {AnimId::Mudokon_KnockForward, // maybe?

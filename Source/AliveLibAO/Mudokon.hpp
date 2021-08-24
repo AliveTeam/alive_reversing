@@ -36,8 +36,8 @@ namespace AO {
     ENTRY(Motion_24_CrouchTurn_43E5F0)            \
     ENTRY(Motion_25_StandToCrouch_43E620)         \
     ENTRY(Motion_26_CrouchToStand_43E640)         \
-    ENTRY(Motion_27_RunToWalk_43D980)             \
-    ENTRY(Motion_28_MidRunToWalk_43DA40)          \
+    ENTRY(Motion_27_WalkToRun_43D980)             \
+    ENTRY(Motion_28_MidWalkToRun_43DA40)          \
     ENTRY(Motion_29_RunLoop_43DB10)               \
     ENTRY(Motion_30_RunToWalk_43DD50)             \
     ENTRY(Motion_31_MidRunToWalk_43DE10)          \
@@ -45,20 +45,20 @@ namespace AO {
     ENTRY(Motion_33_RunSlideTurn_43DF80)          \
     ENTRY(Motion_34_RunTurnToRun_43E070)          \
     ENTRY(Motion_35_SneakLoop_43E0F0)             \
-    ENTRY(Motion_36_WalkToSneak_43E240)           \
+    ENTRY(Motion_36_MidWalkToSneak_43E240)           \
     ENTRY(Motion_37_SneakToWalk_43E2E0)           \
-    ENTRY(Motion_38_MidWalkToSneak_43E380)        \
+    ENTRY(Motion_38_WalkToSneak_43E380)        \
     ENTRY(Motion_39_MidSneakToWalk_43E430)        \
     ENTRY(Motion_40_SneakBegin_43E4E0)            \
     ENTRY(Motion_41_SneakToIdle_43E530)           \
     ENTRY(Motion_42_MidSneakToIdle_43E560)        \
     ENTRY(Motion_43_RunJumpBegin_43E870)             \
     ENTRY(Motion_44_RunJumpMid_43E960)               \
-    ENTRY(Motion_45_ToRunToPortal_43EB00)         \
+    ENTRY(Motion_45_StandToRun_43EB00)         \
     ENTRY(Motion_46_FallLandDie_43E660)           \
     ENTRY(Motion_47_Knockback_43E730)             \
     ENTRY(Motion_48_KnockbackGetUp_43E7D0)        \
-    ENTRY(Motion_49_FallOfEdge_43E800)            \
+    ENTRY(Motion_49_WalkOffEdge_43E800)            \
     ENTRY(Motion_50_LandSoft_43E820)              \
     ENTRY(Motion_51_Fall_43D0D0)                  \
     ENTRY(Motion_52_Chant_43D520)                 \
@@ -228,8 +228,8 @@ public:
     EXPORT void Motion_24_CrouchTurn_43E5F0();
     EXPORT void Motion_25_StandToCrouch_43E620();
     EXPORT void Motion_26_CrouchToStand_43E640();
-    EXPORT void Motion_27_RunToWalk_43D980();
-    EXPORT void Motion_28_MidRunToWalk_43DA40();
+    EXPORT void Motion_27_WalkToRun_43D980();
+    EXPORT void Motion_28_MidWalkToRun_43DA40();
     EXPORT void Motion_29_RunLoop_43DB10();
     EXPORT void Motion_30_RunToWalk_43DD50();
     EXPORT void Motion_31_MidRunToWalk_43DE10();
@@ -237,20 +237,20 @@ public:
     EXPORT void Motion_33_RunSlideTurn_43DF80();
     EXPORT void Motion_34_RunTurnToRun_43E070();
 	EXPORT void Motion_35_SneakLoop_43E0F0();
-	EXPORT void Motion_36_WalkToSneak_43E240();
+	EXPORT void Motion_36_MidWalkToSneak_43E240();
 	EXPORT void Motion_37_SneakToWalk_43E2E0();
-	EXPORT void Motion_38_MidWalkToSneak_43E380();
+	EXPORT void Motion_38_WalkToSneak_43E380();
 	EXPORT void Motion_39_MidSneakToWalk_43E430();
 	EXPORT void Motion_40_SneakBegin_43E4E0();
 	EXPORT void Motion_41_SneakToIdle_43E530();
     EXPORT void Motion_42_MidSneakToIdle_43E560();
     EXPORT void Motion_43_RunJumpBegin_43E870();
     EXPORT void Motion_44_RunJumpMid_43E960();
-    EXPORT void Motion_45_ToRunToPortal_43EB00();
+    EXPORT void Motion_45_StandToRun_43EB00();
     EXPORT void Motion_46_FallLandDie_43E660();
     EXPORT void Motion_47_Knockback_43E730();
     EXPORT void Motion_48_KnockbackGetUp_43E7D0();
-    EXPORT void Motion_49_FallOfEdge_43E800();
+    EXPORT void Motion_49_WalkOffEdge_43E800();
     EXPORT void Motion_50_LandSoft_43E820();
     EXPORT void Motion_51_Fall_43D0D0();
     EXPORT void Motion_52_Chant_43D520();

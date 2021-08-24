@@ -275,7 +275,7 @@ const AnimId sAbeFrameTables[130] = {
     AnimId::Mudokon_DunnoBegin,
     AnimId::Mudokon_CrouchTurn,
     AnimId::Mudokon_RunToRoll,
-    AnimId::Mudokon_StandingToRun,
+    AnimId::Mudokon_StandToRun,
     AnimId::Mudokon_Sneak,
     AnimId::Mudokon_WalkToSneak,
     AnimId::Mudokon_SneakToWalk,
