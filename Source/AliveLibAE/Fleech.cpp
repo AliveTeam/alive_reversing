@@ -29,7 +29,7 @@ ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);
 const TFleechMotionFn sFleech_motion_table_551798[19] = {
     &Fleech::M_Sleeping_0_42F0B0,
     &Fleech::M_WakingUp_1_42F270,
-    &Fleech::M_Unused_2_42F2F0,
+    &Fleech::M_Unknown_2_42F2F0,
     &Fleech::M_Idle_3_42E850,
     &Fleech::M_Crawl_4_42E960,
     &Fleech::M_PatrolCry_5_42E810,
@@ -597,11 +597,9 @@ void Fleech::M_WakingUp_1_42F270()
     }
 }
 
-void Fleech::M_Unused_2_42F2F0()
+// this function is actually used
+void Fleech::M_Unknown_2_42F2F0()
 {
-    if (true)
-        ALIVE_FATAL("never expected Fleech::M_Unused_2_42F2F0() to be called");
-
     if (field_108_next_motion != -1)
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
