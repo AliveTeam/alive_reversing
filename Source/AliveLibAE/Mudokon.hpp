@@ -450,7 +450,7 @@ private:
 
     EXPORT u8** AnimBlockForMotion_474DC0(s16 motion);
 
-    EXPORT void ToFalling_472320();
+    EXPORT void CheckFloorGone_472320();
     EXPORT void ToStand_4724A0();
 
     EXPORT s16 FindWheel_4777B0(FP xpos, FP ypos);

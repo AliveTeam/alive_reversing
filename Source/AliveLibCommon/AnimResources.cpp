@@ -352,7 +352,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "ABEBSIC1.BAN", 58748, 135, 80, kAbebsic1ResID, PalId::Default},
      {"ABEBSIC1.BAN", 55828, 135, 80, kAbebsic1ResID, PalId::Default}},
 
-    {AnimId::Mudokon_AO_Unused, kNullAnimDetails, {"ABEBSIC1.BAN", 55968, 135, 80, kAbebsic1ResID, PalId::Default}},
+    {AnimId::Mudokon_AO_Unused, kNullAnimDetails, {"ABEBSIC1.BAN", 55968, 135, 80, kAbebsic1ResID, PalId::Default}}, // used by abe "WalkToIdle"
     {AnimId::Mudokon_AO_Null, kNullAnimDetails, {"ABEBSIC1.BAN", 21744, 135, 80, kAbebsic1ResID, PalId::Default}},
 
     {AnimId::Mudokon_LeverUse,

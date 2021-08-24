@@ -173,7 +173,7 @@ public:
 
     EXPORT void DoPathTrans_43FE00();
 
-    EXPORT void ToIdle_43CA40();
+    EXPORT void ToStand_43CA40();
 
     EXPORT void CheckFloorGone_43C9B0();
 
@@ -289,7 +289,7 @@ public:
     s32 field_114;
     s32 field_118;
     FP field_11C;
-    s32 field_120;
+    s32 field_120_unused;
     s16 field_124;
     s16 field_126_input;
     s32 field_128;

@@ -5618,7 +5618,7 @@ s16 Mudokon::Brain_9_Sick_47A910()
 
 void Mudokon::M_Idle_0_4724E0()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
 
     field_F8_LastLineYPos = field_BC_ypos;
 
@@ -5782,7 +5782,7 @@ void Mudokon::M_WalkLoop_1_4728B0()
 
 void Mudokon::M_StandingTurn_2_472BF0()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
 
     if (field_20_animation.field_92_current_frame == 0)
     {
@@ -5798,7 +5798,7 @@ void Mudokon::M_StandingTurn_2_472BF0()
 
 void Mudokon::M_Speak_472FA0()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
     SetPal_4772D0(field_180_emo_tbl);
 
     if (field_16A_flags.Get(Flags_16A::eBit12_alert_enemies))
@@ -5872,7 +5872,7 @@ void Mudokon::M_LeverUse_10_473020()
 
 void Mudokon::M_Chisel_11_4732D0()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
 
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
@@ -5937,7 +5937,7 @@ void Mudokon::M_Chisel_11_4732D0()
 
 void Mudokon::M_StartChisel_12_473500()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_106_current_motion = eMudMotions::M_Chisel_11_4732D0;
@@ -5946,7 +5946,7 @@ void Mudokon::M_StartChisel_12_473500()
 
 void Mudokon::M_StopChisel_13_473530()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_106_current_motion = eMudMotions::M_CrouchIdle_15_474040;
@@ -5955,7 +5955,7 @@ void Mudokon::M_StopChisel_13_473530()
 
 void Mudokon::M_CrouchScrub_14_473560()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
 
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
@@ -5977,7 +5977,7 @@ void Mudokon::M_CrouchScrub_14_473560()
 
 void Mudokon::M_CrouchIdle_15_474040()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
 
     if (field_108_next_motion == eMudMotions::M_Duck_53_474A40)
     {
@@ -6003,7 +6003,7 @@ void Mudokon::M_CrouchIdle_15_474040()
 
 void Mudokon::M_CrouchTurn_16_4740E0()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -6014,7 +6014,7 @@ void Mudokon::M_CrouchTurn_16_4740E0()
 
 void Mudokon::M_StandToCrouch_17_474120()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_106_current_motion = eMudMotions::M_CrouchIdle_15_474040;
@@ -6023,7 +6023,7 @@ void Mudokon::M_StandToCrouch_17_474120()
 
 void Mudokon::M_CrouchToStand_18_474150()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         ToStand_4724A0();
@@ -6607,7 +6607,7 @@ void Mudokon::M_LandSoft1_41_474960()
 
 void Mudokon::M_LandSoft2_42_4743F0()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
 
     if (field_20_animation.field_92_current_frame == 2)
     {
@@ -6703,7 +6703,7 @@ void Mudokon::M_Knockback_46_4742A0()
 
 void Mudokon::M_KnockbackGetUp_47_474380()
 {
-    ToFalling_472320();
+    CheckFloorGone_472320();
 
     Event_Broadcast_422BC0(kEventNoise, this);
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -7247,7 +7247,7 @@ u8** Mudokon::AnimBlockForMotion_474DC0(s16 motion)
     }
 }
 
-void Mudokon::ToFalling_472320()
+void Mudokon::CheckFloorGone_472320()
 {
     if (!field_100_pCollisionLine)
     {
@@ -7401,7 +7401,7 @@ void Mudokon::MoveOnLine_4720D0()
 {
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
 
-    ToFalling_472320();
+    CheckFloorGone_472320();
 
     const FP oldXPos = field_B8_xpos;
     if (field_100_pCollisionLine)

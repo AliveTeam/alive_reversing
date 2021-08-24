@@ -154,14 +154,14 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_77_WellBegin_430F10,
     &Abe::Motion_78_InsideWellLocal_4310A0,
     &Abe::Motion_79_WellShotOut_431730,
-    &Abe::Motion_80_430EF0,
+    &Abe::Motion_80_ToWellBegin_430EF0,
     &Abe::Motion_81_InsideWellExpress_431320,
     &Abe::Motion_82_WellExpressShotOut_4315A0,
-    &Abe::Motion_83_430F00,
-    &Abe::Motion_84_431080,
-    &Abe::Motion_85_431710,
+    &Abe::Motion_83_ToWellBegin_430F00,
+    &Abe::Motion_84_ToInsideWellLocal_431080,
+    &Abe::Motion_85_ToWellShotOut_431710,
     &Abe::Motion_86_FallLandDie_42EDD0,
-    &Abe::Motion_87_428FA0,
+    &Abe::Motion_87_ToFall_428FA0,
     &Abe::Motion_88_HandstoneBegin_430590,
     &Abe::Motion_89_HandstoneEnd_430E80,
     &Abe::Motion_90_GrenadeMachineUse_430EA0,
@@ -180,7 +180,7 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_103_ElumIdle_42DCD0,
     &Abe::Motion_104_ElumRunSlideStop_42DF00,
     &Abe::Motion_105_ElumRunTurn_42DF10,
-    &Abe::Motion_106_42DF20,
+    &Abe::Motion_106_Null_42DF20,
     &Abe::Motion_107_ElumHopBegin_42DF30,
     &Abe::Motion_108_ElumHopMid_42DF40,
     &Abe::Motion_109_ElumHopLand_42DF50,
@@ -190,10 +190,10 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_113_ElumTurn_42DF90,
     &Abe::Motion_114_ElumRunLoop_42DFA0,
     &Abe::Motion_115_ElumSpeak_4299F0,
-    &Abe::Motion_116_42DFB0,
+    &Abe::Motion_116_Null_42DFB0,
     &Abe::Motion_117_ElumWalkBegin_42DFC0,
     &Abe::Motion_118_ElumRunBegin_42DFD0,
-    &Abe::Motion_119_42DFE0,
+    &Abe::Motion_119_Null_42DFE0,
     &Abe::Motion_120_ElumRunToWalk_42DFF0,
     &Abe::Motion_121_ElumMidRunToWalk_42E000,
     &Abe::Motion_122_ElumRunTurnToRun_42E010,
@@ -239,6 +239,174 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_162_ToShrykull_42F410,
     &Abe::Motion_163_ShrykullEnd_42F520,
     &Abe::Motion_164_PoisonGasDeath_42A120};
+
+/*const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
+    AnimId::Mudokon_Idle,
+    AnimId::Mudokon_Walk,
+    AnimId::Mudokon_StandingTurn,
+    AnimId::Mudokon_AO_Unused,
+    AnimId::Mudokon_RunSlideTurn,
+    AnimId::Mudokon_RunSlideTurn,
+    AnimId::Mudokon_MidSneakToIdle,
+    AnimId::Mudokon_Speak1,
+    AnimId::Mudokon_Speak3,
+    AnimId::Mudokon_Speak2,
+    AnimId::Mudokon_SpeakFart,
+    AnimId::Mudokon_Speak1,
+    AnimId::Mudokon_Speak2,
+    AnimId::Mudokon_Speak3,
+    AnimId::Mudokon_SpeakFart,
+    AnimId::255776, // needs animid entry
+    AnimId::255484, // needs animid entry
+    AnimId::255532, // needs animid entry
+    AnimId::255436, // needs animid entry
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchToStand,
+    AnimId::Mudokon_StandToCrouch,
+    AnimId::256660, // needs animid entry
+    AnimId::256700, // needs animid entry
+    AnimId::255196, // needs animid entry
+    AnimId::255216, // needs animid entry
+    AnimId::255272, // needs animid entry
+    AnimId::Mudokon_RunSlideStop,
+    AnimId::Mudokon_RunSlideTurn,
+    AnimId::256584, // needs animid entry
+    AnimId::256636, // needs animid entry
+    AnimId::256544, // needs animid entry
+    AnimId::Mudokon_RunJumpBegin,
+    AnimId::Mudokon_RunJumpMid,
+    AnimId::256028, // needs animid entry
+    AnimId::Mudokon_Run,
+    AnimId::255716,
+    AnimId::255688,
+    AnimId::256180,
+    AnimId::Mudokon_CrouchTurn,
+    AnimId::256272,
+    AnimId::Mudokon_StandToRun,
+    AnimId::Mudokon_Sneak,
+    AnimId::Mudokon_WalkToSneak,
+    AnimId::Mudokon_SneakToWalk,
+    AnimId::Mudokon_MidWalkToSneak,
+    AnimId::Mudokon_MidSneakToWalk,
+    AnimId::Mudokon_SneakBegin,
+    AnimId::Mudokon_SneakToIdle,
+    AnimId::Mudokon_MidSneakToIdle,
+    AnimId::Mudokon_WalkToRun,
+    AnimId::Mudokon_MidWalkToRun,
+    AnimId::Mudokon_RunToWalk,
+    AnimId::Mudokon_MidRunToWalk,
+    AnimId::Mudokon_RunTurnToRun,
+    AnimId::255648,
+    AnimId::255292,
+    AnimId::255364,
+    AnimId::256136,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::256524,
+    AnimId::54208,
+    AnimId::54348,
+    AnimId::54308,
+    AnimId::54308,
+    AnimId::54480,
+    AnimId::54448,
+    AnimId::Mudokon_Knockback,
+    AnimId::Mudokon_KnockbackGetUp,
+    AnimId::48460,
+    AnimId::48404,
+    AnimId::19644,
+    AnimId::19624,
+    AnimId::19624,
+    AnimId::19476,
+    AnimId::19624,
+    AnimId::19624,
+    AnimId::19476,
+    AnimId::19624,
+    AnimId::19624,
+    AnimId::19476,
+    AnimId::19624,
+    AnimId::19624,
+    AnimId::7880,
+    AnimId::5560,
+    AnimId::15484,
+    AnimId::15428,
+    AnimId::15608,
+    AnimId::Mudokon_Fall,
+    AnimId::Mudokon_Fall,
+    AnimId::Mudokon_WalkOffEdge,
+    AnimId::40708,
+    AnimId::40752,
+    AnimId::40852,
+    AnimId::40836,
+    AnimId::Mudokon_LandSoft,
+    AnimId::40772,
+    AnimId::40816,
+    AnimId::Mudokon_LeverUse,
+    AnimId::144920,
+    AnimId::145132,
+    AnimId::145736,
+    AnimId::145804,
+    AnimId::145000,
+    AnimId::145104,
+    AnimId::145164,
+    AnimId::145196,
+    AnimId::145220,
+    AnimId::145688,
+    AnimId::145240,
+    AnimId::145456,
+    AnimId::145312,
+    AnimId::145512,
+    AnimId::145588,
+    AnimId::145608,
+    AnimId::145548,
+    AnimId::145416,
+    AnimId::145436,
+    AnimId::145568,
+    AnimId::145272,
+    AnimId::145292,
+    AnimId::145648,
+    AnimId::145668,
+    AnimId::145860,
+    AnimId::6360,
+    AnimId::Mudokon_FallLandDie,
+    AnimId::16712,
+    AnimId::Mudokon_Idle,
+    AnimId::Mudokon_AO_Null,
+    AnimId::Mudokon_AO_LiftUse,
+    AnimId::Mudokon_LiftGrabBegin,
+    AnimId::Mudokon_LiftGrabEnd,
+    AnimId::21612,
+    AnimId::23568,
+    AnimId::13716,
+    AnimId::34676,
+    AnimId::16256,
+    AnimId::Mudokon_Struggle,
+    AnimId::Mudokon_Struggle,
+    AnimId::30440,
+    AnimId::30328,
+    AnimId::30568,
+    AnimId::30512,
+    AnimId::30368,
+    AnimId::23996,
+    AnimId::24044,
+    AnimId::5828,
+    AnimId::Mudokon_Chant,
+    AnimId::Mudokon_ChantEnd,
+    AnimId::21672,
+    AnimId::21700,
+    AnimId::21724,
+    AnimId::21780,
+    AnimId::17520,
+    AnimId::17568,
+    AnimId::11652,
+    AnimId::9860,
+    AnimId::13152,
+    AnimId::12392,
+    AnimId::8240,
+    AnimId::8280,
+    AnimId::Mudokon_PoisonGasDeath,
+    AnimId::None};*/
 
 const s32 sAbeFrameOffsetTable_4C61A0[166] = {
     55968,
@@ -407,8 +575,6 @@ const s32 sAbeFrameOffsetTable_4C61A0[166] = {
     8280,
     27748,
     0};
-
-
 
 ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
 ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
@@ -1025,7 +1191,7 @@ void Abe::vUpdate_41FDB0()
             const FP old_y = field_AC_ypos;
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
             field_E8_LastLineYPos = old_y;
-            field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+            field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
             field_F4_pLine = nullptr;
 
             if (Input().IsAnyPressed(0xF000u))
@@ -1295,7 +1461,7 @@ void Abe::vRender_420F30(PrimHeader** ppOt)
         field_10_anim.field_14_scale = field_BC_sprite_scale;
     }
 
-    if (field_FC_current_motion != eAbeMotions::Motion_15_Null_42A210 && field_FC_current_motion != eAbeMotions::Motion_78_InsideWellLocal_4310A0 && field_FC_current_motion != eAbeMotions::Motion_81_InsideWellExpress_431320 && field_FC_current_motion != eAbeMotions::Motion_84_431080 && field_FC_current_motion != eAbeMotions::Motion_75_ToInsideOfAWellLocal_431090)
+    if (field_FC_current_motion != eAbeMotions::Motion_15_Null_42A210 && field_FC_current_motion != eAbeMotions::Motion_78_InsideWellLocal_4310A0 && field_FC_current_motion != eAbeMotions::Motion_81_InsideWellExpress_431320 && field_FC_current_motion != eAbeMotions::Motion_84_ToInsideWellLocal_431080 && field_FC_current_motion != eAbeMotions::Motion_75_ToInsideOfAWellLocal_431090)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -1665,7 +1831,7 @@ u8** Abe::StateToAnimResource_4204F0(s16 motion)
     {
         res_idx = 37;
     }
-    else if (motion < eAbeMotions::Motion_87_428FA0)
+    else if (motion < eAbeMotions::Motion_87_ToFall_428FA0)
     {
         res_idx = 9;
     }
@@ -2104,7 +2270,7 @@ void Abe::SyncToElum_42D850(s16 elumMotion)
                 break;
 
             case eElumMotions::Motion_7_IdleToWalk1_413200:
-                field_FC_current_motion = eAbeMotions::Motion_116_42DFB0;
+                field_FC_current_motion = eAbeMotions::Motion_116_Null_42DFB0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
@@ -2203,7 +2369,7 @@ void Abe::SyncToElum_42D850(s16 elumMotion)
                 break;
 
             case eElumMotions::Motion_40_WalkToRun_4134B0:
-                field_FC_current_motion = eAbeMotions::Motion_119_42DFE0;
+                field_FC_current_motion = eAbeMotions::Motion_119_Null_42DFE0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
@@ -3244,8 +3410,8 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
         case eAbeMotions::Motion_81_InsideWellExpress_431320:
         case eAbeMotions::Motion_82_WellExpressShotOut_4315A0:
         case eAbeMotions::Motion_83_430F00:
-        case eAbeMotions::Motion_84_431080:
-        case eAbeMotions::Motion_85_431710:
+        case eAbeMotions::Motion_84_ToInsideWellLocal_431080:
+        case eAbeMotions::Motion_85_ToWellShotOut_431710:
         case eAbeMotions::Motion_156_DoorEnter_42D370:
         case eAbeMotions::Motion_157_DoorExit_42D780:
         case eAbeMotions::Motion_162_ToShrykull_42F410:
@@ -7742,7 +7908,7 @@ void Abe::Motion_77_WellBegin_430F10()
             }
             case eAbeMotions::Motion_83_430F00:
             {
-                field_FC_current_motion = eAbeMotions::Motion_84_431080;
+                field_FC_current_motion = eAbeMotions::Motion_84_ToInsideWellLocal_431080;
                 break;
             }
             case eAbeMotions::Motion_74_JumpIntoWell_430EC0:
@@ -7867,7 +8033,7 @@ void Abe::Motion_79_WellShotOut_431730()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted)
         || (field_FC_current_motion != eAbeMotions::Motion_79_WellShotOut_431730
-            && field_FC_current_motion != eAbeMotions::Motion_85_431710
+            && field_FC_current_motion != eAbeMotions::Motion_85_ToWellShotOut_431710
             && field_FC_current_motion != eAbeMotions::Motion_76_ToWellShotOut_431720))
     {
         if (field_BC_sprite_scale == FP_FromDouble(0.5))
@@ -7889,7 +8055,7 @@ void Abe::Motion_79_WellShotOut_431730()
     }
 }
 
-void Abe::Motion_80_430EF0()
+void Abe::Motion_80_ToWellBegin_430EF0()
 {
     Motion_77_WellBegin_430F10();
 }
@@ -8054,17 +8220,17 @@ void Abe::Motion_82_WellExpressShotOut_4315A0()
     }
 }
 
-void Abe::Motion_83_430F00()
+void Abe::Motion_83_ToWellBegin_430F00()
 {
     Motion_77_WellBegin_430F10();
 }
 
-void Abe::Motion_84_431080()
+void Abe::Motion_84_ToInsideWellLocal_431080()
 {
     Motion_78_InsideWellLocal_4310A0();
 }
 
-void Abe::Motion_85_431710()
+void Abe::Motion_85_ToWellShotOut_431710()
 {
     Motion_79_WellShotOut_431730();
 }
@@ -8094,7 +8260,7 @@ void Abe::Motion_86_FallLandDie_42EDD0()
     }
 }
 
-void Abe::Motion_87_428FA0()
+void Abe::Motion_87_ToFall_428FA0()
 {
     Motion_3_Fall_42E7F0();
 }
@@ -8446,7 +8612,7 @@ void Abe::Motion_91_FallingFromGrab_429780()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
 
     Motion_3_Fall_42E7F0();
@@ -8478,7 +8644,7 @@ void Abe::Motion_93_WalkOffEdge_429840()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
     Motion_3_Fall_42E7F0();
 }
@@ -8487,7 +8653,7 @@ void Abe::Motion_94_RunOffEdge_429860()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
     Motion_3_Fall_42E7F0();
 }
@@ -8496,7 +8662,7 @@ void Abe::Motion_95_SneakOffEdge_429880()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
     Motion_3_Fall_42E7F0();
 }
@@ -8516,7 +8682,7 @@ void Abe::Motion_96_HopToFall_4298A0()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
 
     Motion_3_Fall_42E7F0();
@@ -8526,7 +8692,7 @@ void Abe::Motion_97_RunJumpToFall_429930()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
     Motion_3_Fall_42E7F0();
 }
@@ -8585,7 +8751,7 @@ void Abe::Motion_100_RollOffLedge_429950()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
     Motion_3_Fall_42E7F0();
 }
@@ -8679,7 +8845,7 @@ void Abe::Motion_105_ElumRunTurn_42DF10()
     // Empty
 }
 
-void Abe::Motion_106_42DF20()
+void Abe::Motion_106_Null_42DF20()
 {
     // Empty
 }
@@ -8734,7 +8900,7 @@ void Abe::Motion_115_ElumSpeak_4299F0()
     }
 }
 
-void Abe::Motion_116_42DFB0()
+void Abe::Motion_116_Null_42DFB0()
 {
     // Empty
 }
@@ -8749,7 +8915,7 @@ void Abe::Motion_118_ElumRunBegin_42DFD0()
     // Empty
 }
 
-void Abe::Motion_119_42DFE0()
+void Abe::Motion_119_Null_42DFE0()
 {
     // Empty
 }
