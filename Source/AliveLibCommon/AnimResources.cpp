@@ -240,81 +240,81 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     // The Mudokon section includes all of abe's animations as well since they share many animations
     {AnimId::Mudokon_ToSpeak,
         { "ABEBSIC1.BAN", 59112, 135, 80, kAbebsic1ResID, PalId::Default},
-        kNullAnimDetails }, // 256136
+     {"ABEBSIC1.BAN", 256136, 135, 80, kAbebsic1ResID, PalId::Default}},
     {AnimId::Mudokon_Null, { "ABEBSIC.BAN", 270240, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_CrouchSpeak, { "ABEBSIC.BAN", 271080, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_ToCrouchSpeak, { "ABEBSIC.BAN", 271120, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_RollBegin,
         { "ABEBSIC.BAN", 269688, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 255196
+     {"ABEBSIC.BAN", 255196, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_Rolling,
         { "ABEBSIC.BAN", 269708, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 255216
+     {"ABEBSIC.BAN", 255216, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_RollingEnd_Unused, // just unused in AE it's actually used in AO
         { "ABEBSIC.BAN", 269764, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 255272
+     {"ABEBSIC.BAN", 255272, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_HopBegin,
         { "ABEBSIC.BAN", 271004, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 256584
+     {"ABEBSIC.BAN", 256584, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_HopMid,
         { "ABEBSIC.BAN", 271056, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 256636
+     {"ABEBSIC.BAN", 256636, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_HopLand,
         { "ABEBSIC.BAN", 270964, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 256544
+     {"ABEBSIC.BAN", 256544, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_RunJumpLand,
         { "ABEBSIC.BAN", 270488, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 256028
+     {"ABEBSIC.BAN", 256028, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_DunnoEnd,
         { "ABEBSIC.BAN", 270616, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 256180
+     {"ABEBSIC.BAN", 256180, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_RunToRoll,
         { "ABEBSIC.BAN", 270708, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 256272
+     {"ABEBSIC.BAN", 256272, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_RunTurnToWalk,
         { "ABEBSIC.BAN", 270140, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 255648
+     {"ABEBSIC.BAN", 255648, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_RunJumpLandRun,
         { "ABEBSIC.BAN", 269784, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 255292
+     {"ABEBSIC.BAN", 255292, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_RunJumpLandWalk,
         { "ABEBSIC.BAN", 269856, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 255364
+     {"ABEBSIC.BAN", 255364, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_TurnToRun,
         { "ABEBSIC.BAN", 270944, 135, 80, kAbebasicResID, PalId::Default},
-        kNullAnimDetails }, // 256524
+     {"ABEBSIC.BAN", 256524, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_Sorry, { "ABEBSIC.BAN", 271192, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_AfterSorry, { "ABEBSIC.BAN", 271248, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_LedgeAscend,
         { "ABEHOIST.BAN", 57440, 135, 80, kAbehoistResID, PalId::Default},
-        kNullAnimDetails }, // 54208
+     {"ABEHOIST.BAN", 54208, 135, 80, kAbehoistResID, PalId::Default}},
     {AnimId::Mudokon_LedgeDescend,
         { "ABEHOIST.BAN", 57580, 135, 80, kAbehoistResID, PalId::Default},
-        kNullAnimDetails }, // 54348
+     {"ABEHOIST.BAN", 54348, 135, 80, kAbehoistResID, PalId::Default}},
     {AnimId::Mudokon_LedgeHang,
         { "ABEHOIST.BAN", 57540, 135, 80, kAbehoistResID, PalId::Default},
-        kNullAnimDetails }, // 54308
+     {"ABEHOIST.BAN", 54308, 135, 80, kAbehoistResID, PalId::Default}},
     {AnimId::Mudokon_LedgeHangWobble,
         { "ABEHOIST.BAN", 57712, 135, 80, kAbehoistResID, PalId::Default},
-        kNullAnimDetails }, // 54480
+     {"ABEHOIST.BAN", 54480, 135, 80, kAbehoistResID, PalId::Default}},
     {AnimId::Mudokon_RingRopePullHang,
         { "ABEHOIST.BAN", 57680, 135, 80, kAbehoistResID, PalId::Default},
-        kNullAnimDetails }, // 54448
+     {"ABEHOIST.BAN", 54448, 135, 80, kAbehoistResID, PalId::Default}},
     {AnimId::Mudokon_PushWall,
         { "ABEKNBK.BAN", 49912, 135, 80, kAbeknbkResID, PalId::Default},
-        kNullAnimDetails }, // 48460
+     {"ABEKNBK.BAN", 48460, 135, 80, kAbeknbkResID, PalId::Default}},
     {AnimId::Mudokon_RollingKnockback,
         { "ABEKNBK.BAN", 49856, 135, 80, kAbeknbkResID, PalId::Default},
-        kNullAnimDetails }, // 48404
+     {"ABEKNBK.BAN", 48404, 135, 80, kAbeknbkResID, PalId::Default}},
     {AnimId::Mudokon_JumpIntoWell,
         { "ABEWELL.BAN", 20572, 135, 80, kAbewellResID, PalId::Default},
-        kNullAnimDetails }, // 19644
+     {"ABEWELL.BAN", 19644, 135, 80, kAbewellResID, PalId::Default}},
     {AnimId::Mudokon_Well_Idle,
         { "ABEWELL.BAN", 20552, 135, 80, kAbewellResID, PalId::Default},
-        kNullAnimDetails }, // 19624
+     {"ABEWELL.BAN", 19624, 135, 80, kAbewellResID, PalId::Default}},
     {AnimId::Mudokon_WellBegin,
         { "ABEWELL.BAN", 20404, 135, 80, kAbewellResID, PalId::Default},
-        kNullAnimDetails }, // 19476
+     {"ABEWELL.BAN", 19476, 135, 80, kAbewellResID, PalId::Default}},
     {AnimId::Mudokon_FallLandDie,
         { "ABESMASH.BAN", 8104, 135, 80, kAbesmashResID, PalId::Default},
      {"ABEKNFD.BAN", 16772, 135, 80, kAbeknfdResID, PalId::Default}},
@@ -323,64 +323,64 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
      {"ABEEDGE.BAN", 40652, 135, 80, kAbeedgeResID, PalId::Default}},
     {AnimId::Mudokon_HandstoneBegin,
         { "ABESTONE.BAN", 16096, 135, 80, kAbestoneResID, PalId::Default},
-        kNullAnimDetails }, // 15484
+     {"ABESTONE.BAN", 15484, 135, 80, kAbestoneResID, PalId::Default}},
     {AnimId::Mudokon_HandstoneEnd,
         { "ABESTONE.BAN", 16040, 135, 80, kAbestoneResID, PalId::Default},
-        kNullAnimDetails }, // 15428
+     {"ABESTONE.BAN", 15428, 135, 80, kAbestoneResID, PalId::Default}},
     {AnimId::Mudokon_GrenadeMachineUse,
         { "ABESTONE.BAN", 16220, 135, 80, kAbestoneResID, PalId::Default},
-        kNullAnimDetails }, // 15608
+     {"ABESTONE.BAN", 15608, 135, 80, kAbestoneResID, PalId::Default}},
     {AnimId::Mudokon_RunOffEdge,
         { "ABEEDGE.BAN", 32068, 135, 80, kAbeedgeResID, PalId::Default},
-        kNullAnimDetails }, // 40708
+     {"ABEEDGE.BAN", 40708, 135, 80, kAbeedgeResID, PalId::Default}},
     {AnimId::Mudokon_SneakOffEdge,
         { "ABEEDGE.BAN", 32112, 135, 80, kAbeedgeResID, PalId::Default},
-        kNullAnimDetails }, // 40752
+     {"ABEEDGE.BAN", 40752, 135, 80, kAbeedgeResID, PalId::Default}},
     {AnimId::Mudokon_HopToFall,
         { "ABEEDGE.BAN", 32168, 135, 80, kAbeedgeResID, PalId::Default},
-        kNullAnimDetails }, // 40852
+     {"ABEEDGE.BAN", 40852, 135, 80, kAbeedgeResID, PalId::Default}},
     {AnimId::Mudokon_RunJumpToFall,
         { "ABEEDGE.BAN", 32152, 135, 80, kAbeedgeResID, PalId::Default},
-        kNullAnimDetails }, // 40836
+     {"ABEEDGE.BAN", 40836, 135, 80, kAbeedgeResID, PalId::Default}},
     {AnimId::Mudokon_RollOffEdge, // rename to roll off ledge?
         { "ABEEDGE.BAN", 32132, 135, 80, kAbeedgeResID, PalId::Default}, 
-        kNullAnimDetails }, // 40816
+        {"ABEEDGE.BAN", 40816, 135, 80, kAbeedgeResID, PalId::Default}},
     {AnimId::Mudokon_SlapBomb,
         { "ABEBOMB.BAN", 6520, 135, 80, kAbebombResID, PalId::Default},
-        kNullAnimDetails }, // 6360
+     {"ABEBOMB.BAN", 6360, 135, 80, kAbebombResID, PalId::Default}},
     {AnimId::Mudokon_RollingKnockForward,
         { "ABEKNFD.BAN", 17180, 135, 80, kAbeknfdResID, PalId::Default},
-        kNullAnimDetails }, // 16712
+     {"ABEKNFD.BAN", 16712, 135, 80, kAbeknfdResID, PalId::Default}},
     {AnimId::Mudokon_RockThrowStandingHold,
         { "ABETHROW.BAN", 31504, 135, 80, kAbethrowResID, PalId::Default},
-        kNullAnimDetails }, // 30440
+     {"ABETHROW.BAN", 30440, 135, 80, kAbethrowResID, PalId::Default}},
     {AnimId::Mudokon_RockThrowStandingThrow,
         { "ABETHROW.BAN", 31392, 135, 80, kAbethrowResID, PalId::Default},
-        kNullAnimDetails }, // 30328
+     {"ABETHROW.BAN", 30328, 135, 80, kAbethrowResID, PalId::Default}},
     {AnimId::Mudokon_RockThrowStandingEnd,
         { "ABETHROW.BAN", 31632, 135, 80, kAbethrowResID, PalId::Default},
-        kNullAnimDetails }, // 30568
+     {"ABETHROW.BAN", 30568, 135, 80, kAbethrowResID, PalId::Default}},
     {AnimId::Mudokon_RockThrowCrouchingHold,
         { "ABETHROW.BAN", 31576, 135, 80, kAbethrowResID, PalId::Default},
-        kNullAnimDetails }, // 30512
+     {"ABETHROW.BAN", 30512, 135, 80, kAbethrowResID, PalId::Default}},
     {AnimId::Mudokon_RockThrowCrouchingThrow,
         { "ABETHROW.BAN", 31432, 135, 80, kAbethrowResID, PalId::Default},
-        kNullAnimDetails }, // 30368
+     {"ABETHROW.BAN", 30368, 135, 80, kAbethrowResID, PalId::Default}},
     {AnimId::Mudokon_ZShotRolling, // remove Z from the name or add it to the AO func name?
         { "ABEKNOKZ.BAN", 24580, 135, 80, kAbeknokzResID, PalId::Default},
-        kNullAnimDetails }, // 23996
+     {"ABEKNOKZ.BAN", 23996, 135, 80, kAbeknokzResID, PalId::Default}},
     {AnimId::Mudokon_ZShot, // // remove Z from the name or add it to the AO func name?
         { "ABEKNOKZ.BAN", 24628, 135, 80, kAbeknokzResID, PalId::Default},
-        kNullAnimDetails }, // 24044
+     {"ABEKNOKZ.BAN", 24044, 135, 80, kAbeknokzResID, PalId::Default}},
     {AnimId::Mudokon_PickupItem,
         { "ABEPICK.BAN", 6004, 135, 80, kAbepickResID, PalId::Default},
-        kNullAnimDetails }, // 5828
+     {"ABEPICK.BAN", 5828, 135, 80, kAbepickResID, PalId::Default}},
     {AnimId::Mudokon_DoorEnter,
         { "ABEDOOR.BAN", 19040, 135, 80, kAbedoorResID, PalId::Default},
-        kNullAnimDetails }, // 17520
+     {"ABEDOOR.BAN", 17520, 135, 80, kAbedoorResID, PalId::Default}},
     {AnimId::Mudokon_DoorExit,
         { "ABEDOOR.BAN", 19088, 135, 80, kAbedoorResID, PalId::Default},
-        kNullAnimDetails }, // 17568
+     {"ABEDOOR.BAN", 17568, 135, 80, kAbedoorResID, PalId::Default}},
     {AnimId::Mudokon_MineCarEnter, { "ABECAR.BAN", 8540, 135, 80, kAbeCarResId, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_MineCarExit, { "ABECAR.BAN", 8588, 135, 80, kAbeCarResId, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_ToShrykull, 
@@ -400,7 +400,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
      {"ABELIFT.BAN", 21720, 135, 80, kAbeliftResID, PalId::Default}},
     {AnimId::Mudokon_LiftGrabIdle,
         { "ABELIFT.BAN", 22464, 135, 80, kAbeliftResID, PalId::Default},
-            kNullAnimDetails }, // 21612
+     {"ABELIFT.BAN", 21612, 135, 80, kAbeliftResID, PalId::Default}},
     {AnimId::Mudokon_LiftUseUp, { "ABELIFT.BAN", 22596, 135, 80, kAbeliftResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_LiftUseDown, { "ABELIFT.BAN", 22496, 135, 80, kAbeliftResID, PalId::Default}, kNullAnimDetails },
 
@@ -467,6 +467,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "MUDSCRUB.BAN", 9388, 135, 80, kMudscrubResID, PalId::Default},
      {"MUDWORK.BND", 9056, 135, 80, kMudscrubResID, PalId::Default}},
 
+
+    // TODO: remove 2 from the frametableoffsets at the beginning?
     {AnimId::Mudokon_CrouchIdle,
         { "ABEBSIC.BAN", 270092, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEBSIC.BAN", 255600, 135, 80, kAbebasicResID, PalId::Default}},
@@ -651,15 +653,20 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_ElumFall, kNullAnimDetails, {"MUDLOTUS.BND", 21700, 135, 80, kMudltusResID, PalId::Default}},
     {AnimId::Mudokon_ElumLand, kNullAnimDetails, {"MUDLOTUS.BND", 21724, 135, 80, kMudltusResID, PalId::Default}},
     {AnimId::Mudokon_ElumJumpToFall, kNullAnimDetails, {"MUDLOTUS.BND", 21780, 135, 80, kMudltusResID, PalId::Default}},
-
-
     {AnimId::Mudokon_ElumKnockback, kNullAnimDetails, {"MUDLOTUS.BND", 11652, 135, 80, kMudltusResID, PalId::Default}},
     {AnimId::Mudokon_Idle_RubEyes, kNullAnimDetails, {"MUDLOTUS.BND", 9860, 135, 80, kMudltusResID, PalId::Default}},
     {AnimId::Mudokon_Idle_StretchArms, kNullAnimDetails, {"MUDLOTUS.BND", 13152, 135, 80, kMudltusResID, PalId::Default}},
     {AnimId::Mudokon_Idle_Yawn, kNullAnimDetails, {"MUDLOTUS.BND", 12392, 135, 80, kMudltusResID, PalId::Default}},
-
     {AnimId::Mudokon_AO_ToShrykull, kNullAnimDetails, {"MUDLOTUS.BND", 8240, 135, 80, kMudltusResID, PalId::Default}},
     {AnimId::Mudokon_AO_ShrykullEnd, kNullAnimDetails, {"MUDLOTUS.BND", 8280, 135, 80, kMudltusResID, PalId::Default}},
+
+
+    {AnimId::Mudokon_AO_Unknown1, kNullAnimDetails, {"MUDLOTUS.BND", 40772, 135, 80, kMudltusResID, PalId::Default}},
+    {AnimId::Mudokon_AO_Unknown2, kNullAnimDetails, {"MUDLOTUS.BND", 5560, 135, 80, kMudltusResID, PalId::Default}},
+    {AnimId::Mudokon_AO_Unknown3, kNullAnimDetails, {"MUDLOTUS.BND", 7880, 135, 80, kMudltusResID, PalId::Default}},
+    {AnimId::Mudokon_AO_Unknown4, kNullAnimDetails, {"MUDLOTUS.BND", 255436, 135, 80, kMudltusResID, PalId::Default}},
+
+
      // AE only
     {AnimId::Mudokon_KnockForward, // maybe?
      {"ABEKNFD.BAN", 17240, 135, 80, kAbeknfdResID, PalId::Default},

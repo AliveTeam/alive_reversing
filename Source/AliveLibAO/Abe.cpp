@@ -259,7 +259,7 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_AO_M_15_Null,
     AnimId::Mudokon_HoistBegin,
     AnimId::Mudokon_HoistIdle,
-    AnimId::255436, // LandSoft but different from regular mudokon?
+    AnimId::Mudokon_AO_Unknown4, // LandSoft but different from regular mudokon?
     AnimId::Mudokon_CrouchIdle,
     AnimId::Mudokon_CrouchToStand,
     AnimId::Mudokon_StandToCrouch,
@@ -327,8 +327,8 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_WellBegin,
     AnimId::Mudokon_Well_Idle,
     AnimId::Mudokon_Well_Idle,
-    AnimId::7880, // FallLandDie but AnimId already used?? or did i mess up the order
-    AnimId::5560, // to fall
+    AnimId::Mudokon_AO_Unknown3, // FallLandDie but AnimId already used?? or did i mess up the order
+    AnimId::Mudokon_AO_Unknown2, // to fall
     AnimId::Mudokon_HandstoneBegin, 
     AnimId::Mudokon_HandstoneEnd,
     AnimId::Mudokon_GrenadeMachineUse,
@@ -340,7 +340,7 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_HopToFall,
     AnimId::Mudokon_RunJumpToFall,
     AnimId::Mudokon_LandSoft,
-    AnimId::40772, // ledge hoist up
+    AnimId::Mudokon_AO_Unknown1, // ledge hoist up
     AnimId::Mudokon_RollOffEdge,
     AnimId::Mudokon_LeverUse,
     AnimId::Mudokon_ElumWalkLoop,
@@ -1302,8 +1302,9 @@ void Abe::vUpdate_41FDB0()
 
                     if (field_FC_current_motion != eAbeMotions::Motion_15_Null_42A210 && !field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
+                        const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion]);
                         field_10_anim.Set_Animation_Data_402A40(
-                            sAbeFrameOffsetTable_4C61A0[field_FC_current_motion],
+                            rec.mFrameTableOffset,
                             StateToAnimResource_4204F0(field_FC_current_motion));
 
                         field_12C_timer = gnFrameCount_507670;
@@ -1317,8 +1318,9 @@ void Abe::vUpdate_41FDB0()
                 else if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit2_return_to_previous_motion))
                 {
                     field_FC_current_motion = field_E4_previous_motion;
+                    const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion]);
                     field_10_anim.Set_Animation_Data_402A40(
-                        sAbeFrameOffsetTable_4C61A0[field_FC_current_motion],
+                        rec.mFrameTableOffset,
                         StateToAnimResource_4204F0(field_FC_current_motion));
 
                     field_12C_timer = gnFrameCount_507670;
@@ -2688,7 +2690,11 @@ void Abe::MoveWithVelocity_4257F0(FP speed)
 
 void Abe::ToNewElumSyncMotion_422520(s16 elum_frame)
 {
-    field_10_anim.Set_Animation_Data_402A40(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion], StateToAnimResource_4204F0(field_FC_current_motion));
+    const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion]);
+    field_10_anim.Set_Animation_Data_402A40(
+        rec.mFrameTableOffset,
+        StateToAnimResource_4204F0(field_FC_current_motion));
+
     field_12C_timer = gnFrameCount_507670;
     field_10_anim.SetFrame_402AC0(elum_frame + 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, gElum_507680->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX));
@@ -2780,7 +2786,11 @@ void Abe::ElumKnockForward_42E780(s32 /*not_used*/)
     field_FC_current_motion = eAbeMotions::Motion_128_KnockForward_429330;
     field_FE_next_motion = eAbeMotions::Motion_0_Idle_423520;
     field_108_bMotionChanged = 1;
-    field_10_anim.Set_Animation_Data_402A40(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion], StateToAnimResource_4204F0(eAbeMotions::Motion_128_KnockForward_429330));
+    const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion]);
+    field_10_anim.Set_Animation_Data_402A40(
+        rec.mFrameTableOffset,
+        StateToAnimResource_4204F0(eAbeMotions::Motion_128_KnockForward_429330));
+
     sControlledCharacter_50767C = sActiveHero_507678;
     gElum_507680->field_154_bAbeForcedDownFromElum = 1;
 }
