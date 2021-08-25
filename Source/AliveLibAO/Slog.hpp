@@ -39,14 +39,14 @@ ALIVE_ASSERT_SIZEOF(Path_Slog, 0x2C);
     ENTRY(Motion_12_Unknown_475B50)          \
     ENTRY(Motion_13_StartFastBarking_475B70) \
     ENTRY(Motion_14_EndFastBarking_475BB0)   \
-    ENTRY(Motion_15_Empty_475290)            \
+    ENTRY(Motion_15_AngryBark_475290)            \
     ENTRY(Motion_16_Sleeping_4752E0)         \
-    ENTRY(Motion_17_FallAsleep_475510)       \
+    ENTRY(Motion_17_MoveHeadDownwards_475510)       \
     ENTRY(Motion_18_WakeUp_475460)           \
     ENTRY(Motion_19_JumpForwards_475610)     \
     ENTRY(Motion_20_JumpUpwards_475890)      \
     ENTRY(Motion_21_Eating_475900)           \
-    ENTRY(Motion_22_Empty_475A90)            \
+    ENTRY(Motion_22_Dying_475A90)            \
     ENTRY(Motion_23_Scratch_475550)          \
     ENTRY(Motion_24_Growl_475590)
 
@@ -114,14 +114,14 @@ public:
     EXPORT void Motion_12_Unknown_475B50();
     EXPORT void Motion_13_StartFastBarking_475B70();
     EXPORT void Motion_14_EndFastBarking_475BB0();
-    EXPORT void Motion_15_Empty_475290();
+    EXPORT void Motion_15_AngryBark_475290();
     EXPORT void Motion_16_Sleeping_4752E0();
-    EXPORT void Motion_17_FallAsleep_475510();
+    EXPORT void Motion_17_MoveHeadDownwards_475510();
     EXPORT void Motion_18_WakeUp_475460();
     EXPORT void Motion_19_JumpForwards_475610();
     EXPORT void Motion_20_JumpUpwards_475890();
     EXPORT void Motion_21_Eating_475900();
-    EXPORT void Motion_22_Empty_475A90();
+    EXPORT void Motion_22_Dying_475A90();
     EXPORT void Motion_23_Scratch_475550();
     EXPORT void Motion_24_Growl_475590();
 
