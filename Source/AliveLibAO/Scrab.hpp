@@ -18,7 +18,7 @@ namespace AO {
     ENTRY(Motion_5_RunToStand_45ED90)       \
     ENTRY(Motion_6_HopBegin_45F3C0)         \
     ENTRY(Motion_7_HopMidair_45F1A0)        \
-    ENTRY(Motion_8_Land_45F500)             \
+    ENTRY(Motion_8_HopLand_45F500)             \
     ENTRY(Motion_9_JumpToFall_45EFD0)       \
     ENTRY(Motion_10_StandToWalk_45E670)     \
     ENTRY(Motion_11_StandToRun_45E9F0)      \
@@ -151,7 +151,7 @@ public:
     EXPORT void Motion_5_RunToStand_45ED90();
     EXPORT void Motion_6_HopBegin_45F3C0();
     EXPORT void Motion_7_HopMidair_45F1A0();
-    EXPORT void Motion_8_Land_45F500();
+    EXPORT void Motion_8_HopLand_45F500();
     EXPORT void Motion_9_JumpToFall_45EFD0();
     EXPORT void Motion_10_StandToWalk_45E670();
     EXPORT void Motion_11_StandToRun_45E9F0();

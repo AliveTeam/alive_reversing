@@ -106,7 +106,7 @@ enum Mud_Brain_State : u16
 
 // Note can't use the macro magic here because there are duplicate names because
 // speak generic appears 3 times :(
-enum Mud_Motion : u16
+enum eMudMotions : u16
 {
     M_Idle_0_4724E0,
     M_WalkLoop_1_4728B0,
@@ -139,16 +139,16 @@ enum Mud_Motion : u16
     M_RunSlideTurn_25_473AA0,
     M_RunTurnToRun_26_473BB0,
     M_SneakLoop_27_473C40,
-    M_WalkToSneak_28_473D60,
+    M_MidWalkToSneak_28_473D60,
     M_SneakToWalk_29_473E20,
-    M_MidWalkToSneak_30_473EE0,
+    M_WalkToSneak_30_473EE0,
     M_MidSneakToWalk_31_473F30,
     M_SneakBegin_32_473F80,
     M_SneakToIdle_33_473FF0,
     M_MidSneakToIdle_34_474020,
-    M_JumpBegin_35_474460,
-    M_JumpMid_36_474570,
-    M_WalkToRun_37_4749A0,
+    M_RunJumpBegin_35_474460,
+    M_RunJumpMid_36_474570,
+    M_StandToRun_37_4749A0,
     M_Punch_38_474AA0,
     M_HoistBegin_39_4748E0,
     M_HoistLand_40_474780,
@@ -159,7 +159,7 @@ enum Mud_Motion : u16
     M_KnockForward_45_474180,
     M_Knockback_46_4742A0,
     M_KnockbackGetUp_47_474380,
-    M_FallOffEdge_48_4743C0,
+    M_WalkOffEdge_48_4743C0,
     M_Fall_49_472C60,
     M_Chant_50_473040,
     M_ChantEnd_51_4730D0,
@@ -261,7 +261,7 @@ struct Mudokon_State final
     MudAction field_74_delayed_speak;
     Mud_Emotion field_76_emo_tlb;
     GameSpeakEvents field_78;
-    Mud_Motion field_7A_motion;
+    eMudMotions field_7A_motion;
     Mud_Brain_State field_7C_brain_state;
     s16 field_7E_brain_sub_state;
     s32 field_80_timer;
@@ -404,19 +404,19 @@ public: // Motions
     EXPORT void M_RunToWalk_22_4738E0();
     EXPORT void M_MidRunToWalk_23_4739B0();
     EXPORT void M_RunSlideStop_24_473A00();
-    EXPORT void M_RunTurn_25_473AA0();
+    EXPORT void M_RunSlideTurn_25_473AA0();
     EXPORT void M_RunTurnToRun_26_473BB0();
     EXPORT void M_SneakLoop_27_473C40();
-    EXPORT void M_WalkToSneak_28_473D60();
+    EXPORT void M_MidWalkToSneak_28_473D60();
     EXPORT void M_SneakToWalk_29_473E20();
-    EXPORT void M_MidWalkToSneak_30_473EE0();
+    EXPORT void M_WalkToSneak_30_473EE0();
     EXPORT void M_MidSneakToWalk_31_473F30();
     EXPORT void M_SneakBegin_32_473F80();
     EXPORT void M_SneakToIdle_33_473FF0();
     EXPORT void M_MidSneakToIdle_34_474020();
-    EXPORT void M_JumpBegin_35_474460();
-    EXPORT void M_JumpMid_36_474570();
-    EXPORT void M_WalkToRun_37_4749A0();
+    EXPORT void M_RunJumpBegin_35_474460();
+    EXPORT void M_RunJumpMid_36_474570();
+    EXPORT void M_StandToRun_37_4749A0();
     EXPORT void M_Punch_38_474AA0();
     EXPORT void M_HoistBegin_39_4748E0();
     EXPORT void M_HoistLand_40_474780();
@@ -427,7 +427,7 @@ public: // Motions
     EXPORT void M_KnockForward_45_474180();
     EXPORT void M_Knockback_46_4742A0();
     EXPORT void M_KnockbackGetUp_47_474380();
-    EXPORT void M_FallOffEdge_48_4743C0();
+    EXPORT void M_WalkOffEdge_48_4743C0();
     EXPORT void M_Fall_49_472C60();
     EXPORT void M_Chant_50_473040();
     EXPORT void M_ChantEnd_51_4730D0();
@@ -450,13 +450,13 @@ private:
 
     EXPORT u8** AnimBlockForMotion_474DC0(s16 motion);
 
-    EXPORT void ToFalling_472320();
+    EXPORT void CheckFloorGone_472320();
     EXPORT void ToStand_4724A0();
 
     EXPORT s16 FindWheel_4777B0(FP xpos, FP ypos);
     EXPORT s16 GetBrainSubStateResponse_477AF0(MudAction action);
     EXPORT s16 StopAtWheel_477880();
-    EXPORT void StandingKnockBack_473190();
+    EXPORT void ToKnockback_473190();
     EXPORT s16 IsMotionUnknown_4730F0();
     EXPORT void MoveOnLine_4720D0();
 
@@ -559,7 +559,7 @@ private:
     MudAction field_17E_delayed_speak;
     Mud_Emotion field_180_emo_tbl;
     GameSpeakEvents field_182;
-    Mud_Motion field_184_next_motion2;
+    eMudMotions field_184_next_motion2;
     s16 field_186_padding;
     const struct MudEmotionTableEntry* field_188_pTblEntry;
     s16 field_18C_unused;

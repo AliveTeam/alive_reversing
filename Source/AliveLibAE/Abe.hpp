@@ -68,7 +68,7 @@
     ENTRY(Motion_57_Dead_4589A0)                     \
     ENTRY(Motion_58_DeadPre_4593E0)                  \
     ENTRY(Motion_59_Null_459450)                     \
-    ENTRY(Motion_60_4A3200)                          \
+    ENTRY(Motion_60_Unused_4A3200)                          \
     ENTRY(Motion_61_TurnToRun_456530)                \
     ENTRY(Motion_62_Punch_454750)                    \
     ENTRY(Motion_63_Sorry_454670)                    \
@@ -546,7 +546,7 @@ public:
     EXPORT void Motion_57_Dead_4589A0();
     EXPORT void Motion_58_DeadPre_4593E0();
     void Motion_59_Null_459450();
-    EXPORT void Motion_60_4A3200();
+    EXPORT void Motion_60_Unused_4A3200();
     EXPORT void Motion_61_TurnToRun_456530();
     EXPORT void Motion_62_Punch_454750();
     EXPORT void Motion_63_Sorry_454670();

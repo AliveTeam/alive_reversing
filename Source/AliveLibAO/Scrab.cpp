@@ -38,7 +38,7 @@ const TScrabMotionFunction sScrabMotionTable_4CF690[] = {
     &Scrab::Motion_5_RunToStand_45ED90,
     &Scrab::Motion_6_HopBegin_45F3C0,
     &Scrab::Motion_7_HopMidair_45F1A0,
-    &Scrab::Motion_8_Land_45F500,
+    &Scrab::Motion_8_HopLand_45F500,
     &Scrab::Motion_9_JumpToFall_45EFD0,
     &Scrab::Motion_10_StandToWalk_45E670,
     &Scrab::Motion_11_StandToRun_45E9F0,
@@ -62,37 +62,37 @@ const TScrabMotionFunction sScrabMotionTable_4CF690[] = {
     &Scrab::Motion_29_DeathBegin_45FFA0,
 };
 
-const s32 sScrabFrameTables_4CF708[30] = {
-    168644,
-    168644,
-    168548,
-    168676,
-    168740,
-    168796,
-    168844,
-    168868,
-    168908,
-    168644,
-    168932,
-    168952,
-    168972,
-    168868,
-    168908,
-    168992,
-    24136,
-    1324,
-    1324,
-    11060,
-    16944,
-    17012,
-    11380,
-    30940,
-    26664,
-    19544,
-    19600,
-    8212,
-    14228,
-    12724};
+const AnimId sScrabFrameTables_4CF708[30] = {
+    AnimId::Scrab_Idle,
+    AnimId::Scrab_Idle,
+    AnimId::Scrab_Walk,
+    AnimId::Scrab_Run,
+    AnimId::Scrab_Turn,
+    AnimId::Scrab_RunToStand,
+    AnimId::Scrab_HopBegin,
+    AnimId::Scrab_Jump,
+    AnimId::Scrab_Landing,
+    AnimId::Scrab_Idle,
+    AnimId::Scrab_StandToWalk,
+    AnimId::Scrab_StandToRun,
+    AnimId::Scrab_WalkToStand,
+    AnimId::Scrab_Jump,
+    AnimId::Scrab_Landing,
+    AnimId::Scrab_AO_ToFall,
+    AnimId::Scrab_Stamp,
+    AnimId::Scrab_GetEaten,
+    AnimId::Scrab_GetEaten,
+    AnimId::Scrab_AO_M_19_Unused,
+    AnimId::Scrab_HowlBegin,
+    AnimId::Scrab_HowlEnd,
+    AnimId::Scrab_Shriek,
+    AnimId::Scrab_ScrabBattleAnim,
+    AnimId::Scrab_FeedToGulp,
+    AnimId::Scrab_AO_ToFeed,
+    AnimId::Scrab_Feed,
+    AnimId::Scrab_AttackLunge,
+    AnimId::Scrab_LegKick,
+    AnimId::Scrab_DeathBegin};
 
 static BrainFunctionData<Scrab::TBrainType> sScrabAITable[]{
     {&Scrab::Brain_Fighting_45C370, 0x45C370, "Brain_Fighting_45C370"},
@@ -128,7 +128,9 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
     field_150_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArswhirlResID, 1, 0);
     field_150_resources[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArscrshResID, 1, 0);
 
-    Animation_Init_417FD0(168644, 168, 69, field_150_resources[0], 1);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Scrab_Idle);
+
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_150_resources[0], 1);
 
 
     field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
@@ -542,8 +544,9 @@ void Scrab::ToStand_45E310()
 
 void Scrab::vUpdateAnim_45B330()
 {
+    const AnimRecord& rec = AO::AnimRec(sScrabFrameTables_4CF708[field_FC_current_motion]);
     field_10_anim.Set_Animation_Data_402A40(
-        sScrabFrameTables_4CF708[field_FC_current_motion],
+        rec.mFrameTableOffset,
         ResBlockForMotion_45BB30(field_FC_current_motion));
 }
 
@@ -1492,7 +1495,7 @@ void Scrab::Motion_7_HopMidair_45F1A0()
                 {
                     ToStand();
                     field_F4_pLine = pLine;
-                    field_FC_current_motion = eScrabMotions::Motion_8_Land_45F500;
+                    field_FC_current_motion = eScrabMotions::Motion_8_HopLand_45F500;
 
                     PSX_RECT bRect = {};
                     VGetBoundingRect(&bRect, 1);
@@ -1535,7 +1538,7 @@ const FP sLandVelXTable_4BC890[4] = {
     FP_FromDouble(6.13),
     FP_FromDouble(6.28)};
 
-void Scrab::Motion_8_Land_45F500()
+void Scrab::Motion_8_HopLand_45F500()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
@@ -1869,7 +1872,7 @@ void Scrab::Motion_15_ToFall_45F180()
 
     if (field_FC_current_motion == eScrabMotions::Motion_1_Stand_45E620)
     {
-        field_FC_current_motion = eScrabMotions::Motion_8_Land_45F500;
+        field_FC_current_motion = eScrabMotions::Motion_8_HopLand_45F500;
     }
 }
 
