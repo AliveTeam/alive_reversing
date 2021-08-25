@@ -430,7 +430,7 @@ enum class AnimId
     Paramite_PostHiss,
 
     Scrab_FeedToGulp,
-    Scrab_Dance,
+    Scrab_Stamp,
     Scrab_DeathEnd,
     Scrab_Feed,
     Scrab_StandToFeed,
@@ -458,6 +458,9 @@ enum class AnimId
     Scrab_GulpToStand,
     Scrab_AttackLunge,
     Scrab_DeathBegin,
+    Scrab_AO_ToFall,
+    Scrab_AO_ToFeed,
+    Scrab_AO_M_19_Unused,
     Scrab_Walk,
     Scrab_AttackSpin,
     Scrab_ScrabBattleAnim,
