@@ -259,11 +259,11 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] = {
     &Slig::M_SpeakHereBoy_20_4B5330,
     &Slig::M_SpeakHi_21_4B53D0,
     &Slig::M_SpeakFreeze_22_4B53F0,
-    &Slig::M_SpeakGitIm_23_4B5410,
+    &Slig::M_SpeakGetHim_23_4B5410,
     &Slig::M_SpeakLaugh_24_4B5430,
-    &Slig::M_SpeakBullShit1_25_4B5450,
+    &Slig::M_SpeakBullshit1_25_4B5450,
     &Slig::M_SpeakLookOut_26_4B5470,
-    &Slig::M_SpeakBullShit2_27_4B5490,
+    &Slig::M_SpeakBullshit2_27_4B5490,
     &Slig::M_SpeakPanic_28_4B54B0,
     &Slig::M_SpeakWhat_29_4B54D0,
     &Slig::M_SpeakAIFreeze_30_4B54F0,
@@ -1819,7 +1819,7 @@ void Slig::M_SpeakFreeze_22_4B53F0()
     M_SpeakHereBoy_20_4B5330();
 }
 
-void Slig::M_SpeakGitIm_23_4B5410()
+void Slig::M_SpeakGetHim_23_4B5410()
 {
     M_SpeakHereBoy_20_4B5330();
 }
@@ -1829,7 +1829,7 @@ void Slig::M_SpeakLaugh_24_4B5430()
     M_SpeakHereBoy_20_4B5330();
 }
 
-void Slig::M_SpeakBullShit1_25_4B5450()
+void Slig::M_SpeakBullshit1_25_4B5450()
 {
     M_SpeakHereBoy_20_4B5330();
 }
@@ -1839,7 +1839,7 @@ void Slig::M_SpeakLookOut_26_4B5470()
     M_SpeakHereBoy_20_4B5330();
 }
 
-void Slig::M_SpeakBullShit2_27_4B5490()
+void Slig::M_SpeakBullshit2_27_4B5490()
 {
     M_SpeakHereBoy_20_4B5330();
 }
@@ -2826,8 +2826,8 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
 const s16 sGlukkonResponseTable_560768[8][6] = {
     {eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_SpeakHi_21_4B53D0, -1, 0, 0, 0},
     {eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_SpeakWhat_29_4B54D0, -1, 0, 0, 0},
-    {eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_SpeakBullShit1_25_4B5450, -1, 0, 0, 0},
-    {eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_SpeakBullShit2_27_4B5490, -1, 0, 0, 0},
+    {eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_SpeakBullshit1_25_4B5450, -1, 0, 0, 0},
+    {eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_SpeakBullshit2_27_4B5490, -1, 0, 0, 0},
     {eSligMotions::M_Walking_2_4B5BC0, -1, 0, 0, 0, 0},
     {eSligMotions::M_Running_4_4B6000, -1, 0, 0, 0, 0},
     {eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_SpeakLaugh_24_4B5430, -1, 0, 0, 0},
@@ -3548,7 +3548,7 @@ s16 Slig::Brain_EnemyDead_10_4B3460()
         // Say this often
         if (rnd < 25)
         {
-            field_108_next_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
+            field_108_next_motion = eSligMotions::M_SpeakBullshit1_25_4B5450;
             field_120_timer = sGnFrame_5C1B84 + 15;
             return 113;
         }
@@ -3556,7 +3556,7 @@ s16 Slig::Brain_EnemyDead_10_4B3460()
         // Say this less often
         if (rnd < 50)
         {
-            field_108_next_motion = eSligMotions::M_SpeakBullShit2_27_4B5490;
+            field_108_next_motion = eSligMotions::M_SpeakBullshit2_27_4B5490;
             field_120_timer = sGnFrame_5C1B84 + 15;
             return 113;
         }
@@ -4004,11 +4004,11 @@ s16 Slig::Brain_StoppingNextToMudokon_20_4BF1E0()
     {
         if (Math_NextRandom() & 1)
         {
-            field_108_next_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
+            field_108_next_motion = eSligMotions::M_SpeakBullshit1_25_4B5450;
         }
         else
         {
-            field_108_next_motion = eSligMotions::M_SpeakBullShit2_27_4B5490;
+            field_108_next_motion = eSligMotions::M_SpeakBullshit2_27_4B5490;
         }
     }
     else
@@ -4293,13 +4293,13 @@ s16 Slig::Brain_BeatingUp_24_4BF2B0()
 
     if (Math_NextRandom() < 64)
     {
-        field_108_next_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
+        field_108_next_motion = eSligMotions::M_SpeakBullshit1_25_4B5450;
         return 129;
     }
 
     if (Math_NextRandom() < 64)
     {
-        field_108_next_motion = eSligMotions::M_SpeakBullShit2_27_4B5490;
+        field_108_next_motion = eSligMotions::M_SpeakBullshit2_27_4B5490;
         return 129;
     }
 
@@ -5678,7 +5678,7 @@ s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
         {
             if (sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0)
             {
-                field_108_next_motion = eSligMotions::M_SpeakGitIm_23_4B5410;
+                field_108_next_motion = eSligMotions::M_SpeakGetHim_23_4B5410;
             }
             else
             {
@@ -5693,7 +5693,7 @@ s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
             }
             else
             {
-                field_108_next_motion = eSligMotions::M_SpeakGitIm_23_4B5410;
+                field_108_next_motion = eSligMotions::M_SpeakGetHim_23_4B5410;
             }
         }
         else if (input & sInputKey_GameSpeak8_555110)
@@ -5702,7 +5702,7 @@ s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
         }
         else if (input & sInputKey_GameSpeak6_555108)
         {
-            field_108_next_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
+            field_108_next_motion = eSligMotions::M_SpeakBullshit1_25_4B5450;
         }
         else if (input & sInputKey_GameSpeak7_555114)
         {
@@ -5710,7 +5710,7 @@ s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
         }
         else if (input & sInputKey_GameSpeak5_55510C)
         {
-            field_108_next_motion = eSligMotions::M_SpeakBullShit2_27_4B5490;
+            field_108_next_motion = eSligMotions::M_SpeakBullshit2_27_4B5490;
         }
         else
         {
@@ -5729,19 +5729,19 @@ s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
             case eSligMotions::M_SpeakFreeze_22_4B53F0:
                 event = GameSpeakEvents::Slig_Freeze_31;
                 break;
-            case eSligMotions::M_SpeakGitIm_23_4B5410:
+            case eSligMotions::M_SpeakGetHim_23_4B5410:
                 event = GameSpeakEvents::Slig_GetEm_29;
                 break;
             case eSligMotions::M_SpeakLaugh_24_4B5430:
                 event = GameSpeakEvents::Slig_Laugh_8;
                 break;
-            case eSligMotions::M_SpeakBullShit1_25_4B5450:
+            case eSligMotions::M_SpeakBullshit1_25_4B5450:
                 event = GameSpeakEvents::Slig_BS_5;
                 break;
             case eSligMotions::M_SpeakLookOut_26_4B5470:
                 event = GameSpeakEvents::Slig_LookOut_6;
                 break;
-            case eSligMotions::M_SpeakBullShit2_27_4B5490:
+            case eSligMotions::M_SpeakBullshit2_27_4B5490:
                 event = GameSpeakEvents::Slig_BS2_7;
                 break;
         }
@@ -5763,19 +5763,19 @@ s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
             case eSligMotions::M_SpeakFreeze_22_4B53F0:
                 speak = SligSpeak::eFreeze_8;
                 break;
-            case eSligMotions::M_SpeakGitIm_23_4B5410:
+            case eSligMotions::M_SpeakGetHim_23_4B5410:
                 speak = SligSpeak::eGetHim_2;
                 break;
             case eSligMotions::M_SpeakLaugh_24_4B5430:
                 speak = SligSpeak::eLaugh_3;
                 break;
-            case eSligMotions::M_SpeakBullShit1_25_4B5450:
+            case eSligMotions::M_SpeakBullshit1_25_4B5450:
                 speak = SligSpeak::eBullshit_5;
                 break;
             case eSligMotions::M_SpeakLookOut_26_4B5470:
                 speak = SligSpeak::eLookOut_6;
                 break;
-            case eSligMotions::M_SpeakBullShit2_27_4B5490:
+            case eSligMotions::M_SpeakBullshit2_27_4B5490:
                 speak = SligSpeak::eBullshit2_7;
                 break;
             case eSligMotions::M_SpeakPanic_28_4B54B0:
@@ -6035,11 +6035,11 @@ void Slig::GameSpeakResponse_4BF470()
         case GameSpeakEvents::eUnknown_2:
             if (!(Math_NextRandom() & 4))
             {
-                field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
+                field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullshit1_25_4B5450;
             }
             else
             {
-                field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullShit2_27_4B5490;
+                field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullshit2_27_4B5490;
             }
             break;
 
@@ -6054,7 +6054,7 @@ void Slig::GameSpeakResponse_4BF470()
             return;
 
         case GameSpeakEvents::Slig_BS_5:
-            field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
+            field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullshit1_25_4B5450;
             break;
 
         case GameSpeakEvents::Slig_LookOut_6:
@@ -6069,7 +6069,7 @@ void Slig::GameSpeakResponse_4BF470()
             return;
 
         case GameSpeakEvents::Slig_BS2_7:
-            field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullShit2_27_4B5490;
+            field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullshit2_27_4B5490;
             break;
 
         case GameSpeakEvents::eHello_9:
@@ -6081,11 +6081,11 @@ void Slig::GameSpeakResponse_4BF470()
         case GameSpeakEvents::eWait_12:
             if (Math_NextRandom() & 8)
             {
-                field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
+                field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullshit1_25_4B5450;
             }
             else
             {
-                field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullShit2_27_4B5490;
+                field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullshit2_27_4B5490;
             }
             break;
 

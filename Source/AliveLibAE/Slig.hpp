@@ -28,11 +28,11 @@
     ENTRY(M_SpeakHereBoy_20_4B5330)      \
     ENTRY(M_SpeakHi_21_4B53D0)           \
     ENTRY(M_SpeakFreeze_22_4B53F0)       \
-    ENTRY(M_SpeakGitIm_23_4B5410)        \
+    ENTRY(M_SpeakGetHim_23_4B5410)        \
     ENTRY(M_SpeakLaugh_24_4B5430)        \
-    ENTRY(M_SpeakBullShit1_25_4B5450)    \
+    ENTRY(M_SpeakBullshit1_25_4B5450)    \
     ENTRY(M_SpeakLookOut_26_4B5470)      \
-    ENTRY(M_SpeakBullShit2_27_4B5490)    \
+    ENTRY(M_SpeakBullshit2_27_4B5490)    \
     ENTRY(M_SpeakPanic_28_4B54B0)        \
     ENTRY(M_SpeakWhat_29_4B54D0)         \
     ENTRY(M_SpeakAIFreeze_30_4B54F0)     \
@@ -300,11 +300,11 @@ public:
     EXPORT void M_SpeakHereBoy_20_4B5330();
     EXPORT void M_SpeakHi_21_4B53D0();
     EXPORT void M_SpeakFreeze_22_4B53F0();
-    EXPORT void M_SpeakGitIm_23_4B5410();
+    EXPORT void M_SpeakGetHim_23_4B5410();
     EXPORT void M_SpeakLaugh_24_4B5430();
-    EXPORT void M_SpeakBullShit1_25_4B5450();
+    EXPORT void M_SpeakBullshit1_25_4B5450();
     EXPORT void M_SpeakLookOut_26_4B5470();
-    EXPORT void M_SpeakBullShit2_27_4B5490();
+    EXPORT void M_SpeakBullshit2_27_4B5490();
     EXPORT void M_SpeakPanic_28_4B54B0();
     EXPORT void M_SpeakWhat_29_4B54D0();
     EXPORT void M_SpeakAIFreeze_30_4B54F0();

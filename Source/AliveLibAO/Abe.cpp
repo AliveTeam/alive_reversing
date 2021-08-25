@@ -244,7 +244,7 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_Idle,
     AnimId::Mudokon_Walk,
     AnimId::Mudokon_StandingTurn,
-    AnimId::Mudokon_AO_Unused,
+    AnimId::Mudokon_Idle,
     AnimId::Mudokon_WalkToIdle,
     AnimId::Mudokon_WalkToIdle,
     AnimId::Mudokon_WalkBegin,

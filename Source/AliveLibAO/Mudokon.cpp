@@ -548,7 +548,7 @@ const AnimId sMudFrameTables_4CD330[64] = {
     AnimId::Mudokon_WalkBegin,
     AnimId::Mudokon_WalkToIdle,
     AnimId::Mudokon_MidWalkToIdle,
-    AnimId::Mudokon_AO_Unused,     // unused - kAbebsic1ResID
+    AnimId::Mudokon_Idle,
     AnimId::Mudokon_AO_Null,
     AnimId::Mudokon_AO_LiftUse,
     AnimId::Mudokon_LiftGrabBegin,

@@ -368,7 +368,6 @@ enum class AnimId
     Mudokon_WalkBegin,
     Mudokon_WalkToIdle,
     Mudokon_MidWalkToIdle,
-    Mudokon_AO_Unused,
     Mudokon_AO_Null,
     Mudokon_StartChisel,
     Mudokon_StopChisel,
