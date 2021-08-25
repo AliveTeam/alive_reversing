@@ -238,6 +238,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mine_Car_Tread_Move_B, { "BAYROLL.BAN", 20788, 130, 62u, kBayrollResID_6013, PalId::Default}, kNullAnimDetails },
 
     // The Mudokon section includes all of abe's animations as well since they share many animations
+    // TODO: correct BAN/BND's and resourceID's for AO
     {AnimId::Mudokon_ToSpeak,
         { "ABEBSIC1.BAN", 59112, 135, 80, kAbebsic1ResID, PalId::Default},
      {"ABEBSIC1.BAN", 256136, 135, 80, kAbebsic1ResID, PalId::Default}},
@@ -265,9 +266,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_RunJumpLand,
         { "ABEBSIC.BAN", 270488, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEBSIC.BAN", 256028, 135, 80, kAbebasicResID, PalId::Default}},
-    {AnimId::Mudokon_DunnoEnd,
-        { "ABEBSIC.BAN", 270616, 135, 80, kAbebasicResID, PalId::Default},
-     {"ABEBSIC.BAN", 256180, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_RunToRoll,
         { "ABEBSIC.BAN", 270708, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEBSIC.BAN", 256272, 135, 80, kAbebasicResID, PalId::Default}},
@@ -283,8 +281,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_TurnToRun,
         { "ABEBSIC.BAN", 270944, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEBSIC.BAN", 256524, 135, 80, kAbebasicResID, PalId::Default}},
-    {AnimId::Mudokon_Sorry, { "ABEBSIC.BAN", 271192, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Mudokon_AfterSorry, { "ABEBSIC.BAN", 271248, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_LedgeAscend,
         { "ABEHOIST.BAN", 57440, 135, 80, kAbehoistResID, PalId::Default},
      {"ABEHOIST.BAN", 54208, 135, 80, kAbehoistResID, PalId::Default}},
@@ -381,8 +377,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_DoorExit,
         { "ABEDOOR.BAN", 19088, 135, 80, kAbedoorResID, PalId::Default},
      {"ABEDOOR.BAN", 17568, 135, 80, kAbedoorResID, PalId::Default}},
-    {AnimId::Mudokon_MineCarEnter, { "ABECAR.BAN", 8540, 135, 80, kAbeCarResId, PalId::Default}, kNullAnimDetails },
-    {AnimId::Mudokon_MineCarExit, { "ABECAR.BAN", 8588, 135, 80, kAbeCarResId, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_ToShrykull, 
         { "ABEMORPH.BAN", 8732, 135, 80, kAbemorphResID, PalId::Default},
         { "ABEMORPH.BAN", 92004, 121, 79, kShrmorphResID, PalId::Default} 
@@ -390,7 +384,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_EndShrykull,
         { "ABEMORPH.BAN", 8772, 135, 80, kAbemorphResID, PalId::Default},
             kNullAnimDetails },
-
 
     {AnimId::Mudokon_LiftGrabBegin,
         { "ABELIFT.BAN", 22548, 135, 80, kAbeliftResID, PalId::Default},
@@ -404,18 +397,14 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_LiftUseUp, { "ABELIFT.BAN", 22596, 135, 80, kAbeliftResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_LiftUseDown, { "ABELIFT.BAN", 22496, 135, 80, kAbeliftResID, PalId::Default}, kNullAnimDetails },
 
-
     {AnimId::Mudokon_AO_LiftUse, kNullAnimDetails, {"ABELIFT.BAN", 21644, 135, 80, kAbeliftResID, PalId::Default}},
 
     {AnimId::Mudokon_PoisonGasDeath,
         { "ABEGAS.BAN", 28824, 135, 80, kAbegasResID, PalId::Default},
      {"ABEGAS.BAN", 27748, 135, 80, kAbegasResID, PalId::Default}},
-
-    // TODO: check AO maxW/maxH
     {AnimId::Mudokon_Idle, 
         { "ABEBSIC1.BAN", 58888, 135, 80, kAbebsic1ResID, PalId::Default}, 
         {"ABEBSIC1.BAN", 55968, 135, 80, kAbebsic1ResID, PalId::Default}},
-
     {AnimId::Mudokon_Walk,
         { "ABEBSIC1.BAN", 58808, 135, 80, kAbebsic1ResID, PalId::Default},
      {"ABEBSIC1.BAN", 55888, 135, 80, kAbebsic1ResID, PalId::Default}},
@@ -450,25 +439,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_LeverUse,
         { "ABEPULL.BAN", 11396, 135, 80, kAbepullResID, PalId::Default}, 
         {"ABEPULL.BAN", 10988, 135, 80, kAbepullResID, PalId::Default}},
-
-
-    {AnimId::Mudokon_Chisel,
-        { "MUDCHSL.BAN", 5276, 135, 80, kMudchslResID, PalId::Default}, 
-        {"ABEPULL.BAN", 11396, 135, 80, kAbepullResID, PalId::Default}},
-    {AnimId::Mudokon_StartChisel,
-        { "MUDCHSL.BAN", 5308, 135, 80, kMudchslResID, PalId::Default},
-     {"ABEPULL.BAN", 11396, 135, 80, kAbepullResID, PalId::Default}},
-    {AnimId::Mudokon_StopChisel,
-        { "MUDCHSL.BAN", 5320, 135, 80, kMudchslResID, PalId::Default},
-     {"ABEPULL.BAN", 11396, 135, 80, kAbepullResID, PalId::Default}},
-
-
     {AnimId::Mudokon_CrouchScrub,
         { "MUDSCRUB.BAN", 9388, 135, 80, kMudscrubResID, PalId::Default},
      {"MUDWORK.BND", 9056, 135, 80, kMudscrubResID, PalId::Default}},
-
-
-    // TODO: remove 2 from the frametableoffsets at the beginning?
     {AnimId::Mudokon_CrouchIdle,
         { "ABEBSIC.BAN", 270092, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEBSIC.BAN", 255600, 135, 80, kAbebasicResID, PalId::Default}},
@@ -541,9 +514,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_StandToRun,
         { "ABEBSIC.BAN", 270252, 135, 80, kAbebasicResID, PalId::Default},
      {"MUDLOTUS.BND", 255788, 96, 55, kAbebasicResID, PalId::Default}},
-    {AnimId::Mudokon_Punch,
-        { "ABEBSIC.BAN", 271152, 135, 80, kAbebasicResID, PalId::Default},
-     {"ABEPULL.BAN", 11396, 135, 80, kAbebasicResID, PalId::Default}},
+
     {AnimId::Mudokon_HoistBegin,
         { "ABEBSIC.BAN", 269976, 135, 80, kAbebasicResID, PalId::Default},
      {"ABESIC.BAN", 255484, 135, 80, kAbebasicResID, PalId::Default}},
@@ -556,13 +527,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_DunnoBegin,
         { "ABEBSIC.BAN", 270180, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEPULL.BAN", 255716, 135, 80, kAbebasicResID, PalId::Default}},
-    {AnimId::Mudokon_Shrug_End,
-        { "ABEBSIC.BAN", 270616, 135, 80, kAbebasicResID, PalId::Default},
-     {"ABEPULL.BAN", 11396, 135, 80, kAbebasicResID, PalId::Default}},
-
-
-
-
+    {AnimId::Mudokon_DunnoEnd,
+     {"ABEBSIC.BAN", 270616, 135, 80, kAbebasicResID, PalId::Default},
+     {"ABEBSIC.BAN", 256180, 135, 80, kAbebasicResID, PalId::Default}},
     {AnimId::Mudokon_Knockback,
         { "ABEKNBK.BAN", 49740, 135, 80, kAbeknbkResID, PalId::Default},
      {"ABEKNBK.BAN", 48272, 135, 80, kAbeknbkResID, PalId::Default}},
@@ -596,7 +563,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
 
 
-    // AO only
+    // AO only start
     {AnimId::Mudokon_Sling, kNullAnimDetails, {"MUDSLING.BAN", 22636, 96, 55, kSlingmudResID_508, PalId::Default}},
 
     {AnimId::Mudokon_StandScrubLoop, kNullAnimDetails, {"MUDCHSL.BAN", 29112, 96, 55, kMudchslResID, PalId::Default}},
@@ -665,17 +632,30 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_AO_Unknown2, kNullAnimDetails, {"MUDLOTUS.BND", 5560, 135, 80, kMudltusResID, PalId::Default}},
     {AnimId::Mudokon_AO_Unknown3, kNullAnimDetails, {"MUDLOTUS.BND", 7880, 135, 80, kMudltusResID, PalId::Default}},
     {AnimId::Mudokon_AO_Unknown4, kNullAnimDetails, {"MUDLOTUS.BND", 255436, 135, 80, kMudltusResID, PalId::Default}},
+    // AO only end
 
 
-     // AE only
+     // AE only start
     {AnimId::Mudokon_KnockForward, // maybe?
      {"ABEKNFD.BAN", 17240, 135, 80, kAbeknfdResID, PalId::Default},
      {"ABEKNFD.BAN", 17240, 135, 80, kAbeknfdResID, PalId::Default}},
 
+
+    {AnimId::Mudokon_MineCarEnter, {"ABECAR.BAN", 8540, 135, 80, kAbeCarResId, PalId::Default}, kNullAnimDetails},
+    {AnimId::Mudokon_MineCarExit, {"ABECAR.BAN", 8588, 135, 80, kAbeCarResId, PalId::Default}, kNullAnimDetails},
+    {AnimId::Mudokon_Sorry, {"ABEBSIC.BAN", 271192, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Mudokon_AfterSorry, {"ABEBSIC.BAN", 271248, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails},
+
+    {AnimId::Mudokon_Chisel, {"MUDCHSL.BAN", 5276, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Mudokon_StartChisel, {"MUDCHSL.BAN", 5308, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Mudokon_StopChisel, {"MUDCHSL.BAN", 5320, 135, 80, kMudchslResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Mudokon_Punch,{"ABEBSIC.BAN", 271152, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails},
     {AnimId::Mudokon_SlapOwnHead, { "MUDIDLE.BAN", 9640, 135, 80, kMudidleResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_TurnWheelBegin, { "ABEWORK.BAN", 11856, 135, 80, kAbeworkResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_TurnWheel, { "ABEWORK.BAN", 11816, 135, 80, kAbeworkResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_TurnWheelEnd, { "ABEWORK.BAN", 11888, 135, 80, kAbeworkResID, PalId::Default}, kNullAnimDetails },
+
+    // AE only end
 
     {AnimId::Paramite_Idle, { "PARAMITE.BND", 96696, 137, 65u, kArjbasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Paramite_WalkBegin, { "PARAMITE.BND", 96676, 137, 65u, kArjbasicResID, PalId::Default}, kNullAnimDetails },

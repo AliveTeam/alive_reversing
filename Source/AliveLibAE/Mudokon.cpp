@@ -657,7 +657,7 @@ const AnimId kMudFrameTableOffsets_55CD00[60] = {
     AnimId::Mudokon_LandSoft,
     AnimId::Mudokon_LandSoft,
     AnimId::Mudokon_DunnoBegin,
-    AnimId::Mudokon_Shrug_End, // duplicates: 269928
+    AnimId::Mudokon_DunnoEnd, // duplicates: 269928
     AnimId::Mudokon_KnockForward,
     AnimId::Mudokon_Knockback,
     AnimId::Mudokon_KnockbackGetUp,

@@ -296,7 +296,6 @@ enum class AnimId
     Mudokon_RunJumpBegin,
     Mudokon_CrouchScrub,
     Mudokon_DunnoBegin,
-    Mudokon_Shrug_End,
     Mudokon_Punch,
     Mudokon_Sling,
     Mudokon_StandScrubLoop,
