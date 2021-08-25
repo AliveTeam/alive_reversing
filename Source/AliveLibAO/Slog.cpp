@@ -48,14 +48,14 @@ const TSlogMotionFunction sSlogMotionTable_4CFD30[] = {
     &Slog::Motion_12_Unknown_475B50,
     &Slog::Motion_13_StartFastBarking_475B70,
     &Slog::Motion_14_EndFastBarking_475BB0,
-    &Slog::Motion_15_Empty_475290,
+    &Slog::Motion_15_AngryBark_475290,
     &Slog::Motion_16_Sleeping_4752E0,
-    &Slog::Motion_17_FallAsleep_475510,
+    &Slog::Motion_17_MoveHeadDownwards_475510,
     &Slog::Motion_18_WakeUp_475460,
     &Slog::Motion_19_JumpForwards_475610,
     &Slog::Motion_20_JumpUpwards_475890,
     &Slog::Motion_21_Eating_475900,
-    &Slog::Motion_22_Empty_475A90,
+    &Slog::Motion_22_Dying_475A90,
     &Slog::Motion_23_Scratch_475550,
     &Slog::Motion_24_Growl_475590,
 };
@@ -74,32 +74,32 @@ const static BrainFunctionData<TSlogBrainFunction> sSlogBrainTable[4] = {
     {&Slog::Brain_2_ChasingAbe_470F50, 0x470F50, "Brain_2_ChasingAbe"},
     {&Slog::Brain_3_Dead_4721B0, 0x4721B0, "Brain_3_Dead"}};
 
-const s32 sSlogFrameOffsetTable_4CFD98[25] = {
-    94456,
-    94336,
-    94416,
-    94852,
-    94708,
-    94456,
-    94488,
-    94524,
-    94572,
-    94632,
-    94652,
-    94684,
-    94804,
-    94816,
-    94840,
-    14744,
-    14784,
-    14832,
-    14808,
-    37952,
-    38008,
-    38112,
-    12220,
-    12412,
-    12500};
+const AnimId sSlogAnimIdTable_4CFD98[25] = {
+    AnimId::Slog_Idle,
+    AnimId::Slog_Walk,
+    AnimId::Slog_Run,
+    AnimId::Slog_TurnAround,
+    AnimId::Slog_Fall,
+    AnimId::Slog_Idle,
+    AnimId::Slog_MoveHeadUpwards,
+    AnimId::Slog_SlideTurn,
+    AnimId::Slog_StopRunning,
+    AnimId::Slog_StartWalking,
+    AnimId::Slog_EndWalking,
+    AnimId::Slog_Land,
+    AnimId::Slog_AO_M_12_Unknown,
+    AnimId::Slog_StartFastBarking,
+    AnimId::Slog_EndFastBarking,
+    AnimId::Slog_AngryBark,
+    AnimId::Slog_Sleeping,
+    AnimId::Slog_MoveHeadDownwards,
+    AnimId::Slog_WakeUp,
+    AnimId::Slog_JumpForwards,
+    AnimId::Slog_JumpUpwards,
+    AnimId::Slog_Eating,
+    AnimId::Slog_Dying,
+    AnimId::Slog_Scratch,
+    AnimId::Slog_Growl};
 
 ALIVE_VAR(1, 0x9F11C8, s16, gNumSlogs_9F11C8, 0);
 ALIVE_VAR(1, 0x9F11C4, u8, sSlogRndSeed_9F11C4, 0);
@@ -149,7 +149,8 @@ Slog* Slog::ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo)
     {
         field_FC_current_motion = eSlogMotions::Motion_16_Sleeping_4752E0;
         field_13C_res_idx = 1;
-        field_10_anim.Set_Animation_Data_402A40(sSlogFrameOffsetTable_4CFD98[16], field_184_resources[1]);
+        const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Sleeping);
+        field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_184_resources[1]);
     }
     else
     {
@@ -314,9 +315,10 @@ s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
             field_114_brain_idx = 3;
             field_134 = 2;
             field_11C_timer = gnFrameCount_507670 + 90;
-            field_FC_current_motion = eSlogMotions::Motion_22_Empty_475A90;
+            field_FC_current_motion = eSlogMotions::Motion_22_Dying_475A90;
             field_13C_res_idx = 3;
-            field_10_anim.Set_Animation_Data_402A40(sSlogFrameOffsetTable_4CFD98[22], field_184_resources[3]);
+            const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Dying);
+            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_184_resources[3]);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
             gNumSlogs_9F11C8--;
             field_178_bShot = 1;
@@ -377,15 +379,18 @@ s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
             [[fallthrough]];
 
         case Types::eElectrocute_103:
+        {
             field_100_health = FP_FromInteger(0);
             field_114_brain_idx = 3;
             field_134 = 2;
             field_11C_timer = gnFrameCount_507670 + 90;
-            field_FC_current_motion = eSlogMotions::Motion_22_Empty_475A90;
+            field_FC_current_motion = eSlogMotions::Motion_22_Dying_475A90;
             field_13C_res_idx = 3;
-            field_10_anim.Set_Animation_Data_402A40(sSlogFrameOffsetTable_4CFD98[22], field_184_resources[3]);
+            const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Dying);
+            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_184_resources[3]);
             field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
             break;
+        }
 
         default:
             Sfx_475BD0(9);
@@ -476,12 +481,13 @@ void Slog::VUpdate_4739C0()
 void Slog::SetAnimFrame()
 {
     u8** ppRes = ResBlockForMotion(field_FC_current_motion);
-    field_10_anim.Set_Animation_Data_402A40(sSlogFrameOffsetTable_4CFD98[field_FC_current_motion], ppRes);
+    const AnimRecord& rec = AO::AnimRec(sSlogAnimIdTable_4CFD98[field_FC_current_motion]);
+    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, ppRes);
 }
 
 u8** Slog::ResBlockForMotion(s16 motion)
 {
-    if (motion < eSlogMotions::Motion_15_Empty_475290)
+    if (motion < eSlogMotions::Motion_15_AngryBark_475290)
     {
         field_13C_res_idx = 0;
         return field_184_resources[field_13C_res_idx];
@@ -493,7 +499,7 @@ u8** Slog::ResBlockForMotion(s16 motion)
         return field_184_resources[field_13C_res_idx];
     }
 
-    if (motion < eSlogMotions::Motion_22_Empty_475A90)
+    if (motion < eSlogMotions::Motion_22_Dying_475A90)
     {
         field_13C_res_idx = 2;
         return field_184_resources[field_13C_res_idx];
@@ -590,7 +596,8 @@ void Slog::Init_473130()
     field_184_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, 1, 0);
     field_184_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogidleResID, 1, 0);
 
-    Animation_Init_417FD0(94456, 121, 57, field_184_resources[0], 1);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Idle);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_184_resources[0], 1);
 
     field_6_flags.Set(Options::eCanExplode_Bit7);
     field_10_anim.field_1C_fn_ptr_array = kSlog_Anim_Frame_Fns_4CEBF4;
@@ -1548,7 +1555,7 @@ void Slog::Motion_14_EndFastBarking_475BB0()
     }
 }
 
-void Slog::Motion_15_Empty_475290()
+void Slog::Motion_15_AngryBark_475290()
 {
     if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 6)
     {
@@ -1617,7 +1624,7 @@ void Slog::Motion_16_Sleeping_4752E0()
     }
 }
 
-void Slog::Motion_17_FallAsleep_475510()
+void Slog::Motion_17_MoveHeadDownwards_475510()
 {
     if (field_FE_next_motion != -1)
     {
@@ -1832,12 +1839,12 @@ void Slog::Motion_21_Eating_475900()
     }
 }
 
-void Slog::Motion_22_Empty_475A90()
+void Slog::Motion_22_Dying_475A90()
 {
     if (!field_F4_pLine)
     {
         Motion_4_Fall_4750C0();
-        field_FC_current_motion = eSlogMotions::Motion_22_Empty_475A90;
+        field_FC_current_motion = eSlogMotions::Motion_22_Dying_475A90;
     }
 }
 
@@ -2337,7 +2344,7 @@ s16 Slog::Brain_1_Idle_4719C0()
             return 4;
 
         case 3:
-            if (field_FC_current_motion != eSlogMotions::Motion_17_FallAsleep_475510)
+            if (field_FC_current_motion != eSlogMotions::Motion_17_MoveHeadDownwards_475510)
             {
                 return field_116_brain_sub_state;
             }
@@ -2403,7 +2410,7 @@ s16 Slog::Brain_1_Idle_4719C0()
 
             if (field_156 > field_15A)
             {
-                field_FE_next_motion = eSlogMotions::Motion_15_Empty_475290;
+                field_FE_next_motion = eSlogMotions::Motion_15_AngryBark_475290;
                 field_156 += Slog_NextRandom() % 8;
                 return 5;
             }
@@ -2412,7 +2419,7 @@ s16 Slog::Brain_1_Idle_4719C0()
             {
                 return field_116_brain_sub_state;
             }
-            field_FE_next_motion = eSlogMotions::Motion_17_FallAsleep_475510;
+            field_FE_next_motion = eSlogMotions::Motion_17_MoveHeadDownwards_475510;
             return 3;
 
         case 5:

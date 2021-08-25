@@ -31,7 +31,7 @@ namespace AO {
     ENTRY(Motion_18_RunningAttack_44D5D0)    \
     ENTRY(Motion_19_Empty_44D990)            \
     ENTRY(Motion_20_SurpriseWeb_44D9A0)      \
-    ENTRY(Motion_21_WebLeave_44DB00)         \
+    ENTRY(Motion_21_WebLeaveDown_44DB00)         \
     ENTRY(Motion_22_Unknown_44D8F0)          \
     ENTRY(Motion_23_Eating_44B970)           \
     ENTRY(Motion_24_Struggle_44DB70)         \
@@ -167,7 +167,7 @@ public:
     EXPORT void Motion_18_RunningAttack_44D5D0();
     EXPORT void Motion_19_Empty_44D990();
     EXPORT void Motion_20_SurpriseWeb_44D9A0();
-    EXPORT void Motion_21_WebLeave_44DB00();
+    EXPORT void Motion_21_WebLeaveDown_44DB00();
     EXPORT void Motion_22_Unknown_44D8F0();
     EXPORT void Motion_23_Eating_44B970();
     EXPORT void Motion_24_Struggle_44DB70();

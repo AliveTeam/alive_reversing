@@ -236,7 +236,7 @@ void Paramite::VUpdate()
     vUpdate_4871B0();
 }
 
-const AnimId sParamiteFrameTableOffsets_55D660[44] = {
+const AnimId sParamiteAnimIdTable_55D660[44] = {
     AnimId::Paramite_Idle,
     AnimId::Paramite_WalkBegin,
     AnimId::Paramite_Walking,
@@ -322,7 +322,7 @@ s32 CC Paramite::CreateFromSaveState_4855A0(const u8* pBuffer)
     pParamite->field_D4_b = pState->field_20_b;
 
     pParamite->field_106_current_motion = pState->field_24_current_motion;
-    const AnimRecord& animRec = AnimRec(sParamiteFrameTableOffsets_55D660[pParamite->field_106_current_motion]);
+    const AnimRecord& animRec = AnimRec(sParamiteAnimIdTable_55D660[pParamite->field_106_current_motion]);
     u8** ppRes = pParamite->ResBlockForMotion_488130(pParamite->field_106_current_motion);
     pParamite->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 
@@ -5368,7 +5368,7 @@ s16 Paramite::Find_Paramite_488810()
 
 void Paramite::vUpdateAnim_487170()
 {
-    const AnimRecord& animRec = AnimRec(sParamiteFrameTableOffsets_55D660[field_106_current_motion]);
+    const AnimRecord& animRec = AnimRec(sParamiteAnimIdTable_55D660[field_106_current_motion]);
     u8** ppRes = ResBlockForMotion_488130(field_106_current_motion);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
 }

@@ -54,40 +54,40 @@ const TParamiteMotionFunction sParamiteMotionTable_4CDCB0[] = {
     &Paramite::Motion_18_RunningAttack_44D5D0,
     &Paramite::Motion_19_Empty_44D990,
     &Paramite::Motion_20_SurpriseWeb_44D9A0,
-    &Paramite::Motion_21_WebLeave_44DB00,
+    &Paramite::Motion_21_WebLeaveDown_44DB00,
     &Paramite::Motion_22_Unknown_44D8F0,
     &Paramite::Motion_23_Eating_44B970,
     &Paramite::Motion_24_Struggle_44DB70,
     &Paramite::Motion_25_Death_44DB90,
 };
 
-const static s32 sParamiteFrameTables_4CDD18[] = {
-    57152,
-    57132,
-    57004,
-    57068,
-    57152,
-    57304,
-    57176,
-    57340,
-    57348,
-    57368,
-    57408,
-    57388,
-    57428,
-    15860,
-    15900,
-    15916,
-    15948,
-    15980,
-    19120,
-    18084,
-    18084,
-    18116,
-    10520,
-    14728,
-    11076,
-    9132};
+const static AnimId sParamiteAnimIdTable_4CDD18[] = {
+    AnimId::Paramite_Idle,
+    AnimId::Paramite_WalkBegin,
+    AnimId::Paramite_Walking,
+    AnimId::Paramite_Running,
+    AnimId::Paramite_Idle,
+    AnimId::Paramite_Turn,
+    AnimId::Paramite_Hop,
+    AnimId::Paramite_AO_M_7_Unknown,
+    AnimId::Paramite_WalkRunTransition,
+    AnimId::Paramite_WalkEnd,
+    AnimId::Paramite_RunBegin,
+    AnimId::Paramite_RunEnd,
+    AnimId::Paramite_Falling,
+    AnimId::Paramite_GameSpeakBegin,
+    AnimId::Paramite_PreHiss,
+    AnimId::Paramite_Hiss,
+    AnimId::Paramite_PostHiss,
+    AnimId::Paramite_GameSpeakEnd,
+    AnimId::Paramite_RunningAttack,
+    AnimId::Paramite_SurpriseWeb,
+    AnimId::Paramite_SurpriseWeb,
+    AnimId::Paramite_WebLeaveDown,
+    AnimId::Paramite_AO_M_22_Unknown,
+    AnimId::Paramite_Eating,
+    AnimId::Paramite_Struggle,
+    AnimId::Paramite_Death};
 
 static BrainFunctionData<Paramite::TParamiteBrain> sParamiteBrainTable[]{
     {&Paramite::Brain_0_Patrol_447A10, 0x447A10, "Brain_0_Patrol"},
@@ -120,7 +120,8 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo)
 
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 1, 0);
 
-    Animation_Init_417FD0(57152, 138, 49, field_150_resources[0], 1);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Paramite_Idle);
+    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_150_resources[0], 1);
 
     field_12A_res_idx = 0;
 
@@ -732,8 +733,9 @@ s16 Paramite::ToNextMotion_44B320()
 
 void Paramite::VUpdateAnimData_44A460()
 {
+    const AnimRecord& rec = AO::AnimRec(sParamiteAnimIdTable_4CDD18[field_FC_current_motion]);
     field_10_anim.Set_Animation_Data_402A40(
-        sParamiteFrameTables_4CDD18[field_FC_current_motion],
+        rec.mFrameTableOffset,
         ResBlockForMotion_44AC10(field_FC_current_motion));
 }
 
@@ -3709,7 +3711,7 @@ void Paramite::Motion_20_SurpriseWeb_44D9A0()
         == 1)
     {
         field_AC_ypos = hitY;
-        field_FC_current_motion = eParamiteMotions::Motion_21_WebLeave_44DB00;
+        field_FC_current_motion = eParamiteMotions::Motion_21_WebLeaveDown_44DB00;
 
         if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
         {
@@ -3747,7 +3749,7 @@ void Paramite::Motion_20_SurpriseWeb_44D9A0()
     }
 }
 
-void Paramite::Motion_21_WebLeave_44DB00()
+void Paramite::Motion_21_WebLeaveDown_44DB00()
 {
     if (field_10_anim.field_92_current_frame == 2)
     {

@@ -160,7 +160,7 @@ public:
     EXPORT void M_AngryBark_14_4C6CF0();
     EXPORT void M_Sleeping_15_4C6D60();
     EXPORT void M_MoveHeadDownwards_16_4C70D0();
-    EXPORT void M_Bark_17_4C7000();
+    EXPORT void M_WakeUp_17_4C7000();
     EXPORT void M_JumpForwards_18_4C7210();
     EXPORT void M_JumpUpwards_19_4C7470();
     EXPORT void M_Eating_20_4C75F0();

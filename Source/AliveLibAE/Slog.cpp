@@ -44,7 +44,7 @@ const TSlogMotionFn sSlog_motion_table_560978[24] = {
     &Slog::M_AngryBark_14_4C6CF0,
     &Slog::M_Sleeping_15_4C6D60,
     &Slog::M_MoveHeadDownwards_16_4C70D0,
-    &Slog::M_Bark_17_4C7000,
+    &Slog::M_WakeUp_17_4C7000,
     &Slog::M_JumpForwards_18_4C7210,
     &Slog::M_JumpUpwards_19_4C7470,
     &Slog::M_Eating_20_4C75F0,
@@ -71,7 +71,7 @@ enum eSlogMotions
     M_AngryBark_14_4C6CF0,
     M_Sleeping_15_4C6D60,
     M_MoveHeadDownwards_16_4C70D0,
-    M_Bark_17_4C7000,
+    M_WakeUp_17_4C7000,
     M_JumpForwards_18_4C7210,
     M_JumpUpwards_19_4C7470,
     M_Eating_20_4C75F0,
@@ -269,7 +269,7 @@ const AnimId sSlogFrameOffsetTable_5609D8[24] = {
     AnimId::Slog_AngryBark,
     AnimId::Slog_Sleeping,
     AnimId::Slog_MoveHeadDownwards,
-    AnimId::Slog_Bark,
+    AnimId::Slog_WakeUp,
     AnimId::Slog_JumpForwards,
     AnimId::Slog_JumpUpwards,
     AnimId::Slog_Eating,
@@ -1080,7 +1080,7 @@ void Slog::M_MoveHeadDownwards_16_4C70D0()
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
 }
 
-void Slog::M_Bark_17_4C7000()
+void Slog::M_WakeUp_17_4C7000()
 {
     for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
@@ -1737,11 +1737,11 @@ s16 Slog::Brain_Idle_1_4C2830()
                 return field_122_brain_state_result;
             }
 
-            field_108_next_motion = eSlogMotions::M_Bark_17_4C7000;
+            field_108_next_motion = eSlogMotions::M_WakeUp_17_4C7000;
             return 2;
 
         case 2:
-            if (field_106_current_motion != eSlogMotions::M_Bark_17_4C7000)
+            if (field_106_current_motion != eSlogMotions::M_WakeUp_17_4C7000)
             {
                 return field_122_brain_state_result;
             }
