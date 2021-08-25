@@ -391,6 +391,9 @@ enum class AnimId
     Mudokon_TurnWheelBegin,
 
     Paramite_Attack,
+    Paramite_Struggle,
+    Paramite_AO_M_7_Unknown,
+    Paramite_AO_M_22_Unknown,
     Paramite_WebGoingDown,
     Paramite_WebLeaveDown,
     Paramite_WebLeaveUp,
