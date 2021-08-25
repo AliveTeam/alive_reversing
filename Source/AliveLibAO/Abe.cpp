@@ -245,9 +245,9 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_Walk,
     AnimId::Mudokon_StandingTurn,
     AnimId::Mudokon_AO_Unused,
-    AnimId::Mudokon_RunSlideTurn,
-    AnimId::Mudokon_RunSlideTurn,
-    AnimId::Mudokon_MidSneakToIdle,
+    AnimId::Mudokon_WalkToIdle,
+    AnimId::Mudokon_WalkToIdle,
+    AnimId::Mudokon_WalkBegin,
     AnimId::Mudokon_Speak1,
     AnimId::Mudokon_Speak3,
     AnimId::Mudokon_Speak2,
@@ -1960,12 +1960,12 @@ u8** Abe::StateToAnimResource_4204F0(s16 motion)
     {
         if (res_idx != 45 && res_idx != 46)
         {
-            s32 v7 = res_idx + 10;
+            s32 resourceID = res_idx + 10;
             if (res_idx >= 46)
             {
-                v7 = res_idx + 54;
+                resourceID = res_idx + 54;
             }
-            field_1A4_resources.res[res_idx] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, v7, 1, 0);
+            field_1A4_resources.res[res_idx] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
         }
     }
     field_128_resource_idx = res_idx;
