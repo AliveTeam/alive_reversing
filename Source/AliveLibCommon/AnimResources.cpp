@@ -1429,11 +1429,35 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Swinging_Ball_Fast, kNullAnimDetails, { "F2ZBALL.BAN", 72288, 143, 182, kF2zballResID, PalId::Default} },
     {AnimId::Swinging_Ball_Normal, kNullAnimDetails, { "F2ZBALL.BAN", 72172, 143, 182, kF2zballResID, PalId::Default} },
     {AnimId::Swinging_Ball_Slow, kNullAnimDetails, { "F2ZBALL.BAN", 72400, 143, 182, kF2zballResID, PalId::Default} },
-    {AnimId::Switch_Idle, { "SWITCH1.BAN", 5696, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Switch_Pull_Left_A, { "SWITCH1.BAN", 5708, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Switch_Pull_Left_B, { "SWITCH1.BAN", 5760, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Switch_Pull_Right_A, { "SWITCH1.BAN", 5796, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Switch_Pull_Right_B, { "SWITCH1.BAN", 5848, 66, 40, kSwitchResID, PalId::Default}, kNullAnimDetails },
+
+    {AnimId::Switch_Idle,
+        { "SWITCH1.BAN", 5696, 66, 40, kSwitchResID, PalId::Default},
+     {"SWITCH1.BAN", 16272, 66, 41, kSwitchResID, PalId::Default}},
+    {AnimId::Switch_Pull_Left,
+        { "SWITCH1.BAN", 5708, 66, 40, kSwitchResID, PalId::Default},
+     {"SWITCH1.BAN", 16284, 66, 41, kSwitchResID, PalId::Default}},
+    {AnimId::Switch_Pull_Release_Left,
+        { "SWITCH1.BAN", 5760, 66, 40, kSwitchResID, PalId::Default},
+     {"SWITCH1.BAN", 16336, 66, 41, kSwitchResID, PalId::Default}},
+    {AnimId::Switch_Pull_Right,
+        { "SWITCH1.BAN", 5796, 66, 40, kSwitchResID, PalId::Default},
+     {"SWITCH1.BAN", 16372, 66, 41, kSwitchResID, PalId::Default}},
+    {AnimId::Switch_Pull_Release_Right,
+        { "SWITCH1.BAN", 5848, 66, 40, kSwitchResID, PalId::Default},
+     {"SWITCH1.BAN", 16424, 66, 41, kSwitchResID, PalId::Default}},
+
+    {AnimId::RuptureFarms_Switch_Idle, kNullAnimDetails, {"R1SWITCH.BAN", 16168, 67, 40, kSwitchResID, PalId::Default}},
+    {AnimId::RuptureFarms_Switch_Pull_Left, kNullAnimDetails, {"R1SWITCH.BAN", 16180, 67, 40, kSwitchResID, PalId::Default}},
+    {AnimId::RuptureFarms_Switch_Pull_Release_Left, kNullAnimDetails, {"R1SWITCH.BAN", 16232, 67, 40, kSwitchResID, PalId::Default}},
+    {AnimId::RuptureFarms_Switch_Pull_Right, kNullAnimDetails, {"R1SWITCH.BAN", 16268, 67, 40, kSwitchResID, PalId::Default}},
+    {AnimId::RuptureFarms_Switch_Pull_Release_Right, kNullAnimDetails, {"R1SWITCH.BAN", 16320, 67, 40, kSwitchResID, PalId::Default}},
+
+    {AnimId::Lines_Switch_Idle, kNullAnimDetails, {"L1SWITCH.BAN", 5440, 66, 41, kSwitchResID, PalId::Default}},
+    {AnimId::Lines_Switch_Pull_Left, kNullAnimDetails, {"L1SWITCH.BAN", 5576, 66, 41, kSwitchResID, PalId::Default}},
+    {AnimId::Lines_Switch_Pull_Release_Left, kNullAnimDetails, {"L1SWITCH.BAN", 5452, 66, 41, kSwitchResID, PalId::Default}},
+    {AnimId::Lines_Switch_Pull_Right, kNullAnimDetails, {"L1SWITCH.BAN", 5488, 66, 41, kSwitchResID, PalId::Default}},
+    {AnimId::Lines_Switch_Pull_Release_Right, kNullAnimDetails, {"L1SWITCH.BAN", 5540, 66, 41, kSwitchResID, PalId::Default}},
+
     {AnimId::TimedMine_Activated, { "BOMB.BND", 848, 35, 17, kBombResID, PalId::Default}, kNullAnimDetails },
     {AnimId::TimedMine_Idle, 
         { "BOMB.BND", 836, 35, 17, kBombResID, PalId::Default},
@@ -1542,7 +1566,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     // TODO: AO AnimId's: 
     // sDoorData_4BA508[16] 
     // sFallingItemData_4BAB20[16]
-    // gSwitchData_4BCF40[16]
     // HoistParticle::ctor_431B00
     // buttonFrameTableOffsets_4BB1B8[4]
     // check ctor_478880 calls
