@@ -1309,10 +1309,17 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         {"EXPLODE.BND", 51600, 214, 49, kBgexpldResID, PalId::Default}},
 
     {AnimId::Explosion_Small, { "SMEXP.BAN", 14108, 99, 46, kSmallExplo2ResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Falling_Crate_A, { "FALLBONZ.BAN", 8076, 86, 47, kF2rockResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Falling_Crate_B, { "FALLBONZ.BAN", 8100, 86, 47, kF2rockResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Falling_Rock_A, { "FALLROCK.BAN", 4232, 64, 28, kF2rockResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Falling_Rock_B, { "FALLROCK.BAN", 4256, 64, 28, kF2rockResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::FallingCrate_Falling, { "FALLBONZ.BAN", 8076, 86, 47, kF2rockResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::FallingCrate_Waiting, { "FALLBONZ.BAN", 8100, 86, 47, kF2rockResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::AE_FallingRock_Falling, { "FALLROCK.BAN", 4232, 64, 28, kF2rockResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::AE_FallingRock_Waiting, { "FALLROCK.BAN", 4256, 64, 28, kF2rockResID, PalId::Default}, kNullAnimDetails },
+
+    {AnimId::FallingMeat_Waiting, kNullAnimDetails, {"R1BARREL.BAN", 12148, 66, 42, kF2rockResID, PalId::Default}},
+    {AnimId::FallingMeat_Falling, kNullAnimDetails, {"R1BARREL.BAN", 12136, 66, 42, kF2rockResID, PalId::Default}},
+
+    {AnimId::AO_FallingRock_Falling, kNullAnimDetails, {"F2ROCK.BAN", 11544, 76, 38, kF2rockResID, PalId::Default}},
+    {AnimId::AO_FallingRock_Waiting, kNullAnimDetails, {"F2ROCK.BAN", 11504, 76, 38, kF2rockResID, PalId::Default}},
+
     {AnimId::Fart, { "EVILFART.BAN", 3532, 61, 39, kEvilFartResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Foot_Switch_Bonewerkz_Idle, { "BWTRIGGR.BAN", 548, 46, 11, kTriggerResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Foot_Switch_Bonewerkz_Pressed, { "BWTRIGGR.BAN", 568, 46, 11, kTriggerResID, PalId::Default}, kNullAnimDetails },
@@ -1565,10 +1572,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
     // TODO: AO AnimId's: 
     // sDoorData_4BA508[16] 
-    // sFallingItemData_4BAB20[16]
-    // HoistParticle::ctor_431B00
+    // HoistParticle::ctor_431B00(
     // buttonFrameTableOffsets_4BB1B8[4]
-    // check ctor_478880 calls
+    // check ctor_478880( calls
     // check AddDynamicCollision_4512C0 calls
 
     {AnimId::Elum_FallUnknown1, kNullAnimDetails, {"ELMFALL.BAN", 40404, 169, 169, kElmfallResID_216, PalId::Default}},

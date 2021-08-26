@@ -19,22 +19,22 @@ namespace AO {
 ALIVE_VAR(1, 0x4FFA54, FallingItem*, pPrimaryFallingItem_4FFA54, nullptr);
 
 const FallingItem_Data sFallingItemData_4BAB20[16] = {
-    {11504, 11544, 76, 38},
-    {12136, 12148, 66, 42},
-    {11504, 11544, 76, 38},
-    {11504, 11544, 76, 38},
-    {11504, 11544, 76, 38},
-    {11504, 11544, 76, 38},
-    {11504, 11544, 76, 38},
-    {11504, 11544, 76, 38},
-    {11504, 11544, 76, 38},
-    {11504, 11544, 76, 38},
-    {11504, 11544, 76, 38},
-    {11504, 11544, 76, 38},
-    {11504, 11544, 76, 38},
-    {12136, 12148, 66, 42},
-    {11504, 11544, 76, 38},
-    {11504, 11544, 76, 38}};
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // menu
+    {AnimId::FallingMeat_Falling, AnimId::FallingMeat_Waiting, 66, 42},       // rupture farms
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // lines
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // forest
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // forest temple
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // stock yards
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // stock yards return
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // removed
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // desert
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // desert temple
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // credits
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // removed
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // board room
+    {AnimId::FallingMeat_Falling, AnimId::FallingMeat_Waiting, 66, 42},       // rupture farms return
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // forest chase
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}};// desert escape
 
 FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
 {
@@ -46,12 +46,13 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2rockResID, 1, 0);
     const s32 lvlIdx = static_cast<s32>(gMap_507BA8.field_0_current_level);
+    const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(
-        sFallingItemData_4BAB20[lvlIdx].field_0_frameTableOffset,
-        sFallingItemData_4BAB20[lvlIdx].field_8_maxW,
-        sFallingItemData_4BAB20[lvlIdx].field_A_maxH,
+        rec.mFrameTableOffset,
+        rec.mMaxW,
+        rec.mMaxH,
         ppRes,
         1);
 
@@ -194,13 +195,16 @@ void FallingItem::VUpdate_41A120()
             [[fallthrough]];
 
         case State::eGoWaitForDelay_1:
+        {
             field_6_flags.Clear(Options::eCanExplode_Bit7);
             field_110_state = State::eWaitForFallDelay_2;
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
-            field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_4, nullptr);
+            const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_4_waiting_animId);
+            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
             field_11C_delay_timer = gnFrameCount_507670 + field_118_delay_time;
             break;
+        }
 
         case State::eWaitForFallDelay_2:
             if (static_cast<s32>(gnFrameCount_507670) >= field_11C_delay_timer)
@@ -348,7 +352,8 @@ void FallingItem::VUpdate_41A120()
             }
             else
             {
-                field_10_anim.Set_Animation_Data_402A40(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0_frameTableOffset, nullptr);
+                const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0_falling_animId);
+                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 field_6_flags.Set(Options::eCanExplode_Bit7);
                 field_B8_vely = FP_FromInteger(0);
                 field_B4_velx = FP_FromInteger(0);

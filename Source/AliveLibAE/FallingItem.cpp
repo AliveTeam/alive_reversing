@@ -15,21 +15,21 @@
 #include "Abe.hpp"
 
 const AnimId sFallingItemData_544DC0[15][2] = {
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Crate_A, AnimId::Falling_Crate_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Crate_A, AnimId::Falling_Crate_B}};
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::FallingCrate_Falling, AnimId::FallingCrate_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::FallingCrate_Falling, AnimId::FallingCrate_Waiting}};
 
 ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
 
