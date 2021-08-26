@@ -1163,8 +1163,12 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
     {AnimId::Background_Glukkon, kNullAnimDetails, { "GLUKKON.BND", 46096, 68, 60, kGlkbasicResID, PalId::Default} },
 
-    {AnimId::BirdPortal_Sparks, {"PORTAL.BND", 4256, 32, 69, kPortliteResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::BirdPortal_Flash, {"PORTAL.BND", 13576, 145, 74, kPortlitResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::BirdPortal_Sparks,
+        {"PORTAL.BND", 4256, 32, 69, kPortliteResID, PalId::Default},
+     {"PORTAL.BND", 3708, 31, 69, kPortliteResID, PalId::Default}},
+    {AnimId::BirdPortal_Flash,
+        {"PORTAL.BND", 13576, 145, 74, kPortlitResID, PalId::Default},
+     {"PORTAL.BND", 13352, 145, 74, kPortlitResID, PalId::Default}},
     // grow/shrink might be swapped
     {AnimId::BirdPortal_TerminatorGrow, {"PORTAL.BND", 4168, 32, 18, kPortalTerminatorID, PalId::Default}, kNullAnimDetails},
     {AnimId::BirdPortal_TerminatorIdle, {"PORTAL.BND", 4068, 32, 18, kPortalTerminatorID, PalId::Default}, kNullAnimDetails},
@@ -1179,11 +1183,15 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Loading_Icon2, {"LOADING.BAN", 900, 50, 38, kLoadingResID, PalId::Default}, kNullAnimDetails},
 
     {AnimId::Vaporize_Particle, {"VAPOR.BAN", 5264, 61, 44, kVaporResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::ShootingFire_Particle, {"BIGFLASH.BAN", 960, 86, 17, kBigflashResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShootingFire_Particle,
+        {"BIGFLASH.BAN", 960, 86, 17, kBigflashResID, PalId::Default},
+     {"SLIG.BND", 804, 86, 17, kBigflashResID, PalId::Default}},
     {AnimId::ChantOrb_Particle, 
         {"OMMFLARE.BAN", 1632, 39, 21, kOmmflareResID, PalId::Default},
         {"OMMFLARE.BAN", 1492, 38, 21, kOmmflareResID, PalId::Default}},
-    {AnimId::SquibSmoke_Particle, {"SQBSMK.BAN", 5084, 61, 44, kSquibSmokeResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::SquibSmoke_Particle,
+        {"SQBSMK.BAN", 5084, 61, 44, kSquibSmokeResID, PalId::Default},
+     {"SQBSMK.BAN", 4108, 61, 44, kSquibSmokeResID, PalId::Default}},
     {AnimId::Explosion_Rocks, {"DEBRIS00.BAN", 6484, 71, 36, kDebrisID00, PalId::Default}, kNullAnimDetails},
     {AnimId::Explosion_Sticks, {"STICK.BAN", 1704, 49, 29, kStickGib, PalId::Default}, kNullAnimDetails},
     {AnimId::Mine_Flash,
@@ -1194,7 +1202,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         {"STARTANIM.BND", 7152, 92, 47, kOptionFlare, PalId::Default}},
 
     // figure out the correct BAN/BND
-    {AnimId::ShootingZFire_Particle, {"STARTANIM.BND", 2832, 126, 44, kZflashResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShootingZFire_Particle,
+        {"STARTANIM.BND", 2832, 126, 44, kZflashResID, PalId::Default},
+     {"SLIGZ.BND", 2348, 126, 44, kZflashResID, PalId::Default}},
 
     {AnimId::WaterDrop, {"WDROP.BAN", 104, 11, 7, kWaterDrop, PalId::Default}, kNullAnimDetails},
     {AnimId::WaterSplash, {"SPLASH.BAN", 332, 17, 7, kSplashResID, PalId::Default}, kNullAnimDetails},
