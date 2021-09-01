@@ -233,7 +233,7 @@ void SoftwareRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8*
     }
 }
 
-void SoftwareRenderer::LoadCustomCAM(const char* /*path*/, const unsigned char* /*key*/, int /*keyLength*/)
+void SoftwareRenderer::LoadExternalCam(const char* /*path*/, const unsigned char* /*key*/, int /*keyLength*/)
 {
-    
+    LOG_WARNING("LoadExternalCam not implemented for Software Renderer - external cam not loaded.");
 }

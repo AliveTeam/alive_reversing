@@ -62,7 +62,7 @@ public:
 
     virtual void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) = 0;
 
-    virtual void LoadCustomCAM(const char* path, const unsigned char* key, int keyLength) = 0;
+    virtual void LoadExternalCam(const char* path, const unsigned char* key, int keyLength) = 0;
 
     // FG1/zaplines/blood/hintfly
     virtual void Draw(Prim_Sprt& sprt) = 0;

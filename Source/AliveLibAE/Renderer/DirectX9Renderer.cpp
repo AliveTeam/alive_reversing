@@ -182,8 +182,9 @@ void DirectX9Renderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, c
 {
 }
 
-void DirectX9Renderer::LoadCustomCAM(const char* /*path*/, const unsigned char* /*key*/, int /*keyLength*/)
+void DirectX9Renderer::LoadExternalCam(const char* /*path*/, const unsigned char* /*key*/, int /*keyLength*/)
 {
+    LOG_WARNING("LoadExternalCam not implemented for DirectX9 - external cam not loaded.");
 }
 
 #endif

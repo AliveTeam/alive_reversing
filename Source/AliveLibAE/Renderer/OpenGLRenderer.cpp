@@ -1546,7 +1546,7 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
     }
 }
 
-void OpenGLRenderer::LoadCustomCAM(const char* path, const unsigned char* key, int keyLength)
+void OpenGLRenderer::LoadExternalCam(const char* path, const unsigned char* key, int keyLength)
 {
     std::vector<BYTE> fileData;
 
