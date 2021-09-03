@@ -1125,9 +1125,8 @@ void MineCar::HandleUpDown()
     const FP k5Scaled = FP_FromInteger(5) * field_CC_sprite_scale;
 
     const FP rayCastX1 = field_B8_xpos - mineCarWidthAdjusted;
-    const FP rayCastY1 = field_BC_ypos - (k5Scaled) - ((mineCarWidthAdjusted) *FP_FromDouble(0.5));
     const FP rayCastX2 = field_B8_xpos + mineCarWidthAdjusted;
-    const FP rayCastY2 = field_BC_ypos - (k5Scaled) - ((mineCarWidthAdjusted) *FP_FromDouble(0.5));
+    
     const FP velX = FP_FromInteger(0);
     const FP velY = k5Scaled;
     const u16 frameTableOffset = 20836u;
@@ -1146,6 +1145,8 @@ void MineCar::HandleUpDown()
         )
     )
     {
+        const FP rayCastY = field_BC_ypos - velY - ((mineCarWidthAdjusted) * FP_FromDouble(0.5));
+
         const FP hitY = FP_FromInteger(1);
         const FP hitX = mineCarWidthAdjusted + FP_FromInteger(4);
         const FP hitY2 = mineCarHeight + FP_FromInteger(1);
@@ -1160,9 +1161,9 @@ void MineCar::HandleUpDown()
                 MineCarDirs::eLeft_2,
                 0,
                 rayCastX1,
-                rayCastY1,
+                rayCastY,
                 rayCastX2,
-                rayCastY2,
+                rayCastY,
                 0x1000,
                 0x8000,
                 velX,
@@ -1180,9 +1181,9 @@ void MineCar::HandleUpDown()
                 MineCarDirs::eRight_1,
                 1,
                 rayCastX1,
-                rayCastY1,
+                rayCastY,
                 rayCastX2,
-                rayCastY2,
+                rayCastY,
                 0x1000,
                 0x8000,
                 velX,
@@ -1212,16 +1213,65 @@ void MineCar::HandleUpDown()
 
     inputKey = sInputKey_Down_5550DC;
 
-    if ((sInputObject_5BD4E0.isPressed(inputKey) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) && (u16) field_1D6_continue_move_input == inputKey && field_1D4_previous_input != (u16) sInputKey_Up_5550D8 && field_1BC_turn_direction != MineCarDirs::eLeft_2 && field_1BC_turn_direction != MineCarDirs::eRight_1)) && !IsBlocked_46F4A0(3, 0))
+    if (
+        sInputObject_5BD4E0.isPressed(inputKey) ||
+        (
+            sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
+            (u16) field_1D6_continue_move_input == inputKey &&
+            field_1D4_previous_input != (u16) sInputKey_Up_5550D8 &&
+            field_1BC_turn_direction != MineCarDirs::eLeft_2 &&
+            field_1BC_turn_direction != MineCarDirs::eRight_1 &&
+            !IsBlocked_46F4A0(3, 0)
+        )
+    )
     {
-        const FP hitX = -FP_FromInteger(2);
-        const FP hitY = mineCarWidthAdjusted + FP_FromInteger(4);
-        const FP hitX2 = mineCarHeight - FP_FromInteger(1);
+        const FP rayCastY = field_BC_ypos + velY;
 
-        if (HandleState1Move(&MineCar::WallHit_408750, hitX, hitY, hitX2, frameTableOffset, MineCarDirs::eLeft_2, 1,
-                             rayCastX1, rayCastY1, rayCastX2, rayCastY2, 0x1000, 0x8000, velX, velY, inputKey, true, true)
-            || HandleState1Move(&MineCar::WallHit_408750, hitX, -hitY, hitX2, frameTableOffset, MineCarDirs::eRight_1, 0,
-                                rayCastX1, rayCastY1, rayCastX2, rayCastY2, 0x1000, 0x8000, velX, velY, inputKey, true, false))
+        const FP hitY = -FP_FromInteger(2);
+        const FP hitX = mineCarWidthAdjusted + FP_FromInteger(4);
+        const FP hitY2 = mineCarHeight - FP_FromInteger(1);
+
+        if (
+            HandleState1Move(
+                &MineCar::WallHit_408750,
+                hitY,
+                hitX,
+                hitY2,
+                frameTableOffset,
+                MineCarDirs::eLeft_2,
+                1,
+                rayCastX1,
+                rayCastY,
+                rayCastX2,
+                rayCastY,
+                0x1000,
+                0x8000,
+                velX,
+                velY,
+                inputKey,
+                true,
+                true
+            ) ||
+            HandleState1Move(
+                &MineCar::WallHit_408750,
+                hitY,
+                -hitX,
+                hitY2,
+                frameTableOffset,
+                MineCarDirs::eRight_1, 0,
+                rayCastX1,
+                rayCastY,
+                rayCastX2,
+                rayCastY,
+                0x1000,
+                0x8000,
+                velX,
+                velY,
+                inputKey,
+                true,
+                false
+            )
+        )
         {
             return;
         }
