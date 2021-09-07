@@ -67,7 +67,8 @@ BaseGameObject* Particle::VDestructor(s32 flags)
 
 EXPORT Particle* CC New_DestroyOrCreateObject_Particle_426F40(FP xpos, FP ypos, FP scale)
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, FALSE, FALSE);
+    const AnimRecord& rec = AnimRec(AnimId::DeathFlare_2);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, FALSE, FALSE);
     auto pParticle = ae_new<Particle>();
 
     if (!pParticle)
@@ -75,7 +76,7 @@ EXPORT Particle* CC New_DestroyOrCreateObject_Particle_426F40(FP xpos, FP ypos, 
         return nullptr;
     }
 
-    pParticle->ctor_4CC4C0(xpos, ypos, 9912, 122, 43, ppRes);
+    pParticle->ctor_4CC4C0(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
     pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     pParticle->field_CC_sprite_scale = FP_FromRaw(scale.fpValue * 2);
 

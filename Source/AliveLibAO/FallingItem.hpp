@@ -4,13 +4,14 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "AnimResources.hpp"
 
 namespace AO {
 
 struct FallingItem_Data final
 {
-    s32 field_0_frameTableOffset;
-    s32 field_4;
+    AnimId field_0_falling_animId;
+    AnimId field_4_waiting_animId;
     s16 field_8_maxW;
     s16 field_A_maxH;
 };

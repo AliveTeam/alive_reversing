@@ -541,7 +541,8 @@ void BirdPortal::VUpdate_4523D0()
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {
-                    u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, 1, 0);
+                    const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_Sparks);
+                    u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
                     if (ppLightRes)
                     {
                         auto pParticle = ao_new<Particle>();
@@ -550,9 +551,9 @@ void BirdPortal::VUpdate_4523D0()
                             pParticle->ctor_478880(
                                 field_40_pTerminator2->field_A8_xpos,
                                 (FP_FromInteger(10) * field_34_scale) + field_40_pTerminator2->field_AC_ypos,
-                                3708,
-                                31,
-                                69,
+                                rec.mFrameTableOffset,
+                                rec.mMaxW,
+                                rec.mMaxH,
                                 ppLightRes);
                         }
                         pParticle->field_CC_bApplyShadows &= ~1u;
@@ -668,7 +669,8 @@ void BirdPortal::VUpdate_4523D0()
 
             if (FP_GetExponent(field_3C_pTerminator1->field_AC_ypos) >= FP_GetExponent(field_40_pTerminator2->field_AC_ypos))
             {
-                u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortlitResID, 1, 0);
+                const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_Flash);
+                u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
                 if (ppLightRes)
                 {
                     auto pParticle_1 = ao_new<Particle>();
@@ -677,9 +679,9 @@ void BirdPortal::VUpdate_4523D0()
                         pParticle_1->ctor_478880(
                             field_40_pTerminator2->field_A8_xpos,
                             field_40_pTerminator2->field_AC_ypos,
-                            13352,
-                            145,
-                            74,
+                            rec.mFrameTableOffset,
+                            rec.mMaxW,
+                            rec.mMaxH,
                             ppLightRes);
                     }
                     pParticle_1->field_CC_bApplyShadows &= ~1u;

@@ -42,11 +42,12 @@ void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 ty
     {
         FP randX = (FP_FromInteger(Math_RandomRange_450F20(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 1, 0);
+        const AnimRecord& rec = AO::AnimRec(AnimId::SquibSmoke_Particle);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         auto pParticle = ao_new<Particle>();
         if (pParticle)
         {
-            pParticle->ctor_478880(randX, particleY, 4108, 61, 44, ppRes);
+            pParticle->ctor_478880(randX, particleY, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
             pParticle->field_CC_bApplyShadows &= ~1u;
             pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
             pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -150,11 +151,12 @@ void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
 
 void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 1, 0);
+    const AnimRecord& rec = AO::AnimRec(AnimId::ShootingZFire_Particle);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
-        pParticle->ctor_478880(xpos, ypos, 2348, 126, 44, ppRes);
+        pParticle->ctor_478880(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
         pParticle->field_CC_bApplyShadows &= ~1u;
 
         pParticle->field_C4_b = 55;
@@ -178,11 +180,12 @@ void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
 
 void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scale)
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 1, 0);
+    const AnimRecord& rec = AO::AnimRec(AnimId::ShootingFire_Particle);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     auto pParticle = ao_new<Particle>();
     if (pParticle)
     {
-        pParticle->ctor_478880(xpos, ypos, 804, 86, 17, ppRes);
+        pParticle->ctor_478880(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
 
         pParticle->field_CC_bApplyShadows &= ~1u;
         pParticle->field_C4_b = 55;
