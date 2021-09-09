@@ -531,7 +531,7 @@ void MineCar::Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::
     field_124_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards, bChangeDirection);
 }
 
-s16 MineCar::IsBlocked_46F4A0(s16 a2, s32 /*a3*/)
+s16 MineCar::IsBlocked_46F4A0(MineCarDirs a2, s32 /*a3*/)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     const FP mineCarHeight = field_CC_sprite_scale * mineCarHeightUnscaled;
@@ -540,7 +540,7 @@ s16 MineCar::IsBlocked_46F4A0(s16 a2, s32 /*a3*/)
 
     switch (a2)
     {
-        case 0:
+        case MineCarDirs::eDown_0:
         {
             if (!CheckRoofCollision_46F6B0(FP_FromInteger(4) - mineCarWidthAdjusted, -(mineCarHeight) + FP_FromInteger(1)))
             {
@@ -552,7 +552,7 @@ s16 MineCar::IsBlocked_46F4A0(s16 a2, s32 /*a3*/)
         }
         break;
 
-        case 3:
+        case MineCarDirs::eUp_3:
         {
             if (!CheckFloorCollision_46F730(FP_FromInteger(4) - mineCarWidthAdjusted, FP_FromInteger(1)))
             {
@@ -574,21 +574,27 @@ s16 MineCar::IsBlocked_46F4A0(s16 a2, s32 /*a3*/)
 
 s16 MineCar::FollowDirection_46EA00()
 {
-    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-    const FP k1 = FP_FromInteger(1);
-    const FP k4 = FP_FromInteger(4);
-    const FP k2 = FP_FromInteger(2);
-    const FP k0 = FP_FromInteger(0);
-
     const FP mineCarHeight = field_CC_sprite_scale * mineCarHeightUnscaled;
     const FP mineCarWidth = field_CC_sprite_scale * mineCarWidthUnscaled;
-    const FP mineCarWidthAdjusted = mineCarWidth + kGridSize;
+    const FP stepSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
+    const FP halfHeight = mineCarHeight * FP_FromDouble(0.5);
+    const FP step = mineCarWidth + stepSize;
+
+    const bool movingLeft = field_C4_velx < FP_FromInteger(0);
+    const bool movingLeftOrStopped = field_C4_velx <= FP_FromInteger(0);
+    const bool movingUp = field_C8_vely < FP_FromInteger(0);
+    const bool movingUpOrStopped = field_C8_vely <= FP_FromInteger(0);
+    
+    // If we're moving horizontally and hit a wall...
+    //
     if (
-        (WallHit_408750(mineCarHeight * FP_FromDouble(0.5), mineCarWidthAdjusted + k1) && field_C4_velx > k0) ||
-        (WallHit_408750(mineCarHeight * FP_FromDouble(0.5), -mineCarWidthAdjusted) && field_C4_velx < k0)
+        (field_C4_velx > FP_FromInteger(0) && WallHit_408750(halfHeight, step)) ||
+        (field_C4_velx < FP_FromInteger(0) && WallHit_408750(halfHeight, -step))
     )
     {
+        // ...continue vertically
+        //
         if (field_1BC_turn_direction == MineCarDirs::eUp_3)
         {
             field_1D6_continue_move_input = (u16) sInputKey_Up_5550D8;
@@ -601,11 +607,21 @@ s16 MineCar::FollowDirection_46EA00()
         return TRUE;
     }
 
+    // If we're moving vertically and hit and floor or roof...
+    //
     if (
-        (CheckFloorCollision_46F730(k0, k1) && field_C8_vely > k0) ||
-        (CheckRoofCollision_46F6B0(k0, -mineCarHeight) && field_C8_vely < k0)
+        (
+            CheckFloorCollision_46F730(FP_FromInteger(0), FP_FromInteger(1)) &&
+            field_C8_vely > FP_FromInteger(0)
+        ) ||
+        (
+            CheckRoofCollision_46F6B0(FP_FromInteger(0), -mineCarHeight) &&
+            field_C8_vely < FP_FromInteger(0)
+        )
     )
     {
+        // ...continue horizontally
+        //
         if (field_1BC_turn_direction == MineCarDirs::eLeft_2)
         {
             field_1D6_continue_move_input = (u16) sInputKey_Left_5550D4;
@@ -618,73 +634,92 @@ s16 MineCar::FollowDirection_46EA00()
         return TRUE;
     }
 
-    if (field_1BC_turn_direction == MineCarDirs::eUp_3)
+    switch (field_1BC_turn_direction)
     {
-        const bool bNoFloorRight =
-            CheckFloorCollision_46F730(k4 - mineCarWidthAdjusted, k4) ||
-            CheckFloorCollision_46F730(mineCarWidthAdjusted + k2, k4);
-
-        const bool bNoFloorLeft =
-            CheckFloorCollision_46F730(-(mineCarWidthAdjusted + k2), k4) ||
-            CheckFloorCollision_46F730(mineCarWidthAdjusted - k4, k4);
-
-        if ((field_C4_velx > k0 && !bNoFloorRight) || (field_C4_velx < k0 && !bNoFloorLeft))
+        case MineCarDirs::eDown_0:
         {
-            field_1D6_continue_move_input = (u16) sInputKey_Down_5550DC;
+            const bool bRoofRight =
+                CheckRoofCollision_46F6B0(FP_FromInteger(4) - step, -mineCarHeight) ||
+                CheckRoofCollision_46F6B0(step + FP_FromInteger(2), -mineCarHeight);
+            const bool bRoofLeft =
+                CheckRoofCollision_46F6B0(-(step + FP_FromInteger(2)), -mineCarHeight) ||
+                CheckRoofCollision_46F6B0(step - FP_FromInteger(4),    -mineCarHeight);
 
-            return TRUE;
+            if (
+                (field_C4_velx > FP_FromInteger(0) && !bRoofRight) ||
+                (field_C4_velx < FP_FromInteger(0) && !bRoofLeft)
+            )
+            {
+                field_1D6_continue_move_input = (u16) sInputKey_Up_5550D8;
+                return TRUE;
+            }
         }
-    }
-    else if (field_1BC_turn_direction == MineCarDirs::eDown_0)
-    {
-        const bool bRoofRight =
-            CheckRoofCollision_46F6B0(k4 - mineCarWidthAdjusted, -mineCarHeight) ||
-            CheckRoofCollision_46F6B0(mineCarWidthAdjusted + k2, -mineCarHeight);
+        
+        break;
 
-        const bool bRoofLeft =
-            CheckRoofCollision_46F6B0(-(mineCarWidthAdjusted + k2), -mineCarHeight) ||
-            CheckRoofCollision_46F6B0(mineCarWidthAdjusted - k4, -mineCarHeight);
-
-        if ((field_C4_velx > k0 && !bRoofRight) || (field_C4_velx < k0 && !bRoofLeft))
+        case MineCarDirs::eRight_1:
         {
-            field_1D6_continue_move_input = (u16) sInputKey_Up_5550D8;
+            const bool bLeftWall1 =
+                WallHit_408750(mineCarHeight - FP_FromInteger(2), -(step + FP_FromInteger(4))) ||
+                WallHit_408750(-FP_FromInteger(2),                -(step + FP_FromInteger(4)));
+            const bool bLeftWall2 =
+                WallHit_408750(mineCarHeight + FP_FromInteger(1), -(step + FP_FromInteger(4))) ||
+                WallHit_408750(FP_FromInteger(1),                 -(step + FP_FromInteger(4)));
 
-            return TRUE;
+            if (
+                (field_C8_vely > FP_FromInteger(0) && !bLeftWall1) ||
+                (field_C8_vely < FP_FromInteger(0) && !bLeftWall2)
+            )
+            {
+                field_1D6_continue_move_input = (u16) sInputKey_Left_5550D4;
+                return TRUE;
+            }
         }
-    }
-    else if (field_1BC_turn_direction == MineCarDirs::eLeft_2)
-    {
-        const bool bWall1 =
-            WallHit_408750(mineCarHeight - k2, mineCarWidthAdjusted + k4) ||
-            WallHit_408750(-k2, mineCarWidthAdjusted + k4);
+        
+        break;
 
-        const bool bWall2 =
-            WallHit_408750(mineCarHeight + k1, mineCarWidthAdjusted + k4) ||
-            WallHit_408750(k1, mineCarWidthAdjusted + k4);
-
-        if ((field_C8_vely > k0 && !bWall1) || (field_C8_vely < k0 && !bWall2))
+        case MineCarDirs::eLeft_2:
         {
-            field_1D6_continue_move_input = (u16) sInputKey_Right_5550D0;
+            const bool bRightWall1 =
+                WallHit_408750(mineCarHeight - FP_FromInteger(2), step + FP_FromInteger(4)) ||
+                WallHit_408750(-FP_FromInteger(2),                step + FP_FromInteger(4));
+            const bool bRightWall2 =
+                WallHit_408750(mineCarHeight + FP_FromInteger(1), step + FP_FromInteger(4)) ||
+                WallHit_408750(FP_FromInteger(1),                 step + FP_FromInteger(4));
 
-            return TRUE;
+            if (
+                (field_C8_vely > FP_FromInteger(0) && !bRightWall1) ||
+                (field_C8_vely < FP_FromInteger(0) && !bRightWall2)
+            )
+            {
+                field_1D6_continue_move_input = (u16) sInputKey_Right_5550D0;
+                return TRUE;
+            }
         }
-    }
-    else if (field_1BC_turn_direction == MineCarDirs::eRight_1)
-    {
-        const bool bWall1 =
-            WallHit_408750(mineCarHeight - k2, -(mineCarWidthAdjusted + k4)) ||
-            WallHit_408750(-k2, -(mineCarWidthAdjusted + k4));
+        
+        break;
 
-        const bool bWall2 =
-            WallHit_408750(mineCarHeight + k1, -(mineCarWidthAdjusted + k4)) ||
-            WallHit_408750(k1, -(mineCarWidthAdjusted + k4));
-
-        if ((field_C8_vely > k0 && !bWall1) || (field_C8_vely < k0 && !bWall2))
+        case MineCarDirs::eUp_3:
         {
-            field_1D6_continue_move_input = (u16) sInputKey_Left_5550D4;
+            const bool bFloorRight =
+                CheckFloorCollision_46F730(FP_FromInteger(4) - step, FP_FromInteger(4)) ||
+                CheckFloorCollision_46F730(step + FP_FromInteger(2), FP_FromInteger(4));
 
-            return TRUE;
+            const bool bFloorLeft =
+                CheckFloorCollision_46F730(-(step + FP_FromInteger(2)), FP_FromInteger(4)) ||
+                CheckFloorCollision_46F730(step - FP_FromInteger(4), FP_FromInteger(4));
+
+            if (
+                (field_C4_velx > FP_FromInteger(0) && !bFloorRight) ||
+                (field_C4_velx < FP_FromInteger(0) && !bFloorLeft)
+            )
+            {
+                field_1D6_continue_move_input = (u16) sInputKey_Down_5550DC;
+                return TRUE;
+            }
         }
+        
+        break;
     }
 
     return FALSE;
@@ -932,9 +967,9 @@ void MineCar::vUpdate_46C010()
         if (
             (
                 field_1BC_turn_direction != MineCarDirs::eUp_3 &&
-                !IsBlocked_46F4A0(3, 0)
+                !IsBlocked_46F4A0(MineCarDirs::eUp_3, 0)
             ) ||
-            !IsBlocked_46F4A0(3, 0)
+            !IsBlocked_46F4A0(MineCarDirs::eUp_3, 0)
         )
         {
             if (field_11C_state != MineCarStates::eParkedWithoutAbe_0)
@@ -946,7 +981,7 @@ void MineCar::vUpdate_46C010()
 
     if (
         field_1BC_turn_direction != MineCarDirs::eUp_3 ||
-        IsBlocked_46F4A0(3, 0)
+        IsBlocked_46F4A0(MineCarDirs::eUp_3, 0)
     )
     {
         return;
@@ -1300,11 +1335,11 @@ void MineCar::HandleUpDown()
             field_1D4_previous_input != (u16) sInputKey_Down_5550DC &&
             field_1BC_turn_direction != MineCarDirs::eLeft_2 &&
             field_1BC_turn_direction != MineCarDirs::eRight_1 &&
-            !IsBlocked_46F4A0(0, 0)
+            !IsBlocked_46F4A0(MineCarDirs::eDown_0, 0)
         )
     )
     {
-        const FP rayCastY = field_BC_ypos - velY - ((mineCarWidthAdjusted) * FP_FromDouble(0.5));
+        const FP rayCastY = field_BC_ypos - velY - (mineCarWidthAdjusted * FP_FromDouble(0.5));
 
         const FP hitX = mineCarWidthAdjusted + FP_FromInteger(4);
         const FP hitY = FP_FromInteger(1);
@@ -1356,7 +1391,7 @@ void MineCar::HandleUpDown()
             return;
         }
     }
-    else if (IsBlocked_46F4A0(0, 0))
+    else if (IsBlocked_46F4A0(MineCarDirs::eDown_0, 0))
     {
         if (sInputObject_5BD4E0.isPressed(inputKey))
         {
@@ -1380,7 +1415,7 @@ void MineCar::HandleUpDown()
             field_1D4_previous_input != (u16) sInputKey_Up_5550D8 &&
             field_1BC_turn_direction != MineCarDirs::eLeft_2 &&
             field_1BC_turn_direction != MineCarDirs::eRight_1 &&
-            !IsBlocked_46F4A0(3, 0)
+            !IsBlocked_46F4A0(MineCarDirs::eUp_3, 0)
         )
     )
     {
@@ -1436,7 +1471,7 @@ void MineCar::HandleUpDown()
             return;
         }
     }
-    else if (IsBlocked_46F4A0(3, 0))
+    else if (IsBlocked_46F4A0(MineCarDirs::eUp_3, 0))
     {
         if (sInputObject_5BD4E0.isPressed(inputKey))
         {
