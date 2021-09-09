@@ -589,7 +589,7 @@ s16 MineCar::FollowDirection_46EA00()
     // If we're moving horizontally and hit a wall...
     //
     if (
-        (field_C4_velx > FP_FromInteger(0) && WallHit_408750(halfHeight, step)) ||
+        (field_C4_velx > FP_FromInteger(0) && WallHit_408750(halfHeight, step + FP_FromInteger(1))) ||
         (field_C4_velx < FP_FromInteger(0) && WallHit_408750(halfHeight, -step))
     )
     {
