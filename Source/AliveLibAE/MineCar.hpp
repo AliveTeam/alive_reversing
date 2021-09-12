@@ -106,7 +106,7 @@ private:
     EXPORT void vRender_46E760(PrimHeader** ppOt);
     EXPORT void Stop_46E570();
     EXPORT void Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs dir, s8 bChangeDirection);
-    EXPORT s16 IsBlocked_46F4A0(s16 a2, s32 a3);
+    EXPORT s16 IsBlocked_46F4A0(MineCarDirs a2, s32 a3);
     EXPORT s16 FollowDirection_46EA00();
     EXPORT void RunThingsOver_46F380();
     EXPORT s16 vTakeDamage_46F7D0(BaseGameObject* pFrom);
