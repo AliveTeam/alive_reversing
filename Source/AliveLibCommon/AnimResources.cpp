@@ -1480,9 +1480,11 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "BOMB.BND", 836, 35, 17, kBombResID, PalId::Default},
         { "BOMB.BND", 792, 35, 17, kBombResID, PalId::Default}
     },
-    {AnimId::Tortured_Mudokon, { "MUDTORT.BAN", 20892, 101, 0x44u, kTorturedMud, PalId::Default}, kNullAnimDetails },
-    {AnimId::Tortured_Mudokon_Released, { "MUDTORT.BAN", 20864, 101, 0x44u, kTorturedMud, PalId::Default}, kNullAnimDetails },
-    {AnimId::Tortured_Mudokon_Zap, { "MUDTORT.BAN", 21000, 101, 0x44u, kTorturedMud, PalId::Default}, kNullAnimDetails },
+
+    {AnimId::Tortured_Mudokon, { "MUDTORT.BAN", 20892, 101, 68, kTorturedMud, PalId::Default}, kNullAnimDetails },
+    {AnimId::Tortured_Mudokon_Released, { "MUDTORT.BAN", 20864, 101, 68, kTorturedMud, PalId::Default}, kNullAnimDetails },
+    {AnimId::Tortured_Mudokon_Zap, { "MUDTORT.BAN", 21000, 101, 68, kTorturedMud, PalId::Default}, kNullAnimDetails },
+    {AnimId::Tortured_Mudokon_Tears, {"TEARS.BAN", 500, 17, 19, kTorturedMudTearsResID, PalId::Default}, kNullAnimDetails},
 
     { AnimId::Trap_Door_Open, { "TRAPDOOR.BAN", 4800, 72, 41, kP6c1trapResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Trap_Door_Closed, { "TRAPDOOR.BAN", 4788, 72, 41, kP6c1trapResID, PalId::Default}, kNullAnimDetails },
@@ -1607,6 +1609,12 @@ void FrameTableOffsetExists(int frameTableOffset, bool isAe, int maxW, int maxH)
             if (entry.mAEData.mFrameTableOffset == frameTableOffset &&
                 entry.mAEData.mMaxW == maxW &&
                 entry.mAEData.mMaxH == maxH)
+            {
+                return;
+            }
+
+            // special handling for some weird OG behavior (see Explosion.cpp line 184)
+            if (entry.mId == AnimId::Explosion_Small)
             {
                 return;
             }
