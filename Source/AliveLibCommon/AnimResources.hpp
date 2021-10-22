@@ -813,6 +813,7 @@ enum class AnimId
     Tortured_Mudokon,
     Tortured_Mudokon_Released,
     Tortured_Mudokon_Zap,
+    Tortured_Mudokon_Tears,
     Trap_Door_Closed,
     Trap_Door_Closing,
     Trap_Door_Open,

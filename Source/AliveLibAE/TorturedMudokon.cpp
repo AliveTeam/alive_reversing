@@ -68,8 +68,9 @@ BaseGameObject* TorturedMudokon::VDestructor(s32 flags)
 
 void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
 {
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTorturedMudTearsResID);
-    if (pAnim->Init_40A030(500, gObjList_animations_5C1A24, this, 17, 19, ppRes, 1, 0, 0))
+    const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon_Tears);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    if (pAnim->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnim->field_14_scale = field_CC_sprite_scale;
@@ -85,8 +86,9 @@ void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
 
 void TorturedMudokon::SetupZapAnimation_47BEF0(Animation* pAnim)
 {
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
-    if (pAnim->Init_40A030(15384, gObjList_animations_5C1A24, this, 50, 80, ppRes, 1, 0, 0))
+    const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    if (pAnim->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
         // TODO: clean this up
         const s32 layerM1 = static_cast<s32>(field_20_animation.field_C_render_layer) - 1;

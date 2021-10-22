@@ -49,8 +49,9 @@ BrewMachine* BrewMachine::ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo)
     field_F4_font_context.LoadFontType_433400(2);
     field_104_font.ctor_433590(3, fontPalette_550F08, &field_F4_font_context);
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBrewButtonResID_6016);
-    Animation_Init_424E10(316, 19, 11, ppRes, 1, 1u);
+    const AnimRecord& rec = AnimRec(AnimId::BrewMachine_Button);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);

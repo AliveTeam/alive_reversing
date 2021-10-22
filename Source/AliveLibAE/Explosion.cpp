@@ -179,9 +179,10 @@ void Explosion::vUpdate_4A1510()
             auto pParticle = ae_new<Particle>();
             if (pParticle)
             {
-                pParticle->ctor_4CC4C0(field_B8_xpos, field_BC_ypos, field_F4_bSmall ? 14108 : 51156,
-                                       202, // Same size for both for some reason
-                                       91,
+                const AnimRecord& rec = field_F4_bSmall ? AnimRec(AnimId::Explosion_Small) : AnimRec(AnimId::Explosion);
+                pParticle->ctor_4CC4C0(field_B8_xpos, field_BC_ypos, rec.mFrameTableOffset,
+                                       202, // Same size for both explosions for some reason
+                                       91,  // ^^^
                                        ppRes);
 
                 if (pParticle->field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
