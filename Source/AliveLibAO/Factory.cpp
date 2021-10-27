@@ -2669,11 +2669,14 @@ EXPORT void Factory_BackgroundGlukkon_487CE0(Path_TLV* pTlv, Map* /*pMap*/, TlvI
 }
 
 
-EXPORT void Factory_KillUnsavedMuds_487DA0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+EXPORT void Factory_KillUnsavedMuds_487DA0(Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
     {
-        if (!gbKillUnsavedMudsDone_5076CC)
+        // OG bug fix - added an extra check that checks if the map has changed
+        // which prevents that the killed mudokon count becomes inaccurate or even negative.
+        if (!gbKillUnsavedMudsDone_5076CC &&
+            pMap->field_DA_bMapChanged)
         {
             gbKillUnsavedMudsDone_5076CC = 1;
             sKilledMudokons_5076BC = 28 - sRescuedMudokons_5076C0;
