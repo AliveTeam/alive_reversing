@@ -365,7 +365,7 @@ s32 CC Paramite::CreateFromSaveState_4855A0(const u8* pBuffer)
     pParamite->field_150_return_path = pState->field_6E_return_path;
     pParamite->field_152_return_camera = pState->field_70_return_camera;
 
-    pParamite->field_154_input = InputObject::Command_To_Raw_45EE40(pState->field_72_input);
+    pParamite->field_154_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_72_input);
     pParamite->field_158_next_brain_ret = pState->field_74_next_brain_ret;
 
     pParamite->field_178_flags.Set(Flags_178::eBit2_running, pState->field_76_flags.Get(Paramite_State::eBit2_running));
@@ -469,7 +469,7 @@ s32 Paramite::vGetSaveState_48F220(Paramite_State* pState)
     pState->field_6E_return_path = field_150_return_path;
     pState->field_70_return_camera = field_152_return_camera;
 
-    pState->field_72_input = InputObject::Raw_To_Command_45EF70(field_154_input);
+    pState->field_72_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_154_input);
     pState->field_74_next_brain_ret = field_158_next_brain_ret;
 
     pState->field_76_flags.Set(Paramite_State::eBit2_running, field_178_flags.Get(Flags_178::eBit2_running));

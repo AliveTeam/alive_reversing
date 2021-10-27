@@ -1146,8 +1146,8 @@ s32 CC Abe::CreateFromSaveState_44D4F0(const u8* pData)
     sActiveHero_5C1B68->field_16E_bHaveInvisiblity = pSaveState->bHaveInvisiblity;
     sActiveHero_5C1B68->field_104_collision_line_type = pSaveState->field_3a_collision_line_id;
 
-    sActiveHero_5C1B68->field_118_prev_held = InputObject::Command_To_Raw_45EE40(pSaveState->prev_held);
-    sActiveHero_5C1B68->field_11C_released_buttons = InputObject::Command_To_Raw_45EE40(pSaveState->released_buttons);
+    sActiveHero_5C1B68->field_118_prev_held = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->prev_held);
+    sActiveHero_5C1B68->field_11C_released_buttons = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->released_buttons);
     sActiveHero_5C1B68->field_122_knockdown_motion = pSaveState->field_74_knockdown_motion;
     sActiveHero_5C1B68->field_128.field_14_rolling_motion_timer = sGnFrame_5C1B84 - pSaveState->field_78_rolling_motion_timer;
     sActiveHero_5C1B68->field_148_fade_obj_id = pSaveState->fade_obj_id;
@@ -2018,8 +2018,8 @@ s32 Abe::vGetSaveState_457110(u8* pSaveBuffer)
     pSaveState->bHaveShrykull = static_cast<s8>(field_16C_bHaveShrykull);
     pSaveState->bHaveInvisiblity = static_cast<s8>(field_16E_bHaveInvisiblity);
 
-    pSaveState->prev_held = InputObject::Raw_To_Command_45EF70(field_118_prev_held);
-    pSaveState->released_buttons = InputObject::Raw_To_Command_45EF70(field_11C_released_buttons);
+    pSaveState->prev_held = InputObject::KeyboardInputToPsxButtons_45EF70(field_118_prev_held);
+    pSaveState->released_buttons = InputObject::KeyboardInputToPsxButtons_45EF70(field_11C_released_buttons);
 
     pSaveState->field_74_knockdown_motion = field_122_knockdown_motion;
     pSaveState->field_78_rolling_motion_timer = sGnFrame_5C1B84 - field_128.field_14_rolling_motion_timer;

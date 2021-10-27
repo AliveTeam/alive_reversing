@@ -947,7 +947,7 @@ s32 CC Slig::CreateFromSaveState_4B3B50(const u8* pBuffer)
     pSlig->field_124_return_to_previous_motion = pState->field_4C_return_to_previous_motion;
     pSlig->field_126_checked_if_off_screen = pState->field_4E_checked_if_off_screen;
 
-    pSlig->field_128_input = InputObject::Command_To_Raw_45EE40(pState->field_50_input);
+    pSlig->field_128_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_50_input);
 
     pSlig->field_12C_timer = pState->field_54_timer;
     pSlig->field_130_falling_velx_scale_factor = pState->field_58_falling_velx_scale_factor;
@@ -6745,7 +6745,7 @@ s32 Slig::vGetSaveState_4BFB10(Slig_State* pState)
     pState->field_48_timer = field_120_timer;
     pState->field_4C_return_to_previous_motion = field_124_return_to_previous_motion;
     pState->field_4E_checked_if_off_screen = field_126_checked_if_off_screen;
-    pState->field_50_input = InputObject::Raw_To_Command_45EF70(field_128_input);
+    pState->field_50_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_128_input);
     pState->field_54_timer = field_12C_timer;
     pState->field_58_falling_velx_scale_factor = field_130_falling_velx_scale_factor;
     pState->field_5C_tlvInfo = field_118_tlvInfo;

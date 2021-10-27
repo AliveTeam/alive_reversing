@@ -172,8 +172,8 @@ public:
     EXPORT void UnsetDemoPlaying_45F240();
     EXPORT void SetDemoResource_45F1E0(u32** pDemoRes);
     EXPORT void Update_45F040();
-    EXPORT static u32 CC Command_To_Raw_45EE40(u32 cmd);
-    EXPORT static s8 CC Raw_To_Command_45EF70(s32 a1);
+    EXPORT static u32 CC PsxButtonsToKeyboardInput_45EE40(u32 cmd);
+    EXPORT static s8 CC KeyboardInputToPsxButtons_45EF70(s32 cmd);
     EXPORT void CC ShutDown_45F020();
 
 public:
