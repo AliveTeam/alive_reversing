@@ -103,54 +103,48 @@ s32 CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
     const FP yOff = (pSlig->field_CC_sprite_scale * FP_FromInteger(pPoints->field_2_y));
 
     Bullet* pBullet = nullptr;
+
+    FP bullet_xDist = FP_FromInteger(0);
+    s8 fireDirection = 0;
+    FP fireXpos = FP_FromInteger(0);
+    s16 shellDirection = 0;
     if (pSlig->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        pBullet = ae_new<Bullet>();
-        if (pBullet)
-        {
-            pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, FP_FromInteger(-640), 0, pSlig->field_CC_sprite_scale, 0);
-        }
-
-        New_ShootingFire_Particle_426890(pSlig->field_B8_xpos - xOff, yOff + pSlig->field_BC_ypos, 1, pSlig->field_CC_sprite_scale);
-
-        if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
-        {
-            SFX_Play_46FA90(SoundEffect::SligShoot_5, 85);
-        }
-        else
-        {
-            auto pShell = ae_new<BulletShell>();
-            if (pShell)
-            {
-                pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 0, pSlig->field_CC_sprite_scale);
-            }
-            SFX_Play_46FA90(SoundEffect::SligShoot_5, 0);
-        }
+        bullet_xDist = FP_FromInteger(-640);
+        fireDirection = 1;
+        fireXpos = pSlig->field_B8_xpos - xOff;
+        shellDirection = 0;
     }
     else
     {
-        pBullet = ae_new<Bullet>();
-        if (pBullet)
-        {
-            pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, FP_FromInteger(640), 0, pSlig->field_CC_sprite_scale, 0);
-        }
-
-        New_ShootingFire_Particle_426890(xOff + pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 0, pSlig->field_CC_sprite_scale);
-
-        if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
-        {
-            SFX_Play_46FA90(SoundEffect::SligShoot_5, 85);
-        }
-        else
-        {
-            auto pShell = ae_new<BulletShell>();
-            if (pShell)
-            {
-                pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 1, pSlig->field_CC_sprite_scale);
-            }
-            SFX_Play_46FA90(SoundEffect::SligShoot_5, 0);
-        }
+        bullet_xDist = FP_FromInteger(640);
+        fireDirection = 0;
+        fireXpos = xOff + pSlig->field_B8_xpos;
+        shellDirection = 1;
     }
+
+    pBullet = ae_new<Bullet>();
+    if (pBullet)
+    {
+        pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, bullet_xDist, 0, pSlig->field_CC_sprite_scale, 0);
+    }
+
+    New_ShootingFire_Particle_426890(fireXpos, yOff + pSlig->field_BC_ypos, fireDirection, pSlig->field_CC_sprite_scale);
+
+    if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
+    {
+        SFX_Play_46FA90(SoundEffect::SligShoot_5, 85);
+    }
+    else
+    {
+        auto pShell = ae_new<BulletShell>();
+        if (pShell)
+        {
+            pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, shellDirection, pSlig->field_CC_sprite_scale);
+        }
+        SFX_Play_46FA90(SoundEffect::SligShoot_5, 0);
+    }
+
 
     Event_Broadcast_422BC0(kEventShooting, pSlig);
     Event_Broadcast_422BC0(kEventLoudNoise, pSlig);
@@ -947,7 +941,7 @@ s32 CC Slig::CreateFromSaveState_4B3B50(const u8* pBuffer)
     pSlig->field_124_return_to_previous_motion = pState->field_4C_return_to_previous_motion;
     pSlig->field_126_checked_if_off_screen = pState->field_4E_checked_if_off_screen;
 
-    pSlig->field_128_input = InputObject::Command_To_Raw_45EE40(pState->field_50_input);
+    pSlig->field_128_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_50_input);
 
     pSlig->field_12C_timer = pState->field_54_timer;
     pSlig->field_130_falling_velx_scale_factor = pState->field_58_falling_velx_scale_factor;
@@ -6745,7 +6739,7 @@ s32 Slig::vGetSaveState_4BFB10(Slig_State* pState)
     pState->field_48_timer = field_120_timer;
     pState->field_4C_return_to_previous_motion = field_124_return_to_previous_motion;
     pState->field_4E_checked_if_off_screen = field_126_checked_if_off_screen;
-    pState->field_50_input = InputObject::Raw_To_Command_45EF70(field_128_input);
+    pState->field_50_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_128_input);
     pState->field_54_timer = field_12C_timer;
     pState->field_58_falling_velx_scale_factor = field_130_falling_velx_scale_factor;
     pState->field_5C_tlvInfo = field_118_tlvInfo;

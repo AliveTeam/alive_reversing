@@ -402,7 +402,7 @@ s32 CC Scrab::CreateFromSaveState_4A70A0(const u8* pBuffer)
     pScrab->field_166_level = pState->field_7E_level;
     pScrab->field_168_path = pState->field_80_path;
     pScrab->field_16A_camera = pState->field_82_camera;
-    pScrab->field_16C_input = InputObject::Command_To_Raw_45EE40(pState->field_84_input);
+    pScrab->field_16C_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_84_input);
     pScrab->field_170_unused = pState->field_88_unused;
     pScrab->field_178_shred_power_active = pState->field_8C_shred_power_active;
     pScrab->field_194_speak = pState->field_8E_speak;
@@ -512,7 +512,7 @@ s32 Scrab::vGetSaveState_4AB020(Scrab_State* pState)
     pState->field_7E_level = field_166_level;
     pState->field_80_path = field_168_path;
     pState->field_82_camera = field_16A_camera;
-    pState->field_84_input = InputObject::Raw_To_Command_45EF70(field_16C_input);
+    pState->field_84_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_16C_input);
     pState->field_88_unused = field_170_unused;
     pState->field_8C_shred_power_active = field_178_shred_power_active;
     pState->field_8E_speak = field_194_speak;
