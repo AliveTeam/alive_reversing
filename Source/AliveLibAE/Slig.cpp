@@ -103,54 +103,48 @@ s32 CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
     const FP yOff = (pSlig->field_CC_sprite_scale * FP_FromInteger(pPoints->field_2_y));
 
     Bullet* pBullet = nullptr;
+
+    FP bullet_xDist = FP_FromInteger(0);
+    s8 fireDirection = 0;
+    FP fireXpos = FP_FromInteger(0);
+    s16 shellDirection = 0;
     if (pSlig->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        pBullet = ae_new<Bullet>();
-        if (pBullet)
-        {
-            pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, FP_FromInteger(-640), 0, pSlig->field_CC_sprite_scale, 0);
-        }
-
-        New_ShootingFire_Particle_426890(pSlig->field_B8_xpos - xOff, yOff + pSlig->field_BC_ypos, 1, pSlig->field_CC_sprite_scale);
-
-        if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
-        {
-            SFX_Play_46FA90(SoundEffect::SligShoot_5, 85);
-        }
-        else
-        {
-            auto pShell = ae_new<BulletShell>();
-            if (pShell)
-            {
-                pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 0, pSlig->field_CC_sprite_scale);
-            }
-            SFX_Play_46FA90(SoundEffect::SligShoot_5, 0);
-        }
+        bullet_xDist = FP_FromInteger(-640);
+        fireDirection = 1;
+        fireXpos = pSlig->field_B8_xpos - xOff;
+        shellDirection = 0;
     }
     else
     {
-        pBullet = ae_new<Bullet>();
-        if (pBullet)
-        {
-            pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, FP_FromInteger(640), 0, pSlig->field_CC_sprite_scale, 0);
-        }
-
-        New_ShootingFire_Particle_426890(xOff + pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 0, pSlig->field_CC_sprite_scale);
-
-        if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
-        {
-            SFX_Play_46FA90(SoundEffect::SligShoot_5, 85);
-        }
-        else
-        {
-            auto pShell = ae_new<BulletShell>();
-            if (pShell)
-            {
-                pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 1, pSlig->field_CC_sprite_scale);
-            }
-            SFX_Play_46FA90(SoundEffect::SligShoot_5, 0);
-        }
+        bullet_xDist = FP_FromInteger(640);
+        fireDirection = 0;
+        fireXpos = xOff + pSlig->field_B8_xpos;
+        shellDirection = 1;
     }
+
+    pBullet = ae_new<Bullet>();
+    if (pBullet)
+    {
+        pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, bullet_xDist, 0, pSlig->field_CC_sprite_scale, 0);
+    }
+
+    New_ShootingFire_Particle_426890(fireXpos, yOff + pSlig->field_BC_ypos, fireDirection, pSlig->field_CC_sprite_scale);
+
+    if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
+    {
+        SFX_Play_46FA90(SoundEffect::SligShoot_5, 85);
+    }
+    else
+    {
+        auto pShell = ae_new<BulletShell>();
+        if (pShell)
+        {
+            pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, shellDirection, pSlig->field_CC_sprite_scale);
+        }
+        SFX_Play_46FA90(SoundEffect::SligShoot_5, 0);
+    }
+
 
     Event_Broadcast_422BC0(kEventShooting, pSlig);
     Event_Broadcast_422BC0(kEventLoudNoise, pSlig);
