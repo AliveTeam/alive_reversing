@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Psx.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 
 namespace AO {

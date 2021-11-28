@@ -1,10 +1,10 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Game.hpp"
 #include "Input.hpp"
-#include "Function.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "DDCheat.hpp"
 
@@ -41,7 +41,26 @@ void DebugAddRaycast(RaycastDebug rc);
 
 // File System
 namespace FS {
-[[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const std::string& filePath);
+    // inline as its used by the API tests
+    inline [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const std::string& filePath)
+    {
+        FILE* hFile = ::fopen(filePath.c_str(), "rb");
+        if (!hFile)
+        {
+            return false;
+        }
+
+        ::fseek(hFile, 0, SEEK_END);                // seek to end of file
+        const std::size_t fileLen = ::ftell(hFile); // get current file pointer
+        ::fseek(hFile, 0, SEEK_SET);                // seek back to beginning of file
+
+        target.resize(fileLen);
+        ::fread(target.data(), 1, target.size(), hFile);
+
+        ::fclose(hFile);
+        return true;
+    }
+
 [[nodiscard]] std::vector<u8> ReadFile(const std::string& filePath);
 [[nodiscard]] std::string GetPrefPath();
 } // namespace FS

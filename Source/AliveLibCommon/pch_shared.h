@@ -134,8 +134,4 @@
 #include <utility>
 #include <vector>
 
-#if USE_SDL2
-#include "SDL.h"
-#endif
-
 #include "FixedPoint_common.hpp"

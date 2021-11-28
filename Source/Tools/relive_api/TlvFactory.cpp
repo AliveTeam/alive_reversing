@@ -2,10 +2,10 @@
 
 #include "TlvObjectBase.hpp"
 
-#include "../AliveLibAO/PathData.hpp"
-#include "../AliveLibAO/Map.hpp"
+#include "../../AliveLibAO/PathData.hpp"
+#include "../../AliveLibAO/Map.hpp"
 
-#include "../AliveLibAE/Path.hpp"
+#include "../../AliveLibAE/Path.hpp"
 
 #include <jsonxx/jsonxx.h>
 #include <magic_enum/include/magic_enum.hpp>

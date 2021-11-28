@@ -1,8 +1,8 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "FunctionFwd.hpp"
-#include "BitField.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 #include "Input.hpp"
 #include "Path.hpp"
 

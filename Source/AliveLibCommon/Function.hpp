@@ -2,7 +2,7 @@
 
 #include <type_traits>
 #include "logger.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 #ifdef _MSC_VER
 

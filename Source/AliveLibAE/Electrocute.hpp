@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 class BaseAliveGameObject;
 class PalleteOverwriter;

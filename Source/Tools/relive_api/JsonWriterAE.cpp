@@ -1,5 +1,5 @@
 #include "JsonWriterAE.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "../../AliveLibAE/Path.hpp"
 #include <jsonxx/jsonxx.h>
 #include "TypesCollectionAE.hpp"
 #include "JsonReaderBase.hpp"
@@ -86,7 +86,7 @@ void JsonWriterAE::ResetTypeCounterMap()
             LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type.mType);
         }
 
-        pPathTLV = Path::Next_TLV_4DB6A0(pPathTLV); // TODO: Will skip the last entry ??
+        pPathTLV = Path::Next_TLV(pPathTLV); // TODO: Will skip the last entry ??
     }
 
     return mapObjects;

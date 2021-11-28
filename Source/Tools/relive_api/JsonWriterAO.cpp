@@ -1,6 +1,6 @@
 #include "JsonWriterAO.hpp"
 #include <jsonxx/jsonxx.h>
-#include "../AliveLibAO/Map.hpp"
+#include "../../AliveLibAO/Map.hpp"
 #include "TypesCollectionAO.hpp"
 #include "TlvObjectBase.hpp"
 #include "JsonReaderBase.hpp"
@@ -46,7 +46,7 @@ JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const Pat
                 LOG_WARNING("Ignoring type: " << magic_enum::enum_name(pPathTLV->field_4_type.mType));
             }
 
-            pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
+            pPathTLV = AO::Path_TLV::Next(pPathTLV);
             if (pPathTLV)
             {
                 pPathTLV->RangeCheck();

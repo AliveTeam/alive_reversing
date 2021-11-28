@@ -121,15 +121,7 @@ Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera_4DB610(s16 cam_x_idx, s16 cam
 
 Path_TLV* CCSTD Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
 {
-    if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
-    {
-        return nullptr;
-    }
-
-    // Skip length bytes to get to the start of the next TLV
-    u8* ptr = reinterpret_cast<u8*>(pTlv);
-    u8* pNext = ptr + pTlv->field_2_length;
-    return reinterpret_cast<Path_TLV*>(pNext);
+    return Next_TLV(pTlv);
 }
 
 Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes objectType, s16 camX)

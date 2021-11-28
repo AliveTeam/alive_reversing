@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 // TODO: Can be made into a template when all usages are reversed.
 void DynamicArray_ForceLink();

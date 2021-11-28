@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
-#include "Psx_common.hpp"
-#include "FixedPoint_common.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Psx_common.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "PathData.hpp"
 #include "BaseGameObject.hpp"
 
@@ -111,7 +111,26 @@ struct Path_TLV
 
     // Note: Part of Path object in AE
     EXPORT static Path_TLV* CCSTD Next_446460(Path_TLV* pTlv);
-    static Path_TLV* Next_NoCheck(Path_TLV* pTlv);
+
+    // Note: must be inlined as its used by the api
+    static Path_TLV* Next(Path_TLV* pTlv)
+    {
+        if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+        {
+            return nullptr;
+        }
+
+        return Next_NoCheck(pTlv);
+    }
+
+    // Note: must be inlined as its used by the api
+    static Path_TLV* Next_NoCheck(Path_TLV* pTlv)
+    {
+        // Skip length bytes to get to the start of the next TLV
+        u8* ptr = reinterpret_cast<u8*>(pTlv);
+        u8* pNext = ptr + pTlv->field_2_length;
+        return reinterpret_cast<Path_TLV*>(pNext);
+    }
 
     EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type);
 

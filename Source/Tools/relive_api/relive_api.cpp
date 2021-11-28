@@ -1,9 +1,9 @@
-#include "../AliveLibCommon/stdafx_common.h"
+#include "../../AliveLibCommon/stdafx_common.h"
 #include "relive_api.hpp"
-#include "../AliveLibAE/Path.hpp"
-#include "../AliveLibAE/PathData.hpp"
-#include "../AliveLibAO/Collisions.hpp"
-#include "../AliveLibAE/Collisions.hpp"
+#include "../../AliveLibAE/Path.hpp"
+#include "../../AliveLibAE/PathData.hpp"
+#include "../../AliveLibAO/Collisions.hpp"
+#include "../../AliveLibAE/Collisions.hpp"
 #include "LvlReaderWriter.hpp"
 #include "JsonUpgraderAO.hpp"
 #include "JsonUpgraderAE.hpp"
@@ -23,6 +23,30 @@
 bool RunningAsInjectedDll()
 {
     return false;
+}
+
+// items defined to avoid having to link AliveLibAO
+namespace AO {
+    const PathFunctionTable kObjectFactory = {};
+
+    void CC Collisions::Factory_40CEC0(const CollisionInfo* , const u8* )
+    {
+
+    }
+} // namespace AO
+
+// ditto for AliveLibAe
+const PathFunctionTable kObjectFactory = {};
+
+// ditto for AliveLibCommon
+[[noreturn]] void ALIVE_FATAL(const char_type*)
+{
+    abort();
+}
+
+void CC Collisions::Factory_4188A0(const CollisionInfo*, const u8*)
+{
+
 }
 
 namespace ReliveAPI {

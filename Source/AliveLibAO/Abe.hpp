@@ -1,12 +1,12 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BellSong.hpp"
 #include "stdafx_ao.h"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "Input.hpp"
-#include "Path.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 

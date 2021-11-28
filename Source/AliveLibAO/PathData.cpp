@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "PathData.hpp"
-#include "Function.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Collisions.hpp"
 
 namespace AO {

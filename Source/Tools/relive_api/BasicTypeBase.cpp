@@ -1,6 +1,6 @@
 #include "BasicTypeBase.hpp"
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 
 #include <jsonxx/jsonxx.h>
 

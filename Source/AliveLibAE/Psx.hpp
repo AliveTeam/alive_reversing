@@ -1,10 +1,10 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "bmp.hpp"
 #include "FixedPoint.hpp"
-#include "Psx_common.hpp"
-#include "AddPointer.hpp"
+#include "../AliveLibCommon/Psx_common.hpp"
+#include "../AliveLibCommon/AddPointer.hpp"
 
 void Psx_ForceLink();
 

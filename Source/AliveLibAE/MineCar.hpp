@@ -2,7 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Input.hpp"
 
 

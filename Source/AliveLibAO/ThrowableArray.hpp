@@ -1,5 +1,5 @@
 #pragma once
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
 namespace AO {

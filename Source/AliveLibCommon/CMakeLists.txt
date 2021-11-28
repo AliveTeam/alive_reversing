@@ -3,6 +3,9 @@ project(AliveLibCommon VERSION 0.1 LANGUAGES CXX)
 SET(AliveLibSrcCommon
     ExportHooker.hpp
     ExportHooker.cpp
+    CamDecompressor.cpp
+    CamDecompressor.hpp
+    vlctable.hpp
     logger.hpp
     Function.cpp
     Function.hpp

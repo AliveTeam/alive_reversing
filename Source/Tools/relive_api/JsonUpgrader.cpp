@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "JsonUpgrader.hpp"
 #include "relive_api.hpp"
 

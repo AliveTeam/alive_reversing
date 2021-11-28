@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 EXPORT void CC Error_DisplayMessageBox_4F2C80(const char_type* msg, s32 lineNum, const char_type* formatStr, ...);
 EXPORT void CC Error_PushErrorRecord_4F2920(const char_type* pSourceFileName, s32 lineNumber, s32 minusOne, const char_type* errMsg);

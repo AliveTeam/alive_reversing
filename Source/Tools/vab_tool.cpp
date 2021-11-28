@@ -1,6 +1,6 @@
 #include "relive_config.h"
 #include "logger.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "SDL_main.h"
 #include "Io.hpp"
 #include "Sys.hpp"

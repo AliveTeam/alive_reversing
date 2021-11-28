@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Math.hpp"
-#include "FixedPoint_common.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
 
 void FixedPoint_ForceLink();
 

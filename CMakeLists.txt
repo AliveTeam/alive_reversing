@@ -83,7 +83,6 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
 # -----------------------------------------------------------------------------
 # Setup unity builds
 set_target_properties(EasyLogging++ PROPERTIES UNITY_BUILD ON)
-set_target_properties(jsonxx        PROPERTIES UNITY_BUILD ON)
 set_target_properties(googletest    PROPERTIES UNITY_BUILD ON)
 set_target_properties(imgui         PROPERTIES UNITY_BUILD ON)
 

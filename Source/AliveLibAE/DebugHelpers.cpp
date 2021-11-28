@@ -2134,25 +2134,6 @@ void DebugHelpers_Init()
     //#endif
 }
 
-[[nodiscard]] bool FS::ReadFileInto(std::vector<u8>& target, const std::string& filePath)
-{
-    FILE* hFile = ::fopen(filePath.c_str(), "rb");
-    if (!hFile)
-    {
-        return false;
-    }
-
-    ::fseek(hFile, 0, SEEK_END);                // seek to end of file
-    const std::size_t fileLen = ::ftell(hFile); // get current file pointer
-    ::fseek(hFile, 0, SEEK_SET);                // seek back to beginning of file
-
-    target.resize(fileLen);
-    ::fread(target.data(), 1, target.size(), hFile);
-
-    ::fclose(hFile);
-    return true;
-}
-
 [[nodiscard]] std::vector<u8> FS::ReadFile(const std::string& filePath)
 {
     std::vector<u8> buffer;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 #include "relive_api_exceptions.hpp"
 
 #include <string>

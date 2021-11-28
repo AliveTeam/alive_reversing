@@ -2,10 +2,10 @@
 
 #include "TlvObjectBaseMacros.hpp"
 
-#include "../AliveLibAO/Map.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "../../AliveLibAO/Map.hpp"
+#include "../../AliveLibAE/Path.hpp"
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 
 #include <jsonxx/jsonxx.h>
 

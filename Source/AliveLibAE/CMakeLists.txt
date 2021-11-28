@@ -11,7 +11,6 @@ SET(AliveLibAESrc
     Renderer/OpenGLRenderer.cpp
     Renderer/GLShader.hpp
     Renderer/GLShader.cpp
-    vlctable.hpp
     Input.cpp
     Input.hpp
     DynamicArray.cpp

@@ -2,7 +2,7 @@
 
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 struct Path_SecurityClaw final : public Path_TLV
 {

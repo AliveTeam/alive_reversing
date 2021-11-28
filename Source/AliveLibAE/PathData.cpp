@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "PathData.hpp"
-#include "Function.hpp"
+#include "..\AliveLibCommon\Function.hpp"
 #include "stdlib.hpp"
-#include "Sys_common.hpp"
+#include "..\AliveLibCommon\Sys_common.hpp"
 #include <sstream>
 #include <assert.h>
 
@@ -2137,7 +2137,7 @@ SeqHandleTable sSeqData = {
      {"MI_10_1.SEQ", 0, 0u, 100u, -1, nullptr},
      {nullptr, 0, 0u, 0u, 0, nullptr}}};
 
-ALIVE_VAR(1, 0x558d50, SeqHandleTable, sSeqData_558D50, sSeqData);
+SeqHandleTable sSeqData_558D50 = sSeqData;
 
 const static PerLvlData gMovieMenuInfos_561540[28] = {
     {"GT Logo", LevelIds::eMenu_0, 65535, 65535, 3u, 65535, 65535},
@@ -2196,7 +2196,7 @@ const static PerLvlData gDemoData_off_5617F0[23] = {
     {"Greeters Go Boom", LevelIds::eBrewery_9, 28, 4, 25u, 0, 0}          // BR P28
 };
 
-ALIVE_VAR(1, 0x559660, PathRootContainer, sPathData_559660, pathData);
+PathRootContainer sPathData_559660 = pathData;
 
 const char_type* CdLvlName(LevelIds lvlId)
 {

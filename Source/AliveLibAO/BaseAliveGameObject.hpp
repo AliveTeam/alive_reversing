@@ -1,8 +1,8 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "FunctionFwd.hpp"
-#include "BitField.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 #include "Psx.hpp"
 
 namespace AO {

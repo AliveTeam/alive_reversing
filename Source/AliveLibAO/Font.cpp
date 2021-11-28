@@ -7,7 +7,7 @@
 #include "Sys_common.hpp"
 #include "Primitives.hpp"
 #include "PsxDisplay.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "ScreenManager.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"

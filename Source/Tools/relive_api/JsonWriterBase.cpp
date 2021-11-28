@@ -2,7 +2,7 @@
 #include "TypesCollectionBase.hpp"
 #include "relive_api.hpp"
 #include <jsonxx/jsonxx.h>
-#include "../AliveLibAO/Map.hpp"
+#include "../../AliveLibAO/Map.hpp"
 
 inline s32 To1dIndex(s32 width, s32 x, s32 y)
 {

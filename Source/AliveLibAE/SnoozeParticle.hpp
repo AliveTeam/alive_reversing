@@ -3,7 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Layer.hpp"
 
 class SnoozeParticle final : public BaseGameObject
