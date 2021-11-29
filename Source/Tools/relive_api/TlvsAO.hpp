@@ -491,6 +491,19 @@ struct Path_Change final : public ReliveAPI::TlvObjectBaseAO
 
 struct Path_Switch final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::SwitchSoundType>("Enum_SwitchSoundType",
+                                                  {
+                                                       {AO::SwitchSoundType::eNone, "None"},
+                                                       {AO::SwitchSoundType::eWell_1, "Well"},
+                                                       {AO::SwitchSoundType::eSwitchBellHammer_2, "SwitchBellHammer"},
+                                                       {AO::SwitchSoundType::eDoor_3, "Door"},
+                                                       {AO::SwitchSoundType::eElectricWall_4, "ElectricWall"},
+                                                       {AO::SwitchSoundType::eSecurityOrb_5, "SecurityOrb"},
+                                                  });
+    }
+
     CTOR_AO(Path_Switch, "Switch", AO::TlvTypes::Switch_26)
     {
         ADD("TriggerObject", mTlv.field_18_trigger_object);
@@ -881,6 +894,17 @@ struct Path_IdSplitter final : public ReliveAPI::TlvObjectBaseAO
 
 struct Path_PullRingRope final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::PullRingSwitchSound>("Enum_PullRingSwitchSound",
+                                      {
+                                        {AO::PullRingSwitchSound::eNone_0, "None"},
+                                        {AO::PullRingSwitchSound::eWellExit_1, "WellExit"},
+                                        {AO::PullRingSwitchSound::RingBellHammer_2, "RingBellHammer"},
+                                        {AO::PullRingSwitchSound::eDoorEffect_3, "DoorEffect"},
+                                      });
+    }
+
     CTOR_AO(Path_PullRingRope, "PullRingRope", AO::TlvTypes::PullRingRope_18)
     {
         ADD("id", mTlv.field_18_id);
@@ -932,6 +956,18 @@ struct Path_ElumWall final : public ReliveAPI::TlvObjectBaseAO
 
 struct Path_LiftPoint final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::LiftPointStopType>("Enum_LiftPointStopType",
+                                               {
+                                                 {AO::LiftPointStopType::eTopFloor_0, "TopFloor"},
+                                                 {AO::LiftPointStopType::eBottomFloor_1, "BottomFloor"},
+                                                 {AO::LiftPointStopType::eMiddleFloor_2, "MiddleFloor"},
+                                                 {AO::LiftPointStopType::eMiddleLockFloor_3, "MiddleLockFloor"},
+                                                 {AO::LiftPointStopType::eStartPointOnly_4, "StartPointOnly"},
+                                               });
+    }
+
     CTOR_AO(Path_LiftPoint, "LiftPoint", AO::TlvTypes::LiftPoint_8)
     {
         ADD("id", mTlv.field_18_id);
