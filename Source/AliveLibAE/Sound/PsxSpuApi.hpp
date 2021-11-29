@@ -180,7 +180,7 @@ public:
     virtual MIDI_SeqSong& sMidiSeqSongs(s32 idx) = 0;
     virtual s32& sMidi_Inited_dword() = 0;
     virtual u32& sMidiTime() = 0;
-    virtual BOOL& sSoundDatIsNull() = 0;
+    virtual Bool32& sSoundDatIsNull() = 0;
     virtual s8& sbDisableSeqs() = 0;
     virtual u32& sLastTime() = 0;
     virtual u32& sMidi_WaitUntil() = 0;

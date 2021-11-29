@@ -77,12 +77,12 @@ void Grenade::VThrow_49E460(FP velX, FP velY)
     vThrow_4482E0(velX, velY);
 }
 
-BOOL Grenade::VCanThrow_49E350()
+Bool32 Grenade::VCanThrow_49E350()
 {
     return vCanThrow_49A5F0();
 }
 
-BOOL Grenade::VIsFalling_49E330()
+Bool32 Grenade::VIsFalling_49E330()
 {
     return vIsFalling_49A610();
 }
@@ -260,12 +260,12 @@ void Grenade::vThrow_4482E0(FP velX, FP velY)
     }
 }
 
-BOOL Grenade::vCanThrow_49A5F0()
+Bool32 Grenade::vCanThrow_49A5F0()
 {
     return FALSE;
 }
 
-BOOL Grenade::vIsFalling_49A610()
+Bool32 Grenade::vIsFalling_49A610()
 {
     return FALSE;
 }

@@ -97,12 +97,12 @@ void Rock::VThrow_49E460(FP velX, FP velY)
     vThrow_49E460(velX, velY);
 }
 
-BOOL Rock::VCanThrow_49E350()
+Bool32 Rock::VCanThrow_49E350()
 {
     return vCanThrow_49E350();
 }
 
-BOOL Rock::VIsFalling_49E330()
+Bool32 Rock::VIsFalling_49E330()
 {
     return vIsFalling_49E330();
 }
@@ -120,12 +120,12 @@ void Rock::vScreenChanged_49F030()
     }
 }
 
-BOOL Rock::vIsFalling_49E330()
+Bool32 Rock::vIsFalling_49E330()
 {
     return field_11C_state == RockStates::eFallingOutOfWorld_5;
 }
 
-BOOL Rock::vCanThrow_49E350()
+Bool32 Rock::vCanThrow_49E350()
 {
     return field_11C_state == RockStates::eBouncing_4;
 }

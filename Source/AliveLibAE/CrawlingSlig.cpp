@@ -777,7 +777,7 @@ CrawlingSlig* CrawlingSlig::vdtor_418FB0(s32 flags)
     return this;
 }
 
-BOOL CrawlingSlig::PanicOn_419810()
+Bool32 CrawlingSlig::PanicOn_419810()
 {
     return SwitchStates_Get_466020(field_1E8_tlv.field_18_panic_id) != 0;
 }

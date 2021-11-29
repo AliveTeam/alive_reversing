@@ -1567,7 +1567,7 @@ void Abe::ToDeathDropFall_42C3D0()
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 1, 0);
 }
 
-BOOL Abe::IsStanding_41FC10()
+Bool32 Abe::IsStanding_41FC10()
 {
     return field_FC_current_motion == eAbeMotions::Motion_0_Idle_423520
         || field_FC_current_motion == eAbeMotions::Motion_1_WalkLoop_423F90
@@ -2611,7 +2611,7 @@ s16 Abe::ToLeftRightMovement_422AA0()
     }
 
     const FP gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
-    const BOOL flipX = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    const Bool32 flipX = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
 
     if ((flipX && Input().IsAnyPressed(sInputKey_Right_4C6590)) || (!flipX && Input().IsAnyPressed(sInputKey_Left_4C6594)))
     {
@@ -3026,7 +3026,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, this);
 }
 
-BOOL Abe::NearDoorIsOpen()
+Bool32 Abe::NearDoorIsOpen()
 {
     for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
@@ -5311,7 +5311,7 @@ void Abe::Motion_24_RollBegin_427A20()
     }
 }
 
-BOOL Abe::Is_Celling_Above()
+Bool32 Abe::Is_Celling_Above()
 {
     FP hitY = {};
     FP hitX = {};
@@ -5671,7 +5671,7 @@ void Abe::Motion_30_HopMid_4264D0()
 
             // this has to be called before SetActiveCameraDelayedFromDir_401C90,
             // due to both of them modifying the same private fields in a fixed order
-            BOOL hasCollidedWithAir = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
+            Bool32 hasCollidedWithAir = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
 
             SetActiveCameraDelayedFromDir_401C90();
 

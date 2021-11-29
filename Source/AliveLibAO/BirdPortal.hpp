@@ -76,12 +76,12 @@ public:
     virtual s16 VPortalClipper(s16 bUnknown);
     virtual void VKillPortalClipper();
     virtual void VMudSaved();
-    virtual BOOL VStateIs6();
+    virtual Bool32 VStateIs6();
     virtual void VGiveShrukull(s16 bPlaySound);
-    virtual BOOL VStateIs16();
+    virtual Bool32 VStateIs16();
     virtual void VExitPortal();
     virtual void VIncreaseTimerAndKillPortalClipper();
-    virtual BOOL VStateIs20();
+    virtual Bool32 VStateIs20();
     virtual void VGetMapChange(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
 private:
@@ -91,10 +91,10 @@ private:
     EXPORT void VMudSaved_453830();
     EXPORT void VGetMapChange_453840(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
     EXPORT void VIncreaseTimerAndKillPortalClipper_453810();
-    EXPORT BOOL VStateIs20_453800();
+    EXPORT Bool32 VStateIs20_453800();
     EXPORT void VExitPortal_453720();
-    EXPORT BOOL VStateIs16_453710();
-    EXPORT BOOL VStateIs6_453700();
+    EXPORT Bool32 VStateIs16_453710();
+    EXPORT Bool32 VStateIs6_453700();
     EXPORT void VKillPortalClipper_453570();
     EXPORT void VStopAudio_4532C0();
     EXPORT void VScreenChanged_4538E0();

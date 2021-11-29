@@ -62,7 +62,7 @@ public:
 
     EXPORT Door* Vdtor_40EDF0(s32 flags);
 
-    EXPORT BOOL vIsOpen_40E800();
+    EXPORT Bool32 vIsOpen_40E800();
 
     EXPORT void vOpen_40E810();
 

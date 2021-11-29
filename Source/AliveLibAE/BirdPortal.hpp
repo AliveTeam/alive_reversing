@@ -83,11 +83,11 @@ public:
     virtual s16 VPortalClipper_499430(s16 bUnknown);
     virtual void VKillPortalClipper_499610();
     virtual void VMudSaved_499A50();
-    virtual BOOL VActivePortal_499830();
+    virtual Bool32 VActivePortal_499830();
     virtual void VGiveShrukull_499680(s16 bPlaySound);
-    virtual BOOL VAbeInsidePortal_499850();
+    virtual Bool32 VAbeInsidePortal_499850();
     virtual void VExitPortal_499870();
-    virtual BOOL VPortalExit_AbeExitting_499A00();
+    virtual Bool32 VPortalExit_AbeExitting_499A00();
     virtual void VKillPortalClipper_499A20();
     virtual void VGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
@@ -104,11 +104,11 @@ private:
     EXPORT s16 vPortalClipper_499430(s16 bUnknown);
     EXPORT void vKillPortalClipper_499610();
     EXPORT void vMudSaved_499A50();
-    EXPORT BOOL vActivePortal_499830();
+    EXPORT Bool32 vActivePortal_499830();
     EXPORT void vGiveShryukull_499680(s16 bPlaySound);
-    EXPORT BOOL vAbeInsidePortal_499850();
+    EXPORT Bool32 vAbeInsidePortal_499850();
     EXPORT void vExitPortal_499870();
-    EXPORT BOOL vPortalExit_AbeExitting_499A00();
+    EXPORT Bool32 vPortalExit_AbeExitting_499A00();
     EXPORT void vIncreaseTimerAndKillPortalClipper_499A20();
     EXPORT void vGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
     EXPORT void dtor_4980A0();

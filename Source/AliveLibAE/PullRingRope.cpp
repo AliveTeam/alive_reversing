@@ -110,7 +110,7 @@ s16 PullRingRope::VPull_49BBD0(BaseGameObject* pObj)
     return vPull_49BBD0(pObj);
 }
 
-BOOL PullRingRope::VIsNotBeingPulled_49BC90()
+Bool32 PullRingRope::VIsNotBeingPulled_49BC90()
 {
     return vIsNotBeingPulled_49BC90();
 }
@@ -306,7 +306,7 @@ s16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
     return 1;
 }
 
-BOOL PullRingRope::vIsNotBeingPulled_49BC90()
+Bool32 PullRingRope::vIsNotBeingPulled_49BC90()
 {
     return field_100_state != States::eBeingPulled_1;
 }

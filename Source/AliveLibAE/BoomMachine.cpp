@@ -224,7 +224,7 @@ void BoomMachine::VScreenChanged()
     vScreenChange_446020();
 }
 
-BOOL BoomMachine::VIsButtonOn_445DF0()
+Bool32 BoomMachine::VIsButtonOn_445DF0()
 {
     return vIsButtonOn_445DF0();
 }
@@ -271,7 +271,7 @@ void BoomMachine::vScreenChange_446020()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-BOOL BoomMachine::vIsButtonOn_445DF0()
+Bool32 BoomMachine::vIsButtonOn_445DF0()
 {
     return field_FC_bIsButtonOn == 1;
 }

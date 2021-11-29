@@ -83,12 +83,12 @@ void Meat::VThrow_49E460(FP velX, FP velY)
     vThrow_469790(velX, velY);
 }
 
-BOOL Meat::VCanThrow_49E350()
+Bool32 Meat::VCanThrow_49E350()
 {
     return vCanThrow_469680();
 }
 
-BOOL Meat::VIsFalling_49E330()
+Bool32 Meat::VIsFalling_49E330()
 {
     return vIsFalling_469660();
 }
@@ -103,7 +103,7 @@ s16 Meat::VGetCount_448080()
     return vGetCount_46A350();
 }
 
-BOOL Meat::VCanEatMe_4696A0()
+Bool32 Meat::VCanEatMe_4696A0()
 {
     return vCanEatMe_4696A0();
 }
@@ -137,12 +137,12 @@ void Meat::vOnTrapDoorOpen_46A2E0()
     }
 }
 
-BOOL Meat::vIsFalling_469660()
+Bool32 Meat::vIsFalling_469660()
 {
     return field_11C_state == MeatStates::eFall_5;
 }
 
-BOOL Meat::vCanThrow_469680()
+Bool32 Meat::vCanThrow_469680()
 {
     return field_11C_state == MeatStates::eBeingThrown_2;
 }
@@ -722,7 +722,7 @@ s32 Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
     return sizeof(Meat_SaveState);
 }
 
-BOOL Meat::vCanEatMe_4696A0()
+Bool32 Meat::vCanEatMe_4696A0()
 {
     return field_11C_state != MeatStates::eCreated_0;
 }

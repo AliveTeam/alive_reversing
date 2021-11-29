@@ -307,7 +307,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
     return this;
 }
 
-BOOL Door::vIsOpen_41EB00()
+Bool32 Door::vIsOpen_41EB00()
 {
     return field_FC_current_state == eOpen_0;
 }

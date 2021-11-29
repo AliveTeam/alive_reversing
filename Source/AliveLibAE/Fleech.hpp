@@ -293,7 +293,7 @@ private:
 
     EXPORT void vOnThrowableHit_42A590(BaseGameObject* pFrom);
 
-    EXPORT BOOL Collision_42B290(s16 alwaysOne);
+    EXPORT Bool32 Collision_42B290(s16 alwaysOne);
 
     EXPORT Path_Hoist* TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection);
 

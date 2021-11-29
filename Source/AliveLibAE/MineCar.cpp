@@ -388,7 +388,7 @@ void MineCar::dtor_46F2A0()
     dtor_4080B0();
 }
 
-BOOL MineCar::CheckRoofCollision_46F6B0(FP hitX, FP hitY)
+Bool32 MineCar::CheckRoofCollision_46F6B0(FP hitX, FP hitY)
 {
     PathLine* pPathLine = nullptr;
     return sCollisions_DArray_5C1128->Raycast_417A60(
@@ -403,7 +403,7 @@ BOOL MineCar::CheckRoofCollision_46F6B0(FP hitX, FP hitY)
     );
 }
 
-BOOL MineCar::CheckFloorCollision_46F730(FP hitX, FP hitY)
+Bool32 MineCar::CheckFloorCollision_46F730(FP hitX, FP hitY)
 {
     PathLine* pPathLine = nullptr;
 

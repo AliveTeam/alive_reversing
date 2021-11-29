@@ -337,7 +337,7 @@ Door* Door::Vdtor_40EDF0(s32 flags)
     return this;
 }
 
-BOOL Door::vIsOpen_40E800()
+Bool32 Door::vIsOpen_40E800()
 {
     return field_EC_current_state == DoorStates::eOpen_0;
 }

@@ -97,7 +97,7 @@ public:
     EXPORT static void CC LoadFromMemory_459970(SaveData* pData, s32 bKillObjects);
     EXPORT static void CC SaveToMemory_459490(SaveData* pSaveData);
     EXPORT static s16 CC LoadFromFile_459D30(const char_type* name);
-    EXPORT static BOOL CC SaveToFile_45A110(const char_type* name);
+    EXPORT static Bool32 CC SaveToFile_45A110(const char_type* name);
 
     static s16 GetPathId(s16 pathToFind, s16* outFoundPathRow = nullptr);
     static s32 Hash(SaveData* table);

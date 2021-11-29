@@ -2600,7 +2600,7 @@ void Fleech::vOnThrowableHit_42A590(BaseGameObject* /*pFrom*/)
     field_13E_current_anger += field_142_attack_anger_increaser;
 }
 
-BOOL Fleech::Collision_42B290(s16 alwaysOne)
+Bool32 Fleech::Collision_42B290(s16 alwaysOne)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     const FP quaterScaled = (kGridSize * FP_FromDouble(0.25));

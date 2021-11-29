@@ -483,7 +483,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, Le
     return 1;
 }
 
-BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(s16 direction, s16 distance)
+Bool32 BaseAliveGameObject::Check_IsOnEndOfLine_408E90(s16 direction, s16 distance)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
@@ -522,7 +522,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFi
     const s16 xposD = FP_GetExponent(xpos);
     const s16 yposD = FP_GetExponent(ypos);
 
-    BOOL bFound = FALSE;
+    Bool32 bFound = FALSE;
     for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
@@ -632,7 +632,7 @@ s16 BaseAliveGameObject::MapFollowMe_408D10(s16 snapToGrid)
     return 0;
 }
 
-EXPORT BOOL BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
+EXPORT Bool32 BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions_DArray_5C1128->Raycast_417A60(
@@ -647,7 +647,7 @@ EXPORT BOOL BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
         != 0; // TODO: Enum for line types
 }
 
-BOOL BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
+Bool32 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
 {
     field_C8_vely += field_CC_sprite_scale * velY;
     if (field_C8_vely > (field_CC_sprite_scale * FP_FromInteger(20)))

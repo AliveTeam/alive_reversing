@@ -641,7 +641,7 @@ void Greeter::RandomishSpeak_447A70(GreeterSpeak effect)
     }
 }
 
-BOOL Greeter::ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem)
+Bool32 Greeter::ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem)
 {
     PSX_RECT usRect = {};
     vGetBoundingRect_424FD0(&usRect, 1);

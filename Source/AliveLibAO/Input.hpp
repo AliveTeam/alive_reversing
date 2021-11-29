@@ -104,7 +104,7 @@ const InputCommands sInputKey_Chant = static_cast<InputCommands>(eRightGameSpeak
 #define kAO_Crouch "\x0f"
 
 
-EXPORT BOOL CC Input_IsChanting_4334C0();
+EXPORT Bool32 CC Input_IsChanting_4334C0();
 EXPORT void Input_InitKeyStateArray_48E5F0();
 EXPORT void CC Input_SetKeyState_48E610(s32 key, s8 bIsDown);
 

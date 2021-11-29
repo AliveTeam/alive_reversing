@@ -43,7 +43,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s16 VPull_49BBD0(BaseGameObject* a2);
-    virtual BOOL VIsNotBeingPulled_49BC90();
+    virtual Bool32 VIsNotBeingPulled_49BC90();
     virtual void VMarkAsPulled_49B610();
 
 private:
@@ -52,7 +52,7 @@ private:
     EXPORT void vUpdate_49B720();
     EXPORT void vScreenChanged_49BCB0();
     EXPORT s16 vPull_49BBD0(BaseGameObject* a2);
-    EXPORT BOOL vIsNotBeingPulled_49BC90();
+    EXPORT Bool32 vIsNotBeingPulled_49BC90();
     EXPORT void vMarkAsPulled_49B610();
 
 private:

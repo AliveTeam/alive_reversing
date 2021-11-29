@@ -230,7 +230,7 @@ private:
 
     EXPORT s16 ToNextMotion_4C5A30();
 
-    EXPORT BOOL CollisionCheck_4C5480(FP hitY, FP hitX);
+    EXPORT Bool32 CollisionCheck_4C5480(FP hitY, FP hitX);
 
     EXPORT void MoveOnLine_4C5DA0();
 

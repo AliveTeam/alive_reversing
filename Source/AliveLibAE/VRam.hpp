@@ -13,7 +13,7 @@ EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh);
 
 EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount);
 EXPORT void CC Pal_free_483390(PSX_Point xy, s16 palDepth);
-EXPORT BOOL CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
+EXPORT Bool32 CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
 
 
 EXPORT void CC Pal_Area_Init_483080(s16 xpos, s16 ypos, u16 width, u16 height);

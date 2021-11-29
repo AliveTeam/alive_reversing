@@ -79,12 +79,12 @@ void Bone::VOnTrapDoorOpen()
     vOnTrapDoorOpen_412490();
 }
 
-BOOL Bone::VCanThrow_49E350()
+Bool32 Bone::VCanThrow_49E350()
 {
     return vCanThrow_411530();
 }
 
-BOOL Bone::VIsFalling_49E330()
+Bool32 Bone::VIsFalling_49E330()
 {
     return vIsFalling_411510();
 }
@@ -94,7 +94,7 @@ void Bone::VTimeToExplodeRandom_411490()
     // Empty
 }
 
-BOOL Bone::VCanBeEaten_411560()
+Bool32 Bone::VCanBeEaten_411560()
 {
     return vCanBeEaten_411560();
 }
@@ -227,12 +227,12 @@ void Bone::vOnTrapDoorOpen_412490()
     }
 }
 
-BOOL Bone::vIsFalling_411510()
+Bool32 Bone::vIsFalling_411510()
 {
     return field_11C_state == BoneStates::eFalling_5;
 }
 
-BOOL Bone::vCanThrow_411530()
+Bool32 Bone::vCanThrow_411530()
 {
     return field_11C_state != BoneStates::eSpawned_0 && field_11C_state != BoneStates::eAirborne_1;
 }
@@ -293,7 +293,7 @@ void Bone::vScreenChanged_4122D0()
     }
 }
 
-BOOL Bone::vCanBeEaten_411560()
+Bool32 Bone::vCanBeEaten_411560()
 {
     return field_11C_state == BoneStates::eEdible_4;
 }

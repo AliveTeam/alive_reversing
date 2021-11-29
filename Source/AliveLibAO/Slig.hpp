@@ -262,7 +262,7 @@ public:
 
     EXPORT u8** ResBlockForMotion_4654D0(s16 motion);
 
-    EXPORT BOOL VIs8_465630(s16 motion);
+    EXPORT Bool32 VIs8_465630(s16 motion);
 
     EXPORT void ToShoot_46F1D0();
     EXPORT void ToZShoot_46F200();
@@ -301,7 +301,7 @@ public:
 
     EXPORT s16 GetNextMotionIncGameSpeak_467700(u16 input);
 
-    EXPORT static BOOL CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
+    EXPORT static Bool32 CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
 
     EXPORT static s16 CCSTD IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);
 

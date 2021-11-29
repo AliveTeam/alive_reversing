@@ -415,7 +415,7 @@ private:
 
 
 public:
-    EXPORT BOOL vUnderGlukkonCommand_4B1760();
+    EXPORT Bool32 vUnderGlukkonCommand_4B1760();
 
 private:
     EXPORT void WakeUp_4B93B0();
@@ -465,7 +465,7 @@ private:
 
     EXPORT void ToKilledAbe_4B3600();
 
-    EXPORT BOOL IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight);
+    EXPORT Bool32 IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight);
 
     EXPORT GameSpeakEvents LastGlukkonSpeak_4B3090();
 
@@ -524,7 +524,7 @@ private:
 
     EXPORT static s16 CCSTD InZCover_4BB7C0(BaseAliveGameObject* pObj);
 
-    EXPORT static BOOL CCSTD RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
+    EXPORT static Bool32 CCSTD RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
 
     EXPORT void NextCommand_4B9A00(s16 speakTableIndex, s16 responseState);
 

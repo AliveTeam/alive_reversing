@@ -19,7 +19,7 @@
     #include <timeapi.h>
 #endif
 
-ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
+ALIVE_VAR(1, 0xBBBA00, Bool32, sAppIsActivated_BBBA00, FALSE);
 ALIVE_VAR(1, 0xBBB9F4, TWindowHandleType, sHwnd_BBB9F4, nullptr);
 #if _WIN32
 ALIVE_VAR(1, 0xBBB9F8, TWindowProcFilter, sWindowProcFilter_BBB9F8, nullptr);
@@ -53,7 +53,7 @@ EXPORT TWindowHandleType CC Sys_GetHWnd_4F2C70()
     return hWnd_BBFB04;
 }
 
-EXPORT BOOL CC Sys_IsAnyKeyDown_4EDDF0()
+EXPORT Bool32 CC Sys_IsAnyKeyDown_4EDDF0()
 {
     return sIsAKeyDown_BD309C;
 }
@@ -144,7 +144,7 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
         break;
 
         case WM_ACTIVATEAPP:
-            sAppIsActivated_BBBA00 = static_cast<BOOL>(wParam);
+            sAppIsActivated_BBBA00 = static_cast<Bool32>(wParam);
             break;
 
         case WM_KEYDOWN:
@@ -1015,7 +1015,7 @@ static s32 Sys_EventFilter(void* /*userData*/, SDL_Event* event)
 }
 #endif
 
-EXPORT BOOL CC Sys_IsAppActive_4EDF30()
+EXPORT Bool32 CC Sys_IsAppActive_4EDF30()
 {
     return sAppIsActivated_BBBA00;
 }

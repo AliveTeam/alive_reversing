@@ -99,8 +99,8 @@ private:
     EXPORT void vScreenChanged_46F800();
     EXPORT MineCar* vdtor_46BF50(s32 flags);
     EXPORT void dtor_46F2A0();
-    EXPORT BOOL CheckRoofCollision_46F6B0(FP hitX, FP hitY);
-    EXPORT BOOL CheckFloorCollision_46F730(FP hitX, FP hitY);
+    EXPORT Bool32 CheckRoofCollision_46F6B0(FP hitX, FP hitY);
+    EXPORT Bool32 CheckFloorCollision_46F730(FP hitX, FP hitY);
     EXPORT void vUpdate_46C010();
     EXPORT void vUpdate_REAL_46C010();
     EXPORT void vRender_46E760(PrimHeader** ppOt);
@@ -121,7 +121,7 @@ private:
     //State_1 helper funcs
     void HandleUpDown();
 
-    using mineCarFPFunc = BOOL (MineCar::*)(FP, FP);
+    using mineCarFPFunc = Bool32 (MineCar::*)(FP, FP);
     bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, u16 frameTableOffset, MineCarDirs mineCarDir, const s8 changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const s32 ModelMask1, const s32 ModelMask2, FP moveX, FP moveY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond);
 
 private:

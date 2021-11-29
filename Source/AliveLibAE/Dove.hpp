@@ -29,9 +29,9 @@ public:
     EXPORT void AsAlmostACircle_41FA20(FP xpos, FP ypos, u8 angle);
     EXPORT void AsACircle_41F980(FP xpos, FP ypos, u8 angle);
     EXPORT void AsJoin_41F940(FP xpos, FP ypos);
-    EXPORT void FlyAway_420020(BOOL spookedInstantly);
+    EXPORT void FlyAway_420020(Bool32 spookedInstantly);
 
-    static void CC All_FlyAway_41FA60(BOOL spookedInstantly);
+    static void CC All_FlyAway_41FA60(Bool32 spookedInstantly);
 
 private:
     EXPORT void vRender_4200B0(PrimHeader** ppOt);

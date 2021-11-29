@@ -47,7 +47,7 @@ public:
     };
 
     EXPORT Door* ctor_41E250(Path_Door* pTlvData, s32 tlvInfo);
-    EXPORT BOOL vIsOpen_41EB00();
+    EXPORT Bool32 vIsOpen_41EB00();
     EXPORT void vOpen_41EB20();
     EXPORT void vClose_41EB50();
     EXPORT void vSetOpen_41EBA0();

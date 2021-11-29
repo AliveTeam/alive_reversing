@@ -45,7 +45,7 @@ public:
 
     EXPORT void VScreenChanged_454D70();
 
-    EXPORT BOOL vIsNotBeingPulled_454D60();
+    EXPORT Bool32 vIsNotBeingPulled_454D60();
 
     EXPORT s16 Pull_454CB0(BaseAliveGameObject* pFrom);
 

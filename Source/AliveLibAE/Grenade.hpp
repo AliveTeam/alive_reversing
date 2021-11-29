@@ -70,9 +70,9 @@ public:
 
     virtual void VThrow_49E460(FP velX, FP velY) override;
 
-    virtual BOOL VCanThrow_49E350() override;
+    virtual Bool32 VCanThrow_49E350() override;
 
-    virtual BOOL VIsFalling_49E330() override;
+    virtual Bool32 VIsFalling_49E330() override;
 
     virtual void VTimeToExplodeRandom_411490() override;
 
@@ -95,9 +95,9 @@ private:
 
     EXPORT void vThrow_4482E0(FP velX, FP velY);
 
-    EXPORT BOOL vCanThrow_49A5F0();
+    EXPORT Bool32 vCanThrow_49A5F0();
 
-    EXPORT BOOL vIsFalling_49A610();
+    EXPORT Bool32 vIsFalling_49A610();
 
     EXPORT void vTimeToExplodeRandom_4480A0();
 

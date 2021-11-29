@@ -134,12 +134,12 @@ void BoomMachine::VHandleButton_41E6F0()
     }
 }
 
-BOOL BoomMachine::VIsButtonOn()
+Bool32 BoomMachine::VIsButtonOn()
 {
     return VIsButtonOn_41E840();
 }
 
-BOOL BoomMachine::VIsButtonOn_41E840()
+Bool32 BoomMachine::VIsButtonOn_41E840()
 {
     return field_E8_bIsButtonOn == 1;
 }

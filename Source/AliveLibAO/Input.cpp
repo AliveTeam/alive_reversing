@@ -534,7 +534,7 @@ u16 InputObject::Released() const
     return sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_8_released;
 }
 
-BOOL CC Input_IsChanting_4334C0()
+Bool32 CC Input_IsChanting_4334C0()
 {
     return Input_IsChanting_45F260();
 }

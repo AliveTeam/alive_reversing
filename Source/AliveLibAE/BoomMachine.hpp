@@ -33,7 +33,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual BOOL VIsButtonOn_445DF0();
+    virtual Bool32 VIsButtonOn_445DF0();
 
     virtual void VHandleButton_445F00();
 
@@ -42,7 +42,7 @@ private:
 
     EXPORT void vScreenChange_446020();
 
-    EXPORT BOOL vIsButtonOn_445DF0();
+    EXPORT Bool32 vIsButtonOn_445DF0();
 
     EXPORT void vHandleButton_445F00();
 

@@ -2532,7 +2532,7 @@ MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(u32 inp
     {
         sGameStartedFrame_5C1B88 = sGnFrame_5C1B84;
         sCurrentControllerIndex_5C1BBE = 0;
-        const BOOL twoPlayerModeSelected = field_1FC_button_index == 1;
+        const Bool32 twoPlayerModeSelected = field_1FC_button_index == 1;
 
         MainMenuController::Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_FollowMe);
         if (field_23C_T80.Get(Flags::eBit25_CheatLevelSelectLoading))

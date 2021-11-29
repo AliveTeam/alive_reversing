@@ -638,7 +638,7 @@ void Glukkon::M_Jump_4_443030()
         SetActiveCameraDelayedFromDir_408C40();
     }
 
-    BOOL bCollision = FALSE;
+    Bool32 bCollision = FALSE;
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
@@ -2977,7 +2977,7 @@ void CC Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, s16 volume, s16
     SFX_SfxDefinition_Play_4CA420(&gameSpeak_554858[sndIdxShort], calcedVolume, pitch, pitch);
 }
 
-BOOL CCSTD Glukkon::IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther)
+Bool32 CCSTD Glukkon::IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther)
 {
     FP hitX = {}, hitY = {};
     PathLine* pathLine = nullptr;
