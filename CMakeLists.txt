@@ -76,8 +76,9 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibCommon)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAO)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAE)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/vab_tool)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_test)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
 
 # -----------------------------------------------------------------------------

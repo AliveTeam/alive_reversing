@@ -106,7 +106,6 @@ set(relive_api_src
     LvlReaderWriter.hpp
     PropertyCollection.cpp
     PropertyCollection.hpp
-    relive_api_test.cpp
     relive_api.cpp
     relive_api.hpp
     relive_api_exceptions.hpp
@@ -140,14 +139,6 @@ target_link_libraries(relive_api
 
 export(TARGETS relive_api FILE relive_api.cmake)
 
-
-add_executable(relive_api_test relive_api_test.cpp)
-
-if (MSVC)
-    target_compile_options(relive_api PRIVATE /W4 /wd4996 /WX /MP)
-    target_compile_options(relive_api_test PRIVATE /W4 /wd4996 /WX /MP)
-endif()
-
 target_include_directories(relive_api PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
@@ -155,24 +146,3 @@ target_include_directories(relive_api PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/googletest/googletest/include
     $<INSTALL_INTERFACE:include>
     PRIVATE ${CMAKE_BINARY_DIR})
-
-target_include_directories(relive_api_test PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../3rdParty/magic_enum/include
-    $<INSTALL_INTERFACE:include>
-    PRIVATE ${CMAKE_BINARY_DIR})
-target_compile_features(relive_api_test
-    PRIVATE cxx_auto_type
-    PRIVATE cxx_variadic_templates)
-target_compile_definitions(relive_api_test PRIVATE "_CRT_SECURE_NO_WARNINGS")
-
-if (NOT MSVC)
-    set(THREADS_PREFER_PTHREAD_FLAG ON)
-    find_package(Threads REQUIRED)
-    target_link_libraries(relive_api_test relive_api googletest jsonxx_reliveapi libglew_static project_warnings Threads::Threads)
-else()
-    target_link_libraries(relive_api_test relive_api googletest jsonxx_reliveapi libglew_static project_warnings)
-endif()
-
-export(TARGETS relive_api_test FILE relive_api_test.cmake)
-install(TARGETS relive_api_test DESTINATION "${BINPATH}")
