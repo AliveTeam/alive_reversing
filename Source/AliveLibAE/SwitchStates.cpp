@@ -22,6 +22,12 @@ EXPORT void CC SwitchStates_Set_465FF0(u16 idx, s8 value)
 
 EXPORT s32 CC SwitchStates_Get_466020(u16 idx)
 {
+    if (idx > ALIVE_COUNTOF(sSwitchStates_5C1A28.mData))
+    {
+        LOG_WARNING("switch id value is " << idx << " and exceeds " << ALIVE_COUNTOF(sSwitchStates_5C1A28.mData) << ". if you see this in a custom level consider lowering the switch id value.");
+        return 0;
+    }
+
     if (idx == 0)
     {
         return 0;
