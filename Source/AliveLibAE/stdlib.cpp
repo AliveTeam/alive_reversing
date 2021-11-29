@@ -3,7 +3,12 @@
 #include "Function.hpp"
 #include "Error.hpp"
 #include "Sys_common.hpp"
-#include <io.h>
+
+#if _WIN32
+    #include <io.h>
+#else
+    #include <unistd.h>
+#endif
 
 s32 access_impl(char_type const* fileName, s32 accessMode)
 {
