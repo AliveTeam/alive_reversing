@@ -7,6 +7,7 @@ namespace jsonxx {
 class Array;
 }
 
+namespace ReliveAPI {
 class ITypeBase
 {
 public:
@@ -22,3 +23,4 @@ public:
 private:
     std::string mName;
 };
+} // namespace ReliveAPI

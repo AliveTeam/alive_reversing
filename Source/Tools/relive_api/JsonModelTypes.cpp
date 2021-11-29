@@ -1,6 +1,7 @@
 #include "JsonModelTypes.hpp"
 #include <jsonxx/jsonxx.h>
 
+namespace ReliveAPI {
 [[nodiscard]] jsonxx::Object CameraObject::ToJsonObject(jsonxx::Array mapObjectsArray) const
 {
     jsonxx::Object obj;
@@ -25,3 +26,4 @@
 
     return allTlvsLen;
 }
+} // namespace ReliveAPI

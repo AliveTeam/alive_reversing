@@ -8,6 +8,7 @@
 
 #include <jsonxx/jsonxx.h>
 
+namespace ReliveAPI {
 void PropertyCollection::ThrowOnAddPropertyError(const std::string& name, const std::string& typeName, void* key)
 {
     if (name.empty())
@@ -89,3 +90,4 @@ void PropertyCollection::PropertiesToJson(const TypesCollectionBase& types, json
         value->Write(*this, types, properties);
     }
 }
+} // namespace ReliveAPI

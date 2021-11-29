@@ -8,6 +8,7 @@
 #include <type_traits>
 #include <vector>
 
+namespace ReliveAPI {
 // Defined here as it depends on a full definition of PropertyCollection
 template <class T>
 void TypedProperty<T>::Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const jsonxx::Object& properties)
@@ -64,3 +65,4 @@ protected:
     std::string mStructTypeName;
     s32 mInstanceNumber = 0;
 };
+} // namespace ReliveAPI

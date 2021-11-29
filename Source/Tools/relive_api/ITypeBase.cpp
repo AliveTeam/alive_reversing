@@ -2,6 +2,7 @@
 
 #include <string>
 
+namespace ReliveAPI {
 ITypeBase::ITypeBase(const std::string& typeName)
     : mName(typeName)
 {
@@ -13,3 +14,4 @@ ITypeBase::~ITypeBase() = default;
 {
     return mName;
 }
+} // namespace ReliveAPI

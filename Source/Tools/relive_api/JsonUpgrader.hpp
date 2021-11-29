@@ -7,6 +7,7 @@
 #include <string>
 #include <unordered_map>
 
+namespace ReliveAPI {
 class IJsonUpgrader
 {
 public:
@@ -38,3 +39,4 @@ private:
 protected:
     std::unordered_map<s32, TUpgradeFactoryFn> mUpgraders;
 };
+} // namespace ReliveAPI

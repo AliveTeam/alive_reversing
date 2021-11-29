@@ -7,6 +7,7 @@
 #include <lodepng/lodepng.h>
 #include <iostream>
 
+namespace ReliveAPI {
 static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, const u16* pSrcPixels)
 {
     const u16* pSrc = pSrcPixels;
@@ -107,3 +108,4 @@ CamConverterAE::CamConverterAE(const std::string& fileName, const ChunkedLvlFile
         // TODO: Implement later
     }
 }
+} // namespace ReliveAPI

@@ -10,6 +10,7 @@
 #include <typeinfo>
 #include <type_traits>
 
+namespace ReliveAPI {
 template <class T>
 class EnumType final : public EnumTypeBase<std::underlying_type_t<T>>
 {
@@ -41,3 +42,4 @@ public:
     using Base::ToJson;
     using Base::TypeIndex;
 };
+} // namespace ReliveAPI

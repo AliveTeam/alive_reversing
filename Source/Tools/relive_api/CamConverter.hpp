@@ -2,6 +2,7 @@
 
 #include <string>
 
+namespace ReliveAPI {
 class ChunkedLvlFile;
 
 class CamConverterAO final
@@ -15,3 +16,4 @@ class CamConverterAE final
 public:
     CamConverterAE(const std::string& fileName, const ChunkedLvlFile& camFile);
 };
+} // namespace ReliveAPI

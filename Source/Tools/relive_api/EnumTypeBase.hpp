@@ -14,6 +14,7 @@
 #include <typeinfo>
 #include <unordered_map>
 
+namespace ReliveAPI {
 template <class T>
 class EnumTypeBase : public ITypeBase
 {
@@ -108,3 +109,4 @@ private:
 
     std::type_index mTypeIndex;
 };
+} // namespace ReliveAPI

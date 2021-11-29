@@ -4,23 +4,28 @@
 #include <string>
 #include <vector>
 
+
+namespace AO {
+class PathLine;
+enum class TlvTypes : s16;
+} // namespace AO
+
+
+class PathLine;
+enum class TlvTypes : s16;
+
+namespace jsonxx {
+class Object;
+class Array;
+} // namespace jsonxx
+
+
+namespace ReliveAPI {
 enum class Game;
 class TypesCollectionBase;
 class TypesCollectionAO;
 class TypesCollectionAE;
 
-class PathLine;
-enum class TlvTypes : s16;
-
-namespace AO {
-    class PathLine;
-    enum class TlvTypes : s16;
-} // namespace AO
-
-namespace jsonxx {
-    class Object;
-    class Array;
-}
 
 struct CameraObject final
 {
@@ -73,3 +78,4 @@ struct MapInfo final
     s32 mYGridSize = 0;
     s32 mYSize = 0;
 };
+} // namespace ReliveAPI

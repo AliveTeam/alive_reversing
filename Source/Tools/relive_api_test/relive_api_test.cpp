@@ -215,10 +215,10 @@ TEST(alive_api, ReSaveAllPathsAE)
 
 TEST(alive_api, tlv_reflection)
 {
-    TypesCollectionAO types;
+    ReliveAPI::TypesCollectionAO types;
 
     AO::Path_Hoist tlv = {};
-    std::unique_ptr<TlvObjectBase> pHoist = types.MakeTlvAO(AO::TlvTypes::Hoist_3, &tlv, 99);
+    std::unique_ptr<ReliveAPI::TlvObjectBase> pHoist = types.MakeTlvAO(AO::TlvTypes::Hoist_3, &tlv, 99);
 
     auto obj = pHoist->InstanceToJson(types);
     (void) pHoist->InstanceFromJson(types, obj); // TODO: check return value?

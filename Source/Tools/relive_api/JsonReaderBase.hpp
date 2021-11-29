@@ -6,6 +6,7 @@
 #include "../../AliveLibAE/Collisions.hpp"
 #include "TlvObjectBaseMacros.hpp"
 
+namespace ReliveAPI {
 class AOLine final : public PropertyCollection
 {
 public:
@@ -72,3 +73,4 @@ protected:
     std::vector<AO::PathLine> ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray);
     std::vector<::PathLine> ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray);
 };
+} // namespace ReliveAPI

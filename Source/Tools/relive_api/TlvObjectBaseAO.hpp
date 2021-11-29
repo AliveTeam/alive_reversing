@@ -15,11 +15,12 @@ namespace jsonxx {
 class Object;
 }
 
+namespace ReliveAPI {
 class TlvObjectBaseAO : public TlvObjectBase
 {
 public:
     using CopyFn = void (*)(AO::Path_TLV* dst, const AO::Path_TLV* src);
-    using InitFn = void(*)(AO::Path_TLV* dst);
+    using InitFn = void (*)(AO::Path_TLV* dst);
 
     // Ctor used only to get "typeName"
     TlvObjectBaseAO(std::size_t sizeOfT, AO::TlvTypes tlvType, const std::string& typeName, AO::Path_TLV* pSelfTlv);
@@ -43,3 +44,4 @@ protected:
     const AO::TlvTypes mType;
     AO::Path_TLV* const mPSelfTlv;
 };
+} // namespace ReliveAPI

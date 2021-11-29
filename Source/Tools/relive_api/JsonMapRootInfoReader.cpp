@@ -4,6 +4,7 @@
 #include <jsonxx/jsonxx.h>
 #include "JsonReadUtils.hpp"
 
+namespace ReliveAPI {
 void JsonMapRootInfoReader::Read(const std::string& fileName)
 {
     std::ifstream inputFileStream(fileName.c_str());
@@ -57,3 +58,4 @@ std::string& getStaticStringBuffer()
     static std::string result;
     return result;
 }
+} // namespace ReliveAPI

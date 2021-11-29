@@ -5,6 +5,7 @@
 #include "JsonReaderBase.hpp"
 #include "TlvObjectBase.hpp"
 
+namespace ReliveAPI {
 void JsonWriterAE::DebugDumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource)
 {
     u8* pData = pathResource.data();
@@ -97,3 +98,4 @@ void JsonWriterAE::ResetTypeCounterMap()
     AELine tmpLine(*mTypesCollection);
     return tmpLine.PropertiesToJson();
 }
+} // namespace ReliveAPI
