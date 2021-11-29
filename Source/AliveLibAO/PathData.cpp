@@ -1,4 +1,4 @@
-#include "stdafx_ao.h"
+//#include "stdafx_ao.h"
 #include "PathData.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "Collisions.hpp"

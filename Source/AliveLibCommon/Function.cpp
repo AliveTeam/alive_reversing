@@ -102,6 +102,7 @@ AliveVar::AliveVar(const char_type* name, u32 addr, u32 sizeInBytes, bool isPoin
     Vars().push_back({addr, sizeInBytes, isPointerType, isConstData, name});
 }
 
+#ifdef _MSC_VER
 ScopedDetour::~ScopedDetour()
 {
     DoDetour(false, &reinterpret_cast<PVOID&>(mReal), reinterpret_cast<PVOID>(mDst));
@@ -114,7 +115,6 @@ void ScopedDetour::Construct()
 
 void ScopedDetour::DoDetour(bool attach, PVOID* ppPointer, PVOID detour)
 {
-#if defined(_WIN32)
     #if defined(_WIN64)
     (void) attach;
     (void) ppPointer;
@@ -146,8 +146,8 @@ void ScopedDetour::DoDetour(bool attach, PVOID* ppPointer, PVOID detour)
         abort();
     }
     #endif
-#endif
 }
+#endif
 
 DisableVTableHack::DisableVTableHack()
 {

@@ -108,6 +108,7 @@
 
 void CheckVars();
 
+#ifdef _MSC_VER
 class ScopedDetour
 {
 public:
@@ -131,6 +132,9 @@ private:
 };
 
 #define SCOPED_REDIRECT(real, stub) ScopedDetour real##_scoped(real, stub)
+#else
+#define SCOPED_REDIRECT(real, stub)
+#endif
 
 extern bool gVTableHack;
 
