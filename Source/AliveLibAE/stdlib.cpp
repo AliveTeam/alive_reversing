@@ -114,7 +114,7 @@ EXPORT void* CC realloc_4F4E80(void* ptr, size_t size)
     return ae_realloc_522335(ptr, size);
 }
 
-EXPORT s32 CC ae_remove_520B27(LPCSTR lpFileName)
+EXPORT s32 CC ae_remove_520B27(const char* lpFileName)
 {
     STDLIB_FUNCTION();
     return ::remove(lpFileName);
