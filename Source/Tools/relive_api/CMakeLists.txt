@@ -29,12 +29,38 @@ target_include_directories(jsonxx_reliveapi SYSTEM PUBLIC
 export(TARGETS jsonxx_reliveapi FILE jsonxx_reliveapi.cmake)
 set_property(TARGET jsonxx_reliveapi PROPERTY FOLDER "3rdParty")
 
+add_library(easylogging_reliveapi
+    ../../../3rdParty/EasyLogging++/EasyLogging/src/easylogging++.cc
+    )
+target_include_directories(easylogging_reliveapi PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
+    $<INSTALL_INTERFACE:include>
+    PRIVATE ${CMAKE_BINARY_DIR})
+
+add_library(AliveLibAO_reliveapi
+    ../../AliveLibAO/PathData.cpp
+    )
+target_include_directories(AliveLibAO_reliveapi PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
+    $<INSTALL_INTERFACE:include>
+    PRIVATE ${CMAKE_BINARY_DIR})
+
+add_library(AliveLibAE_reliveapi
+    ../../AliveLibAE/PathData.cpp
+    )
+target_include_directories(AliveLibAE_reliveapi PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
+    $<INSTALL_INTERFACE:include>
+    PRIVATE ${CMAKE_BINARY_DIR})
+
+add_library(AliveLibCommon_reliveapi
+    ../../AliveLibCommon/CamDecompressor.cpp
+    )
 
 set(relive_api_src
-    ../../../3rdParty/EasyLogging++/EasyLogging/src/easylogging++.cc
-    ../../AliveLibAO/PathData.cpp
-    ../../AliveLibAE/PathData.cpp
-    ../../AliveLibCommon/CamDecompressor.cpp
     CamConverter.hpp
     CamConverter.cpp
     JsonReadUtils.hpp
@@ -99,7 +125,15 @@ set(relive_api_src
     TypesCollectionBase.hpp
 )
 add_library(relive_api ${relive_api_src})
-target_link_libraries(relive_api jsonxx_reliveapi lodepng_reliveapi project_warnings)
+target_link_libraries(relive_api 
+    jsonxx_reliveapi
+    lodepng_reliveapi
+    easylogging_reliveapi
+    AliveLibCommon_reliveapi
+    AliveLibAO_reliveapi
+    AliveLibAE_reliveapi
+    project_warnings)
+
 export(TARGETS relive_api FILE relive_api.cmake)
 
 

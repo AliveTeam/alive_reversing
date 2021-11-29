@@ -9,6 +9,7 @@
 #include "ObjectIds.hpp"
 #include "Events.hpp"
 #include "Particle.hpp"
+#include <assert.h>
 
 Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
 {

@@ -122,7 +122,6 @@
 
 #include "logger.hpp"
 
-#include <gmock/gmock.h>
 
 #include <cstddef>
 #include <cstring>

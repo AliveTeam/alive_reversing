@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "../AliveLibAE/Psx.hpp" // AE lib hack
+#include <assert.h>
 
 namespace AO {
 

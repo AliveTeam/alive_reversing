@@ -19,6 +19,7 @@
 #include "ObjectIds.hpp"
 #include "Sys_common.hpp"
 #include "Renderer/IRenderer.hpp"
+#include <gmock/gmock.h>
 
 // Frame call backs ??
 EXPORT s32 CC Animation_OnFrame_Common_Null_455F40(void*, s16*)

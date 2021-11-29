@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Error.hpp"
 #include "Sys_common.hpp"
+#include <io.h>
 
 s32 access_impl(char_type const* fileName, s32 accessMode)
 {

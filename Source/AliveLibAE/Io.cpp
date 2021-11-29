@@ -5,6 +5,7 @@
 #include "stdlib.hpp"
 #include "Masher.hpp"
 #include "Sys_common.hpp"
+#include <gmock/gmock.h>
 
 #if !_WIN32
     #include <dirent.h>

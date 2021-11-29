@@ -2,6 +2,7 @@
 #include "Math.hpp"
 #include "Function.hpp"
 #include "FixedPoint.hpp"
+#include <gmock/gmock.h>
 
 void Math_ForceLink()
 { }

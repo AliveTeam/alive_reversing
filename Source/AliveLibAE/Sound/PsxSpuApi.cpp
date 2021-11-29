@@ -8,6 +8,7 @@
 #include "Sys.hpp"      // SYS_GetTicks
 #include "PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
 #include "../AliveLibAE/Io.hpp"
+#include <assert.h>
 
 struct VagAtr final
 {

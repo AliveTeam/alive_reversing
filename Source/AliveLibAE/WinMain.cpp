@@ -41,6 +41,7 @@
 #include "Dove.hpp"
 #include "SlamDoor.hpp"
 #include "QuikSave.hpp"
+#include <gmock/gmock.h>
 
 INITIALIZE_EASYLOGGINGPP
 
