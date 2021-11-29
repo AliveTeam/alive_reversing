@@ -304,12 +304,12 @@ s16 Meat::VCanThrow_4390B0()
     return field_110_state == 2;
 }
 
-BOOL Meat::VCanEatMe()
+Bool32 Meat::VCanEatMe()
 {
     return VCanEatMe_4390C0();
 }
 
-BOOL Meat::VCanEatMe_4390C0()
+Bool32 Meat::VCanEatMe_4390C0()
 {
     return field_110_state != 0;
 }

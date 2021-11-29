@@ -4199,7 +4199,7 @@ s16 Scrab::CanSeeAbe_4A51A0(BaseAliveGameObject* pObj)
 }
 
 
-BOOL Scrab::LineOfSightTo_4A52D0(Scrab* pThis, BaseAliveGameObject* pObj)
+Bool32 Scrab::LineOfSightTo_4A52D0(Scrab* pThis, BaseAliveGameObject* pObj)
 {
     PSX_RECT objRect = {};
     pObj->vGetBoundingRect_424FD0(&objRect, 1);

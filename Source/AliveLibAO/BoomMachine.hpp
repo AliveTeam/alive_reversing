@@ -40,7 +40,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual BOOL VIsButtonOn();
+    virtual Bool32 VIsButtonOn();
 
     virtual void VHandleButton();
 
@@ -49,7 +49,7 @@ private:
 
     EXPORT void VUpdate_41E750();
 
-    EXPORT BOOL VIsButtonOn_41E840();
+    EXPORT Bool32 VIsButtonOn_41E840();
 
     EXPORT void VHandleButton_41E6F0();
 

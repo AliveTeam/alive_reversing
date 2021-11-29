@@ -1,10 +1,11 @@
 #pragma once
 
 #include "../AliveLibCommon/FunctionFwd.hpp"
-#include "bmp.hpp"
 #include "FixedPoint.hpp"
 #include "../AliveLibCommon/Psx_common.hpp"
 #include "../AliveLibCommon/AddPointer.hpp"
+
+struct Bitmap;
 
 void Psx_ForceLink();
 
@@ -40,9 +41,9 @@ EXPORT s32 CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const u8* pData);
 EXPORT s32 CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData);
 EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, u16* pData);
 
-BOOL CC PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
+Bool32 CC PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
 
-EXPORT BOOL CC PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
+EXPORT Bool32 CC PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
 EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(s32 x, s32 y, s32 w, s32 h, s32 unknown, u8* pBuffer);
 
 EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char_type* pNormalized, const char_type* pFileName);

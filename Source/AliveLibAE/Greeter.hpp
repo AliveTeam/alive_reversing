@@ -103,7 +103,7 @@ private:
     EXPORT void vOnThrowableHit_447DB0(BaseGameObject* pFrom);
     EXPORT void ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
     EXPORT void RandomishSpeak_447A70(GreeterSpeak effect);
-    EXPORT BOOL ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
+    EXPORT Bool32 ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
     EXPORT BaseAliveGameObject* GetMudToZap_447690();
     EXPORT void vUpdate_4469B0();
 

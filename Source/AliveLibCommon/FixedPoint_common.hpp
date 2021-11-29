@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/FunctionFwd.hpp"
+#include <type_traits>
 
 struct FixedPoint;
 using FP = FixedPoint;

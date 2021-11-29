@@ -314,8 +314,8 @@ EXPORT s32 CC DD_Shutdown_4F0790(s32 bDestroyDD)
     return 1;
 }
 
-ALIVE_VAR(1, 0xBBC3B8, BOOL, sDD_Caps_BBC3B8, FALSE); // Force ram surfaces?
-ALIVE_VAR(1, 0xBBC3A0, BOOL, sDD_VideoMemory_BBC3A0, FALSE);
+ALIVE_VAR(1, 0xBBC3B8, Bool32, sDD_Caps_BBC3B8, FALSE); // Force ram surfaces?
+ALIVE_VAR(1, 0xBBC3A0, Bool32, sDD_VideoMemory_BBC3A0, FALSE);
 ALIVE_VAR(1, 0xBBC3C0, u32, sDDColourKey_BBC3C0, 0);
 ALIVE_VAR(1, 0xBBC3BC, bool, sbFullScreen_BBC3BC, 0);
 
@@ -631,7 +631,7 @@ EXPORT s32 CC DD_Enable_4F0380(HWND /*hwnd*/, s32 width, s32 height, s32 bpp, s3
         ::SetRect(&rect, 0, 0, width, height);
 
         const LONG curExStyle = ::GetWindowLongA(sDD_hWnd_BBC3B0, GWL_EXSTYLE);
-        const BOOL bMenu = ::GetMenu(sDD_hWnd_BBC3B0) != 0;
+        const Bool32 bMenu = ::GetMenu(sDD_hWnd_BBC3B0) != 0;
         const LONG curStyle = ::GetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE);
         ::AdjustWindowRectEx(&rect, curStyle, bMenu, curExStyle);
 

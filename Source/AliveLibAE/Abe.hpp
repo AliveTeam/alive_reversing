@@ -480,7 +480,7 @@ public:
     EXPORT BaseAliveGameObject* FindObjectToPossess_44B7B0();
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
-    EXPORT BOOL IsStanding_449D30();
+    EXPORT Bool32 IsStanding_449D30();
     EXPORT void Free_Shrykull_Resources_45AA90();
 
     EXPORT u8** MotionToAnimResource_44AAB0(s16 motion);
@@ -636,7 +636,7 @@ public:
     EXPORT void PushWall_44E890();
     EXPORT void MoveForward_44E9A0();
     EXPORT s16 CrouchingGameSpeak_453E10();
-    EXPORT BOOL Is_Celling_Above_44E8D0();
+    EXPORT Bool32 Is_Celling_Above_44E8D0();
     EXPORT void MoveWithVelocity_450FA0(FP velocityX);
     EXPORT s16 RunTryEnterDoor_451220();
     EXPORT s16 RunTryEnterWell_451060();

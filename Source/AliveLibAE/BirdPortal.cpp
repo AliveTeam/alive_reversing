@@ -673,7 +673,7 @@ void BirdPortal::VMudSaved_499A50()
     vMudSaved_499A50();
 }
 
-BOOL BirdPortal::VActivePortal_499830()
+Bool32 BirdPortal::VActivePortal_499830()
 {
     return vActivePortal_499830();
 }
@@ -683,7 +683,7 @@ void BirdPortal::VGiveShrukull_499680(s16 bPlaySound)
     return vGiveShryukull_499680(bPlaySound);
 }
 
-BOOL BirdPortal::VAbeInsidePortal_499850()
+Bool32 BirdPortal::VAbeInsidePortal_499850()
 {
     return vAbeInsidePortal_499850();
 }
@@ -693,7 +693,7 @@ void BirdPortal::VExitPortal_499870()
     vExitPortal_499870();
 }
 
-BOOL BirdPortal::VPortalExit_AbeExitting_499A00()
+Bool32 BirdPortal::VPortalExit_AbeExitting_499A00()
 {
     return vPortalExit_AbeExitting_499A00();
 }
@@ -871,7 +871,7 @@ void BirdPortal::vMudSaved_499A50()
     field_82_num_muds_for_shrykull--;
 }
 
-BOOL BirdPortal::vActivePortal_499830()
+Bool32 BirdPortal::vActivePortal_499830()
 {
     return field_28_state == PortalStates::ActivePortal_6;
 }
@@ -918,7 +918,7 @@ void BirdPortal::vGiveShryukull_499680(s16 bPlaySound)
     }
 }
 
-BOOL BirdPortal::vAbeInsidePortal_499850()
+Bool32 BirdPortal::vAbeInsidePortal_499850()
 {
     return field_28_state == PortalStates::AbeInsidePortal_16;
 }
@@ -968,7 +968,7 @@ void BirdPortal::vExitPortal_499870()
     }
 }
 
-BOOL BirdPortal::vPortalExit_AbeExitting_499A00()
+Bool32 BirdPortal::vPortalExit_AbeExitting_499A00()
 {
     return field_28_state == PortalStates::PortalExit_AbeExitting_20;
 }

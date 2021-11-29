@@ -1,5 +1,9 @@
 #pragma once
 
+#include "../../AliveLibCommon/Types.hpp"
+#include <string>
+#include <vector>
+
 enum class Game;
 class TypesCollectionBase;
 class TypesCollectionAO;

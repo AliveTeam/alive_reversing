@@ -53,7 +53,7 @@ void BirdPortal::VKillPortalClipper()
     VKillPortalClipper_453570();
 }
 
-BOOL BirdPortal::VStateIs20()
+Bool32 BirdPortal::VStateIs20()
 {
     return VStateIs20_453800();
 }
@@ -63,12 +63,12 @@ void BirdPortal::VExitPortal()
     VExitPortal_453720();
 }
 
-BOOL BirdPortal::VStateIs16()
+Bool32 BirdPortal::VStateIs16()
 {
     return VStateIs16_453710();
 }
 
-BOOL BirdPortal::VStateIs6()
+Bool32 BirdPortal::VStateIs6()
 {
     return VStateIs6_453700();
 }
@@ -1006,12 +1006,12 @@ void BirdPortal::VKillPortalClipper_453570()
     }
 }
 
-BOOL BirdPortal::VStateIs6_453700()
+Bool32 BirdPortal::VStateIs6_453700()
 {
     return field_14_state == PortalStates::ActivePortal_6;
 }
 
-BOOL BirdPortal::VStateIs16_453710()
+Bool32 BirdPortal::VStateIs16_453710()
 {
     return field_14_state == PortalStates::State_16;
 }
@@ -1057,7 +1057,7 @@ void BirdPortal::VExitPortal_453720()
     sActiveHero_507678->field_B0_path_number = gMap_507BA8.field_2_current_path;
 }
 
-BOOL BirdPortal::VStateIs20_453800()
+Bool32 BirdPortal::VStateIs20_453800()
 {
     return field_14_state == PortalStates::State_20;
 }

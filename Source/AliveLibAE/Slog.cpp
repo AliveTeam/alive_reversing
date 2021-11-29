@@ -3178,7 +3178,7 @@ s16 Slog::ToNextMotion_4C5A30()
     return 0;
 }
 
-BOOL Slog::CollisionCheck_4C5480(FP hitY, FP hitX)
+Bool32 Slog::CollisionCheck_4C5480(FP hitY, FP hitX)
 {
     PathLine* pLine = nullptr;
     return sCollisions_DArray_5C1128->Raycast_417A60(field_B8_xpos, field_BC_ypos - hitY, field_B8_xpos + hitX, field_BC_ypos - hitY, &pLine, &hitX, &hitY, 6) != 0;

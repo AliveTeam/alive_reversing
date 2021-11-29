@@ -87,7 +87,7 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo)
     return this;
 }
 
-BOOL PullRingRope::vIsNotBeingPulled_454D60()
+Bool32 PullRingRope::vIsNotBeingPulled_454D60()
 {
     return field_EC_state != States::eBeingPulled_1;
 }

@@ -184,7 +184,7 @@ Bells* Bells::Vdtor_40AB00(s32 flags)
 }
 
 
-BOOL Bells::CanSmash_40AA70()
+Bool32 Bells::CanSmash_40AA70()
 {
     return field_E8_bSmashing == 0;
 }

@@ -114,7 +114,7 @@ void SecurityDoor::VScreenChanged_461F80()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-BOOL SecurityDoor::IsPlayerNear()
+Bool32 SecurityDoor::IsPlayerNear()
 {
     const s16 xpos = FP_GetExponent(sControlledCharacter_50767C->field_A8_xpos);
     const s16 ypos = FP_GetExponent(sControlledCharacter_50767C->field_AC_ypos);

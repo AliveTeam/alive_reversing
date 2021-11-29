@@ -72,9 +72,9 @@ public:
 
     EXPORT s16 VCanThrow_4390B0();
 
-    virtual BOOL VCanEatMe();
+    virtual Bool32 VCanEatMe();
 
-    EXPORT BOOL VCanEatMe_4390C0();
+    EXPORT Bool32 VCanEatMe_4390C0();
 
     EXPORT s16 VIsFalling_4573B0();
 

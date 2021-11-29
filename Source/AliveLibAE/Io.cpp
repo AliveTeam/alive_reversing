@@ -18,7 +18,7 @@ ALIVE_VAR(1, 0xBBC4C8, std::atomic<size_t>, sIO_BytesToRead_BBC4C8, {});
 ALIVE_VAR(1, 0xBBC558, u32, sIoThreadId_BBC558, 0);
 
 // I/O
-ALIVE_VAR(1, 0xBD2A5C, BOOL, sIOSyncReads_BD2A5C, FALSE);
+ALIVE_VAR(1, 0xBD2A5C, Bool32, sIOSyncReads_BD2A5C, FALSE);
 ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 
 
@@ -332,7 +332,7 @@ EXPORT void* CC IO_Open_ASync_4EADA0(const s8* filename)
     return nullptr;
 }
 
-EXPORT BOOL CC IO_Read_ASync_4EAED0(void* hFile, void* pBuffer, u32 readSize)
+EXPORT Bool32 CC IO_Read_ASync_4EAED0(void* hFile, void* pBuffer, u32 readSize)
 {
     IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(hFile);
     if (!IO_Wait_ASync_4EACF0(pHandle))
@@ -378,18 +378,18 @@ EXPORT void CC IO_Close_Sync_4EAD90(void* pHandle)
     }
 }
 
-EXPORT BOOL CC IO_Read_Sync_4EAF50(void* pHandle, void* pBuffer, u32 readSize)
+EXPORT Bool32 CC IO_Read_Sync_4EAF50(void* pHandle, void* pBuffer, u32 readSize)
 {
     IO_FileHandleType hFile = reinterpret_cast<IO_FileHandleType>(pHandle);
     return IO_Read(hFile, pBuffer, 1u, readSize) == readSize;
 }
 
-EXPORT BOOL CC IO_Wait_Sync_4EAD30(void*)
+EXPORT Bool32 CC IO_Wait_Sync_4EAD30(void*)
 {
     return 1;
 }
 
-EXPORT BOOL CC IO_Seek_Sync_4EAFC0(void* pHandle, u32 offset, u32 origin)
+EXPORT Bool32 CC IO_Seek_Sync_4EAFC0(void* pHandle, u32 offset, u32 origin)
 {
     IO_FileHandleType hFile = reinterpret_cast<IO_FileHandleType>(pHandle);
     return IO_Seek(hFile, offset, origin) != 0;
@@ -434,12 +434,12 @@ EXPORT void CC IO_fclose_4942A0(void* pHandle)
     }
 }
 
-EXPORT BOOL CC IO_request_fread_4942C0(void* pHandle, void* pBuffer, u32 size)
+EXPORT Bool32 CC IO_request_fread_4942C0(void* pHandle, void* pBuffer, u32 size)
 {
     return IO_Read_4F23A0(reinterpret_cast<IO_Handle*>(pHandle), pBuffer, size) == 0;
 }
 
-EXPORT BOOL CC IO_fwait_4942F0(void* pHandle)
+EXPORT Bool32 CC IO_fwait_4942F0(void* pHandle)
 {
     IO_Handle* hHandle = reinterpret_cast<IO_Handle*>(pHandle);
     IO_WaitForComplete_4F2510(hHandle);

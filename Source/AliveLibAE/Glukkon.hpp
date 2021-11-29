@@ -261,7 +261,7 @@ private:
 
     EXPORT void vOn_TLV_Collision_4404A0(Path_TLV* pTlv);
 
-    EXPORT static BOOL CCSTD IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
+    EXPORT static Bool32 CCSTD IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
 
     EXPORT void ToStand_443B70();
 

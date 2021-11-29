@@ -238,7 +238,7 @@ public:
 
     EXPORT static s16 CCSTD IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis);
 
-    EXPORT static BOOL CCSTD IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
+    EXPORT static Bool32 CCSTD IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
 
     EXPORT void ThrowGrenade_43A1E0();
 
@@ -282,7 +282,7 @@ public:
 
     EXPORT s16 sub_436C60(PSX_RECT* pRect, s16 op1);
 
-    EXPORT BOOL sub_436B20();
+    EXPORT Bool32 sub_436B20();
 
     EXPORT void sub_4373B0();
 

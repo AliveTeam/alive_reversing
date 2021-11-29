@@ -8,6 +8,7 @@
 #include "PsxDisplay.hpp"
 #include "PsxRender.hpp"
 #include "Events.hpp"
+#include <math.h>
 
 ALIVE_VAR(1, 0x5BC214, s32, gGasInstanceCount_5BC214, 0);
 ALIVE_VAR(1, 0x5C1BA4, s16, gLaughingGasOn_5C1BA4, FALSE);

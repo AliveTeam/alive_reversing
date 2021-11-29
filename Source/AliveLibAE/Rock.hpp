@@ -56,8 +56,8 @@ public:
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VThrow_49E460(FP velX, FP velY) override;
-    virtual BOOL VCanThrow_49E350() override;
-    virtual BOOL VIsFalling_49E330() override;
+    virtual Bool32 VCanThrow_49E350() override;
+    virtual Bool32 VIsFalling_49E330() override;
     virtual void VTimeToExplodeRandom_411490() override;
 
     static s32 CC CreateFromSaveState_49F720(const u8* pData);
@@ -65,8 +65,8 @@ public:
 private:
     EXPORT void vScreenChanged_49F030();
     EXPORT s32 vGetSaveState_49F9A0(RockSaveState* pState);
-    EXPORT BOOL vIsFalling_49E330();
-    EXPORT BOOL vCanThrow_49E350();
+    EXPORT Bool32 vIsFalling_49E330();
+    EXPORT Bool32 vCanThrow_49E350();
     EXPORT Rock* vdtor_49E370(s32 flags);
     EXPORT void dtor_49E3A0();
     EXPORT void vThrow_49E460(FP velX, FP velY);
