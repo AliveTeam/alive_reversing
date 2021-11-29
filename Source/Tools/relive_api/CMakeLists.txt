@@ -37,6 +37,7 @@ target_include_directories(easylogging_reliveapi PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
     $<INSTALL_INTERFACE:include>
     PRIVATE ${CMAKE_BINARY_DIR})
+export(TARGETS easylogging_reliveapi FILE easylogging_reliveapi.cmake)
 
 add_library(AliveLibAO_reliveapi
     ../../AliveLibAO/PathData.cpp
@@ -46,6 +47,7 @@ target_include_directories(AliveLibAO_reliveapi PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
     $<INSTALL_INTERFACE:include>
     PRIVATE ${CMAKE_BINARY_DIR})
+export(TARGETS AliveLibAO_reliveapi FILE AliveLibAO_reliveapi.cmake)
 
 add_library(AliveLibAE_reliveapi
     ../../AliveLibAE/PathData.cpp
@@ -55,10 +57,12 @@ target_include_directories(AliveLibAE_reliveapi PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
     $<INSTALL_INTERFACE:include>
     PRIVATE ${CMAKE_BINARY_DIR})
+export(TARGETS AliveLibAE_reliveapi FILE AliveLibAE_reliveapi.cmake)
 
 add_library(AliveLibCommon_reliveapi
     ../../AliveLibCommon/CamDecompressor.cpp
     )
+export(TARGETS AliveLibCommon_reliveapi FILE AliveLibCommon_reliveapi.cmake)
 
 set(relive_api_src
     CamConverter.hpp
