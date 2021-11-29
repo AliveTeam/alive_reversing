@@ -2,9 +2,12 @@
 #include "PathData.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "stdlib.hpp"
-#include "../AliveLibCommon/Sys_common.hpp"
+//#include "../AliveLibCommon/Sys_common.hpp"
 #include <sstream>
 #include <assert.h>
+
+// Forward declare to avoid bringing in all of Sys_common.hpp (todo: should prob go in its own header)
+[[noreturn]] void ALIVE_FATAL(const char_type*);
 
 const PathData kNullPathEntry = {};
 
