@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "PathData.hpp"
-#include "..\AliveLibCommon\Function.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "stdlib.hpp"
-#include "..\AliveLibCommon\Sys_common.hpp"
+#include "../AliveLibCommon/Sys_common.hpp"
 #include <sstream>
 #include <assert.h>
 
