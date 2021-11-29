@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 namespace AO {
@@ -19,7 +19,7 @@ enum class BurstType : s16
 class ParticleBurst final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ParticleBurst* ctor_40D0F0(FP xpos, FP ypos, s16 unknown_count1, FP scale, BurstType type);
+    EXPORT ParticleBurst* ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, FP scale, BurstType type);
 
     EXPORT BaseGameObject* dtor_40D5A0();
 

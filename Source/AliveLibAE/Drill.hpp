@@ -2,8 +2,8 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
-#include "BitField.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/BitField.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 enum class DrillDirection : s16
 {

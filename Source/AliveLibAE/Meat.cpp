@@ -29,8 +29,6 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
     const AnimRecord& rec = AnimRec(AnimId::Meat);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    //u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
-    //Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 

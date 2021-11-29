@@ -1,11 +1,18 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "ScopedSeq.hpp"
 
 namespace AO {
+
+enum class SwitchState : s16
+{
+    eWaiting_0 = 0,
+    ePulled_1 = 1,
+    eFinished_2 = 2
+};
 
 enum class SwitchSoundType : s16
 {
@@ -51,17 +58,17 @@ public:
     EXPORT void VUpdate_4812D0();
 
     // New virtual
-    virtual s32 VPull(s16 a2);
+    virtual s32 VPull(s16 bLeftDirection);
 
-    EXPORT s32 vPull_481640(s16 a2);
+    EXPORT s32 vPull_481640(s16 bLeftDirection);
 
-    s32 field_D4[4];
+    s32 field_D4_padding[4];
     s16 field_E4_switchId;
     s16 field_E6_pad;
-    s16 field_E8_state;
+    SwitchState field_E8_state;
     s16 field_EA_pad;
     s32 field_EC_tlvInfo;
-    s16 field_F0;
+    s16 field_F0_bPulledFromLeft;
     SwitchOp field_F2_operation;
     SwitchSoundType field_F4_on_sound;
     SwitchSoundType field_F6_off_sound;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "ResourceManager.hpp"
 
 EXPORT void CC LvlArchive_Static_init_432E00();

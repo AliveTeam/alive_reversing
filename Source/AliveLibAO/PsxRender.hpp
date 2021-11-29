@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Psx_common.hpp"
 
 struct PrimHeader;

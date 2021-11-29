@@ -3,7 +3,7 @@
 #include "ITypeBase.hpp"
 #include "relive_api.hpp"
 
-#include "../AliveLibCommon/logger.hpp"
+#include "../../AliveLibCommon/logger.hpp"
 
 #include <jsonxx/jsonxx.h>
 

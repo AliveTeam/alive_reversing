@@ -2,9 +2,9 @@
 
 #include "TlvObjectBaseMacros.hpp"
 
-#include "../AliveLibAE/Path.hpp"
+#include "../../AliveLibAE/Path.hpp"
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 
 #include <jsonxx/jsonxx.h>
 

@@ -2166,21 +2166,7 @@ void Map::Get_map_size_444870(PSX_Point* pPoint)
 
 Path_TLV* CCSTD Path_TLV::Next_446460(Path_TLV* pTlv)
 {
-    if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
-    {
-        return nullptr;
-    }
-
-    return Next_NoCheck(pTlv);
-}
-
-
-Path_TLV* Path_TLV::Next_NoCheck(Path_TLV* pTlv)
-{
-    // Skip length bytes to get to the start of the next TLV
-    u8* ptr = reinterpret_cast<u8*>(pTlv);
-    u8* pNext = ptr + pTlv->field_2_length;
-    return reinterpret_cast<Path_TLV*>(pNext);
+    return Next(pTlv);
 }
 
 EXPORT Path_TLV* CCSTD Path_TLV::TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type)

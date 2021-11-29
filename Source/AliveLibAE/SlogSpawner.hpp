@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 struct Path_SlogSpawner final : public Path_TLV
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 struct ParticleBurst_Item;
 

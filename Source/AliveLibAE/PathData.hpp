@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Factory.hpp"
 #include "Collisions.hpp"
 
@@ -168,5 +168,5 @@ EXPORT void CC Path_Format_CameraName_460FB0(char_type* pStrBuffer, LevelIds lev
 
 const char_type* CdLvlName(LevelIds lvlId);
 
-ALIVE_VAR_EXTERN(PathRootContainer, sPathData_559660);
-ALIVE_VAR_EXTERN(SeqHandleTable, sSeqData_558D50);
+extern PathRootContainer sPathData_559660;
+extern SeqHandleTable sSeqData_558D50;

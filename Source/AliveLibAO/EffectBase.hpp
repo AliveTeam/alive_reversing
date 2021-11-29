@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Layer.hpp"
 
 namespace AO {

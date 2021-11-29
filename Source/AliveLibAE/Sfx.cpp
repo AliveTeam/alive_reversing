@@ -4,7 +4,7 @@
 #include "DebugHelpers.hpp"
 #include "Sound/Midi.hpp"
 #include "PathData.hpp"
-
+#include <assert.h>
 
 const SfxDefinition sSfxEntries_55C2A0[] = {
     {0u, 0u, 66u, 75u, 0, 0},

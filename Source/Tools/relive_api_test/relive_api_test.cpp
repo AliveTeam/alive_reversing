@@ -3,12 +3,10 @@
 #include "TlvsAO.hpp"
 #include "TypesCollectionAO.hpp"
 
-#include "../AliveLibAE/DebugHelpers.hpp"
+#include "../../AliveLibAE/DebugHelpers.hpp"
 
-#include "../AliveLibCommon/stdafx_common.h"
-#include "../AliveLibCommon/logger.hpp"
-
-#include "SDL.h"
+#include "../../AliveLibCommon/stdafx_common.h"
+#include "../../AliveLibCommon/logger.hpp"
 
 #include <gmock/gmock.h>
 
@@ -18,6 +16,8 @@
 #include <string_view>
 #include <string>
 #include <vector>
+
+INITIALIZE_EASYLOGGINGPP
 
 namespace {
 
@@ -271,6 +271,9 @@ public:
 };
 
 } // namespace
+
+// stop sdl_main messing with stuff
+#undef main
 
 s32 main(s32 argc, char_type* argv[])
 {

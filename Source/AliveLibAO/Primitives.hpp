@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Primitives_common.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Layer.hpp"
 
 namespace AO {

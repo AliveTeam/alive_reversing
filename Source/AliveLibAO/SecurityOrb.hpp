@@ -1,9 +1,9 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 

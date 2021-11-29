@@ -4469,26 +4469,26 @@ s16 Mudokon::Brain_ListeningToAbe_State_12()
 {
     if (field_17E_delayed_speak == MudAction::eMudDied_14 || field_17E_delayed_speak == MudAction::eMudAbuse_9)
     {
-        s16 v18 = GetBrainSubStateResponse_477AF0(field_17E_delayed_speak);
+        s16 response = GetBrainSubStateResponse_477AF0(field_17E_delayed_speak);
         if (field_188_pTblEntry->field_0_sound == MudSounds::eOops_14)
         {
             field_194_timer = sGnFrame_5C1B84 + 20;
             field_178_brain_sub_state2 = Brain_4_ListeningToAbe::eBrain4_Idle_7;
             field_17E_delayed_speak = MudAction::eNone_17;
-            if (!v18)
+            if (!response)
             {
                 return field_190_brain_sub_state;
             }
-            return v18;
+            return response;
         }
         field_194_timer = (u16)(StableDelay_477570() + sGnFrame_5C1B84 + 20);
         field_178_brain_sub_state2 = Brain_4_ListeningToAbe::eBrain4_Idle_7;
         field_17E_delayed_speak = MudAction::eNone_17;
-        if (!v18)
+        if (!response)
         {
             return field_190_brain_sub_state;
         }
-        return v18;
+        return response;
     }
 
     if (field_188_pTblEntry->field_2_next_motion == eMudMotions::M_Punch_38_474AA0)
@@ -4604,7 +4604,6 @@ s16 Mudokon::Brain_ListeningToAbe_State_13()
     }
     else
     {
-        LOG_WARNING("State 12 might be wrong ??");
         return Brain_4_ListeningToAbe::eBrain4_GetsCommand_12;
     }
 }

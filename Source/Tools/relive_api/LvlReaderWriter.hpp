@@ -2,9 +2,9 @@
 
 #include "ByteStream.hpp"
 
-#include "../AliveLibAE/LvlArchive.hpp"
+#include "../../AliveLibAE/LvlArchive.hpp"
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../../AliveLibCommon/FunctionFwd.hpp"
 #include "relive_api_exceptions.hpp"
 
 #include <cstddef>

@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Animation.hpp"
 #include "AnimationUnknown.hpp"
 #include "Map.hpp"

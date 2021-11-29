@@ -2,9 +2,9 @@
 
 #include "TlvObjectBase.hpp"
 
-#include "../AliveLibAE/Path.hpp"
+#include "../../AliveLibAE/Path.hpp"
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 
 #include <cstddef>
 #include <string>

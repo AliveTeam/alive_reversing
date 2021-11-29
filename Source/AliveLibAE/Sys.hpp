@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Sys_common.hpp"
 
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title);

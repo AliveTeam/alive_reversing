@@ -2,7 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Layer.hpp"
 
 struct Path_MotionDetector final : public Path_TLV

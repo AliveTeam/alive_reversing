@@ -1,10 +1,10 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
 #include "Camera.hpp"
-#include "AnimResources.hpp"
+#include "../AliveLibCommon/AnimResources.hpp"
 
 EXPORT void CC Game_ShowLoadingIcon_482D80();
 

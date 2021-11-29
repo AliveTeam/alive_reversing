@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 #include "Font.hpp"

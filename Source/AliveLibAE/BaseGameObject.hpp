@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "DynamicArray.hpp"
-#include "BitField.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 
 ALIVE_VAR_EXTERN(u32, sGnFrame_5C1B84);
 

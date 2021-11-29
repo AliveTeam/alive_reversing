@@ -134,7 +134,7 @@ void BaseBomb::vUpdate_424180()
                 pParticleBurst->ctor_41CF50(
                     field_B8_xpos,
                     field_BC_ypos,
-                    0x14u,
+                    20,
                     field_CC_sprite_scale,
                     BurstType::eBigRedSparks_3,
                     13);

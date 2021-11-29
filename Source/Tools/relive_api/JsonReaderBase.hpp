@@ -2,8 +2,8 @@
 
 #include "JsonModelTypes.hpp"
 #include "PropertyCollection.hpp"
-#include "../AliveLibAO/Collisions.hpp"
-#include "../AliveLibAE/Collisions.hpp"
+#include "../../AliveLibAO/Collisions.hpp"
+#include "../../AliveLibAE/Collisions.hpp"
 #include "TlvObjectBaseMacros.hpp"
 
 class AOLine final : public PropertyCollection

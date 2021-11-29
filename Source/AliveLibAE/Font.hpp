@@ -1,13 +1,12 @@
 #pragma once
 
 #include "stdlib.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Animation.hpp"
 #include "Game.hpp"
 #include "Psx.hpp"
 #include "Math.hpp"
-#include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "PsxDisplay.hpp"
 #include "Primitives.hpp"

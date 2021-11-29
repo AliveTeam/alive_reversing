@@ -3,8 +3,8 @@
 #include "TypesCollectionBase.hpp"
 #include "TlvFactory.hpp"
 
-#include "../AliveLibAO/PathData.hpp"
-#include "../AliveLibAO/Map.hpp"
+#include "../../AliveLibAO/PathData.hpp"
+#include "../../AliveLibAO/Map.hpp"
 
 #include <memory>
 #include <string>

@@ -3,11 +3,11 @@
 #include "TlvsAO.hpp"
 #include "TlvObjectBase.hpp"
 
-#include "../AliveLibAO/SwitchStates.hpp"
-#include "../AliveLibAO/PathData.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "../../AliveLibAO/SwitchStates.hpp"
+#include "../../AliveLibAO/PathData.hpp"
+#include "../../AliveLibAE/Path.hpp"
 
-#include "../AliveLibCommon/stdafx_common.h"
+#include "../../AliveLibCommon/stdafx_common.h"
 
 TypesCollectionAO::TypesCollectionAO()
 {

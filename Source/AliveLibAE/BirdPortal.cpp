@@ -376,13 +376,13 @@ void BirdPortal::vUpdate_498280()
             pTerminator2->field_BC_ypos -= (FP_FromDouble(3.5) * field_60_scale);
             if (FP_GetExponent(pTerminator1->field_BC_ypos) >= FP_GetExponent(pTerminator2->field_BC_ypos))
             {
-                u8** ppLightRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortlitResID);
+                const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Flash);
+                u8** ppLightRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
                 if (ppLightRes)
                 {
                     auto pParticle = ae_new<Particle>();
                     if (pParticle)
                     {
-                        const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Flash);
                         pParticle->ctor_4CC4C0(
                             pTerminator2->field_B8_xpos,
                             pTerminator2->field_BC_ypos,

@@ -2,6 +2,7 @@
 #include "LvlArchive.hpp"
 #include "Function.hpp"
 #include "Psx.hpp"
+#include <assert.h>
 
 const static s32 kSectorSize = 2048;
 

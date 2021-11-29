@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Psx.hpp"
 
 ALIVE_VAR_EXTERN(u16, unused_5CC88C);

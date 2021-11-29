@@ -260,6 +260,7 @@ bool RunningAsInjectedDll()
 
 #ifdef __APPLE__
 #include <mach-o/dyld.h>
+#include <unistd.h>
 
 static void __attribute__((constructor)) FixCWD()
 {

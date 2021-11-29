@@ -2,9 +2,9 @@
 
 #include "BaseGameObject.hpp"
 #include "Animation.hpp"
-#include "FixedPoint_common.hpp"
-#include "Psx_common.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../AliveLibCommon/Psx_common.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "PathData.hpp"
 
 namespace AO {

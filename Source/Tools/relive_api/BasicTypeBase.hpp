@@ -2,7 +2,7 @@
 
 #include "ITypeBase.hpp"
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 
 #include <string>
 #include <typeindex>

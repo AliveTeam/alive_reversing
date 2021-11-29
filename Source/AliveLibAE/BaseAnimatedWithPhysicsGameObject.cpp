@@ -9,6 +9,7 @@
 #include "ShadowZone.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "AnimResources.hpp"
+#include <gmock/gmock.h>
 
 BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize)
 {

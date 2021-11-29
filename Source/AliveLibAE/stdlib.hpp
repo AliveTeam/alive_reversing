@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 EXPORT void CC ae_internal_free_521334(void* ptr);
 EXPORT void* CC ae_internal_malloc_5212C0(size_t size);

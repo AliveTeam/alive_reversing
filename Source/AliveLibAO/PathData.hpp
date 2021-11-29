@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Factory.hpp"
-#include "AddPointer.hpp"
+#include "../AliveLibCommon/AddPointer.hpp"
 
 namespace AO {
 

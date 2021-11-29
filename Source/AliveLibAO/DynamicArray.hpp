@@ -1,7 +1,7 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
-#include "Types.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Types.hpp"
 
 namespace AO {
 

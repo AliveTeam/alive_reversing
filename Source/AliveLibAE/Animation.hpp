@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AnimationBase.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "DynamicArray.hpp"
 #include "Psx.hpp"
 #include "BaseGameObject.hpp"

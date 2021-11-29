@@ -1,7 +1,7 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
-#include "relive_config.h"
+#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/relive_config.h"
 
 #ifdef _WIN32
     #if !USE_SDL2

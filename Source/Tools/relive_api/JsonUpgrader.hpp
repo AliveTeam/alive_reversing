@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../AliveLibCommon/AddPointer.hpp"
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/AddPointer.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 
 #include <memory>
 #include <string>

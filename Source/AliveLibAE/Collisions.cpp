@@ -6,6 +6,7 @@
 #include "Psx.hpp"
 #include "DebugHelpers.hpp"
 #include "Sys_common.hpp"
+#include <gmock/gmock.h>
 
 ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
 

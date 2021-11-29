@@ -1,4 +1,4 @@
-#include "../AliveLibCommon/stdafx_common.h"
+#include "../../AliveLibCommon/stdafx_common.h"
 #include "TlvObjectBase.hpp"
 
 TlvObjectBase::TlvObjectBase(const std::string& typeName)

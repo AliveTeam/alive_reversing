@@ -3,12 +3,12 @@
 #include "TlvsAE.hpp"
 #include "TlvObjectBase.hpp"
 
-#include "../AliveLibAE/PathData.hpp"
-#include "../AliveLibAE/SwitchStates.hpp"
-#include "../AliveLibAE/Path.hpp"
-#include "../AliveLibAE/Map.hpp"
+#include "../../AliveLibAE/PathData.hpp"
+#include "../../AliveLibAE/SwitchStates.hpp"
+#include "../../AliveLibAE/Path.hpp"
+#include "../../AliveLibAE/Map.hpp"
 
-#include "../AliveLibCommon/stdafx_common.h"
+#include "../../AliveLibCommon/stdafx_common.h"
 
 TypesCollectionAE::TypesCollectionAE()
 {

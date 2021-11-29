@@ -1,9 +1,10 @@
 #include "CamConverter.hpp"
-#include "../AliveLibAE/ResourceManager.hpp"
+#include "../../AliveLibAE/ResourceManager.hpp"
 #include "LvlReaderWriter.hpp"
 #include "relive_api_exceptions.hpp"
+#include "../../AliveLibAE/ScreenManager.hpp"
+#include "../../AliveLibCommon/CamDecompressor.hpp"
 #include <lodepng/lodepng.h>
-#include "../AliveLibAE/ScreenManager.hpp"
 
 static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, const u16* pSrcPixels)
 {
@@ -14,10 +15,11 @@ static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, con
     }
 }
 
-static void SaveCamPng(const u16* camBuffer, const char_type* pFileName)
+static void SaveCamPng(const u16* /*camBuffer*/, const char_type* pFileName)
 {
     u8 dst[640 * 240 * 3] = {};
-    SDL_ConvertPixels(640, 240, SDL_PIXELFORMAT_RGB565, camBuffer, 640 * 2, SDL_PIXELFORMAT_RGB24, dst, 640 * 3);
+    // todo: don't depend on SDL2 for this
+    //SDL_ConvertPixels(640, 240, SDL_PIXELFORMAT_RGB565, camBuffer, 640 * 2, SDL_PIXELFORMAT_RGB24, dst, 640 * 3);
 
     // we're going to encode with a state rather than a convenient function, because enforcing a color type requires setting options
     lodepng::State state;

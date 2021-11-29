@@ -11,6 +11,7 @@
 #include "DebugHelpers.hpp"
 #include "PsxRender.hpp"
 #include "Sys.hpp"
+#include <gmock/gmock.h>
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
