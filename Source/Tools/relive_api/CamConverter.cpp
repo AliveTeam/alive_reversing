@@ -5,6 +5,7 @@
 #include "../../AliveLibAE/ScreenManager.hpp"
 #include "../../AliveLibCommon/CamDecompressor.hpp"
 #include <lodepng/lodepng.h>
+#include <iostream>
 
 static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, const u16* pSrcPixels)
 {

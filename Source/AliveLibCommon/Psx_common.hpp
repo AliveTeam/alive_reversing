@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../AliveLibCommon/Types.hpp"
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "FixedPoint_common.hpp"
 

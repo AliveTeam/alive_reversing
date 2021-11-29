@@ -1,6 +1,7 @@
 #pragma once
 
 #include "JsonModelTypes.hpp"
+#include <functional>
 
 struct Path_TLV;
 

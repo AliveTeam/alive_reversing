@@ -1,6 +1,7 @@
 #pragma once
 
 #include "JsonModelTypes.hpp"
+#include <fstream>
 
 // Reads the root fields to read the version/game type (we need to know this so we can create a game specific reader/do an upgrade of the json).
 class JsonMapRootInfoReader final

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.hpp"
+
 bool RunningAsInjectedDll();
 
 #ifdef _MSC_VER
@@ -33,10 +35,6 @@ bool RunningAsInjectedDll();
 #define BYTE1(x) BYTEn(x, 1)
 #define BYTE2(x) BYTEn(x, 2)
 #define BYTE3(x) BYTEn(x, 3)
-
-#ifndef HIWORD
-    #define HIWORD(l) ((u16)((((DWORD_PTR)(l)) >> 16) & 0xffff))
-#endif
 
 class AliveVar final
 {

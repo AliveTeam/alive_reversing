@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.hpp"
+
 template <class DataType, class EnumType>
 class BitFieldT
 {
