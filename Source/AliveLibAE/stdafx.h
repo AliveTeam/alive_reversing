@@ -5,5 +5,5 @@
 
 #pragma once
 
-#include "..\AliveLibCommon\pch_shared.h"
-#include "..\AliveLibCommon\relive_config.h"
+#include "../AliveLibCommon/pch_shared.h"
+#include "../AliveLibCommon/relive_config.h"
