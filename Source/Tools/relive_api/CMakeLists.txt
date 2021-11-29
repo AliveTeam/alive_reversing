@@ -161,7 +161,14 @@ target_compile_features(relive_api_test
     PRIVATE cxx_auto_type
     PRIVATE cxx_variadic_templates)
 target_compile_definitions(relive_api_test PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_link_libraries(relive_api_test relive_api googletest jsonxx_reliveapi libglew_static project_warnings)
+
+if (NOT MSVC)
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads REQUIRED)
+    target_link_libraries(relive_api_test relive_api googletest jsonxx_reliveapi libglew_static project_warnings Threads::Threads)
+else()
+    target_link_libraries(relive_api_test relive_api googletest jsonxx_reliveapi libglew_static project_warnings)
+endif()
 
 export(TARGETS relive_api_test FILE relive_api_test.cmake)
 install(TARGETS relive_api_test DESTINATION "${BINPATH}")
