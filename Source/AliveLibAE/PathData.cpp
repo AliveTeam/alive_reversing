@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "PathData.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "stdlib.hpp"

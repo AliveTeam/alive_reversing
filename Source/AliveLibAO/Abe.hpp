@@ -2,7 +2,6 @@
 
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BellSong.hpp"
-#include "stdafx_ao.h"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "Input.hpp"
