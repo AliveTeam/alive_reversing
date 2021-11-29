@@ -2,10 +2,9 @@
 #include "TouchController.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
+#include <math.h>
 
 TouchController* gTouchController = nullptr;
-
-
 
 void sdl_ellipse(SDL_Renderer* r, s32 x0, s32 y0, s32 radiusX, s32 radiusY, u8 red, u8 green, u8 blue, u8 alpha)
 {
