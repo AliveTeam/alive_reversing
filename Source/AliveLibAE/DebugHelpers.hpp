@@ -42,7 +42,7 @@ void DebugAddRaycast(RaycastDebug rc);
 // File System
 namespace FS {
     // inline as its used by the API tests
-    inline [[nodiscard]] bool ReadFileInto(std::vector<u8>& target, const std::string& filePath)
+    [[nodiscard]] inline bool ReadFileInto(std::vector<u8>& target, const std::string& filePath)
     {
         FILE* hFile = ::fopen(filePath.c_str(), "rb");
         if (!hFile)
