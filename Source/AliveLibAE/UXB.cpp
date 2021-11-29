@@ -13,6 +13,7 @@
 #include "Sound/Midi.hpp"
 #include "Abe.hpp"
 #include "BaseBomb.hpp"
+#include <math.h>
 
 const TintEntry sTintMap_UXB_563A3C[19] = {
     {LevelIds_s8::eMines_1, 127u, 127u, 127u},

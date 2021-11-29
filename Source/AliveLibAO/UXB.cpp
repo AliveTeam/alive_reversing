@@ -8,6 +8,7 @@
 #include "BaseBomb.hpp"
 #include "Events.hpp"
 #include "ScreenManager.hpp"
+#include <math.h>
 
 namespace AO {
 
