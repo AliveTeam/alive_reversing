@@ -134,8 +134,7 @@ target_link_libraries(relive_api
     easylogging_reliveapi
     AliveLibCommon_reliveapi
     AliveLibAO_reliveapi
-    AliveLibAE_reliveapi
-    project_warnings)
+    AliveLibAE_reliveapi)
 
 export(TARGETS relive_api FILE relive_api.cmake)
 
