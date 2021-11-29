@@ -5,6 +5,7 @@
 #include "../../AliveLibAO/Map.hpp"
 #include "../../AliveLibAE/Path.hpp"
 
+namespace ReliveAPI {
 TypesCollectionBase::TypesCollectionBase()
 {
 #define ADD_BASIC_TYPE(name, type) AddBasicType<type>(name, std::numeric_limits<type>::min(), std::numeric_limits<type>::max());
@@ -74,3 +75,4 @@ TypesCollectionBase::~TypesCollectionBase() = default;
     const auto it = mTypesByTypeIndex.find(typeIndex);
     return it != mTypesByTypeIndex.end() ? it->second : nullptr;
 }
+} // namespace ReliveAPI

@@ -7,6 +7,7 @@
 #include <vector>
 #include "relive_api_exceptions.hpp"
 
+namespace ReliveAPI {
 class ByteStream final
 {
 public:
@@ -149,3 +150,4 @@ private:
     std::size_t mWritePos = 0;
     std::vector<u8> mData;
 };
+} // namespace ReliveAPI

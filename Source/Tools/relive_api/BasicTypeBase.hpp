@@ -11,6 +11,7 @@ namespace jsonxx {
 class Array;
 }
 
+namespace ReliveAPI {
 class BasicTypeBase : public ITypeBase
 {
 public:
@@ -26,3 +27,4 @@ private:
     s32 mMinVal = 0;
     s32 mMaxVal = 0;
 };
+} // namespace ReliveAPI

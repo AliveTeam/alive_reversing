@@ -6,6 +6,8 @@ namespace jsonxx {
 class Object;
 }
 
+
+namespace ReliveAPI {
 class TypesCollectionBase;
 class PropertyCollection;
 
@@ -27,3 +29,4 @@ private:
     std::string m_typeName;
     bool m_isVisibleToEditor = true;
 };
+} // namespace ReliveAPI

@@ -134,4 +134,4 @@ private:
     std::string mKey;
 };
 
-}
+} // namespace ReliveAPI

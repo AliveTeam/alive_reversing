@@ -13,13 +13,13 @@
 #include <utility>
 #include <vector>
 
+namespace ReliveAPI {
 TlvObjectBaseAE::TlvObjectBaseAE(std::size_t sizeOfT, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv)
     : TlvObjectBase(typeName)
     , mSizeOfT(sizeOfT)
     , mType(tlvType)
     , mPSelfTlv{pSelfTlv}
 {
-
 }
 
 TlvObjectBaseAE::TlvObjectBaseAE(std::size_t sizeOfT, TypesCollectionBase& globalTypes, TlvTypes tlvType, const std::string& typeName, Path_TLV* pSelfTlv)
@@ -78,3 +78,4 @@ void TlvObjectBaseAE::InstanceToJsonBase(jsonxx::Object& ret)
 {
     return mType;
 }
+} // namespace ReliveAPI

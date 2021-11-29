@@ -76,7 +76,7 @@
     {\
     }\
     \
-    className(TypesCollectionBase& globalTypes, const Path_TLV* pTlvSrc = nullptr) \
+    className(ReliveAPI::TypesCollectionBase& globalTypes, const Path_TLV* pTlvSrc = nullptr) \
         : TlvObjectBaseAE(sizeof(::className), globalTypes, tlvEnumType, objectTypeName, &mTlv)\
     {\
         if (pTlvSrc)\
@@ -92,7 +92,7 @@
         AddProperties(globalTypes);\
     }\
     ::className mTlv = {};\
-    void AddProperties(TypesCollectionBase& globalTypes)
+    void AddProperties(ReliveAPI::TypesCollectionBase& globalTypes)
 
 #define EMPTY_CTOR_AE() (void) globalTypes
 
@@ -266,9 +266,9 @@ struct Path_Pulley final : public Path_TLV
 };
 
 namespace AETlvs {
-struct Path_ElectricWall final : public TlvObjectBaseAE
+struct Path_ElectricWall final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::ElectricWallStartState>("Enum_ElectricWallStartState",
                                                 {
@@ -284,9 +284,9 @@ struct Path_ElectricWall final : public TlvObjectBaseAE
         ADD("Start State", mTlv.field_14_start_state);
     }
 };
-struct Path_Mudokon final : public TlvObjectBaseAE
+struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Mud_TLV_Emotion>("Enum_Mud_TLV_Emotion",
                                          {{::Mud_TLV_Emotion::eNormal_0, "Normal"},
@@ -325,9 +325,9 @@ struct Path_Mudokon final : public TlvObjectBaseAE
     }
 };
 
-struct Path_BirdPortal final : public TlvObjectBaseAE
+struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::PortalType>("Enum_PortalType",
                                     {
@@ -358,7 +358,7 @@ struct Path_BirdPortal final : public TlvObjectBaseAE
     }
 };
 
-struct Path_LCDStatusBoard final : public TlvObjectBaseAE
+struct Path_LCDStatusBoard final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_LCDStatusBoard, "LCDStatusBoard", TlvTypes::LCDStatusBoard_64)
     {
@@ -368,7 +368,7 @@ struct Path_LCDStatusBoard final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Door final : public TlvObjectBaseAE
+struct Path_Door final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Door, "Door", TlvTypes::Door_5)
     {
@@ -401,9 +401,9 @@ struct Path_Door final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Switch final : public TlvObjectBaseAE
+struct Path_Switch final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::SwitchSoundType>("Enum_SwitchSoundType",
                                          {{::SwitchSoundType::eNone, "None"},
@@ -434,9 +434,9 @@ struct Path_Switch final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Hoist final : public TlvObjectBaseAE
+struct Path_Hoist final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Path_Hoist::Type>("Enum_HoistType",
                                           {
@@ -462,7 +462,7 @@ struct Path_Hoist final : public TlvObjectBaseAE
     }
 };
 
-struct Path_BoomMachine final : public TlvObjectBaseAE
+struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_BoomMachine, "BoomMachine", TlvTypes::BoomMachine_59)
     {
@@ -473,9 +473,9 @@ struct Path_BoomMachine final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Slig final : public TlvObjectBaseAE
+struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Path_Slig::StartState>("Enum_SligStartState",
                                                {
@@ -528,7 +528,7 @@ struct Path_Slig final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Fleech final : public TlvObjectBaseAE
+struct Path_Fleech final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Fleech, "Fleech", TlvTypes::Fleech_83)
     {
@@ -554,9 +554,9 @@ struct Path_Fleech final : public TlvObjectBaseAE
     }
 };
 
-struct Path_EnemyStopper final : public TlvObjectBaseAE
+struct Path_EnemyStopper final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Path_EnemyStopper::StopDirection>("Enum_StopDirection",
                                                           {
@@ -573,7 +573,7 @@ struct Path_EnemyStopper final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Teleporter final : public TlvObjectBaseAE
+struct Path_Teleporter final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Teleporter, "Teleporter", TlvTypes::Teleporter_88)
     {
@@ -591,9 +591,9 @@ struct Path_Teleporter final : public TlvObjectBaseAE
     }
 };
 
-struct Path_UXB final : public TlvObjectBaseAE
+struct Path_UXB final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Path_UXB::StartState>("Enum_Path_UXB_StartState",
                                               {
@@ -612,7 +612,7 @@ struct Path_UXB final : public TlvObjectBaseAE
     }
 };
 
-struct Path_LCDScreen final : public TlvObjectBaseAE
+struct Path_LCDScreen final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_LCDScreen, "LCDScreen", TlvTypes::LCD_60)
     {
@@ -624,9 +624,9 @@ struct Path_LCDScreen final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Edge final : public TlvObjectBaseAE
+struct Path_Edge final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Path_Edge::GrabDirection>("Enum_EdgeGrabDirection",
                                                   {
@@ -644,7 +644,7 @@ struct Path_Edge final : public TlvObjectBaseAE
     }
 };
 
-struct Path_StatusLight final : public TlvObjectBaseAE
+struct Path_StatusLight final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_StatusLight, "StatusLight", TlvTypes::StatusLight_97)
     {
@@ -659,9 +659,9 @@ struct Path_StatusLight final : public TlvObjectBaseAE
     }
 };
 
-struct Path_ShadowZone final : public TlvObjectBaseAE
+struct Path_ShadowZone final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::ShadowZoneScale>("Enum_ShadowZoneScale",
                                          {
@@ -683,7 +683,7 @@ struct Path_ShadowZone final : public TlvObjectBaseAE
     }
 };
 
-struct Path_WorkWheel final : public TlvObjectBaseAE
+struct Path_WorkWheel final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_WorkWheel, "WorkWheel", TlvTypes::WorkWheel_79)
     {
@@ -695,9 +695,9 @@ struct Path_WorkWheel final : public TlvObjectBaseAE
     }
 };
 
-struct Path_MusicTrigger final : public TlvObjectBaseAE
+struct Path_MusicTrigger final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::MusicTriggerMusicType>("Enum_MusicTriggerMusicType",
                                                {
@@ -725,7 +725,7 @@ struct Path_MusicTrigger final : public TlvObjectBaseAE
     }
 };
 
-struct Path_AbeStart final : public TlvObjectBaseAE
+struct Path_AbeStart final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_AbeStart, "AbeStart", TlvTypes::AbeStart_22)
     {
@@ -734,7 +734,7 @@ struct Path_AbeStart final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SoftLanding final : public TlvObjectBaseAE
+struct Path_SoftLanding final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SoftLanding, "SoftLanding", TlvTypes::SoftLanding_75)
     {
@@ -742,7 +742,7 @@ struct Path_SoftLanding final : public TlvObjectBaseAE
     }
 };
 
-struct Path_WellExpress final : public TlvObjectBaseAE
+struct Path_WellExpress final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_WellExpress, "WellExpress", TlvTypes::WellExpress_23)
     {
@@ -770,7 +770,7 @@ struct Path_WellExpress final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SlamDoor final : public TlvObjectBaseAE
+struct Path_SlamDoor final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SlamDoor, "SlamDoor", TlvTypes::SlamDoor_85)
     {
@@ -782,7 +782,7 @@ struct Path_SlamDoor final : public TlvObjectBaseAE
     }
 };
 
-struct Path_HandStone final : public TlvObjectBaseAE
+struct Path_HandStone final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_HandStone, "HandStone", TlvTypes::HandStone_61)
     {
@@ -794,7 +794,7 @@ struct Path_HandStone final : public TlvObjectBaseAE
     }
 };
 
-struct Path_LaughingGas final : public TlvObjectBaseAE
+struct Path_LaughingGas final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_LaughingGas, "LaughingGas", TlvTypes::LaughingGas_81)
     {
@@ -806,9 +806,9 @@ struct Path_LaughingGas final : public TlvObjectBaseAE
     }
 };
 
-struct Path_InvisibleSwitch final : public TlvObjectBaseAE
+struct Path_InvisibleSwitch final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::InvisibleSwitchScale>("Enum_InvisibleSwitchScale",
                                               {
@@ -828,7 +828,7 @@ struct Path_InvisibleSwitch final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Water final : public TlvObjectBaseAE
+struct Path_Water final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Water, "Water", TlvTypes::Water_77)
     {
@@ -841,9 +841,9 @@ struct Path_Water final : public TlvObjectBaseAE
     }
 };
 
-struct Path_GasEmitter final : public TlvObjectBaseAE
+struct Path_GasEmitter final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::GasColour>("Enum_GasColour",
                                    {
@@ -862,9 +862,9 @@ struct Path_GasEmitter final : public TlvObjectBaseAE
     }
 };
 
-struct Path_BackgroundAnimation final : public TlvObjectBaseAE
+struct Path_BackgroundAnimation final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::TPageAbr>("Enum_TPageAbr",
                                   {
@@ -933,9 +933,9 @@ struct Path_BackgroundAnimation final : public TlvObjectBaseAE
     }
 };
 
-struct Path_LiftPoint final : public TlvObjectBaseAE
+struct Path_LiftPoint final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::LiftPointStopType>("Enum_LiftPointStopType",
                                            {
@@ -958,9 +958,9 @@ struct Path_LiftPoint final : public TlvObjectBaseAE
     }
 };
 
-struct Path_PullRingRope final : public TlvObjectBaseAE
+struct Path_PullRingRope final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::PullRingSwitchSound>("Enum_PullRingSwitchSound",
                                              {
@@ -990,7 +990,7 @@ struct Path_PullRingRope final : public TlvObjectBaseAE
     }
 };
 
-struct Path_MultiSwitchController final : public TlvObjectBaseAE
+struct Path_MultiSwitchController final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_MultiSwitchController, "MultiSwitchController", TlvTypes::MultiSwitchController_96)
     {
@@ -1006,7 +1006,7 @@ struct Path_MultiSwitchController final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SecurityOrb final : public TlvObjectBaseAE
+struct Path_SecurityOrb final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SecurityOrb, "SecurityOrb", TlvTypes::SecurityOrb_19)
     {
@@ -1015,7 +1015,7 @@ struct Path_SecurityOrb final : public TlvObjectBaseAE
     }
 };
 
-struct Path_InvisibleZone final : public TlvObjectBaseAE
+struct Path_InvisibleZone final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_InvisibleZone, "InvisibleZone", TlvTypes::InvisibleZone_33)
     {
@@ -1023,9 +1023,9 @@ struct Path_InvisibleZone final : public TlvObjectBaseAE
     }
 };
 
-struct Path_ContinuePoint final : public TlvObjectBaseAE
+struct Path_ContinuePoint final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Path_ContinuePoint::Scale>("Enum_ContinuePointScale",
                                                    {
@@ -1042,9 +1042,9 @@ struct Path_ContinuePoint final : public TlvObjectBaseAE
     }
 };
 
-struct Path_WheelSyncer final : public TlvObjectBaseAE
+struct Path_WheelSyncer final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::WheelSyncerAction>("Enum_WheelSyncerAction",
                                            {
@@ -1068,7 +1068,7 @@ struct Path_WheelSyncer final : public TlvObjectBaseAE
     }
 };
 
-struct Path_LevelLoader final : public TlvObjectBaseAE
+struct Path_LevelLoader final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_LevelLoader, "LevelLoader", TlvTypes::LevelLoader_86)
     {
@@ -1080,7 +1080,7 @@ struct Path_LevelLoader final : public TlvObjectBaseAE
     }
 };
 // TODO: finish
-struct Path_Pulley final : public TlvObjectBaseAE
+struct Path_Pulley final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Pulley, "Pulley", TlvTypes::Pulley_21)
     {
@@ -1089,7 +1089,7 @@ struct Path_Pulley final : public TlvObjectBaseAE
     }
 };
 // TODO: finish
-struct Path_FlyingSlig final : public TlvObjectBaseAE
+struct Path_FlyingSlig final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_FlyingSlig, "FlyingSlig", TlvTypes::FlyingSlig_82)
     {
@@ -1112,7 +1112,7 @@ struct Path_FlyingSlig final : public TlvObjectBaseAE
     }
 };
 // TODO: finish
-struct Path_FlyingSligSpawner final : public TlvObjectBaseAE
+struct Path_FlyingSligSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_FlyingSligSpawner, "FlyingSligSpawner", TlvTypes::FlyingSligSpawner_92)
     {
@@ -1135,7 +1135,7 @@ struct Path_FlyingSligSpawner final : public TlvObjectBaseAE
     }
 };
 // TODO: finish
-struct Path_DeathDrop final : public TlvObjectBaseAE
+struct Path_DeathDrop final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_DeathDrop, "DeathDrop", TlvTypes::DeathDrop_4)
     {
@@ -1148,7 +1148,7 @@ struct Path_DeathDrop final : public TlvObjectBaseAE
     }
 };
 // TODO: finish
-struct Path_SligSpawner final : public TlvObjectBaseAE
+struct Path_SligSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligSpawner, "SligSpawner", TlvTypes::SligSpawner_37)
     {
@@ -1187,7 +1187,7 @@ struct Path_SligSpawner final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SligLeftBound final : public TlvObjectBaseAE
+struct Path_SligLeftBound final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligLeftBound, "SligLeftBound", TlvTypes::SligBoundLeft_32)
     {
@@ -1196,7 +1196,7 @@ struct Path_SligLeftBound final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SligRightBound final : public TlvObjectBaseAE
+struct Path_SligRightBound final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligRightBound, "SligRightBound", TlvTypes::SligBoundRight_45)
     {
@@ -1205,7 +1205,7 @@ struct Path_SligRightBound final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SligPersist final : public TlvObjectBaseAE
+struct Path_SligPersist final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligPersist, "SligPersist", TlvTypes::SligPersist_46)
     {
@@ -1214,7 +1214,7 @@ struct Path_SligPersist final : public TlvObjectBaseAE
     }
 };
 
-struct Path_ZSligCover final : public TlvObjectBaseAE
+struct Path_ZSligCover final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ZSligCover, "ZSligCover", TlvTypes::ZSligCover_50)
     {
@@ -1222,7 +1222,7 @@ struct Path_ZSligCover final : public TlvObjectBaseAE
     }
 };
 
-struct Path_WellLocal final : public TlvObjectBaseAE
+struct Path_WellLocal final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_WellLocal, "WellLocal", TlvTypes::LocalWell_8)
     {
@@ -1243,7 +1243,7 @@ struct Path_WellLocal final : public TlvObjectBaseAE
     }
 };
 
-struct Path_BrewMachine final : public TlvObjectBaseAE
+struct Path_BrewMachine final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_BrewMachine, "BrewMachine", TlvTypes::BrewMachine_101)
     {
@@ -1251,9 +1251,9 @@ struct Path_BrewMachine final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Drill final : public TlvObjectBaseAE
+struct Path_Drill final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::DrillBehavior>("Enum_DrillBehavior",
                                          {
@@ -1287,7 +1287,7 @@ struct Path_Drill final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Mine final : public TlvObjectBaseAE
+struct Path_Mine final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Mine, "Mine", TlvTypes::Mine_24)
     {
@@ -1299,7 +1299,7 @@ struct Path_Mine final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Slog final : public TlvObjectBaseAE
+struct Path_Slog final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Slog, "Slog", TlvTypes::Slog_16)
     {
@@ -1316,7 +1316,7 @@ struct Path_Slog final : public TlvObjectBaseAE
     }
 };
 
-struct Path_ResetSwitchRange final : public TlvObjectBaseAE
+struct Path_ResetSwitchRange final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ResetSwitchRange, "ResetSwitchRange", TlvTypes::ResetSwitchRange_76)
     {
@@ -1330,7 +1330,7 @@ struct Path_ResetSwitchRange final : public TlvObjectBaseAE
     }
 };
 
-struct Path_TrapDoor final : public TlvObjectBaseAE
+struct Path_TrapDoor final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_TrapDoor, "TrapDoor", TlvTypes::TrapDoor_30)
     {
@@ -1345,7 +1345,7 @@ struct Path_TrapDoor final : public TlvObjectBaseAE
     }
 };
 
-struct Path_PathTransition final : public TlvObjectBaseAE
+struct Path_PathTransition final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_PathTransition, "PathTransition", TlvTypes::PathTransition_1)
     {
@@ -1358,9 +1358,9 @@ struct Path_PathTransition final : public TlvObjectBaseAE
     }
 };
 
-struct Path_LiftMover final : public TlvObjectBaseAE
+struct Path_LiftMover final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Path_LiftMover::YDirection>("Enum_LiftMoverYDirection",
                                                     {
@@ -1377,7 +1377,7 @@ struct Path_LiftMover final : public TlvObjectBaseAE
     }
 };
 
-struct Path_RockSack final : public TlvObjectBaseAE
+struct Path_RockSack final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_RockSack, "RockSack", TlvTypes::RockSack_10)
     {
@@ -1389,7 +1389,7 @@ struct Path_RockSack final : public TlvObjectBaseAE
     }
 };
 
-struct Path_TimerTrigger final : public TlvObjectBaseAE
+struct Path_TimerTrigger final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_TimerTrigger, "TimeTrigger", TlvTypes::TimerTrigger_57)
     {
@@ -1402,9 +1402,9 @@ struct Path_TimerTrigger final : public TlvObjectBaseAE
     }
 };
 
-struct Path_MotionDetector final : public TlvObjectBaseAE
+struct Path_MotionDetector final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Path_MotionDetector::InitialMoveDirection>("Enum_InitialMoveDirection",
                                                                    {
@@ -1427,7 +1427,7 @@ struct Path_MotionDetector final : public TlvObjectBaseAE
     }
 };
 
-struct Path_MineCar final : public TlvObjectBaseAE
+struct Path_MineCar final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_MineCar, "MineCar", TlvTypes::MineCar_93)
     {
@@ -1436,7 +1436,7 @@ struct Path_MineCar final : public TlvObjectBaseAE
     }
 };
 
-struct Path_ExplosionSet final : public TlvObjectBaseAE
+struct Path_ExplosionSet final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ExplosionSet, "ExplosionSet", TlvTypes::ExplosionSet_95)
     {
@@ -1452,7 +1452,7 @@ struct Path_ExplosionSet final : public TlvObjectBaseAE
     }
 };
 
-struct Path_ColourfulMeter final : public TlvObjectBaseAE
+struct Path_ColourfulMeter final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ColourfulMeter, "ColourfulMeter", TlvTypes::ColourfulMeter_91)
     {
@@ -1463,7 +1463,7 @@ struct Path_ColourfulMeter final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Alarm final : public TlvObjectBaseAE
+struct Path_Alarm final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Alarm, "Alarm", TlvTypes::Alarm_100)
     {
@@ -1472,7 +1472,7 @@ struct Path_Alarm final : public TlvObjectBaseAE
     }
 };
 
-struct Path_DemoSpawnPoint final : public TlvObjectBaseAE
+struct Path_DemoSpawnPoint final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_DemoSpawnPoint, "DemoSpawnPoint", TlvTypes::DemoSpawnPoint_87)
     {
@@ -1480,7 +1480,7 @@ struct Path_DemoSpawnPoint final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SlapLock final : public TlvObjectBaseAE
+struct Path_SlapLock final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SlapLock, "SlapLock", TlvTypes::SlapLock_98)
     {
@@ -1495,7 +1495,7 @@ struct Path_SlapLock final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Slurg final : public TlvObjectBaseAE
+struct Path_Slurg final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Slurg, "Slurg", TlvTypes::Slurg_84)
     {
@@ -1506,7 +1506,7 @@ struct Path_Slurg final : public TlvObjectBaseAE
     }
 };
 
-struct Path_DoorBlocker final : public TlvObjectBaseAE
+struct Path_DoorBlocker final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_DoorBlocker, "DoorBlocker", TlvTypes::DoorBlocker_109)
     {
@@ -1515,7 +1515,7 @@ struct Path_DoorBlocker final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Dove final : public TlvObjectBaseAE
+struct Path_Dove final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Dove, "Dove", TlvTypes::Dove_9)
     {
@@ -1525,7 +1525,7 @@ struct Path_Dove final : public TlvObjectBaseAE
     }
 };
 
-struct Path_BirdPortalExit final : public TlvObjectBaseAE
+struct Path_BirdPortalExit final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_BirdPortalExit, "BirdPortalExit", TlvTypes::BirdPortalExit_29)
     {
@@ -1534,7 +1534,7 @@ struct Path_BirdPortalExit final : public TlvObjectBaseAE
     }
 };
 
-struct Path_DoorFlame final : public TlvObjectBaseAE
+struct Path_DoorFlame final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_DoorFlame, "DoorFlame", TlvTypes::DoorFlame_51)
     {
@@ -1544,7 +1544,7 @@ struct Path_DoorFlame final : public TlvObjectBaseAE
     }
 };
 
-struct Path_TrainDoor final : public TlvObjectBaseAE
+struct Path_TrainDoor final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_TrainDoor, "TrainDoor", TlvTypes::TrainDoor_111)
     {
@@ -1552,7 +1552,7 @@ struct Path_TrainDoor final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Greeter final : public TlvObjectBaseAE
+struct Path_Greeter final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Greeter, "Greeter", TlvTypes::Greeter_106)
     {
@@ -1562,7 +1562,7 @@ struct Path_Greeter final : public TlvObjectBaseAE
     }
 };
 
-struct Path_ScrabLeftBound final : public TlvObjectBaseAE
+struct Path_ScrabLeftBound final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ScrabLeftBound, "ScrabLeftBound", TlvTypes::ScrabLeftBound_43)
     {
@@ -1570,7 +1570,7 @@ struct Path_ScrabLeftBound final : public TlvObjectBaseAE
     }
 };
 
-struct Path_ScrabRightBound final : public TlvObjectBaseAE
+struct Path_ScrabRightBound final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ScrabRightBound, "ScrabRightBound", TlvTypes::ScrabRightBound_44)
     {
@@ -1578,7 +1578,7 @@ struct Path_ScrabRightBound final : public TlvObjectBaseAE
     }
 };
 
-struct Path_CreditsController final : public TlvObjectBaseAE
+struct Path_CreditsController final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_CreditsController, "CreditsController", TlvTypes::CreditsController_62)
     {
@@ -1586,7 +1586,7 @@ struct Path_CreditsController final : public TlvObjectBaseAE
     }
 };
 
-struct Path_MovieHandstone final : public TlvObjectBaseAE
+struct Path_MovieHandstone final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_MovieHandstone, "MovieHandstone", TlvTypes::MovieHandStone_27)
     {
@@ -1597,7 +1597,7 @@ struct Path_MovieHandstone final : public TlvObjectBaseAE
     }
 };
 
-struct Path_MovingBomb final : public TlvObjectBaseAE
+struct Path_MovingBomb final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_MovingBomb, "MovingBomb", TlvTypes::MovingBomb_52)
     {
@@ -1612,7 +1612,7 @@ struct Path_MovingBomb final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SecurityDoor final : public TlvObjectBaseAE
+struct Path_SecurityDoor final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SecurityDoor, "SecurityDoor", TlvTypes::SecurityDoor_58)
     {
@@ -1625,9 +1625,9 @@ struct Path_SecurityDoor final : public TlvObjectBaseAE
     }
 };
 
-struct Path_CrawlingSlig final : public TlvObjectBaseAE
+struct Path_CrawlingSlig final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Path_CrawlingSlig::State>("Enum_CrawlingSligState",
                                                {
@@ -1655,7 +1655,7 @@ struct Path_CrawlingSlig final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SligGetPants final : public TlvObjectBaseAE
+struct Path_SligGetPants final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligGetPants, "SligGetPants", TlvTypes::SligGetPants_104)
     {
@@ -1694,7 +1694,7 @@ struct Path_SligGetPants final : public TlvObjectBaseAE
     }
 };
 // TODO: finish
-struct Path_SligGetWings final : public TlvObjectBaseAE
+struct Path_SligGetWings final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligGetWings, "SligGetWings", TlvTypes::SligGetWings_105)
     {
@@ -1717,7 +1717,7 @@ struct Path_SligGetWings final : public TlvObjectBaseAE
     }
 };
 
-struct Path_CrawlingSligButton final : public TlvObjectBaseAE
+struct Path_CrawlingSligButton final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_CrawlingSligButton, "CrawlingSligButton", TlvTypes::CrawlingSligButton_107)
     {
@@ -1730,9 +1730,9 @@ struct Path_CrawlingSligButton final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Glukkon final : public TlvObjectBaseAE
+struct Path_Glukkon final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::GlukkonTypes>("Enum_GlukkonTypes",
                                       {
@@ -1770,9 +1770,9 @@ struct Path_Glukkon final : public TlvObjectBaseAE
     }
 };
 
-struct Path_GlukkonSwitch final : public TlvObjectBaseAE
+struct Path_GlukkonSwitch final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Path_GlukkonSwitch::Scale>("Enum_GlukkonSwitchScale",
                                                    {
@@ -1791,7 +1791,7 @@ struct Path_GlukkonSwitch final : public TlvObjectBaseAE
     }
 };
 
-struct Path_GasCountDown final : public TlvObjectBaseAE
+struct Path_GasCountDown final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_GasCountDown, "GasCountDown", TlvTypes::GasCountdown_69)
     {
@@ -1801,7 +1801,7 @@ struct Path_GasCountDown final : public TlvObjectBaseAE
     }
 };
 
-struct Path_FallingItem final : public TlvObjectBaseAE
+struct Path_FallingItem final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_FallingItem, "FallingItem", TlvTypes::FallingItem_11)
     {
@@ -1813,7 +1813,7 @@ struct Path_FallingItem final : public TlvObjectBaseAE
     }
 };
 
-struct Path_BoneBag final : public TlvObjectBaseAE
+struct Path_BoneBag final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_BoneBag, "BoneBag", TlvTypes::BoneBag_94)
     {
@@ -1825,7 +1825,7 @@ struct Path_BoneBag final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SecurityClaw final : public TlvObjectBaseAE
+struct Path_SecurityClaw final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SecurityClaw, "SecurityClaw", TlvTypes::SecurityClaw_35)
     {
@@ -1835,9 +1835,9 @@ struct Path_SecurityClaw final : public TlvObjectBaseAE
     }
 };
 
-struct Path_FootSwitch final : public TlvObjectBaseAE
+struct Path_FootSwitch final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::FootSwitchTriggerBy>("Enum_FootSwitchTriggeredBy",
                                              {
@@ -1855,7 +1855,7 @@ struct Path_FootSwitch final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SlogHut final : public TlvObjectBaseAE
+struct Path_SlogHut final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SlogHut, "SlogHut", TlvTypes::SlogHut_72)
     {
@@ -1865,7 +1865,7 @@ struct Path_SlogHut final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SlogSpawner final : public TlvObjectBaseAE
+struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SlogSpawner, "SlogSpawner", TlvTypes::SlogSpawner_68)
     {
@@ -1880,7 +1880,7 @@ struct Path_SlogSpawner final : public TlvObjectBaseAE
     }
 };
 
-struct Path_MainMenuController final : public TlvObjectBaseAE
+struct Path_MainMenuController final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_MainMenuController, "MainMenuController", TlvTypes::MainMenuController_54)
     {
@@ -1888,7 +1888,7 @@ struct Path_MainMenuController final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Null_63 final : public TlvObjectBaseAE
+struct Path_Null_63 final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Null_63, "Null_63", TlvTypes::Null_63)
     {
@@ -1897,7 +1897,7 @@ struct Path_Null_63 final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Scrab final : public TlvObjectBaseAE
+struct Path_Scrab final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Scrab, "Scrab", TlvTypes::Scrab_41)
     {
@@ -1918,9 +1918,9 @@ struct Path_Scrab final : public TlvObjectBaseAE
     }
 };
 
-struct Path_ScrabSpawner final : public TlvObjectBaseAE
+struct Path_ScrabSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::ScrabSpawnDirection>("Enum_ScrabSpawnDirection",
                                              {
@@ -1954,7 +1954,7 @@ struct Path_ScrabSpawner final : public TlvObjectBaseAE
     }
 };
 
-struct Path_SlurgSpawner final : public TlvObjectBaseAE
+struct Path_SlurgSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SlurgSpawner, "SlurgSpawner", TlvTypes::SlurgSpawner_89)
     {
@@ -1969,9 +1969,9 @@ struct Path_SlurgSpawner final : public TlvObjectBaseAE
     }
 };
 
-struct Path_Paramite final : public TlvObjectBaseAE
+struct Path_Paramite final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(TypesCollectionBase& types) override
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<::Path_Paramite::EntranceType>("Enum_ParamiteEntranceType",
                                                      {
@@ -1999,7 +1999,7 @@ struct Path_Paramite final : public TlvObjectBaseAE
     }
 };
 
-struct Path_ParamiteWebLine final : public TlvObjectBaseAE
+struct Path_ParamiteWebLine final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ParamiteWebLine, "ParamiteWebLine", TlvTypes::ParamiteWebLine_99)
     {
@@ -2007,7 +2007,7 @@ struct Path_ParamiteWebLine final : public TlvObjectBaseAE
     }
 };
 
-struct Path_MeatSack final : public TlvObjectBaseAE
+struct Path_MeatSack final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_MeatSack, "MeatSack", TlvTypes::MeatSack_40)
     {
@@ -2019,7 +2019,7 @@ struct Path_MeatSack final : public TlvObjectBaseAE
     }
 };
 
-struct Path_TorturedMudokon final : public TlvObjectBaseAE
+struct Path_TorturedMudokon final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_TorturedMudokon, "TorturedMudokon", TlvTypes::TorturedMudokon_110)
     {

@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include <memory>
 
+namespace ReliveAPI {
 class PropertyCollection
 {
 private:
@@ -74,3 +75,4 @@ protected:
     std::unordered_map<const void*, std::unique_ptr<BaseProperty>> mProperties;
     std::unordered_set<std::string> mRegisteredPropertyNames;
 };
+} // namespace ReliveAPI

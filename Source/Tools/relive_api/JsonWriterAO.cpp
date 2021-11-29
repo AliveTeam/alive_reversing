@@ -5,15 +5,16 @@
 #include "TlvObjectBase.hpp"
 #include "JsonReaderBase.hpp"
 
+namespace ReliveAPI {
 JsonWriterAO::JsonWriterAO(std::unique_ptr<TypesCollectionAO>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info)
     : JsonWriterBase(*typesCollection, pathId, pathBndName, info)
-    , mTypesCollection{ std::move(typesCollection) }
+    , mTypesCollection{std::move(typesCollection)}
 {
     mMapRootInfo.mGame = "AO";
 }
 
 JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const PathInfo& info)
-    : JsonWriterAO{ std::make_unique<TypesCollectionAO>(), pathId, pathBndName, info }
+    : JsonWriterAO{std::make_unique<TypesCollectionAO>(), pathId, pathBndName, info}
 {
 }
 
@@ -120,3 +121,4 @@ void JsonWriterAO::DebugDumpTlvs(const std::string& prefix, const PathInfo& info
 }
 
 JsonWriterAO::~JsonWriterAO() = default;
+} // namespace ReliveAPI

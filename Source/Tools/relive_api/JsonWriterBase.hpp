@@ -9,6 +9,7 @@ namespace AO {
     struct Path_TLV;
 }
 
+namespace ReliveAPI {
 class JsonWriterBase
 {
 public:
@@ -45,3 +46,4 @@ private:
     const PathInfo& mPathInfo;
     const std::vector<u8>& mPathResource;
 };
+} // namespace ReliveAPI

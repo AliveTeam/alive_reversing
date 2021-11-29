@@ -17,6 +17,7 @@
 #include <unordered_map>
 #include <vector>
 
+namespace ReliveAPI {
 class TlvObjectBase;
 
 enum class Game
@@ -123,3 +124,4 @@ private:
     [[nodiscard]] const ITypeBase* FindByTypeName(const std::string& typeName) const;
     [[nodiscard]] const ITypeBase* FindByTypeIndex(const std::type_index& typeIndex) const;
 };
+} // namespace ReliveAPI

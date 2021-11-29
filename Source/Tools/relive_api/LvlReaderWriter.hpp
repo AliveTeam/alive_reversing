@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+namespace ReliveAPI {
 [[nodiscard]] inline std::string ToString(const LvlFileRecord& rec)
 {
     size_t i = 0;
@@ -95,7 +96,7 @@ public:
         {
             if (chunk.Header().field_8_type == type)
             {
-                return { chunk };
+                return {chunk};
             }
         }
         return {};
@@ -544,3 +545,4 @@ private:
     LvlReader mReader;
     std::vector<NewOrEditedFileRecord> mNewOrEditedFiles;
 };
+} // namespace ReliveAPI

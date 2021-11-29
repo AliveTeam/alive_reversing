@@ -9,6 +9,7 @@
 
 #include "../../AliveLibCommon/stdafx_common.h"
 
+namespace ReliveAPI {
 TypesCollectionAO::TypesCollectionAO()
 {
     AddAOTypes();
@@ -184,3 +185,4 @@ void TypesCollectionAO::AddAOTypes()
                                   {XDirection_short::eRight_1, "Right"},
                               });
 }
+} // namespace ReliveAPI

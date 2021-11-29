@@ -15,6 +15,7 @@ namespace jsonxx {
 class Object;
 }
 
+namespace ReliveAPI {
 class TlvObjectBaseAE : public TlvObjectBase
 {
 public:
@@ -40,3 +41,4 @@ protected:
     const TlvTypes mType;
     Path_TLV* const mPSelfTlv;
 };
+} // namespace ReliveAPI

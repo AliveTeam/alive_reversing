@@ -3,6 +3,7 @@
 #include "JsonReadUtils.hpp"
 #include "TlvObjectBase.hpp"
 
+namespace ReliveAPI {
 std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray)
 {
     std::vector<AO::PathLine> lines;
@@ -95,5 +96,6 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
         mapData.push_back(std::move(cameraNameBlob));
     }
 
-    return { std::move(mapData), std::move(map) };
+    return {std::move(mapData), std::move(map)};
 }
+} // namespace ReliveAPI

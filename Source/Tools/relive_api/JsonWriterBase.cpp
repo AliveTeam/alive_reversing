@@ -4,6 +4,7 @@
 #include <jsonxx/jsonxx.h>
 #include "../../AliveLibAO/Map.hpp"
 
+namespace ReliveAPI {
 inline s32 To1dIndex(s32 width, s32 x, s32 y)
 {
     return x + (y * width);
@@ -61,28 +62,28 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, c
 
     jsonxx::Array cameraArray;
     PathCamerasEnumerator cameraEnumerator(info, pathResource);
-    cameraEnumerator.Enumerate([&](const CameraObject& tmpCamera) 
-        {
-            const s32 indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, tmpCamera.mX, tmpCamera.mY)];
-            if (indexTableEntryOffset == -1)
-            {
-                if (!tmpCamera.mName.empty())
-                {
-                    // LOG_INFO("Add camera with no objects " << tmpCamera.mName);
-                    cameraArray << tmpCamera.ToJsonObject({});
-                }
-            }
-            else
-            {
-                // Can have objects that do not live in a camera, as strange as it seems (R1P15)
-                // "blank" cameras just do not have a name set.
+    cameraEnumerator.Enumerate([&](const CameraObject& tmpCamera)
+                               {
+                                   const s32 indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, tmpCamera.mX, tmpCamera.mY)];
+                                   if (indexTableEntryOffset == -1)
+                                   {
+                                       if (!tmpCamera.mName.empty())
+                                       {
+                                           // LOG_INFO("Add camera with no objects " << tmpCamera.mName);
+                                           cameraArray << tmpCamera.ToJsonObject({});
+                                       }
+                                   }
+                                   else
+                                   {
+                                       // Can have objects that do not live in a camera, as strange as it seems (R1P15)
+                                       // "blank" cameras just do not have a name set.
 
-                u8* ptr = pPathData + indexTableEntryOffset + info.mObjectOffset;
-                jsonxx::Array mapObjects = ReadTlvStream(ptr);
-                // LOG_INFO("Add camera " << tmpCamera.mName);
-                cameraArray << tmpCamera.ToJsonObject(mapObjects);
-            }
-        });
+                                       u8* ptr = pPathData + indexTableEntryOffset + info.mObjectOffset;
+                                       jsonxx::Array mapObjects = ReadTlvStream(ptr);
+                                       // LOG_INFO("Add camera " << tmpCamera.mName);
+                                       cameraArray << tmpCamera.ToJsonObject(mapObjects);
+                                   }
+                               });
 
 
     rootMapObject << "cameras" << cameraArray;
@@ -124,18 +125,18 @@ static void DebugDumpTlv(const std::string& prefix, s32 idx, const T& tlv)
 
 void JsonWriterBase::DebugDumpTlv(const std::string& prefix, s32 idx, const Path_TLV& tlv)
 {
-    ::DebugDumpTlv(prefix, idx, tlv);
+    ReliveAPI::DebugDumpTlv(prefix, idx, tlv);
 }
 
 void JsonWriterBase::DebugDumpTlv(const std::string& prefix, s32 idx, const AO::Path_TLV& tlv)
 {
-    ::DebugDumpTlv(prefix, idx, tlv);
+    ReliveAPI::DebugDumpTlv(prefix, idx, tlv);
 }
 
 PathCamerasEnumerator::PathCamerasEnumerator(const PathInfo& pathInfo, const std::vector<u8>& pathResource)
-   : mPathInfo(pathInfo), mPathResource(pathResource)
+    : mPathInfo(pathInfo)
+    , mPathResource(pathResource)
 {
-
 }
 
 void PathCamerasEnumerator::Enumerate(TFnOnCamera onCamera)
@@ -161,3 +162,4 @@ void PathCamerasEnumerator::Enumerate(TFnOnCamera onCamera)
         }
     }
 }
+} // namespace ReliveAPI

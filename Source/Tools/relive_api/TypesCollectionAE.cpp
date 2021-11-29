@@ -10,6 +10,7 @@
 
 #include "../../AliveLibCommon/stdafx_common.h"
 
+namespace ReliveAPI {
 TypesCollectionAE::TypesCollectionAE()
 {
     AddAETypes();
@@ -212,3 +213,4 @@ void TypesCollectionAE::AddAETypes()
                           {LevelIds::eCredits_16, "Credits"},
                       });
 }
+} // namespace ReliveAPI
