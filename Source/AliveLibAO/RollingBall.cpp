@@ -197,7 +197,7 @@ void RollingBall::VUpdate_457AF0()
 
             if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromInteger(0)))
             {
-                if (pLine->field_8_type && pLine->field_8_type != 4)
+                if (pLine->field_8_type != eLineTypes::eFloor_0 && pLine->field_8_type != eLineTypes::eBackGroundFloor_4)
                 {
                     return;
                 }

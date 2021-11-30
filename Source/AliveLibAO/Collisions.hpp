@@ -14,7 +14,10 @@ enum eLineTypes : u8
     eCeiling_3 = 3,
     eBackGroundFloor_4 = 4,
     eBackGroundWallLeft_5 = 5,
-    eBackGroundWallRight_6 = 6
+    eBackGroundWallRight_6 = 6,
+
+    eUnknown_32 = 32,
+    eUnknown_36 = 36,
 };
 
 class PathLine final

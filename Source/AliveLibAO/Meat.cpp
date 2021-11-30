@@ -377,10 +377,10 @@ void Meat::InTheAir_438720()
     {
         switch (field_124_pLine->field_8_type)
         {
-            case 0:
-            case 4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 if (field_B8_vely > FP_FromInteger(0))
                 {
                     field_110_state = 3;
@@ -398,8 +398,8 @@ void Meat::InTheAir_438720()
                 }
                 break;
 
-            case 1:
-            case 5:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eBackGroundWallLeft_5:
                 if (field_B4_velx >= FP_FromInteger(0))
                 {
                     field_124_pLine = nullptr;
@@ -422,8 +422,8 @@ void Meat::InTheAir_438720()
                 field_124_pLine = nullptr;
                 break;
 
-            case 2:
-            case 6:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackGroundWallRight_6:
                 if (field_B4_velx > FP_FromInteger(0))
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(4));
@@ -461,6 +461,7 @@ void Meat::VUpdate_438A20()
             field_6_flags.Set(Options::eDead_Bit3);
         }
 
+        // TODO: states enum
         switch (field_110_state)
         {
             case 1:
@@ -613,7 +614,8 @@ void Meat::AddToPlatform_438EA0()
             &hitY,
             scale != FP_FromInteger(0) ? 7 : 0x70))
     {
-        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        if (pLine->field_8_type == eLineTypes::eUnknown_32 ||
+            pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             for (s32 i = 0; i < ObjListPlatforms_50766C->Size(); i++)
             {

@@ -2043,7 +2043,7 @@ void Slig::MoveOnLine_467490()
         {
             if (field_F8_pLiftPoint)
             {
-                if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+                if (field_F4_pLine->field_8_type != eLineTypes::eUnknown_32 && field_F4_pLine->field_8_type != eLineTypes::eUnknown_36)
                 {
                     const auto oldMotion = field_FC_current_motion;
                     VOnTrapDoorOpen();
@@ -2052,7 +2052,7 @@ void Slig::MoveOnLine_467490()
             }
             else
             {
-                if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+                if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 || field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
                 {
                     // TODO: Inlined
                     PSX_RECT bRect = {};

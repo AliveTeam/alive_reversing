@@ -42,13 +42,17 @@ void Leaf::VUpdate_48B650()
         17);
 
     // Hit the floor, die but only if in background..
-    if (bCollision && field_BC_sprite_scale == FP_FromDouble(0.5) && pLine->field_8_type == 0)
+    if (bCollision && field_BC_sprite_scale == FP_FromDouble(0.5) && pLine->field_8_type == eLineTypes::eFloor_0)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 
-    if (field_E4_bHitSomething & 1 || !bCollision || ((field_BC_sprite_scale != FP_FromDouble(0.5) || pLine->field_8_type != 4) && (field_BC_sprite_scale != FP_FromInteger(1) || pLine->field_8_type != 0)))
+    if (field_E4_bHitSomething & 1 || !bCollision || 
+        (
+        (field_BC_sprite_scale != FP_FromDouble(0.5) || pLine->field_8_type != eLineTypes::eBackGroundFloor_4) &&
+        (field_BC_sprite_scale != FP_FromInteger(1) || pLine->field_8_type != eLineTypes::eFloor_0))
+        )
     {
         field_A8_xpos = x2;
         field_AC_ypos = y2;
