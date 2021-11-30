@@ -33,4 +33,5 @@ else()
 endif()
 
 export(TARGETS relive_api_test FILE relive_api_test.cmake)
+set_property(TARGET relive_api_test PROPERTY FOLDER "ReliveAPI")
 install(TARGETS relive_api_test DESTINATION "${BINPATH}")
