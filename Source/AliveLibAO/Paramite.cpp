@@ -853,7 +853,7 @@ void Paramite::MoveOnLine_44B740()
         {
             if (field_F8_pLiftPoint)
             {
-                if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+                if (field_F4_pLine->field_8_type != eLineTypes::eUnknown_32 && field_F4_pLine->field_8_type != eLineTypes::eUnknown_36)
                 {
                     const auto oldMotion = field_FC_current_motion;
                     VOnTrapDoorOpen();
@@ -862,7 +862,7 @@ void Paramite::MoveOnLine_44B740()
             }
             else
             {
-                if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+                if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 || field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
                 {
                     PSX_RECT bRect = {};
                     VGetBoundingRect(&bRect, 1);
@@ -3647,7 +3647,8 @@ void Paramite::Motion_18_RunningAttack_44D5D0()
                 &hitY,
                 field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
         {
-            if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+            if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
+                pLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PSX_RECT r = {};
                 VGetBoundingRect(&r, 1);
@@ -3713,7 +3714,7 @@ void Paramite::Motion_20_SurpriseWeb_44D9A0()
         field_AC_ypos = hitY;
         field_FC_current_motion = eParamiteMotions::Motion_21_WebLeaveDown_44DB00;
 
-        if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+        if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 || field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);

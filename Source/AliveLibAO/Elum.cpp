@@ -610,12 +610,12 @@ void Elum::MoveOnLine_412580(s16 xLookAhead)
         field_A8_xpos += field_B4_velx;
         if (field_F8_pLiftPoint)
         {
-            if (field_F4_pLine->field_8_type != 32)
+            if (field_F4_pLine->field_8_type != eLineTypes::eUnknown_32)
             {
                 VOnTrapDoorOpen();
             }
         }
-        else if (field_F4_pLine->field_8_type == 32)
+        else if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32)
         {
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
@@ -832,7 +832,7 @@ void Elum::HandleElumPathTrans_411460()
 
     if (field_F4_pLine)
     {
-        if (field_F4_pLine->field_8_type == 32)
+        if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32)
         {
             field_F8_pLiftPoint = nullptr;
         }
@@ -2519,10 +2519,10 @@ void Elum::Motion_21_Land_414A20()
     {
         switch (pLine->field_8_type)
         {
-            case 0:
-            case 4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);
                 field_F4_pLine = pLine;
@@ -2791,10 +2791,10 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
         {
             switch (field_F4_pLine->field_8_type)
             {
-                case eFloor_0:
-                case eBackGroundFloor_4:
-                case 32:
-                case 36:
+                case eLineTypes::eFloor_0:
+                case eLineTypes::eBackGroundFloor_4:
+                case eLineTypes::eUnknown_32:
+                case eLineTypes::eUnknown_36:
                     Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);
 
                     switch (midType)

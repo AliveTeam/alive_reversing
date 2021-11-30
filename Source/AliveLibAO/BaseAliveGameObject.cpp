@@ -264,7 +264,8 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
             field_AC_ypos = hitY;
             if (field_F8_pLiftPoint)
             {
-                if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+                if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
+                    pLine->field_8_type == eLineTypes::eUnknown_36)
                 {
                     field_F8_pLiftPoint->field_C_refCount--;
                     field_F8_pLiftPoint = nullptr;

@@ -613,7 +613,8 @@ s16 Scrab::OnFloor_4A41E0()
     {
         field_BC_ypos = hitY;
         ToStand_4A75A0();
-        if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+        if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
+            field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PlatformCollide_4A7E50();
         }
@@ -2563,10 +2564,10 @@ void Scrab::M_HopMidair_6_4A9490()
         {
             switch (pLine->field_8_type)
             {
-                case eFloor_0:
-                case eBackGroundFloor_4:
-                case 32u:
-                case 36u:
+                case eLineTypes::eFloor_0:
+                case eLineTypes::eBackGroundFloor_4:
+                case eLineTypes::eUnknown_32:
+                case eLineTypes::eUnknown_36:
                     field_100_pCollisionLine = pLine;
                     ToStand_4A75A0();
                     field_106_current_motion = eScrabMotions::M_HopLand_7_4A9890;
@@ -2575,8 +2576,8 @@ void Scrab::M_HopMidair_6_4A9490()
                     field_BC_ypos = hitY;
                     return;
 
-                case eWallLeft_1:
-                case eWallRight_2:
+                case eLineTypes::eWallLeft_1:
+                case eLineTypes::eWallRight_2:
                     field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                     return;
             }
@@ -2673,10 +2674,10 @@ void Scrab::M_JumpToFall_8_4A9220()
     {
         switch (pLine->field_8_type)
         {
-            case 0u:
-            case 4u:
-            case 32u:
-            case 36u:
+            case eLineTypes::eBulletWall_10:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 field_100_pCollisionLine = pLine;
                 field_106_current_motion = eScrabMotions::M_Fall_20_4A93E0;
                 PlatformCollide_4A7E50();
@@ -2684,8 +2685,8 @@ void Scrab::M_JumpToFall_8_4A9220()
                 field_B8_xpos = hitX;
                 MapFollowMe_408D10(TRUE);
                 break;
-            case 1u:
-            case 2u:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 break;
             default:
@@ -2823,10 +2824,10 @@ void Scrab::M_RunJumpBegin_12_4A99C0()
         {
             switch (pLine->field_8_type)
             {
-                case 0u:
-                case 4u:
-                case 32u:
-                case 36u:
+                case eLineTypes::eFloor_0:
+                case eLineTypes::eBackGroundFloor_4:
+                case eLineTypes::eUnknown_32:
+                case eLineTypes::eUnknown_36:
                     field_100_pCollisionLine = pLine;
                     ToStand_4A75A0();
                     field_106_current_motion = eScrabMotions::M_RunJumpEnd_13_4A9BE0;
@@ -2835,8 +2836,8 @@ void Scrab::M_RunJumpBegin_12_4A99C0()
                     field_BC_ypos = hitY;
                     return;
 
-                case 1u:
-                case 2u:
+                case eLineTypes::eWallLeft_1:
+                case eLineTypes::eWallRight_2:
                     field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                     return;
                 default:
@@ -3445,14 +3446,16 @@ void Scrab::MoveOnLine_4A7D20()
         {
             if (pObj)
             {
-                if (field_100_pCollisionLine->field_8_type != 32 && field_100_pCollisionLine->field_8_type != 36)
+                if (field_100_pCollisionLine->field_8_type != eLineTypes::eUnknown_32 &&
+                    field_100_pCollisionLine->field_8_type != eLineTypes::eUnknown_36)
                 {
                     const auto oldMotion = field_106_current_motion;
                     VOnTrapDoorOpen();
                     field_106_current_motion = oldMotion;
                 }
             }
-            else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            else if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
+                     field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PlatformCollide_4A7E50();
             }

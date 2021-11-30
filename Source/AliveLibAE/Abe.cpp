@@ -3647,10 +3647,10 @@ void Abe::Motion_3_Fall_459B60()
     {
         switch (pPathLine->field_8_type)
         {
-            case eFloor_0:
-            case eBackGroundFloor_4:
-            case 32u: // TODO: These type are never seen, internal only ??
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 field_B8_xpos = hitX;
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -3702,10 +3702,10 @@ void Abe::Motion_3_Fall_459B60()
             }
             break;
 
-            case eWallLeft_1:
-            case eWallRight_2:
-            case eBackGroundWallLeft_5:
-            case eBackGroundWallRight_6:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackGroundWallLeft_5:
+            case eLineTypes::eBackGroundWallRight_6:
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
                 ToKnockback_44E700(1, 1);
@@ -3949,10 +3949,10 @@ void Abe::Motion_14_HoistIdle_452440()
     {
         switch (pLine->field_8_type)
         {
-            case eFloor_0:
-            case eBackGroundFloor_4:
-            case 32u: // trap doors ??
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 field_B8_xpos = hitX;
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -4071,7 +4071,8 @@ void Abe::Motion_14_HoistIdle_452440()
                 field_C8_vely = FP_FromInteger(0);
                 if (pfield_110_id)
                 {
-                    if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+                    if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || 
+                        field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                     {
                         vOnCollisionWith_424EE0(
                             {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
@@ -4654,10 +4655,10 @@ void Abe::Motion_28_HopMid_451C50()
 
         switch (pLine->field_8_type)
         {
-            case 0u:
-            case 4u:
-            case 32u:
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, 32767, this);
                 field_100_pCollisionLine = pLine;
                 field_B8_xpos = hitX;
@@ -4834,13 +4835,13 @@ void Abe::Motion_31_RunJumpMid_452C10()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackGroundFloor_4:
-            case 32u:
-            case 36u:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 field_100_pCollisionLine = pLine;
                 field_106_current_motion = eAbeMotions::Motion_32_RunJumpLand_453460;
                 field_B8_xpos = hitX;
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
-                if (pLine->field_8_type == 32)
+                if (pLine->field_8_type == eLineTypes::eUnknown_32)
                 {
                     vOnCollisionWith_424EE0(
                         {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
@@ -4929,7 +4930,8 @@ void Abe::Motion_31_RunJumpMid_452C10()
 
                 if (!pfield_110_id)
                 {
-                    if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+                    if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
+                        field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                     {
                         vOnCollisionWith_424EE0(
                             {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
@@ -6155,7 +6157,8 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
         field_C8_vely = FP_FromInteger(0);
         if (!pfield_110_id)
         {
-            if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
+                field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 vOnCollisionWith_424EE0(
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
@@ -8811,7 +8814,8 @@ void Abe::MoveForward_44E9A0()
     if (field_100_pCollisionLine && (field_D6_scale != 0 ? 1 : 16) & (1 << field_100_pCollisionLine->field_8_type))
     {
         // Handle trap door collision.
-        if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36) // TODO: Enum type.
+        if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
+            field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
             if (pTrapdoor)
             {

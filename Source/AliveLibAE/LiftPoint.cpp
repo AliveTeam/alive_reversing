@@ -102,7 +102,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
     else
     {
         field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
-        field_124_pCollisionLine->field_8_type = 36; // TODO: Type
+        field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
     SetTint_425600(sLiftTints_55BF50, gMap_5C3030.field_0_current_level);

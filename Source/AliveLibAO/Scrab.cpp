@@ -194,7 +194,7 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
         field_AC_ypos = hitY;
         ToStand_45E310();
 
-        if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+        if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 || field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PlatformCollide_45E580();
         }
@@ -321,7 +321,7 @@ void Scrab::VUpdate_45B360()
 
             ToStand_45E310();
 
-            if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+            if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 || field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PlatformCollide_45E580();
             }
@@ -864,7 +864,7 @@ void Scrab::MoveOnLine_45E450()
         {
             if (field_F8_pLiftPoint)
             {
-                if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+                if (field_F4_pLine->field_8_type != eLineTypes::eUnknown_32 && field_F4_pLine->field_8_type != eLineTypes::eUnknown_36)
                 {
                     const auto oldMotion = field_FC_current_motion;
                     VOnTrapDoorOpen();
@@ -873,7 +873,7 @@ void Scrab::MoveOnLine_45E450()
             }
             else
             {
-                if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+                if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 || field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
                 {
                     PlatformCollide_45E580();
                 }

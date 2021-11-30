@@ -335,7 +335,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
     if (bHit)
     {
         field_AC_ypos = hitY;
-        if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+        if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 || field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
@@ -945,7 +945,7 @@ void Mudokon::DoPathTrans_43FE00()
 
     if (field_F4_pLine)
     {
-        if (field_F4_pLine->field_8_type == 32)
+        if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32)
         {
             field_F8_pLiftPoint->VRemove(this);
             field_F8_pLiftPoint->field_C_refCount--;
@@ -1088,7 +1088,8 @@ void Mudokon::MoveOnLine_43C7E0()
     {
         if (field_F8_pLiftPoint)
         {
-            if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+            if (field_F4_pLine->field_8_type != eLineTypes::eUnknown_32 &&
+                field_F4_pLine->field_8_type != eLineTypes::eUnknown_36)
             {
                 field_F8_pLiftPoint->VRemove(this);
                 field_F8_pLiftPoint->field_C_refCount--;
@@ -1097,7 +1098,8 @@ void Mudokon::MoveOnLine_43C7E0()
         }
         else
         {
-            if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+            if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 ||
+                field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);

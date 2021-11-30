@@ -4891,7 +4891,7 @@ void Slig::vUpdate_4B17C0()
 
             if (field_100_pCollisionLine)
             {
-                if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+                if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                 {
                     PSX_RECT bRect = {};
                     vGetBoundingRect_424FD0(&bRect, 1);
@@ -6159,7 +6159,7 @@ void Slig::MoveOnLine_4B4C40()
                     field_106_current_motion = oldMotion;
                 }
             }
-            else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            else if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PlatformCollide_4B4E00();
             }

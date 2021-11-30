@@ -110,7 +110,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     else
     {
         field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
-        field_120_pCollisionLine->field_8_type = 36;
+        field_120_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
     const FP oldX = field_A8_xpos;

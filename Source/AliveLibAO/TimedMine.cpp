@@ -237,7 +237,8 @@ void TimedMine::StickToLiftPoint_408CA0()
             &hitY,
             (field_BC_sprite_scale != FP_FromDouble(0.5)) ? 7 : 0x70))
     {
-        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
+            pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             if (ObjListPlatforms_50766C)
             {

@@ -397,7 +397,8 @@ void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(s16 distance)
         field_100_pCollisionLine = pLine;
         field_BC_ypos = hitY;
 
-        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        if (pLine->field_8_type == eLineTypes::eUnknown_32 ||
+            pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
@@ -694,8 +695,8 @@ Bool32 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hit
 
     if (bCollision)
     {
-        // TODO: Enum type for unknowns, trap doors ??
-        if ((*ppPathLine)->field_8_type == 32 || (*ppPathLine)->field_8_type == 36)
+        if ((*ppPathLine)->field_8_type == eLineTypes::eUnknown_32 ||
+            (*ppPathLine)->field_8_type == eLineTypes::eUnknown_36)
         {
             return bCollision;
         }

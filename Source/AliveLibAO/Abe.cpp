@@ -2003,14 +2003,16 @@ void Abe::MoveForward_422FC0()
     {
         if (field_F8_pLiftPoint)
         {
-            if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+            if (field_F4_pLine->field_8_type != eLineTypes ::eUnknown_32 &&
+                field_F4_pLine->field_8_type != eLineTypes::eUnknown_36)
             {
                 field_F8_pLiftPoint->VRemove(this);
                 field_F8_pLiftPoint->field_C_refCount--;
                 field_F8_pLiftPoint = nullptr;
             }
         }
-        else if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+        else if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 ||
+                field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
@@ -4586,10 +4588,10 @@ void Abe::Motion_3_Fall_42E7F0()
     {
         switch (pPathLine->field_8_type)
         {
-            case eFloor_0:
-            case eBackGroundFloor_4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
@@ -4633,10 +4635,10 @@ void Abe::Motion_3_Fall_42E7F0()
                     reinterpret_cast<TCollisionCallBack>(&BaseAliveGameObject::OnTrapDoorIntersection_401C10));
                 break;
             }
-            case eWallLeft_1:
-            case eWallRight_2:
-            case eBackGroundWallLeft_5:
-            case eBackGroundWallRight_6:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackGroundWallLeft_5:
+            case eLineTypes::eBackGroundWallRight_6:
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
                 ToKnockback_422D90(1, 1);
@@ -4899,10 +4901,10 @@ void Abe::Motion_17_HoistIdle_4269E0()
     {
         switch (pPathLine->field_8_type)
         {
-            case eFloor_0:
-            case eBackGroundFloor_4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
@@ -4988,7 +4990,8 @@ void Abe::Motion_17_HoistIdle_4269E0()
                     field_B8_vely = FP_FromInteger(0);
                     if (!field_F8_pLiftPoint)
                     {
-                        if (pPathLine->field_8_type == 32 || pPathLine->field_8_type == 36)
+                        if (pPathLine->field_8_type == eLineTypes::eUnknown_32 ||
+                            pPathLine->field_8_type == eLineTypes::eUnknown_36)
                         {
                             PSX_RECT rect = {};
                             VGetBoundingRect(&rect, 1);
@@ -5681,10 +5684,10 @@ void Abe::Motion_30_HopMid_4264D0()
                 Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
                 switch (pLine->field_8_type)
                 {
-                    case 0:
-                    case 4:
-                    case 32:
-                    case 36:
+                    case eLineTypes::eFloor_0:
+                    case eLineTypes::eBackGroundFloor_4:
+                    case eLineTypes::eUnknown_32:
+                    case eLineTypes::eUnknown_36:
                     {
                         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, this);
                         field_F4_pLine = pLine;
@@ -5838,8 +5841,8 @@ void Abe::Motion_33_RunJumpMid_426FA0()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackGroundFloor_4:
-            case 32:
-            case 36:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 field_F4_pLine = pLine;
                 field_FC_current_motion = eAbeMotions::Motion_34_RunJumpLand_427560;
@@ -5851,7 +5854,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 rect.y += 5;
                 rect.h += 5;
 
-                if (pLine->field_8_type == 32)
+                if (pLine->field_8_type == eLineTypes::eUnknown_32)
                 {
                     VOnCollisionWith(
                         {rect.x, rect.y},
@@ -5925,7 +5928,8 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 field_FE_next_motion = eAbeMotions::Motion_0_Idle_423520;
                 if (!field_F8_pLiftPoint)
                 {
-                    if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+                    if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
+                        pLine->field_8_type == eLineTypes::eUnknown_36)
                     {
                         PSX_RECT rect = {};
                         VGetBoundingRect(&rect, 1);
@@ -7600,7 +7604,8 @@ void Abe::Motion_67_ToOffScreenHoist_428C50()
         field_B8_vely = FP_FromInteger(0);
         if (!field_F8_pLiftPoint)
         {
-            if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+            if (field_F4_pLine->field_8_type == eLineTypes ::eUnknown_32 ||
+                field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
@@ -9309,7 +9314,8 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
 
         if (field_F8_pLiftPoint)
         {
-            if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+            if (field_F4_pLine->field_8_type != eLineTypes ::eUnknown_32 &&
+                field_F4_pLine->field_8_type != eLineTypes::eUnknown_36)
             {
                 field_E4_previous_motion = field_FC_current_motion;
                 VOnTrapDoorOpen();
@@ -9318,7 +9324,8 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
         }
         else
         {
-            if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+            if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 ||
+                field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);

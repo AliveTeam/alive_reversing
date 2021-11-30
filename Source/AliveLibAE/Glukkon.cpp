@@ -2177,7 +2177,7 @@ void Glukkon::vUpdate_43F770()
                 &field_BC_ypos,
                 1 << field_104_collision_line_type);
 
-            if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PSX_RECT bRect = {};
                 vGetBoundingRect_424FD0(&bRect, 1);
@@ -2733,7 +2733,7 @@ void Glukkon::FollowLine_443EB0()
                     field_1D8_falling_velx_scale_factor = FP_FromDouble(0.35);
                 }
             }
-            else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            else if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 GetOnPlatforms_444060();
             }

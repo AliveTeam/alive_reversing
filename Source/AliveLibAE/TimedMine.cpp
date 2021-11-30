@@ -241,7 +241,8 @@ void TimedMine::StickToLiftPoint_411100()
             &pLine, &hitX, &hitY,
             (field_D6_scale == 1) ? 15 : 240))
     {
-        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        if (pLine->field_8_type == eLineTypes::eUnknown_32 ||
+            pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             if (ObjList_5C1B78)
             {

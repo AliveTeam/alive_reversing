@@ -147,7 +147,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
     else
     {
         field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_Half_7;
-        field_124_pCollisionLine->field_8_type = 36;
+        field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
     SetTint_425600(sTrapDoorTints_5639AC, gMap_5C3030.field_0_current_level);
@@ -368,7 +368,7 @@ void TrapDoor::Add_To_Collisions_Array_4DDA20()
 
     if (field_CC_sprite_scale != FP_FromInteger(1))
     {
-        field_124_pCollisionLine->field_8_type = 36;
+        field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
     ObjList_5C1B78->Push_Back(this);
