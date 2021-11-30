@@ -17,16 +17,36 @@ static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, con
     }
 }
 
-static void SaveCamPng(const u16* /*camBuffer*/, const char_type* pFileName)
+static u32 RGB565ToRGB888(u16 pixel)
 {
-    u8 dst[640 * 240 * 3] = {};
-    // todo: don't depend on SDL2 for this
-    //SDL_ConvertPixels(640, 240, SDL_PIXELFORMAT_RGB565, camBuffer, 640 * 2, SDL_PIXELFORMAT_RGB24, dst, 640 * 3);
+    const u8 r5 = ((pixel >> 11) & 0x1F);
+    const u8 g6 = ((pixel >> 5) & 0x3F);
+    const u8 b5 = (pixel & 0x1F);
+
+    const u32 r8 = ((r5 * 527) + 23) >> 6;
+    const u32 g8 = ((g6 * 259) + 33) >> 6;
+    const u32 b8 = ((b5 * 527) + 23) >> 6;
+
+    const u32 rgb888 = (b8 << 16) | (g8 << 8) | r8;
+    return rgb888;
+}
+
+static void SaveCamPng(const u16* camBuffer, const char_type* pFileName)
+{
+    u32 dst[240][640] = {};
+    for (u32 y = 0; y < 240; y++)
+    {
+        for (u32 x = 0; x < 640; x++)
+        {
+            dst[y][x] = RGB565ToRGB888(*camBuffer);
+            camBuffer++;
+        }
+    }
 
     // we're going to encode with a state rather than a convenient function, because enforcing a color type requires setting options
     lodepng::State state;
     // input color type
-    state.info_raw.colortype = LCT_RGB;
+    state.info_raw.colortype = LCT_RGBA;
     state.info_raw.bitdepth = 8;
 
     // output color type
@@ -36,7 +56,7 @@ static void SaveCamPng(const u16* /*camBuffer*/, const char_type* pFileName)
 
     //encode and save
     std::vector<u8> buffer;
-    const auto error = lodepng::encode(buffer, &dst[0], 640, 240, state);
+    const auto error = lodepng::encode(buffer, reinterpret_cast<const u8*>(&dst[0][0]), 640, 240, state);
     if (error)
     {
         std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
