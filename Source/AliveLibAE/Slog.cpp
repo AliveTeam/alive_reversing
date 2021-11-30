@@ -781,7 +781,7 @@ void Slog::M_Fall_4_4C6930()
                 field_BC_ypos = hitY;
                 field_B8_xpos = hitX;
                 MapFollowMe_408D10(FALSE);
-                if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+                if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                 {
                     PSX_RECT bRect = {};
                     vGetBoundingRect_424FD0(&bRect, 1);
@@ -2887,7 +2887,7 @@ void Slog::Init_4C46A0()
         == 1)
     {
         field_BC_ypos = hitY;
-        if (field_100_pCollisionLine->field_8_type == 32)
+        if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32)
         {
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
@@ -3202,7 +3202,7 @@ void Slog::MoveOnLine_4C5DA0()
                     field_110_id = -1;
                 }
             }
-            else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            else if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PSX_RECT bRect = {};
                 vGetBoundingRect_424FD0(&bRect, 1);

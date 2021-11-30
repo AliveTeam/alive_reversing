@@ -1294,7 +1294,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
 
 s16 Paramite::Brain_1_Death_484CD0()
 {
-    if (!field_100_pCollisionLine || field_100_pCollisionLine->field_8_type == 8)
+    if (!field_100_pCollisionLine || field_100_pCollisionLine->field_8_type == eLineTypes::eTrackLine_8)
     {
         PathLine* ppPathLine = nullptr;
         FP hitX = {};
@@ -1307,10 +1307,10 @@ s16 Paramite::Brain_1_Death_484CD0()
 
         switch (ppPathLine->field_8_type)
         {
-            case 0u:
-            case 4u:
-            case 32u:
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 field_100_pCollisionLine = ppPathLine;
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
@@ -4571,7 +4571,7 @@ void Paramite::M_SurpriseWeb_33_48D760()
         field_BC_ypos = hitY;
         field_F8_LastLineYPos = hitY;
         field_106_current_motion = eParamiteMotions::M_WebLeaveDown_34_48D870;
-        if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+        if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
             CheckForPlatform_489EA0();
         }
@@ -6124,7 +6124,7 @@ void Paramite::MoveOnLine_489CA0()
                 field_106_current_motion = savedMotion;
             }
         }
-        else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+        else if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
             CheckForPlatform_489EA0();
         }

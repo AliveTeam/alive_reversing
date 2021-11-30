@@ -25,6 +25,8 @@ enum eLineTypes : u8
     eMineCarWall_12 = 12,
     eMineCarCeiling_13 = 13,
     eFlyingSligCeiling_17 = 17,
+    eUnknown_32 = 32, // TODO: These types are never seen, internal only ?? - trap doors?
+    eUnknown_36 = 36,
 };
 
 class PathLine final

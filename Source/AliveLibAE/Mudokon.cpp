@@ -562,7 +562,8 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     if (bCollision)
     {
         field_BC_ypos = hitY;
-        if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+        if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
+            field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
@@ -1032,7 +1033,8 @@ void Mudokon::vUpdate_4757A0()
                 &field_BC_ypos,
                 1 << field_104_collision_line_type);
 
-            if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
+                field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PSX_RECT bRect = {};
                 vGetBoundingRect_424FD0(&bRect, 1);
@@ -5623,7 +5625,7 @@ void Mudokon::M_Idle_0_4724E0()
 
     if (field_100_pCollisionLine)
     {
-        if ((field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36) && field_110_id == -1)
+        if ((field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36) && field_110_id == -1)
         {
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
@@ -7416,7 +7418,7 @@ void Mudokon::MoveOnLine_4720D0()
 
     if (field_100_pCollisionLine)
     {
-        if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+        if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);

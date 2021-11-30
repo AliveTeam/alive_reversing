@@ -471,7 +471,7 @@ void CollisionTests()
 
     PathLine test = {
         {0x02bc, 0x01cc, 0x0659, 0x01cc},
-        0,
+        eLineTypes::eFloor_0,
         0,
         -1,
         -1,

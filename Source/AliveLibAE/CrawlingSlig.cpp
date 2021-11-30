@@ -1995,7 +1995,7 @@ void CrawlingSlig::MoveOnLine_41C3D0()
                     field_110_id = -1;
                 }
             }
-            else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            else if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PlatformCollide_41C500();
             }

@@ -201,10 +201,10 @@ void Rock::InTheAir_49E4B0()
     {
         switch (field_100_pCollisionLine->field_8_type)
         {
-            case eFloor_0:
-            case eBackGroundFloor_4:
-            case 32u:
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 if (field_C8_vely <= FP_FromInteger(0))
                 {
                     break;
@@ -257,8 +257,8 @@ void Rock::InTheAir_49E4B0()
                 }
                 break;
 
-            case eCeiling_3:
-            case eBackGroundCeiling_7:
+            case eLineTypes::eCeiling_3:
+            case eLineTypes::eBackGroundCeiling_7:
                 if (field_C8_vely < FP_FromInteger(0))
                 {
                     field_BC_ypos = hitY;
@@ -280,8 +280,8 @@ void Rock::InTheAir_49E4B0()
     {
         switch (field_100_pCollisionLine->field_8_type)
         {
-            case eWallLeft_1:
-            case eBackGroundWallLeft_5:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eBackGroundWallLeft_5:
                 if (field_C4_velx < FP_FromInteger(0))
                 {
                     field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
@@ -298,8 +298,8 @@ void Rock::InTheAir_49E4B0()
                 }
                 break;
 
-            case eWallRight_2:
-            case eBackGroundWallRight_6:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackGroundWallRight_6:
                 if (field_C4_velx > FP_FromInteger(0))
                 {
                     field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
