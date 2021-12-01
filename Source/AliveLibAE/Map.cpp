@@ -66,18 +66,18 @@ EXPORT void CC static_map_init_4802D0()
 
 void Map::ScreenChange_Common()
 {
-    if (field_6_state == 1)
+    if (field_6_state == CamChangeStates::eSliceCam_1)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
         Handle_PathTransition_481610();
     }
-    else if (field_6_state == 2)
+    else if (field_6_state == CamChangeStates::eInstantChange_2)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
         GoTo_Camera_481890();
     }
 
-    field_6_state = 0;
+    field_6_state = CamChangeStates::eInactive_0;
 
     SND_Stop_Channels_Mask_4CA810(sSoundChannelsMask_5C3120);
     sSoundChannelsMask_5C3120 = 0;
@@ -85,7 +85,7 @@ void Map::ScreenChange_Common()
 
 void Map::ScreenChange_480B80()
 {
-    if (field_6_state == 0)
+    if (field_6_state == CamChangeStates::eInactive_0)
     {
         return;
     }
@@ -504,7 +504,7 @@ void Map::Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects sc
     SetActiveCam_480D30(level, path, camera, screenChangeEffect, fmvBaseId, forceChange);
     GoTo_Camera_481890();
 
-    field_6_state = 0;
+    field_6_state = CamChangeStates::eInactive_0;
 }
 
 void Map::Shutdown_4804E0()
@@ -841,12 +841,12 @@ void Map::GoTo_Camera_481890()
         }
     }
 
-    Map::Load_Path_Items_482C10(field_2C_camera_array[0], 0);
+    Map::Load_Path_Items_482C10(field_2C_camera_array[0], LoadMode::ConstructObject_0);
     pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
-    Map::Load_Path_Items_482C10(field_2C_camera_array[3], 0);
-    Map::Load_Path_Items_482C10(field_2C_camera_array[4], 0);
-    Map::Load_Path_Items_482C10(field_2C_camera_array[1], 0);
-    Map::Load_Path_Items_482C10(field_2C_camera_array[2], 0);
+    Map::Load_Path_Items_482C10(field_2C_camera_array[3], LoadMode::ConstructObject_0);
+    Map::Load_Path_Items_482C10(field_2C_camera_array[4], LoadMode::ConstructObject_0);
+    Map::Load_Path_Items_482C10(field_2C_camera_array[1], LoadMode::ConstructObject_0);
+    Map::Load_Path_Items_482C10(field_2C_camera_array[2], LoadMode::ConstructObject_0);
 
     // Create the screen manager if it hasn't already been done (probably should have always been done by this point though?)
     if (!pScreenManager_5BB5F4)
@@ -858,7 +858,7 @@ void Map::GoTo_Camera_481890()
         }
     }
 
-    sPath_dword_BB47C0->Loader_4DB800(field_D0_cam_x_idx, field_D2_cam_y_idx, LoadMode::Mode_0, TlvTypes::None_m1); // none = load all
+    sPath_dword_BB47C0->Loader_4DB800(field_D0_cam_x_idx, field_D2_cam_y_idx, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
     if (prevPathId != field_2_current_path || prevLevelId != field_0_current_level)
     {
         if (sActiveHero_5C1B68)
@@ -1109,7 +1109,7 @@ s16 Map::SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffect
     field_A_level = level;
     field_10_screen_change_effect = screenChangeEffect;
 
-    field_6_state = 2;
+    field_6_state = CamChangeStates::eInstantChange_2;
 
     if (screenChangeEffect == CameraSwapEffects::ePlay1FMV_5 || screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
@@ -1272,7 +1272,7 @@ Camera* Map::Create_Camera_4829E0(s16 xpos, s16 ypos, s32 /*a4*/)
     return newCamera;
 }
 
-void CCSTD Map::Load_Path_Items_482C10(Camera* pCamera, s16 loadMode)
+void CCSTD Map::Load_Path_Items_482C10(Camera* pCamera, LoadMode loadMode)
 {
     if (!pCamera)
     {
@@ -1282,13 +1282,13 @@ void CCSTD Map::Load_Path_Items_482C10(Camera* pCamera, s16 loadMode)
     // Is camera resource loaded check
     if (!(pCamera->field_30_flags & 1))
     {
-        if (loadMode == 0)
+        if (loadMode == LoadMode::ConstructObject_0)
         {
             // Async camera load
             ResourceManager::LoadResourceFile_49C130(pCamera->field_1E_cam_name, Camera::On_Loaded_480ED0, pCamera, pCamera);
 
             sCameraBeingLoaded_5C3118 = pCamera;
-            sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, LoadMode::Mode_1, TlvTypes::None_m1); // none = load all
+            sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, LoadMode::LoadResourceFromList_1, TlvTypes::None_m1); // none = load all
         }
         else
         {
@@ -1298,7 +1298,7 @@ void CCSTD Map::Load_Path_Items_482C10(Camera* pCamera, s16 loadMode)
             pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
 
             sCameraBeingLoaded_5C3118 = pCamera;
-            sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, LoadMode::Mode_2, TlvTypes::None_m1); // none = load all
+            sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, LoadMode::LoadResource_2, TlvTypes::None_m1); // none = load all
         }
         sCameraBeingLoaded_5C3118 = nullptr;
     }
@@ -1309,7 +1309,7 @@ void CC Map::LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resou
     if (!bDontLoad)
     {
         pResourceManager_5C1BB0->LoadResource_464EE0(pFileName, type, resourceId, sCameraBeingLoaded_5C3118, sCameraBeingLoaded_5C3118, 0, 1);
-        if (loadMode == LoadMode::Mode_2)
+        if (loadMode == LoadMode::LoadResource_2)
         {
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
@@ -1321,7 +1321,7 @@ void CC Map::LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceMa
     if (!bDontLoad)
     {
         pResourceManager_5C1BB0->LoadResourcesFromList_465150(pFileName, pList, sCameraBeingLoaded_5C3118, sCameraBeingLoaded_5C3118, 0, 1);
-        if (loadMode == LoadMode::Mode_2)
+        if (loadMode == LoadMode::LoadResource_2)
         {
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
@@ -1396,7 +1396,7 @@ s16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObj
     field_14_direction = direction;
     field_18_pAliveObj = pObj;
     field_1C = convertedSwapEffect;
-    field_6_state = 1;
+    field_6_state = CamChangeStates::eSliceCam_1;
     sMap_bDoPurpleLightEffect_5C311C = 0;
 
     if (convertedSwapEffect == CameraSwapEffects::ePlay1FMV_5 || convertedSwapEffect == CameraSwapEffects::eUnknown_11)

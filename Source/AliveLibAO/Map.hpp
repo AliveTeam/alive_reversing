@@ -231,7 +231,7 @@ public:
 
     EXPORT void RestoreBlyData_446A90(const u8* pSaveData);
 
-    EXPORT void Load_Path_Items_445DA0(Camera* pCamera, s16 kZero);
+    EXPORT void Load_Path_Items_445DA0(Camera* pCamera, LoadMode loadMode);
 
     EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, s32 camX);
 
@@ -277,7 +277,14 @@ public:
     LevelIds field_0_current_level;
     s16 field_2_current_path;
     s16 field_4_current_camera;
-    s16 field_6_state;
+
+    enum class CamChangeStates : s16
+    {
+        eInactive_0 = 0,
+        eSliceCam_1 = 1,
+        eInstantChange_2 = 2
+    };
+    CamChangeStates field_6_state;
     s16 field_8_force_load;
     LevelIds field_A_level;
     s16 field_C_path;

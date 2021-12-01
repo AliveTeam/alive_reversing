@@ -312,7 +312,7 @@ void CC ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 typ
         return;
     }
 
-    if (loadMode == LoadMode::Mode_1)
+    if (loadMode == LoadMode::LoadResourceFromList_1)
     {
         for (s32 i = 0; i < ObjList_5009E0->Size(); i++)
         {
@@ -377,7 +377,7 @@ void CC ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 typ
             ObjList_5009E0->Push_Back(pFileRec);
         }
     }
-    else if (loadMode == LoadMode::Mode_2)
+    else if (loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResourceFile_455270(pFileName, nullptr);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(type, resourceId, 1, 0);
@@ -427,7 +427,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName
         return;
     }
 
-    if (loadMode == LoadMode::Mode_1)
+    if (loadMode == LoadMode::LoadResourceFromList_1)
     {
         for (s32 i = 0; i < ObjList_5009E0->Size(); i++)
         {
@@ -486,7 +486,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName
             pNewFileRec);
         ObjList_5009E0->Push_Back(pNewFileRec);
     }
-    else if (loadMode == LoadMode::Mode_2)
+    else if (loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResourceFile_455270(pFileName, nullptr);
         for (s32 j = 0; j < pTypeAndIdList->field_0_count; j++)

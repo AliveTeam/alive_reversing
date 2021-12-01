@@ -118,7 +118,7 @@ EXPORT void Factory_ContinueZone_Null_481830(Path_TLV* /*pTlv*/, Map* /*pMap*/, 
 
 EXPORT void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, ResourceID::kAbehoistResID, loadMode);
         switch (gMap_507BA8.field_0_current_level)
@@ -161,7 +161,7 @@ EXPORT void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
 
 EXPORT void Factory_Edge_481730(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, ResourceID::kAbehoistResID, loadMode, 0);
 
@@ -185,7 +185,7 @@ EXPORT void Factory_DeathDrop_Null_4817B0(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tlv
 
 EXPORT void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<3> kResources = {
             {ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID},
@@ -235,7 +235,7 @@ EXPORT void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 
 EXPORT void Factory_ShadowZone_482080(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto pShadowZone = ao_new<ShadowZone>();
         if (pShadowZone)
@@ -254,7 +254,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
         {ResourceManager::Resource_Animation, ResourceID::kLiftWheelsResID},
         {ResourceManager::Resource_Animation, ResourceID::kLiftResID}};
 
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         switch (gMap_507BA8.field_0_current_level)
         {
@@ -385,7 +385,7 @@ EXPORT void Factory_Null_483D90(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 
 EXPORT void Factory_WellExpress_483340(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABEWELL.BAN", ResourceManager::Resource_Animation, ResourceID::kAbewellResID, loadMode);
         ResourceManager::LoadResource_446C90("WELLLEAF.BAN", ResourceManager::Resource_Animation, ResourceID::kWellLeafResID, loadMode);
@@ -412,7 +412,7 @@ EXPORT void Factory_WellExpress_483340(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 
 EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID);
 
@@ -456,7 +456,7 @@ EXPORT void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 
 EXPORT void Factory_RockSack_483680(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<3> kResources = {
             {ResourceManager::Resource_Animation, ResourceID::kAbepickResID},
@@ -484,7 +484,7 @@ EXPORT void Factory_RockSack_483680(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
 
 EXPORT void Factory_ZBall_483890(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         if (gMap_507BA8.field_0_current_level == LevelIds::eForestTemple_4)
         {
@@ -505,7 +505,7 @@ EXPORT void Factory_ZBall_483890(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
 
 EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         switch (gMap_507BA8.field_0_current_level)
         {
@@ -602,7 +602,7 @@ EXPORT void Factory_Null_482E80(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 
 EXPORT void Factory_PullRingRope_483DA0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         switch (gMap_507BA8.field_0_current_level)
         {
@@ -643,7 +643,7 @@ EXPORT void Factory_PullRingRope_483DA0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 
 EXPORT void Factory_BackgroundAnimation_4840A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto pBackgroundAnimation = ao_new<BackgroundAnimation>();
         if (pBackgroundAnimation)
@@ -655,7 +655,7 @@ EXPORT void Factory_BackgroundAnimation_4840A0(Path_TLV* pTlv, Map* /*pMap*/, Tl
 
 EXPORT void Factory_Honey_4844A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ELMHONEY.BAN", ResourceManager::Resource_Animation, ResourceID::kNormaliconResID, loadMode);
         ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, ResourceID::kUnknownResID_204, loadMode);
@@ -693,7 +693,7 @@ EXPORT void Factory_TimedMine_484650(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 {
     auto pTimedMineTlv = static_cast<Path_TimedMine*>(pTlv);
     const auto disabledResource = pTimedMineTlv->field_20_disable_resources;
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, disabledResource & 1);
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResource & 2);
@@ -765,7 +765,7 @@ static CompileTimeResourceList<4> kResources_4BD1CC = {
 
 static void LoadWalkingSligResources(LoadMode loadMode, BitField16<SligFlags_DisabledRes> disabledResources)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("SLGLEVER.BAN", ResourceManager::Resource_Animation, ResourceID::kSlgleverResID, loadMode, disabledResources.Get(eDisabledRes_Bit1));
         ResourceManager::LoadResource_446C90("SLGLIFT.BAN", ResourceManager::Resource_Animation, ResourceID::kSlgliftResID, loadMode, disabledResources.Get(eDisabledRes_Bit2));
@@ -853,7 +853,7 @@ EXPORT void Factory_Slig_482EC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
     LoadWalkingSligResources(loadMode, pSligTlv->field_50_disable_resources);
 
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         // Do nothing
     }
@@ -870,7 +870,7 @@ EXPORT void Factory_Slig_482EC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 
 EXPORT void Factory_Slog_485030(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<4> kResources = {
             {ResourceManager::Resource_Animation, ResourceID::kDogbasicResID},
@@ -901,7 +901,7 @@ EXPORT void Factory_Slog_485030(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 
 EXPORT void Factory_Switch_485370(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         switch (gMap_507BA8.field_0_current_level)
         {
@@ -942,7 +942,7 @@ EXPORT void Factory_Switch_485370(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
 
 EXPORT void Factory_BellHammer_4854B0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kHammerResID);
         auto pBellHammer = ao_new<BellHammer>();
@@ -964,7 +964,7 @@ EXPORT void Factory_SecurityOrb_485550(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 {
     auto pSecurityOrbTlv = static_cast<Path_SecurityOrb*>(pTlv);
     const auto disabledResources = pSecurityOrbTlv->field_1A_disable_resources;
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("F2MAMORB.BAN", ResourceManager::Resource_Animation, ResourceID::kMaimGameResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, ResourceID::kSplineResID, loadMode, 0);
@@ -1022,7 +1022,7 @@ EXPORT void Factory_Null_487070(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 
 EXPORT void Factory_LiftMud_4857D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABEBSIC1.BAN", ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, loadMode);
         ResourceManager::LoadResource_446C90("ABELIFT.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, loadMode);
@@ -1052,7 +1052,7 @@ EXPORT void Factory_Null_482EB0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 
 EXPORT void Factory_BeeSwarmHole_485E20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABEWASP.BAN", ResourceManager::Resource_Animation, ResourceID::kAbewaspResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("WASP.BAN", ResourceManager::Resource_Animation, ResourceID::kWaspResID, loadMode, 0);
@@ -1080,7 +1080,7 @@ EXPORT void Factory_Pulley_Null_481800(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvIte
 
 EXPORT void Factory_HoneySack_485EF0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("HONEY.BAN", ResourceManager::Resource_Animation, ResourceID::kHoneyResID, loadMode);
     }
@@ -1104,7 +1104,7 @@ EXPORT void Factory_HoneySack_485EF0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 
 EXPORT void Factory_AbeStart_486050(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2 && !gAttract_507698)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2 && !gAttract_507698)
     {
         if (!pPauseMenu_5080E0)
         {
@@ -1143,7 +1143,7 @@ EXPORT void Factory_Null_486140(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 
 EXPORT void Factory_ElumWall_487370(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ELMKNBK.BAN", ResourceManager::Resource_Animation, ResourceID::kElmnknbkResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("ANEKNBK.BAN", ResourceManager::Resource_Animation, ResourceID::kAneknbkResID, loadMode, 0);
@@ -1157,7 +1157,7 @@ EXPORT void Factory_ElumWall_487370(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
 
 EXPORT void Factory_SlingMud_485A30(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto kResources = {
             ResourceID::kSlingmudResID_508,
@@ -1181,7 +1181,7 @@ EXPORT void Factory_HoneyDrip_Null_481820(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tlv
 
 EXPORT void Factory_BeeNest_486150(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<2> kResources = {
             {ResourceManager::Resource_Animation, ResourceID::kWaspResID},
@@ -1218,7 +1218,7 @@ EXPORT void Factory_Mine_4848D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     auto pMineTlv = static_cast<Path_Mine*>(pTlv);
     const auto disabledResources = pMineTlv->field_1E_disabled_resources;
 
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, disabledResources & 1);
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
@@ -1275,7 +1275,7 @@ EXPORT void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
 {
     auto pUxbTlv = static_cast<Path_UXB*>(pTlv);
 
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode, pUxbTlv->field_20_disabled_resources & 1);
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode, pUxbTlv->field_20_disabled_resources & 2);
@@ -1329,7 +1329,7 @@ EXPORT void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
 
 EXPORT void Factory_Paramite_4861F0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<9> kResources = {
             {ResourceManager::Resource_Animation, ResourceID::kArjbasicResID},
@@ -1368,7 +1368,7 @@ EXPORT void Factory_Paramite_4861F0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
 
 EXPORT void Factory_Bat_486630(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("BATBASIC.BAN", ResourceManager::Resource_Animation, ResourceID::kBatBasicResID, loadMode);
     }
@@ -1387,7 +1387,7 @@ EXPORT void Factory_Bat_486630(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
 
 EXPORT void Factory_RingMud_4858F0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABEBSIC1.BAN", ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, loadMode);
         ResourceManager::LoadResource_446C90("ABEPULL.BAN", ResourceManager::Resource_Animation, ResourceID::kAbepullResID, loadMode);
@@ -1419,7 +1419,7 @@ EXPORT void Factory_MovieStone_Null_487430(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tl
 EXPORT void Factory_BirdPortal_486710(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pBirdPortalTlv = static_cast<Path_BirdPortal*>(pTlv);
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<3> kResources1 = {
             {ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID},
@@ -1478,7 +1478,7 @@ EXPORT void Factory_BirdPortalExit_null_486700(Path_TLV* /*pTlv*/, Map* /*pMap*/
 
 EXPORT void Factory_BellSong_487450(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
@@ -1487,7 +1487,7 @@ EXPORT void Factory_BellSong_487450(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
 
 EXPORT void Factory_TrapDoor_4868E0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         switch (gMap_507BA8.field_0_current_level)
         {
@@ -1527,7 +1527,7 @@ EXPORT void Factory_TrapDoor_4868E0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion 
 
 EXPORT void Factory_RollingBall_486A60(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("F2STNBAL.BAN", ResourceManager::Resource_Animation, ResourceID::kF2stnbalResID, loadMode);
         ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, ResourceID::kDebrisID00, loadMode);
@@ -1566,7 +1566,7 @@ EXPORT void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
     auto pBound = static_cast<Path_SligBound*>(pTlv);
     LoadWalkingSligResources(loadMode, pBound->field_1A_disabled_resources);
 
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         // Do nothing, handled in LoadSligResources
     }
@@ -1602,7 +1602,7 @@ EXPORT void Factory_InvisibleZone_Null_481840(Path_TLV* /*pTlv*/, Map* /*pMap*/,
 
 EXPORT void Factory_RollingBallStopper_486B90(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("F2STNSCK.BAN", ResourceManager::Resource_Animation, ResourceID::kF2stnsckResID, loadMode);
     }
@@ -1616,7 +1616,7 @@ EXPORT void Factory_RollingBallStopper_486B90(Path_TLV* pTlv, Map* /*pMap*/, Tlv
 
 EXPORT void Factory_FootSwitch_486C60(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("TRIGGER.BAN", ResourceManager::Resource_Animation, ResourceID::kTriggerResID, loadMode);
     }
@@ -1637,7 +1637,7 @@ EXPORT void Factory_SecurityClaw_486D50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
     auto pSecurityClawTlv = static_cast<Path_SecurityClaw*>(pTlv);
     const auto disabledResources = pSecurityClawTlv->field_1E_disabled_resources;
 
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("F2EYEORB.BAN", ResourceManager::Resource_Animation, ResourceID::kF2eyeorbResID, loadMode);
         ResourceManager::LoadResource_446C90("SPLINE.BAN", ResourceManager::Resource_Animation, ResourceID::kSplineResID, loadMode);
@@ -1686,7 +1686,7 @@ EXPORT void Factory_SecurityClaw_486D50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 
 EXPORT void Factory_MotionDector_486FD0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
 
@@ -1722,7 +1722,7 @@ EXPORT void CC Factory_SligSpawner_482A00(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
     LoadWalkingSligResources(loadMode, pSligTlv->field_50_disable_resources);
 
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         // Do nothing, handled in LoadSligResources
     }
@@ -1738,7 +1738,7 @@ EXPORT void CC Factory_SligSpawner_482A00(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
 
 EXPORT void Factory_ElectricWall_4874E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
 
@@ -1753,7 +1753,7 @@ EXPORT void Factory_ElectricWall_4874E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 
 EXPORT void Factory_LiftMover_487580(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto pLiftMover = ao_new<LiftMover>();
         if (pLiftMover)
@@ -1766,7 +1766,7 @@ EXPORT void Factory_LiftMover_487580(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 
 EXPORT void Factory_ChimeLock_4870D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto kResources = {
             ResourceID::kChimeResID,
@@ -1784,7 +1784,7 @@ EXPORT void Factory_ChimeLock_4870D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 
 EXPORT void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<3> kResources({
             {ResourceManager::Resource_Animation, ResourceID::kElmbasicResID_200},
@@ -1804,7 +1804,7 @@ EXPORT void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvI
 
 EXPORT void Factory_MeatSack_483790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<3> kResources(
             {{ResourceManager::Resource_Animation, ResourceID::kAbepickResID},
@@ -1832,7 +1832,7 @@ EXPORT void Factory_MeatSack_483790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
 
 EXPORT void Factory_Scrab_4863E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<12> kResources(
             {{ResourceManager::Resource_Animation, ResourceID::kArsbasicResID},
@@ -1877,7 +1877,7 @@ EXPORT void Factory_Scrab_4863E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
 
 EXPORT void Factory_FlintLockFire_487640(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("FIRE.BAN", ResourceManager::Resource_Animation, ResourceID::kHubFireResID, loadMode);
     }
@@ -1943,7 +1943,7 @@ EXPORT void Factory_Null_4871C0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
 
 EXPORT void Factory_InvisibleSwitch_481C10(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto pInvisibleSwitch = ao_new<InvisibleSwitch>();
         if (pInvisibleSwitch)
@@ -1956,7 +1956,7 @@ EXPORT void Factory_InvisibleSwitch_481C10(Path_TLV* pTlv, Map* /*pMap*/, TlvIte
 EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pMudTlv = static_cast<Path_Mudokon*>(pTlv);
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto kResources = {
             ResourceID::kAbebsic1ResID,
@@ -2042,7 +2042,7 @@ EXPORT void Factory_SligZCover_Null_481850(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tl
 
 EXPORT void Factory_DoorFlame_481E80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("FIRE.BAN", ResourceManager::Resource_Animation, ResourceID::kHubFireResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("GLOW1.BAN", ResourceManager::Resource_Animation, ResourceID::kGlowResID, loadMode, 0);
@@ -2066,7 +2066,7 @@ EXPORT void Factory_DoorFlame_481E80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 
 EXPORT void Factory_OneShotSwitchIdSetter_4871D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto pSwitchStates = ao_new<OneShotSwitchIdSetter>();
         if (pSwitchStates)
@@ -2081,7 +2081,7 @@ EXPORT void Factory_MovingBomb_484E00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 {
     auto pMovingBombTlv = static_cast<Path_MovingBomb*>(pTlv);
 
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("D1MBOMB.BAN", ResourceManager::Resource_Animation, ResourceID::kMovebombResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, loadMode, 0);
@@ -2126,7 +2126,7 @@ EXPORT void Factory_MovingBombStopper_Null_484DF0(Path_TLV* /*pTlv*/, Map* /*pMa
 
 EXPORT void Factory_MeatSaw_483F70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("R1METSAW.BAN", ResourceManager::Resource_Animation, ResourceID::kMeatSawResID, loadMode);
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode);
@@ -2157,7 +2157,7 @@ EXPORT void Factory_MenuController_481AC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
 {
     if (gMainMenuInstanceCount_9F2DE0 == 0)
     {
-        if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+        if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
         {
             static CompileTimeResourceList<4> kResources = {
                 {ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID},
@@ -2194,7 +2194,7 @@ EXPORT void Factory_481FB0(Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUnion /*tlv
 
 EXPORT void Factory_HintFly_4819E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto pHintFly = ao_new<HintFly>();
         if (pHintFly)
@@ -2213,7 +2213,7 @@ EXPORT void Factory_ScrabNoFall_Null_481890(Path_TLV* /*pTlv*/, Map* /*pMap*/, T
 
 EXPORT void Factory_IdSplitter_4875E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto pIdSplitter = ao_new<IdSplitter>();
         if (pIdSplitter)
@@ -2226,7 +2226,7 @@ EXPORT void Factory_IdSplitter_4875E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 
 EXPORT void Factory_SecurityDoor_487790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("R1SDOS.BAN", ResourceManager::Resource_Animation, ResourceID::kR1sdosResID_6027, loadMode);
     }
@@ -2253,7 +2253,7 @@ EXPORT void Factory_GrenadeMachine_487860(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
 {
     auto pBoomMachineTlv = static_cast<Path_BoomMachine*>(pTlv);
     const auto disabledResources = pBoomMachineTlv->field_1C_disabled_resources;
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<3> kResources = {
             {ResourceManager::Resource_Animation, ResourceID::kAbethrowResID},
@@ -2295,7 +2295,7 @@ EXPORT void Factory_GrenadeMachine_487860(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
 
 EXPORT void Factory_LCD_481950(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("LCDFONT.FNT", ResourceManager::Resource_Font, ResourceID::kLcdfontResID, loadMode);
     }
@@ -2318,7 +2318,7 @@ EXPORT void Factory_ElumPathTrans_Null_4818C0(Path_TLV* /*pTlv*/, Map* /*pMap*/,
 
 EXPORT void Factory_HandStone_487480(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABESTONE.BAN", ResourceManager::Resource_Animation, ResourceID::kAbestoneResID, loadMode);
         ResourceManager::LoadResource_446C90("SPOTLITE.BAN", ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, loadMode);
@@ -2332,7 +2332,7 @@ EXPORT void Factory_HandStone_487480(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemI
 
 EXPORT void Factory_CreditsController_481A50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         if (!gCreditsControllerExists_507684)
         {
@@ -2354,7 +2354,7 @@ EXPORT void Factory_Preloader_Null_4817A0(Path_TLV* /*pTlv*/, Map* /*pMap*/, Tlv
 
 EXPORT void Factory_StatusBoard_487AF0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("LCDFONT.FNT", ResourceManager::Resource_Font, ResourceID::kLcdfontResID, loadMode);
     }
@@ -2371,7 +2371,7 @@ EXPORT void Factory_StatusBoard_487AF0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 
 EXPORT void Factory_SwitchStateBooleanLogic_487B80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto pSwitchStateBooleanLogic = ao_new<SwitchStateBooleanLogic>();
         if (pSwitchStateBooleanLogic)
@@ -2383,7 +2383,7 @@ EXPORT void Factory_SwitchStateBooleanLogic_487B80(Path_TLV* pTlv, Map* /*pMap*/
 
 EXPORT void Factory_MusicTrigger_482020(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto pMusicTrigger = ao_new<MusicTrigger>();
         if (pMusicTrigger)
@@ -2396,7 +2396,7 @@ EXPORT void Factory_MusicTrigger_482020(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pPathLightTlv = static_cast<Path_LightEffect*>(pTlv);
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         switch (pPathLightTlv->field_18_type)
         {
@@ -2504,7 +2504,7 @@ EXPORT void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 
 EXPORT void Factory_SlogSpawner_4851D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<4> kResources = {
             {ResourceManager::Resource_Animation, ResourceID::kDogbasicResID},
@@ -2538,7 +2538,7 @@ EXPORT void Factory_SlogSpawner_4851D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 
 EXPORT void Factory_GasCountDown_487BE0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("LCDFONT.FNT", ResourceManager::Resource_Font, ResourceID::kLcdfontResID, loadMode);
         ResourceManager::LoadResource_446C90("ABEGAS.BAN", ResourceManager::Resource_Animation, ResourceID::kAbegasResID, loadMode);
@@ -2554,7 +2554,7 @@ EXPORT void Factory_GasCountDown_487BE0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 
 EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         // The field field_18_bShrykull_remove was removed from the Path_RingCancel TLV because it doesnt
         // actually exist in any path data. The actual value for this field was the 2 bytes after the TLV ended
@@ -2618,7 +2618,7 @@ EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 
 EXPORT void Factory_GasEmitter_484110(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto pGasEmitter = ao_new<GasEmitter>();
         if (pGasEmitter)
@@ -2631,7 +2631,7 @@ EXPORT void Factory_GasEmitter_484110(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 
 EXPORT void Factory_SlogHut_487C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         auto pSlogHut = ao_new<SlogHut>();
         if (pSlogHut)
@@ -2644,7 +2644,7 @@ EXPORT void Factory_SlogHut_487C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUni
 
 EXPORT void Factory_BackgroundGlukkon_487CE0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode == LoadMode::Mode_1 || loadMode == LoadMode::Mode_2)
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<5> kResources = {
             {ResourceManager::Resource_Animation, ResourceID::kGlkbasicResID},
@@ -2671,7 +2671,7 @@ EXPORT void Factory_BackgroundGlukkon_487CE0(Path_TLV* pTlv, Map* /*pMap*/, TlvI
 
 EXPORT void Factory_KillUnsavedMuds_487DA0(Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::Mode_1 && loadMode != LoadMode::Mode_2)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         // OG bug fix - added an extra check that checks if the map has changed
         // which prevents that the killed mudokon count becomes inaccurate or even negative.

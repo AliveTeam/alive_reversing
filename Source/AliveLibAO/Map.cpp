@@ -365,7 +365,7 @@ void Map::Init_443EE0(LevelIds level, s16 path, s16 camera, CameraSwapEffects sc
     SetActiveCam_444660(level, path, camera, screenChangeEffect, fmvBaseId, forceChange);
     GoTo_Camera_445050();
 
-    field_6_state = 0;
+    field_6_state = CamChangeStates::eInactive_0;
 }
 
 void Map::Shutdown_443F90()
@@ -429,7 +429,7 @@ s16 Map::SetActiveCam_444660(LevelIds level, s16 path, s16 cam, CameraSwapEffect
     field_C_path = path;
     field_A_level = level;
     field_10_screenChangeEffect = screenChangeEffect;
-    field_6_state = 2;
+    field_6_state = CamChangeStates::eInstantChange_2;
 
 
     if (screenChangeEffect == CameraSwapEffects::ePlay1FMV_5 || screenChangeEffect == CameraSwapEffects::eUnknown_11)
@@ -764,25 +764,25 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible)
 
 void Map::ScreenChange_Common()
 {
-    if (field_6_state == 1)
+    if (field_6_state == CamChangeStates::eSliceCam_1)
     {
         ResourceManager::Reclaim_Memory_455660(0);
         Handle_PathTransition_444DD0();
     }
-    else if (field_6_state == 2)
+    else if (field_6_state == CamChangeStates::eInstantChange_2)
     {
         ResourceManager::Reclaim_Memory_455660(0);
         GoTo_Camera_445050();
     }
 
-    field_6_state = 0;
+    field_6_state = CamChangeStates::eInactive_0;
     SND_Stop_Channels_Mask_4774A0(gSndChannels_507CA0);
     gSndChannels_507CA0 = 0;
 }
 
 void Map::ScreenChange_4444D0()
 {
-    if (field_6_state == 0)
+    if (field_6_state == CamChangeStates::eInactive_0)
     {
         return;
     }
@@ -1131,7 +1131,7 @@ s16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObj
     field_14_direction = direction;
     field_18_pAliveObj = pObj;
     field_1C_cameraSwapEffect = convertedSwapEffect;
-    field_6_state = 1;
+    field_6_state = CamChangeStates::eSliceCam_1;
     sMap_bDoPurpleLightEffect_507C9C = 0;
 
     if (field_1C_cameraSwapEffect == CameraSwapEffects::ePlay1FMV_5 || field_1C_cameraSwapEffect == CameraSwapEffects::eUnknown_11)
@@ -1511,7 +1511,7 @@ Path_TLV* Map::TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, s32 camX)
     return pTlvIter;
 }
 
-void Map::Load_Path_Items_445DA0(Camera* pCamera, s16 loadMode)
+void Map::Load_Path_Items_445DA0(Camera* pCamera, LoadMode loadMode)
 {
     if (!pCamera)
     {
@@ -1521,7 +1521,7 @@ void Map::Load_Path_Items_445DA0(Camera* pCamera, s16 loadMode)
     // Is camera resource loaded check
     if (!(pCamera->field_30_flags & 1))
     {
-        if (loadMode == 0)
+        if (loadMode == LoadMode::ConstructObject_0)
         {
             // Async camera load
             ResourceManager::LoadResourceFile(
@@ -1530,7 +1530,7 @@ void Map::Load_Path_Items_445DA0(Camera* pCamera, s16 loadMode)
                 pCamera,
                 pCamera);
             sCameraBeingLoaded_507C98 = pCamera;
-            Loader_446590(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::Mode_1, TlvTypes::None_m1); // none = load all
+            Loader_446590(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::LoadResourceFromList_1, TlvTypes::None_m1); // none = load all
         }
         else
         {
@@ -1539,7 +1539,7 @@ void Map::Load_Path_Items_445DA0(Camera* pCamera, s16 loadMode)
             pCamera->field_30_flags |= 1u;
             pCamera->field_C_ppBits = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Bits, pCamera->field_10_resId, 1, 0);
             sCameraBeingLoaded_507C98 = pCamera;
-            Loader_446590(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::Mode_2, TlvTypes::None_m1); // none = load all
+            Loader_446590(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::LoadResource_2, TlvTypes::None_m1); // none = load all
         }
         sCameraBeingLoaded_507C98 = nullptr;
     }
@@ -1884,12 +1884,12 @@ void Map::GoTo_Camera_445050()
         }
     }
 
-    Load_Path_Items_445DA0(field_34_camera_array[0], 0);
+    Load_Path_Items_445DA0(field_34_camera_array[0], LoadMode::ConstructObject_0);
     ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
-    Load_Path_Items_445DA0(field_34_camera_array[3], 0);
-    Load_Path_Items_445DA0(field_34_camera_array[4], 0);
-    Load_Path_Items_445DA0(field_34_camera_array[1], 0);
-    Load_Path_Items_445DA0(field_34_camera_array[2], 0);
+    Load_Path_Items_445DA0(field_34_camera_array[3], LoadMode::ConstructObject_0);
+    Load_Path_Items_445DA0(field_34_camera_array[4], LoadMode::ConstructObject_0);
+    Load_Path_Items_445DA0(field_34_camera_array[1], LoadMode::ConstructObject_0);
+    Load_Path_Items_445DA0(field_34_camera_array[2], LoadMode::ConstructObject_0);
 
     if (!pScreenManager_4FF7C8)
     {
@@ -1897,7 +1897,7 @@ void Map::GoTo_Camera_445050()
         pScreenManager_4FF7C8->ctor_406830(field_34_camera_array[0]->field_C_ppBits, &field_2C_camera_offset);
     }
 
-    Loader_446590(field_20_camX_idx, field_22_camY_idx, LoadMode::Mode_0, TlvTypes::None_m1); // none = load all
+    Loader_446590(field_20_camX_idx, field_22_camY_idx, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
 
     if (old_current_path != field_2_current_path || old_current_level != field_0_current_level)
     {
@@ -1981,7 +1981,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
         {
             if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->field_4_type.mType)
             {
-                if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Destroyed)))
+                if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Destroyed)))
                 {
                     TlvItemInfoUnion data;
                     data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
@@ -1991,7 +1991,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
                     // Call the factory to construct the item
                     field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<s16>(pPathTLV->field_4_type.mType)](pPathTLV, this, data, loadMode);
 
-                    if (loadMode == LoadMode::Mode_0)
+                    if (loadMode == LoadMode::ConstructObject_0)
                     {
                         pPathTLV->field_0_flags.Set(TLV_Flags::eBit1_Created);
                         pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
