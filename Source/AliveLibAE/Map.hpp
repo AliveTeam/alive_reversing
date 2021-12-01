@@ -84,7 +84,14 @@ public:
     LevelIds field_0_current_level;
     s16 field_2_current_path;
     s16 field_4_current_camera;
-    s16 field_6_state;
+
+    enum class CamChangeStates : s16
+    {
+        eInactive_0 = 0,
+        eSliceCam_1 = 1,
+        eInstantChange_2 = 2
+    };
+    CamChangeStates field_6_state;
     s16 field_8_force_load;
 
     LevelIds field_A_level;

@@ -365,7 +365,7 @@ void Map::Init_443EE0(LevelIds level, s16 path, s16 camera, CameraSwapEffects sc
     SetActiveCam_444660(level, path, camera, screenChangeEffect, fmvBaseId, forceChange);
     GoTo_Camera_445050();
 
-    field_6_state = 0;
+    field_6_state = CamChangeStates::eInactive_0;
 }
 
 void Map::Shutdown_443F90()
@@ -429,7 +429,7 @@ s16 Map::SetActiveCam_444660(LevelIds level, s16 path, s16 cam, CameraSwapEffect
     field_C_path = path;
     field_A_level = level;
     field_10_screenChangeEffect = screenChangeEffect;
-    field_6_state = 2;
+    field_6_state = CamChangeStates::eInstantChange_2;
 
 
     if (screenChangeEffect == CameraSwapEffects::ePlay1FMV_5 || screenChangeEffect == CameraSwapEffects::eUnknown_11)
@@ -764,25 +764,25 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible)
 
 void Map::ScreenChange_Common()
 {
-    if (field_6_state == 1)
+    if (field_6_state == CamChangeStates::eSliceCam_1)
     {
         ResourceManager::Reclaim_Memory_455660(0);
         Handle_PathTransition_444DD0();
     }
-    else if (field_6_state == 2)
+    else if (field_6_state == CamChangeStates::eInstantChange_2)
     {
         ResourceManager::Reclaim_Memory_455660(0);
         GoTo_Camera_445050();
     }
 
-    field_6_state = 0;
+    field_6_state = CamChangeStates::eInactive_0;
     SND_Stop_Channels_Mask_4774A0(gSndChannels_507CA0);
     gSndChannels_507CA0 = 0;
 }
 
 void Map::ScreenChange_4444D0()
 {
-    if (field_6_state == 0)
+    if (field_6_state == CamChangeStates::eInactive_0)
     {
         return;
     }
@@ -1131,7 +1131,7 @@ s16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObj
     field_14_direction = direction;
     field_18_pAliveObj = pObj;
     field_1C_cameraSwapEffect = convertedSwapEffect;
-    field_6_state = 1;
+    field_6_state = CamChangeStates::eSliceCam_1;
     sMap_bDoPurpleLightEffect_507C9C = 0;
 
     if (field_1C_cameraSwapEffect == CameraSwapEffects::ePlay1FMV_5 || field_1C_cameraSwapEffect == CameraSwapEffects::eUnknown_11)

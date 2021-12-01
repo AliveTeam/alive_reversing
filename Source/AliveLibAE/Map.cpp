@@ -66,18 +66,18 @@ EXPORT void CC static_map_init_4802D0()
 
 void Map::ScreenChange_Common()
 {
-    if (field_6_state == 1)
+    if (field_6_state == CamChangeStates::eSliceCam_1)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
         Handle_PathTransition_481610();
     }
-    else if (field_6_state == 2)
+    else if (field_6_state == CamChangeStates::eInstantChange_2)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
         GoTo_Camera_481890();
     }
 
-    field_6_state = 0;
+    field_6_state = CamChangeStates::eInactive_0;
 
     SND_Stop_Channels_Mask_4CA810(sSoundChannelsMask_5C3120);
     sSoundChannelsMask_5C3120 = 0;
@@ -85,7 +85,7 @@ void Map::ScreenChange_Common()
 
 void Map::ScreenChange_480B80()
 {
-    if (field_6_state == 0)
+    if (field_6_state == CamChangeStates::eInactive_0)
     {
         return;
     }
@@ -504,7 +504,7 @@ void Map::Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects sc
     SetActiveCam_480D30(level, path, camera, screenChangeEffect, fmvBaseId, forceChange);
     GoTo_Camera_481890();
 
-    field_6_state = 0;
+    field_6_state = CamChangeStates::eInactive_0;
 }
 
 void Map::Shutdown_4804E0()
@@ -1109,7 +1109,7 @@ s16 Map::SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffect
     field_A_level = level;
     field_10_screen_change_effect = screenChangeEffect;
 
-    field_6_state = 2;
+    field_6_state = CamChangeStates::eInstantChange_2;
 
     if (screenChangeEffect == CameraSwapEffects::ePlay1FMV_5 || screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
@@ -1396,7 +1396,7 @@ s16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObj
     field_14_direction = direction;
     field_18_pAliveObj = pObj;
     field_1C = convertedSwapEffect;
-    field_6_state = 1;
+    field_6_state = CamChangeStates::eSliceCam_1;
     sMap_bDoPurpleLightEffect_5C311C = 0;
 
     if (convertedSwapEffect == CameraSwapEffects::ePlay1FMV_5 || convertedSwapEffect == CameraSwapEffects::eUnknown_11)
