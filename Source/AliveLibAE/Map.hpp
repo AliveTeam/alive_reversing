@@ -136,7 +136,7 @@ public:
     EXPORT s16 SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
     EXPORT static BaseGameObject* CC FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds lvlId);
     EXPORT Camera* Create_Camera_4829E0(s16 xpos, s16 ypos, s32 a4);
-    EXPORT static void CCSTD Load_Path_Items_482C10(Camera* pCamera, s16 loadMode);
+    EXPORT static void CCSTD Load_Path_Items_482C10(Camera* pCamera, LoadMode loadMode);
 
     EXPORT static void CC LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
     EXPORT static void CC LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad = FALSE);

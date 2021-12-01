@@ -30,9 +30,9 @@ ALIVE_ASSERT_SIZEOF(TlvItemInfoUnion, 4);
 
 enum class LoadMode : s16
 {
-    Mode_0 = 0,
-    Mode_1 = 1,
-    Mode_2 = 2
+    ConstructObject_0 = 0,
+    LoadResourceFromList_1 = 1,
+    LoadResource_2 = 2
 };
 
 using TPathFunctionFn = void(CC*)(Path_TLV*, Map*, TlvItemInfoUnion, LoadMode);

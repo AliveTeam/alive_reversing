@@ -71,9 +71,9 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToL
     {
         if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->field_4_type.mType)
         {
-            if (loadMode != LoadMode::Mode_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Destroyed)))
+            if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Destroyed)))
             {
-                if (loadMode == LoadMode::Mode_0)
+                if (loadMode == LoadMode::ConstructObject_0)
                 {
                     pPathTLV->field_0_flags.Set(TLV_Flags::eBit1_Created);
                     pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
