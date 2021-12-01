@@ -13,34 +13,9 @@
 #include "PsxDisplay.hpp"
 #include "Compression.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
+#include "FG1Reader.hpp"
 
 namespace AO {
-
-enum eChunkTypes
-{
-    ePartialChunk = 0,
-    eFullChunk = 0xFFFE,
-    eEndCompressedData = 0xFFFC,
-    eStartCompressedData = 0xFFFD,
-    eEndChunk = 0xFFFF
-};
-
-struct Fg1Chunk final
-{
-    u16 field_0_type;
-    u16 field_2_layer_or_decompressed_size;
-    s16 field_4_xpos_or_compressed_size;
-    s16 field_6_ypos;
-    u16 field_8_width;
-    u16 field_A_height;
-};
-ALIVE_ASSERT_SIZEOF(Fg1Chunk, 0xC);
-
-struct FG1ResourceBlockHeader final
-{
-    u32 mCount;
-    Fg1Chunk mChunks;
-};
 
 struct Fg1Block final
 {
@@ -51,6 +26,49 @@ struct Fg1Block final
     Layer field_66_mapped_layer;
 };
 ALIVE_ASSERT_SIZEOF(Fg1Block, 0x68);
+
+class FG1Reader final : public BaseFG1Reader
+{
+public:
+    explicit FG1Reader(FG1& fg1)
+        : BaseFG1Reader(FG1Format::AO)
+        , mFg1(fg1)
+    {
+    }
+
+    void OnPartialChunk(const Fg1Chunk& rChunk) override
+    {
+        Fg1Block* pRenderBlock = &mFg1.field_20_chnk_res[mIdx++];
+        mFg1.Convert_Chunk_To_Render_Block_453BA0(&rChunk, pRenderBlock);
+    }
+
+    void OnFullChunk(const Fg1Chunk& rChunk) override
+    {
+        pScreenManager_4FF7C8->InvalidateRect_406D80(
+            rChunk.field_4_xpos_or_compressed_size,
+            rChunk.field_6_ypos,
+            rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
+            rChunk.field_A_height + rChunk.field_6_ypos - 1,
+            rChunk.field_2_layer_or_decompressed_size);
+    }
+
+    u8** Allocate(u32 len) override
+    {
+        return ResourceManager::Allocate_New_Locked_Resource_454F80(
+            ResourceManager::Resource_PBuf,
+            0,
+            len);
+    }
+
+    void Deallocate(u8** ptr) override
+    {
+        ResourceManager::FreeResource_455550(ptr);
+    }
+
+private:
+    FG1& mFg1;
+    u32 mIdx = 0;
+};
 
 const Layer sFg1_layer_to_bits_layer_4BC024[] = {Layer::eLayer_FG1_37, Layer::eLayer_FG1_Half_18};
 
@@ -152,87 +170,10 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
     field_1C_ptr = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_CHNK, 0, pHeader->mCount * sizeof(Fg1Block));
     field_20_chnk_res = reinterpret_cast<Fg1Block*>(*field_1C_ptr);
 
-    // And take a pointer to the first chunk to iterate them
-    Fg1Chunk* pChunkIter = &pHeader->mChunks;
+    FG1Reader loader(*this);
+    loader.Iterate(pHeader);
 
-    u8** pSavedChunkIter = nullptr;
-    u8** pDecompressionBuffer = nullptr;
-    s32 idx = 0;
-
-    for (;;) // Exit when we hit the end chunk
-    {
-        switch (pChunkIter->field_0_type)
-        {
-            case ePartialChunk:
-            {
-                Fg1Block* pRenderBlock = &field_20_chnk_res[idx++];
-                Convert_Chunk_To_Render_Block_453BA0(pChunkIter, pRenderBlock);
-
-                // The pixel size is variable, calculate the size and move to the end of it to get the next block
-                const s32 pixelSizeBytes = pChunkIter->field_A_height * pChunkIter->field_8_width * sizeof(s16);
-                pChunkIter = reinterpret_cast<Fg1Chunk*>(reinterpret_cast<u8*>(pChunkIter) + pixelSizeBytes + sizeof(Fg1Chunk));
-            }
-            break;
-
-            case eFullChunk:
-            {
-                pScreenManager_4FF7C8->InvalidateRect_406D80(
-                    pChunkIter->field_4_xpos_or_compressed_size,
-                    pChunkIter->field_6_ypos,
-                    pChunkIter->field_8_width + pChunkIter->field_4_xpos_or_compressed_size - 1,
-                    pChunkIter->field_A_height + pChunkIter->field_6_ypos - 1,
-                    pChunkIter->field_2_layer_or_decompressed_size);
-
-                // Move to the next FG1 data from disk
-                pChunkIter++;
-            }
-            break;
-
-            case eStartCompressedData:
-            {
-                // Allocate buffer to decompress into
-                pDecompressionBuffer = ResourceManager::Allocate_New_Locked_Resource_454F80(
-                    ResourceManager::Resource_PBuf,
-                    0,
-                    pChunkIter->field_2_layer_or_decompressed_size);
-
-                // Decompress into it
-                Decompress_Type_4_5_461770(reinterpret_cast<const u8*>(pChunkIter) + sizeof(Fg1Chunk), *pDecompressionBuffer);
-
-                // Compressed data size + header size
-                const s32 sizeToSkipBytes = pChunkIter->field_4_xpos_or_compressed_size + sizeof(Fg1Chunk);
-
-                // Goto next block and save ptr to it
-                pSavedChunkIter = reinterpret_cast<u8**>((reinterpret_cast<u8*>(pChunkIter) + sizeToSkipBytes));
-
-                // Set current ptr to decompressed data
-                pChunkIter = reinterpret_cast<Fg1Chunk*>(*pDecompressionBuffer);
-            }
-            break;
-
-            case eEndCompressedData:
-            {
-                PSX_DrawSync_496750(0);
-
-                // Go back to the saved ptr
-                pChunkIter = reinterpret_cast<Fg1Chunk*>(pSavedChunkIter);
-                pSavedChunkIter = nullptr;
-
-                // Free the decompression buffer
-                ResourceManager::FreeResource_455550(pDecompressionBuffer);
-                pDecompressionBuffer = nullptr;
-            }
-            break;
-
-            case eEndChunk:
-            {
-                return this;
-            }
-
-            default:
-                ALIVE_FATAL("Unknown FG1 block type");
-        }
-    }
+    return this;
 }
 
 BaseGameObject* FG1::VDestructor(s32 flags)

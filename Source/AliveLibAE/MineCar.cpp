@@ -581,11 +581,6 @@ s16 MineCar::FollowDirection_46EA00()
     const FP halfHeight = mineCarHeight * FP_FromDouble(0.5);
     const FP step = mineCarWidth + stepSize;
 
-    const bool movingLeft = field_C4_velx < FP_FromInteger(0);
-    const bool movingLeftOrStopped = field_C4_velx <= FP_FromInteger(0);
-    const bool movingUp = field_C8_vely < FP_FromInteger(0);
-    const bool movingUpOrStopped = field_C8_vely <= FP_FromInteger(0);
-    
     // If we're moving horizontally and hit a wall...
     //
     if (
