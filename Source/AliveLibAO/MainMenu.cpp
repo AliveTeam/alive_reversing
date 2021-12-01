@@ -3501,7 +3501,6 @@ void Menu::SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt)
     const char_type* kErrStr = "Error loading save file";
 
     s16 xpos = 16;
-    const s32 fontWidth = field_FC_font.MeasureWidth_41C2B0(kErrStr);
     const s32 drawWidth = field_FC_font.DrawString_41C360(
         ppOt,
         kErrStr,

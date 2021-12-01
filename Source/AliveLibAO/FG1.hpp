@@ -3,10 +3,11 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
+struct Fg1Chunk;
+
 namespace AO {
 
 struct Fg1Block;
-struct Fg1Chunk;
 
 enum class LevelIds : s16;
 

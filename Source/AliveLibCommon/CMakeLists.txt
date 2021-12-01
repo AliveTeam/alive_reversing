@@ -1,6 +1,9 @@
 project(AliveLibCommon VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcCommon
+    CompressionType_4Or5.cpp
+    CompressionType_4Or5.hpp
+    FG1Reader.hpp
     ExportHooker.hpp
     ExportHooker.cpp
     CamDecompressor.cpp

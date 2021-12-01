@@ -4,6 +4,7 @@
 #include "relive_api_exceptions.hpp"
 #include "../../AliveLibAE/ScreenManager.hpp"
 #include "../../AliveLibCommon/CamDecompressor.hpp"
+#include "../../AliveLibCommon/FG1Reader.hpp"
 #include <lodepng/lodepng.h>
 #include <iostream>
 
@@ -31,7 +32,7 @@ static u32 RGB565ToRGB888(u16 pixel)
     return rgb888;
 }
 
-static void SaveCamPng(const u16* camBuffer, const char_type* pFileName)
+/*static*/ void SaveCamPng(const u16* camBuffer, const char_type* pFileName)
 {
     u32 dst[240][640] = {};
     for (u32 y = 0; y < 240; y++)
@@ -90,8 +91,9 @@ CamConverterAO::CamConverterAO(const std::string& fileName, const ChunkedLvlFile
     std::optional<LvlFileChunk> fg1Res = camFile.ChunkByType(ResourceManager::Resource_FG1);
     if (fg1Res)
     {
-        // AO only has 2 FG1 layers
-        // TODO: Implement later
+        ApiFG1Reader reader(BaseFG1Reader::FG1Format::AO);
+        reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(fg1Res->Data().data()));
+        // TODO: Save layers
     }
 }
 
@@ -124,8 +126,9 @@ CamConverterAE::CamConverterAE(const std::string& fileName, const ChunkedLvlFile
     std::optional<LvlFileChunk> fg1Res = camFile.ChunkByType(ResourceManager::Resource_FG1);
     if (fg1Res)
     {
-        // AE has 4 FG1 layers
-        // TODO: Implement later
+        ApiFG1Reader reader(BaseFG1Reader::FG1Format::AE);
+        reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(fg1Res->Data().data()));
+        // TODO: Save layers
     }
 }
 } // namespace ReliveAPI

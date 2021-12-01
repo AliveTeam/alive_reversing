@@ -64,6 +64,7 @@ set_property(TARGET AliveLibAE_reliveapi PROPERTY FOLDER "ReliveAPI")
 
 add_library(AliveLibCommon_reliveapi
     ../../AliveLibCommon/CamDecompressor.cpp
+    ../../AliveLibCommon/CompressionType_4Or5.cpp
     )
 export(TARGETS AliveLibCommon_reliveapi FILE AliveLibCommon_reliveapi.cmake)
 set_property(TARGET AliveLibCommon_reliveapi PROPERTY FOLDER "ReliveAPI")

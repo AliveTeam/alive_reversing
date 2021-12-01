@@ -4078,8 +4078,6 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
         {
             while (1)
             {
-                const s32 x0 = pVerts->field_0_x0;
-                const s32 y0 = pVerts->field_4_y0;
                 s32 x0_diff = pVerts->field_0_x0 - pLastVert1->field_0_x0;
                 s32 y0_diff = pVerts->field_4_y0 - pLastVert1->field_4_y0;
 
