@@ -48,6 +48,14 @@ public:
         return *mFg1Buffers;
     }
 
+    u16 ConvertPixel(u16 pixel)
+    {
+        return ((pixel >> 15) << 5)
+                      | ((pixel & 31) << 11)
+                      | (((pixel >> 5) & 31) << 6)
+                      | (((pixel >> 10) & 31) << 0);
+    }
+
     void BltRect(u32 xpos, u32 ypos, u32 width, u32 height, u32 layer, const u16* pSrc)
     {
         mUsedLayers[layer] = true;
@@ -64,7 +72,7 @@ public:
                         if (mFormat == FG1Format::AO)
                         {
                             // Read RGB565 pixel value
-                            pixelVal = *pSrc;
+                            pixelVal = ConvertPixel(*pSrc);
                             pSrc++;
                         }
                         else
