@@ -2,6 +2,7 @@
 
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "../AliveLibCommon/Types.hpp"
+#include "../AliveLibCommon/logger.hpp"
 
 namespace AO {
 

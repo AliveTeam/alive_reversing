@@ -1,6 +1,7 @@
 #pragma once
 
 #include "JsonWriterBase.hpp"
+#include <memory>
 
 class TypesCollectionAO;
 
