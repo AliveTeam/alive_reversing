@@ -431,7 +431,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     if (gDecodedTextureCache == 0)
         gDecodedTextureCache = Renderer_CreateTexture();
 
-    u16 tWidth = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[0];
+    u16 tWidth = static_cast<u16>(ceil(reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[0] / 4.0f) * 4);;
     u16 tHeight = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[1];
 
     TPageMode textureMode = static_cast<TPageMode>(((u32) poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
@@ -451,7 +451,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
             // So we scale it back down for the shader.
             gFakeTextureCache.mPalNormMulti = 16;
             glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, (tWidth + 1) / 2, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, tWidth / 2, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
             break;
         case TPageMode::e8Bit_1:
             gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
