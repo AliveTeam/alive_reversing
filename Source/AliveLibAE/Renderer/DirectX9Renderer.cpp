@@ -20,8 +20,6 @@ void DirectX9Renderer::Destroy()
 
 bool DirectX9Renderer::Create(TWindowHandleType window)
 {
-    rendererType = Renderers::DirectX9;
-
     // Find the directx9 driver
     const s32 numDrivers = SDL_GetNumRenderDrivers();
     if (numDrivers < 0)

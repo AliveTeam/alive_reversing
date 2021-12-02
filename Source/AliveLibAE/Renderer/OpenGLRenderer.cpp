@@ -727,8 +727,6 @@ void OpenGLRenderer::Destroy()
 
 bool OpenGLRenderer::Create(TWindowHandleType window)
 {
-    rendererType = Renderers::OpenGL;
-
     mWindow = window;
     mWireframe = false;
 

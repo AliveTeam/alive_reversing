@@ -37,8 +37,6 @@ public:
     };
 
 public:
-    Renderers rendererType = Renderers::None;
-
     virtual ~IRenderer()
     { }
     virtual void Destroy() = 0;

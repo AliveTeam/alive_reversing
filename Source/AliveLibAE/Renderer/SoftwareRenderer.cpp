@@ -11,7 +11,6 @@ void SoftwareRenderer::Destroy()
 
 bool SoftwareRenderer::Create(TWindowHandleType window)
 {
-    rendererType = Renderers::Software;
     mRenderer = SDL_CreateRenderer(window, -1, 0);
     return mRenderer != nullptr;
 }
