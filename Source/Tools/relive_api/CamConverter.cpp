@@ -9,6 +9,115 @@
 #include <iostream>
 
 namespace ReliveAPI {
+
+struct FG1Buffers
+{
+    void SetPixel(u32 layer, u32 x, u32 y, u16 pixel)
+    {
+        mFg1[layer][y][x] = pixel;
+    }
+    u16 mFg1[4][240][640];
+};
+
+class ApiFG1Reader final : public BaseFG1Reader
+{
+public:
+    ApiFG1Reader(FG1Format format)
+        : BaseFG1Reader(format)
+    {
+        // Dynamically allocated due to the huge stack space it would consume
+        mFg1Buffers = new FG1Buffers();
+    }
+
+    ~ApiFG1Reader()
+    {
+        delete mFg1Buffers;
+    }
+
+    bool LayerUsed(u32 idx) const
+    {
+        if (idx < 4)
+        {
+            return mUsedLayers[idx];
+        }
+        return false;
+    }
+
+    const FG1Buffers& Fg1Data() const
+    {
+        return *mFg1Buffers;
+    }
+
+    void BltRect(u32 xpos, u32 ypos, u32 width, u32 height, u32 layer, const u16* pSrc)
+    {
+        mUsedLayers[layer] = true;
+
+        for (u32 x = xpos; x < width; x++)
+        {
+            for (u32 y = ypos; y < height; y++)
+            {
+                if (x < 640 && y < 240)
+                {
+                    u16 pixelVal = 0xFF;
+                    if (pSrc)
+                    {
+                        if (mFormat == FG1Format::AO)
+                        {
+                            // Read RGB565 pixel value
+                            pixelVal = *pSrc;
+                            pSrc++;
+                        }
+                        else
+                        {
+                            // TODO: Bitfield in AE
+                        }
+                    }
+                    mFg1Buffers->SetPixel(layer, x, y, pixelVal);
+                }
+            }
+        }
+    }
+
+    void OnPartialChunk(const Fg1Chunk& rChunk) override
+    {
+        const u16* pPixels = reinterpret_cast<const u16*>((&rChunk) + 1);
+        BltRect(rChunk.field_4_xpos_or_compressed_size,
+                rChunk.field_6_ypos,
+                rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size,
+                rChunk.field_A_height + rChunk.field_6_ypos,
+                rChunk.field_2_layer_or_decompressed_size,
+                pPixels);
+    }
+
+    void OnFullChunk(const Fg1Chunk& rChunk) override
+    {
+        BltRect(rChunk.field_4_xpos_or_compressed_size,
+                rChunk.field_6_ypos,
+                rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size,
+                rChunk.field_A_height + rChunk.field_6_ypos,
+                rChunk.field_2_layer_or_decompressed_size,
+                nullptr);
+    }
+
+    u8** Allocate(u32 len) override
+    {
+        u8** pHolder = new u8*;
+        *pHolder = new u8[len];
+        return pHolder;
+    }
+
+    void Deallocate(u8** ptr) override
+    {
+        delete[] * ptr;
+        delete ptr;
+    }
+
+private:
+    // 2 layers in AO, 4 layers in AE
+    bool mUsedLayers[4] = {};
+    FG1Buffers* mFg1Buffers = nullptr;
+};
+
 static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, const u16* pSrcPixels)
 {
     const u16* pSrc = pSrcPixels;
@@ -93,6 +202,18 @@ CamConverterAO::CamConverterAO(const std::string& fileName, const ChunkedLvlFile
     {
         ApiFG1Reader reader(BaseFG1Reader::FG1Format::AO);
         reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(fg1Res->Data().data()));
+        if (fileName == "R1P19C01.png")
+        {
+            const FG1Buffers& data = reader.Fg1Data();
+            for (u32 i = 0; i < 4; i++)
+            {
+                if (reader.LayerUsed(i))
+                {
+                    const u16* pPixels = &data.mFg1[i][0][0];
+                    SaveCamPng(pPixels, (fileName + "FG1.png").c_str());
+                }
+            }
+        }
         // TODO: Save layers
     }
 }
