@@ -616,15 +616,6 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
         return;
     }
 
-#if RENDERER_OPENGL
-    // TODO: A custom sprite prim with magic numbers
-    // to trigger proper order rendering of our cam.
-    static Prim_Sprt MagicBackgroundPrim;
-    Sprt_Init_4F8910(&MagicBackgroundPrim);
-    SetRGB0(&MagicBackgroundPrim, 255, 254, 253);
-    OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_1), &MagicBackgroundPrim.mBase.header);
-#endif
-
     PSX_DrawSync_4F6280(0);
     pCurrent_SprtTPage_5BB5DC = nullptr;
     sCurrentYPos_5BB5F0 = -1;

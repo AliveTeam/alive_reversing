@@ -106,8 +106,9 @@ private:
 
     void DebugWindow();
 
+    void CreateWindowFrameBuffer(int width, int height);
     void InitAttributes();
-    void DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height);
+    void DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height, glm::vec2 uv0 = glm::vec2(0,0), glm::vec2 uv1 = glm::vec2(1, 1));
     void DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
     void DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
 

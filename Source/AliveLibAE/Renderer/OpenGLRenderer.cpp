@@ -8,7 +8,10 @@
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
-static GLuint mBackgroundTexture = 0;
+static GLuint mHDBackgroundTexture = 0;
+static GLuint mStitchedBackground = 0;
+static GLuint mWindowFrameBufferTexture;
+static GLuint mWindowFrameBuffer = 0;
 static u8 gDecodeBuffer[640 * 256 * 2] = {};
 static GLuint gDecodedTextureCache = 0;
 
@@ -63,27 +66,19 @@ static GLuint TextureFromFile(const char_type* path)
 
 static GLuint GetBackgroundTexture()
 {
-    if (mBackgroundTexture != 0)
+    if (mHDBackgroundTexture != 0)
     {
-        return mBackgroundTexture;
+        return mHDBackgroundTexture;
     }
 
-    for (TextureCache& t : gRendererTextures)
-    {
-        if (t.mVramRect.h == 240)
-        {
-            return t.mTextureID;
-        }
-    }
-
-    return 0;
+    return mStitchedBackground;
 }
 
 static TextureCache* GetBackgroundTextureCache()
 {
     gFakeTextureCache.mPalXY = {};
     gFakeTextureCache.mVramRect = {0, 0, 640, 240};
-    gFakeTextureCache.mTextureID = mBackgroundTexture;
+    gFakeTextureCache.mTextureID = GetBackgroundTexture();
     gFakeTextureCache.mPalNormMulti = 0;
     gFakeTextureCache.mIsFG1 = false;
     gFakeTextureCache.mUvOffset = {};
@@ -474,17 +469,17 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     return &gFakeTextureCache;
 }
 
-void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height)
+void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height, glm::vec2 uv0, glm::vec2 uv1)
 {
     const f32 r = 1.0f;
     const f32 g = 1.0f;
     const f32 b = 1.0f;
 
     const VertexData verts[4] = {
-        {0, 0, 0, r, g, b, 0, 0},
-        {1, 0, 0, r, g, b, 1, 0},
-        {1, 1, 0, r, g, b, 1, 1},
-        {0, 1, 0, r, g, b, 0, 1}};
+        {0, 0, 0, r, g, b, uv0.x, uv0.y},
+        {1, 0, 0, r, g, b, uv1.x, uv0.y},
+        {1, 1, 0, r, g, b, uv1.x, uv1.y},
+        {0, 1, 0, r, g, b, uv0.x, uv1.y}};
 
     mTextureShader.Use();
 
@@ -667,6 +662,14 @@ void OpenGLRenderer::DebugWindow()
     }
     ImGui::End();
 
+    if (ImGui::Begin("Background Texture", nullptr, ImGuiWindowFlags_MenuBar))
+    {
+        auto region = ImGui::GetContentRegionAvail();
+        auto bgTexId = GetBackgroundTexture();
+        ImGui::Image(GL_TO_IMGUI_TEX(bgTexId), region);
+    }
+    ImGui::End();
+
     if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
     {
         ImVec2 pos = ImGui::GetWindowPos();
@@ -723,6 +726,29 @@ void OpenGLRenderer::Destroy()
         SDL_GL_DeleteContext(mContext);
         mContext = nullptr;
     }
+}
+
+void OpenGLRenderer::CreateWindowFrameBuffer(int width, int height)
+{
+    if (mWindowFrameBufferTexture == 0)
+    {
+        glGenTextures(1, &mWindowFrameBufferTexture);
+    }
+
+    if (mWindowFrameBuffer == 0)
+    {
+        glGenFramebuffers(1, &mWindowFrameBuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, mWindowFrameBuffer);
+        glBindTexture(GL_TEXTURE_2D, mWindowFrameBufferTexture);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mWindowFrameBufferTexture, 0);
+    }
+
+    glBindTexture(GL_TEXTURE_2D, mWindowFrameBufferTexture);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 }
 
 bool OpenGLRenderer::Create(TWindowHandleType window)
@@ -823,6 +849,26 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
     }
     t++;*/
 
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    static s32 oldWidth = 0;
+    static s32 oldHeight = 0;
+
+    s32 wW, wH;
+    SDL_GetWindowSize(mWindow, &wW, &wH);
+
+    if (oldWidth != wW || oldHeight != wH)
+    {
+        CreateWindowFrameBuffer(wW, wH);
+    }
+
+    oldWidth = wW;
+    oldHeight = wH;
+
+    glDisable(GL_SCISSOR_TEST);
+
+    DrawTexture(mWindowFrameBufferTexture, 0, 240, 640, -240);
+
     static bool firstFrame = true;
     if (!firstFrame)
     {
@@ -846,15 +892,9 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    s32 wW, wH;
-    SDL_GetWindowSize(mWindow, &wW, &wH);
     glViewport(0, 0, wW, wH);
 
-    Renderer_SetBlendMode(TPageAbr::eBlend_0);
-    if (mBackgroundTexture != 0)
-    {
-        DrawTexture(mBackgroundTexture, 0, 0, 640, 240);
-    }
+    glBindFramebuffer(GL_FRAMEBUFFER, mWindowFrameBuffer);
 }
 
 void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
@@ -965,11 +1005,11 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
         return;
 
     // Detect our magic code and render our cam.
-    if (sprt.mBase.header.rgb_code.r == 255 && sprt.mBase.header.rgb_code.g == 254 && sprt.mBase.header.rgb_code.b == 253)
+    /*if (sprt.mBase.header.rgb_code.r == 255 && sprt.mBase.header.rgb_code.g == 254 && sprt.mBase.header.rgb_code.b == 253)
     {
         RenderBackground();
         return;
-    }
+    }*/
 
     PSX_Point vramPoint = Renderer_VRamFromTPage(mLastTPage);
     s16 textureMode = (mLastTPage >> 7) & 3;
@@ -977,10 +1017,11 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     // FG1 Blocks
     if (vramPoint.field_0_x < 640)
     {
-        glm::ivec4 lastClip = mLastClip;
-        SetClipDirect(sprt.mBase.vert.x, sprt.mBase.vert.y, sprt.field_14_w + 1, sprt.field_16_h + 1);
-        RenderBackground();
-        SetClipDirect(lastClip.x, lastClip.y, lastClip.z, lastClip.w);
+        const glm::vec2 uv0 = glm::vec2(sprt.mBase.vert.x / 640.0f, sprt.mBase.vert.y / 240.0f);
+        const glm::vec2 uv1 = glm::vec2((sprt.mBase.vert.x + sprt.field_14_w + 1) / 640.0f, (sprt.mBase.vert.y + sprt.field_16_h + 1) / 240.0f);
+
+        DrawTexture(GetBackgroundTexture(), static_cast<f32>(sprt.mBase.vert.x), static_cast<f32>(sprt.mBase.vert.y), static_cast<f32>(sprt.field_14_w + 1), static_cast<f32>(sprt.field_16_h + 1), uv0, uv1);
+        
         return;
     }
 
@@ -1052,6 +1093,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
 
 void OpenGLRenderer::Draw(Prim_Tile& tile)
 {
+
     if (!gRenderEnable_TILE)
         return;
 
@@ -1521,10 +1563,10 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
 
                     if (rect.x == 624)
                     {
-                        if (mBackgroundTexture == 0)
-                            mBackgroundTexture = Renderer_CreateTexture();
+                        if (mStitchedBackground == 0)
+                            mStitchedBackground = Renderer_CreateTexture();
 
-                        glBindTexture(GL_TEXTURE_2D, mBackgroundTexture);
+                        glBindTexture(GL_TEXTURE_2D, mStitchedBackground);
                         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, 640, 240, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gDecodeBuffer);
                     }
                 }
@@ -1559,8 +1601,8 @@ void OpenGLRenderer::LoadExternalCam(const char* path, const unsigned char* key,
 
     if (fileData.size() == 0)
     {
-        glDeleteTextures(1, &mBackgroundTexture);
-        mBackgroundTexture = 0;
+        glDeleteTextures(1, &mHDBackgroundTexture);
+        mHDBackgroundTexture = 0;
         return;
     }
 
@@ -1577,12 +1619,12 @@ void OpenGLRenderer::LoadExternalCam(const char* path, const unsigned char* key,
     const unsigned char* data = stbi_load_from_memory(fileData.data(), static_cast<int>(fileData.size()), &x, &y, &comp, 4);
 
     // Check if we've created a texture handle already, if not, do so.
-    if (mBackgroundTexture == 0)
+    if (mHDBackgroundTexture == 0)
     {
-        glGenTextures(1, &mBackgroundTexture);
+        glGenTextures(1, &mHDBackgroundTexture);
     }
 
-    glBindTexture(GL_TEXTURE_2D, mBackgroundTexture);
+    glBindTexture(GL_TEXTURE_2D, mHDBackgroundTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
