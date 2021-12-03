@@ -1,6 +1,7 @@
 #pragma once
 
 #include "JsonWriterBase.hpp"
+#include <memory>
 
 namespace ReliveAPI {
 class JsonWriterAE final : public JsonWriterBase

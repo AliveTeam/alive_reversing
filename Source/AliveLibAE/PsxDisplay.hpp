@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/pch_shared.h"
 #include "Psx.hpp"
 
 // 368*40/23 =640
