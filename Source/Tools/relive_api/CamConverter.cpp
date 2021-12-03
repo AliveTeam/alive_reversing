@@ -9,15 +9,8 @@
 #include <iostream>
 
 namespace ReliveAPI {
-static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, const u16* pSrcPixels)
-{
-    const u16* pSrc = pSrcPixels;
-    for (s32 y1 = y; y1 < height; y1++)
-    {
-        memcpy(&pDst[x + (y1 * 640)], &pSrc[(y1 * width)], width * sizeof(s16));
-    }
-}
 
+    
 static u32 RGB565ToRGB888(u16 pixel)
 {
     const u8 r5 = ((pixel >> 11) & 0x1F);
@@ -32,7 +25,7 @@ static u32 RGB565ToRGB888(u16 pixel)
     return rgb888;
 }
 
-/*static*/ void SaveCamPng(const u16* camBuffer, const char_type* pFileName)
+static void SaveCamPng(const u16* camBuffer, const char_type* pFileName)
 {
     u32 dst[240][640] = {};
     for (u32 y = 0; y < 240; y++)
@@ -55,7 +48,7 @@ static u32 RGB565ToRGB888(u16 pixel)
     state.info_png.color.bitdepth = 8;
     state.encoder.auto_convert = 0; // without this, it would ignore the output color type specified above and choose an optimal one instead
 
-    //encode and save
+    // encode and save
     std::vector<u8> buffer;
     const auto error = lodepng::encode(buffer, reinterpret_cast<const u8*>(&dst[0][0]), 640, 240, state);
     if (error)
@@ -65,6 +58,149 @@ static u32 RGB565ToRGB888(u16 pixel)
     else
     {
         lodepng::save_file(buffer, pFileName);
+    }
+}
+
+struct FG1Buffers
+{
+    void SetPixel(u32 layer, u32 x, u32 y, u16 pixel)
+    {
+        mFg1[layer][y][x] = pixel;
+    }
+    u16 mFg1[4][240][640];
+};
+
+class ApiFG1Reader final : public BaseFG1Reader
+{
+public:
+    ApiFG1Reader(FG1Format format)
+        : BaseFG1Reader(format)
+    {
+        // Dynamically allocated due to the huge stack space it would consume
+        mFg1Buffers = new FG1Buffers();
+    }
+
+    ~ApiFG1Reader()
+    {
+        delete mFg1Buffers;
+    }
+
+    u16 ConvertPixel(u16 pixel)
+    {
+        return ((pixel >> 15) << 5)
+                      | ((pixel & 31) << 11)
+                      | (((pixel >> 5) & 31) << 6)
+                      | (((pixel >> 10) & 31) << 0);
+    }
+
+    void BltRect(u32 xpos, u32 ypos, u32 width, u32 height, u32 layer, const u16* pSrcPixels, const u32* pBitMask)
+    {
+        mUsedLayers[layer] = true;
+
+        for (u32 y = ypos; y < height; y++)
+        {
+            for (u32 x = xpos; x < width; x++)
+            {
+                if (x < 640 && y < 240)
+                {
+                    u16 pixelVal = 0xFFFF;
+                    if (pSrcPixels)
+                    {
+                        // Read RGB565 pixel value for AO
+                        pixelVal = ConvertPixel(*pSrcPixels);
+
+                        // If its not a "transparent" pixel set to white
+                        if (pixelVal != 0)
+                        {
+                            pixelVal = 0xFFFF;
+                        }
+                        pSrcPixels++;
+                    }
+                    else if (pBitMask)
+                    {
+                        // Bitfield in AE
+                        const u32 bits = pBitMask[y - ypos];
+                        if (!((bits >> (x - xpos)) & 1))
+                        {
+                            pixelVal = 0;
+                        }
+                    }
+
+                    mFg1Buffers->SetPixel(layer, x, y, pixelVal);
+                }
+            }
+        }
+    }
+
+    void OnPartialChunk(const Fg1Chunk& rChunk) override
+    {
+        const u16* pPixels = nullptr;
+        const u32* pBitMap = nullptr;
+        if (mFormat == FG1Format::AO)
+        {
+            pPixels = reinterpret_cast<const u16*>((&rChunk) + 1);
+        }
+        else
+        {
+            pBitMap = reinterpret_cast<const u32*>((&rChunk) + 1);
+        }
+        BltRect(rChunk.field_4_xpos_or_compressed_size,
+                rChunk.field_6_ypos,
+                rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size,
+                rChunk.field_A_height + rChunk.field_6_ypos,
+                rChunk.field_2_layer_or_decompressed_size,
+                pPixels,
+                pBitMap);
+    }
+
+    void OnFullChunk(const Fg1Chunk& rChunk) override
+    {
+        BltRect(rChunk.field_4_xpos_or_compressed_size,
+                rChunk.field_6_ypos,
+                rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size,
+                rChunk.field_A_height + rChunk.field_6_ypos,
+                rChunk.field_2_layer_or_decompressed_size,
+                nullptr,
+                nullptr);
+    }
+
+    u8** Allocate(u32 len) override
+    {
+        u8** pHolder = new u8*;
+        *pHolder = new u8[len];
+        return pHolder;
+    }
+
+    void Deallocate(u8** ptr) override
+    {
+        delete[] * ptr;
+        delete ptr;
+    }
+
+    void SaveLayers(const std::string& baseName)
+    {
+        for (u32 i = 0; i < 4; i++)
+        {
+            if (mUsedLayers[i])
+            {
+                const u16* pPixels = &mFg1Buffers->mFg1[i][0][0];
+                SaveCamPng(pPixels, (baseName + "_" + std::to_string(i + 1) + "_FG1.png").c_str());
+            }
+        }
+    }
+
+private:
+    // 2 layers in AO, 4 layers in AE
+    bool mUsedLayers[4] = {};
+    FG1Buffers* mFg1Buffers = nullptr;
+};
+
+static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, const u16* pSrcPixels)
+{
+    const u16* pSrc = pSrcPixels;
+    for (s32 y1 = y; y1 < height; y1++)
+    {
+        memcpy(&pDst[x + (y1 * 640)], &pSrc[(y1 * width)], width * sizeof(s16));
     }
 }
 
@@ -93,7 +229,7 @@ CamConverterAO::CamConverterAO(const std::string& fileName, const ChunkedLvlFile
     {
         ApiFG1Reader reader(BaseFG1Reader::FG1Format::AO);
         reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(fg1Res->Data().data()));
-        // TODO: Save layers
+        reader.SaveLayers(fileName.substr(0, fileName.length() - 4));
     }
 }
 
@@ -128,7 +264,7 @@ CamConverterAE::CamConverterAE(const std::string& fileName, const ChunkedLvlFile
     {
         ApiFG1Reader reader(BaseFG1Reader::FG1Format::AE);
         reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(fg1Res->Data().data()));
-        // TODO: Save layers
+        reader.SaveLayers(fileName.substr(0, fileName.length()- 4));
     }
 }
 } // namespace ReliveAPI
