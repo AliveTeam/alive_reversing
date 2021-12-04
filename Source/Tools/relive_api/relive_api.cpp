@@ -13,7 +13,6 @@
 #include "JsonWriterAE.hpp"
 #include "JsonWriterAO.hpp"
 #include "JsonMapRootInfoReader.hpp"
-#include "CamConverter.hpp"
 #include <iostream>
 #include "TypesCollectionBase.hpp"
 #include <gmock/gmock.h>
@@ -306,41 +305,15 @@ void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, const std::string& 
     LvlReader lvl(inputLvlFile.c_str());
     ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, fileDataBuffer, game, &pathResourceId);
 
-    PathCamerasEnumerator camEnumerator(pathBnd.mPathInfo, pathBnd.mFileData);
-    camEnumerator.Enumerate([&](const CameraObject& cam)
-        {
-            if (!cam.mName.empty())
-            {
-                const std::string cameraName = cam.mName + ".CAM";
-                if (lvl.ReadFileInto(fileDataBuffer, cameraName.c_str()))
-                {
-                    ChunkedLvlFile camFile(fileDataBuffer);
-
-                    if (game == Game::AO)
-                    {
-                        CamConverterAO converter(cam.mName + ".png", camFile);
-                    }
-                    else
-                    {
-                        CamConverterAE converter(cam.mName + ".png", camFile);
-                    }
-                }
-                else
-                {
-                    LOG_WARNING("Camera " << cam.mName << " not found in the LVL");
-                }
-            }
-        });
-
     if (game == Game::AO)
     {
         JsonWriterAO doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-        doc.Save(pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
+        doc.Save(fileDataBuffer, lvl, pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
     }
     else
     {
         JsonWriterAE doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-        doc.Save(pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
+        doc.Save(fileDataBuffer, lvl, pathBnd.mPathInfo, pathBnd.mFileData, jsonOutputFile);
     }
 }
 

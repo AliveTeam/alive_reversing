@@ -25,7 +25,7 @@ static u32 RGB565ToRGB888(u16 pixel)
     return rgb888;
 }
 
-static void SaveCamPng(const u16* camBuffer, const char_type* pFileName)
+static void RGB565ToPngBuffer(const u16* camBuffer, std::vector<u8>& outPngData)
 {
     u32 dst[240][640] = {};
     for (u32 y = 0; y < 240; y++)
@@ -48,17 +48,17 @@ static void SaveCamPng(const u16* camBuffer, const char_type* pFileName)
     state.info_png.color.bitdepth = 8;
     state.encoder.auto_convert = 0; // without this, it would ignore the output color type specified above and choose an optimal one instead
 
-    // encode and save
-    std::vector<u8> buffer;
-    const auto error = lodepng::encode(buffer, reinterpret_cast<const u8*>(&dst[0][0]), 640, 240, state);
+    const auto error = lodepng::encode(outPngData, reinterpret_cast<const u8*>(&dst[0][0]), 640, 240, state);
     if (error)
     {
         std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
     }
+    /*
     else
     {
         lodepng::save_file(buffer, pFileName);
     }
+    */
 }
 
 struct FG1Buffers
@@ -177,19 +177,54 @@ public:
         delete ptr;
     }
 
-    void SaveLayers(const std::string& baseName)
+    void SaveLayers(CameraImageAndLayers& outData)
     {
         for (u32 i = 0; i < 4; i++)
         {
             if (mUsedLayers[i])
             {
                 const u16* pPixels = &mFg1Buffers->mFg1[i][0][0];
-                SaveCamPng(pPixels, (baseName + "_" + std::to_string(i + 1) + "_FG1.png").c_str());
+                RGB565ToPngBuffer(pPixels, BufferForLayer(outData, i));
             }
         }
     }
 
 private:
+    std::vector<u8>& BufferForLayer(CameraImageAndLayers& outData, u32 layer)
+    {
+        if (mFormat == FG1Format::AO)
+        {
+            switch (layer)
+            {
+                case 0:
+                    return outData.mForegroundLayer;
+
+                case 1:
+                    return outData.mBackgroundLayer;
+            }
+        }
+        else
+        {
+            switch (layer)
+            {
+                case 0:
+                    return outData.mBackgroundWellLayer;
+
+                case 1:
+                    return outData.mBackgroundLayer;
+
+                case 2:
+                    return outData.mForegroundWellLayer;
+
+                case 3:
+                    return outData.mForegroundLayer;
+            }
+        }
+
+        // Should never get here
+        return outData.mBackgroundLayer;
+    }
+
     // 2 layers in AO, 4 layers in AE
     bool mUsedLayers[4] = {};
     FG1Buffers* mFg1Buffers = nullptr;
@@ -204,7 +239,7 @@ static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, con
     }
 }
 
-CamConverterAO::CamConverterAO(const std::string& fileName, const ChunkedLvlFile& camFile)
+CamConverterAO::CamConverterAO(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData)
 {
     std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
     if (bitsRes)
@@ -221,7 +256,7 @@ CamConverterAO::CamConverterAO(const std::string& fileName, const ChunkedLvlFile
             // To next slice
             pIter += (slice_len / sizeof(s16));
         }
-        SaveCamPng(camBuffer, fileName.c_str());
+        RGB565ToPngBuffer(camBuffer, outData.mCameraImage);
     }
 
     std::optional<LvlFileChunk> fg1Res = camFile.ChunkByType(ResourceManager::Resource_FG1);
@@ -229,11 +264,11 @@ CamConverterAO::CamConverterAO(const std::string& fileName, const ChunkedLvlFile
     {
         ApiFG1Reader reader(BaseFG1Reader::FG1Format::AO);
         reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(fg1Res->Data().data()));
-        reader.SaveLayers(fileName.substr(0, fileName.length() - 4));
+        reader.SaveLayers(outData);
     }
 }
 
-CamConverterAE::CamConverterAE(const std::string& fileName, const ChunkedLvlFile& camFile)
+CamConverterAE::CamConverterAE(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData)
 {
     std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
     if (bitsRes)
@@ -256,7 +291,7 @@ CamConverterAE::CamConverterAE(const std::string& fileName, const ChunkedLvlFile
 
             pIter += (stripSize / sizeof(u16));
         }
-        SaveCamPng(camBuffer, fileName.c_str());
+        RGB565ToPngBuffer(camBuffer, outData.mCameraImage);
     }
 
     std::optional<LvlFileChunk> fg1Res = camFile.ChunkByType(ResourceManager::Resource_FG1);
@@ -264,7 +299,7 @@ CamConverterAE::CamConverterAE(const std::string& fileName, const ChunkedLvlFile
     {
         ApiFG1Reader reader(BaseFG1Reader::FG1Format::AE);
         reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(fg1Res->Data().data()));
-        reader.SaveLayers(fileName.substr(0, fileName.length()- 4));
+        reader.SaveLayers(outData);
     }
 }
 } // namespace ReliveAPI

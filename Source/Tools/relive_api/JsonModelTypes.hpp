@@ -25,7 +25,7 @@ enum class Game;
 class TypesCollectionBase;
 class TypesCollectionAO;
 class TypesCollectionAE;
-
+class CameraImageAndLayers;
 
 struct CameraObject final
 {
@@ -34,7 +34,7 @@ struct CameraObject final
     s32 mX = 0;
     s32 mY = 0;
 
-    [[nodiscard]] jsonxx::Object ToJsonObject(jsonxx::Array mapObjectsArray) const;
+    [[nodiscard]] jsonxx::Object ToJsonObject(jsonxx::Array mapObjectsArray, const CameraImageAndLayers& cameraImageAndLayers) const;
 };
 
 struct PathInfo final

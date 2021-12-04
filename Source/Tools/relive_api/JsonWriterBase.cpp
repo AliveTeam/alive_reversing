@@ -3,6 +3,8 @@
 #include "relive_api.hpp"
 #include <jsonxx/jsonxx.h>
 #include "../../AliveLibAO/Map.hpp"
+#include "LvlReaderWriter.hpp"
+#include "CamConverter.hpp"
 
 namespace ReliveAPI {
 inline s32 To1dIndex(s32 width, s32 x, s32 y)
@@ -26,7 +28,60 @@ JsonWriterBase::JsonWriterBase(TypesCollectionBase& types, s32 pathId, const std
     mMapRootInfo.mVersion = ReliveAPI::GetApiVersion();
 }
 
-void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName)
+void JsonWriterBase::ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, const s32* indexTable, const CameraObject& tmpCamera, jsonxx::Array& cameraArray, u8* pPathData)
+{
+    bool addCameraToJsonArray = false;
+    const s32 indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, tmpCamera.mX, tmpCamera.mY)];
+    jsonxx::Array mapObjects;
+    if (indexTableEntryOffset == -1)
+    {
+        if (!tmpCamera.mName.empty())
+        {
+            // LOG_INFO("Add camera with no objects " << tmpCamera.mName);
+            addCameraToJsonArray = true;
+        }
+    }
+    else
+    {
+        // Can have objects that do not live in a camera, as strange as it seems (R1P15)
+        // "blank" cameras just do not have a name set.
+
+        u8* ptr = pPathData + indexTableEntryOffset + info.mObjectOffset;
+        mapObjects = ReadTlvStream(ptr);
+        addCameraToJsonArray = true;
+        // LOG_INFO("Add camera " << tmpCamera.mName);
+    }
+
+    CameraImageAndLayers cameraImageAndLayers;
+    if (!tmpCamera.mName.empty())
+    {
+        const std::string cameraName = tmpCamera.mName + ".CAM";
+        if (lvlReader.ReadFileInto(fileDataBuffer, cameraName.c_str()))
+        {
+            ChunkedLvlFile camFile(fileDataBuffer);
+
+            if (mMapRootInfo.mGame == "AO")
+            {
+                CamConverterAO converter(camFile, cameraImageAndLayers);
+            }
+            else
+            {
+                CamConverterAE converter(camFile, cameraImageAndLayers);
+            }
+        }
+        else
+        {
+            LOG_WARNING("Camera " << tmpCamera.mName << " not found in the LVL");
+        }
+    }
+
+    if (addCameraToJsonArray)
+    {
+        cameraArray << tmpCamera.ToJsonObject(mapObjects, cameraImageAndLayers);
+    }
+}
+
+void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName)
 {
     ResetTypeCounterMap();
 
@@ -59,32 +114,12 @@ void JsonWriterBase::Save(const PathInfo& info, std::vector<u8>& pathResource, c
 
     const s32* indexTable = reinterpret_cast<const s32*>(pPathData + info.mIndexTableOffset);
 
-
     jsonxx::Array cameraArray;
     PathCamerasEnumerator cameraEnumerator(info, pathResource);
     cameraEnumerator.Enumerate([&](const CameraObject& tmpCamera)
-                               {
-                                   const s32 indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, tmpCamera.mX, tmpCamera.mY)];
-                                   if (indexTableEntryOffset == -1)
-                                   {
-                                       if (!tmpCamera.mName.empty())
-                                       {
-                                           // LOG_INFO("Add camera with no objects " << tmpCamera.mName);
-                                           cameraArray << tmpCamera.ToJsonObject({});
-                                       }
-                                   }
-                                   else
-                                   {
-                                       // Can have objects that do not live in a camera, as strange as it seems (R1P15)
-                                       // "blank" cameras just do not have a name set.
-
-                                       u8* ptr = pPathData + indexTableEntryOffset + info.mObjectOffset;
-                                       jsonxx::Array mapObjects = ReadTlvStream(ptr);
-                                       // LOG_INFO("Add camera " << tmpCamera.mName);
-                                       cameraArray << tmpCamera.ToJsonObject(mapObjects);
-                                   }
-                               });
-
+        { 
+            ProcessCamera(fileDataBuffer, lvlReader, info, indexTable, tmpCamera, cameraArray, pPathData);
+        });
 
     rootMapObject << "cameras" << cameraArray;
 
