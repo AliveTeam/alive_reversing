@@ -31,6 +31,32 @@ static bool gRenderEnable_F4 = true;
 static bool gRenderEnable_F3 = true;
 static bool gRenderEnable_F2 = true;
 
+#define GL_CHECK(stmt) do { \
+    stmt; \
+    CheckOpenGLError(#stmt, __FILE__, __LINE__); \
+} while (0)
+
+#define glEnable(...) GL_CHECK(glEnable(__VA_ARGS__));
+#define glGenTextures(...) GL_CHECK(glGenTextures(__VA_ARGS__));
+#define glBindTexture(...) GL_CHECK(glBindTexture(__VA_ARGS__));
+#define glTexParameteri(...) GL_CHECK(glTexParameteri(__VA_ARGS__));
+#define glTexImage2D(...) GL_CHECK(glTexImage2D(__VA_ARGS__));
+#define glBlendFunc(...) GL_CHECK(glBlendFunc(__VA_ARGS__));
+#define glDrawElements(...) GL_CHECK(glDrawElements(__VA_ARGS__));
+
+
+void CheckOpenGLError(const char* stmt, const char* fname, int line)
+{
+    GLenum err = glGetError();
+    if (err != GL_NO_ERROR)
+    {
+        std::string message;
+        message.resize(5000);
+        sprintf(message.data(), "OpenGL error %08x, at %s:%i - for %s\n", err, fname, line, stmt);
+        ALIVE_FATAL(message.c_str());
+    }
+}
+
 static GLuint TextureFromFile(const char_type* path)
 {
     GLuint texHandle = 0;
@@ -652,6 +678,16 @@ void OpenGLRenderer::DebugWindow()
     }
     ImGui::End();
 
+    if (ImGui::Begin("GPU Info", nullptr, ImGuiWindowFlags_MenuBar))
+    {
+
+        ImGui::Text("Vendor: %s", glGetString(GL_VENDOR));
+        ImGui::Text("Model: %s", glGetString(GL_RENDERER));
+        ImGui::Text("GL Version: %s", glGetString(GL_VERSION));
+        ImGui::Text("GLSL Version: %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+    }
+    ImGui::End();
+
     if (ImGui::Begin("Palettes", nullptr, ImGuiWindowFlags_MenuBar))
     {
         f32 width = ImGui::GetWindowContentRegionWidth();
@@ -664,6 +700,7 @@ void OpenGLRenderer::DebugWindow()
 
     if (ImGui::Begin("Background Texture", nullptr, ImGuiWindowFlags_MenuBar))
     {
+        ImGui::Text("BG Handle: %i", GetBackgroundTexture());
         auto region = ImGui::GetContentRegionAvail();
         auto bgTexId = GetBackgroundTexture();
         ImGui::Image(GL_TO_IMGUI_TEX(bgTexId), region);
@@ -1589,6 +1626,7 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
 void OpenGLRenderer::LoadExternalCam(const char* path, const unsigned char* key, int keyLength)
 {
     std::vector<BYTE> fileData;
+    bool encrypted = true;
 
     // Try to keep all paths and filenames lowercase for our linux friends.
     std::ifstream file("hd/" + std::string(path).substr(0, 8) + ".cam2", std::ios::binary);
@@ -1601,22 +1639,48 @@ void OpenGLRenderer::LoadExternalCam(const char* path, const unsigned char* key,
 
     if (fileData.size() == 0)
     {
-        glDeleteTextures(1, &mHDBackgroundTexture);
-        mHDBackgroundTexture = 0;
-        return;
+        std::ifstream fileRaw("hd/" + std::string(path).substr(0, 8) + ".png", std::ios::binary);
+
+        if (fileRaw.is_open())
+        {
+            fileData = std::vector<BYTE>((std::istreambuf_iterator<char>(fileRaw)), std::istreambuf_iterator<char>());
+            fileRaw.close();
+            encrypted = false;
+        }
+        else
+        {
+            glDeleteTextures(1, &mHDBackgroundTexture);
+            mHDBackgroundTexture = 0;
+            return;
+        }
     }
 
     BYTE* fPtr = fileData.data();
 
-    // XOR the custom cam file with the data from the original game.
-    // You wouldn't steal an Abe? https://www.youtube.com/watch?v=HmZm8vNHBSU
-    for (unsigned int i = 0; i < fileData.size(); i++)
+    if (encrypted)
     {
-        fPtr[i] ^= key[i % keyLength];
+        // XOR the custom cam file with the data from the original game.
+        // You wouldn't steal an Abe? https://www.youtube.com/watch?v=HmZm8vNHBSU
+        for (unsigned int i = 0; i < fileData.size(); i++)
+        {
+            fPtr[i] ^= key[i % keyLength];
+        }
     }
 
     int x = 0, y = 0, comp = 0;
     const unsigned char* data = stbi_load_from_memory(fileData.data(), static_cast<int>(fileData.size()), &x, &y, &comp, 4);
+
+    if (comp == 0)
+    {
+        // failed to load image
+        std::string message;
+        message.resize(1000);
+        sprintf(message.data(), "%s corrupted! Make sure you're using the correct .lvl files for decryption!", path);
+        Alive_Show_ErrorMsg(message.data());
+        glDeleteTextures(1, &mHDBackgroundTexture);
+        mHDBackgroundTexture = 0;
+        return;
+    }
 
     // Check if we've created a texture handle already, if not, do so.
     if (mHDBackgroundTexture == 0)
