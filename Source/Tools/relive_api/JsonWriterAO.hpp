@@ -2,6 +2,7 @@
 
 #include "JsonWriterBase.hpp"
 #include <memory>
+#include <unordered_map>
 
 class TypesCollectionAO;
 

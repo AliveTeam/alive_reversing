@@ -570,6 +570,9 @@ static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, 
     // Add or replace the original path BND in the lvl
     inputLvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), std::move(pathBndFile).Data());
 
+    // TODO: Rebuild cameras/FG1 and embedded resource blocks
+
+
     // Write out the updated lvl to disk
     if (!inputLvl.Save(fileDataBuffer, outputLvlFile.c_str()))
     {
