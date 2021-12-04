@@ -145,8 +145,8 @@ public:
     EXPORT Camera* Create_Camera_4829E0(s16 xpos, s16 ypos, s32 a4);
     EXPORT static void CCSTD Load_Path_Items_482C10(Camera* pCamera, LoadMode loadMode);
 
-    EXPORT static void CC LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
-    EXPORT static void CC LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad = FALSE);
+    EXPORT static void CC LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = 0);
+    EXPORT static void CC LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad = 0);
 
     EXPORT s16 SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, s16 kMinus1);
 
