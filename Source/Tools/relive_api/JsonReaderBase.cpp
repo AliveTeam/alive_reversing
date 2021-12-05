@@ -78,6 +78,12 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
         cameraNameBlob.x = x;
         cameraNameBlob.y = y;
 
+        cameraNameBlob.mCameraImage = ReadOptionalString(camera, "image");
+        cameraNameBlob.mForegroundLayer = ReadOptionalString(camera, "foreground_layer");
+        cameraNameBlob.mForegroundWellLayer = ReadOptionalString(camera, "foreground_well_layer");
+        cameraNameBlob.mBackgroundLayer = ReadOptionalString(camera, "background_layer");
+        cameraNameBlob.mBackgroundWellLayer = ReadOptionalString(camera, "background_well_layer");
+
         const jsonxx::Array& mapObjectsArray = ReadArray(camera, "map_objects");
         for (auto j = 0u; j < mapObjectsArray.values().size(); j++)
         {
@@ -96,6 +102,6 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
         mapData.push_back(std::move(cameraNameBlob));
     }
 
-    return {std::move(mapData), std::move(map)};
+    return {std::move(mapData), map};
 }
 } // namespace ReliveAPI

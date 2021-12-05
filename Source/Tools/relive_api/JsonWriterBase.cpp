@@ -7,10 +7,6 @@
 #include "CamConverter.hpp"
 
 namespace ReliveAPI {
-inline s32 To1dIndex(s32 width, s32 x, s32 y)
-{
-    return x + (y * width);
-}
 
 JsonWriterBase::~JsonWriterBase() = default;
 

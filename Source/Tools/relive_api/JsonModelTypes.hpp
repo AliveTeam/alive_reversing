@@ -58,6 +58,12 @@ struct CameraNameAndTlvBlob final
     std::string mName;
     std::vector<std::vector<u8>> mTlvBlobs;
 
+    std::string mCameraImage;
+    std::string mForegroundLayer;
+    std::string mBackgroundLayer;
+    std::string mForegroundWellLayer;
+    std::string mBackgroundWellLayer;
+
     [[nodiscard]] std::size_t TotalTlvSize() const;
 };
 

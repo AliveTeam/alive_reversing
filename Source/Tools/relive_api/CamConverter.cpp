@@ -53,19 +53,13 @@ static void RGB565ToPngBuffer(const u16* camBuffer, std::vector<u8>& outPngData)
     {
         std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
     }
-    /*
-    else
-    {
-        lodepng::save_file(buffer, pFileName);
-    }
-    */
 }
 
 struct FG1Buffers
 {
-    void SetPixel(u32 layer, u32 x, u32 y, u16 pixel)
+    void MergePixel(u32 layer, u32 x, u32 y, u16 pixel)
     {
-        mFg1[layer][y][x] = pixel;
+        mFg1[layer][y][x] |= pixel;
     }
     u16 mFg1[4][240][640];
 };
@@ -93,7 +87,7 @@ public:
                       | (((pixel >> 10) & 31) << 0);
     }
 
-    void BltRect(u32 xpos, u32 ypos, u32 width, u32 height, u32 layer, const u16* pSrcPixels, const u32* pBitMask)
+    void BltRectMerged(u32 xpos, u32 ypos, u32 width, u32 height, u32 layer, const u16* pSrcPixels, const u32* pBitMask)
     {
         mUsedLayers[layer] = true;
 
@@ -126,7 +120,7 @@ public:
                         }
                     }
 
-                    mFg1Buffers->SetPixel(layer, x, y, pixelVal);
+                    mFg1Buffers->MergePixel(layer, x, y, pixelVal);
                 }
             }
         }
@@ -144,7 +138,7 @@ public:
         {
             pBitMap = reinterpret_cast<const u32*>((&rChunk) + 1);
         }
-        BltRect(rChunk.field_4_xpos_or_compressed_size,
+        BltRectMerged(rChunk.field_4_xpos_or_compressed_size,
                 rChunk.field_6_ypos,
                 rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size,
                 rChunk.field_A_height + rChunk.field_6_ypos,
@@ -155,7 +149,7 @@ public:
 
     void OnFullChunk(const Fg1Chunk& rChunk) override
     {
-        BltRect(rChunk.field_4_xpos_or_compressed_size,
+        BltRectMerged(rChunk.field_4_xpos_or_compressed_size,
                 rChunk.field_6_ypos,
                 rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size,
                 rChunk.field_A_height + rChunk.field_6_ypos,
@@ -177,7 +171,7 @@ public:
         delete ptr;
     }
 
-    void SaveLayers(CameraImageAndLayers& outData)
+    void LayersToPng(CameraImageAndLayers& outData)
     {
         for (u32 i = 0; i < 4; i++)
         {
@@ -186,6 +180,29 @@ public:
                 const u16* pPixels = &mFg1Buffers->mFg1[i][0][0];
                 RGB565ToPngBuffer(pPixels, BufferForLayer(outData, i));
             }
+        }
+    }
+
+    static void DebugSave(const CameraImageAndLayers& outData, u32 id)
+    {
+        if (!outData.mBackgroundLayer.empty())
+        {
+            lodepng::save_file(outData.mBackgroundLayer, "bg_" + std::to_string(id) + ".png");
+        }
+
+        if (!outData.mForegroundLayer.empty())
+        {
+            lodepng::save_file(outData.mForegroundLayer, "fg_" + std::to_string(id) + ".png");
+        }
+
+        if (!outData.mBackgroundWellLayer.empty())
+        {
+            lodepng::save_file(outData.mBackgroundWellLayer, "bg_well_" + std::to_string(id) + ".png");
+        }
+
+        if (!outData.mForegroundWellLayer.empty())
+        {
+            lodepng::save_file(outData.mForegroundWellLayer, "fg_well_" + std::to_string(id) + ".png");
         }
     }
 
@@ -239,7 +256,25 @@ static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, con
     }
 }
 
-CamConverterAO::CamConverterAO(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData)
+static void MergeFG1BlocksAndConvertToPng(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData, BaseFG1Reader::FG1Format format)
+{
+    // For some crazy reason there can be multiple FG1 blocks, here we squash them down into a single
+    // image for each "layer".
+    ApiFG1Reader reader(format);
+    for (u32 i = 0; i < camFile.ChunkCount(); i++)
+    {
+        if (camFile.ChunkAt(i).Header().field_8_type == ResourceManager::Resource_FG1)
+        {
+            reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(camFile.ChunkAt(i).Data().data()));
+        }
+    }
+
+    reader.LayersToPng(outData);
+
+    //ApiFG1Reader::DebugSave(outData, camFile.ChunkByType(ResourceManager::Resource_Bits)->Id());
+}
+
+CamConverterAO::CamConverterAO(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData, bool processFG1)
 {
     std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
     if (bitsRes)
@@ -257,15 +292,26 @@ CamConverterAO::CamConverterAO(const ChunkedLvlFile& camFile, CameraImageAndLaye
             pIter += (slice_len / sizeof(s16));
         }
         RGB565ToPngBuffer(camBuffer, outData.mCameraImage);
+        if (processFG1)
+        {
+            MergeFG1BlocksAndConvertToPng(camFile, outData, BaseFG1Reader::FG1Format::AO);
+        }
     }
 
-    std::optional<LvlFileChunk> fg1Res = camFile.ChunkByType(ResourceManager::Resource_FG1);
-    if (fg1Res)
+}
+
+static bool AEcamIsAOCam(const LvlFileChunk& bitsRes)
+{
+    const u16* pIter = reinterpret_cast<const u16*>(bitsRes.Data().data());
+    for (s16 xpos = 0; xpos < 640; xpos += 16)
     {
-        ApiFG1Reader reader(BaseFG1Reader::FG1Format::AO);
-        reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(fg1Res->Data().data()));
-        reader.SaveLayers(outData);
+        const u16 stripSize = *pIter;
+        if (stripSize != (16 * 240 * sizeof(u16)))
+        {
+            return false;
+        }
     }
+    return true;
 }
 
 CamConverterAE::CamConverterAE(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData)
@@ -273,33 +319,33 @@ CamConverterAE::CamConverterAE(const ChunkedLvlFile& camFile, CameraImageAndLaye
     std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
     if (bitsRes)
     {
-        u16 camBuffer[640 * 240] = {};
-        u8 vlcBuffer[0x7E00] = {};
-        CamDecompressor decompressor;
-        const u16* pIter = reinterpret_cast<const u16*>(bitsRes->Data().data());
-        for (s16 xpos = 0; xpos < 640; xpos += 16)
+        if (AEcamIsAOCam(*bitsRes))
         {
-            const u16 stripSize = *pIter;
-            pIter++;
-
-            if (stripSize > 0)
-            {
-                decompressor.vlc_decode(pIter, reinterpret_cast<u16*>(vlcBuffer));
-                decompressor.process_segment(reinterpret_cast<u16*>(vlcBuffer), 0);
-                AppendCamSegment(xpos, 0, 16, 240, camBuffer, decompressor.mDecompressedStrip);
-            }
-
-            pIter += (stripSize / sizeof(u16));
+            CamConverterAO aoCam(camFile, outData, false);
         }
-        RGB565ToPngBuffer(camBuffer, outData.mCameraImage);
-    }
+        else
+        {
+            u16 camBuffer[640 * 240] = {};
+            u8 vlcBuffer[0x7E00] = {};
+            CamDecompressor decompressor;
+            const u16* pIter = reinterpret_cast<const u16*>(bitsRes->Data().data());
+            for (s16 xpos = 0; xpos < 640; xpos += 16)
+            {
+                const u16 stripSize = *pIter;
+                pIter++;
 
-    std::optional<LvlFileChunk> fg1Res = camFile.ChunkByType(ResourceManager::Resource_FG1);
-    if (fg1Res)
-    {
-        ApiFG1Reader reader(BaseFG1Reader::FG1Format::AE);
-        reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(fg1Res->Data().data()));
-        reader.SaveLayers(outData);
+                if (stripSize > 0)
+                {
+                    decompressor.vlc_decode(pIter, reinterpret_cast<u16*>(vlcBuffer));
+                    decompressor.process_segment(reinterpret_cast<u16*>(vlcBuffer), 0);
+                    AppendCamSegment(xpos, 0, 16, 240, camBuffer, decompressor.mDecompressedStrip);
+                }
+
+                pIter += (stripSize / sizeof(u16));
+            }
+            RGB565ToPngBuffer(camBuffer, outData.mCameraImage);
+            MergeFG1BlocksAndConvertToPng(camFile, outData, BaseFG1Reader::FG1Format::AE);
+        }
     }
 }
 } // namespace ReliveAPI

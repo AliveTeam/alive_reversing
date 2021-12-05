@@ -13,11 +13,13 @@
 #include "JsonWriterAE.hpp"
 #include "JsonWriterAO.hpp"
 #include "JsonMapRootInfoReader.hpp"
-#include <iostream>
 #include "TypesCollectionBase.hpp"
+#include "Base64.hpp"
+#include <iostream>
 #include <gmock/gmock.h>
 #include <type_traits>
 #include <typeindex>
+#include <lodepng/lodepng.h>
 
 bool RunningAsInjectedDll()
 {
@@ -404,8 +406,135 @@ static void WriteCollisionLine(ByteStream& s, const ::PathLine& line)
     s.Write(line.field_12_line_length);
 }
 
+static u32 CamBitsIdFromName(const std::string& pCamName)
+{
+    if (pCamName.length() < 7)
+    {
+        // todo: throw
+        LOG_WARNING("Bad camera name, can't get resource id " << pCamName);
+        return 0;
+    }
+    // Given R1P20C15 returns 2015
+    return 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0') + 100 * (pCamName[4] - '0') + 1000 * (pCamName[3] - '0');
+}
+
+static u16 RGB888ToRGB565(const u8* rgb888Pixel)
+{
+    const u8 red = rgb888Pixel[0];
+    const u8 green = rgb888Pixel[1];
+    const u8 blue = rgb888Pixel[2];
+
+    const u16 b = (blue >> 3) & 0x1f;
+    const u16 g = ((green >> 2) & 0x3f) << 5;
+    const u16 r = ((red >> 3) & 0x1f) << 11;
+
+    return (r | g | b);
+}
+
+static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::vector<CameraNameAndTlvBlob>& camerasAndMapObjects)
+{
+    // Rebuild cameras/FG1 and embedded resource blocks
+    for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
+    {
+        // Get camera ID from the name for the Bits chunk
+        if (!camIter.mName.empty())
+        {
+            const u32 bitsId = CamBitsIdFromName(camIter.mName);
+
+            // Load existing .CAM if possible so existing additional resource blocks don't get removed by
+            // re-creating the CAM from scratch.
+            ChunkedLvlFile camFile;
+            if (inputLvl.ReadFileInto(fileDataBuffer, (camIter.mName + ".CAM").c_str()))
+            {
+                camFile = ChunkedLvlFile(fileDataBuffer);
+            }
+
+            unsigned width = 0;
+            unsigned height = 0;
+            std::vector<u8> rawPixels;
+            std::vector<u8> pngData = FromBase64(camIter.mCameraImage);
+            const auto error = lodepng::decode(rawPixels, width, height, pngData, LCT_RGBA, 8);
+            if (error)
+            {
+                // todo: throw
+            }
+
+            if (width != 640 || height != 240)
+            {
+                // todo: throw
+            }
+
+            // Arrage pixel data in strips and RGB888 -> RGB565
+            struct CamStrip final
+            {
+                u16 mStripLen = 16 * 240 * sizeof(u16);
+                u16 mStrip[240][16] = {};
+            };
+
+            struct CamImageStrips final
+            {
+            public:
+                void SetPixel(u32 x, u32 y, u16 pixel)
+                {
+                    const u32 stripNum = x / 16;
+                    const u32 xPixel = x % 16;
+                    mStrips[stripNum].mStrip[y][xPixel] = pixel;
+                }
+
+                std::vector<u8> ToVector() const
+                {
+                    std::vector<u8> r;
+                    const u32 totalLengthDataSize = (640 / 16) * sizeof(u16);
+                    const u32 totalStripDataSize = (640 / 16) * (16 * 240) * sizeof(u16);
+                    r.resize(totalLengthDataSize + totalStripDataSize);
+
+                    u16* pStream = reinterpret_cast<u16*>(r.data());
+
+                    u32 pos = 0;
+                    for (u32 i = 0; i < 640 / 16; i++)
+                    {
+                        pStream[pos] = mStrips[i].mStripLen;
+                        pos++;
+
+                        memcpy(pStream + pos, &mStrips[i].mStrip[0][0], mStrips[i].mStripLen);
+                        pos += mStrips[i].mStripLen / sizeof(u16);
+                    }
+                    return r;
+                }
+
+            private:
+                CamStrip mStrips[640 / 16];
+            };
+
+            CamImageStrips bitsData;
+            for (u32 x = 0; x < 640; x++)
+            {
+                for (u32 y = 0; y < 240; y++)
+                {
+                    const u32* pPixel32 = &reinterpret_cast<const u32*>(rawPixels.data())[To1dIndex(640, x, y)];
+                    bitsData.SetPixel(x, y, RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)));
+                }
+            }
+
+            LvlFileChunk bitsChunk(bitsId, ResourceManager::Resource_Bits, bitsData.ToVector());
+            camFile.AddChunk(std::move(bitsChunk));
+
+            // TODO: Remove FG1 blocks
+
+            // TODO: FG1 blocks use id BitsId << 8 + idx
+
+            // TODO: Iterate in 32x16 blocks, creating full or partial blocks as needed
+
+            // TODO: Add reconstructed single FG1 block
+
+            // Add or update the CAM file
+            inputLvl.AddFile((camIter.mName + ".CAM").c_str(), camFile.Data());
+        }
+    }
+}
+
 template <typename JsonReaderType>
-static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile)
+static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile, bool skipCamsAndFG1)
 {
     JsonReaderType doc;
     auto [camerasAndMapObjects, collisionLines] = doc.Load(jsonInputFile);
@@ -570,8 +699,10 @@ static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, 
     // Add or replace the original path BND in the lvl
     inputLvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), std::move(pathBndFile).Data());
 
-    // TODO: Rebuild cameras/FG1 and embedded resource blocks
-
+    if (!skipCamsAndFG1)
+    {
+        ImportCamerasAndFG1(fileDataBuffer, inputLvl, camerasAndMapObjects);
+    }
 
     // Write out the updated lvl to disk
     if (!inputLvl.Save(fileDataBuffer, outputLvlFile.c_str()))
@@ -580,7 +711,7 @@ static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, 
     }
 }
 
-void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/)
+void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/, bool skipCamerasAndFG1)
 {
     JsonMapRootInfoReader rootInfo;
     rootInfo.Read(jsonInputFile);
@@ -592,18 +723,18 @@ void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, const std::string& 
 
     if (rootInfo.mMapRootInfo.mGame == "AO")
     {
-        SaveBinaryPathToLvl<JsonReaderAO>(fileDataBuffer, Game::AO, jsonInputFile, inputLvl, outputLvlFile);
+        SaveBinaryPathToLvl<JsonReaderAO>(fileDataBuffer, Game::AO, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1);
     }
     else
     {
-        SaveBinaryPathToLvl<JsonReaderAE>(fileDataBuffer, Game::AE, jsonInputFile, inputLvl, outputLvlFile);
+        SaveBinaryPathToLvl<JsonReaderAE>(fileDataBuffer, Game::AE, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1);
     }
 }
 
 void ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& lvlResourceSources)
 {
     std::vector<u8> buffer;
-    ImportPathJsonToBinary(buffer, jsonInputFile, inputLvl, outputLvlFile, lvlResourceSources);
+    ImportPathJsonToBinary(buffer, jsonInputFile, inputLvl, outputLvlFile, lvlResourceSources, false);
 }
 
 [[nodiscard]] EnumeratePathsResult EnumeratePaths(std::vector<u8>& fileDataBuffer, const std::string& inputLvlFile)

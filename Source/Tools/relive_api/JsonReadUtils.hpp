@@ -47,4 +47,15 @@ namespace ReliveAPI {
 
     return o.get<jsonxx::String>(key);
 }
+
+[[nodiscard]] inline std::string ReadOptionalString(const jsonxx::Object& o, const std::string& key)
+{
+    if (!o.has<jsonxx::String>(key))
+    {
+        return "";
+    }
+
+    return o.get<jsonxx::String>(key);
+}
+
 } // namespace ReliveAPI
