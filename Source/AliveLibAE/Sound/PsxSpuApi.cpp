@@ -9,6 +9,7 @@
 #include "PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
 #include "../AliveLibAE/Io.hpp"
 #include <assert.h>
+#include <thread>
 
 struct VagAtr final
 {
@@ -1346,9 +1347,40 @@ EXPORT void CC SsSetTickMode_4FDC20(s32)
     // Stub
 }
 
+EXPORT bool CC SsSeqCalledTbyT_4FDC80_sleep_until_due_time_if_before_max_time(SYS_time_point_t current_time, SYS_time_point_t max_time)
+{
+    if (!gSpuVars->sbDisableSeqs())
+    {
+        const auto lastTime = gSpuVars->sLastTime();
+        if (lastTime == 0xFFFFFFFF)
+        {
+            return true;
+        }
+        else
+        {
+            const auto nextDueTime = lastTime + 30;
+
+            if ((s32) (SYS_AsU32Ms(max_time) - nextDueTime) < 0)
+            {
+                // we won't make it in time, skip
+                return false;
+            }
+
+            const auto timeToWait = (s32) (nextDueTime - SYS_AsU32Ms(current_time));
+            if (timeToWait <= 0)
+            {
+                // we're late or right on time, hurry!
+                return true;
+            }
+
+            std::this_thread::sleep_for(std::chrono::milliseconds{timeToWait});
+            return true;
+        }
+    }
+    return false;
+}
+
 // TODO: Removed 4FDC30
-
-
 EXPORT void CC SsSeqCalledTbyT_4FDC80()
 {
     if (!gSpuVars->sbDisableSeqs())
@@ -1356,9 +1388,10 @@ EXPORT void CC SsSeqCalledTbyT_4FDC80()
         const u32 currentTime = SYS_GetTicks();
         gSpuVars->sMidiTime() = currentTime;
         // First time or 30 passed?
-        if (gSpuVars->sLastTime() == 0xFFFFFFFF || (s32)(currentTime - gSpuVars->sLastTime()) >= 30)
+        auto& lastTime = gSpuVars->sLastTime();
+        if (lastTime == 0xFFFFFFFF || (s32) (currentTime - lastTime) >= 30)
         {
-            gSpuVars->sLastTime() = currentTime;
+            lastTime = currentTime;
             for (s32 i = 0; i < kNumChannels; i++)
             {
                 if (gSpuVars->sMidiSeqSongs(i).field_0_seq_data)

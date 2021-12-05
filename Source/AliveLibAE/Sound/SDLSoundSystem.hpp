@@ -3,6 +3,8 @@
 #include "Sound.hpp"
 #include "SoundSDL.hpp"
 #include <thread>
+#include <condition_variable>
+#include <mutex>
 
 #define CI_DISABLE_ASSERTS
 #include <cinder/audio/dsp/RingBuffer.h>
@@ -53,6 +55,11 @@ private:
     std::vector<StereoSample_S16> mTempSoundBuffer;
     std::vector<StereoSample_S16> mNoReverbBuffer;
     cinder::audio::dsp::RingBufferT<StereoSample_S16> mAudioRingBuffer;
+
+    // to avoid busy loop
+    std::mutex mAudioRingBufferMutex;
+    std::condition_variable mAudioRingBufferConditionVariable;
+
     std::atomic_bool mRenderAudioThreadQuit{false};
     std::unique_ptr<std::thread> mRenderAudioThread;
 

@@ -13,16 +13,19 @@
     abort();
 }
 
+SYS_time_point_t SYS_GetTime()
+{
+    return std::chrono::steady_clock::now();
+}
+
+u32 SYS_AsU32Ms(SYS_time_point_t t)
+{
+    return (u32) std::chrono::duration_cast<std::chrono::milliseconds>(t.time_since_epoch()).count();
+}
 
 u32 SYS_GetTicks()
 {
-#if USE_SDL2
-    // Using this instead of SDL_GetTicks resolves a weird x64 issue on windows where
-    // the tick returned is a lot faster on some machines.
-    return static_cast<u32>(SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000));
-#else
-    return timeGetTime();
-#endif
+    return SYS_AsU32Ms(SYS_GetTime());
 }
 
 MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char_type* message, const char_type* title, MessageBoxType type)

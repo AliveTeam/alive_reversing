@@ -2,6 +2,7 @@
 
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "relive_config.h"
+#include <chrono>
 
 #if _WIN32
 using TWindowProcFilter = LRESULT(CC*)(HWND, UINT, WPARAM, LPARAM);
@@ -77,4 +78,7 @@ inline void Alive_Show_ErrorMsg(const char_type* msg)
 
 [[noreturn]] void ALIVE_FATAL(const char_type* errMsg);
 
+using SYS_time_point_t = std::chrono::steady_clock::time_point;
+SYS_time_point_t SYS_GetTime();
+u32 SYS_AsU32Ms(SYS_time_point_t);
 u32 SYS_GetTicks();

@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Sound/Sound.hpp"
 #include "Io.hpp"
+#include "Sys_common.hpp"
 
 struct ProgAtr final
 {
@@ -238,6 +239,12 @@ using TVSyncCallBackFn = void(CC*)();
 EXPORT void CC VSyncCallback_4F8C40(TVSyncCallBackFn callBack);
 EXPORT void CC SND_CallBack_4020A4(); // TODO: Naming??
 EXPORT void CC SsSeqCalledTbyT_4FDC80();
+
+// returns 
+//    true, after having slept for the correct duration, if SsSeqCalledTbyT_4FDC80 must be called
+//    false if time to wait would have gone over max_time
+// Note that this does *not* call SsSeqCalledTbyT_4FDC80
+EXPORT bool CC SsSeqCalledTbyT_4FDC80_sleep_until_due_time_if_before_max_time(SYS_time_point_t current_time, SYS_time_point_t max_time);
 
 // Most likely PC specific extensions that have been inlined
 void SsExt_CloseAllVabs();

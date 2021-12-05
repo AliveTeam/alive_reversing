@@ -100,6 +100,11 @@ HRESULT SDLSoundSystem::Release()
 
         // Stop audio rendering thread
         mRenderAudioThreadQuit = true;
+        {
+            std::lock_guard g{mAudioRingBufferMutex};
+            mAudioRingBufferConditionVariable.notify_one();
+        }
+
         if (mRenderAudioThread && mRenderAudioThread->joinable())
         {
             mRenderAudioThread->join();
@@ -139,6 +144,11 @@ void SDLSoundSystem::AudioCallBack(Uint8* stream, s32 len)
     {
         LOG_ERROR("Ring buffer read failure!");
     }
+
+    {
+        std::lock_guard g{mAudioRingBufferMutex};
+        mAudioRingBufferConditionVariable.notify_one();
+    }
 }
 
 
@@ -158,6 +168,12 @@ void SDLSoundSystem::RenderAudioThread()
                 // Couldn't write all the data, should never happen ??
                 LOG_ERROR("Ring buffer write failed");
             }
+        }
+        else
+        {
+            std::unique_lock g{mAudioRingBufferMutex};
+            mAudioRingBufferConditionVariable.wait(g, [&]
+                                                   { return mRenderAudioThreadQuit || mAudioRingBuffer.getAvailableWrite() > 0; });
         }
     }
     LOG_INFO("Quit");
