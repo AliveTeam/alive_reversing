@@ -72,6 +72,11 @@ private:
 class ChunkedLvlFile final
 {
 public:
+    ChunkedLvlFile()
+    {
+
+    }
+
     explicit ChunkedLvlFile(const std::vector<u8>& data)
     {
         Read(data);
@@ -149,6 +154,16 @@ public:
         }
 
         return std::move(s).GetBuffer();
+    }
+
+    const u32 ChunkCount() const
+    {
+        return static_cast<u32>(mChunks.size());
+    }
+
+    const LvlFileChunk& ChunkAt(u32 idx) const
+    {
+        return mChunks[idx];
     }
 
 private:
