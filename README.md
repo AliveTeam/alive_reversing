@@ -70,7 +70,7 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 2. `cd build`
 3. `cmake -S .. -B .`
 4. `make -j$(nproc)`
-5. You'll find your executables in the `Source` folder under `AliveExe`.
+5. You'll find your executable in the `Source` folder under `relive`.
 6. You can optionally install the package using `make install` or create a Debian-compatible package using `cpack -G DEB`.
 
 </details>
