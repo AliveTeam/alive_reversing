@@ -322,6 +322,9 @@ CamConverterAE::CamConverterAE(const ChunkedLvlFile& camFile, CameraImageAndLaye
         if (AEcamIsAOCam(*bitsRes))
         {
             CamConverterAO aoCam(camFile, outData, false);
+
+            // While its image data is AO format the FG1 is still AE format
+            MergeFG1BlocksAndConvertToPng(camFile, outData, BaseFG1Reader::FG1Format::AE);
         }
         else
         {
