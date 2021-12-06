@@ -56,6 +56,51 @@ public:
     virtual u8** Allocate(u32 len) = 0;
     virtual void Deallocate(u8** ptr) = 0;
 
+    static FG1Format DetectFormat(const FG1ResourceBlockHeader* pHeader)
+    {
+        const Fg1Chunk* pChunkIter = &pHeader->mChunks;
+
+        for (;;) // Exit when we hit the end chunk
+        {
+            switch (pChunkIter->field_0_type)
+            {
+                case ePartialChunk:
+                {
+                    // Would have gotten eStartCompressedData for ePartialChunk if it was AO format
+                    return FG1Format::AE;
+                }
+                break;
+
+                case eFullChunk:
+                {
+                     // Move to the next FG1 data from disk
+                    pChunkIter++;
+                }
+                break;
+
+                case eStartCompressedData:
+                {
+                    return FG1Format::AO;
+                }
+                break;
+
+                case eEndCompressedData:
+                {
+                    return FG1Format::AO;
+                }
+                break;
+
+                case eEndChunk:
+                {
+                    ALIVE_FATAL("Unknown FG1 type (hit end before any blocks)");
+                }
+
+                default:
+                    ALIVE_FATAL("Unknown FG1 block type");
+            }
+        }
+    }
+
     void Iterate(const FG1ResourceBlockHeader* pHeader)
     {
         const Fg1Chunk* pChunkIter = &pHeader->mChunks;
