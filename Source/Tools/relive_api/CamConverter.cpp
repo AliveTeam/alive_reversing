@@ -25,14 +25,19 @@ static u32 RGB565ToRGB888(u16 pixel)
     return rgb888;
 }
 
-static void RGB565ToPngBuffer(const u16* camBuffer, std::vector<u8>& outPngData)
+struct TmpBuffer final
 {
     u32 dst[240][640] = {};
+};
+
+static void RGB565ToPngBuffer(const u16* camBuffer, std::vector<u8>& outPngData)
+{
+    auto tmpBuffer = std::make_unique<TmpBuffer>();
     for (u32 y = 0; y < 240; y++)
     {
         for (u32 x = 0; x < 640; x++)
         {
-            dst[y][x] = RGB565ToRGB888(*camBuffer);
+            tmpBuffer->dst[y][x] = RGB565ToRGB888(*camBuffer);
             camBuffer++;
         }
     }
@@ -48,7 +53,7 @@ static void RGB565ToPngBuffer(const u16* camBuffer, std::vector<u8>& outPngData)
     state.info_png.color.bitdepth = 8;
     state.encoder.auto_convert = 0; // without this, it would ignore the output color type specified above and choose an optimal one instead
 
-    const auto error = lodepng::encode(outPngData, reinterpret_cast<const u8*>(&dst[0][0]), 640, 240, state);
+    const auto error = lodepng::encode(outPngData, reinterpret_cast<const u8*>(&tmpBuffer->dst[0][0]), 640, 240, state);
     if (error)
     {
         std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
@@ -283,19 +288,19 @@ CamConverterAO::CamConverterAO(const ChunkedLvlFile& camFile, CameraImageAndLaye
     std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
     if (bitsRes)
     {
-        u16 camBuffer[640 * 240] = {};
+        std::vector<u16> camBuffer(640 * 240);
         const u16* pIter = reinterpret_cast<const u16*>(bitsRes->Data().data());
         for (s16 xpos = 0; xpos < 640; xpos += 16)
         {
             const u16 slice_len = *pIter;
             pIter++; // Skip len
 
-            AppendCamSegment(xpos, 0, 16, 240, camBuffer, pIter);
+            AppendCamSegment(xpos, 0, 16, 240, camBuffer.data(), pIter);
 
             // To next slice
             pIter += (slice_len / sizeof(s16));
         }
-        RGB565ToPngBuffer(camBuffer, outData.mCameraImage);
+        RGB565ToPngBuffer(camBuffer.data(), outData.mCameraImage);
         if (processFG1)
         {
             MergeFG1BlocksAndConvertToPng(camFile, outData);
@@ -332,8 +337,8 @@ CamConverterAE::CamConverterAE(const ChunkedLvlFile& camFile, CameraImageAndLaye
         }
         else
         {
-            u16 camBuffer[640 * 240] = {};
-            u8 vlcBuffer[0x7E00] = {};
+            std::vector<u16> camBuffer(640 * 240);
+            std::vector<u8> vlcBuffer(0x7E00);
             CamDecompressor decompressor;
             const u16* pIter = reinterpret_cast<const u16*>(bitsRes->Data().data());
             for (s16 xpos = 0; xpos < 640; xpos += 16)
@@ -343,14 +348,14 @@ CamConverterAE::CamConverterAE(const ChunkedLvlFile& camFile, CameraImageAndLaye
 
                 if (stripSize > 0)
                 {
-                    decompressor.vlc_decode(pIter, reinterpret_cast<u16*>(vlcBuffer));
-                    decompressor.process_segment(reinterpret_cast<u16*>(vlcBuffer), 0);
-                    AppendCamSegment(xpos, 0, 16, 240, camBuffer, decompressor.mDecompressedStrip);
+                    decompressor.vlc_decode(pIter, reinterpret_cast<u16*>(vlcBuffer.data()));
+                    decompressor.process_segment(reinterpret_cast<u16*>(vlcBuffer.data()), 0);
+                    AppendCamSegment(xpos, 0, 16, 240, camBuffer.data(), decompressor.mDecompressedStrip);
                 }
 
                 pIter += (stripSize / sizeof(u16));
             }
-            RGB565ToPngBuffer(camBuffer, outData.mCameraImage);
+            RGB565ToPngBuffer(camBuffer.data(), outData.mCameraImage);
             MergeFG1BlocksAndConvertToPng(camFile, outData);
         }
     }
