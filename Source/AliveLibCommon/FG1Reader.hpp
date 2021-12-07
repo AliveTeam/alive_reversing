@@ -92,11 +92,18 @@ public:
 
                 case eEndChunk:
                 {
-                    ALIVE_FATAL("Unknown FG1 type (hit end before any blocks)");
+                    // For some reason this can happen before any blocks, just return AE in this instance
+                    return FG1Format::AE;
                 }
 
                 default:
-                    ALIVE_FATAL("Unknown FG1 block type");
+                {
+                    // It appears that we actually can get ePartialChunk without eStartCompressedData in AO
+                    // which can result in pointing into some random part of the data stream. Do an el hacko
+                    // and take this to mean its AO format.
+                    return FG1Format::AO;
+                }
+
             }
         }
     }

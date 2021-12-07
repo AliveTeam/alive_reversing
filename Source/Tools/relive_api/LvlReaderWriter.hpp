@@ -107,6 +107,22 @@ public:
         return {};
     }
 
+    void RemoveChunksOfType(u32 type)
+    {
+        auto it = mChunks.begin();
+        while (it != mChunks.end())
+        {
+            if (it->Header().field_8_type == type)
+            {
+                it = mChunks.erase(it);
+            }
+            else
+            {
+                it++;
+            }
+        }
+    }
+
     void AddChunk(LvlFileChunk&& chunkToAdd)
     {
         for (auto& chunk : mChunks)
