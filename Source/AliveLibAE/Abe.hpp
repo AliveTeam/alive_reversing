@@ -271,7 +271,7 @@ enum class StoneStates : u16
     eCircularFadeExit_7 = 7,
 };
 
-enum class DoorStates : u16
+enum class AbeDoorStates : u16
 {
     eAbeComesIn_0 = 0,
     ePadding_1 = 1,
@@ -302,7 +302,7 @@ union AllInternalStates
 {
     ChantStates chant;
     StoneStates stone;
-    DoorStates door;
+    AbeDoorStates door;
     WorkWheelStates wheel;
     u16 raw;
 };

@@ -142,6 +142,20 @@ void TypesCollectionAE::AddAETypes()
 
 #undef REGISTER_TYPE_AE
 
+        AddEnum<PathWipeEffects>("Enum_PathWipeEffects",
+                               {
+                                   {PathWipeEffects::ePlay1FMV_0, "Play 1 FMV"},
+                                   {PathWipeEffects::eRightToLeft_1, "Right To Left"},
+                                   {PathWipeEffects::eLeftToRight_2, "Left To Right"},
+                                   {PathWipeEffects::eBottomToTop_3, "Bottom To Top"},
+                                   {PathWipeEffects::eTopToBottom_4, "Top To Bottom"},
+                                   {PathWipeEffects::eBoxOut_5, "Box Out"},
+                                   {PathWipeEffects::eVerticalSplit_6, "Left To Vertical Split"},
+                                   {PathWipeEffects::eHorizontalSplit_7, "Horizontal Split"},
+                                   {PathWipeEffects::eUnknown_8, "Unknown"},
+                                   {PathWipeEffects::eInstantChange_9, "Instant Change"}
+                               });
+
     AddEnum<CameraSwapEffects>("Enum_CameraSwapEffects",
                                {
                                    {CameraSwapEffects::eInstantChange_0, "Instant Change"},
@@ -149,14 +163,20 @@ void TypesCollectionAE::AddAETypes()
                                    {CameraSwapEffects::eRightToLeft_2, "Right To Left"},
                                    {CameraSwapEffects::eTopToBottom_3, "Top To Bottom"},
                                    {CameraSwapEffects::eBottomToTop_4, "Bottom To Top"},
-                                   {CameraSwapEffects::ePlay1FMV_5, "1 FMV"},
+                                   {CameraSwapEffects::ePlay1FMV_5, "Play 1 FMV"},
                                    {CameraSwapEffects::eVerticalSplit_6, "Left To Vertical Split"},
                                    {CameraSwapEffects::eHorizontalSplit_7, "Horizontal Split"},
                                    {CameraSwapEffects::eBoxOut_8, "Box Out"},
-                                   {CameraSwapEffects::ePlay2FMVs_9, "2 FMV"},
-                                   {CameraSwapEffects::ePlay3FMVs_10, "3 FMV"},
+                                   {CameraSwapEffects::ePlay2FMVs_9, "Play 2 FMV's"},
+                                   {CameraSwapEffects::ePlay3FMVs_10, "Play 3 FMV's"},
                                    {CameraSwapEffects::eUnknown_11, "Unknown"},
                                });
+
+    AddEnum<Choice_int>("Enum_Choice_int",
+                          {
+                              {Choice_int::eNo_0, "No"},
+                              {Choice_int::eYes_1, "Yes"},
+                          });
 
     AddEnum<Choice_short>("Enum_Choice_short",
                           {

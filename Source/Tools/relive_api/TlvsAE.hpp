@@ -364,40 +364,55 @@ struct Path_LCDStatusBoard final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Number Of Mudokons", mTlv.field_10_number_of_muds);
         ADD("Zulag Number", mTlv.field_12_zulag_number);
-        ADD("Hidden", mTlv.field_14_hidden);
+        ADD("Hide Board", mTlv.field_14_hidden);
     }
 };
 
 struct Path_Door final : public ReliveAPI::TlvObjectBaseAE
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<::DoorStates>("Enum_DoorStates",
+                                   {{::DoorStates::eOpen_0, "Open"},
+                                    {::DoorStates::eClosed_1, "Closed"},
+                                    {::DoorStates::eOpening_2, "Opening"},
+                                    {::DoorStates::eClosing_3, "Closing"}});
+
+        types.AddEnum<::DoorTypes>("Enum_DoorTypes",
+                                       {{::DoorTypes::eBasicDoor_0, "Basic Door"},
+                                       {::DoorTypes::eDoorPadding_1, "Padding (ignore)"},
+                                       {::DoorTypes::eTasksDoorWithSecretMusic_2, "Tasks Door With Secret Music"},
+                                       {::DoorTypes::eTasksDoor_3, "Tasks Door"}});
+    }
+
     CTOR_AE(Path_Door, "Door", TlvTypes::Door_5)
     {
-        ADD("level", mTlv.field_10_level);
-        ADD("path", mTlv.field_12_path);
-        ADD("camera", mTlv.field_14_camera);
-        ADD("scale", mTlv.field_16_scale);
-        ADD("door_number", mTlv.field_18_door_number);
-        ADD("id", mTlv.field_1A_id);
-        ADD("target_door_number", mTlv.field_1C_target_door_number);
-        ADD("type", mTlv.field_1E_type);
-        ADD("start_state", mTlv.field_20_start_state);
-        ADD("hub1", mTlv.field_22_hub1);
-        ADD("hub2", mTlv.field_22_hub2);
-        ADD("hub3", mTlv.field_22_hub3);
-        ADD("hub4", mTlv.field_22_hub4);
-        ADD("hub5", mTlv.field_22_hub5);
-        ADD("hub6", mTlv.field_22_hub6);
-        ADD("hub7", mTlv.field_22_hub7);
-        ADD("hub8", mTlv.field_22_hub8);
-        ADD("wipe_effect", mTlv.field_32_wipe_effect);
-        ADD("movie_number", mTlv.field_34_movie_number);
-        ADD("x_offset", mTlv.field_36_x_offset);
-        ADD("y_offset", mTlv.field_38_y_offset);
-        ADD("wipe_x_org", mTlv.field_3A_wipe_x_org);
-        ADD("wipe_y_org", mTlv.field_3C_wipe_y_org);
-        ADD("abe_direction", mTlv.field_3E_abe_direction);
-        ADD("close_after_use", mTlv.field_40_close_after_use);
-        ADD("cancel_throwables", mTlv.field_42_cancel_throwables);
+        ADD("Level", mTlv.field_10_level);
+        ADD("Path", mTlv.field_12_path);
+        ADD("Camera", mTlv.field_14_camera);
+        ADD("Scale", mTlv.field_16_scale);
+        ADD("Reserved for OG lvls", mTlv.field_18_door_number);
+        ADD("ID", mTlv.field_1A_id);
+        ADD("Target Door ID", mTlv.field_1C_target_door_id);
+        ADD("Door Type", mTlv.field_1E_type);
+        ADD("Start State", mTlv.field_20_start_state);
+        ADD("Hub 1 ID", mTlv.field_22_hub1);
+        ADD("Hub 2 ID", mTlv.field_22_hub2);
+        ADD("Hub 3 ID", mTlv.field_22_hub3);
+        ADD("Hub 4 ID", mTlv.field_22_hub4);
+        ADD("Hub 5 ID", mTlv.field_22_hub5);
+        ADD("Hub 6 ID", mTlv.field_22_hub6);
+        ADD("Hub 7 ID", mTlv.field_22_hub7);
+        ADD("Hub 8 ID", mTlv.field_22_hub8);
+        ADD("Wipe Effect", mTlv.field_32_wipe_effect);
+        ADD("Movie Number", mTlv.field_34_movie_number);
+        ADD("X Offset", mTlv.field_36_x_offset);
+        ADD("Y Offset", mTlv.field_38_y_offset);
+        ADD("Wipe X Org (unused?)", mTlv.field_3A_wipe_x_org);
+        ADD("Wipe Y Org (unused?)", mTlv.field_3C_wipe_y_org);
+        ADD("Abe Direction On Exit", mTlv.field_3E_abe_direction);
+        ADD("Close On Exit", mTlv.field_40_close_on_exit);
+        ADD("Clear Throwables", mTlv.field_42_clear_throwables);
     }
 };
 

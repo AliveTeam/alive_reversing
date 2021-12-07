@@ -177,6 +177,12 @@ enum class XDirection_short : s16
     eRight_1 = 1,
 };
 
+enum class Choice_int : s32
+{
+    eNo_0 = 0,
+    eYes_1 = 1,
+};
+
 enum class Choice_short : s16
 {
     eNo_0 = 0,

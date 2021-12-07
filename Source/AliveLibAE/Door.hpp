@@ -4,6 +4,37 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
+enum DoorStates : s16
+{
+    eOpen_0 = 0,
+    eClosed_1 = 1,
+    eOpening_2 = 2,
+    eClosing_3 = 3,
+};
+
+enum DoorTypes : s16
+{
+    eBasicDoor_0 = 0,
+    eDoorPadding_1 = 1,
+    eTasksDoorWithSecretMusic_2 = 2,
+    eTasksDoor_3 = 3,
+};
+
+// NOTE: enum created for kPathChangeEffectToInternalScreenChangeEffect_55D55C
+enum PathWipeEffects : s16
+{
+    ePlay1FMV_0 = 0,
+    eRightToLeft_1 = 1,
+    eLeftToRight_2 = 2,
+    eBottomToTop_3 = 3,
+    eTopToBottom_4 = 4,
+    eBoxOut_5 = 5,
+    eVerticalSplit_6 = 6,
+    eHorizontalSplit_7 = 7,
+    eUnknown_8 = 8,
+    eInstantChange_9 = 9,
+};
+
 struct Path_Door final : public Path_TLV
 {
     LevelIds field_10_level;
@@ -12,9 +43,9 @@ struct Path_Door final : public Path_TLV
     Scale_short field_16_scale;
     s16 field_18_door_number;
     s16 field_1A_id;
-    s16 field_1C_target_door_number;
-    s16 field_1E_type;
-    s16 field_20_start_state;
+    s16 field_1C_target_door_id;
+    DoorTypes field_1E_type;
+    DoorStates field_20_start_state;
     s16 field_22_hub1;
     s16 field_22_hub2;
     s16 field_22_hub3;
@@ -23,29 +54,21 @@ struct Path_Door final : public Path_TLV
     s16 field_22_hub6;
     s16 field_22_hub7;
     s16 field_22_hub8;
-    s16 field_32_wipe_effect;
+    PathWipeEffects field_32_wipe_effect;
     s16 field_34_movie_number;
     s16 field_36_x_offset;
     s16 field_38_y_offset;
     s16 field_3A_wipe_x_org;
     s16 field_3C_wipe_y_org;
-    s16 field_3E_abe_direction;
-    s16 field_40_close_after_use;
-    s16 field_42_cancel_throwables;
+    XDirection_short field_3E_abe_direction;
+    Choice_short field_40_close_on_exit;
+    Choice_short field_42_clear_throwables;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x44);
 
 class Door : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    enum eStates
-    {
-        eOpen_0 = 0,
-        eClosed_1 = 1,
-        eOpening_2 = 2,
-        eClosing_3 = 3,
-    };
-
     EXPORT Door* ctor_41E250(Path_Door* pTlvData, s32 tlvInfo);
     EXPORT Bool32 vIsOpen_41EB00();
     EXPORT void vOpen_41EB20();
@@ -69,21 +92,14 @@ private:
 
 protected:
     s32 field_F4_tlvInfo;
-    enum DoorTypes
-    {
-        eBasicDoor_0 = 0,
-        ePadding_1 = 1,
-        eTasksWithSecretMusicDoor_2 = 2,
-        eTasksDoor_3 = 3,
-    };
-    s16 field_F8_door_type;
+    DoorTypes field_F8_door_type;
 
 public:
     s16 field_FA_door_number;
 
 protected:
-    s16 field_FC_current_state;
-    s16 field_FE_start_state;
+    DoorStates field_FC_current_state;
+    DoorStates field_FE_start_state;
 
     s16 field_100_switch_id;
     s16 field_102_hub_ids[8];

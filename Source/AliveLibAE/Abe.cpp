@@ -3206,7 +3206,7 @@ void Abe::Motion_0_Idle_44EEB0()
                     if (NearDoorIsOpen_44EE10() && !field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
                     {
                         field_FC_pPathTLV = pTlv;
-                        field_120_state.door = DoorStates::eAbeComesIn_0;
+                        field_120_state.door = AbeDoorStates::eAbeComesIn_0;
                         field_106_current_motion = eAbeMotions::Motion_114_DoorEnter_459470;
                     }
                     else
@@ -7850,31 +7850,31 @@ void Abe::Motion_114_DoorEnter_459470()
 {
     switch (field_120_state.door)
     {
-        case DoorStates::eAbeComesIn_0:
+        case AbeDoorStates::eAbeComesIn_0:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_120_state.door = DoorStates::eWaitABit_2;
+                field_120_state.door = AbeDoorStates::eWaitABit_2;
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_128.field_0_abe_timer = sGnFrame_5C1B84 + 3;
             }
             return;
 
-        case DoorStates::eWaitABit_2:
+        case AbeDoorStates::eWaitABit_2:
             if (field_128.field_0_abe_timer <= static_cast<s32>(sGnFrame_5C1B84))
             {
-                field_120_state.door = DoorStates::eToState4_3;
+                field_120_state.door = AbeDoorStates::eToState4_3;
                 field_128.field_0_abe_timer = sGnFrame_5C1B84 + 3;
             }
             return;
 
-        case DoorStates::eToState4_3:
+        case AbeDoorStates::eToState4_3:
             if (field_128.field_0_abe_timer <= static_cast<s32>(sGnFrame_5C1B84))
             {
-                field_120_state.door = DoorStates::eSetNewActiveCamera_4;
+                field_120_state.door = AbeDoorStates::eSetNewActiveCamera_4;
             }
             return;
 
-        case DoorStates::eSetNewActiveCamera_4:
+        case AbeDoorStates::eSetNewActiveCamera_4:
         {
             Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                 FP_GetExponent(field_B8_xpos),
@@ -7885,7 +7885,7 @@ void Abe::Motion_114_DoorEnter_459470()
 
             field_FC_pPathTLV = pDoorTlv;
 
-            if (pDoorTlv->field_42_cancel_throwables)
+            if (pDoorTlv->field_42_clear_throwables == Choice_short::eYes_1)
             {
                 if (field_1A2_throwable_count > 0 && gpThrowableArray_5D1E2C)
                 {
@@ -7945,12 +7945,12 @@ void Abe::Motion_114_DoorEnter_459470()
                 pDoorTlv->field_34_movie_number,
                 bForceChange);
 
-            field_120_state.door = DoorStates::eSetNewAbePosition_5;
-            field_1A0_door_id = pDoorTlv->field_1C_target_door_number;
+            field_120_state.door = AbeDoorStates::eSetNewAbePosition_5;
+            field_1A0_door_id = pDoorTlv->field_1C_target_door_id;
         }
             return;
 
-        case DoorStates::eSetNewAbePosition_5:
+        case AbeDoorStates::eSetNewAbePosition_5:
         {
             gMap_5C3030.field_1E_door = 0;
             field_C2_lvl_number = gMap_5C3030.field_0_current_level;
@@ -7984,7 +7984,7 @@ void Abe::Motion_114_DoorEnter_459470()
             }
 
             // The door controls which way Abe faces when he exits it.
-            if (pTargetDoorTlv->field_3E_abe_direction & 1)
+            if (pTargetDoorTlv->field_3E_abe_direction == XDirection_short::eLeft_0)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
             }
@@ -8036,18 +8036,18 @@ void Abe::Motion_114_DoorEnter_459470()
             }
 
             field_10C_health = FP_FromInteger(1);
-            field_120_state.door = DoorStates::eAbeComesOut_6;
+            field_120_state.door = AbeDoorStates::eAbeComesOut_6;
             field_128.field_0_abe_timer = sGnFrame_5C1B84 + 30;
         }
             return;
 
-        case DoorStates::eAbeComesOut_6:
+        case AbeDoorStates::eAbeComesOut_6:
             if (field_128.field_0_abe_timer > static_cast<s32>(sGnFrame_5C1B84))
             {
                 return;
             }
 
-            field_120_state.door = DoorStates::eAbeComesIn_0;
+            field_120_state.door = AbeDoorStates::eAbeComesIn_0;
             if (field_100_pCollisionLine)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -8077,7 +8077,7 @@ void Abe::Motion_115_DoorExit_459A40()
                                         FP_GetExponent(field_B8_xpos),
                                         FP_GetExponent(field_BC_ypos),
                                         TlvTypes::Door_5))
-                ->field_40_close_after_use)
+                ->field_40_close_on_exit == Choice_short::eYes_1)
         {
             // TODO: Ret ignored even in real ??
             FindObjectOfType_425180(
