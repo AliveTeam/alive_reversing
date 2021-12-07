@@ -142,18 +142,18 @@ void TypesCollectionAE::AddAETypes()
 
 #undef REGISTER_TYPE_AE
 
-        AddEnum<PathWipeEffects>("Enum_PathWipeEffects",
+        AddEnum<ScreenChangeEffects>("Enum_ScreenChangeEffects",
                                {
-                                   {PathWipeEffects::ePlay1FMV_0, "Play 1 FMV"},
-                                   {PathWipeEffects::eRightToLeft_1, "Right To Left"},
-                                   {PathWipeEffects::eLeftToRight_2, "Left To Right"},
-                                   {PathWipeEffects::eBottomToTop_3, "Bottom To Top"},
-                                   {PathWipeEffects::eTopToBottom_4, "Top To Bottom"},
-                                   {PathWipeEffects::eBoxOut_5, "Box Out"},
-                                   {PathWipeEffects::eVerticalSplit_6, "Left To Vertical Split"},
-                                   {PathWipeEffects::eHorizontalSplit_7, "Horizontal Split"},
-                                   {PathWipeEffects::eUnknown_8, "Unknown"},
-                                   {PathWipeEffects::eInstantChange_9, "Instant Change"}
+                                   {ScreenChangeEffects::ePlay1FMV_0, "Play 1 FMV"},
+                                   {ScreenChangeEffects::eRightToLeft_1, "Right To Left"},
+                                   {ScreenChangeEffects::eLeftToRight_2, "Left To Right"},
+                                   {ScreenChangeEffects::eBottomToTop_3, "Bottom To Top"},
+                                   {ScreenChangeEffects::eTopToBottom_4, "Top To Bottom"},
+                                   {ScreenChangeEffects::eBoxOut_5, "Box Out"},
+                                   {ScreenChangeEffects::eVerticalSplit_6, "Left To Vertical Split"},
+                                   {ScreenChangeEffects::eHorizontalSplit_7, "Horizontal Split"},
+                                   {ScreenChangeEffects::eUnknown_8, "Unknown"},
+                                   {ScreenChangeEffects::eInstantChange_9, "Instant Change"}
                                });
 
     AddEnum<CameraSwapEffects>("Enum_CameraSwapEffects",
@@ -183,6 +183,12 @@ void TypesCollectionAE::AddAETypes()
                               {Choice_short::eNo_0, "No"},
                               {Choice_short::eYes_1, "Yes"},
                           });
+
+    AddEnum<XDirection_int>("Enum_XDirection_int",
+                              {
+                                  {XDirection_int::eLeft_0, "Left"},
+                                  {XDirection_int::eRight_1, "Right"},
+                              });
 
     AddEnum<XDirection_short>("Enum_XDirection_short",
                               {

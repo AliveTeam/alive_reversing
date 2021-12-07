@@ -13,7 +13,7 @@ struct Path_CrawlingSligButton final : public Path_TLV
     SwitchOp field_14_action;
     s16 field_16_on_sound;
     s16 field_18_off_sound;
-    SwitchSoundDirection field_1A_sound_direction;
+    s16 field_1A_sound_direction;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_CrawlingSligButton, 0x1C);
 

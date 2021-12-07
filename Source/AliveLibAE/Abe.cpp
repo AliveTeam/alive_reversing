@@ -2660,10 +2660,10 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
         else if (pTlv->field_4_type == TlvTypes::ResetSwitchRange_76)
         {
             auto pResetSwitchRange = static_cast<Path_ResetSwitchRange*>(pTlv);
-            if (pResetSwitchRange->field_1_tlv_state == 0 || pResetSwitchRange->field_1C_bEnabled)
+            if (pResetSwitchRange->field_1_tlv_state == 0 || pResetSwitchRange->field_1C_bEnabled == Choice_short::eYes_1)
             {
                 pResetSwitchRange->field_1_tlv_state = 1;
-                if (pResetSwitchRange->field_10_set_switches)
+                if (pResetSwitchRange->field_10_reset_switch_ids == Choice_short::eYes_1)
                 {
                     for (s16 i = pResetSwitchRange->field_12_start_id; i <= pResetSwitchRange->field_14_end_id; i++)
                     {
@@ -2673,7 +2673,7 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
                         }
                     }
                 }
-                if (pResetSwitchRange->field_18_free_path_res)
+                if (pResetSwitchRange->field_18_free_path_res == Choice_short::eYes_1)
                 {
                     Path::Reset_TLVs_4DBCF0(pResetSwitchRange->field_1A_path_to_free_id);
                 }
@@ -3730,7 +3730,7 @@ void Abe::Motion_3_Fall_459B60()
     bool tryToHang = false;
     if (pEdge)
     {
-        if (pEdge->field_12_bCan_grab && IsSameScaleAsEdge(pEdge, this) && (isEdgeGrabbable(pEdge, this)))
+        if (pEdge->field_12_bCan_grab == Choice_short::eYes_1 && IsSameScaleAsEdge(pEdge, this) && (isEdgeGrabbable(pEdge, this)))
         {
             tryToHang = true;
         }
@@ -4697,7 +4697,7 @@ void Abe::Motion_28_HopMid_451C50()
 
         field_FC_pPathTLV = pEdgeTlv;
 
-        if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab && IsSameScaleAsEdge(pEdgeTlv, this) && ((isEdgeGrabbable(pEdgeTlv, this) && field_C4_velx != FP_FromInteger(0))))
+        if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab == Choice_short::eYes_1 && IsSameScaleAsEdge(pEdgeTlv, this) && ((isEdgeGrabbable(pEdgeTlv, this) && field_C4_velx != FP_FromInteger(0))))
         {
             field_B8_xpos = FP_FromInteger((pEdgeTlv->field_8_top_left.field_0_x + pEdgeTlv->field_C_bottom_right.field_0_x) / 2);
 
@@ -4886,7 +4886,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
 
             field_FC_pPathTLV = pEdgeTlv;
 
-            if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab)
+            if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab == Choice_short::eYes_1)
             {
                 if (IsSameScaleAsEdge(pEdgeTlv, this) && (isEdgeGrabbable(pEdgeTlv, this)))
                 {

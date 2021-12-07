@@ -153,6 +153,22 @@ struct TlvTypes32 final
 static_assert(std::is_pod<TlvTypes32>::value, "TlvTypes32 must be pod");
 ALIVE_ASSERT_SIZEOF(TlvTypes32, 4);
 
+
+// NOTE: enum created for kPathChangeEffectToInternalScreenChangeEffect_55D55C
+enum ScreenChangeEffects : s16
+{
+    ePlay1FMV_0 = 0,
+    eRightToLeft_1 = 1,
+    eLeftToRight_2 = 2,
+    eBottomToTop_3 = 3,
+    eTopToBottom_4 = 4,
+    eBoxOut_5 = 5,
+    eVerticalSplit_6 = 6,
+    eHorizontalSplit_7 = 7,
+    eUnknown_8 = 8,
+    eInstantChange_9 = 9,
+};
+
 enum class Scale_short : s16
 {
     eFull_0 = 0,
@@ -165,10 +181,10 @@ enum class Scale_int : s32
     eHalf_1 = 1,
 };
 
-enum class Direction
+enum class XDirection_int : s32
 {
-    eLeft = 0,
-    eRight = 1,
+    eLeft_0 = 0,
+    eRight_1 = 1,
 };
 
 enum class XDirection_short : s16
@@ -284,7 +300,7 @@ struct Path_Teleporter_Data
     LevelIds field_18_level;
     s16 field_1A_trigger_id;
     Scale_short field_1C_scale;
-    s16 field_1E_cam_swap_effect;
+    ScreenChangeEffects field_1E_cam_swap_effect;
     s16 field_20_movie_number;
     s16 field_22_eletric_x;
     s16 field_24_electric_y;
@@ -332,7 +348,7 @@ struct Path_Edge final : public Path_TLV
         eBoth = 2,
     };
     GrabDirection field_10_grab_direction;
-    s16 field_12_bCan_grab;
+    Choice_short field_12_bCan_grab;
 
     Scale_int field_14_scale;
 };

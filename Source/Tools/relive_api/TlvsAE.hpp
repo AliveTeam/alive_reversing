@@ -261,8 +261,8 @@ struct Path_InvisibleZone final : public Path_TLV
 
 struct Path_Pulley final : public Path_TLV
 {
-    s16 field_10_unknown1;
-    s16 field_12_unknown2;
+    s16 field_10_unused1;
+    s16 field_12_unused2;
 };
 
 namespace AETlvs {
@@ -601,7 +601,7 @@ struct Path_Teleporter final : public ReliveAPI::TlvObjectBaseAE
         ADD("Level", mTlv.field_10_data.field_18_level);
         ADD("Trigger ID", mTlv.field_10_data.field_1A_trigger_id);
         ADD("Scale", mTlv.field_10_data.field_1C_scale);
-        ADD("Camera Swap Effect", mTlv.field_10_data.field_1E_cam_swap_effect); // TODO: enum
+        ADD("Camera Swap Effect", mTlv.field_10_data.field_1E_cam_swap_effect);
         ADD("Movie Number", mTlv.field_10_data.field_20_movie_number);
         ADD("Electric X", mTlv.field_10_data.field_22_eletric_x);
         ADD("Electric Y", mTlv.field_10_data.field_24_electric_y);
@@ -656,7 +656,7 @@ struct Path_Edge final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_Edge, "Edge", TlvTypes::Edge_3)
     {
         ADD("Grab Direction", mTlv.field_10_grab_direction);
-        ADD("Can Grab", mTlv.field_12_bCan_grab); // TODO: enum
+        ADD("Can Grab", mTlv.field_12_bCan_grab);
         ADD("Scale", mTlv.field_14_scale);
     }
 };
@@ -1096,13 +1096,13 @@ struct Path_LevelLoader final : public ReliveAPI::TlvObjectBaseAE
         ADD("Movie ID", mTlv.field_18_movie_id);
     }
 };
-// TODO: finish
+
 struct Path_Pulley final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Pulley, "Pulley", TlvTypes::Pulley_21)
     {
-        ADD("unknown1", mTlv.field_10_unknown1);
-        ADD("unknown2", mTlv.field_12_unknown2);
+        ADD("Unused1", mTlv.field_10_unused1);
+        ADD("Unused2", mTlv.field_12_unused2);
     }
 };
 // TODO: finish
@@ -1151,17 +1151,17 @@ struct Path_FlyingSligSpawner final : public ReliveAPI::TlvObjectBaseAE
         ADD("persistant", mTlv.field_10.field_1E_persistant);
     }
 };
-// TODO: finish
+
 struct Path_DeathDrop final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_DeathDrop, "DeathDrop", TlvTypes::DeathDrop_4)
     {
-        ADD("not_used1", mTlv.field_10_animation);
-        ADD("not_used2", mTlv.field_12_sound);
-        ADD("not_used3", mTlv.field_14_id);
-        ADD("not_used4", mTlv.field_16_action);
-        ADD("not_used5", mTlv.field_18_unknown1);
-        ADD("not_used6", mTlv.field_1A_unknown2);
+        ADD("Unused1", mTlv.field_10_animation);
+        ADD("Unused2", mTlv.field_12_sound);
+        ADD("Unused3", mTlv.field_14_id);
+        ADD("Unused4", mTlv.field_16_action);
+        ADD("Unused5", mTlv.field_18_unknown1);
+        ADD("Unused6", mTlv.field_1A_unknown2);
     }
 };
 // TODO: finish
@@ -1334,33 +1334,39 @@ struct Path_Slog final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
-// TODO: finish
 struct Path_ResetSwitchRange final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ResetSwitchRange, "ResetSwitchRange", TlvTypes::ResetSwitchRange_76)
     {
-        ADD("set_switches", mTlv.field_10_set_switches);
-        ADD("start_id", mTlv.field_12_start_id);
-        ADD("end_id", mTlv.field_14_end_id);
-        ADD("skip_id", mTlv.field_16_skip_id);
-        ADD("free_path_resource", mTlv.field_18_free_path_res);
-        ADD("path_resource_to_free_id", mTlv.field_1A_path_to_free_id);
-        ADD("enabled", mTlv.field_1C_bEnabled);
+        ADD("Reset Switches", mTlv.field_10_reset_switch_ids);
+        ADD("Start ID", mTlv.field_12_start_id);
+        ADD("End ID", mTlv.field_14_end_id);
+        ADD("Skip ID", mTlv.field_16_skip_id);
+        ADD("Free Path Resources", mTlv.field_18_free_path_res);
+        ADD("Path ID To Free Resources", mTlv.field_1A_path_to_free_id);
+        ADD("Enabled", mTlv.field_1C_bEnabled);
     }
 };
 
 struct Path_TrapDoor final : public ReliveAPI::TlvObjectBaseAE
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<::Path_TrapDoor::StartState>("Enum_TrapDoorStartState",
+                                                           {{::Path_TrapDoor::StartState::eOpen_0, "Open"},
+                                                            {::Path_TrapDoor::StartState::eClosed_1, "Closed"}});
+    }
+
     CTOR_AE(Path_TrapDoor, "TrapDoor", TlvTypes::TrapDoor_30)
     {
         ADD("ID", mTlv.field_10_id);
-        ADD("Start State", mTlv.field_12_start_state); // TODO: enum
+        ADD("Start State", mTlv.field_12_start_state);
         ADD("Self Closing", mTlv.field_14_self_closing);
         ADD("Scale", mTlv.field_16_scale);
         ADD("Dest Level (Unused?)", mTlv.field_18_dest_level);
         ADD("Direction", mTlv.field_1A_direction);
         ADD("X Offset", mTlv.field_1C_xOff);
-        ADD("stay_open_time", mTlv.field_1E_stay_open_time);
+        ADD("Stay Open Time (Frames)", mTlv.field_1E_stay_open_time);
     }
 };
 
@@ -1563,7 +1569,6 @@ struct Path_DoorFlame final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
-// TODO: use direction enum
 struct Path_TrainDoor final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_TrainDoor, "TrainDoor", TlvTypes::TrainDoor_111)
@@ -1738,6 +1743,7 @@ struct Path_SligGetWings final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
+// i don't think this object should ever be created manually with the editor - mouzedrift
 struct Path_CrawlingSligButton final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_CrawlingSligButton, "CrawlingSligButton", TlvTypes::CrawlingSligButton_107)
@@ -1747,7 +1753,7 @@ struct Path_CrawlingSligButton final : public ReliveAPI::TlvObjectBaseAE
         ADD("Action", mTlv.field_14_action);
         ADD("On Sound", mTlv.field_16_on_sound);
         ADD("Off Sound", mTlv.field_18_off_sound);
-        ADD("Sound Direction", mTlv.field_1A_sound_direction); // TODO: enum
+        ADD("Sound Direction", mTlv.field_1A_sound_direction);
     }
 };
 

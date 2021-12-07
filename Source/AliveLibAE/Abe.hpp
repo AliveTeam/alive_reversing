@@ -183,13 +183,13 @@ struct Path_ContinuePoint final : public Path_TLV
 
 struct Path_ResetSwitchRange final : public Path_TLV
 {
-    s16 field_10_set_switches;
+    Choice_short field_10_reset_switch_ids;
     s16 field_12_start_id;
     s16 field_14_end_id;
     s16 field_16_skip_id;
-    s16 field_18_free_path_res;
+    Choice_short field_18_free_path_res;
     s16 field_1A_path_to_free_id;
-    s16 field_1C_bEnabled;
+    Choice_short field_1C_bEnabled;
     s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetSwitchRange, 0x20);

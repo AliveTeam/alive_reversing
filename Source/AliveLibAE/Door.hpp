@@ -20,21 +20,6 @@ enum DoorTypes : s16
     eTasksDoor_3 = 3,
 };
 
-// NOTE: enum created for kPathChangeEffectToInternalScreenChangeEffect_55D55C
-enum PathWipeEffects : s16
-{
-    ePlay1FMV_0 = 0,
-    eRightToLeft_1 = 1,
-    eLeftToRight_2 = 2,
-    eBottomToTop_3 = 3,
-    eTopToBottom_4 = 4,
-    eBoxOut_5 = 5,
-    eVerticalSplit_6 = 6,
-    eHorizontalSplit_7 = 7,
-    eUnknown_8 = 8,
-    eInstantChange_9 = 9,
-};
-
 struct Path_Door final : public Path_TLV
 {
     LevelIds field_10_level;
@@ -54,7 +39,7 @@ struct Path_Door final : public Path_TLV
     s16 field_22_hub6;
     s16 field_22_hub7;
     s16 field_22_hub8;
-    PathWipeEffects field_32_wipe_effect;
+    ScreenChangeEffects field_32_wipe_effect;
     s16 field_34_movie_number;
     s16 field_36_x_offset;
     s16 field_38_y_offset;
@@ -108,7 +93,7 @@ ALIVE_ASSERT_SIZEOF(Door, 0x114);
 
 struct Path_TrainDoor final : public Path_TLV
 {
-    s32 field_10_direction;
+    XDirection_int field_10_direction;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrainDoor, 0x14);
 
