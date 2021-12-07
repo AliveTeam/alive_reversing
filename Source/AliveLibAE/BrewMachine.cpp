@@ -60,7 +60,7 @@ BrewMachine* BrewMachine::ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo)
     field_DC_bApplyShadows &= ~1u;
     field_140_tlvInfo = tlvInfo;
     field_20_animation.field_C_render_layer = Layer::eLayer_Well_23;
-    field_1E4_remaining_brew_count = pTlv->field_10_num_brews;
+    field_1E4_remaining_brew_count = pTlv->field_10_brew_count;
 
     const u8 savedBrewCount = pTlv->field_1_tlv_state;
     if (savedBrewCount == 0)

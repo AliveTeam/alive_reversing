@@ -190,11 +190,11 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     field_106_current_motion = eFlyingSligMotions::M_Idle_0_4385E0;
 
-    if (field_118_data.field_10_data.field_2_state == 1)
+    if (field_118_data.field_10_data.field_2_state == Path_FlyingSlig_Data::SpawnDelayStates::eUseCustomSpawnMoveDelay_1)
     {
-        field_14C_timer = sGnFrame_5C1B84 + field_118_data.field_10_data.field_4_hi_pause_time;
+        field_14C_timer = sGnFrame_5C1B84 + field_118_data.field_10_data.field_4_spawn_move_delay;
     }
-    else if (field_118_data.field_10_data.field_2_state == 0)
+    else if (field_118_data.field_10_data.field_2_state == Path_FlyingSlig_Data::SpawnDelayStates::eMoveImmediately_0)
     {
         field_14C_timer = sGnFrame_5C1B84 + 1;
     }
@@ -205,7 +205,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
     field_2B4_max_slow_down = FP_FromDouble(0.4) * field_CC_sprite_scale;
     field_2B8_max_speed_up = FP_FromDouble(0.4) * field_CC_sprite_scale;
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_118_data.field_10_data.field_A_direction == 0);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_118_data.field_10_data.field_A_direction == XDirection_short::eLeft_0);
 
     if (field_118_data.field_10_data.field_0_scale == Scale_short::eHalf_1)
     {
@@ -220,7 +220,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_17E_flags.Set(Flags_17E::eBit13_Persistant, field_118_data.field_10_data.field_1E_persistant & 1);
+    field_17E_flags.Set(Flags_17E::eBit13_Persistant, field_118_data.field_10_data.field_1E_persistant == Choice_short::eYes_1);
 
     field_17C_launch_id |= field_118_data.field_10_data.field_1C_launch_id;
 
@@ -729,7 +729,7 @@ void FlyingSlig::sub_4348A0()
     const s16 v5 = FP_GetExponent(field_BC_ypos - field_1A4_rect.y);
     const s16 v6 = FP_GetExponent(field_B8_xpos - field_1A4_rect.x);
     field_194 = FP_FromInteger(Math_SquareRoot_Int_496E70(v5 * v5 + v6 * v6));
-    field_17E_flags.Set(Flags_17E::eBit4, field_118_data.field_10_data.field_A_direction == 0);
+    field_17E_flags.Set(Flags_17E::eBit4, field_118_data.field_10_data.field_A_direction == XDirection_short::eLeft_0);
 }
 
 const s32 sBobbingValuesHorizontalMovement_552500[9] = {

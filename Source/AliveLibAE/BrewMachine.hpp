@@ -7,7 +7,7 @@
 
 struct Path_BrewMachine final : public Path_TLV
 {
-    s16 field_10_num_brews;
+    s16 field_10_brew_count;
     s16 field_12_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BrewMachine, 0x14);

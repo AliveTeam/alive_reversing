@@ -70,15 +70,15 @@ struct Path_Paramite final : public Path_TLV
         eUnused_ScaleToRightGridSize_4 = 4,
     };
     EntranceType field_12_entrace_type;
-    s16 field_14_alone_wait_before_chase_timer;
+    s16 field_14_alone_chase_delay;
     s16 field_16_surprise_web_delay_timer;
     s16 field_18_meat_eating_time;
-    u16 field_1A_group_wait_before_chase_timer;
+    u16 field_1A_group_chase_delay;
     s16 field_1C_disabled_resources;
     s16 field_1E_id;
-    s16 field_20_hiss_before_attack;
-    s16 field_22_delete_when_far_away;
-    s16 field_24_bAttack_fleeches;
+    Choice_short field_20_hiss_before_attack;
+    Choice_short field_22_delete_when_far_away;
+    Choice_short field_24_bAttack_fleeches;
     s16 field_26_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Paramite, 0x28);
@@ -403,11 +403,11 @@ private:
     s16 field_12E_surprise_web_delay_timer;
     s32 field_130_timer;
     s16 field_134_meat_eating_time;
-    s16 field_136_alone_wait_before_chase_timer;
+    s16 field_136_alone_chase_delay;
     s32 field_138_depossession_timer;
     FP field_13C_velx_offset;
     s32 field_140_tlvInfo;
-    s32 field_144_group_wait_before_chase_timer;
+    s32 field_144_group_chase_delay;
     s32 field_148_timer;
     s16 field_14C_id;
     LevelIds field_14E_return_level;

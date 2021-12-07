@@ -142,6 +142,20 @@ void TypesCollectionAE::AddAETypes()
 
 #undef REGISTER_TYPE_AE
 
+        AddEnum<ScreenChangeEffects>("Enum_ScreenChangeEffects",
+                               {
+                                   {ScreenChangeEffects::ePlay1FMV_0, "Play 1 FMV"},
+                                   {ScreenChangeEffects::eRightToLeft_1, "Right To Left"},
+                                   {ScreenChangeEffects::eLeftToRight_2, "Left To Right"},
+                                   {ScreenChangeEffects::eBottomToTop_3, "Bottom To Top"},
+                                   {ScreenChangeEffects::eTopToBottom_4, "Top To Bottom"},
+                                   {ScreenChangeEffects::eBoxOut_5, "Box Out"},
+                                   {ScreenChangeEffects::eVerticalSplit_6, "Left To Vertical Split"},
+                                   {ScreenChangeEffects::eHorizontalSplit_7, "Horizontal Split"},
+                                   {ScreenChangeEffects::eUnknown_8, "Unknown"},
+                                   {ScreenChangeEffects::eInstantChange_9, "Instant Change"}
+                               });
+
     AddEnum<CameraSwapEffects>("Enum_CameraSwapEffects",
                                {
                                    {CameraSwapEffects::eInstantChange_0, "Instant Change"},
@@ -149,20 +163,32 @@ void TypesCollectionAE::AddAETypes()
                                    {CameraSwapEffects::eRightToLeft_2, "Right To Left"},
                                    {CameraSwapEffects::eTopToBottom_3, "Top To Bottom"},
                                    {CameraSwapEffects::eBottomToTop_4, "Bottom To Top"},
-                                   {CameraSwapEffects::ePlay1FMV_5, "1 FMV"},
+                                   {CameraSwapEffects::ePlay1FMV_5, "Play 1 FMV"},
                                    {CameraSwapEffects::eVerticalSplit_6, "Left To Vertical Split"},
                                    {CameraSwapEffects::eHorizontalSplit_7, "Horizontal Split"},
                                    {CameraSwapEffects::eBoxOut_8, "Box Out"},
-                                   {CameraSwapEffects::ePlay2FMVs_9, "2 FMV"},
-                                   {CameraSwapEffects::ePlay3FMVs_10, "3 FMV"},
+                                   {CameraSwapEffects::ePlay2FMVs_9, "Play 2 FMV's"},
+                                   {CameraSwapEffects::ePlay3FMVs_10, "Play 3 FMV's"},
                                    {CameraSwapEffects::eUnknown_11, "Unknown"},
                                });
+
+    AddEnum<Choice_int>("Enum_Choice_int",
+                          {
+                              {Choice_int::eNo_0, "No"},
+                              {Choice_int::eYes_1, "Yes"},
+                          });
 
     AddEnum<Choice_short>("Enum_Choice_short",
                           {
                               {Choice_short::eNo_0, "No"},
                               {Choice_short::eYes_1, "Yes"},
                           });
+
+    AddEnum<XDirection_int>("Enum_XDirection_int",
+                              {
+                                  {XDirection_int::eLeft_0, "Left"},
+                                  {XDirection_int::eRight_1, "Right"},
+                              });
 
     AddEnum<XDirection_short>("Enum_XDirection_short",
                               {
