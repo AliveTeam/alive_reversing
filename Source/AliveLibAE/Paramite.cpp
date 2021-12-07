@@ -176,17 +176,17 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo)
             break;
     }
 
-    field_136_alone_wait_before_chase_timer = pTlv->field_14_alone_wait_before_chase_timer;
+    field_136_alone_chase_delay = pTlv->field_14_alone_chase_delay;
     field_12E_surprise_web_delay_timer = pTlv->field_16_surprise_web_delay_timer;
     field_134_meat_eating_time = pTlv->field_18_meat_eating_time;
-    field_144_group_wait_before_chase_timer = pTlv->field_1A_group_wait_before_chase_timer;
+    field_144_group_chase_delay = pTlv->field_1A_group_chase_delay;
     field_14C_id = pTlv->field_1E_id;
 
-    field_178_flags.Set(Flags_178::eBit1_hiss_before_attack, pTlv->field_20_hiss_before_attack & 1);
+    field_178_flags.Set(Flags_178::eBit1_hiss_before_attack, pTlv->field_20_hiss_before_attack == Choice_short::eYes_1);
     field_178_flags.Clear(Flags_178::eBit2_running);
-    field_178_flags.Set(Flags_178::eBit4_out_of_sight, pTlv->field_22_delete_when_far_away & 1);
+    field_178_flags.Set(Flags_178::eBit4_out_of_sight, pTlv->field_22_delete_when_far_away == Choice_short::eYes_1);
     field_178_flags.Clear(Flags_178::eBit5_prevent_depossession);
-    field_178_flags.Set(Flags_178::eBit8_bAttack_fleeches, pTlv->field_24_bAttack_fleeches & 1);
+    field_178_flags.Set(Flags_178::eBit8_bAttack_fleeches, pTlv->field_24_bAttack_fleeches == Choice_short::eYes_1);
     field_178_flags.Clear(Flags_178::eBit6_spawned);
     field_178_flags.Clear(Flags_178::eBit7_alerted);
 
@@ -802,7 +802,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
                     Sound_48F600(ParamiteSpeak::Howdy_5, 0);
                     field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
                     SetBrain(&Paramite::Brain_2_ChasingAbe_4859D0);
-                    field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
+                    field_148_timer = sGnFrame_5C1B84 + field_144_group_chase_delay;
                     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
                 }
             }
@@ -857,7 +857,7 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
         Sound_48F600(ParamiteSpeak::Howdy_5, 0);
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         SetBrain(&Paramite::Brain_2_ChasingAbe_4859D0);
-        field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
+        field_148_timer = sGnFrame_5C1B84 + field_144_group_chase_delay;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
@@ -932,7 +932,7 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
         Sound_48F600(ParamiteSpeak::Howdy_5, 0);
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         SetBrain(&Paramite::Brain_2_ChasingAbe_4859D0);
-        field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
+        field_148_timer = sGnFrame_5C1B84 + field_144_group_chase_delay;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
@@ -1025,7 +1025,7 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
         Sound_48F600(ParamiteSpeak::Howdy_5, 0);
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         SetBrain(&Paramite::Brain_2_ChasingAbe_4859D0);
-        field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
+        field_148_timer = sGnFrame_5C1B84 + field_144_group_chase_delay;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
@@ -1148,7 +1148,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
         Sound_48F600(ParamiteSpeak::Howdy_5, 0);
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         SetBrain(&Paramite::Brain_2_ChasingAbe_4859D0);
-        field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
+        field_148_timer = sGnFrame_5C1B84 + field_144_group_chase_delay;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
@@ -1268,7 +1268,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
         Sound_48F600(ParamiteSpeak::Howdy_5, 0);
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         SetBrain(&Paramite::Brain_2_ChasingAbe_4859D0);
-        field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
+        field_148_timer = sGnFrame_5C1B84 + field_144_group_chase_delay;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
@@ -1532,7 +1532,7 @@ s16 Paramite::Brain_ChasingAbe_State_4_CloseAttack()
     }
     else
     {
-        field_130_timer = sGnFrame_5C1B84 + field_136_alone_wait_before_chase_timer;
+        field_130_timer = sGnFrame_5C1B84 + field_136_alone_chase_delay;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToChasing_5;
     }
 }
@@ -1544,7 +1544,7 @@ s16 Paramite::Brain_ChasingAbe_State_2_ToWarning()
         return field_12C_brain_ret;
     }
     field_108_next_motion = eParamiteMotions::M_Hiss1_22_48C3E0;
-    field_130_timer = sGnFrame_5C1B84 + field_136_alone_wait_before_chase_timer;
+    field_130_timer = sGnFrame_5C1B84 + field_136_alone_chase_delay;
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Warning_3;
 }
 
@@ -1934,7 +1934,7 @@ s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
             }
             else
             {
-                field_130_timer = sGnFrame_5C1B84 + field_136_alone_wait_before_chase_timer;
+                field_130_timer = sGnFrame_5C1B84 + field_136_alone_chase_delay;
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToChasing_5;
             }
         }
@@ -2543,7 +2543,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                 Sound_48F600(ParamiteSpeak::Howdy_5, 0);
                 field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
                 SetBrain(&Paramite::Brain_2_ChasingAbe_4859D0);
-                field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
+                field_148_timer = sGnFrame_5C1B84 + field_144_group_chase_delay;
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
             }
         }
@@ -5495,7 +5495,7 @@ s16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
                     {
                         SetBrain(&Paramite::Brain_2_ChasingAbe_4859D0);
                         field_12C_brain_ret = 0;
-                        field_148_timer = sGnFrame_5C1B84 + field_144_group_wait_before_chase_timer;
+                        field_148_timer = sGnFrame_5C1B84 + field_144_group_chase_delay;
                         field_120_obj_id = pFrom->field_8_object_id;
                     }
                 }

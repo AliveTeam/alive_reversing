@@ -9,14 +9,14 @@ class Bone;
 struct Path_Slog final : public Path_TLV
 {
     Scale_short field_10_scale;
-    s16 field_12_direction;
-    s16 field_14_asleep;
+    XDirection_short field_12_direction;
+    Choice_short field_14_asleep;
     s16 field_16_wake_up_anger;
     s16 field_18_bark_anger;
     s16 field_1A_chase_anger;
-    s16 field_1C_jump_delay;
+    s16 field_1C_chase_delay;
     s16 field_1E_disabled_resources;
-    s16 field_20_angry_id;
+    s16 field_20_anger_id;
     s16 field_22_bone_eating_time;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x24);
@@ -279,7 +279,7 @@ private:
     s16 field_14A_padding;
     s32 field_14C_scratch_timer;
     s32 field_150_growl_timer;
-    s16 field_154_angry_id;
+    s16 field_154_anger_id;
     s16 field_156_bone_eating_time;
     s16 field_158_chase_delay;
     s16 field_15A_jump_counter;

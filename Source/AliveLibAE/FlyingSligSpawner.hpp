@@ -7,11 +7,16 @@
 struct Path_FlyingSlig_Data final
 {
     Scale_short field_0_scale;
-    s16 field_2_state;
-    s16 field_4_hi_pause_time;
+    enum class SpawnDelayStates : s16
+    {
+        eMoveImmediately_0 = 0,
+        eUseCustomSpawnMoveDelay_1 = 1,
+    };
+    SpawnDelayStates field_2_state;
+    s16 field_4_spawn_move_delay;
     s16 field_6_patrol_pause_min;
     s16 field_8_patrol_pause_max;
-    s16 field_A_direction;
+    XDirection_short field_A_direction;
     s16 field_C_panic_delay;
     s16 field_E_give_up_chase_delay;
     s16 field_10_prechase_delay;
@@ -21,7 +26,7 @@ struct Path_FlyingSlig_Data final
     s16 field_18_grenade_delay;
     s16 field_1A_max_velocity;
     s16 field_1C_launch_id;
-    s16 field_1E_persistant;
+    Choice_short field_1E_persistant;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSlig_Data, 0x20);
 

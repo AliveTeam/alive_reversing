@@ -509,11 +509,11 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Start State", mTlv.field_12_start_state);
-        ADD("Pause Time (Frames)", mTlv.field_14_pause_time);
-        ADD("Pause Left Min (Frames)", mTlv.field_16_pause_left_min);
-        ADD("Pause Left Max (Frames)", mTlv.field_18_pause_left_max);
-        ADD("Pause Right Min (Frames)", mTlv.field_1A_pause_right_min);
-        ADD("Pause Right Max (Frames)", mTlv.field_1C_pause_right_max);
+        ADD("Pause Time", mTlv.field_14_pause_time);
+        ADD("Pause Left Min", mTlv.field_16_pause_left_min);
+        ADD("Pause Left Max", mTlv.field_18_pause_left_max);
+        ADD("Pause Right Min", mTlv.field_1A_pause_right_min);
+        ADD("Pause Right Max", mTlv.field_1C_pause_right_max);
         ADD("chal_number", mTlv.field_1E_chal_number);
         ADD("chal_timer", mTlv.field_20_chal_timer);
         ADD("Bullet Shoot Count", mTlv.field_22_num_times_to_shoot);
@@ -526,16 +526,16 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
         ADD("Panic Timeout", mTlv.field_2E_panic_timeout);
         ADD("Amount Of Panic Sounds (Unused?)", mTlv.field_30_num_panic_sounds);
         ADD("Panic Sound Timeout (Unused?)", mTlv.field_32_panic_sound_timeout);
-        ADD("Stop Chase Delay (Frames)", mTlv.field_34_stop_chase_delay);
-        ADD("Time To Wait Before Chase (Frames)", mTlv.field_36_time_to_wait_before_chase);
+        ADD("Stop Chase Delay", mTlv.field_34_stop_chase_delay);
+        ADD("Time To Wait Before Chase", mTlv.field_36_time_to_wait_before_chase);
         ADD("Slig ID", mTlv.field_38_slig_id);
-        ADD("Listen Time (Frames)", mTlv.field_3A_listen_time);
+        ADD("Listen Time", mTlv.field_3A_listen_time);
 
         ADD("Percent Say What", mTlv.field_3C_percent_say_what);
         ADD("Percent Beat Mudokon", mTlv.field_3E_percent_beat_mud);
         ADD("Talk To Abe (Unused?)", mTlv.field_40_talk_to_abe);
         ADD("Don't Shoot (Unused?)", mTlv.field_42_dont_shoot);
-        ADD("Z Shoot Delay (Frames)", mTlv.field_44_Z_shoot_delay);
+        ADD("Z Shoot Delay", mTlv.field_44_Z_shoot_delay);
         ADD("Stay Awake", mTlv.field_46_stay_awake);
         ADD("Disable Resources", mTlv.field_48_disable_resources);
         ADD("Noise Wake Up Distance (Grids)", mTlv.field_4A_noise_wake_up_distance);
@@ -706,8 +706,8 @@ struct Path_WorkWheel final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("ID", mTlv.field_12_id);
-        ADD("Activation Time (Frames)", mTlv.field_14_activation_time);
-        ADD("Off Time (Frames)", mTlv.field_16_off_time);
+        ADD("Activation Time", mTlv.field_14_activation_time);
+        ADD("Off Time", mTlv.field_16_off_time);
         ADD("Turn Off When Stopped", mTlv.field_18_turn_off_when_stopped);
     }
 };
@@ -738,7 +738,7 @@ struct Path_MusicTrigger final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Music Type", mTlv.field_10_music_type);
         ADD("Triggered By", mTlv.field_12_triggered_by);
-        ADD("Music Delay (Frames)", mTlv.field_14_music_delay);
+        ADD("Music Delay", mTlv.field_14_music_delay);
     }
 };
 
@@ -839,7 +839,7 @@ struct Path_InvisibleSwitch final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("ID", mTlv.field_10_id);
         ADD("Action", mTlv.field_12_action);
-        ADD("Delay (Frames)", mTlv.field_14_delay);
+        ADD("Delay", mTlv.field_14_delay);
         ADD("Set Off Alarm", mTlv.field_16_set_off_alarm);
         ADD("Scale", mTlv.field_18_scale);
     }
@@ -851,10 +851,10 @@ struct Path_Water final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Max Drops", mTlv.field_10_data.field_10_max_drops);
         ADD("ID", mTlv.field_10_data.field_12_id);
-        ADD("Splash Time (Frames)", mTlv.field_10_data.field_14_splash_time);
+        ADD("Splash Time", mTlv.field_10_data.field_14_splash_time);
         ADD("Splash X Velocity", mTlv.field_10_data.field_16_splash_x_velocity);
         ADD("Splash Y Velocity", mTlv.field_10_data.field_18_splash_y_velocity);
-        ADD("Water Duration (Frames)", mTlv.field_10_data.field_1A_water_duration);
+        ADD("Water Duration", mTlv.field_10_data.field_1A_water_duration);
     }
 };
 
@@ -1105,50 +1105,59 @@ struct Path_Pulley final : public ReliveAPI::TlvObjectBaseAE
         ADD("Unused2", mTlv.field_12_unused2);
     }
 };
-// TODO: finish
+
 struct Path_FlyingSlig final : public ReliveAPI::TlvObjectBaseAE
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<::Path_FlyingSlig_Data::SpawnDelayStates>("Enum_FlyingSligSpawnDelayStates",
+                                       {
+                                                            {::Path_FlyingSlig_Data::SpawnDelayStates::eMoveImmediately_0, "Move Immediately"},
+                                                            {::Path_FlyingSlig_Data::SpawnDelayStates::eUseCustomSpawnMoveDelay_1, "Use Custom Spawn Move Delay"},
+                                       });
+    }
+
     CTOR_AE(Path_FlyingSlig, "FlyingSlig", TlvTypes::FlyingSlig_82)
     {
-        ADD("scale", mTlv.field_10_data.field_0_scale);
-        ADD("state", mTlv.field_10_data.field_2_state);
-        ADD("hi_pause_time", mTlv.field_10_data.field_4_hi_pause_time);
-        ADD("patrol_pause_min", mTlv.field_10_data.field_6_patrol_pause_min);
-        ADD("patrol_pause_max", mTlv.field_10_data.field_8_patrol_pause_max);
-        ADD("direction", mTlv.field_10_data.field_A_direction);
-        ADD("panic_delay", mTlv.field_10_data.field_C_panic_delay);
-        ADD("give_up_chase_delay", mTlv.field_10_data.field_E_give_up_chase_delay);
-        ADD("prechase_delay", mTlv.field_10_data.field_10_prechase_delay);
-        ADD("slig_id", mTlv.field_10_data.field_12_slig_id);
-        ADD("listen_time", mTlv.field_10_data.field_14_listen_time);
-        ADD("trigger_id", mTlv.field_10_data.field_16_trigger_id);
-        ADD("grenade_delay", mTlv.field_10_data.field_18_grenade_delay);
-        ADD("max_velocity", mTlv.field_10_data.field_1A_max_velocity);
-        ADD("launch_id", mTlv.field_10_data.field_1C_launch_id);
-        ADD("persistant", mTlv.field_10_data.field_1E_persistant);
+        ADD("Scale", mTlv.field_10_data.field_0_scale);
+        ADD("Spawn Delay State", mTlv.field_10_data.field_2_state);
+        ADD("Spawn Move Delay", mTlv.field_10_data.field_4_spawn_move_delay);
+        ADD("Patrol Pause Min", mTlv.field_10_data.field_6_patrol_pause_min);
+        ADD("Patrol Pause Max", mTlv.field_10_data.field_8_patrol_pause_max);
+        ADD("Direction", mTlv.field_10_data.field_A_direction);
+        ADD("Panic Delay", mTlv.field_10_data.field_C_panic_delay);
+        ADD("Give Up Chase Delay", mTlv.field_10_data.field_E_give_up_chase_delay);
+        ADD("Pre-chase Delay", mTlv.field_10_data.field_10_prechase_delay);
+        ADD("Slig ID", mTlv.field_10_data.field_12_slig_id);
+        ADD("Listen Time", mTlv.field_10_data.field_14_listen_time);
+        ADD("Trigger ID", mTlv.field_10_data.field_16_trigger_id);
+        ADD("Grenade Delay", mTlv.field_10_data.field_18_grenade_delay);
+        ADD("Max Velocity", mTlv.field_10_data.field_1A_max_velocity);
+        ADD("Launch Grenade ID", mTlv.field_10_data.field_1C_launch_id);
+        ADD("Persistant", mTlv.field_10_data.field_1E_persistant);
     }
 };
-// TODO: finish
+
 struct Path_FlyingSligSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_FlyingSligSpawner, "FlyingSligSpawner", TlvTypes::FlyingSligSpawner_92)
     {
-        ADD("scale", mTlv.field_10.field_0_scale);
-        ADD("state", mTlv.field_10.field_2_state);
-        ADD("hi_pause_time", mTlv.field_10.field_4_hi_pause_time);
-        ADD("patrol_pause_min", mTlv.field_10.field_6_patrol_pause_min);
-        ADD("patrol_pause_max", mTlv.field_10.field_8_patrol_pause_max);
-        ADD("direction", mTlv.field_10.field_A_direction);
-        ADD("panic_delay", mTlv.field_10.field_C_panic_delay);
-        ADD("give_up_chase_delay", mTlv.field_10.field_E_give_up_chase_delay);
-        ADD("prechase_delay", mTlv.field_10.field_10_prechase_delay);
-        ADD("slig_id", mTlv.field_10.field_12_slig_id);
-        ADD("listen_time", mTlv.field_10.field_14_listen_time);
-        ADD("trigger_id", mTlv.field_10.field_16_trigger_id);
-        ADD("grenade_delay", mTlv.field_10.field_18_grenade_delay);
-        ADD("max_velocity", mTlv.field_10.field_1A_max_velocity);
-        ADD("launch_id", mTlv.field_10.field_1C_launch_id);
-        ADD("persistant", mTlv.field_10.field_1E_persistant);
+        ADD("Scale", mTlv.field_10.field_0_scale);
+        ADD("Spawn Delay State", mTlv.field_10.field_2_state);
+        ADD("Spawn Move Delay", mTlv.field_10.field_4_spawn_move_delay);
+        ADD("Patrol Pause Min", mTlv.field_10.field_6_patrol_pause_min);
+        ADD("Patrol Pause Max", mTlv.field_10.field_8_patrol_pause_max);
+        ADD("Direction", mTlv.field_10.field_A_direction);
+        ADD("Panic Delay", mTlv.field_10.field_C_panic_delay);
+        ADD("Give Up Chase Delay", mTlv.field_10.field_E_give_up_chase_delay);
+        ADD("Pre-Chase Delay", mTlv.field_10.field_10_prechase_delay);
+        ADD("Slig ID", mTlv.field_10.field_12_slig_id);
+        ADD("Listen Time", mTlv.field_10.field_14_listen_time);
+        ADD("Trigger ID", mTlv.field_10.field_16_trigger_id);
+        ADD("Grenade Delay", mTlv.field_10.field_18_grenade_delay);
+        ADD("Max Velocity", mTlv.field_10.field_1A_max_velocity);
+        ADD("Launch Grenade ID", mTlv.field_10.field_1C_launch_id);
+        ADD("Persistant", mTlv.field_10.field_1E_persistant);
     }
 };
 
@@ -1316,20 +1325,19 @@ struct Path_Mine final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
-// TODO: finish
 struct Path_Slog final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Slog, "Slog", TlvTypes::Slog_16)
     {
         ADD("Scale", mTlv.field_10_scale);
-        ADD("direction", mTlv.field_12_direction);
-        ADD("asleep", mTlv.field_14_asleep);
-        ADD("wake_up_anger", mTlv.field_16_wake_up_anger);
-        ADD("bark_anger", mTlv.field_18_bark_anger);
-        ADD("chase_anger", mTlv.field_1A_chase_anger);
-        ADD("jump_delay", mTlv.field_1C_jump_delay);
-        ADD("disabled_resources", mTlv.field_1E_disabled_resources);
-        ADD("angry_id", mTlv.field_20_angry_id);
+        ADD("Direction", mTlv.field_12_direction);
+        ADD("Asleep", mTlv.field_14_asleep);
+        ADD("Wake Up Anger", mTlv.field_16_wake_up_anger);
+        ADD("Bark Anger", mTlv.field_18_bark_anger);
+        ADD("Chase Anger", mTlv.field_1A_chase_anger);
+        ADD("Chase Delay", mTlv.field_1C_chase_delay);
+        ADD("Disabled Resources", mTlv.field_1E_disabled_resources);
+        ADD("Trigger Anger ID", mTlv.field_20_anger_id);
         ADD("bone_eating_time", mTlv.field_22_bone_eating_time);
     }
 };
@@ -1366,7 +1374,7 @@ struct Path_TrapDoor final : public ReliveAPI::TlvObjectBaseAE
         ADD("Dest Level (Unused?)", mTlv.field_18_dest_level);
         ADD("Direction", mTlv.field_1A_direction);
         ADD("X Offset", mTlv.field_1C_xOff);
-        ADD("Stay Open Time (Frames)", mTlv.field_1E_stay_open_time);
+        ADD("Stay Open Time", mTlv.field_1E_stay_open_time);
     }
 };
 
@@ -1419,7 +1427,7 @@ struct Path_TimerTrigger final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_TimerTrigger, "TimeTrigger", TlvTypes::TimerTrigger_57)
     {
         ADD("ID", mTlv.field_10_id);
-        ADD("Trigger Delay (Frames)", mTlv.field_12_trigger_delay);
+        ADD("Trigger Delay", mTlv.field_12_trigger_delay);
         ADD("ID 1", mTlv.field_14_id1);
         ADD("ID 2", mTlv.field_16_id2);
         ADD("ID 3", mTlv.field_18_id3);
@@ -1448,7 +1456,7 @@ struct Path_MotionDetector final : public ReliveAPI::TlvObjectBaseAE
         ADD("Draw Flare", mTlv.field_1A_draw_flare);
         ADD("Disabled ID", mTlv.field_1C_disable_id);
         ADD("Alarm ID", mTlv.field_1E_alarm_id);
-        ADD("Alarm Duration (Frames)", mTlv.field_20_alarm_duration);
+        ADD("Alarm Duration", mTlv.field_20_alarm_duration);
     }
 };
 
@@ -1470,7 +1478,7 @@ struct Path_ExplosionSet final : public ReliveAPI::TlvObjectBaseAE
         ADD("Big Rocks", mTlv.field_14_big_rocks);
         ADD("Start Delay", mTlv.field_16_start_delay);
         ADD("Direction", mTlv.field_18_direction);
-        ADD("Start Delay (Frames)", mTlv.field_1A_start_delay);
+        ADD("Start Delay", mTlv.field_1A_start_delay);
         ADD("Grid Spacing", mTlv.field_1C_grid_spacing);
         ADD("Increasing Grid Spacing", mTlv.field_1E_increasing_grid_spacing);
         ADD("Scale", mTlv.field_20_scale);
@@ -1493,7 +1501,7 @@ struct Path_Alarm final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_Alarm, "Alarm", TlvTypes::Alarm_100)
     {
         ADD("ID", mTlv.field_10_id);
-        ADD("Duration (Frames)", mTlv.field_12_duration);
+        ADD("Duration", mTlv.field_12_duration);
     }
 };
 
@@ -1524,7 +1532,7 @@ struct Path_Slurg final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Slurg, "Slurg", TlvTypes::Slurg_84)
     {
-        ADD("Moving Time (Frames)", mTlv.field_10_slurg_data.field_0_moving_timer);
+        ADD("Time Until Turning Around", mTlv.field_10_slurg_data.field_0_moving_timer);
         ADD("Direction", mTlv.field_10_slurg_data.field_2_direction);
         ADD("Scale", mTlv.field_10_slurg_data.field_4_scale);
         ADD("ID", mTlv.field_10_slurg_data.field_6_id);
@@ -1823,7 +1831,7 @@ struct Path_GasCountDown final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_GasCountDown, "GasCountDown", TlvTypes::GasCountdown_69)
     {
         ADD("Start Trigger ID", mTlv.field_10_start_trigger_id);
-        ADD("Gas Countdown Time (Frames)", mTlv.field_12_gas_countdown_timer);
+        ADD("Gas Countdown Time", mTlv.field_12_gas_countdown_timer);
         ADD("Stop Trigger ID", mTlv.field_14_stop_trigger_id);
     }
 };
@@ -1834,7 +1842,7 @@ struct Path_FallingItem final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("ID", mTlv.field_10_id);
         ADD("Scale", mTlv.field_12_scale);
-        ADD("Fall Delay (Frames)", mTlv.field_14_fall_delay);
+        ADD("Fall Delay", mTlv.field_14_fall_delay);
         ADD("Max Falling Items", mTlv.field_16_max_falling_items);
         ADD("Reset ID", mTlv.field_18_reset_id);
     }
@@ -1889,7 +1897,7 @@ struct Path_SlogHut final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Switch ID", mTlv.field_12_switch_id);
-        ADD("Zzz Delay (Frames)", mTlv.field_14_Zzz_delay);
+        ADD("Zzz Delay", mTlv.field_14_Zzz_delay);
     }
 };
 
@@ -1901,10 +1909,10 @@ struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAE
         ADD("Number Of Slogs", mTlv.field_12_number_of_slogs);
         ADD("Max Slogs At A Time", mTlv.field_14_max_slogs_at_a_time);
         ADD("Direction", mTlv.field_16_direction);
-        ADD("Spawn Delay (Frames)", mTlv.field_18_slog_spawn_delay);
+        ADD("Spawn Delay", mTlv.field_18_slog_spawn_delay);
         ADD("ID", mTlv.field_1A_id);
         ADD("Listen To Sligs", mTlv.field_1C_listen_to_sligs);
-        ADD("Chase Delay (Frames)", mTlv.field_1E_chase_delay);
+        ADD("Chase Delay", mTlv.field_1E_chase_delay);
     }
 };
 
@@ -1930,17 +1938,17 @@ struct Path_Scrab final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_Scrab, "Scrab", TlvTypes::Scrab_41)
     {
         ADD("Scale", mTlv.field_10_scale);
-        ADD("Attack Delay (Frames)", mTlv.field_12_attack_delay);
+        ADD("Attack Delay", mTlv.field_12_attack_delay);
         ADD("Patrol Type Run Or Walk Chance (6 Max)", mTlv.field_14_patrol_type_run_or_walk_chance);
-        ADD("Left Min Delay (Frames)", mTlv.field_16_left_min_delay);
-        ADD("Left Max Delay (Frames)", mTlv.field_18_left_max_delay);
-        ADD("Right Min Delay (Frames)", mTlv.field_1A_right_min_delay);
-        ADD("Right Max Delay (Frames)", mTlv.field_1C_right_max_delay);
-        ADD("Spotting Abe Delay (Frames)", mTlv.field_1E_spotting_abe_delay);
+        ADD("Left Min Delay", mTlv.field_16_left_min_delay);
+        ADD("Left Max Delay", mTlv.field_18_left_max_delay);
+        ADD("Right Min Delay", mTlv.field_1A_right_min_delay);
+        ADD("Right Max Delay", mTlv.field_1C_right_max_delay);
+        ADD("Spotting Abe Delay", mTlv.field_1E_spotting_abe_delay);
         ADD("Disabled Resources", mTlv.field_20_disabled_resources);
         ADD("Roar Randomly", mTlv.field_22_roar_randomly);
         ADD("Persistant", mTlv.field_24_persistant);
-        ADD("Whirl Attack Duration (Frames)", mTlv.field_26_whirl_attack_duration);
+        ADD("Whirl Attack Duration", mTlv.field_26_whirl_attack_duration);
         ADD("Unused", mTlv.field_28_unused);
         ADD("Kill Enemy", mTlv.field_2A_bKill_enemy);
     }
@@ -1962,17 +1970,17 @@ struct Path_ScrabSpawner final : public ReliveAPI::TlvObjectBaseAE
     {
         // Scrab properties
         ADD("Scrab Scale", mTlv.field_10_scale);
-        ADD("Scrab Attack Delay (Frames)", mTlv.field_12_attack_delay);
+        ADD("Scrab Attack Delay", mTlv.field_12_attack_delay);
         ADD("Scrab Patrol Type Run Or Walk Chance (6 Max)", mTlv.field_14_patrol_type_run_or_walk_chance);
-        ADD("Scrab Left Min Delay (Frames)", mTlv.field_16_left_min_delay);
-        ADD("Scrab Left Max Delay (Frames)", mTlv.field_18_left_max_delay);
-        ADD("Scrab Right Min Delay (Frames)", mTlv.field_1A_right_min_delay);
-        ADD("Scrab Right Max Delay (Frames)", mTlv.field_1C_right_max_delay);
-        ADD("Scrab Spotting Abe Delay (Frames)", mTlv.field_1E_spotting_abe_delay);
+        ADD("Scrab Left Min Delay", mTlv.field_16_left_min_delay);
+        ADD("Scrab Left Max Delay", mTlv.field_18_left_max_delay);
+        ADD("Scrab Right Min Delay", mTlv.field_1A_right_min_delay);
+        ADD("Scrab Right Max Delay", mTlv.field_1C_right_max_delay);
+        ADD("Scrab Spotting Abe Delay", mTlv.field_1E_spotting_abe_delay);
         ADD("Scrab Disabled Resources", mTlv.field_20_disabled_resources);
         ADD("Scrab Roar Randamly", mTlv.field_22_roar_randomly);
         ADD("Scrab Persistant", mTlv.field_24_persistant);
-        ADD("Scrab Whirl Attack Duration (Frames)", mTlv.field_26_whirl_attack_duration);
+        ADD("Scrab Whirl Attack Duration", mTlv.field_26_whirl_attack_duration);
         ADD("Scrab Unused", mTlv.field_28_unused);
         ADD("Scrab Kill Enemy", mTlv.field_2A_bKill_enemy);
 
@@ -2015,15 +2023,15 @@ struct Path_Paramite final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Entrance Type", mTlv.field_12_entrace_type);
-        ADD("Alone Wait Before Chase (Frames)", mTlv.field_14_alone_wait_before_chase_timer);
-        ADD("Surprise Web Delay (Frames)", mTlv.field_16_surprise_web_delay_timer);
-        ADD("Meat Eating Time (Frames)", mTlv.field_18_meat_eating_time);
-        ADD("Group Wait Before Chase (Frames)", mTlv.field_1A_group_wait_before_chase_timer);
+        ADD("Alone - Chase Delay", mTlv.field_14_alone_chase_delay);
+        ADD("Surprise Web Delay", mTlv.field_16_surprise_web_delay_timer);
+        ADD("Meat Eating Time", mTlv.field_18_meat_eating_time);
+        ADD("Group - Chase Delay", mTlv.field_1A_group_chase_delay);
         ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
         ADD("ID", mTlv.field_1E_id);
         ADD("Hiss Before Attacking", mTlv.field_20_hiss_before_attack);
-        ADD("Delete When Far Away", mTlv.field_22_delete_when_far_away); // TODO: enum
-        ADD("Can Attack Fleeches", mTlv.field_24_bAttack_fleeches); // TODO: enum
+        ADD("Delete When Far Away", mTlv.field_22_delete_when_far_away);
+        ADD("Attack Fleeches", mTlv.field_24_bAttack_fleeches);
     }
 };
 
