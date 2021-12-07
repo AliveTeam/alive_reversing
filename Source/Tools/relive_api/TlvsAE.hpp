@@ -488,6 +488,7 @@ struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
+// TODO: finish
 struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -543,6 +544,7 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
+// TODO: finish
 struct Path_Fleech final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Fleech, "Fleech", TlvTypes::Fleech_83)
@@ -599,7 +601,7 @@ struct Path_Teleporter final : public ReliveAPI::TlvObjectBaseAE
         ADD("Level", mTlv.field_10_data.field_18_level);
         ADD("Trigger ID", mTlv.field_10_data.field_1A_trigger_id);
         ADD("Scale", mTlv.field_10_data.field_1C_scale);
-        ADD("Camera Swap Effect", mTlv.field_10_data.field_1E_cam_swap_effect);
+        ADD("Camera Swap Effect", mTlv.field_10_data.field_1E_cam_swap_effect); // TODO: enum
         ADD("Movie Number", mTlv.field_10_data.field_20_movie_number);
         ADD("Electric X", mTlv.field_10_data.field_22_eletric_x);
         ADD("Electric Y", mTlv.field_10_data.field_24_electric_y);
@@ -654,7 +656,7 @@ struct Path_Edge final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_Edge, "Edge", TlvTypes::Edge_3)
     {
         ADD("Grab Direction", mTlv.field_10_grab_direction);
-        ADD("Can Grab", mTlv.field_12_bCan_grab);
+        ADD("Can Grab", mTlv.field_12_bCan_grab); // TODO: enum
         ADD("Scale", mTlv.field_14_scale);
     }
 };
@@ -792,7 +794,7 @@ struct Path_SlamDoor final : public ReliveAPI::TlvObjectBaseAE
         ADD("Start Shut", mTlv.field_10_bStart_closed);
         ADD("Scale", mTlv.field_12_scale);
         ADD("ID", mTlv.field_14_id);
-        ADD("Start Inverted", mTlv.field_16_bStart_inverted);
+        ADD("Flip On Y Axis", mTlv.field_16_bStart_inverted);
         ADD("Delete", mTlv.field_18_bDelete);
     }
 };
@@ -1242,19 +1244,19 @@ struct Path_WellLocal final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_WellLocal, "WellLocal", TlvTypes::LocalWell_8)
     {
         // Path_WellBase
-        ADD("scale", mTlv.field_0_scale);
-        ADD("trigger_id", mTlv.field_2_trigger_id);
-        ADD("well_id", mTlv.field_4_well_id);
-        ADD("resource_id", mTlv.field_6_res_id);
+        ADD("Scale", mTlv.field_0_scale);
+        ADD("Trigger ID", mTlv.field_2_trigger_id);
+        ADD("Well ID", mTlv.field_4_well_id);
+        ADD("Resource ID", mTlv.field_6_res_id);
 
         // Path_WellLocal
-        ADD("off_dx", mTlv.field_18_off_dx);
-        ADD("off_dy", mTlv.field_1A_off_dy);
-        ADD("on_dx", mTlv.field_1C_on_dx);
-        ADD("on_dy", mTlv.field_1E_on_dy);
-        ADD("emit_leaves", mTlv.field_20_bEmit_leaves);
-        ADD("leaf_x", mTlv.field_22_leaf_x);
-        ADD("leaf_y", mTlv.field_24_leaf_y);
+        ADD("Disabled XPos", mTlv.field_18_off_dx);
+        ADD("Disabled YPos", mTlv.field_1A_off_dy);
+        ADD("Enabled XPos", mTlv.field_1C_on_dx);
+        ADD("Enabled YPos", mTlv.field_1E_on_dy);
+        ADD("Emit Leaves", mTlv.field_20_bEmit_leaves);
+        ADD("Leaf XPos", mTlv.field_22_leaf_x);
+        ADD("Leaf YPos", mTlv.field_24_leaf_y);
     }
 };
 
@@ -1262,7 +1264,7 @@ struct Path_BrewMachine final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_BrewMachine, "BrewMachine", TlvTypes::BrewMachine_101)
     {
-        ADD("num_brews", mTlv.field_10_num_brews);
+        ADD("Brew Count", mTlv.field_10_brew_count);
     }
 };
 
@@ -1314,6 +1316,7 @@ struct Path_Mine final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
+// TODO: finish
 struct Path_Slog final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Slog, "Slog", TlvTypes::Slog_16)
@@ -1331,6 +1334,7 @@ struct Path_Slog final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
+// TODO: finish
 struct Path_ResetSwitchRange final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ResetSwitchRange, "ResetSwitchRange", TlvTypes::ResetSwitchRange_76)
@@ -1559,6 +1563,7 @@ struct Path_DoorFlame final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
+// TODO: use direction enum
 struct Path_TrainDoor final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_TrainDoor, "TrainDoor", TlvTypes::TrainDoor_111)
@@ -1670,6 +1675,7 @@ struct Path_CrawlingSlig final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
+// TODO: finish
 struct Path_SligGetPants final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligGetPants, "SligGetPants", TlvTypes::SligGetPants_104)
@@ -1840,6 +1846,7 @@ struct Path_BoneBag final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
+// TODO: unknown field
 struct Path_SecurityClaw final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SecurityClaw, "SecurityClaw", TlvTypes::SecurityClaw_35)
@@ -2009,8 +2016,8 @@ struct Path_Paramite final : public ReliveAPI::TlvObjectBaseAE
         ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
         ADD("ID", mTlv.field_1E_id);
         ADD("Hiss Before Attacking", mTlv.field_20_hiss_before_attack);
-        ADD("Delete When Far Away", mTlv.field_22_delete_when_far_away);
-        ADD("Can Attack Fleeches", mTlv.field_24_bAttack_fleeches);
+        ADD("Delete When Far Away", mTlv.field_22_delete_when_far_away); // TODO: enum
+        ADD("Can Attack Fleeches", mTlv.field_24_bAttack_fleeches); // TODO: enum
     }
 };
 
@@ -2038,8 +2045,8 @@ struct Path_TorturedMudokon final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_TorturedMudokon, "TorturedMudokon", TlvTypes::TorturedMudokon_110)
     {
-        ADD("speed_id", mTlv.field_10_speed_id);
-        ADD("release_id", mTlv.field_12_release_id);
+        ADD("Kill ID", mTlv.field_10_kill_id);
+        ADD("Release ID", mTlv.field_12_release_id);
     }
 };
 
