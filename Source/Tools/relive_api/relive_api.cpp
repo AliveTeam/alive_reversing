@@ -15,6 +15,7 @@
 #include "JsonMapRootInfoReader.hpp"
 #include "TypesCollectionBase.hpp"
 #include "Base64.hpp"
+#include "../../AliveLibCommon/FG1Reader.hpp"
 #include <iostream>
 #include <gmock/gmock.h>
 #include <type_traits>
@@ -451,16 +452,34 @@ static std::vector<u8> Base64Png2RawPixels(const std::string& base64EncodedPng)
     return rawPixels;
 }
 
+static u32 ToFG1Layer(Layer layer)
+{
+    switch (layer)
+    {
+        case Layer::eLayer_Well_Half_4:
+            return 0;
+        case Layer::eLayer_FG1_Half_18:
+            return 1;
+        case Layer::eLayer_Well_23:
+            return 2;
+        case Layer::eLayer_FG1_37:
+            return 3;
+    }
+    ALIVE_FATAL("Not a valid FG1 layer");
+}
+
 // Iterate in 32x16 blocks, creating full or partial blocks as needed
-static std::vector<u8> MakeFG1Layer(const std::vector<u8>& rawPixels)
+static std::vector<u8> MakeFG1Layer(const std::vector<u8>& rawPixels, Layer layer)
 {
     std::vector<u8> vec;
     const u32 blocksX = 640 / 32;
     const u32 blocksY = 240 / 16;
+
     for (u32 blockX = 0; blockX < blocksX; blockX++)
     {
         for (u32 blockY = 0; blockY < blocksY; blockY++)
         {
+            u32 whitePixelCount = 0;
             for (u32 x = 0; x < 32; x++)
             {
                 for (u32 y = 0; y < 16; y++)
@@ -468,9 +487,27 @@ static std::vector<u8> MakeFG1Layer(const std::vector<u8>& rawPixels)
                     const u32* pPixel32 = &reinterpret_cast<const u32*>(rawPixels.data())[To1dIndex(640, x + (blockX * 32), y + (blockY * 16))];
                     if (RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)) != 0)
                     {
-
+                        whitePixelCount++;
                     }
                 }
+            }
+
+            // A full chunk
+            if (whitePixelCount == 32 * 16)
+            {
+                Fg1Chunk chunk = {};
+                chunk.field_0_type = eFullChunk;
+                chunk.field_2_layer_or_decompressed_size = static_cast<u16>(ToFG1Layer(layer));
+                chunk.field_4_xpos_or_compressed_size = static_cast<u16>(blockX * 32);
+                chunk.field_6_ypos = static_cast<u16>(blockY * 16);
+                chunk.field_8_width = 32;
+                chunk.field_A_height = 16;
+
+            }
+            // A partial chunk
+            else if (whitePixelCount != 0)
+            {
+                // TODO
             }
         }
     }
@@ -478,34 +515,121 @@ static std::vector<u8> MakeFG1Layer(const std::vector<u8>& rawPixels)
     return vec;
 }
 
-static std::vector<u8> ConstructFG1Data(const CameraNameAndTlvBlob& cam)
+static std::vector<u8> ConstructFG1Data(const CameraImageAndLayers& imageAndLayers)
 {
     std::vector<u8> vec;
-    if (!cam.mBackgroundLayer.empty())
+    if (!imageAndLayers.mBackgroundLayer.empty())
     {
         // TODO: Combine
-        vec = MakeFG1Layer(Base64Png2RawPixels(cam.mBackgroundLayer));
+        vec = MakeFG1Layer(Base64Png2RawPixels(imageAndLayers.mBackgroundLayer), Layer::eLayer_FG1_Half_18);
     }
 
-    if (!cam.mBackgroundWellLayer.empty())
+    if (!imageAndLayers.mBackgroundWellLayer.empty())
     {
         // TODO: Combine
-        vec = MakeFG1Layer(Base64Png2RawPixels(cam.mBackgroundWellLayer));
+        vec = MakeFG1Layer(Base64Png2RawPixels(imageAndLayers.mBackgroundWellLayer), Layer::eLayer_Well_Half_4);
     }
 
-    if (!cam.mForegroundLayer.empty())
+    if (!imageAndLayers.mForegroundLayer.empty())
     {
         // TODO: Combine
-        vec = MakeFG1Layer(Base64Png2RawPixels(cam.mForegroundLayer));
+        vec = MakeFG1Layer(Base64Png2RawPixels(imageAndLayers.mForegroundLayer), Layer::eLayer_FG1_37);
     }
 
-    if (!cam.mForegroundWellLayer.empty())
+    if (!imageAndLayers.mForegroundWellLayer.empty())
     {
         // TODO: Combine
-        vec = MakeFG1Layer(Base64Png2RawPixels(cam.mForegroundWellLayer));
+        vec = MakeFG1Layer(Base64Png2RawPixels(imageAndLayers.mForegroundWellLayer), Layer::eLayer_Well_23);
     }
 
     return vec;
+}
+
+static void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers)
+{
+    const u32 bitsId = CamBitsIdFromName(camName);
+
+    // Load existing .CAM if possible so existing additional resource blocks don't get removed by
+    // re-creating the CAM from scratch.
+    ChunkedLvlFile camFile;
+    if (inputLvl.ReadFileInto(fileDataBuffer, camName.c_str()))
+    {
+        camFile = ChunkedLvlFile(fileDataBuffer);
+    }
+
+    // Arrage pixel data in strips and RGB888 -> RGB565
+    struct CamStrip final
+    {
+        u16 mStripLen = 16 * 240 * sizeof(u16);
+        u16 mStrip[240][16] = {};
+    };
+
+    struct CamImageStrips final
+    {
+    public:
+        void SetPixel(u32 x, u32 y, u16 pixel)
+        {
+            const u32 stripNum = x / 16;
+            const u32 xPixel = x % 16;
+            mStrips[stripNum].mStrip[y][xPixel] = pixel;
+        }
+
+        std::vector<u8> ToVector() const
+        {
+            std::vector<u8> r;
+            const u32 totalLengthDataSize = (640 / 16) * sizeof(u16);
+            const u32 totalStripDataSize = (640 / 16) * (16 * 240) * sizeof(u16);
+            r.resize(totalLengthDataSize + totalStripDataSize);
+
+            u16* pStream = reinterpret_cast<u16*>(r.data());
+
+            u32 pos = 0;
+            for (u32 i = 0; i < 640 / 16; i++)
+            {
+                pStream[pos] = mStrips[i].mStripLen;
+                pos++;
+
+                memcpy(pStream + pos, &mStrips[i].mStrip[0][0], mStrips[i].mStripLen);
+                pos += mStrips[i].mStripLen / sizeof(u16);
+            }
+            return r;
+        }
+
+    private:
+        CamStrip mStrips[640 / 16];
+    };
+
+    std::vector<u8> rawPixels = Base64Png2RawPixels(imageAndLayers.mCameraImage);
+    auto bitsData = std::make_unique<CamImageStrips>(); // reduce stack usage
+    for (u32 x = 0; x < 640; x++)
+    {
+        for (u32 y = 0; y < 240; y++)
+        {
+            const u32* pPixel32 = &reinterpret_cast<const u32*>(rawPixels.data())[To1dIndex(640, x, y)];
+            bitsData->SetPixel(x, y, RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)));
+        }
+    }
+
+    LvlFileChunk bitsChunk(bitsId, ResourceManager::Resource_Bits, bitsData->ToVector());
+    camFile.AddChunk(std::move(bitsChunk));
+
+    // Remove FG1 blocks
+    camFile.RemoveChunksOfType(ResourceManager::Resource_FG1);
+
+    if (imageAndLayers.HaveFG1Layers())
+    {
+        // FG1 blocks use id BitsId << 8 + idx (or 255 max in this case as we only have 1 FG1 block)
+        const u32 fg1ResId = (bitsId << 8) | 0xFF;
+
+        LvlFileChunk fg1Chunk(fg1ResId, ResourceManager::Resource_FG1, ConstructFG1Data(imageAndLayers));
+
+        // Add reconstructed single FG1 block
+        // TODO: don't add yet cause the FG1 block create isn't implemented
+        //camFile.AddChunk(std::move(fg1Chunk));
+    }
+
+    // Add or update the CAM file
+    inputLvl.AddFile(camName.c_str(), camFile.Data());
 }
 
 static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::vector<CameraNameAndTlvBlob>& camerasAndMapObjects)
@@ -516,88 +640,7 @@ static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inpu
         // Get camera ID from the name for the Bits chunk
         if (!camIter.mName.empty())
         {
-            const u32 bitsId = CamBitsIdFromName(camIter.mName);
-
-            // Load existing .CAM if possible so existing additional resource blocks don't get removed by
-            // re-creating the CAM from scratch.
-            ChunkedLvlFile camFile;
-            if (inputLvl.ReadFileInto(fileDataBuffer, (camIter.mName + ".CAM").c_str()))
-            {
-                camFile = ChunkedLvlFile(fileDataBuffer);
-            }
-
-            // Arrage pixel data in strips and RGB888 -> RGB565
-            struct CamStrip final
-            {
-                u16 mStripLen = 16 * 240 * sizeof(u16);
-                u16 mStrip[240][16] = {};
-            };
-
-            struct CamImageStrips final
-            {
-            public:
-                void SetPixel(u32 x, u32 y, u16 pixel)
-                {
-                    const u32 stripNum = x / 16;
-                    const u32 xPixel = x % 16;
-                    mStrips[stripNum].mStrip[y][xPixel] = pixel;
-                }
-
-                std::vector<u8> ToVector() const
-                {
-                    std::vector<u8> r;
-                    const u32 totalLengthDataSize = (640 / 16) * sizeof(u16);
-                    const u32 totalStripDataSize = (640 / 16) * (16 * 240) * sizeof(u16);
-                    r.resize(totalLengthDataSize + totalStripDataSize);
-
-                    u16* pStream = reinterpret_cast<u16*>(r.data());
-
-                    u32 pos = 0;
-                    for (u32 i = 0; i < 640 / 16; i++)
-                    {
-                        pStream[pos] = mStrips[i].mStripLen;
-                        pos++;
-
-                        memcpy(pStream + pos, &mStrips[i].mStrip[0][0], mStrips[i].mStripLen);
-                        pos += mStrips[i].mStripLen / sizeof(u16);
-                    }
-                    return r;
-                }
-
-            private:
-                CamStrip mStrips[640 / 16];
-            };
-
-            std::vector<u8> rawPixels = Base64Png2RawPixels(camIter.mCameraImage);
-            auto bitsData = std::make_unique<CamImageStrips>(); // reduce stack usage
-            for (u32 x = 0; x < 640; x++)
-            {
-                for (u32 y = 0; y < 240; y++)
-                {
-                    const u32* pPixel32 = &reinterpret_cast<const u32*>(rawPixels.data())[To1dIndex(640, x, y)];
-                    bitsData->SetPixel(x, y, RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)));
-                }
-            }
-
-            LvlFileChunk bitsChunk(bitsId, ResourceManager::Resource_Bits, bitsData->ToVector());
-            camFile.AddChunk(std::move(bitsChunk));
-
-            // Remove FG1 blocks
-            camFile.RemoveChunksOfType(ResourceManager::Resource_FG1);
-
-            if (!camIter.mBackgroundWellLayer.empty() || !camIter.mBackgroundLayer.empty() || !camIter.mForegroundLayer.empty() || !camIter.mForegroundWellLayer.empty())
-            {
-                // FG1 blocks use id BitsId << 8 + idx (or 255 max in this case as we only have 1 FG1 block)
-                const u32 fg1ResId = (bitsId << 8) | 0xFF;
-
-                LvlFileChunk fg1Chunk(fg1ResId, ResourceManager::Resource_FG1, ConstructFG1Data(camIter));
-
-                // Add reconstructed single FG1 block
-                camFile.AddChunk(std::move(fg1Chunk));
-            }
-
-            // Add or update the CAM file
-            inputLvl.AddFile((camIter.mName + ".CAM").c_str(), camFile.Data());
+            ImportCameraAndFG1(fileDataBuffer, inputLvl, camIter.mName + ".CAM", camIter.mCameraAndLayers);
         }
     }
 }

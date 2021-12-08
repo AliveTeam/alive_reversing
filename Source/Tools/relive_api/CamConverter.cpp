@@ -5,6 +5,8 @@
 #include "../../AliveLibAE/ScreenManager.hpp"
 #include "../../AliveLibCommon/CamDecompressor.hpp"
 #include "../../AliveLibCommon/FG1Reader.hpp"
+#include "Base64.hpp"
+#include "JsonModelTypes.hpp"
 #include <lodepng/lodepng.h>
 #include <iostream>
 #include <memory>
@@ -30,6 +32,7 @@ struct TmpBuffer final
 {
     u32 dst[240][640] = {};
 };
+
 
 static void RGB565ToPngBuffer(const u16* camBuffer, std::vector<u8>& outPngData)
 {
@@ -61,7 +64,14 @@ static void RGB565ToPngBuffer(const u16* camBuffer, std::vector<u8>& outPngData)
     }
 }
 
-struct FG1Buffers
+static std::string RGB565ToBase64PngString(const u16* camBuffer)
+{
+    std::vector<u8> outPngData;
+    RGB565ToPngBuffer(camBuffer, outPngData);
+    return ToBase64(outPngData);
+}
+
+struct FG1Buffers final
 {
     void MergePixel(u32 layer, u32 x, u32 y, u16 pixel)
     {
@@ -184,7 +194,7 @@ public:
             if (mUsedLayers[i])
             {
                 const u16* pPixels = &mFg1Buffers->mFg1[i][0][0];
-                RGB565ToPngBuffer(pPixels, BufferForLayer(outData, i));
+                BufferForLayer(outData, i) = RGB565ToBase64PngString(pPixels);
             }
         }
     }
@@ -193,27 +203,27 @@ public:
     {
         if (!outData.mBackgroundLayer.empty())
         {
-            lodepng::save_file(outData.mBackgroundLayer, "bg_" + std::to_string(id) + ".png");
+            lodepng::save_file(FromBase64(outData.mBackgroundLayer), "bg_" + std::to_string(id) + ".png");
         }
 
         if (!outData.mForegroundLayer.empty())
         {
-            lodepng::save_file(outData.mForegroundLayer, "fg_" + std::to_string(id) + ".png");
+            lodepng::save_file(FromBase64(outData.mForegroundLayer), "fg_" + std::to_string(id) + ".png");
         }
 
         if (!outData.mBackgroundWellLayer.empty())
         {
-            lodepng::save_file(outData.mBackgroundWellLayer, "bg_well_" + std::to_string(id) + ".png");
+            lodepng::save_file(FromBase64(outData.mBackgroundWellLayer), "bg_well_" + std::to_string(id) + ".png");
         }
 
         if (!outData.mForegroundWellLayer.empty())
         {
-            lodepng::save_file(outData.mForegroundWellLayer, "fg_well_" + std::to_string(id) + ".png");
+            lodepng::save_file(FromBase64(outData.mForegroundWellLayer), "fg_well_" + std::to_string(id) + ".png");
         }
     }
 
 private:
-    std::vector<u8>& BufferForLayer(CameraImageAndLayers& outData, u32 layer)
+    std::string& BufferForLayer(CameraImageAndLayers& outData, u32 layer)
     {
         if (mFormat == FG1Format::AO)
         {
@@ -284,32 +294,6 @@ static void MergeFG1BlocksAndConvertToPng(const ChunkedLvlFile& camFile, CameraI
     }
 }
 
-CamConverterAO::CamConverterAO(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData, bool processFG1)
-{
-    std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
-    if (bitsRes)
-    {
-        std::vector<u16> camBuffer(640 * 240);
-        const u16* pIter = reinterpret_cast<const u16*>(bitsRes->Data().data());
-        for (s16 xpos = 0; xpos < 640; xpos += 16)
-        {
-            const u16 slice_len = *pIter;
-            pIter++; // Skip len
-
-            AppendCamSegment(xpos, 0, 16, 240, camBuffer.data(), pIter);
-
-            // To next slice
-            pIter += (slice_len / sizeof(s16));
-        }
-        RGB565ToPngBuffer(camBuffer.data(), outData.mCameraImage);
-        if (processFG1)
-        {
-            MergeFG1BlocksAndConvertToPng(camFile, outData);
-        }
-    }
-
-}
-
 static bool AEcamIsAOCam(const LvlFileChunk& bitsRes)
 {
     const u16* pIter = reinterpret_cast<const u16*>(bitsRes.Data().data());
@@ -324,41 +308,60 @@ static bool AEcamIsAOCam(const LvlFileChunk& bitsRes)
     return true;
 }
 
-CamConverterAE::CamConverterAE(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData)
+static void ConvertAECamera(const LvlFileChunk& bitsRes, std::string& cameraPngBase64)
+{
+    std::vector<u16> camBuffer(640 * 240);
+    std::vector<u8> vlcBuffer(0x7E00);
+    CamDecompressor decompressor;
+    const u16* pIter = reinterpret_cast<const u16*>(bitsRes.Data().data());
+    for (s16 xpos = 0; xpos < 640; xpos += 16)
+    {
+        const u16 stripSize = *pIter;
+        pIter++;
+
+        if (stripSize > 0)
+        {
+            decompressor.vlc_decode(pIter, reinterpret_cast<u16*>(vlcBuffer.data()));
+            decompressor.process_segment(reinterpret_cast<u16*>(vlcBuffer.data()), 0);
+            AppendCamSegment(xpos, 0, 16, 240, camBuffer.data(), decompressor.mDecompressedStrip);
+        }
+
+        pIter += (stripSize / sizeof(u16));
+    }
+    cameraPngBase64 = RGB565ToBase64PngString(camBuffer.data());
+}
+
+static void ConvertAOCamera(const LvlFileChunk& bitsRes, std::string& cameraPngBase64)
+{
+    std::vector<u16> camBuffer(640 * 240);
+    const u16* pIter = reinterpret_cast<const u16*>(bitsRes.Data().data());
+    for (s16 xpos = 0; xpos < 640; xpos += 16)
+    {
+        const u16 slice_len = *pIter;
+        pIter++; // Skip len
+
+        AppendCamSegment(xpos, 0, 16, 240, camBuffer.data(), pIter);
+
+        // To next slice
+        pIter += (slice_len / sizeof(s16));
+    }
+    cameraPngBase64 = RGB565ToBase64PngString(camBuffer.data());
+}
+
+CamConverter::CamConverter(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData)
 {
     std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
     if (bitsRes)
     {
         if (AEcamIsAOCam(*bitsRes))
         {
-            CamConverterAO aoCam(camFile, outData, false);
-
-            // While its image data is AO format the FG1 is still AE format
-            MergeFG1BlocksAndConvertToPng(camFile, outData);
+            ConvertAOCamera(*bitsRes, outData.mCameraImage);
         }
         else
         {
-            std::vector<u16> camBuffer(640 * 240);
-            std::vector<u8> vlcBuffer(0x7E00);
-            CamDecompressor decompressor;
-            const u16* pIter = reinterpret_cast<const u16*>(bitsRes->Data().data());
-            for (s16 xpos = 0; xpos < 640; xpos += 16)
-            {
-                const u16 stripSize = *pIter;
-                pIter++;
-
-                if (stripSize > 0)
-                {
-                    decompressor.vlc_decode(pIter, reinterpret_cast<u16*>(vlcBuffer.data()));
-                    decompressor.process_segment(reinterpret_cast<u16*>(vlcBuffer.data()), 0);
-                    AppendCamSegment(xpos, 0, 16, 240, camBuffer.data(), decompressor.mDecompressedStrip);
-                }
-
-                pIter += (stripSize / sizeof(u16));
-            }
-            RGB565ToPngBuffer(camBuffer.data(), outData.mCameraImage);
-            MergeFG1BlocksAndConvertToPng(camFile, outData);
+            ConvertAECamera(*bitsRes, outData.mCameraImage);
         }
+        MergeFG1BlocksAndConvertToPng(camFile, outData);
     }
 }
 } // namespace ReliveAPI

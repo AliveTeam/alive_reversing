@@ -78,11 +78,11 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
         cameraNameBlob.x = x;
         cameraNameBlob.y = y;
 
-        cameraNameBlob.mCameraImage = ReadOptionalString(camera, "image");
-        cameraNameBlob.mForegroundLayer = ReadOptionalString(camera, "foreground_layer");
-        cameraNameBlob.mForegroundWellLayer = ReadOptionalString(camera, "foreground_well_layer");
-        cameraNameBlob.mBackgroundLayer = ReadOptionalString(camera, "background_layer");
-        cameraNameBlob.mBackgroundWellLayer = ReadOptionalString(camera, "background_well_layer");
+        cameraNameBlob.mCameraAndLayers.mCameraImage = ReadOptionalString(camera, "image");
+        cameraNameBlob.mCameraAndLayers.mForegroundLayer = ReadOptionalString(camera, "foreground_layer");
+        cameraNameBlob.mCameraAndLayers.mForegroundWellLayer = ReadOptionalString(camera, "foreground_well_layer");
+        cameraNameBlob.mCameraAndLayers.mBackgroundLayer = ReadOptionalString(camera, "background_layer");
+        cameraNameBlob.mCameraAndLayers.mBackgroundWellLayer = ReadOptionalString(camera, "background_well_layer");
 
         const jsonxx::Array& mapObjectsArray = ReadArray(camera, "map_objects");
         for (auto j = 0u; j < mapObjectsArray.values().size(); j++)

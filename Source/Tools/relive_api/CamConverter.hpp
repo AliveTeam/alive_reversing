@@ -6,26 +6,12 @@
 
 namespace ReliveAPI {
 class ChunkedLvlFile;
+class CameraImageAndLayers;
 
-class CameraImageAndLayers final
+class CamConverter final
 {
 public:
-    std::vector<u8> mCameraImage;
-    std::vector<u8> mForegroundLayer;
-    std::vector<u8> mBackgroundLayer;
-    std::vector<u8> mForegroundWellLayer;
-    std::vector<u8> mBackgroundWellLayer;
+    CamConverter(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData);
 };
 
-class CamConverterAO final
-{
-public:
-    CamConverterAO(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData, bool processFG1 = true);
-};
-
-class CamConverterAE final
-{
-public:
-    CamConverterAE(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData);
-};
 } // namespace ReliveAPI

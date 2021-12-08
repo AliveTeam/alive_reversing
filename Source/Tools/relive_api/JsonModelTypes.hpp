@@ -50,6 +50,21 @@ struct PathInfo final
     s32 mCollisionOffset = 0;
 };
 
+class CameraImageAndLayers final
+{
+public:
+    std::string mCameraImage;
+    std::string mForegroundLayer;
+    std::string mBackgroundLayer;
+    std::string mForegroundWellLayer;
+    std::string mBackgroundWellLayer;
+
+    bool HaveFG1Layers() const
+    {
+        return !mForegroundLayer.empty() || !mBackgroundLayer.empty() || !mForegroundWellLayer.empty() || !mBackgroundWellLayer.empty();
+    }
+};
+
 struct CameraNameAndTlvBlob final
 {
     s32 mId = 0;
@@ -58,11 +73,7 @@ struct CameraNameAndTlvBlob final
     std::string mName;
     std::vector<std::vector<u8>> mTlvBlobs;
 
-    std::string mCameraImage;
-    std::string mForegroundLayer;
-    std::string mBackgroundLayer;
-    std::string mForegroundWellLayer;
-    std::string mBackgroundWellLayer;
+    CameraImageAndLayers mCameraAndLayers;
 
     [[nodiscard]] std::size_t TotalTlvSize() const;
 };
