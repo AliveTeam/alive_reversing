@@ -17,27 +17,27 @@ namespace ReliveAPI {
 
     if (!cameraImageAndLayers.mCameraImage.empty())
     {
-        obj << "image" << ToBase64(cameraImageAndLayers.mCameraImage);
+        obj << "image" << cameraImageAndLayers.mCameraImage;
     }
 
     if (!cameraImageAndLayers.mForegroundLayer.empty())
     {
-        obj << "foreground_layer" << ToBase64(cameraImageAndLayers.mForegroundLayer);
+        obj << "foreground_layer" << cameraImageAndLayers.mForegroundLayer;
     }
 
     if (!cameraImageAndLayers.mForegroundWellLayer.empty())
     {
-        obj << "foreground_well_layer" << ToBase64(cameraImageAndLayers.mForegroundWellLayer);
+        obj << "foreground_well_layer" << cameraImageAndLayers.mForegroundWellLayer;
     }
 
     if (!cameraImageAndLayers.mBackgroundLayer.empty())
     {
-        obj << "background_layer" << ToBase64(cameraImageAndLayers.mBackgroundLayer);
+        obj << "background_layer" << cameraImageAndLayers.mBackgroundLayer;
     }
 
     if (!cameraImageAndLayers.mBackgroundWellLayer.empty())
     {
-        obj << "background_well_layer" << ToBase64(cameraImageAndLayers.mBackgroundWellLayer);
+        obj << "background_well_layer" << cameraImageAndLayers.mBackgroundWellLayer;
     }
 
     return obj;

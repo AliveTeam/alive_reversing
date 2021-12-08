@@ -8,6 +8,10 @@
 #include "../../AliveLibCommon/stdafx_common.h"
 #include "../../AliveLibCommon/logger.hpp"
 
+#include "LvlReaderWriter.hpp"
+#include "CamConverter.hpp"
+#include "JsonModelTypes.hpp"
+
 #include <gmock/gmock.h>
 
 #include <array>
@@ -95,6 +99,34 @@ template <typename... Ts>
     }
 
     return buf;
+}
+
+TEST(alive_api, FG1Conversion)
+{
+    for (const auto& lvl : kAOLvls)
+    {
+        // Write out all cam and FG1s
+        ReliveAPI::LvlReader reader(lvl.data());
+        for (s32 i = 0; i < reader.FileCount(); i++)
+        {
+            if (reader.FileNameAt(i).find(".CAM") != std::string::npos)
+            {
+                if (reader.ReadFileInto(getStaticFileBuffer(), reader.FileNameAt(i).c_str()))
+                {
+                    ReliveAPI::ChunkedLvlFile camFile(getStaticFileBuffer());
+
+                    ReliveAPI::CameraImageAndLayers convertedData;
+                    ReliveAPI::CamConverter converter(camFile, convertedData);
+
+                    //ReliveAPI::ApiFG1Reader::DebugSave(convertedData, camFile.ChunkByType(ResourceManager::Resource_FG1)->Id());
+                }
+            }
+        }
+
+        // TODO: Re-save a copy of the LVL with imported CAM/FG1 data
+
+        // TODO: Export the re-saved copy + compare PNGs are equal
+    }
 }
 
 TEST(alive_api, ExportPathBinaryToJsonAE)
