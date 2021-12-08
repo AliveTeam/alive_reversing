@@ -385,7 +385,7 @@ PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, 
     pAddedLine->field_0_rect.y = y1;
     pAddedLine->field_0_rect.w = x2;
     pAddedLine->field_0_rect.h = y2;
-    pAddedLine->field_8_type = mode;
+    pAddedLine->field_8_type = static_cast<eLineTypes>(mode);
     pAddedLine->field_C_next = -1;
     pAddedLine->field_A_previous = -1;
     return pAddedLine;

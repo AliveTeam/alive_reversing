@@ -111,8 +111,14 @@ struct Path_Slig final : public Path_TLV
     s16 field_18_pause_left_max;
     s16 field_1A_pause_right_min;
     s16 field_1C_pause_right_max;
-    s16 field_1E_chal_number;
-    s16 field_20_chal_timer;
+    enum class ShootPossessedSligs : s16
+    {
+        eYes_0,
+        eYes_1 = 1,
+        eNo_3 = 3, // it really had to be the magic number 3 *sigh*
+    };
+    ShootPossessedSligs field_1E_shoot_possessed_sligs;
+    s16 field_20_shoot_on_sight_delay;
     s16 field_22_num_times_to_shoot;
     s16 field_24_padding; // TODO: or part of above field like in AO
     s16 field_26_code1;

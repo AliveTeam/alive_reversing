@@ -701,7 +701,7 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseAO
         ADD("unknown", mTlv.field_2C_unknown);
         ADD("code1", mTlv.field_2E_code1);
         ADD("code2", mTlv.field_30_code2);
-        ADD("chase_abe", mTlv.field_32_chase_abe);
+        ADD("chase_abe_when_spotted", mTlv.field_32_chase_abe);
         ADD("start_direction", mTlv.field_34_start_direction);
         ADD("panic_timeout", mTlv.field_36_panic_timeout);
         ADD("num_panic_sounds", mTlv.field_38_num_panic_sounds);
@@ -1314,7 +1314,7 @@ struct Path_SligSpawner final : public ReliveAPI::TlvObjectBaseAO
         ADD("unknown", mTlv.field_2C_unknown);
         ADD("code1", mTlv.field_2E_code1);
         ADD("code2", mTlv.field_30_code2);
-        ADD("chase_abe", mTlv.field_32_chase_abe);
+        ADD("chase_abe_when_spotted", mTlv.field_32_chase_abe);
         ADD("start_direction", mTlv.field_34_start_direction);
         ADD("panic_timeout", mTlv.field_36_panic_timeout);
         ADD("num_panic_sounds", mTlv.field_38_num_panic_sounds);

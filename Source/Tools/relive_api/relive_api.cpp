@@ -394,7 +394,7 @@ static void WriteCollisionLine(ByteStream& s, const ::PathLine& line)
     s.Write(line.field_0_rect.w);
     s.Write(line.field_0_rect.h);
 
-    s.Write(line.field_8_type);
+    s.Write(static_cast<u8>(line.field_8_type));
     s.Write(line.field_9_padding);
 
     s.Write(line.field_A_previous);
