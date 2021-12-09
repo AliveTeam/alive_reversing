@@ -8,7 +8,7 @@ struct Path_Greeter final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_motion_detector_speed;
-    XDirection_short field_14_direction;
+    XDirection_short field_14_start_direction;
     s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Greeter, 0x18);

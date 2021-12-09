@@ -23,15 +23,14 @@ SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, s32 tlvInfo)
     field_20_tlv_info = tlvInfo;
     field_28_tlv = *pTlv;
 
-    field_26_flags |= 1u;
+    field_26_flags.Set(SpawnerFlags::eBit1_DontDestroyTLV);
 
     field_24_slig_id = pTlv->field_4C_id;
     field_40_bFindSpawnedSlig = 0;
 
-    // TODO: Flags
-    field_26_flags = (field_26_flags & ~2) | 2 * (pTlv->field_4E_unknown & 1);
+    field_26_flags.Set(SpawnerFlags::eBit2_UnlimitedSpawns, pTlv->field_4E_unlimited_spawns == Choice_short::eYes_1);
 
-    field_38_state = 0;
+    field_38_state = SpawnerStates::eInactive_0;
     field_3C_spawned_slig_obj_id = -1;
     return this;
 }
@@ -39,7 +38,7 @@ SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, s32 tlvInfo)
 void SligSpawner::dtor_409A70()
 {
     SetVTable(this, 0x544090);
-    if (field_26_flags & 1)
+    if (field_26_flags.Get(SpawnerFlags::eBit1_DontDestroyTLV))
     {
         Path::TLV_Reset_4DB8E0(field_20_tlv_info, -1, 0, 0);
     }
@@ -62,7 +61,7 @@ SligSpawner* SligSpawner::vdtor_409800(s32 flags)
 
 void SligSpawner::vScreenChanged_409A30()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || field_38_state == 0)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || field_38_state == SpawnerStates::eInactive_0)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -101,15 +100,15 @@ void SligSpawner::vUpdate_409830()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_38_state == 1)
+    if (field_38_state == SpawnerStates::eSligSpawned_1)
     {
         if (!pSpawnedSlig || pSpawnedSlig->field_6_flags.Get(BaseGameObject::eDead_Bit3) || pSpawnedSlig->field_10C_health <= FP_FromInteger(0))
         {
             SwitchStates_Set_465FF0(field_24_slig_id, 0);
-            field_38_state = 0;
+            field_38_state = SpawnerStates::eInactive_0;
         }
     }
-    else if (field_38_state == 0)
+    else if (field_38_state == SpawnerStates::eInactive_0)
     {
         if (SwitchStates_Get_466020(field_24_slig_id))
         {
@@ -123,14 +122,14 @@ void SligSpawner::vUpdate_409830()
                 }
 
                 field_3C_spawned_slig_obj_id = pSligMem->field_8_object_id;
-                field_38_state = 1;
+                field_38_state = SpawnerStates::eSligSpawned_1;
                 SFX_Play_46FA90(SoundEffect::SligSpawn_114, 0);
             }
 
-            if (!(field_26_flags & 2))
+            if (!field_26_flags.Get(SpawnerFlags::eBit2_UnlimitedSpawns))
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
-                field_26_flags = field_26_flags & ~1;
+                field_26_flags.Clear(SpawnerFlags::eBit1_DontDestroyTLV);
             }
         }
     }

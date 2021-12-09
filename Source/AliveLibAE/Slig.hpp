@@ -131,7 +131,7 @@ struct Path_Slig final : public Path_TLV
     s16 field_34_stop_chase_delay;
     s16 field_36_time_to_wait_before_chase;
     s16 field_38_slig_id;
-    s16 field_3A_listen_time;
+    s16 field_3A_alerted_listen_time;
     s16 field_3C_percent_say_what;
     s16 field_3E_percent_beat_mud;
     s16 field_40_talk_to_abe;
@@ -141,7 +141,7 @@ struct Path_Slig final : public Path_TLV
     s16 field_48_disable_resources;
     s16 field_4A_noise_wake_up_distance;
     s16 field_4C_id;
-    s16 field_4E_unknown;
+    Choice_short field_4E_unlimited_spawns;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
 
@@ -426,7 +426,7 @@ public:
 private:
     EXPORT void WakeUp_4B93B0();
 
-    EXPORT void ShouldStilBeAlive_4BBC00();
+    EXPORT void ShouldStillBeAlive_4BBC00();
 
     EXPORT u8** ResForMotion_4B1E90(s16 motion);
 

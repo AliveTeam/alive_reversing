@@ -516,7 +516,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     field_16A_flags.Set(Flags_16A::eBit2_reset_pos_on_screen_change, pTlv->field_1E_reset_pos_on_screen_change == Choice_short::eYes_1);
     field_16A_flags.Set(Flags_16A::eBit10_stop_turning_work_wheel, pTlv->field_26_stop_turning_work_wheel == Choice_short::eYes_1);
     field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pTlv->field_28_bGets_depressed == Choice_short::eYes_1);
-    field_16A_flags.Set(Flags_16A::eBit15_ring_timeout, pTlv->field_2A_ring_timeout & 1);
+    field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pTlv->field_2A_ring_timeout & 1);
 
     field_17C_stand_idle_timer = 0;
 
@@ -851,7 +851,7 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
     pMud->field_16A_flags.Set(Flags_16A::eBit12_alert_enemies, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit1_alert_enemies));
     pMud->field_16A_flags.Set(Flags_16A::eBit13, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit2));
     pMud->field_16A_flags.Set(Flags_16A::eBit14_make_sad_noise, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit3_make_sad_noise));
-    pMud->field_16A_flags.Set(Flags_16A::eBit15_ring_timeout, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit4_ring_timeout));
+    pMud->field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit4_ring_timeout));
 
     if (pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit5))
     {
@@ -997,7 +997,7 @@ s32 Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
     pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit1_alert_enemies, field_16A_flags.Get(Flags_16A::eBit12_alert_enemies));
     pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit2, field_16A_flags.Get(Flags_16A::eBit13));
     pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit3_make_sad_noise, field_16A_flags.Get(Flags_16A::eBit14_make_sad_noise));
-    pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit4_ring_timeout, field_16A_flags.Get(Flags_16A::eBit15_ring_timeout));
+    pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit4_ring_timeout, field_16A_flags.Get(Flags_16A::eBit15_ring_and_angry_mud_timeout));
     pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit5, field_16C_flags.Get(Flags_16C::eBit1_Unknown));
     pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit6, field_16C_flags.Get(Flags_16C::eBit2_Unknown));
 
@@ -1859,7 +1859,7 @@ enum Brain_6_Escape
 enum Brain_8_AngryWorker
 {
     eBrain8_Inactive_0 = 0,
-    eBrain8_LeverIdel_1 = 1,
+    eBrain8_LeverIdle_1 = 1,
     eBrain8_PullingLever_2 = 2,
     eBrain8_Speaking_3 = 3,
     eBrain8_WheelIdle_4 = 4,
@@ -5204,7 +5204,7 @@ s16 Mudokon::Brain_8_AngryWorker_47E910()
                 field_108_next_motion = eMudMotions::M_Idle_0_4724E0;
             }
 
-            if (field_16A_flags.Get(Flags_16A::eBit15_ring_timeout))
+            if (field_16A_flags.Get(Flags_16A::eBit15_ring_and_angry_mud_timeout))
             {
                 const GameSpeakEvents lastSpeak = LastGameSpeak_476FF0();
                 if (lastSpeak < GameSpeakEvents::eHello_9 || lastSpeak > GameSpeakEvents::eSorry_24)
@@ -5227,7 +5227,7 @@ s16 Mudokon::Brain_8_AngryWorker_47E910()
                      ? 4
                      : 1;
 
-        case Brain_8_AngryWorker::eBrain8_LeverIdel_1:
+        case Brain_8_AngryWorker::eBrain8_LeverIdle_1:
         {
             if (field_17E_delayed_speak == MudAction::eSorry_8)
             {
@@ -5284,7 +5284,7 @@ s16 Mudokon::Brain_8_AngryWorker_47E910()
             {
                 field_194_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 45);
             }
-            return Brain_8_AngryWorker::eBrain8_LeverIdel_1;
+            return Brain_8_AngryWorker::eBrain8_LeverIdle_1;
 
         case Brain_8_AngryWorker::eBrain8_Speaking_3:
             if (field_194_timer > static_cast<s32>(sGnFrame_5C1B84))

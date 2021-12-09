@@ -527,7 +527,7 @@ private:
         eBit12_alert_enemies = 0x800,
         eBit13 = 0x1000, // TODO: It's only unset until it's checked, then set. Relates to MudAction::eUnknown_15 and MudAction::eUnknown_16. It's only set when a Glukkon makes a loud noise on the same screen as the Mudokon.
         eBit14_make_sad_noise = 0x2000,
-        eBit15_ring_timeout = 0x4000,
+        eBit15_ring_and_angry_mud_timeout = 0x4000,
         eBit16_give_ring_without_password = 0x8000,
         eBit17_padding = 0x10000,
         eBit18_padding = 0x20000,

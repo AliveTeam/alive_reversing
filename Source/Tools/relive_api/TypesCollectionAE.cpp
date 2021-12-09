@@ -142,140 +142,146 @@ void TypesCollectionAE::AddAETypes()
 
 #undef REGISTER_TYPE_AE
 
+    AddEnum<::Path_FlyingSlig_Data::SpawnDelayStates>("Enum_FlyingSligSpawnDelayStates",
+    {
+        {::Path_FlyingSlig_Data::SpawnDelayStates::eMoveImmediately_0, "Move Immediately"},
+        {::Path_FlyingSlig_Data::SpawnDelayStates::eUseCustomSpawnMoveDelay_1, "Use Custom Spawn Move Delay"},
+    });
+
     AddEnum<::Path_Slig::StartState>("Enum_SligStartState",
-                                           {
-                                               {::Path_Slig::StartState::Listening_0, "Listening"},
-                                               {::Path_Slig::StartState::Paused_1, "Paused"},
-                                               {::Path_Slig::StartState::Sleeping_2, "Sleeping"},
-                                               {::Path_Slig::StartState::Chase_3, "Chase"},
-                                               {::Path_Slig::StartState::RunOffScreen_4, "Run Off Screen"},
-                                               {::Path_Slig::StartState::GameEnder_5, "Game Ender"},
-                                               {::Path_Slig::StartState::ListeningToGlukkon_6, "Listen To Glukkon"},
-                                           });
+    {
+        {::Path_Slig::StartState::Listening_0, "Listening"},
+        {::Path_Slig::StartState::Paused_1, "Paused"},
+        {::Path_Slig::StartState::Sleeping_2, "Sleeping"},
+        {::Path_Slig::StartState::Chase_3, "Chase"},
+        {::Path_Slig::StartState::RunOffScreen_4, "Run Off Screen"},
+        {::Path_Slig::StartState::GameEnder_5, "Game Ender"},
+        {::Path_Slig::StartState::ListeningToGlukkon_6, "Listen To Glukkon"},
+    });
 
     AddEnum<::Path_Slig::ShootPossessedSligs>("Enum_ShootPossessedSligs",
-                                         {
-                                                {::Path_Slig::ShootPossessedSligs::eYes_0, "Yes 0"},
-                                                {::Path_Slig::ShootPossessedSligs::eYes_1, "Yes 1"},
-                                                {::Path_Slig::ShootPossessedSligs::eNo_3, "No"},
-                                         });
+    {
+        {::Path_Slig::ShootPossessedSligs::eYes_0, "Yes 0"},
+        {::Path_Slig::ShootPossessedSligs::eYes_1, "Yes 1"},
+        {::Path_Slig::ShootPossessedSligs::eNo_3, "No"},
+    });
 
     AddEnum<eLineTypes>("Enum_LineTypes",
-                                  {
-                                      {eLineTypes::eFloor_0, "Floor"},
-                                      {eLineTypes::eWallLeft_1, "Wall Left"},
-                                      {eLineTypes::eWallRight_2, "Wall Right"},
-                                      {eLineTypes::eCeiling_3, "Ceiling"},
-                                      {eLineTypes::eBackGroundFloor_4, "Background Floor"},
-                                      {eLineTypes::eBackGroundWallLeft_5, "Background Wall Left"},
-                                      {eLineTypes::eBackGroundWallRight_6, "Background Wall Right"},
-                                      {eLineTypes::eBackGroundCeiling_7, "Background Ceiling"},
-                                      {eLineTypes::eTrackLine_8, "Track Lines"},
-                                      {eLineTypes::eArt_9, "Art"},
-                                      {eLineTypes::eBulletWall_10, "Bullet Wall"},
-                                      {eLineTypes::eMineCarFloor_11, "Mine Car Floor"},
-                                      {eLineTypes::eMineCarWall_12, "Mine Car Wall"},
-                                      {eLineTypes::eMineCarCeiling_13, "Mine Car Ceiling"},
-                                      {eLineTypes::eFlyingSligCeiling_17, "Flying Slig Ceiling"},
-                                      {eLineTypes::eUnknown_32, "Unknown 32"},
-                                      {eLineTypes::eUnknown_36, "Unknown 36"},
-                                  });
+    {
+        {eLineTypes::eFloor_0, "Floor"},
+        {eLineTypes::eWallLeft_1, "Wall Left"},
+        {eLineTypes::eWallRight_2, "Wall Right"},
+        {eLineTypes::eCeiling_3, "Ceiling"},
+        {eLineTypes::eBackGroundFloor_4, "Background Floor"},
+        {eLineTypes::eBackGroundWallLeft_5, "Background Wall Left"},
+        {eLineTypes::eBackGroundWallRight_6, "Background Wall Right"},
+        {eLineTypes::eBackGroundCeiling_7, "Background Ceiling"},
+        {eLineTypes::eTrackLine_8, "Track Lines"},
+        {eLineTypes::eArt_9, "Art"},
+        {eLineTypes::eBulletWall_10, "Bullet Wall"},
+        {eLineTypes::eMineCarFloor_11, "Mine Car Floor"},
+        {eLineTypes::eMineCarWall_12, "Mine Car Wall"},
+        {eLineTypes::eMineCarCeiling_13, "Mine Car Ceiling"},
+        {eLineTypes::eFlyingSligCeiling_17, "Flying Slig Ceiling"},
+        {eLineTypes::eUnknown_32, "Unknown 32"},
+        {eLineTypes::eUnknown_36, "Unknown 36"},
+    });
 
     AddEnum<ScreenChangeEffects>("Enum_ScreenChangeEffects",
-                               {
-                                   {ScreenChangeEffects::ePlay1FMV_0, "Play 1 FMV"},
-                                   {ScreenChangeEffects::eRightToLeft_1, "Right To Left"},
-                                   {ScreenChangeEffects::eLeftToRight_2, "Left To Right"},
-                                   {ScreenChangeEffects::eBottomToTop_3, "Bottom To Top"},
-                                   {ScreenChangeEffects::eTopToBottom_4, "Top To Bottom"},
-                                   {ScreenChangeEffects::eBoxOut_5, "Box Out"},
-                                   {ScreenChangeEffects::eVerticalSplit_6, "Left To Vertical Split"},
-                                   {ScreenChangeEffects::eHorizontalSplit_7, "Horizontal Split"},
-                                   {ScreenChangeEffects::eUnknown_8, "Unknown"},
-                                   {ScreenChangeEffects::eInstantChange_9, "Instant Change"}
-                               });
+    {
+        {ScreenChangeEffects::ePlay1FMV_0, "Play 1 FMV"},
+        {ScreenChangeEffects::eRightToLeft_1, "Right To Left"},
+        {ScreenChangeEffects::eLeftToRight_2, "Left To Right"},
+        {ScreenChangeEffects::eBottomToTop_3, "Bottom To Top"},
+        {ScreenChangeEffects::eTopToBottom_4, "Top To Bottom"},
+        {ScreenChangeEffects::eBoxOut_5, "Box Out"},
+        {ScreenChangeEffects::eVerticalSplit_6, "Left To Vertical Split"},
+        {ScreenChangeEffects::eHorizontalSplit_7, "Horizontal Split"},
+        {ScreenChangeEffects::eUnknown_8, "Unknown"},
+        {ScreenChangeEffects::eInstantChange_9, "Instant Change"}
+    });
 
     AddEnum<CameraSwapEffects>("Enum_CameraSwapEffects",
-                               {
-                                   {CameraSwapEffects::eInstantChange_0, "Instant Change"},
-                                   {CameraSwapEffects::eLeftToRight_1, "Left To Right"},
-                                   {CameraSwapEffects::eRightToLeft_2, "Right To Left"},
-                                   {CameraSwapEffects::eTopToBottom_3, "Top To Bottom"},
-                                   {CameraSwapEffects::eBottomToTop_4, "Bottom To Top"},
-                                   {CameraSwapEffects::ePlay1FMV_5, "Play 1 FMV"},
-                                   {CameraSwapEffects::eVerticalSplit_6, "Left To Vertical Split"},
-                                   {CameraSwapEffects::eHorizontalSplit_7, "Horizontal Split"},
-                                   {CameraSwapEffects::eBoxOut_8, "Box Out"},
-                                   {CameraSwapEffects::ePlay2FMVs_9, "Play 2 FMV's"},
-                                   {CameraSwapEffects::ePlay3FMVs_10, "Play 3 FMV's"},
-                                   {CameraSwapEffects::eUnknown_11, "Unknown"},
-                               });
+    {
+        {CameraSwapEffects::eInstantChange_0, "Instant Change"},
+        {CameraSwapEffects::eLeftToRight_1, "Left To Right"},
+        {CameraSwapEffects::eRightToLeft_2, "Right To Left"},
+        {CameraSwapEffects::eTopToBottom_3, "Top To Bottom"},
+        {CameraSwapEffects::eBottomToTop_4, "Bottom To Top"},
+        {CameraSwapEffects::ePlay1FMV_5, "Play 1 FMV"},
+        {CameraSwapEffects::eVerticalSplit_6, "Left To Vertical Split"},
+        {CameraSwapEffects::eHorizontalSplit_7, "Horizontal Split"},
+        {CameraSwapEffects::eBoxOut_8, "Box Out"},
+        {CameraSwapEffects::ePlay2FMVs_9, "Play 2 FMV's"},
+        {CameraSwapEffects::ePlay3FMVs_10, "Play 3 FMV's"},
+        {CameraSwapEffects::eUnknown_11, "Unknown"},
+    });
 
     AddEnum<Choice_int>("Enum_Choice_int",
-                          {
-                              {Choice_int::eNo_0, "No"},
-                              {Choice_int::eYes_1, "Yes"},
-                          });
+    {
+        {Choice_int::eNo_0, "No"},
+        {Choice_int::eYes_1, "Yes"},
+    });
 
     AddEnum<Choice_short>("Enum_Choice_short",
-                          {
-                              {Choice_short::eNo_0, "No"},
-                              {Choice_short::eYes_1, "Yes"},
-                          });
+    {
+        {Choice_short::eNo_0, "No"},
+        {Choice_short::eYes_1, "Yes"},
+    });
 
     AddEnum<XDirection_int>("Enum_XDirection_int",
-                              {
-                                  {XDirection_int::eLeft_0, "Left"},
-                                  {XDirection_int::eRight_1, "Right"},
-                              });
+    {
+        {XDirection_int::eLeft_0, "Left"},
+        {XDirection_int::eRight_1, "Right"},
+    });
 
     AddEnum<XDirection_short>("Enum_XDirection_short",
-                              {
-                                  {XDirection_short::eLeft_0, "Left"},
-                                  {XDirection_short::eRight_1, "Right"},
-                              });
+    {
+        {XDirection_short::eLeft_0, "Left"},
+        {XDirection_short::eRight_1, "Right"},
+    });
 
     AddEnum<Scale_short>("Enum_Scale_short",
-                         {
-                             {Scale_short::eFull_0, "Full"},
-                             {Scale_short::eHalf_1, "Half"},
-                         });
+    {
+        {Scale_short::eFull_0, "Full"},
+        {Scale_short::eHalf_1, "Half"},
+    });
 
     AddEnum<Scale_int>("Enum_Scale_int",
-                       {
-                           {Scale_int::eFull_0, "Full"},
-                           {Scale_int::eHalf_1, "Half"},
-                       });
+    {
+        {Scale_int::eFull_0, "Full"},
+        {Scale_int::eHalf_1, "Half"},
+    });
 
     AddEnum<SwitchOp>("Enum_SwitchOp",
-                      {
-                          {SwitchOp::eSetTrue_0, "SetTrue"},
-                          {SwitchOp::eSetFalse_1, "SetFalse"},
-                          {SwitchOp::eToggle_2, "Toggle"},
-                          {SwitchOp::eIncrement_3, "Increment"},
-                          {SwitchOp::eDecrement_4, "Decrement"},
-                      });
+    {
+        {SwitchOp::eSetTrue_0, "SetTrue"},
+        {SwitchOp::eSetFalse_1, "SetFalse"},
+        {SwitchOp::eToggle_2, "Toggle"},
+        {SwitchOp::eIncrement_3, "Increment"},
+        {SwitchOp::eDecrement_4, "Decrement"},
+    });
 
     AddEnum<LevelIds>("Enum_LevelIds",
-                      {
-                          {LevelIds::eNone, "None"},
-                          {LevelIds::eMenu_0, "Menu"},
-                          {LevelIds::eMines_1, "Mines"},
-                          {LevelIds::eNecrum_2, "Necrum"},
-                          {LevelIds::eMudomoVault_3, "MudomoVault"},
-                          {LevelIds::eMudancheeVault_4, "MudancheeVault"},
-                          {LevelIds::eFeeCoDepot_5, "FeeCoDepot"},
-                          {LevelIds::eBarracks_6, "Barracks"},
-                          {LevelIds::eMudancheeVault_Ender_7, "MudancheeVault_Ender"},
-                          {LevelIds::eBonewerkz_8, "Bonewerkz"},
-                          {LevelIds::eBrewery_9, "Brewery"},
-                          {LevelIds::eBrewery_Ender_10, "Brewery_Ender"},
-                          {LevelIds::eMudomoVault_Ender_11, "MudomoVault_Ender"},
-                          {LevelIds::eFeeCoDepot_Ender_12, "FeeCoDepot_Ender"},
-                          {LevelIds::eBarracks_Ender_13, "Barracks_Ender"},
-                          {LevelIds::eBonewerkz_Ender_14, "Bonewerkz_Ender"},
-                          {LevelIds::eNotUsed_15, "NotUsed"},
-                          {LevelIds::eCredits_16, "Credits"},
-                      });
+    {
+        {LevelIds::eNone, "None"},
+        {LevelIds::eMenu_0, "Menu"},
+        {LevelIds::eMines_1, "Mines"},
+        {LevelIds::eNecrum_2, "Necrum"},
+        {LevelIds::eMudomoVault_3, "MudomoVault"},
+        {LevelIds::eMudancheeVault_4, "MudancheeVault"},
+        {LevelIds::eFeeCoDepot_5, "FeeCoDepot"},
+        {LevelIds::eBarracks_6, "Barracks"},
+        {LevelIds::eMudancheeVault_Ender_7, "MudancheeVault_Ender"},
+        {LevelIds::eBonewerkz_8, "Bonewerkz"},
+        {LevelIds::eBrewery_9, "Brewery"},
+        {LevelIds::eBrewery_Ender_10, "Brewery_Ender"},
+        {LevelIds::eMudomoVault_Ender_11, "MudomoVault_Ender"},
+        {LevelIds::eFeeCoDepot_Ender_12, "FeeCoDepot_Ender"},
+        {LevelIds::eBarracks_Ender_13, "Barracks_Ender"},
+        {LevelIds::eBonewerkz_Ender_14, "Bonewerkz_Ender"},
+        {LevelIds::eNotUsed_15, "NotUsed"},
+        {LevelIds::eCredits_16, "Credits"},
+    });
 }
 } // namespace ReliveAPI
