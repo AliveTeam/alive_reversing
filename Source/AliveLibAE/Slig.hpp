@@ -113,7 +113,7 @@ struct Path_Slig final : public Path_TLV
     s16 field_1C_pause_right_max;
     enum class ShootPossessedSligs : s16
     {
-        eYes_0,
+        eYes_0 = 0,
         eYes_1 = 1,
         eNo_3 = 3, // it really had to be the magic number 3 *sigh*
     };
