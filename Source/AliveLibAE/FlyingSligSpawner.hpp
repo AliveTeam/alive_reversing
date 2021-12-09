@@ -21,7 +21,7 @@ struct Path_FlyingSlig_Data final
     s16 field_E_give_up_chase_delay;
     s16 field_10_prechase_delay;
     s16 field_12_slig_id;
-    s16 field_14_listen_time;
+    s16 field_14_alerted_listen_time;
     s16 field_16_trigger_id;
     s16 field_18_grenade_delay;
     s16 field_1A_max_velocity;

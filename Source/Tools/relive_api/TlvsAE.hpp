@@ -111,16 +111,16 @@ struct Path_MainMenuController final : public Path_TLV
 struct Path_SligGetWings final : public Path_TLV
 {
     Scale_short scale;
-    s16 state; // TODO: enum
-    s16 hi_pause_time;
+    Path_FlyingSlig_Data::SpawnDelayStates state;
+    s16 spawn_move_delay;
     s16 patrol_pause_min;
     s16 patrol_pause_max;
-    XDirection_short direction;
+    XDirection_short start_direction;
     s16 panic_delay;
     s16 give_up_chase_delay;
     s16 prechase_delay;
     s16 slig_id;
-    s16 listen_time;
+    s16 alerted_listen_time;
     s16 trigger_id;
     s16 grenade_delay;
     s16 max_velocity;
@@ -130,39 +130,38 @@ struct Path_SligGetWings final : public Path_TLV
 
 struct Path_SligGetPants final : public Path_TLV
 {
-    // TODO: check
-    Scale_short scale;
-    s16 unknown2;
-    s16 unknown3;
-    s16 unknown4;
-    s16 unknown5;
-    s16 unknown6;
-    s16 unknown7;
-    s16 unknown8;
-    s16 unknown9;
-    s16 unknown10;
-    s16 unknown11;
-    s16 unknown12;
-    s16 unknown13;
-    s16 unknown14;
-    s16 unknown15;
-    s16 unknown16;
-    s16 unknown17;
-    s16 unknown18;
-    s16 unknown19;
-    s16 unknown20;
-    s16 unknown21;
-    s16 unknown22;
-    s16 unknown23;
-    s16 unknown24;
-    s16 unknown25;
-    s16 unknown26;
-    s16 unknown27;
-    s16 unknown28;
-    s16 unknown29;
-    s16 unknown30;
-    s16 unknown31;
-    s16 unknown32;
+    Scale_short Scale;
+    Path_Slig::StartState start_state;
+    s16 pause_time;
+    s16 pause_left_min;
+    s16 pause_left_max;
+    s16 pause_right_min;
+    s16 pause_right_max;
+    Path_Slig::ShootPossessedSligs shoot_possessed_sligs;
+    s16 shoot_on_sight_delay;
+    s16 num_times_to_shoot;
+    s16 padding;
+    s16 code1;
+    s16 code2;
+    Choice_short chase_abe_when_spotted;
+    XDirection_short start_direction;
+    s16 panic_timeout;
+    s16 amount_of_panic_sounds;
+    s16 panic_sounds_timeout;
+    s16 stop_chase_delay;
+    s16 time_to_wait_before_chase;
+    s16 slig_id;
+    s16 alerted_listen_time;
+    s16 percent_say_what;
+    s16 percent_beat_mud;
+    s16 talk_to_abe;
+    s16 dont_shoot;
+    s16 z_shoot_delay;
+    Choice_short stay_awake;
+    s16 disable_resources;
+    s16 noise_wake_up_distance;
+    s16 id;
+    Choice_short unlimited_spawns;
 };
 
 struct Path_MovieHandstone final : public Path_TLV
@@ -231,7 +230,7 @@ struct Path_SligSpawner final : public Path_TLV
     s16 stop_chase_delay;
     s16 time_to_wait_before_chase;
     s16 slig_id;
-    s16 listen_time;
+    s16 alerted_listen_time;
     s16 percent_say_what;
     s16 percent_beat_mud;
     s16 talk_to_abe;
@@ -309,7 +308,7 @@ struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("State", mTlv.field_12_state);
-        ADD("Direction", mTlv.field_14_direction);
+        ADD("Start Direction", mTlv.field_14_direction);
         ADD("Voice Pitch", mTlv.field_16_voice_pitch);
         ADD("Rescue ID", mTlv.field_18_rescue_id);
         ADD("Deaf (Unused?)", mTlv.field_1A_bDeaf);
@@ -320,7 +319,7 @@ struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseAE
         ADD("Angry Trigger ID", mTlv.field_24_angry_trigger);
         ADD("Stop Trigger ID", mTlv.field_26_stop_turning_work_wheel);
         ADD("Gets Depressed", mTlv.field_28_bGets_depressed);
-        ADD("Ring Timeout", mTlv.field_2A_ring_timeout); // TODO: also used for angry worker?
+        ADD("Ring And Angry Mudokon Timeout", mTlv.field_2A_ring_timeout);
         ADD("Give Ring Without Password", mTlv.field_2C_bGive_ring_without_password);
     }
 };
@@ -488,7 +487,7 @@ struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
-// TODO: finish
+// TODO: figure out if some of these fields are unused and sync changes with Path_SligGetPants/Path_SligSpawner
 struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Slig, "Slig", TlvTypes::Slig_15)
@@ -515,7 +514,7 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
         ADD("Stop Chase Delay", mTlv.field_34_stop_chase_delay);
         ADD("Time To Wait Before Chase", mTlv.field_36_time_to_wait_before_chase);
         ADD("Slig ID", mTlv.field_38_slig_id);
-        ADD("Listen Time", mTlv.field_3A_listen_time);
+        ADD("Alerted Listen Time", mTlv.field_3A_alerted_listen_time);
 
         ADD("Percent Say What", mTlv.field_3C_percent_say_what);
         ADD("Percent Beat Mudokon", mTlv.field_3E_percent_beat_mud);
@@ -526,24 +525,23 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
         ADD("Disable Resources", mTlv.field_48_disable_resources);
         ADD("Noise Wake Up Distance (Grids)", mTlv.field_4A_noise_wake_up_distance);
         ADD("ID", mTlv.field_4C_id);
-        ADD("unknown2", mTlv.field_4E_unknown);
+        ADD_HIDDEN("Unlimited Spawns", mTlv.field_4E_unlimited_spawns);
     }
 };
 
-// TODO: finish
 struct Path_Fleech final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Fleech, "Fleech", TlvTypes::Fleech_83)
     {
         ADD("Scale", mTlv.field_10_scale);
-        ADD("Direction", mTlv.field_12_direction);
+        ADD("Start Direction", mTlv.field_12_direction);
         ADD("Asleep", mTlv.field_14_asleep);
-        ADD("Wake Up (Unused?)", mTlv.field_16_wake_up);
-        ADD("Unused1(?)", mTlv.field_18_not_used);
+        ADD_HIDDEN("Wake Up (Unused?)", mTlv.field_16_wake_up);
+        ADD_HIDDEN("Unused1", mTlv.field_18_not_used);
 
         ADD("Attack Anger Increaser", mTlv.field_1A_attack_anger_increaser);
-        ADD("Attack Delay (Unused?)", mTlv.field_1C_attack_delay);
-        ADD("Wake Up ID 1", mTlv.field_1E_wake_up_id1);
+        ADD_HIDDEN("Attack Delay (Unused?)", mTlv.field_1C_attack_delay);
+        ADD("Wake Up ID", mTlv.field_1E_wake_up_id1);
         ADD("Hanging", mTlv.field_20_hanging);
 
         ADD("Lost Target Timeout", mTlv.field_22_lost_target_timeout);
@@ -551,9 +549,9 @@ struct Path_Fleech final : public ReliveAPI::TlvObjectBaseAE
         ADD("Patrol Range (Grids)", mTlv.field_26_patrol_range_in_grids);
         ADD("Wake Up Switch Anger Value", mTlv.field_28_wake_up_switch_anger_value);
 
-        ADD("Wake Up ID 2", mTlv.field_2A_wake_up_id2);
+        ADD("Can Wake Up ID", mTlv.field_2A_can_wake_up_id);
         ADD("Persistant", mTlv.field_2C_persistant);
-        ADD("Unused2(?)", mTlv.field_2E_padding);
+        ADD_HIDDEN("Unused2(?)", mTlv.field_2E_padding);
     }
 };
 
@@ -676,8 +674,8 @@ struct Path_ShadowZone final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_ShadowZone, "ShadowZone", TlvTypes::ShadowZone_6)
     {
-        ADD("Center W (Unused?)", mTlv.field_10_center_w);
-        ADD("Center H (Unused?)", mTlv.field_12_center_h);
+        ADD_HIDDEN("Center W (Unused?)", mTlv.field_10_center_w);
+        ADD_HIDDEN("Center H (Unused?)", mTlv.field_12_center_h);
         ADD("R", mTlv.field_14_r);
         ADD("G", mTlv.field_16_g);
         ADD("B", mTlv.field_18_b);
@@ -1094,15 +1092,6 @@ struct Path_Pulley final : public ReliveAPI::TlvObjectBaseAE
 
 struct Path_FlyingSlig final : public ReliveAPI::TlvObjectBaseAE
 {
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<::Path_FlyingSlig_Data::SpawnDelayStates>("Enum_FlyingSligSpawnDelayStates",
-                                       {
-                                                            {::Path_FlyingSlig_Data::SpawnDelayStates::eMoveImmediately_0, "Move Immediately"},
-                                                            {::Path_FlyingSlig_Data::SpawnDelayStates::eUseCustomSpawnMoveDelay_1, "Use Custom Spawn Move Delay"},
-                                       });
-    }
-
     CTOR_AE(Path_FlyingSlig, "FlyingSlig", TlvTypes::FlyingSlig_82)
     {
         ADD("Scale", mTlv.field_10_data.field_0_scale);
@@ -1110,12 +1099,12 @@ struct Path_FlyingSlig final : public ReliveAPI::TlvObjectBaseAE
         ADD("Spawn Move Delay", mTlv.field_10_data.field_4_spawn_move_delay);
         ADD("Patrol Pause Min", mTlv.field_10_data.field_6_patrol_pause_min);
         ADD("Patrol Pause Max", mTlv.field_10_data.field_8_patrol_pause_max);
-        ADD("Direction", mTlv.field_10_data.field_A_direction);
+        ADD("Start Direction", mTlv.field_10_data.field_A_direction);
         ADD("Panic Delay", mTlv.field_10_data.field_C_panic_delay);
         ADD("Give Up Chase Delay", mTlv.field_10_data.field_E_give_up_chase_delay);
         ADD("Pre-chase Delay", mTlv.field_10_data.field_10_prechase_delay);
         ADD("Slig ID", mTlv.field_10_data.field_12_slig_id);
-        ADD("Listen Time", mTlv.field_10_data.field_14_listen_time);
+        ADD("Alerted Listen Time", mTlv.field_10_data.field_14_alerted_listen_time);
         ADD("Trigger ID", mTlv.field_10_data.field_16_trigger_id);
         ADD("Grenade Delay", mTlv.field_10_data.field_18_grenade_delay);
         ADD("Max Velocity", mTlv.field_10_data.field_1A_max_velocity);
@@ -1133,12 +1122,12 @@ struct Path_FlyingSligSpawner final : public ReliveAPI::TlvObjectBaseAE
         ADD("Spawn Move Delay", mTlv.field_10.field_4_spawn_move_delay);
         ADD("Patrol Pause Min", mTlv.field_10.field_6_patrol_pause_min);
         ADD("Patrol Pause Max", mTlv.field_10.field_8_patrol_pause_max);
-        ADD("Direction", mTlv.field_10.field_A_direction);
+        ADD("Start Direction", mTlv.field_10.field_A_direction);
         ADD("Panic Delay", mTlv.field_10.field_C_panic_delay);
         ADD("Give Up Chase Delay", mTlv.field_10.field_E_give_up_chase_delay);
         ADD("Pre-Chase Delay", mTlv.field_10.field_10_prechase_delay);
         ADD("Slig ID", mTlv.field_10.field_12_slig_id);
-        ADD("Listen Time", mTlv.field_10.field_14_listen_time);
+        ADD("Listen Time", mTlv.field_10.field_14_alerted_listen_time);
         ADD("Trigger ID", mTlv.field_10.field_16_trigger_id);
         ADD("Grenade Delay", mTlv.field_10.field_18_grenade_delay);
         ADD("Max Velocity", mTlv.field_10.field_1A_max_velocity);
@@ -1159,7 +1148,7 @@ struct Path_DeathDrop final : public ReliveAPI::TlvObjectBaseAE
         ADD("Unused6", mTlv.field_1A_unknown2);
     }
 };
-// TODO: finish
+
 struct Path_SligSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligSpawner, "SligSpawner", TlvTypes::SligSpawner_37)
@@ -1185,7 +1174,7 @@ struct Path_SligSpawner final : public ReliveAPI::TlvObjectBaseAE
         ADD("Stop Chase Delay", mTlv.stop_chase_delay);
         ADD("Time To Wait Before Chase", mTlv.time_to_wait_before_chase);
         ADD("Slig ID", mTlv.slig_id);
-        ADD("Listen Time", mTlv.listen_time);
+        ADD("Alerted Listen Time", mTlv.alerted_listen_time);
         ADD("Percent Say What", mTlv.percent_say_what);
         ADD("Percent Beat Mudokon", mTlv.percent_beat_mud);
         ADD("Talk To Abe (Unused?)", mTlv.talk_to_abe);
@@ -1295,7 +1284,7 @@ struct Path_Drill final : public ReliveAPI::TlvObjectBaseAE
         ADD("Min Off Time Speed Change", mTlv.field_10_data.field_20_min_off_time_speed_change);
         ADD("Max Off Time Speed Change", mTlv.field_10_data.field_22_max_off_time_speed_change);
         ADD("Start Position Bottom", mTlv.field_10_data.field_24_bStart_position_bottom);
-        ADD("Direction", mTlv.field_10_data.field_26_direction);
+        ADD("Start Direction", mTlv.field_10_data.field_26_direction);
     }
 };
 
@@ -1316,7 +1305,7 @@ struct Path_Slog final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_Slog, "Slog", TlvTypes::Slog_16)
     {
         ADD("Scale", mTlv.field_10_scale);
-        ADD("Direction", mTlv.field_12_direction);
+        ADD("Start Direction", mTlv.field_12_direction);
         ADD("Asleep", mTlv.field_14_asleep);
         ADD("Wake Up Anger", mTlv.field_16_wake_up_anger);
         ADD("Bark Anger", mTlv.field_18_bark_anger);
@@ -1392,7 +1381,7 @@ struct Path_LiftMover final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Switch ID", mTlv.field_10_switch_id);
         ADD("Lift ID", mTlv.field_12_lift_id);
-        ADD("Direction", mTlv.field_14_direction);
+        ADD("Move Direction", mTlv.field_14_move_direction);
     }
 };
 
@@ -1519,7 +1508,7 @@ struct Path_Slurg final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_Slurg, "Slurg", TlvTypes::Slurg_84)
     {
         ADD("Time Until Turning Around", mTlv.field_10_slurg_data.field_0_moving_timer);
-        ADD("Direction", mTlv.field_10_slurg_data.field_2_direction);
+        ADD("Start Direction", mTlv.field_10_slurg_data.field_2_direction);
         ADD("Scale", mTlv.field_10_slurg_data.field_4_scale);
         ADD("ID", mTlv.field_10_slurg_data.field_6_id);
     }
@@ -1577,7 +1566,7 @@ struct Path_Greeter final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Motion Detector Speed", mTlv.field_12_motion_detector_speed);
-        ADD("Direction", mTlv.field_14_direction);
+        ADD("Start Direction", mTlv.field_14_start_direction);
     }
 };
 
@@ -1666,7 +1655,7 @@ struct Path_CrawlingSlig final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_CrawlingSlig, "CrawlingSlig", TlvTypes::CrawlingSlig_103)
     {
         ADD("Scale", mTlv.field_10_scale);
-        ADD("Direction (Unused?)", mTlv.field_12_direction);
+        ADD("Start Direction", mTlv.field_12_direction);
         ADD("State", mTlv.field_14_state);
         ADD("Crawl Direction", mTlv.field_16_crawl_direction);
         ADD("Panic ID", mTlv.field_18_panic_id);
@@ -1674,72 +1663,85 @@ struct Path_CrawlingSlig final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
-// TODO: finish
 struct Path_SligGetPants final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligGetPants, "SligGetPants", TlvTypes::SligGetPants_104)
     {
-        ADD("Scale", mTlv.scale);
-        ADD("unknown2", mTlv.unknown2);
-        ADD("unknown3", mTlv.unknown3);
-        ADD("unknown4", mTlv.unknown4);
-        ADD("unknown5", mTlv.unknown5);
-        ADD("unknown6", mTlv.unknown6);
-        ADD("unknown7", mTlv.unknown7);
-        ADD("unknown8", mTlv.unknown8);
-        ADD("unknown9", mTlv.unknown9);
-        ADD("unknown10", mTlv.unknown10);
-        ADD("unknown11", mTlv.unknown11);
-        ADD("unknown12", mTlv.unknown12);
-        ADD("unknown13", mTlv.unknown13);
-        ADD("unknown14", mTlv.unknown14);
-        ADD("unknown15", mTlv.unknown15);
-        ADD("unknown16", mTlv.unknown16);
-        ADD("unknown17", mTlv.unknown17);
-        ADD("unknown18", mTlv.unknown18);
-        ADD("unknown19", mTlv.unknown19);
-        ADD("unknown20", mTlv.unknown20);
-        ADD("unknown21", mTlv.unknown21);
-        ADD("unknown22", mTlv.unknown22);
-        ADD("unknown23", mTlv.unknown23);
-        ADD("unknown24", mTlv.unknown24);
-        ADD("unknown25", mTlv.unknown25);
-        ADD("unknown26", mTlv.unknown26);
-        ADD("unknown27", mTlv.unknown27);
-        ADD("unknown28", mTlv.unknown28);
-        ADD("unknown29", mTlv.unknown29);
-        ADD("unknown30", mTlv.unknown30);
-        ADD("unknown31", mTlv.unknown31);
-        ADD("unknown32", mTlv.unknown32);
+        ADD("Scale", mTlv.Scale);
+        ADD("Start State", mTlv.start_state);
+        ADD("Pause Time", mTlv.pause_time);
+        ADD("Pause Left Min", mTlv.pause_left_min);
+        ADD("Pause Left Max", mTlv.pause_left_max);
+        ADD("Pause Right Min", mTlv.pause_right_min);
+        ADD("Pause Right Max", mTlv.pause_right_max);
+        ADD("Shoot Possessed Sligs", mTlv.shoot_possessed_sligs);
+        ADD("Shoot On Sight Delay", mTlv.shoot_on_sight_delay);
+        ADD("Bullet Shoot Count", mTlv.num_times_to_shoot);
+        ADD("unknown1", mTlv.padding);
+        ADD("Code 1", mTlv.code1);
+        ADD("Code 2", mTlv.code2);
+        ADD("Chase Abe When Spotted", mTlv.chase_abe_when_spotted);
+        ADD("Start Direction", mTlv.start_direction);
+        ADD("Panic Timeout", mTlv.panic_timeout);
+        ADD("Amount Of Panic Sounds (Unused?)", mTlv.amount_of_panic_sounds);
+        ADD("Panic Sound Timeout (Unused?)", mTlv.panic_sounds_timeout);
+        ADD("Stop Chase Delay", mTlv.stop_chase_delay);
+        ADD("Time To Wait Before Chase", mTlv.time_to_wait_before_chase);
+        ADD("Slig ID", mTlv.slig_id);
+        ADD("Alerted Listen Time", mTlv.alerted_listen_time);
+        ADD("Percent Say What", mTlv.percent_say_what);
+        ADD("Percent Beat Mudokon", mTlv.percent_beat_mud);
+        ADD("Talk To Abe (Unused?)", mTlv.talk_to_abe);
+        ADD("Don't Shoot (Unused?)", mTlv.dont_shoot);
+        ADD("Z Shoot Delay", mTlv.z_shoot_delay);
+        ADD("Stay Awake", mTlv.stay_awake);
+        ADD("Disable Resources", mTlv.disable_resources);
+        ADD("Noise Wake Up Distance (Grids)", mTlv.noise_wake_up_distance);
+        ADD("ID", mTlv.id);
+        ADD("Unlimited Spawns", mTlv.unlimited_spawns);
     }
 };
-// TODO: finish
+
 struct Path_SligGetWings final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligGetWings, "SligGetWings", TlvTypes::SligGetWings_105)
     {
         ADD("Scale", mTlv.scale);
-        ADD("state", mTlv.state);
-        ADD("hi_pause_time", mTlv.hi_pause_time);
-        ADD("patrol_pause_min", mTlv.patrol_pause_min);
-        ADD("patrol_pause_max", mTlv.patrol_pause_max);
-        ADD("direction", mTlv.direction);
-        ADD("panic_delay", mTlv.panic_delay);
-        ADD("give_up_chase_delay", mTlv.give_up_chase_delay);
-        ADD("prechase_delay", mTlv.prechase_delay);
-        ADD("slig_id", mTlv.slig_id);
-        ADD("listen_time", mTlv.listen_time);
-        ADD("trigger_id", mTlv.trigger_id);
-        ADD("grenade_delay", mTlv.grenade_delay);
-        ADD("max_velocity", mTlv.max_velocity);
-        ADD("launch_id", mTlv.launch_id);
-        ADD("persistant", mTlv.persistant);
+        ADD("Spawn Delay State", mTlv.state);
+        ADD("Spawn Move Delay", mTlv.spawn_move_delay);
+        ADD("Patrol Pause Min", mTlv.patrol_pause_min);
+        ADD("Patrol Pause Max", mTlv.patrol_pause_max);
+        ADD("Start Direction", mTlv.start_direction);
+        ADD("Panic Delay", mTlv.panic_delay);
+        ADD("Give Up Chase Delay", mTlv.give_up_chase_delay);
+        ADD("Pre-chase Delay", mTlv.prechase_delay);
+        ADD("Slig ID", mTlv.slig_id);
+        ADD("Alerted Listen Time", mTlv.alerted_listen_time);
+        ADD("Trigger ID", mTlv.trigger_id);
+        ADD("Grenade Delay", mTlv.grenade_delay);
+        ADD("Max Velocity", mTlv.max_velocity);
+        ADD("Launch Grenade ID", mTlv.launch_id);
+        ADD("Persistant", mTlv.persistant);
     }
 };
 
-// i don't think this object should ever be created manually with the editor - mouzedrift
 struct Path_CrawlingSligButton final : public ReliveAPI::TlvObjectBaseAE
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        // this probably shouldn't be here since the sound/sound direction implementation is extremely scuffed
+        // but maybe someone wants to use it anyway
+        types.AddEnum<::CrawlingSligButtonSounds>("Enum_CrawlingSligButtonSounds",
+        {
+            {::CrawlingSligButtonSounds::None_0, "None"},
+            {::CrawlingSligButtonSounds::SackHit_1, "Sack Hit"},
+            {::CrawlingSligButtonSounds::FallingItemPresence2_2, "Falling Item Presence 2"},
+            {::CrawlingSligButtonSounds::SecurityOrb_3, "Security Orb"},
+            {::CrawlingSligButtonSounds::SackHit_4, "Sack Hit (duplicate)"},
+            {::CrawlingSligButtonSounds::Bullet1_5, "Bullet"},
+            {::CrawlingSligButtonSounds::AbeGenericMovement_6, "Abe Generic Movement"},
+        });
+    }
     CTOR_AE(Path_CrawlingSligButton, "CrawlingSligButton", TlvTypes::CrawlingSligButton_107)
     {
         ADD("Scale", mTlv.field_10_scale);
@@ -1747,7 +1749,7 @@ struct Path_CrawlingSligButton final : public ReliveAPI::TlvObjectBaseAE
         ADD("Action", mTlv.field_14_action);
         ADD("On Sound", mTlv.field_16_on_sound);
         ADD("Off Sound", mTlv.field_18_off_sound);
-        ADD("Sound Direction", mTlv.field_1A_sound_direction);
+        ADD_HIDDEN("Sound Direction", mTlv.field_1A_sound_direction);
     }
 };
 
@@ -1772,22 +1774,21 @@ struct Path_Glukkon final : public ReliveAPI::TlvObjectBaseAE
                                                       });
     }
 
-    // TODO: finish
     CTOR_AE(Path_Glukkon, "Glukkon", TlvTypes::Glukkon_73)
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Start Direction", mTlv.field_12_start_direction);
-        ADD("default_behavior", mTlv.field_14_default_behaviour);
-        ADD("pre_alarmed_delay", mTlv.field_16_pre_alarmed_delay);
-        ADD("switch_id", mTlv.field_18_switch_id);
-        ADD("post_alarm_delay", mTlv.field_1A_post_alarm_delay);
-        ADD("spawn_id", mTlv.field_1C_spawn_id);
-        ADD("spawn_direction", mTlv.field_1E_spawn_direction);
-        ADD("spawn_delay", mTlv.field_20_spawn_delay);
-        ADD("glukkon_type", mTlv.field_22_glukkon_type);
-        ADD("start_gas_id", mTlv.field_24_start_gas_id);
-        ADD("play_movie_id", mTlv.field_26_play_movie_id);
-        ADD("movie_to_play", mTlv.field_28_movie_to_play_id);
+        ADD("Default Behavior", mTlv.field_14_default_behaviour);
+        ADD("Pre-alarmed Delay", mTlv.field_16_pre_alarmed_delay);
+        ADD("Help Switch ID", mTlv.field_18_help_switch_id);
+        ADD("Post Alarm Delay", mTlv.field_1A_post_alarm_delay);
+        ADD("Spawn ID", mTlv.field_1C_spawn_id);
+        ADD("Spawn Direction", mTlv.field_1E_spawn_direction); // TODO: enum
+        ADD("Spawn Delay", mTlv.field_20_spawn_delay);
+        ADD("Glukkon Type", mTlv.field_22_glukkon_type);
+        ADD("Death ID", mTlv.field_24_death_id);
+        ADD("Play Movie ID", mTlv.field_26_play_movie_id);
+        ADD("Movie To Play (fmv ID)", mTlv.field_28_movie_to_play_fmvID);
     }
 };
 

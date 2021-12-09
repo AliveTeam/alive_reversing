@@ -2419,7 +2419,7 @@ void FlyingSlig::ToAlerted_4357E0()
 {
     Say_436A50(SligSpeak ::eWhat_9, 0);
     SetBrain(&FlyingSlig::Brain_3_GetAlerted_435750);
-    field_14C_timer = sGnFrame_5C1B84 + field_118_data.field_10_data.field_14_listen_time;
+    field_14C_timer = sGnFrame_5C1B84 + field_118_data.field_10_data.field_14_alerted_listen_time;
 }
 
 void FlyingSlig::ToPanicMoving_435A50()

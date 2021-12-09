@@ -111,13 +111,13 @@ void CrawlingSligButton::vUpdate_414B20()
 
         if (old_switch_state != new_switch_state)
         {
-            const s16 sound_id = new_switch_state ? field_FC_on_sound : field_FE_off_sound;
-            if (sound_id)
+            const auto sound_id = new_switch_state ? field_FC_on_sound : field_FE_off_sound;
+            if (sound_id != CrawlingSligButtonSounds::None_0)
             {
                 SFX_Play_46FB10(
-                    stru_544488[sound_id].field_0_block_idx,
-                    stru_544488[sound_id].field_2_note + stru_544488[sound_id].field_4_pitch_min * (field_100_sound_direction & 2),
-                    stru_544488[sound_id].field_2_note + stru_544488[sound_id].field_4_pitch_min * (field_100_sound_direction & 1),
+                    stru_544488[static_cast<u16>(sound_id)].field_0_block_idx,
+                    stru_544488[static_cast<u16>(sound_id)].field_2_note + stru_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 2),
+                    stru_544488[static_cast<u16>(sound_id)].field_2_note + stru_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 1),
                     field_CC_sprite_scale);
             }
         }
