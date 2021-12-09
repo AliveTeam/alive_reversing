@@ -10,7 +10,7 @@ struct Path_ExplosionSet final : public Path_TLV
     Choice_short field_10_bStart_enabled;
     s16 field_12_switch_id;
     Choice_short field_14_big_rocks;
-    s16 field_16_start_delay;
+    s16 field_16_start_delay_counter;
     XDirection_short field_18_direction;
     s16 field_1A_start_delay;
     s16 field_1C_grid_spacing;

@@ -154,7 +154,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo)
 
     field_142_attack_anger_increaser = pTlv->field_1A_attack_anger_increaser + 2;
     field_144_wake_up_id = pTlv->field_1E_wake_up_id1;
-    field_146_tlv_28 = pTlv->field_28_unused;
+    field_146_wake_up_switch_anger_value = pTlv->field_28_wake_up_switch_anger_value;
     field_148_wake_up_switch_value = SwitchStates_Get_466020(pTlv->field_1E_wake_up_id1) & 0xFFFF;
     field_14A_use_wake_up_id = pTlv->field_2A_wake_up_id2;
     field_150_patrol_range = FP_GetExponent(FP_FromInteger(pTlv->field_26_patrol_range_in_grids) * ScaleToGridSize_4498B0(field_CC_sprite_scale));
@@ -346,7 +346,7 @@ s32 CC Fleech::CreateFromSaveState_42DD50(const u8* pBuffer)
     pFleech->field_140_max_anger = pState->field_78_max_anger;
     pFleech->field_142_attack_anger_increaser = pState->field_7A_attack_anger;
     pFleech->field_144_wake_up_id = pState->field_7C_wakeup_id;
-    pFleech->field_146_tlv_28 = pState->field_7E_tlv;
+    pFleech->field_146_wake_up_switch_anger_value = pState->field_7E_wake_up_switch_anger_value;
     pFleech->field_148_wake_up_switch_value = pState->field_80_wake_up_switch_value;
     pFleech->field_14A_use_wake_up_id = pState->field_82_use_wake_up_id;
     pFleech->field_14C = pState->field_84;
@@ -475,7 +475,7 @@ s32 Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_78_max_anger = field_140_max_anger;
     pState->field_7A_attack_anger = field_142_attack_anger_increaser;
     pState->field_7C_wakeup_id = field_144_wake_up_id;
-    pState->field_7E_tlv = field_146_tlv_28;
+    pState->field_7E_wake_up_switch_anger_value = field_146_wake_up_switch_anger_value;
     pState->field_80_wake_up_switch_value = field_148_wake_up_switch_value;
     pState->field_82_use_wake_up_id = field_14A_use_wake_up_id;
     pState->field_84 = field_14C;
@@ -3009,7 +3009,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
 
     if (UpdateWakeUpSwitchValue_4308B0())
     {
-        field_13E_current_anger += field_146_tlv_28;
+        field_13E_current_anger += field_146_wake_up_switch_anger_value;
     }
 
     if (pTarget)

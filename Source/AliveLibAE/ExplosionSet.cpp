@@ -78,7 +78,7 @@ void ExplosionSet::Init_4151D0(Path_ExplosionSet* pTlv)
         field_50_scale = FP_FromDouble(0.5);
     }
 
-    field_44_start_delay_counter = pTlv->field_16_start_delay;
+    field_44_start_delay_counter = pTlv->field_16_start_delay_counter;
 
     field_5C_flags.Set(Flags_5C::eBit1_big_rocks, pTlv->field_14_big_rocks == Choice_short::eYes_1);
     field_5C_flags.Set(Flags_5C::eBit2_flipX, pTlv->field_18_direction == XDirection_short::eRight_1);

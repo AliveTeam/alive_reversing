@@ -142,7 +142,46 @@ void TypesCollectionAE::AddAETypes()
 
 #undef REGISTER_TYPE_AE
 
-        AddEnum<ScreenChangeEffects>("Enum_ScreenChangeEffects",
+    AddEnum<::Path_Slig::StartState>("Enum_SligStartState",
+                                           {
+                                               {::Path_Slig::StartState::Listening_0, "Listening"},
+                                               {::Path_Slig::StartState::Paused_1, "Paused"},
+                                               {::Path_Slig::StartState::Sleeping_2, "Sleeping"},
+                                               {::Path_Slig::StartState::Chase_3, "Chase"},
+                                               {::Path_Slig::StartState::RunOffScreen_4, "Run Off Screen"},
+                                               {::Path_Slig::StartState::GameEnder_5, "Game Ender"},
+                                               {::Path_Slig::StartState::ListeningToGlukkon_6, "Listen To Glukkon"},
+                                           });
+
+    AddEnum<::Path_Slig::ShootPossessedSligs>("Enum_ShootPossessedSligs",
+                                         {
+                                                {::Path_Slig::ShootPossessedSligs::eYes_0, "Yes 0"},
+                                                {::Path_Slig::ShootPossessedSligs::eYes_1, "Yes 1"},
+                                                {::Path_Slig::ShootPossessedSligs::eNo_3, "No"},
+                                         });
+
+    AddEnum<eLineTypes>("Enum_LineTypes",
+                                  {
+                                      {eLineTypes::eFloor_0, "Floor"},
+                                      {eLineTypes::eWallLeft_1, "Wall Left"},
+                                      {eLineTypes::eWallRight_2, "Wall Right"},
+                                      {eLineTypes::eCeiling_3, "Ceiling"},
+                                      {eLineTypes::eBackGroundFloor_4, "Background Floor"},
+                                      {eLineTypes::eBackGroundWallLeft_5, "Background Wall Left"},
+                                      {eLineTypes::eBackGroundWallRight_6, "Background Wall Right"},
+                                      {eLineTypes::eBackGroundCeiling_7, "Background Ceiling"},
+                                      {eLineTypes::eTrackLine_8, "Track Lines"},
+                                      {eLineTypes::eArt_9, "Art"},
+                                      {eLineTypes::eBulletWall_10, "Bullet Wall"},
+                                      {eLineTypes::eMineCarFloor_11, "Mine Car Floor"},
+                                      {eLineTypes::eMineCarWall_12, "Mine Car Wall"},
+                                      {eLineTypes::eMineCarCeiling_13, "Mine Car Ceiling"},
+                                      {eLineTypes::eFlyingSligCeiling_17, "Flying Slig Ceiling"},
+                                      {eLineTypes::eUnknown_32, "Unknown 32"},
+                                      {eLineTypes::eUnknown_36, "Unknown 36"},
+                                  });
+
+    AddEnum<ScreenChangeEffects>("Enum_ScreenChangeEffects",
                                {
                                    {ScreenChangeEffects::ePlay1FMV_0, "Play 1 FMV"},
                                    {ScreenChangeEffects::eRightToLeft_1, "Right To Left"},
