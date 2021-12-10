@@ -285,7 +285,7 @@ void FlintLockFire::VUpdate_41AEE0()
                 auto pMusicTrigger = ao_new<MusicTrigger>();
                 if (pMusicTrigger)
                 {
-                    pMusicTrigger->ctor_443A60(6, 1, 0, 15);
+                    pMusicTrigger->ctor_443A60(6, TriggeredBy::eTouching_1, 0, 15);
                 }
             }
             break;

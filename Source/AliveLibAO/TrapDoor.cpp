@@ -84,7 +84,7 @@ void TrapDoor::VScreenChanged_488740()
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
-        if (field_13C_set_switch_on_dead)
+        if (field_13C_self_closing == Choice_short::eYes_1)
         {
             SwitchStates_Set(field_134_switch_idx, field_138_switch_state == 0);
         }
@@ -188,8 +188,8 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         frame_table_offset_1 = closedRec.mFrameTableOffset;
     }
 
-    field_13C_set_switch_on_dead = pTlv->field_1C_self_closing;
-    if (pTlv->field_1E_scale == 1)
+    field_13C_self_closing = pTlv->field_1C_self_closing;
+    if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
@@ -215,14 +215,14 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_140_x = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
 
     field_10_anim.Set_Animation_Data_402A40(frame_table_offset_1, 0);
-    if (pTlv->field_22_direction)
+    if (pTlv->field_22_direction == XDirection_short::eRight_1)
     {
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_118_x_offset = FP_GetExponent(FP_FromInteger(pTlv->field_10_top_left.field_0_x) - field_A8_xpos);
     field_11A_width_offset = FP_GetExponent(FP_FromInteger(pTlv->field_14_bottom_right.field_0_x) - field_A8_xpos);
-    field_13A_xOff = pTlv->field_24_anim_offset;
+    field_13A_xOff = pTlv->field_24_xOff;
 
     if (field_136_state == TrapDoorState::eOpen_2)
     {
@@ -288,7 +288,7 @@ void TrapDoor::VUpdate_4883E0()
 
         case TrapDoorState::eOpen_2:
             field_130_stay_open_time--;
-            if ((field_13C_set_switch_on_dead && !field_130_stay_open_time) || SwitchStates_Get(field_134_switch_idx) != SwitchStates_Get(field_138_switch_state))
+            if ((field_13C_self_closing == Choice_short::eYes_1 && !field_130_stay_open_time) || SwitchStates_Get(field_134_switch_idx) != SwitchStates_Get(field_138_switch_state))
             {
                 const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
                 const AnimRecord& closingRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_C_closing);

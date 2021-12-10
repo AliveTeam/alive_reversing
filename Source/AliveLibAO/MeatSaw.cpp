@@ -68,7 +68,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
-    if (pTlv->field_18_scale_background)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_RopeWebMeatSaw_Half_5;

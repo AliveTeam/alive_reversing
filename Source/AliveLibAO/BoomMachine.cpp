@@ -209,7 +209,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
     field_E4_tlvInfo = tlvInfo;
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
 
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
     }
@@ -225,7 +225,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
     if (pNozzle)
     {
         FP directedScale = field_BC_sprite_scale;
-        if (pTlv->field_1A_nozzle_side)
+        if (pTlv->field_1A_nozzle_side == XDirection_short::eRight_1)
         {
             directedScale = -directedScale;
         }
@@ -246,7 +246,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
         pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->field_1E_number_of_grenades);
     }
 
-    pNozzle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_nozzle_side & 1);
+    pNozzle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_nozzle_side == XDirection_short::eRight_1);
 
     pNozzle->field_C_refCount++;
     field_EC_pNozzle = pNozzle;

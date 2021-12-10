@@ -1364,7 +1364,7 @@ void Abe::vUpdate_41FDB0()
                     auto pMusicTrigger = ao_new<MusicTrigger>();
                     if (pMusicTrigger)
                     {
-                        pMusicTrigger->ctor_443A60(1, 1, 0, 90);
+                        pMusicTrigger->ctor_443A60(1, TriggeredBy::eTouching_1, 0, 90);
                     }
                 }
 

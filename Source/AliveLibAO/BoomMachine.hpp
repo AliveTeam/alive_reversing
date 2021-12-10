@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -10,8 +11,8 @@ class GrenadeMachineNozzle;
 
 struct Path_BoomMachine final : public Path_TLV
 {
-    s16 field_18_scale;
-    s16 field_1A_nozzle_side;
+    Scale_short field_18_scale;
+    XDirection_short field_1A_nozzle_side;
     s16 field_1C_disabled_resources;
     s16 field_1E_number_of_grenades;
 };

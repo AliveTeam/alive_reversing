@@ -919,12 +919,21 @@ struct Path_PullRingRope final : public ReliveAPI::TlvObjectBaseAO
 
 struct Path_MusicTrigger final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::TriggeredBy>("Enum_MusicTriggeredBy",
+        {
+            {AO::TriggeredBy::eTimer_0, "Timer"},
+            {AO::TriggeredBy::eTouching_1, "Touching"},
+        });
+    }
+
     CTOR_AO(Path_MusicTrigger, "MusicTrigger", AO::TlvTypes::MusicTrigger_105)
     {
-        ADD("type", mTlv.field_18_type);
-        ADD("enabled_by", mTlv.field_1A_enabled_by);
-        ADD("id", mTlv.field_1C_id);
-        ADD("timer", mTlv.field_1E_timer);
+        ADD("Music Type", mTlv.field_18_music_type); // TODO: enum
+        ADD("Triggered By", mTlv.field_1A_triggered_by);
+        ADD("ID", mTlv.field_1C_id);
+        ADD("Music Delay", mTlv.field_1E_music_delay);
     }
 };
 
@@ -932,9 +941,9 @@ struct Path_ElumPathTrans final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_ElumPathTrans, "ElumPathTrans", AO::TlvTypes::ElumPathTrans_99)
     {
-        ADD("level", mTlv.field_18_level);
-        ADD("path", mTlv.field_1A_path);
-        ADD("camera", mTlv.field_1C_camera);
+        ADD("Level", mTlv.field_18_level);
+        ADD("Path", mTlv.field_1A_path);
+        ADD("Camera", mTlv.field_1C_camera);
     }
 };
 
@@ -960,22 +969,22 @@ struct Path_LiftPoint final : public ReliveAPI::TlvObjectBaseAO
     {
         types.AddEnum<AO::LiftPointStopType>("Enum_LiftPointStopType",
                                                {
-                                                 {AO::LiftPointStopType::eTopFloor_0, "TopFloor"},
-                                                 {AO::LiftPointStopType::eBottomFloor_1, "BottomFloor"},
-                                                 {AO::LiftPointStopType::eMiddleFloor_2, "MiddleFloor"},
-                                                 {AO::LiftPointStopType::eMiddleLockFloor_3, "MiddleLockFloor"},
-                                                 {AO::LiftPointStopType::eStartPointOnly_4, "StartPointOnly"},
+                                                 {AO::LiftPointStopType::eTopFloor_0, "Top Floor"},
+                                                 {AO::LiftPointStopType::eBottomFloor_1, "Bottom Floor"},
+                                                 {AO::LiftPointStopType::eMiddleFloor_2, "Middle Floor"},
+                                                 {AO::LiftPointStopType::eMiddleLockFloor_3, "Middle Lock Floor"},
+                                                 {AO::LiftPointStopType::eStartPointOnly_4, "Start Point Only"},
                                                });
     }
 
     CTOR_AO(Path_LiftPoint, "LiftPoint", AO::TlvTypes::LiftPoint_8)
     {
-        ADD("id", mTlv.field_18_id);
-        ADD("is_start_point", mTlv.field_1A_bstart_point);
-        ADD("lift_type", mTlv.field_1C_lift_type);
-        ADD("lift_point_stop_type", mTlv.field_1E_lift_point_stop_type);
-        ADD("scale", mTlv.field_20_scale);
-        ADD("ignore_lift_mover", mTlv.field_22_bIgnore_lift_mover);
+        ADD("ID", mTlv.field_18_id);
+        ADD("Start Point", mTlv.field_1A_bstart_point);
+        ADD("Lift Type (Unused?)", mTlv.field_1C_lift_type);
+        ADD("Lift Point Stop Type", mTlv.field_1E_lift_point_stop_type);
+        ADD("Scale", mTlv.field_20_scale);
+        ADD("Ignore Lift Mover", mTlv.field_22_bIgnore_lift_mover);
     }
 };
 
@@ -983,14 +992,14 @@ struct Path_MovingBomb final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_MovingBomb, "MovingBomb", AO::TlvTypes::MovingBomb_86)
     {
-        ADD("speed", mTlv.field_18_speed);
-        ADD("id", mTlv.field_1A_id);
-        ADD("start_type_triggered_by_alarm", mTlv.field_1C_bStart_type_triggered_by_alarm);
-        ADD("scale", mTlv.field_1E_scale);
-        ADD("max_rise", mTlv.field_20_max_rise);
-        ADD("disabled_resources", mTlv.field_22_disabled_resources);
-        ADD("start_speed", mTlv.field_24_start_speed);
-        ADD("persist_offscreen", mTlv.field_26_persist_offscreen);
+        ADD("Speed", mTlv.field_18_speed);
+        ADD("ID", mTlv.field_1A_id);
+        ADD("Triggered By Alarm", mTlv.field_1C_bTriggered_by_alarm);
+        ADD("Scale", mTlv.field_1E_scale);
+        ADD("Max Rise", mTlv.field_20_max_rise);
+        ADD("Disabled Resources", mTlv.field_22_disabled_resources);
+        ADD("Start Speed", mTlv.field_24_start_speed);
+        ADD("Persist Offscreen", mTlv.field_26_persist_offscreen);
     }
 };
 
@@ -998,8 +1007,8 @@ struct Path_MovingBombStopper final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_MovingBombStopper, "MovingBombStopper", AO::TlvTypes::MovingBombStopper_87)
     {
-        ADD("min_delay", mTlv.field_18_min_delay);
-        ADD("max_delay", mTlv.field_1A_max_delay);
+        ADD("Min Delay", mTlv.field_18_min_delay);
+        ADD("Max Delay", mTlv.field_1A_max_delay);
     }
 };
 
@@ -1009,13 +1018,13 @@ struct Path_RingMudokon final : public ReliveAPI::TlvObjectBaseAO
     {
         ADD("facing", mTlv.field_18_facing);
         ADD("abe_must_be_same_direction", mTlv.field_1A_abe_must_be_same_direction);
-        ADD("scale", mTlv.field_1C_scale);
+        ADD("Scale", mTlv.field_1C_scale);
         ADD("silent", mTlv.field_1E_silent);
-        ADD("code1", mTlv.field_20_code1);
-        ADD("code2", mTlv.field_22_code2);
-        ADD("action", mTlv.field_24_action);
-        ADD("ring_timeout", mTlv.field_26_ring_timeout);
-        ADD("instant_powerup", mTlv.field_28_instant_powerup);
+        ADD("Code 1", mTlv.field_20_code1);
+        ADD("Code 2", mTlv.field_22_code2);
+        ADD("Action", mTlv.field_24_action);
+        ADD("Ring And Angry Mudokon Timeout", mTlv.field_26_ring_timeout);
+        ADD("Give Ring Without Password", mTlv.field_28_give_ring_without_password);
     }
 };
 
@@ -1027,22 +1036,23 @@ struct Path_RingCancel final : public ReliveAPI::TlvObjectBaseAO // TODO: correc
     }
 };
 
+// TODO: field/enum documentation
 struct Path_MeatSaw final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_MeatSaw, "MeatSaw", AO::TlvTypes::MeatSaw_88)
     {
-        ADD("scale", mTlv.field_18_scale_background);
+        ADD("Scale", mTlv.field_18_scale);
         ADD("min_time_off1", mTlv.field_1A_min_time_off1);
         ADD("max_time_off1", mTlv.field_1C_max_time_off1);
         ADD("max_rise_time", mTlv.field_1E_max_rise_time);
-        ADD("id", mTlv.field_20_id);
+        ADD("ID", mTlv.field_20_id);
         ADD("type", mTlv.field_22_type);
-        ADD("speed", mTlv.field_24_speed);
+        ADD("Speed", mTlv.field_24_speed);
         ADD("start_state", mTlv.field_26_start_state);
         ADD("off_speed", mTlv.field_28_off_speed);
         ADD("min_time_off2", mTlv.field_2A_min_time_off2);
         ADD("max_time_off2", mTlv.field_2C_max_time_off2);
-        ADD("initial_position", mTlv.field_2E_inital_position);
+        ADD("Initial Position", mTlv.field_2E_inital_position);
     }
 };
 
@@ -1050,35 +1060,52 @@ struct Path_LCDScreen final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_LCDScreen, "LCDScreen", AO::TlvTypes::LCDScreen_98)
     {
-        ADD("message_1_id", mTlv.field_18_message_1_id);
-        ADD("message_rand_min", mTlv.field_1A_message_rand_min);
-        ADD("message_rand_max", mTlv.field_1C_message_rand_max);
+        ADD("Message 1 ID", mTlv.field_18_message_1_id);
+        ADD("Random Message Min ID", mTlv.field_1A_message_rand_min);
+        ADD("Random Message Max ID", mTlv.field_1C_message_rand_max);
     }
 };
 
 struct Path_InvisibleSwitch final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::InvisibleSwitchScale>("Enum_InvisibleSwitchScale",
+        {
+            {AO::InvisibleSwitchScale::eHalf_0, "Half"},
+            {AO::InvisibleSwitchScale::eFull_1, "Full"},
+            {AO::InvisibleSwitchScale::eAny_2, "Any"},
+        });
+    }
+
     CTOR_AO(Path_InvisibleSwitch, "InvisibleSwitch", AO::TlvTypes::InvisibleSwitch_81)
     {
-        ADD("id", mTlv.field_18_id);
-        ADD("action", mTlv.field_1A_action);
-        ADD("delay", mTlv.field_1C_delay);
-        ADD("set_off_alarm", mTlv.field_1E_set_off_alarm);
-        ADD("scale", mTlv.field_20_scale);
+        ADD("ID", mTlv.field_18_id);
+        ADD("Action", mTlv.field_1A_action);
+        ADD("Delay", mTlv.field_1C_delay);
+        ADD("Set Off Alarm", mTlv.field_1E_set_off_alarm);
+        ADD("Scale", mTlv.field_20_scale);
     }
 };
 
 struct Path_TrapDoor final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::Path_TrapDoor::StartState>("Enum_TrapDoorStartState",
+        {{AO::Path_TrapDoor::StartState::eOpen_0, "Open"},
+        {AO::Path_TrapDoor::StartState::eClosed_1, "Closed"}});
+    }
+
     CTOR_AO(Path_TrapDoor, "TrapDoor", AO::TlvTypes::TrapDoor_55)
     {
-        ADD("id", mTlv.field_18_id);
-        ADD("start_state", mTlv.field_1A_start_state);
-        ADD("self_closing", mTlv.field_1C_self_closing);
-        ADD("scale", mTlv.field_1E_scale);
-        ADD("dest_level", mTlv.field_20_dest_level);
-        ADD("direction", mTlv.field_22_direction);
-        ADD("anim_offset", mTlv.field_24_anim_offset);
+        ADD("ID", mTlv.field_18_id);
+        ADD("Start State", mTlv.field_1A_start_state);
+        ADD("Self Closing", mTlv.field_1C_self_closing);
+        ADD("Scale", mTlv.field_1E_scale);
+        ADD("Dest Level (Unused?)", mTlv.field_20_dest_level);
+        ADD("Direction", mTlv.field_22_direction);
+        ADD("X Offset", mTlv.field_24_xOff);
     }
 };
 
@@ -1088,29 +1115,29 @@ struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseAO
     {
         types.AddEnum<AO::PortalSide>("Enum_PortalSide",
                                       {
-                                          {AO::PortalSide::eRight_0, "right"},
-                                          {AO::PortalSide::eLeft_1, "left"},
+                                          {AO::PortalSide::eRight_0, "Right"},
+                                          {AO::PortalSide::eLeft_1, "Left"},
                                       });
 
         types.AddEnum<AO::PortalType>("Enum_PortalType",
                                       {
-                                          {AO::PortalType::eAbe_0, "abe"},
-                                          {AO::PortalType::eWorker_1, "worker"},
-                                          {AO::PortalType::eShrykull_2, "shrykull"},
-                                          {AO::PortalType::eMudTeleport_3, "mud_teleport"},
+                                          {AO::PortalType::eAbe_0, "Abe"},
+                                          {AO::PortalType::eWorker_1, "Worker"},
+                                          {AO::PortalType::eShrykull_2, "Shrykull"},
+                                          {AO::PortalType::eMudTeleport_3, "Mudokon Teleport"},
                                       });
     }
 
     CTOR_AO(Path_BirdPortal, "BirdPortal", AO::TlvTypes::BirdPortal_52)
     {
-        ADD("side", mTlv.field_18_side);
-        ADD("dest_level", mTlv.field_1A_dest_level);
-        ADD("dest_path", mTlv.field_1C_dest_path);
-        ADD("dest_camera", mTlv.field_1E_dest_camera);
-        ADD("scale", mTlv.field_20_scale);
-        ADD("movie_id", mTlv.field_22_movie_id);
-        ADD("portal_type", mTlv.field_24_portal_type);
-        ADD("num_muds_for_shrykull", mTlv.field_26_num_muds_for_shrykul);
+        ADD("Enter Side", mTlv.field_18_side);
+        ADD("Level Destination", mTlv.field_1A_dest_level);
+        ADD("Path Destination", mTlv.field_1C_dest_path);
+        ADD("Camera Destination", mTlv.field_1E_dest_camera);
+        ADD("Scale", mTlv.field_20_scale);
+        ADD("Movie ID", mTlv.field_22_movie_id);
+        ADD("Portal Type", mTlv.field_24_portal_type);
+        ADD("Mudokon Amount For Shrykull", mTlv.field_26_num_muds_for_shrykul);
     }
 };
 
@@ -1118,25 +1145,35 @@ struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_BoomMachine, "BoomMachine", AO::TlvTypes::BoomMachine_97)
     {
-        ADD("scale", mTlv.field_18_scale);
-        ADD("nozzle_side", mTlv.field_1A_nozzle_side);
-        ADD("disabled_resources", mTlv.field_1C_disabled_resources);
-        ADD("number_of_grenades", mTlv.field_1E_number_of_grenades);
+        ADD("Scale", mTlv.field_18_scale);
+        ADD("Nozzle Side", mTlv.field_1A_nozzle_side); // TODO: enum values swapped?
+        ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
+        ADD("Number Of Grenades", mTlv.field_1E_number_of_grenades);
     }
 };
 
 struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::Path_Mudokon::MudJobs>("Enum_MudJobs",
+        {
+            {AO::Path_Mudokon::MudJobs::eStandScrub_0, "Stand Scrub"},
+            {AO::Path_Mudokon::MudJobs::eSitScrub_1, "Sit Scrub"},
+            {AO::Path_Mudokon::MudJobs::eSitChant_2, "Sit Chant"}
+        });
+    }
+
     CTOR_AO(Path_Mudokon, "Mudokon", AO::TlvTypes::Mudokon_82)
     {
-        ADD("scale", mTlv.field_18_scale);
-        ADD("job", mTlv.field_1A_job);
-        ADD("direction", mTlv.field_1C_direction);
-        ADD("voice_adjust", mTlv.field_1E_voice_adjust);
-        ADD("rescue_id", mTlv.field_20_rescue_id);
-        ADD("deaf", mTlv.field_22_deaf);
-        ADD("disabled_resources", mTlv.field_24_disabled_resources);
-        ADD("persist", mTlv.field_26_persist);
+        ADD("Scale", mTlv.field_18_scale);
+        ADD("Job", mTlv.field_1A_job);
+        ADD("Start Direction", mTlv.field_1C_direction);
+        ADD("Voice Pitch", mTlv.field_1E_voice_pitch);
+        ADD("Rescue ID", mTlv.field_20_rescue_id);
+        ADD("Deaf", mTlv.field_22_deaf);
+        ADD("Disabled Resources", mTlv.field_24_disabled_resources);
+        ADD("Persist Offscreen", mTlv.field_26_persist);
     }
 };
 
@@ -1144,8 +1181,8 @@ struct Path_BirdPortalExit final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_BirdPortalExit, "BirdPortalExit", AO::TlvTypes::BirdPortalExit_53)
     {
-        ADD("side", mTlv.field_18_side);
-        ADD("scale", mTlv.field_1A_scale);
+        ADD("Exit Direction", mTlv.field_18_side);
+        ADD("Scale", mTlv.field_1A_scale);
     }
 };
 

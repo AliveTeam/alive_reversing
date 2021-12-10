@@ -4,6 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
+#include "SwitchStates.hpp"
 
 void Mud_ForceLink();
 
@@ -91,9 +92,9 @@ struct Path_Mudokon final : public Path_TLV
     };
     MudJobs field_1A_job;
     XDirection_short field_1C_direction;
-    s16 field_1E_voice_adjust;
+    s16 field_1E_voice_pitch;
     s16 field_20_rescue_id;
-    s16 field_22_deaf;
+    Choice_short field_22_deaf;
     s16 field_24_disabled_resources;
     s16 field_26_persist;
 };
@@ -107,9 +108,9 @@ struct Path_RingMudokon final : public Path_TLV
     s16 field_1E_silent;
     s16 field_20_code1;
     s16 field_22_code2;
-    s16 field_24_action;
+    SwitchOp field_24_action;
     s16 field_26_ring_timeout;
-    s16 field_28_instant_powerup;
+    Choice_short field_28_give_ring_without_password;
     s16 field_2A_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_RingMudokon, 0x2C);
@@ -297,7 +298,7 @@ public:
     s32 field_118;
     FP field_11C;
     s32 field_120_unused;
-    s16 field_124;
+    s16 field_124_voice_pitch;
     s16 field_126_input;
     s32 field_128;
     u8 field_12C[16];
@@ -316,7 +317,7 @@ public:
         e144_Bit7 = 0x40,
         e144_Bit8 = 0x80,
         e144_Bit9 = 0x100,
-        e144_Bit10 = 0x200,
+        e144_Bit10_give_ring_without_password = 0x200,
         e144_Bit11_bDeaf = 0x400,
         e144_Bit12 = 0x800,
         e144_eBit13 = 0x1000,
@@ -343,7 +344,7 @@ public:
     s16 field_1A2;
     s32 field_1A4_code_converted;
     s16 field_1A8_code_length;
-    u16 field_1AA;
+    u16 field_1AA_ring_timeout;
     BirdPortal* field_1AC_pBirdPortal;
     s16 field_1B0;
     s16 field_1B2_switch_id;

@@ -311,7 +311,7 @@ struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseAE
         ADD("Start Direction", mTlv.field_14_direction);
         ADD("Voice Pitch", mTlv.field_16_voice_pitch);
         ADD("Rescue ID", mTlv.field_18_rescue_id);
-        ADD("Deaf (Unused?)", mTlv.field_1A_bDeaf);
+        ADD_HIDDEN("Deaf (Unused?)", mTlv.field_1A_bDeaf); // logic for this only exists in AO
         ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
         ADD("Reset Position On Screen Change", mTlv.field_1E_reset_pos_on_screen_change);
         ADD("Emotion", mTlv.field_20_emotion);
@@ -344,7 +344,7 @@ struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_BirdPortal, "BirdPortal", TlvTypes::BirdPortal_28)
     {
-        ADD("Side", mTlv.field_10_side);
+        ADD("Enter Side", mTlv.field_10_side);
         ADD("Level Destination", mTlv.field_12_dest_level);
         ADD("Path Destination", mTlv.field_14_dest_path);
         ADD("Camera Destination", mTlv.field_16_dest_camera);
@@ -1537,7 +1537,7 @@ struct Path_BirdPortalExit final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_BirdPortalExit, "BirdPortalExit", TlvTypes::BirdPortalExit_29)
     {
-        ADD("Side", mTlv.field_10_side);
+        ADD("Exit Direction", mTlv.field_10_side);
         ADD("Scale", mTlv.field_12_scale);
     }
 };
@@ -1611,7 +1611,7 @@ struct Path_MovingBomb final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Speed", mTlv.field_10_speed);
         ADD("ID", mTlv.field_12_id);
-        ADD("Triggered By Alarm", mTlv.field_14_bStart_type_triggered_by_alarm);
+        ADD("Triggered By Alarm", mTlv.field_14_bTriggered_by_alarm);
         ADD("Scale", mTlv.field_16_scale);
         ADD("Max Rise", mTlv.field_18_max_rise);
         ADD("Disable Resources", mTlv.field_1A_disable_resources);

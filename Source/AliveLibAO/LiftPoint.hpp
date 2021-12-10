@@ -5,6 +5,7 @@
 #include "Animation.hpp"
 #include "PlatformBase.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -20,11 +21,11 @@ enum class LiftPointStopType : s16
 struct Path_LiftPoint final : public Path_TLV
 {
     s16 field_18_id;
-    s16 field_1A_bstart_point;
+    Choice_short field_1A_bstart_point;
     s16 field_1C_lift_type;
     LiftPointStopType field_1E_lift_point_stop_type;
-    s16 field_20_scale;
-    s16 field_22_bIgnore_lift_mover;
+    Scale_short field_20_scale;
+    Choice_short field_22_bIgnore_lift_mover;
 };
 
 class Rope;
