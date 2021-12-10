@@ -4,6 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "GameSpeak.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 void SlingMud_ForceLink();
 
@@ -11,8 +12,8 @@ namespace AO {
 
 struct Path_SlingMudokon final : public Path_TLV
 {
-    s16 field_18_scale;
-    s16 field_1A_bDontWhistlePassword;
+    Scale_short field_18_scale;
+    Choice_short field_1A_bDontWhistlePassword;
     s16 field_1C_code_1;
     s16 field_1E_code_2;
 };

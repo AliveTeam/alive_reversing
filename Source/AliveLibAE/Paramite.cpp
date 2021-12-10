@@ -3804,10 +3804,10 @@ void Paramite::M_Falling_11_48B200()
         {
             switch (pLine->field_8_type)
             {
-                case 0u:
-                case 4u:
-                case 32u:
-                case 36u:
+                case eLineTypes::eFloor_0:
+                case eLineTypes::eBackGroundFloor_4:
+                case eLineTypes::eUnknown_32:
+                case eLineTypes::eUnknown_36:
                     field_100_pCollisionLine = pLine;
                     field_BC_ypos = hitY;
                     field_B8_xpos = hitX;
@@ -3832,10 +3832,10 @@ void Paramite::M_Falling_11_48B200()
                     }
                     break;
 
-                case 1u:
-                case 2u:
-                case 5u:
-                case 6u:
+                case eLineTypes::eWallLeft_1:
+                case eLineTypes::eWallRight_2:
+                case eLineTypes::eBackGroundWallLeft_5:
+                case eLineTypes::eBackGroundWallRight_6:
                     field_B8_xpos = hitX - field_C4_velx;
                     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
                     field_BC_ypos = hitY;

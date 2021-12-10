@@ -276,7 +276,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
             }
         }
     }
-    else if (field_FE_trigger_by == FootSwitchTriggerBy::eOnlyAbe_0)
+    else if (field_FE_trigger_by == FootSwitchTriggerBy::eAbe_0)
     {
         PSX_RECT bRect = {};
         sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);

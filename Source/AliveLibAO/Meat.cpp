@@ -42,12 +42,12 @@ MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, s32 tlvInfo)
     // Throw the meat up into the air as it falls from the sack
     field_11C_velY = -FP_FromRaw(pTlv->field_1C_y_vel << 8);
 
-    if (!pTlv->field_18_side)
+    if (pTlv->field_18_meat_fall_direction == XDirection_short::eLeft_0)
     {
         field_118_velX = -field_118_velX;
     }
 
-    if (pTlv->field_1E_scale == 1)
+    if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_8;

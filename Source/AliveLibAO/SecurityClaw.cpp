@@ -77,7 +77,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
     field_11C_clawX = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_120_clawY = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
@@ -98,7 +98,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
     field_138 = pTlv->field_14_bottom_right;
 
     field_118_alarm_id = pTlv->field_1A_alarm_id;
-    field_11A = pTlv->field_1C_alarm_time;
+    field_11A_alarm_duration = pTlv->field_1C_alarm_duration;
 
     field_110_state = SecurityClawStates::eCamSwap_0;
 
@@ -375,7 +375,7 @@ void SecurityClaw::VUpdate_418DE0()
                     auto pAlarm = ao_new<Alarm>();
                     if (pAlarm)
                     {
-                        pAlarm->ctor_402570(field_11A, field_118_alarm_id, 30, Layer::eLayer_Above_FG1_39);
+                        pAlarm->ctor_402570(field_11A_alarm_duration, field_118_alarm_id, 30, Layer::eLayer_Above_FG1_39);
                     }
                 }
             }

@@ -45,7 +45,7 @@ SlogHut* SlogHut::ctor_472C80(Path_SlogHut* pTlv, s32 tlvInfo)
     field_14_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_1C_tlvInfo = tlvInfo;
 
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_18_scale = FP_FromDouble(0.5);
     }
@@ -55,7 +55,7 @@ SlogHut* SlogHut::ctor_472C80(Path_SlogHut* pTlv, s32 tlvInfo)
     }
 
     field_20_switch_id = pTlv->field_1A_switch_id;
-    field_28_z_delay = pTlv->field_1C_z_delay;
+    field_28_Zzz_delay = pTlv->field_1C_Zzz_delay;
     field_24_timer = 0;
 
     return this;
@@ -99,7 +99,7 @@ void SlogHut::VUpdate_472D50()
                 snoozeLayer,
                 field_18_scale);
         }
-        field_24_timer = gnFrameCount_507670 + field_28_z_delay;
+        field_24_timer = gnFrameCount_507670 + field_28_Zzz_delay;
     }
 }
 

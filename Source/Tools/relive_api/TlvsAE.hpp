@@ -1864,7 +1864,7 @@ struct Path_FootSwitch final : public ReliveAPI::TlvObjectBaseAE
     {
         types.AddEnum<::FootSwitchTriggerBy>("Enum_FootSwitchTriggeredBy",
                                              {
-                                                 {::FootSwitchTriggerBy::eOnlyAbe_0, "Only Abe"},
+                                                 {::FootSwitchTriggerBy::eAbe_0, "Abe"},
                                                  {::FootSwitchTriggerBy::eAnyone_1, "Anyone"},
                                              });
     }
@@ -2038,7 +2038,7 @@ struct Path_MeatSack final : public ReliveAPI::TlvObjectBaseAE
         ADD("X Velocity", mTlv.field_12_xVel);
         ADD("Y Velocity", mTlv.field_14_yVel);
         ADD("Scale", mTlv.field_16_scale);
-        ADD("Meat Amount", mTlv.field_18_meat_amount);
+        ADD("Amount Of Meat", mTlv.field_18_amount_of_meat);
     }
 };
 

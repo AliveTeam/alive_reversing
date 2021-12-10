@@ -179,7 +179,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
 
     SetTint_418750(sMudTints_4CD320, field_B2_lvl_number);
 
-    s32 scale = 0;
+    Scale_short scale = Scale_short::eFull_0;
     switch (pTlv->field_4_type.mType)
     {
         case TlvTypes::None_m1:
@@ -195,19 +195,19 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
             field_18C = FP_FromInteger(liftMudTlv->field_18_how_far_to_walk);
             field_110 = liftMudTlv->field_1A_lift_id;
 
-            field_144_flags.Set(Flags_144::e144_Bit5, liftMudTlv->field_1C_direction); // TODO: Check
+            field_144_flags.Set(Flags_144::e144_Bit5_unused, liftMudTlv->field_1C_direction == XDirection_short::eRight_1);
             field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
             field_144_flags.Clear(Flags_144::e144_Bit11_bDeaf);
 
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction);
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction == XDirection_short::eRight_1);
 
             field_186 = liftMudTlv->field_1E_silent;
             field_184 = 1;
             field_1B8_brain_idx = 0;
             field_188 = 5;
 
-            field_1A4 = Code_Convert_476000(liftMudTlv->field_22_code1, liftMudTlv->field_24_code2);
-            field_1A8 = Code_Length_475FD0(field_1A4);
+            field_1A4_code_converted = Code_Convert_476000(liftMudTlv->field_22_code1, liftMudTlv->field_24_code2);
+            field_1A8_code_length = Code_Length_475FD0(field_1A4_code_converted);
 
             scale = liftMudTlv->field_20_scale;
         }
@@ -237,8 +237,8 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
             }
 
             field_1AA = ringMudTlv->field_26_ring_timeout;
-            field_1A4 = Code_Convert_476000(ringMudTlv->field_20_code1, ringMudTlv->field_22_code2);
-            field_1A8 = Code_Length_475FD0(field_1A4);
+            field_1A4_code_converted = Code_Convert_476000(ringMudTlv->field_20_code1, ringMudTlv->field_22_code2);
+            field_1A8_code_length = Code_Length_475FD0(field_1A4_code_converted);
 
             field_144_flags.Set(Flags_144::e144_Bit10, ringMudTlv->field_28_instant_powerup & 1);
             field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
@@ -253,21 +253,17 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
         {
             auto mudTlv = static_cast<Path_Mudokon*>(pTlv);
 
-            // TODO: job enum
-            if (mudTlv->field_1A_job == 0)
+            if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eStandScrub_0)
             {
-                // stand scrub
                 field_1B8_brain_idx = 8;
                 field_148_res_array.res[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudchslResID, 1, 0);
             }
-            else if (mudTlv->field_1A_job == 1)
+            else if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eSitScrub_1)
             {
-                // sit scrub
                 field_1B8_brain_idx = 9;
             }
-            else if (mudTlv->field_1A_job == 2)
+            else if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eSitChant_2)
             {
-                // chant
                 field_1B8_brain_idx = 14;
                 field_148_res_array.res[12] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudltusResID, 1, 0);
             }
@@ -286,7 +282,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
             field_4_typeId = Types::eMudokon_75;
             field_1B2_switch_id = mudTlv->field_20_rescue_id;
 
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, mudTlv->field_1C_direction == 0); // TODO: Check
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, mudTlv->field_1C_direction == XDirection_short::eLeft_0);
 
             // TODO: Check these as well
             field_144_flags.Set(Flags_144::e144_Bit11_bDeaf, mudTlv->field_22_deaf & 1);
@@ -305,7 +301,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
 
     field_FC_current_motion = eMudMotions::Motion_0_Idle_43CA70;
 
-    if (scale == 1)
+    if (scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
@@ -2868,12 +2864,12 @@ s16 Mudokon::Brain_SingSequenceSing_3_441510()
     switch (field_1BA_brain_sub_state)
     {
         case 0:
-            field_19E = 0;
-            field_13C = GameSpeak::sub_40FA60(field_1A4, field_12C);
+            field_19E_code_idx = 0;
+            field_13C = GameSpeak::sub_40FA60(field_1A4_code_converted, field_12C);
             return 1;
 
         case 1:
-            switch (Code_LookUp_476050(field_1A4, field_19E, field_1A8))
+            switch (Code_LookUp_476050(field_1A4_code_converted, field_19E_code_idx, field_1A8_code_length))
             {
                 case GameSpeakEvents::eWhistleHigh_1:
                     field_FE_next_motion = eMudMotions::Motion_4_Speak_43D440;
@@ -2900,9 +2896,9 @@ s16 Mudokon::Brain_SingSequenceSing_3_441510()
                     break;
             }
 
-            field_19E++;
+            field_19E_code_idx++;
 
-            if (field_19E >= field_1A8)
+            if (field_19E_code_idx >= field_1A8_code_length)
             {
                 return 3;
             }
@@ -3076,7 +3072,7 @@ s16 Mudokon::Brain_SingSequencePassword_4_441260()
         case 0:
             field_FE_next_motion = eMudMotions::Motion_3_Speak_43D440;
             Mudokon_SFX_42A4D0(MudSounds::ePassword_9, 0, 300, this);
-            field_13C = GameSpeak::sub_40FA60(field_1A4, field_12C);
+            field_13C = GameSpeak::sub_40FA60(field_1A4_code_converted, field_12C);
             return 1;
 
         case 1:

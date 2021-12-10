@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 void Mud_ForceLink();
 
@@ -81,9 +82,15 @@ enum eMudMotions : s32
 
 struct Path_Mudokon final : public Path_TLV
 {
-    s16 field_18_scale;
-    s16 field_1A_job;
-    s16 field_1C_direction;
+    Scale_short field_18_scale;
+    enum class MudJobs : s16
+    {
+        eStandScrub_0 = 0,
+        eSitScrub_1 = 1,
+        eSitChant_2 = 2,
+    };
+    MudJobs field_1A_job;
+    XDirection_short field_1C_direction;
     s16 field_1E_voice_adjust;
     s16 field_20_rescue_id;
     s16 field_22_deaf;
@@ -96,7 +103,7 @@ struct Path_RingMudokon final : public Path_TLV
 {
     s16 field_18_facing;
     s16 field_1A_abe_must_be_same_direction;
-    s16 field_1C_scale;
+    Scale_short field_1C_scale;
     s16 field_1E_silent;
     s16 field_20_code1;
     s16 field_22_code2;
@@ -111,9 +118,9 @@ struct Path_LiftMudokon final : public Path_TLV
 {
     s16 field_18_how_far_to_walk;
     s16 field_1A_lift_id;
-    s16 field_1C_direction;
+    XDirection_short field_1C_direction;
     s16 field_1E_silent;
-    s16 field_20_scale;
+    Scale_short field_20_scale;
     s16 field_22_code1;
     s16 field_24_code2;
     s16 field_26_pad;
@@ -304,7 +311,7 @@ public:
         e144_Bit2 = 0x2,
         e144_Bit3 = 0x4,
         e144_Bit4_bSnapToGrid = 0x8,
-        e144_Bit5 = 0x10,
+        e144_Bit5_unused = 0x10,
         e144_Bit6_bPersist = 0x20,
         e144_Bit7 = 0x40,
         e144_Bit8 = 0x80,
@@ -331,11 +338,11 @@ public:
     s16 field_198;
     s16 field_19A;
     s16 field_19C;
-    s16 field_19E;
+    s16 field_19E_code_idx;
     s16 field_1A0;
     s16 field_1A2;
-    s32 field_1A4;
-    s16 field_1A8;
+    s32 field_1A4_code_converted;
+    s16 field_1A8_code_length;
     u16 field_1AA;
     BirdPortal* field_1AC_pBirdPortal;
     s16 field_1B0;
