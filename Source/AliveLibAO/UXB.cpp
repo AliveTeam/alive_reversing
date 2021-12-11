@@ -31,8 +31,8 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
     field_1BC_flags &= ~1u;
     field_10C_state = UXBState::eDelay_0;
 
-    field_1B4_pattern_length = pTlv->field_18_num_patterns;
-    if (pTlv->field_18_num_patterns < 1u || pTlv->field_18_num_patterns > 4u)
+    field_1B4_pattern_length = pTlv->field_18_pattern_length;
+    if (pTlv->field_18_pattern_length < 1u || pTlv->field_18_pattern_length > 4u)
     {
         field_1B4_pattern_length = 1;
     }

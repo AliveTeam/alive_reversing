@@ -9,7 +9,7 @@ EXPORT void CC Dove_static_ctor_41F3A0();
 struct Path_Dove final : public Path_TLV
 {
     s16 field_10_dove_count;
-    s16 field_12_pixel_perfect;
+    Choice_short field_12_pixel_perfect;
     Scale_short field_14_scale;
     s16 field_16_pad;
 };

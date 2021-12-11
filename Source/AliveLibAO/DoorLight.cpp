@@ -96,7 +96,7 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo)
             break;
     }
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_flip_x == 0);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == Choice_short::eNo_0);
 
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {

@@ -32,7 +32,7 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
     field_E6_switch_id = pTlv->field_18_id;
     field_E8_tlvInfo = tlvInfo;
 
-    if (pTlv->field_1C_scale == 1)
+    if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
@@ -45,7 +45,7 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
         field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
     }
 
-    if (pTlv->field_1E_direction)
+    if (pTlv->field_1E_direction == XDirection_short::eRight_1)
     {
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }

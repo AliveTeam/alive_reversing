@@ -1140,12 +1140,12 @@ struct Path_DeathDrop final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_DeathDrop, "DeathDrop", TlvTypes::DeathDrop_4)
     {
-        ADD("Unused1", mTlv.field_10_animation);
-        ADD("Unused2", mTlv.field_12_sound);
-        ADD("Unused3", mTlv.field_14_id);
-        ADD("Unused4", mTlv.field_16_action);
-        ADD("Unused5", mTlv.field_18_unknown1);
-        ADD("Unused6", mTlv.field_1A_unknown2);
+        ADD_HIDDEN("Unused1", mTlv.field_10_animation);
+        ADD_HIDDEN("Unused2", mTlv.field_12_sound);
+        ADD_HIDDEN("Unused3", mTlv.field_14_id);
+        ADD_HIDDEN("Unused4", mTlv.field_16_action);
+        ADD_HIDDEN("Unused5", mTlv.field_18_unknown1);
+        ADD_HIDDEN("Unused6", mTlv.field_1A_unknown2);
     }
 };
 
@@ -1292,8 +1292,8 @@ struct Path_Mine final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Mine, "Mine", TlvTypes::Mine_24)
     {
-        ADD("Num Patterns (Unused?)", mTlv.field_10_num_patterns);
-        ADD("Pattern (Unused?)", mTlv.field_12_pattern);
+        ADD_HIDDEN("Num Patterns (Unused?)", mTlv.field_10_num_patterns);
+        ADD_HIDDEN("Pattern (Unused?)", mTlv.field_12_pattern);
         ADD("Scale", mTlv.field_14_scale);
         ADD("Disabled Resources", mTlv.field_16_disabled_resources);
         ADD("Persist Offscreen", mTlv.field_18_persist_offscreen);

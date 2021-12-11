@@ -431,7 +431,7 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
             }
 
             s16 ypos = 0;
-            if (pDoveTlv->field_12_pixel_perfect)
+            if (pDoveTlv->field_12_pixel_perfect == Choice_short::eYes_1)
             {
                 pDove->field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
                 ypos = pTlv->field_8_top_left.field_2_y;

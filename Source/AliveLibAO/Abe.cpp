@@ -4517,15 +4517,15 @@ void Abe::Motion_2_StandingTurn_426040()
 
 static bool isEdgeGrabbable(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_18_type == Path_Edge::Type::eLeft && pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eLeft && pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_18_type == Path_Edge::Type::eRight && !pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eRight && !pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_18_type == Path_Edge::Type::eBoth)
+    else if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eBoth)
     {
         return true;
     }
@@ -4664,7 +4664,7 @@ void Abe::Motion_3_Fall_42E7F0()
 
     if (pEdge)
     {
-        if (pEdge->field_1A_can_grab && isEdgeGrabbable(pEdge, this))
+        if (pEdge->field_1A_can_grab == Choice_short::eYes_1 && isEdgeGrabbable(pEdge, this))
         {
             tryToHang = true;
         }
@@ -5896,7 +5896,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 FP_GetExponent(field_AC_ypos),
                 TlvTypes::Edge_4));
             field_F0_pTlv = pEdgeTlv;
-            if (pEdgeTlv && pEdgeTlv->field_1A_can_grab)
+            if (pEdgeTlv && pEdgeTlv->field_1A_can_grab == Choice_short::eYes_1)
             {
                 if (isEdgeGrabbable(pEdgeTlv, this))
                 {

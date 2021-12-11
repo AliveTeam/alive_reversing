@@ -77,9 +77,9 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
     }
 
 
-    field_118_delay_time = pTlv->field_1C_delay_time;
-    field_114_num_items = pTlv->field_1E_number_of_items;
-    field_116_num_items_remaining = pTlv->field_1E_number_of_items;
+    field_118_fall_delay = pTlv->field_1C_fall_delay;
+    field_114_max_falling_items = pTlv->field_1E_max_falling_items;
+    field_116_remaining_falling_items = pTlv->field_1E_max_falling_items;
 
     field_120_reset_id = pTlv->field_20_reset_id;
     field_122_do_sound_in_state_falling = 1;
@@ -202,7 +202,7 @@ void FallingItem::VUpdate_41A120()
             field_B8_vely = FP_FromInteger(0);
             const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_4_waiting_animId);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
-            field_11C_delay_timer = gnFrameCount_507670 + field_118_delay_time;
+            field_11C_delay_timer = gnFrameCount_507670 + field_118_fall_delay;
             break;
         }
 
@@ -344,9 +344,9 @@ void FallingItem::VUpdate_41A120()
                 }
             }
 
-            field_116_num_items_remaining--;
+            field_116_remaining_falling_items--;
 
-            if ((field_114_num_items && field_116_num_items_remaining <= 0) || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_128_xpos, field_12C_ypos, 0))
+            if ((field_114_max_falling_items && field_116_remaining_falling_items <= 0) || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_128_xpos, field_12C_ypos, 0))
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
