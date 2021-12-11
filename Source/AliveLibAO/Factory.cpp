@@ -1972,11 +1972,11 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 
         switch (pMudTlv->field_1A_job)
         {
-            case 0:
+            case Path_Mudokon::MudJobs::eStandScrub_0:
                 ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMudchslResID);
                 break;
 
-            case 2:
+            case Path_Mudokon::MudJobs::eSitChant_2:
                 ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMudltusResID);
                 break;
         }
@@ -1998,7 +1998,7 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 
         switch (pMudTlv->field_1A_job)
         {
-            case 0:
+            case Path_Mudokon::MudJobs::eStandScrub_0:
             {
                 static CompileTimeResourceList<3> kResources = {
                     {ResourceManager::Resource_Animation, ResourceID::kMudoduckResID},
@@ -2009,7 +2009,7 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
             }
             break;
 
-            case 1:
+            case Path_Mudokon::MudJobs::eSitScrub_1:
             {
                 static CompileTimeResourceList<3> kResources = {
                     {ResourceManager::Resource_Animation, ResourceID::kMudoduckResID},
@@ -2019,7 +2019,7 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
             }
             break;
 
-            case 2:
+            case Path_Mudokon::MudJobs::eSitChant_2:
             {
                 static CompileTimeResourceList<4> kResources = {
                     {ResourceManager::Resource_Animation, ResourceID::kMudltusResID},
