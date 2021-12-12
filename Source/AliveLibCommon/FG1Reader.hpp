@@ -2,6 +2,7 @@
 
 #include "Types.hpp"
 #include "CompressionType_4Or5.hpp"
+#include "FunctionFwd.hpp"
 
 // Forward declare here to avoid SDL.h dep (todo: probably move to its own header)
 [[noreturn]] void ALIVE_FATAL(const char_type* errMsg);
