@@ -80,25 +80,36 @@ static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, con
     }
 }
 
-static void MergeFG1BlocksAndConvertToPng(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData)
+static void MergeFG1BlocksAndConvertToPng(const ChunkedLvlFile& camFile, BaseFG1Reader::FG1Format fg1Format, CameraImageAndLayers& outData)
 {
     // For some crazy reason there can be multiple FG1 blocks, here we squash them down into a single
     // image for each "layer".
     std::optional<LvlFileChunk> anyFG1 = camFile.ChunkByType(ResourceManager::Resource_FG1);
     if (anyFG1)
     {
-        ApiFG1Reader reader(ApiFG1Reader::DetectFormat(reinterpret_cast<const FG1ResourceBlockHeader*>(anyFG1->Data().data())));
-        for (u32 i = 0; i < camFile.ChunkCount(); i++)
+        const u8* pFg1Data = anyFG1->Data().data();
+        const bool isReliveFormat = ApiFG1Reader::IsReliveFG1(reinterpret_cast<const FG1ResourceBlockHeader*>(pFg1Data));
+        if (isReliveFormat)
         {
-            if (camFile.ChunkAt(i).Header().field_8_type == ResourceManager::Resource_FG1)
-            {
-                reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(camFile.ChunkAt(i).Data().data()));
-            }
+            // For relive format its very slightly tweaked AE format, move past the extra u32 we added and process the FG1
+            // we also know there is only 1 chunk in relive format.
+            pFg1Data += sizeof(u32);
+            ApiFG1Reader reader(BaseFG1Reader::FG1Format::AE);
+            reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(pFg1Data));
+            reader.LayersToPng(outData);
         }
-
-        reader.LayersToPng(outData);
-
-        //ApiFG1Reader::DebugSave(outData, camFile.ChunkByType(ResourceManager::Resource_Bits)->Id());
+        else
+        {
+            ApiFG1Reader reader(fg1Format);
+            for (u32 i = 0; i < camFile.ChunkCount(); i++)
+            {
+                if (camFile.ChunkAt(i).Header().field_8_type == ResourceManager::Resource_FG1)
+                {
+                    reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(camFile.ChunkAt(i).Data().data()));
+                }
+            }
+            reader.LayersToPng(outData);
+        }
     }
 }
 
@@ -164,12 +175,13 @@ CamConverter::CamConverter(const ChunkedLvlFile& camFile, CameraImageAndLayers& 
         if (AEcamIsAOCam(*bitsRes))
         {
             ConvertAOCamera(*bitsRes, outData.mCameraImage);
+            MergeFG1BlocksAndConvertToPng(camFile, BaseFG1Reader::FG1Format::AO, outData);
         }
         else
         {
             ConvertAECamera(*bitsRes, outData.mCameraImage);
+            MergeFG1BlocksAndConvertToPng(camFile, BaseFG1Reader::FG1Format::AE, outData);
         }
-        MergeFG1BlocksAndConvertToPng(camFile, outData);
     }
 }
 

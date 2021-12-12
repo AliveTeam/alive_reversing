@@ -21,6 +21,7 @@
 #include <gmock/gmock.h>
 #include <type_traits>
 #include <typeindex>
+#include <sstream>
 #include <lodepng/lodepng.h>
 
 bool RunningAsInjectedDll()
@@ -458,17 +459,18 @@ static u32 ToFG1Layer(Layer layer)
 }
 
 // Iterate in 32x16 blocks, creating full or partial blocks as needed
-static std::vector<u8> MakeFG1Layer(const std::vector<u8>& rawPixels, Layer layer)
+static u32 MakeFG1Layer(std::stringstream& byteStream, const std::vector<u8>& rawPixels, Layer layer)
 {
-    std::vector<u8> vec;
     const u32 blocksX = 640 / 32;
     const u32 blocksY = 240 / 16;
 
+    u32 numBlocksWritten = 0;
     for (u32 blockX = 0; blockX < blocksX; blockX++)
     {
         for (u32 blockY = 0; blockY < blocksY; blockY++)
         {
             u32 whitePixelCount = 0;
+            u32 bitMaskData[16] = {};
             for (u32 x = 0; x < 32; x++)
             {
                 for (u32 y = 0; y < 16; y++)
@@ -477,6 +479,7 @@ static std::vector<u8> MakeFG1Layer(const std::vector<u8>& rawPixels, Layer laye
                     if (RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)) != 0)
                     {
                         whitePixelCount++;
+                        bitMaskData[y] |= (1 << x);
                     }
                 }
             }
@@ -491,47 +494,79 @@ static std::vector<u8> MakeFG1Layer(const std::vector<u8>& rawPixels, Layer laye
                 chunk.field_6_ypos = static_cast<u16>(blockY * 16);
                 chunk.field_8_width = 32;
                 chunk.field_A_height = 16;
-
+                byteStream.write(reinterpret_cast<const char*>(&chunk), sizeof(Fg1Chunk));
+                numBlocksWritten++;
             }
             // A partial chunk
             else if (whitePixelCount != 0)
             {
-                // TODO
+                Fg1Chunk chunk = {};
+                chunk.field_0_type = ePartialChunk;
+                chunk.field_2_layer_or_decompressed_size = static_cast<u16>(ToFG1Layer(layer));
+                chunk.field_4_xpos_or_compressed_size = static_cast<u16>(blockX * 32);
+                chunk.field_6_ypos = static_cast<u16>(blockY * 16);
+                chunk.field_8_width = 32;
+                chunk.field_A_height = 16;
+                byteStream.write(reinterpret_cast<const char*>(&chunk), sizeof(Fg1Chunk));
+
+                byteStream.write(reinterpret_cast<const char*>(&bitMaskData), sizeof(bitMaskData));
+
+                numBlocksWritten++;
             }
         }
     }
 
-    return vec;
+    return numBlocksWritten;
 }
 
 static std::vector<u8> ConstructFG1Data(const CameraImageAndLayers& imageAndLayers)
 {
-    std::vector<u8> vec;
+    std::stringstream byteStream;
+
+    // Write magic "relive fg1" marker
+    const u32 kMagic = ResourceManager::Resource_FG1;
+    byteStream.write(reinterpret_cast<const char*>(&kMagic), sizeof(u32));
+
+    // Write standard AE FG1 header
+    u32 numBlocksWritten = 0;
+    byteStream.write(reinterpret_cast<const char*>(&numBlocksWritten), sizeof(u32));
+
     if (!imageAndLayers.mBackgroundLayer.empty())
     {
-        // TODO: Combine
-        vec = MakeFG1Layer(Base64Png2RawPixels(imageAndLayers.mBackgroundLayer), Layer::eLayer_FG1_Half_18);
+        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mBackgroundLayer), Layer::eLayer_FG1_Half_18);
     }
 
     if (!imageAndLayers.mBackgroundWellLayer.empty())
     {
-        // TODO: Combine
-        vec = MakeFG1Layer(Base64Png2RawPixels(imageAndLayers.mBackgroundWellLayer), Layer::eLayer_Well_Half_4);
+        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mBackgroundWellLayer), Layer::eLayer_Well_Half_4);
     }
 
     if (!imageAndLayers.mForegroundLayer.empty())
     {
-        // TODO: Combine
-        vec = MakeFG1Layer(Base64Png2RawPixels(imageAndLayers.mForegroundLayer), Layer::eLayer_FG1_37);
+        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mForegroundLayer), Layer::eLayer_FG1_37);
     }
 
     if (!imageAndLayers.mForegroundWellLayer.empty())
     {
-        // TODO: Combine
-        vec = MakeFG1Layer(Base64Png2RawPixels(imageAndLayers.mForegroundWellLayer), Layer::eLayer_Well_23);
+        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mForegroundWellLayer), Layer::eLayer_Well_23);
     }
 
-    return vec;
+    if (numBlocksWritten == 0)
+    {
+        return {};
+    }
+
+    // End chunk
+    Fg1Chunk endChunk = {};
+    endChunk.field_0_type = eEndChunk;
+    byteStream.write(reinterpret_cast<const char*>(&endChunk), sizeof(Fg1Chunk));
+
+    // Rewrite the updated block count
+    byteStream.seekp(sizeof(u32), std::ios::beg);
+    byteStream.write(reinterpret_cast<const char*>(&numBlocksWritten), sizeof(u32));
+
+    const std::string tmpStr = byteStream.str();
+    return std::vector<u8>(tmpStr.begin(), tmpStr.end());
 }
 
 namespace Detail {
@@ -603,19 +638,22 @@ void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, co
     LvlFileChunk bitsChunk(bitsId, ResourceManager::Resource_Bits, bitsData->ToVector());
     camFile.AddChunk(std::move(bitsChunk));
 
-    // TODO: Remove FG1 blocks
-    //camFile.RemoveChunksOfType(ResourceManager::Resource_FG1);
+    // Remove FG1 blocks
+    camFile.RemoveChunksOfType(ResourceManager::Resource_FG1);
 
     if (imageAndLayers.HaveFG1Layers())
     {
-        // FG1 blocks use id BitsId << 8 + idx (or 255 max in this case as we only have 1 FG1 block)
-        const u32 fg1ResId = (bitsId << 8) | 0xFF;
+        std::vector<u8> fg1Data = ConstructFG1Data(imageAndLayers);
+        if (!fg1Data.empty())
+        {
+            // FG1 blocks use id BitsId << 8 + idx (or 255 max in this case as we only have 1 FG1 block)
+            const u32 fg1ResId = (bitsId << 8) | 0xFF;
 
-        LvlFileChunk fg1Chunk(fg1ResId, ResourceManager::Resource_FG1, ConstructFG1Data(imageAndLayers));
+            LvlFileChunk fg1Chunk(fg1ResId, ResourceManager::Resource_FG1, std::move(fg1Data));
 
-        // Add reconstructed single FG1 block
-        // TODO: don't add yet cause the FG1 block create isn't implemented
-        //camFile.AddChunk(std::move(fg1Chunk));
+            // Add reconstructed single FG1 block
+            camFile.AddChunk(std::move(fg1Chunk));
+        }
     }
 
     // Add or update the CAM file

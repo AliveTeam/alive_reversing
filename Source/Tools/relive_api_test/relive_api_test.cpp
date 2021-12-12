@@ -134,6 +134,7 @@ static void TestCamAndFG1ExportImport(const std::string& strLvlName)
         throw ReliveAPI::IOReadException(strLvlName);
     }
 
+    LOG_INFO("Export + import LVL " << strLvlName);
     ForEachCamera(reader, [&](const std::string& camName, ReliveAPI::ChunkedLvlFile& camFile)
                   {
                       // Write out camera image and FG1 layers
@@ -163,6 +164,7 @@ static void TestCamAndFG1ExportImport(const std::string& strLvlName)
     {
         throw ReliveAPI::IOReadException(strLvlName);
     }
+    LOG_INFO("Export and compare LVL " << newLvlName);
     ForEachCamera(reader2, [&](const std::string& camName, ReliveAPI::ChunkedLvlFile& camFile)
                   {
                       // Write out all cam and FG1s again (but this is our re-imported copy)
