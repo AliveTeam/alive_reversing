@@ -23,7 +23,7 @@ enum class UXBStartState : s16
 
 struct Path_UXB final : public Path_TLV
 {
-    s16 field_18_num_patterns;
+    s16 field_18_pattern_length;
     s16 field_1A_pattern;
     Scale_short field_1C_scale;
     UXBStartState field_1E_state;

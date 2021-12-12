@@ -349,14 +349,14 @@ struct Path_RingCancel : public Path_TLV
 
 struct Path_Edge final : public Path_TLV
 {
-    enum class Type : s16
+    enum class GrabDirection : s16
     {
         eLeft = 0,
         eRight = 1,
         eBoth = 2,
     };
-    Type field_18_type;
-    s16 field_1A_can_grab;
+    GrabDirection field_18_grab_direction;
+    Choice_short field_1A_can_grab;
 };
 
 struct Path_SoftLanding final : public Path_TLV

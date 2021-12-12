@@ -3,12 +3,13 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
 struct Path_MeatSaw final : public Path_TLV
 {
-    s16 field_18_scale_background;
+    Scale_short field_18_scale;
     s16 field_1A_min_time_off1;
     s16 field_1C_max_time_off1;
     s16 field_1E_max_rise_time;

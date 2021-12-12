@@ -311,7 +311,7 @@ struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseAE
         ADD("Start Direction", mTlv.field_14_direction);
         ADD("Voice Pitch", mTlv.field_16_voice_pitch);
         ADD("Rescue ID", mTlv.field_18_rescue_id);
-        ADD("Deaf (Unused?)", mTlv.field_1A_bDeaf);
+        ADD_HIDDEN("Deaf (Unused?)", mTlv.field_1A_bDeaf); // logic for this only exists in AO
         ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
         ADD("Reset Position On Screen Change", mTlv.field_1E_reset_pos_on_screen_change);
         ADD("Emotion", mTlv.field_20_emotion);
@@ -344,7 +344,7 @@ struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_BirdPortal, "BirdPortal", TlvTypes::BirdPortal_28)
     {
-        ADD("Side", mTlv.field_10_side);
+        ADD("Enter Side", mTlv.field_10_side);
         ADD("Level Destination", mTlv.field_12_dest_level);
         ADD("Path Destination", mTlv.field_14_dest_path);
         ADD("Camera Destination", mTlv.field_16_dest_camera);
@@ -1140,12 +1140,12 @@ struct Path_DeathDrop final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_DeathDrop, "DeathDrop", TlvTypes::DeathDrop_4)
     {
-        ADD("Unused1", mTlv.field_10_animation);
-        ADD("Unused2", mTlv.field_12_sound);
-        ADD("Unused3", mTlv.field_14_id);
-        ADD("Unused4", mTlv.field_16_action);
-        ADD("Unused5", mTlv.field_18_unknown1);
-        ADD("Unused6", mTlv.field_1A_unknown2);
+        ADD_HIDDEN("Unused1", mTlv.field_10_animation);
+        ADD_HIDDEN("Unused2", mTlv.field_12_sound);
+        ADD_HIDDEN("Unused3", mTlv.field_14_id);
+        ADD_HIDDEN("Unused4", mTlv.field_16_action);
+        ADD_HIDDEN("Unused5", mTlv.field_18_unknown1);
+        ADD_HIDDEN("Unused6", mTlv.field_1A_unknown2);
     }
 };
 
@@ -1292,8 +1292,8 @@ struct Path_Mine final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Mine, "Mine", TlvTypes::Mine_24)
     {
-        ADD("Num Patterns (Unused?)", mTlv.field_10_num_patterns);
-        ADD("Pattern (Unused?)", mTlv.field_12_pattern);
+        ADD_HIDDEN("Num Patterns (Unused?)", mTlv.field_10_num_patterns);
+        ADD_HIDDEN("Pattern (Unused?)", mTlv.field_12_pattern);
         ADD("Scale", mTlv.field_14_scale);
         ADD("Disabled Resources", mTlv.field_16_disabled_resources);
         ADD("Persist Offscreen", mTlv.field_18_persist_offscreen);
@@ -1537,7 +1537,7 @@ struct Path_BirdPortalExit final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_BirdPortalExit, "BirdPortalExit", TlvTypes::BirdPortalExit_29)
     {
-        ADD("Side", mTlv.field_10_side);
+        ADD("Exit Direction", mTlv.field_10_side);
         ADD("Scale", mTlv.field_12_scale);
     }
 };
@@ -1611,7 +1611,7 @@ struct Path_MovingBomb final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Speed", mTlv.field_10_speed);
         ADD("ID", mTlv.field_12_id);
-        ADD("Triggered By Alarm", mTlv.field_14_bStart_type_triggered_by_alarm);
+        ADD("Triggered By Alarm", mTlv.field_14_bTriggered_by_alarm);
         ADD("Scale", mTlv.field_16_scale);
         ADD("Max Rise", mTlv.field_18_max_rise);
         ADD("Disable Resources", mTlv.field_1A_disable_resources);
@@ -1864,7 +1864,7 @@ struct Path_FootSwitch final : public ReliveAPI::TlvObjectBaseAE
     {
         types.AddEnum<::FootSwitchTriggerBy>("Enum_FootSwitchTriggeredBy",
                                              {
-                                                 {::FootSwitchTriggerBy::eOnlyAbe_0, "Only Abe"},
+                                                 {::FootSwitchTriggerBy::eAbe_0, "Abe"},
                                                  {::FootSwitchTriggerBy::eAnyone_1, "Anyone"},
                                              });
     }
@@ -2038,7 +2038,7 @@ struct Path_MeatSack final : public ReliveAPI::TlvObjectBaseAE
         ADD("X Velocity", mTlv.field_12_xVel);
         ADD("Y Velocity", mTlv.field_14_yVel);
         ADD("Scale", mTlv.field_16_scale);
-        ADD("Meat Amount", mTlv.field_18_meat_amount);
+        ADD("Amount Of Meat", mTlv.field_18_amount_of_meat);
     }
 };
 

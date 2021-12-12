@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -20,7 +21,7 @@ struct Path_LightEffect final : public Path_TLV
     Type field_18_type;
     s16 field_1A_size;
     s16 field_1C_id;
-    s16 field_1E_flip_x;
+    Choice_short field_1E_direction;
 };
 ALIVE_ASSERT_SIZEOF(Path_LightEffect, 0x20);
 

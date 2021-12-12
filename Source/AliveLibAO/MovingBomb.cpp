@@ -40,7 +40,7 @@ MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo)
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
     field_10C_state = States::eTriggeredBySwitch_1;
 
-    if (pTlv->field_1E_scale == 1)
+    if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
@@ -68,7 +68,7 @@ MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo)
     field_12A_persist_offscreen = pTlv->field_26_persist_offscreen;
     field_124_sound_channels = 0;
 
-    if (pTlv->field_1C_bStart_type_triggered_by_alarm)
+    if (pTlv->field_1C_bTriggered_by_alarm == Choice_short::eYes_1)
     {
         field_10C_state = States::eTriggeredByAlarm_0;
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -186,7 +186,7 @@ BaseGameObject* MovingBomb::Vdtor_43BCC0(s32 flags)
 
 void MovingBomb::VScreenChanged_43BC90()
 {
-    if (!field_12A_persist_offscreen || gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    if (field_12A_persist_offscreen == Choice_short::eNo_0 || gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

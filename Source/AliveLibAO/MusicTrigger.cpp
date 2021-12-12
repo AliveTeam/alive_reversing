@@ -9,11 +9,11 @@
 
 namespace AO {
 
-MusicTrigger* MusicTrigger::ctor_443A60(s16 type, s16 enabledBy, s32 id, s16 delay)
+MusicTrigger* MusicTrigger::ctor_443A60(s16 type, TriggeredBy triggeredBy, s32 id, s16 delay)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBBC0);
-    Init_443AD0(type, enabledBy, static_cast<s16>(id), delay);
+    Init_443AD0(type, triggeredBy, static_cast<s16>(id), delay);
     field_10_tlvInfo = -1;
     return this;
 }
@@ -22,12 +22,12 @@ MusicTrigger* MusicTrigger::ctor_4439F0(Path_MusicTrigger* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBBC0);
-    Init_443AD0(pTlv->field_18_type, pTlv->field_1A_enabled_by, pTlv->field_1C_id, pTlv->field_1E_timer);
+    Init_443AD0(pTlv->field_18_music_type, pTlv->field_1A_triggered_by, pTlv->field_1C_id, pTlv->field_1E_music_delay);
     field_10_tlvInfo = tlvInfo;
     return this;
 }
 
-void MusicTrigger::Init_443AD0(s16 type, s16 enabledBy, u16 id, s16 delay)
+void MusicTrigger::Init_443AD0(s16 type, TriggeredBy triggeredBy, u16 id, s16 delay)
 {
     field_14_flags &= ~7u;
     field_4_typeId = Types::eNone_0;
@@ -73,17 +73,17 @@ void MusicTrigger::Init_443AD0(s16 type, s16 enabledBy, u16 id, s16 delay)
             break;
     }
 
-    switch (enabledBy)
+    switch (triggeredBy)
     {
-        case 0:
+        case TriggeredBy::eTimer_0:
             field_8_update_delay = 0;
             break;
 
-        case 1:
+        case TriggeredBy::eTouching_1:
             field_8_update_delay = delay;
             break;
 
-        case 2: // removed in AE
+        case TriggeredBy::eSwitchID_2: // removed in AE
             field_14_flags |= 1u;
             field_1E_id = id;
             field_8_update_delay = 0;
@@ -97,7 +97,7 @@ void MusicTrigger::Init_443AD0(s16 type, s16 enabledBy, u16 id, s16 delay)
             }
             break;
 
-        case 3: // removed in AE
+        case TriggeredBy::eUnknown_3: // removed in AE
             field_14_flags |= 1u;
             field_1E_id = id;
             field_8_update_delay = 0;

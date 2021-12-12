@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -10,7 +11,7 @@ struct Path_TimedMine final : public Path_TLV
 {
     s16 field_18_id;
     s16 field_1A_state;
-    s16 field_1C_scale;
+    Scale_short field_1C_scale;
     s16 field_1E_ticks_before_explode;
     s16 field_20_disable_resources;
     s16 field_22_pad;

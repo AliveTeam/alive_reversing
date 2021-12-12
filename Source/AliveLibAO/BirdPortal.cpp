@@ -238,7 +238,7 @@ BirdPortal* BirdPortal::ctor_4520A0(Path_BirdPortal* pTlv, s32 tlvInfo)
     field_10_portal_type = pTlv->field_24_portal_type;
     field_38_movie_id = pTlv->field_22_movie_id;
     field_56_num_muds_for_shrykull = pTlv->field_26_num_muds_for_shrykul;
-    if (pTlv->field_20_scale == 1)
+    if (pTlv->field_20_scale == Scale_short::eHalf_1)
     {
         field_34_scale = FP_FromDouble(0.5);
     }
@@ -1040,7 +1040,7 @@ void BirdPortal::VExitPortal_453720()
     field_18_xpos = field_20_exit_x;
     field_12_side = pPortalExitTlv->field_18_side;
 
-    if (pPortalExitTlv->field_1A_scale == 1)
+    if (pPortalExitTlv->field_1A_scale == Scale_short::eHalf_1)
     {
         field_34_scale = FP_FromDouble(0.5);
         sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_InBirdPortal_Half_11;

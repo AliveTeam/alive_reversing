@@ -1548,12 +1548,12 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 
     if (field_25C_Inside_FMV_Screen)
     {
-        MenuFMV* v12 = &pDemosOrFmvs_BB4414.mFmvRec[field_230_target_entry_index];
-        if (v12->field_A_fmv_id >= 0)
+        MenuFMV* pMenuFMV = &pDemosOrFmvs_BB4414.mFmvRec[field_230_target_entry_index];
+        if (pMenuFMV->field_A_fmv_id >= 0)
         {
-            FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(v12->field_4_level_id, v12->field_A_fmv_id);
+            FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(pMenuFMV->field_4_level_id, pMenuFMV->field_A_fmv_id);
             Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, 0, 0, &input_held, 0, 0);
-            sLevelId_dword_5CA408 = static_cast<u32>(v12->field_4_level_id);
+            sLevelId_dword_5CA408 = static_cast<u32>(pMenuFMV->field_4_level_id);
 
             dword_55C128 = -1;
 

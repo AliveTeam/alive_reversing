@@ -6,7 +6,7 @@
 
 namespace AO {
 
-enum StartState : s16
+enum ElectricWallStartState : s16
 {
     eOff_0 = 0,
     eOn_1 = 1,
@@ -16,7 +16,7 @@ struct Path_ElectricWall final : public Path_TLV
 {
     s16 field_18_scale;
     s16 field_1A_id;
-    StartState field_1C_start_state;
+    ElectricWallStartState field_1C_start_state;
     s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_ElectricWall, 0x20);
@@ -44,7 +44,7 @@ public:
     s32 field_D4_padding[4];
     s32 field_E4_tlv;
     s16 field_E8_switch_id;
-    StartState field_EA_start_state;
+    ElectricWallStartState field_EA_start_state;
     s32 field_EC_sound_timer;
 };
 ALIVE_ASSERT_SIZEOF(ElectricWall, 0xF0);

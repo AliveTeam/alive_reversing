@@ -501,7 +501,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_11E_meat_amount = pTlv->field_18_meat_amount;
+    field_11E_amount_of_meat = pTlv->field_18_amount_of_meat;
 
     field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
@@ -659,12 +659,12 @@ void MeatSack::vUpdate_46A6A0()
                 gpThrowableArray_5D1E2C->ctor_49A630();
             }
 
-            gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_meat_amount);
+            gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_amount_of_meat);
 
             auto pMeat = ae_new<Meat>();
             if (pMeat)
             {
-                pMeat->ctor_4694A0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_meat_amount);
+                pMeat->ctor_4694A0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_amount_of_meat);
             }
 
             pMeat->VThrow_49E460(field_124_velX, field_128_velY);

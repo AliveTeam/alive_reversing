@@ -8,7 +8,7 @@ enum class SwitchOp : s16;
 
 enum class FootSwitchTriggerBy : s16
 {
-    eOnlyAbe_0 = 0,
+    eAbe_0 = 0,
     eAnyone_1 = 1,
 };
 

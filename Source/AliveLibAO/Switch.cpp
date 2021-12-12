@@ -84,27 +84,32 @@ void Switch::VUpdate_4812D0()
             const AnimRecord& rec = AO::AnimRec(animId);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
 
-            const auto oldSwitchState = SwitchStates_Get(field_E4_switchId);
-            SwitchStates_Do_Operation_436A10(field_E4_switchId, field_F2_operation);
-            const auto newSwitchState = SwitchStates_Get(field_E4_switchId);
+            const auto oldSwitchState = SwitchStates_Get(field_E4_trigger_id);
+            SwitchStates_Do_Operation_436A10(field_E4_trigger_id, field_F2_target_action);
+            const auto newSwitchState = SwitchStates_Get(field_E4_trigger_id);
 
             if (oldSwitchState != newSwitchState)
             {
                 s32 leftVol = 0;
                 s32 rightVol = 0;
 
-                if (field_F8_sound_direction == 1)
+                if (field_F8_sound_direction == SwitchSoundDirection::eLeft_1)
                 {
                     leftVol = 1;
                     rightVol = 0;
                 }
+                else if (field_F8_sound_direction == SwitchSoundDirection::eRight_2)
+                {
+                    leftVol = 0;
+                    rightVol = 1;
+                }
                 else
                 {
-                    leftVol = field_F8_sound_direction != 2;
+                    leftVol = 1;
                     rightVol = 1;
                 }
 
-                if (SwitchStates_Get(field_E4_switchId))
+                if (SwitchStates_Get(field_E4_trigger_id))
                 {
                     switch (field_F4_on_sound)
                     {
@@ -225,11 +230,11 @@ Switch* Switch::ctor_481110(Path_Switch* pTlv, s32 tlvInfo)
                                     + pTlv->field_10_top_left.field_0_x)
                                    / 2);
 
-    field_E4_switchId = pTlv->field_18_trigger_object;
+    field_E4_trigger_id = pTlv->field_18_trigger_id;
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
-    field_F2_operation = pTlv->field_1A_trigger_object_action;
+    field_F2_target_action = pTlv->field_1A_target_action;
 
-    if (pTlv->field_1C_scale == 1)
+    if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
@@ -275,7 +280,7 @@ s32 Switch::vPull_481640(s16 bLeftDirection)
             field_F0_bPulledFromLeft = 0;
         }
     }
-    return SwitchStates_Get(field_E4_switchId);
+    return SwitchStates_Get(field_E4_trigger_id);
 }
 
 } // namespace AO

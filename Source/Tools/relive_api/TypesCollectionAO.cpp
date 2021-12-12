@@ -138,51 +138,57 @@ void TypesCollectionAO::AddAOTypes()
 #undef REGISTER_TYPE_AO
 
     AddEnum<AO::SwitchOp>("Enum_SwitchOp",
-                          {
-                              {AO::SwitchOp::eSetTrue_0, "SetTrue"},
-                              {AO::SwitchOp::eSetFalse_1, "SetFalse"},
-                              {AO::SwitchOp::eToggle_2, "Toggle"},
-                              {AO::SwitchOp::eIncrement_3, "Increment"},
-                              {AO::SwitchOp::eDecrement_4, "Decrement"},
-                          });
+    {
+        {AO::SwitchOp::eSetTrue_0, "SetTrue"},
+        {AO::SwitchOp::eSetFalse_1, "SetFalse"},
+        {AO::SwitchOp::eToggle_2, "Toggle"},
+        {AO::SwitchOp::eIncrement_3, "Increment"},
+        {AO::SwitchOp::eDecrement_4, "Decrement"},
+    });
 
     AddEnum<AO::LevelIds>("Enum_LevelIds",
-                          {
-                              {AO::LevelIds::eNone, "None"},
-                              {AO::LevelIds::eMenu_0, "Menu"},
-                              {AO::LevelIds::eRuptureFarms_1, "RuptureFarms"},
-                              {AO::LevelIds::eLines_2, "Lines"},
-                              {AO::LevelIds::eForest_3, "Forest"},
-                              {AO::LevelIds::eForestTemple_4, "ForestTemple"},
-                              {AO::LevelIds::eStockYards_5, "StockYards"},
-                              {AO::LevelIds::eStockYardsReturn_6, "StockYardsReturn"},
-                              {AO::LevelIds::eRemoved_7, "Removed7"},
-                              {AO::LevelIds::eDesert_8, "Desert"},
-                              {AO::LevelIds::eDesertTemple_9, "DesertTemple"},
-                              {AO::LevelIds::eCredits_10, "Credits"},
-                              {AO::LevelIds::eRemoved_11, "Removed11"},
-                              {AO::LevelIds::eBoardRoom_12, "BoardRoom"},
-                              {AO::LevelIds::eRuptureFarmsReturn_13, "RuptureFarmsReturn"},
-                              {AO::LevelIds::eForestChase, "ForestChase"},
-                              {AO::LevelIds::eDesertEscape, "DesertEscape"},
-                          });
+    {
+        {AO::LevelIds::eNone, "None"},
+        {AO::LevelIds::eMenu_0, "Menu"},
+        {AO::LevelIds::eRuptureFarms_1, "RuptureFarms"},
+        {AO::LevelIds::eLines_2, "Lines"},
+        {AO::LevelIds::eForest_3, "Forest"},
+        {AO::LevelIds::eForestTemple_4, "ForestTemple"},
+        {AO::LevelIds::eStockYards_5, "StockYards"},
+        {AO::LevelIds::eStockYardsReturn_6, "StockYardsReturn"},
+        {AO::LevelIds::eRemoved_7, "Removed7"},
+        {AO::LevelIds::eDesert_8, "Desert"},
+        {AO::LevelIds::eDesertTemple_9, "DesertTemple"},
+        {AO::LevelIds::eCredits_10, "Credits"},
+        {AO::LevelIds::eRemoved_11, "Removed11"},
+        {AO::LevelIds::eBoardRoom_12, "BoardRoom"},
+        {AO::LevelIds::eRuptureFarmsReturn_13, "RuptureFarmsReturn"},
+        {AO::LevelIds::eForestChase, "ForestChase"},
+        {AO::LevelIds::eDesertEscape, "DesertEscape"},
+    });
 
     AddEnum<Choice_short>("Enum_Choice_short",
-                          {
-                              {Choice_short::eNo_0, "No"},
-                              {Choice_short::eYes_1, "Yes"},
-                          });
+    {
+        {Choice_short::eNo_0, "No"},
+        {Choice_short::eYes_1, "Yes"},
+    });
+
+    AddEnum<Scale_int>("Enum_Scale_int",
+    {
+        {Scale_int::eFull_0, "Full"},
+        {Scale_int::eHalf_1, "Half"},
+    });
 
     AddEnum<Scale_short>("Enum_Scale_short",
-                         {
-                             {Scale_short::eFull_0, "Full"},
-                             {Scale_short::eHalf_1, "Half"},
-                         });
+    {
+        {Scale_short::eFull_0, "Full"},
+        {Scale_short::eHalf_1, "Half"},
+    });
 
     AddEnum<XDirection_short>("Enum_XDirection_short",
-                              {
-                                  {XDirection_short::eLeft_0, "Left"},
-                                  {XDirection_short::eRight_1, "Right"},
-                              });
+    {
+        {XDirection_short::eLeft_0, "Left"},
+        {XDirection_short::eRight_1, "Right"},
+    });
 }
 } // namespace ReliveAPI

@@ -4,6 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 #include "DynamicArray.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -29,7 +30,7 @@ struct Path_BirdPortal final : public Path_TLV
     LevelIds field_1A_dest_level;
     s16 field_1C_dest_path;
     s16 field_1E_dest_camera;
-    s16 field_20_scale;
+    Scale_short field_20_scale;
     s16 field_22_movie_id;
     PortalType field_24_portal_type;
     s16 field_26_num_muds_for_shrykul;
@@ -39,7 +40,7 @@ ALIVE_ASSERT_SIZEOF(Path_BirdPortal, 0x28);
 struct Path_BirdPortalExit final : public Path_TLV
 {
     PortalSide field_18_side;
-    s16 field_1A_scale;
+    Scale_short field_1A_scale;
 };
 ALIVE_ASSERT_SIZEOF(Path_BirdPortalExit, 0x1C);
 

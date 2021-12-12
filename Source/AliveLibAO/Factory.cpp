@@ -320,7 +320,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
             ResourceID::kRopesResID};
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourcesToCheck);
 
-        if (pTlv->field_1_unknown & 2 || (pTlv->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlv)->field_1A_bstart_point))
+        if (pTlv->field_1_unknown & 2 || (pTlv->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlv)->field_1A_bstart_point == Choice_short::eYes_1))
         {
             auto pLiftPoint = ao_new<LiftPoint>();
             if (pLiftPoint)
@@ -345,7 +345,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
                         const auto absX = pTlvIter->field_10_top_left.field_0_x - tlv_x >= 0 ? pTlvIter->field_10_top_left.field_0_x - tlv_x : tlv_x - pTlvIter->field_10_top_left.field_0_x;
                         if (absX < 5)
                         {
-                            if (pTlvIter->field_1_unknown & 2 || (pTlvIter->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlvIter)->field_1A_bstart_point))
+                            if (pTlvIter->field_1_unknown & 2 || (pTlvIter->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlvIter)->field_1A_bstart_point == Choice_short::eYes_1))
                             {
                                 auto pLiftPoint = ao_new<LiftPoint>();
                                 if (pLiftPoint)
@@ -1972,11 +1972,11 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 
         switch (pMudTlv->field_1A_job)
         {
-            case 0:
+            case Path_Mudokon::MudJobs::eStandScrub_0:
                 ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMudchslResID);
                 break;
 
-            case 2:
+            case Path_Mudokon::MudJobs::eSitChant_2:
                 ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, ResourceID::kMudltusResID);
                 break;
         }
@@ -1998,7 +1998,7 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 
         switch (pMudTlv->field_1A_job)
         {
-            case 0:
+            case Path_Mudokon::MudJobs::eStandScrub_0:
             {
                 static CompileTimeResourceList<3> kResources = {
                     {ResourceManager::Resource_Animation, ResourceID::kMudoduckResID},
@@ -2009,7 +2009,7 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
             }
             break;
 
-            case 1:
+            case Path_Mudokon::MudJobs::eSitScrub_1:
             {
                 static CompileTimeResourceList<3> kResources = {
                     {ResourceManager::Resource_Animation, ResourceID::kMudoduckResID},
@@ -2019,7 +2019,7 @@ EXPORT void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
             }
             break;
 
-            case 2:
+            case Path_Mudokon::MudJobs::eSitChant_2:
             {
                 static CompileTimeResourceList<4> kResources = {
                     {ResourceManager::Resource_Animation, ResourceID::kMudltusResID},

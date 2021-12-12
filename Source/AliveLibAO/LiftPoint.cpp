@@ -83,7 +83,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
     const AnimRecord& platformRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_0_platform_anim_id);
     u8** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, platformRec.mResourceId, 1, 0);
-    if (pTlv->field_20_scale)
+    if (pTlv->field_20_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
@@ -136,7 +136,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
             0,
             0))
     {
-        if (pTlv->field_20_scale)
+        if (pTlv->field_20_scale == Scale_short::eHalf_1)
         {
             field_13C_lift_wheel.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
         }
@@ -369,7 +369,7 @@ void LiftPoint::VUpdate_434D10()
                     lineY + (field_BC_sprite_scale * FP_FromInteger(30)));
             }
 
-            if (pLiftTlv && pLiftTlv->field_1A_bstart_point)
+            if (pLiftTlv && pLiftTlv->field_1A_bstart_point == Choice_short::eYes_1)
             {
                 field_27A_flags.Set(Flags::eBit7_bIgnoreLiftMover);
             }

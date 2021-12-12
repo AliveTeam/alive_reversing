@@ -99,7 +99,7 @@ struct Path_MeatSack final : public Path_TLV
     u16 field_12_xVel;
     u16 field_14_yVel;
     Scale_short field_16_scale;
-    s16 field_18_meat_amount;
+    s16 field_18_amount_of_meat;
     s16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x1C);
@@ -122,7 +122,7 @@ private:
 private:
     s32 field_118_tlvInfo;
     s16 field_11C_bDoMeatSackIdleAnim;
-    s16 field_11E_meat_amount;
+    s16 field_11E_amount_of_meat;
     s16 field_120_bPlayWobbleSound;
     s16 field_122_always_0;
     FP field_124_velX;

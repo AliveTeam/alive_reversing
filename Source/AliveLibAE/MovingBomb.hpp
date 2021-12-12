@@ -8,12 +8,12 @@ struct Path_MovingBomb final : public Path_TLV
 {
     u16 field_10_speed;
     s16 field_12_id;
-    Choice_short field_14_bStart_type_triggered_by_alarm;
+    Choice_short field_14_bTriggered_by_alarm;
     Scale_short field_16_scale;
     s16 field_18_max_rise;
     s16 field_1A_disable_resources;
     u16 field_1C_start_speed;
-    s16 field_1E_persist_offscreen;
+    Choice_short field_1E_persist_offscreen;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBomb, 0x20);
 
@@ -71,6 +71,6 @@ private:
     s16 field_12E_padding;
     s32 field_130_sound_channels;
     s16 field_134_disable_resources;
-    s16 field_136_persist_offscreen;
+    Choice_short field_136_persist_offscreen;
 };
 ALIVE_ASSERT_SIZEOF(MovingBomb, 0x138);

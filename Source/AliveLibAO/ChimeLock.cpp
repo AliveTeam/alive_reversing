@@ -434,7 +434,7 @@ void ChimeLock::VUpdate_40AEF0()
                     auto pMusic = ao_new<MusicTrigger>();
                     if (pMusic)
                     {
-                        pMusic->ctor_443A60(6, 1, 0, 15);
+                        pMusic->ctor_443A60(6, TriggeredBy::eTouching_1, 0, 15);
                     }
                     return;
                 }

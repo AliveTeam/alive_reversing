@@ -4,15 +4,16 @@
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Throwable.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
 struct Path_MeatSack final : public Path_TLV
 {
-    s16 field_18_side;
+    XDirection_short field_18_meat_fall_direction;
     u16 field_1A_x_vel;
     s16 field_1C_y_vel;
-    u16 field_1E_scale;
+    Scale_short field_1E_scale;
     s16 field_20_amount_of_meat;
     s16 field_22_pad;
 };
