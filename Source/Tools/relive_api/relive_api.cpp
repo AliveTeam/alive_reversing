@@ -495,7 +495,7 @@ static u32 MakeFG1Layer(std::stringstream& byteStream, const std::vector<u8>& ra
                 chunk.field_8_width = 32;
                 chunk.field_A_height = 16;
                 byteStream.write(reinterpret_cast<const char*>(&chunk), sizeof(Fg1Chunk));
-                numBlocksWritten++;
+                // note: Don't add to blocks written, this count is for partial blocks only
             }
             // A partial chunk
             else if (whitePixelCount != 0)

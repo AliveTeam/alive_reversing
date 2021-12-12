@@ -77,6 +77,13 @@ FG1* FG1::ctor_499FC0(u8** pFG1Res)
 
     // Cast to the actual FG1 resource block format
     FG1ResourceBlockHeader* pHeader = reinterpret_cast<FG1ResourceBlockHeader*>(*pFG1Res);
+    
+    // Check if its relive format FG1
+    if (pHeader->mCount == ResourceManager::Resource_FG1)
+    {
+        // adjust past the new file magic
+        pHeader = reinterpret_cast<FG1ResourceBlockHeader*>(*pFG1Res + sizeof(u32));
+    }
 
     // So we can extract out the count of chunks and allocate a resource for it
     field_20_unused = 0;
