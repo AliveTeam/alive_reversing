@@ -5,6 +5,7 @@
 #include "../../AliveLibAE/ScreenManager.hpp"
 #include "../../AliveLibCommon/CamDecompressor.hpp"
 #include "../../AliveLibCommon/FG1Reader.hpp"
+#include "../../AliveLibCommon/logger.hpp"
 #include "Base64.hpp"
 #include "JsonModelTypes.hpp"
 #include "ApiFG1Reader.hpp"
