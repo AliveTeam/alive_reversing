@@ -459,7 +459,7 @@ static u32 ToFG1Layer(Layer layer)
 }
 
 // Iterate in 32x16 blocks, creating full or partial blocks as needed
-static u32 MakeFG1Layer(std::stringstream& byteStream, const std::vector<u8>& rawPixels, Layer layer)
+static u32 MakeFG1Layer(std::stringstream& byteStream, const std::vector<u8>& rawPixels, Layer layer, bool allowFullFG1Blocks)
 {
     const u32 blocksX = 640 / 32;
     const u32 blocksY = 240 / 16;
@@ -485,7 +485,7 @@ static u32 MakeFG1Layer(std::stringstream& byteStream, const std::vector<u8>& ra
             }
 
             // A full chunk
-            if (whitePixelCount == 32 * 16)
+            if (allowFullFG1Blocks && (whitePixelCount == 32 * 16))
             {
                 Fg1Chunk chunk = {};
                 chunk.field_0_type = eFullChunk;
@@ -519,7 +519,7 @@ static u32 MakeFG1Layer(std::stringstream& byteStream, const std::vector<u8>& ra
     return numBlocksWritten;
 }
 
-static std::vector<u8> ConstructFG1Data(const CameraImageAndLayers& imageAndLayers)
+static std::vector<u8> ConstructFG1Data(const CameraImageAndLayers& imageAndLayers, bool allowFullFG1Blocks)
 {
     std::stringstream byteStream;
 
@@ -533,22 +533,22 @@ static std::vector<u8> ConstructFG1Data(const CameraImageAndLayers& imageAndLaye
 
     if (!imageAndLayers.mBackgroundLayer.empty())
     {
-        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mBackgroundLayer), Layer::eLayer_FG1_Half_18);
+        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mBackgroundLayer), Layer::eLayer_FG1_Half_18, allowFullFG1Blocks);
     }
 
     if (!imageAndLayers.mBackgroundWellLayer.empty())
     {
-        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mBackgroundWellLayer), Layer::eLayer_Well_Half_4);
+        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mBackgroundWellLayer), Layer::eLayer_Well_Half_4, allowFullFG1Blocks);
     }
 
     if (!imageAndLayers.mForegroundLayer.empty())
     {
-        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mForegroundLayer), Layer::eLayer_FG1_37);
+        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mForegroundLayer), Layer::eLayer_FG1_37, allowFullFG1Blocks);
     }
 
     if (!imageAndLayers.mForegroundWellLayer.empty())
     {
-        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mForegroundWellLayer), Layer::eLayer_Well_23);
+        numBlocksWritten += MakeFG1Layer(byteStream, Base64Png2RawPixels(imageAndLayers.mForegroundWellLayer), Layer::eLayer_Well_23, allowFullFG1Blocks);
     }
 
     if (numBlocksWritten == 0)
@@ -570,7 +570,7 @@ static std::vector<u8> ConstructFG1Data(const CameraImageAndLayers& imageAndLaye
 }
 
 namespace Detail {
-void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers)
+void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers, bool allowFullFG1Blocks)
 {
     const u32 bitsId = CamConverter::CamBitsIdFromName(camName);
 
@@ -643,7 +643,7 @@ void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, co
 
     if (imageAndLayers.HaveFG1Layers())
     {
-        std::vector<u8> fg1Data = ConstructFG1Data(imageAndLayers);
+        std::vector<u8> fg1Data = ConstructFG1Data(imageAndLayers, allowFullFG1Blocks);
         if (!fg1Data.empty())
         {
             // FG1 blocks use id BitsId << 8 + idx (or 255 max in this case as we only have 1 FG1 block)
@@ -661,7 +661,7 @@ void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, co
 }
 } // namespace Detail
 
-static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::vector<CameraNameAndTlvBlob>& camerasAndMapObjects)
+static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::vector<CameraNameAndTlvBlob>& camerasAndMapObjects, bool allowFullFG1Blocks)
 {
     // Rebuild cameras/FG1 and embedded resource blocks
     for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
@@ -669,13 +669,13 @@ static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inpu
         // Get camera ID from the name for the Bits chunk
         if (!camIter.mName.empty())
         {
-            Detail::ImportCameraAndFG1(fileDataBuffer, inputLvl, camIter.mName + ".CAM", camIter.mCameraAndLayers);
+            Detail::ImportCameraAndFG1(fileDataBuffer, inputLvl, camIter.mName + ".CAM", camIter.mCameraAndLayers, allowFullFG1Blocks);
         }
     }
 }
 
 template <typename JsonReaderType>
-static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile, bool skipCamsAndFG1)
+static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile, bool skipCamsAndFG1, bool allowFullFG1Blocks)
 {
     JsonReaderType doc;
     auto [camerasAndMapObjects, collisionLines] = doc.Load(jsonInputFile);
@@ -842,7 +842,7 @@ static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, 
 
     if (!skipCamsAndFG1)
     {
-        ImportCamerasAndFG1(fileDataBuffer, inputLvl, camerasAndMapObjects);
+        ImportCamerasAndFG1(fileDataBuffer, inputLvl, camerasAndMapObjects, allowFullFG1Blocks);
     }
 
     // Write out the updated lvl to disk
@@ -864,11 +864,11 @@ void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, const std::string& 
 
     if (rootInfo.mMapRootInfo.mGame == "AO")
     {
-        SaveBinaryPathToLvl<JsonReaderAO>(fileDataBuffer, Game::AO, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1);
+        SaveBinaryPathToLvl<JsonReaderAO>(fileDataBuffer, Game::AO, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, false);
     }
     else
     {
-        SaveBinaryPathToLvl<JsonReaderAE>(fileDataBuffer, Game::AE, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1);
+        SaveBinaryPathToLvl<JsonReaderAE>(fileDataBuffer, Game::AE, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, true);
     }
 }
 

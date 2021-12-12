@@ -119,7 +119,7 @@ static void ForEachCamera(ReliveAPI::LvlReader& reader, FnOnCam onCam)
     }
 }
 
-static void TestCamAndFG1ExportImport(const std::string& strLvlName)
+static void TestCamAndFG1ExportImport(const std::string& strLvlName, bool allowFullFG1Blocks)
 {
     // Save all CAM/FG1 data + reimport it to a copy of the LVL
     ReliveAPI::LvlReader reader(strLvlName.c_str());
@@ -144,7 +144,7 @@ static void TestCamAndFG1ExportImport(const std::string& strLvlName)
 
                       // Re-create the CAM file from new using the Base64 PNG data
                       std::vector<u8> importBuffer;
-                      ReliveAPI::Detail::ImportCameraAndFG1(importBuffer, lvlWriter, camName, convertedData);
+                      ReliveAPI::Detail::ImportCameraAndFG1(importBuffer, lvlWriter, camName, convertedData, allowFullFG1Blocks);
                   });
     // Close the reader first
     reader.Close();
@@ -190,12 +190,12 @@ TEST(alive_api, CAMAndFG1Conversion)
 {
     for (const auto& lvl : kAOLvls)
     {
-        TestCamAndFG1ExportImport(AOPath(lvl));
+        TestCamAndFG1ExportImport(AOPath(lvl), false);
     }
 
     for (const auto& lvl : kAELvls)
     {
-        TestCamAndFG1ExportImport(AEPath(lvl));
+        TestCamAndFG1ExportImport(AEPath(lvl), true);
     }
 }
 
