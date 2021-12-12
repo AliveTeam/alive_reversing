@@ -11,6 +11,7 @@
 #include "LvlReaderWriter.hpp"
 #include "CamConverter.hpp"
 #include "JsonModelTypes.hpp"
+#include "ApiFG1Reader.hpp"
 
 #include <gmock/gmock.h>
 
@@ -101,31 +102,100 @@ template <typename... Ts>
     return buf;
 }
 
-TEST(alive_api, FG1Conversion)
+template<typename FnOnCam>
+static void ForEachCamera(ReliveAPI::LvlReader& reader, FnOnCam onCam)
+{
+    std::vector<u8> tmpBuffer;
+    for (s32 i = 0; i < reader.FileCount(); i++)
+    {
+        if (reader.FileNameAt(i).find(".CAM") != std::string::npos)
+        {
+            if (reader.ReadFileInto(tmpBuffer, reader.FileNameAt(i).c_str()))
+            {
+                ReliveAPI::ChunkedLvlFile camFile(tmpBuffer);
+                onCam(reader.FileNameAt(i), camFile);
+            }
+        }
+    }
+}
+
+static void TestCamAndFG1ExportImport(const std::string& strLvlName, bool allowFullFG1Blocks)
+{
+    // Save all CAM/FG1 data + reimport it to a copy of the LVL
+    ReliveAPI::LvlReader reader(strLvlName.c_str());
+    if (!reader.IsOpen())
+    {
+        throw ReliveAPI::IOReadException(strLvlName);
+    }
+
+    ReliveAPI::LvlWriter lvlWriter(strLvlName.c_str());
+    if (!lvlWriter.IsOpen())
+    {
+        throw ReliveAPI::IOReadException(strLvlName);
+    }
+
+    LOG_INFO("Export + import LVL " << strLvlName);
+    ForEachCamera(reader, [&](const std::string& camName, ReliveAPI::ChunkedLvlFile& camFile)
+                  {
+                      // Write out camera image and FG1 layers
+                      ReliveAPI::CameraImageAndLayers convertedData;
+                      ReliveAPI::CamConverter converter(camFile, convertedData);
+                      ReliveAPI::ApiFG1Reader::DebugSave(camName, convertedData);
+
+                      // Re-create the CAM file from new using the Base64 PNG data
+                      std::vector<u8> importBuffer;
+                      ReliveAPI::Detail::ImportCameraAndFG1(importBuffer, lvlWriter, camName, convertedData, allowFullFG1Blocks);
+                  });
+    // Close the reader first
+    reader.Close();
+
+    // Now write out the new LVL with the rewritten cam/FG1 data
+    std::string newLvlName = strLvlName + std::string("_new.lvl");
+    std::vector<u8> tmpBuffer;
+    if (!lvlWriter.Save(tmpBuffer, newLvlName.c_str()))
+    {
+        throw ReliveAPI::IOWriteException(newLvlName.c_str());
+    }
+    lvlWriter.Close();
+
+    // Export the re-saved copy
+    ReliveAPI::LvlReader reader2(newLvlName.c_str());
+    if (!reader2.IsOpen())
+    {
+        throw ReliveAPI::IOReadException(strLvlName);
+    }
+    LOG_INFO("Export and compare LVL " << newLvlName);
+    ForEachCamera(reader2, [&](const std::string& camName, ReliveAPI::ChunkedLvlFile& camFile)
+                  {
+                      // Write out all cam and FG1s again (but this is our re-imported copy)
+                      ReliveAPI::CameraImageAndLayers oldData;
+                      ReliveAPI::CamConverter converter(camFile, oldData);
+                      ReliveAPI::ApiFG1Reader::DebugSave("resaved_" + camName, oldData);
+
+                      // Compare the resaved pngs are equal to the original exported data
+                      ReliveAPI::CameraImageAndLayers newData;
+                      ReliveAPI::ApiFG1Reader::DebugRead(camName, newData);
+
+                      ASSERT_EQ(newData.mCameraImage, oldData.mCameraImage);
+                      ASSERT_EQ(newData.mForegroundLayer, oldData.mForegroundLayer);
+                      ASSERT_EQ(newData.mBackgroundLayer, oldData.mBackgroundLayer);
+                      ASSERT_EQ(newData.mForegroundWellLayer, oldData.mForegroundWellLayer);
+                      ASSERT_EQ(newData.mBackgroundWellLayer, oldData.mBackgroundWellLayer);
+
+                  });
+    reader2.Close();
+}
+
+TEST(alive_api, CAMAndFG1Conversion)
 {
     for (const auto& lvl : kAOLvls)
     {
-        // Write out all cam and FG1s
-        ReliveAPI::LvlReader reader(lvl.data());
-        for (s32 i = 0; i < reader.FileCount(); i++)
-        {
-            if (reader.FileNameAt(i).find(".CAM") != std::string::npos)
-            {
-                if (reader.ReadFileInto(getStaticFileBuffer(), reader.FileNameAt(i).c_str()))
-                {
-                    ReliveAPI::ChunkedLvlFile camFile(getStaticFileBuffer());
+        TestCamAndFG1ExportImport(AOPath(lvl), false);
+    }
 
-                    ReliveAPI::CameraImageAndLayers convertedData;
-                    ReliveAPI::CamConverter converter(camFile, convertedData);
-
-                    //ReliveAPI::ApiFG1Reader::DebugSave(convertedData, camFile.ChunkByType(ResourceManager::Resource_FG1)->Id());
-                }
-            }
-        }
-
-        // TODO: Re-save a copy of the LVL with imported CAM/FG1 data
-
-        // TODO: Export the re-saved copy + compare PNGs are equal
+    for (const auto& lvl : kAELvls)
+    {
+        TestCamAndFG1ExportImport(AEPath(lvl), true);
     }
 }
 

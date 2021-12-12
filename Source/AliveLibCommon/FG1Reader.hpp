@@ -56,56 +56,9 @@ public:
     virtual u8** Allocate(u32 len) = 0;
     virtual void Deallocate(u8** ptr) = 0;
 
-    static FG1Format DetectFormat(const FG1ResourceBlockHeader* pHeader)
+    static bool IsReliveFG1(const FG1ResourceBlockHeader* pHeader)
     {
-        const Fg1Chunk* pChunkIter = &pHeader->mChunks;
-
-        for (;;) // Exit when we hit the end chunk
-        {
-            switch (pChunkIter->field_0_type)
-            {
-                case ePartialChunk:
-                {
-                    // Would have gotten eStartCompressedData for ePartialChunk if it was AO format
-                    return FG1Format::AE;
-                }
-                break;
-
-                case eFullChunk:
-                {
-                     // Move to the next FG1 data from disk
-                    pChunkIter++;
-                }
-                break;
-
-                case eStartCompressedData:
-                {
-                    return FG1Format::AO;
-                }
-                break;
-
-                case eEndCompressedData:
-                {
-                    return FG1Format::AO;
-                }
-                break;
-
-                case eEndChunk:
-                {
-                    // For some reason this can happen before any blocks, just return AE in this instance
-                    return FG1Format::AE;
-                }
-
-                default:
-                {
-                    // It appears that we actually can get ePartialChunk without eStartCompressedData in AO
-                    // which can result in pointing into some random part of the data stream. Do an el hacko
-                    // and take this to mean its AO format.
-                    return FG1Format::AO;
-                }
-
-            }
-        }
+        return pHeader->mCount == 0x20314746; // The "FG1 " constant
     }
 
     void Iterate(const FG1ResourceBlockHeader* pHeader)

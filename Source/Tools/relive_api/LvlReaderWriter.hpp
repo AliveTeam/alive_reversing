@@ -134,7 +134,23 @@ public:
             }
         }
 
-        mChunks.push_back(std::move(chunkToAdd));
+        bool hasEndChunkAtEnd = false;
+        if (!mChunks.empty())
+        {
+            if (mChunks[mChunks.size() - 1].Header().field_8_type == ResourceManager::Resource_End)
+            {
+                hasEndChunkAtEnd = true;
+            }
+        }
+
+        if (hasEndChunkAtEnd)
+        {
+            mChunks.insert(mChunks.end() - 1, std::move(chunkToAdd));
+        }
+        else
+        {
+            mChunks.push_back(std::move(chunkToAdd));
+        }
     }
 
     [[nodiscard]] std::vector<u8> Data() const

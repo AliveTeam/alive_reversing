@@ -7,6 +7,7 @@
 #include "../../AliveLibCommon/FG1Reader.hpp"
 #include "Base64.hpp"
 #include "JsonModelTypes.hpp"
+#include "ApiFG1Reader.hpp"
 #include <lodepng/lodepng.h>
 #include <iostream>
 #include <memory>
@@ -32,7 +33,6 @@ struct TmpBuffer final
 {
     u32 dst[240][640] = {};
 };
-
 
 static void RGB565ToPngBuffer(const u16* camBuffer, std::vector<u8>& outPngData)
 {
@@ -64,204 +64,12 @@ static void RGB565ToPngBuffer(const u16* camBuffer, std::vector<u8>& outPngData)
     }
 }
 
-static std::string RGB565ToBase64PngString(const u16* camBuffer)
+std::string RGB565ToBase64PngString(const u16* pRgb565Buffer)
 {
     std::vector<u8> outPngData;
-    RGB565ToPngBuffer(camBuffer, outPngData);
+    RGB565ToPngBuffer(pRgb565Buffer, outPngData);
     return ToBase64(outPngData);
 }
-
-struct FG1Buffers final
-{
-    void MergePixel(u32 layer, u32 x, u32 y, u16 pixel)
-    {
-        mFg1[layer][y][x] |= pixel;
-    }
-    u16 mFg1[4][240][640];
-};
-
-class ApiFG1Reader final : public BaseFG1Reader
-{
-public:
-    ApiFG1Reader(FG1Format format)
-        : BaseFG1Reader(format)
-    {
-        // Dynamically allocated due to the huge stack space it would consume
-        mFg1Buffers = new FG1Buffers();
-    }
-
-    ~ApiFG1Reader()
-    {
-        delete mFg1Buffers;
-    }
-
-    u16 ConvertPixel(u16 pixel)
-    {
-        return ((pixel >> 15) << 5)
-                      | ((pixel & 31) << 11)
-                      | (((pixel >> 5) & 31) << 6)
-                      | (((pixel >> 10) & 31) << 0);
-    }
-
-    void BltRectMerged(u32 xpos, u32 ypos, u32 width, u32 height, u32 layer, const u16* pSrcPixels, const u32* pBitMask)
-    {
-        mUsedLayers[layer] = true;
-
-        for (u32 y = ypos; y < height; y++)
-        {
-            for (u32 x = xpos; x < width; x++)
-            {
-                if (x < 640 && y < 240)
-                {
-                    u16 pixelVal = 0xFFFF;
-                    if (pSrcPixels)
-                    {
-                        // Read RGB565 pixel value for AO
-                        pixelVal = ConvertPixel(*pSrcPixels);
-
-                        // If its not a "transparent" pixel set to white
-                        if (pixelVal != 0)
-                        {
-                            pixelVal = 0xFFFF;
-                        }
-                        pSrcPixels++;
-                    }
-                    else if (pBitMask)
-                    {
-                        // Bitfield in AE
-                        const u32 bits = pBitMask[y - ypos];
-                        if (!((bits >> (x - xpos)) & 1))
-                        {
-                            pixelVal = 0;
-                        }
-                    }
-
-                    mFg1Buffers->MergePixel(layer, x, y, pixelVal);
-                }
-            }
-        }
-    }
-
-    void OnPartialChunk(const Fg1Chunk& rChunk) override
-    {
-        const u16* pPixels = nullptr;
-        const u32* pBitMap = nullptr;
-        if (mFormat == FG1Format::AO)
-        {
-            pPixels = reinterpret_cast<const u16*>((&rChunk) + 1);
-        }
-        else
-        {
-            pBitMap = reinterpret_cast<const u32*>((&rChunk) + 1);
-        }
-        BltRectMerged(rChunk.field_4_xpos_or_compressed_size,
-                rChunk.field_6_ypos,
-                rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size,
-                rChunk.field_A_height + rChunk.field_6_ypos,
-                rChunk.field_2_layer_or_decompressed_size,
-                pPixels,
-                pBitMap);
-    }
-
-    void OnFullChunk(const Fg1Chunk& rChunk) override
-    {
-        BltRectMerged(rChunk.field_4_xpos_or_compressed_size,
-                rChunk.field_6_ypos,
-                rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size,
-                rChunk.field_A_height + rChunk.field_6_ypos,
-                rChunk.field_2_layer_or_decompressed_size,
-                nullptr,
-                nullptr);
-    }
-
-    u8** Allocate(u32 len) override
-    {
-        u8** pHolder = new u8*;
-        *pHolder = new u8[len];
-        return pHolder;
-    }
-
-    void Deallocate(u8** ptr) override
-    {
-        delete[] * ptr;
-        delete ptr;
-    }
-
-    void LayersToPng(CameraImageAndLayers& outData)
-    {
-        for (u32 i = 0; i < 4; i++)
-        {
-            if (mUsedLayers[i])
-            {
-                const u16* pPixels = &mFg1Buffers->mFg1[i][0][0];
-                BufferForLayer(outData, i) = RGB565ToBase64PngString(pPixels);
-            }
-        }
-    }
-
-    static void DebugSave(const CameraImageAndLayers& outData, u32 id)
-    {
-        if (!outData.mBackgroundLayer.empty())
-        {
-            lodepng::save_file(FromBase64(outData.mBackgroundLayer), "bg_" + std::to_string(id) + ".png");
-        }
-
-        if (!outData.mForegroundLayer.empty())
-        {
-            lodepng::save_file(FromBase64(outData.mForegroundLayer), "fg_" + std::to_string(id) + ".png");
-        }
-
-        if (!outData.mBackgroundWellLayer.empty())
-        {
-            lodepng::save_file(FromBase64(outData.mBackgroundWellLayer), "bg_well_" + std::to_string(id) + ".png");
-        }
-
-        if (!outData.mForegroundWellLayer.empty())
-        {
-            lodepng::save_file(FromBase64(outData.mForegroundWellLayer), "fg_well_" + std::to_string(id) + ".png");
-        }
-    }
-
-private:
-    std::string& BufferForLayer(CameraImageAndLayers& outData, u32 layer)
-    {
-        if (mFormat == FG1Format::AO)
-        {
-            switch (layer)
-            {
-                case 0:
-                    return outData.mForegroundLayer;
-
-                case 1:
-                    return outData.mBackgroundLayer;
-            }
-        }
-        else
-        {
-            switch (layer)
-            {
-                case 0:
-                    return outData.mBackgroundWellLayer;
-
-                case 1:
-                    return outData.mBackgroundLayer;
-
-                case 2:
-                    return outData.mForegroundWellLayer;
-
-                case 3:
-                    return outData.mForegroundLayer;
-            }
-        }
-
-        // Should never get here
-        return outData.mBackgroundLayer;
-    }
-
-    // 2 layers in AO, 4 layers in AE
-    bool mUsedLayers[4] = {};
-    FG1Buffers* mFg1Buffers = nullptr;
-};
 
 static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, const u16* pSrcPixels)
 {
@@ -272,25 +80,36 @@ static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, con
     }
 }
 
-static void MergeFG1BlocksAndConvertToPng(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData)
+static void MergeFG1BlocksAndConvertToPng(const ChunkedLvlFile& camFile, BaseFG1Reader::FG1Format fg1Format, CameraImageAndLayers& outData)
 {
     // For some crazy reason there can be multiple FG1 blocks, here we squash them down into a single
     // image for each "layer".
     std::optional<LvlFileChunk> anyFG1 = camFile.ChunkByType(ResourceManager::Resource_FG1);
     if (anyFG1)
     {
-        ApiFG1Reader reader(ApiFG1Reader::DetectFormat(reinterpret_cast<const FG1ResourceBlockHeader*>(anyFG1->Data().data())));
-        for (u32 i = 0; i < camFile.ChunkCount(); i++)
+        const u8* pFg1Data = anyFG1->Data().data();
+        const bool isReliveFormat = ApiFG1Reader::IsReliveFG1(reinterpret_cast<const FG1ResourceBlockHeader*>(pFg1Data));
+        if (isReliveFormat)
         {
-            if (camFile.ChunkAt(i).Header().field_8_type == ResourceManager::Resource_FG1)
-            {
-                reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(camFile.ChunkAt(i).Data().data()));
-            }
+            // For relive format its very slightly tweaked AE format, move past the extra u32 we added and process the FG1
+            // we also know there is only 1 chunk in relive format.
+            pFg1Data += sizeof(u32);
+            ApiFG1Reader reader(BaseFG1Reader::FG1Format::AE);
+            reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(pFg1Data));
+            reader.LayersToPng(outData);
         }
-
-        reader.LayersToPng(outData);
-
-        //ApiFG1Reader::DebugSave(outData, camFile.ChunkByType(ResourceManager::Resource_Bits)->Id());
+        else
+        {
+            ApiFG1Reader reader(fg1Format);
+            for (u32 i = 0; i < camFile.ChunkCount(); i++)
+            {
+                if (camFile.ChunkAt(i).Header().field_8_type == ResourceManager::Resource_FG1)
+                {
+                    reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(camFile.ChunkAt(i).Data().data()));
+                }
+            }
+            reader.LayersToPng(outData);
+        }
     }
 }
 
@@ -356,12 +175,26 @@ CamConverter::CamConverter(const ChunkedLvlFile& camFile, CameraImageAndLayers& 
         if (AEcamIsAOCam(*bitsRes))
         {
             ConvertAOCamera(*bitsRes, outData.mCameraImage);
+            MergeFG1BlocksAndConvertToPng(camFile, BaseFG1Reader::FG1Format::AO, outData);
         }
         else
         {
             ConvertAECamera(*bitsRes, outData.mCameraImage);
+            MergeFG1BlocksAndConvertToPng(camFile, BaseFG1Reader::FG1Format::AE, outData);
         }
-        MergeFG1BlocksAndConvertToPng(camFile, outData);
     }
 }
+
+u32 CamConverter::CamBitsIdFromName(const std::string& pCamName)
+{
+    if (pCamName.length() < 7)
+    {
+        // todo: throw
+        LOG_WARNING("Bad camera name, can't get resource id " << pCamName);
+        return 0;
+    }
+    // Given R1P20C15 returns 2015
+    return 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0') + 100 * (pCamName[4] - '0') + 1000 * (pCamName[3] - '0');
+}
+
 } // namespace ReliveAPI
