@@ -7,7 +7,7 @@
 #include "../../AliveLibCommon/FG1Reader.hpp"
 #include "Base64.hpp"
 #include "JsonModelTypes.hpp"
-#include "ApiFg1Reader.hpp"
+#include "ApiFG1Reader.hpp"
 #include <lodepng/lodepng.h>
 #include <iostream>
 #include <memory>

@@ -1,4 +1,4 @@
-#include "ApiFg1Reader.hpp"
+#include "ApiFG1Reader.hpp"
 #include "JsonModelTypes.hpp"
 #include "Base64.hpp"
 #include "CamConverter.hpp"

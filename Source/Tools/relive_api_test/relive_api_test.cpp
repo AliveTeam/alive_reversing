@@ -11,7 +11,7 @@
 #include "LvlReaderWriter.hpp"
 #include "CamConverter.hpp"
 #include "JsonModelTypes.hpp"
-#include "ApiFg1Reader.hpp"
+#include "ApiFG1Reader.hpp"
 
 #include <gmock/gmock.h>
 
