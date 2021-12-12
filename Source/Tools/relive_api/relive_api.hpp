@@ -11,6 +11,9 @@
 
 namespace ReliveAPI {
 
+class LvlWriter;
+class CameraImageAndLayers;
+
 struct EnumeratePathsResult final
 {
     std::string pathBndName;
@@ -31,5 +34,9 @@ API_EXPORT void ImportPathJsonToBinary(const std::string& jsonInputFile, const s
 
 API_EXPORT [[nodiscard]] EnumeratePathsResult EnumeratePaths(std::vector<u8>& fileDataBuffer, const std::string& inputLvlFile);
 API_EXPORT [[nodiscard]] EnumeratePathsResult EnumeratePaths(const std::string& inputLvlFile);
+
+namespace Detail {
+void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers);
+}
 
 } // namespace ReliveAPI

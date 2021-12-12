@@ -15,6 +15,7 @@
 #include "JsonMapRootInfoReader.hpp"
 #include "TypesCollectionBase.hpp"
 #include "Base64.hpp"
+#include "CamConverter.hpp"
 #include "../../AliveLibCommon/FG1Reader.hpp"
 #include <iostream>
 #include <gmock/gmock.h>
@@ -407,18 +408,6 @@ static void WriteCollisionLine(ByteStream& s, const ::PathLine& line)
     s.Write(line.field_12_line_length);
 }
 
-static u32 CamBitsIdFromName(const std::string& pCamName)
-{
-    if (pCamName.length() < 7)
-    {
-        // todo: throw
-        LOG_WARNING("Bad camera name, can't get resource id " << pCamName);
-        return 0;
-    }
-    // Given R1P20C15 returns 2015
-    return 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0') + 100 * (pCamName[4] - '0') + 1000 * (pCamName[3] - '0');
-}
-
 static u16 RGB888ToRGB565(const u8* rgb888Pixel)
 {
     const u8 red = rgb888Pixel[0];
@@ -545,9 +534,10 @@ static std::vector<u8> ConstructFG1Data(const CameraImageAndLayers& imageAndLaye
     return vec;
 }
 
-static void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers)
+namespace Detail {
+void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers)
 {
-    const u32 bitsId = CamBitsIdFromName(camName);
+    const u32 bitsId = CamConverter::CamBitsIdFromName(camName);
 
     // Load existing .CAM if possible so existing additional resource blocks don't get removed by
     // re-creating the CAM from scratch.
@@ -613,8 +603,8 @@ static void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& input
     LvlFileChunk bitsChunk(bitsId, ResourceManager::Resource_Bits, bitsData->ToVector());
     camFile.AddChunk(std::move(bitsChunk));
 
-    // Remove FG1 blocks
-    camFile.RemoveChunksOfType(ResourceManager::Resource_FG1);
+    // TODO: Remove FG1 blocks
+    //camFile.RemoveChunksOfType(ResourceManager::Resource_FG1);
 
     if (imageAndLayers.HaveFG1Layers())
     {
@@ -631,6 +621,7 @@ static void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& input
     // Add or update the CAM file
     inputLvl.AddFile(camName.c_str(), camFile.Data());
 }
+} // namespace Detail
 
 static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::vector<CameraNameAndTlvBlob>& camerasAndMapObjects)
 {
@@ -640,7 +631,7 @@ static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inpu
         // Get camera ID from the name for the Bits chunk
         if (!camIter.mName.empty())
         {
-            ImportCameraAndFG1(fileDataBuffer, inputLvl, camIter.mName + ".CAM", camIter.mCameraAndLayers);
+            Detail::ImportCameraAndFG1(fileDataBuffer, inputLvl, camIter.mName + ".CAM", camIter.mCameraAndLayers);
         }
     }
 }
