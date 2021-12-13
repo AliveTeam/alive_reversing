@@ -275,7 +275,7 @@ void QuikSave_RestoreBlyData_D481890_4C9BE0(const u8* pSaveData)
 
     // Skip the 2 zero entries, the saved flag words come after the object save state data
     const u8* pSrcFlags = reinterpret_cast<const u8*>(pSaveData2 + 2);
-    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= Path_Get_Num_Paths(gMap_5C3030.field_0_current_level); i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
@@ -370,7 +370,7 @@ static void WriteFlags(u8*& pSaveBuffer, const Path_TLV* pTlv, const BitField8<T
 
 EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
 {
-    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= Path_Get_Num_Paths(gMap_5C3030.field_0_current_level); i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
@@ -432,7 +432,7 @@ ALIVE_ARY(1, 0xBB233C, SaveFlagsAndData, 8, sSwitchReset_Saved_States_BB233C, {}
 EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
 {
     sQuickSave_saved_switchResetters_count_BB234C = 0;
-    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= Path_Get_Num_Paths(gMap_5C3030.field_0_current_level); i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
@@ -481,7 +481,7 @@ EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
 EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
 {
     s32 idx = 0;
-    for (s16 i = 1; i <= sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= Path_Get_Num_Paths(gMap_5C3030.field_0_current_level); i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
@@ -627,7 +627,7 @@ EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 
         char_type src[12] = {};
         sprintf(src, "%2sP%02dC%02d",
-                sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
+                Path_Get_Lvl_Name(gMap_5C3030.field_0_current_level),
                 gMap_5C3030.field_2_current_path,
                 gMap_5C3030.field_4_current_camera);
         MEMCARD_Write_SJISC_String_4A2770(src, &pSave->field_0_header.field_0_frame_1_name[32], 8);

@@ -2199,11 +2199,61 @@ const static PerLvlData gDemoData_off_5617F0[23] = {
     {"Greeters Go Boom", LevelIds::eBrewery_9, 28, 4, 25u, 0, 0}          // BR P28
 };
 
-PathRootContainer sPathData_559660 = pathData;
+static PathRootContainer sPathData_559660 = pathData;
 
 const char_type* CdLvlName(LevelIds lvlId)
 {
     return sPathData_559660.paths[static_cast<s32>(lvlId)].field_20_lvl_name_cd;
+}
+
+const char_type* Path_Get_Lvl_Name(LevelIds lvlId)
+{
+    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_14_lvl_name;
+}
+
+s16 Path_Get_Num_Paths(LevelIds lvlId)
+{
+    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_18_num_paths;
+}
+
+s16 Path_Get_Unknown(LevelIds lvlId)
+{
+    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_1A_unused;
+}
+
+const char_type* Path_Get_BndName(LevelIds lvlId)
+{
+    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_38_bnd_name;
+}
+
+SoundBlockInfo* Path_Get_MusicInfo(LevelIds lvlId)
+{
+    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_8_pMusicInfo;
+}
+
+s16 Path_Get_Reverb(LevelIds lvlId)
+{
+    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_10_reverb;
+}
+
+const char_type* Path_Get_BsqFileName(LevelIds lvlId)
+{
+    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_C_bsq_file_name;
+}
+
+s16 Path_Get_BackGroundMusicId(LevelIds lvlId)
+{
+    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_12_bg_music_id;
+}
+
+s32 Path_Get_Paths_Count()
+{
+    return ALIVE_COUNTOF(sPathData_559660.paths);
+}
+
+const PathRoot* Path_Get_PathRoot(s32 lvlId)
+{
+    return &sPathData_559660.paths[lvlId];
 }
 
 const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathId)
@@ -2224,5 +2274,5 @@ FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId)
 
 void CC Path_Format_CameraName_460FB0(char_type* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId)
 {
-    sprintf(pStrBuffer, "%sP%02dC%02d.CAM", sPathData_559660.paths[static_cast<s32>(levelId)].field_14_lvl_name, pathId, cameraId);
+    sprintf(pStrBuffer, "%sP%02dC%02d.CAM", Path_Get_Lvl_Name(levelId), pathId, cameraId);
 }

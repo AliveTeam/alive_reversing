@@ -2137,11 +2137,11 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         {
             demoId = 0;
         }
-        s32 levelId = static_cast<s32>(sDemos_5617F0[demoId].field_4_level);
+        const s32 levelId = static_cast<s32>(sDemos_5617F0[demoId].field_4_level);
         char_type lvFilename[256] = {};
         strcpy(lvFilename, "ATTRACT");
         memset(&lvFilename[8], 0, 0xF8u);
-        strcpy(&lvFilename[7], sPathData_559660.paths[levelId].field_20_lvl_name_cd);
+        strcpy(&lvFilename[7], CdLvlName(sDemos_5617F0[demoId].field_4_level));
         auto lvFilenameNoPrefix = &lvFilename[7];
 
         while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
@@ -2151,7 +2151,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
             {
                 dword_55C128 = -1;
             }
-            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[levelId].field_1A_unused, MessageType::eSkipDemo_2))
+            if (!Display_Full_Screen_Message_Blocking_465820(Path_Get_Unknown(sDemos_5617F0[demoId].field_4_level), MessageType::eSkipDemo_2))
             {
                 field_1F8_page_timeout = 0;
                 if (gIsDemoStartedManually_5C1B9C)

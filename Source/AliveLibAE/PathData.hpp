@@ -162,11 +162,32 @@ struct SeqHandleTable final
 
 EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathId);
 
+// note: has to be writable
 EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId);
 
 EXPORT void CC Path_Format_CameraName_460FB0(char_type* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId);
 
 const char_type* CdLvlName(LevelIds lvlId);
 
-extern PathRootContainer sPathData_559660;
+const char_type* Path_Get_Lvl_Name(LevelIds lvlId);
+
+s16 Path_Get_Num_Paths(LevelIds lvlId);
+
+s16 Path_Get_Unknown(LevelIds lvlId);
+
+const char_type* Path_Get_BndName(LevelIds lvlId);
+
+// note: has to be writable
+SoundBlockInfo* Path_Get_MusicInfo(LevelIds lvlId);
+
+s16 Path_Get_Reverb(LevelIds lvlId);
+
+const char_type* Path_Get_BsqFileName(LevelIds lvlId);
+
+s16 Path_Get_BackGroundMusicId(LevelIds lvlId);
+
+s32 Path_Get_Paths_Count();
+
+const PathRoot* Path_Get_PathRoot(s32 lvlId);
+
 extern SeqHandleTable sSeqData_558D50;

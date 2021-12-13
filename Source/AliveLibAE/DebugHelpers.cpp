@@ -582,9 +582,9 @@ void Command_Teleport(const std::vector<std::string>& args)
     else
     {
         bool found = false;
-        for (s16 i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot); i++)
+        for (s16 i = 0; i < Path_Get_Paths_Count(); i++)
         {
-            if (!strcmpi(sPathData_559660.paths[i].field_14_lvl_name, args[0].c_str()))
+            if (!strcmpi(Path_Get_Lvl_Name(static_cast<LevelIds>(i)), args[0].c_str()))
             {
                 level = i;
                 found = true;
@@ -678,7 +678,7 @@ void Command_DDV(const std::vector<std::string>& args)
             break;
         }
 
-        if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[sLevelId_dword_5CA408].field_1A_unused, MessageType::eSkipMovie_1))
+        if (!Display_Full_Screen_Message_Blocking_465820(Path_Get_Unknown(static_cast<LevelIds>(sLevelId_dword_5CA408)), MessageType::eSkipMovie_1))
         {
             break;
         }

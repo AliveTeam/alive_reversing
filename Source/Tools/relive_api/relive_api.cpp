@@ -126,12 +126,12 @@ private:
 class PathRootAdapter
 {
 public:
-    explicit PathRootAdapter(AO::PathRoot* pRoot)
+    explicit PathRootAdapter(const AO::PathRoot* pRoot)
         : mRootAO(pRoot)
     {
     }
 
-    explicit PathRootAdapter(PathRoot* pRoot)
+    explicit PathRootAdapter(const PathRoot* pRoot)
         : mRootAE(pRoot)
     {
     }
@@ -152,8 +152,8 @@ public:
     }
 
 private:
-    AO::PathRoot* mRootAO = nullptr;
-    PathRoot* mRootAE = nullptr;
+    const AO::PathRoot* mRootAO = nullptr;
+    const PathRoot* mRootAE = nullptr;
 };
 
 class PathRootContainerAdapter
@@ -166,12 +166,12 @@ public:
 
     s32 PathRootCount() const
     {
-        return mGameType == Game::AO ? ALIVE_COUNTOF(AO::gMapData_4CAB58.paths) : ALIVE_COUNTOF(sPathData_559660.paths);
+        return mGameType == Game::AO ? ALIVE_COUNTOF(AO::gMapData_4CAB58.paths) : Path_Get_Paths_Count();
     }
 
     PathRootAdapter PathAt(s32 idx) const
     {
-        return mGameType == Game::AO ? PathRootAdapter(&AO::gMapData_4CAB58.paths[idx]) : PathRootAdapter(&sPathData_559660.paths[idx]);
+        return mGameType == Game::AO ? PathRootAdapter(&AO::gMapData_4CAB58.paths[idx]) : PathRootAdapter(Path_Get_PathRoot(idx));
     }
 
 private:
