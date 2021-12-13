@@ -166,12 +166,12 @@ public:
 
     s32 PathRootCount() const
     {
-        return mGameType == Game::AO ? ALIVE_COUNTOF(AO::gMapData_4CAB58.paths) : Path_Get_Paths_Count();
+        return mGameType == Game::AO ? AO::Path_Get_Paths_Count() : Path_Get_Paths_Count();
     }
 
     PathRootAdapter PathAt(s32 idx) const
     {
-        return mGameType == Game::AO ? PathRootAdapter(&AO::gMapData_4CAB58.paths[idx]) : PathRootAdapter(Path_Get_PathRoot(idx));
+        return mGameType == Game::AO ? PathRootAdapter(AO::Path_Get_PathRoot(idx)) : PathRootAdapter(Path_Get_PathRoot(idx));
     }
 
 private:

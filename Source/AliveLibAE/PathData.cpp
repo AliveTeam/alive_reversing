@@ -2201,6 +2201,28 @@ const static PerLvlData gDemoData_off_5617F0[23] = {
 
 static PathRootContainer sPathData_559660 = pathData;
 
+const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathId)
+{
+    const PathBlyRec* rec = &sPathData_559660.paths[static_cast<s32>(lvlId)].field_0_pBlyArrayPtr[pathId];
+    if (!rec)
+    {
+        LOG_ERROR("path record not found for lvl " << static_cast<s32>(lvlId) << " pathId " << pathId);
+        ALIVE_FATAL("Path record not found");
+    }
+    return rec;
+}
+
+FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId)
+{
+    return &sPathData_559660.paths[static_cast<s32>(lvlId)].field_4_pFmvArray[fmvId];
+}
+
+void CC Path_Format_CameraName_460FB0(char_type* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId)
+{
+    sprintf(pStrBuffer, "%sP%02dC%02d.CAM", Path_Get_Lvl_Name(levelId), pathId, cameraId);
+}
+
+
 const char_type* CdLvlName(LevelIds lvlId)
 {
     return sPathData_559660.paths[static_cast<s32>(lvlId)].field_20_lvl_name_cd;
@@ -2254,25 +2276,4 @@ s32 Path_Get_Paths_Count()
 const PathRoot* Path_Get_PathRoot(s32 lvlId)
 {
     return &sPathData_559660.paths[lvlId];
-}
-
-const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathId)
-{
-    const PathBlyRec* rec = &sPathData_559660.paths[static_cast<s32>(lvlId)].field_0_pBlyArrayPtr[pathId];
-    if (!rec)
-    {
-        LOG_ERROR("path record not found for lvl " << static_cast<s32>(lvlId) << " pathId " << pathId);
-        ALIVE_FATAL("Path record not found");
-    }
-    return rec;
-}
-
-FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId)
-{
-    return &sPathData_559660.paths[static_cast<s32>(lvlId)].field_4_pFmvArray[fmvId];
-}
-
-void CC Path_Format_CameraName_460FB0(char_type* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId)
-{
-    sprintf(pStrBuffer, "%sP%02dC%02d.CAM", Path_Get_Lvl_Name(levelId), pathId, cameraId);
 }

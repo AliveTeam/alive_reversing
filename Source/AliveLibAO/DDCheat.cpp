@@ -318,7 +318,7 @@ void DDCheat::VUpdate_4098C0()
             {
                 DebugStr_495990(
                     "\n%sP%dC%d %6d",
-                    gMapData_4CAB58.paths[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_14_lvl_name,
+                    Path_Get_Lvl_Name(gMap_507BA8.field_0_current_level),
                     gMap_507BA8.field_2_current_path,
                     gMap_507BA8.field_4_current_camera,
                     gnFrameCount_507670);

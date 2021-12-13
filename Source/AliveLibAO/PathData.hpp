@@ -260,6 +260,30 @@ EXPORT FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId);
 
 EXPORT s32 CC Path_Format_CameraName_4346B0(char_type* pNameBuffer, LevelIds level, s16 path, s16 camera);
 
-extern PathRootContainer gMapData_4CAB58;
+const char_type* CdLvlName(LevelIds lvlId);
+
+const char_type* Path_Get_Lvl_Name(LevelIds lvlId);
+
+s16 Path_Get_Num_Paths(LevelIds lvlId);
+
+s16 Path_Get_Unknown(LevelIds lvlId);
+
+const char_type* Path_Get_BndName(LevelIds lvlId);
+
+// note: has to be writable
+SoundBlockInfo* Path_Get_MusicInfo(LevelIds lvlId);
+
+s16 Path_Get_Reverb(LevelIds lvlId);
+
+const char_type* Path_Get_BsqFileName(LevelIds lvlId);
+
+s16 Path_Get_BackGroundMusicId(LevelIds lvlId);
+
+s32 Path_Get_Paths_Count();
+
+const PathRoot* Path_Get_PathRoot(s32 lvlId);
+
+s32 Path_Get_OverlayIdx(LevelIds lvlId);
+
 
 } // namespace AO

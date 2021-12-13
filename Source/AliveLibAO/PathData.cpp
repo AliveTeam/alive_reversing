@@ -671,7 +671,7 @@ SoundBlockInfo g_D2_SoundBlock_4C96A0[] = {
     {"D2ENDER.VH", "D2ENDER.VB", -1, nullptr},
     knullptrSoundBlockInfo};
 
-PathRootContainer gMapData_4CAB58 = {
+static PathRootContainer gMapData_4CAB58 = {
     {{g_S1_Paths_4C8720, g_S1_Fmvs_4C8740, g_S1_SoundBlock_4C8790, "S1SEQ.BSQ", 16, 9, "S1", 1, 0, 1, "S1.LVL;1", 0, "S1.OVL;1", 2, "S1.MOV;1", "S1.IDX", "S1PATH.BND"},
      {g_R1_Paths_4C9910, g_R1_Fmvs_4C9A60, g_R1_SoundBlock_4C9B00, "R1SEQ.BSQ", 16, 8, "R1", 20, 0, 4, "R1.LVL;1", 3, "R1.OVL;1", 5, "R1.MOV;1", "R1.IDX", "R1PATH.BND"},
      {g_L1_Paths_4C96C0, g_L1_Fmvs_4C9730, g_L1_SoundBlock_4C98F0, "L1SEQ.BSQ", 23, 7, "L1", 6, 0, 12, "L1.LVL;1", 11, "L1.OVL;1", 14, "L1.MOV;1", "L1.IDX", "L1PATH.BND"},
@@ -702,6 +702,66 @@ FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId)
 s32 CC Path_Format_CameraName_4346B0(char_type* pNameBuffer, LevelIds level, s16 path, s16 camera)
 {
     return ::sprintf(pNameBuffer, "%sP%02dC%02d.CAM", gMapData_4CAB58.paths[static_cast<s32>(level)].field_14_lvl_name, path, camera);
+}
+
+const char_type* CdLvlName(LevelIds lvlId)
+{
+    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_20_lvl_name_cd;
+}
+
+const char_type* Path_Get_Lvl_Name(LevelIds lvlId)
+{
+    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_14_lvl_name;
+}
+
+s16 Path_Get_Num_Paths(LevelIds lvlId)
+{
+    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_18_num_paths;
+}
+
+s16 Path_Get_Unknown(LevelIds lvlId)
+{
+    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_1A_unused;
+}
+
+const char_type* Path_Get_BndName(LevelIds lvlId)
+{
+    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_38_bnd_name;
+}
+
+SoundBlockInfo* Path_Get_MusicInfo(LevelIds lvlId)
+{
+    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_8_pMusicInfo;
+}
+
+s16 Path_Get_Reverb(LevelIds lvlId)
+{
+    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_10_reverb;
+}
+
+const char_type* Path_Get_BsqFileName(LevelIds lvlId)
+{
+    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_C_bsq_file_name;
+}
+
+s16 Path_Get_BackGroundMusicId(LevelIds lvlId)
+{
+    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_12_bg_music_id;
+}
+
+s32 Path_Get_Paths_Count()
+{
+    return ALIVE_COUNTOF(gMapData_4CAB58.paths);
+}
+
+const PathRoot* Path_Get_PathRoot(s32 lvlId)
+{
+    return &gMapData_4CAB58.paths[lvlId];
+}
+
+s32 Path_Get_OverlayIdx(LevelIds lvlId)
+{
+    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_1C_overlay_idx;
 }
 
 } // namespace AO
