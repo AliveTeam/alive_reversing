@@ -366,6 +366,7 @@ void Rock::InTheAir_456B60()
     }
 }
 
+//TODO Identical to AE - merge
 void Rock::BounceHorizontally( FP hitX, FP hitY )
 {
     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
