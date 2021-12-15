@@ -301,10 +301,10 @@ void Rock::InTheAir_456B60()
     {
         switch (field_114_pLine->field_8_type)
         {
-            case 0:
-            case 4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 if (field_B8_vely > FP_FromInteger(0))
                 {
                     if (field_110_state != States::eBouncing_4 || field_B8_vely >= FP_FromInteger(5))
@@ -345,8 +345,8 @@ void Rock::InTheAir_456B60()
                 }
                 break;
 
-            case 1:
-            case 5:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eBackGroundWallLeft_5:
                 if (field_B4_velx < FP_FromInteger(0))
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
@@ -362,9 +362,8 @@ void Rock::InTheAir_456B60()
                     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
                 }
                 break;
-
-            case 2:
-            case 6:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackGroundWallRight_6:
                 if (field_B4_velx > FP_FromInteger(0))
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));

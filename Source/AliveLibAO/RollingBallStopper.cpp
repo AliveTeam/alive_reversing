@@ -85,11 +85,11 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
     const auto y1 = FP_GetExponent(field_AC_ypos);
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(x1, y1 - 70, x1, y1, 1);
+        field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(x1, y1 - 70, x1, y1, eLineTypes::eWallLeft_1);
     }
     else
     {
-        field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(x1, y1 - 35, x1, y1, 5);
+        field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(x1, y1 - 35, x1, y1, eLineTypes::eBackGroundWallLeft_5);
     }
 
     return this;

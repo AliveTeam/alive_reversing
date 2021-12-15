@@ -315,7 +315,8 @@ void TrapDoor::VUpdate_4883E0()
                     field_148_bounding_rect.y,
                     field_148_bounding_rect.w,
                     field_148_bounding_rect.y,
-                    32);
+                    eLineTypes::eUnknown_32
+                );
                 ObjListPlatforms_50766C->Push_Back(this);
                 field_136_state = TrapDoorState::eClosed_0;
                 SwitchStates_Set(field_134_switch_idx, field_138_switch_state == 0);
