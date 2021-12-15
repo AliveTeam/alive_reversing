@@ -42,6 +42,8 @@ public:
 
     virtual void VTimeToExplodeRandom() override;
 
+    void BounceHorizontally( FP hitX, FP hitY );
+
     enum class States : s16
     {
         eNone_0 = 0,

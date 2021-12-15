@@ -349,35 +349,14 @@ void Rock::InTheAir_456B60()
             case eLineTypes::eBackGroundWallLeft_5:
                 if (field_B4_velx < FP_FromInteger(0))
                 {
-                    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                    field_A8_xpos = hitX;
-                    field_AC_ypos = hitY;
-                    s32 vol = 20 * (4 - field_118_vol);
-                    if (vol < 40)
-                    {
-                        vol = 40;
-                    }
-                    SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
-                    Event_Broadcast_417220(kEventNoise_0, this);
-                    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                    BounceHorizontally( hitX, hitY );
                 }
                 break;
             case eLineTypes::eWallRight_2:
             case eLineTypes::eBackGroundWallRight_6:
                 if (field_B4_velx > FP_FromInteger(0))
                 {
-                    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                    field_A8_xpos = hitX;
-                    field_AC_ypos = hitY;
-                    s32 vol = 20 * (4 - field_118_vol);
-                    if (vol < 40)
-                    {
-                        vol = 40;
-                    }
-
-                    SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
-                    Event_Broadcast_417220(kEventNoise_0, this);
-                    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                    BounceHorizontally( hitX, hitY );
                 }
                 break;
 
@@ -385,6 +364,22 @@ void Rock::InTheAir_456B60()
                 return;
         }
     }
+}
+
+void Rock::BounceHorizontally( FP hitX, FP hitY )
+{
+    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+    field_A8_xpos = hitX;
+    field_AC_ypos = hitY;
+    s32 vol = 20 * (4 - field_118_vol);
+    if (vol < 40)
+    {
+        vol = 40;
+    }
+
+    SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
+    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 }
 
 s16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
