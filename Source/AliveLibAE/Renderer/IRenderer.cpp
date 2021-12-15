@@ -1,8 +1,11 @@
 #include "stdafx.h"
 #include "IRenderer.hpp"
 #include "SoftwareRenderer.hpp"
-#include "OpenGLRenderer.hpp"
 #include "DirectX9Renderer.hpp"
+
+#if RENDERER_OPENGL
+#include "OpenGLRenderer.hpp"
+#endif
 
 static IRenderer* gRenderer = nullptr;
 
@@ -24,9 +27,11 @@ void IRenderer::CreateRenderer(Renderers type)
             gRenderer = new SoftwareRenderer();
             break;
 
+#if RENDERER_OPENGL
         case Renderers::OpenGL:
             gRenderer = new OpenGLRenderer();
             break;
+#endif
 
 #ifdef _WIN32
         // Windows only
