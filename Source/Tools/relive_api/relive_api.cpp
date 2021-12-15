@@ -381,7 +381,7 @@ static void WriteCollisionLine(ByteStream& s, const AO::PathLine& line)
     s.Write(line.field_0_rect.w);
     s.Write(line.field_0_rect.h);
 
-    s.Write(line.field_8_type);
+    s.Write(static_cast<u8>(line.field_8_type));
     s.Write(line.field_9_pad);
     s.Write(line.field_A_pad);
     s.Write(line.field_B_pad);

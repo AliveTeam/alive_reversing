@@ -34,10 +34,13 @@ Rock* Rock::ctor_456960(FP xpos, FP ypos, s16 count)
 
     field_A8_xpos = xpos;
     field_11C_xpos = xpos;
+
     field_AC_ypos = ypos;
     field_120_ypos = ypos;
+
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
+
     field_10C_count = count;
     field_110_state = States::eNone_0;
 
@@ -226,7 +229,7 @@ void Rock::VScreenChanged()
     VScreenChanged_457310();
 }
 
-
+//TODO Identical to AE - merge
 void Rock::VScreenChanged_457310()
 {
     if (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
@@ -241,6 +244,7 @@ void Rock::VThrow(FP velX, FP velY)
     VThrow_456B20(velX, velY);
 }
 
+//TODO Identical to AE - merge
 void Rock::VThrow_456B20(FP velX, FP velY)
 {
     field_B4_velx = velX;
@@ -383,6 +387,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 }
 
+//TODO Identical to AE - merge
 s16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
