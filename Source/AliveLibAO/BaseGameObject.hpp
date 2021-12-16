@@ -115,7 +115,7 @@ enum class Types : s16
     eElectrocute_103 = 103,
 };
 
-class BaseGameObject
+class BaseGameObject : public BaseGameObjectCommon
 {
 public:
 
@@ -149,11 +149,12 @@ private:
 
 public:
     Types field_4_typeId;
-    BitField16<BaseGameObjectCommon::Options> field_6_flags;
+    BitField16<Options> field_6_flags;
     s32 field_8_update_delay;
     s8 field_C_refCount;
     s8 field_D_padding;
     s16 field_E_padding;
+
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 

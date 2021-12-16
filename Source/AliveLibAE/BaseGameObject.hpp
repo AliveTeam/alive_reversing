@@ -170,7 +170,7 @@ enum class AETypes : s16
 
 struct PrimHeader;
 
-class BaseGameObject
+class BaseGameObject : public BaseGameObjectCommon
 {
 public:
 
@@ -206,13 +206,12 @@ protected:
 
 public:
     AETypes field_4_typeId;
-    BitField16<BaseGameObjectCommon::Options> field_6_flags;
+    BitField16<Options> field_6_flags;
     s32 field_8_object_id;
     s32 field_C_objectId;
     DynamicArrayT<u8*> field_10_resources_array;
     s32 field_1C_update_delay;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x20);
-
 
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4);
