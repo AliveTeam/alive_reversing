@@ -4,7 +4,6 @@
 
 void SetIFields();
 
-
 void BaseGameObjectCommon::InitFlags()
 {
     field_flags->Clear(Options::eListAddFailed_Bit1);
@@ -21,4 +20,3 @@ void BaseGameObjectCommon::InitFlags()
 
     field_flags->Set(Options::eUpdatable_Bit2);
 }
-

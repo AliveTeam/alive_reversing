@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/BitField.hpp"
+
 class BaseGameObjectCommon
 {
 public:
