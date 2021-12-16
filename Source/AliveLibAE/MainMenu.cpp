@@ -2207,7 +2207,6 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         }
         field_6_flags.Set(Options::eDead_Bit3);
 
-
         char_type file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
         ResourceManager::LoadResourceFile_49C170(file, nullptr);
