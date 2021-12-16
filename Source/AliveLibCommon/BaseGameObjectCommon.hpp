@@ -1,10 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "../AliveLibCommon/BitField.hpp"
-
-struct PrimHeader;
-
 class BaseGameObjectCommon
 {
 public:
@@ -44,41 +40,10 @@ public:
         eCantKill_Bit11 = 0x400
     };
 
-//     // Order must match VTable
-//     virtual BaseGameObjectCommon* VDestructor(s32) = 0; // Not an actual dtor because the generated compiler code has the param to determine if heap allocated or not
-//     virtual void VUpdate();
-//     virtual void VRender(PrimHeader** pOrderingTable);
-//     virtual void VScreenChanged();
-//     virtual void VStopAudio();
-//     virtual s32 VGetSaveState(u8* pSaveBuffer);
+    // field members interface
+    BitField16<Options> *field_flags;
+    s32 *field_update_delay;
+    virtual void SetIFields() = 0;
 
-//     EXPORT void ScreenChanged_4DC0A0();
-
-//     EXPORT u8** Add_Resource_4DC130(u32 type, s32 resourceID);
-//     EXPORT void BaseGameObjectCommon_ctor_4DBFA0(s16 bAddToObjectList, s16 resourceArraySize);
-//     EXPORT void BaseGameObjectCommon_dtor_4DBEC0();
-
-//     EXPORT static s32 CCSTD Find_Flags_4DC170(s32 objectId);
-
-// protected:
-//     // Helper to check if a timer has expired
-//     template <class T>
-//     static inline bool Expired(const T& value)
-//     {
-//         return static_cast<s32>(sGnFrame_5C1B84) > value;
-//     }
-
-//     template <class T>
-//     static s32 MakeTimer(const T value)
-//     {
-//         return static_cast<s32>(sGnFrame_5C1B84) + value;
-//     }
-
-// public:
-//     AETypes field_4_typeId;
-//     BitField16<Options> field_6_flags;
-//     s32 field_8_object_id;
-//     s32 field_C_objectId;
-//     DynamicArrayT<u8*> field_10_resources_array;
-//     s32 field_1C_update_delay;
+    void InitFlags();
 };

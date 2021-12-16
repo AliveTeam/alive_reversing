@@ -14,28 +14,14 @@ ALIVE_VAR(1, 0x9F2DF0, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_9F2D
 
 BaseGameObject* BaseGameObject::ctor_487E10(s16 arraySize)
 {
+    SetIFields();
     SetVTable(this, 0x4BD488); // vTable_BaseGameObject_4BD488
-
-    if (!this) // Compiler code or hack
-    {
-        return this;
-    }
 
     field_8_update_delay = 0;
     field_4_typeId = Types::eNone_0;
     field_C_refCount = 0;
 
-    field_6_flags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
-    field_6_flags.Clear(BaseGameObject::Options::eDead_Bit3);
-    field_6_flags.Clear(BaseGameObject::Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
-    field_6_flags.Clear(BaseGameObject::Options::eIsBaseAliveGameObject_Bit6);
-    field_6_flags.Clear(BaseGameObject::Options::eCanExplode_Bit7);
-    field_6_flags.Clear(BaseGameObject::Options::eInteractive_Bit8);
-    field_6_flags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
-    field_6_flags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
-    //field_6_flags.Clear(BaseGameObject::Options::eCantKill_Bit11); // NOTE: AE clears this too
-
-    field_6_flags.Set(BaseGameObject::Options::eUpdatable_Bit2);
+    InitFlags();
 
     if (!arraySize)
     {
@@ -66,5 +52,11 @@ void BaseGameObject::VScreenChanged_487E70()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
+
+void BaseGameObject::SetIFields()
+{
+    field_flags = &field_6_flags;
+    field_update_delay = &field_8_update_delay;
+};
 
 } // namespace AO

@@ -26,6 +26,7 @@ SET(AliveLibSrcCommon
     Masher.cpp
     masher_tables.hpp
     BaseGameObjectCommon.hpp
+    BaseGameObjectCommon.cpp
     Types.hpp
     PSXADPCMDecoder.cpp
     PSXADPCMDecoder.h

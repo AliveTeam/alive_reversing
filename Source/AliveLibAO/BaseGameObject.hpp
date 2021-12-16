@@ -144,6 +144,8 @@ public:
         // Empty
     }
 
+    void SetIFields() override;
+
 private:
     EXPORT void VScreenChanged_487E70();
 

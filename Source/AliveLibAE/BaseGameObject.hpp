@@ -190,6 +190,8 @@ public:
 
     EXPORT static s32 CCSTD Find_Flags_4DC170(s32 objectId);
 
+    void SetIFields() override;
+
 protected:
     // Helper to check if a timer has expired
     template <class T>
