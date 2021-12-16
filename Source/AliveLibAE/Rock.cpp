@@ -52,14 +52,12 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
     else
     {
         const FrameInfoHeader* pFrameInfo = field_20_animation.Get_FrameHeader_40B730(-1);
+
         const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
+
         field_20_animation.Load_Pal_40A530(
             field_20_animation.field_20_ppBlock,
             pFrameHeader->field_0_clut_offset);
-
-        //safety check in case IDA output was wrongly interpreted. TODO remove later
-        assert((u32*) &(*field_20_animation.field_20_ppBlock)[*(u32*) &(*field_20_animation.field_20_ppBlock)[*((u32*) *field_20_animation.field_20_ppBlock + 124)]]
-               == &(pFrameHeader->field_0_clut_offset));
     }
 
     field_11E_volume = 0;
@@ -75,11 +73,6 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
 BaseGameObject* Rock::VDestructor(s32 flags)
 {
     return vdtor_49E370(flags);
-}
-
-void Rock::VUpdate()
-{
-    vUpdate_49E9F0();
 }
 
 void Rock::VScreenChanged()
@@ -112,9 +105,11 @@ void Rock::VTimeToExplodeRandom_411490()
     // Calls actual implementation of 0x411490 which is empty.
 }
 
+//TODO Identical to AO - merge
 void Rock::vScreenChanged_49F030()
 {
-    if (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
+    if (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path
+        || gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -154,12 +149,13 @@ void Rock::dtor_49E3A0()
     dtor_4080B0();
 }
 
+//TODO Identical to AO - merge
 void Rock::vThrow_49E460(FP velX, FP velY)
 {
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-
     field_C4_velx = velX;
     field_C8_vely = velY;
+
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
     if (field_118_count == 0)
     {
@@ -284,17 +280,7 @@ void Rock::InTheAir_49E4B0()
             case eLineTypes::eBackGroundWallLeft_5:
                 if (field_C4_velx < FP_FromInteger(0))
                 {
-                    field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
-                    field_B8_xpos = hitX;
-                    field_BC_ypos = hitY;
-                    s16 vol = 20 * (4 - field_11E_volume);
-                    if (vol < 40)
-                    {
-                        vol = 40;
-                    }
-                    SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
-                    Event_Broadcast_422BC0(kEventNoise, this);
-                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    BounceHorizontally( hitX, hitY );
                 }
                 break;
 
@@ -302,23 +288,30 @@ void Rock::InTheAir_49E4B0()
             case eLineTypes::eBackGroundWallRight_6:
                 if (field_C4_velx > FP_FromInteger(0))
                 {
-                    field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
-                    field_B8_xpos = hitX;
-                    field_BC_ypos = hitY;
-                    s16 vol = 20 * (4 - field_11E_volume);
-                    if (vol < 40)
-                    {
-                        vol = 40;
-                    }
-                    SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
-                    Event_Broadcast_422BC0(kEventNoise, this);
-                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    BounceHorizontally( hitX, hitY );
                 }
                 break;
         }
     }
 }
 
+//TODO Identical to AO - merge
+void Rock::BounceHorizontally( FP hitX, FP hitY )
+{
+    field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+    field_B8_xpos = hitX;
+    field_BC_ypos = hitY;
+    s16 vol = 20 * (4 - field_11E_volume);
+    if (vol < 40)
+    {
+        vol = 40;
+    }
+    SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+}
+
+//TODO Identical to AO - merge
 s16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
 {
     if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
@@ -344,6 +337,11 @@ s16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
 
     SFX_Play_46FA90(SoundEffect::RockBounceOnMine_24, 80);
     return 0;
+}
+
+void Rock::VUpdate()
+{
+    vUpdate_49E9F0();
 }
 
 void Rock::vUpdate_49E9F0()

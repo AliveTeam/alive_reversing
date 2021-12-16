@@ -74,6 +74,8 @@ private:
     EXPORT s16 OnCollision_49EF10(BaseAliveGameObject* pObj);
     EXPORT void vUpdate_49E9F0();
 
+    void BounceHorizontally( FP hitX, FP hitY );
+
 private:
     RockStates field_11C_state;
     s16 field_11E_volume;

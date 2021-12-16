@@ -24,7 +24,7 @@ class PathLine final
 {
 public:
     PSX_RECT field_0_rect;
-    u8 field_8_type;
+    eLineTypes field_8_type;
     s8 field_9_pad;
     s8 field_A_pad;
     s8 field_B_pad;
@@ -46,7 +46,7 @@ public:
 
     EXPORT Collisions* ctor_40CF30(const CollisionInfo* pCollisionInfo, const u8* pPathData);
 
-    EXPORT PathLine* Add_Dynamic_Collision_Line_40C8A0(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode);
+    EXPORT PathLine* Add_Dynamic_Collision_Line_40C8A0(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode);
 
     EXPORT s16 RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
 

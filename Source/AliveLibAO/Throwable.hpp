@@ -34,6 +34,8 @@ public:
     EXPORT void VToDead_41F990();
 
     virtual void VOnPickUpOrSlapped() override;
+
+    void BaseAddToPlatform();
 };
 ALIVE_ASSERT_SIZEOF(BaseThrowable, 0x110);
 

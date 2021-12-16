@@ -127,63 +127,8 @@ Grenade* Grenade::Vdtor_41F9F0(s32 flags)
 
 void Grenade::AddToPlatform_41F7C0()
 {
-    const FP scale = field_BC_sprite_scale - FP_FromDouble(0.5);
-
-    PathLine* pLine = nullptr;
-    FP hitX = {};
-    FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast_40C410(
-            field_A8_xpos,
-            field_AC_ypos - FP_FromInteger(20),
-            field_A8_xpos,
-            field_AC_ypos + FP_FromInteger(20),
-            &pLine,
-            &hitX,
-            &hitY,
-            scale != FP_FromInteger(0) ? 7 : 0x70))
-    {
-        if (pLine->field_8_type == eLineTypes::eUnknown_32 ||
-            pLine->field_8_type == eLineTypes::eUnknown_36)
-        {
-            for (s32 i = 0; i < ObjListPlatforms_50766C->Size(); i++)
-            {
-                BaseGameObject* pObjIter = ObjListPlatforms_50766C->ItemAt(i);
-                if (!pObjIter)
-                {
-                    break;
-                }
-
-                if (pObjIter->field_4_typeId == Types::eLiftPoint_51 || pObjIter->field_4_typeId == Types::eTrapDoor_98)
-                {
-                    auto pPlatformBase = static_cast<PlatformBase*>(pObjIter);
-
-                    PSX_RECT objRect = {};
-                    pPlatformBase->VGetBoundingRect(&objRect, 1);
-
-                    if (FP_GetExponent(field_A8_xpos) > objRect.x && FP_GetExponent(field_A8_xpos) < objRect.w && FP_GetExponent(field_AC_ypos) < objRect.h)
-                    {
-                        if (field_F8_pLiftPoint)
-                        {
-                            if (field_F8_pLiftPoint == pPlatformBase)
-                            {
-                                return;
-                            }
-                            field_F8_pLiftPoint->VRemove(this);
-                            field_F8_pLiftPoint->field_C_refCount--;
-                            field_F8_pLiftPoint = nullptr;
-                        }
-
-                        field_F8_pLiftPoint = pPlatformBase;
-                        field_F8_pLiftPoint->VAdd(this);
-                        field_F8_pLiftPoint->field_C_refCount++;
-                        return;
-                    }
-                }
-            }
-        }
-    }
+    BaseAddToPlatform();
 }
-
 
 s16 Grenade::VCanThrow()
 {

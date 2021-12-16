@@ -216,10 +216,10 @@ void Meat::InTheAir_4697E0()
     {
         switch (field_130_pLine->field_8_type)
         {
-            case 0u:
-            case 4u:
-            case 32u:
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 if (field_C8_vely > FP_FromInteger(0))
                 {
                     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(hitX)));
@@ -234,8 +234,8 @@ void Meat::InTheAir_4697E0()
                 }
                 break;
 
-            case 1u:
-            case 5u:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eBackGroundWallLeft_5:
                 if (field_C4_velx < FP_FromInteger(0))
                 {
                     field_B8_xpos = hitX;
@@ -252,8 +252,8 @@ void Meat::InTheAir_4697E0()
                 field_130_pLine = nullptr;
                 break;
 
-            case 2u:
-            case 6u:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackGroundWallRight_6:
                 if (field_C4_velx > FP_FromInteger(0))
                 {
                     field_B8_xpos = hitX;
@@ -270,8 +270,8 @@ void Meat::InTheAir_4697E0()
                 field_130_pLine = nullptr;
                 break;
 
-            case 3u:
-            case 7u:
+            case eLineTypes::eCeiling_3:
+            case eLineTypes::eBackGroundCeiling_7:
                 if (field_C8_vely < FP_FromInteger(0))
                 {
                     field_B8_xpos = hitX;
