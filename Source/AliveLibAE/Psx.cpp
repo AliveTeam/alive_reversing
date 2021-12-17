@@ -15,6 +15,7 @@
 #include "PsxRender.hpp"
 #include "Renderer/IRenderer.hpp"
 #include <gmock/gmock.h>
+#include <thread>
 
 void Psx_ForceLink()
 { }
@@ -891,16 +892,21 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
         s32 frameTimeInMilliseconds = currentTime - sVSyncLastMillisecond_BD0F2C;
         if (mode > 0 && frameTimeInMilliseconds < 1000 * mode / 60)
         {
-            s32 timeSinceLastFrame = 0;
             sVSync_Unused_578325 = 1;
 
-            do
-            {
-                timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
-                SsSeqCalledTbyT_4FDC80();
-            }
-            while (timeSinceLastFrame < 1000 * mode / 60);
+            auto current = SYS_GetTime();
+            const auto max_time = current + std::chrono::milliseconds(1000 * mode / 60);
 
+            while (SsSeqCalledTbyT_4FDC80_sleep_until_due_time_if_before_max_time(current, max_time))
+            {
+                SsSeqCalledTbyT_4FDC80();
+                current = SYS_GetTime();
+            }
+
+            if (current < max_time)
+            {
+                std::this_thread::sleep_until(max_time);
+            }
             frameTimeInMilliseconds = 1000 * mode / 60;
         }
 

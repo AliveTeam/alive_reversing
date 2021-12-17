@@ -444,7 +444,7 @@ void Movie::VUpdate_489EA0()
     Bitmap tmpBmp = {};
 
     // Till EOF decoding loop
-    const auto movieStartTimeStamp = SYS_GetTicks();
+    const auto movieStartTimeStamp = SYS_GetTime();
     while (psxStr.DecodeAudioAndVideo())
     {
         fmv_num_read_frames++;
@@ -492,11 +492,12 @@ void Movie::VUpdate_489EA0()
 
         Render_Str_Frame(tmpBmp);
 
-        const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate - 200;
-
-        while ((signed int) (SYS_GetTicks() - movieStartTimeStamp) <= maxAudioSyncTimeWait)
+        const auto maxAudioSyncTimeWait = std::chrono::milliseconds{1000 * fmv_num_read_frames / kFmvFrameRate - 200};
+        const auto timeToWait = maxAudioSyncTimeWait - (SYS_GetTime() - movieStartTimeStamp);
+        if (timeToWait.count() > 0)
         {
             // Wait for the amount of time the frame would take to display at the given framerate
+            std::this_thread::sleep_for(timeToWait);
         }
 
         SYS_EventsPump_44FF90();
