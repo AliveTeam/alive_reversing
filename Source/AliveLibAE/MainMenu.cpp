@@ -2214,7 +2214,6 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         sActiveQuicksaveData_BAF7F8 = *(reinterpret_cast<Quicksave*>(*resource));
         ResourceManager::FreeResource_49C330(resource);
 
-        demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
         if (!gIsDemoStartedManually_5C1B9C)
         {
             sCurrentDemoIdForIdlingDemoPlayback_5C1BA2++;
@@ -2224,7 +2223,6 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
                 // all the "idling" demos have been played, wrap around
                 sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 = 1;
             }
-            demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2;
         }
 
         if (gIsDemoStartedManually_5C1B9C)
