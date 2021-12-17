@@ -10,7 +10,7 @@
 #include "Sfx.hpp"
 #include "VRam.hpp"
 #include "Game.hpp"
-#include "../../AliveLibCommon/PathDataExtensionsTypes.hpp"
+#include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 #include "Renderer/IRenderer.hpp"
 
 u8 sLCDScreen_Palette[] = {
