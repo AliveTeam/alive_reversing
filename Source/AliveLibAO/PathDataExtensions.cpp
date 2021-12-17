@@ -8,6 +8,26 @@
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 
 namespace AO {
+
+static s32 sTotalMuds = 99;
+static s32 sBadEndingMuds = 75;
+static s32 sGoodEndingMuds = 50;
+
+s32 Path_GetTotalMuds()
+{
+    return sTotalMuds;
+}
+
+s32 Path_BadEndingMuds()
+{
+    return sBadEndingMuds;
+}
+
+s32 Path_GoodEndingMuds()
+{
+    return sGoodEndingMuds;
+}
+
 static u8* sPathExtData[static_cast<u32>(LevelIds::eDesertEscape) + 1] = {};
 
 EXPORT s32 sub_402560();
@@ -91,6 +111,21 @@ void Path_Set_NewData_FromLvls()
                         rColInfo.field_10_num_collision_items = pExt->mNumCollisionLines;
                         rColInfo.field_14_grid_width = pExt->mGridWidth;
                         rColInfo.field_18_grid_height = pExt->mGridHeight;
+
+                        if (pExt->mTotalMuds != 0)
+                        {
+                            sTotalMuds = pExt->mTotalMuds;
+                        }
+
+                        if (pExt->mBadEndingMuds != 0)
+                        {
+                            sBadEndingMuds = pExt->mBadEndingMuds;
+                        }
+
+                        if (pExt->mGoodEndingMuds)
+                        {
+                            sGoodEndingMuds = pExt->mGoodEndingMuds;
+                        }
                     }
 
                     // To the next chunk

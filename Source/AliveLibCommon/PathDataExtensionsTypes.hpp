@@ -56,6 +56,15 @@ struct PerPathExtension final
     u32 mCollisionOffset;
     s32 mGridWidth;
     s32 mGridHeight;
+
+    s32 mAbeStartXPos;
+    s32 mAbeStartYPos;
+
+    s32 mNumMudsInPath;
+
+    s32 mTotalMuds;
+    s32 mBadEndingMuds;
+    s32 mGoodEndingMuds;
 };
 
 enum PerPathExtensionResTypes : u32

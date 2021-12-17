@@ -2304,3 +2304,15 @@ CollisionInfo* GetCollisions(s32 lvlId)
 {
     return sCollisionRoots[lvlId];
 }
+
+static s16 sMudsInLevelCount_55CFAC[15] = {0, 75, 10, 5, 14, 26, 49, 14, 31, 90, 90, 5, 26, 49, 31};
+
+void Path_SetMudsInLevel(LevelIds lvlId, u32 count)
+{
+    sMudsInLevelCount_55CFAC[static_cast<u32>(lvlId)] = static_cast<s16>(count);
+}
+
+s16 Path_GetMudsInLevel(LevelIds lvlId)
+{
+    return sMudsInLevelCount_55CFAC[static_cast<u32>(lvlId)];
+}

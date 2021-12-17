@@ -76,11 +76,19 @@ struct PathBND
     info.mNumCollisionItems = collisionInfo.field_10_num_collision_items;
     info.mCollisionOffset = collisionInfo.field_C_collision_offset;
 
+    info.mAbeStartXPos = 0; // doesn't apply to AO
+    info.mAbeStartYPos = 0; // doesn't apply to AO
+
+    info.mNumMudsInPath = 0; // doesn't apply to AO
+    info.mTotalMuds = 99;
+    info.mBadEndingMuds = 75;
+    info.mGoodEndingMuds = 50;
+
     return info;
 }
 
 
-[[nodiscard]] static PathInfo ToPathInfo(const PathData& data, const CollisionInfo& collisionInfo)
+[[nodiscard]] static PathInfo ToPathInfo(const PathData& data, const CollisionInfo& collisionInfo, u32 idx)
 {
     PathInfo info = {};
     info.mGridWidth = data.field_A_grid_width;
@@ -93,19 +101,29 @@ struct PathBND
     info.mNumCollisionItems = collisionInfo.field_10_num_collision_items;
     info.mCollisionOffset = collisionInfo.field_C_collision_offset;
 
+    info.mAbeStartXPos = data.field_1A_abe_start_xpos;
+    info.mAbeStartYPos = data.field_1C_abe_start_ypos;
+
+    info.mNumMudsInPath = Path_GetMudsInLevel(static_cast<LevelIds>(idx));
+    info.mTotalMuds = 300;
+    info.mBadEndingMuds = 20;
+    info.mGoodEndingMuds = 255;
+
     return info;
 }
 
 class PathBlyRecAdapter
 {
 public:
-    explicit PathBlyRecAdapter(const AO::PathBlyRec* pBlyRec)
+    PathBlyRecAdapter(const AO::PathBlyRec* pBlyRec, u32 idx)
         : mBlyRecAO(pBlyRec)
+        , mIdx(idx)
     {
     }
 
-    explicit PathBlyRecAdapter(const PathBlyRec* pBlyRec)
+    PathBlyRecAdapter(const PathBlyRec* pBlyRec, u32 idx)
         : mBlyRecAE(pBlyRec)
+        , mIdx(idx)
     {
     }
 
@@ -116,12 +134,13 @@ public:
 
     PathInfo ConvertPathInfo() const
     {
-        return mBlyRecAO ? ToPathInfo(*mBlyRecAO->field_4_pPathData, *mBlyRecAO->field_8_pCollisionData) : ToPathInfo(*mBlyRecAE->field_4_pPathData, *mBlyRecAE->field_8_pCollisionData);
+        return mBlyRecAO ? ToPathInfo(*mBlyRecAO->field_4_pPathData, *mBlyRecAO->field_8_pCollisionData) : ToPathInfo(*mBlyRecAE->field_4_pPathData, *mBlyRecAE->field_8_pCollisionData, mIdx);
     }
 
 private:
     const AO::PathBlyRec* mBlyRecAO = nullptr;
     const PathBlyRec* mBlyRecAE = nullptr;
+    u32 mIdx = 0;
 };
 
 class PathRootAdapter
@@ -149,7 +168,7 @@ public:
 
     PathBlyRecAdapter PathAt(s32 idx) const
     {
-        return mRootAO ? PathBlyRecAdapter(&mRootAO->field_0_pBlyArrayPtr[idx]) : PathBlyRecAdapter(&mRootAE->field_0_pBlyArrayPtr[idx]);
+        return mRootAO ? PathBlyRecAdapter(&mRootAO->field_0_pBlyArrayPtr[idx], idx) : PathBlyRecAdapter(&mRootAE->field_0_pBlyArrayPtr[idx], idx);
     }
 
 private:
@@ -240,6 +259,16 @@ enum class OpenPathBndResult
                     ret.mPathInfo.mCollisionOffset = pExt->mCollisionOffset;
                     ret.mPathInfo.mGridWidth = pExt->mGridWidth;
                     ret.mPathInfo.mGridHeight = pExt->mGridHeight;
+
+                    ret.mPathInfo.mAbeStartXPos = pExt->mAbeStartXPos;
+                    ret.mPathInfo.mAbeStartYPos = pExt->mAbeStartYPos;
+
+                    ret.mPathInfo.mTotalMuds = pExt->mTotalMuds;
+
+                    ret.mPathInfo.mNumMudsInPath = pExt->mNumMudsInPath;
+                    ret.mPathInfo.mBadEndingMuds = pExt->mBadEndingMuds;
+                    ret.mPathInfo.mGoodEndingMuds = pExt->mGoodEndingMuds;
+
                     return OpenPathBndResult::OK;
                 }
                 else if (pBlyRec.BlyName())
@@ -873,6 +902,15 @@ static void SaveBinaryPathToLvl(Game game, std::vector<u8>& fileDataBuffer, cons
     pathExtData.mCollisionOffset = static_cast<u32>(collisionOffsetPos);
     pathExtData.mGridWidth = game == Game::AE ? 375 : 1024;
     pathExtData.mGridHeight = game == Game::AE ? 260 : 480;
+
+    pathExtData.mAbeStartXPos = doc.mRootInfo.mAbeStartXPos;
+    pathExtData.mAbeStartYPos = doc.mRootInfo.mAbeStartYPos;
+
+    pathExtData.mNumMudsInPath = doc.mRootInfo.mNumMudsInPath;
+
+    pathExtData.mTotalMuds = doc.mRootInfo.mTotalMuds;
+    pathExtData.mBadEndingMuds = doc.mRootInfo.mBadEndingMuds;
+    pathExtData.mGoodEndingMuds = doc.mRootInfo.mGoodEndingMuds;
 
     // Create the BLY name
     std::string strPathId = std::to_string(doc.mRootInfo.mPathId);

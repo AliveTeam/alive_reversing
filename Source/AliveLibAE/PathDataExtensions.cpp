@@ -6,6 +6,25 @@
 
 static u8* sPathExtData[static_cast<u32>(LevelIds::eCredits_16) + 1] = {};
 
+static s32 sTotalMuds = 300;
+static s32 sBadEndingMuds = 255;
+static s32 sGoodEndingMuds = 150;
+
+s32 Path_GetTotalMuds()
+{
+    return sTotalMuds;
+}
+
+s32 Path_BadEndingMuds()
+{
+    return sBadEndingMuds;
+}
+
+s32 Path_GoodEndingMuds()
+{
+    return sGoodEndingMuds;
+}
+
 void Path_Set_NewData_FromLvls()
 {
     for (s32 lvlIdx = 0; lvlIdx < Path_Get_Paths_Count(); lvlIdx++)
@@ -67,8 +86,8 @@ void Path_Set_NewData_FromLvls()
                         rPathData.field_12_object_offset = pExt->mObjectOffset;
                         rPathData.field_16_object_indextable_offset = pExt->mIndexTableOffset;
 
-                        rPathData.field_1A_abe_start_xpos = 0;
-                        rPathData.field_1C_abe_start_ypos = 0;
+                        rPathData.field_1A_abe_start_xpos = static_cast<s16>(pExt->mAbeStartXPos);
+                        rPathData.field_1C_abe_start_ypos = static_cast<s16>(pExt->mAbeStartYPos);
 
                         rPathData.field_1E_object_funcs = kObjectFactory;
 
@@ -84,6 +103,26 @@ void Path_Set_NewData_FromLvls()
                         rColInfo.field_10_num_collision_items = pExt->mNumCollisionLines;
                         rColInfo.field_14_grid_width = pExt->mGridWidth;
                         rColInfo.field_18_grid_height = pExt->mGridHeight;
+
+                        if (pExt->mTotalMuds != 0)
+                        {
+                            sTotalMuds = pExt->mTotalMuds;
+                        }
+
+                        if (pExt->mBadEndingMuds != 0)
+                        {
+                            sBadEndingMuds = pExt->mBadEndingMuds;
+                        }
+
+                        if (pExt->mGoodEndingMuds)
+                        {
+                            sGoodEndingMuds = pExt->mGoodEndingMuds;
+                        }
+
+                        if (pExt->mNumMudsInPath != 0)
+                        {
+                            Path_SetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mNumMudsInPath);
+                        }
                     }
 
                     // To the next chunk

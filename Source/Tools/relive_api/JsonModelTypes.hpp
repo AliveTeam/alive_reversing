@@ -48,6 +48,15 @@ struct PathInfo final
 
     s32 mNumCollisionItems = 0;
     s32 mCollisionOffset = 0;
+
+    s32 mAbeStartXPos = 0;
+    s32 mAbeStartYPos = 0;
+
+    s32 mNumMudsInPath = 0;
+
+    s32 mTotalMuds = 0;
+    s32 mBadEndingMuds = 0;
+    s32 mGoodEndingMuds = 0;
 };
 
 class CameraImageAndLayers final
@@ -94,6 +103,15 @@ struct MapInfo final
 
     s32 mYGridSize = 0;
     s32 mYSize = 0;
+
+    s32 mAbeStartXPos = 0;
+    s32 mAbeStartYPos = 0;
+
+    s32 mNumMudsInPath = 0;
+
+    s32 mTotalMuds = 0;
+    s32 mBadEndingMuds = 0;
+    s32 mGoodEndingMuds = 0;
 
     std::vector<std::string> mLedMessages;
     std::vector<std::string> mHintFlyMessages;
