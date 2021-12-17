@@ -687,7 +687,7 @@ void Map::GoTo_Camera_481890()
         }
 
         // Open Path BND
-        ResourceManager::LoadResourceFile_49C170(Path_Get_BndName(field_A_level), 0);
+        ResourceManager::LoadResourceFile_49C170(Path_Get_BndName(field_A_level), nullptr);
 
         // Get pointer to each PATH
         for (s32 i = 1; i <= Path_Get_Num_Paths(field_A_level); ++i)

@@ -89,8 +89,21 @@ void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader,
     rootMapObject << "y_grid_size" << mMapInfo.mYGridSize;
     rootMapObject << "y_size" << mMapInfo.mYSize;
 
-    u8* pPathData = pathResource.data();
+    jsonxx::Array ledMessagesArray;
+    for (const auto& msg : mMapInfo.mLedMessages)
+    {
+        ledMessagesArray << msg;
+    }
+    rootMapObject << "led_messages" << ledMessagesArray;
 
+    jsonxx::Array hintFlyMessagesArray;
+    for (const auto& msg : mMapInfo.mHintFlyMessages)
+    {
+        hintFlyMessagesArray << msg;
+    }
+    rootMapObject << "hintfly_messages" << hintFlyMessagesArray;
+
+    u8* pPathData = pathResource.data();
 
     u8* pLineIter = pPathData + info.mCollisionOffset;
     jsonxx::Array collisionsArray = ReadCollisionStream(pLineIter, info.mNumCollisionItems);

@@ -6,8 +6,6 @@
 #include "Path.hpp"
 #include "Factory.hpp"
 
-extern const char_type* sLCDMessageTable_555768[101];
-
 struct Path_LCDScreen final : public Path_TLV
 {
     s16 field_10_message_1_id;
@@ -16,6 +14,9 @@ struct Path_LCDScreen final : public Path_TLV
     s16 field_16_message_2_id;
     s32 field_18_toggle_message_switch_id;
 };
+
+struct StringTable;
+void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl);
 
 class LCDScreen final : public BaseGameObject
 {

@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   PathDataExtensions.hpp
+   PathDataExtensions.cpp
    Error.hpp
    Error.cpp
    TestAnimation.cpp

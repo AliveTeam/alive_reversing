@@ -93,8 +93,8 @@ ALIVE_ASSERT_SIZEOF(PathData, 0x41C);
 struct PathBlyRec final
 {
     const char_type* field_0_blyName;
-    const PathData* field_4_pPathData;
-    const CollisionInfo* field_8_pCollisionData;
+    PathData* field_4_pPathData;
+    CollisionInfo* field_8_pCollisionData;
     u16 field_C_overlay_id;
     u16 field_E_padding;
 };
@@ -109,7 +109,7 @@ struct SoundBlockInfo final
 
 struct PathRoot final
 {
-    const PathBlyRec* field_0_pBlyArrayPtr;
+    PathBlyRec* field_0_pBlyArrayPtr;
     FmvInfo* field_4_pFmvArray;
     SoundBlockInfo* field_8_pMusicInfo;
     const char_type* field_C_bsq_file_name;
@@ -188,6 +188,8 @@ s16 Path_Get_BackGroundMusicId(LevelIds lvlId);
 
 s32 Path_Get_Paths_Count();
 
-const PathRoot* Path_Get_PathRoot(s32 lvlId);
+PathRoot* Path_Get_PathRoot(s32 lvlId);
+
+CollisionInfo* GetCollisions(s32 lvlId);
 
 extern SeqHandleTable sSeqData_558D50;

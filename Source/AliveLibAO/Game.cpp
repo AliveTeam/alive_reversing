@@ -34,6 +34,7 @@
 #include "Sound.hpp"
 #include "../AliveLibAE/Game.hpp"
 #include "AddPointer.hpp"
+#include "PathDataExtensions.hpp"
 
 namespace AO {
 
@@ -536,6 +537,8 @@ EXPORT void Game_Run_4373D0()
 
     Init_Sound_DynamicArrays_And_Others_41CD20();
     Input_Init_44EB60();
+
+    Path_Set_NewData_FromLvls();
 
 #if DEVELOPER_MODE
     // Boot directly to the "abe hello" screen

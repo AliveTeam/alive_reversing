@@ -30,7 +30,7 @@ using namespace std::literals::string_view_literals;
 
 constexpr std::string_view kAEDir = "C:\\GOG Games\\Abes Exoddus\\"sv;
 constexpr std::string_view kAODir = "C:\\GOG Games\\Abes Oddysee\\"sv;
-constexpr std::string_view kAETestLvl = "pv.lvl"sv;
+constexpr std::string_view kAETestLvl = "mi.lvl"sv;
 
 constexpr std::array kAELvls{
     
@@ -102,7 +102,7 @@ template <typename... Ts>
     return buf;
 }
 
-template<typename FnOnCam>
+template <typename FnOnCam>
 static void ForEachCamera(ReliveAPI::LvlReader& reader, FnOnCam onCam)
 {
     std::vector<u8> tmpBuffer;
@@ -201,7 +201,7 @@ TEST(alive_api, CAMAndFG1Conversion)
 
 TEST(alive_api, ExportPathBinaryToJsonAE)
 {
-    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAE.json", AEPath(kAETestLvl), 14);
+    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAE.json", AEPath(kAETestLvl), 1);
 }
 
 TEST(alive_api, ExportPathBinaryToJsonAO)
@@ -209,35 +209,56 @@ TEST(alive_api, ExportPathBinaryToJsonAO)
     ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAO.json", AOPath("R1.LVL"), 19);
 }
 
+static void SaveVec(const std::string& fileName, const std::vector<u8>& vec)
+{
+    FILE* hFile = ::fopen(fileName.c_str(), "wb");
+    if (hFile)
+    {
+        ::fwrite(vec.data(), 1, vec.size(), hFile);
+        ::fclose(hFile);
+    }
+}
+
+static bool PathChunksAreEqual(const std::string& leftSideLvl, const std::string& rightSideLvl)
+{
+    auto leftPathBnd = ReliveAPI::Detail::OpenPathBnd(leftSideLvl, getStaticFileBuffer());
+    std::vector<u8> tmp;
+    auto rightPathBnd = ReliveAPI::Detail::OpenPathBnd(rightSideLvl, tmp);
+
+    for (u32 i = 0; i < leftPathBnd->ChunkCount(); i++)
+    {
+        auto leftPath = leftPathBnd->ChunkAt(i);
+        if (leftPath.Header().field_8_type == ResourceManager::Resource_Path)
+        {
+            auto rightPath = rightPathBnd->ChunkById(leftPath.Id());
+            if (leftPath.Data() != rightPath->Data())
+            {
+                SaveVec("LeftPath.dat", leftPath.Data());
+                SaveVec("RightPath.dat", rightPath->Data());
+
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 TEST(alive_api, ImportPathJsonToBinaryAO)
 {
     ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), "OutputAO.json", AOPath("R1.LVL"), "newAO.lvl", {}, true);
+    
+    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAO2.json", "newAO.lvl", 19);
 
-    const auto ogR1 = readFileIntoStaticFileBuffer(AOPath("R1.LVL"));
-    ASSERT_NE(ogR1.size(), 0u);
-
-    const auto rewrittenR1 = readFileIntoStaticFileBuffer("newAO.lvl");
-    ASSERT_NE(rewrittenR1.size(), 0u);
-
-    ASSERT_EQ(ogR1, rewrittenR1);
+    ASSERT_TRUE(PathChunksAreEqual(AOPath("R1.LVL"), "newAO.lvl"));
 }
 
 TEST(alive_api, ImportPathJsonToBinaryAE)
 {
     ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), "OutputAE.json", AEPath(kAETestLvl), "newAE.lvl", {}, true);
 
-    const auto ogLVL = readFileIntoStaticFileBuffer(AEPath(kAETestLvl));
-    ASSERT_NE(ogLVL.size(), 0u);
+    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAE2.json", "newAE.lvl", 1);
 
-    const auto rewrittenLVL = readFileIntoStaticFileBuffer("newAE.lvl");
-    ASSERT_NE(rewrittenLVL.size(), 0u);
-
-    if (ogLVL != rewrittenLVL)
-    {
-        ReliveAPI::DebugDumpTlvs("old/", AEPath(kAETestLvl), 14);
-        ReliveAPI::DebugDumpTlvs("new/", "newAE.lvl", 14);
-    }
-    ASSERT_EQ(ogLVL, rewrittenLVL);
+    ASSERT_TRUE(PathChunksAreEqual(AEPath(kAETestLvl), "newAE.lvl"));
 }
 
 TEST(alive_api, EnumeratePathsAO)
@@ -264,17 +285,7 @@ TEST(alive_api, ReSaveAllPathsAO)
             LOG_INFO("Resave " << lvlName);
             ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), jsonName, AOPath(lvl), lvlName, {}, true);
 
-            const auto originalLvlBytes = readFileIntoStaticFileBuffer(AOPath(lvl));
-            ASSERT_NE(originalLvlBytes.size(), 0u);
-            const auto resavedLvlBytes = readFileIntoStaticFileBuffer(lvlName);
-            ASSERT_NE(resavedLvlBytes.size(), 0u);
-
-            if (originalLvlBytes != resavedLvlBytes)
-            {
-                ReliveAPI::DebugDumpTlvs("old/", AOPath(lvl), path);
-                ReliveAPI::DebugDumpTlvs("new/", lvlName, path);
-            }
-            ASSERT_EQ(originalLvlBytes, resavedLvlBytes);
+            ASSERT_TRUE(PathChunksAreEqual(AOPath(lvl), lvlName));
         }
     }
 }
@@ -295,18 +306,7 @@ TEST(alive_api, ReSaveAllPathsAE)
             LOG_INFO("Resave " << lvlName);
             ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), jsonName, AEPath(lvl), lvlName, {}, true);
 
-            const auto originalLvlBytes = readFileIntoStaticFileBuffer(AEPath(lvl));
-            ASSERT_NE(originalLvlBytes.size(), 0u);
-
-            const auto resavedLvlBytes = readFileIntoStaticFileBuffer(lvlName);
-            ASSERT_NE(resavedLvlBytes.size(), 0u);
-
-            if (originalLvlBytes != resavedLvlBytes)
-            {
-                ReliveAPI::DebugDumpTlvs("old/", AEPath(lvl), path);
-                ReliveAPI::DebugDumpTlvs("new/", lvlName, path);
-            }
-            ASSERT_EQ(originalLvlBytes, resavedLvlBytes);
+            ASSERT_TRUE(PathChunksAreEqual(AEPath(lvl), lvlName));
         }
     }
 }

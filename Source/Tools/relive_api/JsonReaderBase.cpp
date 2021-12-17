@@ -58,6 +58,18 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
     mRootInfo.mXGridSize = ReadNumber(map, "x_grid_size");
     mRootInfo.mYGridSize = ReadNumber(map, "y_grid_size");
 
+    const jsonxx::Array& ledMessagesArray = ReadArray(map, "led_messages");
+    for (auto i = 0u; i < ledMessagesArray.values().size(); i++)
+    {
+        mRootInfo.mLedMessages.emplace_back(ledMessagesArray.get<std::string>(i));
+    }
+
+    const jsonxx::Array& hintFlyMessagesArray = ReadArray(map, "hintfly_messages");
+    for (auto i = 0u; i < hintFlyMessagesArray.values().size(); i++)
+    {
+        mRootInfo.mHintFlyMessages.emplace_back(hintFlyMessagesArray.get<std::string>(i));
+    }
+
     std::vector<CameraNameAndTlvBlob> mapData;
 
     const jsonxx::Array& camerasArray = ReadArray(map, "cameras");

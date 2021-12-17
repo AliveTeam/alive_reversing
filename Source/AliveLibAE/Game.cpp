@@ -39,6 +39,7 @@
 #include "PsxRender.hpp"
 #include "Slurg.hpp"
 #include "Movie.hpp"
+#include "PathDataExtensions.hpp"
 #include <string>
 
 void Game_ForceLink()
@@ -508,7 +509,10 @@ EXPORT void CC Game_Run_466D40()
     Camera camera;
     camera.ctor_480DD0();
 
+    Path_Set_NewData_FromLvls();
+    
     sLvlArchive_5BC520.Open_Archive_432E80(CdLvlName(LevelIds::eMenu_0));
+
     ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
 
     camera.field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, ResourceID::kUnknownResID_125, 1u, 0);

@@ -94,5 +94,8 @@ struct MapInfo final
 
     s32 mYGridSize = 0;
     s32 mYSize = 0;
+
+    std::vector<std::string> mLedMessages;
+    std::vector<std::string> mHintFlyMessages;
 };
 } // namespace ReliveAPI

@@ -9,14 +9,16 @@
 // Forward declare to avoid bringing in all of Sys_common.hpp (todo: should prob go in its own header)
 [[noreturn]] void ALIVE_FATAL(const char_type*);
 
+const u32 kMaxPaths = 99;
+
 const PathData kNullPathEntry = {};
 
-const PathData ST_PathData[] = {
+static PathData ST_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 2625, 2340, 375, 260, 375, 260, 504, 660, 375, 260, kObjectFactory},
 };
 
-const PathData MI_PathData[] = {
+static PathData MI_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 5625, 2340, 375, 260, 375, 260, 2980, 11796, 1875, 0, kObjectFactory},
     {0, 0, 4125, 2600, 375, 260, 375, 260, 3860, 8772, 0, 0, kObjectFactory},
@@ -32,7 +34,7 @@ const PathData MI_PathData[] = {
     {0, 0, 3750, 780, 375, 260, 375, 260, 1160, 4816, 375, 0, kObjectFactory},
 };
 
-const PathData NE_PathData[] = {
+static PathData NE_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 1875, 1300, 375, 260, 375, 260, 740, 2268, 0, 0, kObjectFactory},
     {0, 0, 2250, 2080, 375, 260, 375, 260, 2404, 5496, 1875, 520, kObjectFactory},
@@ -43,7 +45,7 @@ const PathData NE_PathData[] = {
     {0, 0, 2625, 780, 375, 260, 375, 260, 588, 3356, 750, 520, kObjectFactory},
 };
 
-const PathData PV_PathData[] = {
+static PathData PV_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 5250, 1560, 375, 260, 375, 260, 3192, 6548, 0, 520, kObjectFactory},
     {0, 0, 1500, 260, 375, 260, 375, 260, 212, 772, 3375, 1820, kObjectFactory},
@@ -62,7 +64,7 @@ const PathData PV_PathData[] = {
     {0, 0, 1500, 1040, 375, 260, 375, 260, 648, 2128, 1125, 520, kObjectFactory},
 };
 
-const PathData SV_PathData[] = {
+static PathData SV_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 3000, 520, 375, 260, 375, 260, 768, 3076, 375, 0, kObjectFactory},
     {0, 0, 1500, 1560, 375, 260, 375, 260, 1872, 5068, 375, 0, kObjectFactory},
@@ -80,7 +82,7 @@ const PathData SV_PathData[] = {
     {0, 0, 2250, 780, 375, 260, 375, 260, 1204, 3024, 375, 520, kObjectFactory},
 };
 
-const PathData FD_PathData[] = {
+static PathData FD_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 3000, 1560, 375, 260, 375, 260, 1124, 3992, 3375, 520, kObjectFactory},
     {0, 0, 3000, 2080, 375, 260, 375, 260, 2372, 7184, 2625, 1560, kObjectFactory},
@@ -98,7 +100,7 @@ const PathData FD_PathData[] = {
     {0, 0, 1500, 780, 375, 260, 375, 260, 396, 1256, 375, 1300, kObjectFactory},
 };
 
-const PathData BA_PathData[] = {
+static PathData BA_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 2250, 2080, 375, 260, 375, 260, 2444, 7612, 375, 0, kObjectFactory},
     {0, 0, 1125, 1040, 375, 260, 375, 260, 336, 1536, 0, 0, kObjectFactory},
@@ -118,7 +120,7 @@ const PathData BA_PathData[] = {
     {0, 0, 750, 260, 375, 260, 375, 260, 156, 936, 375, 260, kObjectFactory},
 };
 
-const PathData BW_PathData[] = {
+static PathData BW_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 3750, 1820, 375, 260, 375, 260, 1820, 4412, 0, 0, kObjectFactory},
     {0, 0, 3750, 2080, 375, 260, 375, 260, 3160, 9076, 0, 0, kObjectFactory},
@@ -136,7 +138,7 @@ const PathData BW_PathData[] = {
     {0, 0, 3000, 780, 375, 260, 375, 260, 832, 2180, 750, 520, kObjectFactory},
 };
 
-const PathData BR_PathData[] = {
+static PathData BR_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 3000, 1040, 375, 260, 375, 260, 1836, 6272, 0, 0, kObjectFactory},
     {0, 0, 4500, 1820, 375, 260, 375, 260, 2512, 5592, 375, 780, kObjectFactory},
@@ -169,18 +171,18 @@ const PathData BR_PathData[] = {
     {0, 0, 3000, 780, 375, 260, 375, 260, 552, 3284, 0, 1040, kObjectFactory},
 };
 
-const PathData BM_PathData[] = {
+static PathData BM_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 2625, 2600, 375, 260, 375, 260, 2560, 8488, 375, 0, kObjectFactory},
 };
 
-const PathData TL_PathData[] = {
+static PathData TL_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 1125, 260, 375, 260, 375, 260, 424, 740, 375, 260, kObjectFactory},
     {0, 0, 1875, 1820, 375, 260, 375, 260, 860, 1672, 375, 0, kObjectFactory},
 };
 
-const PathData CR_PathData[] = {
+static PathData CR_PathData[kMaxPaths] = {
     kNullPathEntry,
     {0, 0, 3750, 1820, 375, 260, 375, 260, 560, 592, 375, 520, kObjectFactory},
     {0, 0, 3750, 1300, 375, 260, 375, 260, 400, 416, 375, 260, kObjectFactory},
@@ -190,11 +192,11 @@ const PathData CR_PathData[] = {
 
 const CollisionInfo kNullCollisionInfo = {};
 
-const CollisionInfo ST_CollisionInfo[] = {
+static CollisionInfo ST_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 2625, 2340, 504, 0, 375, 260}};
 
-const CollisionInfo MI_CollisionInfo[] = {
+static CollisionInfo MI_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 5625, 2340, 1080, 95, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 4125, 2600, 880, 149, 375, 260},
@@ -209,7 +211,7 @@ const CollisionInfo MI_CollisionInfo[] = {
     {Collisions::Factory_4188A0, 0, 0, 1500, 1300, 160, 15, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 3750, 780, 240, 46, 375, 260}};
 
-const CollisionInfo NE_CollisionInfo[] = {
+static CollisionInfo NE_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 1875, 1300, 200, 27, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 2250, 2080, 384, 101, 375, 260},
@@ -219,7 +221,7 @@ const CollisionInfo NE_CollisionInfo[] = {
     {Collisions::Factory_4188A0, 0, 0, 3000, 1040, 256, 21, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 2625, 780, 168, 21, 375, 260}};
 
-const CollisionInfo PV_CollisionInfo[] = {
+static CollisionInfo PV_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 5250, 1560, 672, 126, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 1500, 260, 32, 9, 375, 260},
@@ -237,7 +239,7 @@ const CollisionInfo PV_CollisionInfo[] = {
     {Collisions::Factory_4188A0, 0, 0, 1125, 1040, 96, 28, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 1500, 1040, 128, 26, 375, 260}};
 
-const CollisionInfo SV_CollisionInfo[] = {
+static CollisionInfo SV_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 3000, 520, 128, 32, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 1500, 1560, 192, 84, 375, 260},
@@ -254,7 +256,7 @@ const CollisionInfo SV_CollisionInfo[] = {
     {Collisions::Factory_4188A0, 0, 0, 1875, 520, 80, 22, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 2250, 780, 144, 53, 375, 260}};
 
-const CollisionInfo FD_CollisionInfo[] = {
+static CollisionInfo FD_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 3000, 1560, 384, 37, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 3000, 2080, 512, 93, 375, 260},
@@ -271,7 +273,7 @@ const CollisionInfo FD_CollisionInfo[] = {
     {Collisions::Factory_4188A0, 0, 0, 1500, 260, 32, 85, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 1500, 780, 96, 15, 375, 260}};
 
-const CollisionInfo BA_CollisionInfo[] = {
+static CollisionInfo BA_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 2250, 2080, 384, 103, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 1125, 1040, 96, 12, 375, 260},
@@ -290,7 +292,7 @@ const CollisionInfo BA_CollisionInfo[] = {
     {Collisions::Factory_4188A0, 0, 0, 750, 780, 48, 16, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 750, 260, 16, 7, 375, 260}};
 
-const CollisionInfo BW_CollisionInfo[] = {
+static CollisionInfo BW_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 3750, 1820, 560, 63, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 3750, 2080, 640, 126, 375, 260},
@@ -307,7 +309,7 @@ const CollisionInfo BW_CollisionInfo[] = {
     {Collisions::Factory_4188A0, 0, 0, 1500, 520, 64, 27, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 3000, 780, 192, 32, 375, 260}};
 
-const CollisionInfo BR_CollisionInfo[] = {
+static CollisionInfo BR_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 3000, 1040, 256, 79, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 4500, 1820, 672, 92, 375, 260},
@@ -339,16 +341,16 @@ const CollisionInfo BR_CollisionInfo[] = {
     {Collisions::Factory_4188A0, 0, 0, 1500, 520, 64, 16, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 3000, 780, 192, 18, 375, 260}};
 
-const CollisionInfo BM_CollisionInfo[] = {
+static CollisionInfo BM_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 2625, 2600, 560, 100, 375, 260}};
 
-const CollisionInfo TL_CollisionInfo[] = {
+static CollisionInfo TL_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 1125, 260, 24, 20, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 1875, 1820, 280, 29, 375, 260}};
 
-const CollisionInfo CR_CollisionInfo[] = {
+static CollisionInfo CR_CollisionInfo[kMaxPaths] = {
     kNullCollisionInfo,
     {Collisions::Factory_4188A0, 0, 0, 3750, 1820, 560, 0, 375, 260},
     {Collisions::Factory_4188A0, 0, 0, 3750, 1300, 400, 0, 375, 260}};
@@ -357,11 +359,11 @@ const CollisionInfo CR_CollisionInfo[] = {
 
 const PathBlyRec kNullPathBlyRec = {};
 
-const PathBlyRec ST_PathBlyRecInfo[] = {
+static PathBlyRec ST_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"STP1.BLY", &ST_PathData[1], &ST_CollisionInfo[1], 256, 0}};
 
-const PathBlyRec MI_PathBlyRecInfo[] = {
+static PathBlyRec MI_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"MIP1.BLY", &MI_PathData[1], &MI_CollisionInfo[1], 1796, 2312},
     {"MIP2.BLY", &MI_PathData[2], &MI_CollisionInfo[2], 2565, 3083},
@@ -376,7 +378,7 @@ const PathBlyRec MI_PathBlyRecInfo[] = {
     {"MIP11.BLY", &MI_PathData[11], &MI_CollisionInfo[11], 1796, 2312},
     {"MIP12.BLY", &MI_PathData[12], &MI_CollisionInfo[12], 4882, 5396}};
 
-const PathBlyRec NE_PathBlyRecInfo[] = {
+static PathBlyRec NE_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"NEP1.BLY", &NE_PathData[1], &NE_CollisionInfo[1], 7966, 8480},
     {"NEP2.BLY", &NE_PathData[2], &NE_CollisionInfo[2], 9508, 10022},
@@ -386,7 +388,7 @@ const PathBlyRec NE_PathBlyRecInfo[] = {
     {"NEP6.BLY", &NE_PathData[6], &NE_CollisionInfo[6], 7966, 8480},
     {"NEP7.BLY", &NE_PathData[7], &NE_CollisionInfo[7], 7966, 8480}};
 
-const PathBlyRec PV_PathBlyRecInfo[] = {
+static PathBlyRec PV_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"PVP1.BLY", &PV_PathData[1], &PV_CollisionInfo[1], 10536, 11050},
     {"PVP2.BLY", &PV_PathData[2], &PV_CollisionInfo[2], 10536, 11050},
@@ -404,7 +406,7 @@ const PathBlyRec PV_PathBlyRecInfo[] = {
     {"PVP14.BLY", &PV_PathData[14], &PV_CollisionInfo[14], 12078, 12592},
     {"PVP15.BLY", &PV_PathData[15], &PV_CollisionInfo[15], 13106, 13620}};
 
-const PathBlyRec SV_PathBlyRecInfo[] = {
+static PathBlyRec SV_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"SVP1.BLY", &SV_PathData[1], &SV_CollisionInfo[1], 14134, 14648},
     {"SVP2.BLY", &SV_PathData[2], &SV_CollisionInfo[2], 14134, 14648},
@@ -421,7 +423,7 @@ const PathBlyRec SV_PathBlyRecInfo[] = {
     {"SVP13.BLY", &SV_PathData[13], &SV_CollisionInfo[13], 14134, 14648},
     {"SVP14.BLY", &SV_PathData[14], &SV_CollisionInfo[14], 14134, 14648}};
 
-const PathBlyRec BW_PathBlyRecInfo[] = {
+static PathBlyRec BW_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"BWP1.BLY", &BW_PathData[1], &BW_CollisionInfo[1], 30068, 30582},
     {"BWP2.BLY", &BW_PathData[2], &BW_CollisionInfo[2], 31610, 32124},
@@ -438,7 +440,7 @@ const PathBlyRec BW_PathBlyRecInfo[] = {
     {"BWP13.BLY", &BW_PathData[13], &BW_CollisionInfo[13], 35722, 36236},
     {"BWP14.BLY", &BW_PathData[14], &BW_CollisionInfo[14], 30068, 30582}};
 
-const PathBlyRec BR_PathBlyRecInfo[] = {
+static PathBlyRec BR_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"BRP1.BLY", &BR_PathData[1], &BR_CollisionInfo[1], 36750, 37264},
     {"BRP2.BLY", &BR_PathData[2], &BR_CollisionInfo[2], 38292, 38806},
@@ -470,11 +472,11 @@ const PathBlyRec BR_PathBlyRecInfo[] = {
     {"BRP28.BLY", &BR_PathData[28], &BR_CollisionInfo[28], 47544, 48058},
     {"BRP29.BLY", &BR_PathData[29], &BR_CollisionInfo[29], 49600, 50114}};
 
-const PathBlyRec BM_PathBlyRecInfo[] = {
+static PathBlyRec BM_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"BMP1.BLY", &BM_PathData[1], &BM_CollisionInfo[1], 52684, 53198}};
 
-const PathBlyRec FD_PathBlyRecInfo[] = {
+static PathBlyRec FD_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"FDP1.BLY", &FD_PathData[1], &FD_CollisionInfo[1], 17732, 18246},
     {"FDP2.BLY", &FD_PathData[2], &FD_CollisionInfo[2], 17732, 18246},
@@ -491,7 +493,7 @@ const PathBlyRec FD_PathBlyRecInfo[] = {
     {"FDP13.BLY", &FD_PathData[13], &FD_CollisionInfo[13], 23386, 23900},
     {"FDP14.BLY", &FD_PathData[14], &FD_CollisionInfo[14], 17732, 18246}};
 
-const PathBlyRec BA_PathBlyRecInfo[] = {
+static PathBlyRec BA_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"BAP1.BLY", &BA_PathData[1], &BA_CollisionInfo[1], 24414, 24928},
     {"BAP2.BLY", &BA_PathData[2], &BA_CollisionInfo[2], 24414, 24928},
@@ -510,7 +512,7 @@ const PathBlyRec BA_PathBlyRecInfo[] = {
     {"BAP15.BLY", &BA_PathData[15], &BA_CollisionInfo[15], 25956, 26470},
     {"BAP16.BLY", &BA_PathData[16], &BA_CollisionInfo[16], 25956, 26470}};
 
-const PathBlyRec TL_PathBlyRecInfo[] = {
+static PathBlyRec TL_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"TLP1.BLY", &TL_PathData[1], &TL_CollisionInfo[1], 209, 0},
     {
@@ -522,7 +524,7 @@ const PathBlyRec TL_PathBlyRecInfo[] = {
     },
 };
 
-const PathBlyRec CR_PathBlyRecInfo[] = {
+static PathBlyRec CR_PathBlyRecInfo[kMaxPaths] = {
     kNullPathBlyRec,
     {"CRP1.BLY", &CR_PathData[1], &CR_CollisionInfo[1], 256, 0},
     {
@@ -2273,7 +2275,32 @@ s32 Path_Get_Paths_Count()
     return ALIVE_COUNTOF(sPathData_559660.paths);
 }
 
-const PathRoot* Path_Get_PathRoot(s32 lvlId)
+PathRoot* Path_Get_PathRoot(s32 lvlId)
 {
     return &sPathData_559660.paths[lvlId];
+}
+
+static CollisionInfo* sCollisionRoots[ALIVE_COUNTOF(sPathData_559660.paths)] = {
+    ST_CollisionInfo,
+    MI_CollisionInfo,
+    NE_CollisionInfo,
+    PV_CollisionInfo,
+    SV_CollisionInfo,
+    FD_CollisionInfo,
+    BA_CollisionInfo,
+    SV_CollisionInfo,
+    BW_CollisionInfo,
+    BR_CollisionInfo,
+    BM_CollisionInfo,
+    PV_CollisionInfo,
+    FD_CollisionInfo,
+    BA_CollisionInfo,
+    BW_CollisionInfo,
+    TL_CollisionInfo,
+    CR_CollisionInfo
+};
+
+CollisionInfo* GetCollisions(s32 lvlId)
+{
+    return sCollisionRoots[lvlId];
 }

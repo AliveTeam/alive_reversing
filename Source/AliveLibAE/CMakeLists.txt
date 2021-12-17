@@ -11,6 +11,8 @@ SET(AliveLibAESrc
     Renderer/OpenGLRenderer.cpp
     Renderer/GLShader.hpp
     Renderer/GLShader.cpp
+    PathDataExtensions.cpp
+    PathDataExtensions.hpp
     Input.cpp
     Input.hpp
     DynamicArray.cpp

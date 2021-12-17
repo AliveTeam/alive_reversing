@@ -121,18 +121,6 @@ public:
         }
     }
 
-private:
-    void ReadBytes(u8* buffer, std::size_t len)
-    {
-        if (mReadPos + len > mData.size())
-        {
-            throw ReliveAPI::IOReadPastEOFException();
-        }
-
-        std::memcpy(buffer, &mData[mReadPos], len);
-        mReadPos += len;
-    }
-
     void WriteBytes(const u8* buffer, std::size_t len)
     {
         if (len > 0)
@@ -146,6 +134,19 @@ private:
             mWritePos += len;
         }
     }
+
+private:
+    void ReadBytes(u8* buffer, std::size_t len)
+    {
+        if (mReadPos + len > mData.size())
+        {
+            throw ReliveAPI::IOReadPastEOFException();
+        }
+
+        std::memcpy(buffer, &mData[mReadPos], len);
+        mReadPos += len;
+    }
+
 
     std::size_t mReadPos = 0;
     std::size_t mWritePos = 0;

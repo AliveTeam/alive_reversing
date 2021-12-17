@@ -6,7 +6,11 @@
 #include "Font.hpp"
 #include "Primitives.hpp"
 
+struct StringTable;
+
 namespace AO {
+
+void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl);
 
 struct Path_LCDScreen final : public Path_TLV
 {
