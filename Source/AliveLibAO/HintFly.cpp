@@ -10,7 +10,7 @@
 #include "Game.hpp"
 #include "Events.hpp"
 #include "PsxDisplay.hpp"
-#include "../../AliveLibCommon/PathDataExtensionsTypes.hpp"
+#include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 
 void HintFly_ForceLink()
 { }
