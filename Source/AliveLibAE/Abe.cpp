@@ -7984,7 +7984,7 @@ void Abe::Motion_114_DoorEnter_459470()
             }
 
             // The door controls which way Abe faces when he exits it.
-            if (pTargetDoorTlv->field_3E_abe_direction == XDirection_short::eLeft_0)
+            if (pTargetDoorTlv->field_3E_abe_direction == XDirection_short::eRight_1)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
             }
