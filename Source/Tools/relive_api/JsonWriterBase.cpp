@@ -21,6 +21,15 @@ JsonWriterBase::JsonWriterBase(TypesCollectionBase& types, s32 pathId, const std
     mMapInfo.mXSize = info.mWidth;
     mMapInfo.mYSize = info.mHeight;
 
+    mMapInfo.mAbeStartXPos = info.mAbeStartXPos;
+    mMapInfo.mAbeStartYPos = info.mAbeStartYPos;
+
+    mMapInfo.mNumMudsInPath = info.mNumMudsInPath;
+
+    mMapInfo.mTotalMuds = info.mTotalMuds;
+    mMapInfo.mBadEndingMuds = info.mBadEndingMuds;
+    mMapInfo.mGoodEndingMuds = info.mGoodEndingMuds;
+
     mMapRootInfo.mVersion = ReliveAPI::GetApiVersion();
 }
 
@@ -89,8 +98,31 @@ void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader,
     rootMapObject << "y_grid_size" << mMapInfo.mYGridSize;
     rootMapObject << "y_size" << mMapInfo.mYSize;
 
-    u8* pPathData = pathResource.data();
+    rootMapObject << "abe_start_xpos" << mMapInfo.mAbeStartXPos;
+    rootMapObject << "abe_start_ypos" << mMapInfo.mAbeStartYPos;
 
+    rootMapObject << "num_muds_in_path" << mMapInfo.mNumMudsInPath;
+
+    rootMapObject << "total_muds" << mMapInfo.mTotalMuds;
+    rootMapObject << "num_muds_for_bad_ending" << mMapInfo.mBadEndingMuds;
+    rootMapObject << "num_muds_for_good_ending" << mMapInfo.mGoodEndingMuds;
+
+
+    jsonxx::Array ledMessagesArray;
+    for (const auto& msg : mMapInfo.mLedMessages)
+    {
+        ledMessagesArray << msg;
+    }
+    rootMapObject << "led_messages" << ledMessagesArray;
+
+    jsonxx::Array hintFlyMessagesArray;
+    for (const auto& msg : mMapInfo.mHintFlyMessages)
+    {
+        hintFlyMessagesArray << msg;
+    }
+    rootMapObject << "hintfly_messages" << hintFlyMessagesArray;
+
+    u8* pPathData = pathResource.data();
 
     u8* pLineIter = pPathData + info.mCollisionOffset;
     jsonxx::Array collisionsArray = ReadCollisionStream(pLineIter, info.mNumCollisionItems);

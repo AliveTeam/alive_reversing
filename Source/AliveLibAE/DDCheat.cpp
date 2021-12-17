@@ -179,7 +179,8 @@ void DDCheat::Menu_Movies_416000()
                 movieToPlayInfo->field_A_volume);
         }
     }
-    FmvInfo* fmvInfo = &sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_4_pFmvArray[sDDCheat_MovieSelectIdx_5BBFF0];
+
+    const FmvInfo* fmvInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0);
     DDCheat::DebugStr_4F5560("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx_5BBFF0, fmvInfo->field_4_id, fmvInfo->field_0_pName);
     field_20 += 6;
 }
@@ -350,7 +351,7 @@ void DDCheat::Update_415780()
         {
             DebugStr_4F5560(
                 "\n%sP%dC%d gnframe=%5d",
-                sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
+                Path_Get_Lvl_Name(gMap_5C3030.field_0_current_level),
                 gMap_5C3030.field_2_current_path,
                 gMap_5C3030.field_4_current_camera,
                 sGnFrame_5C1B84);

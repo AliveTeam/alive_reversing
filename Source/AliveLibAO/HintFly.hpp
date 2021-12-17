@@ -6,7 +6,11 @@
 
 void HintFly_ForceLink();
 
+struct StringTable;
+
 namespace AO {
+
+void SetHintFlyMessagesForLvl(const StringTable& msgs, LevelIds lvl);
 
 struct HintFlyParticle;
 

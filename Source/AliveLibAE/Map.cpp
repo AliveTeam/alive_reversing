@@ -651,7 +651,7 @@ void Map::GoTo_Camera_481890()
             stru_5C3110.Free_433130();
 
             // Free all but the first ?
-            for (s32 i = 1; i <= sPathData_559660.paths[static_cast<s32>(field_0_current_level)].field_18_num_paths; ++i)
+            for (s32 i = 1; i <= Path_Get_Num_Paths(field_0_current_level); ++i)
             {
                 ResourceManager::FreeResource_49C330(field_54_path_res_array.field_0_pPathRecs[i]);
                 field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
@@ -669,30 +669,28 @@ void Map::GoTo_Camera_481890()
 
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
 
-        const PathRoot& pathData = sPathData_559660.paths[static_cast<s32>(field_A_level)];
-
         // Open LVL
-        while (!sLvlArchive_5BC520.Open_Archive_432E80(pathData.field_20_lvl_name_cd))
+        while (!sLvlArchive_5BC520.Open_Archive_432E80(CdLvlName(field_A_level)))
         {
             if (gAttract_5C1BA0)
             {
                 // NOTE: Dead branch? Given no attract directory exists
                 char_type fileName[256] = {};
                 strcpy(fileName, "ATTRACT");
-                strcat(fileName, pathData.field_20_lvl_name_cd);
+                strcat(fileName, CdLvlName(field_A_level));
                 if (sLvlArchive_5BC520.Open_Archive_432E80(fileName))
                 {
                     break;
                 }
             }
-            Display_Full_Screen_Message_Blocking_465820(pathData.field_1A_unused, MessageType::eLongTitle_0);
+            Display_Full_Screen_Message_Blocking_465820(Path_Get_Unknown(field_A_level), MessageType::eLongTitle_0);
         }
 
         // Open Path BND
-        ResourceManager::LoadResourceFile_49C170(pathData.field_38_bnd_name, 0);
+        ResourceManager::LoadResourceFile_49C170(Path_Get_BndName(field_A_level), nullptr);
 
         // Get pointer to each PATH
-        for (s32 i = 1; i <= pathData.field_18_num_paths; ++i)
+        for (s32 i = 1; i <= Path_Get_Num_Paths(field_A_level); ++i)
         {
             field_54_path_res_array.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
         }
@@ -703,13 +701,13 @@ void Map::GoTo_Camera_481890()
         }
         else
         {
-            SND_Load_VABS_4CA350(pathData.field_8_pMusicInfo, pathData.field_10_reverb);
-            SND_Load_Seqs_4CAED0(sSeqData_558D50.mSeqs, pathData.field_C_bsq_file_name);
+            SND_Load_VABS_4CA350(Path_Get_MusicInfo(field_A_level), Path_Get_Reverb(field_A_level));
+            SND_Load_Seqs_4CAED0(sSeqData_558D50.mSeqs, Path_Get_BsqFileName(field_A_level));
 
             auto pBackgroundMusic = ae_new<BackgroundMusic>();
             if (pBackgroundMusic)
             {
-                pBackgroundMusic->ctor_4CB110(pathData.field_12_bg_music_id);
+                pBackgroundMusic->ctor_4CB110(Path_Get_BackGroundMusicId(field_A_level));
             }
         }
 

@@ -93,8 +93,8 @@ ALIVE_ASSERT_SIZEOF(PathData, 0x41C);
 struct PathBlyRec final
 {
     const char_type* field_0_blyName;
-    const PathData* field_4_pPathData;
-    const CollisionInfo* field_8_pCollisionData;
+    PathData* field_4_pPathData;
+    CollisionInfo* field_8_pCollisionData;
     u16 field_C_overlay_id;
     u16 field_E_padding;
 };
@@ -109,7 +109,7 @@ struct SoundBlockInfo final
 
 struct PathRoot final
 {
-    const PathBlyRec* field_0_pBlyArrayPtr;
+    PathBlyRec* field_0_pBlyArrayPtr;
     FmvInfo* field_4_pFmvArray;
     SoundBlockInfo* field_8_pMusicInfo;
     const char_type* field_C_bsq_file_name;
@@ -162,11 +162,38 @@ struct SeqHandleTable final
 
 EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathId);
 
+// note: has to be writable
 EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId);
 
 EXPORT void CC Path_Format_CameraName_460FB0(char_type* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId);
 
 const char_type* CdLvlName(LevelIds lvlId);
 
-extern PathRootContainer sPathData_559660;
+const char_type* Path_Get_Lvl_Name(LevelIds lvlId);
+
+s16 Path_Get_Num_Paths(LevelIds lvlId);
+
+s16 Path_Get_Unknown(LevelIds lvlId);
+
+const char_type* Path_Get_BndName(LevelIds lvlId);
+
+// note: has to be writable
+SoundBlockInfo* Path_Get_MusicInfo(LevelIds lvlId);
+
+s16 Path_Get_Reverb(LevelIds lvlId);
+
+const char_type* Path_Get_BsqFileName(LevelIds lvlId);
+
+s16 Path_Get_BackGroundMusicId(LevelIds lvlId);
+
+s32 Path_Get_Paths_Count();
+
+PathRoot* Path_Get_PathRoot(s32 lvlId);
+
+CollisionInfo* GetCollisions(s32 lvlId);
+
+void Path_SetMudsInLevel(LevelIds lvlId, u32 count);
+
+s16 Path_GetMudsInLevel(LevelIds lvlId);
+
 extern SeqHandleTable sSeqData_558D50;

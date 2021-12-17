@@ -891,7 +891,7 @@ void Map::SaveBlyData_446900(u8* pSaveBuffer)
     memcpy(pSaveBuffer, sSwitchStates_505568.mData, sizeof(sSwitchStates_505568.mData));
 
     u8* pAfterSwitchStates = pSaveBuffer + sizeof(sSwitchStates_505568.mData);
-    for (s16 i = 1; i <= gMapData_4CAB58.paths[static_cast<s32>(field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= Path_Get_Num_Paths(field_0_current_level); i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
         if (pPathRec->field_0_blyName)
@@ -947,7 +947,7 @@ void Map::RestoreBlyData_446A90(const u8* pSaveData)
     memcpy(sSwitchStates_505568.mData, pSaveData, sizeof(sSwitchStates_505568.mData));
     const u8* pAfterSwitchStates = pSaveData + sizeof(sSwitchStates_505568.mData);
 
-    for (s16 i = 1; i <= gMapData_4CAB58.paths[static_cast<s32>(field_0_current_level)].field_18_num_paths; i++)
+    for (s16 i = 1; i <= Path_Get_Num_Paths(field_0_current_level); i++)
     {
         auto ppPathRes = field_5C_path_res_array.field_0_pPathRecs[i];
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
@@ -1716,7 +1716,7 @@ void Map::GoTo_Camera_445050()
             stru_507C90.Free_41BEB0();
 
             // Free all but the first ?
-            for (s32 i = 1; i <= gMapData_4CAB58.paths[static_cast<s32>(field_0_current_level)].field_18_num_paths; ++i)
+            for (s32 i = 1; i <= Path_Get_Num_Paths(field_0_current_level); ++i)
             {
                 ResourceManager::FreeResource_455550(field_5C_path_res_array.field_0_pPathRecs[i]);
                 field_5C_path_res_array.field_0_pPathRecs[i] = nullptr;
@@ -1728,28 +1728,26 @@ void Map::GoTo_Camera_445050()
 
         ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
 
-        const PathRoot& rPathRoot = gMapData_4CAB58.paths[static_cast<s32>(field_A_level)];
-
         // Open Path BND
-        auto tmp = sOverlayTable_4C5AA8.records[rPathRoot.field_1C_overlay_idx].field_4_pos;
-        sLvlArchive_4FFD60.OpenArchive(rPathRoot.field_20_lvl_name_cd, tmp);
+        auto tmp = sOverlayTable_4C5AA8.records[Path_Get_OverlayIdx(field_A_level)].field_4_pos;
+        sLvlArchive_4FFD60.OpenArchive(CdLvlName(field_A_level), tmp);
 
-        ResourceManager::LoadResourceFile_455270(rPathRoot.field_38_bnd_name, nullptr);
+        ResourceManager::LoadResourceFile_455270(Path_Get_BndName(field_A_level), nullptr);
 
         // Get pointer to each PATH
-        for (s32 i = 1; i <= rPathRoot.field_18_num_paths; ++i)
+        for (s32 i = 1; i <= Path_Get_Paths_Count(); ++i)
         {
             field_5C_path_res_array.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Path, i, TRUE, FALSE);
         }
 
-        SND_Load_VABS_477040(rPathRoot.field_8_pMusicInfo, rPathRoot.field_10_reverb);
+        SND_Load_VABS_477040(Path_Get_MusicInfo(field_A_level), Path_Get_Reverb(field_A_level));
 
         // Struct is using AE format so pass address of seq table in the exe to avoid a crash
         //SND_Load_Seqs_477AB0(reinterpret_cast<OpenSeqHandleAE*>(0x4C9E70), rPathRoot.field_C_bsq_file_name);
 
-        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, rPathRoot.field_C_bsq_file_name);
+        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, Path_Get_BsqFileName(field_A_level));
         auto pBackgroundMusic = ao_new<BackgroundMusic>();
-        pBackgroundMusic->ctor_476370(rPathRoot.field_12_bg_music_id);
+        pBackgroundMusic->ctor_476370(Path_Get_BackGroundMusicId(field_A_level));
 
         // TODO: Re-add function
         for (s32 i = 0; i < 236; i++)

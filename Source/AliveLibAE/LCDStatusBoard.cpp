@@ -18,8 +18,6 @@ u8 sStatsSignFontPalette_55CF8C[] = {
     0x13, 0x94, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
     0x18, 0xD8};
 
-s16 sMudsInLevelCount_55CFAC[15] = {0, 75, 10, 5, 14, 26, 49, 14, 31, 90, 90, 5, 26, 49, 31};
-
 
 ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
 ALIVE_VAR(1, 0x5C1A20, s8, sStatsSignCurrentArea_5C1A20, 0);
@@ -117,7 +115,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
     if (!field_108_is_hidden)
     {
         char_type text[12] = {};
-        sprintf(text, "%3d", sMudsInLevelCount_55CFAC[static_cast<s32>(gMap_5C3030.field_0_current_level)]);
+        sprintf(text, "%3d", Path_GetMudsInLevel(gMap_5C3030.field_0_current_level));
         s32 maxWidth = field_90_font3.MeasureWidth_433700(text);
 
         s16 flickerAmount = 50; // ax

@@ -14,6 +14,7 @@
 #include "Primitives_common.hpp"
 #include "Input.hpp"
 #include "Renderer/IRenderer.hpp"
+#include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 
 namespace AO {
 
@@ -85,7 +86,7 @@ const u8 sLCDScreen_Palette2_4C7588[32] = {
     24u,
     216u};
 
-const char_type* sLCDMessageTable_4C7420[90] = {
+static const char_type* sLCDMessageTable_4C7420[90] = {
     "",
     "                               The profits justify the means.",
     "                               You are who you eat.",
@@ -177,6 +178,44 @@ const char_type* sLCDMessageTable_4C7420[90] = {
     "",
     ""};
 
+static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eDesertEscape) + 1] = {};
+
+void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl)
+{
+    sPerLvlMessages[static_cast<u32>(lvl)] = &msgs;
+}
+
+class LCDMessages final
+{
+public:
+    const char_type* GetMessage(LevelIds lvlId, u32 msgId) const
+    {
+        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(lvlId)];
+        if (pTable)
+        {
+            if (msgId < pTable->mStringCount)
+            {
+                return pTable->mStrings[msgId];
+            }
+            else
+            {
+                LOG_WARNING("LCD message out of bounds, using original game message for id: " << msgId);
+            }
+        }
+
+        if (msgId < ALIVE_COUNTOF(sLCDMessageTable_4C7420))
+        {
+            return sLCDMessageTable_4C7420[msgId];
+        }
+        else
+        {
+            LOG_WARNING("LCD message out of bounds using original message table id: " << msgId);
+            return sLCDMessageTable_4C7420[0];
+        }
+    }
+};
+static LCDMessages gLCDMessages;
+
 LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
@@ -207,7 +246,7 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
 
     if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
     {
-        String_FormatString_450DC0(sLCDMessageTable_4C7420[field_2AC_message_1_id], field_AC_message_buffer);
+        String_FormatString_450DC0(gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, field_2AC_message_1_id), field_AC_message_buffer);
     }
     else
     {
@@ -310,7 +349,7 @@ void LCDScreen::VUpdate_4341B0()
 
                 if (Input_JoyStickEnabled() || rangedRandom != 62)
                 {
-                    String_FormatString_450DC0(sLCDMessageTable_4C7420[rangedRandom], field_AC_message_buffer);
+                    String_FormatString_450DC0(gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, rangedRandom), field_AC_message_buffer);
                 }
                 else
                 {
@@ -326,7 +365,7 @@ void LCDScreen::VUpdate_4341B0()
                 if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
                 {
                     String_FormatString_450DC0(
-                        sLCDMessageTable_4C7420[field_2AC_message_1_id],
+                        gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, field_2AC_message_1_id),
                         field_AC_message_buffer);
                 }
                 else

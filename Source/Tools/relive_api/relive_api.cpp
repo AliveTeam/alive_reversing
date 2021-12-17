@@ -17,6 +17,7 @@
 #include "Base64.hpp"
 #include "CamConverter.hpp"
 #include "../../AliveLibCommon/FG1Reader.hpp"
+#include "../../AliveLibCommon/PathDataExtensionsTypes.hpp"
 #include <iostream>
 #include <gmock/gmock.h>
 #include <type_traits>
@@ -75,11 +76,19 @@ struct PathBND
     info.mNumCollisionItems = collisionInfo.field_10_num_collision_items;
     info.mCollisionOffset = collisionInfo.field_C_collision_offset;
 
+    info.mAbeStartXPos = 0; // doesn't apply to AO
+    info.mAbeStartYPos = 0; // doesn't apply to AO
+
+    info.mNumMudsInPath = 0; // doesn't apply to AO
+    info.mTotalMuds = 99;
+    info.mBadEndingMuds = 75;
+    info.mGoodEndingMuds = 50;
+
     return info;
 }
 
 
-[[nodiscard]] static PathInfo ToPathInfo(const PathData& data, const CollisionInfo& collisionInfo)
+[[nodiscard]] static PathInfo ToPathInfo(const PathData& data, const CollisionInfo& collisionInfo, u32 idx)
 {
     PathInfo info = {};
     info.mGridWidth = data.field_A_grid_width;
@@ -92,19 +101,29 @@ struct PathBND
     info.mNumCollisionItems = collisionInfo.field_10_num_collision_items;
     info.mCollisionOffset = collisionInfo.field_C_collision_offset;
 
+    info.mAbeStartXPos = data.field_1A_abe_start_xpos;
+    info.mAbeStartYPos = data.field_1C_abe_start_ypos;
+
+    info.mNumMudsInPath = Path_GetMudsInLevel(static_cast<LevelIds>(idx));
+    info.mTotalMuds = 300;
+    info.mBadEndingMuds = 20;
+    info.mGoodEndingMuds = 255;
+
     return info;
 }
 
 class PathBlyRecAdapter
 {
 public:
-    explicit PathBlyRecAdapter(const AO::PathBlyRec* pBlyRec)
+    PathBlyRecAdapter(const AO::PathBlyRec* pBlyRec, u32 idx)
         : mBlyRecAO(pBlyRec)
+        , mIdx(idx)
     {
     }
 
-    explicit PathBlyRecAdapter(const PathBlyRec* pBlyRec)
+    PathBlyRecAdapter(const PathBlyRec* pBlyRec, u32 idx)
         : mBlyRecAE(pBlyRec)
+        , mIdx(idx)
     {
     }
 
@@ -115,23 +134,24 @@ public:
 
     PathInfo ConvertPathInfo() const
     {
-        return mBlyRecAO ? ToPathInfo(*mBlyRecAO->field_4_pPathData, *mBlyRecAO->field_8_pCollisionData) : ToPathInfo(*mBlyRecAE->field_4_pPathData, *mBlyRecAE->field_8_pCollisionData);
+        return mBlyRecAO ? ToPathInfo(*mBlyRecAO->field_4_pPathData, *mBlyRecAO->field_8_pCollisionData) : ToPathInfo(*mBlyRecAE->field_4_pPathData, *mBlyRecAE->field_8_pCollisionData, mIdx);
     }
 
 private:
     const AO::PathBlyRec* mBlyRecAO = nullptr;
     const PathBlyRec* mBlyRecAE = nullptr;
+    u32 mIdx = 0;
 };
 
 class PathRootAdapter
 {
 public:
-    explicit PathRootAdapter(AO::PathRoot* pRoot)
+    explicit PathRootAdapter(const AO::PathRoot* pRoot)
         : mRootAO(pRoot)
     {
     }
 
-    explicit PathRootAdapter(PathRoot* pRoot)
+    explicit PathRootAdapter(const PathRoot* pRoot)
         : mRootAE(pRoot)
     {
     }
@@ -148,12 +168,12 @@ public:
 
     PathBlyRecAdapter PathAt(s32 idx) const
     {
-        return mRootAO ? PathBlyRecAdapter(&mRootAO->field_0_pBlyArrayPtr[idx]) : PathBlyRecAdapter(&mRootAE->field_0_pBlyArrayPtr[idx]);
+        return mRootAO ? PathBlyRecAdapter(&mRootAO->field_0_pBlyArrayPtr[idx], idx) : PathBlyRecAdapter(&mRootAE->field_0_pBlyArrayPtr[idx], idx);
     }
 
 private:
-    AO::PathRoot* mRootAO = nullptr;
-    PathRoot* mRootAE = nullptr;
+    const AO::PathRoot* mRootAO = nullptr;
+    const PathRoot* mRootAE = nullptr;
 };
 
 class PathRootContainerAdapter
@@ -166,12 +186,12 @@ public:
 
     s32 PathRootCount() const
     {
-        return mGameType == Game::AO ? ALIVE_COUNTOF(AO::gMapData_4CAB58.paths) : ALIVE_COUNTOF(sPathData_559660.paths);
+        return mGameType == Game::AO ? AO::Path_Get_Paths_Count() : Path_Get_Paths_Count();
     }
 
     PathRootAdapter PathAt(s32 idx) const
     {
-        return mGameType == Game::AO ? PathRootAdapter(&AO::gMapData_4CAB58.paths[idx]) : PathRootAdapter(&sPathData_559660.paths[idx]);
+        return mGameType == Game::AO ? PathRootAdapter(AO::Path_Get_PathRoot(idx)) : PathRootAdapter(Path_Get_PathRoot(idx));
     }
 
 private:
@@ -204,10 +224,12 @@ enum class OpenPathBndResult
         }
 
         ret.mPathBndName = pathRoot.BndName();
+
+        ChunkedLvlFile pathChunks(fileDataBuffer);
+
         if (pathId)
         {
             // Open the specific path if we have one
-            ChunkedLvlFile pathChunks(fileDataBuffer);
             std::optional<LvlFileChunk> chunk = pathChunks.ChunkById(*pathId);
             if (!chunk)
             {
@@ -218,11 +240,38 @@ enum class OpenPathBndResult
             ret.mFileData = std::move(chunk)->Data();
 
             // Path id in range?
-            if (*pathId >= 0 && *pathId <= pathRoot.PathCount())
+            if (*pathId >= 0 && *pathId < 99)
             {
                 // Path at this id have a name?
                 const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(*pathId);
-                if (pBlyRec.BlyName())
+
+                // See if we have extended info for this path entry
+                std::optional<LvlFileChunk> extChunk = pathChunks.ChunkById(*pathId | *pathId << 8);
+                if (extChunk)
+                {
+                    auto pExt = reinterpret_cast<const PerPathExtension*>(extChunk->Data().data());
+                    ret.mPathBndName = pathRoot.BndName();
+                    ret.mPathInfo.mObjectOffset = pExt->mObjectOffset;
+                    ret.mPathInfo.mIndexTableOffset = pExt->mIndexTableOffset;
+                    ret.mPathInfo.mNumCollisionItems = pExt->mNumCollisionLines;
+                    ret.mPathInfo.mHeight = pExt->mYSize;
+                    ret.mPathInfo.mWidth = pExt->mXSize;
+                    ret.mPathInfo.mCollisionOffset = pExt->mCollisionOffset;
+                    ret.mPathInfo.mGridWidth = pExt->mGridWidth;
+                    ret.mPathInfo.mGridHeight = pExt->mGridHeight;
+
+                    ret.mPathInfo.mAbeStartXPos = pExt->mAbeStartXPos;
+                    ret.mPathInfo.mAbeStartYPos = pExt->mAbeStartYPos;
+
+                    ret.mPathInfo.mTotalMuds = pExt->mTotalMuds;
+
+                    ret.mPathInfo.mNumMudsInPath = pExt->mNumMudsInPath;
+                    ret.mPathInfo.mBadEndingMuds = pExt->mBadEndingMuds;
+                    ret.mPathInfo.mGoodEndingMuds = pExt->mGoodEndingMuds;
+
+                    return OpenPathBndResult::OK;
+                }
+                else if (pBlyRec.BlyName())
                 {
                     // Copy out its info
                     ret.mPathBndName = pathRoot.BndName();
@@ -236,7 +285,7 @@ enum class OpenPathBndResult
         }
 
         // Add all path ids
-        for (s32 j = 1; j <= pathRoot.PathCount(); ++j)
+        for (s32 j = 1; j < 99; ++j)
         {
             // Only add paths that are not blank entries
             const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(j);
@@ -244,7 +293,19 @@ enum class OpenPathBndResult
             {
                 ret.mPaths.push_back(j);
             }
+            else
+            {
+                // OG has no path, but did one get added via the editor?
+                std::optional<LvlFileChunk> extChunk = pathChunks.ChunkById(j | j << 8);
+                if (extChunk)
+                {
+                    ret.mPaths.push_back(j);
+                }
+            }
         }
+
+        // Return all of the file data
+        ret.mFileData = fileDataBuffer;
 
         return OpenPathBndResult::OK;
     }
@@ -310,6 +371,8 @@ void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, const std::string& 
     LvlReader lvl(inputLvlFile.c_str());
     ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, fileDataBuffer, game, &pathResourceId);
 
+    // TODO: Check for ResourceManager::Resource_Pxtd and update pathBnd.mPathInfo as required
+
     if (game == Game::AO)
     {
         JsonWriterAO doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
@@ -359,11 +422,11 @@ static ReturnType* ItemAtXY(ContainerType& container, s32 x, s32 y)
 }
 
 template <typename ItemType, typename ContainerType, typename FnOnItem>
-static void ForEachItemAtXY(const PathInfo& pathInfo, ContainerType& container, FnOnItem onItem)
+static void ForEachItemAtXY(u32 xSize, u32 ySize, ContainerType& container, FnOnItem onItem)
 {
-    for (s32 y = 0; y < pathInfo.mHeight; y++)
+    for (u32 y = 0; y < ySize; y++)
     {
-        for (s32 x = 0; x < pathInfo.mWidth; x++)
+        for (u32 x = 0; x < xSize; x++)
         {
             auto item = ItemAtXY<ItemType>(container, x, y);
             if (item)
@@ -659,6 +722,16 @@ void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, co
     // Add or update the CAM file
     inputLvl.AddFile(camName.c_str(), camFile.Data());
 }
+
+[[nodiscard]] std::unique_ptr<ChunkedLvlFile> OpenPathBnd(const std::string& inputLvlFile, std::vector<u8>& fileDataBuffer)
+{
+    Game game = {};
+    s32* pathId = nullptr;
+    LvlReader lvlReader(inputLvlFile.c_str());
+    PathBND pathBnd = OpenPathBnd(lvlReader, fileDataBuffer, game, pathId);
+    return std::make_unique<ChunkedLvlFile>(pathBnd.mFileData);
+}
+
 } // namespace Detail
 
 static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::vector<CameraNameAndTlvBlob>& camerasAndMapObjects, bool allowFullFG1Blocks)
@@ -674,8 +747,27 @@ static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inpu
     }
 }
 
+static void WriteStringTable(const std::vector<std::string>& strings, ByteStream& s)
+{
+    // String count
+    s.Write(static_cast<u32>(strings.size()));
+
+    // String lengths (size of a pointer)
+    for (const auto& str : strings)
+    {
+        s.Write(static_cast<u64>(str.length() + 1));
+    }
+
+    // String data
+    for (const auto& str : strings)
+    {
+        s.Write(str);
+        s.Write(u8(0));
+    }
+}
+
 template <typename JsonReaderType>
-static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile, bool skipCamsAndFG1, bool allowFullFG1Blocks)
+static void SaveBinaryPathToLvl(Game game, std::vector<u8>& fileDataBuffer, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile, bool skipCamsAndFG1, bool allowFullFG1Blocks)
 {
     JsonReaderType doc;
     auto [camerasAndMapObjects, collisionLines] = doc.Load(jsonInputFile);
@@ -689,48 +781,17 @@ static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, 
     std::optional<std::vector<u8>> oldPathBnd = inputLvl.ReadFile(doc.mRootInfo.mPathBnd.c_str());
     if (!oldPathBnd)
     {
+        // XXPATH.BND should always be present
         throw ReliveAPI::OpenPathException();
     }
-
-    ChunkedLvlFile pathBndFile(*oldPathBnd);
-    std::optional<LvlFileChunk> chunk = pathBndFile.ChunkById(doc.mRootInfo.mPathId);
-    if (!chunk)
-    {
-        throw ReliveAPI::OpenPathException();
-    }
-
-    PathRootContainerAdapter pathRootContainer(gameType);
-    std::optional<PathBlyRecAdapter> pathBlyRecAdapter;
-    for (s32 i = 0; i < pathRootContainer.PathRootCount(); i++)
-    {
-        PathRootAdapter pathRoot = pathRootContainer.PathAt(i);
-        if (pathRoot.BndName())
-        {
-            if (doc.mRootInfo.mPathBnd == pathRoot.BndName())
-            {
-                if (doc.mRootInfo.mPathId >= 0 && doc.mRootInfo.mPathId <= pathRoot.PathCount())
-                {
-                    pathBlyRecAdapter = pathRoot.PathAt(doc.mRootInfo.mPathId);
-                    break;
-                }
-            }
-        }
-    }
-
-    if (!pathBlyRecAdapter)
-    {
-        throw ReliveAPI::OpenPathException();
-    }
-
-    const PathInfo pathInfo = pathBlyRecAdapter->ConvertPathInfo();
 
     ByteStream s;
     s.ReserveSize(1024 * 20); // 20 kb estimate
 
     // Write camera array
-    for (s32 y = 0; y < pathInfo.mHeight; y++)
+    for (s32 y = 0; y < doc.mRootInfo.mYSize; y++)
     {
-        for (s32 x = 0; x < pathInfo.mWidth; x++)
+        for (s32 x = 0; x < doc.mRootInfo.mXSize; x++)
         {
             CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
             if (pItem)
@@ -761,11 +822,7 @@ static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, 
             }
         }
     }
-
-    if (static_cast<s32>(collisionLines.size()) != pathInfo.mNumCollisionItems)
-    {
-        throw ReliveAPI::CollisionsCountChangedException();
-    }
+    const size_t collisionOffsetPos = s.WritePos();
 
     // Write collision lines
     for (const auto& line : collisionLines)
@@ -773,33 +830,20 @@ static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, 
         WriteCollisionLine(s, line);
     }
 
-    struct IndexTableEntry
+    struct IndexTableEntry final
     {
         s32 x = 0;
         s32 y = 0;
         s32 objectsOffset = 0;
     };
+    
+    const size_t objectOffsetPos = s.WritePos();
 
-    // Write object lists for each camera, either put everything before the index table if it fits, or put
-    // everything after the index table as the game can enumerate ALL tlvs in one go. Thus splitting it across the index table
-    // area would break that logic.
-    // Additionally construct the index table offsets as we go.
-    std::size_t allTlvsLen = 0;
-    for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
-    {
-        allTlvsLen += camIter.TotalTlvSize();
-    }
-
-    // Data would overwrite the index table, put everything after it
-    if (allTlvsLen + pathInfo.mObjectOffset > pathInfo.mIndexTableOffset)
-    {
-        s.SeekWrite(pathInfo.mObjectOffset + (sizeof(s32) * pathInfo.mWidth * pathInfo.mHeight));
-    }
-
+    // Write TLVs
     std::vector<IndexTableEntry> indexTable;
-    for (s32 y = 0; y < pathInfo.mHeight; y++)
+    for (s32 y = 0; y < doc.mRootInfo.mYSize; y++)
     {
-        for (s32 x = 0; x < pathInfo.mWidth; x++)
+        for (s32 x = 0; x < doc.mRootInfo.mXSize; x++)
         {
             CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
             if (pItem)
@@ -811,8 +855,7 @@ static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, 
                 }
                 else
                 {
-                    const s32 objDataOff = static_cast<s32>(s.WritePos()) - static_cast<s32>(pathInfo.mObjectOffset);
-                    indexTable.push_back({x, y, objDataOff});
+                    indexTable.push_back({x, y, static_cast<s32>(s.WritePos())});
                     for (const auto& tlv : pItem->mTlvBlobs)
                     {
                         s.Write(tlv);
@@ -826,16 +869,65 @@ static void SaveBinaryPathToLvl(std::vector<u8>& fileDataBuffer, Game gameType, 
         }
     }
 
-    // Write index table values we just populated at the correct offset
-    s.SeekWrite(pathInfo.mIndexTableOffset);
-    ForEachItemAtXY<IndexTableEntry>(pathInfo, indexTable, [&](const IndexTableEntry& tableEntry)
+    // Write index table values we just populated, correcting their offsets
+    const size_t indexTableOffSetPos = s.WritePos();
+    for (auto& indexTableEntry : indexTable)
+    {
+        if (indexTableEntry.objectsOffset != -1)
+        {
+            indexTableEntry.objectsOffset -= static_cast<s32>(objectOffsetPos);
+        }
+    }
+
+    ForEachItemAtXY<IndexTableEntry>(doc.mRootInfo.mXSize, doc.mRootInfo.mYSize, indexTable, [&](const IndexTableEntry& tableEntry)
                                      { s.Write(tableEntry.objectsOffset); });
 
     // Push the path resource into a file chunk
-    LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManager::ResourceType::Resource_Path, std::move(s).GetBuffer());
+    std::vector<u8> tmpPathVec = s.GetBuffer();
+    LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManager::ResourceType::Resource_Path, std::move(tmpPathVec));
+
+    ChunkedLvlFile pathBndFile(*oldPathBnd);
 
     // Add or replace the original file chunk
     pathBndFile.AddChunk(std::move(newPathBlock));
+
+    // Construct chunk with new "hard coded" info
+    PerPathExtension pathExtData = {};
+    pathExtData.mNumCollisionLines = static_cast<u32>(collisionLines.size());
+    pathExtData.mIndexTableOffset = static_cast<u32>(indexTableOffSetPos);
+    pathExtData.mObjectOffset = static_cast<u32>(objectOffsetPos);
+    pathExtData.mXSize = doc.mRootInfo.mXSize;
+    pathExtData.mYSize = doc.mRootInfo.mYSize;
+    pathExtData.mPathId = doc.mRootInfo.mPathId;
+    pathExtData.mCollisionOffset = static_cast<u32>(collisionOffsetPos);
+    pathExtData.mGridWidth = game == Game::AE ? 375 : 1024;
+    pathExtData.mGridHeight = game == Game::AE ? 260 : 480;
+
+    pathExtData.mAbeStartXPos = doc.mRootInfo.mAbeStartXPos;
+    pathExtData.mAbeStartYPos = doc.mRootInfo.mAbeStartYPos;
+
+    pathExtData.mNumMudsInPath = doc.mRootInfo.mNumMudsInPath;
+
+    pathExtData.mTotalMuds = doc.mRootInfo.mTotalMuds;
+    pathExtData.mBadEndingMuds = doc.mRootInfo.mBadEndingMuds;
+    pathExtData.mGoodEndingMuds = doc.mRootInfo.mGoodEndingMuds;
+
+    // Create the BLY name
+    std::string strPathId = std::to_string(doc.mRootInfo.mPathId);
+    std::string blyName = doc.mRootInfo.mPathBnd.substr(0, 2) + "P" + strPathId + ".BLY";
+    strcpy(pathExtData.mBlyName, blyName.c_str());
+
+    // Add the fixed sized data
+    ByteStream perPathExtensionStream;
+    perPathExtensionStream.WriteBytes(reinterpret_cast<const u8*>(&pathExtData), sizeof(PerPathExtension));
+
+    WriteStringTable(doc.mRootInfo.mLedMessages, perPathExtensionStream);
+    WriteStringTable(doc.mRootInfo.mHintFlyMessages, perPathExtensionStream);
+
+    // Add it as a chunk
+    std::vector<u8> extBuffer = perPathExtensionStream.GetBuffer();
+    LvlFileChunk pathExtDataChunk(doc.mRootInfo.mPathId | doc.mRootInfo.mPathId << 8, ResourceManager::Resource_Pxtd, std::move(extBuffer));
+    pathBndFile.AddChunk(std::move(pathExtDataChunk));
 
     // Add or replace the original path BND in the lvl
     inputLvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), std::move(pathBndFile).Data());
@@ -864,11 +956,11 @@ void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, const std::string& 
 
     if (rootInfo.mMapRootInfo.mGame == "AO")
     {
-        SaveBinaryPathToLvl<JsonReaderAO>(fileDataBuffer, Game::AO, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, false);
+        SaveBinaryPathToLvl<JsonReaderAO>(Game::AO, fileDataBuffer, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, false);
     }
     else
     {
-        SaveBinaryPathToLvl<JsonReaderAE>(fileDataBuffer, Game::AE, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, true);
+        SaveBinaryPathToLvl<JsonReaderAE>(Game::AE, fileDataBuffer, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, true);
     }
 }
 
