@@ -11,24 +11,26 @@ const FmvInfo knullptrFmvInfo = {};
 const CollisionInfo KnullCollision = {};
 const PathData kNullPathData = {};
 
+const u32 kMaxPaths = 99;
+
 EXPORT s32 sub_402560()
 {
     return 0;
 }
 
-static PathData g_S1_Paths_4E4AF0[99] = {
+static PathData g_S1_Paths_4E4AF0[kMaxPaths] = {
     kNullPathData,
     {sub_402560, 0, 0, 4096, 4800, 1024, 480, 1024, 480, 320, 524, kObjectFactory}};
 
-static CollisionInfo g_S1_Collisions_4E4AD0[99] = {
+static CollisionInfo g_S1_Collisions_4E4AD0[kMaxPaths] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 4096, 4800, 320, 0, 1024, 480}};
 
-static PathBlyRec g_S1_Paths_4C8720[99] = {
+static PathBlyRec g_S1_Paths_4C8720[kMaxPaths] = {
     kNullPathBlyRec,
     {"S1P1.BLY", &g_S1_Paths_4E4AF0[1], &g_S1_Collisions_4E4AD0[1], 0, 0}};
 
-static PathData gR1P15_4D7670[99] = {
+static PathData gR1P15_4D7670[kMaxPaths] = {
     kNullPathData,
     kNullPathData,
     kNullPathData,
@@ -51,7 +53,7 @@ static PathData gR1P15_4D7670[99] = {
     {sub_402560, 0, 0, 3072, 480, 1024, 480, 1024, 480, 104, 1032, kObjectFactory},
     {sub_402560, 0, 0, 3072, 1440, 1024, 480, 1024, 480, 672, 3592, kObjectFactory}};
 
-static CollisionInfo gR1Collisions_4D7650[99] = {
+static CollisionInfo gR1Collisions_4D7650[kMaxPaths] = {
     KnullCollision,
     KnullCollision,
     KnullCollision,
@@ -74,7 +76,7 @@ static CollisionInfo gR1Collisions_4D7650[99] = {
     {Collisions::Factory_40CEC0, 0, 0, 3072, 480, 24, 4, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 3072, 1440, 72, 30, 1024, 480}};
 
-static PathBlyRec g_R1_Paths_4C9910[99] = {
+static PathBlyRec g_R1_Paths_4C9910[kMaxPaths] = {
     kNullPathBlyRec,
     kNullPathBlyRec,
     kNullPathBlyRec,
@@ -97,7 +99,7 @@ static PathBlyRec g_R1_Paths_4C9910[99] = {
     {"R1P19.BLY", &gR1P15_4D7670[19], &gR1Collisions_4D7650[19], 3, 0},
     {"R1P20.BLY", &gR1P15_4D7670[20], &gR1Collisions_4D7650[20], 3, 0}};
 
-static PathData gL1Paths_4D8BB0[99] = {
+static PathData gL1Paths_4D8BB0[kMaxPaths] = {
     kNullPathData,
     {sub_402560, 0, 0, 12288, 1440, 1024, 480, 1024, 480, 1248, 4792, kObjectFactory},
     {sub_402560, 0, 0, 8192, 1440, 1024, 480, 1024, 480, 952, 3084, kObjectFactory},
@@ -106,7 +108,7 @@ static PathData gL1Paths_4D8BB0[99] = {
     {sub_402560, 0, 0, 3072, 960, 1024, 480, 1024, 480, 288, 1236, kObjectFactory},
     {sub_402560, 0, 0, 7168, 960, 1024, 480, 1024, 480, 352, 1948, kObjectFactory}};
 
-static CollisionInfo gL1Collisions_4D8B90[99] = {
+static CollisionInfo gL1Collisions_4D8B90[kMaxPaths] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 12288, 1440, 288, 48, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 8192, 1440, 192, 38, 1024, 480},
@@ -115,7 +117,7 @@ static CollisionInfo gL1Collisions_4D8B90[99] = {
     {Collisions::Factory_40CEC0, 0, 0, 3072, 960, 48, 12, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 7168, 960, 112, 12, 1024, 480}};
 
-static PathBlyRec g_L1_Paths_4C96C0[99] = {
+static PathBlyRec g_L1_Paths_4C96C0[kMaxPaths] = {
     kNullPathBlyRec,
     {"L1P1.BLY", &gL1Paths_4D8BB0[1], &gL1Collisions_4D8B90[1], 11, 0},
     {"L1P2.BLY", &gL1Paths_4D8BB0[2], &gL1Collisions_4D8B90[2], 11, 0},
@@ -124,7 +126,7 @@ static PathBlyRec g_L1_Paths_4C96C0[99] = {
     {"L1P5.BLY", &gL1Paths_4D8BB0[5], &gL1Collisions_4D8B90[5], 13, 0},
     {"L1P6.BLY", &gL1Paths_4D8BB0[6], &gL1Collisions_4D8B90[6], 13, 0}};
 
-static PathData gF1_Paths_4E4270[99] = {
+static PathData gF1_Paths_4E4270[kMaxPaths] = {
     kNullPathData,
     {sub_402560, 0, 0, 4096, 1920, 1024, 480, 360, 280, 308, 1696, kObjectFactory},
     {sub_402560, 0, 0, 6144, 1440, 1024, 480, 360, 280, 624, 2800, kObjectFactory},
@@ -136,7 +138,7 @@ static PathData gF1_Paths_4E4270[99] = {
     {sub_402560, 0, 0, 4096, 1440, 1024, 480, 360, 280, 476, 1968, kObjectFactory},
     {sub_402560, 0, 0, 2048, 480, 1024, 480, 360, 280, 116, 1172, kObjectFactory}};
 
-static CollisionInfo gF1_Collisions_4E4250[99] = {
+static CollisionInfo gF1_Collisions_4E4250[kMaxPaths] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 4096, 1920, 128, 9, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 6144, 1440, 144, 24, 1024, 480},
@@ -148,7 +150,7 @@ static CollisionInfo gF1_Collisions_4E4250[99] = {
     {Collisions::Factory_40CEC0, 0, 0, 4096, 1440, 96, 19, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 2048, 480, 16, 5, 1024, 480}};
 
-static PathBlyRec g_F1_Paths_4C8840[99] = {
+static PathBlyRec g_F1_Paths_4C8840[kMaxPaths] = {
     kNullPathBlyRec,
     {"F1P1.BLY", &gF1_Paths_4E4270[1], &gF1_Collisions_4E4250[1], 15, 0},
     {"F1P2.BLY", &gF1_Paths_4E4270[2], &gF1_Collisions_4E4250[2], 15, 0},
@@ -160,7 +162,7 @@ static PathBlyRec g_F1_Paths_4C8840[99] = {
     {"F1P8.BLY", &gF1_Paths_4E4270[8], &gF1_Collisions_4E4250[8], 15, 0},
     {"F1P9.BLY", &gF1_Paths_4E4270[9], &gF1_Collisions_4E4250[9], 15, 0}};
 
-static PathData gF2_Paths_4E24B0[99] = {
+static PathData gF2_Paths_4E24B0[kMaxPaths] = {
     kNullPathData,
     {sub_402560, 0, 0, 5120, 1920, 1024, 480, 360, 280, 1440, 3276, kObjectFactory},
     {sub_402560, 0, 0, 9216, 2400, 1024, 480, 360, 280, 1800, 5472, kObjectFactory},
@@ -171,7 +173,7 @@ static PathData gF2_Paths_4E24B0[99] = {
     {sub_402560, 0, 0, 5120, 480, 1024, 480, 360, 280, 720, 2364, kObjectFactory},
     {sub_402560, 0, 0, 5120, 1440, 1024, 480, 1024, 480, 260, 1712, kObjectFactory}};
 
-static CollisionInfo gF2_Collisions_4E2490[99] = {
+static CollisionInfo gF2_Collisions_4E2490[kMaxPaths] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 5120, 1920, 160, 64, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 9216, 2400, 360, 72, 1024, 480},
@@ -182,7 +184,7 @@ static CollisionInfo gF2_Collisions_4E2490[99] = {
     {Collisions::Factory_40CEC0, 0, 0, 5120, 480, 40, 34, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 5120, 1440, 120, 7, 1024, 480}};
 
-static PathBlyRec g_F2_Paths_4C89E0[99] = {
+static PathBlyRec g_F2_Paths_4C89E0[kMaxPaths] = {
     kNullPathBlyRec,
     {"F2P1.BLY", &gF2_Paths_4E24B0[1], &gF2_Collisions_4E2490[1], 18, 0},
     {"F2P2.BLY", &gF2_Paths_4E24B0[2], &gF2_Collisions_4E2490[2], 20, 0},
@@ -193,7 +195,7 @@ static PathBlyRec g_F2_Paths_4C89E0[99] = {
     {"F2P7.BLY", &gF2_Paths_4E24B0[7], &gF2_Collisions_4E2490[7], 18, 0},
     {"F2P8.BLY", &gF2_Paths_4E24B0[8], &gF2_Collisions_4E2490[8], 20, 0}};
 
-static PathData gE1_Paths_4DFE70[99] = {
+static PathData gE1_Paths_4DFE70[kMaxPaths] = {
     kNullPathData,
     {sub_402560, 0, 0, 6144, 1440, 1024, 480, 360, 280, 1424, 5212, kObjectFactory},
     {sub_402560, 0, 0, 6144, 960, 1024, 480, 1024, 480, 2696, 6760, kObjectFactory},
@@ -202,7 +204,7 @@ static PathData gE1_Paths_4DFE70[99] = {
     kNullPathData,
     {sub_402560, 0, 0, 6144, 1440, 1024, 480, 1024, 480, 1704, 7092, kObjectFactory}};
 
-static CollisionInfo gE1_Collisions_4DFE50[99] = {
+static CollisionInfo gE1_Collisions_4DFE50[kMaxPaths] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 6144, 1440, 144, 64, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 6144, 960, 96, 130, 1024, 480},
@@ -211,7 +213,7 @@ static CollisionInfo gE1_Collisions_4DFE50[99] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 6144, 1440, 144, 78, 1024, 480}};
 
-static PathBlyRec g_E1_Paths_4C8EA0[99] = {
+static PathBlyRec g_E1_Paths_4C8EA0[kMaxPaths] = {
     kNullPathBlyRec,
     {"E1P1.BLY", &gE1_Paths_4DFE70[1], &gE1_Collisions_4DFE50[1], 6, 0},
     {"E1P2.BLY", &gE1_Paths_4DFE70[2], &gE1_Collisions_4DFE50[2], 6, 0},
@@ -220,28 +222,28 @@ static PathBlyRec g_E1_Paths_4C8EA0[99] = {
     kNullPathBlyRec,
     {"E1P6.BLY", &gE1_Paths_4DFE70[6], &gE1_Collisions_4DFE50[6], 8, 0}};
 
-static PathData gE2_Paths_4DE930[99] = {
+static PathData gE2_Paths_4DE930[kMaxPaths] = {
     kNullPathData,
     kNullPathData,
     {sub_402560, 0, 0, 3072, 960, 1024, 480, 1024, 480, 328, 2028, kObjectFactory},
     {sub_402560, 0, 0, 5120, 960, 1024, 480, 1024, 480, 760, 2420, kObjectFactory},
     {sub_402560, 0, 0, 5120, 960, 1024, 480, 1024, 480, 1220, 3096, kObjectFactory}};
 
-static CollisionInfo gE2_Collisions_4DE910[99] = {
+static CollisionInfo gE2_Collisions_4DE910[kMaxPaths] = {
     KnullCollision,
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 3072, 960, 48, 14, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 5120, 960, 80, 34, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 5120, 960, 80, 57, 1024, 480}};
 
-static PathBlyRec g_E2_Paths_4C8F90[99] = {
+static PathBlyRec g_E2_Paths_4C8F90[kMaxPaths] = {
     kNullPathBlyRec,
     kNullPathBlyRec,
     {"E2P2.BLY", &gE2_Paths_4DE930[2], &gE2_Collisions_4DE910[2], 36, 0},
     {"E2P3.BLY", &gE2_Paths_4DE930[3], &gE2_Collisions_4DE910[3], 36, 0},
     {"E2P4.BLY", &gE2_Paths_4DE930[4], &gE2_Collisions_4DE910[4], 36, 0}};
 
-static PathData gD1_Paths_4DDC70[99] = {
+static PathData gD1_Paths_4DDC70[kMaxPaths] = {
     kNullPathData,
     {sub_402560, 0, 0, 5120, 1920, 1024, 480, 360, 280, 620, 2704, kObjectFactory},
     {sub_402560, 0, 0, 3072, 1920, 1024, 480, 360, 280, 896, 2564, kObjectFactory},
@@ -253,7 +255,7 @@ static PathData gD1_Paths_4DDC70[99] = {
     {sub_402560, 0, 0, 6144, 480, 1024, 480, 360, 280, 588, 2448, kObjectFactory},
     {sub_402560, 0, 0, 5120, 1440, 1024, 480, 360, 280, 940, 2696, kObjectFactory}};
 
-static CollisionInfo gD1_Paths_4DDC50[99] = {
+static CollisionInfo gD1_Paths_4DDC50[kMaxPaths] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 5120, 1920, 160, 23, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 3072, 1920, 96, 40, 1024, 480},
@@ -265,7 +267,7 @@ static CollisionInfo gD1_Paths_4DDC50[99] = {
     {Collisions::Factory_40CEC0, 0, 0, 6144, 480, 48, 27, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 5120, 1440, 120, 41, 1024, 480}};
 
-static PathBlyRec g_D1_Paths_4C9040[99] = {
+static PathBlyRec g_D1_Paths_4C9040[kMaxPaths] = {
     kNullPathBlyRec,
     {"D1P1.BLY", &gD1_Paths_4DDC70[1], &gD1_Paths_4DDC50[1], 24, 0},
     {"D1P2.BLY", &gD1_Paths_4DDC70[2], &gD1_Paths_4DDC50[2], 24, 0},
@@ -277,7 +279,7 @@ static PathBlyRec g_D1_Paths_4C9040[99] = {
     {"D1P8.BLY", &gD1_Paths_4DDC70[8], &gD1_Paths_4DDC50[8], 24, 0},
     {"D1P9.BLY", &gD1_Paths_4DDC70[9], &gD1_Paths_4DDC50[9], 26, 0}};
 
-static PathData gD2_Paths_4DBA70[99] = {
+static PathData gD2_Paths_4DBA70[kMaxPaths] = {
     kNullPathData,
     {sub_402560, 0, 0, 9216, 480, 1024, 480, 360, 280, 2192, 5620, kObjectFactory},
     {sub_402560, 0, 0, 3072, 1440, 1024, 480, 360, 280, 932, 2388, kObjectFactory},
@@ -290,7 +292,7 @@ static PathData gD2_Paths_4DBA70[99] = {
     {sub_402560, 0, 0, 2048, 1440, 1024, 480, 360, 280, 648, 2392, kObjectFactory},
     {sub_402560, 0, 0, 5120, 1440, 1024, 480, 360, 280, 300, 2104, kObjectFactory}};
 
-static CollisionInfo gD2_Collisions_4DBA50[99] = {
+static CollisionInfo gD2_Collisions_4DBA50[kMaxPaths] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 9216, 480, 72, 106, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 3072, 1440, 72, 43, 1024, 480},
@@ -303,7 +305,7 @@ static CollisionInfo gD2_Collisions_4DBA50[99] = {
     {Collisions::Factory_40CEC0, 0, 0, 2048, 1440, 48, 30, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 5120, 1440, 120, 9, 1024, 480}};
 
-static PathBlyRec g_D2_Paths_4C91C0[99] = {
+static PathBlyRec g_D2_Paths_4C91C0[kMaxPaths] = {
     kNullPathBlyRec,
     {"D2P1.BLY", &gD2_Paths_4DBA70[1], &gD2_Collisions_4DBA50[1], 32, 0},
     {"D2P2.BLY", &gD2_Paths_4DBA70[2], &gD2_Collisions_4DBA50[2], 30, 0},
@@ -316,19 +318,19 @@ static PathBlyRec g_D2_Paths_4C91C0[99] = {
     {"D2P9.BLY", &gD2_Paths_4DBA70[9], &gD2_Collisions_4DBA50[9], 30, 0},
     {"D2P10.BLY", &gD2_Paths_4DBA70[10], &gD2_Collisions_4DBA50[10], 30, 0}};
 
-static PathData gC1_Paths_4E46B0[99] = {
+static PathData gC1_Paths_4E46B0[kMaxPaths] = {
     kNullPathData,
     {sub_402560, 0, 0, 10240, 4800, 1024, 480, 1024, 480, 800, 824, kObjectFactory}};
 
-static CollisionInfo gC1_Collisions_4E4690[99] = {
+static CollisionInfo gC1_Collisions_4E4690[kMaxPaths] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 10240, 4800, 800, 0, 1024, 480}};
 
-static PathBlyRec g_C1_Paths_4C87B0[99] = {
+static PathBlyRec g_C1_Paths_4C87B0[kMaxPaths] = {
     kNullPathBlyRec,
     {"C1P1.BLY", &gC1_Paths_4E46B0[1], &gC1_Collisions_4E4690[1], 0, 0}};
 
-static PathData gR6_Paths_4D14B0[99] = {
+static PathData gR6_Paths_4D14B0[kMaxPaths] = {
     kNullPathData,
     kNullPathData,
     kNullPathData,
@@ -337,7 +339,7 @@ static PathData gR6_Paths_4D14B0[99] = {
     kNullPathData,
     {sub_402560, 0, 0, 3072, 2880, 1024, 480, 1024, 480, 964, 6052, kObjectFactory}};
 
-static CollisionInfo gR6_Collsions_4D1490[99] = {
+static CollisionInfo gR6_Collsions_4D1490[kMaxPaths] = {
     KnullCollision,
     KnullCollision,
     KnullCollision,
@@ -346,7 +348,7 @@ static CollisionInfo gR6_Collsions_4D1490[99] = {
     KnullCollision,
     {&Collisions::Factory_40CEC0, 0, 0, 3072, 2880, 144, 41, 1024, 480}};
 
-static PathBlyRec g_R6_Paths_4C9DE0[99] = {
+static PathBlyRec g_R6_Paths_4C9DE0[kMaxPaths] = {
     kNullPathBlyRec,
     kNullPathBlyRec,
     kNullPathBlyRec,
@@ -355,7 +357,7 @@ static PathBlyRec g_R6_Paths_4C9DE0[99] = {
     kNullPathBlyRec,
     {"R6P6.BLY", &gR6_Paths_4D14B0[6], &gR6_Collsions_4D1490[6], 49, 0}};
 
-static PathData gR2_Paths_4D6130[99] = {
+static PathData gR2_Paths_4D6130[kMaxPaths] = {
     kNullPathData,
     {sub_402560, 0, 0, 6144, 960, 1024, 480, 1024, 480, 496, 2800, kObjectFactory},
     {sub_402560, 0, 0, 7168, 960, 1024, 480, 1024, 480, 1252, 4524, kObjectFactory},
@@ -378,7 +380,7 @@ static PathData gR2_Paths_4D6130[99] = {
     {sub_402560, 0, 0, 3072, 1440, 1024, 480, 1024, 480, 152, 1200, kObjectFactory},
     {sub_402560, 0, 0, 3072, 1440, 1024, 480, 1024, 480, 312, 1436, kObjectFactory}};
 
-static CollisionInfo gR2_Collisions_4D6110[99] = {
+static CollisionInfo gR2_Collisions_4D6110[kMaxPaths] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 6144, 960, 96, 20, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 7168, 960, 112, 57, 1024, 480},
@@ -401,7 +403,7 @@ static CollisionInfo gR2_Collisions_4D6110[99] = {
     {Collisions::Factory_40CEC0, 0, 0, 3072, 1440, 72, 4, 1024, 480},
     {Collisions::Factory_40CEC0, 0, 0, 3072, 1440, 72, 12, 1024, 480}};
 
-static PathBlyRec g_R2_Paths_4C9B20[99] = {
+static PathBlyRec g_R2_Paths_4C9B20[kMaxPaths] = {
     kNullPathBlyRec,
     {"R2P1.BLY", &gR2_Paths_4D6130[1], &gR2_Collisions_4D6110[1], 42, 0},
     {"R2P2.BLY", &gR2_Paths_4D6130[2], &gR2_Collisions_4D6110[2], 43, 0},
@@ -424,7 +426,7 @@ static PathBlyRec g_R2_Paths_4C9B20[99] = {
     {"R2P19.BLY", &gR2_Paths_4D6130[19], &gR2_Collisions_4D6110[19], 43, 0},
     {"R2P20.BLY", &gR2_Paths_4D6130[20], &gR2_Collisions_4D6110[20], 43, 0}};
 
-static PathData gF2_Paths_4E02B0[99] = {
+static PathData gF2_Paths_4E02B0[kMaxPaths] = {
     kNullPathData,
     kNullPathData,
     kNullPathData,
@@ -436,7 +438,7 @@ static PathData gF2_Paths_4E02B0[99] = {
     kNullPathData,
     {sub_402560, 0, 0, 5120, 2880, 1024, 480, 1024, 480, 2300, 7092, kObjectFactory}};
 
-static CollisionInfo gF2_Collisions_4E0290[99] = {
+static CollisionInfo gF2_Collisions_4E0290[kMaxPaths] = {
     KnullCollision,
     KnullCollision,
     KnullCollision,
@@ -448,7 +450,7 @@ static CollisionInfo gF2_Collisions_4E0290[99] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 5120, 2880, 240, 103, 1024, 480}};
 
-static PathBlyRec g_F2_Paths_4C8DE0[99] = {
+static PathBlyRec g_F2_Paths_4C8DE0[kMaxPaths] = {
     kNullPathBlyRec,
     kNullPathBlyRec,
     kNullPathBlyRec,
@@ -460,7 +462,7 @@ static PathBlyRec g_F2_Paths_4C8DE0[99] = {
     kNullPathBlyRec,
     {"F4P9.BLY", &gF2_Paths_4E02B0[9], &gF2_Collisions_4E0290[9], 22, 0}};
 
-static PathData gD2_Paths_4D8FF0[99] = {
+static PathData gD2_Paths_4D8FF0[kMaxPaths] = {
     kNullPathData,
     kNullPathData,
     kNullPathData,
@@ -474,7 +476,7 @@ static PathData gD2_Paths_4D8FF0[99] = {
     kNullPathData,
     {sub_402560, 0, 0, 8192, 2400, 1024, 480, 1024, 480, 2120, 7216, kObjectFactory}};
 
-static CollisionInfo gD2_Collisions_4D8FD0[99] = {
+static CollisionInfo gD2_Collisions_4D8FD0[kMaxPaths] = {
     KnullCollision,
     KnullCollision,
     KnullCollision,
@@ -488,7 +490,7 @@ static CollisionInfo gD2_Collisions_4D8FD0[99] = {
     KnullCollision,
     {Collisions::Factory_40CEC0, 0, 0, 8192, 2400, 320, 90, 1024, 480}};
 
-static PathBlyRec g_D2_Paths_4C95E0[99] = {
+static PathBlyRec g_D2_Paths_4C95E0[kMaxPaths] = {
     kNullPathBlyRec,
     kNullPathBlyRec,
     kNullPathBlyRec,
@@ -886,8 +888,8 @@ s32 Path_Get_OverlayIdx(LevelIds lvlId)
     return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_1C_overlay_idx;
 }
 
-static CollisionInfo removed1_collisions[99] = {};
-static CollisionInfo removed2_collisions[99] = {};
+static CollisionInfo removed1_collisions[kMaxPaths] = {};
+static CollisionInfo removed2_collisions[kMaxPaths] = {};
 
 static CollisionInfo* sCollisionRoots[static_cast<u32>(LevelIds::eDesertEscape) + 1] = 
 {

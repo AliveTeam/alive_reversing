@@ -875,7 +875,7 @@ static void SaveBinaryPathToLvl(Game game, std::vector<u8>& fileDataBuffer, cons
     {
         if (indexTableEntry.objectsOffset != -1)
         {
-            indexTableEntry.objectsOffset -= objectOffsetPos;
+            indexTableEntry.objectsOffset -= static_cast<s32>(objectOffsetPos);
         }
     }
 

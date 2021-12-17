@@ -14,7 +14,7 @@
 #include "Primitives_common.hpp"
 #include "Input.hpp"
 #include "Renderer/IRenderer.hpp"
-#include "../../AliveLibCommon/PathDataExtensionsTypes.hpp"
+#include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 
 namespace AO {
 
