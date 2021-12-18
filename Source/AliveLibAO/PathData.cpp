@@ -916,4 +916,31 @@ CollisionInfo* GetCollisions(s32 lvlId)
     return sCollisionRoots[lvlId];
 }
 
+static PathData removed1_paths[kMaxPaths] = {};
+static PathData removed2_paths[kMaxPaths] = {};
+
+static PathData* sPathDataRoots[static_cast<u32>(LevelIds::eDesertEscape) + 1] = {
+    g_S1_Paths_4E4AF0,
+    gR1P15_4D7670,
+    gL1Paths_4D8BB0,
+    gF1_Paths_4E4270,
+    gF2_Paths_4E24B0,
+    gE1_Paths_4DFE70,
+    gE2_Paths_4DE930,
+    removed1_paths,
+    gD1_Paths_4DDC70,
+    gD2_Paths_4DBA70,
+    gC1_Paths_4E46B0,
+    removed2_paths,
+    gR6_Paths_4D14B0,
+    gR2_Paths_4D6130,
+    gF2_Paths_4E02B0,
+    gD2_Paths_4D8FF0,
+};
+
+PathData* GetPathData(s32 lvlId)
+{
+    return sPathDataRoots[lvlId];
+}
+
 } // namespace AO

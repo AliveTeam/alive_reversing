@@ -192,6 +192,8 @@ PathRoot* Path_Get_PathRoot(s32 lvlId);
 
 CollisionInfo* GetCollisions(s32 lvlId);
 
+PathData* GetPathData(s32 lvlId);
+
 void Path_SetMudsInLevel(LevelIds lvlId, u32 count);
 
 s16 Path_GetMudsInLevel(LevelIds lvlId);

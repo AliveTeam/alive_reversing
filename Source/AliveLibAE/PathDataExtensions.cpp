@@ -83,6 +83,10 @@ void Path_Set_NewData_FromLvls()
                         rPath.field_0_pBlyArrayPtr[pExt->mPathId].field_0_blyName = pExt->mBlyName;
 
                         PathBlyRec& rBlyRec = rPath.field_0_pBlyArrayPtr[pExt->mPathId];
+                        if (!rBlyRec.field_4_pPathData)
+                        {
+                            rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
+                        }
                         PathData& rPathData = *rBlyRec.field_4_pPathData;
 
                         rPathData.field_0_bLeft = 0;
