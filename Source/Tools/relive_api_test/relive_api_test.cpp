@@ -102,6 +102,33 @@ template <typename... Ts>
     return buf;
 }
 
+TEST(alive_api, AddFileToLvl)
+{
+    {
+        ReliveAPI::LvlWriter w(AOPath("R1.LVL").c_str());
+        ASSERT_TRUE(w.IsOpen());
+
+        std::string r("Rory");
+        std::vector<u8> data(r.begin(), r.end());
+        w.AddFile("PLOP.DAT", data);
+
+        ASSERT_TRUE(w.Save(getStaticFileBuffer(), "CraigDavid.lvl"));
+    }
+
+    {
+        ReliveAPI::LvlReader r("CraigDavid.lvl");
+        ASSERT_TRUE(r.IsOpen());
+
+        ASSERT_GT(r.FileCount(), 1);
+
+        std::vector<u8> fileData;
+        ASSERT_TRUE(r.ReadFileInto(fileData, "PLOP.DAT"));
+
+        std::string s(fileData.begin(), fileData.end());
+        ASSERT_EQ(s, "Rory");
+    }
+}
+
 template <typename FnOnCam>
 static void ForEachCamera(ReliveAPI::LvlReader& reader, FnOnCam onCam)
 {
