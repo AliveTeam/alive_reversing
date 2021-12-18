@@ -2305,6 +2305,30 @@ CollisionInfo* GetCollisions(s32 lvlId)
     return sCollisionRoots[lvlId];
 }
 
+static PathData* sPathDataRoots[ALIVE_COUNTOF(sPathData_559660.paths)] = {
+    ST_PathData,
+    MI_PathData,
+    NE_PathData,
+    PV_PathData,
+    SV_PathData,
+    FD_PathData,
+    BA_PathData,
+    SV_PathData,
+    BW_PathData,
+    BR_PathData,
+    BM_PathData,
+    PV_PathData,
+    FD_PathData,
+    BA_PathData,
+    BW_PathData,
+    TL_PathData,
+    CR_PathData};
+
+PathData* GetPathData(s32 lvlId)
+{
+    return sPathDataRoots[lvlId];
+}
+
 static s16 sMudsInLevelCount_55CFAC[15] = {0, 75, 10, 5, 14, 26, 49, 14, 31, 90, 90, 5, 26, 49, 31};
 
 void Path_SetMudsInLevel(LevelIds lvlId, u32 count)

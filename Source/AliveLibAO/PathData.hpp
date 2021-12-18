@@ -287,4 +287,6 @@ s32 Path_Get_OverlayIdx(LevelIds lvlId);
 
 CollisionInfo* GetCollisions(s32 lvlId);
 
+PathData* GetPathData(s32 lvlId);
+
 } // namespace AO
