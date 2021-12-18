@@ -118,7 +118,8 @@ EXPORT void CC Input_Init_44EB60();
 
 EXPORT void Input_DisableInput_48E690();
 
-EXPORT const char_type* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails = true);
+const char_type* Input_GetButtonString(InputCommands inputCommand, bool forceKeyboardLookupIfGamepadFails = true);
+EXPORT const char_type* Input_GetButtonString_44F1C0(InputCommands inputCommand);
 
 EXPORT s32 CC Input_Remap_44F300(InputCommands inputCmd);
 
