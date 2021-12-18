@@ -4,26 +4,31 @@
 #include "LCDScreen.hpp"
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 
+struct MudCounts final
+{
+    s32 mTotal = 300;
+    s32 mBadEnding = 255;
+    s32 mGoodEnding = 150;
+};
+static MudCounts sMudExtData[static_cast<u32>(LevelIds::eCredits_16) + 1][99];
+
+
+s32 Path_GetTotalMuds(LevelIds lvlId, u32 pathNum)
+{
+    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mTotal;
+}
+
+s32 Path_BadEndingMuds(LevelIds lvlId, u32 pathNum)
+{
+    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mBadEnding;
+}
+
+s32 Path_GoodEndingMuds(LevelIds lvlId, u32 pathNum)
+{
+    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mGoodEnding;
+}
+
 static u8* sPathExtData[static_cast<u32>(LevelIds::eCredits_16) + 1] = {};
-
-static s32 sTotalMuds = 300;
-static s32 sBadEndingMuds = 255;
-static s32 sGoodEndingMuds = 150;
-
-s32 Path_GetTotalMuds()
-{
-    return sTotalMuds;
-}
-
-s32 Path_BadEndingMuds()
-{
-    return sBadEndingMuds;
-}
-
-s32 Path_GoodEndingMuds()
-{
-    return sGoodEndingMuds;
-}
 
 template <typename T>
 static void SetAndLog(const char_type* propertyName, T& dst, T newVal)
@@ -123,25 +128,25 @@ void Path_Set_NewData_FromLvls()
 
                         if (pExt->mTotalMuds != 0)
                         {
-                            SetAndLog("sTotalMuds", sTotalMuds, pExt->mTotalMuds);
+                            SetAndLog("sTotalMuds", sMudExtData[lvlIdx][pExt->mPathId].mTotal, pExt->mTotalMuds);
                         }
 
                         if (pExt->mBadEndingMuds != 0)
                         {
-                            SetAndLog("sBadEndingMuds", sBadEndingMuds, pExt->mBadEndingMuds);
+                            SetAndLog("sBadEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mBadEnding, pExt->mBadEndingMuds);
                         }
 
                         if (pExt->mGoodEndingMuds)
                         {
-                            SetAndLog("sGoodEndingMuds", sGoodEndingMuds, pExt->mGoodEndingMuds);
+                            SetAndLog("sGoodEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mGoodEnding, pExt->mGoodEndingMuds);
                         }
 
                         if (pExt->mNumMudsInPath != 0)
                         {
-                            if (pExt->mNumMudsInPath != Path_GetMudsInLevel(static_cast<LevelIds>(lvlIdx)))
+                            if (pExt->mNumMudsInPath != Path_GetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mPathId))
                             {
                                 LOG_INFO("Set muds in lvl count to " << pExt->mNumMudsInPath);
-                                Path_SetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mNumMudsInPath);
+                                Path_SetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mNumMudsInPath, pExt->mPathId);
                             }
                         }
                     }
