@@ -272,6 +272,8 @@ static bool PathChunksAreEqual(const std::string& leftSideLvl, const std::string
 
 TEST(alive_api, ImportPathJsonToBinaryAO)
 {
+    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAO.json", AOPath("R1.LVL"), 19);
+
     ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), "OutputAO.json", AOPath("R1.LVL"), "newAO.lvl", {}, true);
     
     ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAO2.json", "newAO.lvl", 19);
@@ -281,6 +283,8 @@ TEST(alive_api, ImportPathJsonToBinaryAO)
 
 TEST(alive_api, ImportPathJsonToBinaryAE)
 {
+    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAE.json", AEPath(kAETestLvl), 1);
+
     ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), "OutputAE.json", AEPath(kAETestLvl), "newAE.lvl", {}, true);
 
     ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAE2.json", "newAE.lvl", 1);

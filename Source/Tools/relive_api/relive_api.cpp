@@ -371,8 +371,6 @@ void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, const std::string& 
     LvlReader lvl(inputLvlFile.c_str());
     ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, fileDataBuffer, game, &pathResourceId);
 
-    // TODO: Check for ResourceManager::Resource_Pxtd and update pathBnd.mPathInfo as required
-
     if (game == Game::AO)
     {
         JsonWriterAO doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
