@@ -9,23 +9,27 @@
 
 namespace AO {
 
-static s32 sTotalMuds = 99;
-static s32 sBadEndingMuds = 75;
-static s32 sGoodEndingMuds = 50;
-
-s32 Path_GetTotalMuds()
+struct MudCounts final
 {
-    return sTotalMuds;
+    s32 mTotal = 99;
+    s32 mBadEnding = 75;
+    s32 mGoodEnding = 50;
+};
+static MudCounts sMudExtData[static_cast<u32>(LevelIds::eDesertEscape) + 1][99];
+
+s32 Path_GetTotalMuds(LevelIds lvlId, u32 pathNum)
+{
+    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mTotal;
 }
 
-s32 Path_BadEndingMuds()
+s32 Path_BadEndingMuds(LevelIds lvlId, u32 pathNum)
 {
-    return sBadEndingMuds;
+    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mBadEnding;
 }
 
-s32 Path_GoodEndingMuds()
+s32 Path_GoodEndingMuds(LevelIds lvlId, u32 pathNum)
 {
-    return sGoodEndingMuds;
+    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mGoodEnding;
 }
 
 static u8* sPathExtData[static_cast<u32>(LevelIds::eDesertEscape) + 1] = {};
@@ -131,17 +135,17 @@ void Path_Set_NewData_FromLvls()
 
                         if (pExt->mTotalMuds != 0)
                         {
-                            SetAndLog("sTotalMuds", sTotalMuds, pExt->mTotalMuds);
+                            SetAndLog("sTotalMuds", sMudExtData[lvlIdx][pExt->mPathId].mTotal, pExt->mTotalMuds);
                         }
 
                         if (pExt->mBadEndingMuds != 0)
                         {
-                            SetAndLog("sBadEndingMuds", sBadEndingMuds, pExt->mBadEndingMuds);
+                            SetAndLog("sBadEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mBadEnding, pExt->mBadEndingMuds);
                         }
 
                         if (pExt->mGoodEndingMuds)
                         {
-                            SetAndLog("sGoodEndingMuds", sGoodEndingMuds, pExt->mGoodEndingMuds);
+                            SetAndLog("sGoodEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mGoodEnding, pExt->mGoodEndingMuds);
                         }
                     }
 

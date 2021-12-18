@@ -155,7 +155,7 @@ void GameEnderController::vUpdate_43B920()
                     sActiveHero_5C1B68->field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
                     // Good ending
-                    if (sRescuedMudokons_5C1BC2 >= Path_GoodEndingMuds())
+                    if (sRescuedMudokons_5C1BC2 >= Path_GoodEndingMuds(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path))
                     {
                         gAbeBulletProof_5C1BDA = 0;
                         sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
@@ -167,7 +167,7 @@ void GameEnderController::vUpdate_43B920()
                             pPauseMenu_5C9300 = nullptr;
                         }
 
-                        if (sRescuedMudokons_5C1BC2 >= Path_GetTotalMuds())
+                        if (sRescuedMudokons_5C1BC2 >= Path_GetTotalMuds(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path))
                         {
                             // Perfect ending
                             gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 17, CameraSwapEffects::eUnknown_11, 17, 0);
@@ -182,7 +182,7 @@ void GameEnderController::vUpdate_43B920()
                     }
                     else
                     {
-                        if (sKilledMudokons_5C1BC0 >= Path_BadEndingMuds())
+                        if (sKilledMudokons_5C1BC0 >= Path_BadEndingMuds(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path))
                         {
                             // Very bad ending
                             gAbeBulletProof_5C1BDA = TRUE;

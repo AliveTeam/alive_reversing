@@ -115,7 +115,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
     if (!field_108_is_hidden)
     {
         char_type text[12] = {};
-        sprintf(text, "%3d", Path_GetMudsInLevel(gMap_5C3030.field_0_current_level));
+        sprintf(text, "%3d", Path_GetMudsInLevel(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path));
         s32 maxWidth = field_90_font3.MeasureWidth_433700(text);
 
         s16 flickerAmount = 50; // ax

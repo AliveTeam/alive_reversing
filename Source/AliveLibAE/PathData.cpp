@@ -2329,14 +2329,44 @@ PathData* GetPathData(s32 lvlId)
     return sPathDataRoots[lvlId];
 }
 
-static s16 sMudsInLevelCount_55CFAC[15] = {0, 75, 10, 5, 14, 26, 49, 14, 31, 90, 90, 5, 26, 49, 31};
-
-void Path_SetMudsInLevel(LevelIds lvlId, u32 count)
+struct ArrayOf99 final
 {
-    sMudsInLevelCount_55CFAC[static_cast<u32>(lvlId)] = static_cast<s16>(count);
+    explicit ArrayOf99(s16 value)
+    {
+        for (auto& v : mArray)
+        {
+            v = value;
+        }
+    }
+
+    s16 mArray[99] = {};
+};
+
+static ArrayOf99 sMudsInLevelCount_55CFAC[15] = 
+{
+    ArrayOf99(0),
+    ArrayOf99(75),
+    ArrayOf99(10),
+    ArrayOf99(5),
+    ArrayOf99(14),
+    ArrayOf99(26),
+    ArrayOf99(49),
+    ArrayOf99(14),
+    ArrayOf99(31),
+    ArrayOf99(90),
+    ArrayOf99(90),
+    ArrayOf99(5),
+    ArrayOf99(26),
+    ArrayOf99(49),
+    ArrayOf99(31)
+};
+
+void Path_SetMudsInLevel(LevelIds lvlId, u32 pathId, u32 count)
+{
+    sMudsInLevelCount_55CFAC[static_cast<u32>(lvlId)].mArray[pathId] = static_cast<s16>(count);
 }
 
-s16 Path_GetMudsInLevel(LevelIds lvlId)
+s16 Path_GetMudsInLevel(LevelIds lvlId, u32 pathId)
 {
-    return sMudsInLevelCount_55CFAC[static_cast<u32>(lvlId)];
+    return sMudsInLevelCount_55CFAC[static_cast<u32>(lvlId)].mArray[pathId];
 }

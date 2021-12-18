@@ -113,7 +113,7 @@ void GameEnderController::VUpdate_41C860()
                         }
                     }
 
-                    if (sRescuedMudokons_5076C0 >= Path_GoodEndingMuds())
+                    if (sRescuedMudokons_5076C0 >= Path_GoodEndingMuds(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path))
                     {
                         // Stop the death timer
                         sGasTimer_507700 = 0;
@@ -128,7 +128,7 @@ void GameEnderController::VUpdate_41C860()
                             pPauseMenu_5080E0 = nullptr;
                         }
 
-                        if (sRescuedMudokons_5076C0 >= Path_GetTotalMuds())
+                        if (sRescuedMudokons_5076C0 >= Path_GetTotalMuds(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path))
                         {
                             // Perfect ending
                             sActiveHero_507678->field_6_flags.Set(Options::eDead_Bit3);
@@ -144,7 +144,7 @@ void GameEnderController::VUpdate_41C860()
                     }
                     else
                     {
-                        if (sKilledMudokons_5076BC >= Path_BadEndingMuds())
+                        if (sKilledMudokons_5076BC >= Path_BadEndingMuds(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path))
                         {
                             // Very bad ending
                             gInfiniteGrenades_5076EC = TRUE;

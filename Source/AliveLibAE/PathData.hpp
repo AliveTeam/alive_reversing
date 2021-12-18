@@ -194,8 +194,8 @@ CollisionInfo* GetCollisions(s32 lvlId);
 
 PathData* GetPathData(s32 lvlId);
 
-void Path_SetMudsInLevel(LevelIds lvlId, u32 count);
+void Path_SetMudsInLevel(LevelIds lvlId, u32 pathId, u32 count);
 
-s16 Path_GetMudsInLevel(LevelIds lvlId);
+s16 Path_GetMudsInLevel(LevelIds lvlId, u32 pathId);
 
 extern SeqHandleTable sSeqData_558D50;
