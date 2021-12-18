@@ -15,6 +15,10 @@ enum eLineTypes : u8
     eBackGroundFloor_4 = 4,
     eBackGroundWallLeft_5 = 5,
     eBackGroundWallRight_6 = 6,
+    eType_7 = 7,
+    eType_8 = 8,
+    eType_9 = 9,
+    eType_10 = 10,
 
     eUnknown_32 = 32,
     eUnknown_36 = 36,

@@ -342,31 +342,6 @@ TEST(alive_api, ReSaveAllPathsAE)
     }
 }
 
-// Get version
-
-// Upgrade
-
-TEST(alive_api, tlv_reflection)
-{
-    ReliveAPI::TypesCollectionAO types;
-
-    AO::Path_Hoist tlv = {};
-    std::unique_ptr<ReliveAPI::TlvObjectBase> pHoist = types.MakeTlvAO(AO::TlvTypes::Hoist_3, &tlv, 99);
-
-    auto obj = pHoist->InstanceToJson(types);
-    (void) pHoist->InstanceFromJson(types, obj); // TODO: check return value?
-    (void) pHoist->StructureToJson();            // TODO: check return value?
-    ASSERT_EQ(pHoist->InstanceNumber(), 99);
-}
-
-/*
-TEST(json_upgrade, upgrade_rename_structure)
-{
-    AliveAPI::JsonUpgradeResult r = AliveAPI::UpgradePathJson("rename_field.json");
-    ASSERT_EQ(r.mResult, AliveAPI::UpgradeError::None);
-}
-*/
-
 class ArgsAdapter
 {
 public:

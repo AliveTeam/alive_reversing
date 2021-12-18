@@ -9,6 +9,8 @@
 
 #include "../../AliveLibCommon/stdafx_common.h"
 
+#include "../../AliveLibAO/Collisions.hpp"
+
 namespace ReliveAPI {
 TypesCollectionAO::TypesCollectionAO()
 {
@@ -136,6 +138,22 @@ void TypesCollectionAO::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_MovieStone);
 
 #undef REGISTER_TYPE_AO
+    AddEnum<AO::eLineTypes>("Enum_LineTypes",
+                           {
+                               {AO::eLineTypes::eFloor_0, "eFloor_0"},
+                               {AO::eLineTypes::eWallLeft_1, "eWallLeft_1"},
+                                {AO::eLineTypes::eWallRight_2, "eWallRight_2"},
+                                {AO::eLineTypes::eCeiling_3, "eCeiling_3"},
+                                {AO::eLineTypes::eBackGroundFloor_4, "eBackGroundFloor_4"},
+                                {AO::eLineTypes::eBackGroundWallLeft_5, "eBackGroundWallLeft_5"},
+                                {AO::eLineTypes::eBackGroundWallRight_6, "eBackGroundWallRight_6"},
+                                {AO::eLineTypes::eType_7, "eType_7"},
+                                {AO::eLineTypes::eType_8, "eType_8"},
+                                {AO::eLineTypes::eType_9, "eType_9"},
+                                {AO::eLineTypes::eType_10, "eType_10"},
+                                {AO::eLineTypes::eUnknown_32, "eUnknown_32"},
+                                {AO::eLineTypes::eUnknown_36, "eUnknown_36"},
+                           });
 
     AddEnum<AO::SwitchOp>("Enum_SwitchOp",
     {
