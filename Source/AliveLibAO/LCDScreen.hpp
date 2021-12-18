@@ -10,7 +10,7 @@ struct StringTable;
 
 namespace AO {
 
-void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl);
+void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
 
 struct Path_LCDScreen final : public Path_TLV
 {

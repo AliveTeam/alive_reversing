@@ -32,6 +32,16 @@ static u8* sPathExtData[static_cast<u32>(LevelIds::eDesertEscape) + 1] = {};
 
 EXPORT s32 sub_402560();
 
+template<typename T>
+static void SetAndLog(const char_type* propertyName, T& dst, T newVal)
+{
+    if (dst != newVal)
+    {
+        LOG_INFO("Update " << propertyName << " from " << static_cast<s32>(dst) << " to " << static_cast<s32>(newVal));
+        dst = newVal;
+    }
+}
+
 void Path_Set_NewData_FromLvls()
 {
     for (s32 lvlIdx = 0; lvlIdx < Path_Get_Paths_Count(); lvlIdx++)
@@ -63,17 +73,20 @@ void Path_Set_NewData_FromLvls()
                     {
                         auto pChunkData = reinterpret_cast<u8*>(&pHeader[1]);
                         auto pExt = reinterpret_cast<const PerPathExtension*>(pChunkData);
+
+                        LOG_INFO("Applying " << pExt->mBlyName);
+
                         pChunkData += sizeof(PerPathExtension);
 
                         // Apply led messages
                         auto pLedMsgs = reinterpret_cast<StringTable*>(pChunkData);
                         pChunkData = StringTable::MakeTable(pLedMsgs);
-                        SetLcdMessagesForLvl(*pLedMsgs, static_cast<LevelIds>(lvlIdx));
+                        SetLcdMessagesForLvl(*pLedMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
 
                         // Apply hint fly messages
                         auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
                         pChunkData = StringTable::MakeTable(pHintFlyMsgs);
-                        SetHintFlyMessagesForLvl(*pHintFlyMsgs, static_cast<LevelIds>(lvlIdx));
+                        SetHintFlyMessagesForLvl(*pHintFlyMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
 
                         // Apply the data
                         PathRoot& rPath = *Path_Get_PathRoot(lvlIdx);
@@ -85,17 +98,17 @@ void Path_Set_NewData_FromLvls()
                         rPathData.field_0 = sub_402560;
                         rPathData.field_4_bLeft = 0;
                         rPathData.field_6_bRight = 0;
-                        rPathData.field_8_bTop = static_cast<s16>(pExt->mXSize * pExt->mGridWidth);
-                        rPathData.field_A_bBottom = static_cast<s16>(pExt->mYSize * pExt->mGridHeight);
+                        SetAndLog("top", rPathData.field_8_bTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
+                        SetAndLog("bottom",rPathData.field_A_bBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
 
-                        rPathData.field_C_grid_width = static_cast<s16>(pExt->mGridWidth);
-                        rPathData.field_E_grid_height = static_cast<s16>(pExt->mGridHeight);
+                        SetAndLog("grid width", rPathData.field_C_grid_width, static_cast<s16>(pExt->mGridWidth));
+                        SetAndLog("grid height", rPathData.field_E_grid_height, static_cast<s16>(pExt->mGridHeight));
+   
+                        SetAndLog("field_10", rPathData.field_10, static_cast<s16>(pExt->mGridWidth));
+                        SetAndLog("field_12", rPathData.field_12, static_cast<s16>(pExt->mGridHeight));
 
-                        rPathData.field_10 = static_cast<s16>(pExt->mGridWidth);
-                        rPathData.field_12 = static_cast<s16>(pExt->mGridHeight);
-
-                        rPathData.field_14_object_offset = pExt->mObjectOffset;
-                        rPathData.field_18_object_index_table_offset = pExt->mIndexTableOffset;
+                        SetAndLog<s32>("object offset", rPathData.field_14_object_offset, pExt->mObjectOffset);
+                        SetAndLog<s32>("index table offset", rPathData.field_18_object_index_table_offset, pExt->mIndexTableOffset);
 
                         rPathData.field_1C_object_funcs = kObjectFactory;
 
@@ -105,26 +118,26 @@ void Path_Set_NewData_FromLvls()
                         rColInfo.field_0_fn_ptr = Collisions::Factory_40CEC0;
                         rColInfo.field_4_left = 0;
                         rColInfo.field_6_right = 0;
-                        rColInfo.field_8_top = static_cast<s16>(pExt->mXSize * pExt->mGridWidth);
-                        rColInfo.field_A_bottom = static_cast<s16>(pExt->mYSize * pExt->mGridHeight);
-                        rColInfo.field_C_collision_offset = pExt->mCollisionOffset;
-                        rColInfo.field_10_num_collision_items = pExt->mNumCollisionLines;
-                        rColInfo.field_14_grid_width = pExt->mGridWidth;
-                        rColInfo.field_18_grid_height = pExt->mGridHeight;
+                        SetAndLog("top", rColInfo.field_8_top, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
+                        SetAndLog("bottom",rColInfo.field_A_bottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
+                        SetAndLog("collision offset",rColInfo.field_C_collision_offset, pExt->mCollisionOffset);
+                        SetAndLog("num collision items",rColInfo.field_10_num_collision_items, pExt->mNumCollisionLines);
+                        SetAndLog<u32>("grid width",rColInfo.field_14_grid_width, pExt->mGridWidth);
+                        SetAndLog<u32>("grid height",rColInfo.field_18_grid_height, pExt->mGridHeight);
 
                         if (pExt->mTotalMuds != 0)
                         {
-                            sTotalMuds = pExt->mTotalMuds;
+                            SetAndLog("sTotalMuds", sTotalMuds, pExt->mTotalMuds);
                         }
 
                         if (pExt->mBadEndingMuds != 0)
                         {
-                            sBadEndingMuds = pExt->mBadEndingMuds;
+                            SetAndLog("sBadEndingMuds", sBadEndingMuds, pExt->mBadEndingMuds);
                         }
 
                         if (pExt->mGoodEndingMuds)
                         {
-                            sGoodEndingMuds = pExt->mGoodEndingMuds;
+                            SetAndLog("sGoodEndingMuds", sGoodEndingMuds, pExt->mGoodEndingMuds);
                         }
                     }
 

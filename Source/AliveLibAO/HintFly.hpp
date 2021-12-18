@@ -10,7 +10,7 @@ struct StringTable;
 
 namespace AO {
 
-void SetHintFlyMessagesForLvl(const StringTable& msgs, LevelIds lvl);
+void SetHintFlyMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
 
 struct HintFlyParticle;
 

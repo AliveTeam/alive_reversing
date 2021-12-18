@@ -178,19 +178,19 @@ static const char_type* sLCDMessageTable_4C7420[90] = {
     "",
     ""};
 
-static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eDesertEscape) + 1] = {};
+static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eDesertEscape) + 1][99] = {};
 
-void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl)
+void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId)
 {
-    sPerLvlMessages[static_cast<u32>(lvl)] = &msgs;
+    sPerLvlMessages[static_cast<u32>(lvl)][pathId] = &msgs;
 }
 
 class LCDMessages final
 {
 public:
-    const char_type* GetMessage(LevelIds lvlId, u32 msgId) const
+    const char_type* GetMessage(LevelIds lvlId, u32 pathId, u32 msgId) const
     {
-        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(lvlId)];
+        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(lvlId)][pathId];
         if (pTable)
         {
             if (msgId < pTable->mStringCount)
@@ -246,7 +246,7 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
 
     if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
     {
-        String_FormatString_450DC0(gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, field_2AC_message_1_id), field_AC_message_buffer);
+        String_FormatString_450DC0(gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, field_2AC_message_1_id), field_AC_message_buffer);
     }
     else
     {
@@ -349,7 +349,7 @@ void LCDScreen::VUpdate_4341B0()
 
                 if (Input_JoyStickEnabled() || rangedRandom != 62)
                 {
-                    String_FormatString_450DC0(gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, rangedRandom), field_AC_message_buffer);
+                    String_FormatString_450DC0(gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, rangedRandom), field_AC_message_buffer);
                 }
                 else
                 {
@@ -365,7 +365,7 @@ void LCDScreen::VUpdate_4341B0()
                 if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
                 {
                     String_FormatString_450DC0(
-                        gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, field_2AC_message_1_id),
+                        gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, field_2AC_message_1_id),
                         field_AC_message_buffer);
                 }
                 else

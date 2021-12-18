@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF(LvlFileRecord, 0x18);
 struct LvlHeader_Sub final
 {
     s32 field_0_num_files;
-    s32 field_4_unknown1;
+    s32 field_4_header_size_in_sectors;
     s32 field_8_unknown2;
     s32 field_C_unknown3;
     LvlFileRecord field_10_file_recs[1]; // TODO: Strictly UB on >= 1 access

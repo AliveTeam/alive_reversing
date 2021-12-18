@@ -16,7 +16,7 @@ struct Path_LCDScreen final : public Path_TLV
 };
 
 struct StringTable;
-void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl);
+void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
 
 class LCDScreen final : public BaseGameObject
 {
