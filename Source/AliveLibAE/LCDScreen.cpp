@@ -133,19 +133,19 @@ static const char_type* sLCDMessageTable_555768[101] = {
 };
 
 
-static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eCredits_16) + 1] = {};
+static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eCredits_16) + 1][99] = {};
 
-void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl)
+void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId)
 {
-    sPerLvlMessages[static_cast<u32>(lvl)] = &msgs;
+    sPerLvlMessages[static_cast<u32>(lvl)][pathId] = &msgs;
 }
 
 class LCDMessages final
 {
 public:
-    const char_type* GetMessage(LevelIds lvlId, u32 msgId) const
+    const char_type* GetMessage(LevelIds lvlId, u32 pathId, u32 msgId) const
     {
-        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(lvlId)];
+        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(lvlId)][pathId];
         if (pTable)
         {
             if (msgId < pTable->mStringCount)
@@ -209,11 +209,11 @@ LCDScreen* LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemI
 
     if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
     {
-        field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, field_2B0_message_2_id);
+        field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2B0_message_2_id);
     }
     else
     {
-        field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, field_2AA_message_1_id);
+        field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2AA_message_1_id);
     }
 
     //field_A0_message = "                               THIS IS A TEST";
@@ -258,18 +258,18 @@ void LCDScreen::Update_460A00()
         {
             if (++field_2B4 == 1)
             {
-                field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, Math_RandomRange_496AB0(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id));
+                field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, Math_RandomRange_496AB0(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id));
             }
             else
             {
                 field_2B4 = 0;
                 if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
                 {
-                    field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, field_2B0_message_2_id);
+                    field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2B0_message_2_id);
                 }
                 else
                 {
-                    field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, field_2AA_message_1_id);
+                    field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2AA_message_1_id);
                 }
             }
 

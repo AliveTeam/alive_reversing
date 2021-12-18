@@ -56,19 +56,19 @@ const char_type* gHintFlyMessages_4C6A10[] = {
     "THEY WONT CHASE WHAT THEY CANT SEE"};
 
 
-static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eDesertEscape) + 1] = {};
+static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eDesertEscape) + 1][99] = {};
 
-void SetHintFlyMessagesForLvl(const StringTable& msgs, LevelIds lvl)
+void SetHintFlyMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId)
 {
-    sPerLvlMessages[static_cast<u32>(lvl)] = &msgs;
+    sPerLvlMessages[static_cast<u32>(lvl)][pathId] = &msgs;
 }
 
 class HintFlyMessages final
 {
 public:
-    const char_type* GetMessage(LevelIds lvlId, u32 msgId) const
+    const char_type* GetMessage(LevelIds lvlId, u32 pathId, u32 msgId) const
     {
-        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(lvlId)];
+        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(lvlId)][pathId];
         if (pTable)
         {
             if (msgId < pTable->mStringCount)
@@ -1366,7 +1366,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
         field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
         field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-        const char_type* pMsg = gHintFlyMessages.GetMessage(gMap_507BA8.field_0_current_level, pTlv->field_18_message_id);
+        const char_type* pMsg = gHintFlyMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, pTlv->field_18_message_id);
 
         field_118_counter = 20;
         field_11A_msg_len = 0;
@@ -1541,7 +1541,7 @@ BaseGameObject* HintFly::dtor_42ADF0()
 
 void HintFly::FormWordAndAdvanceToNextWord_42AF90()
 {
-    const char_type* msgPtr = &gHintFlyMessages.GetMessage(gMap_507BA8.field_0_current_level, field_11C_message_id)[field_11E_msg_idx];
+    const char_type* msgPtr = &gHintFlyMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, field_11C_message_id)[field_11E_msg_idx];
     LOG_INFO("Word is " << msgPtr);
 
     // Find how long the word is
@@ -1777,7 +1777,7 @@ void HintFly::VUpdate_42B3D0()
             if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
             {
                 s16 len = 0;
-                const char_type* pMsgIter = gHintFlyMessages.GetMessage(gMap_507BA8.field_0_current_level, field_11C_message_id) + field_11E_msg_idx;
+                const char_type* pMsgIter = gHintFlyMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, field_11C_message_id) + field_11E_msg_idx;
                 while (*pMsgIter != ' ' && *pMsgIter != '\0')
                 {
                     len += pData_4C7268[(*pMsgIter) - 'A'][0];

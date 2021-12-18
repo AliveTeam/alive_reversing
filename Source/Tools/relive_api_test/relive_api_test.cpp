@@ -102,6 +102,33 @@ template <typename... Ts>
     return buf;
 }
 
+TEST(alive_api, AddFileToLvl)
+{
+    {
+        ReliveAPI::LvlWriter w(AOPath("R1.LVL").c_str());
+        ASSERT_TRUE(w.IsOpen());
+
+        std::string r("Rory");
+        std::vector<u8> data(r.begin(), r.end());
+        w.AddFile("PLOP.DAT", data);
+
+        ASSERT_TRUE(w.Save(getStaticFileBuffer(), "CraigDavid.lvl"));
+    }
+
+    {
+        ReliveAPI::LvlReader r("CraigDavid.lvl");
+        ASSERT_TRUE(r.IsOpen());
+
+        ASSERT_GT(r.FileCount(), 1);
+
+        std::vector<u8> fileData;
+        ASSERT_TRUE(r.ReadFileInto(fileData, "PLOP.DAT"));
+
+        std::string s(fileData.begin(), fileData.end());
+        ASSERT_EQ(s, "Rory");
+    }
+}
+
 template <typename FnOnCam>
 static void ForEachCamera(ReliveAPI::LvlReader& reader, FnOnCam onCam)
 {
@@ -245,6 +272,8 @@ static bool PathChunksAreEqual(const std::string& leftSideLvl, const std::string
 
 TEST(alive_api, ImportPathJsonToBinaryAO)
 {
+    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAO.json", AOPath("R1.LVL"), 19);
+
     ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), "OutputAO.json", AOPath("R1.LVL"), "newAO.lvl", {}, true);
     
     ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAO2.json", "newAO.lvl", 19);
@@ -254,6 +283,8 @@ TEST(alive_api, ImportPathJsonToBinaryAO)
 
 TEST(alive_api, ImportPathJsonToBinaryAE)
 {
+    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAE.json", AEPath(kAETestLvl), 1);
+
     ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), "OutputAE.json", AEPath(kAETestLvl), "newAE.lvl", {}, true);
 
     ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), "OutputAE2.json", "newAE.lvl", 1);
