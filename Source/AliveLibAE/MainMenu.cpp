@@ -44,7 +44,7 @@ ALIVE_VAR(1, 0x5c1bec, s8, sEnableCheatFMV_5C1BEC, 0);
 ALIVE_VAR(1, 0x5c1b9e, s16, sDemoIdChosenFromDemoMenu_5C1B9E, 0);
 
 ALIVE_VAR(1, 0x561538, s16, sMenuItemCount_561538, 0);
-ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerPath_5C1B50, {});
+ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerZulag_5C1B50, {});
 
 union DemoOrFmv
 {
@@ -595,14 +595,14 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_25C_Inside_FMV_Screen = 0;
     field_25E_Inside_CheatLevelSelect_Screen = 0;
 
-    sSavedKilledMudsPerPath_5C1B50 = {};
+    sSavedKilledMudsPerZulag_5C1B50 = {};
 
     sEnableCheatFMV_5C1BEC = 0;
     sEnableCheatLevelSelect_5C1BEE = 0;
     sKilledMudokons_5C1BC0 = 0;
     sRescuedMudokons_5C1BC2 = 0;
     gAttract_5C1BA0 = 0;
-    sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData) - 1] = 0;
+    sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = 0;
     sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
     sFeecoRestart_SavedMudCount_5C1BC8 = 0;
 

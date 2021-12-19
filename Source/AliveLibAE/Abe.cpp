@@ -1913,7 +1913,7 @@ void Abe::vScreenChanged_44D240()
 
     if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level && !(field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave)))
     {
-        for (s8& val : sSavedKilledMudsPerPath_5C1B50.mData)
+        for (s8& val : sSavedKilledMudsPerZulag_5C1B50.mData)
         {
             val = 0;
         }
