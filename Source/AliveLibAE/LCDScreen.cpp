@@ -146,7 +146,7 @@ public:
     const char_type* GetMessage(LevelIds lvlId, u32 pathId, u32 msgId) const
     {
         const StringTable* pTable = sPerLvlMessages[static_cast<u32>(lvlId)][pathId];
-        if (pTable)
+        if (pTable && pTable->mStringCount > 0)
         {
             if (msgId < pTable->mStringCount)
             {
@@ -154,7 +154,8 @@ public:
             }
             else
             {
-                LOG_WARNING("LCD message out of bounds, using original game message for id: " << msgId);
+                LOG_WARNING("LCD message out of bounds, using first message for id: " << msgId);
+                return pTable->mStrings[0];
             }
         }
 

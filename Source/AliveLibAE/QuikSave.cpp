@@ -674,16 +674,16 @@ void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
     bUseAltSaveHeader_5C1BBC = pInfo->field_2E_use_alt_save_header;
 
     // Read all fields bar the last
-    for (s32 i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_zulag); i++)
     {
-        sSavedKilledMudsPerPath_5C1B50.mData[i] = pInfo->field_18_saved_killed_muds_per_path[i];
+        sSavedKilledMudsPerZulag_5C1B50.mData[i] = pInfo->field_18_saved_killed_muds_per_zulag[i];
     }
 
     // Last is read from another field
-    sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData) - 1] = pInfo->field_17_last_saved_killed_muds_per_path;
+    sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = pInfo->field_17_last_saved_killed_muds_per_path;
 
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
-    sStatsSignCurrentArea_5C1A20 = pInfo->field_2C_stats_sign_current_area;
+    sZulagNumber_5C1A20 = pInfo->field_2C_current_zulag_number;
     sKilledMudokons_5C1BC0 = pInfo->field_14_killed_muds;
     sRescuedMudokons_5C1BC2 = pInfo->field_12_saved_muds;
     sMudokonsInArea_5C1BC4 = pInfo->field_16_muds_in_area; // TODO: Check types
@@ -708,14 +708,14 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_8_cam = gMap_5C3030.field_4_current_camera;
     pInfo->field_2E_use_alt_save_header = bUseAltSaveHeader_5C1BBC;
 
-    for (s32 i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_zulag); i++)
     {
-        pInfo->field_18_saved_killed_muds_per_path[i] = sSavedKilledMudsPerPath_5C1B50.mData[i];
+        pInfo->field_18_saved_killed_muds_per_zulag[i] = sSavedKilledMudsPerZulag_5C1B50.mData[i];
     }
 
-    pInfo->field_17_last_saved_killed_muds_per_path = sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData) - 1];
+    pInfo->field_17_last_saved_killed_muds_per_path = sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1];
 
-    pInfo->field_2C_stats_sign_current_area = sStatsSignCurrentArea_5C1A20;
+    pInfo->field_2C_current_zulag_number = sZulagNumber_5C1A20;
     pInfo->field_12_saved_muds = sRescuedMudokons_5C1BC2;
     pInfo->field_14_killed_muds = sKilledMudokons_5C1BC0;
     pInfo->field_16_muds_in_area = static_cast<s8>(sMudokonsInArea_5C1BC4); // TODO: Check types

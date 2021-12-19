@@ -7,6 +7,7 @@
 #include "Game.hpp"
 #include "MainMenu.hpp"
 #include "Map.hpp"
+#include "Sys.hpp"
 
 void StatsSign_ForceLink()
 {
@@ -20,7 +21,7 @@ u8 sStatsSignFontPalette_55CF8C[] = {
 
 
 ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
-ALIVE_VAR(1, 0x5C1A20, s8, sStatsSignCurrentArea_5C1A20, 0);
+ALIVE_VAR(1, 0x5C1A20, s8, sZulagNumber_5C1A20, 0);
 
 
 BaseGameObject* LCDStatusBoard::VDestructor(s32 flags)
@@ -68,7 +69,12 @@ LCDStatusBoard* LCDStatusBoard::ctor_47B600(Path_LCDStatusBoard* params, TlvItem
     field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
     field_108_is_hidden = static_cast<s16>(params->field_14_hidden);
-    sStatsSignCurrentArea_5C1A20 = static_cast<s8>(params->field_12_zulag_number);
+    sZulagNumber_5C1A20 = static_cast<s8>(params->field_12_zulag_number);
+    if (sZulagNumber_5C1A20 >= 20)
+    {
+        LOG_ERROR("sZulagNumber_5C1A20 is " << sZulagNumber_5C1A20 << " max is 20");
+        ALIVE_FATAL("sZulagNumber_5C1A20 out of bounds, don't set your zulag numbe to >= 20");
+    }
     return this;
 }
 
@@ -141,7 +147,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
             FP_FromDouble(1.0),
             field_104_position_x + maxWidth,
             flickerAmount);
-        const s16 mudsLeftInArea = sMudokonsInArea_5C1BC4 - sSavedKilledMudsPerPath_5C1B50.mData[sStatsSignCurrentArea_5C1A20];
+        const s16 mudsLeftInArea = sMudokonsInArea_5C1BC4 - sSavedKilledMudsPerZulag_5C1B50.mData[sZulagNumber_5C1A20];
         field_10A_muds_left_in_area = mudsLeftInArea;
 
         // Muds in this Area

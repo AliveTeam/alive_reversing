@@ -1283,9 +1283,9 @@ void Mudokon::dtor_475B60()
     {
         // TODO: Refactor all access to helpers
         sKilledMudokons_5C1BC0++;
-        if (sStatsSignCurrentArea_5C1A20 < ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData))
+        if (sZulagNumber_5C1A20 < ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
         {
-            sSavedKilledMudsPerPath_5C1B50.mData[sStatsSignCurrentArea_5C1A20]++;
+            sSavedKilledMudsPerZulag_5C1B50.mData[sZulagNumber_5C1A20]++;
         }
     }
 
@@ -6463,9 +6463,9 @@ void Mudokon::M_RunJumpMid_36_474570()
 
         sRescuedMudokons_5C1BC2++;
 
-        if (sStatsSignCurrentArea_5C1A20 < ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData))
+        if (sZulagNumber_5C1A20 < ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
         {
-            sSavedKilledMudsPerPath_5C1B50.mData[sStatsSignCurrentArea_5C1A20]++;
+            sSavedKilledMudsPerZulag_5C1B50.mData[sZulagNumber_5C1A20]++;
         }
 
         if (pBirdPortal)
