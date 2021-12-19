@@ -10,6 +10,12 @@ void Map_ForceLink();
 
 EXPORT void CC static_map_init_4802D0();
 
+
+struct Map_PathsArray_Extended final
+{
+    u8** field_0_pPathRecs[99];
+};
+
 struct Map_PathsArray final
 {
     u8** field_0_pPathRecs[30];
@@ -127,6 +133,12 @@ public:
 
 
     EXPORT void ScreenChange_480B80();
+
+    void FreePathResourceBlocks();
+    void GetPathResourceBlockPtrs();
+    u8** GetPathResourceBlockPtr(u32 pathId);
+    void ClearPathResourceBlocks();
+
     EXPORT void RemoveObjectsWithPurpleLight_480740(s16 a2);
     EXPORT void Handle_PathTransition_481610();
     EXPORT void Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);

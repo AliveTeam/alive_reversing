@@ -158,6 +158,70 @@ void Map::ScreenChange_480B80()
     ScreenChange_Common();
 }
 
+// OG only allows for 30 paths, given the editor allows for the full 99 we have to use a bigger array in a non ABI breaking way
+// Note that currently there is only ever 1 Map object instance thus this global workaround is OK for now.
+struct Map_PathsArrayExtended final
+{
+    u8** field_0_pPathRecs[99];
+};
+static Map_PathsArrayExtended sPathsArrayExtended = {};
+
+void Map::FreePathResourceBlocks()
+{
+    for (s32 i = 0; i <= Path_Get_Num_Paths(field_0_current_level); ++i)
+    {
+        if (sPathsArrayExtended.field_0_pPathRecs[i])
+        {
+            ResourceManager::FreeResource_49C330(sPathsArrayExtended.field_0_pPathRecs[i]);
+            sPathsArrayExtended.field_0_pPathRecs[i] = nullptr;
+        }
+
+        if (i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs))
+        {
+            if (field_54_path_res_array.field_0_pPathRecs[i])
+            {
+                field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
+            }
+        }
+    }
+}
+
+void Map::GetPathResourceBlockPtrs()
+{
+    // Get pointer to each PATH
+    for (s32 i = 1; i <= Path_Get_Num_Paths(field_A_level); ++i)
+    {
+        sPathsArrayExtended.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+
+        if (i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs))
+        {
+            field_54_path_res_array.field_0_pPathRecs[i] = sPathsArrayExtended.field_0_pPathRecs[i];
+        }
+    }
+}
+
+u8** Map::GetPathResourceBlockPtr(u32 pathId)
+{
+    if (pathId < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs))
+    {
+        return field_54_path_res_array.field_0_pPathRecs[pathId];
+    }
+    return sPathsArrayExtended.field_0_pPathRecs[pathId];
+}
+
+void Map::ClearPathResourceBlocks()
+{
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs); i++)
+    {
+        field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
+    }
+
+    for (s32 i = 0; i < ALIVE_COUNTOF(sPathsArrayExtended.field_0_pPathRecs); i++)
+    {
+        sPathsArrayExtended.field_0_pPathRecs[i] = nullptr;
+    }
+}
+
 void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
 {
     auto pObjectsWithLightsArray = ae_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>();
@@ -403,7 +467,7 @@ void Map::Handle_PathTransition_481610()
         }
 
         const u32 pCamNameOffset = sizeof(CameraName) * (field_D0_cam_x_idx + (field_D2_cam_y_idx * sPath_dword_BB47C0->field_6_cams_on_x));
-        const u8* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
+        const u8* pPathRes = *GetPathResourceBlockPtr(field_2_current_path);
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
@@ -513,14 +577,7 @@ void Map::Shutdown_4804E0()
     stru_5C3110.Free_433130();
 
     // Free Path resources
-    for (s32 i = 0; i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs); i++)
-    {
-        if (field_54_path_res_array.field_0_pPathRecs[i])
-        {
-            ResourceManager::FreeResource_49C330(field_54_path_res_array.field_0_pPathRecs[i]);
-            field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
-        }
-    }
+    FreePathResourceBlocks();
 
     // Free cameras
     for (s32 i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
@@ -553,12 +610,9 @@ void Map::Reset_4805D0()
     {
         field_2C_camera_array[i] = nullptr;
     }
-    field_2C_camera_array[0] = nullptr;
 
-    for (s32 i = 0; i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs); i++)
-    {
-        field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
-    }
+    ClearPathResourceBlocks();
+
     field_CC_unused = 1;
     field_CE_free_all_anim_and_palts = 0;
     field_D8_restore_quick_save = 0;
@@ -651,11 +705,7 @@ void Map::GoTo_Camera_481890()
             stru_5C3110.Free_433130();
 
             // Free all but the first ?
-            for (s32 i = 1; i <= Path_Get_Num_Paths(field_0_current_level); ++i)
-            {
-                ResourceManager::FreeResource_49C330(field_54_path_res_array.field_0_pPathRecs[i]);
-                field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
-            }
+            FreePathResourceBlocks();
 
             sPath_dword_BB47C0->Free_4DB1C0();
 
@@ -690,10 +740,7 @@ void Map::GoTo_Camera_481890()
         ResourceManager::LoadResourceFile_49C170(Path_Get_BndName(field_A_level), nullptr);
 
         // Get pointer to each PATH
-        for (s32 i = 1; i <= Path_Get_Num_Paths(field_A_level); ++i)
-        {
-            field_54_path_res_array.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
-        }
+        GetPathResourceBlockPtrs();
 
         if (field_A_level == field_0_current_level)
         {
@@ -744,7 +791,7 @@ void Map::GoTo_Camera_481890()
         field_A_level,
         field_C_path,
         field_E_camera,
-        field_54_path_res_array.field_0_pPathRecs[field_C_path]);
+        GetPathResourceBlockPtr(field_C_path));
 
     if (sQuickSave_saved_switchResetters_count_BB234C > 0)
     {
@@ -759,7 +806,7 @@ void Map::GoTo_Camera_481890()
     {
         for (;;)
         {
-            u8* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_C_path];
+            u8* pPathRes = *GetPathResourceBlockPtr(field_C_path);
             CameraName* pCameraNameIter = reinterpret_cast<CameraName*>(pPathRes + pCamNameOffset);
 
             if (strncmp(pCameraNameIter->name, pStrBuffer, sizeof(CameraName)) == 0)
@@ -794,7 +841,7 @@ void Map::GoTo_Camera_481890()
         sCollisions_DArray_5C1128 = ae_new<Collisions>();
         if (sCollisions_DArray_5C1128)
         {
-            sCollisions_DArray_5C1128->ctor_418930(pPathRec_1->field_8_pCollisionData, *field_54_path_res_array.field_0_pPathRecs[field_2_current_path]);
+            sCollisions_DArray_5C1128->ctor_418930(pPathRec_1->field_8_pCollisionData, *GetPathResourceBlockPtr(field_2_current_path));
         }
     }
 
@@ -1236,7 +1283,7 @@ Camera* Map::Create_Camera_4829E0(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     // Get a pointer to the camera name from the Path resource
-    const u8* pPathData = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
+    const u8* pPathData = *GetPathResourceBlockPtr(field_2_current_path);
     auto pCamName = reinterpret_cast<const CameraName*>(&pPathData[(xpos + (ypos * sPath_dword_BB47C0->field_6_cams_on_x)) * sizeof(CameraName)]);
 
     // Empty/blank camera in the map array

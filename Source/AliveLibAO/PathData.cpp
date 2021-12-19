@@ -838,9 +838,10 @@ const char_type* Path_Get_Lvl_Name(LevelIds lvlId)
     return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_14_lvl_name;
 }
 
-s16 Path_Get_Num_Paths(LevelIds lvlId)
+s16 Path_Get_Num_Paths(LevelIds /*lvlId*/)
 {
-    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_18_num_paths;
+    return kMaxPaths;
+    //return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_18_num_paths;
 }
 
 s16 Path_Get_Unknown(LevelIds lvlId)

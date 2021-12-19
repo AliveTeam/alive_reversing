@@ -91,6 +91,7 @@ void Path_Set_NewData_FromLvls()
                         if (!rBlyRec.field_4_pPathData)
                         {
                             rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
+                            rPath.field_18_num_paths++;
                         }
                         PathData& rPathData = *rBlyRec.field_4_pPathData;
 
@@ -146,7 +147,7 @@ void Path_Set_NewData_FromLvls()
                             if (pExt->mNumMudsInPath != Path_GetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mPathId))
                             {
                                 LOG_INFO("Set muds in lvl count to " << pExt->mNumMudsInPath);
-                                Path_SetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mNumMudsInPath, pExt->mPathId);
+                                Path_SetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mPathId, pExt->mNumMudsInPath);
                             }
                         }
                     }
