@@ -91,6 +91,7 @@ void Path_Set_NewData_FromLvls()
                         if (!rBlyRec.field_4_pPathData)
                         {
                             rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
+                            rPath.field_18_num_paths++;
                         }
                         PathData& rPathData = *rBlyRec.field_4_pPathData;
 

@@ -342,7 +342,7 @@ void Map::ctor()
         field_34_camera_array[i] = nullptr;
     }
 
-    field_5C_path_res_array = {};
+    ClearPathResourceBlocks();
     field_D8 = 1;
     field_DC_free_all_anim_and_palts = 0;
     field_E0_save_data = nullptr;
@@ -373,15 +373,7 @@ void Map::Shutdown_443F90()
     sLvlArchive_4FFD60.Free_41BEB0();
     stru_507C90.Free_41BEB0();
 
-    // Free Path resources
-    for (s32 i = 0; i < ALIVE_COUNTOF(field_5C_path_res_array.field_0_pPathRecs); i++)
-    {
-        if (field_5C_path_res_array.field_0_pPathRecs[i])
-        {
-            ResourceManager::FreeResource_455550(field_5C_path_res_array.field_0_pPathRecs[i]);
-            field_5C_path_res_array.field_0_pPathRecs[i] = nullptr;
-        }
-    }
+    FreePathResourceBlocks();
 
     // Free cameras
     for (s32 i = 0; i < ALIVE_COUNTOF(field_34_camera_array); i++)
@@ -407,10 +399,7 @@ void Map::Reset()
         field_34_camera_array[i] = nullptr;
     }
 
-    for (s32 i = 0; i < ALIVE_COUNTOF(field_5C_path_res_array.field_0_pPathRecs); i++)
-    {
-        field_5C_path_res_array.field_0_pPathRecs[i] = nullptr;
-    }
+    ClearPathResourceBlocks();
 
     field_D8 = 1;
     field_DC_free_all_anim_and_palts = 0;
@@ -590,7 +579,7 @@ void Map::Handle_PathTransition_444DD0()
         }
 
         const u32 pCamNameOffset = (sizeof(CameraName) * (field_20_camX_idx + field_22_camY_idx * field_24_max_cams_x));
-        const u8* pPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+        const u8* pPathRes = *GetPathResourceBlockPtr(field_2_current_path);
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
@@ -873,7 +862,7 @@ Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(s16 cam_x_idx, s16 cam_
         return nullptr;
     }
 
-    u8* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    u8* pPathData = *GetPathResourceBlockPtr(field_2_current_path);
     const s32* indexTable = reinterpret_cast<const s32*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
     const s32 indexTableEntry = indexTable[(camX + (camY * field_24_max_cams_x))];
     if (indexTableEntry == -1 || indexTableEntry >= 0x100000)
@@ -896,7 +885,7 @@ void Map::SaveBlyData_446900(u8* pSaveBuffer)
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
         if (pPathRec->field_0_blyName)
         {
-            auto ppPathRes = field_5C_path_res_array.field_0_pPathRecs[i];
+            auto ppPathRes = GetPathResourceBlockPtr(i);
             const PathData* pPathData = pPathRec->field_4_pPathData;
 
             const s32 widthCount = (pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width;
@@ -949,38 +938,41 @@ void Map::RestoreBlyData_446A90(const u8* pSaveData)
 
     for (s16 i = 1; i <= Path_Get_Num_Paths(field_0_current_level); i++)
     {
-        auto ppPathRes = field_5C_path_res_array.field_0_pPathRecs[i];
-        const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
-        if (pPathRec->field_0_blyName)
+        auto ppPathRes = GetPathResourceBlockPtr(i);
+        if (ppPathRes)
         {
-            const PathData* pPathData = pPathRec->field_4_pPathData;
-            const s32* pIndexTable = reinterpret_cast<const s32*>(&(*ppPathRes)[pPathData->field_18_object_index_table_offset]);
-            const s32 totalCameraCount = (pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width * ((pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height);
-
-            for (s32 j = 0; j < totalCameraCount; j++)
+            const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
+            if (pPathRec->field_0_blyName)
             {
-                const s32 index_table_value = pIndexTable[j];
-                if (index_table_value != -1 && index_table_value < 0x100000)
+                const PathData* pPathData = pPathRec->field_4_pPathData;
+                const s32* pIndexTable = reinterpret_cast<const s32*>(&(*ppPathRes)[pPathData->field_18_object_index_table_offset]);
+                const s32 totalCameraCount = (pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width * ((pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height);
+
+                for (s32 j = 0; j < totalCameraCount; j++)
                 {
-                    auto pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[pPathData->field_14_object_offset + index_table_value]);
-                    for (;;)
+                    const s32 index_table_value = pIndexTable[j];
+                    if (index_table_value != -1 && index_table_value < 0x100000)
                     {
-                        pTlv->RangeCheck();
-                        pTlv->field_0_flags.Raw().all = *pAfterSwitchStates;
-                        pAfterSwitchStates++;
-
-                        pTlv->field_1_unknown = *pAfterSwitchStates;
-                        pAfterSwitchStates++;
-                        if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+                        auto pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[pPathData->field_14_object_offset + index_table_value]);
+                        for (;;)
                         {
-                            break;
-                        }
+                            pTlv->RangeCheck();
+                            pTlv->field_0_flags.Raw().all = *pAfterSwitchStates;
+                            pAfterSwitchStates++;
 
-                        pTlv = Path_TLV::Next_NoCheck(pTlv);
-                        pTlv->RangeCheck();
-                        if (pTlv->field_2_length == 0)
-                        {
-                            break;
+                            pTlv->field_1_unknown = *pAfterSwitchStates;
+                            pAfterSwitchStates++;
+                            if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+                            {
+                                break;
+                            }
+
+                            pTlv = Path_TLV::Next_NoCheck(pTlv);
+                            pTlv->RangeCheck();
+                            if (pTlv->field_2_length == 0)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
@@ -991,7 +983,7 @@ void Map::RestoreBlyData_446A90(const u8* pSaveData)
 
 void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx)
 {
-    u8* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    u8* pPathData = *GetPathResourceBlockPtr(field_2_current_path);
     u32* pIndexTableStart = reinterpret_cast<u32*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
 
     const s32 totalCams = field_26_max_cams_y * field_24_max_cams_x;
@@ -1344,7 +1336,7 @@ EXPORT Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 heigh
     }
 
     // Get the offset to where the TLV list starts for this camera cell
-    const s32* indexTable = reinterpret_cast<const s32*>(*field_5C_path_res_array.field_0_pPathRecs[field_2_current_path] + field_D4_pPathData->field_18_object_index_table_offset);
+    const s32* indexTable = reinterpret_cast<const s32*>(*GetPathResourceBlockPtr(field_2_current_path) + field_D4_pPathData->field_18_object_index_table_offset);
 
     s32 indexTableEntry = indexTable[(grid_cell_x + (grid_cell_y * field_24_max_cams_x))];
     if (indexTableEntry == -1 || indexTableEntry >= 0x100000)
@@ -1352,7 +1344,7 @@ EXPORT Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 heigh
         return nullptr;
     }
 
-    Path_TLV* pTlvIter = reinterpret_cast<Path_TLV*>(*field_5C_path_res_array.field_0_pPathRecs[field_2_current_path] + indexTableEntry + field_D4_pPathData->field_14_object_offset);
+    Path_TLV* pTlvIter = reinterpret_cast<Path_TLV*>(*GetPathResourceBlockPtr(field_2_current_path) + indexTableEntry + field_D4_pPathData->field_14_object_offset);
     pTlvIter->RangeCheck();
 
     while (right > pTlvIter->field_14_bottom_right.field_0_x
@@ -1409,7 +1401,7 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
             return nullptr;
         }
 
-        u8* ppPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+        u8* ppPathRes = *GetPathResourceBlockPtr(field_2_current_path);
         const s32* pIndexTable = reinterpret_cast<const s32*>(ppPathRes + pPathData->field_18_object_index_table_offset);
         const s32 indexTableEntry = pIndexTable[camX + (field_24_max_cams_x * camY)];
 
@@ -1453,7 +1445,7 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
 void Map::sub_447430(u16 pathNum)
 {
     const auto pPathData = Path_Get_Bly_Record_434650(field_0_current_level, pathNum)->field_4_pPathData;
-    const auto pPathRes = *field_5C_path_res_array.field_0_pPathRecs[pathNum];
+    const auto pPathRes = *GetPathResourceBlockPtr(pathNum);
 
     const auto counterInit = (pPathData->field_A_bBottom - pPathData->field_6_bRight)
                            / pPathData->field_E_grid_height
@@ -1579,7 +1571,7 @@ Camera* Map::Create_Camera_445BE0(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     // Get a pointer to the camera name from the Path resource
-    const u8* pPathData = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    const u8* pPathData = *GetPathResourceBlockPtr(field_2_current_path);
     auto pCamName = reinterpret_cast<const CameraName*>(&pPathData[(sizeof(CameraName) * (xpos + field_24_max_cams_x * ypos))]);
 
     // Empty/blank camera in the map array
@@ -1634,6 +1626,40 @@ void Map::Create_FG1s_4447D0()
                 pFG1->ctor_4539C0(ppRes);
             }
         }
+    }
+}
+
+void Map::FreePathResourceBlocks()
+{
+    for (s32 i = 0; i <= Path_Get_Num_Paths(field_0_current_level); ++i)
+    {
+        if (field_5C_path_res_array.field_0_pPathRecs[i])
+        {
+            ResourceManager::FreeResource_455550(field_5C_path_res_array.field_0_pPathRecs[i]);
+            field_5C_path_res_array.field_0_pPathRecs[i] = nullptr;
+        }
+    }
+}
+
+void Map::GetPathResourceBlockPtrs()
+{
+    // Get pointer to each PATH
+    for (s32 i = 1; i <= Path_Get_Num_Paths(field_A_level); ++i)
+    {
+        field_5C_path_res_array.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+    }
+}
+
+u8** Map::GetPathResourceBlockPtr(u32 pathId)
+{
+    return field_5C_path_res_array.field_0_pPathRecs[pathId];
+}
+
+void Map::ClearPathResourceBlocks()
+{
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_5C_path_res_array.field_0_pPathRecs); i++)
+    {
+        field_5C_path_res_array.field_0_pPathRecs[i] = nullptr;
     }
 }
 
@@ -1715,12 +1741,7 @@ void Map::GoTo_Camera_445050()
             sLvlArchive_4FFD60.Free_41BEB0();
             stru_507C90.Free_41BEB0();
 
-            // Free all but the first ?
-            for (s32 i = 1; i <= Path_Get_Num_Paths(field_0_current_level); ++i)
-            {
-                ResourceManager::FreeResource_455550(field_5C_path_res_array.field_0_pPathRecs[i]);
-                field_5C_path_res_array.field_0_pPathRecs[i] = nullptr;
-            }
+            FreePathResourceBlocks();
 
             SND_Reset_476BA0();
             ResourceManager::Reclaim_Memory_455660(0);
@@ -1734,11 +1755,7 @@ void Map::GoTo_Camera_445050()
 
         ResourceManager::LoadResourceFile_455270(Path_Get_BndName(field_A_level), nullptr);
 
-        // Get pointer to each PATH
-        for (s32 i = 1; i <= Path_Get_Paths_Count(); ++i)
-        {
-            field_5C_path_res_array.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Path, i, TRUE, FALSE);
-        }
+        GetPathResourceBlockPtrs();
 
         SND_Load_VABS_477040(Path_Get_MusicInfo(field_A_level), Path_Get_Reverb(field_A_level));
 
@@ -1791,7 +1808,7 @@ void Map::GoTo_Camera_445050()
     s32 camIdx = 0;
     if (totalCams > 0)
     {
-        auto ppPathRes = field_5C_path_res_array.field_0_pPathRecs[field_C_path];
+        auto ppPathRes = GetPathResourceBlockPtr(field_C_path);
         auto pName = reinterpret_cast<CameraName*>(&(*ppPathRes)[0]);
         for (camIdx = 0; camIdx < totalCams; camIdx++)
         {
@@ -1838,7 +1855,7 @@ void Map::GoTo_Camera_445050()
         }
 
         sCollisions_DArray_504C6C = ao_new<Collisions>();
-        sCollisions_DArray_504C6C->ctor_40CF30(pPathRecord->field_8_pCollisionData, *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path]);
+        sCollisions_DArray_504C6C->ctor_40CF30(pPathRecord->field_8_pCollisionData, *GetPathResourceBlockPtr(field_2_current_path));
     }
 
     if (field_E0_save_data)
@@ -1958,7 +1975,7 @@ void Map::GoTo_Camera_445050()
 void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
 {
     // Get a pointer to the array of index table offsets
-    u8* pPathRes = *field_5C_path_res_array.field_0_pPathRecs[field_2_current_path];
+    u8* pPathRes = *GetPathResourceBlockPtr(field_2_current_path);
     const s32* indexTable = reinterpret_cast<const s32*>(pPathRes + field_D4_pPathData->field_18_object_index_table_offset);
 
     // Calculate the index of the offset we want for the given camera at x/y
@@ -2019,7 +2036,7 @@ EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 
     {
         const auto pBlyRec = Path_Get_Bly_Record_434650(static_cast<LevelIds>(data.parts.levelId), data.parts.pathId);
 
-        Path_TLV* pTlv = reinterpret_cast<Path_TLV*>((*field_5C_path_res_array.field_0_pPathRecs[data.parts.pathId]) + pBlyRec->field_4_pPathData->field_14_object_offset + data.parts.tlvOffset);
+        Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(*GetPathResourceBlockPtr(data.parts.pathId) + pBlyRec->field_4_pPathData->field_14_object_offset + data.parts.tlvOffset);
 
         if (bSetDestroyed & 1)
         {

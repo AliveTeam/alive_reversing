@@ -206,6 +206,11 @@ public:
 
     EXPORT void ScreenChange_4444D0();
 
+    void FreePathResourceBlocks();
+    void GetPathResourceBlockPtrs();
+    u8** GetPathResourceBlockPtr(u32 pathId);
+    void ClearPathResourceBlocks();
+
     EXPORT void GoTo_Camera_445050();
 
     EXPORT void Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad);
