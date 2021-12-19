@@ -2,6 +2,7 @@
 
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "../AliveLibCommon/BitField.hpp"
+#include "../AliveLibCommon/BaseGameObjectCommon.hpp"
 #include "DynamicArray.hpp"
 
 void AliveLibAO_ForceLink();
@@ -114,23 +115,9 @@ enum class Types : s16
     eElectrocute_103 = 103,
 };
 
-class BaseGameObject
+class BaseGameObject : public BaseGameObjectCommon
 {
 public:
-    enum Options
-    {
-        eListAddFailed_Bit1 = 0x001,
-        eUpdatable_Bit2 = 0x002,
-        eDead_Bit3 = 0x004,
-        eDrawable_Bit4 = 0x008,
-        eIsBaseAnimatedWithPhysicsObj_Bit5 = 0x010,
-        eIsBaseAliveGameObject_Bit6 = 0x020,
-        eCanExplode_Bit7 = 0x040,
-        eInteractive_Bit8 = 0x080,
-        eSurviveDeathReset_Bit9 = 0x100,
-        eUpdateDuringCamSwap_Bit10 = 0x200,
-        eCantKill_Bit11 = 0x400
-    };
 
     EXPORT BaseGameObject* ctor_487E10(s16 arraySize);
     EXPORT BaseGameObject* dtor_487DF0();
@@ -157,6 +144,8 @@ public:
         // Empty
     }
 
+    void SetIFields() override;
+
 private:
     EXPORT void VScreenChanged_487E70();
 
@@ -167,6 +156,7 @@ public:
     s8 field_C_refCount;
     s8 field_D_padding;
     s16 field_E_padding;
+
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 

@@ -56,21 +56,14 @@ u8** BaseGameObject::Add_Resource_4DC130(u32 type, s32 resourceID)
 
 void BaseGameObject::BaseGameObject_ctor_4DBFA0(s16 bAddToObjectList, s16 resourceArraySize)
 {
+    SetIFields();
     SetVTable(this, 0x547AC4);
 
     field_10_resources_array.ctor_40C9E0(resourceArraySize);
     field_1C_update_delay = 0;
     field_4_typeId = AETypes::eNone_0;
-    field_6_flags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
-    field_6_flags.Clear(BaseGameObject::Options::eDead_Bit3);
-    field_6_flags.Clear(BaseGameObject::Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
-    field_6_flags.Clear(BaseGameObject::Options::eIsBaseAliveGameObject_Bit6);
-    field_6_flags.Clear(BaseGameObject::Options::eCanExplode_Bit7);
-    field_6_flags.Clear(BaseGameObject::Options::eInteractive_Bit8);
-    field_6_flags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
-    field_6_flags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
-    field_6_flags.Clear(BaseGameObject::Options::eCantKill_Bit11);
-    field_6_flags.Set(BaseGameObject::eUpdatable_Bit2);
+
+    InitFlags();
 
     if (bAddToObjectList)
     {
@@ -124,3 +117,9 @@ EXPORT s32 CCSTD BaseGameObject::Find_Flags_4DC170(s32 objectId)
     }
     return -1;
 }
+
+void BaseGameObject::SetIFields()
+{
+    field_flags = &field_6_flags;
+    field_update_delay = &field_1C_update_delay;
+};
