@@ -158,15 +158,30 @@ void Map::ScreenChange_480B80()
     ScreenChange_Common();
 }
 
+// OG only allows for 30 paths, given the editor allows for the full 99 we have to use a bigger array in a non ABI breaking way
+// Note that currently there is only ever 1 Map object instance thus this global workaround is OK for now.
+struct Map_PathsArrayExtended final
+{
+    u8** field_0_pPathRecs[99];
+};
+static Map_PathsArrayExtended sPathsArrayExtended = {};
 
 void Map::FreePathResourceBlocks()
 {
     for (s32 i = 0; i <= Path_Get_Num_Paths(field_0_current_level); ++i)
     {
-        if (field_54_path_res_array.field_0_pPathRecs[i])
+        if (sPathsArrayExtended.field_0_pPathRecs[i])
         {
-            ResourceManager::FreeResource_49C330(field_54_path_res_array.field_0_pPathRecs[i]);
-            field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
+            ResourceManager::FreeResource_49C330(sPathsArrayExtended.field_0_pPathRecs[i]);
+            sPathsArrayExtended.field_0_pPathRecs[i] = nullptr;
+        }
+
+        if (i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs))
+        {
+            if (field_54_path_res_array.field_0_pPathRecs[i])
+            {
+                field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
+            }
         }
     }
 }
@@ -176,13 +191,22 @@ void Map::GetPathResourceBlockPtrs()
     // Get pointer to each PATH
     for (s32 i = 1; i <= Path_Get_Num_Paths(field_A_level); ++i)
     {
-        field_54_path_res_array.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+        sPathsArrayExtended.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+
+        if (i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs))
+        {
+            field_54_path_res_array.field_0_pPathRecs[i] = sPathsArrayExtended.field_0_pPathRecs[i];
+        }
     }
 }
 
 u8** Map::GetPathResourceBlockPtr(u32 pathId)
 {
-    return field_54_path_res_array.field_0_pPathRecs[pathId];
+    if (pathId < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs))
+    {
+        return field_54_path_res_array.field_0_pPathRecs[pathId];
+    }
+    return sPathsArrayExtended.field_0_pPathRecs[pathId];
 }
 
 void Map::ClearPathResourceBlocks()
@@ -190,6 +214,11 @@ void Map::ClearPathResourceBlocks()
     for (s32 i = 0; i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs); i++)
     {
         field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
+    }
+
+    for (s32 i = 0; i < ALIVE_COUNTOF(sPathsArrayExtended.field_0_pPathRecs); i++)
+    {
+        sPathsArrayExtended.field_0_pPathRecs[i] = nullptr;
     }
 }
 

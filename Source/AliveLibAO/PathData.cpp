@@ -840,7 +840,7 @@ const char_type* Path_Get_Lvl_Name(LevelIds lvlId)
 
 s16 Path_Get_Num_Paths(LevelIds /*lvlId*/)
 {
-    return 30;
+    return kMaxPaths;
     //return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_18_num_paths;
 }
 
