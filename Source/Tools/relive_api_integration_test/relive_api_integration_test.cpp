@@ -104,12 +104,15 @@ template <typename... Ts>
 
 TEST(alive_api, AddFileToLvl)
 {
+    // Note: testData needed to be bigger than the size of a lvl header to detect a bug where new files got wrote
+    // to the start of the file.
+    std::string testData("One form of rory, and one form only. This is definitely a gobbins moment");
+
     {
         ReliveAPI::LvlWriter w(AOPath("R1.LVL").c_str());
         ASSERT_TRUE(w.IsOpen());
 
-        std::string r("Rory");
-        std::vector<u8> data(r.begin(), r.end());
+        std::vector<u8> data(testData.begin(), testData.end());
         w.AddFile("PLOP.DAT", data);
 
         ASSERT_TRUE(w.Save(getStaticFileBuffer(), "CraigDavid.lvl"));
@@ -125,7 +128,7 @@ TEST(alive_api, AddFileToLvl)
         ASSERT_TRUE(r.ReadFileInto(fileData, "PLOP.DAT"));
 
         std::string s(fileData.begin(), fileData.end());
-        ASSERT_EQ(s, "Rory");
+        ASSERT_EQ(s, testData);
     }
 }
 

@@ -507,6 +507,13 @@ public:
             {
                 std::memcpy(fileRecs[i].field_0_file_name, rec.mFileNameInLvl.c_str(), ALIVE_COUNTOF(LvlFileRecord::field_0_file_name));
                 fileRecs[i].field_14_file_size = static_cast<s32>(rec.mFileData.size());
+
+                fileRecs[i].field_C_start_sector = totalFileOffset / 2048;
+                fileRecs[i].field_10_num_sectors = RoundUp(fileRecs[i].field_14_file_size) / 2048;
+
+                totalFileOffset += fileRecs[i].field_14_file_size;
+                totalFileOffset = RoundUp(totalFileOffset);
+
                 i++;
             }
         }
